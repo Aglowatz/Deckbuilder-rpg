@@ -1,0 +1,9 @@
+# Rows of the ChatGPT pass that tools/apply_dialogue_pass.js does not apply: each rewrite dropped a story beat a GUT test checks (found by the
+# first full GUT run after applying, Oct 21). The game keeps the current line. Format: id  # reason
+data/story/capital_story.tres::ending.beat.6::0  # drops the theme line "one way for everyone" (test_ending_postgame)
+data/story/capital_story.tres::ending.beat.6::2  # drops "Different Paths, working together", the game's thesis (test_ending_postgame)
+data/story/capital_story.tres::ending.beat.9::2  # drops Primm understanding "how much he broke" (test_finale_v2)
+data/story/intro_story.tres::travel.forest_tip::1  # drops Rip's "went exploring ... very interesting things" (test_pathology_lab)
+data/story/gainlands_story.tres::dungeon.hg_boss.after_alone::2  # drops Flex's "Lovely day for it" (test_zone_stories_v2)
+data/story/refusemancer_story.tres::cutscene.sever.2::0  # turns the cure "Let it rot." into a question and drops "a grief that never ends" (test_zone_stories_v2)
+data/story/intro_story.tres::prologue.rescuer.3::1  # the Path question "Tell me: which Path resonates the strongest within you?" must stay word for word (test_prologue_rescuer_text)

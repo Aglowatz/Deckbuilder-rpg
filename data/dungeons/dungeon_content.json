@@ -1380,8 +1380,8 @@
 			"Sable, Tilly and Pip, dearie, all on the square. And buy a card from Sable. You are not leaving this town with only what a cave gave you."
 		],
 		"quest.meet_the_merchants.ready": [
-			"Back already. Sable charmed you, Tilly was a colour, and Pip measured your head without asking. Good. That is Crosspath.",
-			"Here: a trophy. Everyone gets one. Don't make that face. I didn't make the rule. I did make the trophy."
+			"Back already. Sable charmed you, Tilly was a colour, Pip measured you. That is {town}, dearie. Try leaving with the same hat.",
+			"Here: a trophy. Everybody gets one. I made it myself, so participate carefully."
 		],
 		"quest.first_deck_edit.offer": [
 			"Now that deck of yours. A deck you never chose is a deck you will lose with.",
@@ -1391,7 +1391,7 @@
 			"The Deck Station, dearie. Champions' Road, south of the square. Save it to a slot, or it doesn't count. I check."
 		],
 		"quest.first_deck_edit.ready": [
-			"Sorted and saved. You are starting to look like someone who means it. Starting."
+			"Sorted and saved. Your own deck, at last. Now you may take personal offence when it loses."
 		],
 		"quest.storeroom_ghosts.offer": [
 			"Now, a favour. Tilly's store room, the corner house beside her shop, has been moaning for a week. Not Tilly. The room.",
@@ -1402,7 +1402,7 @@
 		],
 		"quest.storeroom_ghosts.ready": [
 			"A refund. Ninety years of haunting, over a refund. I have had customers like that. I still have one.",
-			"Well done, dearie. You fight better than you look, and you look half drowned."
+			"Well done, dearie. You settled the ghosts. Next, settle yourself somewhere dry."
 		],
 		"quest.some_assembly_required.offer": [
 			"Right. Time you had something sharper than a deck. Bertram Beetsworth issues gear, at the smithy on the west side of the square.",
@@ -1416,7 +1416,7 @@
 			"I always thought the key was lost. It was not, dearie. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."
 		],
 		"quest.side_s_town.active": [
-			"The key is in a hidden chest somewhere in town. Look in the odd corners. This town has a great many odd corners. I am one of them."
+			"The key is in a hidden chest in town. Look in the odd corners, dearie. This town has never quite managed a straight one."
 		],
 		"quest.side_s_town.ready": [
 			"You found it. Look at the bow: four little carvings, in a ring. Hm. Never mind. I am too old for stairs, dearie. You are not."
@@ -1435,7 +1435,7 @@
 			"That's the best water I've ever seen. Thank you. Rule one: never lift alone. Rule two... rule two was water."
 		],
 		"quest.side_s_beef.done": [
-			"The way up Mount Swolympus is open. The trail behind the station. Mind the thin air... it's very... thin."
+			"Mount Swolympus is open. Take the trail behind the station. Mind the thin air... never gets enough credit for being there."
 		],
 		"quest.side_s_gour.offer": [
 			"Over here. Quietly. Have you ever eaten somewhere with no menu? ...I'm brave. I'm brave.",
@@ -1445,7 +1445,7 @@
 			"The card is in one of the hidden stashes around the Buffet. Golden. You'll know it. Chef always said gold means sit down."
 		],
 		"quest.side_s_gour.ready": [
-			"That's the card! One seat, three courses, survival optional. Oh, I'm so excited I could whisk."
+			"That's it! One seat, three courses, survival optional. I'm excited. I think. It feels a lot like the other thing."
 		],
 		"quest.side_s_gour.done": [
 			"The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef."
@@ -1455,20 +1455,20 @@
 			"The queue in the Waiting Room of Eternity is stuck. Process two of the roaming staff on the D.N.A. floors and I'll get you in. I've brought a book. Several."
 		],
 		"quest.side_s_necro.active": [
-			"Two roaming staff on the D.N.A. floors. The queue will not move on its own. I've checked. For some decades."
+			"Process two roaming staff on the D.N.A. floors. The queue will not move itself. I've given it a very fair chance."
 		],
 		"quest.side_s_necro.ready": [
 			"Two fewer. The queue moved! Slightly. I felt it in my ticket."
 		],
 		"quest.side_s_necro.done": [
-			"The Waiting Room of Eternity will see you now. Take a number. Not mine, please. I've grown attached."
+			"The Waiting Room of Eternity will see you now. Take a number. Please leave mine; we've been through so much together."
 		],
 		"quest.side_s_ref.offer": [
 			"SOMEBODY has been eating ALL the compost. Little paw prints. A tiny crown.",
 			"Chase off two of the scavengers in the Dump and the trail will lead you to the alley under the big dumpster. Gently, please. They're only hungry. And GUILTY."
 		],
 		"quest.side_s_ref.active": [
-			"Two scavengers. The paw prints are fresh. So is the smell of stolen compost."
+			"Two scavengers in the Dump. Fresh paw prints, freshly stolen compost. A trail of evidence with TERRIBLE table manners."
 		],
 		"quest.side_s_ref.ready": [
 			"The paw prints lead to the big dumpster. I knew it. I KNEW it."
@@ -1481,7 +1481,7 @@
 			"Kestrel. I scout for the Wrinkles. Going into the city? There's an older way in than the gate. Follow the chalk, not the guards. The guards are worse at drawing."
 		],
 		"npc.kestrel.return": [
-			"Road's clear. For now. Give it ten minutes and it won't be. Chalk's still fresh."
+			"Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
 		],
 		"quest.side_s_cap.offer": [
 			"There's an older way into the city. Nobody remembers it. That's the point.",
@@ -1502,11 +1502,11 @@
 		],
 		"dungeon.dg_s_iron_boss.before": [
 			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",
-			"'Nobody. Skips. Leg day,' he says, between reps. 'In my cave. Show me yours.'"
+			"'Nobody. Skips. Leg day.' He presses another rep. 'In my cave. Show me yours. No standing ovation required.'"
 		],
 		"dungeon.dg_s_iron_boss.after": [
 			"Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says. 'Standing. Wobbly. Like a first rep.'",
-			"He hands you a sweaty ribbon. 'Leg day survivor. Wear it with pride. And stretch.'"
+			"He hands you a sweaty ribbon. 'Leg day survivor. Wear it. Stretch. That order.'"
 		],
 		"dungeon.dg_s_beef_boss.before": [
 			"A stone colossus sits at the summit with its hands out, palms up, waiting for a barbell. It has been spotting for a thousand years. It is very, very ready.",
@@ -1533,11 +1533,11 @@
 		],
 		"dungeon.dg_s_ref_boss.before": [
 			"The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.",
-			"'WE DID NOT EAT THE COMPOST,' says His Majesty. 'We... sampled it. We would be glad to explain, after you leave.'"
+			"'WE DID NOT EAT THE COMPOST. We sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'"
 		],
 		"dungeon.dg_s_ref_boss.after": [
 			"His Majesty abdicates with great dignity and a crust of pizza. The crown rolls under the throne.",
-			"'The compost was for the kingdom,' he says. 'We are the kingdom. Checkmate.'"
+			"'Compost is for the kingdom,' he says. 'We are the kingdom. We fail to see the problem. Do not point at the crumbs.'"
 		],
 		"dungeon.dg_s_cap_boss.before": [
 			"A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.",
@@ -1569,7 +1569,7 @@
 		],
 		"dungeon.dg_lab_rescue.before": [
 			"In a cell at the end of the corridor, a figure in a torn gray travelling cloak sits with their hands bound. They do not look up. The hood is a rag; the pin at the throat is bent.",
-			"'You came back,' they say. 'I told them you would not. I told them nobody could be that stubborn.'"
+			"'You came back,' they say. 'I hoped you would. I told them you would not.'"
 		],
 		"dungeon.dg_lab_rescue.after": [
 			"The lock gives way. The Rescuer pushes the hood down at last, and the face under it is tired and kind and unmistakable: the person who knelt beside you in the forest.",
@@ -1577,7 +1577,7 @@
 		],
 		"dungeon.dg_lab_boss.before": [
 			"Dr. Ambrose Siphon, Chief Path-ologist, looks up from a bench of humming glass. Neat, polite, delighted, and not at all surprised.",
-			"'Subject 1! You came back to us. And you've grown. Remarkable. The draining has been very good for your posture.'",
+			"'Subject 1. You came back to us. You have grown. Remarkable, after so many cycles. I must examine the records.'",
 			"'{villain}'s rule was always a bit crude. I never needed a crown, only the research. My assistant left us too, you know. Confused, poor thing. Assistants come home.'",
 			"'Please, sit. This will only drain a little.'"
 		],

@@ -1,0 +1,3215 @@
+[
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Can you still fight? Still draw on the Paths? Hold out your hand. You always used to... Never mind. Your hand.",
+		"after": "Can you still fight, still draw on the Paths? Hold out your hand like you used to... never mind, just your hand."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Faint will do. It has to. There are torches on the ridge, and they aren't out for a stroll.",
+		"after": "Faint will do - it has to. Those torches on the ridge are looking for us."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Torches that way. Cave this way. Even with no memory, I can solve this one.",
+		"after": "Torches that way, cave this way. I'll take the one that isn't looking for me."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gus.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "Foreman Gus. I run the wheels. I keep the grid humming and the hamsters... the *volunteers*... fed. Pre-workout's in the water. Hasn't hit me yet.",
+		"after": "Foreman Gus: wheels turning, grid humming, hamsters... *volunteers*... fed. Pre-workout's in the water, but so far I'm only feeling the water."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gus.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "Is the grid humming? Should be humming. If it's quiet, somebody's resting, and the regime writes that down.",
+		"after": "Grid still humming? If it goes quiet, somebody's resting, and the regime writes that down as a personal insult."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.gain_power.offer::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "You. Fresh legs. The lights are flickering: the regime pipes every watt up to the House of Gains. Somebody should run the Colossal Hamster Wheel up the hill. For us. Wouldn't that be a shame.",
+		"after": "Lights flicker while the regime pipes every watt to the House of Gains. Run the Colossal Hamster Wheel up the hill for us - a little resistance."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.gain_power.offer::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "Then buy a shake at the protein stand here in the Station. Grid's low on power, crew's low on morale. Same fix. Run the wheel, buy a shake. Quiet gains. Nobody needs to know.",
+		"after": "Then buy a shake at the protein stand in the Swole Station for crew morale. Quiet gains - the revolution comes with a straw."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.gain_power.active::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "The big wheel up the hill, then a shake from the protein stand. Quiet gains. Tell me when you're done.",
+		"after": "Run the Colossal Hamster Wheel up the hill, then buy a shake at the protein stand in the Swole Station. Quiet gains - tell me when you're done."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.gain_power.ready::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "Lights are back on. The grid's HUMMING. ...Sorry. Haven't raised my voice in years. You've earned this.",
+		"after": "The Swole Station's lights are back on, and the grid's HUMMING. Take your reward before I turn this into a pep talk."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gus.intro.freed::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "The grid's at a hundred percent. A HUNDRED. Nobody asking for ten more.",
+		"after": "The grid's at a hundred percent, and nobody wants ten more. Turns out a hundred was all of it."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gus.intro.freed::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Foreman Gus",
+		"before": "I might cry. Into the wheel. For energy.",
+		"after": "I might cry into the wheel for energy. Voluntarily, for once."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.odalys.return::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "You came back. Good. A Gourmand never stops stirring. I'm stirring nervously, but it counts.",
+		"after": "You came back... good, good. A Gourmand never stops stirring, so technically this panic is a cooking method."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.odalys.return::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "What do we say? Yes, Chef. Quietly.",
+		"after": "What do we say? \"Yes, Chef\" - on the lowest possible heat."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.odalys.return.freed::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "The Special Sauce is down the drain and the golems guard plates again. Yes, Chef!",
+		"after": "The Special Sauce is down the drain and the golems guard plates again. Yes, Chef - finally an order I can stomach!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.4::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "Fine. If you must see. I never liked this chin.",
+		"after": "Then look. I have worn this face long enough."
+	},
+	{
+		"id": "data/story/intro_story.tres::beefcake_npc_intro_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "You want the crank? Get through me first. Ten reps. Of PAIN.",
+		"after": "YOU WANT THE CRANK? EARN YOUR TURN - TEN REPS OF PAIN!"
+	},
+	{
+		"id": "data/story/intro_story.tres::beefcake_npc_defeat_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "Come back when you can lift, shrimp. The bridge stays UP. Like my standards.",
+		"after": "COME BACK WHEN YOU CAN LIFT! THE BRIDGE STAYS UP - FINALLY, SOMETHING THAT HOLDS ITS FORM!"
+	},
+	{
+		"id": "data/story/intro_story.tres::gourmand_npc_defeat_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "Come back when you have learned to cook. The pantry door stays shut. Like my oven, mid-souffle.",
+		"after": "The pantry door stays shut until you learn to cook. Consider this a closed-course meal."
+	},
+	{
+		"id": "data/story/intro_story.tres::refusemancer_npc_defeat_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Come back when you are ready to rot. Or, you know, not rot. Either is fine.",
+		"after": "...come back... the green can wait... it has nowhere to leaf..."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_defeat_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "Application denied. Please reapply in ten to twelve centuries.",
+		"after": "Application denied; reapply in ten to twelve centuries. This is our express service."
+	},
+	{
+		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Halt. ...Or don't. I am not a gate. I am a merchant's assistant. Security Protocol One: assess the customer's gait. Your gait is adequate.",
+		"after": "Security Protocol One: assess the customer's gait. Adequate - you may approach at your current level of walking."
+	},
+	{
+		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Bertram Beetsworth. Assistant TO the Regional Merchant. Not the Regional Merchant. Say it with me. No? Fine. It matters to me.",
+		"after": "Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing."
+	},
+	{
+		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Do not reach for the drawer. The drawer is not for you. The drawer has never been for anyone.",
+		"after": "Do not reach for the drawer. Its contents are classified, and so is your interest in them."
+	},
+	{
+		"id": "data/story/intro_story.tres::equipment_vendor_return_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Back again. Returning customers are the backbone of a healthy economy, and of my employee-of-the-month case file.",
+		"after": "A return customer strengthens the economy and my employee-of-the-month case file. Please look satisfied for the record."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.flex::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Grandmaster Flex walked into the throne room in his prison rags, and the room forgot how to breathe.",
+		"after": "You watch Grandmaster Flex enter the throne room in his prison rags. No one speaks."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.flex::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Ten years without iron had left him thin. He breathed in, slow and even, and it was the loudest thing in the room.",
+		"after": "You hear him breathe in, slow and even. Ten years without iron have left him thin."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.flex::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The ruler of the House of Gains took one step back. In this house, that is a scream.",
+		"after": "Before you, the ruler of the House of Gains takes one step back."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.doppel::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The chef's perfect smile slid off her face like glaze off a very bad cake.",
+		"after": "You watch the chef's perfect smile slip away with her face."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.doppel::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Underneath, nothing: a shifting shadow in a spotless white coat, wearing the best reviews in the kingdom.",
+		"after": "Beneath it, you see a shifting shadow in a spotless white coat."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.doppel::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Behind it, the unfinished war machines waited. They had been simmering for a long time.",
+		"after": "Behind the shadow, you see the unfinished war machines standing still."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.approval::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The great DENIED stamp cracked, and for the first time in the Department's long afterlife, it did not come down.",
+		"after": "You hear the great DENIED stamp crack. For the first time in the Department's long afterlife, it does not come down."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.approval::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Forms rose like startled doves. A thousand clerks looked up from their desks and remembered they had eyes.",
+		"after": "Forms rise around you. Across the Department, a thousand clerks look up from their desks."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.approval::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Somewhere, a very small pen stopped writing. Nobody filed a complaint.",
+		"after": "Somewhere nearby, you hear a pen stop scratching."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.rotheart::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The Rotheart split open, and light poured out as if it had been waiting all along.",
+		"after": "You see light pour through the splitting Rotheart."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.rotheart::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The purple vines withered. At the heart of the wound, the Archdruid knelt, free and breathing.",
+		"after": "Before you, the purple vines wither. At the heart of the wound, the Archdruid kneels, free and breathing."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.rotheart::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Wildflowers followed the light outward. The Dump has seen worse mornings, but not many better.",
+		"after": "You watch wildflowers follow the light outward through the Dump."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.primm::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "The mirrors cracked one by one, and for the first time in ten years {villain} saw himself in them.",
+		"after": "You hear the mirrors crack one by one. For the first time in ten years, {villain} sees himself in them."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.primm::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "No crown. No perfect smile. Only a tired man kneeling above a very small kingdom.",
+		"after": "Above the small kingdom, you see a tired man kneeling without his crown or his perfect smile."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.primm::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Light poured in through the broken glass. It did not feel like winning. It felt like the end of a long, quiet lie.",
+		"after": "You stand in the light pouring through the broken glass."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.reunion::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "In the Capital's square, the leaders of the four Paths clasped hands. Nobody tripped. Several people cried.",
+		"after": "In the Capital's square, you watch the leaders of the four Paths clasp hands. Several people cry."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.reunion::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Four banners flew from the same pole. It was a little crowded, and no one minded.",
+		"after": "Above you, four banners share one crowded pole."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.reunion::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "At the edge of the crowd, a hooded traveler smiled, with leaves still in their hair. There is always another path.",
+		"after": "At the crowd's edge, you see a hooded traveler smile, leaves still in their hair. There is always another path."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You have earned the truth, so here is the first piece of it: I am not only a tortoise who bakes.",
+		"after": "You have earned the truth. I have been keeping more from you than I should."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I wasn't sure of you before. I am sure now. Mostly.",
+		"after": "I wasn't sure I could trust you before. I am now."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I have been hiding my face in pie dough ever since.",
+		"after": "I have been hiding here ever since."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.3::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Go on. The next zone will not free itself, and I am far too slow to do it for you.",
+		"after": "Go on, dearie, the next zone won't free itself. At my pace, we'd have to outlive the regime."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.4::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Go on: the kingdom is waiting, and so is the pie.",
+		"after": "Go on, the kingdom is waiting. The pie has less patience."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "There's pie on the sill. Cooling. Which means no, not yet.",
+		"after": "The pie on the sill is cooling, dearie. Unlike you, it knows when to wait."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I've told you everything you need for now. The rest you'll have to go and get yourself. That's the annoying part.",
+		"after": "I've given you all the answers you need for now, dearie. Further questions require fieldwork."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::5",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Off you go. I'll be here. I'm always here. It's one of my better qualities.",
+		"after": "Off you go, dearie; I'll be here. I'm dependable at a speed you can barely measure."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I was told someone would come past the dry spring and that grumpy Warden. Not who. Certainly not this damp.",
+		"after": "I was told someone would come past the dry spring and that grumpy Warden. Nobody mentioned I'd need to wring them out."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.guard.capital_active::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Gatekeeper Brannoch",
+		"before": "Every zone you free puts one back. Then that castle door gets a lot less scary. My knees stay scary. Nothing to be done.",
+		"after": "Hm, each freed zone restores a service and makes the castle less frightening. My knees remain a local problem."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "The bridge stays down now. I oil the crank every morning anyway. It's a love thing.",
+		"after": "The bridge stays down now, but I still oil the crank every morning. Maintenance is how I say sorry."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.gourmand.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "The pantry door stays open now. Wide open. People wander in and eat biscuits. That is the dream.",
+		"after": "The pantry door stays wide open, and people come in for biscuits. At last, a proper open-door pastry."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "The thorns are gone. Mostly. I keep one in a pot. It's very well behaved now.",
+		"after": "Most of the thorns are gone; I keep one in a pot. It's behaving, but I'm not ready to let it meet the curtains."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.vendor.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "Back, darling? Everything on the table is honest. Mostly. The misprints are lying, but so charmingly.",
+		"after": "Back, darling? The cards are honest; the misprints simply have a more adventurous relationship with spelling."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.item_vendor.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Tilly Tonic",
+		"before": "Back! Potions! Charms! I'm a bit orange today, so maybe not the orange one! Equip them on your Character screen to carry them into a fight!",
+		"after": "Potions and charms, back for more! Equip them on your Character screen for fights - maybe skip the orange one until I stop matching it!"
+	},
+	{
+		"id": "data/story/intro_story.tres::storeroom.before::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "So we waited. Then we died. Then we kept waiting. Professionally.",
+		"after": "We waited, died, and kept waiting. Your haunting is very important to us."
+	},
+	{
+		"id": "data/story/intro_story.tres::storeroom.after_win::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "Tell Tilly the lantern is on the top shelf. It still doesn't work. We checked. Every night. For ninety years.",
+		"after": "Tell Tilly the lantern's on the top shelf, still broken after ninety years of nightly checks. We were thorough, if poorly lit."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.equipment_vendor.too_early::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Come back with her blessing. And better posture. Mostly the blessing.",
+		"after": "Bring Elder Maren's blessing. Better posture is appreciated but cannot be accepted in its place."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.arena.intro::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "WELCOME, CHAMPION, to THE UNDERCROFT! Mind the stairs. (Really. The third one bites.) I am Announcer Grand Bellows, KEEPER OF THE SAND!",
+		"after": "WELCOME TO THE UNDERCROFT, CHAMPION - ANNOUNCER GRAND BELLOWS, KEEPER OF THE SAND! Mind the third stair; it bites without an introduction."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.arena.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "THE SAND IS HOT! THE CEILING IS LOW! THE CROWD IS... mostly me, and a very good echo. Pick a fight, champion!",
+		"after": "THE SAND IS HOT AND THE CEILING IS LOW! Pick a fight, champion - the crowd is mostly my echo, and he agrees with EVERYTHING!"
+	},
+	{
+		"id": "data/story/intro_story.tres::town.alchemist.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Auntie Alembic",
+		"before": "Back already? Good. Essence of two Paths, a little gold, and a lot of faith. That is the whole recipe. Mind the red flask. It's listening.",
+		"after": "Essence of two Paths and a little gold, dear; faith helps with the waiting. Lower your voice around the red flask - it takes things personally."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.alchemist.need_more::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Auntie Alembic",
+		"before": "The cauldron is patient. The cauldron is also hungry.",
+		"after": "The cauldron is patient. Please don't confuse patience with having had lunch."
+	},
+	{
+		"id": "data/story/intro_story.tres::zone.complete.beefcake.body::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(UI)",
+		"before": "Chancellor Clench is down, Grandmaster Flex is back, and the weights are back in the gym. The mills turn at a sensible pace. Somewhere, Gary lifts something, and for once nobody has to spot him.",
+		"after": "Chancellor Clench is down, Grandmaster Flex is back, and the weights are in the gym. The mills turn at a sensible pace; Gary lifts with a spotter."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.first::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Psst. Over here. Do you hear that? ...That crinkle is the sound of possibility in a foil wrapper.",
+		"after": "Psst... hear that crinkle? That's possibility, with excellent packaging."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.first::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Foil Fenwick, Purveyor of Sealed Goods. Packs. Only packs. Open one in front of me and I will weep, so take it somewhere with better lighting.",
+		"after": "Foil Fenwick, Purveyor of Sealed Goods - packs only. Open one where the light's good; if I cry, I want to see what I'm crying about."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "The crinkle returns! Browse. Sniff. Do not shake. ...Fine, shake a little.",
+		"after": "Browse, sniff, but don't shake the packs. ...A little, then; I'm a collector, not a strong person."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.return::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Ah, a repeat customer. My favourite kind of customer. Also my only kind. Shh. Listen. ...Foil.",
+		"after": "A repeat customer... shh, listen to that foil. You understand me, and I don't know what to do with that."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Crinkle! A fine choice.",
+		"after": "Crinkle! You've made a wrapper very happy."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "It wants to be opened. They always do.",
+		"after": "It wants to be opened. I'm trying to respect its wishes without getting involved."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.tailor.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Back for another look? Good. A person should change their mind and their hat regularly.",
+		"after": "Back to change your mind and your hat? Excellent - one of those I can fit properly."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.tailor.return::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Ah, my favourite head! What are we doing today? Brim? Brooch? Billowing? Mind the pins. The pins mind nobody.",
+		"after": "My favourite head, in the nick of time! Brim, brooch or billowing - this could be a hem-ergency."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bought::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Wear it out! Do not take it off in the rain. Or do. It is a hat, not a feelings machine.",
+		"after": "Wear it out! A hat cannot have an entrance if you keep it in a bag!"
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bought::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Sold! Oh, the way it sits on you. Almost like it was sewn for another head entirely.",
+		"after": "Sold! Such a dramatic fit - the hat looks surprised to be wearing you."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.poor::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "A little more gold, a little less hope. Come back when your pockets rustle.",
+		"after": "A little more gold, my dear head. I can work wonders with fabric, but it insists on being paid for."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.owned::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "You already own that one. Wear it! Wear it twice!",
+		"after": "You own that one already! Do introduce it to the outside world."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.card_vendor.line::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "What's inside? Even the crate won't say. I respect that in a crate.\"",
+		"after": "What's inside? The crate has declined to comment, darling, and I admire a professional.\""
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.card_vendor.tier2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "Sable grins. \"The back crates are open, darling. Bigger selection, bigger surprises. Do faint at the good ones. Quietly.\"",
+		"after": "Sable grins at you. \"The back crates are open, darling - more cards, bigger surprises, the same discreet fainting policy.\""
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.arena_warmup.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "A gladiator rookie in oversized armor wants to see what you are made of. Bring your own deck.",
+		"after": "A rookie gladiator rattles inside oversized armor. Bring your own deck; the armor has enough room for its own audience."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.won.first::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "Victory on the sand! The crowd roars, and the prize is yours.",
+		"after": "VICTORY ON THE SAND - THE PRIZE IS YOURS! The echo would like it known that it believed in you first."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.lost::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "Not this time. The sand is patient: try again whenever you like.",
+		"after": "NOT THIS TIME, CHAMPION! Come back whenever you're ready; the sand has yet to win a rematch."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.puzzle.won::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "Puzzle solved! The crowd goes wild.",
+		"after": "PUZZLE SOLVED - THE CROWD GOES WILD! A triumph for thinking, shouted at full volume!"
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.station.town.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The home station. The sky here is well maintained.",
+		"after": "The home station. A well-supported sky is a happy sky."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.intro.town::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "We tear a hole in the fabric of the world so that you do not have to walk. One man holds the sky open. The other man also holds the sky open.",
+		"after": "We tear the world open so you don't have to walk, buddy. Two men hold the sky - that's our overhead."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.intro.town::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Every town you reach, we send a cousin ahead to rip a station into the wall. They are all named Rip. We ran out of names around cousin four.",
+		"after": "Reach a town and we send a cousin to rip a station there. All named Rip; around cousin four, naming became a cooldown exercise."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.intro.zone::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "HNNNGH. Rip Tearson, Beefcake Rift Express, now serving this exact spot. I am a cousin. The other Rips are also cousins.",
+		"after": "HNNNGH... Rip Tearson, Beefcake Rift Express, serving this exact spot. I'm a cousin; we hire entirely on relative strength."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.return.town::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Spotting is free. Hydration is on you.",
+		"after": "Spotting is free, buddy. Hydration is a bring-your-own-water situation."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.return.zone::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Need a rip? Say where, brother. I have been holding this sky since breakfast and I am NOT putting it down until somebody uses it.",
+		"after": "Need a rip, brother? I've held this sky since breakfast, and I'd hate to put it down with no one through it."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.rip.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Spotter, I need you to spot this whole dimension. Lift with your legs! Nobody lifts with their back! Lift with your LEGS!",
+		"after": "Spot this whole dimension, brother! Lift with your LEGS - lower back does not mean lower universe!"
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.necrocrat::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The rift spits you out beside the lobby elevator. It closes with a pop. A memo flutters down: YOU WERE NOT AUTHORIZED TO ARRIVE.",
+		"after": "The rift drops you by the lobby elevator and pops shut. You catch a fluttering memo: YOU WERE NOT AUTHORIZED TO ARRIVE."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.necrocrat::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "(This is a joke. Nobody here is authorized to anything.)",
+		"after": "You check for an approved way to have arrived. The memo offers none."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.gourmand::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The rift spits you out in the Pantry. Somebody hands you a napkin. You did not ask for one. You are not allowed to refuse it.",
+		"after": "You land in the Pantry and receive a napkin before you find your balance. Priorities are immaculate."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.refusemancer::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The rift spits you out at the Grange. It leaves a faint smell of ozone, mulch and gym sock. That is how you know it was a real rip.",
+		"after": "You arrive at the Grange in a whiff of ozone, mulch and gym sock. The Express leaves a personal impression."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.heal_couch::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You sink into the Cooldown Hot Tub. It smells of eucalyptus and old gym socks. HP restored.",
+		"after": "You sink into eucalyptus-scented water with an unmistakable base note of gym sock. HP restored; nose unconvinced."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.chest::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "A hidden stash! Nobody spotted that one. Which, in the Gainlands, is a crime.",
+		"after": "You find a hidden stash. Excellent spotting technique, terrible lifting posture."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.fall::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You fell off the island! Gravity: undefeated since forever. You respawn at your last safe spot. (-1 HP)",
+		"after": "You fall off the island and respawn at your last safe spot. Gravity declines your request for a spotter. (-1 HP)"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.throw.ask::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(check key)",
+		"before": "Courtesy Chuck: free, fast, and only mildly terrifying. Ready to be thrown to %s?",
+		"after": "Courtesy Chuck to %s: free, fast, no legroom required. Ready to be thrown?"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Terrible landing. Hold still. It only hurts the first time.\"",
+		"after": "Terrible landing, though. Hold still; the view is the comfortable part.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "I'll give it everything. Not you. I'll give everything to the wind.\"",
+		"after": "I'll put everything into the throw. You can tell me what you thought of it when your thoughts catch up.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Bend your knees on the way. I mean all your knees.\"",
+		"after": "Bend your knees on the way down. It'll look like you planned this.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Old Man Mountain says you're good, so you're good. Mind the edges. They're sharp. Like my sense of humour.\"",
+		"after": "Old Man Mountain vouches for you, so Calf Cove's open. Mind the edges; the view really drops off.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Portals are like abs. They only open if you try.\"",
+		"after": "No tools, just lats. I open doors by taking a very personal interest in the wall.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.exit::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath. Mind the gap. The gap is very deep and very rude.",
+		"after": "To {town}. Mind the gap; it has a very low opinion of shortcuts."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.protein_stand::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Results may vary. Results may also vary your stomach.",
+		"after": "Results may vary. Please wait for the shake to settle before deciding whether you have."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.flex_mirror::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Check your form. Check your friend's form. Check the mirror's form.",
+		"after": "Check your form, your friend's form and the mirror's form. Someone here needs constructive reflection."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.studio::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Wear your legwarmers. We know you own legwarmers.",
+		"after": "Wear your legwarmers. Fashion may have moved on, but our calves have not."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.gym::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Equipment: boulders, logs, more boulders.",
+		"after": "Equipment: boulders, logs and more boulders. A rock-solid selection."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.record_board::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Every record ever set on this field. Most are crossed out by the next line.",
+		"after": "Every record set on this field, promptly crossed out by the next one. Personal bests are temporary; chalk is forever."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.pec_perch::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Population: one mirror. Please mind the edge.",
+		"after": "Population: one mirror. Please mind the edge; looking down on yourself is enough."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.hamster_fact::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "The Beefcakes know. They bring snacks. The hamsters accept this arrangement.",
+		"after": "The Beefcakes bring snacks. Civilization rests on the hamsters not finding out what a salary is."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::enemy.brute::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(check key)",
+		"before": "A regime enforcer, flexing at nobody in particular. Has been since breakfast. It's in the contract.",
+		"after": "You see a regime enforcer flexing at nobody. Since breakfast, apparently; even his audience is exhausted."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::enemy.golem::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(check key)",
+		"before": "A tub of confiscated protein powder that learned to walk. Rattles. Sorry about the confiscation.",
+		"after": "You hear confiscated protein powder rattle inside a walking tub. Whey out of line."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.brenda.return::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Old Man Mountain",
+		"before": "Beat the regime and I'll buy the first round of shakes. Illegal ones. The good flavour.",
+		"after": "Beat the regime and I'll buy the first round of shakes. The illegal flavour... ah, that's the one worth remembering."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "Officially, every card here is Regime-Approved Merchandise! (They are not.) Unofficially, they're from the good old days!",
+		"after": "REGIME-APPROVED MERCHANDISE! Not actually approved, but these old cards have a GREAT ATTITUDE!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.intro::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "*whispering* And do not stand on the loose floorboard behind the counter. There's nothing under it. Iron. Nothing.",
+		"after": "*whispering* Mind the loose floorboard behind the counter. Nothing under it... just iron, which officially isn't anything."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "BACK ON THE FLOOR! The cards are pumped, the clipboard is ready, and my whistle has been WAITING for you!",
+		"after": "LET'S GO, RETURNING CUSTOMER! The cards are pumped and my whistle has been SAVING ITS BREATH!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.return::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "*whispering* Floorboard's fine. Nobody's mentioned the floorboard.",
+		"after": "*whispering* Nobody's mentioned the floorboard. I'd like to keep our relationship on that footing."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.intro.freed::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "The regime merchandise is in the clearance bin. All morning! Nobody wants it! BEAUTIFUL!",
+		"after": "REGIME MERCHANDISE IN THE CLEARANCE BIN! Nobody wants it - my proudest day of not making a sale!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.tony.return.freed::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "Cards on the shelves, iron on the racks, whistle in my mouth! Some things are SACRED!",
+		"after": "CARDS ON SHELVES, IRON ON RACKS! I can finally shout about the floorboard, and I'VE FORGOTTEN HOW!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Fifteen are about biceps. The regime burned the other two, so I rewrote them from memory. Footnotes included.",
+		"after": "Fifteen concern biceps; the regime burned the other two, so I rewrote them from memory. You cannot confiscate a well-trained brain-cep."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Back to improve your score? Splendid. Same weight, more reps, slightly bigger brain-ceps. That is the Beefcake way.",
+		"after": "Back for another set of questions? Splendid - knowledge gains are retained even when you stop flexing."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quiz.result.0::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Zero. Impressive, in a stubborn way. Nothing for you.",
+		"after": "Zero, with no reward this time. A clean baseline; research begins somewhere."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quiz.result.0::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "The signs are patient. I am less so. Read a sign. Any sign.",
+		"after": "Consult the signs before your next attempt. Your eyes may do the heavy reading."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quiz.not_passed::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Not a pass. Walk the Gainlands, read the signs, come back. Knowledge is a muscle, and yours just skipped leg day.",
+		"after": "Not a pass yet; read the signs around the Gainlands and return. We are training recall, not regret."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "The regime banned the show for 'unauthorized fun'. I kept the cameras rolling anyway. Rebel. Spandex rebel.",
+		"after": "The regime banned my show for 'unauthorized fun'! These cameras are STILL ROLLING - you can't spell resistance without... well, SPANDEX HELPS!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.win::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "THAT'S the way! You look incredible. The camera loves you. The camera also loves legwarmers.",
+		"after": "THAT'S THE WAY - THE CAMERA LOVES YOU! And the legwarmers, but they've been trying to get a solo shot ALL NIGHT!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.lose::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "Rehydrate. Try again. The beat isn't going anywhere. Neither are the legwarmers.",
+		"after": "REHYDRATE AND TRY AGAIN! The beat and the legwarmers are standing by - only one of those has legs!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gary.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Gary",
+		"before": "I'm under this barbell. Have been since lunch. Possibly since the regime took over. No rush.",
+		"after": "I've been under this barbell since lunch... possibly since the regime took over. No rush, but I would like to become a standing appointment."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.gary.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Gary",
+		"before": "Spotter! You're a hero. One day I'm going to lift this barbell all the way up. Not today. But with you watching.",
+		"after": "Spotter, you're a hero! One day this barbell and I will rise to the occasion... with you watching, please."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_again::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Gary is under a different barbell. It is a lighter barbell. His confidence is also lighter.",
+		"after": "You find Gary under a different, lighter barbell. He has lowered the bar in every sense except the useful one."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_great::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "A legendary chocolate-peanut-butter shake! Your muscles remember a childhood summer. Big recovery!",
+		"after": "You taste a legendary chocolate-peanut-butter shake. Even your muscles want the recipe - big recovery!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_bad::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Chalky. Lumpy. Tastes like drywall.",
+		"after": "Chalky, lumpy... you appear to be drinking an unfinished wall."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_empty::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "An empty cup. Somebody drank your protein. It was the stand. It is always the stand.",
+		"after": "You receive an empty cup. The stand has mistaken protein for a serving suggestion."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_broke::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "The stand wants 10 gold. You are as broke as a hamster on its day off.",
+		"after": "The stand wants 10 gold. You have enthusiasm, which it does not accept."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.flex_limit::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Your pump has peaked. The mirror needs a moment. Come back after your next visit.",
+		"after": "Your pump has peaked; come back after your next visit. Even your reflection needs a cooldown."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.gain_lanes.offer::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Coach Brutus Benchley",
+		"before": "Regime brutes, golems and sprites keep 'inspecting' my deliveries! Inspecting them right into their MOUTHS! Beat three roaming enemies out in the Gainlands, any three, in card duels!",
+		"after": "Regime brutes, golems and sprites keep eating my deliveries! Beat any three roaming enemies in the Gainlands in card duels - END THE BULKING ORDERS!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::sign.missing_leader.freed::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Do not spot him. He does not need it.",
+		"after": "No spotter needed on the roof. He is holding that pose for himself."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::freed_npc.heartlift::5",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "And you, son. Whatever they took from you, it was not the part that matters. Now. Leg day?",
+		"after": "And you, son: whatever they took from you, it was not the part that matters."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_barracks.blurb::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Regime recruits drill in the barracks. They are not good at it. They are loud about it.",
+		"after": "You hear the recruits drilling before you see them. They make up in volume what they lack in coordination."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_guard.blurb::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Chancellor Clench's personal guard. Their uniforms are spotless. Their form is not. (Elite)",
+		"after": "You face Chancellor Clench's personal guard. Their uniforms are pressed; their technique could use ironing out. (Elite)"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.before::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "\"So I took your iron. Your protein. Your followers. And you come back to me weaker than a damp towel.\"",
+		"after": "\"I took your iron, your protein, your followers. You have come back with nothing, Master.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after_alone::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "From the stairs come slow, controlled footsteps. Grandmaster Flex walks up out of the Iron-less Prison on his own, in thin grey robes, as if he had popped out for the paper.",
+		"after": "You hear slow, controlled footsteps on the stairs. Grandmaster Flex emerges from the Iron-less Prison alone, in thin grey robes."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_descent.result.1::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "The guard wakes just long enough to swing. You leave with the bars, the keys, and a distinct impression of knuckles.",
+		"after": "The guard wakes long enough to swing. You leave with the bars, the keys and a very hands-on reprimand."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_rescue.body::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "He opens one eye. \"You are not a guard,\" he says. \"You are far too nervous.\"",
+		"after": "He opens one eye and looks at you. \"You are not a guard.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_rescue.body::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "There is no bar and no bench, only a patch of stone worn smooth by a decade of training. Ten years, a cell, people trying to break you. Something tightens in your chest, and you do not know why.",
+		"after": "You see no bar or bench, only stone worn smooth by ten years of training. Your chest tightens at the sight of the cell; you do not know why."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_trophy_hall.body::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "A single pedestal stands empty, with a plate reading GRANDMASTER FLEX (PENDING). Rude.",
+		"after": "You read the plate on the empty pedestal: GRANDMASTER FLEX (PENDING). The space above it remains empty."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.1::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Careful. The guards come by on the hour. Not the hour of the day. The hour of the squat.",
+		"after": "Careful, son. The guards time their rounds by their squats."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.1::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "It is irregular. Once an hour, whether or not it is an hour.",
+		"after": "The rounds are irregular. Listen for them on the stairs."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.heal_already::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "You are already full of HP. The chef politely refuses to give you seconds. The chef is lying; there are always seconds.",
+		"after": "Your HP is full, and the chef says there are no seconds. You both know this is a serving of fiction."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.wake::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "\"You fainted into the gravy. We fished you out. The fishing fee is, um... on you. Sorry. Sorry.",
+		"after": "\"You fainted into the gravy, so we fished you out. There's a fishing fee... sorry, sorry, I don't set the catch of the day."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.landed::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Stuck the landing. In the sense that you are stuck to it a little.",
+		"after": "You stick the landing. Peeling yourself off it takes longer."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.taste_great::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "A transcendent sip. A tear rolls down your cheek. A critic somewhere gives it five stars. Big recovery!",
+		"after": "You take a sip and blink through a tear. Five stars would feel stingy - big recovery!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.taste_spicy::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Ghost pepper, hidden in the third spoon. Your ears ring. -1 HP.",
+		"after": "You find the ghost pepper in spoon three. Your ears ring in protest. -1 HP."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.taste_bland::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Boiled water, a hint of ambition. The judges look at their shoes. Nothing happens.",
+		"after": "You taste boiled water with a hint of ambition. The judges study their shoes; nothing else happens."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.taste_broke::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The station wants 8 gold. Your wallet is as empty as a diner at 4 a.m.",
+		"after": "You need 8 gold for the taste test. The station declines to sample your good intentions."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.fountain_2::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Second ladle: cream of mushroom, which is a little unfair to the mushroom. +HP.",
+		"after": "You take a second ladle of cream of mushroom. The fungus has a rich inner life. +HP."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.open::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "It has opinions about being stepped on.\"",
+		"after": "The cheese takes trespassing personally. You're walking on its rind.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "He sighs. \"Come back when your pockets are fancier.\"",
+		"after": "He sighs at you. \"Bring saffron from the Candy Field; this gate has a very particular taste in visitors.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "I do not give passes. I do not take bribes. I take challengers in single combat, with cards.\"",
+		"after": "No passes, no bribes - challenge me to single combat with cards. I shall defend this gate to the last course.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.exit::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath, through the great pantry door. Wipe your feet. We just mopped. Hand over your sample.",
+		"after": "To {town}, through the great pantry door. Wipe your feet and surrender your sample; we just mopped."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.exit.freed::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath, through the great pantry door. Wipe your feet. We just mopped. You may keep your sample. You may keep two.",
+		"after": "To {town}, through the great pantry door. Wipe your feet - we just mopped, but your sample is yours now; take two."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.vendor::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Cards, cakes and a little something for the golem in your HP. Mostly cards. Reservations recommended.",
+		"after": "Cards and cakes, mostly cards. Reservations recommended; table manners apply even to your deck."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.oven::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Do not open the oven door to check. Do not.",
+		"after": "Do not open the oven to check on the pie. It is already working under considerable heat."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.studio::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Live studio audience: a bowl of sprouts.",
+		"after": "Live studio audience: a bowl of sprouts. Please applaud; they cannot."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.taste_test::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Results may vary. So may your stomach.",
+		"after": "Results may vary. Please distinguish applause from your stomach making a statement."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.raft_west::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Please keep arms and legs inside the croutons.",
+		"after": "Keep arms and legs inside the croutons. Passengers are not part of the garnish."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.cheddar::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Sharp. Sharper. Do not lean on the walls. Do not lick the walls.",
+		"after": "Sharp cheese ahead. Do not lean on or lick the walls; we cannot keep putting this delicately."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.cake_town::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Please do not bite the buildings.",
+		"after": "Please do not bite the buildings. They are load-bearing cake."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.main_dungeon.freed::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The cannon has been repurposed. It now fires bread at the pigeons. Politely.",
+		"after": "The repurposed cannon now fires bread at pigeons. This is what we meant by a feeding programme."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.stew::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Read the recipe card. Cooking is a science. And a vibe.",
+		"after": "Read the recipe card. Vibes are not one of the four ingredients."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::enemy.loaf::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(check key)",
+		"before": "A meatloaf the size of a wardrobe, wearing a ketchup glaze and a frown. A prototype. Has opinions about being a prototype.",
+		"after": "You face a wardrobe-sized prototype meatloaf in a ketchup glaze. Its frown suggests it would like a second draft."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::enemy.jelly::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(check key)",
+		"before": "Wobbles when it thinks, which is rarely, on instructions.",
+		"after": "You watch it wobble through a thought. Management has discouraged these."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.tarragon.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "Oh! A customer! A helper! A pair of hands! Sous-Chef Tarragon, fetcher of things. I fetch. All day. My legs have their own legs now.",
+		"after": "Sous-Chef Tarragon, fetcher of things - oh, good, more hands! I've been running all day and still haven't caught up with lunch."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.tarragon.return::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "Any ingredients? Anything? I'll take a single leaf of anything.",
+		"after": "Ingredients, please, anything? I'm one leaf away from calling this a salad and going home."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.tarragon.return::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "I'm not proud. I'm hungry. And a bit scared. Mostly hungry.",
+		"after": "I'm hungry and a bit scared. If either came with a side dish, we'd be sorted."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.tarragon.intro.freed::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "The ingredients are coming back from the Test Kitchen by the cartload. Pigs, even. Not the angry pig. A different one. A happy one.",
+		"after": "Ingredients are coming back from the Test Kitchen by the cartload, even pigs! A happy pig this time; I've had enough professional disagreements."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.tarragon.return.freed::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "Fetching is fun again! Everyone waves at me! Nobody asks me to fetch cannonballs!",
+		"after": "People wave when I fetch things now! And nobody asks for cannonballs - I prefer a lighter lunch."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.dolcetta.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Madame Mirepoix",
+		"before": "Everything here is Gourmand-issue and, as of this year, inspected by the Test Kitchen. The stamp is on the cake. The cake, darling, is for decoration.",
+		"after": "Gourmand-issue, inspected by the Test Kitchen as of this year. The stamp is on the decorative cake, which has never looked more unappetizing."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.dolcetta.return::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Madame Mirepoix",
+		"before": "Back again, darling? The cards are plated. The cake is for decoration. The sauce is for other people.",
+		"after": "Your cards are plated, darling; the cake is decorative. As for the Special Sauce, I recommend the air beside it."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.dolcetta.return.freed::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Madame Mirepoix",
+		"before": "Sit down, darling. Have a slice. The cake is for eating now. I checked.",
+		"after": "Sit down and have a slice, darling. The cake has been promoted from decoration to dessert."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::quest.buf_pantry.active::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "Three ingredients, any three, from around the Buffet. The pantry is empty and somebody is staring at me. Please hurry.",
+		"after": "Bring any three ingredients from around the Buffet. The pantry is empty, and I can't keep calling that a minimalist menu."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::quest.buf_pantry.done::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Sous-Chef Tarragon",
+		"before": "The pantry is stocked. Until tomorrow. Then we start over. It's a lovely cycle. I'm fine.",
+		"after": "The pantry's stocked until tomorrow, when we do it all again. Fetching has a wonderful sense of repetition; I'd like to send it back."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Ah, a student! Professor Pate, Keeper of the Cookbook. I have read every recipe in the kingdom. Twice. The second time was for the footnotes.",
+		"after": "Professor Pate, Keeper of the Cookbook. I've read every recipe twice; the footnotes have an excellent finish."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::quiz.result.0::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Zero. Remarkable in its way. Nothing for you.",
+		"after": "Zero, so no reward this time. We have established that knowledge does not rise on its own."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::quiz.result.0::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "The signs are patient. I am slightly less so.",
+		"after": "Read the signs and let the facts simmer. You cannot rush a well-seasoned answer."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "*brass fanfare, rimshot* WELCOME to DINNER IN A DASH! I'm Chef Flambe Fontaine, LIVE from a field of candy! The Test Kitchen cancelled my show. I do it in secret.",
+		"after": "*brass fanfare* CHEF FLAMBE FONTAINE, LIVE FROM THE CANDY FIELD: DINNER IN A DASH! The Test Kitchen cancelled us, so this is a SECRET BROADCAST!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "You may remember the old tapes. Seven seasons! My catchphrase was a sound effect: a whoosh. People still do the whoosh. WHOOSH.",
+		"after": "Seven seasons on tape, and people STILL do my WHOOSH! Please rewind; the dramatic entrance is at the beginning."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.win::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "THAT'S the way! You cook like you were born in a kitchen. The camera loves you. The camera also loves a clean counter.",
+		"after": "ORDER UP - THAT COUNTER IS BEAUTIFUL! You cook like someone who knows exactly where the camera is!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.first::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Chef Savannah would call it Scroll Deluxe.",
+		"after": "Chef Savannah would call it Scroll Deluxe. She could put a garnish on the envelope and call it a course."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.lose::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Not quite a shift, champ. That is fine. Breathe.",
+		"after": "Not quite, chef - breathe! Even a souffle gets a second rise in my kitchen!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.lose::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Re-tie the apron. The ticket rail is not going anywhere.",
+		"after": "Re-tie your apron and try again! Those tickets can wait; this is a cooking show, not a farewell episode!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::recipe.wrong::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "The stew goes bland. The pot sighs. The pot has seen better cooks.",
+		"after": "You watch the stew go bland. The pot sighs like a recipe being ignored."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.innovation.freed::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Complaints may be submitted in sauce.",
+		"after": "Complaints may now be submitted in sauce. We are prepared to take a little heat."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::sign.special_sauce.freed::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Contents: a lot of things that were not food. Return all unused sauce to the Pantry.",
+		"after": "Return unused Special Sauce to the Pantry. Its ingredients have failed to establish that they are food."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::effect.debuff.flavor::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "The Gourmands look down their noses at garbage eaters. Refusemancers here feel very, very underdressed.",
+		"after": "The Gourmands insist on formal dining; Refusemancers arrive dressed for the work that grew the dinner."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::ruler.statue.freed::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(check key)",
+		"before": "(It was always a little off. Whose chin is that?)",
+		"after": "Official likeness withdrawn. It never captured the person who fed us."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::dungeon.tk_dock.blurb::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Crates of ingredients roll in. Crates of something else roll out, and they are not labelled.",
+		"after": "You pass incoming ingredient crates and outgoing unlabelled ones. Research appears to be a one-way conversation."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::dungeon.tk_panel.blurb::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "A panel of grim judges tastes whatever you can serve them. Their verdict is final. So is their silence.",
+		"after": "You face a silent panel of grim judges. They taste your dishes as though flavour might be used against them."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::dungeon.tk_armory.blurb::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Shelves of rations, ladles and ladle-shaped weapons. Take what you can carry.",
+		"after": "You find rations, ladles and ladle-shaped weapons. Take what you can carry; someone has overthought serving suggestions."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::dungeon.tk_mk9.blurb::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The finest war machine the Test Kitchen has ever failed to finish. It is armed, hungry and unseasoned. (Elite)",
+		"after": "You face the Test Kitchen's finest unfinished war machine: armed, hungry and still awaiting seasoning. (Elite)"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_cannon_bay.result.2::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Surprisingly good. It is a prototype, so it is also a little bit explosive. You feel a lot better, and a little singed.",
+		"after": "You eat the prototype meatball and feel much better, if slightly singed. The aftertaste has a blast radius."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.result.2::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The guards pay well and ask no questions. You feel terrible. Possibly it is the Special Sauce. Possibly it is not.",
+		"after": "The guards pay you without a question. You pocket the coins and feel sick."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.1::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Ten years in a freezer, and I can still tell you what is wrong with this soup. Everything. Everything is wrong with this soup.",
+		"after": "Ten years in a freezer, and I still remember what this soup should taste like. Let me put it right."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.2::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "I have no name. I have no face. I do not even have a flavour.",
+		"after": "I have no name or face of my own. I cannot even taste what I make."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.3::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Wanderer",
+		"before": "How do you prove who you are to a kitchen that has eaten the same lie for ten years?",
+		"after": "How will they know it's you? After ten years?"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.5::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Endless Buffet",
+		"before": "The dish is plain, golden and enormous. It smells of butter and bread and somebody's grandmother's kitchen.",
+		"after": "Before you sits a plain, golden dish, large enough to share. You smell butter and warm bread."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.5::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Endless Buffet",
+		"before": "Signs flicker back to honest words, glazed chefs blink at their own hands, and a thousand golems lower their ladles.",
+		"after": "You watch the chefs blink at their hands. Across the Buffet, a thousand golems lower their ladles."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.6::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "And you have been the best-behaved prisoner in my kitchen for five whole minutes.",
+		"after": "You have been my prisoner for five minutes, and you have given me no trouble. Let me give you something in return."
+	},
+	{
+		"id": "data/story/dna_story.tres::enemy.intern::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "Unpaid. Undead. Eager to make a good impression on the new management.",
+		"after": "Unpaid. Undead. Eager to impress the new management. At last, some hands-on experience."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.chest::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "A hidden stash! Filed under 'Misc.', which is where everything good ends up.",
+		"after": "You find supplies filed under Miscellaneous. For once, you meet the requirements."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.coffee_good::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "The coffee machine gurgles and produces something almost drinkable. +HP.",
+		"after": "You drink the coffee. Almost drinkable. Someone may be disciplined. (+HP)"
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.printer_ok::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "The printer shudders, whines, and hands you a card, still warm. Lawfully yours.",
+		"after": "The printer gives you a warm card. You accept before it can request a reference."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.punch_again::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "You're already punched in. The clock refuses to double-count your suffering.",
+		"after": "Your shift is already recorded. Please do not punch twice; the clock has suffered enough."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.suggestion::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "You drop a suggestion into the box. A moment later, something is dropped back out.",
+		"after": "You post a suggestion. Something drops back out of the box. You appear to have been assigned the follow-up."
+	},
+	{
+		"id": "data/story/dna_story.tres::match.first::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "first clear?? ok, here's a bonus. it's not much. it was in my desk drawer since '09.",
+		"after": "first clear! here's a bonus. been in my desk since '09. finally found the right occasion to open the drawer."
+	},
+	{
+		"id": "data/story/dna_story.tres::match.lose::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "out of moves. it's fine. my virtual pet lasted longer than that, and it died in an hour. wanna go again?",
+		"after": "out of moves. my virtual pet lasted an hour. want another go? you get a better deal than the pet."
+	},
+	{
+		"id": "data/story/dna_story.tres::match.win::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "nice flipping!! you're in my top 8 now. you're number one, actually. sorry, me. you've been bumped.",
+		"after": "nice flipping! top 8, number one. sorry, me. we had a good run."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.barnaby.return::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Per my last email: they're still on 3. I don't have email. I'm a ghost. But per it.",
+		"after": "Per my last email: still serving 3. I don't have email. I hope the phrase conveys that I have asked before."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.barnaby.return.freed::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Cream? None. Sugar? None. Hope? Back in stock.",
+		"after": "Cream? None. Sugar? None. Hope? Back in stock. I am trying not to use it all at once."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.matching.intro::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "*krrrshhh... beep-boop-BEEEEEE-krrrrrshhh...* sorry. that's my greeting. it takes forty seconds. dial-up, baby.",
+		"after": "krrrshhh... beep-boop... sorry. dial-up greeting. forty seconds. around here, that counts as an outburst."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.matching.return::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "my virtual pet died again. that's seven times this week. it's okay. i'll hatch another one. i always do.",
+		"after": "virtual pet died again. seven times this week. i'll hatch another. little egg, big commitment."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.pip.intro::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "The stamp is haunted. The stamp wants a raise. The stamp's new boss said no.",
+		"after": "The stamp is haunted. It requested a raise. The new boss denied it. The stamp is taking this personally."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.pip.return::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "Requisition something. Or stand near the desk. It makes me look busy.",
+		"after": "Requisition something. Or stand near the desk. You make me look busy. Excellent work so far."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.pip.return.freed::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "Requisition something. Or don't. I'm allowed to look un-busy now.",
+		"after": "Apparently I am allowed to be unbusy now. I keep reaching for the stamp to certify it."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.pip.return.freed::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "I'm practising. ...Was that un-busy? It felt un-busy.",
+		"after": "Practising. Just stood here for a minute. Nothing was filed. Exhilarating."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.quiz.return::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Director Ectomund",
+		"before": "Back to improve your score? Admirable. Statistically, it means you failed. Statistically, I enjoy it.",
+		"after": "Back? Statistically, you have failed already. I look forward to making it official."
+	},
+	{
+		"id": "data/story/dna_story.tres::quest.dna_audit.offer::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "I can't do it myself. I can't leave the desk. Policy. Also, my legs are on loan to Accounts.",
+		"after": "I cannot leave the desk. Policy. Also, my legs are on loan to Accounts. I await their return."
+	},
+	{
+		"id": "data/story/dna_story.tres::quest.dna_audit.ready::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Clerk Ledgerbone",
+		"before": "Your commendation. Please don't cash it.",
+		"after": "A commendation. Do not try to cash it. Accounts enjoys that more than you would."
+	},
+	{
+		"id": "data/story/dna_story.tres::quest.dna_onboarding.offer::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Don't skip it. HR will know. HR always knows. HR is in the walls, and HR reports to him now. I try not to lean on the walls.",
+		"after": "Do not skip it. HR is in the walls, and HR reports to him now. I try not to lean on the walls. It feels like sharing too much."
+	},
+	{
+		"id": "data/story/dna_story.tres::quiz.result.1::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Director Ectomund",
+		"before": "One correct. A pulse of competence. Here is a small token of the Department's disinterest.",
+		"after": "One correct. Your token. My interest remains non-refundable."
+	},
+	{
+		"id": "data/story/dna_story.tres::quiz.result.3::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Director Ectomund",
+		"before": "Three! One shy of perfect. Perfect would make me suspicious. Take your reward.",
+		"after": "Three correct. One shy of perfect. Take your reward; perfect would have made me suspicious."
+	},
+	{
+		"id": "data/story/dna_story.tres::quiz.result.4::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Director Ectomund",
+		"before": "FOUR. Flawless. I shall record it in triplicate, and then once more, for joy.",
+		"after": "Four correct. Perfect. I have recorded my joy in triplicate. Please do not ask me to demonstrate it."
+	},
+	{
+		"id": "data/story/dna_story.tres::sign.exit::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath. Permit already stamped (in triplicate, by Prudence Pallor). Sunlight not guaranteed. Mind the potholes.",
+		"after": "To {town}. Permit stamped in triplicate by Prudence Pallor. Sunlight not guaranteed. Mind the potholes."
+	},
+	{
+		"id": "data/story/dna_story.tres::sign.printer::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "Out of toner. Out of body. Please contact IT (deceased).",
+		"after": "Out of toner. Out of body. Contact IT (deceased). Please specify which problem."
+	},
+	{
+		"id": "data/story/dna_story.tres::sign.take_number::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "(You have been assigned a number. Your number is also a number.)",
+		"after": "Your assigned number is a number. Requests for a better answer require a new number."
+	},
+	{
+		"id": "data/story/dna_story.tres::sign.permit_to_stand.freed::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "The Permit to Stand has been abolished. You may stand, sit, or lie down. Lying down is a little on-the-nose, but permitted.",
+		"after": "Standing, sitting and lying down are now permitted. Please choose for yourself. We realise this may take practice."
+	},
+	{
+		"id": "data/story/dna_story.tres::memo.new_rules.freed::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "RULES: REDUCED",
+		"after": "REVISED RULES"
+	},
+	{
+		"id": "data/story/dna_story.tres::memo.new_rules.freed::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "Rules 40,001 through 40,003 have been repealed on grounds of being a joke.",
+		"after": "Rules 40,001 through 40,003 have been repealed. Please allow a moment for the notices to catch up."
+	},
+	{
+		"id": "data/story/dna_story.tres::ui.main.body::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(UI)",
+		"before": "The Hall of Final Approvals is a vast government complex where every aspect of life, death, resurrection and the afterlife requires authorization. Somewhere inside is the authority that now controls the Necrocrats. Please take a number. Your HP carries in from the zone and nothing heals except in the waiting room. Beat Mortimer Grimsby, CE-No, to free the D.N.A.",
+		"after": "The Hall of Final Approvals governs life, death, resurrection and the afterlife. Its authority controls the Necrocrats. HP carries in from the zone; only the waiting room heals. Beat Mortimer Grimsby, CE-No, to free the D.N.A."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_forms.before::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "They keep calling it 'irregular' and stamping it DENIED. Don't mind me, dear. I've filed worse.\"",
+		"after": "They keep stamping it DENIED. Irregular, apparently. Do not mind me, dear. I have filed worse and kept the receipts.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_waiting.after::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "You have been waiting for what feels like a very long time. A tiny clock above the door says four minutes.",
+		"after": "You wait until your legs ache. You check the clock above the door: four minutes."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_records.before::4",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Somebody should look into that. ...Not me, dear. I'm only a ghost with a pencil.\"",
+		"after": "Someone should look into it, dear. This form does not tell us what happened to the boy.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.mortimer::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "Number 4,000,213 was, I am told, you. You did not wait. I find I resent that, and I am told resenting it is healthy.",
+		"after": "You had 4,000,213. You did not wait. I keep thinking about that."
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.mortimer::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "I was very good at making others wait. I find I am much worse at it myself.",
+		"after": "I made others wait far longer. It is worse knowing that now."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.heal_couch::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "You sit down to a fresh harvest meal: roast roots, a pie with a crust like a fence post, and a mug of something that is mostly apple. HP restored.",
+		"after": "You eat roast roots and a pie with a crust like a fence post. The mug is mostly apple. You are thoroughly farm-fed. HP restored."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.wake::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "\"Fell over in the muck, dearie. We rolled you out. The mucking-out fee's on you. Heh!",
+		"after": "\"Fell over in the muck, dearie. We rolled you out. Mucking-out fee is yours. Call it a soil charge. Heh!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.wake::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Don't take it personal. The haybale was free. The haybale's also, I think, growing.\"",
+		"after": "Haybale was free. Mind you, it is growing. Best get up before you put down roots.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.chest::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "A hidden stash! One person's trash was another person's treasure chest. Literally. It's a chest.",
+		"after": "You find a treasure chest among the rubbish. For once, sorting pays."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.compost_missing::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The Compost Bin needs two piles of good junk. You do not have two piles of good junk. The bin is not judging. It is just waiting.",
+		"after": "The Compost Bin needs two piles of good junk. You have fewer than two. It waits for you to get your scrap together."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.shrine_again::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The shrine has already blessed you this visit. Blessings are not a buffet. Mostly.",
+		"after": "The shrine has blessed you this visit. Give the seed a chance to enjoy being a flower."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.crop_no_fertilizer::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Planting a crop needs a sack of fertilizer. The soil is a snob about it.",
+		"after": "You need a sack of fertilizer to plant a crop. The soil has standards. Low, fragrant standards."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.crop_growing::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The crop is still growing. A sprout waves at you. Do not wave back. It gets ideas.",
+		"after": "The crop is still growing. A sprout waves at you. You give it space; it seems rather attached to the plot."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.herd_3::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The raccoon takes one look at you and walks to the pen on its hind legs, holding a tin can like a briefcase. It is already negotiating.",
+		"after": "The raccoon walks to the pen on its hind legs, tin can held like a briefcase. You appear to be its next appointment."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.grown::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "It has grown! It looks like it was always there, which is what every druid says.",
+		"after": "It has grown! You try to picture the spot without it. The druids look pleased with themselves."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.slid::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Landed in a pile of leaves, mostly. Some of it was leaves.",
+		"after": "You land in a pile of leaves. You decide not to examine the softer bits."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.hazard_fall::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "You fell in! Someone fishes you out with a pitchfork and sets you on dry ground. (-1 HP)",
+		"after": "You fall in! Someone fishes you out with a pitchfork. You drip on dry ground. (-1 HP)"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::bark.worker_2::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Dump workers",
+		"before": "The stairs are new. The knees are not.",
+		"after": "New stairs. Same climb. I was hoping they would fix that."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::bark.worker_2.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Dump workers",
+		"before": "The stairs are new. The knees are still not. But the view's worth it again.",
+		"after": "New stairs. Same climb. Worth pausing on, now."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::bark.worker_3::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Dump workers",
+		"before": "Stall's open! Patched awnings, patched prices.",
+		"after": "Stall's open! Patched awnings, patched prices. The holes are free."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.exit::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath, past Moss Mulligan's thorn wall. Please sort your boots. Please check your boots for vines.",
+		"after": "To {town}, past Moss Mulligan's thorn wall. Sort your boots. Check for vines; they will claim to be laces."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.exit.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "To Crosspath. The thorn wall is mulch now; Moss Mulligan says sorry, again. The vines have gone back to being vines. Please still sort your boots.",
+		"after": "To {town}. Moss Mulligan's thorn wall is mulch, and she says sorry again. Vines are just vines now. Still sort your boots."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.swap_shed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "One person's trash is another person's cards. Mostly cards. Some trash.",
+		"after": "One person's trash is another person's starting hand. Please shuffle outdoors."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.stable_1::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Fast, loyal and entirely unbothered by fences.",
+		"after": "Fast, loyal and entirely unbothered by fences. They bother him once, briefly."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.fair_stage::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "The belt does not care how you feel.",
+		"after": "The belt has never lost a piece of sleep over your performance."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.rust::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Where the best rust in the kingdom is made. Handmade. Small batch.",
+		"after": "The finest rust in the kingdom. Small batch. Very slow finish."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.landfill::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "Do not dig deeper than the raccoons.",
+		"after": "Do not dig deeper than the raccoons. They will consider it competitive."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.log_note::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "I put the good stuff in the hollow log. If you are reading this, you are standing too close to the good stuff.",
+		"after": "Good stuff in the hollow log. If you can read this, kindly take one step back from my retirement."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::enemy.golem::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(check key)",
+		"before": "A trash golem the size of a shed, with a coat of moss and a fridge for a body. Something is growing out of its ears. It has stopped having opinions about recycling and started having opinions about you.",
+		"after": "A trash golem towers over you, moss coating its fridge body. Something sprouts from its ears. This is no place for a cool head."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::enemy.scarecrow::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(check key)",
+		"before": "A scarecrow druid with a wreath, a grudge, and a cabbage growing where its heart should be. The crows left. The seeds are still angry.",
+		"after": "A scarecrow druid faces you, a cabbage growing where its heart should be. You see no crows. The garden has bigger problems."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::enemy.gulls::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(check key)",
+		"before": "Four junk gulls in a trench coat, if the trench coat were made of screaming and mutated fungus. They stole a can and they are not sharing. The can is growing mushrooms.",
+		"after": "Four junk gulls guard a stolen can, shrieking over its crop of mushrooms. You have interrupted a very small turf war."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Back at the Grange? Good. Sort your boots on the way in: compost, metal, glass, paper. And check them for tendrils.",
+		"after": "Back at the Grange? Sort your boots: compost, metal, glass, paper. Check for tendrils. We already have enough houseplants."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Though NOBODY has explained who ate it. The raccoons have gone very quiet.",
+		"after": "Though NOBODY has explained who ate the compost. The raccoons have suddenly become excellent listeners."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Strong cards, solid cards, cards with a faint smell of earth. And a faint hum. Don't ask about the hum.",
+		"after": "Cards grown strong, rinsed well, faint smell of earth. Hear that hum? Well, I never promised a silent auction. Heh!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Shop's open, dearie! The turnips are a day old, which makes them better.",
+		"after": "Shop's open, dearie! Turnips are a day old. A lovely vintage, if you're a turnip."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "They're also looking at me, which makes them worse. Heh!",
+		"after": "They're looking at me again. I prefer a root vegetable that minds its own business. Heh!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Shop's open! The turnips are a day old, and they're not looking at anybody. I checked. Twice.",
+		"after": "Shop's open! Day-old turnips. None looking at anybody. Finally, produce that knows when to look away. Heh!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Wren Muckfoot",
+		"before": "The boar and the goat in the stables will carry you if you ask nicely. Or rudely. They're not picky, and they're about the only things here that haven't gone strange.",
+		"after": "The boar and goat in the stables will carry you. Ask nicely. Ask rudely. They don't speak either. Good, sensible animals."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.offer::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Wren Muckfoot",
+		"before": "Animals respect eye contact. Raccoons respect cash.",
+		"after": "Animals respect eye contact. Raccoons consider it the start of negotiations."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.ready::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Wren Muckfoot",
+		"before": "It's a card. It's a goat. It's a goat you can play.",
+		"after": "A goat card. You can play this one without having to catch it afterwards."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.done::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "The fields are fed. Want to plant your own? A sack of fertilizer and a little patience. The patience I can't sell you.",
+		"after": "The fields are fed. Plant your own with a sack of fertilizer and a little patience. Can't sell you patience. Nobody stays to browse it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "The dishwasher and I have an understanding. Lately, the dishwasher has started talking back.",
+		"after": "The dishwasher and I have an understanding. Lately it talks back. Forty years, and NOW it wants to clear the air."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quiz.result.0::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Zero. Remarkable in its way. Nothing for you.",
+		"after": "Zero. We have found room for growth. Rather a lot of room. No reward this time."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quiz.result.2::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Two. Half-grown. A fine place to start. The rest will sprout.",
+		"after": "Two. Half-grown. Keep tending those thoughts; we are not harvesting excuses."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quiz.result.4::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "The reward is real. The certificate is compostable. The earth thanks you, quietly. The dishwasher, loudly.",
+		"after": "Your reward is real. The certificate is compostable. When you tire of showing it off, let it become something humble."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Back in the nineties I was the voice of Captain Compost Badger and his Sorting Squad, on between the cartoons. Nobody knew. The badger had a cape.",
+		"after": "I voiced Captain Compost Badger and his Sorting Squad back in the nineties! Nobody knew! All that fame went to a badger in a cape!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.shouts::4",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Do not hesitate! Sort with confidence!",
+		"after": "No hesitation! Give that rubbish somewhere to be!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.win::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "BLUE RIBBON sorting! Reduce! Reuse! Recy-CLUE: you're a natural! The crowd, which is three goats, goes wild.",
+		"after": "BLUE RIBBON sorting! Reduce! Reuse! Refuse to quit! All three goats in the crowd are cheering. Or hungry."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.first::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "The salve is made of compost. It works. Don't ask.",
+		"after": "Compost salve! Rub it in! The salve, champ. Not the victory."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::freed_npc.compostella::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Compostella, the Rotheart, and Archdruid Compostella",
+		"before": "Archdruid Compostella. Please do not look at the barn. I do not remember the barn. The barn, I am told, remembers me.",
+		"after": "Archdruid Compostella. I am told what happened to the barn. I cannot remember doing it. I will help put it right."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::freed_npc.compostella::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Compostella, the Rotheart, and Archdruid Compostella",
+		"before": "The Dump will heal. The goat will forgive me, eventually. Plant something. Anything. It will be glad of you.",
+		"after": "The Dump will heal. The goat may take longer to trust me. Plant something, child. Anything. It will be glad of you."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::ui.main.body::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(UI)",
+		"before": "The Rotheart lies deep within the corrupted ecosystem, at the source of the infection. The deeper you go, the more warped the Dump's nature becomes. At the core waits the Archdruid, joined to the whole ecosystem through the Rotheart. Your HP carries in from the zone and nothing heals except on the clean soil. Beat the Archdruid to free the Verdant Dump.",
+		"after": "At the Rotheart, the Archdruid is joined to the Dump through its corrupted roots. HP carries in from the zone; only clean soil heals you. Beat the Archdruid to free the Verdant Dump."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::dungeon.rh_soil.after::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration)",
+		"before": "It smells like rain and old compost. Somewhere underneath, a worm is minding its own business, and for the first time in a while, so are you.",
+		"after": "You breathe in rain and old compost. Beneath you, a worm moves through the loose soil. You let your shoulders drop."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::dungeon.rh_boss.after::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Compostella, the Rotheart, and Archdruid Compostella",
+		"before": "Somewhere far above, a goat begins to eat a sign.",
+		"after": "You hear the vines settle overhead. For a moment, nothing moves beneath your feet."
+	},
+	{
+		"id": "data/story/capital_story.tres::hud.objective.inside::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(UI)",
+		"before": "You are inside the Capital. Find the hideout (the manhole near the gate), help the Wrinkles (one quest per Path), seal the rifts you can and reach {villain}'s Castle at the north end. Each Path you free mends one of the city's broken services.",
+		"after": "Find the hideout through the manhole near the gate. Help the Wrinkles, one quest per Path; seal rifts and reach {villain}'s Castle at the north end. Each freed Path mends a broken city service."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.main_dungeon::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The doors of {villain}'s Castle are made of gold, and every handle has been polished until it shows you your own worried face. Beyond them: a long gallery, a smell of floor wax, and the sound of someone very pleased with himself, humming.",
+		"after": "You see your worried face in the gold handles of {villain}'s Castle. Beyond the doors, you smell floor wax and hear someone humming."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.wake::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "'Dragged you in by the collar. Correction fee is on you; the Wrinkles run on small coins and large grudges. Drink your tea.'",
+		"after": "'Dragged you in by the collar. Correction fee is yours. Drink. Then we can discuss your habit of arriving unconscious.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.wake.freed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "'Fell over. We rolled you in. The fee is on you, still; the tea is not free just because the kingdom is.'",
+		"after": "'Fell over. We rolled you in. Fee is yours. Drink the tea while it is hot; freedom hasn't changed that part.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.wake_outside::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "You wake up in the dust outside the Approved Gate, under a sign that says STAND HERE. A guard is leaning over you, measuring your height with a long stick.",
+		"after": "You wake in the dust outside the Approved Gate. A guard leans over you, measuring your height with a long stick."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.wake_outside::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "'Fell over in the approved queue area. That is a minor offence: a fine. Please stand up to the approved height. You have shrunk, citizen.'",
+		"after": "'Falling in the approved queue area: minor offence. Fine payable. Stand up, citizen. I cannot measure you along the ground.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.tunnel_found::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "You push through a gap between rubble and a toppled statue. Behind it: stairs, a smell of damp brick, and an old plaque in four different handwritings: 'THE OLD JOINT WORKS. BUILT BY ALL FOUR PATHS, TOGETHER, BACK WHEN WE DID THAT.'",
+		"after": "You push past rubble and a toppled statue. You find stairs and read an old plaque: 'THE OLD JOINT WORKS. BUILT BY ALL FOUR PATHS, TOGETHER.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.deface::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "You scribble a moustache on His Perfection. It improves him enormously. A small coin falls out of the frame: somebody in the Wrinkles pays a bounty on moustaches.",
+		"after": "You draw a moustache on {villain_title}'s portrait. A small coin drops from the frame: the Wrinkles' bounty for this improvement."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.complaint_compensation::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "You post a complaint. A slot opens and, impossibly, a small coin falls out with a note: 'Thank you for your feedback. Here is a small sum for your inconvenience. Do not complain again.'",
+		"after": "You post a complaint. A coin drops from a slot with a note: 'Compensation for your inconvenience. Please use it to have less inconvenience.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.complaint_noted::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "You post a complaint. Nothing happens. The box says, in a very gentle voice: 'Your complaint has been noted.' You have never felt so unnoted.",
+		"after": "You post a complaint. 'Noted,' says the box, gently. You wait. That appears to have been the whole service."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.pickup_stamp::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A rubber stamp the size of your fist, the handle worn smooth. FINAL APPROVAL, it reads, in letters that have been inked a thousand times. Someone has wrapped it in a handkerchief and hidden it here, in case the world needed it.",
+		"after": "You unwrap a handkerchief and find a worn rubber stamp: FINAL APPROVAL. Someone hid it here, ready for the day it was needed."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.plot::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Mr. Pell, in a coffin carried by the whole neighbourhood, is laid to rest at last. Somebody plays a very small, very sad, very real tune.",
+		"after": "You watch the neighbourhood carry Mr. Pell to his grave. A quiet tune accompanies the coffin as they lower it."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.ward_window::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'Spontaneity Permits are issued on Thursdays, between 3 and 3:05, by appointment,' says the sign. The clerk inside has been asleep, upright, with her eyes open, since the last Thursday.",
+		"after": "You read: 'Spontaneity Permits: Thursdays, 3:00 to 3:05, by appointment.' Inside, the clerk sleeps upright, eyes open."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.gate_exit_inside::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "All departures require an interview. Please state your reasons for wishing to be somewhere less perfect.",
+		"after": "All departures require an interview. Please explain how elsewhere could possibly be an improvement."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.facade_hats::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Approved Hat Sizes: 1.",
+		"after": "Approved Hat Sizes: 1. A perfect fit is your responsibility."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.facade_lawns::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Grass shall be 2.0 cm tall. Please do not walk on it. It will not forgive you.",
+		"after": "Grass shall be 2.0 cm tall. Do not walk on it. Your footprints have not been approved."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.facade_queue::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Queue here for the Orderly Queue. No place is more orderly than the Orderly Queue.",
+		"after": "Queue here for the Orderly Queue. Any impatience must be expressed in order."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.transit_lines::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "All tram lines are suspended due to the requirement that every tram shall arrive on time. None have. Trams are therefore suspended.",
+		"after": "Trams must arrive on time. None did. All trams are suspended. Punctuality has improved considerably."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.hungry_paste::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "One serving per citizen per meal. Every meal. Tastes of nothing. Nothing is perfect.",
+		"after": "One serving per citizen per meal. Every meal. Tastes of nothing. No preferences will be left unsatisfied."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.hungry_menu::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "(The same menu as yesterday. And tomorrow. It was always going to be.)",
+		"after": "Same as yesterday. Same as tomorrow. You may stop consulting the menu."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.yard_main::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Seventeen checkpoints in one street. Each one checks the last.",
+		"after": "Seventeen checkpoints in one street. The last checks whether you enjoyed the first sixteen."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.out_rift::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The Paths tear where {villain} forced them into one shape. His hold has been failing for ten years, ever since the night something escaped from the Ministry.",
+		"after": "The Paths tear where {villain} forced them into one shape. His hold is failing; the tears began the night someone escaped the Ministry."
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.plaza_complaints::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Your complaint matters. It is read by nobody.",
+		"after": "Your complaint matters. Reading it remains optional."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.return::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "The records say he began as a good man. Keep that in mind. It makes the work harder and the ending better.",
+		"after": "The records say he began as a good man. Keep that in mind. It does not excuse what he has done."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.hesper.intro::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "Tea. Strong, bitter and unapproved. Unapproved things heal faster. That isn't medicine. It's just true.",
+		"after": "Tea. Strong, bitter, unapproved. Drink while it is still three things the Ministry dislikes."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.fern.return.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Old Fern",
+		"before": "Smell that? Honest compost. I could cry. I might. Come back any time.",
+		"after": "Smell that? Honest compost. I could cry. Waste of water when I could be watering the patch. Come back any time."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.pell.intro::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Widow Pell",
+		"before": "I cannot bury him. The permit loops: Form 27-B needs Form 27-C, and 27-C needs 27-B. So he waits in his chair. He was always the patient one.",
+		"after": "I cannot bury him. Form 27-B needs Form 27-C, and 27-C needs 27-B. He has waited in his chair for three years."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.pell.intro::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Widow Pell",
+		"before": "I've started talking to him. He doesn't interrupt. Please, if you can help.",
+		"after": "I talk to him in the parlour. I don't know what else to do. Please, if you can help."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.pell.return.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Widow Pell",
+		"before": "We're well. My husband would have said you were late. He'd have meant it fondly.",
+		"after": "We visit every morning. I tell him about the people who helped us. I tell him about you."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.marlo.intro::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Chef Marlo",
+		"before": "Hands where I can see them. Good. Chef Marlo, once of the Market of the Four Paths. Now a 'Nutrient Distributor'. I keep my recipes in my apron, where the inspectors won't reach.",
+		"after": "Hands where I can see them. Good. Chef Marlo. Once of the Market of the Four Paths. Now a 'Nutrient Distributor'. Recipes stay in my apron."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.marlo.intro.freed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Chef Marlo",
+		"before": "And chaotic. There is flour on the ceiling. I have never been so happy to have a mess.",
+		"after": "Flour on the ceiling. Food on the plates. Everything in its proper place, at last."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.marlo.return.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Chef Marlo",
+		"before": "Come and eat. Anything. I mean it. 'Some' of everything.",
+		"after": "Come and eat. 'Some' of everything. If you ask how much, I shall have to demonstrate."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.spotless.open::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Captain Spotless",
+		"before": "You are approved. You were always going to be approved. I would like that noted.",
+		"after": "You are approved. I have always supported this outcome. Please remember that exact wording."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.guard_queue.return::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Capital guards and clerks",
+		"before": "Still queueing? Good. Stay in the queue.",
+		"after": "Still queueing? Good. You have a gift for remaining eligible."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.guard_queue.intro.freed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Capital guards and clerks",
+		"before": "And because nobody has told me where else to stand.",
+		"after": "Nobody has told me where else to stand. I keep almost asking permission to go for a walk."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.exit_clerk.intro::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Capital guards and clerks",
+		"before": "Please note: 'it is not perfect' is not an approved answer.",
+		"after": "'It is not perfect' is not an approved answer. Nor is pointing at something while saying it."
+	},
+	{
+		"id": "data/story/capital_story.tres::quest.cap_wheels.active::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Rollo Spokes",
+		"before": "Three wheels and a cable. Free the crews, cut the cable. They won't believe you at first... keep saying it.",
+		"after": "Three wheels in the Transit Yards... free the crews. Cut the big cable by the east wall. Keep telling them they can stop."
+	},
+	{
+		"id": "data/story/capital_story.tres::quest.cap_untidy.active::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Old Fern",
+		"before": "Three heaps, one seed, the Sick Patch. Compost is a promise. Nothing grows without one.",
+		"after": "Three compost heaps and one jarred seed in the Reek. Rescue the heaps. Plant the seed in the Sick Patch. Give it a chance."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.2.approved::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "Welcome to the Showcase Quarter! We have everything: houses, lawns and a small, round, approved fountain. We are all so happy.",
+		"after": "Welcome to {showcase}! Houses, lawns, a small round approved fountain. Everything you could want. Everything you may want."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.2.approved2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "The bread is lovely. The bread is... (the smile does not move) ...I would like to say more about the bread. I have a permit for four more words.",
+		"after": "The bread is lovely. The bread is... (a fixed smile) I have a permit for four more words. I wish it existed."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.6.approved::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "Spontaneity is only for Thursdays! It is Wednesday! I will enjoy it so much, tomorrow.",
+		"after": "Spontaneity is only for Thursdays! Today is Wednesday! I am almost allowed to be excited!"
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.6.approved2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "Thursday is coming! Five minutes of spontaneity, with a permit! I have been practising my spontaneous face. It is very good.",
+		"after": "Thursday! Five minutes of spontaneity, permit ready! I have rehearsed being caught off guard."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.1.approved2.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "I am going to wear a hat of any size. Maybe two.",
+		"after": "A hat of any size. I keep looking up, trying to decide."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.2.approved.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "The bakery is not real, but there is going to be a real one, as soon as someone knows how to bake. I have a recipe for a loaf and the recipe is: try.",
+		"after": "The bakery is painted on. We want a real one. None of us knows how to bake yet. Anyone can volunteer to be the first to burn a loaf."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.5.approved.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "The hedge is round. The hedge wanted to be round. I asked it. I did not have to submit a form.",
+		"after": "The hedge is round. I kept trimming the corners, and then I wondered why I wanted corners."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.6.approved.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "Spontaneity every day! I am exhausted! I am not sure I like it! I love it!",
+		"after": "Spontaneity every day! I don't know what comes next! I can hardly wait!"
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.citizen.7.slip.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "A Perfectly Happy Citizen",
+		"before": "I do not need to be polite today. I am going to be honest. Your hat is awful. I love it.",
+		"after": "May I be honest? Your hat is awful. Thank you for wearing it."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.2.0::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Great news, citizens! New this season: Approved Hat Sizes! There is one! Please wear it!",
+		"after": "Great news, citizens! This season brings one Approved Hat Size! Choice has never been easier!"
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.2.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Attention, citizens! Spontaneity Thursday is coming! Please prepare your spontaneity in advance! Please be surprised at three o'clock!",
+		"after": "Great news, citizens! Spontaneity Thursday approaches! Please rehearse your surprise. We expect a natural performance at three!"
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.3.1::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "This message is brought to you by the number one.",
+		"after": "A correction: this message has always been correct."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.2.0.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Attention, citizens! Hats of any size are now permitted. Hats of negative size remain a mystery.",
+		"after": "Attention, citizens! Any hat size is permitted. You may finally stop thinking about hat sizes."
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.2.2.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Attention, citizens! Spontaneity Thursday is now all days. Please prepare to be surprised constantly.",
+		"after": "Attention, citizens! Spontaneity is no longer limited to Thursday. You may disregard this reminder."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_gate.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'Welcome,' says a tiny, polite voice from nowhere. 'Please wipe your feet. Please wipe your opinions.'",
+		"after": "'Welcome,' says a quiet voice. 'Please wipe your feet. You are expected.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_curator.blurb::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A curator with a feather duster and a very small smile patrols the side gallery. Anything crooked, he straightens. Anything alive, he dusts. (A battle.)",
+		"after": "You see a curator patrol the side gallery, feather duster in hand. He straightens each frame without looking at its face. (A battle.)"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_clerk.blurb::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A clerk at a tall desk, stamping everything that moves. Quite fast. Quite sad. (A battle.)",
+		"after": "You face a clerk at a tall desk. His stamp falls rapidly; his eyes stay on the paper. (A battle.)"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_gourmand.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "All Gourmands to be fed the sauce. They will be happier. They will be less themselves. This is a feature.'",
+		"after": "'All Gourmands to be fed the sauce. They will be happier. They will no longer need to choose for themselves.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_beefcake.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "When the champion is sufficiently weak, he will no longer be a disagreement. NOTE: do not underestimate him. He does a lot of stretching.'",
+		"after": "'When the champion is weak, he will no longer be a disagreement. NOTE: he continues to train without the weights. Observe carefully.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_necrocrat.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'FORM 1-A (NOTARIZED): Authority over all Necrocrat government is hereby transferred to His Perfection. Reviewed. Approved.",
+		"after": "'FORM 1-A (NOTARIZED): Authority over all Necrocrat government is hereby transferred to {villain_title}. Reviewed. Approved."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_refusemancer.before::3",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "NOTE: it will spread. I cannot say I am sorry about that. I am very busy.'",
+		"after": "NOTE: it will spread. What grows will be orderly. I believe she will thank me.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_refusemancer.after::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Somewhere in the Verdant Dump, if the Dump is free, a flower opens. You go back.",
+		"after": "You leave the cracked dome behind and return to the hall."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_staircase.blurb::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A staircase so grand it has its own staircase. Every step is exactly the same height. It is exhausting. A story event.",
+		"after": "You face a vast staircase. Every step is the same height; you cannot see the landing from the bottom. A story event."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_reading_room.after::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "You sit in the old reading chair. It is worn exactly where one person sat, every night, for a long time. The lamp has a small, hand-made lampshade. Something about it is very, very human.",
+		"after": "You sit in the reading chair. One person has worn a hollow in its seat. Beside you, lamplight shines through a handmade shade."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_blueprints.after::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "They are beautiful. They are so good. You roll up the best and take it, with something in your throat.",
+		"after": "You follow the lines of the plans with one finger. Then you roll up the best and take it. Your throat tightens."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_boss.after::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The model lies in pieces. A hundred thousand tiny houses on the floor, all in the wrong places, and somehow they look better.",
+		"after": "You stand among the pieces of the model. Tiny houses lie scattered across the floor. The table no longer holds a kingdom."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_honest_mirror.result.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The frame is old gold, worth a good deal. You leave the mirror hanging. It was never about the frame, and you were told as much.",
+		"after": "You remove the old gold frame. The mirror remains hanging; you can still see yourself. The gold will sell for a good price."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_corrected_citizens.result.0::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "They tell you what they smiled at: a funeral, a wedding, a bird. When you rise, you carry something heavy and exact. You are not going to forget what this cost.",
+		"after": "You listen to what they smiled at: a funeral, a wedding, a bird. When you rise, you repeat their names to yourself."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_four_wings.result.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A little brass plate for donations to His Perfection, bolted to the wall. It is quite full. You take the lot.",
+		"after": "You find the brass collection plate bolted to the wall, marked for {villain_title}. You take the coins."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_four_wings.result.1::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "It is, after all, other people's money, and they would want it back.",
+		"after": "You close your hand around the money and leave the empty plate."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_grand_staircase.result.0::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "At the top, a pot of coins sits on the landing: a tip left by the last person who made it. You rub your legs and pocket the coins.",
+		"after": "You find a pot of coins on the top landing, left as a tip by the last climber. You rub your legs and pocket it."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.body::4",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "It goes on. They are good. They are so good.",
+		"after": "You keep reading. Page after page describes work that helped people."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.result.0::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Once, he was exactly the person you would want running a kingdom. You close the last journal very gently.",
+		"after": "You read the last plan twice. You recognise the care in it. You close the journal gently."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Sorry. That's forest mud. I've walked a long way, and everyone I met on the way here was afraid of you.",
+		"after": "I've walked a long way. Everyone I met was afraid of you."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.4::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Every one of them has a number. Do you know how few kingdoms can say that?",
+		"after": "Every one of them has a number. I can account for every citizen. Nobody need be overlooked."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.6::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "This will not hurt. It will, however, be Standard.",
+		"after": "Please remain still. I know how to put this right."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Because some things are five. Some people are.",
+		"after": "People are different. You know that."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2.rushed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm, \"His Perfection\"",
+		"before": "Because some things are five. Some people are.",
+		"after": "People are different. You know that."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards. You can't copy what I do with them. A name is a blank page until you sign it.",
+		"after": "You copied my cards. What I do with them is mine. A name is a blank page until you sign it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "And nobody files me under 'subject' again. No order outranks treating people with respect.",
+		"after": "I'm not your subject. No order outranks treating people with respect."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.rushed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm, \"His Perfection\"",
+		"before": "A name is something you sign yourself. Nobody gets to fill it in for you. Not even you.",
+		"after": "My name is mine to sign. You don't get to decide who I am."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You kept everything. Every face, every rule, every house on that table. But nothing grows if you refuse to let anything go.",
+		"after": "You kept every face and every house. Nothing grows if you refuse to let anything go."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3.rushed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm, \"His Perfection\"",
+		"before": "You kept everything. Every face, every rule, every house on that table. But nothing grows if you refuse to let anything go.",
+		"after": "You kept every face and every house. Nothing grows if you refuse to let anything go."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3.rushed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm, \"His Perfection\"",
+		"before": "You took my mother and father. I can't even remember their faces. I'm letting it go anyway. Watch how it's done.",
+		"after": "You took my mother and father. I can't even remember their faces. I'm letting go. I won't keep living in what you did."
+	},
+	{
+		"id": "data/story/capital_story.tres::boon.beefcake.line::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "Grandmaster Flex steps out from behind a pillar, rolling a very small bandage off a very large arm. 'Breathe in. Hold.'",
+		"after": "You see Grandmaster Flex step from behind a pillar, unwinding a bandage from his arm. 'Breathe in. Hold.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::boon.gourmand.line::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "The Grand Chef, restored, in a clean apron, with a ladle. 'Have you eaten? No. Of course not.'",
+		"after": "You see the Grand Chef in a clean apron, ladle in hand. 'Have you eaten? Let me help.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::boon.necrocrat.line::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "'It applies to him. It applies to him very well.' (Agnes's Appeal: Necrocrat cards cost 1 less, and you gain 2 max HP.)",
+		"after": "'The rules must answer for him too.' (Agnes's Appeal: Necrocrat cards cost 1 less, and you gain 2 max HP.)"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The scale model cracks in half. Then the table cracks. Then, with the sound of a very large drawer being pulled from a very large cabinet, the walls of the castle begin to come down.",
+		"after": "You hear the scale model split. The table cracks beneath it, and the sound travels through the castle walls."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "In the Showcase Quarter a painted door falls flat, and a very surprised citizen steps through it onto a very real street.",
+		"after": "In {showcase}, a painted door falls flat. You see a citizen step through onto the street beyond."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.4::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Fig Sly is already selling something, to somebody, for some reason. Nobody stops him.",
+		"after": "You see Fig Sly among the people emerging from the Crease. He carries his stock with him."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.5::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The Beefcakes are late. The Necrocrats have brought a form. The Gourmands are overdressed. The Refusemancers smell, faintly, of compost.",
+		"after": "You watch the four Paths gather around their leaders, carrying what they have saved from the past ten years."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.6::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Muscle and stoves, records and soil: each was good alone. Together they ran a kingdom, argued about it every day, and it worked.",
+		"after": "You see hands marked by iron, flour, ink and soil reach across the space between the four groups."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.7::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Somebody has crossed out MAY and written SHOULD. Somebody else has crossed out SHOULD and written WILL, IF THEY FEEL LIKE IT. A pigeon sits on the full stop.",
+		"after": "You read the changes beneath it: MAY crossed out for SHOULD, then WILL, IF THEY FEEL LIKE IT. Four hands have left their marks."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.8.title::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The Pathwork Throne",
+		"after": "the Pathwork Throne"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.10::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Maren pushes through the crowd, tortoise-slow, and stops in front of you. There is flour on her sleeve.",
+		"after": "You see Maren make her way through the crowd. She stops in front of you, flour still on her sleeve."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.8::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The voice of {villain}: nobody. He never really got to be heard, and that was rather the point.",
+		"after": "{villain}'s rule is over. The voices of the kingdom remain."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.9::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "In memory of Form 27-B, Form 27-C and Form 27-B",
+		"after": "For everyone who waited to be heard."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.10::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "No hats were harmed. Several were enlarged.",
+		"after": "For everyone learning to choose again."
+	},
+	{
+		"id": "data/story/capital_story.tres::freed_npc.agnes::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "I have filed a Form of Gratitude, dear. It was approved on the first attempt. Irregular.",
+		"after": "Thank you, dear. I have written it down, though that hardly seems enough."
+	},
+	{
+		"id": "data/story/capital_story.tres::freed_npc.agnes::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "I am going to cry anyway. In triplicate.",
+		"after": "I think I am going to cry. I have wanted to for a very long time."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_reveal.5::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Everything is possible when it is filed correctly. Your power has kept this kingdom lit for ten years. I have only been looking after it.",
+		"after": "Your power has kept this kingdom lit for ten years. I have only been looking after it. Surely you can see that."
+	},
+	{
+		"id": "data/story/capital_story.tres::prop.lost_poster::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Height: average. Distinguishing features: none, we hope. Last seen leaving a Ministry facility, ten years ago, in the company of a traitor.",
+		"after": "Height: average. Distinguishing features: none, we hope. Last seen leaving a Ministry facility in the company of a traitor."
+	},
+	{
+		"id": "data/story/capital_story.tres::freed_npc.primm_guard::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(check key)",
+		"before": "He designs very good drains, it turns out. Do not tell him I said so.",
+		"after": "He designs good drains. The guard stays here while he works."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.meet_the_merchants.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(check key)",
+		"before": "Back already. Sable charmed you, Tilly was a colour, and Pip measured your head without asking. Good. That is Crosspath.",
+		"after": "Back already. Sable charmed you, Tilly was a colour, Pip measured you. That is {town}, dearie. Try leaving with the same hat."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.meet_the_merchants.ready::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(check key)",
+		"before": "Here: a trophy. Everyone gets one. Don't make that face. I didn't make the rule. I did make the trophy.",
+		"after": "Here: a trophy. Everybody gets one. I made it myself, so participate carefully."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(check key)",
+		"before": "Sorted and saved. You are starting to look like someone who means it. Starting.",
+		"after": "Sorted and saved. Your own deck, at last. Now you may take personal offence when it loses."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.ready::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(check key)",
+		"before": "Well done, dearie. You fight better than you look, and you look half drowned.",
+		"after": "Well done, dearie. You settled the ghosts. Next, settle yourself somewhere dry."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_town.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "The key is in a hidden chest somewhere in town. Look in the odd corners. This town has a great many odd corners. I am one of them.",
+		"after": "The key is in a hidden chest in town. Look in the odd corners, dearie. This town has never quite managed a straight one."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_beef.done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Old Man Mountain",
+		"before": "The way up Mount Swolympus is open. The trail behind the station. Mind the thin air... it's very... thin.",
+		"after": "Mount Swolympus is open. Take the trail behind the station. Mind the thin air... never gets enough credit for being there."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "That's the card! One seat, three courses, survival optional. Oh, I'm so excited I could whisk.",
+		"after": "That's it! One seat, three courses, survival optional. I'm excited. I think. It feels a lot like the other thing."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_necro.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Two roaming staff on the D.N.A. floors. The queue will not move on its own. I've checked. For some decades.",
+		"after": "Process two roaming staff on the D.N.A. floors. The queue will not move itself. I've given it a very fair chance."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_necro.done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "The Waiting Room of Eternity will see you now. Take a number. Not mine, please. I've grown attached.",
+		"after": "The Waiting Room of Eternity will see you now. Take a number. Please leave mine; we've been through so much together."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "Two scavengers. The paw prints are fresh. So is the smell of stolen compost.",
+		"after": "Two scavengers in the Dump. Fresh paw prints, freshly stolen compost. A trail of evidence with TERRIBLE table manners."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::npc.kestrel.return::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Kestrel",
+		"before": "Road's clear. For now. Give it ten minutes and it won't be. Chalk's still fresh.",
+		"after": "Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_iron_boss.before::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Baron Quadzilla, the Leg Press Lord",
+		"before": "'Nobody. Skips. Leg day,' he says, between reps. 'In my cave. Show me yours.'",
+		"after": "'Nobody. Skips. Leg day.' He presses another rep. 'In my cave. Show me yours. No standing ovation required.'"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_iron_boss.after::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Baron Quadzilla, the Leg Press Lord",
+		"before": "He hands you a sweaty ribbon. 'Leg day survivor. Wear it with pride. And stretch.'",
+		"after": "He hands you a sweaty ribbon. 'Leg day survivor. Wear it. Stretch. That order.'"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.before::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "'WE DID NOT EAT THE COMPOST,' says His Majesty. 'We... sampled it. We would be glad to explain, after you leave.'",
+		"after": "'WE DID NOT EAT THE COMPOST. We sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.after::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "'The compost was for the kingdom,' he says. 'We are the kingdom. Checkmate.'",
+		"after": "'Compost is for the kingdom,' he says. 'We are the kingdom. We fail to see the problem. Do not point at the crumbs.'"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_lab_rescue.before::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "The Rescuer",
+		"before": "'You came back,' they say. 'I told them you would not. I told them nobody could be that stubborn.'",
+		"after": "'You came back,' they say. 'I hoped you would. I told them you would not.'"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_lab_boss.before::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Dr. Ambrose Siphon, Chief Path-ologist",
+		"before": "'Subject 1! You came back to us. And you've grown. Remarkable. The draining has been very good for your posture.'",
+		"after": "'Subject 1. You came back to us. You have grown. Remarkable, after so many cycles. I must examine the records.'"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-SABLE.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Sable",
+		"before": "This one's a misprint, darling. Two typos. More character than most knights.",
+		"after": "Two typos, darling. One misprint. Such a small card, such a complicated past."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-TONIC.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Tilly Tonic",
+		"before": "That one's for emergencies! Or Tuesdays! Today's both!",
+		"after": "Emergency tonic! Works on Tuesdays too! That's when I test the emergency tonic!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-THREADWELL.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Pip Threadwell",
+		"before": "Hat! You need a hat! Your head is a tragedy waiting for a brim!",
+		"after": "Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-FENWICK.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Foil Fenwick",
+		"before": "Shh. Listen. ...That crinkle? Foil.",
+		"after": "Shh. That crinkle? Foil. Please let it finish."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-FENWICK.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Foil Fenwick",
+		"before": "Free a road and its pack comes in. I'll be right here. Sniffing. Respectfully.",
+		"after": "Free a road and its pack comes in. I'll be here, providing shelf esteem."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-BRONSON.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Brick Bronson",
+		"before": "Hydration is mandatory. So is stretching. I'm still bad at the stretching.",
+		"after": "Hydration. Stretching. Sorry, am I ordering again? I meant we could do them together."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-THUNDERABS.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Chet Thunderabs",
+		"before": "Operators are standing by! The operator is me! I'm standing! By!",
+		"after": "Operators are standing by! It's me! I tried sitting! LOST THE ENERGY!"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-KYLE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Kyle",
+		"before": "brb, haunting. jk. unless?",
+		"after": "brb, haunting. actually stay. nobody reads the 'be right back' part."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-MIREPOIX.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Madame Mirepoix",
+		"before": "The cake is decorative, darling. So am I. Neither of us is for eating.",
+		"after": "Decorative cake, darling. Please admire it without cutlery."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PATE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Professor Pate",
+		"before": "I have tasted my chalk again. Notes of limestone. A disappointing vintage.",
+		"after": "Chalk again. Notes of limestone. Excellent body, no business being in my mouth."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-FLAMBE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Savannah Souffle calls that plating? A crime. A beautiful, beautiful crime.",
+		"after": "Savannah Souffle calls that plating? WHOOSH! That's the sound of me declining to comment!"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-THISTLEWICK.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Druid Thistlewick",
+		"before": "The dishwasher talks back. I have learned so much. Mostly about rinsing.",
+		"after": "The dishwasher talks back. I listen. Wisdom sometimes arrives with a rinse cycle."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PELL.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Widow Pell",
+		"before": "Three years in the parlour, and he hasn't complained once. That's him all over.",
+		"after": "He has been in the parlour three years. I still tell him when someone comes to the door."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PELL.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Widow Pell",
+		"before": "27-B needs a 27-C. 27-C needs a 27-B. I've taken up knitting.",
+		"after": "27-B needs 27-C. 27-C needs 27-B. I keep both forms beside his chair."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-COMPOSTELLA.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Archdruid Compostella",
+		"before": "About the barn... and the goat. We will let that one compost quietly.",
+		"after": "About the barn... I will help mend it. The goat may prefer that I begin elsewhere."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-ISLA.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Isla Brannoch",
+		"before": "Dad says hi. Dad says a lot, actually. Eight years of saving it up.",
+		"after": "Dad says hi. We have so much to tell each other. Sometimes we just sit together."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-ISLA.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Isla Brannoch",
+		"before": "Eight years up that road. The walk home was shorter. Funny, that.",
+		"after": "Eight years up that road. I knew every turn on the way home. Dad was still at the gate."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-VILLAGER.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Brindle the Baker",
+		"before": "Fresh bread! Fresh-ish bread! Flour in my whiskers again: free seasoning!",
+		"after": "Fresh bread! Flour in my whiskers again. Occupational dusting. Anyone want a roll?"
+	},
+	{
+		"id": "data/story/old_well_story.json::beats.find.refusemancer.0::1",
+		"file": "data/story/old_well_story.json",
+		"speaker": "(narration)",
+		"before": "Someone has thrown a boot in it. The water has gone politely round the boot.",
+		"after": "You find a boot in the spring. Clear water slips around its heel. Even here, something finds a way through."
+	},
+	{
+		"id": "data/story/old_well_story.json::beats.find.gourmand.0::1",
+		"file": "data/story/old_well_story.json",
+		"speaker": "(narration)",
+		"before": "Every Gourmand recipe still begins with the same two words: first, water. Somebody has added 'and salt'. Twice.",
+		"after": "You recall the first words of every Gourmand recipe: first, water. Someone has added 'and salt' here. Twice."
+	},
+	{
+		"id": "data/story/old_well_story.json::beats.echo.reveal.4::0",
+		"file": "data/story/old_well_story.json",
+		"speaker": "The Wanderer",
+		"before": "A well with opinions. Fine. I'm keeping the bottle.",
+		"after": "A well with opinions. I'll take a bottle's worth."
+	},
+	{
+		"id": "data/story/old_well_story.json::text.confirm.body::0",
+		"file": "data/story/old_well_story.json",
+		"speaker": "(UI)",
+		"before": "Whatever answers duels with all four Paths at once. It is a hard fight.\n\nLose, and nothing is lost: the well will wait.",
+		"after": "The Echo duels with all four Paths at once. It is a hard fight. Lose, and nothing is lost: the well will wait."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line7::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "You may play one Infrastructure per turn. Choose wisely, or at least choose.",
+		"after": "You may play one Infrastructure per turn. Even a bold strategy needs somewhere to plug in."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line9::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "In the main campaign a deck may use two Paths. A multi-Path card counts as both of its Paths.",
+		"after": "Start with one Path; free your first zone to use two. Multi-Path cards count as both Paths. All Paths may mix after Primm falls."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line12::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Hover a card to zoom it. Everything the card does is written on it, even the parts that hurt.",
+		"after": "Hover a card to zoom it. Read the effects; the tiny words can cause enormous problems."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line14::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Zone HP does not come back after battles inside a zone. Mind it, and mind your snacks.",
+		"after": "Zone HP does not return after battles inside a zone. Plan your healing stops. Heroism travels poorly on an empty stomach."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line15::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Your hand holds ten cards at most. Past that, the extras are tossed, and nobody gets a refund.",
+		"after": "Your hand holds at most ten cards. Extras are tossed. Hoarding has a surprisingly strict ceiling."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line16::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "You get one free mulligan. Use it when the hand is mostly tools and regret.",
+		"after": "You get one free mulligan. A second opinion on that opening hand, at a very reasonable price."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line20::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Hustle: this unit can attack the turn it enters. No summoning sickness, no sympathy.",
+		"after": "Hustle: this unit can attack the turn it enters. Some introductions are brief."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line22::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Swat: can block Flying units. It is called \"swatting\" for a reason.",
+		"after": "Swat: can block Flying units. A grounded response to lofty ambitions."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line25::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Unbreakable: cannot be destroyed by damage or destroy effects. It can still be shredded, sent back, or sat on.",
+		"after": "Unbreakable: cannot be destroyed by damage or destroy effects. It can still be shredded or sent back. Read the fine print."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line26::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Toxic: any damage from this unit destroys what it hits. Hospitality is not its thing.",
+		"after": "Toxic: any damage from this unit destroys what it hits. Small numbers, serious consequences."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line31::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Wallflower: cannot attack. It supports you emotionally and sometimes mechanically.",
+		"after": "Wallflower: cannot attack. Some units make their point by staying exactly where they are."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line36::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The Beefcake Path has no rest days. This is not a rule, it is a lifestyle.",
+		"after": "Beefcakes know the value of a rest. Grandmaster Flex would like you to stop calling it a weakness."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line37::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The Necrocrats file everything in triplicate, including their own funerals.",
+		"after": "Necrocrats file everything in triplicate. Even the afterlife has a paper trail."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line39::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The Refusemancers will tell you one thing: nothing is trash if you squint.",
+		"after": "Refusemancers turn garbage into fertilizer and fertilizer into dinner. Please observe the order."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line40::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Bertram Beetsworth, Assistant to the Regional Merchant, would like you to know that beets are also a weapon.",
+		"after": "Bertram Beetsworth is Assistant TO the Regional Merchant. The promotion is small. His correction will not be."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line45::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Tilly Tonic tests every potion on herself. Her hair changes color daily. The scorch marks do not.",
+		"after": "Tilly Tonic tests every potion herself. Her skin changes colour; her enthusiasm remains dangerously consistent."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line47::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The Endless Buffet has never once been closed for a private event. It is the private event.",
+		"after": "The Endless Buffet takes food seriously. The food occasionally returns the favour."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line49::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "HP carries over between a dungeon's encounters, and you are fully healed on entering. Plan your fights, not your fears.",
+		"after": "HP carries between dungeon encounters. Check the dungeon's entry and healing rules; a doorway is not a promise of full health."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line51::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Talk to everyone in Crosspath. Some of them even have something useful to say.",
+		"after": "Talk to everyone in Crosspath. Directions, rumours, hats: someone has what you need. Pip has decided it is hats."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line52::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The Capital is perfectly clean. If you notice a crack, that was not on the brochure.",
+		"after": "The Capital is perfectly clean. Any crack you notice is a problem with your inspection."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line60::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Chests sometimes hold more than they let on: a piece of gear, or a pack. Open them all. Treasure is a lifestyle.",
+		"after": "Chests may hold gear or packs as well as other treasure. Be thorough. It is very respectable nosiness."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line61::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Zone shops have a Gear stall now. The good stuff appears once you free the zone. Retail therapy, but heroic.",
+		"after": "Zone shops have a Gear stall. Free the zone to see the good stock. Liberation looks good on you."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line66::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The checkpoint permit has a box for \"reason for living\". Most applicants leave it blank.",
+		"after": "The checkpoint permit has a box for \"reason for living\". Most applicants leave it blank. The form offers very little room."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line67::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "The great pantry door has a keyhole the size of a dinner plate. The key is the size of a ladle. The math checks out.",
+		"after": "The pantry keyhole is dinner-plate sized. The key is ladle-sized. Fennel has strong opinions on table settings."
+	},
+	{
+		"id": "data/loading/loading_tips.txt::line69::0",
+		"file": "data/loading/loading_tips.txt",
+		"speaker": "(tip)",
+		"before": "Everything is perfect in the Capital. Please report any imperfections to your nearest Perfectly Happy Citizen.",
+		"after": "Everything is perfect in the Capital. If you disagree, please enjoy the feeling quietly."
+	}
+]

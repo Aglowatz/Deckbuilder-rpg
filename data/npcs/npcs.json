@@ -112,9 +112,9 @@
 		"description": "A fox card dealer with a story for every card and a price for every story.",
 		"personality": "A sly, glamorous card dealer who knows every card's history. Loves a good bargain story, collects rare misprints, never reveals where she gets her stock.",
 		"speech_style": "Smooth, teasing, theatrical sales pitch.",
-		"sample_line": "This one's a misprint, darling. Two typos. More character than most knights.",
+		"sample_line": "Two typos, darling. One misprint. Such a small card, such a complicated past.",
 		"barks": [
-			"This one's a misprint, darling. Two typos. More character than most knights.",
+			"Two typos, darling. One misprint. Such a small card, such a complicated past.",
 			"Where's it from? The past, darling. Next question."
 		],
 		"game_function": "Card vendor; General Packs Tier 1 and 2.",
@@ -151,7 +151,7 @@
 		"sample_line": "Fresh tonics! Tested them all this morning! I'm teal! Teal means it works!",
 		"barks": [
 			"Fresh tonics! Tested them all this morning! I'm teal! Teal means it works!",
-			"That one's for emergencies! Or Tuesdays! Today's both!"
+			"Emergency tonic! Works on Tuesdays too! That's when I test the emergency tonic!"
 		],
 		"game_function": "Item vendor (basic stock; advanced stock unlocks by level).",
 		"quest_links": [],
@@ -220,9 +220,9 @@
 		"description": "A mouse tailor who believes everyone deserves a better hat.",
 		"personality": "A flamboyant, tiny haberdasher who believes every hat tells a story. Dramatic gasps at bad fashion, measures customers without asking.",
 		"speech_style": "Grand, dramatic, fashion-obsessed.",
-		"sample_line": "Hat! You need a hat! Your head is a tragedy waiting for a brim!",
+		"sample_line": "Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!",
 		"barks": [
-			"Hat! You need a hat! Your head is a tragedy waiting for a brim!",
+			"Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!",
 			"Gossip: there's a cloak on a very muscly island. I've said too much. Hat!"
 		],
 		"game_function": "Clothing/cosmetics vendor.",
@@ -256,10 +256,10 @@
 		"description": "A magpie who sells sealed card packs and cannot resist anything shiny.",
 		"personality": "A twitchy, excitable pack-opening enthusiast who sniffs fresh card packs and rates them. Gets visibly emotional about foils.",
 		"speech_style": "Breathless, nerdy, whispers 'foil' reverently.",
-		"sample_line": "Shh. Listen. ...That crinkle? Foil.",
+		"sample_line": "Shh. That crinkle? Foil. Please let it finish.",
 		"barks": [
-			"Shh. Listen. ...That crinkle? Foil.",
-			"Free a road and its pack comes in. I'll be right here. Sniffing. Respectfully."
+			"Shh. That crinkle? Foil. Please let it finish.",
+			"Free a road and its pack comes in. I'll be here, providing shelf esteem."
 		],
 		"game_function": "Pack Vendor (Path Packs unlock as dungeons are cleared).",
 		"quest_links": [],
@@ -401,7 +401,7 @@
 		"sample_line": "Never lift alone. An old man told me that. Never broke, they say. Huh.",
 		"barks": [
 			"Never lift alone. An old man told me that. Never broke, they say. Huh.",
-			"Hydration is mandatory. So is stretching. I'm still bad at the stretching."
+			"Hydration. Stretching. Sorry, am I ordering again? I meant we could do them together."
 		],
 		"game_function": "Battle that unlocks the Gainlands entrance.",
 		"quest_links": [],
@@ -671,7 +671,7 @@
 		"sample_line": "But WAIT, there's MORE! Act now for a SECOND set of reps! Reps not included!",
 		"barks": [
 			"But WAIT, there's MORE! Act now for a SECOND set of reps! Reps not included!",
-			"Operators are standing by! The operator is me! I'm standing! By!"
+			"Operators are standing by! It's me! I tried sitting! LOST THE ENERGY!"
 		],
 		"game_function": "Hosts the Gainlands minigame.",
 		"quest_links": [],
@@ -812,7 +812,7 @@
 		"sample_line": "is it still '09 out there? no? huh. brb, updating my away message.",
 		"barks": [
 			"is it still '09 out there? no? huh. brb, updating my away message.",
-			"brb, haunting. jk. unless?"
+			"brb, haunting. actually stay. nobody reads the 'be right back' part."
 		],
 		"game_function": "Hosts the D.N.A. memory matching minigame.",
 		"quest_links": [],
@@ -918,7 +918,7 @@
 		"sample_line": "This deck is underdressed, darling. A little butter. A little foil. Voila.",
 		"barks": [
 			"This deck is underdressed, darling. A little butter. A little foil. Voila.",
-			"The cake is decorative, darling. So am I. Neither of us is for eating."
+			"Decorative cake, darling. Please admire it without cutlery."
 		],
 		"game_function": "Zone card vendor.",
 		"quest_links": [
@@ -956,7 +956,7 @@
 		"sample_line": "A good answer is like a roux: patience, then butter. Mostly butter.",
 		"barks": [
 			"A good answer is like a roux: patience, then butter. Mostly butter.",
-			"I have tasted my chalk again. Notes of limestone. A disappointing vintage."
+			"Chalk again. Notes of limestone. Excellent body, no business being in my mouth."
 		],
 		"game_function": "Asks 4 questions about the Gourmands.",
 		"quest_links": [],
@@ -989,7 +989,7 @@
 		"sample_line": "ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!",
 		"barks": [
 			"ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!",
-			"Savannah Souffle calls that plating? A crime. A beautiful, beautiful crime."
+			"Savannah Souffle calls that plating? WHOOSH! That's the sound of me declining to comment!"
 		],
 		"game_function": "Hosts the Endless Buffet minigame.",
 		"quest_links": [],
@@ -1098,7 +1098,7 @@
 		"sample_line": "Every thought has a bin. Most of mine go in compost. That is not a complaint.",
 		"barks": [
 			"Every thought has a bin. Most of mine go in compost. That is not a complaint.",
-			"The dishwasher talks back. I have learned so much. Mostly about rinsing."
+			"The dishwasher talks back. I listen. Wisdom sometimes arrives with a rinse cycle."
 		],
 		"game_function": "Asks 4 questions about the Refusemancers.",
 		"quest_links": [],
@@ -1336,10 +1336,10 @@
 		"description": "Has been denied a permit to lay her husband to rest for three years.",
 		"personality": "Has been denied a permit to lay her husband to rest for three years. Keeps his ghost company at the kitchen table. Funny, heartbreaking.",
 		"speech_style": "Tired humor, quiet grief.",
-		"sample_line": "Three years in the parlour, and he hasn't complained once. That's him all over.",
+		"sample_line": "He has been in the parlour three years. I still tell him when someone comes to the door.",
 		"barks": [
-			"Three years in the parlour, and he hasn't complained once. That's him all over.",
-			"27-B needs a 27-C. 27-C needs a 27-B. I've taken up knitting."
+			"He has been in the parlour three years. I still tell him when someone comes to the door.",
+			"27-B needs 27-C. 27-C needs 27-B. I keep both forms beside his chair."
 		],
 		"game_function": "Necrocrat Path quest in the Capital.",
 		"quest_links": [
@@ -1711,7 +1711,7 @@
 		"sample_line": "Everything grows back, child. Even me. Especially me.",
 		"barks": [
 			"Everything grows back, child. Even me. Especially me.",
-			"About the barn... and the goat. We will let that one compost quietly."
+			"About the barn... I will help mend it. The goat may prefer that I begin elsewhere."
 		],
 		"game_function": "Freed after the Rotheart; legendary reward.",
 		"quest_links": [],
@@ -2270,10 +2270,10 @@
 		"description": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word.",
 		"personality": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word. When the Capital is freed she walks home through her father's unlocked gate.",
 		"speech_style": "Tired, warm, a little embarrassed.",
-		"sample_line": "Dad says hi. Dad says a lot, actually. Eight years of saving it up.",
+		"sample_line": "Dad says hi. We have so much to tell each other. Sometimes we just sit together.",
 		"barks": [
-			"Dad says hi. Dad says a lot, actually. Eight years of saving it up.",
-			"Eight years up that road. The walk home was shorter. Funny, that."
+			"Dad says hi. We have so much to tell each other. Sometimes we just sit together.",
+			"Eight years up that road. I knew every turn on the way home. Dad was still at the gate."
 		],
 		"game_function": "Emotional reunion with Gatekeeper Brannoch after the Capital is freed.",
 		"quest_links": [],
@@ -2304,9 +2304,9 @@
 		"description": "Townsfolk (the baker who strolls the square)",
 		"personality": "",
 		"speech_style": "",
-		"sample_line": "Fresh bread! Fresh-ish bread! Flour in my whiskers again: free seasoning!",
+		"sample_line": "Fresh bread! Flour in my whiskers again. Occupational dusting. Anyone want a roll?",
 		"barks": [
-			"Fresh bread! Fresh-ish bread! Flour in my whiskers again: free seasoning!",
+			"Fresh bread! Flour in my whiskers again. Occupational dusting. Anyone want a roll?",
 			"I knead a holiday. Then I knead the dough. Busy, busy badger."
 		],
 		"game_function": "",

@@ -35,7 +35,7 @@
 		"find.refusemancer": [
 			{"speaker": "", "lines": [
 				"At the head of the falls, under a lip of roots and old junk, a thread of water comes up clear. The cleanest water in the Dump starts in its dirtiest corner.",
-				"Someone has thrown a boot in it. The water has gone politely round the boot.",
+				"You find a boot in the spring. Clear water slips around its heel. Even here, something finds a way through.",
 				"For a blink you see four streams leaving one spring: red, blue, purple and green. This one was green. It fed the fields, and the fields fed everyone.",
 				"A whisper, from very far away: 'One stream remembers.'"
 			]}
@@ -43,7 +43,7 @@
 		"find.gourmand": [
 			{"speaker": "", "lines": [
 				"The pond is gravy, like everything here. Under the gravy, ringed with old stones, is a basin far older than the Buffet: the first stockpot, built round a spring.",
-				"Every Gourmand recipe still begins with the same two words: first, water. Somebody has added 'and salt'. Twice.",
+				"You recall the first words of every Gourmand recipe: first, water. Someone has added 'and salt' here. Twice.",
 				"For a blink you see four streams leaving one spring. This one was blue. It went into the first pot, and the first pot fed a kingdom.",
 				"A whisper, from very far away: 'One stream remembers.'"
 			]}
@@ -100,7 +100,7 @@
 				"It hums when you touch it. Take a little with you. It remembers the way home."
 			]},
 			{"speaker": "You", "lines": [
-				"A well with opinions. Fine. I'm keeping the bottle."
+				"A well with opinions. I'll take a bottle's worth."
 			]}
 		]
 	},
@@ -118,7 +118,7 @@
 		"prompt.well.ready": "Lean over the Old Well",
 		"touch.done": "The Old Well hums, low and steady, like a kettle kept warm for whoever comes home.",
 		"confirm.title": "The Wellspring's Echo",
-		"confirm.body": "Whatever answers duels with all four Paths at once. It is a hard fight.\n\nLose, and nothing is lost: the well will wait.",
+		"confirm.body": "The Echo duels with all four Paths at once. It is a hard fight. Lose, and nothing is lost: the well will wait.",
 		"confirm.yes": "Reach in",
 		"confirm.no": "Not yet",
 		"toast.found": "One stream remembers.",

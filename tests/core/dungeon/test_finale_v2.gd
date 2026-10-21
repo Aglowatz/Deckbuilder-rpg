@@ -20,7 +20,7 @@ func test_the_fight_scenes_carry_the_reflection_line_and_the_zone_lessons() -> v
 	assert_true("\n".join(story.get_lines("cutscene.primm_p1.4")).contains("ten years of practice"), "the Reflection phase line")
 	assert_true("\n".join(story.get_lines("cutscene.primm_p1.2")).contains("strength is not control"))
 	assert_true("\n".join(story.get_lines("cutscene.primm_p2.2")).contains("treating people with respect"))
-	assert_true("\n".join(story.get_lines("cutscene.primm_end.3")).contains("nothing grows"))
+	assert_true("\n".join(story.get_lines("cutscene.primm_end.3")).to_lower().contains("nothing grows"), "Primm's last lesson")
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
 		assert_false(PrimmBoss.leader_boon(zone_id) == null, zone_id)
 	assert_eq(PrimmBoss.LEADERS["gourmand"], "The Grand Chef")

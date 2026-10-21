@@ -4,52 +4,52 @@
 # Optional: put "@zone-id" before the kind to show a tip only on one loading screen, e.g.  @LOAD-DUNGEON hint | text   (ids: LOAD-TOWN, LOAD-GAINLANDS, LOAD-DNA, LOAD-BUFFET, LOAD-DUMP, LOAD-CAPITAL, LOAD-DUNGEON)
 
 hint | You activate an Infrastructure to gain one energy of its Path. Playing a card exhausts the Infrastructure that paid for it.
-hint | You may play one Infrastructure per turn. Choose wisely, or at least choose.
+hint | You may play one Infrastructure per turn. Even a bold strategy needs somewhere to plug in.
 hint | A deck needs at least 45 cards and may hold up to 4 copies of any card that is not Infrastructure.
-hint | In the main campaign a deck may use two Paths. A multi-Path card counts as both of its Paths.
+hint | Start with one Path; free your first zone to use two. Multi-Path cards count as both Paths. All Paths may mix after Primm falls.
 hint | Every copy of a card beyond your fourth turns into essence of its Path. Auntie Alembic would love to hear from you.
 hint | You can save anywhere except in a battle or a dungeon. Your autosave does the rest.
-hint | Hover a card to zoom it. Everything the card does is written on it, even the parts that hurt.
+hint | Hover a card to zoom it. Read the effects; the tiny words can cause enormous problems.
 hint | Traps are played face-down and spring on their own. You can only have three set at a time.
-hint | Zone HP does not come back after battles inside a zone. Mind it, and mind your snacks.
-hint | Your hand holds ten cards at most. Past that, the extras are tossed, and nobody gets a refund.
-hint | You get one free mulligan. Use it when the hand is mostly tools and regret.
+hint | Zone HP does not return after battles inside a zone. Plan your healing stops. Heroism travels poorly on an empty stomach.
+hint | Your hand holds at most ten cards. Extras are tossed. Hoarding has a surprisingly strict ceiling.
+hint | You get one free mulligan. A second opinion on that opening hand, at a very reasonable price.
 hint | Locked vendor items show as ??? with a hint. Level up, free a zone, or clear a dungeon to see more.
 hint | The Arena's first-clear prizes are worth the trip. The Announcer will tell you so. Loudly.
 
-keyword | Hustle: this unit can attack the turn it enters. No summoning sickness, no sympathy.
+keyword | Hustle: this unit can attack the turn it enters. Some introductions are brief.
 keyword | Flying: can only be blocked by Flying or Swat units.
-keyword | Swat: can block Flying units. It is called "swatting" for a reason.
+keyword | Swat: can block Flying units. A grounded response to lofty ambitions.
 keyword | Elusive: cannot be blocked at all. It simply walks past.
 keyword | Untouchable: the opponent's cards, abilities and resources cannot target it.
-keyword | Unbreakable: cannot be destroyed by damage or destroy effects. It can still be shredded, sent back, or sat on.
-keyword | Toxic: any damage from this unit destroys what it hits. Hospitality is not its thing.
+keyword | Unbreakable: cannot be destroyed by damage or destroy effects. It can still be shredded or sent back. Read the fine print.
+keyword | Toxic: any damage from this unit destroys what it hits. Small numbers, serious consequences.
 keyword | Nourish: damage this unit deals heals you. Dinner and a show.
 keyword | Bulldoze: excess damage goes straight to the player.
 keyword | Sucker Punch: deals its damage before the others. Manners are for the second round.
 keyword | Overtime: attacking does not exhaust this unit. It never clocks out.
-keyword | Wallflower: cannot attack. It supports you emotionally and sometimes mechanically.
+keyword | Wallflower: cannot attack. Some units make their point by staying exactly where they are.
 keyword | Peek X: look at the top X cards of your deck and put any of them on the bottom.
 keyword | Shred removes a card from the game for good. Toss is a discard. Bury X sends the top X cards of a deck to the Refuse Pile.
 
 lore | Patchwork has four Paths and exactly one crossroads. The signs all point to a bakery.
-lore | The Beefcake Path has no rest days. This is not a rule, it is a lifestyle.
-lore | The Necrocrats file everything in triplicate, including their own funerals.
+lore | Beefcakes know the value of a rest. Grandmaster Flex would like you to stop calling it a weakness.
+lore | Necrocrats file everything in triplicate. Even the afterlife has a paper trail.
 lore | The Gourmand Path believes every problem is a dinner problem. Surprisingly often, it is.
-lore | The Refusemancers will tell you one thing: nothing is trash if you squint.
-lore | Bertram Beetsworth, Assistant to the Regional Merchant, would like you to know that beets are also a weapon.
+lore | Refusemancers turn garbage into fertilizer and fertilizer into dinner. Please observe the order.
+lore | Bertram Beetsworth is Assistant TO the Regional Merchant. The promotion is small. His correction will not be.
 lore | Somewhere there is a giant chest that insists it is not a trap. It has been wrong before.
 lore | Gatekeeper Brannoch keeps a notebook of every traveler's name. The gate has no lock. He is very proud of the notebook.
 lore | Old Hob the Gravedigger is cheerful about death. It is his job, after all, and he has a very nice shovel.
 lore | Complaints about the Complaints Department may be filed with the Complaints Department.
-lore | Tilly Tonic tests every potion on herself. Her hair changes color daily. The scorch marks do not.
+lore | Tilly Tonic tests every potion herself. Her skin changes colour; her enthusiasm remains dangerously consistent.
 lore | Patchwork's four Paths once ruled together. It was not as relaxing as it sounds.
-lore | The Endless Buffet has never once been closed for a private event. It is the private event.
+lore | The Endless Buffet takes food seriously. The food occasionally returns the favour.
 lore | A raccoon in a trench coat is, legally speaking, a tax advisor.
-@LOAD-DUNGEON hint | HP carries over between a dungeon's encounters, and you are fully healed on entering. Plan your fights, not your fears.
+@LOAD-DUNGEON hint | HP carries between dungeon encounters. Check the dungeon's entry and healing rules; a doorway is not a promise of full health.
 @LOAD-DUNGEON hint | Dungeon rules apply to every fight inside it. Read them before the first battle, not during the third.
-@LOAD-TOWN hint | Talk to everyone in Crosspath. Some of them even have something useful to say.
-@LOAD-CAPITAL lore | The Capital is perfectly clean. If you notice a crack, that was not on the brochure.
+@LOAD-TOWN hint | Talk to everyone in Crosspath. Directions, rumours, hats: someone has what you need. Pip has decided it is hats.
+@LOAD-CAPITAL lore | The Capital is perfectly clean. Any crack you notice is a problem with your inspection.
 
 # Overnight Oct 16: quests, gear, the hub.
 hint | Press [ and ] (or LB and RB) to flip through your quests. The tracker follows whatever you moved forward last.
@@ -57,13 +57,13 @@ hint | A golden chevron floats over your tracked quest's next step. Off screen? 
 hint | A "!" over someone's head means they have a job for you. A "?" means you finished it. Go get paid.
 hint | Every zone's gatekeeper guards a Path Pack. Beat them and the road opens. Also they stop yelling. Mostly.
 hint | Gear changes the numbers: hover a piece in a shop or on your character screen to see exactly what you'd gain and lose.
-hint | Chests sometimes hold more than they let on: a piece of gear, or a pack. Open them all. Treasure is a lifestyle.
-hint | Zone shops have a Gear stall now. The good stuff appears once you free the zone. Retail therapy, but heroic.
+hint | Chests may hold gear or packs as well as other treasure. Be thorough. It is very respectable nosiness.
+hint | Zone shops have a Gear stall. Free the zone to see the good stock. Liberation looks good on you.
 lore | Gotta-Go Galoshes: for when you absolutely, positively have to be somewhere else. Now.
 lore | Nobody knows who built the cellar under the old cottage at the end of Champions' Road. Somebody keeps cheering down there.
 @LOAD-TOWN lore | Gatekeeper Brannoch keeps a notebook of every traveller's name. One page has been waiting eight years.
 @LOAD-GAINLANDS lore | The gorge bridge was built to be lowered, not raised. Brick Bronson raised it anyway. With one arm.
-@LOAD-DNA lore | The checkpoint permit has a box for "reason for living". Most applicants leave it blank.
-@LOAD-BUFFET lore | The great pantry door has a keyhole the size of a dinner plate. The key is the size of a ladle. The math checks out.
+@LOAD-DNA lore | The checkpoint permit has a box for "reason for living". Most applicants leave it blank. The form offers very little room.
+@LOAD-BUFFET lore | The pantry keyhole is dinner-plate sized. The key is ladle-sized. Fennel has strong opinions on table settings.
 @LOAD-DUMP lore | The thorn wall was not planted. It was grown, out of spite, by something very hungry.
-@LOAD-CAPITAL lore | Everything is perfect in the Capital. Please report any imperfections to your nearest Perfectly Happy Citizen.
+@LOAD-CAPITAL lore | Everything is perfect in the Capital. If you disagree, please enjoy the feeling quietly.
