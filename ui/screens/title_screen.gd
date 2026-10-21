@@ -37,6 +37,7 @@ func _ready() -> void:
 	Audio.set_ambience("none")
 	_build_backdrop()
 	_build_menu()
+	_mark_title_reached.call_deferred()
 	if _screenshot_open == "settings":
 		_on_settings()
 	elif _screenshot_open == "confirm":
@@ -124,6 +125,8 @@ func _build_menu() -> void:
 		notice.add_theme_color_override("font_color", Color("ffcf7a"))
 		_menu_column.add_child(notice)
 		Session.save_reset_message = ""
+	if Settings.safe_mode:
+		_menu_column.add_child(_safe_mode_notice())
 	_menu_column.add_child(UIKit.filler())
 	var footer: Label = UIKit.label("Press Esc in game for the pause menu, F8 to report a problem." if _art == null else "%s   Press Esc in game for the pause menu, F8 to report a problem." % version_text, &"MutedLabel", 18)
 	footer.name = "FooterLabel"
@@ -137,6 +140,24 @@ func _build_menu() -> void:
 	for index: int in range(_menu_column.get_child_count()):
 		var child: Control = _menu_column.get_child(index) as Control
 		UIKit.pop_in(child, 0.1 * index)
+
+
+## Overnight Oct 20 (playtest stability): Safe Mode (BootGuard) is said on the title screen, with how to leave it.
+func _safe_mode_notice() -> Label:
+	var why: String = "You started the game in Safe Mode." if GameLog.safe_mode_reason.begins_with("started from") else "The game did not start properly last time, so it is running in Safe Mode."
+	var notice: Label = UIKit.label("%s Graphics are on Low with fog, bloom and depth of field off. You can raise them in Settings." % why, &"MutedLabel", 20)
+	notice.name = "SafeModeNotice"
+	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	notice.custom_minimum_size = Vector2(560, 0)
+	notice.add_theme_color_override("font_color", Color("ffcf7a"))
+	return notice
+
+
+## The boot stage (BootGuard) once the title has drawn a frame.
+func _mark_title_reached() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	GameLog.title_reached()
 
 
 func _menu_button(text: String, variation: StringName, callback: Callable) -> FancyButton:

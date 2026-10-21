@@ -148,6 +148,9 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 	_voice = DialogueVoice.for_speaker(entry.species if entry != null else "", speaker)
 	_fit_speaker()
 	_layout()
+	if not active:
+		GameLog.modal_opened("Dialogue")
+	GameLog.info("ui", "dialogue %s, %d lines" % [id if not id.is_empty() else speaker, _lines.size()])
 	active = true
 	visible = true
 	_panel.visible = true
@@ -272,6 +275,7 @@ func press() -> void:
 	_index += 1
 	if _index >= _lines.size():
 		active = false
+		GameLog.modal_closed("Dialogue")
 		_panel.visible = false
 		_portrait.dismiss()
 		Audio.set_dialogue_duck(get_instance_id(), false)
@@ -298,6 +302,8 @@ func stand_behind(sibling: Node) -> void:
 
 
 func _exit_tree() -> void:
+	if active:
+		GameLog.modal_closed("Dialogue")
 	Audio.set_dialogue_duck(get_instance_id(), false)
 	if _portrait != null and is_instance_valid(_portrait) and _portrait.get_parent() != self:
 		_portrait.queue_free()

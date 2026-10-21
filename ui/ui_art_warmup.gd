@@ -28,6 +28,12 @@ var _screens_done: bool = false
 var _delay: float = START_DELAY
 ## path -> the cache it goes into once loaded.
 var _pending: Dictionary = {}
+## Overnight Oct 20 (playtest stability): pictures still on a loader thread after this long are given up (the screen loads its own
+## when it opens), so `settled()` can never wait for ever; without threads (Safe Mode) the pictures load a few per frame instead.
+const PENDING_TIMEOUT: float = 20.0
+var _pending_waited: float = 0.0
+var _sync_pending: Dictionary = {}
+var _started_usec: int = 0
 
 
 static func make(vendors: Array[String] = [], screens: Array[Callable] = []) -> UiArtWarmup:
@@ -39,8 +45,15 @@ static func make(vendors: Array[String] = [], screens: Array[Callable] = []) -> 
 	return warmup
 
 
+func _ready() -> void:
+	# The input guard must run while the tree is paused too (a pause menu or report form opened during the warm-up).
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
 func _process(delta: float) -> void:
 	_guard_input()
+	if not _sync_pending.is_empty():
+		_load_sync_batch()
 	if _screen_delay > 0.0:
 		_screen_delay -= delta
 		if _screen_delay <= 0.0:
@@ -50,9 +63,18 @@ func _process(delta: float) -> void:
 		if _delay <= 0.0:
 			_start()
 		return
-	if _pending.is_empty():
-		if not _input_off:
+	if _pending.is_empty() and _sync_pending.is_empty():
+		# The input guard needs _process until the screens are done (between two screens input is on, the next may still stall).
+		if not _input_off and _screens_done:
+			if _started_usec > 0:
+				GameLog.info("warmup", "UiArtWarmup: pictures and screens ready in %.0f ms" % (float(Time.get_ticks_usec() - _started_usec) / 1000.0))
+				_started_usec = 0
 			set_process(false)
+		return
+	_pending_waited += delta
+	if _pending_waited > PENDING_TIMEOUT and not _pending.is_empty():
+		GameLog.warn("warmup", "UiArtWarmup: %d pictures still loading after %.0f s; going on without them" % [_pending.size(), PENDING_TIMEOUT])
+		_pending.clear()
 		return
 	for path: Variant in _pending.keys():
 		var status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(str(path))
@@ -76,7 +98,18 @@ func start_now() -> void:
 
 ## Everything this warmup loads at the start has arrived and the card drawing has had its frames (the glyph warmup goes on, a few glyphs a frame).
 func settled() -> bool:
-	return _delay <= 0.0 and _pending.is_empty() and _card_layer == null
+	return _delay <= 0.0 and _pending.is_empty() and _sync_pending.is_empty() and _card_layer == null
+
+
+func _load_sync_batch() -> void:
+	var frame_start: int = Time.get_ticks_usec()
+	for path: Variant in _sync_pending.keys():
+		if float(Time.get_ticks_usec() - frame_start) / 1000.0 > SceneWarmup.SYNC_BUDGET_MS:
+			return
+		var texture: Texture2D = load(str(path)) as Texture2D
+		if texture != null:
+			(_sync_pending[path] as Callable).call(texture)
+		_sync_pending.erase(path)
 
 
 ## v0.4.2 hotfix: a screen whose build fails stops `_warm_screens` between `gui_disable_input = true` and `false` - the game would stay deaf
@@ -95,7 +128,7 @@ func _guard_input() -> void:
 	_screens_done = true
 	if get_viewport() != null:
 		get_viewport().gui_disable_input = false
-	push_warning("UiArtWarmup: a warm-up screen never finished; input is back on")
+	GameLog.warn("warmup", "UiArtWarmup: a warm-up screen never finished; input is back on")
 
 
 ## How many pictures are still on their way (tests).
@@ -104,6 +137,8 @@ func pending() -> int:
 
 
 func _start() -> void:
+	_started_usec = Time.get_ticks_usec()
+	GameLog.info("warmup", "UiArtWarmup: start (%d first screens, %s)" % [first_screens.size(), "loader threads" if SceneWarmup.threads_allowed() else "main thread, Safe Mode"])
 	for id: String in UI_BACKGROUNDS:
 		if not UiArt._textures.has(id) and UiArt.has(id):
 			_request(UiArt.path_for(id), func(texture: Texture2D) -> void:
@@ -263,5 +298,8 @@ func _first_thumbs() -> Array[String]:
 
 
 func _request(path: String, store: Callable) -> void:
+	if not SceneWarmup.threads_allowed():
+		_sync_pending[path] = store
+		return
 	if ResourceLoader.load_threaded_request(path, "Texture2D") == OK:
 		_pending[path] = store

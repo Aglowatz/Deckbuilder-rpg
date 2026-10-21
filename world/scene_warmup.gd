@@ -6,11 +6,22 @@ extends Node
 ## first seconds in Crosspath stalled 200-1400 ms several times while Maren was talking. SceneManager waits for `is_done()` (at most TIMEOUT).
 
 const TIMEOUT_SECONDS: float = 20.0
+## Overnight Oct 20 (playtest stability): without loader threads (Safe Mode, or WAYWARD_NO_THREAD_LOADS set) the files load on the main
+## thread instead, a few per frame for at most SYNC_BUDGET_MS, still behind the loading screen - nothing ever waits on a thread.
+const SYNC_BUDGET_MS: float = 12.0
 
 var _pending: Array[String] = []
 var _held: Array[Resource] = []
 var _requested: int = 0
 var _waited: float = 0.0
+var _started_usec: int = 0
+var _logged_done: bool = false
+var _sync_queue: Array[String] = []
+
+
+## False in Safe Mode or with the environment variable WAYWARD_NO_THREAD_LOADS: warmups load on the main thread, a few files a frame.
+static func threads_allowed() -> bool:
+	return not bool(Settings.get("safe_mode")) and OS.get_environment("WAYWARD_NO_THREAD_LOADS") == ""
 
 
 ## Every frame (all facings, walk cycle, talk pose) of each painted character in `characters`.
@@ -85,13 +96,21 @@ func add_path(path: String) -> void:
 	if ResourceLoader.has_cached(path):
 		_held.append(load(path))  # already in memory: just keep it there
 		return
+	if _started_usec == 0:
+		_started_usec = Time.get_ticks_usec()
+		_logged_done = false
+	if not threads_allowed():
+		if not _sync_queue.has(path):
+			_sync_queue.append(path)
+			_requested += 1
+		return
 	if ResourceLoader.load_threaded_request(path) == OK:
 		_pending.append(path)
 		_requested += 1
 
 
 func is_done() -> bool:
-	return _pending.is_empty()
+	return _pending.is_empty() and _sync_queue.is_empty()
 
 
 func requested() -> int:
@@ -99,7 +118,15 @@ func requested() -> int:
 
 
 func _process(delta: float) -> void:
+	if not _sync_queue.is_empty():
+		var frame_start: int = Time.get_ticks_usec()
+		while not _sync_queue.is_empty() and float(Time.get_ticks_usec() - frame_start) / 1000.0 < SYNC_BUDGET_MS:
+			var resource_path: String = _sync_queue.pop_front()
+			var loaded: Resource = load(resource_path)
+			if loaded != null:
+				_held.append(loaded)
 	if _pending.is_empty():
+		_log_done()
 		return
 	_waited += delta
 	for index: int in range(_pending.size() - 1, -1, -1):
@@ -113,5 +140,13 @@ func _process(delta: float) -> void:
 		elif status != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			_pending.remove_at(index)
 	if _waited > TIMEOUT_SECONDS and not _pending.is_empty():
-		push_warning("SceneWarmup: %d files still loading after %.0f s; going on without them" % [_pending.size(), TIMEOUT_SECONDS])
+		GameLog.warn("warmup", "SceneWarmup: %d files still loading after %.0f s; going on without them (first: %s)" % [_pending.size(), TIMEOUT_SECONDS, _pending[0]])
 		_pending.clear()
+
+
+func _log_done() -> void:
+	if _logged_done or _started_usec == 0 or not _sync_queue.is_empty():
+		return
+	_logged_done = true
+	GameLog.info("warmup", "SceneWarmup: %d files ready in %.0f ms (%s)" % [_held.size(), float(Time.get_ticks_usec() - _started_usec) / 1000.0,
+		"loader threads" if threads_allowed() else "main thread, Safe Mode"])

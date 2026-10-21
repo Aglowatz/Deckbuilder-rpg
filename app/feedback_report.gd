@@ -34,6 +34,10 @@ static func game_state() -> Dictionary:
 		"godot": Engine.get_version_info().get("string", ""),
 		"debug_build": OS.is_debug_build(),
 		"gpu": RenderingServer.get_video_adapter_name(),
+		"renderer": "%s / %s" % [RenderingServer.get_current_rendering_driver_name(), RenderingServer.get_current_rendering_method()],
+		"graphics": Settings.summary(),
+		"safe_mode": GameLog.safe_mode_reason,
+		"previous_launch_ended": GameLog.previous_stage,
 		"window": str(DisplayServer.window_get_size()),
 		"area": SceneManager.current_area,
 		"has_hero": Session.has_profile(),
@@ -95,17 +99,21 @@ static func write(rating: int, notes: String, screenshot: Image, root: String = 
 	file.close()
 	if screenshot != null and not screenshot.is_empty():
 		screenshot.save_png("%s/screenshot.png" % dir)
-	_copy_log("%s/game.log" % dir)
+	_copy_log(LOG_PATH, "%s/game.log" % dir)
+	# Overnight Oct 20: the game's own log (this run and the one before) and the boot stages.
+	_copy_log("%s/%s.log" % [GameLog.DIR, GameLog.FILE_NAME], "%s/wayward.log" % dir)
+	_copy_log("%s/%s.1.log" % [GameLog.DIR, GameLog.FILE_NAME], "%s/wayward_previous_run.log" % dir)
+	_copy_log(BootGuard.path, "%s/boot_state.cfg" % dir)
 	if Session.has_profile():
 		Session.save_game()
 	_copy_saves(dir)
 	return ProjectSettings.globalize_path(dir)
 
 
-static func _copy_log(target: String) -> void:
-	if not FileAccess.file_exists(LOG_PATH):
+static func _copy_log(source_path: String, target: String) -> void:
+	if not FileAccess.file_exists(source_path):
 		return
-	var source: FileAccess = FileAccess.open(LOG_PATH, FileAccess.READ)
+	var source: FileAccess = FileAccess.open(source_path, FileAccess.READ)
 	if source == null:
 		return
 	var text: String = source.get_as_text()

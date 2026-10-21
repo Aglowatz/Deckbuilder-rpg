@@ -34,7 +34,12 @@ var _gate_marker: Node3D
 var _near_gate: bool = false
 var _near_tunnel: bool = false
 var _chest_near: String = ""
-var _locked: bool = false
+## Overnight Oct 20: every change of the hero lock goes to the game log (GameLog), so a tester's log shows a lock that never let go.
+var _locked: bool = false:
+	set(value):
+		if value != _locked:
+			GameLog.info("lock", "%s: hero %s" % [name, "locked" if value else "free"])
+		_locked = value
 var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
 ## Polish round: the endless forest around the clearing (visual only).

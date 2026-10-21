@@ -90,6 +90,10 @@ func toggle() -> void:
 	visible = not visible
 	get_tree().paused = visible
 	if visible:
+		GameLog.modal_opened("PauseMenu")
+	else:
+		GameLog.modal_closed("PauseMenu")
+	if visible:
 		Audio.sfx(&"ui_open")
 		_build_menu()
 		if _settings != null:

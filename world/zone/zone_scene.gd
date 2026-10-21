@@ -46,7 +46,12 @@ var _talking_id: String = ""
 ## Life for the painted NPCs (a gentle turn toward the hero when close).
 var npc_hp: NpcHp
 var _time: float = 0.0
-var _locked: bool = false
+## Overnight Oct 20: every change of the hero lock goes to the game log (GameLog), so a tester's log shows a lock that never let go.
+var _locked: bool = false:
+	set(value):
+		if value != _locked:
+			GameLog.info("lock", "%s: hero %s" % [name, "locked" if value else "free"])
+		_locked = value
 var _invulnerable: float = 0.0
 var _spawn_grace: float = SPAWN_GRACE
 var _chest_near: String = ""

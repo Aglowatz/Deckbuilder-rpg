@@ -27,6 +27,8 @@ var warming: bool = false
 
 
 func _ready() -> void:
+	if not warming:
+		GameLog.modal_opened(_log_name())
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	UiScale.fit(self)
@@ -108,7 +110,18 @@ func music_cue() -> String:
 	return MusicDirector.shop(vendor_screen_id, Session.profile != null and Session.profile.postgame_unlocked)
 
 
+## The game log's name for this screen (its class, plus the vendor screen id).
+func _log_name() -> String:
+	var script: Script = get_script() as Script
+	var class_text: String = script.get_global_name() if script != null else ""
+	if class_text.is_empty():
+		class_text = str(name)
+	return class_text if vendor_screen_id.is_empty() else "%s %s" % [class_text, vendor_screen_id]
+
+
 func _exit_tree() -> void:
+	if not warming:
+		GameLog.modal_closed(_log_name())
 	if _music_token != 0:
 		Audio.pop_music(_music_token, 1.2)
 		_music_token = 0

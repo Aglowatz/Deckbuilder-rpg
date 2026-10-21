@@ -53,7 +53,8 @@ func _run() -> void:
 	await get_tree().process_frame
 	_mode = OS.get_environment("CAVE_MODE") if not OS.get_environment("CAVE_MODE").is_empty() else "normal"
 	_path_name = OS.get_environment("CAVE_PATH") if not OS.get_environment("CAVE_PATH").is_empty() else "beefcake"
-	print("%s: path=%s mode=%s version=%s" % [TAG, _path_name, _mode, ProjectSettings.get_setting("application/config/version", "?")])
+	print("%s: path=%s mode=%s version=%s quality=%d driver=%s method=%s gpu_type=%d" % [TAG, _path_name, _mode, ProjectSettings.get_setting("application/config/version", "?"),
+		int(Settings.get("graphics_quality")), RenderingServer.get_current_rendering_driver_name(), RenderingServer.get_current_rendering_method(), RenderingServer.get_video_adapter_type()])
 	SaveSlots.dir = "%s/saves/" % TMP
 	if _mode == "load_old":
 		await _load_old_save()

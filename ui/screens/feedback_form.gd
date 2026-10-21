@@ -20,8 +20,10 @@ var _was_paused: bool = false
 
 ## Opens the form over whatever is on screen. Returns null when one is already open.
 static func open(host: Node) -> FeedbackForm:
-	if host.get_tree().root.find_child("FeedbackForm", true, false) != null:
+	# Overnight Oct 20: a direct child of the root (find_child over the whole 3D town cost hundreds of ms).
+	if host.get_tree().root.get_node_or_null(^"FeedbackForm") != null:
 		return null
+	GameLog.modal_opened("FeedbackForm")
 	var form: FeedbackForm = FeedbackForm.new()
 	form.name = "FeedbackForm"
 	form._screenshot = Session.capture_thumbnail()
@@ -110,6 +112,7 @@ func submit() -> String:
 
 
 func close() -> void:
+	GameLog.modal_closed("FeedbackForm")
 	get_tree().paused = _was_paused
 	closed.emit()
 	queue_free()

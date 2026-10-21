@@ -107,7 +107,12 @@ var _baker: SpriteWanderer
 var _well_light: OmniLight3D
 var _well_particles: CPUParticles3D
 var _screenshot_args: Dictionary = {}
-var _locked: bool = false
+## Overnight Oct 20: every change of the hero lock goes to the game log (GameLog), so a tester's log shows a lock that never let go.
+var _locked: bool = false:
+	set(value):
+		if value != _locked:
+			GameLog.info("lock", "%s: hero %s" % [name, "locked" if value else "free"])
+		_locked = value
 ## v0.4.2 hotfix: the lock watchdog - seconds the hero has been locked with no modal UI open (see `_watch_lock`).
 var _lock_idle: float = 0.0
 const LOCK_WATCHDOG_SECONDS: float = 4.0
@@ -206,6 +211,19 @@ func _start_files_warmup() -> void:
 			lines.append_array(story.get_lines(key))
 		_files_warmup.add_portraits(["NPC-ELDER", NpcRegistry.PLAYER_ID] as Array[String], lines)
 	LoadTiming.mark("town: %d files asked for on loader threads" % _files_warmup.requested())
+
+
+## Overnight Oct 20: SceneManager gave up waiting for the build (BUILD_TIMEOUT, or its watchdog): whatever is left switches on so the town
+## answers - processing and input back, counted as built - and the arrival (if any) starts from `_process` once the cover is gone.
+func recover_after_timeout() -> void:
+	GameLog.warn("town", "recovering after a load timeout (built=%s, %d of %d steps, warmup screens done=%s)" % [str(_built), _build_steps_done, BUILD_STEPS,
+		str(_warmup == null or not is_instance_valid(_warmup) or _warmup.screens_done())])
+	_built = true
+	_warming_popups = false
+	set_process(true)
+	set_process_unhandled_input(true)
+	if get_viewport() != null:
+		get_viewport().gui_disable_input = false
 
 
 func load_progress() -> float:
@@ -974,6 +992,10 @@ func _exit_tree() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	# Overnight Oct 20: the arrival start and the lock watchdog come first, so an error further down can never stop them.
+	if arrival_pending and not arrival_active and not SceneManager.busy:
+		_begin_cave_arrival()
+	_watch_lock(delta)
 	if town.undercroft != null:
 		town.undercroft.update(player.position, delta)
 	_update_music(delta)
@@ -1000,9 +1022,6 @@ func _process(delta: float) -> void:
 	_update_nearest()
 	_update_hidden_chest_prompt()
 	_check_portal_walk(delta)
-	if arrival_pending and not arrival_active and not SceneManager.busy:
-		_begin_cave_arrival()
-	_watch_lock(delta)
 	player.input_enabled = not _locked and not dialogue.active
 	var roamers_active: bool = not _locked and not dialogue.active and _overlay == null
 	for enemy: ZoneEnemy in enemies:
@@ -1415,7 +1434,8 @@ func _show_town_result() -> void:
 ## reward boxes (a finished quest), level-ups, the Path warning, then Maren's welcome in three parts. The hero is held until the queue
 ## ends; a step whose UI never opens or never reports back is caught by the lock watchdog (`_watch_lock`), which ends the queue.
 ## Started on `SceneManager.revealed` (or by `_process` once the scene manager is idle, if that signal was missed); runs once.
-const ARRIVAL_ORDER: Array[String] = ["rewards", "level_ups", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"]
+## Overnight Oct 20: level-ups first, then reward boxes and quest notices, the Path warning, Maren's welcome (the stability brief's order).
+const ARRIVAL_ORDER: Array[String] = ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"]
 var arrival_pending: bool = false
 var arrival_active: bool = false
 ## The steps shown so far, in order (tests and the game log): "rewards", "level_ups", "path_warning", "welcome_maren"...
@@ -1542,7 +1562,7 @@ func _watch_lock(delta: float) -> void:
 	if _lock_idle < LOCK_WATCHDOG_SECONDS:
 		return
 	lock_watchdog_trips += 1
-	push_warning("TownScene: the hero was locked for %.0f s with no dialogue or screen open (arrival step %s); unlocking" % [_lock_idle, _arrival_steps[_arrival_index] if arrival_active and _arrival_index >= 0 and _arrival_index < _arrival_steps.size() else "-"])
+	GameLog.warn("lock", "TownScene: the hero was locked for %.0f s with no dialogue or screen open (arrival step %s); unlocking" % [_lock_idle, _arrival_steps[_arrival_index] if arrival_active and _arrival_index >= 0 and _arrival_index < _arrival_steps.size() else "-"])
 	_lock_idle = 0.0
 	if arrival_active:
 		_finish_cave_arrival()

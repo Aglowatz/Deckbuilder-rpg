@@ -1303,11 +1303,20 @@ func can_save_now() -> bool:
 
 
 ## A screenshot of the game for the slot list (null in a headless run).
+## Overnight Oct 20 (playtest stability): reading the frame back is a full GPU sync on the main thread. It is skipped in Safe Mode and
+## while a scene change runs (the picture is the cover anyway), and logged as a step, so a driver that hangs in it shows in the game log.
 func capture_thumbnail() -> Image:
 	if DisplayServer.get_name() == "headless" or get_viewport() == null:
 		return null
+	if Settings.safe_mode or SceneManager.busy:
+		return null
 	var texture: ViewportTexture = get_viewport().get_texture()
+	GameLog.step("gpu", "screenshot readback")
+	var started: int = Time.get_ticks_usec()
 	var image: Image = texture.get_image() if texture != null else null
+	var spent: float = float(Time.get_ticks_usec() - started) / 1000.0
+	if spent > 50.0:
+		GameLog.info("gpu", "screenshot readback took %.0f ms" % spent)
 	if image == null or image.is_empty():
 		return null
 	return image
@@ -1368,7 +1377,18 @@ func resume_loaded_game() -> void:
 		if legacy.has("position"):
 			town_return_position = legacy["position"] as Vector3
 			has_town_return_position = true
+		elif welcome_unfinished():
+			# Overnight Oct 20: a save made in Crosspath before Maren's welcome ended (v0.4.0's arrival freeze left testers there) plays
+			# the arrival again, beside her door.
+			cave_exit_pending = true
+			GameLog.info("save", "Continue: Maren's welcome never finished in this save; it plays again")
 		SceneManager.go_to_town()
+
+
+## The Forgotten Cave is cleared but Maren's welcome never reached its end (`maren_met`), in a game that is not a fast-forwarded or
+## pre-chain one (`QuestDefinitions.LEGACY_FLAG`).
+func welcome_unfinished() -> bool:
+	return flag(&"trial_cleared") and not flag(&"maren_met") and not flag(StringName(QuestDefinitions.LEGACY_FLAG))
 
 # ---- Battles ----------------------------------------------------------------------------
 

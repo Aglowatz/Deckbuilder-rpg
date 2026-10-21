@@ -19,7 +19,12 @@ var _prompt_panel: PanelContainer
 var _prompt_label: Label
 var _portal_marker: Node3D
 var _near_portal: bool = false
-var _locked: bool = false
+## Overnight Oct 20: every change of the hero lock goes to the game log (GameLog), so a tester's log shows a lock that never let go.
+var _locked: bool = false:
+	set(value):
+		if value != _locked:
+			GameLog.info("lock", "%s: hero %s" % [name, "locked" if value else "free"])
+		_locked = value
 var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
 

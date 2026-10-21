@@ -58,19 +58,19 @@ func test_a_level_up_a_quest_box_and_the_path_warning_show_one_at_a_time_then_th
 	assert_true(town._locked, "the hero is held from the first frame")
 	await _frames(3)
 	assert_true(town.arrival_active, "the arrival queue runs")
-	# 1. The quest box alone (no dialogue under it).
-	assert_eq(_overlay_kind(town), "RewardPopup", "the reward box comes first")
-	assert_false(town.dialogue.active, "no welcome under the reward box")
-	(town._overlay as RewardPopup)._on_confirmed()
-	await _frames(3)
-	assert_true(town._locked, "the hero stays put between steps")
-	# 2. The level-ups alone.
-	assert_eq(_overlay_kind(town), "LevelUpScreen", "then the level-ups")
+	# 1. The level-ups alone (overnight Oct 20: level-ups first).
+	assert_eq(_overlay_kind(town), "LevelUpScreen", "the level-ups come first")
 	assert_false(town.dialogue.active, "no welcome under the level-ups")
 	assert_eq(Session.pending_level_ups.size(), 0, "the level-ups were taken by the queue (not shown twice)")
 	var level_up: LevelUpScreen = town._overlay as LevelUpScreen
 	level_up._age = LevelUpScreen.GUARD_TIME  # past the screen's own guard against a click carried over
 	level_up.skip_all()
+	await _frames(3)
+	assert_true(town._locked, "the hero stays put between steps")
+	# 2. The quest box alone (no dialogue under it).
+	assert_eq(_overlay_kind(town), "RewardPopup", "then the reward box")
+	assert_false(town.dialogue.active, "no welcome under the reward box")
+	(town._overlay as RewardPopup)._on_confirmed()
 	await _frames(3)
 	# 3. The Path warning toast, then Maren's welcome in its three parts.
 	assert_true(town.dialogue.active and town.dialogue.npc_id == "NPC-ELDER", "Maren's welcome opens after the screens")
@@ -81,7 +81,7 @@ func test_a_level_up_a_quest_box_and_the_path_warning_show_one_at_a_time_then_th
 	assert_true(town._locked, "still held during the welcome")
 	await _press_through(town)
 	await _frames(2)
-	assert_eq(town.arrival_log, ["rewards", "level_ups", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"] as Array[String], "every step, in order")
+	assert_eq(town.arrival_log, ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"] as Array[String], "every step, in order")
 	assert_false(town.arrival_active, "the queue is done")
 	assert_false(town._locked, "the hero is free")
 	assert_true(Session.flag(&"maren_met"), "maren_met is set")

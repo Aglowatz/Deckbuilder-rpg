@@ -88,6 +88,16 @@ var camera_zoom: float = ZOOM_DEFAULT
 ## Camera angle preset (CameraRig.ANGLE_NAMES): 0 Cinematic, 1 Classic, 2 Overview. Remembered in settings.cfg, never per save.
 var camera_angle: int = 0
 signal camera_changed
+## Overnight Oct 20 (playtest stability): the rendering driver - "auto" (the project default, D3D12 on Windows), "d3d12" or "vulkan".
+## A choice other than the running driver restarts an exported game once with `--rendering-driver` (`_switch_driver_if_needed`).
+var renderer: String = "auto"
+const RENDERERS: Array[String] = ["auto", "d3d12", "vulkan"]
+## This launch runs in Safe Mode (BootGuard: the last launch did not get to a playable picture, or the Safe Mode launcher): Low, no fog,
+## bloom or depth of field. The title screen says so; the player can raise the settings again.
+var safe_mode: bool = false
+## settings.cfg layout version: 2 = written by v0.4.3+ (older files may hold High chosen for an iGPU by the D3D12 misreport).
+const SETTINGS_VERSION: int = 2
+var _loaded_version: int = 0
 
 var _focused: bool = true
 ## Screenshot and test runs keep their own window (set by `_ready`).
@@ -111,7 +121,10 @@ func _ready() -> void:
 		if arg.begins_with("--scene=") or arg.begins_with("--no-save"):
 			_window_locked = true
 	load_settings()
+	_apply_boot_guard()
 	apply()
+	GameLog.info("settings", summary())
+	_switch_driver_if_needed()
 
 
 ## Applies everything: audio, window, VSync, frame cap, UI scale.
@@ -307,6 +320,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "fog_quality", fog_quality)
 	config.set_value("video", "zoom", camera_zoom)
 	config.set_value("video", "camera_angle", camera_angle)
+	config.set_value("video", "renderer", renderer)
+	config.set_value("meta", "version", SETTINGS_VERSION)
 	config.set_value("text", "dialogue", text_dialogue)
 	config.set_value("text", "cards", text_cards)
 	config.set_value("text", "tooltips", text_tooltips)
@@ -349,6 +364,11 @@ func load_settings(path: String = PATH) -> void:
 	fog_quality = clampi(int(config.get_value("video", "fog_quality", fog_quality)), 0, 2)
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, 2)
+	renderer = str(config.get_value("video", "renderer", renderer))
+	if not RENDERERS.has(renderer):
+		renderer = "auto"
+	_loaded_version = int(config.get_value("meta", "version", 1))
+	_migrate_quality()
 	text_dialogue = clampi(int(config.get_value("text", "dialogue", text_dialogue)), 0, TEXT_SCALES.size() - 1)
 	text_cards = clampi(int(config.get_value("text", "cards", text_cards)), 0, TEXT_SCALES.size() - 1)
 	text_tooltips = clampi(int(config.get_value("text", "tooltips", text_tooltips)), 0, TEXT_SCALES.size() - 1)
@@ -360,6 +380,75 @@ func load_settings(path: String = PATH) -> void:
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
 	Keybinds.load_from(config)
+
+
+## A settings.cfg from v0.4.2 or older that holds High on an integrated GPU got High from the D3D12 misreport (GpuInfo), not from the
+## player: it drops to the level recommended now, once (the file is saved with SETTINGS_VERSION on the next save).
+func _migrate_quality() -> void:
+	var kind: GpuInfo.Kind = GpuInfo.current_kind()
+	var level: int = migrated_quality(graphics_quality, _loaded_version, kind)
+	if level == graphics_quality:
+		return
+	graphics_quality = level
+	GameLog.info("settings", "High from an older version on an integrated GPU -> %s" % GraphicsQuality.display_name(graphics_quality))
+	save_settings.call_deferred()
+
+
+## The quality an older settings.cfg (`version`) keeps on a GPU of `kind` (see `_migrate_quality`).
+static func migrated_quality(level: int, version: int, kind: GpuInfo.Kind) -> int:
+	if version >= SETTINGS_VERSION or level != GraphicsQuality.Level.HIGH or not GpuInfo.is_integrated(kind):
+		return level
+	return GpuInfo.recommended_level(kind)
+
+
+## Safe Mode (BootGuard via GameLog): the lightest look, saved so it stays until the player raises it. Two bad launches in a row also
+## switch the rendering driver.
+func _apply_boot_guard() -> void:
+	if GameLog.safe_mode_reason.is_empty() or _window_locked:
+		return
+	safe_mode = true
+	apply_safe_mode()
+	if not GameLog.other_driver.is_empty():
+		renderer = GameLog.other_driver
+		GameLog.warn("settings", "two launches in a row did not start properly: trying the %s driver" % renderer)
+	save_settings()
+
+
+## The Safe Mode look: Low, no fog, bloom or depth of field (also the settings screen's "Safe settings" choice).
+func apply_safe_mode() -> void:
+	graphics_quality = GraphicsQuality.Level.LOW
+	fog_quality = 0
+	bloom = false
+	depth_of_field = false
+
+
+## An exported game whose chosen driver is not the running one restarts once with it (never in the editor, tools or tests; never twice).
+func _switch_driver_if_needed() -> void:
+	var running: String = RenderingServer.get_current_rendering_driver_name()
+	if renderer == "auto" or renderer == running or not OS.has_feature("template") or DisplayServer.get_name() == "headless":
+		return
+	for arg: String in OS.get_cmdline_args():
+		if arg.begins_with("--rendering-driver") or arg.begins_with("--rendering-method"):
+			return  # a launcher (.bat) or the player chose on the command line: that wins
+	var user_args: PackedStringArray = OS.get_cmdline_user_args()
+	if user_args.has("--driver-restarted"):
+		GameLog.warn("settings", "asked for the %s driver but the engine started %s (not available?)" % [renderer, running])
+		return
+	var args: PackedStringArray = OS.get_cmdline_args()
+	args.append_array(["--rendering-driver", renderer, "--"])
+	args.append_array(user_args)
+	args.append("--driver-restarted")
+	GameLog.info("settings", "restarting with the %s driver (running %s)" % [renderer, running])
+	BootGuard.set_stage("restarting for %s" % renderer)
+	OS.set_restart_on_exit(true, args)
+	get_tree().quit.call_deferred()
+
+
+## One line for the game log and reports: the graphics settings in use.
+func summary() -> String:
+	return "quality %s (recommended %s for this GPU), render scale %.2f, fog %d, bloom %s, depth of field %s, vsync %s, max fps %d, window mode %d, renderer %s%s" % [
+		GraphicsQuality.display_name(graphics_quality), GraphicsQuality.display_name(GraphicsQuality.recommended()), GraphicsQuality.render_scale(graphics_quality),
+		fog_quality, str(bloom), str(depth_of_field), str(vsync), max_fps, window_mode, renderer, ", SAFE MODE" if safe_mode else ""]
 
 
 ## Back to the defaults of the display, text, accessibility and audio options (key bindings have their own reset).

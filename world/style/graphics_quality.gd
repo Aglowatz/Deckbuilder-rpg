@@ -90,14 +90,11 @@ static func light_budget(level: int) -> int:
 	return [3, 6, 12][clampi(level, 0, 2)]
 
 
-## The default level for this machine: a discrete GPU gets High, an integrated or unknown one Medium, a software renderer Low.
+## The default level for this machine: a discrete GPU gets High, an integrated or unknown one Medium, an older Intel iGPU or a software
+## renderer Low. Overnight Oct 20: decided from the GPU's name (`GpuInfo`) - on D3D12 the engine reports every iGPU as discrete, so v0.4.0
+## put integrated GPUs on High (the Iris Xe tester's crash before the intro, fixed by choosing Medium).
 static func recommended() -> int:
-	match RenderingServer.get_video_adapter_type():
-		RenderingDevice.DEVICE_TYPE_DISCRETE_GPU:
-			return Level.HIGH
-		RenderingDevice.DEVICE_TYPE_CPU:
-			return Level.LOW
-	return Level.MEDIUM
+	return GpuInfo.recommended_level(GpuInfo.current_kind())
 
 
 ## The preset table (one row per level) for the settings screen and docs/art/graphics_loop.md: every knob in one place.
