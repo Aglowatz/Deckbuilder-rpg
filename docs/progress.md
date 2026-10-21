@@ -3496,3 +3496,13 @@ Final checks are at the end of the report.
    Room (the Store Room Ghosts, rule Haunted Inventory, 93.5% sim) -> level 5 -> Some Assembly Required (Bertram) -> the story quests.
 5. **Quest objectives one at a time** (done + current, the rest "???") and spoiler-free quest text (`test_quest_reveal.gd`).
 Checks: GUT 2044/2044; prologue, first-battles, playtest (new chain), Crosspath walk, release, Dev Menu and quest smokes OK.
+
+## Oct 20 (evening): v0.4.2 hotfix - the Crosspath arrival freeze
+
+Testers on v0.4.0 saw the game freeze on the first walk out of the Forgotten Cave. Root cause: with no loading screen, the whole town was
+built in ONE frame (8-25 s, black screen, Windows "Not Responding"); no input deadlock was found. Fix: the cave exit shows the loading
+screen; `TownScene` builds in stages behind it (`_stage`, `WorldLookRig.build_pieces_staged`); SceneManager waits for `is_load_finished()`
+(build, `UiArtWarmup.start_now/settled`, `SceneWarmup` thread loads) and settles before the fade-in; the arrival is one queue
+(`ARRIVAL_ORDER`) with a lock watchdog, `DialogueBox.interrupted`, a UiArtWarmup input guard; `LoadTiming` logs each load. Details and
+numbers: `docs/playtest/cave_arrival_freeze.md`; repro `bash tools/run_cave_arrival_repro.sh [pck]`; tests `tests/world/test_cave_arrival.gd`.
+Build: `builds/TheWaywardPath-v0.4.2-windows.zip` (628 MB), notes `docs/release/v0.4.2_notes.md`, tag v0.4.2.

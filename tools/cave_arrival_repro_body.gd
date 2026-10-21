@@ -55,9 +55,13 @@ func _run() -> void:
 	_path_name = OS.get_environment("CAVE_PATH") if not OS.get_environment("CAVE_PATH").is_empty() else "beefcake"
 	print("%s: path=%s mode=%s version=%s" % [TAG, _path_name, _mode, ProjectSettings.get_setting("application/config/version", "?")])
 	SaveSlots.dir = "%s/saves/" % TMP
+	if _mode == "load_old":
+		await _load_old_save()
+		_finish()
+		return
 	for slot: int in range(0, 6):
 		SaveSlots.delete(slot)
-	Session.save_enabled = _mode == "continue"
+	Session.save_enabled = _mode == "continue" or OS.get_environment("CAVE_KEEP_SAVE") == "1"
 	if _mode == "speed2x":
 		Settings.battle_speed = 2  # BATTLE_SPEEDS[2] = 2x
 	var color: int = _path_color(_path_name)
@@ -69,7 +73,33 @@ func _run() -> void:
 		_finish()
 		return
 	await _arrival()
+	if OS.get_environment("CAVE_KEEP_SAVE") == "1":
+		Session.save_game()
+		print("%s: kept the Crosspath save in %s" % [TAG, ProjectSettings.globalize_path(SaveSlots.dir)])
 	_finish()
+
+
+## CAVE_MODE=load_old: the save another build left (CAVE_KEEP_SAVE=1) is loaded with Continue's own path and must land in a working town.
+func _load_old_save() -> void:
+	var slot: int = SaveSlots.latest_slot()
+	_check(slot >= 0 and Session.load_from_slot(slot), "the older build's save loads (slot %d)" % slot)
+	Session.resume_loaded_game()
+	var waited: float = 0.0
+	while not (get_tree().current_scene is TownScene and not SceneManager.busy) and waited < 60.0:
+		await _seconds(0.5)
+		waited += 0.5
+	var town: TownScene = get_tree().current_scene as TownScene
+	_check(town != null, "it resumes in Crosspath")
+	if town == null:
+		return
+	await _seconds(1.5)
+	_check(Session.flag(&"maren_met") and Session.flag(&"trial_cleared"), "the save's progress is there")
+	_check(not bool(town.get("_locked")) and town.player.input_enabled, "the hero is free")
+	var start: Vector3 = town.player.position
+	await _key(KEY_S, true)
+	await _seconds(0.8)
+	await _key(KEY_S, false)
+	_check(town.player.position.distance_to(start) > 0.3, "and walks")
 
 
 func _path_color(name_text: String) -> int:
