@@ -52,6 +52,33 @@ any fact). Locked names and the banned list: `docs/design/canon.md`. Which conve
   gross. Under it: a wrongness that never stops growing.
 - **The Capital**: relentless approved cheer over obvious misery; the joke is the gap between the slogan and the whisper.
 
+## Running jokes, owned puns and zone threads (Oct 21)
+
+Folded in from the ChatGPT pass ledger (`docs/dialogue/chatgpt_pass_oct21/running_ledger.md`). Each character's own running gags are in
+their entry ("Running gags (Oct 21)"). Rules for reusing them:
+
+- **Owned puns are not a pool.** A pun listed in an entry belongs to that character (Gus: resistance, the straw revolution; Basil: an order
+  I can stomach, low heat, catch of the day; Fennel: closed-course, open-door pastry; Moss: nowhere to leaf; Pip: hem-ergency; Rip:
+  overhead, relative strength; Benchley: footing; Pump: heavy reading, knowledge gains; Gary: standing appointment, rise to the occasion,
+  lowered bar; the golems: last course, rind, cool head; Gristle: soil charge, starting hand, silent auction, growing business; Rhonda: rub it
+  in; Fenwick: shelf esteem). Signs and narration own a few too: constructive reflection and rock-solid (Gainlands signs), whey out of line
+  (the protein golem), rich inner life (the mushroom soup), take a little heat (Buffet complaints), scrap together and attached to the plot
+  (Dump narration), grounded/lofty and paper trail (loading tips). If a flagged line is reverted (review_flags.md), its pun is free again.
+- **Catchphrases are callbacks, not fresh punchlines.** Reuse them only for their owner and only where the setup was heard.
+- **Zone threads (setup -> payoff):** Gainlands: Gus's 110 percent becomes enough; Benchley's floorboard becomes legal stock; Mountain's
+  festival memories. Buffet: Basil's cake clue -> the reveal -> "Yes, Chef" said willingly; Mirepoix's decorative cake -> dessert; the
+  Doppelganger earns a name. D.N.A.: Gerald 212 -> Mortimer 213 (the Wanderer) -> 214; Agnes's unfiled funeral -> HEIR: ALIVE. Dump: eleven
+  birthday trees -> twelve; the missing compost -> the Raccoon's royal sampling; Wren Muckfoot's signs stop eating back. Capital: the four
+  Wrinkles quests -> Wren's four insights -> the answers to Primm; each Perfectly Happy Citizen's slip -> their freedom. Crosspath/Lab:
+  Maren's pie handwriting -> the castle ward -> the Lab; the four colours and the lullaby -> the throne; Brannoch's open gate -> Isla.
+- **Humor dial used in that pass:** loud in Crosspath, the zones, barks, vendors and tips (a joke in most boxes of comedic characters, one
+  pun per box, up to two millennial references per conversation); medium in the Capital (cracks in the propaganda); off in the castle, the
+  Model Room, the ending, memories, the leader reveals, Widow Pell, Citizen 4471 and Isla's return.
+- **"Off" means no punchline, not no colour.** The review of that pass (review_flags.md) found its main weakness there: wry or lyrical
+  lines in the story stills, the ending, Primm's journals and the castle were flattened into "You see..." narration. Keep the specific,
+  human detail ("a very small, very sad, very real tune"); drop only the wink.
+
+
 ## Entry format
 
 Each entry: **Talks** (sentence length, vocabulary, rhythm) / **Tics** / **Humor** / **Wants** / **Never** (what they would never say) /
@@ -110,6 +137,8 @@ Keys: intro `cave_mouth.maren*`, `town.elder.*`, `memory.N.intro/.after/.after2/
   says the Wellspring is anything not in the bible.
 - **New lines:** "That is not a prince, dearie. That is a damp young man with good posture. Eat your pie." / "I knew. The Warden only opens
   for one family. I knew, and I was too frightened to say it."
+- **Running gags (Oct 21):** "Further questions require fieldwork"; dependable "at a speed you can barely measure"; the pie has less
+  patience than the kingdom. No pie punchline over her laboratory guilt.
 
 ## Crosspath
 
@@ -121,6 +150,14 @@ Keys: intro `town.guard*`; npcs.json barks.
 - **Wants:** Isla home; every traveller back safe.
 - **Never:** long explanations without the grunt; jokes about Isla; locks anything.
 - **New lines:** "Hm. Wrote your name down. Well. Wrote 'stranger, damp'. I'll fix it when you know." / "Gate's open. Always is. In case."
+- **Running gags (Oct 21):** the notebook's "stranger, damp"; knees stay his own small complaint ("a local problem"). The open gate pays off
+  with Isla's return, quietly.
+
+### Isla Brannoch (`NPC-ISLA`, home after eight years)
+Keys: npcs.json barks (after her return).
+- **Talks:** quiet, warm, plain; short sentences about home and her father.
+- **Never:** a punchline about the eight years. Brannoch's open gate pays off here, quietly.
+- **Running gags (Oct 21):** none on purpose; a small warm line is the most she gets ("Dad says hi.").
 
 ### Sable (`V-SABLE`, card vendor)
 Keys: intro `town.vendor.*`, `pack.card_vendor.*`; npcs.json barks.
@@ -131,6 +168,8 @@ Keys: intro `town.vendor.*`, `pack.card_vendor.*`; npcs.json barks.
 - **Never:** hurries, haggles crudely, admits where a card came from.
 - **New lines:** "This one's a misprint, darling. Two typos and a smudge. It has more character than most knights." / "Where's it from?
   The past. Next question."
+- **Running gags (Oct 21):** misprints with "a more adventurous relationship with spelling"; the crate that "declines to comment"; the
+  discreet fainting policy. Her darling is quick; Mirepoix's is slower and culinary.
 
 ### Tilly Tonic (`V-TONIC`, items)
 Keys: intro `town.item_vendor.*`; npcs.json barks.
@@ -140,6 +179,8 @@ Keys: intro `town.item_vendor.*`; npcs.json barks.
 - **Wants:** you supplied and her latest brew validated.
 - **Never:** sounds calm or cautious; uses a full stop where an exclamation fits.
 - **New lines:** "Healing draught! Tested it this morning! I'm fine! I'm green! I'm usually green!" / "That one's for emergencies! Or Tuesdays!"
+- **Running gags (Oct 21):** orange and teal days; emergencies on Tuesdays. Her colour comes from potions (frog skin, never hair), never a
+  species joke.
 
 ### Bertram Beetsworth, Assistant to the Regional Merchant (`V-BEETSWORTH`)
 Keys: intro `equipment_vendor_*_lines`, `town.equipment_vendor.*`, `quest.armory.*`; npcs.json barks.
@@ -150,6 +191,8 @@ Keys: intro `equipment_vendor_*_lines`, `town.equipment_vendor.*`, `quest.armory
 - **Never:** jokes knowingly; admits a protocol is made up; lets anyone touch the drawer.
 - **New lines:** "Security Protocol Nine: compliment the customer's boots. Your boots are adequate. Protocol complete." / "Fact: bears fear
   paperwork. I have not tested this. I am afraid to."
+- **Running gags (Oct 21):** "The TO is load-bearing"; contents classified, "and so is your interest in them"; numbered Security Protocols;
+  the employee-of-the-month case file; correct procedure as promotion evidence. This ambition is his alone (never lend it to Ledgerbone).
 
 ### Pip Threadwell (`V-THREADWELL`, hats and cloaks)
 Keys: intro `town.tailor.*`, `tailor.*`; npcs.json barks.
@@ -159,6 +202,8 @@ Keys: intro `town.tailor.*`, `tailor.*`; npcs.json barks.
 - **Wants:** every head in Patchwork properly hatted; the three legendary pieces seen.
 - **Never:** says anything is "fine"; talks about stats.
 - **New lines:** "Hold still. Your left shoulder is a size braver than your right." / "A cloak is a story you wear backwards."
+- **Running gags (Oct 21):** "my favourite head"; a hat needs an entrance; the hat surprised to be wearing you; owns the pun hem-ergency.
+  Never shames anyone for money.
 
 ### Foil Fenwick (`V-FENWICK`, Path packs)
 Keys: intro `town.pack_vendor.*`, `pack.vendor.*`; npcs.json barks.
@@ -168,6 +213,8 @@ Keys: intro `town.pack_vendor.*`, `pack.vendor.*`; npcs.json barks.
 - **Wants:** every Path's pack on his shelf, which means every zone freed.
 - **Never:** opens a pack himself; sounds bored.
 - **New lines:** "The Gainlands pack arrived. It was sweating. I think that's a good sign." / "Shh. Listen. ...Foil."
+- **Running gags (Oct 21):** wants good light so he can see what he is crying about; "a collector, not a strong person"; owns the pun shelf
+  esteem. Never opens the stock himself.
 
 ### Auntie Alembic (`V-ALEMBIC`, the Alchemist)
 Keys: intro `town.alchemist.*`; npcs.json barks.
@@ -178,6 +225,8 @@ Keys: intro `town.alchemist.*`; npcs.json barks.
 - **Never:** rushes; signs anything "Z.V."; calls the villain anything but `{villain}`.
 - **New lines:** "The Paths were happiest mixed, dear. Like soup. Or a family. Or soup at a family dinner." / "That flask is listening. Lower
   your voice. ...It's fine, it likes you."
+- **Running gags (Oct 21):** the red flask takes things personally; the cauldron is patient, which is not the same as having had lunch. No
+  new recipe or crafting tier in a joke.
 
 ### Announcer Grand Bellows (`NPC-BELLOWS`, the Undercroft; he/him)
 Keys: intro `town.arena.*`, `arena.*`; npcs.json barks; code `core/arena/arena_content.gd` (gear flavour).
@@ -187,6 +236,8 @@ Keys: intro `town.arena.*`, `arena.*`; npcs.json barks; code `core/arena/arena_c
 - **Wants:** a great bout, a full cellar, the old arena reopened one day.
 - **Never:** whispers for long; is a "she" (the old pronoun is a leftover).
 - **New lines:** "IN THIS CORNER: A CHALLENGER! IN THAT CORNER: A SLIGHTLY DAMP WALL!" / "I'm having soup. THE SOUP IS WINNING."
+- **Running gags (Oct 21):** the echo believed in you first and agrees with EVERYTHING; the third stair bites without an introduction.
+  Announcements loud, asides small.
 
 ### Brindle the Baker (`NPC-VILLAGER`; plate "Brindle the Baker")
 Keys: code `world/town_scene.gd` `BAKER_LINES`; npcs.json barks (entry still named "Bun the Baker").
@@ -196,6 +247,7 @@ Keys: code `world/town_scene.gd` `BAKER_LINES`; npcs.json barks (entry still nam
 - **Wants:** everyone fed and asleep by nine.
 - **Never:** gossips cruelly; mentions a bridge to the Capital (the imperial road has an arch).
 - **New lines:** "I knead the morning off. Then I knead the bread. Busy day." / "Flour in my whiskers again. Free seasoning."
+- **Running gags (Oct 21):** "occupational dusting". His barks stay his own; any clue bark stays a clue.
 
 ### Crosspath townsfolk (`NPC-TOWNSFOLK`)
 Keys: npcs.json barks.
@@ -206,6 +258,24 @@ Keys: npcs.json barks.
 - **Never:** fantasy creatures that do not exist in Patchwork (no dragons); exposition.
 - **New lines:** "Did you hear the old cottage cheers at night now? From the cellar. I'm choosing to love it." / "The well hummed at me.
   Wells don't hum. I said thank you anyway."
+- **Running gags (Oct 21):** keep clue barks intact and each line's owner distinct (the well's hum belongs to the Old Well thread).
+
+### The Storeroom ghosts (side quest `storeroom_ghosts`)
+Keys: intro `storeroom.before`, `storeroom.after_win`; dungeon_content `quest.storeroom_ghosts.*`.
+- **Talks:** customer service beyond death; polite, collective "we".
+- **Running gags (Oct 21):** an important haunting ("Your haunting is very important to us"), ninety years of nightly lantern checks, the
+  refund. The joke's target is delay, never the dead.
+
+### Old Hob (`NPC-HOB`, the graveyard)
+Keys: npcs.json barks (the Dump's Granny Gristle uses the legacy key `npc.hob.*`; she is not Old Hob).
+- **Running gags (Oct 21):** the appointment book, cellar cheering. Keep his barks distinct from the townsfolk and from Gristle.
+
+### The Old Well (secret quest `secret_old_well`)
+Keys: `data/story/old_well_story.json` (beats, text).
+- **Talks:** the Well and the Echo speak in short, slow fragments ("...Four streams. One spring."). Narration around it may be dry.
+- **Never:** a joke in the Well's or the Echo's own voice; any lore beyond story_bible section 4 (one source, four streams).
+- **Running gags (Oct 21):** in the narration only: the boot the water goes politely round, "and salt" added twice to the first recipe,
+  the Wanderer keeping a bottle of a well with opinions.
 
 ### The Secret Dealer (alley stall)
 Keys: intro `town.hidden_vendor`. **Hands off** (black market): fix tokens or banned names only.
@@ -219,6 +289,8 @@ Keys: intro `travel.*`.
 - **Never:** complains; explains how rifts work.
 - **New lines:** "HNNNGH. Thank you for ripping with the Express. Your hole is ready." / "That is shirt number two hundred and thirteen.
   I am very proud of it."
+- **Running gags (Oct 21):** "buddy" / "brother"; two men hold the sky (owns the puns overhead and relative strength); naming cousins became
+  "a cooldown exercise"; the Express leaves "a personal impression". Never explain how rifts work.
 
 ### Shiro Swindle, Master of the Oldest Trick (`NPC-NINJA`)
 Keys: code `core/dungeon/ninja_boss.gd` (lines with `[smug]`/`[angry]` tags); `world/ninja/giant_chest_event.gd`.
@@ -229,6 +301,7 @@ Keys: code `core/dungeon/ninja_boss.gd` (lines with `[smug]`/`[angry]` tags); `w
 - **Never:** real cruelty; keeps gold he lost fairly.
 - **New lines:** "A giant chest, alone, in the open? I'm insulted on your behalf. SMOKE BOMB!!!" / "You came back. Nobody comes back. ...Fine.
   Cards. Now."
+- **Running gags (Oct 21):** keep "the oldest trick" and SMOKE BOMB exactly as they are.
 
 ### The Vault Guardian, the Old Kingdom Automaton (`NPC-AUTOMATON`, S-TOWN)
 Keys: dungeon_content `dungeon.dg_s_town_boss.*`.
@@ -262,6 +335,8 @@ Keys: intro `beefcake_npc_intro/_victory/_defeat_lines`, `gate.beefcake.*`; npcs
 - **Never:** freed, he never yells again; corrupted, he never says please.
 - **New lines:** "SPOTTERS ONLY. I AM SPOTTERS. ...SPOTTER. I AM ONE SPOTTER." / "Sorry about the bridge. And the yelling. Want to do a
   calf raise together? It helps."
+- **Running gags (Oct 21):** freed, he oils the crank every morning ("Maintenance is how I say sorry") and offers hydration and stretching
+  as company, not orders.
 
 ### Prudence Pallor, Checkpoint Supervisor (`NPC-PALLOR`, permit barrier; later Agnes's deputy)
 Keys: intro `necrocrat_npc_*_lines`, `gate.necrocrat.*`; dna `freed_npc.prudence`; npcs.json barks.
@@ -282,6 +357,7 @@ Keys: intro `gourmand_npc_*_lines`, `gate.gourmand.*`; npcs.json barks.
 - **Never:** calls the war programme anything but "the war effort" while corrupted; mocks your cooking once freed.
 - **New lines:** "TASTE IT. It's for the war effort. Everything is for the war effort. The SOUP is for the war effort." / "Plain bread.
   No sauce. I could weep. I am weeping. Take a biscuit."
+- **Running gags (Oct 21):** owns the puns closed-course meal and open-door pastry (freed, people wander in for biscuits).
 
 ### Moss Mulligan, the Corrupted Druid (`NPC-MULLIGAN`, thorn wall; she/her)
 Keys: intro `refusemancer_npc_*_lines`, `gate.refusemancer.*`; npcs.json barks.
@@ -292,6 +368,8 @@ Keys: intro `refusemancer_npc_*_lines`, `gate.refusemancer.*`; npcs.json barks.
 - **Never:** freed, she never sounds menacing; she is never "he".
 - **New lines:** "...grow... GROW... nothing leaves... nothing rots... stay..." / "I'm so sorry about the thorns. They're out of my
   arms now. Mostly. That one's just a splinter."
+- **Running gags (Oct 21):** corrupted, she trails off in ellipses (owns the pun nowhere to leaf); freed, she keeps one thorn in a pot that
+  is not ready to meet the curtains.
 
 ## The Gainlands
 
@@ -304,6 +382,8 @@ Keys: gainlands `npc.brenda.*` (legacy key), `quest.gain_spot_me.*`, `fx.wake`; 
 - **Never:** hurries a story; mocks a weak lifter.
 - **New lines:** "Back in my day we spotted each other. Spotted the mountain too. It was very heavy, the mountain..." / "That boy fell on
   his royal behind and laughed. You laugh the same way. Where was I."
+- **Running gags (Oct 21):** the illegal shake flavour "worth remembering"; vouches for you to the rippers. The boy and the face in his
+  freed festival memories stay sincere.
 
 ### Foreman Gus (wheel foreman; off-sheet)
 Keys: gainlands `npc.gus.*`, `quest.gain_power.*`.
@@ -314,6 +394,8 @@ Keys: gainlands `npc.gus.*`, `quest.gain_power.*`.
 - **Never:** speaks about himself in third person; cheers the regime.
 - **New lines:** "The wheels go to a hundred. The regime wants a hundred and ten. The extra ten is me crying." / "Run the big wheel. For
   us, not for the House. Nobody needs to know."
+- **Running gags (Oct 21):** "Turns out a hundred was all of it"; voluntary "for once"; owns the puns resistance and the revolution comes
+  with a straw. His arc is coercion becoming choice.
 
 ### Coach Brutus Benchley (`V-BENCHLEY`, Gainlands cards; minotaur)
 Keys: gainlands `npc.tony.*` (legacy key), `quest.gain_lanes.*`; npcs.json barks.
@@ -324,6 +406,8 @@ Keys: gainlands `npc.tony.*` (legacy key), `quest.gain_lanes.*`; npcs.json barks
 - **Never:** "Tony"; "everything's relative" (stale joke); a calm sentence.
 - **New lines:** "LET'S GO! These cards are pre-workout for your deck! Regime-approved! (They are not.)" / "Floorboard? What floorboard. Do
   not stand on the floorboard."
+- **Running gags (Oct 21):** "just iron, which officially isn't anything"; the whistle saving its breath; proud of the clearance bin nobody
+  buys from; freed, he can shout about the floorboard and has forgotten how. Owns the pun footing.
 
 ### Professor Pump (`NPC-PUMP`, quiz)
 Keys: gainlands `npc.quiz.*`, `quiz.*`.
@@ -334,6 +418,8 @@ Keys: gainlands `npc.quiz.*`, `quiz.*`.
 - **Never:** a wrong fact (every quiz answer must stay findable).
 - **New lines:** "Pop quiz. Do not panic. Panic is cardio for the brain, and we are training brain-ceps." / "Correct. Ten points and a
   protein bar. The bar is for decoration."
+- **Running gags (Oct 21):** owns the puns heavy reading and knowledge gains; "training recall, not regret". A poor score is an invitation,
+  never an insult.
 
 ### Chet Thunderabs (`NPC-THUNDERABS`, Rep Counter host)
 Keys: gainlands `npc.minigame.*`, `reps.*`.
@@ -344,6 +430,7 @@ Keys: gainlands `npc.minigame.*`, `reps.*`.
 - **Never:** real product names; a quiet sentence.
 - **New lines:** "But WAIT! Act now and get a SECOND set of reps! Absolutely free! Reps not included!" / "Three easy payments of... no!
   Free! Always free! The legwarmers insisted."
+- **Running gags (Oct 21):** spandex as resistance; the cameras still rolling; legwarmers that want a solo shot.
 
 ### Gary (under a barbell; off-sheet)
 Keys: gainlands `npc.gary.*`.
@@ -353,6 +440,7 @@ Keys: gainlands `npc.gary.*`.
 - **Wants:** a spotter.
 - **Never:** blames anyone.
 - **New lines:** "Mmph. Hi. Gary. Could you... yes. That. Thank you. Lovely to meet you." / "Freed? I'm free! Also still under the bar. Different bar."
+- **Running gags (Oct 21):** owns the puns standing appointment, rise to the occasion and the lowered bar. Never ridicule a weak lifter.
 
 ### Throwers and rippers (Big Hurl `NPC-HURL` and the named throwers/rippers)
 Keys: gainlands `travel.thrower_*`, `travel.ripper_*`, `fx.thrown/.landed/.portal`.
@@ -363,6 +451,7 @@ Keys: gainlands `travel.thrower_*`, `travel.ripper_*`, `fx.thrown/.landed/.porta
 - **Never:** misgender Old Man Mountain ("her 'Spot Me!' quest" is a leftover); give an unclear lock condition.
 - **New lines:** "Three... two... I already threw you. Sorry. Enthusiasm." / "Calf Cove's shut till Old Man Mountain trusts you. Spot Gary
   for him and I'll rip it open."
+- **Running gags (Oct 21):** landings, knees and sharp seams; "the view is the comfortable part". Same no-rift-physics rule as Rip.
 
 ### Grandmaster Flex, the Unbroken (`NPC-FLEX`)
 Keys: gainlands `cutscene.rescue.*`, `cutscene.flex.*`, `dungeon.hg_stretch.after`, `dungeon.hg_boss.after*`, `freed_npc.heartlift`; capital `boon.beefcake.line`, `freed_npc.heartlift`; npcs.json barks.
@@ -372,6 +461,8 @@ Keys: gainlands `cutscene.rescue.*`, `cutscene.flex.*`, `dungeon.hg_stretch.afte
 - **Wants:** Clench back on the bench from zero; the gym open to everyone.
 - **Never:** brags, hates, shouts, or talks about muscles as the point.
 - **New lines:** "They took the iron. The iron was only ever a guest." / "Lift what you can. Carry what you must. Put down what was never yours."
+- **Running gags (Oct 21):** "Now. Leg day?" closes his freed speech (flagged for restore in review_flags.md); "Lovely day for it" when he
+  walks out alone; the guards' rounds by "the hour of the squat".
 
 ### Chancellor Clench, Iron Regent (`NPC-CLENCH`, boss)
 Keys: gainlands `dungeon.hg_boss.before*`, `cutscene.flex.1/.4`, `ruler.statue`.
@@ -420,6 +511,8 @@ Keys: gourmand `npc.odalys.*` (legacy key), `quest.buf_mend.*`, `fx.wake`; dunge
 - **Never:** calls the Chef "he"; shouts (except when brave).
 - **New lines:** "Chef ALWAYS tastes. That chef doesn't. That chef just... smiles at the soup." / "She baked him four layers. One per Path.
   He licked the frosting off all four. Chef laughed for a week."
+- **Running gags (Oct 21):** panic as a cooking method; "Yes, Chef" on the lowest possible heat; owns the puns an order I can stomach, low
+  heat and catch of the day. The cake clue and the Chef's tasting stay serious evidence.
 
 ### Sous-Chef Tarragon (fetcher of things; off-sheet)
 Keys: gourmand `npc.tarragon.*`, `quest.buf_pantry.*`.
@@ -430,6 +523,7 @@ Keys: gourmand `npc.tarragon.*`, `quest.buf_pantry.*`.
 - **Never:** speaks calmly about the Test Kitchen.
 - **New lines:** "We're out of everything that matters and two things that don't. Truffle by the broccoli, salt by the river, honey up the Butte." /
   "I am begging with my whole apron."
+- **Running gags (Oct 21):** never catches up with lunch; the empty "minimalist menu"; no more cannonballs. Repetition is the joke.
 
 ### Madame Mirepoix (`V-MIREPOIX`, Buffet cards; Persian cat)
 Keys: gourmand `npc.dolcetta.*` (legacy key), `quest.buf_pie.*`; npcs.json barks.
@@ -440,6 +534,8 @@ Keys: gourmand `npc.dolcetta.*` (legacy key), `quest.buf_pie.*`; npcs.json barks
 - **Never:** eats the sauce; repeats Sable's "darling" rhythm (hers is slower, French-cuisine formal).
 - **New lines:** "Tonight's tasting menu: three cards, lightly foiled, served with disdain." / "You scrappy little thing. Fine. A discount.
   Do not tell the other customers. There are no other customers."
+- **Running gags (Oct 21):** the decorative cake (setup) is "promoted from decoration to dessert" when freed (payoff); she recommends the
+  air beside the Special Sauce and never eats it.
 
 ### Professor Pate (`NPC-PATE`, quiz)
 Keys: gourmand `npc.quiz.*`, `quiz.*`.
@@ -449,6 +545,8 @@ Keys: gourmand `npc.quiz.*`, `quiz.*`.
 - **Wants:** curious students.
 - **Never:** an unfindable quiz answer.
 - **New lines:** "The answer, like a good roux, wants patience. And butter. Mostly butter." / "Wrong, but deliciously wrong."
+- **Running gags (Oct 21):** footnotes with an excellent finish; facts left to simmer; chalk tasted like a vintage. Quiz answer facts stay
+  exact.
 
 ### Chef Flambe Fontaine (`NPC-FLAMBE`, Dinner in a Dash host)
 Keys: gourmand `npc.minigame.*`, `order.*`.
@@ -458,6 +556,8 @@ Keys: gourmand `npc.minigame.*`, `order.*`.
 - **Wants:** his show back.
 - **Never:** real show or network names.
 - **New lines:** "ORDER UP! Sixty seconds and a dream! Mostly the dream!" / "That plating? A crime. A beautiful, beautiful crime."
+- **Running gags (Oct 21):** the SECRET BROADCAST; rewind to the dramatic entrance; Savannah's garnish; a comeback after every failure ("a
+  souffle gets a second rise").
 
 ### Old Meatloaf and the gate golems (Brisket, Sir Loin, Colonel Casserole)
 Keys: gourmand `npc.old_meatloaf.*`, `gate.*`.
@@ -467,6 +567,8 @@ Keys: gourmand `npc.old_meatloaf.*`, `gate.*`.
 - **Wants:** a chef worth saying "Yes, Chef" to.
 - **Never:** unclear gate conditions.
 - **New lines:** "...Chef?" / "Halt, traveller. This gate opens for one pinch of real saffron. It grows in the Candy Field. Yes, Chef."
+- **Running gags (Oct 21):** owns the puns last course and rind (the cheese takes trespassing personally); overthought ladles; a prototype
+  aftertaste "with a blast radius"; the fridge golem owns cool head. No jokes at the captivity or the unmasking.
 
 ### The Grand Chef (`NPC-ESCOFFINA`)
 Keys: gourmand `cutscene.wonder.*`, `freed_npc.grandchef`; capital `boon.gourmand.line`, `freed_npc.grandchef`; npcs.json barks.
@@ -485,6 +587,8 @@ Keys: gourmand `dungeon.tk_boss.*`, `cutscene.reveal.*`, `cutscene.wonder.2/.7`,
 - **Wants:** before: orders followed; after: to be someone worth the name.
 - **Never:** tastes anything (before); swaggers (after); an umlaut.
 - **New lines:** "Delicious. Delicious. I have been told that is the word." / "I tasted my own soup today. As me. It was too salty. It was mine."
+- **Running gags (Oct 21):** receives a chosen name through actions. Its "I never liked this chin" and the freed statue's "Whose chin is
+  that?" were a gag pair (both flagged for restore).
 
 ### The Itamae Supreme (`NPC-ITAMAE`, Omakase boss)
 Keys: dungeon_content `dungeon.dg_s_gour_boss.*`.
@@ -515,6 +619,8 @@ Keys: dna `npc.dolores.*` (legacy key), `quest.dna_backlog.*`, `dungeon.ha_numbe
 - **Never:** cruelty; giving up on a person; library jokes (she is front desk, not a librarian).
 - **New lines:** "Appeal number forty thousand and one. Denied. I am starting to take it personally." / "Irregular. I do so love an irregular.
   It means somebody forgot to finish lying."
+- **Running gags (Oct 21):** keeps the receipts; denied appeals become care. Her unfiled funeral record pays off as HEIR: ALIVE in the
+  ending; no punchline over the missing royal remains or the homecoming.
 
 ### Gerald, Number 4,000,212 (`NPC-GERALD`, breakroom barista)
 Keys: dna `npc.barnaby.*` (legacy key), `quest.dna_onboarding.*`; dungeon_content `quest.side_s_necro.*`; npcs.json barks.
@@ -525,6 +631,8 @@ Keys: dna `npc.barnaby.*` (legacy key), `quest.dna_onboarding.*`; dungeon_conten
 - **Never:** complains outright; loses his manners.
 - **New lines:** "They're on three. I'm four million two hundred and twelve. I've brought a book. Several. All of them, actually." /
   "My number was called. I didn't know what to do with my hands. I made coffee."
+- **Running gags (Oct 21):** cream none, sugar none, hope back in stock; attached to his number ("we've been through so much together").
+  Courteous, never threatening. The 212 / 213 / 214 thread pays off at the vacancy and with Mortimer.
 
 ### Clerk Ledgerbone (`V-LEDGERBONE`, Requisitions)
 Keys: dna `npc.pip.*` (legacy key), `quest.dna_audit.*`; npcs.json barks.
@@ -534,6 +642,8 @@ Keys: dna `npc.pip.*` (legacy key), `quest.dna_audit.*`; npcs.json barks.
 - **Wants:** a form filled correctly; the stamp happy.
 - **Never:** long speeches; sarcasm.
 - **New lines:** "Form 12-B for purchases. Completed correctly. Oh. Oh, that's lovely." / "Next."
+- **Running gags (Oct 21):** customers make him look busy; learning to be unbusy ("Nothing was filed. Exhilarating."); his legs are on loan
+  TO Accounts.
 
 ### Director Ectomund (`NPC-ECTOMUND`, quiz)
 Keys: dna `npc.quiz.*`, `quiz.*`.
@@ -543,6 +653,7 @@ Keys: dna `npc.quiz.*`, `quiz.*`.
 - **Wants:** a perfect score to record in triplicate.
 - **Never:** an unfindable answer.
 - **New lines:** "Question one of four. Pens down. Ghostly pens also down." / "Correct! I shall record it in triplicate. And then once more, for joy."
+- **Running gags (Oct 21):** perfection makes him suspicious; joy recorded in triplicate.
 
 ### Kyle (Deceased Since '09) (`NPC-KYLE`, memory matching)
 Keys: dna `npc.matching.*`, `match.*`; npcs.json barks.
@@ -553,6 +664,7 @@ Keys: dna `npc.matching.*`, `match.*`; npcs.json barks.
 - **Wants:** someone to play with.
 - **Never:** real brands, sites or bands; any year but '09 for his death.
 - **New lines:** "brb, haunting. jk. unless?" / "i filed the big transfer form. didn't read it. who reads forms. ...oh. Necrocrats. we read forms."
+- **Running gags (Oct 21):** the pet died seven times this week ("little egg, big commitment"). Lowercase energy; no real sites or products.
 
 ### Mortimer Grimsby, CE-No (`NPC-MORTIMER`, boss)
 Keys: dna `dungeon.ha_boss.*`, `cutscene.vacancy.1/.3/.5`, `freed_npc.mortimer`, `ruler.statue`; npcs.json barks.
@@ -563,6 +675,8 @@ Keys: dna `dungeon.ha_boss.*`, `cutscene.vacancy.1/.3/.5`, `freed_npc.mortimer`,
 - **Never:** raises his voice; cackles; is called evil.
 - **New lines:** "Your appeal has been received, reviewed and denied. It was a very good appeal." / "Number four million two hundred and
   fourteen. I have begun to understand Gerald."
+- **Running gags (Oct 21):** valid versus right; number 4,000,213 was the Wanderer and did not wait ("I am told resenting it is healthy",
+  flagged for restore). Keep the exact queue order.
 
 ### Undersecretary Vellum (`NPC-VELLUM`, Appeals Court elite)
 Keys: dna `dungeon.ha_clerk.*`.
@@ -589,6 +703,7 @@ Keys: dna `dungeon.*`, `event.ha_*`, `enemy.*`, `memo.*`.
 - **Humor:** office comedy; never sneering.
 - **Never:** unclear choices in events.
 - **New lines:** "Form 13-A? Certainly. It requires Form 12-F, which requires a strong cup of tea." / "You may appeal. You will lose. But you may appeal."
+- **Running gags (Oct 21):** Tuesday; owns the tip pun paper trail.
 
 ### Percival Plume, Deputy Minister of Good News (`NPC-PLUME`; the loudspeaker voice) [canon, not built as a character]
 Keys: capital `facade.speaker.*` (the broadcasts are his voice; he is never named on screen yet).
@@ -599,6 +714,7 @@ Keys: capital `facade.speaker.*` (the broadcasts are his voice; he is never name
 - **Never:** admits a mistake; is Primm's voice (Primm is never heard outside the castle).
 - **New lines:** "Great news, citizens! Today's rain has been approved, and will be dry." / "A reminder: the Wrinkles do not exist.
   Please report anyone who exists."
+- **Running gags (Oct 21):** one Approved Hat Size; rehearse your surprise for Spontaneity Thursday. Freed announcements undo each one.
 
 ## The Verdant Dump
 
@@ -611,6 +727,8 @@ Keys: refusemancer `npc.marigold.*` (legacy key), `quest.heap_dam.*`, `dungeon.r
 - **Never:** "she"; "a few months back" for the glowing young man (it was not long ago); cruelty to raccoons.
 - **New lines:** "The vines are wrong. They whisper. Also SOMEBODY ate the compost AGAIN." / "Eleven trees, one for every birthday.
   Then the twelfth spot stayed empty. I water it anyway."
+- **Running gags (Oct 21):** check boots for tendrils ("We already have enough houseplants"); the raccoons go very quiet about the compost.
+  Freed, eleven birthday trees become twelve. The trees and the carried sleeper get no added jokes.
 
 ### Granny Gristle (`V-GRISTLE`, Dump cards; opossum)
 Keys: refusemancer `npc.hob.*` (legacy key; not Old Hob), `quest.heap_fert.*`, `fx.wake`; npcs.json barks.
@@ -620,6 +738,8 @@ Keys: refusemancer `npc.hob.*` (legacy key; not Old Hob), `quest.heap_fert.*`, `
 - **Wants:** fed fields, a shed that stays a shed.
 - **Never:** sounds like Maren (her "dearie" is cheerful, Maren's is a warning).
 - **New lines:** "Found, not stolen, dearie. The raccoon found it. I just held it very tightly. Heh!" / "One person's trash is another person's starting hand."
+- **Running gags (Oct 21):** root vegetables that watch her; vintage turnips; owns the puns soil charge, starting hand, silent auction and
+  growing business. Her cheerful dearie is not Maren's warning one.
 
 ### Wren Muckfoot (animal handler; off-sheet; name clash with Wren is open)
 Keys: refusemancer `npc.wren.*`, `quest.heap_herd.*`.
@@ -629,6 +749,8 @@ Keys: refusemancer `npc.wren.*`, `quest.heap_herd.*`.
 - **Wants:** the herd home before dark.
 - **Never:** panics; leaves a dangling NPC reference (no unseen "Druid Sorrel").
 - **New lines:** "The goats got out. The goats always get out. They're goats." / "The raccoon has a briefcase. Don't ask him about it. He'll tell you."
+- **Running gags (Oct 21):** raccoons take eye contact as the start of negotiations; the goat card "you can play without having to catch
+  it"; the signs stop biting back once freed.
 
 ### Druid Thistlewick (`NPC-THISTLEWICK`, quiz)
 Keys: refusemancer `npc.quiz.*`, `quiz.*`.
@@ -638,6 +760,8 @@ Keys: refusemancer `npc.quiz.*`, `quiz.*`.
 - **Wants:** correct sorting, in bins and in minds.
 - **Never:** an unfindable answer.
 - **New lines:** "Sort your thoughts like your bins: compost, recycle, regret." / "Correct. The earth thanks you. Quietly. The dishwasher, loudly."
+- **Running gags (Oct 21):** "Forty years, and NOW it wants to clear the air"; rinse-cycle wisdom; the compostable certificate. No quiz
+  facts changed.
 
 ### Recycle Rhonda (`NPC-RHONDA`, Sort It Out host)
 Keys: refusemancer `npc.minigame.*`, `sort.*`.
@@ -647,6 +771,8 @@ Keys: refusemancer `npc.minigame.*`, `sort.*`.
 - **Wants:** a sorting champion.
 - **Never:** real show names.
 - **New lines:** "Reduce! Reuse! Recy-CLUE: you're winning!" / "First prize is a blue ribbon. Made from a blue ribbon."
+- **Running gags (Oct 21):** the crowd is three goats; owns the pun rub it in (the salve, not the victory). Instructions and bins stay
+  exact.
 
 ### Compostella, the Rotheart, and Archdruid Compostella (`NPC-ROTHEART` / `NPC-COMPOSTELLA`)
 Keys: refusemancer `dungeon.rh_boss.*`, `cutscene.sever.*`, `freed_npc.compostella`, `ruler.statue`; capital `boon.refusemancer.line`, `freed_npc.compostella`; npcs.json barks.
@@ -658,6 +784,8 @@ Keys: refusemancer `dungeon.rh_boss.*`, `cutscene.sever.*`, `freed_npc.compostel
 - **Never:** jokes during the sever scene; calls the seed anything but `{villain}`'s gift.
 - **New lines:** "...I am the bin you never empty... I am HUNGRY... (small) please, I miss her..." / "Everything I loved, I gave back
   to the soil. That is not losing it. That is where it lives now."
+- **Running gags (Oct 21):** the barn she cannot remember (it remembers her) and the goat she must earn back. The severing keeps loss,
+  consent and release; no joke there.
 
 ### His Majesty the Raccoon (`NPC-RACCOONKING`, S-REF boss)
 Keys: dungeon_content `dungeon.dg_s_ref_boss.*`.
@@ -667,6 +795,7 @@ Keys: dungeon_content `dungeon.dg_s_ref_boss.*`.
 - **Wants:** to escape the trial.
 - **Never:** confesses directly.
 - **New lines:** "WE DID NOT EAT THE COMPOST. We... audited it. Orally." / "The compost was for the kingdom. We are the kingdom. Checkmate."
+- **Running gags (Oct 21):** the kingdom excuse and the crumbs; never a direct confession.
 
 ### Hortensia Clipwell, Royal Groundskeeper (`NPC-CLIPWELL`) [canon, not built]
 Keys: none yet (mention only: tidy decrees nailed to rotting trees; topiaries of Primm).
@@ -682,6 +811,8 @@ Keys: refusemancer `bark.worker_1..3` (spoken through NpcBarks).
 - **Talks:** one-liners while working; folksy, practical, slightly uneasy about the purple.
 - **Never:** exposition dumps.
 - **New lines:** "The beans came up purple again. I've stopped asking the beans." / "Mind the vine ladders. They hold. Mostly."
+- **Running gags (Oct 21):** patched prices ("The holes are free"), crown and lunch, goat signs, the hungry zucchini; the Dump narration
+  owns scrap together and attached to the plot. Healing restores the normal nuisance.
 
 ## The Capital
 
@@ -693,6 +824,8 @@ Keys: capital `npc.wren.*` incl. `npc.wren.insight.1..4`; dungeon_content hook f
 - **Wants:** the true record finished; Primm stopped, gently if possible.
 - **Never:** rants; calls Primm a monster ("He is not a monster" is her line).
 - **New lines:** "Welcome to the resistance. We have tea and grudges. The tea is better." / "He likes things perfect. We like things alive."
+- **Running gags (Oct 21):** four insights about Primm, one per Path quest, that answer him in the castle. Each stays clear, never a
+  lecture.
 
 ### Kestrel (`NPC-KESTREL`, scout)
 Keys: dungeon_content `npc.kestrel.*`, `quest.side_s_cap.*`, `fx.old_tunnels_way_in`; npcs.json barks.
@@ -716,6 +849,7 @@ Keys: capital `npc.hesper.*`, `fx.wake*`.
 - **Wants:** people patched and sitting down.
 - **Never:** fuss; panic.
 - **New lines:** "Sit. Drink. It's unapproved. Unapproved things heal faster." / "Bleeding again? Sit. I'll pretend to be surprised."
+- **Running gags (Oct 21):** arrivals unconscious and the correction fee; the tea is not free just because the kingdom is.
 
 ### Captain Spotless (`NPC-SPOTLESS`, gate boss and S-CAP boss)
 Keys: capital `npc.spotless.*`; dungeon_content `dungeon.dg_s_cap_boss.*`; npcs.json barks.
@@ -725,6 +859,7 @@ Keys: capital `npc.spotless.*`; dungeon_content `dungeon.dg_s_cap_boss.*`; npcs.
 - **Wants:** a perfectly approved visitor, just once.
 - **Never:** relaxes while serving; is mocked as stupid.
 - **New lines:** "HALT. State your height. No: do not state it. Stand at it." / "A SMUDGE. Is TREASON. ...It's on me, isn't it."
+- **Running gags (Oct 21):** "I have always supported this outcome"; queue eligibility.
 
 ### Widow Pell (`NPC-PELL`, Grave Row)
 Keys: capital `npc.pell.*`, `quest.cap_burial.*`; npcs.json barks.
@@ -743,6 +878,7 @@ Keys: capital `npc.rollo.*`, `quest.cap_wheels.*`; npcs.json barks.
 - **Wants:** someone to tell his crews they may stop.
 - **Never:** blames the crews.
 - **New lines:** "Ten years... on the wheel... my calves have calves." / "Nobody told us we could stop. Tell them. They'll believe you more than me."
+- **Running gags (Oct 21):** carries the Gainlands wheel story into the Capital: keep telling the crews they can stop.
 
 ### Chef Marlo (`NPC-MARLO`, Hungry Quarter; mole)
 Keys: capital `npc.marlo.*`, `quest.cap_recipes.*`; npcs.json barks.
@@ -752,6 +888,7 @@ Keys: capital `npc.marlo.*`, `quest.cap_recipes.*`; npcs.json barks.
 - **Wants:** someone to remember what food is.
 - **Never:** praises the paste.
 - **New lines:** "Paste is food the way a form is a hug." / "Bread. Stew. Sauce. 'Some' of this, 'a bit' of that. It is always a good recipe."
+- **Running gags (Oct 21):** freed, the joyful mess (flour on the ceiling).
 
 ### Old Fern (`NPC-FERN`, the Reek; gnome)
 Keys: capital `npc.fern.*`, `quest.cap_untidy.*`; npcs.json barks.
@@ -761,6 +898,7 @@ Keys: capital `npc.fern.*`, `quest.cap_untidy.*`; npcs.json barks.
 - **Wants:** one thing planted in this city.
 - **Never:** tidies anything.
 - **New lines:** "Untidy, they said. Dirt is supposed to be untidy. That's how you know it's working." / "A flower. In this city. I need to sit down."
+- **Running gags (Oct 21):** compost as a promise that something grows.
 
 ### A Perfectly Happy Citizen (`NPC-CITIZEN`, the Showcase Quarter; nine of them)
 Keys: capital `facade.citizen.N.approved/.approved2/.slip` (+ `.freed`), `facade.door.*`; npcs.json barks.
@@ -771,6 +909,8 @@ Keys: capital `facade.citizen.N.approved/.approved2/.slip` (+ `.freed`), `facade
 - **Never:** a punchline on the slip line.
 - **New lines:** "Everything is perfect! Everything is... (whisper) ...is it raining outside? I used to like rain." / "I painted my
   door green. Please hate it. I want to argue with someone."
+- **Running gags (Oct 21):** approved -> approved2 -> slip -> freed: each citizen keeps one personal loss and one freedom; the Thursday
+  bird, the green hat and their names pay off after liberation. The slips stay sincere.
 
 ### Citizen 4471, later Aldous (Correction Ward)
 Keys: capital `npc.patient.*`. Played straight: plain, slow, sad, then a crooked hopeful smile after the fall. **Never** a joke.
@@ -783,6 +923,7 @@ Keys: capital `npc.guard_height.*`, `npc.guard_queue.*`, `npc.guard_in_1/2.*`, `
 - **Humor:** Kafka by way of a doorman; the Chief Corrector is gentle and therefore frightening (no jokes).
 - **Never:** menace for its own sake.
 - **New lines:** "Exit control. This is the exit. It is also the entrance. Please do not use it as either." / "I used to measure people. Now I just look at them."
+- **Running gags (Oct 21):** freed guards keep almost asking permission to go for a walk.
 
 ### Primm, "His Perfection" (`NPC-PRIMM`)
 Keys: capital `cutscene.primm_intro.*`, `cutscene.primm_p1.*`, `cutscene.primm_p2.*`, `cutscene.primm_reveal.*`, `cutscene.primm_end.*`,
