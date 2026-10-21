@@ -6,6 +6,8 @@ extends Control
 ## `<ID>_HAPPY` (the base portrait when that expression has no image). A speaker with no portrait shows the box exactly as before.
 
 signal finished
+## v0.4.2 hotfix: `start` was called while a conversation was still open (the open one is replaced; its `finished` never comes).
+signal interrupted
 
 const SCREEN_WIDTH: float = 1920.0
 const PLAIN_WIDTH: float = 1100.0
@@ -120,6 +122,8 @@ var _voice: Dictionary = {"event": &"dialogue", "pitch": 1.0}
 ## Starts a conversation. `speaker` is the name label; `speaker_npc_id` (an NPC ID of `NpcRegistry`) picks the portrait - when it is empty the speaker label is
 ## looked up in the NPC list. An NPC from the list is shown under its list name; a label that only aliases one (the throwers, a rift technician) keeps its own name.
 func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -> void:
+	if active:
+		interrupted.emit()
 	_lines = []
 	_expressions = []
 	for line: String in lines:

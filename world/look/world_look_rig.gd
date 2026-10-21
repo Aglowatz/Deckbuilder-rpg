@@ -228,10 +228,39 @@ func _build_post() -> void:
 
 
 func _build_pieces() -> void:
+	for step: Callable in _piece_steps():
+		step.call()
+	_mark_no_cull(_pieces)
+
+
+## v0.4.2 hotfix: the same pieces (sky, scenery, foliage, ambient), one per frame - `stage` (a coroutine taking a label) is awaited after each -
+## for a scene built in stages behind the loading screen. Install with `build_world = false`, then await this.
+func build_pieces_staged(stage: Callable) -> void:
+	if not bool(mood.get("world", true)):
+		return
+	var labels: Array[String] = ["sky", "scenery", "foliage", "ambient"]
+	var index: int = 0
+	for step: Callable in _piece_steps():
+		step.call()
+		await stage.call("look rig: %s" % labels[mini(index, labels.size() - 1)])
+		index += 1
+	_mark_no_cull(_pieces)
+	_apply(true)
+
+
+func _piece_steps() -> Array[Callable]:
 	_pieces = Node3D.new()
 	_pieces.name = "LookPieces"
 	scene.add_child(_pieces)
-	var bounds: Rect2 = area.map_bounds() if area != null else Rect2(-20.0, -20.0, 40.0, 40.0)
+	return [_build_sky, _build_scenery, _build_foliage, _build_ambient] as Array[Callable]
+
+
+func _piece_bounds() -> Rect2:
+	return area.map_bounds() if area != null else Rect2(-20.0, -20.0, 40.0, 40.0)
+
+
+func _build_sky() -> void:
+	var bounds: Rect2 = _piece_bounds()
 	var middle: Vector3 = Vector3(bounds.get_center().x, 0.0, bounds.get_center().y)
 	var sky_mood: Dictionary = mood.get("sky", {}) as Dictionary
 	if bool(sky_mood.get("enabled", true)):
@@ -241,6 +270,11 @@ func _build_pieces() -> void:
 		_pieces.add_child(sky)
 		sky.setup(camera, _env_or_null(), _sun_travel)
 		sky.set_palette(sky_mood)
+
+
+func _build_scenery() -> void:
+	var bounds: Rect2 = _piece_bounds()
+	var middle: Vector3 = Vector3(bounds.get_center().x, 0.0, bounds.get_center().y)
 	var scenery_mood: Dictionary = mood.get("scenery", {}) as Dictionary
 	if bool(scenery_mood.get("enabled", true)):
 		scenery = WorldScenery.new()
@@ -251,6 +285,9 @@ func _build_pieces() -> void:
 		else:
 			scenery.setup_generic(middle, bounds, camera, scenery_mood)
 		scenery.set_mood(scenery_mood)
+
+
+func _build_foliage() -> void:
 	var foliage_mood: Dictionary = mood.get("foliage", {}) as Dictionary
 	if float(foliage_mood.get("density", 1.0)) > 0.0 and area != null:
 		foliage = WorldFoliage.new()
@@ -264,6 +301,9 @@ func _build_pieces() -> void:
 		foliage.set_tint(Color.html(str(foliage_mood.get("tint", "ffffff"))))
 		if style_rig != null and style_rig.preset != null:
 			foliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
+
+
+func _build_ambient() -> void:
 	var ambient_mood: Dictionary = mood.get("ambient", {}) as Dictionary
 	if bool(ambient_mood.get("enabled", true)):
 		ambient = WorldAmbient.new()
@@ -271,7 +311,6 @@ func _build_pieces() -> void:
 		_pieces.add_child(ambient)
 		ambient.setup_area(camera, follow, _sun_travel, ambient_mood)
 		_silence_old_ambience()
-	_mark_no_cull(_pieces)
 
 
 func _env_or_null() -> Environment:

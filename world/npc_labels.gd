@@ -174,6 +174,8 @@ func _is_blocked() -> bool:
 
 func _process(delta: float) -> void:
 	var cam: Camera3D = camera if camera != null and is_instance_valid(camera) else get_viewport().get_camera_3d()
+	if cam == null:
+		return  # v0.4.2: a town built in stages has no camera for its first frames
 	var hidden: bool = cam == null or _is_blocked()
 	var placed: Array[Dictionary] = []
 	_boost_timer -= delta

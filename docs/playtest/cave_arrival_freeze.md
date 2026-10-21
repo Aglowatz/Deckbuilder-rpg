@@ -29,6 +29,10 @@ Machine: AMD Radeon integrated graphics, D3D12 Forward+. (The user's own Godot e
 | v0.4.1 export, cold | Necrocrat | **21.1 s** | 9 frames over 200 ms, worst 449 ms | yes |
 | main (editor), before the fix | Beefcake | **24.9 s** | 9 frames over 200 ms, worst 1105 ms | yes |
 
+**Correction (Part 2):** the "after the fade-in" column above overstates the stalls: the first repro bot looked for buttons with
+`find_children` over the whole 3D town (thousands of nodes, six times every 0.25 s), which cost hundreds of ms per call by itself. The
+bot now searches only the UI layers and also measures the first 5 s untouched. The **click -> fade-in** times are unaffected.
+
 ## Root cause
 
 **The town is built in one frame, with nothing on screen.** Out of the cave, "Step outside" skips the loading screen
@@ -47,10 +51,35 @@ synchronously - the main thread does not return to the OS for 15-25 seconds:
 
 A black window that does not repaint or answer for 15-25 s is marked "(Not Responding)" by Windows after 5 s - testers saw a freeze and
 some will have closed it. After the fade-in, `UiArtWarmup` built four big menu screens (300-900 ms frames each) while Maren was talking,
-with all viewport input switched off for their frames (`gui_disable_input`), and the first draws of the town's materials added more
-stalls: 2-13 frames over 200 ms in the first ~8 s.
+with all viewport input switched off for their frames (`gui_disable_input`), and sprite frames, footstep sounds and portraits were
+loaded on the main thread the first time they were needed.
 
 **The suspected input/lock deadlock did not happen in any run** (the hero was always freed when the dialogue was pressed through), but
 the arrival was fragile: the welcome was three nested `dialogue.finished` callbacks with `_locked = false` only at the very end, popups
 opened from `_process` during the fade (a LevelUpScreen under the welcome), and `UiArtWarmup` could leave the whole viewport deaf if a
 screen build failed between `gui_disable_input = true` and `false`. Part 2 hardens all of it.
+
+## The fix (Part 2)
+
+**Loading** (`SceneManager.change_scene`, `TownScene`, `WorldLookRig`, `UiArtWarmup`, new `SceneWarmup` and `LoadTiming`):
+- The cave exit shows the town's loading screen again (no more `skip_loading_once` there).
+- Arriving through SceneManager, the town builds **in stages, one per frame** (`TownScene._stage`: TownBuilder, TownSquare, the outskirts,
+  actors, spots, StyleRig, the look rig's sky / scenery / foliage / ambient, dressing, PaintedWorld, UI), so the loading screen keeps
+  drawing and the window keeps answering. A town added directly (tests, tools) still builds in one go.
+- SceneManager waits for `is_load_finished()` (at most 90 s): built, the first menu screens warmed (`UiArtWarmup`, now started at once
+  and fully awaited), ~130 files on loader threads (`SceneWarmup`: every frame of the painted characters in town, footsteps and UI
+  sounds, the town ambience, the zone title art, Maren's and the Wanderer's portraits), and - when the arrival opens with a level-up or
+  a reward box - that screen opened under the cover. Then it draws frames behind the cover until 4 in a row are under 50 ms (at most 4 s).
+- The game log gets one line per scene change: `load_timing: town <ms> (slowest step: ...); worst frame in the first 5 s after the
+  fade-in: <ms>`. `LOAD_TIMING=1` prints every step.
+
+**Arrival** (`TownScene`): the arrival is one queue - reward boxes, level-ups, the Path warning, then Maren's welcome in three parts -
+each step opening when the previous one has closed (`ARRIVAL_ORDER`; reward boxes come before level-ups as everywhere else in the game).
+The hero is held from the first frame (no hotkey or popup can open behind the fade) until the queue ends. `DialogueBox.interrupted`
+moves the queue on if a conversation is ever replaced. A **lock watchdog** frees the hero, ends the queue and logs a warning after 4 s
+locked with nothing on screen to close. `UiArtWarmup` can no longer leave the game deaf: if a warm-up screen stops mid-build, input
+comes back after 30 frames. F8 (Report a Problem) and Esc work over every arrival screen (checked by the repro).
+
+**Still slow (follow-up, not a freeze):** the longest single build step is ~2-4 s on this machine (TownSquare.build; the painted ground's
+splat map, a per-pixel GDScript loop in `PaintedTerrain._paint_splat`; TownBuilder; the look rig's sky and scenery). The loading
+screen draws between steps, but each of those is one frame.

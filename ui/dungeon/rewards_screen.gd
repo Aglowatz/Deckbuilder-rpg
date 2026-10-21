@@ -198,9 +198,9 @@ func _show_trial_complete(first_clear: bool) -> void:
 	home.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	home.pressed.connect(func() -> void:
 		if first_clear:
-			# Playtest v0.4.0 Part C: straight into Crosspath, beside Elder Maren, with her welcome opening as the town appears (no loading screen).
+			# Playtest v0.4.0 Part C: straight into Crosspath, beside Elder Maren, with her welcome opening as the town appears.
+			# v0.4.2 hotfix: with the loading screen again - the town's first build takes seconds, and a black screen there looked frozen.
 			Session.cave_exit_pending = true
-			SceneManager.skip_loading_once = true
 		SceneManager.go_to_town())
 	_column.add_child(home)
 	UIKit.pop_in(_panel)

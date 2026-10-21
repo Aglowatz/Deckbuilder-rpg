@@ -257,6 +257,12 @@ func _arrival() -> void:
 	print("%s: load %d ms (click -> fade-in)" % [TAG, _revealed_msec - _clicked_msec])
 	await _seconds(1.0)
 	_dump_state(town, "1 s after the fade-in")
+	if _mode != "mash":
+		# The first seconds untouched, like a player reading Maren's first line: the frames here are the game's own.
+		await _seconds(4.0)
+		print("%s: first 5 s after the fade-in (no input): worst %.0f ms, stalls over %d ms: %d" % [TAG, _worst_ms, int(STALL_MS), _stalls])
+		_check(_worst_ms <= STALL_MS, "no frame over %d ms in the first 5 s after the fade-in (worst %.0f ms)" % [int(STALL_MS), _worst_ms])
+		await _f8_and_esc(town)
 	# Press through everything the arrival shows, like a player: Continue buttons, then E for dialogue.
 	var guard: int = 0
 	while guard < 150 and is_instance_valid(town) and (bool(town.get("_locked")) or town.dialogue.active):
@@ -302,6 +308,30 @@ func _arrival() -> void:
 	var average: float = _sum_ms / maxf(1.0, float(_frame_count))
 	print("%s: frames after the fade-in: %d, average %.1f ms, worst %.0f ms, stalls over %d ms: %d" % [TAG, _frame_count, average, _worst_ms, int(STALL_MS), _stalls])
 	_check(_worst_ms <= STALL_MS, "no frame over %d ms after the fade-in (worst %.0f ms)" % [int(STALL_MS), _worst_ms])
+
+
+## F8 (Report a Problem) and Esc still answer while an arrival screen or Maren's welcome is up.
+func _f8_and_esc(town: TownScene) -> void:
+	_frame_watch = false  # opening the report form is the player's own hitch, not the arrival's
+	var what: String = _modal_name(town)
+	await _tap_key(KEY_F8)
+	await _seconds(0.8)
+	var form: Node = get_tree().root.find_child("FeedbackForm", true, false)
+	_check(form != null, "F8 opens Report a Problem over %s" % what)
+	if form != null:
+		await _tap_key(KEY_ESCAPE)
+		await _seconds(0.6)
+		_check(not is_instance_valid(form) or not form.is_inside_tree(), "Esc closes the report form")
+	_check(_modal_name(town) == what, "%s is still there after the form" % what)
+	if town.dialogue.active and town.get("_overlay") == null:
+		await _tap_key(KEY_ESCAPE)
+		await _seconds(0.6)
+		_check(get_tree().paused, "Esc opens the pause menu during the welcome")
+		await _tap_key(KEY_ESCAPE)
+		await _seconds(0.6)
+		_check(not get_tree().paused and town.dialogue.active, "Esc closes it again and the welcome goes on")
+	_frame_watch = true
+	_last_usec = Time.get_ticks_usec()
 
 
 func _modal_name(town: TownScene) -> String:
@@ -353,6 +383,13 @@ func _mash() -> void:
 
 func _click_first(root: Node, texts: Array[String], under_class: String) -> bool:
 	var roots: Array[Node] = [root]
+	if root is Node3D or root == get_tree().root:
+		# Only the UI layers: walking a whole 3D town for buttons costs the bot itself hundreds of ms a call.
+		roots = []
+		for holder: Node in [root, get_tree().root]:
+			for child: Node in holder.get_children():
+				if child is CanvasLayer or child is Control:
+					roots.append(child)
 	if not under_class.is_empty():
 		roots = root.find_children("*", under_class, true, false)
 	for start: Node in roots:

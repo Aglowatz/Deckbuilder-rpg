@@ -40,6 +40,7 @@ static func make(vendors: Array[String] = [], screens: Array[Callable] = []) -> 
 
 
 func _process(delta: float) -> void:
+	_guard_input()
 	if _screen_delay > 0.0:
 		_screen_delay -= delta
 		if _screen_delay <= 0.0:
@@ -50,7 +51,8 @@ func _process(delta: float) -> void:
 			_start()
 		return
 	if _pending.is_empty():
-		set_process(false)
+		if not _input_off:
+			set_process(false)
 		return
 	for path: Variant in _pending.keys():
 		var status: ResourceLoader.ThreadLoadStatus = ResourceLoader.load_threaded_get_status(str(path))
@@ -59,6 +61,41 @@ func _process(delta: float) -> void:
 			_pending.erase(path)
 		elif status != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 			_pending.erase(path)
+
+
+## v0.4.2 hotfix: the first screens have been built (SceneManager keeps the loading screen up until then).
+func screens_done() -> bool:
+	return _screens_done or first_screens.is_empty()
+
+
+## v0.4.2 hotfix: for a scene built behind the loading screen - the screens and the pictures start at once instead of after the delays.
+func start_now() -> void:
+	_screen_delay = 0.001
+	_delay = 0.001
+
+
+## Everything this warmup loads at the start has arrived and the card drawing has had its frames (the glyph warmup goes on, a few glyphs a frame).
+func settled() -> bool:
+	return _delay <= 0.0 and _pending.is_empty() and _card_layer == null
+
+
+## v0.4.2 hotfix: a screen whose build fails stops `_warm_screens` between `gui_disable_input = true` and `false` - the game would stay deaf
+## to every key and click, and the loading screen would wait for `screens_done` for ever. When the warmup has not moved on for
+## STALL_FRAMES frames with input off, input comes back and the warmup counts as done.
+const STALL_FRAMES: int = 30
+var _card_layer: CanvasLayer
+var _input_off: bool = false
+var _last_step_frame: int = 0
+
+
+func _guard_input() -> void:
+	if not _input_off or Engine.get_process_frames() - _last_step_frame < STALL_FRAMES:
+		return
+	_input_off = false
+	_screens_done = true
+	if get_viewport() != null:
+		get_viewport().gui_disable_input = false
+	push_warning("UiArtWarmup: a warm-up screen never finished; input is back on")
 
 
 ## How many pictures are still on their way (tests).
@@ -107,12 +144,16 @@ func _warm_screens() -> void:
 			_warmed[key] = true
 			screen.warming = true
 			get_viewport().gui_disable_input = true
+			_input_off = true
+			_last_step_frame = Engine.get_process_frames()
 			layer.add_child(screen)
 			for _frame: int in range(SCREEN_FRAMES):
 				await get_tree().process_frame
+				_last_step_frame = Engine.get_process_frames()
 			if not is_inside_tree():
 				return
 			get_viewport().gui_disable_input = false
+			_input_off = false
 			screen.queue_free()
 			await get_tree().process_frame
 		layer.queue_free()
@@ -146,6 +187,7 @@ func _prewarm_card_drawing() -> void:
 	var layer: CanvasLayer = CanvasLayer.new()
 	layer.layer = -10
 	add_child(layer)
+	_card_layer = layer
 	for card_mode: CardView.Mode in [CardView.Mode.FULL]:
 		var view: CardView = CardView.create(pick, card_mode, true)
 		view.modulate.a = 0.02
@@ -153,7 +195,9 @@ func _prewarm_card_drawing() -> void:
 		view.position = Vector2(2.0, 2.0)
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		layer.add_child(view)
-	get_tree().create_timer(0.5).timeout.connect(layer.queue_free)
+	get_tree().create_timer(0.5).timeout.connect(func() -> void:
+		layer.queue_free()
+		_card_layer = null)
 
 
 ## Overnight Oct 18, Phase 2 cycle 3: the UI fonts are rasterized per size and outline (no MSDF), so the first screen that shows a new size

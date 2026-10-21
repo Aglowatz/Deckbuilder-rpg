@@ -51,7 +51,9 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 	var bounds: Rect2 = context.get("bounds", area.map_bounds() if area != null else Rect2(-30, -30, 60, 60)) as Rect2
 	if mode == "overlay" and area != null and not OS.get_environment("PAINT_SKIP").contains("ground"):
 		material.render_priority = -100
+		LoadTiming.mark("painted: material")
 		overlay = PaintedGroundOverlay.build(area, bounds, float(context.get("lift", OVERLAY_LIFT)), material, context.get("cover", Callable()) as Callable)
+		LoadTiming.mark("painted: ground overlay")
 		if overlay != null:
 			_scene.add_child(overlay)
 	for mesh: Variant in context.get("terrain", []) as Array:
@@ -83,7 +85,9 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 		decal_context["bounds"] = bounds
 		var quality: int = Settings.graphics_quality
 		var placements: Array[PaintedDecals.Placement] = PaintedDecals.place(entries, decal_context, int(preset.get("seed", 7)), quality)
+		LoadTiming.mark("painted: swaps + decal placement")
 		decal_meshes = PaintedDecals.build(_scene, placements)
+		LoadTiming.mark("painted: decal meshes")
 	return true
 
 

@@ -108,6 +108,13 @@ var _well_light: OmniLight3D
 var _well_particles: CPUParticles3D
 var _screenshot_args: Dictionary = {}
 var _locked: bool = false
+## v0.4.2 hotfix: the lock watchdog - seconds the hero has been locked with no modal UI open (see `_watch_lock`).
+var _lock_idle: float = 0.0
+const LOCK_WATCHDOG_SECONDS: float = 4.0
+## Times the watchdog had to free the hero (tests, the game log).
+var lock_watchdog_trips: int = 0
+## A scripted scene (the Shiro Swindle chests) holds the lock with no UI on screen: the watchdog leaves it alone.
+var _scripted_lock: bool = false
 var _station: FastTravelStation
 var _arrived_by_rift: bool = false
 var _hidden_chest_near: String = ""
@@ -133,12 +140,92 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+## v0.4.2 hotfix: arriving through SceneManager the town is built in stages, one per frame (`_stage`), behind the loading screen, which keeps
+## turning while the window keeps answering (the cave exit used to block one frame for 15-25 s with the screen black). SceneManager waits for
+## `is_load_finished()` (built, and the first screens warmed by UiArtWarmup) before it fades in. A town added directly (tests, tools) is
+## built in one go inside `_ready`, as before.
+var _staged_build: bool = false
+var _built: bool = false
+var _build_steps_done: int = 0
+const BUILD_STEPS: int = 16
+var _warmup: UiArtWarmup
+var _files_warmup: SceneWarmup
+## The town's sound events warmed behind the loading screen (footsteps on every surface, the dialogue voices, the UI ticks).
+const WARM_SOUNDS: Array[String] = ["step_grass", "step_dirt", "step_cobble", "step_stone", "step_wood", "step_gravel", "dialogue", "dialogue_airy",
+	"ui_tick", "ui_open", "ui_close", "ui_confirm", "ui_click", "ui_hover", "ui_back", "ui_tab", "book", "sign_read", "zone_transition"]
+
+
+func is_load_finished() -> bool:
+	if not _built:
+		return false
+	if _files_warmup != null and is_instance_valid(_files_warmup) and not _files_warmup.is_done():
+		return false
+	if _warming_popups:
+		return false
+	return _warmup == null or not is_instance_valid(_warmup) or (_warmup.screens_done() and (not _staged_build or _warmup.settled()))
+
+
+## v0.4.2 hotfix: a level-up screen or a reward box opening at the fade-in cost a 0.5-2.6 s first frame (its live blurred backdrop, rays,
+## big outlined numbers). When the cave arrival starts with one of those, it is opened behind the loading screen, which stays up a few more
+## frames (and SceneManager's settle) until it draws quickly. Maren's welcome itself still opens at the fade-in.
+var _warming_popups: bool = false
+const COVER_FRAMES: int = 3
+
+
+func _open_arrival_under_cover() -> void:
+	if not arrival_pending or (Session.pending_level_ups.is_empty() and Session.pending_popups.is_empty()):
+		return
+	_warming_popups = true
+	_begin_cave_arrival(true)
+	await get_tree().process_frame
+	if _overlay is LevelUpScreen:
+		(_overlay as LevelUpScreen).reveal_all()  # its rows' first draws (new glyph sizes, icons) happen under the cover too
+	for _frame: int in range(COVER_FRAMES):
+		await get_tree().process_frame
+	_warming_popups = false
+
+
+## v0.4.2 hotfix: what the first seconds in town load on the main thread, asked for on loader threads behind the loading screen.
+func _start_files_warmup() -> void:
+	_files_warmup = SceneWarmup.new()
+	_files_warmup.name = "SceneWarmup"
+	add_child(_files_warmup)
+	var characters: Array[String] = SceneWarmup.sprite_characters_under(self)
+	if not characters.has("PLAYER"):
+		characters.append("PLAYER")
+	_files_warmup.add_sprite_characters(characters)
+	_files_warmup.add_sound_events(WARM_SOUNDS)
+	_files_warmup.add_ambience(["town"] as Array[String])
+	var banner: String = Areas.banner_id(Areas.TOWN)
+	if KeyArt.has(banner):
+		_files_warmup.add_path(KeyArt.path_for(banner))  # the zone title card shown at the fade-in
+	if arrival_pending:
+		var story: StoryText = StoryText.shared()
+		var lines: Array[String] = []
+		for key: String in ["cave_mouth.maren", "cave_mouth.wanderer", "cave_mouth.maren_end"]:
+			lines.append_array(story.get_lines(key))
+		_files_warmup.add_portraits(["NPC-ELDER", NpcRegistry.PLAYER_ID] as Array[String], lines)
+	LoadTiming.mark("town: %d files asked for on loader threads" % _files_warmup.requested())
+
+
+func load_progress() -> float:
+	return clampf(float(_build_steps_done) / float(BUILD_STEPS), 0.0, 1.0)
+
+
+func _stage(label: String) -> void:
+	LoadTiming.mark(label)
+	_build_steps_done += 1
+	if _staged_build and is_inside_tree():
+		await get_tree().process_frame
+
+
 func _ready() -> void:
+	_staged_build = SceneManager.busy
+	if _staged_build:
+		set_process(false)
+		set_process_unhandled_input(false)
+	await _stage("town: scene loaded")
 	SceneManager.pause_allowed = true
-	# Menu paintings and the town vendors' stage pictures load on a thread a moment after arriving (Phase 2 cycle 5, performance).
-	# Daytime Oct 19: the screens opened first (Sable, Tilly Tonic's item stall, the Deck Station) are built once too, after the character screen.
-	add_child(UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"],
-		[_new_card_vendor_screen, func() -> OverlayScreen: return ItemVendorScreen.new(), func() -> OverlayScreen: return DeckbuilderScreen.new()] as Array[Callable]))
 	Audio.play_music(MusicDirector.town(Session.flags))
 	Audio.set_ambience("town")
 	# The plaza fountain is heard from round the square (sound pass, Part C).
@@ -178,13 +265,20 @@ func _ready() -> void:
 	_ensure_input_actions()
 	add_child(WorldLook.environment(&"day"))
 	add_child(WorldLook.sun(&"day"))
+	await _stage("town: session + music")
 	town.build(self)
+	await _stage("town: TownBuilder.build")
 	square = TownSquare.build(self, town, Settings.graphics_quality)
+	await _stage("town: TownSquare")
 	if town.hub_land:
 		# Crosspath pass, Part E: the outskirts dressed with the town kit (walls, corners, field edges)
 		outskirt_dressing = OutskirtDressing.build(self, town)
+	await _stage("town: outskirt dressing")
 	AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
 	_build_actors()
+	if _staged_build:
+		player.input_enabled = false  # `_process` hands input back once the town is built
+	await _stage("town: actors")
 	_build_barks()
 	_build_spots()
 	_build_enemies()
@@ -198,14 +292,17 @@ func _ready() -> void:
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
 	if not town.hub_land:
 		TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
-	_announce_new_unlocks.call_deferred()
-	_show_pending_arena_result.call_deferred()
 	if _screenshot_args.has("cam"):
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
+	await _stage("town: spots, enemies, obstacles")
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
+	await _stage("town: StyleRig")
 	look_rig = _install_look()
+	if _staged_build and look_rig != null:
+		await look_rig.build_pieces_staged(_stage)
+	await _stage("town: look rig")
 	if _screenshot_args.has("nofog"):
 		_strip_fog()
 	if style_rig != null and style_rig.ambience != null:
@@ -225,8 +322,15 @@ func _ready() -> void:
 			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid, TownClutter.region(town), 0.5)
 		else:
 			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
-		painted_world = PaintedWorld.apply(self, town, StylePresets.TOWN, PaintedContexts.town(self))
+		await _stage("town: ZoneDressing")
+		var painted_context: Dictionary = PaintedContexts.town(self)
+		LoadTiming.mark("painted: context")
+		painted_world = PaintedWorld.apply(self, town, StylePresets.TOWN, painted_context)
+		await _stage("town: PaintedWorld")
 	_build_ui()
+	_announce_new_unlocks.call_deferred()
+	_show_pending_arena_result.call_deferred()
+	await _stage("town: UI")
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():
 			if child is CanvasLayer:
@@ -256,36 +360,62 @@ func _ready() -> void:
 	_warn_path_limit.call_deferred()
 	if Session.cave_exit_pending and not _screenshot_args.has("quiet"):
 		Session.cave_exit_pending = false
+		# v0.4.2 hotfix: the hero is held from the first frame, so nothing (a hotkey, a popup) opens before the arrival queue runs. The queue
+		# starts once the town is revealed; `_process` starts it too if `revealed` was missed.
+		arrival_pending = true
+		_locked = true
 		if SceneManager.busy:
 			SceneManager.revealed.connect(_begin_cave_arrival, CONNECT_ONE_SHOT)
 		else:
 			_begin_cave_arrival.call_deferred()
-	_show_town_result.call_deferred()
-	_show_storeroom_result.call_deferred()
-	_show_npc_result.call_deferred()
-	_show_graveyard_result.call_deferred()
-	_show_ninja_result.call_deferred()
-	_show_vault_result.call_deferred()
-	_show_old_well_result.call_deferred()
+	if not arrival_pending:
+		_show_pending_results.call_deferred()  # the cave arrival shows them after its own queue
 	_apply_well_stir()
 	if _screenshot_args.has("slots"):
 		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))
 	if _screenshot_args.has("ninja"):
 		GiantChestEvent.screenshot_run(self, str(_screenshot_args["ninja"]), town.harbor_chest_node, _screenshot_args)
-	ZoneTitleCard.show_in(self, Areas.TOWN, _screenshot_args.is_empty() or _screenshot_args.has("card"))
+	if _staged_build and SceneManager.busy:
+		SceneManager.revealed.connect(ZoneTitleCard.show_in.bind(self, Areas.TOWN, _screenshot_args.is_empty() or _screenshot_args.has("card")), CONNECT_ONE_SHOT)
+	else:
+		ZoneTitleCard.show_in(self, Areas.TOWN, _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
+	# Menu paintings and the town vendors' stage pictures load on a thread a moment after arriving (Phase 2 cycle 5, performance).
+	# Daytime Oct 19: the screens opened first (Sable, Tilly Tonic's item stall, the Deck Station) are built once too, after the character screen.
+	# v0.4.2: added once the town is built, so those builds also happen behind the loading screen (SceneManager waits for them).
+	_warmup = UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"],
+		[_new_card_vendor_screen, func() -> OverlayScreen: return ItemVendorScreen.new(), func() -> OverlayScreen: return DeckbuilderScreen.new()] as Array[Callable])
+	if _staged_build:
+		_warmup.start_now()  # behind the loading screen, not 2 s after it lifts
+	add_child(_warmup)
+	if _staged_build:
+		_start_files_warmup()
+	LoadTiming.mark("town: _ready end")
+	_built = true
+	if _staged_build and is_inside_tree():
+		set_process(true)
+		set_process_unhandled_input(true)
+		_open_arrival_under_cover()
 
 
 ## Story v2: an old save may hold decks that walk more Paths than the Wanderer can carry yet. They are kept (and marked not legal in the deck picker), and the player is told to fix them.
 func _warn_path_limit() -> void:
+	if arrival_pending or arrival_active:
+		return  # the cave arrival shows it in its own turn
+	var warning: String = _path_limit_warning()
+	if not warning.is_empty():
+		hud.toast(warning, Color("ffcf70"))
+
+
+func _path_limit_warning() -> String:
 	if Session.profile == null or Session.deck_box == null:
-		return
+		return ""
 	var limit: int = DeckValidator.max_colors(Session.profile)
 	for index: int in range(Session.deck_box.size()):
 		var candidate: Deck = Session.deck_box.build(index, Session.deck_lookup())
 		if candidate.colors().size() > limit:
-			hud.toast("A saved deck walks more Paths than you can carry yet. Fix it at the Deck Station.", Color("ffcf70"))
-			return
+			return "A saved deck walks more Paths than you can carry yet. Fix it at the Deck Station."
+	return ""
 
 func _ensure_input_actions() -> void:
 	if not InputMap.has_action(&"interact"):
@@ -766,7 +896,7 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 func _install_look() -> WorldLookRig:
 	if style_rig == null:
 		return null
-	return WorldLookRig.install(self, _camera, player, style_rig, town)
+	return WorldLookRig.install(self, _camera, player, style_rig, town, not _staged_build)
 
 
 func _build_camera() -> void:
@@ -834,6 +964,9 @@ func _update_music(delta: float) -> void:
 
 
 func _exit_tree() -> void:
+	if arrival_active:
+		print("arrival: interrupted by a scene change at step %d of %d" % [_arrival_index, _arrival_steps.size()])
+		arrival_active = false
 	if _graveyard_music != 0:
 		Audio.pop_music(_graveyard_music, 0.8)
 		_graveyard_music = 0
@@ -867,10 +1000,15 @@ func _process(delta: float) -> void:
 	_update_nearest()
 	_update_hidden_chest_prompt()
 	_check_portal_walk(delta)
+	if arrival_pending and not arrival_active and not SceneManager.busy:
+		_begin_cave_arrival()
+	_watch_lock(delta)
 	player.input_enabled = not _locked and not dialogue.active
 	var roamers_active: bool = not _locked and not dialogue.active and _overlay == null
 	for enemy: ZoneEnemy in enemies:
 		enemy.active = roamers_active
+	if arrival_pending or arrival_active:
+		return
 	if not _locked and not dialogue.active and not Session.pending_popups.is_empty():
 		_show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
 	elif not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
@@ -1273,22 +1411,158 @@ func _show_town_result() -> void:
 
 ## The first steps into Crosspath: the Wanderer stands beside Elder Maren at the north end of town with the town in view, and her
 ## welcome (the old cave-mouth conversation) opens at once. Sets `maren_met` so her door's own greeting follows when talked to.
-func _begin_cave_arrival() -> void:
-	if dialogue == null or not is_inside_tree():
+## v0.4.2 hotfix: everything the arrival shows runs as ONE queue of steps (ARRIVAL_ORDER), each opening once the previous one has closed:
+## reward boxes (a finished quest), level-ups, the Path warning, then Maren's welcome in three parts. The hero is held until the queue
+## ends; a step whose UI never opens or never reports back is caught by the lock watchdog (`_watch_lock`), which ends the queue.
+## Started on `SceneManager.revealed` (or by `_process` once the scene manager is idle, if that signal was missed); runs once.
+const ARRIVAL_ORDER: Array[String] = ["rewards", "level_ups", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"]
+var arrival_pending: bool = false
+var arrival_active: bool = false
+## The steps shown so far, in order (tests and the game log): "rewards", "level_ups", "path_warning", "welcome_maren"...
+var arrival_log: Array[String] = []
+var _arrival_steps: Array[String] = []
+var _arrival_index: int = 0
+## Each step's done callback carries the step's token, so a late or repeated report from an older step is ignored.
+var _arrival_token: int = 0
+var _arrival_started_msec: int = 0
+
+
+func _begin_cave_arrival(under_cover: bool = false) -> void:
+	if arrival_active or not arrival_pending or dialogue == null or not is_inside_tree() or not _built or (SceneManager.busy and not under_cover):
+		return  # `revealed` or `_process` starts it once the town is built and shown
+	arrival_pending = false
+	arrival_active = true
+	_locked = true
+	_arrival_started_msec = Time.get_ticks_msec()
+	_arrival_steps = ARRIVAL_ORDER.duplicate()
+	_arrival_index = -1
+	arrival_log.clear()
+	_next_arrival_step()
+
+
+func _next_arrival_step() -> void:
+	if not arrival_active or not is_inside_tree():
+		return
+	_arrival_index += 1
+	_arrival_token += 1
+	if _arrival_index >= _arrival_steps.size():
+		_finish_cave_arrival()
 		return
 	_locked = true
-	_face_npc("elder")
+	var step: String = _arrival_steps[_arrival_index]
+	if _run_arrival_step(step, _arrival_step_done.bind(_arrival_token)):
+		arrival_log.append(step)
+	else:
+		_next_arrival_step()  # nothing to show for this step
+
+
+## Opens what `step` shows and returns true, or returns false when there is nothing to show. `done` is called once it has closed.
+func _run_arrival_step(step: String, done: Callable) -> bool:
 	var story: StoryText = StoryText.shared()
-	dialogue.start("Elder Maren", story.get_lines("cave_mouth.maren"), "NPC-ELDER")
-	dialogue.finished.connect(func() -> void:
-		dialogue.start("", story.get_lines("cave_mouth.wanderer"), NpcRegistry.PLAYER_ID)
-		dialogue.finished.connect(func() -> void:
-			_face_npc("elder")
-			dialogue.start("Elder Maren", story.get_lines("cave_mouth.maren_end"), "NPC-ELDER")
-			dialogue.finished.connect(func() -> void:
-				Session.set_flag(&"maren_met")
-				_locked = false
-				Session.save_game(), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+	match step:
+		"rewards":
+			if Session.pending_popups.is_empty():
+				return false
+			var popup: RewardPopup = _show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
+			if not Session.pending_popups.is_empty():
+				_arrival_steps.insert(_arrival_index + 1, "rewards")  # one box at a time
+			popup.finished.connect(done, CONNECT_ONE_SHOT)
+			return true
+		"level_ups":
+			if Session.pending_level_ups.is_empty():
+				return false
+			var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
+			Session.pending_level_ups.clear()
+			var screen: LevelUpScreen = _show_level_up(gained)
+			screen.finished.connect(done, CONNECT_ONE_SHOT)
+			return true
+		"path_warning":
+			var warning: String = _path_limit_warning()
+			if warning.is_empty():
+				return false
+			hud.toast(warning, Color("ffcf70"))  # a toast, not a modal: it stays up beside the welcome
+			done.call_deferred()
+			return true
+		"welcome_maren":
+			return _arrival_dialogue("Elder Maren", story.get_lines("cave_mouth.maren"), "NPC-ELDER", done)
+		"welcome_wanderer":
+			return _arrival_dialogue("", story.get_lines("cave_mouth.wanderer"), NpcRegistry.PLAYER_ID, done)
+		"welcome_maren_end":
+			return _arrival_dialogue("Elder Maren", story.get_lines("cave_mouth.maren_end"), "NPC-ELDER", done)
+	return false
+
+
+func _arrival_dialogue(speaker: String, lines: Array[String], npc_id: String, done: Callable) -> bool:
+	if lines.is_empty():
+		return false
+	_face_npc("elder")
+	dialogue.start(speaker, lines, npc_id)
+	# Own lambdas: Godot sees `done` callables that differ only in their bound token as one and the same connection.
+	dialogue.finished.connect(func() -> void: done.call(), CONNECT_ONE_SHOT)
+	# Another conversation replacing this one (it never should during the arrival) still moves the queue on.
+	dialogue.interrupted.connect(func() -> void: done.call(), CONNECT_ONE_SHOT)
+	return true
+
+
+func _arrival_step_done(token: int) -> void:
+	if not arrival_active or token != _arrival_token:
+		return
+	_next_arrival_step.call_deferred()  # after the closing screen's own handlers (`_close_overlay`) have run
+
+
+## What a fight left to say on the way back to town (each a no-op when there is nothing).
+func _show_pending_results() -> void:
+	_show_town_result()
+	_show_storeroom_result()
+	_show_npc_result()
+	_show_graveyard_result()
+	_show_ninja_result()
+	_show_vault_result()
+	_show_old_well_result()
+
+
+func _finish_cave_arrival() -> void:
+	arrival_active = false
+	arrival_pending = false
+	_locked = false
+	_lock_idle = 0.0
+	Session.set_flag(&"maren_met")
+	Session.save_game()
+	_show_pending_results.call_deferred()
+	print("arrival: Crosspath after the cave - %s (%.1f s)" % [" -> ".join(arrival_log), float(Time.get_ticks_msec() - _arrival_started_msec) / 1000.0])
+
+
+## v0.4.2 hotfix: the hero must never stay locked with nothing on screen to close. After LOCK_WATCHDOG_SECONDS locked with no modal UI open
+## (no dialogue, overlay, confirm box, rules card, scene change, pause or scripted scene), the hero is freed and a warning goes to the log.
+func _watch_lock(delta: float) -> void:
+	if not _locked or _modal_ui_open():
+		_lock_idle = 0.0
+		return
+	_lock_idle += delta
+	if _lock_idle < LOCK_WATCHDOG_SECONDS:
+		return
+	lock_watchdog_trips += 1
+	push_warning("TownScene: the hero was locked for %.0f s with no dialogue or screen open (arrival step %s); unlocking" % [_lock_idle, _arrival_steps[_arrival_index] if arrival_active and _arrival_index >= 0 and _arrival_index < _arrival_steps.size() else "-"])
+	_lock_idle = 0.0
+	if arrival_active:
+		_finish_cave_arrival()
+	_locked = false
+
+
+## True while something on screen holds the hero for a reason the player can see (and close).
+func _modal_ui_open() -> bool:
+	if (dialogue != null and dialogue.active) or (_overlay != null and is_instance_valid(_overlay)) or _scripted_lock:
+		return true
+	if SceneManager.busy or get_tree().paused:
+		return true
+	if _overlay_layer != null and _overlay_layer.get_child_count() > 0:
+		return true
+	for child: Node in get_children():
+		if child is CanvasLayer:
+			for inner: Node in child.get_children():
+				if (inner is RulesBrief or inner is ConfirmDialog or inner is OverlayScreen) and (inner as Control).visible:
+					return true
+	return false
 
 
 ## New brief, Part E: shown once, right after returning from a corrupted-NPC battle - the
@@ -1713,11 +1987,12 @@ func _open_character_screen() -> void:
 
 ## New brief, Part A: the same level-up popup used after a dungeon battle, reused here for
 ## level-ups from any other source (a corrupted NPC's first win, the dev shrine).
-func _show_level_up(gained: Array[LevelData]) -> void:
+func _show_level_up(gained: Array[LevelData]) -> LevelUpScreen:
 	var screen: LevelUpScreen = LevelUpScreen.new()
 	screen.setup(gained)
 	_open_overlay(screen)
 	screen.finished.connect(_close_overlay)
+	return screen
 
 
 ## New brief (third), Part E: debug-only - each interaction grants exactly one level (up to
@@ -1770,6 +2045,7 @@ func _secret_dealer_open() -> bool:
 ## Shiro Swindle scene hooks (GiantChestEvent): the scene is locked while it plays, and the fifth chest wakes the original one.
 func set_world_locked(on: bool) -> void:
 	_locked = on
+	_scripted_lock = on
 
 
 func on_ninja_ready() -> void:
@@ -1876,10 +2152,11 @@ func _reveal_chest(chest: Node3D, summary: RewardSummary) -> void:
 	_show_reward_box(summary)
 
 
-func _show_reward_box(summary: RewardSummary) -> void:
+func _show_reward_box(summary: RewardSummary) -> RewardPopup:
 	var popup: RewardPopup = RewardPopup.make(summary)
 	_open_overlay(popup)
 	popup.finished.connect(_close_overlay)
+	return popup
 
 
 ## A small bounce + a golden burst (reusing the Wellspring's particle-burst pattern) and a latch-
@@ -2278,7 +2555,7 @@ func _close_overlay() -> void:
 	if _overlay != null:
 		_overlay.queue_free()
 		_overlay = null
-	_locked = false
+	_locked = arrival_active  # an arrival step closing hands over to the next one; the hero stays put until the queue ends
 	_refresh_objective()
 	hud.set_gold(Session.gold)
 	Session.save_game()
