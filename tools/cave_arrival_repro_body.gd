@@ -176,6 +176,8 @@ func _walk_cave() -> bool:
 				SceneManager.revealed.connect(_on_revealed, CONNECT_ONE_SHOT)
 				if _mode == "mash":
 					_mash.call_deferred()
+				elif _mode == "loadkeys":
+					_load_keys.call_deferred()
 				await _click(_center(outside))
 				continue
 			for text: String in ["Take", "Continue", "Skip"]:
@@ -400,6 +402,30 @@ func _dump_state(town: TownScene, when: String) -> void:
 		TAG, when, town.get("_locked"), town.dialogue.active, town.dialogue.npc_id, _modal_name(town), ", ".join(layers), SceneManager.busy,
 		get_tree().paused, Engine.time_scale, town.player.input_enabled, Session.pending_level_ups.size(), Session.pending_popups.size(),
 		focus.name if focus != null else "none"])
+
+
+## CAVE_MODE=loadkeys (overnight Oct 20): F8 and Esc while the loading screen is still up - the report form opens and closes over the
+## load, and the Esc pressed during the load opens the pause menu once the town is shown; the arrival then goes on as usual.
+func _load_keys() -> void:
+	await _seconds(1.5)
+	_check(SceneManager.busy, "the town is still loading 1.5 s after the click")
+	await _tap_key(KEY_F8)
+	await _seconds(0.6)
+	_check(get_tree().root.get_node_or_null(^"FeedbackForm") != null, "F8 opens Report a Problem over the loading screen")
+	await _tap_key(KEY_ESCAPE)
+	await _seconds(0.6)
+	_check(get_tree().root.get_node_or_null(^"FeedbackForm") == null, "Esc closes it again during the load")
+	await _tap_key(KEY_ESCAPE)
+	var waited: float = 0.0
+	while _revealed_msec < 0 and waited < 60.0:
+		await _seconds(0.1)
+		waited += 0.1
+	await _seconds(0.4)
+	var menu: Node = SceneManager.get("_pause_menu") as Node
+	_check(menu != null and bool(menu.get("visible")), "the Esc pressed during the load opens the pause menu at the fade-in")
+	await _tap_key(KEY_ESCAPE)
+	await _seconds(0.4)
+	_check(not get_tree().paused, "Esc closes the pause menu and the arrival goes on")
 
 
 ## Rapid keys and clicks from the click on "Step outside" until 3 s after the fade-in, like an impatient player.

@@ -46,3 +46,17 @@ the loop's fixes so the zip is built once).
 - Fixed: StyleRig builds the depth-only outline unless normals are wanted; `GraphicsQuality.outline_normals` and FSR need Forward+;
   no FXAA on Compatibility. New `Start (Compatibility).bat` (Compatibility + Safe Mode) and a README line for it.
 - Verified: the Compatibility town screenshot logs no shader error; test_style green.
+
+## Cycle 5 - the opening hour on Low + Vulkan, and where post-arrival spikes come from
+
+- Playtest smoke (forest -> cave -> Maren -> shops -> Deck Station -> ghosts -> level 5 -> Bertram -> story quests) on Low + Vulkan: OK,
+  heartbeat 54-60 fps, no game warnings, only exit-time engine leak noise.
+- The one 331-460 ms frame after the second town arrival: the load line now says *when* the worst frame came ("(at 4.1 s)"), and at 4.1 s
+  the smoke itself teleports to Maren, scans the whole tree for popups and takes a screenshot (a viewport readback) - a bot artifact,
+  not the game. No change to the game.
+
+## Cycle 6 - F8 and Esc while the loading screen is up (the brief: "always work, even during transitions")
+
+- New repro mode `CAVE_MODE=loadkeys`: 1.5 s after "Step outside" (still loading) F8 opens Report a Problem, Esc closes it, Esc again ->
+  the pause menu opens at the fade-in, Esc closes it, then the normal arrival checks.
+- Result on the project: all 17 checks ok (load 9.1 s, worst frame 39 ms in the first 5 s, hero walks).

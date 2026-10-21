@@ -39,6 +39,7 @@ const SETTLE_STEADY: float = 1.6
 const REVEAL_WATCH: float = 5.0
 var _reveal_watch_left: float = 0.0
 var _reveal_worst_ms: float = 0.0
+var _reveal_worst_at: float = 0.0
 var _reveal_last_usec: int = 0
 var _reveal_what: String = ""
 ## The last reveal's numbers (tests, the release smoke): {"scene", "load_ms", "worst_ms"}.
@@ -361,11 +362,13 @@ func _process(_delta: float) -> void:
 	_reveal_last_usec = now
 	if get_tree().paused:
 		return  # a menu the player opened (pause, report form): its build is not the scene's stall
-	_reveal_worst_ms = maxf(_reveal_worst_ms, ms)
+	if ms > _reveal_worst_ms:
+		_reveal_worst_ms = ms
+		_reveal_worst_at = REVEAL_WATCH - _reveal_watch_left
 	_reveal_watch_left -= ms / 1000.0
 	if _reveal_watch_left <= 0.0:
 		last_load["worst_ms"] = _reveal_worst_ms
-		var line: String = "%s; worst frame in the first %.0f s after the fade-in: %.0f ms" % [LoadTiming.summary_line(), REVEAL_WATCH, _reveal_worst_ms]
+		var line: String = "%s; worst frame in the first %.0f s after the fade-in: %.0f ms (at %.1f s)" % [LoadTiming.summary_line(), REVEAL_WATCH, _reveal_worst_ms, _reveal_worst_at]
 		print(line)
 		GameLog.info("scene", line)
 
