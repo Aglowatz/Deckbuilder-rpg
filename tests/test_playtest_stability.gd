@@ -272,3 +272,12 @@ func test_settle_waits_out_shader_spikes_but_not_a_steadily_slow_machine() -> vo
 	assert_false(SceneManager.settle_frame_quick(900.0, 16.0), "a pipeline-compile spike")
 	assert_true(SceneManager.settle_frame_quick(75.0, 62.0), "a slow iGPU's ordinary frame (steady)")
 	assert_false(SceneManager.settle_frame_quick(400.0, 62.0), "a spike on the slow iGPU")
+
+
+func test_leaving_an_area_releases_its_world_art_caches() -> void:
+	ModelKit._cache["res://test/never_loaded.tscn"] = null
+	MapArt._textures["test"] = null
+	var dropped: int = AreaCaches.release()
+	assert_gt(dropped, 1, "entries were dropped")
+	assert_true(ModelKit._cache.is_empty())
+	assert_true(MapArt._textures.is_empty())

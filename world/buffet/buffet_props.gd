@@ -23,30 +23,45 @@ static func mesh_at(parent: Node3D, mesh: Mesh, material: Material, pos: Vector3
 	return instance
 
 
+## Phase 2 (stability): identical primitives share one mesh (a new PrimitiveMesh per call gave every ball, box and cylinder its own GPU
+## buffers - thousands per zone; on Vulkan the Verdant Dump ran the driver out of buffer objects). Meshes are never changed after this;
+## every instance sets its own material_override. Released with the area (AreaCaches).
+static var _meshes: Dictionary = {}
+
+
 static func cylinder(parent: Node3D, radius_top: float, radius_bottom: float, height: float, material: Material, pos: Vector3, segments: int = 14) -> MeshInstance3D:
-	var mesh: CylinderMesh = CylinderMesh.new()
-	mesh.top_radius = radius_top
-	mesh.bottom_radius = radius_bottom
-	mesh.height = height
-	mesh.radial_segments = segments
-	mesh.rings = 1
-	return mesh_at(parent, mesh, material, pos)
+	var key: String = "c%.4f/%.4f/%.4f/%d" % [radius_top, radius_bottom, height, segments]
+	if not _meshes.has(key):
+		var mesh: CylinderMesh = CylinderMesh.new()
+		mesh.top_radius = radius_top
+		mesh.bottom_radius = radius_bottom
+		mesh.height = height
+		mesh.radial_segments = segments
+		mesh.rings = 1
+		_meshes[key] = mesh
+	return mesh_at(parent, _meshes[key] as Mesh, material, pos)
 
 
 static func box(parent: Node3D, size: Vector3, material: Material, pos: Vector3, rot_deg: Vector3 = Vector3.ZERO) -> MeshInstance3D:
-	var mesh: BoxMesh = BoxMesh.new()
-	mesh.size = size
-	return mesh_at(parent, mesh, material, pos, Vector3.ONE, rot_deg)
+	var key: String = "b%.4f/%.4f/%.4f" % [size.x, size.y, size.z]
+	if not _meshes.has(key):
+		var mesh: BoxMesh = BoxMesh.new()
+		mesh.size = size
+		_meshes[key] = mesh
+	return mesh_at(parent, _meshes[key] as Mesh, material, pos, Vector3.ONE, rot_deg)
 
 
 static func ball(parent: Node3D, radius: float, material: Material, pos: Vector3, scl: Vector3 = Vector3.ONE, hemisphere: bool = false) -> MeshInstance3D:
-	var mesh: SphereMesh = SphereMesh.new()
-	mesh.radius = radius
-	mesh.height = radius * (1.0 if hemisphere else 2.0)
-	mesh.is_hemisphere = hemisphere
-	mesh.radial_segments = 14
-	mesh.rings = 7
-	return mesh_at(parent, mesh, material, pos, scl)
+	var key: String = "s%.4f/%s" % [radius, str(hemisphere)]
+	if not _meshes.has(key):
+		var mesh: SphereMesh = SphereMesh.new()
+		mesh.radius = radius
+		mesh.height = radius * (1.0 if hemisphere else 2.0)
+		mesh.is_hemisphere = hemisphere
+		mesh.radial_segments = 14
+		mesh.rings = 7
+		_meshes[key] = mesh
+	return mesh_at(parent, _meshes[key] as Mesh, material, pos, scl)
 
 
 static func label(parent: Node3D, text: String, pos: Vector3, pixel_size: float, color: Color, width_m: float = 0.0, outline: int = 8) -> Label3D:

@@ -164,6 +164,9 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	LoadTiming.mark("change_scene_to_file")
 	if error != OK:
 		push_error("SceneManager: cannot load %s" % path)
+	# Phase 2 (stability): leaving an area for another (or for the title) frees its world-art caches with its scene (AreaCaches).
+	if (not area.is_empty() or path == "res://scenes/title.tscn") and area != current_area and not current_area.is_empty():
+		GameLog.info("memory", "left %s: released %d cached world-art entries" % [current_area, AreaCaches.release()])
 	if path == "res://scenes/title.tscn":
 		previous_area = ""
 		current_area = ""

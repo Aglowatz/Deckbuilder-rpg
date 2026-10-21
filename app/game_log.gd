@@ -163,6 +163,7 @@ func modal_closed(what: String) -> void:
 
 ## SceneManager reports a revealed scene: after PLAYING_AFTER seconds of frames the boot stage says the game is playable.
 func scene_revealed(scene: String) -> void:
+	info("memory", "after %s: %s" % [scene, memory_text()])
 	_playing_scene = scene
 	_playing_left = PLAYING_AFTER
 
@@ -217,6 +218,15 @@ func _process(delta: float) -> void:
 		_beat_left = HEARTBEAT
 		info("beat", heartbeat_text(float(_frames_since_beat) / maxf(seconds, 0.001)))
 		_frames_since_beat = 0
+
+
+## Objects, resources and video memory now (a leak across area changes shows as numbers that only grow).
+func memory_text() -> String:
+	return "objects %d, resources %d, nodes %d, video memory %d MB (textures %d MB, buffers %d MB), RAM %d MB" % [
+		int(Performance.get_monitor(Performance.OBJECT_COUNT)), int(Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT)),
+		int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT)), int(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0),
+		int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED) / 1048576.0), int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED) / 1048576.0),
+		int(OS.get_static_memory_usage() / 1048576)]
 
 
 ## One heartbeat line (also used by tests): scene, transition state, lock, modals, fps.
