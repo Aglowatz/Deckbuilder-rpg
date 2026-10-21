@@ -61,6 +61,10 @@ const UI_ICONS: Dictionary = {
 const BY_EQUIPMENT_ID: Dictionary = {
 	"four_seal_signet": "lorc/rune-stone",
 	"first_water_phial": "lorc/drop",
+	"quotas_stopwatch": "delapouite/alarm-clock",
+	"colonels_ladle": "delapouite/ladle",
+	"plumes_quill": "delapouite/scroll-quill",
+	"clipwells_shears": "lorc/leaf-swirl",
 	"wicked_dagger": "lorc/broad-dagger",
 	"flamethrower": "delapouite/flamethrower",
 	"extra_pocket": "lorc/shiny-purse",

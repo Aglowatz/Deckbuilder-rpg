@@ -48,7 +48,7 @@
 					"infra": 17
 				},
 				"6": {
-					"name": "Regime Checkpoint Captain",
+					"name": "Vivienne Quota, Minister of Efficiency",
 					"deck": "beefcake_bruisers",
 					"size": 29,
 					"hp": 16,
@@ -139,6 +139,12 @@
 				},
 				"13": {
 					"before": "flex"
+				}
+			},
+			"talks": {
+				"6": {
+					"before": "quota_checkpoint",
+					"after": "quota_checkpoint_after"
 				}
 			}
 		},
@@ -290,6 +296,12 @@
 				"13": {
 					"before": "reveal",
 					"after": "wonder"
+				}
+			},
+			"talks": {
+				"6": {
+					"before": "crumb_inspection",
+					"after": "crumb_inspection_after"
 				}
 			}
 		},
@@ -510,10 +522,11 @@
 					"infra": 16
 				},
 				"6": {
-					"name": "Rootbound Miller",
+					"name": "Hortensia Clipwell, Royal Groundskeeper",
 					"deck": "refuse_garbage",
 					"size": 32,
-					"hp": 19
+					"hp": 19,
+					"icon": "lorc/leaf-swirl"
 				},
 				"8": {
 					"name": "Thorn Maze Stalker",
@@ -607,6 +620,12 @@
 				"13": {
 					"after": "sever"
 				}
+			},
+			"talks": {
+				"6": {
+					"before": "clipwell_mill",
+					"after": "clipwell_mill_after"
+				}
 			}
 		},
 		"D-PC": {
@@ -691,6 +710,14 @@
 					"deck": "necrocrat_beefcake",
 					"size": 32,
 					"hp": 21
+				},
+				"14": {
+					"name": "Percival Plume, Deputy Minister of Good News",
+					"deck": "necrocrat_beefcake",
+					"size": 33,
+					"hp": 24,
+					"icon": "delapouite/trumpet",
+					"ai": "Aggressive"
 				},
 				"15": {
 					"name": "Seed Vault Gardener",
@@ -789,9 +816,6 @@
 				}
 			},
 			"challenges": {
-				"14": {
-					"ref": "pc_ministry_desk"
-				},
 				"17": {
 					"ref": "pc_mirror_test"
 				}
@@ -836,6 +860,15 @@
 				"10": {
 					"before": "primm_intro",
 					"after": "primm_end"
+				}
+			},
+			"talks": {
+				"1": {
+					"before": "pc_capture"
+				},
+				"14": {
+					"before": "pc_plume_memo",
+					"after": "pc_plume_memo_after"
 				}
 			}
 		},
@@ -1135,6 +1168,68 @@
 			},
 			"story_keys": {
 				"3": "dg_s_cap_boss"
+			}
+		},
+		"S-PASTE": {
+			"defaults": {
+				"archetypes": [
+					"gourmand_golems"
+				],
+				"icons": [
+					"delapouite/chef-toque",
+					"lorc/acid-blob",
+					"delapouite/ladle"
+				],
+				"ais": [
+					"Balanced",
+					"Defensive",
+					"Aggressive"
+				],
+				"infra": 14
+			},
+			"boss": {
+				"deck": "gourmand_golems",
+				"extra": {
+					"C-30": 1,
+					"G-29": 1
+				},
+				"hp": 28,
+				"icon": "delapouite/ladle",
+				"infra": 13
+			},
+			"foes": {
+				"1": {
+					"name": "Ration Line Supervisor",
+					"deck": "colorless_regime",
+					"size": 30,
+					"hp": 18,
+					"mixed": [
+						"gourmand",
+						"necrocrat"
+					]
+				},
+				"2": {
+					"name": "Vat Floor Golem",
+					"deck": "gourmand_golems",
+					"size": 31,
+					"hp": 20,
+					"icon": "lorc/acid-blob"
+				},
+				"3": {
+					"name": "Colonel Cornelius Crumb, Director of Culinary Defense",
+					"ai": "Aggressive"
+				}
+			},
+			"talks": {
+				"3": {
+					"before": "crumb_paste_works",
+					"after": "crumb_paste_works_after"
+				}
+			},
+			"blurbs": {
+				"1": "A queue of grey citizens, a grey ladle, a supervisor timing every scoop.",
+				"2": "Vats the size of houses. Something in the third one is humming the national anthem.",
+				"3": "Behind a ration hatch: a real kitchen, a locked pantry and a badger in medals."
 			}
 		},
 		"D-LAB": {
@@ -1588,6 +1683,20 @@
 		],
 		"dungeon.dg_lab_boss.title": [
 			"The Chief Path-ologist's Laboratory"
+		],
+		"quest.cap_paste_works.offer": [
+			"The dispenser is spoiled. Lovely. But the paste comes from somewhere.",
+			"The shuttered stall at the south-west corner hums at night. Stalls are not supposed to hum. Open its ration hatch and look. Gently."
+		],
+		"quest.cap_paste_works.active": [
+			"The south-west stall, the one with its shutter down. Open the ration hatch. Whatever is down there, it will be very, very grey."
+		],
+		"quest.cap_paste_works.ready": [
+			"You shut the vats down? All of them? Then tonight the whole quarter eats something that tastes of something.",
+			"Some taste. 'Some' is the best amount."
+		],
+		"quest.cap_paste_works.done": [
+			"I have kept one real onion in my apron for ten years. Tonight, I chop it. You may want to stand back. I will be weeping, and not only from the onion."
 		]
 	}
 }

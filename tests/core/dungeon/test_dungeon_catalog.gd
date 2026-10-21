@@ -4,7 +4,7 @@ extends GutTest
 
 const NODE_COUNTS: Dictionary = {
 	"D-TUT": 6, "D-HOG": 13, "D-TTK": 13, "D-HFA": 14, "D-ROT": 13, "D-PC": 22,
-	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 14, "S-IRON": 3,
+	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 14, "S-IRON": 3, "S-PASTE": 3,
 }
 const REWARD_CARDS: Dictionary = {
 	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-33", "D-ROT": "R-33", "D-PC": "P4-02",
@@ -27,7 +27,7 @@ func _map_of(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 
 
 func test_every_dungeon_of_the_list_is_there() -> void:
-	assert_eq(DungeonCatalog.all().size(), 14, "the 12 dungeons of the sheet plus the hand-made Path-ology Lab and Iron Cave (Gainlands v2)")
+	assert_eq(DungeonCatalog.all().size(), 15, "the 13 dungeons of the sheet (with the Paste Works, Oct 21) plus the hand-made Path-ology Lab and Iron Cave (Gainlands v2)")
 	for id: String in NODE_COUNTS.keys():
 		var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(id)
 		assert_not_null(blueprint, id)
@@ -35,8 +35,8 @@ func test_every_dungeon_of_the_list_is_there() -> void:
 		assert_false(blueprint.dungeon_name.is_empty())
 		assert_false(blueprint.map_id.is_empty(), "%s has a Map Image ID" % id)
 		assert_eq(blueprint.map_id, "MAP-" + id.trim_prefix("D-"), id)
-	assert_eq(MainDungeons.side_ids().size(), 7)
-	for side: String in ["S-BEEF", "S-GOUR", "S-NECRO", "S-REF", "S-CAP", "S-TOWN", "S-IRON"]:
+	assert_eq(MainDungeons.side_ids().size(), 8)
+	for side: String in ["S-BEEF", "S-GOUR", "S-NECRO", "S-REF", "S-CAP", "S-TOWN", "S-IRON", "S-PASTE"]:
 		assert_true(MainDungeons.is_side(side), side)
 		assert_true(MainDungeons.has_def(side), side)
 

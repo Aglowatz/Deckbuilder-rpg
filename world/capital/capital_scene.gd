@@ -160,6 +160,7 @@ func _build_completion_state() -> void:
 	if Session.flag(CapitalZone.FLAG_FREED):
 		var hub: Vector3 = builder.anchor("crease_spawn")
 		_build_freed_npcs(hub)
+	_build_lieutenants()
 	# Sound pass: the first time the hero is back with the gate won, the great gate winds open with a hollow boom (once per save; a cosmetic flag nothing else reads).
 	if Session.flag(CapitalZone.FLAG_GATE_OPEN) and not Session.flag(&"sfx_gate_heard"):
 		Session.set_flag(&"sfx_gate_heard")
@@ -514,6 +515,85 @@ func _interact_zone(spot: ZoneSpot) -> void:
 		"patient":
 			_face_npc("patient")
 			_say(str(spot.data["speaker"]), _greeting("patient"))
+		"quota":
+			_face_npc("quota")
+			StoryScenePlayer.play(dialogue, "quota_yards", _ask_quota_battle)
+		"clipwell":
+			_face_npc("clipwell")
+			StoryScenePlayer.play(dialogue, "clipwell_lawn", func() -> void: _remove_story_npc("clipwell"))
+		"paste_works":
+			_ask_paste_works()
+
+
+# ---- Primm's lieutenants in the Capital (Oct 21) ------------------------------------------------------------------------------
+
+## Vivienne Quota by the energy wheels (she fled the Gainlands; Rollo's quest done; until beaten there), Hortensia Clipwell measuring Old Fern's
+## seedling at the Sick Patch (she fled the Dump; Old Fern's quest done; once), and the Paste Works' hatch in the Hungry Quarter (Marlo's second quest).
+func _build_lieutenants() -> void:
+	if Lieutenants.quota_in_yards(Session.flags, Session.quest_log.is_completed(CapitalZone.QUEST_WHEELS)):
+		_add_story_npc("quota", "NPC-QUOTA", Lieutenants.YARDS_SPOT, 270.0, "Vivienne Quota, Minister of Efficiency", "quota")
+	if clipwell_at_patch(Session.flags, Session.quest_log.is_completed(CapitalZone.QUEST_UNTIDY)):
+		_add_story_npc("clipwell", "NPC-CLIPWELL", "clipwell_patch", 180.0, "Hortensia Clipwell, Royal Groundskeeper", "clipwell")
+	if PasteWorks.door_open(Session.flags, Session.quest_log.is_active(PasteWorks.QUEST_ID), Session.quest_log.is_completed(PasteWorks.QUEST_ID)):
+		var door: Vector3 = builder.anchor(PasteWorks.SPOT_ID)
+		_add_spot(PasteWorks.SPOT_ID, "The Shuttered Stall", door, 1.6, "Open the ration hatch", false, "zone", {"act": "paste_works", "no_plate": true})
+		StyleBeacon.build(self, Vector3(door.x, builder.height_at(door), door.z), Color(1.0, 0.78, 0.4), 5.0, 0.12)
+
+
+## Clipwell waits by the Sick Patch once Old Fern's seed is in and the Dump is free, until her scene has played.
+static func clipwell_at_patch(flags: Dictionary, untidy_done: bool) -> bool:
+	return untidy_done and bool(flags.get(str(ZoneCompletion.flag_name("refusemancer")), false)) and not bool(flags.get("clipwell_lawn_seen", false))
+
+
+func _add_story_npc(id: String, npc_id: String, anchor: String, yaw: float, title: String, act: String) -> void:
+	var entry: Dictionary = {"id": id, "npc_id": npc_id, "model": "Rogue", "anchor": anchor, "yaw": yaw, "tint": Color.WHITE, "scale": 1.5}
+	var pos: Vector3 = builder.anchor(anchor)
+	pos.y = builder.height_at(pos)
+	var npc: Node3D = _make_npc(entry, pos, "Idle")
+	_npcs[id] = npc
+	_add_spot(id, title, pos, 1.9, "Talk", true, "zone", {"npc": id, "npc_id": npc_id, "speaker": title, "act": act})
+
+
+## A lieutenant leaves (her scene is over): the figure, its talk spot and its name label go.
+func _remove_story_npc(id: String) -> void:
+	for spot: ZoneSpot in spots.duplicate():
+		if spot.id != id:
+			continue
+		if npc_labels != null and is_instance_valid(spot.marker):
+			npc_labels.unregister(spot.marker)
+		for node: Node3D in [spot.marker, spot.plate]:
+			if is_instance_valid(node):
+				node.queue_free()
+		spots.erase(spot)
+	var npc: Node = _npcs.get(id) as Node
+	if is_instance_valid(npc):
+		npc.queue_free()
+	_npcs.erase(id)
+
+
+func _ask_quota_battle() -> void:
+	_locked = true
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "Vivienne Quota", "A one-off duel by the energy wheels. Your HP carries over, as in any fight in the city.", "Duel her", "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		var run: ZoneRun = Session.zone_run
+		run.return_position = player.position + Vector3(0, 0, 1.2)
+		run.has_return_position = true
+		Audio.sfx(&"turn_start")
+		Session.start_quota_yards_battle())
+	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
+func _ask_paste_works() -> void:
+	_locked = true
+	var first: bool = not Session.flag(PasteWorks.FLAG_FOUND)
+	var body: String = "Behind the shutter, a ration hatch and a ladder going down. It smells of nothing at all, which is somehow worse." if first else "The ration hatch, the ladder, the smell of nothing at all."
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "The Paste Works", body + " Your HP carries in and out.", "Climb down", "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		var run: ZoneRun = Session.zone_run
+		run.return_position = player.position + Vector3(0, 0, 1.2)
+		run.has_return_position = true
+		Session.enter_paste_works())
+	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
 ## Shows what an interactable result says: one line as a toast, several as a short dialogue.
@@ -548,6 +628,10 @@ func _after_self_damage() -> void:
 
 func _talk_wren() -> void:
 	_face_npc("wren")
+	var news: String = StoryBeats.wren_scene(Session.flags)
+	if not news.is_empty():
+		StoryScenePlayer.play(dialogue, news)
+		return
 	var lines: Array[String] = _greeting("wren")
 	var insights: int = CapitalInteractables.insight_count(Session.flags)
 	if insights > 0:
@@ -718,6 +802,11 @@ func _apply_pending_result() -> void:
 		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
 		_say("Captain Spotless", story.get_lines("npc.spotless.defeated"))
+	if bool(result.get("quota_yards", false)):
+		# Quota beaten in the Yards: her closing scene (she takes the Gainlands' break schedule), then she is gone from the wheels.
+		_remove_story_npc.call_deferred("quota")
+		if not bool(result.get("woke_at_hub", false)):
+			StoryScenePlayer.play(dialogue, "quota_yards_after")
 	super()
 
 
@@ -758,6 +847,18 @@ func screenshot_prepare(args: Dictionary) -> void:
 		Session.set_flag(CapitalZone.FLAG_INSIDE)
 	if args.has("hub"):
 		Session.set_flag(CapitalZone.FLAG_HUB_KNOWN)
+	# Oct 21: `--lieutenants` puts Quota by the wheels, Clipwell at the Sick Patch and the Paste Works hatch in place (their quests done).
+	if args.has("lieutenants"):
+		for zone_id: String in ["beefcake", "gourmand", "refusemancer"]:
+			Session.complete_zone(zone_id)
+		for quest_id: String in [CapitalZone.QUEST_WHEELS, CapitalZone.QUEST_RECIPES, CapitalZone.QUEST_UNTIDY]:
+			Session.start_quest(quest_id)
+			Session.complete_quest(quest_id)
+		Session.start_quest(PasteWorks.QUEST_ID)
+		Session.pending_popups.clear()
+		Session.pending_level_ups.clear()
+		Session.set_flag(CapitalZone.FLAG_INSIDE)
+		Session.set_flag(CapitalZone.FLAG_GATE_OPEN)
 	if args.has("flags"):
 		for flag_name: String in str(args["flags"]).split(","):
 			Session.set_flag(StringName(flag_name))

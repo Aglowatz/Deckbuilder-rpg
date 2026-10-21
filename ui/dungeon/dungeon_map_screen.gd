@@ -94,6 +94,7 @@ func _ready() -> void:
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
 		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's HP. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]HP carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
 	_play_pending_after_story.call_deferred()
+	_play_start_talk.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
 		_begin_boss_phase.call_deferred()
 
@@ -494,6 +495,9 @@ func _run_node(node: DungeonMap.MapNode) -> void:
 ## The node's story lines (placeholder dialogue), then its cutscene if any, then `then`.
 func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
+	var talk_before: String = BossTalks.before_boss(node, Session.dungeon_key, Session.run)
+	if StoryScenes.should_play(talk_before, Session.flags):
+		steps.append(_play_talk.bind(talk_before))
 	if not node.story_before.is_empty() and _main_def != null:
 		var before_key: String = HouseOfGainsDungeon.boss_story_key(node.story_before, Session.run)
 		var story_cue: String = MusicDirector.story_node(node.story_before)
@@ -571,15 +575,42 @@ func _show_cutscene(done: Callable, scene_id: String) -> void:
 	scene.finished.connect(done, CONNECT_ONE_SHOT)
 
 
+## A story scene (StoryScenes) in the map's dialogue box.
+func _play_talk(done: Callable, scene_id: String) -> void:
+	StoryScenePlayer.play(_dialogue, scene_id, done)
+
+
+## Oct 21: the start node's scene plays when a run's map first opens (the castle gate: Plume has the Rescuer seized).
+func _play_start_talk() -> void:
+	if map == null or not map.cleared.is_empty() or map.last_cleared >= 0:
+		return
+	var start: DungeonMap.MapNode = map.node(map.current)
+	if start == null or start.kind != DungeonMap.Kind.START or Session.dungeon_story_seen.has(-1 - start.id):
+		return
+	if not StoryScenes.should_play(start.talk_before, Session.flags):
+		return
+	Session.dungeon_story_seen.append(-1 - start.id)
+	StoryScenePlayer.play(_dialogue, start.talk_before)
+
+
 ## After returning to the map: the story line of the node just cleared (once per run).
 func _play_pending_after_story() -> void:
-	if _main_def == null or map == null:
+	if map == null:
 		return
 	var node: DungeonMap.MapNode = map.node(map.last_cleared if map.last_cleared >= 0 else map.current)
-	if node.story_after.is_empty() or Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
+	if Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
+		return
+	var talk: bool = StoryScenes.should_play(node.talk_after, Session.flags) and node.kind != DungeonMap.Kind.BOSS
+	if not talk and (node.story_after.is_empty() or _main_def == null):
 		return
 	Session.dungeon_story_seen.append(node.id)
-	_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), NpcRegistry.story_speaker(node.story_after))
+	var story_after: Callable = func() -> void:
+		if not node.story_after.is_empty() and _main_def != null:
+			_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), NpcRegistry.story_speaker(node.story_after))
+	if talk:
+		StoryScenePlayer.play(_dialogue, node.talk_after, story_after)
+	else:
+		story_after.call()
 
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.

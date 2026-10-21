@@ -41,6 +41,7 @@ static func zone_equipment() -> Dictionary:
 	ArenaContent.add_equipment(result)
 	ExpansionGear.add_all(result)
 	OldWellQuest.add_equipment(result)  # Overnight Oct 19-20, Part 6: the Old Well secret quest's relic
+	Lieutenants.add_equipment(result)  # Oct 21: the four lieutenants' relics
 	result[EquipmentRarity.STARTER_BLADE] = EquipmentRarity.starter_blade()  # Overnight Oct 17: the armory quest's reward
 	return result
 

@@ -63,25 +63,25 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 
 | Token ID | Name | Column | Old | New |
 |---|---|---|---|---|
-| T-14 | Red Tape | Card Text/Effect | Pay 1, use this Red Tape: target unit gets -1 attack permanently. (Your turn only.) | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of its controller's next turn. (Your turn only.) |
+| T-14 | Red Tape | Card Text/Effect | Pay 1, use this Red Tape: target unit gets -1 attack permanently. (Your turn only.) | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of your next turn. (Your turn only.) |
 
 ## Design Guidance
 
 | Section | Term | Old definition | New definition |
 |---|---|---|---|
 | RESOURCES | Iron (Beefcake) | Pay 1 energy, use an Iron: target unit gets +1 attack permanently. Your turn only. | Pay 1 energy, use an Iron: target unit gets +1/+1 until end of turn. Your turn only. |
-| RESOURCES | Red Tape (Necrocrat) | Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only. | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only. |
+| RESOURCES | Red Tape (Necrocrat) | Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only. | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn. Your turn only. |
 | PATH MECHANICS | Eat Garbage (R) | Ability cost: pay 1 energy, lose 1 HP, use a Garbage. The Raccoon makes this free on your turn. | Ability cost: pay 1 energy, use a Garbage. No HP cost. The Raccoon makes the energy part free on your turn. Specific stronger cards add a written "lose X HP" cost. |
 
 ## Dungeon List - encounter modifiers (new column "Encounter Modifiers", one line per rule)
 
 | Encounter (key) | Rule | Side | Effect (exact) | Shown as |
 |---|---|---|---|---|
-| Regime Checkpoint Captain | Drill Sergeant | enemy | stat (atk=1, def=0) | "The Captain's units get +1 attack." (icon delapouite/sergeant) |
+| Vivienne Quota, Minister of Efficiency | Stopwatch | enemy | stat (atk=1, def=0) | "Quota's units get +1 attack. Every second counts, and she is counting." (icon delapouite/alarm-clock) |
 | Trophy Hall Honor Guard | Honor Guard | enemy | starting_tokens (token="T-16", count=1) | "Starts the duel with a 1/1 Militia on the field." (icon delapouite/guards) |
-| Chancellor Clench, Iron Regent | Iron Regent | enemy | starting_resources (resource="iron", count=3) | "Starts the duel with 3 Iron." (icon lorc/anvil) |
+| Chancellor Clench, Iron Regent | Iron Regent | enemy | starting_resources (resource="iron", count=3) | "Starts the duel with 3 Iron." (icon delapouite/belt-armor) |
 | Chancellor Clench, Iron Regent | Reinforcements | enemy | timed_summon (token="T-21", every=4) | "Every fourth turn of his, a 2/2 Patchwork Body marches in." (icon delapouite/strong-man) |
-| Unfinished War Machine | Conveyor | enemy | timed_summon (token="T-03", every=2) | "Every second turn of its, it assembles a 1/1 Sashimi Weenie." (icon delapouite/conveyor-belt) |
+| Unfinished War Machine | Conveyor | enemy | timed_summon (token="T-03", every=2) | "Every second turn of its, it assembles a 1/1 Sashimi Weenie." (icon delapouite/pipes) |
 | Cannon-Blender Gunner | Shrapnel | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon delapouite/pirate-cannon) |
 | The Doppelganger | Mise en Place | enemy | starting_resources (resource="ingredient", count=2) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
 | The Doppelganger | Mise en Place | enemy | starting_tokens (token="T-03", count=1) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
@@ -91,7 +91,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Mortimer Grimsby, CE-No | Red Tape Everywhere | enemy | starting_resources (resource="redtape", count=3) | "Starts the duel with 3 Red Tape." (icon delapouite/stamper) |
 | Mortimer Grimsby, CE-No | Temp Agency | enemy | timed_summon (token="T-10", every=2) | "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0." (icon delapouite/shambling-zombie) |
 | Mortimer Grimsby, CE-No | Temp Agency | enemy | stat (atk=1, def=0) | "Mortimer's units get +1 attack." (icon delapouite/shambling-zombie) |
-| Rootbound Miller | Fungal Growth | enemy | token_stats (atk=1, def=1) | "The Miller's tokens enter with +1/+1." (icon delapouite/mushrooms-cluster) |
+| Hortensia Clipwell, Royal Groundskeeper | Prize Topiary | enemy | token_stats (atk=1, def=1) | "Clipwell's tokens enter with +1/+1, trimmed to regulation." (icon lorc/leaf-swirl) |
 | Hive of Mutant Bees | Swarm | enemy | timed_summon (token="T-22", every=2) | "Every second turn of its, a 1/1 Sporeling buzzes in." (icon lorc/bat-wing) |
 | Compostella, the Rotheart | Rot Takes Root | enemy | starting_resources (resource="garbage", count=4) | "Starts the duel with 4 Garbage; its units get +0/+1." (icon cathelineau/tree-face) |
 | Compostella, the Rotheart | Rot Takes Root | enemy | stat (atk=0, def=1) | "Starts the duel with 4 Garbage; its units get +0/+1." (icon cathelineau/tree-face) |
@@ -118,14 +118,29 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | The Drain Warden | Drained | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon lorc/bubbling-flask) |
 | The Drain Warden | Drained Strength | enemy | stat (atk=2, def=2) | "The Warden's units get +2/+2." (icon lorc/bubbling-flask) |
 | town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=1) | "Prudence starts the duel with a Red Tape." (icon delapouite/stamper) |
-| town:ninja | The Oldest Trick | enemy | starting_resources (resource="contract", count=2) | "Shiro starts the duel with two Contracts: he can lock your units down." (icon lorc/ninja-head) |
-| town:ninja | Smoke and Mirrors | enemy | stat (atk=2, def=1) | "Shiro's units get +2/+1." (icon lorc/ninja-head) |
-| arena:arena_marshal | Crowd Favourite | enemy | stat (atk=2, def=1) | "Grand Bellows's units get +2/+1." (icon delapouite/megaphone) |
+| town:ninja | The Oldest Trick | enemy | starting_resources (resource="contract", count=2) | "Shiro starts the duel with two Contracts: he can lock your units down." (icon darkzaitzev/running-ninja) |
+| town:ninja | Smoke and Mirrors | enemy | stat (atk=2, def=1) | "Shiro's units get +2/+1." (icon delapouite/carnival-mask) |
+| arena:arena_marshal | Crowd Favourite | enemy | stat (atk=2, def=1) | "Grand Bellows's units get +2/+1." (icon delapouite/trumpet) |
+| arena:arena_marshal | Heckling Crowd | enemy | start_of_turn_damage (amount=1) | "The crowd is on his side: at the start of each of his turns you take 1 damage." (icon delapouite/three-friends) |
 | zone:gourmand:casserole | Field Rations | enemy | starting_tokens (token="T-03", count=1) | "The Colonel starts with a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
 | zone:final:spotless | Spotless Drill | enemy | stat (atk=2, def=2) | "Captain Spotless's units get +2/+2." (icon lorc/visored-helm) |
 | Clocktower Sentinel | Clockwork Precision | enemy | stat (atk=2, def=2) | "The Sentinel's units get +2/+2." (icon delapouite/alarm-clock) |
 | The Failed Experiment | Unstable | enemy | stat (atk=2, def=2) | "The Experiment's units get +2/+2." (icon lorc/bubbling-flask) |
 | arena:arena_four_fists | Four Fists | enemy | stat (atk=1, def=1) | "The Champion's units get +1/+1." (icon lorc/fire-punch) |
+| Primm (standardization) | Royal Guard | enemy | starting_tokens (token="T-16", count=2) | "Primm starts the duel with 2 Militia on the field (3/3, like every unit under Standardization)." (icon delapouite/guards) |
+| town:old_well | The Spring Remembers | enemy | stat (atk=2, def=2) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:old_well | The Spring Remembers | enemy | start_of_turn_heal (amount=2) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:old_well | The Spring Remembers | enemy | starting_resources (resource="iron", count=1) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:old_well | The Spring Remembers | enemy | starting_resources (resource="redtape", count=1) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:old_well | The Spring Remembers | enemy | starting_resources (resource="ingredient", count=1) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:old_well | The Spring Remembers | enemy | starting_resources (resource="garbage", count=1) | "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage." (icon lorc/drop) |
+| town:storeroom | Haunted Inventory | enemy | timed_summon (token="T-19", token_name="Ghost", token_keywords=[], every=1) | "At the start of each of the ghosts' turns, a 1/1 Ghost token joins them." (icon lorc/ghost) |
+| Percival Plume, Deputy Minister of Good News | Great News! | enemy | extra_draws (count=1) | "Plume draws an extra card each turn. There is always another announcement." (icon delapouite/trumpet) |
+| Percival Plume, Deputy Minister of Good News | Positive Spin | enemy | stat (atk=1, def=0) | "Plume's units get +1 attack. Everything hits harder in a press release." (icon delapouite/scroll-quill) |
+| capital:quota | Stopwatch | enemy | stat (atk=1, def=1) | "Quota's units get +1/+1. Ten years of practice, timed to the second." (icon delapouite/alarm-clock) |
+| capital:quota | Time and Motion | enemy | keyword (keyword="hustle") | "Quota's units enter with Hustle. Nothing idles on her watch." (icon lorc/hourglass) |
+| Colonel Cornelius Crumb, Director of Culinary Defense | Whisk Formation | enemy | timed_summon (token="T-05", every=3, count=1) | "Every third turn, a 3/3 Meatloaf Golem joins the Colonel." (icon delapouite/chef-toque) |
+| Colonel Cornelius Crumb, Director of Culinary Defense | Fortified Rations | enemy | stat (atk=1, def=2) | "The Colonel's units get +1/+2. Fortified with nothing at all." (icon lorc/acid-blob) |
 
 ## Dungeon List - enemy numbers (dungeon_content.json foes and bosses that changed)
 
@@ -133,7 +148,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 |---|---|---|---|
 | D-HOG | node 2 | "Treadmill Sprinter" | {"name":"Treadmill Sprinter","hp":12,"size":26,"infra":13} |
 | D-HOG | node 3 | "Courtyard Lifter" | {"name":"Courtyard Lifter","hp":8,"size":25,"infra":17} |
-| D-HOG | node 6 | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":31,"hp":19} | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":29,"hp":16,"infra":13} |
+| D-HOG | node 6 | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":31,"hp":19} | {"name":"Vivienne Quota, Minister of Efficiency","deck":"beefcake_bruisers","size":29,"hp":16,"infra":13} |
 | D-HOG | node 8 | "Cell Block Brawler" | {"name":"Cell Block Brawler","hp":13,"size":27,"infra":13} |
 | D-HOG | node 11 | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":33,"hp":22} | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":28,"hp":12,"infra":13} |
 | D-HOG | boss | {"deck":"beefcake_bruisers","extra":{},"hp":28,"icon":"delapouite/viking-head"} | {"deck":"beefcake_bruisers","extra":{},"hp":24,"icon":"delapouite/viking-head","infra":14} |
@@ -155,6 +170,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-HFA | defaults | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/tie","delapouite/shambling-zombie","lorc/ghost","delapouite/warlock-eye","delapouite/full-folder","delapouite/stamper"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/tie","delapouite/shambling-zombie","lorc/ghost","delapouite/warlock-eye","delapouite/full-folder","delapouite/stamper"],"ais":["Aggressive","Balanced","Aggressive"],"infra":12} |
 | D-ROT | node 2 | "Overgrown Scarecrow" | {"name":"Overgrown Scarecrow","hp":12,"infra":16} |
 | D-ROT | node 3 | "Mutant Mushroom Troop" | {"name":"Mutant Mushroom Troop","hp":12,"infra":16} |
+| D-ROT | node 6 | {"name":"Rootbound Miller","deck":"refuse_garbage","size":32,"hp":19} | {"name":"Hortensia Clipwell, Royal Groundskeeper","deck":"refuse_garbage","size":32,"hp":19,"icon":"lorc/leaf-swirl"} |
 | D-ROT | node 8 | "Thorn Maze Stalker" | {"name":"Thorn Maze Stalker","hp":12,"infra":16} |
 | D-ROT | node 10 | {"name":"Hive of Mutant Bees","deck":"refuse_rats","size":30,"hp":18,"icon":"lorc/bat-wing"} | {"name":"Hive of Mutant Bees","deck":"refuse_garbage","size":30,"hp":14,"icon":"lorc/bat-wing","infra":17,"ai":"Balanced"} |
 | D-ROT | boss | {"deck":"refuse_garbage","extra":{"R-33":1},"hp":28,"icon":"cathelineau/tree-face"} | {"deck":"refuse_garbage","extra":{"R-33":1},"hp":22,"icon":"cathelineau/tree-face","infra":19} |
@@ -165,6 +181,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-PC | node 6 | {"name":"Ministry Clerk","deck":"gourmand_necrocrat","size":30,"hp":15,"icon":"delapouite/stamper"} | {"name":"Ministry Clerk","deck":"gourmand_necrocrat","size":32,"hp":25,"icon":"delapouite/stamper"} |
 | D-PC | node 9 | {"name":"Royal Staircase Guard","deck":"colorless_regime","size":33,"hp":22,"mixed":["necrocrat","gourmand"]} | {"name":"Royal Staircase Guard","deck":"colorless_regime","size":35,"hp":32,"mixed":["necrocrat","gourmand"],"infra":11,"extra":{"C-30":1,"C-32":1}} |
 | D-PC | node 13 | {"name":"Coup Barracks Sergeant","deck":"necrocrat_beefcake","size":30,"hp":17} | {"name":"Coup Barracks Sergeant","deck":"necrocrat_beefcake","size":32,"hp":21} |
+| D-PC | node 14 | - | {"name":"Percival Plume, Deputy Minister of Good News","deck":"necrocrat_beefcake","size":33,"hp":24,"icon":"delapouite/trumpet","ai":"Aggressive"} |
 | D-PC | node 15 | {"name":"Seed Vault Gardener","deck":"necrocrat_refusemancer","size":30,"hp":17} | {"name":"Seed Vault Gardener","deck":"necrocrat_refusemancer","size":32,"hp":21} |
 | D-PC | node 20 | {"name":"Clocktower Sentinel","deck":"colorless_regime","size":32,"hp":21,"mixed":["necrocrat","gourmand"]} | {"name":"Clocktower Sentinel","deck":"colorless_regime","size":35,"hp":32,"mixed":["necrocrat","gourmand"],"infra":11,"extra":{"C-30":1,"C-32":1}} |
 | D-PC | defaults | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/portrait","delapouite/shinto-shrine-mirror","delapouite/stamper","cathelineau/nun-face","delapouite/book-cover"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/portrait","delapouite/shinto-shrine-mirror","delapouite/stamper","cathelineau/nun-face","delapouite/book-cover"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
@@ -192,6 +209,11 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-CAP | node 3 | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":33,"hp":20,"mixed":["necrocrat","gourmand","beefcake","refusemancer"]} | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":34,"hp":34,"mixed":["necrocrat","gourmand","beefcake","refusemancer"],"infra":11,"extra":{"C-30":1,"C-32":1,"C-34":1}} |
 | S-CAP | boss | {"deck":"colorless_regime","extra":{},"hp":20,"icon":"lorc/visored-helm"} | {"deck":"colorless_regime","extra":{},"hp":26,"icon":"lorc/visored-helm"} |
 | S-CAP | defaults | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/pipes","lorc/visored-helm"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/pipes","lorc/visored-helm"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
+| S-PASTE | node 1 | - | {"name":"Ration Line Supervisor","deck":"colorless_regime","size":30,"hp":18,"mixed":["gourmand","necrocrat"]} |
+| S-PASTE | node 2 | - | {"name":"Vat Floor Golem","deck":"gourmand_golems","size":31,"hp":20,"icon":"lorc/acid-blob"} |
+| S-PASTE | node 3 | - | {"name":"Colonel Cornelius Crumb, Director of Culinary Defense","ai":"Aggressive"} |
+| S-PASTE | boss | - | {"deck":"gourmand_golems","extra":{"C-30":1,"G-29":1},"hp":28,"icon":"delapouite/ladle","infra":13} |
+| S-PASTE | defaults | - | {"archetypes":["gourmand_golems"],"icons":["delapouite/chef-toque","lorc/acid-blob","delapouite/ladle"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
 | D-LAB | node 2 | {"name":"Decontamination Technician","deck":"necro_control","size":38,"hp":30,"ai":"Aggressive"} | {"name":"Decontamination Technician","deck":"necro_control","size":40,"hp":34,"ai":"Aggressive"} |
 | D-LAB | node 3 | {"name":"Escaped Specimen","deck":"refuse_garbage","size":38,"hp":30,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} | {"name":"Escaped Specimen","deck":"refuse_garbage","size":40,"hp":34,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} |
 | D-LAB | node 5 | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":36,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1}} | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":44,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1},"infra":13} |
@@ -228,25 +250,11 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 ## New rows: starting decks (one list per Path; 19 basic Infrastructure of the Path + these 26 cards)
 
 - **Beefcake** (26 cards + 19 Powerhouse): B-05 x3 (Hamster Wheel Runner), B-01 x2 (Gym Bro), B-07 x1 (Late-ish Courier), B-04 x2 (Millstone Pusher), B-09 x2 (Personal Trainer), B-08 x2 (Spotter), B-12 x2 (Leg Day Survivor), B-11 x1 (Beefy Bouncer), B-10 x2 (Shot Putter), B-03 x2 (Dropped Weights), B-21 x2 (Flex on 'Em), B-20 x1 (Dry Scoop), B-14 x1 (Weight Belt), B-19 x1 (Counterweight), B-24 x1 (Overclocked Mill Worker), B-26 x1 (The Carpool)
-- **Necrocrat** (26 cards + 19 Ghost Town): N-01 x3 (Skeleton Clerk), N-02 x3 (Infernal Intern), N-04 x2 (Body-builder), N-05 x3 (Corpseified Public Accountant), N-06 x2 (Notary Wraith), N-15 x3 (Pink Slip), N-07 x3 (Grave Shift Worker), N-03 x3 (Post-Human Resources Ghoul), N-13 x2 (Waiting Room), N-23 x2 (Middle Management Zombie) (Oct 19, after loop cycle 11: out are Processing Delay, I've Made a Huge Mistake, Requisition Form, Red Tape Dispenser, Audit Wraith)
-- **Gourmand** (26 cards + 19 Feastforge): G-01 x3 (Line Cook), G-09 x2 (Kitchen Porter), G-02 x1 (Sushi Apprentice), G-15 x2 (Windowsill Herb Garden), G-12 x2 (Meatloaf Mold), G-08 x2 (Pastry Artificer), G-03 x1 (Conveyor Belt Chef), G-06 x3 (Soup Kitchen Volunteer), G-04 x1 (Sourdough Sentry), G-07 x3 (Sous Chef), G-16 x1 (Dinner Is Served), G-05 x1 (Food Critic), G-20 x1 (Plate It), G-25 x1 (Stock The Pantry), G-23 x2 (En Garde-Manger) (Oct 19: - Stock The Pantry, - Sourdough Sentry, + Sous Chef, + Soup Kitchen Volunteer)
+- **Necrocrat** (26 cards + 19 Ghost Town): N-01 x3 (Skeleton Clerk), N-02 x3 (Infernal Intern), N-04 x2 (Body-builder), N-05 x3 (Corpseified Public Accountant), N-06 x2 (Notary Wraith), N-15 x3 (Pink Slip), N-07 x3 (Grave Shift Worker), N-03 x3 (Post-Human Resources Ghoul), N-13 x2 (Waiting Room), N-23 x2 (Middle Management Zombie)
+- **Gourmand** (26 cards + 19 Feastforge): G-01 x3 (Line Cook), G-09 x2 (Kitchen Porter), G-02 x1 (Sushi Apprentice), G-15 x2 (Windowsill Herb Garden), G-12 x2 (Meatloaf Mold), G-08 x2 (Pastry Artificer), G-03 x1 (Conveyor Belt Chef), G-06 x3 (Soup Kitchen Volunteer), G-04 x1 (Sourdough Sentry), G-07 x3 (Sous Chef), G-16 x1 (Dinner Is Served), G-05 x1 (Food Critic), G-20 x1 (Plate It), G-25 x1 (Stock The Pantry), G-23 x2 (En Garde-Manger)
 - **Refusemancer** (26 cards + 19 Wasteworks): R-06 x3 (Curbside Rat), R-08 x3 (Possum Prowler), R-02 x2 (Dumpster Diver), R-10 x1 (Community Compost Bin), R-05 x2 (Kidding Around), R-19 x2 (Alley Scrap), R-01 x1 (Mulch Mole), R-03 x1 (Landfill Ox), R-09 x1 (Heap Tortoise), R-07 x1 (Junkyard Giraffe), R-11 x1 (Raised Bed), R-14 x2 (Rusty Spring Trap), R-22 x2 (Acid Vomitor), R-24 x1 (Second-Hand Life), R-12 x1 (Garbage Pit), R-04 x1 (Rubbish Goat), R-17 x1 (Hayfork Harpoon)
 
 ## Equipment and items
 
 See the "Part F" section of `docs/design/balance_log.md` for every equipment and consumable number that changed (the sheet has no equipment tab in the snapshot; add one if the live sheet tracks gear).
 
-
-## Daytime Oct 19, Part 1
-
-No card or deck rows: the changes are game rules (Processing Time, `core/zone/zone_effects.gd`) and encounter rules
-(`data/encounters/modifiers.json`: Heckling Crowd for Grand Bellows, Royal Guard for Primm phase 1). Details in balance_log.md.
-
-## Daytime Oct 19, four improvements, Part 1: Red Tape timing
-
-| Sheet | Row | Column | Old | New |
-|---|---|---|---|---|
-| Design Guidance | RESOURCES / Red Tape (Necrocrat) | Rule | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only. | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn. Your turn only. (the live sheet already had this; the snapshot `data/source/design_guidance.csv` now matches, with a note that the shrink lasts through the opponent's whole turn) |
-| Tokens | T-14 Red Tape | Card Text/Effect | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of its controller's next turn. (Your turn only.) | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of your next turn. (Your turn only.) |
-
-No card rows change: no card restates the Red Tape duration (Chancellor Clench's "-4 attack instead of -2" keeps the same timing).

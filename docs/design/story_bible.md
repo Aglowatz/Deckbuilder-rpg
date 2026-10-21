@@ -75,7 +75,8 @@ Names that may still change live in ONE data location each and appear in story t
 | `{royal_house}` | Wayweaver | royal_family.tres | |
 | `{king}` | King Harmon Wayweaver | royal_family.tres | |
 | `{queen}` | Queen Concordia Wayweaver | royal_family.tres | |
-| `{rescuer}` | The Rescuer | royal_family.tres | Placeholder; sheet canon names her **Elowen Vey** (section 18, inbox). |
+| `{rescuer}` | The Rescuer, then Elowen | royal_family.tres + `core/data/royal_family.gd` | "The Rescuer" until Plume names her at the castle gate (flag `rescuer_named`), then "Elowen". |
+| `{rescuer_full}` | Elowen Vey | royal_family.tres | Her full name, for the line that names her and after. |
 | `{kingdom}` | Patchwork | royal_family.tres | |
 | `{town}` | Crosspath | royal_family.tres | |
 | `{capital}` | Primm's Perfection, then Pathordia | royal_family.tres | Switches when Primm falls (`RoyalFamily.set_capital_liberated`). |
@@ -295,17 +296,35 @@ centimetre with tweezers. Pressed grey coat, thin gold circlet (white and gold i
 on infrastructure (water mains, drains, wells) under permanent arrest in a locked workshop, kept away from all Path workings. Brilliant,
 sincere and never again in charge. [built: postgame Primm stands in the Crease with a guard; the workshop building is a polish item.]
 
-### The four lieutenants [canon, not built]
+### The four lieutenants [built Oct 21]
 
-Masterminds who engineered each takeover and control it for Primm. Semi-present in their zone (cameos), they flee to the Capital when
-their zone is freed, and each is beaten in a one-off fight there. None exists in the game yet.
+Masterminds who engineered each takeover and control it for Primm. Humanoid animals, as in their art (user decision Oct 21): Quota a ferret,
+Crumb a badger, Plume a peacock, Clipwell a hare. Each is a one-off fight with a one-sided rule, intro and defeat scenes, a Bestiary entry
+and a relic on the first win (`Lieutenants`, core/dungeon/lieutenants.gd; scenes in data/story/story_scenes.json):
+- **Quota** is the House of Gains' Regime Checkpoint elite (D-HOG node 6: she "measures" the Wanderer, scenes `quota_checkpoint`/`_after`;
+  rule Stopwatch). When the Gainlands are free, Flex tells the hero she fled (`quota_fled`, the first visit to the freed zone). In the
+  Capital she stands by the Transit Yards' energy wheels once Rollo Spokes's quest is done and the Gainlands are free: a rematch duel
+  (`quota_yards`, rules Stopwatch + Time and Motion), after which she takes the Gainlands' break schedule (`quota_yards_after`).
+  Relic: Quota's Stopwatch (you always go first).
+- **Crumb** inspects the Test Kitchen's Prototype Bay before its elite (D-TTK node 6, `crumb_inspection`, a scene; he leaves before the
+  fight). When the Buffet is free, Basil and the Grand Chef tell the hero he fled (`crumb_fled`). He is the boss of **the Paste Works**
+  (S-PASTE, section 17), reached through Chef Marlo's second quest. Relic: the Colonel's Ladle.
+- **Plume** cuts the freed D.N.A.'s ribbon and hands out a Certificate of Participation (`plume_ribbon`, the first visit after it is
+  freed); has the Rescuer seized at the castle gate on the hero's first castle run (D-PC node 1, `pc_capture`: "Miss Elowen Vey, I
+  presume"; from then on `{rescuer}` reads "Elowen"); is the elite of the Necrocrat wing (D-PC node 14, `pc_plume_memo` with the memo
+  "Re: the leak in the lab. Handled. Promotion?"; rules Great News! + Positive Spin). Relic: Plume's Notary Quill.
+- **Clipwell** is the Rotheart's Root-Choked Mill elite (D-ROT node 6, `clipwell_mill`: she has trimmed the roots into a topiary of
+  Primm; rule Prize Topiary). When the Dump is free, Brother Bramble tells the hero she fled (`clipwell_fled`). In the Capital she is at
+  the Reek's Sick Patch, measuring Old Fern's seedling, once Old Fern's quest is done and the Dump is free (`clipwell_lawn`, a scene, no
+  second fight: she takes compost duty). Relic: Clipwell's Golden Shears.
+Fates not built yet: Plume's postgame reassignment under Bertram; Crumb learning to cook in the Buffet (his scene ends on "Yes, Chef").
 
 | Lieutenant | Path | What they did | In their zone | In the Capital | Fate |
 |---|---|---|---|---|---|
-| **Vivienne Quota, Minister of Efficiency** (`NPC-QUOTA`) | Beefcake | Designed the endless energy wheels and the Iron-less Prison ("remove the inefficiencies: weights, protein, joy"); picked Clench as figurehead because his insecurity made him easy to steer; corrupted Brick Bronson | Efficiency notices on every wheel; stopwatch; "measures" the Wanderer at the House of Gains' Regime Checkpoint and finds him wanting | One-off battle in the Transit Yards at the end of Rollo Spokes's quest | Runs the Gainlands' new break schedule, and hates it |
-| **Colonel Cornelius Crumb, Director of Culinary Defense** (`NPC-CRUMB`) | Gourmand | Ordered the doppelganger swap and the war-machine programme; invented Primm's Perfect Nutrient Paste; corrupted Chef Fennel Gravois | His seal on every "for the war effort" poster; inspects the Test Kitchen prototypes; Basil is terrified of him | Boss of the Paste Works mini-dungeon (S-PASTE) through Chef Marlo's quest | Learns to actually cook under the Grand Chef |
-| **Percival Plume, Deputy Minister of Good News** (`NPC-PLUME`) | Necrocrat | Drafted, notarized and filed the transfer of authority; reads every broadcast; corrupted Prudence Pallor; the NPC everyone loves to hate | Spins every freed zone, then turns up to cut a ribbon and hand the Wanderer a Certificate of Participation | Works out who smuggled "the Subject" out and has Elowen taken back to the Lab when the Wanderer first enters the castle (memo: "Re: the leak in the lab. Handled. Promotion?"); elite in the castle's Necrocrat wing | Tries to become the prince's spokesman; Agnes denies the form; reassigned as Assistant to the Assistant to the Regional Merchant, under Bertram Beetsworth |
-| **Hortensia Clipwell, Royal Groundskeeper** (`NPC-CLIPWELL`) | Refusemancer | Outlawed composting as "untidy"; brought the grieving Compostella the Path-ologists' deathless seed (Primm's gift); corrupted Moss Mulligan | Nails tidy decrees to rotting trees; trims overgrowth into topiaries of Primm; tense, polite standoffs with Brother Bramble | Keeps the Showcase Quarter's lawns at regulation height; one-off battle on the regulation lawn at the end of Old Fern's quest | Compost duty under Granny Gristle |
+| **Vivienne Quota, Minister of Efficiency** (`NPC-QUOTA`, ferret) | Beefcake | Designed the endless energy wheels and the Iron-less Prison ("remove the inefficiencies: weights, protein, joy"); picked Clench as figurehead because his insecurity made him easy to steer; corrupted Brick Bronson | Efficiency notices on every wheel; stopwatch; "measures" the Wanderer at the House of Gains' Regime Checkpoint and finds him wanting | One-off battle in the Transit Yards at the end of Rollo Spokes's quest | Runs the Gainlands' new break schedule, and hates it |
+| **Colonel Cornelius Crumb, Director of Culinary Defense** (`NPC-CRUMB`, badger) | Gourmand | Ordered the doppelganger swap and the war-machine programme; invented Primm's Perfect Nutrient Paste; corrupted Chef Fennel Gravois | His seal on every "for the war effort" poster; inspects the Test Kitchen prototypes; Basil is terrified of him | Boss of the Paste Works mini-dungeon (S-PASTE) through Chef Marlo's quest | Learns to actually cook under the Grand Chef |
+| **Percival Plume, Deputy Minister of Good News** (`NPC-PLUME`, peacock) | Necrocrat | Drafted, notarized and filed the transfer of authority; reads every broadcast; corrupted Prudence Pallor; the NPC everyone loves to hate | Spins every freed zone, then turns up to cut a ribbon and hand the Wanderer a Certificate of Participation | Works out who smuggled "the Subject" out and has Elowen taken back to the Lab when the Wanderer first enters the castle (memo: "Re: the leak in the lab. Handled. Promotion?"); elite in the castle's Necrocrat wing | Tries to become the prince's spokesman; Agnes denies the form; reassigned as Assistant to the Assistant to the Regional Merchant, under Bertram Beetsworth |
+| **Hortensia Clipwell, Royal Groundskeeper** (`NPC-CLIPWELL`, hare) | Refusemancer | Outlawed composting as "untidy"; brought the grieving Compostella the Path-ologists' deathless seed (Primm's gift); corrupted Moss Mulligan | Nails tidy decrees to rotting trees; trims overgrowth into topiaries of Primm; tense, polite standoffs with Brother Bramble | Keeps the Showcase Quarter's lawns at regulation height; one-off battle on the regulation lawn at the end of Old Fern's quest | Compost duty under Granny Gristle |
 
 Voices: Quota crisp, everything in percentages and seconds; Crumb barked military orders in food metaphors ("Whisk formation!"); Plume
 oily, upbeat PR-speak ("Great news, citizens! The weather has been approved!"); Clipwell prim, polite, quietly menacing ("removing weeds").
@@ -656,7 +675,10 @@ copied for the opponent). Hook (the resistance): "It ends where it began. The ca
 - **The Path-ologists' records** (Correction Ward Cells): notes on "the Subject" reveal what was done to the prince and how the stolen
   power holds Primm on the throne. Some of the oldest notes are in Maren's handwriting, signed "M."
 - **The Archive of Good Intentions**: early journals, sincere and helpful, sliding entry by entry into control.
-- **Elowen is taken** [canon, not built]: when the Wanderer first enters the castle, Plume has her taken back to the Lab.
+- **Elowen is taken** [built Oct 21]: on the first castle run, the start node plays `pc_capture`: she is waiting at the gate, Plume's guards
+  seize her and he names her ("Miss {rescuer_full}, I presume"). Maren (`maren_after_capture`) and Wren (`wren_after_capture`) react the
+  next time the hero talks to them. Saves that beat Primm before this existed get the capture as having happened (`StoryBeats.migrate`)
+  and hear it from Maren as news.
 
 **The final boss: Primm, three phases** (separate duels on one node, HP carrying over; losing any phase sends you home):
 1. **Standardization**: every unit is a 3/3 and each side plays at most two non-infrastructure cards a turn ("Two is the perfect number";
@@ -716,7 +738,7 @@ walkable. Side dungeons have three battles and a unique first-clear card.
 | S-NECRO | **The Waiting Room of Eternity** ("Number 4,000,212", Gerald) | "Number 4,000,212? They're on 3. Can you help?" | Betty Bones, Surly Secretary ("forms A through F") | Please Wait: units enter exhausted | Betty Bones (N-30) | built |
 | S-REF | **The Trash Panda Throne** ("Who Ate the Compost?", Brother Bramble) | "Little paw prints. A tiny crown." A raccoon kingdom under a giant dumpster. | His Majesty the Raccoon, sweating profusely ("WE DID NOT EAT THE COMPOST. We... sampled it.") | Midnight Snack: eating garbage heals 1 | Raccoon (R-27) | built |
 | S-CAP | **The Old Service Tunnels** ("The Older Way", Kestrel) | "There's an older way into the city. Nobody remembers it. That's the point." Four-faction murals; ends at the Grate Beneath the Plaza. | Enforcer Captain Spotless | Forgotten Harmony: multi-Path cards cost 1 less | The Wanderer (C-29) | built |
-| S-PASTE | **The Paste Works** (Chef Marlo's quest) | In the Capital | Colonel Cornelius Crumb | - | - | canon, not built |
+| S-PASTE | **The Paste Works** (quest "The Paste Works", `cap_paste_works`, Chef Marlo; offered once The Recipe Box is done and the Buffet is free) | The shuttered stall at the Hungry Quarter's south-west corner: a ration hatch down into Crumb's factory. Nodes: Ration Line, the Vat Floor, the Colonel's Kitchen. | Colonel Cornelius Crumb (`crumb_paste_works`; after: "...Yes, Chef.") | Bland Diet: healing does nothing; Real Food: your Gourmand cards cost 1 less | The Colonel's Ladle (relic; the sheet names no card and the card list is frozen) | built Oct 21 |
 
 **The Forgotten Cave and the dry spring.** See sections 4 and 7.
 
@@ -783,7 +805,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | NPC-ELOWEN | Elowen Vey ("The Rescuer") | The rescuer; childhood friend, love interest | Human | Quick, wry, guarded; hides her hope | Siphon's daughter; clashes with Maren; section 18 |
 | NPC-ELDER | Elder Maren | Town elder, resistance contact, founder of Path-ology | Tortoise (female, she/her) | Grumbly, slow, cryptic; calls everyone "dearie" (not always a compliment); bakes too many pies; a grumpus to the young with a kind heart | Distrusts Elowen and Siphon (her protege); refuses to believe the prince is the prince ("That's no prince. That's a damp young man."); warms memory by memory; at the fourth admits she knew; gives the Door Under the Well |
 | NPC-GATEKEEPER | Gatekeeper Brannoch | Guard; gives Free the Four Zones | Bear | Gruff, enormous, secretly soft; short grunts, then a tender sentence; keeps a notebook of every traveller's name | His gate has no lock; daughter Isla; reunion when the Capital is freed [canon, not built] |
-| NPC-ISLA | Isla Brannoch | Brannoch's daughter | Human per sheet notes (game data: bear; inbox) | Tired, warm, a little embarrassed ("Dad says hi. Dad says a lot, actually.") | Stuck on the facade crews eight years; walks home [canon, not built] |
+| NPC-ISLA | Isla Brannoch | Brannoch's daughter | Bear (Oct 21 decision; she takes after her mother's side) | Tired, warm, a little embarrassed ("Dad says hi. Dad says a lot, actually.") | Stuck on the facade crews eight years; walks home [canon, not built] |
 | V-SABLE | Sable | Card vendor (singles, General Packs) | Fox | Sly, glamorous, theatrical; "darling"; never reveals her sources; loves misprints | First vendor ("You start with plain neutral cards") |
 | V-TONIC | Tilly Tonic | Item vendor | Frog (skin changes colour like her potions) | Overenthusiastic apothecary who tests everything on herself; fast, bubbly, exclamation points | - |
 | V-BEETSWORTH | Bertram Beetsworth, Assistant to the Regional Merchant | Equipment vendor; armory quest at level 5 | Human | Intense, rule-obsessed beet farmer; Security Protocols; clipped facts about beets and bears; must stay an original character | Will one day supervise Percival Plume |
@@ -809,7 +831,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 |---|---|---|---|---|---|
 | NPC-FLEX | Grandmaster Flex, the Unbroken | Beefcake leader (ally token) | Human | Serene, slow, kind; perfect timing; sincere when freed | Clench's old master; lends Grandmaster Flex's Heart |
 | NPC-CLENCH | Chancellor Clench, Iron Regent | Boss, House of Gains | Human | Barked orders in reps and regulations; strength means control | Flex's star pupil; Quota's figurehead; offered a fresh start from zero |
-| NPC-QUOTA | Vivienne Quota, Minister of Efficiency | Beefcake lieutenant | Human per sheet notes (game data: ferret; inbox) | Crisp, percentages and seconds | Section 6 [canon, not built] |
+| NPC-QUOTA | Vivienne Quota, Minister of Efficiency | Beefcake lieutenant | Ferret (Oct 21 decision) | Crisp, percentages and seconds | Section 6 [built] |
 | V-BENCHLEY | Coach Brutus Benchley | Zone card vendor; Clear the Lanes | Minotaur | Retired champion selling cards like supplements; whistle, clipboard, no inside voice; "LET'S GO!" | Hid the old cards under a loose floorboard |
 | NPC-HURL | Big Hurl | Thrower | Stone troll | Gentle giant; counts down before every throw; "never once missed (he says)" | Represents all Throwers |
 | NPC-RIP | Rip Tearson | Portal ripper; runs the Beefcake Rift Express | Human | Rips portals and his shirt every time (400 identical shirts); a grunt, then calm customer service | Every station is a cousin named Rip (#2 to #8); finds the Lab hatch |
@@ -831,7 +853,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | NPC-KYLE | Kyle (Deceased Since '09) | Minigame host (memory matching) | Ghost (human) | Millennial ghost: away messages, dial-up, top 8, a virtual pet that keeps dying; "brb" | Filed the transfer paperwork without reading it |
 | NPC-MORTIMER | Mortimer Grimsby, CE-No | Boss, Office of Final Approval | Skeleton | Formal, dry, rare deadpan; immovable, not evil | Removed; number 4,000,214 behind Gerald |
 | NPC-VELLUM | Undersecretary Vellum | Elite, the Appeals Court | Undead | Monotone, polite, devastating ("Noted. The authorization remains valid.") | Mortimer's deputy |
-| NPC-PLUME | Percival Plume, Deputy Minister of Good News | Necrocrat lieutenant; the loudspeaker voice | Human per sheet notes (game data: peacock; inbox) | Oily, upbeat PR-speak; never wrong, always taking credit | Section 6 [canon, not built] |
+| NPC-PLUME | Percival Plume, Deputy Minister of Good News | Necrocrat lieutenant; the loudspeaker voice | Peacock (Oct 21 decision) | Oily, upbeat PR-speak; never wrong, always taking credit | Section 6 [built] |
 | NPC-BETTY | Betty Bones, Surly Secretary | Boss, Waiting Room of Eternity | Skeleton | Cat-eye glasses, never impressed; dry, nasal, sighing | - |
 
 ### The Endless Buffet
@@ -840,7 +862,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 |---|---|---|---|---|---|
 | NPC-ESCOFFINA | The Grand Chef (formerly Grand Chef Escoffina) | Gourmand leader | Human | Warm, commanding, maternal; feeding people is the highest form of protection | Ten years in the freezer; gives her name away; lends the Grand Chef's Feast; will teach Crumb to cook |
 | NPC-DOPPEL | The Doppelganger, later Escoffina | Boss, Test Kitchen; postgame apprentice | Shapeshifter | Escoffina's words with no warmth; later hesitant, earnest | Section 10 |
-| NPC-CRUMB | Colonel Cornelius Crumb, Director of Culinary Defense | Gourmand lieutenant | Human per sheet notes (game data: badger; inbox) | Barked military orders in food metaphors | Section 6 [canon, not built] |
+| NPC-CRUMB | Colonel Cornelius Crumb, Director of Culinary Defense | Gourmand lieutenant | Badger (Oct 21 decision) | Barked military orders in food metaphors | Section 6 [built] |
 | NPC-BASIL | Basil | Line cook; Test Kitchen hook; Mend the Meatloaf, The Golden Reservation | Rabbit | Nervous, whispered, jittery, loyal; brave when it matters | Noticed the Chef never tastes; remembers the prince's cake; terrified of Crumb |
 | V-MIREPOIX | Madame Mirepoix | Zone card vendor; Bake Me a Pie | Persian cat | Elegant, snooty, presents cards like courses; secretly adores scrappy customers | Has been faking the Special Sauce for months |
 | NPC-PATE | Professor Pate | Quiz master | Human (changed from otter) | Plump scholar who answers with recipes; tastes his chalk | Never found the recipe for the Special Sauce |
@@ -854,7 +876,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 |---|---|---|---|---|---|
 | NPC-COMPOSTELLA | Archdruid Compostella | Refusemancer leader | Human (druid) | Grandmotherly, wise, mischievous; gentle, earthy, playful; cured: grateful, fierce | Planted eleven royal birthday trees; plants a twelfth; lends Compostella's Roots |
 | NPC-ROTHEART | Compostella, the Rotheart | Boss, the Rotheart | Human (corrupted druid) | Layered whispers, sorrowful menace | Section 12 |
-| NPC-CLIPWELL | Hortensia Clipwell, Royal Groundskeeper | Refusemancer lieutenant | Human per sheet notes (game data: hare; inbox) | Prim, polite, quietly menacing; "removing weeds" | Section 6 [canon, not built] |
+| NPC-CLIPWELL | Hortensia Clipwell, Royal Groundskeeper | Refusemancer lieutenant | Hare (Oct 21 decision) | Prim, polite, quietly menacing; "removing weeds" | Section 6 [built] |
 | NPC-BRAMBLE | Brother Bramble | Rotheart hook; Who Ate the Compost?, Unblock the Stream | Hedgehog | Worried, kind, soft-spoken, then suddenly indignant ("SOMEBODY ate the compost AGAIN") | Noticed the corruption first; standoffs with Clipwell |
 | V-GRISTLE | Granny Gristle | Zone card vendor (the Compost Grange); Fertilizer Run | Opossum | Cheerful toothless junk-trader; "found, not stolen"; raccoon on her shoulder; folksy, cackling | Will supervise Clipwell's compost duty |
 | NPC-THISTLEWICK | Druid Thistlewick | Quiz master | Stag-headed druid | Very serious about recycling; sorts his thoughts into bins | His dishwasher talks back |
@@ -1005,7 +1027,7 @@ Each line: the conflict, then the winner and the source that decided it. Items m
     years ago (sheet, Old Hob). **Both**: the queue was always slow; the freeze stopped it entirely.
 13. **When Agnes passes on**: open in v2 vs at the royal funeral, walked home by Hob (sheet). **Sheet**; the timing stays open.
 14. **The lieutenants' and Isla's species**: the sheet's Notes say "Human." for Quota, Crumb, Plume, Clipwell and Isla, while game data
-    (`npcs.json`, `tools/npc_truth_input.json`, Oct 17) made them ferret, badger, peacock, hare and bear. **Sheet** in this bible (inbox).
+    made them ferret, badger, peacock, hare and bear. **Resolved Oct 21 by the user: humanoid animals as in their art** (npcs.json updated).
 15. **The baker's name**: "Bun the Baker" (`npcs.json`) vs "Brindle the Baker" (in-game spot and dialogue, Oct 17 inbox). **Brindle**, the
     name the player sees (inbox, data fix).
 16. **Two Wrens**: Wren the resistance leader (sheet) and Wren Muckfoot (game-only Dump NPC) break v2's rule "no two characters may share a

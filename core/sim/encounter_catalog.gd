@@ -164,6 +164,20 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 	_attach_rules(echo, OldWellQuest.RULES_KEY)
 	echo.notes = "secret quest boss: heals 2 a turn, starts with one of each Path's resource"
 	result.append(echo)
+	# Oct 21: Vivienne Quota's rematch in the Capital's Transit Yards (the other lieutenant fights are dungeon nodes, found by dungeons()).
+	var quota: EncounterSpec = EncounterSpec.new()
+	quota.id = Lieutenants.YARDS_RULES_KEY
+	quota.title = Lieutenants.foe_name(Lieutenants.QUOTA)
+	quota.group = Lieutenants.YARDS_SIM_GROUP
+	quota.kind = EncounterSpec.Kind.ELITE
+	quota.expected_level = ProgressionModel.level_for(Lieutenants.YARDS_RULES_KEY, Lieutenants.YARDS_EXPECTED_LEVEL)
+	quota.enemy_name = quota.title
+	quota.enemy_hp = Lieutenants.YARDS_HP
+	quota.enemy_ai_name = Lieutenants.YARDS_AI
+	quota.enemy_builder = Lieutenants.yards_setup
+	_attach_rules(quota, Lieutenants.YARDS_RULES_KEY)
+	quota.notes = "lieutenant rematch in the Capital (no broken-service debuffs: the Gainlands are free by then)"
+	result.append(quota)
 	return result
 
 

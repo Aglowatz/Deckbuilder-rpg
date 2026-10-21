@@ -1267,6 +1267,12 @@ func _face_npc(id: String) -> void:
 ## asked for, else her greeting and mood lines.
 func _talk_elder() -> void:
 	var elder: String = QuestDefinitions.MAREN
+	# Oct 21: news of the capture at the castle gate comes first (the story note for saves already past it, too).
+	var news: String = StoryBeats.maren_scene(Session.flags)
+	if not news.is_empty() and Session.flag(&"elder_greeted"):
+		_face_npc("elder")
+		StoryScenePlayer.play(dialogue, news)
+		return
 	var pending_memory: int = Session.pending_memory()
 	if pending_memory > 0 and Session.flag(&"elder_greeted"):
 		_play_memory(pending_memory)

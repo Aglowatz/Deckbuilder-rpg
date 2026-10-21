@@ -14,7 +14,7 @@ Locked names, spellings and rules on one page. Created Oct 19 2026. Detail, sour
 | Royal house | Wayweaver | `{royal_house}` |
 | The player | the Wanderer, who is Prince Tessar Wayweaver (21) | `{wanderer}`, `{prince}`, `{prince_full}` |
 | Late king / queen | King Harmon Wayweaver / Queen Concordia Wayweaver | `{king}` / `{queen}` |
-| The rescuer | Elowen Vey (sheet); the game still shows "The Rescuer" | `{rescuer}` |
+| The rescuer | Elowen Vey: "The Rescuer" until Percival Plume names her at the castle gate, then "Elowen" (Oct 21) | `{rescuer}`, `{rescuer_full}` |
 | Villain | Primm, "His Perfection" (former Royal Minister of Improvements) | `{villain}`, `{villain_title}` |
 | Hub town | Crosspath | `{town}` |
 | Capital | Primm's Perfection; Pathordia after his fall | `{capital}`, `{pathordia}` |
@@ -48,7 +48,7 @@ even the dead; to grow, you have to let things go.
 ## Tokens
 
 `{villain}` `{villain_title}` (data/story/villain.tres); `{prince}` `{prince_full}` `{royal_house}` `{king}` `{queen}` `{rescuer}`
-`{kingdom}` `{town}` `{capital}` `{pathordia}` `{showcase}` (data/story/royal_family.tres); `{wanderer}` ("Wanderer", then the prince's
+`{rescuer_full}` `{kingdom}` `{town}` `{capital}` `{pathordia}` `{showcase}` (data/story/royal_family.tres); `{wanderer}` ("Wanderer", then the prince's
 name after `prince_revealed`). Story files use tokens, never the literal names.
 
 ## Hard rules (locked)
@@ -126,5 +126,5 @@ and `core/`, `world/`, `ui/`, `app/`.
 - `Gus`: only in "Foreman Gus" (the Capital's Gus became Rollo Spokes; id NPC-GUS is retired).
 - `The Usurper` / `THE USURPER`: the retired placeholder for Primm; one in-character use remains in the same Alchemist note
   (`intro_story.tres:116`). Prefer `{villain}`.
-- `The Rescuer`: a placeholder until Elowen's name is revealed in game (inbox).
+- `The Rescuer`: her name until Plume names her at the castle gate (`rescuer_named`); write `{rescuer}`, never the literal name.
 - `element`: retired in player text for the four Paths ("Choose your Path"); fine as a general word.

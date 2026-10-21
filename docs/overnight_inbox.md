@@ -4,6 +4,35 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Oct 21 story content + balance - yours to decide (the safest choice was taken)
+
+Part 1 (the lieutenants):
+1. **The live sheet was newer than the CSV snapshot.** data/source/dungeon_list.csv (Oct 11) had no S-PASTE row, a 13-node Lab "to be
+   designed" and node 14 of the castle as a deck challenge. I read the live sheet through the Sheets connector and patched the snapshot's
+   changed rows only (D-HOG/D-TTK/D-ROT/D-PC story text, D-PC node 14 = Plume's elite, S-PASTE), then re-imported. Excerpts:
+   docs/design/sheet_excerpts_oct21.md. S-PASTE's type is "Side Dungeon" locally (the sheet says "Side Dungeon (lieutenant)", which the
+   importer does not know).
+2. **S-PASTE's reward**: the sheet leaves it blank and the card list is frozen (every unused unique card is taken), so the first win over
+   Crumb pays a new relic, **the Colonel's Ladle** (gain 1 HP whenever a unit enters under your control). Each lieutenant pays a relic on
+   the first win: Quota's Stopwatch (you always go first), Plume's Notary Quill (start with 1 Red Tape, max HP +2), Clipwell's Golden
+   Shears (1 damage to each attacker). Say if you want cards instead (needs new sheet rows).
+3. **Quota and Clipwell replace two elites** (the Regime Checkpoint Captain and the Rootbound Miller) with the same decks and rules,
+   renamed. Their approved Bestiary pictures (BST-REGIME-CHECKPOINT-CAPTAIN, BST-ROOTBOUND-MILLER) are now unused.
+4. **Clipwell's fight is in the Dump** (the Root-Choked Mill, the Rotheart's elite: she has trimmed the roots into a topiary of Primm), as
+   your brief allowed; in the Capital she has a short scene at the Sick Patch after Old Fern's quest (the sheet's "regulation lawn"
+   battle became a scene, so she is not fought twice). Quota is fought twice (the brief's Regime Checkpoint elite, and the sheet's
+   Transit Yards rematch after Rollo's quest).
+5. **Crumb is not fought in the Test Kitchen**: he inspects the Prototype Bay in a scene and leaves; the elite there is still the
+   Unfinished War Machine. He is the boss of the Paste Works.
+6. **Plume's ribbon-cutting** plays once, in the D.N.A., the first time you are there after freeing it (the sheet has him do it after every
+   freed zone; one felt like enough). The other three zones get a short "the lieutenant fled to the Capital" beat from their freed leader
+   or Basil/Bramble the first time you are back in them (old saves too).
+7. **Why Elowen is at the castle gate**: she simply turns up ("Somebody has to watch the door while you knock it down"); it plays on the
+   first castle run however many zones are free. Maren says only "her father worked in my laboratory, once" (no name: the Lab keeps the
+   Siphon reveal).
+8. **The Paste Works door** is a beacon on the shuttered stall at the Hungry Quarter's south-west corner (no new art). Marlo's second quest
+   needs The Recipe Box done and the Buffet free.
+
 ## Overnight Oct 19-20 - yours to decide (the safest choice was taken)
 
 Story bible (Part 4): `docs/design/story_bible.md` is now the one story reference and `docs/design/canon.md` the quick reference; every

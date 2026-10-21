@@ -961,3 +961,21 @@ each of their turns. 50 games per Path per seed (`--filter=town:storeroom`).
 | v4 | 13 Hall of Records + 4 Cannon Fodder + 3 Skeleton Clerk, 4 HP | Ghost | 74% / 70% (seeds 7000 / 8100), 6.2 turns |
 | v5 | 14 Hall of Records + 6 Cannon Fodder, 3 HP | Ghost | 80% / 74% |
 | **v6 (kept)** | **18 Hall of Records + 2 Cannon Fodder, 3 HP, Aggressive (tutorial)** | Ghost | **93% / 94%**: Beefcake 96/98, Necrocrat 98/90, Gourmand 94/94, Refusemancer 84/92; **6.0 turns** (`docs/design/sim/storeroom_v6_*.md`) |
+
+## Oct 21 - Part 1: Primm's lieutenants and the Paste Works (story-content brief)
+
+New fights, 25 games per Path on two seeds (7000 / 8100), reports `docs/design/sim/oct21_*.md`. Each lieutenant has one-sided rules in
+`data/encounters/modifiers.json` (keyed by the battle name), each fight's node is in `data/dungeons/dungeon_content.json`.
+
+| Fight | Where (L) | Target | Change | Seed 7000 (B/N/G/R, all) | Seed 8100 |
+|---|---|---|---|---|---|
+| Vivienne Quota | D-HOG node 6, elite (L8) | 60-75 | replaces the Regime Checkpoint Captain: same deck (beefcake_bruisers 29 cards, 16 HP, 13 basics), rule "Stopwatch" = the old "Drill Sergeant" (+1 attack) | 88/68/44/80, **70%** | 88/80/64/84, **79%** |
+| Hortensia Clipwell | D-ROT node 6, elite (L18) | 60-75 | replaces the Rootbound Miller: same deck (refuse_garbage 32, 19 HP), rule "Prize Topiary" = the old "Fungal Growth" (tokens +1/+1) | 48/84/64/96, **73%** | 28/88/76/92, **71%** |
+| Percival Plume | D-PC node 14, elite (L21; was a deck challenge) | 60-75 | necro_control 32/23 HP: 100% (10 turns); + "Positive Spin" +2/+1: 94%; necrocrat_beefcake 33/24 HP Aggressive + spin +2/+1: 28%; spin +1/+1: 50%; no spin: 81%; **kept: spin +1/+0 + "Great News!" (extra draw)** | 72/44/68/68, **63%** | 80/56/56/68, **65%** |
+| Ration Line Supervisor | S-PASTE 1 (L19) | 80+ | colorless_regime 30 cards / 18 HP, mixed Gourmand + Necrocrat | 100% (12 games) | - |
+| Vat Floor Golem | S-PASTE 2 (L19) | 80+ | gourmand_golems 31 / 20 HP | 100% (12 games) | - |
+| Colonel Crumb | S-PASTE 3, boss (L21) | 40-60 | gourmand_golems + C-30, G-29, 28 HP, Aggressive, "Whisk Formation" (a 3/3 Meatloaf Golem every 3rd turn): 94%; + "Fortified Rations" +2/+1: 46%; +1/+1: 69%; +2/+0: 79%; **kept +1/+2** | 52/40/76/52, **55%** | 48/32/80/60, **55%** |
+| Quota's rematch | Capital, Transit Yards (L19) | 60-75 | beefcake_tools 30 + B-12x2, B-28, C-30; 26 HP; "Stopwatch" + "Time and Motion" (Hustle): +1/+0 90%; +2/+1 55%; **kept +1/+1** | 68/64/60/64, **64%** | 60/68/60/72, **65%** |
+
+Notes: Gourmand is strongest in the Paste Works by design (the dungeon rule Real Food: the player's Gourmand cards cost 1 less). Clipwell
+is hard for Beefcake (28-48%) as the Miller was; overall in band, no change. Bland Diet (healing does nothing) is `HP_GAIN_BONUS -99`.

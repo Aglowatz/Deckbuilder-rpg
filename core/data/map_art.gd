@@ -30,7 +30,7 @@ class Result extends RefCounted:
 
 ## STANDIN maps: a dungeon whose painted map is still to come shows another dungeon's map with the same node shape until its own file arrives (its own
 ## file always wins). Gainlands v2: the Iron Cave borrows Mount Swolympus' three-node climb (MAP-S-IRON is on the art request list).
-const STANDIN_MAPS: Dictionary = {"MAP-S-IRON": "MAP-S-BEEF"}
+const STANDIN_MAPS: Dictionary = {"MAP-S-IRON": "MAP-S-BEEF", "MAP-S-PASTE": "MAP-S-CAP"}  # Oct 21: the Paste Works borrows the tunnels' three-node map
 
 
 ## The file a Map Image ID shows: its own when it exists, else its stand-in's.

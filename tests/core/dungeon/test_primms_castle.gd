@@ -102,7 +102,9 @@ func test_sections_and_node_kinds() -> void:
 	for node: DungeonMap.MapNode in _map.nodes:
 		if node.kind == DungeonMap.Kind.CHALLENGE:
 			challenges += 1
-	assert_gte(challenges, 2, "deck challenges")
+	assert_gte(challenges, 1, "the Mirror Maze (node 14 became Plume's elite in the Oct 21 sheet)")
+	assert_eq(_by_number(14).kind, DungeonMap.Kind.ELITE, "the Necrocrat wing: Percival Plume")
+	assert_eq(_by_number(14).enemy_name, Lieutenants.foe_name(Lieutenants.PLUME))
 
 
 func test_the_final_chamber_and_the_boss() -> void:

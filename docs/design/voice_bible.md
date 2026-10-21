@@ -33,7 +33,7 @@ any fact). Locked names and the banned list: `docs/design/canon.md`. Which conve
     `where` notes). Keep `%s`/`%d` placeholders, `[tag]` expression prefixes (`[smug]`, `[revealed]`, `[calm]`...), and `.speaker` values.
 12. **Tokens, never literal names**, in story files: `{villain}` `{villain_title}` `{prince}` `{prince_full}` `{royal_house}` `{king}`
     `{queen}` `{rescuer}` `{kingdom}` `{town}` `{capital}` `{pathordia}` `{showcase}` `{wanderer}`. Before the reveal use `{wanderer}`, never
-    `{prince}`. The rescuer is `{rescuer}` ("The Rescuer"): the name Elowen is never spoken in game yet (open question).
+    `{prince}`. The rescuer is `{rescuer}`: "The Rescuer" until Plume names her at the castle gate (Oct 21), "Elowen" after; `{rescuer_full}` is "Elowen Vey".
 13. **Banned old names never appear** (full list in `canon.md`: Pathavia, Neatropolis, Grand Clashatorium, Z.V., Tiny Tony, Brenda, Heartlift,
     Dolcetta, Aurelio, Vesna...). "Pathwork" only in "the Pathwork Throne". "Doppelganger" without an umlaut.
 14. **Facts and mechanics never change** in a rewrite: card names, numbers, rule text, who did what, pronouns from the bible (Grand Bellows
@@ -115,7 +115,7 @@ Keys: intro `prologue.rescuer.*`, `postgame.rescuer.*`; dungeon_content `dungeon
 - **Tics:** checks him like a medic ("How long since you ate?"); deflects personal questions with a task.
 - **Humor:** wry, tired, protective ("You're lighter than you should be. We'll fix that. Later. Walk.").
 - **Wants:** him safe and far from the Lab; to believe he is who she hopes; to not hope too loudly.
-- **Never:** says her name; says "prince" or "Your Highness"; explains the Lab or her father; flirts openly.
+- **Never:** says her own name before Plume does (the castle gate); says "prince" or "Your Highness" (she calls him Tess only once she is sure, in the Lab); explains her father before the Lab; flirts openly.
 - **New lines:** "Don't thank me. Thank me when you're somewhere with a roof." / "You used to... No. Doesn't matter. Hold out your hand."
 
 ### The Hollow Warden (`NPC-WARDEN`)
@@ -491,8 +491,8 @@ Keys: dungeon_content `dungeon.dg_s_beef_boss.*`.
 - **Never:** threatens directly.
 - **New lines:** "Lift. I will catch it. I have always caught it." / "One more rep. ...That was the one."
 
-### Vivienne Quota, Minister of Efficiency (`NPC-QUOTA`) [canon, not built]
-Keys: none yet (mention only in existing Gainlands text: efficiency notices, the stopwatch at the Regime Checkpoint).
+### Vivienne Quota, Minister of Efficiency (`NPC-QUOTA`, ferret)
+Keys: data/story/story_scenes.json `quota_*`.
 - **Talks:** crisp, everything in percentages and seconds; never wastes a word.
 - **Tics:** stopwatch clicks; "inefficiency" for anything human.
 - **Humor:** cold precision.
@@ -599,8 +599,8 @@ Keys: dungeon_content `dungeon.dg_s_gour_boss.*`.
 - **Never:** chatter.
 - **New lines:** "Trust." / "...Again."
 
-### Colonel Cornelius Crumb, Director of Culinary Defense (`NPC-CRUMB`) [canon, not built]
-Keys: none yet (mention only: his seal on "for the war effort" posters; Basil's fear).
+### Colonel Cornelius Crumb, Director of Culinary Defense (`NPC-CRUMB`, badger)
+Keys: data/story/story_scenes.json `crumb_*`.
 - **Talks:** barked military orders in food metaphors.
 - **Tics:** "Whisk formation!"; paste as rations.
 - **Humor:** drill sergeant of the kitchen.
@@ -705,8 +705,8 @@ Keys: dna `dungeon.*`, `event.ha_*`, `enemy.*`, `memo.*`.
 - **New lines:** "Form 13-A? Certainly. It requires Form 12-F, which requires a strong cup of tea." / "You may appeal. You will lose. But you may appeal."
 - **Running gags (Oct 21):** Tuesday; owns the tip pun paper trail.
 
-### Percival Plume, Deputy Minister of Good News (`NPC-PLUME`; the loudspeaker voice) [canon, not built as a character]
-Keys: capital `facade.speaker.*` (the broadcasts are his voice; he is never named on screen yet).
+### Percival Plume, Deputy Minister of Good News (`NPC-PLUME`, peacock; the loudspeaker voice)
+Keys: capital `facade.speaker.*` (the broadcasts); data/story/story_scenes.json `plume_ribbon`, `pc_capture`, `pc_plume_memo*`.
 - **Talks:** oily, upbeat PR-speak; "Great news, citizens!"; spin on every disaster.
 - **Tics:** approves the weather; takes credit; ribbon-cuttings and Certificates of Participation.
 - **Humor:** the slogan over the misery.
@@ -797,8 +797,8 @@ Keys: dungeon_content `dungeon.dg_s_ref_boss.*`.
 - **New lines:** "WE DID NOT EAT THE COMPOST. We... audited it. Orally." / "The compost was for the kingdom. We are the kingdom. Checkmate."
 - **Running gags (Oct 21):** the kingdom excuse and the crumbs; never a direct confession.
 
-### Hortensia Clipwell, Royal Groundskeeper (`NPC-CLIPWELL`) [canon, not built]
-Keys: none yet (mention only: tidy decrees nailed to rotting trees; topiaries of Primm).
+### Hortensia Clipwell, Royal Groundskeeper (`NPC-CLIPWELL`, hare)
+Keys: data/story/story_scenes.json `clipwell_*`.
 - **Talks:** prim, polite, quietly menacing; gardening euphemisms.
 - **Tics:** "removing weeds"; regulation height.
 - **Humor:** passive-aggressive gardener.

@@ -64,16 +64,20 @@ func _tutorial() -> void:
 		# Lost: the run was abandoned and the starting area is up; try the Trial again.
 		await driver.seconds(2.0)
 	_check(cleared and Session.profile.intro_dungeon_cleared, "beating the Heart of the Hollow cleared the trial")
-	# First clear: "Step outside" opens the starting area, where Elder Maren waits at the cave mouth; her lines end in the town.
-	var outside: Node = await _wait_for(StartingAreaScene)
-	_check(outside != null and Session.flag(&"trial_cleared"), "'Step outside' leads to the starting area with the trial cleared")
+	# First clear: "Step outside" goes straight to Crosspath beside Elder Maren (Playtest v0.4.0 Part C), whose welcome plays as the town appears.
+	_check(Session.flag(&"trial_cleared"), "'Step outside' with the trial cleared")
 	var guard: int = 0
 	while not (get_tree().current_scene is TownScene) and guard < 60:
 		guard += 1
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.4)
 	var town: Node = await _wait_for(TownScene)
-	_check(town != null and Session.flag(&"maren_met"), "Maren's cave-mouth lines lead to the town")
+	var welcome: int = 0
+	while town != null and not Session.flag(&"maren_met") and welcome < 80:
+		welcome += 1
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.3)
+	_check(town != null and Session.flag(&"maren_met"), "the town opens with Maren's welcome")
 	await driver.seconds(1.0)
 	await _shot("t_02_town_after_the_trial")
 
@@ -236,6 +240,13 @@ func _dismiss_story(map_screen: Variant) -> void:
 		for child: Node in (map_screen as Node).get_children():
 			if child is CutsceneScreen:
 				busy = true
+			# Daytime Oct 19: the Before-the-fight rules card waits for its Continue button.
+			if child.name == "RulesBrief" and not child.is_queued_for_deletion():
+				var go: Control = child.find_child("BriefContinue", true, false) as Control
+				if go != null:
+					await driver.click(driver.center_of_control(go))
+					await driver.seconds(0.4)
+					busy = true
 		if not busy:
 			return
 		await driver.tap_key(KEY_SPACE)

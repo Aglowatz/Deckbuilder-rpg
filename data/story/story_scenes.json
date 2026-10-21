@@ -1,0 +1,430 @@
+{
+	"_about": "Multi-speaker story scenes (Oct 21 story-content brief). Read by StoryScenes (core/data/story_scenes.gd), played by StoryScenePlayer. Each step: [speaker, line, line...]; speaker = an NPC id (portrait + plate), NPC-PLAYER for the Wanderer, \"\" for narration, or \"@set\" followed by flags to set at that point. once_flag: skipped once set, set when played. sets: more flags set when played. Voice: docs/design/voice_bible.md.",
+	"scenes": {
+		"quota_checkpoint": {
+			"steps": [
+				[
+					"",
+					"A barricade of stacked weight plates, painted regulation red. Behind it, a ferret in a pinstriped suit is timing a guard's push-ups with a silver stopwatch."
+				],
+				[
+					"NPC-QUOTA",
+					"Forty-one. Forty-two. Stop. Eleven percent slower than yesterday. We will discuss it at your review.",
+					"And you. You walked in at a pace of seven out of ten. Disappointing. But measurable."
+				],
+				[
+					"NPC-PLAYER",
+					"Who are you?"
+				],
+				[
+					"NPC-QUOTA",
+					"Vivienne Quota, Minister of Efficiency. I designed the wheels, the schedules and the prison downstairs. The Chancellor does the shouting. I do the arithmetic.",
+					"Hold still. I'm measuring you. Grip: low. Stride: uneven. Resolve... unusually high. That is an inefficiency. Let's remove it."
+				]
+			]
+		},
+		"quota_checkpoint_after": {
+			"steps": [
+				[
+					"NPC-QUOTA",
+					"Ninety-four seconds. You beat me in ninety-four seconds.",
+					"I will note it. I note everything. The Chancellor will not enjoy this figure."
+				],
+				[
+					"",
+					"She clicks the stopwatch, steps through a side door marked for staff only, and is gone before the guard finishes his push-up."
+				]
+			]
+		},
+		"quota_fled": {
+			"once_flag": "quota_fled_seen",
+			"steps": [
+				[
+					"",
+					"On the arm of the Throne of Gains someone has left a schedule, timed to the second, and a silver stopwatch, still running."
+				],
+				[
+					"NPC-FLEX",
+					"Quota's gone. Left for the Capital before the dust settled. She always did leave early.",
+					"We'll keep the schedule. It will make good kindling. Breathe, son. Nobody here is on the clock any more."
+				]
+			]
+		},
+		"quota_yards": {
+			"steps": [
+				[
+					"",
+					"By the last energy wheel, a ferret in pinstripes is timing Rollo's crews. The crews are lying in the sun. She is still timing them."
+				],
+				[
+					"NPC-QUOTA",
+					"You. Again. You cost me the Gainlands in four hours and eleven minutes. I have had the figure framed.",
+					"These wheels lit the facade at a hundred and ten percent. Now they are 'resting'. Do you know what rest is? Unmeasured time."
+				],
+				[
+					"NPC-PLAYER",
+					"They're allowed to stop."
+				],
+				[
+					"NPC-QUOTA",
+					"Nobody is allowed anything. People are scheduled. Let me schedule you."
+				]
+			]
+		},
+		"quota_yards_after": {
+			"once_flag": "quota_yards_after_seen",
+			"steps": [
+				[
+					"NPC-QUOTA",
+					"Eighty-one seconds. Faster than last time. You have improved by fourteen percent.",
+					"That was not a compliment. I simply cannot leave a figure unsaid."
+				],
+				[
+					"NPC-ROLLO",
+					"Flex wants someone... to run the new break schedule... up in the Gainlands. Someone who can count."
+				],
+				[
+					"NPC-QUOTA",
+					"Breaks. Scheduled breaks. Mandatory rest, for everyone, forever.",
+					"I will hate every minute. I will time every one."
+				],
+				[
+					"",
+					"She sits down on the edge of the wheel, stopwatch in her lap, and for the first time in ten years she does not click it."
+				]
+			]
+		},
+		"crumb_inspection": {
+			"steps": [
+				[
+					"",
+					"The Prototype Bay smells of hot iron and burnt sugar. A war machine squats on a pallet: half oven, half cannon, one wheel still in its packing straw."
+				],
+				[
+					"NPC-CRUMB",
+					"Inspection! ATTEN-TION! Who put a dent in my souffle cannon? Battle stations! This is not a drill, it is a souffle!"
+				],
+				[
+					"NPC-CRUMB",
+					"And what is THIS? A civilian. In my bay. Unsupervised. With flavour on his breath.",
+					"Colonel Cornelius Crumb, Director of Culinary Defense. Taste is a weakness, son. Paste is a strategy."
+				],
+				[
+					"NPC-CRUMB",
+					"Whisk formation! Field-test the prototype on the intruder. I have a ration meeting."
+				],
+				[
+					"",
+					"He salutes the machine. The machine salutes back with a ladle. The Colonel marches out before it has finished preheating."
+				]
+			]
+		},
+		"crumb_inspection_after": {
+			"steps": [
+				[
+					"",
+					"The war machine sags and steams. Taped to its side is an inspection card under a seal of crossed forks: PASSED. NEEDS MORE SALT. - COL. C. CRUMB."
+				]
+			]
+		},
+		"crumb_fled": {
+			"once_flag": "crumb_fled_seen",
+			"steps": [
+				[
+					"NPC-BASIL",
+					"The Colonel's gone. His office is empty. He took the paste recipe with him.",
+					"It's one word long. The word is 'paste'."
+				],
+				[
+					"NPC-ESCOFFINA",
+					"He left before dessert. He always did. They say he's feeding the whole Capital now, from a factory.",
+					"Grey, from a tap. Somebody ought to teach that man to cook."
+				]
+			]
+		},
+		"crumb_paste_works": {
+			"steps": [
+				[
+					"",
+					"At the end of the Vat Floor, behind a door with a hatch for rations, is a kitchen. A real one. Copper pans, a cold stove, and a badger in a medal-covered chef's coat guarding a locked pantry."
+				],
+				[
+					"NPC-CRUMB",
+					"HALT! This is a restricted pantry! Those recipes are confiscated for the war effort!",
+					"What war? The war on FLAVOUR, son. Every citizen fed the same, at the same time, from the same tap. Perfect discipline."
+				],
+				[
+					"NPC-PLAYER",
+					"Marlo says you can't taste it either."
+				],
+				[
+					"NPC-CRUMB",
+					"Taste is a weakness. Whisk formation! Golems, to the vats! Nobody touches my pantry!"
+				]
+			]
+		},
+		"crumb_paste_works_after": {
+			"once_flag": "crumb_beaten",
+			"steps": [
+				[
+					"NPC-CRUMB",
+					"Stand down. Stand DOWN. I said... oh, everyone's already lying down. Very well."
+				],
+				[
+					"",
+					"The pantry door swings open. Shelves of confiscated jars: pickles, jams, a wheel of cheese with a ration number on it. Somewhere a vat coughs and stops."
+				],
+				[
+					"NPC-CRUMB",
+					"I invented the paste because nobody could get it wrong. You can't burn paste. You can't oversalt it.",
+					"You can't... taste it. I never could, you know. Not since the war that wasn't."
+				],
+				[
+					"NPC-MARLO",
+					"Then you'll learn. The Grand Chef is taking students. She starts everyone the same way: first, water."
+				],
+				[
+					"NPC-CRUMB",
+					"...Yes, Chef."
+				]
+			]
+		},
+		"clipwell_mill": {
+			"steps": [
+				[
+					"",
+					"The mill wheel is gripped by roots as thick as a cart. Someone has been trimming them. Very neatly. Into the shape of a smiling man in a circlet."
+				],
+				[
+					"NPC-CLIPWELL",
+					"Mind the topiary, dear. That's His Perfection from the left. The right side is still growing in."
+				],
+				[
+					"NPC-CLIPWELL",
+					"Hortensia Clipwell, Royal Groundskeeper. I outlawed composting. So untidy. All that rot, lying about in heaps, being honest."
+				],
+				[
+					"NPC-PLAYER",
+					"Nothing rots here any more."
+				],
+				[
+					"NPC-CLIPWELL",
+					"Isn't it lovely? I brought the Archdruid a little seed, a gift. Life that never ends. She was so very sad, and now nothing ever has to go.",
+					"And now, dear, I'm afraid I have a weed to remove."
+				]
+			]
+		},
+		"clipwell_mill_after": {
+			"steps": [
+				[
+					"NPC-CLIPWELL",
+					"Well. You've made a dreadful mess of my hedges. I shall send a note."
+				],
+				[
+					"",
+					"She opens a wide green umbrella, steps neatly over the roots and walks away up the ravine toward the Capital road, not one hair out of place."
+				]
+			]
+		},
+		"clipwell_fled": {
+			"once_flag": "clipwell_fled_seen",
+			"steps": [
+				[
+					"NPC-BRAMBLE",
+					"The Groundskeeper's gone. Packed her shears and left for the Capital the moment the Archdruid woke."
+				],
+				[
+					"NPC-BRAMBLE",
+					"She left one pair behind, in a compost heap. Granny Gristle is keeping them. 'Found, not stolen,' she says. Twice."
+				]
+			]
+		},
+		"clipwell_lawn": {
+			"once_flag": "clipwell_lawn_seen",
+			"steps": [
+				[
+					"",
+					"Beside the Sick Patch, a hare in groundskeeper green is measuring Old Fern's seedling with a ruler. It is an inch over regulation. She has written that down."
+				],
+				[
+					"NPC-CLIPWELL",
+					"Out of regulation. Everything is out of regulation now. The lawns, the hedges. They grow in whatever direction they like."
+				],
+				[
+					"NPC-FERN",
+					"That's what hedges DO."
+				],
+				[
+					"NPC-CLIPWELL",
+					"I gave her the seed because she was crying. I thought, if nothing ever ends, then nobody ever has to cry again.",
+					"That's tidy, isn't it? Isn't that tidy?"
+				],
+				[
+					"NPC-PLAYER",
+					"Nothing grew there for ten years."
+				],
+				[
+					"NPC-FERN",
+					"Granny Gristle needs hands on the compost rows down in the Dump. Peel from shell. Messy work."
+				],
+				[
+					"NPC-CLIPWELL",
+					"...I shall bring my own gloves."
+				]
+			]
+		},
+		"plume_ribbon": {
+			"once_flag": "plume_ribbon_seen",
+			"steps": [
+				[
+					"",
+					"A peacock in a lavender coat sweeps across the lobby with a ribbon, a pair of golden scissors and a speaking trumpet."
+				],
+				[
+					"NPC-PLUME",
+					"Great news, citizens! The D.N.A. has been freed, a change His Perfection fully supports and in fact arranged!",
+					"And you must be the volunteer. A Certificate of Participation. Frame it, or don't. It's been notarized either way."
+				],
+				[
+					"NPC-AGNES",
+					"That's Percival Plume, dear. Deputy Minister of Good News. He drafted the transfer. Every page of it."
+				],
+				[
+					"NPC-PLUME",
+					"And filed it on a Tuesday! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!"
+				],
+				[
+					"",
+					"He snips the ribbon, which was holding nothing up, and is gone before Agnes can find the right form."
+				]
+			]
+		},
+		"pc_capture": {
+			"once_flag": "elowen_seized",
+			"sets": [
+				"rescuer_named"
+			],
+			"steps": [
+				[
+					"",
+					"The castle gate is white and gold and perfectly symmetrical. In its shadow, hood up, stands the woman who pulled you out of the woods, as if she was always going to be here."
+				],
+				[
+					"NPC-ELOWEN",
+					"Don't look so surprised. Somebody has to watch the door while you knock it down."
+				],
+				[
+					"NPC-PLUME",
+					"Great news, citizens! The traitor has been located!"
+				],
+				[
+					"",
+					"Guards in polished armour pour from the gatehouse. Not toward you. Toward her."
+				],
+				[
+					"NPC-PLUME",
+					"Miss {rescuer_full}, I presume. Former junior Path-ologist. Absent without leave. Removed one item of laboratory property, which has been walking about ever since."
+				],
+				[
+					"@set",
+					"rescuer_named"
+				],
+				[
+					"NPC-PLUME",
+					"Don't fret, Miss Vey. Your father is very understanding about these things. Take her home, gentlemen. The long way."
+				],
+				[
+					"NPC-ELOWEN",
+					"Don't follow me, {wanderer}! Get to the top. That's the only way any of this ends."
+				],
+				[
+					"",
+					"They are through a side door before you reach it. The door has no handle on this side. Of course it doesn't."
+				],
+				[
+					"NPC-PLAYER",
+					"{rescuer}. Her name is {rescuer}. I never even asked."
+				]
+			]
+		},
+		"pc_plume_memo": {
+			"steps": [
+				[
+					"",
+					"The Necrocrat wing's archive is filing from floor to ceiling. On the desk, under a paperweight shaped like a peacock, lies a memo, the ink still wet."
+				],
+				[
+					"",
+					"MEMO. To: His Perfection. From: P. Plume. Re: the leak in the lab. The junior Path-ologist has been returned to the Path-ology Lab beneath the forest, to her father. Handled. Promotion?"
+				],
+				[
+					"NPC-PLUME",
+					"Ah! You found my memo. Isn't it well written? I used the active voice.",
+					"Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, filed it, and read it out on every loudspeaker in the land."
+				],
+				[
+					"NPC-PLAYER",
+					"Where is the Lab?"
+				],
+				[
+					"NPC-PLUME",
+					"Beneath the forest where you... oh, I shouldn't have said that. Never mind. Great news: your visit is being declined!"
+				]
+			]
+		},
+		"pc_plume_memo_after": {
+			"steps": [
+				[
+					"NPC-PLUME",
+					"This is a setback. A temporary, fully reversible, not-at-all-my-fault setback.",
+					"I'll draft a statement. 'Minister Plume bravely withdrew.' Yes. Bravely."
+				],
+				[
+					"",
+					"He withdraws, bravely, at a run. You fold the memo into your pocket. Beneath the forest. Her father."
+				]
+			]
+		},
+		"maren_after_capture": {
+			"once_flag": "maren_capture_seen",
+			"steps": [
+				[
+					"NPC-ELDER",
+					"Sit down, dearie. Word came from the Capital this morning, by way of a pigeon who was very rude about it."
+				],
+				[
+					"NPC-ELDER",
+					"Plume's men took a girl at the castle gate. The one who carried you out of the woods. {rescuer_full}.",
+					"I knew that face the day you walked in here. Her father worked in my laboratory, once. I never trusted her for a minute."
+				],
+				[
+					"NPC-ELDER",
+					"I have been wrong about people before. Once. In 1987. It seems I've gone and done it twice."
+				],
+				[
+					"NPC-PLAYER",
+					"Where did they take her?"
+				],
+				[
+					"NPC-ELDER",
+					"Back where she came from, I expect. Somewhere with glass walls and no windows. That's a door I can't open. Not yet.",
+					"Eat. You'll want your strength for when it opens."
+				]
+			]
+		},
+		"wren_after_capture": {
+			"once_flag": "wren_capture_seen",
+			"steps": [
+				[
+					"NPC-WREN",
+					"We saw them take her at the gate. Four guards and a peacock with a speaking trumpet. We couldn't get close."
+				],
+				[
+					"NPC-WREN",
+					"The Wrinkles are watching every door out of that castle. If they move her again, we'll know.",
+					"Her name goes in the true record. Whatever else happens."
+				]
+			]
+		}
+	}
+}

@@ -11,6 +11,7 @@ var _cards: Array[CardView] = []
 var _selected: int = -1
 var _take_button: FancyButton
 var _screenshot_args: Dictionary = {}
+var _boss_talk_done: bool = false
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -135,6 +136,17 @@ func _confirm() -> void:
 
 
 func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
+	# Oct 21: a boss's closing story scene (Crumb in the Paste Works, Siphon and his daughter) before the dungeon wraps up.
+	var boss: DungeonMap.MapNode = Session.dungeon_map.boss() if Session.dungeon_map != null else null
+	if was_boss and not continues and boss != null and not _boss_talk_done:
+		var talk: String = BossTalks.after_boss(boss, Session.dungeon_key, Session.run)
+		if StoryScenes.should_play(talk, Session.flags):
+			_boss_talk_done = true
+			_panel.visible = false
+			var dialogue: DialogueBox = DialogueBox.new()
+			add_child(dialogue)
+			StoryScenePlayer.play(dialogue, talk, _after_rewards.bind(continues, was_boss, first_clear))
+			return
 	if Session.main_dungeon_active and was_boss and not continues:
 		_main_boss_epilogue()
 		return

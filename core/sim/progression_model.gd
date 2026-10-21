@@ -15,7 +15,7 @@ const LEVELS: Dictionary = {
 	"zone:necrocrat": 9, "D-HFA": 11, "S-NECRO": 11,
 	"zone:gourmand": 12, "D-TTK": 14, "S-GOUR": 14,
 	"zone:refusemancer": 15, "D-ROT": 17, "S-REF": 17,
-	"zone:final": 18, "S-CAP": 19, "D-PC": 20,
+	"zone:final": 18, "S-CAP": 19, "S-PASTE": 19, "D-PC": 20,
 	"D-LAB": 26,
 	"arena:1": 6, "arena:2": 12, "arena:3": 18,
 }

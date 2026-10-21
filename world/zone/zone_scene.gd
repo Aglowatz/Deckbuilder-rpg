@@ -53,6 +53,9 @@ var _locked: bool = false:
 			GameLog.info("lock", "%s: hero %s" % [name, "locked" if value else "free"])
 		_locked = value
 var _invulnerable: float = 0.0
+## Oct 21: a short pause before a story scene that waits for the hero (the lieutenant has fled, the regulation lawn...), so it never
+## starts on the first frame of an arrival.
+var _scene_cooldown: float = 1.0
 var _spawn_grace: float = SPAWN_GRACE
 var _chest_near: String = ""
 var _area_id: String = ""
@@ -716,6 +719,8 @@ func _process(delta: float) -> void:
 	_time += delta
 	_invulnerable = maxf(0.0, _invulnerable - delta)
 	_spawn_grace = maxf(0.0, _spawn_grace - delta)
+	if _world_active():
+		_scene_cooldown = maxf(0.0, _scene_cooldown - delta)
 	Hitch.start("zone.camera")
 	_update_camera(delta)
 	Hitch.stop("zone.camera")
@@ -733,6 +738,8 @@ func _process(delta: float) -> void:
 		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)
 		_open_overlay(popup)
 		popup.finished.connect(_close_overlay)
+		world_active = false
+	elif world_active and _scene_cooldown <= 0.0 and _play_pending_story_scene():
 		world_active = false
 	elif world_active and not Session.pending_level_ups.is_empty():
 		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
@@ -765,6 +772,21 @@ func _process(delta: float) -> void:
 	_update_chest_prompt()
 	_update_area_banner()
 	_update_station()
+
+
+## Oct 21: a story scene waiting in this zone (pending_story_scene), played as soon as the hero is free. True when one started.
+func _play_pending_story_scene() -> bool:
+	var scene: String = pending_story_scene()
+	if scene.is_empty():
+		return false
+	_scene_cooldown = 1.0
+	StoryScenePlayer.play(dialogue, scene)
+	return true
+
+
+## The story scene waiting for the hero here: the lieutenant who fled this freed zone (Lieutenants.fled_scene). The Capital adds its own.
+func pending_story_scene() -> String:
+	return Lieutenants.fled_scene(def.id, Session.flags)
 
 
 func _world_active() -> bool:

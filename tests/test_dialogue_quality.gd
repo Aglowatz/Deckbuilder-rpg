@@ -64,6 +64,9 @@ static func player_text() -> Dictionary:
 	var content: Dictionary = _content_text()
 	for key: Variant in content.keys():
 		result["content:%s" % key] = content[key]
+	# Oct 21: the multi-speaker story scenes (StoryScenes).
+	for id: String in StoryScenes.ids():
+		result["scene:%s" % id] = StoryScenes.all_lines(id)
 	result["tips"] = Array(FileAccess.get_file_as_string(TIPS_PATH).split("\n"))
 	var npcs: Variant = JSON.parse_string(FileAccess.get_file_as_string(NPCS_PATH))
 	if npcs is Dictionary:

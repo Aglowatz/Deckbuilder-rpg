@@ -31,6 +31,9 @@ func _dialogue_lines() -> Dictionary:
 			continue
 		for key: Variant in zone.lines.keys():
 			result["%s:%s" % [zone_id, key]] = zone.lines[key]
+	# Oct 21: the multi-speaker story scenes (StoryScenes).
+	for id: String in StoryScenes.ids():
+		result["scene:%s" % id] = StoryScenes.all_lines(id)
 	return result
 
 

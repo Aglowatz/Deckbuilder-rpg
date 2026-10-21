@@ -48,6 +48,7 @@ const DUNGEONS: Dictionary = {
 	"S-NECRO": {"exp": "MUS-WAIT-EXP", "battle": "MUS-WAIT-BATTLE", "boss": "MUS-WAIT-BOSS"},
 	"S-REF": {"exp": "MUS-PANDA-EXP", "battle": "MUS-PANDA-BATTLE", "boss": "MUS-PANDA-BOSS"},
 	"S-CAP": {"exp": "MUS-TUNNEL-EXP", "battle": "MUS-TUNNEL-BATTLE", "boss": "MUS-TUNNEL-BOSS"},
+	"S-PASTE": {"exp": "MUS-GOUR-DUN-EXP", "battle": "MUS-GOUR-DUN-BATTLE", "boss": "MUS-GOUR-BOSS"},  # Oct 21: the Paste Works borrows the Test Kitchen's cues
 	"S-TOWN": {"exp": "MUS-VAULT-EXP", "battle": "MUS-VAULT-BATTLE", "boss": "MUS-VAULT-BOSS"},
 }
 
@@ -55,6 +56,7 @@ const DUNGEONS: Dictionary = {
 const BOARD_DUNGEON: Dictionary = {
 	"BB-TUT": "D-TUT", "BB-HOG": "D-HOG", "BB-TTK": "D-TTK", "BB-HFA": "D-HFA", "BB-ROT": "D-ROT", "BB-PC": "D-PC", "BB-LAB": "D-LAB",
 	"BB-S-BEEF": "S-BEEF", "BB-S-GOUR": "S-GOUR", "BB-S-NECRO": "S-NECRO", "BB-S-REF": "S-REF", "BB-S-CAP": "S-CAP", "BB-S-TOWN": "S-TOWN",
+	"BB-S-PASTE": "S-PASTE",
 	"BB-S-IRON": "S-BEEF",  # Oct 19 night: the Iron Cave now names its own board (stand-in BB-S-BEEF until imported); its battles keep the Swolympus cues they had
 }
 const BOARD_CUE: Dictionary = {

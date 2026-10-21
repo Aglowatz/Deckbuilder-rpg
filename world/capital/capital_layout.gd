@@ -501,6 +501,7 @@ func _anchors() -> void:
 	_anchor("heap_2", 31.0, 67.5)
 	_anchor("heap_3", 12.5, 69.5)
 	_anchor("sick_patch", 29.0, 40.0)
+	_anchor("clipwell_patch", 31.5, 42.0)  # Oct 21: Hortensia Clipwell, measuring Old Fern's seedling
 	_anchor("seed", 5.0, 52.0)
 	_anchor("net_reek", 32.0, 52.5)
 	# Grave Row (Necrocrats), north-west.
@@ -515,6 +516,7 @@ func _anchors() -> void:
 	_anchor("wheel_2", 101.0, 70.0)
 	_anchor("wheel_3", 111.0, 70.0)
 	_anchor("cable", 110.0, 58.5)
+	_anchor("quota_yards", 97.0, 62.5)  # Oct 21: Vivienne Quota, timing the crews (Lieutenants.YARDS_SPOT)
 	_anchor("net_transit", 86.0, 63.5)
 	# The Hungry Quarter (Gourmands), east: the identical row either side of its lane.
 	_anchor("marlo", 95.0, 33.0)
@@ -522,6 +524,7 @@ func _anchors() -> void:
 	_anchor("recipe_2", 115.5, 29.8)
 	_anchor("recipe_3", 113.0, 41.5)
 	_anchor("dispenser", 105.5, 38.5)
+	_anchor("paste_works", 91.2, 38.2)  # Oct 21: the shuttered stall's ration hatch, the way into the Paste Works (S-PASTE)
 	_anchor("net_hungry", 95.5, 40.5)
 	# The Correction Ward, north-east.
 	_anchor("ward_window", 100.0, 13.5)

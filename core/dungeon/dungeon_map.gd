@@ -48,6 +48,10 @@ class MapNode:
 	## Story keys in the zone story file: lines shown when the node is entered / after it is cleared.
 	var story_before: String = ""
 	var story_after: String = ""
+	## Story scenes (`StoryScenes`, several speakers) played when the node is entered / after it is cleared; on the start node, `talk_before`
+	## plays when the map first opens (content `talks`: {"<n>": {"before": id, "after": id}}).
+	var talk_before: String = ""
+	var talk_after: String = ""
 	## Brief 10: a side branch that dead-ends (a treasure, an encounter, an event, lore): once it is done the party doubles back to this
 	## node (the branch point it hangs off), where the other routes are still open. -1 = not a dead end.
 	var return_to: int = -1

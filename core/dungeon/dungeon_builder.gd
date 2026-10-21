@@ -333,6 +333,9 @@ static func build_map(blueprint: DungeonCatalog.Blueprint, def: MainDungeonDef) 
 		added.section = str((content.get("sections", {}) as Dictionary).get(str(node.number), ""))
 		added.scene = str(scenes.get("before", ""))
 		added.after_scene = str(scenes.get("after", ""))
+		var talks: Dictionary = (content.get("talks", {}) as Dictionary).get(str(node.number), {}) as Dictionary
+		added.talk_before = str(talks.get("before", ""))
+		added.talk_after = str(talks.get("after", ""))
 		added = map.add_node(added)
 		ids[node.number] = added.id
 	if entrance != null:

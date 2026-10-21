@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_j2p1p"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_wasjh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_tpgc8"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_41vfn"]
+
+[sub_resource type="Resource" id="Resource_cbdq6"]
+script = ExtResource("2_wasjh")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_c48m0"]
+script = ExtResource("1_j2p1p")
+kind = 21
+effect = SubResource("Resource_cbdq6")
+
+[resource]
+script = ExtResource("4_41vfn")
+id = "colonels_ladle"
+slot = 1
+description = "Whenever a unit enters the field under your control, gain 1 HP."
+advanced = true
+flavor_text = "Carried like a sabre for ten years. It has finally been used for soup."
+rarity = 2
+tier = 3
+source = "The Paste Works (a first win)"
+source_name = "The Colonel's Ladle"
+modifiers = Array[ExtResource("1_j2p1p")]([SubResource("Resource_c48m0")])

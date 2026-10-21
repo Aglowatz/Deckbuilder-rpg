@@ -110,6 +110,11 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			return [_rule("Midnight Snack", "Whenever a player eats garbage, they gain 1 HP.", "both", [CardBuilder.modifier(Modifier.Kind.EAT_HP_GAIN, 1)] as Array[Modifier])]
 		"S-CAP":
 			return [_rule("Forgotten Harmony", "Multi-path cards cost 1 less.", "both", [CardBuilder.modifier(Modifier.Kind.MULTIPATH_COST_CHANGE, -1)] as Array[Modifier])]
+		"S-PASTE":
+			return [
+				_rule("Bland Diet", "Healing effects do nothing.", "both", [CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, -99)] as Array[Modifier]),
+				_rule("Real Food", "Your Gourmand cards cost 1 less (the recipes fight back).", "player", [CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, Affinity.Type.GOURMAND, 0)] as Array[Modifier]),
+			]
 		"S-TOWN":
 			return [_rule("Old Kingdom", "Colorless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]
 	return []

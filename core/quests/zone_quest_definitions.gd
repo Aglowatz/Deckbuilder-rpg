@@ -27,7 +27,7 @@ const GIVERS: Dictionary = {
 	"gain_power": ["beefcake", "gus"], "gain_spot_me": ["beefcake", "brenda"], "gain_lanes": ["beefcake", "tony"],
 	"buf_pantry": ["gourmand", "tarragon"], "buf_pie": ["gourmand", "dolcetta"], "buf_mend": ["gourmand", "odalys"],
 	"heap_herd": ["refusemancer", "wren"], "heap_fert": ["refusemancer", "hob"], "heap_dam": ["refusemancer", "marigold"],
-	"cap_burial": ["final", "pell"], "cap_wheels": ["final", "rollo"], "cap_recipes": ["final", "marlo"], "cap_untidy": ["final", "fern"],
+	"cap_burial": ["final", "pell"], "cap_wheels": ["final", "rollo"], "cap_recipes": ["final", "marlo"], "cap_paste_works": ["final", "marlo"], "cap_untidy": ["final", "fern"],
 	"side_s_beef": ["beefcake", "brenda"], "side_s_gour": ["gourmand", "odalys"], "side_s_necro": ["necrocrat", "barnaby"],
 	"side_s_ref": ["refusemancer", "marigold"], "side_s_cap": ["final", "kestrel"], "side_s_town": ["town", "elder"],
 }
@@ -48,6 +48,7 @@ const TARGETS: Dictionary = {
 	"cap_wheels": [[QuestObjective.TargetKind.SPOT, "final", "", "The energy wheels along the Transit Yards wall"], [QuestObjective.TargetKind.SPOT, "final", "cable", "The main power cable, in the Transit Yards"]],
 	"cap_recipes": [[QuestObjective.TargetKind.ITEM_COUNT, "final", "", "Recipe cards hidden around the Hungry Quarter"], [QuestObjective.TargetKind.SPOT, "final", "dispenser", "The paste dispenser, in the Hungry Quarter"]],
 	"cap_untidy": [[QuestObjective.TargetKind.SPOT, "final", "", "Banished heaps hide in the Reek's cellars and yards"], [QuestObjective.TargetKind.SPOT, "final", "sick_patch", "The Sick Patch in the Reek. Find the jar of old seed first"]],
+	"cap_paste_works": [[QuestObjective.TargetKind.SPOT, "final", "paste_works", "The shuttered stall at the Hungry Quarter's south-west corner"], [QuestObjective.TargetKind.SPOT, "final", "paste_works", "Down through the ration hatch"]],
 	"side_s_beef": [[QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand in the Swole Station"]],
 	"side_s_gour": [[QuestObjective.TargetKind.SPOT, "gourmand", "", "Hidden stashes have no marker: check the odd corners"]],
 	"side_s_necro": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
@@ -300,7 +301,7 @@ static func _heap_dam() -> QuestData:
 
 
 static func capital_quests() -> Array[QuestData]:
-	return [_cap_burial(), _cap_wheels(), _cap_recipes(), _cap_untidy()] as Array[QuestData]
+	return [_cap_burial(), _cap_wheels(), _cap_recipes(), _cap_untidy(), _cap_paste_works()] as Array[QuestData]
 
 
 static func _cap_burial() -> QuestData:
@@ -384,6 +385,26 @@ static func _cap_untidy() -> QuestData:
 	quest.reward_card_ids = ["R-30"] as Array[String]
 	quest.reward_equipment_ids = ["bin_lid"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("refusemancer"))] as Array[String]
+	return quest
+
+
+## Oct 21: Chef Marlo's second quest, the way into the Paste Works (S-PASTE). No twist in the text: the Colonel is a surprise at the bottom.
+static func _cap_paste_works() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = PasteWorks.QUEST_ID
+	quest.order = 535
+	quest.title = "The Paste Works"
+	quest.summary = "The paste comes from somewhere. Chef Marlo thinks the shuttered stall at the Hungry Quarter's south-west corner is a door, and that something real is locked up behind it."
+	quest.giver_npc = CapitalZone.NPC_MARLO
+	quest.turn_in_npc = CapitalZone.NPC_MARLO
+	quest.prerequisite = PasteWorks.prerequisite()
+	quest.objectives = [
+		QuestObjective.make("Open the shuttered stall in the Hungry Quarter", Condition.flag(str(PasteWorks.FLAG_FOUND))),
+		QuestObjective.make("Shut down the Paste Works", Condition.flag(str(PasteWorks.FLAG_CLEARED))),
+	] as Array[QuestObjective]
+	quest.reward_gold = 200
+	quest.reward_xp = 180
+	quest.reward_item_ids = ["hearty_pie"] as Array[String]
 	return quest
 
 

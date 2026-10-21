@@ -334,6 +334,7 @@ func recover_memory(number: int) -> void:
 func sync_story_tokens() -> void:
 	RoyalFamily.set_capital_liberated(bool(flags.get("primm_defeated", false)))
 	RoyalFamily.set_identity_revealed(bool(flags.get("prince_revealed", false)))
+	RoyalFamily.set_rescuer_named(bool(flags.get("rescuer_named", false)))
 
 
 ## Any card (spell, token or basic infrastructure) by its id.
@@ -986,6 +987,7 @@ func from_dict(data: Dictionary) -> bool:
 	if not cap_notice.is_empty():
 		_top_up_active_deck()
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
+	StoryBeats.migrate(flags)  # Oct 21: saves past the castle gate get the capture (and her name) as having happened
 	playtime_seconds = float(data.get("playtime", 0.0))
 	_sync_freed_stories()
 	sync_path_limit()
@@ -2444,6 +2446,49 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	return context
 
 
+## Oct 21: Vivienne Quota's rematch by the Transit Yards' energy wheels (she fled the Gainlands; Rollo's quest done). A zone duel in every
+## way (the Capital's broken services, HP carried, waking in the Crease on a loss) against her own deck and rules (Lieutenants).
+func start_quota_yards_battle() -> void:
+	start_battle(make_quota_yards_battle())
+
+
+func make_quota_yards_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	var buffs: Array[ModifierSource] = []
+	if zone_run != null:
+		buffs = zone_run.run.dungeon_sources.duplicate()
+	var player_side_rules: ModifierSource = EncounterModifiers.player_source(Lieutenants.YARDS_RULES_KEY)
+	if player_side_rules != null:
+		buffs.append(player_side_rules)
+	var player: PlayerSetup = PlayerSetup.create(deck, profile, buffs, "You")
+	if zone_run != null:
+		player.starting_hp = zone_run.hp
+	game.add_player(player)
+	var enemy: PlayerSetup = Lieutenants.yards_setup(content)
+	_add_capital_enemy_rules(enemy, false)
+	game.add_player(enemy)
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, Lieutenants.YARDS_AI))
+	context.enemy_name = Lieutenants.foe_name(Lieutenants.QUOTA)
+	context.zone_id = CapitalZone.ID
+	context.zone_battle = true
+	context.board_key = "capital:in"
+	context.zone_enemy_id = Lieutenants.YARDS_SPOT
+	context.zone_enemy_type = Lieutenants.YARDS_SPOT
+	context.encounter_rules = EncounterModifiers.rules(Lieutenants.YARDS_RULES_KEY)
+	context.rule_badges = RuleBadges.for_capital(flags)
+	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
+	context.gold_reward = Lieutenants.YARDS_GOLD
+	context.xp_reward = Lieutenants.YARDS_XP
+	return context
+
+
 ## The battleboard key of an overworld duel: the zone's board, or in the Capital the one outside the walls (Captain Spotless's exam, or before the
 ## hero has gone through the gate) and the one inside.
 func _zone_board_key(zone_id: String, enemy_type: String) -> String:
@@ -2631,6 +2676,9 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 			set_flag(CapitalZone.FLAG_GATE_OPEN)
 			set_flag(CapitalZone.FLAG_INSIDE)
 			result["gate_opened"] = true
+		if context.zone_enemy_type == Lieutenants.YARDS_SPOT:
+			set_flag(&"quota_beaten")
+			result["quota_yards"] = true
 	if zone_run.is_down() or not context.won:
 		var fee: int = zone_wake_at_hub("beaten by a %s" % context.enemy_name)
 		result["woke_at_hub"] = true
@@ -2690,6 +2738,29 @@ func enter_mini_dungeon() -> void:
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
+## Oct 21: from the shuttered stall in the Hungry Quarter: the Paste Works (S-PASTE), the Capital's second side dungeon. Run like the zone's own
+## side dungeon (the zone's HP, back to the Capital after).
+func enter_paste_works() -> void:
+	if zone_run == null:
+		return
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(PasteWorks.DUNGEON_ID)
+	if plan == null:
+		return
+	set_flag(PasteWorks.FLAG_FOUND)
+	dungeon_key = plan.id
+	dungeon_map = MainDungeons.build_map(plan.id)
+	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
+	run.hp = clampi(zone_run.hp, 1, run.max_hp())
+	mini_active = true
+	town_side_active = false
+	main_dungeon_active = false
+	dungeon_story_seen = []
+	dungeon_rules_intro_seen = false
+	trial_finished = false
+	pending_reward = null
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
 ## Leaves the side dungeon back to the zone (or the town). The HP left goes back to the zone; clearing it the
 ## first time grants the unique card, repeat clears pay gold and a pack. `failed` (0 HP) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
@@ -2710,6 +2781,8 @@ func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 func side_cleared_flag(plan: DungeonCatalog.Blueprint) -> StringName:
 	if plan != null and plan.id == PathologyLab.DUNGEON_ID:
 		return PathologyLab.FLAG_CLEARED
+	if plan != null and plan.id == PasteWorks.DUNGEON_ID:
+		return PasteWorks.FLAG_CLEARED
 	if plan != null and ZoneDefs.has_def(plan.zone_id) and not ZoneDefs.get_def(plan.zone_id).flag_mini_cleared.is_empty():
 		return ZoneDefs.get_def(plan.zone_id).flag_mini_cleared
 	return &"town_vault_cleared"
@@ -2743,6 +2816,8 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			set_flag(CapitalZone.FLAG_HUB_KNOWN)
 			set_flag(CapitalZone.FLAG_INSIDE)
 			result["secret_way"] = true
+		if plan.id == PasteWorks.DUNGEON_ID:
+			result["paste_works"] = true
 		if plan.id == PathologyLab.DUNGEON_ID and PathologyLab.rescued(run):
 			set_flag(PathologyLab.FLAG_RESCUER_FREED)
 			result["rescuer_freed"] = true
@@ -3182,6 +3257,7 @@ func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
 	if context.won:
 		record_victory(context)
+		grant_lieutenant_reward(context.enemy_name)
 	save_game()  # Overnight Oct 18, Part 3: autosave after every battle (each branch below may save again with its rewards)
 	if context.dev_battle:
 		SceneManager.go_to_town()
@@ -3245,6 +3321,23 @@ func complete_battle(context: BattleContext) -> void:
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
+
+
+## Oct 21: the first win against one of Primm's lieutenants (any of their fights) pays their relic, shown as a reward box back in the world.
+## Returns the lieutenant's id, or "" when this was not a first win against one.
+func grant_lieutenant_reward(enemy_name: String) -> String:
+	var id: String = Lieutenants.for_enemy(enemy_name)
+	if id.is_empty() or flag(Lieutenants.flag_beaten(id)):
+		return ""
+	flags[str(Lieutenants.flag_beaten(id))] = true
+	var piece: EquipmentData = content.equipment_piece(Lieutenants.reward_id(id)) if content != null else null
+	if piece != null and grant_equipment(piece):
+		var summary: RewardSummary = RewardSummary.new()
+		summary.title = enemy_name.get_slice(",", 0)
+		summary.subtitle = "Beaten. They left something behind."
+		summary.equipment.append(piece)
+		pending_popups.append(summary)
+	return id
 
 
 ## Applies the rewards the player chose. The card (if any) joins the collection AND the current

@@ -16,6 +16,7 @@ const DUNGEON_ICONS: Dictionary = {
 	"Perfect Order": "delapouite/checklist", "Mirrors": "delapouite/shinto-shrine-mirror", "Thin Air": "lorc/feathered-wing",
 	"Never Skip Leg Day": "delapouite/weight-lifting-up", "Fresh Fish": "delapouite/fish-monster", "Please Wait": "delapouite/alarm-clock",
 	"Midnight Snack": "delapouite/trash-can", "Forgotten Harmony": "lorc/rainbow-star", "Old Kingdom": "delapouite/castle-ruins",
+	"Bland Diet": "lorc/acid-blob", "Real Food": "delapouite/fork-knife-spoon",
 }
 const ZONE_BUFF_ICON: String = "lorc/rainbow-star"
 const ZONE_DEBUFF_ICON: String = "lorc/cursed-star"

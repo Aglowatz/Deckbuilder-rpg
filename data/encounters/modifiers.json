@@ -1,10 +1,10 @@
 {
 	"_about": "Rebalance Part E: one-sided encounter rules (EncounterModifiers). Key = a dungeon foe's name, 'zone:<zone>:<enemy id>', 'town:npc:<id>', 'town:graveyard', 'arena:<id>'. Each rule: name, text (shown as the tooltip), icon (a game-icons key), side ('enemy' default or 'player'), kind + its fields - see core/dungeon/encounter_modifiers.gd for the vocabulary. The Dungeon List tab's buffs/debuffs stay in DungeonRules; these are per-encounter extras.",
-	"Regime Checkpoint Captain": [
+	"Vivienne Quota, Minister of Efficiency": [
 		{
-			"name": "Drill Sergeant",
-			"text": "The Captain's units get +1 attack.",
-			"icon": "delapouite/star-medal",
+			"name": "Stopwatch",
+			"text": "Quota's units get +1 attack. Every second counts, and she is counting.",
+			"icon": "delapouite/alarm-clock",
 			"kind": "stat",
 			"atk": 1,
 			"def": 0
@@ -129,11 +129,11 @@
 			"def": 0
 		}
 	],
-	"Rootbound Miller": [
+	"Hortensia Clipwell, Royal Groundskeeper": [
 		{
-			"name": "Fungal Growth",
-			"text": "The Miller's tokens enter with +1/+1.",
-			"icon": "delapouite/mushrooms-cluster",
+			"name": "Prize Topiary",
+			"text": "Clipwell's tokens enter with +1/+1, trimmed to regulation.",
+			"icon": "lorc/leaf-swirl",
 			"kind": "token_stats",
 			"atk": 1,
 			"def": 1
@@ -527,6 +527,59 @@
 			"token_name": "Ghost",
 			"token_keywords": [],
 			"every": 1
+		}
+	],
+	"Percival Plume, Deputy Minister of Good News": [
+		{
+			"name": "Great News!",
+			"text": "Plume draws an extra card each turn. There is always another announcement.",
+			"icon": "delapouite/trumpet",
+			"kind": "extra_draws",
+			"count": 1
+		},
+		{
+			"name": "Positive Spin",
+			"text": "Plume's units get +1 attack. Everything hits harder in a press release.",
+			"icon": "delapouite/scroll-quill",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0
+		}
+	],
+	"capital:quota": [
+		{
+			"name": "Stopwatch",
+			"text": "Quota's units get +1/+1. Ten years of practice, timed to the second.",
+			"icon": "delapouite/alarm-clock",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
+		},
+		{
+			"name": "Time and Motion",
+			"text": "Quota's units enter with Hustle. Nothing idles on her watch.",
+			"icon": "lorc/hourglass",
+			"kind": "keyword",
+			"keyword": "hustle"
+		}
+	],
+	"Colonel Cornelius Crumb, Director of Culinary Defense": [
+		{
+			"name": "Whisk Formation",
+			"text": "Every third turn, a 3/3 Meatloaf Golem joins the Colonel.",
+			"icon": "delapouite/chef-toque",
+			"kind": "timed_summon",
+			"token": "T-05",
+			"every": 3,
+			"count": 1
+		},
+		{
+			"name": "Fortified Rations",
+			"text": "The Colonel's units get +1/+2. Fortified with nothing at all.",
+			"icon": "lorc/acid-blob",
+			"kind": "stat",
+			"atk": 1,
+			"def": 2
 		}
 	]
 }
