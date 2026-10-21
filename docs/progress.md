@@ -3506,3 +3506,18 @@ screen; `TownScene` builds in stages behind it (`_stage`, `WorldLookRig.build_pi
 (`ARRIVAL_ORDER`) with a lock watchdog, `DialogueBox.interrupted`, a UiArtWarmup input guard; `LoadTiming` logs each load. Details and
 numbers: `docs/playtest/cave_arrival_freeze.md`; repro `bash tools/run_cave_arrival_repro.sh [pck]`; tests `tests/world/test_cave_arrival.gd`.
 Build: `builds/TheWaywardPath-v0.4.2-windows.zip` (628 MB), notes `docs/release/v0.4.2_notes.md`, tag v0.4.2.
+
+## Oct 21: ChatGPT dialogue pass applied
+
+ChatGPT reviewed all 3,315 dialogue rows in 26 batches (477 rewrites). Everything is in `docs/dialogue/chatgpt_pass_oct21/`.
+1. **Importer** `node tools/apply_dialogue_pass.js` (dry run; `--apply`; `--revert=<ids.txt>`; `--merge=<csv> --apply`): applies a row only
+   if the game line still equals the export's text, then validates tokens, placeholders, tags, banned names, length, barks < 90 and the
+   dialogue-box fit (`tools/dialogue_fit_check.gd`). 459 applied + 2 merged barks, 0 conflicts, 9 left (sign token swaps that would change
+   case, two barks whose current text is better), 7 held (`held_ids.txt`: rewrites that dropped a story beat a GUT test guards).
+2. **Review** `review_flags.md`: 40 flags (80 lines) where the old line was arguably better, mostly the castle, the ending and the story
+   stills, which the pass flattened. Not reverted; `review_flags_ids.txt` + `--revert` restores any of them.
+3. **Voice bible**: running gags, owned puns and zone threads from the pass ledger folded in per character.
+4. Full old-vs-new record: `dialogue_diff.md` (`node tools/dialogue_diff.js pre-chatgpt-pass-oct21 <out.md>`; now also barks, Old Well, tips).
+Also: `ZoneTitleCard` no longer errors when freed while waiting for a scene change (seen in the story playthrough).
+Checks: GUT 2079/2079; prologue, quest and Old Well smokes OK; story playthrough has the same 21 unchecked quest-chain steps with and
+without the pass (pre-existing, not from the dialogue).

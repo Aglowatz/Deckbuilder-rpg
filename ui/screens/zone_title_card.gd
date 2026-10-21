@@ -166,7 +166,8 @@ func _ready() -> void:
 	holder.position.y = -(height + TOP + 40.0)
 	holder.modulate.a = 0.0
 	# Wait for the fade / loading screen of the scene change to end, then slide in.
-	while SceneManager.busy:
+	# The card can be freed by the scene change it waits for (seen in the story playthrough, Oct 21).
+	while SceneManager.busy and is_inside_tree():
 		await get_tree().process_frame
 	if not is_inside_tree():
 		return
