@@ -3211,5 +3211,19 @@
 		"speaker": "(tip)",
 		"before": "Everything is perfect in the Capital. Please report any imperfections to your nearest Perfectly Happy Citizen.",
 		"after": "Everything is perfect in the Capital. If you disagree, please enjoy the feeling quietly."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PUMP.barks::1",
+		"file": "data/npcs/npcs.json",
+		"before": "Read the signs, student. Every answer is out there. Footnotes optional.",
+		"after": "Read the signs, student. Every answer is there. Consider it a slow circuit of the gym.",
+		"merged": true
+	},
+	{
+		"id": "data/npcs/npcs.json::V-GRISTLE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"before": "My shed grew another room overnight. I've stopped arguing with it. Heh!",
+		"after": "Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!",
+		"merged": true
 	}
 ]

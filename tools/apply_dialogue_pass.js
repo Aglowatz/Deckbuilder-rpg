@@ -4,7 +4,7 @@
 // its own key, or a loading tip moved to another line, still counts); otherwise it is a conflict and is left alone. Every applied line is
 // validated: tokens, %s/%d and the [expression] tag unchanged, one plain line, no banned old name, at most 240 characters and fits the
 // dialogue box (measured by Godot: tools/dialogue_fit_check.gd, the same measure as tests/test_dialogue_fit.gd).
-//   node tools/apply_dialogue_pass.js                  dry run: report only (apply_report.md says DRY RUN)
+//   node tools/apply_dialogue_pass.js                  dry run: report only (apply_report_dry_run.md); rows already applied count as skipped
 //   node tools/apply_dialogue_pass.js --apply          writes the game files, apply_report.md and applied_ledger.json
 //   node tools/apply_dialogue_pass.js --revert=ids.txt puts the listed ids (one per line, # comments) back to their pre-pass text
 //   node tools/apply_dialogue_pass.js --merge=merges.csv --apply   applies hand merges (id,new_text) for conflicts, same validation;
@@ -361,6 +361,7 @@ for (const batch of batches) {
 		if (holds.has(row.id)) { counts[a].held++; held.push({ ...row, reason: holds.get(row.id) }); continue; }
 		const loc = locate(row.id);
 		const found = findSlot(loc, row.current_text);
+		if (!found.slot && findSlot(loc, normalize(row.new_text)).slot) { counts[a].blank++; skippedBlank.push(row.id); continue; } // applied before
 		if (!found.slot) { counts[a].conflict++; conflicts.push({ ...row, game: found.current ?? '', why: found.why, area: a }); continue; }
 		const text = normalize(row.new_text);
 		if (text === row.current_text) { counts[a].blank++; skippedBlank.push(row.id); continue; }
@@ -392,7 +393,7 @@ if (args.apply) {
 
 // Conflicts as a CSV too (Part 3 works from it).
 const csvq = (s) => `"${String(s).replace(/"/g, '""')}"`;
-fs.writeFileSync(path.join(dir, 'conflicts.csv'), 'id,speaker,game_text,chatgpt_current_text,new_text,why\n' +
+if (args.apply) fs.writeFileSync(path.join(dir, 'conflicts.csv'), 'id,speaker,game_text,chatgpt_current_text,new_text,why\n' +
 	conflicts.map((c) => [c.id, c.speaker, c.game, c.current_text, c.new_text, c.why].map(csvq).join(',')).join('\n') + '\n');
 
 let out = `# ChatGPT dialogue pass: apply report${args.apply ? '' : ' (DRY RUN - nothing written)'}\n\n` +
@@ -420,6 +421,7 @@ if (locked.length) {
 	out += `\n## Locked (${locked.length})\n\nBlack market lines with a new_text in the CSV; left unchanged.\n\n`;
 	for (const c of locked) out += `- \`${c.id}\`\n`;
 }
-fs.writeFileSync(path.join(dir, 'apply_report.md'), out);
+// A dry run never overwrites the report of the real apply.
+fs.writeFileSync(path.join(dir, args.apply ? 'apply_report.md' : 'apply_report_dry_run.md'), out);
 console.log(`apply_dialogue_pass${args.apply ? '' : ' (dry run)'}: ${good.length} ${args.apply ? 'applied' : 'would apply'}, ${skippedBlank.length} blank, ` +
 	`${conflicts.length} conflicts, ${failed.length} failed validation, ${held.length} held, ${locked.length} locked`);

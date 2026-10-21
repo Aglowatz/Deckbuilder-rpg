@@ -1,0 +1,3 @@
+id,new_text,note
+data/npcs/npcs.json::NPC-PUMP.barks::1,"Read the signs, student. Every answer is there. Consider it a slow circuit of the gym.","ChatGPT's line was 91 characters; trimmed ""very"" to fit the bubble (under 90)"
+data/npcs/npcs.json::V-GRISTLE.barks::1,"Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!","ChatGPT's line was 101 characters; dropped ""More shelves"" and merged the first two sentences, kept the growing-business pun (Gristle's per the ledger)"

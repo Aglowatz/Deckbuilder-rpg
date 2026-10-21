@@ -637,7 +637,7 @@
 		"sample_line": "Pop quiz! Kidding. Unless... no. Even brain-ceps need a rest day.",
 		"barks": [
 			"Pop quiz! Kidding. Unless... no. Even brain-ceps need a rest day.",
-			"Read the signs, student. Every answer is out there. Footnotes optional."
+			"Read the signs, student. Every answer is there. Consider it a slow circuit of the gym."
 		],
 		"game_function": "Asks 4 questions about the Beefcakes.",
 		"quest_links": [],
@@ -1060,7 +1060,7 @@
 		"sample_line": "Found, not stolen, dearie! The raccoon found it. I just held on tight. Heh!",
 		"barks": [
 			"Found, not stolen, dearie! The raccoon found it. I just held on tight. Heh!",
-			"My shed grew another room overnight. I've stopped arguing with it. Heh!"
+			"Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!"
 		],
 		"game_function": "Zone card vendor.",
 		"quest_links": [

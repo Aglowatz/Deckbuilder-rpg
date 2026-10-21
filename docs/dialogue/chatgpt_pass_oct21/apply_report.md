@@ -73,3 +73,24 @@ Not applied: the rewrite lost a story beat a GUT test checks.
 | `data/story/capital_story.tres::ending.beat.6::0` | drops the theme line "one way for everyone" (test_ending_postgame) | {villain} demanded one way for everyone. It was never what made the kingdom strong. | You look from {villain}'s broken model to the people in the plaza. They have begun talking to one another. |
 | `data/story/capital_story.tres::ending.beat.6::2` | drops "Different Paths, working together", the game's thesis (test_ending_postgame) | The point was never to be the same. The point was the argument. Different Paths, working together. | You listen as they argue over where to begin. Nobody orders the others to be quiet. |
 | `data/story/capital_story.tres::ending.beat.9::2` | drops Primm understanding "how much he broke" (test_finale_v2) | Slowly, he understands how much he broke. The wells were good. The schools were good. He made one choice for everyone, and nobody will trust him with another. | You watch him lower his eyes. Beyond the broken model, people pass the castle doors without waiting for his permission. |
+
+## Part 3: conflicts and merges
+
+**Conflicts: none.** All 3,315 rows' `current_text` still matched the game line at its id (checked for blank rows too), so nothing changed
+between ChatGPT's export and this pass. `conflicts.csv` is empty.
+
+The 11 rows that failed validation are the closest thing to conflicts; where ChatGPT's intent was obvious and its wording still worked, it
+was merged into a valid line (`merges.csv`, applied with `node tools/apply_dialogue_pass.js --merge=docs/dialogue/chatgpt_pass_oct21/merges.csv --apply`;
+the merged lines are in `applied_ledger.json` with `"merged": true`, so `--revert` covers them):
+
+| id | What was done |
+|---|---|
+| `data/npcs/npcs.json::NPC-PUMP.barks::1` | Merged: ChatGPT's line was 91 characters; dropped "very" -> "Read the signs, student. Every answer is there. Consider it a slow circuit of the gym." |
+| `data/npcs/npcs.json::V-GRISTLE.barks::1` | Merged: 101 characters; kept the "growing business" pun -> "Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!" |
+| `data/npcs/npcs.json::NPC-ECTOMUND.barks::1` | Left unchanged: the current "Ethically, I object." is punchier than any trim of ChatGPT's 92-character version. |
+| `data/npcs/npcs.json::NPC-DOPPEL.barks::1` | Left unchanged: the current "I am trying. The dishes are also trying." beats a trimmed rewrite. |
+| `capital_story.tres::prop.facade_arch::0`, `sign.facade_welcome::0`, `sign.facade_welcome.freed::0`, `sign.castle_main::0`, `sign.castle_main.freed::0` | Left unchanged: pure literal-to-token swaps on upper-case signs; the token would render in mixed case ("THE CASTLE OF His Perfection"). Nothing else to merge. |
+| `capital_story.tres::sign.facade_welcome::1` | Left unchanged: same sentence with the name moved to a sentence-initial `{showcase}` ("the Showcase Quarter: ..."); no real wording change. |
+| `capital_story.tres::ending.beat.2::2` | Left unchanged: the rewrite would print "Pathordia" instead of the painted sign "PATHORDIA" (a GUT test checks it) and is part of the flattened ending (review_flags.md 5-7). |
+
+Re-running the pass is safe: rows already applied count as skipped, and a dry run writes `apply_report_dry_run.md`, never this file.
