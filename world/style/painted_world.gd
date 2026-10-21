@@ -78,6 +78,7 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 		_swaps.append({"mesh": target, "surface": surface, "old": previous, "new": replacement})
 	for node: Variant in context.get("flat_hidden", []) as Array:
 		_flat_hidden.append(node as Node3D)
+	LoadTiming.mark("painted: swaps")
 	var entries: Array = preset.get("decals", []) as Array
 	if not entries.is_empty() and not OS.get_environment("PAINT_SKIP").contains("decals"):
 		var decal_context: Dictionary = context.duplicate()
@@ -85,7 +86,7 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 		decal_context["bounds"] = bounds
 		var quality: int = Settings.graphics_quality
 		var placements: Array[PaintedDecals.Placement] = PaintedDecals.place(entries, decal_context, int(preset.get("seed", 7)), quality)
-		LoadTiming.mark("painted: swaps + decal placement")
+		LoadTiming.mark("painted: decal placement")
 		decal_meshes = PaintedDecals.build(_scene, placements)
 		LoadTiming.mark("painted: decal meshes")
 	return true

@@ -30,6 +30,7 @@ static func begin(what: String) -> void:
 ## Notes the time since the previous mark under `label`. Overnight Oct 20: every step also goes to the game log (GameLog), so a
 ## tester's log shows the last step a load reached.
 static func mark(label: String) -> void:
+	KeepAlive.tick()
 	if _started_usec == 0:
 		begin("(no load)")
 	var now: int = Time.get_ticks_usec()

@@ -48,6 +48,7 @@ static func place(entries: Array, context: Dictionary, seed_value: int, quality:
 		var jitter: float = float(entry.get("tint_jitter", 0.08))
 		while made < count and tries < count * 20 + 20:
 			tries += 1
+			KeepAlive.tick()
 			var placement: Placement = Placement.new()
 			placement.id = str(entry["id"])
 			placement.radius = rng.randf_range(radius_min, radius_max)

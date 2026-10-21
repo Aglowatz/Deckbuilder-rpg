@@ -13,6 +13,7 @@ const M = preload("res://world/buffet/buffet_materials.gd")
 
 
 static func mesh_at(parent: Node3D, mesh: Mesh, material: Material, pos: Vector3, scl: Vector3 = Vector3.ONE, rot_deg: Vector3 = Vector3.ZERO) -> MeshInstance3D:
+	KeepAlive.tick()
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = mesh
 	instance.material_override = material

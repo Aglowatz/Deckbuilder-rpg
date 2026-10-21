@@ -60,3 +60,15 @@ the loop's fixes so the zip is built once).
 - New repro mode `CAVE_MODE=loadkeys`: 1.5 s after "Step outside" (still loading) F8 opens Report a Problem, Esc closes it, Esc again ->
   the pause menu opens at the fade-in, Esc closes it, then the normal arrival checks.
 - Result on the project: all 17 checks ok (load 9.1 s, worst frame 39 ms in the first 5 s, hero walks).
+
+## Cycle 7 - zone loads are one long frame: Windows calls the game "Not Responding"
+
+- Found: the Path zones (and the forest) still build in one frame behind the loading screen - Gainlands 4.4 s, Buffet 4 s, D.N.A. 3.2 s
+  here (the old "painted: swaps + decal placement" label hid that it was the whole zone `_ready`). On a slower laptop that passes the
+  5 s after which Windows greys the window out as "(Not Responding)" and offers to close it - what a tester calls a freeze.
+- Fixed (without restaging every zone, too big for tonight): `KeepAlive.tick()` - once the current frame has run over 0.5 s it pumps the
+  window's messages every 0.25 s with `DisplayServer.force_process_and_drop_events()` (~20 us; input during that frame is dropped, never
+  dispatched mid-build; ordinary frames never pump). Called from LoadTiming marks, ModelKit.place, BuffetProps.mesh_at, the ground splat
+  rows, decal placement tries; ZoneScene._ready got a mark per build step (also better tester logs).
+- Verified: a probe blocking one frame for 9 s, `Process.Responding` sampled each second: without pumps `-------R` (not responding through
+  the block), with pumps `RRRRRRRRR` (35 pumps). Playtest smoke OK (gameplay input untouched); test_gainlands/test_heap green.

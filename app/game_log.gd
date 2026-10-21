@@ -163,7 +163,7 @@ func modal_closed(what: String) -> void:
 
 ## SceneManager reports a revealed scene: after PLAYING_AFTER seconds of frames the boot stage says the game is playable.
 func scene_revealed(scene: String) -> void:
-	info("memory", "after %s: %s" % [scene, memory_text()])
+	info("memory", "after %s: %s; window kept answering %d times so far" % [scene, memory_text(), KeepAlive.pumps])
 	_playing_scene = scene
 	_playing_left = PLAYING_AFTER
 
@@ -205,6 +205,7 @@ func _write(line: String, important: bool) -> void:
 
 func _process(delta: float) -> void:
 	_tick_msec = Time.get_ticks_msec()
+	KeepAlive.frame_start_usec = Time.get_ticks_usec()
 	if not enabled:
 		return
 	_frames_since_beat += 1

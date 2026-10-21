@@ -108,6 +108,7 @@ static func animation_player(root: Node) -> AnimationPlayer:
 
 
 static func place(root: Node3D, node: Node3D, position: Vector3, yaw_degrees: float = 0.0, uniform_scale: float = 1.0) -> Node3D:
+	KeepAlive.tick()
 	root.add_child(node)
 	node.position = position
 	node.rotation_degrees.y = yaw_degrees

@@ -119,6 +119,7 @@ static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bou
 			by_channel[layer_index - 1] = callables[int(modes[layer_index].y)]
 			# The shader reads the splat channel of layer i as (i - 1).
 	for y: int in range(height):
+		KeepAlive.tick()
 		for x: int in range(width):
 			var p: Vector2 = bounds.position + Vector2((float(x) + 0.5) * step, (float(y) + 0.5) * step)
 			var color: Color = Color(0, 0, 0, 0)
