@@ -32,10 +32,10 @@ const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## The town NPCs that are painted sprites (docs/art/world_rollout.md, Part D): spot id -> sprite set. Everyone else is still a 3D model.
-const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN"}
+const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN", "hob": "HOB", "isla": "ISLA"}
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker", "rescuer",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker", "rescuer", "hob", "isla",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## The NPC ID (data/npcs, `NpcRegistry`) of each talkable town spot; spots without one (the secret dealer, the rift technician) show no portrait.
@@ -43,6 +43,7 @@ const NPC_IDS: Dictionary = {
 	"elder": "NPC-ELDER", "guard": "NPC-GATEKEEPER", "vendor": "V-SABLE", "item_vendor": "V-TONIC", "equipment_vendor": "V-BEETSWORTH",
 	"pack_vendor": "V-FENWICK", "tailor": "V-THREADWELL", "alchemist": "V-ALEMBIC", "arena": "NPC-BELLOWS",
 	"npc_beefcake": "NPC-BRONSON", "npc_gourmand": "NPC-GRAVOIS", "npc_refusemancer": "NPC-MULLIGAN", "npc_necrocrat": "NPC-PALLOR",
+	"hob": "NPC-HOB", "isla": "NPC-ISLA",
 }
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
@@ -484,6 +485,11 @@ func _build_actors() -> void:
 	if not (_npcs["elder"] is SpriteActor):
 		TortoiseKit.add_shell(_npcs["elder"] as Node3D)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
+	# Oct 21: Old Hob among the graves; Isla beside her father once she is home.
+	if town.anchors.has("graveyard_cairn"):
+		_add_npc("hob", "Rogue", _hob_spot(), 150.0)
+	if Session.flag(&"isla_home"):
+		_add_npc("isla", "Rogue", _isla_spot(), 200.0)
 	# Oct 21: the Rescuer waits at the cave mouth after each freed zone (StoryBeats.cave_mouth_scene), until she is taken at the castle gate.
 	if not StoryBeats.cave_mouth_scene(Session.flags, Session.completed_zone_count()).is_empty() and town.anchors.has("gate"):
 		_add_npc("rescuer", "Rogue_Hooded", _cave_mouth_spot(), 200.0, Color(0.62, 0.58, 0.7))
@@ -741,6 +747,10 @@ func _build_spots() -> void:
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
+	if _npcs.has("hob"):
+		_add_spot("hob", "Old Hob", _hob_spot(), 1.4)
+	if _npcs.has("isla"):
+		_add_spot("isla", "Isla Brannoch", _isla_spot(), 1.4)
 	if _npcs.has("rescuer"):
 		_add_spot("rescuer", RoyalFamily.fill("{rescuer}"), _cave_mouth_spot(), 1.5)
 	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, 1.4)
@@ -1213,6 +1223,12 @@ func _interact(spot: Spot) -> void:
 			_use_gate()
 		"rescuer":
 			_talk_rescuer()
+		"hob":
+			_face_npc("hob")
+			StoryScenePlayer.play(dialogue, OldHob.town_scene(Session.flags))
+		"isla":
+			_face_npc("isla")
+			StoryScenePlayer.play(dialogue, "isla_talk")
 		"elder":
 			_talk_elder()
 		"guard":
@@ -1267,6 +1283,23 @@ func _face_npc(id: String) -> void:
 		var offset: Vector3 = player.position - npc.position
 		npc.rotation.y = atan2(offset.x, offset.z)
 	player.face((npc.position if npc != null else player.position))
+
+
+## Oct 21: Old Hob, leaning on his shovel a few steps from the Restless Cairn.
+func _hob_spot() -> Vector3:
+	return (town.anchors["graveyard_cairn"] as Vector3) + Vector3(-2.4, 0.0, 1.6)
+
+
+## Oct 21: Isla stands at her father's open gate once she is home.
+func _isla_spot() -> Vector3:
+	return (town.anchors["npc_gate"] as Vector3) + Vector3(1.6, 0.0, 0.8)
+
+
+func _isla_arrives() -> void:
+	if _npcs.has("isla"):
+		return
+	_add_npc("isla", "Rogue", _isla_spot(), 200.0)
+	_add_spot("isla", "Isla Brannoch", _isla_spot(), 1.4)
 
 
 ## Oct 21: where the Rescuer waits, a little to the side of the cave mouth so the cave's own prompt stays reachable.
@@ -1597,6 +1630,8 @@ func _show_pending_results() -> void:
 	_show_old_well_result()
 	if _npcs.has("rescuer"):
 		hud.toast("Someone is waiting at the mouth of the Forgotten Cave.", UIStyle.GOLD)
+	elif Session.flag(&"primm_defeated") and StoryScenes.should_play("isla_homecoming", Session.flags):
+		hud.toast("Someone is walking down the Capital road toward Brannoch's gate.", UIStyle.GOLD)
 
 
 func _finish_cave_arrival() -> void:
@@ -1820,6 +1855,18 @@ func _guard_lines() -> Array[String]:
 func _talk_guard() -> void:
 	var speaker: String = QuestDefinitions.BRANNOCH
 	var story: StoryText = StoryText.shared()
+	# Oct 21: once the Capital is free, his daughter walks home through the open gate (once); afterwards he talks about her.
+	if Session.flag(&"primm_defeated") and StoryScenes.should_play("isla_homecoming", Session.flags):
+		_face_npc("guard")
+		_locked = true
+		StoryScenePlayer.play(dialogue, "isla_homecoming", func() -> void:
+			_locked = false
+			_isla_arrives())
+		return
+	if Session.flag(&"isla_home") and Session.quests_offered_by(speaker).is_empty() and not Session.quest_log.is_active(QuestDefinitions.FREE_ZONES):
+		_face_npc("guard")
+		StoryScenePlayer.play(dialogue, "brannoch_isla")
+		return
 	if not Session.quests_offered_by(speaker).is_empty():
 		var offer: QuestData = Session.quests_offered_by(speaker)[0]
 		_talk_npc("guard", speaker, story.get_lines("town.guard.capital_offer"))

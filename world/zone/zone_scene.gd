@@ -186,6 +186,45 @@ func _build_completion_state() -> void:
 	_add_spot("ruler_statue", "Statue", plinth, 1.8, "Read the plaque", false, "plaque", {"hidden": true, "key": "ruler.statue.freed" if freed else "ruler.statue"})
 	if freed:
 		_build_freed_npcs(hub)
+	_build_hob()
+
+
+# ---- Old Hob, just measuring (Oct 21) ---------------------------------------------------------------------------------------------
+
+## Old Hob (secretly Death) turns up near every zone's hub with his shovel and his appointment book (OldHob.cameo_scene).
+func _build_hob() -> void:
+	if OldHob.cameo_scene(def.id, Session.flags).is_empty() or not SpriteLibrary.has_character(OldHob.SPRITE):
+		return
+	var pos: Vector3 = _hob_position()
+	if pos == Vector3.INF:
+		return
+	pos.y = builder.height_at(pos)
+	var entry: Dictionary = {"id": "hob", "npc_id": OldHob.NPC_ID, "model": "Rogue", "anchor": "", "yaw": 200.0, "tint": Color.WHITE}
+	_npcs["hob"] = _make_npc(entry, pos, "Idle")
+	builder.add_blocker(pos, 0.4)
+	_add_spot("hob", "Old Hob", pos, 1.7, "Talk", true, "hob", {"npc": "hob", "npc_id": OldHob.NPC_ID, "speaker": "Old Hob"})
+
+
+## Where Hob stands: the first open ground a few steps off the hub (Vector3.INF when there is none). The Capital puts him in Grave Row.
+func _hob_position() -> Vector3:
+	var hub: Vector3 = builder.anchor(def.hub_anchor)
+	for offset: Vector3 in [Vector3(4.5, 0, 3.5), Vector3(-4.5, 0, 3.5), Vector3(4.5, 0, -3.5), Vector3(-4.5, 0, -3.5), Vector3(6.0, 0, 0), Vector3(-6.0, 0, 0), Vector3(0, 0, 6.0)]:
+		var at: Vector3 = hub + offset
+		if builder.is_walkable(at, 0.6) and _clear_of_spots(at, 2.2):
+			return at
+	return Vector3.INF
+
+
+func _clear_of_spots(at: Vector3, distance: float) -> bool:
+	for spot: ZoneSpot in spots:
+		if Vector2(spot.position.x - at.x, spot.position.z - at.z).length() < distance:
+			return false
+	return true
+
+
+func _talk_hob() -> void:
+	_face_npc("hob")
+	StoryScenePlayer.play(dialogue, OldHob.cameo_scene(def.id, Session.flags))
 
 
 func _build_freed_npcs(hub: Vector3) -> void:
@@ -978,6 +1017,8 @@ func _interact(spot: ZoneSpot) -> void:
 		"plaque", "sign":
 			Audio.sfx_at(&"sign_read", spot.position)
 			_say("", story.get_lines(str(spot.data["key"])))
+		"hob":
+			_talk_hob()
 		"vault_lever":
 			_pull_vault_lever()
 		"giant_chest":
@@ -1388,7 +1429,8 @@ func _wake_at_hub(cause: String) -> void:
 
 func _show_wake_dialogue(fee_override: int) -> void:
 	var fee: int = _last_fee if fee_override == 0 else fee_override
-	dialogue.start(def.wake_speaker, story.get_lines("fx.wake"))
+	# Oct 21: Old Hob sends you back first ("Not on my list. Off you pop."); the fee is his handling fee.
+	StoryScenePlayer.play(dialogue, OldHob.WAKE_SCENE, func() -> void: dialogue.start(def.wake_speaker, story.get_lines("fx.wake")))
 	hud.toast("%s: -%d gold (logged)." % [def.fee_label, fee], Color("ffcf70"))
 
 

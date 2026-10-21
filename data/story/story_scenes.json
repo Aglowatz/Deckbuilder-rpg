@@ -751,6 +751,319 @@
 					"And when it's over, I'll tell you everything. My name first. I promise."
 				]
 			]
+		},
+		"hob_town_first": {
+			"once_flag": "hob_met",
+			"steps": [
+				[
+					"",
+					"A gravedigger in a battered top hat leans on his shovel among the headstones, consulting a little black book."
+				],
+				[
+					"NPC-HOB",
+					"Evening! Old Hob. I dig. Not much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				],
+				[
+					"NPC-HOB",
+					"Mind the cairn at the end of the row. Something under it is still counting its turns. Rude to keep it waiting. Heh."
+				]
+			]
+		},
+		"hob_town": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Still digging. Slowly. Two particular graves, these ten years. I like to take my time with the important ones. Heh."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				]
+			]
+		},
+		"hob_town_freed": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"The intake's open again, did you hear? Busy week! Gerald's number came up. Lovely chap. Brought his own mug."
+				],
+				[
+					"NPC-HOB",
+					"Agnes stayed, of course. Somebody has to fix the forms. I've put her down for later. Much later. Heh."
+				]
+			]
+		},
+		"hob_town_funeral": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Ah. You did it, then. The castle.",
+					"Then I've two graves to finish properly, up in the city. Grave Row. Come by when you're ready. No rush. There never is, with me."
+				]
+			]
+		},
+		"hob_town_after_funeral": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Back again! Walked them all the way home, I did. Lovely evening for it."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				]
+			]
+		},
+		"hob_wake": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Hm? You? Not on my list. Off you pop. Heh.",
+					"Small handling fee, mind. The shovel doesn't polish itself."
+				]
+			]
+		},
+		"hob_beefcake": {
+			"steps": [
+				[
+					"",
+					"An old gravedigger is pacing out a hole beside the weight racks, counting under his breath."
+				],
+				[
+					"NPC-HOB",
+					"Just measuring. Lovely broad shoulders round here. Very roomy work. Heh."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				]
+			]
+		},
+		"hob_necrocrat": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Can't collect a soul in this building, dear. The paperwork won't let me past the lobby. I've been waiting since the transfer.",
+					"I took a number. Heh. It's a big one."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				]
+			]
+		},
+		"hob_necrocrat_freed": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Intake's moving again! Agnes waved me straight through. First time in ten years nobody asked me for Form 27-B. Heh."
+				]
+			]
+		},
+		"hob_gourmand": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Just measuring. Mind you, the Chef's soups add years to people. Bad for business. Good for everybody else. Heh."
+				],
+				[
+					"NPC-PLAYER",
+					"What are you writing?"
+				],
+				[
+					"NPC-HOB",
+					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+				]
+			]
+		},
+		"hob_refusemancer": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Nothing has died in this valley in ten years. Not a beetle. Not a leaf. Unnatural, that.",
+					"I've taken up knitting. Heh."
+				]
+			]
+		},
+		"hob_refusemancer_freed": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Hear that? Things rotting properly again. Lovely sound. Means something's about to grow. Heh."
+				]
+			]
+		},
+		"hob_final": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Just measuring. Lot of very tidy people in this city. Tidy is easy to measure."
+				],
+				[
+					"NPC-PLAYER",
+					"And the man in the castle?"
+				],
+				[
+					"NPC-HOB",
+					"Him? Hm.",
+					"Pencilled in. Heh."
+				]
+			]
+		},
+		"hob_final_plume": {
+			"steps": [
+				[
+					"NPC-HOB",
+					"Just measuring. Ran into a peacock earlier, all trumpet and ribbons.",
+					"Oh, I've got HIM in pen. Heh. Not soon, mind. I just wanted it to last."
+				]
+			]
+		},
+		"isla_homecoming": {
+			"once_flag": "isla_home",
+			"steps": [
+				[
+					"",
+					"Someone is walking down the imperial road in faded pastel regulation clothes, a bedroll over one shoulder. Brannoch has stopped writing in his notebook."
+				],
+				[
+					"NPC-ISLA",
+					"Hi, Dad. I know. I should have written."
+				],
+				[
+					"NPC-GATEKEEPER",
+					"Hm."
+				],
+				[
+					"NPC-GATEKEEPER",
+					"Eight years. Gate stayed open. Every night. In case."
+				],
+				[
+					"NPC-ISLA",
+					"They had us painting the same front door for eight years. Every time I asked to leave, the form came back \"pending\"."
+				],
+				[
+					"NPC-GATEKEEPER",
+					"...You've got your mother's curls. Still can't keep a ribbon in them."
+				],
+				[
+					"NPC-ISLA",
+					"And your nose. Mum always said that was the unlucky part."
+				],
+				[
+					"NPC-GATEKEEPER",
+					"Wrote you in the book. Every day. \"Isla. Not yet.\"",
+					"Today it says \"home\"."
+				],
+				[
+					"NPC-ISLA",
+					"You're the one who knocked the castle over? Dad says hi. Dad says a lot, actually. Thank you."
+				]
+			]
+		},
+		"isla_talk": {
+			"steps": [
+				[
+					"NPC-ISLA",
+					"I keep walking to the gate and back. Nobody stops me. I keep expecting somebody to stop me.",
+					"Dad oiled the hinges this morning. It doesn't even lock. He just likes the sound of it opening now."
+				]
+			]
+		},
+		"royal_funeral": {
+			"once_flag": "royal_funeral_seen",
+			"steps": [
+				[
+					"",
+					"Grave Row, at dusk. At the end of the identical rows stand two new headstones, and they are not identical. Someone has carved them by hand: a crown, a harp, four colours in a ring."
+				],
+				[
+					"",
+					"Half the city has come. Nobody was told to. Wren holds the true record. Maren holds a pie she has forgotten about."
+				],
+				[
+					"NPC-HOB",
+					"Ten years I've been digging these two. Slowly. I didn't want to finish before they could be visited properly."
+				],
+				[
+					"NPC-AGNES",
+					"Two forms, filed ten years ago, stamped by me. And a third, for a little boy, that I never had the heart to file.",
+					"I'm tearing that one up now, dear. With great pleasure."
+				],
+				[
+					"NPC-ELDER",
+					"He used to say the Paths argued like family. She used to say that was the point."
+				],
+				[
+					"",
+					"A warm wind comes up the row, out of season. Two figures stand by the headstones, the way people stand in a doorway when they are leaving and not sorry to."
+				],
+				[
+					"NPC-KING",
+					"Look at you. You came home."
+				],
+				[
+					"NPC-QUEEN",
+					"Carry them gently, love. All four of them."
+				],
+				[
+					"",
+					"She hums the first bars of the lullaby, and does not need to finish it. You know the rest."
+				],
+				[
+					"NPC-HOB",
+					"Right then, Your Majesties. Mind the step. It's a long one, but it's downhill all the way."
+				],
+				[
+					"NPC-HOB",
+					"And you, Agnes. I've had you down for this a very long time."
+				],
+				[
+					"NPC-AGNES",
+					"One more week, Hob. Prudence needs a proper handover, and somebody has to explain the new handbook to Mortimer."
+				],
+				[
+					"NPC-HOB",
+					"Hm. Pencilled in. Heh."
+				],
+				[
+					"",
+					"When you look again there are two headstones, a top hat bobbing away down the row, and a great deal of warm wind."
+				]
+			]
+		},
+		"brannoch_isla": {
+			"steps": [
+				[
+					"NPC-GATEKEEPER",
+					"Hm. She's home.",
+					"Notebook's full of her name. Started a new one. First page says yours. Spelled right, this time."
+				]
+			]
 		}
 	}
 }

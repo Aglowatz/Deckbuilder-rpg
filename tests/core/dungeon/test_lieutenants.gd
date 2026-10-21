@@ -156,7 +156,7 @@ func test_the_capital_anchors_stand_on_open_ground() -> void:
 	builder.layout = layout
 	builder._index_obstacles()
 	builder.gate_open = true
-	for anchor: String in [Lieutenants.YARDS_SPOT, "clipwell_patch", PasteWorks.SPOT_ID]:
+	for anchor: String in [Lieutenants.YARDS_SPOT, "clipwell_patch", PasteWorks.SPOT_ID, "royal_graves"]:
 		assert_true(layout.anchors.has(anchor), anchor)
 		var at: Vector3 = layout.anchors[anchor] as Vector3
 		assert_true(builder.is_walkable(Vector3(at.x, 0.0, at.z), 0.3), "%s stands on open ground" % anchor)

@@ -509,6 +509,7 @@ func _anchors() -> void:
 	_anchor("permit_window", 8.0, 24.5)
 	_anchor("stamp", 7.0, 13.0)
 	_anchor("pell_plot", 26.5, 6.0)
+	_anchor("royal_graves", 20.0, 6.5)  # Oct 21: Old Hob, digging the king's and queen's graves (the royal funeral)
 	_anchor("net_grave", 32.5, 30.5)
 	# The Transit Yards (Beefcakes), south-east: the energy wheels in a row along the wall, the tram shed, the cable.
 	_anchor("rollo", 106.0, 62.0)

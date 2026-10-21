@@ -161,6 +161,7 @@ func _build_completion_state() -> void:
 		var hub: Vector3 = builder.anchor("crease_spawn")
 		_build_freed_npcs(hub)
 	_build_lieutenants()
+	_build_hob()
 	# Sound pass: the first time the hero is back with the gate won, the great gate winds open with a hollow boom (once per save; a cosmetic flag nothing else reads).
 	if Session.flag(CapitalZone.FLAG_GATE_OPEN) and not Session.flag(&"sfx_gate_heard"):
 		Session.set_flag(&"sfx_gate_heard")
@@ -525,6 +526,20 @@ func _interact_zone(spot: ZoneSpot) -> void:
 			_ask_paste_works()
 
 
+## Old Hob stands in Grave Row (Oct 21): his cameo, or the royal funeral once Primm has fallen.
+func _hob_position() -> Vector3:
+	return builder.anchor("royal_graves")
+
+
+func _talk_hob() -> void:
+	_face_npc("hob")
+	if OldHob.funeral_waiting(Session.flags):
+		_locked = true
+		StoryScenePlayer.play(dialogue, "royal_funeral", func() -> void: _locked = false)
+		return
+	super()
+
+
 # ---- Primm's lieutenants in the Capital (Oct 21) ------------------------------------------------------------------------------
 
 ## Vivienne Quota by the energy wheels (she fled the Gainlands; Rollo's quest done; until beaten there), Hortensia Clipwell measuring Old Fern's
@@ -783,6 +798,8 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 func _apply_pending_result() -> void:
 	_add_service_panel()
 	_update_objective()
+	if OldHob.funeral_waiting(Session.flags):
+		hud.toast("At the end of Grave Row, the city is gathering at dusk.", UIStyle.GOLD)
 	var result: Dictionary = Session.pending_zone_result
 	if str(result.get("kind", "")) == "ending_return":
 		# Back from the ending: the Capital has changed (facade down, rifts sealed, citizens free). Stand at the castle approach.
@@ -826,7 +843,8 @@ func _update_objective() -> void:
 
 func _show_wake_dialogue(fee_override: int) -> void:
 	var fee: int = _last_fee if fee_override == 0 else fee_override
-	dialogue.start(def.wake_speaker if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "Gate Guard", story.get_lines("fx.wake" if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "fx.wake_outside"))
+	var wake_speaker: String = def.wake_speaker if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "Gate Guard"
+	StoryScenePlayer.play(dialogue, OldHob.WAKE_SCENE, func() -> void: dialogue.start(wake_speaker, story.get_lines("fx.wake" if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "fx.wake_outside")))
 	hud.toast("%s: -%d gold (logged)." % [def.fee_label, fee], Color("ffcf70"))
 
 

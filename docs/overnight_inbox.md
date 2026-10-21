@@ -53,6 +53,15 @@ Part 2 (Elowen):
     is waiting. They stop after the capture.
 15. **If Elowen was not rescued** she confronts her father after the fight (she picks the lock of Cell 4 herself) and is free either way.
 
+Part 3 (canon beats):
+16. **The royal funeral is postgame**, in Grave Row through Old Hob (after Primm falls; old saves get it too). **Agnes does not pass on
+    yet**: she asks Hob for one more week to hand over to Prudence ("Pencilled in."), so the D.N.A. keeps its head in the postgame. Say if
+    she should go at the funeral.
+17. **Old Hob's cameos** stand a few steps off each zone's hub (the first open ground) and in Grave Row; the 0-life line plays before each
+    zone's own wake-up lines and the fee keeps its zone name ("Correction fee"...). The town roamers' losses (no wake-up) have no Hob line.
+18. **Isla** comes home on your next talk with Brannoch after Primm falls (she takes after her mother's side: "You've got your mother's
+    curls"), then stands at the gate.
+
 ## Overnight Oct 19-20 - yours to decide (the safest choice was taken)
 
 Story bible (Part 4): `docs/design/story_bible.md` is now the one story reference and `docs/design/canon.md` the quick reference; every

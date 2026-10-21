@@ -149,8 +149,13 @@ flaws turned into policy, engineered by one of his lieutenants and fronted by a 
 for ten years. When the prince escaped, the hold started to slip: that is why the zones can be freed now, why rifts tear open in the
 Capital, and why his "Reflection" phase can only copy. His power was never his.
 
-**Death froze too** [canon, not built]. When Primm's paperwork seized the D.N.A., the afterlife's intake froze and Death could not collect
+**Death froze too** [built Oct 21]. When Primm's paperwork seized the D.N.A., the afterlife's intake froze and Death could not collect
 anyone. Death (Old Hob) took a job digging graves in Crosspath and waited. That is why Agnes cannot pass on and Gerald's queue never moves.
+In game (`OldHob`, scenes `hob_*`): Hob stands by the Restless Cairn in Crosspath (his first talk points at it: "Something under it is
+still counting its turns"); he turns up a few steps off every zone's hub and in the Capital's Grave Row, "just measuring", with a
+freed-zone variant in the D.N.A. ("Intake's moving again!") and the Dump ("Things rotting properly again"); asked about Primm: "Pencilled
+in."; once Plume is beaten: "Oh, I've got HIM in pen."; his appointment book on the Wanderer: "Hm. Not for a good long while." At 0 life
+in a zone he speaks first ("Not on my list. Off you pop. ... Small handling fee, mind."), then the zone's own wake-up lines.
 
 ### Ten years later (the game's present)
 
@@ -640,18 +645,20 @@ reading this poster." Defaceable for a little gold, like every portrait.
 **The four Path quests** (each a serious beat, funny on the surface; each pays gold, XP, a card, an item and a story insight into Primm,
 flag `capital_insight_<path>`, which Wren writes into the true record):
 
-| Path | Quest (id) | Giver | The weight under the joke | Insight | Lieutenant finale [canon, not built] |
+| Path | Quest (id) | Giver | The weight under the joke | Insight | Lieutenant finale [built Oct 21] |
 |---|---|---|---|---|---|
 | Necrocrat | Form 27-B/6: A Burial Permit (`cap_burial`) | Widow Pell | Her husband has sat dead in his parlour chair for three years; the permit loops. Find the Stamp of Final Approval, lay Mr. Pell to rest. | He scheduled grief for Thursdays | (Plume is fought in the castle instead) |
 | Beefcake | The Wheel Never Stops (`cap_wheels`) | Rollo Spokes | Crews run endless wheels to light the facade ("we were told it was cardio"). Free the crews, cut the power cable. | He made lateness illegal | Vivienne Quota, Transit Yards |
 | Gourmand | The Recipe Box (`cap_recipes`) | Chef Marlo | Everyone eats Primm's Perfect Nutrient Paste. Find the hidden recipe cards, spoil the dispenser. | He cannot taste food; he never could | Colonel Crumb, the Paste Works (S-PASTE) |
-| Refusemancer | Untidy (`cap_untidy`) | Old Fern | Composting is outlawed as "untidy". Rescue the banished heaps, plant the old seed in the Sick Patch. | He fears anything that grows without asking him | Hortensia Clipwell, the regulation lawn |
+| Refusemancer | Untidy (`cap_untidy`) | Old Fern | Composting is outlawed as "untidy". Rescue the banished heaps, plant the old seed in the Sick Patch. | He fears anything that grows without asking him | Hortensia Clipwell, a scene at the Sick Patch (fought in the Rotheart) |
 
 Wren on the insights: "He is not a monster. He is a man who made a list of everything he could not control, and made it illegal."
 
-**Isla** [canon, not built]: Brannoch's daughter went up the Capital road eight years ago and never wrote; she was stuck on the Showcase
-Quarter's facade crews. When the Capital is freed she walks home through her father's unlocked gate. "Hi, Dad. I know. I should have
-written." Played straight.
+**Isla** [built Oct 21]: Brannoch's daughter (a bear, like her father; she has her mother's curls) went up the Capital road eight years
+ago and never wrote; she was stuck on the Showcase Quarter's facade crews. Once Primm has fallen, the next talk with Brannoch plays
+`isla_homecoming` (a toast on arriving in town says someone is walking down the Capital road): "Hi, Dad. I know. I should have written."
+... "Wrote you in the book. Every day. 'Isla. Not yet.' Today it says 'home'." She then stands at the gate (`isla_talk`, two barks) and
+Brannoch talks about her (`brannoch_isla`). Old saves past Primm get it on their next talk with him.
 
 ## 15. Primm's Castle and the final fight
 
@@ -721,8 +728,12 @@ Ten beats in this order (`EndingDefs.BEATS`):
 Then **The Paths Unbound**: decks may use 3+ Paths, tri-Path crafting opens, Pathordia is open to everyone, Primm works under guard on wells
 and pipes. The reunion still ends on "a hooded traveler... with leaves still in their hair. There is always another path."
 
-**The royal funeral** [canon, not built]: Old Hob has been digging the king and queen's graves for ten years; at the royal funeral he walks
-them, and Agnes, home. (When it happens, ending or postgame, is open.)
+**The royal funeral** [built Oct 21, postgame]: Old Hob has been digging the king and queen's graves for ten years. After Primm falls, Hob
+in Crosspath says he has two graves to finish in Grave Row; in the Capital a toast says the city is gathering at dusk, and talking to
+Hob at the end of Grave Row plays `royal_funeral`: two hand-carved headstones, Agnes tearing up the prince's unfiled form, Maren ("He
+used to say the Paths argued like family. She used to say that was the point."), the King ("Look at you. You came home.") and the Queen
+("Carry them gently, love. All four of them.") in the warm wind, and Hob walking them home. Agnes asks for one more week to hand over
+to Prudence; Hob: "Pencilled in." (So Agnes still runs the D.N.A. in the postgame.)
 
 ## 17. Side dungeons and secrets
 
@@ -820,8 +831,8 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | NPC-PLAYER | The Wanderer (Prince Tessar Wayweaver) | Player | Human | Curious, resilient, quietly funny; short wry monologue, earnest when it counts | Section 5 |
 | NPC-ELOWEN | Elowen Vey ("The Rescuer") | The rescuer; childhood friend, love interest | Human | Quick, wry, guarded; hides her hope | Siphon's daughter; clashes with Maren; section 18 |
 | NPC-ELDER | Elder Maren | Town elder, resistance contact, founder of Path-ology | Tortoise (female, she/her) | Grumbly, slow, cryptic; calls everyone "dearie" (not always a compliment); bakes too many pies; a grumpus to the young with a kind heart | Distrusts Elowen and Siphon (her protege); refuses to believe the prince is the prince ("That's no prince. That's a damp young man."); warms memory by memory; at the fourth admits she knew; gives the Door Under the Well |
-| NPC-GATEKEEPER | Gatekeeper Brannoch | Guard; gives Free the Four Zones | Bear | Gruff, enormous, secretly soft; short grunts, then a tender sentence; keeps a notebook of every traveller's name | His gate has no lock; daughter Isla; reunion when the Capital is freed [canon, not built] |
-| NPC-ISLA | Isla Brannoch | Brannoch's daughter | Bear (Oct 21 decision; she takes after her mother's side) | Tired, warm, a little embarrassed ("Dad says hi. Dad says a lot, actually.") | Stuck on the facade crews eight years; walks home [canon, not built] |
+| NPC-GATEKEEPER | Gatekeeper Brannoch | Guard; gives Free the Four Zones | Bear | Gruff, enormous, secretly soft; short grunts, then a tender sentence; keeps a notebook of every traveller's name | His gate has no lock; daughter Isla; reunion when the Capital is freed [built Oct 21] |
+| NPC-ISLA | Isla Brannoch | Brannoch's daughter | Bear (Oct 21 decision; she takes after her mother's side) | Tired, warm, a little embarrassed ("Dad says hi. Dad says a lot, actually.") | Stuck on the facade crews eight years; walks home [built Oct 21] |
 | V-SABLE | Sable | Card vendor (singles, General Packs) | Fox | Sly, glamorous, theatrical; "darling"; never reveals her sources; loves misprints | First vendor ("You start with plain neutral cards") |
 | V-TONIC | Tilly Tonic | Item vendor | Frog (skin changes colour like her potions) | Overenthusiastic apothecary who tests everything on herself; fast, bubbly, exclamation points | - |
 | V-BEETSWORTH | Bertram Beetsworth, Assistant to the Regional Merchant | Equipment vendor; armory quest at level 5 | Human | Intense, rule-obsessed beet farmer; Security Protocols; clipped facts about beets and bears; must stay an original character | Will one day supervise Percival Plume |
@@ -829,7 +840,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | V-FENWICK | Foil Fenwick | Path Pack vendor | Magpie | Twitchy pack-sniffing enthusiast; breathless, whispers "foil" | Stocks a Path's pack when its dungeon falls |
 | V-ALEMBIC | Auntie Alembic | The Alchemist (crafting) | Otherworldly being (four arms, four-coloured skin) | Calm, eccentric, talks to her flasks; soft, mystical, unexpectedly blunt | Believes the kingdom was healthiest mixed; opens after two zones |
 | NPC-BELLOWS | Announcer Grand Bellows | Arena master (the Undercroft) | Walrus (the moustache is real); he/him | Booming showman who narrates everything, including his own lunch; LOUD | Fights as "The Marshal" in Gold Sand |
-| NPC-HOB | Old Hob the Gravedigger (secretly Death) | Gravedigger | Ghoul | Creaky, polite, cheerful about death; ends on a chuckle; checks his appointment book ("Hm. Not for a good long while."; Primm: "Penciled in."; Plume: "Oh, I've got you in pen.") | Canon: starts the Restless Cairn; appears at 0 life ("Not on my list. Off you pop."; lost gold is his handling fee); a cameo in every zone, "just measuring"; the royal funeral [mostly canon, not built] |
+| NPC-HOB | Old Hob the Gravedigger (secretly Death) [built Oct 21] | Gravedigger | Ghoul | Creaky, polite, cheerful about death; ends on a chuckle; checks his appointment book ("Hm. Not for a good long while."; Primm: "Penciled in."; Plume: "Oh, I've got you in pen.") | Canon: starts the Restless Cairn; appears at 0 life ("Not on my list. Off you pop."; lost gold is his handling fee); a cameo in every zone, "just measuring"; the royal funeral [built Oct 21] |
 | NPC-BRONSON | Brick Bronson | Beefcake gatekeeper | Human | Corrupted: barked slogans; freed: sweet, sheepish, loves stretching | Corrupted by Quota |
 | NPC-PALLOR | Prudence Pallor | Necrocrat gatekeeper; later deputy head of the D.N.A. | Skeleton | Corrupted: monotone policy; freed: dry humour | Corrupted by Plume; Agnes's deputy |
 | NPC-GRAVOIS | Chef Fennel Gravois | Gourmand gatekeeper | Human (changed from ogre) | Corrupted: manic, pushy; freed: dramatic, warm, emotional | Corrupted by Crumb |
@@ -958,7 +969,8 @@ twist before it happens (Flex's imprisonment, the Doppelganger, Compostella, the
    rifts; Quota's rematch in the Transit Yards, Clipwell at the Sick Patch, the Paste Works through Chef Marlo. [built Oct 21]
 10. **Primm's Castle** (D-PC): Elowen taken by Plume at the gate; the wings (Plume in the Necrocrat wing), the Private Gallery, the records, the Archive; the reveal if
     needed; the three-phase duel with the leaders' boons. Flag `primm_defeated`.
-11. **The ending** (ten beats), **The Paths Unbound** (`postgame_unlocked`). [Canon, not built: the royal funeral; Isla comes home.]
+11. **The ending** (ten beats), **The Paths Unbound** (`postgame_unlocked`); then Isla comes home (Brannoch's gate) and the royal funeral
+    (Grave Row, through Old Hob). [built Oct 21]
 12. **Postgame**: Rip's forest tip, the Path-ology Lab (D-LAB), Elowen in Cell 4 (`rescuer_freed`), Dr. Siphon (`lab_cleared`); Mount
     Swolympus; the changed Pathordia.
 
@@ -994,12 +1006,12 @@ Seals (`four_seals`), the Undercroft tiers, and the Old Well secret quest, The W
 - Fig Sly: everything is off the books, even the bags.
 - Primm's precision: seventeen people polishing the floor; "two is the perfect number"; regulation hats; approved height.
 - Shiro Swindle: the oldest trick in the book, SMOKE BOMB!!!
-- Old Hob's appointment book ("Penciled in." / "in pen.") [canon, not built].
+- Old Hob's appointment book ("Not for a good long while." / "Pencilled in." / "in pen.") [built Oct 21].
 
 ## 22. Open questions
 
 Still open (do not decide in text; check with the user):
-- **When Agnes passes on**: the sheet puts it at the royal funeral; whether that is in the ending or the postgame is open.
+- **When Agnes passes on**: the funeral is postgame now and she asks Hob for one more week (inbox); the actual passing is still open.
 - **Leader cards**: N-33 is still "Mortimer Grimsby, CE-No" (now the boss, not the freed leader) and G-33 is still "Grand Chef Escoffina"
   (she gave the name away). The card list is frozen; do not rename cards.
 - **The Pathwork Throne vs the Patchwork Throne**: the kingdom became Patchwork; the throne kept the sheet's "Pathwork Throne" (archived inbox
@@ -1007,7 +1019,6 @@ Still open (do not decide in text; check with the user):
 - **Dr. Siphon's name** is marked "Placeholder name" in the sheet.
 - **The Path-ology Lab's final layout, rules and unique card** (the sheet says "to be designed"; placeholder built).
 - **The Wellspring** (section 4): everything beyond what is listed as canon there.
-- **Old Hob in game**: his 0-life wake, cameos and the royal funeral are sheet canon; the game wakes the player at the hub with a fee.
 
 ## 23. Contradictions resolved (Oct 19)
 
@@ -1034,7 +1045,7 @@ Each line: the conflict, then the winner and the source that decided it. Items m
 10. **The Necrocrat transfer's author**: Primm writes "I needed only to be correct" in the castle wing (game) vs Plume drafted and filed it
     (sheet). **Both**: Primm ordered it, Plume drafted and filed it. No text change.
 11. **The rulers vs the lieutenants**: v2 and the game show only the four rulers; the sheet adds a mastermind behind each. **Sheet** (additive);
-    the lieutenants are canon, not built.
+    the lieutenants are built (Oct 21).
 12. **Why Agnes and Gerald wait**: Agnes dead since 1987 and Gerald queued for centuries (game, sheet) vs the afterlife's intake freezing ten
     years ago (sheet, Old Hob). **Both**: the queue was always slow; the freeze stopped it entirely.
 13. **When Agnes passes on**: open in v2 vs at the royal funeral, walked home by Hob (sheet). **Sheet**; the timing stays open.

@@ -2270,10 +2270,10 @@
 		"description": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word.",
 		"personality": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word. When the Capital is freed she walks home through her father's unlocked gate.",
 		"speech_style": "Tired, warm, a little embarrassed.",
-		"sample_line": "Dad says hi. We have so much to tell each other. Sometimes we just sit together.",
+		"sample_line": "Dad says hi. Dad says a lot, actually.",
 		"barks": [
-			"Dad says hi. We have so much to tell each other. Sometimes we just sit together.",
-			"Eight years up that road. I knew every turn on the way home. Dad was still at the gate."
+			"Dad says hi. Dad says a lot, actually.",
+			"Eight years of one front door. Ours gets a new colour every week now."
 		],
 		"game_function": "Emotional reunion with Gatekeeper Brannoch after the Capital is freed.",
 		"quest_links": [],
