@@ -120,6 +120,10 @@ func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--scene=") or arg.begins_with("--no-save"):
 			_window_locked = true
+	GraphicsQuality.heavy_passes_allowed = not GpuInfo.is_intel_integrated(RenderingServer.get_video_adapter_name(),
+		RenderingServer.get_video_adapter_vendor(), RenderingServer.get_video_adapter_type())
+	if not GraphicsQuality.heavy_passes_allowed:
+		GameLog.info("settings", "Intel integrated GPU: volumetric fog, SSAO and MSAA stay off even on High")
 	load_settings()
 	_apply_boot_guard()
 	apply()

@@ -21,7 +21,8 @@ node tools/build_audit.js --md docs/build_size.md --quiet
 
 rm -rf "$out"
 mkdir -p "$out"
-"$GODOT" --headless --path . --export-release "Windows Desktop" "$out/TheWaywardPath.exe" 2>&1 | grep -E "ERROR|error|Error|WARNING: .*export|savepack|Packing" | head -20
+# Overnight Oct 20: not headless - the shader baker (export preset shader_baker/enabled) needs a rendering device to bake.
+"$GODOT" --path . --export-release "Windows Desktop" "$out/TheWaywardPath.exe" 2>&1 | grep -E "ERROR|error|Error|WARNING: .*export|savepack|Packing" | head -20
 if [ ! -f "$out/TheWaywardPath.exe" ]; then echo "EXPORT FAILED: no exe in $out"; exit 1; fi
 
 pck_mb=$(du -m "$out"/*.pck 2>/dev/null | awk '{s+=$1} END {print s+0}')

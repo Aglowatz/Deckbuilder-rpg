@@ -63,6 +63,24 @@ func test_old_settings_with_high_on_an_igpu_drop_to_medium_once() -> void:
 	assert_eq(Settings.migrated_quality(GraphicsQuality.Level.LOW, 1, GpuInfo.Kind.INTEGRATED), GraphicsQuality.Level.LOW, "a lower choice is kept")
 
 
+func test_intel_igpus_keep_the_heavy_high_passes_off() -> void:
+	var discrete: int = RenderingDevice.DEVICE_TYPE_DISCRETE_GPU
+	assert_true(GpuInfo.is_intel_integrated("Intel(R) Iris(R) Xe Graphics", "Intel", discrete))
+	assert_false(GpuInfo.is_intel_integrated("Intel(R) Arc(TM) A770 Graphics", "Intel", discrete), "a discrete Arc card")
+	assert_false(GpuInfo.is_intel_integrated("AMD Radeon(TM) Graphics", "AMD", discrete))
+	var before: bool = GraphicsQuality.heavy_passes_allowed
+	GraphicsQuality.heavy_passes_allowed = false
+	var high: int = GraphicsQuality.Level.HIGH
+	assert_false(GraphicsQuality.volumetric_fog(high))
+	assert_false(GraphicsQuality.ssao(high))
+	assert_eq(GraphicsQuality.msaa(high), Viewport.MSAA_DISABLED)
+	assert_true(GraphicsQuality.fxaa(high), "FXAA instead of MSAA")
+	GraphicsQuality.heavy_passes_allowed = true
+	assert_true(GraphicsQuality.volumetric_fog(high))
+	assert_false(GraphicsQuality.fxaa(high))
+	GraphicsQuality.heavy_passes_allowed = before
+
+
 func test_safe_mode_settings_are_the_lightest() -> void:
 	var before: Array = [Settings.graphics_quality, Settings.fog_quality, Settings.bloom, Settings.depth_of_field]
 	Settings.apply_safe_mode()

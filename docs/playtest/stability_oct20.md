@@ -71,6 +71,62 @@ lock with input swallowed.
 - Continue: the arrival is never replayed - a save made before the welcome finished (`maren_met` unset) lands in a town where the
   welcome never comes.
 
-## What changed (Parts 2-3)
+## What changed
 
-See the sections below (filled in as each part lands) and `docs/overnight_report.md`.
+### Part 2 - a log that says where the game stopped
+
+- `GameLog` (autoload, first in the list) writes `%APPDATA%\Deckbuilder-RPG\logs\wayward.log`, **flushed after every line**; the last
+  five runs are kept (`wayward.1.log` .. `wayward.4.log`), each file capped at 1.5 MB of routine lines (warnings always go in).
+- At start: version, launch number, how the previous launch ended, OS/CPU/RAM, renderer + driver + API, GPU name / vendor / the
+  engine's type / what the game reads it as, the GPU driver version, video memory in use, screen, command line, then the graphics
+  settings in use (`Settings.summary()`: quality, recommended quality, render scale, fog, bloom, DOF, vsync, renderer, SAFE MODE).
+- Every scene change step (`LoadTiming.mark` -> fade out, loading screen up, change scene, each town build stage, scene built, settled,
+  fade in, revealed), every warm-up start and finish with ms (SceneWarmup, UiArtWarmup), every modal open/close (OverlayScreen
+  subclasses, Dialogue, PauseMenu, FeedbackForm), every hero lock change (town, zones, forest), a GPU readback step.
+- A heartbeat every 5 s: `scene=Town busy=no hero=free modals=[Dialogue] paused=false fps=60 mem=...`.
+- A **watchdog thread** writes `WARNING stall: the main thread has not finished a frame for 8 s (last step: ...)` - the one line a hung
+  game can still leave - and when frames come back, how long it was gone.
+- `application/run/flush_stdout_on_print=true` so the engine's own godot.log keeps the game's prints too.
+- F8 reports now also hold `wayward.log`, `wayward_previous_run.log`, `boot_state.cfg`, and the renderer, graphics summary, Safe Mode
+  reason and how the previous launch ended in `report.json`.
+
+### Part 3 - fixes
+
+- **Default preset** (`GpuInfo`): the GPU kind comes from its name - Intel UHD/HD/Iris Plus = older iGPU -> Low; Iris Xe, Arc 130V/140V,
+  "Arc Graphics", AMD "Radeon Graphics"/7x0M/Vega APUs, Adreno = iGPU -> Medium; Arc A/B cards, Radeon RX, GeForce = discrete -> High;
+  software renderers -> Low. Integrated GPUs never start on High. A settings.cfg from v0.4.2 or older holding High on an iGPU drops
+  once to the recommended level (`settings_version` 2).
+- **Intel integrated GPUs**: volumetric fog, SSAO (both compute passes) and MSAA stay off even on High there (FXAA instead) - the
+  High-only passes that fit tester 2's crash. (Godot 4.7 itself carries an Iris Xe compute-barrier workaround since beta 3.)
+- **Crash-safe start** (`BootGuard`, `user://boot_state.cfg`): stages starting -> title -> loading <scene> -> playing <scene> -> exit
+  (stalled while the main thread is stuck). A launch that ended starting, loading or stalled makes the next launch start in **Safe Mode**:
+  Low, fog/bloom/DOF off, no loader threads (warm-ups load a few files per frame on the main thread), no screenshot readbacks; saved, and
+  said on the title screen. Two bad launches in a row also switch the renderer (D3D12 <-> Vulkan, a one-time restart with
+  `--rendering-driver`). Exported builds only (editor, GUT and `-s` tools never touch the file). `-- --safe-mode` forces it.
+- **Transition watchdog** (`SceneManager`): every transition has an id and a phase; with no progress (no load step, no change in the
+  scene's `load_progress`, no frames while settling) for 8 s (30 s while a scene builds) or busy past 120 s, it is ended by force: tweens
+  killed, the loading screen freed, the cover cleared and input back, the scene's `recover_after_timeout()` called, `revealed` emitted,
+  a warning logged. Time with the pause menu or the report form open does not count.
+- **Settle**: behind the cover, frames are drawn until they are steady - up to 30 s (was 4 s) while frames still spike (a slow iGPU
+  compiling the town's first pipelines), but a steadily slow machine settles at once (a frame counts as quick under 50 ms or 1.6x the
+  quickest frame seen).
+- **Esc and F8**: F8 is handled in `_input` (before any GUI can swallow it); Esc during a transition is remembered and opens the pause
+  menu at the reveal (not while the report form is open).
+- **Warm-ups never wait for ever**: UiArtWarmup's pictures give up after 20 s like SceneWarmup's files; its input guard keeps running
+  between screens and while paused (it could stop with all GUI input off).
+- **Town**: `recover_after_timeout()` switches processing and input back on if its staged build never finished; the arrival start and
+  the lock watchdog run first in `_process` (an error later in the frame can no longer stop them).
+- **Arrival order** (brief): level-ups -> reward boxes / quest notices -> Path warning -> Maren's welcome (three parts).
+- **Continue from a save stuck before the welcome** (cave cleared, `maren_met` unset, not a fast-forwarded game): the arrival plays again
+  beside Maren's door - the testers' v0.4.0 saves.
+- **Thumbnails**: the save screenshot (a full GPU sync) is skipped in Safe Mode and during scene changes, and logged when slow.
+- **Shader baker** on in the export preset (472 shaders baked for D3D12 and Vulkan, +10 MB): less shader compiling on a cold start
+  (1 s here; more on a 4-core laptop). The export runs non-headless for it.
+
+### Renderer choice: D3D12 stays the Windows default
+
+- D3D12 is what Godot 4.6+ ships as the Windows default (fewer broken Vulkan drivers and overlays on Windows); `fallback_to_vulkan` is
+  on, so a PC that cannot create a D3D12 device starts on Vulkan by itself.
+- Tester 2's Iris Xe runs the game on D3D12 at Medium; the crash came with High (now never the default on an iGPU).
+- On this PC both drivers run every scenario; Vulkan loads Crosspath a little faster (12.8 vs 15.9 s cold, 9.6 vs 15.7 s warm).
+- So: D3D12 by default, `Start (Vulkan).bat` one double-click away, and two bad launches in a row switch drivers on their own.

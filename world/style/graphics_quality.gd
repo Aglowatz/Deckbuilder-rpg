@@ -7,6 +7,11 @@ enum Level { LOW, MEDIUM, HIGH }
 
 const NAMES: Array[String] = ["Low", "Medium", "High"]
 
+## Overnight Oct 20 (playtest stability): the High-only passes an Iris Xe crashed on (tester 2: default High crashed before the intro,
+## Medium ran) - volumetric fog and SSAO (compute passes) and MSAA - stay off on Intel integrated GPUs even on High (Settings sets this
+## from GpuInfo at start). High keeps its full resolution, shadows and outline normals there.
+static var heavy_passes_allowed: bool = true
+
 
 static func display_name(level: int) -> String:
 	return NAMES[clampi(level, 0, NAMES.size() - 1)]
@@ -22,11 +27,11 @@ static func outline_normals(level: int) -> bool:
 
 
 static func volumetric_fog(level: int) -> bool:
-	return level >= Level.HIGH
+	return level >= Level.HIGH and heavy_passes_allowed
 
 
 static func ssao(level: int) -> bool:
-	return level >= Level.HIGH
+	return level >= Level.HIGH and heavy_passes_allowed
 
 
 ## 0 = no shadows, 1 = a single soft cascade, 2 = full.
@@ -70,11 +75,12 @@ static func render_scale(level: int) -> float:
 
 ## MSAA only on High (it costs about 12 ms at 1600x900 here); Medium uses FXAA + the upscaler, Low uses neither.
 static func msaa(level: int) -> int:
-	return Viewport.MSAA_2X if level >= Level.HIGH else Viewport.MSAA_DISABLED
+	return Viewport.MSAA_2X if level >= Level.HIGH and heavy_passes_allowed else Viewport.MSAA_DISABLED
 
 
+## FXAA on Medium, and on High where MSAA is not allowed (an Intel iGPU).
 static func fxaa(level: int) -> bool:
-	return level == Level.MEDIUM
+	return level == Level.MEDIUM or (level >= Level.HIGH and not heavy_passes_allowed)
 
 
 static func apply_to_viewport(viewport: Viewport, level: int) -> void:

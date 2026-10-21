@@ -47,6 +47,12 @@ static func current_kind() -> Kind:
 	return classify(RenderingServer.get_video_adapter_name(), RenderingServer.get_video_adapter_vendor(), RenderingServer.get_video_adapter_type())
 
 
+## An Intel integrated GPU (the testers' Iris Xe and Arc 130V): GraphicsQuality keeps the heavy High passes off there.
+static func is_intel_integrated(adapter_name: String, vendor: String, engine_type: int) -> bool:
+	var intel: bool = vendor.to_lower().contains("intel") or adapter_name.to_lower().contains("intel")
+	return intel and is_integrated(classify(adapter_name, vendor, engine_type))
+
+
 static func is_integrated(kind: Kind) -> bool:
 	return kind == Kind.INTEGRATED or kind == Kind.INTEGRATED_LOW
 
