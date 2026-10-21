@@ -1,0 +1,122 @@
+# Every line flagged in review_flags.md (number = flag). Delete the lines you want to KEEP as ChatGPT wrote them, then run:
+#   node tools/apply_dialogue_pass.js --revert=docs/dialogue/chatgpt_pass_oct21/review_flags_ids.txt
+# 1
+data/story/gainlands_story.tres::quest.gain_power.offer::0
+# 2
+data/story/gainlands_story.tres::freed_npc.heartlift::5
+# 3
+data/story/dna_story.tres::freed_npc.mortimer::1
+data/story/dna_story.tres::freed_npc.mortimer::2
+# 4
+data/story/capital_story.tres::cutscene.primm_p1.2::0
+data/story/capital_story.tres::cutscene.primm_p1.2.rushed::0
+# 5
+data/story/capital_story.tres::ending.beat.6::1
+# 6
+data/story/capital_story.tres::ending.beat.5::1
+data/story/capital_story.tres::ending.beat.1::0
+data/story/capital_story.tres::ending.beat.7::1
+# 7
+data/story/capital_story.tres::ending.credits.8::0
+data/story/capital_story.tres::ending.credits.9::0
+data/story/capital_story.tres::ending.credits.10::0
+# 8
+data/story/capital_story.tres::ending.beat.8.title::0
+# 9
+data/story/capital_story.tres::event.pc_early_journals.result.0::1
+data/story/capital_story.tres::event.pc_early_journals.body::4
+data/story/capital_story.tres::dungeon.pc_blueprints.after::1
+data/story/capital_story.tres::dungeon.pc_reading_room.after::0
+# 10
+data/story/capital_story.tres::dungeon.pc_boss.after::0
+# 11
+data/story/capital_story.tres::npc.wren.return::1
+# 12
+data/story/capital_story.tres::npc.marlo.intro.freed::1
+# 13
+data/story/capital_story.tres::cutscene.primm_end.3.rushed::1
+# 14
+data/story/capital_story.tres::cutscene.primm_intro.6::0
+# 15
+data/story/capital_story.tres::cutscene.primm_intro.3::0
+# 16
+data/story/capital_story.tres::npc.pell.intro::1
+data/story/capital_story.tres::npc.pell.intro::2
+# 17
+data/story/capital_story.tres::fx.plot::1
+# 18
+data/story/capital_story.tres::freed_npc.agnes::0
+data/story/capital_story.tres::freed_npc.agnes::1
+# 19
+data/dungeons/dungeon_content.json::dungeon.dg_lab_rescue.before::1
+# 20
+data/dungeons/dungeon_content.json::dungeon.dg_lab_boss.before::1
+# 21
+data/story/intro_story.tres::still.flex::2
+data/story/intro_story.tres::still.doppel::0
+data/story/intro_story.tres::still.doppel::1
+data/story/intro_story.tres::still.approval::1
+data/story/intro_story.tres::still.approval::2
+data/story/intro_story.tres::still.rotheart::2
+data/story/intro_story.tres::still.primm::2
+data/story/intro_story.tres::still.reunion::0
+data/story/intro_story.tres::still.reunion::1
+# 22
+data/story/intro_story.tres::memory.2.after::1
+data/story/intro_story.tres::memory.2.after::3
+data/story/intro_story.tres::memory.3.after::3
+# 23
+data/story/gainlands_story.tres::event.hg_rescue.body::1
+data/story/gainlands_story.tres::event.hg_rescue.body::2
+# 24
+data/story/gainlands_story.tres::dungeon.hg_boss.after_alone::1
+# 25
+data/story/gourmand_story.tres::cutscene.reveal.4::0
+data/story/gourmand_story.tres::ruler.statue.freed::1
+# 26
+data/story/gourmand_story.tres::cutscene.wonder.1::0
+# 27
+data/story/gourmand_story.tres::cutscene.wonder.3::0
+# 28
+data/story/refusemancer_story.tres::freed_npc.compostella::0
+data/story/refusemancer_story.tres::dungeon.rh_boss.after::1
+# 29
+data/story/gainlands_story.tres::quest.gain_power.ready::0
+# 30
+data/story/gainlands_story.tres::cutscene.rescue.1::0
+data/story/gainlands_story.tres::cutscene.rescue.1::1
+# 31
+data/story/gainlands_story.tres::quiz.not_passed::0
+# 32
+data/story/intro_story.tres::equipment_vendor_intro_lines::0
+data/story/intro_story.tres::equipment_vendor_intro_lines::3
+# 33
+data/story/dna_story.tres::quiz.result.1::0
+data/story/dna_story.tres::quiz.result.4::0
+data/story/dna_story.tres::npc.barnaby.return::1
+# 34
+data/story/dna_story.tres::sign.permit_to_stand.freed::1
+data/story/dna_story.tres::memo.new_rules.freed::1
+# 35
+data/story/capital_story.tres::fx.deface::0
+data/story/capital_story.tres::fx.tunnel_found::0
+data/story/capital_story.tres::sign.hungry_paste::1
+# 36
+data/story/capital_story.tres::dungeon.pc_gate.before::1
+data/story/capital_story.tres::dungeon.pc_curator.blurb::0
+data/story/capital_story.tres::dungeon.pc_staircase.blurb::0
+data/story/capital_story.tres::dungeon.pc_wing_gourmand.before::2
+# 37
+data/story/refusemancer_story.tres::bark.worker_2::0
+data/story/refusemancer_story.tres::bark.worker_2.freed::0
+# 38
+data/story/refusemancer_story.tres::sort.first::1
+# 39
+data/dungeons/dungeon_content.json::quest.meet_the_merchants.ready::1
+data/dungeons/dungeon_content.json::quest.storeroom_ghosts.ready::1
+data/dungeons/dungeon_content.json::quest.side_s_town.active::0
+# 40
+data/npcs/npcs.json::V-THREADWELL.barks::0
+data/npcs/npcs.json::NPC-THUNDERABS.barks::1
+data/npcs/npcs.json::NPC-KYLE.barks::1
+data/npcs/npcs.json::V-MIREPOIX.barks::1
