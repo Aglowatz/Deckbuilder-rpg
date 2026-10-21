@@ -387,7 +387,12 @@ func _ready() -> void:
 		else:
 			_begin_cave_arrival.call_deferred()
 	if not arrival_pending:
-		_show_pending_results.call_deferred()  # the cave arrival shows them after its own queue
+		# the cave arrival shows them after its own queue. Phase 2 (stability): behind a loading screen they wait for the reveal (the store
+		# room ghosts' lines were typing out unseen under the cover while the town built).
+		if _staged_build and SceneManager.busy:
+			SceneManager.revealed.connect(_show_pending_results, CONNECT_ONE_SHOT)
+		else:
+			_show_pending_results.call_deferred()
 	_apply_well_stir()
 	if _screenshot_args.has("slots"):
 		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))

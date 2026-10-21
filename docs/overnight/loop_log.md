@@ -18,3 +18,16 @@ the loop's fixes so the zip is built once).
   0 errors, 0 VkResult errors** (failed in the Dump before). Capital reached at 851 MB video memory on Vulkan.
 - Process note: one pair of tour runs overlapped (a wait loop matched the import step's exit); those numbers were discarded and the
   run repeated alone.
+
+## Cycle 2 - first-draw spikes after fade-ins without a loading screen; results opening under the cover
+
+- Found (release smoke on the export, wayward.log): a change without a loading screen (title -> forest) never ran the settle step, so
+  first-draw shader frames showed after the fade-in; the reveal watch also counted frames while a menu the player opened was up (the
+  smoke's F8 form made a "532 ms" there). Playtest smoke log: after the store-room ghost duel, the ghosts' result conversation opened
+  while the town was still building behind the loading screen (`busy=yes (build) modals=[Dialogue]` in the heartbeat) - its first lines
+  typed out unseen.
+- Fixed: every scene change settles behind its cover (4 quick frames for a light scene); the reveal watch skips paused frames;
+  TownScene's post-battle results wait for `SceneManager.revealed` when the town is built behind a cover.
+- Verified: playtest smoke OK twice, prologue smoke OK; the ghosts' lines now open at the reveal (123.3 s, same frame as "town
+  revealed"); test_playtest_stability, test_loading_screens, test_cave_arrival, test_town green. The one remaining 460 ms frame in
+  the playtest smoke's first 5 s is the smoke's own screenshot (a viewport readback).

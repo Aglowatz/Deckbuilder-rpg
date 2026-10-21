@@ -178,16 +178,17 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 		return
 	LoadTiming.mark("scene ready + frame 1")
 	_set_phase("build")
-	var staged: bool = await _wait_until_built(screen, path)
+	await _wait_until_built(screen, path)
 	await get_tree().process_frame
 	if id != _transition_id:
 		return
 	LoadTiming.mark("frame 2")
-	if staged or screen != null:
-		_set_phase("settle")
-		await _settle()
-		if id != _transition_id:
-			return
+	# Phase 2 (stability): every change settles behind the cover (a quick scene settles in 4 frames); before, only a staged build or a
+	# loading screen did, and a change without one showed its first-draw shader spikes after the fade-in.
+	_set_phase("settle")
+	await _settle()
+	if id != _transition_id:
+		return
 	_set_phase("fade in")
 	if screen != null:
 		screen.set_progress(1.0)
@@ -358,6 +359,8 @@ func _process(_delta: float) -> void:
 	var now: int = Time.get_ticks_usec()
 	var ms: float = float(now - _reveal_last_usec) / 1000.0
 	_reveal_last_usec = now
+	if get_tree().paused:
+		return  # a menu the player opened (pause, report form): its build is not the scene's stall
 	_reveal_worst_ms = maxf(_reveal_worst_ms, ms)
 	_reveal_watch_left -= ms / 1000.0
 	if _reveal_watch_left <= 0.0:
