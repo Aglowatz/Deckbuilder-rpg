@@ -14,6 +14,7 @@ static var frame_start_usec: int = 0
 static var _last_pump_usec: int = 0
 ## How many times this session pumped (the game log notes it at each reveal).
 static var pumps: int = 0
+static var _pumped: bool = false
 
 
 static func tick() -> void:
@@ -22,4 +23,19 @@ static func tick() -> void:
 		return
 	_last_pump_usec = now
 	pumps += 1
+	_pumped = true
 	DisplayServer.force_process_and_drop_events()
+
+
+## Called at the start of the next frame: a key or button released during a pumped frame was dropped with the rest, so the action
+## would stay held (the hero walking on with no key down after a load). Every held action is released; returns how many.
+static func after_frame() -> int:
+	if not _pumped:
+		return 0
+	_pumped = false
+	var released: int = 0
+	for action: StringName in InputMap.get_actions():
+		if Input.is_action_pressed(action):
+			Input.action_release(action)
+			released += 1
+	return released

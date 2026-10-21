@@ -206,6 +206,9 @@ func _write(line: String, important: bool) -> void:
 func _process(delta: float) -> void:
 	_tick_msec = Time.get_ticks_msec()
 	KeepAlive.frame_start_usec = Time.get_ticks_usec()
+	var released: int = KeepAlive.after_frame()
+	if released > 0:
+		info("input", "released %d held actions after a long frame (their key-ups were dropped)" % released)
 	if not enabled:
 		return
 	_frames_since_beat += 1

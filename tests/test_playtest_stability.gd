@@ -281,3 +281,13 @@ func test_leaving_an_area_releases_its_world_art_caches() -> void:
 	assert_gt(dropped, 1, "entries were dropped")
 	assert_true(ModelKit._cache.is_empty())
 	assert_true(MapArt._textures.is_empty())
+
+
+func test_a_pumped_long_frame_releases_held_actions() -> void:
+	KeepAlive.frame_start_usec = 0
+	KeepAlive.tick()
+	assert_eq(KeepAlive.after_frame(), 0, "an ordinary frame never pumps or releases")
+	Input.action_press(&"move_up")
+	KeepAlive._pumped = true  # as if a long build frame had pumped (and dropped the key-up)
+	assert_gt(KeepAlive.after_frame(), 0)
+	assert_false(Input.is_action_pressed(&"move_up"), "the hero does not walk on with no key down")
