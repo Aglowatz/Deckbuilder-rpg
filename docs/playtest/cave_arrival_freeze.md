@@ -83,3 +83,24 @@ comes back after 30 frames. F8 (Report a Problem) and Esc work over every arriva
 **Still slow (follow-up, not a freeze):** the longest single build step is ~2-4 s on this machine (TownSquare.build; the painted ground's
 splat map, a per-pixel GDScript loop in `PaintedTerrain._paint_splat`; TownBuilder; the look rig's sky and scenery). The loading
 screen draws between steps, but each of those is one frame.
+
+## Verified on the exported v0.4.2 build (Part 3)
+
+`bash tools/run_cave_arrival_repro.sh builds/_export/TheWaywardPath.pck`, stock 4.7.2 binary with the exported pack; the first run with the
+shader cache cleared. During the Part 1 runs the user's own editor and a game it launched were also open; by Part 3 only the editor was,
+so the loads are shorter for both versions - compare rows of the same session.
+
+| scenario (v0.4.2 export) | click -> fade-in | longest single frame of the build | first 5 s after the fade-in, untouched | whole arrival | hero freed |
+|---|---|---|---|---|---|
+| Beefcake, **cold shader cache** | 16.7 s (loading screen up) | 4.3 s (TownSquare) | worst 80 ms | worst 80 ms | yes |
+| Gourmand | 8.5 s | 1.1 s (painted ground) | worst 42 ms | worst 42 ms | yes |
+| Refusemancer | 8.4 s | 1.1 s | worst 31 ms | worst 31 ms | yes |
+| Necrocrat | 8.4 s | 1.1 s | worst 32 ms | worst 51 ms | yes |
+| 4 level-ups waiting (level-up screen, then the welcome, in order) | 8.2 s | 1.1 s | worst 24 ms | worst 28 ms | yes |
+| 2x battle speed | 8.2 s | 1.1 s | worst 39 ms | worst 43 ms | yes |
+| Continue from a save made in the cave (forest, back through the gate) | 8.2 s | 1.1 s | worst 39 ms | worst 133 ms | yes |
+| keys and clicks mashed through the transition | 8.9 s | 1.1 s | - | worst 44 ms (frames while a menu the mashing opened was up not counted) | yes |
+| **v0.4.0 export, same session** | 8.0 s, **almost all of it one frame on a black screen** | ~7.5 s | worst 75 ms | worst 79 ms | yes |
+
+F8 opened Report a Problem over the level-up screen and over Maren's welcome, Esc closed it, and Esc opened and closed the pause menu
+during the welcome, in every run that checked it.

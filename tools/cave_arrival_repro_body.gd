@@ -35,7 +35,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var now: int = Time.get_ticks_usec()
-	if _frame_watch and _last_usec > 0:
+	if _frame_watch and _last_usec > 0 and get_tree().paused:
+		pass  # a menu the player opened (the pause menu, its settings): its first build is not the arrival's
+	elif _frame_watch and _last_usec > 0:
 		var ms: float = float(now - _last_usec) / 1000.0
 		_frame_count += 1
 		_sum_ms += ms
@@ -233,9 +235,11 @@ func _continue_from_save() -> void:
 	await _seconds(3.0)
 	# A save inside the cave resumes in the forest (the run itself is not saved): back through the gate, like the player.
 	_check(get_tree().current_scene is StartingAreaScene and Session.has_profile(), "Continue from the cave save resumes in the forest with the Path kept")
+	while SceneManager.busy:
+		await _seconds(0.2)  # the forest is still fading in; a scene change asked for now would be ignored
 	Session.begin_trial()
 	await _seconds(2.0)
-	_check(Session.in_dungeon(), "back into the Forgotten Cave")
+	_check(Session.in_dungeon() and get_tree().current_scene is DungeonMapScreen, "back into the Forgotten Cave")
 
 
 # ---- Crosspath ------------------------------------------------------------------------------------------------
