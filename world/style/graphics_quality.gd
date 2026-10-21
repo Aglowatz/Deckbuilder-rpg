@@ -23,7 +23,14 @@ static func outlines(level: int) -> bool:
 
 ## The outline also reads the normal buffer for crease lines on High; Medium keeps depth edges only (cheaper: no normal-roughness pass).
 static func outline_normals(level: int) -> bool:
-	return level >= Level.HIGH
+	return level >= Level.HIGH and forward_plus()
+
+
+## Phase 2 (stability): the normal-roughness buffer and FSR exist on Forward+ only (the Compatibility renderer, a last-resort launcher,
+## runs the same game without them).
+static func forward_plus() -> bool:
+	var method: String = RenderingServer.get_current_rendering_method()
+	return method.is_empty() or method == "forward_plus"
 
 
 static func volumetric_fog(level: int) -> bool:
@@ -85,10 +92,11 @@ static func fxaa(level: int) -> bool:
 
 static func apply_to_viewport(viewport: Viewport, level: int) -> void:
 	var scale_value: float = render_scale(level)
-	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR if scale_value < 0.999 else Viewport.SCALING_3D_MODE_BILINEAR
+	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR if scale_value < 0.999 and forward_plus() else Viewport.SCALING_3D_MODE_BILINEAR
 	viewport.scaling_3d_scale = scale_value
 	viewport.msaa_3d = msaa(level) as Viewport.MSAA
-	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if fxaa(level) else Viewport.SCREEN_SPACE_AA_DISABLED
+	var ssaa_ok: bool = RenderingServer.get_current_rendering_method() != "gl_compatibility"
+	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if fxaa(level) and ssaa_ok else Viewport.SCREEN_SPACE_AA_DISABLED
 
 
 ## How many dressing lights (lanterns, fires) stay on at once: the nearest ones to the hero (lights beyond the budget are switched off).

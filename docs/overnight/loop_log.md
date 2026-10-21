@@ -31,3 +31,18 @@ the loop's fixes so the zip is built once).
 - Verified: playtest smoke OK twice, prologue smoke OK; the ghosts' lines now open at the reveal (123.3 s, same frame as "town
   revealed"); test_playtest_stability, test_loading_screens, test_cave_arrival, test_town green. The one remaining 460 ms frame in
   the playtest smoke's first 5 s is the smoke's own screenshot (a viewport readback).
+
+## Cycle 3 - does the stall watchdog really write when the main thread hangs?
+
+- Test: a `-s` probe that blocks the main thread for 11 s (`OS.delay_msec`). wayward.log: `[9.5] WARNING stall: the main thread has
+  not finished a frame for 8 s (last step: test: about to block the main thread for 11 s)` then `[12.5] stall: the main thread is back
+  after 11.2 s`. A tester's frozen game will leave that line (and the boot stage "stalled", so the next launch is in Safe Mode).
+
+## Cycle 4 - a last resort for old graphics chips: the Compatibility renderer
+
+- Test: the exported pack with `--rendering-method gl_compatibility --rendering-driver opengl3` runs the whole cave -> Crosspath arrival
+  (OpenGL 3.3; 28 s load, welcome, walk; one 338 ms frame) and Crosspath looks right (`_screenshots/compat_town.png`). Errors: the
+  outline-with-normals shader (Forward+ only) was compiled on every area build, FSR and FXAA warnings.
+- Fixed: StyleRig builds the depth-only outline unless normals are wanted; `GraphicsQuality.outline_normals` and FSR need Forward+;
+  no FXAA on Compatibility. New `Start (Compatibility).bat` (Compatibility + Safe Mode) and a README line for it.
+- Verified: the Compatibility town screenshot logs no shader error; test_style green.

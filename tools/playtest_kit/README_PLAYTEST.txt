@@ -16,12 +16,14 @@ Loading Crosspath for the first time takes several seconds behind a loading scre
 
 IF IT CRASHES OR FREEZES - THE START FILES
 ------------------------------------------
-Next to the game are four small start files. Try them in this order:
+Next to the game are five small start files. Try them in this order:
 
   Start (Safe Mode).bat     Low graphics with the heavy effects off. Use this first if the game
                             crashes or freezes. You can raise the graphics again in Settings.
   Start (Vulkan).bat        Uses the Vulkan renderer instead of DirectX 12. Try this if Safe Mode
                             did not help.
+  Start (Compatibility).bat Last resort for older graphics chips: a simpler OpenGL renderer in
+                            Safe Mode. It looks plainer and loads more slowly.
   Start (DirectX 12).bat    Uses DirectX 12 (what the normal start uses).
   Start (Verbose Log).bat   Writes a much more detailed log. Only when we ask for it.
 

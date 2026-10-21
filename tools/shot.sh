@@ -12,4 +12,4 @@ if [ ! -f "$cache" ] || [ -n "$(find app core ui world scenes tools assets -newe
 	touch "$cache"
 fi
 scene="$1"; name="$2"; shift 2
-"$GODOT" --path . --resolution "${SHOT_RES:-1600x900}" -s res://tools/screenshot.gd -- --scene="$scene" --name="$name" --no-save "$@" 2>&1 | grep -v "^Godot Engine\|^Vulkan\|^Using\|^OpenGL\|^D3D12\|^$" | head -40
+"$GODOT" --path . --resolution "${SHOT_RES:-1600x900}" $GODOT_ARGS -s res://tools/screenshot.gd -- --scene="$scene" --name="$name" --no-save "$@" 2>&1 | grep -v "^Godot Engine\|^Vulkan\|^Using\|^OpenGL\|^D3D12\|^$" | head -40

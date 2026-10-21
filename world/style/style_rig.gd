@@ -253,7 +253,9 @@ func _build_outline() -> void:
 	outline.mesh = quad
 	outline.extra_cull_margin = 16384.0
 	var material: ShaderMaterial = ShaderMaterial.new()
-	material.shader = load(OUTLINE_SHADER) as Shader
+	# Phase 2 (stability): the depth-only outline unless the normals one is wanted - it only compiles on Forward+ (the Compatibility renderer
+	# logged a shader error on every area build).
+	material.shader = load(OUTLINE_SHADER if GraphicsQuality.outline_normals(quality()) else OUTLINE_SHADER_DEPTH) as Shader
 	outline.material_override = material
 	outline.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	outline.set_meta(StyleToon.META_NO_TOON, true)
