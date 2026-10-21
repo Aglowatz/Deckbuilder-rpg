@@ -174,6 +174,7 @@ func scene_loading(scene: String) -> void:
 
 
 func title_reached() -> void:
+	info("boot", "title screen shown")
 	BootGuard.set_stage("title")
 
 

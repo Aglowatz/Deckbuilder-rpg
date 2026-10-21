@@ -1385,10 +1385,14 @@ func resume_loaded_game() -> void:
 		SceneManager.go_to_town()
 
 
-## The Forgotten Cave is cleared but Maren's welcome never reached its end (`maren_met`), in a game that is not a fast-forwarded or
-## pre-chain one (`QuestDefinitions.LEGACY_FLAG`).
+## The Forgotten Cave is cleared but Maren's welcome never reached its end (`maren_met`), in a game still fresh out of the cave (no zone
+## freed, a handful of duels): the v0.4.0 saves stuck at the arrival freeze. (Those load with QuestMigration's legacy flag, so it is not a
+## test; an old save far into the game from before `maren_met` existed is not fresh and is left alone.)
+const WELCOME_REPLAY_MAX_DUELS: int = 15
+
+
 func welcome_unfinished() -> bool:
-	return flag(&"trial_cleared") and not flag(&"maren_met") and not flag(StringName(QuestDefinitions.LEGACY_FLAG))
+	return flag(&"trial_cleared") and not flag(&"maren_met") and ZoneCompletion.count(flags) == 0 and counter("duels_won") <= WELCOME_REPLAY_MAX_DUELS
 
 # ---- Battles ----------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 "$CONSOLE" --headless --path . --import >/dev/null 2>&1
 out="$(pwd)/_screenshots/playtest_smoke.log"
 mkdir -p _screenshots
-timeout 300 "$GODOT" --path . --resolution 1600x900 res://tools/playtest_launcher.tscn > "$out" 2>&1
+timeout 300 "$GODOT" --path . --resolution 1600x900 $GODOT_ARGS res://tools/playtest_launcher.tscn > "$out" 2>&1
 code=$?
 grep -E "^playtest_smoke:|SCRIPT ERROR|ERROR:" "$out" | grep -v "BUG: Unreferenced\|RID allocations\|leaked\|still in use"
 if grep -q "SCRIPT ERROR" "$out"; then echo "playtest_smoke: script errors found"; code=1; fi

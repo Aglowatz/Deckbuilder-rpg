@@ -150,6 +150,9 @@ func _safe_mode_notice() -> Label:
 	notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	notice.custom_minimum_size = Vector2(560, 0)
 	notice.add_theme_color_override("font_color", Color("ffcf7a"))
+	# Over the key art the text needs the footer's dark outline to be read.
+	notice.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	notice.add_theme_constant_override("outline_size", 6)
 	return notice
 
 

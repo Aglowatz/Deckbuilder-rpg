@@ -9,7 +9,7 @@ pck="${1:-$root/builds/_export/TheWaywardPath.pck}"
 out="$(pwd)/_screenshots/release_smoke_exported.log"
 mkdir -p _screenshots
 run_dir="$(mktemp -d)"
-(cd "$run_dir" && timeout 240 "$GODOT" --main-pack "$pck" --resolution 1600x900 -s "$root/tools/release_smoke_exported.gd" > "$out" 2>&1)
+(cd "$run_dir" && timeout 240 "$GODOT" --main-pack "$pck" --resolution 1600x900 $GODOT_ARGS -s "$root/tools/release_smoke_exported.gd" > "$out" 2>&1)
 code=$?
 rm -rf "$run_dir"
 grep -E "^release_smoke_exported:|SCRIPT ERROR" "$out"

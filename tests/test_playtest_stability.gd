@@ -227,6 +227,8 @@ func test_continue_from_a_save_stuck_before_marens_welcome_plays_it_again() -> v
 	SceneManager.busy = true  # the scene change itself is ignored while busy: only the decision is tested
 	Session.resume_loaded_game()
 	assert_true(Session.cave_exit_pending, "the arrival plays again in town")
+	Session.set_flag(StringName(QuestDefinitions.LEGACY_FLAG))
+	assert_true(Session.welcome_unfinished(), "v0.4.0 saves load with the legacy flag and still count")
 	Session.set_flag(&"maren_met")
 	assert_false(Session.welcome_unfinished(), "once she has spoken, never again")
 

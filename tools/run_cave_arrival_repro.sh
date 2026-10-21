@@ -8,6 +8,8 @@
 #   GODOT_ARGS="--rendering-driver vulkan"          extra engine arguments (driver, --rendering-method mobile, ...)
 #   FRESH_SETTINGS=1                                 run with no settings.cfg (first launch defaults); the player's file is restored after
 #   TIMEOUT=<s>                                      kill after this many seconds (default 400) and report "TIMEOUT" (a hang)
+#   QUALITY=0|1|2                                    with FRESH_SETTINGS=1: start from a settings.cfg holding only this quality
+#   USER_ARGS="--safe-mode"                          game arguments after -- (Safe Mode, as the launcher passes it)
 #   OUT_SUFFIX=<name>                                keeps logs of different runs apart (_screenshots/cave_arrival_<path>_<mode>_<suffix>.log)
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64.exe"
 cd "$(dirname "$0")/.."
@@ -24,18 +26,30 @@ if [ "${FRESH_SETTINGS:-0}" = "1" ] && [ -f "$user_dir/settings.cfg" ]; then
   mv -f "$user_dir/settings.cfg" "$user_dir/settings.cfg.repro_backup"
   echo "cave_arrival: settings.cfg moved aside (first-launch defaults)"
 fi
+if [ "${FRESH_SETTINGS:-0}" = "1" ] && [ -n "$QUALITY" ]; then
+  printf "[video]
+
+quality=%s
+
+[meta]
+
+version=2
+" "$QUALITY" > "$user_dir/settings.cfg"
+fi
+user_tail=""
+if [ -n "$USER_ARGS" ]; then user_tail="-- $USER_ARGS"; fi
 limit="${TIMEOUT:-400}"
 # shellcheck disable=SC2086
 if [ -n "$EXE" ]; then
-  timeout "$limit" "$EXE" --resolution 1600x900 $GODOT_ARGS -s "$root/tools/cave_arrival_repro.gd" > "$out" 2>&1
+  timeout "$limit" "$EXE" --resolution 1600x900 $GODOT_ARGS -s "$root/tools/cave_arrival_repro.gd" $user_tail > "$out" 2>&1
   code=$?
 elif [ -n "$1" ]; then
   run_dir="$(mktemp -d)"
-  (cd "$run_dir" && timeout "$limit" "$GODOT" --main-pack "$1" --resolution 1600x900 $GODOT_ARGS -s "$root/tools/cave_arrival_repro.gd" > "$out" 2>&1)
+  (cd "$run_dir" && timeout "$limit" "$GODOT" --main-pack "$1" --resolution 1600x900 $GODOT_ARGS -s "$root/tools/cave_arrival_repro.gd" $user_tail > "$out" 2>&1)
   code=$?
   rm -rf "$run_dir"
 else
-  timeout "$limit" "$GODOT" --path . --resolution 1600x900 $GODOT_ARGS -s res://tools/cave_arrival_repro.gd > "$out" 2>&1
+  timeout "$limit" "$GODOT" --path . --resolution 1600x900 $GODOT_ARGS -s res://tools/cave_arrival_repro.gd $user_tail > "$out" 2>&1
   code=$?
 fi
 if [ -f "$user_dir/settings.cfg.repro_backup" ]; then

@@ -94,6 +94,15 @@ func _load_old_save() -> void:
 	if town == null:
 		return
 	await _seconds(1.5)
+	# Overnight Oct 20: a save stuck before Maren's welcome (v0.4.0's freeze; maren_met unset) plays the welcome again.
+	if not Session.flag(&"maren_met") and town.has_method(&"recover_after_timeout"):
+		_check(town.dialogue.active, "a save stuck before the welcome plays it again (%s)" % town.dialogue.npc_id)
+		var guard: int = 0
+		while (town.dialogue.active or bool(town.get("arrival_active"))) and guard < 120:
+			guard += 1
+			await _tap_key(KEY_E)
+			await _seconds(0.15)
+		await _seconds(0.5)
 	_check(Session.flag(&"maren_met") and Session.flag(&"trial_cleared"), "the save's progress is there")
 	_check(not bool(town.get("_locked")) and town.player.input_enabled, "the hero is free")
 	var start: Vector3 = town.player.position

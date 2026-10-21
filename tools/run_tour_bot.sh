@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 size="${1:-1280x720}"
 out="$(pwd)/_screenshots/tour_bot.log"
 mkdir -p _screenshots
-timeout 1500 "$GODOT" --path . --resolution "$size" res://tools/tour_bot_launcher.tscn > "$out" 2>&1
+timeout 1500 "$GODOT" --path . --resolution "$size" $GODOT_ARGS res://tools/tour_bot_launcher.tscn > "$out" 2>&1
 code=$?
 grep -E "^tour_bot:|SCRIPT ERROR" "$out" | tail -40
 exit $code

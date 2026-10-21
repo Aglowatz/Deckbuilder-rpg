@@ -130,3 +130,37 @@ lock with input swallowed.
 - Tester 2's Iris Xe runs the game on D3D12 at Medium; the crash came with High (now never the default on an iGPU).
 - On this PC both drivers run every scenario; Vulkan loads Crosspath a little faster (12.8 vs 15.9 s cold, 9.6 vs 15.7 s warm).
 - So: D3D12 by default, `Start (Vulkan).bat` one double-click away, and two bad launches in a row switch drivers on their own.
+
+## Part 5 - verified on the exported v0.4.3 build
+
+Exported pack (`tools/export_windows.sh`, shader baker on), stock 4.7.2 binary + the pack for the bot runs (the release exe ignores `-s`);
+the crash-safe start and the driver switch on the real release exe. AMD integrated GPU (Ryzen 5 4500U), 1600x900.
+
+| scenario | driver | settings | load (click -> fade-in) | after the fade-in | result |
+|---|---|---|---|---|---|
+| Beefcake, cold shader cache | D3D12 | first launch -> **Medium** (was High) | 14.9 s | no frame over 200 ms | welcome, F8, Esc, walks |
+| Gourmand, cold | Vulkan | first launch -> Medium | 10.5 s | no frame over 200 ms | ok |
+| Refusemancer | D3D12 | Low | 14.4 s | ok | ok |
+| Necrocrat | Vulkan | Low | 10.0 s | ok | ok |
+| Necrocrat | D3D12 | **Safe Mode** (`-- --safe-mode`) | 8.7 s | ok | ok |
+| Beefcake | Vulkan | Safe Mode | 10.1 s | ok | ok |
+| Gourmand | D3D12 | High (chosen) | 8.6 s | ok | ok |
+| Refusemancer | Vulkan | Medium | 9.3 s | ok | ok |
+| 4 level-ups waiting | D3D12 | Medium | 8.4 s | ok | level-ups, then the welcome |
+| Continue from a cave save | Vulkan | Medium | 8.6 s | worst 91 ms | ok |
+| keys and clicks mashed | D3D12 | Medium | 8.0 s | worst 61 ms | ok |
+| **a v0.4.0 save stuck before the welcome** (Continue) | D3D12 | Medium | - | - | first run: the welcome did not replay (v0.4.0 saves load with the legacy quest flag, which the first condition excluded) - **fixed**: replays, hero free, walks |
+
+Every run: Maren's welcome shows, Esc opens and closes the pause menu during it, F8 opens Report a Problem over it, no frame over 200 ms
+after the fade-in, the hero walks afterwards.
+
+Real release exe (`builds/_export/TheWaywardPath.exe`):
+- Normal launch: `wayward.log` has the header (GPU "read as integrated", engine type 2), the settings line (Medium) and "title screen
+  shown"; boot stage `title`.
+- A launch left in "loading town" (a crash during a load): the next launch logs `SAFE MODE: ...ended while loading town`, settings Low with
+  fog/bloom/DOF off, the title says so (`_screenshots/p1/safe_mode_title.png`; the notice got a dark outline afterwards to be readable).
+- Two bad launches in a row: "trying the vulkan driver", "restarting with the vulkan driver", and the restarted process runs Vulkan and
+  reaches the title in 0.6 s.
+- A kill 1 s after starting happens before the engine runs any script: nothing can see that (nor would a crash that early be ours).
+
+Bot artifact: the mashing scenario can click into the pause menu's Settings and save a quality - restore settings.cfg after running it.
