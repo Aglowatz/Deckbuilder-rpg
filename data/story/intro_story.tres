@@ -289,7 +289,7 @@ texts = {
 "travel.return.forest": ["Need a rip back to {town}, or are you heading down the hatch? Either way, I have been holding this sky since breakfast."],
 "travel.arrive.forest": ["Forest station! Mind the roots. And the hatch. Mostly the hatch."],
 "travel.forest_tip": ["Spotter! Big news. You know that forest where you all started out?", "I went exploring up there, and I saw some very interesting things. A hatch in the clearing that was NOT there before. Little glowing roots. A smell like a hospital.", "I did not open it. I have manners, and also I am scared. But I did put a rift station up there, so you can pop over whenever you like.", "It is on the Express now. Say 'forest' and I will tear it right open.", "Whatever is under that hatch, it is yours, I think. It feels like yours. Be careful, buddy."],
-"postgame.rescuer.freed": ["[revealed] You came for me. I told them you would, and they laughed.", "[revealed] I have wanted to say it for ten years: I am sorry I could not carry you farther. I will tell you my name when the dust has settled, I promise. Finish this."],
-"postgame.rescuer.cleared": ["[revealed] The lab is quiet. For the first time in a decade I can hear the trees from down there. Thank you.", "[revealed] My name is still the one thing I have not given anyone. I am going to learn to say it out loud first. Ask me again soon."],
+"postgame.rescuer.freed": ["You came for me. Twice, if you count the woods. I'm counting the woods.", "Finish it, Tess. I'll be here. I've had a lot of practice waiting in this forest."],
+"postgame.rescuer.cleared": ["The Lab is quiet. For the first time in ten years I can hear the trees from down there.", "Dad is in {town}, listening to Maren. She let him have one slice of pie. One. I've never seen him so frightened."],
 "travel.unlock.forest": ["Rift Station unlocked: the forest outside {town}. Rip has torn it open where you first woke up. Fast travel to and from here is now open."],
 }

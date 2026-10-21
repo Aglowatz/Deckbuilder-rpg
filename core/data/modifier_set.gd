@@ -3,6 +3,28 @@ extends RefCounted
 ## Aggregated modifiers affecting one player. The single query surface for the rules engine.
 
 var modifiers: Array[Modifier] = []
+## Oct 21: modifiers switched off for a while (Elowen jamming one of Siphon's Protocols): out of `modifiers`, so no query sees them, until
+## `unpark_all` puts them back.
+var parked: Array[Modifier] = []
+
+
+## Takes every modifier labelled `label` out of play; returns how many.
+func park(label: String) -> int:
+	var kept: Array[Modifier] = []
+	var count: int = 0
+	for modifier: Modifier in modifiers:
+		if modifier.label == label:
+			parked.append(modifier)
+			count += 1
+		else:
+			kept.append(modifier)
+	modifiers = kept
+	return count
+
+
+func unpark_all() -> void:
+	modifiers.append_array(parked)
+	parked.clear()
 
 
 func add(modifier: Modifier) -> void:
@@ -116,4 +138,5 @@ func is_empty() -> bool:
 func clone() -> ModifierSet:
 	var copy: ModifierSet = ModifierSet.new()
 	copy.modifiers = modifiers.duplicate()
+	copy.parked = parked.duplicate()
 	return copy

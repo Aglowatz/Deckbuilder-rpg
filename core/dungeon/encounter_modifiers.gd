@@ -12,7 +12,8 @@ extends RefCounted
 ## timed_summon {token, every, count?} | escalating_summon {tokens: [...]} | keyword {keyword, path?} | extra_draws {count} |
 ## cost_change {amount, path?} | enter_exhausted {path?} | token_stats {atk, def} | start_of_turn_damage {amount} |
 ## start_of_turn_heal {amount} | retaliate {amount} | max_hp {amount} | max_traps {amount} | resource_bonus {resource, count} |
-## first_turn_draw {count} | always_first | max_plays {count} | block_resource {resource} | keyword_stat {keyword, atk}.
+## first_turn_draw {count} | always_first | max_plays {count} | block_resource {resource} | keyword_stat {keyword, atk} |
+## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols).
 
 const PATH: String = "res://data/encounters/modifiers.json"
 const DEFAULT_ICON: String = "lorc/crossed-swords"
@@ -25,6 +26,8 @@ class Rule:
 	var icon: String = DEFAULT_ICON
 	## "enemy" (the default) or "player".
 	var side: String = "enemy"
+	## Oct 21: a player-side rule that hurts the player (Siphon's Containment), shown as a bad badge.
+	var harmful: bool = false
 	var modifiers: Array[Modifier] = []
 
 	func is_enemy_side() -> bool:
@@ -165,6 +168,7 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 	rule.text = str(spec.get("text", ""))
 	rule.icon = str(spec.get("icon", DEFAULT_ICON))
 	rule.side = str(spec.get("side", "enemy"))
+	rule.harmful = bool(spec.get("harmful", false))
 	var kind: String = str(spec.get("kind", ""))
 	var path: int = _path_of(spec)
 	var made: Array[Modifier] = []
@@ -235,6 +239,10 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, int(spec.get("count", 2))))
 		"block_resource":
 			made.append(CardBuilder.modifier(Modifier.Kind.BLOCK_RESOURCE_USE, _resource_of(spec)))
+		"first_card_cost":
+			made.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(spec.get("amount", 1))))
+		"start_of_turn_resources":
+			made.append(CardBuilder.modifier(Modifier.Kind.START_OF_TURN_RESOURCES, int(spec.get("count", 1)), Modifier.ANY_COLOR, _resource_of(spec)))
 		_:
 			_problems.append("%s: unknown rule kind '%s'" % [key, kind])
 			return null

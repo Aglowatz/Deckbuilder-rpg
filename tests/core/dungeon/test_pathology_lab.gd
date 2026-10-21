@@ -1,5 +1,6 @@
 extends GutTest
-## Story v2 Part H: Rip's forest portal, the hidden hatch and the postgame Path-ology Lab.
+## Story v2 Part H: Rip's forest portal, the hidden hatch and the postgame Path-ology Lab. Oct 21: the sheet's 16-node Lab, Elowen in Cell 4
+## (T-24) and Siphon's Protocols (ProtocolJam).
 
 
 func before_each() -> void:
@@ -11,11 +12,11 @@ func before_each() -> void:
 	MainDungeons.reset()
 
 
-func test_the_lab_is_a_14_node_postgame_dungeon_with_branching_and_the_story_nodes() -> void:
+func test_the_lab_is_the_sheets_16_node_postgame_dungeon_with_branching_and_the_story_nodes() -> void:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(PathologyLab.DUNGEON_ID)
 	assert_not_null(plan)
 	assert_true(plan.is_postgame())
-	assert_eq(plan.nodes.size(), 14)
+	assert_eq(plan.nodes.size(), 16)
 	assert_eq(plan.map_id, "MAP-LAB")
 	assert_eq(plan.battleboard_id, "BB-LAB")
 	var branching: int = 0
@@ -25,7 +26,7 @@ func test_the_lab_is_a_14_node_postgame_dungeon_with_branching_and_the_story_nod
 		if node.next.size() > 1:
 			branching += 1
 	assert_true(branching >= 3, "the map branches")
-	for expected: String in ["The Prince's Old Cell", "The Draining Chamber", "The Rescuer's Cell"]:
+	for expected: String in ["Cell 4", "The Draining Chamber", "The Mentor's Study", "The Extraction Theater"]:
 		assert_true(names.has(expected), expected)
 	var map: DungeonMap = MainDungeons.build_map(PathologyLab.DUNGEON_ID)
 	assert_eq(map.problems(), [] as Array[String])
@@ -43,19 +44,52 @@ func test_the_lab_is_far_harder_than_the_castle_on_paper() -> void:
 		assert_true(recipe.has(leader), "%s in Siphon's deck" % leader)
 
 
-func test_the_story_nodes_have_their_text_and_speakers() -> void:
-	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(PathologyLab.DUNGEON_ID)
+func test_the_story_nodes_have_their_scenes() -> void:
 	var map: DungeonMap = MainDungeons.build_map(PathologyLab.DUNGEON_ID)
-	var story: ZoneStoryText = ZoneStoryText.for_zone(plan.zone_id)
-	var cell_text: String = ""
-	for key: String in ["event.dg_d_lab_7.body", "event.dg_d_lab_7.choice.0", "event.dg_d_lab_7.result.0"]:
-		cell_text += "\n".join(story.get_lines(key))
+	var by_number: Dictionary = {}
+	for node: DungeonMap.MapNode in map.nodes:
+		by_number[node.number] = node
+	var cell: DungeonMap.MapNode = by_number[11] as DungeonMap.MapNode
+	assert_eq(cell.kind, DungeonMap.Kind.RESCUE)
+	assert_eq(cell.talk_before, "lab_cell4")
+	var cell_text: String = "\n".join(StoryScenes.all_lines("lab_cell4"))
 	assert_true(cell_text.contains("tally marks"), "ten years of tally marks")
 	assert_true(cell_text.contains("four colors"), "the child's drawing of four colors")
-	assert_true("\n".join(story.get_lines("dungeon.dg_lab_drain.before")).contains("This is where it was done"))
-	assert_eq(NpcRegistry.story_speaker("dungeon.dg_lab_boss.before"), "NPC-SIPHON")
-	assert_eq(NpcRegistry.story_speaker("dungeon.dg_lab_rescue.after"), "NPC-ELOWEN")
-	assert_false(map.boss().story_before.is_empty())
+	assert_true(cell_text.contains("Took you long enough, Tess."), "the sheet's line")
+	assert_not_null(MainDungeons.def(PathologyLab.DUNGEON_ID).event(cell.event_id), "Cell 4's rescue event")
+	assert_eq(map.boss().talk_before, "lab_siphon")
+	assert_eq(map.boss().talk_after, "lab_siphon_after")
+	for scene: String in ["lab_hatch", "lab_cell4_after", "lab_study", "lab_study_alone", "lab_siphon_alone", "lab_siphon_after_alone"]:
+		assert_true(StoryScenes.has(scene), scene)
+	assert_true("\n".join(StoryScenes.all_lines("lab_study")).contains("held it open"), "the Mentor's Study: he opened the doors at the coup")
+
+
+func test_the_scene_variants_follow_the_rescue() -> void:
+	var boss: DungeonMap.MapNode = MainDungeons.build_map(PathologyLab.DUNGEON_ID).boss()
+	var alone: DungeonRun = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
+	var together: DungeonRun = DungeonRun.enter(Session.profile, Session.deck, [PathologyLab.rescuer_boon()] as Array[ModifierSource])
+	assert_eq(BossTalks.before_boss(boss, PathologyLab.DUNGEON_ID, together), "lab_siphon")
+	assert_eq(BossTalks.before_boss(boss, PathologyLab.DUNGEON_ID, alone), "lab_siphon_alone")
+	assert_eq(BossTalks.after_boss(boss, PathologyLab.DUNGEON_ID, alone), "lab_siphon_after_alone", "not rescued: she confronts him after the fight")
+	assert_true("\n".join(StoryScenes.all_lines("lab_siphon_after_alone")).contains("Took you long enough"))
+	assert_true(StoryScenes.flags_set("lab_siphon_after_alone").has(str(PathologyLab.FLAG_RESCUER_FREED)), "she walks out either way")
+
+
+func test_elowen_joins_the_boss_fight_only_when_freed() -> void:
+	Session.profile.intro_dungeon_cleared = true
+	Session.dungeon_key = PathologyLab.DUNGEON_ID
+	Session.dungeon_map = MainDungeons.build_map(PathologyLab.DUNGEON_ID)
+	Session.mini_active = true
+	Session.town_side_active = true
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, [PathologyLab.rescuer_boon()] as Array[ModifierSource])
+	var context: BattleContext = Session.make_dungeon_battle(Session.dungeon_map.boss())
+	assert_true(ProtocolJam.has_ally(context.game, 0), "Elowen (T-24) stands on your field")
+	assert_eq(ProtocolJam.available(context.game), ["Augmentation", "Replication", "Extraction", "Containment"] as Array[String])
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
+	var alone: BattleContext = Session.make_dungeon_battle(Session.dungeon_map.boss())
+	assert_false(ProtocolJam.has_ally(alone.game, 0))
+	Session.mini_active = false
+	Session.town_side_active = false
 
 
 func test_rips_tip_opens_the_forest_station_and_reveals_the_hatch() -> void:
@@ -111,7 +145,7 @@ func test_clearing_the_lab_rewards_the_lens_gold_and_xp_once_and_a_rescue_sets_a
 	assert_false(repeat.has("equipment"))
 
 
-func test_the_freed_rescuer_has_hood_down_lines() -> void:
+func test_the_freed_rescuer_has_forest_lines() -> void:
 	var story: StoryText = StoryText.shared()
-	assert_true("\n".join(story.get_lines("postgame.rescuer.freed")).contains("[revealed]"), "hood down: the revealed portrait expression is tagged")
 	assert_true(story.texts.has("postgame.rescuer.freed") and story.texts.has("postgame.rescuer.cleared"))
+	assert_false("\n".join(story.get_lines("postgame.rescuer.cleared")).contains("name"), "she no longer withholds her name (she gave it in the Lab)")

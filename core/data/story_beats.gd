@@ -37,3 +37,21 @@ static func wren_scene(flags: Dictionary) -> String:
 	if bool(flags.get(FLAG_SEIZED, false)) and StoryScenes.should_play(WREN_CAPTURE, flags):
 		return WREN_CAPTURE
 	return ""
+
+
+# ---- Elowen at the cave mouth (Part 2) ------------------------------------------------------------------------------------------
+
+const CAVE_MOUTH_SCENES: int = 4
+
+
+## The Cave Mouth scene waiting at Crosspath's cave mouth, or "": scene N once N zones are free and scenes 1..N-1 have played, until
+## she is taken at the castle gate. Old saves past several zones get them one visit at a time, in order.
+static func cave_mouth_scene(flags: Dictionary, zones_freed: int) -> String:
+	if bool(flags.get(FLAG_SEIZED, false)):
+		return ""
+	for number: int in range(1, CAVE_MOUTH_SCENES + 1):
+		var id: String = "cave_mouth_%d" % number
+		if not StoryScenes.should_play(id, flags):
+			continue
+		return id if zones_freed >= number else ""
+	return ""

@@ -55,5 +55,10 @@ kw hustle
 == T-23 @f501bdd147ea  # Schmuck
 kw wallflower
 
+== T-24 @68d5d773cd60  # Elowen Vey, Defector
+kw elusive,unbreakable
+
+== T-25 @d41d8cd98f00  # Failed Experiment
+
 == JUNK-01 @42595878c399  # Heap of Rubbish
 play => lose(me,1)

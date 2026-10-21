@@ -13,7 +13,7 @@ static func rules(key: String) -> Array[Dictionary]:
 	if plan == null:
 		return result
 	for entry: Dictionary in _entries(plan.id):
-		result.append({"name": entry["name"], "text": entry["text"], "active": entry["modifiers"] != null, "scope": entry["scope"], "nodes": entry.get("nodes", [])})
+		result.append({"name": entry["name"], "text": entry["text"], "active": entry["modifiers"] != null, "scope": entry["scope"], "nodes": entry.get("nodes", []), "harmful": entry.get("harmful", false)})
 	return result
 
 
@@ -31,6 +31,11 @@ static func shared_source(key: String, node_number: int = 0) -> ModifierSource:
 ## The modifiers that apply to the player only (null when none).
 static func player_source(key: String, node_number: int = 0) -> ModifierSource:
 	return _source(key, "player", node_number)
+
+
+## Oct 21: the modifiers that apply to the enemy only (the Lab's "enemy units enter with +1/+1"; null when none).
+static func enemy_source(key: String, node_number: int = 0) -> ModifierSource:
+	return _source(key, "enemy", node_number)
 
 
 ## `zone` (the zone effects, may be null) plus the shared dungeon rules as one source.
@@ -115,10 +120,17 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 				_rule("Bland Diet", "Healing effects do nothing.", "both", [CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, -99)] as Array[Modifier]),
 				_rule("Real Food", "Your Gourmand cards cost 1 less (the recipes fight back).", "player", [CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, Affinity.Type.GOURMAND, 0)] as Array[Modifier]),
 			]
+		"D-LAB":
+			# Oct 21 (the sheet's D-LAB row): Specimen Conditions. Siphon's four Protocols are his own encounter rules (ProtocolJam).
+			return [
+				_rule("Specimen Conditions", "Your max life is 5 lower in the Lab.", "player", [CardBuilder.modifier(Modifier.Kind.MAX_HP, -5)] as Array[Modifier], [], true),
+				_rule("Specimen Conditions (enemies)", "Enemy units enter with +1/+1.", "enemy", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier]),
+			]
 		"S-TOWN":
 			return [_rule("Old Kingdom", "Colorless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]
 	return []
 
 
-static func _rule(rule_name: String, text: String, scope: String, modifiers: Variant, nodes: Array = []) -> Dictionary:
-	return {"name": rule_name, "text": text, "scope": scope, "modifiers": modifiers, "nodes": nodes}
+## `harmful`: a player-side rule that hurts the player (the Lab's lower max life), shown as a bad badge.
+static func _rule(rule_name: String, text: String, scope: String, modifiers: Variant, nodes: Array = [], harmful: bool = false) -> Dictionary:
+	return {"name": rule_name, "text": text, "scope": scope, "modifiers": modifiers, "nodes": nodes, "harmful": harmful}

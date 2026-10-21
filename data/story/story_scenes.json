@@ -425,6 +425,332 @@
 					"Her name goes in the true record. Whatever else happens."
 				]
 			]
+		},
+		"lab_hatch": {
+			"steps": [
+				[
+					"",
+					"The hatch opens on white light and a smell of disinfectant. A staircase of clean steel goes down through the roots of the forest where you woke up.",
+					"Everything about this place is familiar in the way a bruise is familiar. Your hands are shaking. You go down anyway."
+				]
+			]
+		},
+		"lab_cell4": {
+			"steps": [
+				[
+					"",
+					"A white room, three paces by four. Ten years of tally marks on the wall in rows of five, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colors."
+				],
+				[
+					"",
+					"Someone is sitting under the drawing with her knees up and her hands bound, as if she has been keeping it company."
+				],
+				[
+					"NPC-ELOWEN",
+					"Took you long enough, Tess."
+				],
+				[
+					"NPC-PLAYER",
+					"Tess?"
+				],
+				[
+					"NPC-ELOWEN",
+					"That's what I called you, when we were small and you were too important to be called anything shorter.",
+					"They put me in your cell. My father thinks that's educational. With him it is hard to tell."
+				]
+			]
+		},
+		"lab_cell4_after": {
+			"steps": [
+				[
+					"NPC-ELOWEN",
+					"I'll walk behind you. I know every door down here, and which ones scream."
+				],
+				[
+					"NPC-ELOWEN",
+					"Whatever he says in there, he'll say it kindly. That's the worst part. Don't listen to the voice, Tess. Watch the hands."
+				]
+			]
+		},
+		"lab_study": {
+			"steps": [
+				[
+					"",
+					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand. The last entry is ten years old."
+				],
+				[
+					"",
+					"\"The Minister knelt to the King. I was asked to hold the east door. I held it open. The boy will be safer with us than with sentiment. We will learn so much.\" - A. Siphon"
+				],
+				[
+					"NPC-ELOWEN",
+					"That's his handwriting.",
+					"He told me the King died of a fever. He told me you were a patient. I brought you soup."
+				],
+				[
+					"NPC-PLAYER",
+					"Elowen..."
+				],
+				[
+					"NPC-ELOWEN",
+					"Don't. Not yet. If you're kind to me now, I won't be able to walk in there."
+				]
+			]
+		},
+		"lab_study_alone": {
+			"steps": [
+				[
+					"",
+					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand. The last entry is ten years old."
+				],
+				[
+					"",
+					"\"The Minister knelt to the King. I was asked to hold the east door. I held it open. The boy will be safer with us than with sentiment. We will learn so much.\" - A. Siphon"
+				],
+				[
+					"NPC-PLAYER",
+					"Siphon. Her father held the door."
+				]
+			]
+		},
+		"lab_siphon": {
+			"steps": [
+				[
+					"",
+					"The Extraction Theater: tiered seats of white steel around a single chair. Dr. Ambrose Siphon looks up from a bench of humming glass, neat, polite and not at all surprised."
+				],
+				[
+					"NPC-SIPHON",
+					"Subject 1. And my daughter. Both of you home at once. I shall have to rearrange the schedule.",
+					"You have grown. Remarkable. The draining has been very good for your posture."
+				],
+				[
+					"NPC-ELOWEN",
+					"You held the door, Dad. The night they killed the King and Queen. I read it in your own hand."
+				],
+				[
+					"NPC-SIPHON",
+					"I held a door, sweetheart. Doors are held every day. What came through it was the Minister's choice, not mine."
+				],
+				[
+					"NPC-ELOWEN",
+					"You told me he was a patient. I brought him soup. For years."
+				],
+				[
+					"NPC-SIPHON",
+					"And it was very good soup. You were always confused about kindness. It made you a poor scientist and a lovely daughter.",
+					"Please, both of you, sit. This will only drain a little."
+				],
+				[
+					"NPC-ELOWEN",
+					"Tess. His Protocols run on switches, and I know where every one is. I'll take one down each turn. You do the rest."
+				]
+			]
+		},
+		"lab_siphon_alone": {
+			"steps": [
+				[
+					"",
+					"The Extraction Theater: tiered seats of white steel around a single chair. Dr. Ambrose Siphon looks up from a bench of humming glass, neat, polite and not at all surprised."
+				],
+				[
+					"NPC-SIPHON",
+					"Subject 1. You came back to us. You have grown. Remarkable, after so many cycles."
+				],
+				[
+					"NPC-SIPHON",
+					"My daughter is resting in your old room. She is confused, poor thing. She thinks she rescued something.",
+					"Assistants come home. Subjects too. Please, sit. This will only drain a little."
+				]
+			]
+		},
+		"lab_siphon_after": {
+			"sets": [
+				"rescuer_freed"
+			],
+			"steps": [
+				[
+					"",
+					"The tanks go dark one by one. Siphon sits down among the cables on the floor of his own theater, like a man who has dropped something very small."
+				],
+				[
+					"NPC-SIPHON",
+					"You were never a Subject. Maren said so, and I called it sentiment.",
+					"I called a great many things sentiment."
+				],
+				[
+					"NPC-ELOWEN",
+					"Get up, Dad. You're going to Crosspath. Agnes has a form for you, Maren has a great deal to say, and you are going to listen to all of it."
+				],
+				[
+					"NPC-SIPHON",
+					"...Yes. Yes, I suppose I am."
+				],
+				[
+					"",
+					"The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+				],
+				[
+					"NPC-ELOWEN",
+					"My name is {rescuer_full}. Vey was my mother's. I wanted to say it to you properly once, somewhere with a roof."
+				]
+			],
+			"once_flag": "lab_siphon_confronted"
+		},
+		"lab_siphon_after_alone": {
+			"sets": [
+				"rescuer_freed"
+			],
+			"steps": [
+				[
+					"",
+					"The tanks go dark one by one. Siphon sits down among the cables on the floor of his own theater, like a man who has dropped something very small."
+				],
+				[
+					"",
+					"Footsteps in the corridor behind you, quick and uneven. Somebody has picked the lock of Cell 4 from the inside."
+				],
+				[
+					"NPC-ELOWEN",
+					"Took you long enough, Tess. I got tired of waiting and let myself out."
+				],
+				[
+					"NPC-ELOWEN",
+					"You held the door, Dad. The night they killed the King and Queen. It's in your journal, in your own hand."
+				],
+				[
+					"NPC-SIPHON",
+					"I held a door, sweetheart. What came through it was the Minister's choice."
+				],
+				[
+					"NPC-ELOWEN",
+					"No. It was yours too. Get up. You're going to Crosspath, and you're going to listen to every word Maren says."
+				],
+				[
+					"NPC-SIPHON",
+					"...Yes. I suppose I am."
+				],
+				[
+					"",
+					"The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+				],
+				[
+					"NPC-ELOWEN",
+					"My name is {rescuer_full}. Vey was my mother's. I wanted to say it to you properly once, somewhere with a roof."
+				]
+			],
+			"once_flag": "lab_siphon_confronted"
+		},
+		"cave_mouth_1": {
+			"once_flag": "cave_mouth_1_seen",
+			"steps": [
+				[
+					"",
+					"Someone is sitting on a rock at the mouth of the Forgotten Cave, hood up, sharpening a pencil with a scalpel."
+				],
+				[
+					"NPC-ELOWEN",
+					"You freed a whole Path. On your own. With a deck you'd known for a week.",
+					"Let me see your hands. Steadier. Good. That's the first thing I've been able to tick off in a long time."
+				],
+				[
+					"NPC-PLAYER",
+					"Who are you?"
+				],
+				[
+					"NPC-ELOWEN",
+					"Still a friend. Still all I can give you.",
+					"I'm not staying in town. The old woman with the shell looks at me like I owe her a pie."
+				],
+				[
+					"NPC-ELOWEN",
+					"Keep going. I'll know when the next one falls. The woods go quiet when a Path comes loose."
+				]
+			]
+		},
+		"cave_mouth_2": {
+			"once_flag": "cave_mouth_2_seen",
+			"steps": [
+				[
+					"",
+					"The hooded figure is back at the cave mouth with two cups of something hot. She hands you one without asking."
+				],
+				[
+					"NPC-ELOWEN",
+					"Two Paths. People in town are singing again. Badly, but they're singing."
+				],
+				[
+					"NPC-PLAYER",
+					"You knew I'd come back here."
+				],
+				[
+					"NPC-ELOWEN",
+					"You always came back to the same places. Even when you were...",
+					"Drink your tea. It's for the shaking."
+				],
+				[
+					"NPC-PLAYER",
+					"Even when I was what?"
+				],
+				[
+					"NPC-ELOWEN",
+					"Even when you were someone who couldn't. Ask me something easier."
+				],
+				[
+					"NPC-PLAYER",
+					"Favourite colour?"
+				],
+				[
+					"NPC-ELOWEN",
+					"Four of them. Next question."
+				]
+			]
+		},
+		"cave_mouth_3": {
+			"once_flag": "cave_mouth_3_seen",
+			"steps": [
+				[
+					"",
+					"She is waiting at the cave mouth again with her hood down, as if she forgot it was up. Her eyes are tired and very sure."
+				],
+				[
+					"NPC-ELOWEN",
+					"Three. I used to think you were someone else. Someone I lost when we were kids. Now I'm starting to think...",
+					"No. Not until I'm certain. Too many people around here say things before they're certain."
+				],
+				[
+					"NPC-PLAYER",
+					"You knew me. Before."
+				],
+				[
+					"NPC-ELOWEN",
+					"I knew a boy who fell on his behind trying to lift a dumbbell, and who ate the frosting off every layer of his cake.",
+					"You'd have liked him. He was terrible at hiding things."
+				]
+			]
+		},
+		"cave_mouth_4": {
+			"once_flag": "cave_mouth_4_seen",
+			"steps": [
+				[
+					"",
+					"The cave mouth is quiet. This time she is standing, cloak fastened, a satchel of four-coloured vials over her shoulder, ready to go somewhere."
+				],
+				[
+					"NPC-ELOWEN",
+					"All four. The kingdom is breathing again. Like voices through a wall, except the wall is coming down.",
+					"There's only the Capital left. Only him."
+				],
+				[
+					"NPC-PLAYER",
+					"Come with me."
+				],
+				[
+					"NPC-ELOWEN",
+					"I'll be at the castle gate when you get there. Somebody has to watch the door while you knock it down.",
+					"And when it's over, I'll tell you everything. My name first. I promise."
+				]
+			]
 		}
 	}
 }

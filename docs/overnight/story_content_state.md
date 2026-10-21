@@ -37,7 +37,7 @@ are held back for Part 2: scratchpad `lab_part2.json` = the D-LAB cell values (c
 | Part | Status | Notes |
 |---|---|---|
 | 1 lieutenants | done | Lieutenants, StoryScenes, S-PASTE + cap_paste_works, capture + StoryBeats; sims in balance_log "Oct 21 - Part 1"; GUT green; dungeons + Capital walk smokes green (dungeons smoke fixed for the rules card and the v0.4.0 arrival) |
-| 2 Elowen | not started | |
+| 2 Elowen | done | Cave Mouth scenes (StoryBeats), 16-node Lab, Cell 4 + T-24, ProtocolJam + HUD chooser, confrontation scenes, sims in balance_log Part 2 |
 | 3 canon beats | not started | |
 | 4 balance | not started | |
 | 5 verify | not started | |

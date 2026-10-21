@@ -24,6 +24,21 @@ entry (Clipwell holds the Root-Choked Mill).
 | MAP-S-PASTE | The Paste Works, three nodes (Ration Line, the Vat Floor, the Colonel's Kitchen) | MAP-S-CAP |
 | BB-S-PASTE | The Paste Works battleboard | BB-TTK |
 
+## Tokens (card art; a placeholder icon stands in)
+
+| ID | What |
+|---|---|
+| T-24 | Elowen Vey, Defector (the Token List has the image description) |
+| T-25 | Failed Experiment |
+
+## The Path-ology Lab
+
+| ID | What | Stand-in today |
+|---|---|---|
+| MAP-LAB | The painted Lab map for the sheet's 16-node layout (the Dungeon List's map art direction) | a code-drawn diagram (tools/make_lab_placeholder_art.gd) |
+| BB-LAB | The Lab battleboard | a code-drawn placeholder |
+| BST-HYBRID-SPECIMEN, BST-ANTECHAMBER-SENTRY | New Lab foes | icons |
+
 ## Portrait expressions
 
 The new speakers have base portraits only; expression tags fall back to them. Wanted most: NPC-ELOWEN (hopeful, doubtful, determined,

@@ -1,5 +1,8 @@
 # The Path-ology Lab (D-LAB)
 
+> **Superseded Oct 21 2026:** the Lab now follows the design sheet's 16-node layout (Cell 4, the Mentor's Study, Siphon's Protocols, Elowen as
+> T-24). See `docs/design/story_bible.md` section 18 and `core/dungeon/pathology_lab.gd`. The rest of this page describes the old placeholder.
+
 Design notes for the designer's sheet. Everything here describes what the game does today (from `data/dungeons/postgame_dungeons.json`, `data/dungeons/dungeon_content.json` and `core/dungeon/pathology_lab.gd`), plus clearly marked **proposals** where the sheet still says "To be designed". The row in `data/source/dungeon_list.csv` has no node list yet; when it gets one, the CSV import wins over this document.
 
 ## What it is

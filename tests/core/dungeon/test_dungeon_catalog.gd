@@ -4,7 +4,7 @@ extends GutTest
 
 const NODE_COUNTS: Dictionary = {
 	"D-TUT": 6, "D-HOG": 13, "D-TTK": 13, "D-HFA": 14, "D-ROT": 13, "D-PC": 22,
-	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 14, "S-IRON": 3, "S-PASTE": 3,
+	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 16, "S-IRON": 3, "S-PASTE": 3,
 }
 const REWARD_CARDS: Dictionary = {
 	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-33", "D-ROT": "R-33", "D-PC": "P4-02",

@@ -348,7 +348,24 @@ func _stage_forest_and_lab() -> void:
 	var lab_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	if lab_screen != null:
 		await driver.seconds(0.8)
+		# Oct 21: the hatch's opening scene plays when the map first opens; the map is the sheet's 16 nodes.
+		_check(lab_screen._dialogue != null and lab_screen._dialogue.active, "the Lab opens with the hatch scene")
 		await _shot("e2e_lab_map")
+		var guard_talk: int = 0
+		while lab_screen._dialogue.active and guard_talk < 20:
+			guard_talk += 1
+			await driver.tap_key(KEY_SPACE)
+			await driver.seconds(0.3)
+		_check(lab_screen.map.nodes.size() == 16, "the Lab is the sheet's 16-node map")
+		# Elowen freed in Cell 4 (decree): she stands on your field against Siphon, with the Protocol chooser in the HUD.
+		Session.run.add_dungeon_source(PathologyLab.rescuer_boon())
+		Session.start_battle(Session.make_dungeon_battle(lab_screen.map.boss()))
+		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
+		_check(battle != null and ProtocolJam.has_ally(battle.context.game, 0), "Elowen (T-24) fights beside you against Siphon")
+		if battle != null:
+			await driver.seconds(2.0)
+			_check(battle.find_child("ProtocolJam", true, false) != null, "the HUD shows Elowen's Protocol chooser")
+			await _shot("e2e_lab_siphon_with_elowen")
 
 
 # ---- Helpers ---------------------------------------------------------------------------------------------------------------------------

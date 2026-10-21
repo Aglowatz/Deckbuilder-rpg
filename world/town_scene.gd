@@ -32,10 +32,10 @@ const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## The town NPCs that are painted sprites (docs/art/world_rollout.md, Part D): spot id -> sprite set. Everyone else is still a 3D model.
-const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK"}
+const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN"}
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker", "rescuer",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## The NPC ID (data/npcs, `NpcRegistry`) of each talkable town spot; spots without one (the secret dealer, the rift technician) show no portrait.
@@ -484,6 +484,9 @@ func _build_actors() -> void:
 	if not (_npcs["elder"] is SpriteActor):
 		TortoiseKit.add_shell(_npcs["elder"] as Node3D)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
+	# Oct 21: the Rescuer waits at the cave mouth after each freed zone (StoryBeats.cave_mouth_scene), until she is taken at the castle gate.
+	if not StoryBeats.cave_mouth_scene(Session.flags, Session.completed_zone_count()).is_empty() and town.anchors.has("gate"):
+		_add_npc("rescuer", "Rogue_Hooded", _cave_mouth_spot(), 200.0, Color(0.62, 0.58, 0.7))
 	if _secret_dealer_open():
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
 	# New brief, Part F: the item vendor.
@@ -569,7 +572,7 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 ## Playtest v0.4.0 Part A: floating name labels as screen UI - vendors ("Sable - Cards") and quest givers always, everyone else when the hero
 ## is close - and a glow at the feet of vendors (gold) and quest givers (green). The black-market dealer keeps no label and no glow.
 var npc_labels: NpcLabels
-const QUEST_SPOT_IDS: Array[String] = ["elder", "guard", "npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat"]
+const QUEST_SPOT_IDS: Array[String] = ["elder", "guard", "npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat", "rescuer"]
 
 
 func _labels() -> NpcLabels:
@@ -738,6 +741,8 @@ func _build_spots() -> void:
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
+	if _npcs.has("rescuer"):
+		_add_spot("rescuer", RoyalFamily.fill("{rescuer}"), _cave_mouth_spot(), 1.5)
 	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, 1.4)
 	_add_spot("notice_board", "Notice Board", town.anchors["notice_board"] as Vector3, 1.7)
 	for sign_index: int in range(square.streets.signpost_positions.size()):
@@ -1206,6 +1211,8 @@ func _interact(spot: Spot) -> void:
 			_open_deck_station()
 		"gate":
 			_use_gate()
+		"rescuer":
+			_talk_rescuer()
 		"elder":
 			_talk_elder()
 		"guard":
@@ -1260,6 +1267,44 @@ func _face_npc(id: String) -> void:
 		var offset: Vector3 = player.position - npc.position
 		npc.rotation.y = atan2(offset.x, offset.z)
 	player.face((npc.position if npc != null else player.position))
+
+
+## Oct 21: where the Rescuer waits, a little to the side of the cave mouth so the cave's own prompt stays reachable.
+func _cave_mouth_spot() -> Vector3:
+	return (town.anchors["gate"] as Vector3) + Vector3(2.2, 0.0, 1.2)
+
+
+## The Cave Mouth scene that is waiting (one per freed zone, warmer each time); afterwards she slips away into the cave.
+func _talk_rescuer() -> void:
+	var scene: String = StoryBeats.cave_mouth_scene(Session.flags, Session.completed_zone_count())
+	_face_npc("rescuer")
+	if scene.is_empty():
+		_rescuer_leaves_town()
+		return
+	_locked = true
+	StoryScenePlayer.play(dialogue, scene, func() -> void:
+		_locked = false
+		_rescuer_leaves_town())
+
+
+func _rescuer_leaves_town() -> void:
+	for spot: Spot in spots.duplicate():
+		if spot.id == "rescuer":
+			if is_instance_valid(spot.marker):
+				_labels().unregister(spot.marker)
+				spot.marker.queue_free()
+			if is_instance_valid(spot.plate):
+				spot.plate.queue_free()
+			spots.erase(spot)
+	var npc: Node3D = _npcs.get("rescuer") as Node3D
+	_npcs.erase("rescuer")
+	if not is_instance_valid(npc):
+		return
+	var fade: Tween = create_tween().set_parallel(true)
+	fade.tween_property(npc, "position", npc.position + Vector3(-1.4, 0.0, -1.2), 1.4)
+	for node: Node in npc.find_children("*", "GeometryInstance3D", true, false):
+		fade.tween_property(node, "transparency", 1.0, 1.2)
+	fade.finished.connect(npc.queue_free)
 
 
 ## Elder Maren: memory fragments first, then hand-ins (an errand of the early-game chain hands straight over to the next one in the same
@@ -1550,6 +1595,8 @@ func _show_pending_results() -> void:
 	_show_ninja_result()
 	_show_vault_result()
 	_show_old_well_result()
+	if _npcs.has("rescuer"):
+		hud.toast("Someone is waiting at the mouth of the Forgotten Cave.", UIStyle.GOLD)
 
 
 func _finish_cave_arrival() -> void:

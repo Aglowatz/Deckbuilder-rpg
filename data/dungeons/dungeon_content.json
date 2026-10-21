@@ -1255,31 +1255,34 @@
 				"infra": 16
 			},
 			"boss": {
-				"deck": "necro_control",
+				"deck": "four_paths",
 				"extra": {
 					"N-33": 1,
 					"B-32": 1,
 					"G-33": 1,
-					"R-33": 1,
-					"C-30": 1,
-					"C-31": 1
+					"R-33": 1
 				},
-				"hp": 58,
-				"icon": "delapouite/warlock-eye"
+				"hp": 44,
+				"icon": "delapouite/warlock-eye",
+				"infra": 15
 			},
 			"foes": {
 				"2": {
 					"name": "Decontamination Technician",
 					"deck": "necro_control",
 					"size": 40,
-					"hp": 34,
-					"ai": "Aggressive"
+					"hp": 30,
+					"ai": "Aggressive",
+					"mixed": [
+						"necrocrat",
+						"gourmand"
+					]
 				},
 				"3": {
 					"name": "Escaped Specimen",
 					"deck": "refuse_garbage",
 					"size": 40,
-					"hp": 34,
+					"hp": 30,
 					"ai": "Aggressive",
 					"mixed": [
 						"refusemancer",
@@ -1290,7 +1293,7 @@
 					"name": "The Failed Experiment",
 					"deck": "beefcake_bruisers",
 					"size": 42,
-					"hp": 44,
+					"hp": 40,
 					"ai": "Aggressive",
 					"mixed": [
 						"beefcake",
@@ -1302,23 +1305,38 @@
 					},
 					"infra": 13
 				},
-				"6": {
-					"name": "Observation Ward Orderly",
+				"8": {
+					"name": "Hybrid Specimen",
 					"deck": "gourmand_control",
 					"size": 40,
-					"hp": 36,
-					"ai": "Balanced"
+					"hp": 32,
+					"ai": "Balanced",
+					"mixed": [
+						"gourmand",
+						"refusemancer",
+						"necrocrat"
+					]
 				},
 				"10": {
+					"name": "Siphon's Research Assistant",
+					"deck": "gourmand_control",
+					"size": 40,
+					"hp": 32,
+					"ai": "Balanced",
+					"mixed": [
+						"gourmand",
+						"necrocrat"
+					]
+				},
+				"13": {
 					"name": "The Drain Warden",
 					"deck": "necro_control",
 					"size": 42,
-					"hp": 48,
+					"hp": 42,
 					"ai": "Aggressive",
 					"mixed": [
 						"necrocrat",
 						"refusemancer",
-						"gourmand",
 						"beefcake"
 					],
 					"extra": {
@@ -1327,23 +1345,24 @@
 					},
 					"infra": 13
 				},
-				"11": {
-					"name": "Siphon's Research Assistant",
-					"deck": "gourmand_control",
+				"15": {
+					"name": "Antechamber Sentry",
+					"deck": "beefcake_bruisers",
 					"size": 40,
-					"hp": 38,
-					"ai": "Balanced",
+					"hp": 34,
+					"ai": "Aggressive",
 					"mixed": [
-						"gourmand",
-						"necrocrat"
+						"beefcake",
+						"necrocrat",
+						"refusemancer"
 					]
 				},
-				"14": "Dr. Ambrose Siphon, Chief Path-ologist"
+				"16": "Dr. Ambrose Siphon, Chief Path-ologist"
 			},
 			"events": {
 				"4": {
-					"title": "The Path-ologists' Break Room",
-					"body": "A kettle, a cracked mug that says WORLD'S OKAYEST PATH-OLOGIST, and a corkboard of notes on one subject. Some of the oldest have been torn down. The newest are a count of days.",
+					"title": "The Observation Deck",
+					"body": "A gallery of glass above the cells, a kettle, a cracked mug that says WORLD'S OKAYEST PATH-OLOGIST, and a corkboard of notes on one subject. The newest are a count of days.",
 					"choices": [
 						[
 							"Read the notes on the Subject",
@@ -1363,31 +1382,50 @@
 					]
 				},
 				"7": {
-					"title": "The Prince's Old Cell",
-					"body": "A white room, three paces by four. On the wall, in rows of five with a stroke through each, ten years of tally marks, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colors: a small boy, a woman humming, a man with a crown, and a sun that is all four colors at once.",
+					"title": "The Draining Chamber",
+					"body": "A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.",
 					"choices": [
 						[
-							"Run your fingers along the tally marks",
-							"The marks are shallow at the start and deep at the end. Somebody counted every day. It was you. Something in your chest says: never again.",
-							"boon:Counted Every Day|max_hp=3"
+							"Put your hand on the glass",
+							"The four colors lean toward your palm like plants toward a window. They were yours. They remember.",
+							"heal:6"
 						],
 						[
-							"Look at the child's drawing",
-							"Four colors, because he had them, and he drew them the way he remembered them. You take a long, slow breath and feel your lost warmth in it.",
-							"heal:5"
+							"Read the dials",
+							"Every cycle logged, every reading neat. You learn exactly how the machine works, which is how to break it.",
+							"boon:Know the Machine|atk=1"
 						],
 						[
-							"Leave quietly",
-							"Some rooms are not for lingering in. You close the door gently, as if somebody might still be asleep.",
-							"nothing"
+							"Tear out the straps",
+							"They come away easily. They were only ever as strong as the people who buckled them.",
+							"boon:Never Again|max_hp=3"
+						]
+					]
+				},
+				"11": {
+					"ref": "lab_cell4"
+				},
+				"12": {
+					"title": "The Mentor's Study",
+					"body": "A warm, cluttered study with the only rug in the Lab. On the desk lies an open journal in a neat, slanted hand.",
+					"choices": [
+						[
+							"Take the journal for Wren's true record",
+							"It goes into your pack, light as a confession.",
+							"boon:The True Record|max_hp=2"
+						],
+						[
+							"Leave it on the desk",
+							"Let him find it open. Let him wonder who read it.",
+							"heal:3"
 						]
 					]
 				}
 			},
 			"challenges": {
-				"8": {
-					"title": "The Glass Tank Hall",
-					"text": "Four tanks glow in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
+				"6": {
+					"title": "Decontamination",
+					"text": "Four nozzles hiss in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
 					"kind": "infra",
 					"reveal": 6,
 					"threshold": 3,
@@ -1401,17 +1439,27 @@
 				}
 			},
 			"loot": {
-				"9": {
+				"14": {
 					"gold": 220,
 					"xp": 120,
 					"item": "scroll_of_insight"
 				}
 			},
-			"story_keys": {
-				"1": "dg_lab_hatch",
-				"10": "dg_lab_drain",
-				"12": "dg_lab_rescue",
-				"14": "dg_lab_boss"
+			"talks": {
+				"1": {
+					"before": "lab_hatch"
+				},
+				"11": {
+					"before": "lab_cell4",
+					"after": "lab_cell4_after"
+				},
+				"12": {
+					"before": "lab_study"
+				},
+				"16": {
+					"before": "lab_siphon",
+					"after": "lab_siphon_after"
+				}
 			}
 		},
 		"S-TOWN": {
@@ -1650,40 +1698,6 @@
 			"The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.",
 			"'Tick. ...Recognised. Four Paths. One kingdom. Carry it well.'"
 		],
-		"dungeon.dg_lab_hatch.before": [
-			"The hatch opens on white light and a smell of disinfectant. A staircase of clean steel goes down through the roots of the forest where you woke up.",
-			"Everything about this place is familiar in the way a bruise is familiar. You do not know why your hands are shaking. You go down anyway."
-		],
-		"dungeon.dg_lab_drain.before": [
-			"A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.",
-			"The tanks are still half full: four colors of a boy's power, bottled, labelled and filed. A Path-ologist in a stained coat says, without looking up, 'Subject 1 is not to leave the chair.'"
-		],
-		"dungeon.dg_lab_drain.after": [
-			"The Drain Warden falls across the chair. The cables go slack, and the four tanks flicker, as if something in them has noticed you.",
-			"The power is not yours to take back this way. It was never meant to be bottled at all."
-		],
-		"dungeon.dg_lab_rescue.before": [
-			"In a cell at the end of the corridor, a figure in a torn gray travelling cloak sits with their hands bound. They do not look up. The hood is a rag; the pin at the throat is bent.",
-			"'You came back,' they say. 'I hoped you would. I told them you would not.'"
-		],
-		"dungeon.dg_lab_rescue.after": [
-			"The lock gives way. The Rescuer pushes the hood down at last, and the face under it is tired and kind and unmistakable: the person who knelt beside you in the forest.",
-			"'I never told you my name,' they say. 'I will, once you have taken this place apart. Go on. I will walk behind you.'"
-		],
-		"dungeon.dg_lab_boss.before": [
-			"Dr. Ambrose Siphon, Chief Path-ologist, looks up from a bench of humming glass. Neat, polite, delighted, and not at all surprised.",
-			"'Subject 1. You came back to us. You have grown. Remarkable, after so many cycles. I must examine the records.'",
-			"'{villain}'s rule was always a bit crude. I never needed a crown, only the research. My assistant left us too, you know. Confused, poor thing. Assistants come home.'",
-			"'Please, sit. This will only drain a little.'"
-		],
-		"dungeon.dg_lab_boss.after": [
-			"Siphon's equipment goes dark, tank by tank. He sags against a bench, and for once he does not look fascinated.",
-			"'You are not a Subject,' he says, dazed. 'You were never a Subject. Maren said so, and I called it sentimentality.'",
-			"The tanks go clear. The four colors rise out of them, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
-		],
-		"dungeon.dg_lab_boss.title": [
-			"The Chief Path-ologist's Laboratory"
-		],
 		"quest.cap_paste_works.offer": [
 			"The dispenser is spoiled. Lovely. But the paste comes from somewhere.",
 			"The shuttered stall at the south-west corner hums at night. Stalls are not supposed to hum. Open its ration hatch and look. Gently."
@@ -1697,6 +1711,21 @@
 		],
 		"quest.cap_paste_works.done": [
 			"I have kept one real onion in my apron for ten years. Tonight, I chop it. You may want to stand back. I will be weeping, and not only from the onion."
+		],
+		"event.lab_cell4.title": [
+			"Cell 4"
+		],
+		"event.lab_cell4.body": [
+			"Your old cell: ten years of tally marks, a child's drawing in four colors, and Elowen under it with her hands bound."
+		],
+		"event.lab_cell4.choice.0": [
+			"Break the lock"
+		],
+		"event.lab_cell4.result.0": [
+			"The lock gives. She stands, rubs her wrists and looks at the drawing on the wall for a long moment before she looks at you."
+		],
+		"dungeon.lab_cell4.title": [
+			"Cell 4"
 		]
 	}
 }

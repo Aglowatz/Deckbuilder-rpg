@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_i1qhj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_510po"]
+
+[resource]
+script = ExtResource("2_510po")
+id = "T-24"
+display_name = "Elowen Vey, Defector"
+attack = 3
+defense = 5
+keywords = Array[int]([10, 12])
+rules_text = "Starts on the player's field during the Path-ology Lab boss fight if the player rescued her in that dungeon run.
+
+Elusive. Unbreakable.
+
+Inside Knowledge: At the start of your turn, choose one of the Chief Path-ologist's Protocols. It has no effect until your next turn.
+
+Sabotage: Failed Experiment tokens your opponent creates enter exhausted."
+flavor_text = "I learned everything I know from him. Including how to break it."
+is_token = true
+not_in_packs = true
+script_text = "kw elusive,unbreakable"
+rules_hash = "68d5d773cd60"
+image_description = "A young woman in a stained white lab coat with its badge torn off, standing defiantly in a shattered glass laboratory, four-colored light pouring from broken containment tanks behind her, one hand raised as glowing vials and machinery spark and fail around her."

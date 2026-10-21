@@ -244,6 +244,9 @@ static func dungeons() -> Array[EncounterSpec]:
 			spec.zone_id = blueprint.zone_id if ZoneEffects.has_effect(blueprint.zone_id) else ""
 			spec.dungeon_key = key
 			spec.node_number = node.number
+			var foe_rules: ModifierSource = DungeonRules.enemy_source(key, node.number)
+			if foe_rules != null:
+				spec.enemy_sources.append(foe_rules)
 			spec.enemy_name = node.enemy_name
 			spec.enemy_hp = fighter.hp
 			spec.enemy_ai_name = fighter.ai_name
@@ -252,7 +255,32 @@ static func dungeons() -> Array[EncounterSpec]:
 				spec.sequence = "side:%s" % blueprint.id
 			_attach_rules(spec, node.enemy_name)
 			result.append(spec)
+			# Oct 21: Siphon is also measured with Elowen (T-24) on your field, as after the optional Cell 4 rescue.
+			if blueprint.id == PathologyLab.DUNGEON_ID and spec.kind == EncounterSpec.Kind.BOSS:
+				result.append(_with_ally(spec, ProtocolJam.ALLY_TOKEN_ID, "elowen"))
 	return result
+
+
+## A copy of a boss spec with an ally token on the player's field from the start (id and title get the suffix).
+static func _with_ally(base: EncounterSpec, token_id: String, suffix: String) -> EncounterSpec:
+	var spec: EncounterSpec = EncounterSpec.new()
+	spec.id = "%s:%s" % [base.id, suffix]
+	spec.title = "%s (with %s)" % [base.title, suffix.capitalize()]
+	spec.group = base.group
+	spec.kind = base.kind
+	spec.expected_level = base.expected_level
+	spec.zone_id = base.zone_id
+	spec.dungeon_key = base.dungeon_key
+	spec.node_number = base.node_number
+	spec.enemy_name = base.enemy_name
+	spec.enemy_hp = base.enemy_hp
+	spec.enemy_ai_name = base.enemy_ai_name
+	spec.enemy_recipe = base.enemy_recipe
+	spec.enemy_sources = base.enemy_sources.duplicate()
+	spec.player_sources = base.player_sources.duplicate()
+	spec.sequence = base.sequence
+	spec.ally_token_ids.append(token_id)
+	return spec
 
 
 static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: DungeonMap.MapNode, base_level: int) -> Array[EncounterSpec]:

@@ -26,3 +26,11 @@ T-20,Protein Golem,Unit token (Gourmand/Beefcake Golem),Hustle.,6/6,Twenty grams
 T-21,Patchwork Body,Unit token (Necrocrat),,2/2,Assembled to code. Mostly.,"A stitched-together body of mismatched limbs with filing tags on each part, giving a cheerful thumbs-up."
 T-22,Sporeling,Unit token (Gourmand/Refusemancer/Necrocrat),,1/1,Grows on you.,"A tiny walking mushroom with stubby legs and glowing spots, waving shyly."
 T-23,Schmuck,Unit token (created under the OPPONENT's control by Dinner with Schmucks),Wallflower.,0/1,He thinks he's the guest of honor.,"A clueless, grinning dinner guest wearing a lampshade on his head and holding an empty plate."
+T-24,"Elowen Vey, Defector",Boss-fight ally token (the rescuer). Never available to the player normally.,"Starts on the player's field during the Path-ology Lab boss fight if the player rescued her in that dungeon run.
+
+Elusive. Unbreakable.
+
+Inside Knowledge: At the start of your turn, choose one of the Chief Path-ologist's Protocols. It has no effect until your next turn.
+
+Sabotage: Failed Experiment tokens your opponent creates enter exhausted.",3/5,I learned everything I know from him. Including how to break it.,"A young woman in a stained white lab coat with its badge torn off, standing defiantly in a shattered glass laboratory, four-colored light pouring from broken containment tanks behind her, one hand raised as glowing vials and machinery spark and fail around her."
+T-25,Failed Experiment,Unit token (Beefcake/Gourmand/Necrocrat/Refusemancer),,3/3,"Specimen 4,117. Discontinued. Still running.","A lurching, mismatched creature stitched together from four Paths' parts: a muscled arm, a pastry shoulder, a skeletal leg, and a mossy back, glowing tubes still attached, sad eyes."

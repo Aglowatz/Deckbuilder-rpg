@@ -16,7 +16,7 @@ const DUNGEON_ICONS: Dictionary = {
 	"Perfect Order": "delapouite/checklist", "Mirrors": "delapouite/shinto-shrine-mirror", "Thin Air": "lorc/feathered-wing",
 	"Never Skip Leg Day": "delapouite/weight-lifting-up", "Fresh Fish": "delapouite/fish-monster", "Please Wait": "delapouite/alarm-clock",
 	"Midnight Snack": "delapouite/trash-can", "Forgotten Harmony": "lorc/rainbow-star", "Old Kingdom": "delapouite/castle-ruins",
-	"Bland Diet": "lorc/acid-blob", "Real Food": "delapouite/fork-knife-spoon",
+	"Bland Diet": "lorc/acid-blob", "Specimen Conditions": "lorc/bubbling-flask", "Specimen Conditions (enemies)": "lorc/bubbling-flask", "Real Food": "delapouite/fork-knife-spoon",
 }
 const ZONE_BUFF_ICON: String = "lorc/rainbow-star"
 const ZONE_DEBUFF_ICON: String = "lorc/cursed-star"
@@ -95,8 +95,9 @@ static func for_dungeon(key: String, node_number: int = 0) -> Array[Badge]:
 		if node_number > 0 and not nodes.is_empty() and not nodes.has(node_number):
 			continue
 		var name: String = str(rule["name"])
-		var side: String = SIDE_PLAYER if str(rule["scope"]) == "player" else SIDE_BOTH
-		var good: bool = side == SIDE_PLAYER
+		var scope: String = str(rule["scope"])
+		var side: String = SIDE_PLAYER if scope == "player" else (SIDE_ENEMY if scope == "enemy" else SIDE_BOTH)
+		var good: bool = side == SIDE_PLAYER and not bool(rule.get("harmful", false))
 		result.append(_badge("dungeon", name, str(rule["text"]), str(DUNGEON_ICONS.get(name, DEFAULT_ICON)), side, good))
 	return result
 
@@ -132,7 +133,7 @@ static func for_encounter(rules: Array[EncounterModifiers.Rule]) -> Array[Badge]
 			continue
 		seen[rule.name] = true
 		var side: String = SIDE_ENEMY if rule.is_enemy_side() else SIDE_PLAYER
-		result.append(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER))
+		result.append(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER and not rule.harmful))
 	return result
 
 

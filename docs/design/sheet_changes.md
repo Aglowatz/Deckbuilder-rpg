@@ -64,6 +64,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Token ID | Name | Column | Old | New |
 |---|---|---|---|---|
 | T-14 | Red Tape | Card Text/Effect | Pay 1, use this Red Tape: target unit gets -1 attack permanently. (Your turn only.) | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of your next turn. (Your turn only.) |
+| T-24 | Elowen Vey, Defector | NEW ROW | - | 3/5 "Starts on the player's field during the Path-ology Lab boss fight if the player rescued her in that dungeon run. // Elusive. Unbreakable. // Inside Knowledge: At the start of your turn, choose one of the Chief Path-ologist's Protocols. It has no effect until your next turn. // Sabotage: Failed Experiment tokens your opponent creates enter exhausted." |
+| T-25 | Failed Experiment | NEW ROW | - | 3/3 "" |
 
 ## Design Guidance
 
@@ -113,8 +115,11 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="ingredient", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="garbage", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Steel | enemy | stat (atk=1, def=1) | "The Automaton's units get +1/+1." (icon delapouite/cyborg-face) |
-| Dr. Ambrose Siphon, Chief Path-ologist | Siphoned Power | enemy | stat (atk=1, def=1) | "The Doctor's units get +1/+1 and he draws an extra card each turn." (icon delapouite/warlock-eye) |
-| Dr. Ambrose Siphon, Chief Path-ologist | Siphoned Power | enemy | extra_draws (count=1) | "The Doctor's units get +1/+1 and he draws an extra card each turn." (icon delapouite/warlock-eye) |
+| Dr. Ambrose Siphon, Chief Path-ologist | Augmentation | enemy | stat (atk=2, def=1) | "Protocol: his units get +2/+1. Elowen can jam one Protocol each turn." (icon lorc/bubbling-flask) |
+| Dr. Ambrose Siphon, Chief Path-ologist | Replication | enemy | timed_summon (token="T-25", every=2, count=1) | "Protocol: at the start of every second turn of his, a 3/3 Failed Experiment joins him." (icon delapouite/shambling-zombie) |
+| Dr. Ambrose Siphon, Chief Path-ologist | Extraction | enemy | start_of_turn_damage (amount=1) | "Protocol: at the start of each of his turns he drains you: you lose 1 life and he gains 1." (icon lorc/drop) |
+| Dr. Ambrose Siphon, Chief Path-ologist | Extraction | enemy | start_of_turn_heal (amount=1) | "Protocol: at the start of each of his turns he drains you: you lose 1 life and he gains 1." (icon lorc/drop) |
+| Dr. Ambrose Siphon, Chief Path-ologist | Containment | player | first_card_cost (amount=1, harmful=true) | "Protocol: your first card each turn costs 1 more." (icon lorc/padlock) |
 | The Drain Warden | Drained | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon lorc/bubbling-flask) |
 | The Drain Warden | Drained Strength | enemy | stat (atk=2, def=2) | "The Warden's units get +2/+2." (icon lorc/bubbling-flask) |
 | town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=1) | "Prudence starts the duel with a Red Tape." (icon delapouite/stamper) |
@@ -214,13 +219,15 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-PASTE | node 3 | - | {"name":"Colonel Cornelius Crumb, Director of Culinary Defense","ai":"Aggressive"} |
 | S-PASTE | boss | - | {"deck":"gourmand_golems","extra":{"C-30":1,"G-29":1},"hp":28,"icon":"delapouite/ladle","infra":13} |
 | S-PASTE | defaults | - | {"archetypes":["gourmand_golems"],"icons":["delapouite/chef-toque","lorc/acid-blob","delapouite/ladle"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
-| D-LAB | node 2 | {"name":"Decontamination Technician","deck":"necro_control","size":38,"hp":30,"ai":"Aggressive"} | {"name":"Decontamination Technician","deck":"necro_control","size":40,"hp":34,"ai":"Aggressive"} |
-| D-LAB | node 3 | {"name":"Escaped Specimen","deck":"refuse_garbage","size":38,"hp":30,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} | {"name":"Escaped Specimen","deck":"refuse_garbage","size":40,"hp":34,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} |
-| D-LAB | node 5 | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":36,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1}} | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":44,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1},"infra":13} |
-| D-LAB | node 6 | {"name":"Observation Ward Orderly","deck":"gourmand_control","size":40,"hp":32,"ai":"Balanced"} | {"name":"Observation Ward Orderly","deck":"gourmand_control","size":40,"hp":36,"ai":"Balanced"} |
-| D-LAB | node 10 | {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":38,"ai":"Aggressive","mixed":["necrocrat","refusemancer","gourmand","beefcake"],"extra":{"N-29":1,"C-30":1}} | {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":48,"ai":"Aggressive","mixed":["necrocrat","refusemancer","gourmand","beefcake"],"extra":{"N-29":1,"C-30":1},"infra":13} |
-| D-LAB | node 11 | {"name":"Siphon's Research Assistant","deck":"gourmand_control","size":40,"hp":34,"ai":"Balanced","mixed":["gourmand","necrocrat"]} | {"name":"Siphon's Research Assistant","deck":"gourmand_control","size":40,"hp":38,"ai":"Balanced","mixed":["gourmand","necrocrat"]} |
-| D-LAB | boss | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":50,"icon":"delapouite/warlock-eye"} | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":58,"icon":"delapouite/warlock-eye"} |
+| D-LAB | node 2 | {"name":"Decontamination Technician","deck":"necro_control","size":38,"hp":30,"ai":"Aggressive"} | {"name":"Decontamination Technician","deck":"necro_control","size":40,"hp":30,"ai":"Aggressive","mixed":["necrocrat","gourmand"]} |
+| D-LAB | node 3 | {"name":"Escaped Specimen","deck":"refuse_garbage","size":38,"hp":30,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} | {"name":"Escaped Specimen","deck":"refuse_garbage","size":40,"hp":30,"ai":"Aggressive","mixed":["refusemancer","beefcake"]} |
+| D-LAB | node 5 | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":36,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1}} | {"name":"The Failed Experiment","deck":"beefcake_bruisers","size":42,"hp":40,"ai":"Aggressive","mixed":["beefcake","necrocrat","gourmand"],"extra":{"B-28":1},"infra":13} |
+| D-LAB | node 8 | - | {"name":"Hybrid Specimen","deck":"gourmand_control","size":40,"hp":32,"ai":"Balanced","mixed":["gourmand","refusemancer","necrocrat"]} |
+| D-LAB | node 10 | {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":38,"ai":"Aggressive","mixed":["necrocrat","refusemancer","gourmand","beefcake"],"extra":{"N-29":1,"C-30":1}} | {"name":"Siphon's Research Assistant","deck":"gourmand_control","size":40,"hp":32,"ai":"Balanced","mixed":["gourmand","necrocrat"]} |
+| D-LAB | node 13 | - | {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":42,"ai":"Aggressive","mixed":["necrocrat","refusemancer","beefcake"],"extra":{"N-29":1,"C-30":1},"infra":13} |
+| D-LAB | node 15 | - | {"name":"Antechamber Sentry","deck":"beefcake_bruisers","size":40,"hp":34,"ai":"Aggressive","mixed":["beefcake","necrocrat","refusemancer"]} |
+| D-LAB | node 16 | - | "Dr. Ambrose Siphon, Chief Path-ologist" |
+| D-LAB | boss | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":50,"icon":"delapouite/warlock-eye"} | {"deck":"four_paths","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1},"hp":44,"icon":"delapouite/warlock-eye","infra":15} |
 | D-LAB | defaults | {"archetypes":["necro_control","gourmand_control","refuse_garbage","beefcake_bruisers"],"icons":["lorc/bubbling-flask","delapouite/warlock-eye","lorc/brainstorm","delapouite/stamper","delapouite/shambling-zombie"],"ais":["Aggressive","Balanced","Defensive"]} | {"archetypes":["necro_control","gourmand_control","refuse_garbage","beefcake_bruisers"],"icons":["lorc/bubbling-flask","delapouite/warlock-eye","lorc/brainstorm","delapouite/stamper","delapouite/shambling-zombie"],"ais":["Aggressive","Balanced","Defensive"],"infra":16} |
 | S-TOWN | node 1 | {"name":"Rusty Gate Clockwork","deck":"colorless_militia","size":27,"hp":12} | {"name":"Rusty Gate Clockwork","deck":"colorless_militia","size":26,"hp":7,"infra":16} |
 | S-TOWN | node 2 | {"name":"Banner Hall Guardian","deck":"colorless_militia","size":29,"hp":14} | {"name":"Banner Hall Guardian","deck":"colorless_militia","size":28,"hp":10,"infra":16} |

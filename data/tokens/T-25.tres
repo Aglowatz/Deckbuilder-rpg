@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_xkhn4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_pxj85"]
+
+[resource]
+script = ExtResource("2_pxj85")
+id = "T-25"
+display_name = "Failed Experiment"
+color = 1
+color2 = 2
+attack = 3
+defense = 3
+flavor_text = "Specimen 4,117. Discontinued. Still running."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([1, 2, 3, 4])
+rules_hash = "d41d8cd98f00"
+image_description = "A lurching, mismatched creature stitched together from four Paths' parts: a muscled arm, a pastry shoulder, a skeletal leg, and a mossy back, glowing tubes still attached, sad eyes."

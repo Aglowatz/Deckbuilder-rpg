@@ -979,3 +979,25 @@ New fights, 25 games per Path on two seeds (7000 / 8100), reports `docs/design/s
 
 Notes: Gourmand is strongest in the Paste Works by design (the dungeon rule Real Food: the player's Gourmand cards cost 1 less). Clipwell
 is hard for Beefcake (28-48%) as the Miller was; overall in band, no change. Bland Diet (healing does nothing) is `HP_GAIN_BONUS -99`.
+
+## Oct 21 - Part 2: the sheet's 16-node Path-ology Lab, Siphon's Protocols, Elowen (T-24)
+
+Dungeon rule Specimen Conditions (your max life -5; enemy units +1/+1). Siphon (L28): four_paths + the four leader cards, 44 HP (was a
+necro_control deck, 58 HP, +1/+1 and an extra draw). His Protocols (`modifiers.json`, `ProtocolJam`), tuned on 6-15 games per Path:
+
+| Try | Augmentation | Replication (T-25) | Extraction | Containment | Alone | With Elowen |
+|---|---|---|---|---|---|---|
+| sheet as written | +2/+2 | every turn | 1 life + 4 Resources | first card +2 | 0% (3 turns) | 13% |
+| 2 | +1/+1 | every 2nd turn | as sheet | +2 | 0% | 33% |
+| 3 | +1/+1 | every 2nd | as sheet | +1 | 0% | 71% (6 games) |
+| 4: deck without C-30/C-31, 44 HP | +1/+1 | every 2nd | as sheet | +1 | 0% | 46% (6 games) |
+| 5: Extraction = 1 life drained (you -1, he +1), no Resources | +1/+1 | every 2nd | drain | +1 | 6% | 63% |
+| 6 | +1/+1 | every 3rd | drain | +1 | 13% | 78% |
+| 7 | +1/+1 | every 2nd | drain | +1 | 5% | 68% (15 games) |
+| **kept** | **+2/+1** | **every 2nd** | **drain** | **+1** | **2% / 2%** | **60% / 68%** (15 games per Path, seeds 7000 / 8100) |
+
+The sim plays the solo fight in ~5 turns: the reference deck (L28, 24 life after Specimen Conditions) plays its first unit on its 4th turn.
+Elowen's 3/5 Elusive, Unbreakable body and one jammed Protocol a turn are worth about 60 points, as the sheet intends ("she doesn't win it
+for you, she gives you a chance"). The other Lab fights (8 games per Path, seed 7000): Decontamination Technician 100%, Escaped Specimen
+97%, The Failed Experiment (elite) 63%, Hybrid Specimen 97%, Siphon's Research Assistant 94%, The Drain Warden (elite) 56%, Antechamber
+Sentry 91%.

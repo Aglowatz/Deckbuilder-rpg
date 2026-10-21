@@ -1517,6 +1517,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		zone_source = DungeonRules.with_shared(zone_source, dungeon_key, node.number)
 		if player_rules == null:
 			player_rules = DungeonRules.player_source(dungeon_key, node.number)
+		var enemy_rules: ModifierSource = DungeonRules.enemy_source(dungeon_key, node.number)
+		if enemy_rules != null:
+			enemy.modifiers.add_source(enemy_rules)
 	# Rebalance Part E: the foe's one-sided encounter rules - the enemy side is already on its seat (`enemy_setup`), the player side goes here.
 	if phase == null:
 		player_rules = EncounterModifiers.merge_player_rules(player_rules, node.enemy_name)
@@ -1524,6 +1527,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
 	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
 		HouseOfGainsDungeon.place_ally(game)
+	# Oct 21: Elowen Vey, Defector (T-24) fights beside you against Siphon if you freed her from Cell 4 in this run.
+	if mini_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == PathologyLab.DUNGEON_ID and PathologyLab.rescued(run):
+		PathologyLab.place_ally(game)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone

@@ -253,8 +253,7 @@ func _start_rescuer_scene() -> void:
 ## The hooded Rescuer, kneeling a step from the spot where the Wanderer woke. Returns where.
 func _spawn_rescuer() -> Vector3:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
-	_rescuer = ModelKit.character("Rogue_Hooded")
-	ModelKit.tint(_rescuer, Color(0.62, 0.58, 0.7))
+	_rescuer = _elowen_figure(Color(0.62, 0.58, 0.7))
 	# Opening Forest: standing beside the camp, behind the bedroll (the paint-over's hooded figure).
 	var rescuer_pos: Vector3 = area.layout.mark("rescuer")
 	ModelKit.place(self, _rescuer, rescuer_pos, rad_to_deg(atan2(spawn.x - rescuer_pos.x, spawn.z - rescuer_pos.z)), TownPlayer.MODEL_SCALE)
@@ -263,6 +262,15 @@ func _spawn_rescuer() -> Vector3:
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
 	return rescuer_pos
+
+
+## Oct 21: the Rescuer is her painted sprite (ELOWEN); the old hooded model only if the sprite is missing.
+func _elowen_figure(model_tint: Color) -> Node3D:
+	if SpriteLibrary.has_character("ELOWEN"):
+		return NpcSprites.make_actor("ELOWEN")
+	var model: Node3D = ModelKit.character("Rogue_Hooded")
+	ModelKit.tint(model, model_tint)
+	return model
 
 
 func _say_rescuer(key: String, then: Callable) -> void:
@@ -610,8 +618,7 @@ func _build_postgame() -> void:
 		animation.play("Idle")
 	area.anchors["station"] = pos + Vector3(0.0, 0.0, 1.0)
 	if Session.flag(PathologyLab.FLAG_RESCUER_FREED):
-		_rescuer_npc = ModelKit.character("Rogue")
-		ModelKit.tint(_rescuer_npc, Color(0.78, 0.76, 0.86))
+		_rescuer_npc = _elowen_figure(Color(0.78, 0.76, 0.86))
 		var spot: Vector3 = _postgame_anchor("rescuer")
 		var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
 		ModelKit.place(self, _rescuer_npc, spot, rad_to_deg(atan2(spawn.x - spot.x, spawn.z - spot.z)), TownPlayer.MODEL_SCALE)

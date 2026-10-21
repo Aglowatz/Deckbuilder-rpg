@@ -15,5 +15,5 @@ is_token = true
 not_in_packs = true
 paths_all = Array[int]([4])
 resource_kind = 1
-rules_hash = "22a9e58b570f"
+rules_hash = "a7262d09a0c5"
 image_description = "A coil of glowing red tape bound with a skull clasp."

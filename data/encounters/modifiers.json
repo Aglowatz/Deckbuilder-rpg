@@ -331,19 +331,44 @@
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
 		{
-			"name": "Siphoned Power",
-			"text": "The Doctor's units get +1/+1 and he draws an extra card each turn.",
-			"icon": "delapouite/warlock-eye",
+			"name": "Augmentation",
+			"text": "Protocol: his units get +2/+1. Elowen can jam one Protocol each turn.",
+			"icon": "lorc/bubbling-flask",
 			"kind": "stat",
-			"atk": 1,
+			"atk": 2,
 			"def": 1
 		},
 		{
-			"name": "Siphoned Power",
-			"text": "The Doctor's units get +1/+1 and he draws an extra card each turn.",
-			"icon": "delapouite/warlock-eye",
-			"kind": "extra_draws",
+			"name": "Replication",
+			"text": "Protocol: at the start of every second turn of his, a 3/3 Failed Experiment joins him.",
+			"icon": "delapouite/shambling-zombie",
+			"kind": "timed_summon",
+			"token": "T-25",
+			"every": 2,
 			"count": 1
+		},
+		{
+			"name": "Extraction",
+			"text": "Protocol: at the start of each of his turns he drains you: you lose 1 life and he gains 1.",
+			"icon": "lorc/drop",
+			"kind": "start_of_turn_damage",
+			"amount": 1
+		},
+		{
+			"name": "Extraction",
+			"text": "Protocol: at the start of each of his turns he drains you: you lose 1 life and he gains 1.",
+			"icon": "lorc/drop",
+			"kind": "start_of_turn_heal",
+			"amount": 1
+		},
+		{
+			"name": "Containment",
+			"text": "Protocol: your first card each turn costs 1 more.",
+			"icon": "lorc/padlock",
+			"kind": "first_card_cost",
+			"amount": 1,
+			"side": "player",
+			"harmful": true
 		}
 	],
 	"The Drain Warden": [

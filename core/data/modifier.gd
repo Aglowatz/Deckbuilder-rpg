@@ -141,6 +141,10 @@ enum Kind {
 	## Daytime Oct 19 (the Gainlands' softened "Processing Time"): only the FIRST unit of a matching `color` that enters the field
 	## under the owner's control each turn enters exhausted. See `PlayerState.first_unit_exhaust_done`.
 	FIRST_UNIT_ENTER_EXHAUSTED,
+	## Oct 21 (Siphon's Containment protocol): `value` = change to the generic cost of the owner's first non-infrastructure card each turn.
+	FIRST_CARD_COST_CHANGE,
+	## Oct 21 (Siphon's Extraction protocol): at the start of each of the owner's turns, `value` resources of kind `value2` are created for them.
+	START_OF_TURN_RESOURCES,
 }
 
 ## `color` value meaning "matches every card".

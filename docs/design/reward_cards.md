@@ -20,6 +20,6 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 | S-CAP | The Old Service Tunnels | Side Dungeon | The Wanderer (C-29). | C-29 The Wanderer | yes | Small gold and a General Pack. |
 | S-PASTE | The Paste Works | Side Dungeon | The Colonel's Ladle (relic), bonus gold and XP. | (none) | (n/a) | Small gold and a Gourmand Path Pack. |
 | S-TOWN | The Forgotten Vault | Side Dungeon | Old Kingdom Banner (C-21). | C-21 Old Kingdom Banner | yes | Small gold and a General Pack. |
-| D-LAB | The Path-ology Lab | Postgame Dungeon |  | (none) | (n/a) |  |
+| D-LAB | The Path-ology Lab | Postgame Dungeon | Siphon's Lens (equipment), bonus gold and XP | (none) | (n/a) | Small gold and a Prismatic Pack |
 
 Other reward-only cards (quests, chests, the black market, vendors) are defined in code and data: see `ZoneQuestDefinitions`, `CapitalContent`, `ZoneCards` and `data/source/card_overrides.csv`.

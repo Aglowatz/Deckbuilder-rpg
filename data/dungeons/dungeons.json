@@ -1543,12 +1543,223 @@
 		"theme": "A hidden laboratory beneath the forest: sterile white corridors cracked by roots, glass tanks glowing in four colors, draining apparatus, cells, failed hybrid experiments, and Path-ologist notes everywhere.",
 		"story": "Where Primm's Path-ologists held Prince Tessar for ten years and drained his power, and where Plume sent Elowen. Her allies have been searching; Rip finds the entrance. The lab is full of dual- and tri-Path enemies. In Cell 4, the prince's own cell (ten years of tally marks, a child's drawing of four colors), he finds Elowen ('Took you long enough, Tess.'); rescuing her is an optional branch, like Flex. In the Mentor's Study, both learn that Chief Path-ologist Ambrose Siphon, Elowen's father and the prince's old Pathguide, opened the doors to Primm at the coup. She confronts her father before the boss (or after, if not rescued). Siphon is a four-Path boss: insanely powerful and unfair. If Elowen was rescued she fights beside you (token T-24); she doesn't win it for you, she gives you a chance.",
 		"boss": "Dr. Ambrose Siphon, Chief Path-ologist (four-Path)",
-		"buffs": "To be designed (postgame difficulty).",
-		"reward_first": "",
-		"reward_repeat": "",
-		"hook": "",
-		"map_id": "",
-		"battleboard_id": "",
-		"nodes": []
+		"buffs": "Specimen Conditions: max life -5 for this dungeon; enemy units enter with +1/+1. Boss Protocols (one-sided, Siphon only; Elowen can disable one per turn): Augmentation (his units +2/+2); Replication (at the start of his turn, create a Failed Experiment token, T-25); Extraction (at the start of his turn, he gains 1 energy of each Path and you lose 1 life); Containment (the first card you play each turn costs 2 more).",
+		"reward_first": "Siphon's Lens (equipment), bonus gold and XP",
+		"reward_repeat": "Small gold and a Prismatic Pack",
+		"hook": "Rip Tearson: \"I was poking around the forest where you all started and found a hatch that was never there before. It smells like a hospital. Be careful.\"",
+		"map_id": "MAP-LAB",
+		"battleboard_id": "BB-LAB",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Forest Hatch",
+				"type": "start",
+				"note": "",
+				"x": 6,
+				"y": 80,
+				"next": [
+					2,
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Intake Corridor",
+				"type": "battle",
+				"note": "dual-Path",
+				"x": 18,
+				"y": 64,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Specimen Storage",
+				"type": "battle",
+				"note": "dual-Path",
+				"x": 18,
+				"y": 90,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Observation Deck",
+				"type": "event",
+				"note": "notes on 'the Subject'",
+				"x": 30,
+				"y": 56,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Failed Experiments Ward",
+				"type": "elite",
+				"note": "tri-Path",
+				"x": 30,
+				"y": 84,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Decontamination",
+				"type": "challenge",
+				"note": "",
+				"x": 42,
+				"y": 70,
+				"next": [
+					7,
+					8
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "The Draining Chamber",
+				"type": "event",
+				"note": "story: where his power was taken",
+				"x": 52,
+				"y": 50,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Hall of Hybrids",
+				"type": "battle",
+				"note": "tri-Path",
+				"x": 52,
+				"y": 88,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "Night Shift Break Room",
+				"type": "heal",
+				"note": "skipping 10-11 skips the rescue",
+				"x": 62,
+				"y": 68,
+				"next": [
+					10,
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "Cell Block",
+				"type": "battle",
+				"note": "dual-Path",
+				"x": 60,
+				"y": 36,
+				"next": [
+					11
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Cell 4",
+				"type": "rescue",
+				"note": "Elowen joins",
+				"x": 52,
+				"y": 16,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "The Mentor's Study",
+				"type": "event",
+				"note": "Siphon's journal: the coup",
+				"x": 72,
+				"y": 40,
+				"next": [
+					13,
+					14
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "Containment Breach",
+				"type": "elite",
+				"note": "tri-Path",
+				"x": 80,
+				"y": 62,
+				"next": [
+					15
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 14,
+				"name": "Prototype Vault",
+				"type": "treasure",
+				"note": "",
+				"x": 80,
+				"y": 22,
+				"next": [
+					15
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 15,
+				"name": "The Antechamber",
+				"type": "battle",
+				"note": "tri-Path",
+				"x": 88,
+				"y": 44,
+				"next": [
+					16
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 16,
+				"name": "The Extraction Theater",
+				"type": "boss",
+				"note": "Dr. Ambrose Siphon, four-Path",
+				"x": 94,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
 	}
 ]

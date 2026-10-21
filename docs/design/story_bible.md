@@ -762,8 +762,10 @@ Wanderer he went exploring "that forest where you all started out" and saw "very
 there before. Little glowing roots. A smell like a hospital." He rips a forest station onto the Rift Express (`rift_station_forest`) and the
 hatch appears in the clearing (`lab_revealed`). "Whatever is under that hatch, it is yours, I think."
 
-**The Path-ology Lab** (D-LAB; the sheet says "to be designed", so the game uses a 14-node placeholder in `postgame_dungeons.json`, see
-`docs/design/pathology_lab.md`). White, sterile and wrong: tiled corridors cracked by roots, glass tanks glowing in the four Path colours,
+**The Path-ology Lab** (D-LAB; built Oct 21 to the sheet's 16-node layout: Forest Hatch, Intake Corridor / Specimen Storage, Observation
+Deck, Failed Experiments Ward (elite), Decontamination (challenge), the Draining Chamber, Hall of Hybrids, Night Shift Break Room (heal),
+Cell Block, **Cell 4** (rescue), **the Mentor's Study**, Containment Breach (elite), Prototype Vault, the Antechamber, **the Extraction
+Theater** (Siphon); rule Specimen Conditions: your max life -5, enemy units +1/+1). White, sterile and wrong: tiled corridors cracked by roots, glass tanks glowing in the four Path colours,
 draining rigs, cells, desks with mugs and notes. The horror is how ordinary it is. It answers "what was done to the Wanderer". Beats: the
 Break Room (notes on the Subject; a "cooperative?" column filled in with "asks for his mother"); **the Prince's Old Cell** (ten years of
 tally marks; a child's four-colour drawing of his family); the Draining Chamber (the Drain Warden); **the Rescuer's Cell**; **the Chief
@@ -773,8 +775,9 @@ Path-ologist's Laboratory**. Entering and losing carry the party back to the for
 prince's Royal Pathguide, who taught the boy to walk the Paths. At the coup he stepped aside and let Primm's guards through, then took over
 Maren's research and spent ten years draining his former student. Cold, curious, proud; calls the prince "my finest work". Still running
 experiments after Primm's fall. Believes Elowen is "just confused" and will come home. Clinical, precise, faintly delighted; paternal in a
-way that is worse. Canon fight: a four-Path monster with one-sided Protocols and auto-generated Failed Experiment tokens. **In game now:** a
-50-HP Necrocrat control deck with each Path's legendary.
+way that is worse. The fight [built Oct 21]: a four-Path deck with each Path's leader card and four one-sided Protocols (`ProtocolJam`):
+Augmentation (his units +2/+1), Replication (a 3/3 Failed Experiment, T-25, every second turn of his), Extraction (each turn you lose 1
+life and he gains 1) and Containment (your first card each turn costs 1 more); numbers softened from the sheet, see balance_log.md.
 
 **Elowen Vey, the Rescuer** (`NPC-ELOWEN`, was NPC-RESCUER). Siphon's daughter; she goes by her late mother's name, Vey. She grew up beside
 the prince and has had a crush on him since they were children. She worked in her father's lab, saw what was done to "the Subject" and
@@ -782,12 +785,25 @@ knowingly defected over the injustice. She smuggled the prince out through the r
 sure: he does not remember her and can walk only one Path; she grows sure as he keeps risking himself for others. She is mostly in the dark
 about her father's past and does not know whom to trust; she and Maren clash constantly (Maren distrusts Siphon's daughter and calls her
 "a dreamer chasing a ghost"). Quick, wry, guarded; hope she tries to hide.
-- Canon arc [canon, not built unless marked]: the prologue and the Path choice [built]; a Cave Mouth scene outside Crosspath after each
-  freed zone; taken back to the Lab by Percival Plume when the Wanderer first enters the castle; in the postgame an optional rescue node,
-  after which she joins the Siphon fight as an ally token (T-24) and confronts her father.
-- **In game now:** she is "The Rescuer" (`{rescuer}`); the rescue node gives the boon "The Rescuer Fights Beside You" (+1/+1, +3 max HP);
-  freed (`rescuer_freed`) she stands in the forest with her hood down and still withholds her name: "I will tell you my name when the dust
-  has settled, I promise." / "My name is still the one thing I have not given anyone."
+- The arc [built Oct 21]:
+  - The prologue and the Path choice (her painted sprite in the forest now).
+  - **Cave Mouth scenes** (`cave_mouth_1..4`, `StoryBeats.cave_mouth_scene`): after each freed zone she waits beside the mouth of the
+    Forgotten Cave in Crosspath (a toast says someone is waiting); one scene per freed zone, in order, warmer each time: her medic's
+    check of his hands; tea "for the shaking" and "Four of them" as her favourite colour; the boy who fell lifting a dumbbell and ate the
+    frosting off every layer of his cake; the last, before the Capital, "I'll be at the castle gate... Somebody has to watch the door while
+    you knock it down." None name her, her father or the Lab. They stop once she has been taken.
+  - **The capture** at the castle gate (section 15): Plume names her; `{rescuer}` reads "Elowen" from then on; Maren and Wren react.
+  - **Cell 4** (node 11, optional: skipping nodes 10-11 skips it): his own old cell, tally marks and the four-colour drawing, and Elowen:
+    "Took you long enough, Tess." Freed, she walks behind him ("Don't listen to the voice. Watch the hands.") and fights beside him
+    against Siphon as **Elowen Vey, Defector** (T-24, 3/5, Elusive, Unbreakable): each of your turns she jams one Protocol until your next
+    turn (she picks the worst one; the HUD row "Elowen jams:" lets you switch), and Failed Experiments enter exhausted (Sabotage).
+  - **The Mentor's Study** (node 12): Siphon's journal, "I was asked to hold the east door. I held it open." With her: "He told me the
+    King died of a fever. He told me you were a patient. I brought you soup." Without her, the Wanderer reads it alone.
+  - **The confrontation**: before the fight if she is with him (`lab_siphon`), after it if not (`lab_siphon_after_alone`: she picks
+    the lock herself, "Took you long enough, Tess."). Siphon: "I held a door, sweetheart." She sends him to Crosspath to listen to
+    Maren, then gives her name: "My name is Elowen Vey. Vey was my mother's." Either way she is free (`rescuer_freed`) and stands in
+    the forest afterwards ("Dad is in Crosspath, listening to Maren. She let him have one slice of pie. One.").
+  - Old saves: the old Lab boon is gone; `lab_cleared` / `rescuer_freed` keep their meaning; saves past Primm have her named.
 
 **Other postgame:** Mount Swolympus opens; Pathordia's freed lines; the reformed Escoffina; Primm at work; Prismatic packs.
 
@@ -934,16 +950,16 @@ twist before it happens (Flex's imprisonment, the Doppelganger, Compostella, the
    - Take a Number (`main_necrocrat`): Prudence Pallor, the D.N.A., the Hall of Final Approvals, Agnes.
    - Key Ingredients (`main_gourmand`): Chef Fennel Gravois, the Endless Buffet, the Test Kitchen, the Grand Chef.
    - Root Cause (`main_refusemancer`): Moss Mulligan, the Verdant Dump, the Rotheart, Archdruid Compostella.
-7. **After each freed zone**: talk to Maren for the next fragment (memory 1 opens the second Path). [Canon, not built: Elowen's Cave Mouth
-   scene; the lieutenant flees to the Capital; Plume's ribbon-cutting.]
+7. **After each freed zone**: talk to Maren for the next fragment (memory 1 opens the second Path); Elowen waits at the cave mouth in
+   Crosspath; back in the freed zone, someone says its lieutenant fled to the Capital (Plume cuts the D.N.A.'s ribbon instead). [built Oct 21]
 8. **First zone**: the Undercroft opens. **Second zone**: Auntie Alembic's opens.
 9. **The Capital** (any time; much easier with services restored): the gate (Captain Spotless) or the tunnels (The Older Way,
    `side_s_cap`); the Crease and Wren; the four Path quests (`cap_burial`, `cap_wheels`, `cap_recipes`, `cap_untidy`) and their insights;
-   rifts. [Canon, not built: the lieutenant fights; S-PASTE.]
-10. **Primm's Castle** (D-PC): the wings, the Private Gallery, the records, the Archive; [canon: Elowen taken by Plume]; the reveal if
+   rifts; Quota's rematch in the Transit Yards, Clipwell at the Sick Patch, the Paste Works through Chef Marlo. [built Oct 21]
+10. **Primm's Castle** (D-PC): Elowen taken by Plume at the gate; the wings (Plume in the Necrocrat wing), the Private Gallery, the records, the Archive; the reveal if
     needed; the three-phase duel with the leaders' boons. Flag `primm_defeated`.
 11. **The ending** (ten beats), **The Paths Unbound** (`postgame_unlocked`). [Canon, not built: the royal funeral; Isla comes home.]
-12. **Postgame**: Rip's forest tip, the Path-ology Lab (D-LAB), the Rescuer freed (`rescuer_freed`), Dr. Siphon (`lab_cleared`); Mount
+12. **Postgame**: Rip's forest tip, the Path-ology Lab (D-LAB), Elowen in Cell 4 (`rescuer_freed`), Dr. Siphon (`lab_cleared`); Mount
     Swolympus; the changed Pathordia.
 
 Side quests and secrets that run alongside: every zone favour, the side dungeons, The Oldest Trick in the Book (`oldest_trick`), The Four
@@ -983,10 +999,6 @@ Seals (`four_seals`), the Undercroft tiers, and the Old Well secret quest, The W
 ## 22. Open questions
 
 Still open (do not decide in text; check with the user):
-- **Elowen's name in game**: the sheet names her Elowen Vey, the `{rescuer}` token still reads "The Rescuer", and her postgame lines withhold
-  her name. When is it spoken, and by whom? (Inbox.)
-- **Elowen's and the lieutenants' scenes** (Cave Mouth scenes, Plume's abduction, the four lieutenant fights, S-PASTE, ribbon-cuttings): sheet
-  canon with no build plan yet.
 - **When Agnes passes on**: the sheet puts it at the royal funeral; whether that is in the ending or the postgame is open.
 - **Leader cards**: N-33 is still "Mortimer Grimsby, CE-No" (now the boss, not the freed leader) and G-33 is still "Grand Chef Escoffina"
   (she gave the name away). The card list is frozen; do not rename cards.

@@ -45,6 +45,9 @@ var _phase_index: int = 0
 var _processing_row: HBoxContainer
 var _side_panel: PanelContainer
 var _processing_label: Label
+## Oct 21: Elowen's Protocol chooser (Siphon's fight, when she was rescued): one toggle per Protocol, the jammed one lit.
+var _jam_row: PanelContainer
+var _jam_buttons: Dictionary = {}
 
 
 func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> void:
@@ -53,6 +56,7 @@ func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> voi
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_portraits(enemy_name, enemy_icon)
 	_build_side_panel()
+	_build_jam_row()
 	_build_buttons()
 	_build_preview()
 	_build_banner()
@@ -104,6 +108,7 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	rule_row.position = Vector2(24, _side_y)
 	add_child(rule_row)
 	_side_y += 70.0
+	_refresh_jam()
 
 
 ## Where the next panel under the enemy portrait goes (zone effects, encounter rules, the Capital's panels stack down the left side).
@@ -246,6 +251,50 @@ func _build_processing_tracker(column: VBoxContainer) -> void:
 	column.add_child(_processing_row)
 
 
+## Elowen jams one of Siphon's Protocols each of your turns (ProtocolJam): she picks the worst one; click another to switch.
+func _build_jam_row() -> void:
+	if game == null or not ProtocolJam.has_ally(game, 0) or ProtocolJam.available(game).is_empty():
+		return
+	_jam_row = UIKit.panel(&"DarkPanel")
+	_jam_row.name = "ProtocolJam"
+	add_child(_jam_row)
+	var row: HBoxContainer = UIKit.hbox(6)
+	_jam_row.add_child(row)
+	var heading: Label = UIKit.label("Elowen jams:", &"", 17, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_LEFT)
+	heading.tooltip_text = "Inside Knowledge: at the start of your turn Elowen switches off one of the Chief Path-ologist's Protocols until your next turn. Click another to switch."
+	heading.mouse_filter = Control.MOUSE_FILTER_PASS
+	row.add_child(heading)
+	for label: String in ProtocolJam.available(game):
+		var button: Button = Button.new()
+		button.text = label
+		button.name = "Jam_%s" % label
+		button.toggle_mode = true
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_font_size_override("font_size", 15)
+		button.custom_minimum_size = Vector2(0, 30)
+		button.pressed.connect(func() -> void:
+			if ProtocolJam.request(game, 0, label):
+				Audio.sfx(&"ui_select")
+				refresh_all()
+			_refresh_jam())
+		row.add_child(button)
+		_jam_buttons[label] = button
+	_refresh_jam()
+
+
+func _refresh_jam() -> void:
+	if _jam_row == null:
+		return
+	# Under the fight's rule icons (they stack down the left side as they are added).
+	_jam_row.position = Vector2(24, _side_y)
+	var yours: bool = game.active == 0 and ProtocolJam.has_ally(game, 0)
+	for label: Variant in _jam_buttons.keys():
+		var button: Button = _jam_buttons[label] as Button
+		button.set_pressed_no_signal(str(label) == game.jammed_label)
+		button.disabled = not yours
+		button.tooltip_text = "Jammed until your next turn." if str(label) == game.jammed_label else "Click to jam this Protocol instead."
+
+
 func _refresh_processing() -> void:
 	if _processing_row == null:
 		return
@@ -344,6 +393,7 @@ func refresh_all() -> void:
 	if game.stage == GameState.Stage.PLAYING:
 		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy turn"
 	_refresh_processing()
+	_refresh_jam()
 
 
 ## Battle feel, Part A: what hovering a player's HP plate tells you.
@@ -399,6 +449,7 @@ func on_event(event: GameEvent) -> void:
 			_turn_label.text = "Turn %d" % event.value
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
 			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
+			_refresh_jam()
 			Audio.sfx(&"turn_start_player" if event.player == 0 else &"turn_start_enemy")
 		GameEvent.Type.PHASE_CHANGED:
 			_set_phase(event.value)

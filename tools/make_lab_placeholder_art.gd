@@ -1,7 +1,8 @@
 extends SceneTree
 ## Story v2 Part H: draws the PLACEHOLDER painted map (MAP-LAB, 3:2) and battleboard (BB-LAB, 16:9) of the Path-ology Lab so the dungeon is playable until the art
 ## pipeline delivers the real images under the same IDs. Run from the project root:  Godot --headless --path . -s res://tools/make_lab_placeholder_art.gd
-## Output: assets/art/maps/MAP-LAB.webp and assets/art/battleboards/BB-LAB.webp (then re-import).
+## Output: assets/art/maps/MAP-LAB.webp (and assets/art/battleboards/BB-LAB.webp with `-- --board`), then re-import. Oct 21: the map follows the
+## sheet's 16-node layout in dungeons.json.
 
 const MAP_SIZE: Vector2i = Vector2i(1536, 1024)
 const BOARD_SIZE: Vector2i = Vector2i(1536, 864)
@@ -12,7 +13,8 @@ func _init() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://assets/art/maps"))
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://assets/art/battleboards"))
 	_draw_map().save_webp(ProjectSettings.globalize_path("res://assets/art/maps/MAP-LAB.webp"), true, 0.9)
-	_draw_board().save_webp(ProjectSettings.globalize_path("res://assets/art/battleboards/BB-LAB.webp"), true, 0.9)
+	if OS.get_cmdline_user_args().has("--board"):
+		_draw_board().save_webp(ProjectSettings.globalize_path("res://assets/art/battleboards/BB-LAB.webp"), true, 0.9)
 	print("placeholder lab art written")
 	quit()
 
@@ -62,16 +64,24 @@ func _draw_board() -> Image:
 ## Node positions (pixels) from the blueprint's CSV percentages.
 func _node_positions() -> Array:
 	var result: Array = []
-	var plan: Dictionary = (JSON.parse_string(FileAccess.get_file_as_string("res://data/dungeons/postgame_dungeons.json")) as Array)[0] as Dictionary
+	var plan: Dictionary = _plan()
 	for entry: Variant in plan["nodes"] as Array:
 		var node: Dictionary = entry as Dictionary
 		result.append(Vector2(float(node["x"]) / 100.0 * float(MAP_SIZE.x), float(node["y"]) / 100.0 * float(MAP_SIZE.y)))
 	return result
 
 
+## The Lab's blueprint: the sheet's 16-node layout in dungeons.json (Oct 21).
+func _plan() -> Dictionary:
+	for entry: Variant in JSON.parse_string(FileAccess.get_file_as_string("res://data/dungeons/dungeons.json")) as Array:
+		if str((entry as Dictionary).get("id", "")) == "D-LAB":
+			return entry as Dictionary
+	return {}
+
+
 func _links() -> Array:
 	var result: Array = []
-	var plan: Dictionary = (JSON.parse_string(FileAccess.get_file_as_string("res://data/dungeons/postgame_dungeons.json")) as Array)[0] as Dictionary
+	var plan: Dictionary = _plan()
 	for entry: Variant in plan["nodes"] as Array:
 		var node: Dictionary = entry as Dictionary
 		for target: Variant in node["next"] as Array:

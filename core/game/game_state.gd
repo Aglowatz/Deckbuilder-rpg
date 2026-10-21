@@ -34,6 +34,10 @@ var combat_step: CombatStep = CombatStep.NONE
 ## Total turns taken so far (both players); the first turn is 1.
 var turn: int = 0
 var active: int = 0
+## Oct 21 (ProtocolJam): the side whose Elowen jams one of Siphon's Protocols (-1 = none), the Protocol jammed, and the one the player asked for.
+var jam_player: int = -1
+var jammed_label: String = ""
+var jam_request: String = ""
 var first_player: int = 0
 ## Winning player index, or -1 while undecided / drawn.
 var winner: int = -1
@@ -334,6 +338,8 @@ func generic_cost_for(player_index: int, data: CardData, card: CardInstance = nu
 		change += players[player_index].modifiers.sum(Modifier.Kind.MULTIPATH_COST_CHANGE)
 	if data.type == CardEnums.CardType.SPELL and players[player_index].spells_played_this_turn == 0:
 		change += players[player_index].modifiers.sum(Modifier.Kind.FIRST_SPELL_COST_CHANGE)
+	if not data.is_infrastructure() and players[player_index].non_infrastructure_plays_this_turn == 0:
+		change += players[player_index].modifiers.sum(Modifier.Kind.FIRST_CARD_COST_CHANGE)
 	var base: int = data.generic_cost
 	if card != null:
 		var override: Dictionary = StaticEffects.cost_override(self, player_index, card)
@@ -828,6 +834,7 @@ func _begin_turn() -> void:
 			if card.expire_lingering(active) > 0:
 				emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, 0, 0)
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
+	ProtocolJam.on_turn_start(self, active)  # Oct 21: Elowen (T-24) jams one of Siphon's Protocols until her side's next turn
 	if rule_active(Modifier.Kind.OVERGROWTH):
 		for each_player: PlayerState in players:
 			for unit: CardInstance in each_player.field.duplicate():
@@ -1354,6 +1361,9 @@ func _fire_start_of_turn_effects(player_index: int) -> void:
 		if is_over():
 			return
 		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+	for modifier: Modifier in players[player_index].modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.START_OF_TURN_RESOURCES and modifier.value > 0 and not is_over():
+			ResourceRules.create(self, player_index, modifier.value2 as ResourceKind.Kind, modifier.value)
 	check_state()
 
 
@@ -1683,6 +1693,7 @@ func create_token(player_index: int, data: CardData, as_copy: bool = false) -> C
 			token.defense_bonus += modifier.value2
 	emit_event(GameEvent.Type.TOKEN_CREATED, player_index, token.uid)
 	_enter_field(token, 0, false)
+	ProtocolJam.on_token_created(self, token)
 	fire_game_event("token_created", {"card": token, "player": player_index})
 	fire_game_event("creates_token", {"card": token, "player": player_index})
 	return token
@@ -2358,6 +2369,13 @@ func clone(deep_deck: bool = true, hide_traps_of: int = -1) -> GameState:
 	copy.active = active
 	copy.first_player = first_player
 	copy.winner = winner
+	copy.jam_player = jam_player
+	copy.jammed_label = jammed_label
+	copy.jam_request = jam_request
+	# Oct 21: Elowen parks Protocol modifiers at turn starts; a look-ahead copy must not park the real game's modifier sets.
+	if ProtocolJam.has_ally(self, 0) or ProtocolJam.has_ally(self, 1):
+		for index: int in range(copy.players.size()):
+			copy.players[index].modifiers = players[index].modifiers.clone()
 	copy.is_draw = is_draw
 	copy.pending_toss = pending_toss
 	copy.attackers = attackers.duplicate()

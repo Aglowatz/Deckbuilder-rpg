@@ -33,6 +33,26 @@ Part 1 (the lieutenants):
 8. **The Paste Works door** is a beacon on the shuttered stall at the Hungry Quarter's south-west corner (no new art). Marlo's second quest
    needs The Recipe Box done and the Buffet free.
 
+Part 2 (Elowen):
+9. **The Lab is the sheet's 16-node layout now** (it was a 14-node placeholder). Its map MAP-LAB is still the code-drawn placeholder,
+   redrawn for the new nodes (`tools/make_lab_placeholder_art.gd`); the painted map is on the art backlog.
+10. **Siphon's Protocols are softer than the sheet**: as written (Augmentation +2/+2, a Failed Experiment every turn, Extraction = 1 life
+    and one Resource of each Path a turn, Containment +2) the fight was 0% alone and 13% with Elowen. Kept: Augmentation +2/+1,
+    Replication every second turn, Extraction = you lose 1 life and he gains 1 (no Resources), Containment +1: **60-68% with Elowen,
+    ~2% without her**. The solo fight is the sheet's "insanely powerful and unfair"; she is the chance. If you want the solo fight
+    winnable: Replication every third turn gives 13% alone / 78% with her (balance_log.md, Part 2 table).
+11. **Choosing the Protocol**: Elowen picks the one hurting most at the start of your turn (Augmentation when he has two units out,
+    Extraction when you are at 8 life or less, otherwise Replication) and the battle HUD row "Elowen jams:" lets you switch any time on
+    your turn. The sheet says "choose": say if it should ask every turn instead.
+12. **Failed Experiment (T-25)** is a plain four-Path 3/3; the sheet's "one keyword of the experiment that created it (random)" is not
+    built (no such script effect yet).
+13. **"Tess"** is written literally in the Lab scenes (her nickname for the prince, from the sheet); it would not follow a rename of
+    `{prince}`.
+14. **Cave Mouth scenes**: Elowen waits a little to the side of the Forgotten Cave's mouth in Crosspath (the bible's "Cave Mouth outside
+    Crosspath"), one scene per freed zone, played in order (an old save three zones in gets them on three visits). A toast says someone
+    is waiting. They stop after the capture.
+15. **If Elowen was not rescued** she confronts her father after the fight (she picks the lock of Cell 4 herself) and is free either way.
+
 ## Overnight Oct 19-20 - yours to decide (the safest choice was taken)
 
 Story bible (Part 4): `docs/design/story_bible.md` is now the one story reference and `docs/design/canon.md` the quick reference; every
