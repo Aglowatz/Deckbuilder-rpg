@@ -38,8 +38,8 @@ Last night's report: `docs/overnight/oct19/overnight_report_oct19.md`. Details: 
   5 s, and a watchdog thread that writes "the main thread has not finished a frame for 8 s (last step: ...)". F8 reports include it.
 - **Shader baker** on (shaders pre-built in the export, +10 MB), loading screen holds until frames are steady (up to 30 s on a slow
   first launch), memory released between areas, shared simple shapes.
-- **Tester kit in the zip**: `Start (Safe Mode).bat`, `Start (Vulkan).bat`, `Start (DirectX 12).bat`, `Start (Verbose Log).bat`,
-  `README_PLAYTEST.txt`.
+- **Tester kit in the zip**: `Start (Safe Mode).bat`, `Start (Vulkan).bat`, `Start (DirectX 12).bat`, `Start (Compatibility).bat`
+  (last resort), `Start (Verbose Log).bat`, `README_PLAYTEST.txt`.
 
 ## Part 1 scenarios now (exported v0.4.3, this PC: AMD Ryzen 5 4500U integrated graphics)
 
@@ -55,7 +55,7 @@ Last night's report: `docs/overnight/oct19/overnight_report_oct19.md`. Details: 
 | two bad launches in a row | - | restarts on the other driver (checked on the real exe) |
 | full tour, Vulkan | broke in the Verdant Dump | OK, 0 errors |
 
-Smokes: GUT 2078/2078; prologue, playtest (D3D12 and Vulkan), tour bot (D3D12 and Vulkan) OK; release smoke on the export PASSED with
+Smokes: GUT 2079/2079; prologue, playtest (D3D12 and Vulkan), tour bot (D3D12 and Vulkan) OK; release smoke on the export PASSED with
 both drivers. The tour bot and playtest smoke need project-only tool classes, so they ran on the project, not the export; the export
 was covered by the self-contained arrival repro and the release smoke.
 
@@ -69,7 +69,7 @@ was covered by the self-contained arrival repro and the release smoke.
 
 ## The zip
 
-`builds/TheWaywardPath-v0.4.3-windows.zip` - **637 MB** (pack 702 MB). Tag `v0.4.3`. RELOAD_NOTE
+`builds/TheWaywardPath-v0.4.3-windows.zip` - **637 MB** (pack 702 MB). Tag `v0.4.3` marks the first build of this version (Part 6, 01:51); the zip was **rebuilt at the end with the same version** to include the loop fixes below (the final commit on main). In the folder: the exe, the pack, `README_PLAYTEST.txt` and five launchers (Safe Mode, Vulkan, DirectX 12, Compatibility, Verbose Log) - each started from a fresh unzip and checked in the log (right renderer, Safe Mode where meant, title reached).
 
 ## What to tell testers
 
@@ -83,4 +83,30 @@ was covered by the self-contained arrival repro and the release smoke.
 Added to `docs/overnight_inbox.md` (Overnight Oct 20-21 section): the arrival order change, Continue replaying the welcome, the renderer
 choice, and that the Intel hang itself was not reproducible here.
 
-PHASE2_SUMMARY
+## Phase 2 - stability and first-hour loop (details in `docs/overnight/loop_log.md`)
+
+1. **Vulkan broke in the Verdant Dump; memory only grew** - world-art caches released when changing area; identical primitive shapes
+   share one mesh. Vulkan tour now OK with 0 errors; video memory after a full tour 1.53 GB instead of 1.86 GB (D3D12).
+2. **First-draw spikes after a fade-in without a loading screen; results opening under the cover** - every scene change settles behind
+   its cover; post-battle conversations in town wait for the reveal (the store-room ghosts' lines used to type out unseen).
+3. **The stall watchdog verified** - an 11 s main-thread block leaves "the main thread has not finished a frame for 8 s (last step: ...)"
+   in the log, then "back after 11.2 s".
+4. **Compatibility (OpenGL) renderer works** as a last resort - `Start (Compatibility).bat`; its Forward+-only pieces guarded.
+5. **Opening hour on Low + Vulkan** clean (54-60 fps); the remaining post-arrival spike in the smoke is the smoke's own screenshot.
+6. **F8/Esc during the loading screen** - new repro mode, all checks pass.
+7. **"Not Responding" during long loads** - zones still build in one long frame (4-8 s here); the game now keeps answering Windows during
+   it (`KeepAlive`, verified: the window stays "Responding" through a 9 s blocked frame), and held keys are released after such a frame.
+8. **Regression sweep** - every zone walk smoke, the opening forest, first battles and quest smokes OK.
+
+Final checks on the rebuilt zip: GUT 2079/2079; release smoke PASSED on D3D12 and Vulkan; arrival soak (both drivers, four Paths,
+level-ups, Continue, F8/Esc during the load) - see the loop log's last entry; all five launchers start correctly.
+
+### Not done / worth doing next
+
+- The Intel-only hang itself was never reproduced here - the next tester log (`wayward.log`) will say where it stops.
+- Zones still build in one frame (now with the window kept answering). Staging them like Crosspath would make the loading screen keep
+  moving; it is the biggest remaining load-time item.
+- Texture memory still grows slowly with menus and card art (bounded by what exists); Crosspath alone uses ~870 MB of video memory on
+  Medium.
+- The tour bot and the playtest smoke cannot run on the exported pack (they need project-only tool classes); the export was covered by
+  the self-contained arrival repro and the release smoke.

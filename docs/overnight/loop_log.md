@@ -76,3 +76,15 @@ the loop's fixes so the zip is built once).
 ## Cycle 8 - regression sweep after the cache release, shared meshes and keep-alive
 
 - All OK: gainlands_walk, heap_walk, buffet_walk, dna_walk, capital_walk, crosspath_walk, opening_forest, first_battles, quest smokes.
+
+## Final - the zip rebuilt with the loop fixes (same version, 0.4.3)
+
+- `builds/TheWaywardPath-v0.4.3-windows.zip` 637 MB (pack 702 MB), six files next to the exe incl. five launchers. GUT 2079/2079.
+- Release smoke on the export: PASSED with D3D12 and with Vulkan.
+- Launchers started from a fresh unzip (PowerShell Start-Process, like a double-click), checked in wayward.log: Safe Mode -> D3D12, Low,
+  "SAFE MODE: started from the Safe Mode launcher", title; Vulkan -> vulkan, Medium, title; DirectX 12 -> d3d12, title; Compatibility ->
+  opengl3 / gl_compatibility, Safe Mode, title; Verbose Log -> d3d12, title. (A first try through `cmd //c` from Git Bash hung on the
+  parenthesised names - a test-harness quoting problem, not the files.)
+- Soak on the zip's pack: Gourmand D3D12 (8.9 s, worst 63 ms), Necrocrat Vulkan + level-ups (10.0 s, worst 79 ms), Beefcake D3D12 F8/Esc
+  during the load (8.2 s, worst 42 ms), Refusemancer Vulkan Continue (9.2 s, worst 93 ms): all OK, no frame over 200 ms after the fade-in.
+- Stopped the loop here (~03:40) rather than change code again after the final build had been verified.
