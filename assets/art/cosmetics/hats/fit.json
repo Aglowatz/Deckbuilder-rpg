@@ -1,0 +1,10 @@
+{
+	"_about": "Hand tuning of the hats (docs/art/cosmetics.md). Wins over fit_auto.json, which tools/import_cosmetics.sh rewrites from the hat sheets. Per hat: width (hat width in head widths, front view), sink (how far the hat's bottom edge dips below the top of the hair, head widths), dx / dy (nudge, head widths), scale; any of them per direction as <key>_<DIR>, e.g. sink_SIDE, dx_BACK. Setting sink here also replaces the importer's per-direction sinks.",
+	"default": {},
+	"WIDEBRIM": {},
+	"CHEF": {},
+	"BOWLER": {},
+	"TRICORN": {},
+	"WIZARD": {},
+	"LEAFCROWN": {}
+}

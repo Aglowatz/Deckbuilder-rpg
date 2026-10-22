@@ -3537,3 +3537,7 @@ Part 1 - four cloaks from the hero's own cloak (no new art): `bash tools/make_cl
 `PLAYER_CLOAK_<NAME>` sets, normal maps and icons; head anchors drift 0.0 px. `tools/sprite_sheet_shot.tscn` (was a broken `-s` script) shoots eight
 directions x four walk phases: `docs/art/apparel/cloak_<NAME>_walk.png`. Details: `docs/art/cosmetics.md`.
 Checks: GUT 2143/2144 (the one failure was the compile check catching scratch snippets of Part 2, since removed); `tests/world/test_cloak_sets.gd` 4/4.
+Part 2 - hats ready for the sheet art: `HatSheet` splits `COS-HAT-<NAME>-SHEET.png` (specks and cut-off slivers dropped, trimmed), auto-fits each view by its own
+head band (the sheets are not drawn at one scale) into `fit_auto.json` with per-direction sinks, `fit.json` is the hand layer on top; the hat follows a TRACKED head
+(`hat_anchor`, one size per direction, exact bob). Proven on placeholder sheets (`tools/fake_hat_sheets.gd`) and a dry run of the six real sheets found in Pending
+Review (not imported). Checks: hat/cosmetics/cloak tests 31/31, compile check OK.

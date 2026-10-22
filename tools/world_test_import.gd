@@ -13,6 +13,7 @@ const SRC: String = "res://_art_inbox/world_test/"
 const COS_SRC: String = "res://_art_inbox/cosmetics/"
 const COS_MANIFEST: String = "sprites/cosmetics_manifest.json"
 const HAT_OUT: String = "res://assets/art/cosmetics/hats/"
+var _hat_out: String = HAT_OUT
 const HAT_MAX_WIDTH: int = 640
 const OUT: String = "res://assets/art/world_test/"
 const CSV_PATH: String = "res://data/source/world_look_test.csv"
@@ -629,6 +630,12 @@ func _clean_alpha(image: Image, floor_alpha: float) -> void:
 ## Hats: COS-HAT-<NAME>-<DIR> are trimmed to their content and saved as assets/art/cosmetics/hats/<NAME>/<DIR>.png (bottom-centre of the image = where the hat meets the head).
 func _run_cosmetics() -> void:
 	_src = COS_SRC
+	# A dry run (Apparel Part 2: proving hat sheets before they are approved): --cos_inbox=res://... --hat_out=res://... reads and writes elsewhere, no icons.
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--cos_inbox="):
+			_src = arg.get_slice("=", 1)
+		elif arg.begins_with("--hat_out="):
+			_hat_out = arg.get_slice("=", 1)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + "sprites"))
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SHEETS))
 	var cloaks: Array[String] = []
@@ -667,11 +674,19 @@ func _run_cosmetics() -> void:
 	print("\n".join(_report))
 
 
+## A hat comes as five files COS-HAT-<NAME>-<DIR> or (Apparel Part 2) as one sheet COS-HAT-<NAME>-SHEET (HatSheet.split; a single view file wins over the sheet's).
+## The sheet's views also give the hat's fit per direction (one scale across the sheet, HatSheet.fit) into fit_auto.json; fit.json is the hand-tuned layer on top.
 func _do_hat(hat_name: String) -> void:
 	var found: Array[String] = []
 	var missing: Array[String] = []
+	var sheet: Image = _load("COS-HAT-%s-SHEET" % hat_name)
+	var views: Dictionary = HatSheet.split(sheet) if sheet != null else {}
 	for dir_name: String in DIRS:
 		var image: Image = _load("COS-HAT-%s-%s" % [hat_name, dir_name])
+		if image == null and views.has(dir_name):
+			image = (views[dir_name] as Image).duplicate() as Image
+		elif image != null:
+			views[dir_name] = image
 		if image == null:
 			missing.append(dir_name)
 			continue
@@ -686,13 +701,43 @@ func _do_hat(hat_name: String) -> void:
 			crop.premultiply_alpha()
 			crop.resize(HAT_MAX_WIDTH, h, Image.INTERPOLATE_LANCZOS)
 			_unpremultiply(crop)
-		var folder: String = HAT_OUT + hat_name + "/"
+		var folder: String = _hat_out + hat_name + "/"
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))
 		crop.save_png(ProjectSettings.globalize_path(folder + dir_name + ".png"))
 		found.append(dir_name)
-		if dir_name == "FRONT":
+		if dir_name == "FRONT" and _hat_out == HAT_OUT:
 			_make_icon(folder + "FRONT.png", "HAT_" + hat_name)
-	_report.append("COS-HAT-%s: directions %s%s" % [hat_name, ", ".join(found), ("   MISSING: " + ", ".join(missing)) if not missing.is_empty() else ""])
+	_write_hat_fit(hat_name, views)
+	_report.append("COS-HAT-%s: directions %s%s%s" % [hat_name, ", ".join(found), " (from the sheet)" if sheet != null else "", ("   MISSING: " + ", ".join(missing)) if not missing.is_empty() else ""])
+
+
+## fit_auto.json: this hat's HatSheet.fit from its views and the default hero's head width per direction (the IDLE frames).
+func _write_hat_fit(hat_name: String, views: Dictionary) -> void:
+	var heads: Dictionary = {}
+	var manifest_file: FileAccess = FileAccess.open(OUT + "sprites/manifest.json", FileAccess.READ)
+	if manifest_file != null:
+		var parsed: Variant = JSON.parse_string(manifest_file.get_as_text())
+		manifest_file.close()
+		var player: Dictionary = (parsed as Dictionary).get("PLAYER", {}) as Dictionary if parsed is Dictionary else {}
+		var head: Dictionary = player.get("head", {}) as Dictionary
+		for dir_name: String in DIRS:
+			var anchor: Array = head.get(dir_name + "_IDLE", []) as Array
+			if anchor.size() >= 3:
+				heads[dir_name] = float(anchor[2])
+	var path: String = _hat_out + "fit_auto.json"
+	var all: Dictionary = {}
+	var existing: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if existing != null:
+		var parsed_fit: Variant = JSON.parse_string(existing.get_as_text())
+		existing.close()
+		if parsed_fit is Dictionary:
+			all = parsed_fit as Dictionary
+	all["_about"] = "Written by tools/import_cosmetics.sh from the hat sheets (HatSheet.fit): first-guess width/sink per hat and the per-direction width ratios. Hand tuning goes in fit.json, which wins."
+	all[hat_name] = HatSheet.fit(hat_name, views, heads)
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_hat_out))
+	var out: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	out.store_string(JSON.stringify(all, "\t"))
+	out.close()
 
 
 # ---- NPC sprite sets (`--npcs`, tools/import_npc_sprites.sh) ---------------------------------------------------------------------

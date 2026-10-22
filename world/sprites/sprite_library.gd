@@ -18,6 +18,7 @@ static var _manifest: Dictionary = {}
 static var _textures: Dictionary = {}
 static var _hat_fit: Dictionary = {}
 static var _hat_fit_loaded: bool = false
+static var _hat_fit_auto: Dictionary = {}
 ## Where the hat images live (tests point it at a temporary folder).
 static var hat_folder: String = _default_hat_folder()
 
@@ -36,6 +37,7 @@ static func reset() -> void:
 	_manifest = {}
 	_textures = {}
 	_hat_fit = {}
+	_hat_fit_auto = {}
 	_hat_fit_loaded = false
 	hat_folder = _default_hat_folder()
 
@@ -107,6 +109,14 @@ static func head_anchor(character: String, key: String) -> Array:
 	return head.get(key, []) as Array
 
 
+## Where a hat sits in this frame: the tracked head (`hat_anchor`, tools/sprite_anchors.gd: one head width per direction, the walk's bob and sway) or, for a
+## set measured before Apparel Part 2, the per-frame head anchor.
+static func hat_anchor(character: String, key: String) -> Array:
+	var tracked: Dictionary = info(character).get("hat_anchor", {}) as Dictionary
+	var anchor: Array = tracked.get(key, []) as Array
+	return anchor if anchor.size() >= 3 else head_anchor(character, key)
+
+
 ## The cloak hue of a character: [hue 0..1, half width], or an empty array.
 static func cloak_hue(character: String) -> Array:
 	return info(character).get("cloak_hue", []) as Array
@@ -159,18 +169,29 @@ static func hat_texture(art_name: String, dir_name: String) -> Texture2D:
 static func hat_fit(art_name: String, dir_name: String = "") -> Dictionary:
 	if not _hat_fit_loaded:
 		_hat_fit = _read_json(hat_folder + "fit.json")
+		_hat_fit_auto = _read_json(hat_folder + "fit_auto.json")
 		_hat_fit_loaded = true
 	var result: Dictionary = {"width": 1.5, "sink": 0.3, "dx": 0.0, "dy": 0.0, "scale": 1.0}
 	var defaults: Dictionary = _hat_fit.get("default", {}) as Dictionary
 	for key: Variant in defaults.keys():
 		result[key] = defaults[key]
+	# Apparel Part 2: the importer's fit from the hat sheet (fit_auto.json, rewritten on every import) comes first; the hand-tuned fit.json wins over it.
+	var auto: Dictionary = _hat_fit_auto.get(art_name, {}) as Dictionary
+	for key: Variant in auto.keys():
+		result[key] = auto[key]
 	var own: Dictionary = _hat_fit.get(art_name, {}) as Dictionary
 	for key: Variant in own.keys():
 		result[key] = own[key]
-	# Per-direction overrides: "width_SIDE": 1.3, "sink_BACK": 0.1, ... (any of width, sink, dx, dy, scale).
+	# A view drawn narrower or wider than the front on the same sheet keeps that proportion: width x ratio_<DIR> (unless width_<DIR> is set by hand, below).
+	if dir_name != "" and result.has("ratio_" + dir_name):
+		result["width"] = float(result["width"]) * float(result["ratio_" + dir_name])
+	# Per-direction overrides: "width_SIDE": 1.3, "sink_BACK": 0.1, ... (any of width, sink, dx, dy, scale). The importer's (sink_<DIR>) count only while
+	# fit.json sets neither that direction nor the whole value by hand.
 	if dir_name != "":
 		for part: String in ["width", "sink", "dx", "dy", "scale"]:
 			var special: String = "%s_%s" % [part, dir_name]
 			if own.has(special):
 				result[part] = own[special]
+			elif auto.has(special) and not own.has(part):
+				result[part] = auto[special]
 	return result

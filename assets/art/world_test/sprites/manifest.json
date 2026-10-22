@@ -84,7 +84,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"BELLOWS": {
@@ -217,7 +217,7 @@
 			"SIDE_WALK4"
 		],
 		"has_talk": false,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": [
 			"FRONT",
 			"FRONTSIDE",
@@ -311,14 +311,14 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"ELDER": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			312.0,
-			496.0
+			312,
+			496
 		],
 		"cloak_hue": [
 			0.074,
@@ -329,7 +329,7 @@
 			"SIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACK_IDLE",
 			"FRONT_IDLE",
@@ -340,23 +340,23 @@
 		"head": {
 			"BACK_IDLE": [
 				152.5,
-				40.0,
-				80.0
+				40,
+				80
 			],
 			"FRONT_IDLE": [
 				137.1,
-				50.0,
-				86.0
+				50,
+				86
 			],
 			"FRONT_TALK": [
 				148.7,
-				41.0,
-				84.0
+				41,
+				84
 			],
 			"SIDE_IDLE": [
 				125.3,
-				40.0,
-				87.0
+				40,
+				87
 			]
 		},
 		"rel_height": 0.7,
@@ -381,7 +381,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"ESCOFFINA": {
@@ -407,10 +407,10 @@
 		"walk_dirs": []
 	},
 	"FENWICK": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			384.0,
-			512.0
+			384,
+			512
 		],
 		"cloak_hue": [
 			0.049,
@@ -421,7 +421,7 @@
 			"SIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACK_IDLE",
 			"FRONT_IDLE",
@@ -432,23 +432,23 @@
 		"head": {
 			"BACK_IDLE": [
 				196.2,
-				56.0,
-				88.0
+				56,
+				88
 			],
 			"FRONT_IDLE": [
 				192.9,
-				47.0,
+				47,
 				89.8
 			],
 			"FRONT_TALK": [
 				202.5,
-				54.0,
+				54,
 				88.4
 			],
 			"SIDE_IDLE": [
 				192.8,
-				66.0,
-				86.0
+				66,
+				86
 			]
 		},
 		"rel_height": 0.8,
@@ -539,14 +539,14 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"GATEKEEPER": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			312.0,
-			504.0
+			312,
+			504
 		],
 		"cloak_hue": [
 			0.052,
@@ -557,7 +557,7 @@
 			"SIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACK_IDLE",
 			"FRONT_IDLE",
@@ -568,22 +568,22 @@
 		"head": {
 			"BACK_IDLE": [
 				85.6,
-				54.0,
-				26.0
+				54,
+				26
 			],
 			"FRONT_IDLE": [
 				221.5,
-				48.0,
+				48,
 				26.4
 			],
 			"FRONT_TALK": [
 				228.1,
-				51.0,
+				51,
 				26.2
 			],
 			"SIDE_IDLE": [
-				88.0,
-				46.0,
+				88,
+				46,
 				26.5
 			]
 		},
@@ -609,7 +609,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"GRAVOIS": {
@@ -807,7 +807,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"LEDGERBONE": {
@@ -961,7 +961,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"PALLOR": {
@@ -983,7 +983,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"PATE": {
@@ -1027,14 +1027,14 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"PLAYER": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			384.0,
-			512.0
+			384,
+			512
 		],
 		"cloak_hue": [
 			0.543,
@@ -1047,7 +1047,7 @@
 			"BACKSIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACKSIDE_IDLE",
 			"BACKSIDE_WALK1",
@@ -1079,138 +1079,265 @@
 		"head": {
 			"BACKSIDE_IDLE": [
 				179.7,
-				60.0,
-				70.0
+				60,
+				70
 			],
 			"BACKSIDE_WALK1": [
 				168.8,
-				57.0,
-				69.0
+				57,
+				69
 			],
 			"BACKSIDE_WALK2": [
 				176.5,
-				61.0,
-				72.0
+				61,
+				72
 			],
 			"BACKSIDE_WALK3": [
-				171.0,
-				61.0,
-				72.0
+				171,
+				61,
+				72
 			],
 			"BACKSIDE_WALK4": [
 				177.5,
-				61.0,
-				75.0
+				61,
+				75
 			],
 			"BACK_IDLE": [
-				190.0,
-				56.0,
-				64.0
+				190,
+				56,
+				64
 			],
 			"BACK_WALK1": [
 				194.7,
-				57.0,
-				70.0
+				57,
+				70
 			],
 			"BACK_WALK2": [
 				188.7,
-				57.0,
-				67.0
+				57,
+				67
 			],
 			"BACK_WALK3": [
 				190.1,
-				56.0,
-				69.0
+				56,
+				69
 			],
 			"BACK_WALK4": [
 				189.3,
-				55.0,
-				69.0
+				55,
+				69
 			],
 			"FRONTSIDE_IDLE": [
 				175.3,
-				67.0,
-				72.0
+				67,
+				72
 			],
 			"FRONTSIDE_WALK1": [
 				181.9,
-				65.0,
-				75.0
+				65,
+				75
 			],
 			"FRONTSIDE_WALK2": [
 				178.2,
-				66.0,
-				74.0
+				66,
+				74
 			],
 			"FRONTSIDE_WALK3": [
 				174.9,
-				70.0,
-				80.0
+				70,
+				80
 			],
 			"FRONTSIDE_WALK4": [
 				179.4,
-				68.0,
-				72.0
+				68,
+				72
 			],
 			"FRONT_IDLE": [
 				194.7,
-				52.0,
-				65.0
+				52,
+				65
 			],
 			"FRONT_WALK1": [
 				192.3,
-				52.0,
-				70.0
+				52,
+				70
 			],
 			"FRONT_WALK2": [
 				191.8,
-				53.0,
-				67.0
+				53,
+				67
 			],
 			"FRONT_WALK3": [
 				191.7,
-				50.0,
-				68.0
+				50,
+				68
 			],
 			"FRONT_WALK4": [
 				189.6,
-				52.0,
-				68.0
+				52,
+				68
 			],
 			"SIDE_IDLE": [
 				177.7,
-				50.0,
-				77.0
+				50,
+				77
 			],
 			"SIDE_WALK1": [
 				161.9,
-				51.0,
-				76.0
+				51,
+				76
 			],
 			"SIDE_WALK2": [
 				165.1,
-				47.0,
-				78.0
+				47,
+				78
 			],
 			"SIDE_WALK3": [
 				162.5,
-				50.0,
-				76.0
+				50,
+				76
 			],
 			"SIDE_WALK4": [
 				164.5,
-				49.0,
-				75.0
+				49,
+				75
 			]
 		},
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": [
 			"FRONT",
 			"FRONTSIDE",
 			"SIDE",
 			"BACKSIDE",
 			"BACK"
-		]
+		],
+		"hat_anchor": {
+			"BACKSIDE_IDLE": [
+				179.7,
+				60,
+				70
+			],
+			"BACKSIDE_WALK1": [
+				170.7,
+				57,
+				70
+			],
+			"BACKSIDE_WALK2": [
+				177.7,
+				61,
+				70
+			],
+			"BACKSIDE_WALK3": [
+				171.7,
+				60,
+				70
+			],
+			"BACKSIDE_WALK4": [
+				177.7,
+				62,
+				70
+			],
+			"BACK_IDLE": [
+				190,
+				56,
+				64
+			],
+			"BACK_WALK1": [
+				194,
+				61,
+				64
+			],
+			"BACK_WALK2": [
+				189,
+				61,
+				64
+			],
+			"BACK_WALK3": [
+				190,
+				59,
+				64
+			],
+			"BACK_WALK4": [
+				188,
+				59,
+				64
+			],
+			"FRONTSIDE_IDLE": [
+				175.3,
+				67,
+				72
+			],
+			"FRONTSIDE_WALK1": [
+				177.3,
+				67,
+				72
+			],
+			"FRONTSIDE_WALK2": [
+				176.3,
+				67,
+				72
+			],
+			"FRONTSIDE_WALK3": [
+				170.3,
+				71,
+				72
+			],
+			"FRONTSIDE_WALK4": [
+				176.3,
+				69,
+				72
+			],
+			"FRONT_IDLE": [
+				194.7,
+				52,
+				65
+			],
+			"FRONT_WALK1": [
+				193.7,
+				53,
+				65
+			],
+			"FRONT_WALK2": [
+				192.7,
+				54,
+				65
+			],
+			"FRONT_WALK3": [
+				192.7,
+				51,
+				65
+			],
+			"FRONT_WALK4": [
+				190.7,
+				53,
+				65
+			],
+			"SIDE_IDLE": [
+				177.7,
+				50,
+				77
+			],
+			"SIDE_WALK1": [
+				161.7,
+				53,
+				77
+			],
+			"SIDE_WALK2": [
+				165.7,
+				49,
+				77
+			],
+			"SIDE_WALK3": [
+				162.7,
+				52,
+				77
+			],
+			"SIDE_WALK4": [
+				165.7,
+				51,
+				77
+			]
+		}
 	},
 	"PLUME": {
 		"bottom_pad": 16,
@@ -1319,7 +1446,7 @@
 			"SIDE_IDLE"
 		],
 		"has_talk": true,
-		"rel_height": 1.0,
+		"rel_height": 1,
 		"walk_dirs": []
 	},
 	"RIP": {
@@ -1345,10 +1472,10 @@
 		"walk_dirs": []
 	},
 	"SABLE": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			320.0,
-			504.0
+			320,
+			504
 		],
 		"cloak_hue": [
 			0.051,
@@ -1359,7 +1486,7 @@
 			"SIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACK_IDLE",
 			"FRONT_IDLE",
@@ -1369,24 +1496,24 @@
 		"has_talk": true,
 		"head": {
 			"BACK_IDLE": [
-				153.0,
-				46.0,
-				76.0
+				153,
+				46,
+				76
 			],
 			"FRONT_IDLE": [
 				167.6,
-				48.0,
-				88.0
+				48,
+				88
 			],
 			"FRONT_TALK": [
-				162.0,
-				52.0,
+				162,
+				52,
 				87.2
 			],
 			"SIDE_IDLE": [
 				151.4,
-				53.0,
-				77.0
+				53,
+				77
 			]
 		},
 		"rel_height": 0.95,
@@ -1503,10 +1630,10 @@
 		"walk_dirs": []
 	},
 	"TONIC": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			256.0,
-			504.0
+			256,
+			504
 		],
 		"cloak_hue": [
 			0.051,
@@ -1517,7 +1644,7 @@
 			"SIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACK_IDLE",
 			"FRONT_IDLE",
@@ -1528,23 +1655,23 @@
 		"head": {
 			"BACK_IDLE": [
 				120.6,
-				55.0,
+				55,
 				86.6
 			],
 			"FRONT_IDLE": [
 				143.7,
-				48.0,
-				88.0
+				48,
+				88
 			],
 			"FRONT_TALK": [
-				148.0,
-				49.0,
+				148,
+				49,
 				87.8
 			],
 			"SIDE_IDLE": [
 				163.7,
-				43.0,
-				89.0
+				43,
+				89
 			]
 		},
 		"rel_height": 0.85,
@@ -1573,10 +1700,10 @@
 		"walk_dirs": []
 	},
 	"VILLAGER": {
-		"bottom_pad": 16.0,
+		"bottom_pad": 16,
 		"canvas": [
-			328.0,
-			512.0
+			328,
+			512
 		],
 		"cloak_hue": [
 			0.064,
@@ -1589,7 +1716,7 @@
 			"BACKSIDE",
 			"BACK"
 		],
-		"fig_h": 440.0,
+		"fig_h": 440,
 		"frames": [
 			"BACKSIDE_IDLE",
 			"BACKSIDE_WALK1",
@@ -1621,127 +1748,127 @@
 		"head": {
 			"BACKSIDE_IDLE": [
 				170.3,
-				59.0,
+				59,
 				87.4
 			],
 			"BACKSIDE_WALK1": [
 				154.4,
-				58.0,
+				58,
 				87.6
 			],
 			"BACKSIDE_WALK2": [
 				155.4,
-				59.0,
+				59,
 				87.4
 			],
 			"BACKSIDE_WALK3": [
 				145.2,
-				59.0,
+				59,
 				87.4
 			],
 			"BACKSIDE_WALK4": [
 				152.7,
-				59.0,
+				59,
 				87.4
 			],
 			"BACK_IDLE": [
-				164.0,
-				68.0,
+				164,
+				68,
 				85.6
 			],
 			"BACK_WALK1": [
 				164.5,
-				65.0,
+				65,
 				86.2
 			],
 			"BACK_WALK2": [
-				162.0,
-				72.0,
+				162,
+				72,
 				84.8
 			],
 			"BACK_WALK3": [
 				163.4,
-				65.0,
+				65,
 				86.2
 			],
 			"BACK_WALK4": [
 				166.1,
-				71.0,
-				85.0
+				71,
+				85
 			],
 			"FRONTSIDE_IDLE": [
-				168.0,
-				44.0,
+				168,
+				44,
 				90.4
 			],
 			"FRONTSIDE_WALK1": [
 				157.5,
-				43.0,
+				43,
 				90.6
 			],
 			"FRONTSIDE_WALK2": [
 				162.5,
-				43.0,
+				43,
 				90.6
 			],
 			"FRONTSIDE_WALK3": [
 				154.9,
-				45.0,
+				45,
 				90.2
 			],
 			"FRONTSIDE_WALK4": [
-				158.0,
-				44.0,
+				158,
+				44,
 				90.4
 			],
 			"FRONT_IDLE": [
 				166.6,
-				43.0,
+				43,
 				90.6
 			],
 			"FRONT_WALK1": [
 				164.9,
-				43.0,
+				43,
 				90.6
 			],
 			"FRONT_WALK2": [
 				163.5,
-				42.0,
+				42,
 				90.8
 			],
 			"FRONT_WALK3": [
 				164.4,
-				42.0,
+				42,
 				90.8
 			],
 			"FRONT_WALK4": [
 				163.9,
-				43.0,
+				43,
 				90.6
 			],
 			"SIDE_IDLE": [
 				173.3,
-				56.0,
-				88.0
+				56,
+				88
 			],
 			"SIDE_WALK1": [
 				165.6,
-				59.0,
+				59,
 				87.4
 			],
 			"SIDE_WALK2": [
 				167.5,
-				54.0,
+				54,
 				88.4
 			],
 			"SIDE_WALK3": [
 				161.4,
-				58.0,
+				58,
 				87.6
 			],
 			"SIDE_WALK4": [
 				164.9,
-				53.0,
+				53,
 				88.6
 			]
 		},

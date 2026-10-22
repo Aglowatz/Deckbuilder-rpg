@@ -212,9 +212,9 @@ func _update_hat() -> void:
 		return
 	var dir_name: String = current_key.get_slice("_", 0)
 	var texture: Texture2D = SpriteLibrary.hat_texture(_hat_art, dir_name)
-	var head: Array = SpriteLibrary.head_anchor(character, current_key)
+	var head: Array = SpriteLibrary.hat_anchor(character, current_key)
 	if head.is_empty():
-		head = SpriteLibrary.head_anchor("PLAYER", current_key)
+		head = SpriteLibrary.hat_anchor("PLAYER", current_key)
 	if texture == null or head.size() < 3:
 		hat_visible = false
 		_hat_mesh.visible = false

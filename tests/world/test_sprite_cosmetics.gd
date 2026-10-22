@@ -104,12 +104,13 @@ func test_the_hat_follows_the_head_through_the_walk_cycle() -> void:
 	assert_gte(seen_keys.size(), 4, "all four walk frames were shown")
 	for key: Variant in seen_keys.keys():
 		var rect: Rect2 = seen_keys[key] as Rect2
-		var anchor: Array = SpriteLibrary.head_anchor("PLAYER", str(key))
+		var anchor: Array = SpriteLibrary.hat_anchor("PLAYER", str(key))
 		assert_eq(anchor.size(), 3)
-		# The hat's width is the head width of THIS frame times the fit, so it changes with the frame like the head does.
+		# Apparel Part 2: the hat is sized from the TRACKED head (one width per direction, so it never pulses) and placed where that head is in this frame.
 		var fit: Dictionary = SpriteLibrary.hat_fit("TESTHAT", "SIDE")
 		var head_world: float = float(anchor[2]) * (WorldSprite.PLAYER_HEIGHT / 440.0)
-		assert_almost_eq(rect.size.x, head_world * float(fit["width"]) * float(fit["scale"]), 0.002, "%s: sized from its own head" % key)
+		assert_almost_eq(rect.size.x, head_world * float(fit["width"]) * float(fit["scale"]), 0.002, "%s: sized from the tracked head" % key)
+		assert_almost_eq(rect.size.x, (seen_keys[seen_keys.keys()[0]] as Rect2).size.x, 0.0001, "%s: the same size in every walk frame" % key)
 	var low: float = heights.min()
 	var high: float = heights.max()
 	assert_lt(high - low, 0.12, "the hat does not leap about: it follows a head that bobs a few centimetres")

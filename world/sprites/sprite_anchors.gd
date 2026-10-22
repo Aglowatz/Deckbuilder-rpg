@@ -91,3 +91,45 @@ static func cloak_hue(images: Array) -> Array:
 		sum_w += weight
 	var hue: float = fposmod(sum_h / sum_w if sum_w > 0.0 else (float(best) + 0.5) / 36.0, 1.0)
 	return [hue, 0.07]
+
+
+## Apparel Part 2: how far the head of `frame` moved from where it is in `idle` (canvas pixels), found by matching the idle frame's head patch (alpha and brightness,
+## every second pixel, around `idle_anchor` = [x, y_top, head_width]) within +-search pixels. A hat placed with this follows the walk's head bob and sway exactly.
+static func head_offset(idle: Image, idle_anchor: Array, frame: Image, search: int = 16) -> Vector2i:
+	var w: int = idle.get_width()
+	var h: int = idle.get_height()
+	var a: PackedByteArray = idle.get_data()
+	var b: PackedByteArray = frame.get_data()
+	var cx: int = int(idle_anchor[0])
+	var top: int = int(idle_anchor[1])
+	var hw: float = float(idle_anchor[2])
+	var points: PackedInt32Array = PackedInt32Array()
+	var values: PackedInt32Array = PackedInt32Array()
+	for y: int in range(maxi(0, top - 4), mini(h, top + int(hw * 1.1)), 2):
+		for x: int in range(maxi(0, cx - int(hw * 0.65)), mini(w, cx + int(hw * 0.65)), 2):
+			var i: int = (y * w + x) * 4
+			points.append(y * w + x)
+			values.append(a[i + 3])
+			values.append((int(a[i]) * 3 + int(a[i + 1]) * 6 + int(a[i + 2])) * int(a[i + 3]) / 2550)
+	var best: int = 1 << 60
+	var best_offset: Vector2i = Vector2i.ZERO
+	for dy: int in range(-search, search + 1):
+		for dx: int in range(-search, search + 1):
+			var sad: int = 0
+			for n: int in range(points.size()):
+				var p: int = points[n]
+				var x: int = p % w + dx
+				var y: int = p / w + dy
+				var alpha: int = 0
+				var lum: int = 0
+				if x >= 0 and y >= 0 and x < w and y < h:
+					var i: int = (y * w + x) * 4
+					alpha = b[i + 3]
+					lum = (int(b[i]) * 3 + int(b[i + 1]) * 6 + int(b[i + 2])) * alpha / 2550
+				sad += absi(alpha - values[n * 2]) + absi(lum - values[n * 2 + 1])
+				if sad >= best:
+					break
+			if sad < best:
+				best = sad
+				best_offset = Vector2i(dx, dy)
+	return best_offset

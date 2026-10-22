@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # The cosmetics importer (docs/art/world_rollout.md): the six hats and four cloak sets of the clothing vendor.
-#   hats    COS-HAT-<WIZARD|WIDEBRIM|TRICORN|LEAFCROWN|CHEF|BOWLER>-<FRONT|FRONTSIDE|SIDE|BACKSIDE|BACK>.png          -> assets/art/cosmetics/hats/<NAME>/<DIR>.png
+#   hats    COS-HAT-<WIZARD|WIDEBRIM|TRICORN|LEAFCROWN|CHEF|BOWLER>-SHEET.png (five views; Apparel Part 2) or -<FRONT|FRONTSIDE|SIDE|BACKSIDE|BACK>.png -> assets/art/cosmetics/hats/<NAME>/<DIR>.png + fit_auto.json
 #   cloaks  SPR-PLAYER-CLOAK-<REDCAPE|TATTERED|ROYAL|PATCHWORK>-<DIR>_<IDLE|WALK>.png (same layout as the default SPR-PLAYER set) -> assets/art/world_test/sprites/PLAYER_CLOAK_<NAME>/
 # COPIES only (Drive folders from data/source/art_config.cfg are never modified), then slices / trims, measures head anchors and cloak hues, re-imports and reports which items
 # are still missing (those show as "arriving soon" in the shop). Run from the project root: bash tools/import_cosmetics.sh

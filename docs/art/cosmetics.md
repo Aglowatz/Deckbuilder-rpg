@@ -72,3 +72,28 @@ frame of the default `PLAYER` set (5 directions, idle + 4 walk frames = 25 frame
 - **Screenshots**: `Godot --path . --resolution 1700x420 res://tools/sprite_sheet_shot.tscn -- --cloak=ROYAL --mode=walk --rows=4 --every=9 --out=apparel/x`
   (eight directions, four walk phases stacked; the tool is now a scene so the autoloads exist and renders into a fixed-size SubViewport). Shots of Oct 22:
   `docs/art/apparel/cloak_<NAME>_walk.png`.
+
+## Hats from one sheet (Apparel Part 2, Oct 22 2026)
+ChatGPT delivers one sheet per hat: `COS-HAT-<NAME>-SHEET.png` (2560x512, five views left to right FRONT, FRONTSIDE, SIDE, BACKSIDE, BACK, transparent) for
+WIDEBRIM, CHEF, BOWLER, TRICORN, WIZARD and LEAFCROWN, into `Approved_Cosmetics`. `bash tools/import_cosmetics.sh` copies them (read-only on the Drive) and
+`tools/world_test_import.gd --cosmetics` splits each sheet with `HatSheet.split` (`world/sprites/hat_sheet.gd`): connected pieces, specks and cut-off slivers of the
+neighbouring view dropped (under 1.5 % of the sheet's biggest piece or 6 % of the view's), each piece to the fifth that holds its middle, trimmed. Five separate
+`COS-HAT-<NAME>-<DIR>.png` files still work and win over the sheet's view. Output as before: `assets/art/cosmetics/hats/<NAME>/<DIR>.png` + the icon.
+
+- **Auto-fit** (`HatSheet.fit` -> `assets/art/cosmetics/hats/fit_auto.json`, rewritten on every import): a first-guess `width` and `sink` per hat
+  (`HatSheet.BASE_FIT`), a per-direction width `ratio_<DIR>` and a per-direction `sink_<DIR>`. The painted sheets do NOT keep one scale (the chef's back view is
+  drawn 40 % bigger), so each view is scaled by its own **head band**, the widest row of its bottom third (the brim, the toque's band). The sink is shallower from
+  the front (x0.62; the card is drawn over the face, so the brim sits at the brows) than from behind (x1.0, over the hair).
+- **Hand tuning**: `assets/art/cosmetics/hats/fit.json` (any of width, sink, dx, dy, scale, per hat and per direction as `<key>_<DIR>`) wins over `fit_auto.json`;
+  a hand `sink` also replaces the importer's per-direction sinks. `SpriteLibrary.hat_fit` merges defaults <- fit_auto <- fit.
+- **Head bob**: `tools/sprite_anchors.gd` now also writes `hat_anchor` for the hero's sets: each frame's head found by matching the idle frame's head patch
+  (`SpriteAnchors.head_offset`, alpha + brightness, +-16 px). The hat keeps ONE size per direction (the per-frame measured head width wobbled 64-80 px with the
+  hair, which made the hat pulse) and follows the walk's bob and sway exactly (`SpriteLibrary.hat_anchor`, used by `WorldSprite._update_hat`).
+- **Proven before the art is approved**: `tools/fake_hat_sheets.gd` draws placeholder sheets of all six (with a stray speck) into `_art_inbox/fake_hat_sheets/`;
+  a dry run that writes nowhere in the game:
+  `Godot --headless --path . -s res://tools/world_test_import.gd -- --cosmetics --cos_inbox=res://_art_inbox/fake_hat_sheets/ --hat_out=res://_art_inbox/fake_hats_split/`,
+  then `SPRITE_HAT_FOLDER=res://_art_inbox/fake_hats_split/ Godot --path . --resolution 1700x420 res://tools/sprite_sheet_shot.tscn -- --hat=WIZARD --mode=walk --rows=4`.
+  The six real sheets were already in the Drive's `Pending Review` on Oct 22; the same dry run on copies split all 30 views cleanly
+  (`docs/art/apparel/pending_hats_split.png`, walking shots `hat_pending_<NAME>.png`). Not imported: they are not approved yet.
+- **Art notes for the redo list** (seen in the pending sheets): some views are hard-clipped at an edge in the painting itself (CHEF FRONT and FRONTSIDE right edge,
+  LEAFCROWN FRONTSIDE / SIDE / BACK). The leaf crown is a ring drawn as one card in front of the head, so its back half shows over the hair.
