@@ -18,7 +18,36 @@ Start commit: `22aff389` (tag `pre-graphics-tier1`). Rules: one Godot at a time 
 | 2 Crosspath test zone | done | ground light map, sprite normal maps + zone rim, sun turned to the front-right, AgX grade, haze cards (off in Crosspath), fader fixes; `part2/`, `part2_cameras/`, `compare/part2_*`, `fps_part2.md` |
 | 3 Battle and effects | done | 2D effect lights on the board and cards (budget 1/3/6), board grade per area, chest-opening flash, level-up pulse; `part3/`, `compare/part3_battle.jpg` |
 | 4 Zone roll-out | done (one commit per zone) | sun angle + shadow opacity, AgX grade and haze per zone; `part4/`, `compare/part4_*`, `fps_part4_medium.md` |
-| 5 Verify and report | not started | |
+| 5 Verify and report | done | `fps_final.md` (L/M/H vs baseline), Vulkan + Safe Mode runs, GUT, walk smokes, first battles, tour bot, release smoke, size |
+
+## Summary: what each technique does and where it is on
+
+| Technique | What it does | Low | Medium | High | Intel iGPU on High |
+|---|---|---|---|---|---|
+| Render scale + upscaler (Part 1) | FSR 1 upscales from 0.5 / 0.58 of the window; the Sharpness slider sets the FSR sharpening; Settings also offer native, FSR 1 or FSR 2 and a fixed scale | FSR 1 @ 0.5 | FSR 1 @ 0.58 | native | native (FSR 2 never) |
+| Sun shadow filter (Part 1) | crisper PCF at a lower blur, 1.2 ms cheaper on Medium | very low, blur 1.0 | very low, blur 1.2 | medium, blur 1.8 | same |
+| Mesh range on Low (Part 1) | zone cull distance x 0.8, fewer draw calls | x 0.8 | x 1 | x 1 | - |
+| Ground light map (Part 2) | a "baked" AO map from every static occluder at load, multiplied into ground, walls, props and characters | off | on | on | on |
+| Sprite normal maps + zone rim (Part 2) | generated per frame (`tools/sprite_normals.gd`); the card's normal bends under the sun and lamps; rim takes the key light's colour | off | on | on | on |
+| Character shadows (Part 2) | shadow-map shadow of the card + a sheared silhouette + a contact blob, all above the decals | blob + silhouette | all three | all three | all three |
+| Sun angle + shadow opacity (Parts 2, 4) | per zone: the sun in front of the camera so shadows read; the Capital inside keeps its shadowless noon | data | data | data | data |
+| Grade (Parts 2, 4) | AgX tonemap with per-zone exposure, saturation, contrast, split tint and gamma in the existing post pass | on | on | on | on |
+| Cloud shadows (Part 2) | the drifting noise plane (existing), now a Medium-and-up piece | off | on | on | on |
+| Haze cards (Parts 2, 4) | low fog cards and god-ray cards from the mood (forest rays, Dump haze, D.N.A. and Capital ground haze) | 0 | 6 | 10 | 10 |
+| Volumetric fog, SSAO, MSAA (existing) | unchanged | off | off | on | off |
+| Battle effect lights (Part 3) | 2D point lights on the board and cards for every burst and ring | 1 | 3 | 6 | 6 (no shadows) |
+| Battle board / map grade (Parts 3, 4) | the zone's grade at half strength on the painted board and map | on | on | on | on |
+| Chest-opening flash, level-up pulse (Part 3) | a 3D omni flash over an opened chest (shadow on High), a gold 2D pulse under the level number | on | on | on (shadow) | on (no shadow) |
+
+Dropped and why: LightmapGI (D5), FSR 2 on Medium (D1), light shafts and fog cards in Crosspath (D9), 2D card shadows in the battle (D11),
+Crosspath's old sun angle (D7: shadows fell behind their casters).
+
+Tier 2 suggestions: a bounce-colour channel in the ground light map (warm walls tint the ground); SSAO at half resolution on Medium if
+another 1 ms is found (it was 2 ms+ at 0.62); FSR 2 as the Medium default on discrete GPUs (6 ms here, but a GTX-class card has it to
+spare); a proper height-fog volume for the Dump ravine (the cards are flat); shadow-casting lanterns for the nearest two lights at night
+scenes; a painted sky dome per zone instead of the gradient + cloud cards (needs art); baked vertex AO on the kit meshes for eaves and
+window reveals (the map only covers the foot of walls); a `tools/scene_probe.gd` pass per zone to find any other invisible caster like
+the boat shed's proxy.
 
 ## Tools
 
@@ -211,3 +240,45 @@ haze cards (`data/zone_styles/<area>.json`, `data/art/zone_looks.json`). Two tun
 Medium fps after the roll-out (before -> Part 4, fps / GPU ms): forest 76.6 / 11.34 -> 85.9 / 10.02, Gainlands 68.8 / 12.31 -> 78.4 / 11.20,
 Buffet 72.0 / 11.62 -> 83.9 / 10.45, D.N.A. 81.3 / 10.32 -> 90.8 / 9.19, Dump 66.3 / 13.25 -> 71.6 / 11.55, Capital outside 62.7 / 13.46
 -> 70.7 / 12.33, Capital inside 62.9 / 13.70 -> 71.0 / 12.73, dungeon map 474.8 -> 478.3. Every zone is above 70 on Medium.
+
+## Part 5: Verify and report (done)
+
+Final fps, every area, baseline -> Tier 1 (`fps_final.md`; probe window 1600x900, vsync off, 5 s sample, D3D12):
+
+| Area | Low before -> final (fps / GPU ms) | Medium before -> final | High before -> final |
+|---|---|---|---|
+| town_square | 93.7 / 8.05 -> 95.5 / 8.27 | 59.7 / 14.57 -> 68.7 / 12.42 | 21.3 / 44.40 -> 21.1 / 45.28 |
+| town_street | 94.8 / 8.88 -> 94.9 / 8.49 | 56.6 / 15.78 -> 67.9 / 13.10 | 20.2 / 47.64 -> 19.6 / 49.38 |
+| forest | 126.6 / 6.53 -> 125.7 / 6.51 | 76.6 / 11.34 -> 86.7 / 10.06 | 25.6 / 37.19 -> 25.1 / 38.30 |
+| gainlands | 92.5 / 7.20 -> 94.3 / 6.90 | 68.8 / 12.31 -> 79.9 / 10.77 | 25.2 / 37.83 -> 25.3 / 38.42 |
+| buffet | 104.2 / 6.95 -> 104.6 / 6.97 | 72.0 / 11.62 -> 84.8 / 10.57 | 28.2 / 34.30 -> 27.9 / 34.01 |
+| dna | 100.8 / 5.82 -> 102.7 / 5.97 | 81.3 / 10.32 -> 92.3 / 8.89 | 33.1 / 27.39 -> 31.8 / 28.42 |
+| heap | 75.9 / 7.43 -> 79.7 / 7.62 | 66.3 / 13.25 -> 70.4 / 11.41 | 27.2 / 35.32 -> 26.2 / 35.47 |
+| capital_out | 77.3 / 7.59 -> 80.6 / 7.57 | 62.7 / 13.46 -> 68.7 / 11.91 | 21.9 / 42.94 -> 21.9 / 43.19 |
+| capital_in | 77.0 / 7.66 -> 79.0 / 7.29 | 62.9 / 13.70 -> 69.8 / 11.98 | 24.6 / 39.28 -> 24.2 / 38.55 |
+| battle | 344.1 / 1.77 -> 347.0 / 1.79 | 367.4 / 1.76 -> 344.9 / 1.77 | 347.0 / 1.78 -> 370.4 / 1.70 |
+| dungeon_map | 454.5 / 1.20 -> 470.2 / 1.22 | 474.8 / 1.19 -> 451.2 / 1.21 | 453.7 / 1.20 -> 471.5 / 1.27 |
+
+Medium holds 60 everywhere with every technique on (lowest: town_street 67.9 fps, 13.1 ms of GPU; it was 56.6). Low is within run-to-run
+noise of the baseline on every area (its new pieces are off; the mesh range is shorter). High (a discrete-GPU preset, never recommended for an
+iGPU) is within noise too: its new pieces cost under 1 ms against its 35-50 ms frames here.
+
+- **Vulkan**: `--rendering-driver vulkan`, Crosspath square, Medium: 68.4 fps, GPU 12.39 ms (D3D12: 68.7 / 12.42); no shader errors.
+- **Safe Mode** (Low + fog off + bloom off + depth of field off): 96.2 fps, GPU 8.25 ms (plain Low 95.5 / 8.27): unchanged, nothing new runs there.
+- **GUT**: 2122 tests; one failure after the roll-out (`test_capital_mood`: the Capital outside preset must stay "sickly", saturation < 0.8; the
+  second tuning round had raised it to 0.9) fixed by putting the saturation back to 0.78 (the post grade carries the colour), that script
+  re-run green (4/4). Every other script green.
+- **Walk smokes** after Part 4: Crosspath (19 shots), Gainlands (11), Buffet (22), D.N.A. (20), Dump (21), Capital (36), opening forest: all OK.
+- **First battles smoke** (after Part 3, the last change to the battle): OK, 3 battles, lowest animating fps 53 at 2x speed in the windowed run.
+- **Tour bot**: OK, 281 spots, 9 menus, 5 battles, 0 errors, 0 warnings (9.4 min).
+- **Release smoke**: PASSED.
+- **Export size** (`node tools/build_audit.js`, the same estimate `export_windows.sh` prints): 694.8 MB -> 695.6 MB. The only baked assets are the
+  299 sprite normal maps (`<FRAME>_n.png`, 6.7 MB on disk, about 0.8 MB in the pack as lossy WebP); the ground light maps are built at load and
+  never stored. No playtest build was exported.
+- **Intel integrated graphics**: nothing new runs on High there beyond Medium's set (FSR 2 maps to FSR 1, effect-light shadows, volumetric fog,
+  SSAO and MSAA stay off, `test_graphics_tier1` covers the rules); the old-settings migration and Safe Mode / BootGuard paths are untouched.
+
+Before/after, the best two per zone (all in `compare/`): Crosspath `part2_town_street.jpg` (the violet rectangle gone, shadows, grade) and
+`part2_town_square.jpg`; forest `part4_forest.jpg`; Gainlands `part4_gainlands.jpg`; Buffet `part4_buffet.jpg`; D.N.A. `part4_dna.jpg`; Dump
+`part4_heap.jpg`; Capital `part4_capital_out.jpg` and `part4_capital_in.jpg`; battle `part3_battle.jpg` and `part3/battle_lights_high.jpg`;
+dungeon map `part4_dungeon_map.jpg`. Camera presets and swivels of the square: `part2_cameras/`.
