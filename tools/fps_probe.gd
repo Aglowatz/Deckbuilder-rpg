@@ -29,6 +29,11 @@ func _process(delta: float) -> bool:
 		root.get_node("Session").set("save_enabled", false)
 		root.get_node("Settings").set("graphics_quality", int(_args.get("quality", 1)))
 		root.get_node("Settings").set("depth_of_field", not _args.has("nodof"))
+		# Graphics Tier 1: the saved settings (applied by the Settings autoload after `_initialize`) must not cap the probe.
+		root.get_node("Settings").set("vsync", false)
+		root.get_node("Settings").set("max_fps", 0)
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		Engine.max_fps = 0
 		var packed: PackedScene = load(str(_args.get("scene", "res://scenes/town.tscn"))) as PackedScene
 		_scene = packed.instantiate()
 		if _scene.has_method("screenshot_prepare"):
