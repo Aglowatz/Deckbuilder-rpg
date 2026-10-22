@@ -3,11 +3,42 @@
 	"area": "buffet",
 	"name": "The Endless Buffet (Gourmand)",
 	"time_of_day": "Warm dinner-time evening; candle and oven glow, steam",
-	"palette": ["#F4D8B0", "#E07A5F", "#C98B3A", "#F6B8C4", "#6B8E3D", "#7A4A2A"],
-	"light": {"key_color": "#ffd9ad", "key_energy": 0.7, "key_pitch": -40, "key_yaw": -40, "ambient_color": "#e8c2a4", "ambient_energy": 0.5},
-	"fog": {"color": "#f4d2b0", "density": 0.004},
-	"grade": {"warmth": 0.08, "saturation": 0.9, "contrast": 1.1, "post_saturation": 0.94},
-	"bloom": {"intensity": 0.5, "threshold": 1.05},
+	"palette": [
+		"#F4D8B0",
+		"#E07A5F",
+		"#C98B3A",
+		"#F6B8C4",
+		"#6B8E3D",
+		"#7A4A2A"
+	],
+	"light": {
+		"key_color": "#ffd9ad",
+		"key_energy": 0.7,
+		"key_pitch": -34,
+		"key_yaw": 125,
+		"ambient_color": "#e8c2a4",
+		"ambient_energy": 0.5,
+		"shadow_opacity": 0.62
+	},
+	"fog": {
+		"color": "#f4d2b0",
+		"density": 0.0024
+	},
+	"grade": {
+		"warmth": 0,
+		"saturation": 1.1,
+		"contrast": 1.14,
+		"post_saturation": 1.04,
+		"tonemap": "agx",
+		"exposure": 0.93,
+		"post_contrast": 1.08,
+		"shadow_tint": "#f0e0d4",
+		"highlight_tint": "#fff0dc"
+	},
+	"bloom": {
+		"intensity": 0.5,
+		"threshold": 1.05
+	},
 	"vignette": 0.3,
 	"material_swaps": {
 		"ENV-WALL-TIMBER": "BUFF-WALL-BISCUIT",
@@ -40,5 +71,12 @@
 		"ENV-TREE-BIRCH": "BUFF-TREE-CAULI"
 	},
 	"tint_strength": 0.7,
-	"tints": {"wall": "#F6B8C4", "trim": "#C98B3A", "roof": "#C98B3A", "ground": "#F4D8B0", "prop": "#E07A5F", "tree": "#6B8E3D"}
+	"tints": {
+		"wall": "#F6B8C4",
+		"trim": "#C98B3A",
+		"roof": "#C98B3A",
+		"ground": "#F4D8B0",
+		"prop": "#E07A5F",
+		"tree": "#6B8E3D"
+	}
 }
