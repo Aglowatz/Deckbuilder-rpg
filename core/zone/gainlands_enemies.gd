@@ -25,8 +25,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 2.0
 			made.aggro_range = 6.0
 			made.leash_range = 9.5
-			made.recipe = EnemyDecks.trimmed("beefcake_rush", 24, 14)  # Rebalance Part E: 27 cards / 16 infra, 14 HP, Aggressive -> 24 / 12, 9, Balanced (fewer basics = fewer Iron bursts)
-			made.hp = 7  # Overnight Oct 18 Part 2: 63% at 9 HP
+			made.recipe = EnemyDecks.trimmed("beefcake_rush", 24, 11)  # Oct 21: 11 basics (was 14; Rebalance Part E: 27 cards / 16 infra, 14 HP, Aggressive -> 24, 9, Balanced)
+			made.hp = 4  # Oct 21: the L5 Necrocrat brief (was 7; 63% at 9 HP on Oct 18)
 			made.ai_name = "Balanced"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -48,9 +48,9 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.7
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = EnemyDecks.trimmed("beefcake_tools", 24, 12)  # Rebalance Part E: the bruisers' 5/4s and 6/5s were 27% at level 5; 12 basics, not 15 (Iron)
-			made.hp = 7  # Overnight Oct 18 Part 2: 63% at 9 HP
-			made.ai_name = "Defensive"
+			made.recipe = {"BAS-B": 9, "B-05": 2, "B-08": 3, "B-09": 2, "B-02": 2, "B-14": 2, "B-16": 2, "B-15": 1, "B-18": 1}  # Oct 21: the tools without the burst and removal (Kettlebell, Yeet, Pre-Workout); was trimmed("beefcake_tools", 24, 12)
+			made.hp = 3  # Oct 21: the L5 Necrocrat brief (was 7; 63% at 9 HP on Oct 18)
+			made.ai_name = "Aggressive"  # Oct 21: was Defensive: it walled every Path out (~65%) and won late on Iron
 			made.gold_reward = 35
 			made.xp_reward = 45
 			made.model = "proc:golem"

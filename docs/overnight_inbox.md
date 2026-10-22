@@ -62,6 +62,15 @@ Part 3 (canon beats):
 18. **Isla** comes home on your next talk with Brannoch after Primm falls (she takes after her mother's side: "You've got your mother's
     curls"), then stands at the gate.
 
+Part 4 (balance):
+19. **The L5 Necrocrat in the Gainlands is in band (81% mean)**, through four changes (balance_log.md, Part 4): Processing Time now only
+    delays Necrocrat units costing 3 or more (game rule; the text says so); the Brute 4 HP / 11 basics and the Protein Shake Golem 3 HP, a
+    gentler tool deck (no Kettlebell, Yeet or Pre-Workout) and the Aggressive AI (it walled every Path at ~65%); and in the sim only, the L5
+    Necrocrat deck keeps its 1-2 drops and owns two Village Militia + two Watchtower Archers from General Packs. Every Path rose (80-84%);
+    the roamer fights are short now (~5 turns). Say if Processing Time should stay as it was.
+20. **The Echo gets a second rule for you, "First, Water": your Gourmand units get +0/+1** (the blue stream fed the Gourmands' first
+    stockpot). Gourmand 44 / 56% on two seeds (was 44 / 36); no other Path changes. Cost -1 for Gourmand was too strong (80-84%).
+
 ## Overnight Oct 19-20 - yours to decide (the safest choice was taken)
 
 Story bible (Part 4): `docs/design/story_bible.md` is now the one story reference and `docs/design/canon.md` the quick reference; every

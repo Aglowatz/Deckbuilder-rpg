@@ -587,7 +587,7 @@ Freeing a zone does not remove them: the rivalry is the world's physics, not the
 
 | Zone | Buff (own Path) | Debuff (rival Path) |
 |---|---|---|
-| Gainlands | **Pump It Up**: Beefcake units +1 attack | **Processing Time**: the first Necrocrat unit each turn enters exhausted ("your request is being processed"; softened Oct 19) |
+| Gainlands | **Pump It Up**: Beefcake units +1 attack | **Processing Time**: the first Necrocrat unit costing 3 or more each turn enters exhausted ("your request is being processed"; softened Oct 19, cheap units exempt Oct 21) |
 | D.N.A. | **Approved Procedure**: Necrocrat units +1 defense | **Unauthorized Activity**: Beefcake cards cost 1 more (permit fee) |
 | Endless Buffet | **Well Fed**: Gourmand units +1/+1 | **Dress Code Violation**: Refusemancer units -1 attack |
 | Verdant Dump | **Overgrowth**: Refusemancer units +0/+2 | **Spoilage**: Gourmand units -1 defense |

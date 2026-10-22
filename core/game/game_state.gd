@@ -732,9 +732,18 @@ func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> 
 		card.cannot_block = true
 	if player.modifiers.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, card.data) > 0:
 		card.exhausted = true
-	if not player.first_unit_exhaust_done and player.modifiers.sum_for_card(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, card.data) > 0:
+	if not player.first_unit_exhaust_done and _first_unit_exhausts(player, card.data):
 		card.exhausted = true
 		player.first_unit_exhaust_done = true
+
+
+## The Gainlands' Processing Time (FIRST_UNIT_ENTER_EXHAUSTED): a matching unit whose cost is at least the modifier's `value2` (0 = any;
+## Oct 21: cheap units clock in on time).
+func _first_unit_exhausts(player: PlayerState, data: CardData) -> bool:
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED and modifier.value > 0 and modifier.matches_card(data) and data.energy_value() >= modifier.value2:
+			return true
+	return false
 
 
 ## Resolves all of a card's abilities of one kind (enter, die, play, attack...). `seed_ctx` (what was paid, X...) is copied into

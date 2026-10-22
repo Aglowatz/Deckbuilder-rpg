@@ -540,6 +540,16 @@
 			"kind": "starting_resources",
 			"resource": "garbage",
 			"count": 1
+		},
+		{
+			"name": "First, Water",
+			"text": "The spring remembers the first stockpot (every Gourmand recipe begins \"first, water\"): your Gourmand units get +0/+1.",
+			"icon": "lorc/drop",
+			"side": "player",
+			"kind": "stat",
+			"path": "gourmand",
+			"atk": 0,
+			"def": 1
 		}
 	],
 	"town:storeroom": [

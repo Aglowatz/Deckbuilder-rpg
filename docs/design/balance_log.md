@@ -1001,3 +1001,35 @@ Elowen's 3/5 Elusive, Unbreakable body and one jammed Protocol a turn are worth 
 for you, she gives you a chance"). The other Lab fights (8 games per Path, seed 7000): Decontamination Technician 100%, Escaped Specimen
 97%, The Failed Experiment (elite) 63%, Hybrid Specimen 97%, Siphon's Research Assistant 94%, The Drain Warden (elite) 56%, Antechamber
 Sentry 91%.
+
+## Oct 21 - Part 4: the level-5 Necrocrat in the Gainlands, and the Old Well's Echo for Gourmand
+
+**Gainlands roamers at L5** (25 games per Path, seeds 7000 / 8100; `docs/design/sim/oct21_gain_*.md`). Replays: the L5 Necrocrat deck played
+no unit for four turns (it kept every 4-cost body and cut a 1-drop), then could not attack into the Golem's tool-buffed blockers and lost
+late to Iron; against the Brute it lost the race. Tried and measured (Necrocrat, seed 7000):
+
+| Change | Brute N | Golem N | Note |
+|---|---:|---:|---|
+| before | 40 / 44 | 40 / 60 | all Paths: Brute 71 / 69, Golem 62 / 67 |
+| cut order keeps the 1-2 drops (sim) | 44 | 40 | the curve is fixed (units from its 2nd-3rd turn), the rate is not |
+| + two Audit Wraiths in the L5 package (sim) | 40 | 48 | reverted |
+| roamers 7 -> 5 HP | 60 | 64 | |
+| + Brute 11 basics, Golem 10 | 64 | 64 | |
+| Processing Time switched off (measure only) | 80 | 64 | the debuff costs ~15 points vs the Brute; the Golem walls every Path (~65%) |
+| N-07 / N-23 cost 4 -> 3 (measure only, reverted) | 68 | 60 | noise |
+| **Processing Time only for Necrocrat units costing 3+** | 68 | 64 | kept: "cheap paperwork is processed on the spot" |
+| **L3 package: 2 Village Militia + 2 Watchtower Archers (General Pack 2-drops) for Processing Delay / Buried in Paperwork (sim)** | 76 | 56 | kept |
+| **Golem without Kettlebell / Yeet / Pre-Workout, 9 basics** (Balanced AI tried and dropped) | - | 60-66 | kept; every Path still ~65% |
+| **Golem: Aggressive AI** (it trades instead of walling) | - | 64 (all 73) | kept |
+| **Golem 3 HP, Brute 4 HP** | **84 / 72** | **84 / 84** | kept |
+
+After (all Paths, B/N/G/R): Flexing Brute 88/84/80/84 (84%) and 92/72/84/72 (80%); Protein Shake Golem 88/84/80/72 (81%) and
+92/84/76/72 (81%). L5 Necrocrat mean 81%; every Path rose (Beefcake, Gourmand and Refusemancer were 60-88 before). The fights are short
+(5 turns, "fast"): first-zone roamers. Necrocrat's town fights at L3 (the package change) measured before/after: unchanged within noise
+(`oct21_town_necro*.md`). The tutorial does not use the reference packages (45-card starter, no cuts).
+
+**The Old Well's Echo at L16** (25 per Path, seeds 7000 / 8100; `oct21_echo_*.md`). Before: 48/64/44/56 (53%) and the Oct 19 seed-8100
+48/88/36/72. Tried: heal 1 instead of 2 (Gourmand 44, unchanged); player tokens +1/+1 (44); "whenever you gain HP, gain 1 / 2 more"
+(52, then 36-40 on seed 8100, and every Path rose); Gourmand cards cost 1 less (84 / 80, too easy); Gourmand units +1 attack (72 / 68).
+**Kept: a second, player-side rule "First, Water: your Gourmand units get +0/+1"** (the blue stream fed the Gourmands' first stockpot).
+After: 48/64/44/56 (53%) and 48/56/56/72 (58%): Gourmand 44 / 56, mean 50; the rule touches no other Path.

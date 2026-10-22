@@ -179,7 +179,7 @@ func test_the_duel_carries_and_lists_its_one_sided_rule() -> void:
 	assert_eq(context.enemy_name, OldWellQuest.DISPLAY_NAME)
 	assert_eq(context.encounter_rules.size(), EncounterModifiers.rules(OldWellQuest.RULES_KEY).size())
 	assert_gt(context.encounter_rules.size(), 0, "town:old_well has rules")
-	assert_eq(context.rule_badges.size(), 1, "one rule, one icon (its parts share a name)")
+	assert_eq(context.rule_badges.size(), 2, "The Spring Remembers (its parts share a name) and, on your side, First, Water (Oct 21)")
 	assert_eq(context.rule_badges[0].name, "The Spring Remembers")
 	assert_eq(context.rule_badges[0].side, RuleBadges.SIDE_ENEMY)
 	assert_true(context.game.players[1].modifiers.has(Modifier.Kind.START_OF_TURN_EFFECT), "the heal is on the Echo's seat")
@@ -190,12 +190,18 @@ func test_the_duel_carries_and_lists_its_one_sided_rule() -> void:
 func test_the_rule_parses_and_its_icon_exists() -> void:
 	EncounterModifiers.reset()
 	var rules: Array[EncounterModifiers.Rule] = EncounterModifiers.rules(OldWellQuest.RULES_KEY)
-	assert_eq(rules.size(), 6, "a stat entry (+2/+2, balanced overnight Oct 19), a heal and four starting resources")
+	assert_eq(rules.size(), 7, "a stat entry (+2/+2, balanced overnight Oct 19), a heal, four starting resources and First, Water")
 	assert_eq(EncounterModifiers.problems().size(), 0, ", ".join(EncounterModifiers.problems()))
 	for rule: EncounterModifiers.Rule in rules:
-		assert_true(rule.is_enemy_side(), "one-sided: the Echo's")
+		assert_eq(rule.is_enemy_side(), rule.name != "First, Water", "the Echo's rule is one-sided; First, Water is yours")
 		assert_true(ResourceLoader.exists("%s%s.svg" % [CardIcons.BASE, rule.icon]), "icon %s exists" % rule.icon)
-	assert_eq(EncounterModifiers.player_source(OldWellQuest.RULES_KEY), null, "nothing on the player's side")
+	# Oct 21: Gourmand's window against the Echo (the blue stream fed the first stockpot): Gourmand units +0/+1, nobody else's.
+	var yours: ModifierSource = EncounterModifiers.player_source(OldWellQuest.RULES_KEY)
+	assert_not_null(yours)
+	var set: ModifierSet = ModifierSet.new()
+	set.add_source(yours)
+	assert_eq(set.stat_bonus(Affinity.Type.GOURMAND), Vector2i(0, 1))
+	assert_eq(set.stat_bonus(Affinity.Type.NECROCRAT), Vector2i.ZERO)
 
 
 func test_the_sim_can_find_and_build_the_echo() -> void:

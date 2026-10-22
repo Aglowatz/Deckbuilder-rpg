@@ -13,7 +13,7 @@ extends RefCounted
 ## cost_change {amount, path?} | enter_exhausted {path?} | token_stats {atk, def} | start_of_turn_damage {amount} |
 ## start_of_turn_heal {amount} | retaliate {amount} | max_hp {amount} | max_traps {amount} | resource_bonus {resource, count} |
 ## first_turn_draw {count} | always_first | max_plays {count} | block_resource {resource} | keyword_stat {keyword, atk} |
-## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols).
+## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols) | hp_gain_bonus {amount} (Oct 21, the Old Well).
 
 const PATH: String = "res://data/encounters/modifiers.json"
 const DEFAULT_ICON: String = "lorc/crossed-swords"
@@ -239,6 +239,8 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, int(spec.get("count", 2))))
 		"block_resource":
 			made.append(CardBuilder.modifier(Modifier.Kind.BLOCK_RESOURCE_USE, _resource_of(spec)))
+		"hp_gain_bonus":
+			made.append(CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, int(spec.get("amount", 1))))
 		"first_card_cost":
 			made.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(spec.get("amount", 1))))
 		"start_of_turn_resources":
