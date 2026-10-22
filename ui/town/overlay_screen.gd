@@ -5,6 +5,9 @@ extends Control
 
 signal closed
 
+## The gap between the screen edge and the content.
+const SCREEN_MARGIN: int = 34
+
 var body: VBoxContainer
 var header_extra: HBoxContainer
 var screen_title: String = ""
@@ -18,6 +21,8 @@ var vendor_screen_id: String = ""
 ## Pixels reserved on the left for the vendor (the portrait and the speech bubble).
 var vendor_inset: float = VendorStage.INSET
 var stage: VendorStage
+## The header's title (screens that paint something over the header's middle shrink or hide it).
+var title_label: Label
 var _panel: PanelContainer
 var _close_button: FancyButton
 var _music_token: int = 0
@@ -46,9 +51,9 @@ func _ready() -> void:
 		var glow: ColorRect = UIKit.gradient_background()
 		glow.modulate.a = 0.35
 		add_child(glow)
-	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), 34)
+	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), SCREEN_MARGIN)
 	if stage != null:
-		margin.add_theme_constant_override("margin_left", 34 + int(vendor_inset))
+		margin.add_theme_constant_override("margin_left", SCREEN_MARGIN + int(vendor_inset))
 	UIKit.full_rect(margin)
 	add_child(margin)
 	var root: VBoxContainer = margin.get_child(0) as VBoxContainer
@@ -59,7 +64,8 @@ func _ready() -> void:
 	var title_icon: TextureRect = IconArt.rect(title_icon_id, 56.0) if title_icon_id != "" else null
 	if title_icon != null:
 		header.add_child(title_icon)
-	header.add_child(UIKit.label(screen_title, &"TitleLabel", _title_size()))
+	title_label = UIKit.label(screen_title, &"TitleLabel", _title_size())
+	header.add_child(title_label)
 	header.add_child(UIKit.filler())
 	header_extra = UIKit.hbox(14)
 	header.add_child(header_extra)

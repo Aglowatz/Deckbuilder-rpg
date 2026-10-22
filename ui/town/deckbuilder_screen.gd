@@ -5,10 +5,17 @@ extends OverlayScreen
 ## rules (45 cards minimum, copy caps by rarity and level, 2 colors - 3 or 4 once Primm is beaten and the postgame is unlocked), then save.
 
 const CARD_SCALE: float = 0.55
+## UI + economy fixes Oct 22: on a short canvas (under 900 px, e.g. 1280x720 or a big UI scale) the collection tiles are smaller.
+const CARD_SCALE_SHORT: float = 0.46
 const COLUMNS: int = 7
-## Playtest v0.4.0 Part F: room left for the slot racks painted into the station's top and bottom (DeckRack.cell_rect).
+## Playtest v0.4.0 Part F: room left for the slot racks painted into the station's top and bottom (DeckRack.cell_rect). Oct 22: the
+## spacers are measured from the racks at the screen's real size (`_relayout`); these are only the first guess.
 const RACK_TOP_CLEARANCE: float = 50.0
 const RACK_BOTTOM_CLEARANCE: float = 196.0
+## The deck panel takes this share of the screen width, between the two bounds (it used to be 590 px wide at least and grew with its longest line).
+const PANEL_SHARE: float = 0.31
+const PANEL_MIN: float = 440.0
+const PANEL_MAX: float = 600.0
 
 var editor: DeckEditor
 var _filter: CardFilterBar
@@ -34,12 +41,20 @@ var _prompt_layer: Control
 var _editing_label: Label
 var _cover_layer: Control
 var _new_slot: int = 0
+## UI + economy fixes Oct 22: the pieces `_relayout` sizes to the screen.
+var _card_scale: float = CARD_SCALE
+## A short canvas (under 900 px: 1280x720-ish room, i.e. a big UI scale): smaller headings, buttons and list rows.
+var _compact: bool = false
+var _top_spacer: Control
+var _bottom_spacer: Control
+var _deck_panel: PanelContainer
+var _grid_scroll: ScrollContainer
 
 
 func _init() -> void:
 	screen_title = "Deck Station"
 	title_icon_id = "ICON-UI-DECK"
-	close_text = "Close (Esc)"
+	close_text = "Leave the Deck Station (Esc)"
 	background_id = "UI-BG-DECKBUILDER"
 
 
@@ -75,32 +90,42 @@ func _build() -> void:
 	editor = DeckEditor.from(Session.profile, _source_deck(), infrastructure, _active_modifiers())
 	_preview = HoverPreview.new()
 	add_child(_preview)
+	_compact = size.y > 100.0 and size.y < 900.0
+	_card_scale = CARD_SCALE_SHORT if _compact else CARD_SCALE
 	if _uses_deck_box():
 		# Playtest v0.4.0 Part F: the saved-deck slots live in the racks painted at the top and the bottom of the station (DeckRack); the
 		# collection and the deck list sit between them.
-		body.add_child(UIKit.spacer(int(RACK_TOP_CLEARANCE)))
+		_top_spacer = UIKit.spacer(int(RACK_TOP_CLEARANCE))
+		body.add_child(_top_spacer)
 	var split: HBoxContainer = UIKit.hbox(22)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(split)
 	if _uses_deck_box():
-		body.add_child(UIKit.spacer(int(RACK_BOTTOM_CLEARANCE)))
+		_bottom_spacer = UIKit.spacer(int(RACK_BOTTOM_CLEARANCE))
+		body.add_child(_bottom_spacer)
 	var left: VBoxContainer = UIKit.vbox(10)
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	split.add_child(left)
 	_filter = CardFilterBar.new()
 	_filter.changed.connect(_apply_filter)
 	left.add_child(_filter)
-	var scroll: ScrollContainer = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	left.add_child(scroll)
+	_grid_scroll = ScrollContainer.new()
+	_grid_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# SHOW_NEVER, not DISABLED: a disabled direction takes the grid's width as its own minimum, and as the columns follow the width the
+	# screen's measured size followed them (UiScale kept shrinking it). The columns always fit, so nothing ever scrolls sideways.
+	_grid_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	left.add_child(_grid_scroll)
 	_grid = GridContainer.new()
 	_grid.columns = COLUMNS
 	_grid.add_theme_constant_override("h_separation", 10)
 	_grid.add_theme_constant_override("v_separation", 10)
-	scroll.add_child(_grid)
+	_grid_scroll.add_child(_grid)
+	# The number of columns follows the room the collection has (it was a fixed 7, which pushed the deck panel off a 1280 px screen).
+	_grid.columns = _columns_for(size.x - PANEL_MIN - 90.0 if size.x > 100.0 else 1300.0)
+	_grid_scroll.resized.connect(func() -> void: _grid.columns = _columns_for(_grid_scroll.size.x))
 	_fill_grid()
-	split.add_child(_build_deck_panel())
+	_deck_panel = _build_deck_panel() as PanelContainer
+	split.add_child(_deck_panel)
 	_toast = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -114,49 +139,89 @@ func _build() -> void:
 	if _uses_deck_box():
 		_build_rack()
 		_refresh_rack()
+	resized.connect(_relayout)
+	_relayout()
+	_relayout.call_deferred()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
 	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 150))
 
 
+## How many collection columns fit in `width` pixels (at least 2).
+func _columns_for(width: float) -> int:
+	var tile: float = CardView.SIZE.x * _card_scale + 10.0
+	return maxi(2, int((width - 16.0 + 10.0) / tile))
+
+
+## UI + economy fixes Oct 22: sizes the station to the screen - the deck panel's width, the gaps kept free for the slot racks (measured on
+## the racks at this size, so the collection and the deck list use all the room between them) and the toast's place.
+func _relayout() -> void:
+	if not is_inside_tree() or size.x < 100.0 or _deck_panel == null:
+		return
+	_deck_panel.custom_minimum_size.x = clampf(size.x * PANEL_SHARE, PANEL_MIN, PANEL_MAX)
+	_toast.size = Vector2(minf(900.0, size.x - 80.0), 40)
+	_toast.position = Vector2((size.x - _toast.size.x) * 0.5, size.y - _toast.size.y - 50.0)
+	if _top_spacer == null or _bottom_spacer == null:
+		return
+	var body_top: float = (body.global_position.y - global_position.y) / maxf(scale.y, 0.01)
+	var body_bottom: float = size.y - float(SCREEN_MARGIN)
+	var top_rack: Rect2 = DeckRack.cell_rect(0, size)
+	var bottom_rack: Rect2 = DeckRack.cell_rect(5, size)
+	_top_spacer.custom_minimum_size.y = maxf(0.0, top_rack.end.y + 6.0 - body_top)
+	_bottom_spacer.custom_minimum_size.y = maxf(0.0, body_bottom - bottom_rack.position.y + 6.0)
+	# The top rack is painted over the header's middle: the title stays only while it ends before the first slot (the book icon says the rest).
+	if title_label != null:
+		title_label.add_theme_font_size_override("font_size", 48 if not _compact else 34)
+		var title_end: float = (title_label.global_position.x - global_position.x) / maxf(scale.x, 0.01) + title_label.get_minimum_size().x
+		title_label.visible = title_end < top_rack.position.x - 8.0
+
+
 func _build_deck_panel() -> Control:
 	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(590, 0)
-	var column: VBoxContainer = UIKit.vbox(10)
+	panel.name = "DeckPanel"
+	panel.custom_minimum_size = Vector2(PANEL_MIN, 0)
+	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Your Deck", &"HeadingLabel", 30))
+	# On a short canvas the slot line under it already names the deck, so the heading makes room for the list.
+	if not _compact:
+		column.add_child(UIKit.label("Your Deck", &"HeadingLabel", 30))
 	if _uses_deck_box():
 		column.add_child(_build_deck_bar())
-	_count_label = UIKit.label("", &"", 24, UIStyle.PARCHMENT)
+	_count_label = UIKit.label("", &"", 22, UIStyle.PARCHMENT)
+	_wrap(_count_label)
 	column.add_child(_count_label)
 	_rules_box = UIKit.vbox(2)
 	column.add_child(_rules_box)
 	_warning_label = UIKit.label("", &"", 19, Color("ffb066"))
-	_warning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_warning_label.custom_minimum_size = Vector2(540, 0)
+	_wrap(_warning_label)
 	column.add_child(_warning_label)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	var frame: PanelContainer = UIKit.panel(&"DarkPanel")
 	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	frame.custom_minimum_size = Vector2(0, 96)
 	frame.add_child(scroll)
 	column.add_child(frame)
 	_list_box = UIKit.vbox(3)
 	_list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_list_box)
-	var buttons: HBoxContainer = UIKit.hbox(10)
+	# A flow row: on a narrow panel Reset moves under the other two instead of running past the panel's edge.
+	var buttons: HFlowContainer = HFlowContainer.new()
+	buttons.add_theme_constant_override("h_separation", 10)
+	buttons.add_theme_constant_override("v_separation", 8)
 	column.add_child(buttons)
-	_save_button = FancyButton.make("Save Deck", &"PrimaryButton", Vector2(190, 54))
+	var button_height: float = 54.0 if not _compact else 46.0
+	_save_button = FancyButton.make("Save Deck", &"PrimaryButton", Vector2(150, button_height))
 	_save_button.pressed.connect(_save)
 	buttons.add_child(_save_button)
-	var fill: FancyButton = FancyButton.make("Fill Infrastructure", &"", Vector2(150, 54))
-	fill.tooltip_text = "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size."
-	fill.pressed.connect(_autofill)
-	buttons.add_child(fill)
-	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(120, 54))
+	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(110, button_height))
 	reset.tooltip_text = "Go back to the saved deck."
 	reset.pressed.connect(_reset)
 	buttons.add_child(reset)
+	var fill: FancyButton = FancyButton.make("Fill Infrastructure", &"", Vector2(150, button_height))
+	fill.tooltip_text = "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size."
+	fill.pressed.connect(_autofill)
+	buttons.add_child(fill)
 	return panel
 
 
@@ -232,6 +297,16 @@ func _bar_button(text: String, tip: String, callback: Callable) -> FancyButton:
 	button.clip_text = true
 	button.tooltip_text = tip
 	button.add_theme_font_size_override("font_size", 17)
+	# Oct 22: slim side margins so five buttons keep their whole word on a narrow panel ("Renam" was cut). Done once the button is in the
+	# tree, where its GhostButton look is known.
+	button.ready.connect(func() -> void:
+		for state: String in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
+			var box: StyleBox = button.get_theme_stylebox(state)
+			if box != null:
+				var slim: StyleBox = box.duplicate() as StyleBox
+				slim.content_margin_left = minf(box.content_margin_left, 4.0)
+				slim.content_margin_right = minf(box.content_margin_right, 4.0)
+				button.add_theme_stylebox_override(state, slim), CONNECT_ONE_SHOT)
 	button.pressed.connect(callback)
 	return button
 
@@ -625,11 +700,11 @@ func _process(_delta: float) -> void:
 
 func _make_tile(card: CardData) -> Control:
 	var holder: Control = Control.new()
-	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 30)
+	holder.custom_minimum_size = CardView.SIZE * _card_scale + Vector2(0, 30)
 	holder.set_meta("card_id", card.id)
 	var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
 	holder.add_child(view)
-	CardView.fit(view, CARD_SCALE)
+	CardView.fit(view, _card_scale)
 	view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void: _on_tile_input(card, event))
 	view.hovered.connect(func(_v: CardView) -> void:
 		_preview.show_for(holder, card)
@@ -639,8 +714,9 @@ func _make_tile(card: CardData) -> Control:
 	badge.add_theme_font_override("font", UIStyle.font_bold())
 	badge.add_theme_font_size_override("font_size", 18)
 	badge.add_theme_stylebox_override("normal", UIStyle.box(Color(0.04, 0.02, 0.08, 0.92), UIStyle.GOLD_DIM, 2, 12))
-	badge.position = Vector2(8, CardView.SIZE.y * CARD_SCALE + 4.0)
-	badge.size = Vector2(CardView.SIZE.x * CARD_SCALE - 16.0, 26)
+	badge.position = Vector2(4, CardView.SIZE.y * _card_scale + 4.0)
+	badge.size = Vector2(CardView.SIZE.x * _card_scale - 8.0, 26)
+	badge.clip_text = true
 	badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(badge)
@@ -730,7 +806,7 @@ func _rebuild_rules() -> void:
 		color_names.append(UIStyle.affinity_name(color))
 	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy caps: %s (infrastructure is unlimited)" % _caps_summary())
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy caps: %s; infrastructure unlimited" % _caps_summary())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d Path%s (%s)" % [limit, "" if limit == 1 else "s", ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
 		_rule_row(false, "You use cards you do not own")
@@ -751,8 +827,17 @@ func _rule_row(ok: bool, text: String) -> void:
 	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	dot.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.GOOD if ok else UIStyle.DANGER, Color(0, 0, 0, 0.4), 2, 8))
 	row.add_child(dot)
-	row.add_child(UIKit.label(text, &"", 20, UIStyle.PARCHMENT if ok else Color("ff9d98")))
+	var line: Label = UIKit.label(text, &"", 19 if not _compact else 17, UIStyle.PARCHMENT if ok else Color("ff9d98"))
+	_wrap(line)
+	row.add_child(line)
 	_rules_box.add_child(row)
+
+
+## A label that wraps inside its container instead of setting the container's width (a long rules line pushed the deck panel off the screen).
+func _wrap(label: Label) -> void:
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.custom_minimum_size = Vector2(60, 0)
 
 
 func _rebuild_list() -> void:
@@ -805,8 +890,10 @@ func _list_row(card: CardData, count: int) -> Control:
 	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_infrastructure() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 14))
 	cost.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	line.add_child(cost)
-	var name_label: Label = UIKit.label(card.display_name if not card.display_name.is_empty() else "%s Infrastructure" % UIStyle.affinity_name(card.color), &"", 22, UIStyle.PARCHMENT)
+	var name_label: Label = UIKit.label(card.display_name if not card.display_name.is_empty() else "%s Infrastructure" % UIStyle.affinity_name(card.color), &"", 21, UIStyle.PARCHMENT)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.clip_text = true
+	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	line.add_child(name_label)
 	line.add_child(_step_button("-", func() -> void: _remove(card)))
 	var count_label: Label = UIKit.label("x%d" % count if card.is_unlimited() else editor.cap_text(card), &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
@@ -824,7 +911,7 @@ func _list_row(card: CardData, count: int) -> Control:
 
 
 func _step_button(symbol: String, callback: Callable) -> Button:
-	var button: FancyButton = FancyButton.make(symbol, &"GhostButton", Vector2(40, 32))
+	var button: FancyButton = FancyButton.make(symbol, &"GhostButton", Vector2(40, 32) if not _compact else Vector2(32, 28))
 	button.add_theme_font_size_override("font_size", 22)
 	button.pressed.connect(callback)
 	return button
@@ -881,7 +968,24 @@ func request_close() -> void:
 		_say("Save cancelled.", UIStyle.MUTED)
 		return
 	if _dirty:
-		var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Unsaved changes", "Leave the Deck Station without saving your changes?", "Discard changes", "Keep editing", true)
-		dialog.confirmed.connect(func() -> void: closed.emit())
+		# UI + economy fixes Oct 22: Save / Discard / Cancel. Save writes the deck back to the slot it came from (a new deck: the empty slot
+		# it was started in) and leaves.
+		var dialog: ConfirmDialog = ConfirmDialog.ask_three(self, "Unsaved changes", "Save your changes to this deck before leaving the Deck Station?", "Save", "Discard", "Cancel")
+		dialog.name = "ExitConfirm"
+		dialog.confirmed.connect(save_and_close)
+		dialog.alternative.connect(func() -> void: closed.emit())
 		return
+	closed.emit()
+
+
+## Saves the edited deck where it belongs and closes the station (the Save choice of the unsaved-changes question).
+func save_and_close() -> void:
+	if _uses_deck_box():
+		if not save_to_slot(_editing_slot()):
+			_say("That slot is not open; the deck was not saved.", Color("ff8a85"))
+			return
+	else:
+		_write_back(editor.deck)
+		_dirty = false
+		EventBus.collection_changed.emit()
 	closed.emit()

@@ -34,7 +34,18 @@ static func show_once(parent: Control, flag: StringName, title: String, text: St
 	column.add_child(body)
 	UIKit.pop_in(tip)
 	Audio.sfx(&"ui_open", -8.0)
+	tip._keep_on_screen.call_deferred()
 	return tip
+
+
+## UI + economy fixes Oct 22: the tips are placed for a 1920x1080 screen; on a smaller one (a big UI scale) they are moved back inside it.
+func _keep_on_screen() -> void:
+	var parent_control: Control = get_parent() as Control
+	if parent_control == null or parent_control.size.x < 100.0:
+		return
+	var room: Vector2 = parent_control.size
+	position.x = clampf(position.x, 12.0, maxf(12.0, room.x - size.x - 12.0))
+	position.y = clampf(position.y, 12.0, maxf(12.0, room.y - size.y - 12.0))
 
 
 func dismiss() -> void:

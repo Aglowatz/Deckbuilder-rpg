@@ -8,6 +8,12 @@ extends Node
 ## - `UiScale.corner(panels)`: for HUD panels at fixed positions. Each panel grows (or shrinks) around the corner or edge of itself that is nearest to the screen edge,
 ##   so a panel in the top right stays in the top right.
 ## Both follow `Settings.ui_scale` live.
+##
+## UI + economy fixes Oct 22: every window size draws on the same 1920x1080 canvas (canvas_items stretch, keep aspect), so a UI scale above
+## 100 % leaves a fitted screen less room (150 %: 1280x720) than most menus were laid out for, and they ran off the edges. `fit` now measures
+## what the screen's content needs (its children's combined minimum size) and takes only as much of the UI scale as still fits; a screen that
+## needs more than the canvas is shrunk to fit (down to MIN_FIT). Nothing is ever cut off; the measured factor only goes down while the
+## screen is open (so wrapping text cannot make it flicker) and is measured again when the setting or the window changes.
 
 var _target: Control
 ## "fit" or "corner".
@@ -15,12 +21,26 @@ var _mode: String = "fit"
 var _panels: Array[Control] = []
 ## How much of the scale a HUD panel takes (1.0 = all of it). Crowded HUDs (the battle) take part of it so panels do not run into the board.
 var _strength: float = 1.0
+## The smallest factor a fitted screen is ever drawn at (a screen too big even at 100 % is shrunk, not cut).
+const MIN_FIT: float = 0.7
+## The factor the fitted screen's content was measured to need (0 = the full UI scale fits).
+var _cap: float = 0.0
+## Frames left before the content is measured: it waits until the minimum size has stopped changing for SETTLE_FRAMES frames, because
+## wrapping labels and flow rows report huge heights for a frame before their container gives them a width.
+var _settle: int = 0
+const SETTLE_FRAMES: int = 2
 
 
 ## Makes `screen` (a full-screen Control that is not inside a container) follow the UI scale.
 static func fit(screen: Control) -> UiScale:
 	if screen.get_parent() is Container:
 		return null
+	# Oct 22: a screen opened inside a fitted screen (a confirm over a menu, the Load page in the pause menu) is already scaled with it.
+	var ancestor: Node = screen.get_parent()
+	while ancestor != null:
+		if ancestor.get_node_or_null(^"UiScaleFit") != null:
+			return null
+		ancestor = ancestor.get_parent()
 	var scaler: UiScale = UiScale.new()
 	scaler.name = "UiScaleFit"
 	scaler._target = screen
@@ -42,9 +62,12 @@ static func corner(host: Node, panels: Array[Control], strength: float = 1.0) ->
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	Settings.ui_scale_changed.connect(refit)
+	Settings.ui_scale_changed.connect(_remeasure)
 	if _mode == "fit":
-		_target.get_viewport().size_changed.connect(refit)
+		_target.get_viewport().size_changed.connect(_remeasure)
+		_target.child_entered_tree.connect(_watch_child)
+		for child: Node in _target.get_children():
+			_watch_child(child)
 	else:
 		for panel: Control in _panels:
 			if panel != null:
@@ -61,10 +84,71 @@ func refit() -> void:
 				_pivot_panel(panel)
 
 
+func _remeasure() -> void:
+	_cap = 0.0
+	refit()
+
+
+func _watch_child(child: Node) -> void:
+	var control: Control = child as Control
+	if control != null and not control.minimum_size_changed.is_connected(_queue_measure):
+		control.minimum_size_changed.connect(_queue_measure)
+
+
+func _queue_measure() -> void:
+	_settle = SETTLE_FRAMES
+
+
+func _process(_delta: float) -> void:
+	if _settle <= 0:
+		return
+	_settle -= 1
+	if _settle == 0:
+		_measure()
+
+
+## The factor the screen is drawn at: the UI scale, or less when its content needs more room.
+func current_factor() -> float:
+	return Settings.ui_scale if _cap <= 0.0 else minf(Settings.ui_scale, _cap)
+
+
+## How big the screen's content wants to be: the largest combined minimum size of its full-screen children.
+func _content_minimum() -> Vector2:
+	return _minimum_of(_target, 0)
+
+
+## A plain Control (not a container) reports only its own custom minimum, so a page added inside one (the Load page in the pause menu) is
+## looked into, a few levels deep.
+func _minimum_of(parent: Node, depth: int) -> Vector2:
+	var need: Vector2 = Vector2.ZERO
+	for child: Node in parent.get_children():
+		var control: Control = child as Control
+		if control == null or not control.visible or control.top_level:
+			continue
+		need = need.max(control.get_combined_minimum_size())
+		if not (control is Container) and depth < 3:
+			need = need.max(_minimum_of(control, depth + 1))
+	return need
+
+
+func _measure() -> void:
+	if _target == null or not is_instance_valid(_target) or not _target.is_inside_tree():
+		return
+	var view: Vector2 = _target.get_viewport().get_visible_rect().size
+	var need: Vector2 = _content_minimum()
+	if need.x < 1.0 or need.y < 1.0:
+		return
+	var fits: float = minf(view.x / need.x, view.y / need.y)
+	var factor: float = current_factor()
+	if fits < factor - 0.004:
+		_cap = maxf(MIN_FIT, floorf(fits * 100.0) / 100.0)
+		_fit_screen()
+
+
 func _fit_screen() -> void:
 	if _target == null or not is_instance_valid(_target) or not _target.is_inside_tree():
 		return
-	var factor: float = Settings.ui_scale
+	var factor: float = current_factor()
 	var view: Vector2 = _target.get_viewport().get_visible_rect().size
 	_target.custom_minimum_size = Vector2.ZERO
 	_target.set_anchors_preset(Control.PRESET_TOP_LEFT)
@@ -72,6 +156,7 @@ func _fit_screen() -> void:
 	_target.position = Vector2.ZERO
 	_target.scale = Vector2(factor, factor)
 	_target.size = view / factor
+	_queue_measure()
 
 
 func _pivot_panel(panel: Control) -> void:

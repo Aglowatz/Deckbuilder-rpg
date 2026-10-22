@@ -12,6 +12,7 @@ signal finished
 const REVEAL_STEP: float = 0.16
 const GUARD_TIME: float = 0.45
 const NUMBER_SIZE: int = 200
+const DESIGN_SIZE: Vector2 = Vector2(1920, 1080)
 
 var levels_gained: Array[LevelData] = []
 var _index: int = 0
@@ -60,6 +61,9 @@ func _show_level() -> void:
 	_root = Control.new()
 	_root.name = "LevelMoment"
 	UIKit.full_rect(_root)
+	# Oct 22: laid out at fixed places on the 1920x1080 canvas, so it asks for that much room (UiScale then takes only the part of the UI
+	# scale that still fits instead of pushing the Continue button off the bottom).
+	_root.custom_minimum_size = DESIGN_SIZE
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_root)
 	var rays: PackFx.Rays = PackFx.Rays.new()
@@ -265,6 +269,9 @@ func show_summary() -> void:
 	_root = Control.new()
 	_root.name = "LevelSummary"
 	UIKit.full_rect(_root)
+	# Oct 22: laid out at fixed places on the 1920x1080 canvas, so it asks for that much room (UiScale then takes only the part of the UI
+	# scale that still fits instead of pushing the Continue button off the bottom).
+	_root.custom_minimum_size = DESIGN_SIZE
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_root)
 	var column: VBoxContainer = UIKit.vbox(8)

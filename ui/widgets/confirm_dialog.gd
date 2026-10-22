@@ -4,6 +4,8 @@ extends Control
 
 signal confirmed
 signal cancelled
+## UI + economy fixes Oct 22: the middle button of a three-way question (`ask_three`, e.g. Save / Discard / Cancel).
+signal alternative
 
 ## Set when the dialog was asked with a `check_text` (e.g. "Don't ask again"): read it in the confirmed/cancelled handlers.
 var check: CheckBox
@@ -17,6 +19,19 @@ static func ask(parent: Node, title: String, message: String, confirm_text: Stri
 	dialog.set_meta("cancel_text", cancel_text)
 	dialog.set_meta("danger", danger)
 	dialog.set_meta("check_text", check_text)
+	parent.add_child(dialog)
+	return dialog
+
+
+## A three-way question: `confirmed` (the first, primary button), `alternative` (the middle one) or `cancelled` (the last one, focused).
+static func ask_three(parent: Node, title: String, message: String, confirm_text: String, alternative_text: String, cancel_text: String = "Cancel") -> ConfirmDialog:
+	var dialog: ConfirmDialog = ConfirmDialog.new()
+	dialog.set_meta("title", title)
+	dialog.set_meta("message", message)
+	dialog.set_meta("confirm_text", confirm_text)
+	dialog.set_meta("alternative_text", alternative_text)
+	dialog.set_meta("cancel_text", cancel_text)
+	dialog.set_meta("danger", true)
 	parent.add_child(dialog)
 	return dialog
 
@@ -52,11 +67,21 @@ func _ready() -> void:
 	var row: HBoxContainer = UIKit.hbox(16)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(row)
-	var yes: FancyButton = FancyButton.make(str(get_meta("confirm_text")), &"DangerButton" if bool(get_meta("danger")) else &"PrimaryButton", Vector2(220, 56))
+	var three_way: bool = str(get_meta("alternative_text", "")) != ""
+	var yes: FancyButton = FancyButton.make(str(get_meta("confirm_text")), &"DangerButton" if bool(get_meta("danger")) and not three_way else &"PrimaryButton", Vector2(220, 56))
 	yes.pressed.connect(func() -> void:
 		confirmed.emit()
 		queue_free())
 	row.add_child(yes)
+	var middle: FancyButton = null
+	if three_way:
+		middle = FancyButton.make(str(get_meta("alternative_text")), &"DangerButton", Vector2(200, 56))
+		middle.name = "AlternativeButton"
+		middle.pressed.connect(func() -> void:
+			alternative.emit()
+			queue_free())
+		row.add_child(middle)
+		middle.focus_mode = Control.FOCUS_ALL
 	var no: FancyButton = FancyButton.make(str(get_meta("cancel_text")), &"", Vector2(200, 56))
 	no.pressed.connect(func() -> void:
 		cancelled.emit()

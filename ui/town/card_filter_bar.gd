@@ -26,9 +26,10 @@ func _ready() -> void:
 	var costs: Array[Dictionary] = []
 	for index: int in range(COST_LABELS.size()):
 		costs.append({"label": COST_LABELS[index], "value": index})
-	var second: HBoxContainer = UIKit.hbox(24)
-	second.add_child(_row(1, types))
-	second.add_child(_row(2, costs))
+	# UI + economy fixes Oct 22: the chips flow onto another line when the bar is narrow (a fixed row pushed the screen wider than 1280 px).
+	var second: HFlowContainer = _row(1, types)
+	second.add_child(UIKit.spacer(0, 14))
+	_row(2, costs, second)
 	add_child(second)
 
 
@@ -45,8 +46,12 @@ func _card_type_for(index: int) -> int:
 	return int(CardEnums.CardType.WONDER)
 
 
-func _row(group: int, options: Array[Dictionary]) -> HBoxContainer:
-	var row: HBoxContainer = UIKit.hbox(6)
+func _row(group: int, options: Array[Dictionary], into: HFlowContainer = null) -> HFlowContainer:
+	var row: HFlowContainer = into
+	if row == null:
+		row = HFlowContainer.new()
+		row.add_theme_constant_override("h_separation", 6)
+		row.add_theme_constant_override("v_separation", 6)
 	for option: Dictionary in options:
 		var chip: Button = Button.new()
 		chip.text = str(option["label"])
@@ -60,7 +65,7 @@ func _row(group: int, options: Array[Dictionary]) -> HBoxContainer:
 		chip.toggle_mode = true
 		chip.focus_mode = Control.FOCUS_NONE
 		var tint: Color = option.get("color", UIStyle.GOLD) as Color
-		chip.add_theme_font_size_override("font_size", 19)
+		chip.add_theme_font_size_override("font_size", 18)
 		chip.add_theme_stylebox_override("normal", _chip_style(Color(1, 1, 1, 0.05), Color(1, 1, 1, 0.12)))
 		chip.add_theme_stylebox_override("hover", _chip_style(Color(1, 1, 1, 0.12), tint))
 		chip.add_theme_stylebox_override("pressed", _chip_style(tint.darkened(0.15), tint.lightened(0.3)))
