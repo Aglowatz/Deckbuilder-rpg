@@ -3547,3 +3547,6 @@ steps OK, 3 FAILs are stale Gainlands NPC expectations (brenda/npc_beefcake port
 Part 4 - the disguised Rescuer: `RescuerDisguise` shows NPC-RESCUER / SPR-RESCUER from the prologue until `rescuer_named` (Plume at the castle gate, mid-scene),
 NPC-ELOWEN / ELOWEN after; the old look stays until the files exist. NPC-RESCUER is a known portrait ID, SPR-RESCUER a sprite batch row (split like the Oct 20 sheets;
 dry run on the pending sheet clean), NPC-OLDWELL an extra NPC the speaker "The Old Well" resolves to. Checks: GUT 2161/2161, prologue smoke OK.
+Part 5 - `docs/art/import_oct22.md`: the ten import lines in order for the Art Batch Oct 22 (cards T-24/T-25/RES-*/JUNK-01, portraits NPC-RESCUER/NPC-OLDWELL + the 13
+fixes, SPR-RESCUER, icons, hat sheets, MAP-S-PASTE/MAP-LAB, BB-S-PASTE/BB-LAB, bestiary, the gainlands and heap kits), with every ID checked against its importer
+(all known) and the checks to run after. NPC-OLDWELL is wired as the Old Well's portrait. CLAUDE.md: "import cosmetics".
