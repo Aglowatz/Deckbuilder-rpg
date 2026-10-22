@@ -127,7 +127,12 @@ func _refresh() -> void:
 	for index: Variant in _dye_buttons:
 		var swatch: Button = _dye_buttons[index] as Button
 		var selected_dye: bool = _look.cloak_dye == int(index)
-		for state: String in ["normal", "hover", "pressed", "focus"]:
+		# Apparel Part 3: the dye only shows on the plain hooded cloak, so the swatches rest while a named cloak is worn.
+		var dyeable: bool = SpriteCosmetics.dye_applies(_look)
+		swatch.disabled = not dyeable
+		swatch.tooltip_text = Dye.dye_name(int(index)) if dyeable else "Dyes colour the plain hooded cloak"
+		swatch.modulate.a = 1.0 if dyeable else 0.4
+		for state: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 			var box: StyleBoxFlat = StyleBoxFlat.new()
 			box.bg_color = Dye.primary(int(index)) if int(index) >= 0 else Color("3a3550")
 			box.set_corner_radius_all(10)
@@ -136,4 +141,4 @@ func _refresh() -> void:
 			swatch.add_theme_stylebox_override(state, box)
 	var hat: CosmeticData = CosmeticCatalog.find(_look.hat_id)
 	var cloak: CosmeticData = CosmeticCatalog.find(_look.cloak_id)
-	_status.text = "Hat: %s    Cloak: %s (%s)" % [hat.display_name if hat != null else "none", cloak.display_name if cloak != null else "dark teal hooded cloak", Dye.dye_name(_look.cloak_dye)]
+	_status.text = "Hat: %s    Cloak: %s%s" % [hat.display_name if hat != null else "none", cloak.display_name if cloak != null else "dark teal hooded cloak", " (%s)" % Dye.dye_name(_look.cloak_dye) if SpriteCosmetics.dye_applies(_look) else ""]

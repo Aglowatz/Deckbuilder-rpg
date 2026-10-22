@@ -272,6 +272,12 @@ func _ready() -> void:
 			Session.new_saved_deck("Old Necro Deck", ["BAS-N", "N-28", "N-28", "N-17"] as Array[String])
 			if str(_screenshot_args["decks"]) == "2":
 				Session.use_deck(2)
+		# Apparel Part 3: --wear=cloak_royal,hat_wizard owns and wears those pieces (wardrobe and tailor shots).
+		for wear_id: String in str(_screenshot_args.get("wear", "")).split(",", false):
+			var wear: CosmeticData = CosmeticCatalog.find(wear_id)
+			if wear != null:
+				Session.cosmetics.grant(wear_id)
+				Session.cosmetics.equip(wear.slot, wear_id)
 		if _screenshot_args.has("levelup"):
 			Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]) - 1))
 			Session.pending_level_ups.append_array(Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]))))

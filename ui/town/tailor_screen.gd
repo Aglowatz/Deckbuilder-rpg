@@ -230,7 +230,12 @@ func _refresh() -> void:
 			var index: int = position + Dye.NATURAL
 			var swatch: Button = buttons[position] as Button
 			var selected: bool = _look.dye_index(slot) == index
-			for state_name: String in ["normal", "hover", "pressed", "focus"]:
+			# Apparel Part 3: the dye only shows on the plain hooded cloak, so the swatches rest while a named cloak is worn.
+			var dyeable: bool = slot == CosmeticData.Slot.HAT or SpriteCosmetics.dye_applies(_look)
+			swatch.disabled = not dyeable
+			swatch.tooltip_text = Dye.dye_name(index) if dyeable else "Dyes colour the plain hooded cloak"
+			swatch.modulate.a = 1.0 if dyeable else 0.4
+			for state_name: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 				var box: StyleBoxFlat = StyleBoxFlat.new()
 				box.bg_color = Dye.primary(index) if index >= 0 else Color("3a3550")
 				box.set_corner_radius_all(10)

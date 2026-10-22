@@ -97,3 +97,18 @@ neighbouring view dropped (under 1.5 % of the sheet's biggest piece or 6 % of th
   (`docs/art/apparel/pending_hats_split.png`, walking shots `hat_pending_<NAME>.png`). Not imported: they are not approved yet.
 - **Art notes for the redo list** (seen in the pending sheets): some views are hard-clipped at an edge in the painting itself (CHEF FRONT and FRONTSIDE right edge,
   LEAFCROWN FRONTSIDE / SIDE / BACK). The leaf crown is a ring drawn as one card in front of the head, so its back half shows over the hair.
+
+## Shop and wardrobe live (Apparel Part 3, Oct 22 2026)
+- Pip Threadwell sells every item whose worn art exists (`SpriteCosmetics.art_ready`): since Part 1 the four cloaks (each at its unlock: Patchwork level 4, Red
+  Cape one zone, Tattered two zones, Royal Mantle after Primm). The hats stay "Soon" until `import_cosmetics.sh` brings their sheets in; then they sell with
+  no code change. `tests/core/cosmetics/test_apparel_shop.gd` checks "buyable exactly when the art exists" for all ten.
+- Found pieces arrive owned and unworn: Crown of Leaves from the Verdant Dump chest (`chest_fridge`), Tattered Cloak from the Gainlands chest (`chest_ground_0`),
+  Royal Mantle from Primm's first defeat.
+- The wardrobe's preview is the live `WorldSprite` with the hat card and the cloak set; it is now framed to show a hat (it cut the head off before). Every
+  hat x cloak combination (7 x 5) is worn, applied and saved (`Session.apply_look`, the save round trip in the test).
+- **The cloak dye only colours the plain hooded cloak** (`SpriteCosmetics.dye_applies`): it finds the cloak by hue, and the red cape sits beside the skin
+  and hair hues, the patchwork has nine. With a named cloak on, the dye swatches rest (dimmed, tooltip "Dyes colour the plain hooded cloak"); the chosen dye is
+  kept for when the plain cloak goes back on.
+- Shots: `bash tools/shot.sh res://scenes/town.tscn apparel/x --open=wardrobe --wear=cloak_royal,hat_wizard` (`--wear` owns and wears; add
+  `SPRITE_HAT_FOLDER=res://_art_inbox/pending_hats_split/` to see hats from a dry run). `docs/art/apparel/wardrobe_royal.png`, `wardrobe_redcape_widebrim.png`
+  (the wide brim from the pending sheet), `tailor_cloaks.png`.

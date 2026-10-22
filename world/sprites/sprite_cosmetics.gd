@@ -28,7 +28,14 @@ static func apply(sprite: WorldSprite, state: CosmeticState) -> void:
 	sprite.set_character(SpriteLibrary.cloak_character(cloak_art))
 	sprite.set_hat(art_name(state.hat_id) if state != null else "")
 	var dye: int = state.cloak_dye if state != null else Dye.NATURAL
-	if dye >= 0:
+	# Apparel Part 3: the dye recolours the plain hooded cloak only. It finds the cloak by its hue, and a red cape sits next to the hair and skin hues, a patchwork has
+	# many; the four named cloaks wear their own colours.
+	if dye >= 0 and dye_applies(state):
 		sprite.set_dye(Dye.primary(dye), 1.0)
 	else:
 		sprite.set_dye(Color.WHITE, 0.0)
+
+
+## True when the cloak dye shows on this look (Apparel Part 3: only on the plain hooded cloak).
+static func dye_applies(state: CosmeticState) -> bool:
+	return state == null or art_name(state.cloak_id) == "" or not SpriteLibrary.has_cloak(art_name(state.cloak_id))

@@ -51,9 +51,10 @@ func _ready() -> void:
 	viewport.add_child(fill)
 	_camera = Camera3D.new()
 	_camera.fov = 26.0
-	_camera.position = Vector3(0.0, 1.0, 5.6)
+	# Apparel Part 3: framed to show a hat too (the 1.25x hero is 2.3 m, a wizard hat adds half a metre); it used to cut the head off at the top.
+	_camera.position = Vector3(0.0, 1.25, 7.0)
 	viewport.add_child(_camera)
-	_camera.look_at(Vector3(0.0, 0.66, 0.0), Vector3.UP)
+	_camera.look_at(Vector3(0.0, 1.12, 0.0), Vector3.UP)
 	_camera.current = true
 	var plinth: MeshInstance3D = MeshInstance3D.new()
 	var disc: CylinderMesh = CylinderMesh.new()

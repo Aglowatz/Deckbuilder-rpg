@@ -3541,3 +3541,6 @@ Part 2 - hats ready for the sheet art: `HatSheet` splits `COS-HAT-<NAME>-SHEET.p
 head band (the sheets are not drawn at one scale) into `fit_auto.json` with per-direction sinks, `fit.json` is the hand layer on top; the hat follows a TRACKED head
 (`hat_anchor`, one size per direction, exact bob). Proven on placeholder sheets (`tools/fake_hat_sheets.gd`) and a dry run of the six real sheets found in Pending
 Review (not imported). Checks: hat/cosmetics/cloak tests 31/31, compile check OK.
+Part 3 - shop and wardrobe live: the four cloaks sell at their unlocks, found pieces arrive owned, all 35 hat x cloak looks wear and save, the wardrobe preview
+shows the hat (reframed), the dye only colours the plain hooded cloak (swatches rest otherwise). Checks: GUT 2156/2156; world rollout smoke: clothing vendor
+steps OK, 3 FAILs are stale Gainlands NPC expectations (brenda/npc_beefcake portraits, unchanged since the sub-area era, not apparel).
