@@ -2761,6 +2761,14 @@ func _screenshot_open(what: String) -> void:
 			_use_well()
 		"deck":
 			_open_deck_station()
+		"deck_slots":  # Oct 22, Part 2: the slot racks with several saved decks (covers, names, Path icons, In use)
+			Session.set_flag(&"tip_deck")
+			Session.add_xp(ProgressionTable.xp_to_reach(7) - Session.profile.xp)
+			Session.new_saved_deck("Iron Sprint", ["BAS-B", "B-12", "B-12", "B-10", "B-09"] as Array[String])
+			Session.new_saved_deck("Paperwork Pile", ["BAS-N", "N-23", "N-02", "N-01"] as Array[String])
+			Session.new_saved_deck("Golem Kitchen", ["BAS-G", "G-23", "G-08", "G-01"] as Array[String])
+			Session.new_saved_deck("Trash Party", ["BAS-R", "R-22", "R-08", "R-06"] as Array[String])
+			_open_deck_station()
 		"vendor":
 			_open_vendor()
 		"item_vendor":

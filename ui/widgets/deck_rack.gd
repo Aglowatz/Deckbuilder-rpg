@@ -2,7 +2,7 @@ class_name DeckRack
 extends Control
 ## Playtest v0.4.0, Part F: the ten saved-deck slots of the Deck Station, drawn into the empty slot racks painted at the top and the
 ## bottom of the station's own background (UI-BG-DECKBUILDER: a five-slot rack along the top, a seven-slot rack along the bottom - the
-## middle five are used). Each tile shows the deck's cover card, its name, its size and its Path icons; an empty open slot shows "+";
+## middle five are used). A saved deck's tile is its cover card's painting with the name on a banner, its Path icons and an In use chip; an empty open slot shows "+";
 ## a locked slot a padlock and the level that opens it. Click a slot to open that deck (or start a new one there); in `save_mode`
 ## a click means "save here". The same ten slots as `DeckBox` / `DeckSlots` (4 open at the start, +2 at levels 7, 14 and 21).
 
@@ -15,8 +15,9 @@ const TOP_Y: Vector2 = Vector2(42, 186)
 const TOP_X: Array[Vector2] = [Vector2(400, 548), Vector2(552, 700), Vector2(704, 852), Vector2(856, 1004), Vector2(1008, 1148)]
 const BOTTOM_Y: Vector2 = Vector2(768, 936)
 const BOTTOM_X: Array[Vector2] = [Vector2(412, 548), Vector2(556, 692), Vector2(700, 836), Vector2(844, 980), Vector2(988, 1124)]
-const COVER_SCALE: float = 0.22
 const INSET: Vector2 = Vector2(6, 6)
+## UI + economy fixes Oct 22, Part 2: the even margin between a slot's edge and its cover painting.
+const ART_MARGIN: float = 5.0
 
 var highlight: int = -1
 var save_mode: bool = false
@@ -99,48 +100,113 @@ func _tile(slot: int, rect: Rect2) -> FancyButton:
 		return tile
 	var saved: DeckBox.SavedDeck = box.decks[index]
 	var cover: CardData = Session.card_by_id(DeckSlots.cover_id(saved.card_ids, Session.deck_lookup(), saved.cover_id))
-	var strip: HBoxContainer = UIKit.hbox(6)
-	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	strip.alignment = BoxContainer.ALIGNMENT_CENTER
-	column.add_child(strip)
-	var holder: Control = Control.new()
-	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	holder.custom_minimum_size = CardView.SIZE * COVER_SCALE
-	strip.add_child(holder)
-	if cover != null:
-		var view: CardView = CardView.create(cover, CardView.Mode.FULL, true)
-		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		holder.add_child(view)
-		CardView.fit(view, COVER_SCALE)
-		for child: Node in view.find_children("*", "Control", true, false):
-			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var text_box: VBoxContainer = UIKit.vbox(0)
-	text_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	text_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	strip.add_child(text_box)
-	var name_label: Label = _label(saved.name, 14, UIStyle.PARCHMENT)
-	name_label.custom_minimum_size = Vector2(rect.size.x - CardView.SIZE.x * COVER_SCALE - 30.0, 0)
-	name_label.clip_text = true
-	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	text_box.add_child(name_label)
-	var line: HBoxContainer = UIKit.hbox(3)
-	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	text_box.add_child(line)
-	var count: Label = _label("%d" % saved.card_count(), 13, UIStyle.MUTED)
-	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	line.add_child(count)
-	for path: Affinity.Type in DeckSlots.paths_of(saved.card_ids, Session.deck_lookup()):
-		var icon: TextureRect = IconArt.rect(IconArt.energy_id(path), 18.0, "%s Path" % UIStyle.affinity_name(path))
-		if icon != null:
-			icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			line.add_child(icon)
-	if index == box.active:
-		var badge: Label = _label("In use", 12, UIStyle.GOOD)
-		badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		text_box.add_child(badge)
+	var paths: Array[Affinity.Type] = DeckSlots.paths_of(saved.card_ids, Session.deck_lookup())
+	var face: Control = cover_tile(cover, rect.size, saved.name, paths, index == box.active)
+	tile.add_child(face)
+	# Hover shows the deck's size over the art.
+	var count: Label = _chip("%d cards" % saved.card_count(), 13, UIStyle.PARCHMENT)
+	count.name = "CardCount"
+	count.position = Vector2((rect.size.x - 76.0) * 0.5, rect.size.y * 0.42)
+	count.size = Vector2(76, 22)
+	count.visible = false
+	tile.add_child(count)
+	tile.mouse_entered.connect(func() -> void: count.visible = true)
+	tile.mouse_exited.connect(func() -> void: count.visible = false)
+	tile.focus_entered.connect(func() -> void: count.visible = true)
+	tile.focus_exited.connect(func() -> void: count.visible = false)
 	tile.tooltip_text = "%s (%d cards)%s" % [saved.name, saved.card_count(), "\nSaving here overwrites it." if save_mode else "\nClick to open it."]
 	return tile
+
+
+## UI + economy fixes Oct 22, Part 2: a saved deck's slot face - the cover card's painting filling the slot almost edge to edge (a small
+## even margin, cut by `CardArt.cropped` so the head shows), the deck's name on a banner along the bottom, its Path icons in the top-left
+## corner and a small "In use" chip in the top-right for the active deck. Also used by tools/card_crop_sheet.gd.
+static func cover_tile(cover: CardData, tile_size: Vector2, deck_name: String, paths: Array[Affinity.Type], in_use: bool) -> Control:
+	var face: Control = Control.new()
+	face.name = "CoverFace"
+	face.size = tile_size
+	face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var window: Rect2 = Rect2(Vector2(ART_MARGIN, ART_MARGIN), tile_size - Vector2(ART_MARGIN, ART_MARGIN) * 2.0)
+	var art: Texture2D = CardArt.cropped(cover.id, window.size, 1.0, true) if cover != null else null
+	if art != null:
+		var picture: TextureRect = TextureRect.new()
+		picture.name = "CoverArt"
+		picture.texture = art
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
+		picture.position = window.position
+		picture.size = window.size
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		face.add_child(picture)
+	else:
+		var plain: ColorRect = ColorRect.new()
+		plain.color = UIStyle.affinity_color(cover.color).darkened(0.55) if cover != null else Color(0.1, 0.08, 0.14)
+		plain.position = window.position
+		plain.size = window.size
+		plain.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		face.add_child(plain)
+	# The banner: a dark band across the bottom with the deck's name (shrunk to fit one line, then cut with an ellipsis).
+	var banner_height: float = clampf(tile_size.y * 0.2, 24.0, 34.0)
+	var banner: Panel = Panel.new()
+	banner.name = "NameBanner"
+	banner.position = Vector2(window.position.x, window.end.y - banner_height)
+	banner.size = Vector2(window.size.x, banner_height)
+	banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	banner.add_theme_stylebox_override("panel", UIStyle.box(Color(0.05, 0.03, 0.09, 0.86), UIStyle.GOLD_DIM, 1, 4))
+	face.add_child(banner)
+	var name_label: Label = UIKit.label(deck_name, &"", 15, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	name_label.name = "DeckName"
+	name_label.add_theme_font_override("font", UIStyle.font_bold())
+	name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	name_label.clip_text = true
+	name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	name_label.position = Vector2(4, 0)
+	name_label.size = Vector2(banner.size.x - 8.0, banner_height)
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var font: Font = UIStyle.font_bold()
+	var font_size: int = 15
+	while font_size > 11 and font.get_string_size(deck_name, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > name_label.size.x:
+		font_size -= 1
+	name_label.add_theme_font_size_override("font_size", font_size)
+	banner.add_child(name_label)
+	# The Path icons, top-left, on a small dark backing so they read on any painting.
+	if not paths.is_empty():
+		var icons: HBoxContainer = UIKit.hbox(2)
+		icons.name = "PathIcons"
+		icons.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var backing: PanelContainer = PanelContainer.new()
+		backing.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var backing_box: StyleBoxFlat = UIStyle.box(Color(0.05, 0.03, 0.09, 0.78), Color(0, 0, 0, 0), 0, 10)
+		backing_box.content_margin_left = 3
+		backing_box.content_margin_right = 3
+		backing_box.content_margin_top = 2
+		backing_box.content_margin_bottom = 2
+		backing.add_theme_stylebox_override("panel", backing_box)
+		backing.position = window.position + Vector2(3, 3)
+		backing.add_child(icons)
+		for path: Affinity.Type in paths:
+			var icon: TextureRect = IconArt.rect(IconArt.energy_id(path), 20.0, "%s Path" % UIStyle.affinity_name(path))
+			if icon != null:
+				icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				icons.add_child(icon)
+		face.add_child(backing)
+	if in_use:
+		var chip: Label = _chip("In use", 12, UIStyle.GOOD)
+		chip.name = "InUse"
+		chip.size = Vector2(52, 20)
+		chip.position = Vector2(window.end.x - chip.size.x - 3.0, window.position.y + 3.0)
+		face.add_child(chip)
+	return face
+
+
+## A small rounded label on a dark backing.
+static func _chip(text: String, font_size: int, color: Color) -> Label:
+	var chip: Label = UIKit.label(text, &"", font_size, color, HORIZONTAL_ALIGNMENT_CENTER)
+	chip.add_theme_font_override("font", UIStyle.font_bold())
+	chip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	chip.add_theme_stylebox_override("normal", UIStyle.box(Color(0.04, 0.03, 0.07, 0.88), color.darkened(0.2), 1, 9))
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return chip
 
 
 func _label(text: String, font_size: int, color: Color) -> Label:
