@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_back;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // The unified toon material for every world mesh and character (docs/art/style_guide.md, section 2).
 // Banded lighting with soft edges (the bands also step lantern pools), the coloured shadow comes from the zone's tinted ambient light,
 // a thresholded rim, optional emission, vertex-colour or atlas albedo, shader wind for foliage, and a desaturation mode (the D.N.A.)
@@ -181,7 +182,7 @@ void fragment() {
 	// Ground calmer than props (style guide section 4): up-facing surfaces are pulled towards their luma by the zone's ground saturation.
 	float ground = smoothstep(0.8, 0.95, (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).y);
 	col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))), ground * (1.0 - style_ground_sat) * (1.0 - colour_keep));
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, v_world.y, 2.4, 0.85, SCREEN_UV.y);
 	ROUGHNESS = use_rough_tex ? texture(rough_tex, uv).r : 1.0;
 	METALLIC = 0.0;
 	SPECULAR = 0.0;

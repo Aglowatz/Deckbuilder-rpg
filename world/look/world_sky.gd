@@ -151,6 +151,15 @@ func set_haze_color(color: Color) -> void:
 		(entry["material"] as ShaderMaterial).set_shader_parameter("haze", color.lerp(Color(0.85, 0.88, 0.97), 0.3))
 
 
+## Graphics Tier 1: the cloud-shadow plane is a Medium-and-up piece (`GraphicsQuality.cloud_shadows`); `strength` scales the mood's value.
+var _shadows_allowed: bool = true
+
+
+func set_cloud_shadows(allowed: bool) -> void:
+	_shadows_allowed = allowed
+	_apply_palette()
+
+
 ## A zone mood's sky colours (hex strings, any of horizon, gold, mid, zenith, sun) and how much cloud and sun glow it keeps.
 func set_palette(palette: Dictionary) -> void:
 	_palette = palette
@@ -181,8 +190,9 @@ func _apply_palette() -> void:
 	var cloud_tint: Color = Color.html(str(_palette["cloud_tint"])) if _palette.has("cloud_tint") else Color.WHITE
 	var cloud_opacity: float = float(_palette.get("cloud_opacity", 1.0))
 	if _shadow_material != null:
-		var shadow: float = float(_palette.get("cloud_shadow", 1.0))
+		var shadow: float = float(_palette.get("cloud_shadow", 1.0)) * (1.0 if _shadows_allowed else 0.0)
 		_shadow_material.set_shader_parameter("strength", 0.16 * shadow)
+		_shadow_material.set_shader_parameter("scale", 0.011 * float(_palette.get("cloud_shadow_scale", 1.0)))
 		_shadow_plane.visible = shadow > 0.01
 	for entry: Dictionary in _clouds:
 		var material: ShaderMaterial = entry["material"] as ShaderMaterial

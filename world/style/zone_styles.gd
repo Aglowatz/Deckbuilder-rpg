@@ -134,6 +134,9 @@ static func apply_to_preset(p: ZonePreset, preset_id: StringName) -> void:
 		p.ambient_color = Color.html(str(light["ambient_color"]))
 	if light.has("ambient_energy"):
 		p.ambient_energy = float(light["ambient_energy"])
+	# Graphics Tier 1: how dark the sun's shadows are (0..1; the coloured ambient shows through the rest).
+	if light.has("shadow_opacity"):
+		p.shadow_opacity = clampf(float(light["shadow_opacity"]), 0.0, 1.0)
 	var fog: Dictionary = data.get("fog", {}) as Dictionary
 	if fog.has("color"):
 		p.fog_color = Color.html(str(fog["color"]))
@@ -144,6 +147,13 @@ static func apply_to_preset(p: ZonePreset, preset_id: StringName) -> void:
 		p.saturation = float(grade["saturation"])
 	if grade.has("contrast"):
 		p.contrast = float(grade["contrast"])
+	# Graphics Tier 1: the tonemapper and exposure per zone (docs/art/graphics_tier1.md, Part 2).
+	if grade.has("tonemap"):
+		p.tonemap = str(grade["tonemap"])
+	if grade.has("exposure"):
+		p.exposure = float(grade["exposure"])
+	if grade.has("brightness"):
+		p.brightness = float(grade["brightness"])
 
 
 ## The `look` block of the world look rig for this preset (warmth, saturation, vignette, bloom, fog), merged over the zone_looks mood.
@@ -171,4 +181,12 @@ static func look_overrides(preset_id: StringName) -> Dictionary:
 		result["bloom_threshold"] = float(bloom["threshold"])
 	if data.has("vignette"):
 		result["vignette"] = float(data["vignette"])
+	# Graphics Tier 1: the post grade's split tint (shadows / highlights, hex colours) and gamma (docs/art/graphics_tier1.md, Part 2).
+	for key: String in ["shadow_tint", "highlight_tint"]:
+		if grade.has(key):
+			result[key] = str(grade[key]).trim_prefix("#")
+	if grade.has("gamma"):
+		result["gamma"] = float(grade["gamma"])
+	if grade.has("post_contrast"):
+		result["contrast"] = float(grade["post_contrast"])
 	return result

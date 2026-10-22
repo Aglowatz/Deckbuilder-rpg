@@ -18,6 +18,11 @@ uniform float contrast = 1.04;
 // Per-area palette (zone_looks.json "look"): soften the loudest greens and reds so nothing outshouts the characters. 0 = off.
 uniform float green_calm = 0.0;
 uniform float red_calm = 0.0;
+// Graphics Tier 1 (docs/art/graphics_tier1.md, Part 2): the per-zone grade on top of the warmth - a split tint (the shadows lean one way, the highlights
+// another: Crosspath violet shadows under gold highlights) and a gamma. White / white / 1.0 = no change.
+uniform vec3 shadow_tint : source_color = vec3(1.0);
+uniform vec3 highlight_tint : source_color = vec3(1.0);
+uniform float gamma = 1.0;
 
 const int TAPS = 8;
 const float GOLDEN = 2.399963;
@@ -69,6 +74,11 @@ void fragment() {
 		float calm = clamp((green_calm * w_green + red_calm * clamp(w_red, 0.0, 1.0)) * loud, 0.0, 0.9);
 		col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))) * 1.02 + col * 0.0, calm);
 	}
+	if (gamma != 1.0) {
+		col = pow(max(col, vec3(0.0)), vec3(1.0 / gamma));
+	}
+	float split = smoothstep(0.12, 0.8, dot(col, vec3(0.299, 0.587, 0.114)));
+	col *= mix(shadow_tint, highlight_tint, split);
 	col = (col - 0.5) * contrast + 0.5;
 	vec2 c = (uv - 0.5) * vec2(1.0, 0.8);
 	col *= 1.0 - vignette * smoothstep(0.28, 0.78, length(c));

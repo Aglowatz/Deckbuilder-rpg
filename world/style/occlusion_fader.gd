@@ -8,7 +8,7 @@ extends Node
 const SCAN_INTERVAL: float = 4.0
 const MIN_HEIGHT: float = 1.0
 const MAX_EXTENT: float = 400.0
-const FADED: float = 0.88
+const FADED: float = 0.97
 ## The camera is inside (or this close to) a solid piece: it is cut away completely so the lens never looks at back faces.
 const CUT_AWAY: float = 1.0
 const CAMERA_PADDING: float = 0.7
@@ -42,6 +42,9 @@ var _pending: Array[Node] = []
 var _pending_index: int = 0
 var _next_candidates: Array[MeshInstance3D] = []
 var _next_members: Dictionary = {}
+## Per group key: the shadows-only proxies of the group (BuildingKit), whose shadows switch off with the body (Graphics Tier 1).
+var _shadow_proxies: Dictionary = {}
+var _next_shadow_proxies: Dictionary = {}
 var _next_boxes: Array[AABB] = []
 var _next_box_keys: Array[int] = []
 var _next_group_keys: Array[int] = []
@@ -82,6 +85,32 @@ func _process(delta: float) -> void:
 				# A smooth transparency fade for every piece (GC-4): Godot's per-instance `transparency` moves the piece to the transparent pass while it fades and keeps its
 				# shadow. The ordered dither (`occlusion_fade` in the toon shaders) is no longer driven: the checkerboard read as a glitch on the ground and on props.
 				piece.transparency = current
+				# Graphics Tier 1: a piece that is (almost) cut away stops casting its sun shadow too - the shadow of an invisible building read as a flat
+				# violet rectangle on the ground (docs/art/graphics_tier1.md, Part 0). The original setting comes back as the piece fades in again.
+				_set_shadow_faded(piece, current > 0.8)
+		# The building's shadows-only proxy (BuildingKit "ShadowProxy", never faded itself) follows its body: an invisible house must not shade the ground.
+		for proxy: Variant in _shadow_proxies.get(key, []) as Array:
+			if is_instance_valid(proxy):
+				_set_shadow_faded(proxy as MeshInstance3D, current > 0.8)
+
+
+func _set_shadow_faded(piece: MeshInstance3D, faded: bool) -> void:
+	# A shadows-only proxy is hidden outright (turning its casting off would draw it as a plain box); a normal piece just stops casting.
+	var proxy: bool = piece.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY or piece.has_meta(&"shadow_proxy_hidden")
+	if faded:
+		if proxy:
+			if not piece.has_meta(&"shadow_proxy_hidden"):
+				piece.set_meta(&"shadow_proxy_hidden", true)
+				piece.visible = false
+		elif not piece.has_meta(&"shadow_before_fade"):
+			piece.set_meta(&"shadow_before_fade", piece.cast_shadow)
+			piece.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	elif piece.has_meta(&"shadow_proxy_hidden"):
+		piece.visible = true
+		piece.remove_meta(&"shadow_proxy_hidden")
+	elif piece.has_meta(&"shadow_before_fade"):
+		piece.cast_shadow = int(piece.get_meta(&"shadow_before_fade")) as GeometryInstance3D.ShadowCastingSetting
+		piece.remove_meta(&"shadow_before_fade")
 
 
 func _group_key(mesh_instance: MeshInstance3D) -> int:
@@ -100,6 +129,7 @@ func _scan() -> void:
 	_pending_index = 0
 	_next_candidates = []
 	_next_members = {}
+	_next_shadow_proxies = {}
 	_next_boxes = []
 	_next_box_keys = []
 	_next_box_near = []
@@ -142,15 +172,21 @@ func _scan_step() -> void:
 			var members: Array = []
 			var parent: Node = mesh_instance.get_parent()
 			if key != mesh_instance.get_instance_id() and parent != null:
+				var proxies: Array = []
 				for sibling: Node in parent.find_children("*", "MeshInstance3D", true, false):
-					if members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade") and not _is_ground(sibling as MeshInstance3D):
+					if (sibling as MeshInstance3D).cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY:
+						proxies.append(sibling)
+					elif members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade") and not _is_ground(sibling as MeshInstance3D):
 						members.append(sibling)
+				if not proxies.is_empty():
+					_next_shadow_proxies[key] = proxies
 			else:
 				members.append(mesh_instance)
 			_next_members[key] = members
 	if _pending_index >= _pending.size():
 		_candidates = _next_candidates
 		_members = _next_members
+		_shadow_proxies = _next_shadow_proxies
 		_boxes = _next_boxes
 		_box_keys = _next_box_keys
 		_box_near = _next_box_near

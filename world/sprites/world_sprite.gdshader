@@ -1,5 +1,7 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_disabled, depth_prepass_alpha;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
+varying vec3 v_feet;
 // Painted 2.5D character card (docs/art/world_look_test.md). An upright billboard: it turns to face the camera around the vertical axis only, so the figure keeps
 // true perspective on the ground at low camera angles. Feet are on the node origin.
 //  - lit by the real sun, lamp pools and ambient (light() below): warm and bright in sun, cooler and darker in a building's shadow
@@ -28,6 +30,10 @@ uniform vec2 rim_dir = vec2(-0.7, 0.7);
 uniform vec3 rim_color : source_color = vec3(1.0, 0.82, 0.55);
 uniform float rim_strength = 0.42;
 uniform float rim_width = 0.012;
+// Graphics Tier 1: the frame's generated normal map (SpriteLibrary.normal_frame) and how far it bends the card's normal.
+uniform sampler2D normal_tex : filter_linear_mipmap, repeat_disable;
+uniform bool use_normal = false;
+uniform float normal_amount = 0.7;
 
 // Placement of an overlay card (a hat): where its bottom-centre sits relative to the feet (world metres), and a nudge towards the camera so it wins the depth test.
 uniform vec2 offset = vec2(0.0);
@@ -70,6 +76,7 @@ void vertex() {
 		y = sr * q.x + cr * q.y + pivot_y;
 	}
 	mat4 face = mat4(vec4(right, 0.0), vec4(0.0, 1.0, 0.0, 0.0), vec4(back, 0.0), MODEL_MATRIX[3]);
+	v_feet = MODEL_MATRIX[3].xyz;
 	VERTEX = vec3(x, y, depth_nudge);
 	MODELVIEW_MATRIX = VIEW_MATRIX * face;
 	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
@@ -96,12 +103,22 @@ void fragment() {
 	// Rim: edge pixels whose neighbour towards the sun is empty.
 	vec2 o = vec2(flip_h ? -rim_dir.x : rim_dir.x, -rim_dir.y) * rim_width;
 	float edge = c.a * (1.0 - texture(tex, uv + o).a) + c.a * (1.0 - texture(tex, uv + o * 2.2).a) * 0.5;
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_feet, 0.0, 1.0, 0.55, SCREEN_UV.y);
 	EMISSION = col * floor_light + rim_color * clamp(edge, 0.0, 1.0) * rim_strength;
 	ROUGHNESS = 1.0;
 	// The card faces the camera: lean its normal towards the sky so a high sun does not light it edge-on.
 	vec3 up_view = (VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz;
-	NORMAL = normalize(mix(NORMAL, up_view, 0.5));
+	vec3 facing = normalize(mix(NORMAL, up_view, 0.5));
+	if (use_normal) {
+		// Graphics Tier 1: the generated normal map (tools/sprite_normals.gd) tilts the card's normal in its own frame: x along the camera's right (mirrored with
+		// the art), y up the card, z out of it. Kept soft so the painting stays painterly: the sun, lanterns and effect lights shape the figure, never gloss it.
+		vec3 nm = texture(normal_tex, uv).rgb * 2.0 - 1.0;
+		vec3 right_view = normalize((VIEW_MATRIX * vec4(normalize(vec3(INV_VIEW_MATRIX[0].x, 0.0, INV_VIEW_MATRIX[0].z)), 0.0)).xyz);
+		vec3 shaped = normalize(right_view * (flip_h ? -nm.x : nm.x) + up_view * nm.y + NORMAL * nm.z);
+		NORMAL = normalize(mix(facing, shaped, normal_amount));
+	} else {
+		NORMAL = facing;
+	}
 }
 
 void light() {

@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_disabled;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // Painted terrain for the vertex-coloured zone ground (docs/art/graphics_loop.md, G-08): the zone builders paint a base colour per triangle, this shader
 // hides the triangles: world-space macro value/tint patches (so no flat field survives), a fine brush grain, optional mowed stripes, normals flattened on
 // up-facing ground (no faceted shading), ground saturation, and the same soft toon bands as every other surface.
@@ -59,7 +60,7 @@ void fragment() {
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(vec3(luma), col, mix(1.0, style_ground_sat, ground));
 	col = mix(col, vec3(luma), style_desaturate);
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, 0.0, 1.0, 1.0, SCREEN_UV.y);
 	ROUGHNESS = 1.0;
 	vec3 up_view = normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz);
 	NORMAL = normalize(mix(NORMAL, up_view, flatten * ground));

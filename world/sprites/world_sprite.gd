@@ -304,6 +304,11 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		if sun is DirectionalLight3D:
 			set_sun(-(sun as DirectionalLight3D).global_basis.z)
 			_sun_known = true
+			# Graphics Tier 1: the rim takes the zone's key light colour (a warm gold in Crosspath, teal in the forest) so the figure pops off its own background.
+			var rim: Color = (sun as DirectionalLight3D).light_color.lerp(Color.WHITE, 0.25)
+			for target: ShaderMaterial in [_material, _hat_material]:
+				if target != null:
+					target.set_shader_parameter("rim_color", Vector3(rim.r, rim.g, rim.b))
 	if camera == null:
 		camera = get_viewport().get_camera_3d() if is_inside_tree() else null
 		if camera == null:
@@ -345,7 +350,7 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		target.set_shader_parameter("stretch", stretch)
 		target.set_shader_parameter("roll", roll_radians)
 	position = Vector3(0.0, _bob, 0.0) if local_mode else world_pos + Vector3(0.0, _bob, 0.0)
-	_blob.position = Vector3(0.0, 0.035 - _bob, 0.0)
+	_blob.position = Vector3(0.0, 0.085 - _bob, 0.0)
 	_update_rim()
 
 
@@ -399,9 +404,25 @@ func _apply(key: String, flip: bool) -> void:
 	if texture != null:
 		for target: ShaderMaterial in [_material, _shadow_material]:
 			target.set_shader_parameter("tex", texture)
+		# Graphics Tier 1: the frame's normal map shapes the card under the sun, lanterns and effect lights (Medium and up; a frame without one stays flat).
+		var normal: Texture2D = SpriteLibrary.normal_frame(character, key) if normals_wanted() else null
+		if normal == null and normals_wanted() and character != "PLAYER" and SpriteLibrary.frame(character, key) == null:
+			normal = SpriteLibrary.normal_frame("PLAYER", key)
+		_material.set_shader_parameter("use_normal", normal != null)
+		if normal != null:
+			_material.set_shader_parameter("normal_tex", normal)
 	for target: ShaderMaterial in [_material, _shadow_material]:
 		target.set_shader_parameter("flip_h", flip)
 	_update_hat()
+
+
+## Whether this card shades with its normal map (`GraphicsQuality.sprite_normals`; `NO_SPRITE_NORMALS=1` switches them off for A/B shots).
+static func normals_wanted() -> bool:
+	if OS.get_environment("NO_SPRITE_NORMALS") != "":
+		return false
+	var forced: String = OS.get_environment("STYLE_QUALITY")
+	var level: int = clampi(int(forced), 0, 2) if forced != "" else Settings.graphics_quality
+	return GraphicsQuality.sprite_normals(level)
 
 
 ## The rim light sits on the side of the figure that faces the sun, as seen from the camera.

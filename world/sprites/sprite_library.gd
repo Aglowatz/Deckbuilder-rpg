@@ -83,6 +83,16 @@ static func frame(character: String, key: String) -> Texture2D:
 	return _texture("%s%s/%s.png" % [FOLDER, character, key])
 
 
+## Graphics Tier 1: the frame's generated normal map (tools/sprite_normals.gd, <KEY>_n.png), or null when none was generated.
+static func normal_frame(character: String, key: String) -> Texture2D:
+	return _texture("%s%s/%s_n.png" % [FOLDER, character, key])
+
+
+## The normal map of a hat image, or null.
+static func hat_normal(art_name: String, dir_name: String) -> Texture2D:
+	return _texture("%s%s/%s_n.png" % [hat_folder, art_name, dir_name])
+
+
 ## `frame`, falling back to the same frame of the default character (a cloak set that lacks a frame never shows a hole).
 static func frame_or_default(character: String, key: String, default_character: String = "PLAYER") -> Texture2D:
 	var texture: Texture2D = frame(character, key)

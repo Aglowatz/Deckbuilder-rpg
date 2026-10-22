@@ -60,4 +60,6 @@ void fragment() {
 	vec3 lit = ambient_color * 0.55 + light_color * 0.62;
 	ALBEDO = c.rgb * mood_tint * lit * mix(base_dark, 1.0, base);
 	ALPHA = 1.0 - v_fade;
+	// Graphics Tier 1: the alpha scissor makes the shadow pass cut the leaves out too (a blended card otherwise casts its whole rectangle).
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
 }

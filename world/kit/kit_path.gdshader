@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_disabled;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // Paths of the Environment Kit (PathTool): a dirt or cobble ground ribbon (mode 0) with a soft, noise-eaten edge so it melts into the grass, the DEC-PATHEDGE strip along each
 // side (mode 1) and round worn patches at doorsteps and junctions (mode 2, DEC-WORNPATCH). The ground texture is the kit slot (ENV-GROUND-DIRTPATH / ENV-GROUND-COBBLE) projected
 // in world space so adjoining pieces and the square share one pattern. Lit with the same toon bands as everything else, so the sun's shadows fall across the path.
@@ -69,7 +70,7 @@ void fragment() {
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(col, vec3(luma), style_desaturate);
 	col = mix(col, vec3(luma), (1.0 - style_ground_sat) * 0.6);
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, 0.0, 1.0, 1.0, SCREEN_UV.y);
 	ROUGHNESS = 1.0;
 	ALPHA = alpha * opacity;
 }

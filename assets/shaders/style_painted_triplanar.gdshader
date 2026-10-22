@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_back;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // Triplanar painted material for surfaces without good UVs (cliffs, boulders, island undersides, cheese wheels): world-space projection on three axes blended by the
 // normal (two taps at most), toned by the original flat colour (`tint`, kept as a subtle hue), under the game's toon bands. Switches with the global `style_paint`.
 
@@ -59,7 +60,7 @@ void fragment() {
 	vec3 col = mix(flat_color * tint.rgb, painted, style_paint);
 	float l2 = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(col, vec3(l2), style_desaturate * (1.0 - colour_keep));
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, v_world.y, 2.4, 0.85, SCREEN_UV.y);
 	ROUGHNESS = 1.0;
 }
 

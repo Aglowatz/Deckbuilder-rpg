@@ -14,10 +14,14 @@ uniform vec4 shadow_color : source_color = vec4(0.14, 0.08, 0.24, 0.38);
 uniform float fade : hint_range(0.0, 1.0) = 1.0;
 
 void vertex() {
-	vec3 right = normalize(vec3(INV_VIEW_MATRIX[0].x, 0.0, INV_VIEW_MATRIX[0].z));
+	// Graphics Tier 1: the silhouette is laid along the sun's ground direction with its width ACROSS that direction (as if the card faced the sun), so a side light
+	// no longer collapses the figure into a line: the shadow is always the whole figure, like the shadow map's.
+	vec2 along = shadow_ground;
+	float along_len = max(length(along), 0.001);
+	vec2 across = vec2(-along.y, along.x) / along_len;
 	float x = VERTEX.x * card_size.x * stretch.x;
 	float y = max((VERTEX.y * card_size.y - feet_lift) * stretch.y, 0.0);
-	vec3 world = MODEL_MATRIX[3].xyz + right * x + vec3(shadow_ground.x, 0.0, shadow_ground.y) * y + vec3(0.0, 0.035, 0.0);
+	vec3 world = MODEL_MATRIX[3].xyz + vec3(across.x, 0.0, across.y) * x + vec3(along.x, 0.0, along.y) * y + vec3(0.0, 0.085, 0.0);
 	// The vertex stage works in model space here: undo the model matrix so the engine's own transform lands on `world`.
 	VERTEX = (inverse(MODEL_MATRIX) * vec4(world, 1.0)).xyz;
 }

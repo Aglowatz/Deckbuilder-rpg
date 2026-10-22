@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_disabled;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // Reusable painted terrain (docs/art/style_guide.md, "Painted textures"). Up to five ground layers (layer 0 is the base, 1..4 are painted over it), a triplanar cliff material for
 // steep faces, and the game's toon bands. Per layer, the data (data/art/texture_presets.json) picks how its mask is made:
 //   0 base   1 key   the vertex colour the zone builder painted (the layout's own paths/rock/floor colours are the painted mask)
@@ -207,7 +208,7 @@ void fragment() {
 		float shimmer = tnoise(p * 2.2 + normalize(flow_dir) * TIME * flow_speed * 2.0) * 0.5 + tnoise(p * 5.0 - normalize(flow_dir) * TIME * flow_speed * 3.0) * 0.5;
 		col *= 0.92 + shimmer * 0.2;
 	}
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, 0.0, 1.0, 1.0, SCREEN_UV.y);
 	ROUGHNESS = nr.z;
 
 	vec3 up_view = normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz);

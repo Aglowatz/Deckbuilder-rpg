@@ -23,6 +23,10 @@ static func town(scene: TownScene) -> Dictionary:
 			return 0.0
 		var nearest: float = 1.0e9
 		for shop: TownLayout.Shop in shops:
+			# Graphics Tier 1: the soil is a band along the walls, not the whole floor under the house - a building the OcclusionFader cuts away now reveals
+			# grass with a soil edge instead of a dark brown rectangle.
+			if shop.covers(Vector3(p.x, 0.0, p.y), 0.3):
+				return 0.0
 			nearest = minf(nearest, p.distance_to(Vector2(shop.center.x, shop.center.z)) - shop.radius * 1.2)
 		return PaintedContexts.ramp(1.0 - nearest, 1.6) if nearest < 1.4 else 0.0
 	var sand_mask: Callable = func(p: Vector2) -> float:
@@ -43,6 +47,11 @@ static func town(scene: TownScene) -> Dictionary:
 	var cover: Callable = func(p: Vector3) -> bool:
 		if town.is_floor_at(p):
 			return true
+		# Graphics Tier 1: the ground under a kit building is painted too, so a building the OcclusionFader cuts away reveals cobbles and grass, not the bare
+		# violet hub floor (the "violet rectangle" of the Part 0 baseline).
+		for shop: TownLayout.Shop in TownLayout.shops():
+			if shop.covers(p, 0.8):
+				return true
 		if not town.hub_land or town.map_char_at(p) == ".":
 			return false
 		for offset: Vector3 in [Vector3(1.0, 0, 0), Vector3(-1.0, 0, 0), Vector3(0, 0, 1.0), Vector3(0, 0, -1.0)]:

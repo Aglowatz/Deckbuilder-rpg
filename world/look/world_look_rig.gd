@@ -30,6 +30,9 @@ var scenery: WorldScenery
 var foliage: WorldFoliage
 var ambient: WorldAmbient
 var post_rect: ColorRect
+## Tier 1: the zone's baked-look ground light map and its fog / god-ray cards (docs/art/graphics_tier1.md).
+var ground_light: GroundLight
+var haze: HazeCards
 
 var _post_material: ShaderMaterial
 var _layer: CanvasLayer
@@ -150,6 +153,7 @@ func _ready() -> void:
 	if style_rig != null and style_rig.sun != null:
 		_sun_travel = -style_rig.sun.global_basis.z
 	_build_post()
+	ground_light = GroundLight.install(scene, _piece_bounds(), style_rig)
 	if style_rig != null and style_rig.preset != null:
 		KitFoliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
 	if _build_world and bool(mood.get("world", true)):
@@ -185,6 +189,9 @@ func set_mood(id: StringName) -> void:
 	if foliage != null:
 		foliage.visible = float((mood.get("foliage", {}) as Dictionary).get("density", 1.0)) > 0.0
 	_apply(false)
+	_rebuild_haze()
+	if ground_light != null:
+		ground_light.rebake()
 
 
 ## A style file changed on disk (debug hot reload): re-read the mood and let the blend carry the new numbers in.
@@ -208,6 +215,7 @@ func _on_style_applied() -> void:
 func _on_settings_changed() -> void:
 	_look_hash = 0
 	_apply(true)
+	_rebuild_haze()
 
 
 # ---- Pieces ------------------------------------------------------------------------------------------------------------------------
@@ -238,7 +246,7 @@ func _build_pieces() -> void:
 func build_pieces_staged(stage: Callable) -> void:
 	if not bool(mood.get("world", true)):
 		return
-	var labels: Array[String] = ["sky", "scenery", "foliage", "ambient"]
+	var labels: Array[String] = ["sky", "scenery", "foliage", "ambient", "haze"]
 	var index: int = 0
 	for step: Callable in _piece_steps():
 		step.call()
@@ -252,7 +260,27 @@ func _piece_steps() -> Array[Callable]:
 	_pieces = Node3D.new()
 	_pieces.name = "LookPieces"
 	scene.add_child(_pieces)
-	return [_build_sky, _build_scenery, _build_foliage, _build_ambient] as Array[Callable]
+	return [_build_sky, _build_scenery, _build_foliage, _build_ambient, _build_haze] as Array[Callable]
+
+
+## Graphics Tier 1: low fog cards and god-ray cards from the mood's `haze` block (HazeCards; none on Low).
+func _build_haze() -> void:
+	var spec: Dictionary = mood.get("haze", {}) as Dictionary
+	if spec.is_empty():
+		return
+	var level: int = style_rig.quality() if style_rig != null else Settings.graphics_quality
+	var fog_color: Color = Color.html(str(values.get("fog_color", "f2cfa4")))
+	var sun_color: Color = style_rig.preset.sun_color if style_rig != null and style_rig.preset != null else Color.WHITE
+	haze = HazeCards.install(_pieces, spec, _sun_travel, fog_color, sun_color, level)
+
+
+func _rebuild_haze() -> void:
+	if haze == null:
+		return
+	var level: int = style_rig.quality() if style_rig != null else Settings.graphics_quality
+	var fog_color: Color = Color.html(str(values.get("fog_color", "f2cfa4")))
+	var sun_color: Color = style_rig.preset.sun_color if style_rig != null and style_rig.preset != null else Color.WHITE
+	haze.build(mood.get("haze", {}) as Dictionary, _sun_travel, fog_color, sun_color, GraphicsQuality.haze_cards(level))
 
 
 func _piece_bounds() -> Rect2:
@@ -366,7 +394,7 @@ func _blend_values(delta: float) -> void:
 		if target is float or target is int:
 			var now: float = lerpf(float(_blend.get(key, target)), float(target), k)
 			_blend[key] = float(target) if absf(now - float(target)) < 0.0004 else now
-		elif str(key) == "fog_color":
+		elif str(key) == "fog_color" or str(key).ends_with("_tint"):
 			_blend[key] = Color.html(str(_blend.get(key, target))).lerp(Color.html(str(target)), k).to_html(false)
 		else:
 			_blend[key] = target
@@ -396,6 +424,13 @@ func _apply(force: bool) -> void:
 		_post_material.set_shader_parameter("vignette", float(p["vignette"]))
 		_post_material.set_shader_parameter("green_calm", float(p.get("green_calm", 0.0)))
 		_post_material.set_shader_parameter("red_calm", float(p.get("red_calm", 0.0)))
+		# Graphics Tier 1: the split tint and gamma of the zone's grade (zone style `grade.shadow_tint / highlight_tint / gamma / post_contrast`).
+		_post_material.set_shader_parameter("shadow_tint", Color.html(str(p.get("shadow_tint", "ffffff"))))
+		_post_material.set_shader_parameter("highlight_tint", Color.html(str(p.get("highlight_tint", "ffffff"))))
+		_post_material.set_shader_parameter("gamma", float(p.get("gamma", 1.0)))
+		_post_material.set_shader_parameter("contrast", float(p.get("contrast", 1.04)))
+	if sky != null:
+		sky.set_cloud_shadows(GraphicsQuality.cloud_shadows(level))
 	if _env != null:
 		var bloom: float = float(p["bloom"])
 		_env.glow_enabled = bloom_on and bloom > 0.01

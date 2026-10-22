@@ -15,7 +15,7 @@ Start commit: `22aff389` (tag `pre-graphics-tier1`). Rules: one Godot at a time 
 |---|---|---|
 | 0 Baseline | done (commit 409b7195) | shots `docs/art/graphics_tier1/before/`, fps `docs/art/graphics_tier1/fps_before.md` |
 | 1 Presets + upscaling | done | upscaler / render scale / sharpness settings, Medium 0.58 + crisp, cheaper sun shadow, Low cull 0.8; `fps_part1_{low,medium}.md` |
-| 2 Crosspath test zone | not started | |
+| 2 Crosspath test zone | done | ground light map, sprite normal maps + zone rim, sun turned to the front-right, AgX grade, haze cards (off in Crosspath), fader fixes; `part2/`, `part2_cameras/`, `compare/part2_*`, `fps_part2.md` |
 | 3 Battle and effects | not started | |
 | 4 Zone roll-out | not started | |
 | 5 Verify and report | not started | |
@@ -58,9 +58,27 @@ Start commit: `22aff389` (tag `pre-graphics-tier1`). Rules: one Godot at a time 
   and a better fit for the painted style (readable shadow shapes instead of a smear). High keeps 1.8 / soft-medium.
 - **D4 (Part 1): Low culls meshes at 0.8 of the zone range.** Low is partly draw-call bound; the zones lose 20-25% of their draw calls at
   the spawn spots (Gainlands 515 -> 392) with no visible change at the default camera, since the far third is haze anyway.
-- **D5 (Part 2, planned): no LightmapGI.** Godot 4.7.2 exposes no script API to bake (`LightmapGI` has `light_data` but no `bake()`; the
+- **D5 (Part 2): no LightmapGI.** Godot 4.7.2 exposes no script API to bake (`LightmapGI` has `light_data` but no `bake()`; the
   bake lives in the editor plugin only), the kit geometry is generated at run time without UV2 and dressing changes with story state. The
-  "baked" look is built instead from cheap static pieces (see Part 2).
+  "baked" look is built instead from a ground light map baked at load (`GroundLight`, D6) plus the kit's own AO skirts; SSAO stays High-only.
+- **D6 (Part 2): the ground light map is hollow under buildings.** The first bake darkened whole footprints; a building the OcclusionFader
+  cuts away then showed a dark rectangle. Buildings paint a band of shade along their footprint line (fading 1 m inward, 0.8-2.8 m outward
+  with height), tree cards and posts paint a canopy disc, fences and flat meshes paint nothing. The map also fades out over the lowest fifth of
+  the screen (where the fader works), as do the kit's AO skirts and window pools.
+- **D7 (Part 2): the Crosspath sun moved from behind the camera (yaw 70) to the front-right (yaw 112, pitch -32, shadow opacity 0.72).** With
+  the sun behind the camera every shadow fell north, hidden behind its caster: the sun shadow pass cost 12 fps and showed nothing. From the
+  front-right, lamps, benches, the fountain and every character throw a readable shadow to the left and towards the viewer, faces stay lit.
+  `light.key_yaw / key_pitch / shadow_opacity` are zone-style keys, so each zone sets its own in Part 4.
+- **D8 (Part 2): AgX with tuned values, not ACES.** Plain AgX was flat and grey; with exposure 1.0, saturation 1.2 / 1.14 post, contrast 1.06
+  and a violet-shadow / gold-highlight split tint it keeps the warmth of ACES and handles bright highlights better (the Capital's white glare
+  in Part 4). Keys: `grade.tonemap, exposure, brightness, shadow_tint, highlight_tint, gamma, post_contrast`.
+- **D9 (Part 2): light shafts and fog cards are off in Crosspath.** The shaft cards face the camera and the sun is now in front of it, so they
+  drew as nothing; the fog cards were invisible on the flat lawn at every strength that did not read as a pale rectangle. Both stay as the
+  `haze` block of a mood (`HazeCards`, none on Low) for the zones whose paint-overs have mist and rays (the forest, the Dump).
+- **D10 (Part 2): sprite shadows.** The shadow-map shadow of a card was always there (the card turns to face the light in the shadow pass) but
+  invisible with the old sun; the sheared silhouette pass collapsed to a line under a side light (its width ran along the camera) and sat
+  below the painted decals (0.035 m under 0.045 m). Now: the silhouette's width runs across the light's ground direction, both it and the
+  contact blob sit at 0.085 m, and the map shadow is kept on every level (its cost is in the shadow pass Medium already pays).
 
 ## Part 0: Baseline (done)
 
@@ -125,3 +143,29 @@ What changed (`GraphicsQuality`, `Settings`, `StyleRig`, the Display page of `Se
 
 Medium gained 2-3 ms of GPU in every zone (the budget Parts 2-4 spend); Low is within noise of before (its GPU ms never rose beyond
 the +-0.5 ms run-to-run spread) with fewer draw calls in the zones.
+
+## Part 2: Crosspath as the test zone (done)
+
+Techniques, what each does, where it is on:
+
+| Technique | Where it lives | Low | Medium | High | Kept? |
+|---|---|---|---|---|---|
+| Ground light map ("baked" AO) | `GroundLight` (bakes at load from every static occluder, half-metre texels, ~55 ms for 133 occluders in Crosspath), `style_ground_light.gdshaderinc` multiplied into the toon, painted terrain, triplanar, path, decal and sprite shaders | off | on | on | yes: corners, the foot of walls, under trees and the people standing there share one soft violet shade |
+| Sprite normal maps + zone rim | `tools/sprite_normals.gd` -> 299 `<FRAME>_n.png` (half res, 6.7 MB on disk), `SpriteLibrary.normal_frame`, `world_sprite.gdshader use_normal` (amount 0.7), rim colour from the zone's key light | off | on | on | yes: the sun and lanterns shape the figures, still painterly |
+| Real character shadows | shadow-map shadow of the card (all levels with shadows), silhouette pass (`world_sprite_shadow.gdshader`, fixed axes), contact blob, both lifted to 0.085 m | blob + silhouette | + map shadow | + map shadow (soft medium) | yes |
+| Grade | AgX + exposure, split tint, gamma, post contrast per zone style (`main_town.json`: warm, violet shadows, gold highlights) | on | on | on | yes (free) |
+| Sky + cloud shadows | painted sky as before; cloud-shadow plane now Medium+ only (`WorldSky.set_cloud_shadows`), `cloud_shadow_scale` key | off | on | on | yes |
+| Light shafts + height fog | `HazeCards` from the mood's `haze` block, budget [0, 6, 10] | off | 6 | 10 | system kept, no cards in Crosspath (D9) |
+| Sun angle + shadow opacity | zone style `light.key_yaw 112, key_pitch -32, shadow_opacity 0.72` | - | - | - | yes (D7) |
+| Fader fixes | a cut-away building hides its shadows-only proxy and stops casting; the ground under kit buildings is painted (grass, a soil band along the walls) instead of the bare hub floor; FADED 1.0 | all | all | all | yes: the violet rectangle of Part 0 is gone |
+| Tree card shadows | `kit_card.gdshader` alpha scissor so the shadow pass cuts the leaves (a blended card cast its whole rectangle) | - | on | on | yes |
+
+Shots: `part2/town_square.jpg`, `part2/town_street.jpg` (same spots as `before/`), the camera presets and swivels in `part2_cameras/`
+(classic, overview, close, swivel_left, swivel_right), collages `compare/part2_town_square.jpg` and `compare/part2_town_street.jpg`.
+
+| Spot | Low before -> Part 2 (fps / GPU ms) | Medium before -> Part 2 | High before -> Part 2 |
+|---|---|---|---|
+| town_square | 93.7 / 8.05 -> 92.9 / 8.23 | 59.7 / 14.57 -> 69.6 / 12.61 | 21.3 / 44.40 -> 20.6 / 45.61 |
+| town_street | 94.8 / 8.88 -> 94.6 / 8.88 | 56.6 / 15.78 -> 67.6 / 13.65 | 20.2 / 47.64 -> 19.6 / 51.00 |
+
+Medium holds 60 with every Part 2 technique on (12.6-13.7 ms of GPU, about 2.5 ms under the baseline); Low is unchanged within noise.

@@ -60,6 +60,7 @@ func quality() -> int:
 
 func _ready() -> void:
 	_scene_root = get_parent()
+	GroundLight.clear_globals()  # a new scene starts open; its WorldLookRig bakes a map when the scene has loaded
 	preset = preset_override if preset_override != null else StylePresets.get_preset(preset_id)
 	PaintedClasses.begin_zone(painted_id if painted_id != &"" else preset_id)
 	_remove_old_environment()
@@ -162,6 +163,8 @@ func _apply_globals() -> void:
 	RenderingServer.global_shader_parameter_set("style_accent", preset.accent)
 	RenderingServer.global_shader_parameter_set("style_wind", preset.wind)
 	RenderingServer.global_shader_parameter_set("style_ground_sat", preset.ground_sat)
+	# Tier 1: the ground light map's shade leans towards the zone's ambient (the coloured shadow), never black.
+	RenderingServer.global_shader_parameter_set("style_ground_light_tint", preset.ambient_color.lerp(Color.WHITE, 0.3))
 
 
 func _apply_environment(level: int) -> void:
@@ -192,7 +195,17 @@ func _apply_environment(level: int) -> void:
 	env.ambient_light_color = preset.ambient_color
 	env.ambient_light_energy = preset.ambient_energy
 	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
-	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC if preset.filmic else Environment.TONE_MAPPER_ACES
+	# `STYLE_TONEMAP=agx|aces|filmic` overrides every zone for A/B shots (tools only).
+	var tonemap: String = OS.get_environment("STYLE_TONEMAP") if OS.get_environment("STYLE_TONEMAP") != "" else preset.tonemap
+	match tonemap:
+		"agx":
+			env.tonemap_mode = Environment.TONE_MAPPER_AGX
+		"filmic":
+			env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+		"aces":
+			env.tonemap_mode = Environment.TONE_MAPPER_ACES
+		_:
+			env.tonemap_mode = Environment.TONE_MAPPER_FILMIC if preset.filmic else Environment.TONE_MAPPER_ACES
 	env.tonemap_exposure = preset.exposure
 	env.glow_enabled = GraphicsQuality.glow(level)
 	env.glow_intensity = preset.glow_intensity

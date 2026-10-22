@@ -47,7 +47,7 @@ static func attach(character: Node3D, radius: float = 0.55) -> MeshInstance3D:
 	blob.name = NAME
 	blob.mesh = _mesh
 	blob.scale = Vector3(radius, 1.0, radius)
-	blob.position = Vector3(0.0, 0.035, 0.0)
+	blob.position = Vector3(0.0, 0.085, 0.0)
 	blob.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	blob.set_meta(StyleToon.META_NO_TOON, true)
 	character.add_child(blob)

@@ -37,6 +37,8 @@ var volumetric_color: Color = Color("ffcf9a")
 # Post
 var exposure: float = 0.95
 var filmic: bool = false
+## Graphics Tier 1: "" keeps the preset's choice (ACES, or Filmic when `filmic`), "agx" / "aces" / "filmic" override it (zone style `grade.tonemap`).
+var tonemap: String = ""
 var glow_intensity: float = 0.35
 var glow_threshold: float = 0.95
 var saturation: float = 1.12

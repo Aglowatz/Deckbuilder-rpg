@@ -6,8 +6,12 @@ extends RefCounted
 ##   glow pool: {"pos": Vector3, "radius": float, "color": Color, "strength": float}
 
 const AO_LIFT: float = 0.041
+## Graphics Tier 1: how far inside the footprint line a building's AO ring fades to nothing.
+const INNER_FADE: float = 0.9
 const GLOW_LIFT: float = 0.072
 const AO_SHADE: Color = Color(0.16, 0.1, 0.22)
+const AO_SHADER: String = "res://world/kit/kit_pools.gdshader"
+const GLOW_SHADER: String = "res://world/kit/kit_pools_glow.gdshader"
 
 
 ## One MeshInstance3D with every AO pool: a rectangle (or a disc) at full strength fading linearly to nothing over `margin` metres.
@@ -15,13 +19,10 @@ static func build_ao(parent: Node3D, pools: Array[Dictionary]) -> MeshInstance3D
 	if pools.is_empty() or OS.get_environment("KIT_OFF").contains("ao"):
 		return null
 	var mesh: KitMesh = KitMesh.new()
-	var material_value: StandardMaterial3D = StandardMaterial3D.new()
-	material_value.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material_value.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material_value.vertex_color_use_as_albedo = true
-	material_value.disable_receive_shadows = true
+	# Graphics Tier 1: a shader material (kit_pools.gdshader) so the skirts can fade out at the bottom of the screen, under cut-away buildings.
+	var material_value: ShaderMaterial = ShaderMaterial.new()
+	material_value.shader = load(AO_SHADER) as Shader
 	material_value.render_priority = -30
-	material_value.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material_value.set_meta(StyleToon.META_NO_TOON, true)
 	mesh.set_material("ao", material_value)
 	for pool: Dictionary in pools:
@@ -51,10 +52,15 @@ static func build_ao(parent: Node3D, pools: Array[Dictionary]) -> MeshInstance3D
 		for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
 			in_pts.append(Vector3(pos.x, AO_LIFT, pos.z) + basis * Vector3(corner.x * hx, 0.0, corner.y * hz))
 			out_pts.append(Vector3(pos.x, AO_LIFT, pos.z) + basis * Vector3(corner.x * (hx + margin), 0.0, corner.y * (hz + margin)))
-		mesh.quad("ao", in_pts, Vector3.UP, [inner, inner, inner, inner])
+		# Graphics Tier 1: the skirt is a hollow ring - full at the footprint line, fading outward over the margin and inward over INNER_FADE metres. Nothing
+		# is drawn under the middle of the building, so a building the OcclusionFader cuts away reveals the painted ground, not a violet rectangle.
+		var inset_pts: Array[Vector3] = []
+		for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
+			inset_pts.append(Vector3(pos.x, AO_LIFT, pos.z) + basis * Vector3(corner.x * maxf(hx - INNER_FADE, 0.0), 0.0, corner.y * maxf(hz - INNER_FADE, 0.0)))
 		for side: int in range(4):
 			var next: int = (side + 1) % 4
 			mesh.quad("ao", [in_pts[side], in_pts[next], out_pts[next], out_pts[side]], Vector3.UP, [inner, inner, outer, outer])
+			mesh.quad("ao", [inset_pts[side], inset_pts[next], in_pts[next], in_pts[side]], Vector3.UP, [outer, outer, inner, inner])
 	var instance: MeshInstance3D = mesh.instance("AOPools")
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.set_meta(StyleToon.META_NO_TOON, true)
@@ -68,14 +74,9 @@ static func build_glow(parent: Node3D, pools: Array[Dictionary]) -> MeshInstance
 	if pools.is_empty() or OS.get_environment("KIT_OFF").contains("glow"):
 		return null
 	var mesh: KitMesh = KitMesh.new()
-	var material_value: StandardMaterial3D = StandardMaterial3D.new()
-	material_value.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material_value.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material_value.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	material_value.albedo_texture = StyleAmbience.soft_texture()
-	material_value.vertex_color_use_as_albedo = true
-	material_value.disable_receive_shadows = true
-	material_value.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var material_value: ShaderMaterial = ShaderMaterial.new()
+	material_value.shader = load(GLOW_SHADER) as Shader
+	material_value.set_shader_parameter("soft_tex", StyleAmbience.soft_texture())
 	material_value.set_meta(StyleToon.META_NO_TOON, true)
 	mesh.set_material("glow", material_value)
 	for pool: Dictionary in pools:

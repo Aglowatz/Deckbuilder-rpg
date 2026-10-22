@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_disabled;
+#include "res://assets/shaders/style_ground_light.gdshaderinc"
 // Ground decals (docs/art/style_guide.md, section 8): procedural cobbles, dirt, moss and flowerbed soil with soft organic edges, lit by the same
 // toon bands as everything else. Placed as flat discs and ribbons just above the hex tiles.
 
@@ -172,7 +173,7 @@ void fragment() {
 	}
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(col, vec3(luma), style_desaturate);
-	ALBEDO = col;
+	ALBEDO = ground_light_apply(col, v_world, 0.0, 1.0, 1.0, SCREEN_UV.y);
 	ROUGHNESS = 1.0;
 	ALPHA = mask * opacity * deco_alpha;
 }

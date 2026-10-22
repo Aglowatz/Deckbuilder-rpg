@@ -5,6 +5,7 @@
 		"sky": {"enabled": true, "gold": "ffcc80", "mid": "a8c4eb", "zenith": "5c8cd6", "sun": "ffdc99", "sun_glow": 1.0, "cloud_opacity": 1.0, "cloud_tint": "ffffff"},
 		"scenery": {"enabled": true, "water": true, "shore": true, "rings": true, "landmarks": true, "tint": "ffffff", "cool": "9aa8e0", "haze_scale": 1.0, "cool_scale": 1.0, "brightness": 1.0},
 		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 4, 5], "tint": "ffffff"},
+		"haze": {"fog": [], "shafts": [], "lift": 0.25},
 		"ambient": {"enabled": true, "motes": 110, "mote_color": "ffedb3", "leaves": true, "birds": true, "shafts": false}
 	},
 	"start": {

@@ -118,3 +118,19 @@ style_wind={
 "type": "float",
 "value": 1.0
 }
+style_ground_light={
+"type": "sampler2D",
+"value": ""
+}
+style_ground_light_rect={
+"type": "vec4",
+"value": Vector4(0, 0, 1, 1)
+}
+style_ground_light_amount={
+"type": "float",
+"value": 0.0
+}
+style_ground_light_tint={
+"type": "vec3",
+"value": Vector3(0.62, 0.56, 0.78)
+}
