@@ -1,105 +1,942 @@
 {
 	"town": {
 		"title": "Main town: warm golden afternoon",
-		"look": {"green_calm": 0.4, "red_calm": 0.3},
-		"sky": {"enabled": true, "gold": "ffcc80", "mid": "a8c4eb", "zenith": "5c8cd6", "sun": "ffdc99", "sun_glow": 1.0, "cloud_opacity": 1.0, "cloud_tint": "ffffff"},
-		"scenery": {"enabled": true, "water": true, "shore": true, "rings": true, "landmarks": true, "tint": "ffffff", "cool": "9aa8e0", "haze_scale": 1.0, "cool_scale": 1.0, "brightness": 1.0},
-		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 4, 5], "tint": "ffffff"},
-		"haze": {"fog": [], "shafts": [], "lift": 0.25},
-		"ambient": {"enabled": true, "motes": 110, "mote_color": "ffedb3", "leaves": true, "birds": true, "shafts": false}
+		"look": {
+			"green_calm": 0.4,
+			"red_calm": 0.3
+		},
+		"sky": {
+			"enabled": true,
+			"gold": "ffcc80",
+			"mid": "a8c4eb",
+			"zenith": "5c8cd6",
+			"sun": "ffdc99",
+			"sun_glow": 1,
+			"cloud_opacity": 1,
+			"cloud_tint": "ffffff"
+		},
+		"scenery": {
+			"enabled": true,
+			"water": true,
+			"shore": true,
+			"rings": true,
+			"landmarks": true,
+			"tint": "ffffff",
+			"cool": "9aa8e0",
+			"haze_scale": 1,
+			"cool_scale": 1,
+			"brightness": 1
+		},
+		"foliage": {
+			"density": 1,
+			"cells": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5
+			],
+			"tint": "ffffff"
+		},
+		"haze": {
+			"fog": [],
+			"shafts": [],
+			"lift": 0.25
+		},
+		"ambient": {
+			"enabled": true,
+			"motes": 110,
+			"mote_color": "ffedb3",
+			"leaves": true,
+			"birds": true,
+			"shafts": false
+		}
 	},
 	"start": {
 		"title": "Opening Forest: deep teal dusk, lantern-lit camp, mist (docs/art/opening_forest.md)",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "283c3a", "fog_density": 0.012, "warmth": 0.04, "saturation": 0.82, "vignette": 0.5, "bloom": 0.8, "bloom_threshold": 0.85, "glow_spread": 0.75, "cloud_speed": 0.4},
-		"sky": {"horizon": "3a5a5a", "gold": "46625c", "mid": "203834", "zenith": "101e20", "sun": "a8c0c0", "sun_glow": 0.0, "cloud_opacity": 0.3, "cloud_tint": "2a4a58"},
-		"scenery": {"water": false, "shore": false, "rings": false, "landmarks": false, "tint": "2a4a58", "cool": "1a3440", "haze_scale": 1.3, "cool_scale": 1.4, "brightness": 0.6},
-		"foliage": {"density": 0.0},
-		"ambient": {"enabled": true, "shafts": false, "motes": 40, "mote_color": "9fd8e8", "leaves": true, "birds": false}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "283c3a",
+			"fog_density": 0.012,
+			"warmth": 0.04,
+			"saturation": 0.82,
+			"vignette": 0.5,
+			"bloom": 0.8,
+			"bloom_threshold": 0.85,
+			"glow_spread": 0.75,
+			"cloud_speed": 0.4
+		},
+		"sky": {
+			"horizon": "3a5a5a",
+			"gold": "46625c",
+			"mid": "203834",
+			"zenith": "101e20",
+			"sun": "a8c0c0",
+			"sun_glow": 0,
+			"cloud_opacity": 0.3,
+			"cloud_tint": "2a4a58"
+		},
+		"scenery": {
+			"water": false,
+			"shore": false,
+			"rings": false,
+			"landmarks": false,
+			"tint": "2a4a58",
+			"cool": "1a3440",
+			"haze_scale": 1.3,
+			"cool_scale": 1.4,
+			"brightness": 0.6
+		},
+		"foliage": {
+			"density": 0
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 40,
+			"mote_color": "9fd8e8",
+			"leaves": true,
+			"birds": false
+		},
+		"haze": {
+			"fog": [],
+			"shafts": [
+				[
+					-5,
+					-8,
+					12,
+					3.2,
+					0.14
+				],
+				[
+					3,
+					-11,
+					12,
+					2.8,
+					0.12
+				],
+				[
+					-1,
+					-5,
+					10,
+					2.4,
+					0.1
+				]
+			],
+			"lift": 0.25
+		}
 	},
 	"dna": {
 		"title": "D.N.A.: perpetual 4:59 PM overcast, cold green ghost light",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "5e6b66", "fog_density": 0.005, "warmth": -0.1, "saturation": 0.86, "vignette": 0.4, "bloom": 0.35, "bloom_threshold": 1.1, "glow_spread": 0.5},
-		"sky": {"enabled": true, "horizon": "66726e", "gold": "5c6864", "mid": "4f5b57", "zenith": "444f4b", "sun": "6e7873", "sun_glow": 0.0, "cloud_opacity": 0.0, "cloud_shadow": 0.0, "panorama": "DNA-SKY-GLOOM", "panorama_mix": 0.72, "panorama_stretch": 1.25},
-		"scenery": {"enabled": true, "water": false, "shore": false, "rings": false, "landmarks": false, "tint": "9aa6a0", "cool": "66776f", "haze_scale": 1.1, "cool_scale": 1.0, "brightness": 0.9, "apron": {"color": "4f5c58", "y": -0.03, "tiles": 4.0},
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "5e6b66",
+			"fog_density": 0.005,
+			"warmth": -0.1,
+			"saturation": 0.86,
+			"vignette": 0.4,
+			"bloom": 0.35,
+			"bloom_threshold": 1.1,
+			"glow_spread": 0.5
+		},
+		"sky": {
+			"enabled": true,
+			"horizon": "66726e",
+			"gold": "5c6864",
+			"mid": "4f5b57",
+			"zenith": "444f4b",
+			"sun": "6e7873",
+			"sun_glow": 0,
+			"cloud_opacity": 0,
+			"cloud_shadow": 0,
+			"panorama": "DNA-SKY-GLOOM",
+			"panorama_mix": 0.72,
+			"panorama_stretch": 1.25
+		},
+		"scenery": {
+			"enabled": true,
+			"water": false,
+			"shore": false,
+			"rings": false,
+			"landmarks": false,
+			"tint": "9aa6a0",
+			"cool": "66776f",
+			"haze_scale": 1.1,
+			"cool_scale": 1,
+			"brightness": 0.9,
+			"apron": {
+				"color": "4f5c58",
+				"y": -0.03,
+				"tiles": 4
+			},
 			"kit_cards": [
-				{"id": "DNA-BD-TOWERS", "angle": 0, "width": 96, "ring": 0, "distance": 0.72, "lift": 0},
-				{"id": "DNA-BD-TOWERS", "angle": 90, "width": 96, "ring": 0, "distance": 0.72, "lift": 0},
-				{"id": "DNA-BD-TOWERS", "angle": 180, "width": 96, "ring": 0, "distance": 0.72, "lift": 0},
-				{"id": "DNA-BD-TOWERS", "angle": 270, "width": 96, "ring": 0, "distance": 0.72, "lift": 0}
-			]},
-		"foliage": {"density": 0.0},
-		"ambient": {"enabled": true, "shafts": false, "motes": 60, "mote_color": "c8d4e0", "leaves": false, "birds": false}
+				{
+					"id": "DNA-BD-TOWERS",
+					"angle": 0,
+					"width": 96,
+					"ring": 0,
+					"distance": 0.72,
+					"lift": 0
+				},
+				{
+					"id": "DNA-BD-TOWERS",
+					"angle": 90,
+					"width": 96,
+					"ring": 0,
+					"distance": 0.72,
+					"lift": 0
+				},
+				{
+					"id": "DNA-BD-TOWERS",
+					"angle": 180,
+					"width": 96,
+					"ring": 0,
+					"distance": 0.72,
+					"lift": 0
+				},
+				{
+					"id": "DNA-BD-TOWERS",
+					"angle": 270,
+					"width": 96,
+					"ring": 0,
+					"distance": 0.72,
+					"lift": 0
+				}
+			]
+		},
+		"foliage": {
+			"density": 0
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 60,
+			"mote_color": "c8d4e0",
+			"leaves": false,
+			"birds": false
+		},
+		"haze": {
+			"fog": [
+				[
+					"spawn",
+					0,
+					-10,
+					16,
+					0.18
+				],
+				[
+					"spawn",
+					12,
+					-4,
+					14,
+					0.16
+				]
+			],
+			"shafts": [],
+			"fog_color": "8a9690",
+			"lift": 0.25
+		}
 	},
 	"gainlands": {
 		"title": "Gainlands: bright, sunny, sandstone mesas over blue water",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "cfeaff", "fog_density": 0.003, "warmth": 0.12, "saturation": 1.16, "vignette": 0.2, "bloom": 0.55, "bloom_threshold": 1.0},
-		"sky": {"horizon": "dcf0ff", "gold": "fff0c8", "mid": "86c0f4", "zenith": "2f86e8", "sun": "fff0c0", "sun_glow": 1.0, "cloud_opacity": 1.0, "cloud_tint": "ffffff"},
-		"scenery": {"water": true, "shore": false, "rings": true, "landmarks": false, "tint": "fff0dc", "cool": "8cb8f0", "haze_scale": 0.8, "cool_scale": 0.9, "brightness": 1.05, "water_tint": "5fb0e8",
-			"kit_cards": [{"id": "GAIN-BD-MOUNT", "angle": 53, "width": 64, "ring": 2, "distance": 0.9, "lift": 0.0}, {"id": "GAIN-BD-ISLANDS", "angle": 150, "width": 70, "ring": 2, "distance": 0.95, "lift": 10.0}]},
-		"foliage": {"density": 0.4, "cells": [0, 1], "tint": "fff2d8", "dry": 0.85},
-		"ambient": {"enabled": true, "shafts": false, "motes": 60, "mote_color": "fff6c8", "leaves": false, "birds": true}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "cfeaff",
+			"fog_density": 0.003,
+			"warmth": 0.12,
+			"saturation": 1.16,
+			"vignette": 0.2,
+			"bloom": 0.55,
+			"bloom_threshold": 1
+		},
+		"sky": {
+			"horizon": "dcf0ff",
+			"gold": "fff0c8",
+			"mid": "86c0f4",
+			"zenith": "2f86e8",
+			"sun": "fff0c0",
+			"sun_glow": 1,
+			"cloud_opacity": 1,
+			"cloud_tint": "ffffff"
+		},
+		"scenery": {
+			"water": true,
+			"shore": false,
+			"rings": true,
+			"landmarks": false,
+			"tint": "fff0dc",
+			"cool": "8cb8f0",
+			"haze_scale": 0.8,
+			"cool_scale": 0.9,
+			"brightness": 1.05,
+			"water_tint": "5fb0e8",
+			"kit_cards": [
+				{
+					"id": "GAIN-BD-MOUNT",
+					"angle": 53,
+					"width": 64,
+					"ring": 2,
+					"distance": 0.9,
+					"lift": 0
+				},
+				{
+					"id": "GAIN-BD-ISLANDS",
+					"angle": 150,
+					"width": 70,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 10
+				}
+			]
+		},
+		"foliage": {
+			"density": 0.4,
+			"cells": [
+				0,
+				1
+			],
+			"tint": "fff2d8",
+			"dry": 0.85
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 60,
+			"mote_color": "fff6c8",
+			"leaves": false,
+			"birds": true
+		}
 	},
 	"buffet": {
 		"title": "Endless Buffet: warm, saturated, appetising",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "f4d2b0", "fog_density": 0.004, "warmth": 0.06, "saturation": 0.9, "vignette": 0.3, "bloom": 0.45, "bloom_threshold": 1.05},
-		"sky": {"horizon": "ffd8a0", "gold": "ffb870", "mid": "f4a07a", "zenith": "d86a4a", "sun": "ffc878", "sun_glow": 0.9, "cloud_opacity": 0.9, "cloud_shadow": 0, "cloud_tint": "ffd0b0", "panorama": "BUFF-SKY-DINNER", "panorama_mix": 0.82, "panorama_stretch": 1.25},
-		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "tint": "ffd8c0", "cool": "d89aa8", "haze_scale": 1.0, "cool_scale": 0.8, "brightness": 1.0, "water_tint": "e8a888", "apron": {"color": "8a4a24", "y": -3.0}, "kit_cards": [{"id": "BUFF-BD-CAKE", "angle": 0, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "BUFF-BD-CAKE", "angle": 60, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "BUFF-BD-CAKE", "angle": 300, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}]},
-		"foliage": {"density": 0.45, "cells": [0, 1, 4], "tint": "ffe8c0"},
-		"ambient": {"enabled": true, "shafts": false, "motes": 80, "mote_color": "ffe0a0", "leaves": false, "birds": false}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "f4d2b0",
+			"fog_density": 0.004,
+			"warmth": 0.06,
+			"saturation": 0.9,
+			"vignette": 0.3,
+			"bloom": 0.45,
+			"bloom_threshold": 1.05
+		},
+		"sky": {
+			"horizon": "ffd8a0",
+			"gold": "ffb870",
+			"mid": "f4a07a",
+			"zenith": "d86a4a",
+			"sun": "ffc878",
+			"sun_glow": 0.9,
+			"cloud_opacity": 0.9,
+			"cloud_shadow": 0,
+			"cloud_tint": "ffd0b0",
+			"panorama": "BUFF-SKY-DINNER",
+			"panorama_mix": 0.82,
+			"panorama_stretch": 1.25
+		},
+		"scenery": {
+			"water": false,
+			"shore": false,
+			"rings": true,
+			"landmarks": false,
+			"tint": "ffd8c0",
+			"cool": "d89aa8",
+			"haze_scale": 1,
+			"cool_scale": 0.8,
+			"brightness": 1,
+			"water_tint": "e8a888",
+			"apron": {
+				"color": "8a4a24",
+				"y": -3
+			},
+			"kit_cards": [
+				{
+					"id": "BUFF-BD-CAKE",
+					"angle": 0,
+					"width": 58,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "BUFF-BD-CAKE",
+					"angle": 60,
+					"width": 58,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "BUFF-BD-CAKE",
+					"angle": 300,
+					"width": 58,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				}
+			]
+		},
+		"foliage": {
+			"density": 0.45,
+			"cells": [
+				0,
+				1,
+				4
+			],
+			"tint": "ffe8c0"
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 80,
+			"mote_color": "ffe0a0",
+			"leaves": false,
+			"birds": false
+		}
 	},
 	"heap": {
 		"title": "Verdant Dump: golden hour over a violet haze",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "d4b4d4", "fog_density": 0.0046, "warmth": 0.06, "saturation": 1.04, "vignette": 0.3, "bloom": 0.5, "bloom_threshold": 1.05},
-		"sky": {"horizon": "f6d2a8", "gold": "ffc98a", "mid": "d89cb8", "zenith": "8a6cb4", "sun": "ffc884", "sun_glow": 1.0, "cloud_opacity": 0.9, "cloud_shadow": 0, "cloud_tint": "f0d0d8", "panorama": "DUMP-SKY-SUNSET", "panorama_mix": 0.55, "panorama_stretch": 1.2},
-		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "tint": "e6c4c8", "cool": "9a88c0", "haze_scale": 1.2, "cool_scale": 1.1, "brightness": 0.95, "water_tint": "78c8c0", "apron": {"color": "5a4a30", "y": -3.0}, "kit_cards": [{"id": "DUMP-BD-VALLEY", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "DUMP-BD-VALLEY", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "DUMP-BD-VALLEY", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "DUMP-BD-VALLEY", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "DUMP-BD-VALLEY", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
-		"foliage": {"density": 0.9, "cells": [0, 1, 3, 5], "tint": "e0dcc0"},
-		"ambient": {"enabled": true, "shafts": false, "motes": 100, "mote_color": "ffd8b0", "leaves": true, "birds": true}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "d4b4d4",
+			"fog_density": 0.0046,
+			"warmth": 0.06,
+			"saturation": 1.04,
+			"vignette": 0.3,
+			"bloom": 0.5,
+			"bloom_threshold": 1.05
+		},
+		"sky": {
+			"horizon": "f6d2a8",
+			"gold": "ffc98a",
+			"mid": "d89cb8",
+			"zenith": "8a6cb4",
+			"sun": "ffc884",
+			"sun_glow": 1,
+			"cloud_opacity": 0.9,
+			"cloud_shadow": 0,
+			"cloud_tint": "f0d0d8",
+			"panorama": "DUMP-SKY-SUNSET",
+			"panorama_mix": 0.55,
+			"panorama_stretch": 1.2
+		},
+		"scenery": {
+			"water": false,
+			"shore": false,
+			"rings": true,
+			"landmarks": false,
+			"tint": "e6c4c8",
+			"cool": "9a88c0",
+			"haze_scale": 1.2,
+			"cool_scale": 1.1,
+			"brightness": 0.95,
+			"water_tint": "78c8c0",
+			"apron": {
+				"color": "5a4a30",
+				"y": -3
+			},
+			"kit_cards": [
+				{
+					"id": "DUMP-BD-VALLEY",
+					"angle": 0,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "DUMP-BD-VALLEY",
+					"angle": 60,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "DUMP-BD-VALLEY",
+					"angle": 300,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "DUMP-BD-VALLEY",
+					"angle": 120,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "DUMP-BD-VALLEY",
+					"angle": 240,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				}
+			]
+		},
+		"foliage": {
+			"density": 0.9,
+			"cells": [
+				0,
+				1,
+				3,
+				5
+			],
+			"tint": "e0dcc0"
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 100,
+			"mote_color": "ffd8b0",
+			"leaves": true,
+			"birds": true
+		},
+		"haze": {
+			"fog": [
+				[
+					"spawn",
+					0,
+					-12,
+					18,
+					0.14
+				],
+				[
+					"spawn",
+					-10,
+					-6,
+					14,
+					0.12
+				]
+			],
+			"shafts": [
+				[
+					"spawn",
+					6,
+					-14,
+					12,
+					3,
+					0.12
+				],
+				[
+					"spawn",
+					-8,
+					-16,
+					12,
+					3,
+					0.1
+				]
+			],
+			"fog_color": "d4b4d4",
+			"lift": 0.25
+		}
 	},
 	"lab": {
 		"title": "Path-ology Lab yard: cold pre-dawn, bleached and clinical",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "c8d4e0", "fog_density": 0.004, "warmth": -0.3, "saturation": 0.88, "vignette": 0.34, "bloom": 0.5, "bloom_threshold": 1.0, "cloud_speed": 0.4},
-		"sky": {"horizon": "b4c0cc", "gold": "c8d0d8", "mid": "7f90a8", "zenith": "3a4a64", "sun": "dce8f4", "sun_glow": 0.0, "cloud_opacity": 0.6, "cloud_tint": "c8d4e0"},
-		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "tint": "9fb4c4", "cool": "7a90b0", "haze_scale": 1.2, "cool_scale": 1.2, "brightness": 0.85},
-		"foliage": {"density": 0.5, "cells": [5, 0, 1], "tint": "c8d8c8"},
-		"ambient": {"enabled": true, "shafts": false, "motes": 40, "mote_color": "dce8f4", "leaves": false, "birds": false}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "c8d4e0",
+			"fog_density": 0.004,
+			"warmth": -0.3,
+			"saturation": 0.88,
+			"vignette": 0.34,
+			"bloom": 0.5,
+			"bloom_threshold": 1,
+			"cloud_speed": 0.4
+		},
+		"sky": {
+			"horizon": "b4c0cc",
+			"gold": "c8d0d8",
+			"mid": "7f90a8",
+			"zenith": "3a4a64",
+			"sun": "dce8f4",
+			"sun_glow": 0,
+			"cloud_opacity": 0.6,
+			"cloud_tint": "c8d4e0"
+		},
+		"scenery": {
+			"water": false,
+			"shore": false,
+			"rings": true,
+			"landmarks": false,
+			"tint": "9fb4c4",
+			"cool": "7a90b0",
+			"haze_scale": 1.2,
+			"cool_scale": 1.2,
+			"brightness": 0.85
+		},
+		"foliage": {
+			"density": 0.5,
+			"cells": [
+				5,
+				0,
+				1
+			],
+			"tint": "c8d8c8"
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 40,
+			"mote_color": "dce8f4",
+			"leaves": false,
+			"birds": false
+		}
 	},
-	"capital_facade": {"title": "Capital facade (unused)", "look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "fff0f6", "fog_density": 0.002, "warmth": 0.05, "saturation": 1.0, "vignette": 0.18}, "ambient": {"shafts": false}},
+	"capital_facade": {
+		"title": "Capital facade (unused)",
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "fff0f6",
+			"fog_density": 0.002,
+			"warmth": 0.05,
+			"saturation": 1,
+			"vignette": 0.18
+		},
+		"ambient": {
+			"shafts": false
+		}
+	},
 	"capital_outskirts": {
 		"title": "Capital outside: bleak grey wasteland",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "7e6e78", "fog_density": 0.0065, "warmth": 0.18, "saturation": 1.28, "vignette": 0.4, "bloom": 0.42, "bloom_threshold": 1.0, "cloud_speed": 0.7},
-		"sky": {"horizon": "b8b296", "gold": "a89e88", "mid": "8c8c86", "zenith": "6c7266", "sun": "e0d0c0", "sun_glow": 0.35, "cloud_opacity": 0.9, "cloud_tint": "b0a898", "panorama": "CAP-SKY-DUSK", "panorama_mix": 0.85, "panorama_stretch": 1.2},
-		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "apron": {"color": "5e5a54", "y": -0.03}, "tint": "8a8678", "cool": "7a7a82", "haze_scale": 1.4, "cool_scale": 1.0, "brightness": 0.8, "kit_cards": [{"id": "CAP-BD-WASTELAND", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
-		"foliage": {"density": 0.0},
-		"ambient": {"enabled": true, "shafts": false, "motes": 60, "mote_color": "c8c0a0", "leaves": false, "birds": false}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "7e6e78",
+			"fog_density": 0.0065,
+			"warmth": 0.18,
+			"saturation": 1.28,
+			"vignette": 0.4,
+			"bloom": 0.42,
+			"bloom_threshold": 1,
+			"cloud_speed": 0.7
+		},
+		"sky": {
+			"horizon": "b8b296",
+			"gold": "a89e88",
+			"mid": "8c8c86",
+			"zenith": "6c7266",
+			"sun": "e0d0c0",
+			"sun_glow": 0.35,
+			"cloud_opacity": 0.9,
+			"cloud_tint": "b0a898",
+			"panorama": "CAP-SKY-DUSK",
+			"panorama_mix": 0.85,
+			"panorama_stretch": 1.2
+		},
+		"scenery": {
+			"water": false,
+			"shore": false,
+			"rings": true,
+			"landmarks": false,
+			"apron": {
+				"color": "5e5a54",
+				"y": -0.03
+			},
+			"tint": "8a8678",
+			"cool": "7a7a82",
+			"haze_scale": 1.4,
+			"cool_scale": 1,
+			"brightness": 0.8,
+			"kit_cards": [
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 0,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 60,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 120,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 180,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 240,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-WASTELAND",
+					"angle": 300,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				}
+			]
+		},
+		"foliage": {
+			"density": 0
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 60,
+			"mote_color": "c8c0a0",
+			"leaves": false,
+			"birds": false
+		},
+		"haze": {
+			"fog": [
+				[
+					"spawn",
+					0,
+					-10,
+					16,
+					0.2
+				],
+				[
+					"spawn",
+					10,
+					-14,
+					14,
+					0.18
+				]
+			],
+			"shafts": [],
+			"fog_color": "8a8088",
+			"lift": 0.25
+		}
 	},
 	"capital_dark": {
 		"extends": "capital_outskirts",
 		"title": "Capital outside, service down: darker",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "76666e", "fog_density": 0.0075, "warmth": 0.18, "saturation": 1.3, "vignette": 0.42, "bloom": 0.4},
-		"sky": {"horizon": "8c7c80", "gold": "7c6c70", "mid": "645a64", "zenith": "463e4a", "sun": "c8b4b0", "sun_glow": 0.15, "cloud_opacity": 0.9, "cloud_tint": "7c7076"},
-		"scenery": {"tint": "6a685c", "brightness": 0.7}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "76666e",
+			"fog_density": 0.0075,
+			"warmth": 0.18,
+			"saturation": 1.3,
+			"vignette": 0.42,
+			"bloom": 0.4
+		},
+		"sky": {
+			"horizon": "8c7c80",
+			"gold": "7c6c70",
+			"mid": "645a64",
+			"zenith": "463e4a",
+			"sun": "c8b4b0",
+			"sun_glow": 0.15,
+			"cloud_opacity": 0.9,
+			"cloud_tint": "7c7076"
+		},
+		"scenery": {
+			"tint": "6a685c",
+			"brightness": 0.7
+		}
 	},
 	"capital_inside": {
 		"title": "Capital inside the walls: idyllic, bright, eerily perfect",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "d8ecff", "fog_density": 0.0016, "warmth": 0.15, "saturation": 1.32, "vignette": 0.14, "bloom": 0.7, "bloom_threshold": 0.95, "glow_spread": 0.65, "cloud_speed": 0.6},
-		"sky": {"horizon": "e4f2ff", "gold": "fff2d8", "mid": "96c8f8", "zenith": "3f8fe6", "sun": "ffe8c0", "sun_glow": 1.0, "cloud_opacity": 0.0, "cloud_tint": "ffffff", "panorama": "CAP-SKY-NOON", "panorama_mix": 0.75, "panorama_stretch": 1.0},
-		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "f0f6ff", "cool": "a8c8f8", "haze_scale": 0.7, "cool_scale": 0.8, "brightness": 1.08, "water_tint": "8cc8f8", "kit_cards": [{"id": "CAP-BD-CITY", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
-		"foliage": {"density": 1.0, "cells": [0, 2, 3, 4], "tint": "f6fff4"},
-		"ambient": {"enabled": true, "shafts": false, "motes": 90, "mote_color": "fff8d8", "leaves": false, "birds": true}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "d8ecff",
+			"fog_density": 0.0016,
+			"warmth": 0.15,
+			"saturation": 1.32,
+			"vignette": 0.14,
+			"bloom": 0.7,
+			"bloom_threshold": 0.95,
+			"glow_spread": 0.65,
+			"cloud_speed": 0.6
+		},
+		"sky": {
+			"horizon": "e4f2ff",
+			"gold": "fff2d8",
+			"mid": "96c8f8",
+			"zenith": "3f8fe6",
+			"sun": "ffe8c0",
+			"sun_glow": 1,
+			"cloud_opacity": 0,
+			"cloud_tint": "ffffff",
+			"panorama": "CAP-SKY-NOON",
+			"panorama_mix": 0.75,
+			"panorama_stretch": 1
+		},
+		"scenery": {
+			"water": true,
+			"shore": true,
+			"rings": true,
+			"landmarks": false,
+			"tint": "f0f6ff",
+			"cool": "a8c8f8",
+			"haze_scale": 0.7,
+			"cool_scale": 0.8,
+			"brightness": 1.08,
+			"water_tint": "8cc8f8",
+			"kit_cards": [
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 0,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 60,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 120,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 180,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 240,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				},
+				{
+					"id": "CAP-BD-CITY",
+					"angle": 300,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.95,
+					"lift": 0
+				}
+			]
+		},
+		"foliage": {
+			"density": 1,
+			"cells": [
+				0,
+				2,
+				3,
+				4
+			],
+			"tint": "f6fff4"
+		},
+		"ambient": {
+			"enabled": true,
+			"shafts": false,
+			"motes": 90,
+			"mote_color": "fff8d8",
+			"leaves": false,
+			"birds": true
+		}
 	},
 	"capital_inside_dark": {
 		"extends": "capital_inside",
 		"title": "Capital inside, service down: the idyll at dusk",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "c0d4f0", "fog_density": 0.002, "warmth": 0.13, "saturation": 1.3, "vignette": 0.18, "bloom": 0.6},
-		"sky": {"horizon": "c0d4f0", "gold": "e8d8c8", "mid": "7ca8e0", "zenith": "3a74c8", "sun_glow": 0.7},
-		"scenery": {"brightness": 0.92}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "c0d4f0",
+			"fog_density": 0.002,
+			"warmth": 0.13,
+			"saturation": 1.3,
+			"vignette": 0.18,
+			"bloom": 0.6
+		},
+		"sky": {
+			"horizon": "c0d4f0",
+			"gold": "e8d8c8",
+			"mid": "7ca8e0",
+			"zenith": "3a74c8",
+			"sun_glow": 0.7
+		},
+		"scenery": {
+			"brightness": 0.92
+		}
 	},
 	"capital_freed": {
 		"extends": "capital_inside",
 		"title": "Capital freed: bright and warm",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "f0dcc0", "fog_density": 0.0028, "warmth": 0.22, "saturation": 1.06, "vignette": 0.26, "bloom": 0.28, "bloom_threshold": 1.1},
-		"sky": {"horizon": "ffe4b0", "gold": "ffd890", "mid": "a8c4e8", "zenith": "6fa8e0", "sun": "ffe6b0", "sun_glow": 1.0, "cloud_opacity": 0.8, "panorama_mix": 0.35},
-		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "fff0d8", "cool": "b0b8e0", "brightness": 1.0},
-		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 4], "tint": "ffffe8"}
+		"look": {
+			"green_calm": 0,
+			"red_calm": 0,
+			"fog_color": "f0dcc0",
+			"fog_density": 0.0028,
+			"warmth": 0.22,
+			"saturation": 1.06,
+			"vignette": 0.26,
+			"bloom": 0.28,
+			"bloom_threshold": 1.1
+		},
+		"sky": {
+			"horizon": "ffe4b0",
+			"gold": "ffd890",
+			"mid": "a8c4e8",
+			"zenith": "6fa8e0",
+			"sun": "ffe6b0",
+			"sun_glow": 1,
+			"cloud_opacity": 0.8,
+			"panorama_mix": 0.35
+		},
+		"scenery": {
+			"water": true,
+			"shore": true,
+			"rings": true,
+			"landmarks": false,
+			"tint": "fff0d8",
+			"cool": "b0b8e0",
+			"brightness": 1
+		},
+		"foliage": {
+			"density": 1,
+			"cells": [
+				0,
+				1,
+				2,
+				3,
+				4
+			],
+			"tint": "ffffe8"
+		}
 	}
 }

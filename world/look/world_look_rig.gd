@@ -271,7 +271,19 @@ func _build_haze() -> void:
 	var level: int = style_rig.quality() if style_rig != null else Settings.graphics_quality
 	var fog_color: Color = Color.html(str(values.get("fog_color", "f2cfa4")))
 	var sun_color: Color = style_rig.preset.sun_color if style_rig != null and style_rig.preset != null else Color.WHITE
-	haze = HazeCards.install(_pieces, spec, _sun_travel, fog_color, sun_color, level)
+	haze = HazeCards.install(_pieces, spec, _sun_travel, fog_color, sun_color, level, _anchor_lookup)
+
+
+## An anchor of the walkable area for the haze cards (`["spawn", dx, dz, ...]`): a zone builder's `anchor()`, a town's `anchors` dictionary.
+func _anchor_lookup(anchor_name: String) -> Vector3:
+	if area == null:
+		return Vector3.ZERO
+	if area.has_method("anchor"):
+		return area.call("anchor", anchor_name) as Vector3
+	var anchors: Variant = area.get("anchors")
+	if anchors is Dictionary and (anchors as Dictionary).has(anchor_name):
+		return (anchors as Dictionary)[anchor_name] as Vector3
+	return Vector3.ZERO
 
 
 func _rebuild_haze() -> void:

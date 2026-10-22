@@ -11,14 +11,29 @@ const SHAFT_SHADER: String = "res://world/look/world_shaft.gdshader"
 
 var fog_cards: Array[MeshInstance3D] = []
 var shaft_cards: Array[MeshInstance3D] = []
+## Resolves an anchor name to a world position (a zone builder's `anchor()`), so a card entry may start with a name: ["spawn", dx, dz, size, strength].
+var anchor_lookup: Callable = Callable()
 
 
-static func install(parent: Node3D, spec: Dictionary, sun_travel: Vector3, fog_color: Color, sun_color: Color, level: int) -> HazeCards:
+static func install(parent: Node3D, spec: Dictionary, sun_travel: Vector3, fog_color: Color, sun_color: Color, level: int, anchors: Callable = Callable()) -> HazeCards:
 	var haze: HazeCards = HazeCards.new()
 	haze.name = "HazeCards"
+	haze.anchor_lookup = anchors
 	parent.add_child(haze)
 	haze.build(spec, sun_travel, fog_color, sun_color, GraphicsQuality.haze_cards(level))
 	return haze
+
+
+## The x/z of an entry: absolute numbers, or an anchor name followed by an offset.
+func _entry_xz(values: Array) -> Vector2:
+	if values.size() >= 3 and values[0] is String:
+		var base: Vector3 = Vector3.ZERO
+		if anchor_lookup.is_valid():
+			var found: Variant = anchor_lookup.call(str(values[0]))
+			if found is Vector3:
+				base = found as Vector3
+		return Vector2(base.x + float(values[1]), base.z + float(values[2]))
+	return Vector2(float(values[0]), float(values[1]))
 
 
 func build(spec: Dictionary, sun_travel: Vector3, fog_color: Color, sun_color: Color, budget: int) -> void:
@@ -36,18 +51,22 @@ func build(spec: Dictionary, sun_travel: Vector3, fog_color: Color, sun_color: C
 		if left <= 0:
 			break
 		var values: Array = entry as Array
-		var size: float = float(values[2]) if values.size() > 2 else 12.0
-		var strength: float = float(values[3]) if values.size() > 3 else 0.35
-		fog_cards.append(_fog_card(Vector3(float(values[0]), lift, float(values[1])), size, strength, color, float(fog_cards.size()) * 3.7))
+		var skip: int = 1 if values[0] is String else 0
+		var xz: Vector2 = _entry_xz(values)
+		var size: float = float(values[2 + skip]) if values.size() > 2 + skip else 12.0
+		var strength: float = float(values[3 + skip]) if values.size() > 3 + skip else 0.35
+		fog_cards.append(_fog_card(Vector3(xz.x, lift, xz.y), size, strength, color, float(fog_cards.size()) * 3.7))
 		left -= 1
 	for entry: Variant in spec.get("shafts", []) as Array:
 		if left <= 0:
 			break
 		var values: Array = entry as Array
-		var length: float = float(values[2]) if values.size() > 2 else 10.0
-		var width: float = float(values[3]) if values.size() > 3 else 2.6
-		var strength: float = float(values[4]) if values.size() > 4 else 0.12
-		shaft_cards.append(_shaft_card(Vector3(float(values[0]), 0.0, float(values[1])), length, width, strength, shaft_color, sun_travel, float(shaft_cards.size()) * 0.31))
+		var skip: int = 1 if values[0] is String else 0
+		var xz: Vector2 = _entry_xz(values)
+		var length: float = float(values[2 + skip]) if values.size() > 2 + skip else 10.0
+		var width: float = float(values[3 + skip]) if values.size() > 3 + skip else 2.6
+		var strength: float = float(values[4 + skip]) if values.size() > 4 + skip else 0.12
+		shaft_cards.append(_shaft_card(Vector3(xz.x, 0.0, xz.y), length, width, strength, shaft_color, sun_travel, float(shaft_cards.size()) * 0.31))
 		left -= 1
 
 
