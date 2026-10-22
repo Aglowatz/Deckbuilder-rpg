@@ -1,0 +1,3 @@
+{
+	"_comment": "Per-card art crop overrides (UI + economy fixes Oct 22, Part 3). card id -> {focus: 0-1, the height of the painting to keep in the middle of a cropped window (0 = top, default 0.3), zoom: >= 1, extra zoom on top of the display's own}. Read by CardArt.focus_for; review with tools/card_crop_sheet.gd (docs/art/card_crops/)."
+}

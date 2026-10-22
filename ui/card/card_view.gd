@@ -61,6 +61,9 @@ const FRAME_PATH_ORDER: Array[Affinity.Type] = [Affinity.Type.BEEFCAKE, Affinity
 const FRAME_ART_RECT: Rect2 = Rect2(10, 11, 280, 428)
 const FRAME_NAME_RECT: Rect2 = Rect2(84, 22, 162, 28)
 const COMPACT_PLATE_RECT: Rect2 = Rect2(64, 4, 228, 52)
+## A battlefield card zooms into its painting a little (it was a fixed 80% crop) and, without the frame art, its name bar ends here.
+const COMPACT_ZOOM: float = 1.1
+const COMPACT_BAR_BOTTOM: float = 70.0
 const COMPACT_NAME_RECT: Rect2 = Rect2(86, 10, 186, 38)
 const FRAME_NAME_INK: Color = Color("2b2233")
 const FRAME_COST_CENTER: Vector2 = Vector2(39, 34.5)
@@ -402,26 +405,42 @@ func name_fits() -> bool:
 
 ## The art area: the whole card inside the frame border. Real art (assets/art/cards/<id>.webp) when it exists, the placeholder otherwise.
 ## The area the art fills: inside the frame art window for the framed look, the whole card inside its border otherwise.
+## (Oct 22: a battlefield card's window starts below its name plate, see _art_window.)
 func art_rect() -> Rect2:
 	if _framed:
-		return FRAME_ART_RECT
-	return Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
+		return _art_window(FRAME_ART_RECT, COMPACT_PLATE_RECT.end.y - 2.0)
+	return _art_window(Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0), COMPACT_BAR_BOTTOM)
+
+
+## UI + economy fixes Oct 22, Part 3: where the painting is drawn. A full card shows the whole 2:3 painting in its art area (the name plate
+## covers the painting's clear top 10%); a battlefield (COMPACT) card's name plate is taller, so its painting starts below the plate
+## (`below`) instead of behind it - heads used to sit under the plate.
+func _art_window(rect: Rect2, below: float) -> Rect2:
+	if mode != Mode.COMPACT:
+		return rect
+	return Rect2(rect.position.x, below, rect.size.x, rect.end.y - below)
+
+
+## The card's painting cut for a `window` (CardArt.cropped: anchored near the top, per-card focus overrides); null = no art yet.
+func _cropped_art(window: Vector2) -> Texture2D:
+	if data.id == "":
+		return null
+	return CardArt.cropped(data.id, window, COMPACT_ZOOM if mode == Mode.COMPACT else 1.0, thumb_art)
 
 
 func _build_art() -> void:
 	var rect: Rect2 = Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
-	var art_texture: Texture2D = null
-	if data.id != "":
-		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else (CardArt.thumb(data.id) if thumb_art else CardArt.texture(data.id))
+	var window: Rect2 = art_rect()
+	var art_texture: Texture2D = _cropped_art(window.size)
 	if art_texture != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture
 		# expand_mode first: with the default mode the minimum size is the texture's own (768x1152) and would clamp the size below.
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
 		picture.clip_contents = true
-		picture.position = rect.position
-		picture.size = rect.size
+		picture.position = window.position
+		picture.size = window.size
 		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(picture)
 	else:
@@ -963,17 +982,16 @@ static func frame_corner_colors(ordered: Array[Affinity.Type]) -> Array[Color]:
 func _build_framed_art() -> void:
 	var rect: Rect2 = FRAME_ART_RECT
 	add_child(_panel(rect, UIStyle.box(Color("1c1526"), Color(0, 0, 0, 0), 0, 10)))
-	var art_texture: Texture2D = null
-	if data.id != "":
-		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else (CardArt.thumb(data.id) if thumb_art else CardArt.texture(data.id))
+	var window: Rect2 = art_rect()
+	var art_texture: Texture2D = _cropped_art(window.size)
 	if art_texture != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
 		picture.clip_contents = true
-		picture.position = rect.position
-		picture.size = rect.size
+		picture.position = window.position
+		picture.size = window.size
 		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(picture)
 	else:

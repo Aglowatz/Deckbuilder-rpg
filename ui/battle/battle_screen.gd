@@ -175,11 +175,12 @@ func _screenshot_scenario() -> void:
 	for id: String in str(_screenshot_args.get("hand", "")).split(",", false):
 		var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
 		game.players[0].hand.append(game.create_instance(card, 0))
+	# Oct 22: a T- id is a token (data/tokens), so token art can be photographed on the field too.
 	for id: String in str(_screenshot_args.get("field", "")).split(",", false):
-		var unit: CardData = load("res://data/cards/%s.tres" % id) as CardData
+		var unit: CardData = load("res://data/%s/%s.tres" % ["tokens" if id.begins_with("T-") else "cards", id]) as CardData
 		game.players[0].field.append(game.create_instance(unit, 0))
 	for id: String in str(_screenshot_args.get("efield", "")).split(",", false):
-		var enemy_unit: CardData = load("res://data/cards/%s.tres" % id) as CardData
+		var enemy_unit: CardData = load("res://data/%s/%s.tres" % ["tokens" if id.begins_with("T-") else "cards", id]) as CardData
 		game.players[1].field.append(game.create_instance(enemy_unit, 1))
 	## `--mark=exhaust:0,buff:1:3` exhausts your field unit 0 and gives field unit 1 three buffs (screenshots of the exhausted and buff badges).
 	for part: String in str(_screenshot_args.get("mark", "")).split(",", false):
