@@ -47,3 +47,28 @@ the purchase) and cannot be worn from the wardrobe; nothing breaks while art is 
 A save from the 3D wardrobe loads in the default look. Every item that was **bought** is refunded as gold at its old price (a toast says how much), the free starter choices were
 free, found items that still exist (the leaf crown, the tattered cloak, the royal mantle) stay owned and unequipped, and a found item that no longer exists is replaced
 (the four-seals cloak by the red cape). `CosmeticMigration` has the old price table.
+
+## The four cloaks (Apparel Part 1, Oct 22 2026): made from the hero's own cloak
+No new art: `bash tools/make_cloaks.sh` (`tools/make_cloaks.gd`, then `tools/sprite_normals.gd` for the normal maps, then an import) repaints the dark teal cloak in every
+frame of the default `PLAYER` set (5 directions, idle + 4 walk frames = 25 frames) and writes the character `PLAYER_CLOAK_<NAME>` with its manifest entry
+(`cosmetics_manifest.json`) and shop icon (`assets/art/cosmetics/icons/CLOAK_<NAME>.png`). The same sets in the delivery format
+(`SPR-PLAYER-CLOAK-<NAME>-<DIR>_IDLE.png` and the 4-frame `_WALK.png` strip) go to `_art_source/cosmetics/generated/`. A painted cloak set delivered later through
+`tools/import_cosmetics.sh` simply replaces the generated one.
+
+- **The mask**: cool pixels (green and blue above red, darker than the glow on the hand), the olive lining flooded from the cloak, dark folds filled from their
+  neighbours, the cloak's dark outline where it meets open air, specks under 260 px dropped. Hand-made fixes per frame go in `tools/cloak_masks.json`
+  (`{"FRONT_IDLE": {"exclude": [[x, y, w, h]], "include": [[x, y, w, h]]}}`, canvas pixels; empty today). `--masks=true` writes every mask as a magenta overlay
+  into `_art_source/cloak_masks/`.
+- **The repaint** keeps the painted shading: the cloak's luminance (5th..97th percentile over all frames, the same scale for every frame) runs through a
+  three-colour ramp. Patterns are laid out in **body-relative coordinates** (from the head anchor's centre line and the crown), so a patch, a tear or the fur
+  sits on the same part of the cloak in every frame of a direction: no jitter.
+  - **Red Cape**: crimson to bright red, darker red lining, gold clasps at the throat joined by a short chain (front, 3/4 and side views).
+  - **Patchwork Cloak**: jittered-grid patches (9 painted colours, some striped or checked) with dark seams and light stitches.
+  - **Tattered Cloak**: worn grey-green with bleached patches and a dirtier hem; the hem is cut into frayed points and V-tears (alpha), only where open air is
+    below (never a hole over the legs), the lower sides are nibbled, the edge above a cut is darker.
+  - **Royal Mantle**: deep royal blue, ivory lining, white fur along the hem (with tufts) and the front edges/collar, gold clasps and a sagging chain.
+- **Line-up check**: the tool re-measures the head anchor of every new frame (drift 0.0 px for all four) and counts pixels changed away from the cloak (only the
+  clasps and the fur tufts). `tests/world/test_cloak_sets.gd` checks completeness, canvas, head anchors and the foot line.
+- **Screenshots**: `Godot --path . --resolution 1700x420 res://tools/sprite_sheet_shot.tscn -- --cloak=ROYAL --mode=walk --rows=4 --every=9 --out=apparel/x`
+  (eight directions, four walk phases stacked; the tool is now a scene so the autoloads exist and renders into a fixed-size SubViewport). Shots of Oct 22:
+  `docs/art/apparel/cloak_<NAME>_walk.png`.

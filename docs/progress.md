@@ -3529,3 +3529,11 @@ Version 0.4.4 (project.godot + export presets): the v0.4.3 crash fixes plus the 
 `builds/TheWaywardPath-v0.4.4-windows.zip` 637 MB. Player notes: `docs/release/v0.4.4_notes.md`.
 Checks: GUT all passing; release smoke on the exported pack PASSED (0.4.4); cave -> Crosspath on the exported pack with
 `--rendering-driver d3d12` OK (load 8.8 s, worst frame 65 ms after the fade-in, welcome/F8/Esc/walk all fine).
+
+## Oct 22: Apparel + the disguised Rescuer
+
+Part 1 - four cloaks from the hero's own cloak (no new art): `bash tools/make_cloaks.sh` masks the dark teal cloak in all 25 frames and repaints it
+(Red Cape + gold clasps, Patchwork, Tattered with a cut hem, Royal Mantle with fur trim + clasps and chain) in body-relative coordinates, writing
+`PLAYER_CLOAK_<NAME>` sets, normal maps and icons; head anchors drift 0.0 px. `tools/sprite_sheet_shot.tscn` (was a broken `-s` script) shoots eight
+directions x four walk phases: `docs/art/apparel/cloak_<NAME>_walk.png`. Details: `docs/art/cosmetics.md`.
+Checks: GUT 2143/2144 (the one failure was the compile check catching scratch snippets of Part 2, since removed); `tests/world/test_cloak_sets.gd` 4/4.

@@ -1,1 +1,730 @@
-{}
+{
+	"PLAYER_CLOAK_PATCHWORK": {
+		"bottom_pad": 16.0,
+		"canvas": [
+			384.0,
+			512.0
+		],
+		"cloak_hue": [
+			0.127357684924536,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440.0,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"head": {
+			"BACKSIDE_IDLE": [
+				179.7,
+				60.0,
+				70.0
+			],
+			"BACKSIDE_WALK1": [
+				168.8,
+				57.0,
+				69.0
+			],
+			"BACKSIDE_WALK2": [
+				176.5,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK3": [
+				171.0,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK4": [
+				177.5,
+				61.0,
+				75.0
+			],
+			"BACK_IDLE": [
+				190.0,
+				56.0,
+				64.0
+			],
+			"BACK_WALK1": [
+				194.7,
+				57.0,
+				70.0
+			],
+			"BACK_WALK2": [
+				188.7,
+				57.0,
+				67.0
+			],
+			"BACK_WALK3": [
+				190.1,
+				56.0,
+				69.0
+			],
+			"BACK_WALK4": [
+				189.3,
+				55.0,
+				69.0
+			],
+			"FRONTSIDE_IDLE": [
+				175.3,
+				67.0,
+				72.0
+			],
+			"FRONTSIDE_WALK1": [
+				181.9,
+				65.0,
+				75.0
+			],
+			"FRONTSIDE_WALK2": [
+				178.2,
+				66.0,
+				74.0
+			],
+			"FRONTSIDE_WALK3": [
+				174.9,
+				70.0,
+				80.0
+			],
+			"FRONTSIDE_WALK4": [
+				179.4,
+				68.0,
+				72.0
+			],
+			"FRONT_IDLE": [
+				194.7,
+				52.0,
+				65.0
+			],
+			"FRONT_WALK1": [
+				192.3,
+				52.0,
+				70.0
+			],
+			"FRONT_WALK2": [
+				191.8,
+				53.0,
+				67.0
+			],
+			"FRONT_WALK3": [
+				191.7,
+				50.0,
+				68.0
+			],
+			"FRONT_WALK4": [
+				189.6,
+				52.0,
+				68.0
+			],
+			"SIDE_IDLE": [
+				177.7,
+				50.0,
+				77.0
+			],
+			"SIDE_WALK1": [
+				161.9,
+				51.0,
+				76.0
+			],
+			"SIDE_WALK2": [
+				165.1,
+				47.0,
+				78.0
+			],
+			"SIDE_WALK3": [
+				162.5,
+				50.0,
+				76.0
+			],
+			"SIDE_WALK4": [
+				164.5,
+				49.0,
+				75.0
+			]
+		},
+		"rel_height": 1.0,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"PLAYER_CLOAK_REDCAPE": {
+		"bottom_pad": 16.0,
+		"canvas": [
+			384.0,
+			512.0
+		],
+		"cloak_hue": [
+			0.00398870458367949,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440.0,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"head": {
+			"BACKSIDE_IDLE": [
+				179.7,
+				60.0,
+				70.0
+			],
+			"BACKSIDE_WALK1": [
+				168.8,
+				57.0,
+				69.0
+			],
+			"BACKSIDE_WALK2": [
+				176.5,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK3": [
+				171.0,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK4": [
+				177.5,
+				61.0,
+				75.0
+			],
+			"BACK_IDLE": [
+				190.0,
+				56.0,
+				64.0
+			],
+			"BACK_WALK1": [
+				194.7,
+				57.0,
+				70.0
+			],
+			"BACK_WALK2": [
+				188.7,
+				57.0,
+				67.0
+			],
+			"BACK_WALK3": [
+				190.1,
+				56.0,
+				69.0
+			],
+			"BACK_WALK4": [
+				189.3,
+				55.0,
+				69.0
+			],
+			"FRONTSIDE_IDLE": [
+				175.3,
+				67.0,
+				72.0
+			],
+			"FRONTSIDE_WALK1": [
+				181.9,
+				65.0,
+				75.0
+			],
+			"FRONTSIDE_WALK2": [
+				178.2,
+				66.0,
+				74.0
+			],
+			"FRONTSIDE_WALK3": [
+				174.9,
+				70.0,
+				80.0
+			],
+			"FRONTSIDE_WALK4": [
+				179.4,
+				68.0,
+				72.0
+			],
+			"FRONT_IDLE": [
+				194.7,
+				52.0,
+				65.0
+			],
+			"FRONT_WALK1": [
+				192.3,
+				52.0,
+				70.0
+			],
+			"FRONT_WALK2": [
+				191.8,
+				53.0,
+				67.0
+			],
+			"FRONT_WALK3": [
+				191.7,
+				50.0,
+				68.0
+			],
+			"FRONT_WALK4": [
+				189.6,
+				52.0,
+				68.0
+			],
+			"SIDE_IDLE": [
+				177.7,
+				50.0,
+				77.0
+			],
+			"SIDE_WALK1": [
+				161.9,
+				51.0,
+				76.0
+			],
+			"SIDE_WALK2": [
+				165.1,
+				47.0,
+				78.0
+			],
+			"SIDE_WALK3": [
+				162.5,
+				50.0,
+				76.0
+			],
+			"SIDE_WALK4": [
+				164.5,
+				49.0,
+				75.0
+			]
+		},
+		"rel_height": 1.0,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"PLAYER_CLOAK_ROYAL": {
+		"bottom_pad": 16.0,
+		"canvas": [
+			384.0,
+			512.0
+		],
+		"cloak_hue": [
+			0.639326202821159,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440.0,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"head": {
+			"BACKSIDE_IDLE": [
+				179.7,
+				60.0,
+				70.0
+			],
+			"BACKSIDE_WALK1": [
+				168.8,
+				57.0,
+				69.0
+			],
+			"BACKSIDE_WALK2": [
+				176.5,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK3": [
+				171.0,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK4": [
+				177.5,
+				61.0,
+				75.0
+			],
+			"BACK_IDLE": [
+				190.0,
+				56.0,
+				64.0
+			],
+			"BACK_WALK1": [
+				194.7,
+				57.0,
+				70.0
+			],
+			"BACK_WALK2": [
+				188.7,
+				57.0,
+				67.0
+			],
+			"BACK_WALK3": [
+				190.1,
+				56.0,
+				69.0
+			],
+			"BACK_WALK4": [
+				189.3,
+				55.0,
+				69.0
+			],
+			"FRONTSIDE_IDLE": [
+				175.3,
+				67.0,
+				72.0
+			],
+			"FRONTSIDE_WALK1": [
+				181.9,
+				65.0,
+				75.0
+			],
+			"FRONTSIDE_WALK2": [
+				178.2,
+				66.0,
+				74.0
+			],
+			"FRONTSIDE_WALK3": [
+				174.9,
+				70.0,
+				80.0
+			],
+			"FRONTSIDE_WALK4": [
+				179.4,
+				68.0,
+				72.0
+			],
+			"FRONT_IDLE": [
+				194.7,
+				52.0,
+				65.0
+			],
+			"FRONT_WALK1": [
+				192.3,
+				52.0,
+				70.0
+			],
+			"FRONT_WALK2": [
+				191.8,
+				53.0,
+				67.0
+			],
+			"FRONT_WALK3": [
+				191.7,
+				50.0,
+				68.0
+			],
+			"FRONT_WALK4": [
+				189.6,
+				52.0,
+				68.0
+			],
+			"SIDE_IDLE": [
+				177.7,
+				50.0,
+				77.0
+			],
+			"SIDE_WALK1": [
+				161.9,
+				51.0,
+				76.0
+			],
+			"SIDE_WALK2": [
+				165.1,
+				47.0,
+				78.0
+			],
+			"SIDE_WALK3": [
+				162.5,
+				50.0,
+				76.0
+			],
+			"SIDE_WALK4": [
+				164.5,
+				49.0,
+				75.0
+			]
+		},
+		"rel_height": 1.0,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"PLAYER_CLOAK_TATTERED": {
+		"bottom_pad": 16.0,
+		"canvas": [
+			384.0,
+			512.0
+		],
+		"cloak_hue": [
+			0.0637517237327315,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440.0,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"head": {
+			"BACKSIDE_IDLE": [
+				179.7,
+				60.0,
+				70.0
+			],
+			"BACKSIDE_WALK1": [
+				168.8,
+				57.0,
+				69.0
+			],
+			"BACKSIDE_WALK2": [
+				176.5,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK3": [
+				171.0,
+				61.0,
+				72.0
+			],
+			"BACKSIDE_WALK4": [
+				177.5,
+				61.0,
+				75.0
+			],
+			"BACK_IDLE": [
+				190.0,
+				56.0,
+				64.0
+			],
+			"BACK_WALK1": [
+				194.7,
+				57.0,
+				70.0
+			],
+			"BACK_WALK2": [
+				188.7,
+				57.0,
+				67.0
+			],
+			"BACK_WALK3": [
+				190.1,
+				56.0,
+				69.0
+			],
+			"BACK_WALK4": [
+				189.3,
+				55.0,
+				69.0
+			],
+			"FRONTSIDE_IDLE": [
+				175.3,
+				67.0,
+				72.0
+			],
+			"FRONTSIDE_WALK1": [
+				181.9,
+				65.0,
+				75.0
+			],
+			"FRONTSIDE_WALK2": [
+				178.2,
+				66.0,
+				74.0
+			],
+			"FRONTSIDE_WALK3": [
+				174.9,
+				70.0,
+				80.0
+			],
+			"FRONTSIDE_WALK4": [
+				179.4,
+				68.0,
+				72.0
+			],
+			"FRONT_IDLE": [
+				194.7,
+				52.0,
+				65.0
+			],
+			"FRONT_WALK1": [
+				192.3,
+				52.0,
+				70.0
+			],
+			"FRONT_WALK2": [
+				191.8,
+				53.0,
+				67.0
+			],
+			"FRONT_WALK3": [
+				191.7,
+				50.0,
+				68.0
+			],
+			"FRONT_WALK4": [
+				189.6,
+				52.0,
+				68.0
+			],
+			"SIDE_IDLE": [
+				177.7,
+				50.0,
+				77.0
+			],
+			"SIDE_WALK1": [
+				161.9,
+				51.0,
+				76.0
+			],
+			"SIDE_WALK2": [
+				165.1,
+				47.0,
+				78.0
+			],
+			"SIDE_WALK3": [
+				162.5,
+				50.0,
+				76.0
+			],
+			"SIDE_WALK4": [
+				164.5,
+				49.0,
+				75.0
+			]
+		},
+		"rel_height": 1.0,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	}
+}
