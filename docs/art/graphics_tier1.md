@@ -17,7 +17,7 @@ Start commit: `22aff389` (tag `pre-graphics-tier1`). Rules: one Godot at a time 
 | 1 Presets + upscaling | done | upscaler / render scale / sharpness settings, Medium 0.58 + crisp, cheaper sun shadow, Low cull 0.8; `fps_part1_{low,medium}.md` |
 | 2 Crosspath test zone | done | ground light map, sprite normal maps + zone rim, sun turned to the front-right, AgX grade, haze cards (off in Crosspath), fader fixes; `part2/`, `part2_cameras/`, `compare/part2_*`, `fps_part2.md` |
 | 3 Battle and effects | done | 2D effect lights on the board and cards (budget 1/3/6), board grade per area, chest-opening flash, level-up pulse; `part3/`, `compare/part3_battle.jpg` |
-| 4 Zone roll-out | not started | |
+| 4 Zone roll-out | done (one commit per zone) | sun angle + shadow opacity, AgX grade and haze per zone; `part4/`, `compare/part4_*`, `fps_part4_medium.md` |
 | 5 Verify and report | not started | |
 
 ## Tools
@@ -189,3 +189,25 @@ The battle is a painted battleboard (a `TextureRect`) with the cards as Controls
 Shots: `part3/battle.jpg` (same spot as `before/`, graded), `part3/battle_lights_high.jpg` (units on both sides, three held lights, High),
 collage `compare/part3_battle.jpg`. Fps with three lights held and four units out: Medium 268.6 fps (GPU 2.67 ms, was 1.76), High 240.3
 (3.00 ms): the battle keeps 60 fps with room to spare.
+
+## Part 4: Zone roll-out (done)
+
+Every zone got the Part 2 pieces through its data (the ground light map, sprite normals and shadows, cloud shadows and the fader fixes are
+code and were already on everywhere); per zone the style file sets the sun, the shadow opacity and the AgX grade, and the mood sets the
+haze cards (`data/zone_styles/<area>.json`, `data/art/zone_looks.json`). Two tuning rounds by shots (`part4/<area>.jpg`, collages
+`compare/part4_<area>.jpg`):
+
+| Zone | Sun (yaw / pitch / shadow) | Grade (AgX) | Haze cards | Notes |
+|---|---|---|---|---|
+| Starting forest | 128 / -48 / 0.55 (moon) | exposure 1.05, teal split tint | 3 moon-ray shafts over the camp | the paint-over's pale rays through the canopy; its own mist stays |
+| Gainlands | 120 / -58 / 0.70 | exposure 0.96, saturation 1.26, contrast 1.16, gold highlights | none | first round was washed out (exposure 1.05): fog 0.0032 -> 0.0024 |
+| Endless Buffet | 125 / -34 / 0.62 | exposure 0.93, warmth 0, cream highlights | none | the orange veil was fog + warmth: fog 0.004 -> 0.0024, warmth 0.08 -> 0 |
+| D.N.A. | 140 / -56 / 0.35 | exposure 0.98, saturation 0.95, grey-green split | 2 grey ground cards at the lobby | flat overcast kept; occlusion fade and readability checked in the shot |
+| Verdant Dump | 125 / -24 / 0.66 | exposure 1.0, saturation 1.12, gold/violet split | 2 violet cards + 2 shafts at the entrance | cards halved after the first round (a pink veil) |
+| Capital outside | 135 / -40 / 0.42 | exposure 1.15, gamma 1.08, cool split | 2 ash cards | AgX crushed the bleak ground to black-violet: lifted with gamma and exposure |
+| Capital inside | -30 / -46 / 0.30 (unchanged) | exposure 0.78, bloom 0.5 @ 1.05 | none | the front-right sun shaded both gate faces lavender, so the shadowless noon keeps its old sun; AgX + lower exposure keeps detail in the white walls |
+| Dungeon maps | - | `BattleGrade` at half strength on the painted map | - | `ui/dungeon/dungeon_map_screen.gd` |
+
+Medium fps after the roll-out (before -> Part 4, fps / GPU ms): forest 76.6 / 11.34 -> 85.9 / 10.02, Gainlands 68.8 / 12.31 -> 78.4 / 11.20,
+Buffet 72.0 / 11.62 -> 83.9 / 10.45, D.N.A. 81.3 / 10.32 -> 90.8 / 9.19, Dump 66.3 / 13.25 -> 71.6 / 11.55, Capital outside 62.7 / 13.46
+-> 70.7 / 12.33, Capital inside 62.9 / 13.70 -> 71.0 / 12.73, dungeon map 474.8 -> 478.3. Every zone is above 70 on Medium.
