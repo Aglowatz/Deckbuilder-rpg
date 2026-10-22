@@ -260,6 +260,8 @@ func _ready() -> void:
 	_screenshot_hover(str(_screenshot_args.get("hover", "")))
 	_screenshot_scenario()
 	_screenshot_result(str(_screenshot_args.get("result", "")))
+	if _screenshot_args.has("lights"):
+		_screenshot_lights()
 	game.event_emitted.connect(_on_game_event)
 	var bot_turns: int = int(_screenshot_args.get("bot", 0))
 	if bot_turns > 0:
@@ -289,6 +291,20 @@ func _zone_title(zone_id: String) -> String:
 		return ""
 	return ZoneDefs.get_def(zone_id).display_name
 
+## Graphics Tier 1, Part 3: the effect lights of this duel (BattleLights).
+var lights: BattleLights
+
+
+## Screenshot helper (Tier 1): `--lights=true` holds three effect lights on the table after the board settles (a hit on each portrait, a spell in the middle).
+func _screenshot_lights() -> void:
+	await get_tree().create_timer(2.5).timeout
+	if lights == null:
+		return
+	lights.pulse(BattleBoard.CENTER_POINT, Color("ff9c4a"), 320.0, 1.1, 60.0)
+	lights.pulse(hud.portrait_center(0), Color("7be08a"), 260.0, 0.9, 60.0)
+	lights.pulse(hud.portrait_center(1), Color("ff5a5a"), 260.0, 1.0, 60.0)
+
+
 func _build_scene() -> void:
 	# Screenshot/dev helpers: --ctx=<context key> (e.g. zone:beefcake, capital:in) or --board=<Battleboard ID> picks the board without playing to it.
 	if _screenshot_args.has("ctx"):
@@ -300,6 +316,9 @@ func _build_scene() -> void:
 	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	UIKit.full_rect(backdrop)
 	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Graphics Tier 1, Part 3: the board's own grade per area and the effect lights (the board and the cards are lit, the HUD is not).
+	backdrop.material = BattleGrade.material_for(context.zone_id)
+	BattleLights.mark_lit(backdrop)
 	add_child(backdrop)
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.03, 0.02, 0.07, 0.2)
@@ -318,6 +337,11 @@ func _build_scene() -> void:
 	_board_root.add_child(board)
 	add_child(fx)
 	fx.shake_target = _board_root
+	lights = BattleLights.new()
+	lights.name = "BattleLights"
+	lights.setup(Settings.graphics_quality)
+	_board_root.add_child(lights)
+	fx.lights = lights
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
 	# Playtest v0.4.0 Part F: one icon row for every rule of the fight (the old text panels are gone); Primm's phase rule keeps its own panel.

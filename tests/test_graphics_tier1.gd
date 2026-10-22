@@ -160,3 +160,46 @@ func test_haze_cards_respect_the_budget_and_low_gets_none() -> void:
 	medium.build(spec, Vector3(0.4, -0.6, -0.6), Color.WHITE, Color.WHITE, 2)
 	assert_eq(medium.fog_cards.size(), 2, "a budget of two keeps the first two fog cards")
 	assert_eq(medium.shaft_cards.size(), 0)
+
+
+# ---- Part 3: battle effect lights and the board grade ------------------------------------------------------------------------------------
+
+
+func test_battle_lights_pool_respects_the_budget_and_reuses_the_oldest() -> void:
+	var lights: BattleLights = BattleLights.new()
+	add_child_autofree(lights)
+	lights.setup(GraphicsQuality.Level.MEDIUM)
+	for i: int in range(5):
+		lights.pulse(Vector2(100.0 * float(i), 50.0), Color.RED, 200.0, 1.0, 0.5)
+	assert_eq(lights.get_child_count(), GraphicsQuality.effect_lights(GraphicsQuality.Level.MEDIUM), "never more lights than the level's budget")
+	var low: BattleLights = BattleLights.new()
+	add_child_autofree(low)
+	low.setup(GraphicsQuality.Level.LOW)
+	low.pulse(Vector2.ZERO, Color.RED)
+	low.pulse(Vector2(10.0, 0.0), Color.RED)
+	assert_eq(low.get_child_count(), 1, "Low keeps one light")
+	for child: Node in lights.get_children():
+		assert_false((child as PointLight2D).shadow_enabled, "no 2D shadows (D11)")
+
+
+func test_mark_lit_sets_the_bit_on_every_canvas_item() -> void:
+	var root: Control = Control.new()
+	var inner: TextureRect = TextureRect.new()
+	var deep: Label = Label.new()
+	inner.add_child(deep)
+	root.add_child(inner)
+	add_child_autofree(root)
+	BattleLights.mark_lit(root)
+	for item: CanvasItem in [root, inner, deep]:
+		assert_true((item.light_mask & BattleLights.LIT_BIT) != 0)
+
+
+func test_board_grade_follows_the_zone_style_at_half_strength() -> void:
+	var neutral: Dictionary = BattleGrade.values_for("")
+	assert_almost_eq(float(neutral["warmth"]), 0.0, 0.001)
+	assert_eq(neutral["shadow_tint"], Color.WHITE)
+	var beefcake: Dictionary = BattleGrade.values_for("beefcake")
+	var style: Dictionary = ZoneStyles.style("gainlands").get("grade", {}) as Dictionary
+	if style.has("warmth"):
+		assert_almost_eq(float(beefcake["warmth"]), float(style["warmth"]) * BattleGrade.STRENGTH, 0.001)
+	assert_not_null(BattleGrade.material_for("beefcake").shader)

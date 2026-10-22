@@ -47,7 +47,27 @@ static func open_animated(chest: Node3D) -> Tween:
 	var tween: Tween = lid.create_tween()
 	tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(lid, "rotation_degrees:x", OPEN_ANGLE, 0.5)
+	_open_flash(chest)
 	return tween
+
+
+## Graphics Tier 1, Part 3: a warm burst of light out of the opened chest, lighting the hero and the ground round it (shadows on High only).
+static func _open_flash(chest: Node3D) -> void:
+	if GraphicsQuality.effect_lights(Settings.graphics_quality) <= 0:
+		return
+	var light: OmniLight3D = OmniLight3D.new()
+	light.name = "OpenFlash"
+	light.light_color = Color("ffcc66")
+	light.light_energy = 0.0
+	light.omni_range = 4.5
+	light.omni_attenuation = 1.2
+	light.shadow_enabled = GraphicsQuality.effect_light_shadows(Settings.graphics_quality)
+	light.position = Vector3(0.0, 0.7, 0.0)
+	chest.add_child(light)
+	var tween: Tween = light.create_tween()
+	tween.tween_property(light, "light_energy", 3.2, 0.12)
+	tween.tween_property(light, "light_energy", 0.0, 1.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(light.queue_free)
 
 
 ## Opens every chest in `nodes` (id -> Node3D) whose secret `secret_for(id)` the save already has; every other chest gets

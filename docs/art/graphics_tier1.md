@@ -16,7 +16,7 @@ Start commit: `22aff389` (tag `pre-graphics-tier1`). Rules: one Godot at a time 
 | 0 Baseline | done (commit 409b7195) | shots `docs/art/graphics_tier1/before/`, fps `docs/art/graphics_tier1/fps_before.md` |
 | 1 Presets + upscaling | done | upscaler / render scale / sharpness settings, Medium 0.58 + crisp, cheaper sun shadow, Low cull 0.8; `fps_part1_{low,medium}.md` |
 | 2 Crosspath test zone | done | ground light map, sprite normal maps + zone rim, sun turned to the front-right, AgX grade, haze cards (off in Crosspath), fader fixes; `part2/`, `part2_cameras/`, `compare/part2_*`, `fps_part2.md` |
-| 3 Battle and effects | not started | |
+| 3 Battle and effects | done | 2D effect lights on the board and cards (budget 1/3/6), board grade per area, chest-opening flash, level-up pulse; `part3/`, `compare/part3_battle.jpg` |
 | 4 Zone roll-out | not started | |
 | 5 Verify and report | not started | |
 
@@ -169,3 +169,23 @@ Shots: `part2/town_square.jpg`, `part2/town_street.jpg` (same spots as `before/`
 | town_street | 94.8 / 8.88 -> 94.6 / 8.88 | 56.6 / 15.78 -> 67.6 / 13.65 | 20.2 / 47.64 -> 19.6 / 51.00 |
 
 Medium holds 60 with every Part 2 technique on (12.6-13.7 ms of GPU, about 2.5 ms under the baseline); Low is unchanged within noise.
+
+## Part 3: Battle and effects (done)
+
+The battle is a painted battleboard (a `TextureRect`) with the cards as Controls on top, not a 3D scene, so "effects light the scene" is 2D lighting:
+
+- **Effect lights** (`BattleLights`, a `Node2D` of pooled `PointLight2D`s under the board root): every `BattleFX.burst` and `flash_ring` (card
+  plays, hits, spells, heals, the win) pulses an additive radial light at its position (in 0.06 s, out over 0.45-0.55 s) in the effect's
+  colour. Only canvas items carrying `BattleLights.LIT_BIT` are lit: the board and every card view (`mark_lit`), never the HUD, log or
+  tooltips. Budget `GraphicsQuality.effect_lights` = 1 / 3 / 6 live lights (the oldest is reused). `--lights=true` holds three lights for shots.
+- **D11: no 2D shadows.** A hit's light sits at the struck card; with a `LightOccluder2D` on every card the light inside the occluder went
+  black (first High shot). The brief's "shadows on High" is kept for the 3D effect lights only: the **chest-opening flash** (`ChestKit._open_flash`,
+  an `OmniLight3D` over the lid, 3.2 energy fading over 1.1 s, shadow on High and never on an Intel iGPU).
+- **Board grade per area** (`BattleGrade` + `ui/shaders/board_grade.gdshader`): the board image takes the zone style's grade at half strength
+  (warmth, post saturation / contrast, split tint) from the arena theme's preset (Gainlands bright gold, D.N.A. cool, Buffet copper...); the
+  neutral board stays plain. Cards and HUD are untouched.
+- **Level-up moment**: `BattleLights.flash` puts a 1.6 s gold pulse under the level number (lights the rays and the dark stage).
+
+Shots: `part3/battle.jpg` (same spot as `before/`, graded), `part3/battle_lights_high.jpg` (units on both sides, three held lights, High),
+collage `compare/part3_battle.jpg`. Fps with three lights held and four units out: Medium 268.6 fps (GPU 2.67 ms, was 1.76), High 240.3
+(3.00 ms): the battle keeps 60 fps with room to spare.

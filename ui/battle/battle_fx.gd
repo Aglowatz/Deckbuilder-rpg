@@ -9,6 +9,8 @@ var arrows: Array[Dictionary] = []
 var shake_target: Control
 var _shake_tween: Tween
 var _noise: NoiseTexture2D
+## Graphics Tier 1, Part 3: every burst and ring also lights the table (BattleLights, set by BattleScreen; null in tests).
+var lights: BattleLights
 
 
 func _ready() -> void:
@@ -103,6 +105,8 @@ func burst(pos: Vector2, color: Color, amount: int = 24, speed: float = 260.0) -
 	particles.z_index = 250
 	add_child(particles)
 	particles.emitting = true
+	if lights != null:
+		lights.pulse(pos, color, 220.0 + float(amount) * 5.0, 0.9, 0.55)
 	get_tree().create_timer(1.2, false).timeout.connect(particles.queue_free)
 
 
@@ -117,6 +121,8 @@ func flash_ring(pos: Vector2, color: Color, radius: float = 110.0) -> void:
 	ring.scale = Vector2(0.2, 0.2)
 	ring.z_index = 240
 	add_child(ring)
+	if lights != null:
+		lights.pulse(pos, color, radius * 2.6, 1.1, 0.45)
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(ring, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(ring, "modulate:a", 0.0, 0.35)

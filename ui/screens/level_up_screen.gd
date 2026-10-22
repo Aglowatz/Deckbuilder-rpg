@@ -67,6 +67,8 @@ func _show_level() -> void:
 	rays.position = Vector2(960, 270)
 	rays.length = 1300.0
 	_root.add_child(rays)
+	# Graphics Tier 1, Part 3: the level-up moment lights its own stage (a gold pulse under the number).
+	BattleLights.flash(_root, Vector2(960, 270), UIStyle.GOLD, 900.0, 0.9, 1.6)
 	var column: VBoxContainer = UIKit.vbox(6)
 	column.position = Vector2(360, 50)
 	column.size = Vector2(1200, 980)

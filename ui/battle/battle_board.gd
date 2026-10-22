@@ -130,6 +130,8 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	view.unhovered.connect(func(v: CardView) -> void: _on_unhover(v))
 	view.gui_event.connect(func(v: CardView, e: InputEvent) -> void: card_input.emit(v, e))
 	add_child(view)
+	# Graphics Tier 1, Part 3: cards take the effect lights (no 2D occluders: a hit lands on a card, and a light inside a card's occluder went black).
+	BattleLights.mark_lit(view)
 	views[uid] = view
 	zones[uid] = zone
 	order.append(uid)
