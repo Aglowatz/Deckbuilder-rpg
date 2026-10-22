@@ -138,10 +138,12 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 	_portrait_id = ""
 	_right_side = false
 	if entry != null:
-		texture = Portraits.texture_for(entry.portrait_id)
+		# Apparel Part 4: the Rescuer shows her disguise portrait until she is named (RescuerDisguise).
+		var shown_portrait: String = RescuerDisguise.portrait_id(entry.portrait_id)
+		texture = Portraits.texture_for(shown_portrait)
 		if texture != null:
 			npc_id = id
-			_portrait_id = entry.portrait_id
+			_portrait_id = shown_portrait
 			_right_side = entry.side == "right"
 	_speaker.text = _plate_text(speaker, entry)
 	# Sound pass, Part D: the typed text speaks in this speaker's little voice (DialogueVoice).

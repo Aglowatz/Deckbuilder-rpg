@@ -556,6 +556,8 @@ func _build_actors() -> void:
 func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
 	var npc: Node3D
 	var sprite_id: String = str(NPC_SPRITES.get(id, ""))
+	if id == "rescuer":
+		sprite_id = NpcSprites.rescuer_key()  # Apparel Part 4: the disguise until she is named
 	if sprite_id == "":
 		sprite_id = NpcSprites.character_for(str(NPC_IDS.get(id, "")))
 	if sprite_id != "" and SpriteLibrary.has_character(sprite_id):

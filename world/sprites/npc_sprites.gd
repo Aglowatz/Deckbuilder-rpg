@@ -79,3 +79,8 @@ static func rift_operator() -> Dictionary:
 	var model: Node3D = ModelKit.character("Barbarian")
 	ModelKit.tint(model, Color(1.0, 0.8, 0.65))
 	return {"node": model, "scale": 1.3}
+
+
+## Apparel Part 4: the Rescuer's sprite set: the disguise (SPR-RESCUER) until she is named at the castle gate, if it is imported; ELOWEN otherwise.
+static func rescuer_key() -> String:
+	return RescuerDisguise.sprite_key(SpriteLibrary.has_character(RescuerDisguise.SPRITE))

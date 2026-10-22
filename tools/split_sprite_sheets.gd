@@ -4,12 +4,11 @@ extends SceneTree
 ## (`SPR-<KEY>-FRONT_IDLE.png` etc., next to the sheet in _art_inbox/npc_sprites/), each on a transparent background at the sheet's full height, so the
 ## four frames keep one baseline and one scale (tools/world_test_import.gd --npcs then cuts, aligns and scales them like any other set).
 ## The sheet itself is never changed. Writes docs/art/npc_sheet_split_report.md. Run by tools/import_npc_sprites.sh before the importer.
-## Run: Godot --headless --path . -s res://tools/split_sprite_sheets.gd
+## Run: Godot --headless --path . -s res://tools/split_sprite_sheets.gd [-- --inbox=res://a/dry-run/folder/]
 
 const INBOX: String = "res://_art_inbox/npc_sprites/"
 const REPORT: String = "res://docs/art/npc_sheet_split_report.md"
-## Frames written by this tool (one name per line). A frame file NOT listed here came from the Drive and is never overwritten.
-const WRITTEN_LIST: String = "res://_art_inbox/npc_sprites/.split_frames.txt"
+## Frames written by this tool are listed in <inbox>/.split_frames.txt (one name per line). A frame file NOT listed there came from the Drive and is never overwritten.
 const FRAMES: Array[String] = ["FRONT_IDLE", "FRONT_TALK", "SIDE_IDLE", "BACK_IDLE"]
 ## The sheets draw the side view facing RIGHT; the game's SIDE frames face LEFT (WorldSprite flips them for the right). Keys listed here face left already.
 const SIDE_ALREADY_LEFT: Array[String] = []
@@ -23,8 +22,16 @@ var _written: Dictionary = {}
 
 
 func _initialize() -> void:
-	var dir: String = ProjectSettings.globalize_path(INBOX)
-	var previous: FileAccess = FileAccess.open(WRITTEN_LIST, FileAccess.READ)
+	# A dry run (Apparel Part 4: proving a sheet before it is approved): --inbox=res://some/folder/ splits there and writes the report there too.
+	var inbox: String = INBOX
+	var report_path: String = REPORT
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--inbox="):
+			inbox = arg.get_slice("=", 1)
+			report_path = inbox + "split_report.md"
+	var written_list: String = inbox + ".split_frames.txt"
+	var dir: String = ProjectSettings.globalize_path(inbox)
+	var previous: FileAccess = FileAccess.open(written_list, FileAccess.READ)
 	if previous != null:
 		for line: String in previous.get_as_text().split("\n", false):
 			_written[line.strip_edges()] = true
@@ -44,7 +51,7 @@ func _initialize() -> void:
 		else:
 			failed.append(key)
 			_lines.append("- **%s: NOT SPLIT** - %s (needs a redo)" % [key, problem])
-	var out: FileAccess = FileAccess.open(WRITTEN_LIST, FileAccess.WRITE)
+	var out: FileAccess = FileAccess.open(written_list, FileAccess.WRITE)
 	out.store_string("\n".join(PackedStringArray(_written.keys())) + "\n")
 	out.close()
 	var head: PackedStringArray = ["# NPC sprite sheet split report\n",
@@ -54,7 +61,7 @@ func _initialize() -> void:
 		"- Not split (%d): %s\n" % [failed.size(), ", ".join(failed) if not failed.is_empty() else "none"],
 		"## Per sheet\n"]
 	head.append_array(_lines)
-	var report: FileAccess = FileAccess.open(REPORT, FileAccess.WRITE)
+	var report: FileAccess = FileAccess.open(report_path, FileAccess.WRITE)
 	report.store_string("\n".join(head) + "\n")
 	report.close()
 	print("\n".join(head))

@@ -112,3 +112,19 @@ neighbouring view dropped (under 1.5 % of the sheet's biggest piece or 6 % of th
 - Shots: `bash tools/shot.sh res://scenes/town.tscn apparel/x --open=wardrobe --wear=cloak_royal,hat_wizard` (`--wear` owns and wears; add
   `SPRITE_HAT_FOLDER=res://_art_inbox/pending_hats_split/` to see hats from a dry run). `docs/art/apparel/wardrobe_royal.png`, `wardrobe_redcape_widebrim.png`
   (the wide brim from the pending sheet), `tailor_cloaks.png`.
+
+## The disguised Rescuer (Apparel Part 4, Oct 22 2026)
+From the prologue until Percival Plume names her at the castle gate, the Rescuer travels disguised: hooded, her face behind a dark scarf, a dark cloak over the
+white lab coat, four vials. `RescuerDisguise` (`core/data/rescuer_disguise.gd`) decides the picture from the flag `rescuer_named` (`StoryBeats.FLAG_NAMED`, set
+by the `@set` step in the middle of `pc_capture`, so the portrait changes on the line after Plume says her name):
+- **Portrait**: `DialogueBox.start` draws `RescuerDisguise.portrait_id(entry.portrait_id)`: NPC-RESCUER while unnamed (if `assets/art/portraits/NPC-RESCUER.webp`
+  exists), NPC-ELOWEN after. Her NPC id stays NPC-ELOWEN everywhere (story scenes, the Cave Mouth, the prologue); expressions fall back to the base picture.
+- **Sprite**: `NpcSprites.rescuer_key()` gives RESCUER while unnamed (if the set is imported), else ELOWEN; used by the prologue figure
+  (`StartingAreaScene._elowen_figure`) and the Cave Mouth spot in town (`TownScene._add_npc("rescuer")`). The castle gate scene is dialogue only.
+- **Until the files exist the old look stays** (both checks look for the art).
+- **Importers**: `Portraits.EXTRA_PORTRAITS` makes NPC-RESCUER a known Portrait Image ID (`import portraits`); `data/source/npc_sprite_batch.csv` has the row
+  NS-RESCUER (`SPR-RESCUER (sheet)`, height 1.0), so `import npc sprites` splits `SPR-RESCUER.png` (FRONT_IDLE, FRONT_TALK, SIDE_IDLE, BACK_IDLE, side mirrored to
+  face left) with `tools/split_sprite_sheets.gd` exactly like the Oct 20 sheets. Dry run on a copy of the sheet found in Pending Review (not imported):
+  `Godot --headless --path . -s res://tools/split_sprite_sheets.gd -- --inbox=res://_art_inbox/pending_npc_dry/` then
+  `tools/split_preview.gd -- inbox=res://_art_inbox/pending_npc_dry/`: four figures, background removed, `docs/art/apparel/rescuer_split_dry.png`.
+- Tests: `tests/core/data/test_rescuer_disguise.gd`.

@@ -69,7 +69,10 @@
 			"portrait_id": "NPC-NINJA",
 			"species": "fox",
 			"notes": "Real portrait art (NPC-NINJA) is imported; the code-drawn placeholder only shows if it is missing.",
-			"expressions": ["smug", "angry"]
+			"expressions": [
+				"smug",
+				"angry"
+			]
 		},
 		{
 			"id": "NPC-VAULTWARDEN",
@@ -79,7 +82,20 @@
 			"portrait_id": "NPC-VAULTWARDEN",
 			"species": "golem",
 			"notes": "A towering stone-and-gold sentinel whose chest shows four glowing seals, one per Path. No portrait art yet.",
-			"expressions": ["calm", "angry"]
+			"expressions": [
+				"calm",
+				"angry"
+			]
+		},
+		{
+			"id": "NPC-OLDWELL",
+			"name": "The Old Well",
+			"role": "The voice in the Old Well (the secret Old Well quest)",
+			"location": "Crosspath, the Old Well",
+			"portrait_id": "NPC-OLDWELL",
+			"species": "",
+			"species_type": "Object",
+			"notes": "Art Batch Oct 22 (docs/art/import_oct22.md): the speaker \"The Old Well\" in data/story/old_well_story.json resolves to this entry by name; until NPC-OLDWELL.webp is imported the lines show without a portrait, as before."
 		}
 	]
 }

@@ -264,10 +264,11 @@ func _spawn_rescuer() -> Vector3:
 	return rescuer_pos
 
 
-## Oct 21: the Rescuer is her painted sprite (ELOWEN); the old hooded model only if the sprite is missing.
+## Oct 21: the Rescuer is her painted sprite (ELOWEN; Apparel Part 4: the disguise RESCUER until she is named); the old hooded model only if the sprite is missing.
 func _elowen_figure(model_tint: Color) -> Node3D:
-	if SpriteLibrary.has_character("ELOWEN"):
-		return NpcSprites.make_actor("ELOWEN")
+	var key: String = NpcSprites.rescuer_key()
+	if SpriteLibrary.has_character(key):
+		return NpcSprites.make_actor(key)
 	var model: Node3D = ModelKit.character("Rogue_Hooded")
 	ModelKit.tint(model, model_tint)
 	return model

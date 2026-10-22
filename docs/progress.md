@@ -3544,3 +3544,6 @@ Review (not imported). Checks: hat/cosmetics/cloak tests 31/31, compile check OK
 Part 3 - shop and wardrobe live: the four cloaks sell at their unlocks, found pieces arrive owned, all 35 hat x cloak looks wear and save, the wardrobe preview
 shows the hat (reframed), the dye only colours the plain hooded cloak (swatches rest otherwise). Checks: GUT 2156/2156; world rollout smoke: clothing vendor
 steps OK, 3 FAILs are stale Gainlands NPC expectations (brenda/npc_beefcake portraits, unchanged since the sub-area era, not apparel).
+Part 4 - the disguised Rescuer: `RescuerDisguise` shows NPC-RESCUER / SPR-RESCUER from the prologue until `rescuer_named` (Plume at the castle gate, mid-scene),
+NPC-ELOWEN / ELOWEN after; the old look stays until the files exist. NPC-RESCUER is a known portrait ID, SPR-RESCUER a sprite batch row (split like the Oct 20 sheets;
+dry run on the pending sheet clean), NPC-OLDWELL an extra NPC the speaker "The Old Well" resolves to. Checks: GUT 2161/2161, prologue smoke OK.

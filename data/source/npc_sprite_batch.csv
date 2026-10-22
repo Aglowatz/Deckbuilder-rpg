@@ -93,3 +93,4 @@ NS-QUEEN,NPC-QUEEN,Queen Concordia Wayweaver,Human,Stationary set delivered as o
 NS-QUOTA,NPC-QUOTA,Vivienne Quota,Animal: ferret,Stationary set delivered as one sheet,"SPR-QUOTA (sheet), SPR-QUOTA-{FRONT,SIDE,BACK}_IDLE, SPR-QUOTA-FRONT_TALK",0.9,Approved,
 NS-SIPHON,NPC-SIPHON,Dr. Ambrose Siphon,Human,Stationary set delivered as one sheet,"SPR-SIPHON (sheet), SPR-SIPHON-{FRONT,SIDE,BACK}_IDLE, SPR-SIPHON-FRONT_TALK",1.05,Approved,
 NS-VAULTWARDEN,NPC-VAULTWARDEN,The Vault Warden,Construct,Stationary set delivered as one sheet,"SPR-VAULTWARDEN (sheet), SPR-VAULTWARDEN-{FRONT,SIDE,BACK}_IDLE, SPR-VAULTWARDEN-FRONT_TALK",1.4,Approved,
+NS-RESCUER,NPC-RESCUER,The Rescuer (disguised Elowen),Human,"Stationary set delivered as one sheet (Apparel Part 4: hooded, face behind a dark scarf, dark cloak over the white lab coat, four vials; shown until Plume names her)","SPR-RESCUER (sheet), SPR-RESCUER-{FRONT,SIDE,BACK}_IDLE, SPR-RESCUER-FRONT_TALK",1,Requested,

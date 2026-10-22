@@ -96,8 +96,12 @@ static func source_dir() -> String:
 
 
 ## {Portrait Image ID -> NPC name} of the list (several NPCs never share an image).
+## Portrait Image IDs the importer knows that are not an NPC of their own (Apparel Part 4: the Rescuer's disguise is a second picture of NPC-ELOWEN).
+const EXTRA_PORTRAITS: Dictionary = {"NPC-RESCUER": "The Rescuer (disguised)"}
+
+
 static func known_portraits() -> Dictionary:
-	var known: Dictionary = {}
+	var known: Dictionary = EXTRA_PORTRAITS.duplicate()
 	for entry: NpcRegistry.Entry in NpcRegistry.all():
 		known[entry.portrait_id] = entry.plate_name()
 	return known

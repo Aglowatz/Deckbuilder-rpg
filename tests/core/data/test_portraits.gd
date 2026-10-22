@@ -148,7 +148,7 @@ func test_a_second_import_skips_unchanged_files_and_replaces_changed_ones() -> v
 
 
 ## List rows added by the designer whose portrait art is still on order (they speak without a portrait until it arrives).
-const ART_ON_ORDER: Array[String] = ["NPC-QUOTA", "NPC-CRUMB", "NPC-PLUME", "NPC-CLIPWELL", "NPC-ISLA", "NPC-VILLAGER"]
+const ART_ON_ORDER: Array[String] = ["NPC-QUOTA", "NPC-CRUMB", "NPC-PLUME", "NPC-CLIPWELL", "NPC-ISLA", "NPC-VILLAGER", "NPC-OLDWELL"]
 
 
 func test_the_game_has_a_portrait_for_every_npc_and_falls_back_to_the_base() -> void:
