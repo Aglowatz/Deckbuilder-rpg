@@ -752,6 +752,8 @@ func _build_art() -> void:
 	picture.position = _art_rect.position
 	picture.size = _art_rect.size
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Graphics Tier 1, Part 4: the painted map takes its zone's grade (BattleGrade, half strength), like the battleboard.
+	picture.material = BattleGrade.material_for(Session.zone_run.zone_id if Session.zone_run != null else "")
 	add_child(picture)
 
 
