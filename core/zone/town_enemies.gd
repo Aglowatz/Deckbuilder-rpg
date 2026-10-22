@@ -38,7 +38,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 		HOUND:
 			made.display_name = "Stray Gym Hound"
 			made.recipe = EnemyDecks.trimmed("gourmand_control", 20, 13)  # sim: beefcake_rush 6 HP 62%, beefcake_tools 5 HP 67% (Iron bursts), colorless_militia 5 HP 55%, necro_zombies 5 HP 72%
-			made.hp = 4  # sim: 83% at 5 HP
+			made.hp = 3  # sim: 83% at 5 HP; Oct 22: 3 for the neutral-heavy starting decks (docs/design/balance_log.md)
 			made.ai_name = "Defensive"
 			made.gold_reward = 12
 			made.xp_reward = 30
@@ -51,7 +51,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 		CLERK:
 			made.display_name = "Lost Junior Clerk"
 			made.recipe = EnemyDecks.trimmed("necro_control", 20, 10)
-			made.hp = 5  # sim: 88% at 7 and at 6 HP (Gourmand 80); a touch easier so every Path clears 85+
+			made.hp = 4  # Oct 22: was 5 (neutral-heavy starting decks); sim: 88% at 7 and at 6 HP (Gourmand 80); a touch easier so every Path clears 85+
 			made.ai_name = "Defensive"
 			made.gold_reward = 14
 			made.xp_reward = 32
@@ -67,8 +67,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			]
 		RACCOON:
 			made.display_name = "Bin Raccoon"
-			made.recipe = EnemyDecks.trimmed("refuse_rats", 20, 12)  # sim: 20/10 at 6 HP was 68%, 20/12 at 5 HP 82% (raccoon v1, v2)
-			made.hp = 4
+			made.recipe = EnemyDecks.trimmed("refuse_rats", 20, 13)  # sim: 20/10 at 6 HP was 68%, 20/12 at 5 HP 82% (raccoon v1, v2); Oct 22: 20/13
+			made.hp = 3  # Oct 22: was 4 (neutral-heavy starting decks)
 			made.ai_name = "Defensive"
 			made.gold_reward = 12
 			made.xp_reward = 30

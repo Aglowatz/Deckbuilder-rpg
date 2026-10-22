@@ -21,7 +21,7 @@ func test_three_roamers_with_real_decks_and_small_rewards() -> void:
 	for id: String in TownEnemies.IDS:
 		var info: ZoneEnemyInfo = TownEnemies.info(id)
 		assert_eq(info.kind, ZoneEnemyInfo.Kind.BATTLE, "%s starts a battle" % id)
-		assert_between(info.hp, 4, 9, "%s is an easy fight" % id)
+		assert_between(info.hp, 3, 9, "%s is an easy fight" % id)  # Oct 22: 3-4 HP for the neutral-heavy starting decks
 		assert_between(info.gold_reward, 8, 20, "%s pays small gold" % id)
 		assert_between(info.xp_reward, 20, 40, "%s pays small XP" % id)
 		var deck: Deck = TownEnemies.deck(content, id)

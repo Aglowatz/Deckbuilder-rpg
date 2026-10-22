@@ -2,7 +2,7 @@ class_name CampaignStart
 extends RefCounted
 ## The start of a new campaign: the player picks their Path in the forest (the Rescuer's conversation, `ElementChoiceScreen`) and
 ## `new_profile` / `starter_deck` hand them that Path's own **45-card starting deck** (Rebalance Part D, Oct 18): 19 basic
-## Infrastructure of the Path plus 26 cards that teach its Resource and core mechanic - mostly Commons, a couple of Uncommon kinds,
+## Infrastructure plus 26 cards that teach its Resource and core mechanic - since Oct 22 about 15 Colorless Commons and the Path's own Commons with one or two Uncommon copies,
 ## no Epics or Legendaries, never more than 3 copies of a card (`docs/design/starting_decks.md` has the lists and the game plans).
 ## It is a legal deck from the first turn; the 3 tutorial reward picks (one on-Path card per battle) grow it to 48 by the time the
 ## player reaches town. The old 42-card colorless starter (`STARTER_DECK_NAME`, still in `data/decks/`) is only a sim benchmark now.
@@ -13,32 +13,33 @@ const SPELL_COUNT: int = 26
 
 ## Path -> {Card ID: copies}: the 26 non-Infrastructure cards of each starting deck.
 const STARTING_DECKS: Dictionary = {
-	# Beefcake - Iron burst turns: make Iron (Hamster Wheel Runner, Overclocked Mill Worker), spend it the turn you swing
-	# (Personal Trainer grows, Flex on 'Em finishes), Hustle bodies and cheap removal keep the pressure up; a trap and a
-	# Shot Putter so the deck can also hold a turn.
+	# Beefcake - Iron burst turns (Oct 22: 11 Path cards + 15 Colorless Commons): Hamster Wheel Runners make Iron, Personal Trainers and
+	# the Mill Worker spend and make it, Leg Day Survivors and Flex on 'Em close the race; Village Militia, Traveling Brawlers, Tavern
+	# Regulars and a Traveler's Sword are the honest bodies around them, Rally the Village and Tripwire the neutral tricks.
 	Affinity.Type.BEEFCAKE: {
-		"B-05": 3, "B-01": 2, "B-07": 1, "B-04": 2, "B-09": 2, "B-08": 2, "B-12": 2, "B-11": 1, "B-10": 2,
-		"B-03": 2, "B-21": 2, "B-20": 1, "B-14": 1, "B-19": 1, "B-24": 1, "B-26": 1,
+		"B-05": 3, "B-09": 2, "B-12": 2, "B-03": 2, "B-21": 1, "B-24": 1,
+		"C-02": 3, "C-06": 2, "C-04": 2, "C-08": 2, "C-11": 2, "C-13": 2, "C-16": 2,
 	},
-	# Necrocrat - Red Tape and small tokens: Clerks and Interns make Red Tape, Body-builders and Middle Management turn it into
-	# bodies, Pink Slips and the Ghouls clear the way, Accountants and Grave Shift Workers hold the line, the Waiting Room slows Hustle
-	# swarms down, Notary Wraiths drain. (Daytime Oct 19: no Requisition Form or Red Tape Dispenser - the cave run, measured on two seeds.)
+	# Necrocrat - Red Tape and small tokens (Oct 22: 11 + 15): Clerks and Interns make Red Tape, Body-builders and Middle Management turn
+	# it into bodies, Pink Slips clear a blocker; Watchtower Archers, Shield Bearers and Wandering Medics hold the ground, Village Militia
+	# are the cheap bodies, Courier Pigeons and Second Wind keep the cards coming, Ambush Party punishes attackers.
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 3, "N-06": 2, "N-15": 3,
-		"N-07": 3, "N-03": 3, "N-13": 2, "N-23": 2,
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-15": 2, "N-23": 1,
+		"C-03": 3, "C-05": 2, "C-07": 2, "C-04": 2, "C-14": 2, "C-02": 2, "C-17": 2,
 	},
-	# Gourmand - Ingredients into Golems: Line Cooks, Porters and the Herb Garden make Ingredients; the Mold, the Artificer and
-	# the Apprentice cook them into Golems and Weenies; Sentries, Volunteers, En Garde-Mangers and Dinner Is Served hold the line.
+	# Gourmand - Ingredients into Golems (Oct 22: 12 + 14): Line Cooks and En Garde-Mangers make Ingredients, the Meatloaf Mold and the
+	# Pastry Artificer cook them into Golems, Soup Kitchen Volunteers hold the early turns; Archers, Shield Bearers, Militia and Pigeons
+	# are the sturdy Colorless line, Second Wind and Tripwire the neutral tricks. (The Herb Garden gave way to Volunteers: the sim.)
 	Affinity.Type.GOURMAND: {
-		"G-01": 3, "G-09": 2, "G-02": 1, "G-15": 2, "G-12": 2, "G-08": 2, "G-03": 1, "G-06": 3, "G-04": 1, "G-07": 3,
-		"G-16": 1, "G-05": 1, "G-20": 1, "G-25": 1, "G-23": 2,
+		"G-01": 3, "G-12": 2, "G-08": 2, "G-23": 2, "G-06": 3,
+		"C-05": 2, "C-03": 3, "C-02": 3, "C-04": 2, "C-14": 2, "C-16": 2,
 	},
-	# Refusemancer - Garbage effects and recursion: Rats, Divers and the Compost Bin make Garbage; the Possum, the Vomitor and the
-	# Raised Bed eat it; Second-Hand Life brings a unit back; traps (Spring Trap, Garbage Pit) punish attackers and new units;
-	# the Ox ramps into the Tortoise.
+	# Refusemancer - Garbage effects (Oct 22: 11 + 15): Rats and Divers make Garbage, Possums and the Acid Vomitor eat it, a Rusty Spring
+	# Trap punishes an attacker; Militia, Archers, Brawlers and Old Kingdom Automatons are the bodies, Traveler Swords the pump,
+	# Ambush Party and Desperate Measures the neutral answers.
 	Affinity.Type.REFUSEMANCER: {
-		"R-06": 3, "R-08": 3, "R-02": 2, "R-10": 1, "R-05": 2, "R-19": 2, "R-01": 1, "R-03": 1, "R-09": 1, "R-07": 1, "R-11": 1,
-		"R-14": 2, "R-22": 2, "R-24": 1, "R-12": 1, "R-04": 1, "R-17": 1,
+		"R-06": 3, "R-08": 3, "R-02": 2, "R-22": 2, "R-14": 1,
+		"C-02": 3, "C-03": 2, "C-06": 2, "C-09": 2, "C-11": 2, "C-17": 2, "C-15": 2,
 	},
 }
 

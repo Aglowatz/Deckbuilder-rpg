@@ -10,11 +10,11 @@ func before_all() -> void:
 func test_each_starting_deck_is_a_legal_45_card_path_deck() -> void:
 	for color: Affinity.Type in Affinity.colored_types():
 		var deck: Deck = CampaignStart.starter_deck(_content, color)
-		assert_eq(deck.size(), 45, "19 infrastructure + 26 cards of the Path (Rebalance Part D)")
+		assert_eq(deck.size(), 45, "19 infrastructure + 26 cards (Rebalance Part D)")
 		assert_eq(deck.infrastructure_count(), 19)
-		assert_eq(deck.colors(), [color] as Array[Affinity.Type], "only the chosen Path appears")
+		assert_eq(deck.colors(), [color] as Array[Affinity.Type], "only the chosen Path appears (Colorless cards walk no Path)")
 		for card: CardData in deck.cards:
-			assert_true(card.is_infrastructure() or card.color == color, card.id)
+			assert_true(card.is_infrastructure() or card.color == color or card.paths().is_empty(), card.id)
 		assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "legal under the plain rules from turn one")
 		var modifiers: ModifierSet = ModifierSet.new()
 		modifiers.add_source(TrialOfTheHollow.deck_size_waiver())
@@ -33,7 +33,7 @@ func test_new_profile_owns_the_colorless_starter_cards_and_the_path_package() ->
 	assert_false(profile.intro_dungeon_cleared)
 	assert_eq(profile.owned_cards.size(), CampaignStart.SPELL_COUNT)
 	for card: CardData in profile.owned_cards:
-		assert_eq(card.color, Affinity.Type.REFUSEMANCER, card.id)
+		assert_true(card.color == Affinity.Type.REFUSEMANCER or card.paths().is_empty(), card.id)
 	assert_eq(profile.base_max_hp(), 10)
 	assert_eq(profile.base_opening_hand(), 5)
 	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.REFUSEMANCER)
@@ -85,7 +85,8 @@ func test_profile_choice_survives_tres() -> void:
 
 
 ## Rebalance Part D: every Path's starting deck is mostly Commons, a few Uncommon kinds, no Epics or Legendaries, at most 3 copies
-## of a card (2 of an Uncommon, the level-1 cap), and it both makes and spends its Resource.
+## of a card (2 of an Uncommon, the level-1 cap), and it both makes and spends its Resource. UI + economy fixes Oct 22, Part 4: about 15
+## of the 26 are Colorless Commons, the rest the Path's own cards with at most two Uncommon copies.
 func test_each_starting_deck_is_mostly_commons_within_the_copy_caps_and_teaches_its_resource() -> void:
 	var spends: Dictionary = {
 		Affinity.Type.BEEFCAKE: "iron", Affinity.Type.NECROCRAT: "redtape", Affinity.Type.GOURMAND: "ingredient", Affinity.Type.REFUSEMANCER: "garbage",
@@ -95,15 +96,18 @@ func test_each_starting_deck_is_mostly_commons_within_the_copy_caps_and_teaches_
 		assert_eq(spells.size(), CampaignStart.SPELL_COUNT, "26 cards for %s" % Affinity.display_name(color))
 		var copies: Dictionary = {}
 		var commons: int = 0
+		var colorless: int = 0
 		var uncommon_kinds: Dictionary = {}
 		var makes: bool = false
 		var uses: bool = false
 		var word: String = str(spends[color])
 		for card: CardData in spells:
-			assert_true(card.is_on_path(color), card.id)
+			assert_true(card.is_on_path(color) or card.paths().is_empty(), card.id)
 			assert_true(card.rarity == CardEnums.Rarity.COMMON or card.rarity == CardEnums.Rarity.UNCOMMON, "%s is not Common/Uncommon" % card.id)
 			if card.rarity == CardEnums.Rarity.COMMON:
 				commons += 1
+				if card.paths().is_empty():
+					colorless += 1
 			else:
 				uncommon_kinds[card.id] = true
 			copies[card.id] = int(copies.get(card.id, 0)) + 1
@@ -111,8 +115,9 @@ func test_each_starting_deck_is_mostly_commons_within_the_copy_caps_and_teaches_
 				makes = true
 			if card.script_text.contains("use(%s" % word) or card.script_text.contains("resource_used:mine:%s" % word) or (word == "garbage" and card.script_text.contains("eat")):
 				uses = true
-		assert_true(commons >= 20, "%s: mostly commons (%d)" % [Affinity.display_name(color), commons])
-		assert_true(uncommon_kinds.size() >= 1 and uncommon_kinds.size() <= 3, "%s: a couple of uncommon kinds (%d)" % [Affinity.display_name(color), uncommon_kinds.size()])
+		assert_true(commons >= 24, "%s: mostly commons (%d)" % [Affinity.display_name(color), commons])
+		assert_between(colorless, 13, 16, "%s: about 15 Colorless Commons" % Affinity.display_name(color))
+		assert_between(26 - commons, 1, 2, "%s: one or two Uncommon copies" % Affinity.display_name(color))
 		assert_true(makes and uses, "%s makes and spends its Resource" % Affinity.display_name(color))
 		for id: String in copies.keys():
 			var card: CardData = _content.card(id)

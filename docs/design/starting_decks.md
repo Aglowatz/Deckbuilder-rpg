@@ -1,5 +1,44 @@
 # Starting decks (Rebalance Part D, Oct 18 2026)
 
+## Oct 22 2026 (UI + economy fixes, Part 4): more neutral cards
+
+Each deck keeps 45 cards and 19 Infrastructure, but now about **15 of the 26 are Colorless Commons** and the rest are the Path's own
+Commons with one or two Uncommon copies. The key Path cards stay, so the tutorial still has a Resource maker and spender to point at:
+
+| Path | Path cards (makes / spends its Resource) | Colorless Commons |
+|---|---|---|
+| Beefcake (11 + 15) | Hamster Wheel Runner x3 (makes Iron), Personal Trainer x2 (uses Iron), Leg Day Survivor x2, Dropped Weights x2, Flex on 'Em x1, Overclocked Mill Worker x1 (U) | Village Militia x3, Traveling Brawler x2, Courier Pigeon x2, Tavern Regular x2, Traveler's Sword x2, Rally the Village x2, Tripwire x2 |
+| Necrocrat (11 + 15) | Skeleton Clerk x3, Infernal Intern x3 (make Red Tape), Body-builder x2 (uses it), Pink Slip x2, Middle Management Zombie x1 (U) | Watchtower Archer x3, Shield Bearer x2, Wandering Medic x2, Courier Pigeon x2, Second Wind x2, Village Militia x2, Ambush Party x2 |
+| Gourmand (12 + 14) | Line Cook x3, En Garde-Manger x2 (U) (make Ingredients), Meatloaf Mold x2, Pastry Artificer x2 (cook them), Soup Kitchen Volunteer x3 | Watchtower Archer x3, Village Militia x3, Shield Bearer x2, Courier Pigeon x2, Second Wind x2, Tripwire x2 |
+| Refusemancer (11 + 15) | Curbside Rat x3, Dumpster Diver x2 (make Garbage), Possum Prowler x3, Acid Vomitor x2 (U) (eat it), Rusty Spring Trap x1 | Village Militia x3, Watchtower Archer x2, Traveling Brawler x2, Old Kingdom Automaton x2, Traveler's Sword x2, Ambush Party x2, Desperate Measures x2 |
+
+The choice screen's sample cards (`ElementChoice.RECIPES`) are all still in their decks. Old saves keep the cards and decks they own.
+
+**Simulation** (`tools/run_balance_sim.gd`, reports `docs/design/sim/oct22_final_*.md`; two seeds, 7000 / 8100, 50 runs each):
+
+| | Beefcake | Necrocrat | Gourmand | Refusemancer |
+|---|---:|---:|---:|---:|
+| Tutorial, whole Forgotten Cave cleared | 91 / 92 | 94 / 93 | 89 / 88 | 87 / 91 |
+| Stray Gym Hound (L1) | 96 / 96 | 86 / 88 | 80 / 76 | 78 / 78 |
+| Lost Junior Clerk (L1) | 92 / 90 | 92 / 94 | 84 / 80 | 92 / 96 |
+| Bin Raccoon (L1) | 88 / 86 | 82 / 90 | 86 / 76 | 72 / 78 |
+| Store Room Ghosts (L3) | 94 / 94 | 100 / 98 * | 98 / 100 | 96 / 100 |
+| Round robin L1 (40 games a pairing) | 58 | 42 | 51 | 50 |
+| Round robin L5 | 67 | 40 | 48 | 46 |
+
+- * measured before Necrocrat's last swap (two Desperate Measures for two Village Militia); the other Necrocrat rows are after it.
+- Tutorial: every Path 87%+ (target 80%+). Gourmand started at 75/80 with a Herb Garden list; three Soup Kitchen Volunteers instead
+  of the Herb Gardens and Healing Potions took it to 89/88.
+- The Crosspath outskirts roamers lost one HP each (Hound 4->3, Clerk 5->4, Raccoon 4->3) and the Raccoon one spell for a basic
+  (20/13): the neutral decks are a few points weaker than the old all-Path ones in these first duels (old decks, same seeds: Beefcake
+  ~90, Necrocrat ~90, Gourmand ~83, Refusemancer ~80). Two cells stay in the 70s: Gourmand vs the aggressive Hound and the Refusemancer
+  Garbage mirror (it was 76-80 with the old deck too).
+- Round robin: the level-1 spread is 16 points (58 to 42; it was 26 with the old decks, 66 to 40). Beefcake still leads, as before
+  (its Path identity: Hustle and burst turns; the AI-vs-AI mirror favours the aggressor). Not within ~10 yet; the encounters the
+  player actually meets are in band. Level 5 uses the progression model's reference decks, which now cut the Colorless filler first
+  (`ProgressionModel.CUT_ORDER`).
+
+
 One unique 45-card starting deck per Path: 19 basic Infrastructure of the Path plus 26 cards, legal from the first turn (the old
 42-card colorless starter and its tutorial size waiver are history; the waiver only still exists for old saves). The player gets the
 deck of the Path they choose in the Rescuer's conversation (`Session.choose_starting_path` -> `CampaignStart.starter_deck`), the 26

@@ -61,13 +61,14 @@ const UPGRADES: Dictionary = {
 	},
 }
 
-## Per Path: the starting-deck cards a player cuts first as upgrades come in (weakest first; one copy per entry).
+## Per Path: the starting-deck cards a player cuts first as upgrades come in (weakest first; one copy per entry). Oct 22: the starting
+## decks are about 15 Colorless Commons now, and a player swaps that filler out for Path cards first.
 const CUT_ORDER: Dictionary = {
-	Affinity.Type.BEEFCAKE: ["B-20", "B-07", "B-07", "B-14", "B-08", "B-04", "B-08", "B-01", "B-05", "B-03", "B-01", "B-12", "B-21", "B-04", "B-05"],
+	Affinity.Type.BEEFCAKE: ["C-16", "C-16", "C-13", "C-04", "C-13", "C-04", "C-11", "C-06", "C-11", "C-02", "C-08", "C-06", "C-02", "B-20", "B-07", "B-07", "B-14", "B-08", "B-04", "B-08", "B-01", "B-05", "B-03", "B-01", "B-12", "B-21", "B-04", "B-05"],
 	# Oct 21: a Necrocrat player cuts the slow 4-cost units first and keeps the 1-2 drops (the L5 deck played no unit for four turns).
-	Affinity.Type.NECROCRAT: ["N-03", "N-07", "N-23", "N-03", "N-07", "N-05", "N-06", "N-23", "N-04", "N-03", "N-05", "N-04", "N-06", "N-01", "N-02"],
-	Affinity.Type.GOURMAND: ["G-21", "G-04", "G-14", "G-06", "G-02", "G-09", "G-06", "G-02", "G-07", "G-01", "G-09", "G-15", "G-01", "G-05", "G-20"],
-	Affinity.Type.REFUSEMANCER: ["R-17", "R-04", "R-01", "R-11", "R-07", "R-10", "R-02", "R-05", "R-19", "R-08", "R-02", "R-06", "R-05", "R-14", "R-19"],
+	Affinity.Type.NECROCRAT: ["C-17", "C-17", "C-14", "C-07", "C-14", "C-07", "C-05", "C-04", "C-05", "C-04", "C-03", "C-02", "C-03", "N-03", "N-07", "N-23", "N-03", "N-07", "N-05", "N-06", "N-23", "N-04", "N-03", "N-05", "N-04", "N-06", "N-01", "N-02"],
+	Affinity.Type.GOURMAND: ["C-16", "C-16", "C-14", "C-04", "C-14", "C-04", "C-05", "C-02", "C-05", "C-03", "C-02", "C-03", "G-21", "G-04", "G-14", "G-06", "G-02", "G-09", "G-06", "G-02", "G-07", "G-01", "G-09", "G-15", "G-01", "G-05", "G-20"],
+	Affinity.Type.REFUSEMANCER: ["C-17", "C-17", "C-11", "C-15", "C-11", "C-15", "C-06", "C-09", "C-06", "C-03", "C-02", "C-09", "C-03", "R-17", "R-04", "R-01", "R-11", "R-07", "R-10", "R-02", "R-05", "R-19", "R-08", "R-02", "R-06", "R-05", "R-14", "R-19"],
 }
 
 

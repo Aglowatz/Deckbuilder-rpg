@@ -1033,3 +1033,20 @@ After (all Paths, B/N/G/R): Flexing Brute 88/84/80/84 (84%) and 92/72/84/72 (80%
 (52, then 36-40 on seed 8100, and every Path rose); Gourmand cards cost 1 less (84 / 80, too easy); Gourmand units +1 attack (72 / 68).
 **Kept: a second, player-side rule "First, Water: your Gourmand units get +0/+1"** (the blue stream fed the Gourmands' first stockpot).
 After: 48/64/44/56 (53%) and 48/56/56/72 (58%): Gourmand 44 / 56, mean 50; the rule touches no other Path.
+
+## Oct 22 - UI + economy fixes, Part 4: starting decks with about 15 Colorless Commons
+
+- `CampaignStart.STARTING_DECKS`: every Path keeps 45 cards / 19 Infrastructure; 26 others = 11-12 Path cards (the Resource makers and
+  spenders, at most two Uncommon copies) + 14-15 Colorless Commons. Lists and reasons in `docs/design/starting_decks.md`.
+- Tuning steps (tutorial, two seeds x 50): first lists B 91/92, N 92/95, G 75/80, R 87/91. Gourmand: Healing Potion x2 -> Village
+  Militia +1 / Soup Kitchen Volunteer +1 (81/82); roamers still ~72 -> Herb Garden x2 -> Soup Kitchen Volunteer +2, Tavern Regular x2 ->
+  Courier Pigeon x2 (tutorial 89/88). Necrocrat: Desperate Measures x2 -> Village Militia x2 (round robin L1 45 -> 42 within noise,
+  roamers 82-94). Tried and reverted: Gourmand Brawlers/Medics (worse, 60-76), Beefcake Shield Bearers for Rally (stronger, 65% L1).
+- `TownEnemies` (Crosspath outskirts, level 1): Stray Gym Hound hp 4 -> 3, Lost Junior Clerk hp 5 -> 4, Bin Raccoon hp 4 -> 3 and
+  deck 20/12 -> 20/13 basics. Old decks on the same seeds: B ~90, N ~90, G ~83, R ~80; new decks after the change: B 86-96, N 82-94,
+  G 76-86, R 72-96 (Refusemancer vs the Raccoon mirror 72/78, as the old deck's 76/80). Tried first: more basics for all three
+  (13->14, 10->12, 12->13) at the old HP - no clear effect, reverted.
+- `ProgressionModel.CUT_ORDER`: each Path cuts its Colorless filler first as upgrades arrive (the level-5 reference decks had been
+  cutting Path cards and keeping filler).
+- Store Room Ghosts (L3): 94-100% for every Path. Round robin L1: B 58 / G 51 / R 50 / N 42 (was 66 / 50 / 44 / 40); L5: B 67 / G 48 /
+  R 46 / N 40. Reports: `docs/design/sim/oct22_final_*.md`, `oct22_n_*`, `oct22_b_*`, `oct22_g_*`.
