@@ -136,7 +136,7 @@ func apply() -> void:
 	GraphicsQuality.apply_to_viewport(get_viewport(), level)
 	RenderingServer.directional_shadow_atlas_set_size(1024 if level < GraphicsQuality.Level.HIGH else 4096, true)
 	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.ENV_SSAO_QUALITY_MEDIUM, true, 0.5, 2, 50, 300)
-	RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM)
+	RenderingServer.directional_soft_shadow_filter_set_quality(GraphicsQuality.shadow_filter(level) as RenderingServer.ShadowQuality)
 	if OS.get_environment("STYLE_DEBUG") != "":
 		print("style_rig: level %d msaa %d scale %.2f aa %d" % [level, get_viewport().msaa_3d, get_viewport().scaling_3d_scale, get_viewport().screen_space_aa])
 	_apply_environment(level)
@@ -227,7 +227,7 @@ func _apply_lights(level: int) -> void:
 	var detail: int = GraphicsQuality.shadow_detail(level)
 	sun.shadow_enabled = detail > 0
 	# Soft, tinted shadows: translucent so the coloured ambient shows through (never a black cut-out), blurred edges.
-	sun.shadow_blur = 2.4 if detail < 2 else 1.8
+	sun.shadow_blur = GraphicsQuality.shadow_blur(level)
 	sun.shadow_opacity = preset.shadow_opacity
 	sun.shadow_normal_bias = 1.6
 	sun.shadow_bias = 0.06
@@ -310,7 +310,7 @@ func _flush() -> void:
 
 func _limit_range(mesh_instance: MeshInstance3D) -> void:
 	if cull_distance > 0.0 and mesh_instance.get_parent() != camera and not mesh_instance.has_meta(&"no_range_cull"):
-		mesh_instance.visibility_range_end = cull_distance
+		mesh_instance.visibility_range_end = cull_distance * GraphicsQuality.cull_scale(quality())
 		# The far edge dissolves instead of popping (a dithered fade over the last few metres).
 		mesh_instance.visibility_range_end_margin = 6.0
 		mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF

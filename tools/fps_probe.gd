@@ -34,6 +34,19 @@ func _process(delta: float) -> bool:
 		root.get_node("Settings").set("max_fps", 0)
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		Engine.max_fps = 0
+		# `--set=upscaling_mode:3,render_scale_pct:50,sharpness:0.6` sets Settings values for the run (never saved), as tools/screenshot.gd does.
+		var settings: Node = root.get_node("Settings")
+		for pair: String in str(_args.get("set", "")).split(",", false):
+			var kv: PackedStringArray = pair.split(":")
+			if kv.size() != 2:
+				continue
+			var current: Variant = settings.get(kv[0])
+			if typeof(current) == TYPE_BOOL:
+				settings.set(kv[0], kv[1] == "true")
+			elif typeof(current) == TYPE_INT:
+				settings.set(kv[0], int(kv[1]))
+			elif typeof(current) == TYPE_FLOAT:
+				settings.set(kv[0], float(kv[1]))
 		var packed: PackedScene = load(str(_args.get("scene", "res://scenes/town.tscn"))) as PackedScene
 		_scene = packed.instantiate()
 		if _scene.has_method("screenshot_prepare"):

@@ -106,6 +106,21 @@ func _build_display() -> void:
 	var fog: OptionButton = _options(["Off", "Light", "Full"], Settings.fog_quality, _on_fog_quality)
 	fog.name = "FogQualityOptions"
 	_body.add_child(_row("Fog quality", fog))
+	# Graphics Tier 1: the upscaler, the render scale and the sharpness (docs/art/graphics_tier1.md).
+	var upscaler: OptionButton = _options(GraphicsQuality.UPSCALER_NAMES, Settings.upscaling_mode, _on_upscaling)
+	upscaler.name = "UpscalerOptions"
+	_body.add_child(_row("Upscaling", upscaler))
+	var scale_names: Array[String] = []
+	var scale_index: int = 0
+	for index: int in range(GraphicsQuality.RENDER_SCALE_CHOICES.size()):
+		var pct: int = GraphicsQuality.RENDER_SCALE_CHOICES[index]
+		scale_names.append("Quality preset (%d%%)" % int(round(GraphicsQuality.render_scale(Settings.graphics_quality) * 100.0)) if pct == 0 else "%d%%" % pct)
+		if pct == Settings.render_scale_pct:
+			scale_index = index
+	var scale_options: OptionButton = _options(scale_names, scale_index, _on_render_scale)
+	scale_options.name = "RenderScaleOptions"
+	_body.add_child(_row("Render scale (3D)", scale_options))
+	_body.add_child(_slider_row("Sharpness (upscaled image)", Settings.sharpness, _on_sharpness, _percent(Settings.sharpness), "SharpnessSlider"))
 	_body.add_child(_slider_row("UI scale", (Settings.ui_scale - Settings.UI_SCALE_MIN) / (Settings.UI_SCALE_MAX - Settings.UI_SCALE_MIN), _on_ui_scale, _scale_text(), "UiScaleSlider"))
 	var angle_options: OptionButton = _options(CameraRig.ANGLE_NAMES, Settings.camera_angle, _on_camera_angle)
 	angle_options.name = "CameraAngleOptions"
@@ -356,6 +371,26 @@ func _on_bloom(pressed: bool) -> void:
 func _on_fog_quality(index: int) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.fog_quality = index
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_upscaling(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.upscaling_mode = index
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_render_scale(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.render_scale_pct = GraphicsQuality.RENDER_SCALE_CHOICES[clampi(index, 0, GraphicsQuality.RENDER_SCALE_CHOICES.size() - 1)]
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_sharpness(value: float) -> void:
+	Settings.sharpness = value
 	Settings.graphics_changed.emit()
 	_saved()
 
