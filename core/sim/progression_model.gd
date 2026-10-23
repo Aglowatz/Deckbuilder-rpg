@@ -25,7 +25,8 @@ const REFERENCE_DECK_SIZE: int = 46
 
 ## Per Path: level -> {Card ID: copies} the player has added to the starting deck by that level (commons and uncommons first, the
 ## first Epic at 10, the Signature Legendary at 18). The second package lands at 5 because the level track hands out the first Path
-## Pack at level 4 and Crosspath sells commons. Copies over the level's copy cap are skipped.
+## Pack at level 4. Oct 22 (docs/design/vendors.md): Sable sells only a sample, so before its own zone a player's level-5 package holds
+## one Uncommon; Beefcake reaches the Gainlands (its own shop) at 5. Copies over the level's copy cap are skipped.
 const UPGRADES: Dictionary = {
 	Affinity.Type.BEEFCAKE: {
 		3: {"B-06": 1, "B-16": 1, "B-15": 1},
@@ -37,7 +38,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.NECROCRAT: {
 		3: {"N-13": 1, "C-02": 2, "C-03": 2},  # Oct 21: General Pack 2-drops (Village Militia, Watchtower Archer) instead of Processing Delay and Buried in Paperwork: the L5 deck had six 1-2 cost units
-		5: {"N-15": 1, "N-25": 1, "N-24": 1, "N-06": 1},
+		5: {"N-15": 1, "N-25": 1, "N-06": 1, "N-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack) - Sable no longer sells the own Path, D.N.A. comes at 9
 		10: {"N-30": 1, "N-24": 1, "N-25": 1, "N-22": 1},
 		14: {"N-28": 1, "N-29": 1, "N-27": 1},
 		18: {"N-33": 1, "N-31": 1},
@@ -45,7 +46,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.GOURMAND: {
 		3: {"G-17": 1, "G-13": 1, "G-16": 1},
-		5: {"G-05": 1, "G-20": 1, "G-22": 1, "G-24": 1},
+		5: {"G-05": 1, "G-20": 1, "G-22": 1, "G-07": 1},  # Oct 22: one Uncommon (the L4 Path Pack)
 		10: {"G-28": 1, "G-26": 1, "G-22": 1},
 		14: {"G-29": 1, "G-30": 1, "G-26": 1},
 		18: {"G-33": 1, "G-32": 1},
@@ -53,7 +54,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.REFUSEMANCER: {
 		3: {"R-15": 1, "R-18": 1, "R-12": 1},
-		5: {"R-25": 1, "R-09": 1, "R-23": 1, "R-12": 1},
+		5: {"R-25": 1, "R-09": 1, "R-12": 1, "R-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack)
 		10: {"R-28": 1, "R-23": 1, "R-29": 1},
 		14: {"R-30": 1, "R-31": 1, "R-24": 1},
 		18: {"R-33": 1, "R-27": 1},

@@ -168,6 +168,14 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	await _click_through(town)
 	_step(memory_before > 0 and Session.pending_memory() == 0, "%s: Maren gives back a memory fragment" % zone_id)
 	await _shot("p_%s_04_memory" % zone_id)
+	# Oct 21: the Rescuer waits at the cave mouth after each freed zone, one scene each, in order.
+	var cave: String = StoryBeats.cave_mouth_scene(Session.flags, Session.completed_zone_count())
+	_step(not cave.is_empty() and town._npcs.has("rescuer"), "%s: the Rescuer waits at the cave mouth (%s)" % [zone_id, cave])
+	if town._npcs.has("rescuer"):
+		await _walk_up(town, "rescuer")
+		await driver.tap_key(KEY_E)
+		await _click_through(town)
+		_step(Session.flag(StringName(cave + "_seen")) and not town._npcs.has("rescuer"), "%s: her Cave Mouth scene plays and she slips away" % zone_id)
 	return town
 
 
@@ -225,8 +233,14 @@ func _capital_and_castle() -> void:
 	await _shot("p_capital")
 	Session.begin_zone_visit(CapitalZone.ID)
 	Session.enter_main_dungeon()
-	var castle: Node = await _wait_for(DungeonMapScreen)
+	var castle: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_step(castle != null, "the castle opens")
+	# Oct 21: Plume has the Rescuer seized at the gate on the first castle run, and names her.
+	if castle != null:
+		await driver.seconds(1.5)
+		_step(castle._dialogue.active, "the castle gate: the capture scene plays as the map opens")
+		await _dismiss_dialogue(castle._dialogue)
+	_step(Session.flag(&"elowen_seized") and RoyalFamily.fill("{rescuer}") == "Elowen", "Plume names her: {rescuer} reads Elowen from now on")
 	var result: Dictionary = Session.resolve_main_dungeon(true)
 	_step(str(result.get("kind", "")) == "primm_defeated" and Session.flag(&"primm_defeated"), "Primm is defeated")
 	_step(Session.quest_log.is_completed(QuestDefinitions.FREE_ZONES), "Free the Four Zones completes")
@@ -235,6 +249,49 @@ func _capital_and_castle() -> void:
 	_step(ending != null, "the ending plays")
 	await driver.seconds(1.0)
 	await _shot("p_ending")
+	await _after_the_ending()
+
+
+## Oct 21: the postgame beats - the royal funeral in Grave Row (through Old Hob), Isla home at Brannoch's gate, Maren's news of the capture.
+func _after_the_ending() -> void:
+	Session.return_from_ending()
+	var capital: ZoneScene = await _wait_for(ZoneScene) as ZoneScene
+	if capital == null:
+		_step(false, "back in the Capital after the ending")
+		return
+	await driver.seconds(2.0)
+	await _dismiss_dialogue(capital.dialogue)
+	await _dismiss_popups()
+	_step(OldHob.funeral_waiting(Session.flags), "the royal funeral waits in Grave Row")
+	var hob: ZoneSpot = null
+	for spot: ZoneSpot in capital.spots:
+		if spot.id == "hob":
+			hob = spot
+	_step(hob != null, "Old Hob stands in Grave Row")
+	if hob != null:
+		capital.player.position = hob.position + Vector3(0.0, 0.0, 1.0)
+		await driver.frames(6)
+		await driver.tap_key(KEY_E)
+		var guard: int = 0
+		while guard < 40 and not Session.flag(&"royal_funeral_seen"):
+			guard += 1
+			await driver.tap_key(KEY_E)
+			await driver.seconds(0.3)
+		await _shot("p_funeral")
+	_step(Session.flag(&"royal_funeral_seen"), "the royal funeral plays")
+	var town: TownScene = await _to_town()
+	if town == null:
+		return
+	await _walk_up(town, "guard")
+	await driver.tap_key(KEY_E)
+	await _click_through(town)
+	_step(Session.flag(&"isla_home") and town._npcs.has("isla"), "Isla walks home through her father's gate")
+	await _shot("p_isla")
+	await _walk_up(town, "elder")
+	await driver.tap_key(KEY_E)
+	await _click_through(town)
+	_step(Session.flag(&"maren_capture_seen"), "Maren has news of the capture")
+	_step(town._npcs.has("hob") and OldHob.town_scene(Session.flags) == "hob_town_after_funeral", "Old Hob is back by the cairn")
 
 
 # ---- Helpers --------------------------------------------------------------------------------------------------------------------------------

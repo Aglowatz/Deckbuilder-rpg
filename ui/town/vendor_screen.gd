@@ -46,7 +46,8 @@ func _init() -> void:
 
 func _build() -> void:
 	if stock == null:
-		stock = VendorData.graduated(Session.content, Session.deck.colors(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
+		# UI + economy fixes Oct 22, Part 5: Sable sells a small rotating sample, not every card (VendorStocks, docs/design/vendors.md).
+		stock = VendorStocks.sable_sample(Session.content, Session.unlock_state(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
 	# Gear is only sold once the armory quest opened the equipment slots (Part 5).
 	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty() and Session.gear_unlocked())
 	if stage != null:
