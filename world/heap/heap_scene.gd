@@ -121,6 +121,7 @@ var dressing: HeapDressing
 ## The dressing, then the zone's few real lights: the greenhouse's warm lantern light inside, the windmill's lantern and the Rotheart heart's violet
 ## glow (pulsed by the builder); every other lantern is emissive only.
 func _dress_zone() -> void:
+	_soften_sky()
 	# the grass carpet keeps off the entrance bridge, the routes and the vine bridges (the paths read clear, as in the paint-overs)
 	var layout: HeapLayout = heap.layout
 	var region: Callable = func(pos: Vector3) -> bool:
@@ -141,6 +142,25 @@ func _dress_zone() -> void:
 		if not lights.is_empty():
 			heap.heart_light = lights[0]
 			heap.heart_light.set_meta("base_energy", heap.heart_light.light_energy)
+
+
+const SOFT_SKY: String = "DUMP-SKY-SUNSET-SOFT"
+
+
+## The zone sky is the soft golden-hour backdrop when it has its file (art import Oct 22, DUMP-SKY-SUNSET-SOFT; the mood's DUMP-SKY-SUNSET in
+## data/art/zone_looks.json was too strong at the horizon): the look rig's own copy of the mood takes the new panorama and its sky repaints. Same mix and
+## stretch; without the file the mood's sky stays.
+func _soften_sky() -> void:
+	if look_rig == null or not EnvKit.has_art(SOFT_SKY):
+		return
+	# a copy: the mood's sky block may still be the shared parsed file's dictionary
+	var sky_mood: Dictionary = (look_rig.mood.get("sky", {}) as Dictionary).duplicate(true)
+	if sky_mood.is_empty():
+		return
+	sky_mood["panorama"] = SOFT_SKY
+	look_rig.mood["sky"] = sky_mood
+	if look_rig.sky != null:
+		look_rig.sky.set_palette(sky_mood)
 
 
 ## When the greenhouse stands between the camera and the hero (the camera trails the hero by about 12 m and 6 m up, so it does whenever the hero walks

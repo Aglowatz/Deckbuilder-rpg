@@ -27,6 +27,21 @@ static func _instance(mesh: KitMesh, node_name: String, never_fade: bool) -> Mes
 	return body
 
 
+## The kit's rusty corrugated scrap sheets (DUMP-WALL-SCRAP, art import Oct 22) for re-skinning a built `HeapProps` piece (the stables, the fair stage,
+## the junk barricades): a mesh with the one slot "scrap" (UVs in metres, so the sheets tile at the kit's density), or null while the surface has no
+## art (the piece then keeps its flat palette boxes). The caller adds its slabs and hangs `scrap_body` of it on the piece.
+static func scrap_mesh() -> KitMesh:
+	if not EnvKit.has_art("DUMP-WALL-SCRAP"):
+		return null
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("scrap", L._surface("DUMP-WALL-SCRAP", L.RUST))
+	return mesh
+
+
+static func scrap_body(mesh: KitMesh) -> MeshInstance3D:
+	return _instance(mesh, "Scrap", false)
+
+
 ## The fence along `points` (the layout's post positions, about a metre apart; a gap longer than 1.6 m starts a new run): door and tin panels 1.1 m high
 ## between posts every two metres, a rope rail on top, a tyre stack at each run's ends, moss and the odd flower crate. Knee to hip high: it never hides
 ## the hero, so it never fades. `ground` gives the height at a point.

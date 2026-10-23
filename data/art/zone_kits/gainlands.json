@@ -51,7 +51,7 @@
 			"zone": "gainlands"
 		},
 		"GAIN-BD-MESAS": {
-			"aspect": 4.0,
+			"aspect": 5.52,
 			"asset": "GAIN-BD-MESAS",
 			"category": "Sky / backdrop",
 			"desc": "A distant skyline of flat-topped sandstone mesas and rock columns rising from a calm blue sea, layered by distance and hazy blue at the back, a few floating islands with grassy tops in a bright midday sky, wide panoramic strip, no foreground (the bottom fades to sea colour).",
@@ -69,13 +69,13 @@
 			"priority": "2",
 			"px": [
 				2048,
-				512
+				371
 			],
 			"sheet_status": "Requested",
 			"size": "a strip 4096 x 1024, wraps 60 degrees",
 			"slot": "backdrop.gain-bd-mesas",
 			"tinted": false,
-			"transparent": false,
+			"transparent": true,
 			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
 			"zone": "gainlands"
 		},
@@ -109,13 +109,28 @@
 			"zone": "gainlands"
 		},
 		"GAIN-DEC-CHALK": {
+			"aspect": 1.048,
 			"asset": "Chalk prints",
 			"category": "Decal",
+			"cleared_alpha": 265170,
 			"desc": "Handprints and lines. Top-down, transparent soft edge. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "decal",
 			"id": "GAIN-DEC-CHALK",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"placeholder": "dec:chalk",
 			"priority": "3",
+			"px": [
+				973,
+				928
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "decal.gain-dec-chalk",
@@ -243,13 +258,37 @@
 			"asset": "Chalk and sand",
 			"category": "Surface",
 			"desc": "Pale sand scuffed with chalk lines and footprints. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "ground",
 			"id": "GAIN-GROUND-CHALK",
 			"lock": "SURFACE",
+			"maps": true,
+			"placeholder": "tex:gain_chalkdirt",
 			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.09,
+					"before": 1.97
+				},
+				"y": {
+					"after": 1.14,
+					"before": 2.02
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "ground.gain-ground-chalk",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (ground)",
 			"zone": "gainlands"
@@ -258,13 +297,37 @@
 			"asset": "Sunny meadow grass",
 			"category": "Surface",
 			"desc": "Bright green grass with yellow flowers, tileable. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "ground",
 			"id": "GAIN-GROUND-FIELD",
 			"lock": "SURFACE",
+			"maps": true,
+			"placeholder": "tex:gain_grass",
 			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 0.9,
+					"before": 1.83
+				},
+				"y": {
+					"after": 0.69,
+					"before": 2.22
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "ground.gain-ground-field",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (ground)",
 			"zone": "gainlands"
@@ -273,13 +336,37 @@
 			"asset": "Gym mat ground",
 			"category": "Surface",
 			"desc": "Blue rubber gym mat texture with chalk handprints. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "ground",
 			"id": "GAIN-GROUND-MAT",
 			"lock": "SURFACE",
+			"maps": true,
+			"placeholder": "tex:gain_gymmat",
 			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.0,
+					"before": 1.83
+				},
+				"y": {
+					"after": 1.08,
+					"before": 1.95
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "ground.gain-ground-mat",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (ground)",
 			"zone": "gainlands"

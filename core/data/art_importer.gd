@@ -80,6 +80,33 @@ static func needs_crop(image: Image) -> bool:
 	return absf(ratio - target_ratio) / target_ratio > 0.005
 
 
+## A redo sits beside the first file as "<NAME>-v2" (Oct 22: the Drive sort keeps both on a name clash). The name without its "-vN".
+static func revision_base(base: String) -> String:
+	var m: RegExMatch = RegEx.create_from_string("^(.+)-[vV](\\d+)$").search(base)
+	return m.get_string(1) if m != null else base
+
+
+## The revision of a file's base name: N of "-vN", 1 without one.
+static func revision_of(base: String) -> int:
+	var m: RegExMatch = RegEx.create_from_string("^(.+)-[vV](\\d+)$").search(base)
+	return m.get_string(2).to_int() if m != null else 1
+
+
+## `file_names` (order kept) with only the highest revision of each name (case-insensitive, any extension).
+static func latest_revisions(file_names: Array[String]) -> Array[String]:
+	var best: Dictionary = {}
+	for file_name: String in file_names:
+		var base: String = file_name.get_basename()
+		var key: String = revision_base(base).to_upper()
+		if not best.has(key) or revision_of(base) > revision_of(str(best[key]).get_basename()):
+			best[key] = file_name
+	var kept: Array[String] = []
+	for file_name: String in file_names:
+		if best.values().has(file_name):
+			kept.append(file_name)
+	return kept
+
+
 ## Reads the import manifest (`Card ID,file,bytes,md5`) into {Card ID -> md5}.
 static func read_manifest(path: String) -> Dictionary:
 	var manifest: Dictionary = {}

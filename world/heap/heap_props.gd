@@ -171,8 +171,16 @@ static func stable(kind: String) -> Node3D:
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
 			B.cylinder(root, 0.1, 0.12, 2.6, H.flat(H.WOOD_DARK), Vector3(sx * 1.7, 1.3, sz * 1.3), 6)
-	B.box(root, Vector3(4.2, 0.14, 3.2), H.flat(H.METAL), Vector3(0, 2.7, 0), Vector3(0, 0, 4))
-	B.box(root, Vector3(3.4, 0.9, 0.12), H.flat(H.WOOD), Vector3(0, 0.45, -1.3))
+	var scrap: KitMesh = HeapKitProps.scrap_mesh()
+	if scrap != null:
+		# art import Oct 22: the roof and the back boards re-skinned with the kit's scrap sheets (DUMP-WALL-SCRAP; were flat metal and wood). The 3D
+		# build stays (not the DUMP-PROP-STABLE card): the animal stands in it and hides while ridden, and the goat's stable faces east
+		scrap.box("scrap", Vector3(0, 2.7, 0), Vector3(4.2, 0.14, 3.2), Basis.from_euler(Vector3(0, 0, deg_to_rad(4.0))), 0.02, 0.9)
+		scrap.box("scrap", Vector3(0, 0.45, -1.3), Vector3(3.4, 0.9, 0.12), Basis.IDENTITY, 0.02, 0.85)
+		root.add_child(HeapKitProps.scrap_body(scrap))
+	else:
+		B.box(root, Vector3(4.2, 0.14, 3.2), H.flat(H.METAL), Vector3(0, 2.7, 0), Vector3(0, 0, 4))
+		B.box(root, Vector3(3.4, 0.9, 0.12), H.flat(H.WOOD), Vector3(0, 0.45, -1.3))
 	B.box(root, Vector3(3.4, 0.14, 0.12), H.flat(H.WOOD), Vector3(0, 1.0, 1.3))
 	B.cylinder(root, 1.4, 1.5, 0.12, H.flat(H.STRAW), Vector3(0, 0.06, 0), 12)
 	var animal: Node3D = HeapModels.pet("animal-hog" if kind == "boar" else "animal-deer")
@@ -278,8 +286,15 @@ static func scarecrow() -> Node3D:
 static func fair_stage(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(5.0, 0.3, 3.0), H.flat(H.WOOD), Vector3(0, 0.15, 0))
+	var scrap: KitMesh = HeapKitProps.scrap_mesh()
 	for index: int in range(5):
-		B.box(root, Vector3(1.0, 2.6, 0.08), H.flat(H.METAL if index % 2 == 0 else H.METAL_DARK), Vector3(-2.0 + float(index), 1.6, -1.3))
+		if scrap != null:
+			# art import Oct 22: the back panels are the kit's scrap sheets (DUMP-WALL-SCRAP; were flat metal), every other one a little proud and tilted
+			scrap.box("scrap", Vector3(-2.0 + float(index), 1.6, -1.3 + 0.03 * float(index % 2)), Vector3(1.04, 2.6, 0.08), Basis(Vector3.FORWARD, 0.025 * float(index % 3 - 1)), 0.01, 0.85)
+		else:
+			B.box(root, Vector3(1.0, 2.6, 0.08), H.flat(H.METAL if index % 2 == 0 else H.METAL_DARK), Vector3(-2.0 + float(index), 1.6, -1.3))
+	if scrap != null:
+		root.add_child(HeapKitProps.scrap_body(scrap))
 	var belt: MeshInstance3D = B.box(root, Vector3(4.2, 0.2, 0.7), H.flat(H.METAL_DARK), Vector3(0, 0.9, -0.2))
 	belt.name = "Belt"
 	for index: int in range(7):
@@ -333,7 +348,13 @@ static func junk_dam() -> Node3D:
 	var root: Node3D = Node3D.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 17
-	B.ball(root, 1.9, H.flat(H.RUST_DARK), Vector3(0, 0, 0), Vector3(1.1, 0.9, 0.9), true)
+	var scrap: KitMesh = HeapKitProps.scrap_mesh()
+	if scrap != null:
+		# art import Oct 22: the dam's heap is the kit's scrap sheets (DUMP-WALL-SCRAP; was a flat rust dome), the same half ellipsoid
+		HeapLandmarks._ellipsoid(scrap, "scrap", Vector3.ZERO, Vector3(1.9 * 1.1, 1.9 * 0.9, 1.9 * 0.9), 5, 14, 0.0)
+		root.add_child(HeapKitProps.scrap_body(scrap))
+	else:
+		B.ball(root, 1.9, H.flat(H.RUST_DARK), Vector3(0, 0, 0), Vector3(1.1, 0.9, 0.9), true)
 	for index: int in range(7):
 		var piece: Node3D = HeapModels.car("debris-tire" if index % 3 == 0 else ("debris-door" if index % 3 == 1 else "debris-plate-a"))
 		root.add_child(piece)
@@ -523,7 +544,13 @@ static func barricade(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 5
-	B.box(root, Vector3(4.2, 1.2, 1.4), H.flat(H.RUST_DARK), Vector3(0, 0.6, 0))
+	var scrap: KitMesh = HeapKitProps.scrap_mesh()
+	if scrap != null:
+		# art import Oct 22: the barricade's core is the kit's scrap sheets (DUMP-WALL-SCRAP; was a flat rust block), the same size
+		scrap.box("scrap", Vector3(0, 0.6, 0), Vector3(4.2, 1.2, 1.4), Basis.IDENTITY, 0.04, 0.85)
+		root.add_child(HeapKitProps.scrap_body(scrap))
+	else:
+		B.box(root, Vector3(4.2, 1.2, 1.4), H.flat(H.RUST_DARK), Vector3(0, 0.6, 0))
 	for index: int in range(9):
 		var piece: Node3D = HeapModels.car("debris-tire" if index % 3 == 0 else ("debris-door" if index % 3 == 1 else "debris-plate-b"))
 		root.add_child(piece)

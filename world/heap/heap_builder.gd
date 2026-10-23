@@ -54,6 +54,7 @@ func build(parent: Node3D) -> void:
 	_build_floor()
 	_build_woods()
 	_build_overflow()
+	_build_lilies()
 	_build_entrance()
 	_build_landmarks()
 	_build_pillars()
@@ -514,6 +515,43 @@ func _build_overflow() -> void:
 	root.add_child(instance)
 
 
+const LILY_CARD: String = "DUMP-PLANT-LILY"
+
+
+## Lily pads and short reeds at the still water's edges (art import Oct 22, DUMP-PLANT-LILY; there were none): clumps just inside the ravine's banks every
+## five or six metres, the banks taken in turn, kept 2.5 m off every bridge; round the overflow pool's rim either side of the entrance bridge (the pool's
+## north edge lies under the land). 0.8 to 1.0 m tall, the pads on the water; one card field, no shadows. The drain pool is left bare (its grate fills it)
+## and the plateau has no ponds. Nothing while the plant has no art.
+func _build_lilies() -> void:
+	if not EnvKit.has_art(LILY_CARD):
+		return
+	var spots: Array = []
+	var x: float = HeapLayout.MIN_CORNER.x + 2.5
+	var step: int = 0
+	while x < HeapLayout.RAVINE_END_X - 1.5:
+		var side: float = 1.0 if step % 2 == 0 else -1.0
+		var at: Vector2 = Vector2(x, HeapLayout.stream_z(x) + side * (HeapLayout.STREAM_HALF_WIDTH - 0.6))
+		var clear: bool = true
+		for bridge: HeapLayout.Bridge in layout.bridges:
+			if Geometry2D.get_closest_point_to_segment(at, bridge.a, bridge.b).distance_to(at) < HeapLayout.BRIDGE_HALF_WIDTH + 2.5:
+				clear = false
+		if clear:
+			spots.append([Vector3(at.x, HeapLayout.WATER_LEVEL + 0.02, at.y), 0.8 + 0.1 * float(step % 3)])
+		x += 4.8 + 1.1 * float(step % 3)
+		step += 1
+	var centre: Vector2 = Vector2(HeapLayout.ENTRANCE_X, HeapLayout.MAX_CORNER.y + 13.0)
+	for index: int in range(16):
+		var a: float = TAU * (float(index) + 0.3) / 16.0
+		var at: Vector2 = centre + Vector2(cos(a) * OVERFLOW_HALF.x, sin(a) * OVERFLOW_HALF.y) * 0.86
+		if absf(at.x - HeapLayout.ENTRANCE_X) < HeapLayout.ENTRANCE_HALF_WIDTH + 3.0 or at.y < HeapLayout.MAX_CORNER.y + 1.5:
+			continue
+		spots.append([Vector3(at.x, -0.73, at.y), 0.85 + 0.1 * float(index % 2)])
+	if spots.is_empty():
+		return
+	var field: Node3D = HeapTerraces.card_field(LILY_CARD, spots, "LilyPads")
+	root.add_child(field)
+
+
 ## The plank bridge from the land's south rim out over the overflow pool to its far landing: the hero arrives on it and walks north into the
 ## Commons; its kerbs are the walkable edge (`is_walkable`), its gate pillars and landing posts block.
 func _build_entrance() -> void:
@@ -536,6 +574,15 @@ func _build_landmarks() -> void:
 	_place_landmark("HEAP-ROOT-GATE", HeapLandmarks.root_gate(HeapLayout.ROOT_GATE_SIZE), HeapLayout.ROOT_GATE, 0.0, false)
 	_place_landmark("DUMP-HERO-WINDMILL", _hero("DUMP-HERO-WINDMILL", HeapLayout.WINDMILL_SIZE), HeapLayout.WINDMILL, 0.0, false)
 	_place_landmark("DUMP-HERO-COMMONS-GREENHOUSE", _hero("DUMP-HERO-COMMONS-GREENHOUSE", HeapLayout.GREENHOUSE_SIZE), HeapLayout.GREENHOUSE, 0.0, false)
+	# Mount Scrapmore is the walkable junk peak (the layout's "scrapmore" peak, part of the land mesh): a marker at its summit carries the concept it is
+	# modelled after (art import Oct 22, DUMP-HERO-SCRAPMORE; concept only, no remodel). Not a landmark entry: nothing blocks, culls or fades by it.
+	for peak: HeapLayout.Peak in layout.peaks:
+		if peak.id == "scrapmore":
+			var marker: Node3D = Node3D.new()
+			marker.name = "MountScrapmore"
+			marker.position = Vector3(peak.center.x, peak.height, peak.center.y)
+			marker.set_meta("concept", "DUMP-HERO-SCRAPMORE")  # modelled after the painted concept (art import Oct 22)
+			root.add_child(marker)
 	for node: Variant in landmarks.values():
 		if (node as Node3D).has_meta("spinner"):
 			_spinners.append((node as Node3D).get_meta("spinner") as Node3D)
@@ -898,7 +945,7 @@ func _build_props() -> void:
 			"wall_tires", "divider":
 				fence.append(pos)
 			"market_stall":
-				var stall: Node3D = PropKit.stall(prop.variant)
+				var stall: Node3D = _dump_stall() if EnvKit.has_art(STALL_CARD) else PropKit.stall(prop.variant)
 				stall.name = "MarketStall_%d" % prop.variant
 				root.add_child(stall)
 				stall.position = pos
@@ -941,6 +988,20 @@ func _build_props() -> void:
 		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries, not bool((TreeCards.KINDS[kind] as Dictionary).get("plant", false)))
 		if field != null:
 			field.set_meta(&"no_range_cull", true)
+
+
+## The Dump's own patchwork-awning market stall (art import Oct 22; was the shared kit's `PropKit.stall`): the painted cut-out, 2.8 m to the awning's top
+## (about 4.5 m across, a little wider than its 1.6 m blocking circle: the crates and planters at its feet), still (it does not sway) and fading itself
+## when it stands between the camera and the hero. The layout keeps the circle, the barrel and the crate beside it.
+const STALL_CARD: String = "DUMP-PROP-STALL"
+
+
+func _dump_stall() -> Node3D:
+	var stall: Node3D = Node3D.new()
+	var card: MeshInstance3D = KitFoliage.card(STALL_CARD, Vector2(2.8 * EnvKit.aspect(STALL_CARD), 2.8), true, true)
+	card.name = "StallCard"
+	stall.add_child(card)
+	return stall
 
 
 ## Painted kit props standing in for an old procedural piece (the junk piles, tyre stacks and compost): one card per id, spread over the piece's blocking

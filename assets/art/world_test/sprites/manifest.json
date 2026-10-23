@@ -1427,6 +1427,28 @@
 		"rel_height": 0.9,
 		"walk_dirs": []
 	},
+	"RESCUER": {
+		"bottom_pad": 16,
+		"canvas": [
+			232,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
 	"RHONDA": {
 		"bottom_pad": 16,
 		"canvas": [

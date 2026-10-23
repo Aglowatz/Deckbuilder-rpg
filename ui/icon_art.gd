@@ -542,10 +542,10 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 	for file_name: String in DirAccess.get_files_at(source):
 		files.append(file_name)
 	files.sort()
-	for file_name: String in files:
+	for file_name: String in ArtImporter.latest_revisions(files):
 		if not INPUT_EXTENSIONS.has(file_name.get_extension().to_lower()):
 			continue
-		var id: String = file_icon_id(file_name.get_basename(), known)
+		var id: String = file_icon_id(ArtImporter.revision_base(file_name.get_basename()), known)
 		if id.is_empty():
 			result.unknown.append(file_name)
 			continue

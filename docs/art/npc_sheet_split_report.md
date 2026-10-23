@@ -3,7 +3,7 @@
 Sheets `SPR-<KEY>.png` (four frames left to right: FRONT_IDLE, FRONT_TALK, SIDE_IDLE, BACK_IDLE) in `_art_inbox/npc_sprites/`, split by `tools/split_sprite_sheets.gd`.
 SIDE_IDLE is mirrored to face left (the game's convention) unless the key is in `SIDE_ALREADY_LEFT`.
 
-- Split (10): CLIPWELL, CRUMB, ELOWEN, ISLA, KING, PLUME, QUEEN, QUOTA, SIPHON, VAULTWARDEN
+- Split (11): CLIPWELL, CRUMB, ELOWEN, ISLA, KING, PLUME, QUEEN, QUOTA, RESCUER, SIPHON, VAULTWARDEN
 - Not split (0): none
 
 ## Per sheet
@@ -16,5 +16,6 @@ SIDE_IDLE is mirrored to face left (the game's convention) unless the key is in 
 - PLUME: 2048x768 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 512 px, FRONT_TALK 536 px, SIDE_IDLE 436 px, BACK_IDLE 472 px
 - QUEEN: 1774x887 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 468 px, FRONT_TALK 472 px, SIDE_IDLE 436 px, BACK_IDLE 466 px
 - QUOTA: 1774x887 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 456 px, FRONT_TALK 512 px, SIDE_IDLE 440 px, BACK_IDLE 380 px
+- RESCUER: 1536x1024 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 440 px, FRONT_TALK 472 px, SIDE_IDLE 332 px, BACK_IDLE 392 px
 - SIPHON: 1536x1024 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 428 px, FRONT_TALK 448 px, SIDE_IDLE 368 px, BACK_IDLE 376 px
 - VAULTWARDEN: 2172x724 sheet, 4 figures; 0 extra piece(s) joined to a figure, 0 speck(s) dropped; SIDE mirrored to face left; widths FRONT_IDLE 476 px, FRONT_TALK 544 px, SIDE_IDLE 460 px, BACK_IDLE 476 px

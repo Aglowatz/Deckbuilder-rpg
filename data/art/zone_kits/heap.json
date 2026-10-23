@@ -677,11 +677,20 @@
 		"DUMP-HERO-SCRAPMORE": {
 			"asset": "Mount Scrapmore",
 			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-SCRAPMORE.jpg",
 			"desc": "The walkable junk hill of the junk peaks: a rounded mound of doors, tyres and crates under grass and flowers, a slide chute of tin down one side, a sprout mound at its foot; 3/4 view, about 12 m tall, a 1.7 m person for scale.",
+			"from_px": [
+				1536,
+				1024
+			],
 			"group": "concept",
 			"id": "DUMP-HERO-SCRAPMORE",
 			"lock": "CONCEPT",
 			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
 			"sheet_status": "Requested",
 			"size": "1536x1024 PNG",
 			"slot": "concept.dump-hero-scrapmore",
@@ -806,13 +815,27 @@
 			"zone": "heap"
 		},
 		"DUMP-PLANT-LILY": {
+			"aspect": 1.302,
 			"asset": "Lily pads and reeds",
 			"category": "Tree / plant",
+			"cleared_alpha": 29145,
 			"desc": "A cluster of round lily pads with two pale flowers and short reeds, for still water's edge; seen from low, warm light. Transparent.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "tree",
 			"id": "DUMP-PLANT-LILY",
 			"lock": "TREE",
+			"pivot": [
+				0.563,
+				1.0
+			],
 			"priority": "1",
+			"px": [
+				987,
+				758
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "tree.dump-plant-lily",
@@ -821,13 +844,27 @@
 			"zone": "heap"
 		},
 		"DUMP-PLANT-LUPIN": {
+			"aspect": 0.715,
 			"asset": "Lupin and bluebell clump",
 			"category": "Tree / plant",
+			"cleared_alpha": 52192,
 			"desc": "A big clump of purple lupins, blue bluebells and yellow daisies with broad leaves, seen from low; painted, soft cel shading, warm sunset light from the upper left. Transparent background, base at the bottom centre. No text.",
+			"from_px": [
+				1024,
+				1536
+			],
 			"group": "tree",
 			"id": "DUMP-PLANT-LUPIN",
 			"lock": "TREE",
+			"pivot": [
+				0.489,
+				1.0
+			],
 			"priority": "1",
+			"px": [
+				1010,
+				1412
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.dump-plant-lupin",
@@ -1045,13 +1082,27 @@
 			"zone": "heap"
 		},
 		"DUMP-PROP-STABLE": {
+			"aspect": 1.523,
 			"asset": "Patched animal stable",
 			"category": "Prop",
+			"cleared_alpha": 51727,
 			"desc": "A lean-to stable of mossy planks and a reed roof with a hay rack and a water trough, painted, straight-on. Transparent.",
+			"from_px": [
+				1536,
+				1024
+			],
 			"group": "prop",
 			"id": "DUMP-PROP-STABLE",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
 			"priority": "3",
+			"px": [
+				1514,
+				994
+			],
 			"sheet_status": "Requested",
 			"size": "1536x1024 PNG, transparent",
 			"slot": "prop.dump-prop-stable",
@@ -1094,13 +1145,27 @@
 			"zone": "heap"
 		},
 		"DUMP-PROP-STALL": {
+			"aspect": 1.615,
 			"asset": "Patchwork-awning market stall",
 			"category": "Prop",
+			"cleared_alpha": 66863,
 			"desc": "A timber market stall under a patchwork awning of faded red, cream, olive and teal cloth, planters and crates at its feet, a lantern hanging; from the low game camera. Transparent.",
+			"from_px": [
+				1536,
+				1024
+			],
 			"group": "prop",
 			"id": "DUMP-PROP-STALL",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
 			"priority": "2",
+			"px": [
+				1505,
+				932
+			],
 			"sheet_status": "Requested",
 			"size": "1536x1024 PNG, transparent",
 			"slot": "prop.dump-prop-stall",
@@ -2490,17 +2555,31 @@
 			"zone": "heap"
 		},
 		"DUMP-SKY-SUNSET-SOFT": {
+			"aspect": 2.0,
 			"asset": "Soft golden-hour sky",
 			"category": "Sky / backdrop",
 			"desc": "A pale gold and peach sunset sky with soft lilac-tinged clouds, lighter near the horizon, no hard band of orange (full image, no transparency).",
+			"from_px": [
+				2048,
+				1024
+			],
 			"group": "backdrop",
 			"id": "DUMP-SKY-SUNSET-SOFT",
 			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
 			"priority": "2",
+			"px": [
+				2048,
+				1024
+			],
 			"sheet_status": "Requested",
 			"size": "2048x1024 PNG",
 			"slot": "backdrop.dump-sky-sunset-soft",
 			"tinted": false,
+			"transparent": false,
 			"use": "The zone sky (the current one is too strong at the horizon)",
 			"zone": "heap"
 		},
@@ -2618,13 +2697,233 @@
 			"asset": "Rotheart canopy masses",
 			"category": "Cutout sheet",
 			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				2048,
+				1365
+			],
 			"group": "sign",
 			"id": "DUMP-TREE-CANOPY",
 			"lock": "SHEET",
+			"parts": [
+				"DUMP-TREE-CANOPY-01",
+				"DUMP-TREE-CANOPY-02",
+				"DUMP-TREE-CANOPY-03",
+				"DUMP-TREE-CANOPY-04",
+				"DUMP-TREE-CANOPY-05",
+				"DUMP-TREE-CANOPY-06"
+			],
 			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
 			"sheet_status": "Requested",
 			"size": "2048x1365 PNG, transparent, grid",
 			"slot": "sign.dump-tree-canopy",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-01": {
+			"aspect": 1.096,
+			"asset": "Rotheart canopy masses 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 55421,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				649,
+				592
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.499
+			],
+			"px": [
+				649,
+				592
+			],
+			"sheet_cell": [
+				17,
+				51,
+				649,
+				592
+			],
+			"slot": "sign.dump-tree-canopy-01",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-02": {
+			"aspect": 1.101,
+			"asset": "Rotheart canopy masses 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 51567,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				646,
+				587
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.498
+			],
+			"px": [
+				646,
+				587
+			],
+			"sheet_cell": [
+				704,
+				48,
+				646,
+				587
+			],
+			"slot": "sign.dump-tree-canopy-02",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-03": {
+			"aspect": 1.083,
+			"asset": "Rotheart canopy masses 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 46895,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				642,
+				593
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.548
+			],
+			"px": [
+				642,
+				593
+			],
+			"sheet_cell": [
+				1392,
+				49,
+				642,
+				593
+			],
+			"slot": "sign.dump-tree-canopy-03",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-04": {
+			"aspect": 1.071,
+			"asset": "Rotheart canopy masses 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 53998,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				652,
+				609
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.627
+			],
+			"px": [
+				652,
+				609
+			],
+			"sheet_cell": [
+				19,
+				688,
+				652,
+				609
+			],
+			"slot": "sign.dump-tree-canopy-04",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-05": {
+			"aspect": 1.051,
+			"asset": "Rotheart canopy masses 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 56637,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				643,
+				612
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.598
+			],
+			"px": [
+				643,
+				612
+			],
+			"sheet_cell": [
+				704,
+				695,
+				643,
+				612
+			],
+			"slot": "sign.dump-tree-canopy-05",
+			"tinted": false,
+			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
+			"zone": "heap"
+		},
+		"DUMP-TREE-CANOPY-06": {
+			"aspect": 1.08,
+			"asset": "Rotheart canopy masses 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 46893,
+			"desc": "6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps.",
+			"from_px": [
+				636,
+				589
+			],
+			"group": "sign",
+			"id": "DUMP-TREE-CANOPY-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DUMP-TREE-CANOPY",
+			"pivot": [
+				0.0,
+				0.481
+			],
+			"px": [
+				636,
+				589
+			],
+			"sheet_cell": [
+				1388,
+				712,
+				636,
+				589
+			],
+			"slot": "sign.dump-tree-canopy-06",
 			"tinted": false,
 			"use": "Cards on the Rotheart's crown (the concept's layered canopy)",
 			"zone": "heap"
@@ -2847,13 +3146,36 @@
 			"asset": "Scrap metal wall",
 			"category": "Surface",
 			"desc": "Patchwork of rusty corrugated sheets with rivets and moss; seamless, tileable, flat even light, no letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "wall",
 			"id": "DUMP-WALL-SCRAP",
 			"lock": "SURFACE",
+			"maps": true,
 			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.17,
+					"before": 1.69
+				},
+				"y": {
+					"after": 1.54,
+					"before": 1.54
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "wall.dump-wall-scrap",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "The stables, the fair stage and the junk barricades re-skinned from the kit",
 			"zone": "heap"

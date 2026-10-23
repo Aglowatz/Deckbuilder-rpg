@@ -290,6 +290,30 @@
 					"ring": 2,
 					"distance": 0.95,
 					"lift": 10
+				},
+				{
+					"id": "GAIN-BD-MESAS",
+					"angle": 345,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.97,
+					"lift": 0
+				},
+				{
+					"id": "GAIN-BD-MESAS",
+					"angle": 285,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.97,
+					"lift": 0
+				},
+				{
+					"id": "GAIN-BD-MESAS",
+					"angle": 225,
+					"width": 60,
+					"ring": 2,
+					"distance": 0.97,
+					"lift": 0
 				}
 			]
 		},

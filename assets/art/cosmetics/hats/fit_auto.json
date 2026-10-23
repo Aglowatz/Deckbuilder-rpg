@@ -1,0 +1,81 @@
+{
+	"BOWLER": {
+		"ratio_BACK": 1.0,
+		"ratio_BACKSIDE": 1.02,
+		"ratio_FRONTSIDE": 1.01,
+		"ratio_SIDE": 0.99,
+		"sink": 0.8,
+		"sink_BACK": 0.8,
+		"sink_BACKSIDE": 0.76,
+		"sink_FRONT": 0.5,
+		"sink_FRONTSIDE": 0.54,
+		"sink_SIDE": 0.48,
+		"width": 1.45
+	},
+	"CHEF": {
+		"ratio_BACK": 1.03,
+		"ratio_BACKSIDE": 0.85,
+		"ratio_FRONTSIDE": 0.91,
+		"ratio_SIDE": 0.8,
+		"sink": 0.75,
+		"sink_BACK": 0.75,
+		"sink_BACKSIDE": 0.71,
+		"sink_FRONT": 0.46,
+		"sink_FRONTSIDE": 0.51,
+		"sink_SIDE": 0.45,
+		"width": 1.3
+	},
+	"LEAFCROWN": {
+		"ratio_BACK": 0.96,
+		"ratio_BACKSIDE": 0.94,
+		"ratio_FRONTSIDE": 1.0,
+		"ratio_SIDE": 0.91,
+		"sink": 0.6,
+		"sink_BACK": 0.6,
+		"sink_BACKSIDE": 0.57,
+		"sink_FRONT": 0.37,
+		"sink_FRONTSIDE": 0.41,
+		"sink_SIDE": 0.36,
+		"width": 1.35
+	},
+	"TRICORN": {
+		"ratio_BACK": 0.85,
+		"ratio_BACKSIDE": 1.04,
+		"ratio_FRONTSIDE": 0.95,
+		"ratio_SIDE": 0.93,
+		"sink": 0.95,
+		"sink_BACK": 0.95,
+		"sink_BACKSIDE": 0.9,
+		"sink_FRONT": 0.59,
+		"sink_FRONTSIDE": 0.65,
+		"sink_SIDE": 0.57,
+		"width": 1.85
+	},
+	"WIDEBRIM": {
+		"ratio_BACK": 1.01,
+		"ratio_BACKSIDE": 1.02,
+		"ratio_FRONTSIDE": 1.01,
+		"ratio_SIDE": 1.0,
+		"sink": 1.0,
+		"sink_BACK": 1.0,
+		"sink_BACKSIDE": 0.95,
+		"sink_FRONT": 0.62,
+		"sink_FRONTSIDE": 0.68,
+		"sink_SIDE": 0.6,
+		"width": 2.25
+	},
+	"WIZARD": {
+		"ratio_BACK": 1.0,
+		"ratio_BACKSIDE": 1.03,
+		"ratio_FRONTSIDE": 1.08,
+		"ratio_SIDE": 1.17,
+		"sink": 1.0,
+		"sink_BACK": 1.0,
+		"sink_BACKSIDE": 0.95,
+		"sink_FRONT": 0.62,
+		"sink_FRONTSIDE": 0.68,
+		"sink_SIDE": 0.6,
+		"width": 1.9
+	},
+	"_about": "Written by tools/import_cosmetics.sh from the hat sheets (HatSheet.fit): first-guess width/sink per hat and the per-direction width ratios. Hand tuning goes in fit.json, which wins."
+}

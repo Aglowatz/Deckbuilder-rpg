@@ -57,9 +57,13 @@ static func gym_hall(size: Vector3) -> Node3D:
 	var h: float = size.y
 	var hw: float = w * 0.5
 	var hd: float = d * 0.5
-	# plinth and the rubber floor
+	# plinth and the rubber floor (art import Oct 22: the kit's painted gym mat, tiled in metres like the yards' mat; was the flat rubber STANDIN)
+	var floor_slot: String = "rubber"
+	if EnvKit.has_art("GAIN-GROUND-MAT"):
+		mesh.set_material("gym_mat", EnvKit.material("GAIN-GROUND-MAT"))
+		floor_slot = "gym_mat"
 	mesh.box("sandstone", Vector3(0, 0.18, 0), Vector3(w + 0.6, 0.36, d + 0.6), Basis.IDENTITY, 0.05, 0.85)
-	mesh.box("rubber", Vector3(0, 0.38, 0), Vector3(w - 1.0, 0.05, d - 1.0), Basis.IDENTITY, 0.0)
+	mesh.box(floor_slot, Vector3(0, 0.38, 0), Vector3(w - 1.0, 0.05, d - 1.0), Basis.IDENTITY, 0.0)
 	# back and side walls of brick with a brass string course; tall windows in the sides
 	mesh.box("brick", Vector3(0, h * 0.5 + 0.3, -hd + 0.3), Vector3(w, h, 0.6), Basis.IDENTITY, 0.04, 0.85)
 	for side: float in [-1.0, 1.0]:

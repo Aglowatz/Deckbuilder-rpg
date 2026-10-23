@@ -168,6 +168,18 @@ static func _card(mesh: KitMesh, id: String, pivot_pos: Vector3, height: float, 
 	mesh.quad(slot, [bottom_left, bottom_right, bottom_right + Vector3(0, height, 0), bottom_left + Vector3(0, height, 0)], normal, [], CARD_UVS)
 
 
+## A painted leaf mass (a DUMP-TREE-CANOPY cell) in the mesh, centred on `centre`, `width` metres across, facing +z (every camera looks north at the
+## crown); nothing while the cell has no art.
+static func _canopy_card(mesh: KitMesh, id: String, centre: Vector3, width: float) -> void:
+	if not EnvKit.has_art(id):
+		return
+	var slot: String = "card_%s" % id
+	if not mesh.has_slot(slot):
+		mesh.set_material(slot, EnvKit.material(id, true))
+	var half: Vector2 = Vector2(width, width / maxf(EnvKit.aspect(id), 0.1)) * 0.5
+	mesh.quad(slot, [centre + Vector3(-half.x, -half.y, 0), centre + Vector3(half.x, -half.y, 0), centre + Vector3(half.x, half.y, 0), centre + Vector3(-half.x, half.y, 0)], Vector3(0, 0, 1), [], CARD_UVS)
+
+
 ## A camera-facing painted card (tree, plant, prop) as a child of `root`, base at `pos`.
 static func _tree_card(root: Node3D, id: String, pos: Vector3, height: float) -> void:
 	if not EnvKit.has(id):
@@ -460,6 +472,10 @@ static func _rotheart(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array
 			var length: float = rng.randf_range(2.0, 7.0) * s
 			var top_point: Vector3 = tip + Vector3(cos(a) * r, -big * 0.3, sin(a) * r)
 			_drape(mesh, "hanging_moss" if strand % 5 != 0 else "wisteria", top_point, length, rng.randf_range(0.5, 1.1) * s, rng.randf() * PI)
+		# art import Oct 22: a painted leaf mass (DUMP-TREE-CANOPY-01..06, cycled) on the clump's front, about twice its size, so the crown reads as
+		# the concept's layered painted canopy; the lobes stay behind it as the body (and are the whole crown while the sheet has no art). No rng: the
+		# fungi and roots after this keep their draws
+		_canopy_card(mesh, "DUMP-TREE-CANOPY-%02d" % (1 + index % 6), tip + Vector3(0, big * 0.1, big * 0.85), big * 2.1)
 	# the fungi climbing it: on the strands, the lips of the hollow, the arms and the roots
 	var shrooms: Array[Vector4] = [
 		Vector4(-78.0, 3.0, 1.4, 3.0), Vector4(72.0, 7.0, 1.3, 2.3), Vector4(-42.0, 15.0, 1.4, 2.1), Vector4(44.0, 16.0, 1.4, 2.5), Vector4(118.0, 13.0, 1.6, 1.8),

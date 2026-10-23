@@ -3,7 +3,7 @@
 Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), target: `res://assets/art/zone_kits/heap/`, registry: `res://data/art/zone_kits/heap.json`.
 
 
-## Imported (42)
+## Imported (50)
 
 - DUMP-HERO-ROTHEART (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-ROTHEART.jpg)
 - DUMP-HERO-JUNK-MOUNTAIN (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-JUNK-MOUNTAIN.jpg)
@@ -45,19 +45,19 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), t
 - DUMP-SURF-WATER (surface 1024x1024, 2.56 m tile, seam x 3.2->1.1, y 1.4->1.4)
 - DUMP-PROP-WATERFALL (sheet sliced into 6 props: 419x606, 605x587, 815x595, 449x619, 608x622, 837x637)
 - DUMP-PROP-WATERWHEEL (cutout 1429x998 trimmed, pivot 0.50,1.00)
+- DUMP-PROP-STALL (cutout 1505x932 trimmed, pivot 0.50,1.00)
 - DUMP-BD-VALLEY (backdrop 2048x896, transparent sky)
 - DUMP-PROP-STAIRS (surface 1024x512, 2.56 m tile, seam x 1.3->1.3)
+- DUMP-PLANT-LUPIN (tree 1010x1412 trimmed, pivot 0.49,1.00)
+- DUMP-PLANT-LILY (tree 987x758 trimmed, pivot 0.56,1.00)
+- DUMP-TREE-CANOPY (sheet sliced into 6 signs: 649x592, 646x587, 642x593, 652x609, 643x612, 636x589)
+- DUMP-SKY-SUNSET-SOFT (backdrop 2048x1024, opaque)
+- DUMP-WALL-SCRAP (surface 1024x1024, 2.56 m tile, seam x 1.7->1.2, y 1.5->1.5)
+- DUMP-HERO-SCRAPMORE (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-SCRAPMORE.jpg)
+- DUMP-PROP-STABLE (cutout 1514x994 trimmed, pivot 0.50,1.00)
 
-## Missing ids (17)
+## Missing ids (9)
 
-- DUMP-PROP-STALL (unreadable)
-- DUMP-PLANT-LUPIN
-- DUMP-PLANT-LILY
-- DUMP-TREE-CANOPY
-- DUMP-SKY-SUNSET-SOFT
-- DUMP-WALL-SCRAP
-- DUMP-HERO-SCRAPMORE
-- DUMP-PROP-STABLE
 - DUMP-ROOF-THATCH
 - DUMP-GROUND-GRAVEL
 - DUMP-GROUND-COMPOST
@@ -77,6 +77,7 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), t
 - PAINTOVER-DUMP-THRONE-APPROACH.png
 - PAINTOVER-DUMP-WETLANDS.png
 
-## Notes (1)
+## Notes (2)
 
 - DUMP-SKY-SUNSET: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)
+- DUMP-SKY-SUNSET-SOFT: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)

@@ -33,22 +33,24 @@
 		"normal": 0.55,
 		"sheen": 0.05,
 		"_v2": "Gainlands v2 (docs/art/gainlands_v2.md): sandy chalk ground, stone paving on the routes, dry scrub patches, gym mat in the lifting yards, sandstone strata on the cliffs. Oct 20: road, scrub and cliff use the painted TEX-GAIN-FLAGSTONE-ROAD / DRY-SCRUB / SANDSTONE-CLIFF (were town_stone, cap_deadgrass, gain_islandrock).",
+		"_oct22": "Art import Oct 22: the base ground, the gym mat and the island meadow use the kit surfaces GAIN-GROUND-CHALK / -MAT / -FIELD (were gain_chalkdirt, gain_gymmat, gain_grass; each names its old texture as its placeholder in data/art/zone_kits/gainlands.json, so the look falls back without the art), tiled at 3 m like the other TEX-GAIN surfaces (the mat keeps 2.6 m); the old grass stays as patches in the meadow. The chalk decals on the gym mat are GAIN-DEC-CHALK (placeholder: the painted chalk decal, which the roads keep).",
 		"layers": [
-			{"tex": "gain_chalkdirt", "tile": 5.5, "mode": "base", "ref": "#e0b880", "keep": 0.3},
+			{"tex": "GAIN-GROUND-CHALK", "tile": 3.0, "mode": "base", "ref": "#e0b880", "keep": 0.3},
 			{"tex": "TEX-GAIN-FLAGSTONE-ROAD", "tile": 3.0, "mode": "mask", "mask": "road", "soft": 0.12, "warp": 0.12, "ref": "#d8c0a0", "keep": 0.35},
 			{"tex": "TEX-GAIN-DRY-SCRUB", "tile": 3.0, "mode": "mask", "mask": "scrub", "soft": 0.35, "warp": 0.55, "ref": "#c8a860", "keep": 0.35},
-			{"tex": "gain_gymmat", "tile": 2.6, "plain": true, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.1},
+			{"tex": "GAIN-GROUND-MAT", "tile": 2.6, "plain": true, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.1},
 			{"tex": "gain_hay", "tile": 3.4, "mode": "mask", "mask": "hay", "soft": 0.25, "warp": 0.5}
 		],
 		"variants": {
 			"islands": {"layers": [
-				{"tex": "gain_grass", "tile": 5.0, "mode": "base", "ref": "#5aa84e", "keep": 0.3},
+				{"tex": "GAIN-GROUND-FIELD", "tile": 3.0, "mode": "base", "ref": "#5aa84e", "keep": 0.3},
+				{"tex": "gain_grass", "tile": 5.0, "mode": "noise", "scale": 0.09, "threshold": 0.64, "seed": 11.0, "soft": 0.25},
 				{"tex": "gain_chalkdirt", "tile": 4.0, "mode": "noise", "scale": 0.12, "threshold": 0.62, "seed": 4.0, "soft": 0.2}
 			]}
 		},
 		"cliff": {"tex": "TEX-GAIN-SANDSTONE-CLIFF", "tile": 4.0, "keep": 0.6},
 		"decals": [
-			{"id": "chalk", "count": 18, "min": 0.8, "max": 1.6, "opacity": 0.85, "mask": "gym", "mask_min": 0.6},
+			{"id": "GAIN-DEC-CHALK", "count": 18, "min": 0.8, "max": 1.6, "opacity": 0.85, "mask": "gym", "mask_min": 0.6},
 			{"id": "chalk", "count": 6, "min": 0.8, "max": 1.4, "opacity": 0.5, "mask": "road", "mask_min": 0.6},
 			{"id": "mud", "count": 10, "min": 1.0, "max": 1.8, "opacity": 0.45, "mask": "scrub", "mask_min": 0.5}
 		]

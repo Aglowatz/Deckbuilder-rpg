@@ -21,6 +21,7 @@ const ZonePrep = preload("res://tools/zone_kit_prep.gd")
 
 var _zone: String = ""
 var _report: PackedStringArray = PackedStringArray()
+var _source_files: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -109,7 +110,7 @@ func _initialize() -> void:
 	var dir: DirAccess = DirAccess.open(source)
 	if dir != null:
 		for file_name: String in dir.get_files():
-			if SOURCE_EXTENSIONS.has(file_name.get_extension().to_lower()) and not wanted.has(file_name.get_basename()):
+			if SOURCE_EXTENSIONS.has(file_name.get_extension().to_lower()) and not wanted.has(ArtImporter.revision_base(file_name.get_basename())):
 				stray.append(file_name)
 	else:
 		notes.append("source folder not found: %s" % source)
@@ -147,7 +148,19 @@ func _initialize() -> void:
 
 
 ## The source file of a kit id: <ID>.png, else .webp / .jpg / .jpeg (Oct 19 night: drop-in import whatever the export format); the .png path when none exists.
+## A redo "<ID>-vN" (Oct 22) wins over the first file: the highest N.
 func _source_file(source: String, id: String) -> String:
+	var best: String = ""
+	var best_rev: int = 1
+	if not _source_files.has(source):
+		_source_files[source] = DirAccess.get_files_at(source)
+	for file_name: String in _source_files[source]:
+		var base: String = file_name.get_basename()
+		if SOURCE_EXTENSIONS.has(file_name.get_extension().to_lower()) and ArtImporter.revision_base(base) == id and ArtImporter.revision_of(base) > best_rev:
+			best = "%s/%s" % [source, file_name]
+			best_rev = ArtImporter.revision_of(base)
+	if not best.is_empty():
+		return best
 	for extension: String in SOURCE_EXTENSIONS:
 		var candidate: String = "%s/%s.%s" % [source, id, extension]
 		if FileAccess.file_exists(candidate):

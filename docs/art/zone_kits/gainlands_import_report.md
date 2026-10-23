@@ -3,7 +3,7 @@
 Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/Gainlands` (read-only), target: `res://assets/art/zone_kits/gainlands/`, registry: `res://data/art/zone_kits/gainlands.json`.
 
 
-## Imported (62)
+## Imported (66)
 
 - GAIN-WALL-BLEACH (surface 1024x1024, 2.56 m tile, seam x 1.2->1.2, y 2.0->1.3)
 - GAIN-WALL-BRICK (surface 1024x1024, 2.56 m tile, seam x 1.3->1.3, y 6.6->0.6)
@@ -63,22 +63,21 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/Gainlands` (read-only), tar
 - TEX-GAIN-DRY-SCRUB (surface 1024x1024, 2.56 m tile, seam no tiling)
 - GAIN-FX-WATERFALL (cutout 564x1493 trimmed, pivot 0.50,0.50)
 - GAIN-HERO-SWOLYMPUS-RIDGE (concept reference 1536x1024 -> res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-SWOLYMPUS-RIDGE.jpg)
-- GAIN-BD-MESAS (backdrop 2048x512, opaque)
+- GAIN-BD-MESAS (backdrop 2048x371, transparent sky)
 - GAIN-PROP-KERB (cutout 1459x788 trimmed, pivot 0.50,1.00)
 - GAIN-PROP-BANNER-POST (cutout 919x1498 trimmed, pivot 0.50,1.00)
 - GAIN-PROP-STAIRS (concept reference 1536x1024 -> res://docs/art/zone_kits/gainlands/concepts/GAIN-PROP-STAIRS.jpg)
+- GAIN-GROUND-MAT (surface 1024x1024, 2.56 m tile, seam x 1.8->1.0, y 2.0->1.1)
+- GAIN-GROUND-CHALK (surface 1024x1024, 2.56 m tile, seam x 2.0->1.1, y 2.0->1.1)
+- GAIN-GROUND-FIELD (surface 1024x1024, 2.56 m tile, seam x 1.8->0.9, y 2.2->0.7)
+- GAIN-DEC-CHALK (cutout 973x928 trimmed, pivot 0.50,0.50)
 
-## Missing ids (4)
+## Missing ids (0)
 
-- GAIN-GROUND-MAT
-- GAIN-GROUND-CHALK
-- GAIN-GROUND-FIELD
-- GAIN-DEC-CHALK
 
 ## Files that match no kit id (0)
 
 
-## Notes (2)
+## Notes (1)
 
 - GAIN-SKY-NOON: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)
-- GAIN-BD-MESAS: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)

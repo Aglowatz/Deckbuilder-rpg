@@ -369,6 +369,11 @@ static func jacaranda_field(trees: Array) -> Node3D:
 	return root
 
 
+## The same field for the builder and the dressing (art import Oct 22: the lily pads and the lupins).
+static func card_field(id: String, spots: Array, node_name: String) -> Node3D:
+	return _card_field(id, spots, node_name)
+
+
 ## Many camera-facing cards of one painted kit piece as ONE MultiMesh under a Node3D called node_name (one draw call): spots are [base (Vector3), height].
 ## The painting keeps its own aspect, its pivot on the base.
 static func _card_field(id: String, spots: Array, node_name: String) -> Node3D:

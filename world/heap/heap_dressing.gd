@@ -72,7 +72,58 @@ static func build(parent: Node3D, builder: HeapBuilder, _quality: int) -> HeapDr
 		elif builder.freed:
 			name = "tyre_garden"
 		dressing._place(name, at, float(entry[2]), 900 + index, 2.5)
+	dressing._place_lupins()
 	return dressing
+
+
+const LUPIN: String = "DUMP-PLANT-LUPIN"
+
+
+## Lupin and bluebell clumps framing the routes in the healthy regions (art import Oct 22, DUMP-PLANT-LUPIN; there were none): along every route about
+## every seven metres, the sides taken in turn, a metre past the edge; only on healthy land (corruption under 0.15), on walkable ground off every route,
+## bridge and stair, and on ground `_free` keeps clear (non-solid: no blockers), 4 m apart. 1.0 to 1.24 m tall, one card field (one draw call, no
+## shadows; the cards fade themselves when they stand between the camera and the hero). Nothing while the plant has no art.
+func _place_lupins() -> void:
+	if not EnvKit.has_art(LUPIN):
+		return
+	var layout: HeapLayout = _builder.layout
+	var spots: Array = []
+	var taken: Array[Vector2] = []
+	var step: int = 0
+	for path: Dictionary in layout.paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		var half: float = float(path["width"]) * 0.5
+		for i: int in range(line.size() - 1):
+			var a: Vector2 = line[i]
+			var b: Vector2 = line[i + 1]
+			var length: float = a.distance_to(b)
+			if length < 1.0:
+				continue
+			var along: Vector2 = (b - a) / length
+			var normal: Vector2 = Vector2(-along.y, along.x)
+			var d: float = 2.5
+			while d < length - 1.0:
+				step += 1
+				var at: Vector2 = a + along * d + normal * (1.0 if step % 2 == 0 else -1.0) * (half + 1.0)
+				d += 6.0 + 1.5 * float(step % 3)
+				if layout.corruption_at(at.x, at.y) > 0.15 or layout.path_edge_distance(at.x, at.y) < 0.6:
+					continue
+				if layout.bridge_at(at.x, at.y) != null or layout.ramp_at(at.x, at.y) != null:
+					continue
+				var pos: Vector3 = Vector3(at.x, layout.ground_height(at.x, at.y), at.y)
+				if not _builder.is_walkable(pos, 0.3) or not _free(pos, 2.0, 2.0, false):
+					continue
+				var crowded: bool = false
+				for other: Vector2 in taken:
+					if other.distance_to(at) < 4.0:
+						crowded = true
+						break
+				if crowded:
+					continue
+				taken.append(at)
+				spots.append([pos, 1.0 + 0.12 * float(step % 3)])
+	if not spots.is_empty():
+		root.add_child(HeapTerraces.card_field(LUPIN, spots, "Lupins"))
 
 
 func _place(cluster_name: String, at: Vector2, yaw: float, seed_value: int, clearance: float) -> void:

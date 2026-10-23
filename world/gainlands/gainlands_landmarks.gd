@@ -77,7 +77,8 @@ static func _materials(mesh: KitMesh) -> void:
 	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION"))
 	mesh.set_material("cream_stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(1.0, 0.95, 0.84)))
 	mesh.set_material("rock", EnvKit.material("TEX-GAIN-ISLANDROCK"))
-	mesh.set_material("grass", EnvKit.material("TEX-GAIN-GRASS"))
+	# art import Oct 22: the kit's sunny meadow (GAIN-GROUND-FIELD) on the grass tops and skirts; was the painted TEX-GAIN-GRASS stand-in
+	mesh.set_material("grass", EnvKit.material("GAIN-GROUND-FIELD" if EnvKit.has_art("GAIN-GROUND-FIELD") else "TEX-GAIN-GRASS"))
 	mesh.set_material("leaves", EnvKit.material("ENV-HEDGE"))
 	mesh.set_material("bark", EnvKit.material("TEX-MAT-BARK"))
 	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "hero"))
