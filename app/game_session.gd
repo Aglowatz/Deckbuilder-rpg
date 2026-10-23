@@ -1421,7 +1421,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name), _skill_for_node(node), node.enemy_name)
 	context.enemy_name = node.enemy_name
 	context.practice = true
 	context.board_key = "dungeon:hollow"
@@ -1553,7 +1553,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	if capital:
 		context.rule_badges.append_array(RuleBadges.for_capital(flags))
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name), _skill_for_node(node), node.enemy_name)
 	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
 	context.enemy_icon = MainDungeons.enemy_icon(dungeon_key, node.enemy_name) if (main_dungeon_active or mini_active) else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
 	context.node_id = node.id
@@ -1612,7 +1612,7 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(CorruptedNpcs.personality(content, id))
+	context.ai = AIPlayer.for_foe(CorruptedNpcs.personality(content, id), AIPlayer.Skill.ELITE, CorruptedNpcs.display_name(id))
 	context.enemy_name = CorruptedNpcs.display_name(id)
 	context.town_npc_id = id
 	context.board_key = Gatekeepers.board_key(id)
@@ -1668,7 +1668,7 @@ func make_graveyard_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(GraveyardBoss.personality(content))
+	context.ai = AIPlayer.for_foe(GraveyardBoss.personality(content), AIPlayer.Skill.BOSS, GraveyardBoss.DISPLAY_NAME)
 	context.enemy_name = GraveyardBoss.DISPLAY_NAME
 	context.is_boss = true
 	context.is_graveyard_boss = true
@@ -1760,7 +1760,7 @@ func make_ninja_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(NinjaBoss.personality(content))
+	context.ai = AIPlayer.for_foe(NinjaBoss.personality(content), AIPlayer.Skill.BOSS, NinjaBoss.DISPLAY_NAME)
 	context.enemy_name = NinjaBoss.DISPLAY_NAME
 	context.is_boss = true
 	context.is_ninja_boss = true
@@ -1848,7 +1848,7 @@ func make_vault_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(VaultGuardian.personality(content))
+	context.ai = AIPlayer.for_foe(VaultGuardian.personality(content), AIPlayer.Skill.BOSS, VaultGuardian.DISPLAY_NAME)
 	context.enemy_name = VaultGuardian.DISPLAY_NAME
 	context.is_boss = true
 	context.is_vault_boss = true
@@ -1961,7 +1961,7 @@ func make_old_well_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(OldWellQuest.personality(content))
+	context.ai = AIPlayer.for_foe(OldWellQuest.personality(content), AIPlayer.Skill.BOSS, OldWellQuest.DISPLAY_NAME)
 	context.enemy_name = OldWellQuest.DISPLAY_NAME
 	context.is_boss = true
 	context.is_old_well_boss = true
@@ -2433,7 +2433,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneEnemies.personality(content, zone_id, enemy_type))
+	context.ai = AIPlayer.for_foe(ZoneEnemies.personality(content, zone_id, enemy_type), AIPlayer.Skill.ELITE if EncounterCatalog.ZONE_ELITES.has(enemy_type) else AIPlayer.Skill.NORMAL, data.display_name)
 	context.enemy_name = data.display_name
 	context.zone_id = zone_id
 	context.zone_battle = true
@@ -2480,7 +2480,7 @@ func make_quota_yards_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, Lieutenants.YARDS_AI))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, Lieutenants.YARDS_AI), AIPlayer.Skill.ELITE, Lieutenants.foe_name(Lieutenants.QUOTA))
 	context.enemy_name = Lieutenants.foe_name(Lieutenants.QUOTA)
 	context.zone_id = CapitalZone.ID
 	context.zone_battle = true
@@ -2569,7 +2569,7 @@ func make_town_battle(enemy_type: String, instance_id: String) -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(TownEnemies.personality(content, enemy_type))
+	context.ai = AIPlayer.for_foe(TownEnemies.personality(content, enemy_type), AIPlayer.Skill.NORMAL)
 	context.enemy_name = data.display_name
 	context.enemy_icon = "lorc/wolf-head" if enemy_type == TownEnemies.HOUND else ("delapouite/paper-clip" if enemy_type == TownEnemies.CLERK else "delapouite/trash-can")
 	context.board_key = "town"
@@ -2626,7 +2626,7 @@ func make_storeroom_battle() -> BattleContext:
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, StoreroomGhosts.AI_NAME))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, StoreroomGhosts.AI_NAME), AIPlayer.Skill.NORMAL, StoreroomGhosts.ENEMY_NAME)
 	context.enemy_name = StoreroomGhosts.ENEMY_NAME
 	context.enemy_icon = "lorc/ghost"
 	context.board_key = StoreroomGhosts.BOARD_KEY
@@ -3164,6 +3164,15 @@ func arena_cleared_count() -> int:
 	return count
 
 
+## Battle AI upgrade, Part 4: the AI skill a dungeon node calls for - bosses play well, elites are competent, normals make human mistakes.
+func _skill_for_node(node: DungeonMap.MapNode) -> AIPlayer.Skill:
+	if node.kind == DungeonMap.Kind.BOSS:
+		return AIPlayer.Skill.BOSS
+	if node.kind == DungeonMap.Kind.ELITE:
+		return AIPlayer.Skill.ELITE
+	return AIPlayer.Skill.NORMAL
+
+
 ## The duel of one arena encounter, using the player's real deck/profile (or the encounter's restricted deck).
 func make_arena_battle(encounter_id: String) -> BattleContext:
 	ensure_game()
@@ -3171,7 +3180,7 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	var game: GameState = ArenaScenario.build_game(content, encounter, profile, deck, rng.randi() % 1000000 + 1)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, encounter.enemy_ai))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, encounter.enemy_ai), AIPlayer.Skill.BOSS if encounter.tier >= 3 else (AIPlayer.Skill.ELITE if encounter.tier == 2 else AIPlayer.Skill.NORMAL), encounter.enemy_name)
 	context.enemy_name = encounter.enemy_name
 	context.enemy_icon = "lorc/muscle-up" if encounter.tier < 3 else "delapouite/strong-man"
 	context.is_boss = encounter.tier == 3 and not encounter.is_puzzle()

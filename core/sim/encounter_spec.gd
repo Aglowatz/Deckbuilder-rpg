@@ -56,6 +56,16 @@ static func kind_name(value: Kind) -> String:
 	return str(Kind.keys()[value]).capitalize()
 
 
+## Battle AI upgrade, Part 4: the AI skill each kind of fight plays at (the game and the sim use the same mapping).
+static func skill_for(value: Kind) -> AIPlayer.Skill:
+	match value:
+		Kind.BOSS:
+			return AIPlayer.Skill.BOSS
+		Kind.ELITE:
+			return AIPlayer.Skill.ELITE
+	return AIPlayer.Skill.NORMAL
+
+
 func target() -> Array:
 	return TARGETS[kind] as Array
 

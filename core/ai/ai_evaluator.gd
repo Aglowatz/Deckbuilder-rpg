@@ -79,7 +79,7 @@ func _evaluate(state: GameState, me: int, attack_now: bool) -> float:
 	score += personality.hp_weight * hp_value(mine.hp)
 	score -= personality.enemy_hp_weight * hp_value(foe.hp)
 	score += personality.board_weight * board_value(state, mine)
-	score -= personality.enemy_board_weight * board_value(state, foe)
+	score -= personality.enemy_board_weight * board_value(state, foe, personality.artifact_weight)
 	score += personality.hand_weight * (hand_value(mine) - hand_value(foe))
 	score += personality.energy_weight * float(mine.infrastructure.size())
 	score += resource_value(state, mine) - resource_value(state, foe)
@@ -249,7 +249,8 @@ static func _keyword_value(keyword: CardEnums.Keyword, attack: int) -> float:
 # ---- Board, hand, resources ----------------------------------------------------------------------------------------------------------
 
 
-func board_value(state: GameState, player: PlayerState) -> float:
+## `artifact_scale` multiplies the worth of Tools and Wonders (the foe's, for a Refusemancer).
+func board_value(state: GameState, player: PlayerState, artifact_scale: float = 1.0) -> float:
 	var total: float = 0.0
 	var units: int = 0
 	for card: CardInstance in player.field:
@@ -257,9 +258,9 @@ func board_value(state: GameState, player: PlayerState) -> float:
 			total += unit_value(state, card)
 			units += 1
 		elif card.data.is_tool():
-			total += 2.0 if card.attached_to != 0 else 1.5
+			total += (2.0 if card.attached_to != 0 else 1.5) * artifact_scale
 		else:
-			total += 2.5 + 0.8 * float(_activated_abilities(card))
+			total += (2.5 + 0.8 * float(_activated_abilities(card))) * artifact_scale
 	# Going wide is worth a little on its own (more blocks, more attackers, token payoffs).
 	total += personality.width_weight * float(maxi(0, units - 1))
 	for trap: CardInstance in player.traps:

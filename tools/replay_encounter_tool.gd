@@ -188,8 +188,8 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 	game.add_player(setup)
 	game.add_player(enemy)
 	game.start()
-	var ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, player.ai_name))
-	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, str(args.get("enemy_ai", encounter.enemy_ai_name))))
+	var ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, player.ai_name), AIPlayer.Skill.ELITE)
+	var enemy_ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, str(args.get("enemy_ai", encounter.enemy_ai_name))), EncounterSpec.skill_for(encounter.kind), encounter.enemy_name)
 	ai.deterministic = true
 	enemy_ai.deterministic = true
 	var ais: Array[AIPlayer] = [ai, enemy_ai]

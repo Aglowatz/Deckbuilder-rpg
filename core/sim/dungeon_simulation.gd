@@ -78,7 +78,8 @@ static func run_once(
 		match map_node.kind:
 			DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS:
 				var enemy: PlayerSetup = TrialOfTheHollow.enemy_setup(content, map_node)
-				var enemy_ai: AIPlayer = AIPlayer.new(TrialOfTheHollow.personality(content, map_node.ai_name))
+				var enemy_ai: AIPlayer = AIPlayer.for_foe(TrialOfTheHollow.personality(content, map_node.ai_name), AIPlayer.Skill.BOSS if map_node.kind == DungeonMap.Kind.BOSS else AIPlayer.Skill.NORMAL, map_node.enemy_name)
+				enemy_ai.deterministic = true
 				var first_player: int = 0 if map_node.tutorial else rng.randi_range(0, 1)
 				var game: GameState = play_encounter(run, enemy, player_ai, enemy_ai, seed_value + map_node.id * 97 + 1, first_player, result)
 				run.finish_encounter(game)

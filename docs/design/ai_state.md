@@ -27,8 +27,8 @@ enemy intent stays hidden, no new art.
 |---|---|---|
 | 1 - audit | done (commit 419183a0) | 24 replays; 13 habits ranked in `ai_audit.md`; replay tool `--verbose` |
 | 2 - core | done (GUT 2183, first-battles smoke OK) | new core, see below; sim speed unchanged (~1.5 s/game); think time avg 3-20 ms, max ~0.45 s at Elite |
-| 3 - personalities | next | draft in hand: `AIProfiles` (Path mix from the deck -> weight nudges; signatures patience / trickster / all_in / paperwork / fortress) |
-| 4 - skill levels + pacing | not started | `AIPersonality.skill` (0/1/2) and `mistake_rate` exist; wire per encounter kind, mistakes, "thinking" announce; fix the tutorial regression below |
+| 3 - personalities | done (GUT + smoke: see commit) | `core/ai/ai_profiles.gd`: Path mix read from the seat's deck, weights nudged per share; five boss signatures by enemy name (`AIPlayer.SIGNATURES`) |
+| 4 - skill levels + pacing | done (same commit) | `AIPlayer.Skill` + `for_foe(personality, skill, enemy_name)` at every call site (Session, Dev Menu, sim, replay); Normal: 15% second-best attacks and 15% forgotten blocks (never lethal ones); the tutorial foes keep their own careless rates; BattleScreen "is thinking..." line and longer holds on combat declarations |
 | 5 - sim + rebalance | not started | the enemy side already uses the new core in the sim; first read: Moss 8%, Prudence 33% at 3 games/Path - the opening hour needs easing |
 | 6 - verify | not started | |
 
@@ -52,6 +52,33 @@ enemy intent stays hidden, no new art.
   that attacks, Red Tape/Contract only on foe units with 2+ attack that block now or attack next turn (top 3), no re-attaching a
   Tool to its own host.
 - **Budget**: node caps keep sim games deterministic; the live game also has a 700 ms wall-clock net per decision.
+
+## Parts 3 + 4 - personalities and skill
+
+- **Path profiles** (`AIProfiles.PROFILES`, applied in proportion to each Path's share of the seat's non-infrastructure cards; a
+  share under 15% is a splash and ignored): Beefcake +attack bias, +race, +enemy HP, -threat fear, attack valued over defense,
+  Iron is for spending; Necrocrat +width (tokens), holds Red Tape/Contracts for the right target, values cards and threat;
+  Gourmand +HP, +defense value, +threat fear, +block bias, fuel (Ingredients) valued, races less; Refusemancer fuel (Garbage)
+  valued, +development, the foe's Tools/Wonders worth 1.6x (`artifact_weight`), spends HP more freely, a little width. A two-Path
+  deck gets half of each. `AIPersonality.path_profile` = "auto" (default) / a Path name / "none" (the tutorial foes).
+- **Signatures** (per turn, from the board): `patience` (The Restless Dead, Compostella: no attacks until three units stand),
+  `trickster` (Shiro: attacks more with a trap set, blocks less), `all_in` (Warden, Clench, Quadzilla, Primm: presses once as wide
+  as the foe or the foe is at 8 HP), `paperwork` (Mortimer, Vellum, Siphon: Red Tape is for using, every turn), `fortress` (the
+  Echo, the Doppelganger, Crumb: blocks and heals, attacks only when safe).
+- **Skill** (`EncounterSpec.skill_for(kind)` in the sim, `Session._skill_for_node` and the explicit sites in the game): Normal =
+  beam 2 / depth 2 / 60 nodes + mistakes; Elite = 3 / 3 / 150; Boss = 4 / 4 / 280 + signature. Zone roamers are Normal except
+  the two zone elites; town gatekeepers and the lieutenant rematch Elite; the scripted bosses Boss; arena tiers 1/2/3 = N/E/B;
+  the store room ghosts and the outskirts roamers Normal. The sim's player seat is Elite without mistakes ("a decent human").
+- **Mistakes** (Normal only, own RNG seeded by game seed + turn + seat, so sim games stay deterministic): `mistake_rate` = chance
+  to take the second-best attack idea when it is within 4 points of the best (never when the best wins the game);
+  `careless_blocks` = chance to forget a block when the unblocked damage is not lethal. Tutorial: "Aggressive (tutorial)" never
+  holds an attack and forgets 30% of blocks; "First duel" forgets 75% (its old block_bias could no longer override the lethal
+  penalty - D-AI-4).
+- **Chump reluctance**: a block where the blocker dies without killing the attacker costs 1.0 unless no block would be lethal
+  (a human needs more than a few HP to throw a card away).
+- **Pacing** (`BattleScreen._ai_step`): the 0.35 s pause stays; when the previous decision took over 150 ms the next main-phase
+  decision is preceded by "<foe> is thinking..." and one rendered frame; attack and block declarations are announced for 0.8 s
+  (other actions 0.5 s), all divided by the battle speed.
 
 ## Decisions
 

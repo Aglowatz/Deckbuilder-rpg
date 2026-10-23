@@ -134,9 +134,10 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 		if data != null:
 			var ally: CardInstance = game.create_token(0, data)
 			ally.summoning_sick = false
-	var ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, player.ai_name))
+	# Battle AI upgrade, Part 5: the player seat is a decent human (Elite search, no mistakes); the enemy plays at the skill its kind calls for, with its boss signature.
+	var ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, player.ai_name), AIPlayer.Skill.ELITE)
 	ai.use_resources = player.use_resources
-	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, encounter.enemy_ai_name))
+	var enemy_ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, encounter.enemy_ai_name), EncounterSpec.skill_for(encounter.kind), encounter.enemy_name)
 	ai.deterministic = true
 	enemy_ai.deterministic = true
 	var ais: Array[AIPlayer] = [ai, enemy_ai]

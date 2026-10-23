@@ -148,7 +148,8 @@ func _tutorial(content: ContentSet, games: int, seed_value: int, lines: PackedSt
 	lines.append("|---|---:|---:|---:|---|")
 	var runs: int = games * 2
 	var map: DungeonMap = TrialOfTheHollow.build_map()
-	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
+	var ai: AIPlayer = AIPlayer.for_foe(AIPersonality.balanced(), AIPlayer.Skill.ELITE)
+	ai.deterministic = true
 	for path: Affinity.Type in _paths():
 		var deck: Deck = ProgressionModel.reference_deck(content, path, 1)
 		var results: Array[DungeonSimulation.RunResult] = DungeonSimulation.run_many(content, map, deck, ai, runs, seed_value + int(path) * 100000, path)

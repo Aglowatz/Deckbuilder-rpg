@@ -471,12 +471,19 @@ func _play_new_events() -> void:
 
 func _ai_step() -> void:
 	await get_tree().create_timer(0.35 / board.speed, false).timeout
+	# Battle AI upgrade, Part 4: a decision that takes a while (a boss planning a full board) is named before the search runs, so
+	# the screen never just stalls; the search itself is time-boxed (AIPersonality.time_budget_ms).
+	if ai.last_think_ms > 150.0 and game.in_main_phase():
+		hud.announce("%s is thinking..." % context.enemy_name, 0.6 / board.speed)
+		await get_tree().process_frame
 	var action: GameAction = ai.choose_action(game)
 	var line: String = _describe_ai_action(action)
 	if not line.is_empty():
-		# Battle feel, Part B: the opponent's move is named for a moment before it resolves, at every speed.
-		hud.announce(line, 0.7 / board.speed)
-		await get_tree().create_timer(0.5 / board.speed, false).timeout
+		# Battle feel, Part B: the opponent's move is named for a moment before it resolves, at every speed. Part 4: combat
+		# declarations hold a little longer, so the attackers and blocks can be read before damage lands.
+		var hold: float = 0.8 if action.type == GameAction.Type.DECLARE_ATTACKERS or action.type == GameAction.Type.DECLARE_BLOCKERS else 0.5
+		hud.announce(line, (hold + 0.2) / board.speed)
+		await get_tree().create_timer(hold / board.speed, false).timeout
 	if not game.apply_action(action):
 		if not game.apply_action(GameAction.pass_phase(1)):
 			push_error("BattleScreen: AI produced no legal action")

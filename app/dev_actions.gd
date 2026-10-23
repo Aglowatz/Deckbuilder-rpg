@@ -561,7 +561,7 @@ static func make_encounter_battle(spec_id: String, deck_choice: int = DECK_MINE)
 			game.create_token(0, data).summoning_sick = false
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, spec.enemy_ai_name))
+	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, spec.enemy_ai_name), EncounterSpec.skill_for(spec.kind), spec.enemy_name)
 	context.enemy_name = spec.enemy_name
 	context.is_boss = spec.kind == EncounterSpec.Kind.BOSS
 	context.dev_battle = true

@@ -8,9 +8,13 @@ extends RefCounted
 ## stop) and never contain zero-attack units; the number tried is capped by the search budget.
 
 const WASTED_PUMP_PENALTY: float = 1.5
+## Score taken off a block in which the blocker dies without killing the attacker, when no block would not have been lethal.
+const CHUMP_RELUCTANCE: float = 1.0
 
 ## Prints every candidate and its score (tools/ai_probe.gd).
 var debug: bool = false
+## The last attack search's candidates, best first: {"uids": Array[int], "score": float, "wins": bool} (Part 4 mistakes read it).
+var last_ranked: Array[Dictionary] = []
 var evaluator: AIEvaluator
 var personality: AIPersonality
 ## The competent policy used to predict the OPPONENT's blocks (a neutral evaluator, so an Aggressive AI does not assume the player
@@ -38,6 +42,7 @@ func choose_attackers(state: GameState, who: int, budget: AISearchBudget, max_ca
 	var candidates: Array[Array] = attack_candidates(state, who, available, hint, max_candidates)
 	var best: Array[int] = []
 	var best_score: float = -INF
+	last_ranked = []
 	for candidate: Array[int] in candidates:
 		if not budget.tick() and best_score > -INF:
 			break
@@ -50,6 +55,7 @@ func choose_attackers(state: GameState, who: int, budget: AISearchBudget, max_ca
 		if not trial.is_over() and trial.awaiting_player() == 1 - who and trial.combat_step == GameState.CombatStep.DECLARE_BLOCKERS:
 			trial.declare_blockers(_model_blocks(trial, 1 - who, budget))
 		if trial.is_over() and trial.winner == who:
+			last_ranked.insert(0, {"uids": candidate, "score": AIEvaluator.WIN_SCORE, "wins": true})
 			return candidate
 		var score: float = evaluator.evaluate(trial, who) + personality.attack_bias * float(candidate.size())
 		# A unit pumped this turn (Iron, a spell) that stays home wastes the pump.
@@ -71,9 +77,11 @@ func choose_attackers(state: GameState, who: int, budget: AISearchBudget, max_ca
 					units.append("%s %d/%d%s" % [unit.data.display_name, trial.get_attack(unit), trial.get_defense(unit) - unit.damage, "x" if unit.exhausted else ""])
 				boards.append(", ".join(units))
 			print("  attack [%s] -> %.2f (hp %d/%d, blocks %s)\n     P%d: %s\n     P%d: %s\n     %s" % [", ".join(names), score, trial.players[who].hp, trial.players[1 - who].hp, ", ".join(blocks), who, boards[who], 1 - who, boards[1 - who], evaluator.explain(trial, who)])
+		last_ranked.append({"uids": candidate, "score": score, "wins": false})
 		if score > best_score + 0.0001:
 			best_score = score
 			best = candidate
+	last_ranked.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["score"]) > float(b["score"]))
 	return best
 
 
@@ -204,6 +212,7 @@ func choose_blocks(state: GameState, who: int, budget: AISearchBudget, enumerati
 	var best: Dictionary = {}
 	var best_score: float = -INF
 	var seen: Dictionary = {}
+	var no_block_lethal: bool = false
 	for candidate: Dictionary in candidates:
 		var key: String = str(candidate)
 		if seen.has(key):
@@ -214,9 +223,16 @@ func choose_blocks(state: GameState, who: int, budget: AISearchBudget, enumerati
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.declare_blockers(candidate):
 			continue
+		if candidate.is_empty() and trial.is_over() and trial.winner != who:
+			no_block_lethal = true
 		if trial.is_over() and trial.winner == who:
 			return candidate
 		var score: float = evaluator.evaluate(trial, who) + personality.block_bias * float(candidate.size())
+		# A pure chump (the blocker dies, the attacker lives) is a card thrown away: a human needs a reason beyond a few HP.
+		if not no_block_lethal:
+			for attacker_uid: Variant in candidate.keys():
+				if trial.find_permanent(int(candidate[attacker_uid])) == null and trial.find_permanent(int(attacker_uid)) != null:
+					score -= CHUMP_RELUCTANCE
 		if score > best_score + 0.0001:
 			best_score = score
 			best = candidate

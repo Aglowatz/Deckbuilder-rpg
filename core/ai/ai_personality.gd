@@ -35,10 +35,14 @@ extends Resource
 @export var iron_hold_value: float = 0.5
 @export var red_tape_hold_value: float = 0.8
 @export var fuel_value: float = 1.0
+## Multiplier on the worth of the FOE's Tools and Wonders (Refusemancers hate them: destroying one scores more).
+@export var artifact_weight: float = 1.0
 ## Skill: 0 = Normal (narrow search, occasional human mistakes), 1 = Elite (competent), 2 = Boss (widest search, signature play).
 @export var skill: int = 1
-## Chance per decision that a Normal-skill AI takes its second-best reasonable option instead of the best (0 for Elite/Boss).
+## Chance per attack decision that a Normal-skill AI takes its second-best reasonable option instead of the best (0 for Elite/Boss).
 @export var mistake_rate: float = 0.0
+## Chance per block decision that a Normal-skill AI forgets to block when the unblocked damage is not lethal (0 for Elite/Boss).
+@export var careless_blocks: float = 0.0
 ## Path profile the eval weights are blended toward: "auto" reads the deck, or "beefcake" / "necrocrat" / "gourmand" /
 ## "refusemancer" / "none".
 @export var path_profile: String = "auto"
@@ -120,6 +124,8 @@ static func aggressive_dumb() -> AIPersonality:
 	p.attack_bias = 2.0
 	p.block_bias = -0.3
 	p.skill = 0
+	p.careless_blocks = 0.3
+	p.path_profile = "none"
 	return p
 
 
@@ -133,4 +139,7 @@ static func first_duel() -> AIPersonality:
 	p.board_weight = 0.5
 	p.enemy_board_weight = 0.3
 	p.skill = 0
+	# Part 4: it forgets most blocks (only a lethal one is always made), so a new player's attacks reach its 3 HP within a few turns.
+	p.careless_blocks = 0.75
+	p.path_profile = "none"
 	return p
