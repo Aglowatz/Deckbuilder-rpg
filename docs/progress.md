@@ -3550,3 +3550,12 @@ dry run on the pending sheet clean), NPC-OLDWELL an extra NPC the speaker "The O
 Part 5 - `docs/art/import_oct22.md`: the ten import lines in order for the Art Batch Oct 22 (cards T-24/T-25/RES-*/JUNK-01, portraits NPC-RESCUER/NPC-OLDWELL + the 13
 fixes, SPR-RESCUER, icons, hat sheets, MAP-S-PASTE/MAP-LAB, BB-S-PASTE/BB-LAB, bestiary, the gainlands and heap kits), with every ID checked against its importer
 (all known) and the checks to run after. NPC-OLDWELL is wired as the Old Well's portrait. CLAUDE.md: "import cosmetics".
+
+## Oct 22 evening - Art Batch Oct 22, partial import (51 of 73)
+Part 1 - The 51 files in Pending Review were all readable (each PNG read through to the end) and were sorted by prefix into the Approved folders
+(`docs/art/import_oct22_sort_log.md`). 11 name clashes were kept as `-v2`.
+Part 2 - Importers ran in the import_oct22.md order. The icon, bestiary and zone kit importers now take the highest `-vN` (`ArtImporter.latest_revisions`,
+test_art_revisions). Node spots for S-PASTE and D-LAB were re-fitted to the painted maps. The Gainlands and Verdant Dump kit pieces replace their
+stand-ins, with the old look as fallback. The Dump stables stay 3D, re-skinned with DUMP-WALL-SCRAP.
+Part 3 - `docs/art/import_oct22_partial.md`: 50 done, 1 redo (COS-HAT-LEAFCROWN-SHEET: an upright ring, 3 views clipped), 22 still to make
+(9 Dump kit pieces, the 13 portrait fixes). Checks: GUT 2163/2164 (1 pending), prologue, Old Well, Gainlands walk, Dump walk and release smokes OK.
