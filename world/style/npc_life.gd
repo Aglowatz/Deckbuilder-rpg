@@ -25,10 +25,11 @@ func entry_count() -> int:
 
 func _process(delta: float) -> void:
 	for entry: Dictionary in _entries:
-		var model: Node3D = entry["model"] as Node3D
-		if not is_instance_valid(model):
+		# Overnight Oct 22: check before the cast - casting a freed NPC (the Rescuer slipping away) raised an error every frame.
+		if not is_instance_valid(entry["model"]):
 			continue
-		var player: AnimationPlayer = entry["player"] as AnimationPlayer
+		var model: Node3D = entry["model"] as Node3D
+		var player: AnimationPlayer = entry["player"] as AnimationPlayer if is_instance_valid(entry["player"]) else null
 		var busy: float = float(entry["busy"]) - delta
 		entry["busy"] = busy
 		var yaw_goal: float = float(entry["base_yaw"])

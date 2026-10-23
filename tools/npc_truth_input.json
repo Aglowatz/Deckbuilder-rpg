@@ -58,6 +58,15 @@
 		"NPC-SPOTLESS": ["HALT. State your height. No, do not state it. STAND at it.", "A SMUDGE is TREASON! ...It's on me, isn't it. It's always on me."],
 		"NPC-TOWNSFOLK": ["Lovely day for a quest, isn't it? Shh. Not too lovely. Somebody's listening.", "The old cottage cheers at night now. From the cellar. I'm choosing to love it.", "The well hummed at me. Wells don't hum. I said thank you anyway.", "Four plinths round the fountain, and nobody remembers what stood on them."]
 	},
+	"barks_freed": {
+		"NPC-CITIZEN": ["Everything is... not perfect! It rained on Thursday! I stood in it for an hour!","I smiled at eleven degrees today. Nobody wrote it down. I may do it again."],
+		"NPC-WREN": ["The record is open. Every name in it. That was the whole fight, really.","Tea's on in the Crease. The grudges can wait. Most of them."],
+		"NPC-KESTREL": ["No more chalk. I keep drawing arrows anyway. Habit. Also it's fun.","Guards still change on the hour. Now they wave. It's deeply unsettling."],
+		"NPC-SPOTLESS": ["HALT. ...At ease. I am practising at ease. It is VERY difficult.","A smudge on my sleeve. I have decided to allow it. Retroactively."],
+		"NPC-ROLLO": ["No wheel... and my legs... keep going anyway. Ghost cardio.","The crews took a day off. Then another. We're... getting good at it."],
+		"NPC-MARLO": ["Bread in the open. Some flour, some water, all the sky. Smell that? Legal.","The paste vats are planters now. I'm growing some garlic. Lots of some."],
+		"NPC-FERN": ["They asked me to tidy the square. I said no. They said thank you. Strange times.","The worms have a permit now. They're furious about it."]
+	},
 	"descriptions": {
 		"NPC-ELDER": "Crosspath's tortoise elder and keeper of the Wanderer's lost memories.",
 		"NPC-GATEKEEPER": "The bear who guards the Capital road and hands out the kingdom's biggest quest.",

@@ -647,11 +647,15 @@ func _talk_wren() -> void:
 	if not news.is_empty():
 		StoryScenePlayer.play(dialogue, news)
 		return
+	# Overnight Oct 22, Part 2: the first talk is her introduction alone; what she has learned from the streets comes on the next talk.
+	var first: bool = not Session.flag(def.flag_met("wren"))
 	var lines: Array[String] = _greeting("wren")
 	var insights: int = CapitalInteractables.insight_count(Session.flags)
-	if insights > 0:
+	if insights > 0 and not first:
 		lines.append_array(story.get_lines("npc.wren.insight.%d" % insights))
-	_say("Wren", lines)
+	_say("Wren", lines, func() -> void:
+		if first and insights > 0:
+			_hint_talk_again("Wren", "has news from the streets"))
 
 
 func _open_supplies() -> void:

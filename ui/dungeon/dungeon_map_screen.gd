@@ -492,6 +492,10 @@ func _run_node(node: DungeonMap.MapNode) -> void:
 			_open_modal(TreasureScreen.make(node), node.id)
 
 
+## Story keys with a `.met` variant -> the flag that says the player has met the speaker (Agnes at the D.N.A. front desk).
+const MET_VARIANTS: Dictionary = {"dungeon.ha_number.before": "dna_met_dolores"}
+
+
 ## The node's story lines (placeholder dialogue), then its cutscene if any, then `then`.
 func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
@@ -500,6 +504,10 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 		steps.append(_play_talk.bind(talk_before))
 	if not node.story_before.is_empty() and _main_def != null:
 		var before_key: String = HouseOfGainsDungeon.boss_story_key(node.story_before, Session.run)
+		# Overnight Oct 22, Part 2: a node whose speaker the player already met in the zone reads its `.met` variant (Agnes in the Hall).
+		var met_flag: String = str(MET_VARIANTS.get(before_key, ""))
+		if not met_flag.is_empty() and Session.flag(StringName(met_flag)) and ZoneStoryText.for_zone(_main_def.zone_id).lines.has(before_key + ".met"):
+			before_key += ".met"
 		var story_cue: String = MusicDirector.story_node(node.story_before)
 		if not story_cue.is_empty():
 			steps.append(_push_story_cue.bind(story_cue))

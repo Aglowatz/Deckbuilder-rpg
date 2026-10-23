@@ -34,21 +34,50 @@ static func zone_of(scene_id: String) -> String:
 
 
 ## The Wanderer's lines in the Primm fight that quote the four leaders' lessons. Overnight Oct 19: the Capital is open from the start, so a
-## hero who storms the castle before freeing all four zones says `<key>.rushed` instead (his own words, no quotes from leaders he never met).
+## hero who storms the castle before freeing those zones says `<key>.rushed` instead (his own words, no quotes from leaders he never met).
 const RUSHED_KEYS: Array[String] = ["cutscene.primm_p1.2", "cutscene.primm_p2.2", "cutscene.primm_end.3"]
 
 
-## [{n, fx, key, speaker_key}] for `scene_id`. `rushed`: fewer than four zones are freed (see RUSHED_KEYS).
+## Overnight Oct 22, Part 2: which freed zones each of those lines quotes (Flex's strength; the Grand Chef's blank page and Agnes's respect;
+## Compostella's letting go). A line quotes only the leaders whose zones are free: all of them = the key, none = `.rushed`, some =
+## `<key>.<zone id>` (the D.N.A. / Buffet line has one variant per leader).
+const LESSON_ZONES: Dictionary = {
+	"cutscene.primm_p1.2": ["beefcake"],
+	"cutscene.primm_p2.2": ["gourmand", "necrocrat"],
+	"cutscene.primm_end.3": ["refusemancer"],
+}
+const ALL_LESSON_ZONES: Array[String] = ["beefcake", "necrocrat", "gourmand", "refusemancer"]
+
+
+## [{n, fx, key, speaker_key}] for `scene_id`. `rushed`: no zone is freed (every lesson line in the Wanderer's own words, see RUSHED_KEYS).
 static func beats(scene_id: String, rushed: bool = false) -> Array[Dictionary]:
+	return beats_for(scene_id, [] as Array[String] if rushed else ALL_LESSON_ZONES)
+
+
+## [{n, fx, key, speaker_key}] for `scene_id` with `freed` zone ids: each lesson line quotes only the leaders of freed zones.
+static func beats_for(scene_id: String, freed: Array[String]) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for entry: Variant in ((SCENES.get(scene_id, {}) as Dictionary).get("beats", []) as Array):
 		var pair: Array = entry as Array
 		var key: String = "cutscene.%s.%d" % [scene_id, int(pair[0])]
-		if rushed and RUSHED_KEYS.has(key):
-			key += ".rushed"
 		result.append({
 			"n": int(pair[0]), "fx": str(pair[1]),
-			"key": key,
+			"key": lesson_key(key, freed),
 			"speaker_key": "cutscene.%s.%d.speaker" % [scene_id, int(pair[0])],
 		})
 	return result
+
+
+## The variant of a lesson line for the freed zones (see LESSON_ZONES); other keys come back unchanged.
+static func lesson_key(key: String, freed: Array[String]) -> String:
+	if not LESSON_ZONES.has(key):
+		return key
+	var have: Array[String] = []
+	for zone_id: Variant in LESSON_ZONES[key] as Array:
+		if freed.has(str(zone_id)):
+			have.append(str(zone_id))
+	if have.size() == (LESSON_ZONES[key] as Array).size():
+		return key
+	if have.is_empty():
+		return key + ".rushed"
+	return key + "." + have[0]

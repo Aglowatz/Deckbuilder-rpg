@@ -13,6 +13,26 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    - **Rhonda, Portal Ripper** (the Gainlands, Calf Cove) -> **Shredna, Portal Ripper** (gym slang: shredded).
    Neither name is used by any other character (checked data/, core/, docs/design/). Say a different name and it is a one-line rename.
 
+
+Part 2 (dialogue features):
+1. **First talks split at 3 boxes**: when an NPC's introduction plus their favour runs over three boxes, the first talk is the
+   introduction alone and a toast says "<name> has a favour to ask. Talk again."; the ! stays up and the next talk is the offer only.
+   Minigame hosts (Chet, Flambe, Recycle Rhonda...) the same: introduction first, the game from the next talk ("... is ready when you
+   are"). Capital Wren's first talk is her introduction; her street insights come on the next talk. Say if you prefer one long talk.
+2. **Already built on Oct 19 and kept**: the gatekeepers' freed lines (`gate.<zone>.freed`), Kyle's and Ectomund's freed lines, the
+   Dump workers' freed barks, Maren's speech once per change of state. New tonight: Maren's short greeting now has a set per number of
+   freed zones (`town.elder.idle.1..4`, three lines each, in turn).
+3. **Agnes in the Hall**: a `.met` variant plays once you have met her at the front desk; the stranger version no longer says
+   "If we haven't met".
+4. **The Primm fight's lesson lines** quote only the leaders whose zones are free: phase 1 Flex (Gainlands), phase 2 the Grand Chef
+   (Buffet) and Agnes (D.N.A.) - with one of the two free, the line keeps that one's lesson only - and the end Compostella (Dump).
+5. **Freed barks in the Capital** (after Primm falls): the Showcase citizens, Wren, Kestrel, Captain Spotless, Rollo, Marlo and Old
+   Fern. Fig Sly is untouched (black market). **Isla** only appears after the Capital is freed, so her barks were already freed-state
+   lines; nothing to add. Widow Pell's barks are about her quest, not the regime, so they stay.
+
+Part 3 (Path choice): each tile is the Path's name, its icon, three cards and a one-line plan; the old paragraph and playstyle appear
+in a strip under the tiles on hover or keyboard focus, and a More button keeps the strip open. The intro line is shorter too.
+
 ## Oct 21 story content + balance - yours to decide (the safest choice was taken)
 
 Part 1 (the lieutenants):

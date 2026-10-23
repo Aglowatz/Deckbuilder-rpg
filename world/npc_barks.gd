@@ -13,6 +13,8 @@ const HEAD_HEIGHT: float = 2.15
 
 ## The hero (any Node3D).
 var target: Node3D
+## Overnight Oct 22: set by the scene when its zone is freed (the Capital: Primm defeated) - NPCs with freed-zone barks use them.
+var freed: bool = false
 ## Returns true while barks must stay quiet (dialogue, a menu, a cutscene).
 var blocked: Callable = Callable()
 var _entries: Array[Dictionary] = []
@@ -26,7 +28,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 ## Registers an NPC model/actor with its list NPC ID; NPCs without barks are ignored.
 func register(node: Node3D, npc_id: String) -> void:
-	var lines: Array[String] = NpcRegistry.barks(npc_id)
+	var lines: Array[String] = NpcRegistry.barks(npc_id, freed)
 	if node == null or lines.is_empty():
 		return
 	_entries.append({"node": node, "id": npc_id, "lines": lines, "cooldown": _rng.randf_range(0.0, 6.0), "inside": false})
@@ -73,8 +75,10 @@ func _process(delta: float) -> void:
 	if target == null or not is_instance_valid(target) or _is_blocked():
 		return
 	for entry: Dictionary in _entries:
+		if not is_instance_valid(entry["node"]):
+			continue
 		var node: Node3D = entry["node"] as Node3D
-		if not is_instance_valid(node) or not node.is_visible_in_tree():
+		if not node.is_visible_in_tree():
 			continue
 		var near: bool = node.global_position.distance_to(target.global_position) < RANGE
 		var was_inside: bool = bool(entry["inside"])

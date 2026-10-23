@@ -475,6 +475,8 @@ lines = {
 "cutscene.primm_p2.2.speaker": ["You"],
 "cutscene.primm_p2.2": ["You copied my cards. What I do with them is mine. A name is a blank page until you sign it.", "I'm not your subject. No order outranks treating people with respect."],
 "cutscene.primm_p2.2.rushed": ["You copied my cards. You can't copy what I do with them.","My name is mine to sign. You don't get to decide who I am."],
+"cutscene.primm_p2.2.gourmand": ["You copied my cards. What I do with them is mine. A name is a blank page until you sign it.", "I'm not your subject. You don't get to decide who I am."],
+"cutscene.primm_p2.2.necrocrat": ["You copied my cards. You can't copy what I do with them.", "I'm not your subject. No order outranks treating people with respect."],
 "cutscene.primm_p2.3.speaker": ["Primm"],
 "cutscene.primm_p2.3": ["That is not true. I made the wells. I made the roads.", "I made... (he stops.) I made a list of things other people had already built, and I put my name on it."],
 "cutscene.primm_p2.4.speaker": ["Primm"],

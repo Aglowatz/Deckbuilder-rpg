@@ -431,6 +431,7 @@ func _build_npcs() -> void:
 	npc_barks = NpcBarks.new()
 	add_child(npc_barks)
 	npc_barks.target = player
+	npc_barks.freed = Session.flag(&"primm_defeated") if def.id == CapitalZone.ID else Session.is_zone_completed(def.id)
 	npc_barks.blocked = func() -> bool: return _locked or (dialogue != null and dialogue.active)
 	# Overnight Oct 17, Part 14: the zone's light atmosphere (dust, steam, ghost motes, gnats, ash) and footstep puffs.
 	ambient_fx = AmbientFx.add(self, str(AMBIENT_KEYS.get(def.id, "")), player)
@@ -1029,7 +1030,13 @@ func _interact(spot: ZoneSpot) -> void:
 			Session.set_flag(def.flag_met("quiz"))
 		"minigame":
 			_face_npc(str(spot.data["npc"]))
-			_say(str(spot.data["speaker"]), _greeting(str(spot.data["npc"])), _open_minigame, str(spot.data.get("npc_id", "")))
+			# Overnight Oct 22, Part 2: a long first introduction plays on its own; the game opens from the next talk.
+			var host_first: bool = not Session.flag(def.flag_met(str(spot.data["npc"])))
+			var host_lines: Array[String] = _greeting(str(spot.data["npc"]))
+			if host_first and host_lines.size() > FIRST_TALK_BOXES:
+				_say(str(spot.data["speaker"]), host_lines, func() -> void: _hint_talk_again(str(spot.data["speaker"]), "is ready when you are"), str(spot.data.get("npc_id", "")))
+			else:
+				_say(str(spot.data["speaker"]), host_lines, _open_minigame, str(spot.data.get("npc_id", "")))
 		_:
 			_interact_zone(spot)
 
@@ -1104,7 +1111,19 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 	var offered: Array[QuestData] = Session.quests_offered_by(npc_name)
 	if not offered.is_empty():
 		var quest: QuestData = offered[0]
-		_say(speaker, _greeting(npc_id) + story.get_lines("quest.%s.offer" % quest.id), func() -> void:
+		var offer: Array[String] = story.get_lines("quest.%s.offer" % quest.id)
+		# Overnight Oct 22, Part 2: a long first talk splits - the introduction now, the favour on the next talk (the ! stays up).
+		var first: bool = not Session.flag(def.flag_met(npc_id))
+		var greeting: Array[String] = []
+		if first:
+			greeting = _greeting(npc_id)
+		if first and greeting.size() + offer.size() > FIRST_TALK_BOXES:
+			_say(speaker, greeting, func() -> void:
+				_hint_talk_again(speaker, "has a favour to ask")
+				if after.is_valid():
+					after.call(), portrait_npc)
+			return
+		_say(speaker, greeting + offer, func() -> void:
 			Session.start_quest(quest.id)
 			if after.is_valid():
 				after.call(), portrait_npc)
@@ -1115,6 +1134,15 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 			_say(speaker, story.get_lines("quest.%s.active" % quest_id), after, portrait_npc)
 			return
 	_say(speaker, _greeting(npc_id), after, portrait_npc)
+
+
+## Overnight Oct 22, Part 2: a first talk longer than this many boxes (intro + offer, or a minigame host's intro + the game) is split.
+const FIRST_TALK_BOXES: int = 3
+
+
+## After a split first talk: a short toast that the conversation goes on next time ("Granny Gristle has a favour to ask. Talk again.").
+func _hint_talk_again(speaker: String, what: String) -> void:
+	hud.toast("%s %s. Talk again." % [speaker, what], UIStyle.GOLD, 4.0)
 
 
 func _greeting(npc_id: String) -> Array[String]:

@@ -52,6 +52,9 @@ for (const npc of npcs) {
 	npc.game_function = get('Game Function') || npc.game_function || '';
 	npc.description = (input.descriptions || {})[npc.id] || npc.description || firstSentence(npc.personality || npc.role, 140);
 	npc.barks = (input.barks || {})[npc.id] || npc.barks || [];
+	// Overnight Oct 22: lines said once the NPC's zone is freed (NpcRegistry.barks(id, freed)); only written when there are some.
+	const freedBarks = (input.barks_freed || {})[npc.id] || npc.barks_freed || [];
+	if (freedBarks.length) npc.barks_freed = freedBarks; else delete npc.barks_freed;
 	npc.sample_line = npc.barks.length ? npc.barks[0] : (npc.sample_line || firstSentence(npc.speech_style, 120));
 	npc.quest_links = dump.quests.filter((q) => q.giver === npc.id || q.turn_in === npc.id).map((q) => q.title);
 	npc.vendor_links = Object.entries(vendors).filter(([, v]) => v.portrait_id === npc.portrait_id).map(([id, v]) => `${id}: ${firstSentence(v.goods, 90)}`);
@@ -69,7 +72,7 @@ for (const npc of npcs) {
 }
 
 // npcs.json: one object per line group, keys in a fixed order (hand-formatted style, tabs).
-const order = ['id', 'name', 'location', 'role', 'species', 'species_type', 'description', 'personality', 'speech_style', 'sample_line', 'barks', 'game_function',
+const order = ['id', 'name', 'location', 'role', 'species', 'species_type', 'description', 'personality', 'speech_style', 'sample_line', 'barks', 'barks_freed', 'game_function',
 	'quest_links', 'vendor_links', 'portrait_id', 'portrait_status', 'expressions', 'art_status', 'portrait_action', 'sprite_set', 'sprite_status', 'world_sprite_status', 'art_check', 'rel_height', 'notes'];
 const ordered = npcs.map((n) => { const o = {}; for (const k of order) if (k in n) o[k] = n[k]; for (const k of Object.keys(n)) if (!(k in o)) o[k] = n[k]; return o; });
 fs.writeFileSync(path.join(root, 'data/npcs/npcs.json'), JSON.stringify(ordered, null, '\t') + '\n');

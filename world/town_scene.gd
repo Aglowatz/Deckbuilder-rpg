@@ -1840,7 +1840,9 @@ func _elder_lines() -> Array[String]:
 	# with nothing new gets one short line from `town.elder.idle`, in turn.
 	var state: int = 1 + freed * 10 + MemoryDefs.stage(recovered)
 	if Session.counter(ELDER_STATE_COUNTER) == state and story.has_text("town.elder.idle"):
-		var idle: Array[String] = story.get_lines("town.elder.idle")
+		# Overnight Oct 22, Part 2: the short greeting reacts to progress (`town.elder.idle.<zones freed>`), still one line in turn.
+		var idle_key: String = "town.elder.idle.%d" % mini(freed, 4)
+		var idle: Array[String] = story.get_lines(idle_key if freed > 0 and story.has_text(idle_key) else "town.elder.idle")
 		var pick: int = Session.counter(ELDER_IDLE_COUNTER) % idle.size()
 		Session.bump_counter(ELDER_IDLE_COUNTER)
 		return [idle[pick]] as Array[String]

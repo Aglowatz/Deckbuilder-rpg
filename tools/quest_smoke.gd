@@ -119,6 +119,12 @@ func _zone_leg(zone_id: String, quest_id: String, giver_spot: String, finish_ste
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
 	var qlog: QuestLog = Session.quest_log
+	# Overnight Oct 22: a long first talk is the introduction alone; the favour comes on the next talk (the ! stays up).
+	if not qlog.is_active(quest_id):
+		_check(str(zone.quest_markers.marks().get(giver_spot, "")) == "!", "%s: the ! stays up after the introduction" % zone_id)
+		await driver.tap_key(KEY_E)
+		await _dismiss_dialogue(zone.dialogue)
+		await driver.seconds(0.4)
 	_check(qlog.is_active(quest_id), "%s: E accepted %s" % [zone_id, quest_id])
 	_check(qlog.tracked_id() == quest_id, "%s: the new quest is tracked" % zone_id)
 	await _shot("q_%s_02_accepted" % zone_id)

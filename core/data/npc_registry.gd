@@ -31,6 +31,8 @@ class Entry extends RefCounted:
 	var speech_style: String = ""
 	var sample_line: String = ""
 	var barks: Array[String] = []
+	## Overnight Oct 22: what they say instead once their zone is freed (the Capital: after Primm falls); empty = the usual barks.
+	var barks_freed: Array[String] = []
 
 	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)", "The Wanderer: Prince Tessar Wayweaver (player)": the bracket is a list annotation; the player is only "The Wanderer" until the prince is revealed).
 	func plate_name() -> String:
@@ -64,12 +66,18 @@ static func _read_truth(entry: Entry, data: Dictionary) -> void:
 	entry.sample_line = str(data.get("sample_line", ""))
 	for line: Variant in data.get("barks", []) as Array:
 		entry.barks.append(str(line))
+	for line: Variant in data.get("barks_freed", []) as Array:
+		entry.barks_freed.append(str(line))
 
 
-## The lines `id` says to a passing hero (empty when none).
-static func barks(id: String) -> Array[String]:
+## The lines `id` says to a passing hero (empty when none); with `freed` (their zone is free) the freed-zone lines when they have some.
+static func barks(id: String, freed: bool = false) -> Array[String]:
 	var entry: Entry = find(id)
-	return entry.barks.duplicate() if entry != null else [] as Array[String]
+	if entry == null:
+		return [] as Array[String]
+	if freed and not entry.barks_freed.is_empty():
+		return entry.barks_freed.duplicate()
+	return entry.barks.duplicate()
 
 
 static func reset() -> void:

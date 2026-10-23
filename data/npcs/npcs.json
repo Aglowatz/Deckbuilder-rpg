@@ -1203,6 +1203,7 @@
 			"Keep your head down and your hope up. Hope's unapproved. Carry it anyway.",
 			"He likes things perfect. We like things alive. Keep moving."
 		],
+		"barks_freed": ["The record is open. Every name in it. That was the whole fight, really.","Tea's on in the Crease. The grudges can wait. Most of them."],
 		"game_function": "Runs the hideout; story guide in the Capital and the castle.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1273,6 +1274,7 @@
 			"Psst. Chalk on the left means go. Chalk on the right means I got bored.",
 			"Guards change on the hour. I change whenever I like. Keep up."
 		],
+		"barks_freed": ["No more chalk. I keep drawing arrows anyway. Habit. Also it's fun.","Guards still change on the hour. Now they wave. It's deeply unsettling."],
 		"game_function": "Gives the Old Service Tunnels quest (S-CAP).",
 		"quest_links": [
 			"The Older Way"
@@ -1308,6 +1310,7 @@
 			"HALT. State your height. No, do not state it. STAND at it.",
 			"A SMUDGE is TREASON! ...It's on me, isn't it. It's always on me."
 		],
+		"barks_freed": ["HALT. ...At ease. I am practising at ease. It is VERY difficult.","A smudge on my sleeve. I have decided to allow it. Retroactively."],
 		"game_function": "Gate battle and Old Service Tunnels boss.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1377,6 +1380,7 @@
 			"Ten years... on the wheel... my calves... have calves.",
 			"Trained with... the Gainlands wheel crews. They told us... it was cardio."
 		],
+		"barks_freed": ["No wheel... and my legs... keep going anyway. Ghost cardio.","The crews took a day off. Then another. We're... getting good at it."],
 		"game_function": "Beefcake Path quest in the Capital.",
 		"quest_links": [
 			"The Wheel Never Stops"
@@ -1413,6 +1417,7 @@
 			"Psst. Bread: some flour, a bit of water, enough time. You didn't hear it here.",
 			"Down here we cook with all the heat and none of the sky. Smell that? Contraband."
 		],
+		"barks_freed": ["Bread in the open. Some flour, some water, all the sky. Smell that? Legal.","The paste vats are planters now. I'm growing some garlic. Lots of some."],
 		"game_function": "Gourmand Path quest in the Capital.",
 		"quest_links": [
 			"The Recipe Box"
@@ -1448,6 +1453,7 @@
 			"Untidy, they call me. Dirt's supposed to be untidy. That's how it works.",
 			"The worms in my hat are unapproved. So am I. We get along."
 		],
+		"barks_freed": ["They asked me to tidy the square. I said no. They said thank you. Strange times.","The worms have a permit now. They're furious about it."],
 		"game_function": "Refusemancer Path quest in the Capital.",
 		"quest_links": [
 			"Untidy"
@@ -1483,6 +1489,7 @@
 			"Everything is perfect! Everything is... (whisper) is it raining? I liked rain.",
 			"Smile! It's mandatory! Eight degrees! ...Is mine at eight? Please say eight."
 		],
+		"barks_freed": ["Everything is... not perfect! It rained on Thursday! I stood in it for an hour!","I smiled at eleven degrees today. Nobody wrote it down. I may do it again."],
 		"game_function": "Atmosphere; hints of the facade.",
 		"quest_links": [],
 		"vendor_links": [],

@@ -13,7 +13,12 @@ PC: 7.4 GB RAM, ~0.8 GB free at start (ChatGPT + other sessions) - small foregro
 - Part 0: the Oct 22 vendor-stock work (UI + economy Part 5) was left uncommitted; tests 15/15 + compile OK, stock tables filled -> 1728a641.
 
 ## Now
-- Part 1: balance re-measure.
+- Part 1: ProgressionModel.UPGRADES rewritten to the Oct 22 shops (tools/reference_deck_audit.gd: all 82 cards ownable). Sweep m1
+  (6 games/Path, seed 7000): town + zone: done (docs/design/sim/oct22n/m1_*); D-, S-, arena still to run (chain paused 21:51 for checks).
+- Parts 2-4 code done (zone_scene split, Wren insights, Agnes .met, Maren idle.N, Primm lesson_key, barks_freed, Path choice screen,
+  Billie Muckfoot / Shredna). Checks so far: tests 42/42, quest smoke OK, story bot 90/90 (bot learned the early chain; NpcHp/NpcBarks
+  freed-object fix), heap/buffet/gainlands walk OK. Running: capital/dna/crosspath walk + playtest smoke. Then GUT (3 batches), commit.
+- Then resume the sweep: chain.sh m1 7000 6 dungeon:D- dungeon:S- arena.
 
 ## Next
 - Parts 2-6, then Phase 2 loop, then the morning report.

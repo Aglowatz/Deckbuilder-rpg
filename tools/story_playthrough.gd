@@ -34,7 +34,8 @@ func run() -> void:
 	if town == null:
 		_finish()
 		return
-	_step(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")), "the zone main lines start on the first visit to town")
+	await _early_chain(town)
+	_step(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")), "the zone main lines start once the early-game chain is done")
 	town = await _brannoch(town)
 	for zone_id: String in Gatekeepers.IDS:
 		town = await _zone(town, zone_id)
@@ -45,6 +46,25 @@ func run() -> void:
 	await _undercroft(town)
 	await _capital_and_castle()
 	_finish()
+
+
+# ---- 1b. Maren's early-game chain ---------------------------------------------------------------------------------------------------------
+
+
+## Overnight Oct 22: since Oct 20 the story's main quests wait for Maren's errands (the merchants, the first deck edit, the store room
+## ghosts, the armory). The bot is about the story, so it hears her welcome and finishes the four errands through the quest log.
+func _early_chain(town: TownScene) -> void:
+	Session.set_flag(&"maren_met")
+	Session.set_flag(&"elder_greeted")
+	for quest_id: String in [QuestDefinitions.MERCHANTS, QuestDefinitions.FIRST_DECK_EDIT, QuestDefinitions.GHOSTS, QuestDefinitions.ARMORY]:
+		if not Session.quest_log.is_completed(quest_id):
+			Session.start_quest(quest_id, false)
+			Session.complete_quest(quest_id)
+	Session.refresh_quests()
+	await driver.seconds(0.5)
+	await _dismiss_dialogue(town.dialogue)
+	await _dismiss_popups()
+	_step(Session.quest_log.is_completed(QuestDefinitions.ARMORY), "Maren's early-game chain is done (merchants, deck edit, ghosts, armory)")
 
 
 # ---- 1. The forest and the tutorial -------------------------------------------------------------------------------------------------------
@@ -111,7 +131,8 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	await _dismiss_dialogue(town.dialogue)
 	await _dismiss_popups()
 	_step(Gatekeepers.is_cleared(Session.flags, zone_id), "%s: the gatekeeper is beaten and the road opens" % zone_id)
-	_step(Session.profile.pack_count(pack_id) == packs_before + 1, "%s: the gatekeeper pays the Path Pack (step reward)" % zone_id)
+	# a level-up in the same fight can add the level track's own-Path Pack too (Beefcake, level 4)
+	_step(Session.profile.pack_count(pack_id) >= packs_before + 1, "%s: the gatekeeper pays the Path Pack (step reward)" % zone_id)
 	_step(town.hub_obstacles != null and town.hub_obstacles.is_cleared(zone_id), "%s: the obstacle stands cleared" % zone_id)
 	await _shot("p_%s_02_cleared" % zone_id)
 	# Down the road into the zone.
