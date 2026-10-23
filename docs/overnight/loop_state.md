@@ -1,18 +1,19 @@
-# Overnight Oct 19-20 - loop state
+# Overnight Oct 22-23 - loop state (resume from here)
 
-Start: Mon Oct 19 21:27 MDT 2026 (end target ~06:27 MDT Tue Oct 20, 9 hours). Start tag: pre-overnight-oct19 (pushed).
-Brief: docs/overnight/brief_oct19.md. Daytime loop docs archived in docs/overnight/oct19day/. Shots: _screenshots/oct19n/.
+Start: Thu Oct 22 20:59 MDT 2026. Stop by ~05:59 MDT Fri Oct 23 (9 hours). Start tag: `pre-overnight-oct22` (pushed, = 7939d51c).
+Brief: `docs/overnight/oct22/brief.md`. Previous loop docs archived: `oct20/loop_log_oct20.md`, `oct19/loop_state_oct19.md`,
+`oct19/scorecard_oct19.md`, `oct19/next_up_oct19.md`; last report copy `oct22/prev_overnight_report.md`.
+
+Rules in force: STOP_OVERNIGHT check per part/cycle; one Godot process at a time, foreground; <= 10-12 shots per part; GUT + walkability
++ smokes + commit + push per part; old saves load; numbers backed by two sim seeds (7000, 8100), logged in balance_log.md +
+sheet_changes.md; no art generation, no Pending Review; no enemy intent; black market vendors untouched.
+PC: 7.4 GB RAM, ~0.8 GB free at start (ChatGPT + other sessions) - small foreground sims only.
 
 ## Done (commits)
-- Part 1a D.N.A. (26cf4282), Part 1b other zones (3765d67e).
-- Part 4 story bible + canon.md (e7c78c6d). Part 5 steps 1-2 voice bible + beat map (dd29a10b).
+- Part 0: the Oct 22 vendor-stock work (UI + economy Part 5) was left uncommitted; tests 15/15 + compile OK, stock tables filled -> 1728a641.
 
 ## Now
-- Part 5 step 3: four writer subagents (opening_crosspath, gainlands_buffet, dna_dump, capital_main) edit data/story/*.tres and
-  dungeon_content.json text; brief docs/design/dialogue_pass/writer_brief.md; each writes docs/design/dialogue_pass/<area>.md.
-  Then editor subagents score old (git pre-overnight-oct19) vs new, rewrite anything under 4.
-- Main session: Part 2 (battle tooltip beside the hovered card, on a top CanvasLayer), then Parts 3, 6, 7.
+- Part 1: balance re-measure.
 
-## Notes
-- GUT 1929/1929 after Part 1.
-- Banned-name code fixes left for the main session: world/town_scene.gd:962 "Grand Clashatorium" prompt, data/loading/loading_tips.txt:35,46 "Pathwork".
+## Next
+- Parts 2-6, then Phase 2 loop, then the morning report.

@@ -4,6 +4,15 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Oct 22-23 - yours to decide (the safest choice was taken)
+
+0. **NEW NAMES FOR VETO (Part 4, the duplicate names)** - the design-sheet characters keep theirs (Wren the resistance leader, Recycle
+   Rhonda); the two game-only characters get:
+   - **Wren Muckfoot** (the Verdant Dump's animal handler, Round Up the Herd) -> **Billie Muckfoot** (a billy-goat pun; she speaks fluent
+     goat; the surname stays).
+   - **Rhonda, Portal Ripper** (the Gainlands, Calf Cove) -> **Shredna, Portal Ripper** (gym slang: shredded).
+   Neither name is used by any other character (checked data/, core/, docs/design/). Say a different name and it is a one-line rename.
+
 ## Oct 21 story content + balance - yours to decide (the safest choice was taken)
 
 Part 1 (the lieutenants):
