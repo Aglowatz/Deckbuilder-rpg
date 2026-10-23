@@ -3567,3 +3567,13 @@ Part 2 - 13 portraits replaced (all match their world sprites; checked in dialog
 worn). Dump: thatch on the reed roofs, kit gravel/compost ground and rust/petal/moss decals (stand-ins kept as `fallback`, `PaintedLibrary.entry_name`),
 three windmill plots on the farm terraces; Medium 65-76 fps. DUMP-BD-ROTHEART needs a transparent sky (REDO); DUMP-TREE-ROTHEART has no place yet.
 Part 3 - `docs/art/import_oct22_final.md` (batch at 70 of 73). Checks: GUT 2170 passing (1 pending), Dump walk, prologue and release smokes OK.
+
+## Oct 23 - Lighter, guarded export + v0.4.5 rebuild
+
+Part 1 - `tools/export_windows.sh` builds into `builds/_export.new` and swaps the folder and zip in only after every check passes (Godot exit
+code and ERROR lines, exe size, `tools/verify_pck.js`: directory, every MD5, >= 40 baked shaders, >= 90% of the estimated payload; zip CRCs,
+file list, size range). Preflight: no Godot running, free RAM (warns < 2000 MB with the biggest programs, stops < 1200 MB), disk. Killing
+Godot mid-pack was tested: nothing replaced. Part 2 - `tools/measure_process.ps1`; `docs/release/export_memory.md`: export 1.69 GB (editor +
+D3D12 ~1.45 GB, baker ~0.25 GB; headless skips the baker silently), Compress-Archive 1.56 GB -> tar.exe `--format zip` ~6 MB; dev folders
+get a `.gdignore`; `assets/art/characters/*` excluded. Part 3 - `docs/release/how_to_build.md`. Part 4 - v0.4.5 rebuilt: export peak 1.68 GB,
+zip 688,415,926 bytes, release smoke on the export PASSED.

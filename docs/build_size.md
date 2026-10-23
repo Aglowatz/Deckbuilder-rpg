@@ -1,4 +1,4 @@
-Estimated export payload: **726.4 MB** (6141 source files)
+Estimated export payload: **725.8 MB** (6122 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
@@ -14,12 +14,12 @@ Estimated export payload: **726.4 MB** (6141 source files)
 | other (scripts, scenes, data) | 998 | 10.8 |
 | 3D models | 309 | 10.4 |
 | backgrounds/key art | 26 | 8.1 |
-| sprites (characters/cosmetics) | 61 | 7.7 |
 | maps | 15 | 7.3 |
+| sprites (characters/cosmetics) | 42 | 7.2 |
 | battleboards | 25 | 6.0 |
 | vendor screens | 14 | 3.5 |
 | fonts | 5 | 0.6 |
-| **Total** | 6141 | **726.4** |
+| **Total** | 6122 | **725.8** |
 
 ### 30 largest files (packed size)
 

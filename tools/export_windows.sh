@@ -100,7 +100,8 @@ mkdir -p "$stage"
 measure export --path . --export-release '"Windows Desktop"' "$stage/TheWaywardPath.exe"
 code=$?
 [ "$code" = 0 ] || stop "Godot exited with code $code - killed or failed (log: $logs/export.log)"
-if sed 's/\x1b\[[0-9;]*m//g' "$logs/export.log" | grep -E "export for preset .* failed|Prepare Template|Cannot export|Failed to export|savepack.*(error|failed)"; then
+# Any Godot ERROR line stops the build, except the at-exit resource note every run prints (a file named error_004.ogg is not an error).
+if sed 's/\x1b\[[0-9;]*m//g' "$logs/export.log" | grep -E "^(ERROR|SCRIPT ERROR):" | grep -v "resources still in use at exit"; then
 	stop "Godot reported an export error (log: $logs/export.log)"
 fi
 
@@ -124,9 +125,9 @@ if [ "$pck_mb" -gt "$BUDGET_MB" ]; then
 	echo "WARNING: the export is ${pck_mb} MB, over the ${BUDGET_MB} MB budget. See docs/build_size.md for what is large."
 fi
 
-# --- 5. zip (streamed by tar.exe) and test it ---
+# --- 5. zip (streamed by tar.exe; --format zip, because -a would pick tar from the .partial extension) and test it ---
 echo "--- zipping ---"
-(cd "$stage" && /c/Windows/System32/tar.exe -a -c -f "../../$zip_tmp" *) || stop "tar.exe could not write the zip"
+(cd "$stage" && /c/Windows/System32/tar.exe --format zip -c -f "../../$zip_tmp" *) || stop "tar.exe could not write the zip"
 unzip -tq "$zip_tmp" >/dev/null || stop "the new zip failed its CRC test"
 listed=$(unzip -Z1 "$zip_tmp" | sort)
 [ "$listed" = "$expected" ] || stop "the zip lists different files than the build folder: $(echo $listed)"

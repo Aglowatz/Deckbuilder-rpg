@@ -35,7 +35,8 @@ fails a pack without them. The baker only bakes for the driver the editor runs o
 |---|---:|---:|
 | Highest peak in the run | 1.69 GB (export), then 1.56 GB again (zip) | 1.69 GB (export) only |
 | Free RAM the run needs | ~2 GB twice (export, zip), no check | ~2 GB once; warns under 2000 MB, stops under 1200 MB |
-| Pack / zip size | 727.6 MB / 689 MB | see the v0.4.5 rebuild in `v0.4.5_notes.md` |
+| Export peak (v0.4.5 rebuild) | 1.69 GB | 1.68 GB (import 1.00 GB in its own run) |
+| Pack / zip size | 727.6 MB, 11,937 files / 689,085,438 bytes | 727.0 MB, 11,901 files / 688,415,926 bytes |
 
 The export's own 1.7 GB is the floor for a baked build on this machine: the editor with a D3D12 device is ~1.45 GB of it and no
 command-line switch changed that.
