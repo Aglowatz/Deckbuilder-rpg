@@ -29,7 +29,7 @@ notes and docs); nothing in the game changed after it, so it was not rebuilt.
 | 4 Names | f12d3fe4 | Billie Muckfoot, Shredna - text, code, tests, story bible, voice bible, canon (old names now banned), sheet_changes. |
 | 5 Exported build | 3d5e7a95 | Bots on an exported pack, D3D12 + Vulkan, Medium / Low / Safe Mode; five props missing from the export fixed; feature shots. |
 | 6 v0.4.5 | 46a45de8 | Version 0.4.5, export (shader baker, launchers, README), release smoke, zip, notes, tag. |
-| Phase 2 | (this commit) | 2 cycles: Performance (memory probe stalled - nothing kept), Balance (Beefcake in the Rotheart: measured, waits for you). |
+| Phase 2 | 8ba2fab1 + final | 4 cycles: Performance (probe), Balance (Beefcake vs Rot: no change), Performance (the per-visit video memory growth found and narrowed down, `tools/memory_probe.gd`), Balance (six remaining outliers re-measured on two seeds: three confirmed - proposals in balance_log.md, not applied so the zip stays current; next_up 4), then a Primm sequence run that did not finish in time. |
 
 ## Part 1 - balance, before / after
 
@@ -66,7 +66,7 @@ inbox 8), and six fights 3-10 points out on 6-game numbers (next_up 4). Details:
 | Story playthrough (New Game -> Primm -> funeral, Isla, Maren's news) | 90/90 on D3D12 Medium and Vulkan Low (and 90/90 on the project) |
 | Tour bot (281 spots, 9 menus, 5 battles) | 5 errors = five models missing from the export - **fixed** (see below) |
 | Stalls after a fade-in (limit 200 ms) | worst: Crosspath 119 ms, Capital 96, battles <= 31 |
-| Memory after the full tour | RAM 499 MB, video 1.41 GB (textures creep 437 -> 733 MB: inbox 10, next_up 2) |
+| Memory after the full tour | RAM 499 MB, video 1.41 GB. Phase 2 probe: textures level off (~600 MB, bounded caches) but ~33 MB of other video memory and ~530 objects stay behind per Crosspath visit - not fixed (inbox 10, next_up 2) |
 | Crashes / softlocks | none |
 
 **Fixed: five props were missing from the exported game** (a cup, a pie and an egg in the Buffet, a van and a box in the Dump): the

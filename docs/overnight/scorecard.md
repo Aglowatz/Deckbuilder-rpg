@@ -19,5 +19,7 @@ Scores 1-10. "Last" = the Oct 19-20 scorecard's end (`docs/overnight/oct19/score
 | Balance (sim evidence) | 8.5 | 8.5 | 8.5 | Model follows the shops; six outliers fixed; Beefcake in the Rotheart measured (cycle 2, waits for a call). |
 | Playtest readiness | 9 | 9 | 9 | v0.4.5 zip built and smoked; the PC's disk is nearly full. |
 
-Cycles: 1 Performance (texture creep: probe written, stalled on arrival, removed; nothing kept), 2 Balance (Beefcake vs Rot: two seeds,
-replay, no change - inbox 7). Audio (7.5) needs a listen pass or new audio - skipped.
+Cycles: 1 Performance (texture creep: first probe stalled, removed), 2 Balance (Beefcake vs Rot: two seeds, replay, no change -
+inbox 7), 3 Performance (tools/memory_probe.gd: textures bounded; ~33 MB video + ~530 objects leak per Crosspath visit, outside the
+node tree - next_up 2), 4 Balance (six 6-game outliers re-measured on two seeds: three confirmed, proposals logged, not applied so the zip stays current),
+5 Balance (Primm's three-phase sequence with the new decks: did not finish inside 15 min at 12 games - next time run it alone, ~30 min). Audio (7.5) needs a listen pass or new audio - skipped.

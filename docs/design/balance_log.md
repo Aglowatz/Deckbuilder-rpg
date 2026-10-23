@@ -1094,3 +1094,17 @@ sweep). Replay (`tools/replay_encounter.gd --id=D-ROT:2 --path=beefcake --show=1
 (Hamster Wheel Runner, Gym Bro...), and the Rotheart's "Rot" rule kills 1-defense units at the end of each turn, so the board never
 builds while Overgrowth grows the foe's. The Dump's zone effects have no Beefcake debuff. This is the Oct 18 inbox item 3 (Rot one-sided?)
 that was answered "no change for now", so nothing was changed; it is back in the inbox with the Beefcake numbers.
+
+## Overnight Oct 22, Phase 2 cycle 4 (Balance): the rest of the sweep's outliers on two seeds (measured, no change)
+
+16 games per Path, seeds 7000 / 8100 (`docs/design/sim/oct22n/c4_*.md`). Not changed tonight because v0.4.5 is already built; proposals
+for the next pass (levers that worked before: one-sided stat rules for late bosses, basics for normals and early elites):
+
+| Encounter | Target | 7000 / 8100 | Proposal |
+|---|---|---|---|
+| The Doppelganger (D-TTK boss, L16) | 40-60% | **69% / 75%** | +1/+1 stat rule for its units (one step) |
+| Colonel Casserole (Buffet elite, L12) | 60-75% | **81% / 81%** | 2 fewer basics or a +1/+0 rule |
+| Captain Spotless (Capital elite, L18) | 60-75% | **55% / 52%** | soften his stat rule by one step |
+| Clipwell (D-ROT elite) | 60-75% | 80% / 70% | within noise; Beefcake 31-56% (Rot again, inbox 7) |
+| Clocktower Sentinel (D-PC elite) | 60-75% | 66% / 81% | within noise |
+| The Ancient Spotter (S-BEEF boss, postgame) | 40-60% | 63% / 59% | within noise |

@@ -45,9 +45,9 @@ Part 1 (balance) and the rest:
 9. **This PC's C: drive is full** (about 630 MB free after tonight's v0.4.5 export). `_screenshots/` holds 5 GB of older shots and
    `builds/` the v0.3.0-v0.4.4 zips (4.3 GB). I removed only tonight's own files. A second export or a big art batch will fail until
    some space is freed - say what can go.
-10. **Video memory creeps during a long session**: 437 MB of textures after Crosspath -> 733 MB after touring every zone (1.41 GB
-   video memory, RAM 0.5 GB). Probably the session-long card art / icon / portrait caches (bounded by what exists), not a leak - not
-   proven tonight (next_up 2).
+10. **Video memory grows during a long session**: about 33 MB and 530 objects per visit to Crosspath (textures themselves level off
+   at ~600 MB: those caches are bounded). Not fixed tonight - the cause sits outside the node tree and needs a bisect of the town build
+   (next_up 2). A player who goes back to Crosspath 20 times carries ~0.7 GB extra; restarting the game clears it.
 
 ## Oct 21 story content + balance - yours to decide (the safest choice was taken)
 

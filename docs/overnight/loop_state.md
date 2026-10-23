@@ -13,11 +13,10 @@ PC: 7.4 GB RAM, ~0.8 GB free at start (ChatGPT + other sessions) - small foregro
 - Part 0: Oct 22 vendor stocks committed (1728a641).
 - Part 2 b6cc48e6, Part 3 a32b0b8b, Part 4 f12d3fe4 (GUT 2168/2169 + 1 pending, story bot 90/90, quest/walk/playtest smokes OK).
 - Part 1 ed7d7889 (model audit 82/82, sweep m1, six outliers fixed on 2 seeds, tutorial 87-94%).
+- Part 5 3d5e7a95, Part 6 46a45de8 (tag v0.4.5, zip 687 MB), Phase 2 + report 8ba2fab1 and the final commit.
 
 ## Now
-- Part 5: test pack builds/_testpack/TheWaywardPath_test.pck (tools/export_test_pack.sh; 499 .import files changed by the import rules -
-  revert after Part 6 with git checkout). Matrix running in background -> _logs/suite.txt (tools/run_exported_suite.sh).
-  Exported playtest d3d12 Medium OK. Next: zone --wear hook added (uncommitted) -> rebuild pack -> 11 feature shots.
+- Done for the night (~04:50). Parts 1-6 committed, v0.4.5 tagged, Phase 2 cycles 1-5 logged, report written.
 
 ## Next
-- Parts 2-6, then Phase 2 loop, then the morning report.
+- docs/overnight/next_up.md
