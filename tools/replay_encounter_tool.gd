@@ -190,6 +190,8 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 	game.start()
 	var ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, player.ai_name))
 	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, str(args.get("enemy_ai", encounter.enemy_ai_name))))
+	ai.deterministic = true
+	enemy_ai.deterministic = true
 	var ais: Array[AIPlayer] = [ai, enemy_ai]
 	var verbose: bool = args.has("verbose")
 	var last_turn: int = -1

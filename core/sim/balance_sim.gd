@@ -137,6 +137,8 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 	var ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, player.ai_name))
 	ai.use_resources = player.use_resources
 	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, encounter.enemy_ai_name))
+	ai.deterministic = true
+	enemy_ai.deterministic = true
 	var ais: Array[AIPlayer] = [ai, enemy_ai]
 	var played: Dictionary = {}
 	var steps: int = 0

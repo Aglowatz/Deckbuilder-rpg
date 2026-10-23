@@ -22,6 +22,35 @@ extends Resource
 ## Flat bonus per blocking unit (positive = more eager to block).
 @export var block_bias: float = 0.0
 
+# ---- Battle AI upgrade (Oct 23): the planning core's knobs. Defaults reproduce a sound "Balanced" player. ----
+
+## Value of being ahead in the race (turns the foe needs to kill me minus turns I need to kill them), per turn of difference.
+@export var race_weight: float = 1.5
+## Value of each unit beyond the first (going wide: more blockers, more attackers, token payoffs).
+@export var width_weight: float = 0.3
+## Multipliers on a unit's attack and defense when valuing boards (Beefcake likes attack, Gourmand likes defense).
+@export var attack_value: float = 1.0
+@export var defense_value: float = 1.0
+## What a held Iron / Red Tape is worth (the use must gain more than this); fuel (Ingredients, Garbage) scales FUEL_VALUE.
+@export var iron_hold_value: float = 0.5
+@export var red_tape_hold_value: float = 0.8
+@export var fuel_value: float = 1.0
+## Skill: 0 = Normal (narrow search, occasional human mistakes), 1 = Elite (competent), 2 = Boss (widest search, signature play).
+@export var skill: int = 1
+## Chance per decision that a Normal-skill AI takes its second-best reasonable option instead of the best (0 for Elite/Boss).
+@export var mistake_rate: float = 0.0
+## Path profile the eval weights are blended toward: "auto" reads the deck, or "beefcake" / "necrocrat" / "gourmand" /
+## "refusemancer" / "none".
+@export var path_profile: String = "auto"
+## Boss signature behaviour key ("" = none); see AIPlayer.SIGNATURES.
+@export var signature: String = ""
+## Wall-clock budget per decision in the live game (the sim uses node counts only, so games stay deterministic).
+@export var time_budget_ms: int = 700
+
+
+func duplicate_personality() -> AIPersonality:
+	return duplicate(true) as AIPersonality
+
 
 static func balanced() -> AIPersonality:
 	return AIPersonality.new()
@@ -87,8 +116,10 @@ static func aggressive_dumb() -> AIPersonality:
 	p.enemy_board_weight = 0.4
 	p.hand_weight = 0.4
 	p.threat_weight = 0.05
-	p.attack_bias = 1.5
+	p.race_weight = 0.5
+	p.attack_bias = 2.0
 	p.block_bias = -0.3
+	p.skill = 0
 	return p
 
 
@@ -101,4 +132,5 @@ static func first_duel() -> AIPersonality:
 	p.block_bias = -1.5
 	p.board_weight = 0.5
 	p.enemy_board_weight = 0.3
+	p.skill = 0
 	return p
