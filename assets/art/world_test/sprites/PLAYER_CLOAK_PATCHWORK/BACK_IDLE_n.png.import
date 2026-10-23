@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/BACK_IDLE_n.png-3b8b1360d04d84f2ab869b0f8b8d7
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.85
+compress/lossy_quality=0.9
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

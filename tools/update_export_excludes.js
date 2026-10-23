@@ -11,6 +11,8 @@ const FIXED = [
 	"_reference/*", "_logs/*", "_screenshots/*", "_art_inbox/*", "_art_source/*", "_asset_library/*", "builds/*", "_tmp_tools/*",
 	// Playtest v0.4.0 Part H: dev-only data and reports (sim reports live under docs/; the sheet CSVs the importers read are source, not shipped).
 	"data/source/*.csv.csv", "*.psd", "*.blend", "*.xcf", "*.kra",
+	// Oct 23 export pass: the character look test's hd2d/painted heroes (scenes/dev only; the game's sprites are under world_test/).
+	"assets/art/characters/*",
 ];
 
 const out = cp.execFileSync(process.execPath, [path.join(__dirname, "unused_assets.js"), "--dir", "assets", "--list"], { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });

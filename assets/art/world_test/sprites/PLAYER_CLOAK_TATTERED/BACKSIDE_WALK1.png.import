@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/BACKSIDE_WALK1.png-9935820a1a24cb1feb862691ac
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.85
+compress/lossy_quality=0.9
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
