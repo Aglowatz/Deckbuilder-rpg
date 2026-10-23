@@ -1,18 +1,19 @@
-# Overnight Oct 19-20 - next up (ranked)
+# Next up (ranked) - after the Oct 22-23 overnight run
 
-Re-ranked at the end of the overnight run (Tue Oct 20 ~03:45). Done tonight: see `loop_log.md` and `docs/overnight_report.md`.
+Last run's list: `docs/overnight/oct19/next_up_oct19.md`.
 
-1. **Import tonight's art** (Playtest readiness / Collection / Visuals): `docs/art/import_oct20.md`, in order; then a short wiring pass so
-   the new Gainlands and DUMP-* kit pieces replace their STANDINs (inbox 14).
-2. **A listen pass** (Audio, the lowest row at 7.5): the five fixed loops, MUS-TOWN's wrap, MUS-TOWN-FREED's first 40 s, MUS-DECK's step,
-   the Old Well's music and hums; then generate the prompts in `docs/audio/music_generation_prompts.md` (Crosspath first) and drop them in
-   Approved_Audio (`bash tools/import_audio.sh --dry-run` first).
-3. **Your story calls** (Dialogue & story): inbox items 1-5 and 8 (Elowen's name and arc, the lieutenants, species, name clashes, the Old
-   Well lore). Then build the canon-not-built beats the bible lists (Isla's homecoming, Plume as a named voice).
-4. **The Path choice's 279 words** (Onboarding, Daytime inbox 2): the only long read left in the opening (~80 s).
-5. **L5 Necrocrat in the Gainlands** (Balance): the sim's L5 Necrocrat reference deck plays no unit before turn 8 against the roamers
-   (cycle 17 replays). Checked: the deck size (46) is as designed; `CUT_ORDER` still names four cards that left the starter on Oct 19
-   (N-12, N-14, N-20, N-21 - skipped harmlessly). The slow start is the deck's curve: try a cheaper-unit L5 package (sim only), two seeds x 25.
-6. **Showcase citizens' barks after the Capital is freed** and Isla (NPC life): need a freed-bark field in NpcBarks / npcs.json.
-7. **Untidy's seed jar** (Clarity): a marker for the seed before the Sick Patch needs a step split (save-compatible QuestMigration).
-8. **Stale per-brief smokes**: retire or update `run_final_flow_smoke.sh` and `run_fourth_brief_final_smoke.sh`.
+1. **Test v0.4.5 yourself** (`builds/TheWaywardPath-v0.4.5-windows.zip`), then share it. How to test: `docs/overnight_report.md`.
+2. **Video memory creep** (Performance): textures 437 -> 733 MB over a tour. Prove whether it is the bounded session caches (CardArt,
+   IconArt, UiArt, Portraits, SpriteLibrary: they are not in `AreaCaches.release()` on purpose) by touring twice and checking for a
+   plateau. Tonight's probe stalled on the first arrival because `SceneManager.busy` stays true while the arrival popups are queued -
+   wait on `ZoneScene`/`TownScene` instead, as `tools/tour_bot.gd` does.
+3. **Free disk space** (inbox item 9) before the next export or art batch.
+4. **The rest of the balance list** (balance_log.md, end of "Overnight Oct 22 - Part 1"): Captain Spotless 50%, Colonel Casserole 79%,
+   the Doppelganger 67%, Clipwell 83%, the Clocktower Sentinel 83%, the Ancient Spotter 67% (all 6-game numbers: confirm on two seeds
+   first); Beefcake in the Rotheart waits for your call (inbox item 7).
+5. **Art still to come**: the 26 images ChatGPT is making (Pending Review), the LEAFCROWN redo, 9 Dump kit pieces, 13 portrait fixes
+   (`docs/art/import_oct22_partial.md`).
+6. **The exported tour on the rebuilt pack** was not re-run after the model fix (the disk filled up); the v0.4.5 pack has the five models
+   (checked by name in the pack) and the release smoke passed. Re-run `bash tools/run_exported_suite.sh <test pck> d3d12 1 tour` once
+   there is room for a test pack (`tools/export_test_pack.sh`, ~760 MB).
+7. **Audio listen pass** (the lowest scorecard row, 7.5).

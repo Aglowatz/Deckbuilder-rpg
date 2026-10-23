@@ -1086,3 +1086,11 @@ Tried and dropped: a smaller deck `size` for Moss (27 -> 25) and the Crusher (24
 those recipes. Left for a later pass (6-game noise or Path-specific): Beefcake in the Verdant Dump at L17 (Overgrown Scarecrow / Thorn
 Maze 17% on 6 games, every other Path 83-100%), Captain Spotless 50%, Colonel Casserole 79%, the Doppelganger 67%, Clipwell 83%, the
 Clocktower Sentinel 83%, Mount Swolympus's Ancient Spotter 67%. Reports: `docs/design/sim/oct22n/{c0,i1,i2,i3,tut}_*.md`.
+
+## Overnight Oct 22, Phase 2 cycle 2 (Balance): Beefcake in the Rotheart (measured, no change)
+
+Overgrown Scarecrow (D-ROT node 2, L17) for Beefcake alone, 16 games: **63% / 44%** on seeds 7000 / 8100 (other Paths 83-100% in the
+sweep). Replay (`tools/replay_encounter.gd --id=D-ROT:2 --path=beefcake --show=1`): the L17 Beefcake deck's cheap units are x/1
+(Hamster Wheel Runner, Gym Bro...), and the Rotheart's "Rot" rule kills 1-defense units at the end of each turn, so the board never
+builds while Overgrowth grows the foe's. The Dump's zone effects have no Beefcake debuff. This is the Oct 18 inbox item 3 (Rot one-sided?)
+that was answered "no change for now", so nothing was changed; it is back in the inbox with the Beefcake numbers.

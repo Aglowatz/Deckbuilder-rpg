@@ -17,7 +17,7 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 Part 2 (dialogue features):
 1. **First talks split at 3 boxes**: when an NPC's introduction plus their favour runs over three boxes, the first talk is the
    introduction alone and a toast says "<name> has a favour to ask. Talk again."; the ! stays up and the next talk is the offer only.
-   Minigame hosts (Chet, Flambe, Recycle Rhonda...) the same: introduction first, the game from the next talk ("... is ready when you
+   Minigame hosts with a long introduction (Chet, Chef Flambe) the same: introduction first, the game from the next talk ("... is ready when you
    are"). Capital Wren's first talk is her introduction; her street insights come on the next talk. Say if you prefer one long talk.
 2. **Already built on Oct 19 and kept**: the gatekeepers' freed lines (`gate.<zone>.freed`), Kyle's and Ectomund's freed lines, the
    Dump workers' freed barks, Maren's speech once per change of state. New tonight: Maren's short greeting now has a set per number of
@@ -32,6 +32,22 @@ Part 2 (dialogue features):
 
 Part 3 (Path choice): each tile is the Path's name, its icon, three cards and a one-line plan; the old paragraph and playstyle appear
 in a strip under the tiles on hover or keyboard focus, and a More button keeps the strip open. The intro line is shorter too.
+
+Part 1 (balance) and the rest:
+6. **Six encounter changes, no card changes** (balance_log.md, "Overnight Oct 22 - Part 1"): Prudence 16 -> 20 basics and no Red
+   Tape head start; Moss 17 -> 19 basics; Baron Quadzilla gets "Max Pump" (+1/+1 for his units); the Drain Warden +2/+2 -> +1/+1;
+   Calf Raise Crusher 14 -> 16 basics and 8 -> 6 HP; Squat Rack Squatter 14 -> 16 basics. Prudence's HP stays 12 (a test bounds the
+   gatekeepers to 12-30 HP).
+7. **Beefcake in the Rotheart** (Phase 2): the Overgrown Scarecrow is 44-63% for Beefcake (other Paths 83-100%) because "Rot" kills
+   1-defense units every turn and Beefcake's cheap units are x/1. Your Oct 19 answer was "no change for now"; say if Rot should spare
+   the player's side, or only hit units that took damage.
+8. **Siphon alone is 0%** in the sim (with Elowen 58%): as designed in the Oct 21 brief - just confirming it is still meant to be.
+9. **This PC's C: drive is full** (about 630 MB free after tonight's v0.4.5 export). `_screenshots/` holds 5 GB of older shots and
+   `builds/` the v0.3.0-v0.4.4 zips (4.3 GB). I removed only tonight's own files. A second export or a big art batch will fail until
+   some space is freed - say what can go.
+10. **Video memory creeps during a long session**: 437 MB of textures after Crosspath -> 733 MB after touring every zone (1.41 GB
+   video memory, RAM 0.5 GB). Probably the session-long card art / icon / portrait caches (bounded by what exists), not a leak - not
+   proven tonight (next_up 2).
 
 ## Oct 21 story content + balance - yours to decide (the safest choice was taken)
 
