@@ -12,7 +12,7 @@ const HUB_NAME: String = "The Compost Grange"
 
 const NPC_MARIGOLD: String = "Brother Bramble"
 const NPC_HOB: String = "Granny Gristle"
-const NPC_WREN: String = "Wren Muckfoot"
+const NPC_WREN: String = "Billie Muckfoot"  # Overnight Oct 22: renamed (a name clash with Wren of the Crease); the spot id stays "wren"
 
 const QUEST_HERD: String = "heap_herd"
 const QUEST_FERT: String = "heap_fert"
@@ -131,7 +131,7 @@ static func build_def() -> ZoneDef:
 	def.spots = [
 		_spot("marigold", "Brother Bramble, Warden of the Stream", "marigold", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "marigold", "npc_id": "NPC-BRAMBLE", "npc_name": NPC_MARIGOLD, "speaker": "Brother Bramble"}),
 		_spot("hob", "Granny Gristle's Compost Grange", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_id": "V-GRISTLE", "npc_name": NPC_HOB, "speaker": "Granny Gristle"}),
-		_spot("wren", "Wren Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Wren Muckfoot"}),
+		_spot("wren", "Billie Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Billie Muckfoot"}),
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon", {"no_plate": true}),

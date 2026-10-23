@@ -257,7 +257,7 @@ static func _heap_herd() -> QuestData:
 	quest.id = HeapZone.QUEST_HERD
 	quest.order = 410
 	quest.title = "Round Up the Herd"
-	quest.summary = "Three of Wren Muckfoot's animals got out: a goat, a pig and a raccoon with a briefcase. Shoo each one back to the pen before the Rot gets them."
+	quest.summary = "Three of Billie Muckfoot's animals got out: a goat, a pig and a raccoon with a briefcase. Shoo each one back to the pen before the Rot gets them."
 	quest.giver_npc = HeapZone.NPC_WREN
 	quest.turn_in_npc = HeapZone.NPC_WREN
 	quest.objectives = [QuestObjective.make("Shoo escaped animals back to the pen", Condition.counter(HeapZone.COUNTER_HERDED, 3))] as Array[QuestObjective]

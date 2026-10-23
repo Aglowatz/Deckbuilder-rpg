@@ -542,7 +542,7 @@ Department around one rule (help people), Prudence is her deputy, Mortimer is nu
 **Core lesson:** death is not the end, just a new beginning; to grow, we have to be able to let things go.
 
 **The zone** (`refusemancer`, walkable): a terraced violet ravine of junkyard farms, vine bridges, stone cliffs, purple-mushroom trees and
-turquoise water, entered by the forest path's bridge. Hub: the Compost Grange (Brother Bramble, Granny Gristle's shop, Wren Muckfoot's
+turquoise water, entered by the forest path's bridge. Hub: the Compost Grange (Brother Bramble, Granny Gristle's shop, Billie Muckfoot's
 stables with the charging boar and goat). Smug raccoons, goats that eat the signs, then overgrowth that is wrong in a way the druids can
 feel. A corruption gradient deepens toward the Rotheart.
 
@@ -557,7 +557,7 @@ voices. Freed: shy, earnest, apologetic ("Did I thorn at you?"), loves raccoons 
 carried a sleeping young man through these woods at night, glowing faintly in four colours ("The raccoons saw. Raccoons see everything.").
 Freed: Compostella plants a twelfth tree and smiles at the Wanderer on the way past.
 
-**Favours:** Round Up the Herd (`heap_herd`, Wren Muckfoot); Fertilizer Run (`heap_fert`, Granny Gristle); Unblock the Stream (`heap_dam`,
+**Favours:** Round Up the Herd (`heap_herd`, Billie Muckfoot); Fertilizer Run (`heap_fert`, Granny Gristle); Unblock the Stream (`heap_dam`,
 Brother Bramble: smash the junk dam on a charging mount).
 
 **Dungeon: the Rotheart** (D-ROT, 13 nodes): Edge of the Blight; Overgrown Junkyard / Fungal Hollow; Strangled Greenhouse (challenge) / Spore
@@ -867,7 +867,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | NPC-MOUNTAIN | Old Man Mountain | Hermit; Spot Me!, Water for the Hermit | Yeti | Wheezy, nostalgic, trails off; once climbed Swolympus | Remembers the king and the boy at the Lifting Festival |
 | off-sheet | Foreman Gus | Wheel foreman; Juice the Station | - | Tired foreman with a heart of iron | Not the retired Capital "Gus" (now Rollo Spokes) |
 | off-sheet | Gary | Under a barbell, again | - | "Little help? No rush. Bit of a rush." | Lifts with a spotter once freed |
-| off-sheet | Rhonda (a Gainlands ripper) | Opens the Calf Cove portal | - | - | Name clash with Recycle Rhonda (inbox) |
+| off-sheet | Shredna (a Gainlands ripper) | Opens the Calf Cove portal | - | Rolls her shoulders, crosses her arms; rips portals | Was "Rhonda" until Oct 22 (clash with Recycle Rhonda) |
 
 ### The D.N.A.
 
@@ -909,7 +909,7 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 | NPC-THISTLEWICK | Druid Thistlewick | Quiz master | Stag-headed druid | Very serious about recycling; sorts his thoughts into bins | His dishwasher talks back |
 | NPC-RHONDA | Recycle Rhonda | Minigame host (Sort It Out) | Human | Peppy 90s-PSA eco-crusader; blue-ribbon obsession; once the voice of Captain Compost Badger | - |
 | NPC-RACCOONKING | His Majesty the Raccoon | Boss, Trash Panda Throne | Raccoon | Grandiose, nervous, sweating, deeply guilty | Ate all the compost; the raccoons stand trial |
-| off-sheet | Wren Muckfoot | Animal handler; Round Up the Herd | - | Sunny, muddy, unflappable; speaks fluent goat | Name clash with Wren (inbox) |
+| off-sheet | Billie Muckfoot | Animal handler; Round Up the Herd | - | Sunny, muddy, unflappable; speaks fluent goat | Was "Wren Muckfoot" until Oct 22 (clash with Wren) |
 
 ### The Capital
 
@@ -1053,9 +1053,9 @@ Each line: the conflict, then the winner and the source that decided it. Items m
     made them ferret, badger, peacock, hare and bear. **Resolved Oct 21 by the user: humanoid animals as in their art** (npcs.json updated).
 15. **The baker's name**: "Bun the Baker" (`npcs.json`) vs "Brindle the Baker" (in-game spot and dialogue, Oct 17 inbox). **Brindle**, the
     name the player sees (inbox, data fix).
-16. **Two Wrens**: Wren the resistance leader (sheet) and Wren Muckfoot (game-only Dump NPC) break v2's rule "no two characters may share a
-    name". Kept as is for now (inbox).
-17. **Two Rhondas**: Recycle Rhonda (sheet) and a Gainlands ripper called Rhonda (game text). Same rule; kept for now (inbox).
+16. **Two Wrens** (resolved Oct 22): the game-only Dump animal handler Wren Muckfoot is now **Billie Muckfoot**; Wren the resistance
+    leader (sheet) keeps her name. Internal keys (`npc.wren.*` in refusemancer_story, spot `wren`) are unchanged for old saves.
+17. **Two Rhondas** (resolved Oct 22): the Gainlands Calf Cove ripper is now **Shredna**; Recycle Rhonda (sheet) keeps her name.
 18. **Grand Bellows's pronoun**: "She has not lost a bout in eleven years" (game, `arena.arena_marshal.blurb`) vs a mustachioed walrus,
     "his own lunch" (sheet). **He** (the old female Marshal, Vesna Tuskmore, was renamed to Bellows; the pronoun was left behind).
 19. **The Grand Chef's pronoun**: Basil says "for a man who does not eat" (game) vs the Grand Chef and her double are "she" (sheet). **She**

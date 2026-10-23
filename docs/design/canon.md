@@ -61,7 +61,8 @@ name after `prince_revealed`). Story files use tokens, never the literal names.
 - Primm is only seen or heard in person inside his castle (and in the postgame); elsewhere he is portraits, statues and decrees, and the
   loudspeaker voice is Percival Plume.
 - The black market vendors (Fig Sly) are not to be changed.
-- No two characters share a name (see the open clashes in the inbox: Wren / Wren Muckfoot, Recycle Rhonda / the Gainlands ripper Rhonda).
+- No two characters share a name. Oct 22: the game-only Wren Muckfoot is now Billie Muckfoot and the Gainlands ripper Rhonda is now Shredna
+  (Wren of the Crease and Recycle Rhonda keep theirs). "Wren Muckfoot" and "Rhonda, Portal Ripper" are retired names.
 - Power follows the story: one Path at the start, two after the first freed zone, all after Primm falls.
 - Memory fragments follow the number of zones freed, not which zone.
 - Sincere beats are played straight (captivity, grief, the leader reveals, the memories, Isla, Primm's fall).
@@ -110,6 +111,8 @@ and `core/`, `world/`, `ui/`, `app/`.
 - Grand Clashatorium
 - Brenda
 - Thimble's Hats & Hems
+- Wren Muckfoot
+- Rhonda, Portal Ripper
 
 **Still present on Oct 19** (to fix; nothing else on the list was found):
 - `Z.V.`: `data/story/intro_story.tres:116` (`town.alchemist.locked`, the note's signature).

@@ -57,7 +57,7 @@ static func points() -> Array[Point]:
 		_point("thrower_west", "throw", "thrower_west", "land_east", "Wanda, Cross-Country Chucker", "Wanda", throw_tint),
 		# Pec Perch.
 		_point("thrower_pec_back", "throw", "thrower_pec_back", "land_pec", "Bonnie, Return Chucker", "Bonnie", throw_tint),
-		_point("ripper_calf", "portal", "ripper_calf", "arrive_calf", "Rhonda, Portal Ripper", "Rhonda", rip_tint, Condition.quest_completed(GainlandsZone.QUEST_SPOT_ME)),
+		_point("ripper_calf", "portal", "ripper_calf", "arrive_calf", "Shredna, Portal Ripper", "Shredna", rip_tint, Condition.quest_completed(GainlandsZone.QUEST_SPOT_ME)),
 		# Delt Deck.
 		_point("ripper_delt_back", "portal", "ripper_delt_back", "land_delt", "Ripley, Return Ripper", "Ripley", rip_tint),
 		_point("thrower_glute", "throw", "thrower_glute", "arrive_glute", "Dmitri, Long-Haul Heaver", "Dmitri", throw_tint, Condition.counter(GainlandsZone.COUNTER_ENEMIES, 2)),

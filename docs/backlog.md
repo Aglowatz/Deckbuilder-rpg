@@ -235,7 +235,7 @@ All 328 imported images in `assets/art/cards/` are real art. These **11** entrie
 | Sous-Chef Tarragon, Fetcher of Things | Quest giver | The Endless Buffet |
 | Brisket, Sir Loin, Colonel Casserole | Gate doormen / gate foes of the Cheese Cliffs | The Endless Buffet |
 | Old Meatloaf | The Grand Pantry's oldest golem (repair quest target) | The Endless Buffet |
-| Wren Muckfoot, Animal Handler | Quest giver | The Verdant Dump |
+| Billie Muckfoot, Animal Handler | Quest giver | The Verdant Dump |
 | Druid Sorrel | Wants the herd rounded up (vine bridge quest) | The Verdant Dump |
 | Nurse Hesper Dray | Wake-up nurse | The Capital |
 | Gate Guards (Height Inspection, Queue Management, Exit Control x2) | Gate gags and checkpoints | The Capital gate |

@@ -68,7 +68,7 @@ their entry ("Running gags (Oct 21)"). Rules for reusing them:
 - **Zone threads (setup -> payoff):** Gainlands: Gus's 110 percent becomes enough; Benchley's floorboard becomes legal stock; Mountain's
   festival memories. Buffet: Basil's cake clue -> the reveal -> "Yes, Chef" said willingly; Mirepoix's decorative cake -> dessert; the
   Doppelganger earns a name. D.N.A.: Gerald 212 -> Mortimer 213 (the Wanderer) -> 214; Agnes's unfiled funeral -> HEIR: ALIVE. Dump: eleven
-  birthday trees -> twelve; the missing compost -> the Raccoon's royal sampling; Wren Muckfoot's signs stop eating back. Capital: the four
+  birthday trees -> twelve; the missing compost -> the Raccoon's royal sampling; Billie Muckfoot's signs stop eating back. Capital: the four
   Wrinkles quests -> Wren's four insights -> the answers to Primm; each Perfectly Happy Citizen's slip -> their freedom. Crosspath/Lab:
   Maren's pie handwriting -> the castle ward -> the Lab; the four colours and the lullaby -> the throne; Brannoch's open gate -> Isla.
 - **Humor dial used in that pass:** loud in Crosspath, the zones, barks, vendors and tips (a joke in most boxes of comedic characters, one
@@ -741,7 +741,8 @@ Keys: refusemancer `npc.hob.*` (legacy key; not Old Hob), `quest.heap_fert.*`, `
 - **Running gags (Oct 21):** root vegetables that watch her; vintage turnips; owns the puns soil charge, starting hand, silent auction and
   growing business. Her cheerful dearie is not Maren's warning one.
 
-### Wren Muckfoot (animal handler; off-sheet; name clash with Wren is open)
+### Billie Muckfoot (animal handler; off-sheet; was Wren Muckfoot until Oct 22)
+- **Name:** Billie, like the goat (she says so once, in her introduction).
 Keys: refusemancer `npc.wren.*`, `quest.heap_herd.*`.
 - **Talks:** sunny, muddy, unflappable; short cheerful sentences.
 - **Tics:** speaks fluent goat (mostly screaming); animals get out, always.

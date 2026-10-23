@@ -33,7 +33,7 @@ func test_speakers_resolve_by_name_alias_and_prefix() -> void:
 	assert_eq(NpcRegistry.resolve_speaker("Rita"), "NPC-RIP", "the portal rippers share Rip Tearson")
 	assert_eq(NpcRegistry.resolve_speaker("Rip Tearson (Cousin #3)"), "NPC-RIP")
 	assert_eq(NpcRegistry.resolve_speaker("Agnes Overdue (over the intercom)"), "NPC-AGNES")
-	assert_eq(NpcRegistry.resolve_speaker("Wren Muckfoot"), "", "an NPC with no list match has no portrait")
+	assert_eq(NpcRegistry.resolve_speaker("Billie Muckfoot"), "", "an NPC with no list match has no portrait")
 	assert_eq(NpcRegistry.resolve_speaker(""), "")
 	assert_eq(NpcRegistry.resolve_speaker("The Restless Cairn"), "")
 

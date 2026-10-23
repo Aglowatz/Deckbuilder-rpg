@@ -149,5 +149,11 @@ out.push('## Equipment and items');
 out.push('');
 out.push('See the "Part F" section of `docs/design/balance_log.md` for every equipment and consumable number that changed (the sheet has no equipment tab in the snapshot; add one if the live sheet tracks gear).');
 out.push('');
+// Overnight Oct 22: hand-written changes the snapshot diff cannot see (renamed characters, notes) live in sheet_changes_manual.md.
+const manual = path.join(repo, 'docs/design/sheet_changes_manual.md');
+if (fs.existsSync(manual)) {
+	out.push(fs.readFileSync(manual, 'utf8').trim());
+	out.push('');
+}
 fs.writeFileSync(path.join(repo, 'docs/design/sheet_changes.md'), out.join('\n') + '\n');
 console.log(`wrote docs/design/sheet_changes.md: ${cardRows} card cells, ${tokenRows} token cells, ${gRows} guidance rows, ${dRows} dungeon rows, ${zRows} zone/boss rows`);

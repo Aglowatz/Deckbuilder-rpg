@@ -123,7 +123,7 @@ lore in `docs/design/story_bible.md` section 4). Intended level about **16** (bo
 | Mend the Meatloaf (`buf_mend`) | SIDE | Basil | 1. Mend Old Meatloaf with sea salt and a black truffle (gourmand / old_meatloaf) | Gourmand Pack, Food Fight, 80 gold, 70 XP |
 | The Golden Reservation (`side_s_gour`) | SIDE | Basil | 1. Find a hidden stash in the Buffet | 40 gold, 30 XP |
 | The Older Way (`side_s_cap`) | SIDE | Kestrel | 1. Reach the Crease: knock at the manhole by the gate (final / manhole) | 40 gold, 30 XP |
-| Round Up the Herd (`heap_herd`) | SIDE | Wren Muckfoot | 1. Shoo escaped animals back to the pen | Rubbish Goat, 60 gold, 50 XP |
+| Round Up the Herd (`heap_herd`) | SIDE | Billie Muckfoot | 1. Shoo escaped animals back to the pen | Rubbish Goat, 60 gold, 50 XP |
 | Fertilizer Run (`heap_fert`) | SIDE | Granny Gristle | 1. Gather fertilizer sacks around the Dump | Manure Miracle, 70 gold, 60 XP |
 | Unblock the Stream (`heap_dam`) | SIDE | Brother Bramble | 1. Ride a mount into the junk dam on the north bank (refusemancer / stable_2) | Refusemancer Pack, Compost Boots, 80 gold, 70 XP |
 | Form 27-B/6: A Burial Permit (`cap_burial`) | SIDE | Widow Pell | 1. Find the Stamp of Final Approval in Grave Row (final / pickup_stamp)<br>2. Lay Mr. Pell to rest at the family plot (final / pell_plot) | Clerk's Stamp, Lich of Accounts Payable, Healing Draught, 150 gold, 120 XP, Insight into Primm |

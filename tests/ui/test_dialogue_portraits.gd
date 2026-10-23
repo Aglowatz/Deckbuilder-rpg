@@ -56,11 +56,11 @@ func test_an_explicit_npc_id_wins_and_fills_an_empty_plate() -> void:
 
 
 func test_an_npc_with_no_portrait_shows_the_plain_box() -> void:
-	box.start("Wren Muckfoot", ["Hello."] as Array[String])
+	box.start("Billie Muckfoot", ["Hello."] as Array[String])
 	await wait_frames(3)
 	assert_eq(box.npc_id, "")
 	assert_false((box.get("_portrait") as PortraitView).shown, "no broken image")
-	assert_eq(_plate(), "Wren Muckfoot")
+	assert_eq(_plate(), "Billie Muckfoot")
 	var panel: PanelContainer = box.get("_panel") as PanelContainer
 	assert_eq(panel.position.x, 410.0, "the plain box keeps its old position and width")
 	assert_eq(panel.size.x, 1100.0)

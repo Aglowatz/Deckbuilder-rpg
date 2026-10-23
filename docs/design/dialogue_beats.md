@@ -37,7 +37,7 @@ Measured from `ui/town/dialogue_box.gd` and `tests/test_dialogue_fit.gd`:
 | `data/story/gainlands_story.tres` (`ZoneStoryText`, `lines`) | `npc.brenda/.gus/.tony/.quiz/.minigame/.gary.*` (+ `.freed`), `quest.gain_*`, `freed_npc.heartlift`, `cutscene.rescue.*`, `cutscene.flex.*`, `dungeon.hg_*`, `event.hg_*`, `travel.thrower_*/.ripper_*`, `reps.*`, `wheel.*`, `fx.*`, `sign.*`, `ruler.*`, `enemy.*` | Old Man Mountain, Foreman Gus, Benchley, Pump, Chet, Gary, throwers/rippers, Flex, Clench, narration | 247 keys / 445 lines |
 | `data/story/gourmand_story.tres` | `npc.odalys/.tarragon/.dolcetta/.quiz/.minigame/.old_meatloaf.*` (+ `.freed`), `quest.buf_*`, `freed_npc.grandchef/.escoffina`, `cutscene.reveal.*`, `cutscene.wonder.*`, `dungeon.tk_*`, `event.tk_*`, `gate.ingredient/.quest/.battle.*`, `order.*`, `recipe.*`, `fortune.*`, `sign.*`, `fx.*` | Basil, Tarragon, Mirepoix, Pate, Flambe, Old Meatloaf, golem guards, the Grand Chef, the Doppelganger/Escoffina, narration | 254 keys / 472 lines |
 | `data/story/dna_story.tres` | `npc.dolores/.barnaby/.pip/.matching/.quiz.*` (+ `.freed`), `quest.dna_*`, `freed_npc.agnes/.prudence/.mortimer`, `dungeon.ha_*`, `event.ha_*`, `cutscene.vacancy.*`, `memo.*`, `poster.*`, `puzzle.*`, `match.*`, `sign.*`, `fx.*` | Agnes, Gerald, Ledgerbone, Kyle, Ectomund, Vellum, Mortimer, Prudence, clerks, narration | 230 keys / 432 lines |
-| `data/story/refusemancer_story.tres` | `npc.marigold/.hob/.wren/.quiz/.minigame.*` (+ `.freed`), `quest.heap_*`, `freed_npc.compostella`, `bark.worker_1..3`, `dungeon.rh_*`, `event.rh_*`, `cutscene.sever.*`, `sort.*`, `grow*`, `sign.*`, `fx.*` | Bramble, Granny Gristle, Wren Muckfoot, Thistlewick, Rhonda, workers, the Rotheart/Compostella, narration | 235 keys / 431 lines |
+| `data/story/refusemancer_story.tres` | `npc.marigold/.hob/.wren/.quiz/.minigame.*` (+ `.freed`), `quest.heap_*`, `freed_npc.compostella`, `bark.worker_1..3`, `dungeon.rh_*`, `event.rh_*`, `cutscene.sever.*`, `sort.*`, `grow*`, `sign.*`, `fx.*` | Bramble, Granny Gristle, Billie Muckfoot, Thistlewick, Rhonda, workers, the Rotheart/Compostella, narration | 235 keys / 431 lines |
 | `data/story/capital_story.tres` | `npc.wren/.fig/.hesper/.fern/.pell/.rollo/.marlo/.spotless/.guard_*/.exit_clerk/.patient.*` (+ `.freed`), `npc.wren.insight.1..4`, `quest.cap_*`, `facade.citizen.N.*`, `facade.door.*`, `facade.speaker.*`, `dungeon.pc_*`, `event.pc_*`, `challenge.pc_*`, `cutscene.primm_intro/_p1/_p2/_reveal/_end.*`, `boss.phase.*`, `boon.*`, `ending.beat.1..10`, `ending.credits.*`, `ending.postgame.*`, `ending.return`, `freed_npc.*` (leaders, Primm, guard), `debuff.*`, `prop.*`, `sign.*`, `fx.*` | Wren, Fig Sly, Hesper, Old Fern, Widow Pell, Rollo, Marlo, Spotless, guards, Citizens, Citizen 4471, loudspeaker (Plume), the four leaders, Primm, the Chief Corrector, narration | 582 keys / 880 lines |
 | `data/dungeons/dungeon_content.json` `"text"` (read by `DungeonCatalog`) | `quest.side_s_*` (side-dungeon givers), `npc.kestrel.*`, `fx.old_tunnels_way_in`, `dungeon.dg_s_*_boss.before/.after`, `dungeon.dg_lab_*` | Maren (S-TOWN), Old Man Mountain (S-BEEF), Basil (S-GOUR), Gerald (S-NECRO), Bramble (S-REF), Kestrel (S-CAP), side bosses, the Rescuer (Lab), Siphon | 49 keys / about 80 lines |
 | `data/dungeons/dungeons.json` `"hook"` | one hook quote per dungeon (CSV import; designer sheet text) | hook NPCs (`hook_speakers` in dungeon_content.json) | 13 lines; sheet canon, edit with care |
@@ -78,7 +78,7 @@ Code files are being edited by another agent tonight; a writer touching them mus
 | gainlands `freed_npc.heartlift` | Grandmaster Flex | | dna `npc.matching.*` | Kyle |
 | gourmand `npc.odalys.*` | Basil | | refusemancer `npc.marigold.*` | Brother Bramble |
 | gourmand `npc.dolcetta.*` | Madame Mirepoix | | refusemancer `npc.hob.*` | Granny Gristle (not Old Hob) |
-| `npc.quiz.*` (every zone) | that zone's quiz master | | refusemancer `npc.wren.*` | Wren Muckfoot (capital `npc.wren.*` is Wren) |
+| `npc.quiz.*` (every zone) | that zone's quiz master | | refusemancer `npc.wren.*` | Billie Muckfoot (capital `npc.wren.*` is Wren) |
 | `npc.minigame.*` (every zone) | that zone's host | | capital `npc.patient.*` | Citizen 4471 / Aldous |
 
 ---
@@ -344,7 +344,7 @@ Weak / missing:
 - Clipwell mentions (4.6) optional.
 
 Priority: 1 `cutscene.sever.*` and `dungeon.rh_boss.*`; 2 `npc.marigold.*` (both mini-stories); 3 `freed_npc.compostella`; 4 quests;
-5 Gristle, Wren Muckfoot; 6 Thistlewick, Rhonda, workers.
+5 Gristle, Billie Muckfoot; 6 Thistlewick, Rhonda, workers.
 
 ### 6.7 The Capital (Primm's Perfection, then Pathordia)
 

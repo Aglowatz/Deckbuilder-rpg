@@ -196,7 +196,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"summary": "A wall of thorns has swallowed the forest path, and the druid guarding it sounds very wrong. Clear the way and find what is making the Dump sick.",
 		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
-		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Wren Muckfoot, Granny Gristle or Brother Bramble",
+		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Billie Muckfoot, Granny Gristle or Brother Bramble",
 		"dungeon": "Descend into the Rotheart", "dungeon_hint": "The way down into the Rotheart, at the bottom of the Dump",
 	},
 }
