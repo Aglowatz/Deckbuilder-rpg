@@ -276,6 +276,12 @@ func _ready() -> void:
 			Session.begin_zone_visit(def.id)
 		if _screenshot_args.has("damage"):
 			Session.zone_run.damage(int(_screenshot_args["damage"]))
+		# Overnight Oct 22, Part 5: --wear=cloak_royal,hat_wizard owns and wears those pieces (hats and cloaks walking in every zone).
+		for wear_id: String in str(_screenshot_args.get("wear", "")).split(",", false):
+			var wear: CosmeticData = CosmeticCatalog.find(wear_id)
+			if wear != null:
+				Session.cosmetics.grant(wear_id)
+				Session.cosmetics.equip(wear.slot, wear_id)
 		if _screenshot_args.has("freed"):
 			Session.complete_zone(def.id)
 		if _screenshot_args.has("announce"):

@@ -14,11 +14,31 @@ const FIXED = [
 ];
 
 const out = cp.execFileSync(process.execPath, [path.join(__dirname, "unused_assets.js"), "--dir", "assets", "--list"], { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+// Overnight Oct 22 (Part 5): loaders such as BuffetModels.food("cup") / HeapModels.survival("box") build the path from a folder constant
+// and a bare name, which unused_assets.js cannot see - the exported Buffet and Dump were missing five props. A model whose folder is
+// named in a script ("res://assets/<kit>/models/") and whose file name is a quoted string in any script is kept.
+function scripts(dir, acc) {
+	for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+		const full = path.join(dir, entry.name);
+		if (entry.isDirectory()) scripts(full, acc);
+		else if (entry.name.endsWith(".gd")) acc.push(fs.readFileSync(full, "utf8"));
+	}
+	return acc;
+}
+const code = ["app", "core", "ui", "world"].filter((d) => fs.existsSync(path.join(root, d))).flatMap((d) => scripts(path.join(root, d), [])).join("\n");
+const folders = new Set((code.match(/res:\/\/assets\/[^"]+\//g) || []).map((p) => p.slice("res://".length)));
+const quoted = new Set((code.match(/"[A-Za-z0-9_\-]+"/g) || []).map((q) => q.slice(1, -1)));
 const models = [];
+const kept = [];
 for (const line of out.split("\n")) {
 	const m = line.match(/^\s*\d+ KB (assets\/.+\.(glb|gltf))$/);
-	if (m) models.push(m[1]);
+	if (!m) continue;
+	const dir = m[1].slice(0, m[1].lastIndexOf("/") + 1);
+	const base = path.basename(m[1]).replace(/\.(glb|gltf)$/, "");
+	if (folders.has(dir) && quoted.has(base)) kept.push(m[1]);
+	else models.push(m[1]);
 }
+if (kept.length) console.log("export excludes: kept " + kept.length + " models loaded by name: " + kept.join(", "));
 const filter = FIXED.concat(models.sort()).join(", ");
 
 let cfg = fs.readFileSync(cfgPath, "utf8");
