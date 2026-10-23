@@ -41,7 +41,7 @@ func run() -> void:
 	var intro_text: String = ""
 	for label: Node in choice.find_children("*", "Label", true, false):
 		intro_text += (label as Label).text + "\n"
-	_check(intro_text.contains("resonates the strongest within you"), "the choice asks which Path resonates the strongest")
+	_check(intro_text.contains("Pick the Path that feels like you"), "the choice asks for the Path that feels like you (Oct 22 short intro)")
 	_check(not intro_text.contains("too weak"), "no 'too weak to carry more than one Path' line")
 	var tile: Button = choice._tiles[Affinity.Type.BEEFCAKE] as Button
 	await driver.click(driver.center_of_control(tile))
