@@ -1050,3 +1050,39 @@ After: 48/64/44/56 (53%) and 48/56/56/72 (58%): Gourmand 44 / 56, mean 50; the r
   cutting Path cards and keeping filler).
 - Store Room Ghosts (L3): 94-100% for every Path. Round robin L1: B 58 / G 51 / R 50 / N 42 (was 66 / 50 / 44 / 40); L5: B 67 / G 48 /
   R 46 / N 40. Reports: `docs/design/sim/oct22_final_*.md`, `oct22_n_*`, `oct22_b_*`, `oct22_g_*`.
+
+## Overnight Oct 22 - Part 1: whole-game re-measure under the Oct 22 shops
+
+**Model.** `ProgressionModel.UPGRADES` rewritten so every reference deck holds only cards a player can own at that level under the
+Oct 22 shops (`docs/design/vendors.md`, `docs/design/progression_model.md`; audit `tools/reference_deck_audit.gd`: 82/82 package cards
+ownable - the old packages had 40 cards that were not yet on sale, e.g. Necrocrat's and Refusemancer's Epics at 10-14). In effect
+Beefcake is stronger from 8 (The Big Unit, its shelf Epic), the other Paths weaker until their own zone is freed.
+
+**Re-measure** (whole catalog, 6 games per Path, seed 7000, `docs/design/sim/oct22n/m1_*.md`; summary `node tools/sim_summary.js`):
+
+| Kind | Fights | In band | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---:|---:|---:|---:|---:|
+| Tutorial (50 runs per Path, two seeds) | 3 | 3 | 0 | 0 | 95-100% per fight; whole run B 91/92, G 89/88, R 87/91, N 94/93 | 5.0 |
+| Normal | 58 | 48 | 10 | 0 | 90% | 7.3 |
+| Elite | 22 | 11 | 5 | 6 | 67% | 8.3 |
+| Boss | 22 | 10 | 2 | 10 | 59% | 8.0 |
+
+(Oct 18's end of night for comparison, old model: Normal 38/54, Elite 11/21, Boss 8/19 in band.) Primm's three phases read "too easy"
+alone (96/88/79%) but are judged as the one-HP-pool sequence (~58% on Oct 19), unchanged here. Siphon alone is 0% by design; with
+Elowen (D-LAB:16:elowen) 58%.
+
+**The biggest outliers, confirmed at 16 games per Path on seeds 7000 and 8100, then fixed (encounter side only, no card changes):**
+
+| Encounter | Target | Before (7000 / 8100) | Change | After (7000 / 8100) |
+|---|---|---|---|---|
+| Prudence Pallor (town gatekeeper, L3) | 60-75% | 47% / 39% | `necro_zombies` basics 16 -> 20, the "Paperwork Ready" Red Tape head start removed (HP stays 12: tests bound it 12-30) | **56% / 56%** |
+| Moss Mulligan (town gatekeeper, L3) | 60-75% | 50% / 56% | `refuse_garbage` basics 17 -> 19 | **55% / 59%** |
+| Baron Quadzilla (Iron Cave boss, L8) | 40-60% | 78% / 84% | new rule "Max Pump": his units +1/+1 | **45% / 52%** |
+| The Drain Warden (Lab elite, L27) | 60-75% | 45% / 59% | "Drained Strength" +2/+2 -> +1/+1 | **69% / 72%** |
+| Calf Raise Crusher (Iron Cave, L6) | 80-100% | 73% / 67% | basics 14 -> 16, HP 8 -> 6 | **69% / 80%** |
+| Squat Rack Squatter (Iron Cave, L6) | 80-100% | 78% / 69% | basics 14 -> 16 | **77% / 75%** |
+
+Tried and dropped: a smaller deck `size` for Moss (27 -> 25) and the Crusher (24 -> 22) - identical numbers, the trim never applies to
+those recipes. Left for a later pass (6-game noise or Path-specific): Beefcake in the Verdant Dump at L17 (Overgrown Scarecrow / Thorn
+Maze 17% on 6 games, every other Path 83-100%), Captain Spotless 50%, Colonel Casserole 79%, the Doppelganger 67%, Clipwell 83%, the
+Clocktower Sentinel 83%, Mount Swolympus's Ancient Spotter 67%. Reports: `docs/design/sim/oct22n/{c0,i1,i2,i3,tut}_*.md`.

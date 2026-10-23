@@ -901,11 +901,11 @@
 				"1": {
 					"name": "Calf Raise Crusher",
 					"deck": "beefcake_rush",
-					"hp": 8,
+					"hp": 6,
 					"size": 24,
 					"ai": "Balanced",
 					"icon": "lorc/muscle-up",
-					"infra": 14
+					"infra": 16
 				},
 				"2": {
 					"name": "Squat Rack Squatter",
@@ -914,7 +914,7 @@
 					"size": 24,
 					"ai": "Defensive",
 					"icon": "delapouite/strong-man",
-					"infra": 14
+					"infra": 16
 				},
 				"3": "Baron Quadzilla"
 			},

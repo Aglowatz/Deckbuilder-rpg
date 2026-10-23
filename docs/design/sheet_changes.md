@@ -110,6 +110,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | His Majesty the Raccoon | Royal Guard of Bins | enemy | stat (atk=1, def=1) | "His Majesty's units get +1/+1." (icon delapouite/imperial-crown) |
 | Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=3, def=2) | "The Captain's units get +3/+2." (icon lorc/visored-helm) |
 | Baron Quadzilla | Leg Day | enemy | starting_resources (resource="iron", count=2) | "Starts the duel with 2 Iron." (icon delapouite/mammoth) |
+| Baron Quadzilla | Max Pump | enemy | stat (atk=1, def=1) | "Baron Quadzilla's units get +1/+1." (icon lorc/muscle-up) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="iron", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="redtape", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="ingredient", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
@@ -121,8 +122,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Dr. Ambrose Siphon, Chief Path-ologist | Extraction | enemy | start_of_turn_heal (amount=1) | "Protocol: at the start of each of his turns he drains you: you lose 1 life and he gains 1." (icon lorc/drop) |
 | Dr. Ambrose Siphon, Chief Path-ologist | Containment | player | first_card_cost (amount=1, harmful=true) | "Protocol: your first card each turn costs 1 more." (icon lorc/padlock) |
 | The Drain Warden | Drained | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon lorc/bubbling-flask) |
-| The Drain Warden | Drained Strength | enemy | stat (atk=2, def=2) | "The Warden's units get +2/+2." (icon lorc/bubbling-flask) |
-| town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=1) | "Prudence starts the duel with a Red Tape." (icon delapouite/stamper) |
+| The Drain Warden | Drained Strength | enemy | stat (atk=1, def=1) | "The Warden's units get +1/+1." (icon lorc/bubbling-flask) |
 | town:ninja | The Oldest Trick | enemy | starting_resources (resource="contract", count=2) | "Shiro starts the duel with two Contracts: he can lock your units down." (icon darkzaitzev/running-ninja) |
 | town:ninja | Smoke and Mirrors | enemy | stat (atk=2, def=1) | "Shiro's units get +2/+1." (icon delapouite/carnival-mask) |
 | arena:arena_marshal | Crowd Favourite | enemy | stat (atk=2, def=1) | "Grand Bellows's units get +2/+1." (icon delapouite/trumpet) |
@@ -191,8 +191,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-PC | node 15 | {"name":"Seed Vault Gardener","deck":"necrocrat_refusemancer","size":30,"hp":17} | {"name":"Seed Vault Gardener","deck":"necrocrat_refusemancer","size":32,"hp":21} |
 | D-PC | node 20 | {"name":"Clocktower Sentinel","deck":"colorless_regime","size":32,"hp":21,"mixed":["necrocrat","gourmand"]} | {"name":"Clocktower Sentinel","deck":"colorless_regime","size":35,"hp":32,"mixed":["necrocrat","gourmand"],"infra":11,"extra":{"C-30":1,"C-32":1}} |
 | D-PC | defaults | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/portrait","delapouite/shinto-shrine-mirror","delapouite/stamper","cathelineau/nun-face","delapouite/book-cover"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/portrait","delapouite/shinto-shrine-mirror","delapouite/stamper","cathelineau/nun-face","delapouite/book-cover"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
-| S-IRON | node 1 | {"name":"Calf Raise Crusher","deck":"beefcake_rush","hp":11,"size":24,"ai":"Aggressive","icon":"lorc/muscle-up"} | {"name":"Calf Raise Crusher","deck":"beefcake_rush","hp":8,"size":24,"ai":"Balanced","icon":"lorc/muscle-up","infra":14} |
-| S-IRON | node 2 | {"name":"Squat Rack Squatter","deck":"beefcake_tools","hp":12,"size":25,"ai":"Defensive","icon":"delapouite/strong-man"} | {"name":"Squat Rack Squatter","deck":"beefcake_rush","hp":7,"size":24,"ai":"Defensive","icon":"delapouite/strong-man","infra":14} |
+| S-IRON | node 1 | {"name":"Calf Raise Crusher","deck":"beefcake_rush","hp":11,"size":24,"ai":"Aggressive","icon":"lorc/muscle-up"} | {"name":"Calf Raise Crusher","deck":"beefcake_rush","hp":6,"size":24,"ai":"Balanced","icon":"lorc/muscle-up","infra":16} |
+| S-IRON | node 2 | {"name":"Squat Rack Squatter","deck":"beefcake_tools","hp":12,"size":25,"ai":"Defensive","icon":"delapouite/strong-man"} | {"name":"Squat Rack Squatter","deck":"beefcake_rush","hp":7,"size":24,"ai":"Defensive","icon":"delapouite/strong-man","infra":16} |
 | S-IRON | boss | {"deck":"beefcake_rush","extra":{"B-12":2},"hp":16,"icon":"delapouite/mammoth"} | {"deck":"beefcake_rush","extra":{"B-12":2},"hp":16,"icon":"delapouite/mammoth","infra":13} |
 | S-BEEF | node 1 | "Rival Lifter at Base Camp" | {"name":"Rival Lifter at Base Camp","hp":22,"size":32} |
 | S-BEEF | node 2 | "Squat Rack Sentinel" | {"name":"Squat Rack Sentinel","hp":23,"size":33} |
@@ -252,7 +252,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | core/dungeon/primm_boss.gd | numbers | hp = 30; hp = 28 | hp = 36 |
 | core/dungeon/vault_guardian.gd | numbers | STARTING_HP: int = 40 | STARTING_HP: int = 28 |
 | core/dungeon/ninja_boss.gd | numbers | STARTING_HP: int = 18 | STARTING_HP: int = 38 |
-| core/dungeon/corrupted_npcs.gd | numbers | trimmed("necro_control", 26, 16) | trimmed("necro_zombies", 26, 16) |
+| core/dungeon/corrupted_npcs.gd | numbers | trimmed("refuse_garbage", 27, 17); trimmed("necro_control", 26, 16) | trimmed("refuse_garbage", 27, 19); trimmed("necro_zombies", 26, 20) |
 | core/arena/arena_defs.gd | numbers | trimmed("beefcake_rush", 28, 16); trimmed("colorless_regime", 28, 16); enemy_hp = 11 | trimmed("beefcake_rush", 28, 18) |
 
 ## New rows: starting decks (one list per Path; 19 basic Infrastructure of the Path + these 26 cards)
@@ -265,4 +265,15 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 ## Equipment and items
 
 See the "Part F" section of `docs/design/balance_log.md` for every equipment and consumable number that changed (the sheet has no equipment tab in the snapshot; add one if the live sheet tracks gear).
+
+## Characters and names (hand-written, Overnight Oct 22)
+
+Not in the sheet snapshot, so `tools/sheet_changes.js` appends this file as it is.
+
+| Where | Old | New | Why |
+|---|---|---|---|
+| NPC list (game-only, the Verdant Dump's animal handler, Round Up the Herd) | Wren Muckfoot | **Billie Muckfoot** | Shared a name with Wren, the resistance leader (sheet). A billy-goat pun; she speaks fluent goat. |
+| NPC list (game-only, the Gainlands' Calf Cove portal ripper) | Rhonda, Portal Ripper | **Shredna, Portal Ripper** | Shared a name with Recycle Rhonda (sheet). Gym slang: shredded. |
+
+If the live sheet lists either game-only character, rename the row; the sheet's own Wren and Recycle Rhonda are unchanged.
 

@@ -23,42 +23,53 @@ const LEVELS: Dictionary = {
 ## The deck stays at this size while upgrades come in (extra cards replace the weakest starter cards).
 const REFERENCE_DECK_SIZE: int = 46
 
-## Per Path: level -> {Card ID: copies} the player has added to the starting deck by that level (commons and uncommons first, the
-## first Epic at 10, the Signature Legendary at 18). The second package lands at 5 because the level track hands out the first Path
-## Pack at level 4. Oct 22 (docs/design/vendors.md): Sable sells only a sample, so before its own zone a player's level-5 package holds
-## one Uncommon; Beefcake reaches the Gainlands (its own shop) at 5. Copies over the level's copy cap are skipped.
+## Per Path: level -> {Card ID: copies} the player has added to the starting deck by that level. Overnight Oct 22 (Part 1): only cards a
+## player can really own at that level under the Oct 22 shops (docs/design/vendors.md; `tools/reference_deck_audit.gd` checks it):
+## - before its own zone: Sable's rotating sample (one Common of each Path per shelf, Colorless Commons and Uncommons) and the level
+##   track's own-Path Packs (3 cards at 4, 9, 12, 16: about one Uncommon each);
+## - from its own zone's first visit: every Common and the zone's two opening Uncommons;
+## - only AFTER the zone's boss (so the boss itself is met without them): the other Uncommons, the shelf Epics, the dungeon prizes
+##   (the main dungeon's Legendary, the side dungeon's Epic);
+## - the Black Market's Epic from 19 (the Capital is reached at 18), the Capital quests' unique Epics and the shelf Legendary at 22.
+## Zones (arrival / freed): Beefcake 5 / 7, Necrocrat 9 / 11, Gourmand 12 / 14, Refusemancer 15 / 17. Copies over the copy cap are skipped.
 const UPGRADES: Dictionary = {
 	Affinity.Type.BEEFCAKE: {
-		3: {"B-06": 1, "B-16": 1, "B-15": 1},
-		5: {"B-25": 1, "B-19": 2, "B-11": 1, "B-24": 1},
-		10: {"B-27": 1, "B-23": 1, "B-10": 1},
-		14: {"B-28": 1, "B-29": 1, "B-26": 1},
-		18: {"B-33": 1, "B-27": 1},
-		22: {"B-32": 1, "B-28": 1},
+		3: {"B-06": 1, "B-16": 1, "B-15": 1},  # Sable's sample, one Beefcake Common per shelf
+		5: {"B-25": 1, "B-19": 2, "B-11": 1, "B-22": 1},  # the Gainlands' shelf: Commons + the opening Uncommons (Yeet, Alarm-ish Clock)
+		8: {"B-24": 1, "B-23": 1, "B-32": 1},  # the House of Gains beaten: the rest of the Uncommons, The Big Unit
+		10: {"B-29": 1, "B-10": 1},  # the shelf's Epic (Swole Patrol Sergeant)
+		14: {"B-26": 1, "B-29": 1, "B-23": 1},
+		19: {"B-27": 1},  # the Black Market's Protein Farts
+		22: {"B-33": 1, "B-30": 1},  # the postgame Legendary, the Capital quest's Barbell of the Ancients
 	},
 	Affinity.Type.NECROCRAT: {
-		3: {"N-13": 1, "C-02": 2, "C-03": 2},  # Oct 21: General Pack 2-drops (Village Militia, Watchtower Archer) instead of Processing Delay and Buried in Paperwork: the L5 deck had six 1-2 cost units
-		5: {"N-15": 1, "N-25": 1, "N-06": 1, "N-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack) - Sable no longer sells the own Path, D.N.A. comes at 9
-		10: {"N-30": 1, "N-24": 1, "N-25": 1, "N-22": 1},
-		14: {"N-28": 1, "N-29": 1, "N-27": 1},
-		18: {"N-33": 1, "N-31": 1},
+		3: {"N-13": 1, "C-02": 2, "C-03": 2},  # Oct 21: Village Militia + Watchtower Archer (Sable's Colorless Commons): the L5 deck had six 1-2 cost units
+		5: {"N-15": 1, "N-25": 1, "N-06": 1, "N-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack) - Sable no longer sells the own Path
+		9: {"N-26": 1, "N-23": 1, "N-01": 1},  # the D.N.A. shelf: the opening Uncommons (Audit Wraith, Middle Management Zombie)
+		12: {"N-30": 1, "N-24": 1, "N-22": 1, "N-31": 1, "N-33": 1},  # the Hall of Final Approvals beaten: Uncommons, the shelf Epic, Betty Bones, Mortimer
+		16: {"N-25": 1, "N-31": 1},
+		19: {"N-27": 1},  # the Black Market's Mandatory Optional Team Meeting
 		22: {"N-32": 1, "N-28": 1},
 	},
 	Affinity.Type.GOURMAND: {
-		3: {"G-17": 1, "G-13": 1, "G-16": 1},
+		3: {"G-17": 1, "G-13": 1, "G-16": 1},  # Sable's sample
 		5: {"G-05": 1, "G-20": 1, "G-22": 1, "G-07": 1},  # Oct 22: one Uncommon (the L4 Path Pack)
-		10: {"G-28": 1, "G-26": 1, "G-22": 1},
-		14: {"G-29": 1, "G-30": 1, "G-26": 1},
-		18: {"G-33": 1, "G-32": 1},
-		22: {"G-27": 1, "G-28": 1},
+		10: {"G-10": 1, "G-18": 1, "G-22": 1},  # the L9 Path Pack + Sable's rotation
+		12: {"G-23": 1, "G-05": 1},  # the Buffet shelf: the opening Uncommons (The Cullinator, En Garde-Manger)
+		15: {"G-28": 1, "G-30": 1, "G-26": 1, "G-27": 1, "G-33": 1},  # the Test Kitchen beaten: the shelf Epics, Toro Toro, the Grand Chef
+		18: {"G-28": 1, "G-26": 1},
+		19: {"G-29": 1},  # the Black Market's Head Health Inspector
+		22: {"G-32": 1, "G-31": 1},
 	},
 	Affinity.Type.REFUSEMANCER: {
-		3: {"R-15": 1, "R-18": 1, "R-12": 1},
+		3: {"R-15": 1, "R-18": 1, "R-12": 1},  # Sable's sample
 		5: {"R-25": 1, "R-09": 1, "R-12": 1, "R-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack)
-		10: {"R-28": 1, "R-23": 1, "R-29": 1},
-		14: {"R-30": 1, "R-31": 1, "R-24": 1},
-		18: {"R-33": 1, "R-27": 1},
-		22: {"R-32": 1, "R-29": 1},
+		10: {"R-14": 1, "R-19": 1, "R-24": 1},  # the L9 Path Pack + Sable's rotation
+		14: {"R-10": 1, "R-08": 1, "R-25": 1},  # the L12 Path Pack + Sable's rotation
+		15: {"R-22": 1, "R-06": 1},  # the Dump's shelf: the opening Uncommons (Acid Vomitor, Manure Miracle)
+		18: {"R-28": 1, "R-23": 1, "R-33": 1, "R-27": 1},  # the Rotheart beaten: Uncommons, Poo-uid, the Archdruid, the Raccoon
+		19: {"R-31": 1},  # the Black Market's Bulk Trash Day
+		22: {"R-32": 1, "R-30": 1},
 	},
 }
 

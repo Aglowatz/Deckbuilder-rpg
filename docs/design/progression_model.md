@@ -4,6 +4,16 @@ What the player is expected to look like at every point of the game: level, HP, 
 rarity caps) and consumables. This is the player the balance simulation plays (`core/sim/progression_model.gd` is the data; this
 file is the prose). Encounter targets (`docs/design/balance_log.md`, Part E) are tuned against this player on their first try.
 
+## Overnight Oct 22: the deck column follows the Oct 22 shops
+
+The `UPGRADES` packages in `core/sim/progression_model.gd` now hold only cards a player can own at that level
+(`docs/design/vendors.md`; checked by `Godot --headless --path . -s res://tools/reference_deck_audit.gd`, all 82 package cards ok):
+before its own zone a Path gets Sable's rotating Commons and one Uncommon per level-track Path Pack (4, 9, 12, 16); on arrival the zone's
+Commons and two opening Uncommons; only after the zone's boss the other Uncommons, the shelf Epic(s) and the dungeon prizes (so the boss
+is met without them); the Black Market's Epic from 19; the Capital quests' Epics and the shelf Legendary at 22. In effect Beefcake (home
+zone at 5) is stronger from level 8 (The Big Unit, its shelf Epic), the other three Paths are weaker until their own zone is freed
+(Necrocrat 12, Gourmand 15, Refusemancer 18). The table below still describes the HP / gear / item columns.
+
 ## The run the model assumes
 
 Zones can be done in any order; the model assumes the story's order: **Gainlands -> D.N.A. -> Endless Buffet -> Verdant Dump ->

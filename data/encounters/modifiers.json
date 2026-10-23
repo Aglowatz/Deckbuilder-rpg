@@ -285,6 +285,14 @@
 			"kind": "starting_resources",
 			"resource": "iron",
 			"count": 2
+		},
+		{
+			"name": "Max Pump",
+			"text": "Baron Quadzilla's units get +1/+1.",
+			"icon": "lorc/muscle-up",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"The Old Kingdom Automaton": [
@@ -381,21 +389,11 @@
 		},
 		{
 			"name": "Drained Strength",
-			"text": "The Warden's units get +2/+2.",
+			"text": "The Warden's units get +1/+1.",
 			"icon": "lorc/bubbling-flask",
 			"kind": "stat",
-			"atk": 2,
-			"def": 2
-		}
-	],
-	"town:npc:necrocrat": [
-		{
-			"name": "Paperwork Ready",
-			"text": "Prudence starts the duel with a Red Tape.",
-			"icon": "delapouite/stamper",
-			"kind": "starting_resources",
-			"resource": "redtape",
-			"count": 1
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"town:ninja": [

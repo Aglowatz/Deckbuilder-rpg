@@ -62,9 +62,9 @@ static func recipe(id: String) -> Dictionary:
 		"gourmand":
 			return EnemyDecks.trimmed("gourmand_control", 26, 16)
 		"refusemancer":
-			return EnemyDecks.trimmed("refuse_garbage", 27, 17)
+			return EnemyDecks.trimmed("refuse_garbage", 27, 19)  # Overnight Oct 22: 17 -> 19 basics (50/56% -> 55/59% under the Oct 22 starting decks)
 		"necrocrat":
-			return EnemyDecks.trimmed("necro_zombies", 26, 16)  # Rebalance Part E: the control list never pressured anyone (95% at level 3)
+			return EnemyDecks.trimmed("necro_zombies", 26, 20)  # Rebalance Part E: the control list never pressured anyone (95% at level 3). Overnight Oct 22: 16 -> 20 basics, no Red Tape head start
 	return {}
 
 
