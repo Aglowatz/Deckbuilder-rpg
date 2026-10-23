@@ -1,6 +1,8 @@
 extends RefCounted
 ## Rebalance Part E: the encounter replay (run by `tools/replay_encounter.gd`): plays balance-sim games of one catalog encounter
-## and prints the action log of the lost ones (or every game with --all). Flags: --id, --path, --games, --show, --level, --all, --nogear.
+## and prints the action log of the lost ones (or every game with --all). Flags: --id, --path, --games, --show, --level, --all, --nogear,
+## --verbose (Battle AI upgrade, Oct 23: card names, targets, attackers with stats, blocks, a board line at every turn start and the
+## think time of each seat's decisions), --enemy_ai=<personality name> (override the encounter's AI name).
 
 var args: Dictionary = {}
 
@@ -52,7 +54,109 @@ func run() -> bool:
 			for line: String in log:
 				print("   " + line)
 	print("%d / %d won" % [wins, games])
+	if args.has("verbose"):
+		for who: int in range(2):
+			print("P%d think time: %d decisions, avg %.1f ms, max %.0f ms, over 1 s: %d" % [who, _think_count[who], _think_total[who] / maxf(1.0, float(_think_count[who])), _think_max[who], _think_slow[who]])
 	return true
+
+
+var _think_count: Array[int] = [0, 0]
+var _think_total: Array[float] = [0.0, 0.0]
+var _think_max: Array[float] = [0.0, 0.0]
+var _think_slow: Array[int] = [0, 0]
+
+
+func _name(game: GameState, ref: int) -> String:
+	if ref == 0:
+		return ""
+	if Targets.is_player(ref):
+		return "P%d" % Targets.player_index(ref)
+	var card: CardInstance = game.find_card(ref)
+	if card == null:
+		return "#%d" % ref
+	if card.data.is_unit():
+		return "%s %d/%d" % [card.data.display_name, game.get_attack(card), game.get_defense(card) - card.damage]
+	return card.data.display_name
+
+
+func _board(game: GameState) -> String:
+	var parts: PackedStringArray = []
+	for player: PlayerState in game.players:
+		var units: PackedStringArray = []
+		for unit: CardInstance in player.units():
+			var flags: String = ""
+			if unit.exhausted:
+				flags += "x"
+			if unit.summoning_sick:
+				flags += "s"
+			units.append("%s %d/%d%s" % [unit.data.display_name, game.get_attack(unit), game.get_defense(unit) - unit.damage, (" (" + flags + ")") if not flags.is_empty() else ""])
+		var others: PackedStringArray = []
+		for card: CardInstance in player.field:
+			if not card.data.is_unit():
+				others.append(card.data.display_name)
+		var res: PackedStringArray = []
+		for kind: ResourceKind.Kind in ResourceKind.all_with_tokens():
+			var n: int = player.count_resource(kind)
+			if n > 0:
+				res.append("%s x%d" % [ResourceKind.display_name(kind), n])
+		parts.append("P%d hp%d hand%d infra%d traps%d [%s]%s%s" % [player.index, player.hp, player.hand.size(), player.infrastructure.size(), player.traps.size(), ", ".join(units), (" {" + ", ".join(others) + "}") if not others.is_empty() else "", (" res: " + ", ".join(res)) if not res.is_empty() else ""])
+	return " || ".join(parts)
+
+
+func _describe(game: GameState, action: GameAction) -> String:
+	var card: CardInstance = game.find_card(action.card_uid)
+	var name: String = card.data.display_name if card != null else ""
+	match action.type:
+		GameAction.Type.PLAY:
+			var targets: PackedStringArray = []
+			for ref: int in action.targets:
+				targets.append(_name(game, ref))
+			return "PLAY %s%s" % [name, (" -> " + ", ".join(targets)) if not targets.is_empty() else ""]
+		GameAction.Type.PLAY_INFRASTRUCTURE:
+			return "INFRA %s" % name
+		GameAction.Type.ACTIVATE_ABILITY, GameAction.Type.ACTIVATE:
+			var targets: PackedStringArray = []
+			for ref: int in action.targets:
+				targets.append(_name(game, ref))
+			if action.type == GameAction.Type.ACTIVATE and action.target != 0:
+				targets.append(_name(game, action.target))
+			return "ABILITY %s[%d]%s%s" % [name, action.effect_index, (" -> " + ", ".join(targets)) if not targets.is_empty() else "", (" X=%d" % action.x) if action.x > 0 else ""]
+		GameAction.Type.USE_RESOURCE:
+			return "USE %s -> %s" % [ResourceKind.display_name(action.effect_index as ResourceKind.Kind), _name(game, action.target)]
+		GameAction.Type.DECLARE_ATTACKERS:
+			var names: PackedStringArray = []
+			for uid: int in action.uids:
+				names.append(_name(game, uid))
+			var blockers: PackedStringArray = []
+			for unit: CardInstance in game.possible_blockers(1 - action.player):
+				blockers.append(_name(game, unit.uid))
+			return "ATTACK %s (foe could block with: %s)" % [", ".join(names), ", ".join(blockers) if not blockers.is_empty() else "nothing"]
+		GameAction.Type.DECLARE_BLOCKERS:
+			var pairs: PackedStringArray = []
+			for key: Variant in action.blocks.keys():
+				pairs.append("%s blocks %s" % [_name(game, int(action.blocks[key])), _name(game, int(key))])
+			var unblocked: PackedStringArray = []
+			for uid: int in game.attackers:
+				if not action.blocks.has(uid):
+					unblocked.append(_name(game, uid))
+			return "BLOCK %s%s" % [", ".join(pairs), ("; unblocked: " + ", ".join(unblocked)) if not unblocked.is_empty() else ""]
+		GameAction.Type.PASS:
+			if game.phase == GameState.Phase.COMBAT and game.combat_step == GameState.CombatStep.DECLARE_BLOCKERS:
+				var unblocked: PackedStringArray = []
+				for uid: int in game.attackers:
+					unblocked.append(_name(game, uid))
+				return "NO BLOCK (attackers: %s; blockers available: %d)" % [", ".join(unblocked), game.possible_blockers(action.player).size()]
+			if game.phase == GameState.Phase.COMBAT and game.combat_step == GameState.CombatStep.DECLARE_ATTACKERS and not game.possible_attackers(action.player).is_empty():
+				return "NO ATTACK (could attack with %d)" % game.possible_attackers(action.player).size()
+			return ""
+		GameAction.Type.TOSS:
+			var names: PackedStringArray = []
+			for uid: int in action.uids:
+				names.append(_name(game, uid))
+			return "TOSS %s" % ", ".join(names)
+		GameAction.Type.MULLIGAN:
+			return "MULLIGAN"
+	return ""
 
 
 ## BalanceSim.play_game with a log of both seats' non-pass actions.
@@ -85,8 +189,10 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 	game.add_player(enemy)
 	game.start()
 	var ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, player.ai_name))
-	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, encounter.enemy_ai_name))
+	var enemy_ai: AIPlayer = AIPlayer.new(ZoneDecks.personality(content, str(args.get("enemy_ai", encounter.enemy_ai_name))))
 	var ais: Array[AIPlayer] = [ai, enemy_ai]
+	var verbose: bool = args.has("verbose")
+	var last_turn: int = -1
 	var items: Dictionary = player.items.duplicate()
 	var used_this_turn: Dictionary = {}
 	var item_turn: int = -1
@@ -101,8 +207,22 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 			if SimItemPolicy.act(game, 0, items, content, used_this_turn):
 				log.append("P0 t%d ITEM hp%d/%d" % [game.turn, game.players[0].hp, game.players[1].hp])
 				continue
+		if verbose and game.turn != last_turn and game.stage == GameState.Stage.PLAYING:
+			last_turn = game.turn
+			log.append("== turn %d (P%d) %s" % [game.turn, game.active, _board(game)])
+		var started: int = Time.get_ticks_usec()
 		var action: GameAction = ais[who].choose_action(game)
-		if action.type != GameAction.Type.PASS and action.type != GameAction.Type.KEEP_HAND:
+		var spent: float = float(Time.get_ticks_usec() - started) / 1000.0
+		_think_count[who] += 1
+		_think_total[who] += spent
+		_think_max[who] = maxf(_think_max[who], spent)
+		if spent > 1000.0:
+			_think_slow[who] += 1
+		if verbose:
+			var text: String = _describe(game, action)
+			if not text.is_empty():
+				log.append("P%d t%d %s hp%d/%d%s" % [who, game.turn, text, game.players[0].hp, game.players[1].hp, (" [%.0f ms]" % spent) if spent >= 100.0 else ""])
+		elif action.type != GameAction.Type.PASS and action.type != GameAction.Type.KEEP_HAND:
 			var card: CardInstance = game.find_card(action.card_uid)
 			var extra: String = ""
 			match action.type:
