@@ -51,6 +51,16 @@ func test_every_item_with_art_is_for_sale_and_every_item_without_is_not() -> voi
 		assert_eq(Session.buy_cosmetic(item.id), SpriteCosmetics.art_ready(item), "%s: buyable exactly when its art exists" % item.id)
 
 
+func test_a_held_hat_is_not_sold_or_worn_until_its_redo() -> void:
+	_open_everything()
+	Session.gold = 5000
+	var crown: CosmeticData = CosmeticCatalog.find("hat_leaf_crown")
+	assert_true(SpriteCosmetics.HELD_HATS.has(crown.art_name), "the upright-ring Leaf Crown sheet waits for its redo")
+	assert_false(SpriteCosmetics.art_ready(crown), "a held hat is 'arriving soon'")
+	assert_false(Session.buy_cosmetic("hat_leaf_crown"), "a held hat cannot be bought")
+	assert_eq(Session.gold, 5000)
+
+
 func test_the_found_pieces_arrive_owned() -> void:
 	Session.grant_chest_reward(GainlandsZone.CHEST_REWARDS["chest_ground_0"] as Dictionary)
 	assert_true(Session.cosmetics.owns("cloak_tattered"), "the Gainlands chest gives the Tattered Cloak")

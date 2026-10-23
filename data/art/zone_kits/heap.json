@@ -86,17 +86,31 @@
 			"zone": "heap"
 		},
 		"DUMP-BD-ROTHEART": {
+			"aspect": 2.0,
 			"asset": "Rotheart in haze",
 			"category": "Sky / backdrop",
 			"desc": "Distant giant tree. Wide, soft, no hard horizon objects in the middle. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				2048,
+				1024
+			],
 			"group": "backdrop",
 			"id": "DUMP-BD-ROTHEART",
 			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
 			"priority": "2",
+			"px": [
+				2048,
+				1024
+			],
 			"sheet_status": "Requested",
 			"size": "2048x1024 PNG",
 			"slot": "backdrop.dump-bd-rotheart",
 			"tinted": false,
+			"transparent": false,
 			"use": "World look sky ring / distant backdrop",
 			"zone": "heap"
 		},
@@ -159,13 +173,27 @@
 			"zone": "heap"
 		},
 		"DUMP-DEC-MOSS": {
+			"aspect": 0.994,
 			"asset": "Moss patch",
 			"category": "Decal",
+			"cleared_alpha": 39344,
 			"desc": "Moss growth on metal. Top-down, transparent soft edge. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "decal",
 			"id": "DUMP-DEC-MOSS",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
 			"priority": "3",
+			"px": [
+				953,
+				959
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "decal.dump-dec-moss",
@@ -203,13 +231,27 @@
 			"zone": "heap"
 		},
 		"DUMP-DEC-PETAL": {
+			"aspect": 0.986,
 			"asset": "Wild petals",
 			"category": "Decal",
+			"cleared_alpha": 110600,
 			"desc": "Colourful petals. Top-down, transparent soft edge. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "decal",
 			"id": "DUMP-DEC-PETAL",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
 			"priority": "3",
+			"px": [
+				934,
+				947
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "decal.dump-dec-petal",
@@ -247,13 +289,27 @@
 			"zone": "heap"
 		},
 		"DUMP-DEC-RUST": {
+			"aspect": 0.995,
 			"asset": "Rust stain",
 			"category": "Decal",
+			"cleared_alpha": 288908,
 			"desc": "Orange rust runs. Top-down, transparent soft edge. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "decal",
 			"id": "DUMP-DEC-RUST",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
 			"priority": "3",
+			"px": [
+				975,
+				980
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "decal.dump-dec-rust",
@@ -538,13 +594,36 @@
 			"asset": "Compost soil",
 			"category": "Surface",
 			"desc": "Dark rich compost with leaf scraps and eggshell. Seamless, tileable, albedo only, flat even light. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "ground",
 			"id": "DUMP-GROUND-COMPOST",
 			"lock": "SURFACE",
+			"maps": true,
 			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.05,
+					"before": 1.84
+				},
+				"y": {
+					"after": 0.94,
+					"before": 1.77
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "ground.dump-ground-compost",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (ground)",
 			"zone": "heap"
@@ -591,13 +670,36 @@
 			"asset": "Junk gravel",
 			"category": "Surface",
 			"desc": "Gravel of glass chips, bottle caps and rust flakes. Seamless, tileable, albedo only, flat even light. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "ground",
 			"id": "DUMP-GROUND-GRAVEL",
 			"lock": "SURFACE",
+			"maps": true,
 			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 0.86,
+					"before": 1.97
+				},
+				"y": {
+					"after": 0.93,
+					"before": 2.01
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "ground.dump-ground-gravel",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (ground)",
 			"zone": "heap"
@@ -1468,13 +1570,27 @@
 			"zone": "heap"
 		},
 		"DUMP-PROP-WINDMILL": {
+			"aspect": 0.671,
 			"asset": "Rusty windmill",
 			"category": "Prop",
+			"cleared_alpha": 37846,
 			"desc": "Small patched windmill. Single prop, transparent background, slightly oversized storybook scale. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "prop",
 			"id": "DUMP-PROP-WINDMILL",
 			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
 			"priority": "3",
+			"px": [
+				680,
+				1013
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "prop.dump-prop-windmill",
@@ -1524,13 +1640,36 @@
 			"asset": "Reed and bottle roof",
 			"category": "Surface",
 			"desc": "Reed thatch studded with green glass bottles. Seamless, tileable, albedo only, flat even light. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1024
+			],
 			"group": "roof",
 			"id": "DUMP-ROOF-THATCH",
 			"lock": "SURFACE",
+			"maps": true,
 			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.63,
+					"before": 2.43
+				},
+				"y": {
+					"after": 0.42,
+					"before": 2.08
+				}
+			},
 			"sheet_status": "Requested",
 			"size": "1024x1024 PNG, tileable",
 			"slot": "roof.dump-roof-thatch",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
 			"tinted": false,
 			"use": "Kit material swap for this zone (roof)",
 			"zone": "heap"
@@ -2959,13 +3098,27 @@
 			"zone": "heap"
 		},
 		"DUMP-TREE-ROTHEART": {
+			"aspect": 0.67,
 			"asset": "Rotheart tree",
 			"category": "Tree / plant",
+			"cleared_alpha": 90293,
 			"desc": "The enormous Rotheart tree seen far away, warm haze. Single object, transparent background, trunk base at bottom centre, round and storybook-sized. Palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C. Mood: scrappy, hopeful, nature reclaiming junk. Building language: Patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"from_px": [
+				1024,
+				1536
+			],
 			"group": "tree",
 			"id": "DUMP-TREE-ROTHEART",
 			"lock": "TREE",
+			"pivot": [
+				0.496,
+				1.0
+			],
 			"priority": "2",
+			"px": [
+				1024,
+				1529
+			],
 			"sheet_status": "Requested",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.dump-tree-rotheart",

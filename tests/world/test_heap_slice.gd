@@ -507,6 +507,12 @@ func test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes() -> void:
 		for key: Variant in layout.anchors.keys():
 			var anchor: Vector3 = layout.anchors[key] as Vector3
 			assert_gte(Vector2(pos.x - anchor.x, pos.z - anchor.z).length(), 2.0, "%s keeps off %s" % [child.name, key])
+	if EnvKit.has_art("DUMP-PROP-WINDMILL"):
+		var mills: Array[Node] = dressing.root.find_children("Cluster_windmill_plot_*", "", false, false)
+		var spots: Array[String] = []
+		for mill: Node in mills:
+			spots.append("(%.0f, %.0f)" % [(mill as Node3D).position.x, (mill as Node3D).position.z])
+		assert_eq(mills.size(), 3, "the three little windmills stand on the farm and market terraces: %s" % ", ".join(spots))
 	assert_null(builder.root.find_child("ScrapFence", false, false), "no tyre wall and no dividers any more")
 	assert_not_null(builder.root.find_child("PlankWalks", false, false), "plank walks on the main routes")
 	var shacks: int = 0

@@ -990,6 +990,15 @@ func _teleport(anchor_name: String) -> void:
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 30.0
 		return
+	if anchor_name.begins_with("xz:"):
+		# a screenshot at any ground spot (art import Oct 23: framing the kit swaps), "xz:<x>,<z>"
+		var parts: PackedStringArray = anchor_name.trim_prefix("xz:").split(",")
+		var x: float = float(parts[0])
+		var z: float = float(parts[1]) if parts.size() > 1 else 0.0
+		player.position = Vector3(x, heap.layout.ground_height(x, z), z)
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 30.0
+		return
 	if anchor_name == "bridge_center_mid":
 		# a screenshot on the arched bridge: every bridge grown for the shot (the hero would fall through an ungrown span)
 		for growth: HeapGrowth.Growth in HeapGrowth.all():

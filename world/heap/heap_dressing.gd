@@ -28,6 +28,10 @@ const KIT_CLUSTERS: Array = [
 	["goat_cart", Vector2(26.5, 86.0), 90.0],
 	["scrap_sorting", Vector2(56.0, 80.0), 160.0],
 	["tyre_garden", Vector2(74.0, 90.0), 180.0],
+	# art import Oct 23: the little patched windmills (DUMP-PROP-WINDMILL) pumping water for the crop rows and the market gardens
+	["windmill_plot", Vector2(37.0, 79.0), 180.0],
+	["windmill_plot", Vector2(64.0, 76.0), 200.0],
+	["windmill_plot", Vector2(52.0, 97.0), 180.0],
 	# the compost terrace: the landing's shoulders, the machinery by the gorge, the east pocket
 	["bottle_wall", Vector2(44.0, 53.0), 180.0],
 	["compost_corner", Vector2(32.0, 58.0), 270.0],

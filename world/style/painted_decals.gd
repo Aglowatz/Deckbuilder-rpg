@@ -50,7 +50,7 @@ static func place(entries: Array, context: Dictionary, seed_value: int, quality:
 			tries += 1
 			KeepAlive.tick()
 			var placement: Placement = Placement.new()
-			placement.id = str(entry["id"])
+			placement.id = PaintedLibrary.entry_name(entry, "id")
 			placement.radius = rng.randf_range(radius_min, radius_max)
 			if surface == "wall":
 				if walls.is_empty():

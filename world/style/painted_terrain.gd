@@ -39,7 +39,8 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		var layer: Dictionary = entry as Dictionary
 		if count >= MAX_LAYERS:
 			break
-		var albedo: Texture2D = PaintedLibrary.albedo(str(layer["tex"]))
+		var tex_name: String = PaintedLibrary.entry_name(layer, "tex")
+		var albedo: Texture2D = PaintedLibrary.albedo(tex_name)
 		if albedo == null:
 			if count == 0:
 				return null
@@ -50,7 +51,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		var mode: int = int(MODES.get(mode_name, 0))
 		var slot: String = "l%d" % count
 		result.set_shader_parameter("%s_a" % slot, albedo)
-		var nr: Texture2D = PaintedLibrary.normal_rough(str(layer["tex"]))
+		var nr: Texture2D = PaintedLibrary.normal_rough(tex_name)
 		result.set_shader_parameter("%s_n" % slot, nr if nr != null else PaintedLibrary.flat_nr())
 		var key: Color = PaintedLibrary.linear(PaintedLibrary.color_of(layer.get("key", "#000000")))
 		var mask_channel: int = 0

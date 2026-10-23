@@ -34,6 +34,15 @@ static func set_enabled(value: bool) -> void:
 
 
 ## The albedo texture of `name` (e.g. "town_grass"), or null (reported once in `missing`).
+## The texture name of a preset layer ("tex") or decal ("id") entry: a zone kit id that has no art yet gives way to the entry's "fallback" (the painted
+## stand-in it replaced, art import Oct 23), so a missing kit file never leaves a hole.
+static func entry_name(entry: Dictionary, key: String) -> String:
+	var name: String = str(entry.get(key, ""))
+	if entry.has("fallback") and name.contains("-") and not EnvKit.has_art(name):
+		return str(entry["fallback"])
+	return name
+
+
 static func albedo(name: String) -> Texture2D:
 	# a zone kit surface (DUMP-GROUND-CLOVER) by its id, like the decals
 	if name.contains("-") and EnvKit.has(name):
@@ -209,6 +218,8 @@ static func catalog() -> PackedStringArray:
 		for scope: Dictionary in scopes:
 			for layer: Variant in scope.get("layers", []) as Array:
 				found[str((layer as Dictionary)["tex"])] = true
+				if (layer as Dictionary).has("fallback"):
+					found[str((layer as Dictionary)["fallback"])] = true
 		var cliff: Dictionary = data.get("cliff", {}) as Dictionary
 		if cliff.has("tex"):
 			found[str(cliff["tex"])] = true
@@ -220,6 +231,8 @@ static func catalog() -> PackedStringArray:
 			found[str(value)] = true
 		for decal: Variant in data.get("decals", []) as Array:
 			found["decal:%s" % str((decal as Dictionary)["id"])] = true
+			if (decal as Dictionary).has("fallback"):
+				found["decal:%s" % str((decal as Dictionary)["fallback"])] = true
 	# zone kit surfaces and decals named by id (DUMP-GROUND-CLOVER, decal:DUMP-DEC-CORRUPT) are the zone kit registry's, not painted texture sets
 	for key: Variant in found.keys():
 		if str(key).contains("-"):

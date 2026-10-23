@@ -138,3 +138,10 @@ func test_variants_and_specials_name_existing_textures() -> void:
 			assert_gte(PaintedLibrary.layer_index(str((special as Dictionary)["tex"])), 0, "%s special %s must be in the material array" % [id, (special as Dictionary)["tex"]])
 		assert_lte((preset.get("special", []) as Array).size() + (preset.get("atlas_override", {}) as Dictionary).size(), 3, "%s: at most three special kinds" % id)
 	assert_true(PaintedLibrary.missing.is_empty())
+
+
+func test_a_kit_layer_without_art_falls_back_to_its_stand_in() -> void:
+	assert_eq(PaintedLibrary.entry_name({"tex": "DUMP-NO-SUCH-ART", "fallback": "dump_junkgravel"}, "tex"), "dump_junkgravel")
+	assert_eq(PaintedLibrary.entry_name({"tex": "DUMP-NO-SUCH-ART"}, "tex"), "DUMP-NO-SUCH-ART", "no fallback: the name as written")
+	if EnvKit.has_art("DUMP-GROUND-GRAVEL"):
+		assert_eq(PaintedLibrary.entry_name({"tex": "DUMP-GROUND-GRAVEL", "fallback": "dump_junkgravel"}, "tex"), "DUMP-GROUND-GRAVEL", "kit art wins")

@@ -124,7 +124,8 @@ static func _materials(mesh: KitMesh) -> void:
 	mesh.set_material("doors", _surface("DUMP-WALL-DOORS", RUST))
 	mesh.set_material("mosswood", _surface("DUMP-WALL-MOSSWOOD", SLATE))
 	mesh.set_material("tin", _surface("DUMP-ROOF-TIN", RUST))
-	mesh.set_material("reed", _surface("DUMP-ROOF-REED", GOLD))
+	# art import Oct 23: the reed-and-bottle thatch (DUMP-ROOF-THATCH) replaces the plain reed stand-in on the "reed" roofs
+	mesh.set_material("reed", _surface("DUMP-ROOF-THATCH" if EnvKit.has_art("DUMP-ROOF-THATCH") else "DUMP-ROOF-REED", GOLD))
 	mesh.set_material("plank", _surface("DUMP-PATH-PLANK", BARK))
 	mesh.set_material("rope", _surface("DUMP-TRIM-ROPE", CREAM))
 	mesh.set_material("corrupt_ground", _surface("DUMP-GROUND-CORRUPT", ROT_VIOLET))

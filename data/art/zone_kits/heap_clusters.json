@@ -2,6 +2,14 @@
 	"_about": "Verdant Dump prop clusters (ZoneClusters, world/kit/zone_clusters.gd): vignettes of the zone kit's painted cards (DUMP-PROP-*, DUMP-PLANT-*) placed by name by HeapDressing at the hub's rim, the shacks' doors, the tyre wall, the farm and the stream banks. Local frame: origin on the ground, the wall or back is -z, the open side +z. Art Bible G-05 and GC-1: props gather at walls, doorways and junctions in a few tidy clusters, never scattered.",
 	"zone": "heap",
 	"clusters": {
+		"windmill_plot": {
+			"length": 3.0, "depth": 2.0,
+			"pieces": [
+				{"card": "DUMP-PROP-WINDMILL", "pos": [0.0, 0.0], "height": 4.2},
+				{"card": "DUMP-PLANT-WILD", "pos": [1.4, 0.5], "height": 0.9, "solid": false}
+			],
+			"clumps": []
+		},
 		"tyre_garden": {
 			"length": 3.2, "depth": 1.4,
 			"pieces": [
