@@ -3559,3 +3559,11 @@ test_art_revisions). Node spots for S-PASTE and D-LAB were re-fitted to the pain
 stand-ins, with the old look as fallback. The Dump stables stay 3D, re-skinned with DUMP-WALL-SCRAP.
 Part 3 - `docs/art/import_oct22_partial.md`: 50 done, 1 redo (COS-HAT-LEAFCROWN-SHEET: an upright ring, 3 views clipped), 22 still to make
 (9 Dump kit pieces, the 13 portrait fixes). Checks: GUT 2163/2164 (1 pending), prologue, Old Well, Gainlands walk, Dump walk and release smokes OK.
+
+## Oct 23 - Art Batch Oct 22, final import
+Part 1 - Pending Review was empty: the 22 delivered files (9 DUMP kit pieces, 13 portrait fixes) were already in the Approved folders. All 22 read
+through to the end; nothing else changed in the Drive. Not delivered: the Leaf Crown redo and the four lieutenant gear icons.
+Part 2 - 13 portraits replaced (all match their world sprites; checked in dialogue). Leaf Crown held back (`SpriteCosmetics.HELD_HATS`: "Soon", not
+worn). Dump: thatch on the reed roofs, kit gravel/compost ground and rust/petal/moss decals (stand-ins kept as `fallback`, `PaintedLibrary.entry_name`),
+three windmill plots on the farm terraces; Medium 65-76 fps. DUMP-BD-ROTHEART needs a transparent sky (REDO); DUMP-TREE-ROTHEART has no place yet.
+Part 3 - `docs/art/import_oct22_final.md` (batch at 70 of 73). Checks: GUT 2170 passing (1 pending), Dump walk, prologue and release smokes OK.

@@ -3,7 +3,7 @@
 Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), target: `res://assets/art/zone_kits/heap/`, registry: `res://data/art/zone_kits/heap.json`.
 
 
-## Imported (50)
+## Imported (59)
 
 - DUMP-HERO-ROTHEART (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-ROTHEART.jpg)
 - DUMP-HERO-JUNK-MOUNTAIN (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-JUNK-MOUNTAIN.jpg)
@@ -55,18 +55,18 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), t
 - DUMP-WALL-SCRAP (surface 1024x1024, 2.56 m tile, seam x 1.7->1.2, y 1.5->1.5)
 - DUMP-HERO-SCRAPMORE (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-SCRAPMORE.jpg)
 - DUMP-PROP-STABLE (cutout 1514x994 trimmed, pivot 0.50,1.00)
+- DUMP-ROOF-THATCH (surface 1024x1024, 2.56 m tile, seam x 2.4->1.6, y 2.1->0.4)
+- DUMP-GROUND-GRAVEL (surface 1024x1024, 2.56 m tile, seam x 2.0->0.9, y 2.0->0.9)
+- DUMP-GROUND-COMPOST (surface 1024x1024, 2.56 m tile, seam x 1.8->1.1, y 1.8->0.9)
+- DUMP-TREE-ROTHEART (tree 1024x1529 trimmed, pivot 0.50,1.00)
+- DUMP-PROP-WINDMILL (cutout 680x1013 trimmed, pivot 0.50,1.00)
+- DUMP-DEC-RUST (cutout 975x980 trimmed, pivot 0.50,0.50)
+- DUMP-DEC-PETAL (cutout 934x947 trimmed, pivot 0.50,0.50)
+- DUMP-DEC-MOSS (cutout 953x959 trimmed, pivot 0.50,0.50)
+- DUMP-BD-ROTHEART (backdrop 2048x1024, opaque)
 
-## Missing ids (9)
+## Missing ids (0)
 
-- DUMP-ROOF-THATCH
-- DUMP-GROUND-GRAVEL
-- DUMP-GROUND-COMPOST
-- DUMP-TREE-ROTHEART
-- DUMP-PROP-WINDMILL
-- DUMP-DEC-RUST
-- DUMP-DEC-PETAL
-- DUMP-DEC-MOSS
-- DUMP-BD-ROTHEART
 
 ## Files that match no kit id (6)
 
@@ -77,7 +77,8 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), t
 - PAINTOVER-DUMP-THRONE-APPROACH.png
 - PAINTOVER-DUMP-WETLANDS.png
 
-## Notes (2)
+## Notes (3)
 
 - DUMP-SKY-SUNSET: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)
 - DUMP-SKY-SUNSET-SOFT: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)
+- DUMP-BD-ROTHEART: opaque: no transparent sky above the skyline (a full-frame picture, not a ring strip)
