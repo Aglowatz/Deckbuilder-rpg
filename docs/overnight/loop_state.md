@@ -10,15 +10,14 @@ sheet_changes.md; no art generation, no Pending Review; no enemy intent; black m
 PC: 7.4 GB RAM, ~0.8 GB free at start (ChatGPT + other sessions) - small foreground sims only.
 
 ## Done (commits)
-- Part 0: the Oct 22 vendor-stock work (UI + economy Part 5) was left uncommitted; tests 15/15 + compile OK, stock tables filled -> 1728a641.
+- Part 0: Oct 22 vendor stocks committed (1728a641).
+- Part 2 b6cc48e6, Part 3 a32b0b8b, Part 4 f12d3fe4 (GUT 2168/2169 + 1 pending, story bot 90/90, quest/walk/playtest smokes OK).
+- Part 1 ed7d7889 (model audit 82/82, sweep m1, six outliers fixed on 2 seeds, tutorial 87-94%).
 
 ## Now
-- Part 1: ProgressionModel.UPGRADES rewritten to the Oct 22 shops (tools/reference_deck_audit.gd: all 82 cards ownable). Sweep m1
-  (6 games/Path, seed 7000): town + zone: done (docs/design/sim/oct22n/m1_*); D-, S-, arena still to run (chain paused 21:51 for checks).
-- Parts 2-4 code done (zone_scene split, Wren insights, Agnes .met, Maren idle.N, Primm lesson_key, barks_freed, Path choice screen,
-  Billie Muckfoot / Shredna). Checks so far: tests 42/42, quest smoke OK, story bot 90/90 (bot learned the early chain; NpcHp/NpcBarks
-  freed-object fix), heap/buffet/gainlands walk OK. Running: capital/dna/crosspath walk + playtest smoke. Then GUT (3 batches), commit.
-- Then resume the sweep: chain.sh m1 7000 6 dungeon:D- dungeon:S- arena.
+- Part 5: test pack builds/_testpack/TheWaywardPath_test.pck (tools/export_test_pack.sh; 499 .import files changed by the import rules -
+  revert after Part 6 with git checkout). Matrix running in background -> _logs/suite.txt (tools/run_exported_suite.sh).
+  Exported playtest d3d12 Medium OK. Next: zone --wear hook added (uncommitted) -> rebuild pack -> 11 feature shots.
 
 ## Next
 - Parts 2-6, then Phase 2 loop, then the morning report.
