@@ -130,6 +130,10 @@ Godot --headless --path . -s res://tools/run_dungeon_simulation.gd -- --runs=500
 tools/sync_assets.sh                # copy the audio files named in app/audio_catalog.gd into assets/
 ```
 
+**Windows release:** close Godot and free about 2 GB of RAM (browsers, other terminals), then run
+`bash tools/export_windows.sh <version>` in the foreground (~4 min). It ends with `EXPORT OK` and the zip path; on any problem it
+prints `EXPORT STOPPED` and leaves the previous zip untouched. Details and how to check a zip: `docs/release/how_to_build.md`.
+
 The two `run_*_smoke.sh` scripts and `run_e2e.sh` open a real window for injected mouse/keyboard
 input; run them one at a time, not alongside each other or the editor, on a memory-constrained
 machine.
