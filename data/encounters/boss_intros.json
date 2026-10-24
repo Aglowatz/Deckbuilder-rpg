@@ -1,31 +1,177 @@
 {
 	"_about": "Overnight Oct 23, Part 3: the short skippable entrance before a boss, lieutenant or gatekeeper battle (BossIntro, ui/battle/boss_intro.gd). Key = the battle's enemy name as the battle shows it (for 'Name, Title' and 'Name - Phase' names the part before the separator also matches). title = the line under the name card (default: the part after ', '), line = the opening line, sting = an STG- music sting id, path = the accent colour (beefcake/necrocrat/gourmand/refusemancer/regime/neutral).",
-	"Hollow Warden": {"title": "Keeper of the House", "line": "...You smell familiar. Show me your hands.", "sting": "STG-DUNGEON", "path": "neutral"},
-	"Brick Bronson": {"title": "The Spotter of the Gorge", "line": "NOBODY CROSSES WITHOUT A SPOTTER. I AM THE SPOTTER. ALSO: HYDRATE.", "sting": "STG-ZONE-BEEF", "path": "beefcake"},
-	"Chef Fennel Gravois": {"title": "Keeper of the Pantry Key", "line": "TASTE IT. TASTE IT! It's for the war effort!", "sting": "STG-ZONE-GOUR", "path": "gourmand"},
-	"Moss Mulligan": {"title": "The Corrupted Druid", "line": "...the green is hungry... stay... stay and be fed...", "sting": "STG-ZONE-REF", "path": "refusemancer"},
-	"Prudence Pallor": {"title": "Checkpoint Supervisor", "line": "Your number is zero. It is always zero. Please hold.", "sting": "STG-ZONE-NECRO", "path": "necrocrat"},
-	"The Restless Dead": {"title": "Who Wait Under the Cairn", "line": "The stones count. One. Two. The dead are counting with them.", "sting": "STG-SECRET", "path": "necrocrat"},
-	"Shiro Swindle": {"title": "Master of the Oldest Trick", "line": "You found me! Nobody finds me. Which means this is a trick. Mine.", "sting": "STG-SHIRO", "path": "neutral"},
-	"The Warden of the Four Seals": {"title": "Keeper of the Four-Seal Vault", "line": "Four seals, four Paths, one hand. Show me the hand.", "sting": "STG-SECRET", "path": "neutral"},
-	"The Wellspring's Echo": {"title": "Voice of the Old Well", "line": "...you came back... the water remembers the shape of you...", "sting": "STG-SECRET", "path": "neutral"},
-	"Chancellor Clench, Iron Regent": {"title": "Iron Regent of the Gainlands", "line": "Strength is control. Control is paperwork. DROP AND GIVE ME FORMS.", "sting": "STG-ZONE-BEEF", "path": "beefcake"},
-	"Vivienne Quota, Minister of Efficiency": {"title": "Minister of Efficiency", "line": "You arrived four seconds late. I have already deducted it from you.", "sting": "STG-ZONE-BEEF", "path": "beefcake"},
-	"Baron Quadzilla": {"title": "The Leg Press Lord", "line": "Nobody. Skips. Leg day. (rep) In my cave.", "sting": "STG-ZONE-BEEF", "path": "beefcake"},
-	"The Ancient Spotter": {"title": "Guardian of Mount Swolympus", "line": "Lift. I will catch it. I have always caught it.", "sting": "STG-ZONE-BEEF", "path": "beefcake"},
-	"The Doppelganger": {"title": "Grand Chef of the Test Kitchen (allegedly)", "line": "Welcome to my kitchen. Delicious. I have been told that is the word.", "sting": "STG-ZONE-GOUR", "path": "gourmand"},
-	"The Itamae Supreme": {"title": "Master of the Omakase", "line": "Omakase.", "sting": "STG-ZONE-GOUR", "path": "gourmand"},
-	"Colonel Cornelius Crumb, Director of Culinary Defense": {"title": "Director of Culinary Defense", "line": "Whisk formation! This is not a drill, it is a souffle!", "sting": "STG-ZONE-GOUR", "path": "gourmand"},
-	"Mortimer Grimsby, CE-No": {"title": "CE-No of the D.N.A.", "line": "The answer is no. The question is irrelevant. Please state your case anyway.", "sting": "STG-ZONE-NECRO", "path": "necrocrat"},
-	"Betty Bones, Surly Secretary": {"title": "Surly Secretary", "line": "Forms A through F. Then we'll talk. We won't, but still.", "sting": "STG-ZONE-NECRO", "path": "necrocrat"},
-	"Percival Plume, Deputy Minister of Good News": {"title": "Deputy Minister of Good News", "line": "Great news, citizens! This fight has been approved, and you have lost it!", "sting": "STG-ZONE-NECRO", "path": "necrocrat"},
-	"Compostella, the Rotheart": {"title": "The Rotheart", "line": "I am what you throw away. I am what grows back. I am HUNGRY.", "sting": "STG-ZONE-REF", "path": "refusemancer"},
-	"Hortensia Clipwell, Royal Groundskeeper": {"title": "Royal Groundskeeper", "line": "Such a pretty weed. Such a shame. Do hold still, dear.", "sting": "STG-ZONE-REF", "path": "refusemancer"},
-	"His Majesty the Raccoon": {"title": "Sovereign of the Throne of Lids", "line": "WE DID NOT EAT THE COMPOST. We... sampled it. On behalf of the kingdom.", "sting": "STG-ZONE-REF", "path": "refusemancer"},
-	"Enforcer Captain Spotless": {"title": "Enforcer Captain of the Grate", "line": "HALT. State your height. No: do not state it. Stand at it.", "sting": "STG-DUNGEON", "path": "regime"},
-	"Captain Spotless": {"title": "Keeper of the Capital Gate", "line": "HALT. That is a smudge. That is a smudge on a CITIZEN.", "sting": "STG-DUNGEON", "path": "regime"},
-	"Primm": {"title": "His Perfection", "line": "Do mind the floor. It has just been polished, by seventeen people, whom I thank daily, in writing.", "sting": "STG-DUNGEON", "path": "regime"},
-	"The Old Kingdom Automaton": {"title": "Guardian of the Vault Core", "line": "Tick. Identify. Tick.", "sting": "STG-SECRET", "path": "neutral"},
-	"Dr. Ambrose Siphon, Chief Path-ologist": {"title": "Chief Path-ologist", "line": "Subject 1. You've grown. This will only drain a little.", "sting": "STG-SECRET", "path": "regime"},
-	"Announcer Grand Bellows": {"title": "Voice of the Undercroft", "line": "IN THIS CORNER: A CHALLENGER! IN THAT CORNER: ME! (normal voice) Hello.", "sting": "STG-ARENA", "path": "neutral"}
+	"Hollow Warden": {
+		"title": "Keeper of the House",
+		"line": "...You smell familiar. Show me your hands.",
+		"sting": "STG-DUNGEON",
+		"path": "neutral"
+	},
+	"Brick Bronson": {
+		"title": "The Spotter of the Gorge",
+		"line": "NOBODY CROSSES WITHOUT A SPOTTER. I AM THE SPOTTER. ALSO: HYDRATE.",
+		"sting": "STG-ZONE-BEEF",
+		"path": "beefcake"
+	},
+	"Chef Fennel Gravois": {
+		"title": "Keeper of the Pantry Key",
+		"line": "TASTE IT. TASTE IT! It's for the war effort!",
+		"sting": "STG-ZONE-GOUR",
+		"path": "gourmand"
+	},
+	"Moss Mulligan": {
+		"title": "The Corrupted Druid",
+		"line": "...the green is hungry... stay... stay and be fed...",
+		"sting": "STG-ZONE-REF",
+		"path": "refusemancer"
+	},
+	"Prudence Pallor": {
+		"title": "Checkpoint Supervisor",
+		"line": "Your number is zero. It is always zero. Please hold.",
+		"sting": "STG-ZONE-NECRO",
+		"path": "necrocrat"
+	},
+	"The Restless Dead": {
+		"title": "Who Wait Under the Cairn",
+		"line": "The stones count. One. Two. The dead are counting with them.",
+		"sting": "STG-SECRET",
+		"path": "necrocrat"
+	},
+	"Shiro Swindle": {
+		"title": "Master of the Oldest Trick",
+		"line": "You found me! Nobody finds me. Which means this is a trick. Mine.",
+		"sting": "STG-SHIRO",
+		"path": "neutral"
+	},
+	"The Warden of the Four Seals": {
+		"title": "Keeper of the Four-Seal Vault",
+		"line": "Four seals, four Paths, one hand. Show me the hand.",
+		"sting": "STG-SECRET",
+		"path": "neutral"
+	},
+	"The Wellspring's Echo": {
+		"title": "Voice of the Old Well",
+		"line": "...you came back... the water remembers the shape of you...",
+		"sting": "STG-SECRET",
+		"path": "neutral"
+	},
+	"Chancellor Clench, Iron Regent": {
+		"title": "Iron Regent of the Gainlands",
+		"line": "Strength is control. Control is paperwork. DROP AND GIVE ME FORMS.",
+		"sting": "STG-ZONE-BEEF",
+		"path": "beefcake"
+	},
+	"Vivienne Quota, Minister of Efficiency": {
+		"title": "Minister of Efficiency",
+		"line": "You arrived four seconds late. I have already deducted it from you.",
+		"sting": "STG-ZONE-BEEF",
+		"path": "beefcake"
+	},
+	"Baron Quadzilla": {
+		"title": "The Leg Press Lord",
+		"line": "Nobody. Skips. Leg day. (rep) In my cave.",
+		"sting": "STG-ZONE-BEEF",
+		"path": "beefcake"
+	},
+	"The Ancient Spotter": {
+		"title": "Guardian of Mount Swolympus",
+		"line": "Lift. I will catch it. I have always caught it.",
+		"sting": "STG-ZONE-BEEF",
+		"path": "beefcake"
+	},
+	"The Doppelganger": {
+		"title": "Grand Chef of the Test Kitchen (allegedly)",
+		"line": "Welcome to my kitchen. Delicious. I have been told that is the word.",
+		"sting": "STG-ZONE-GOUR",
+		"path": "gourmand"
+	},
+	"The Itamae Supreme": {
+		"title": "Master of the Omakase",
+		"line": "Omakase.",
+		"sting": "STG-ZONE-GOUR",
+		"path": "gourmand"
+	},
+	"Colonel Cornelius Crumb, Director of Culinary Defense": {
+		"title": "Director of Culinary Defense",
+		"line": "Whisk formation! This is not a drill, it is a souffle!",
+		"sting": "STG-ZONE-GOUR",
+		"path": "gourmand"
+	},
+	"Mortimer Grimsby, CE-No": {
+		"title": "CE-No of the D.N.A.",
+		"line": "The answer is no. The question is irrelevant. Please state your case anyway.",
+		"sting": "STG-ZONE-NECRO",
+		"path": "necrocrat"
+	},
+	"Betty Bones, Surly Secretary": {
+		"title": "Surly Secretary",
+		"line": "Forms A through F. Then we'll talk. We won't, but still.",
+		"sting": "STG-ZONE-NECRO",
+		"path": "necrocrat"
+	},
+	"Percival Plume, Deputy Minister of Good News": {
+		"title": "Deputy Minister of Good News",
+		"line": "Great news, citizens! This fight has been approved, and you have lost it!",
+		"sting": "STG-ZONE-NECRO",
+		"path": "necrocrat"
+	},
+	"Compostella, the Rotheart": {
+		"title": "The Rotheart",
+		"line": "I am what you throw away. I am what grows back. I am HUNGRY.",
+		"sting": "STG-ZONE-REF",
+		"path": "refusemancer"
+	},
+	"Hortensia Clipwell, Royal Groundskeeper": {
+		"title": "Royal Groundskeeper",
+		"line": "Such a pretty weed. Such a shame. Do hold still, dear.",
+		"sting": "STG-ZONE-REF",
+		"path": "refusemancer"
+	},
+	"His Majesty the Raccoon": {
+		"title": "Sovereign of the Throne of Lids",
+		"line": "WE DID NOT EAT THE COMPOST. We... sampled it. On behalf of the kingdom.",
+		"sting": "STG-ZONE-REF",
+		"path": "refusemancer"
+	},
+	"Enforcer Captain Spotless": {
+		"title": "Enforcer Captain of the Grate",
+		"line": "HALT. State your height. No: do not state it. Stand at it.",
+		"sting": "STG-DUNGEON",
+		"path": "regime"
+	},
+	"Captain Spotless": {
+		"title": "Keeper of the Capital Gate",
+		"line": "HALT. That is a smudge. That is a smudge on a CITIZEN.",
+		"sting": "STG-DUNGEON",
+		"path": "regime"
+	},
+	"Primm": {
+		"title": "His Perfection",
+		"line": "Do mind the floor. It has just been polished, by seventeen people, whom I thank daily, in writing.",
+		"sting": "STG-DUNGEON",
+		"path": "regime"
+	},
+	"The Old Kingdom Automaton": {
+		"title": "Guardian of the Vault Core",
+		"line": "Tick. Identify. Tick.",
+		"sting": "STG-SECRET",
+		"path": "neutral"
+	},
+	"Dr. Ambrose Siphon, Chief Path-ologist": {
+		"title": "Chief Path-ologist",
+		"line": "Subject 1. You've grown. This will only drain a little.",
+		"sting": "STG-SECRET",
+		"path": "regime"
+	},
+	"Announcer Grand Bellows": {
+		"title": "Voice of the Undercroft",
+		"line": "IN THIS CORNER: A CHALLENGER! IN THAT CORNER: ME! (normal voice) Hello.",
+		"sting": "STG-ARENA",
+		"path": "neutral"
+	},
+	"Colonel Casserole": {
+		"title": "Guardian of the Buffet Gate",
+		"line": "Halt, traveller. This gate opens for a duel of honour. Lids up. Yes, Chef.",
+		"sting": "STG-ZONE-GOUR",
+		"path": "gourmand"
+	}
 }

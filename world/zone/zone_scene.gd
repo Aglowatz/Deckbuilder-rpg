@@ -839,8 +839,12 @@ func _world_active() -> bool:
 	return not _locked and not dialogue.active and not _fainting
 
 
+## Overnight Oct 23 (boss entrances): the camera pushes in before an elite's or lieutenant's fight (1 = normal).
+var _battle_push: float = 1.0
+
+
 func _update_camera(delta: float) -> void:
-	var target: Vector3 = player.position + CameraRig.shape(camera_offset)
+	var target: Vector3 = player.position + CameraRig.shape(camera_offset) * _battle_push
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
 	if _cam_shake_time > 0.0:
@@ -1376,7 +1380,11 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	var rule_names: String = EncounterModifiers.names_line(EncounterModifiers.zone_key(Session.zone_run.zone_id if Session.zone_run != null else "", enemy.info.id))
 	hud.toast("%s wants a word...%s" % [enemy.info.display_name, ("  [%s]" % rule_names) if not rule_names.is_empty() else ""], Color("ff8a85"))
 	Audio.sfx(&"enemy_alert")
+	# Overnight Oct 23: an elite or a lieutenant (one with a board entrance) gets the camera push first.
+	if BossIntro.wanted(enemy.info.display_name):
+		create_tween().tween_property(self, "_battle_push", 0.55, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await get_tree().create_timer(0.7).timeout
+	_battle_push = 1.0
 	Session.start_zone_battle(enemy.info.id, enemy.instance_id)
 
 

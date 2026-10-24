@@ -35,3 +35,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
    `docs/overnight/oct23/c7_status.png`); wording now matches the cards ("-2/-0", "1 turn left").
 8. **Balance** (measured, reverted): the Itamae at Elite skill 44 / 31 - no change; per Path on seed 8100 B 25 / G 100 / R 0 / N 0, a
    matchup question for the designer (inbox 3).
+9. **Combat feel**: the zones push the camera in before an elite or lieutenant fight (Colonel Casserole, Captain Spotless, Quota in the
+   Transit Yards); Colonel Casserole gets a board entrance too (29 entrances).
