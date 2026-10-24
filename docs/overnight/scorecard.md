@@ -43,3 +43,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 11. **Dialogue & story**: voice pass over tonight's 93 lines (64 scripted, 29 entrances): ten entrance lines repeated their boss's own
     scripted line nearly word for word (Clench, the Doppelganger, the Raccoon, Plume, Siphon, Crumb, Brick, Compostella, the Spotter,
     Betty, the Itamae) - each pair now says two different things; no line over 160 characters; a check script in the cycle log.
+12. **Balance** (measured, reverted): the Automaton with a 4-point shield and its falter at 15% reads 50 / 81 again - its scripts fire
+    (replay) but its fights are decided by its Old Kingdom heal; reverted. Mean 65 left (boss band 40-60, one seed high).
