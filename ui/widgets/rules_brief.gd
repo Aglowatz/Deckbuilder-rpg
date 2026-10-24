@@ -50,7 +50,15 @@ func _build(title: String) -> void:
 	var row: RuleIconRow = RuleIconRow.make(badges, "", true)
 	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(row)
+	var scripted_heading: bool = false
 	for badge: RuleBadges.Badge in badges:
+		# Overnight Oct 23: the scripted events come after the rules, under their own heading (what CAN happen, once each).
+		if badge.kind == "scripted" and not scripted_heading:
+			scripted_heading = true
+			var heading: Label = UIKit.label("What can happen in this fight (once each):", &"", 18, RuleBadges.SCRIPTED_COLOR)
+			heading.name = "ScriptedHeading"
+			heading.add_theme_font_override("font", UIStyle.font_bold())
+			column.add_child(heading)
 		var line: Label = UIKit.label("%s: %s" % [badge.name, badge.text.split("\n")[0]], &"", 19, badge.color())
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.custom_minimum_size = Vector2(760, 0)
