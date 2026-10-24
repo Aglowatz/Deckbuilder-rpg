@@ -220,3 +220,17 @@ cycle 1); the spells-only arena (cycle 10).
 3. **Renderer default kept at D3D12** (see the morning report for why); Vulkan is one double-click away (`Start (Vulkan).bat`) and two
    bad launches in a row switch to the other driver by themselves (a one-time restart).
 4. Nothing reproduces the Intel-only freeze on this AMD PC. The next tester log will say exactly where the game stopped (wayward.log).
+
+## Oct 23 - Battle AI upgrade - yours to decide (the safest choice was taken)
+
+1. **Gatekeepers at Normal skill.** Brick, Chef, Moss and Prudence are Elite fights (band 60-75%) played by a Normal-skill AI with 15% mistakes
+   so the first hour stays forgiving (`AIPlayer.SKILL_OVERRIDES`). If you want them sharper later, remove the override and ease their decks instead.
+2. **Slow starters vs engines.** With 12 games per cell: Chef 58 for N/G/R, Moss 50 for Necrocrat, the Restless Dead 31 / 25 for Necrocrat /
+   Refusemancer (69 for Gourmand). The Graveyard's summon ladder (`GraveyardBoss.summon_stages`) is the next lever if you want those two Paths up.
+3. **Primm.** His three phases now play at Elite skill (48% cleared overall; Gourmand 25%). Any +1/+1 on a phase made the gauntlet a wall under
+   the new AI. A Gourmand-only ease would be a boon or a phase-1 tweak - your call.
+4. **Chancellor Clench** played nothing for six turns in both reviewed replays (two-Path deck, Powerhouses without Ghost Towns): a deck-build
+   question (the mixed basics split), not the AI. The fight still measures 56% in band.
+5. **The dungeons smoke's Swolympus toast check** fails ("the Swolympus gate says it is sealed"): a Gainlands HUD text, not touched by this
+   brief; last green Oct 17.
+6. **Test Kitchen normals for Refusemancer** (25% before the fuel-hoarding fix) were not re-measured after it; the next sweep will say.

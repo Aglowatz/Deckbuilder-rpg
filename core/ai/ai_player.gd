@@ -43,7 +43,7 @@ const SIGNATURES: Dictionary = {
 	"The Doppelganger": "fortress",
 	"Mortimer Grimsby, CE-No": "paperwork",
 	"Undersecretary Vellum": "paperwork",
-	"Compostella, the Rotheart": "patience",
+	"Compostella, the Rotheart": "all_in",
 	"Dr. Ambrose Siphon, Chief Path-ologist": "paperwork",
 	"Colonel Cornelius Crumb, Director of Culinary Defense": "fortress",
 	"Primm": "all_in",

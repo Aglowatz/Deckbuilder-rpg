@@ -3577,3 +3577,24 @@ Godot mid-pack was tested: nothing replaced. Part 2 - `tools/measure_process.ps1
 D3D12 ~1.45 GB, baker ~0.25 GB; headless skips the baker silently), Compress-Archive 1.56 GB -> tar.exe `--format zip` ~6 MB; dev folders
 get a `.gdignore`; `assets/art/characters/*` excluded. Part 3 - `docs/release/how_to_build.md`. Part 4 - v0.4.5 rebuilt: export peak 1.68 GB,
 zip 688,415,926 bytes, release smoke on the export PASSED.
+
+## Oct 23 - Battle AI upgrade (enemies that play their Path and plan ahead)
+Part 1 - `docs/design/ai_audit.md`: how the old one-step AI chose plays, and its 13 worst habits from 24 verbose replays (turtling, bad
+blocks at low HP, wasted Iron/Red Tape, zero-attack attackers, harmful effects on its own units, no turn plan, Tools re-attached every
+turn, buffs on the unit that never attacks, blind to encounter rules). `tools/replay_encounter.gd --verbose --enemy_ai=`.
+Part 2 - The planning core (`core/ai/`): `AIEvaluator` (concave HP, body value, fast combat model with threat / lethal for both sides /
+race clocks, encounter-rule awareness, per-evaluation cache), `AITurnPlanner` (a beam search per main phase, cached and handed out one
+action at a time), `AICombat` (attack and block candidates played out on clones against a competent block model, chump reluctance),
+`AISanity`, `AISearchBudget` (node caps = deterministic sim games; 500 / 250 ms live time box). 13 new tests; `tools/ai_probe.gd`.
+Part 3 - `AIProfiles`: Path weights blended from the seat's deck (Beefcake presses, Necrocrat goes wide and holds Red Tape, Gourmand
+guards HP and cooks, Refusemancer burns fuel and hates Tools/Wonders); five boss signatures by name (patience, trickster, all_in,
+paperwork, fortress).
+Part 4 - `AIPlayer.Skill` Normal / Elite / Boss per encounter kind (`for_foe`, `EncounterSpec.skill_for`, `Session._skill_for_node`);
+Normal makes 15% second-best attacks and forgets 15% of non-lethal blocks; the tutorial foes keep their own careless rates; the battle
+HUD says "<foe> is thinking..." before a slow decision and holds attack / block announcements longer.
+Part 5 - The sim's seats use the same AI (player = Elite "decent human"). Whole catalog re-measured (`bash tools/ai_sweep.sh`): averages
+held, engine decks got sharper. Opening hour eased (gatekeepers and the first boss at Normal skill, hound deck, Moss 12 HP), one-step rules
+on the too-easy bosses and elites, the Spotless wall and Primm's gauntlet (Elite phases) fixed; a fuel-hoarding bug in the evaluator found
+through the replays. Log: `docs/design/balance_log.md` "Oct 23"; state and tables: `docs/design/ai_state.md`.
+Part 6 - Checks: GUT 2190 passing (1 pending), first-battles smoke OK, story playthrough bot 90/90, dungeons smoke 48 ok + 1 pre-existing world check (the Swolympus toast), replays
+per Path reviewed. Not exported.

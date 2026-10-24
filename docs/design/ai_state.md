@@ -79,7 +79,20 @@ thinks for about a second at most; a search that hits the box returns its best a
 before a slow decision. Sim speed is unchanged (about 1.5-2 s per game at Elite vs Elite; a whole-catalog sweep at 4 games per Path
 takes 48 min).
 
-**Verification (Part 6)**: see the table in `docs/progress.md` ("Battle AI upgrade") once the runs finish.
+**Verification (Part 6)**
+
+| Check | Result |
+|---|---|
+| Full GUT (`bash tools/run_tests.sh`) | 2190 passing, 1 pending (the chef hat art), 0 failing after the skill-override test was updated |
+| First-battles smoke (`bash tools/run_first_battles_smoke.sh`) | OK: battle 1 won in 15 turns by the clicker bot (the Scavenger blocks only lethal hits), tips in order, 53-54 fps while animating |
+| Story playthrough bot (`bash tools/run_story_playthrough.sh`) | 90 steps, 90 passed, 0 failed (new game to the ending, every gatekeeper, zone, side and main dungeon, Primm) |
+| Dungeons smoke (`bash tools/run_dungeons_final_smoke.sh`) | 48 checks ok, 1 FAIL: "the Swolympus gate says it is sealed" - a Gainlands HUD-toast check at the sealed trailhead (`GainlandsZone.SWOLYMPUS_GATE_PROMPT`), untouched by this brief and last seen green on Oct 17; D-TUT and D-HOG ran start to boss (Clench beaten, The Big Unit and the Gilded Pack granted); two notes that the smoke's battle pilot stalled after ~80 steps and the duel was "won by decree" (the pilot, not the AI) |
+| Replays per Path reviewed by eye (`--verbose`) | Beefcake L9 vs Chancellor Clench (2 games, 2 won: Iron before open attacks, Dropped Weights on the Millstone Pusher, Flex on 'Em for the last points); Necrocrat L3 vs Prudence (1 of 2, both sides trading Red Tape sensibly); Gourmand L12 vs Colonel Casserole (2 of 2: Meatloaf Mold cooked on curve, Food Critic bounces the Porter, the Colonel chumps Weenies only when lethal); Refusemancer L19 vs Compostella (2 of 2 at "patience", then 66 / 44% on two seeds after her signature became "all_in" - under Overgrowth a patient boss just watches the player's Prowler grow to 19/21) |
+
+Left in the inbox (`docs/overnight_inbox.md`): Chef Fennel / Moss / the Restless Dead for Necrocrat and Refusemancer starters (slow decks vs
+engines, 12 games per cell), Gourmand's 25% through Primm's gauntlet, the Test Kitchen normals for Refusemancer (measured before the fuel
+fix), Chancellor Clench playing nothing for six turns in both reviewed games (a two-Path deck whose Powerhouses arrive without Ghost
+Towns - a deck-build question, not an AI one: with nothing castable the planner has nothing to plan), and the Swolympus toast check.
 
 ## Part 5 - the catalog under the new AI (summary; details in balance_log.md)
 
