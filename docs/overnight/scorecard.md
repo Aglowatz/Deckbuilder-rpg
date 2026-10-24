@@ -37,3 +37,6 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
    matchup question for the designer (inbox 3).
 9. **Combat feel**: the zones push the camera in before an elite or lieutenant fight (Colonel Casserole, Captain Spotless, Quota in the
    Transit Yards); Colonel Casserole gets a board entrance too (29 entrances).
+10. **Stability**: the dungeons smoke's last failure ("the Swolympus gate says it is sealed", open since Oct 21) was the smoke, not the
+    game - the freed Gainlands' "Quota fled" scene was on screen when it pressed E at the gate. The smoke now finishes open dialogue
+    first: dungeons smoke OK, 49 checks, 0 failures (D-TUT and D-HOG start to boss, with the new scripts and entrances).

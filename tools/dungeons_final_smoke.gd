@@ -124,6 +124,15 @@ func _side_dungeon_via_quest() -> void:
 	_check(not Session.side_unlocked("S-BEEF"), "the Ascent of Mount Swolympus starts sealed")
 	# Gainlands v2 (Oct 17): the zone's "mini_dungeon" spot is the Iron Cave (S-IRON, open from the start); Mount Swolympus has its own sealed trailhead gate.
 	var entrance: ZoneSpot = _spot(zone, GainlandsZone.SWOLYMPUS_GATE)
+	# Oct 23: the freed Gainlands open with a short scene (Quota fled, Oct 21); finish any open dialogue before using the gate, or E
+	# only closes it (this was the 'Swolympus gate says it is sealed' failure since Oct 21).
+	await _stand_at(zone, entrance)
+	await driver.seconds(1.0)
+	for attempt: int in range(16):
+		if not zone.dialogue.active and not zone._locked:
+			break
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.4)
 	await _stand_at(zone, entrance)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.6)
