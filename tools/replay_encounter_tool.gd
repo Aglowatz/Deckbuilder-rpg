@@ -199,6 +199,7 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 	var used_this_turn: Dictionary = {}
 	var item_turn: int = -1
 	var steps: int = 0
+	var scripts_seen: Dictionary = {}
 	while not game.is_over() and steps < BalanceSim.MAX_STEPS_PER_GAME:
 		steps += 1
 		var who: int = game.awaiting_player()
@@ -209,6 +210,13 @@ func _play_logged(content: ContentSet, player: PlayerSpec, encounter: EncounterS
 			if SimItemPolicy.act(game, 0, items, content, used_this_turn):
 				log.append("P0 t%d ITEM hp%d/%d" % [game.turn, game.players[0].hp, game.players[1].hp])
 				continue
+		# Oct 23: scripted boss/elite events, as they fire.
+		for run: Variant in game.script_runs:
+			for id: Variant in (run as EncounterScripts.Run).fired.keys():
+				if not scripts_seen.has(id):
+					scripts_seen[id] = true
+					var fired: EncounterScripts.Trigger = (run as EncounterScripts.Run).trigger(str(id))
+					log.append("!! t%d SCRIPT %s hp%d/%d" % [game.turn, fired.name if fired != null else str(id), game.players[0].hp, game.players[1].hp])
 		if verbose and game.turn != last_turn and game.stage == GameState.Stage.PLAYING:
 			last_turn = game.turn
 			log.append("== turn %d (P%d) %s" % [game.turn, game.active, _board(game)])

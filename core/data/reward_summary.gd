@@ -24,6 +24,10 @@ var cosmetics: Array[String] = []
 var unlocks: Array[String] = []
 ## The player reached these levels from this reward (the level-up popup follows the quest box).
 var levels_reached: Array[int] = []
+## Overnight Oct 23, Part 4: after an elite or boss win in the world, the cards to choose one from (the popup adds the chosen one with
+## `Session.take_reward_pick`); `picked` is the one chosen (null = skipped).
+var card_choices: Array[CardData] = []
+var picked: CardData = null
 
 
 func add_pack(pack_id: String, pack_name: String, count: int = 1) -> void:
@@ -36,7 +40,7 @@ func add_pack(pack_id: String, pack_name: String, count: int = 1) -> void:
 
 ## True when nothing at all was handed over (a quest with no reward still has a popup, so the popup copes with this).
 func is_empty() -> bool:
-	return gold <= 0 and xp <= 0 and cards.is_empty() and items.is_empty() and equipment.is_empty() and packs.is_empty() and cosmetics.is_empty()
+	return gold <= 0 and xp <= 0 and cards.is_empty() and items.is_empty() and equipment.is_empty() and packs.is_empty() and cosmetics.is_empty() and card_choices.is_empty()
 
 
 ## One short line per reward, in the order the popup shows them (also what the tests and the toast fallback read).

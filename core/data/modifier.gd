@@ -145,6 +145,9 @@ enum Kind {
 	FIRST_CARD_COST_CHANGE,
 	## Oct 21 (Siphon's Extraction protocol): at the start of each of the owner's turns, `value` resources of kind `value2` are created for them.
 	START_OF_TURN_RESOURCES,
+	## Overnight Oct 23, Part 1: carries an encounter's scripted mid-fight events (`label` = the EncounterScripts key) onto the foe's
+	## seat; `GameState.add_player` starts the script's runtime from it. No effect by itself.
+	ENCOUNTER_SCRIPT,
 }
 
 ## `color` value meaning "matches every card".

@@ -23,6 +23,8 @@ const ZONE_DEBUFF_ICON: String = "lorc/cursed-star"
 const BOON_ICON: String = "lorc/gem-pendant"
 const CAPITAL_ICON: String = "delapouite/broken-wall"
 const DEFAULT_ICON: String = "lorc/scroll-unfurled"
+## Overnight Oct 23: a boss's or elite's scripted mid-fight event (EncounterScripts) - amber, "what can happen".
+const SCRIPTED_COLOR: Color = Color("ff9f43")
 
 
 class Badge:
@@ -44,9 +46,13 @@ class Badge:
 			return Color("6fbf73")
 		if kind == "zone_debuff" or kind == "capital" or (kind == "encounter" and side == SIDE_ENEMY):
 			return Color("e8625a")
+		if kind == "scripted":
+			return SCRIPTED_COLOR
 		return Color("ffd166")
 
 	func side_text() -> String:
+		if kind == "scripted":
+			return "Scripted event: it happens once, when its moment comes."
 		match side:
 			SIDE_PLAYER:
 				return "Applies to you only."
@@ -133,6 +139,9 @@ static func for_encounter(rules: Array[EncounterModifiers.Rule]) -> Array[Badge]
 			continue
 		seen[rule.name] = true
 		var side: String = SIDE_ENEMY if rule.is_enemy_side() else SIDE_PLAYER
+		if rule.scripted:
+			result.append(_badge("scripted", rule.name, rule.text, rule.icon, SIDE_ENEMY, false))
+			continue
 		result.append(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER and not rule.harmful))
 	return result
 

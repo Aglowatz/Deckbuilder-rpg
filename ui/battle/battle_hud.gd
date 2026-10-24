@@ -400,7 +400,11 @@ func refresh_all() -> void:
 func plate_summary(player_index: int) -> String:
 	var player: PlayerState = game.players[player_index]
 	var cards: Callable = func(count: int) -> String: return "%d card%s" % [count, "" if count == 1 else "s"]
-	return "HP %d / %d\nDeck: %s\nRefuse Pile: %s\nTraps set: %d of %d" % [player.hp, player.max_hp, cards.call(player.deck.size()), cards.call(player.refuse_pile.size()), player.traps.size(), player.max_traps]
+	var summary: String = "HP %d / %d\nDeck: %s\nRefuse Pile: %s\nTraps set: %d of %d" % [player.hp, player.max_hp, cards.call(player.deck.size()), cards.call(player.refuse_pile.size()), player.traps.size(), player.max_traps]
+	# Overnight Oct 23: a scripted shield (Shiro's log, the Automaton's recalibration).
+	if player.shield > 0:
+		summary += "\nShield: the next %d damage is absorbed" % player.shield
+	return summary
 
 
 func set_portrait_targets(player_ok: bool, enemy_ok: bool) -> void:
@@ -563,6 +567,9 @@ func show_preview(view: CardView, note: String = "") -> void:
 	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
 	if card != null and card.summoning_sick and card.data.is_unit() and game.players[card.owner].field.has(card):
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
+	# Overnight Oct 23, Part 5: what is happening to this card right now (exhausted, Red Tape with turns left, pumps, buffs, rules, Tools).
+	if card != null:
+		entries.append_array(StatusInfo.entries(game, card))
 	_tooltip.visible = not entries.is_empty() or not note.is_empty() or not rules.is_empty()
 	for entry: Array in entries:
 		if not rules.is_empty() and str(entry[1]).strip_edges() == rules:

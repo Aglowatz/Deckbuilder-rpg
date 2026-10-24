@@ -14,6 +14,8 @@ const FLAG_PREFIX: String = "vault_lever_"
 const ZONE_IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STARTING_HP: int = 28  # Rebalance Part E: was 40 (0% at level 24 with the old escalation; 23% at 34)
 const AI_NAME: String = "Aggressive"
+## Overnight Oct 23: its encounter key (scripted events in data/encounters/encounter_scripts.json).
+const RULES_KEY: String = "town:vault"
 
 ## The boss deck: every Path's heaviest hitters and removal (Beefcake bruisers, Gourmand golems, Refusemancer walls, Necrocrat control) and the Champion of the Four Paths.
 const DECK_RECIPE: Dictionary = {
@@ -118,6 +120,7 @@ static func enemy_setup(content: ContentSet) -> PlayerSetup:
 	setup.starting_hp = STARTING_HP
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = STARTING_HP
+	EncounterModifiers.apply_to_enemy(setup, RULES_KEY)
 	return setup
 
 

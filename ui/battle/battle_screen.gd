@@ -150,7 +150,30 @@ func _screenshot_give(spec: String) -> void:
 ## Screenshot/dev helper: `--bury=0:N-07,N-07;1:C-25` fills Refuse Piles, `--hand=N-17,N-28` adds cards to your hand, `--energy=1` gives
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
+## Screenshot helper (Oct 23): `--script_key=<encounter key>` shows that encounter's rule row and its first scripted event's banner (and the
+## warning line) a moment after the board settles.
+func _screenshot_script_banner() -> void:
+	var key: String = str(_screenshot_args.get("script_key", ""))
+	if key.is_empty():
+		return
+	if hud.rule_row == null:
+		hud.set_rule_badges(RuleBadges.for_encounter(EncounterModifiers.rules(key)))
+	await get_tree().create_timer(2.0).timeout
+	var triggers: Array[EncounterScripts.Trigger] = EncounterScripts.triggers(key)
+	if triggers.is_empty():
+		return
+	var index: int = clampi(int(_screenshot_args.get("script_index", 0)), 0, triggers.size() - 1)
+	if hud.rule_row != null:
+		hud.rule_row.mark_fired(triggers[0].name, 3)
+	for each: EncounterScripts.Trigger in triggers:
+		if not each.warn.is_empty():
+			script_banner.warn(each.warn)
+			break
+	script_banner.show_event(triggers[index], context.enemy_name, 0.05)
+
+
 func _screenshot_scenario() -> void:
+	_screenshot_script_banner()
 	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn", "traps", "tape", "etape"]
 	var wanted: bool = false
 	for key: String in keys:
@@ -249,6 +272,9 @@ func _ready() -> void:
 		else:
 			context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
 			context.zone_id = str(_screenshot_args.get("zone", ""))
+			# Oct 23 (screenshots): `--as=<name>` shows the practice foe under another name (a boss's entrance, its banner lines).
+			if _screenshot_args.has("as"):
+				context.enemy_name = str(_screenshot_args["as"])
 	Session.pending_battle = null
 	_music_token = Audio.push_music(StringName(MusicDirector.for_battle(context, Session.flags)), 0.6, false)
 	# Sound pass: the place's ambience gives way to the table, and the cards are riffled as the battle begins.
@@ -283,6 +309,16 @@ func _ready() -> void:
 		tutorial = TutorialLayer.new()
 		add_child(tutorial)
 		tutorial.setup(self)
+	# Overnight Oct 23, Part 3: a boss's, lieutenant's or gatekeeper's entrance first (skippable), then the battle.
+	if BossIntro.wanted(context.enemy_name) and not _flag("no_intro") and not _flag("fast") and (not context.practice or _screenshot_args.has("intro")):
+		boss_intro = BossIntro.new()
+		add_child(boss_intro)
+		boss_intro.play(context.enemy_name, Bestiary.art(context.enemy_name), context.enemy_icon)
+		if str(_screenshot_args.get("intro", "")) == "hold":
+			boss_intro.hold.call_deferred()
+			return
+		boss_intro.finished.connect(_drive, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+		return
 	_drive.call_deferred()
 
 
@@ -389,6 +425,10 @@ func _build_scene() -> void:
 	_toast_label.modulate.a = 0.0
 	_toast_label.z_index = 500
 	add_child(_toast_label)
+	# Overnight Oct 23, Part 1: scripted boss/elite events and the warning the turn before a timed one.
+	script_banner = ScriptEventBanner.new()
+	script_banner.z_index = 480
+	add_child(script_banner)
 
 
 const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
@@ -463,6 +503,10 @@ func _play_new_events() -> void:
 		hud.on_event(event)
 		battle_log.add_event(event)
 		_refresh_piles()
+		if event.type == GameEvent.Type.SCRIPT_TRIGGERED:
+			await _show_script_event(event)
+		elif event.type == GameEvent.Type.SCRIPT_WARNING and script_banner != null:
+			script_banner.warn(event.detail)
 		await board.present(event)
 		if tutorial != null:
 			tutorial.on_battle_event(event)
@@ -1399,6 +1443,23 @@ func _why_not_usable(item: ItemData) -> String:
 	if game.item_used(0, item):
 		return "Each item works once per battle"
 	return "There is no legal target"
+
+
+## Overnight Oct 23, Part 1: the banner of a scripted event; its rule icon is marked as done.
+var script_banner: ScriptEventBanner
+## Overnight Oct 23, Part 3: the entrance before a boss battle (null once it has finished).
+var boss_intro: BossIntro
+
+
+func _show_script_event(event: GameEvent) -> void:
+	var trigger: EncounterScripts.Trigger = EncounterScripts.trigger_for_event(event.detail)
+	if trigger == null or script_banner == null:
+		return
+	if hud.rule_row != null:
+		hud.rule_row.mark_fired(trigger.name, game.turn)
+	if lights != null:
+		lights.pulse(hud.portrait_center(event.player), ScriptEventBanner.AMBER, 300.0, 1.0, 60.0)
+	await script_banner.show_event(trigger, context.enemy_name, board.speed)
 
 
 func _reject(message: String) -> void:

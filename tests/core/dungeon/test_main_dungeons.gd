@@ -125,6 +125,10 @@ func test_a_synthetic_map_reports_its_structure() -> void:
 # ---- Enemies and decks -----------------------------------------------------------------------------
 
 
+## Overnight Oct 23, Part 2: the main-dungeon foes that play two Paths on purpose.
+const TWO_PATH_FOES: Array[String] = ["Executive Elevator Operator", "Cannon-Blender Gunner", "Hive of Mutant Bees", "Rot Tunnel Horror"]
+
+
 func test_every_battle_has_a_themed_legal_enemy_deck() -> void:
 	for zone_id: String in ZONES:
 		var dungeon: MainDungeonDef = MainDungeons.def(zone_id)
@@ -137,8 +141,15 @@ func test_every_battle_has_a_themed_legal_enemy_deck() -> void:
 			var setup: PlayerSetup = MainDungeons.enemy_setup(Session.content, node, zone_id)
 			assert_gte(setup.deck.size(), 25, "%s deck is a real deck" % node.enemy_name)
 			assert_eq(setup.starting_hp, foe.hp)
+			var zone_cards: int = 0
 			for card: CardData in setup.deck.cards:
+				if card.is_on_path(path):
+					zone_cards += 1
+				# Overnight Oct 23, Part 2: a few late foes play two Paths (their zone's and one more) to show two-Path decks early.
+				if TWO_PATH_FOES.has(node.enemy_name):
+					continue
 				assert_true(card.color == path or card.color == Affinity.Type.NEUTRAL, "%s only plays %d / neutral cards (%s)" % [node.enemy_name, int(path), card.id])
+			assert_gt(zone_cards, 0, "%s plays its zone's Path" % node.enemy_name)
 
 
 func test_bosses_and_elites_are_tougher_and_pay_a_card_choice() -> void:

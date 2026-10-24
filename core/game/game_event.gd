@@ -56,6 +56,10 @@ enum Type {
 	UNIT_COPIED,
 	CARD_TO_HAND,
 	INFRASTRUCTURE_ENTERED,
+	## Overnight Oct 23 (EncounterScripts): a scripted boss/elite event fired (player = its owner, value = trigger index, detail = "key|id").
+	SCRIPT_TRIGGERED,
+	## A timed scripted event (or a timed summon) happens on the owner's next turn (detail = the warning line).
+	SCRIPT_WARNING,
 }
 
 var sequence: int = 0

@@ -26,6 +26,8 @@ func _build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var is_quest: bool = summary.kind == RewardSummary.Kind.QUEST or summary.kind == RewardSummary.Kind.QUEST_STEP
 	var header: String = "QUEST COMPLETE" if summary.kind == RewardSummary.Kind.QUEST else ("STEP REWARD" if is_quest else "CHEST OPENED")
+	if not summary.card_choices.is_empty():
+		header = "VICTORY"
 	# Overnight Oct 17, Part 7: a chest that held gear says so.
 	if not is_quest and not summary.equipment.is_empty():
 		header = "NEW GEAR!"
@@ -84,6 +86,8 @@ func _fill_body() -> void:
 		things.add_child(_icon_tile(shop_icon if shop_icon != null else CardIcons.ui("level_badge"), cosmetic, "Wardrobe", "Open the wardrobe with T.", shop_icon != null))
 	if things.get_child_count() > 0:
 		body.add_child(things)
+	if not summary.card_choices.is_empty():
+		_add_pick(body)
 	if not summary.unlocks.is_empty():
 		body.add_child(UIKit.spacer(2))
 		body.add_child(UIKit.label("OPENED UP", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
@@ -182,5 +186,45 @@ func _wrapped(text: String, size: int, color: Color) -> Label:
 	return label
 
 
+## Overnight Oct 23, Part 4: choose one card of the elite's or boss's pick (click a card, then continue; no card = skip).
+var _pick_tiles: Array[Control] = []
+var _pick_hint: Label
+
+
+func _add_pick(body: VBoxContainer) -> void:
+	body.add_child(UIKit.label("CHOOSE A CARD", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var row: HBoxContainer = UIKit.hbox(18)
+	row.name = "PickRow"
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for index: int in range(summary.card_choices.size()):
+		var tile: Control = _card_tile(summary.card_choices[index])
+		tile.name = "Pick_%d" % index
+		tile.mouse_filter = Control.MOUSE_FILTER_STOP
+		var which: int = index
+		tile.gui_input.connect(func(event: InputEvent) -> void:
+			var click: InputEventMouseButton = event as InputEventMouseButton
+			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+				select_pick(which)
+				tile.accept_event())
+		row.add_child(tile)
+		_pick_tiles.append(tile)
+	body.add_child(row)
+	_pick_hint = UIKit.label("Click a card to keep it, then continue. Continuing with no card skips it.", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	body.add_child(_pick_hint)
+
+
+func select_pick(index: int) -> void:
+	if index < 0 or index >= summary.card_choices.size():
+		return
+	summary.picked = summary.card_choices[index]
+	Audio.sfx(&"ui_select")
+	for i: int in range(_pick_tiles.size()):
+		_pick_tiles[i].modulate = Color.WHITE if i == index else Color(0.6, 0.6, 0.68)
+	if _pick_hint != null:
+		_pick_hint.text = "%s. Continue to keep it (click another card to change)." % summary.picked.display_name
+
+
 func _on_confirmed() -> void:
+	if not summary.card_choices.is_empty():
+		Session.take_reward_pick(summary.picked)
 	finished.emit()

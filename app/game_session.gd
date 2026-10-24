@@ -1673,6 +1673,8 @@ func make_graveyard_battle() -> BattleContext:
 	context.is_boss = true
 	context.is_graveyard_boss = true
 	context.board_key = "graveyard"
+	context.encounter_rules = EncounterModifiers.rules(GraveyardBoss.RULES_KEY)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	return context
 
 
@@ -1853,6 +1855,8 @@ func make_vault_battle() -> BattleContext:
 	context.is_boss = true
 	context.is_vault_boss = true
 	context.board_key = "town"
+	context.encounter_rules = EncounterModifiers.rules(VaultGuardian.RULES_KEY)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	return context
 
 
@@ -3273,6 +3277,7 @@ func complete_battle(context: BattleContext) -> void:
 	if context.won:
 		record_victory(context)
 		grant_lieutenant_reward(context.enemy_name)
+		queue_world_pick(context)
 	save_game()  # Overnight Oct 18, Part 3: autosave after every battle (each branch below may save again with its rewards)
 	if context.dev_battle:
 		SceneManager.go_to_town()
@@ -3331,11 +3336,95 @@ func complete_battle(context: BattleContext) -> void:
 	# A later replay (intro_dungeon_cleared already true) is a normal dungeon with normal variety.
 	if not profile.intro_dungeon_cleared:
 		offer.cards = RewardGenerator.card_choices_for_color(content, profile.primary_affinity, rng, context.card_choices, context.is_boss)
+	elif context.card_choices > 0 and _node_is_elite_or_boss(context):
+		# Overnight Oct 23, Part 4: an elite's or boss's pick is themed to the fight (RewardPicks); a cleared one offers less.
+		offer.cards = reward_pick(context, context.is_boss)
 	else:
 		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss)
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
+
+
+# ---- Overnight Oct 23, Part 4: the card pick after an elite or boss --------------------------------------------------------------
+
+
+## How many times each elite or boss has been beaten with a pick (counter key per enemy name): a repeat offers a smaller pick.
+const PICK_COUNTER: String = "pick_wins:%s"
+
+
+## The themed choice of cards for beating this elite or boss (RewardPicks), counting the win.
+func reward_pick(context: BattleContext, boss: bool) -> Array[CardData]:
+	var key: String = PICK_COUNTER % context.enemy_name
+	var repeat: bool = counter(key) > 0
+	bump_counter(key)
+	var owned: Dictionary = {}
+	var caps: Dictionary = {}
+	for source: Dictionary in [content.cards, content.multipath_cards]:
+		for card: Variant in source.values():
+			var data: CardData = card as CardData
+			owned[data.id] = profile.owned_copies(data.id)
+			caps[data.id] = copy_cap(data)
+	return RewardPicks.choose(content, rng, RewardPicks.deck_paths(foe_deck_of(context.game)), profile.primary_affinity, profile.level, boss, repeat, owned, caps)
+
+
+## Every card the foe's seat played with (deck, hand, field, Refuse Pile, traps), as a Deck - for its Paths.
+static func foe_deck_of(game: GameState) -> Deck:
+	var made: Deck = Deck.new()
+	if game == null or game.players.size() < 2:
+		return made
+	var foe: PlayerState = game.players[1]
+	for zone: Array[CardInstance] in [foe.deck, foe.hand, foe.field, foe.refuse_pile, foe.traps, foe.infrastructure]:
+		for card: CardInstance in zone:
+			if not card.is_token():
+				made.cards.append(card.data)
+	return made
+
+
+func _node_is_elite_or_boss(context: BattleContext) -> bool:
+	if context.is_boss:
+		return true
+	var node: DungeonMap.MapNode = dungeon_map.node(context.node_id) if dungeon_map != null else null
+	return node != null and node.difficulty == DungeonMap.Difficulty.ELITE
+
+
+## Whether a won world battle (not a dungeon node) was an elite's or a boss's: the gatekeepers, the town bosses, the zone elites, the
+## Quota rematch and the arena's tier 2 and 3 battles. Returns "boss", "elite" or "".
+func world_pick_kind(context: BattleContext) -> String:
+	if context.is_graveyard_boss or context.is_ninja_boss or context.is_vault_boss or context.is_old_well_boss:
+		return "boss"
+	if not context.town_npc_id.is_empty():
+		return "elite"
+	if context.zone_battle and (EncounterCatalog.ZONE_ELITES.has(context.zone_enemy_type) or context.zone_enemy_type == Lieutenants.YARDS_SPOT):
+		return "elite"
+	if not context.arena_id.is_empty():
+		var encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
+		if encounter != null and not encounter.is_puzzle() and encounter.tier >= 2:
+			return "boss" if encounter.tier >= 3 else "elite"
+	return ""
+
+
+## After a won world elite or boss: a "choose a card" box queued for the world scene (the popup calls `take_reward_pick`).
+func queue_world_pick(context: BattleContext) -> void:
+	if in_dungeon() or context.practice or context.dev_battle or profile == null:
+		return
+	var kind: String = world_pick_kind(context)
+	if kind.is_empty():
+		return
+	var summary: RewardSummary = RewardSummary.new()
+	summary.title = context.enemy_name.get_slice(",", 0)
+	summary.subtitle = "Beaten. Choose a card to keep."
+	summary.card_choices = reward_pick(context, kind == "boss")
+	if not summary.card_choices.is_empty():
+		pending_popups.append(summary)
+
+
+## The card chosen from a world pick (null = skipped); an extra copy over the cap converts to essence as usual.
+func take_reward_pick(card: CardData) -> void:
+	if card == null or profile == null:
+		return
+	add_cards([card] as Array[CardData])
+	save_game()
 
 
 ## Oct 21: the first win against one of Primm's lieutenants (any of their fights) pays their relic, shown as a reward box back in the world.

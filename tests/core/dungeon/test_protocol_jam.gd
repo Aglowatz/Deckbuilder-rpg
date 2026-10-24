@@ -118,6 +118,7 @@ func test_a_lookahead_copy_never_parks_the_real_game() -> void:
 func test_extraction_drains_a_life_at_the_start_of_his_turn() -> void:
 	var game: GameState = _context.game
 	ProtocolJam._release(game)
+	game.script_runs.clear()  # Oct 23: at 10 HP his scripted drain (EncounterScripts) would fire too; this test is about the Protocol alone
 	game.players[1].hp = 10
 	var yours: int = game.players[0].hp
 	game._fire_start_of_turn_effects(1)

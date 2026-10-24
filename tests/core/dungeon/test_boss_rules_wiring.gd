@@ -33,7 +33,8 @@ func test_gatekeeper_duel_lists_its_rules() -> void:
 func test_primm_phase_rules_have_their_own_keys() -> void:
 	assert_eq(PrimmBoss.rules_key(0), "Primm (standardization)")
 	assert_gt(EncounterModifiers.rules(PrimmBoss.rules_key(0)).size(), 0, "phase 1 has a boss rule (Royal Guard)")
-	assert_eq(EncounterModifiers.rules(PrimmBoss.rules_key(1)).size(), 0)
+	for rule: EncounterModifiers.Rule in EncounterModifiers.rules(PrimmBoss.rules_key(1)):
+		assert_true(rule.scripted, "phase 2 has no one-sided rule, only (Oct 23) its scripted event")
 
 
 func test_every_rule_key_parses() -> void:

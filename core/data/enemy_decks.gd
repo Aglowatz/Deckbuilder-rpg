@@ -75,6 +75,22 @@ const ARCHETYPES: Dictionary = {
 		"paths": [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE],
 		"cards": {"NB-02": 3, "NB-03": 2, "NB-07": 3, "NB-09": 2, "NB-10": 3, "NB-11": 2, "NB-14": 2, "NB-15": 2, "N-01": 3, "B-01": 3, "B-06": 3, "N-02": 3},
 	},
+	# Overnight Oct 23, Part 2: three two-Path decks met before the Capital, each built around one synergy a player can copy.
+	# Bulking Season: Ingredients and Iron made together, spent together (Protein Forge, The Gain Train, Shaker Bottle).
+	"gourmand_beefcake_bulk": {
+		"paths": [Affinity.Type.GOURMAND, Affinity.Type.BEEFCAKE],
+		"cards": {"GB-01": 3, "GB-05": 2, "GB-15": 2, "GB-14": 2, "GB-08": 2, "GB-02": 3, "GB-03": 2, "GB-10": 2, "G-01": 3, "B-01": 2, "GB-12": 1},
+	},
+	# Farm to Table: Garbage turned into Ingredients and golems (Farm-to-Table Chef, Freegan Forager, Compost Kitchen, The Verdant Vines).
+	"gourmand_refusemancer_farm": {
+		"paths": [Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER],
+		"cards": {"GR-01": 3, "GR-02": 3, "GR-03": 3, "GR-06": 2, "GR-08": 2, "GR-09": 2, "GR-13": 1, "GR-15": 2, "R-06": 3, "G-01": 3},
+	},
+	# Junkyard Gym: every Garbage becomes muscle (The Junkyard Gym's buffs, Gym Rat and Trash Panda Powerlifter's Iron, Possum Prowler).
+	"beefcake_refusemancer_gym": {
+		"paths": [Affinity.Type.BEEFCAKE, Affinity.Type.REFUSEMANCER],
+		"cards": {"BR-10": 2, "BR-01": 3, "BR-13": 2, "R-08": 3, "R-06": 3, "BR-05": 2, "BR-02": 3, "BR-03": 2, "BR-14": 2, "BR-12": 1, "B-01": 2},
+	},
 	"beefcake_refusemancer": {
 		"paths": [Affinity.Type.BEEFCAKE, Affinity.Type.REFUSEMANCER],
 		"cards": {"BR-01": 3, "BR-02": 3, "BR-03": 2, "BR-04": 2, "BR-07": 2, "BR-09": 2, "BR-12": 2, "BR-13": 2, "B-01": 3, "R-06": 3, "B-06": 3, "R-05": 3},

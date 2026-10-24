@@ -64,6 +64,10 @@ var delayed: Array[Dictionary] = []
 var borrowed: Array[Dictionary] = []
 ## Rebalance Part F: the items each player has used this battle (item id -> true); an equipped item is usable once per battle.
 var items_used: Array[Dictionary] = [{}, {}]
+## Overnight Oct 23, Part 1: the scripted mid-fight events of this duel (EncounterScripts.Run, one per scripted seat) and a guard that
+## keeps a trigger's own effects from firing other triggers half-way through.
+var script_runs: Array = []
+var script_busy: int = 0
 
 
 func _init(game_options: GameOptions = null) -> void:
@@ -101,6 +105,7 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	if setup.deck.size() > 0:
 		player.deck_infrastructure_ratio = float(setup.deck.infrastructure_count()) / float(setup.deck.size())
 	players.append(player)
+	EncounterScripts.attach(self, player)
 	return player
 
 
@@ -115,6 +120,8 @@ func start() -> void:
 	active = first_player
 	for player: PlayerState in players:
 		RngUtil.shuffle(player.deck, rng)
+	if not script_runs.is_empty():
+		EncounterScripts.on_start(self)
 	emit_event(GameEvent.Type.GAME_STARTED, first_player)
 	for player: PlayerState in players:
 		_deal_opening_hand(player)
@@ -880,6 +887,10 @@ func _begin_turn() -> void:
 	_fire_timed_summons(active)
 	if is_over():
 		return
+	if not script_runs.is_empty():
+		EncounterScripts.on_turn_start(self)
+		if is_over():
+			return
 	_set_phase(Phase.MAIN1)
 
 
@@ -1185,6 +1196,13 @@ func deal_damage_to_player(source_uid: int, player_index: int, amount: int) -> i
 	if amount <= 0 or is_over():
 		return 0
 	var player: PlayerState = players[player_index]
+	if player.shield > 0:
+		var absorbed: int = mini(player.shield, amount)
+		player.shield -= absorbed
+		amount -= absorbed
+		emit_event(GameEvent.Type.HP_CHANGED, player_index, 0, 0, 0, player.hp, "shield")
+		if amount <= 0:
+			return 0
 	player.hp -= amount
 	emit_event(GameEvent.Type.DAMAGE_DEALT, player_index, source_uid, Targets.player(player_index), amount, player.hp)
 	emit_event(GameEvent.Type.HP_CHANGED, player_index, 0, 0, -amount, player.hp)
@@ -1237,6 +1255,8 @@ func destroy_unit(card: CardInstance) -> void:
 	_clear_combat_refs(card.uid)
 	limbo.append(card)
 	emit_event(GameEvent.Type.UNIT_DIED, controller, card.uid)
+	if not script_runs.is_empty():
+		EncounterScripts.note_death(self, card)
 	var attached: Array[CardInstance] = attached_tools(card)
 	fire_attached_event(card, "attached_dies", {"card": card, "player": controller}, attached)
 	for tool_card: CardInstance in attached:
@@ -1302,6 +1322,8 @@ func check_state() -> void:
 		for card: CardInstance in dying:
 			destroy_unit(card)
 	_resolve_losses()
+	if not script_runs.is_empty() and script_busy == 0:
+		EncounterScripts.check(self)
 
 
 
@@ -2400,6 +2422,13 @@ func clone(deep_deck: bool = true, hide_traps_of: int = -1) -> GameState:
 		copy.borrowed.append(entry.duplicate())
 	copy.items_used[0] = items_used[0].duplicate()
 	copy.items_used[1] = items_used[1].duplicate()
+	# Oct 23: scripted events (a phase change adds rules) - the copy gets its own runs and its own modifier sets.
+	if not script_runs.is_empty():
+		for run: Variant in script_runs:
+			copy.script_runs.append((run as EncounterScripts.Run).clone())
+		for index: int in range(copy.players.size()):
+			if copy.players[index].modifiers == players[index].modifiers:
+				copy.players[index].modifiers = players[index].modifiers.clone()
 	return copy
 
 

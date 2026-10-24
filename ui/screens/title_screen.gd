@@ -42,6 +42,10 @@ func _ready() -> void:
 		_on_settings()
 	elif _screenshot_open == "confirm":
 		_confirm_overwrite()
+	elif _screenshot_open == "campaigns":
+		_on_load_game()
+	elif _screenshot_open == "newgame":
+		_on_new_game()
 
 
 func _build_backdrop() -> void:
@@ -109,7 +113,8 @@ func _build_menu() -> void:
 		_menu_column.add_child(version)
 	_menu_column.add_child(UIKit.spacer(40 if _art == null else 6))
 	Session.discard_incompatible_save()
-	var has_saves: bool = SaveSlots.any_save()
+	# Overnight Oct 23, Part 6: three campaign slots; Continue picks up the newest.
+	var has_saves: bool = CampaignSlots.any_save()
 	if has_saves:
 		_menu_column.add_child(_menu_button("Continue", &"PrimaryButton", _on_continue))
 	_menu_column.add_child(_menu_button("New Game", &"PrimaryButton" if not has_saves else &"", _on_new_game))
@@ -171,8 +176,11 @@ func _menu_button(text: String, variation: StringName, callback: Callable) -> Fa
 
 
 func _on_continue() -> void:
-	# Continue picks up the most recently saved slot (the autosave or a manual save).
-	if Session.load_from_slot(SaveSlots.latest_slot()):
+	# Continue picks up the most recently played campaign, at its most recent save (the autosave or a manual save).
+	var campaign: int = CampaignSlots.most_recent()
+	if campaign >= 1:
+		CampaignSlots.activate(campaign)
+	if campaign >= 1 and Session.load_from_slot(SaveSlots.latest_slot()):
 		Audio.sfx(&"ui_confirm")
 		Session.resume_loaded_game()
 	else:
@@ -180,17 +188,27 @@ func _on_continue() -> void:
 
 
 func _on_load_game() -> void:
-	var screen: SaveSlotsScreen = SaveSlotsScreen.make(SaveSlotsScreen.Mode.LOAD)
+	var screen: CampaignSlotsScreen = CampaignSlotsScreen.make(CampaignSlotsScreen.Mode.PLAY)
 	screen.closed.connect(screen.queue_free)
-	screen.loaded.connect(Session.resume_loaded_game)
+	screen.picked.connect(func(_campaign: int, _fresh: bool) -> void:
+		if Session.load_from_slot(SaveSlots.latest_slot()):
+			Session.resume_loaded_game()
+		else:
+			Audio.sfx(&"ui_error"))
+	screen.browse.connect(func(_campaign: int) -> void:
+		var slots: SaveSlotsScreen = SaveSlotsScreen.make(SaveSlotsScreen.Mode.LOAD)
+		slots.closed.connect(slots.queue_free)
+		slots.loaded.connect(Session.resume_loaded_game)
+		add_child(slots))
 	add_child(screen)
 
 
+## New Game picks one of the three campaign slots (a used one asks first; the others are never touched).
 func _on_new_game() -> void:
-	if SaveSlots.any_save():
-		_confirm_overwrite()
-		return
-	_start_new_game()
+	var screen: CampaignSlotsScreen = CampaignSlotsScreen.make(CampaignSlotsScreen.Mode.NEW)
+	screen.closed.connect(screen.queue_free)
+	screen.picked.connect(func(_campaign: int, _fresh: bool) -> void: _start_new_game())
+	add_child(screen)
 
 
 func _start_new_game() -> void:

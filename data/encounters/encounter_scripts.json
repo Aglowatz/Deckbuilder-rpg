@@ -1,0 +1,1452 @@
+{
+	"_about": "Overnight Oct 23, Part 1: scripted mid-fight events for bosses and elites (EncounterScripts, core/dungeon/encounter_scripts.gd). Keyed like modifiers.json. Each trigger fires once: when {type: hp_below pct | turn turn | units_died count side card | foe_units_at_least count | own_units_at_most count | foe_hp_below pct}; effects in order (rule, remove_rule, summon, card, heal, shield, damage, resources, buff, debuff_foes, exhaust_foes, draw, foe_heal, exhaust_own). text = what can happen (shown with the rule icons from the start), line = the foe's line when it fires, banner = what just happened, warn = the one-line warning the turn before a timed event. Generated from _logs/make_scripts.js; edit either.",
+	"Hollow Warden": [
+		{
+			"id": "stirs",
+			"name": "The Warden Stirs",
+			"icon": "lorc/ghost",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Warden wakes a little more: a 1/1 Cave Echo rises beside it.",
+			"line": "...You hit like someone I knew. Small. Stubborn.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-19",
+					"count": 1,
+					"token_name": "Cave Echo",
+					"token_keywords": []
+				}
+			],
+			"banner": "A 1/1 Cave Echo rises beside the Warden."
+		}
+	],
+	"town:npc:beefcake": [
+		{
+			"id": "hydrate",
+			"name": "HYDRATION BREAK",
+			"icon": "lorc/drop",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Brick stops to drink: he heals 3, and his units stand down through his next turn.",
+			"line": "HYDRATION BREAK. NOBODY LIFTS DURING HYDRATION. THAT IS THE LAW. ...It is a good law.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 3
+				},
+				{
+					"kind": "exhaust_own"
+				}
+			],
+			"banner": "Brick heals 3. His units are exhausted and miss his next turn."
+		}
+	],
+	"town:npc:gourmand": [
+		{
+			"id": "taste",
+			"name": "TASTE IT!",
+			"icon": "delapouite/chef-toque",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Fennel force-feeds you a biscuit (you heal 2) and a 1/1 Snack joins his side.",
+			"line": "TASTE IT. It is for the war effort. The BISCUIT is for the war effort.",
+			"effects": [
+				{
+					"kind": "foe_heal",
+					"amount": 2
+				},
+				{
+					"kind": "summon",
+					"token": "T-09",
+					"count": 1
+				}
+			],
+			"banner": "You heal 2. A 1/1 Snack joins Fennel."
+		}
+	],
+	"town:npc:refusemancer": [
+		{
+			"id": "thorn",
+			"name": "Did I Thorn at You?",
+			"icon": "lorc/sprout",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the real Moss breaks through for a moment: the thorns loosen and you heal 3.",
+			"line": "...grow... GROW... (small) Did I thorn at you? I'm sorry, I can't make it stop...",
+			"effects": [
+				{
+					"kind": "foe_heal",
+					"amount": 3
+				}
+			],
+			"banner": "The thorns loosen: you heal 3."
+		}
+	],
+	"town:npc:necrocrat": [
+		{
+			"id": "stamp",
+			"name": "Stamped APPROVED",
+			"icon": "delapouite/stamper",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Prudence grabs the wrong stamp: APPROVED. You heal 3.",
+			"line": "APPROVED. ...That was the wrong stamp. That felt... nice. Disregard.",
+			"effects": [
+				{
+					"kind": "foe_heal",
+					"amount": 3
+				}
+			],
+			"banner": "Prudence stamps APPROVED by mistake: you heal 3."
+		}
+	],
+	"town:graveyard": [
+		{
+			"id": "pause",
+			"name": "The Count Pauses",
+			"icon": "delapouite/graveyard",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the dead lose count: their units stand still through their next turn.",
+			"line": "The counting stops. Somewhere under the stones, someone has lost their place.",
+			"effects": [
+				{
+					"kind": "exhaust_own"
+				}
+			],
+			"banner": "The dead stand still: their units miss their next turn."
+		},
+		{
+			"id": "remember",
+			"name": "The Cairn Remembers",
+			"icon": "lorc/tombstone",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the dead hesitate: their units get -1/-0 for the rest of the fight.",
+			"line": "The dead stop. They look at your hands as if they have seen them before.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "The Cairn Remembers",
+						"text": "The dead hesitate: their units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The dead hesitate: their units get -1/-0."
+		}
+	],
+	"town:ninja": [
+		{
+			"id": "smoke",
+			"name": "SMOKE BOMB!!!",
+			"icon": "darkzaitzev/running-ninja",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Shiro throws a smoke bomb: your strongest ready unit is exhausted and misses your next turn.",
+			"line": "SMOKE BOMB!!! The oldest trick in the book. Page one. I wrote page one.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 1,
+					"skip_refresh": true
+				}
+			],
+			"banner": "Your strongest ready unit is lost in the smoke until after your next turn."
+		},
+		{
+			"id": "log",
+			"name": "Body Double",
+			"icon": "delapouite/carnival-mask",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end Shiro swaps places with a log: the next 4 damage to him is absorbed.",
+			"line": "You hit a log. A very convincing log. I gave it my eyebrows.",
+			"effects": [
+				{
+					"kind": "shield",
+					"amount": 4
+				}
+			],
+			"banner": "Shiro's log absorbs the next 4 damage."
+		}
+	],
+	"town:vault": [
+		{
+			"id": "iron",
+			"name": "The Seal of Iron Breaks",
+			"icon": "lorc/rune-stone",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the first seal breaks and the Warden gathers the pieces: the next 3 damage to it is absorbed.",
+			"line": "One seal. One Path. The hand is real. Show me the rest of it.",
+			"effects": [
+				{
+					"kind": "shield",
+					"amount": 3
+				}
+			],
+			"banner": "The Warden gathers the broken seal: the next 3 damage is absorbed."
+		},
+		{
+			"id": "rest",
+			"name": "The Last Seal",
+			"icon": "lorc/padlock",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the last seal opens: the Warden's units get -1/-0 for the rest of the fight.",
+			"line": "The last seal opens. The Paths agreed to bury this. They also agreed you might come.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Seals Spent",
+						"text": "The seals are spent: the Warden's units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Warden's units get -1/-0."
+		}
+	],
+	"town:old_well": [
+		{
+			"id": "ripples",
+			"name": "Ripples",
+			"icon": "lorc/drop",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the water answers: two 1/1 Ripples rise on the Echo's side.",
+			"line": "...you were here... you were small... the water remembers the shape of you...",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-19",
+					"count": 2,
+					"token_name": "Ripple",
+					"token_keywords": []
+				}
+			],
+			"banner": "Two 1/1 Ripples rise from the well."
+		},
+		{
+			"id": "still",
+			"name": "Still Water",
+			"icon": "lorc/fountain",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the spring gathers itself: the Echo heals 3.",
+			"line": "...not yet... the spring runs once more...",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 3
+				}
+			],
+			"banner": "The Echo heals 3."
+		}
+	],
+	"zone:gourmand:casserole": [
+		{
+			"id": "duel",
+			"name": "Honour Duel",
+			"icon": "delapouite/ladle",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Colonel Casserole demands a proper duel: his units get +1/+1 for the rest of the fight.",
+			"line": "En garde, traveller. A duel of honour. Lids up. Yes, Chef.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Honour Duel",
+						"text": "Casserole fights with honour: his units get +1/+1.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": 1,
+						"def": 1
+					}
+				}
+			],
+			"banner": "Casserole's units get +1/+1."
+		}
+	],
+	"zone:final:spotless": [
+		{
+			"id": "halt",
+			"name": "HALT",
+			"icon": "lorc/visored-helm",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Spotless barks an order: your strongest ready unit stands to attention (exhausted).",
+			"line": "HALT. Stand at attention. No: at THAT attention.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 1
+				}
+			],
+			"banner": "Your strongest ready unit is exhausted."
+		}
+	],
+	"Vivienne Quota, Minister of Efficiency": [
+		{
+			"id": "review",
+			"name": "Efficiency Review",
+			"icon": "delapouite/alarm-clock",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Quota reviews her numbers: she draws a card.",
+			"line": "Your performance: forty-one percent of acceptable. Mine is about to improve.",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 1
+				}
+			],
+			"banner": "Quota draws a card."
+		}
+	],
+	"capital:quota": [
+		{
+			"id": "break",
+			"name": "Mandatory Break",
+			"icon": "delapouite/alarm-clock",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Quota's own break schedule kicks in: she draws a card, and her units take a two-minute break (exhausted through her next turn).",
+			"line": "Two-minute break. Mandatory. I wrote the schedule. I resent the schedule.",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 1
+				},
+				{
+					"kind": "exhaust_own"
+				}
+			],
+			"banner": "Quota draws a card; her units take a break through her next turn."
+		}
+	],
+	"Trophy Hall Honor Guard": [
+		{
+			"id": "reserve",
+			"name": "Empty Trophy",
+			"icon": "delapouite/star-medal",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health a reserve guard steps off a pedestal: a 1/1 Militia joins.",
+			"line": "This trophy is reserved. For the Chancellor. For anyone but you.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-16",
+					"count": 1,
+					"token_name": "Reserve Guard"
+				}
+			],
+			"banner": "A 1/1 Reserve Guard steps off a pedestal."
+		}
+	],
+	"Chancellor Clench, Iron Regent": [
+		{
+			"id": "brownout",
+			"name": "Brownout",
+			"icon": "lorc/hourglass",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his 5th turn Clench cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.",
+			"line": "CUT THE POWER. Everyone off the wheels. Nobody moves unless I say REP.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: Clench cuts the power (your two strongest units cannot block).",
+			"banner": "The lights go out: your two strongest ready units are exhausted."
+		},
+		{
+			"id": "forms",
+			"name": "DROP AND GIVE ME FORMS",
+			"icon": "delapouite/belt-armor",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Clench pulls the emergency reserve: he gains 2 Iron.",
+			"line": "Strength is control. Control is paperwork. Paperwork is HEAVY. Two more plates!",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "iron",
+					"count": 2
+				}
+			],
+			"banner": "Clench gains 2 Iron."
+		},
+		{
+			"id": "master",
+			"name": "Master...?",
+			"icon": "delapouite/strong-man",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end Clench falters: his units get -1/-0 for the rest of the fight.",
+			"line": "You said I would go further than you. Look how far I went. ...Master?",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Faltering",
+						"text": "Clench falters: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "Clench falters: his units get -1/-0."
+		}
+	],
+	"Baron Quadzilla": [
+		{
+			"id": "set",
+			"name": "Final Set",
+			"icon": "delapouite/weight-lifting-up",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Baron starts his final set: his units get +1/+0 for the rest of the fight.",
+			"line": "Nobody. Skips. Leg day. (rep) Final set. (rep) In my cave.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Final Set",
+						"text": "The Baron's final set: his units get +1/+0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": 1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Baron's units get +1/+0."
+		},
+		{
+			"id": "stand",
+			"name": "He Stands Up",
+			"icon": "delapouite/charging-bull",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the Baron stands for the first time in years: he heals 2, and wobbles (his units get -1/-0).",
+			"line": "Standing. Huh. Wobbly. Like a first rep.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 2
+				},
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Wobbly",
+						"text": "Standing up is hard: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Baron heals 2, but his units get -1/-0."
+		}
+	],
+	"The Ancient Spotter": [
+		{
+			"id": "rep",
+			"name": "One More Rep",
+			"icon": "delapouite/mammoth",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Spotter catches the weight: it heals 4.",
+			"line": "Lift. I will catch it. I have always caught it.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 4
+				}
+			],
+			"banner": "The Ancient Spotter heals 4."
+		},
+		{
+			"id": "young",
+			"name": "Young Spotters",
+			"icon": "delapouite/three-friends",
+			"when": {
+				"type": "turn",
+				"turn": 6
+			},
+			"text": "On its 6th turn two 1/1 Young Spotters climb up to help it.",
+			"line": "Never lift alone. Not even me.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-16",
+					"count": 2,
+					"token_name": "Young Spotter"
+				}
+			],
+			"warn": "Next turn: two Young Spotters climb up the mountain.",
+			"banner": "Two 1/1 Young Spotters arrive."
+		}
+	],
+	"Unfinished War Machine": [
+		{
+			"id": "repair",
+			"name": "Self-Repair",
+			"icon": "delapouite/pipes",
+			"when": {
+				"type": "units_died",
+				"count": 3,
+				"side": "own"
+			},
+			"text": "When three of its units have been scrapped, the machine patches itself: it heals 2.",
+			"line": "ASSEMBLY... INCOMPLETE... REPAIRING... YES, CHEF...",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 2
+				}
+			],
+			"banner": "The War Machine heals 2."
+		}
+	],
+	"Cannon-Blender Gunner": [
+		{
+			"id": "blend",
+			"name": "Full Blend",
+			"icon": "delapouite/pirate-cannon",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On its 4th turn the cannon-blender fires a full load: you take 2 damage.",
+			"line": "Load the smoothie! Purée setting! FIRE!",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 2
+				}
+			],
+			"warn": "Next turn: the cannon-blender fires a full load (2 damage).",
+			"banner": "You take 2 damage."
+		}
+	],
+	"The Doppelganger": [
+		{
+			"id": "mask",
+			"name": "The Mask Slips",
+			"icon": "delapouite/carnival-mask",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the disguise slips: Perfect Copy ends (its units lose +1/+1), and two 1/1 Sashimi Weenies are rushed out.",
+			"line": "Delicious. Delicious. I have been told that is the word. ...Why will it not stay on?",
+			"effects": [
+				{
+					"kind": "remove_rule",
+					"name": "Perfect Copy"
+				},
+				{
+					"kind": "summon",
+					"token": "T-03",
+					"count": 2
+				}
+			],
+			"banner": "Perfect Copy ends. Two 1/1 Sashimi Weenies are rushed out."
+		},
+		{
+			"id": "noface",
+			"name": "No Face of Its Own",
+			"icon": "delapouite/chef-toque",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the face it wore is gone: its units get -1/-0 for the rest of the fight.",
+			"line": "You never taste your own soup, do you? ...Neither do I. I cannot.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Faceless",
+						"text": "No face of its own: its units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Doppelganger falters: its units get -1/-0."
+		}
+	],
+	"The Itamae Supreme": [
+		{
+			"id": "omakase",
+			"name": "Omakase",
+			"icon": "delapouite/fish-monster",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On his 4th turn the Itamae serves you a course, as the custom is: you heal 2.",
+			"line": "Omakase.",
+			"effects": [
+				{
+					"kind": "foe_heal",
+					"amount": 2
+				}
+			],
+			"warn": "Next turn: the Itamae serves the next course.",
+			"banner": "The Itamae serves you: you heal 2."
+		},
+		{
+			"id": "again",
+			"name": "...Enough.",
+			"icon": "delapouite/fork-knife-spoon",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the Itamae sets down his knife: his units get -1/-0 for the rest of the fight.",
+			"line": "...Enough.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "The Last Course",
+						"text": "The knife is down: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Itamae's units get -1/-0."
+		}
+	],
+	"Colonel Cornelius Crumb, Director of Culinary Defense": [
+		{
+			"id": "rations",
+			"name": "Battle Rations",
+			"icon": "lorc/cauldron",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Crumb issues paste: he gains 2 Ingredients.",
+			"line": "Battle rations! Taste is a weakness. Paste is a strategy!",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "ingredient",
+					"count": 2
+				}
+			],
+			"banner": "Crumb gains 2 Ingredients."
+		},
+		{
+			"id": "barrage",
+			"name": "Paste Barrage",
+			"icon": "delapouite/pirate-cannon",
+			"when": {
+				"type": "turn",
+				"turn": 6
+			},
+			"text": "On his 6th turn the vats open fire: you take 2 damage.",
+			"line": "Battle stations! This is not a drill, it is a soufflé!",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 2
+				}
+			],
+			"warn": "Next turn: Crumb orders a paste barrage (2 damage).",
+			"banner": "You take 2 damage."
+		}
+	],
+	"Notary Wraith": [
+		{
+			"id": "triplicate",
+			"name": "In Triplicate",
+			"icon": "delapouite/stamper",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Wraith notarizes a Red Tape for itself.",
+			"line": "Signed. Witnessed. Notarized. In triplicate. One copy is for you. You may not keep it.",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "redtape",
+					"count": 1
+				}
+			],
+			"banner": "The Notary Wraith gains a Red Tape."
+		}
+	],
+	"Undersecretary Vellum": [
+		{
+			"id": "noted",
+			"name": "Noted.",
+			"icon": "delapouite/files",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Vellum files an objection: he gains a Contract.",
+			"line": "Noted. ...Noted?",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "contract",
+					"count": 1
+				}
+			],
+			"banner": "Vellum gains a Contract."
+		}
+	],
+	"Mortimer Grimsby, CE-No": [
+		{
+			"id": "form",
+			"name": "Mortimer Files a Form",
+			"icon": "delapouite/full-folder",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On his 4th turn Mortimer files Form 27-B: a 1/1 Filing Clerk is hired to process it.",
+			"line": "Your appeal has been received, reviewed and denied. It was a very good appeal.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-10",
+					"count": 1,
+					"token_name": "Filing Clerk"
+				}
+			],
+			"warn": "Next turn: Mortimer files Form 27-B (a clerk is hired).",
+			"banner": "A 1/1 Filing Clerk is hired."
+		},
+		{
+			"id": "tuesday",
+			"name": "Filed on a Tuesday",
+			"icon": "delapouite/scroll-quill",
+			"when": {
+				"type": "hp_below",
+				"pct": 30
+			},
+			"text": "Late in the fight Mortimer finds a note under his own form: FILED ON A TUESDAY. His units get -1/-0 for the rest of the fight.",
+			"line": "The authorization is valid. It was filed on a Tuesday. ...We do not file on Tuesdays.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Filed on a Tuesday",
+						"text": "An irregular filing: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "Mortimer hesitates over the form: his units get -1/-0."
+		}
+	],
+	"Betty Bones, Surly Secretary": [
+		{
+			"id": "forms",
+			"name": "Forms A Through F",
+			"icon": "delapouite/files",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Betty hands over forms A through F: she gains 2 Contracts and a 1/1 Zombie Temp files in.",
+			"line": "Forms A through F. Then we'll talk. We won't, but still.",
+			"effects": [
+				{
+					"kind": "resources",
+					"resource": "contract",
+					"count": 2
+				},
+				{
+					"kind": "summon",
+					"token": "T-10",
+					"count": 1
+				}
+			],
+			"banner": "Betty gains 2 Contracts; a 1/1 Zombie Temp files in."
+		},
+		{
+			"id": "lunch",
+			"name": "Out to Lunch",
+			"icon": "delapouite/coffee-cup",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On her 5th turn Betty takes her lunch break: her units stand down (exhausted) for that turn, because nothing gets done on lunch.",
+			"line": "I'm on lunch. Nothing happens on lunch. That includes me.",
+			"effects": [
+				{
+					"kind": "exhaust_own",
+					"skip_refresh": false
+				}
+			],
+			"warn": "Next turn: Betty goes on lunch (her units stand down for a turn).",
+			"banner": "Betty is on lunch: her units are exhausted this turn."
+		}
+	],
+	"Hortensia Clipwell, Royal Groundskeeper": [
+		{
+			"id": "topiary",
+			"name": "Regulation Topiary",
+			"icon": "lorc/leaf-swirl",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Clipwell trims two topiaries into guards: two 1/1 Topiaries join her (Prize Topiary makes them 2/2).",
+			"line": "Such a pretty weed. Such a shame. Now, stand still while I tidy you.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-22",
+					"count": 2,
+					"token_name": "Topiary",
+					"token_keywords": []
+				}
+			],
+			"banner": "Two Topiaries join Clipwell."
+		}
+	],
+	"Hive of Mutant Bees": [
+		{
+			"id": "swarm",
+			"name": "The Hive Swarms",
+			"icon": "lorc/bat-wing",
+			"when": {
+				"type": "units_died",
+				"count": 2,
+				"side": "own"
+			},
+			"text": "When two of its units have died, the hive swarms: two 1/1 Mutant Bees with Flying buzz in.",
+			"line": "BZZZZZZZ.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-22",
+					"count": 2,
+					"token_name": "Mutant Bee",
+					"token_keywords": [
+						"flying"
+					]
+				}
+			],
+			"banner": "Two 1/1 flying Mutant Bees buzz in."
+		}
+	],
+	"Compostella, the Rotheart": [
+		{
+			"id": "roots",
+			"name": "The Roots Spread",
+			"icon": "delapouite/tree-roots",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the roots spread: two 1/1 Sporelings sprout and her units get +0/+1.",
+			"line": "I am what you throw away. I am what grows back. I am HUNGRY.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-22",
+					"count": 2
+				},
+				{
+					"kind": "buff",
+					"atk": 0,
+					"def": 1
+				}
+			],
+			"banner": "Two Sporelings sprout; her units get +0/+1."
+		},
+		{
+			"id": "tree",
+			"name": "Please. The Tree.",
+			"icon": "cathelineau/tree-face",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end a small voice breaks through: her units get -1/-0 for the rest of the fight.",
+			"line": "(small) Please. The tree. I could not let her go.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Letting Go",
+						"text": "The small voice: her units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The hungry green falters: her units get -1/-0."
+		}
+	],
+	"His Majesty the Raccoon": [
+		{
+			"id": "bins",
+			"name": "The Royal Bins",
+			"icon": "delapouite/trash-can",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the royal guard of bins rallies: a 1/1 Rat joins and he gains a Garbage.",
+			"line": "WE DID NOT EAT THE COMPOST. We... audited it. Orally. GUARDS!",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-02",
+					"count": 1
+				},
+				{
+					"kind": "resources",
+					"resource": "garbage",
+					"count": 1
+				}
+			],
+			"banner": "A 1/1 Rat joins; His Majesty gains a Garbage."
+		},
+		{
+			"id": "sweat",
+			"name": "Sweating Profusely",
+			"icon": "delapouite/imperial-crown",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end His Majesty starts to sweat: his units get -1/-0 for the rest of the fight.",
+			"line": "The compost was for the kingdom. We are the kingdom. Checkmate. ...Is it warm in here?",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Sweating",
+						"text": "His Majesty is sweating: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "His Majesty's units get -1/-0."
+		}
+	],
+	"Enforcer Captain Spotless": [
+		{
+			"id": "inspect",
+			"name": "Inspection",
+			"icon": "lorc/visored-helm",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his 5th turn Spotless inspects your ranks: your strongest ready unit stands to attention (exhausted) and cannot block.",
+			"line": "INSPECTION. Height! Smudges! Smiles at the regulation angle!",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 1
+				}
+			],
+			"warn": "Next turn: Spotless holds an inspection (your strongest unit cannot block).",
+			"banner": "Your strongest ready unit stands to attention."
+		},
+		{
+			"id": "smudge",
+			"name": "A SMUDGE",
+			"icon": "delapouite/sparkles",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end Spotless notices a smudge on himself: his units get -1/-0 while he polishes.",
+			"line": "A SMUDGE. Is TREASON. ...It's on me, isn't it.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Polishing",
+						"text": "Spotless is polishing: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "Spotless polishes: his units get -1/-0."
+		}
+	],
+	"Mirror Knight": [
+		{
+			"id": "reflect",
+			"name": "Reflection",
+			"icon": "delapouite/shinto-shrine-mirror",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health a reflection steps out of the glass: a 1/1 Reflection joins (Polished makes it 4/2).",
+			"line": "Every mirror in this hall agrees with His Perfection. So does this one.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-16",
+					"count": 1,
+					"token_name": "Reflection"
+				}
+			],
+			"banner": "A Reflection steps out of the glass."
+		}
+	],
+	"Royal Staircase Guard": [
+		{
+			"id": "stair",
+			"name": "Hold the Stair",
+			"icon": "delapouite/stairs",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the guard plants his feet: the next 3 damage to him is absorbed.",
+			"line": "No one climbs. The stair has been polished. By seventeen people.",
+			"effects": [
+				{
+					"kind": "shield",
+					"amount": 3
+				}
+			],
+			"banner": "The guard absorbs the next 3 damage."
+		}
+	],
+	"Percival Plume, Deputy Minister of Good News": [
+		{
+			"id": "spin",
+			"name": "Positive Spin",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Plume announces that he is fine: he heals 2.",
+			"line": "Great news, citizens! I have been approved to feel fine!",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 2
+				}
+			],
+			"banner": "Plume heals 2."
+		}
+	],
+	"Clocktower Sentinel": [
+		{
+			"id": "hour",
+			"name": "The Hour Strikes",
+			"icon": "delapouite/alarm-clock",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On its 4th turn the clock strikes: your two strongest ready units are exhausted and cannot block that turn.",
+			"line": "BONG. The hour has been standardized. All movement will now cease.",
+			"effects": [
+				{
+					"kind": "exhaust_foes",
+					"count": 2
+				}
+			],
+			"warn": "Next turn: the hour strikes (your two strongest units cannot block).",
+			"banner": "The hour strikes: your two strongest ready units are exhausted."
+		}
+	],
+	"Primm (standardization)": [
+		{
+			"id": "align",
+			"name": "Out of Alignment",
+			"icon": "delapouite/checklist",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Primm corrects the room: the next 2 damage to him is absorbed.",
+			"line": "Do hold still. You are very slightly out of alignment. There. Better.",
+			"effects": [
+				{
+					"kind": "shield",
+					"amount": 2
+				}
+			],
+			"banner": "Primm absorbs the next 2 damage."
+		}
+	],
+	"Primm (reflection)": [
+		{
+			"id": "mirror",
+			"name": "Every Mirror Agrees",
+			"icon": "delapouite/shinto-shrine-mirror",
+			"when": {
+				"type": "turn",
+				"turn": 5
+			},
+			"text": "On his 5th turn a polished reflection steps out to stand with him: a 2/2 Reflection.",
+			"line": "Every mirror in this castle agrees with me. I find that very restful.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-21",
+					"count": 1,
+					"token_name": "Polished Reflection"
+				}
+			],
+			"warn": "Next turn: a reflection steps out of the mirrors.",
+			"banner": "A 2/2 Polished Reflection steps out."
+		}
+	],
+	"Primm (unraveling)": [
+		{
+			"id": "nice",
+			"name": "I Only Wanted It to Be Nice",
+			"icon": "delapouite/shattered-heart",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end Primm comes apart: his units get -1/-0 for the rest of the fight.",
+			"line": "I only wanted it to be nice. For everyone. For their own good.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Unraveling",
+						"text": "Primm is coming apart: his units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "Primm's units get -1/-0."
+		}
+	],
+	"The Failed Experiment": [
+		{
+			"id": "mutate",
+			"name": "Mutation",
+			"icon": "lorc/acid-blob",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the experiment sheds a piece of itself: a 1/1 Discarded Sample crawls out.",
+			"line": "GRRRK. (The tag on its wrist reads: BATCH 12. DISCONTINUED.)",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-10",
+					"count": 1,
+					"token_name": "Discarded Sample"
+				}
+			],
+			"banner": "A 1/1 Discarded Sample crawls out."
+		}
+	],
+	"The Drain Warden": [
+		{
+			"id": "cycle",
+			"name": "Drain Cycle",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "turn",
+				"turn": 4
+			},
+			"text": "On its 4th turn the drain cycle runs: you take 2 damage and the Warden heals 2.",
+			"line": "Cycle four. Subject output nominal. Begin extraction.",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 2
+				},
+				{
+					"kind": "heal",
+					"amount": 2
+				}
+			],
+			"warn": "Next turn: the drain cycle runs (you lose 2, it heals 2).",
+			"banner": "You take 2 damage; the Drain Warden heals 2."
+		}
+	],
+	"Dr. Ambrose Siphon, Chief Path-ologist": [
+		{
+			"id": "drain",
+			"name": "This Will Only Drain a Little",
+			"icon": "lorc/bubbling-flask",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Siphon opens a valve: you take 2 damage and he heals 2.",
+			"line": "This will only drain a little. You've grown, Subject 1. Remarkable.",
+			"effects": [
+				{
+					"kind": "damage",
+					"amount": 2
+				},
+				{
+					"kind": "heal",
+					"amount": 2
+				}
+			],
+			"banner": "You take 2 damage; Siphon heals 2."
+		},
+		{
+			"id": "data",
+			"name": "Fascinating Data",
+			"icon": "lorc/brainstorm",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end Siphon takes notes: he draws 2 cards.",
+			"line": "Fascinating. My finest work, fighting back. I must write this down.",
+			"effects": [
+				{
+					"kind": "draw",
+					"count": 2
+				}
+			],
+			"banner": "Siphon draws 2 cards."
+		}
+	],
+	"The Old Kingdom Automaton": [
+		{
+			"id": "tick",
+			"name": "Recalibrate",
+			"icon": "lorc/stone-tower",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Automaton recalibrates: the next 3 damage to it is absorbed.",
+			"line": "Tick. Damage noted. Tick. Recalibrating.",
+			"effects": [
+				{
+					"kind": "shield",
+					"amount": 3
+				}
+			],
+			"banner": "The Automaton absorbs the next 3 damage."
+		},
+		{
+			"id": "known",
+			"name": "Recognised",
+			"icon": "cathelineau/old-king",
+			"when": {
+				"type": "hp_below",
+				"pct": 25
+			},
+			"text": "Near the end the Automaton hesitates: its units get -1/-0 for the rest of the fight.",
+			"line": "Four colours. One thread. Tick. ...Recognised.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Recognised",
+						"text": "The Automaton hesitates: its units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Automaton hesitates: its units get -1/-0."
+		}
+	],
+	"arena:arena_spells_only": [
+		{
+			"id": "soggy",
+			"name": "Getting Soggy",
+			"icon": "delapouite/paper-tray",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Colossus gets soggy: its units get -1/-0 for the rest of the fight.",
+			"line": "THE COLOSSUS IS... DAMP! (normal voice) Someone left the mop bucket out again.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Soggy",
+						"text": "Damp cardboard: its units get -1/-0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": -1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Colossus is soggy: its units get -1/-0."
+		}
+	],
+	"arena:arena_four_fists": [
+		{
+			"id": "fourth",
+			"name": "The Fourth Fist",
+			"icon": "lorc/fire-punch",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health the Champion uses its fourth fist: its units get +1/+0 for the rest of the fight.",
+			"line": "THE CHAMPION RAISES ITS FOURTH FIST! (normal voice) Nobody knows where it keeps it.",
+			"effects": [
+				{
+					"kind": "rule",
+					"rule": {
+						"name": "Fourth Fist",
+						"text": "All four fists: its units get +1/+0.",
+						"icon": "lorc/crossed-swords",
+						"kind": "stat",
+						"atk": 1,
+						"def": 0
+					}
+				}
+			],
+			"banner": "The Champion's units get +1/+0."
+		}
+	],
+	"arena:arena_marshal": [
+		{
+			"id": "crowd",
+			"name": "THE CROWD GOES WILD",
+			"icon": "delapouite/party-popper",
+			"when": {
+				"type": "turn",
+				"turn": 3
+			},
+			"text": "On his 3rd turn the crowd joins in: a 1/1 Rowdy Fan climbs into the ring.",
+			"line": "THE CROWD! GOES! WILD! (normal voice) Please stay behind the rope. There is a rope.",
+			"effects": [
+				{
+					"kind": "summon",
+					"token": "T-16",
+					"count": 1,
+					"token_name": "Rowdy Fan"
+				}
+			],
+			"warn": "Next turn: a fan climbs into the ring.",
+			"banner": "A 1/1 Rowdy Fan climbs into the ring."
+		},
+		{
+			"id": "soup",
+			"name": "INTERMISSION",
+			"icon": "delapouite/trumpet",
+			"when": {
+				"type": "hp_below",
+				"pct": 50
+			},
+			"text": "At half health Bellows calls an intermission: he heals 2, and his units sit down through his next turn.",
+			"line": "INTERMISSION! (normal voice) I'm having soup. THE SOUP IS WINNING.",
+			"effects": [
+				{
+					"kind": "heal",
+					"amount": 2
+				},
+				{
+					"kind": "exhaust_own"
+				}
+			],
+			"banner": "Bellows heals 2; his units sit out his next turn."
+		}
+	]
+}

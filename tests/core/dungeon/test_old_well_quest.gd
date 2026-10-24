@@ -179,7 +179,7 @@ func test_the_duel_carries_and_lists_its_one_sided_rule() -> void:
 	assert_eq(context.enemy_name, OldWellQuest.DISPLAY_NAME)
 	assert_eq(context.encounter_rules.size(), EncounterModifiers.rules(OldWellQuest.RULES_KEY).size())
 	assert_gt(context.encounter_rules.size(), 0, "town:old_well has rules")
-	assert_eq(context.rule_badges.size(), 2, "The Spring Remembers (its parts share a name) and, on your side, First, Water (Oct 21)")
+	assert_eq(context.rule_badges.size(), 2 + EncounterScripts.triggers(OldWellQuest.RULES_KEY).size(), "The Spring Remembers (its parts share a name) and, on your side, First, Water (Oct 21), then (Oct 23) its scripted events")
 	assert_eq(context.rule_badges[0].name, "The Spring Remembers")
 	assert_eq(context.rule_badges[0].side, RuleBadges.SIDE_ENEMY)
 	assert_true(context.game.players[1].modifiers.has(Modifier.Kind.START_OF_TURN_EFFECT), "the heal is on the Echo's seat")
@@ -189,7 +189,10 @@ func test_the_duel_carries_and_lists_its_one_sided_rule() -> void:
 
 func test_the_rule_parses_and_its_icon_exists() -> void:
 	EncounterModifiers.reset()
-	var rules: Array[EncounterModifiers.Rule] = EncounterModifiers.rules(OldWellQuest.RULES_KEY)
+	var rules: Array[EncounterModifiers.Rule] = []
+	for each: EncounterModifiers.Rule in EncounterModifiers.rules(OldWellQuest.RULES_KEY):
+		if not each.scripted:
+			rules.append(each)
 	assert_eq(rules.size(), 7, "a stat entry (+2/+2, balanced overnight Oct 19), a heal, four starting resources and First, Water")
 	assert_eq(EncounterModifiers.problems().size(), 0, ", ".join(EncounterModifiers.problems()))
 	for rule: EncounterModifiers.Rule in rules:

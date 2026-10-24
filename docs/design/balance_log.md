@@ -1186,3 +1186,63 @@ Doppelganger +1/+1 (new), Compostella +1/+1, Mirror Knight +3/+1, Clipwell units
 No card changes, so `docs/design/sheet_changes.md` is unchanged. Not touched (noise-level at 16-32 games, or a known question):
 Betty's own read after +2/+1 (not re-measured alone - it is S-NECRO:3, 69% before), Compostella 69 (Rot and Beefcake, inbox 7),
 Test Kitchen normals 63-75 (Refusemancer 25 before the fuel fix; re-measure in the next sweep), D-PC:20 81.
+
+## Overnight Oct 23, Part 1: scripted boss and elite events (and Part 2's two-Path foes), measured on two seeds
+
+Every boss, lieutenant, gatekeeper, arena champion and elite got 1-3 scripted mid-fight events (`data/encounters/encounter_scripts.json`,
+table in `docs/design/encounter_scripts.md`). Measured with the new AI, 4 games per Path per seed (16 per cell), `SWEEP_KINDS=elite,boss
+bash tools/ai_sweep.sh`. "Before" = the Oct 23 Battle AI Part 5 numbers (seed 7000, after its tuning pass where it re-measured).
+The first versions overshot (Itamae 25, Hive 38, Bellows 19, Betty 38, Moss/Prudence 50, Restless Dead 31, Four Seals 25, Quota 38,
+Mortimer 19-38); those triggers were turned into milder events or "mercy" moments (the foe's real self slipping through) before the
+final reads below. No card changes, no HP changes, no rule-number changes: only the new scripts (and Part 2's decks).
+
+| Fight | Target | Before | Seed 7000 | Seed 8100 | Notes |
+|---|---|---:|---:|---:|---|
+| Brick Bronson (L3) | 60-75 | 73 | 63 | 63 | Hydration Break (heals 3, stands down) |
+| Chef Fennel Gravois (L3) | 60-75 | 62 | 63 | 69 | TASTE IT! (you heal 2, a Snack joins) |
+| Moss Mulligan (L3) | 60-75 | 63 | (50 first version) | 69 | Did I Thorn at You? (you heal 3) |
+| Prudence Pallor (L3) | 60-75 | 65 | (50 first version) | 63 | Stamped APPROVED (you heal 3) |
+| The Restless Dead (L7) | 40-60 | 38-44 | (31 first version) | 50 | The Count Pauses + The Cairn Remembers (both ease it) |
+| Shiro Swindle (L12) | 40-60 | 50 | 56 | 63 | SMOKE BOMB!!! + Body Double |
+| The Warden of the Four Seals (L24) | 40-60 | 38 | (25 first version) | 44 | shield 3 at 50%, -1/-0 at 25% |
+| The Wellspring's Echo (L16) | 40-60 | 63 | 50 | 56 | Ripples + Still Water |
+| Quota, Regime Checkpoint (L8) | 60-75 | 75 | 69 | 63 | |
+| Trophy Hall Honor Guard (L8) | 60-75 | 69 | 69 | 63 | |
+| Chancellor Clench (L9) | 40-60 | 56 | 56 | 69 | Brownout (turn 5, warned), 2 Iron, Master...? |
+| Baron Quadzilla (L8) | 40-60 | 63 | 56 | 63 | |
+| The Old Kingdom Automaton (L8) | 40-60 | 50 | 50 | 81 | |
+| Notary Wraith (L12) | 60-75 | 56 | 63 | 69 | |
+| Undersecretary Vellum (L12) | 60-75 | 63 | 63 | 75 | |
+| Mortimer Grimsby (L13) | 40-60 | 47 | 44 | 25 | scripts removed on seed 8100: 19 (the seed is hard for him; the scripts are neutral or easing) |
+| Betty Bones (L13) | 40-60 | 69 | 44 | 44 | Out to Lunch now stands her units down |
+| Colonel Casserole (L12) | 60-75 | 78-88 | 69 | 75 | Honour Duel (+1/+1) |
+| Unfinished War Machine (L15) | 60-75 | 63 | 69 | 38 | |
+| Cannon-Blender Gunner (L15, now Gourmand+Beefcake) | 60-75 | 69 | 69 | 69 | Part 2 deck |
+| The Doppelganger (L16) | 40-60 | 38 | 44 | 38 | The Mask Slips ends Perfect Copy |
+| The Itamae Supreme (L16) | 40-60 | 44 | 44 | 31 | scripts removed on seed 8100: 31 (same) |
+| Hortensia Clipwell (L18) | 60-75 | 72 | 75 | 56 | |
+| Hive of Mutant Bees (L18, now Gourmand+Refusemancer) | 60-75 | 69 | 81 | 75 | Part 2 deck, two flying bees after 2 deaths |
+| Compostella (L19) | 40-60 | 66 / 44 | 63 | 31 | a 5-unit Overgrowth swing often kills her from above 50% |
+| His Majesty the Raccoon (L19) | 40-60 | 38 | 38 | 50 | |
+| Captain Spotless, Capital gate (L18) | 60-75 | 64 | 59 | 88 | |
+| Enforcer Captain Spotless, Old Service Tunnels (L21) | 40-60 | 47 / 72 | 31 | 63 | Inspection now exhausts one unit |
+| Colonel Crumb (L21) | 40-60 | 50 | 44 | 56 | |
+| Mirror Knight (L21) | 60-75 | 72 | 63 | 88 | |
+| Royal Staircase Guard (L21) | 60-75 | 69 | 69 | 75 | |
+| Percival Plume (L21) | 60-75 | 63 | 56 | 88 | |
+| Clocktower Sentinel (L21) | 60-75 | 81 | 75 | 72 | The Hour Strikes (turn 4) |
+| Primm, three phases as one HP pool (L22) | ~50 | 48 | 40 (B 33 / G 17 / R 42 / N 67, 12 runs per Path) | - | Gourmand stays the weak Path here (inbox) |
+| The Failed Experiment (L27) | 60-75 | 63 | 50 | 81 | |
+| The Drain Warden (L27) | 60-75 | 69 | 63 | 75 | |
+| Siphon with Elowen (L28) | 40-60 | 69 | 63 | 56 | alone 0 / 0 (by design) |
+| Arena: Cardboard Colossus (L12) | 60-75 | 56 | 56 | 81 | |
+| Arena: Champion of the Four Fists (L12) | 60-75 | 88 | 81 | 81 | |
+| Arena: Announcer Grand Bellows (L18) | 40-60 | 56 | 38 | 56 | INTERMISSION stands his units down |
+| Quota, Transit Yards rematch (L19) | 60-75 | 56 | 50 | 56 | Mandatory Break |
+
+**Part 2 two-Path normals** (6 games per Path, seeds 7000 / 8100; target 80%+): Executive Elevator Operator (Necrocrat+Beefcake) 100 / 96,
+Rot Tunnel Horror (Beefcake+Refusemancer "Junkyard Gym") 83 / 92, Conveyor Belt Sushi Chef (Gourmand+Necrocrat) 92 / 83, Pizza Crust
+Courtier (Gourmand+Refusemancer "Farm to Table") 100 / 100, Junction Patrol (Beefcake+Refusemancer) 96 / 100.
+
+Seed spread at 16 games per cell is wide (War Machine 69 / 38, Mirror Knight 63 / 88); every fight's two-seed mean is at or above ~35%
+(lowest: Mortimer 34, Compostella 47 with one seed at 31, Itamae 38) and the scripts were shown not to cause the two low ones.

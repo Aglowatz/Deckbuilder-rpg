@@ -69,7 +69,7 @@ func test_boons_capital_services_and_encounter_rules() -> void:
 	var encounter: Array[RuleBadges.Badge] = RuleBadges.for_encounter(rules)
 	assert_false(encounter.is_empty(), "the Casserole's rule")
 	for badge: RuleBadges.Badge in encounter:
-		assert_eq(badge.kind, "encounter")
+		assert_true(badge.kind == "encounter" or badge.kind == "scripted", "a rule or (Oct 23) a scripted event")
 		assert_true(badge.side == RuleBadges.SIDE_ENEMY or badge.side == RuleBadges.SIDE_PLAYER, "one-sided")
 	var names: Dictionary = {}
 	for badge: RuleBadges.Badge in encounter:

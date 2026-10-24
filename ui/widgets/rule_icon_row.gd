@@ -62,9 +62,27 @@ func _icon(badge: RuleBadges.Badge) -> Control:
 		glyph.size = Vector2(ICON_PX - 8.0, ICON_PX - 8.0)
 		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		button.add_child(glyph)
-	HoverTip.attach(button, badge.name, badge.tooltip(), color)
+	HoverTip.attach_dynamic(button, badge.name, func() -> String:
+		return badge.tooltip() + ("\n\nHappened on turn %d." % int(button.get_meta("fired_turn")) if button.has_meta("fired_turn") else ""), color)
 	button.pressed.connect(toggle_panel)
 	return button
+
+
+## Overnight Oct 23: a scripted event has happened - its icon dims and gets a tick; the tooltip says when.
+func mark_fired(badge_name: String, turn: int) -> void:
+	if _row == null:
+		return
+	for child: Node in _row.get_children():
+		if child.name != "Badge_%s" % badge_name.replace(" ", "_") or child.has_meta("fired_turn"):
+			continue
+		child.set_meta("fired_turn", turn)
+		(child as Control).modulate = Color(1, 1, 1, 0.55)
+		var tick: Label = UIKit.label("done", &"", 12, Color("ffe08a"))
+		tick.position = Vector2(2.0, ICON_PX - 8.0)
+		tick.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		tick.add_theme_constant_override("outline_size", 4)
+		tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		child.add_child(tick)
 
 
 func _on_caption_input(event: InputEvent) -> void:

@@ -28,12 +28,16 @@ class Rule:
 	var side: String = "enemy"
 	## Oct 21: a player-side rule that hurts the player (Siphon's Containment), shown as a bad badge.
 	var harmful: bool = false
+	## Overnight Oct 23: a scripted mid-fight event of the encounter (EncounterScripts) - what can happen, shown with the rules.
+	var scripted: bool = false
 	var modifiers: Array[Modifier] = []
 
 	func is_enemy_side() -> bool:
 		return side != "player"
 
 	func tooltip() -> String:
+		if scripted:
+			return "%s\n\nScripted event: it happens once, when its moment comes." % text
 		return "%s\n\n%s" % [text, "Applies to the enemy only." if is_enemy_side() else "Applies to you only."]
 
 
@@ -88,14 +92,16 @@ static func problems() -> Array[String]:
 
 static func has_rules(key: String) -> bool:
 	_load()
-	return _rules.has(key) and not (_rules[key] as Array).is_empty()
+	return (_rules.has(key) and not (_rules[key] as Array).is_empty()) or EncounterScripts.has_script(key)
 
 
+## The encounter's one-sided rules, then (Oct 23) its scripted events as display-only rules (`scripted`, no modifiers).
 static func rules(key: String) -> Array[Rule]:
 	_load()
 	var result: Array[Rule] = []
 	if _rules.has(key):
 		result.append_array(_rules[key] as Array[Rule])
+	result.append_array(EncounterScripts.display_rules(key))
 	return result
 
 
@@ -111,7 +117,12 @@ static func source(key: String, enemy_side: bool) -> ModifierSource:
 		if rule.is_enemy_side() != enemy_side:
 			continue
 		modifiers.append_array(rule.modifiers)
-		names.append(rule.name)
+		if not rule.scripted:
+			names.append(rule.name)
+	# Oct 23: the scripted events ride on the foe's seat as one carrier modifier.
+	if enemy_side and EncounterScripts.has_script(key):
+		modifiers.append(EncounterScripts.carrier(key))
+		names.append("scripted events")
 	if modifiers.is_empty():
 		return null
 	var made: ModifierSource = ModifierSource.new()

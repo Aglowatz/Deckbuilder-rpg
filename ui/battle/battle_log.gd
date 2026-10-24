@@ -83,6 +83,13 @@ func describe(event: GameEvent) -> String:
 			return "%s played %s" % [_who(event.player), _card(event.card)]
 		GameEvent.Type.INFRASTRUCTURE_PLAYED:
 			return "%s played %s" % [_who(event.player), _card(event.card)]
+		GameEvent.Type.SCRIPT_TRIGGERED:
+			var trigger: EncounterScripts.Trigger = EncounterScripts.trigger_for_event(event.detail)
+			if trigger == null:
+				return ""
+			return "[color=#ff9f43]%s: %s[/color]" % [trigger.name, trigger.banner if trigger.banner != trigger.name else trigger.text]
+		GameEvent.Type.SCRIPT_WARNING:
+			return "[color=#ff9f43]%s[/color]" % event.detail
 		GameEvent.Type.TRAP_TRIGGERED:
 			return "[color=#ffcf70]Trap! %s sprang[/color]" % _card(event.card)
 		GameEvent.Type.ATTACKERS_DECLARED:

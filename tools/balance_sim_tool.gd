@@ -100,6 +100,14 @@ func _run_all(content: ContentSet, spec: EncounterSpec, games: int, seed_value: 
 func _encounters(content: ContentSet, games: int, seed_value: int, lines: PackedStringArray) -> void:
 	var filter: String = str(args.get("filter", ""))
 	var specs: Array[EncounterSpec] = EncounterCatalog.filtered(content, filter)
+	# Oct 23: `--kinds=elite,boss` keeps only those kinds (the scripted fights).
+	var kinds: String = str(args.get("kinds", "")).to_lower()
+	if not kinds.is_empty():
+		var kept: Array[EncounterSpec] = []
+		for spec: EncounterSpec in specs:
+			if kinds.contains(str(EncounterSpec.Kind.keys()[spec.kind]).to_lower()):
+				kept.append(spec)
+		specs = kept
 	var rows: Array[Dictionary] = []
 	var flagged: Array[String] = []
 	for spec: EncounterSpec in specs:

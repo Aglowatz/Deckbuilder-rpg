@@ -18,6 +18,8 @@ func test_the_data_loads_with_no_problems_and_every_rule_is_described() -> void:
 	assert_eq(EncounterModifiers.problems(), [] as Array[String], "no unknown kinds, tokens or keywords")
 	for key: String in EncounterModifiers.keys():
 		for rule: EncounterModifiers.Rule in EncounterModifiers.rules(key):
+			if rule.scripted:
+				continue  # Oct 23: scripted events are display rules (tests/core/dungeon/test_encounter_scripts.gd)
 			assert_false(rule.name.is_empty(), "%s: a rule has a name" % key)
 			assert_false(rule.text.is_empty(), "%s: %s has a text" % [key, rule.name])
 			assert_false(rule.modifiers.is_empty(), "%s: %s has modifiers" % [key, rule.name])

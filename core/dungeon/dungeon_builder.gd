@@ -299,7 +299,7 @@ static func build_map(blueprint: DungeonCatalog.Blueprint, def: MainDungeonDef) 
 						added.card_choices = 3
 					K.BOSS:
 						added.difficulty = DungeonMap.Difficulty.BOSS
-						added.card_choices = 3 if not blueprint.is_side() else 0
+						added.card_choices = 3  # Overnight Oct 23, Part 4: side-dungeon bosses offer a pick too (their prize stays)
 					_:
 						added.difficulty = DungeonMap.Difficulty.NORMAL
 				added.gold_reward = EncounterRewards.gold_for(added.difficulty) / 2

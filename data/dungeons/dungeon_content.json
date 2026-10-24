@@ -205,7 +205,7 @@
 				},
 				"11": {
 					"name": "Cannon-Blender Gunner",
-					"deck": "gourmand_golems",
+					"deck": "gourmand_beefcake_bulk",
 					"size": 31,
 					"hp": 18,
 					"icon": "delapouite/pirate-cannon",
@@ -303,6 +303,9 @@
 					"before": "crumb_inspection",
 					"after": "crumb_inspection_after"
 				}
+			},
+			"blurbs": {
+				"11": "The cannon-blender is fed protein and plates in equal measure. Every Ingredient and every Iron goes into the same shaker, and something six feet tall comes out."
 			}
 		},
 		"D-HFA": {
@@ -369,7 +372,8 @@
 				"13": {
 					"name": "Executive Elevator Operator",
 					"hp": 20,
-					"size": 31
+					"size": 31,
+					"deck": "necrocrat_beefcake"
 				},
 				"14": "Mortimer Grimsby, CE-No"
 			},
@@ -479,6 +483,9 @@
 				"14": {
 					"after": "vacancy"
 				}
+			},
+			"blurbs": {
+				"13": "The elevator is hand-cranked by a Beefcake on loan from the wheels. Every floor needs a permit and a rep. Iron turns the crank; Red Tape keeps the doors shut."
 			}
 		},
 		"D-ROT": {
@@ -535,14 +542,17 @@
 				},
 				"10": {
 					"name": "Hive of Mutant Bees",
-					"deck": "refuse_garbage",
+					"deck": "gourmand_refusemancer_farm",
 					"size": 30,
 					"hp": 14,
 					"icon": "lorc/bat-wing",
 					"infra": 17,
 					"ai": "Balanced"
 				},
-				"11": "Rot Tunnel Horror",
+				"11": {
+					"name": "Rot Tunnel Horror",
+					"deck": "beefcake_refusemancer_gym"
+				},
 				"13": "Compostella, the Rotheart"
 			},
 			"events": {
@@ -626,6 +636,10 @@
 					"before": "clipwell_mill",
 					"after": "clipwell_mill_after"
 				}
+			},
+			"blurbs": {
+				"10": "The mutant bees have learned farming. What the rot throws away they turn into honey, and what they make they feed back to the rot.",
+				"11": "Something lifts in the Rot Tunnel. Every scrap of Garbage it finds becomes a rep, and every rep becomes Iron."
 			}
 		},
 		"D-PC": {
@@ -1007,12 +1021,16 @@
 					"name": "Conveyor Belt Sushi Chef",
 					"hp": 18,
 					"size": 32,
-					"infra": 17
+					"infra": 17,
+					"deck": "gourmand_necrocrat"
 				},
 				"3": "The Itamae Supreme"
 			},
 			"story_keys": {
 				"3": "dg_s_gour_boss"
+			},
+			"blurbs": {
+				"2": "The conveyor never stops, like the Eternal Queue it was modelled on. Each plate comes with a numbered ticket, stamped."
 			}
 		},
 		"S-NECRO": {
@@ -1095,12 +1113,16 @@
 				"2": {
 					"name": "Pizza Crust Courtier",
 					"hp": 19,
-					"size": 31
+					"size": 31,
+					"deck": "gourmand_refusemancer_farm"
 				},
 				"3": "His Majesty the Raccoon"
 			},
 			"story_keys": {
 				"3": "dg_s_ref_boss"
+			},
+			"blurbs": {
+				"2": "The Courtier collects the crusts the kingdom leaves behind and serves them back, warmed, as a royal tasting menu."
 			}
 		},
 		"S-CAP": {
@@ -1139,13 +1161,9 @@
 				},
 				"2": {
 					"name": "Junction Patrol",
-					"deck": "colorless_regime",
+					"deck": "beefcake_refusemancer_gym",
 					"size": 31,
-					"hp": 20,
-					"mixed": [
-						"beefcake",
-						"refusemancer"
-					]
+					"hp": 20
 				},
 				"3": {
 					"name": "Enforcer Captain Spotless",
@@ -1168,6 +1186,9 @@
 			},
 			"story_keys": {
 				"3": "dg_s_cap_boss"
+			},
+			"blurbs": {
+				"2": "The junction crew trains on scrap: tyre flips, bin presses, dumbbells made of drain pipe. Every Garbage becomes muscle."
 			}
 		},
 		"S-PASTE": {

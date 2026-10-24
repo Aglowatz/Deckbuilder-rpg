@@ -65,6 +65,11 @@ func _build_menu() -> void:
 	IconArt.button_icon(settings, "ICON-UI-SETTINGS", 40.0)
 	settings.pressed.connect(_show_settings)
 	column.add_child(settings)
+	# Overnight Oct 23, Part 5: keywords, resources, statuses, card types and rule icons in plain words.
+	var glossary: FancyButton = FancyButton.make("Glossary", &"", Vector2(0, 54))
+	glossary.name = "GlossaryButton"
+	glossary.pressed.connect(_show_glossary)
+	column.add_child(glossary)
 	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)", &"", Vector2(0, 54))
 	feedback.name = "FeedbackButton"
 	feedback.pressed.connect(SceneManager.open_feedback)
@@ -129,6 +134,14 @@ func _show_settings() -> void:
 	_settings.theme_type_variation = &"DarkPanel"
 	_menu.add_child(_settings)
 	_settings.closed.connect(_build_menu)
+
+
+func _show_glossary() -> void:
+	for child: Node in _menu.get_children():
+		child.queue_free()
+	var panel: GlossaryPanel = GlossaryPanel.make()
+	_menu.add_child(panel)
+	panel.closed.connect(_build_menu)
 
 
 func _to_title() -> void:

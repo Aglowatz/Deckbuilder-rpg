@@ -10,6 +10,8 @@ extends RefCounted
 
 const DISPLAY_NAME: String = "The Restless Dead"
 const STARTING_HP: int = 12
+## Overnight Oct 23: its encounter key (scripted events in data/encounters/encounter_scripts.json).
+const RULES_KEY: String = "town:graveyard"
 ## A thin, mostly-defensive dark (Affinity D) deck - the escalating summon is the real engine of
 ## difficulty, not the boss's own hand; see docs/balance_report.md for how this was tuned.
 const DECK_RECIPE: Dictionary = {
@@ -66,6 +68,7 @@ static func enemy_setup(content: ContentSet) -> PlayerSetup:
 	setup.starting_hp = STARTING_HP
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = STARTING_HP
+	EncounterModifiers.apply_to_enemy(setup, RULES_KEY)
 	return setup
 
 

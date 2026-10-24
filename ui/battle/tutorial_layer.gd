@@ -38,6 +38,15 @@ const STEPS: Array[Dictionary] = [
 		"text": "Spent spells and destroyed units go to the [b]Refuse Pile[/b]. Click it to look inside. It is less gross than it sounds."},
 	{"id": "keywords", "title": "Keywords", "info": true,
 		"text": "Words like [b]Flying[/b] change how a unit fights. Hover one on a card to see what it does. Flying units: rude, but effective."},
+	# Overnight Oct 23, Part 5: four more first-time topics, each shown the first time it comes up.
+	{"id": "enemy_traps_set", "title": "Face-down cards", "info": true,
+		"text": "Those [b]card backs[/b] beside the enemy's row are [b]traps[/b]. You can't see them, but you can count them. Each springs once, by itself, on your turn."},
+	{"id": "token", "title": "Tokens", "info": true,
+		"text": "That unit is a [b]token[/b]: made by an effect, not drawn. It fights like any card, and when it leaves the field it is gone for good."},
+	{"id": "rules", "title": "Rules of this fight", "info": true,
+		"text": "The [b]icons under the enemy's portrait[/b] are this fight's rules. Hover one for what it does; click it for the full list. Red helps them, green helps you."},
+	{"id": "scripted", "title": "Scripted events", "info": true,
+		"text": "Bosses and elites have [b]scripted events[/b]: the [color=#ff9f43]amber icons[/color]. Each happens once, at half health or on a set turn. A timed one is announced the turn before."},
 ]
 
 ## Info prompts go away by themselves after this long, so a player who ignores them is never stuck with one.
@@ -175,6 +184,12 @@ func on_battle_event(event: GameEvent) -> void:
 			_flags["blocked"] = true
 		GameEvent.Type.UNIT_DIED, GameEvent.Type.CARD_TOSSED:
 			_flags["refuse"] = true
+		GameEvent.Type.TOKEN_CREATED:
+			var made: CardInstance = screen.game.find_card(event.card)
+			if made != null and made.data.is_unit():
+				_flags["token"] = event.card
+		GameEvent.Type.SCRIPT_TRIGGERED:
+			_flags["scripted"] = true
 
 
 func on_mode_changed(_mode: int) -> void:
@@ -405,6 +420,14 @@ func _triggered(id: String) -> bool:
 			return main and fought and bool(_flags.get("refuse", false)) and not screen.game.players[0].refuse_pile.is_empty()
 		"keywords":
 			return main and _done.has("attack") and not _keyword_cards().is_empty()
+		"enemy_traps_set":
+			return main and _done.has("unit") and _rect_of(_enemy_trap_uids()).has_area()
+		"token":
+			return main and _done.has("unit") and screen.board.view_for(int(_flags.get("token", 0))) != null
+		"rules":
+			return main and (_done.has("unit") or screen.game.turn >= 4) and screen.hud.rule_row != null and is_instance_valid(screen.hud.rule_row)
+		"scripted":
+			return main and bool(_flags.get("scripted", false)) and screen.hud.rule_row != null and is_instance_valid(screen.hud.rule_row)
 	return false
 
 
@@ -437,8 +460,12 @@ func _still_relevant(id: String) -> bool:
 			return (mode == BattleScreen.Mode.MAIN and not _usable_resource_coins().is_empty()) or mode == BattleScreen.Mode.TARGETING
 		"resource_spend":
 			return (mode == BattleScreen.Mode.MAIN and not _spenders().is_empty()) or mode == BattleScreen.Mode.TARGETING
-		"infrastructure", "energy", "unit", "trap", "tool", "end_turn", "keywords", "refuse", "resource_made", "resource_why":
+		"infrastructure", "energy", "unit", "trap", "tool", "end_turn", "keywords", "refuse", "resource_made", "resource_why", "rules", "scripted":
 			return mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING
+		"enemy_traps_set":
+			return (mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING) and _rect_of(_enemy_trap_uids()).has_area()
+		"token":
+			return (mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING) and screen.board.view_for(int(_flags.get("token", 0))) != null
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK
 		"block":
@@ -486,7 +513,25 @@ func _target_rect(id: String) -> Rect2:
 			return _union(uids)
 		"block":
 			return _union(screen.game.attackers)
+		"enemy_traps_set":
+			return _rect_of(_enemy_trap_uids())
+		"token":
+			return _union([int(_flags.get("token", 0))] as Array[int])
+		"rules", "scripted":
+			return screen.hud.rule_row.get_global_rect() if screen.hud.rule_row != null and is_instance_valid(screen.hud.rule_row) else Rect2()
 	return Rect2()
+
+
+## The enemy's set traps (their face-down card backs).
+func _enemy_trap_uids() -> Array[int]:
+	var result: Array[int] = []
+	for card: CardInstance in screen.game.players[1].traps:
+		result.append(card.uid)
+	return result
+
+
+func _rect_of(uids: Array[int]) -> Rect2:
+	return _union(uids) if not uids.is_empty() else Rect2()
 
 
 ## Everything the bubble must not cover: the target, the hand while it talks about a hand card, and for a block also the

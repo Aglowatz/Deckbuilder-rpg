@@ -87,17 +87,19 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Cannon-Blender Gunner | Shrapnel | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon delapouite/pirate-cannon) |
 | The Doppelganger | Mise en Place | enemy | starting_resources (resource="ingredient", count=2) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
 | The Doppelganger | Mise en Place | enemy | starting_tokens (token="T-03", count=1) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
+| The Doppelganger | Perfect Copy | enemy | stat (atk=1, def=1) | "The Doppelganger's units get +1/+1. Every dish is plated just so." (icon delapouite/chef-toque) |
 | Notary Wraith | Notarized | enemy | stat (atk=1, def=1) | "The Wraith's units get +1/+1." (icon delapouite/stamper) |
 | Undersecretary Vellum | Pre-Signed Contracts | enemy | starting_resources (resource="contract", count=2) | "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired." (icon delapouite/full-folder) |
 | Undersecretary Vellum | Pre-Signed Contracts | enemy | timed_summon (token="T-10", every=2) | "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired." (icon delapouite/full-folder) |
 | Mortimer Grimsby, CE-No | Red Tape Everywhere | enemy | starting_resources (resource="redtape", count=3) | "Starts the duel with 3 Red Tape." (icon delapouite/stamper) |
 | Mortimer Grimsby, CE-No | Temp Agency | enemy | timed_summon (token="T-10", every=2) | "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0." (icon delapouite/shambling-zombie) |
-| Mortimer Grimsby, CE-No | Temp Agency | enemy | stat (atk=1, def=0) | "Mortimer's units get +1 attack." (icon delapouite/shambling-zombie) |
+| Mortimer Grimsby, CE-No | Temp Agency | enemy | stat (atk=1, def=1) | "Mortimer's units get +1/+1. The temps are motivated by fear." (icon delapouite/shambling-zombie) |
 | Hortensia Clipwell, Royal Groundskeeper | Prize Topiary | enemy | token_stats (atk=1, def=1) | "Clipwell's tokens enter with +1/+1, trimmed to regulation." (icon lorc/leaf-swirl) |
+| Hortensia Clipwell, Royal Groundskeeper | Royal Groundskeeper | enemy | stat (atk=1, def=1) | "Clipwell's units get +1/+1. The grounds are kept to a royal standard." (icon lorc/leaf-swirl) |
 | Hive of Mutant Bees | Swarm | enemy | timed_summon (token="T-22", every=2) | "Every second turn of its, a 1/1 Sporeling buzzes in." (icon lorc/bat-wing) |
 | Compostella, the Rotheart | Rot Takes Root | enemy | starting_resources (resource="garbage", count=4) | "Starts the duel with 4 Garbage; its units get +0/+1." (icon cathelineau/tree-face) |
-| Compostella, the Rotheart | Rot Takes Root | enemy | stat (atk=0, def=1) | "Starts the duel with 4 Garbage; its units get +0/+1." (icon cathelineau/tree-face) |
-| Mirror Knight | Polished | enemy | stat (atk=2, def=1) | "The Knight's units get +2/+1." (icon delapouite/shinto-shrine-mirror) |
+| Compostella, the Rotheart | Rot Takes Root | enemy | stat (atk=1, def=1) | "Compostella's units get +1/+1. The rot feeds them." (icon cathelineau/tree-face) |
+| Mirror Knight | Polished | enemy | stat (atk=3, def=1) | "The Knight's units get +3/+1. Reflections of a perfect guard." (icon delapouite/shinto-shrine-mirror) |
 | Royal Staircase Guard | Royal Guard | enemy | starting_tokens (token="T-16", count=2) | "Starts the duel with two 1/1 Militia on the field; its units get +1/+1." (icon delapouite/guards) |
 | Royal Staircase Guard | Royal Guard | enemy | stat (atk=2, def=1) | "The Guard's units get +2/+1." (icon delapouite/guards) |
 | The Ancient Spotter | Spotted | enemy | keyword (keyword="hustle", path="beefcake") | "The Spotter's Beefcake units have Hustle." (icon delapouite/mammoth) |
@@ -105,10 +107,10 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | The Itamae Supreme | Omakase | enemy | starting_resources (resource="ingredient", count=4) | "Starts the duel with 4 Ingredients." (icon delapouite/charging-bull) |
 | Betty Bones, Surly Secretary | Take a Number | enemy | starting_resources (resource="redtape", count=2) | "Starts the duel with 2 Red Tape and a Contract." (icon delapouite/files) |
 | Betty Bones, Surly Secretary | Take a Number | enemy | starting_resources (resource="contract", count=1) | "Starts the duel with 2 Red Tape and a Contract." (icon delapouite/files) |
-| Betty Bones, Surly Secretary | Surly | enemy | stat (atk=1, def=1) | "Betty's units get +1/+1." (icon delapouite/files) |
+| Betty Bones, Surly Secretary | Surly | enemy | stat (atk=2, def=1) | "Betty's units get +2/+1. Nobody wants to be the one she snaps at." (icon delapouite/files) |
 | His Majesty the Raccoon | Royal Larder | enemy | starting_resources (resource="garbage", count=4) | "Starts the duel with 4 Garbage." (icon delapouite/imperial-crown) |
 | His Majesty the Raccoon | Royal Guard of Bins | enemy | stat (atk=1, def=1) | "His Majesty's units get +1/+1." (icon delapouite/imperial-crown) |
-| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=3, def=2) | "The Captain's units get +3/+2." (icon lorc/visored-helm) |
+| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=3, def=2) | "Spotless's units get +3/+2. Drilled until they shine." (icon lorc/visored-helm) |
 | Baron Quadzilla | Leg Day | enemy | starting_resources (resource="iron", count=2) | "Starts the duel with 2 Iron." (icon delapouite/mammoth) |
 | Baron Quadzilla | Max Pump | enemy | stat (atk=1, def=1) | "Baron Quadzilla's units get +1/+1." (icon lorc/muscle-up) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="iron", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
@@ -128,7 +130,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | arena:arena_marshal | Crowd Favourite | enemy | stat (atk=2, def=1) | "Grand Bellows's units get +2/+1." (icon delapouite/trumpet) |
 | arena:arena_marshal | Heckling Crowd | enemy | start_of_turn_damage (amount=1) | "The crowd is on his side: at the start of each of his turns you take 1 damage." (icon delapouite/three-friends) |
 | zone:gourmand:casserole | Field Rations | enemy | starting_tokens (token="T-03", count=1) | "The Colonel starts with a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
-| zone:final:spotless | Spotless Drill | enemy | stat (atk=2, def=2) | "Captain Spotless's units get +2/+2." (icon lorc/visored-helm) |
+| zone:gourmand:casserole | Field Rations | enemy | stat (atk=1, def=0) | "The Colonel's units get +1 attack. Well fed." (icon delapouite/chef-toque) |
+| zone:final:spotless | Spotless Drill | enemy | stat (atk=2, def=1) | "Spotless's units get +2/+1. Drilled until they shine." (icon lorc/visored-helm) |
 | Clocktower Sentinel | Clockwork Precision | enemy | stat (atk=2, def=2) | "The Sentinel's units get +2/+2." (icon delapouite/alarm-clock) |
 | The Failed Experiment | Unstable | enemy | stat (atk=2, def=2) | "The Experiment's units get +2/+2." (icon lorc/bubbling-flask) |
 | arena:arena_four_fists | Four Fists | enemy | stat (atk=1, def=1) | "The Champion's units get +1/+1." (icon lorc/fire-punch) |
@@ -162,7 +165,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-TTK | node 3 | "Frozen Line Cook" | {"name":"Frozen Line Cook","hp":17,"size":29} |
 | D-TTK | node 6 | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":30,"hp":20,"icon":"delapouite/pirate-cannon"} | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":31,"hp":17,"icon":"delapouite/pirate-cannon","infra":15} |
 | D-TTK | node 8 | "Assembly Line Golem" | {"name":"Assembly Line Golem","hp":17,"size":30,"infra":15} |
-| D-TTK | node 11 | {"name":"Cannon-Blender Gunner","deck":"gourmand_golems","size":33,"hp":22,"icon":"delapouite/pirate-cannon"} | {"name":"Cannon-Blender Gunner","deck":"gourmand_golems","size":31,"hp":18,"icon":"delapouite/pirate-cannon","infra":15} |
+| D-TTK | node 11 | {"name":"Cannon-Blender Gunner","deck":"gourmand_golems","size":33,"hp":22,"icon":"delapouite/pirate-cannon"} | {"name":"Cannon-Blender Gunner","deck":"gourmand_beefcake_bulk","size":31,"hp":18,"icon":"delapouite/pirate-cannon","infra":15} |
 | D-TTK | node 12 | "Expediter of the Pass" | {"name":"Expediter of the Pass","hp":17,"size":30,"infra":15} |
 | D-TTK | boss | {"deck":"gourmand_golems","extra":{"G-33":1},"hp":28,"icon":"delapouite/chef-toque"} | {"deck":"gourmand_golems","extra":{"G-33":1},"hp":21,"icon":"delapouite/chef-toque","infra":19} |
 | D-TTK | defaults | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/ice-golem","delapouite/gingerbread-man","lorc/bubbling-flask","delapouite/pirate-cannon"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/ice-golem","delapouite/gingerbread-man","lorc/bubbling-flask","delapouite/pirate-cannon"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
@@ -171,14 +174,15 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-HFA | node 7 | {"name":"Notary Wraith","deck":"necro_control","size":31,"hp":19} | {"name":"Notary Wraith","deck":"necro_control","size":33,"hp":26} |
 | D-HFA | node 9 | "Resurrection Permits Zombie" | {"name":"Resurrection Permits Zombie","hp":19,"size":31} |
 | D-HFA | node 11 | {"name":"Undersecretary Vellum","deck":"necro_control","size":30,"hp":20} | {"name":"Undersecretary Vellum","deck":"necro_control","size":33,"hp":26} |
-| D-HFA | node 13 | "Executive Elevator Operator" | {"name":"Executive Elevator Operator","hp":20,"size":31} |
+| D-HFA | node 13 | "Executive Elevator Operator" | {"name":"Executive Elevator Operator","hp":20,"size":31,"deck":"necrocrat_beefcake"} |
 | D-HFA | boss | {"deck":"necro_control","extra":{"N-33":1,"N-32":1},"hp":28,"icon":"delapouite/stamper"} | {"deck":"necro_control","extra":{"N-33":1,"N-32":1,"N-28":1,"N-29":1},"hp":30,"icon":"delapouite/stamper","infra":15} |
 | D-HFA | defaults | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/tie","delapouite/shambling-zombie","lorc/ghost","delapouite/warlock-eye","delapouite/full-folder","delapouite/stamper"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/tie","delapouite/shambling-zombie","lorc/ghost","delapouite/warlock-eye","delapouite/full-folder","delapouite/stamper"],"ais":["Aggressive","Balanced","Aggressive"],"infra":12} |
 | D-ROT | node 2 | "Overgrown Scarecrow" | {"name":"Overgrown Scarecrow","hp":12,"infra":16} |
 | D-ROT | node 3 | "Mutant Mushroom Troop" | {"name":"Mutant Mushroom Troop","hp":12,"infra":16} |
 | D-ROT | node 6 | {"name":"Rootbound Miller","deck":"refuse_garbage","size":32,"hp":19} | {"name":"Hortensia Clipwell, Royal Groundskeeper","deck":"refuse_garbage","size":32,"hp":19,"icon":"lorc/leaf-swirl"} |
 | D-ROT | node 8 | "Thorn Maze Stalker" | {"name":"Thorn Maze Stalker","hp":12,"infra":16} |
-| D-ROT | node 10 | {"name":"Hive of Mutant Bees","deck":"refuse_rats","size":30,"hp":18,"icon":"lorc/bat-wing"} | {"name":"Hive of Mutant Bees","deck":"refuse_garbage","size":30,"hp":14,"icon":"lorc/bat-wing","infra":17,"ai":"Balanced"} |
+| D-ROT | node 10 | {"name":"Hive of Mutant Bees","deck":"refuse_rats","size":30,"hp":18,"icon":"lorc/bat-wing"} | {"name":"Hive of Mutant Bees","deck":"gourmand_refusemancer_farm","size":30,"hp":14,"icon":"lorc/bat-wing","infra":17,"ai":"Balanced"} |
+| D-ROT | node 11 | "Rot Tunnel Horror" | {"name":"Rot Tunnel Horror","deck":"beefcake_refusemancer_gym"} |
 | D-ROT | boss | {"deck":"refuse_garbage","extra":{"R-33":1},"hp":28,"icon":"cathelineau/tree-face"} | {"deck":"refuse_garbage","extra":{"R-33":1},"hp":22,"icon":"cathelineau/tree-face","infra":19} |
 | D-ROT | defaults | {"archetypes":["refuse_rats","refuse_garbage"],"icons":["lorc/sprout","delapouite/mushrooms-cluster","delapouite/plant-roots","delapouite/tree-roots","lorc/root-tip","cathelineau/tree-face"],"ais":["Balanced","Aggressive","Defensive"]} | {"archetypes":["refuse_garbage"],"icons":["lorc/sprout","delapouite/mushrooms-cluster","delapouite/plant-roots","delapouite/tree-roots","lorc/root-tip","cathelineau/tree-face"],"ais":["Balanced","Aggressive","Defensive"],"infra":13} |
 | D-PC | node 2 | {"name":"Hedge Trimmer Guard","deck":"colorless_regime","size":28,"hp":14,"mixed":["necrocrat","gourmand"]} | {"name":"Hedge Trimmer Guard","deck":"colorless_regime","size":32,"hp":24,"mixed":["necrocrat","gourmand"]} |
@@ -199,7 +203,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-BEEF | boss | {"deck":"beefcake_bruisers","extra":{"B-30":1},"hp":20,"icon":"delapouite/mammoth"} | {"deck":"beefcake_bruisers","extra":{"B-30":1,"B-28":2,"B-29":1,"B-32":1},"hp":34,"icon":"delapouite/mammoth","infra":13} |
 | S-BEEF | defaults | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
 | S-GOUR | node 1 | "Apprentice Itamae" | {"name":"Apprentice Itamae","hp":13,"size":28,"infra":19} |
-| S-GOUR | node 2 | "Conveyor Belt Sushi Chef" | {"name":"Conveyor Belt Sushi Chef","hp":18,"size":32,"infra":17} |
+| S-GOUR | node 2 | "Conveyor Belt Sushi Chef" | {"name":"Conveyor Belt Sushi Chef","hp":18,"size":32,"infra":17,"deck":"gourmand_necrocrat"} |
 | S-GOUR | boss | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":20,"icon":"delapouite/charging-bull"} | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":28,"icon":"delapouite/charging-bull"} |
 | S-GOUR | defaults | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
 | S-NECRO | node 1 | "Receptionist of Number One" | {"name":"Receptionist of Number One","hp":18,"size":30} |
@@ -207,12 +211,12 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-NECRO | boss | {"deck":"necro_control","extra":{"N-30":1},"hp":20,"icon":"delapouite/files"} | {"deck":"necro_control","extra":{"N-30":1},"hp":34,"icon":"delapouite/files","infra":13} |
 | S-NECRO | defaults | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/ticket","lorc/ghost","delapouite/files"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["necro_zombies","necro_control"],"icons":["delapouite/ticket","lorc/ghost","delapouite/files"],"ais":["Aggressive","Balanced","Aggressive"],"infra":12} |
 | S-REF | node 1 | "Alley Gate Raccoon" | {"name":"Alley Gate Raccoon","hp":18,"size":30} |
-| S-REF | node 2 | "Pizza Crust Courtier" | {"name":"Pizza Crust Courtier","hp":19,"size":31} |
+| S-REF | node 2 | "Pizza Crust Courtier" | {"name":"Pizza Crust Courtier","hp":19,"size":31,"deck":"gourmand_refusemancer_farm"} |
 | S-REF | boss | {"deck":"refuse_rats","extra":{"R-27":1},"hp":20,"icon":"delapouite/imperial-crown"} | {"deck":"refuse_rats","extra":{"R-27":1},"hp":34,"icon":"delapouite/imperial-crown","infra":13} |
 | S-REF | defaults | {"archetypes":["refuse_rats","refuse_garbage"],"icons":["delapouite/trash-can","lorc/recycle","delapouite/imperial-crown"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["refuse_rats","refuse_garbage"],"icons":["delapouite/trash-can","lorc/recycle","delapouite/imperial-crown"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
 | S-CAP | node 1 | {"name":"Sewer Checkpoint Enforcer","deck":"colorless_regime","size":27,"hp":12,"mixed":["necrocrat","gourmand"]} | {"name":"Sewer Checkpoint Enforcer","deck":"colorless_regime","size":30,"hp":18,"mixed":["necrocrat","gourmand"]} |
-| S-CAP | node 2 | {"name":"Junction Patrol","deck":"colorless_regime","size":28,"hp":14,"mixed":["beefcake","refusemancer"]} | {"name":"Junction Patrol","deck":"colorless_regime","size":31,"hp":20,"mixed":["beefcake","refusemancer"]} |
-| S-CAP | node 3 | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":33,"hp":20,"mixed":["necrocrat","gourmand","beefcake","refusemancer"]} | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":34,"hp":34,"mixed":["necrocrat","gourmand","beefcake","refusemancer"],"infra":11,"extra":{"C-30":1,"C-32":1,"C-34":1}} |
+| S-CAP | node 2 | {"name":"Junction Patrol","deck":"colorless_regime","size":28,"hp":14,"mixed":["beefcake","refusemancer"]} | {"name":"Junction Patrol","deck":"beefcake_refusemancer_gym","size":31,"hp":20} |
+| S-CAP | node 3 | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":33,"hp":20,"mixed":["necrocrat","gourmand","beefcake","refusemancer"]} | {"name":"Enforcer Captain Spotless","deck":"colorless_regime","size":34,"hp":34,"mixed":["necrocrat","gourmand","beefcake","refusemancer"],"infra":13,"extra":{"C-30":1,"C-32":1,"C-34":1}} |
 | S-CAP | boss | {"deck":"colorless_regime","extra":{},"hp":20,"icon":"lorc/visored-helm"} | {"deck":"colorless_regime","extra":{},"hp":26,"icon":"lorc/visored-helm"} |
 | S-CAP | defaults | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/pipes","lorc/visored-helm"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["colorless_regime"],"icons":["delapouite/guards","delapouite/pipes","lorc/visored-helm"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
 | S-PASTE | node 1 | - | {"name":"Ration Line Supervisor","deck":"colorless_regime","size":30,"hp":18,"mixed":["gourmand","necrocrat"]} |
@@ -252,7 +256,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | core/dungeon/primm_boss.gd | numbers | hp = 30; hp = 28 | hp = 36 |
 | core/dungeon/vault_guardian.gd | numbers | STARTING_HP: int = 40 | STARTING_HP: int = 28 |
 | core/dungeon/ninja_boss.gd | numbers | STARTING_HP: int = 18 | STARTING_HP: int = 38 |
-| core/dungeon/corrupted_npcs.gd | numbers | trimmed("refuse_garbage", 27, 17); trimmed("necro_control", 26, 16) | trimmed("refuse_garbage", 27, 19); trimmed("necro_zombies", 26, 20) |
+| core/dungeon/corrupted_npcs.gd | numbers | trimmed("refuse_garbage", 27, 17); trimmed("necro_control", 26, 16) | trimmed("refuse_garbage", 28, 20); trimmed("necro_zombies", 26, 20) |
 | core/arena/arena_defs.gd | numbers | trimmed("beefcake_rush", 28, 16); trimmed("colorless_regime", 28, 16); enemy_hp = 11 | trimmed("beefcake_rush", 28, 18) |
 
 ## New rows: starting decks (one list per Path; 19 basic Infrastructure of the Path + these 26 cards)
