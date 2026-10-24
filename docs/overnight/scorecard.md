@@ -40,3 +40,6 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 10. **Stability**: the dungeons smoke's last failure ("the Swolympus gate says it is sealed", open since Oct 21) was the smoke, not the
     game - the freed Gainlands' "Quota fled" scene was on screen when it pressed E at the gate. The smoke now finishes open dialogue
     first: dungeons smoke OK, 49 checks, 0 failures (D-TUT and D-HOG start to boss, with the new scripts and entrances).
+11. **Dialogue & story**: voice pass over tonight's 93 lines (64 scripted, 29 entrances): ten entrance lines repeated their boss's own
+    scripted line nearly word for word (Clench, the Doppelganger, the Raccoon, Plume, Siphon, Crumb, Brick, Compostella, the Spotter,
+    Betty, the Itamae) - each pair now says two different things; no line over 160 characters; a check script in the cycle log.

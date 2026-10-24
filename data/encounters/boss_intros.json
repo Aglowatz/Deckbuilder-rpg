@@ -8,7 +8,7 @@
 	},
 	"Brick Bronson": {
 		"title": "The Spotter of the Gorge",
-		"line": "NOBODY CROSSES WITHOUT A SPOTTER. I AM THE SPOTTER. ALSO: HYDRATE.",
+		"line": "NOBODY CROSSES THE GORGE WITHOUT A SPOTTER. I AM THE SPOTTER. SPOT THIS.",
 		"sting": "STG-ZONE-BEEF",
 		"path": "beefcake"
 	},
@@ -56,7 +56,7 @@
 	},
 	"Chancellor Clench, Iron Regent": {
 		"title": "Iron Regent of the Gainlands",
-		"line": "Strength is control. Control is paperwork. DROP AND GIVE ME FORMS.",
+		"line": "You. Off the wheel. Nobody leaves the Gainlands without a permit and a rep count.",
 		"sting": "STG-ZONE-BEEF",
 		"path": "beefcake"
 	},
@@ -74,25 +74,25 @@
 	},
 	"The Ancient Spotter": {
 		"title": "Guardian of Mount Swolympus",
-		"line": "Lift. I will catch it. I have always caught it.",
+		"line": "One more rep. There is always one more rep.",
 		"sting": "STG-ZONE-BEEF",
 		"path": "beefcake"
 	},
 	"The Doppelganger": {
 		"title": "Grand Chef of the Test Kitchen (allegedly)",
-		"line": "Welcome to my kitchen. Delicious. I have been told that is the word.",
+		"line": "Welcome to the Test Kitchen. Everything here is delicious. I have been told.",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
 	"The Itamae Supreme": {
 		"title": "Master of the Omakase",
-		"line": "Omakase.",
+		"line": "...Sit.",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
 	"Colonel Cornelius Crumb, Director of Culinary Defense": {
 		"title": "Director of Culinary Defense",
-		"line": "Whisk formation! This is not a drill, it is a souffle!",
+		"line": "Ration line, ATTENTION! Whisk formation! Nobody tastes anything!",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
@@ -104,13 +104,13 @@
 	},
 	"Betty Bones, Surly Secretary": {
 		"title": "Surly Secretary",
-		"line": "Forms A through F. Then we'll talk. We won't, but still.",
+		"line": "Take a number. The number is irrelevant. Take it anyway.",
 		"sting": "STG-ZONE-NECRO",
 		"path": "necrocrat"
 	},
 	"Percival Plume, Deputy Minister of Good News": {
 		"title": "Deputy Minister of Good News",
-		"line": "Great news, citizens! This fight has been approved, and you have lost it!",
+		"line": "Smile, please! This fight is being broadcast, and you are losing it beautifully.",
 		"sting": "STG-ZONE-NECRO",
 		"path": "necrocrat"
 	},
@@ -128,7 +128,7 @@
 	},
 	"His Majesty the Raccoon": {
 		"title": "Sovereign of the Throne of Lids",
-		"line": "WE DID NOT EAT THE COMPOST. We... sampled it. On behalf of the kingdom.",
+		"line": "Kneel before the Throne of Lids. Or crouch. Crouching is also acceptable.",
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},
@@ -158,7 +158,7 @@
 	},
 	"Dr. Ambrose Siphon, Chief Path-ologist": {
 		"title": "Chief Path-ologist",
-		"line": "Subject 1. You've grown. This will only drain a little.",
+		"line": "Subject 1. Back where you belong. Do sit; the straps are new.",
 		"sting": "STG-SECRET",
 		"path": "regime"
 	},
