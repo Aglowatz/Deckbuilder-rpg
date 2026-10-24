@@ -29,6 +29,15 @@ func _run() -> void:
 	var route: Array[String] = ZONES + ZONES
 	if OS.get_cmdline_user_args().has("--short"):
 		route = ["beefcake", "beefcake"] as Array[String]
+	# Oct 23: `--townloop` reloads Crosspath only (no zone in between) / `--zoneloop` goes Gainlands -> Gainlands - which side keeps memory.
+	if OS.get_cmdline_user_args().has("--townloop"):
+		for i: int in range(3):
+			await _arrive("town", TownScene, func() -> void: SceneManager.change_scene("res://scenes/town.tscn"))
+		route = [] as Array[String]
+	if OS.get_cmdline_user_args().has("--zoneloop"):
+		for i: int in range(3):
+			await _arrive("beefcake", ZoneScene, func() -> void: Session.enter_zone("beefcake"))
+		route = [] as Array[String]
 	for zone_id: String in route:
 		await _arrive(zone_id, ZoneScene, func() -> void: Session.enter_zone(zone_id))
 		await _arrive("town", TownScene, func() -> void: SceneManager.change_scene("res://scenes/town.tscn"))

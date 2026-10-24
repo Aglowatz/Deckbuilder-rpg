@@ -153,6 +153,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 ## `is_load_finished()` (built, and the first screens warmed by UiArtWarmup) before it fades in. A town added directly (tests, tools) is
 ## built in one go inside `_ready`, as before.
 var _staged_build: bool = false
+## Overnight Oct 23 (memory probe): `WAYWARD_PROBE_SKIP=birds,outskirts,look,clouds,dressing,painted` leaves those optional pieces out
+## of the town build, to bisect the video memory that stays behind per Crosspath visit. Debug only; empty in normal play.
+var _probe_skip: PackedStringArray = OS.get_environment("WAYWARD_PROBE_SKIP").split(",", false)
 var _built: bool = false
 var _build_steps_done: int = 0
 const BUILD_STEPS: int = 16
@@ -297,11 +300,12 @@ func _ready() -> void:
 	await _stage("town: TownBuilder.build")
 	square = TownSquare.build(self, town, Settings.graphics_quality)
 	await _stage("town: TownSquare")
-	if town.hub_land:
+	if town.hub_land and not _probe_skip.has("outskirts"):
 		# Crosspath pass, Part E: the outskirts dressed with the town kit (walls, corners, field edges)
 		outskirt_dressing = OutskirtDressing.build(self, town)
 	await _stage("town: outskirt dressing")
-	AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
+	if not _probe_skip.has("birds"):
+		AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
 	_build_actors()
 	if _staged_build:
 		player.input_enabled = false  # `_process` hands input back once the town is built
@@ -326,7 +330,7 @@ func _ready() -> void:
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
 	await _stage("town: StyleRig")
-	look_rig = _install_look()
+	look_rig = _install_look() if not _probe_skip.has("look") else null
 	if _staged_build and look_rig != null:
 		await look_rig.build_pieces_staged(_stage)
 	await _stage("town: look rig")
@@ -339,17 +343,19 @@ func _ready() -> void:
 	cloud_fader.target = player
 	add_child(cloud_fader)
 	for cloud: Node3D in town.clouds:
-		cloud_fader.adopt(cloud, 3.0)
+		if not _probe_skip.has("clouds"):
+			cloud_fader.adopt(cloud, 3.0)
 	if style_rig != null:
 		style_rig.register_lights(square.lights)
 	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
-	if style_rig != null:
+	if style_rig != null and not _probe_skip.has("dressing"):
 		# Crosspath pass, Part B: in the hub the dressing clumps along paths, walls and field edges with open grass between (TownClutter), at about half the old count.
 		if town.hub_land:
 			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid, TownClutter.region(town), 0.5)
 		else:
 			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
 		await _stage("town: ZoneDressing")
+	if style_rig != null and not _probe_skip.has("painted"):
 		var painted_context: Dictionary = PaintedContexts.town(self)
 		LoadTiming.mark("painted: context")
 		painted_world = PaintedWorld.apply(self, town, StylePresets.TOWN, painted_context)
