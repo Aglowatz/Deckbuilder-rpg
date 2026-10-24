@@ -11,7 +11,7 @@ extends RefCounted
 const IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STARTING_HP: int = 15
 ## Rebalance Part E: per-NPC HP (Moss and Prudence were 85% / 94% at level 3 against an elite band of 60-75).
-const HP_BY_ID: Dictionary = {"beefcake": 13, "gourmand": 15, "refusemancer": 15, "necrocrat": 12}
+const HP_BY_ID: Dictionary = {"beefcake": 13, "gourmand": 15, "refusemancer": 12, "necrocrat": 12}  # Battle AI upgrade Part 5: Moss 15 -> 12 (46-56% at 13 HP and Normal skill under the new AI)
 
 const DISPLAY_NAMES: Dictionary = {
 	"beefcake": "Brick Bronson", "gourmand": "Chef Fennel Gravois",
@@ -62,7 +62,7 @@ static func recipe(id: String) -> Dictionary:
 		"gourmand":
 			return EnemyDecks.trimmed("gourmand_control", 26, 16)
 		"refusemancer":
-			return EnemyDecks.trimmed("refuse_garbage", 27, 19)  # Overnight Oct 22: 17 -> 19 basics (50/56% -> 55/59% under the Oct 22 starting decks)
+			return EnemyDecks.trimmed("refuse_garbage", 28, 20)  # Overnight Oct 22: 17 -> 19 basics (50/56% -> 55/59%); Battle AI upgrade Part 5: 28/20 (47/56% at 13 HP under the new AI)
 		"necrocrat":
 			return EnemyDecks.trimmed("necro_zombies", 26, 20)  # Rebalance Part E: the control list never pressured anyone (95% at level 3). Overnight Oct 22: 16 -> 20 basics, no Red Tape head start
 	return {}

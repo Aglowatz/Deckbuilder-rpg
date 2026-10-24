@@ -39,6 +39,9 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.display_name = "Stray Gym Hound"
 			made.recipe = EnemyDecks.trimmed("gourmand_control", 20, 13)  # sim: beefcake_rush 6 HP 62%, beefcake_tools 5 HP 67% (Iron bursts), colorless_militia 5 HP 55%, necro_zombies 5 HP 72%
 			made.hp = 3  # sim: 83% at 5 HP; Oct 22: 3 for the neutral-heavy starting decks (docs/design/balance_log.md)
+			# Battle AI upgrade, Part 5: a level-1 roamer should not cook 4/4 Cake Golems or Plate the starter's only wall (63% under the new AI).
+			made.recipe.erase("G-08")
+			made.recipe.erase("G-20")
 			made.ai_name = "Defensive"
 			made.gold_reward = 12
 			made.xp_reward = 30

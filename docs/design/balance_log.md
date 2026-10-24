@@ -1108,3 +1108,81 @@ for the next pass (levers that worked before: one-sided stat rules for late boss
 | Clipwell (D-ROT elite) | 60-75% | 80% / 70% | within noise; Beefcake 31-56% (Rot again, inbox 7) |
 | Clocktower Sentinel (D-PC elite) | 60-75% | 66% / 81% | within noise |
 | The Ancient Spotter (S-BEEF boss, postgame) | 40-60% | 63% / 59% | within noise |
+
+## Oct 23 - Battle AI upgrade, Part 5: the catalog under the new AI, and the first tuning pass
+
+**What changed in the measurement.** Both seats now run the planning AI (`docs/design/ai_state.md`): the enemy at the skill its kind
+calls for (Normal with 15% human mistakes / Elite / Boss with a signature), the player seat as a "decent human" (Elite, no mistakes).
+The whole catalog was re-measured at 4 games per Path, seed 7000 (`docs/design/sim/ai_p5/*.md`, `bash tools/ai_sweep.sh ai_p5 4 7000`),
+the tutorial at 25 games per fight and 50 runs per Path (`ai_p5/tutorial_7000.md`).
+
+| Kind | Fights | In band | Too hard | Too easy | Mean win | Mean turns | Oct 22 (old AI, 6 games) |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Tutorial fights | 3 | 3 | 0 | 0 | 98-99% | 5.1 | 95-100% |
+| Tutorial runs | 4 Paths | - | - | - | B 88 / G 90 / R 88 / N 98 | 28 | B 91 / G 89 / R 87 / N 94 |
+| Normal | 56 | 46 | 10 | 0 | 89% | 7.3 | 48 / 10 / 0, 90% |
+| Elite | 23 | 10 | 8 | 5 | 66% | 8.7 | 11 / 5 / 6, 67% |
+| Boss | 21 | 6 | 5 | 10 | 55% | 8.4 | 10 / 2 / 10, 59% |
+
+The averages barely moved; the spread did. Decks with an engine (Prudence's Red Tape, Moss's Garbage, Gourmand golem makers) got
+stronger because the new AI uses the engine every turn; vanilla decks did not. Opening-hour fights (16 games each): Stray Gym Hound
+63% (Gourmand 25), the gatekeepers Brick 56 / Chef 56 / Moss 38 / Prudence 44, the Restless Dead 19% - all over the line. Walls
+(under 35%): the Restless Dead 19, the Grate's Captain Spotless boss 31 (and Siphon alone 0 by design). Too-easy bosses (69%+):
+Betty, Mortimer, the Doppelganger, Compostella, Primm's phases 1 / 3 (100 / 81), elites Mirror Knight 94, Clipwell 94, Casserole 88.
+
+**Also found in the replays (AI side, fixed in the same pass):** the Refusemancer seat hoarded Garbage (a Possum Prowler sat for 13
+turns on 7 Garbage) because held fuel was valued at 1.5 each - more than one use gains. Fuel now 0.8 held / 0.25 idle
+(`AIEvaluator.FUEL_VALUE`), the Gourmand / Refusemancer profile bonus 0.25.
+
+**Changes (encounter side only):**
+
+| Encounter | Target | Before | Change |
+|---|---|---|---|
+| Brick, Chef, Moss, Prudence (town gatekeepers, L3) | 60-75% | 56 / 56 / 38 / 44 | played at Normal skill with mistakes (`AIPlayer.SKILL_OVERRIDES`): the first hour stays forgiving; the kind (Elite rewards, band) is unchanged |
+| The Restless Dead (first boss, L7) | 40-60% | 19 | Elite skill instead of Boss (keeps the "patience" signature and the escalating summons) |
+| Stray Gym Hound (outskirts, L1) | 80-100% | 63 (G 25) | its 20-card deck loses the Pastry Artificer and Plate It (`TownEnemies`): a level-1 roamer no longer cooks 4/4 golems |
+| Enforcer Captain Spotless (S-CAP boss) | 40-60% | 31 | Spotless Drill +3/+2 -> +2/+2 |
+| Captain Spotless (Capital roamer, elite) | 60-75% | 50 | Spotless Drill +2/+2 -> +2/+1 |
+| Mortimer Grimsby (D-HFA boss) | 40-60% | 69 | Temp Agency +1/+0 -> +1/+1 |
+| Betty Bones (S-NECRO boss) | 40-60% | 69 | Surly +1/+1 -> +2/+1 |
+| The Doppelganger (D-TTK boss) | 40-60% | 69 | new rule Perfect Copy: its units +1/+1 (the Oct 22 proposal) |
+| Compostella (D-ROT boss) | 40-60% | 69 | Rot Takes Root +0/+1 -> +1/+1 |
+| Primm phase 1 / phase 3 | sequence ~50% | 100 / 81 | new rules Royal Standard / Last Decree: his units +1/+1 in those phases |
+| Mirror Knight (D-PC elite) | 60-75% | 94 | Polished +2/+1 -> +3/+2 |
+| Clipwell (D-ROT elite) | 60-75% | 94 | Prize Topiary tokens +1/+1 -> +2/+2 |
+| Colonel Casserole (Buffet elite) | 60-75% | 88 | new rule: her units +1 attack (Field Rations) |
+
+After (6 games per Path for the town on seeds 7000 / 8100, 8 per Path for the rest, seed 7000): see the table below.
+
+**After** (seeds 7000 / 8100; the town at 6 games per Path, the rest 8; `docs/design/sim/p5b..p5j/`):
+
+| Encounter | Target | Before | After | Note |
+|---|---|---|---|---|
+| Stray Gym Hound | 80-100% | 63 | **100 / 100** | no golem maker, no Plate It |
+| Lost Junior Clerk / Bin Raccoon / Store Room Ghosts | 80-100% | 88 / 94 / 100 | 92-92 / 96-83 / 92-100 | unchanged, re-measured |
+| Brick Bronson | 60-75% | 56 | **71 / 75** | Normal skill |
+| Chef Fennel Gravois | 60-75% | 56 | **63 / 63** | Normal skill |
+| Prudence Pallor | 60-75% | 44 | **75 / 54** | Normal skill |
+| Moss Mulligan | 60-75% | 38 | 46 / 54 at Normal skill and 13 HP; 47 / 56 at 13 HP; **63 / 66** at 12 HP with a 28-card / 20-basics deck | three steps |
+| The Restless Dead | 40-60% | 19 | 29 / 42 at Elite skill; **38 / 44** at Normal skill | the escalating summons stay the challenge |
+| Shiro Swindle / Warden / Echo | 40-60% | 50 / 38 / 63 | 58-67 / 42-46 / 58-75 | unchanged, re-measured |
+| Mortimer Grimsby | 40-60% | 69 | **47** | +1/+1 |
+| The Doppelganger | 40-60% | 69 | **38** | +1/+1 (one step; the next read decides whether it stays) |
+| Compostella | 40-60% | 69 | 69 | +1/+1 did not move it (Beefcake 25, the others 75-100: the Rot question, inbox 7) |
+| Mirror Knight | 60-75% | 94 | 50 at +3/+2, **72** at +3/+1 | |
+| Clipwell | 60-75% | 94 | 84 with tokens +2/+2; **72** with tokens +1/+1 and units +1/+1 | |
+| Colonel Casserole | 60-75% | 88 | **78** | +1 attack |
+| Captain Spotless (roamer) | 60-75% | 50 | **64** | +2/+1 |
+| Enforcer Captain Spotless (S-CAP boss) | 40-60% | 31 | 69 at +2/+2; 91 / 81 at +3/+1; 69 / 81 at +2/+2 and 38 HP (HP does not move it) | see the last row below |
+| Primm, three phases as one HP pool | ~50% | ~58% (Oct 19, old AI) | 0-6% cleared with +1/+1 in phases 1 and 3; 6-25% with phase 3 only; measured again without either (below) | the new AI makes the gauntlet itself harder - no rule step survives |
+| Enforcer Captain Spotless (S-CAP boss), final | 40-60% | 31 | **47 / 72** | +3/+2 kept, his deck 11 -> 13 basics, 34 HP |
+| Primm, three phases as one HP pool, without any rule step | ~50% | ~58% (old AI) | B 33 / G 17 / R 42 / N 58 = 38% at Boss skill (12 runs per Path) | next step: the phases at Elite skill (`AIPlayer.SKILL_OVERRIDES`), measured below |
+| Primm, three phases as one HP pool, phases at Elite skill (kept) | ~50% | ~58% (old AI) | **B 50 / G 25 / R 50 / N 67 = 48%** (12 runs per Path, seed 7000) | Gourmand lags (inbox: its L22 reference deck against Standardization) |
+
+**Kept, summary.** Skill: the four gatekeepers and the Restless Dead at Normal, Primm's phases at Elite (`AIPlayer.SKILL_OVERRIDES`).
+Decks/HP: the hound without G-08 / G-20; Moss 12 HP, 28 cards / 20 basics; Spotless boss 13 basics. Rules: Mortimer +1/+1, Betty +2/+1,
+Doppelganger +1/+1 (new), Compostella +1/+1, Mirror Knight +3/+1, Clipwell units +1/+1 (new) with tokens +1/+1, Casserole +1 attack
+(new), Spotless roamer +2/+1, Spotless boss +3/+2 (unchanged number, diluted deck). Reverted: Primm's Royal Standard and Last Decree.
+No card changes, so `docs/design/sheet_changes.md` is unchanged. Not touched (noise-level at 16-32 games, or a known question):
+Betty's own read after +2/+1 (not re-measured alone - it is S-NECRO:3, 69% before), Compostella 69 (Rot and Beefcake, inbox 7),
+Test Kitchen normals 63-75 (Refusemancer 25 before the fuel fix; re-measure in the next sweep), D-PC:20 81.

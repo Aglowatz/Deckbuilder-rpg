@@ -18,11 +18,11 @@ const PROFILES: Dictionary = {
 		"width_weight": 0.4, "red_tape_hold_value": 0.3, "threat_weight": 0.15, "hand_weight": 0.2, "board_weight": 0.1,
 	},
 	Affinity.Type.GOURMAND: {
-		"hp_weight": 0.3, "defense_value": 0.3, "threat_weight": 0.3, "attack_bias": -0.3, "fuel_value": 0.4, "block_bias": 0.3,
+		"hp_weight": 0.3, "defense_value": 0.3, "threat_weight": 0.3, "attack_bias": -0.3, "fuel_value": 0.25, "block_bias": 0.3,
 		"race_weight": -0.3,
 	},
 	Affinity.Type.REFUSEMANCER: {
-		"fuel_value": 0.4, "energy_weight": 0.3, "artifact_weight": 0.6, "hp_weight": -0.1, "width_weight": 0.2,
+		"fuel_value": 0.25, "energy_weight": 0.3, "artifact_weight": 0.6, "hp_weight": -0.1, "width_weight": 0.2,
 	},
 }
 

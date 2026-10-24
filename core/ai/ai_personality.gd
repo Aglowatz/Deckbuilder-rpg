@@ -49,7 +49,7 @@ extends Resource
 ## Boss signature behaviour key ("" = none); see AIPlayer.SIGNATURES.
 @export var signature: String = ""
 ## Wall-clock budget per decision in the live game (the sim uses node counts only, so games stay deterministic).
-@export var time_budget_ms: int = 700
+@export var time_budget_ms: int = 500
 
 
 func duplicate_personality() -> AIPersonality:
@@ -139,7 +139,7 @@ static func first_duel() -> AIPersonality:
 	p.board_weight = 0.5
 	p.enemy_board_weight = 0.3
 	p.skill = 0
-	# Part 4: it forgets most blocks (only a lethal one is always made), so a new player's attacks reach its 3 HP within a few turns.
-	p.careless_blocks = 0.75
+	# Part 4: it forgets nine blocks in ten (only a lethal one is always made), so a new player's attacks reach its 3 HP within a few turns.
+	p.careless_blocks = 0.9
 	p.path_profile = "none"
 	return p

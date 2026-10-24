@@ -11,3 +11,7 @@ hand_weight = 0.4
 threat_weight = 0.05
 attack_bias = 0.8
 block_bias = -1.5
+race_weight = 0.5
+skill = 0
+careless_blocks = 0.9
+path_profile = "none"

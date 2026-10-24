@@ -29,8 +29,84 @@ enemy intent stays hidden, no new art.
 | 2 - core | done (GUT 2183, first-battles smoke OK) | new core, see below; sim speed unchanged (~1.5 s/game); think time avg 3-20 ms, max ~0.45 s at Elite |
 | 3 - personalities | done (GUT + smoke: see commit) | `core/ai/ai_profiles.gd`: Path mix read from the seat's deck, weights nudged per share; five boss signatures by enemy name (`AIPlayer.SIGNATURES`) |
 | 4 - skill levels + pacing | done (same commit) | `AIPlayer.Skill` + `for_foe(personality, skill, enemy_name)` at every call site (Session, Dev Menu, sim, replay); Normal: 15% second-best attacks and 15% forgotten blocks (never lethal ones); the tutorial foes keep their own careless rates; BattleScreen "is thinking..." line and longer holds on combat declarations |
-| 5 - sim + rebalance | not started | the enemy side already uses the new core in the sim; first read: Moss 8%, Prudence 33% at 3 games/Path - the opening hour needs easing |
-| 6 - verify | not started | |
+| 5 - sim + rebalance | done | whole catalog re-measured (`docs/design/sim/ai_p5/`), tuning pass in `balance_log.md` ("Oct 23 - Battle AI upgrade, Part 5"); fuel-hoarding fix in the evaluator; Primm's phases at Elite |
+| 6 - verify | running | full GUT, first-battles smoke, story playthrough bot, dungeons smoke, replays per Path; final table below |
+
+## Final: what changed, before / after, timing
+
+**What changed.** One planning AI for every seat (`core/ai/`): a cached per-phase plan from a beam search, combat played out on
+clones against a competent block model, a static evaluation with a real combat model (threat, lethal for both sides, race clocks,
+encounter rules), sanity filters, Path profiles read from the deck, five boss signatures, three skill levels with human mistakes at
+Normal, and a node/time budget. The balance sim and the replay tool run the same seats as the game (`AIPlayer.for_foe`). Encounter
+tuning under the new AI: see `balance_log.md`, Oct 23. No card changes. Enemy intent stays hidden; no new art.
+
+**Opening hour, win rate per Path** (sim, player seat = Elite "decent human"; before = old AI, Oct 22 sweep at 6 games per Path;
+after = new AI, 6 games per Path on seeds 7000 / 8100, mean of both):
+
+| Fight | Target | Before B / N / G / R | After B / N / G / R |
+|---|---|---|---|
+| Tutorial run (50 runs per Path) | 85%+ | 91 / 94 / 89 / 87 | 88 / 98 / 90 / 88 |
+| Stray Gym Hound (L1) | 80%+ | 90 / 90 / 83 / 80 | 100 / 100 / 100 / 100 |
+| Lost Junior Clerk (L1) | 80%+ | 86-96 / 82-94 / 76-86 / 72-96 (Oct 22 range) | 100 / 92 / 75 / 100 |
+| Bin Raccoon (L1) | 80%+ | (same range) | 83 / 100 / 92 / 83 |
+| Store Room Ghosts (L3) | ~90% | 94-100 | 92 / 100 / 100 / 92 |
+| Brick Bronson (L3, elite) | 60-75% | 67 (all) | 83 / 67 / 67 / 75 |
+| Chef Fennel Gravois (L3, elite) | 60-75% | 70 | 75 / 58 / 58 / 58 |
+| Moss Mulligan (L3, elite) | 60-75% | 55-59 | 88 / 50 / 56 / 63 (at 12 HP, 28 cards / 20 basics) |
+| Prudence Pallor (L3, elite) | 60-75% | 56 | 75 / 75 / 58 / 50 |
+| Gainlands roamers (L5) | 80%+ | 80-84 | Brute 81, Golem 88 (4 games per Path) |
+| The Restless Dead (L7, first boss) | 40-60% | ~50 | 38 / 31 / 69 / 25 (41 overall; see the ladder step below) |
+
+(Per-Path cells are 12 games each, so one game is 8 points. The widest spreads left in the opening hour: Moss for Necrocrat 50 and
+the Restless Dead for Necrocrat / Refusemancer, the slower decks; they go to the inbox.)
+
+**Whole catalog** (new AI, 4 games per Path, seed 7000, before the tuning pass; the Oct 22 sweep in brackets):
+
+| Kind | Fights | In band | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---:|---:|---:|---:|---:|
+| Normal | 56 | 46 (48) | 10 (10) | 0 (0) | 89% (90) | 7.3 (7.3) |
+| Elite | 23 | 10 (11) | 8 (5) | 5 (6) | 66% (67) | 8.7 (8.3) |
+| Boss | 21 | 6 (10) | 5 (2) | 10 (10) | 55% (59) | 8.4 (8.0) |
+
+After the pass (re-measured fights only): Mortimer 47, Doppelganger 38, Mirror Knight 72, Clipwell 72, Casserole 78, Spotless roamer
+64, Spotless boss 47 / 72, Restless Dead 38 / 44, Moss 63 / 66, Primm's three-phase gauntlet 48% cleared (B 50 / G 25 / R 50 / N 67).
+Walls left: none under 35% except Siphon alone (0%, by design; 69% with Elowen).
+
+**AI turn timing** (this PC, `tools/replay_encounter.gd --verbose`): a decision averages 3-20 ms; the longest seen at Elite/Boss on
+a full board was 0.45 s in the live budget's terms (the sim's deterministic mode, with no time box, reached 1.2-1.6 s twice in a
+Refusemancer game with many Garbage abilities). Live: 500 ms per main-phase plan, 250 ms per attack or block decision, so a turn
+thinks for about a second at most; a search that hits the box returns its best answer so far; the HUD says "<foe> is thinking..."
+before a slow decision. Sim speed is unchanged (about 1.5-2 s per game at Elite vs Elite; a whole-catalog sweep at 4 games per Path
+takes 48 min).
+
+**Verification (Part 6)**: see the table in `docs/progress.md` ("Battle AI upgrade") once the runs finish.
+
+## Part 5 - the catalog under the new AI (summary; details in balance_log.md)
+
+- Measured with `bash tools/ai_sweep.sh ai_p5 4 7000` (48 min for the catalog at 4 games per Path; zones and dungeons are seconds,
+  the scripted bosses minutes) and `--what=tutorial --games=25`.
+- Averages held (Normal 89%, Elite 66%, Boss 55%) but engine decks got sharper: the gatekeepers, the Restless Dead, the Stray Gym
+  Hound and several bosses moved out of band. Fixes: the four gatekeepers and the first boss play at Normal skill
+  (`AIPlayer.SKILL_OVERRIDES`), Moss 13 HP, the hound loses its golem maker and Plate It, one-step stat rules on the too-easy
+  bosses/elites and the Spotless wall; no card changes (`sheet_changes.md` untouched).
+- Evaluator fix found through the sweep's replays: held Garbage/Ingredients were worth more than using them (Possum Prowler sat on 7
+  Garbage for 13 turns); FUEL_VALUE 1.5 -> 0.8, idle 0.4 -> 0.25.
+
+## Examples of smarter plays (from the verbose replays)
+
+- Prudence vs Beefcake L3 (seed 7000, game 0): turn 9, Prudence at 2 HP behind a summoning-sick Notary Wraith: Dropped Weights on the
+  Wraith, two Iron on Leg Day Survivor, attack with everything for lethal. The old AI held three Hustle units at home for four turns
+  in the same spot.
+- The probe position (`tools/ai_probe.gd`): Brawler pumped to 5/4 against Mortimer 3/5, a Temp and a Clerk with Prudence at 5 HP:
+  the new AI sends the Brawler alone (she must chump with the Clerk); the old one sat because every attack looked like a trade.
+- Moss (Refusemancer): Raised Bed buffs now land on the Raccoon and the Bird (the units that attack), not on the Acid Vomitor that
+  exhausts to ping; the Vomitor still pings the right 1/1 each turn.
+- Chef Fennel: cooks a Cake Golem the turn the second Ingredient arrives, plays Hearth Kitchen earlier, blocks with the 1/6 wall only
+  when it kills or saves the game.
+- Blocks: a 1/1 is no longer thrown in front of a 4/4 at 20 HP; a chump is made when the crack-back would be lethal next turn
+  (7 HP, 5/5 + 3/3 + 2/2 across the table).
+- Resources: Iron is used only in Main 1 on a unit that then attacks (the old AI pumped and stayed home); Red Tape goes on the
+  biggest attacker before the foe's turn, never on a 1/1 on turn 2; a Contract on the only blocker finds a two-step lethal.
 
 ## Part 2 - what the new core does
 

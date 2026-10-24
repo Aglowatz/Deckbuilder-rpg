@@ -15,8 +15,10 @@ const BOARD_UNIT: float = 0.5
 const LETHAL_THREAT: float = 20.0
 const NEAR_LETHAL_THREAT: float = 6.0
 const TRAP_VALUE: float = 3.0
-const FUEL_VALUE: float = 1.5
-const IDLE_FUEL_VALUE: float = 0.4
+## Held fuel (Ingredients, Garbage) with a spender in reach / without one. Kept below what one use typically gains, or the AI hoards
+## (the audit's Possum Prowler sat on seven Garbage).
+const FUEL_VALUE: float = 0.8
+const IDLE_FUEL_VALUE: float = 0.25
 ## A unit on the table is also a card spent: part of its worth beyond its stats.
 const BODY_VALUE: float = 1.0
 ## A possible lethal attack this turn (estimated, not yet confirmed on a clone).

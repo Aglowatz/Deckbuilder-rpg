@@ -49,6 +49,15 @@ const SIGNATURES: Dictionary = {
 	"Primm": "all_in",
 }
 
+## Part 5: foes whose skill is not the one their kind implies - the opening hour stays gentle: the four town gatekeepers are
+## Elite fights played at Normal skill (with mistakes), and so does the first boss (its escalating summons are the challenge).
+const SKILL_OVERRIDES: Dictionary = {
+	"Brick Bronson": Skill.NORMAL, "Chef Fennel Gravois": Skill.NORMAL, "Moss Mulligan": Skill.NORMAL, "Prudence Pallor": Skill.NORMAL,
+	"The Restless Dead": Skill.NORMAL,
+	# The final boss is three duels on one HP pool: at Boss skill the gauntlet cleared 38% (Gourmand 17); Elite keeps it a fight.
+	"Primm": Skill.ELITE, "Primm (standardization)": Skill.ELITE, "Primm (reflection)": Skill.ELITE, "Primm (unraveling)": Skill.ELITE,
+}
+
 var personality: AIPersonality
 ## Rebalance (Oct 18): false = never uses Iron, Red Tape or Contracts (the balance sim measures what a resource is worth).
 var use_resources: bool = true:
@@ -89,6 +98,8 @@ func _init(ai_personality: AIPersonality = null) -> void:
 ## Part 4: the AI for one foe - a copy of `base` at `skill`, with Normal mistakes and the boss signature `enemy_name` calls for.
 static func for_foe(base: AIPersonality, skill: Skill, enemy_name: String = "") -> AIPlayer:
 	var made: AIPersonality = base.duplicate_personality()
+	if SKILL_OVERRIDES.has(enemy_name):
+		skill = SKILL_OVERRIDES[enemy_name] as Skill
 	made.skill = int(skill)
 	match skill:
 		Skill.NORMAL:
@@ -292,7 +303,7 @@ func _best_infrastructure(state: GameState, who: int, infrastructure_actions: Ar
 
 func _choose_attack(state: GameState, who: int) -> GameAction:
 	var settings: Dictionary = _settings()
-	var uids: Array[int] = _combat.choose_attackers(state, who, _budget(0.6), int(settings["attack_candidates"]))
+	var uids: Array[int] = _combat.choose_attackers(state, who, _budget(0.5), int(settings["attack_candidates"]))
 	# Part 4: a Normal AI now and then takes its second-best idea (holds back, or attacks into a worse block) - never when the
 	# best attack wins the game.
 	var rate: float = _mistake_rate()
@@ -330,4 +341,4 @@ func _choose_block_action(state: GameState, who: int) -> GameAction:
 ## Best assignment (attacker uid -> blocker uid) for defender `who`, chosen by look-ahead.
 func choose_blocks(state: GameState, who: int) -> Dictionary:
 	var settings: Dictionary = _settings()
-	return _combat.choose_blocks(state, who, _budget(0.6), int(settings["block_enum"]))
+	return _combat.choose_blocks(state, who, _budget(0.5), int(settings["block_enum"]))

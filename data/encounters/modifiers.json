@@ -73,6 +73,14 @@
 			"kind": "starting_tokens",
 			"token": "T-03",
 			"count": 1
+		},
+		{
+			"name": "Perfect Copy",
+			"text": "The Doppelganger's units get +1/+1. Every dish is plated just so.",
+			"icon": "delapouite/chef-toque",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"Notary Wraith": [
@@ -122,11 +130,11 @@
 		},
 		{
 			"name": "Temp Agency",
-			"text": "Mortimer's units get +1 attack.",
+			"text": "Mortimer's units get +1/+1. The temps are motivated by fear.",
 			"icon": "delapouite/shambling-zombie",
 			"kind": "stat",
 			"atk": 1,
-			"def": 0
+			"def": 1
 		}
 	],
 	"Hortensia Clipwell, Royal Groundskeeper": [
@@ -135,6 +143,14 @@
 			"text": "Clipwell's tokens enter with +1/+1, trimmed to regulation.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "token_stats",
+			"atk": 1,
+			"def": 1
+		},
+		{
+			"name": "Royal Groundskeeper",
+			"text": "Clipwell's units get +1/+1. The grounds are kept to a royal standard.",
+			"icon": "lorc/leaf-swirl",
+			"kind": "stat",
 			"atk": 1,
 			"def": 1
 		}
@@ -160,20 +176,20 @@
 		},
 		{
 			"name": "Rot Takes Root",
-			"text": "Starts the duel with 4 Garbage; its units get +0/+1.",
+			"text": "Compostella's units get +1/+1. The rot feeds them.",
 			"icon": "cathelineau/tree-face",
 			"kind": "stat",
-			"atk": 0,
+			"atk": 1,
 			"def": 1
 		}
 	],
 	"Mirror Knight": [
 		{
 			"name": "Polished",
-			"text": "The Knight's units get +2/+1.",
+			"text": "The Knight's units get +3/+1. Reflections of a perfect guard.",
 			"icon": "delapouite/shinto-shrine-mirror",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 3,
 			"def": 1
 		}
 	],
@@ -242,10 +258,10 @@
 		},
 		{
 			"name": "Surly",
-			"text": "Betty's units get +1/+1.",
+			"text": "Betty's units get +2/+1. Nobody wants to be the one she snaps at.",
 			"icon": "delapouite/files",
 			"kind": "stat",
-			"atk": 1,
+			"atk": 2,
 			"def": 1
 		}
 	],
@@ -270,7 +286,7 @@
 	"Enforcer Captain Spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "The Captain's units get +3/+2.",
+			"text": "Spotless's units get +3/+2. Drilled until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
 			"atk": 3,
@@ -439,16 +455,24 @@
 			"kind": "starting_tokens",
 			"token": "T-03",
 			"count": 1
+		},
+		{
+			"name": "Field Rations",
+			"text": "The Colonel's units get +1 attack. Well fed.",
+			"icon": "delapouite/chef-toque",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0
 		}
 	],
 	"zone:final:spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "Captain Spotless's units get +2/+2.",
+			"text": "Spotless's units get +2/+1. Drilled until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
 			"atk": 2,
-			"def": 2
+			"def": 1
 		}
 	],
 	"Clocktower Sentinel": [
