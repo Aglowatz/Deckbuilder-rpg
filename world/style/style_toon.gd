@@ -83,8 +83,12 @@ static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -
 	if standard.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED and not scissor:
 		return null
 	var key: String = "%d|%s|%s" % [standard.get_instance_id(), str(wind), str(paint)]
+	# Overnight Oct 23 (memory): the cache holds its materials weakly (the meshes own them). Keyed by the source material's instance id, a
+	# strong cache kept every visit's toon materials and their textures alive (+125 per Crosspath load). `prune` drops dead keys.
 	if _cache.has(key):
-		return _cache[key] as ShaderMaterial
+		var held: ShaderMaterial = (_cache[key] as WeakRef).get_ref() as ShaderMaterial
+		if held != null:
+			return held
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = double_sided_shader() if (standard.cull_mode == BaseMaterial3D.CULL_DISABLED) else shader()
 	if standard.has_meta(META_FAR_HAZE):
@@ -120,7 +124,7 @@ static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -
 		PaintedClasses.configure(material, standard)
 	if wind >= 0.0:
 		material.set_shader_parameter("wind_amount", wind)
-	_cache[key] = material
+	_cache[key] = weakref(material)
 	return material
 
 
@@ -137,6 +141,17 @@ static func keep_colour(node: Node, accent: float = 0.0) -> void:
 
 static func clear_cache() -> void:
 	_cache.clear()
+
+
+## Drops the keys whose toon materials are gone (their scenes freed); returns how many.
+static func prune() -> int:
+	var dead: Array = []
+	for key: Variant in _cache.keys():
+		if (_cache[key] as WeakRef).get_ref() == null:
+			dead.append(key)
+	for key: Variant in dead:
+		_cache.erase(key)
+	return dead.size()
 
 
 ## The toon shader (or its double-sided twin) with its own distance haze in place of the world fog: the fragment writes FOG (which replaces the built-in

@@ -38,6 +38,9 @@ var _flush_queued: bool = false
 static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0, preset_override: ZonePreset = null, painted_id: StringName = &"") -> StyleRig:
 	if OS.get_environment("NO_STYLE") != "":
 		return null
+	# Overnight Oct 23 (memory): the previous scene's toon and clump materials are gone by now; drop their dead cache entries.
+	StyleToon.prune()
+	KitFoliage.prune()
 	ZoneStyles.use_preset(id)
 	var rig: StyleRig = StyleRig.new()
 	rig.name = "StyleRig"

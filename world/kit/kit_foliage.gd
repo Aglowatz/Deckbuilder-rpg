@@ -12,6 +12,9 @@ const CELL_HEIGHTS: Array[Vector2] = [Vector2(0.4, 0.7), Vector2(0.4, 0.7), Vect
 static var _materials: Array[ShaderMaterial] = []
 ## The tree card materials only (they carry the hero-aware occlusion fade, GC-4).
 static var _card_materials: Array[ShaderMaterial] = []
+## Overnight Oct 23 (memory): the grass-clump materials are made fresh by every build, so they are held weakly - the scene's meshes own
+## them; a strong list kept every visit's clumps alive (+36 materials per Crosspath load). Dead entries are dropped by `prune`.
+static var _clumps: Array[WeakRef] = []
 static var _sun: Color = Color(1.0, 0.92, 0.78)
 static var _ambient: Color = Color(0.55, 0.6, 0.78)
 static var _card_cache: Dictionary = {}
@@ -21,7 +24,7 @@ static var _hero: Vector3 = Vector3(0.0, -1000.0, 0.0)
 static func set_light(sun_color: Color, ambient_color: Color) -> void:
 	_sun = sun_color
 	_ambient = ambient_color
-	for material_value: ShaderMaterial in _materials:
+	for material_value: ShaderMaterial in _materials + _live_clumps():
 		if material_value != null:
 			material_value.set_shader_parameter("light_color", sun_color)
 			material_value.set_shader_parameter("ambient_color", ambient_color)
@@ -121,7 +124,7 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 	material_value.set_shader_parameter("atlas", load(CLUMP_ATLAS))
 	material_value.set_shader_parameter("light_color", _sun)
 	material_value.set_shader_parameter("ambient_color", _ambient)
-	_materials.append(material_value)
+	_clumps.append(weakref(material_value))
 	quad.material = material_value
 	var multimesh: MultiMesh = MultiMesh.new()
 	multimesh.transform_format = MultiMesh.TRANSFORM_3D
@@ -151,12 +154,34 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 ## Re-tints the tree cards for the current area (hot reload of a style file).
 static func retint() -> void:
 	var tint: Color = ZoneStyles.tint("tree")
-	for material_value: ShaderMaterial in _materials:
+	for material_value: ShaderMaterial in _materials + _live_clumps():
 		if material_value != null:
 			material_value.set_shader_parameter("mood_tint", tint)
 
 
+## The clump materials still in use (their scenes alive).
+static func _live_clumps() -> Array[ShaderMaterial]:
+	var result: Array[ShaderMaterial] = []
+	for ref: WeakRef in _clumps:
+		var material_value: ShaderMaterial = ref.get_ref() as ShaderMaterial
+		if material_value != null:
+			result.append(material_value)
+	return result
+
+
+## Drops the clump entries whose scenes are gone; returns how many.
+static func prune() -> int:
+	var kept: Array[WeakRef] = []
+	for ref: WeakRef in _clumps:
+		if ref.get_ref() != null:
+			kept.append(ref)
+	var dropped: int = _clumps.size() - kept.size()
+	_clumps = kept
+	return dropped
+
+
 static func clear_cache() -> void:
+	_clumps.clear()
 	_materials.clear()
 	_card_materials.clear()
 	_card_cache.clear()

@@ -66,3 +66,24 @@ func _arrive(label: String, kind: Variant, go: Callable) -> void:
 		int(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0),
 		int(Performance.get_monitor(Performance.OBJECT_COUNT)), int(Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT)),
 		CardArt._cache.size(), IconArt._textures.size(), UiArt._textures.size(), Portraits._textures.size(), SpriteLibrary._textures.size()])
+	# Oct 23: who holds the per-load objects - nodes in the tree, each autoload's descendants and signal connections.
+	var census: PackedStringArray = ["nodes %d" % int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT))]
+	for holder: Node in get_tree().root.get_children():
+		if holder == get_tree().current_scene:
+			continue
+		var connections: int = 0
+		for sig: Dictionary in holder.get_signal_list():
+			connections += holder.get_signal_connection_list(str(sig["name"])).size()
+		census.append("%s %d/%d" % [holder.name, holder.get_child_count(true) + _descendants(holder), connections])
+	print("memory_probe:   census ", ", ".join(census))
+	print("memory_probe:   statics foliage %d/%d/%d, decals %d, painted specials %d used %d missing %d, patches %d, clusters %d, toon %d/%d, card rules %d" % [
+		KitFoliage._materials.size() + KitFoliage._clumps.size(), KitFoliage._card_materials.size(), KitFoliage._card_cache.size(), GroundDecals._added.size(),
+		PaintedClasses._specials.size(), PaintedLibrary.used.size(), PaintedLibrary.missing.size(), PathTool._patch_cache.size(),
+		ZoneClusters._clusters.size(), StyleToon._cache.size(), StyleToon._haze_shaders.size(), CardView._rules_size_cache.size()])
+
+
+func _descendants(node: Node) -> int:
+	var total: int = 0
+	for child: Node in node.get_children(true):
+		total += 1 + _descendants(child)
+	return total

@@ -56,3 +56,8 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 16. **Performance** (bisect, no fix): debug switches `WAYWARD_PROBE_SKIP` in the town build and `--townloop` / `--zoneloop` modes in
     `tools/memory_probe.gd`. The per-visit growth is not in the town's optional pieces; any scene reload grows ~12 MB / ~170 objects with
     no orphans and few exit leaks - held by something long-lived. Findings in next_up 5.
+17. **Performance - the per-visit memory growth fixed**: a census in `tools/memory_probe.gd` found `StyleToon._cache` (+125 toon
+    materials per load, keyed by fresh source-material ids) and `KitFoliage._materials` (+36 clump materials per load) holding every
+    visit's materials and their textures. Both hold weak references now and are pruned when a world scene installs its style rig.
+    Town reloads 887 -> 892 -> 893 -> 893 MB (was +12 MB/load); Crosspath <-> Gainlands 887 -> 900 -> 901 (was 887 -> 946 -> 980);
+    a full two-round tour of every zone plateaus at ~1007 MB. World tests 390/390, tour bot OK, Crosspath shot unchanged.
