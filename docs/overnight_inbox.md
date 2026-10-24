@@ -8,9 +8,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 1. **Boss entrances are a board intro everywhere** (Part 3): before every boss, lieutenant and gatekeeper battle the battle board
    shows letterbox bars, the foe's Bestiary portrait pushing in, a name card with a title, a music sting and the opening line
-   (~3.3 s, any key skips; `data/encounters/boss_intros.json`). A camera push on the foe in the 3D world before the fight was NOT
-   built (each world scene starts its fights differently; one consistent board intro was the safer choice). Say if you want the
-   world push for the town gatekeepers and the zone elites.
+   (~3.3 s, any key skips; `data/encounters/boss_intros.json`). In Crosspath the camera also pushes in on the hero facing the foe
+   (0.75 s) before the gatekeepers, the Restless Dead, Shiro and the Echo (Phase 2 cycle 5); the zones' elites and the dungeons use
+   the board intro alone. Say if you want the world push in the zones too.
 2. **Mercy moments** (Part 1): to keep the opening hour easy, the four gatekeepers' events are their real selves slipping through
    (Moss: "Did I thorn at you?" - you heal 3; Prudence stamps APPROVED by mistake - you heal 3; Brick's Hydration Break stands his
    units down; Fennel force-feeds you a biscuit). Several bosses end with a "faltering" -1/-0 at 25% (Clench "Master...?",

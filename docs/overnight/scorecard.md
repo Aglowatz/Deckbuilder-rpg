@@ -27,3 +27,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 3. **Collection / bestiary** (c65ba68a): a met boss's Bestiary page lists its "Signature moves" (its scripted events); test.
 4. **Performance** (measured, no change): AI think time with scripts on Clench / Compostella / Bellows: avg 0.5-23 ms, max 0.48 s, none
    over 1 s - the same as the Oct 23 AI baseline (the clones carry the script runs at no visible cost).
+5. **Combat feel** (Part 3 leftover): in Crosspath the camera pushes in (0.75 s) on the hero facing the foe before the gatekeepers, the
+   Restless Dead, Shiro and the Echo, then the board entrance plays; boss-rules smoke OK.

@@ -128,6 +128,8 @@ var _hidden_chest_near: String = ""
 var four_seal_vault: Node3D
 ## Brief 16, Group D: the camera pulls back as the hero nears a zone passageway, to show the bridge and the land it leads to (1.0 = normal).
 var _passage_boost: float = 1.0
+## Overnight Oct 23 (boss entrances): the camera pushes in on the hero and the foe before a boss or gatekeeper fight (1 = normal).
+var _battle_push: float = 1.0
 var _passage_dir: Vector3 = Vector3.ZERO
 var _passage_dir_target: Vector3 = Vector3.ZERO
 ## The destination name shown over the screen while the hero nears a passageway (only the name, like "The Capital").
@@ -1032,7 +1034,7 @@ func _process(delta: float) -> void:
 	_update_passage_label()
 	_passage_dir = _passage_dir.lerp(_passage_dir_target, 1.0 - exp(-1.8 * delta))
 	var look_ahead: Vector3 = _passage_dir * 12.0 * (_passage_boost - 1.0)
-	var target: Vector3 = player.position + look_ahead + CameraRig.shape(camera_offset) * _passage_boost
+	var target: Vector3 = player.position + look_ahead + CameraRig.shape(camera_offset) * _passage_boost * _battle_push
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
@@ -1728,6 +1730,16 @@ func _show_npc_result() -> void:
 ## New brief, Part E: talking to a corrupted NPC always plays a short line (corrupted/hinting at
 ## their zone before they're freed, calmer/still hinting after) and then starts the fight - win or
 ## lose, they can always be challenged again (D68); only a first win pays out.
+## Overnight Oct 23, Part 3 (boss entrances): a short push-in on the hero facing the foe, then `action` (the fight starts; the battle
+## board then plays the foe's entrance).
+func camera_push_then(action: Callable) -> void:
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "_battle_push", 0.55, 0.75).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(func() -> void:
+		action.call()
+		_battle_push = 1.0)
+
+
 func _talk_corrupted_npc(id: String) -> void:
 	_face_npc("npc_%s" % id)
 	var story: StoryText = load(STORY_PATH) as StoryText
@@ -1738,7 +1750,7 @@ func _talk_corrupted_npc(id: String) -> void:
 		if defeated and Session.is_zone_completed(id):
 			lines = story.npc_freed_lines(id)  # overnight Oct 19: their zone is free, and they say so
 	dialogue.start(Gatekeepers.full_title(id), lines)
-	dialogue.finished.connect(func() -> void: Session.challenge_corrupted_npc(id), CONNECT_ONE_SHOT)
+	dialogue.finished.connect(func() -> void: camera_push_then(Session.challenge_corrupted_npc.bind(id)), CONNECT_ONE_SHOT)
 
 
 ## Fourth brief, Part F: The Restless Cairn - talking to it always plays a short line ("placeholder
@@ -1749,7 +1761,7 @@ func _talk_graveyard() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
 	var lines: Array[String] = StoryText._filled(story.graveyard_intro_lines) if story != null else [] as Array[String]  # tokens filled (the Cairn showed a raw {villain})
 	dialogue.start("The Restless Cairn", lines)
-	dialogue.finished.connect(func() -> void: Session.challenge_graveyard_boss(), CONNECT_ONE_SHOT)
+	dialogue.finished.connect(func() -> void: camera_push_then(Session.challenge_graveyard_boss), CONNECT_ONE_SHOT)
 
 
 ## Shown once, right after returning from a Graveyard battle ("placeholder dialogue... after") -
@@ -2015,7 +2027,7 @@ func _ask_old_well_echo() -> void:
 			DeckPicker.guard(_overlay_layer, func() -> void:
 				OldWellSpot.play(dialogue, story.get_beats("echo.before"), func() -> void:
 					Session.save_game()
-					RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(OldWellQuest.RULES_KEY)), "Before the fight: %s" % OldWellQuest.DISPLAY_NAME, Session.challenge_old_well)),
+					RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(OldWellQuest.RULES_KEY)), "Before the fight: %s" % OldWellQuest.DISPLAY_NAME, camera_push_then.bind(Session.challenge_old_well))),
 				func() -> void: _locked = false))
 		dialog.cancelled.connect(func() -> void: _locked = false))
 
@@ -2196,7 +2208,7 @@ func _start_ninja_fight() -> void:
 	dialogue.finished.connect(func() -> void:
 		Session.save_game()
 		# Daytime Oct 19: his one-sided rules before the duel (the same icons stay in the battle HUD).
-		RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(NinjaBoss.RULES_KEY)), "Before the fight: %s" % NinjaBoss.DISPLAY_NAME, Session.challenge_ninja), CONNECT_ONE_SHOT)
+		RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(NinjaBoss.RULES_KEY)), "Before the fight: %s" % NinjaBoss.DISPLAY_NAME, camera_push_then.bind(Session.challenge_ninja)), CONNECT_ONE_SHOT)
 
 
 ## The Four-Seal Vault door: sealed until all four hidden levers (one per Path zone) are pulled, then the Warden's duel; empty once it is beaten.
