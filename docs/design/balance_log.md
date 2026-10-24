@@ -1253,3 +1253,6 @@ Seed spread at 16 games per cell is wide (War Machine 69 / 38, Mirror Knight 63 
   its two entries; both now agree). Before 44 / 25 (seeds 7000 / 8100) -> after **69 / 38** (mean 53). Kept.
 - **The Itamae Supreme** (S-GOUR:3, L16): Omakase 4 -> 3 starting Ingredients measured 44 / 31, identical to before: reverted.
   Mean stays 38 (seed 8100 is hard for him with or without his scripts). Left for the designer (inbox).
+- Cycle 8: **The Itamae Supreme** at Elite skill instead of Boss: 44 / 31 again (no change), reverted. Seed 8100 per Path: Beefcake 25,
+  Gourmand 100, Refusemancer 0, Necrocrat 0 - a matchup question (the L16 Refusemancer/Necrocrat reference decks vs his golems), not
+  a number on him. Inbox.

@@ -17,7 +17,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    Compostella "Please. The tree.", Primm "I only wanted it to be nice", the Restless Dead, the Automaton). Say if any of these
    should be a threat instead.
 3. **Mortimer and the Itamae on seed 8100** measure 25 / 31 (19 / 31 with their scripts removed, so the seed, not the scripts);
-   two-seed means 34 / 38. Left as they are tonight; the next lever would be Mortimer's Temp Agency +1/+1 (from the Oct 23 AI pass).
+   two-seed means 34 / 38. Mortimer was fixed in Phase 2 cycle 1 (Temp Agency +1/+1 -> +1/+0: 69 / 38). The Itamae did not move with 3 starting
+   Ingredients or Elite skill: on seed 8100 Refusemancer and Necrocrat lose every game and Gourmand wins every game - a matchup
+   question (the L16 reference decks vs his golems) for you.
 4. **Primm's gauntlet** now clears 40% (B 33 / G 17 / R 42 / N 67; was 48%): Gourmand is still the weak Path here (inbox Oct 23).
 5. **Card picks** (Part 4): every elite and boss win offers 1 of 3 cards themed to the foe's Paths (two-Path foes can offer their
    two-Path cards), never a Legendary (the bosses' prizes stay theirs), no Epics from elites before level 8; a repeat win offers 2

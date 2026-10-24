@@ -33,3 +33,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
    "REWARDS" label when it holds only the pick (shot `docs/overnight/oct23/c6_pick.png`; town `--open=pick` screenshot hook).
 7. **Onboarding / first hour**: the battle tooltip's status lines checked on screen (Hustle + Exhausted + Red Tape on one unit, shot
    `docs/overnight/oct23/c7_status.png`); wording now matches the cards ("-2/-0", "1 turn left").
+8. **Balance** (measured, reverted): the Itamae at Elite skill 44 / 31 - no change; per Path on seed 8100 B 25 / G 100 / R 0 / N 0, a
+   matchup question for the designer (inbox 3).
