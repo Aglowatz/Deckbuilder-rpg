@@ -19,6 +19,7 @@ static func all(content: ContentSet) -> Array[EncounterSpec]:
 	result.append_array(tutorial())
 	result.append_array(town(content))
 	result.append_array(zones())
+	result.append_array(freed_zones())
 	result.append_array(dungeons())
 	result.append_array(arena())
 	return result
@@ -204,6 +205,34 @@ static func zones() -> Array[EncounterSpec]:
 			spec.enemy_recipe = info.recipe
 			if not ZONE_ELITES.has(enemy_id):
 				spec.sequence = "zone:%s" % zone_id
+			_attach_rules(spec, EncounterModifiers.zone_key(zone_id, enemy_id))
+			result.append(spec)
+	return result
+
+
+## Overnight Oct 23, Part 2: the freed zones' roamers as two-Path sparring partners (ZoneEnemies.freed_recipe), met after the zone's
+## dungeon - measured two levels above it.
+const FREED_LEVEL_FROM: Dictionary = {"beefcake": "D-HOG", "necrocrat": "D-HFA", "gourmand": "D-TTK", "refusemancer": "D-ROT"}
+
+
+static func freed_zones() -> Array[EncounterSpec]:
+	var result: Array[EncounterSpec] = []
+	for zone_id: String in ProgressionModel.ZONE_ORDER:
+		for enemy_id: String in ZONE_ROAMERS.get(zone_id, []) as Array:
+			var recipe: Dictionary = ZoneEnemies.freed_recipe(zone_id, enemy_id)
+			if recipe.is_empty():
+				continue
+			var info: ZoneEnemyInfo = ZoneEnemies.info(zone_id, enemy_id)
+			var spec: EncounterSpec = EncounterSpec.new()
+			spec.id = "freed:%s:%s" % [zone_id, enemy_id]
+			spec.title = "%s (freed zone, two Paths)" % info.display_name
+			spec.group = "freed:%s" % zone_id
+			spec.kind = EncounterSpec.Kind.NORMAL
+			spec.expected_level = ProgressionModel.level_for(str(FREED_LEVEL_FROM.get(zone_id, "")), 10) + 2
+			spec.enemy_name = info.display_name
+			spec.enemy_hp = info.hp + ZoneEnemies.FREED_HP_BONUS
+			spec.enemy_ai_name = info.ai_name
+			spec.enemy_recipe = recipe
 			_attach_rules(spec, EncounterModifiers.zone_key(zone_id, enemy_id))
 			result.append(spec)
 	return result

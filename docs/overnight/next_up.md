@@ -1,21 +1,13 @@
-# Next up (ranked) - after the Oct 22-23 overnight run
+# Next up (ranked) - after the Oct 23-24 overnight run
 
-Last run's list: `docs/overnight/oct19/next_up_oct19.md`.
+Last run's list: `docs/overnight/oct22/next_up_oct22.md`.
 
-1. **Test v0.4.5 yourself** (`builds/TheWaywardPath-v0.4.5-windows.zip`), then share it. How to test: `docs/overnight_report.md`.
-2. **Video memory grows ~33 MB per Crosspath visit** (Performance; Phase 2 cycle 3, `tools/memory_probe.gd`, logs in
-   `_logs/memory_probe*.log`): textures plateau at ~600 MB on the second loop (the sprite / icon caches fill and stop - bounded) and
-   buffers stay at 26-33 MB, but total video memory and the object count rise every Crosspath round trip (Crosspath <-> Gainlands x4:
-   887 -> 1045 MB, 8.6k -> 11.0k objects; resources flat; only 5 stray TextureRect nodes; no script creates RenderingServer RIDs
-   directly). So something per town build stays alive outside the node tree - next: bisect the town build (GroundLight map, haze cards,
-   world sprites' normal maps, hub land, painted swaps) with the probe's --short route, checking 'video' after each step is skipped.
-3. **Free disk space** (inbox item 9) before the next export or art batch.
-4. **Three confirmed balance fixes to apply** (balance_log.md, "Phase 2 cycle 4", two seeds x 16 games): the Doppelganger 69/75%
-   (boss, +1/+1 rule), Colonel Casserole 81/81% (elite, fewer basics), Captain Spotless 55/52% (elite, soften his rule). Not applied
-   tonight so the v0.4.5 zip stays current. Beefcake in the Rotheart waits for your call (inbox item 7).
-5. **Art still to come**: the 26 images ChatGPT is making (Pending Review), the LEAFCROWN redo, 9 Dump kit pieces, 13 portrait fixes
-   (`docs/art/import_oct22_partial.md`).
-6. **The exported tour on the rebuilt pack** was not re-run after the model fix (the disk filled up); the v0.4.5 pack has the five models
-   (checked by name in the pack) and the release smoke passed. Re-run `bash tools/run_exported_suite.sh <test pck> d3d12 1 tour` once
-   there is room for a test pack (`tools/export_test_pack.sh`, ~760 MB).
-7. **Audio listen pass** (the lowest scorecard row, 7.5).
+1. **Play a few scripted fights yourself** (Brick, Clench, the Doppelganger, Mortimer, Compostella): the triggers, the warnings, the
+   entrances and the card picks - then say which mercy moments should be threats (inbox 2).
+2. **A new build** with tonight's work (v0.4.6): free disk space first (inbox Oct 22 item 9), then `bash tools/export_windows.sh` and the
+   exported suite (`tools/run_exported_suite.sh`).
+3. **The Itamae's matchups** (inbox 3): Refusemancer / Necrocrat lose every seed-8100 game at L16 - a deck question, not a tuning knob.
+4. **Freed-zone sparring** was built in Phase 2 cycle 13 (roamers only); a hand-made challenger per freed zone (named, with a line) would be the next step.
+5. **Video memory grows ~33 MB per Crosspath visit** (still open; `docs/overnight/oct22/next_up_oct22.md` item 2 has the bisect plan).
+6. **Audio listen pass** (the lowest scorecard row, 7.5); the entrances reuse the zone/arena stings - a boss sting per Path would help.
+7. Older items still open: the Oct 22 list's art batch (item 5) and the exported tour on a rebuilt pack (item 6).

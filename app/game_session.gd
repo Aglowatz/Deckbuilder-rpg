@@ -2427,7 +2427,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	if zone_run != null:
 		player.starting_hp = zone_run.hp
 	game.add_player(player)
-	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type)
+	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type, is_zone_completed(zone_id))  # Oct 23: freed zones spar with two Paths
 	if zone_source != null:
 		zone_enemy.modifiers.add_source(zone_source)
 	if zone_id == CapitalZone.ID:

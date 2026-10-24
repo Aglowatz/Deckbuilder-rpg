@@ -1256,3 +1256,11 @@ Seed spread at 16 games per cell is wide (War Machine 69 / 38, Mirror Knight 63 
 - Cycle 8: **The Itamae Supreme** at Elite skill instead of Boss: 44 / 31 again (no change), reverted. Seed 8100 per Path: Beefcake 25,
   Gourmand 100, Refusemancer 0, Necrocrat 0 - a matchup question (the L16 Refusemancer/Necrocrat reference decks vs his golems), not
   a number on him. Inbox.
+
+## Overnight Oct 23, Phase 2 cycle 13 (Part 2's freed-zone challenge fights)
+
+Once a zone is freed, its roamers (not the zone elites) come back as two-Path sparring partners (`ZoneEnemies.FREED_DECKS`: Gainlands
+Gourmand+Beefcake "Bulking Season", D.N.A. Necrocrat+Beefcake, Buffet Gourmand+Refusemancer "Farm to Table", Dump Beefcake+Refusemancer
+"Junkyard Gym"), same deck size and basics as their own, **+10 HP** (`FREED_HP_BONUS`), measured two levels after the zone's dungeon
+(`EncounterCatalog.freed_zones`, groups `freed:<zone>`, 6 games per Path): without the bonus 96-100% in 3-6 turns; with it 96-100% in
+5-7 turns on seeds 7000 and 8100 (normal band 80%+). Kept: a friendly rematch long enough to see the synergy, not a new wall.

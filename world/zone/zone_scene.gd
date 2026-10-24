@@ -1378,7 +1378,12 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	run.return_position = back if builder.is_walkable(back) else player.position
 	run.has_return_position = true
 	var rule_names: String = EncounterModifiers.names_line(EncounterModifiers.zone_key(Session.zone_run.zone_id if Session.zone_run != null else "", enemy.info.id))
-	hud.toast("%s wants a word...%s" % [enemy.info.display_name, ("  [%s]" % rule_names) if not rule_names.is_empty() else ""], Color("ff8a85"))
+	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
+	if Session.is_zone_completed(zone_id) and not ZoneEnemies.freed_recipe(zone_id, enemy.info.id).is_empty():
+		# Overnight Oct 23, Part 2: a freed zone's roamers want a friendly rematch, with two Paths this time.
+		hud.toast("%s wants a rematch: two Paths this time!" % enemy.info.display_name, Color("ffd166"))
+	else:
+		hud.toast("%s wants a word...%s" % [enemy.info.display_name, ("  [%s]" % rule_names) if not rule_names.is_empty() else ""], Color("ff8a85"))
 	Audio.sfx(&"enemy_alert")
 	# Overnight Oct 23: an elite or a lieutenant (one with a board entrance) gets the camera push first.
 	if BossIntro.wanted(enemy.info.display_name):

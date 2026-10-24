@@ -1,103 +1,164 @@
-# Morning report - overnight Oct 22-23 (balance, dialogue features, Path choice, names, exported build, v0.4.5)
+# Morning report - overnight Oct 23-24 (scripted bosses, two-Path foes, boss entrances, card picks, battle help, save slots)
 
-Started Thu Oct 22 20:59 MDT, tag `pre-overnight-oct22`. Last report: `docs/overnight/oct22/prev_overnight_report.md`. Brief copy:
-`docs/overnight/oct22/brief.md`; state file `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` (section "Overnight
-Oct 22-23", items 0-10); next steps `docs/overnight/next_up.md`.
+Started Fri Oct 23 19:59 MDT, tag `pre-overnight-oct23` (= 965fb1d1). Brief copy `docs/overnight/oct23/brief.md`; state file
+`docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` (section "Overnight Oct 23-24", items 1-8); scorecard
+`docs/overnight/scorecard.md`; last report `docs/overnight/oct22/prev_overnight_report_oct22.md`. No build was exported (by rule).
 
-## New names - please veto if you don't like them (inbox item 0)
+## Read this first
 
-- **Wren Muckfoot** (the Verdant Dump's animal handler, Round Up the Herd) is now **Billie Muckfoot** - "Billie Muckfoot, animal handler.
-  Like the goat. I speak fluent goat."
-- **Rhonda, Portal Ripper** (the Gainlands, Calf Cove) is now **Shredna, Portal Ripper** (gym slang: shredded).
-- Wren of the Crease and Recycle Rhonda (the design-sheet characters) keep theirs. Internal ids are unchanged, so saves load as before.
-  A different name is a one-line rename (`core/zone/heap_zone.gd` NPC_WREN, `core/zone/gainlands_travel.gd`, the story lines).
-
-## The release candidate
-
-**`builds/TheWaywardPath-v0.4.5-windows.zip` - 687 MB** (656 MiB), tag `v0.4.5`, notes `docs/release/v0.4.5_notes.md`. Not shared.
-Release smoke on the exported build: PASSED (0.4.5). Built at commit 3d5e7a95 content (the Part 6 commit only adds the version bump,
-notes and docs); nothing in the game changed after it, so it was not rebuilt.
+- **Every boss and elite now has scripted mid-fight events** (64 events over 45 fights), shown from the start as amber rule icons, with a
+  banner, the boss's line and a log line when they fire, and a one-line warning the turn before a timed one. The opening hour's four
+  gatekeepers got "mercy moments" (their real selves slipping through) rather than threats - inbox 2 if you want them meaner.
+- **Your real "Slot 1" manual save was being overwritten by a GUT test on every test run** (found and fixed tonight; inbox 7).
+- **Three campaign slots**: your existing save is slot 1 - nothing was moved (inbox 6).
+- Balance: every elite/boss measured on two seeds; nothing under ~35% on its two-seed mean except where the scripts were shown not to
+  be the cause (the Itamae's matchups, inbox 3). Mortimer fixed in Phase 2.
 
 ## By part
 
 | Part | Commit | What |
 |---|---|---|
-| 0 | 1728a641 | Yesterday's vendor-stock work (Sable's sample, zone shelves gated by bosses) had been left uncommitted: tests 15/15, stock tables filled in `docs/design/vendors.md`, committed first. |
-| 1 Balance | ed7d7889 | The sim's reference decks now hold only cards a player can own at that level under the new shops (audit tool: 82/82; 40 cards were not on sale yet). Whole catalog re-measured, six outliers fixed on two seeds, tutorial 50 runs x 2 seeds per Path. |
-| 2 Dialogue | b6cc48e6 | Long first talks split; Maren's progress greetings; Agnes's "met" line in the Hall; Primm quotes only freed leaders; freed barks in the Capital; story bot fixed to 90/90; an error spam fix. |
-| 3 Path choice | a32b0b8b | Tiles: name, icon, three cards, a one-line plan; full text on hover/focus or More. Before/after shots in `docs/ui/path_choice_oct22/`. |
-| 4 Names | f12d3fe4 | Billie Muckfoot, Shredna - text, code, tests, story bible, voice bible, canon (old names now banned), sheet_changes. |
-| 5 Exported build | 3d5e7a95 | Bots on an exported pack, D3D12 + Vulkan, Medium / Low / Safe Mode; five props missing from the export fixed; feature shots. |
-| 6 v0.4.5 | 46a45de8 | Version 0.4.5, export (shader baker, launchers, README), release smoke, zip, notes, tag. |
-| Phase 2 | 8ba2fab1 + final | 4 cycles: Performance (probe), Balance (Beefcake vs Rot: no change), Performance (the per-visit video memory growth found and narrowed down, `tools/memory_probe.gd`), Balance (six remaining outliers re-measured on two seeds: three confirmed - proposals in balance_log.md, not applied so the zip stays current; next_up 4), then a Primm sequence run that did not finish in time. |
+| 1 Scripted events | 9d4e2cfb | `EncounterScripts` (core): HP thresholds, turn triggers (warned), unit deaths/counts; effects: phase rules, summons, signature cards, heal, shield, damage, resources, buffs/debuffs, exhausts, draws, mercy heals. Data `data/encounters/encounter_scripts.json`; carried through every existing rule path (game + sim) by a carrier modifier; cloned for the AI's look-ahead (it plays toward/away from thresholds). 18 tests. Two-seed sweep + three re-measure rounds. |
+| 2 Two-Path foes | 9d4e2cfb | 3 new archetypes (Gourmand+Beefcake "Bulking Season", Gourmand+Refusemancer "Farm to Table", Beefcake+Refusemancer "Junkyard Gym") and 7 two-Path foes from the second zone's dungeon on, with blurbs that name the synergy. |
+| 3 Boss entrances | 2395ae5b, 98a10130, 1d3544b6 | Board entrance for 29 bosses/lieutenants/gatekeepers (letterbox, portrait push-in, name card + title, sting, opening line; ~3.3 s, any key skips); Crosspath and the zones also push the camera in on the hero facing the foe first. |
+| 4 Card picks | 2395ae5b, d91eb2a5 | `RewardPicks`: 1 of 3 cards themed to the foe's Paths after every elite/boss (dungeons and the world), copy caps respected, no Legendaries, no early Epics; repeat wins offer 2 mostly-Common cards; side bosses pick too. Economy audit: gold unchanged; ~45 extra cards over a run. |
+| 5 Battle help | 2395ae5b, b81bea39 | Status lines in the battle tooltip (exhausted / skips refresh, Red Tape with turns left, pumps, buffs, the fight's rules, granted keywords, Tools, tokens, protection), shield on the plate, Glossary in the pause menu (6 tabs), 4 new first-time tips. |
+| 6 Save slots | 2395ae5b | `CampaignSlots`: three campaigns, each with its own autosave + backup + manual saves; New Game picks a slot, Continue loads the newest, Load Game lists them (Play / Other saves / Copy / Delete, all confirmed); Report a Problem notes the slot. Smokes updated. |
+| Phase 2 | 9e56be59 ... (12 cycles) | see below |
 
-## Part 1 - balance, before / after
+Verification after Parts 1-6: GUT 2221 passing / 0 failing / 1 pending (the known chef-hat art); story bot 90/90 (three times); tour bot
+OK (281 spots, 5 battles, 0 errors, three times); playtest smoke OK; release smoke PASSED; first-battles smoke OK; boss-rules smoke OK;
+dungeons smoke OK 49/49 (green for the first time since Oct 21); tutorial run 88 / 90 / 88 / 100 (unchanged).
 
-Re-measure (6 games per Path, seed 7000, with the new reference decks; reports `docs/design/sim/oct22n/m1_*.md`):
+## Scripted events - every boss and elite
 
-| Kind | Fights | In band | Too hard | Too easy | Mean win |
-|---|---:|---:|---:|---:|---:|
-| Tutorial (whole run, 50 x 2 seeds per Path) | 3 | 3 | 0 | 0 | B 91/92, G 89/88, R 87/91, N 94/93% cleared |
-| Normal | 58 | 48 | 10 | 0 | 90% |
-| Elite | 22 | 11 | 5 | 6 | 67% |
-| Boss | 22 | 10 | 2 | 10 | 59% (three of the "too easy" are Primm's phases alone; they are judged as one sequence) |
+Full table with the lines: `docs/design/encounter_scripts.md` (`node tools/encounter_scripts_table.js`).
 
-Fixed (16 games per Path, seeds 7000 / 8100; encounter changes only, no cards touched):
-
-| Encounter | Target | Before | After | Change |
-|---|---|---|---|---|
-| Prudence Pallor (gatekeeper) | 60-75% | 47 / 39% | **56 / 56%** | 16 -> 20 basics, no Red Tape head start |
-| Moss Mulligan (gatekeeper) | 60-75% | 50 / 56% | **55 / 59%** | 17 -> 19 basics |
-| Baron Quadzilla (Iron Cave boss) | 40-60% | 78 / 84% | **45 / 52%** | "Max Pump": his units +1/+1 |
-| The Drain Warden (Lab elite) | 60-75% | 45 / 59% | **69 / 72%** | +2/+2 -> +1/+1 |
-| Calf Raise Crusher (Iron Cave) | 80-100% | 73 / 67% | **69 / 80%** | 14 -> 16 basics, 8 -> 6 HP |
-| Squat Rack Squatter (Iron Cave) | 80-100% | 78 / 69% | **77 / 75%** | 14 -> 16 basics |
-
-The two gatekeepers are now a few points under their band (within the noise of 16 games); I stopped after three iterations for time.
-Not changed: Beefcake in the Rotheart (44-63%, the Rot rule vs x/1 units - inbox 7), Siphon alone 0% (by design, 58% with Elowen -
-inbox 8), and six fights 3-10 points out on 6-game numbers (next_up 4). Details: `docs/design/balance_log.md` (last two sections),
-`docs/design/sheet_changes.md` (regenerated, plus a hand-written names section).
-
-## Part 5 - the exported build (details: `docs/playtest/exported_oct22.md`)
-
-| Check | Result |
+| Encounter | Scripted events (when: what) |
 |---|---|
-| Opening hour (forest -> Path choice -> cave -> Maren -> shops -> Deck Station -> ghosts -> level 5 -> Bertram) | OK on D3D12 Medium, Vulkan Medium, D3D12 Low, D3D12 Safe Mode, Vulkan Safe Mode |
-| Story playthrough (New Game -> Primm -> funeral, Isla, Maren's news) | 90/90 on D3D12 Medium and Vulkan Low (and 90/90 on the project) |
-| Tour bot (281 spots, 9 menus, 5 battles) | 5 errors = five models missing from the export - **fixed** (see below) |
-| Stalls after a fade-in (limit 200 ms) | worst: Crosspath 119 ms, Capital 96, battles <= 31 |
-| Memory after the full tour | RAM 499 MB, video 1.41 GB. Phase 2 probe: textures level off (~600 MB, bounded caches) but ~33 MB of other video memory and ~530 objects stay behind per Crosspath visit - not fixed (inbox 10, next_up 2) |
-| Crashes / softlocks | none |
+| Hollow Warden (tutorial boss) | **The Warden Stirs** (50% HP): A 1/1 Cave Echo rises beside the Warden. |
+| Brick Bronson (gatekeeper) | **HYDRATION BREAK** (50% HP): Brick heals 3. His units are exhausted and miss his next turn. |
+| Chef Fennel Gravois (gatekeeper) | **TASTE IT!** (50% HP): You heal 2. A 1/1 Snack joins Fennel. |
+| Moss Mulligan (gatekeeper) | **Did I Thorn at You?** (50% HP): The thorns loosen: you heal 3. |
+| Prudence Pallor (gatekeeper) | **Stamped APPROVED** (50% HP): Prudence stamps APPROVED by mistake: you heal 3. |
+| The Restless Dead | **The Count Pauses** (50% HP): The dead stand still: their units miss their next turn.<br>**The Cairn Remembers** (25% HP): The dead hesitate: their units get -1/-0. |
+| Shiro Swindle | **SMOKE BOMB!!!** (50% HP): Your strongest ready unit is lost in the smoke until after your next turn.<br>**Body Double** (25% HP): Shiro's log absorbs the next 4 damage. |
+| The Warden of the Four Seals | **The Seal of Iron Breaks** (50% HP): The Warden gathers the broken seal: the next 3 damage is absorbed.<br>**The Last Seal** (25% HP): The Warden's units get -1/-0. |
+| The Wellspring's Echo | **Ripples** (50% HP): Two 1/1 Ripples rise from the well.<br>**Still Water** (25% HP): The Echo heals 3. |
+| Colonel Casserole (zone elite) | **Honour Duel** (50% HP): Casserole's units get +1/+1. |
+| Captain Spotless (Capital gate) | **HALT** (50% HP): Your strongest ready unit is exhausted. |
+| Vivienne Quota, Minister of Efficiency | **Efficiency Review** (50% HP): Quota draws a card. |
+| Quota, Transit Yards rematch | **Mandatory Break** (50% HP): Quota draws a card; her units take a break through her next turn. |
+| Trophy Hall Honor Guard | **Empty Trophy** (50% HP): A 1/1 Reserve Guard steps off a pedestal. |
+| Chancellor Clench, Iron Regent | **Brownout** (turn 5 (warned)): The lights go out: your two strongest ready units are exhausted.<br>**DROP AND GIVE ME FORMS** (50% HP): Clench gains 2 Iron.<br>**Master...?** (25% HP): Clench falters: his units get -1/-0. |
+| Baron Quadzilla | **Final Set** (50% HP): The Baron's units get +1/+0.<br>**He Stands Up** (25% HP): The Baron heals 2, but his units get -1/-0. |
+| The Ancient Spotter | **One More Rep** (50% HP): The Ancient Spotter heals 4.<br>**Young Spotters** (turn 6 (warned)): Two 1/1 Young Spotters arrive. |
+| Unfinished War Machine | **Self-Repair** (3 of its units died): The War Machine heals 2. |
+| Cannon-Blender Gunner | **Full Blend** (turn 4 (warned)): You take 2 damage. |
+| The Doppelganger | **The Mask Slips** (50% HP): Perfect Copy ends. Two 1/1 Sashimi Weenies are rushed out.<br>**No Face of Its Own** (25% HP): The Doppelganger falters: its units get -1/-0. |
+| The Itamae Supreme | **Omakase** (turn 4 (warned)): The Itamae serves you: you heal 2.<br>**...Enough.** (25% HP): The Itamae's units get -1/-0. |
+| Colonel Cornelius Crumb, Director of Culinary Defense | **Battle Rations** (50% HP): Crumb gains 2 Ingredients.<br>**Paste Barrage** (turn 6 (warned)): You take 2 damage. |
+| Notary Wraith | **In Triplicate** (50% HP): The Notary Wraith gains a Red Tape. |
+| Undersecretary Vellum | **Noted.** (50% HP): Vellum gains a Contract. |
+| Mortimer Grimsby, CE-No | **Mortimer Files a Form** (turn 4 (warned)): A 1/1 Filing Clerk is hired.<br>**Filed on a Tuesday** (30% HP): Mortimer hesitates over the form: his units get -1/-0. |
+| Betty Bones, Surly Secretary | **Forms A Through F** (50% HP): Betty gains 2 Contracts; a 1/1 Zombie Temp files in.<br>**Out to Lunch** (turn 5 (warned)): Betty is on lunch: her units are exhausted this turn. |
+| Hortensia Clipwell, Royal Groundskeeper | **Regulation Topiary** (50% HP): Two Topiaries join Clipwell. |
+| Hive of Mutant Bees | **The Hive Swarms** (2 of its units died): Two 1/1 flying Mutant Bees buzz in. |
+| Compostella, the Rotheart | **The Roots Spread** (50% HP): Two Sporelings sprout; her units get +0/+1.<br>**Please. The Tree.** (25% HP): The hungry green falters: her units get -1/-0. |
+| His Majesty the Raccoon | **The Royal Bins** (50% HP): A 1/1 Rat joins; His Majesty gains a Garbage.<br>**Sweating Profusely** (25% HP): His Majesty's units get -1/-0. |
+| Enforcer Captain Spotless | **Inspection** (turn 5 (warned)): Your strongest ready unit stands to attention.<br>**A SMUDGE** (25% HP): Spotless polishes: his units get -1/-0. |
+| Mirror Knight | **Reflection** (50% HP): A Reflection steps out of the glass. |
+| Royal Staircase Guard | **Hold the Stair** (50% HP): The guard absorbs the next 3 damage. |
+| Percival Plume, Deputy Minister of Good News | **Positive Spin** (50% HP): Plume heals 2. |
+| Clocktower Sentinel | **The Hour Strikes** (turn 4 (warned)): The hour strikes: your two strongest ready units are exhausted. |
+| Primm (standardization) | **Out of Alignment** (50% HP): Primm absorbs the next 2 damage. |
+| Primm (reflection) | **Every Mirror Agrees** (turn 5 (warned)): A 2/2 Polished Reflection steps out. |
+| Primm (unraveling) | **I Only Wanted It to Be Nice** (25% HP): Primm's units get -1/-0. |
+| The Failed Experiment | **Mutation** (50% HP): A 1/1 Discarded Sample crawls out. |
+| The Drain Warden | **Drain Cycle** (turn 4 (warned)): You take 2 damage; the Drain Warden heals 2. |
+| Dr. Ambrose Siphon, Chief Path-ologist | **This Will Only Drain a Little** (50% HP): You take 2 damage; Siphon heals 2.<br>**Fascinating Data** (25% HP): Siphon draws 2 cards. |
+| The Old Kingdom Automaton | **Recalibrate** (50% HP): The Automaton absorbs the next 3 damage.<br>**Recognised** (25% HP): The Automaton hesitates: its units get -1/-0. |
+| Arena: Cardboard Colossus | **Getting Soggy** (50% HP): The Colossus is soggy: its units get -1/-0. |
+| Arena: Champion of the Four Fists | **The Fourth Fist** (50% HP): The Champion's units get +1/+0. |
+| Arena: Announcer Grand Bellows | **THE CROWD GOES WILD** (turn 3 (warned)): A 1/1 Rowdy Fan climbs into the ring.<br>**INTERMISSION** (50% HP): Bellows heals 2; his units sit out his next turn. |
 
-**Fixed: five props were missing from the exported game** (a cup, a pie and an egg in the Buffet, a van and a box in the Dump): the
-loaders build model paths from a name, so the export filter thought those models were unused. `tools/update_export_excludes.js` now
-keeps models named in the scripts; the v0.4.5 pack has all five.
+## The new two-Path encounters (Part 2)
 
-## How to test the big items
+| Foe | Where (level) | Paths | Synergy it shows | Two seeds |
+|---|---|---|---|---|
+| Executive Elevator Operator | Hall of Final Approvals, node 13 (L11) | Necrocrat + Beefcake | Iron turns the crank, Red Tape keeps the doors shut | 100 / 96 |
+| Cannon-Blender Gunner (elite) | Test Kitchen, node 11 (L15) | Gourmand + Beefcake | Bulking Season: Ingredients + Iron spent together (Protein Forge, The Gain Train) | 69 / 69 |
+| Hive of Mutant Bees (elite) | the Rotheart, node 10 (L18) | Gourmand + Refusemancer | Farm to Table: Garbage into Ingredients and golems | 81 / 75 |
+| Rot Tunnel Horror | the Rotheart, node 11 (L17) | Beefcake + Refusemancer | Junkyard Gym: every Garbage becomes a buff or an Iron | 83 / 92 |
+| Conveyor Belt Sushi Chef | Omakase, node 2 (L14) | Gourmand + Necrocrat | numbered plates: tokens and Red Tape | 92 / 83 |
+| Pizza Crust Courtier | Throne of Lids, node 2 (L17) | Gourmand + Refusemancer | Farm to Table | 100 / 100 |
+| Junction Patrol | the Old Service Tunnels, node 2 (L19) | Beefcake + Refusemancer | Junkyard Gym | 96 / 100 |
 
-1. **v0.4.5**: unzip `builds/TheWaywardPath-v0.4.5-windows.zip`, run `TheWaywardPath.exe`. Your v0.4.4 save carries over.
-2. **Path choice** (New Game): four tiles with a one-line plan each; move the mouse over a tile (or Tab/arrows) for the full text in the
-   strip below; press More to keep it open.
-3. **Split first talks**: in the D.N.A., talk to Agnes or Gerald the first time - just the introduction and a gold toast "... has a
-   favour to ask. Talk again."; the next talk gives the quest. Same for Chet and Chef Flambe (the minigame opens on the next talk).
-4. **Maren**: after her speech, each further visit is one short line; it changes once you free a zone.
-5. **Agnes in the Hall** (D.N.A. main dungeon, "Take a Number"): after meeting her at the front desk she greets you as an old friend.
-6. **Primm with fewer than four zones freed**: phase 2's line keeps only the freed leader's lesson (Grand Chef or Agnes).
-7. **The names**: the Dump's animal handler (Billie) and the Calf Cove ripper in the Gainlands (Shredna).
-8. **Balance**: Prudence and Moss in Crosspath should feel fairer; the Iron Cave's Baron Quadzilla is tougher.
-9. **Exported checks yourself**: `bash tools/run_exported_suite.sh <pck> d3d12 1 playtest` (also `tour`, `story`, `shot`), shots with
-   `bash tools/exported_feature_shots.sh`.
+The first zone (the Gainlands, the House of Gains, the Iron Cave) stays single-Path. Freed zones (Phase 2 cycle 13): once a zone is
+free, its roamers come back as two-Path sparring partners (+10 HP, 96-100% in 5-7 turns on two seeds; a gold toast "... wants a
+rematch: two Paths this time!").
 
-## Also worth knowing
+## Balance before / after
 
-- **The PC's disk is full** (~630 MB free, inbox 9): the first rebuilt test pack was cut short by it. Please free some space.
-- The story bot had 21 failing quest-chain steps since Oct 20 (it skipped Maren's early chain); it now does the chain: 90/90.
-- An error ran every frame after the Rescuer left the cave mouth (`NpcHp` casting a freed node); fixed, also in `NpcBarks`.
-- GUT: 2168/2169 passing + 1 pending (the chef-hat art test), 0 failing, after Parts 2-4 and again after Parts 5-6.
-- The 499 `.import` quality tweaks the export applies were reverted afterwards (as after every export).
+Full table: `docs/design/balance_log.md`, "Overnight Oct 23, Part 1" and "Phase 2 cycle 1/8". Highlights (before = Oct 23 AI pass,
+after = seed 7000 / seed 8100, 16 games per cell):
 
-## Inbox (Overnight Oct 22-23 section)
+| Fight | Before | After | |
+|---|---:|---:|---|
+| Gatekeepers Brick / Fennel / Moss / Prudence | 73 / 62 / 63 / 65 | 63 / 66 / 69 / 63 | mercy moments |
+| The Restless Dead (first boss) | 38-44 | 50 | eased |
+| Chancellor Clench | 56 | 56 / 69 | Brownout, 2 Iron, Master...? |
+| Mortimer | 47 | 69 / 38 | Temp Agency +1/+0 (cycle 1) |
+| The Doppelganger | 38 | 44 / 38 | the mask slips |
+| Compostella | 66 / 44 | 63 / 31 | |
+| Primm, three phases as one HP pool | 48 | 40 | Gourmand 17 |
+| The Itamae | 44 | 44 / 31 | the matchups, not the scripts (inbox 3) |
+| Colonel Casserole | 78-88 | 69 / 75 | was too easy |
+| Champion of the Four Fists | 88 | 81 / 81 | |
 
-0 the new names; 1 first-talk split at 3 boxes; 2 what was already built on Oct 19; 3 Agnes's met variant; 4 Primm's lesson lines;
-5 Capital freed barks (Isla already post-freed); Part 3 note; 6 the six balance changes; 7 Beefcake vs Rot; 8 Siphon alone; 9 disk;
-10 video memory creep.
+## Phase 2 - cycles
+
+| # | Category | What | Commit |
+|---|---|---|---|
+| 1 | Balance | Mortimer Temp Agency +1/+1 -> +1/+0 (44/25 -> 69/38); Itamae 3 Ingredients measured, reverted | 9e56be59 |
+| 2 | UI consistency | the pre-fight brief puts scripted events under their own amber heading | bf1b7024 |
+| 3 | Collection / bestiary | a met boss's Bestiary page lists its "Signature moves" | c65ba68a |
+| 4 | Performance | AI think time with scripts measured: unchanged (max 0.48 s); tour + story bots | (log) |
+| 5 | Combat feel | Crosspath camera push before gatekeeper/town boss fights | 98a10130 |
+| 6 | Rewards feel | the pick box shows its cards larger | d91eb2a5 |
+| 7 | Onboarding | status tooltip wording matches the cards (-2/-0, N turns left) | b81bea39 |
+| 8 | Balance | the Itamae at Elite skill: no change, reverted (matchup note) | (log) |
+| 9 | Combat feel | zone camera push before elites/lieutenants; Colonel Casserole's entrance | 1d3544b6 |
+| 10 | Stability | dungeons smoke green (49/49): the smoke now finishes the freed Gainlands' scene before the Swolympus gate | 2584d479 |
+| 11 | Dialogue | entrance lines no longer repeat their boss's scripted lines | ec5faf38 |
+| 12 | Balance | the Automaton's shield/falter timing: no change, reverted | (log) |
+
+## How to test
+
+- **Scripted events**: fight Brick Bronson at the gorge bridge (Crosspath): the amber icon under his portrait reads "HYDRATION BREAK";
+  at half health a banner shows it with his line. Clench (House of Gains, last node): on his 4th turn the warning "Next turn: Clench cuts
+  the power..." appears; on his 5th your two strongest ready units are exhausted. Hover an amber icon: "Scripted event"; after it fires
+  the icon dims and its tooltip says the turn. Battle log (bottom left) has an amber line for each.
+- Screenshots: `docs/overnight/oct23/p1_banner_brick.png`, `p3_intro_doppel.png`, `c2_brief_bellows.png`, `c6_pick.png`,
+  `c7_status.png`, `p5_glossary_rules.png`, `p6_campaigns.png`. Re-shoot: `bash tools/shot.sh res://scenes/battle.tscn x --as="The
+  Doppelganger" --intro=hold --wait=2.5` (entrance), `--script_key=town:npc:beefcake --as="Brick Bronson" --no_intro=true` (banner),
+  `res://scenes/town.tscn x --open=pick` (card pick), `res://scenes/title.tscn x --open=campaigns` / `--open=glossary4`.
+- **Entrances**: any boss, lieutenant, gatekeeper or Colonel Casserole; any key skips.
+- **Card pick**: beat a gatekeeper (VICTORY box in Crosspath) or a dungeon elite (the rewards screen); beat it again for the 2-card pick.
+- **Battle help**: hover a unit with Red Tape on it, an exhausted one, a token; Esc -> Glossary.
+- **Save slots**: title -> Load Game (your save is Slot 1) -> Copy to 2 -> Delete 2; New Game -> Slot 3.
+- **Sims**: `SWEEP_KINDS=elite,boss bash tools/ai_sweep.sh <tag> 4 7000 [groups]`; `--what=sequence --filter=boss:primm`; the replay tool
+  logs scripted events as `!! tN SCRIPT <name>`.
+- **Tests**: `tests/core/dungeon/test_encounter_scripts.gd`, `test_reward_picks.gd`, `tests/core/data/test_campaign_slots.gd`,
+  `test_world_reward_pick.gd`, `tests/ui/test_oct23_battle_help.gd`.
+
+## Inbox (yours to decide; the safest choice was taken)
+
+1. Entrances: board intro everywhere + a camera push in Crosspath and the zones; no push inside dungeons (they have no 3D foe).
+2. Mercy moments for the gatekeepers and several bosses' last stand - say if any should be a threat instead.
+3. The Itamae: 44 / 31 whatever his numbers (Refusemancer and Necrocrat lose every seed-8100 game, Gourmand wins every one).
+4. Primm's gauntlet clears 40% (Gourmand 17).
+5. Card picks: rules above; side-dungeon bosses now also offer a pick.
+6. Save slots: slot 1 = the old folder; slots 2-3 new folders.
+7. **Your real Slot 1 manual save was overwritten by a test** (tonight 22:43 and on earlier GUT runs); fixed.
+8. Four new first-time tips will show once even for players who finished the old ones.
