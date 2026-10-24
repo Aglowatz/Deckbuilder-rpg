@@ -27,7 +27,7 @@ static func entries(game: GameState, card: CardInstance) -> Array[Array]:
 		var whose: String = "your" if until == 0 else "the enemy's"
 		var left: int = _turn_starts_until(game, until)
 		var name: String = "Red Tape" if atk < 0 and def == 0 else "Lingering change"
-		result.append([name, "%s until the start of %s next turn (%s)." % [_stats(atk, def), whose, "ends this coming turn" if left <= 1 else "%d turns left" % left]])
+		result.append([name, "%s until the start of %s next turn (%d turn%s left)." % [_stats(atk, def), whose, left, "" if left == 1 else "s"]])
 	if card.temp_attack != 0 or card.temp_defense != 0:
 		result.append(["Until end of turn", "%s until the end of this turn (Iron and other pumps)." % _stats(card.temp_attack, card.temp_defense)])
 	if card.attack_bonus != 0 or card.defense_bonus != 0:
@@ -54,9 +54,11 @@ static func entries(game: GameState, card: CardInstance) -> Array[Array]:
 	return result
 
 
-## "-2/-0", "+1/+1".
+## "-2/-0", "+1/+1", "+0/+2": a zero takes the other number's sign, as the cards write it.
 static func _stats(atk: int, def: int) -> String:
-	return "%s%d/%s%d" % ["+" if atk >= 0 else "-", absi(atk), "+" if def >= 0 else "-", absi(def)]
+	var atk_minus: bool = atk < 0 or (atk == 0 and def < 0)
+	var def_minus: bool = def < 0 or (def == 0 and atk < 0)
+	return "%s%d/%s%d" % ["-" if atk_minus else "+", absi(atk), "-" if def_minus else "+", absi(def)]
 
 
 ## How many turn starts until `player`'s next turn begins: 1 when that is the very next turn.

@@ -31,3 +31,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
    Restless Dead, Shiro and the Echo, then the board entrance plays; boss-rules smoke OK.
 6. **Rewards & progression feel**: the VICTORY card-pick box shows its three cards at a readable size (0.62) and drops the redundant
    "REWARDS" label when it holds only the pick (shot `docs/overnight/oct23/c6_pick.png`; town `--open=pick` screenshot hook).
+7. **Onboarding / first hour**: the battle tooltip's status lines checked on screen (Hustle + Exhausted + Red Tape on one unit, shot
+   `docs/overnight/oct23/c7_status.png`); wording now matches the cards ("-2/-0", "1 turn left").

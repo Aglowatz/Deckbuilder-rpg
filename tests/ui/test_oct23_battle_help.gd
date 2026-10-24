@@ -48,7 +48,7 @@ func test_status_entries_explain_exhaustion_red_tape_pumps_and_tokens() -> void:
 	assert_has(titles, "Until end of turn")
 	assert_has(titles, "Changed for good")
 	assert_string_contains(texts, "skip its next refresh")
-	assert_string_contains(texts, "-2/+0 until the start of the enemy's next turn")
+	assert_string_contains(texts, "-2/-0 until the start of the enemy's next turn (1 turn left)")
 	var token: CardInstance = game.create_token(1, TokenRegistry.data("T-21"))
 	var token_titles: Array[String] = []
 	for entry: Array in StatusInfo.entries(game, token):
