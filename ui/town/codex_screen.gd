@@ -552,6 +552,18 @@ func show_beast(entry: Bestiary.Entry) -> void:
 	if known:
 		var wins: int = Bestiary.won_count(Session.counters, entry.name)
 		_beast_detail.add_child(UIKit.label("Defeated %d time%s" % [wins, "" if wins == 1 else "s"], &"", 22, UIStyle.GOOD if wins > 0 else UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+		# Overnight Oct 23: a boss's or elite's scripted events, once it has been met.
+		var moves: Array[EncounterScripts.Trigger] = EncounterScripts.triggers_for_entry(entry.name)
+		if not moves.is_empty():
+			var heading: Label = UIKit.label("Signature moves", &"", 20, RuleBadges.SCRIPTED_COLOR, HORIZONTAL_ALIGNMENT_CENTER)
+			heading.name = "SignatureMoves"
+			heading.add_theme_font_override("font", UIStyle.font_bold())
+			_beast_detail.add_child(heading)
+			for move: EncounterScripts.Trigger in moves.slice(0, 4):
+				var line: Label = UIKit.label("%s: %s" % [move.name, move.text], &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+				line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+				line.custom_minimum_size = Vector2(480, 0)
+				_beast_detail.add_child(line)
 
 
 # ---- Gear -------------------------------------------------------------------------------------------------------

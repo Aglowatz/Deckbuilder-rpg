@@ -204,3 +204,16 @@ func test_the_shipped_scripts_load_cleanly() -> void:
 			assert_false(each.line.is_empty(), "%s/%s has a line" % [key, each.id])
 			if each.when_type == "turn":
 				assert_false(each.warn.is_empty(), "%s/%s has its one-line warning" % [key, each.id])
+
+
+func test_every_scripted_boss_shows_its_moves_in_the_bestiary() -> void:
+	var aliased: Dictionary = {"capital:quota": true}
+	for keys: Variant in EncounterScripts.ENTRY_KEYS.values():
+		for key: Variant in keys as Array:
+			aliased[str(key)] = true
+	for key: String in EncounterScripts.keys():
+		if aliased.has(key) or key.begins_with("arena:"):
+			continue
+		assert_not_null(Bestiary.find(key), "%s has a Bestiary entry for its signature moves" % key)
+	assert_eq(EncounterScripts.triggers_for_entry("Corrupted Wanderers").size(), 4, "the four gatekeepers share one entry")
+	assert_eq(EncounterScripts.triggers_for_entry("Primm, His Perfection").size(), 3)

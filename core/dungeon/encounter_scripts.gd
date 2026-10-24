@@ -212,6 +212,29 @@ static func triggers(key: String) -> Array[Trigger]:
 	return result
 
 
+## Bestiary entries whose fights are keyed differently from their name (town fights, zone elites, the arena, Primm's phases, the four
+## corrupted wanderers sharing one entry).
+const ENTRY_KEYS: Dictionary = {
+	"The Restless Dead": ["town:graveyard"], "Shiro Swindle": ["town:ninja"], "The Warden of the Four Seals": ["town:vault"],
+	"The Wellspring's Echo": ["town:old_well"], "Colonel Casserole": ["zone:gourmand:casserole"], "Captain Spotless": ["zone:final:spotless"],
+	"Announcer Grand Bellows": ["arena:arena_marshal"], "Cardboard Colossus": ["arena:arena_spells_only"],
+	"Champion of the Four Fists": ["arena:arena_four_fists"],
+	"Primm, His Perfection": ["Primm (standardization)", "Primm (reflection)", "Primm (unraveling)"],
+	"Corrupted Wanderers": ["town:npc:beefcake", "town:npc:gourmand", "town:npc:refusemancer", "town:npc:necrocrat"],
+}
+
+
+## The scripted events a Bestiary entry's fights have (its "signature moves"), in order.
+static func triggers_for_entry(entry_name: String) -> Array[Trigger]:
+	var result: Array[Trigger] = []
+	var keys: Array = ENTRY_KEYS.get(entry_name, [entry_name]) as Array
+	for key: Variant in keys:
+		result.append_array(triggers(str(key)))
+	if entry_name == "Vivienne Quota, Minister of Efficiency":
+		result.append_array(triggers("capital:quota"))
+	return result
+
+
 ## A card by id (cards and tokens).
 static func card_data(id: String) -> CardData:
 	if id.is_empty():
