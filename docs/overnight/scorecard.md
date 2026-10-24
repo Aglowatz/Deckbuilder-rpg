@@ -50,3 +50,6 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 14. **Onboarding / first hour**: the first-battles smoke built its fights without the rule icons the game gives them, so the new
     "rules"/"scripted" tips could never show there; it now mirrors the game and the "Rules of this fight" tip appears in battle 3 (the
     Hollow Warden). Smoke OK.
+15. **UI consistency / Performance** (measured, no change): the campaign slot and Glossary screens at 1280x720 fit (UiScale); last
+    played in local time. The Crosspath video-memory growth (Oct 22 probe: 887 -> 946 -> 980 MB on Crosspath <-> Gainlands loops,
+    textures and buffers flat, +~500 objects a loop) was looked at, not bisected - it needs knobs in the town build (next_up 5).
