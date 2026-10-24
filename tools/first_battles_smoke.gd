@@ -80,6 +80,9 @@ func _start_battle(node: DungeonMap.MapNode) -> void:
 	context.ai = AIPlayer.new(TrialOfTheHollow.personality(Session.content, node.ai_name))
 	context.enemy_name = node.enemy_name
 	context.tutorial = node.tutorial
+	# Oct 23: the fight's rule icons, as the game sets them (the Warden's scripted event; the rules/scripted tips point at them).
+	context.encounter_rules = EncounterModifiers.rules(node.enemy_name)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	Session.pending_battle = context
 	var packed: PackedScene = load("res://scenes/battle.tscn") as PackedScene
 	screen = packed.instantiate() as BattleScreen

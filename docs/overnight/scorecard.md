@@ -47,3 +47,6 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
     (replay) but its fights are decided by its Old Kingdom heal; reverted. Mean 65 left (boss band 40-60, one seed high).
 13. **Rewards & progression / Part 2 leftover**: freed zones' roamers spar with two-Path decks (+10 HP; 96-100% in 5-7 turns on two
     seeds; gold "wants a rematch: two Paths this time!" toast); catalog groups `freed:<zone>`; test.
+14. **Onboarding / first hour**: the first-battles smoke built its fights without the rule icons the game gives them, so the new
+    "rules"/"scripted" tips could never show there; it now mirrors the game and the "Rules of this fight" tip appears in battle 3 (the
+    Hollow Warden). Smoke OK.
