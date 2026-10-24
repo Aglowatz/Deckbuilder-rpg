@@ -20,3 +20,10 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
 | Playtest readiness | 9 | 9 | | No build tonight (by rule); three save slots. |
 
 ## Cycles
+1. **Balance** (23:39, 9e56be59): Mortimer's Temp Agency +1/+1 -> +1/+0: 44/25 -> 69/38 on two seeds (mean 53). The Itamae's 3-Ingredient
+   start measured 44/31 (no change) and reverted.
+2. **UI consistency** (bf1b7024): the "Before the fight" brief lists scripted events under an amber "What can happen in this fight (once
+   each)" heading (shot `docs/overnight/oct23/c2_brief_bellows.png`); boss-rules smoke OK.
+3. **Collection / bestiary** (c65ba68a): a met boss's Bestiary page lists its "Signature moves" (its scripted events); test.
+4. **Performance** (measured, no change): AI think time with scripts on Clench / Compostella / Bellows: avg 0.5-23 ms, max 0.48 s, none
+   over 1 s - the same as the Oct 23 AI baseline (the clones carry the script runs at no visible cost).
