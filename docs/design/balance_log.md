@@ -1246,3 +1246,10 @@ Courtier (Gourmand+Refusemancer "Farm to Table") 100 / 100, Junction Patrol (Bee
 
 Seed spread at 16 games per cell is wide (War Machine 69 / 38, Mirror Knight 63 / 88); every fight's two-seed mean is at or above ~35%
 (lowest: Mortimer 34, Compostella 47 with one seed at 31, Itamae 38) and the scripts were shown not to cause the two low ones.
+
+## Overnight Oct 23, Phase 2 cycle 1 (Balance): Mortimer and the Itamae
+
+- **Mortimer Grimsby** (D-HFA:14, L13, target 40-60): Temp Agency stat rule +1/+1 -> **+1/+0** (its text already said +1/+0 in one of
+  its two entries; both now agree). Before 44 / 25 (seeds 7000 / 8100) -> after **69 / 38** (mean 53). Kept.
+- **The Itamae Supreme** (S-GOUR:3, L16): Omakase 4 -> 3 starting Ingredients measured 44 / 31, identical to before: reverted.
+  Mean stays 38 (seed 8100 is hard for him with or without his scripts). Left for the designer (inbox).

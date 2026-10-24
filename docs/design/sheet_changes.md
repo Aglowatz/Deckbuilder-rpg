@@ -93,7 +93,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Undersecretary Vellum | Pre-Signed Contracts | enemy | timed_summon (token="T-10", every=2) | "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired." (icon delapouite/full-folder) |
 | Mortimer Grimsby, CE-No | Red Tape Everywhere | enemy | starting_resources (resource="redtape", count=3) | "Starts the duel with 3 Red Tape." (icon delapouite/stamper) |
 | Mortimer Grimsby, CE-No | Temp Agency | enemy | timed_summon (token="T-10", every=2) | "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0." (icon delapouite/shambling-zombie) |
-| Mortimer Grimsby, CE-No | Temp Agency | enemy | stat (atk=1, def=1) | "Mortimer's units get +1/+1. The temps are motivated by fear." (icon delapouite/shambling-zombie) |
+| Mortimer Grimsby, CE-No | Temp Agency | enemy | stat (atk=1, def=0) | "Mortimer's units get +1/+0. The temps are motivated by fear." (icon delapouite/shambling-zombie) |
 | Hortensia Clipwell, Royal Groundskeeper | Prize Topiary | enemy | token_stats (atk=1, def=1) | "Clipwell's tokens enter with +1/+1, trimmed to regulation." (icon lorc/leaf-swirl) |
 | Hortensia Clipwell, Royal Groundskeeper | Royal Groundskeeper | enemy | stat (atk=1, def=1) | "Clipwell's units get +1/+1. The grounds are kept to a royal standard." (icon lorc/leaf-swirl) |
 | Hive of Mutant Bees | Swarm | enemy | timed_summon (token="T-22", every=2) | "Every second turn of its, a 1/1 Sporeling buzzes in." (icon lorc/bat-wing) |
