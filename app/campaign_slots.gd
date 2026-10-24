@@ -26,7 +26,18 @@ static func activate(campaign: int) -> void:
 	if not is_valid(campaign):
 		return
 	active = campaign
+	# A tool or test that pointed the saves at its own folder keeps it (smokes must never touch the player's real saves).
+	if not uses_campaign_folder():
+		return
 	SaveSlots.dir = dir_for(campaign)
+
+
+## Whether the saves currently go to one of the campaign folders (not a tool's or a test's own folder).
+static func uses_campaign_folder() -> bool:
+	for campaign: int in range(1, COUNT + 1):
+		if SaveSlots.dir == dir_for(campaign):
+			return true
+	return false
 
 
 ## The newest save (autosave or manual) of a campaign as SaveSlots.info, plus "path" (Affinity.Type) and "campaign"; {} when empty.

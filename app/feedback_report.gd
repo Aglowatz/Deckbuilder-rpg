@@ -45,6 +45,7 @@ static func game_state() -> Dictionary:
 	if Session.has_profile():
 		state["session"] = Session.slot_meta()
 		state["location_name"] = Session.location_name()
+		state["campaign_slot"] = CampaignSlots.active  # Oct 23: which of the three campaigns (its saves are the ones copied below)
 		state["quest"] = current_quest()
 		# Daytime Oct 19: what a balance report needs at a glance (the save copy has the rest).
 		state["path"] = Affinity.display_name(Session.profile.primary_affinity)

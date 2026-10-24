@@ -11,6 +11,7 @@ func before_each() -> void:
 	_old_dir = SaveSlots.dir
 	_old_active = CampaignSlots.active
 	CampaignSlots.root = "user://test_campaigns/"
+	SaveSlots.dir = CampaignSlots.root
 	for campaign: int in range(1, CampaignSlots.COUNT + 1):
 		CampaignSlots.delete(campaign)
 
@@ -59,6 +60,13 @@ func test_info_most_recent_copy_and_delete() -> void:
 	assert_true(CampaignSlots.is_empty(3))
 	assert_false(CampaignSlots.is_empty(1), "deleting one campaign leaves the others")
 	assert_false(CampaignSlots.is_empty(2))
+
+
+func test_a_tools_own_save_folder_is_kept() -> void:
+	SaveSlots.dir = "user://some_tool_saves/"
+	CampaignSlots.activate(2)
+	assert_eq(SaveSlots.dir, "user://some_tool_saves/", "a smoke's temporary folder is never swapped for a real campaign")
+	assert_eq(CampaignSlots.active, 2)
 
 
 func test_deleting_campaign_one_keeps_the_other_folders() -> void:

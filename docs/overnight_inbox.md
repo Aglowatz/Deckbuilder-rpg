@@ -4,6 +4,34 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Oct 23-24 - yours to decide (the safest choice was taken)
+
+1. **Boss entrances are a board intro everywhere** (Part 3): before every boss, lieutenant and gatekeeper battle the battle board
+   shows letterbox bars, the foe's Bestiary portrait pushing in, a name card with a title, a music sting and the opening line
+   (~3.3 s, any key skips; `data/encounters/boss_intros.json`). A camera push on the foe in the 3D world before the fight was NOT
+   built (each world scene starts its fights differently; one consistent board intro was the safer choice). Say if you want the
+   world push for the town gatekeepers and the zone elites.
+2. **Mercy moments** (Part 1): to keep the opening hour easy, the four gatekeepers' events are their real selves slipping through
+   (Moss: "Did I thorn at you?" - you heal 3; Prudence stamps APPROVED by mistake - you heal 3; Brick's Hydration Break stands his
+   units down; Fennel force-feeds you a biscuit). Several bosses end with a "faltering" -1/-0 at 25% (Clench "Master...?",
+   Compostella "Please. The tree.", Primm "I only wanted it to be nice", the Restless Dead, the Automaton). Say if any of these
+   should be a threat instead.
+3. **Mortimer and the Itamae on seed 8100** measure 25 / 31 (19 / 31 with their scripts removed, so the seed, not the scripts);
+   two-seed means 34 / 38. Left as they are tonight; the next lever would be Mortimer's Temp Agency +1/+1 (from the Oct 23 AI pass).
+4. **Primm's gauntlet** now clears 40% (B 33 / G 17 / R 42 / N 67; was 48%): Gourmand is still the weak Path here (inbox Oct 23).
+5. **Card picks** (Part 4): every elite and boss win offers 1 of 3 cards themed to the foe's Paths (two-Path foes can offer their
+   two-Path cards), never a Legendary (the bosses' prizes stay theirs), no Epics from elites before level 8; a repeat win offers 2
+   mostly-Common cards. Side-dungeon bosses now offer a pick too (they gave none before). In the world (gatekeepers, town bosses,
+   zone elites, the Quota rematch, arena tiers 2-3) it is a "VICTORY - choose a card" box after the fight.
+6. **Three campaign slots** (Part 6): the existing save IS slot 1 (nothing moved: slot 1 is the old `saves/` folder; slots 2 and 3
+   are `saves/campaign_2/` and `campaign_3/`). Each slot has its own autosave, backup and manual saves; New Game picks a slot,
+   Continue loads the newest campaign, Load Game lists the three (Play / Other saves / Copy / Delete).
+7. **Your real "Slot 1" manual save was being overwritten by a GUT test** (`test_legacy_sub_areas`) on every test run, including
+   tonight's at 22:43 (it now shows as "Beefcake, level 1, The Proving Grounds"). The test now uses its own folder. If that slot
+   held a save you care about, its older copy is gone; your autosave (Oct 23 10:14) and Slot 2 (Oct 17) are untouched.
+8. **New first-time tips** (Part 5): face-down enemy traps, tokens, the fight's rule icons, scripted events. Players who finished
+   the old tips (without pressing "Skip tips") will see these four once.
+
 ## Overnight Oct 22-23 - yours to decide (the safest choice was taken)
 
 0. **NEW NAMES FOR VETO (Part 4, the duplicate names)** - the design-sheet characters keep theirs (Wren the resistance leader, Recycle

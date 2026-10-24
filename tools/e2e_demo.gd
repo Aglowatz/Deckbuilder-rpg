@@ -125,6 +125,10 @@ func _title(_screen: TitleScreen) -> void:
 	_check(driver.find_button("Continue") == null, "title has no Continue without a save")
 	_check(driver.find_button("Settings") != null, "title has a Settings button")
 	await driver.click_button("New Game")
+	await driver.seconds(0.8)
+	# Oct 23: the campaign slot picker.
+	if driver.find_button("Start here") != null:
+		await driver.click_button("Start here")
 	await driver.seconds(1.0)
 
 

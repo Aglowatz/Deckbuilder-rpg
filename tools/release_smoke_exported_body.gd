@@ -31,6 +31,13 @@ func _run() -> void:
 	_check(title != null and title.scene_file_path == "res://scenes/title.tscn", "the game opens at the title screen")
 	_check(_find_button("New Game") != null, "New Game button exists")
 	await _click_button("New Game")
+	await _seconds(0.8)
+	# Oct 23: the campaign slot picker (with saving off, "Start Over" deletes nothing).
+	if _find_button("Start here") != null:
+		await _click_button("Start here")
+	elif _find_button("Start over here") != null:
+		await _click_button("Start over here")
+		await _seconds(0.5)
 	if _find_button("Start Over") != null:
 		await _click_button("Start Over")
 	await _seconds(3.0)

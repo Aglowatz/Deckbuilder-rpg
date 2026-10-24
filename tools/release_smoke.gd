@@ -30,6 +30,14 @@ func _run() -> void:
 	_check(get_tree().current_scene.scene_file_path == "res://scenes/title.tscn", "the game opens at the title screen")
 	_check(driver.find_button("New Game") != null, "New Game button exists")
 	await driver.click_button("New Game")
+	await driver.seconds(0.8)
+	# Oct 23: New Game picks one of three campaign slots first (a used one asks; with saving off nothing is deleted).
+	if driver.find_button("Start here") != null:
+		await driver.click_button("Start here")
+	elif driver.find_button("Start over here") != null:
+		await driver.click_button("Start over here")
+		await driver.seconds(0.5)
+		await driver.click_button("Start Over")
 	await driver.seconds(3.0)
 	var scene: Node = get_tree().current_scene
 	_check(scene is StartingAreaScene, "New Game lands in the starting area with no character screen (%s)" % scene.name)

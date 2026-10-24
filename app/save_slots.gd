@@ -141,5 +141,6 @@ static func format_playtime(seconds: float) -> String:
 
 
 static func format_date(unix: int) -> String:
-	var parts: Dictionary = Time.get_datetime_dict_from_unix_time(unix)
+	# Oct 23: in local time (the unix time is UTC; the bias is in minutes).
+	var parts: Dictionary = Time.get_datetime_dict_from_unix_time(unix + int(Time.get_time_zone_from_system().get("bias", 0)) * 60)
 	return "%04d-%02d-%02d %02d:%02d" % [int(parts["year"]), int(parts["month"]), int(parts["day"]), int(parts["hour"]), int(parts["minute"])]

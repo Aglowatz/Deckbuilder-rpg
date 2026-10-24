@@ -38,11 +38,17 @@ func test_loading_a_sub_area_save_resumes_in_the_main_area_at_the_gate() -> void
 	Session.ensure_game()
 	Session.set_flag(&"trial_cleared")
 	Session.last_location = "The Proving Grounds"
+	# Oct 23: a test folder - this test used to write the player's real manual Slot 1 on every GUT run.
+	var real_dir: String = SaveSlots.dir
+	SaveSlots.dir = "user://test_legacy_sub_area_saves/"
 	Session.save_to_slot(1, "Sub-area save")
 	var data: Dictionary = SaveSlots.load_data(1)
 	(data["meta"] as Dictionary)["scene"] = "sub:gainlands/proving_grounds"
 	SaveSystem.write(data, SaveSlots.path_for(1))
-	assert_true(Session.load_from_slot(1))
+	var loaded: bool = Session.load_from_slot(1)
+	SaveSlots.delete(1)
+	SaveSlots.dir = real_dir
+	assert_true(loaded)
 	assert_eq(Session.pending_resume_scene, "sub:gainlands/proving_grounds", "the token is read as saved")
 	# resume_loaded_game changes the scene; the part under test is where it sends the hero. The town fallback and the zone case are read from the source.
 	var source: String = FileAccess.get_file_as_string("res://app/game_session.gd")

@@ -21,6 +21,12 @@ func run() -> void:
 	# the title: New Game (and "Start Over" when the player has saves; with saving off nothing is replaced)
 	_check(await driver.click_button("New Game"), "the title offers New Game")
 	await driver.seconds(0.6)
+	# Oct 23: the campaign slot picker (with saving off, "Start Over" deletes nothing).
+	if driver.find_button("Start here") != null:
+		await driver.click_button("Start here")
+	elif driver.find_button("Start over here") != null:
+		await driver.click_button("Start over here")
+		await driver.seconds(0.5)
 	if driver.find_button("Start Over") != null:
 		await driver.click_button("Start Over")
 	var scene: StartingAreaScene = await _wait_for(StartingAreaScene) as StartingAreaScene

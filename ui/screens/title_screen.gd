@@ -46,6 +46,12 @@ func _ready() -> void:
 		_on_load_game()
 	elif _screenshot_open == "newgame":
 		_on_new_game()
+	elif _screenshot_open.begins_with("glossary"):
+		_show_overlay(func(box: VBoxContainer) -> void:
+			var panel: GlossaryPanel = GlossaryPanel.make()
+			panel.closed.connect(_close_overlay)
+			box.add_child(panel)
+			panel.show_tab(int(_screenshot_open.trim_prefix("glossary")) if _screenshot_open.length() > 8 else 0))
 
 
 func _build_backdrop() -> void:

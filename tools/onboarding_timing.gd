@@ -59,6 +59,13 @@ func run() -> void:
 		return
 	await driver.seconds(1.0)
 	await _click_text("New Game")
+	await driver.seconds(0.5)
+	# Oct 23: the campaign slot picker.
+	if driver.find_button("Start here") != null:
+		await _click_text("Start here")
+	elif driver.find_button("Start over here") != null:
+		await _click_text("Start over here")
+		await driver.seconds(0.5)
 	if driver.find_button("Start Over") != null:
 		await _click_text("Start Over")
 		_segment["note"] = "this PC has saves: the overwrite question added one click"

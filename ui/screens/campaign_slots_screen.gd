@@ -145,7 +145,9 @@ func _start(campaign: int, used: bool) -> void:
 		return
 	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Start over in slot %d?" % campaign, "Everything saved in this slot (its autosave and its manual saves) is deleted. The other slots are not touched.", "Start Over", "Cancel", true)
 	dialog.confirmed.connect(func() -> void:
-		CampaignSlots.delete(campaign)
+		# With saving off (smokes, --no-save) nothing is deleted: the new game simply is not saved.
+		if Session.save_enabled:
+			CampaignSlots.delete(campaign)
 		_pick(campaign, true))
 
 
