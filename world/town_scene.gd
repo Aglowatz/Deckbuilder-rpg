@@ -2779,6 +2779,17 @@ func _screenshot_slots(mode_name: String) -> void:
 
 func _screenshot_open(what: String) -> void:
 	match what:
+		"pick":  # Oct 23, Part 4: the card pick box after a gatekeeper (as if Brick Bronson had just been beaten)
+			var context: BattleContext = BattleContext.new()
+			context.game = Session.make_practice_battle("Cave Scavenger").game
+			context.enemy_name = "Brick Bronson"
+			context.town_npc_id = "beefcake"
+			context.won = true
+			Session.queue_world_pick(context)
+			var popup: RewardPopup = _show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
+			if popup != null:
+				popup.frame.finish_reveal()
+				popup.select_pick(1)
 		"well":
 			_use_well()
 		"deck":

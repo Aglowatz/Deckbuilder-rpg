@@ -7,6 +7,8 @@ extends Control
 signal finished
 
 const CARD_SCALE: float = 0.46
+## Overnight Oct 23: the cards of an elite's or boss's pick, large enough to read their text.
+const PICK_SCALE: float = 0.62
 const TILE_WIDTH: float = 190.0
 
 var summary: RewardSummary
@@ -48,7 +50,8 @@ func _fill_body() -> void:
 	if summary.is_empty() and summary.unlocks.is_empty():
 		body.add_child(UIKit.label("An empty chest. Somebody got here first." if summary.kind == RewardSummary.Kind.CHEST else "No reward this time. The thanks are real.", &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 		return
-	if not summary.is_empty():
+	var only_pick: bool = not summary.card_choices.is_empty() and summary.gold <= 0 and summary.xp <= 0 and summary.cards.is_empty() and summary.items.is_empty() and summary.equipment.is_empty() and summary.packs.is_empty()
+	if not summary.is_empty() and not only_pick:
 		body.add_child(UIKit.label("REWARDS", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Currency row: gold and XP as big counters.
 	var currency: HBoxContainer = UIKit.hbox(46)
@@ -119,14 +122,14 @@ func _tile_box() -> PanelContainer:
 	return tile
 
 
-## A card shown as the real card (art, frame, rules text), scaled down.
-func _card_tile(card: CardData) -> Control:
+## A card shown as the real card (art, frame, rules text), scaled down (`scale`: the Oct 23 pick shows its three cards larger).
+func _card_tile(card: CardData, scale: float = CARD_SCALE) -> Control:
 	var holder: Control = Control.new()
-	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE
+	holder.custom_minimum_size = CardView.SIZE * scale
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
 	holder.add_child(view)
-	CardView.fit(view, CARD_SCALE)
+	CardView.fit(view, scale)
 	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return holder
 
@@ -197,7 +200,7 @@ func _add_pick(body: VBoxContainer) -> void:
 	row.name = "PickRow"
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	for index: int in range(summary.card_choices.size()):
-		var tile: Control = _card_tile(summary.card_choices[index])
+		var tile: Control = _card_tile(summary.card_choices[index], PICK_SCALE)
 		tile.name = "Pick_%d" % index
 		tile.mouse_filter = Control.MOUSE_FILTER_STOP
 		var which: int = index

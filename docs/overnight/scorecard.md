@@ -29,3 +29,5 @@ Scores 1-10. "Last" = the Oct 22-23 scorecard's end (`docs/overnight/oct22/score
    over 1 s - the same as the Oct 23 AI baseline (the clones carry the script runs at no visible cost).
 5. **Combat feel** (Part 3 leftover): in Crosspath the camera pushes in (0.75 s) on the hero facing the foe before the gatekeepers, the
    Restless Dead, Shiro and the Echo, then the board entrance plays; boss-rules smoke OK.
+6. **Rewards & progression feel**: the VICTORY card-pick box shows its three cards at a readable size (0.62) and drops the redundant
+   "REWARDS" label when it holds only the pick (shot `docs/overnight/oct23/c6_pick.png`; town `--open=pick` screenshot hook).
