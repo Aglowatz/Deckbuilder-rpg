@@ -3365,7 +3365,15 @@ func reward_pick(context: BattleContext, boss: bool) -> Array[CardData]:
 			var data: CardData = card as CardData
 			owned[data.id] = profile.owned_copies(data.id)
 			caps[data.id] = copy_cap(data)
-	return RewardPicks.choose(content, rng, RewardPicks.deck_paths(foe_deck_of(context.game)), profile.primary_affinity, profile.level, boss, repeat, owned, caps)
+	return RewardPicks.choose(content, rng, RewardPicks.deck_paths(foe_deck_of(context.game)), profile.primary_affinity, profile.level, boss, repeat, owned, caps, gatekeeper_pick_path(context))
+
+
+## Fixes Oct 25, Part 1: a zone gatekeeper's pick offers only cards of that gatekeeper's Path (Brick Bronson: Beefcake, Prudence Pallor:
+## Necrocrat, Chef Gravois: Gourmand, Moss Mulligan: Refusemancer). -1 for every other fight.
+static func gatekeeper_pick_path(context: BattleContext) -> int:
+	if context == null or not CorruptedNpcs.IDS.has(context.town_npc_id):
+		return -1
+	return int(CorruptedNpcs.element(context.town_npc_id))
 
 
 ## Every card the foe's seat played with (deck, hand, field, Refuse Pile, traps), as a Deck - for its Paths.

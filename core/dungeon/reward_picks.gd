@@ -44,7 +44,7 @@ static func deck_paths(deck: Deck, min_share: float = 0.2) -> Array[Affinity.Typ
 ## The offer. `owned` maps card id -> copies owned; `caps` card id -> copy cap (missing = no cap known).
 static func choose(
 	content: ContentSet, rng: RandomNumberGenerator, encounter_paths: Array[Affinity.Type], own_path: Affinity.Type, level: int,
-	boss: bool, repeat: bool, owned: Dictionary = {}, caps: Dictionary = {},
+	boss: bool, repeat: bool, owned: Dictionary = {}, caps: Dictionary = {}, only_path: int = -1,
 ) -> Array[CardData]:
 	var table: Array[float] = REPEAT_WEIGHTS if repeat else (BOSS_WEIGHTS if boss else ELITE_WEIGHTS)
 	var pool: Array[CardData] = []
@@ -52,6 +52,8 @@ static func choose(
 	var capped: Array[CardData] = []
 	var capped_weights: Array[float] = []
 	for card: CardData in _candidates(content):
+		if only_path >= 0 and not is_pure_path(card, only_path as Affinity.Type):
+			continue
 		var rarity_weight: float = table[int(card.rarity)]
 		if card.rarity == CardEnums.Rarity.EPIC and not boss and level < EPIC_LEVEL:
 			rarity_weight = 0.0
@@ -90,6 +92,12 @@ static func path_weight(card: CardData, encounter_paths: Array[Affinity.Type], o
 	if paths[0] == own_path:
 		weight += OWN_PATH_WEIGHT
 	return weight if weight > 0.0 else OTHER_WEIGHT
+
+
+## Fixes Oct 25, Part 1: a card of exactly this one Path (no Colorless, no two-Path cards) - what a zone gatekeeper's pick offers.
+static func is_pure_path(card: CardData, path: Affinity.Type) -> bool:
+	var paths: Array[Affinity.Type] = card.paths()
+	return paths.size() == 1 and paths[0] == path
 
 
 static func _candidates(content: ContentSet) -> Array[CardData]:
