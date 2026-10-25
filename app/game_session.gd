@@ -125,6 +125,7 @@ func discard_incompatible_save() -> bool:
 ## Starts a fresh campaign. The profile is created when the Wellspring is chosen.
 func new_game() -> void:
 	profile = null
+	_steps_seen = {}
 	deck_box = DeckBox.new()
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME
@@ -501,6 +502,9 @@ func open_pack(pack_id: String, pack_rng: RandomNumberGenerator = null) -> PackO
 		add_cards([card] as Array[CardData])
 		opening.entries.append(entry)
 	bump_counter("packs_opened")
+	if not flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)):
+		set_flag(StringName(QuestDefinitions.FIRST_PACK_FLAG))  # Fixes Oct 25, Part 6: Make It Yours' first step
+		refresh_quests()
 	EventBus.packs_changed.emit()
 	save_game()
 	return opening
@@ -1026,7 +1030,7 @@ func from_dict(data: Dictionary) -> bool:
 	var armory_notice: String = _migrate_armory()
 	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it. Oct 20: older saves only - a new
 	# hero is level 3 straight out of the cave, and Make It Yours is Maren's second errand now.
-	if quest_migration_pending and profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
+	if quest_migration_pending and quest_log.version < 3 and profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
 		quest_log.completed.append(QuestDefinitions.FIRST_DECK_EDIT)
 		flags["deck_edited"] = true
 	if not armory_notice.is_empty():
@@ -1121,6 +1125,7 @@ func load_game() -> bool:
 	var data: Dictionary = SaveSystem.read(save_path)
 	if data.is_empty():
 		return false
+	_steps_seen = {}
 	return from_dict(data)
 
 
@@ -2018,12 +2023,43 @@ func start_quest(quest_id: String, announce: bool = true) -> bool:
 	var quest: QuestData = QuestCatalog.find(quest_id)
 	if quest == null or not quest_log.start(quest, unlock_state()):
 		return false
+	if quest_id == QuestDefinitions.FIRST_DECK_EDIT:
+		grant_first_pack()
+	_steps_seen[quest_id] = _step_mark(quest)
 	if announce:
 		EventBus.quest_notice.emit("New quest: %s" % quest.title, true)
+		EventBus.quest_update.emit("start", quest_id, "")
 	EventBus.quest_changed.emit()
 	save_game()
 	refresh_quests()
 	return true
+
+
+## Fixes Oct 25, Part 6: Make It Yours starts with "Open a pack" - a player who has no pack and has never opened one gets a General Pack
+## (Maren's line says so). True when one was given.
+func grant_first_pack() -> bool:
+	if profile == null or flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)) or profile.total_packs() > 0:
+		return false
+	return add_pack(QuestDefinitions.FIRST_PACK_ID)
+
+
+## True while the tracked or any active Make It Yours waits on its first step (the HUD lights the Menu and its Packs entry).
+func pack_step_open() -> bool:
+	if profile == null or not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT):
+		return false
+	return not flag(StringName(QuestDefinitions.FIRST_PACK_FLAG))
+
+
+## Fixes Oct 25, Part 8: Maren has sent the hero to their own Path's zone - remember it, and track that zone's main line.
+func take_path_direction() -> void:
+	if profile == null:
+		return
+	set_flag(StringName(PathDirection.FLAG))
+	var own: String = PathDirection.own_main_quest(profile.primary_affinity)
+	if quest_log.is_active(own):
+		quest_log.track(own)
+	EventBus.quest_changed.emit()
+	save_game()
 
 
 ## Starts every auto-given quest whose prerequisite is met (town entry calls this).
@@ -2047,8 +2083,19 @@ func offer_auto_quests() -> void:
 			if QuestCatalog.find(quest_id).is_main():
 				pick = quest_id
 				break
+		# Fixes Oct 25, Part 8: the story opens on the player's own Path zone - its main line (the gatekeeper) is the one tracked
+		# (Maren's first errand still leads when it starts in the same batch)
+		var own: String = PathDirection.own_main_quest(profile.primary_affinity)
+		if started.has(own) and not started.has(QuestDefinitions.MERCHANTS):
+			pick = own
+			if tracked_before == QuestDefinitions.ARMORY or not quest_log.is_active(tracked_before):
+				tracked_before = own
 		quest_log.track(tracked_before if quest_log.is_active(tracked_before) else pick)
 		EventBus.quest_changed.emit()
+		# Fixes Oct 25, Part 7: one banner for the batch - the tracked quest, and how many more joined the log
+		var more: String = "" if started.size() == 1 else "+%d more in your Quest Log (%s)" % [started.size() - 1, Keybinds.first_key(&"open_quests")]
+		var shown: String = quest_log.tracked_id() if started.has(quest_log.tracked_id()) else pick
+		EventBus.quest_update.emit("start", shown, more)
 
 
 ## Completes any active quest whose objectives are all met and that needs no turn-in, and tells
@@ -2076,7 +2123,30 @@ func refresh_quests() -> void:
 	_refreshing_quests = false
 	if step_moved:
 		save_game()  # Overnight Oct 18, Part 3: autosave after a quest step
+	_note_step_moves()
 	EventBus.quest_changed.emit()
+
+
+## Fixes Oct 25, Part 7: the step each active quest stood at when last looked at (session only; a loaded save starts from where it is, so
+## nothing is announced on load). A quest whose step moved on gets a "Quest updated" banner.
+var _steps_seen: Dictionary = {}
+
+
+## The quest's current step index, or the objective count once every step is met (ready to hand in).
+func _step_mark(quest: QuestData) -> int:
+	var state: UnlockState = unlock_state()
+	return quest.objectives.size() if quest_log.all_objectives_met(quest, state) else quest_log.current_index(quest, state)
+
+
+func _note_step_moves() -> void:
+	for quest_id: String in quest_log.active.duplicate():
+		var quest: QuestData = QuestCatalog.find(quest_id)
+		if quest == null:
+			continue
+		var mark: int = _step_mark(quest)
+		if _steps_seen.has(quest_id) and mark > int(_steps_seen[quest_id]):
+			EventBus.quest_update.emit("step", quest_id, "")
+		_steps_seen[quest_id] = mark
 
 
 ## Completes an active quest and pays its rewards. Returns false if it was not active. A "Quest Complete" box (`RewardSummary`) is queued in
@@ -2135,6 +2205,8 @@ func complete_quest(quest_id: String) -> bool:
 	var rewards: String = quest.reward_summary()
 	var suffix: String = ("  (" + rewards + ")") if not rewards.is_empty() else ""
 	EventBus.quest_notice.emit("Quest complete: %s%s" % [quest.title, suffix], false)
+	_steps_seen.erase(quest_id)
+	EventBus.quest_update.emit("complete", quest_id, rewards)
 	EventBus.quest_changed.emit()
 	save_game()
 	# A quest handed in may finish a step of another quest (the zone lines' "finish a favour" step): settle at once.

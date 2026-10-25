@@ -22,6 +22,8 @@ func _build() -> void:
 	_list.custom_minimum_size = Vector2(1100, 0)
 	scroll.add_child(_list)
 	_refresh()
+	# Fixes Oct 25, Part 6: the onboarding tip for the first pack (Make It Yours opens with one)
+	TipPanel.show_once(self, &"tip_packs", "Opening packs", "Click [b]Open[/b] to tear a pack: its cards join your collection at once. A copy past its cap turns into essence and gold. Then put the new cards to work at the [b]Deck Station[/b].", Vector2(560, 860))
 
 
 func _refresh() -> void:

@@ -37,10 +37,19 @@ func test_a_control_can_opt_out() -> void:
 
 
 func test_quests_are_heard() -> void:
+	# Fixes Oct 25: the quest banner plays the sound; without one (tools, bare scenes) UiSounds still does.
+	var banner: QuestNoticeLayer = SceneManager.quest_notices
+	SceneManager.quest_notices = null
 	EventBus.quest_notice.emit("New quest: test", true)
 	assert_eq(Audio.history[-1], "quest_accept")
 	EventBus.quest_notice.emit("Quest complete: test", false)
 	assert_eq(Audio.history[-1], "quest_complete")
+	SceneManager.quest_notices = banner
+	if banner == null:
+		return
+	var before: int = Audio.history.size()
+	EventBus.quest_notice.emit("New quest: test", true)
+	assert_eq(Audio.history.size(), before, "with the banner up, UiSounds stays quiet (no double sound)")
 
 
 func test_speaker_voices_follow_their_kind() -> void:

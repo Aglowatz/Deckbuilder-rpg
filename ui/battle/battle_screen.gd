@@ -303,6 +303,11 @@ func _ready() -> void:
 		board.speed = 8.0
 	if _flag("force_tutorial"):
 		context.tutorial = true
+	# Fixes Oct 25, Part 5: the Dev Menu's auto-win (debug builds only) wins every battle at once through the real result; no intro, no tips
+	# (they stay unseen for a real battle later).
+	if DevActions.auto_win_enabled():
+		dev_end.call_deferred(true)
+		return
 	# Battle feel, Part D: tips show in a new player's battles until each has been seen once (or they are skipped), so the
 	# later topics (traps, Tools, the Refuse Pile) appear in whichever early battle first has them. Dev practice duels only when forced.
 	if not _flag("no_tutorial") and (_flag("force_tutorial") or (not context.practice and TutorialLayer.wanted())):

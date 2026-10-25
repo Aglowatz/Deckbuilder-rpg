@@ -24,8 +24,16 @@ const CITIZEN_TINTS: Array[Color] = [
 ]
 ## The corrupted four of the town are the same figures in their corrupted look (the freed look has no art yet).
 const CORRUPTED: Dictionary = {"beefcake": "NPC-BRONSON", "gourmand": "NPC-GRAVOIS", "refusemancer": "NPC-MULLIGAN", "necrocrat": "NPC-PALLOR"}
+## Fixes Oct 25, Part 3: heights (relative to the hero) that override the batch sheet's, which a re-import would bring back. Old Man
+## Mountain is a yeti: the sheet's 0.6 drew him smaller than the hero; 1.5 reads as big beside the hero and still fits under the gym's lintel.
+const HEIGHT_OVERRIDES: Dictionary = {"MOUNTAIN": 1.5}
 ## Meters above the top of a figure where a plate or quest marker floats.
 const LABEL_GAP: float = 0.3
+
+
+## The relative height (hero = 1.0) a character is drawn at: an override, else the manifest's `fallback`.
+static func rel_height(character: String, fallback: float) -> float:
+	return float(HEIGHT_OVERRIDES.get(character, fallback))
 
 
 ## The sprite character of a list NPC ID, "" when the NPC has no world sprite set (or the art is not imported).

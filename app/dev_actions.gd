@@ -9,6 +9,10 @@ static var pending_teleport: String = ""
 ## A scene method the next scene calls once it is revealed ("_open_arena"), "" = none.
 static var pending_call: String = ""
 
+## Fixes Oct 25, Part 5: "Auto-win all encounters" (Dev Menu, Battle tab): every battle that starts is won at once through the real result
+## (rewards, XP, quest progress, story triggers, post-battle dialogue). Session-only, never saved; read through `auto_win_enabled`.
+static var auto_win: bool = false
+
 const SNAPSHOT_DIR: String = "user://dev_saves/"
 const DECK_MINE: int = -1
 
@@ -566,6 +570,16 @@ static func make_encounter_battle(spec_id: String, deck_choice: int = DECK_MINE)
 	context.is_boss = spec.kind == EncounterSpec.Kind.BOSS
 	context.dev_battle = true
 	return context
+
+
+## True while the auto-win toggle is on - and never in a release build (the same gate as the Dev Menu itself).
+static func auto_win_enabled(force_debug: bool = OS.is_debug_build()) -> bool:
+	return auto_win and DevTools.menu_enabled(force_debug)
+
+
+static func set_auto_win(on: bool) -> String:
+	auto_win = on and DevTools.menu_enabled()
+	return "Auto-win all encounters: %s" % ("on" if auto_win else "off")
 
 
 ## In a battle: ends it now as a win or a loss (the real result panel and the real completion follow).

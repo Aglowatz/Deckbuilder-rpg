@@ -137,6 +137,8 @@ Keys: intro `cave_mouth.maren*`, `town.elder.*`, `memory.N.intro/.after/.after2/
   says the Wellspring is anything not in the bible.
 - **New lines:** "That is not a prince, dearie. That is a damp young man with good posture. Eat your pie." / "I knew. The Warden only opens
   for one family. I knew, and I was too frightened to say it."
+- **Oct 25:** after the armory quest she sends the hero to their own Path zone first (`quest.path_direction`, tokens from `PathDirection`):
+  the vendor, the buff, "The Paths quarrel, dearie", the rival debuff; "Pie is not cheap." Make It Yours opens with a pack ("Slightly sat on.").
 - **Running gags (Oct 21):** "Further questions require fieldwork"; dependable "at a speed you can barely measure"; the pie has less
   patience than the kingdom. No pie punchline over her laboratory guilt.
 
@@ -188,6 +190,8 @@ Keys: intro `equipment_vendor_*_lines`, `town.equipment_vendor.*`, `quest.armory
 - **Tics:** "Assistant TO"; the drawer nobody may touch; stamps in threes.
 - **Humor:** absolute commitment to a tiny bureaucracy of one. Must stay an original character (no imitation of any real show).
 - **Wants:** order, a promotion to Regional Merchant, the bear's continued respect.
+- **Oct 25:** the armory quest's fight: "Fact: things roam the edges of town" (the outskirts); the done line sends the hero back to Maren
+  ("Security Protocol Twelve").
 - **Never:** jokes knowingly; admits a protocol is made up; lets anyone touch the drawer.
 - **New lines:** "Security Protocol Nine: compliment the customer's boots. Your boots are adequate. Protocol complete." / "Fact: bears fear
   paperwork. I have not tested this. I am afraid to."
@@ -384,6 +388,8 @@ Keys: gainlands `npc.brenda.*` (legacy key), `quest.gain_spot_me.*`, `fx.wake`; 
   his royal behind and laughed. You laugh the same way. Where was I."
 - **Running gags (Oct 21):** the illegal shake flavour "worth remembering"; vouches for you to the rippers. The boy and the face in his
   freed festival memories stay sincere.
+- **Oct 25:** he stands at the gym hall's open front (a yeti, 1.5x the hero). Beside him the **gym attendant** (ambient, gainlands
+  `ambient.gym_attendant`, `.freed`): cheerful, overworked, no weights to re-rack until the zone is free ("House rule two: we have no weights.").
 
 ### Foreman Gus (wheel foreman; off-sheet)
 Keys: gainlands `npc.gus.*`, `quest.gain_power.*`.

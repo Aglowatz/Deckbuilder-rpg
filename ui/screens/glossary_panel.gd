@@ -6,7 +6,7 @@ extends PanelContainer
 
 signal closed
 
-const TABS: Array[String] = ["Keywords", "Resources", "Statuses", "Card types", "Rule icons", "Terms"]
+const TABS: Array[String] = ["Keywords", "Resources", "Statuses", "Card types", "Rule icons", "Zones", "Terms"]
 
 const STATUSES: Array[Array] = [
 	["Exhausted", "Spent for this turn: it attacked, used an ability or entered exhausted. It can't attack or block until it refreshes at the start of its controller's turn. Some effects make it skip one refresh."],
@@ -118,6 +118,9 @@ static func entries(index: int) -> Array[Array]:
 				result.append([entry[0], entry[1], ""])
 		"Rule icons":
 			for entry: Array in RULE_ICONS:
+				result.append([entry[0], entry[1], ""])
+		"Zones":  # Fixes Oct 25, Part 8: rival Paths and each zone's buff and debuff, with the real numbers (PathDirection)
+			for entry: Array in PathDirection.glossary_entries():
 				result.append([entry[0], entry[1], ""])
 		"Terms":
 			for term: Variant in KeywordInfo.GLOSSARY.keys():

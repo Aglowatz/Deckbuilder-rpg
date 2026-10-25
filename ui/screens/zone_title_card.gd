@@ -38,6 +38,8 @@ var title_text: String = ""
 var banner_override: String = ""
 var subtitle: String = ""
 var path: int = -1
+## Fixes Oct 25, Part 8: a Path zone's card lists its buff and debuff under the subtitle (full card only).
+var effects_zone: String = ""
 ## A later arrival: shorter and smaller.
 var brief: bool = false
 var _holder: Control
@@ -67,6 +69,8 @@ static func make(key: String) -> ZoneTitleCard:
 	card.subtitle = str(SUBTITLES.get(key, ""))
 	card.path = int(AREA_PATHS.get(key, -1))
 	card.brief = was_seen(key)
+	if card.path >= 0:
+		card.effects_zone = PathDirection.zone_of(card.path as Affinity.Type)
 	return card
 
 
@@ -255,6 +259,19 @@ func _flourish(banner_height: float) -> Control:
 	line.add_theme_constant_override("outline_size", 6)
 	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_child(line)
+	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(effects_zone) if not effects_zone.is_empty() and not brief else null
+	if effect != null:
+		backing.position.x = BANNER_WIDTH * 0.18
+		backing.size.x = BANNER_WIDTH * 0.64
+		for entry: Array in [["▲ " + effect.buff_line(), UIStyle.GOOD], ["▼ " + effect.debuff_line(), Color(1.0, 0.55, 0.45)]]:
+			var rule: Label = UIKit.label(str(entry[0]), &"", 17, entry[1] as Color, HORIZONTAL_ALIGNMENT_CENTER)
+			rule.name = "ZoneBuff" if box.get_child_count() == 2 else "ZoneDebuff"
+			rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			rule.custom_minimum_size = Vector2(BANNER_WIDTH * 0.64 - 40.0, 0)
+			rule.add_theme_color_override("font_outline_color", Color(0.08, 0.03, 0.03, 0.95))
+			rule.add_theme_constant_override("outline_size", 5)
+			rule.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			box.add_child(rule)
 	return backing
 
 

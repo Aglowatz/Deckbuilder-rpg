@@ -413,7 +413,7 @@ turns"; sheet: Old Hob starts it).
 **Core lesson:** they took everything they thought made him strong, and missed the part that mattered.
 
 **The zone** (`beefcake`, walkable): a sandstone plateau over a gorge, entered by the lowered bridge. Hub: the Swole Station (Old Man
-Mountain, Coach Benchley's shop, the Cooldown Hot Tub heal, the protein stand, Flex Mirrors, the Rift Express). Mills and the Colossal
+Mountain, a yeti half again the hero's height, standing at the gym hall's open front since Oct 25, with a gym attendant at the door; Coach Benchley's shop, the Cooldown Hot Tub heal, the protein stand, Flex Mirrors, the Rift Express). Mills and the Colossal
 Hamster Wheel, power lines, floating islands reached by Throwers (Big Hurl) and portal rippers (Delt Deck, Calf Cove, Pec Perch, Glute
 islands). The House of Gains, a fortress-gym, beyond the north rim; Mount Swolympus's trailhead gate (locked: "coming soon", postgame); the
 Iron Cave (S-IRON). The comedy is gym-bro; underneath, people are exhausted. Regime posters; the flag is a barbell with a red line through it.

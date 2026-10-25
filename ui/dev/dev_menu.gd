@@ -22,6 +22,7 @@ var show_fps: bool = false
 var time_scale: float = 1.0
 var hud_hidden: bool = false
 var _fps_label: Label
+var _auto_win_badge: Label
 var _fps_time: float = 0.0
 var _fps_frames: int = 0
 var _hidden_layers: Array[CanvasLayer] = []
@@ -94,7 +95,22 @@ func _ready() -> void:
 	_fps_label.position = Vector2(12, 1040)
 	_fps_label.visible = false
 	add_child(_fps_label)
+	# Fixes Oct 25, Part 5: a small badge at the top of the screen while auto-win is on (every scene: this layer sits on top of all HUDs)
+	_auto_win_badge = UIKit.label("AUTO-WIN", &"", 18, Color(1.0, 0.42, 0.32), HORIZONTAL_ALIGNMENT_CENTER)
+	_auto_win_badge.name = "DevAutoWinBadge"
+	_auto_win_badge.add_theme_color_override(&"font_outline_color", Color(0.05, 0.02, 0.02))
+	_auto_win_badge.add_theme_constant_override(&"outline_size", 6)
+	_auto_win_badge.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	_auto_win_badge.offset_top = 6.0
+	_auto_win_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_auto_win_badge)
+	_refresh_auto_win_badge()
 	SceneManager.revealed.connect(_on_scene_revealed)
+
+
+func _refresh_auto_win_badge() -> void:
+	if _auto_win_badge != null:
+		_auto_win_badge.visible = DevActions.auto_win_enabled()
 
 
 func is_open() -> bool:
@@ -106,6 +122,11 @@ func _input(event: InputEvent) -> void:
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_F10:
 		toggle()
 		get_viewport().set_input_as_handled()
+	elif key != null and key.pressed and not key.echo and key.keycode == KEY_W and key.ctrl_pressed and key.shift_pressed:
+		# Fixes Oct 25, Part 5: Ctrl+Shift+W wins the current battle at once (the real result follows)
+		if _battle() != null:
+			toast(DevActions.end_battle(_battle(), true))
+			get_viewport().set_input_as_handled()
 	elif is_open() and key != null and key.pressed and key.keycode == KEY_ESCAPE:
 		close_menu()
 		get_viewport().set_input_as_handled()
@@ -406,6 +427,11 @@ func _build_progress() -> void:
 
 func _build_battle() -> void:
 	var battle: BattleScreen = _battle()
+	var auto_row: HBoxContainer = _row("Every battle")
+	_check(auto_row, "Auto-win all encounters", DevActions.auto_win, func(on: bool) -> void:
+		toast(DevActions.set_auto_win(on))
+		_refresh_auto_win_badge())
+	auto_row.add_child(UIKit.label("Ctrl+Shift+W wins the current battle", &"", 17, UIStyle.MUTED))
 	var live: HBoxContainer = _row("This battle")
 	_button(live, "Win now", func() -> String: return DevActions.end_battle(_battle(), true), true, battle != null)
 	_button(live, "Lose now", func() -> String: return DevActions.end_battle(_battle(), false), true, battle != null)

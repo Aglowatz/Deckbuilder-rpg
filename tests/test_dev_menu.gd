@@ -130,3 +130,26 @@ func test_snapshots_save_and_list() -> void:
 	assert_eq(int((data.get("profile", data) as Dictionary).size() > 0), 1)
 	DevActions.delete_snapshot("gut test snapshot")
 	assert_false(DevActions.snapshots().has("gut_test_snapshot"))
+
+
+## Fixes Oct 25, Part 5: the auto-win toggle wins a battle at once through the real result, and never exists in a release build.
+func test_auto_win_is_debug_only() -> void:
+	DevActions.set_auto_win(true)
+	assert_true(DevActions.auto_win_enabled(true), "debug build: on")
+	assert_false(DevActions.auto_win_enabled(false), "release build: never on, whatever the toggle says")
+	DevActions.set_auto_win(false)
+	assert_false(DevActions.auto_win_enabled(true))
+
+
+func test_auto_win_ends_a_battle_as_a_win() -> void:
+	var specs: Array[EncounterSpec] = DevActions.find_encounters("tutorial", 1)
+	assert_false(specs.is_empty())
+	Session.pending_battle = DevActions.make_encounter_battle(specs[0].id, DevActions.DECK_MINE)
+	var game: GameState = Session.pending_battle.game
+	DevActions.set_auto_win(true)
+	var screen: Node = (load("res://scenes/battle.tscn") as PackedScene).instantiate()
+	add_child_autofree(screen)
+	await wait_process_frames(4)
+	DevActions.set_auto_win(false)
+	assert_true(game.is_over(), "the battle ended at once")
+	assert_eq(game.winner, 0, "as a win for the hero")

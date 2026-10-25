@@ -472,7 +472,8 @@ func _anchors() -> void:
 	_at("flex_mirror", 43.0, 83.0)
 	_at("heal", 68.0, 76.5)
 	_at("tony", 69.0, 71.0)
-	_at("brenda", 44.0, 69.0)
+	_at("brenda", 56.0, 68.4)  # Fixes Oct 25, Part 2: Old Man Mountain stands right in front of the gym hall's open front (was the left road's start, 44, 69)
+	_at("gym_attendant", 61.9, 68.0)  # the gym attendant beside the east pillars
 	_at("station", 56.0, 71.5)  # the gym hall's open front (Part C)
 	# Left lands: the mill lands (tall windmills, the Hero Wheel, Professor Pump's lecture log), the Iron Cave in the north-west cliff, the Champions Arch and
 	# the Pump Shrine on the north rim, the throwers west and north.

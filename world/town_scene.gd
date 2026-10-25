@@ -992,7 +992,7 @@ func _build_ui() -> void:
 	host.add_child(minimap)
 	minimap.setup("town", town, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
-	quest_markers = QuestMarkerLayer.install(self, "town", _camera, func(spot_id: String) -> Dictionary: return QuestMarkerLayer.resolve_in(spots, spot_id), host)
+	quest_markers = QuestMarkerLayer.install(self, "town", _camera, _resolve_quest_spot, host)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -1377,12 +1377,18 @@ func _talk_elder() -> void:
 		var lines: Array[String] = DungeonCatalog.text_lines("quest.%s.ready" % finished_quest.id)
 		var next_id: String = str(CHAIN_NEXT.get(finished_quest.id, ""))
 		if not next_id.is_empty() and not Session.quest_log.is_active(next_id) and not Session.quest_log.is_completed(next_id):
-			lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % next_id))
+			lines.append_array(_chain_offer_lines(next_id))
 		_talk_npc("elder", elder, lines)
 		dialogue.finished.connect(func() -> void:
 			Session.turn_in_quest(finished_quest.id)
 			if not next_id.is_empty():
 				Session.start_quest(next_id), CONNECT_ONE_SHOT)
+		return
+	# Fixes Oct 25, Part 8: the armory quest done, Maren sends the hero to their own Path's zone first (its vendor, its buff, the rival's
+	# debuff) and that zone's line becomes the tracked quest.
+	if Session.profile != null and PathDirection.due(Session.quest_log, Session.flags, Session.profile.primary_affinity):
+		_talk_npc("elder", elder, PathDirection.lines(Session.profile.primary_affinity))
+		dialogue.finished.connect(Session.take_path_direction, CONNECT_ONE_SHOT)
 		return
 	var offered: Array[QuestData] = Session.quests_offered_by(elder)
 	var chain_offer: Array[QuestData] = []
@@ -1394,16 +1400,29 @@ func _talk_elder() -> void:
 	if not chain_offer.is_empty() or not offered.is_empty():
 		var offer: QuestData = chain_offer[0] if not chain_offer.is_empty() else offered[0]
 		var offer_lines: Array[String] = [] as Array[String] if not chain_offer.is_empty() else _elder_lines()
-		offer_lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % offer.id))
+		offer_lines.append_array(_chain_offer_lines(offer.id))
 		_talk_npc("elder", elder, offer_lines)
 		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
 		return
 	for quest_id: String in Session.quest_log.active:
 		var active_quest: QuestData = QuestCatalog.find(quest_id)
 		if active_quest != null and active_quest.giver_npc == elder and not DungeonCatalog.text_lines("quest.%s.active" % quest_id).is_empty():
-			_talk_npc("elder", elder, DungeonCatalog.text_lines("quest.%s.active" % quest_id) as Array[String])
+			var active_key: String = "quest.%s.active" % quest_id
+			if quest_id == QuestDefinitions.FIRST_DECK_EDIT and Session.pack_step_open():
+				active_key = "quest.first_deck_edit.active_pack"
+			_talk_npc("elder", elder, DungeonCatalog.text_lines(active_key) as Array[String])
 			return
 	_talk_npc("elder", elder, _elder_lines())
+
+
+## Maren's offer of a chain errand. Fixes Oct 25, Part 6: Make It Yours opens with a pack - with none in the bag she hands one over
+## (`Session.grant_first_pack` gives it when the quest starts).
+func _chain_offer_lines(quest_id: String) -> Array[String]:
+	var lines: Array[String] = []
+	lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % quest_id))
+	if quest_id == QuestDefinitions.FIRST_DECK_EDIT and Session.profile != null and Session.profile.total_packs() == 0 and not Session.flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)):
+		lines.append_array(DungeonCatalog.text_lines("quest.first_deck_edit.offer_pack"))
+	return lines
 
 
 ## Oct 20, Part 4: the early-game chain - handing one errand back to Maren gives the next in the same conversation.
@@ -1488,6 +1507,30 @@ func _build_enemies() -> void:
 		enemy.cooldown = 2.0
 		enemy.touched.connect(_on_roamer_touched)
 		enemies.append(enemy)
+
+
+## The quest markers' spot lookup: the town's spots, plus `QuestDefinitions.OUTSKIRTS_SPOT` (Fixes Oct 25, Part 4).
+func _resolve_quest_spot(spot_id: String) -> Dictionary:
+	if spot_id == QuestDefinitions.OUTSKIRTS_SPOT:
+		return _outskirts_spot()
+	return QuestMarkerLayer.resolve_in(spots, spot_id)
+
+
+## Where the armory quest's "win one fight" step points: the home of the outskirts roamer nearest Beetsworth's smithy (a fixed point on the
+## lanes, so the marker does not chase a walking enemy). {} when the town has no roamers.
+func _outskirts_spot() -> Dictionary:
+	if _enemy_map == null:
+		return {}
+	var smithy: Dictionary = QuestMarkerLayer.resolve_in(spots, "equipment_vendor")
+	var from: Vector3 = smithy["pos"] as Vector3 if not smithy.is_empty() else Vector3.ZERO
+	var best: Vector3 = Vector3.INF
+	for spawn: Dictionary in _enemy_map.enemy_spawns():
+		var home: Vector3 = spawn["home"] as Vector3
+		if best == Vector3.INF or home.distance_squared_to(from) < best.distance_squared_to(from):
+			best = home
+	if best == Vector3.INF:
+		return {}
+	return {"pos": best, "top": 1.6}
 
 
 ## The closest patch of outskirts ground to `home` (a spawn point that landed on a prop after a layout change).
@@ -2125,8 +2168,9 @@ func _open_quest_log() -> void:
 
 
 func _on_quest_notice(text: String, is_new: bool) -> void:
-	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast.
-	if is_new:
+	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast. Fixes Oct 25, Part 7: the quest
+	# update banner (`QuestNoticeLayer`) announces new quests now; the toast stays only where no banner layer exists (tools).
+	if is_new and SceneManager.quest_notices == null:
 		hud.queue_toast(text, UIStyle.GOLD)
 
 

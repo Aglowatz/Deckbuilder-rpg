@@ -18,6 +18,12 @@ var _prompt_label: Label
 var _toast: Label
 var _toast_tween: Tween
 var _gold_panel: PanelContainer
+## Fixes Oct 25, Part 6: the Menu button and its Packs entry glow while Make It Yours waits for a pack to be opened.
+var _packs_item: FancyButton
+var _packs_hint: bool = false
+var _hint_badge: Label
+var _item_badge: Label
+var _hint_time: float = 0.0
 
 ## HUD panels take this much of the UI scale (the minimap above them takes the same), so the right column stays tidy at 150 percent.
 const HUD_SCALE_STRENGTH: float = 0.55
@@ -65,6 +71,8 @@ func _ready() -> void:
 			close_menu()
 			signal_ref.emit())
 		menu_column.add_child(item)
+		if signal_ref == packs_pressed:
+			_packs_item = item
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -93,6 +101,63 @@ func _ready() -> void:
 	_gold_panel = gold_panel
 	Settings.ui_scale_changed.connect(_stack_right_column)
 	_stack_right_column()
+	EventBus.quest_changed.connect(_sync_packs_hint)
+	EventBus.packs_changed.connect(_sync_packs_hint)
+	_sync_packs_hint()
+
+
+func _sync_packs_hint() -> void:
+	set_packs_hint(Session.pack_step_open())
+
+
+## Fixes Oct 25, Part 6: lights the way to the packs (a pulsing Menu button with a "!", and the Packs entry once the menu is open).
+func set_packs_hint(on: bool) -> void:
+	if on == _packs_hint:
+		return
+	_packs_hint = on
+	if on and _hint_badge == null:
+		_hint_badge = _make_hint_badge("PacksHintBadge", Vector2(-34, -6))
+		_menu_button.add_child(_hint_badge)
+		if _packs_item != null:
+			_item_badge = _make_hint_badge("PacksItemBadge", Vector2(-30, -4))
+			_packs_item.add_child(_item_badge)
+	for badge: Label in [_hint_badge, _item_badge]:
+		if badge != null:
+			badge.visible = on
+	if not on:
+		_menu_button.modulate = Color.WHITE
+		if _packs_item != null:
+			_packs_item.modulate = Color.WHITE
+
+
+func _make_hint_badge(badge_name: String, at: Vector2) -> Label:
+	var badge: Label = UIKit.label("!", &"", 44, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	badge.name = badge_name
+	badge.add_theme_font_override("font", UIStyle.font_bold())
+	badge.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+	badge.add_theme_constant_override("outline_size", 10)
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.position = at
+	badge.pivot_offset = Vector2(12, 28)
+	return badge
+
+
+func packs_hint_shown() -> bool:
+	return _packs_hint
+
+
+func _pulse_packs_hint(delta: float) -> void:
+	if not _packs_hint:
+		return
+	_hint_time += delta
+	var glow: float = 0.5 + 0.5 * sin(_hint_time * 4.0)
+	var lit: Color = Color(1.0 + 0.6 * glow, 1.0 + 0.45 * glow, 1.0 - 0.3 * glow)
+	_menu_button.modulate = lit
+	if _packs_item != null:
+		_packs_item.modulate = lit
+	for badge: Label in [_hint_badge, _item_badge]:
+		if badge != null:
+			badge.scale = Vector2.ONE * (1.0 + 0.2 * glow)
 
 
 func set_gold(amount: int) -> void:
@@ -152,6 +217,7 @@ func queue_toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:
 
 
 func _process(delta: float) -> void:
+	_pulse_packs_hint(delta)
 	_queue_timer -= delta
 	if _queue_timer <= 0.0 and not _queue.is_empty():
 		var entry: Array = _queue.pop_front()

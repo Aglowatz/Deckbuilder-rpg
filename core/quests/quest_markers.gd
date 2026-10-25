@@ -42,6 +42,8 @@ static func objective_target(area: String, qlog: QuestLog, state: UnlockState) -
 		return {}
 	if objective.target_area == area:
 		return {"spot": objective.target_id, "quest": quest.id, "index": index, "via": false}
+	if objective.target_id == QuestDefinitions.OUTSKIRTS_SPOT:
+		return {}  # Fixes Oct 25: "win one fight" points at the outskirts in town only - a fight anywhere else counts just the same
 	return _via(area, objective.target_area, quest.id, index)
 
 

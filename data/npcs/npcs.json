@@ -725,8 +725,8 @@
 		"sprite_status": "Needed",
 		"world_sprite_status": "OK",
 		"art_check": "OK",
-		"rel_height": 0.6,
-		"notes": "Species: yeti."
+		"rel_height": 1.5,
+		"notes": "Species: yeti. Fixes Oct 25: drawn 1.5x the hero (NpcSprites.HEIGHT_OVERRIDES; the batch sheet still says 0.6)."
 	},
 	{
 		"id": "V-LEDGERBONE",

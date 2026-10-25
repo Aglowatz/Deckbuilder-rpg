@@ -20,6 +20,9 @@ signal cosmetics_changed
 signal quest_changed
 ## A quest toast: text, and true when it is a "new quest" (false = completed).
 signal quest_notice(text: String, is_new: bool)
+## Fixes Oct 25, Part 7: a quest started ("start"), a step was done ("step") or a quest finished ("complete") - the quest update banner
+## (`QuestNoticeLayer`). `detail`: the reward line for "complete", an extra note for the others ("" = none).
+signal quest_update(kind: String, quest_id: String, detail: String)
 ## A spare copy of a card was converted (Part F): the message to show, essence by Path ({Affinity.Type: amount})
 ## and gold gained (one of the two is empty/0).
 signal essence_converted(message: String, essence: Dictionary, gold: int)

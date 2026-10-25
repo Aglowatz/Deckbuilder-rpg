@@ -6,6 +6,8 @@ extends PanelContainer
 ## Click the name to fold it to a single line. Redraws on `EventBus.quest_changed`.
 
 static var collapsed: bool = false
+## The scene's tracker (the quest update banner sits beside it).
+const GROUP: StringName = &"quest_tracker"
 
 ## Longest checklist shown at once (a longer one shows a window round the current step).
 const MAX_ROWS: int = 5
@@ -69,7 +71,15 @@ func _ready() -> void:
 	_switcher.add_child(_count)
 	_switcher.add_child(_arrow("▸", 1, &"quest_next"))
 	EventBus.quest_changed.connect(refresh)
+	add_to_group(GROUP)
 	refresh()
+
+
+## Fixes Oct 25, Part 7: a brief glow when the quest update banner beside it appears.
+func flash(color: Color = UIStyle.GOLD) -> void:
+	var tween: Tween = create_tween()
+	self_modulate = Color(1.0 + color.r * 0.6, 1.0 + color.g * 0.6, 1.0 + color.b * 0.6)
+	tween.tween_property(self, "self_modulate", Color.WHITE, 0.9).set_trans(Tween.TRANS_SINE)
 
 
 func _arrow(glyph: String, step: int, action: StringName) -> Button:
@@ -185,7 +195,7 @@ func refresh() -> void:
 			_body.add_child(_row("○", text, Color(UIStyle.PARCHMENT, 0.55), false))
 	if qlog.hidden_steps(quest, state) > 0:
 		_body.add_child(_row("…", QuestLog.HIDDEN_STEPS_TEXT, Color(UIStyle.PARCHMENT, 0.5), false))
-	if current < quest.objectives.size():
+	if current < quest.objectives.size() and quest.objectives[current].target_id != QuestDefinitions.OUTSKIRTS_SPOT:
 		var elsewhere: String = elsewhere_hint(quest.objectives[current].target_area, SceneManager.current_area)
 		if not elsewhere.is_empty():
 			_body.add_child(_row("➜", elsewhere, Color(UIStyle.GOLD, 0.8), false))

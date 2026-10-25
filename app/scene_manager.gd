@@ -11,6 +11,8 @@ var _fade: ColorRect
 var _pause_menu: PauseMenu
 ## The Dev Menu (debug builds only; null in a release build).
 var dev_menu: DevMenu
+## The quest update banner layer (`QuestNoticeLayer`).
+var quest_notices: QuestNoticeLayer
 ## The area scene the player is in (`Areas` key; "" on the title): loading screens and zone title cards show when the destination is a different area.
 var current_area: String = ""
 ## The area before the current one (the title counts as ""): a scene shows its zone title card when this differs from its own area.
@@ -82,6 +84,8 @@ func _ready() -> void:
 	get_tree().root.add_child.call_deferred(_pause_menu)
 	# Oct 20: the Dev Menu (F10) exists in debug builds only (`DevTools.menu_enabled`); a release export never builds one.
 	dev_menu = DevMenu.install(get_tree())
+	# Fixes Oct 25, Part 7: the quest update banner, in every scene
+	quest_notices = QuestNoticeLayer.install(get_tree())
 
 
 ## Overnight Oct 20: F8 is taken before the GUI (a focused control or a full-screen blocker can never swallow it); Esc during a

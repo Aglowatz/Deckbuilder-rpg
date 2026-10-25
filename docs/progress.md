@@ -3598,3 +3598,21 @@ on the too-easy bosses and elites, the Spotless wall and Primm's gauntlet (Elite
 through the replays. Log: `docs/design/balance_log.md` "Oct 23"; state and tables: `docs/design/ai_state.md`.
 Part 6 - Checks: GUT 2190 passing (1 pending), first-battles smoke OK, story playthrough bot 90/90, dungeons smoke 48 ok + 1 pre-existing world check (the Swolympus toast), replays
 per Path reviewed. Not exported.
+
+## Oct 25 - Fixes (gatekeeper picks, gym hall, Mountain, outskirts hint, auto-win, pack step, quest banner, Path direction)
+Part 1 - A gatekeeper's reward card pick offers only that gatekeeper's pure Path cards (`RewardPicks.choose(..., only_path)`,
+`Session.gatekeeper_pick_path`), copy caps and progress respected.
+Part 2 - Gainlands: Old Man Mountain (the zone's quest giver) stands in the Swole Station's open front; a gym attendant works by the east
+pillars with passing lines (`ambient.gym_attendant`, `.freed`); entries with `"lines"` register them, `"blocker"` sizes the blocker.
+Part 3 - Old Man Mountain 1.5x the hero (`NpcSprites.HEIGHT_OVERRIDES`, npcs.json rel_height), label and talk spot follow.
+Part 4 - Beetsworth: enemies roam the edges of town, any win counts; the step's marker points at the outskirts roamer nearest his smithy.
+Part 5 - Dev auto-win: Dev Menu "Auto-win all encounters", Ctrl+Shift+W, AUTO-WIN badge; `DevActions.auto_win_enabled` is false in release.
+Part 6 - "Open a pack" is Make It Yours' first step (`first_pack_opened`); Maren gives a General Pack only to a hero with none; the Menu
+and its Packs entry show a pulsing "!"; Packs tip; quest log v4 migration skips the step for saves on or past the quest.
+Part 7 - `QuestNoticeLayer` (CanvasLayer 85): New quest / Quest updated / Quest complete banners beside the tracker, queued, sound,
+tracker flash, waits out battles, scene changes and pauses; `EventBus.quest_update`.
+Part 8 - After the armory quest the player's own Path zone line is tracked and Maren explains its vendor, buff, the rivalries and the
+rival's debuff from `ZoneEffects` (`PathDirection`, `quest.path_direction`); Glossary "Zones" tab; Path zone title cards list buff/debuff.
+Fixed on the way: the v4 bump would have fast-forwarded v3 saves mid-chain (legacy flag, load-time deck quest) - now v<3 only.
+Part 9 - GUT full suite, playtest smoke (normal + PLAYTEST_AUTOWIN=1), prologue, quest, first-battles, Gainlands walk smokes OK.
+Screenshots: `_screenshots/oct25/`. Not exported.

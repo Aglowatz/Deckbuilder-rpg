@@ -67,4 +67,6 @@ func _on_slider(slider: Slider) -> void:
 
 
 func _on_quest_notice(_text: String, is_new: bool) -> void:
+	if SceneManager.quest_notices != null:
+		return  # Fixes Oct 25, Part 7: the quest update banner plays these as it shows
 	Audio.sfx(&"quest_accept" if is_new else &"quest_complete")

@@ -125,7 +125,7 @@ func _load_character(character_id: String) -> bool:
 		_walk_dirs.append(str(dir_name))
 	var canvas: Array = _info["canvas"] as Array
 	var fig_h: float = float(_info["fig_h"])
-	world_height = float(_info["rel_height"]) * PLAYER_HEIGHT
+	world_height = NpcSprites.rel_height(character_id, float(_info["rel_height"])) * PLAYER_HEIGHT
 	_px_to_world = world_height / fig_h
 	_canvas_px = Vector2(float(canvas[0]), float(canvas[1]))
 	_canvas_world = _canvas_px * _px_to_world

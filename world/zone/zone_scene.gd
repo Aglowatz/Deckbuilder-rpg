@@ -448,8 +448,10 @@ func _build_npcs() -> void:
 		_npcs[str(entry["id"])] = npc
 		if not str(entry.get("npc_id", "")).is_empty():
 			npc_barks.register(npc, str(entry["npc_id"]))
+		elif entry.has("lines") and story != null:  # Fixes Oct 25: an ambient worker's passing lines from the zone's story file
+			npc_barks.register_lines(npc, str(entry["id"]), story.get_lines(str(entry["lines"])))
 		if not (npc is SpriteStroller):
-			builder.add_blocker(pos, 0.3)
+			builder.add_blocker(pos, float(entry.get("blocker", 0.3)))
 
 
 ## One NPC of a zone entry: a painted sprite when its list NPC has a sprite set (`NpcSprites`; `wander` entries with a walking set stroll about their anchor), else the tinted
@@ -479,6 +481,8 @@ func _make_npc(entry: Dictionary, pos: Vector3, anim_name: String) -> Node3D:
 	ModelKit.tint(npc, entry["tint"] as Color)
 	ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
 	var animation: AnimationPlayer = ModelKit.animation_player(npc)
+	if animation != null and not animation.has_animation(anim_name):
+		anim_name = "Idle"
 	if animation != null and animation.has_animation(anim_name):
 		animation.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
 		animation.play(anim_name)
@@ -1632,8 +1636,8 @@ func _open_quest_log() -> void:
 
 
 func _on_quest_notice(text: String, is_new: bool) -> void:
-	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast.
-	if is_new:
+	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast (Fixes Oct 25: the banner does it now).
+	if is_new and SceneManager.quest_notices == null:
 		hud.queue_toast(text, UIStyle.GOLD)
 
 
@@ -1667,6 +1671,12 @@ func _teleport(anchor_name: String) -> void:
 		pos = builder.anchor(anchor_name) + Vector3(0.0, 0.0, 1.0)
 		player.position = pos
 		player.position.y = builder.height_at(pos)
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 12.0
+		return
+	if anchor_name.begins_with("beside:") and builder.has_anchor(anchor_name.trim_prefix("beside:")):  # Fixes Oct 25 shots: the hero beside an NPC, not in front
+		player.position = builder.anchor(anchor_name.trim_prefix("beside:")) + Vector3(1.5, 0.0, 0.9)
+		player.position.y = builder.height_at(player.position)
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 12.0
 		return

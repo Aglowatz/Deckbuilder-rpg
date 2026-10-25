@@ -51,6 +51,9 @@ func test_the_first_deck_edit_quest_comes_from_maren_after_the_merchants_and_end
 	Session.quest_log.active.erase(QuestDefinitions.MERCHANTS)
 	Session.quest_log.completed.append(QuestDefinitions.MERCHANTS)
 	assert_true(Session.start_quest(QuestDefinitions.FIRST_DECK_EDIT), "Maren gives it once Meet the Merchants is handed in")
+	if Session.pack_count(QuestDefinitions.FIRST_PACK_ID) == 0:
+		Session.add_pack(QuestDefinitions.FIRST_PACK_ID)
+	assert_not_null(Session.open_pack(QuestDefinitions.FIRST_PACK_ID), "Fixes Oct 25: the quest opens with a pack (one is given)")
 	Session.save_deck_to_slot(0, Session.deck, "Main")
 	assert_true(Session.quest_log.is_ready_to_turn_in(QuestCatalog.find(QuestDefinitions.FIRST_DECK_EDIT), Session.unlock_state()), "saved: hand it back to Maren")
 	assert_true(Session.turn_in_quest(QuestDefinitions.FIRST_DECK_EDIT))

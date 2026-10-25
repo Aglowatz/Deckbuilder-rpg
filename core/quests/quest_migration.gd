@@ -21,11 +21,13 @@ const STORY_QUESTS: Array[String] = [
 static func migrate(qlog: QuestLog, catalog: Array[QuestData], flags: Dictionary, state: UnlockState) -> void:
 	if qlog.version >= QuestLog.VERSION:
 		return
-	if is_past_early_chain(qlog, flags):
+	if qlog.version < 3 and is_past_early_chain(qlog, flags):  # (only saves from before the chain; a version-3 save is already in it)
 		flags[QuestDefinitions.LEGACY_FLAG] = true
 		state.flags[QuestDefinitions.LEGACY_FLAG] = true
 	if qlog.version < 2:
 		_migrate_v1(qlog, catalog, flags, state)
+	if qlog.version < 4:
+		_migrate_v3(qlog, flags, state)
 	for quest: QuestData in catalog:
 		if qlog.is_active(quest.id):
 			qlog.progress_seen[quest.id] = qlog.progress_value(quest, state)
@@ -40,6 +42,15 @@ static func is_past_early_chain(qlog: QuestLog, flags: Dictionary) -> bool:
 		if qlog.is_active(quest_id) or qlog.is_completed(quest_id):
 			return true
 	return false
+
+
+## Fixes Oct 25, Part 6 (version 3 -> 4): Make It Yours gained a first step, "Open a pack". A save already on that quest, past it, or past
+## the whole chain has the step settled, so nobody is sent back to it (and a finished deck edit stays ready to hand in).
+static func _migrate_v3(qlog: QuestLog, flags: Dictionary, state: UnlockState) -> void:
+	var quest_id: String = QuestDefinitions.FIRST_DECK_EDIT
+	if qlog.is_active(quest_id) or qlog.is_completed(quest_id) or bool(flags.get(QuestDefinitions.LEGACY_FLAG, false)):
+		flags[QuestDefinitions.FIRST_PACK_FLAG] = true
+		state.flags[QuestDefinitions.FIRST_PACK_FLAG] = true
 
 
 static func _migrate_v1(qlog: QuestLog, catalog: Array[QuestData], flags: Dictionary, state: UnlockState) -> void:

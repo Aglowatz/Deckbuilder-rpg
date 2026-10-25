@@ -10,6 +10,8 @@ const TIME_LIMIT_SECONDS: float = 60.0
 
 var driver: UiDriver
 var _failures: PackedStringArray = []
+## Fixes Oct 25, Part 9: PLAYTEST_AUTOWIN=1 runs the opening hour with the Dev Menu's auto-win on (every battle won at once through the real result).
+var _auto_win: bool = OS.get_environment("PLAYTEST_AUTOWIN") == "1"
 
 
 func run() -> void:
@@ -19,6 +21,10 @@ func run() -> void:
 	Session.new_game()
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
+	if _auto_win:
+		DevActions.set_auto_win(true)
+		SceneManager.dev_menu._refresh_auto_win_badge()
+		_check(DevActions.auto_win_enabled() and SceneManager.dev_menu._auto_win_badge.visible, "auto-win is on, with its AUTO-WIN badge")
 	var scene: StartingAreaScene = await _wait_for(StartingAreaScene) as StartingAreaScene
 	if scene == null:
 		_finish(false, "starting area never loaded")
@@ -116,6 +122,39 @@ func run() -> void:
 	await _dismiss_popups()
 	_check(Session.quest_log.is_completed(QuestDefinitions.MERCHANTS), "Maren takes Meet the Merchants back")
 	_check(Session.quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT), "and gives Make It Yours in the same talk")
+	# Fixes Oct 25, Parts 6-7: the quest update banner, then the pack step - a pack given, the Menu and its Packs entry glowing, a pack opened.
+	await driver.seconds(0.6)
+	var notices: QuestNoticeLayer = SceneManager.quest_notices
+	_check(notices != null and (not notices.current.is_empty() or notices.queued() > 0), "a quest update banner for Make It Yours")
+	# Meet the Merchants' "complete" banner plays first; Make It Yours' "start" follows it.
+	for _guard: int in range(40):
+		if notices == null or str(notices.current.get("quest", "")) == QuestDefinitions.FIRST_DECK_EDIT:
+			break
+		await driver.seconds(0.25)
+	if notices != null and not notices.current.is_empty():
+		_check(str(notices.current["line"]).contains("Open a pack"), "the banner names the new objective (%s)" % str(notices.current["line"]))
+		await _shot25("quest_update_popup")
+	# The Merchants level-up may already have given a Path pack; Maren gives a General Pack only to a hero with none.
+	_check(Session.profile.total_packs() >= 1, "the hero has a pack to open (%d)" % Session.profile.total_packs())
+	_check(town.hud.packs_hint_shown(), "the Menu button glows for the pack step")
+	town.hud.toggle_menu()
+	await driver.seconds(0.5)
+	await _shot25("pack_step_marker")
+	town.hud.close_menu()
+	town._open_packs()
+	await driver.seconds(0.8)
+	var open_button: Button = get_tree().root.find_child("Open_*", true, false) as Button
+	_check(open_button != null, "the Packs screen lists the pack")
+	if open_button != null:
+		await driver.click(driver.center_of_control(open_button))
+		await driver.seconds(1.0)
+	for _guard: int in range(10):
+		if get_tree().root.find_children("*", "PackOpeningScreen", true, false).is_empty():
+			break
+		await driver.tap_key(KEY_ESCAPE)
+		await driver.seconds(0.5)
+	await _close_overlays(town)
+	_check(Session.flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)) and not town.hud.packs_hint_shown(), "opening the pack completes the step and the glow goes")
 	# 6. Make It Yours: the Deck Station, a deck opened from a rack slot, the deck saved to a slot; back to Maren.
 	await _deck_station(town)
 	Session.save_deck_to_slot(0, Session.deck, "Main")
@@ -163,6 +202,11 @@ func run() -> void:
 	# 9. The armory: report to Bertram, win a fight (an outskirts roamer), collect the gear.
 	await _talk(town, "equipment_vendor")
 	_check(Session.armory_stage() == 2, "after the report Bertram wants one fight")
+	# Fixes Oct 25, Part 4: he points at the outskirts, and the step's marker does too
+	_check(" ".join(StoryText.shared().get_lines("quest.armory.start")).contains("edges of town"), "Bertram says enemies roam the edges of town")
+	Session.quest_log.track(QuestDefinitions.ARMORY)
+	var target: Dictionary = QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state())
+	_check(str(target.get("spot", "")) == QuestDefinitions.OUTSKIRTS_SPOT and not town._outskirts_spot().is_empty(), "the 'win one fight' marker points at the outskirts")
 	var roamer: ZoneEnemy = town.enemies[0]
 	town.player.position = roamer.position + Vector3(0.3, 0.0, 0.0)
 	await driver.seconds(1.5)
@@ -187,6 +231,15 @@ func run() -> void:
 	for zone_id: String in Gatekeepers.IDS:
 		_check(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's main line appears after the armory quest" % zone_id)
 	_check(not Session.quests_offered_by(QuestDefinitions.BRANNOCH).is_empty(), "Brannoch now offers the Capital's quest")
+	# Fixes Oct 25, Part 8: the hero's own Path zone first - its gatekeeper quest is tracked, and Maren explains why
+	var own: String = PathDirection.own_main_quest(Session.profile.primary_affinity)
+	_check(Session.quest_log.tracked_id() == own, "the own Path's gatekeeper quest is tracked (%s)" % Session.quest_log.tracked_id())
+	_check(PathDirection.due(Session.quest_log, Session.flags, Session.profile.primary_affinity), "Maren has the Path talk ready")
+	await _talk(town, "elder", false)
+	await driver.seconds(0.4)
+	await _shot25("maren_path_direction")
+	await _click_through(town)
+	_check(Session.flag(StringName(PathDirection.FLAG)) and Session.quest_log.tracked_id() == own, "Maren sends the hero to their own Path's zone")
 	await driver.seconds(0.8)
 	await _shot("p4_story_quests")
 	_finish(_failures.is_empty(), "playtest: forest, Path choice, the cave, Maren, the merchants and a card, the Deck Station, the store room ghosts, level 5, Bertram's quest, then the story quests")
@@ -249,7 +302,19 @@ func _shot(shot_name: String) -> void:
 	print("playtest_smoke: screenshot -> %s.png" % shot_name)
 
 
+## Fixes Oct 25: the screenshots of this brief.
+func _shot25(shot_name: String) -> void:
+	await driver.frames(3)
+	var path: String = ProjectSettings.globalize_path("res://_screenshots/oct25/%s.png" % shot_name)
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	get_viewport().get_texture().get_image().save_png(path)
+	print("playtest_smoke: screenshot -> oct25/%s.png" % shot_name)
+
+
 func _force_win(battle: BattleScreen) -> void:
+	if _auto_win:
+		await _auto_won(battle)
+		return
 	var context: BattleContext = battle.context
 	await driver.seconds(0.8)
 	if context == null:
@@ -258,6 +323,17 @@ func _force_win(battle: BattleScreen) -> void:
 	context.game._end_game(0, false)
 	context.won = true
 	Session.complete_battle(context)
+	await driver.seconds(1.0)
+
+
+## Auto-win: the battle ends by itself as a win; the real result panel's Continue takes the hero back.
+func _auto_won(battle: BattleScreen) -> void:
+	for _guard: int in range(40):
+		if battle.game.is_over() and driver.find_button("Continue") != null:
+			break
+		await driver.seconds(0.25)
+	_check(battle.game.is_over() and battle.game.winner == 0, "auto-win: %s won at once" % battle.context.enemy_name)
+	await driver.click_button("Continue")
 	await driver.seconds(1.0)
 
 

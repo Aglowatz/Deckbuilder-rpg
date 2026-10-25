@@ -16,7 +16,7 @@ var milestones_paid: Array[String] = []
 var progress_seen: Dictionary = {}
 var version: int = VERSION
 
-const VERSION: int = 3  # 3 = Oct 20: the early-game chain (QuestMigration sets the legacy flag on older saves past it)
+const VERSION: int = 4  # 3 = Oct 20: the early-game chain (QuestMigration sets the legacy flag on older saves past it); 4 = Oct 25: Make It Yours opens with a pack
 
 
 func is_active(quest_id: String) -> bool:

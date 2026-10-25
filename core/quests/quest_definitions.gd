@@ -218,6 +218,9 @@ static func story_gate() -> Condition:
 ## (roamer, gatekeeper, dungeon, arena) and hands over the first piece of equipment, the Starter Blade; finishing it unlocks all five
 ## equipment slots (`Session.complete_quest`) and opens the story's main quests (`story_gate`).
 const ARMORY: String = "some_assembly_required"
+## Fixes Oct 25, Part 4: the armory quest's "win one fight" step points at the outskirts: the town resolves this spot id to the outskirts
+## roamer nearest the square (`TownScene._outskirts_spot`).
+const OUTSKIRTS_SPOT: String = "outskirts"
 
 
 static func _armory() -> QuestData:
@@ -233,7 +236,7 @@ static func _armory() -> QuestData:
 	quest.prerequisite = Condition.quest_completed(GHOSTS)
 	quest.objectives = [
 		QuestObjective.make("Report to Bertram Beetsworth at his smithy", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
-		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)).at(QuestObjective.TargetKind.NONE, "", "", "An outskirts roamer on the lanes round Crosspath will do"),
+		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)).at(QuestObjective.TargetKind.SPOT, "town", OUTSKIRTS_SPOT, "Enemies roam the outskirts, on the lanes round the edge of Crosspath. Any win counts"),
 		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 	] as Array[QuestObjective]
 	quest.reward_xp = 30
@@ -245,6 +248,11 @@ static func _armory() -> QuestData:
 ## Overnight Oct 17, Part 9 / Oct 20, Part 4: the first deck edit, taught by doing - now Maren's second errand (after Meet the Merchants):
 ## open the Deck Station and save the deck to a slot (every save goes through the slot picker, `Session.save_deck_to_slot`).
 const FIRST_DECK_EDIT: String = "first_deck_edit"
+## Fixes Oct 25, Part 6: the quest's first step is opening a pack (any pack, `Session.open_pack` sets this flag). A player with no pack gets
+## one General Pack when the quest starts (`Session.grant_first_pack`); saves already on or past the quest have the step settled
+## (`QuestMigration`, version 4).
+const FIRST_PACK_FLAG: String = "first_pack_opened"
+const FIRST_PACK_ID: String = "general_1"
 
 
 static func _first_deck_edit() -> QuestData:
@@ -253,7 +261,7 @@ static func _first_deck_edit() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 2
 	quest.title = "Make It Yours"
-	quest.summary = "A deck you never chose is a deck you will lose with, says Maren. Look it over at the Deck Station, swap what you like and save it to a slot."
+	quest.summary = "A deck you never chose is a deck you will lose with, says Maren. New cards first, then make the deck your own."
 	quest.giver_npc = MAREN
 	quest.giver_area = "town"
 	quest.giver_spot = "elder"
@@ -262,6 +270,7 @@ static func _first_deck_edit() -> QuestData:
 	quest.turn_in_spot = "elder"
 	quest.prerequisite = Condition.quest_completed(MERCHANTS)
 	quest.objectives = [
+		QuestObjective.make("Open a pack", Condition.flag(FIRST_PACK_FLAG)).at(QuestObjective.TargetKind.NONE, "", "", "Menu (top right), then Packs - or press P"),
 		QuestObjective.make("Open the Deck Station and save your deck to a slot", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station, on Champions' Road south of the square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 30

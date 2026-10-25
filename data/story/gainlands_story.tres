@@ -116,6 +116,8 @@ lines = {
 "reps.first": ["Your first set on the show! Here's your Pump Medallion: a bonus, free, no obligation. Operators are still standing by."],
 "reps.lose": ["Not quite a set, champ. That's fine. Take a breath.","REHYDRATE AND TRY AGAIN! The beat and the legwarmers are standing by - only one of those has legs!"],
 "npc.gary.intro": ["Mmmph! Oh good, a spotter! Hi. Gary. Lovely to meet you.", "I've been under this barbell since lunch... possibly since the regime took over. No rush, but I would like to become a standing appointment.", "It's the last barbell they didn't confiscate. I loaded one more plate than my confidence.", "It's fine. It's FINE. Could you give it a little push? Bit of a rush, actually."],
+"ambient.gym_attendant": ["Gym's open! The weights are not. Regime orders. Enjoy the mirrors.", "Towels are ten gold now. Clench taxes sweat.", "House rule one: re-rack your weights. House rule two: we have no weights."],
+"ambient.gym_attendant.freed": ["The weights are back! I cried. Then I did a set. Then I cried again.", "Free towels! Flex says a gym is for people, not quotas.", "Re-rack your weights! We HAVE weights! Re-rack them!"],
 "npc.gary.return": ["Spotter, you're a hero! One day this barbell and I will rise to the occasion... with you watching, please."],
 "fx.spot_done": ["You grab the bar and heave. Gary slides out, gasping.", "\"You're a hero! Take this. I borrowed it from the gym.", "It's not mine. It's yours now. That's how borrowing works, I think.\""],
 "fx.spot_again": ["You find Gary under a different, lighter barbell. He has lowered the bar in every sense except the useful one."],

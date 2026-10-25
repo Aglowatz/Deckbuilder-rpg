@@ -1549,7 +1549,14 @@
 		],
 		"quest.first_deck_edit.offer": [
 			"Now that deck of yours. A deck you never chose is a deck you will lose with.",
-			"The Deck Station is down Champions' Road, south of the square. Swap what you like, save it to a slot, then come and tell me."
+			"New cards first. Open a pack: the Menu, top right, then Packs. Or press P, if you are the sort who presses things.",
+			"Then the Deck Station, down Champions' Road south of the square. Swap what you like, save it to a slot, and come and tell me."
+		],
+		"quest.first_deck_edit.offer_pack": [
+			"No packs at all? Here, dearie. A General Pack. Slightly sat on. Cards are cards."
+		],
+		"quest.first_deck_edit.active_pack": [
+			"Open the pack first, dearie. Menu, then Packs. It will not open itself. I have asked."
 		],
 		"quest.first_deck_edit.active": [
 			"The Deck Station, dearie. Champions' Road, south of the square. Save it to a slot, or it doesn't count. I check."
@@ -1574,6 +1581,14 @@
 		],
 		"quest.some_assembly_required.active": [
 			"Bertram's smithy, west side of the square. Win him a fight, any fight, and he will stamp something. He lives to stamp something."
+		],
+		"quest.path_direction": [
+			"Armed, are we. Good. Now, where to point you. Start with {zone}, dearie. It is {path} country, and so are you.",
+			"{vendor} sells more {path} cards there than anyone in this town. Take gold. Take a bag. Take my advice, for once.",
+			"And inside {zone}, your Path stands taller. {buff}: {buff_text}",
+			"The Paths quarrel, dearie. Beefcake against Necrocrat, Gourmand against Refusemancer. Since before the roads. Possibly because of them.",
+			"So in {zone} the {rival} side gets the short end. {debuff}: {debuff_text} In {rival_zone}, it is your turn to suffer.",
+			"{gatekeeper} holds the way in. Win that fight first. Then come back alive. Pie is not cheap."
 		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",

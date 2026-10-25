@@ -24,9 +24,9 @@ gives the next one in the same talk (`TownScene.CHAIN_NEXT`). All four are MAIN.
 | # | Quest (id) | Steps | Reward |
 |---|---|---|---|
 | 1 | Meet the Merchants (`meet_the_merchants`, auto-given on arrival) | say hello to Sable, buy a card from her (`cards_bought`), say hello to Tilly Tonic, say hello to Pip Threadwell; hand in to Maren | Participation Trophy, 50 gold, **40 XP** |
-| 2 | Make It Yours (`first_deck_edit`) | open the Deck Station and save the deck to a slot; hand in to Maren | 30 gold, **30 XP** |
+| 2 | Make It Yours (`first_deck_edit`) | open a pack (flag `first_pack_opened`; a player with no pack gets a General Pack at the start, the HUD's Menu button and Packs entry glow), then open the Deck Station and save the deck to a slot; hand in to Maren | 30 gold, **30 XP** |
 | 3 | Something in the Store Room (`storeroom_ghosts`) | open the store room door beside Tilly Tonic's shop (a duel against the Store Room Ghosts: **30 XP**, 15 gold); hand in to Maren | 40 gold, **60 XP** |
-| 4 | Some Assembly Required (`some_assembly_required`) | report to Bertram Beetsworth, win one fight (any fight), collect the gear from Bertram | Starter Blade, all five equipment slots, 30 XP |
+| 4 | Some Assembly Required (`some_assembly_required`) | report to Bertram Beetsworth (he says enemies roam the edges of town; the "win one fight" step's marker is spot `outskirts`, the outskirts roamer nearest his smithy), win one fight (any fight), collect the gear from Bertram | Starter Blade, all five equipment slots, 30 XP |
 
 - **XP**: the cave pays 150 (two scavengers, 15 each, and the Warden, 120). 150 + 40 + 30 + 30 (the ghost fight) = 250 (level 4) before the
   ghost quest is handed in; its 60 makes **310 = level 5** at the hand-in (level 5 = 300 XP). Outskirts roamers are extra, never needed.
@@ -43,12 +43,17 @@ gives the next one in the same talk (`TownScene.CHAIN_NEXT`). All four are MAIN.
   `lorc/ghost`): "At the start of each of the ghosts' turns, a 1/1 Ghost token joins them." (the Hungry Ghost token without Flying,
   `token_name`/`token_keywords` in the rule). The ghosts: 3 HP, 18 Hall of Records + 2 Cannon Fodder, "Aggressive (tutorial)" AI. Sim
   (level-3 reference decks, 50 games per Path on two seeds): Beefcake 97%, Necrocrat 94%, Gourmand 94%, Refusemancer 88%, **93.5%**, 6.0 turns.
+- **Fixes Oct 25**: after the armory quest the tracked quest is the main line of the hero's own Path zone (`PathDirection`), and Maren's next
+  talk sends them there: that zone's vendor sells more of the Path's cards, the zone's buff helps the Path, the rival Path (Beefcake vs
+  Necrocrat, Gourmand vs Refusemancer) gets its debuff (real `ZoneEffects` names and numbers; flag `maren_path_direction`). Quest starts,
+  steps and completions show a short banner beside the tracker (`QuestNoticeLayer`, `EventBus.quest_update`). `QuestLog.VERSION` 4:
+  a save already on or past Make It Yours has the pack step settled.
 - **Old saves** (`QuestLog.VERSION` 3, `QuestMigration`): a save from before this that is out of the cave (or holds a story quest) gets
   `early_chain_legacy` and keeps every quest; its unfinished errands continue with Maren. `Session.ensure_game` (tests, tools, direct
   scene launches) fast-forwards past the chain the same way.
 
 ## Main quest lines
-Each Path zone has one MAIN line: (1) beat its gatekeeper at the obstacle on its road out of the hub (**pays that Path's Path Pack + 40 gold**),
+Each Path zone has one MAIN line: (1) beat its gatekeeper at the obstacle on its road out of the hub (**pays that Path's Path Pack + 40 gold**; the gatekeeper's card pick offers only that Path's cards, Fixes Oct 25),
 (2) cross into the zone, (3) finish any one of the zone's three favours (**pays an equipment piece**: the midpoint), (4) clear the main dungeon and
 free the leader (**completion: the Path Pack, 200 gold, 150 XP**). Gatekeeper Brannoch, on the imperial road, gives **Free the Four Zones** (free
 each zone, then storm the castle; 300 gold, 250 XP). **Fragments** (Maren's memories) is MAIN too.

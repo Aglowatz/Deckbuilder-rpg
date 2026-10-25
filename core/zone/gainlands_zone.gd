@@ -98,15 +98,17 @@ static func build_def() -> ZoneDef:
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "brenda", "npc_id": "NPC-MOUNTAIN", "model": "Barbarian", "anchor": "brenda", "yaw": 150.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},
+		{"id": "brenda", "npc_id": "NPC-MOUNTAIN", "model": "Barbarian", "anchor": "brenda", "yaw": 0.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5, "blocker": 0.6},  # a yeti: drawn 1.5x the hero (NpcSprites.HEIGHT_OVERRIDES)
 		{"id": "gus", "model": "Rogue_Hooded", "anchor": "gus", "yaw": 220.0, "tint": Color(1.0, 0.9, 0.6), "scale": 1.15},
 		{"id": "tony", "npc_id": "V-BENCHLEY", "model": "Barbarian", "anchor": "tony", "yaw": 200.0, "tint": Color(0.8, 0.9, 1.0), "scale": 1.9},
 		{"id": "quiz", "npc_id": "NPC-PUMP", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.85, 0.95, 1.0), "scale": 1.1},
 		{"id": "minigame", "npc_id": "NPC-THUNDERABS", "model": "Rogue", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.0, 0.45, 0.85), "scale": 1.1},
+		# Fixes Oct 25, Part 2: a Beefcake gym attendant at the hall's entrance with passing lines (story key `ambient.gym_attendant`, `.freed` once free)
+		{"id": "gym_attendant", "model": "Barbarian", "anchor": "gym_attendant", "yaw": 330.0, "tint": Color(1.0, 0.82, 0.72), "scale": 1.45, "anim": "Cheer", "lines": "ambient.gym_attendant"},
 		{"id": "gary", "model": "Barbarian", "anchor": "spot_me", "yaw": 200.0, "tint": Color(0.9, 1.0, 0.8), "scale": 1.4, "anim": "Lie_Idle"},
 	]
 	def.spots = [
-		_spot("brenda", "Old Man Mountain, Hermit of the Swole Station", "brenda", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "brenda", "npc_id": "NPC-MOUNTAIN", "npc_name": NPC_BRENDA, "speaker": "Old Man Mountain"}),
+		_spot("brenda", "Old Man Mountain, Hermit of the Swole Station", "brenda", Vector3(0, 0, 1.5), 2.0, "Talk", "quest_npc", {"npc": "brenda", "npc_id": "NPC-MOUNTAIN", "npc_name": NPC_BRENDA, "speaker": "Old Man Mountain"}),
 		_spot("gus", "Foreman Gus, Wheel Wrangler", "gus", Vector3(0.9, 0, 0), 1.6, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Foreman Gus"}),
 		_spot("tony", "Benchley's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),

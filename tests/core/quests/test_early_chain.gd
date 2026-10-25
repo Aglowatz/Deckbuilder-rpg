@@ -68,7 +68,13 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	# 2. Make It Yours.
 	_take_from_maren(QuestDefinitions.FIRST_DECK_EDIT)
 	assert_false(Session.quests_offered_by(QuestDefinitions.MAREN).has(QuestCatalog.find(QuestDefinitions.GHOSTS)), "one errand at a time")
+	# Fixes Oct 25, Part 6: the first step is opening a pack (one is given to a player who has none)
+	assert_eq(Session.pack_count(QuestDefinitions.FIRST_PACK_ID), 1, "Maren hands over a General Pack")
+	assert_true(Session.pack_step_open(), "the step waits for a pack to be opened")
 	Session.save_deck_to_slot(0, Session.deck, "Mine")
+	assert_false(Session.quest_log.is_ready_to_turn_in(QuestCatalog.find(QuestDefinitions.FIRST_DECK_EDIT), Session.unlock_state()), "not done without the pack")
+	assert_not_null(Session.open_pack(QuestDefinitions.FIRST_PACK_ID))
+	assert_false(Session.pack_step_open())
 	_hand_in(QuestDefinitions.FIRST_DECK_EDIT)
 	# 3. The store room ghosts.
 	_take_from_maren(QuestDefinitions.GHOSTS)
@@ -159,3 +165,32 @@ func test_an_old_save_still_in_the_cave_gets_the_new_chain() -> void:
 	(data["quests"] as Dictionary)["version"] = 2
 	assert_true(Session.from_dict(data))
 	assert_false(Session.flag(StringName(QuestDefinitions.LEGACY_FLAG)))
+
+
+## Fixes Oct 25, Part 6: a player who already has a pack gets none extra; a save from before the pack step (version 3) that is on Make It
+## Yours with its deck saved stays ready to hand in.
+func test_the_pack_step_gives_no_extra_pack_and_old_saves_skip_it() -> void:
+	Session.set_flag(&"vendor_seen")
+	Session.bump_counter("cards_bought")
+	Session.set_flag(&"item_vendor_seen")
+	Session.set_flag(&"tailor_seen")
+	_hand_in(QuestDefinitions.MERCHANTS)
+	Session.add_pack("path_gourmand")
+	_take_from_maren(QuestDefinitions.FIRST_DECK_EDIT)
+	assert_eq(Session.pack_count(QuestDefinitions.FIRST_PACK_ID), 0, "a pack in the bag already: none given")
+	Session.save_deck_to_slot(0, Session.deck, "Mine")
+	var quest: QuestData = QuestCatalog.find(QuestDefinitions.FIRST_DECK_EDIT)
+	assert_false(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()))
+	# The same save as it was before the pack step: version 3, the pack flag unknown.
+	Session.quest_log.version = 3
+	Session.flags.erase(QuestDefinitions.FIRST_PACK_FLAG)
+	QuestMigration.migrate(Session.quest_log, QuestCatalog.all(), Session.flags, Session.unlock_state())
+	assert_eq(Session.quest_log.version, QuestLog.VERSION)
+	assert_true(Session.flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)), "the new step is settled for a save already on the quest")
+	assert_true(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()), "never sent back to a step it had passed")
+
+
+func test_a_save_before_the_deck_quest_gets_the_pack_step() -> void:
+	Session.quest_log.version = 3
+	QuestMigration.migrate(Session.quest_log, QuestCatalog.all(), Session.flags, Session.unlock_state())
+	assert_false(Session.flag(StringName(QuestDefinitions.FIRST_PACK_FLAG)), "still on Meet the Merchants: the pack step is ahead")
