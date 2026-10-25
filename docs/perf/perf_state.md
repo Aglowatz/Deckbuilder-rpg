@@ -15,7 +15,7 @@ visibly different is reverted), no playtest export.
 | 0 Baseline | done | `docs/perf/baseline.md` (ranked costs), `runs/baseline.md`; tools perf_probe / perf_run / process_census / texture_census |
 | 1 Zone build cache | done | `BuildCache` (world/build_cache.gd): splat images, ground overlay, foliage placement; bake for export; loads Crosspath 8.2->5.3 s, Dump 8.6->7.1, Gainlands 5.7->4.6, Buffet 4.5->3.8; shots identical within noise |
 | 2 Draw calls | - | |
-| 3 Culling + per-frame work + UI | - | |
+| 3 Culling + per-frame work + UI | 3a done | WorldCover (menus pause the hidden 3D world: Deck Station 48->85, Collection 52->95, vendor 55->112 fps Medium, pixel-identical); off-screen sprites / strollers / patrolling enemies update every 4th frame with the missed time; WorldSprite sends only changed shader values; zone markers/plates/prompts only near the hero (Capital: markers 0.76->0.10 ms); Low: Crosspath 69->91, Gainlands 70->98, Buffet 80->107, D.N.A. 79->104, Dump 65->92, Capital 62->84 fps. 3b (visibility ranges, occluders, UI pooling) next |
 | 4 Memory | - | |
 | 5 Dynamic resolution + budget tests | - | |
 | 6 Verify + report | - | |
@@ -29,6 +29,11 @@ visibly different is reverted), no playtest export.
 
 ## Decisions
 
+- **P3-a: a still picture under menus.** OverlayScreens are opaque paintings or a 94% shade; WorldCover keeps the last world frame as a
+  TextureRect under the screen and sets `Viewport.disable_3d` once the 0.14 s open fade ends (screens replacing each other reuse the
+  picture). The world behind a 94% shade standing still is invisible; pixel diff 0.00. `WORLD_COVER=off` for A/B.
+- **P3-b: off-screen throttling uses the camera frustum + 3 m.** A figure at the camera itself (tests) is never throttled; the hero never.
+
 - **P1-a: cache generated data, not whole scene trees.** The builders interleave nodes with game data (anchors, blockers, chest
   nodes, fader groups, KitLights, wind lists, OcclusionFader candidates, story-state variants); packing the built tree into a scene would
   need every one of ~15 runtime systems to re-find its nodes from a loaded tree, and a stale pack would silently diverge from the
@@ -41,6 +46,9 @@ visibly different is reverted), no playtest export.
   builder function split into geometry + nodes (Capital walls 1.6 s, Dump terrain 1.1 s). Left for Phase 2.
 
 ## Numbers
+
+- Part 3a: `runs/p3_cover.md` (menus), `runs/p3_scripts_low.md` + `runs/p3_cp.md` (Low; the first Crosspath row there was a cold-cache run).
+  Shots `_screenshots/perf/p3_after` vs `p1_after`: only motion (drifting papers in D.N.A., foliage, the hero breathing).
 
 - Baseline: `docs/perf/baseline.md`. Part 1 loads (Medium, warm cache): `runs/p1_loads.md` (Dump after the foliage cache: 7.1 s).
 - Part 1 pixel diff (`_screenshots/perf/p1_before` vs `p1_after`, cache off vs baked cache; `p1_noise` = two unchanged runs):

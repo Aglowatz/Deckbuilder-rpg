@@ -23,6 +23,9 @@ var _target: Vector3 = Vector3.ZERO
 var _has_target: bool = false
 var _pause: float = 1.0
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+const OFFSCREEN_EVERY: int = 4
+var _skipped: int = 0
+var _skipped_delta: float = 0.0
 
 
 ## `home` is where they start; `seed_value` makes each citizen's route their own.
@@ -56,6 +59,18 @@ func head_height() -> float:
 
 
 func tick(delta: float, player_pos: Vector3) -> void:
+	# Performance pass Oct 25: out of the camera's view a citizen walks on in steps of OFFSCREEN_EVERY frames (the same route and pace, the
+	# missed time added up); in view, every frame.
+	var cam: Camera3D = sprite.camera if sprite != null else null
+	if cam != null and not frozen and cam.global_position.distance_squared_to(_pos) > 9.0 and not cam.is_position_in_frustum(_pos + Vector3(0.0, 0.8, 0.0)):
+		_skipped_delta += delta
+		_skipped += 1
+		if _skipped < OFFSCREEN_EVERY:
+			return
+	if _skipped > 0:
+		delta = _skipped_delta if _skipped >= OFFSCREEN_EVERY else delta + _skipped_delta
+		_skipped = 0
+		_skipped_delta = 0.0
 	if frozen:
 		sprite.follow(_pos, delta)
 		return

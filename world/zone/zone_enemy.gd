@@ -158,6 +158,17 @@ func _play(animation_name: StringName) -> void:
 
 
 func _process(delta: float) -> void:
+	# Performance pass Oct 25: a patrolling enemy out of the camera's view walks on in steps of OFFSCREEN_EVERY frames (the missed time added
+	# up, so its route and pace stay the same); one in view, chasing, returning or guarding a road updates every frame.
+	if state == State.PATROL and guard_radius <= 0.0 and _off_screen():
+		_skipped_delta += delta
+		_skipped += 1
+		if _skipped < OFFSCREEN_EVERY:
+			return
+	if _skipped > 0:
+		delta = _skipped_delta if _skipped >= OFFSCREEN_EVERY else delta + _skipped_delta
+		_skipped = 0
+		_skipped_delta = 0.0
 	_time += delta
 	cooldown = maxf(0.0, cooldown - delta)
 	if info.hover:
@@ -272,6 +283,21 @@ func _walk_toward(goal: Vector3, speed: float, delta: float) -> bool:
 	else:
 		_stuck_time += delta
 	return moved
+
+
+const OFFSCREEN_EVERY: int = 4
+var _skipped: int = 0
+var _skipped_delta: float = 0.0
+var _camera: Camera3D
+
+
+func _off_screen() -> bool:
+	if _camera == null or not is_instance_valid(_camera) or not _camera.current:
+		_camera = get_viewport().get_camera_3d() if is_inside_tree() else null
+		if _camera == null:
+			return false
+	var middle: Vector3 = global_position + Vector3(0.0, 0.8, 0.0)
+	return _camera.global_position.distance_squared_to(middle) > 9.0 and not _camera.is_position_in_frustum(middle)
 
 
 ## Pushes the enemy back/away (after it hit the player) so it does not hit again immediately.

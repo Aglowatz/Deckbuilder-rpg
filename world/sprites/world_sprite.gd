@@ -200,6 +200,8 @@ func _build_hat_card() -> void:
 	_hat_mesh.extra_cull_margin = 4.0
 	_hat_mesh.visible = false
 	add_child(_hat_mesh)
+	_sent_stretch = Vector2(-1.0, -1.0)
+	_sent_rim = Vector2.ZERO
 
 
 ## Places the hat card for the frame that is showing: the head anchor of this frame (the same frame key of the default hero when the cloak set has none) turned into
@@ -313,6 +315,20 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		camera = get_viewport().get_camera_3d() if is_inside_tree() else null
 		if camera == null:
 			return
+	# Performance pass Oct 25: a figure outside the camera's view updates every OFFSCREEN_EVERY frames with the time it missed (its walk cycle,
+	# footsteps and turning catch up); only its place is kept every frame. The hero always updates.
+	var middle: Vector3 = world_pos + Vector3(0.0, world_height * 0.5, 0.0)
+	if not is_hero and camera.global_position.distance_squared_to(middle) > 9.0 and not camera.is_position_in_frustum(middle):
+		_offscreen_delta += delta
+		_offscreen_frames += 1
+		if _offscreen_frames < OFFSCREEN_EVERY:
+			if not local_mode:
+				position = world_pos + Vector3(0.0, _bob, 0.0)
+			return
+	if _offscreen_frames > 0:
+		delta = _offscreen_delta if _offscreen_frames >= OFFSCREEN_EVERY else delta + _offscreen_delta
+		_offscreen_delta = 0.0
+		_offscreen_frames = 0
 	_time += delta
 	_turn(delta)
 	var best: String = _choose_direction()
@@ -337,7 +353,12 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		_phase = 0.0
 		key = "%s_IDLE" % best
 	current_dir = best
-	_apply(key, _flip_for(best))
+	var flip_now: bool = _flip_for(best)
+	if key != _applied_key or flip_now != _applied_flip:
+		_apply(key, flip_now)
+	else:
+		current_key = key
+		current_flip = flip_now
 	var stretch: Vector2 = _body_scale
 	_bob = 0.0
 	_bob = _hover + _hover_amplitude * (0.5 + 0.5 * sin(_time * 1.35 + _seed))
@@ -346,9 +367,12 @@ func _update(world_pos: Vector3, delta: float) -> void:
 	else:
 		var breath: float = sin(_time * 1.9 + _seed)
 		stretch *= Vector2(1.0 - 0.005 * breath, 1.0 + 0.011 * breath)
-	for target: ShaderMaterial in _materials():
-		target.set_shader_parameter("stretch", stretch)
-		target.set_shader_parameter("roll", roll_radians)
+	if stretch != _sent_stretch or roll_radians != _sent_roll:
+		_sent_stretch = stretch
+		_sent_roll = roll_radians
+		for target: ShaderMaterial in _materials():
+			target.set_shader_parameter("stretch", stretch)
+			target.set_shader_parameter("roll", roll_radians)
 	position = Vector3(0.0, _bob, 0.0) if local_mode else world_pos + Vector3(0.0, _bob, 0.0)
 	_blob.position = Vector3(0.0, 0.085 - _bob, 0.0)
 	_update_rim()
@@ -397,9 +421,23 @@ func _flip_for(dir_name: String) -> bool:
 	return facing_angle() > 0.0
 
 
+## Performance pass Oct 25: what the materials last received (the frame, its mirroring, the squash and the rim side); an update that would send the
+## same values again sends nothing.
+const OFFSCREEN_EVERY: int = 4
+var _applied_key: String = ""
+var _applied_flip: bool = false
+var _sent_stretch: Vector2 = Vector2(-1.0, -1.0)
+var _sent_roll: float = -1000.0
+var _sent_rim: Vector2 = Vector2.ZERO
+var _offscreen_delta: float = 0.0
+var _offscreen_frames: int = 0
+
+
 func _apply(key: String, flip: bool) -> void:
 	current_key = key
 	current_flip = flip
+	_applied_key = key
+	_applied_flip = flip
 	var texture: Texture2D = SpriteLibrary.frame_or_default(character, key)
 	if texture != null:
 		for target: ShaderMaterial in [_material, _shadow_material]:
@@ -433,6 +471,9 @@ func _update_rim() -> void:
 	var dir: Vector2 = Vector2(x, y)
 	if dir.length() < 0.15:
 		dir = Vector2(-0.6, 0.8)
+	if dir.normalized() == _sent_rim:
+		return
+	_sent_rim = dir.normalized()
 	_material.set_shader_parameter("rim_dir", dir.normalized())
 	if _hat_material != null:
 		_hat_material.set_shader_parameter("rim_dir", dir.normalized())

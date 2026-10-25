@@ -29,6 +29,9 @@ var _music_token: int = 0
 ## Daytime Oct 19 (first-open stutter): built once, nearly invisible, by `UiArtWarmup` so its glyphs, shaders and pictures are ready
 ## before the player opens it - no music, no focus, no vendor greeting, no fade.
 var warming: bool = false
+## Performance pass Oct 25: the screen hides the whole 3D world (a painting or a 94% shade), so the world pauses its rendering behind it
+## (WorldCover). A screen that shows the live world through itself sets this false before it is added.
+var covers_world: bool = true
 
 
 func _ready() -> void:
@@ -90,7 +93,13 @@ func _ready() -> void:
 		return
 	_focus_default.call_deferred()
 	modulate.a = 0.0
-	create_tween().tween_property(self, "modulate:a", 1.0, OPEN_FADE)
+	# Performance pass Oct 25: once the screen has faded in, the world behind it is a still picture and the 3D rendering pauses (WorldCover).
+	if covers_world:
+		WorldCover.prepare(self)
+	var fade: Tween = create_tween()
+	fade.tween_property(self, "modulate:a", 1.0, OPEN_FADE)
+	if covers_world:
+		fade.finished.connect(WorldCover.cover_now.bind(self))
 	# A vendor's theme (or the deck station's...) lies over the area's music while the screen is open and hands back when it closes. It is pushed once
 	# per screen, never per purchase; a short overlay with no cue of its own keeps the current music.
 	var cue: String = music_cue()
@@ -126,6 +135,7 @@ func _log_name() -> String:
 
 
 func _exit_tree() -> void:
+	WorldCover.release(self)
 	if not warming:
 		GameLog.modal_closed(_log_name())
 	if _music_token != 0:

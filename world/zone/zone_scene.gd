@@ -491,6 +491,10 @@ func _make_npc(entry: Dictionary, pos: Vector3, anim_name: String) -> Node3D:
 
 
 ## Strollers walk and their talk spots follow them; a painted NPC shows its TALK pose while the hero talks to them.
+var _stroller_spots: Array[ZoneSpot] = []
+var _stroller_spots_count: int = -1
+
+
 func _update_sprite_npcs(delta: float) -> void:
 	if npc_hp != null and npc_hp.target == null:
 		npc_hp.target = player
@@ -501,10 +505,19 @@ func _update_sprite_npcs(delta: float) -> void:
 		var actor: SpriteActor = _npcs[id] as SpriteActor
 		if actor != null:
 			actor.talking = talking and str(id) == _talking_id
+	Hitch.start("zone.strollers")
 	for stroller: SpriteStroller in _strollers:
 		stroller.frozen = talking and _npcs.get(_talking_id) == stroller
 		stroller.tick(delta, player.position)
-	for spot: ZoneSpot in spots:
+	Hitch.stop("zone.strollers")
+	# Performance pass Oct 25: the spots that follow a strolling NPC, found again only when the spot list changes.
+	if _stroller_spots_count != spots.size():
+		_stroller_spots_count = spots.size()
+		_stroller_spots.clear()
+		for spot: ZoneSpot in spots:
+			if _npcs.get(str(spot.data.get("npc", ""))) is SpriteStroller:
+				_stroller_spots.append(spot)
+	for spot: ZoneSpot in _stroller_spots:
 		var moving: SpriteStroller = _npcs.get(str(spot.data.get("npc", ""))) as SpriteStroller
 		if moving != null:
 			spot.position = moving.world_position()
@@ -805,27 +818,93 @@ func _process(delta: float) -> void:
 		world_active = false
 	player.input_enabled = world_active and not player.airborne
 	player.model.visible = _invulnerable <= 0.0 or int(_time * 14.0) % 2 == 0
+	Hitch.start("zone.spots")
 	for enemy: ZoneEnemy in enemies:
 		enemy.active = world_active
 		if _spawn_grace > 0.0 and enemy.cooldown < _spawn_grace:
 			enemy.cooldown = _spawn_grace
-	for spot: ZoneSpot in spots:
+	Hitch.stop("zone.spots")
+	Hitch.start("zone.markers")
+	# Performance pass Oct 25: a marker bobs and turns only while the camera can see it, and the name plate is written only when its fade
+	# changes (setting a Label3D property every frame re-queued it for drawing).
+	_near_timer -= delta
+	if _near_timer <= 0.0 or _near_count != spots.size() or player.position.distance_to(_near_from) > 6.0:
+		_refresh_near_spots()
+	for spot: ZoneSpot in _near_spots:
 		if bool(spot.data.get("hidden", false)):
 			continue
-		var base_y: float = builder.height_at(spot.position) + (spot.label_height if spot.label_height > 0.0 else (1.45 if spot.is_npc else 1.7))
-		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.07
-		spot.marker.rotation_degrees.y += 60.0 * delta
+		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
+		var base_y: float = _spot_ground(spot) + (spot.label_height if spot.label_height > 0.0 else (1.45 if spot.is_npc else 1.7))
+		if distance < MARKER_MOTION_RANGE and _camera.is_position_in_frustum(Vector3(spot.position.x, base_y, spot.position.z)):
+			spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.07
+			spot.marker.rotation_degrees.y += 60.0 * delta
+		elif absf(spot.marker.position.y - base_y) > 0.08:
+			spot.marker.position.y = base_y  # a spot that moved while far (a strolling NPC) keeps its marker at the right height
 		if bool(spot.data.get("no_plate", false)):
 			continue
-		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		spot.plate.modulate.a = clampf(1.0 - (distance - 2.4) / 1.6, 0.0, 1.0)
-		spot.plate.outline_modulate.a = spot.plate.modulate.a
-		spot.plate.visible = spot.plate.modulate.a > 0.02
+		var alpha: float = clampf(1.0 - (distance - 2.4) / 1.6, 0.0, 1.0)
+		if alpha != spot.plate.modulate.a:
+			spot.plate.modulate.a = alpha
+			spot.plate.outline_modulate.a = alpha
+			spot.plate.visible = alpha > 0.02
+	Hitch.stop("zone.markers")
+	Hitch.start("zone.npcs")
 	_update_sprite_npcs(delta)
+	Hitch.stop("zone.npcs")
+	Hitch.start("zone.prompts")
 	_update_nearest()
 	_update_chest_prompt()
+	Hitch.stop("zone.prompts")
+	Hitch.start("zone.banner")
 	_update_area_banner()
 	_update_station()
+	Hitch.stop("zone.banner")
+
+
+## Performance pass Oct 25: markers farther than this from the hero hold still (a 7 cm bob is a pixel or two out there; every moving marker
+## re-sent its transform to the renderer each frame).
+const MARKER_MOTION_RANGE: float = 32.0
+
+
+## Performance pass Oct 25: the spots close enough to the hero to need a frame update (a moving marker or a fading plate), found 4 times a
+## second; a far spot only has its marker kept at its ground height here (a strolling NPC's marker follows them).
+var _near_spots: Array[ZoneSpot] = []
+var _near_timer: float = 0.0
+var _near_count: int = -1
+const NEAR_SPOT_RANGE: float = MARKER_MOTION_RANGE + 8.0
+
+
+var _near_from: Vector3 = Vector3(1.0e9, 0.0, 0.0)
+
+
+func _refresh_near_spots() -> void:
+	_near_timer = 0.25
+	_near_count = spots.size()
+	_near_from = player.position
+	_near_spots.clear()
+	for spot: ZoneSpot in spots:
+		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
+		if distance < NEAR_SPOT_RANGE:
+			_near_spots.append(spot)
+		elif spot.marker != null and not bool(spot.data.get("hidden", false)):
+			var base_y: float = _spot_ground(spot) + (spot.label_height if spot.label_height > 0.0 else (1.45 if spot.is_npc else 1.7))
+			if absf(spot.marker.position.y - base_y) > 0.08:
+				spot.marker.position.y = base_y
+			if spot.plate != null and spot.plate.visible and not bool(spot.data.get("no_plate", false)):
+				spot.plate.modulate.a = 0.0
+				spot.plate.outline_modulate.a = 0.0
+				spot.plate.visible = false
+
+
+## Performance pass Oct 25: the ground height under a spot, worked out again only when the spot moves (height_at is a layout query; the
+## markers asked for it every frame).
+func _spot_ground(spot: ZoneSpot) -> float:
+	if spot.has_meta(&"ground_at") and (spot.get_meta(&"ground_at") as Vector3) == spot.position:
+		return float(spot.get_meta(&"ground_y"))
+	var y: float = builder.height_at(spot.position)
+	spot.set_meta(&"ground_at", spot.position)
+	spot.set_meta(&"ground_y", y)
+	return y
 
 
 ## Oct 21: a story scene waiting in this zone (pending_story_scene), played as soon as the hero is free. True when one started.
@@ -868,7 +947,9 @@ const SIGN_YIELD: float = 3.0
 func _nearest_spot(pos: Vector3) -> ZoneSpot:
 	var best: ZoneSpot = null
 	var best_distance: float = 1e9
-	for spot: ZoneSpot in spots:
+	# Performance pass Oct 25: only the spots near the hero (refreshed 4 times a second and after a jump; a far one cannot be in reach).
+	var candidates: Array[ZoneSpot] = _near_spots if _near_count == spots.size() and pos.distance_to(_near_from) < 6.0 else spots
+	for spot: ZoneSpot in candidates:
 		var distance: float = Vector2(pos.x - spot.position.x, pos.z - spot.position.z).length()
 		var reach: float = spot.radius * StorybookScale.INTERACT_FACTOR
 		if spot.kind == "sign":
@@ -907,7 +988,9 @@ func _update_chest_prompt() -> void:
 		_chest_near = ""
 		return
 	var found: String = ""
-	var chests: Dictionary = builder.chest_positions()
+	if _chest_spots.is_empty():
+		_chest_spots = builder.chest_positions()  # Performance pass Oct 25: fixed for the visit (some zones built the dictionary every frame)
+	var chests: Dictionary = _chest_spots
 	for id: String in chests.keys():
 		if Session.found_secret(_chest_secret(id)):
 			continue
@@ -921,6 +1004,9 @@ func _update_chest_prompt() -> void:
 			Audio.sfx(&"ui_tick", -10.0)
 	if not found.is_empty():
 		hud.show_prompt("[E]  Open the chest")
+
+
+var _chest_spots: Dictionary = {}
 
 
 ## True when the hidden chest in reach is closer to the player than `spot` (so E opens the chest).
