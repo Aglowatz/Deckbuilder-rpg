@@ -1,0 +1,1 @@
+perf_probe: area=heap quality=0 avg_fps=64.9 avg_ms=15.42 p95_ms=16.82 low1_fps=43.3 cpu_ms=2.00 gpu_ms=9.96 process_ms=21.41 physics_ms=0.12 draw_calls=438 objects=817 primitives=91584 nodes=2452 alive=9922 load_ms=8113 first_ms=141 worst_ms=141 static_mb=330 tex_mb=305 buf_mb=27 vram_mb=700 ram_mb=1404

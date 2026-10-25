@@ -100,8 +100,11 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 	root.name = "Town"
 	parent.add_child(root)
 	_prepare_map()
+	LoadTiming.detail("town: _prepare_map")
 	_plan_connectors()
+	LoadTiming.detail("town: _plan_connectors")
 	_build_water()
+	LoadTiming.detail("town: _build_water")
 	for row: int in range(_map.size()):
 		var line: String = _map[row]
 		for col: int in range(line.length()):
@@ -109,8 +112,11 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 	if decorate_far and not hub_land:
 		_build_far_scenery()
 	_build_props()
+	LoadTiming.detail("town: _build_props")
 	_build_zone_portals()
+	LoadTiming.detail("town: _build_zone_portals")
 	_build_tree_fields()
+	LoadTiming.detail("town: _build_tree_fields")
 
 
 ## Copies MAP and carves the town's roads through it: mountains, trees and rocks within 3 m of a road become plain grass, and so does water inside the

@@ -42,7 +42,10 @@ static func apply(scene: Node3D, area: WalkableArea, id: StringName, context: Di
 	return world
 
 
-func _build(area: WalkableArea, context: Dictionary) -> bool:
+func _build(area: WalkableArea, given: Dictionary) -> bool:
+	# Performance pass Oct 25: the splat image and the ground overlay mesh come from BuildCache, keyed by the preset and the zone's story state.
+	var context: Dictionary = given.duplicate()
+	context["cache_key"] = "%s_%s" % [preset_id, _state_tag(area)]
 	material = PaintedTerrain.material(preset, context)
 	if material == null:
 		push_warning("PaintedWorld: %s has no usable ground preset, keeping the flat look" % preset_id)
@@ -52,7 +55,7 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 	if mode == "overlay" and area != null and not OS.get_environment("PAINT_SKIP").contains("ground"):
 		material.render_priority = -100
 		LoadTiming.mark("painted: material")
-		overlay = PaintedGroundOverlay.build(area, bounds, float(context.get("lift", OVERLAY_LIFT)), material, context.get("cover", Callable()) as Callable)
+		overlay = PaintedGroundOverlay.build(area, bounds, float(context.get("lift", OVERLAY_LIFT)), material, context.get("cover", Callable()) as Callable, str(context["cache_key"]))
 		LoadTiming.mark("painted: ground overlay")
 		if overlay != null:
 			_scene.add_child(overlay)
@@ -90,6 +93,17 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 		decal_meshes = PaintedDecals.build(_scene, placements)
 		LoadTiming.mark("painted: decal meshes")
 	return true
+
+
+## What of the story state changes a zone's painted ground: freed (the Dump's corruption), the town's one-country hub.
+static func _state_tag(area: WalkableArea) -> String:
+	if area == null:
+		return "none"
+	var tag: String = area.get_script().get_global_name() if area.get_script() != null else "area"
+	for property: String in ["freed", "hub_land"]:
+		if property in area:
+			tag += "_%s%d" % [property, 1 if bool(area.get(property)) else 0]
+	return tag
 
 
 ## Cliff/rim meshes of a zone (named in the preset under "rock_nodes") can use a different cliff texture than the ground.

@@ -36,6 +36,7 @@ static func mark(label: String) -> void:
 	var now: int = Time.get_ticks_usec()
 	var spent: float = float(now - _last_usec) / 1000.0
 	_last_usec = now
+	_detail_usec = now
 	_last_label = label
 	_steps.append("%s %.0f" % [label, spent])
 	_log_step("%s +%.0f ms  %s" % [_what, spent, label])
@@ -44,6 +45,18 @@ static func mark(label: String) -> void:
 		_slowest_label = label
 	if verbose:
 		print("load_timing: %s +%.0f ms  %s  (%.0f ms in)" % [_what, spent, label, elapsed_ms()])
+
+
+## Performance pass Oct 25: a finer step inside a builder - printed only with LOAD_TIMING set (the game log keeps the coarse marks).
+static func detail(label: String) -> void:
+	if not verbose:
+		return
+	var now: int = Time.get_ticks_usec()
+	print("load_timing:   . %s +%.0f ms" % [label, float(now - _detail_usec) / 1000.0 if _detail_usec > 0 else 0.0])
+	_detail_usec = now
+
+
+static var _detail_usec: int = 0
 
 
 static func _log_step(text: String) -> void:

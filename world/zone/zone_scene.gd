@@ -693,13 +693,17 @@ func _build_camera() -> void:
 	_camera.position = player.position + CameraRig.shape(camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player, CULL_DISTANCE)
+	LoadTiming.detail("zone: StyleRig")
 	if style_rig != null:
 		look_rig = WorldLookRig.install(self, _camera, player, style_rig, builder)
+		LoadTiming.detail("zone: look rig")
 	if style_rig != null and style_rig.ambience != null:
 		style_rig.ambience.focus(0.5, 1.6)
 	if style_rig != null:
 		_dress_zone()
+		LoadTiming.detail("zone: dressing")
 		_paint_zone()
+		LoadTiming.detail("zone: painted")
 
 
 ## Overnight Oct 18, Phase 2 cycle 5: the first time a hero walks into a zone whose debuff hits their own Path, a longer toast says so and

@@ -153,7 +153,9 @@ func _ready() -> void:
 	if style_rig != null and style_rig.sun != null:
 		_sun_travel = -style_rig.sun.global_basis.z
 	_build_post()
+	LoadTiming.detail("look: post")
 	ground_light = GroundLight.install(scene, _piece_bounds(), style_rig)
+	LoadTiming.detail("look: ground light")
 	if style_rig != null and style_rig.preset != null:
 		KitFoliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
 	if _build_world and bool(mood.get("world", true)):
@@ -238,6 +240,7 @@ func _build_post() -> void:
 func _build_pieces() -> void:
 	for step: Callable in _piece_steps():
 		step.call()
+		LoadTiming.detail("look: %s" % step.get_method())
 	_mark_no_cull(_pieces)
 
 

@@ -45,6 +45,7 @@ var _barrier: Node3D
 func build(parent: Node3D) -> void:
 	_rng.seed = 4242
 	layout.build()
+	LoadTiming.detail("capital: layout.build")
 	story = ZoneStoryText.for_zone(CapitalZone.ID)
 	ctx = story_context()
 	gate_open = bool(Session.flags.get(str(CapitalZone.FLAG_GATE_OPEN), false)) or bool(ctx.get("final", false))
@@ -52,19 +53,31 @@ func build(parent: Node3D) -> void:
 	root.name = "Capital"
 	parent.add_child(root)
 	_build_ground()
+	LoadTiming.detail("capital: _build_ground")
 	_build_buildings()
+	LoadTiming.detail("capital: _build_buildings")
 	_build_boundaries()
+	LoadTiming.detail("capital: _build_boundaries")
 	_build_landmarks()
+	LoadTiming.detail("capital: _build_landmarks")
 	_build_props()
+	LoadTiming.detail("capital: _build_props")
 	_build_signs()
+	LoadTiming.detail("capital: _build_signs")
 	_build_rifts()
+	LoadTiming.detail("capital: _build_rifts")
 	_build_cracks()
+	LoadTiming.detail("capital: _build_cracks")
 	_build_chests()
+	LoadTiming.detail("capital: _build_chests")
 	_finish_layers()
+	LoadTiming.detail("capital: _finish_layers")
 	_index_obstacles()
+	LoadTiming.detail("capital: _index_obstacles")
 	# the repeated kit models (the identical row, the mausoleums, the Reek's yards, the ruins, the rifts' ground, the crystals) merge by material
 	# and 16 m cell: a few dozen draw calls instead of hundreds (the iGPU is bound by draw calls); they cast no shadow, which the flat noon wants
 	KitBatch.merge_static(root)
+	LoadTiming.detail("capital: KitBatch.merge_static")
 
 
 ## The world state the look depends on, from the Session's flags.

@@ -101,24 +101,49 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 	var overrides: Dictionary = context.get("overrides", {}) as Dictionary
 	for param: String in overrides.keys():
 		result.set_shader_parameter(param, overrides[param])
-	_paint_splat(result, mask_callables, context.get("bounds", Rect2(-50, -50, 100, 100)) as Rect2, layers, count, modes)
+	_paint_splat(result, mask_callables, context.get("bounds", Rect2(-50, -50, 100, 100)) as Rect2, layers, count, modes, str(context.get("cache_key", "")))
 	return result
 
 
-## Paints the named masks into an RGBA splat texture (channel = layer index - 1) covering `bounds`.
-static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bounds: Rect2, _layers: Array, count: int, modes: PackedVector4Array) -> void:
+## Paints the named masks into an RGBA splat texture (channel = layer index - 1) covering `bounds`. Performance pass Oct 25: with a
+## `cache_key` (PaintedWorld passes the preset and the zone's story state) the image comes from BuildCache after its first build.
+static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bounds: Rect2, layers: Array, count: int, modes: PackedVector4Array, cache_key: String = "") -> void:
 	if callables.is_empty():
 		result.set_shader_parameter("splat", PaintedLibrary.white())
 		return
-	var step: float = maxf(0.5, maxf(bounds.size.x, bounds.size.y) / 256.0)
-	var width: int = int(ceil(bounds.size.x / step))
-	var height: int = int(ceil(bounds.size.y / step))
-	var image: Image = Image.create(width, height, false, Image.FORMAT_RGBA8)
 	var by_channel: Dictionary = {}
 	for layer_index: int in range(1, count):
 		if int(modes[layer_index].x) == 3 and layer_index - 1 < 4:
 			by_channel[layer_index - 1] = callables[int(modes[layer_index].y)]
 			# The shader reads the splat channel of layer i as (i - 1).
+	var image: Image
+	if cache_key.is_empty():
+		image = _splat_image(by_channel, bounds)
+	else:
+		var signature: String = "%s|%s|%s" % [str(bounds), JSON.stringify(layers), _mask_fingerprint(by_channel, bounds)]
+		image = BuildCache.fetch("splat_%s_%s" % [cache_key, signature.md5_text().substr(0, 12)], _splat_image.bind(by_channel, bounds)) as Image
+	var texture: ImageTexture = ImageTexture.create_from_image(image)
+	result.set_shader_parameter("splat", texture)
+	result.set_shader_parameter("has_splat", true)
+	result.set_shader_parameter("splat_rect", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
+
+
+## A cheap guard on the cache key: the masks sampled on a coarse 16 x 16 grid (a layout change that moves a mask changes the key).
+static func _mask_fingerprint(by_channel: Dictionary, bounds: Rect2) -> String:
+	var values: PackedByteArray = PackedByteArray()
+	for y: int in range(16):
+		for x: int in range(16):
+			var p: Vector2 = bounds.position + Vector2((float(x) + 0.5) / 16.0 * bounds.size.x, (float(y) + 0.5) / 16.0 * bounds.size.y)
+			for channel: int in by_channel.keys():
+				values.append(int(clampf(float((by_channel[channel] as Callable).call(p)), 0.0, 1.0) * 255.0))
+	return values.hex_encode().md5_text()
+
+
+static func _splat_image(by_channel: Dictionary, bounds: Rect2) -> Image:
+	var step: float = maxf(0.5, maxf(bounds.size.x, bounds.size.y) / 256.0)
+	var width: int = int(ceil(bounds.size.x / step))
+	var height: int = int(ceil(bounds.size.y / step))
+	var image: Image = Image.create(width, height, false, Image.FORMAT_RGBA8)
 	for y: int in range(height):
 		KeepAlive.tick()
 		for x: int in range(width):
@@ -136,7 +161,4 @@ static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bou
 					_:
 						color.a = value
 			image.set_pixel(x, y, color)
-	var texture: ImageTexture = ImageTexture.create_from_image(image)
-	result.set_shader_parameter("splat", texture)
-	result.set_shader_parameter("has_splat", true)
-	result.set_shader_parameter("splat_rect", Vector4(bounds.position.x, bounds.position.y, bounds.size.x, bounds.size.y))
+	return image

@@ -94,6 +94,11 @@ node tools/build_audit.js --md docs/build_size.md --quiet
 est_mb=$(sed -n 's/^Estimated export payload: \*\*\([0-9.]*\) MB.*/\1/p' docs/build_size.md | head -1 | cut -d. -f1)
 est_mb=${est_mb:-0}
 
+# --- 2b. zone build cache (Performance pass Oct 25, world/build_cache.gd): every area built once into res://build_cache/ ---
+echo "--- baking the zone build cache ---"
+bash tools/build_cache.sh bake || stop "the build cache bake failed"
+[ -f build_cache/manifest.json ] || stop "the build cache bake wrote no manifest"
+
 # --- 3. export into the stage ---
 echo "--- exporting to $stage (windowed, with the shader baker; about 2.5 minutes) ---"
 mkdir -p "$stage"

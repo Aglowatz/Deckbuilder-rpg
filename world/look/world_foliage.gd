@@ -21,6 +21,40 @@ var _instance: MultiMeshInstance3D
 
 
 func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vector3) -> void:
+	# Performance pass Oct 25: the placement (the slow part, 0.5 s in town) comes from BuildCache after the first visit.
+	var signature: String = "%s|%s|%s" % [str(town.map_bounds()), str(town.obstacles), str(town.anchors)]
+	var key: String = "foliage_town_%d_q%d_%s" % [1 if town.hub_land else 0, Settings.graphics_quality, signature.md5_text().substr(0, 12)]
+	var placed: Array = _unpack(BuildCache.fetch(key, func() -> Variant: return _pack(_place_town(town))))
+	_build(placed[0] as Array[Transform3D], placed[1] as Array[Color])
+	print("world_look: foliage %d cards" % instance_count)
+
+
+## The plants' transforms and per-card data as plain arrays (BuildCache stores them; `_unpack` turns them back).
+static func _pack(placed: Array) -> Dictionary:
+	var t: PackedFloat32Array = PackedFloat32Array()
+	var d: PackedFloat32Array = PackedFloat32Array()
+	for xform: Transform3D in placed[0] as Array[Transform3D]:
+		t.append_array([xform.basis.x.x, xform.basis.x.y, xform.basis.x.z, xform.basis.y.x, xform.basis.y.y, xform.basis.y.z,
+			xform.basis.z.x, xform.basis.z.y, xform.basis.z.z, xform.origin.x, xform.origin.y, xform.origin.z])
+	for data: Color in placed[1] as Array[Color]:
+		d.append_array([data.r, data.g, data.b, data.a])
+	return {"t": t, "d": d}
+
+
+static func _unpack(packed: Variant) -> Array:
+	var transforms: Array[Transform3D] = []
+	var datas: Array[Color] = []
+	if packed is Dictionary:
+		var t: PackedFloat32Array = (packed as Dictionary).get("t", PackedFloat32Array()) as PackedFloat32Array
+		var d: PackedFloat32Array = (packed as Dictionary).get("d", PackedFloat32Array()) as PackedFloat32Array
+		for i: int in range(0, t.size() - 11, 12):
+			transforms.append(Transform3D(Basis(Vector3(t[i], t[i + 1], t[i + 2]), Vector3(t[i + 3], t[i + 4], t[i + 5]), Vector3(t[i + 6], t[i + 7], t[i + 8])), Vector3(t[i + 9], t[i + 10], t[i + 11])))
+		for i: int in range(0, d.size() - 3, 4):
+			datas.append(Color(d[i], d[i + 1], d[i + 2], d[i + 3]))
+	return [transforms, datas]
+
+
+func _place_town(town: TownBuilder) -> Array:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 33
 	var road_grid: Dictionary = _bucket_points(TownLayout.road_points(0.9), 3.0)
@@ -93,8 +127,7 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 			if transforms.size() >= MAX_INSTANCES:
 				break
 		z += GRID_STEP
-	_build(transforms, datas)
-	print("world_look: foliage %d cards" % instance_count)
+	return [transforms, datas]
 
 
 func _pick_cell(rng: RandomNumberGenerator, edge: float, garden: float) -> int:
@@ -232,6 +265,25 @@ func setup_area(area: WalkableArea, scene: Node3D, spec: Dictionary) -> void:
 				blocked.append((entry as Object).get("position") as Vector3)
 	var blocked_grid: Dictionary = _bucket_points(blocked, 3.0)
 	var bounds: Rect2 = area.map_bounds().grow(2.0)
+	# Performance pass Oct 25: the placement (2 s in the Dump) comes from BuildCache after the first visit; the key holds the spots, the mood block,
+	# the quality and a coarse sample of where the hero can walk.
+	var walk: PackedByteArray = PackedByteArray()
+	for gy: int in range(32):
+		for gx: int in range(32):
+			var q: Vector3 = Vector3(bounds.position.x + (float(gx) + 0.5) / 32.0 * bounds.size.x, 0.0, bounds.position.y + (float(gy) + 0.5) / 32.0 * bounds.size.y)
+			walk.append(1 if area.is_walkable(q, 0.45) else 0)
+	var signature: String = "%s|%s|%s|%s" % [str(bounds), str(blocked), JSON.stringify(spec), walk.hex_encode()]
+	var key: String = "foliage_%s_q%d_%s" % [PaintedWorld._state_tag(area), Settings.graphics_quality, signature.md5_text().substr(0, 12)]
+	var placed: Array = _unpack(BuildCache.fetch(key, func() -> Variant: return _pack(_place_area(area, rng, cells, step, density, cap, blocked_grid, bounds))))
+	_build(placed[0] as Array[Transform3D], placed[1] as Array[Color])
+	if spec.has("tint") and _material != null:
+		_material.set_shader_parameter("mood_tint", Color.html(str(spec["tint"])))
+	if spec.has("dry") and _material != null:
+		_material.set_shader_parameter("dry_amount", float(spec["dry"]))
+	print("world_look: area foliage %d cards" % instance_count)
+
+
+func _place_area(area: WalkableArea, rng: RandomNumberGenerator, cells: Array[int], step: float, density: float, cap: int, blocked_grid: Dictionary, bounds: Rect2) -> Array:
 	var transforms: Array[Transform3D] = []
 	var datas: Array[Color] = []
 	var z: float = bounds.position.y
@@ -263,12 +315,7 @@ func setup_area(area: WalkableArea, scene: Node3D, spec: Dictionary) -> void:
 			if transforms.size() >= cap:
 				break
 		z += step
-	_build(transforms, datas)
-	if spec.has("tint") and _material != null:
-		_material.set_shader_parameter("mood_tint", Color.html(str(spec["tint"])))
-	if spec.has("dry") and _material != null:
-		_material.set_shader_parameter("dry_amount", float(spec["dry"]))
-	print("world_look: area foliage %d cards" % instance_count)
+	return [transforms, datas]
 
 
 ## The mood's colour multiplier.

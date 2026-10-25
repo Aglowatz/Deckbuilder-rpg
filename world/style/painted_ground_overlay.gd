@@ -7,7 +7,32 @@ const CELL: float = 1.0
 
 
 ## `bounds` is the x/z rectangle to cover, `lift` the height above y = 0.
-static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Material, cover: Callable = Callable()) -> MeshInstance3D:
+## Performance pass Oct 25: with a `cache_key` the mesh comes from BuildCache after its first build (a coarse sample of the cover is part of the key).
+static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Material, cover: Callable = Callable(), cache_key: String = "") -> MeshInstance3D:
+	var mesh: ArrayMesh
+	if cache_key.is_empty():
+		mesh = _mesh(area, bounds, cover)
+	else:
+		var samples: PackedByteArray = PackedByteArray()
+		for y: int in range(24):
+			for x: int in range(24):
+				var p: Vector3 = Vector3(bounds.position.x + (float(x) + 0.5) / 24.0 * bounds.size.x, 0.0, bounds.position.y + (float(y) + 0.5) / 24.0 * bounds.size.y)
+				samples.append(1 if (bool(cover.call(p)) if cover.is_valid() else area.is_floor_at(p)) else 0)
+		var signature: String = "%s|%s" % [str(bounds), samples.hex_encode()]
+		mesh = BuildCache.fetch("overlay_%s_%s" % [cache_key, signature.md5_text().substr(0, 12)], _mesh.bind(area, bounds, cover)) as ArrayMesh
+	if mesh == null:
+		return null
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "PaintedGround"
+	instance.mesh = mesh
+	instance.material_override = material
+	instance.position = Vector3(0.0, lift, 0.0)
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	return instance
+
+
+static func _mesh(area: WalkableArea, bounds: Rect2, cover: Callable) -> ArrayMesh:
 	var vertices: PackedVector3Array = PackedVector3Array()
 	var normals: PackedVector3Array = PackedVector3Array()
 	var colors: PackedColorArray = PackedColorArray()
@@ -47,11 +72,4 @@ static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Mate
 	arrays[Mesh.ARRAY_INDEX] = indices
 	var mesh: ArrayMesh = ArrayMesh.new()
 	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-	var instance: MeshInstance3D = MeshInstance3D.new()
-	instance.name = "PaintedGround"
-	instance.mesh = mesh
-	instance.material_override = material
-	instance.position = Vector3(0.0, lift, 0.0)
-	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	instance.set_meta(StyleToon.META_NO_TOON, true)
-	return instance
+	return mesh

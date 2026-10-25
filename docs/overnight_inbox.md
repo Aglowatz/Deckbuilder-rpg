@@ -264,3 +264,14 @@ cycle 1); the spells-only arena (cycle 10).
 5. **The dungeons smoke's Swolympus toast check** fails ("the Swolympus gate says it is sealed"): a Gainlands HUD text, not touched by this
    brief; last green Oct 17.
 6. **Test Kitchen normals for Refusemancer** (25% before the fuel-hoarding fix) were not re-measured after it; the next sweep will say.
+
+## Performance pass Oct 25 - yours to decide (the safest choice was taken)
+
+(filled in as the night goes)
+
+1. **A background screenshot batch was stopped by Claude Code for low system memory** (14:10, while idle). Nothing was wrong with
+   the batch itself; from then on every Godot run was foreground and one at a time, as your brief says. If you start Claude Code with
+   `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1` long background batches are not reaped.
+2. **Hub walk smoke: one pre-existing failure.** On the Necrocrat road the blocked-road toast reads "The bridge is drawn up on the far
+   side of the gorge... Beat Brick Bronson to open it." (the Gainlands bridge text) where the smoke expects the Necrocrat gatekeeper's
+   name. It fails the same with the build cache off (the old code path), so it is not from the performance pass; not touched.

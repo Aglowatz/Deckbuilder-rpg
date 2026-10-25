@@ -68,19 +68,30 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 func build(parent: Node3D) -> void:
 	_rng.seed = 88
 	layout.build()
+	LoadTiming.detail("dna: layout.build")
 	root = Node3D.new()
 	root.name = "DnaZone"
 	parent.add_child(root)
 	_collect_cells()
+	LoadTiming.detail("dna: _collect_cells")
 	_collect_props()
+	LoadTiming.detail("dna: _collect_props")
 	_collect_partitions()
+	LoadTiming.detail("dna: _collect_partitions")
 	_flush()
+	LoadTiming.detail("dna: _flush")
 	_build_signs()
+	LoadTiming.detail("dna: _build_signs")
 	_build_set_pieces()
+	LoadTiming.detail("dna: _build_set_pieces")
 	_build_hall()
+	LoadTiming.detail("dna: _build_hall")
 	_build_entrance()
+	LoadTiming.detail("dna: _build_entrance")
 	_build_region_landmarks()
+	LoadTiming.detail("dna: _build_region_landmarks")
 	_index_obstacles()
+	LoadTiming.detail("dna: _index_obstacles")
 
 
 func cell_center(cx: int, cz: int) -> Vector3:
