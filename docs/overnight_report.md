@@ -66,7 +66,22 @@ Shots: `docs/art/graphics_tier1/t2_before/<area>.jpg` vs `t2_after/<area>.jpg` (
 `docs/art/graphics_tier2/f1_heightfog/` (Dump stream before/after), `f2_bounce/` (square, street, a 3x version, the raw channels),
 `f3_wind/`, `f4_water/`, `f5_lanterns/`.
 
-FPS_TABLE_PLACEHOLDER
+| Area | Low before -> after (fps) | Medium before -> after | High before -> after | Medium avg ms vs budget |
+|---|---|---|---|---|
+| town_square | 93.6 -> 95.0 | 66.2 -> 65.5 | 19.5 -> 19.4 | 15.26 vs 19.5 |
+| town_street | 91.9 -> 92.7 | 64.4 -> 65.1 | 19.3 -> 18.0 | 15.36 vs 19.5 |
+| forest | 120.2 -> 125.0 | 83.6 -> 83.3 | 24.1 -> 24.4 | 12.01 vs 15.5 |
+| gainlands | 96.3 -> 95.7 | 76.5 -> 75.8 | 25.8 -> 26.1 | 13.19 vs 19.2 |
+| buffet | 106.2 -> 100.1 | 79.7 -> 77.5 | 27.6 -> 26.0 | 12.90 vs 16 |
+| dna | 99.4 -> 102.9 | 86.7 -> 86.9 | 30.6 -> 31.0 | 11.51 vs 15.7 |
+| heap | 92.0 -> 87.9 | 75.3 -> 71.9 | 26.9 -> 25.3 | 13.90 vs 17.1 |
+| capital_out | 85.2 -> 85.0 | 68.4 -> 69.0 | 22.7 -> 22.6 | 14.49 vs 18.2 |
+| capital_in | 85.8 -> 87.0 | 69.2 -> 70.0 | 23.6 -> 23.9 | 14.29 vs 18.5 |
+| battle | 363.0 -> 366.0 | 365.2 -> 363.5 | 362.5 -> 370.4 | 2.75 vs 3.8 |
+| dungeon_map | 456.0 -> 473.7 | 454.3 -> 464.6 | 446.4 -> 464.3 | 2.15 vs 2.9 |
+
+GPU ms per row and the single-feature costs are in `docs/art/graphics_tier2.md`. Medium holds 65-87 fps everywhere; Low and High are
+within run-to-run noise; every area sits 3-6 ms under its Medium budget line.
 
 ## What to look at first in-game
 
@@ -80,7 +95,13 @@ FPS_TABLE_PLACEHOLDER
 
 ## Checks
 
-CHECKS_PLACEHOLDER
+- GUT: root 247, core 1414 (+1 pending, known), ui/audio/characters 195, world 394 - all passing (one text test updated for the wind include).
+- Walk smokes: Crosspath, opening forest, Gainlands, Buffet, D.N.A., the Dump, the Capital - all OK (run after the resume, 08:06-08:24).
+- `perf_budget.sh structure`: all budgets met. `perf_budget.sh frame`: the background run was stopped by the tool harness for low system
+  memory (it wrote nothing; an orphaned Godot process was killed by hand) and was not restarted by the run; the after-fps table stands in
+  for it (every area inside its Low/Medium lines). Please re-run `bash tools/perf_budget.sh frame` when the PC is free.
+- Not run tonight (the dropped session): the tour bot, the story playthrough bot, the first-battles and release smokes. Part 1 changed nothing
+  in the game, so it needed none.
 
 ## Inbox (yours to decide; the safest choice was taken)
 

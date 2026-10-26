@@ -16,7 +16,10 @@ NO version bump or export tonight. Part 1 is PROPOSALS ONLY (no game/data/sheet 
 | 1 - card set review (proposals) | done 22:36 (29 changes + 14 new cards; no game change, so no GUT/smokes for this part) | out: `docs/design/card_review_oct25.csv` + `.md`; generator `_logs/card_review_oct25.js` (ignored); sims `docs/design/sim/review_*.md` |
 | 2 - graphics Tier 2 | features done + committed: f1 height fog 669b0718, f2 bounce fd4ec9ab, f3 wind 43015ac7, f4 water a17851a5, f5 lanterns ca482c83, f6 FSR2 465bdba4, test/doc 15a53b2c; SSAO dropped (measured), vertex AO + decals already present. Verification: GUT all groups green (banner hang test updated), 7 walk smokes OK, structure budget OK; frame budget + after shots + after fps: see report | `docs/art/graphics_tier2.md` (fps + checks sections to fill); before shots `docs/art/graphics_tier1/t2_before/`, fps `fps_t2_before.md`; per-feature shots `docs/art/graphics_tier2/f<N>_*/` |
 | Phase 2 - polish cycles | NOT started: the session dropped ~00:06, resumed 08:05 (past the 8 h window) | log: `docs/overnight/loop_log.md` (no entries) |
-| Morning report | written 08:30, fps table + checks to fill from the final runs | `docs/overnight_report.md`; inbox section "Overnight Oct 25-26" |
+| Morning report | done 09:00 (fps table, checks, inbox) | `docs/overnight_report.md`; inbox section "Overnight Oct 25-26" |
+
+Open: `bash tools/perf_budget.sh frame` was reaped for low memory and not re-run (after-fps table stands in); tour/story bots and the
+first-battles / release smokes not run tonight.
 
 ## Scratch
 - Budgets: `bash tools/perf_budget.sh structure` (1 min headless), `bash tools/perf_budget.sh frame <areas> "0 1"` (windowed).

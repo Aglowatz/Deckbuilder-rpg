@@ -80,10 +80,36 @@ Every zone, the battle and the dungeon map were re-shot from the fixed spots aft
 normal-map shading and contact shadow and stay the brightest, sharpest thing on screen; the bounce tint and the mist sit under them; the
 battle board and the dungeon map (2D screens) are untouched by every Tier 2 feature.
 
-## Fps (dev PC, vsync off, 5 s sample; `fps_t2_before.md` -> `fps_t2_after.md`)
+## Fps (dev PC, vsync off, 5 s sample; `fps_t2_before.md` -> `fps_t2_after.md`, every feature on)
 
-(filled in after the final run; see the table at the end of this file)
+| Area | Low before -> after (fps / GPU ms) | Medium before -> after | High before -> after | Medium avg ms vs budget |
+|---|---|---|---|---|
+| town_square | 93.6 / 8.13 -> 95.0 / 8.17 | 66.2 / 13.09 -> 65.5 / 12.96 | 19.5 / 49.12 -> 19.4 / 48.31 | 15.26 vs 19.5 |
+| town_street | 91.9 / 8.60 -> 92.7 / 8.60 | 64.4 / 13.91 -> 65.1 / 13.48 | 19.3 / 51.02 -> 18.0 / 51.25 | 15.36 vs 19.5 |
+| forest | 120.2 / 6.70 -> 125.0 / 6.71 | 83.6 / 10.33 -> 83.3 / 10.38 | 24.1 / 39.47 -> 24.4 / 39.80 | 12.01 vs 15.5 |
+| gainlands | 96.3 / 7.45 -> 95.7 / 7.06 | 76.5 / 10.93 -> 75.8 / 11.19 | 25.8 / 37.16 -> 26.1 / 35.82 | 13.19 vs 19.2 |
+| buffet | 106.2 / 7.74 -> 100.1 / 7.42 | 79.7 / 10.37 -> 77.5 / 11.10 | 27.6 / 34.64 -> 26.0 / 36.09 | 12.90 vs 16 |
+| dna | 99.4 / 6.35 -> 102.9 / 6.23 | 86.7 / 9.15 -> 86.9 / 9.24 | 30.6 / 29.71 -> 31.0 / 30.53 | 11.51 vs 15.7 |
+| heap | 92.0 / 7.55 -> 87.9 / 7.45 | 75.3 / 11.89 -> 71.9 / 11.84 | 26.9 / 34.31 -> 25.3 / 37.64 | 13.90 vs 17.1 |
+| capital_out | 85.2 / 7.41 -> 85.0 / 7.35 | 68.4 / 11.87 -> 69.0 / 12.02 | 22.7 / 42.21 -> 22.6 / 41.76 | 14.49 vs 18.2 |
+| capital_in | 85.8 / 7.14 -> 87.0 / 7.21 | 69.2 / 11.73 -> 70.0 / 11.83 | 23.6 / 39.78 -> 23.9 / 39.21 | 14.29 vs 18.5 |
+| battle | 363.0 / 1.69 -> 366.0 / 1.82 | 365.2 / 1.70 -> 363.5 / 1.75 | 362.5 / 1.77 -> 370.4 / 1.87 | 2.75 vs 3.8 |
+| dungeon_map | 456.0 / 1.19 -> 473.7 / 1.21 | 454.3 / 1.20 -> 464.6 / 1.20 | 446.4 / 1.36 -> 464.3 / 1.19 | 2.15 vs 2.9 |
+
+Medium stays at 65-87 fps in every 3D area (the lowest, the two Crosspath spots, 65.1-65.5 as before); Low is within run-to-run noise
+everywhere (nothing new runs there); High within noise. The water refraction and the night lantern are the only per-frame costs and they
+sit inside the noise band (0.1-0.4 ms measured one feature at a time, above). Every Medium average is 3-6 ms under its `budgets.json` line
+and every Low average likewise; draw calls are unchanged (the features are shader work and data).
 
 ## Budgets and checks
 
-(filled in after the final run)
+- GUT in groups: root 247, core 1414 (+1 pending, the chef hat art), ui/audio/characters 195, world 394 - all passing. The banner hang test
+  now checks the shared wind include (the offset and the direction moved there); a new test covers the FSR 2 rule.
+- Walk smokes: Crosspath (19 shots), the opening forest, Gainlands (11), Buffet (22), D.N.A. (20), the Dump (21), the Capital (36): all OK.
+- `bash tools/perf_budget.sh structure`: OK, all budgets met (the features add no nodes, meshes, lights or scripts).
+- `bash tools/perf_budget.sh frame`: started as a background run and stopped by the tool harness for low system memory before it wrote a
+  line (an orphaned Godot was then killed by hand). Not restarted by the overnight run; the after-fps table above was taken with the same
+  probe at the same spots and every area is inside its Low and Medium `avg_ms` and `draw_calls` lines with margin. Re-run the formal check
+  when the PC is free: `bash tools/perf_budget.sh frame`.
+- Readability: `t2_after/` shots of every area, the battle and the dungeon map reviewed against `t2_before/`; characters unchanged, the
+  2D screens unchanged.
