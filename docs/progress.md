@@ -3616,3 +3616,20 @@ rival's debuff from `ZoneEffects` (`PathDirection`, `quest.path_direction`); Glo
 Fixed on the way: the v4 bump would have fast-forwarded v3 saves mid-chain (legacy flag, load-time deck quest) - now v<3 only.
 Part 9 - GUT full suite, playtest smoke (normal + PLAYTEST_AUTOWIN=1), prologue, quest, first-battles, Gainlands walk smokes OK.
 Screenshots: `_screenshots/oct25/`. Not exported.
+
+## Oct 26 - Controller support (docs/design/controller.md)
+Group 1 - Input layer: a rebindable controller slot per action in `Keybinds` (buttons or stick / trigger directions, Godot's standard mapping,
+saved in settings.cfg [pad]); A / B confirm / go back in every menu, Start pauses (fixed); `InputDevice` switches prompts between keys and pad
+names (Xbox / PlayStation from the pad's name or Settings); `PromptText` re-renders bound labels; `PadGlyph` drawn buttons; `PadFocus` (the open
+screen takes the pad focus, gold ring, pad tooltips, scroll into view, hover follows focus, right stick scrolls); analog left-stick walking;
+world shortcuts on the pad; D-pad Up opens the HUD menu; Settings > Controls has a controller column with capture and a button-name choice.
+Group 2 - Battle: `BattlePad` card cursor (D-pad / stick to the nearest stop, A = click, B cancels, X next phase, View end turn, Y details),
+targeting arrow on the cursor, modal panels take menu focus, pad wording for the battle instructions.
+Group 3 - Menus: `PadFocus.neighbor` moves the focus inside the open screen only (Godot's search could leave a dialog); `PadClick` makes card
+tiles and dungeon nodes pad-clickable (A left click, X right click); `pad_first_focus` starting points; ~20 stand-alone screens registered; a pad
+press on a focused menu control is never also a world action.
+Group 4 - Minigames (A pumps, the D-pad sorts), the hero preview turns with the right stick; `tools/run_gamepad_smoke.sh` plays the opening hour
+with pad events only (PadDriver; 0 key / mouse events); docs.
+Tests: `test_controller_input.gd` (24), `tests/ui/test_pad_focus_screens.gd` (15: every button of 17 screens reachable by D-pad),
+`tests/ui/test_battle_pad.gd` (8). GUT: root 271, ui 218, world 394, core 1414 (+1 pending) all passing; gamepad smoke, playtest smoke
+(keyboard / mouse) and first-battles smoke OK. Screenshots: `_screenshots/gamepad/`. Not exported.
