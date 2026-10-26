@@ -13,7 +13,7 @@ NO version bump or export tonight. Part 1 is PROPOSALS ONLY (no game/data/sheet 
 | Part | Status | Notes |
 |---|---|---|
 | 0 - setup | done | tag pushed, brief copied, old loop state archived |
-| 1 - card set review (proposals) | todo | out: `docs/design/card_review_oct25.csv` + `.md` |
+| 1 - card set review (proposals) | done 22:36 (29 changes + 14 new cards; no game change, so no GUT/smokes for this part) | out: `docs/design/card_review_oct25.csv` + `.md`; generator `_logs/card_review_oct25.js` (ignored); sims `docs/design/sim/review_*.md` |
 | 2 - graphics Tier 2 | todo | out: `docs/art/graphics_tier2.md`; one commit per feature |
 | Phase 2 - polish cycles | todo | log: `docs/overnight/loop_log.md` |
 | Morning report | todo | `docs/overnight_report.md` |
