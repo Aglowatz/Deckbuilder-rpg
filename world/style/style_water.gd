@@ -21,6 +21,8 @@ static func material(shallow: Color = Color("5cc8e6"), deep: Color = Color("1f72
 	result.set_shader_parameter("shallow_color", shallow)
 	result.set_shader_parameter("deep_color", deep)
 	result.set_shader_parameter("use_depth", Settings.graphics_quality >= GraphicsQuality.Level.MEDIUM)
+	# Graphics Tier 2: the bed shows through the shallows with a gentle wobble (the screen copy + a depth read: Medium and up, never on Low).
+	result.set_shader_parameter("use_refraction", GraphicsQuality.water_refraction(Settings.graphics_quality))
 	result.set_shader_parameter("sparkle_amount", 0.0 if Settings.graphics_quality == GraphicsQuality.Level.LOW else 1.0)
 	_cache[key] = result
 	return result

@@ -188,6 +188,19 @@ static func effect_light_shadows(level: int) -> bool:
 	return level >= Level.HIGH and heavy_passes_allowed
 
 
+# ---- Tier 2 techniques (docs/art/graphics_tier2.md) -------------------------------------------------------------------------------------------
+
+
+## Water refraction (the bed through the shallows): Medium and up (a screen copy and a depth read).
+static func water_refraction(level: int) -> bool:
+	return level >= Level.MEDIUM
+
+
+## How many of the nearest dressing lanterns cast shadows in a night scene (StyleRig gates it on the preset's sun energy): none on Low, one on Medium, two on High.
+static func lantern_shadows(level: int) -> int:
+	return [0, 1, 2][clampi(level, 0, 2)]
+
+
 ## The default level for this machine: a discrete GPU gets High, an integrated or unknown one Medium, an older Intel iGPU or a software
 ## renderer Low. Overnight Oct 20: decided from the GPU's name (`GpuInfo`) - on D3D12 the engine reports every iGPU as discrete, so v0.4.0
 ## put integrated GPUs on High (the Iris Xe tester's crash before the intro, fixed by choosing Medium).

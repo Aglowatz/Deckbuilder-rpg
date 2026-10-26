@@ -21,6 +21,12 @@ uniform float flow_speed = 0.35;
 uniform float caustic_strength = 0.22;
 uniform float sparkle_amount = 1.0;
 uniform bool use_depth = true;
+// Graphics Tier 2 (docs/art/graphics_tier2.md): gentle refraction - the bed shows through the shallows, wobbling with the surface. Medium and up (it needs the
+// depth read and the screen copy); a sample that would pull something standing above the water (the hero on the bank) into it falls back to the straight one.
+uniform sampler2D screen_tex : hint_screen_texture, repeat_disable, filter_linear;
+uniform bool use_refraction = false;
+uniform float refraction = 0.018;
+uniform float see_through = 0.55;
 // Art import Oct 20: an optional painted water layer (a tileable surface, e.g. DUMP-SURF-WATER) drifting under the bands, caustics and foam.
 uniform sampler2D paint_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform bool use_paint = false;
@@ -71,6 +77,17 @@ void fragment() {
 	float t = TIME * flow_speed;
 	float depth01 = smoothstep(0.0, depth_range, diff);
 	vec3 col = mix(shallow_color.rgb, deep_color.rgb, depth01);
+	if (use_depth && use_refraction) {
+		vec2 wobble = vec2(vnoise(wp * 2.6 + vec2(t * 0.7, -t * 0.4)), vnoise(wp * 2.6 + vec2(-t * 0.5, t * 0.6))) * 2.0 - 1.0;
+		vec2 uv2 = clamp(SCREEN_UV + wobble * refraction * (1.0 - depth01 * 0.6), vec2(0.001), vec2(0.999));
+		vec4 view2 = INV_PROJECTION_MATRIX * vec4(uv2 * 2.0 - 1.0, texture(depth_tex, uv2).r, 1.0);
+		view2.xyz /= view2.w;
+		if (-view2.z < -VERTEX.z) {
+			uv2 = SCREEN_UV;
+		}
+		vec3 under = texture(screen_tex, uv2).rgb * mix(vec3(1.0), shallow_color.rgb, 0.5);
+		col = mix(col, under, (1.0 - depth01) * see_through);
+	}
 	if (use_paint) {
 		vec3 painted = texture(paint_tex, wp / paint_tile + vec2(t * 0.05, -t * 0.03)).rgb;
 		col = mix(col, painted * mix(vec3(1.0), deep_color.rgb / max(shallow_color.rgb, vec3(0.05)), depth01 * 0.5), paint_amount);
