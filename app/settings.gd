@@ -85,6 +85,8 @@ var fog_quality: int = 2
 var upscaling_mode: int = GraphicsQuality.Upscaler.AUTO
 var render_scale_pct: int = 0
 var sharpness: float = 0.8
+## Performance pass Oct 25, Part 5: the dynamic resolution safety net (`DynamicResolution.Mode`: 0 Auto = Low and Medium, 1 Always, 2 Off).
+var dynamic_resolution: int = DynamicResolution.Mode.AUTO
 ## How far the 3D camera sits from the hero, as a multiple of each area's base offset (mouse wheel changes it; remembered).
 const ZOOM_MIN: float = 1.0
 const ZOOM_MAX: float = 2.0
@@ -132,6 +134,10 @@ func _ready() -> void:
 	load_settings()
 	_apply_boot_guard()
 	apply()
+	# Tools and tests (started with a -s script) measure or photograph a fixed render scale: the safety net stays out of them.
+	var drs_env: String = OS.get_environment("WAYWARD_DRS")  # "off" never, "force" even in a tool run (testing the net itself)
+	if drs_env == "force" or (not OS.get_cmdline_args().has("-s") and not OS.get_cmdline_args().has("--script") and drs_env != "off"):
+		add_child(DynamicResolution.new())
 	GameLog.info("settings", summary())
 	_switch_driver_if_needed()
 
@@ -330,6 +336,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "upscaling", upscaling_mode)
 	config.set_value("video", "render_scale", render_scale_pct)
 	config.set_value("video", "sharpness", sharpness)
+	config.set_value("video", "dynamic_resolution", dynamic_resolution)
 	config.set_value("video", "zoom", camera_zoom)
 	config.set_value("video", "camera_angle", camera_angle)
 	config.set_value("video", "renderer", renderer)
@@ -379,6 +386,7 @@ func load_settings(path: String = PATH) -> void:
 	if render_scale_pct != 0:
 		render_scale_pct = clampi(render_scale_pct, 50, 100)
 	sharpness = clampf(float(config.get_value("video", "sharpness", 0.8)), 0.0, 1.0)
+	dynamic_resolution = clampi(int(config.get_value("video", "dynamic_resolution", DynamicResolution.Mode.AUTO)), 0, DynamicResolution.MODE_NAMES.size() - 1)
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, 2)
 	renderer = str(config.get_value("video", "renderer", renderer))
@@ -463,9 +471,9 @@ func _switch_driver_if_needed() -> void:
 
 ## One line for the game log and reports: the graphics settings in use.
 func summary() -> String:
-	return "quality %s (recommended %s for this GPU), render scale %.2f, upscaler %d, sharpness %.2f, fog %d, bloom %s, depth of field %s, vsync %s, max fps %d, window mode %d, renderer %s%s" % [
+	return "quality %s (recommended %s for this GPU), render scale %.2f, upscaler %d, sharpness %.2f, dynamic resolution %d, fog %d, bloom %s, depth of field %s, vsync %s, max fps %d, window mode %d, renderer %s%s" % [
 		GraphicsQuality.display_name(graphics_quality), GraphicsQuality.display_name(GraphicsQuality.recommended()), GraphicsQuality.effective_render_scale(graphics_quality),
-		upscaling_mode, sharpness, fog_quality, str(bloom), str(depth_of_field), str(vsync), max_fps, window_mode, renderer, ", SAFE MODE" if safe_mode else ""]
+		upscaling_mode, sharpness, dynamic_resolution, fog_quality, str(bloom), str(depth_of_field), str(vsync), max_fps, window_mode, renderer, ", SAFE MODE" if safe_mode else ""]
 
 
 ## Back to the defaults of the display, text, accessibility and audio options (key bindings have their own reset).
@@ -498,6 +506,7 @@ func reset_to_defaults() -> void:
 	upscaling_mode = GraphicsQuality.Upscaler.AUTO
 	render_scale_pct = 0
 	sharpness = 0.8
+	dynamic_resolution = DynamicResolution.Mode.AUTO
 	apply()
 	text_changed.emit()
 	accessibility_changed.emit()

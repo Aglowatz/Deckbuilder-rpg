@@ -121,6 +121,10 @@ func _build_display() -> void:
 	scale_options.name = "RenderScaleOptions"
 	_body.add_child(_row("Render scale (3D)", scale_options))
 	_body.add_child(_slider_row("Sharpness (upscaled image)", Settings.sharpness, _on_sharpness, _percent(Settings.sharpness), "SharpnessSlider"))
+	# Performance pass Oct 25: when the frame rate dips, the 3D picture renders a little smaller for a moment (Auto: Low and Medium only).
+	var drs: OptionButton = _options(DynamicResolution.MODE_NAMES, Settings.dynamic_resolution, _on_dynamic_resolution)
+	drs.name = "DynamicResolutionOptions"
+	_body.add_child(_row("Dynamic resolution", drs))
 	_body.add_child(_slider_row("UI scale", (Settings.ui_scale - Settings.UI_SCALE_MIN) / (Settings.UI_SCALE_MAX - Settings.UI_SCALE_MIN), _on_ui_scale, _scale_text(), "UiScaleSlider"))
 	var angle_options: OptionButton = _options(CameraRig.ANGLE_NAMES, Settings.camera_angle, _on_camera_angle)
 	angle_options.name = "CameraAngleOptions"
@@ -385,6 +389,13 @@ func _on_upscaling(index: int) -> void:
 func _on_render_scale(index: int) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.render_scale_pct = GraphicsQuality.RENDER_SCALE_CHOICES[clampi(index, 0, GraphicsQuality.RENDER_SCALE_CHOICES.size() - 1)]
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_dynamic_resolution(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.dynamic_resolution = index
 	Settings.graphics_changed.emit()
 	_saved()
 

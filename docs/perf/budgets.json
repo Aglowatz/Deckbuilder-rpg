@@ -1,0 +1,278 @@
+{
+	"_about": "Performance budgets (docs/perf/budgets.md). frame: per area and quality on the development PC (Ryzen 5 4500U iGPU, 1600x900, vsync off) - avg_ms and p99_ms (1% low as a frame time) are 1.3x / 1.4x the Oct 25 numbers, draw_calls 1.2x, vram_mb 1.15x, ram_mb 1.12x. structure: headless counts per area at Medium, 1.2x. Re-base after a deliberate change with tools/perf_run.sh + this file.",
+	"frame": {
+		"crosspath": {
+			"Low": {
+				"avg_ms": 14.5,
+				"p99_ms": 23.4,
+				"draw_calls": 690,
+				"vram_mb": 940,
+				"ram_mb": 1740
+			},
+			"Medium": {
+				"avg_ms": 19.5,
+				"p99_ms": 25.3,
+				"draw_calls": 840,
+				"vram_mb": 960,
+				"ram_mb": 1850
+			}
+		},
+		"forest": {
+			"Low": {
+				"avg_ms": 10.4,
+				"p99_ms": 13.4,
+				"draw_calls": 160,
+				"vram_mb": 290,
+				"ram_mb": 920
+			},
+			"Medium": {
+				"avg_ms": 15.5,
+				"p99_ms": 18.7,
+				"draw_calls": 200,
+				"vram_mb": 320,
+				"ram_mb": 1040
+			}
+		},
+		"gainlands": {
+			"Low": {
+				"avg_ms": 15.3,
+				"p99_ms": 20.9,
+				"draw_calls": 500,
+				"vram_mb": 790,
+				"ram_mb": 1630
+			},
+			"Medium": {
+				"avg_ms": 19.2,
+				"p99_ms": 24,
+				"draw_calls": 640,
+				"vram_mb": 810,
+				"ram_mb": 1620
+			}
+		},
+		"buffet": {
+			"Low": {
+				"avg_ms": 12.3,
+				"p99_ms": 21.1,
+				"draw_calls": 450,
+				"vram_mb": 640,
+				"ram_mb": 1470
+			},
+			"Medium": {
+				"avg_ms": 16,
+				"p99_ms": 21.2,
+				"draw_calls": 580,
+				"vram_mb": 670,
+				"ram_mb": 1470
+			}
+		},
+		"dna": {
+			"Low": {
+				"avg_ms": 13.4,
+				"p99_ms": 23.3,
+				"draw_calls": 460,
+				"vram_mb": 640,
+				"ram_mb": 1410
+			},
+			"Medium": {
+				"avg_ms": 15.7,
+				"p99_ms": 28.9,
+				"draw_calls": 740,
+				"vram_mb": 670,
+				"ram_mb": 1410
+			}
+		},
+		"heap": {
+			"Low": {
+				"avg_ms": 14.2,
+				"p99_ms": 21,
+				"draw_calls": 530,
+				"vram_mb": 810,
+				"ram_mb": 1660
+			},
+			"Medium": {
+				"avg_ms": 17.1,
+				"p99_ms": 20.8,
+				"draw_calls": 900,
+				"vram_mb": 830,
+				"ram_mb": 1640
+			}
+		},
+		"capital_out": {
+			"Low": {
+				"avg_ms": 15.5,
+				"p99_ms": 20.2,
+				"draw_calls": 350,
+				"vram_mb": 830,
+				"ram_mb": 1740
+			},
+			"Medium": {
+				"avg_ms": 18.2,
+				"p99_ms": 24.3,
+				"draw_calls": 480,
+				"vram_mb": 870,
+				"ram_mb": 1740
+			}
+		},
+		"capital_in": {
+			"Low": {
+				"avg_ms": 15.7,
+				"p99_ms": 24.1,
+				"draw_calls": 390,
+				"vram_mb": 840,
+				"ram_mb": 1770
+			},
+			"Medium": {
+				"avg_ms": 18.5,
+				"p99_ms": 25,
+				"draw_calls": 570,
+				"vram_mb": 880,
+				"ram_mb": 1770
+			}
+		},
+		"battle": {
+			"Low": {
+				"avg_ms": 3.8,
+				"p99_ms": 4.7,
+				"draw_calls": 240,
+				"vram_mb": 200,
+				"ram_mb": 920
+			},
+			"Medium": {
+				"avg_ms": 3.8,
+				"p99_ms": 4.7,
+				"draw_calls": 240,
+				"vram_mb": 200,
+				"ram_mb": 920
+			}
+		},
+		"dungeon_map": {
+			"Low": {
+				"avg_ms": 2.9,
+				"p99_ms": 3.3,
+				"draw_calls": 60,
+				"vram_mb": 120,
+				"ram_mb": 760
+			},
+			"Medium": {
+				"avg_ms": 2.9,
+				"p99_ms": 3.3,
+				"draw_calls": 60,
+				"vram_mb": 120,
+				"ram_mb": 760
+			}
+		},
+		"deck_station": {
+			"Low": {
+				"avg_ms": 9.5,
+				"p99_ms": 14.2,
+				"draw_calls": 820,
+				"vram_mb": 960,
+				"ram_mb": 1830
+			},
+			"Medium": {
+				"avg_ms": 9.6,
+				"p99_ms": 14,
+				"draw_calls": 820,
+				"vram_mb": 990,
+				"ram_mb": 1810
+			}
+		},
+		"collection": {
+			"Low": {
+				"avg_ms": 8,
+				"p99_ms": 11.7,
+				"draw_calls": 270,
+				"vram_mb": 920,
+				"ram_mb": 1750
+			},
+			"Medium": {
+				"avg_ms": 8.4,
+				"p99_ms": 14.2,
+				"draw_calls": 270,
+				"vram_mb": 940,
+				"ram_mb": 1760
+			}
+		},
+		"vendor": {
+			"Low": {
+				"avg_ms": 7.1,
+				"p99_ms": 10.4,
+				"draw_calls": 70,
+				"vram_mb": 940,
+				"ram_mb": 1880
+			},
+			"Medium": {
+				"avg_ms": 7.3,
+				"p99_ms": 11.7,
+				"draw_calls": 70,
+				"vram_mb": 920,
+				"ram_mb": 1820
+			}
+		}
+	},
+	"structure": {
+		"crosspath": {
+			"nodes": 2370,
+			"meshes": 950,
+			"multimesh_instances": 4470,
+			"lights": 17,
+			"particles": 22,
+			"labels": 2,
+			"scripts": 100
+		},
+		"forest": {
+			"nodes": 420,
+			"meshes": 120,
+			"multimesh_instances": 4330,
+			"lights": 8,
+			"particles": 5,
+			"labels": 2,
+			"scripts": 40
+		},
+		"gainlands": {
+			"nodes": 2030,
+			"meshes": 1160,
+			"multimesh_instances": 2740,
+			"lights": 5,
+			"particles": 18,
+			"labels": 3,
+			"scripts": 90
+		},
+		"buffet": {
+			"nodes": 1800,
+			"meshes": 1050,
+			"multimesh_instances": 890,
+			"lights": 11,
+			"particles": 34,
+			"labels": 3,
+			"scripts": 80
+		},
+		"dna": {
+			"nodes": 1380,
+			"meshes": 600,
+			"multimesh_instances": 640,
+			"lights": 14,
+			"particles": 6,
+			"labels": 3,
+			"scripts": 90
+		},
+		"heap": {
+			"nodes": 3020,
+			"meshes": 1740,
+			"multimesh_instances": 3860,
+			"lights": 9,
+			"particles": 34,
+			"labels": 3,
+			"scripts": 90
+		},
+		"capital": {
+			"nodes": 3180,
+			"meshes": 1680,
+			"multimesh_instances": 660,
+			"lights": 23,
+			"particles": 27,
+			"labels": 2,
+			"scripts": 120
+		}
+	}
+}
