@@ -85,3 +85,5 @@ Next biggest costs from the ranked list: kit-mesh caching for loads (Capital wal
   time left). Both reverted; `KitMesh.snapshot/restore` stays (the Capital rim uses it). Lesson: run the walk smoke TWICE (cold, then warm
   cache) after any new cached piece. `WAYWARD_BUILD_CACHE_SKIP=<prefixes>` bisects. HubLand has LoadTiming.detail marks (boundary 0.25 s,
   outskirts 0.19 s, tree belt 0.3 s).
+- **Cycle 3 (Dump load):** `HeapBuilder._build_terrain` caches its surface arrays (key: freed + a 16x16 sample of heights and colours):
+  1.26 -> 0.14 s, Dump load 6.4 -> 5.5 s. Shot within the earlier Dump range (heat: motion only), Dump walk smoke OK on a warm cache.

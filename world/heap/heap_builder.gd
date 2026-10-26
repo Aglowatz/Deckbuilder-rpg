@@ -379,6 +379,30 @@ func _terrain_color(centroid: Vector3, steep: float = 0.0) -> Color:
 
 
 func _build_terrain() -> void:
+	# Performance pass Oct 25: the land mesh (1.1 s of sampling) comes from BuildCache after the first build; the key holds the freed state and
+	# a coarse sample of the heights and colours it is made from (a layout or gradient change makes a new mesh).
+	var sample: PackedFloat32Array = PackedFloat32Array()
+	for gz: int in range(16):
+		for gx: int in range(16):
+			var at: Vector3 = _vertex(HeapLayout.MIN_CORNER.x + (HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x) * float(gx) / 15.0, HeapLayout.MIN_CORNER.y + (HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y) * float(gz) / 15.0)
+			var tone: Color = _terrain_color(at, 0.3)
+			sample.append_array([at.y, tone.r, tone.g, tone.b])
+	var ctx: HashingContext = HashingContext.new()
+	ctx.start(HashingContext.HASH_MD5)
+	ctx.update(sample.to_byte_array())
+	var arrays: Variant = BuildCache.fetch("heap_land_%d_%s" % [1 if freed else 0, ctx.finish().hex_encode().substr(0, 12)], _terrain_arrays)
+	var mesh: ArrayMesh = ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays as Array)
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.mesh = mesh
+	instance.material_override = H.terrain()
+	instance.name = "Land"
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	root.add_child(instance)
+
+
+func _terrain_arrays() -> Array:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
@@ -414,13 +438,7 @@ func _build_terrain() -> void:
 			_tri(surface, p00, p10, p11, _terrain_color(c1, 1.0 - absf(n1.y)))
 			_tri(surface, p00, p11, p01, _terrain_color(c2, 1.0 - absf(n2.y)))
 	surface.generate_normals()
-	var instance: MeshInstance3D = MeshInstance3D.new()
-	instance.mesh = surface.commit()
-	instance.material_override = H.terrain()
-	instance.name = "Land"
-	instance.set_meta(&"no_range_cull", true)
-	instance.set_meta(&"no_occlusion_fade", true)
-	root.add_child(instance)
+	return surface.commit_to_arrays()
 
 
 ## How far past the rims the terrain mesh goes (the valley's walls and the wooded rim above them).
