@@ -174,6 +174,12 @@ static func look_overrides(preset_id: StringName) -> Dictionary:
 		result["fog_color"] = str(fog["color"]).trim_prefix("#")
 	if fog.has("density"):
 		result["fog_density"] = float(fog["density"])
+	# Graphics Tier 2 (docs/art/graphics_tier2.md): height fog for hollows - thicker below `height` (world y) by `height_density` per metre; the engine's own
+	# exponential height term, no extra pass. Scaled by the fog quality setting with the distance fog (off on Low).
+	if fog.has("height"):
+		result["fog_height"] = float(fog["height"])
+	if fog.has("height_density"):
+		result["fog_height_density"] = float(fog["height_density"])
 	var bloom: Dictionary = data.get("bloom", {}) as Dictionary
 	if bloom.has("intensity"):
 		result["bloom"] = float(bloom["intensity"])

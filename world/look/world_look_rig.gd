@@ -464,6 +464,9 @@ func _apply(force: bool) -> void:
 		_env.fog_enabled = fog_scale > 0.0
 		_env.fog_density = float(p["fog_density"]) * fog_scale
 		_env.fog_light_color = Color.html(str(p["fog_color"]))
+		# Graphics Tier 2: height fog in hollows (zone style `fog.height` / `fog.height_density`, blended like the other look values).
+		_env.fog_height = float(p.get("fog_height", 0.0))
+		_env.fog_height_density = float(p.get("fog_height_density", 0.0)) * fog_scale
 		_env.fog_sky_affect = 0.0
 		if _env.background_mode == Environment.BG_COLOR:
 			_env.background_color = Color.html(str(p["fog_color"]))
