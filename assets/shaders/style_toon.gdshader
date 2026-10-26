@@ -1,6 +1,7 @@
 shader_type spatial;
 render_mode diffuse_lambert, specular_disabled, cull_back;
 #include "res://assets/shaders/style_ground_light.gdshaderinc"
+#include "res://assets/shaders/style_wind.gdshaderinc"
 // The unified toon material for every world mesh and character (docs/art/style_guide.md, section 2).
 // Banded lighting with soft edges (the bands also step lantern pools), the coloured shadow comes from the zone's tinted ambient light,
 // a thresholded rim, optional emission, vertex-colour or atlas albedo, shader wind for foliage, and a desaturation mode (the D.N.A.)
@@ -59,10 +60,9 @@ instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
 // Hanging cloth (Gainlands v2, Part E): banners and flags hung from a bar. StyleToon sets these per mesh from its bounds (StyleToon.hang_params):
 // hang.xyz = the cloth's normal (local), hang.w = its length (0 = not hanging cloth), hang_top_phase = the top edge's local height and a phase per banner.
 // The top edge stays still, the swing grows towards the bottom edge (squared), only across the cloth (never through its pole), small, slow, one wind
-// direction for the whole zone (STYLE_WIND_DIR).
+// direction for the whole zone (STYLE_WIND_DIR and hang_offset: style_wind.gdshaderinc).
 instance uniform vec4 hang = vec4(0.0);
 instance uniform vec2 hang_top_phase = vec2(0.0);
-const vec3 STYLE_WIND_DIR = vec3(0.86, 0.0, 0.5);
 
 const float BAYER[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
 
@@ -83,28 +83,18 @@ float value_noise(vec3 p) {
 			mix(mix(hash31(i + vec3(0, 0, 1)), hash31(i + vec3(1, 0, 1)), f.x), mix(hash31(i + vec3(0, 1, 1)), hash31(i + vec3(1, 1, 1)), f.x), f.y), f.z);
 }
 
-// The hanging cloth's offset at a vertex (local space): along the cloth's normal only, zero at the top edge, growing with the square of the distance
-// down the cloth, at most about 3.5 % of the cloth's length; the wind's push through the cloth sets the lean, a slow gust and a little flutter the motion.
-vec3 hang_offset(vec3 v, mat4 model, vec4 cloth, vec2 top_phase, float time) {
-	float down = clamp((top_phase.x - v.y) / cloth.w, 0.0, 1.0);
-	vec3 n = normalize(cloth.xyz);
-	vec3 wind_local = normalize(transpose(mat3(model)) * STYLE_WIND_DIR);
-	float push = dot(wind_local, n);
-	float lean = mix(0.35, 1.0, abs(push)) * (push < 0.0 ? -1.0 : 1.0);
-	float gust = 0.55 + 0.35 * sin(time * 0.85 + top_phase.y) + 0.1 * sin(time * 2.4 + top_phase.y * 1.7);
-	return n * lean * gust * down * down * cloth.w * 0.035;
-}
-
 void vertex() {
 	v_world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	if (wind_amount > 0.0 && hang.w > 0.0) {
 		VERTEX += hang_offset(VERTEX, MODEL_MATRIX, hang, hang_top_phase, TIME) * style_wind;
 	} else if (wind_amount > 0.0) {
+		// Foliage sway along the shared wind direction, pushed harder when the zone's gust front passes (Tier 2).
 		vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-		float sway = sin(TIME * 1.7 + world.x * 0.55 + world.z * 0.45) + 0.5 * sin(TIME * 3.1 + world.z * 0.9);
+		float gust = style_wind_gust(MODEL_MATRIX[3].xz, TIME);
+		float sway = (sin(TIME * 1.7 + world.x * 0.55 + world.z * 0.45) + 0.5 * sin(TIME * 3.1 + world.z * 0.9)) * (0.6 + 0.8 * gust);
 		float height = max(VERTEX.y, 0.0);
-		VERTEX.x += sway * wind_amount * style_wind * height * height * 0.12;
-		VERTEX.z += sway * 0.6 * wind_amount * style_wind * height * height * 0.12;
+		VERTEX.x += sway * STYLE_WIND_DIR.x * wind_amount * style_wind * height * height * 0.12;
+		VERTEX.z += sway * STYLE_WIND_DIR.z * wind_amount * style_wind * height * height * 0.12;
 	}
 }
 

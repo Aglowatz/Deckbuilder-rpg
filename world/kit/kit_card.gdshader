@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode unshaded, cull_disabled, depth_prepass_alpha;
+#include "res://assets/shaders/style_wind.gdshaderinc"
 // A painted card for the Environment Kit (trees ENV-TREE-*): an upright quad that turns round the vertical axis to face the camera, bends a little in the wind (more at the
 // top), is lit with the sun and ambient colours of the zone (faked, like the foliage layer) and is darker towards its roots. The texture is the kit art or its placeholder.
 //
@@ -7,6 +8,7 @@ render_mode unshaded, cull_disabled, depth_prepass_alpha;
 // smooth ghost instead of filling the screen with canopy. The test is per card, so it works for the MultiMesh tree fields too: the card's trunk point is projected on the
 // camera -> hero line; cards near that line, in front of the hero and tall enough to reach the sight line, fade by `fade_strength`. Plain alpha, never a dither.
 
+global uniform float style_wind;
 uniform sampler2D card_tex : source_color, filter_linear_mipmap, repeat_disable;
 uniform vec3 light_color : source_color = vec3(1.0, 0.92, 0.78);
 uniform vec3 ambient_color : source_color = vec3(0.55, 0.6, 0.78);
@@ -28,7 +30,9 @@ void vertex() {
 	vec3 right = normalize(vec3(INV_VIEW_MATRIX[0].x, 0.0, INV_VIEW_MATRIX[0].z));
 	float h = clamp(VERTEX.y, 0.0, 1.0);
 	float phase = origin.x * 0.31 + origin.z * 0.23;
-	float bend = (sin(TIME * speed + phase) * 0.7 + sin(TIME * speed * 2.3 + phase * 1.7) * 0.3) * sway;
+	// Tier 2: the tree's own slow sway, pushed harder when the zone's shared gust front passes (and scaled by the zone's wind).
+	float gust = style_wind_gust(origin.xz, TIME);
+	float bend = (sin(TIME * speed + phase) * 0.7 + sin(TIME * speed * 2.3 + phase * 1.7) * 0.3) * sway * (0.6 + 0.8 * gust) * style_wind;
 	vec3 world = origin + right * (VERTEX.x * sx + bend * h * h * sy) + vec3(0.0, VERTEX.y * sy, 0.0);
 	POSITION = PROJECTION_MATRIX * VIEW_MATRIX * vec4(world, 1.0);
 	// Occlusion: where does this card stand relative to the camera -> hero line?

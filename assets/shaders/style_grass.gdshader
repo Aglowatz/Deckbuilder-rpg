@@ -1,5 +1,6 @@
 shader_type spatial;
 render_mode cull_disabled, diffuse_lambert, specular_disabled;
+#include "res://assets/shaders/style_wind.gdshaderinc"
 // Grass blades (docs/art/graphics_loop.md, G-06): clumps of tapered blades in a MultiMesh. Base-to-tip colour gradient, per-clump hue/value variation
 // (hashed from the instance position), travelling wind gusts plus a flutter, and the hero tramples the blades flat around their feet
 // (`style_player_pos`). Lit with the same soft toon bands as everything else; blade normals lean towards up so a clump shades like ground cover.
@@ -32,12 +33,10 @@ void vertex() {
 	v_height = h;
 	v_variation = hash21(origin.xz * 3.7);
 	float scale_sq = max(dot(MODEL_MATRIX[0].xyz, MODEL_MATRIX[0].xyz), 0.0001);
-	// Wind: a gust wave travelling across the field, plus a quick per-blade flutter.
-	float gust = sin(dot(origin.xz, vec2(0.62, 0.41)) - TIME * gust_speed);
-	gust = gust * 0.5 + 0.5;
-	gust *= gust;
-	float flutter = sin(TIME * 2.6 + origin.x * 1.9 + origin.z * 1.4 + VERTEX.x * 9.0);
-	vec2 push = vec2(1.0, 0.4) * (0.25 + gust * 0.9 + flutter * 0.18) * wind_strength * style_wind * h * h;
+	// Wind (Tier 2: the zone's shared gust front and direction), plus a quick per-blade flutter.
+	float gust = style_wind_gust(origin.xz, TIME);
+	float flutter = style_wind_flutter(origin.xz, TIME, VERTEX.x * 9.0);
+	vec2 push = STYLE_WIND_DIR.xz * (0.25 + gust * 0.9 + flutter * 0.18) * wind_strength * style_wind * h * h;
 	// Trample: blades near the hero lean away from him and lose height.
 	vec2 away = origin.xz - style_player_pos.xz;
 	float dist = length(away);

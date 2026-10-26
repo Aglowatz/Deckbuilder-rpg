@@ -1,10 +1,12 @@
 shader_type spatial;
 render_mode unshaded, cull_disabled;
+#include "res://assets/shaders/style_wind.gdshaderinc"
 // Painted foliage cards for the World Look Test (WorldFoliage, one MultiMesh): each instance is an upright camera-facing card (it turns round the vertical axis only)
 // showing one cell of the 3 x 2 atlas (grass, grass with seed heads, wildflowers, tall flowers, bush, fern). Wind bends the top of every card; a slow gust travels across the field.
 // Lighting is faked (ambient + sun colour, darker at the base) so a thousand cards cost nothing, and the colour follows the town's light.
 // Instance custom data: x = atlas cell, y = phase, z = tint variation, w = unused.
 
+global uniform float style_wind;
 uniform sampler2D atlas : source_color, filter_linear_mipmap, repeat_disable;
 uniform vec3 light_color : source_color = vec3(1.0, 0.92, 0.78);
 uniform vec3 ambient_color : source_color = vec3(0.55, 0.6, 0.78);
@@ -25,8 +27,9 @@ void vertex() {
 	vec3 right = normalize(vec3(INV_VIEW_MATRIX[0].x, 0.0, INV_VIEW_MATRIX[0].z));
 	float h = clamp(VERTEX.y, 0.0, 1.0);
 	float phase = INSTANCE_CUSTOM.y * 6.2831;
-	float gust = 0.5 + 0.5 * sin(dot(origin.xz, vec2(0.09, 0.06)) - TIME * 0.7);
-	float sway = (sin(TIME * wind_speed + phase + origin.x * 0.4 + origin.z * 0.3) * 0.6 + gust * 0.9 - 0.3) * wind_strength;
+	// Tier 2: the zone's shared gust front (and its wind global), with the card's own flutter on top.
+	float gust = style_wind_gust(origin.xz, TIME);
+	float sway = (sin(TIME * wind_speed + phase + origin.x * 0.4 + origin.z * 0.3) * 0.6 + gust * 0.9 - 0.3) * wind_strength * style_wind;
 	vec3 world = origin + right * (VERTEX.x * sx + sway * h * h * sy) + vec3(0.0, VERTEX.y * sy, 0.0);
 	v_cell = INSTANCE_CUSTOM.x;
 	v_tint = INSTANCE_CUSTOM.z;
