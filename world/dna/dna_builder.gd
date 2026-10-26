@@ -539,6 +539,17 @@ func _build_set_pieces() -> void:
 	_build_chests()
 
 
+## The mail room's pneumatic tubes (Fixes Oct 26): heights and the wall faces they hug (the room is cells x 36..53, z 28..41).
+const TUBE_LOW: float = 3.6
+const TUBE_HIGH: float = 3.85
+const MAIL_WALL_NORTH: float = 28.0
+const MAIL_WALL_WEST: float = 36.0
+const MAIL_WALL_EAST: float = 54.0
+const MAIL_TUBE_NORTH: float = 28.22
+const MAIL_TUBE_WEST: float = 36.22
+const MAIL_TUBE_EAST: float = 53.78
+
+
 func _build_tube_network() -> void:
 	var parent: Node3D = chunk_for(anchor("mail_center"))
 	var pipe_material: StandardMaterial3D = StandardMaterial3D.new()
@@ -550,12 +561,15 @@ func _build_tube_network() -> void:
 	capsule_material.emission_enabled = true
 	capsule_material.emission = Color(0.4, 1.0, 0.8)
 	capsule_material.emission_energy_multiplier = 2.5
+	# Fixes Oct 26: the runs hug the walls well above the hero's head (the hero is 1.7 m, a hat ~0.5 m more: TUBE_LOW leaves over a metre of room), held by
+	# brass brackets on the wall faces - nothing stands on the floor. They were at 1.3 / 1.55 m, a metre into the room, across the walkway.
 	var runs: Array[Array] = [
-		[Vector3(37.0, 1.3, 28.7), Vector3(53.0, 1.3, 28.7)],
-		[Vector3(37.0, 1.55, 28.7), Vector3(53.0, 1.55, 28.7)],
-		[Vector3(37.0, 1.3, 28.7), Vector3(37.0, 1.3, 40.5)],
-		[Vector3(53.0, 1.55, 28.7), Vector3(53.0, 1.55, 40.5)],
+		[Vector3(MAIL_TUBE_WEST, TUBE_LOW, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_LOW, MAIL_TUBE_NORTH)],
+		[Vector3(MAIL_TUBE_WEST, TUBE_HIGH, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_HIGH, MAIL_TUBE_NORTH)],
+		[Vector3(MAIL_TUBE_WEST, TUBE_LOW, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_WEST, TUBE_LOW, 40.5)],
+		[Vector3(MAIL_TUBE_EAST, TUBE_HIGH, MAIL_TUBE_NORTH), Vector3(MAIL_TUBE_EAST, TUBE_HIGH, 40.5)],
 	]
+	_tube_brackets(parent, pipe_material, runs)
 	for run_points: Array in runs:
 		var a: Vector3 = run_points[0] as Vector3
 		var b: Vector3 = run_points[1] as Vector3
@@ -584,6 +598,24 @@ func _build_tube_network() -> void:
 		var travel: Tween = capsule.create_tween().set_loops()
 		travel.tween_property(capsule, "position", b, 2.0 + _rng.randf() * 2.0).from(a)
 		travel.tween_interval(0.5 + _rng.randf())
+
+
+## A brass bracket every ~2.5 m along each run: an arm from the wall face to the pipe (wall-mounted, clear of the floor).
+func _tube_brackets(parent: Node3D, material: Material, runs: Array[Array]) -> void:
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("brass", material)
+	for run_points: Array in runs:
+		var a: Vector3 = run_points[0] as Vector3
+		var b: Vector3 = run_points[1] as Vector3
+		var steps: int = maxi(1, int(a.distance_to(b) / 2.5))
+		for i: int in range(steps + 1):
+			var p: Vector3 = a.lerp(b, float(i) / float(steps))
+			# the arm runs back to the nearest wall face (the north wall for the east-west runs, the side wall for the north-south ones)
+			var wall: Vector3 = Vector3(p.x, p.y, MAIL_WALL_NORTH) if absf(a.z - b.z) < 0.01 else Vector3(MAIL_WALL_WEST if p.x < 45.0 else MAIL_WALL_EAST, p.y, p.z)
+			mesh.box("brass", (p + wall) * 0.5, Vector3(maxf(absf(wall.x - p.x), 0.05), 0.05, maxf(absf(wall.z - p.z), 0.05)), Basis.IDENTITY, 0.0)
+	var brackets: MeshInstance3D = mesh.instance("TubeBrackets")
+	brackets.set_meta(&"no_occlusion_fade", true)
+	parent.add_child(brackets)
 
 
 func _build_chests() -> void:

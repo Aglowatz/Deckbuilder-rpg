@@ -8,13 +8,15 @@ extends RefCounted
 ## Wall styles come from the room the wall cell borders: marble wainscot and wallpaper in the lobby and on the executive floor, paneling and frosted glass round
 ## the cubicle farms and the elevator bank, checkertile wainscot in the breakroom and the mail room, grey stone in the filing canyons and the records basement.
 
-## The interior height of the office, floor to the (implied) ceiling: the hero is 0.68 m, so about six and a half heroes - a huge civic building.
-const WALL_HEIGHT: float = 4.5
+## The interior height of the office, floor to the (implied) ceiling: about six heroes - a huge civic building. Fixes Oct 26: 4.5 -> 10 m, so from the
+## default camera (Normal zoom, Cinematic or Classic: the lens 6.6 / 9.1 m above the hero) no wall top shows anywhere: a wall top above the lens hides the
+## farther walls' tops, and the top edge of the view crosses every wall below its top (test_dna_walls_and_lights.gd checks the numbers).
+const WALL_HEIGHT: float = 10.0
 const WAINSCOT_H: float = 1.0
 const GLASS_TOP: float = 2.3
 ## The building's outer shell (the perimeter wall cells with nothing but void beyond them to the west, east or north): much taller, so the top edge of the view
 ## shows the far wall of the building, not the sky.
-const SHELL_HEIGHT: float = 9.0
+const SHELL_HEIGHT: float = 12.0
 ## A doorway spans at most this many cells (wider gaps are open plan, not doors).
 const MAX_DOOR_CELLS: int = 8
 ## How far round the sight line a wall cut-away reaches when the wall stands at the lens (metres, shrinking to the normal reach at the hero).
@@ -49,8 +51,8 @@ static func mesh() -> DnaFadeMesh:
 	fade.set_slot("brass", "DNA-TRIM-BRASS", Color.WHITE, 1.0, 0.0, WALL_NEAR_REACH)
 	fade.set_slot("glass", "", GLASS, 0.42, 0.12, WALL_NEAR_REACH)
 	fade.set_slot("sconce", "", SHADE, 1.0, 1.8, WALL_NEAR_REACH)
-	# the soft pool of light a sconce throws on its wall (a faint glowing plate just off the face)
-	fade.set_slot("wash", "", SHADE, 0.16, 0.9, WALL_NEAR_REACH)
+	# the soft pool of light a sconce throws on its wall: a round glow disc fading to nothing at its rim (Fixes Oct 26: it was a flat plate with box edges)
+	fade.set_slot("wash", "", SHADE, 0.34, 1.1, WALL_NEAR_REACH)
 	return fade
 
 
@@ -220,7 +222,7 @@ static func build_sconces(layout: DnaLayout, fade: DnaFadeMesh, wall_cells: Arra
 			var across_x: bool = step.x != 0
 			var face: Vector3 = center + out * 0.5 + Vector3(0, SCONCE_Y, 0)
 			fade.box("brass", piece, face + out * 0.03, Vector3(0.06, 0.56, 0.38) if across_x else Vector3(0.38, 0.56, 0.06))
-			fade.box("wash", piece, face + out * 0.015 + Vector3(0, 0.2, 0), Vector3(0.01, 1.6, 1.1) if across_x else Vector3(1.1, 1.6, 0.01))
+			fade.disc("wash", piece, face + out * 0.015 + Vector3(0, 0.15, 0), out, 0.95)
 			fade.box("sconce", piece, face + out * 0.12, Vector3(0.18, 0.36, 0.3) if across_x else Vector3(0.3, 0.36, 0.18))
 			fade.box("brass", piece, face + out * 0.12 + Vector3(0, 0.17, 0), Vector3(0.2, 0.04, 0.3) if across_x else Vector3(0.3, 0.04, 0.2))
 			lights.append(face + out * 0.7)

@@ -15,6 +15,9 @@ uniform float fade_strength : hint_range(0.0, 1.0) = 0.86;
 uniform float fade_reach = 1.1;
 // Oct 19 (the office interior): the reach grows by this much for a piece at the lens (t = 0), so a full-height wall near the camera cuts away wide.
 uniform float near_reach = 0.0;
+// Fixes Oct 26 (10 m walls): a full-height wall that stands nearer the camera than the hero (along the view) fades whether or not it sits on the sight line,
+// so the hero's whole room shows (a dollhouse cut at the hero's depth) instead of a slot through its near wall; walls beyond the hero stay up.
+uniform bool cut_front = false;
 // Frosted glass (base alpha under 1) and the fluorescent tubes (emission) share the shader.
 uniform float base_alpha : hint_range(0.0, 1.0) = 1.0;
 uniform float emission_strength = 0.0;
@@ -22,6 +25,9 @@ global uniform float style_desaturate;
 
 varying float v_fade;
 varying vec3 v_tint;
+// Fixes Oct 26: CUSTOM1.yzw = (disc u, disc v, 1) on a soft glow disc (DnaFadeMesh.disc): alpha and emission fall off round its centre, so a lamp's glow on
+// its wall is a soft round pool with no edges (the old flat plate read as a rectangle).
+varying vec3 v_disc;
 
 void vertex() {
 	vec3 origin = vec3(CUSTOM0.x, 0.0, CUSTOM0.y);
@@ -49,8 +55,10 @@ void vertex() {
 	float enabled = step(-999.0, hero_pos.y);
 	// a wall standing at the lens cuts away whether or not it blocks the hero: the camera never looks at a wall face in the foreground
 	float at_lens = (1.0 - smoothstep(near_reach * 0.45, near_reach, length(origin.xz - cam.xz))) * step(0.5, near_reach);
-	v_fade = max(corridor * in_front * covers, at_lens) * enabled * fade_strength;
+	float front = cut_front ? in_front * step(0.0, t_raw) * (1.0 - smoothstep(top - 0.3, top + 0.35, cam.y)) : 0.0;
+	v_fade = max(max(corridor * in_front * covers, at_lens), front) * enabled * fade_strength;
 	v_tint = COLOR.rgb;
+	v_disc = CUSTOM1.yzw;
 }
 
 void fragment() {
@@ -60,6 +68,11 @@ void fragment() {
 	}
 	ALBEDO = mix(c, vec3(dot(c, vec3(0.299, 0.587, 0.114))), style_desaturate);
 	ROUGHNESS = 0.95;
-	EMISSION = c * emission_strength;
-	ALPHA = base_alpha * (1.0 - v_fade);
+	float soft = 1.0;
+	if (v_disc.z > 0.5) {
+		soft = 1.0 - smoothstep(0.0, 1.0, length(v_disc.xy));
+		soft *= soft;
+	}
+	EMISSION = c * emission_strength * soft;
+	ALPHA = base_alpha * (1.0 - v_fade) * soft;
 }

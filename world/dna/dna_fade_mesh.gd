@@ -12,6 +12,8 @@ var _triangles: int = 0
 
 static var _shader: Shader
 
+const WALL_FADE_STRENGTH: float = 1.0
+
 
 ## A slot drawn with a kit surface (`texture_id`, tiled in metres) or a flat colour (empty id), multiplied by `tint`. Oct 19: `alpha` under 1 makes frosted glass,
 ## `emission` lights the slot (the fluorescent tubes), `near_reach` widens the cut-away for pieces near the lens (full-height walls).
@@ -29,6 +31,11 @@ func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE, alpha
 	material.set_shader_parameter("base_alpha", alpha)
 	material.set_shader_parameter("emission_strength", emission)
 	material.set_shader_parameter("near_reach", near_reach)
+	# Fixes Oct 26: a full-height wall (one with a lens cut-away) fades away completely between the camera and the hero - at 10 m the old 86% ghost left a dark
+	# veil over the room behind it (the people in it read dim); cabinets and partitions keep the softer ghost.
+	if near_reach > 0.0:
+		material.set_shader_parameter("fade_strength", WALL_FADE_STRENGTH)
+		material.set_shader_parameter("cut_front", true)
 	material.set_meta(PaintedClasses.META_NO_PAINT, true)
 	material.set_meta(StyleToon.META_NO_TOON, true)
 	_materials[slot] = material
@@ -89,6 +96,30 @@ func box(slot: String, piece: Vector4, center: Vector3, size: Vector3, tint: Col
 					tool.set_custom(1, Color(bottom, 0.0, 0.0, 0.0))
 					tool.add_vertex(p)
 			_triangles += 2
+
+
+## Fixes Oct 26: a soft glow disc - one quad of `radius` round `center` facing `normal` (an axis), drawn with the slot's colour and emission falling off
+## to nothing at its rim (dna_fade.gdshader, CUSTOM1.yzw): a lamp's glow on its wall without the edges of a plate.
+func disc(slot: String, piece: Vector4, center: Vector3, normal: Vector3, radius: float, bottom: float = 0.0) -> void:
+	var tool: SurfaceTool = _tool(slot)
+	var u_dir: Vector3 = Vector3.UP.cross(normal).normalized() if absf(normal.y) < 0.9 else Vector3.RIGHT
+	var v_dir: Vector3 = normal.cross(u_dir).normalized()
+	var corners: Array[Vector2] = [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]
+	var pts: Array[Vector3] = []
+	for corner: Vector2 in corners:
+		pts.append(center + (u_dir * corner.x + v_dir * corner.y) * radius)
+	var order: Array[int] = [0, 1, 2, 0, 2, 3]
+	if (pts[1] - pts[0]).cross(pts[2] - pts[0]).dot(normal) < 0.0:
+		order = [0, 3, 2, 0, 2, 1]
+	for k: int in range(order.size() - 1, -1, -1):
+		var i: int = order[k]
+		tool.set_normal(normal)
+		tool.set_uv(KitMesh.planar_uv(pts[i], normal))
+		tool.set_color(Color.WHITE)
+		tool.set_custom(0, Color(piece.x, piece.y, piece.z, piece.w))
+		tool.set_custom(1, Color(bottom, corners[i].x, corners[i].y, 1.0))
+		tool.add_vertex(pts[i])
+	_triangles += 2
 
 
 func build() -> ArrayMesh:
