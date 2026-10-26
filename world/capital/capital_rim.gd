@@ -41,21 +41,45 @@ var _north: PackedFloat32Array = PackedFloat32Array()
 
 static func build(parent: Node3D, layout: CapitalLayout) -> CapitalRim:
 	var rim: CapitalRim = CapitalRim.new()
-	rim._distance_field(layout)
 	var node: Node3D = Node3D.new()
 	node.name = "Rim"
 	node.set_meta(&"no_wind", true)
 	parent.add_child(node)
 	var ground: KitMesh = KitMesh.new()
 	ground.set_material("rim_ground", _ground_material("TEX-CAP-ASH", 6.0))
-	rim._ground(ground)
-	node.add_child(_finish(ground.instance("RimGround")))
 	var dressing: KitMesh = KitMesh.new()
 	K.materials(dressing)
 	dressing.set_material("rim_road", _ground_material("TEX-CAP-CRACKEDROAD", 3.4))
-	rim._road(dressing)
-	rim._dressing(dressing)
-	rim._edge_row(dressing)
+	# Performance pass Oct 25: the distance field, the heights, the blockers and both meshes (1.2 s) come from BuildCache after the first
+	# build; the key holds which cells are walkable ground (the field's sources), so a layout change rebuilds.
+	var sources: PackedByteArray = PackedByteArray()
+	sources.resize(AREA.size.x * AREA.size.y)
+	for cz: int in range(AREA.position.y, AREA.end.y):
+		for cx: int in range(AREA.position.x, AREA.end.x):
+			sources[(cz - AREA.position.y) * AREA.size.x + (cx - AREA.position.x)] = 1 if _is_source(layout, cx, cz) else 0
+	var ctx: HashingContext = HashingContext.new()
+	ctx.start(HashingContext.HASH_MD5)
+	ctx.update(sources)
+	var key: String = "capital_rim_%s" % ctx.finish().hex_encode().substr(0, 12)
+	var data: Variant = BuildCache.fetch(key, func() -> Variant:
+		rim._distance_field(layout)
+		rim._ground(ground)
+		rim._road(dressing)
+		rim._dressing(dressing)
+		rim._edge_row(dressing)
+		return {"dist": rim._dist, "north": rim._north, "heights": rim.heights, "rocks": rim.rocks, "trees": rim.trees, "rubble": rim.rubble,
+			"blockers": PackedVector2Array(rim.blockers), "ground": ground.snapshot(), "dressing": dressing.snapshot()})
+	var saved: Dictionary = data as Dictionary
+	rim._dist = saved["dist"] as PackedFloat32Array
+	rim._north = saved["north"] as PackedFloat32Array
+	rim.heights = saved["heights"] as Dictionary
+	rim.rocks = int(saved["rocks"])
+	rim.trees = int(saved["trees"])
+	rim.rubble = int(saved["rubble"])
+	rim.blockers.assign(Array(saved["blockers"] as PackedVector2Array))
+	ground.restore(saved["ground"] as Dictionary)
+	dressing.restore(saved["dressing"] as Dictionary)
+	node.add_child(_finish(ground.instance("RimGround")))
 	node.add_child(_finish(dressing.instance("RimDressing")))
 	return rim
 

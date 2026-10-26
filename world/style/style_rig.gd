@@ -79,11 +79,15 @@ func _ready() -> void:
 	add_child(fill)
 	_build_outline()
 	_build_ambience()
+	LoadTiming.detail("style: outline + ambience")
 	apply()
+	LoadTiming.detail("style: apply")
 	StyleToon.apply(_scene_root, preset.wind)
+	LoadTiming.detail("style: toon conversion")
 	if cull_distance > 0.0:
 		for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
 			_limit_range(node as MeshInstance3D)
+	LoadTiming.detail("style: ranges")
 	if camera != null and follow != null:
 		var occlusion: OcclusionFader = OcclusionFader.new()
 		occlusion.name = "OcclusionFader"

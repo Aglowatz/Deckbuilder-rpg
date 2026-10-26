@@ -105,37 +105,47 @@ static func layer_index(name: String) -> int:
 static func material_array() -> Texture2DArray:
 	if _array != null:
 		return _array
+	var started: int = Time.get_ticks_usec()
 	var images: Array[Image] = []
 	for name: String in MATERIAL_LAYERS:
-		var source: Texture2D = albedo(name)
-		var image: Image = null
-		if source != null:
-			image = source.get_image()
-			if image.is_compressed():
-				image.decompress()
-			image.convert(Image.FORMAT_RGBA8)
-			image.resize(ARRAY_SIZE, ARRAY_SIZE, Image.INTERPOLATE_BILINEAR)
-			# Dark materials (timber, slate, paneling) are lifted a little: under the toon bands they otherwise swallow the hue of the building they sit on.
-			var average: float = 0.0
-			for y: int in range(0, ARRAY_SIZE, 16):
-				for x: int in range(0, ARRAY_SIZE, 16):
-					average += image.get_pixel(x, y).get_luminance()
-			average /= float((ARRAY_SIZE / 16) * (ARRAY_SIZE / 16))
-			var gain: float = clampf(LUMA_TARGET / maxf(average, 0.02), 1.0, 1.8)
-			if LAYER_SATURATION.has(name):
-				image.adjust_bcs(1.0, 1.0, float(LAYER_SATURATION[name]))
-			if gain > 1.01:
-				image.adjust_bcs(gain, 1.0, 1.0)
-			if OS.get_environment("PAINT_DEBUG") != "":
-				print("material layer %s: average luminance %.2f gain %.2f" % [name, average, gain])
-		else:
-			image = Image.create(ARRAY_SIZE, ARRAY_SIZE, false, Image.FORMAT_RGBA8)
-			image.fill(Color(0.5, 0.5, 0.5))
-		image.generate_mipmaps()
-		images.append(image)
+		# Performance pass Oct 25: the prepared layer (decompressed, resized, lifted, mip-mapped: ~0.5 s for all of them on the first area of a
+		# session) comes from BuildCache; the cache hash covers assets/art/textures, so a repainted texture is prepared again.
+		var cached: Variant = BuildCache.fetch("paint_layer_%s_%d" % [name, ARRAY_SIZE], _layer_image.bind(name))
+		images.append(cached as Image)
 	_array = Texture2DArray.new()
 	_array.create_from_images(images)
+	LoadTiming.detail("painted material layers %.0f ms" % (float(Time.get_ticks_usec() - started) / 1000.0))
 	return _array
+
+
+## One prepared layer of the material array (see material_array).
+static func _layer_image(name: String) -> Image:
+	var source: Texture2D = albedo(name)
+	var image: Image = null
+	if source != null:
+		image = source.get_image()
+		if image.is_compressed():
+			image.decompress()
+		image.convert(Image.FORMAT_RGBA8)
+		image.resize(ARRAY_SIZE, ARRAY_SIZE, Image.INTERPOLATE_BILINEAR)
+		# Dark materials (timber, slate, paneling) are lifted a little: under the toon bands they otherwise swallow the hue of the building they sit on.
+		var average: float = 0.0
+		for y: int in range(0, ARRAY_SIZE, 16):
+			for x: int in range(0, ARRAY_SIZE, 16):
+				average += image.get_pixel(x, y).get_luminance()
+		average /= float((ARRAY_SIZE / 16) * (ARRAY_SIZE / 16))
+		var gain: float = clampf(LUMA_TARGET / maxf(average, 0.02), 1.0, 1.8)
+		if LAYER_SATURATION.has(name):
+			image.adjust_bcs(1.0, 1.0, float(LAYER_SATURATION[name]))
+		if gain > 1.01:
+			image.adjust_bcs(gain, 1.0, 1.0)
+		if OS.get_environment("PAINT_DEBUG") != "":
+			print("material layer %s: average luminance %.2f gain %.2f" % [name, average, gain])
+	else:
+		image = Image.create(ARRAY_SIZE, ARRAY_SIZE, false, Image.FORMAT_RGBA8)
+		image.fill(Color(0.5, 0.5, 0.5))
+	image.generate_mipmaps()
+	return image
 
 
 # ---- Presets ----------------------------------------------------------------------------------------------

@@ -17,8 +17,9 @@ const DEV_ROOT: String = "user://build_cache"
 const BAKED_ROOT: String = "res://build_cache"
 ## What the hash covers: every script under these folders and every data file under the data folders.
 const SCRIPT_DIRS: Array[String] = ["res://world"]
-const DATA_DIRS: Array[String] = ["res://data/art", "res://data/zone_styles"]
-const DATA_EXTENSIONS: Array[String] = ["json", "csv", "cfg", "tres"]
+const DATA_DIRS: Array[String] = ["res://data/art", "res://data/zone_styles", "res://assets/art/textures"]
+## (webp: the painted material layers prepared from assets/art/textures)
+const DATA_EXTENSIONS: Array[String] = ["json", "csv", "cfg", "tres", "webp"]
 
 ## Set by the bake tool: results are written to `res://build_cache/` and the manifest.
 static var baking: bool = false
@@ -69,7 +70,12 @@ static func source_hash() -> String:
 	ctx.start(HashingContext.HASH_MD5)
 	for path: String in files:
 		ctx.update(path.to_utf8_buffer())
-		ctx.update(FileAccess.get_file_as_bytes(path))
+		if path.ends_with(".webp"):
+			# art: its size and date (reading 40 MB of textures every session cost more than the cache saves)
+			var file: FileAccess = FileAccess.open(path, FileAccess.READ)
+			ctx.update(("%d|%d" % [file.get_length() if file != null else 0, FileAccess.get_modified_time(path)]).to_utf8_buffer())
+		else:
+			ctx.update(FileAccess.get_file_as_bytes(path))
 	_hash = ctx.finish().hex_encode().substr(0, 16)
 	return _hash
 

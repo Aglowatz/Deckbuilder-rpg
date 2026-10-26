@@ -73,3 +73,8 @@ visibly different is reverted), no playtest export.
 ## Phase 2 (remaining time)
 
 Next biggest costs from the ranked list: kit-mesh caching for loads (Capital walls, Dump terrain), StyleRig conversion time.
+
+- **Cycle 1 (loads):** StyleRig toon conversion was 0.8 s, of which 0.5 s was `PaintedLibrary.material_array()` preparing 30 layers once
+  per session -> layers in BuildCache (warm 0.22 s; the cache hash now also covers assets/art/textures by size+date). `CapitalRim.build`
+  1.2 s -> 0.22 s (distance field, heights, blockers and both meshes cached; key = the walkable source cells). New `KitMesh.snapshot /
+  restore / fill_cached` for caching any kit geometry. Capital load 6.5 -> 5.6 s. Shots within noise, Capital tests + walk smoke OK.

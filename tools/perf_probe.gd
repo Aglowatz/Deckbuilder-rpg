@@ -121,6 +121,8 @@ func _process(delta: float) -> bool:
 		_mesh_report()
 	if _args.has("batchable"):
 		_batch_report()
+	if _args.has("casters"):
+		_caster_report()
 	if _args.has("lights"):
 		# `--lights=true`: every light with its shadow switch (a stray shadowed light is a whole extra shadow pass)
 		for node: Node in root.find_children("*", "Light3D", true, false):
@@ -261,3 +263,36 @@ func _batch_report() -> void:
 			merged += int(groups[key])
 			groups_of_two += 1
 	print("perf_probe_batch: %d plain meshes; %d of them share mesh+material+shadow+parent with another, in %d groups" % [plain, merged, groups_of_two])
+
+
+## `--casters=true`: the visible shadow-casting meshes by triangle count, with their world box height (a flat sheet only shadows what is under it).
+func _caster_report() -> void:
+	var rows: Array = []
+	var flat_total: int = 0
+	var total: int = 0
+	for node: Node in root.find_children("*", "GeometryInstance3D", true, false):
+		var geo: GeometryInstance3D = node as GeometryInstance3D
+		if not geo.is_visible_in_tree() or geo.cast_shadow == GeometryInstance3D.SHADOW_CASTING_SETTING_OFF:
+			continue
+		var mesh: Mesh = null
+		var count: int = 1
+		if geo is MeshInstance3D:
+			mesh = (geo as MeshInstance3D).mesh
+		elif geo is MultiMeshInstance3D and (geo as MultiMeshInstance3D).multimesh != null:
+			mesh = (geo as MultiMeshInstance3D).multimesh.mesh
+			count = (geo as MultiMeshInstance3D).multimesh.instance_count
+		if not (mesh is ArrayMesh):
+			continue
+		var tris: int = 0
+		for i: int in range(mesh.get_surface_count()):
+			var n: int = (mesh as ArrayMesh).surface_get_array_index_len(i)
+			tris += (n if n > 0 else (mesh as ArrayMesh).surface_get_array_len(i)) / 3
+		var box: AABB = geo.global_transform * geo.get_aabb()
+		total += tris * count
+		if box.size.y < 0.1:
+			flat_total += tris * count
+		rows.append([tris * count, "%s tris=%d x%d height=%.2f size=%.0f cast=%d" % [geo.get_path(), tris, count, box.size.y, box.get_longest_axis_size(), geo.cast_shadow]])
+	rows.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) > int(b[0]))
+	print("perf_probe_casters: %d triangles cast shadows, %d of them in flat (< 0.1 m tall) meshes" % [total, flat_total])
+	for index: int in range(mini(25, rows.size())):
+		print("perf_probe_casters:   %7d  %s" % [rows[index][0], rows[index][1]])

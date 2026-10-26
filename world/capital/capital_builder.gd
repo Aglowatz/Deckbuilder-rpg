@@ -677,6 +677,7 @@ func _build_boundaries() -> void:
 		side.add_child(side_piece)
 		# the west wall never stands between the trailing camera and the hero: it never fades (a ghosted wall would show the hidden strip and hole)
 		CapitalLandmarks.mark_view(side, run.x > 60.0)
+	LoadTiming.detail("capital: walls")
 	var hole: Node3D = CapitalLandmarks.hole_piece(hole_z1 - hole_z0, 9.0, 2.5, CapitalLayout.HOLE_HEIGHT)
 	root.add_child(hole)
 	hole.position = Vector3(0.0, 0.0, (hole_z0 + hole_z1) * 0.5)
@@ -692,8 +693,11 @@ func _build_boundaries() -> void:
 		CapitalLandmarks.mark_view(corner, true)
 	# The land round the map (the Capital pass, Part B): rough ash ground rising from the walkable edge to ridges of rock, rubble and dead trees and
 	# falling back to the plain under the haze, the road running on to Crosspath between the hills; dark pines beyond the city's other walls.
+	LoadTiming.detail("capital: hole + towers")
 	rim = CapitalRim.build(root, layout)
+	LoadTiming.detail("capital: rim")
 	CapitalRim.pines(root)
+	LoadTiming.detail("capital: pines")
 	# The Crease's walls (inside layer 2).
 	var dz: float = float(CapitalLayout.CREASE_Z0 - 100)
 	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:

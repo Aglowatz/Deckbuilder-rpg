@@ -270,6 +270,15 @@ func blob(slot: String, center: Vector3, radii: Vector3, rings: int = 5, segment
 func build() -> ArrayMesh:
 	var mesh: ArrayMesh = ArrayMesh.new()
 	for slot: String in _order:
+		if _restored.has(slot):
+			var arrays: Array = _restored[slot] as Array
+			if arrays.size() == Mesh.ARRAY_MAX and arrays[Mesh.ARRAY_VERTEX] != null and (arrays[Mesh.ARRAY_VERTEX] as PackedVector3Array).size() > 0:
+				mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+				var restored_material: Material = _materials.get(slot) as Material
+				if restored_material != null:
+					mesh.surface_set_material(mesh.get_surface_count() - 1, restored_material)
+				mesh.surface_set_name(mesh.get_surface_count() - 1, slot)
+			continue
 		var st: SurfaceTool = _tools[slot] as SurfaceTool
 		var before: int = mesh.get_surface_count()
 		var slot_material: StandardMaterial3D = _materials.get(slot) as StandardMaterial3D
@@ -282,6 +291,47 @@ func build() -> ArrayMesh:
 				mesh.surface_set_material(mesh.get_surface_count() - 1, material)
 			mesh.surface_set_name(mesh.get_surface_count() - 1, slot)
 	return mesh
+
+
+# ---- Build cache (Performance pass Oct 25, docs/perf/perf_state.md) ---------------------------------------------------------------------
+
+
+## Surfaces restored from a cache (slot -> surface arrays), built instead of the SurfaceTools.
+var _restored: Dictionary = {}
+
+
+## The geometry emitted so far as plain data (per slot: the surface arrays, tangents included where the slot material has a normal map).
+## No materials: the cached copy never holds another visit's materials.
+func snapshot() -> Dictionary:
+	var arrays: Dictionary = {}
+	for slot: String in _order:
+		if _restored.has(slot):
+			arrays[slot] = _restored[slot]
+			continue
+		var st: SurfaceTool = _tools[slot] as SurfaceTool
+		var slot_material: StandardMaterial3D = _materials.get(slot) as StandardMaterial3D
+		if slot_material != null and slot_material.normal_texture != null:
+			st.generate_tangents()
+		arrays[slot] = st.commit_to_arrays()
+	return {"order": _order.duplicate(), "arrays": arrays, "triangles": _triangles}
+
+
+## Takes the geometry from a snapshot (the materials stay this mesh's own, set by the caller as usual).
+func restore(data: Dictionary) -> void:
+	_order.assign(data.get("order", []) as Array)
+	_restored = data.get("arrays", {}) as Dictionary
+	_triangles = int(data.get("triangles", 0))
+	_tools.clear()
+
+
+## Fills `mesh` by calling `fill` (which emits the geometry into it) the first time, and from BuildCache after that. `key` must name every
+## input of the geometry besides the scripts (sizes, seeds, story state).
+static func fill_cached(mesh: KitMesh, key: String, fill: Callable) -> void:
+	var data: Variant = BuildCache.fetch(key, func() -> Variant:
+		fill.call()
+		return mesh.snapshot())
+	if data is Dictionary:
+		mesh.restore(data as Dictionary)
 
 
 ## Convenience: a MeshInstance3D of the built mesh.
