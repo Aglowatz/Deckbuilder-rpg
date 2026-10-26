@@ -4,6 +4,26 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Oct 25-26 - yours to decide (the safest choice was taken)
+
+1. **The session dropped at ~00:06 and resumed at 08:05**: Parts 1 and 2 were done; the verification, the Tier 2 doc and the report were
+   finished after the 8-hour window; Phase 2 polish was not started. Pushes failed intermittently overnight (DNS); everything is pushed now.
+2. **Card review is proposals only** (`docs/design/card_review_oct25.csv`): nothing in the sheet, data or game changed. The 14 new cards and
+   the three new opposing-Path hate cards (Desk Flip, Pest Control, Compliance Review) are suggestions; drop the hate cards if "opposes" is
+   story only. The Black Market's eight cards were deliberately not reviewed for changes.
+3. **Design Guidance "Buff" row reads `#ERROR!`** in the exported CSV (a broken sheet formula): worth fixing in the sheet.
+4. **Height fog is Dump-only**: the forest camp and the Gainlands lake showed no visible change at their spots and were reverted. Other hollows
+   can take the two keys (`fog.height`, `fog.height_density`) in their style file whenever one wants mist.
+5. **Bounce colour strength**: `GroundLight.BOUNCE_AMOUNT` 1.2, reach 2.2x the shade band, `light.bounce` per zone (1.0 everywhere). It is
+   deliberately subtle at the game camera; say if you want it stronger (the 3x shot in `f2_bounce/` shows the ceiling) or off in a zone.
+   The first load of a zone decodes each kit texture once (Crosspath ~0.4 s of bake, cached for the session).
+6. **Lantern shadows on Medium** cost 0.4 ms in the forest for a modest visible gain (the camp lantern sits on the ground); set
+   `GraphicsQuality.lantern_shadows` to [0, 0, 2] to keep it High-only.
+7. **SSAO on Medium dropped** (+2.3 ms on the square, 57.8 fps). **Vertex AO on the kit** and **ground decals** were already in place from
+   the vertical slice and the painted-textures pass, so no new work there; decals could still be thickened per zone in a polish cycle.
+8. **FSR 2 on discrete GPUs** is a rule with a test, not measured here (no discrete GPU on this PC); the first discrete-GPU tester should
+   confirm Medium looks right (sprites under a temporal upscaler can ghost).
+
 ## Overnight Oct 23-24 - yours to decide (the safest choice was taken)
 
 1. **Boss entrances are a board intro everywhere** (Part 3): before every boss, lieutenant and gatekeeper battle the battle board
