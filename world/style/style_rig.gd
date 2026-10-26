@@ -8,6 +8,9 @@ const OUTLINE_SHADER: String = "res://assets/shaders/style_outline.gdshader"
 ## Medium: depth edges only (no normal buffer, about 1.4 ms less on the development iGPU); High adds the normal creases.
 const OUTLINE_SHADER_DEPTH: String = "res://assets/shaders/style_outline_depth.gdshader"
 const SKY_SHADER: String = "res://assets/shaders/style_sky.gdshader"
+## Tier 2: a preset whose sun is this dim or dimmer is a night scene (the forest camp's moon is 0.42; every daylight zone is 0.66 or more), where the
+## nearest lanterns may cast shadows.
+const NIGHT_SUN_ENERGY: float = 0.5
 
 ## Emitted at the end of every `apply()` (a fresh Environment exists): the world look rig re-applies its sky, bloom and fog on top.
 signal applied
@@ -368,5 +371,14 @@ func _update_light_budget() -> void:
 			live.append(light)
 	live.sort_custom(func(a: OmniLight3D, b: OmniLight3D) -> bool: return a.global_position.distance_squared_to(origin) < b.global_position.distance_squared_to(origin))
 	var budget: int = GraphicsQuality.light_budget(quality())
+	# Tier 2: in a night scene (a dim sun: the forest camp's moon) the nearest lantern or two cast real shadows; by day the sun's shadows own the scene.
+	var shadows: int = GraphicsQuality.lantern_shadows(quality()) if preset != null and preset.sun_energy <= NIGHT_SUN_ENERGY else 0
 	for index: int in range(live.size()):
 		live[index].visible = index < budget
+		var casts: bool = index < shadows
+		if live[index].shadow_enabled != casts:
+			live[index].shadow_enabled = casts
+			if casts:
+				live[index].shadow_blur = 1.5
+				live[index].shadow_bias = 0.08
+				live[index].shadow_normal_bias = 1.4
