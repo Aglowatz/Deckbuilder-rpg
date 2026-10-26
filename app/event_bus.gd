@@ -10,6 +10,8 @@ signal toast_requested(text: String)
 signal hero_footstep(position: Vector3, surface: StringName)
 ## Something happened the tutorial layer may care about ("town_visited", "card_played", ...).
 signal tutorial_event(id: StringName)
+## Controller support (Oct 26): the player switched between the keyboard/mouse and a controller (`InputDevice`); prompts re-render.
+signal input_device_changed(using_pad: bool)
 ## The player's collection or deck changed.
 signal collection_changed
 ## Unopened packs were granted, bought or opened (the Character screen refreshes its Packs list).

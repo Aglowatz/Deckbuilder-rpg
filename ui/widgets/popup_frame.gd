@@ -90,7 +90,8 @@ func _build(header_text: String, icon: String) -> void:
 	button.pressed.connect(_confirm)
 	_column.add_child(UIKit.spacer(4))
 	_column.add_child(button)
-	_hint = UIKit.label("Click, or press Enter / Space / E", &"MutedLabel", 16, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_hint = UIKit.label("", &"MutedLabel", 16, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	PromptText.bind(_hint, "Click, or press Enter / Space / E", &"text", "Press {confirm}")
 	_column.add_child(_hint)
 
 

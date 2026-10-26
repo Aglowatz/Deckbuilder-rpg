@@ -139,7 +139,9 @@ func _build_menu() -> void:
 	if Settings.safe_mode:
 		_menu_column.add_child(_safe_mode_notice())
 	_menu_column.add_child(UIKit.filler())
-	var footer: Label = UIKit.label("Press Esc in game for the pause menu, F8 to report a problem." if _art == null else "%s   Press Esc in game for the pause menu, F8 to report a problem." % version_text, &"MutedLabel", 18)
+	var footer: Label = UIKit.label("", &"MutedLabel", 18)
+	var footer_prefix: String = "" if _art == null else "%s   " % version_text
+	PromptText.bind(footer, footer_prefix + "Press Esc in game for the pause menu, F8 to report a problem.", &"text", footer_prefix + "Press {pause} in game for the pause menu.")
 	footer.name = "FooterLabel"
 	if _art != null:
 		footer.add_theme_color_override("font_color", Color(1, 1, 1, 0.75))

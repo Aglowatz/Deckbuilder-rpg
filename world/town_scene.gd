@@ -1169,7 +1169,12 @@ func _prompt_text(spot: Spot) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	# The character screen (Part E) and the deck builder (new brief, Part B) are global
 	# shortcuts, not tied to a nearby spot - usable anywhere in town, not just at the station.
-	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+	if not _locked and not dialogue.active and UiInput.is_fresh_press(event):
+		# Controller support (Oct 26): D-pad Up opens the HUD menu with its first entry focused
+		if event.is_action_pressed(&"open_menu"):
+			get_viewport().set_input_as_handled()
+			hud.open_menu_focused()
+			return
 		if event.is_action_pressed(&"open_character"):
 			get_viewport().set_input_as_handled()
 			_open_character_screen()

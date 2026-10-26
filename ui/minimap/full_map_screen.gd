@@ -21,7 +21,7 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 	_area_name = area_name
 	screen_title = "Map - %s" % area_name
 	title_icon_id = "ICON-UI-MAP"
-	close_text = "Close (%s)" % Keybinds.first_key(&"open_map")
+	close_text = "Close ({open_map})"
 	background_id = "UI-BG-WORLDMAP"
 
 

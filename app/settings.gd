@@ -94,6 +94,9 @@ const ZOOM_DEFAULT: float = 1.5
 var camera_zoom: float = ZOOM_DEFAULT
 ## Camera angle preset (CameraRig.ANGLE_NAMES): 0 Cinematic, 1 Classic, 2 Overview. Remembered in settings.cfg, never per save.
 var camera_angle: int = 0
+## Controller support (Oct 26): the controller button names in prompts - 0 Auto (from the pad's name), 1 Xbox, 2 PlayStation (`InputDevice.layout`).
+var pad_prompts: int = 0
+const PAD_PROMPT_NAMES: Array[String] = ["Auto (from the controller)", "Xbox (A B X Y)", "PlayStation (Cross Circle Square Triangle)"]
 signal camera_changed
 ## Overnight Oct 20 (playtest stability): the rendering driver - "auto" (the project default, D3D12 on Windows), "d3d12" or "vulkan".
 ## A choice other than the running driver restarts an exported game once with `--rendering-driver` (`_switch_driver_if_needed`).
@@ -355,6 +358,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
+	config.set_value("input", "pad_prompts", pad_prompts)
 	Keybinds.save_to(config)
 	config.save(path)
 
@@ -408,6 +412,7 @@ func load_settings(path: String = PATH) -> void:
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
+	pad_prompts = clampi(int(config.get_value("input", "pad_prompts", 0)), 0, PAD_PROMPT_NAMES.size() - 1)
 	Keybinds.load_from(config)
 
 
@@ -519,7 +524,7 @@ func reset_to_defaults() -> void:
 
 ## Mouse wheel zoom in every 3D scene (UI that scrolls swallows the wheel first, so lists still scroll).
 func _unhandled_input(event: InputEvent) -> void:
-	if CameraRig.active_rigs > 0 and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+	if CameraRig.active_rigs > 0 and UiInput.is_fresh_press(event):
 		if InputMap.has_action(&"camera_angle") and event.is_action_pressed(&"camera_angle"):
 			cycle_camera_angle()
 			return

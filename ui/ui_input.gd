@@ -14,6 +14,32 @@ static func is_confirm(event: InputEvent) -> bool:
 	return InputMap.has_action(&"interact") and event.is_action_pressed(&"interact")
 
 
+## Controller support (Oct 26): true for a fresh press of a key or a controller button, or a stick / trigger that just crossed half way (a
+## stick sends many motion events while held; only the first one past the middle counts). Mouse events are not presses here. The world's
+## shortcut keys (C, B, J...) check this before their actions, so a held key's echo or a resting stick never repeats them.
+static func is_fresh_press(event: InputEvent) -> bool:
+	var key: InputEventKey = event as InputEventKey
+	if key != null:
+		return key.pressed and not key.echo
+	var button: InputEventJoypadButton = event as InputEventJoypadButton
+	if button != null:
+		return button.pressed
+	var motion: InputEventJoypadMotion = event as InputEventJoypadMotion
+	if motion == null:
+		return false
+	var axis_key: String = "%d:%d" % [motion.device, motion.axis]
+	var cached: Array = _axis_seen.get(axis_key, [0, 0.0, false]) as Array
+	if int(cached[0]) == motion.get_instance_id():
+		return bool(cached[2])
+	var fresh: bool = absf(motion.axis_value) >= 0.5 and absf(float(cached[1])) < 0.5
+	_axis_seen[axis_key] = [motion.get_instance_id(), motion.axis_value, fresh]
+	return fresh
+
+
+## device:axis -> [the last motion event's instance id, its value, whether it was a fresh press].
+static var _axis_seen: Dictionary = {}
+
+
 ## True for a fresh press of back.
 static func is_back(event: InputEvent) -> bool:
 	return event != null and not event.is_echo() and event.is_action_pressed(&"ui_cancel")

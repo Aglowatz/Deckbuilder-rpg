@@ -86,6 +86,9 @@ func _ready() -> void:
 	dev_menu = DevMenu.install(get_tree())
 	# Fixes Oct 25, Part 7: the quest update banner, in every scene
 	quest_notices = QuestNoticeLayer.install(get_tree())
+	# Controller support (Oct 26): which device the prompts show, and the focus helper for pads
+	add_child(InputDevice.new())
+	add_child(PadFocus.new())
 
 
 ## Overnight Oct 20: F8 is taken before the GUI (a focused control or a full-screen blocker can never swallow it); Esc during a

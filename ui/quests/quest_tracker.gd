@@ -90,7 +90,8 @@ func _arrow(glyph: String, step: int, action: StringName) -> Button:
 	button.add_theme_font_size_override("font_size", 14)
 	button.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	button.custom_minimum_size = Vector2(64, 24)
-	button.tooltip_text = "%s quest (%s / %s)" % ["Previous" if step < 0 else "Next", Keybinds.first_key(action), "LB" if step < 0 else "RB"]
+	var word: String = "Previous" if step < 0 else "Next"
+	PromptText.bind(button, "%s quest ({%s} / %s)" % [word, action, "LB" if step < 0 else "RB"], &"tooltip_text", "%s quest ({%s})" % [word, action])
 	button.pressed.connect(func() -> void: cycle(step))
 	button.set_meta(&"glyph", glyph)
 	button.set_meta(&"action", action)
@@ -164,7 +165,7 @@ func refresh() -> void:
 		if button is Button:
 			var action: StringName = button.get_meta(&"action") as StringName
 			var glyph: String = str(button.get_meta(&"glyph"))
-			(button as Button).text = ("%s %s" % [glyph, Keybinds.first_key(action)]) if glyph == "◂" else ("%s %s" % [Keybinds.first_key(action), glyph])
+			PromptText.bind(button, ("%s {%s}" % [glyph, action]) if glyph == "◂" else ("{%s} %s" % [action, glyph]))
 	_body.visible = not collapsed
 	if collapsed:
 		return

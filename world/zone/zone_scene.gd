@@ -1046,8 +1046,12 @@ func show_banner(text: String) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _fainting:
 		return
-	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		var code: Key = (event as InputEventKey).keycode
+	if not _locked and not dialogue.active and UiInput.is_fresh_press(event):
+		# Controller support (Oct 26): D-pad Up opens the HUD menu with its first entry focused
+		if event.is_action_pressed(&"open_menu"):
+			get_viewport().set_input_as_handled()
+			hud.open_menu_focused()
+			return
 		if event.is_action_pressed(&"open_character"):
 			get_viewport().set_input_as_handled()
 			_open_character_screen()

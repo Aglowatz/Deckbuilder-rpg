@@ -423,7 +423,8 @@ func inspect(card: CardData) -> void:
 			hint.custom_minimum_size = Vector2(540, 0)
 			info.add_child(hint)
 	info.add_child(UIKit.spacer(10))
-	var back: FancyButton = FancyButton.make("Back (Esc)", &"PrimaryButton", Vector2(200, 54))
+	var back: FancyButton = FancyButton.make("", &"PrimaryButton", Vector2(200, 54))
+	PromptText.bind(back, "Back (Esc)")
 	back.pressed.connect(_close_zoom)
 	info.add_child(back)
 	back.focus_mode = Control.FOCUS_ALL

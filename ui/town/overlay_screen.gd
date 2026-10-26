@@ -74,6 +74,8 @@ func _ready() -> void:
 	header.add_child(header_extra)
 	_close_button = UiSkin.close_button(close_text) if UiArt.has("UI-BTN-CLOSE") else FancyButton.make(close_text, &"", Vector2(170, 52))
 	_close_button.pressed.connect(request_close)
+	# Controller support (Oct 26): "Close (Esc)" reads "Close (B)" while a pad is in use
+	PromptText.bind(_close_button, close_text, &"tooltip_text" if _close_button.icon != null else &"text")
 	# A little air between the header's extras (gold, progress) and the round close button, which otherwise ran under it (Phase 2 cycle 6).
 	header.add_child(UIKit.spacer(0, 14))
 	header.add_child(_close_button)
@@ -91,6 +93,7 @@ func _ready() -> void:
 	if warming:
 		modulate.a = 0.01
 		return
+	PadFocus.register(self)
 	_focus_default.call_deferred()
 	modulate.a = 0.0
 	# Performance pass Oct 25: once the screen has faded in, the world behind it is a still picture and the 3D rendering pauses (WorldCover).
@@ -153,10 +156,7 @@ func _build() -> void:
 func set_close_label(text: String) -> void:
 	if _close_button == null:
 		return
-	if _close_button.icon != null:
-		_close_button.tooltip_text = text
-	else:
-		_close_button.text = text
+	PromptText.bind(_close_button, text, &"tooltip_text" if _close_button.icon != null else &"text")
 
 
 func request_close() -> void:

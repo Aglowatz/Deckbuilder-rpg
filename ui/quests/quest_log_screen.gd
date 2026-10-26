@@ -17,7 +17,7 @@ var _tab_buttons: Array[FancyButton] = []
 func _init() -> void:
 	screen_title = "Quest Log"
 	title_icon_id = "ICON-UI-QUESTS"
-	close_text = "Close (%s)" % Keybinds.first_key(&"open_quests")
+	close_text = "Close ({open_quests})"
 	background_id = "UI-BG-QUESTLOG"
 
 
@@ -71,6 +71,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"open_quests"):
 		get_viewport().set_input_as_handled()
 		request_close()
+		return
+	# Controller support (Oct 26): the bumpers switch tabs (the D-pad moves the focus through the list)
+	if event is InputEventJoypadButton and (event.is_action_pressed(&"quest_prev") or event.is_action_pressed(&"quest_next")):
+		get_viewport().set_input_as_handled()
+		_set_tab(posmod(_tab + (-1 if event.is_action_pressed(&"quest_prev") else 1), TAB_NAMES.size()) as Tab)
 		return
 	if event is InputEventKey and event.is_pressed() and not event.is_echo():
 		var key: Key = (event as InputEventKey).physical_keycode
@@ -253,7 +258,8 @@ func _show_detail(state: UnlockState) -> void:
 			where_row.add_child(where_label)
 			_detail.add_child(where_row)
 		var tracked_now: bool = qlog.tracked_id() == quest.id
-		var track: FancyButton = FancyButton.make("Tracking in the HUD" if tracked_now else "Track this quest (Enter)", &"GhostButton" if tracked_now else &"PrimaryButton", Vector2(340, 50))
+		var track: FancyButton = FancyButton.make("", &"GhostButton" if tracked_now else &"PrimaryButton", Vector2(340, 50))
+		PromptText.bind(track, "Tracking in the HUD" if tracked_now else "Track this quest (Enter)", &"text", "Tracking in the HUD" if tracked_now else "Track this quest ({confirm})")
 		track.name = "TrackButton"
 		track.disabled = tracked_now
 		track.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN

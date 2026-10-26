@@ -124,7 +124,9 @@ func _show_level() -> void:
 		all_button.pressed.connect(show_summary)
 		column.add_child(all_button)
 		all_button.focus_mode = Control.FOCUS_ALL
-	column.add_child(UIKit.label("Click or press Enter to continue  -  Esc skips", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	var hint: Label = UIKit.label("", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	PromptText.bind(hint, "Click or press Enter to continue  -  Esc skips", &"text", "{confirm} to continue  -  {back} skips")
+	column.add_child(hint)
 	_animate_number(number, row)
 	_start_reveal()
 

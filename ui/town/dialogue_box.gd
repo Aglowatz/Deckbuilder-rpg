@@ -60,7 +60,8 @@ func _ready() -> void:
 	_text = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_text)
-	_hint = UIKit.label("E / Click to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	_hint = UIKit.label("", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	PromptText.bind(_hint, "E / Click to continue", &"text", "{confirm} to continue")
 	column.add_child(_hint)
 	_panel.resized.connect(_anchor_panel)
 	_apply_text_scale()
@@ -229,7 +230,8 @@ func _edge() -> float:
 func _show_line() -> void:
 	_text.text = _lines[_index]
 	_text.visible_ratio = 0.0
-	_hint.text = "E / Click to close" if _index == _lines.size() - 1 else "E / Click to continue"
+	var last: bool = _index == _lines.size() - 1
+	PromptText.bind(_hint, "E / Click to close" if last else "E / Click to continue", &"text", "{confirm} to close" if last else "{confirm} to continue")
 	if not _portrait_id.is_empty():
 		_portrait.set_texture(Portraits.texture_for(_portrait_id, _expressions[_index]))
 		_portrait.set_talking(true)

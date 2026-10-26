@@ -25,6 +25,8 @@ func _ready() -> void:
 	_menu.custom_minimum_size = Vector2(480, 0)
 	center.add_child(_menu)
 	_build_menu()
+	# Controller support (Oct 26): the menu takes the pad's focus while it is open
+	PadFocus.register(_root)
 
 
 func _build_menu() -> void:
@@ -87,6 +89,8 @@ func _build_menu() -> void:
 	var version: Label = UIKit.label("The Wayward Path  v%s" % FeedbackReport.version(), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	version.name = "VersionLabel"
 	column.add_child(version)
+	UiInput.make_focusable(column)
+	PadFocus.focus_soon(_root)
 
 
 func toggle() -> void:
@@ -142,6 +146,23 @@ func _show_glossary() -> void:
 	var panel: GlossaryPanel = GlossaryPanel.make()
 	_menu.add_child(panel)
 	panel.closed.connect(_build_menu)
+
+
+## Controller support (Oct 26): the pad's B steps back - out of the save slots, a settings or glossary page, then closes the menu (Esc keeps its
+## old meaning: it is the pause key, so it closes the whole menu from anywhere).
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible or not event is InputEventJoypadButton or not UiInput.is_back(event):
+		return
+	get_viewport().set_input_as_handled()
+	if _slots != null:
+		_close_slots()
+		PadFocus.focus_soon(_root)
+	elif is_instance_valid(_settings) and _settings.is_inside_tree() and not _settings.is_queued_for_deletion():
+		_settings.call(&"_on_back")
+	elif _menu.find_child("GlossaryPanel", true, false) != null:
+		_build_menu()
+	else:
+		toggle()
 
 
 func _to_title() -> void:

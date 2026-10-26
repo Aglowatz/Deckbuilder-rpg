@@ -172,14 +172,17 @@ func _build_ui() -> void:
 	host.add_child(_prompt_panel)
 	_prompt_label = UIKit.label("", &"", 30, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_prompt_panel.add_child(_prompt_label)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	hints.name = "HintLine"
+	TownHud.bind_hints(hints, "WASD / arrows: move      E / Space / Click: interact      Esc: menu", false)
 	hints.position = Vector2(1200, 1030)
 	hints.size = Vector2(700, 30)
 	host.add_child(hints)
 	# New brief, Part B: only shown once a deck actually exists (a returning profile - see
 	# docs/design/open_questions.md D64); a brand-new arrival has nothing to edit yet.
 	if Session.deck != null:
-		var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(180, 52))
+		var deck_button: FancyButton = FancyButton.make("", &"", Vector2(180, 52))
+		PromptText.bind(deck_button, "Deck ({open_deck})")
 		deck_button.position = Vector2(1650, 28)
 		deck_button.pressed.connect(_open_deck_builder)
 		host.add_child(deck_button)
@@ -433,6 +436,7 @@ func _update_prompt() -> void:
 	else:
 		_prompt_panel.visible = false
 		return
+	_prompt_label.text = PromptText.render(_prompt_label.text)  # controller support (Oct 26): "[A]" while a pad is in use
 	_prompt_panel.visible = true
 	_prompt_panel.reset_size()
 	_prompt_panel.position.x = (1920.0 - _prompt_panel.size.x) * 0.5

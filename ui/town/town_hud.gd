@@ -15,6 +15,8 @@ var _effects_panel: Control
 var _gold: Label
 var _prompt_panel: PanelContainer
 var _prompt_label: Label
+var _prompt_glyph: PadGlyph
+var _prompt_template: String = ""
 var _toast: Label
 var _toast_tween: Tween
 var _gold_panel: PanelContainer
@@ -62,8 +64,9 @@ func _ready() -> void:
 	add_child(_menu_panel)
 	var menu_column: VBoxContainer = UIKit.vbox(6)
 	_menu_panel.add_child(menu_column)
-	for entry: Array in [["Character (%s)" % Keybinds.first_key(&"open_character"), character_pressed, "ICON-UI-CHARACTER"], ["Deck (%s)" % Keybinds.first_key(&"open_deck"), deck_pressed, "ICON-UI-DECK"], ["Quests (%s)" % Keybinds.first_key(&"open_quests"), quests_pressed, "ICON-UI-QUESTS"], ["Packs (%s)" % Keybinds.first_key(&"open_packs"), packs_pressed, "ICON-UI-PACKS"], ["Wardrobe (%s)" % Keybinds.first_key(&"open_wardrobe"), wardrobe_pressed, "ICON-UI-WARDROBE"]]:
-		var item: FancyButton = FancyButton.make(str(entry[0]), &"", Vector2(200, 48))
+	for entry: Array in [["Character ({open_character})", character_pressed, "ICON-UI-CHARACTER"], ["Deck ({open_deck})", deck_pressed, "ICON-UI-DECK"], ["Quests ({open_quests})", quests_pressed, "ICON-UI-QUESTS"], ["Packs ({open_packs})", packs_pressed, "ICON-UI-PACKS"], ["Wardrobe ({open_wardrobe})", wardrobe_pressed, "ICON-UI-WARDROBE"]]:
+		var item: FancyButton = FancyButton.make("", &"", Vector2(200, 48))
+		PromptText.bind(item, str(entry[0]))
 		item.name = "Menu_%s" % str(entry[0]).split(" ")[0]
 		IconArt.button_icon(item, str(entry[2]), 30.0)
 		var signal_ref: Signal = entry[1] as Signal
@@ -73,12 +76,23 @@ func _ready() -> void:
 		menu_column.add_child(item)
 		if signal_ref == packs_pressed:
 			_packs_item = item
+	PadFocus.register(_menu_panel)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
 	add_child(_prompt_panel)
+	# Controller support (Oct 26): a drawn A (or Cross) before the prompt while a pad is in use, instead of "[E]"
+	var prompt_row: HBoxContainer = UIKit.hbox(12)
+	_prompt_panel.add_child(prompt_row)
+	_prompt_glyph = PadGlyph.make(&"interact", 38.0)
+	_prompt_glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_prompt_glyph.visible = false
+	prompt_row.add_child(_prompt_glyph)
 	_prompt_label = UIKit.label("", &"", 30, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
-	_prompt_panel.add_child(_prompt_label)
+	prompt_row.add_child(_prompt_label)
+	EventBus.input_device_changed.connect(func(_pad: bool) -> void:
+		if _prompt_panel.visible:
+			show_prompt(_prompt_template))
 	_toast = UIKit.label("", &"", 32, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -91,7 +105,9 @@ func _ready() -> void:
 	_toast.modulate.a = 0.0
 	add_child(_toast)
 	# Phase 2 cycle 7: the line ran off the right edge; the Menu button names itself, so it is not listed here.
-	var hints: Label = UIKit.label("%s: move      %s / Click: interact      %s: map      %s: menu" % [_move_keys_text(), Keybinds.hint(&"interact"), Keybinds.first_key(&"open_map"), Keybinds.first_key(&"pause")], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	hints.name = "HintLine"
+	bind_hints(hints, "%s: move      {hint:interact} / Click: interact      {open_map}: map      {pause}: menu" % _move_keys_text(), true)
 	hints.position = Vector2(560, 1030)
 	hints.size = Vector2(1340, 30)
 	add_child(hints)
@@ -196,8 +212,41 @@ func set_objective(_bbcode: String) -> void:
 	pass
 
 
+## Controller support (Oct 26): the bottom-right hint line of a world scene, in keyboard words or controller words (`full` adds the HUD menu).
+static func bind_hints(label: Label, keyboard_text: String, full: bool) -> void:
+	var pad_text: String = "Left stick: move      {interact}: interact      {open_map}: map      {pause}: pause"
+	if full:
+		pad_text += "      {open_menu}: menu      {open_deck}: deck"
+	PromptText.bind(label, keyboard_text, &"text", pad_text)
+
+
+## Opens the HUD menu (D-pad Up) with its first entry focused, or closes it when open.
+func open_menu_focused() -> void:
+	if _menu_panel.visible:
+		close_menu()
+		Audio.sfx(&"ui_tick")
+		return
+	toggle_menu()
+	PadFocus.focus_into(_menu_panel)
+
+
+func is_menu_open() -> bool:
+	return _menu_panel.visible
+
+
+## The pad's B closes the HUD menu (Esc keeps opening the pause menu, as before).
+func _unhandled_input(event: InputEvent) -> void:
+	if _menu_panel.visible and event is InputEventJoypadButton and UiInput.is_back(event):
+		get_viewport().set_input_as_handled()
+		close_menu()
+		Audio.sfx(&"ui_tick")
+
+
 func show_prompt(text: String) -> void:
-	_prompt_label.text = text
+	_prompt_template = text
+	var pad_glyph: bool = InputDevice.using_pad() and text.begins_with("[E]") and Keybinds.pad_of(&"interact") != Keybinds.PAD_NONE
+	_prompt_glyph.visible = pad_glyph
+	_prompt_label.text = text.trim_prefix("[E]").strip_edges() if pad_glyph else PromptText.render(text)
 	_prompt_panel.visible = true
 	_prompt_panel.reset_size()
 	_prompt_panel.position.x = (1920.0 - _prompt_panel.size.x) * 0.5

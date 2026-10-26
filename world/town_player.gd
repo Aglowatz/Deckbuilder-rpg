@@ -67,7 +67,7 @@ func _process(delta: float) -> void:
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()
-		_velocity = world_dir * SPEED * speed_multiplier * gear_speed
+		_velocity = world_dir * SPEED * speed_multiplier * gear_speed * minf(direction.length(), 1.0)
 		moving = true
 		_move(_velocity * delta)
 		var target_yaw: float = atan2(world_dir.x, world_dir.z)
@@ -90,17 +90,32 @@ func _process(delta: float) -> void:
 			position.y = lerpf(position.y, ground, 1.0 - exp(-16.0 * delta))
 
 
+## The walk direction: keys give a unit vector (diagonals normalised, as before); controller support (Oct 26): the left stick gives its tilt, so a
+## half-tilted stick walks slower (never below MIN_STICK_SPEED, so the hero does not creep).
 func _read_input() -> Vector2:
 	var result: Vector2 = Vector2.ZERO
-	if Input.is_action_pressed(&"move_up"):
+	if _key_held(&"move_up"):
 		result.y -= 1.0
-	if Input.is_action_pressed(&"move_down"):
+	if _key_held(&"move_down"):
 		result.y += 1.0
-	if Input.is_action_pressed(&"move_left"):
+	if _key_held(&"move_left"):
 		result.x -= 1.0
-	if Input.is_action_pressed(&"move_right"):
+	if _key_held(&"move_right"):
 		result.x += 1.0
-	return result.normalized()
+	if result != Vector2.ZERO:
+		return result.normalized()
+	var stick: Vector2 = Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")
+	if stick == Vector2.ZERO:
+		return stick
+	return stick.normalized() * clampf(stick.length(), MIN_STICK_SPEED, 1.0)
+
+
+const MIN_STICK_SPEED: float = 0.4
+
+
+## A movement action held at full strength (a key or a D-pad button); a stick reads weaker than 1 and goes through `Input.get_vector`.
+func _key_held(action: StringName) -> bool:
+	return Input.get_action_strength(action) >= 0.99
 
 
 ## Moves by `step`, sliding along obstacles when the full step is blocked.

@@ -14,6 +14,10 @@ var _body: VBoxContainer
 ## The key button waiting for a key: {"action": StringName, "slot": int, "button": Button}; empty when none is.
 var _capturing: Dictionary = {}
 var _key_buttons: Dictionary = {}
+## The controller column's slot index in `_capturing` / `_key_buttons` (after the key slots).
+const PAD_SLOT: int = 9
+## The frame a capture started on (the pad press that opened it is never the new binding).
+var _capture_frame: int = 0
 var _conflict_note: Label
 var _resolution: OptionButton
 var _sample: Label
@@ -191,7 +195,7 @@ func _build_accessibility() -> void:
 
 func _build_controls() -> void:
 	var top: HBoxContainer = UIKit.hbox(12)
-	var help: Label = _note("Click a key, then press the new key. Esc cancels, Delete clears. A key already used in the same group moves to the new action.")
+	var help: Label = _note("Click a key, then press the new key. Esc cancels, Delete clears. A key already used in the same group moves to the new action. The last column is the controller: choose it, then press a controller button (Start or Esc cancels, Delete clears).")
 	help.custom_minimum_size = Vector2(PAGE_SIZE.x - 300.0, 0)
 	help.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(help)
@@ -203,6 +207,11 @@ func _build_controls() -> void:
 	_conflict_note = UIKit.label("", &"", 20, UIStyle.GOLD)
 	_conflict_note.name = "ConflictNote"
 	_body.add_child(_conflict_note)
+	# Controller support (Oct 26): the button names prompts use, and the buttons that never move
+	var names: OptionButton = _options(Settings.PAD_PROMPT_NAMES, Settings.pad_prompts, _on_pad_prompts)
+	names.name = "PadPromptOptions"
+	_body.add_child(_row("Controller button names", names))
+	_body.add_child(_note("Fixed controller buttons: %s confirms and %s goes back in every menu, %s pauses, the right stick turns the camera, the D-pad and left stick move between buttons. In a battle the D-pad and left stick move between cards, %s picks a card or target and %s cancels." % [InputDevice.pad_text(JOY_BUTTON_A), InputDevice.pad_text(JOY_BUTTON_B), InputDevice.pad_text(JOY_BUTTON_START), InputDevice.pad_text(JOY_BUTTON_A), InputDevice.pad_text(JOY_BUTTON_B)]))
 	var group: String = ""
 	for action: StringName in Keybinds.action_ids():
 		var entry: Dictionary = Keybinds.entry(action)
@@ -526,14 +535,22 @@ func _key_row(action: StringName, title: String) -> Control:
 	var row: HBoxContainer = UIKit.hbox(12)
 	row.name = "Key_%s" % action
 	var caption: Label = UIKit.label(title)
-	caption.custom_minimum_size = Vector2(LABEL_WIDTH + 40.0, 0)
+	caption.custom_minimum_size = Vector2(LABEL_WIDTH - 10.0, 0)
+	caption.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	row.add_child(caption)
 	for slot: int in range(Keybinds.SLOTS):
-		var button: Button = FancyButton.make("", &"GhostButton", Vector2(190, 44))
+		var button: Button = FancyButton.make("", &"GhostButton", Vector2(150, 44))
 		button.name = "Slot%d" % slot
 		button.pressed.connect(_begin_capture.bind(action, slot, button))
 		row.add_child(button)
 		_key_buttons["%s:%d" % [action, slot]] = button
+	var pad_button: Button = FancyButton.make("", &"GhostButton", Vector2(180, 44))
+	pad_button.name = "PadSlot"
+	pad_button.disabled = Keybinds.pad_fixed(action)
+	pad_button.tooltip_text = "The controller button (fixed)" if pad_button.disabled else "The controller button: choose, then press a button on the controller"
+	pad_button.pressed.connect(_begin_capture.bind(action, PAD_SLOT, pad_button))
+	row.add_child(pad_button)
+	_key_buttons["%s:%d" % [action, PAD_SLOT]] = pad_button
 	var reset: Button = FancyButton.make("Reset", &"GhostButton", Vector2(100, 44))
 	reset.name = "ResetAction"
 	reset.pressed.connect(func() -> void:
@@ -551,6 +568,10 @@ func _refresh_keys() -> void:
 		var button: Button = _key_buttons[key] as Button
 		if not is_instance_valid(button):
 			continue
+		if int(parts[1]) == PAD_SLOT:
+			var pad_code: int = Keybinds.pad_of(StringName(parts[0]))
+			button.text = InputDevice.pad_text(pad_code) if pad_code != Keybinds.PAD_NONE else "Not set"
+			continue
 		var code: int = Keybinds.keys_of(StringName(parts[0]))[int(parts[1])]
 		button.text = Keybinds.key_text(code) if code != 0 else "Not set"
 
@@ -559,7 +580,8 @@ func _begin_capture(action: StringName, slot: int, button: Button) -> void:
 	_cancel_capture()
 	Audio.sfx(&"ui_select")
 	_capturing = {"action": action, "slot": slot, "button": button}
-	button.text = "Press a key..."
+	button.text = "Press a button..." if slot == PAD_SLOT else "Press a key..."
+	_capture_frame = Engine.get_process_frames()
 	if _conflict_note != null:
 		_conflict_note.text = ""
 
@@ -573,6 +595,9 @@ func _cancel_capture() -> void:
 
 func _input(event: InputEvent) -> void:
 	if _capturing.is_empty():
+		return
+	if int(_capturing["slot"]) == PAD_SLOT:
+		_input_pad_capture(event)
 		return
 	var key: InputEventKey = event as InputEventKey
 	if key == null or not key.pressed or key.echo:
@@ -609,6 +634,57 @@ func capture_key(code: int) -> void:
 	Audio.sfx(&"ui_tick")
 	_saved()
 	_refresh_keys()
+
+
+## Controller support (Oct 26): the pad column's capture - the next controller button (or stick / trigger direction) binds; Start or Esc cancels,
+## Delete / Backspace clears. The press that opened the capture (A on the slot) is not taken: only presses after the first frame count.
+func _input_pad_capture(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo:
+		get_viewport().set_input_as_handled()
+		if key.keycode == KEY_ESCAPE:
+			_cancel_capture()
+		elif key.keycode == KEY_DELETE or key.keycode == KEY_BACKSPACE:
+			capture_pad(Keybinds.PAD_NONE)
+		return
+	if not (event is InputEventJoypadButton or event is InputEventJoypadMotion):
+		return
+	get_viewport().set_input_as_handled()
+	var code: int = Keybinds.pad_code_of(event)
+	if code == Keybinds.PAD_NONE or Engine.get_process_frames() <= _capture_frame:
+		return
+	if code == JOY_BUTTON_START:
+		_cancel_capture()
+		return
+	capture_pad(code)
+
+
+## Binds pad `code` to the controller slot that is waiting (PAD_NONE clears it).
+func capture_pad(code: int) -> void:
+	if _capturing.is_empty() or int(_capturing["slot"]) != PAD_SLOT:
+		return
+	var action: StringName = _capturing["action"] as StringName
+	_capturing = {}
+	var result: String = Keybinds.rebind_pad(action, code)
+	if _conflict_note != null:
+		if result == "reserved" or result == "fixed":
+			_conflict_note.text = "That button is reserved (Start pauses)."
+		elif not result.is_empty():
+			_conflict_note.text = "%s was using that button and is now unset." % result
+		else:
+			_conflict_note.text = ""
+	Audio.sfx(&"ui_tick")
+	_saved()
+	_refresh_keys()
+	PromptText.refresh_all(get_tree())
+
+
+func _on_pad_prompts(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.pad_prompts = index
+	_saved()
+	_refresh_keys()
+	PromptText.refresh_all(get_tree())
 
 
 func _on_reset_keys() -> void:
@@ -665,6 +741,13 @@ func _on_mute_unfocused(pressed: bool) -> void:
 	Settings.mute_unfocused = pressed
 	Settings.apply_audio()
 	_saved()
+
+
+## Controller support (Oct 26): the pad's B leaves the settings like the Back button (Esc keeps closing the whole pause menu).
+func _unhandled_input(event: InputEvent) -> void:
+	if _capturing.is_empty() and event is InputEventJoypadButton and UiInput.is_back(event) and is_visible_in_tree():
+		get_viewport().set_input_as_handled()
+		_on_back()
 
 
 func _on_back() -> void:

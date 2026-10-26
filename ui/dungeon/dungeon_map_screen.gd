@@ -324,7 +324,8 @@ func _build_hud() -> void:
 	retreat.position = Vector2(60, 960)
 	retreat.pressed.connect(_ask_retreat)
 	add_child(retreat)
-	var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(160, 56))
+	var deck_button: FancyButton = FancyButton.make("", &"", Vector2(160, 56))
+	PromptText.bind(deck_button, "Deck ({open_deck})")
 	deck_button.position = Vector2(60, 894)
 	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
 	deck_button.pressed.connect(_open_deck_builder)
@@ -847,11 +848,13 @@ func _build_art_hud() -> void:
 	var buttons: VBoxContainer = UIKit.vbox(8)
 	buttons.position = Vector2(8.0, 1080.0 - 3.0 * 60.0 - 8.0)
 	add_child(buttons)
-	var rules_button: FancyButton = FancyButton.make("Rules (%s)" % Keybinds.first_key(&"dungeon_rules"), &"", Vector2(134, 52))
+	var rules_button: FancyButton = FancyButton.make("", &"", Vector2(134, 52))
+	PromptText.bind(rules_button, "Rules ({dungeon_rules})")
 	rules_button.name = "RulesButton"
 	rules_button.pressed.connect(_toggle_rules)
 	buttons.add_child(rules_button)
-	var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(134, 52))
+	var deck_button: FancyButton = FancyButton.make("", &"", Vector2(134, 52))
+	PromptText.bind(deck_button, "Deck ({open_deck})")
 	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
 	deck_button.pressed.connect(_open_deck_builder)
 	buttons.add_child(deck_button)
