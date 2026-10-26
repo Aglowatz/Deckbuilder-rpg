@@ -30,6 +30,7 @@ func setup(gained: Array[LevelData]) -> void:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	UiScale.fit(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP

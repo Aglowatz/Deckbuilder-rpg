@@ -34,6 +34,7 @@ static func open(parent: Node, rule_badges: Array[RuleBadges.Badge], title: Stri
 
 
 func _build(title: String) -> void:
+	PadFocus.register(self)  # controller support (Oct 26)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.6)
 	UIKit.full_rect(shade)

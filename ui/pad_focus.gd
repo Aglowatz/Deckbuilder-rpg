@@ -28,6 +28,11 @@ var _tip_label: Label
 var _focus: Control
 var _hovered: Control
 var _last_focus: Control
+var _held_dir: Vector2 = Vector2.ZERO
+var _held_time: float = 0.0
+## A held D-pad / stick direction repeats after this long, then every REPEAT_EVERY seconds.
+const REPEAT_DELAY: float = 0.4
+const REPEAT_EVERY: float = 0.12
 var _rest: float = 0.0
 
 
@@ -101,6 +106,14 @@ static func focus_into(root: Control) -> Control:
 	if root == null:
 		return null
 	UiInput.make_focusable(root)
+	# A screen can name its own starting point (the dungeon map: the next node to walk to), or null for "nothing yet" (a pack being opened
+	# advances with A itself; its Skip button must not take that A).
+	if root.has_method(&"pad_first_focus"):
+		var first: Control = root.call(&"pad_first_focus") as Control
+		if first != null and first.is_visible_in_tree() and first.focus_mode != Control.FOCUS_NONE:
+			first.grab_focus()
+			return first
+		return null
 	return UiInput.focus_first(root)
 
 
@@ -149,15 +162,109 @@ func _input(event: InputEvent) -> void:
 	if root == null:
 		return
 	if owner_now != null and owner_now.is_visible_in_tree() and root.is_ancestor_of(owner_now):
+		var direction: Vector2 = _direction_of(event)
+		if direction == Vector2.ZERO or _keeps_its_arrows(owner_now, direction):
+			return
+		get_viewport().set_input_as_handled()
+		if not UiInput.is_fresh_press(event):
+			return
+		# Screens rebuild their buttons (a slot list after an equip, a shop after a purchase); new FancyButtons start unfocusable.
+		UiInput.make_focusable(root)
+		_step(owner_now, direction, root)
+		_held_dir = direction
+		_held_time = 0.0
 		return
 	# No focus in the open screen: this press only brings the focus there.
 	if focus_into(root) != null:
 		get_viewport().set_input_as_handled()
 
 
+## Moves the focus one step from `from` toward `direction`, inside `root` (a step off the screen's edge stays put).
+func _step(from: Control, direction: Vector2, root: Control) -> void:
+	var next: Control = neighbor(from, direction, root)
+	if next != null:
+		next.grab_focus()
+		Audio.sfx(&"ui_tick", -12.0)
+
+
+## Controls that use the D-pad themselves while focused: a slider's left / right, text fields, an open drop-down.
+static func _keeps_its_arrows(control: Control, direction: Vector2) -> bool:
+	if control is LineEdit or control is TextEdit or control is ItemList or control is Tree:
+		return true
+	if control is Range and not control is ScrollBar and absf(direction.x) > 0.0:
+		return true
+	if control is OptionButton and (control as OptionButton).get_popup().visible:
+		return true
+	return false
+
+
+static func _direction_of(event: InputEvent) -> Vector2:
+	if event.is_action_pressed(&"ui_left", false, true):
+		return Vector2.LEFT
+	if event.is_action_pressed(&"ui_right", false, true):
+		return Vector2.RIGHT
+	if event.is_action_pressed(&"ui_up", false, true):
+		return Vector2.UP
+	if event.is_action_pressed(&"ui_down", false, true):
+		return Vector2.DOWN
+	return Vector2.ZERO
+
+
+const _SIDE_OF: Dictionary = {Vector2.LEFT: SIDE_LEFT, Vector2.RIGHT: SIDE_RIGHT, Vector2.UP: SIDE_TOP, Vector2.DOWN: SIDE_BOTTOM}
+
+
+## The control the pad's D-pad moves to from `from` in `direction` (screen space), never leaving `root`: the screen's own neighbour when it set
+## one (`focus_neighbor_left`...), else the nearest focusable control that way - straight ahead counts more than sideways, as a row or a column
+## reads. Godot's own search looks at the whole window, so from a dialog it could land on a card behind the dialog; this one cannot. Null at
+## the screen's edge.
+static func neighbor(from: Control, direction: Vector2, root: Control) -> Control:
+	if from == null or root == null:
+		return null
+	var path: NodePath = from.get_focus_neighbor(_SIDE_OF[direction] as Side)
+	if not path.is_empty():
+		var named: Control = from.get_node_or_null(path) as Control
+		if _focusable(named) and root.is_ancestor_of(named):
+			return named
+	var here: Rect2 = focus_rect(from)
+	var center: Vector2 = here.get_center()
+	var best: Control = null
+	var best_score: float = INF
+	for node: Node in root.find_children("*", "Control", true, false):
+		var control: Control = node as Control
+		if control == from or not _focusable(control):
+			continue
+		var rect: Rect2 = focus_rect(control)
+		var offset: Vector2 = rect.get_center() - center
+		var along: float = offset.dot(direction)
+		# Ahead of this control: past its middle, and not overlapping it the other way (a control inside a wider one still counts).
+		if along <= 2.0:
+			continue
+		var gap: float = maxf(0.0, along - (absf(here.size.dot(direction)) + absf(rect.size.dot(direction))) * 0.5)
+		var across: float = absf(offset.dot(Vector2(-direction.y, direction.x)))
+		var overlap: float = minf(here.end.dot(Vector2(absf(direction.y), absf(direction.x))), rect.end.dot(Vector2(absf(direction.y), absf(direction.x)))) - maxf(here.position.dot(Vector2(absf(direction.y), absf(direction.x))), rect.position.dot(Vector2(absf(direction.y), absf(direction.x))))
+		var score: float = gap + across * (0.5 if overlap > 0.0 else 2.5)
+		if score < best_score:
+			best_score = score
+			best = control
+	return best
+
+
+static func _focusable(control: Control) -> bool:
+	if control == null or not control.is_visible_in_tree() or control.focus_mode != Control.FOCUS_ALL or control is ScrollBar:
+		return false
+	if not (control is BaseButton or control is Range or control is LineEdit or control is TextEdit or control.is_in_group(PadClick.GROUP)):
+		return false  # containers and panels that happen to take focus are not stops
+	# A disabled button is a stop only when it explains itself (a locked equipment slot's tooltip says why), as the mouse can hover it.
+	return not (control is BaseButton and (control as BaseButton).disabled) or not control.tooltip_text.is_empty()
+
+
 func _process(delta: float) -> void:
 	var owner_now: Control = get_viewport().gui_get_focus_owner() if InputDevice.using_pad() else null
 	if owner_now != null and not owner_now.is_visible_in_tree():
+		owner_now = null
+	# Back in the world (no open screen): a focus left on some HUD control would swallow the pad's A, so it is dropped.
+	if owner_now != null and top_root(get_tree()) == null:
+		owner_now.release_focus()
 		owner_now = null
 	if owner_now != _focus:
 		_focus = owner_now
@@ -168,6 +275,22 @@ func _process(delta: float) -> void:
 	_update_tip()
 	if InputDevice.using_pad():
 		_stick_scroll(delta)
+		_repeat(delta)
+
+
+func _repeat(delta: float) -> void:
+	if _held_dir == Vector2.ZERO:
+		return
+	var action: StringName = &"ui_left" if _held_dir == Vector2.LEFT else (&"ui_right" if _held_dir == Vector2.RIGHT else (&"ui_up" if _held_dir == Vector2.UP else &"ui_down"))
+	var root: Control = top_root(get_tree())
+	var owner_now: Control = get_viewport().gui_get_focus_owner()
+	if not Input.is_action_pressed(action) or root == null or owner_now == null or not root.is_ancestor_of(owner_now):
+		_held_dir = Vector2.ZERO
+		return
+	_held_time += delta
+	if _held_time >= REPEAT_DELAY:
+		_held_time -= REPEAT_EVERY
+		_step(owner_now, _held_dir, root)
 
 
 func _draw_ring() -> void:
@@ -265,6 +388,7 @@ static func _scroll_into_view(control: Control) -> void:
 
 
 func _on_device_changed(using_pad: bool) -> void:
+	PadClick.sync_all(get_tree(), using_pad)
 	if DisplayServer.get_name() != "headless":
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN if using_pad else Input.MOUSE_MODE_VISIBLE
 	if not using_pad and _hovered != null and is_instance_valid(_hovered):

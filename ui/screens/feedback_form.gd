@@ -38,6 +38,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var root: Control = UIKit.layer_host(self)
 	root.mouse_filter = Control.MOUSE_FILTER_STOP
+	PadFocus.register(root)  # controller support (Oct 26)
 	UiScale.fit(root)
 	root.add_child(UiSkin.menu_backdrop(Color(0.02, 0.01, 0.05, 0.8)))
 	var center: CenterContainer = CenterContainer.new()

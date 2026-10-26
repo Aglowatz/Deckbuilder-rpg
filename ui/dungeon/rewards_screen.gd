@@ -19,6 +19,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	SceneManager.pause_allowed = false
 	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
 	if Session.pending_reward == null:
@@ -80,6 +81,7 @@ func _build_rewards() -> void:
 			var click: InputEventMouseButton = event as InputEventMouseButton
 			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 				_select(index))
+		PadClick.enable(view)  # controller support (Oct 26): A picks the card
 		view.hovered.connect(func(_v: CardView) -> void:
 			Audio.sfx(&"card_hover", -12.0)
 			if _selected != index:

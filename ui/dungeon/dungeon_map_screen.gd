@@ -40,6 +40,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	SceneManager.pause_allowed = true
 	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
 	Audio.set_ambience("none")
@@ -672,6 +673,17 @@ func _on_modal_finished(node_id: int) -> void:
 		Session.abandon_run("You were carried out of %s. Your collection is safe." % map.dungeon_name)
 		return
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn", 0.25)
+
+
+## Controller support (Oct 26): the pad starts on a node the hero can walk to next (PadFocus), not on the Retreat button.
+func pad_first_focus() -> Control:
+	if _modal != null:
+		return null
+	for id: Variant in _buttons.keys():
+		var button: MapNodeButton = _buttons[id] as MapNodeButton
+		if button != null and button.available and button.is_visible_in_tree():
+			return button
+	return UiInput.focus_first(self)
 
 
 ## New brief, Part B: a B hotkey alongside the existing Deck button, matching town/zones.

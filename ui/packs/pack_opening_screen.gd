@@ -41,6 +41,7 @@ var _legendary_rays: PackFx.Rays
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var backdrop: Control = UiSkin.screen_background("UI-BG-PACKOPEN", 0.12)
@@ -475,9 +476,19 @@ func _build_summary_panel() -> void:
 	buttons.add_child(done)
 	var fade: Tween = create_tween()
 	fade.tween_property(_summary, "modulate:a", 1.0, 0.4)
+	PadFocus.focus_soon(self)
 
 
 # ---- Input ----------------------------------------------------------------------------------------------
+
+
+## Controller support (Oct 26): while the pack is being opened A advances it (no button focused, so Skip never takes that A; B skips); the
+## summary's buttons take the focus.
+func pad_first_focus() -> Control:
+	if _summary == null or not is_instance_valid(_summary):
+		return null
+	UiInput.make_focusable(_summary)
+	return UiInput.focus_first(_summary)
 
 
 func _gui_input(event: InputEvent) -> void:

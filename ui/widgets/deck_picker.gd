@@ -26,6 +26,7 @@ static func guard(layer: Control, proceed: Callable, on_cancel: Callable = Calla
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	name = "DeckPicker"
 	UIKit.full_rect(self)
 	UiScale.fit(self)

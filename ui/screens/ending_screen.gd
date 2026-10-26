@@ -34,6 +34,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	SceneManager.pause_allowed = false
 	Audio.play_music(StringName(MusicDirector.ending_beat("crumble")))
 	Session.ensure_game()

@@ -443,6 +443,9 @@ func _update_prompt() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Controller support (Oct 26): a pad press meant for a focused menu control (the HUD menu) is not also a world action
+	if UiInput.pad_focus_busy(event, self):
+		return
 	# New brief, Part B: the deck builder hotkey works here too, once a deck actually exists to
 	# edit (a returning profile after an abandoned run - a brand-new arrival has no deck yet,
 	# see docs/design/open_questions.md D64).

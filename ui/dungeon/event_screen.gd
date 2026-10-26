@@ -26,6 +26,7 @@ static func make(first_event: DungeonEvent, zone: String) -> EventScreen:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	var dungeon: MainDungeonDef = MainDungeons.def(zone_id)
 	_story = ZoneStoryText.for_zone(dungeon.zone_id if dungeon != null else zone_id)

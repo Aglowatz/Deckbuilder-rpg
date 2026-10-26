@@ -1167,6 +1167,9 @@ func _prompt_text(spot: Spot) -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Controller support (Oct 26): a pad press meant for a focused menu control (the HUD menu) is not also a world action
+	if UiInput.pad_focus_busy(event, self):
+		return
 	# The character screen (Part E) and the deck builder (new brief, Part B) are global
 	# shortcuts, not tied to a nearby spot - usable anywhere in town, not just at the station.
 	if not _locked and not dialogue.active and UiInput.is_fresh_press(event):

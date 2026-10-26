@@ -27,6 +27,7 @@ var _more_open: bool = false
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.02, 0.06, 0.88)

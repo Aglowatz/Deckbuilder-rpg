@@ -12,6 +12,7 @@ var _heal: int = 0
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.82)

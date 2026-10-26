@@ -36,6 +36,15 @@ static func is_fresh_press(event: InputEvent) -> bool:
 	return fresh
 
 
+## Controller support (Oct 26): true for a pad event while a visible menu control has the GUI focus - the press belongs to that control (a
+## focused button takes A without consuming it), so the world under it must not also act on it (A would also talk to the NPC beside the hero).
+static func pad_focus_busy(event: InputEvent, node: Node) -> bool:
+	if not (event is InputEventJoypadButton or event is InputEventJoypadMotion) or node == null or not node.is_inside_tree():
+		return false
+	var owner_now: Control = node.get_viewport().gui_get_focus_owner()
+	return owner_now != null and owner_now.is_visible_in_tree()
+
+
 ## device:axis -> [the last motion event's instance id, its value, whether it was a fresh press].
 static var _axis_seen: Dictionary = {}
 

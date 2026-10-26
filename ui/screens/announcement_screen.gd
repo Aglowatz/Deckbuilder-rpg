@@ -27,6 +27,7 @@ static func make(title_text: String, body_text: String, lines: Array[String] = [
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade: ColorRect = ColorRect.new()

@@ -25,6 +25,7 @@ static func make(screen_mode: Mode) -> CampaignSlotsScreen:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	name = "CampaignSlotsScreen"
 	UIKit.full_rect(self)
 	UiScale.fit(self)

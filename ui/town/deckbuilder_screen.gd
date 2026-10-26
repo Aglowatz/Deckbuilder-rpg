@@ -706,6 +706,7 @@ func _make_tile(card: CardData) -> Control:
 	holder.add_child(view)
 	CardView.fit(view, _card_scale)
 	view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void: _on_tile_input(card, event))
+	PadClick.enable(view)  # controller support (Oct 26): A adds the card, X takes one out
 	view.hovered.connect(func(_v: CardView) -> void:
 		_preview.show_for(holder, card)
 		Audio.sfx(&"card_hover", -14.0))

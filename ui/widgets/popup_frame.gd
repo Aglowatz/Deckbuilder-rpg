@@ -138,6 +138,7 @@ func set_enabled(value: bool) -> void:
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	_panel.pivot_offset = _panel.size * 0.5
 	animate_in()
 

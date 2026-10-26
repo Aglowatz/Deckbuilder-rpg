@@ -49,6 +49,7 @@ static func play(host: Node, id: String, then: Callable = Callable()) -> StorySt
 
 
 func _ready() -> void:
+	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var backdrop: ColorRect = ColorRect.new()

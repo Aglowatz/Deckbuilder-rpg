@@ -354,6 +354,9 @@ func _track_safe_spot() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Controller support (Oct 26): a pad press meant for a focused menu control (the HUD menu) is not also a world action
+	if UiInput.pad_focus_busy(event, self):
+		return
 	if event.is_action_pressed(&"dismount"):
 		if is_riding() and not _locked and not dialogue.active and not _fainting:
 			get_viewport().set_input_as_handled()

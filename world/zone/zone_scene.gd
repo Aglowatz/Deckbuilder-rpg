@@ -1044,6 +1044,9 @@ func show_banner(text: String) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Controller support (Oct 26): a pad press meant for a focused menu control (the HUD menu) is not also a world action
+	if UiInput.pad_focus_busy(event, self):
+		return
 	if _fainting:
 		return
 	if not _locked and not dialogue.active and UiInput.is_fresh_press(event):

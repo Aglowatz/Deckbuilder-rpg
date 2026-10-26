@@ -104,6 +104,7 @@ func _ready() -> void:
 		unhovered.emit(map_node.id)
 		create_tween().tween_property(self, "scale", Vector2.ONE, 0.1))
 	gui_input.connect(_on_input)
+	PadClick.enable(self)  # controller support (Oct 26): the D-pad moves between nodes, A picks one
 	refresh()
 
 

@@ -168,6 +168,7 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 			var click: InputEventMouseButton = event as InputEventMouseButton
 			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 				_ask_to_buy(card))
+		PadClick.enable(view)  # controller support (Oct 26): A asks to buy
 	view.hovered.connect(func(_v: CardView) -> void:
 		if not locked:
 			_preview.show_for(holder, card)
@@ -390,6 +391,19 @@ func _show_cards() -> void:
 	_cards_view.visible = true
 	_refresh()
 	_show_cards_tip()
+	PadFocus.focus_soon(self)
+
+
+## Controller support (Oct 26): the pad starts on the first card for sale in the grid, or on the first category in the picker.
+func pad_first_focus() -> Control:
+	if _showing_cards and _grid != null:
+		for node: Node in _grid.find_children("*", "CardView", true, false):
+			var view: CardView = node as CardView
+			if view.is_visible_in_tree() and view.focus_mode != Control.FOCUS_NONE:
+				return view
+	if _picker != null and _picker.visible and not _picker_buttons.is_empty():
+		return _picker_buttons[0]
+	return UiInput.focus_first(body)
 
 
 func _back_to_picker() -> void:

@@ -159,6 +159,9 @@ func _update_near_portal() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Controller support (Oct 26): a pad press meant for a focused menu control (the HUD menu) is not also a world action
+	if UiInput.pad_focus_busy(event, self):
+		return
 	if not _locked and event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		_open_full_map()
