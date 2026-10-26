@@ -11,7 +11,8 @@ its AMD integrated GPU (D3D12), 7.4 GB RAM, window 1600x900. Start `476eb756` (t
   from 55 to 67. The 1% lows improved more than the averages (Capital outside 14 -> 58, Crosspath 33 -> 55, Gainlands 30 -> 58).
 - **Low, every 3D area runs at 83-125 fps** (was 62-109): Low had been limited by scripts, not the GPU.
 - **Menus over the town run at 136-184 fps** (were 48-70): the 3D town no longer renders behind an opaque screen.
-- **Loads**: Crosspath 8.2 -> 5.1 s, Gainlands 5.7 -> 3.8 s, Buffet 4.5 -> 3.4 s, the Dump 8.6 -> 6.4 s (warm cache).
+- **Loads** (after Phase 2, warm cache, Medium): Crosspath 8.2 -> 4.5 s, the Dump 8.6 -> 5.2 s, Gainlands 5.7 -> 3.5 s, Buffet 4.5 -> 3.1 s,
+  the Capital 6.4-6.5 -> 5.0-5.2 s, D.N.A. 3.4 -> 2.9 s, the forest 2.1 -> 1.8 s (`docs/perf/runs/ph2_loads_warm.md`).
 - **Memory**: video memory after visiting every zone stays at ~950 MB in town instead of climbing to ~1017 MB; textures in town after the
   tour 455 MB instead of 522; zones 45-100 MB lower on a second visit; full-screen paintings are 4x smaller in video memory.
 - **Nothing looks different**: every area was photographed from the same camera spot before and after; the pixel differences are at
@@ -119,9 +120,18 @@ headroom** per area (Crosspath is the tightest at ~1.7 ms, Gainlands and the Cap
 3.5-4.8 ms). That is room for one Tier 2 item per zone at Medium - e.g. SSAO at half resolution (~2 ms measured in Tier 1) in the lighter zones,
 or the bounce-colour ground light channel everywhere. Low has 4.7-8.7 ms of headroom. The budgets file will flag anything that eats more.
 
+## Phase 2 (after the six parts)
+
+- Cycle 1: the painted material layers (30 textures prepared once per session, ~0.5 s on the first area) and the Capital's land rim
+  (1.2 s -> 0.2 s) come from the build cache; `KitMesh.snapshot / restore / fill_cached` can cache any kit geometry.
+- Cycle 2 (reverted): caching the kit buildings and the hub tree belt (Crosspath 5.1 -> 4.2 s) broke the warm-cache Crosspath walk smoke
+  at one spot; reverted, cause open (inbox 3). Rule since: every cached piece gets a cold AND a warm walk smoke.
+- Cycle 3: the Dump's land mesh from the cache (1.26 -> 0.14 s).
+- Frame rates were re-checked in the warm load runs (Medium 65-85 fps, as in the table above).
+
 ## Not done / next
 
-- Kit mesh caching (Capital walls 1.6 s, Dump terrain 1.1 s, castle) and StyleRig's material conversion (0.7-0.9 s in every area): the
-  biggest remaining load costs; both need the builders split into "geometry" and "nodes" (Phase 2 candidates).
+- Remaining load costs: Crosspath's TownSquare (0.9 s) and kit buildings (0.5 s, the reverted cache), the Capital's buildings (0.76 s) and
+  castle (0.45 s), HubLand's boundary / outskirts / tree belt (0.25 / 0.19 / 0.3 s), the Gainlands land (0.46 s).
 - UI pooling / virtualised grids for the Collection Book and Deck Station: not needed for frame rate any more; would cut their build time.
 - Vendor stage paintings (VS-*, 1672x941) are still RGBA8 (6 MB each, 42 MB warmed in town): not multiples of 4.
