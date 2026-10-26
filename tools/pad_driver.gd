@@ -19,7 +19,7 @@ func frames(count: int) -> void:
 
 
 func seconds(duration: float) -> void:
-	await tree.create_timer(duration, false).timeout
+	await tree.create_timer(duration, true).timeout  # runs in the pause menu too
 
 
 func button(index: JoyButton, pressed: bool) -> void:
@@ -55,6 +55,7 @@ func axis(which: JoyAxis, value: float) -> void:
 func walk(direction: Vector2, duration: float) -> void:
 	await axis(JOY_AXIS_LEFT_X, direction.x)
 	await axis(JOY_AXIS_LEFT_Y, direction.y)
+	print("pad_driver: walk %s -> move strength u%.2f d%.2f l%.2f r%.2f vector %s" % [direction, Input.get_action_strength(&"move_up"), Input.get_action_strength(&"move_down"), Input.get_action_strength(&"move_left"), Input.get_action_strength(&"move_right"), Input.get_vector(&"move_left", &"move_right", &"move_up", &"move_down")])
 	await seconds(duration)
 	await axis(JOY_AXIS_LEFT_X, 0.0)
 	await axis(JOY_AXIS_LEFT_Y, 0.0)
@@ -81,11 +82,55 @@ func focus_until(predicate: Callable, step: JoyButton = JOY_BUTTON_DPAD_DOWN, li
 	return last != null and bool(predicate.call(last))
 
 
-## Moves the focus to the first visible button whose text contains `text` (D-pad down, then up, then right/left), then presses A.
-func press_button(text: String, limit: int = 30) -> bool:
-	var matches: Callable = func(control: Control) -> bool: return control is Button and (control as Button).text.contains(text)
-	for direction: JoyButton in [JOY_BUTTON_DPAD_DOWN, JOY_BUTTON_DPAD_UP, JOY_BUTTON_DPAD_RIGHT, JOY_BUTTON_DPAD_LEFT]:
-		if await focus_until(matches, direction, limit):
-			await tap(JOY_BUTTON_A)
+## Moves the focus to a visible button whose text contains `text` - along the shortest D-pad path through the focus graph - then presses A.
+## Returns true when it found and pressed one.
+func press_button(text: String, limit: int = 40) -> bool:
+	var matches: Callable = func(control: Control) -> bool: return control is Button and (control as Button).text.contains(text) and control.is_visible_in_tree()
+	if not await focus_to(matches, limit):
+		return false
+	await tap(JOY_BUTTON_A)
+	return true
+
+
+const _SIDES: Array[Side] = [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]
+const _SIDE_BUTTONS: Array[JoyButton] = [JOY_BUTTON_DPAD_LEFT, JOY_BUTTON_DPAD_UP, JOY_BUTTON_DPAD_RIGHT, JOY_BUTTON_DPAD_DOWN]
+const _DIRECTIONS: Array[Vector2] = [Vector2.LEFT, Vector2.UP, Vector2.RIGHT, Vector2.DOWN]
+
+
+## Steers the focus onto a control `predicate` accepts by pressing the D-pad along the shortest path in the focus graph (re-planned after
+## every press, since a press can rebuild or scroll the screen). The first press wakes the focus when nothing has it.
+func focus_to(predicate: Callable, limit: int = 40) -> bool:
+	for _step: int in range(limit):
+		var here: Control = tree.root.gui_get_focus_owner()
+		var root: Control = PadFocus.top_root(tree)
+		if here == null or not here.is_visible_in_tree() or (root != null and not root.is_ancestor_of(here)):
+			print("pad_driver: waking the focus (focus %s, open screen %s)" % [here, root])
+			await tap(JOY_BUTTON_DPAD_DOWN)
+			continue
+		if bool(predicate.call(here)):
 			return true
-	return false
+		var side: int = _plan(here, predicate)
+		if side < 0:
+			print("pad_driver: nothing matching is reachable from %s (open screen %s)" % [here, root])
+			return false
+		await tap(_SIDE_BUTTONS[side])
+	var last: Control = tree.root.gui_get_focus_owner()
+	return last != null and bool(predicate.call(last))
+
+
+## The first D-pad side (an index into _SIDES) of the shortest focus path from `from` to a control `predicate` accepts; -1 when none is reachable.
+func _plan(from: Control, predicate: Callable) -> int:
+	var root: Control = PadFocus.top_root(tree)
+	var first: Dictionary = {from: -1}
+	var queue: Array[Control] = [from]
+	while not queue.is_empty():
+		var here: Control = queue.pop_front()
+		for index: int in range(_SIDES.size()):
+			var next: Control = PadFocus.neighbor(here, _DIRECTIONS[index], root) if root != null else here.find_valid_focus_neighbor(_SIDES[index])
+			if next == null or first.has(next) or not next.is_visible_in_tree() or (root != null and not root.is_ancestor_of(next)):
+				continue
+			first[next] = index if here == from else int(first[here])
+			if bool(predicate.call(next)):
+				return int(first[next])
+			queue.append(next)
+	return -1

@@ -95,7 +95,11 @@ func play_once(_animation_name: StringName = &"Cheer") -> void:
 func _process(delta: float) -> void:
 	if sprite == null:
 		return
-	if not _dragging:
+	# Controller support (Oct 26): the right stick turns the hero like a mouse drag (the stick's X scrolls nothing on these screens)
+	var stick: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X) if InputDevice.using_pad() and is_visible_in_tree() else 0.0
+	if absf(stick) > 0.25:
+		_yaw += stick * delta * 3.0
+	elif not _dragging:
 		_yaw += delta * spin_speed
 	_hop = maxf(0.0, _hop - delta * 2.2)
 	sprite.look_toward(Vector3(sin(_yaw), 0.0, cos(_yaw)))

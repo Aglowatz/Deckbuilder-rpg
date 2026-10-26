@@ -57,7 +57,8 @@ func _build() -> void:
 	_start_button.focus_mode = Control.FOCUS_NONE
 	_start_button.pressed.connect(_start)
 	row.add_child(_start_button)
-	_pump_button = FancyButton.make("PUMP!  (Space)", &"PrimaryButton", Vector2(380, 66))
+	_pump_button = FancyButton.make("", &"PrimaryButton", Vector2(380, 66))
+	PromptText.bind(_pump_button, "PUMP!  (Space)", &"text", "PUMP!  ({confirm})")
 	_pump_button.focus_mode = Control.FOCUS_NONE
 	_pump_button.pressed.connect(_pump)
 	row.add_child(_pump_button)
@@ -88,6 +89,10 @@ func _input(event: InputEvent) -> void:
 	if _state != "playing" and _state != "countdown":
 		return
 	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE:
+		get_viewport().set_input_as_handled()
+		_pump()
+	# Controller support (Oct 26): A pumps, wherever the focus is
+	elif event is InputEventJoypadButton and (event as InputEventJoypadButton).pressed and (event as InputEventJoypadButton).button_index == JOY_BUTTON_A:
 		get_viewport().set_input_as_handled()
 		_pump()
 

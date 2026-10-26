@@ -112,6 +112,12 @@ func _input(event: InputEvent) -> void:
 		if bin >= 0:
 			get_viewport().set_input_as_handled()
 			_press(bin)
+	# Controller support (Oct 26): the D-pad sorts like the arrow keys (left, down, up, right = bins 1-4)
+	elif event is InputEventJoypadButton and (event as InputEventJoypadButton).pressed:
+		var pad_bin: int = [JOY_BUTTON_DPAD_LEFT, JOY_BUTTON_DPAD_DOWN, JOY_BUTTON_DPAD_UP, JOY_BUTTON_DPAD_RIGHT].find((event as InputEventJoypadButton).button_index)
+		if pad_bin >= 0:
+			get_viewport().set_input_as_handled()
+			_press(pad_bin)
 
 
 func _press(bin: int) -> void:
