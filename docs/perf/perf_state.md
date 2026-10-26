@@ -18,7 +18,7 @@ visibly different is reverted), no playtest export.
 | 3 Culling + per-frame work + UI | 3a done | WorldCover (menus pause the hidden 3D world: Deck Station 48->85, Collection 52->95, vendor 55->112 fps Medium, pixel-identical); off-screen sprites / strollers / patrolling enemies update every 4th frame with the missed time; WorldSprite sends only changed shader values; zone markers/plates/prompts only near the hero (Capital: markers 0.76->0.10 ms); Low: Crosspath 69->91, Gainlands 70->98, Buffet 80->107, D.N.A. 79->104, Dump 65->92, Capital 62->84 fps. 3b (visibility ranges, occluders, UI pooling) next |
 | 4 Memory | done | SpriteLibrary drops NPC frames on area change (town textures after a tour 522 -> 455 MB, zones -45..-100 MB); 16 full-screen paintings to BC7 (town 422 -> 390 MB textures, pixel diff <= 2/255 per block on menus); export +16 MB (741.5 MB) |
 | 5 Dynamic resolution + budget tests | done | DynamicResolution (Settings child; Auto = Low/Medium, Always, Off; steps 0.04 down when the frame is >1.15x budget for 0.75 s and the GPU is busy, up when the GPU is under 0.68x for 2 s; floor = level scale - 0.14); off in -s tool runs (WAYWARD_DRS=force to test); budgets.json + perf_budget.sh (headless structure + windowed frame) |
-| 6 Verify + report | - | |
+| 6 Verify + report | done | `docs/perf/report.md`, `runs/final.md`, `runs/before_after.md`, `diff_final.md`; GUT groups, walk smokes, first battles, tour bot, story bot all OK |
 
 ## Tools
 
@@ -69,3 +69,7 @@ visibly different is reverted), no playtest export.
 - Part 1 pixel diff (`_screenshots/perf/p1_before` vs `p1_after`, cache off vs baked cache; `p1_noise` = two unchanged runs):
   every area within the noise floor except a little more motion in the Dump / forest (heat map: foliage sway, motes, cloud
   shadows - nothing structural). UI screens 0.00.
+
+## Phase 2 (remaining time)
+
+Next biggest costs from the ranked list: kit-mesh caching for loads (Capital walls, Dump terrain), StyleRig conversion time.
