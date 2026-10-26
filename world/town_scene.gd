@@ -2829,6 +2829,15 @@ func _screenshot_slots(mode_name: String) -> void:
 
 func _screenshot_open(what: String) -> void:
 	match what:
+		"bestiary_boss":  # Oct 23: a met boss's Bestiary page with its signature moves (Chancellor Clench, met and beaten once)
+			Session.bestiary_meet("Chancellor Clench, Iron Regent")
+			Session.bump_counter("bestiary_won:%s" % "Chancellor Clench, Iron Regent")
+			var codex: CodexScreen = CodexScreen.new()
+			_open_overlay(codex)
+			codex.show_tab("Bestiary")
+			var entry: Bestiary.Entry = Bestiary.find("Chancellor Clench, Iron Regent")
+			if entry != null:
+				get_tree().create_timer(0.6).timeout.connect(codex.show_beast.bind(entry))
 		"pick":  # Oct 23, Part 4: the card pick box after a gatekeeper (as if Brick Bronson had just been beaten)
 			var context: BattleContext = BattleContext.new()
 			context.game = Session.make_practice_battle("Cave Scavenger").game
