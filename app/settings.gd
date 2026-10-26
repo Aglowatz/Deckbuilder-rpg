@@ -131,6 +131,10 @@ func _ready() -> void:
 		RenderingServer.get_video_adapter_vendor(), RenderingServer.get_video_adapter_type())
 	if not GraphicsQuality.heavy_passes_allowed:
 		GameLog.info("settings", "Intel integrated GPU: volumetric fog, SSAO and MSAA stay off even on High")
+	# Graphics Tier 2: a discrete GPU (by name) gets FSR 2 as the Medium default under Auto; integrated GPUs keep FSR 1.
+	GraphicsQuality.discrete_gpu = GpuInfo.current_kind() == GpuInfo.Kind.DISCRETE
+	if GraphicsQuality.discrete_gpu:
+		GameLog.info("settings", "discrete GPU: FSR 2 is the Medium upscaler under Auto")
 	load_settings()
 	_apply_boot_guard()
 	apply()

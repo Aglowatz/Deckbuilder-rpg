@@ -66,6 +66,24 @@ func test_upscaler_rules() -> void:
 	assert_eq(GraphicsQuality.upscaler_mode(1, GraphicsQuality.Upscaler.FSR2, 0.58), Viewport.SCALING_3D_MODE_FSR2)
 	GraphicsQuality.heavy_passes_allowed = false
 	assert_eq(GraphicsQuality.upscaler_mode(1, GraphicsQuality.Upscaler.FSR2, 0.58), Viewport.SCALING_3D_MODE_FSR, "an Intel iGPU never runs FSR 2")
+	GraphicsQuality.heavy_passes_allowed = true
+
+
+## Graphics Tier 2: under Auto a discrete GPU gets FSR 2 on Medium only; integrated GPUs and Low keep FSR 1, and the explicit choices are untouched.
+func test_fsr2_is_the_medium_default_on_discrete_gpus_only() -> void:
+	GraphicsQuality.heavy_passes_allowed = true
+	GraphicsQuality.discrete_gpu = true
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.MEDIUM, GraphicsQuality.Upscaler.AUTO, 0.58), Viewport.SCALING_3D_MODE_FSR2, "a discrete GPU's Medium default")
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.LOW, GraphicsQuality.Upscaler.AUTO, 0.5), Viewport.SCALING_3D_MODE_FSR, "Low never gets heavier")
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.HIGH, GraphicsQuality.Upscaler.AUTO, 1.0), Viewport.SCALING_3D_MODE_BILINEAR, "native stays native")
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.MEDIUM, GraphicsQuality.Upscaler.FSR1, 0.58), Viewport.SCALING_3D_MODE_FSR, "an explicit FSR 1 choice is kept")
+	GraphicsQuality.discrete_gpu = false
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.MEDIUM, GraphicsQuality.Upscaler.AUTO, 0.58), Viewport.SCALING_3D_MODE_FSR, "an integrated GPU keeps FSR 1")
+	GraphicsQuality.discrete_gpu = true
+	GraphicsQuality.heavy_passes_allowed = false
+	assert_eq(GraphicsQuality.upscaler_mode(GraphicsQuality.Level.MEDIUM, GraphicsQuality.Upscaler.AUTO, 0.58), Viewport.SCALING_3D_MODE_FSR, "never where the heavy passes are off")
+	GraphicsQuality.discrete_gpu = false
+	GraphicsQuality.heavy_passes_allowed = true
 
 
 func test_sharpness_maps_crisp_to_zero() -> void:

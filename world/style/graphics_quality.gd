@@ -19,6 +19,9 @@ const RENDER_SCALE_CHOICES: Array[int] = [0, 50, 62, 75, 85, 100]
 ## Medium ran) - volumetric fog and SSAO (compute passes) and MSAA - stay off on Intel integrated GPUs even on High (Settings sets this
 ## from GpuInfo at start). High keeps its full resolution, shadows and outline normals there. Tier 1: FSR 2 and shadow-casting effect lights too.
 static var heavy_passes_allowed: bool = true
+## Graphics Tier 2: a discrete GPU (by name, `GpuInfo.current_kind`; Settings sets it at start) gets FSR 2 as the Medium default under Auto - it costs
+## 6 ms on the development iGPU (Tier 1, D1) but a GTX-class card has that to spare and the temporal upscale is sharper. Integrated GPUs keep FSR 1.
+static var discrete_gpu: bool = false
 
 
 static func display_name(level: int) -> String:
@@ -119,6 +122,9 @@ static func upscaler_mode(_level: int, choice: int, scale_value: float) -> int:
 			return Viewport.SCALING_3D_MODE_BILINEAR
 		Upscaler.FSR2:
 			return Viewport.SCALING_3D_MODE_FSR2 if heavy_passes_allowed else Viewport.SCALING_3D_MODE_FSR
+	# Tier 2: Auto picks FSR 2 for Medium on a discrete GPU only (never for an integrated one, never on Low: Low and Safe Mode never get heavier).
+	if choice == Upscaler.AUTO and _level == Level.MEDIUM and discrete_gpu and heavy_passes_allowed:
+		return Viewport.SCALING_3D_MODE_FSR2
 	return Viewport.SCALING_3D_MODE_FSR
 
 
