@@ -20,6 +20,7 @@ static func release() -> int:
 	KitFoliage.clear_cache()
 	EnvKit.clear_cache()
 	DnaMaterials.reset_cache()
+	dropped += SpriteLibrary.release_area_frames()
 	return dropped
 
 

@@ -10,6 +10,7 @@ var _frames: PackedFloat32Array = []
 var _stage: int = -2
 var _toggles: Array[Dictionary] = []
 var _undo: Array[Callable] = []
+var _ab_base: float = 0.0
 const WARM: float = 4.0
 const SPAN: float = 3.0
 
@@ -64,6 +65,21 @@ func _far_cull(distance: float) -> void:
 		var before: float = geo.visibility_range_end
 		geo.visibility_range_end = distance
 		_undo.append(func() -> void: geo.visibility_range_end = before)
+
+
+## Performance pass Oct 25: only meshes smaller than `size` metres stop drawing beyond `distance`.
+func _small_far_cull(size: float, distance: float) -> void:
+	var count: int = 0
+	for node: Node in _nodes_of("GeometryInstance3D"):
+		var geo: GeometryInstance3D = node as GeometryInstance3D
+		var box: AABB = geo.global_transform * geo.get_aabb()
+		if box.get_longest_axis_size() >= size or (geo.visibility_range_end > 0.0 and geo.visibility_range_end <= distance):
+			continue
+		var before: float = geo.visibility_range_end
+		geo.visibility_range_end = distance
+		count += 1
+		_undo.append(func() -> void: geo.visibility_range_end = before)
+	print("fps_toggles: %d geometry nodes under %.1f m now end at %.0f m" % [count, size, distance])
 
 
 func _no_light_shadows() -> void:
@@ -223,10 +239,28 @@ func _build_toggles() -> void:
 		{"name": "meshes <1.0 m no shadow", "run": func() -> void: _small_no_shadow(1.0)},
 		{"name": "meshes <2.0 m no shadow", "run": func() -> void: _small_no_shadow(2.0)},
 		{"name": "meshes <3.5 m no shadow", "run": func() -> void: _small_no_shadow(3.5)},
+		{"name": "small far cull 1.5 m / 45 m", "run": func() -> void: _small_far_cull(1.5, 45.0)},
+		{"name": "small far cull 3 m / 45 m", "run": func() -> void: _small_far_cull(3.0, 45.0)},
 		{"name": "far cull 60 m", "run": func() -> void: _far_cull(60.0)},
 		{"name": "far cull 45 m", "run": func() -> void: _far_cull(45.0)},
 		{"name": "far cull 32 m", "run": func() -> void: _far_cull(32.0)},
 	]
+	# Performance pass Oct 25: `--only=glow,far cull` keeps the toggles whose names contain any of the words; `--ab=true` puts a plain
+	# baseline span before every toggle and prints the change in ms against it (this laptop drifts by several fps over a run).
+	if _args.has("only"):
+		var kept: Array[Dictionary] = []
+		for toggle: Dictionary in _toggles:
+			for word: String in str(_args["only"]).split(",", false):
+				if str(toggle["name"]).contains(word):
+					kept.append(toggle)
+					break
+		_toggles = kept
+	if _args.has("ab"):
+		var paired: Array[Dictionary] = []
+		for toggle: Dictionary in _toggles:
+			paired.append({"name": "(base)", "run": func() -> void: pass})
+			paired.append(toggle)
+		_toggles = paired
 
 
 func await_ready_report() -> void:
@@ -264,7 +298,13 @@ func _process(delta: float) -> bool:
 		for value: float in _frames:
 			total += value
 		fps = float(_frames.size()) / total
-	if _stage >= 0:
+	if _stage > 0 and _args.has("ab"):
+		var label: String = str(_toggles[_stage - 1]["name"])
+		if label == "(base)":
+			_ab_base = 1000.0 / maxf(fps, 0.001)
+		else:
+			print("fps_toggles: %-30s %6.2f ms (%+.2f ms vs %.2f)  (draw calls %d, primitives %d)" % [label, 1000.0 / maxf(fps, 0.001), 1000.0 / maxf(fps, 0.001) - _ab_base, _ab_base, Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME), Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)])
+	elif _stage >= 0:
 		print("fps_toggles: %-30s -> %5.1f fps  (draw calls %d, primitives %d)" % [str(_toggles[_stage - 1]["name"]) if _stage > 0 else "baseline", fps, Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME), Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)])
 	if _stage == 0:
 		_glow_env_report()

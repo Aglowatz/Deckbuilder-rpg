@@ -14,9 +14,9 @@ visibly different is reverted), no playtest export.
 |---|---|---|
 | 0 Baseline | done | `docs/perf/baseline.md` (ranked costs), `runs/baseline.md`; tools perf_probe / perf_run / process_census / texture_census |
 | 1 Zone build cache | done | `BuildCache` (world/build_cache.gd): splat images, ground overlay, foliage placement; bake for export; loads Crosspath 8.2->5.3 s, Dump 8.6->7.1, Gainlands 5.7->4.6, Buffet 4.5->3.8; shots identical within noise |
-| 2 Draw calls | - | |
+| 2 Draw calls | measured, nothing kept | GPU-bound on shading, not geometry or draw calls: KitLod (runtime LODs for kit meshes) +0.1-0.3 ms, small-far culling 0, KitInstancer (MultiMesh repeats) found 45 safe pieces; all reverted (decisions P2-a..c) |
 | 3 Culling + per-frame work + UI | 3a done | WorldCover (menus pause the hidden 3D world: Deck Station 48->85, Collection 52->95, vendor 55->112 fps Medium, pixel-identical); off-screen sprites / strollers / patrolling enemies update every 4th frame with the missed time; WorldSprite sends only changed shader values; zone markers/plates/prompts only near the hero (Capital: markers 0.76->0.10 ms); Low: Crosspath 69->91, Gainlands 70->98, Buffet 80->107, D.N.A. 79->104, Dump 65->92, Capital 62->84 fps. 3b (visibility ranges, occluders, UI pooling) next |
-| 4 Memory | - | |
+| 4 Memory | done | SpriteLibrary drops NPC frames on area change (town textures after a tour 522 -> 455 MB, zones -45..-100 MB); 16 full-screen paintings to BC7 (town 422 -> 390 MB textures, pixel diff <= 2/255 per block on menus); export +16 MB (741.5 MB) |
 | 5 Dynamic resolution + budget tests | - | |
 | 6 Verify + report | - | |
 
@@ -28,6 +28,17 @@ visibly different is reverted), no playtest export.
   instantiate + `_ready`, unstaged), worst frame in the first 3 s, process working set (RAM), video memory, texture memory.
 
 ## Decisions
+
+- **P2-a: no runtime LODs.** `ImporterMesh.generate_lods` works on the kit meshes once welded (castle gold 19k > 9k > 4.5k...), but the
+  Capital at Medium gained 0.1-0.3 ms: the far-geometry cost (3 ms for everything past 60 m) is shaded screen area, not triangles.
+- **P2-b: no extra culling.** Small meshes (<1.5 / <3 m) ending at 45 m: +0.06 / +0.33 ms (noise). Anything bigger is visible.
+- **P2-c: no generic instancing.** Only the Dump has repeats sharing mesh+material+parent (360 -> 117 groups), and after the safety rules
+  (under 1 m so nothing fades or shades differently, no script above, not held by the builder/scene) 45 pieces qualify, none in view.
+  KitBatch (Capital, Crosspath square, Gainlands roads) and the MultiMesh foliage/trees already cover the repeated kit props.
+- **P4-a: BC7 only for full-screen paintings with sides in multiples of 4** (BC7 works in 4x4 blocks; odd sizes such as 1672x941 would be
+  padded or resized): UI-BG-*, STORY-* (not APPROVAL), LOAD-BUFFET/DUMP/GAINLANDS, the foliage atlas. Portraits were tried and reverted
+  (+20 MB of export for ~2 MB of video memory: only two are loaded at a time). Crisp UI pieces (frames, buttons, 9-slices) untouched.
+- **P4-b: the hero's sprite frames stay cached across areas, NPC frames go** (they reload on demand; a live sprite keeps its own).
 
 - **P3-a: a still picture under menus.** OverlayScreens are opaque paintings or a 94% shade; WorldCover keeps the last world frame as a
   TextureRect under the screen and sets `Viewport.disable_3d` once the 0.14 s open fade ends (screens replacing each other reuse the

@@ -3,20 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dg1m1dy57bcm"
-path="res://.godot/imported/STORY-PRIMM.webp-a060798ec02b4b3444061c501899b53b.ctex"
+path.bptc="res://.godot/imported/STORY-PRIMM.webp-a060798ec02b4b3444061c501899b53b.bptc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/art/keyart/STORY-PRIMM.webp"
-dest_files=["res://.godot/imported/STORY-PRIMM.webp-a060798ec02b4b3444061c501899b53b.ctex"]
+dest_files=["res://.godot/imported/STORY-PRIMM.webp-a060798ec02b4b3444061c501899b53b.bptc.ctex"]
 
 [params]
 
-compress/mode=1
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.88
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

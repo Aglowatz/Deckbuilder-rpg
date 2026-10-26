@@ -70,6 +70,53 @@
 			"size_limit": 512
 		},
 		{
+			"match": "assets/art/ui/UI-BG-*",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks): the screen backgrounds",
+			"mode": 2,
+			"hq": true
+		},
+		{
+			"match": "assets/art/keyart/STORY-APPROVAL.webp",
+			"mode": 1,
+			"quality": 0.88,
+			"size_limit": 1920,
+			"why": "1672x941 (not a multiple of 4): stays lossy"
+		},
+		{
+			"match": "assets/art/keyart/STORY-*",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks): the story stills",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1920
+		},
+		{
+			"match": "assets/art/keyart/LOAD-BUFFET.webp",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks): loading paintings 1536x864",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1920
+		},
+		{
+			"match": "assets/art/keyart/LOAD-DUMP.webp",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks)",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1920
+		},
+		{
+			"match": "assets/art/keyart/LOAD-GAINLANDS.webp",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks)",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1920
+		},
+		{
+			"match": "assets/art/world_test/foliage/*",
+			"why": "Performance pass Oct 25 (docs/perf/perf_state.md, Part 4): a full-screen painting drawn from a lossy WebP sits in video memory as RGBA8 (4 bytes a pixel); BC7 (high quality) is 1 byte and looks the same (pixel diff in docs/perf). Only images whose sides are multiples of 4 (BC7 works in 4x4 blocks): the painted foliage atlas (1152x768)",
+			"mode": 2,
+			"hq": true
+		},
+		{
 			"match": "assets/art/world_test/tex/*",
 			"mode": 2,
 			"hq": true,

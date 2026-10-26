@@ -113,6 +113,19 @@ func _process(delta: float) -> bool:
 	parts.append("vram_mb=%.0f" % (Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0))
 	parts.append("ram_mb=%.0f" % _working_set_mb())
 	print("perf_probe: " + " ".join(parts))
+	if _args.has("far"):
+		_far_report(float(_args["far"]))
+	if _args.has("drawlist"):
+		_draw_report()
+	if _args.has("meshlist"):
+		_mesh_report()
+	if _args.has("batchable"):
+		_batch_report()
+	if _args.has("lights"):
+		# `--lights=true`: every light with its shadow switch (a stray shadowed light is a whole extra shadow pass)
+		for node: Node in root.find_children("*", "Light3D", true, false):
+			var light: Light3D = node as Light3D
+			print("perf_probe_light: %s %s visible=%s shadow=%s energy=%.2f" % [light.get_path(), light.get_class(), str(light.is_visible_in_tree()), str(light.shadow_enabled), light.light_energy])
 	quit(0)
 	return true
 
@@ -137,3 +150,114 @@ func _working_set_mb() -> float:
 		return -1.0
 	var kb: String = fields[4].replace("\"", "").replace(" K", "").replace(",", "").replace(".", "").strip_edges()
 	return float(kb) / 1024.0
+
+
+## `--far=60`: the visible meshes whose box centre is farther than that from the camera, by triangle count (MultiMesh: per instance x instances),
+## with whether the mesh has LODs - where the far primitives come from.
+func _far_report(distance: float) -> void:
+	var cam: Camera3D = root.get_viewport().get_camera_3d()
+	if cam == null:
+		return
+	var rows: Array = []
+	var total: int = 0
+	for node: Node in root.find_children("*", "GeometryInstance3D", true, false):
+		var geo: GeometryInstance3D = node as GeometryInstance3D
+		if not geo.is_visible_in_tree():
+			continue
+		var mesh: Mesh = null
+		var count: int = 1
+		if geo is MeshInstance3D:
+			mesh = (geo as MeshInstance3D).mesh
+		elif geo is MultiMeshInstance3D and (geo as MultiMeshInstance3D).multimesh != null:
+			mesh = (geo as MultiMeshInstance3D).multimesh.mesh
+			count = (geo as MultiMeshInstance3D).multimesh.instance_count
+		if mesh == null:
+			continue
+		var box: AABB = geo.global_transform * geo.get_aabb()
+		var d: float = cam.global_position.distance_to(box.get_center())
+		if d < distance:
+			continue
+		var tris: int = 0
+		var lods: int = 0
+		for i: int in range(mesh.get_surface_count()):
+			var arrays: Array = mesh.surface_get_arrays(i) if mesh is ArrayMesh else []
+			if arrays.is_empty():
+				continue
+			var idx: Variant = arrays[Mesh.ARRAY_INDEX]
+			tris += (idx as PackedInt32Array).size() / 3 if idx != null and (idx as PackedInt32Array).size() > 0 else (arrays[Mesh.ARRAY_VERTEX] as PackedVector3Array).size() / 3
+		if mesh is ArrayMesh and mesh.get_surface_count() > 0:
+			lods = RenderingServer.mesh_surface_get_arrays(mesh.get_rid(), 0).size()  # (presence only)
+		total += tris * count
+		rows.append([tris * count, "%s tris=%d x%d d=%.0f size=%.0f %s" % [geo.get_path(), tris, count, d, box.get_longest_axis_size(), mesh.resource_path]])
+	rows.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) > int(b[0]))
+	print("perf_probe_far: %d triangles in meshes farther than %.0f m" % [total, distance])
+	for index: int in range(mini(30, rows.size())):
+		print("perf_probe_far:   %7d  %s" % [rows[index][0], rows[index][1]])
+
+
+## `--drawlist=true`: visible geometry grouped by node name (digits and @ ids stripped): instances, surfaces (about one draw call each per pass),
+## and how many cast shadows - where the draw calls come from.
+func _draw_report() -> void:
+	var groups: Dictionary = {}
+	var regex: RegEx = RegEx.create_from_string("[0-9@_()., -]+")
+	for node: Node in root.find_children("*", "GeometryInstance3D", true, false):
+		var geo: GeometryInstance3D = node as GeometryInstance3D
+		if not geo.is_visible_in_tree():
+			continue
+		var mesh: Mesh = null
+		if geo is MeshInstance3D:
+			mesh = (geo as MeshInstance3D).mesh
+		elif geo is MultiMeshInstance3D and (geo as MultiMeshInstance3D).multimesh != null:
+			mesh = (geo as MultiMeshInstance3D).multimesh.mesh
+		var surfaces: int = mesh.get_surface_count() if mesh != null else 1
+		var key: String = "%s/%s" % [regex.sub(str(geo.get_parent().name), "", true), regex.sub(str(geo.name), "", true)]
+		var row: Array = groups.get(key, [0, 0, 0])
+		row[0] += 1
+		row[1] += surfaces
+		row[2] += surfaces if geo.cast_shadow != GeometryInstance3D.SHADOW_CASTING_SETTING_OFF else 0
+		groups[key] = row
+	var keys: Array = groups.keys()
+	keys.sort_custom(func(a: Variant, b: Variant) -> bool: return int(groups[a][1]) > int(groups[b][1]))
+	for index: int in range(mini(30, keys.size())):
+		var row: Array = groups[keys[index]]
+		print("perf_probe_draw: %5d surfaces %4d nodes %4d shadowed  %s" % [row[1], row[0], row[2], keys[index]])
+
+
+## `--meshlist=true`: visible MeshInstance3D nodes grouped by the mesh they draw (repeats of one mesh could be one MultiMesh draw).
+func _mesh_report() -> void:
+	var groups: Dictionary = {}
+	for node: Node in root.find_children("*", "MeshInstance3D", true, false):
+		var mi: MeshInstance3D = node as MeshInstance3D
+		if not mi.is_visible_in_tree() or mi.mesh == null:
+			continue
+		var key: String = mi.mesh.resource_path if not mi.mesh.resource_path.is_empty() else "(runtime %s)" % mi.mesh.get_class()
+		var row: Array = groups.get(key, [0, 0, 0, str(mi.get_path())])
+		row[0] += 1
+		row[1] += mi.mesh.get_surface_count()
+		row[2] += 1 if mi.material_override != null else 0
+		groups[key] = row
+	var keys: Array = groups.keys()
+	keys.sort_custom(func(a: Variant, b: Variant) -> bool: return int(groups[a][1]) > int(groups[b][1]))
+	for index: int in range(mini(25, keys.size())):
+		var row: Array = groups[keys[index]]
+		print("perf_probe_mesh: %4d nodes %4d surfaces %4d overrides  %s  e.g. %s" % [row[0], row[1], row[2], keys[index], row[3]])
+
+
+## `--batchable=true`: how many plain MeshInstance3D nodes share mesh + material + shadow mode + direct parent (could be one MultiMesh each).
+func _batch_report() -> void:
+	var groups: Dictionary = {}
+	var plain: int = 0
+	for node: Node in root.find_children("*", "MeshInstance3D", true, false):
+		var mi: MeshInstance3D = node as MeshInstance3D
+		if not mi.is_visible_in_tree() or mi.mesh == null or mi.get_script() != null or mi.get_child_count() > 0:
+			continue
+		plain += 1
+		var key: String = "%d|%d|%d|%d" % [mi.mesh.get_rid().get_id(), mi.material_override.get_instance_id() if mi.material_override != null else 0, mi.cast_shadow, mi.get_parent().get_instance_id()]
+		groups[key] = int(groups.get(key, 0)) + 1
+	var merged: int = 0
+	var groups_of_two: int = 0
+	for key: String in groups.keys():
+		if int(groups[key]) >= 2:
+			merged += int(groups[key])
+			groups_of_two += 1
+	print("perf_probe_batch: %d plain meshes; %d of them share mesh+material+shadow+parent with another, in %d groups" % [plain, merged, groups_of_two])

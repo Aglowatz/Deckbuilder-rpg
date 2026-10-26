@@ -48,6 +48,18 @@ static func _default_hat_folder() -> String:
 	return override if override != "" else DEFAULT_HAT_FOLDER
 
 
+## Performance pass Oct 25, Part 4: moving to another area drops every cached frame but the hero's (the PLAYER sets and the cloaks, seen
+## everywhere): the NPC frames of each area visited stayed for the session (64 -> 256 textures, about 80 MB of video memory after a tour).
+## A frame still drawn by a live sprite stays in memory through its material; the next area loads its own on demand. Returns how many went.
+static func release_area_frames() -> int:
+	var dropped: int = 0
+	for path: Variant in _textures.keys():
+		if not str(path).contains("/PLAYER"):
+			_textures.erase(path)
+			dropped += 1
+	return dropped
+
+
 ## A texture from an imported resource, or (not imported yet, a test folder, a fresh importer run) straight from the PNG file. Null when neither exists.
 static func _texture(path: String) -> Texture2D:
 	if _textures.has(path):

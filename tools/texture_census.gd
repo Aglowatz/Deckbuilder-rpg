@@ -68,10 +68,34 @@ func _report() -> void:
 			if int(dict[key]) < 262144:
 				continue
 			print("texture_census:   by %s  %7.1f MB  %s" % [table[0], float(dict[key]) / 1048576.0, key])
+	_cache_report()
 	var top: int = int(_args.get("top", 40))
 	for index: int in range(mini(top, usage.size())):
 		var entry: Dictionary = usage[index]
 		print("texture_census:   %6.2f MB  %4dx%-4d %-6s %s" % [float(entry["bytes"]) / 1048576.0, int(entry["width"]), int(entry["height"]), _format_name(int(entry["format"])), str(entry["path"])])
+
+
+## The session-long art caches (outside the scene tree): textures held and their size.
+func _cache_report() -> void:
+	var caches: Dictionary = {"UiArt": UiArt._textures, "KeyArt": KeyArt._textures, "IconArt": IconArt._textures, "CardArt": CardArt._cache,
+		"CardArt thumbs": CardArt._thumbs, "SpriteLibrary": SpriteLibrary._textures, "Portraits": Portraits._textures, "PaintedLibrary": PaintedLibrary._textures}
+	for cache_name: String in caches.keys():
+		var dict: Dictionary = caches[cache_name]
+		var bytes: int = 0
+		var count: int = 0
+		var biggest: Array = []
+		for value: Variant in dict.values():
+			if value is Texture2D:
+				var tex: Texture2D = value as Texture2D
+				var size: int = int(float(tex.get_width() * tex.get_height()) * _bytes_per_pixel(RenderingServer.texture_get_format(tex.get_rid()) if tex.get_rid().is_valid() else -1))
+				bytes += size
+				count += 1
+				biggest.append([size, tex.resource_path])
+		biggest.sort_custom(func(a: Array, b: Array) -> bool: return int(a[0]) > int(b[0]))
+		var names: PackedStringArray = []
+		for i: int in range(mini(4, biggest.size())):
+			names.append("%s %.1f" % [str(biggest[i][1]).get_file(), float(biggest[i][0]) / 1048576.0])
+		print("texture_census:   cache %-15s %4d textures %7.1f MB  (%s)" % [cache_name, count, float(bytes) / 1048576.0, ", ".join(names)])
 
 
 ## Every Texture2D the scene tree references (materials of meshes and MultiMeshes, sprites, decals, controls), sized from its format.
