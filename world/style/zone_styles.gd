@@ -137,6 +137,9 @@ static func apply_to_preset(p: ZonePreset, preset_id: StringName) -> void:
 	# Graphics Tier 1: how dark the sun's shadows are (0..1; the coloured ambient shows through the rest).
 	if light.has("shadow_opacity"):
 		p.shadow_opacity = clampf(float(light["shadow_opacity"]), 0.0, 1.0)
+	# Graphics Tier 2: the ground light map's bounce colour (0 = off .. 1 = full; docs/art/graphics_tier2.md).
+	if light.has("bounce"):
+		p.ground_bounce = clampf(float(light["bounce"]), 0.0, 2.0)
 	var fog: Dictionary = data.get("fog", {}) as Dictionary
 	if fog.has("color"):
 		p.fog_color = Color.html(str(fog["color"]))

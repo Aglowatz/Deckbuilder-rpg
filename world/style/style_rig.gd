@@ -172,6 +172,8 @@ func _apply_globals() -> void:
 	RenderingServer.global_shader_parameter_set("style_ground_sat", preset.ground_sat)
 	# Tier 1: the ground light map's shade leans towards the zone's ambient (the coloured shadow), never black.
 	RenderingServer.global_shader_parameter_set("style_ground_light_tint", preset.ambient_color.lerp(Color.WHITE, 0.3))
+	# Tier 2: the map's bounce-colour channel (zone style `light.bounce`).
+	RenderingServer.global_shader_parameter_set("style_ground_bounce", preset.ground_bounce)
 
 
 func _apply_environment(level: int) -> void:

@@ -134,3 +134,7 @@ style_ground_light_tint={
 "type": "vec3",
 "value": Vector3(0.62, 0.56, 0.78)
 }
+style_ground_bounce={
+"type": "float",
+"value": 1.0
+}
