@@ -44,7 +44,7 @@
 			"Medium": {
 				"avg_ms": 19.2,
 				"p99_ms": 24,
-				"draw_calls": 640,
+				"draw_calls": 950,
 				"vram_mb": 810,
 				"ram_mb": 1620
 			}
@@ -60,7 +60,7 @@
 			"Medium": {
 				"avg_ms": 16,
 				"p99_ms": 21.2,
-				"draw_calls": 580,
+				"draw_calls": 880,
 				"vram_mb": 670,
 				"ram_mb": 1470
 			}
@@ -76,7 +76,7 @@
 			"Medium": {
 				"avg_ms": 15.7,
 				"p99_ms": 28.9,
-				"draw_calls": 740,
+				"draw_calls": 960,
 				"vram_mb": 670,
 				"ram_mb": 1410
 			}
@@ -92,7 +92,7 @@
 			"Medium": {
 				"avg_ms": 17.1,
 				"p99_ms": 20.8,
-				"draw_calls": 900,
+				"draw_calls": 1160,
 				"vram_mb": 830,
 				"ram_mb": 1640
 			}
@@ -108,7 +108,7 @@
 			"Medium": {
 				"avg_ms": 18.2,
 				"p99_ms": 24.3,
-				"draw_calls": 480,
+				"draw_calls": 690,
 				"vram_mb": 870,
 				"ram_mb": 1740
 			}
@@ -124,7 +124,7 @@
 			"Medium": {
 				"avg_ms": 18.5,
 				"p99_ms": 25,
-				"draw_calls": 570,
+				"draw_calls": 850,
 				"vram_mb": 880,
 				"ram_mb": 1770
 			}

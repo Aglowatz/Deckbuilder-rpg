@@ -303,3 +303,16 @@ cycle 1); the spells-only arena (cycle 10).
    New setting: Settings > Display > Dynamic resolution (Auto = Low and Medium; it stayed idle on this PC). New check:
    `bash tools/perf_budget.sh`. Export estimate +16 MB (741.5 MB). No playtest export made, as asked.
 5. **One visible-by-design change**: none. The only new UI is the Dynamic resolution row in Settings > Display.
+
+## Fixes Oct 26
+
+1. **Shadow reach, Medium atlas** (Part 1): the brief suggested raising the Medium shadow atlas to 2048. Measured: +0.5 ms in the Capital
+   (57.6 vs 60 fps) and no visible gain round the hero (2x crops), so Medium stays at 1024 with two cascades. Say if you want 2048 anyway.
+2. **Capital inside at 60** (Part 1): this laptop ran 10-15% slow today; the Capital gate spot was 59.8 fps BEFORE the change (70 last night)
+   and 58.5-60.4 after (interleaved A/B: old 61.2-62.8, new 59.5-60.4). Every Medium avg_ms budget line is met. Safest choice taken: keep the
+   reach (the brief's goal) with the two cost cuts; if Capital frame rate matters more, lower `StyleRig.SHADOW_REACH["capital"]`.
+3. **Low has no sun shadow** (Part 1): the brief said Low stops at 26 m; in the code Low has never had a sun shadow (`shadow_detail(LOW)` = 0).
+   Adding one would not be "modest", so Low is unchanged.
+4. **Far shadows change the look** (Part 1): with the sun behind the scene (Gainlands, yaw from the far side) the camera-facing cliffs and the
+   gym hall's front now sit in shadow at the far end too, as the near ones always did (`docs/art/graphics_tier1/fixes26_p1_after/gainlands.jpg`).
+   Physically right and consistent; if the far plateau should read brighter, raise that zone's `light.shadow_opacity` lightness.

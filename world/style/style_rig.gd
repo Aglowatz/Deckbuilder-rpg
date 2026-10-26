@@ -11,6 +11,14 @@ const SKY_SHADER: String = "res://assets/shaders/style_sky.gdshader"
 ## Tier 2: a preset whose sun is this dim or dimmer is a night scene (the forest camp's moon is 0.42; every daylight zone is 0.66 or more), where the
 ## nearest lanterns may cast shadows.
 const NIGHT_SUN_ENERGY: float = 0.5
+## Fixes Oct 26, Part 1: the farthest view depth (m) of each walkable area's game camera - Far zoom (Settings.ZOOM_MAX), every angle preset, ten hero
+## spots - from `tools/shadow_reach_probe.gd` (docs/perf/runs/shadow_reach_*.txt), plus 8 m. The sun's shadow reaches this far on Medium and High so
+## the top of the screen keeps its shadows. Keys are style preset ids; "capital" covers every Capital state.
+const SHADOW_REACH: Dictionary = {
+	&"town": 131.0, &"start": 64.0, &"gainlands": 161.0, &"buffet": 122.0, &"dna": 103.0, &"heap": 176.0, &"capital": 190.0,
+}
+## Where the near cascade ends (m): the hero, the people round them and the ground to mid-screen stay as crisp as the old 26 m single map.
+const SHADOW_NEAR_SPLIT: float = 34.0
 
 ## Emitted at the end of every `apply()` (a fresh Environment exists): the world look rig re-applies its sky, bloom and fog on top.
 signal applied
@@ -87,9 +95,10 @@ func _ready() -> void:
 	LoadTiming.detail("style: apply")
 	StyleToon.apply(_scene_root, preset.wind)
 	LoadTiming.detail("style: toon conversion")
-	if cull_distance > 0.0:
-		for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
+	for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
+		if cull_distance > 0.0:
 			_limit_range(node as MeshInstance3D)
+		_track_small_caster(node as MeshInstance3D)
 	LoadTiming.detail("style: ranges")
 	if camera != null and follow != null:
 		var occlusion: OcclusionFader = OcclusionFader.new()
@@ -145,7 +154,7 @@ func apply() -> void:
 	var level: int = quality()
 	_apply_globals()
 	GraphicsQuality.apply_to_viewport(get_viewport(), level)
-	RenderingServer.directional_shadow_atlas_set_size(1024 if level < GraphicsQuality.Level.HIGH else 4096, true)
+	RenderingServer.directional_shadow_atlas_set_size(GraphicsQuality.sun_shadow_atlas(level), true)
 	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.ENV_SSAO_QUALITY_MEDIUM, true, 0.5, 2, 50, 300)
 	RenderingServer.directional_soft_shadow_filter_set_quality(GraphicsQuality.shadow_filter(level) as RenderingServer.ShadowQuality)
 	if OS.get_environment("STYLE_DEBUG") != "":
@@ -256,8 +265,27 @@ func _apply_lights(level: int) -> void:
 	sun.shadow_opacity = preset.shadow_opacity
 	sun.shadow_normal_bias = 1.6
 	sun.shadow_bias = 0.06
-	sun.directional_shadow_max_distance = 26.0 if detail < 2 else 48.0
-	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if detail < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
+	var reach: float = GraphicsQuality.sun_shadow_reach(level, area_shadow_reach())
+	var splits: int = GraphicsQuality.sun_shadow_splits(level, reach)
+	# A/B knob for frame-time work (tools/fps.sh): SHADOW_AB=reach:120,splits:1,atlas:1024 overrides the computed values.
+	for pair: String in OS.get_environment("SHADOW_AB").split(",", false):
+		var kv: PackedStringArray = pair.split(":")
+		if kv.size() == 2 and kv[0] == "reach":
+			reach = float(kv[1])
+		elif kv.size() == 2 and kv[0] == "splits":
+			splits = int(kv[1])
+		elif kv.size() == 2 and kv[0] == "atlas":
+			RenderingServer.directional_shadow_atlas_set_size(int(kv[1]), true)
+	sun.directional_shadow_max_distance = reach
+	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if splits == 1 else (DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if splits == 2 else DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS)
+	if splits == 2:
+		sun.directional_shadow_split_1 = clampf(SHADOW_NEAR_SPLIT / reach, 0.1, 0.6)
+	elif splits == 4:
+		sun.directional_shadow_split_1 = clampf(SHADOW_NEAR_SPLIT * 0.5 / reach, 0.05, 0.3)
+		sun.directional_shadow_split_2 = clampf(SHADOW_NEAR_SPLIT / reach, sun.directional_shadow_split_1 + 0.02, 0.5)
+		sun.directional_shadow_split_3 = clampf(0.45, sun.directional_shadow_split_2 + 0.02, 0.8)
+	# The long reach fades over its last few percent only (the default 0.8 would fade the top of the screen again).
+	sun.directional_shadow_fade_start = 0.94 if reach > 48.0 else 0.8
 	if sun_cull_mask_hint != 0:
 		sun.light_cull_mask = sun_cull_mask_hint
 	# A faint cool fill from the opposite side keeps the shadow side coloured, never flat.
@@ -266,6 +294,15 @@ func _apply_lights(level: int) -> void:
 	fill.rotation_degrees = Vector3(-28.0, preset.sun_yaw + 150.0, 0.0)
 	fill.shadow_enabled = false
 	fill.light_cull_mask = sun.light_cull_mask
+
+
+## This scene's measured shadow reach (`SHADOW_REACH`), 0 when it has none (battle and dungeon backdrops keep the old reach).
+func area_shadow_reach() -> float:
+	if SHADOW_REACH.has(preset_id):
+		return float(SHADOW_REACH[preset_id])
+	if str(preset_id).begins_with("capital"):
+		return float(SHADOW_REACH[&"capital"])
+	return 0.0
 
 
 func _build_outline() -> void:
@@ -330,7 +367,62 @@ func _flush() -> void:
 		if is_instance_valid(node) and node.is_inside_tree():
 			StyleToon.apply_mesh(node as MeshInstance3D, preset.wind)
 			_limit_range(node as MeshInstance3D)
+			_track_small_caster(node as MeshInstance3D)
 	_pending.clear()
+
+
+# ---- Small shadow casters beyond the near cascade (Fixes Oct 26, Part 1) ---------------------------------------------------------
+# With the long shadow reach the far cascade re-drew every small piece in view (the Capital inside: 130 small kit pieces and ~40 rigged
+# knights and mages, ten meshes each: +300 draw calls). Beyond the near cascade a crate, a lamp or a person is a few pixels tall: small
+# casters (rigged characters and anything under SMALL_CASTER m across) stop casting the sun's shadow there (characters keep their contact
+# shadow) while the ground, buildings, walls and trees keep theirs to the top of the screen. Checked a slice per frame, round robin.
+
+const SMALL_CASTER: float = 2.5
+const SHADOW_SWITCH_PER_FRAME: int = 300
+const FLAT_GROUND_THICKNESS: float = 0.05
+const FLAT_GROUND_TOP: float = 0.2
+
+var _far_casters: Array[MeshInstance3D] = []
+var _far_cursor: int = 0
+
+
+## A rigged character's mesh (skinned, or held by a bone) or a small mesh that casts a normal shadow joins the distance switch. A flat ground
+## plane (no thickness, at or below the ground line, wider than 8 m: the Capital's wasteland and meadow, the Dump's far ground) never casts:
+## it cannot shade anything above it, and with the long reach it filled the whole far cascade (~0.5 ms on Medium in the Capital).
+func _track_small_caster(mesh: MeshInstance3D) -> void:
+	if mesh == null or mesh.cast_shadow != GeometryInstance3D.SHADOW_CASTING_SETTING_ON or mesh.has_meta(&"shadow_far_off") or mesh.mesh == null:
+		return
+	var box: AABB = mesh.global_transform * mesh.get_aabb()
+	if box.size.y < FLAT_GROUND_THICKNESS and box.end.y <= FLAT_GROUND_TOP and maxf(box.size.x, box.size.z) > 8.0:
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		return
+	var parent: Node = mesh.get_parent()
+	var rigged: bool = mesh.skin != null or parent is Skeleton3D or parent is BoneAttachment3D
+	if not rigged and box.size.length() >= SMALL_CASTER:
+		return
+	mesh.set_meta(&"shadow_far_off", true)
+	_far_casters.append(mesh)
+
+
+func _update_small_casters() -> void:
+	if camera == null or _far_casters.is_empty():
+		return
+	var limit: float = SHADOW_NEAR_SPLIT + 6.0 if sun != null and sun.directional_shadow_max_distance > 48.0 else INF
+	var eye: Vector3 = camera.global_position
+	var count: int = mini(SHADOW_SWITCH_PER_FRAME, _far_casters.size())
+	var index: int = 0
+	while index < count and not _far_casters.is_empty():
+		if _far_cursor >= _far_casters.size():
+			_far_cursor = 0
+		var mesh: MeshInstance3D = _far_casters[_far_cursor]
+		if not is_instance_valid(mesh):
+			_far_casters.remove_at(_far_cursor)
+			continue
+		var wanted: GeometryInstance3D.ShadowCastingSetting = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if mesh.global_position.distance_to(eye) <= limit else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if mesh.cast_shadow != wanted:
+			mesh.cast_shadow = wanted
+		_far_cursor += 1
+		index += 1
 
 
 func _limit_range(mesh_instance: MeshInstance3D) -> void:
@@ -359,6 +451,7 @@ func _process(delta: float) -> void:
 	if _budget_timer <= 0.0:
 		_budget_timer = 0.3
 		_update_light_budget()
+	_update_small_casters()
 
 
 func _update_light_budget() -> void:

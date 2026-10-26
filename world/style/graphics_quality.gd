@@ -57,6 +57,30 @@ static func shadow_detail(level: int) -> int:
 	return clampi(level, 0, 2)
 
 
+## Fixes Oct 26, Part 1: how far the sun's shadow reaches. `area_reach` is the area's measured view depth (`StyleRig.SHADOW_REACH`: everything the game
+## camera sees at its farthest zoom and every angle, plus a margin; `tools/shadow_reach_probe.gd`), 0 for scenes without one (battle and dungeon backdrops).
+## Medium and High reach it; an Intel iGPU and scenes without a measured reach keep the old 26 m (Medium) / 48 m (High); Low has no sun shadow.
+static func sun_shadow_reach(level: int, area_reach: float) -> float:
+	var legacy: float = 26.0 if level < Level.HIGH else 48.0
+	if level < Level.MEDIUM or area_reach <= 0.0 or not heavy_passes_allowed:
+		return legacy
+	return maxf(area_reach, legacy)
+
+
+## The directional shadow atlas: High 4096, Medium and Low 1024 (Low has no sun shadow). Oct 26: a 2048 atlas on Medium was measured and kept
+## out - it cost 0.5 ms of GPU in the Capital (57.6 vs 60 fps) and the near cascade at 1024 (34 m) was as crisp round the hero in the crops
+## (docs/perf/report.md, "Shadow reach").
+static func sun_shadow_atlas(level: int) -> int:
+	return 4096 if level >= Level.HIGH else 1024
+
+
+## Shadow cascades for a reach: one orthogonal map for the short legacy reach, two splits for the long one on Medium, four on High.
+static func sun_shadow_splits(level: int, reach: float) -> int:
+	if level >= Level.HIGH:
+		return 4 if heavy_passes_allowed and reach > 48.0 else 2
+	return 2 if reach > 26.0 else 1
+
+
 ## Tier 1: the sun shadow's blur in shadow-map texels and its PCF filter. The old Medium (blur 2.4, soft low) cost about 2.5 ms of GPU on the
 ## development iGPU (tools/fps_toggles.gd: blur 0 was +7.6 fps, the hard filter +5); crisp readable shadows suit the painted style better anyway.
 static func shadow_blur(level: int) -> float:

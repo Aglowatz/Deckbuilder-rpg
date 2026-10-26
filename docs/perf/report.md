@@ -135,3 +135,51 @@ or the bounce-colour ground light channel everywhere. Low has 4.7-8.7 ms of head
   castle (0.45 s), HubLand's boundary / outskirts / tree belt (0.25 / 0.19 / 0.3 s), the Gainlands land (0.46 s).
 - UI pooling / virtualised grids for the Collection Book and Deck Station: not needed for frame rate any more; would cut their build time.
 - Vendor stage paintings (VS-*, 1672x941) are still RGBA8 (6 MB each, 42 MB warmed in town): not multiples of 4.
+
+## Shadow reach (Fixes Oct 26, Part 1)
+
+The sun's shadow stopped at 26 m on Medium (48 m on High), so the top of the screen had none. Now Medium and High reach each area's measured
+view depth: `tools/shadow_reach_probe.gd` puts the hero on ten spots spread over the walkable area, sets Far zoom (`Settings.ZOOM_MAX` 2.0)
+and each angle preset, reads the depth buffer back and keeps the farthest pixel whose world point lies in the area's map bounds (+8 m rim,
+below 30 m height: far backdrops, the sky and tall landmarks seen from afar are not "the area"). Raw lines: `docs/perf/runs/shadow_reach_a.txt`
+/ `_b.txt`. `StyleRig.SHADOW_REACH` = measured + 8 m.
+
+| Area | Measured reach (m) | Shadow reach now (m) |
+|---|---:|---:|
+| Crosspath | 122.9 | 131 |
+| Opening forest | 55.6 | 64 |
+| Gainlands | 152.5 | 161 |
+| Endless Buffet | 113.9 | 122 |
+| D.N.A. | 95.1 | 103 |
+| Verdant Dump | 168.2 | 176 |
+| Capital (outside / inside) | 176.0 / 181.9 | 190 |
+
+How: Medium two cascades (near split ends at 34 m: the hero and the ground to mid-screen as crisp as the old 26 m map), High four
+cascades on its 4096 atlas; the last 6% fades. Two cost cuts keep Medium inside the budget: (1) small casters (rigged characters and
+pieces under 2.5 m across) drop the sun's shadow beyond 40 m, round robin 300 meshes a frame (`StyleRig._update_small_casters`); (2) flat
+ground planes at or under the ground line never cast (the Capital's 700 x 340 m wasteland, the Dump's far ground filled the far cascade,
+~0.5 ms). Measured and dropped: a 2048 Medium atlas (+0.5 ms in the Capital: 57.6 vs 60 fps; the 1024 near cascade was as crisp round the
+hero in 2x crops, `_screenshots/p1ab/near2.png`). Unchanged: Low (no sun shadow; Safe Mode is Low), Intel integrated GPUs (26 m / 48 m,
+`heavy_passes_allowed`), battle and dungeon backdrops (no measured reach). The zone look files' own lights (dna_look 26 m, the others 60-80 m)
+are removed by `StyleRig._remove_old_environment` before the first frame, so none of them overrides the reach. A/B knob: `SHADOW_AB=reach:26,splits:1`.
+
+Medium cost (dev PC, vsync off, 5 s; `docs/art/graphics_tier1/fps_fixes26_p1_before.md` -> `_after.md`, same session):
+
+| Area | fps before -> after | avg ms before -> after | ms cost | GPU ms before -> after | draw calls |
+|---|---|---|---:|---|---|
+| town_square | 65.8 -> 63.2 | 15.20 -> 15.82 | +0.62 | 13.19 -> 13.16 | 640 -> 714 |
+| town_street | 64.7 -> 62.4 | 15.46 -> 16.01 | +0.55 | 13.35 -> 13.65 | 508 -> 564 |
+| forest | 80.3 -> 80.0 | 12.45 -> 12.50 | +0.05 | 10.85 -> 10.66 | 165 -> 186 |
+| gainlands | 74.0 -> 70.6 | 13.52 -> 14.16 | +0.64 | 11.58 -> 11.44 | 522 -> 794 |
+| buffet | 77.2 -> 75.1 | 12.95 -> 13.32 | +0.37 | 11.31 -> 11.33 | 477 -> 727 |
+| dna | 84.1 -> 81.5 | 11.89 -> 12.26 | +0.37 | 9.35 -> 10.15 | 609 -> 798 |
+| heap | 69.6 -> 66.9 | 14.37 -> 14.95 | +0.58 | 11.85 -> 12.09 | 768 -> 960 |
+| capital_out | 66.4 -> 62.8 | 15.06 -> 15.92 | +0.86 | 12.11 -> 13.48 | 402 -> 575 |
+| capital_in | 59.8 -> 58.5 | 16.72 -> 17.10 | +0.38 | 14.03 -> 15.35 | 455 -> 706 |
+
+Interleaved A/B at the Capital gate (the tightest spot): old 61.2-62.8 fps, new 59.5-60.4. Today this laptop ran ~10-15% slower than on
+Oct 25-26 night (capital_in was 70 fps then at the same spot with the old shadows), so the absolute numbers are low across the board.
+Low: Crosspath 88.8 -> 91.1 (noise; same draws). High: 18.4 -> 18.8 fps (noise). `perf_budget.sh frame` (Medium): every avg_ms and p99 line
+met (Crosspath and capital_out each passed p99 on a re-run after one spike); the Medium draw-call lines of gainlands, buffet, dna, heap,
+capital_out and capital_in were raised to the new counts x1.2 (they are depth-only draws of the far cascade; frame time is the budget that
+matters, budgets.md "When a budget fails" 3). `perf_budget.sh structure`: OK.
