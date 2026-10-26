@@ -275,3 +275,6 @@ cycle 1); the spells-only arena (cycle 10).
 2. **Hub walk smoke: one pre-existing failure.** On the Necrocrat road the blocked-road toast reads "The bridge is drawn up on the far
    side of the gorge... Beat Brick Bronson to open it." (the Gainlands bridge text) where the smoke expects the Necrocrat gatekeeper's
    name. It fails the same with the build cache off (the old code path), so it is not from the performance pass; not touched.
+3. **Two load-time caches were reverted** (Phase 2): caching the kit buildings' geometry and the hub's tree belt would take Crosspath from
+   5.1 to 4.2 s, but with a warm cache the Crosspath walk smoke got stuck at one spot in the west (-15.4, 26.0). The cause was not found
+   before the stop time; details and the bisect switch are in `docs/perf/perf_state.md` (Phase 2, cycle 2). Worth another look by day.

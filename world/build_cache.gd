@@ -27,6 +27,8 @@ static var _hash: String = ""
 static var _mode: String = OS.get_environment("WAYWARD_BUILD_CACHE")
 static var _baked_hash: String = ""
 static var _baked_checked: bool = false
+## `WAYWARD_BUILD_CACHE_SKIP=building,splat` builds the results whose keys start with those words live (bisecting a cache problem).
+static var _skip: PackedStringArray = OS.get_environment("WAYWARD_BUILD_CACHE_SKIP").split(",", false)
 static var hits: int = 0
 static var misses: int = 0
 
@@ -36,6 +38,9 @@ static var misses: int = 0
 static func fetch(key: String, build: Callable) -> Variant:
 	if _mode == "off":
 		return build.call()
+	for prefix: String in _skip:
+		if key.begins_with(prefix):
+			return build.call()
 	var safe_key: String = _safe(key)
 	if _mode != "rebuild" and not baking:
 		var cached: Variant = _read(safe_key)

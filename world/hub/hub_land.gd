@@ -59,17 +59,28 @@ static func build(parent: Node3D, town_builder: TownBuilder, water: Material) ->
 	parent.add_child(land)
 	land._rng.seed = 1016
 	land._plan_roads()
+	LoadTiming.detail("hub land: _plan_roads")
 	land._plan_lakes()
+	LoadTiming.detail("hub land: _plan_lakes")
 	land._build_ground()
+	LoadTiming.detail("hub land: _build_ground")
 	land._build_lakes(water)
+	LoadTiming.detail("hub land: _build_lakes")
 	land._build_gorge()
+	LoadTiming.detail("hub land: _build_gorge")
 	land.boundary = BoundaryKit.build(land, water, GROUND_Y)
+	LoadTiming.detail("hub land: boundary")
 	for zone_id: Variant in land.roads.keys():
 		land._build_road(str(zone_id))
+	LoadTiming.detail("hub land: roads")
 	land._dress_roads()
+	LoadTiming.detail("hub land: _dress_roads")
 	land._outskirts()
+	LoadTiming.detail("hub land: _outskirts")
 	land._tree_belt()
+	LoadTiming.detail("hub land: _tree_belt")
 	land._flush_trees()
+	LoadTiming.detail("hub land: _flush_trees")
 	print("hub_land: %d roads, %d lakes (+ %d town lake cells), %d trees" % [land.roads.size(), land.lakes.size(), land.town_water.size(), land.tree_count])
 	return land
 

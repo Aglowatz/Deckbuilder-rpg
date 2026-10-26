@@ -78,3 +78,10 @@ Next biggest costs from the ranked list: kit-mesh caching for loads (Capital wal
   per session -> layers in BuildCache (warm 0.22 s; the cache hash now also covers assets/art/textures by size+date). `CapitalRim.build`
   1.2 s -> 0.22 s (distance field, heights, blockers and both meshes cached; key = the walkable source cells). New `KitMesh.snapshot /
   restore / fill_cached` for caching any kit geometry. Capital load 6.5 -> 5.6 s. Shots within noise, Capital tests + walk smoke OK.
+
+- **Cycle 2 (Crosspath load, reverted):** caching BuildingKit geometry (town props 0.78 -> 0.53 s, Crosspath 5.1 -> 4.2 s) and the hub tree belt
+  (0.28 s) both looked identical in screenshots and passed GUT, but with a warm cache the Crosspath walk smoke got stuck at (-15.4, 26.0)
+  (`WAYWARD_BUILD_CACHE_SKIP=building` made it pass; the specs are deep copies, so it is not a spec side effect - cause not found in the
+  time left). Both reverted; `KitMesh.snapshot/restore` stays (the Capital rim uses it). Lesson: run the walk smoke TWICE (cold, then warm
+  cache) after any new cached piece. `WAYWARD_BUILD_CACHE_SKIP=<prefixes>` bisects. HubLand has LoadTiming.detail marks (boundary 0.25 s,
+  outskirts 0.19 s, tree belt 0.3 s).
