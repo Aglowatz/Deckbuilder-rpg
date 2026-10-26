@@ -278,3 +278,8 @@ cycle 1); the spells-only arena (cycle 10).
 3. **Two load-time caches were reverted** (Phase 2): caching the kit buildings' geometry and the hub's tree belt would take Crosspath from
    5.1 to 4.2 s, but with a warm cache the Crosspath walk smoke got stuck at one spot in the west (-15.4, 26.0). The cause was not found
    before the stop time; details and the bisect switch are in `docs/perf/perf_state.md` (Phase 2, cycle 2). Worth another look by day.
+4. **Summary for the morning** (details `docs/perf/report.md`): Medium 3D areas 48-74 -> 65-85 fps, Low 62-109 -> 83-125, menus over the
+   town 48-70 -> 136-184, loads Crosspath 8.2 -> 4.5 s and the Dump 8.6 -> 5.2 s, video memory after a full tour ~950 MB instead of ~1017.
+   New setting: Settings > Display > Dynamic resolution (Auto = Low and Medium; it stayed idle on this PC). New check:
+   `bash tools/perf_budget.sh`. Export estimate +16 MB (741.5 MB). No playtest export made, as asked.
+5. **One visible-by-design change**: none. The only new UI is the Dynamic resolution row in Settings > Display.

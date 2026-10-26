@@ -87,3 +87,10 @@ Next biggest costs from the ranked list: kit-mesh caching for loads (Capital wal
   outskirts 0.19 s, tree belt 0.3 s).
 - **Cycle 3 (Dump load):** `HeapBuilder._build_terrain` caches its surface arrays (key: freed + a 16x16 sample of heights and colours):
   1.26 -> 0.14 s, Dump load 6.4 -> 5.5 s. Shot within the earlier Dump range (heat: motion only), Dump walk smoke OK on a warm cache.
+
+## Stopped (21:05 Oct 25)
+
+All six parts and three Phase 2 cycles done and pushed. Final checks on the last code: GUT root 246 / core 1414 (+1 pending) / ui 195 /
+world 394 passing, every zone walk smoke OK on a warm cache, story bot 90/90 (tour bot, first battles: Part 6). Next candidates (each
+needs a cold AND warm walk smoke): TownSquare 0.9 s (mixes obstacles into geometry), the Capital buildings / castle, the reverted building
+cache (find why the warm Crosspath loop got stuck).
