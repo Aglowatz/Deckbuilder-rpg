@@ -3,23 +3,39 @@ extends GutTest
 ## bottom, only across the cloth (never through its pole), small and slow, in one wind direction, with a phase of its own per banner; poles never bend.
 
 
-## The shader's offset, mirrored in GDScript (the same formula as `hang_offset` in style_toon.gdshader).
-func _offset(v: Vector3, model: Basis, cloth: Vector4, top: float, phase: float, time: float) -> Vector3:
+const WIND_INCLUDE: String = "res://assets/shaders/style_wind.gdshaderinc"
+
+
+## The shared gust front, mirrored in GDScript (`style_wind_gust` in style_wind.gdshaderinc; Graphics Tier 2).
+func _gust(world_xz: Vector2, time: float) -> float:
+	var along: float = world_xz.dot(Vector2(0.86, 0.5))
+	var a: float = sin(along * 0.11 - time * 1.1)
+	var b: float = sin(along * 0.037 - time * 0.45 + 1.3)
+	var g: float = 0.5 + 0.5 * (0.65 * a + 0.35 * b)
+	return g * g
+
+
+## The shader's offset, mirrored in GDScript (the same formula as `hang_offset` in style_wind.gdshaderinc, shared by the three cloth shaders).
+func _offset(v: Vector3, model: Basis, cloth: Vector4, top: float, phase: float, time: float, origin_xz: Vector2 = Vector2.ZERO) -> Vector3:
 	var down: float = clampf((top - v.y) / cloth.w, 0.0, 1.0)
 	var n: Vector3 = Vector3(cloth.x, cloth.y, cloth.z).normalized()
 	var wind_local: Vector3 = (model.transposed() * Vector3(0.86, 0.0, 0.5)).normalized()
 	var push: float = wind_local.dot(n)
 	var lean: float = lerpf(0.35, 1.0, absf(push)) * (-1.0 if push < 0.0 else 1.0)
-	var gust: float = 0.55 + 0.35 * sin(time * 0.85 + phase) + 0.1 * sin(time * 2.4 + phase * 1.7)
+	var gust: float = 0.4 + 0.4 * _gust(origin_xz, time) + 0.15 * sin(time * 0.85 + phase) + 0.05 * sin(time * 2.4 + phase * 1.7)
 	return n * lean * gust * down * down * cloth.w * 0.035
 
 
 func test_the_shaders_share_one_hang_mode() -> void:
+	# Graphics Tier 2: the offset and the wind direction live in one include that every cloth shader pulls in.
+	var include: String = FileAccess.get_file_as_string(WIND_INCLUDE)
+	assert_true(include.contains("return n * lean * gust * down * down * cloth.w * 0.035;"), "the include holds the offset (along the normal, squared down the cloth, 3.5 %% of its length)")
+	assert_true(include.contains("const vec3 STYLE_WIND_DIR = vec3(0.86, 0.0, 0.5);"), "the include holds the one wind direction for the zone")
 	for path: String in ["res://assets/shaders/style_toon.gdshader", "res://assets/shaders/style_toon_double.gdshader", "res://world/style/style_cloth_icon.gdshader"]:
 		var code: String = FileAccess.get_file_as_string(path)
 		assert_true(code.contains("instance uniform vec4 hang"), "%s takes the cloth's normal and length per instance" % path)
-		assert_true(code.contains("return n * lean * gust * down * down * cloth.w * 0.035;"), "%s: the same offset (along the normal, squared down the cloth, 3.5 %% of its length)" % path)
-		assert_true(code.contains("const vec3 STYLE_WIND_DIR = vec3(0.86, 0.0, 0.5);"), "%s: one wind direction for the zone" % path)
+		assert_true(code.contains("#include \"%s\"" % WIND_INCLUDE), "%s: the same offset and wind direction, from the shared include" % path)
+		assert_false(code.contains("vec3 hang_offset("), "%s: no private copy of the offset" % path)
 	var toon: String = FileAccess.get_file_as_string("res://assets/shaders/style_toon.gdshader")
 	assert_true(toon.contains("if (wind_amount > 0.0 && hang.w > 0.0)"), "hanging cloth leaves the foliage sway (which bends from the foot)")
 
