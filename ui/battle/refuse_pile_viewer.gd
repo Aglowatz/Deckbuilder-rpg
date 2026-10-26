@@ -82,7 +82,8 @@ func open_browse(piles: Array[int]) -> void:
 	_options = [] as Array[int]
 	_picked = [] as Array[int]
 	_multi = false
-	_prompt_text = "Hover a card to read it. Click anywhere outside, press Esc or Close to go back."
+	_prompt_text = "Move to a card to read it. Press {back} or Close to go back." if InputDevice.using_pad() else "Hover a card to read it. Click anywhere outside, press Esc or Close to go back."
+	_prompt_text = PromptText.render(_prompt_text)
 	_rebuild()
 	visible = true
 	Audio.sfx(&"refuse_open")

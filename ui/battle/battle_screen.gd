@@ -65,6 +65,7 @@ var _toast_label: Label
 var refuse_widgets: Array[RefusePileWidget] = []
 var refuse_viewer: RefusePileViewer
 var battle_log: BattleLog
+var pad: BattlePad
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -434,6 +435,8 @@ func _build_scene() -> void:
 	script_banner = ScriptEventBanner.new()
 	script_banner.z_index = 480
 	add_child(script_banner)
+	# Controller support (Oct 26): the pad's card cursor
+	pad = BattlePad.install(self)
 
 
 const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
@@ -669,7 +672,7 @@ func _refresh_ui() -> void:
 					glows[card.uid] = CardView.Glow.PLAYABLE
 			primary = "To Combat" if game.phase == GameState.Phase.MAIN1 else "End Turn"
 			end_visible = game.phase == GameState.Phase.MAIN1
-			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and play spells. Click a card, or drag it onto the table."
+			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and play spells. " + _how("Click a card, or drag it onto the table.", "Pick a card with {confirm}.")
 			if game.phase == GameState.Phase.MAIN2:
 				prompt = "[b]Second main phase[/b]\nPlay anything you held back, then end your turn."
 		Mode.ATTACK:
@@ -680,7 +683,7 @@ func _refresh_ui() -> void:
 			var count: int = _selected_attackers.size()
 			primary = "Attack with %d" % count if count > 0 else "No Attack"
 			end_visible = true
-			prompt = "[b]Choose attackers[/b]\nClick your units to send them into battle."
+			prompt = "[b]Choose attackers[/b]\n" + _how("Click your units to send them into battle.", "Pick your units with {confirm} to send them into battle.")
 		Mode.BLOCK:
 			for attacker_uid: int in game.attackers:
 				glows[attacker_uid] = CardView.Glow.ATTACK
@@ -692,7 +695,7 @@ func _refresh_ui() -> void:
 				glows[_block_pick] = CardView.Glow.SELECTED
 			var blocks: int = _block_assign.size()
 			primary = "Confirm Blocks (%d)" % blocks if blocks > 0 else "No Blocks"
-			prompt = "[b]Block![/b]\nClick one of your units, then the attacker it should block."
+			prompt = "[b]Block![/b]\n" + _how("Click one of your units, then the attacker it should block.", "Pick one of your units with {confirm}, then the attacker it should block.")
 		Mode.TOSS:
 			for card: CardInstance in game.players[0].hand:
 				glows[card.uid] = CardView.Glow.TARGET if _discard_selection.has(card.uid) else CardView.Glow.PLAYABLE
@@ -705,7 +708,7 @@ func _refresh_ui() -> void:
 					glows[uid] = CardView.Glow.TARGET
 			glows[_target_source] = CardView.Glow.SELECTED
 			primary = "Cancel"
-			prompt = "[b]Choose a target[/b]\nClick a highlighted target. Right-click to cancel."
+			prompt = "[b]Choose a target[/b]\n" + _how("Click a highlighted target. Right-click to cancel.", "Pick a highlighted target with {confirm}. {back} cancels.")
 			if _chain_active and _chain_pos < _chain_steps.size():
 				var step: Dictionary = _chain_steps[_chain_pos]
 				prompt = str(step["prompt"])
@@ -733,6 +736,11 @@ func _refresh_ui() -> void:
 	UiSkin.set_targeting(mode == Mode.TARGETING)
 	_sync_pile_viewer()
 	_update_arrows()
+
+
+## Controller support (Oct 26): the instruction in mouse words, or in controller words while a pad is in use.
+static func _how(mouse_words: String, pad_words: String) -> String:
+	return PromptText.render(pad_words) if InputDevice.using_pad() else mouse_words
 
 
 func _is_playable(card: CardInstance) -> bool:
@@ -813,6 +821,9 @@ func _process(_delta: float) -> void:
 		# The line runs from the card (or your plate, for items and resources) and snaps onto a legal target under the mouse.
 		var aim: Vector2 = get_global_mouse_position()
 		var on_target: bool = false
+		var pad_aim: Variant = pad.aim_point() if pad != null else null
+		if pad_aim != null:
+			aim = pad_aim as Vector2
 		if _hovered_view != null and _target_options.has(_hovered_view.instance_uid):
 			aim = board.center_of(_hovered_view.instance_uid)
 			on_target = true
@@ -1054,6 +1065,40 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 				_finish_targeting(uid)
 
 
+## Controller support (Oct 26): what a left click on `view` does, for the pad's A (`BattlePad`) - except that a card in hand plays at once
+## (no drag): the same rules checks and target choices as a click-and-release.
+func pad_click_card(view: CardView) -> void:
+	if busy or view == null:
+		return
+	var uid: int = view.instance_uid
+	var zone: int = int(board.zones.get(uid, -1))
+	var mine: bool = int(view.get_meta("owner", 0)) == 0
+	if zone == BattleBoard.Zone.TRAPS and mode != Mode.TARGETING:
+		_hovered_view = view
+		hud.show_preview(view, _hover_note(view))
+		return
+	match mode:
+		Mode.MAIN:
+			if zone == BattleBoard.Zone.HAND and mine:
+				_try_play(uid)
+			elif (zone == BattleBoard.Zone.FIELD or zone == BattleBoard.Zone.INFRASTRUCTURE) and mine:
+				_try_activate(uid)
+			elif (zone == BattleBoard.Zone.RESOURCES or zone == BattleBoard.Zone.TOKENS) and mine and view.data != null:
+				_on_resource_pressed(view.data.resource_kind as ResourceKind.Kind)
+		Mode.ATTACK:
+			if zone == BattleBoard.Zone.FIELD and mine:
+				_toggle_attacker(uid)
+		Mode.BLOCK:
+			if zone == BattleBoard.Zone.FIELD:
+				_block_click(uid, mine)
+		Mode.TOSS:
+			if zone == BattleBoard.Zone.HAND and mine:
+				_toggle_discard(uid)
+		Mode.TARGETING:
+			if _target_options.has(uid):
+				_finish_targeting(uid)
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"battle_advance"):
 		if not busy and _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled:
@@ -1144,7 +1189,7 @@ func _play_steps(card: CardInstance) -> Array[Dictionary]:
 func _target_step(decl: CardAbility.TargetDecl, options: Array[int]) -> Dictionary:
 	var many: bool = decl.max_count > 1
 	var text: String = "Choose up to %d targets" % decl.max_count if many else "Choose a target"
-	return {"role": "target", "kind": "multi" if many else "ref", "options": options, "max": decl.max_count, "prompt": "[b]%s[/b]\nClick a highlighted target. Right-click to cancel." % text, "picked": [] as Array[int]}
+	return {"role": "target", "kind": "multi" if many else "ref", "options": options, "max": decl.max_count, "prompt": ("[b]%s[/b]\n" % text) + _how("Click a highlighted target. Right-click to cancel.", "Pick a highlighted target with {confirm}. {back} cancels."), "picked": [] as Array[int]}
 
 
 ## A "destroy a unit you control" / "use a token" cost: the player chooses which.
@@ -1160,7 +1205,7 @@ func _cost_pick_step(ctx: AbilityContext, cost: CardAbility.Cost) -> Dictionary:
 	if options.is_empty() or (options.size() <= cost.count and cost.kind == "destroy"):
 		return {}
 	var wording: String = "Choose the unit to destroy" if cost.kind == "destroy" else "Choose the token to use"
-	return {"role": "pick", "kind": "multi" if cost.count > 1 else "ref", "options": options, "max": cost.count, "prompt": "[b]%s[/b]\nThis is part of the cost. Right-click to cancel." % wording, "picked": [] as Array[int]}
+	return {"role": "pick", "kind": "multi" if cost.count > 1 else "ref", "options": options, "max": cost.count, "prompt": ("[b]%s[/b]\nThis is part of the cost. " % wording) + _how("Right-click to cancel.", "{back} cancels."), "picked": [] as Array[int]}
 
 
 func _why_not_castable(card: CardInstance) -> String:
@@ -1273,6 +1318,8 @@ func _show_x_dialog(step: Dictionary) -> void:
 		_cancel_targeting()
 	)
 	column.add_child(cancel)
+	panel.set_meta(BattlePad.META_CANCEL, cancel)
+	PadFocus.register(panel)
 
 
 ## Resources and Contract tokens sit on the table (BattleBoard Zone.RESOURCES and TOKENS). Your Iron, Red Tape and Contract glow when you can use one now.
@@ -1411,6 +1458,8 @@ func _show_ability_menu(card: CardInstance, usable: Array[int]) -> void:
 	var close: FancyButton = FancyButton.make("Never mind", &"GhostButton", Vector2(160, 44))
 	close.pressed.connect(func() -> void: panel.queue_free())
 	column.add_child(close)
+	panel.set_meta(BattlePad.META_CANCEL, close)
+	PadFocus.register(panel)
 
 
 ## New brief, Part F: using an equipped item from the item bar. Items are not cards - no energy, no
@@ -1558,13 +1607,13 @@ func _sync_pile_viewer() -> void:
 		return
 	var picked: Array[int] = [] as Array[int]
 	var max_count: int = 1
-	var prompt: String = "[b]Choose a card in the Refuse Pile[/b]  Click a highlighted card."
+	var prompt: String = "[b]Choose a card in the Refuse Pile[/b]  " + _how("Click a highlighted card.", "Pick a highlighted card with {confirm}.")
 	if _chain_active and _chain_pos < _chain_steps.size():
 		var step: Dictionary = _chain_steps[_chain_pos]
 		picked = step["picked"] as Array[int]
 		max_count = int(step["max"])
 		if max_count > 1:
-			prompt = "[b]Choose up to %d cards in the Refuse Pile[/b]  Click highlighted cards, then Done." % max_count
+			prompt = ("[b]Choose up to %d cards in the Refuse Pile[/b]  " % max_count) + _how("Click highlighted cards, then Done.", "Pick highlighted cards with {confirm}, then Done.")
 	refuse_viewer.open_targeting(_target_options, picked, max_count, prompt, true)
 
 
@@ -1737,6 +1786,7 @@ func _show_mulligan() -> void:
 	redraw.pressed.connect(func() -> void: _mulligan_choice(false))
 	row.add_child(redraw)
 	UIKit.pop_in(panel)
+	PadFocus.register(center)
 
 
 func _mulligan_choice(keep: bool) -> void:
@@ -1830,6 +1880,7 @@ func _show_result() -> void:
 	button.pressed.connect(_continue)
 	column.add_child(button)
 	UIKit.pop_in(panel)
+	PadFocus.register(center)
 	if won:
 		for i: int in range(5):
 			fx.burst(Vector2(400 + i * 280, 300), UIStyle.GOLD, 26, 380.0)

@@ -93,3 +93,15 @@ func _ready() -> void:
 	yes.focus_mode = Control.FOCUS_ALL
 	no.focus_mode = Control.FOCUS_ALL
 	(no if bool(get_meta("danger")) else yes).call_deferred(&"grab_focus")
+	_cancel_button = no
+	PadFocus.register(self)
+
+
+var _cancel_button: FancyButton
+
+
+## Controller support (Oct 26): the pad's B answers with the cancel button (Esc is left to the screen below, as before).
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton and UiInput.is_back(event) and is_visible_in_tree() and _cancel_button != null:
+		get_viewport().set_input_as_handled()
+		_cancel_button.pressed.emit()

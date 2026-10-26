@@ -27,6 +27,7 @@ var _tip: PanelContainer
 var _tip_label: Label
 var _focus: Control
 var _hovered: Control
+var _last_focus: Control
 var _rest: float = 0.0
 
 
@@ -47,7 +48,8 @@ static func focus_soon(root: Control) -> void:
 
 func _focus_later(root: Control) -> void:
 	await get_tree().process_frame
-	_focus_if_lost(root)
+	if is_instance_valid(root):
+		_focus_if_lost(root)
 
 
 ## Focuses the first button of `root` unless the focus is already inside it.
@@ -137,14 +139,15 @@ func _exit_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	# This node may see the event before InputDevice does (and may stop it): note the device here too.
+	# This node may see the event before InputDevice does (and may stop it): note the device here too. The focus is read first: a switch to
+	# the pad focuses the open screen's first button, and this press must not also move it on.
+	var owner_now: Control = get_viewport().gui_get_focus_owner()
 	InputDevice.note(event)
 	if not is_pad_nav(event):
 		return
 	var root: Control = top_root(get_tree())
 	if root == null:
 		return
-	var owner_now: Control = get_viewport().gui_get_focus_owner()
 	if owner_now != null and owner_now.is_visible_in_tree() and root.is_ancestor_of(owner_now):
 		return
 	# No focus in the open screen: this press only brings the focus there.
@@ -205,7 +208,18 @@ func _update_tip() -> void:
 
 func _on_focus_changed(control: Control) -> void:
 	if not InputDevice.using_pad():
+		_last_focus = control
 		return
+	# The focus stays inside the open screen: a D-pad step off its edge would land on a button of the screen below (the battle HUD under the
+	# mulligan box, the world HUD under a shop). Step back instead.
+	var root: Control = top_root(get_tree())
+	if root != null and control != null and not root.is_ancestor_of(control):
+		if _last_focus != null and is_instance_valid(_last_focus) and _last_focus.is_visible_in_tree() and root.is_ancestor_of(_last_focus):
+			_last_focus.grab_focus.call_deferred()
+		else:
+			(func() -> void: focus_into(root)).call_deferred()
+		return
+	_last_focus = control
 	_scroll_into_view(control)
 	# Hover follows the pad's focus: card previews, vendor blurbs and button glows react as they would to the mouse.
 	if _hovered != null and is_instance_valid(_hovered) and _hovered != control:
