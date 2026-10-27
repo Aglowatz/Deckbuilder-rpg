@@ -322,3 +322,13 @@ cycle 1); the spells-only arena (cycle 10).
 6. **Gamepad smoke with the DualSense plugged in** (Part 3): a real controller on device 0 overrides the smoke's simulated stick, so the stick,
    prompt and Controls-page checks fail with or without today's change (same 4 failures on HEAD). Unplug the controller to run
    `tools/run_gamepad_smoke.sh`; the held-stick repeat on sliders could only be verified for the D-pad for the same reason.
+
+## Fixes Oct 27
+
+1. **A repeat gatekeeper win still offers two cards** (Part 1): the brief says the pick "always offers 3". The first win of every gatekeeper,
+   elite and boss now always offers three (a short pool fills from the Path's other rarities, then Colorless). A rematch of an already-beaten
+   gatekeeper keeps the designed smaller pick of two (Overnight Oct 23, `RewardPicks.REPEAT_COUNT`). Safest choice: unchanged; set
+   `REPEAT_COUNT = 3` if rematches should offer three too.
+2. **Crosspath Medium draw calls 847-850 vs the 840 line** (Part 1 checks): the same on the code before today's change (850), so it predates
+   Fixes Oct 27 (likely the Oct 26 shadow reach's far-cascade draws; Crosspath was not among the six lines raised then). Frame time is well
+   inside its budget. Safest choice: budget left as it is, flagged here; raise the Crosspath Medium draw-call line to ~1020 (x1.2) if you agree.

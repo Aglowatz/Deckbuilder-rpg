@@ -130,7 +130,9 @@ func _card_tile(card: CardData, scale: float = CARD_SCALE) -> Control:
 	var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
 	holder.add_child(view)
 	CardView.fit(view, scale)
-	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Fixes Oct 27, Part 1: deferred - CardView._ready() sets its own filter back to STOP, and a stopping card ate every click meant for the
+	# pick tile under it (the cause of "I can't pick a card" by mouse).
+	view.set_deferred(&"mouse_filter", Control.MOUSE_FILTER_IGNORE)
 	return holder
 
 
@@ -190,8 +192,14 @@ func _wrapped(text: String, size: int, color: Color) -> Label:
 
 
 ## Overnight Oct 23, Part 4: choose one card of the elite's or boss's pick (click a card, then continue; no card = skip).
+## Fixes Oct 27, Part 1: by mouse (click a card), keyboard (Left / Right or 1-3, then Enter) and pad (D-pad + A on a card, then A on the button);
+## the button reads "Skip" until a card is chosen; a click beside the cards no longer continues.
 var _pick_tiles: Array[Control] = []
 var _pick_hint: Label
+var _pick_index: int = -1
+
+const PICK_HINT: String = "Click a card to keep it (or Left / Right, 1-3), then Keep. Skip takes none."
+const PICK_HINT_PAD: String = "Choose a card with the D-pad and {confirm}, then Keep. Skip takes none."
 
 
 func _add_pick(body: VBoxContainer) -> void:
@@ -203,31 +211,80 @@ func _add_pick(body: VBoxContainer) -> void:
 		var tile: Control = _card_tile(summary.card_choices[index], PICK_SCALE)
 		tile.name = "Pick_%d" % index
 		tile.mouse_filter = Control.MOUSE_FILTER_STOP
+		tile.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		tile.tooltip_text = summary.card_choices[index].display_name
 		var which: int = index
 		tile.gui_input.connect(func(event: InputEvent) -> void:
 			var click: InputEventMouseButton = event as InputEventMouseButton
 			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 				select_pick(which)
 				tile.accept_event())
+		PadClick.enable(tile)  # the pad's A on a focused card is the same click
 		row.add_child(tile)
 		_pick_tiles.append(tile)
 	body.add_child(row)
-	_pick_hint = UIKit.label("Click a card to keep it, then continue. Continuing with no card skips it.", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_pick_hint = UIKit.label(PICK_HINT, &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_pick_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_pick_hint.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)
+	PromptText.bind(_pick_hint, PICK_HINT, &"text", PICK_HINT_PAD)
 	body.add_child(_pick_hint)
+	frame.click_anywhere = false
+	frame.first_focus = _pick_tiles[0] if not _pick_tiles.is_empty() else null
+	frame.set_button_text("Skip")
+
+
+## Keyboard: Left / Right step the chosen card, 1-3 choose one directly (Enter then keeps it through the frame). Only while this box is the
+## top screen and the keyboard / mouse is in use (the pad moves the focus instead).
+func _input(event: InputEvent) -> void:
+	if summary == null or summary.card_choices.is_empty() or not is_visible_in_tree() or InputDevice.using_pad():
+		return
+	var key: InputEventKey = event as InputEventKey
+	if key == null or not key.pressed or key.echo or PadFocus.top_root(get_tree()) != frame:
+		return
+	var index: int = -1
+	if key.keycode >= KEY_1 and key.keycode <= KEY_9:
+		index = int(key.keycode - KEY_1)
+	elif event.is_action_pressed(&"ui_left") or key.keycode == KEY_LEFT or key.keycode == KEY_A:
+		index = maxi(0, _pick_index - 1) if _pick_index >= 0 else 0
+	elif event.is_action_pressed(&"ui_right") or key.keycode == KEY_RIGHT or key.keycode == KEY_D:
+		index = mini(summary.card_choices.size() - 1, _pick_index + 1)
+	if index < 0 or index >= summary.card_choices.size():
+		return
+	select_pick(index)
+	get_viewport().set_input_as_handled()
 
 
 func select_pick(index: int) -> void:
 	if index < 0 or index >= summary.card_choices.size():
 		return
 	summary.picked = summary.card_choices[index]
+	_pick_index = index
 	Audio.sfx(&"ui_select")
 	for i: int in range(_pick_tiles.size()):
 		_pick_tiles[i].modulate = Color.WHITE if i == index else Color(0.6, 0.6, 0.68)
 	if _pick_hint != null:
-		_pick_hint.text = "%s. Continue to keep it (click another card to change)." % summary.picked.display_name
+		PromptText.bind(_pick_hint, "%s. Keep it, or choose another card." % summary.picked.display_name, &"text")
+	if frame != null:
+		frame.set_button_text("Keep %s" % summary.picked.display_name if summary.picked.display_name.length() <= 16 else "Keep this card")
+		if InputDevice.using_pad() and frame.button.is_visible_in_tree():
+			frame.button.grab_focus.call_deferred()  # the next A keeps it
+
+
+## Fixes Oct 27, Part 1: a card pick closed by something else opening over it (not answered) goes back to the front of the queue, so the
+## world shows it again once that has closed - the pick is never lost.
+static func requeue_if_unanswered(overlay: Control) -> void:
+	var popup: RewardPopup = overlay as RewardPopup
+	if popup == null or not is_instance_valid(popup) or popup.answered or popup.summary == null or popup.summary.card_choices.is_empty():
+		return
+	popup.answered = true
+	Session.pending_popups.push_front(popup.summary)
+
+
+var answered: bool = false
 
 
 func _on_confirmed() -> void:
+	answered = true
 	if not summary.card_choices.is_empty():
 		Session.take_reward_pick(summary.picked)
 	finished.emit()

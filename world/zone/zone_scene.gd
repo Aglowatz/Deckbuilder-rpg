@@ -1700,6 +1700,7 @@ func _open_full_map() -> void:
 
 
 func _open_overlay(screen: Control) -> void:
+	RewardPopup.requeue_if_unanswered(_overlay)
 	_close_overlay()
 	_locked = true
 	_overlay = screen

@@ -31,6 +31,11 @@ var _art: bool = false
 var _reveal_tween: Tween
 var _revealing: bool = false
 var _reveal_items: Array[Control] = []
+## Fixes Oct 27, Part 1: a box with a choice in it (the card pick) only continues by its button, Enter / Space / E or the pad - a click on
+## the panel beside a card must not skip the choice.
+var click_anywhere: bool = true
+## Where the pad's (and the keyboard's) focus starts when the box opens; null = the Continue button.
+var first_focus: Control
 
 
 ## `header` is the big word ("QUEST COMPLETE"), `icon` a `CardIcons.ui` name.
@@ -183,9 +188,16 @@ func _process(delta: float) -> void:
 	_age += delta
 
 
+## PadFocus: the box's own starting point (the first card of a pick), else the Continue button.
+func pad_first_focus() -> Control:
+	if first_focus != null and is_instance_valid(first_focus) and first_focus.is_visible_in_tree() and first_focus.focus_mode != Control.FOCUS_NONE:
+		return first_focus
+	return button
+
+
 func _gui_input(event: InputEvent) -> void:
 	var click: InputEventMouseButton = event as InputEventMouseButton
-	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+	if click_anywhere and click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 		_confirm()
 		accept_event()
 

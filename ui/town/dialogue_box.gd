@@ -48,6 +48,12 @@ func _ready() -> void:
 	# Plain top-left anchoring (the Control default): a preset anchor combined with a manually
 	# set position/size fights the anchor's own offset math and pushes the panel off-screen.
 	add_child(_panel)
+	# Fixes Oct 27: a click on the box itself advances it too (the panel stopped the click, so only a click on the world beside it did).
+	_panel.gui_input.connect(func(event: InputEvent) -> void:
+		var click: InputEventMouseButton = event as InputEventMouseButton
+		if active and click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			_panel.accept_event()
+			press())
 	var column: VBoxContainer = UIKit.vbox(8)
 	_panel.add_child(column)
 	_speaker = UIKit.label("", &"HeadingLabel", 30)

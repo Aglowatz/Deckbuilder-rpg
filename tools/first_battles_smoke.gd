@@ -3,6 +3,9 @@ extends Node
 ## brand-new player, with the tips on, using only mouse clicks: one battle at each speed (Normal, Fast, Very Fast). It
 ## records every tip shown, checks that each appears once, that a bubble never covers what it talks about, how long each
 ## battle takes, the HP left, and the lowest fps seen while the board animates. Run windowed: tools/run_first_battles_smoke.sh.
+## Fixes Oct 27, Part 1: then a zone gatekeeper (Brick Bronson) is fought by mouse for a few turns and won, and back in Crosspath its card
+## pick is chosen by mouse; a second gatekeeper (Prudence Pallor) is won and picked by pad (tools/gatekeeper_pick_probe.gd takes over, as
+## the town replaces this scene). GATEKEEPER=0 skips it.
 
 const STEP_LIMIT: int = 9000
 const BATTLE_NODES: Array[int] = [1, 3, 5]
@@ -63,7 +66,52 @@ func _run() -> void:
 		order.append("%s(b%d)" % [tip, int(_tip_battle[tip])])
 	_report.append("tips in order: " + ", ".join(order))
 	_report.append("lowest fps while animating: %.0f over %d samples" % [_worst_fps, _fps_samples])
+	if OS.get_environment("GATEKEEPER") != "0":
+		await _gatekeeper()
+		return
 	_finish(_failures.is_empty())
+
+
+const GATEKEEPER_TURNS: int = 3
+
+
+## Fixes Oct 27, Part 1: Brick Bronson for a few real turns by mouse, then the win (the elite's full fight is not what this checks), then
+## the town's pick by mouse and a second gatekeeper's by pad.
+func _gatekeeper() -> void:
+	Settings.battle_speed = 2
+	var context: BattleContext = Session.make_npc_challenge_battle("beefcake")
+	Session.pending_battle = context
+	screen = (load("res://scenes/battle.tscn") as PackedScene).instantiate() as BattleScreen
+	get_tree().root.add_child(screen)
+	await driver.frames(10)
+	var steps: int = 0
+	while steps < 2000 and screen.mode != BattleScreen.Mode.OVER and screen.game.turn <= GATEKEEPER_TURNS:
+		steps += 1
+		if screen.busy or screen.mode == BattleScreen.Mode.WAITING:
+			await driver.frames(2)
+			continue
+		await _act()
+		await driver.frames(3)
+	_report.append("gatekeeper: Brick Bronson played by mouse to turn %d (you %d HP, him %d HP), then won" % [screen.game.turn, screen.game.players[0].hp, screen.game.players[1].hp])
+	context.game.players[0].hp = maxi(context.game.players[0].hp, 1)
+	if screen.mode != BattleScreen.Mode.OVER:
+		context.game._end_game(0, false)
+	context.won = context.game.winner == 0
+	if not context.won:
+		_fail("the gatekeeper fight was lost before the forced win")
+		context.game.winner = 0
+		context.won = true
+	screen.queue_free()
+	await driver.frames(5)
+	var probe: Node = (load("res://tools/gatekeeper_pick_probe.gd") as GDScript).new()
+	probe.name = "GatekeeperPick"
+	probe.set(&"TAG", "first_battles_smoke")
+	var lines: PackedStringArray = _report.duplicate()
+	lines.append("sounds %s" % str(Audio.play_counts))
+	probe.set(&"prior_report", lines)
+	probe.process_mode = Node.PROCESS_MODE_ALWAYS
+	get_tree().root.add_child(probe)
+	probe.call(&"run_after_battle", context, "necrocrat", _failures)
 
 
 func _start_battle(node: DungeonMap.MapNode) -> void:

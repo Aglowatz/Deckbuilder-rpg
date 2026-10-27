@@ -118,6 +118,37 @@ func _select(index: int) -> void:
 		_cards[i].modulate = Color.WHITE if i == index else Color(0.7, 0.7, 0.78)
 	_take_button.disabled = false
 	_take_button.text = "Take %s" % _offer.cards[index].display_name
+	if InputDevice.using_pad() and _take_button.is_visible_in_tree():
+		_take_button.grab_focus.call_deferred()  # Fixes Oct 27: the next A takes it
+
+
+## Fixes Oct 27, Part 1: the pad starts on the first card of the pick (else the first button).
+func pad_first_focus() -> Control:
+	if not _cards.is_empty() and _cards[0].focus_mode != Control.FOCUS_NONE:
+		return _cards[0]
+	return _take_button
+
+
+## Fixes Oct 27, Part 1: the keyboard chooses too - Left / Right step the chosen card, 1-3 choose one, Enter / Space / E takes it.
+func _input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if _cards.is_empty() or key == null or not key.pressed or key.echo or InputDevice.using_pad() or PadFocus.top_root(get_tree()) != self:
+		return
+	var index: int = -1
+	if key.keycode >= KEY_1 and key.keycode <= KEY_9:
+		index = int(key.keycode - KEY_1)
+	elif key.keycode == KEY_LEFT or key.keycode == KEY_A:
+		index = maxi(0, _selected - 1) if _selected >= 0 else 0
+	elif key.keycode == KEY_RIGHT or key.keycode == KEY_D:
+		index = mini(_cards.size() - 1, _selected + 1)
+	elif UiInput.is_confirm(event) and _selected >= 0 and not _take_button.disabled and _take_button.is_visible_in_tree():
+		get_viewport().set_input_as_handled()
+		_take_button.pressed.emit()
+		return
+	if index < 0 or index >= _cards.size():
+		return
+	_select(index)
+	get_viewport().set_input_as_handled()
 
 
 func _confirm() -> void:

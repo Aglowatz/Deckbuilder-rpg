@@ -72,7 +72,38 @@ static func choose(
 	var chosen: Array[CardData] = _weighted_pick(pool, weights, rng, count)
 	if chosen.size() < count:
 		chosen.append_array(_weighted_pick(capped, capped_weights, rng, count - chosen.size()))
+	if chosen.size() < count:
+		chosen.append_array(_fallback(content, rng, count - chosen.size(), chosen, only_path, owned, caps))
 	return chosen
+
+
+## Fixes Oct 27, Part 1: a short pool never makes a short (or empty) pick. Fills up from that Path's other rarities (a gatekeeper's Path,
+## else any card the table left out), then Colorless; cards below their copy cap first. Never a Legendary.
+static func _fallback(
+	content: ContentSet, rng: RandomNumberGenerator, count: int, taken: Array[CardData], only_path: int, owned: Dictionary, caps: Dictionary,
+) -> Array[CardData]:
+	var result: Array[CardData] = []
+	for stage: int in range(2):
+		var open: Array[CardData] = []
+		var full: Array[CardData] = []
+		for card: CardData in _candidates(content):
+			if taken.has(card) or result.has(card):
+				continue
+			var fits: bool = card.paths().is_empty() if stage == 1 else (only_path < 0 or is_pure_path(card, only_path as Affinity.Type))
+			if not fits:
+				continue
+			if caps.has(card.id) and int(owned.get(card.id, 0)) >= int(caps[card.id]):
+				full.append(card)
+			else:
+				open.append(card)
+		for pool: Array[CardData] in [open, full]:
+			var weights: Array[float] = []
+			for card: CardData in pool:
+				weights.append(1.0)
+			result.append_array(_weighted_pick(pool, weights, rng, count - result.size()))
+			if result.size() >= count:
+				return result
+	return result
 
 
 ## How much a card fits this fight: on the encounter's Paths most (a two-Path card needs all its Paths among the encounter's and the

@@ -402,6 +402,7 @@ func _ready() -> void:
 		else:
 			_begin_cave_arrival.call_deferred()
 	if not arrival_pending:
+		_results_pending = true
 		# the cave arrival shows them after its own queue. Phase 2 (stability): behind a loading screen they wait for the reveal (the store
 		# room ghosts' lines were typing out unseen under the cover while the town built).
 		if _staged_build and SceneManager.busy:
@@ -1064,6 +1065,12 @@ func _process(delta: float) -> void:
 		enemy.active = roamers_active
 	if arrival_pending or arrival_active:
 		return
+	if _results_pending:
+		# Fixes Oct 27, Part 1: the fight's own result (a gatekeeper's lines) comes first, then its card pick (a missed reveal starts them here).
+		_results_wait += delta
+		if _results_wait > 4.0 and not SceneManager.busy:
+			_show_pending_results()
+		return
 	if not _locked and not dialogue.active and not Session.pending_popups.is_empty():
 		_show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
 	elif not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
@@ -1686,8 +1693,19 @@ func _arrival_step_done(token: int) -> void:
 	_next_arrival_step.call_deferred()  # after the closing screen's own handlers (`_close_overlay`) have run
 
 
+## Fixes Oct 27, Part 1: true from the town's first frame until the fight's result lines have started, so a reward box (a gatekeeper's card
+## pick) never opens before them and ends up under their dialogue.
+var _results_pending: bool = false
+var _results_wait: float = 0.0
+var _results_shown: bool = false
+
+
 ## What a fight left to say on the way back to town (each a no-op when there is nothing).
 func _show_pending_results() -> void:
+	if _results_shown:
+		return  # once per visit (the watchdog in _process and a late reveal must not play them twice)
+	_results_shown = true
+	_results_pending = false
 	_show_town_result()
 	_show_storeroom_result()
 	_show_npc_result()
@@ -1780,8 +1798,9 @@ func _show_npc_result() -> void:
 		# win can grant levels just like a dungeon battle can.
 		dialogue.finished.connect(func() -> void:
 			hud.toast(reward_text, UIStyle.GOLD)
-			if not levels_gained.is_empty():
-				_show_level_up(levels_gained), CONNECT_ONE_SHOT)
+			# Fixes Oct 27, Part 1: queued, not opened here - opening it closed the card pick box that was up (the pick was lost); the
+			# frame update shows the pick first, then the level-up.
+			Session.pending_level_ups.append_array(levels_gained), CONNECT_ONE_SHOT)
 
 
 ## New brief, Part E: talking to a corrupted NPC always plays a short line (corrupted/hinting at
@@ -1844,8 +1863,9 @@ func _show_graveyard_result() -> void:
 			levels_gained.append(level_data as LevelData)
 		dialogue.finished.connect(func() -> void:
 			hud.toast(reward_text, UIStyle.GOLD)
-			if not levels_gained.is_empty():
-				_show_level_up(levels_gained), CONNECT_ONE_SHOT)
+			# Fixes Oct 27, Part 1: queued, not opened here - opening it closed the card pick box that was up (the pick was lost); the
+			# frame update shows the pick first, then the level-up.
+			Session.pending_level_ups.append_array(levels_gained), CONNECT_ONE_SHOT)
 
 
 ## Elder Maren and a memory fragment: she asks what came back, the screen dims and the fragment plays, then she answers. Fragment 1 also announces the second Path;
@@ -2749,6 +2769,7 @@ func _show_rift_arrival() -> void:
 
 
 func _open_overlay(screen: Control) -> void:
+	RewardPopup.requeue_if_unanswered(_overlay)
 	_close_overlay()
 	_locked = true
 	_overlay = screen
