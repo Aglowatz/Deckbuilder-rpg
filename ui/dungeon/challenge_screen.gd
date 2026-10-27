@@ -77,7 +77,11 @@ func _on_reveal() -> void:
 		return
 	_resolved = true
 	_reveal_button.disabled = true
-	var result: ChallengeResult = ChallengeResolver.resolve(challenge, Session.run, Session.rng)
+	# Cards Oct 27, Part 3: a won card goes to the collection (the Deck Station builds it in); only the tutorial cave adds it to the run's deck.
+	var result: ChallengeResult = ChallengeResolver.resolve(challenge, Session.run, Session.rng, null, Session.rewards_go_to_deck())
+	if not result.gained_cards.is_empty():
+		Session.add_cards(result.gained_cards)
+		Session.save_game()
 	for card: CardData in result.revealed:
 		var holder: Control = CardView.wrapped(card, 0.5)
 		_cards_row.add_child(holder)
@@ -102,7 +106,9 @@ func _show_outcome(result: ChallengeResult) -> void:
 	for card: CardData in result.lost_cards:
 		lines.append("%s is lost for this dungeon." % card.display_name)
 	for card: CardData in result.gained_cards:
-		lines.append("%s joins your deck for this dungeon." % card.display_name)
+		lines.append(("%s joins your deck." if Session.rewards_go_to_deck() else "%s: added to your collection.") % card.display_name)
+	if not result.gained_cards.is_empty() and Session.take_collection_tip():
+		lines.append("Cards you win go to your collection. Build them into a deck at the Deck Station.")
 	for boon: ModifierSource in result.boons:
 		lines.append("%s: %s. %s" % [BoonText.kind_word(boon), boon.source_name, BoonText.describe(boon)])  # Fixes Oct 27: what it does, not just its name
 	if lines.is_empty():

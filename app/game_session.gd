@@ -47,6 +47,8 @@ var seen_cards: Dictionary = {}
 ## older save already owned (kept, shown as grandfathered in the Collection Book) and cards the Dev Menu's override added.
 var earned_cards: Dictionary = {}
 var grandfathered_cards: Dictionary = {}
+## Cards Oct 27, Part 3: card id -> true for cards that joined the collection since the Deck Station was last closed (its "New" badge).
+var new_cards: Dictionary = {}
 ## Secret ids found (chests, hidden vendors...) - used by Condition.SECRET_FOUND.
 var found_secrets: Array[String] = []
 ## Part B: quest state (active/completed + counter baselines) and named progress counters
@@ -148,6 +150,7 @@ func new_game() -> void:
 	seen_cards = {}
 	earned_cards = {}
 	grandfathered_cards = {}
+	new_cards = {}
 	found_secrets = []
 	quest_log.reset()
 	counters = {}
@@ -394,6 +397,29 @@ func card_available(card: CardData) -> bool:
 	return CardAvailability.allowed(card, earned_cards_map())
 
 
+## Cards Oct 27, Part 3: a card won, picked or found inside a dungeon joins the RUN's deck only in the Forgotten Cave's first run (the
+## tutorial, whose picks build the starting deck). Everywhere else it goes to the collection alone, for the Deck Station.
+func rewards_go_to_deck() -> bool:
+	return run != null and profile != null and not profile.intro_dungeon_cleared
+
+
+## The one-time tip after the first card that went to the collection instead of the deck (true exactly once per campaign, never in
+## the tutorial): the reward boxes point the player to the Deck Station.
+func take_collection_tip() -> bool:
+	if profile == null or not profile.intro_dungeon_cleared or flag(&"tip_collection_deck"):
+		return false
+	set_flag(&"tip_collection_deck")
+	return true
+
+
+## The Deck Station was closed: every card has been seen, the "New" badges go.
+func mark_new_cards_viewed() -> void:
+	if new_cards.is_empty():
+		return
+	new_cards = {}
+	save_game()
+
+
 ## An old save that already owned an ENEMY-ONLY card keeps it, marked grandfathered (run on load and after the Dev Menu override).
 func _grandfather_owned_cards() -> void:
 	if profile == null:
@@ -471,6 +497,8 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 			earned_cards[card.id] = true  # Cards Oct 27: earned from its source - the shelves and packs may offer it from now on
 		if card.is_unlimited() or profile.owned_copies(card.id) < copy_cap(card):
 			profile.owned_cards.append(card)
+			if profile.intro_dungeon_cleared and not card.is_unlimited():
+				new_cards[card.id] = true  # Cards Oct 27, Part 3: the Deck Station's "New" badge until the station is next closed
 			continue
 		var conversion: Dictionary = Essence.conversion(card)
 		var essence_by_path: Dictionary = conversion["essence"] as Dictionary
@@ -939,6 +967,7 @@ func to_dict() -> Dictionary:
 		"seen_cards": seen_cards.keys(),
 		"earned_cards": earned_cards.keys(),
 		"grandfathered_cards": grandfathered_cards.keys(),
+		"new_cards": new_cards.keys(),
 		"found_secrets": found_secrets,
 		"completed_quests": completed_quests,
 		"quests": quest_log.to_dict(),
@@ -1050,6 +1079,9 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("grandfathered_cards", []) as Array:
 		grandfathered_cards[str(id)] = true
 	_grandfather_owned_cards()
+	new_cards = {}
+	for id: Variant in data.get("new_cards", []) as Array:
+		new_cards[str(id)] = true
 	found_secrets.assign(data.get("found_secrets", []) as Array)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	quest_migration_pending = quest_log.version < QuestLog.VERSION
@@ -3203,7 +3235,7 @@ func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
 	var card: CardData = content.card(str(loot.get("card", "")))
 	if card != null:
 		add_cards([card] as Array[CardData])
-		if run != null:
+		if rewards_go_to_deck():  # Cards Oct 27, Part 3: the collection, not the deck (the tutorial cave excepted)
 			run.gain_card(card)
 		granted["card"] = card.display_name
 	var piece: EquipmentData = content.equipment_piece(str(loot.get("equipment", "")))
@@ -3253,7 +3285,7 @@ func _treasure_area() -> String:
 ## Resolves one choice of a story event for the current dungeon run: HP/boons/cards go to the run, gold
 ## to the player. Returns the `EventResolver.Result` (ok = false when the choice could not be taken).
 func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResolver.Result:
-	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold)
+	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold, rewards_go_to_deck())
 	if result.ok:
 		if result.gold_delta > 0:
 			add_gold(result.gold_delta)
@@ -3546,7 +3578,7 @@ func queue_world_pick(context: BattleContext) -> void:
 		return
 	var summary: RewardSummary = RewardSummary.new()
 	summary.title = context.enemy_name.get_slice(",", 0)
-	summary.subtitle = "Beaten. Choose a card to keep."
+	summary.subtitle = "Beaten. Choose a card for your collection."
 	summary.card_choices = reward_pick(context, kind == "boss")
 	if not summary.card_choices.is_empty():
 		pending_popups.append(summary)
@@ -3577,17 +3609,17 @@ func grant_lieutenant_reward(enemy_name: String) -> String:
 	return id
 
 
-## Applies the rewards the player chose. The card (if any) joins the collection AND the current
-## run's deck (`DungeonRun.gain_card`), so it is usable in the very next encounter, not just after
-## the dungeon. Returns true when the dungeon continues (the caller then goes back to the map);
-## false after the boss, when the trial-complete step follows.
+## Applies the rewards the player chose. The card (if any) joins the collection; in the tutorial cave's first run it also joins the
+## run's deck (`DungeonRun.gain_card`, the picks that build the starting deck). Cards Oct 27, Part 3: everywhere else the deck is the
+## player's to build at the Deck Station. Returns true when the dungeon continues (the caller then goes back to the map); false after
+## the boss, when the trial-complete step follows.
 func apply_rewards() -> bool:
 	if pending_reward != null:
 		note_duel_won()
 		add_gold(pending_reward.gold)
 		if pending_reward.taken != null:
 			add_cards([pending_reward.taken] as Array[CardData])
-			if run != null:
+			if rewards_go_to_deck():
 				run.gain_card(pending_reward.taken)
 	pending_reward = null
 	save_game()
@@ -3601,7 +3633,8 @@ func apply_rewards() -> bool:
 ## more. On a replay, both are already set and there is nothing left to unlock.
 func complete_trial() -> void:
 	trial_finished = false
-	if run != null:
+	# Cards Oct 27, Part 3: only the first clear builds the deck from the run; a replay leaves the player's deck exactly as it is.
+	if run != null and not profile.intro_dungeon_cleared:
 		deck = run.current_deck()
 		deck.deck_name = DECK_NAME
 		# Safety net: the Hollow Well challenge can cost a card (D51/D62) - normally the 3

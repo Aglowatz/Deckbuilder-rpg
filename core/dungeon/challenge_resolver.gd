@@ -4,11 +4,14 @@ extends RefCounted
 ## decides success, then applies the outcomes to the run.
 
 
+## Cards Oct 27, Part 3: `to_deck` = a won card also joins the run's deck (the tutorial cave); otherwise it is only reported in
+## `gained_cards` for the caller to add to the collection.
 static func resolve(
 	challenge: ChallengeData,
 	run: DungeonRun,
 	rng: RandomNumberGenerator,
 	choice: ChallengeChoice = null,
+	to_deck: bool = true,
 ) -> ChallengeResult:
 	var picked: ChallengeChoice = choice if choice != null else ChallengeChoice.new()
 	var result: ChallengeResult = ChallengeResult.new()
@@ -51,7 +54,7 @@ static func resolve(
 			result.success = true
 	var outcomes: Array[ChallengeOutcome] = challenge.on_success if result.success else challenge.on_failure
 	for outcome: ChallengeOutcome in outcomes:
-		_apply(outcome, run, rng, result, sacrificed)
+		_apply(outcome, run, rng, result, sacrificed, to_deck)
 	return result
 
 
@@ -61,6 +64,7 @@ static func _apply(
 	rng: RandomNumberGenerator,
 	result: ChallengeResult,
 	sacrificed: CardData,
+	to_deck: bool = true,
 ) -> void:
 	result.outcomes.append(outcome)
 	match outcome.kind:
@@ -83,7 +87,8 @@ static func _apply(
 		ChallengeOutcome.Kind.GAIN_CARD:
 			if not outcome.card_pool.is_empty():
 				var card: CardData = RngUtil.pick(outcome.card_pool, rng) as CardData
-				run.gain_card(card)
+				if to_deck:
+					run.gain_card(card)
 				result.gained_cards.append(card)
 
 

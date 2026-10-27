@@ -23,3 +23,18 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 | D-LAB | The Path-ology Lab | Postgame Dungeon | Siphon's Lens (equipment), bonus gold and XP | (none) | (n/a) | Small gold and a Prismatic Pack |
 
 Other reward-only cards (quests, chests, the black market, vendors) are defined in code and data: see `ZoneQuestDefinitions`, `CapitalContent`, `ZoneCards` and `data/source/card_overrides.csv`.
+
+
+## Cards Oct 27, Part 3: earned cards go to the collection, not the deck
+
+Every card won, picked, found or bought - dungeon picks, elite / boss / gatekeeper picks, quest rewards, chests, packs, vendors, dungeon
+events and challenges - joins the player's collection only (`Session.add_cards`); nothing is added to a deck. The one exception is the
+Forgotten Cave's first run (`Session.rewards_go_to_deck()`: the tutorial's three picks still build the starting deck, and
+`complete_trial` makes the run's deck the player's deck only on that first clear; a replay leaves the deck as it is). Copy caps apply as
+before (an extra copy converts to essence). The pick screens say "Added to your collection" (the tutorial's: "joins your deck"); the first
+time it happens after the cave, a one-time tip (`Session.take_collection_tip`, flag `tip_collection_deck`) points at the Deck Station,
+which shows "NEW" on every card that joined the collection since the station was last closed (`Session.new_cards`, saved; cleared by
+`mark_new_cards_viewed` when the station closes). Existing saves: decks stay exactly as they are. Tests:
+`tests/core/dungeon/test_collection_routing.gd`.
+
+Availability (Part 2) and the reward table above: `docs/design/card_availability.md`.

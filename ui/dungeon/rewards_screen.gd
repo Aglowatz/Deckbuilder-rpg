@@ -10,6 +10,8 @@ var _column: VBoxContainer
 var _cards: Array[CardView] = []
 var _selected: int = -1
 var _take_button: FancyButton
+var _where_label: Label
+var _to_deck: bool = false
 var _screenshot_args: Dictionary = {}
 var _boss_talk_done: bool = false
 
@@ -67,7 +69,9 @@ func _build_rewards() -> void:
 	if _offer.cards.is_empty():
 		_add_buttons()
 		return
-	_column.add_child(UIKit.label("Choose a card to add to your collection", &"HeadingLabel", 28, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	# Cards Oct 27, Part 3: in the tutorial cave the pick joins the deck; everywhere else it goes to the collection, for the Deck Station.
+	_to_deck = Session.rewards_go_to_deck()
+	_column.add_child(UIKit.label("Choose a card for your deck" if _to_deck else "Choose a card for your collection", &"HeadingLabel", 28, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var row: HBoxContainer = UIKit.hbox(22)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_column.add_child(row)
@@ -91,6 +95,17 @@ func _build_rewards() -> void:
 				create_tween().tween_property(view, "position:y", -CardView.SIZE.y * 0.1, 0.1))
 		row.add_child(holder)
 		_cards.append(view)
+	_where_label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_where_label.name = "WhereLabel"
+	_where_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_where_label.custom_minimum_size = Vector2(760, 0)
+	_column.add_child(_where_label)
+	if not _to_deck and Session.take_collection_tip():
+		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		tip.name = "CollectionTip"
+		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tip.custom_minimum_size = Vector2(760, 0)
+		_column.add_child(tip)
 	_add_buttons()
 
 
@@ -118,6 +133,8 @@ func _select(index: int) -> void:
 		_cards[i].modulate = Color.WHITE if i == index else Color(0.7, 0.7, 0.78)
 	_take_button.disabled = false
 	_take_button.text = "Take %s" % _offer.cards[index].display_name
+	if _where_label != null:
+		_where_label.text = ("%s joins your deck." if _to_deck else "Added to your collection: %s (find it at the Deck Station).") % _offer.cards[index].display_name
 	if InputDevice.using_pad() and _take_button.is_visible_in_tree():
 		_take_button.grab_focus.call_deferred()  # Fixes Oct 27: the next A takes it
 

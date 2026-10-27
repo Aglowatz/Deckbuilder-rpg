@@ -89,6 +89,13 @@ func _fill_body() -> void:
 		things.add_child(_icon_tile(shop_icon if shop_icon != null else CardIcons.ui("level_badge"), cosmetic, "Wardrobe", "Open the wardrobe with T.", shop_icon != null))
 	if things.get_child_count() > 0:
 		body.add_child(things)
+	# Cards Oct 27, Part 3: cards go to the collection, never straight into the deck; the first time, a tip points at the Deck Station.
+	if not summary.cards.is_empty():
+		var where: Label = UIKit.label("Added to your collection%s." % (" - build it into a deck at the Deck Station" if Session.take_collection_tip() else ""), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		where.name = "WhereLabel"
+		where.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		where.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)
+		body.add_child(where)
 	if not summary.card_choices.is_empty():
 		_add_pick(body)
 	if not summary.unlocks.is_empty():
@@ -198,12 +205,18 @@ var _pick_tiles: Array[Control] = []
 var _pick_hint: Label
 var _pick_index: int = -1
 
-const PICK_HINT: String = "Click a card to keep it (or Left / Right, 1-3), then Keep. Skip takes none."
-const PICK_HINT_PAD: String = "Choose a card with the D-pad and {confirm}, then Keep. Skip takes none."
+const PICK_HINT: String = "Click a card to keep it (or Left / Right, 1-3), then Keep. Skip takes none. The card goes to your collection."
+const PICK_HINT_PAD: String = "Choose a card with the D-pad and {confirm}, then Keep. Skip takes none. The card goes to your collection."
 
 
 func _add_pick(body: VBoxContainer) -> void:
-	body.add_child(UIKit.label("CHOOSE A CARD", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	body.add_child(UIKit.label("CHOOSE A CARD FOR YOUR COLLECTION", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	if Session.take_collection_tip():
+		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station.", &"", 18, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		tip.name = "CollectionTip"
+		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tip.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)
+		body.add_child(tip)
 	var row: HBoxContainer = UIKit.hbox(18)
 	row.name = "PickRow"
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -263,7 +276,7 @@ func select_pick(index: int) -> void:
 	for i: int in range(_pick_tiles.size()):
 		_pick_tiles[i].modulate = Color.WHITE if i == index else Color(0.6, 0.6, 0.68)
 	if _pick_hint != null:
-		PromptText.bind(_pick_hint, "%s. Keep it, or choose another card." % summary.picked.display_name, &"text")
+		PromptText.bind(_pick_hint, "%s: added to your collection when you keep it (build it in at the Deck Station). Or choose another card." % summary.picked.display_name, &"text")
 	if frame != null:
 		frame.set_button_text("Keep %s" % summary.picked.display_name if summary.picked.display_name.length() <= 16 else "Keep this card")
 		if InputDevice.using_pad() and frame.button.is_visible_in_tree():

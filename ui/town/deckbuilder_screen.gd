@@ -781,7 +781,9 @@ func _refresh() -> void:
 		if card.is_basic:
 			label.text = "In deck: %d" % in_deck
 		else:
-			label.text = "Deck %s  Own %d" % [editor.cap_text(card), editor.owned(card)]
+			# Cards Oct 27, Part 3: "NEW" until the station is next closed (Session.new_cards: the cards that joined the collection since).
+			label.text = "%sDeck %s  Own %d" % ["NEW  " if Session.new_cards.has(str(id)) else "", editor.cap_text(card), editor.owned(card)]
+			label.add_theme_color_override("font_color", UIStyle.GOLD if Session.new_cards.has(str(id)) else UIStyle.PARCHMENT)
 		var view: CardView = _dim_by_id[id] as CardView
 		view.modulate = Color(1, 1, 1, 1) if in_deck > 0 or card.is_basic else Color(0.82, 0.82, 0.86, 1)
 	_rebuild_list()
@@ -952,6 +954,11 @@ func _save() -> void:
 		_say("Deck saved, but it is not legal yet: %s" % editor.issues()[0].message, Color("ffcf70"))
 	_refresh()
 	EventBus.collection_changed.emit()
+
+
+## Cards Oct 27, Part 3: leaving the station counts every new card as viewed (the "NEW" badges go).
+func _exit_tree() -> void:
+	Session.mark_new_cards_viewed()
 
 
 func request_close() -> void:

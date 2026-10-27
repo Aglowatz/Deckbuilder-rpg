@@ -19,7 +19,9 @@ class Result:
 
 ## Resolves `choice_index` of `event`. `gold_available` guards PAY_GOLD choices (the player never goes
 ## below 0 gold); the resolver itself never touches the Session's gold - callers apply `gold_delta`.
-static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, content: ContentSet, gold_available: int) -> Result:
+## Cards Oct 27, Part 3: `to_deck` = the card also joins the run's deck (the tutorial cave); otherwise it is only reported in `cards` for the
+## caller to add to the collection.
+static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, content: ContentSet, gold_available: int, to_deck: bool = true) -> Result:
 	var result: Result = Result.new()
 	result.choice_index = choice_index
 	if choice_index < 0 or choice_index >= event.choices.size():
@@ -52,7 +54,8 @@ static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, con
 			DungeonEvent.OutcomeKind.CARD:
 				var card: CardData = content.card(outcome.card_id)
 				if card != null:
-					run.gain_card(card)
+					if to_deck:
+						run.gain_card(card)
 					result.cards.append(card)
 			DungeonEvent.OutcomeKind.NEXT:
 				result.next_event = outcome.event_id
