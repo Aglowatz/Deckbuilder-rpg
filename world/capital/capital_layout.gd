@@ -450,7 +450,7 @@ func _anchors() -> void:
 	_anchor("spawn", 60.0, 114.0)
 	_anchor("exit", 60.0, 119.5)
 	_anchor("spotless", 60.0, 77.5)
-	_anchor("guard_height", 50.0, 77.5)
+	_anchor("guard_height", 50.0, 77.75)  # Fixes Oct 26: a step off the gate (his circle touched its blocker)
 	_anchor("guard_queue", 70.0, 77.5)
 	_anchor("queue_sign", 53.5, 88.0)
 	# The resistance camp (south-west), the rift fields (north-west, under the wall), the Old Service Tunnels (north-east), the ruined outpost (south-east).

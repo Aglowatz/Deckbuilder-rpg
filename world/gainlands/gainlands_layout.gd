@@ -138,6 +138,9 @@ var anchors: Dictionary = {}
 var enemy_spawns: Array[Dictionary] = []
 ## Hidden chest positions by id (never on the map).
 var chests: Dictionary = {}
+## A pipe this close to a path's edge (or on it) runs overhead on poles instead (Fixes Oct 26).
+const PIPE_PATH_GAP: float = 0.8
+const PIPE_OVERHEAD: float = 4.2
 ## Energy pipes: polylines of Vector2 (xz), laid on the terrain.
 var pipes: Array[PackedVector2Array] = []
 ## Paved routes: [{line, width, route}] with route "middle", "left", "right", "plaza" or "spur".
@@ -611,10 +614,12 @@ func _paths_and_pipes() -> void:
 	_path([Vector2(31, 23.5), Vector2(31, 20.5)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(86, 15.5), Vector2(88, 17.5)], SIDE_PATH_WIDTH, "spur")
 	_index_paths()
-	# the energy pipes of the power grid: from the colossal wheel to the grid panel and on to Gus's yard
+	# the energy pipes of the power grid (Fixes Oct 26): wheel to wheel - the west wheel (87, 33) to the run wheel's west rim, then from its east rim north
+	# to the east wheel (104, 56) - beside the road, never across it (the old line ran from the wheel over the road to the grid panel and Gus's yard).
+	# The builder lifts any stretch within PIPE_PATH_GAP of a path onto poles (none today); test_gainlands_fixes_oct26.gd keeps them off.
 	pipes = [
-		PackedVector2Array([Vector2(103.5, 40.0), Vector2(103.0, 45.0), Vector2(98.0, 49.0), Vector2(95.0, 49.5)]),
-		PackedVector2Array([Vector2(95.0, 49.5), Vector2(92.0, 52.0), Vector2(86.0, 52.5)]),
+		PackedVector2Array([Vector2(91.0, 33.6), Vector2(93.0, 35.0), Vector2(94.4, 36.4)]),
+		PackedVector2Array([Vector2(103.6, 37.4), Vector2(104.6, 40.0), Vector2(105.0, 46.0), Vector2(104.8, 51.0), Vector2(104.2, 55.0)]),
 	]
 
 

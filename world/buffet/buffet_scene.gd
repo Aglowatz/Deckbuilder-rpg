@@ -675,3 +675,13 @@ func _teleport(anchor_name: String) -> void:
 		_spawn_grace = 30.0
 		return
 	super._teleport(anchor_name)
+
+
+## Fixes Oct 26: Rip stands in front of the Rift Express here, facing the arrival - the default spot west of it pushed him into the dressing crate at
+## the broccoli forest's edge.
+func _rift_operator_offset() -> Vector3:
+	return Vector3(-1.7, 0.0, 3.4)
+
+
+func _rift_operator_yaw() -> float:
+	return 15.0

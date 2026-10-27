@@ -152,7 +152,8 @@ static func build_def() -> ZoneDef:
 		{"id": "guard_queue", "model": "Knight", "anchor": "guard_queue", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_in_1", "model": "Knight", "anchor": "guard_in_1", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_in_2", "model": "Knight", "anchor": "guard_in_2", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
-		{"id": "exit_clerk", "model": "Rogue_Hooded", "anchor": "exit_booth", "yaw": 90.0, "tint": Color(0.9, 0.9, 0.9), "scale": 1.4},
+		# Fixes Oct 26: the clerk stands beside the booth's front, facing the plaza (he was inside the closed booth, out of sight)
+		{"id": "exit_clerk", "model": "Rogue_Hooded", "anchor": "exit_booth", "offset": Vector3(-1.5, 0.0, 0.8), "yaw": 0.0, "tint": Color(0.9, 0.9, 0.9), "scale": 1.4},
 		{"id": "patient", "model": "Rogue", "anchor": "ward_patient", "yaw": 180.0, "tint": Color(0.75, 0.75, 0.8), "scale": 1.4},
 	]
 	for index: int in range(1, 10):

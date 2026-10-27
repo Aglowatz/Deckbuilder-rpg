@@ -521,7 +521,7 @@ func _furnish_farm(farm_id: String, r: Rect2i, _unused: int, _unused2: int) -> v
 		_card("DNA-PROP-DESK", Vector3(qx + 3.6, 0, qz + 1.4), 1.25)
 		_blockers(Vector3(qx + 3.1, 0, qz + 1.4), Vector3(qx + 4.1, 0, qz + 1.4), 0.34, 0.4)
 		_card("DNA-SHEET-CABINETS-03", Vector3(qx + 4.8, 0, qz + 0.8), 1.5, 0.3)
-		anchors["quiz"] = Vector3(qx + 2.4, 0.0, qz + 1.7)
+		anchors["quiz"] = Vector3(qx + 2.1, 0.0, qz + 1.7)  # Fixes Oct 26: 0.3 m off the desk (his circle touched its blocker)
 		_sign("sign.quiz", Vector3(qx + 2.5, 1.5, qz + 0.1), 0.0, "sign", 0.95)
 		# The haunted printer (an interactable) on the far west of farm B.
 		anchors["printer"] = cell_center(r.position.x + 1, r.position.y + 16)
@@ -635,7 +635,7 @@ func _furnish_filing_maze() -> void:
 		chest_index += 1
 	# The Rec Room alcove (Kyle's corner): the NW corner cell of the maze: a bench and his old television.
 	var nw: Vector3 = cell_center(r.position.x, r.position.y) + Vector3(0.5, 0, 0.5)
-	anchors["matching"] = nw + Vector3(0.0, 0.0, 0.2)
+	anchors["matching"] = nw + Vector3(-0.35, 0.0, 0.05)  # Fixes Oct 26: a step off the alcove's corner
 	_piece("bench", nw + Vector3(0.0, 0.0, -0.45), 0.0, 1.4)
 	_piece("television", nw + Vector3(1.55, 0, 0.55), 270.0)
 	_blockers(nw + Vector3(1.55, 0, 0.55), nw + Vector3(1.55, 0, 0.55), 0.25, 0.4)

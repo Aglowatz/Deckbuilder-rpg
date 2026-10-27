@@ -449,7 +449,7 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 			anchors["npc_rift_station"] = shop.center + Vector3(-2.0, 0.0, 0.9)
 		"tailor":
 			anchors["npc_tailor"] = base + front * (shop.npc_offset() - 0.15) + right * 0.8
-			anchors["tailor_mannequin"] = base + front * (shop.npc_offset() - 0.35) - right * 1.2
+			anchors["tailor_mannequin"] = base + front * (shop.npc_offset() - 0.1) - right * 1.2  # Fixes Oct 26: off the window wall (was -0.35)
 		"alchemist":
 			anchors["npc_alchemist"] = base + front * (extent + 0.9) + right * 1.5
 			anchors["alchemist_door"] = base + front * (extent + 0.05)

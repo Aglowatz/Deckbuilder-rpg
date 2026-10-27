@@ -1,0 +1,14 @@
+npc_overlap_summary: town.tscn npcs=14 crowded=0 pairs=0
+npc_overlap_summary: starting_area.tscn npcs=0 crowded=0 pairs=0
+npc_overlap: gainlands_zone.tscn brenda at (56.0, 68.4) blocked=16/16 dirs=0,23,45,68,90,113,135,158,180,203,225,247,270,293,315,338
+npc_overlap_summary: gainlands_zone.tscn npcs=19 crowded=1 pairs=0
+strict npc_overlap: gainlands_zone.tscn brenda at (56.0, 68.4) blocked=16/16 dirs=0,23,45,68,90,113,135,158,180,203,225,247,270,293,315,338
+npc_overlap: buffet_zone.tscn quiz at (19.0, 62.0) blocked=5/16 dirs=225,247,270,293,315
+npc_overlap_summary: buffet_zone.tscn npcs=7 crowded=1 pairs=0
+npc_overlap: dna_zone.tscn dolores at (44.5, 48.5) blocked=5/16 dirs=45,68,90,113,135
+npc_overlap: dna_zone.tscn pip at (52.5, 53.5) blocked=5/16 dirs=45,68,90,113,135
+npc_overlap: dna_zone.tscn matching at (2.7, 5.1) blocked=8/16 dirs=0,23,45,135,158,180,203,225
+npc_overlap_summary: dna_zone.tscn npcs=7 crowded=3 pairs=0
+npc_overlap_summary: heap_zone.tscn npcs=7 crowded=0 pairs=0
+npc_overlap_summary: capital_zone.tscn npcs=17 crowded=0 pairs=0
+strict npc_overlap: capital_zone.tscn guard_height at (50.0, 77.5) blocked=1/16 dirs=270

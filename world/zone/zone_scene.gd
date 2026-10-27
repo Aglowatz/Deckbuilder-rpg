@@ -442,7 +442,8 @@ func _build_npcs() -> void:
 	# Overnight Oct 17, Part 14: the zone's light atmosphere (dust, steam, ghost motes, gnats, ash) and footstep puffs.
 	ambient_fx = AmbientFx.add(self, str(AMBIENT_KEYS.get(def.id, "")), player)
 	for entry: Dictionary in def.npcs:
-		var pos: Vector3 = builder.anchor(str(entry["anchor"]))
+		# Fixes Oct 26: an entry may stand a little off its anchor ("offset"): the Capital's exit clerk beside the booth he shares an anchor with
+		var pos: Vector3 = builder.anchor(str(entry["anchor"])) + (entry.get("offset", Vector3.ZERO) as Vector3)
 		pos.y = builder.height_at(pos)
 		var npc: Node3D = _make_npc(entry, pos, str(entry.get("anim", "Idle")))
 		_npcs[str(entry["id"])] = npc
@@ -614,8 +615,8 @@ func _build_fast_travel() -> void:
 	builder.add_blocker(pos, 1.3)
 	var rip: Dictionary = NpcSprites.rift_operator()
 	var operator: Node3D = rip["node"] as Node3D
-	var operator_pos: Vector3 = pos + Vector3(-2.4, 0.0, 0.8)
-	ModelKit.place(self, operator, operator_pos, 50.0, TownPlayer.MODEL_SCALE * float(rip["scale"]))
+	var operator_pos: Vector3 = pos + _rift_operator_offset()
+	ModelKit.place(self, operator, operator_pos, _rift_operator_yaw(), TownPlayer.MODEL_SCALE * float(rip["scale"]))
 	var animation: AnimationPlayer = ModelKit.animation_player(operator)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
@@ -623,6 +624,15 @@ func _build_fast_travel() -> void:
 	_npcs["rift_operator"] = operator
 	builder.add_blocker(operator_pos, 0.35)
 	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0, travel.text("travel.prompt"), false, "rift_station")
+
+
+## Where Rip, the Rift Express operator, stands from the station, and which way he faces (a zone whose dressing crowds that spot overrides them).
+func _rift_operator_offset() -> Vector3:
+	return Vector3(-2.4, 0.0, 0.8)
+
+
+func _rift_operator_yaw() -> float:
+	return 50.0
 
 
 ## The light pillar colour over the Rift Express (a zone with its own accent colour overrides it).

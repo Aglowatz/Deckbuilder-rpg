@@ -122,7 +122,7 @@ static func build_def() -> ZoneDef:
 	def.mini = _mini_def()
 	def.npcs = [
 		{"id": "odalys", "npc_id": "NPC-BASIL", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.7, "hat": "tall"},
-		{"id": "tarragon", "model": "Rogue_Hooded", "anchor": "tarragon", "yaw": 90.0, "tint": Color(0.85, 1.2, 0.8), "scale": 1.45, "hat": "short"},
+		{"id": "tarragon", "model": "Rogue_Hooded", "anchor": "tarragon", "yaw": 0.0, "tint": Color(0.85, 1.2, 0.8), "scale": 1.45, "hat": "short"},
 		{"id": "dolcetta", "npc_id": "V-MIREPOIX", "model": "Mage", "anchor": "dolcetta", "yaw": 200.0, "tint": Color(1.3, 0.85, 1.0), "scale": 1.5, "hat": "pastry"},
 		{"id": "quiz", "npc_id": "NPC-PATE", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(1.25, 1.1, 0.8), "scale": 1.5, "hat": "scholar"},
 		{"id": "minigame", "npc_id": "NPC-FLAMBE", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.7, "hat": "tall"},

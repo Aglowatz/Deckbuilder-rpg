@@ -793,6 +793,7 @@ func _build_pipes() -> void:
 				points.append(Vector3(p.x, layout.ground_height(p.x, p.y) + 0.4, p.y))
 		var last: Vector2 = line[line.size() - 1]
 		points.append(Vector3(last.x, layout.ground_height(last.x, last.y) + 0.4, last.y))
+		points = _lift_over_paths(points)
 		var cumulative: PackedFloat32Array = PackedFloat32Array([0.0])
 		for i: int in range(points.size() - 1):
 			GainlandsProps.pipe_segment(root, points[i], points[i + 1])
@@ -817,6 +818,50 @@ func _build_pipes() -> void:
 			pulse.material_override = M.glow(M.ENERGY, 3.2)
 			root.add_child(pulse)
 			_pulses.append({"node": pulse, "points": points, "cumulative": cumulative, "length": length, "offset": length * float(k) / 3.0, "speed": 3.2})
+
+
+## Fixes Oct 26: the stretch of a pipe that would lie on a walking path (or within PIPE_PATH_GAP of one) climbs a pole before it, runs overhead
+## PIPE_OVERHEAD above the ground and comes down another after it - the hero walks under, never over a glowing pipe.
+func _lift_over_paths(points: Array[Vector3]) -> Array[Vector3]:
+	var near: Array[bool] = []
+	for p: Vector3 in points:
+		near.append(layout.path_edge_distance(p.x, p.z) < GainlandsLayout.PIPE_PATH_GAP)
+	if not near.has(true):
+		return points
+	var result: Array[Vector3] = []
+	var index: int = 0
+	while index < points.size():
+		if not near[index]:
+			result.append(points[index])
+			index += 1
+			continue
+		var first: int = index
+		while index < points.size() and near[index]:
+			index += 1
+		var before: Vector3 = points[maxi(first - 1, 0)]
+		var after: Vector3 = points[mini(index, points.size() - 1)]
+		var lift: Vector3 = Vector3(0.0, GainlandsLayout.PIPE_OVERHEAD, 0.0)
+		result.append(before + lift)
+		result.append(after + lift)
+		_pipe_pole(before)
+		_pipe_pole(after)
+		if index < points.size():
+			result.append(after)
+			index += 1
+	return result
+
+
+func _pipe_pole(at: Vector3) -> void:
+	var pole: MeshInstance3D = MeshInstance3D.new()
+	pole.name = "PipePole"
+	var mesh: CylinderMesh = CylinderMesh.new()
+	mesh.top_radius = 0.1
+	mesh.bottom_radius = 0.14
+	mesh.height = GainlandsLayout.PIPE_OVERHEAD + 0.5
+	pole.mesh = mesh
+	pole.material_override = M.flat(M.WOOD_DARK)
+	pole.position = at + Vector3(0.0, mesh.height * 0.5 - 0.4, 0.0)
+	root.add_child(pole)
 
 
 # ---- Signs and chests -----------------------------------------------------------------------------------
