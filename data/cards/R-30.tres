@@ -15,7 +15,8 @@ defense = 0
 rules_text = "Whenever a Garbage enters under your control, create a 1/1 Rat token."
 rarity = 2
 flavor_text = "Every family has one. This one has thousands."
-not_in_packs = true
+availability = 1
+availability_source = "The Capital quest Untidy"
 paths_all = Array[int]([3])
 script_text = "when(resource_created:mine:garbage) => create(T-02)"
 rules_hash = "aaaf6d239c9c"

@@ -1,19 +1,28 @@
-Card ID,not_in_packs
-B-30,true
-G-31,true
-N-28,true
-R-30,true
-N-29,true
-B-28,true
-G-27,true
-R-29,true
-G-33,true
-B-32,true
-N-33,true
-R-33,true
-P4-02,true
-N-30,true
-R-27,true
-C-29,true
-C-21,true
-B-31,true
+Card ID,not_in_packs,availability,source
+N-33,true,ENEMY-ONLY,"Mortimer Grimsby, CE-No"
+N-30,true,ENEMY-ONLY,"Betty Bones, Surly Secretary"
+NB-16,true,ENEMY-ONLY,"Chancellor Clench, Iron Regent"
+P4-03,true,ENEMY-ONLY,Primm
+B-32,false,REWARD-LOCKED,"The House of Gains, first clear (Chancellor Clench)"
+G-33,false,REWARD-LOCKED,"The Test Kitchen, first clear (the Doppelganger)"
+N-29,false,REWARD-LOCKED,"The Hall of Final Approvals, first clear (Mortimer Grimsby)"
+R-33,false,REWARD-LOCKED,"The Rotheart, first clear (Compostella)"
+P4-02,false,REWARD-LOCKED,"Primm's Castle, first clear (Primm)"
+NB-17,false,REWARD-LOCKED,Chancellor Clench's card pick (the House of Gains)
+N-19,false,REWARD-LOCKED,Mortimer Grimsby's card pick (the Hall of Final Approvals)
+G-28,false,REWARD-LOCKED,The Doppelganger's card pick (the Test Kitchen)
+R-29,false,REWARD-LOCKED,Compostella's card pick (the Rotheart)
+C-34,false,REWARD-LOCKED,Primm's card pick (Primm's Castle)
+B-31,false,REWARD-LOCKED,The Iron Cave (Baron Quadzilla)
+B-30,false,REWARD-LOCKED,Mount Swolympus (the Ancient Spotter) or the Capital quest The Wheel Never Stops
+G-27,false,REWARD-LOCKED,Omakase (the Itamae Supreme)
+N-31,false,REWARD-LOCKED,The Waiting Room of Eternity (Betty Bones)
+R-27,false,REWARD-LOCKED,The Trash Panda Throne (His Majesty the Raccoon)
+C-29,false,REWARD-LOCKED,The Old Service Tunnels (Enforcer Captain Spotless) or a hidden chest in Crosspath
+C-21,false,REWARD-LOCKED,The Forgotten Vault under Crosspath
+G-30,false,REWARD-LOCKED,The Paste Works (Colonel Crumb)
+P4-01,false,REWARD-LOCKED,The Path-ology Lab (Dr. Siphon)
+B-28,false,REWARD-LOCKED,A hidden chest in the Gainlands
+N-28,false,REWARD-LOCKED,The Capital quest Form 27-B/6: A Burial Permit
+G-31,false,REWARD-LOCKED,The Capital quest The Recipe Box
+R-30,false,REWARD-LOCKED,The Capital quest Untidy

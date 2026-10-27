@@ -42,6 +42,11 @@ var cleared_dungeons: Array[String] = []
 ## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
 ## card_codex.gd) shows these normally and everything else as a silhouette.
 var seen_cards: Dictionary = {}
+## Cards Oct 27, Part 2: card id -> true for every REWARD-LOCKED card the player has earned from its source (`CardAvailability`); the
+## shelves, packs and picks may offer it from then on even if every copy was converted. `grandfathered_cards`: ENEMY-ONLY cards an
+## older save already owned (kept, shown as grandfathered in the Collection Book) and cards the Dev Menu's override added.
+var earned_cards: Dictionary = {}
+var grandfathered_cards: Dictionary = {}
 ## Secret ids found (chests, hidden vendors...) - used by Condition.SECRET_FOUND.
 var found_secrets: Array[String] = []
 ## Part B: quest state (active/completed + counter baselines) and named progress counters
@@ -141,6 +146,8 @@ func new_game() -> void:
 	gold_spent_total = 0
 	cleared_dungeons = []
 	seen_cards = {}
+	earned_cards = {}
+	grandfathered_cards = {}
 	found_secrets = []
 	quest_log.reset()
 	counters = {}
@@ -371,6 +378,31 @@ func has_seen(id: String) -> bool:
 	return owned_count(id) > 0 or bool(seen_cards.get(id, false))
 
 
+## Cards Oct 27, Part 2: what the player has earned - every card owned plus every REWARD-LOCKED card earned once (card id -> true).
+## The generators (`PackRoller`, `VendorStocks`, `RewardPicks`, `RewardGenerator`, `Alchemy`) take this to decide what they may offer.
+func earned_cards_map() -> Dictionary:
+	var result: Dictionary = earned_cards.duplicate()
+	if profile != null:
+		for card: CardData in profile.owned_cards:
+			result[card.id] = true
+	return result
+
+
+## Whether a card is available to this player right now (`CardAvailability.allowed`): GENERAL always, REWARD-LOCKED once earned,
+## ENEMY-ONLY never (except as a grandfathered copy already in the collection).
+func card_available(card: CardData) -> bool:
+	return CardAvailability.allowed(card, earned_cards_map())
+
+
+## An old save that already owned an ENEMY-ONLY card keeps it, marked grandfathered (run on load and after the Dev Menu override).
+func _grandfather_owned_cards() -> void:
+	if profile == null:
+		return
+	for card: CardData in profile.owned_cards:
+		if CardAvailability.is_enemy_only(card) and not grandfathered_cards.has(card.id):
+			grandfathered_cards[card.id] = true
+
+
 func found_secret(id: String) -> bool:
 	return found_secrets.has(id)
 
@@ -398,6 +430,7 @@ func unlock_state() -> UnlockState:
 	if profile != null:
 		for card: CardData in profile.owned_cards:
 			state.owned_cards[card.id] = int(state.owned_cards.get(card.id, 0)) + 1
+	state.earned_cards = earned_cards_map()
 	return state
 
 
@@ -434,6 +467,8 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 	if profile == null:
 		return notices
 	for card: CardData in cards:
+		if CardAvailability.is_reward_locked(card):
+			earned_cards[card.id] = true  # Cards Oct 27: earned from its source - the shelves and packs may offer it from now on
 		if card.is_unlimited() or profile.owned_copies(card.id) < copy_cap(card):
 			profile.owned_cards.append(card)
 			continue
@@ -489,7 +524,7 @@ func open_pack(pack_id: String, pack_rng: RandomNumberGenerator = null) -> PackO
 		return null
 	var opening: PackOpening = PackOpening.new()
 	opening.pack = pack
-	for card: CardData in PackRoller.roll(pack, content, pack_rng if pack_rng != null else rng):
+	for card: CardData in PackRoller.roll(pack, content, pack_rng if pack_rng != null else rng, earned_cards_map()):
 		var entry: PackOpening.Entry = PackOpening.Entry.new()
 		entry.card = card
 		entry.is_new = owned_count(card.id) == 0 and not card.is_unlimited()
@@ -719,12 +754,12 @@ func bestiary_defeat(enemy_name: String) -> void:
 	bump_counter(Bestiary.WON_PREFIX + Bestiary.canonical(enemy_name))
 
 
-## Percent of all (non-token) cards found (owned or seen).
+## Percent of all (non-token) cards found (owned or seen). Cards Oct 27: ENEMY-ONLY cards (the bosses' own) sit outside the 100%.
 func collection_percent() -> int:
 	var total: int = 0
 	var found: int = 0
 	for card: CardData in content.cards.values():
-		if card.is_token:
+		if card.is_token or CardAvailability.is_enemy_only(card):
 			continue
 		total += 1
 		if has_seen(card.id):
@@ -902,6 +937,8 @@ func to_dict() -> Dictionary:
 		"gold_spent_total": gold_spent_total,
 		"cleared_dungeons": cleared_dungeons,
 		"seen_cards": seen_cards.keys(),
+		"earned_cards": earned_cards.keys(),
+		"grandfathered_cards": grandfathered_cards.keys(),
 		"found_secrets": found_secrets,
 		"completed_quests": completed_quests,
 		"quests": quest_log.to_dict(),
@@ -1006,6 +1043,13 @@ func from_dict(data: Dictionary) -> bool:
 	seen_cards = {}
 	for id: Variant in data.get("seen_cards", []) as Array:
 		seen_cards[str(id)] = true
+	earned_cards = {}
+	for id: Variant in data.get("earned_cards", []) as Array:
+		earned_cards[str(id)] = true
+	grandfathered_cards = {}
+	for id: Variant in data.get("grandfathered_cards", []) as Array:
+		grandfathered_cards[str(id)] = true
+	_grandfather_owned_cards()
 	found_secrets.assign(data.get("found_secrets", []) as Array)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	quest_migration_pending = quest_log.version < QuestLog.VERSION
@@ -3407,12 +3451,17 @@ func complete_battle(context: BattleContext) -> void:
 	# chosen element, so the only on-color cards they own by the end are the 3 they picked here.
 	# A later replay (intro_dungeon_cleared already true) is a normal dungeon with normal variety.
 	if not profile.intro_dungeon_cleared:
-		offer.cards = RewardGenerator.card_choices_for_color(content, profile.primary_affinity, rng, context.card_choices, context.is_boss)
+		offer.cards = RewardGenerator.card_choices_for_color(content, profile.primary_affinity, rng, context.card_choices, context.is_boss, earned_cards_map())
 	elif context.card_choices > 0 and _node_is_elite_or_boss(context):
 		# Overnight Oct 23, Part 4: an elite's or boss's pick is themed to the fight (RewardPicks); a cleared one offers less.
 		offer.cards = reward_pick(context, context.is_boss)
 	else:
-		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss)
+		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss, earned_cards_map())
+	# Cards Oct 27, Part 2: a main dungeon's boss always offers the dungeon's REWARD-LOCKED chase card until the player has earned it.
+	if context.is_boss and main_dungeon_active and not offer.cards.is_empty():
+		var chase: CardData = card_by_id(DungeonSignatures.boss_pick_id(dungeon_key))
+		if chase != null and not earned_cards_map().has(chase.id) and not offer.cards.has(chase):
+			offer.cards[offer.cards.size() - 1] = chase
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
@@ -3437,6 +3486,10 @@ func reward_pick(context: BattleContext, boss: bool) -> Array[CardData]:
 			var data: CardData = card as CardData
 			owned[data.id] = profile.owned_copies(data.id)
 			caps[data.id] = copy_cap(data)
+	# Cards Oct 27: a REWARD-LOCKED card earned once but converted since still counts as earned for the pick's availability check.
+	for id: Variant in earned_cards.keys():
+		if int(owned.get(id, 0)) <= 0:
+			owned[id] = 1
 	return RewardPicks.choose(content, rng, RewardPicks.deck_paths(foe_deck_of(context.game)), profile.primary_affinity, profile.level, boss, repeat, owned, caps, gatekeeper_pick_path(context))
 
 

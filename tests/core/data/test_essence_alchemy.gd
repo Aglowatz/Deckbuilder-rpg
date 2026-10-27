@@ -257,7 +257,9 @@ func test_each_of_the_six_pairs_has_dual_cards_of_every_rarity() -> void:
 			rarities[card.rarity] = true
 			assert_true(card.is_multipath())
 			assert_false(Session.content.cards.has(card.id), "dual cards are never ordinary rewards or vendor stock")
-		assert_gte(rarities.size(), 3, "several rarities per pair")
+		# Cards Oct 27: the Necrocrat / Beefcake pair's Legendary is Chancellor Clench's own card (ENEMY-ONLY), so that pair crafts two rarities.
+		var necro_beef: bool = pair.has(Affinity.Type.NECROCRAT) and pair.has(Affinity.Type.BEEFCAKE)
+		assert_gte(rarities.size(), 2 if necro_beef else 3, "several rarities per pair")
 
 
 func test_dual_cards_load_from_data_with_both_paths() -> void:

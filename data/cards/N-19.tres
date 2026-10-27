@@ -15,6 +15,8 @@ defense = 0
 rules_text = "Shuffle 2 Clause tokens into your opponent's deck. When your opponent draws a Clause, Shred it and create a 2/2 Zombie Rat token under your control."
 rarity = 1
 flavor_text = "Read the fine print. It reads you back."
+availability = 1
+availability_source = "Mortimer Grimsby's card pick (the Hall of Final Approvals)"
 paths_all = Array[int]([4])
 script_text = "play => shuffle_into(opp,T-12,2)"
 rules_hash = "923b0bef8da6"

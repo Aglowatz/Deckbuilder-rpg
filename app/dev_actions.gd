@@ -208,6 +208,8 @@ static func find_cards(query: String, limit: int = 40) -> Array[CardData]:
 	return result.slice(0, limit)
 
 
+## `ignore_caps` is the dev override: past the copy cap, and (Cards Oct 27) past the card's availability - an ENEMY-ONLY card or an
+## unearned REWARD-LOCKED one is refused without it, and added as a grandfathered copy with it.
 static func add_card(card_id: String, ignore_caps: bool) -> String:
 	Session.ensure_game()
 	var card: CardData = Session.card_by_id(card_id)
@@ -215,8 +217,14 @@ static func add_card(card_id: String, ignore_caps: bool) -> String:
 		return "Unknown card %s" % card_id
 	if not ignore_caps and Session.at_copy_cap(card):
 		return "%s is at its copy cap (%d) - tick Ignore caps" % [card.display_name, Session.copy_cap(card)]
+	if not ignore_caps and not Session.card_available(card):
+		return "%s is %s (%s) - tick Ignore caps to add it anyway" % [card.display_name, CardAvailability.label(CardAvailability.kind_of(card)), CardAvailability.hint(card)]
 	if ignore_caps:
 		Session.profile.owned_cards.append(card)  # past the cap on purpose: no essence conversion
+		if CardAvailability.is_enemy_only(card):
+			Session.grandfathered_cards[card.id] = true
+		elif CardAvailability.is_reward_locked(card):
+			Session.earned_cards[card.id] = true
 		EventBus.collection_changed.emit()
 		Session.refresh_quests()
 	else:

@@ -7,7 +7,7 @@ extends RefCounted
 
 const ZONE_ID: String = "necrocrat"
 const DUNGEON_ID: String = "D-HFA"
-const REWARD_CARD_ID: String = "N-33"
+const REWARD_CARD_ID: String = "N-29"  # Cards Oct 27: Mass Layoffs (Mortimer is ENEMY-ONLY)
 
 
 static func build_def() -> MainDungeonDef:

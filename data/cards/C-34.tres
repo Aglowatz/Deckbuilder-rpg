@@ -13,6 +13,8 @@ defense = 6
 rules_text = "When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage."
 rarity = 3
 flavor_text = "Powered by four Paths. Built by all. Owned by none."
+availability = 1
+availability_source = "Primm's card pick (Primm's Castle)"
 script_text = "enter => create(iron); create(redtape); create(ingredient); create(garbage)"
 rules_hash = "a5ba256d3c63"
 image_description = "A colossal ancient machine-guardian built from Beefcake iron, Necrocrat stone, Gourmand copper, and Refusemancer vines, its four-colored core blazing to life."

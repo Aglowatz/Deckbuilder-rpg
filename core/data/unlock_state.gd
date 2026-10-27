@@ -9,6 +9,9 @@ var flags: Dictionary = {}
 var cleared_dungeons: Array[String] = []
 ## card id -> copies owned.
 var owned_cards: Dictionary = {}
+## Cards Oct 27: card id -> true for every card the player has earned (owned now, or earned once from its source): what unlocks a
+## REWARD-LOCKED card for the shelves (`CardAvailability`).
+var earned_cards: Dictionary = {}
 ## Ids of secrets found (chests, hidden vendors, ...).
 var found_secrets: Array[String] = []
 ## Lifetime gold spent (not current balance).

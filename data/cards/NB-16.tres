@@ -21,6 +21,9 @@ Your Iron gives +2/+2 instead of +1/+1. Your Red Tape gives -4 attack instead of
 At the start of your turn, create an Iron and a Red Tape."
 rarity = 3
 flavor_text = "Strength through order. Order through strength. Mostly through paperwork."
+availability = 2
+availability_source = "Chancellor Clench, Iron Regent"
+not_in_packs = true
 paths_all = Array[int]([1, 4])
 script_text = "kw overtime
 static => flag(iron_plus_2); flag(red_tape_minus_2)

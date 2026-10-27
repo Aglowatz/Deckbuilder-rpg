@@ -26,6 +26,10 @@ extends Resource
 @export var is_basic: bool = false
 ## Tokens are created by effects and cease to exist outside the field.
 @export var is_token: bool = false
+## Cards Oct 27, Part 2: who can get this card (`CardAvailability.Kind`: 0 GENERAL, 1 REWARD_LOCKED, 2 ENEMY_ONLY) and, for a locked
+## card, the source the Collection Book names before it is earned. Both come from `data/source/card_overrides.csv`.
+@export var availability: int = 0
+@export var availability_source: String = ""
 ## Pack system: a card with this flag never appears in any pack (unique dungeon/quest rewards, chest cards, enemy-only
 ## cards...) and must be found another way. The flags live in data/source/card_overrides.csv.
 @export var not_in_packs: bool = false

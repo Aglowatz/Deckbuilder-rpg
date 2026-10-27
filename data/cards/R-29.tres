@@ -18,7 +18,8 @@ rules_text = "Bulldoze.
 When this unit enters, use any number of Garbage. Put a buff on it for each Garbage used."
 rarity = 2
 flavor_text = "It's not a mountain. It's a lifestyle."
-not_in_packs = true
+availability = 1
+availability_source = "Compostella's card pick (the Rotheart)"
 paths_all = Array[int]([3])
 script_text = "kw bulldoze
 enter => use_any(garbage); buff(self,$used)"

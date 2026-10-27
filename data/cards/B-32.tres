@@ -18,7 +18,8 @@ rules_text = "Team Leader: if you control 5 units with 5 different attack values
 Bulldoze."
 rarity = 3
 flavor_text = "The ultimate specimen"
-not_in_packs = true
+availability = 1
+availability_source = "The House of Gains, first clear (Chancellor Clench)"
 paths_all = Array[int]([1])
 script_text = "kw bulldoze
 costmod ? distinct_atk(unit.mine)>=5 => cost_set(0,B)"

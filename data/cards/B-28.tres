@@ -18,7 +18,8 @@ rules_text = "Hustle.
 When this unit enters, deal 3 damage to target unit."
 rarity = 2
 flavor_text = "Knocks before entering. Through the wall."
-not_in_packs = true
+availability = 1
+availability_source = "A hidden chest in the Gainlands"
 paths_all = Array[int]([1])
 script_text = "kw hustle
 enter t=unit => damage(t,3)"

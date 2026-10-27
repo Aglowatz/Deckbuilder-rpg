@@ -17,6 +17,8 @@ rules_text = "Whenever another unit you control dies, create a Red Tape and your
 Use three Red Tape: Reinstate target unit from your Refuse Pile. Do this only once per turn."
 rarity = 3
 flavor_text = "The answer is no. The question is irrelevant."
+availability = 2
+availability_source = "Mortimer Grimsby, CE-No"
 not_in_packs = true
 paths_all = Array[int]([4])
 script_text = "when(unit_dies:mine:other) => create(redtape); lose(opp,1)

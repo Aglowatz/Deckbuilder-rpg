@@ -20,6 +20,9 @@ Cards your opponent plays cost 1 more for each other card they've played this tu
 You may play an additional Infrastructure each turn."
 rarity = 3
 flavor_text = "Section 4, subsection 9, paragraph C: I win."
+availability = 2
+availability_source = "Primm"
+not_in_packs = true
 paths_all = Array[int]([1, 2, 3, 4])
 script_text = "kw untouchable
 static => cost_plus(opp,any,played(opp)); flag(extra_infra_drop)"

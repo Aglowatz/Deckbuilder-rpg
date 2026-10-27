@@ -18,7 +18,8 @@ rules_text = "As an additional cost to play this, use three Ingredients.
 Bulldoze. Swat."
 rarity = 2
 flavor_text = "The chef's choice. The bull's choice, too."
-not_in_packs = true
+availability = 1
+availability_source = "Omakase (the Itamae Supreme)"
 paths_all = Array[int]([2])
 script_text = "kw bulldoze,swat
 playcost | use(ingredient,3)"

@@ -7,22 +7,25 @@ extends RefCounted
 ## re-roll a slot when the pack does not yet satisfy them. `not_in_packs` cards are never in a pool.
 
 
-## Every card a pack can contain, sorted by id (stable for seeded rolls).
-static func pool(pack: PackData, content: ContentSet) -> Array[CardData]:
+## Every card a pack can contain, sorted by id (stable for seeded rolls). Cards Oct 27: `earned` (card id -> true) is what the player
+## has earned so far - a REWARD-LOCKED card joins the pool only once it is in there; ENEMY-ONLY cards never do (`CardAvailability`).
+static func pool(pack: PackData, content: ContentSet, earned: Dictionary = {}) -> Array[CardData]:
 	var result: Array[CardData] = []
 	for card: Variant in content.cards.values():
-		if _fits(pack, card as CardData):
+		if _fits(pack, card as CardData, earned):
 			result.append(card as CardData)
 	if pack.include_multipath:
 		for card: Variant in content.multipath_cards.values():
-			if _fits(pack, card as CardData):
+			if _fits(pack, card as CardData, earned):
 				result.append(card as CardData)
 	result.sort_custom(func(a: CardData, b: CardData) -> bool: return a.id < b.id)
 	return result
 
 
-static func _fits(pack: PackData, card: CardData) -> bool:
+static func _fits(pack: PackData, card: CardData, earned: Dictionary = {}) -> bool:
 	if card == null or card.not_in_packs or card.is_token or card.is_basic:
+		return false
+	if not CardAvailability.allowed(card, earned):
 		return false
 	if int(card.rarity) < int(pack.min_rarity) or int(card.rarity) > int(pack.max_rarity):
 		return false
@@ -34,8 +37,8 @@ static func _fits(pack: PackData, card: CardData) -> bool:
 
 
 ## The cards of one opening. Empty if the pool is empty.
-static func roll(pack: PackData, content: ContentSet, rng: RandomNumberGenerator) -> Array[CardData]:
-	var cards: Array[CardData] = pool(pack, content)
+static func roll(pack: PackData, content: ContentSet, rng: RandomNumberGenerator, earned: Dictionary = {}) -> Array[CardData]:
+	var cards: Array[CardData] = pool(pack, content, earned)
 	var picks: Array[CardData] = []
 	if cards.is_empty():
 		return picks

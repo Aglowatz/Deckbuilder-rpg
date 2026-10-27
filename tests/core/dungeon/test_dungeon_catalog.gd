@@ -7,8 +7,10 @@ const NODE_COUNTS: Dictionary = {
 	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 16, "S-IRON": 3, "S-PASTE": 3,
 }
 const REWARD_CARDS: Dictionary = {
-	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-33", "D-ROT": "R-33", "D-PC": "P4-02",
-	"S-BEEF": "B-30", "S-GOUR": "G-27", "S-NECRO": "N-30", "S-REF": "R-27", "S-CAP": "C-29", "S-TOWN": "C-21", "S-IRON": "B-31",
+	# Cards Oct 27: Mortimer and Betty Bones are their own cards (ENEMY-ONLY); the Hall pays Mass Layoffs, the Waiting Room the Department.
+	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-29", "D-ROT": "R-33", "D-PC": "P4-02",
+	"S-BEEF": "B-30", "S-GOUR": "G-27", "S-NECRO": "N-31", "S-REF": "R-27", "S-CAP": "C-29", "S-TOWN": "C-21", "S-IRON": "B-31",
+	"S-PASTE": "G-30", "D-LAB": "P4-01",
 }
 
 
@@ -228,7 +230,9 @@ func test_rewards_are_unique_cards_that_stay_out_of_packs() -> void:
 		assert_eq(blueprint.reward_card_id(), str(REWARD_CARDS[id]), id)
 		var card: CardData = Session.content.card(str(REWARD_CARDS[id]))
 		assert_not_null(card, "%s reward card exists" % id)
-		assert_true(card.not_in_packs, "%s is not in packs" % str(REWARD_CARDS[id]))
+		# Cards Oct 27: reward-locked (`CardAvailability`): out of packs until earned from this dungeon.
+		assert_true(CardAvailability.is_reward_locked(card), "%s is reward-locked" % str(REWARD_CARDS[id]))
+		assert_false(CardAvailability.allowed(card), "%s is not in packs before it is earned" % str(REWARD_CARDS[id]))
 	assert_eq(DungeonCatalog.find("D-TUT").reward_card_id(), "")
 	assert_eq(DungeonCatalog.find("S-BEEF").repeat_pack_id(), "path_beefcake")
 	assert_eq(DungeonCatalog.find("S-CAP").repeat_pack_id(), "general_1")

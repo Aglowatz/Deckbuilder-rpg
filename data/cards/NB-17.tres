@@ -16,6 +16,8 @@ defense = 2
 rules_text = "Whenever you use an Iron, create a Red Tape. Whenever you use a Red Tape, create an Iron."
 rarity = 1
 flavor_text = "Files the weights. Lifts the files."
+availability = 1
+availability_source = "Chancellor Clench's card pick (the House of Gains)"
 paths_all = Array[int]([1, 4])
 script_text = "when(resource_used:mine:iron) => create(redtape)
 when(resource_used:mine:redtape) => create(iron)"

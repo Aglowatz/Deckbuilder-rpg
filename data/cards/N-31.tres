@@ -17,6 +17,8 @@ rules_text = "Spells your opponent plays cost 1 more.
 At the start of your turn, create a Red Tape."
 rarity = 2
 flavor_text = "Your request has been received. And denied. And received again."
+availability = 1
+availability_source = "The Waiting Room of Eternity (Betty Bones)"
 paths_all = Array[int]([4])
 script_text = "static => cost_plus(opp,spell,1)
 sot => create(redtape)"

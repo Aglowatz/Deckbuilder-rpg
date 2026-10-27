@@ -102,14 +102,19 @@ static func load_scripts() -> Dictionary:
 	return scripts
 
 
-## `data/source/card_overrides.csv` (Card ID, not_in_packs): the hand-maintained flags that survive a re-import.
+## `data/source/card_overrides.csv` (Card ID, not_in_packs, availability, source): the hand-maintained flags that survive a re-import.
+## Cards Oct 27: `availability` is GENERAL / REWARD-LOCKED / ENEMY-ONLY (`CardAvailability`), `source` the hint for a locked card.
 static func load_overrides() -> Dictionary:
 	var overrides: Dictionary = {}
 	var rows: Array[PackedStringArray] = read_csv(OVERRIDES_CSV)
 	for index: int in range(1, rows.size()):
 		var row: PackedStringArray = rows[index]
 		if row.size() >= 2 and not row[0].strip_edges().is_empty():
-			overrides[row[0].strip_edges()] = {"not_in_packs": row[1].strip_edges().to_lower() == "true"}
+			overrides[row[0].strip_edges()] = {
+				"not_in_packs": row[1].strip_edges().to_lower() == "true",
+				"availability": int(CardAvailability.parse(row[2])) if row.size() >= 3 else int(CardAvailability.Kind.GENERAL),
+				"source": row[3].strip_edges() if row.size() >= 4 else "",
+			}
 	return overrides
 
 
@@ -332,7 +337,10 @@ static func build_all() -> Array[Entry]:
 	for entry: Entry in all_entries:
 		attach_script(entry, scripts)
 		if overrides.has(entry.id):
-			entry.data.not_in_packs = bool((overrides[entry.id] as Dictionary).get("not_in_packs", false))
+			var row: Dictionary = overrides[entry.id] as Dictionary
+			entry.data.not_in_packs = bool(row.get("not_in_packs", false))
+			entry.data.availability = int(row.get("availability", 0))
+			entry.data.availability_source = str(row.get("source", ""))
 	return all_entries
 
 

@@ -17,7 +17,8 @@ rules_text = "At the start of your turn, create a Garbage and put a buff on each
 Exhaust, eat garbage, lose 1 HP: return target card from your Refuse Pile to your hand."
 rarity = 3
 flavor_text = "Every ending is just compost for a beginning."
-not_in_packs = true
+availability = 1
+availability_source = "The Rotheart, first clear (Compostella)"
 paths_all = Array[int]([3])
 script_text = "sot => create(garbage); buff(all(unit.mine.other),1)
 act t=refuse.card.mine | exhaust, eat, lose(1) => to_hand(t)"

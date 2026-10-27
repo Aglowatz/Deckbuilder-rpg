@@ -15,7 +15,8 @@ defense = 0
 rules_text = "Destroy all units. Create a Red Tape for each unit destroyed this way."
 rarity = 2
 flavor_text = "It's not personal. It's every person."
-not_in_packs = true
+availability = 1
+availability_source = "The Hall of Final Approvals, first clear (Mortimer Grimsby)"
 paths_all = Array[int]([4])
 script_text = "play => destroy(all(unit)); create(redtape,$destroyed)"
 rules_hash = "438e87039a91"

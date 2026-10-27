@@ -7,12 +7,14 @@ const RARITY_WEIGHTS: Array[float] = [6.0, 3.0, 1.0, 0.25]
 const BOSS_RARITY_WEIGHTS: Array[float] = [2.0, 4.0, 3.0, 0.5]
 
 
+## Cards Oct 27: `earned` (card id -> true) gates REWARD-LOCKED cards; ENEMY-ONLY cards are never offered (`CardAvailability`).
 static func card_choices(
 	content: ContentSet,
 	profile: PlayerProfile,
 	rng: RandomNumberGenerator,
 	count: int = 3,
 	boss: bool = false,
+	earned: Dictionary = {},
 ) -> Array[CardData]:
 	var pool: Array[CardData] = []
 	var weights: Array[float] = []
@@ -21,7 +23,7 @@ static func card_choices(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if card.is_infrastructure():
+		if card.is_infrastructure() or not CardAvailability.allowed(card, earned):
 			continue
 		var weight: float = table[int(card.rarity)]
 		if card.is_on_path(profile.primary_affinity):
@@ -42,6 +44,7 @@ static func card_choices_for_color(
 	rng: RandomNumberGenerator,
 	count: int = 3,
 	boss: bool = false,
+	earned: Dictionary = {},
 ) -> Array[CardData]:
 	var pool: Array[CardData] = []
 	var weights: Array[float] = []
@@ -50,7 +53,7 @@ static func card_choices_for_color(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if not card.is_on_path(color) or card.is_infrastructure():
+		if not card.is_on_path(color) or card.is_infrastructure() or not CardAvailability.allowed(card, earned):
 			continue
 		pool.append(card)
 		weights.append(table[int(card.rarity)])

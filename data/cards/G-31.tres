@@ -14,7 +14,8 @@ defense = 0
 rules_text = "Pay 1(G), use three Ingredients, destroy this Tool: put a random Wonder from your deck onto the field."
 rarity = 2
 flavor_text = "Step one: believe. Step two: whisk."
-not_in_packs = true
+availability = 1
+availability_source = "The Capital quest The Recipe Box"
 paths_all = Array[int]([2])
 script_text = "act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))"
 rules_hash = "8d7ff8bcf1f7"

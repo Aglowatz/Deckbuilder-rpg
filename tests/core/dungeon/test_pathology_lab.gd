@@ -40,8 +40,10 @@ func test_the_lab_is_far_harder_than_the_castle_on_paper() -> void:
 	assert_not_null(lab_boss)
 	assert_true(lab_boss.hp > castle_boss.hp, "more boss HP than Primm's first phase")
 	var recipe: Dictionary = lab_boss.recipe
-	for leader: String in ["N-33", "B-32", "G-33", "R-33"]:
+	# Cards Oct 27: Mortimer's card is his alone (ENEMY-ONLY); Siphon's Necrocrat specimen is Mass Layoffs.
+	for leader: String in ["N-29", "B-32", "G-33", "R-33"]:
 		assert_true(recipe.has(leader), "%s in Siphon's deck" % leader)
+	assert_false(recipe.has("N-33"), "Mortimer stays in the Hall")
 
 
 func test_the_story_nodes_have_their_scenes() -> void:

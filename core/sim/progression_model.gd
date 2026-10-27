@@ -46,7 +46,7 @@ const UPGRADES: Dictionary = {
 		3: {"N-13": 1, "C-02": 2, "C-03": 2},  # Oct 21: Village Militia + Watchtower Archer (Sable's Colorless Commons): the L5 deck had six 1-2 cost units
 		5: {"N-15": 1, "N-25": 1, "N-06": 1, "N-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack) - Sable no longer sells the own Path
 		9: {"N-26": 1, "N-23": 1, "N-01": 1, "N-37": 1, "N-36": 1},  # the D.N.A. shelf: the opening Uncommons (Audit Wraith, Middle Management Zombie); Cards Oct 27: Compliance Review, Service Charge
-		12: {"N-30": 1, "N-24": 1, "N-22": 1, "N-31": 1, "N-33": 1, "N-34": 2},  # the Hall of Final Approvals beaten: Uncommons, the shelf Epic, Betty Bones, Mortimer; Cards Oct 27: Final Notice
+		12: {"N-29": 1, "N-24": 1, "N-22": 1, "N-31": 1, "N-34": 2},  # the Hall of Final Approvals beaten: Uncommons, the Waiting Room's Department, Mass Layoffs (Cards Oct 27: Betty Bones and Mortimer are their own cards now); Final Notice
 		16: {"N-25": 1, "N-31": 1},
 		19: {"N-27": 1},  # the Black Market's Mandatory Optional Team Meeting
 		22: {"N-32": 1, "N-28": 1},
@@ -56,9 +56,9 @@ const UPGRADES: Dictionary = {
 		5: {"G-05": 1, "G-20": 1, "G-22": 1, "G-07": 1},  # Oct 22: one Uncommon (the L4 Path Pack)
 		10: {"G-10": 1, "G-18": 1, "G-22": 1},  # the L9 Path Pack + Sable's rotation
 		12: {"G-23": 1, "G-05": 1, "G-35": 1},  # the Buffet shelf: the opening Uncommons (The Cullinator, En Garde-Manger); Cards Oct 27: Pest Control
-		15: {"G-28": 1, "G-30": 1, "G-26": 1, "G-27": 1, "G-33": 1},  # the Test Kitchen beaten: the shelf Epics, Toro Toro, the Grand Chef
+		15: {"G-28": 1, "G-26": 1, "G-27": 1, "G-33": 1},  # the Test Kitchen beaten: Chef de Golem (the Doppelganger's pick, Cards Oct 27), Toro Toro, the Grand Chef
 		18: {"G-28": 1, "G-26": 1},
-		19: {"G-29": 1},  # the Black Market's Head Health Inspector
+		19: {"G-29": 1, "G-30": 1},  # the Black Market's Head Health Inspector; Cards Oct 27: The Infinite Pantry is the Paste Works' prize (L19)
 		22: {"G-32": 1, "G-31": 1},
 	},
 	Affinity.Type.REFUSEMANCER: {

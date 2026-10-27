@@ -30,8 +30,9 @@ static func sable_sample(content: ContentSet, state: UnlockState, gate: Conditio
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = hash("sable-%d-%d" % [state.player_level, state.zones_completed])
 	var grown: Condition = Condition.all_of([gate, Condition.any_of([Condition.player_level(SABLE_GROWTH_LEVEL), Condition.zones_completed(SABLE_GROWTH_ZONES)] as Array[Condition])] as Array[Condition])
-	var commons: Array[String] = _pick(_pool(content, [], CardEnums.Rarity.COMMON), SABLE_COLORLESS_COMMONS, rng)
-	var uncommons: Array[String] = _pick(_pool(content, [], CardEnums.Rarity.UNCOMMON), 2, rng)
+	var earned: Dictionary = state.earned_cards
+	var commons: Array[String] = _pick(_pool(content, [], CardEnums.Rarity.COMMON, earned), SABLE_COLORLESS_COMMONS, rng)
+	var uncommons: Array[String] = _pick(_pool(content, [], CardEnums.Rarity.UNCOMMON, earned), 2, rng)
 	for id: String in commons:
 		data.add(id, gate)
 	if not uncommons.is_empty():
@@ -40,14 +41,15 @@ static func sable_sample(content: ContentSet, state: UnlockState, gate: Conditio
 		data.add(uncommons[1], grown)
 	# Cards Oct 27: two Commons of the player's own Path (the card review), one of each other Path.
 	for path: Affinity.Type in Affinity.colored_types():
-		for id: String in _pick(_pool(content, [path], CardEnums.Rarity.COMMON), OWN_PATH_COMMONS if path == own_path else 1, rng):
+		for id: String in _pick(_pool(content, [path], CardEnums.Rarity.COMMON, earned), OWN_PATH_COMMONS if path == own_path else 1, rng):
 			data.add(id, gate)
 	# The growth step's Path Uncommon: one Path's, which Path turning with the rotation.
 	var paths: Array[Affinity.Type] = Affinity.colored_types()
 	var taste_path: Affinity.Type = paths[rng.randi_range(0, paths.size() - 1)]
-	for id: String in _pick(_pool(content, [taste_path], CardEnums.Rarity.UNCOMMON), 1, rng):
+	for id: String in _pick(_pool(content, [taste_path], CardEnums.Rarity.UNCOMMON, earned), 1, rng):
 		data.add(id, grown)
-	# The level track's "rarer cards at Sable's stall": a fixed batch of Colorless Epics per rare-stock level (they do not rotate).
+	# The level track's "rarer cards at Sable's stall": a fixed batch of Colorless Epics per rare-stock level (they do not rotate; a
+	# locked Epic never joins the fixed pair, so the pair is the same for every player).
 	var rare_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rare_rng.seed = hash("sable-rare")
 	var epics: Array[String] = _pick(_pool(content, [], CardEnums.Rarity.EPIC), SABLE_RARE_BATCH * rare_levels.size(), rare_rng)
@@ -57,50 +59,54 @@ static func sable_sample(content: ContentSet, state: UnlockState, gate: Conditio
 	return data
 
 
-## A Path zone's shelf: `curated` (the zone's own list) supplies the opening Uncommons; `zone_id` names the freed flag.
-static func zone_shelf(content: ContentSet, path: Affinity.Type, zone_id: String, curated: Array[String], vendor_name: String) -> VendorData:
+## A Path zone's shelf: `curated` (the zone's own list) supplies the opening Uncommons; `zone_id` names the freed flag. Cards Oct 27:
+## `state` (may be null) says which REWARD-LOCKED cards the player has earned; those join the shelf at their rarity, the rest stay off it.
+static func zone_shelf(content: ContentSet, path: Affinity.Type, zone_id: String, curated: Array[String], vendor_name: String, state: UnlockState = null) -> VendorData:
 	var data: VendorData = VendorData.new()
 	data.vendor_name = vendor_name
+	var earned: Dictionary = state.earned_cards if state != null else {}
 	var freed: Condition = Condition.flag(str(ZoneCompletion.flag_name(zone_id)))
 	var late: Condition = Condition.postgame()
-	for id: String in _pool(content, [path], CardEnums.Rarity.COMMON):
+	for id: String in _pool(content, [path], CardEnums.Rarity.COMMON, earned):
 		data.add(id)
 	var opening_uncommons: Array[String] = []
 	for id: String in curated:
 		var card: CardData = content.card(id)
-		if card != null and card.rarity == CardEnums.Rarity.UNCOMMON and sellable(card):
+		if card != null and card.rarity == CardEnums.Rarity.UNCOMMON and sellable(card, earned):
 			opening_uncommons.append(id)
 	# A curated list with fewer than two Uncommons (the Gainlands has one) is topped up with the Path's next Uncommons by id.
-	for id: String in _pool(content, [path], CardEnums.Rarity.UNCOMMON):
+	for id: String in _pool(content, [path], CardEnums.Rarity.UNCOMMON, earned):
 		if opening_uncommons.size() >= OPENING_UNCOMMONS:
 			break
 		if not opening_uncommons.has(id):
 			opening_uncommons.append(id)
 	opening_uncommons = opening_uncommons.slice(0, OPENING_UNCOMMONS)
-	for id: String in _pool(content, [path], CardEnums.Rarity.UNCOMMON):
+	for id: String in _pool(content, [path], CardEnums.Rarity.UNCOMMON, earned):
 		data.add(id, null if opening_uncommons.has(id) else freed)
-	for id: String in _pool(content, [path], CardEnums.Rarity.EPIC):
+	for id: String in _pool(content, [path], CardEnums.Rarity.EPIC, earned):
 		data.add(id, freed)
-	for id: String in _pool(content, [path], CardEnums.Rarity.LEGENDARY):
+	for id: String in _pool(content, [path], CardEnums.Rarity.LEGENDARY, earned):
 		data.add(id, late)
 	return data
 
 
-## Cards a vendor may sell at all: not a token, not Infrastructure, not a unique prize.
-static func sellable(card: CardData) -> bool:
-	if card == null or card.is_token or card.is_infrastructure() or card.not_in_packs or card.is_signature:
+## Cards a vendor may sell at all: not a token, not Infrastructure, not a Black Market card, and allowed by its availability (Cards
+## Oct 27: a REWARD-LOCKED card only once `earned` holds it, an ENEMY-ONLY card never - `CardAvailability`; the dungeon prizes and the
+## signature Legendaries are REWARD-LOCKED in `data/source/card_overrides.csv`).
+static func sellable(card: CardData, earned: Dictionary = {}) -> bool:
+	if card == null or card.is_token or card.is_infrastructure() or card.not_in_packs:
 		return false
-	if ZoneCards.MAIN_DUNGEON_REWARD_IDS.has(card.id) or CapitalContent.BLACK_MARKET_CARD_IDS.has(card.id):
+	if CapitalContent.BLACK_MARKET_CARD_IDS.has(card.id):
 		return false
-	return not [ZoneCards.MINI_DUNGEON_REWARD_ID, ZoneCards.GAINLANDS_MINI_REWARD_ID, ZoneCards.BUFFET_MINI_REWARD_ID, ZoneCards.HEAP_MINI_REWARD_ID].has(card.id)
+	return CardAvailability.allowed(card, earned)
 
 
 ## The sellable cards of exactly `paths` (empty = Colorless) and `rarity`, by id.
-static func _pool(content: ContentSet, paths: Array, rarity: CardEnums.Rarity) -> Array[String]:
+static func _pool(content: ContentSet, paths: Array, rarity: CardEnums.Rarity, earned: Dictionary = {}) -> Array[String]:
 	var result: Array[String] = []
 	for id: Variant in content.cards.keys():
 		var card: CardData = content.cards[id] as CardData
-		if card.rarity != rarity or not sellable(card):
+		if card.rarity != rarity or not sellable(card, earned):
 			continue
 		var card_paths: Array[Affinity.Type] = card.paths()
 		if card_paths.size() != paths.size():

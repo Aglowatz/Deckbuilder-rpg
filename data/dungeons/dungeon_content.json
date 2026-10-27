@@ -29,7 +29,9 @@
 			},
 			"boss": {
 				"deck": "beefcake_bruisers",
-				"extra": {},
+				"extra": {
+					"NB-16": 1
+				},
 				"hp": 24,
 				"icon": "delapouite/viking-head",
 				"infra": 14
@@ -1278,10 +1280,10 @@
 			"boss": {
 				"deck": "four_paths",
 				"extra": {
-					"N-33": 1,
 					"B-32": 1,
 					"G-33": 1,
-					"R-33": 1
+					"R-33": 1,
+					"N-29": 1
 				},
 				"hp": 44,
 				"icon": "delapouite/warlock-eye",

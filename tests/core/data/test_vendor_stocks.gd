@@ -88,9 +88,12 @@ func test_a_zone_vendor_sells_its_path_commons_and_two_uncommons_at_first() -> v
 
 
 func test_beating_the_zone_boss_opens_more_uncommons_and_the_epics() -> void:
-	var data: VendorData = VendorStocks.zone_shelf(content, Affinity.Type.GOURMAND, "gourmand", ZoneCards.BUFFET_VENDOR_IDS, "Grand Pantry")
+	# Cards Oct 27: every Gourmand Epic is a prize now (Toro Toro, Chef de Golem, the Pantry, the Recipe) or the Black Market's, so the
+	# shelf's Epic tier holds what the player has earned - here Chef de Golem, the Doppelganger's card pick.
 	var before: UnlockState = _state(12)
 	var after: UnlockState = _state(14, 1, {str(ZoneCompletion.flag_name("gourmand")): true})
+	after.earned_cards = {"G-28": true}
+	var data: VendorData = VendorStocks.zone_shelf(content, Affinity.Type.GOURMAND, "gourmand", ZoneCards.BUFFET_VENDOR_IDS, "Grand Pantry", after)
 	var epics_before: int = 0
 	var epics_after: int = 0
 	for card: CardData in _for_sale(data, before):

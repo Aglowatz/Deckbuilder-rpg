@@ -19,6 +19,8 @@ rules_text = "Hustle. Overtime. Swat. Nourish.
 When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage."
 rarity = 2
 flavor_text = "Strength, order, nourishment, and renewal. Together at last."
+availability = 1
+availability_source = "The Path-ology Lab (Dr. Siphon)"
 paths_all = Array[int]([1, 2, 3, 4])
 script_text = "kw hustle,overtime,swat,nourish
 enter => create(iron); create(redtape); create(ingredient); create(garbage)"

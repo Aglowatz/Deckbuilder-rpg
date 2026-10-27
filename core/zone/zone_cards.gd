@@ -5,8 +5,9 @@ extends RefCounted
 
 ## D.N.A. (Necrocrat): sold by Afterlife Services and Labor's Requisitions Desk.
 const VENDOR_IDS: Array[String] = ["N-01", "N-02", "N-04", "N-05", "N-09", "N-14", "N-15", "N-17", "N-23", "N-26"]
-## The Waiting Room of Eternity (S-NECRO)'s one-time unique reward: Betty Bones, Surly Secretary.
-const MINI_DUNGEON_REWARD_ID: String = "N-30"
+## The Waiting Room of Eternity (S-NECRO)'s one-time unique reward: the Department of Final Approvals (Cards Oct 27: Betty Bones is
+## her own card now, ENEMY-ONLY).
+const MINI_DUNGEON_REWARD_ID: String = "N-31"
 
 ## The Gainlands (Beefcake): sold by Coach Brutus Benchley at the Swole Station.
 const GAINLANDS_VENDOR_IDS: Array[String] = ["B-01", "B-03", "B-05", "B-08", "B-09", "B-12", "B-14", "B-16", "B-20", "B-25"]
@@ -25,4 +26,4 @@ const HEAP_MINI_REWARD_ID: String = "R-27"
 
 ## Main-dungeon unique rewards: The Grand Chef (Test Kitchen), The Big Unit (House of Gains), the Necrocrat leader card
 ## (Hall of Final Approvals), Archdruid Compostella (Rotheart).
-const MAIN_DUNGEON_REWARD_IDS: Array[String] = ["G-33", "B-32", "N-33", "R-33"]
+const MAIN_DUNGEON_REWARD_IDS: Array[String] = ["G-33", "B-32", "N-29", "R-33"]  # Cards Oct 27: the Hall pays Mass Layoffs (Mortimer is his own card, ENEMY-ONLY)

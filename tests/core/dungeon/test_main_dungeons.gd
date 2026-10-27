@@ -376,12 +376,14 @@ func test_losing_in_the_dungeon_wakes_you_at_the_hub_without_completing() -> voi
 	assert_lt(Session.gold, gold_before + 1)
 
 
-func test_the_unique_cards_are_legendary_and_of_their_path() -> void:
+func test_the_unique_cards_are_reward_locked_and_of_their_path() -> void:
+	# Cards Oct 27: three leaders (Legendary) and the Hall's Mass Layoffs (Epic; Mortimer is his own card, ENEMY-ONLY).
 	var expected: Dictionary = {"gourmand": Affinity.Type.GOURMAND, "beefcake": Affinity.Type.BEEFCAKE, "necrocrat": Affinity.Type.NECROCRAT, "refusemancer": Affinity.Type.REFUSEMANCER}
 	for zone_id: String in ZONES:
 		var card: CardData = Session.content.card(MainDungeons.def(zone_id).reward_card_id)
 		assert_not_null(card, zone_id)
-		assert_eq(card.rarity, CardEnums.Rarity.LEGENDARY)
+		assert_eq(card.rarity, CardEnums.Rarity.EPIC if zone_id == "necrocrat" else CardEnums.Rarity.LEGENDARY)
+		assert_true(CardAvailability.is_reward_locked(card), "%s prize is reward-locked" % zone_id)
 		assert_eq(card.color, expected[zone_id])
 
 

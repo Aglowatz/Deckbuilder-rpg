@@ -56,16 +56,18 @@ func test_every_pack_type_exists_as_data() -> void:
 	assert_eq(_pack(PackRules.GENERAL_1_ID).card_count, 3, "default pack size is 3")
 
 
-func test_not_in_packs_flag_is_on_the_unique_cards() -> void:
-	for id: String in CapitalContent.QUEST_REWARD_IDS + ZoneCards.MAIN_DUNGEON_REWARD_IDS + ["P4-02"] as Array[String]:
+func test_the_unique_cards_are_reward_locked_and_out_of_packs_until_earned() -> void:
+	# Cards Oct 27: the unique prizes are REWARD-LOCKED (`CardAvailability`): out of every pack until earned, in packs at their rarity after.
+	var prizes: Array[String] = ["P4-02", ZoneCards.MINI_DUNGEON_REWARD_ID, ZoneCards.GAINLANDS_MINI_REWARD_ID, ZoneCards.BUFFET_MINI_REWARD_ID, ZoneCards.HEAP_MINI_REWARD_ID]
+	prizes.append_array(CapitalContent.QUEST_REWARD_IDS)
+	prizes.append_array(ZoneCards.MAIN_DUNGEON_REWARD_IDS)
+	for id: String in prizes:
 		var card: CardData = content.card(id)
 		assert_not_null(card, "%s exists" % id)
 		if card != null:
-			assert_true(card.not_in_packs, "%s is flagged" % id)
-	for id: String in CapitalContent.QUEST_REWARD_IDS + ZoneCards.MAIN_DUNGEON_REWARD_IDS:
-		assert_true(content.card(id).not_in_packs, "%s (quest/dungeon reward) never appears in packs" % id)
-	for id: String in [ZoneCards.MINI_DUNGEON_REWARD_ID, ZoneCards.GAINLANDS_MINI_REWARD_ID, ZoneCards.BUFFET_MINI_REWARD_ID, ZoneCards.HEAP_MINI_REWARD_ID]:
-		assert_true(content.card(id).not_in_packs, "%s (mini dungeon reward) never appears in packs" % id)
+			assert_true(CardAvailability.is_reward_locked(card), "%s is reward-locked" % id)
+			assert_false(CardAvailability.allowed(card), "%s never appears in packs before it is earned" % id)
+			assert_true(CardAvailability.allowed(card, {id: true}), "%s may appear once earned" % id)
 
 
 # ---- Pools ---------------------------------------------------------------------------------------------
@@ -104,7 +106,7 @@ func test_prismatic_pool_has_every_path_and_multipath_cards() -> void:
 	assert_eq(paths.size(), 4)
 	var expected: int = 0
 	for card: CardData in content.multipath_cards.values():
-		if not card.not_in_packs:
+		if not card.not_in_packs and CardAvailability.allowed(card):  # Cards Oct 27: locked / enemy-only multi-Path cards wait
 			expected += 1
 	assert_eq(multipath, expected, "every pack-eligible multi-Path card")
 

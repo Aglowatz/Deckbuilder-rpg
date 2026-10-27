@@ -22,7 +22,7 @@ const DECK_RECIPE: Dictionary = {
 	"BAS-B": 5, "BAS-G": 5, "BAS-N": 5, "BAS-R": 5,
 	"B-11": 2, "B-28": 1, "B-29": 1, "B-12": 2, "B-27": 1, "B-25": 1,
 	"G-22": 2, "G-29": 1, "G-33": 1, "G-20": 1,
-	"N-28": 1, "N-33": 1, "N-30": 1, "N-15": 2, "N-29": 1, "N-32": 1,
+	"N-28": 1, "N-31": 1, "N-26": 1, "N-15": 2, "N-29": 1, "N-32": 1,  # Cards Oct 27: Mortimer and Betty Bones are their own bosses' cards now
 	"R-29": 1, "R-33": 1, "R-09": 2, "R-19": 1,
 	"P4-01": 1, "C-30": 1,
 }

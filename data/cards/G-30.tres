@@ -15,6 +15,8 @@ defense = 0
 rules_text = "Whenever you would create one or more Ingredients, create twice that many instead."
 rarity = 2
 flavor_text = "What about second breakfast?"
+availability = 1
+availability_source = "The Paste Works (Colonel Crumb)"
 paths_all = Array[int]([2])
 script_text = "static => flag(double_ingredients)"
 rules_hash = "1c040e6da9dd"

@@ -25,13 +25,13 @@ R-23,Bird of Paradump,(U),GENERAL
 R-24,Second-Hand Life,(U),GENERAL
 R-25,Manure Miracle,(U),GENERAL
 R-26,The Recycling Center,(U),GENERAL
-R-27,Raccoon,(E),GENERAL
+R-27,Raccoon,(E),REWARD-LOCKED
 R-28,Poo-uid,(E),GENERAL
-R-29,Mount Trashmore,(E),GENERAL
-R-30,The Mother Heap,(E),GENERAL
+R-29,Mount Trashmore,(E),REWARD-LOCKED
+R-30,The Mother Heap,(E),REWARD-LOCKED
 R-31,Bulk Trash Day,(E),GENERAL
 R-32,Back From the Heap,(L),GENERAL
-R-33,Archdruid Compostella,(L) Signature card,GENERAL
+R-33,Archdruid Compostella,(L) Signature card,REWARD-LOCKED
 R-34,Curb Alert,(C),GENERAL
 R-35,Sewer Choir,(C),GENERAL
 R-36,Landfill Leviathan,(U),GENERAL
@@ -61,13 +61,13 @@ G-23,En Garde-Manger,(U),GENERAL
 G-24,Health Code Violation,(U),GENERAL
 G-25,Stock The Pantry,(U),GENERAL
 G-26,Banquet Hall,(U),GENERAL
-G-27,Toro Toro,(E),GENERAL
-G-28,Chef de Golem,(E),GENERAL
+G-27,Toro Toro,(E),REWARD-LOCKED
+G-28,Chef de Golem,(E),REWARD-LOCKED
 G-29,Head Health Inspector,(E),GENERAL
-G-30,The Infinite Pantry,(E),GENERAL
-G-31,Recipe for Wonder,(E),GENERAL
+G-30,The Infinite Pantry,(E),REWARD-LOCKED
+G-31,Recipe for Wonder,(E),REWARD-LOCKED
 G-32,The Eternal Banquet,(L),GENERAL
-G-33,Grand Chef Escoffina,(L) Signature,GENERAL
+G-33,Grand Chef Escoffina,(L) Signature,REWARD-LOCKED
 G-34,Amuse-Bouche,(C),GENERAL
 G-35,Pest Control,(C),GENERAL
 B-01,Gym Bro,(C),GENERAL
@@ -97,11 +97,11 @@ B-24,Overclocked Mill Worker,(U),GENERAL
 B-25,Yeet,(U),GENERAL
 B-26,The Carpool,(U),GENERAL
 B-27,Protein Farts,(E),GENERAL
-B-28,Portal-Ripping Titan,(E),GENERAL
+B-28,Portal-Ripping Titan,(E),REWARD-LOCKED
 B-29,Swole Patrol Sergeant,(E),GENERAL
-B-30,Barbell of the Ancients,(E),GENERAL
-B-31,The Ultimate Cardio Machine,(E),GENERAL
-B-32,The Big Unit,(L),GENERAL
+B-30,Barbell of the Ancients,(E),REWARD-LOCKED
+B-31,The Ultimate Cardio Machine,(E),REWARD-LOCKED
+B-32,The Big Unit,(L),REWARD-LOCKED
 B-33,Global Gains Platinum Membership,(L),GENERAL
 B-34,Hammer Thrower,(C),GENERAL
 B-35,Protein Shake,(C),GENERAL
@@ -124,7 +124,7 @@ N-15,Pink Slip,(C),GENERAL
 N-16,Processing Delay,(C),GENERAL
 N-17,Buried in Paperwork,(C),GENERAL
 N-18,Requisition Form,(C),GENERAL
-N-19,Resting In Peace Clause,(U),GENERAL
+N-19,Resting In Peace Clause,(U),REWARD-LOCKED
 N-20,I've Made a Huge Mistake,(C),GENERAL
 N-21,Become Useful at Work,(C),GENERAL
 N-22,Working in Your Own Casket,(U),GENERAL
@@ -133,12 +133,12 @@ N-24,Endless Filing,(U),GENERAL
 N-25,Permission to Die - Denied,(U),GENERAL
 N-26,Audit Wraith,(U),GENERAL
 N-27,Mandatory Optional Team Meeting ,(E),GENERAL
-N-28,Lich of Accounts Payable,(E),GENERAL
-N-29,Mass Layoffs,(E),GENERAL
-N-30,"Betty Bones, Surly Secretary",(E),GENERAL
-N-31,Department of Final Approvals,(E),GENERAL
+N-28,Lich of Accounts Payable,(E),REWARD-LOCKED
+N-29,Mass Layoffs,(E),REWARD-LOCKED
+N-30,"Betty Bones, Surly Secretary",(E),ENEMY-ONLY
+N-31,Department of Final Approvals,(E),REWARD-LOCKED
 N-32,Unconscionable Contract,(L),GENERAL
-N-33,"Mortimer Grimsby, CE-No",(L) Signature,GENERAL
+N-33,"Mortimer Grimsby, CE-No",(L) Signature,ENEMY-ONLY
 N-34,Final Notice,(U),GENERAL
 N-35,Pending Approval,(C),GENERAL
 N-36,Service Charge,(C),GENERAL
@@ -222,8 +222,8 @@ NB-12,Hostile Takeover,(E),GENERAL
 NB-13,Wobble Weights,(E),GENERAL
 NB-14,Bone-afide Strongman,(E),GENERAL
 NB-15,Grim Repper,(E),GENERAL
-NB-16,"Chancellor Clench, Iron Regent",(L),GENERAL
-NB-17,Iron Filing Clerk,(U),GENERAL
+NB-16,"Chancellor Clench, Iron Regent",(L),ENEMY-ONLY
+NB-17,Iron Filing Clerk,(U),REWARD-LOCKED
 BR-01,Gym Rat,(U),GENERAL
 BR-02,Scrap Metal Lifter,(U),GENERAL
 BR-03,Rat Pack Coach,(U),GENERAL
@@ -272,9 +272,9 @@ NBR-05,Salvaged Exoskeleton,(E),GENERAL
 NBR-06,Zombie Apocalypse Drill,(E),GENERAL
 NBR-07,Scrapheap Lich,(E),GENERAL
 NBR-08,"Big Wreck Ronnie, Boss of the Wrecking Crew",(L),GENERAL
-P4-01,Champion of the Four Paths,(E),GENERAL
-P4-02,Reunion of the Paths,(L),GENERAL
-P4-03,"Mr. Tiggle, Rules Lawyer",(L),GENERAL
+P4-01,Champion of the Four Paths,(E),REWARD-LOCKED
+P4-02,Reunion of the Paths,(L),REWARD-LOCKED
+P4-03,"Mr. Tiggle, Rules Lawyer",(L),ENEMY-ONLY
 C-01,Cannon Fodder,(C),GENERAL
 C-02,Village Militia,(C),GENERAL
 C-03,Watchtower Archer,(C),GENERAL
@@ -295,7 +295,7 @@ C-17,Ambush Party,(C),GENERAL
 C-18,Emergency Rations,(C),GENERAL
 C-19,Village Well,(C),GENERAL
 C-20,Training Grounds,(C),GENERAL
-C-21,Old Kingdom Banner,(C),GENERAL
+C-21,Old Kingdom Banner,(C),REWARD-LOCKED
 C-22,Mercenary Captain,(U),GENERAL
 C-23,Resistance Scout,(U),GENERAL
 C-24,Wandering Alchemist,(U),GENERAL
@@ -303,12 +303,12 @@ C-25,Shred the Evidence,(U),GENERAL
 C-26,Adventurer's Pack,(U),GENERAL
 C-27,Underdog's Gambit,(U),GENERAL
 C-28,Cartographer's Table,(U),GENERAL
-C-29,The Wanderer,(E),GENERAL
+C-29,The Wanderer,(E),REWARD-LOCKED
 C-30,Royal Audit,(E),GENERAL
 C-31,Four-Path Compass,(E),GENERAL
 C-32,Mirrored Hall,(E),GENERAL
 C-33,Unstable Rift,(E),GENERAL
-C-34,The Harmony Engine,(L),GENERAL
+C-34,The Harmony Engine,(L),REWARD-LOCKED
 C-35,Hand-Me-Down Shield,(C),GENERAL
 INF-01,Hamster Wheel Power Plant,(U),GENERAL
 INF-02,Hall of Records,(U),GENERAL

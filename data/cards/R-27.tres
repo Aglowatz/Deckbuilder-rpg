@@ -14,7 +14,8 @@ defense = 2
 rules_text = "You may eat garbage for free during your turn."
 rarity = 2
 flavor_text = ".... *sweats profusely*"
-not_in_packs = true
+availability = 1
+availability_source = "The Trash Panda Throne (His Majesty the Raccoon)"
 paths_all = Array[int]([3])
 script_text = "static => flag(free_eat)"
 rules_hash = "4f09af9b6949"

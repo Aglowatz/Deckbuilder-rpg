@@ -57,11 +57,12 @@ static func problem(profile: PlayerProfile, gold: int, first: Affinity.Type, sec
 
 
 ## The cards of exactly this pair of Paths, rarest last (Brief 14: the designed set has 16 per pair).
-static func possible_cards(content: ContentSet, first: Affinity.Type, second: Affinity.Type) -> Array[CardData]:
+## Cards Oct 27: `earned` (card id -> true) gates REWARD-LOCKED cards; an ENEMY-ONLY card (Chancellor Clench) is never crafted.
+static func possible_cards(content: ContentSet, first: Affinity.Type, second: Affinity.Type, earned: Dictionary = {}) -> Array[CardData]:
 	var result: Array[CardData] = []
 	for card: Variant in content.multipath_cards.values():
 		var data: CardData = card as CardData
-		if data.paths().size() == 2 and data.paths().has(first) and data.paths().has(second):
+		if data.paths().size() == 2 and data.paths().has(first) and data.paths().has(second) and CardAvailability.allowed(data, earned):
 			result.append(data)
 	result.sort_custom(func(a: CardData, b: CardData) -> bool: return int(a.rarity) < int(b.rarity))
 	return result
@@ -87,7 +88,10 @@ static func craft(content: ContentSet, profile: PlayerProfile, gold: int, first:
 	if not why_not.is_empty():
 		result.reason = why_not
 		return result
-	var pool: Array[CardData] = possible_cards(content, first, second)
+	var earned: Dictionary = {}
+	for owned: CardData in profile.owned_cards:
+		earned[owned.id] = true
+	var pool: Array[CardData] = possible_cards(content, first, second, earned)
 	if pool.is_empty():
 		result.reason = "These Paths have no dual-Path cards yet."
 		return result

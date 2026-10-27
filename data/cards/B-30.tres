@@ -17,7 +17,8 @@ rules_text = "Exhaust: attach to target unit you control. Attached unit gets +3/
 At the beginning of combat on your turn, you may have attached unit get an additional +3/+0 until end of turn. If you do, it doesn't refresh during your next turn."
 rarity = 2
 flavor_text = "Lifted only by the worthy. And by Greg."
-not_in_packs = true
+availability = 1
+availability_source = "Mount Swolympus (the Ancient Spotter) or the Capital quest The Wheel Never Stops"
 paths_all = Array[int]([1])
 script_text = "attach
 host => stat(3,3); kw(bulldoze)

@@ -51,7 +51,7 @@ static func choose(
 	var weights: Array[float] = []
 	var capped: Array[CardData] = []
 	var capped_weights: Array[float] = []
-	for card: CardData in _candidates(content):
+	for card: CardData in _candidates(content, owned):
 		if only_path >= 0 and not is_pure_path(card, only_path as Affinity.Type):
 			continue
 		var rarity_weight: float = table[int(card.rarity)]
@@ -86,7 +86,7 @@ static func _fallback(
 	for stage: int in range(2):
 		var open: Array[CardData] = []
 		var full: Array[CardData] = []
-		for card: CardData in _candidates(content):
+		for card: CardData in _candidates(content, owned):
 			if taken.has(card) or result.has(card):
 				continue
 			var fits: bool = card.paths().is_empty() if stage == 1 else (only_path < 0 or is_pure_path(card, only_path as Affinity.Type))
@@ -131,14 +131,22 @@ static func is_pure_path(card: CardData, path: Affinity.Type) -> bool:
 	return paths.size() == 1 and paths[0] == path
 
 
-static func _candidates(content: ContentSet) -> Array[CardData]:
+## Cards Oct 27: `owned` (card id -> copies) doubles as the earned set - a REWARD-LOCKED card is offered only once one copy is owned;
+## ENEMY-ONLY cards never (`CardAvailability`).
+static func _candidates(content: ContentSet, owned: Dictionary = {}) -> Array[CardData]:
 	var result: Array[CardData] = []
+	var earned: Dictionary = {}
+	for id: Variant in owned.keys():
+		if int(owned[id]) > 0:
+			earned[str(id)] = true
 	for source: Dictionary in [content.cards, content.multipath_cards]:
 		var ids: Array = source.keys()
 		ids.sort()
 		for id: Variant in ids:
 			var card: CardData = source[id] as CardData
 			if card.is_infrastructure() or card.is_token or card.rarity == CardEnums.Rarity.LEGENDARY:
+				continue
+			if not CardAvailability.allowed(card, earned):
 				continue
 			result.append(card)
 	return result

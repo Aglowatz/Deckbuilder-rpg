@@ -7,7 +7,7 @@ extends RefCounted
 
 const BATTLE_COUNT: int = 3
 ## The D.N.A.'s reward (kept for the existing tests/docs); the others are read from the dungeon list (`ZoneDef.mini.reward_card_id`).
-const REWARD_CARD_ID: String = "N-30"
+const REWARD_CARD_ID: String = "N-31"  # Cards Oct 27: the Department of Final Approvals (Betty Bones is ENEMY-ONLY)
 const DUNGEON_NAME: String = "The Waiting Room of Eternity"
 
 

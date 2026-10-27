@@ -1360,7 +1360,7 @@ func _open_vendor() -> void:
 	# UI + economy fixes Oct 22, Part 5: a Path zone's vendor sells that Path - Commons and two Uncommons first, the rest of the Uncommons
 	# and the Epics once the zone is freed, a Legendary in the postgame (VendorStocks.zone_shelf). The Capital's Black Market keeps its list.
 	var path: Affinity.Type = PackRules.path_for_zone(def.id)
-	var data: VendorData = VendorStocks.zone_shelf(Session.content, path, def.id, def.vendor_ids, def.vendor_name) if path != Affinity.Type.NEUTRAL else VendorData.new()
+	var data: VendorData = VendorStocks.zone_shelf(Session.content, path, def.id, def.vendor_ids, def.vendor_name, Session.unlock_state()) if path != Affinity.Type.NEUTRAL else VendorData.new()
 	if path == Affinity.Type.NEUTRAL:
 		data.vendor_name = def.vendor_name
 		for id: String in def.vendor_ids:

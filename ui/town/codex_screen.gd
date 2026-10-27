@@ -142,12 +142,13 @@ static func _pct(value: Vector2i) -> int:
 # ---- Cards ------------------------------------------------------------------------------------------------------
 
 
-## (found, total) for one Path row ("all", "neutral", "multi" or a Path key).
+## (found, total) for one Path row ("all", "neutral", "multi" or a Path key). Cards Oct 27: ENEMY-ONLY cards (the bosses' own) are
+## outside the 100% - they have their own "Seen in battle" section.
 func card_progress(key: String) -> Vector2i:
 	var found: int = 0
 	var total: int = 0
 	for card: CardData in _all_cards:
-		if not _in_path(card, key):
+		if not _in_path(card, key) or CardAvailability.is_enemy_only(card):
 			continue
 		total += 1
 		if Session.has_seen(card.id):
@@ -284,7 +285,7 @@ func _refresh_grid() -> void:
 			continue
 		var cards: Array[CardData] = []
 		for card: CardData in _all_cards:
-			if int(card.rarity) != rarity or not _in_path(card, _path_key):
+			if int(card.rarity) != rarity or not _in_path(card, _path_key) or CardAvailability.is_enemy_only(card):
 				continue
 			if _owned_only and Session.owned_count(card.id) == 0 and not card.is_unlimited():
 				continue
@@ -310,8 +311,41 @@ func _refresh_grid() -> void:
 				built += 1
 			else:
 				_pending.append([grid, card])
+	_add_enemy_only_section()
 	if _grid_box.get_child_count() == 0:
 		_grid_box.add_child(UIKit.label("Nothing here yet.", &"MutedLabel", 22, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+
+
+## Cards Oct 27, Part 2: the bosses' own cards (ENEMY-ONLY) in their own section, outside the 100%: a silhouette until met in battle,
+## the card once seen; one an older save already owns says so.
+func _add_enemy_only_section() -> void:
+	var cards: Array[CardData] = []
+	for card: CardData in _all_cards:
+		if not CardAvailability.is_enemy_only(card) or not _in_path(card, _path_key):
+			continue
+		if _rarity_filter >= 0 and int(card.rarity) != _rarity_filter:
+			continue
+		if _owned_only and Session.owned_count(card.id) == 0:
+			continue
+		cards.append(card)
+	if cards.is_empty():
+		return
+	var seen: int = 0
+	for card: CardData in cards:
+		if Session.has_seen(card.id):
+			seen += 1
+	var heading: Label = UIKit.label("Seen in battle  -  %d / %d  (the bosses' own cards; not part of the collection)" % [seen, cards.size()], &"", 24, UIStyle.MUTED)
+	heading.name = "SeenInBattle"
+	_outline(heading)
+	heading.add_theme_font_override("font", UIStyle.font_title())
+	_grid_box.add_child(heading)
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = COLUMNS
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 12)
+	_grid_box.add_child(grid)
+	for card: CardData in _sorted(cards):
+		_pending.append([grid, card])
 
 
 ## Overnight Oct 17 (Phase 2, performance): the first tiles are built at once, the rest a few per frame (no long frame on opening).
@@ -359,11 +393,19 @@ func _card_tile(card: CardData) -> Button:
 	line.position = Vector2(0, CardView.SIZE.y * CARD_SCALE + 2)
 	line.size = Vector2(CardView.SIZE.x * CARD_SCALE, 24)
 	tile.add_child(line)
+	# Cards Oct 27: a locked card says where it is earned (before it is), an enemy's own card says whose it is.
+	var kind: CardAvailability.Kind = CardAvailability.kind_of(card)
 	if seen:
 		var owned: int = Session.owned_count(card.id)
 		line.text = "Infrastructure" if card.is_unlimited() else "Own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level)
 		line.add_theme_color_override("font_color", UIStyle.GOOD if owned > 0 or card.is_unlimited() else UIStyle.MUTED)
 		tile.tooltip_text = card.display_name
+		if kind == CardAvailability.Kind.ENEMY_ONLY:
+			line.text = "Grandfathered" if owned > 0 else "Enemy's own"
+			tile.tooltip_text = "%s - %s's own card" % [card.display_name, CardAvailability.hint(card)]
+		elif kind == CardAvailability.Kind.REWARD_LOCKED and owned == 0 and not Session.earned_cards.has(card.id):
+			line.text = "Locked"
+			tile.tooltip_text = "%s - earned from: %s" % [card.display_name, CardAvailability.hint(card)]
 		tile.mouse_entered.connect(func() -> void: _preview.show_for(tile, card))
 		tile.mouse_exited.connect(_preview.hide_preview)
 		tile.pressed.connect(func() -> void: inspect(card))
@@ -372,6 +414,11 @@ func _card_tile(card: CardData) -> Button:
 		line.text = "???"
 		line.add_theme_color_override("font_color", UIStyle.MUTED)
 		tile.tooltip_text = "Not found yet."
+		if kind == CardAvailability.Kind.REWARD_LOCKED:
+			line.text = "Locked"
+			tile.tooltip_text = "Earned from: %s" % CardAvailability.hint(card)
+		elif kind == CardAvailability.Kind.ENEMY_ONLY:
+			tile.tooltip_text = "An enemy's own card - meet them in battle."
 	return tile
 
 
@@ -413,6 +460,20 @@ func inspect(card: CardData) -> void:
 	for path: Affinity.Type in card.paths():
 		paths.append(UIStyle.affinity_name(path))
 	info.add_child(UIKit.label("Path: %s" % (" / ".join(paths) if not paths.is_empty() else "Colorless"), &"", 22, UIStyle.PARCHMENT))
+	# Cards Oct 27: where a locked card is earned; whose an enemy-only card is.
+	var where: String = ""
+	match CardAvailability.kind_of(card):
+		CardAvailability.Kind.REWARD_LOCKED:
+			where = "Earned from: %s" % CardAvailability.hint(card)
+		CardAvailability.Kind.ENEMY_ONLY:
+			where = "%s's own card: never in packs, shops or rewards." % CardAvailability.hint(card)
+			if Session.grandfathered_cards.has(card.id):
+				where += " Yours from an earlier save (grandfathered)."
+	if not where.is_empty():
+		var source_line: Label = UIKit.label(where, &"MutedLabel", 18, UIStyle.MUTED)
+		source_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		source_line.custom_minimum_size = Vector2(540, 0)
+		info.add_child(source_line)
 	if not card.is_unlimited():
 		var owned: int = Session.owned_count(card.id)
 		info.add_child(UIKit.label("You own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level), &"", 22, UIStyle.PARCHMENT))

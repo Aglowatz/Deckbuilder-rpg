@@ -338,3 +338,28 @@ cycle 1); the spells-only arena (cycle 10).
    that on would change dungeon balance (the -3 piece would start hurting), so it was left as it is. Say if gear should count in dungeons too.
 4. **Signs on posts in the open zones** (Part 3): a signboard on its own post standing on grass beside a path is accepted (a post beside the path);
    only posts ON a path band moved. Their posts have no blocker (the hero walks through a 0.1 m post), as before.
+
+
+## Cards Oct 27 - yours to decide (the safest choice was taken)
+
+1. **Every review row was applied** (no "Card Review Oct 25" sheet export in `data/source/`), the three opposing-Path cards included.
+   Final Notice went in at **1(N)(N)** (3 energy) instead of the review's 2(N)(N): measured on the level-12 round robin (balance_log.md,
+   "Cards Oct 27, Part 1"); 3 is inside the Design Guidance's targeted-destroy rate. Say if you want it back at 4.
+2. **Cannon Fodder 2/1 made the cave harder** for Beefcake / Refusemancer (76-82 / 72-82% over two seeds). The cave foes carry one Fodder
+   fewer and one more basic each (`TrialOfTheHollow.enemy_recipe`); cleared runs are B 90 / N 94 / G 90 / R 85 (two-seed means). The
+   alternative was leaving Fodder at 1/1.
+3. **The level-12 round robin**: Necrocrat 23 -> 20-33% (mean 27), Gourmand 77 -> 73. The 23% was mostly the sim's expected-player model
+   (its Necrocrat deck cut its own bodies; fixed in `ProgressionModel.CUT_ORDER`); vs Gourmand's golems it stays 10%. The next lever would
+   be the Necrocrat Commons' bodies, which the brief kept off limits - say if you want that pass.
+4. **Mortimer and Betty Bones are ENEMY-ONLY** (the brief's CEO-No rule), so the Hall of Final Approvals now pays **Mass Layoffs (N-29)** and
+   the Waiting Room **The Department of Final Approvals (N-31)**; the dungeon list CSV, `dungeons.json`, the reference decks, the Lab's Siphon
+   deck and the Vault Warden's follow. A save that already owns them keeps them (grandfathered). Chancellor Clench (NB-16) and Mr. Tiggle
+   (P4-03) are enemy-only too; Clench's deck now carries his card.
+5. **Boss-pick chase cards** (`DungeonSignatures`): Iron Filing Clerk (Clench), Resting In Peace Clause (Mortimer), Chef de Golem (the
+   Doppelganger), Mount Trashmore (Compostella), The Harmony Engine (Primm) - offered in the boss's pick every clear until earned. The Paste
+   Works pays The Infinite Pantry, the Lab the Champion of the Four Paths (both paid no card before). Two consequences worth a look: every
+   Gourmand Epic is now a prize or the Black Market's, so the Buffet shelf's Epic tier only shows what was earned; the Necrocrat / Beefcake
+   pair has no craftable Legendary at the Alchemist.
+6. **REWARD-LOCKED replaces `not_in_packs` for the prizes**: once earned they may show up in packs and on shelves at their rarity (the brief's
+   rule); before Oct 27 they never did. The Legendary leaders (The Big Unit, the Grand Chef, Compostella) included - an extra pack copy
+   converts to essence at the cap of 1.

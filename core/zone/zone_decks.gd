@@ -4,6 +4,9 @@ extends RefCounted
 ## the mini dungeon (same convention as CorruptedNpcs / TrialOfTheHollow).
 
 
+## Cards Oct 27, Part 2: an ENEMY-ONLY card (a named foe's personal card, `CardAvailability`) stays in a recipe only when `deck_name` (the
+## enemy's name at every call site) is one of its owners (`CardData.availability_source`, "|"-separated) - so a generic archetype can
+## never leak one, while Mortimer, Betty Bones, Clench and Primm keep theirs.
 static func from_recipe(content: ContentSet, deck_name: String, recipe: Dictionary) -> Deck:
 	var deck: Deck = Deck.new()
 	deck.deck_name = deck_name
@@ -12,6 +15,9 @@ static func from_recipe(content: ContentSet, deck_name: String, recipe: Dictiona
 		var card: CardData = content.card(id)
 		if card == null:
 			push_warning("ZoneDecks: unknown card %s" % id)
+			continue
+		if CardAvailability.is_enemy_only(card) and not CardAvailability.owner_allows(card, deck_name):
+			push_warning("ZoneDecks: %s is enemy-only and %s is not its owner; dropped" % [id, deck_name])
 			continue
 		for i: int in range(int(recipe[key])):
 			deck.cards.append(card)

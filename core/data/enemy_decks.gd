@@ -48,7 +48,8 @@ const ARCHETYPES: Dictionary = {
 	# ---- Necrocrat: Red Tape, Contracts, tokens, reanimation -------------------------------------------------
 	"necro_zombies": {
 		"paths": [Affinity.Type.NECROCRAT],
-		"cards": {"N-01": 4, "N-02": 4, "N-04": 3, "N-23": 2, "N-05": 3, "N-14": 2, "N-21": 2, "N-20": 2, "N-06": 3, "N-07": 3, "N-30": 1, "N-33": 1},
+		# Cards Oct 27: Betty Bones (N-30) and Mortimer (N-33) are their bosses' own cards now (ENEMY-ONLY); the generic deck runs an Audit Wraith and a Lich instead.
+		"cards": {"N-01": 4, "N-02": 4, "N-04": 3, "N-23": 2, "N-05": 3, "N-14": 2, "N-21": 2, "N-20": 2, "N-06": 3, "N-07": 3, "N-26": 1, "N-28": 1},
 	},
 	"necro_control": {
 		"paths": [Affinity.Type.NECROCRAT],

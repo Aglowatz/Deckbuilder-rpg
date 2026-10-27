@@ -18,7 +18,8 @@ rules_text = "Flying.
 When this unit enters, Reinstate target unit from any Refuse Pile under your control."
 rarity = 2
 flavor_text = "Every debt is collected. Eventually. Forever."
-not_in_packs = true
+availability = 1
+availability_source = "The Capital quest Form 27-B/6: A Burial Permit"
 paths_all = Array[int]([4])
 script_text = "kw flying
 enter t=refuse.unit.any => reinstate(t)"
