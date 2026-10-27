@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_kxnio")
 id = "GRN-08"
-display_name = "Something out of nothing"
+display_name = "Something Out of Nothing"
 type = 2
 color = 2
 color2 = 3

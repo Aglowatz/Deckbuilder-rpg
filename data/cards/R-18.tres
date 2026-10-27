@@ -12,9 +12,9 @@ color = 3
 generic_cost = 1
 colored_pips = Array[int]([3])
 defense = 0
-rules_text = "Destroy this Tool: destroy target Tool, Wonder, or resource."
+rules_text = "Destroy this Tool: destroy target Tool, Wonder or resource. Create a Garbage."
 flavor_text = "Opens anything. Eventually."
 paths_all = Array[int]([3])
-script_text = "act t=tool|wonder|resource | destroy_self => destroy(t)"
-rules_hash = "a8d554aab0f2"
+script_text = "act t=tool|wonder|resource | destroy_self => destroy(t); create(garbage)"
+rules_hash = "d3b6d9e4dd28"
 image_description = "An oversized rusty can opener wielded like a battle axe by a goat-riding druid, prying open a shiny metal contraption."

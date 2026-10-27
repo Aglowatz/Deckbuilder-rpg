@@ -87,3 +87,12 @@ Before: each zone vendor sold a fixed list of 10 cards (mostly Commons, two or t
 
 - Tests: `tests/core/data/test_vendor_stocks.gd`.
 - Economy audit and early-game sim: see `docs/design/balance_log.md` ("UI + economy fixes Oct 22").
+
+## Cards Oct 27 (Part 1)
+
+- Sable's sample sells **two Commons of the player's own Path** (`VendorStocks.OWN_PATH_COMMONS`, passed from `Session.profile.primary_affinity`
+  by the vendor screen) and one of each other Path; the shelf is still 11 cards at first.
+- The 14 new cards (`docs/cards_oct27.md`) reach the shelves by rarity and Path like any other card: the new Commons are on their zone's shelf
+  from the first visit, the new Uncommons (Final Notice, Landfill Leviathan) after the zone's boss, Iron Filing Clerk at the Alchemist.
+- Availability (Part 2): a card's `availability` (GENERAL / REWARD-LOCKED / ENEMY-ONLY, `data/source/card_overrides.csv`) is checked by every
+  shelf through `CardAvailability` - see `docs/design/card_availability.md`.

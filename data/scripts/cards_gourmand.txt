@@ -94,7 +94,7 @@ enter => send_back(all(unit.other))
 == G-30 @1c040e6da9dd  # The Infinite Pantry
 static => flag(double_ingredients)
 
-== G-31 @8d7ff8bcf1f7  # Recipe for wonder
+== G-31 @8d7ff8bcf1f7  # Recipe for Wonder
 act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))
 
 == G-32 @be3ed568014c  # The Eternal Banquet
@@ -104,3 +104,9 @@ act | use(ingredient,5) => create(T-07)
 == G-33 @9940d0bf585f  # Grand Chef Escoffina
 enter => create(ingredient,3)
 act | exhaust, use(ingredient,X) => create_x(T-08,X)
+
+== G-34 @2aef0b446a46  # Amuse-Bouche
+play => create(ingredient); peek(1); draw(1)
+
+== G-35 @d0a4391c2733  # Pest Control
+play t=unit => if(on_path(t,R),{plate(t)},{send_back(t)})

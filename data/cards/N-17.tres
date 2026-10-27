@@ -13,7 +13,7 @@ generic_cost = 2
 colored_pips = Array[int]([4])
 defense = 0
 rules_text = "Return target unit from your Refuse Pile to your hand. Create a Contract."
-flavor_text = "We see you've already completed the requisite death forms. Once we get you processed, you can get started on the requisite undeath forms."
+flavor_text = "Death forms: filed. Undeath forms: pending."
 paths_all = Array[int]([4])
 script_text = "play t=refuse.unit.mine => to_hand(t); create(contract)"
 rules_hash = "1e4132e7c5e6"

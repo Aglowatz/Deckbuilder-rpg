@@ -1264,3 +1264,86 @@ Gourmand+Beefcake "Bulking Season", D.N.A. Necrocrat+Beefcake, Buffet Gourmand+R
 "Junkyard Gym"), same deck size and basics as their own, **+10 HP** (`FREED_HP_BONUS`), measured two levels after the zone's dungeon
 (`EncounterCatalog.freed_zones`, groups `freed:<zone>`, 6 games per Path): without the bonus 96-100% in 3-6 turns; with it 96-100% in
 5-7 turns on seeds 7000 and 8100 (normal band 80%+). Kept: a friendly rematch long enough to see the synergy, not a new wall.
+
+## Cards Oct 27, Part 1: the card review applied (29 changes + 14 new cards)
+
+Every row of `docs/design/card_review_oct25.csv` was applied (no "Card Review Oct 25" sheet export existed, so every row counted as
+approved, the three opposing-Path cards included). Rows per card: `docs/design/sheet_changes_oct27.csv`. Scripts, the `on_path(sel,X)`
+value and the `pump(sel,a,d,next)` duration (a lingering change until the controller's next turn, like Red Tape) are the engine side;
+`once` now also works on triggered abilities (Bulking Program). Tests: `tests/core/game/test_cards_oct27.gd`.
+
+| Card | Old -> New | Why |
+|---|---|---|
+| R-21 Let Them Eat Cake | 1(R) "Destroy target Gourmand unit." -> 2(R) "Deal 3 damage to target unit. If it is a Gourmand unit, destroy it instead and create a Garbage." | never dead in PvE; Refusemancer removes with damage |
+| R-03 Landfill Ox | "Exhaust, eat garbage twice, lose 1 HP: add (R)(R)(R)(R)." -> "Exhaust, eat garbage: add (R)(R)(R)." | one clear cost on a Common |
+| R-26 The Recycling Center | end-of-turn recursion -> "Use two Garbage: return target card from your Refuse Pile to your hand. Do this only once per turn." | immediate on your turn (it was 0% helpful) |
+| R-13 Reclaimed Land | count comparison + two Infrastructure -> one Infrastructure, no comparison | Common complexity |
+| R-18 Rusty Can Opener | + "Create a Garbage." | never dead |
+| R-22, R-28 | cost "2 (R)" -> "2(R)" | sheet format |
+| G-22 The Cullinator | 3(G)(G) -> 4(G)(G) | the set's one Power row |
+| B-02 Bronzer | 1(B) -> (B) | strictly worse than Lifting Gloves |
+| B-20 Dry Scoop | + "+1/+0" | never a dud |
+| B-22 Alarm-ish Clock | 2 -> 1(B) | reads as Beefcake |
+| B-24 Overclocked Mill Worker | 3(B) -> 2(B) | a turn-3 engine |
+| N-10 Push Broom of Undeath | 4(N) any-attack Shred -> 2(N) attached Tool, +0/+1, "whenever attached unit attacks, destroy up to two target resources your opponent controls" | a real Tool template |
+| N-19 Resting In Peace Clause | Common -> Uncommon | three-step payoff |
+| BR-06 Hamster Ball | + "Whenever attached unit deals combat damage to an opponent, create a Garbage." | a dual card rewards both Paths |
+| NB-01 Shredded Spectre | two three-resource costs -> "Whenever you use a Red Tape or an Iron, +1/+0 and Elusive until end of turn" | the old Iron cost was a trap |
+| NB-13 Jello Weights -> Wobble Weights | name, text ("if attached unit is a Necrocrat unit..."), flavour (the lyric) | IP |
+| GR-16 Ratatouille | flavour: the film motto -> "Five stars. Zero health inspections." | IP |
+| GB-07 Bulking Program | 3(G)(B) start-of-turn buff -> 2(G)(B) "Whenever you use an Ingredient, put a buff on target unit you control. Do this only once per turn." | Ingredient interplay |
+| GRB-07 Harvest Festival | wording -> The Infinite Pantry's template (same flag) | clarity |
+| C-01 Cannon Fodder | 1/1 -> 2/1 | vanilla rate |
+| C-09 Old Kingdom Automaton | 4/5 -> 4/6 | the wall its flavour promises |
+| G-31, GRN-08, GB-09, NB-04 | names to title case; N-22 / N-17 / N-12 / G-22 flavour | sheet consistency |
+| NEW B-34 Hammer Thrower (C) 3(B) 3/3 | Overexert: damage equal to its attack to target unit or opponent | the first unit with Yeet |
+| NEW B-35 Protein Shake (C) 1(B) | +2/+2 until end of turn, create an Iron | the turn-two trick (in the starter) |
+| NEW B-36 Desk Flip (C) 1(B) | 2 damage, 4 to a Necrocrat unit | hate card |
+| NEW N-34 Final Notice (U) **1(N)(N)** | destroy target unit, create a Red Tape | the missing removal; the review's 2(N)(N) measured first (below), 3 energy is inside the removal rate |
+| NEW N-35 Pending Approval (C) 1(N) | Processing 1: two 1/1 Zombie Temps and a Red Tape | teaches Processing (in the starter) |
+| NEW N-36 Service Charge (C) 1(N) Trap | the opponent's second card in a turn: they lose 2 HP, you create a Red Tape | a fee that stays live |
+| NEW N-37 Compliance Review (C) 2(N) | -2/-0 until the start of your next turn; a Beefcake unit is destroyed instead | hate card |
+| NEW G-34 Amuse-Bouche (C) (G) | create an Ingredient, Peek 1, draw | the one-energy play (in the starter) |
+| NEW G-35 Pest Control (C) 2(G) | send back; a Refusemancer unit is Plated instead | hate card |
+| NEW R-34 Curb Alert (C) 1(R) | Regrow a unit card, create a Garbage | the Common Regrow (in the starter) |
+| NEW R-35 Sewer Choir (C) 2(R) 1/1 | enters with two 1/1 Rats | a Rat maker at Common |
+| NEW R-36 Landfill Leviathan (U) 5(R)(R) 7/7 | enters with two Garbage; eat garbage: Bulldoze until end of turn | an Uncommon top end |
+| NEW C-35 Hand-Me-Down Shield (C) 1 Tool | attach: +0/+2 | a cheap defensive Tool |
+| NEW NB-17 Iron Filing Clerk (U) 1(N)(B) 2/2 | use an Iron: a Red Tape; use a Red Tape: an Iron | the Necrocrat/Beefcake engine |
+
+**Placement.** Starters (`CampaignStart.STARTING_DECKS`): one Colorless swap each - Beefcake a Tripwire for Protein Shake, Necrocrat an
+Ambush Party for Pending Approval, Gourmand a Tripwire for Amuse-Bouche, Refusemancer an Ambush Party for Curb Alert. Sable's sample sells
+two Commons of the player's own Path (`VendorStocks.OWN_PATH_COMMONS`). Zone shelves, packs and every reward table pick the new cards up by
+rarity and Path on their own (nothing is `not_in_packs`). The sim's expected player (`ProgressionModel.UPGRADES`) buys them where a player
+would: Hammer Thrower and Desk Flip on the Gainlands shelf, Compliance Review and Service Charge on the D.N.A. shelf, Final Notice x2 after
+the Hall, Pest Control on the Buffet shelf, Sewer Choir on the Dump shelf, the Leviathan after the Rotheart.
+
+**The cave** (`--what=tutorial --games=25`, seeds 7000 / 8100, whole Forgotten Cave cleared): with the review as written the two aggressive
+Paths fell under the 80% line - B 76 / 82, R 72 / 82 (G 92 / 90, N 94 / 90) - because Cannon Fodder, the cave foes' most common card
+(x4 / x3 / x2), is a 2/1 now. Encounter fix, not a card: each cave deck carries one Fodder fewer and one more basic
+(`TrialOfTheHollow.enemy_recipe`). After: **B 88 / 92, G 92 / 88, R 78 / 92, N 96 / 92** (two-seed means 90 / 90 / 85 / 94; the per-fight
+boss rows show 84-100% per Path, so no Path is at 100% in the Warden fight across both seeds). Reports `docs/design/sim/cards27_tutorial_v2_*.md`.
+
+**The first zone** (`--filter=zone:beefcake`, L5): Flexing Brute 72 / 91 and Protein Shake Golem 72 / 89 (8 games per Path on seed 7000,
+then 16 per Path on seed 8100; the 8-game read swings 12 points per game). Mean in band; no change.
+
+**Level-12 round robin** (`--what=decks --level=12`, both seats the planning AI, no gear). The review's 23% for Necrocrat turned out to be
+the expected-player model, not the cards: the Necrocrat reference deck's cut order removed every Middle Management Zombie, Accountant and
+Notary Wraith to fit the upgrades and kept Village Militia and situational spells. `ProgressionModel.CUT_ORDER` now cuts the situational
+spells (Casket, Waiting Room, Endless Filing, Permission to Die, Service Charge) before the bodies. Then Final Notice at the review's
+2(N)(N) vs 1(N)(N):
+
+| Seed, games | Beefcake | Gourmand | Refusemancer | Necrocrat |
+|---|---:|---:|---:|---:|
+| 7000, 10 (review, Oct 25) | 63 | 77 | 40 | 23 |
+| 7000, 10 (new cards, old cut order) | 63 | 77 | 40 | 20 |
+| 8100, 20 (new cards, old cut order) | 65 | 75 | 35 | 25 |
+| 8100, 20 (new cut order, Final Notice 2(N)(N)) | 62 | 73 | 35 | 30 |
+| 8100, 20 (new cut order, Final Notice 1(N)(N)) | 60 | 73 | 33 | 33 |
+| 7000, 20 (same) | 63 | 73 | 43 | 20 |
+
+Kept Final Notice at 1(N)(N) (3 energy, the removal rate's "targeted destroy 3-4"). Necrocrat vs Gourmand stays 10% on both seeds: the
+golem engine out-bodies a deck of 2/2s in an AI mirror, and no Path is above 75% now (Gourmand 73). Necrocrat's rise is small (23 -> 20-33,
+mean 27); the fights a Necrocrat player actually meets at level 12 (the Buffet roamers, 100% in the Oct 25 review) are the measure that
+matters. Inbox: whether the round robin should drive further Necrocrat changes (the next lever would be the Necrocrat Commons' bodies,
+which the brief kept off limits).

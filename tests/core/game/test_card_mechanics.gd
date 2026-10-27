@@ -75,17 +75,18 @@ func test_energy_abilities_add_floating_energy_that_pays_costs() -> void:
 	assert_eq(game.players[0].pool.size(), 0)
 
 
-func test_landfill_ox_eats_garbage_twice_to_add_four_energy() -> void:
+func test_landfill_ox_eats_garbage_once_to_add_three_energy() -> void:
+	# Cards Oct 27: "Exhaust, eat garbage: add (R)(R)(R)." (was two eats and 1 HP for four energy).
 	var game: GameState = _game()
 	_energy(game)
 	var ox: CardInstance = _field(game, 0, "R-03")
 	_give(game, 0, KIND.GARBAGE, 2)
 	var hp: int = game.players[0].hp
 	assert_true(_activate(game, ox))
-	assert_eq(game.players[0].pool.size(), 4)
-	assert_eq(game.players[0].hp, hp - 1, "eating costs no HP; the Ox's written 'lose 1 HP' cost does")
-	assert_eq(_count(game, 0, KIND.GARBAGE), 0)
-	assert_eq(game.players[0].ready_infrastructure().size(), 10, "two energy paid for the two eats")
+	assert_eq(game.players[0].pool.size(), 3)
+	assert_eq(game.players[0].hp, hp, "no HP cost")
+	assert_eq(_count(game, 0, KIND.GARBAGE), 1)
+	assert_eq(game.players[0].ready_infrastructure().size(), 11, "one energy paid for the eat")
 
 
 func test_the_raccoon_makes_eating_garbage_free() -> void:

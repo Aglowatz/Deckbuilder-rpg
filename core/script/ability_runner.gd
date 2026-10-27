@@ -11,7 +11,7 @@ const MAX_DEPTH: int = 14
 const VALUE_NAMES: Array[String] = [
 	"atk", "def", "cost", "count", "mul", "plus", "sub", "min", "max", "ge", "gt", "le", "lt", "eq", "distinct_atk", "distinct_paths",
 	"hp", "buffs", "exists", "none", "all", "rand", "pick", "top_atk", "ctl", "has_buff", "host_is", "cmp", "hand", "deck_size",
-	"infra", "played",
+	"infra", "played", "on_path",
 ]
 
 
@@ -259,6 +259,13 @@ static func _call(fx: CardAbility.Fx, ctx: AbilityContext) -> Variant:
 				return 0
 			var letter: Affinity.Type = Affinity.from_symbol(str(fx.args[0]))
 			return 1 if ctx.host.data.is_on_path(letter) else 0
+		"on_path":
+			# Cards Oct 27: `on_path(t,G)` - the selected card belongs to that Path (the opposing-Path hate cards' upgrade).
+			var picked: Array[int] = refs(fx.args[0], ctx)
+			if picked.is_empty():
+				return 0
+			var chosen: CardInstance = state.find_card(picked[0])
+			return 1 if chosen != null and chosen.data.is_on_path(Affinity.from_symbol(str(fx.args[1]))) else 0
 		"hand":
 			return state.players[ctx.controller].hand.size()
 		"deck_size":

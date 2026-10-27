@@ -1579,6 +1579,10 @@ func _resolve_event_ability(card: CardInstance, ability: CardAbility, data: Dict
 			return
 	elif player.find_field(card.uid) == null:
 		return
+	# Cards Oct 27: "Do this only once per turn" on a triggered ability (Bulking Program): the first matching event of a turn fires it.
+	var ability_index: int = card.data.abilities().find(ability)
+	if ability.once and card.used_abilities.has(ability_index):
+		return
 	var ctx: AbilityContext = AbilityContext.make(self, ability, card, card.owner)
 	ctx.trigger = data.get("card") as CardInstance
 	ctx.data = data
@@ -1586,6 +1590,8 @@ func _resolve_event_ability(card: CardInstance, ability: CardAbility, data: Dict
 	if not AbilityRunner.condition_holds_for(ability, ctx):
 		return
 	TargetResolver.auto_targets(ctx)
+	if ability.once:
+		card.used_abilities.append(ability_index)
 	if is_trap:
 		player.traps.erase(card)
 		card.face_down = false

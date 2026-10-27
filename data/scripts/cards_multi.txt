@@ -22,7 +22,7 @@ attach
 host => stat(3,1); kw(bulldoze)
 when(attached_dmg_opp) => create(ingredient); create(garbage); create(iron)
 
-== GRB-07 @613e41fbc56e  # Harvest Festival
+== GRB-07 @ab426460b37d  # Harvest Festival
 static => flag(global_double_resources)
 
 == GRB-08 @b30c35039ac5  # Big Bertha, Blue Ribbon Behemoth
@@ -52,7 +52,7 @@ trap(unit_dies:mine) => delay_start_next_turn({reinstate(trig)}); create(ingredi
 == GRN-07 @203f4995f02f  # Rot and Rebirth
 play => destroy(all(unit)); reinstate_destroyed(2)
 
-== GRN-08 @7260b2aa4b55  # Something out of nothing
+== GRN-08 @7260b2aa4b55  # Something Out of Nothing
 play => copy_all_tokens(); morph_tokens()
 
 == GBN-01 @21a32bdfc957  # Running Tab

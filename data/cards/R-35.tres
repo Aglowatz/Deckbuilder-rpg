@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7eqe6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_w3pg0"]
+
+[resource]
+script = ExtResource("2_w3pg0")
+id = "R-35"
+display_name = "Sewer Choir"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+attack = 1
+rules_text = "When this unit enters, create two 1/1 Rat tokens."
+flavor_text = "They only know one song. It is about cheese."
+paths_all = Array[int]([3])
+script_text = "enter => create(T-02,2)"
+rules_hash = "87cb12660aa6"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Mossy greens, rust orange, junk piles with wildflowers, golden-hour light. Three rats in bottle-cap helmets standing on a sewer grate singing with eyes shut and tails entwined, a conductor rat waving a toothpick baton, golden evening light through the bars."

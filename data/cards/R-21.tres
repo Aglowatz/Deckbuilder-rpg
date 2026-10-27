@@ -6,15 +6,15 @@
 [resource]
 script = ExtResource("2_7utsj")
 id = "R-21"
-display_name = "Let them eat cake"
+display_name = "Let Them Eat Cake"
 type = 2
 color = 3
-generic_cost = 1
+generic_cost = 2
 colored_pips = Array[int]([3])
 defense = 0
-rules_text = "Destroy target Gourmand unit."
+rules_text = "Deal 3 damage to target unit. If it is a Gourmand unit, destroy it instead and create a Garbage."
 flavor_text = "The Gourmands always said it was to die for."
 paths_all = Array[int]([3])
-script_text = "play t=unit.path=G => destroy(t)"
-rules_hash = "76e31693e3e7"
+script_text = "play t=unit => if(on_path(t,G),{destroy(t); create(garbage)},{damage(t,3)})"
+rules_hash = "28927b7ba44d"
 image_description = "Raccoons, rats, and other scrappy animals gleefully devouring a towering frosted cake golem, crumbs and icing flying everywhere."

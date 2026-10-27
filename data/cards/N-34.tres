@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_i3b0g"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_nbqcu"]
+
+[resource]
+script = ExtResource("2_nbqcu")
+id = "N-34"
+display_name = "Final Notice"
+type = 2
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 4])
+defense = 0
+rules_text = "Destroy target unit. Create a Red Tape."
+rarity = 1
+flavor_text = "Third and final. There was no first or second."
+paths_all = Array[int]([4])
+script_text = "play t=unit => destroy(t); create(redtape)"
+rules_hash = "7aeb773603b3"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Cool grays with sickly green highlights, paperwork, filing cabinets, ghostly light. A skeletal clerk in a crooked tie slamming a thick red-stamped envelope onto a desk, the stamp reading as a glowing sickly-green seal (no legible letters), a terrified cartoon unit dissolving into paperwork in the background."

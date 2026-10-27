@@ -12,10 +12,10 @@ color = 1
 color2 = 2
 colored_pips = Array[int]([2, 3, 1])
 defense = 0
-rules_text = "All resources generated for all players are doubled."
+rules_text = "Whenever a player would create one or more resources, they create twice that many instead."
 rarity = 2
 flavor_text = "More of everything. For everyone. Uh oh."
 paths_all = Array[int]([1, 2, 3])
 script_text = "static => flag(global_double_resources)"
-rules_hash = "613e41fbc56e"
+rules_hash = "ab426460b37d"
 image_description = "A massive harvest festival bonfire surrounded by mountains of food, junk, and iron weights, everyone dancing as resources pour from the sky."

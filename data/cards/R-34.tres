@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_16slg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_p4xx7"]
+
+[resource]
+script = ExtResource("2_p4xx7")
+id = "R-34"
+display_name = "Curb Alert"
+type = 2
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Return target unit card from your Refuse Pile to your hand. Create a Garbage."
+flavor_text = "FREE. Slightly haunted. Must collect today."
+paths_all = Array[int]([3])
+script_text = "play t=refuse.unit.mine => to_hand(t); create(garbage)"
+rules_hash = "773ab01d0084"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Mossy greens, rust orange, junk piles with wildflowers, golden-hour light. A battered armchair on a sunlit curb with a hand-painted sign shape (no letters) propped on it, a raccoon druid gleefully dragging it home on a wagon, wildflowers growing through the cushions."

@@ -20,7 +20,7 @@ func test_the_sheets_are_fully_scripted_with_only_supported_mechanics() -> void:
 
 
 func test_counts_and_ids() -> void:
-	assert_eq(CardSet.all_cards().size(), 312, "312 cards in the sheet")
+	assert_eq(CardSet.all_cards().size(), 326, "312 cards in the sheet + 14 new (Cards Oct 27)")
 	assert_eq(CardSet.all_tokens().size(), 29, "25 sheet tokens (T-24 and T-25 since Oct 21) + 3 Design-Guidance-only resources")
 	var seen: Dictionary = {}
 	for card: CardData in CardSet.all_cards():
@@ -33,7 +33,7 @@ func test_cost_parsing_handles_every_format_in_the_sheet() -> void:
 	var cases: Dictionary = {
 		"R-01": [0, [Affinity.Type.REFUSEMANCER]],
 		"R-03": [3, [Affinity.Type.REFUSEMANCER]],
-		"R-21": [1, [Affinity.Type.REFUSEMANCER]],
+		"R-21": [2, [Affinity.Type.REFUSEMANCER]],
 		"R-29": [3, [Affinity.Type.REFUSEMANCER, Affinity.Type.REFUSEMANCER, Affinity.Type.REFUSEMANCER]],
 		"B-32": [5, [Affinity.Type.BEEFCAKE, Affinity.Type.BEEFCAKE]],
 		"GRN-08": [0, [Affinity.Type.GOURMAND, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT, Affinity.Type.NECROCRAT]],

@@ -12,6 +12,8 @@ extends RefCounted
 ## Pure data: the result is a `VendorData` whose locked entries show as "???" teasers on the shelf.
 
 const SABLE_COLORLESS_COMMONS: int = 5
+## Cards Oct 27: Commons of the player's own Path on Sable's sample (the other Paths get one each).
+const OWN_PATH_COMMONS: int = 2
 const SABLE_GROWTH_LEVEL: int = 5
 const SABLE_GROWTH_ZONES: int = 1
 ## A zone shelf's Uncommons on the first visit.
@@ -22,7 +24,7 @@ const SABLE_RARE_BATCH: int = 2
 
 ## Sable's sample for `state`, behind `gate` (the Forgotten Cave cleared). Deterministic for a given level and zone count, so the
 ## shelf only changes (rotates) when the player levels up or frees a zone.
-static func sable_sample(content: ContentSet, state: UnlockState, gate: Condition, rare_levels: Array[int] = ProgressionTable.BONUS_VENDOR_UNLOCK_LEVELS) -> VendorData:
+static func sable_sample(content: ContentSet, state: UnlockState, gate: Condition, rare_levels: Array[int] = ProgressionTable.BONUS_VENDOR_UNLOCK_LEVELS, own_path: Affinity.Type = Affinity.Type.NEUTRAL) -> VendorData:
 	var data: VendorData = VendorData.new()
 	data.vendor_name = "Sable's Card Stall"
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -36,8 +38,9 @@ static func sable_sample(content: ContentSet, state: UnlockState, gate: Conditio
 		data.add(uncommons[0], gate)
 	if uncommons.size() > 1:
 		data.add(uncommons[1], grown)
+	# Cards Oct 27: two Commons of the player's own Path (the card review), one of each other Path.
 	for path: Affinity.Type in Affinity.colored_types():
-		for id: String in _pick(_pool(content, [path], CardEnums.Rarity.COMMON), 1, rng):
+		for id: String in _pick(_pool(content, [path], CardEnums.Rarity.COMMON), OWN_PATH_COMMONS if path == own_path else 1, rng):
 			data.add(id, gate)
 	# The growth step's Path Uncommon: one Path's, which Path turning with the rotation.
 	var paths: Array[Affinity.Type] = Affinity.colored_types()

@@ -9,7 +9,8 @@ id = "B-22"
 display_name = "Alarm-ish Clock"
 type = 5
 color = 1
-generic_cost = 2
+generic_cost = 1
+colored_pips = Array[int]([1])
 defense = 0
 rules_text = "Exhaust, pay 1: attach to target unit you control.
 

@@ -11,9 +11,9 @@ type = 2
 color = 1
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Target unit gains Hustle until end of turn."
+rules_text = "Target unit gets +1/+0 and gains Hustle until end of turn."
 flavor_text = "*cough* *cough*... who's up for a relay race?!"
 paths_all = Array[int]([1])
-script_text = "play t=unit => kw_grant(t,hustle,eot)"
-rules_hash = "d54a27238c8e"
+script_text = "play t=unit => pump(t,1,0,eot); kw_grant(t,hustle,eot)"
+rules_hash = "4942e4e5f8af"
 image_description = "A Beefcake coughing a cloud of bright pre-workout powder while already sprinting, eyes wide, a relay baton in hand."

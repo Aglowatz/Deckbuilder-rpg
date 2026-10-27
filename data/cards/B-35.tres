@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6dt6a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u1c20"]
+
+[resource]
+script = ExtResource("2_u1c20")
+id = "B-35"
+display_name = "Protein Shake"
+type = 2
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Target unit gets +2/+2 until end of turn. Create an Iron."
+flavor_text = "Shake. Chug. Regret nothing."
+paths_all = Array[int]([1])
+script_text = "play t=unit => pump(t,2,2,eot); create(iron)"
+rules_hash = "0df62ad5adb1"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Sunny gold and warm red palette, gym and mill motifs, dynamic action poses. A gleaming shaker bottle the size of a barrel being chugged by a flexing gym-goer, chocolate shake splashing in a heroic arc, veins glowing gold, a dumbbell rack behind."

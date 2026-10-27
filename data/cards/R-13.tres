@@ -12,9 +12,9 @@ color = 3
 generic_cost = 2
 colored_pips = Array[int]([3])
 defense = 0
-rules_text = "When an Infrastructure enters under your opponent's control, if they control more Infrastructure than you, search your deck for two Infrastructure and put them onto the field."
+rules_text = "When an Infrastructure enters under your opponent's control, search your deck for an Infrastructure and put it onto the field."
 flavor_text = "Possession is nine-tenths of the landfill."
 paths_all = Array[int]([3])
-script_text = "trap(infra_enters:opp) ? count(infra.opp)>count(infra.mine) => search(infra,2,field)"
-rules_hash = "122531f1e6d8"
+script_text = "trap(infra_enters:opp) => search(infra,1,field)"
+rules_hash = "dd85607d7bf4"
 image_description = "Two raccoons in tiny hard hats hammering a crooked flag with a paw-print emblem into a freshly claimed patch of land beside a rusty shack."

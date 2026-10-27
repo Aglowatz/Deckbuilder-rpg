@@ -130,13 +130,13 @@ act once | use(ingredient) => create(iron)
 == GB-06 @f7e609aa350c  # The Gainz Kitchen
 when(golem_created:mine) => pump(trig,1,0,perm); kw_grant(trig,hustle,perm)
 
-== GB-07 @9cdb737ac0a4  # Bulking Program
-sot t=unit.mine => buff(t,1)
+== GB-07 @d6ff826ff6a8  # Bulking Program
+when(resource_used:mine:ingredient) once => buff(pick(unit.mine),1)
 
 == GB-08 @f5f96b44e0a4  # Shaker Bottle
 act t=unit | destroy_self => pump(t,2,2,eot); create(ingredient)
 
-== GB-09 @694c15d546fe  # Recipe for disaster
+== GB-09 @694c15d546fe  # Recipe for Disaster
 act ts=unit*4 | use(ingredient,2), destroy_self => damage_divided(ts,4)
 
 == GB-10 @74165f67cf35  # Meat Tenderizer
@@ -218,9 +218,9 @@ die => to_hand(self)
 aura(unit.mine.tok:T-02) => kw(toxic)
 act t=unit | destroy(unit.mine.tok:T-02,5) => destroy(t); lose(opp,5)
 
-== NB-01 @462951fc0abd  # Shredded Spectre
-act | use(redtape,3) => kw_grant(self,elusive,eot)
-act | use(iron,3) => pump(self,1,0,eot)
+== NB-01 @79d8f3fd6ab2  # Shredded Spectre
+when(resource_used:mine:redtape) => pump(self,1,0,eot); kw_grant(self,elusive,eot)
+when(resource_used:mine:iron) => pump(self,1,0,eot); kw_grant(self,elusive,eot)
 
 == NB-02 @fd72638ce6a8  # Un-Deadlifter
 die => create(iron); create(redtape)
@@ -228,7 +228,7 @@ die => create(iron); create(redtape)
 == NB-03 @5096a75b72de  # Vigor Mortis
 play t=refuse.unit.mine => reinstate(t); kw_grant(last,hustle,eot)
 
-== NB-04 @221cee3b2e0b  # Dead weight
+== NB-04 @221cee3b2e0b  # Dead Weight
 playcost | destroy(unit.mine)
 play t=unit|opp => damage(t,$paid_atk)
 
@@ -259,7 +259,7 @@ trap(unit_dies:mine) => lose(opp,atk(trig))
 == NB-12 @b2e17fb2c697  # Hostile Takeover
 play => steal_all(resource.opp)
 
-== NB-13 @2e387ae0c867  # Jello Weights
+== NB-13 @985da0d9547d  # Wobble Weights
 attach | pay(1)
 host ? host_is(N) => stat(5,5)
 aura(unit.mine.path=B) ? host_is(B) => stat(1,2)
@@ -276,6 +276,10 @@ when(unit_dies:mine:other) t=unit.mine => buff(t,2)
 kw overtime
 static => flag(iron_plus_2); flag(red_tape_minus_2)
 sot => create(iron); create(redtape)
+
+== NB-17 @7cb2b3a7af6c  # Iron Filing Clerk
+when(resource_used:mine:iron) => create(redtape)
+when(resource_used:mine:redtape) => create(iron)
 
 == BR-01 @efb5c200474a  # Gym Rat
 act | exhaust, use(garbage) => create(iron)
@@ -295,9 +299,10 @@ act | eat => pump(host,2,2,eot)
 == BR-05 @53ae6bb2f560  # Rusty Dumbbell
 act t=unit | destroy_self => damage(t,2); create(garbage)
 
-== BR-06 @3c6596de85fc  # Hamster Ball
+== BR-06 @a445808ee4d3  # Hamster Ball
 attach
 host => stat(1,1); kw(bulldoze)
+when(attached_dmg_opp) => create(garbage)
 
 == BR-07 @72ed0fc624a0  # Wrestling Ring Ambush
 trap(attacks:opp) => pump(top_atk(unit.mine),2,0,eot); brawl(top_atk(unit.mine),trig)

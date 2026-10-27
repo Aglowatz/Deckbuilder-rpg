@@ -105,6 +105,10 @@ sot => damage(rand(unit),2)
 == C-34 @a5ba256d3c63  # The Harmony Engine
 enter => create(iron); create(redtape); create(ingredient); create(garbage)
 
+== C-35 @db553150fcc0  # Hand-Me-Down Shield
+attach
+host => stat(0,2)
+
 == INF-01 @e9828fe3401b  # Hamster Wheel Power Plant
 produce B
 act | overexert => add(B,B)

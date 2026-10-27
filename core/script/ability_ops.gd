@@ -4,6 +4,8 @@ extends RefCounted
 ## whether it did something (for `ifdid`). Operations never touch the UI; they call the rules primitives on GameState.
 
 const PERMANENT: String = "perm"
+## `pump(sel,a,d,next)`: a lingering change that ends at the start of the controller's next turn (like Red Tape).
+const UNTIL_NEXT_TURN: String = "next"
 
 ## Every effect op a card script may use (the importer reports anything else as an unsupported mechanic). Keep in sync with `execute`.
 const OP_NAMES: Array[String] = [
@@ -125,9 +127,14 @@ static func execute(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 			var pumped: bool = false
 			var attack_delta: int = AbilityRunner.eval_int(fx.args[1], ctx)
 			var defense_delta: int = AbilityRunner.eval_int(fx.args[2], ctx)
-			var until_eot: bool = not (fx.args.size() > 3 and str(fx.args[3]) == PERMANENT)
+			var duration: String = str(fx.args[3]) if fx.args.size() > 3 else "eot"
+			var until_eot: bool = duration != PERMANENT
 			for card: CardInstance in _cards(fx.args[0], ctx):
-				state.change_stats(card, attack_delta, defense_delta, until_eot)
+				if duration == UNTIL_NEXT_TURN:
+					# Cards Oct 27: "until the start of your next turn" - the Red Tape's lingering change (Compliance Review).
+					state.change_stats_until_turn_of(card, attack_delta, defense_delta, ctx.controller)
+				else:
+					state.change_stats(card, attack_delta, defense_delta, until_eot)
 				pumped = true
 			return pumped
 		"pump_kill":

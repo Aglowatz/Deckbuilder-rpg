@@ -179,7 +179,7 @@ func test_garbage_pit_destroys_an_entering_unit_for_garbage_equal_to_its_defense
 	var big: CardInstance = GameFactory.add_to_hand(game, 1, CardSet.card("C-09"))
 	assert_true(game.play_card(1, big.uid))
 	assert_false(game.players[1].field.has(big), "destroyed")
-	assert_eq(_count(game, 0, KIND.GARBAGE), 5, "Old Kingdom Automaton has defense 5")
+	assert_eq(_count(game, 0, KIND.GARBAGE), 6, "Old Kingdom Automaton has defense 6 (Cards Oct 27)")
 	assert_true(_refuse_ids(game, 1).has("C-09"))
 
 
@@ -362,17 +362,19 @@ func test_shred_removes_a_card_from_the_game() -> void:
 	assert_eq(game.players[0].hand.size(), hand_before + 1, "and draw a card")
 
 
-func test_shred_can_remove_resources() -> void:
+func test_push_broom_destroys_two_resources_when_its_unit_attacks_never_contracts() -> void:
+	# Cards Oct 27: the Broom is an attached Tool now ("destroy up to two target resources your opponent controls").
 	var game: GameState = _game()
+	_energy(game)
 	_give(game, 1, KIND.GARBAGE, 2)
 	_give(game, 1, KIND.IRON, 1)
 	_give(game, 1, KIND.CONTRACT, 1)
 	var broom: CardInstance = _field(game, 0, "N-10")
 	var unit: CardInstance = _unit(game, 0, 2, 2)
+	assert_true(_activate(game, broom, 0, [unit.uid] as Array[int]), "attach")
 	game.advance_phase()
 	game.declare_attackers([unit.uid] as Array[int])
-	assert_eq(_count(game, 1, KIND.GARBAGE), 0, "Push Broom of Undeath shreds Garbage, Iron and Ingredients")
-	assert_eq(_count(game, 1, KIND.IRON), 0)
+	assert_eq(_count(game, 1, KIND.GARBAGE) + _count(game, 1, KIND.IRON), 1, "two of three resources destroyed")
 	assert_eq(_count(game, 1, KIND.CONTRACT), 1, "but not Contracts")
 	assert_not_null(broom)
 

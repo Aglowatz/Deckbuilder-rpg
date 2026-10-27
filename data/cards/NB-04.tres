@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_4fbti")
 id = "NB-04"
-display_name = "Dead weight"
+display_name = "Dead Weight"
 type = 2
 color = 1
 color2 = 4

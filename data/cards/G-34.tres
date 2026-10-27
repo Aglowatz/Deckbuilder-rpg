@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_pjdke"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1itd6"]
+
+[resource]
+script = ExtResource("2_1itd6")
+id = "G-34"
+display_name = "Amuse-Bouche"
+type = 2
+color = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Create an Ingredient. Peek 1, then draw a card."
+flavor_text = "One bite. Zero regrets. Mild confusion."
+paths_all = Array[int]([2])
+script_text = "play => create(ingredient); peek(1); draw(1)"
+rules_hash = "2aef0b446a46"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Warm cream, copper and pastry tones, kitchen steam, polished cookware. A single tiny perfect bite on a silver spoon held up by a proud chef in a tall toque, steam curling into a question mark, copper pans gleaming behind, pastel kitchen light."

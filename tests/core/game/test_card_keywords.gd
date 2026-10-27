@@ -198,11 +198,16 @@ func test_path_tagging_multi_path_cards_count_as_each_path() -> void:
 	var gourmand_unit: CardInstance = _field(game, 1, "G-01")
 	var dual_unit: CardInstance = _field(game, 1, "GR-01")
 	var necro_unit: CardInstance = _field(game, 1, "N-01")
+	# Cards Oct 27: Let Them Eat Cake targets any unit now (3 damage; a Gourmand unit is destroyed instead): the Path check is the
+	# `on_path` value, which sees a Gourmand/Refusemancer unit as a Gourmand unit.
 	var cake: CardInstance = GameFactory.add_to_hand(game, 0, CardSet.card("R-21"))
 	var options: Array[int] = game.legal_play_targets(0, cake.uid, 0)
 	assert_true(options.has(gourmand_unit.uid))
 	assert_true(options.has(dual_unit.uid), "a Gourmand/Refusemancer unit is a Gourmand unit")
-	assert_false(options.has(necro_unit.uid))
+	assert_true(options.has(necro_unit.uid), "any unit can be hit for 3")
+	assert_true(game.play_card(0, cake.uid, dual_unit.uid))
+	assert_false(game.players[1].field.has(dual_unit), "a Gourmand/Refusemancer unit is a Gourmand unit: destroyed")
+	assert_eq(game.players[0].count_resource(ResourceKind.Kind.GARBAGE), 1)
 	assert_true(CardSet.card("GRB-01").is_on_path(Affinity.Type.BEEFCAKE))
 	assert_eq(CardSet.card("P4-01").paths().size(), 4)
 	assert_eq(CardSet.card("GN-01").paths().size(), 2, "paths come from the sheet section, even if the cost has one pip")

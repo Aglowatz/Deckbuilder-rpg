@@ -118,12 +118,14 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 	match enemy_name:
 		# Rebalance Part E (Oct 18): the Path starting decks have no fliers, so the cave's decks carry few walls - bodies a 1/2 or
 		# a 2/2 can trade with - and the Warden keeps one real blocker (Tavern Regular) instead of three.
+		# Cards Oct 27: Cannon Fodder is a 2/1 now (the card review), so each cave deck carries one Fodder fewer and one more basic (the
+		# cave had dropped to B 79 / R 77 over two seeds with the 2/1s; target 80%+ for every Path).
 		"Cave Scavenger":
-			return {"BAS-G": 18, "C-01": 4, "C-02": 2, "C-04": 2}
+			return {"BAS-G": 19, "C-01": 3, "C-02": 2, "C-04": 2}
 		"Hollow Stalker":
-			return {"BAS-R": 12, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
+			return {"BAS-R": 13, "BAS-G": 8, "C-01": 2, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
 		"Hollow Warden":
-			return {"BAS-G": 14, "BAS-R": 10, "C-01": 2, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1}  # Overnight Oct 18 cycle 7: no Desperate Measures, one Curbside Rat fewer, two more basics (run clears were 76-82%)
+			return {"BAS-G": 15, "BAS-R": 10, "C-01": 1, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1}  # Overnight Oct 18 cycle 7: no Desperate Measures, one Curbside Rat fewer, two more basics (run clears were 76-82%)
 	return {}
 
 

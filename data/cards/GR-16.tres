@@ -17,7 +17,7 @@ rules_text = "Rat tokens you control get +1/+1.
 
 Exhaust, destroy two Rat tokens you control, use two Ingredients: create a 6/6 Chef's Masterpiece Golem token with Nourish."
 rarity = 3
-flavor_text = "Anyone can cook. Even the ones you chase out of the kitchen."
+flavor_text = "Five stars. Zero health inspections."
 paths_all = Array[int]([2, 3])
 script_text = "aura(unit.mine.tok:T-02) => stat(1,1)
 act | exhaust, destroy(unit.mine.tok:T-02,2), use(ingredient,2) => create(T-18)"

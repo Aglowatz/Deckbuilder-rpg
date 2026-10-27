@@ -188,3 +188,12 @@ the Beefcake mirror), and the per-encounter targets of Part E are what the playe
 - **Gourmand** (Part 2): - Stock The Pantry, - Sourdough Sentry, + Sous Chef (3rd), + Soup Kitchen Volunteer (3rd).
 - Cave runs (100 per Path on two seeds): Beefcake ~93-95, Gourmand ~87-90, Refusemancer ~85-87, Necrocrat ~87 (was ~79). Details in
   balance_log.md.
+
+
+## Cards Oct 27: one Colorless swap per starter
+
+The card review's new Commons went in, one Colorless card out, so the tutorial's "make / spend your Resource" prompts have one more card
+of the Path's own verb to point at: Beefcake a Tripwire -> **Protein Shake** (B-35), Necrocrat an Ambush Party -> **Pending Approval** (N-35),
+Gourmand a Tripwire -> **Amuse-Bouche** (G-34), Refusemancer an Ambush Party -> **Curb Alert** (R-34). Whole cave cleared (25 games per
+Path on seeds 7000 / 8100, after the cave foes lost one Cannon Fodder each for its new 2/1 body): Beefcake 88 / 92, Necrocrat 96 / 92,
+Gourmand 92 / 88, Refusemancer 78 / 92 (`docs/design/balance_log.md`, "Cards Oct 27, Part 1").

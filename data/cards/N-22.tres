@@ -14,7 +14,7 @@ colored_pips = Array[int]([4])
 defense = 0
 rules_text = "Target unit you control can't be targeted and can't be damaged until the start of your next turn."
 rarity = 1
-flavor_text = "Feed up with Kim and Sam's repeated PDA, Dwayne requested a remote work arrangement"
+flavor_text = "Remote work. Very remote."
 paths_all = Array[int]([4])
 script_text = "play t=unit.mine => protect(t,until_next_turn)"
 rules_hash = "d0e648c5139e"

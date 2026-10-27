@@ -65,8 +65,8 @@ when(attached_attacks) t=tool => may({destroy(t)})
 == B-19 @5b9dec23e035  # Counterweight
 trap(attacks:opp) => damage(trig,3)
 
-== B-20 @d54a27238c8e  # Dry Scoop
-play t=unit => kw_grant(t,hustle,eot)
+== B-20 @4942e4e5f8af  # Dry Scoop
+play t=unit => pump(t,1,0,eot); kw_grant(t,hustle,eot)
 
 == B-21 @f034e76489ca  # Flex on 'Em
 play ? exists(unit.mine.atk>=5) => damage(opp,4)
@@ -118,3 +118,12 @@ costmod ? distinct_atk(unit.mine)>=5 => cost_set(0,B)
 attach
 sot => buff(host,1); kw_grant(host,hustle,perm); kw_grant(host,overtime,perm)
 when(attached_dies) => send_back(self)
+
+== B-34 @ca21311c71bc  # Hammer Thrower
+act t=unit|opp | overexert => damage(t,atk(self),self)
+
+== B-35 @0df62ad5adb1  # Protein Shake
+play t=unit => pump(t,2,2,eot); create(iron)
+
+== B-36 @df70cb539fd7  # Desk Flip
+play t=unit => if(on_path(t,N),{damage(t,4)},{damage(t,2)})

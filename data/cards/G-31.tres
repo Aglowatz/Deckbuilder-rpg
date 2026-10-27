@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_378xr")
 id = "G-31"
-display_name = "Recipe for wonder"
+display_name = "Recipe for Wonder"
 type = 5
 color = 2
 colored_pips = Array[int]([2, 2])

@@ -13,7 +13,7 @@ generic_cost = 1
 colored_pips = Array[int]([4])
 defense = 0
 rules_text = "When an opposing unit enters, exhaust it. It doesn't refresh during its controller's next turn."
-flavor_text = "This is what we use to write the fine print"
+flavor_text = "This is what we use to write the fine print."
 paths_all = Array[int]([4])
 script_text = "trap(unit_enters:opp) => exhaust(trig); no_refresh(trig)"
 rules_hash = "658dbb0dd461"

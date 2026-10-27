@@ -9,7 +9,6 @@ id = "B-02"
 display_name = "Bronzer"
 type = 5
 color = 1
-generic_cost = 1
 colored_pips = Array[int]([1])
 defense = 0
 rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+0."

@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource("2_64ldi")
 id = "GB-09"
-display_name = "Recipe for disaster"
+display_name = "Recipe for Disaster"
 type = 5
 color = 1
 color2 = 2

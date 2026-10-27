@@ -29,8 +29,10 @@ host => stat(1,0); kw(toxic)
 == N-09 @186406e84ad7  # Red Tape Dispenser
 act | exhaust, pay(1) => create(redtape)
 
-== N-10 @80658fae6236  # Push Broom of Undeath
-when(attacks:any) => may({shred(all(resource.opp.kind=garbage|iron|ingredient))})
+== N-10 @a62369035fda  # Push Broom of Undeath
+attach
+host => stat(0,1)
+when(attached_attacks) => destroy(pick(resource.opp)); destroy(pick(resource.opp))
 
 == N-11 @2102315dacea  # Late Fee
 trap(plays:opp:cost>=4) => lose(opp,2)
@@ -109,3 +111,15 @@ play t=unit => steal(t,perm); create(contract,3)
 == N-33 @0a64f70546d0  # Mortimer Grimsby, CE-No
 when(unit_dies:mine:other) => create(redtape); lose(opp,1)
 act t=refuse.unit.mine once | use(redtape,3) => reinstate(t)
+
+== N-34 @7aeb773603b3  # Final Notice
+play t=unit => destroy(t); create(redtape)
+
+== N-35 @bd057bf785db  # Pending Approval
+play => processing(1,{create(T-10,2); create(redtape)})
+
+== N-36 @69fa6a5d4b42  # Service Charge
+trap(plays:opp) ? played(opp)==2 => lose(opp,2); create(redtape)
+
+== N-37 @ca11d55a42e7  # Compliance Review
+play t=unit => if(on_path(t,B),{destroy(t)},{pump(t,-2,0,next)})

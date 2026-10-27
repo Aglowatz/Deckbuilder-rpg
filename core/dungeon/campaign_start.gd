@@ -17,29 +17,33 @@ const STARTING_DECKS: Dictionary = {
 	# the Mill Worker spend and make it, Leg Day Survivors and Flex on 'Em close the race; Village Militia, Traveling Brawlers, Tavern
 	# Regulars and a Traveler's Sword are the honest bodies around them, Rally the Village and Tripwire the neutral tricks.
 	Affinity.Type.BEEFCAKE: {
-		"B-05": 3, "B-09": 2, "B-12": 2, "B-03": 2, "B-21": 1, "B-24": 1,
-		"C-02": 3, "C-06": 2, "C-04": 2, "C-08": 2, "C-11": 2, "C-13": 2, "C-16": 2,
+		# Cards Oct 27: one Tripwire gave way to Protein Shake (the turn-two pump that leaves an Iron: the tutorial's "spend your Resource" card).
+		"B-05": 3, "B-09": 2, "B-12": 2, "B-03": 2, "B-21": 1, "B-24": 1, "B-35": 1,
+		"C-02": 3, "C-06": 2, "C-04": 2, "C-08": 2, "C-11": 2, "C-13": 2, "C-16": 1,
 	},
 	# Necrocrat - Red Tape and small tokens (Oct 22: 11 + 15): Clerks and Interns make Red Tape, Body-builders and Middle Management turn
 	# it into bodies, Pink Slips clear a blocker; Watchtower Archers, Shield Bearers and Wandering Medics hold the ground, Village Militia
 	# are the cheap bodies, Courier Pigeons and Second Wind keep the cards coming, Ambush Party punishes attackers.
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-15": 2, "N-23": 1,
-		"C-03": 3, "C-05": 2, "C-07": 2, "C-04": 2, "C-14": 2, "C-02": 2, "C-17": 2,
+		# Cards Oct 27: one Ambush Party gave way to Pending Approval (Processing 1: two Zombie Temps and a Red Tape - the Path's "slow but inevitable" lesson).
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-15": 2, "N-23": 1, "N-35": 1,
+		"C-03": 3, "C-05": 2, "C-07": 2, "C-04": 2, "C-14": 2, "C-02": 2, "C-17": 1,
 	},
 	# Gourmand - Ingredients into Golems (Oct 22: 12 + 14): Line Cooks and En Garde-Mangers make Ingredients, the Meatloaf Mold and the
 	# Pastry Artificer cook them into Golems, Soup Kitchen Volunteers hold the early turns; Archers, Shield Bearers, Militia and Pigeons
 	# are the sturdy Colorless line, Second Wind and Tripwire the neutral tricks. (The Herb Garden gave way to Volunteers: the sim.)
 	Affinity.Type.GOURMAND: {
-		"G-01": 3, "G-12": 2, "G-08": 2, "G-23": 2, "G-06": 3,
-		"C-05": 2, "C-03": 3, "C-02": 3, "C-04": 2, "C-14": 2, "C-16": 2,
+		# Cards Oct 27: one Tripwire gave way to Amuse-Bouche (a one-energy Ingredient and a card for the slow start).
+		"G-01": 3, "G-12": 2, "G-08": 2, "G-23": 2, "G-06": 3, "G-34": 1,
+		"C-05": 2, "C-03": 3, "C-02": 3, "C-04": 2, "C-14": 2, "C-16": 1,
 	},
 	# Refusemancer - Garbage effects (Oct 22: 11 + 15): Rats and Divers make Garbage, Possums and the Acid Vomitor eat it, a Rusty Spring
 	# Trap punishes an attacker; Militia, Archers, Brawlers and Old Kingdom Automatons are the bodies, Traveler Swords the pump,
 	# Ambush Party and Desperate Measures the neutral answers.
 	Affinity.Type.REFUSEMANCER: {
-		"R-06": 3, "R-08": 3, "R-02": 2, "R-22": 2, "R-14": 1,
-		"C-02": 3, "C-03": 2, "C-06": 2, "C-09": 2, "C-11": 2, "C-17": 2, "C-15": 2,
+		# Cards Oct 27: one Ambush Party gave way to Curb Alert (the Common Regrow: a Rat or Possum back from the Refuse Pile, plus a Garbage).
+		"R-06": 3, "R-08": 3, "R-02": 2, "R-22": 2, "R-14": 1, "R-34": 1,
+		"C-02": 3, "C-03": 2, "C-06": 2, "C-09": 2, "C-11": 2, "C-17": 1, "C-15": 2,
 	},
 }
 

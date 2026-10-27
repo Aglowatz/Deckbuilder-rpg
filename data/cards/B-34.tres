@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8la87"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_o5hpt"]
+
+[resource]
+script = ExtResource("2_o5hpt")
+id = "B-34"
+display_name = "Hammer Thrower"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+attack = 3
+defense = 3
+rules_text = "Overexert: this unit deals damage equal to its attack to target unit or opponent."
+flavor_text = "Distance: legendary. Aim: a rumour."
+paths_all = Array[int]([1])
+script_text = "act t=unit|opp | overexert => damage(t,atk(self),self)"
+rules_hash = "ca21311c71bc"
+image_description = "Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border. Sunny gold and warm red palette, gym and mill motifs, dynamic action poses. A barrel-chested hammer thrower in a sweat-stained singlet mid-spin, a sledge-sized hammer on a chain blurring in an arc above his head, gravel and chalk dust flying, a tiny terrified gym mascot ducking in the background."
