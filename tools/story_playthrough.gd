@@ -421,6 +421,12 @@ func _dismiss_popups() -> void:
 		# Overnight Oct 17: a zone clear can gain several levels at once - the level-up screen says "Next level" until the last one.
 		if driver.find_button("Continue") != null or driver.find_button("Next level") != null:
 			await driver.tap_key(KEY_ENTER)
+		elif _reward_popup() != null:
+			# Fixes Oct 27 / Cards Oct 27: a card-pick box (the gatekeepers' pick, a boss's) keeps the hero still until answered and no
+			# longer closes on a click beside the cards: choose the first card (1), then Keep (Enter). A box without a pick closes on Enter.
+			await driver.tap_key(KEY_1)
+			await driver.seconds(0.25)
+			await driver.tap_key(KEY_ENTER)
 		elif _slot_choice() != null:
 			# a level-up equipment-slot choice: take the Relic slot (most of the new gear is relics)
 			var choice: EquipmentSlotChoiceScreen = _slot_choice()
@@ -431,6 +437,13 @@ func _dismiss_popups() -> void:
 		else:
 			break
 		await driver.seconds(0.5)
+
+
+func _reward_popup() -> RewardPopup:
+	for node: Node in get_tree().root.find_children("*", "RewardPopup", true, false):
+		if (node as Control).is_visible_in_tree():
+			return node as RewardPopup
+	return null
 
 
 func _slot_choice() -> EquipmentSlotChoiceScreen:
@@ -500,6 +513,12 @@ func _clear_overlays(town: TownScene) -> void:
 			await _dismiss_popups()
 		elif town.dialogue.active:
 			await driver.tap_key(KEY_E)
+		elif not town.find_children("*", "RewardPopup", true, false).is_empty():
+			# Fixes Oct 27 / Cards Oct 27: a card-pick box (the gatekeepers' pick) no longer closes on a click beside the cards and keeps the
+			# hero still until answered: choose the first card (1), then Keep (Enter). A box with no pick closes on Enter too.
+			await driver.tap_key(KEY_1)
+			await driver.seconds(0.2)
+			await driver.tap_key(KEY_ENTER)
 		else:
 			await driver.click(Vector2(960, 540))
 		await driver.seconds(0.35)
