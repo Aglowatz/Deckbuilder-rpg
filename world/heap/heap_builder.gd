@@ -156,7 +156,9 @@ func height_at(pos: Vector3) -> float:
 	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == HeapLayout.Surface.BRIDGE:
 		return 0.0
-	if surface == HeapLayout.Surface.HAZARD and on_grown_bridge(pos):
+	# Fixes Oct 26: the whole grown strip is walked at deck height, banks included (it was the water only: on the banks the hero walked the
+	# ground under the planks and popped up at the water's edge)
+	if (surface == HeapLayout.Surface.HAZARD or surface == HeapLayout.Surface.GROUND) and on_grown_bridge(pos):
 		var bridge: HeapLayout.Bridge = layout.bridge_at(pos.x, pos.z)
 		return bridge.deck_height(bridge.fraction_at(pos.x, pos.z))
 	return layout.ground_height(pos.x, pos.z)
@@ -841,15 +843,20 @@ func _build_bridges() -> void:
 		var d: Vector2 = (bridge.b - bridge.a).normalized()
 		node.position = Vector3(bridge.a.x, bridge.y_a, bridge.a.y)
 		node.rotation.y = atan2(-d.x, -d.y)
+		# Fixes Oct 26: each plank sits where it really is on the arch (its centre, index x 0.9 m from a) and tilts with the deck, so the planks make
+		# one ramp that meets the ground at both banks (they were flat steps placed half a plank ahead: a 0.4 m lip at each end, and on the banks
+		# the deck hung over the path the hero walked under - `height_at` now follows the deck on the whole grown strip).
 		var count: int = node.get_child_count()
+		var span: float = maxf(bridge.length(), 0.001)
 		for index: int in range(count):
 			var segment: Node3D = node.get_child(index) as Node3D
-			var t: float = clampf((float(index) * 0.9 + 0.45) / maxf(bridge.length(), 0.001), 0.0, 1.0)
+			var t: float = clampf(float(index) * 0.9 / span, 0.0, 1.0)
 			segment.position.y = bridge.deck_height(t) - bridge.y_a - HeapLayout.BRIDGE_HEIGHT
+			segment.rotation.x = atan(bridge.deck_slope(t))
 		bridge_nodes[bridge.id] = node
 		bridge_progress[bridge.id] = 0.0
 		_show_growth(node, 0.0)
-		# the abutments stand on both banks whether or not the bridge has grown
+		# the gateway posts stand on both banks whether or not the bridge has grown (Fixes Oct 26: posts and rope only - the plank slab is gone)
 		for end: int in range(2):
 			var abutment: Node3D = HeapTerraces.bridge_abutment()
 			abutment.name = "Abutment_%s_%d" % [bridge.id, end]

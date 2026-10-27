@@ -440,7 +440,7 @@ static func bloom_clumps(clumps: Array) -> Node3D:
 
 
 ## A vine bridge's abutment, standing whether or not the bridge has grown: two mossy posts wrapped in vines either side of the walk with a rope
-## between, a stub of planks and blossom, so an ungrown crossing reads as "a bridge grows here". Local -z is the bridge's direction.
+## between and blossom, so an ungrown crossing reads as "a bridge grows here". Local -z is the bridge's direction.
 static func bridge_abutment() -> Node3D:
 	var mesh: KitMesh = _mesh()
 	for side: float in [-1.0, 1.0]:
@@ -459,5 +459,5 @@ static func bridge_abutment() -> Node3D:
 		if index > 0:
 			mesh.tube("rope", previous, point, 0.035, 4, false)
 		previous = point
-	mesh.box("plank", Vector3(0.0, -0.08, -0.3), Vector3(HeapLayout.BRIDGE_HALF_WIDTH * 2.0 + 0.4, 0.16, 0.9), Basis.IDENTITY, 0.02, 0.92)
+	# Fixes Oct 26: no plank slab here any more (it read as a floating platform with nothing to stand on); the bridge's own planks meet the ground
 	return _finish(mesh, "Abutment")

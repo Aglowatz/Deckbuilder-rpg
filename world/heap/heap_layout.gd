@@ -165,6 +165,10 @@ class Bridge:
 	func deck_height(t: float) -> float:
 		return lerpf(y_a, y_b, t) + rise * sin(PI * t) + HeapLayout.BRIDGE_HEIGHT
 
+	## The deck's rise per metre along the bridge at `t` (Fixes Oct 26: the planks tilt with it).
+	func deck_slope(t: float) -> float:
+		return ((y_b - y_a) + rise * PI * cos(PI * t)) / maxf(length(), 0.001)
+
 
 class Prop:
 	extends RefCounted
@@ -646,7 +650,9 @@ func _anchors() -> void:
 	_at("heal", 39.5, 118.0)
 	_at("wren", 41.0, 124.0)
 	_at("stable_1", 36.0, 127.0)
-	_at("marigold", 57.0, 112.0)
+	# Fixes Oct 26: Brother Bramble greets visitors at the Commons Greenhouse door (his line: "Welcome to the Compost Grange... close the door behind you"),
+	# facing the arrival; he stood at (57, 112) east of the greenhouse. His dam quest is run at the stables, so nothing else needs him there.
+	_at("marigold", GREENHOUSE.x, GREENHOUSE.y + GREENHOUSE_SIZE.z * 0.5 + 2.1)
 	_at("hob", 62.0, 116.0)
 	_at("compost_bin", 58.0, 127.0)
 	_at("trough", 64.0, 129.0)
@@ -965,24 +971,24 @@ func keep_clear_spots() -> Array[Vector3]:
 func _scatter() -> void:
 	var keep_clear: Array[Vector3] = keep_clear_spots()
 	# the valley's side bands (the west band stays north of the gorge's start and south of the ravine, where there is land)
-	_scatter_kind("tree", Rect2(18.5, 102.0, 4.0, 30.0), 5, keep_clear, 1.8, 0.5, 1.0, 1.4)
-	_scatter_kind("tree", Rect2(78.0, 108.0, 3.5, 24.0), 4, keep_clear, 1.8, 0.5, 1.0, 1.4)
+	_scatter_kind("tree", Rect2(18.5, 102.0, 4.0, 30.0), 3, keep_clear, 1.8, 0.5, 1.0, 1.4)
+	_scatter_kind("tree", Rect2(78.0, 108.0, 3.5, 24.0), 2, keep_clear, 1.8, 0.5, 1.0, 1.4)
 	_scatter_kind("tree", Rect2(25.0, 64.0, 3.0, 22.0), 3, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(78.5, 48.0, 3.0, 36.0), 4, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(18.5, 5.0, 10.0, 8.0), 3, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(39.0, 5.0, 24.0, 3.5), 4, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	# along the cliff tops (the terraces' north edges, seen from below as a line of crowns)
-	_scatter_kind("tree", Rect2(26.0, 88.0, 14.0, 2.5), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 88.0, 14.0, 2.5), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(54.0, 88.5, 12.0, 2.5), 4, keep_clear, 1.4, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(26.0, 60.0, 16.0, 2.2), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 60.0, 16.0, 2.2), 4, keep_clear, 1.4, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(54.0, 60.0, 8.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(68.0, 60.0, 10.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(26.0, 36.0, 16.0, 2.2), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 36.0, 16.0, 2.2), 4, keep_clear, 1.4, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(54.0, 36.0, 12.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(20.0, 102.0, 50.0, 1.6), 5, keep_clear, 1.4, 0.5, 0.9, 1.2)
+	_scatter_kind("tree", Rect2(20.0, 102.0, 50.0, 1.6), 3, keep_clear, 1.4, 0.5, 0.9, 1.2)
 	# framing groups: the market's south corners either side of the bridge head, the plaza's shoulders, the fair's back, the stairs' feet, the plateau
-	_grove("tree", Vector2(41.0, 133.5), 3, 2.4, keep_clear)
-	_grove("tree", Vector2(59.5, 134.0), 3, 2.4, keep_clear)
+	_grove("tree", Vector2(41.0, 133.5), 2, 2.4, keep_clear)
+	_grove("tree", Vector2(59.5, 134.0), 2, 2.4, keep_clear)
 	_grove("tree", Vector2(29.0, 100.0), 2, 2.4, keep_clear)
 	_grove("tree", Vector2(52.0, 102.0), 2, 2.2, keep_clear)
 	_grove("tree", Vector2(72.0, 102.0), 3, 2.6, keep_clear)
@@ -1011,6 +1017,7 @@ func _scatter() -> void:
 	_scatter_kind("mushrooms", Rect2(26.0, 40.0, 50.0, 3.0), 6, keep_clear, 1.0, 0.0, 0.9, 1.4)
 	_scatter_kind("mushrooms", Rect2(26.0, 64.0, 50.0, 3.0), 6, keep_clear, 1.0, 0.0, 0.9, 1.4)
 	_mushroom_trees(keep_clear)
+	_drop_lone_trees()
 	_flower_clumps(keep_clear)
 
 
@@ -1042,14 +1049,14 @@ func _mushroom_trees(_scatter_clear: Array[Vector3]) -> void:
 	for spot: Vector3 in LANDMARK_SPOTS:
 		keep_clear.append(Vector3(spot.x, spot.y, spot.z + 1.0))
 	# the bridge head: groups either side of the bridge's foot and along the south rim
-	_grove("mushroom_tree", Vector2(37.0, 131.0), 3, 2.8, keep_clear)
-	_grove("mushroom_tree", Vector2(63.5, 131.5), 3, 2.8, keep_clear)
-	_scatter_kind("mushroom_tree", Rect2(20.0, 124.0, 16.0, 10.0), 5, keep_clear, 1.6, 0.5, 0.9, 1.25)
-	_scatter_kind("mushroom_tree", Rect2(64.0, 124.0, 17.0, 10.0), 5, keep_clear, 1.6, 0.5, 0.9, 1.25)
+	_grove("mushroom_tree", Vector2(37.0, 131.0), 2, 2.8, keep_clear)
+	_grove("mushroom_tree", Vector2(63.5, 131.5), 2, 2.8, keep_clear)
+	_scatter_kind("mushroom_tree", Rect2(20.0, 124.0, 16.0, 10.0), 3, keep_clear, 1.6, 0.5, 0.9, 1.25)
+	_scatter_kind("mushroom_tree", Rect2(64.0, 124.0, 17.0, 10.0), 3, keep_clear, 1.6, 0.5, 0.9, 1.25)
 	# the market's sides and the first terrace's foot
 	_scatter_kind("mushroom_tree", Rect2(18.5, 104.0, 6.0, 20.0), 3, keep_clear, 1.8, 0.5, 0.85, 1.2)
 	_scatter_kind("mushroom_tree", Rect2(76.0, 108.0, 5.5, 16.0), 3, keep_clear, 1.8, 0.5, 0.85, 1.2)
-	_scatter_kind("mushroom_tree", Rect2(22.0, 103.0, 56.0, 2.0), 3, keep_clear, 1.8, 0.5, 0.8, 1.1)
+	_scatter_kind("mushroom_tree", Rect2(22.0, 103.0, 56.0, 2.0), 2, keep_clear, 1.8, 0.5, 0.8, 1.1)
 	# scattered up the tiers, thinning toward the plateau
 	_scatter_kind("mushroom_tree", Rect2(25.0, 66.0, 52.0, 22.0), 4, keep_clear, 2.0, 0.5, 0.8, 1.15)
 	_scatter_kind("mushroom_tree", Rect2(25.0, 42.0, 52.0, 20.0), 3, keep_clear, 2.0, 0.5, 0.8, 1.1)
@@ -1140,9 +1147,72 @@ func _scatter_kind(kind: String, area: Rect2, count: int, keep_clear: Array[Vect
 			continue
 		if not _is_clear(x, z, keep_clear):
 			continue
+		if (kind == "tree" or kind == "mushroom_tree") and blocks_a_view(x, z):
+			continue
 		_prop(kind, x, z, _rng.randf() * 360.0, _rng.randf_range(scale_min, scale_max), radius, _rng.randi() % 4)
 		keep_clear.append(Vector3(x, z, gap + radius))
 		placed += 1
+
+
+## Fixes Oct 26: a grove the view lanes thinned to one tree leaves it standing alone in the open; a tree either frames an edge (the rim, a cliff
+## top, the ravine's lip) or stands with at least two others within 6 m - the rest go.
+func _drop_lone_trees() -> void:
+	var keep: Array[Prop] = []
+	for prop: Prop in props:
+		if prop.kind != "tree" or _tree_frames_something(prop):
+			keep.append(prop)
+	props = keep
+
+
+func _tree_frames_something(prop: Prop) -> bool:
+	if edge_distance(prop.pos.x, prop.pos.z) < 9.0 or absf(prop.pos.z - stream_z(prop.pos.x)) < 9.0:
+		return true
+	for tier: int in [1, 2, 3]:
+		if absf(prop.pos.z - tier_edge_z(tier, prop.pos.x)) < 5.0:
+			return true
+	var near: int = 0
+	for other: Prop in props:
+		if other != prop and other.kind == "tree" and Vector2(prop.pos.x - other.pos.x, prop.pos.z - other.pos.z).length() < 6.0:
+			near += 1
+	return near >= 2
+
+
+## Fixes Oct 26 (fewer trees): the default camera looks north from about 18 m south and 6.6 m up, so a crown standing up to VIEW_DEPTH m south of
+## something (on the camera's side) and within VIEW_HALF of it sideways hides it. No tree may stand there for a route (the hero walking it), an
+## anchor (people, stations, exits), a chest or a sign.
+const VIEW_DEPTH: float = 9.5
+const VIEW_HALF: float = 2.2
+var _view_targets: PackedVector3Array = PackedVector3Array()
+
+
+func blocks_a_view(x: float, z: float) -> bool:
+	if _view_targets.is_empty():
+		_collect_view_targets()
+	for target: Vector3 in _view_targets:
+		var dz: float = z - target.y
+		if dz > 0.0 and dz < VIEW_DEPTH and absf(x - target.x) < target.z:
+			return true
+	return false
+
+
+## (x, z, half width of the view lane): every anchor, chest and sign, and every 1.5 m of every route (its half width wider).
+func _collect_view_targets() -> void:
+	for key: Variant in anchors.keys():
+		var anchor: Vector3 = anchors[key] as Vector3
+		_view_targets.append(Vector3(anchor.x, anchor.z, VIEW_HALF))
+	for chest_id: Variant in chests.keys():
+		var chest: Vector3 = chests[chest_id] as Vector3
+		_view_targets.append(Vector3(chest.x, chest.z, VIEW_HALF))
+	for sign: Sign in signs:
+		_view_targets.append(Vector3(sign.pos.x, sign.pos.z, VIEW_HALF))
+	for path: Dictionary in paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		var half: float = float(path["width"]) * 0.5 + VIEW_HALF * 0.6
+		for i: int in range(line.size() - 1):
+			var steps: int = maxi(1, int(line[i].distance_to(line[i + 1]) / 1.5))
+			for k: int in range(steps + 1):
+				var p: Vector2 = line[i].lerp(line[i + 1], float(k) / float(steps))
+				_view_targets.append(Vector3(p.x, p.y, half))
 
 
 func _is_clear(x: float, z: float, keep_clear: Array[Vector3], path_margin: float = PATH_CLEARANCE) -> bool:

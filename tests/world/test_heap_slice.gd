@@ -169,7 +169,8 @@ func test_the_hub_plaza_is_open_round_the_greenhouse() -> void:
 	assert_false(builder.is_walkable(Vector3(HeapLayout.PLAZA_CENTER.x, 0.0, HeapLayout.PLAZA_CENTER.y), 0.3), "the greenhouse is solid")
 	assert_true(builder.is_walkable(wake, 0.3), "the wake point is open ground")
 	assert_eq(HeapLayout.tier_at(wake.x, wake.z), 0, "the market is the lowest terrace")
-	for key: String in ["heal", "hob", "wren", "marigold", "rift_station", "compost_bin", "stable_1"]:
+	# (Fixes Oct 26: Brother Bramble greets at the greenhouse door inside the plaza instead - test_heap_fixes_oct26.gd)
+	for key: String in ["heal", "hob", "wren", "rift_station", "compost_bin", "stable_1"]:
 		var pos: Vector3 = layout.anchors[key] as Vector3
 		var distance: float = Vector2(pos.x - HeapLayout.PLAZA_CENTER.x, pos.z - HeapLayout.PLAZA_CENTER.y).length()
 		assert_between(distance, HeapLayout.PLAZA_RADIUS - 1.0, 22.0, "%s stands on the plaza's rim (%.1f m)" % [key, distance])
@@ -246,7 +247,7 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 	for spot: Vector3 in HeapLayout.LANDMARK_SPOTS:
 		assert_true(spot in layout.flat_spots, "the ground under (%.1f, %.1f) is flat" % [spot.x, spot.y])
 		for key: Variant in layout.anchors.keys():
-			if str(key) in ["main_dungeon", "mini_dungeon", "hub"]:
+			if str(key) in ["main_dungeon", "mini_dungeon", "hub", "marigold"]:  # marigold: at the greenhouse door by design (Fixes Oct 26)
 				continue
 			var anchor: Vector3 = layout.anchors[key] as Vector3
 			var gap: float = Vector2(spot.x - anchor.x, spot.y - anchor.z).length() - spot.z

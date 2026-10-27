@@ -19,6 +19,10 @@ static var _sun: Color = Color(1.0, 0.92, 0.78)
 static var _ambient: Color = Color(0.55, 0.6, 0.78)
 static var _card_cache: Dictionary = {}
 static var _hero: Vector3 = Vector3(0.0, -1000.0, 0.0)
+## Fixes Oct 26: cards that look the same in every zone as they do at Crosspath's entrance to the Dump - the purple-mushroom trees with the hanging
+## violet vines (DUMP-TREE-TWISTED: the hub's boundary thorns, and in the Dump the route's mushroom trees and the twisted trees). They take the town's
+## sun and ambient and no zone tree tint (the Dump's olive "tree" tint at 0.7 had multiplied their magenta toward brown), and skip `set_light`.
+const CROSSPATH_LOOK_CARDS: Array[String] = ["DUMP-TREE-TWISTED"]
 
 
 static func set_light(sun_color: Color, ambient_color: Color) -> void:
@@ -55,13 +59,16 @@ static func card_material(id: String, still: bool = false) -> ShaderMaterial:
 	var material_value: ShaderMaterial = ShaderMaterial.new()
 	material_value.shader = load(CARD_SHADER) as Shader
 	material_value.set_shader_parameter("card_tex", EnvKit.texture(id))
-	material_value.set_shader_parameter("light_color", _sun)
-	material_value.set_shader_parameter("ambient_color", _ambient)
-	material_value.set_shader_parameter("mood_tint", ZoneStyles.tint("tree"))
+	var crosspath_look: bool = CROSSPATH_LOOK_CARDS.has(id)
+	var town: ZonePreset = StylePresets.get_preset(StylePresets.TOWN) if crosspath_look else null
+	material_value.set_shader_parameter("light_color", town.sun_color if crosspath_look else _sun)
+	material_value.set_shader_parameter("ambient_color", town.ambient_color if crosspath_look else _ambient)
+	material_value.set_shader_parameter("mood_tint", Color.WHITE if crosspath_look else ZoneStyles.tint("tree"))
 	material_value.set_shader_parameter("hero_pos", _hero)
 	if still:
 		material_value.set_shader_parameter("sway", 0.0)
-	_materials.append(material_value)
+	if not crosspath_look:
+		_materials.append(material_value)
 	_card_materials.append(material_value)
 	_card_cache[cache_key] = material_value
 	return material_value
