@@ -1219,7 +1219,10 @@ func _build_barricades() -> void:
 
 
 func _build_signs() -> void:
+	# Fixes Oct 27, Part 3: no sign stands on a path - one that did steps off it to the verge (its "Read the sign" spot follows the layout's sign)
+	var bands: Array = SignPlacement.segments(layout)
 	for sign: HeapLayout.Sign in layout.signs:
+		sign.pos = SignPlacement.off_paths(sign.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		# G-03: no readable text in the world. A board carries one pictogram; the words are read by using the sign (ZoneScene adds a "sign" spot).
 		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
 		var node: Node3D = HeapKitProps.board(size.x, size.y) if sign.style == "sign" else P.sign_post(size.x, size.y, sign.style)

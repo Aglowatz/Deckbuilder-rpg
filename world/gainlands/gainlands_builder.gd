@@ -868,7 +868,10 @@ func _pipe_pole(at: Vector3) -> void:
 
 
 func _build_signs() -> void:
+	# Fixes Oct 27, Part 3: no sign stands on a path - one that did steps off it to the verge (its "Read the sign" spot follows the layout's sign)
+	var bands: Array = SignPlacement.segments(layout)
 	for sign: GainlandsLayout.Sign in layout.signs:
+		sign.pos = SignPlacement.off_paths(sign.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		# G-03: no readable text in the world. A board carries one pictogram (the minimap / icon set vocabulary); the words are read by using the sign (a talk popup).
 		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
 		var node: Node3D = GainlandsProps.sign_post(size.x, size.y, sign.style)

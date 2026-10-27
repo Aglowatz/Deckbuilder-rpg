@@ -922,7 +922,10 @@ func gate_open_position(gate_id: String) -> Vector3:
 
 
 func _build_signs() -> void:
+	# Fixes Oct 27, Part 3: no sign stands on a path - one that did steps off it to the verge (its "Read the sign" spot follows the layout's sign)
+	var bands: Array = SignPlacement.segments(layout)
 	for sign: BuffetLayout.Sign in layout.signs:
+		sign.pos = SignPlacement.off_paths(sign.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		# G-03: no readable text in the world. A board carries one pictogram; the words are read by using the sign (ZoneScene adds a "sign" spot).
 		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
 		var node: Node3D = P.sign_post(size.x, size.y, sign.style)

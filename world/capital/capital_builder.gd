@@ -852,7 +852,15 @@ func _build_signs() -> void:
 	# using the sign (ZoneScene adds a "sign" spot). The art pass: Primm's banners are the kit's white-and-gold banners on gold poles, the
 	# districts' plaques the civic sign sheet's gold-framed icons (CIVIC_SIGNS), the boards inside the walls white and gold; the wasteland keeps
 	# its weathered wooden boards. Each sign's picture is its pictogram node (IconSign.NODE_NAME).
+	# Fixes Oct 27, Part 3: a plaque backed by a building hangs flat on that building's face (some stood up to a metre out in the air), and no standing
+	# board stands on a route (one that did steps off it); the layout's sign moves, so its "Read the sign" spot follows.
+	var bands: Array = SignPlacement.segments(layout)
 	for sign_data: CapitalLayout.Sign in layout.signs:
+		if sign_data.style == "wall":
+			if not _onto_building(sign_data) and not _onto_solid(sign_data):
+				sign_data.pos = SignPlacement.off_paths(sign_data.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
+		elif sign_data.style != "banner":
+			sign_data.pos = SignPlacement.off_paths(sign_data.pos, bands, func(at: Vector3) -> bool: return is_walkable(at))
 		var width: float = 1.5 * sign_data.size
 		var height: float = 1.5 * sign_data.size
 		var inside: bool = sign_data.pos.z < float(CapitalLayout.WALL_Z0) and sign_data.pos.z < CREASE_Z
@@ -910,11 +918,90 @@ func _build_signs() -> void:
 		node.add_child(IconSign.picture(Vector2(width, height) * 0.8, sign_icon(sign_data.key), Vector3(0, mid, 0.1)))
 
 
+## Fixes Oct 27, Part 3: a "wall" plaque within a metre of a building moves flat onto the nearest face of it, facing out (the city walls and the edges
+## of the map keep their own placement).
+const PLAQUE_OFF_FACE: float = 0.08
+
+
+func _onto_building(sign_data: CapitalLayout.Sign) -> bool:
+	var p: Vector2 = Vector2(sign_data.pos.x, sign_data.pos.z)
+	var best: CapitalLayout.Building = null
+	var best_gap: float = INF
+	for building: CapitalLayout.Building in layout.buildings:
+		if not building.rect.grow(1.0).has_point(p):
+			continue
+		var gap: float = _rect_gap(building.rect, p)
+		if gap < best_gap:
+			best_gap = gap
+			best = building
+	if best == null:
+		return false
+	var r: Rect2 = best.rect
+	# the nearest side, and the point on it in front of the plaque
+	var sides: Array[Array] = [
+		[absf(p.y - r.position.y), Vector2(0, -1)], [absf(p.y - r.end.y), Vector2(0, 1)],
+		[absf(p.x - r.position.x), Vector2(-1, 0)], [absf(p.x - r.end.x), Vector2(1, 0)],
+	]
+	sides.sort_custom(func(a: Array, b: Array) -> bool: return float(a[0]) < float(b[0]))
+	var normal: Vector2 = sides[0][1] as Vector2
+	var on_face: Vector2 = Vector2(clampf(p.x, r.position.x + 0.8, r.end.x - 0.8), clampf(p.y, r.position.y + 0.8, r.end.y - 0.8))
+	if normal.x != 0.0:
+		on_face.x = r.end.x if normal.x > 0.0 else r.position.x
+	else:
+		on_face.y = r.end.y if normal.y > 0.0 else r.position.y
+	on_face += normal * PLAQUE_OFF_FACE
+	sign_data.pos = Vector3(on_face.x, sign_data.pos.y, on_face.y)
+	# the board faces local +z and the node turns by yaw + 180
+	sign_data.yaw = rad_to_deg(atan2(normal.x, normal.y)) - 180.0
+	return true
+
+
+## Fixes Oct 27, Part 3: a "wall" plaque with no building near hangs flat on the first solid surface (the city's own walls, a cliff) within
+## SOLID_REACH behind or in front of it, facing away from it; false when there is none (it then stands on its own posts beside the routes).
+const SOLID_REACH: float = 1.2
+## The plaques hung this way (sign_backed: no posts under them).
+var _hung: Dictionary = {}
+
+
+func _onto_solid(sign_data: CapitalLayout.Sign) -> bool:
+	var front: Vector3 = Basis.from_euler(Vector3(0.0, deg_to_rad(sign_data.yaw + 180.0), 0.0)) * Vector3.BACK
+	front.y = 0.0
+	front = front.normalized()
+	var best_t: float = INF
+	var best_dir: float = 0.0
+	for dir_sign: float in [-1.0, 1.0]:
+		var t: float = 0.05
+		while t <= SOLID_REACH:
+			var q: Vector3 = sign_data.pos + front * dir_sign * t
+			if not is_walkable(Vector3(q.x, 0.0, q.z), 0.05):
+				if t < best_t:
+					best_t = t
+					best_dir = dir_sign
+				break
+			t += 0.05
+	if best_t == INF:
+		return false
+	var toward: Vector3 = front * best_dir
+	var moved: Vector3 = sign_data.pos + toward * (best_t - 0.05 - PLAQUE_OFF_FACE)
+	sign_data.pos = Vector3(moved.x, sign_data.pos.y, moved.z)
+	if best_dir > 0.0:
+		sign_data.yaw += 180.0  # it faced the wall: turn it to face out
+	_hung[sign_data] = true
+	return true
+
+
+## How far the point is from the rectangle (0 inside).
+static func _rect_gap(r: Rect2, p: Vector2) -> float:
+	return Vector2(maxf(maxf(r.position.x - p.x, 0.0), p.x - r.end.x), maxf(maxf(r.position.y - p.y, 0.0), p.y - r.end.y)).length()
+
+
 ## Whether a "wall" sign has a wall at its back: a building of the layout (walls, towers and the Ward included) or the city's own walls within a
 ## metre of it.
 func sign_backed(sign_data: CapitalLayout.Sign) -> bool:
 	var p: Vector2 = Vector2(sign_data.pos.x, sign_data.pos.z)
-	if p.y < 2.6 or p.x < 2.6 or p.x > 116.4 or (p.y > float(CapitalLayout.WALL_Z0) - 1.2 and p.y < float(CapitalLayout.WALL_Z1) + 2.0):
+	# Fixes Oct 27: the map's edges no longer count as a wall behind a plaque (nothing solid stood within reach there: the plaques floated); they
+	# stand on their own posts. The city wall band still backs them.
+	if _hung.has(sign_data) or (p.y > float(CapitalLayout.WALL_Z0) - 1.2 and p.y < float(CapitalLayout.WALL_Z1) + 2.0):
 		return true
 	for building: CapitalLayout.Building in layout.buildings:
 		if building.rect.grow(1.0).has_point(p):

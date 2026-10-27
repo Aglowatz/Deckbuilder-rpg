@@ -69,6 +69,9 @@ class Sign:
 	var size: float = 1.0
 	## "sign" (hanging name sign), "poster" (framed, on a wall), "memo" (small note).
 	var style: String = "sign"
+	## Fixes Oct 27: the wall face it is mounted on (the floor cell in front, the step from it to the wall cell); (0, 0) step = on a cubicle partition.
+	var face_cell: Vector2i = Vector2i.ZERO
+	var face_step: Vector2i = Vector2i.ZERO
 
 
 class LightSpot:
@@ -121,6 +124,7 @@ func build() -> void:
 	_polish_chests()
 	_enemies()
 	_finish_walls()
+	_mount_signs()
 
 
 
@@ -777,6 +781,91 @@ func _finish_walls() -> void:
 				to_wall.append(cz * W + cx)
 	for index: int in to_wall:
 		cells[index] = Cell.WALL
+
+
+# ---- Signs on the walls (Fixes Oct 27, Part 3) -------------------------------------------------
+
+
+## The readable centre height of a mounted sign by style (a name sign's panel runs about 1.25 - 2.15 m; no sign shares a face with a sconce).
+const SIGN_HEIGHT: Dictionary = {"sign": 1.7, "poster": 1.5, "memo": 1.3}
+## How far a mounted board's centre stands off the wall face (its back plate touches the wall).
+const SIGN_OFF_WALL: float = 0.05
+## A memo this close to a cubicle partition is pinned to it (left where it is).
+const PINNED: float = 0.15
+## How far from where it was placed a sign may move to reach a wall face.
+const SIGN_SEARCH: int = 7
+
+
+## Every sign, poster and memo goes flat onto a wall face (or stays pinned on a cubicle partition): never standing in a walkway or hanging over a doorway.
+## Each takes the nearest free face (a wall cell beside a floor cell), preferring one that faces the way it did, away from the sconces and with nothing standing in
+## front of it; one sign per face; at a readable height for its style. Its interaction spot follows it (ZoneScene builds the spots from `signs`).
+func _mount_signs() -> void:
+	var used: Dictionary = {}
+	for sign: Sign in signs:
+		if sign.style == "memo" and _on_partition(sign.pos):
+			continue
+		var best_score: float = INF
+		var best_cell: Vector2i = Vector2i.ZERO
+		var best_step: Vector2i = Vector2i.ZERO
+		var origin: Vector2 = Vector2(sign.pos.x, sign.pos.z)
+		var facing: Vector2 = Vector2(sin(deg_to_rad(sign.yaw)), cos(deg_to_rad(sign.yaw)))
+		var home: Vector2i = world_to_cell(sign.pos)
+		for dz: int in range(-SIGN_SEARCH, SIGN_SEARCH + 1):
+			for dx: int in range(-SIGN_SEARCH, SIGN_SEARCH + 1):
+				var c: Vector2i = home + Vector2i(dx, dz)
+				if not is_floor(c.x, c.y):
+					continue
+				for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+					var wall: Vector2i = c + step
+					if not _mountable_wall(wall) or used.has(Vector4i(c.x, c.y, step.x, step.y)):
+						continue
+					var face: Vector2 = Vector2(c.x + 0.5 + step.x * 0.5, c.y + 0.5 + step.y * 0.5)
+					var normal: Vector2 = -Vector2(step)
+					var score: float = origin.distance_to(face)
+					if normal.dot(facing) < -0.5:
+						score += 1.5  # it read from the other side before
+					if posmod(wall.x + wall.y, DnaInterior.SCONCE_STEP) == 2:
+						score += 6.0  # a sconce on this face: the name sign's hangers would reach it
+					if _front_blocked(face + normal * 0.6):
+						score += 6.0
+					if score < best_score:
+						best_score = score
+						best_cell = c
+						best_step = step
+		if best_score == INF:
+			continue
+		used[Vector4i(best_cell.x, best_cell.y, best_step.x, best_step.y)] = true
+		var normal_v: Vector2 = -Vector2(best_step)
+		var face_point: Vector2 = Vector2(best_cell.x + 0.5 + best_step.x * 0.5, best_cell.y + 0.5 + best_step.y * 0.5) + normal_v * SIGN_OFF_WALL
+		var height: float = float(SIGN_HEIGHT.get(sign.style, 1.6))
+		sign.pos = Vector3(face_point.x, height, face_point.y)
+		sign.yaw = rad_to_deg(atan2(normal_v.x, normal_v.y))
+		sign.face_cell = best_cell
+		sign.face_step = best_step
+
+
+## A full-height wall cell a sign can hang on (not the causeway's knee-high parapets outside the building).
+func _mountable_wall(c: Vector2i) -> bool:
+	if cell_at(c.x, c.y) != Cell.WALL:
+		return false
+	return not (c.y >= APPROACH_Z0 and DnaInterior.room_beside(self, c) == "")
+
+
+## Something solid (a desk, a counter, a cabinet) stands at this floor point, so a sign behind it could not be read.
+func _front_blocked(point: Vector2) -> bool:
+	for prop: Prop in props:
+		if prop.radius > 0.0 and Vector2(prop.pos.x, prop.pos.z).distance_to(point) < prop.radius + 0.45:
+			return true
+	return false
+
+
+## Within PINNED of a cubicle partition's line.
+func _on_partition(pos: Vector3) -> bool:
+	var p: Vector2 = Vector2(pos.x, pos.z)
+	for seg: Vector4 in partitions:
+		if Geometry2D.get_closest_point_to_segment(p, Vector2(seg.x, seg.y), Vector2(seg.z, seg.w)).distance_to(p) <= PINNED:
+			return true
+	return false
 
 
 # ---- Queries used by the scene and tests ---------------------------------------------------
