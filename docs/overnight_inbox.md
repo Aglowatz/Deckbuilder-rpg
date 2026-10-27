@@ -332,3 +332,9 @@ cycle 1); the spells-only arena (cycle 10).
 2. **Crosspath Medium draw calls 847-850 vs the 840 line** (Part 1 checks): the same on the code before today's change (850), so it predates
    Fixes Oct 27 (likely the Oct 26 shadow reach's far-cascade draws; Crosspath was not among the six lines raised then). Frame time is well
    inside its budget. Safest choice: budget left as it is, flagged here; raise the Crosspath Medium draw-call line to ~1020 (x1.2) if you agree.
+3. **Starting-HP gear does nothing in dungeon runs** (Part 4): a run's fights start with the HP carried from the last fight, which replaced every
+   "+N starting HP" modifier. Fixed for the run's own boons (Primm's Castle "Unreflected", +2 HP at the start of each fight, spent in that fight).
+   Three pieces of gear carry starting HP (expansion gear: +2, +1, and -3 on the +2-attack piece) and still have no effect inside dungeons - turning
+   that on would change dungeon balance (the -3 piece would start hurting), so it was left as it is. Say if gear should count in dungeons too.
+4. **Signs on posts in the open zones** (Part 3): a signboard on its own post standing on grass beside a path is accepted (a post beside the path);
+   only posts ON a path band moved. Their posts have no blocker (the hero walks through a 0.1 m post), as before.

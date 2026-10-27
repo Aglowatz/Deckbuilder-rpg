@@ -13,6 +13,9 @@ var lost_cards: Array[CardData] = []
 var gained_cards: Array[CardData] = []
 ## Dungeon rules and boons; they feed the same ModifierPipeline as equipment.
 var dungeon_sources: Array[ModifierSource] = []
+## Fixes Oct 27: the HP a fight may hand back to the run (the HP the hero walked in with, at most max HP): a boon's start-of-fight bonus is spent
+## in that fight only. -1 = no cap (no fight started with a bonus).
+var _carry_cap: int = -1
 
 
 ## Enters a dungeon: the player is fully healed.
@@ -84,6 +87,8 @@ func add_dungeon_source(source: ModifierSource) -> void:
 	var gained: int = max_hp() - before
 	if gained > 0:
 		hp += gained
+	elif gained < 0:
+		hp = mini(hp, max_hp())  # Fixes Oct 27: a curse that lowers max HP takes the HP above it
 
 
 ## Builds a duel for the next encounter: the player enters with the carried-over HP.
@@ -101,7 +106,11 @@ func start_encounter(
 	player.modifiers = modifiers(zone)
 	if player_rules != null:
 		player.modifiers.add_source(player_rules)
-	player.starting_hp = hp
+	# Fixes Oct 27, Part 4: a boon's "+N HP at the start of each fight" - the carried HP used to replace it, so it did nothing in a run. Only the run's
+	# boons: gear with starting HP still has no effect in dungeons (unchanged balance; docs/overnight_inbox.md, Fixes Oct 27).
+	var bonus: int = boon_start_bonus()
+	player.starting_hp = maxi(1, hp + bonus)
+	_carry_cap = maxi(hp, max_hp()) if bonus > 0 else -1
 	# Zone/dungeon effects apply to the enemy too (ModifierPipeline.build_for_enemy's contract).
 	if zone != null:
 		enemy.modifiers.add_source(zone)
@@ -112,9 +121,24 @@ func start_encounter(
 	return game
 
 
+## The HP the run's boons add at the start of every fight (their STARTING_HP).
+func boon_start_bonus() -> int:
+	var total: int = 0
+	for source: ModifierSource in dungeon_sources:
+		if source.source_kind != ModifierSource.SourceKind.BOON:
+			continue
+		for modifier: Modifier in source.modifiers:
+			if modifier.kind == Modifier.Kind.STARTING_HP:
+				total += modifier.value
+	return total
+
+
 ## Records the result of a finished duel: HP carries over; a loss fails the run.
 func finish_encounter(game: GameState) -> void:
 	hp = maxi(0, game.players[0].hp)
+	if _carry_cap >= 0:
+		hp = mini(hp, _carry_cap)
+		_carry_cap = -1
 	if game.winner == 0:
 		encounters_won += 1
 	else:

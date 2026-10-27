@@ -182,6 +182,9 @@ func _prepare_main_dungeon_for_screenshot() -> void:
 		Session.run.lose_hp(int(_screenshot_args["damage"]))
 	if _screenshot_args.has("boon") and MainDungeons.def(zone_id).boon != null:
 		Session.run.add_dungeon_source(MainDungeons.def(zone_id).boon)
+	# Fixes Oct 27: `--boons=Cut the Line|atk=1;Marked Difficult|max_hp=-1` - the run's boons and curses, for the rules panel's shots
+	for spec: String in str(_screenshot_args.get("boons", "")).split(";", false):
+		Session.run.add_dungeon_source(DungeonBuilder.boon_from(spec))
 
 
 func _build_board() -> void:
@@ -717,6 +720,8 @@ func _ask_retreat() -> void:
 
 func _open_from_screenshot(what: String) -> void:
 	match what:
+		"rules":
+			_toggle_rules()
 		"challenge":
 			_open_modal(ChallengeScreen.new(), 2)
 		"shrine":
@@ -924,9 +929,11 @@ func _build_art_extras() -> void:
 		if source.source_kind == ModifierSource.SourceKind.BOON:
 			boons.append(source)
 	if not boons.is_empty():
-		column.add_child(UIKit.label("Boons", &"HeadingLabel", 22))
+		column.add_child(UIKit.label("Boons and curses", &"HeadingLabel", 22))
 		for boon: ModifierSource in boons:
-			column.add_child(_rule_label(boon.source_name, Color("9cf5a0")))
+			# Fixes Oct 27: each with what it does (a curse in red)
+			var curse: bool = BoonText.is_curse(boon)
+			column.add_child(_rule_label("%s %s: %s" % ["[-]" if curse else "[+]", boon.source_name, BoonText.describe(boon)], Color("ff9c8f") if curse else Color("9cf5a0")))
 
 
 func _rule_label(text: String, color: Color) -> Label:

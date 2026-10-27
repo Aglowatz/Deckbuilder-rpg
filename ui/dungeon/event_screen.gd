@@ -125,7 +125,7 @@ func _summary_lines(result: EventResolver.Result) -> Array[String]:
 	elif result.gold_delta < 0:
 		lines.append("%d gold" % result.gold_delta)
 	for boon: ModifierSource in result.boons:
-		lines.append("Boon: %s" % boon.source_name)
+		lines.append("%s: %s. %s" % [BoonText.kind_word(boon), boon.source_name, BoonText.describe(boon)])  # Fixes Oct 27: what it does, not just its name
 	for card: CardData in result.cards:
 		lines.append("Card: %s" % card.display_name)
 	return lines

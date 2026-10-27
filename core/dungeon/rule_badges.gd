@@ -21,6 +21,7 @@ const DUNGEON_ICONS: Dictionary = {
 const ZONE_BUFF_ICON: String = "lorc/rainbow-star"
 const ZONE_DEBUFF_ICON: String = "lorc/cursed-star"
 const BOON_ICON: String = "lorc/gem-pendant"
+const CURSE_ICON: String = "lorc/cursed-star"
 const CAPITAL_ICON: String = "delapouite/broken-wall"
 const DEFAULT_ICON: String = "lorc/scroll-unfurled"
 ## Overnight Oct 23: a boss's or elite's scripted mid-fight event (EncounterScripts) - amber, "what can happen".
@@ -29,7 +30,7 @@ const SCRIPTED_COLOR: Color = Color("ff9f43")
 
 class Badge:
 	extends RefCounted
-	## "zone_buff", "zone_debuff", "dungeon", "boon", "capital" or "encounter".
+	## "zone_buff", "zone_debuff", "dungeon", "boon", "curse", "capital" or "encounter".
 	var kind: String = "dungeon"
 	var name: String = ""
 	var text: String = ""
@@ -44,7 +45,7 @@ class Badge:
 	func color() -> Color:
 		if kind == "zone_buff" or kind == "boon" or (kind == "encounter" and side == SIDE_PLAYER):
 			return Color("6fbf73")
-		if kind == "zone_debuff" or kind == "capital" or (kind == "encounter" and side == SIDE_ENEMY):
+		if kind == "zone_debuff" or kind == "capital" or kind == "curse" or (kind == "encounter" and side == SIDE_ENEMY):
 			return Color("e8625a")
 		if kind == "scripted":
 			return SCRIPTED_COLOR
@@ -108,17 +109,15 @@ static func for_dungeon(key: String, node_number: int = 0) -> Array[Badge]:
 	return result
 
 
-## The boons earned in a run (their source names; a boon only ever helps the player).
+## The boons and curses earned in a run (on the player only).
 static func for_boons(sources: Array[ModifierSource]) -> Array[Badge]:
 	var result: Array[Badge] = []
 	for source: ModifierSource in sources:
 		if source.source_kind != ModifierSource.SourceKind.BOON:
 			continue
-		var text: String = ""
-		for modifier: Modifier in source.modifiers:
-			if not modifier.label.is_empty():
-				text += ("" if text.is_empty() else " ") + modifier.label
-		result.append(_badge("boon", source.source_name, text if not text.is_empty() else "A boon: it fights on your side.", BOON_ICON, SIDE_PLAYER, true))
+		# Fixes Oct 27, Part 4: the real effect from the boon's numbers (BoonText); a curse is a red badge
+		var curse: bool = BoonText.is_curse(source)
+		result.append(_badge("curse" if curse else "boon", source.source_name, BoonText.describe(source), CURSE_ICON if curse else BOON_ICON, SIDE_PLAYER, not curse))
 	return result
 
 

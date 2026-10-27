@@ -104,7 +104,7 @@ func _show_outcome(result: ChallengeResult) -> void:
 	for card: CardData in result.gained_cards:
 		lines.append("%s joins your deck for this dungeon." % card.display_name)
 	for boon: ModifierSource in result.boons:
-		lines.append("Boon: %s." % boon.source_name)
+		lines.append("%s: %s. %s" % [BoonText.kind_word(boon), boon.source_name, BoonText.describe(boon)])  # Fixes Oct 27: what it does, not just its name
 	if lines.is_empty():
 		lines.append("Nothing changes.")
 	for line: String in lines:
