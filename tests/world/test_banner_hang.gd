@@ -66,7 +66,7 @@ func test_cloth_meshes_get_their_hang_from_their_bounds_and_poles_stay_rigid() -
 	host.add_child(banner)
 	var pole: MeshInstance3D = banner.find_child("Pole", false, false) as MeshInstance3D
 	var cloth: MeshInstance3D = banner.find_child("BannerCloth", false, false) as MeshInstance3D
-	var stripe: MeshInstance3D = banner.find_child("BannerStripe", false, false) as MeshInstance3D
+	var stripe: MeshInstance3D = banner.find_child("BannerTrim", false, false) as MeshInstance3D  # Fixes Oct 26: the trim replaced the stripe
 	assert_not_null(pole)
 	assert_not_null(cloth)
 	assert_lt(StyleToon.wind_for(pole, 1.5), 0.0, "the pole never sways")
@@ -79,7 +79,7 @@ func test_cloth_meshes_get_their_hang_from_their_bounds_and_poles_stay_rigid() -
 	assert_almost_eq(float(params["top"]) + cloth.position.y, RulerPresence.BANNER_TOP, 0.01, "its top edge is the bar's height")
 	assert_almost_eq(absf(hang.z), 1.0, 0.001, "its normal is its thin axis")
 	var stripe_params: Dictionary = StyleToon.hang_params(stripe)
-	assert_almost_eq(float(stripe_params["top"]) + stripe.position.y, RulerPresence.BANNER_TOP, 0.01, "the stripe hangs from the same edge: it moves with the cloth")
+	assert_almost_eq(float(stripe_params["top"]) + stripe.position.y, RulerPresence.BANNER_TOP, 0.01, "the trim hangs from the same edge: it moves with the cloth")
 	assert_almost_eq(float(stripe_params["phase"]), float(params["phase"]), 0.0001, "and in step with it")
 	var emblem: MeshInstance3D = banner.find_child("Emblem", false, false) as MeshInstance3D
 	assert_true(emblem.material_override is ShaderMaterial and (emblem.material_override as ShaderMaterial).shader.resource_path == RulerPresence.CLOTH_ICON_SHADER, "the emblem hangs with its cloth")
@@ -88,6 +88,40 @@ func test_cloth_meshes_get_their_hang_from_their_bounds_and_poles_stay_rigid() -
 	assert_true(bunting.has_meta(&"no_wind"), "the freed bunting's little pennants stay still")
 	StyleToon.apply(banner, 1.5)
 	assert_ne(cloth.get_instance_shader_parameter("hang"), null, "the style rig sets the cloth's hang")
+
+
+## Fixes Oct 26, Part 5: a proper banner - swallowtail cloth of the painted canvas in the ruler's colour, darker trim, crossbar and finial (rigid),
+## the emblem centred in the upper third, every hanging part in one frame.
+func test_the_ruler_banner_is_a_proper_banner() -> void:
+	var tint: Color = Color("8a1f1f")
+	var banner: Node3D = RulerPresence._banner(tint)
+	autofree(banner)
+	var cloth: MeshInstance3D = banner.find_child("BannerCloth", false, false) as MeshInstance3D
+	var trim: MeshInstance3D = banner.find_child("BannerTrim", false, false) as MeshInstance3D
+	var cloth_box: AABB = cloth.mesh.get_aabb()
+	assert_almost_eq(cloth_box.position.y, -RulerPresence.BANNER_CLOTH.y, 0.01, "the tails reach the full length")
+	var lowest_middle: float = 0.0
+	for v: Vector3 in cloth.mesh.surface_get_arrays(0)[Mesh.ARRAY_VERTEX] as PackedVector3Array:
+		if absf(v.x) < 0.01:
+			lowest_middle = minf(lowest_middle, v.y)
+	assert_almost_eq(lowest_middle, -RulerPresence.BANNER_CLOTH.y + RulerPresence.SWALLOW_NOTCH, 0.01, "a swallowtail: the middle of the hem rises")
+	var cloth_material: StandardMaterial3D = cloth.material_override as StandardMaterial3D
+	var trim_material: StandardMaterial3D = trim.material_override as StandardMaterial3D
+	assert_not_null(cloth_material.albedo_texture, "painted cloth (the kit canvas), not a flat colour")
+	assert_lt(trim_material.albedo_color.v, cloth_material.albedo_color.v, "the trim is darker than the cloth")
+	assert_almost_eq(cloth_material.albedo_color.h, tint.h, 0.03, "in the ruler's colour")
+	for rigid_name: String in ["Pole", "CrossbarPole", "FinialPole"]:
+		var part: MeshInstance3D = banner.find_child(rigid_name, false, false) as MeshInstance3D
+		assert_not_null(part, rigid_name)
+		if part != null:
+			assert_lt(StyleToon.wind_for(part, 1.5), 0.0, "%s never sways" % rigid_name)
+	assert_eq(trim.get_meta(&"hang"), cloth.get_meta(&"hang"), "the trim shares the cloth's hang frame")
+	assert_eq(trim.position, cloth.position)
+	var emblem: MeshInstance3D = banner.find_child("Emblem", false, false) as MeshInstance3D
+	var from_top: float = RulerPresence.BANNER_TOP - emblem.position.y
+	assert_between(from_top, RulerPresence.BANNER_CLOTH.y / 6.0 - 0.1, RulerPresence.BANNER_CLOTH.y / 6.0 + 0.1, "the emblem is centred in the upper third")
+	assert_almost_eq(emblem.position.x, cloth.position.x, 0.001, "and across the cloth")
+	assert_gte((emblem.mesh as QuadMesh).size.x, 0.7, "at a readable size")
 
 
 func test_the_kit_banner_post_hangs_its_cloth_as_its_own_mesh() -> void:

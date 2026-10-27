@@ -85,32 +85,165 @@ static func _statue(tint: Color, toppled: bool) -> Node3D:
 	return root
 
 
-## The banner's cloth (width, length) and the height of its top edge (it hangs from the pole's top): the hang mode keeps that edge still.
+## The banner's cloth (width, length) and the height of its top edge (it hangs from the crossbar): the hang mode keeps that edge still.
+## Fixes Oct 26: a proper banner - a swallowtail cloth (two tails, SWALLOW_NOTCH deep in the middle) of the painted canvas in the ruler's colour with a
+## darker trim down both sides and along the tails and a hem at the top, on a crossbar with a cap, a gilt finial on the pole, the emblem centred in
+## the cloth's upper third. Cloth, trim and emblem share one hang frame (top BANNER_TOP, length BANNER_CLOTH.y), so they swing as one.
 const BANNER_CLOTH: Vector2 = Vector2(1.3, 2.6)
 const BANNER_TOP: float = 4.9
+const BANNER_X: float = 0.72
+const SWALLOW_NOTCH: float = 0.6
+const TRIM_WIDTH: float = 0.1
+const EMBLEM_SIZE: float = 0.84
+const CLOTH_TEXTURE: String = "ENV-PROP-CANVAS"
+const GILT: Color = Color("c9a227")
+## The cloth's two faces stand this far either side of its plane: one plane drawn both ways shadowed itself (the sun's map cannot tell the faces apart).
+const CLOTH_HALF_THICKNESS: float = 0.015
 
 
 static func _banner(tint: Color) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "RulerBanner"
-	var pole: MeshInstance3D = _mesh(CylinderMesh.new(), _material(Color(0.2, 0.2, 0.22), 0.6))
+	var iron: StandardMaterial3D = _material(Color(0.2, 0.2, 0.22), 0.6)
+	var gilt: StandardMaterial3D = _material(GILT, 0.35)
+	gilt.metallic = 0.6
+	var pole: MeshInstance3D = _mesh(CylinderMesh.new(), iron)
 	pole.name = "Pole"  # rigid: the pole never bends (only the cloth sways, Gainlands v2 Part E)
 	(pole.mesh as CylinderMesh).top_radius = 0.07
 	(pole.mesh as CylinderMesh).bottom_radius = 0.09
 	(pole.mesh as CylinderMesh).height = 5.0
 	pole.position.y = 2.5
 	root.add_child(pole)
-	var cloth: MeshInstance3D = _box(Vector3(BANNER_CLOTH.x, BANNER_CLOTH.y, 0.06), _material(tint, 0.85))
-	cloth.name = "BannerCloth"
-	cloth.position = Vector3(0.7, BANNER_TOP - BANNER_CLOTH.y * 0.5, 0)
-	root.add_child(cloth)
-	var stripe: MeshInstance3D = _box(Vector3(BANNER_CLOTH.x, 0.3, 0.07), _material(Color(0.05, 0.05, 0.06), 0.8))
-	stripe.name = "BannerStripe"
-	stripe.position = Vector3(0.7, BANNER_TOP - BANNER_CLOTH.y * 0.5, 0)
-	stripe.set_meta(&"hang", Vector2(BANNER_CLOTH.y * 0.5, BANNER_CLOTH.y))  # the cloth's top and length in the stripe's frame: they move as one
-	root.add_child(stripe)
-	root.add_child(_emblem(Vector2(0.95, 0.95), Vector3(0.7, 2.7, 0.05), true))
+	# the finial: a gilt ball and spike on the pole's top ("Pole" in the names keeps them rigid)
+	var ball: MeshInstance3D = _mesh(SphereMesh.new(), gilt)
+	ball.name = "FinialPole"
+	(ball.mesh as SphereMesh).radius = 0.13
+	(ball.mesh as SphereMesh).height = 0.26
+	ball.position.y = 5.1
+	root.add_child(ball)
+	var spike: MeshInstance3D = _mesh(CylinderMesh.new(), gilt)
+	spike.name = "FinialSpikePole"
+	(spike.mesh as CylinderMesh).top_radius = 0.0
+	(spike.mesh as CylinderMesh).bottom_radius = 0.06
+	(spike.mesh as CylinderMesh).height = 0.32
+	spike.position.y = 5.36
+	root.add_child(spike)
+	# the crossbar the cloth hangs from, with a gilt cap at its end
+	var bar_length: float = BANNER_X + BANNER_CLOTH.x * 0.5 + 0.12
+	var bar: MeshInstance3D = _mesh(CylinderMesh.new(), iron)
+	bar.name = "CrossbarPole"
+	(bar.mesh as CylinderMesh).top_radius = 0.035
+	(bar.mesh as CylinderMesh).bottom_radius = 0.035
+	(bar.mesh as CylinderMesh).height = bar_length
+	bar.rotation_degrees.z = 90.0
+	bar.position = Vector3(bar_length * 0.5, BANNER_TOP + 0.04, 0.0)
+	root.add_child(bar)
+	var cap: MeshInstance3D = _mesh(SphereMesh.new(), gilt)
+	cap.name = "CrossbarCapPole"
+	(cap.mesh as SphereMesh).radius = 0.06
+	(cap.mesh as SphereMesh).height = 0.12
+	cap.position = Vector3(bar_length, BANNER_TOP + 0.04, 0.0)
+	root.add_child(cap)
+	var canvas: Texture2D = EnvKit.texture(CLOTH_TEXTURE) if EnvKit.has(CLOTH_TEXTURE) else null
+	root.add_child(_hanging("BannerCloth", _cloth_mesh(), _cloth_material(_dyed(tint), canvas)))
+	root.add_child(_hanging("BannerTrim", _trim_mesh(), _cloth_material(tint.darkened(0.5), canvas)))
+	root.add_child(_emblem(Vector2(EMBLEM_SIZE, EMBLEM_SIZE), Vector3(BANNER_X, BANNER_TOP - BANNER_CLOTH.y / 6.0 - 0.06, CLOTH_HALF_THICKNESS + 0.03), true))
 	return root
+
+
+## A hanging part of the banner, its top edge at BANNER_TOP: the hang mode reads its top and length from the meta (the cloth's own frame).
+static func _hanging(node_name: String, mesh: ArrayMesh, material: StandardMaterial3D) -> MeshInstance3D:
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = node_name
+	instance.mesh = mesh
+	instance.material_override = material
+	instance.position = Vector3(BANNER_X, BANNER_TOP, 0.0)
+	instance.set_meta(&"hang", Vector2(0.0, BANNER_CLOTH.y))
+	instance.set_meta(&"hang_normal", Vector3(0, 0, 1))
+	return instance
+
+
+## The cloth's colour on the canvas: the painted weave darkens what it multiplies (its average is well under white in linear light), so the ruler's
+## colour is lifted in value - same hue - until the dyed cloth reads as bright as the old flat one.
+static func _dyed(tint: Color) -> Color:
+	return Color.from_hsv(tint.h, tint.s * 0.92, minf(tint.v * 1.6 + 0.12, 1.0))
+
+
+static func _cloth_material(color: Color, texture: Texture2D) -> StandardMaterial3D:
+	var material: StandardMaterial3D = _material(color, 0.85)
+	material.albedo_texture = texture
+	return material
+
+
+## The cloth's bottom edge at `x` (-w/2..w/2): the two tails reach the full length at the sides, the notch rises SWALLOW_NOTCH in the middle.
+static func _hem_y(x: float) -> float:
+	var half: float = BANNER_CLOTH.x * 0.5
+	return -BANNER_CLOTH.y + SWALLOW_NOTCH * (1.0 - absf(x) / half)
+
+
+## The swallowtail cloth: a grid of quads from the top edge (y 0) down to the hem, both faces, UVs on the canvas (one tile across).
+static func _cloth_mesh() -> ArrayMesh:
+	var cols: int = 6
+	var rows: int = 12
+	var half: float = BANNER_CLOTH.x * 0.5
+	var tool: SurfaceTool = SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for side: float in [1.0, -1.0]:
+		for i: int in range(cols):
+			for j: int in range(rows):
+				var quad: Array[Vector3] = []
+				var uvs: Array[Vector2] = []
+				for corner: Vector2i in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 1)]:
+					var x: float = -half + BANNER_CLOTH.x * float(i + corner.x) / float(cols)
+					var y: float = _hem_y(x) * float(j + corner.y) / float(rows)
+					quad.append(Vector3(x, y, CLOTH_HALF_THICKNESS * side))
+					uvs.append(Vector2((x + half) / BANNER_CLOTH.x, -y / BANNER_CLOTH.x))
+				_quad(tool, quad, uvs, Vector3(0, 0, side))
+	return tool.commit()
+
+
+## The trim: bands TRIM_WIDTH wide down both sides, along both tails' edges and across the top (the hem), a hair in front of and behind the cloth.
+static func _trim_mesh() -> ArrayMesh:
+	var half: float = BANNER_CLOTH.x * 0.5
+	var bands: Array[Array] = [
+		[Vector2(-half, 0.0), Vector2(-half, _hem_y(-half))], [Vector2(half, 0.0), Vector2(half, _hem_y(half))],
+		[Vector2(-half, _hem_y(-half)), Vector2(0.0, _hem_y(0.0))], [Vector2(0.0, _hem_y(0.0)), Vector2(half, _hem_y(half))],
+		[Vector2(-half, 0.0), Vector2(half, 0.0)],
+	]
+	var middle: Vector2 = Vector2(0.0, -BANNER_CLOTH.y * 0.5)
+	var tool: SurfaceTool = SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for side: float in [1.0, -1.0]:
+		for band: Array in bands:
+			var a: Vector2 = band[0] as Vector2
+			var b: Vector2 = band[1] as Vector2
+			var along: Vector2 = (b - a).normalized()
+			# the band lies on the cloth: it grows from the edge toward the cloth's middle
+			var inward: Vector2 = Vector2(-along.y, along.x)
+			if inward.dot(middle - (a + b) * 0.5) < 0.0:
+				inward = -inward
+			var steps: int = maxi(1, int(a.distance_to(b) / 0.2))
+			for k: int in range(steps):
+				var p0: Vector2 = a.lerp(b, float(k) / float(steps))
+				var p1: Vector2 = a.lerp(b, float(k + 1) / float(steps))
+				var z: float = (CLOTH_HALF_THICKNESS + 0.008) * side
+				var quad: Array[Vector3] = [Vector3(p0.x, p0.y, z), Vector3(p1.x, p1.y, z), Vector3(p1.x + inward.x * TRIM_WIDTH, p1.y + inward.y * TRIM_WIDTH, z), Vector3(p0.x + inward.x * TRIM_WIDTH, p0.y + inward.y * TRIM_WIDTH, z)]
+				var uvs: Array[Vector2] = []
+				for q: Vector3 in quad:
+					uvs.append(Vector2((q.x + half) / BANNER_CLOTH.x, -q.y / BANNER_CLOTH.x))
+				_quad(tool, quad, uvs, Vector3(0, 0, side))
+	return tool.commit()
+
+
+## Two triangles facing `normal` (Godot's front faces wind clockwise seen from the front).
+static func _quad(tool: SurfaceTool, points: Array[Vector3], uvs: Array[Vector2], normal: Vector3) -> void:
+	var order: Array[int] = [0, 1, 2, 0, 2, 3]
+	if (points[1] - points[0]).cross(points[2] - points[0]).dot(normal) > 0.0:
+		order = [0, 2, 1, 0, 3, 2]
+	for index: int in order:
+		tool.set_normal(normal)
+		tool.set_uv(uvs[index])
+		tool.add_vertex(points[index])
 
 
 static func _bunting(tint: Color) -> Node3D:
