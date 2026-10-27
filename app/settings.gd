@@ -41,13 +41,14 @@ const RESOLUTIONS: Array[Vector2i] = [Vector2i(1280, 720), Vector2i(1366, 768), 
 ## Frame caps offered by the list (0 = unlimited).
 const FRAME_CAPS: Array[int] = [0, 30, 60, 90, 120, 144, 165, 240]
 
-var master_volume: float = 0.8
-var music_volume: float = 0.6
-var sfx_volume: float = 0.8
-var ui_volume: float = 0.8
+## Slider positions 0..1 (Fixes Oct 26: on a dB taper, `volume_db`; the defaults sound as loud as the old 0.8 / 0.6 on the amplitude scale did).
+var master_volume: float = 0.95
+var music_volume: float = 0.9
+var sfx_volume: float = 0.95
+var ui_volume: float = 0.95
 ## The ambience beds and their one-shots (birds, hum, wind) and the dialogue voice blips.
-var ambience_volume: float = 0.8
-var voice_volume: float = 0.8
+var ambience_volume: float = 0.95
+var voice_volume: float = 0.95
 ## Silences the game while its window is not the focused one.
 var mute_unfocused: bool = false
 var window_mode: int = WindowMode.WINDOWED
@@ -106,7 +107,15 @@ const RENDERERS: Array[String] = ["auto", "d3d12", "vulkan"]
 ## bloom or depth of field. The title screen says so; the player can raise the settings again.
 var safe_mode: bool = false
 ## settings.cfg layout version: 2 = written by v0.4.3+ (older files may hold High chosen for an iGPU by the D3D12 misreport).
-const SETTINGS_VERSION: int = 2
+## 3 = Oct 26: the volume values are positions on the dB taper (older files hold amplitudes; `_migrate_volumes` converts them once).
+const SETTINGS_VERSION: int = 3
+## The version that fixed the D3D12 iGPU misreport (`migrated_quality`).
+const QUALITY_FIX_VERSION: int = 2
+const VOLUME_TAPER_VERSION: int = 3
+## Fixes Oct 26 ("the volume is not working"): a slider at 0..1 maps to dB on a straight line from VOLUME_FLOOR_DB to 0 (2 dB per 5% step), then
+## silence at 0. It was the raw amplitude (linear_to_db): the top half of the travel was only 6 dB and one 5% step near the defaults ~0.5 dB,
+## too little to hear (docs/audio/volume_fix_oct26.md).
+const VOLUME_FLOOR_DB: float = -40.0
 var _loaded_version: int = 0
 
 var _focused: bool = true
@@ -192,8 +201,23 @@ func _set_bus(bus_name: StringName, linear: float) -> void:
 	var index: int = AudioServer.get_bus_index(bus_name)
 	if index < 0:
 		return
-	AudioServer.set_bus_volume_db(index, linear_to_db(maxf(linear, 0.0001)))
+	AudioServer.set_bus_volume_db(index, volume_db(linear))
 	AudioServer.set_bus_mute(index, linear <= 0.001)
+
+
+## A slider position (0..1) in dB on the taper: 1 = 0 dB, 0.5 = -20 dB, 0.05 = -38 dB, 0 = silence (-80, and the bus is muted).
+static func volume_db(position: float) -> float:
+	if position <= 0.001:
+		return -80.0
+	return VOLUME_FLOOR_DB * (1.0 - clampf(position, 0.0, 1.0))
+
+
+## The taper position that sounds like an old amplitude value (settings.cfg before version 3), on the slider's 5% grid.
+static func position_from_amplitude(amplitude: float) -> float:
+	if amplitude <= 0.001:
+		return 0.0
+	var db: float = linear_to_db(clampf(amplitude, 0.0, 1.0))
+	return clampf(snappedf(1.0 - db / VOLUME_FLOOR_DB, 0.05), 0.05, 1.0)
 
 
 ## The windowed sizes that fit the screen (the current choice is always in the list).
@@ -402,6 +426,7 @@ func load_settings(path: String = PATH) -> void:
 		renderer = "auto"
 	_loaded_version = int(config.get_value("meta", "version", 1))
 	_migrate_quality()
+	_migrate_volumes(path)
 	text_dialogue = clampi(int(config.get_value("text", "dialogue", text_dialogue)), 0, TEXT_SCALES.size() - 1)
 	text_cards = clampi(int(config.get_value("text", "cards", text_cards)), 0, TEXT_SCALES.size() - 1)
 	text_tooltips = clampi(int(config.get_value("text", "tooltips", text_tooltips)), 0, TEXT_SCALES.size() - 1)
@@ -414,6 +439,21 @@ func load_settings(path: String = PATH) -> void:
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
 	pad_prompts = clampi(int(config.get_value("input", "pad_prompts", 0)), 0, PAD_PROMPT_NAMES.size() - 1)
 	Keybinds.load_from(config)
+
+
+## A settings.cfg older than the dB taper holds amplitudes: each volume becomes the position that sounds the same (0.8 -> 0.95, 0.6 -> 0.9,
+## 0.3 -> 0.75), once; the file is saved with the new version.
+func _migrate_volumes(path: String) -> void:
+	if _loaded_version >= VOLUME_TAPER_VERSION:
+		return
+	master_volume = position_from_amplitude(master_volume)
+	music_volume = position_from_amplitude(music_volume)
+	sfx_volume = position_from_amplitude(sfx_volume)
+	ui_volume = position_from_amplitude(ui_volume)
+	ambience_volume = position_from_amplitude(ambience_volume)
+	voice_volume = position_from_amplitude(voice_volume)
+	GameLog.info("settings", "volumes moved onto the dB taper: master %.2f music %.2f effects %.2f" % [master_volume, music_volume, sfx_volume])
+	save_settings.call_deferred(path)
 
 
 ## A settings.cfg from v0.4.2 or older that holds High on an integrated GPU got High from the D3D12 misreport (GpuInfo), not from the
@@ -430,7 +470,7 @@ func _migrate_quality() -> void:
 
 ## The quality an older settings.cfg (`version`) keeps on a GPU of `kind` (see `_migrate_quality`).
 static func migrated_quality(level: int, version: int, kind: GpuInfo.Kind) -> int:
-	if version >= SETTINGS_VERSION or level != GraphicsQuality.Level.HIGH or not GpuInfo.is_integrated(kind):
+	if version >= QUALITY_FIX_VERSION or level != GraphicsQuality.Level.HIGH or not GpuInfo.is_integrated(kind):
 		return level
 	return GpuInfo.recommended_level(kind)
 
@@ -487,12 +527,12 @@ func summary() -> String:
 
 ## Back to the defaults of the display, text, accessibility and audio options (key bindings have their own reset).
 func reset_to_defaults() -> void:
-	master_volume = 0.8
-	music_volume = 0.6
-	sfx_volume = 0.8
-	ui_volume = 0.8
-	ambience_volume = 0.8
-	voice_volume = 0.8
+	master_volume = 0.95
+	music_volume = 0.9
+	sfx_volume = 0.95
+	ui_volume = 0.95
+	ambience_volume = 0.95
+	voice_volume = 0.95
 	mute_unfocused = false
 	window_mode = WindowMode.WINDOWED
 	vsync = true

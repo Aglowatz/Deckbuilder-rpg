@@ -308,9 +308,9 @@ func test_each_volume_sets_its_own_bus() -> void:
 	Settings.sfx_volume = 0.25
 	Settings.ui_volume = 0.1
 	Settings.apply_audio()
-	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_MUSIC)), linear_to_db(0.5), 0.01)
-	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_SFX)), linear_to_db(0.25), 0.01)
-	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_UI)), linear_to_db(0.1), 0.01)
+	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_MUSIC)), -20.0, 0.01, "the dB taper: half way is -20 dB")
+	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_SFX)), -30.0, 0.01)
+	assert_almost_eq(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(Settings.BUS_UI)), -36.0, 0.01)
 
 
 func test_the_game_mutes_when_unfocused_only_if_asked() -> void:

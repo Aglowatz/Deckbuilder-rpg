@@ -33,6 +33,11 @@ var _held_time: float = 0.0
 ## A held D-pad / stick direction repeats after this long, then every REPEAT_EVERY seconds.
 const REPEAT_DELAY: float = 0.4
 const REPEAT_EVERY: float = 0.12
+## Fixes Oct 26: a slider (a volume) held left / right on the pad keeps stepping like a held key (one press used to be one 5% step however long it
+## was held). The slider takes the first step itself; this repeats it.
+var _held_range: Range
+var _held_range_dir: float = 0.0
+var _held_range_time: float = 0.0
 var _rest: float = 0.0
 
 
@@ -163,7 +168,13 @@ func _input(event: InputEvent) -> void:
 		return
 	if owner_now != null and owner_now.is_visible_in_tree() and root.is_ancestor_of(owner_now):
 		var direction: Vector2 = _direction_of(event)
-		if direction == Vector2.ZERO or _keeps_its_arrows(owner_now, direction):
+		if direction == Vector2.ZERO:
+			return
+		if _keeps_its_arrows(owner_now, direction):
+			if owner_now is Range and UiInput.is_fresh_press(event):
+				_held_range = owner_now as Range
+				_held_range_dir = direction.x
+				_held_range_time = 0.0
 			return
 		get_viewport().set_input_as_handled()
 		if not UiInput.is_fresh_press(event):
@@ -276,6 +287,7 @@ func _process(delta: float) -> void:
 	if InputDevice.using_pad():
 		_stick_scroll(delta)
 		_repeat(delta)
+		_repeat_range(delta)
 
 
 func _repeat(delta: float) -> void:
@@ -291,6 +303,23 @@ func _repeat(delta: float) -> void:
 	if _held_time >= REPEAT_DELAY:
 		_held_time -= REPEAT_EVERY
 		_step(owner_now, _held_dir, root)
+
+
+func _repeat_range(delta: float) -> void:
+	if _held_range == null:
+		return
+	var action: StringName = &"ui_left" if _held_range_dir < 0.0 else &"ui_right"
+	# the action state does not follow a held stick here (it reads released right after the motion event): the stick is read directly too
+	var stick: float = Input.get_joy_axis(0, JOY_AXIS_LEFT_X)
+	var held: bool = Input.is_action_pressed(action) or (absf(stick) >= 0.5 and signf(stick) == signf(_held_range_dir))
+	if not is_instance_valid(_held_range) or not held or get_viewport().gui_get_focus_owner() != _held_range:
+		_held_range = null
+		return
+	_held_range_time += delta
+	if _held_range_time >= REPEAT_DELAY:
+		_held_range_time -= REPEAT_EVERY
+		var step: float = _held_range.step if _held_range.step > 0.0 else (_held_range.max_value - _held_range.min_value) / 20.0
+		_held_range.value += step * _held_range_dir
 
 
 func _draw_ring() -> void:

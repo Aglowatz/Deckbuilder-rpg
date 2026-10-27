@@ -316,3 +316,9 @@ cycle 1); the spells-only arena (cycle 10).
 4. **Far shadows change the look** (Part 1): with the sun behind the scene (Gainlands, yaw from the far side) the camera-facing cliffs and the
    gym hall's front now sit in shadow at the far end too, as the near ones always did (`docs/art/graphics_tier1/fixes26_p1_after/gainlands.jpg`).
    Physically right and consistent; if the far plateau should read brighter, raise that zone's `light.shadow_opacity` lightness.
+5. **Volume** (Part 3): the cause was the slider curve, not the routing (`docs/audio/volume_fix_oct26.md`). The fix changes how the sliders
+   feel: 2 dB per 5% step, 50% = -20 dB. Old settings files are converted once to the same loudness (your file on this PC now reads 95 / 90 /
+   95%). If you meant something else by "not working" (no sound at all, one sound ignoring its slider), tell me which sound and where.
+6. **Gamepad smoke with the DualSense plugged in** (Part 3): a real controller on device 0 overrides the smoke's simulated stick, so the stick,
+   prompt and Controls-page checks fail with or without today's change (same 4 failures on HEAD). Unplug the controller to run
+   `tools/run_gamepad_smoke.sh`; the held-stick repeat on sliders could only be verified for the D-pad for the same reason.
