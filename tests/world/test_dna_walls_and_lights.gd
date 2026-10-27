@@ -13,14 +13,16 @@ func test_walls_stand_above_the_default_lens() -> void:
 	assert_gt(DnaInterior.SHELL_HEIGHT, DnaInterior.WALL_HEIGHT, "the outer shell stays the tallest")
 
 
+## Fixes Oct 27: the walls cut by room (test_dna_room_cut.gd), no longer by the hero's depth.
 func test_walls_in_front_of_the_hero_cut_away_completely() -> void:
 	var shader: String = FileAccess.get_file_as_string("res://world/dna/dna_fade.gdshader")
-	assert_true(shader.contains("uniform bool cut_front"), "the dollhouse cut exists")
+	assert_true(shader.contains("uniform bool room_cut"), "the room cut exists")
 	var fade: DnaFadeMesh = DnaInterior.mesh()
 	fade.box("wallpaper", Vector4(0, 0, 0.5, DnaInterior.WALL_HEIGHT), Vector3(0, 5, 0), Vector3(1, 10, 1))
 	var mesh: ArrayMesh = fade.build()
 	var material: ShaderMaterial = mesh.surface_get_material(0) as ShaderMaterial
-	assert_true(bool(material.get_shader_parameter("cut_front")), "walls cut in front of the hero")
+	assert_eq(material.get_shader_parameter("room_cut"), true, "walls cut for the hero's room")
+	assert_ne(material.get_shader_parameter("cut_front"), true, "not by depth (walls popped as the hero walked past them)")
 	assert_eq(float(material.get_shader_parameter("fade_strength")), 1.0, "and vanish (no ghost veil over the room)")
 
 

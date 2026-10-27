@@ -18,12 +18,74 @@ uniform float near_reach = 0.0;
 // Fixes Oct 26 (10 m walls): a full-height wall that stands nearer the camera than the hero (along the view) fades whether or not it sits on the sight line,
 // so the hero's whole room shows (a dollhouse cut at the hero's depth) instead of a slot through its near wall; walls beyond the hero stay up.
 uniform bool cut_front = false;
+// Fixes Oct 27 (walls popping): a full-height wall uses the ROOM cut instead of the hero sight line, the lens reach and the depth cut above. The hero's room (or
+// corridor) is a floor rectangle (min x, min z, max x, max z); a wall piece fades when it stands in the region swept from the camera to that rectangle, before
+// the rectangle along the ray - every wall that hides some of the room's floor, and nothing else: no fade by distance, and the room's other walls and every
+// wall elsewhere stay solid. Every term is continuous in the camera's position, so a wall eases out as the camera glides instead of switching. Changing room
+// blends up to three rectangles by weights that ease on the CPU (DnaRoomCut: the new room's weight rises to 1 over 0.6 s).
+uniform bool room_cut = false;
+uniform vec4 room_a = vec4(0.0, 0.0, -1.0, -1.0);
+uniform vec4 room_b = vec4(0.0, 0.0, -1.0, -1.0);
+uniform vec4 room_c = vec4(0.0, 0.0, -1.0, -1.0);
+uniform vec3 room_w = vec3(1.0, 0.0, 0.0);
 // Frosted glass (base alpha under 1) and the fluorescent tubes (emission) share the shader.
 uniform float base_alpha : hint_range(0.0, 1.0) = 1.0;
 uniform float emission_strength = 0.0;
 global uniform float style_desaturate;
 
 varying float v_fade;
+
+float cross2(vec2 a, vec2 b) {
+	return a.x * b.y - a.y * b.x;
+}
+
+// Signed distance from p to the triangle (a, b, c) (negative inside; the usual 2D form).
+float tri_distance(vec2 p, vec2 a, vec2 b, vec2 c) {
+	vec2 e0 = b - a;
+	vec2 e1 = c - b;
+	vec2 e2 = a - c;
+	vec2 v0 = p - a;
+	vec2 v1 = p - b;
+	vec2 v2 = p - c;
+	vec2 p0 = v0 - e0 * clamp(dot(v0, e0) / max(dot(e0, e0), 1e-6), 0.0, 1.0);
+	vec2 p1 = v1 - e1 * clamp(dot(v1, e1) / max(dot(e1, e1), 1e-6), 0.0, 1.0);
+	vec2 p2 = v2 - e2 * clamp(dot(v2, e2) / max(dot(e2, e2), 1e-6), 0.0, 1.0);
+	float s = cross2(e0, e2) >= 0.0 ? 1.0 : -1.0;
+	vec2 d = min(min(vec2(dot(p0, p0), s * cross2(v0, e0)), vec2(dot(p1, p1), s * cross2(v1, e1))), vec2(dot(p2, p2), s * cross2(v2, e2)));
+	return -sqrt(d.x) * sign(d.y);
+}
+
+// How much a piece at q hides the floor rectangle r from the camera at c (0 = not at all, 1 = fully in the way). An empty rectangle (max < min) = 0.
+// The floor the camera can see past a wall is the union of the triangles (camera, edge) over the rectangle's edges that face the camera; a 1 m wall piece
+// is fully cut when its centre is within half a metre of that union and stands again a metre out. Each edge's triangle counts as much as the camera stands
+// outside that edge's line (none 0.3 m inside it, all of it half a metre out: a camera over the near wall's own cell cuts it fully, and the hero never stands
+// close enough to a side wall to cut it), so nothing switches when the camera crosses a line. Corners are pulled in a quarter metre
+// along their edges, so the wall cell diagonally past a corner (it hides no floor) stays up.
+float room_fade(vec2 q, vec2 c, vec4 r) {
+	if (r.z < r.x || r.w < r.y) {
+		return 0.0;
+	}
+	vec2 lo = r.xy;
+	vec2 hi = r.zw;
+	float inset = min(0.25, 0.25 * min(hi.x - lo.x, hi.y - lo.y));
+	// the four edges: (start, end, outward normal)
+	vec2 a[4] = vec2[4](vec2(lo.x + inset, lo.y), vec2(hi.x, lo.y + inset), vec2(hi.x - inset, hi.y), vec2(lo.x, hi.y - inset));
+	vec2 b[4] = vec2[4](vec2(hi.x - inset, lo.y), vec2(hi.x, hi.y - inset), vec2(lo.x + inset, hi.y), vec2(lo.x, lo.y + inset));
+	vec2 n[4] = vec2[4](vec2(0.0, -1.0), vec2(1.0, 0.0), vec2(0.0, 1.0), vec2(-1.0, 0.0));
+	float line[4] = float[4](lo.y, hi.x, hi.y, lo.x);
+	float fade = 0.0;
+	for (int k = 0; k < 4; k++) {
+		float outside = k == 0 ? line[k] - c.y : (k == 1 ? c.x - line[k] : (k == 2 ? c.y - line[k] : line[k] - c.x));
+		float weight = smoothstep(-0.35, 0.65, outside);
+		if (weight <= 0.0) {
+			continue;
+		}
+		float dist = tri_distance(q, c, a[k], b[k]);
+		fade = max(fade, weight * (1.0 - smoothstep(0.5, 1.3, dist)));
+	}
+	return fade;
+}
+
 varying vec3 v_tint;
 // Fixes Oct 26: CUSTOM1.yzw = (disc u, disc v, 1) on a soft glow disc (DnaFadeMesh.disc): alpha and emission fall off round its centre, so a lamp's glow on
 // its wall is a soft round pool with no edges (the old flat plate read as a rectangle).
@@ -57,6 +119,17 @@ void vertex() {
 	float at_lens = (1.0 - smoothstep(near_reach * 0.45, near_reach, length(origin.xz - cam.xz))) * step(0.5, near_reach);
 	float front = cut_front ? in_front * step(0.0, t_raw) * (1.0 - smoothstep(top - 0.3, top + 0.35, cam.y)) : 0.0;
 	v_fade = max(max(corridor * in_front * covers, at_lens), front) * enabled * fade_strength;
+	if (room_cut) {
+		vec2 q = origin.xz;
+		float cut = room_w.x * room_fade(q, cam.xz, room_a);
+		if (room_w.y > 0.0) {
+			cut += room_w.y * room_fade(q, cam.xz, room_b);
+		}
+		if (room_w.z > 0.0) {
+			cut += room_w.z * room_fade(q, cam.xz, room_c);
+		}
+		v_fade = cut * enabled * fade_strength;
+	}
 	v_tint = COLOR.rgb;
 	v_disc = CUSTOM1.yzw;
 }

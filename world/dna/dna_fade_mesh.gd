@@ -33,9 +33,11 @@ func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE, alpha
 	material.set_shader_parameter("near_reach", near_reach)
 	# Fixes Oct 26: a full-height wall (one with a lens cut-away) fades away completely between the camera and the hero - at 10 m the old 86% ghost left a dark
 	# veil over the room behind it (the people in it read dim); cabinets and partitions keep the softer ghost.
+	# Fixes Oct 27: walls fade by the room cut (the walls between the camera and the hero's room or corridor, eased between rooms: DnaRoomCut), not by the
+	# hero's depth (cut_front made every wall nearer the camera than the hero vanish anywhere in the zone, and walls popped as the hero walked past them).
 	if near_reach > 0.0:
 		material.set_shader_parameter("fade_strength", WALL_FADE_STRENGTH)
-		material.set_shader_parameter("cut_front", true)
+		material.set_shader_parameter("room_cut", true)
 	material.set_meta(PaintedClasses.META_NO_PAINT, true)
 	material.set_meta(StyleToon.META_NO_TOON, true)
 	_materials[slot] = material

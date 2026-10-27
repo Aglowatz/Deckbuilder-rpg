@@ -14,6 +14,8 @@ var dna: DnaBuilder
 var _light_pool: Array[OmniLight3D] = []
 
 var _light_timer: float = 0.0
+## Fixes Oct 27, Part 2: the walls cut away for the hero's room or corridor, eased between rooms.
+var room_cut: DnaRoomCut
 
 
 func _zone_id() -> String:
@@ -67,6 +69,12 @@ func _interact_zone(spot: ZoneSpot) -> void:
 func _zone_process(delta: float) -> void:
 	_update_lights()
 	DnaMaterials.set_hero_pos(player.position)
+	if room_cut == null and dna != null and dna.layout != null:
+		room_cut = DnaRoomCut.new(dna.layout)
+		room_cut.snap(room_cut.region_at(player.position))  # the first region shows at once
+	if room_cut != null:
+		room_cut.update(player.position, delta)
+		room_cut.apply()
 	_update_causeway_exit()
 	_light_timer -= delta
 	if _light_timer <= 0.0:

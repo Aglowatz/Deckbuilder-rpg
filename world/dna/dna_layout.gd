@@ -97,6 +97,8 @@ var chests: Dictionary = {}
 var partitions: Array[Vector4] = []
 ## Void cells that get no balustrade (the executive floor's north edge where the Hall's stair comes down): Vector2i -> true.
 var open_edges: Dictionary = {}
+## Fixes Oct 27: the corridors and doorways (cells), in the order carved - the regions between rooms the wall cut follows (DnaRoomCut).
+var links: Array[Rect2i] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -237,6 +239,7 @@ func _room(id: String, rect: Rect2i, floor_kind: Floor, title: String, safe: boo
 
 ## A corridor / doorway: just carved floor that takes the floor look of `like`. Every doorway is at least LINK_WIDTH cells across (GC-1: wide, clear routes).
 func _link(rect: Rect2i, floor_kind: Floor) -> void:
+	links.append(rect)
 	_carve(rect, floor_kind)
 
 

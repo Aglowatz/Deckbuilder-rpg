@@ -249,5 +249,14 @@ static func set_hero_pos(pos: Vector3) -> void:
 		material.set_shader_parameter("hero_pos", pos)
 
 
+## Fixes Oct 27, Part 2: the room cut of the full-height walls (DnaRoomCut): up to three regions (the hero's and the ones being left) and their weights.
+static func set_room_cut(regions: Array[Vector4], weights: Vector3) -> void:
+	for material: ShaderMaterial in _fade_materials:
+		material.set_shader_parameter("room_a", regions[0])
+		material.set_shader_parameter("room_b", regions[1])
+		material.set_shader_parameter("room_c", regions[2])
+		material.set_shader_parameter("room_w", weights)
+
+
 static func fade_materials() -> Array[ShaderMaterial]:
 	return _fade_materials
