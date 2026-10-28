@@ -3647,3 +3647,13 @@ Part 3 - Earned cards join the collection, not the deck (the Forgotten Cave's fi
 Deck Station tip, the NEW badge (`Session.new_cards`).
 Checks - GUT all four groups green per part and on the final tree; validators, first-battles smoke, post-change sweeps
 (`docs/design/sim/cards27*`); story playthrough bot 90/90; tour bot 0 errors / 0 warnings. Exported as v0.4.6 (691 MB, release smoke OK).
+
+## Oct 27 - Dialogue export for editing (docs/dialogue/edit_oct27/README.md)
+`docs/dialogue/edit_oct27.csv`: 4,203 player-facing lines in story order (Prologue, Crosspath, the four zones, between zones, Capital, Ending,
+Postgame). Columns: ID, Zone/Area, Speaker, When it's heard, Current line, New line. Made by `node tools/export_dialogue.js`; every id is checked
+to lead back to its line. Sources: story .tres, story_scenes, Old Well, NPC barks, boss intros, encounter scripts, dungeon_content (text,
+events, choices, challenges, blurbs), quest text in core/quests. Ids and locators now live in `tools/dialogue_ids.js`, shared with the importer.
+`tools/apply_dialogue_pass.js --csv=<file> [--apply | --revert[=ids.txt]]` applies only the changed rows, with the same checks as Oct 21. The
+ledger survives repeated applies, and a snapshot covers cells a spreadsheet changed. The Oct 21 batch mode is unchanged (its dry run matches
+the baseline). Tested end to end on a scratch copy: 12 edits across every source type, then re-edit, revert (tree clean) and the
+validation failures.
