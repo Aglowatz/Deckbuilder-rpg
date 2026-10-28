@@ -150,3 +150,15 @@ func test_old_saves_without_a_feats_key_load() -> void:
 	assert_true(Session.from_dict(data))
 	assert_not_null(Session.feats.state)
 	assert_true(Session.feats.state.has("old_stone_cold_nights"), "and earn what they already did")
+
+
+func test_feat_toasts_wait_while_a_battle_is_pending() -> void:
+	var shown: int = Session.toasts.history.size()
+	Session.pending_battle = BattleContext.new()
+	Session.complete_zone("gourmand")
+	assert_true(Session.feats.state.has("chef_always_tastes"))
+	assert_eq(Session.toasts.history.size(), shown, "no toast over the battle")
+	Session.pending_battle = null
+	Session.flush_feat_toasts()
+	assert_true(Session.toasts.history.size() > shown, "shown once the battle is over")
+	assert_true(Session.toasts.history[Session.toasts.history.size() - 1].begins_with("Feat: Chef Always Tastes"))

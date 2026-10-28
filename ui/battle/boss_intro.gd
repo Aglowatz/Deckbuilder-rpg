@@ -23,6 +23,7 @@ var _portrait: TextureRect
 var _card: VBoxContainer
 var _line: Label
 var _cutout_mode: bool = false
+var _halo: TextureRect
 
 
 static func wanted(enemy_name: String) -> bool:
@@ -58,6 +59,27 @@ func play(enemy_name: String, picture: Texture2D, fallback_icon: String, cutout:
 		_portrait.name = "IntroCutout"
 		_portrait.texture = cutout
 		var width: float = CUTOUT_HEIGHT * float(cutout.get_width()) / maxf(1.0, float(cutout.get_height()))
+		# Phase 2 (Oct 28): a soft dark halo behind the figure, so a pale coat reads on a bright board; it slides in with the figure.
+		var gradient: Gradient = Gradient.new()
+		gradient.set_color(0, Color(0.02, 0.01, 0.05, 0.62))
+		gradient.set_color(1, Color(0.02, 0.01, 0.05, 0.0))
+		var halo_texture: GradientTexture2D = GradientTexture2D.new()
+		halo_texture.gradient = gradient
+		halo_texture.fill = GradientTexture2D.FILL_RADIAL
+		halo_texture.fill_from = Vector2(0.5, 0.5)
+		halo_texture.fill_to = Vector2(1.0, 0.5)
+		halo_texture.width = 256
+		halo_texture.height = 256
+		_halo = TextureRect.new()
+		_halo.name = "IntroHalo"
+		_halo.texture = halo_texture
+		_halo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_halo.stretch_mode = TextureRect.STRETCH_SCALE
+		_halo.size = Vector2(width * 1.6, CUTOUT_HEIGHT * 1.1)
+		_halo.position = Vector2(-width - width * 0.3, 1080.0 - BAR_HEIGHT + CUTOUT_OVERLAP - CUTOUT_HEIGHT * 1.05)
+		_halo.modulate = Color(1, 1, 1, 0)
+		_halo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_halo)
 		_portrait.size = Vector2(width, CUTOUT_HEIGHT)
 		_portrait.position = Vector2(-width, 1080.0 - BAR_HEIGHT + CUTOUT_OVERLAP - CUTOUT_HEIGHT)
 		_portrait.pivot_offset = Vector2(width * 0.5, CUTOUT_HEIGHT)
@@ -121,6 +143,8 @@ func play(enemy_name: String, picture: Texture2D, fallback_icon: String, cutout:
 	_tween.parallel().tween_property(_portrait, "scale", Vector2.ONE, HOLD_SECONDS + 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	if _cutout_mode:
 		_tween.parallel().tween_property(_portrait, "position:x", CUTOUT_X, 0.45).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		_tween.parallel().tween_property(_halo, "position:x", CUTOUT_X - _portrait.size.x * 0.3, 0.45).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		_tween.parallel().tween_property(_halo, "modulate:a", 1.0, 0.5)
 	_tween.parallel().tween_property(_card, "modulate:a", 1.0, 0.3).set_delay(0.2)
 	_tween.parallel().tween_property(_card, "position:y", 360.0, 0.4).set_delay(0.2).set_ease(Tween.EASE_OUT)
 	_tween.parallel().tween_property(_line, "modulate:a", 1.0, 0.3).set_delay(0.7)
@@ -139,6 +163,8 @@ func hold() -> void:
 	_portrait.scale = Vector2(1.0, 1.0) if _cutout_mode else Vector2(1.05, 1.05)
 	if _cutout_mode:
 		_portrait.position.x = CUTOUT_X
+		_halo.position.x = CUTOUT_X - _portrait.size.x * 0.3
+		_halo.modulate.a = 1.0
 	_card.modulate.a = 1.0
 	_card.position.y = 360.0
 	_line.modulate.a = 1.0

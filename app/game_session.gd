@@ -44,6 +44,8 @@ var feats: FeatTracker = FeatTracker.new()
 var _feats_busy: bool = false
 ## Feat rewards (gold, essence) are paid only in a real, saving game; tests (saving off) opt in with this.
 var pay_feat_rewards: bool = false
+## Feat toasts held back while a battle is on screen (the boss entrance, the board, the result), shown when it ends.
+var _feat_toast_queue: Array[String] = []
 ## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
 ## card_codex.gd) shows these normally and everything else as a silhouette.
 var seen_cards: Dictionary = {}
@@ -3444,6 +3446,7 @@ func complete_battle(context: BattleContext) -> void:
 		_battle_feats(context)
 	else:
 		feats.watcher.detach()
+	flush_feat_toasts()
 	if context.won:
 		record_victory(context)
 		grant_lieutenant_reward(context.enemy_name)
@@ -3861,12 +3864,22 @@ func _feats_earned(ids: Array[String], announce: bool) -> void:
 				for path: Affinity.Type in Affinity.colored_types():
 					profile.add_essence(path, def.reward_essence)
 			reward = def.reward_text()
-		if announce and toasts != null:
-			toasts.show_toast("Feat: %s%s" % [def.name, "" if reward.is_empty() else "  (+%s)" % reward], UIStyle.GOLD, CardIcons.ui("level_badge"))
+		if announce:
+			_feat_toast_queue.append("Feat: %s%s" % [def.name, "" if reward.is_empty() else "  (+%s)" % reward])
 		else:
 			quiet.append(def.name)
-	if announce and toasts != null and AudioRegistry.has_id("STG-SECRET"):
-		Audio.sting(&"STG-SECRET")
+	flush_feat_toasts()
 	if not quiet.is_empty() and toasts != null:
 		toasts.show_toast("%d feat%s recorded from this save" % [quiet.size(), "" if quiet.size() == 1 else "s"], UIStyle.GOLD, CardIcons.ui("level_badge"))
 	EventBus.collection_changed.emit()
+
+
+## Shows the queued feat toasts (with the sting) unless a battle is pending; `complete_battle` calls it once the battle is over.
+func flush_feat_toasts() -> void:
+	if _feat_toast_queue.is_empty() or pending_battle != null or toasts == null:
+		return
+	for text: String in _feat_toast_queue:
+		toasts.show_toast(text, UIStyle.GOLD, CardIcons.ui("level_badge"))
+	_feat_toast_queue = []
+	if AudioRegistry.has_id("STG-SECRET"):
+		Audio.sting(&"STG-SECRET")

@@ -24,7 +24,7 @@ exported and no version was bumped (by rule). No art was generated: every pictur
 |---|---|---|
 | 1 Necrocrat | a5c59207 | N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, new N-38 Hazmat Intern; sim packages; `sheet_changes_oct28.csv`; balance_log; tests |
 | 2 Art direction + catalogue | d05586d9 | `art_direction_oct28.md`, `enemy_roster_oct28.md`, `art_batch_oct28.csv/.md`, `lines_to_update_oct28.csv`; code: enemy sprite swap-in, 5 renames with aliases, 3 town roamers in the Bestiary, boss intro cut-outs, `CUT-*` ids in the portrait importer; `test_enemy_art_oct28.gd` |
-| 3 Feats | PART3_COMMIT | `data/feats/feats.json`, `core/feats/*`, `ui/screens/feats_panel.gd`, Session hooks, pause menu entry, `docs/design/feats.md`, `test_feats.gd` |
+| 3 Feats | 93ab2b47 | `data/feats/feats.json`, `core/feats/*`, `ui/screens/feats_panel.gd`, Session hooks, pause menu entry, `docs/design/feats.md`, `test_feats.gd` |
 | Phase 2 | see `docs/overnight/loop_log.md` | polish cycles (first-hour clarity, visual polish) |
 
 ## The Necrocrat result (Part 1)
@@ -121,7 +121,7 @@ rewards paid once per account (gold / essence; only in a saving game). Menu > Fe
 ## Checks
 
 - GUT per part: Part 1 root 276 / core 1465 / ui 234 / world 418; Part 2 root 276 / core 1479 (+ the two not-yet-wired feats tests) /
-  ui 234 / world 418; Part 3 feats 9/9, root 276, ui 234, core 1481 (+1 known pending), world WORLD_P3.
+  ui 234 / world 418; Part 3 feats 9/9, root 276, ui 234, core 1481 (+1 known pending), world 418 (rerun in the foreground after the harness stopped the first run for low memory).
 - Walk smokes after Part 2: Crosspath, Gainlands, D.N.A., Buffet, Dump, Capital all OK. `perf_budget.sh structure`: all budgets met (Part 1).
 - Sims: Part 1's round robin on two seeds, the cave (seed 7000), `zone:necrocrat`, `dungeon:D-HFA`.
 - Screenshots: `docs/overnight/oct27/intro_warden_cutout.png` (the new entrance). The Feats page has no screenshot (no pause-menu hook in
