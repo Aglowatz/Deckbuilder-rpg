@@ -10,8 +10,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    N-05 2/4, N-07 3/4, N-23 3/5) and one new Common, **N-38 Hazmat Intern, 2(N) 1/3 Toxic**. Level-12 round robin: Necrocrat 45% on the
    two-seed mean (was 20-33), nobody over 75%. Three seeds now (7000 / 8100 / 9200): Necrocrat 40 / 50 / 47 (mean 46). Two cells sit outside your lines on every seed:
    Necrocrat vs Gourmand 35 / 15 / 20 (the golem walls kill a 1/3 Toxic blocker first) and Necrocrat vs Refusemancer 55 / 80 / 60 (Toxic
-   counters big bodies): **Refusemancer is the weakest Path now, 35 / 23 / 22 (mean 27; was 33-43)**. Options: (a) accept, (b) one Hazmat Intern in the sim package instead of two, (c) Pink Slip to "attack 4 or less" for the
-   Gourmand cell (a spell, left alone tonight). The Intern's name, flavour and image row are in `docs/design/sheet_changes_oct28.csv`;
+   counters big bodies): **Refusemancer is the weakest Path now, 35 / 23 / 22 (mean 27; was 33-43)**. Options measured on seed 8100 and reverted: (b) one Hazmat Intern in the sim package: Refusemancer still 23, Gourmand cell 15 - no
+   help; (c) Pink Slip to "attack 4 or less": Necrocrat 53 but the Gourmand cell still 15 (it helps vs Beefcake). So: (a) accept, or
+   (d) a Gourmand-facing answer (resource denial in the package, or a Common) and a Refusemancer body pass as its own task. The Intern's name, flavour and image row are in `docs/design/sheet_changes_oct28.csv`;
    rename freely.
 2. The Hall of Final Approvals reads Refusemancer 17-33% on its elites and Mortimer (6 games; the Oct 27 sweep had 25% on all three),
    every node still "ok" overall. Not tonight's change, but Refusemancer in the D.N.A. is the weakest Path-zone pairing in the game now.

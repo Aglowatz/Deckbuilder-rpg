@@ -1406,3 +1406,10 @@ The Gourmand cell holds under 30 on every seed and Refusemancer's fall is consis
 Toxic blockers counter Refusemancer's big bodies and do little against Gourmand's Sucker Punch walls. Left for the designer (inbox 1):
 the cheapest counter-moves are one Hazmat Intern in the sim's package instead of two (the model), Pink Slip to "attack 4 or less" (the
 Gourmand cell) and a Refusemancer body or two (its own pass).
+
+**Two counter-moves measured and reverted (Phase 2, 23:38-23:47, seed 8100, 20 games)**: (b) one Hazmat Intern in the sim's package
+instead of two: Necrocrat 47 (vs B 45 / G 15 / R 80), Refusemancer 23 - the Intern count is not Refusemancer's problem, the 3/4 and 3/5
+bodies are too. (c) Pink Slip to "attack 4 or less": Necrocrat 53 (vs B 65 / G 15 / R 80) - it helps against Beefcake, not against
+Gourmand, whose golem engine wins on cards rather than on any one body. Neither was kept (`oct28_decks_l12_intern1_8100.md`,
+`oct28_decks_l12_pinkslip4_8100.md`). The Gourmand cell needs a different idea (resource denial: Push Broom / Audit Wraith in the sim's
+package, or a Gourmand-facing Common) and Refusemancer a pass of its own.

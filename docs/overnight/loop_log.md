@@ -36,3 +36,6 @@ Eleven cycles between 22:55 and 23:40: stability (world GUT 418, first-battles, 
 boss-rules), two polish changes (the intro halo, feat toasts that wait for the battle to end and name Menu > Feats), the Feats page shots,
 and a third balance seed. Not done: the Dump's two blue entrance flags (not found in the zone's code tonight; a catalogue row covers them)
 and `perf_budget.sh frame` (skipped on a machine that had just reaped a Godot for memory). Scorecard: `docs/overnight/oct27/scorecard.md`.
+12. **Balance (measured, reverted)**: the inbox's two cheap counter-moves on seed 8100: one Hazmat Intern in the sim package (Necrocrat
+    47, Refusemancer 23, the Gourmand cell 15 - no help) and Pink Slip at "attack 4 or less" (Necrocrat 53, vs Beefcake 65, the Gourmand
+    cell still 15). Neither kept; balance_log and inbox 1 updated with the finding.
