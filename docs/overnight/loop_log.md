@@ -21,3 +21,6 @@ Parts 1-3 landed at a5c59207, d05586d9, 93ab2b47.
 6. **Stability**: tour bot OK - 281 spots, 9 menus, 5 battles, 0 errors, 0 warnings (23:11-23:20).
 7. **First-hour clarity**: the first feat toast of a session ends with "Menu > Feats" so a new player knows where the list lives; a UI
    test builds the Feats page (every group and feat, hidden ones as ???, "Earned here" marks) and opens it from the pause menu.
+8. **UI consistency**: a dev scene for the Feats page (`scenes/dev/feats_gallery.tscn`, `bash tools/shot.sh res://scenes/dev/feats_gallery.tscn feats_page`;
+   shot `docs/overnight/oct27/c8_feats_page.png`) and a `--open=feats` hook on the town for the in-menu version; the page reads like the
+   Glossary (same plate, heading sizes, row layout), earned rows bright with "Earned here", locked ones dimmed, hidden ones "???".

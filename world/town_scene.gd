@@ -1242,6 +1242,10 @@ func _interact(spot: Spot) -> void:
 		_read_signpost(int(spot.id.trim_prefix("signpost_")))
 		return
 	match spot.id:
+		"feats":  # Overnight Oct 28, Part 3: the Feats page with a few earned (the cave, two zones) and the hidden ones as ???
+			Session.complete_zone("beefcake")
+			Session.complete_zone("gourmand")
+			get_tree().create_timer(0.8).timeout.connect(SceneManager.show_feats_page)
 		"well":
 			_use_well()
 		"well_door":
