@@ -190,7 +190,7 @@ func _get_hit_by_the_courier(zone: DnaScene) -> void:
 
 func _touch_a_slow_enemy(zone: DnaScene) -> DnaScene:
 	var enemy: ZoneEnemy = _find_enemy(zone, DnaEnemies.INTERN)
-	_check(enemy != null, "a Zombie Intern roams the zone")
+	_check(enemy != null, "an Unpaid Intern roams the zone")
 	if enemy == null:
 		return zone
 	var enemy_id: String = enemy.instance_id

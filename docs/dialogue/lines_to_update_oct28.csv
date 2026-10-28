@@ -1,0 +1,2 @@
+"ID","Current line","Suggested new line","Why"
+"data/story/intro_story.tres::town.elder.idle.4::1","The roads are open. Even the tortoises use them. I passed one this morning. Barely.","The roads are open. Even I use them. Passed a hare this morning. He did not forgive me.","Maren is a tortoise again (portrait + sprite redo, Oct 28); speaking of tortoises as \"them\" reads oddly once she visibly is one. Optional."

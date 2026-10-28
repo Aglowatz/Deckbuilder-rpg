@@ -20,9 +20,9 @@ dungeon_content.json, core/quests, story_beats.gd. New text = new keys only. Lin
 | Part | Status | Notes |
 |---|---|---|
 | 0 setup | done | tag pushed, this file, inbox section |
-| 1 Necrocrat units | done (set B: N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, NEW N-38 Hazmat Intern 1/3 Toxic; L12 round robin N 45% two-seed mean; GUT core+root green, ui+world run after the commit) | target: L12 round robin Necrocrat 40-50% overall, >=30% vs each Path, starters 80%+ in the cave, nothing over ~75%; log in balance_log.md + `docs/design/sheet_changes_oct28.csv` |
-| 2 art direction + catalogue | pending | `docs/art/art_direction_oct28.md`, `docs/design/enemy_roster_oct28.md`, `docs/art/art_batch_oct28.csv` + `.md`, boss intro cut-outs, Maren tortoise, importer ID rules + tests |
-| 3 feats | pending | `data/feats/feats.json`, `docs/design/feats.md`, Feats screen, GUT |
+| 1 Necrocrat units | done (set B: N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, NEW N-38 Hazmat Intern 1/3 Toxic; L12 round robin N 45% two-seed mean; GUT root 276 / core 1465 / ui 234 / world 418 all green; commit a5c59207 pushed) | target: L12 round robin Necrocrat 40-50% overall, >=30% vs each Path, starters 80%+ in the cave, nothing over ~75%; log in balance_log.md + `docs/design/sheet_changes_oct28.csv` |
+| 2 art direction + catalogue | code + docs done, GUT all running (bg), then commit: art_direction_oct28.md, enemy_roster_oct28.md, art_batch_oct28.csv (164 rows) + .md, lines_to_update_oct28.csv, boss intro cut-outs (shot docs/overnight/oct27/intro_warden_cutout.png), ZoneEnemy sprite swap-in, 5 renames + aliases, 3 town roamers in the Bestiary, test_enemy_art_oct28.gd; 6 walk smokes OK |
+| 3 feats | code written, NOT yet wired: core/feats/*.gd, ui/screens/feats_panel.gd, data/feats/feats.json, tests/core/feats/test_feats.gd; run node _logs/oct28_part3_edits.js (Session + pause menu wiring) AFTER the Part 2 commit, then GUT core + ui | `data/feats/feats.json`, `docs/design/feats.md`, Feats screen, GUT |
 | Phase 2 | pending | `docs/overnight/loop_log.md` |
 | report | pending | `docs/overnight_report.md` |
 

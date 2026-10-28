@@ -9,6 +9,19 @@ const PATH: String = "res://data/bestiary/bestiary.json"
 const MET_PREFIX: String = "bestiary_met:"
 const WON_PREFIX: String = "bestiary_won:"
 const FALLBACK_ICON: String = "lorc/magic-swirl"
+## Overnight Oct 28 (the roster review, docs/design/enemy_roster_oct28.md): roamers renamed, old battle name -> new. Old saves' met / won
+## counters and an old BST-* picture on disk keep working through `canonical`, `met_count` / `won_count` and `art`.
+const RENAMED: Dictionary = {
+	"Stray Gym Hound": "Pantry Hound", "Flexing Brute": "Quota Spotter", "Zombie Intern": "Unpaid Intern",
+	"Possessed Scarecrow Druid": "Hungry Scarecrow", "Compliance Officer": "Correction Officer",
+}
+## A boss / lieutenant / gatekeeper entrance cut-out is a Portrait Image ID "CUT-<NPC key>" (CUT-CLENCH for NPC-CLENCH), imported by
+## "import portraits" beside the dialogue portraits (`Portraits.known_portraits`). Until it exists the intro shows the transparent
+## dialogue portrait itself, and the Bestiary square when there is no portrait either (`cutout`).
+const CUTOUT_PREFIX: String = "CUT-"
+## A roaming enemy's painted sprite set is the world-sprite character "FOE-<slug of its name>" (FOE-QUOTA-SPOTTER: files
+## SPR-FOE-QUOTA-SPOTTER-FRONT_IDLE.png..., imported by "import npc sprites"); `ZoneEnemy` draws it instead of the 3D model once it exists.
+const SPRITE_PREFIX: String = "FOE-"
 ## Discovery milestones: percent met -> reward ({gold} or {pack: "path"/id}). Paid once each (flag "bestiary_<percent>").
 const MILESTONES: Array[Dictionary] = [
 	{"percent": 25, "gold": 100},
@@ -44,15 +57,35 @@ static func reset_art() -> void:
 
 ## "Cave Scavenger" -> "BST-CAVE-SCAVENGER" (letters and digits, everything else a single dash).
 static func art_id(entry_name: String) -> String:
+	return "BST-" + slug(canonical(entry_name))
+
+
+## The world-sprite character key of an enemy: "FOE-" + the same slug as its Bestiary picture ("Quota Spotter" -> "FOE-QUOTA-SPOTTER").
+static func sprite_key(entry_name: String) -> String:
+	return SPRITE_PREFIX + slug(canonical(entry_name))
+
+
+## The Bestiary picture ids an old name of a renamed enemy used (so a picture made under the old name still shows).
+static func legacy_art_ids(entry_name: String) -> Array[String]:
+	var key: String = canonical(entry_name)
+	var ids: Array[String] = []
+	for old: String in RENAMED:
+		if str(RENAMED[old]) == key:
+			ids.append("BST-" + slug(old))
+	return ids
+
+
+## Upper-case letters and digits of `text`, everything else a single dash.
+static func slug(text: String) -> String:
 	var slug: String = ""
-	for character: String in canonical(entry_name).to_upper():
+	for character: String in text.to_upper():
 		var code: int = character.unicode_at(0)
 		var keep: bool = (code >= 65 and code <= 90) or (code >= 48 and code <= 57)
 		if keep:
 			slug += character
 		elif not slug.ends_with("-") and not slug.is_empty():
 			slug += "-"
-	return "BST-" + slug.trim_suffix("-")
+	return slug.trim_suffix("-")
 
 
 ## The picture of an entry (by name), or null when none has been made yet. Remembered per name.
@@ -63,10 +96,15 @@ static func art(entry_name: String) -> Texture2D:
 	if _art_cache.has(id):
 		return _art_cache[id] as Texture2D
 	var texture: Texture2D = null
-	for extension: String in ["webp", "png"]:
-		var path: String = "%s/%s.%s" % [ART_DIR, id, extension]
-		if ResourceLoader.exists(path):
-			texture = load(path) as Texture2D
+	var candidates: Array[String] = [id]
+	candidates.append_array(legacy_art_ids(entry_name))
+	for candidate: String in candidates:
+		for extension: String in ["webp", "png"]:
+			var path: String = "%s/%s.%s" % [ART_DIR, candidate, extension]
+			if ResourceLoader.exists(path):
+				texture = load(path) as Texture2D
+				break
+		if texture != null:
 			break
 	if texture == null:
 		texture = portrait_art(entry_name)
@@ -81,13 +119,54 @@ const PORTRAIT_ALIASES: Dictionary = {
 }
 
 
-## The square head-and-shoulders crop of the enemy's dialogue portrait (top of the 2:3 image), or null when the enemy is no NPC with a portrait.
-static func portrait_art(entry_name: String) -> Texture2D:
+## The NPC list id of the speaking character an enemy name belongs to ("" for a nameless foe): an alias, else the registry's speaker lookup.
+static func portrait_npc_id(entry_name: String) -> String:
 	var npc_id: String = str(PORTRAIT_ALIASES.get(canonical(entry_name), ""))
 	if npc_id.is_empty():
 		npc_id = NpcRegistry.resolve_speaker(canonical(entry_name))
 	if npc_id.is_empty():
 		npc_id = NpcRegistry.resolve_speaker(entry_name)
+	return npc_id
+
+
+## Overnight Oct 28: the Portrait Image ID of an enemy's entrance cut-out ("CUT-CLENCH"), "" when the enemy is no speaking character.
+static func cutout_id(entry_name: String) -> String:
+	var npc_id: String = portrait_npc_id(entry_name)
+	var npc: NpcRegistry.Entry = NpcRegistry.find(npc_id) if not npc_id.is_empty() else null
+	if npc == null or npc.portrait_id.is_empty():
+		return ""
+	return CUTOUT_PREFIX + npc.portrait_id.substr(npc.portrait_id.find("-") + 1)
+
+
+## The transparent figure the boss intro slides in: the imported CUT-* cut-out, else the dialogue portrait itself (already transparent),
+## else null (the intro then shows the Bestiary square, `art`).
+static func cutout(entry_name: String) -> Texture2D:
+	var id: String = cutout_id(entry_name)
+	if id.is_empty():
+		return null
+	if Portraits.has_portrait(id):
+		return Portraits.texture_for(id)
+	var npc: NpcRegistry.Entry = NpcRegistry.find(portrait_npc_id(entry_name))
+	if npc == null or not Portraits.has_portrait(npc.portrait_id):
+		return null
+	return Portraits.texture_for(npc.portrait_id)
+
+
+## Every cut-out id a boss / lieutenant / gatekeeper entrance can use (one per speaking character with an entrance), sorted: the ids
+## "import portraits" accepts and the list of cut-outs still to make.
+static func cutout_ids() -> Array[String]:
+	var ids: Array[String] = []
+	for key: String in BossIntros.keys():
+		var id: String = cutout_id(key)
+		if not id.is_empty() and not ids.has(id):
+			ids.append(id)
+	ids.sort()
+	return ids
+
+
+## The square head-and-shoulders crop of the enemy's dialogue portrait (top of the 2:3 image), or null when the enemy is no NPC with a portrait.
+static func portrait_art(entry_name: String) -> Texture2D:
+	var npc_id: String = portrait_npc_id(entry_name)
 	var npc: NpcRegistry.Entry = NpcRegistry.find(npc_id) if not npc_id.is_empty() else null
 	if npc == null or npc.portrait_id.is_empty() or not Portraits.has_portrait(npc.portrait_id):
 		return null
@@ -132,15 +211,27 @@ static func canonical(enemy_name: String) -> String:
 		return "Primm, His Perfection"
 	if enemy_name in CorruptedNpcs.DISPLAY_NAMES.values():
 		return "Corrupted Wanderers"
+	if RENAMED.has(enemy_name):
+		return str(RENAMED[enemy_name])
 	return enemy_name
 
 
 static func met_count(counters: Dictionary, enemy_name: String) -> int:
-	return int(counters.get(MET_PREFIX + canonical(enemy_name), 0))
+	return _count(counters, MET_PREFIX, enemy_name)
 
 
 static func won_count(counters: Dictionary, enemy_name: String) -> int:
-	return int(counters.get(WON_PREFIX + canonical(enemy_name), 0))
+	return _count(counters, WON_PREFIX, enemy_name)
+
+
+## A counter under the entry's name plus whatever an old save recorded under a name it was renamed from.
+static func _count(counters: Dictionary, prefix: String, enemy_name: String) -> int:
+	var key: String = canonical(enemy_name)
+	var total: int = int(counters.get(prefix + key, 0))
+	for old: String in RENAMED:
+		if str(RENAMED[old]) == key:
+			total += int(counters.get(prefix + old, 0))
+	return total
 
 
 static func is_known(counters: Dictionary, enemy_name: String) -> bool:

@@ -2,7 +2,7 @@ class_name GainlandsEnemies
 extends RefCounted
 ## The three roaming enemy designs of the Gainlands (placeholder numbers - balance is out of scope):
 ##
-##  - `brute`   Flexing Brute          - slow; touching starts a Beefcake-deck card battle.
+##  - `brute`   Quota Spotter          - slow; touching starts a Beefcake-deck card battle.
 ##  - `golem`   Protein Shake Golem    - slow; touching starts a (defensive) Beefcake-deck battle.
 ##  - `sprite`  Sprinting Energy Sprite - fast; 2 damage with knockback and a short invulnerability
 ##                                       window on touch; it never starts a battle.
@@ -19,7 +19,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 	made.id = id
 	match id:
 		BRUTE:
-			made.display_name = "Flexing Brute"
+			made.display_name = "Quota Spotter"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.patrol_speed = 0.9
 			made.chase_speed = 2.0

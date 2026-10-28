@@ -16,6 +16,24 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 2. The Hall of Final Approvals reads Refusemancer 17-33% on its elites and Mortimer (6 games; the Oct 27 sweep had 25% on all three),
    every node still "ok" overall. Not tonight's change, but Refusemancer in the D.N.A. is the weakest Path-zone pairing in the game now.
 
+3. **Roster renames, Part 2** (`docs/design/enemy_roster_oct28.md`): five roamers renamed in data (Stray Gym Hound -> Pantry Hound,
+   Flexing Brute -> Quota Spotter, Zombie Intern -> Unpaid Intern, Possessed Scarecrow Druid -> Hungry Scarecrow, Compliance Officer ->
+   Correction Officer); old saves keep their Collection Book counts and the old pictures through aliases. No frozen dialogue file names any
+   of them. Revert any rename by removing its `Bestiary.RENAMED` line and the spec's display name.
+4. **Not in the Bestiary and left so**: the Store Room Ghosts, Brisket and Sir Loin (gate golems that never fight) and the eight Undercroft
+   arena foes (Gladiator Rookie ... the Wall of Fame). Adding them changes the Collection Book's 100% and the milestone rewards; your call.
+   The three town roamers were added (they are the first open-world enemies and had no entry).
+5. **Readable text in the world**: the Capital's gate guards carry floating labels "GATE GUARD (EXIT CONTROL)" (see `t2_after/capital_in.jpg`),
+   which reads as signage against the no-text rule. They are UI name plates, not kit art; say if they should go.
+6. **Cut-outs are optional**: every boss / lieutenant / gatekeeper entrance already shows its transparent dialogue portrait sliding in (shot
+   `docs/overnight/oct27/intro_warden_cutout.png`). The 26 CUT-* rows only add the wider, hips-up framing and a pose; skip them if the
+   portraits read well enough to you. Four entrances have no speaking character and keep the square (the Restless Dead, Baron Quadzilla,
+   Colonel Casserole, the Wellspring's Echo).
+7. **Maren's one line**: `town.elder.idle.4` ("Even the tortoises use them. I passed one this morning. Barely.") in
+   `docs/dialogue/lines_to_update_oct28.csv` with a suggestion; optional.
+8. **Unused approved art** is listed, nothing deleted: DUMP-BD-ROTHEART (sky baked in) is superseded by the sky-transparent row; the
+   three retired-name Bestiary squares could be reused for new foes.
+
 ## Overnight Oct 25-26 - yours to decide (the safest choice was taken)
 
 1. **The session dropped at ~00:06 and resumed at 08:05**: Parts 1 and 2 were done; the verification, the Tier 2 doc and the report were

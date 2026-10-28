@@ -2,7 +2,7 @@ class_name CapitalEnemies
 extends RefCounted
 ## The roaming enemy designs of the Capital (placeholder numbers - balance is out of scope):
 ##
-##  - `officer`   Compliance Officer   - slow; touching starts a (balanced) Necrocrat/Gourmand-deck battle ("a courtesy citation").
+##  - `officer`   Correction Officer   - slow; touching starts a (balanced) Necrocrat/Gourmand-deck battle ("a courtesy citation").
 ##  - `inspector` Perfection Inspector - slow; touching starts a (defensive) battle ("your smile is 0.4 degrees off").
 ##  - `tidybot`   Tidy-Bot             - FAST; 2 damage with knockback and a short invulnerability window; never starts a battle.
 ##  - `wretch`    Rift Wretch          - slow; spawned by a rift (the guardian of a sealable one); an aggressive battle.
@@ -24,7 +24,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 	made.id = id
 	match id:
 		OFFICER:
-			made.display_name = "Compliance Officer"
+			made.display_name = "Correction Officer"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.patrol_speed = 0.7
 			made.chase_speed = 1.9

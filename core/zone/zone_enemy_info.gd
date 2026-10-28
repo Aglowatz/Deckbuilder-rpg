@@ -29,6 +29,9 @@ var xp_reward: int = 0
 var model: String = ""
 var tint: Color = Color.WHITE
 var model_scale: float = 1.0
+## Overnight Oct 28: the painted sprite set that replaces the model once it is imported ("" = the key from the display name, see
+## `sprite_key`; the 3D model is the fallback until then).
+var sprite: String = ""
 ## Hovers and bobs (ghosts, sprites) / translucent glowing look.
 var hover: bool = false
 var ghostly: bool = false
@@ -41,3 +44,9 @@ var species: String = ""
 var anim_idle: StringName = &"idle"
 var anim_walk: StringName = &"walk"
 var anim_run: StringName = &"sprint"
+
+
+## The world-sprite character this enemy is drawn with when it exists: an explicit `sprite`, else "FOE-<slug of the name>"
+## (`Bestiary.sprite_key`: "Quota Spotter" -> "FOE-QUOTA-SPOTTER", the files SPR-FOE-QUOTA-SPOTTER-<DIR>_<IDLE|WALK>.png).
+func sprite_key() -> String:
+	return sprite if sprite != "" else Bestiary.sprite_key(display_name)

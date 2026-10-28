@@ -3,7 +3,7 @@ extends RefCounted
 ## The roaming enemy designs of the Verdant Dump (placeholder numbers - balance is out of scope):
 ##
 ##  - `golem`     Mossy Trash Golem        - slow and hulking; touching starts an (aggressive) Refusemancer-deck battle.
-##  - `scarecrow` Possessed Scarecrow Druid - slow; touching starts a (defensive) Refusemancer-deck battle.
+##  - `scarecrow` Hungry Scarecrow - slow; touching starts a (defensive) Refusemancer-deck battle.
 ##  - `gulls`     Junk Gull Flock          - fast, dive-bombing; 2 damage with knockback and a short invulnerability
 ##                                           window on touch; it never starts a battle.
 
@@ -33,7 +33,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.model = "heap:golem"
 			made.model_scale = 1.3
 		SCARECROW:
-			made.display_name = "Possessed Scarecrow Druid"
+			made.display_name = "Hungry Scarecrow"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.patrol_speed = 0.6
 			made.chase_speed = 1.6

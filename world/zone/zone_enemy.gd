@@ -52,14 +52,15 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 	_model = _make_model()
 	add_child(_model)
 	_model.scale = Vector3.ONE * info.model_scale * StorybookScale.CHAR_FACTOR
-	if info.tint != Color.WHITE:
-		ModelKit.tint(_model, info.tint)
-	if grade.is_valid():
-		grade.call(_model)
-	_add_accessories()
-	if info.ghostly:
-		_make_ghostly()
-	_animation = ModelKit.animation_player(_model)
+	if not is_sprite():
+		if info.tint != Color.WHITE:
+			ModelKit.tint(_model, info.tint)
+		if grade.is_valid():
+			grade.call(_model)
+		_add_accessories()
+		if info.ghostly:
+			_make_ghostly()
+	_animation = null if is_sprite() else ModelKit.animation_player(_model)
 	if _animation != null:
 		for anim_name: StringName in _animation.get_animation_list():
 			var lower: String = String(anim_name).to_lower()
@@ -93,7 +94,7 @@ func make_guard(radius: float, count: int) -> void:
 		add_child(partner)
 		partner.scale = Vector3.ONE * info.model_scale * StorybookScale.CHAR_FACTOR * 0.92
 		partner.position = Vector3((1.0 if index % 2 == 0 else -1.0) * 1.35, 0.0, -0.7 - 0.3 * float(index / 2))
-		if info.tint != Color.WHITE:
+		if info.tint != Color.WHITE and not (partner is SpriteActor):
 			ModelKit.tint(partner, info.tint.darkened(0.08))
 		var player_node: AnimationPlayer = ModelKit.animation_player(partner)
 		if player_node != null and player_node.has_animation(info.anim_idle):
@@ -103,6 +104,12 @@ func make_guard(radius: float, count: int) -> void:
 
 
 func _make_model() -> Node3D:
+	# Overnight Oct 28: a painted 2.5D sprite set, once imported, replaces whatever model the spec names (docs/design/enemy_roster_oct28.md).
+	var key: String = info.sprite_key()
+	if SpriteLibrary.has_character(key):
+		var actor: SpriteActor = NpcSprites.make_actor(key, info.tint)
+		actor.natural_scale = info.model_scale * StorybookScale.CHAR_FACTOR
+		return actor
 	if info.model.begins_with("capital:"):
 		return CapitalMobs.build(info.model)
 	if info.model.begins_with("heap:"):
@@ -228,8 +235,15 @@ func _process(delta: float) -> void:
 		_waddle(moved)
 
 
+## True when this enemy is drawn as a painted sprite (its walk comes from the sprite itself; no tint, accessories, ghost pass or waddle).
+func is_sprite() -> bool:
+	return _model is SpriteActor
+
+
 ## Procedural models have no animation player: wobble while moving.
 func _waddle(moving: bool) -> void:
+	if is_sprite():
+		return
 	if _model.has_meta("roller"):
 		# Rolling things (the Runaway Meatball) spin their body instead of waddling.
 		if moving:

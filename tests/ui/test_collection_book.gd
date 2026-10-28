@@ -42,12 +42,12 @@ func test_entries_have_a_fun_line_a_place_and_a_real_icon() -> void:
 
 
 func test_meeting_and_beating_are_counted() -> void:
-	assert_false(Bestiary.is_known(Session.counters, "Flexing Brute"))
-	Session.bestiary_meet("Flexing Brute")
-	assert_true(Bestiary.is_known(Session.counters, "Flexing Brute"))
-	Session.bestiary_defeat("Flexing Brute")
-	Session.bestiary_defeat("Flexing Brute")
-	assert_eq(Bestiary.won_count(Session.counters, "Flexing Brute"), 2)
+	assert_false(Bestiary.is_known(Session.counters, "Quota Spotter"))
+	Session.bestiary_meet("Quota Spotter")
+	assert_true(Bestiary.is_known(Session.counters, "Quota Spotter"))
+	Session.bestiary_defeat("Quota Spotter")
+	Session.bestiary_defeat("Quota Spotter")
+	assert_eq(Bestiary.won_count(Session.counters, "Quota Spotter"), 2)
 	Session.bestiary_meet("Nobody In Particular")
 	assert_false(Session.counters.has(Bestiary.MET_PREFIX + "Nobody In Particular"), "unknown names are ignored")
 
@@ -90,4 +90,4 @@ func test_the_book_shows_both_tabs_silhouettes_and_x_of_cap() -> void:
 	await wait_process_frames(1)
 	assert_null(screen.find_child("CardZoom", true, false), "Esc closes the zoom first")
 	screen.show_tab("Bestiary")
-	assert_not_null(screen.find_child("Beast_Flexing Brute", true, false))
+	assert_not_null(screen.find_child("Beast_Quota Spotter", true, false))

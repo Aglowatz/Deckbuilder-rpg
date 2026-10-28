@@ -10,6 +10,8 @@ const MANIFEST_PATH: String = "res://data/source/portrait_import_manifest.csv"
 const CONFIG_PATH: String = "res://data/source/art_config.cfg"
 const STATUS_MARKER: String = "## Portraits"
 const HEIGHT: int = 768
+## An entrance cut-out (CUT-*) is shown about 940 px tall on the battle board, so it keeps more height than a dialogue portrait.
+const CUTOUT_HEIGHT: int = 1080
 const QUALITY: float = 0.92
 const INPUT_EXTENSIONS: Array[String] = ["png", "webp", "jpg", "jpeg"]
 ## A pixel whose largest channel differs from the flat background colour by at most this (0-1) is background.
@@ -104,6 +106,9 @@ static func known_portraits() -> Dictionary:
 	var known: Dictionary = EXTRA_PORTRAITS.duplicate()
 	for entry: NpcRegistry.Entry in NpcRegistry.all():
 		known[entry.portrait_id] = entry.plate_name()
+	# Overnight Oct 28: the boss / lieutenant / gatekeeper entrance cut-outs (CUT-<key>) travel through the same folder and importer.
+	for id: String in Bestiary.cutout_ids():
+		known[id] = "Entrance cut-out"
 	return known
 
 
@@ -150,7 +155,7 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 		image.convert(Image.FORMAT_RGBA8)
 		if remove_flat_background(image):
 			result.background_removed.append(file_name)
-		var error: Error = scaled(image).save_webp(target, true, QUALITY)
+		var error: Error = scaled(image, CUTOUT_HEIGHT if parts[0].begins_with(Bestiary.CUTOUT_PREFIX) else HEIGHT).save_webp(target, true, QUALITY)
 		if error != OK:
 			result.errors.append("%s: could not write (error %d)" % [file_name, error])
 			rows.erase(key)
@@ -171,13 +176,13 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 
 
 ## `image` scaled to HEIGHT px tall (never enlarged), colours bled into the transparent pixels first so the resize leaves no dark or light fringe.
-static func scaled(image: Image) -> Image:
+static func scaled(image: Image, limit: int = HEIGHT) -> Image:
 	var result: Image = image.duplicate() as Image
-	if result.get_height() <= HEIGHT:
+	if result.get_height() <= limit:
 		return result
 	result.fix_alpha_edges()
-	var width: int = int(round(float(result.get_width()) * float(HEIGHT) / float(result.get_height())))
-	result.resize(width, HEIGHT, Image.INTERPOLATE_LANCZOS)
+	var width: int = int(round(float(result.get_width()) * float(limit) / float(result.get_height())))
+	result.resize(width, limit, Image.INTERPOLATE_LANCZOS)
 	return result
 
 

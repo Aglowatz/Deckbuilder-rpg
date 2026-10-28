@@ -5,7 +5,7 @@ extends RefCounted
 ## (`RESPAWN_SECONDS`), pay a little gold and XP, and together with the tutorial and the two starter quests carry a new hero to
 ## level 5 (the armory) in a few fights. Tuned with the balance sim so every Path's starter deck wins 85%+ (docs/design/balance_log.md).
 ##
-##  - `hound`    Stray Gym Hound       - a lost Beefcake training dog: a thin aggressive deck, 6 HP.
+##  - `hound`    Pantry Hound          - a sauce-drunk Buffet spaniel (Oct 28; was the Stray Gym Hound): a thin aggressive deck, 6 HP.
 ##  - `clerk`    Lost Junior Clerk     - a Necrocrat intern who took a wrong turn: a thin control deck, 7 HP.
 ##  - `raccoon`  Bin Raccoon           - a garbage-eating pest from the Dump road: a thin Refusemancer deck, 6 HP.
 
@@ -36,7 +36,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 	made.leash_range = 7.0
 	match id:
 		HOUND:
-			made.display_name = "Stray Gym Hound"
+			made.display_name = "Pantry Hound"
 			made.recipe = EnemyDecks.trimmed("gourmand_control", 20, 13)  # sim: beefcake_rush 6 HP 62%, beefcake_tools 5 HP 67% (Iron bursts), colorless_militia 5 HP 55%, necro_zombies 5 HP 72%
 			made.hp = 3  # sim: 83% at 5 HP; Oct 22: 3 for the neutral-heavy starting decks (docs/design/balance_log.md)
 			# Battle AI upgrade, Part 5: a level-1 roamer should not cook 4/4 Cake Golems or Plate the starter's only wall (63% under the new AI).

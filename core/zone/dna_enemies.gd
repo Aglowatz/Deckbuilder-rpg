@@ -5,7 +5,7 @@ extends RefCounted
 ## out of scope for this proof of concept.
 ##
 ##  - `manager`  Shambling Middle Manager - slow, touching starts a card battle.
-##  - `intern`   Zombie Intern            - slow, touching starts a card battle.
+##  - `intern`   Unpaid Intern            - slow, touching starts a card battle.
 ##  - `courier`  Speedy Ghost Courier     - fast, touching deals 2 damage with knockback and a short
 ##                                           invulnerability window; it never starts a battle.
 ## Shared contact constants live in `ZoneEnemies`; the shapes in `ZoneEnemyInfo`.
@@ -46,7 +46,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				{"offset": Vector3(0.28, 0.3, 0.12), "size": Vector3(0.22, 0.28, 0.03), "color": Color(0.85, 0.82, 0.7)},
 			]
 		INTERN:
-			made.display_name = "Zombie Intern"
+			made.display_name = "Unpaid Intern"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.patrol_speed = 1.0
 			made.chase_speed = 2.2

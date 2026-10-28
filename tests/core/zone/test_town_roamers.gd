@@ -43,7 +43,7 @@ func test_a_fight_pays_counts_for_the_armory_quest_and_puts_the_roamer_down_for_
 	var context: BattleContext = Session.make_town_battle(TownEnemies.HOUND, "town_hound")
 	assert_eq(context.town_roamer_id, "town_hound")
 	assert_eq(context.town_roamer_type, TownEnemies.HOUND)
-	assert_eq(context.enemy_name, "Stray Gym Hound")
+	assert_eq(context.enemy_name, "Pantry Hound")
 	assert_eq(context.game.players[1].hp, TownEnemies.info(TownEnemies.HOUND).hp)
 	assert_eq(context.game.players[0].hp, Session.profile.max_hp, "the town fight starts at full HP")
 	assert_false(Session.town_roamer_is_down("town_hound"))
