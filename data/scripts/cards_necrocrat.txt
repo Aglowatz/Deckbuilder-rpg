@@ -123,3 +123,6 @@ trap(plays:opp) ? played(opp)==2 => lose(opp,2); create(redtape)
 
 == N-37 @ca11d55a42e7  # Compliance Review
 play t=unit => if(on_path(t,B),{destroy(t)},{pump(t,-2,0,next)})
+
+== N-38 @fb8cb4dcfb5d  # Hazmat Intern
+kw toxic

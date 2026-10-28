@@ -15,7 +15,7 @@ func before_all() -> void:
 
 func test_the_designed_set_is_loaded() -> void:
 	var total: int = _content.cards.size() + _content.multipath_cards.size() + _content.infrastructure.size()
-	assert_eq(total, 326, "every card of the sheet is in the content set (312 + 14 new, Cards Oct 27)")
+	assert_eq(total, 327, "every card of the sheet is in the content set (312 + 14 new, Cards Oct 27, + N-38 Oct 28)")
 	assert_eq(_content.tokens.size(), 29, "28 sheet/guidance tokens (T-24 and T-25 since Oct 21) + the junk card")
 	assert_eq(_content.infrastructure.size(), 4, "one basic Infrastructure per Path")
 	for color: Affinity.Type in Affinity.colored_types():

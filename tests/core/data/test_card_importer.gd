@@ -20,7 +20,7 @@ func test_the_sheets_are_fully_scripted_with_only_supported_mechanics() -> void:
 
 
 func test_counts_and_ids() -> void:
-	assert_eq(CardSet.all_cards().size(), 326, "312 cards in the sheet + 14 new (Cards Oct 27)")
+	assert_eq(CardSet.all_cards().size(), 327, "312 cards in the sheet + 14 new (Cards Oct 27) + Hazmat Intern (Oct 28)")
 	assert_eq(CardSet.all_tokens().size(), 29, "25 sheet tokens (T-24 and T-25 since Oct 21) + 3 Design-Guidance-only resources")
 	var seen: Dictionary = {}
 	for card: CardData in CardSet.all_cards():

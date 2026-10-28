@@ -10,8 +10,8 @@ display_name = "Middle Management Zombie"
 color = 4
 generic_cost = 3
 colored_pips = Array[int]([4])
-attack = 2
-defense = 4
+attack = 3
+defense = 5
 rules_text = "Zombie Temp tokens you control get +1/+0.
 
 Exhaust, use a Red Tape: create a 1/1 Zombie Temp token."

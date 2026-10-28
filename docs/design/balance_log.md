@@ -1347,3 +1347,55 @@ golem engine out-bodies a deck of 2/2s in an AI mirror, and no Path is above 75%
 mean 27); the fights a Necrocrat player actually meets at level 12 (the Buffet roamers, 100% in the Oct 25 review) are the measure that
 matters. Inbox: whether the round robin should drive further Necrocrat changes (the next lever would be the Necrocrat Commons' bodies,
 which the brief kept off limits).
+
+
+## Overnight Oct 27-28, Part 1: Necrocrat Common / Uncommon units (the round robin's weakest Path)
+
+Brief: Necrocrat's level-12 round robin read 20-33% overall and 10% vs Gourmand after Cards Oct 27; the target is ~40-50% overall, no
+worse than ~30% vs any Path, every starter still 80%+ in the cave, nothing over ~75%. Lever: the Path's Common / Uncommon units (bodies
+and a better early unit), inside the identity (Red Tape, Processing, destroy, paperwork undead). Final Notice stays 1(N)(N); the Gourmand
+shelf's Epic tier and the Necrocrat / Beefcake pair's missing Alchemist Legendary are approved as they are. Rows for the sheet:
+`docs/design/sheet_changes_oct28.csv` (`node tools/sheet_changes_oct28.js`). Tests `tests/core/game/test_cards_oct28.gd`.
+
+| Card | Old -> New | Why |
+|---|---|---|
+| N-03 Post-Human Resources Ghoul (C) 3(N) | 2/3 -> **3/4** | a 3-drop that trades with the 2/4 Sucker Punch walls instead of bouncing off them |
+| N-04 Body-builder (C) 2(N) | 2/2 -> **2/3** | the Red Tape -> 2/2 body engine has to survive a turn to run |
+| N-05 Corpseified Public Accountant (C) 2(N) | 2/3 -> **2/4** | the wall that farms Red Tape (En Garde-Manger is 2/4 at 2(G)) |
+| N-07 Grave Shift Worker (C) 3(N) | 3/3 -> **3/4** | same rate as the Ghoul |
+| N-23 Middle Management Zombie (U) 3(N) | 2/4 -> **3/5** | the Uncommon lord was the Path's biggest body and died to every 3-power unit |
+| NEW N-38 Hazmat Intern (C) 2(N) Unit 1/3 | **Toxic.** | the "better early unit": the Path's destroy identity on a body; a Common blocker that kills whatever it touches (Necro Cat, NR-15, is the dual precedent; the Pen, N-08, already hands out Toxic) |
+
+Set A (the five bodies alone) measured 35% on seed 8100 (vs Gourmand still 10%): the Ghoul and the Worker never enter the sim's reference
+deck (the D.N.A. package did not buy them), so only three of the five mattered. Set B adds the Hazmat Intern and puts the zone shelf's
+Commons into the level-9 package the way the model's own comment says it should (two Interns, one Ghoul, one Worker;
+`ProgressionModel.UPGRADES`; the cut order was not touched - the four extra cards push out Village Militia, the Waiting Room, Endless
+Filing and Permission to Die).
+
+**Level-12 round robin** (`--what=decks --level=12 --games=20`, both seats the planning AI, no gear; reports `docs/design/sim/oct28_decks_l12_*.md`):
+
+| Seed | Beefcake | Gourmand | Refusemancer | Necrocrat | N vs B / G / R |
+|---|---:|---:|---:|---:|---|
+| 8100 before (Cards Oct 27) | 60 | 73 | 33 | 33 | 40 / 10 / 50 |
+| 7000 before (Cards Oct 27) | 63 | 73 | 43 | 20 | 20 / 10 / 30 |
+| 8100 set A | 60 | 73 | 32 | 35 | 40 / 10 / 55 |
+| 8100 set B | 55 | 72 | 23 | **50** | 55 / 15 / 80 |
+| 7000 set B | 60 | 65 | 35 | **40** | 30 / 35 / 55 |
+| two-seed mean, set B | 58 | 68 | 29 | **45** | 43 / 25 / 68 |
+
+Kept set B. Necrocrat reads 45% (target 40-50), nobody is above 75% (Gourmand 68, down from 73), and no Path sits at the old 20%. Two
+numbers are outside the brief's lines and are logged rather than tuned away: Necrocrat vs Gourmand is 25% on the two-seed mean (15 / 35;
+the golem deck's three 2/4 Sucker Punch walls kill a 1/3 Toxic blocker before it deals damage, so the Intern does little there), and the
+Toxic blocker is a hard counter to Refusemancer's big bodies (Necrocrat vs Refusemancer 55 / 80, Refusemancer's overall 29 against 33-43
+before). 20 games per pairing swing +/-11 points, so both are one-seed-sized; a third seed in the morning would settle them. The next
+lever for the Gourmand cell, if wanted, is Pink Slip to "attack 4 or less" (a spell, outside tonight's unit-only brief).
+
+**The cave** (`--what=tutorial --games=25 --seed=7000`): B 88 / G 92 / R 78 / N 96 - identical to the Cards Oct 27 run on this seed (the
+cave foes run no Necrocrat cards; the Necrocrat starter's Body-builders and Middle Management Zombie did not change its 96%). Seed 8100
+was not rerun (nothing in it changed: B 92 / G 88 / R 92 / N 92 stand; two-seed means 90 / 90 / 85 / 94).
+
+**PvE with the buffed bodies** (the D.N.A. roamers and the Hall run the zombie archetype: N-03 x3, N-04 x3, N-05 x3, N-07 x3, N-23 x2):
+`zone:necrocrat` 8 games/Path: Shambling Middle Manager 88% (B 88 / N 88 / G 100 / R 75), Zombie Intern 100% - the Oct 25 read was 90%
+(75 / 100 / 100 / 83). `dungeon:D-HFA` 6 games/Path: every node "ok"; the elites 67 / 71%, Mortimer 58% (B 67 / N 50 / G 100 / R 17), the
+Cards Oct 27 sweep had 63 / 56 / 56% with Refusemancer at 25% on all three. Within noise; no encounter changed. The Hazmat Intern is in no
+enemy deck (archetypes list cards by id), so no foe gained Toxic.

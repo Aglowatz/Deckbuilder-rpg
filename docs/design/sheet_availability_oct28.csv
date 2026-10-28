@@ -1,0 +1,328 @@
+Card ID,Name,Rarity,Availability
+R-01,Mulch Mole,(C),GENERAL
+R-02,Dumpster Diver,(C),GENERAL
+R-03,Landfill Ox,(C),GENERAL
+R-04,Rubbish Goat,(C),GENERAL
+R-05,Kidding Around,(C),GENERAL
+R-06,Curbside Rat,(C),GENERAL
+R-07,Junkyard Giraffe,(C),GENERAL
+R-08,Possum Prowler,(C),GENERAL
+R-09,Heap Tortoise,(C),GENERAL
+R-10,Community Compost Bin,(C),GENERAL
+R-11,Raised Bed,(C),GENERAL
+R-12,Garbage Pit,(C),GENERAL
+R-13,Reclaimed Land,(C),GENERAL
+R-14,Rusty Spring Trap,(C),GENERAL
+R-15,Turf War,(C),GENERAL
+R-16,Recycling Day,(C),GENERAL
+R-17,Hayfork Harpoon,(C),GENERAL
+R-18,Rusty Can Opener,(C),GENERAL
+R-19,Alley Scrap,(C),GENERAL
+R-20,Landfill Grab,(C),GENERAL
+R-21,Let Them Eat Cake,(C),GENERAL
+R-22,Acid Vomitor,(U),GENERAL
+R-23,Bird of Paradump,(U),GENERAL
+R-24,Second-Hand Life,(U),GENERAL
+R-25,Manure Miracle,(U),GENERAL
+R-26,The Recycling Center,(U),GENERAL
+R-27,Raccoon,(E),REWARD-LOCKED
+R-28,Poo-uid,(E),GENERAL
+R-29,Mount Trashmore,(E),REWARD-LOCKED
+R-30,The Mother Heap,(E),REWARD-LOCKED
+R-31,Bulk Trash Day,(E),GENERAL
+R-32,Back From the Heap,(L),GENERAL
+R-33,Archdruid Compostella,(L) Signature card,REWARD-LOCKED
+R-34,Curb Alert,(C),GENERAL
+R-35,Sewer Choir,(C),GENERAL
+R-36,Landfill Leviathan,(U),GENERAL
+G-01,Line Cook,(C),GENERAL
+G-02,Sushi Apprentice,(C),GENERAL
+G-03,Conveyor Belt Chef,(C),GENERAL
+G-04,Sourdough Sentry,(C),GENERAL
+G-05,Food Critic,(C),GENERAL
+G-06,Soup Kitchen Volunteer,(C),GENERAL
+G-07,Sous Chef,(C),GENERAL
+G-08,Pastry Artificer,(C),GENERAL
+G-09,Kitchen Porter,(C),GENERAL
+G-10,The Recipe Engine,(C),GENERAL
+G-11,Gourmand Cooking Academy,(C),GENERAL
+G-12,Meatloaf Mold,(C),GENERAL
+G-13,Hearth Kitchen,(C),GENERAL
+G-14,Seasoning Station,(C),GENERAL
+G-15,Windowsill Herb Garden,(C),GENERAL
+G-16,Dinner Is Served,(C),GENERAL
+G-17,Sent Back to the Kitchen,(C),GENERAL
+G-18,Rolling Pin,(C),GENERAL
+G-19,Lunchbox,(C),GENERAL
+G-20,Plate It,(C),GENERAL
+G-21,Consult the Cookbook,(C),GENERAL
+G-22,The Cullinator,(U),GENERAL
+G-23,En Garde-Manger,(U),GENERAL
+G-24,Health Code Violation,(U),GENERAL
+G-25,Stock The Pantry,(U),GENERAL
+G-26,Banquet Hall,(U),GENERAL
+G-27,Toro Toro,(E),REWARD-LOCKED
+G-28,Chef de Golem,(E),REWARD-LOCKED
+G-29,Head Health Inspector,(E),GENERAL
+G-30,The Infinite Pantry,(E),REWARD-LOCKED
+G-31,Recipe for Wonder,(E),REWARD-LOCKED
+G-32,The Eternal Banquet,(L),GENERAL
+G-33,Grand Chef Escoffina,(L) Signature,REWARD-LOCKED
+G-34,Amuse-Bouche,(C),GENERAL
+G-35,Pest Control,(C),GENERAL
+B-01,Gym Bro,(C),GENERAL
+B-02,Bronzer,(C),GENERAL
+B-03,Dropped Weights,(C),GENERAL
+B-04,Millstone Pusher,(C),GENERAL
+B-05,Hamster Wheel Runner,(C),GENERAL
+B-06,Portal Ripper,(C),GENERAL
+B-07,Late-ish Courier,(C),GENERAL
+B-08,Spotter,(C),GENERAL
+B-09,Personal Trainer,(C),GENERAL
+B-10,Shot Putter,(C),GENERAL
+B-11,Beefy Bouncer,(C),GENERAL
+B-12,Leg Day Survivor,(C),GENERAL
+B-13,Hulking Hauler,(C),GENERAL
+B-14,Weight Belt,(C),GENERAL
+B-15,Kettlebell,(C),GENERAL
+B-16,Lifting Gloves,(C),GENERAL
+B-17,Pre-Workout Canister,(C),GENERAL
+B-18,Sledgehammer,(C),GENERAL
+B-19,Counterweight,(C),GENERAL
+B-20,Dry Scoop,(C),GENERAL
+B-21,Flex on 'Em,(C),GENERAL
+B-22,Alarm-ish Clock,(U),GENERAL
+B-23,Snack Bar,(U),GENERAL
+B-24,Overclocked Mill Worker,(U),GENERAL
+B-25,Yeet,(U),GENERAL
+B-26,The Carpool,(U),GENERAL
+B-27,Protein Farts,(E),GENERAL
+B-28,Portal-Ripping Titan,(E),REWARD-LOCKED
+B-29,Swole Patrol Sergeant,(E),GENERAL
+B-30,Barbell of the Ancients,(E),REWARD-LOCKED
+B-31,The Ultimate Cardio Machine,(E),REWARD-LOCKED
+B-32,The Big Unit,(L),REWARD-LOCKED
+B-33,Global Gains Platinum Membership,(L),GENERAL
+B-34,Hammer Thrower,(C),GENERAL
+B-35,Protein Shake,(C),GENERAL
+B-36,Desk Flip,(C),GENERAL
+N-01,Skeleton Clerk,(C),GENERAL
+N-02,Infernal Intern,(C),GENERAL
+N-03,Post-Human Resources Ghoul,(C),GENERAL
+N-04,Body-builder,(C),GENERAL
+N-05,Corpseified Public Accountant,(C),GENERAL
+N-06,Notary Wraith,(C),GENERAL
+N-07,Grave Shift Worker,(C),GENERAL
+N-08,Corporate-Approved Pen,(C),GENERAL
+N-09,Red Tape Dispenser,(C),GENERAL
+N-10,Push Broom of Undeath,(C),GENERAL
+N-11,Late Fee,(C),GENERAL
+N-12,Invisible Ink,(C),GENERAL
+N-13,Waiting Room,(C),GENERAL
+N-14,The Breakroom,(C),GENERAL
+N-15,Pink Slip,(C),GENERAL
+N-16,Processing Delay,(C),GENERAL
+N-17,Buried in Paperwork,(C),GENERAL
+N-18,Requisition Form,(C),GENERAL
+N-19,Resting In Peace Clause,(U),REWARD-LOCKED
+N-20,I've Made a Huge Mistake,(C),GENERAL
+N-21,Become Useful at Work,(C),GENERAL
+N-22,Working in Your Own Casket,(U),GENERAL
+N-23,Middle Management Zombie,(U),GENERAL
+N-24,Endless Filing,(U),GENERAL
+N-25,Permission to Die - Denied,(U),GENERAL
+N-26,Audit Wraith,(U),GENERAL
+N-27,Mandatory Optional Team Meeting ,(E),GENERAL
+N-28,Lich of Accounts Payable,(E),REWARD-LOCKED
+N-29,Mass Layoffs,(E),REWARD-LOCKED
+N-30,"Betty Bones, Surly Secretary",(E),ENEMY-ONLY
+N-31,Department of Final Approvals,(E),REWARD-LOCKED
+N-32,Unconscionable Contract,(L),GENERAL
+N-33,"Mortimer Grimsby, CE-No",(L) Signature,ENEMY-ONLY
+N-34,Final Notice,(U),GENERAL
+N-35,Pending Approval,(C),GENERAL
+N-36,Service Charge,(C),GENERAL
+N-37,Compliance Review,(C),GENERAL
+N-38,Hazmat Intern,(C),GENERAL
+GR-01,Farm-to-Table Chef,(U),GENERAL
+GR-02,Freegan Forager,(U),GENERAL
+GR-03,Dumpster Gourmet,(U),GENERAL
+GR-04,Food Fight,(U),GENERAL
+GR-05,Expired Goods,(U),GENERAL
+GR-06,Leftovers,(U),GENERAL
+GR-07,Community Garden,(U),GENERAL
+GR-08,Fermentation Cellar,(U),GENERAL
+GR-09,Compost Kitchen,(U),GENERAL
+GR-10,Spork of Unity,(U),GENERAL
+GR-11,Potluck,(U),GENERAL
+GR-12,Recyc-lops,(E),GENERAL
+GR-13,The Verdant Vines,(E),GENERAL
+GR-14,Today's Special,(E),GENERAL
+GR-15,Giant Heirloom Pumpkin,(E),GENERAL
+GR-16,"Ratatouille, Rodent de Cuisine",(L),GENERAL
+GN-01,Sous Boo,(U),GENERAL
+GN-02,Skeleton Crew,(U),GENERAL
+GN-03,Bone Broth Brewer,(U),GENERAL
+GN-04,Ghost Pepper,(U),GENERAL
+GN-05,Dead on Arrival,(U),GENERAL
+GN-06,Soul Food Kitchen,(U),GENERAL
+GN-07,The Haunted Buffet,(U),GENERAL
+GN-08,Staff Appreciation Dinner,(U),GENERAL
+GN-09,To Die For,(U),GENERAL
+GN-10,Final Meal Request,(U),GENERAL
+GN-11,Reheated Leftovers,(U),GENERAL
+GN-12,Ghoul Sommelier,(E),GENERAL
+GN-13,The Gastronomicon,(E),GENERAL
+GN-14,Dinner Party of the Damned,(E),GENERAL
+GN-15,The Eternal Kitchen,(E),GENERAL
+GN-16,"Madame Mortadella, Eternal Restaurateur",(L),GENERAL
+GB-01,Bulking Season Brute,(U),GENERAL
+GB-02,Meathead Butcher,(U),GENERAL
+GB-03,Cheat Day Champion,(U),GENERAL
+GB-04,Carb Load,(U),GENERAL
+GB-05,Meal Prep,(U),GENERAL
+GB-06,The Gainz Kitchen,(U),GENERAL
+GB-07,Bulking Program,(U),GENERAL
+GB-08,Shaker Bottle,(U),GENERAL
+GB-09,Recipe for Disaster,(U),GENERAL
+GB-10,Meat Tenderizer,(U),GENERAL
+GB-11,Idiot Sandwich,(U),GENERAL
+GB-12,A Feast for the Eyes,(E),GENERAL
+GB-13,"Sir Loin, Prime Cut",(E),GENERAL
+GB-14,The Gain Train,(E),GENERAL
+GB-15,Protein Forge,(E),GENERAL
+GB-16,GLP-100,(L),GENERAL
+NR-01,Sewer Rat Courier,(U),GENERAL
+NR-02,Waste Manager,(U),GENERAL
+NR-03,Rat King Bureaucrat,(U),GENERAL
+NR-04,Landfill Permit Office,(U),GENERAL
+NR-05,Rusty Grave Shovel,(U),GENERAL
+NR-06,Rat Swarm,(U),GENERAL
+NR-07,Littering Citation,(U),GENERAL
+NR-08,Ghostly Garbage,(U),GENERAL
+NR-09,Plague of Rats,(U),GENERAL
+NR-10,Decomposition Notice,(U),GENERAL
+NR-11,Gross Margin,(U),GENERAL
+NR-12,Conscripted Constrictor,(E),GENERAL
+NR-13,Reclamation Order,(E),GENERAL
+NR-14,Plague Season,(E),GENERAL
+NR-15,Necro Cat,(E),GENERAL
+NR-16,"Necro Rat, Chairman of the Sewer Board",(L),GENERAL
+NB-01,Shredded Spectre,(U),GENERAL
+NB-02,Un-Deadlifter,(U),GENERAL
+NB-03,Vigor Mortis,(U),GENERAL
+NB-04,Dead Weight,(U),GENERAL
+NB-05,Squatter's Rights,(U),GENERAL
+NB-06,Membership Cancellation,(U),GENERAL
+NB-07,Ball and Chain,(U),GENERAL
+NB-08,Protein Powder Urn,(U),GENERAL
+NB-09,Spirit-Lifting Belt,(U),GENERAL
+NB-10,The Afterlife Gym,(U),GENERAL
+NB-11,Death Grip,(U),GENERAL
+NB-12,Hostile Takeover,(E),GENERAL
+NB-13,Wobble Weights,(E),GENERAL
+NB-14,Bone-afide Strongman,(E),GENERAL
+NB-15,Grim Repper,(E),GENERAL
+NB-16,"Chancellor Clench, Iron Regent",(L),ENEMY-ONLY
+NB-17,Iron Filing Clerk,(U),REWARD-LOCKED
+BR-01,Gym Rat,(U),GENERAL
+BR-02,Scrap Metal Lifter,(U),GENERAL
+BR-03,Rat Pack Coach,(U),GENERAL
+BR-04,Truck Tire,(U),GENERAL
+BR-05,Rusty Dumbbell,(U),GENERAL
+BR-06,Hamster Ball,(U),GENERAL
+BR-07,Wrestling Ring Ambush,(U),GENERAL
+BR-08,Swole Revenge,(U),GENERAL
+BR-09,Trash Can Lid Slam,(U),GENERAL
+BR-10,The Junkyard Gym,(U),GENERAL
+BR-11,Stampede,(U),GENERAL
+BR-12,Iron Rhino,(E),GENERAL
+BR-13,Trash Panda Powerlifter,(E),GENERAL
+BR-14,Scrapyard Gauntlets,(E),GENERAL
+BR-15,Trash Avalanche,(E),GENERAL
+BR-16,"Tuskeroni, Junkyard Champion",(L),GENERAL
+GRB-01,Greased Pig,(U),GENERAL
+GRB-02,Blue Ribbon,(U),GENERAL
+GRB-03,County Fairgrounds,(U),GENERAL
+GRB-04,The Competitive Eater,(E),GENERAL
+GRB-05,Food Coma,(E),GENERAL
+GRB-06,Strongman Sledge,(E),GENERAL
+GRB-07,Harvest Festival,(E),GENERAL
+GRB-08,"Big Bertha, Blue Ribbon Behemoth",(L),GENERAL
+GRN-01,Mushroom Ring,(U),GENERAL
+GRN-02,Death Cap,(U),GENERAL
+GRN-03,Circle of Life Insurance,(U),GENERAL
+GRN-04,Fungal Undertaker,(E),GENERAL
+GRN-05,The Great Compost Cycle,(E),GENERAL
+GRN-06,Recycled Remains,(E),GENERAL
+GRN-07,Rot and Rebirth,(E),GENERAL
+GRN-08,Something Out of Nothing,(L),GENERAL
+GBN-01,Running Tab,(U),GENERAL
+GBN-02,Velvet Rope,(U),GENERAL
+GBN-03,Toast to the Dead,(U),GENERAL
+GBN-04,Black Tie Brawl,(E),GENERAL
+GBN-05,Silver Serving Platter,(E),GENERAL
+GBN-06,Dinner with Schmucks,(E),GENERAL
+GBN-07,The Undead Maître D',(E),GENERAL
+GBN-08,"Baron Von Banquet, Host of the Last Gala",(L),GENERAL
+NBR-01,Condemned Building,(U),GENERAL
+NBR-02,Wrecking Ball,(U),GENERAL
+NBR-03,Demolition Permit,(U),GENERAL
+NBR-04,Total Teardown,(E),GENERAL
+NBR-05,Salvaged Exoskeleton,(E),GENERAL
+NBR-06,Zombie Apocalypse Drill,(E),GENERAL
+NBR-07,Scrapheap Lich,(E),GENERAL
+NBR-08,"Big Wreck Ronnie, Boss of the Wrecking Crew",(L),GENERAL
+P4-01,Champion of the Four Paths,(E),REWARD-LOCKED
+P4-02,Reunion of the Paths,(L),REWARD-LOCKED
+P4-03,"Mr. Tiggle, Rules Lawyer",(L),ENEMY-ONLY
+C-01,Cannon Fodder,(C),GENERAL
+C-02,Village Militia,(C),GENERAL
+C-03,Watchtower Archer,(C),GENERAL
+C-04,Courier Pigeon,(C),GENERAL
+C-05,Shield Bearer,(C),GENERAL
+C-06,Traveling Brawler,(C),GENERAL
+C-07,Wandering Medic,(C),GENERAL
+C-08,Tavern Regular,(C),GENERAL
+C-09,Old Kingdom Automaton,(C),GENERAL
+C-10,Stapler,(C),GENERAL
+C-11,Traveler's Sword,(C),GENERAL
+C-12,Healing Potion,(C),GENERAL
+C-13,Rally the Village,(C),GENERAL
+C-14,Second Wind,(C),GENERAL
+C-15,Desperate Measures,(C),GENERAL
+C-16,Tripwire,(C),GENERAL
+C-17,Ambush Party,(C),GENERAL
+C-18,Emergency Rations,(C),GENERAL
+C-19,Village Well,(C),GENERAL
+C-20,Training Grounds,(C),GENERAL
+C-21,Old Kingdom Banner,(C),REWARD-LOCKED
+C-22,Mercenary Captain,(U),GENERAL
+C-23,Resistance Scout,(U),GENERAL
+C-24,Wandering Alchemist,(U),GENERAL
+C-25,Shred the Evidence,(U),GENERAL
+C-26,Adventurer's Pack,(U),GENERAL
+C-27,Underdog's Gambit,(U),GENERAL
+C-28,Cartographer's Table,(U),GENERAL
+C-29,The Wanderer,(E),REWARD-LOCKED
+C-30,Royal Audit,(E),GENERAL
+C-31,Four-Path Compass,(E),GENERAL
+C-32,Mirrored Hall,(E),GENERAL
+C-33,Unstable Rift,(E),GENERAL
+C-34,The Harmony Engine,(L),REWARD-LOCKED
+C-35,Hand-Me-Down Shield,(C),GENERAL
+INF-01,Hamster Wheel Power Plant,(U),GENERAL
+INF-02,Hall of Records,(U),GENERAL
+INF-03,Spice Bazaar,(U),GENERAL
+INF-04,Compost Grange,(U),GENERAL
+INF-05,The Ghost Express Depot,(E),GENERAL
+INF-06,The Eternal Diner,(E),GENERAL
+INF-07,Potter's Field Landfill,(E),GENERAL
+INF-08,Bulk Barn,(E),GENERAL
+INF-09,Market Garden,(E),GENERAL
+INF-10,Scrapyard Mill,(E),GENERAL
+INF-11,Old Kingdom Crossroads,(E),GENERAL
+BAS-N,Ghost Town,,GENERAL
+BAS-R,Wasteworks,,GENERAL
+BAS-G,Feastforge,,GENERAL
+BAS-B,Powerhouse,,GENERAL

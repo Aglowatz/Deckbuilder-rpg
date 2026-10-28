@@ -45,7 +45,7 @@ const UPGRADES: Dictionary = {
 	Affinity.Type.NECROCRAT: {
 		3: {"N-13": 1, "C-02": 2, "C-03": 2},  # Oct 21: Village Militia + Watchtower Archer (Sable's Colorless Commons): the L5 deck had six 1-2 cost units
 		5: {"N-15": 1, "N-25": 1, "N-06": 1, "N-05": 1},  # Oct 22: one Uncommon (the L4 Path Pack) - Sable no longer sells the own Path
-		9: {"N-26": 1, "N-23": 1, "N-01": 1, "N-37": 1, "N-36": 1},  # the D.N.A. shelf: the opening Uncommons (Audit Wraith, Middle Management Zombie); Cards Oct 27: Compliance Review, Service Charge
+		9: {"N-26": 1, "N-23": 1, "N-01": 1, "N-37": 1, "N-36": 1, "N-38": 2, "N-03": 1, "N-07": 1},  # the D.N.A. shelf: the opening Uncommons (Audit Wraith, Middle Management Zombie); Cards Oct 27: Compliance Review, Service Charge; Overnight Oct 28: two Hazmat Interns, the Ghoul and the Grave Shift Worker (3/4 bodies now)
 		12: {"N-29": 1, "N-24": 1, "N-22": 1, "N-31": 1, "N-34": 2},  # the Hall of Final Approvals beaten: Uncommons, the Waiting Room's Department, Mass Layoffs (Cards Oct 27: Betty Bones and Mortimer are their own cards now); Final Notice
 		16: {"N-25": 1, "N-31": 1},
 		19: {"N-27": 1},  # the Black Market's Mandatory Optional Team Meeting

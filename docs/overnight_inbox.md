@@ -4,6 +4,18 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Oct 27-28 - yours to decide (the safest choice was taken)
+
+1. **Necrocrat, Part 1** (`docs/design/balance_log.md`, "Overnight Oct 27-28, Part 1"): five bodies up one point (N-03 3/4, N-04 2/3,
+   N-05 2/4, N-07 3/4, N-23 3/5) and one new Common, **N-38 Hazmat Intern, 2(N) 1/3 Toxic**. Level-12 round robin: Necrocrat 45% on the
+   two-seed mean (was 20-33), nobody over 75%. Two cells sit outside your lines: Necrocrat vs Gourmand 25% (15 / 35 by seed; the golem
+   walls kill a 1/3 Toxic blocker first) and Necrocrat vs Refusemancer 68% (Toxic counters big bodies; Refusemancer's overall fell from
+   33-43 to 29). Options: (a) accept, (b) one Hazmat Intern in the sim package instead of two, (c) Pink Slip to "attack 4 or less" for the
+   Gourmand cell (a spell, left alone tonight). The Intern's name, flavour and image row are in `docs/design/sheet_changes_oct28.csv`;
+   rename freely.
+2. The Hall of Final Approvals reads Refusemancer 17-33% on its elites and Mortimer (6 games; the Oct 27 sweep had 25% on all three),
+   every node still "ok" overall. Not tonight's change, but Refusemancer in the D.N.A. is the weakest Path-zone pairing in the game now.
+
 ## Overnight Oct 25-26 - yours to decide (the safest choice was taken)
 
 1. **The session dropped at ~00:06 and resumed at 08:05**: Parts 1 and 2 were done; the verification, the Tier 2 doc and the report were
