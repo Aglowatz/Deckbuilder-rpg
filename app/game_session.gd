@@ -46,6 +46,7 @@ var _feats_busy: bool = false
 var pay_feat_rewards: bool = false
 ## Feat toasts held back while a battle is on screen (the boss entrance, the board, the result), shown when it ends.
 var _feat_toast_queue: Array[String] = []
+var _feat_hint_shown: bool = false
 ## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
 ## card_codex.gd) shows these normally and everything else as a silhouette.
 var seen_cards: Dictionary = {}
@@ -3879,6 +3880,10 @@ func flush_feat_toasts() -> void:
 	if _feat_toast_queue.is_empty() or pending_battle != null or toasts == null:
 		return
 	for text: String in _feat_toast_queue:
+		# First-hour clarity (Phase 2): the first feat toast of a session says where the list lives.
+		if not _feat_hint_shown:
+			_feat_hint_shown = true
+			text += "  -  Menu > Feats"
 		toasts.show_toast(text, UIStyle.GOLD, CardIcons.ui("level_badge"))
 	_feat_toast_queue = []
 	if AudioRegistry.has_id("STG-SECRET"):

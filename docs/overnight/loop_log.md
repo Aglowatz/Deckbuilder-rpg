@@ -15,3 +15,9 @@ Parts 1-3 landed at a5c59207, d05586d9, 93ab2b47.
 3. **Onboarding / first hour**: the same shot caught two feat toasts drawn over the boss entrance (the shot tool's fast-forwarded game
    earned them as the battle opened). Feat toasts now queue while a battle is pending and flush when it ends (`Session.flush_feat_toasts`);
    the load-time summary toast is unaffected. Test added (feats 10/10).
+4. **Stability**: with the feats hooked into the session, the first-battles smoke (0 failures, the Warden intro as a cut-out) and the
+   opening-hour playtest smoke (OK, 163 s) both pass; cycles 2-3 committed as f2c0c34c.
+5. **Stability**: story playthrough bot 90 / 90 steps on the Part 3 tree (23:04-23:11).
+6. **Stability**: tour bot OK - 281 spots, 9 menus, 5 battles, 0 errors, 0 warnings (23:11-23:20).
+7. **First-hour clarity**: the first feat toast of a session ends with "Menu > Feats" so a new player knows where the list lives; a UI
+   test builds the Feats page (every group and feat, hidden ones as ???, "Earned here" marks) and opens it from the pause menu.
