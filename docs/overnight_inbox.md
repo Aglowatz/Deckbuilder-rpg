@@ -34,6 +34,8 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 8. **Unused approved art** is listed, nothing deleted: DUMP-BD-ROTHEART (sky baked in) is superseded by the sky-transparent row; the
    three retired-name Bestiary squares could be reused for new foes.
 
+9. **Feats, Part 3** (`docs/design/feats.md`, Menu > Feats): 40 feats, rewards are gold and essence only - the game has no dye-unlock or title system, so the briefs "a dye or title" rewards were not built (a dye needs an owned-dyes concept in CosmeticState; a title needs a name-plate field). Rewards are paid once per account and only in a saving game (tests and smokes never pay). Feat group icons are rows of the art catalogue; existing icons stand in.
+
 ## Overnight Oct 25-26 - yours to decide (the safest choice was taken)
 
 1. **The session dropped at ~00:06 and resumed at 08:05**: Parts 1 and 2 were done; the verification, the Tier 2 doc and the report were

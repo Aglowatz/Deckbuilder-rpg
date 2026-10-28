@@ -72,6 +72,11 @@ func _build_menu() -> void:
 	glossary.name = "GlossaryButton"
 	glossary.pressed.connect(_show_glossary)
 	column.add_child(glossary)
+	# Overnight Oct 28, Part 3: the feats (achievements) page.
+	var feats_button: FancyButton = FancyButton.make("Feats", &"", Vector2(0, 54))
+	feats_button.name = "FeatsButton"
+	feats_button.pressed.connect(_show_feats)
+	column.add_child(feats_button)
 	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)", &"", Vector2(0, 54))
 	feedback.name = "FeedbackButton"
 	feedback.pressed.connect(SceneManager.open_feedback)
@@ -148,6 +153,15 @@ func _show_glossary() -> void:
 	panel.closed.connect(_build_menu)
 
 
+func _show_feats() -> void:
+	for child: Node in _menu.get_children():
+		child.queue_free()
+	var panel: FeatsPanel = FeatsPanel.make()
+	_menu.add_child(panel)
+	panel.closed.connect(_build_menu)
+	PadFocus.focus_soon(_root)
+
+
 ## Controller support (Oct 26): the pad's B steps back - out of the save slots, a settings or glossary page, then closes the menu (Esc keeps its
 ## old meaning: it is the pause key, so it closes the whole menu from anywhere).
 func _unhandled_input(event: InputEvent) -> void:
@@ -159,7 +173,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		PadFocus.focus_soon(_root)
 	elif is_instance_valid(_settings) and _settings.is_inside_tree() and not _settings.is_queued_for_deletion():
 		_settings.call(&"_on_back")
-	elif _menu.find_child("GlossaryPanel", true, false) != null:
+	elif _menu.find_child("GlossaryPanel", true, false) != null or _menu.find_child("FeatsPanel", true, false) != null:
 		_build_menu()
 	else:
 		toggle()

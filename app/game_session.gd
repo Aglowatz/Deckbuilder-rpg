@@ -39,6 +39,11 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var gold_spent_total: int = 0
 ## Dungeon names fully cleared - used by Condition.DUNGEON_CLEARED.
 var cleared_dungeons: Array[String] = []
+## Overnight Oct 28, Part 3: the feats earned by this campaign (saved under "feats") and the live-battle watcher (core/feats).
+var feats: FeatTracker = FeatTracker.new()
+var _feats_busy: bool = false
+## Feat rewards (gold, essence) are paid only in a real, saving game; tests (saving off) opt in with this.
+var pay_feat_rewards: bool = false
 ## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
 ## card_codex.gd) shows these normally and everything else as a silhouette.
 var seen_cards: Dictionary = {}
@@ -138,6 +143,7 @@ func new_game() -> void:
 	deck.deck_name = DECK_NAME
 	gold = STARTING_GOLD
 	flags = {}
+	feats.reset()
 	playtime_seconds = 0.0
 	active_slot = 0
 	_sync_freed_stories()
@@ -294,6 +300,7 @@ func complete_zone(zone_id: String) -> bool:
 	sync_path_limit()
 	refresh_quests()
 	EventBus.zone_completed.emit(zone_id)
+	check_feats()
 	save_game()
 	return true
 
@@ -313,6 +320,7 @@ func set_flag(name: StringName, value: bool = true) -> void:
 	sync_path_limit()
 	sync_story_tokens()
 	refresh_quests()
+	check_feats()
 
 
 ## Keeps `PlayerProfile.zones_freed` equal to the number of freed zones (it decides how many Paths a deck may use).
@@ -986,6 +994,7 @@ func to_dict() -> Dictionary:
 		"essence": _essence_to_dict(),
 		"packs": profile.packs.duplicate(),
 		"cosmetics": cosmetics.to_dict(),
+		"feats": feats.state.to_dict(),
 		"playtime": playtime_seconds,
 		"meta": slot_meta(),
 	}
@@ -1116,6 +1125,8 @@ func from_dict(data: Dictionary) -> bool:
 		quest_migration_pending = false
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
+	feats.load(data.get("feats", {}) as Dictionary)
+	check_feats(false)  # retroactive: an old save earns the state feats it already satisfies (one quiet toast)
 	return true
 
 
@@ -1655,6 +1666,8 @@ var has_start_return_position: bool = false
 
 
 func start_battle(context: BattleContext) -> void:
+	if context.game != null and not context.practice:
+		feats.watch(context.game)
 	pending_battle = context
 	bestiary_meet(context.enemy_name)
 	if context.rule_badges.is_empty():
@@ -2086,6 +2099,11 @@ var quest_migration_pending: bool = false
 
 ## Adds `amount` to a named progress counter (Condition.COUNTER) and re-checks active quests.
 func bump_counter(key: String, amount: int = 1) -> void:
+	_bump_counter_raw(key, amount)
+	check_feats()
+
+
+func _bump_counter_raw(key: String, amount: int = 1) -> void:
 	counters[key] = int(counters.get(key, 0)) + amount
 	refresh_quests()
 
@@ -3422,6 +3440,10 @@ func record_victory(context: BattleContext) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	if context.won and not context.practice and not context.dev_battle:
+		_battle_feats(context)
+	else:
+		feats.watcher.detach()
 	if context.won:
 		record_victory(context)
 		grant_lieutenant_reward(context.enemy_name)
@@ -3778,3 +3800,73 @@ func grant_chest_reward(reward: Dictionary, title: String = "Hidden chest") -> R
 		for row: LevelData in gained:
 			summary.levels_reached.append(row.level)
 	return summary
+
+
+# ---- Feats (Overnight Oct 28, Part 3; core/feats, docs/design/feats.md) -------------------------------------------------
+
+
+## What the state feats are scored against: flags, counters, zones freed, collection percent, cleared dungeons, quests started or done,
+## level, arena clears and the deck's Path count.
+func feats_snapshot() -> Dictionary:
+	var quests: Array[String] = []
+	for quest: QuestData in QuestCatalog.all():
+		if quest_log.is_active(quest.id) or quest_log.is_completed(quest.id):
+			quests.append(quest.id)
+	return {
+		"flags": flags, "counters": counters, "zones": completed_zone_count(), "collection": collection_percent() if profile != null else 0,
+		"cleared_dungeons": cleared_dungeons, "quests": quests, "level": profile.level if profile != null else 0,
+		"arena_cleared": arena_cleared_count(), "deck_paths": deck.colors().size() if deck != null else 0, "postgame": flag(&"postgame_unlocked"),
+	}
+
+
+## Re-checks every state feat (after a flag, counter, zone or collection change). `announce` false (a load) shows one summary toast.
+func check_feats(announce: bool = true) -> void:
+	if _feats_busy or profile == null:
+		return
+	_feats_busy = true
+	var earned: Array[String] = feats.evaluate(feats_snapshot())
+	_feats_busy = false
+	_feats_earned(earned, announce)
+
+
+## A won battle: the battle's facts plus the watcher's moments.
+func _battle_feats(context: BattleContext) -> void:
+	var hp_left: int = 0
+	var flawless: bool = false
+	if context.game != null and context.game.players.size() > 0:
+		var me: PlayerState = context.game.players[0]
+		hp_left = me.hp
+		flawless = me.hp >= me.max_hp
+	var info: Dictionary = {"boss": context.is_boss, "flawless": flawless, "hp_left": hp_left, "deck_paths": deck.colors().size() if deck != null else 0}
+	_feats_earned(feats.on_battle(info), true)
+	check_feats()
+
+
+## Records the feats for the account, pays each reward once per account and shows the toast(s).
+func _feats_earned(ids: Array[String], announce: bool) -> void:
+	if ids.is_empty():
+		return
+	var quiet: Array[String] = []
+	for id: String in ids:
+		var def: FeatDefs.Def = FeatDefs.find(id)
+		if def == null:
+			continue
+		var first: bool = FeatAccount.record(id, save_enabled)
+		var reward: String = ""
+		if first and (save_enabled or pay_feat_rewards):
+			if def.reward_gold > 0:
+				gold += def.reward_gold
+				EventBus.gold_changed.emit(gold)
+			if def.reward_essence > 0 and profile != null:
+				for path: Affinity.Type in Affinity.colored_types():
+					profile.add_essence(path, def.reward_essence)
+			reward = def.reward_text()
+		if announce and toasts != null:
+			toasts.show_toast("Feat: %s%s" % [def.name, "" if reward.is_empty() else "  (+%s)" % reward], UIStyle.GOLD, CardIcons.ui("level_badge"))
+		else:
+			quiet.append(def.name)
+	if announce and toasts != null and AudioRegistry.has_id("STG-SECRET"):
+		Audio.sting(&"STG-SECRET")
+	if not quiet.is_empty() and toasts != null:
+		toasts.show_toast("%d feat%s recorded from this save" % [quiet.size(), "" if quiet.size() == 1 else "s"], UIStyle.GOLD, CardIcons.ui("level_badge"))
+	EventBus.collection_changed.emit()

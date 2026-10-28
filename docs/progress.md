@@ -3657,3 +3657,24 @@ events, choices, challenges, blurbs), quest text in core/quests. Ids and locator
 ledger survives repeated applies, and a snapshot covers cells a spreadsheet changed. The Oct 21 batch mode is unchanged (its dry run matches
 the baseline). Tested end to end on a scratch copy: 12 edits across every source type, then re-edit, revert (tree clean) and the
 validation failures.
+
+
+## Overnight Oct 27-28: Necrocrat units, art direction review + catalogue, feats - done
+
+Report `docs/overnight_report.md`; questions `docs/overnight_inbox.md` ("Overnight Oct 27-28"). Dialogue freeze respected (new keys only;
+`docs/dialogue/lines_to_update_oct28.csv`). No build.
+
+- **Part 1** (a5c59207): Necrocrat's Common / Uncommon bodies up one point (N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5) and a new
+  Common, N-38 Hazmat Intern 2(N) 1/3 Toxic; the sim's D.N.A. package buys the shelf Commons. Level-12 round robin Necrocrat 20-33 -> 45%
+  (two-seed mean). `docs/design/sheet_changes_oct28.csv` (`node tools/sheet_changes_oct28.js`), balance_log "Overnight Oct 27-28, Part 1".
+- **Part 2** (d05586d9): `docs/art/art_direction_oct28.md` (zone by zone against the story), `docs/design/enemy_roster_oct28.md` (every
+  roamer re-read for its ruler; five renames with save-safe aliases in `Bestiary.RENAMED`; the three town roamers join the Bestiary),
+  `docs/art/art_batch_oct28.csv` (164 rows, 56 High; `node tools/art_batch_oct28.js` from `tools/art_batch_oct28_rows.js`) and
+  `art_batch_oct28.md` (locks, batch order, import lines, unused art). Code: `ZoneEnemy` draws the sprite set `FOE-<slug>`
+  (`ZoneEnemyInfo.sprite_key`) instead of its 3D model once imported; the boss intro slides a cut-out character in over the letterbox
+  (`Bestiary.cutout`: `CUT-<key>` file > dialogue portrait > Bestiary square; `CUT-*` ids are known to the portrait importer, kept 1080 px
+  tall); Maren's tortoise redo needs no code. Tests `tests/core/data/test_enemy_art_oct28.gd`.
+- **Part 3**: feats (`docs/design/feats.md`): `data/feats/feats.json` (40), `core/feats/` (defs, state, account record `user://feats_account.json`,
+  tracker, a live-battle watcher on `GameState.event_emitted`), Session hooks (set_flag, bump_counter, complete_zone, start / complete_battle,
+  save key `"feats"`, retroactive on load), `ui/screens/feats_panel.gd` in the pause menu (hidden feats "???"), rewards gold / essence once per
+  account and only in a saving game (`Session.pay_feat_rewards` for tests). Tests `tests/core/feats/test_feats.gd`.

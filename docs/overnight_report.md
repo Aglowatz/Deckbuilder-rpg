@@ -1,108 +1,133 @@
-# Morning report - overnight Oct 25-26 (card set review, Graphics Tier 2)
+# Morning report - overnight Oct 27-28 (Necrocrat units, art direction + catalogue, feats)
 
-Started Sun Oct 25 22:13 MDT (Fable), tag `pre-overnight-oct25b` (= f8dc126b; start commit 48b2488e). Brief copy `docs/overnight/oct25b/brief.md`;
-state file `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` (section "Overnight Oct 25-26"); last report
-`docs/overnight/oct25b/prev_overnight_report_oct23.md`. No build was exported and no version was bumped (by rule); the game's cards, data
-and sheet are untouched by Part 1 (proposals only).
-
-**The session was dropped at about 00:06 and resumed at 08:05 on your "resume"**: Parts 1 and 2 were complete by then and only Part 2's
-final verification (walk smokes, the budget check, the after shots and fps table) and this report were run after the 8-hour window. The
-Phase 2 polish cycles were not started (no `loop_log.md` entries tonight).
+Started Tue Oct 27 20:47 MDT (Fable), tag `pre-overnight-oct27` (= a5807ea1). Brief copy `docs/overnight/oct27/brief.md`; state file
+`docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` (section "Overnight Oct 27-28", items 1-9); the dialogue freeze was
+respected (no existing line or key changed; the one suggested rewrite is in `docs/dialogue/lines_to_update_oct28.csv`). No build was
+exported and no version was bumped (by rule). No art was generated: every picture is a description.
 
 ## Read this first
 
-- **Card review** (`docs/design/card_review_oct25.md` + `.csv`): 29 proposed changes (4 High, 8 Medium, 17 Low) and 14 fully written new
-  cards. The set is in good shape; the real gaps are Necrocrat's missing unconditional removal below Epic (its level-12 reference deck won
-  23% of a round robin, 0% vs Gourmand), Refusemancer's missing Common recursion and top end, one Common that follows no template (Push
-  Broom of Undeath), one dead-in-PvE hate card (Let Them Eat Cake) and two IP slips (Jello Weights, Ratatouille's film-motto flavour).
-- **Graphics Tier 2** (`docs/art/graphics_tier2.md`): six features kept, each its own commit, all within budget and 60+ on Medium: height
-  fog in the Dump's ravine, a bounce-colour channel in the ground light map, one shared wind, water refraction in the shallows, a
-  shadow-casting lantern at night (the forest camp), FSR 2 as the Medium default on discrete GPUs. SSAO on Medium was measured and dropped
-  (+2.3 ms: 57.8 fps on the square); vertex AO on the kit and ground decals turned out to be already present from earlier passes.
+- **Necrocrat is playable in the mirror now**: five Common / Uncommon bodies up one point and a new Common, **N-38 Hazmat Intern, 2(N) 1/3
+  Toxic**; the level-12 round robin reads 45% (was 20-33). Two cells sit outside your lines (vs Gourmand 25%, vs Refusemancer 68%); inbox 1.
+- **The art review** (`docs/art/art_direction_oct28.md`) and **the catalogue** (`docs/art/art_batch_oct28.csv`, 164 rows, 56 High; the
+  locks, batch order and import lines in `art_batch_oct28.md`). The headline: the painted parts already read as one world; the seams are the
+  3D roaming enemies, the hero landmarks that are still blocks, the skies, and the story beats with no picture.
+- **Every roaming enemy becomes a painted sprite** the moment its `SPR-FOE-*` set is imported (code done; 21 sets in the catalogue), **every
+  boss entrance is a cut-out character now** (the dialogue portrait slides in over the letterbox; a `CUT-*` file replaces it when made; shot
+  `docs/overnight/oct27/intro_warden_cutout.png`), and **Maren goes back to a tortoise** (portrait + expressions + sprites, same IDs).
+- **Feats shipped** (Part 3): 40 feats, Menu > Feats, per-slot + account record, retroactive on load, one-per-account rewards (gold and
+  essence; no dye / title system exists - inbox 9).
 
 ## By part
 
 | Part | Commits | What |
 |---|---|---|
-| 0 setup | 48b2488e | tag, brief copy, loop state, a leftover Oct 23 bestiary screenshot anchor |
-| 1 card review | 9b6bd54e | 312 cards + 25 tokens read against the Design Guidance; `card_review_oct25.csv` (43 rows) + `.md`; sims `docs/design/sim/review_*.md` |
-| 2 Tier 2 | 669b0718 (f1 height fog), fd4ec9ab (f2 bounce), 43015ac7 (f3 wind), a17851a5 (f4 water), ca482c83 (f5 lanterns), 465bdba4 (f6 FSR 2), 15a53b2c (test + doc) | see `docs/art/graphics_tier2.md` |
-| Phase 2 | - | not started (the session dropped at 00:06) |
+| 1 Necrocrat | a5c59207 | N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, new N-38 Hazmat Intern; sim packages; `sheet_changes_oct28.csv`; balance_log; tests |
+| 2 Art direction + catalogue | d05586d9 | `art_direction_oct28.md`, `enemy_roster_oct28.md`, `art_batch_oct28.csv/.md`, `lines_to_update_oct28.csv`; code: enemy sprite swap-in, 5 renames with aliases, 3 town roamers in the Bestiary, boss intro cut-outs, `CUT-*` ids in the portrait importer; `test_enemy_art_oct28.gd` |
+| 3 Feats | PART3_COMMIT | `data/feats/feats.json`, `core/feats/*`, `ui/screens/feats_panel.gd`, Session hooks, pause menu entry, `docs/design/feats.md`, `test_feats.gd` |
+| Phase 2 | see `docs/overnight/loop_log.md` | polish cycles (first-hour clarity, visual polish) |
 
-## Card review headline
+## The Necrocrat result (Part 1)
 
-| | Proposals | High | Medium | Low | New cards |
-|---|---:|---:|---:|---:|---:|
-| Refusemancer | 7 | 1 | 2 | 4 | 3 |
-| Necrocrat | 5 | 1 | 2 | 2 | 4 |
-| Beefcake | 4 | 0 | 1 | 3 | 3 |
-| Gourmand | 2 | 0 | 1 | 1 | 2 |
-| Dual / tri Path | 9 | 2 | 2 | 5 | 1 |
-| Colorless | 2 | 0 | 0 | 2 | 1 |
-| **Total** | **29** | **4** | **8** | **17** | **14** |
+Level-12 round robin (`--what=decks --level=12 --games=20`, both seats the planning AI, no gear), two seeds:
 
-By category: Clarity 12, Role 6, Flavour 5 (two IP), Fun 3, Power 1 (The Cullinator), Identity 1, Early game 1, New card 14. The Black Market's
-eight cards were read but excluded from proposals.
+| | Beefcake | Gourmand | Refusemancer | Necrocrat | N vs B / G / R |
+|---|---:|---:|---:|---:|---|
+| before (Cards Oct 27, 7000 / 8100) | 63 / 60 | 73 / 73 | 43 / 33 | 20 / 33 | 20-40 / 10 / 30-50 |
+| after (7000 / 8100) | 60 / 55 | 65 / 72 | 35 / 23 | **40 / 50** | 30-55 / 35-15 / 55-80 |
+| two-seed mean after | 58 | 68 | 29 | **45** | 43 / 25 / 68 |
 
-**Top 15**: (1) N-10 Push Broom of Undeath made a real attached Tool, 2(N); (2) R-21 Let Them Eat Cake never dead: 3 damage, destroy + Garbage
-if Gourmand; (3) NB-13 Jello Weights renamed, lyric flavour replaced, unit wording fixed; (4) GR-16 Ratatouille's film motto replaced; (5) NEW
-Final Notice (Necrocrat U, destroy target unit + Red Tape); (6) NEW Curb Alert (Refusemancer C, Regrow + Garbage); (7) NEW Iron Filing Clerk
-(N/B U, Iron <-> Red Tape); (8) G-22 The Cullinator +1 energy; (9) R-26 The Recycling Center on your turn instead of end of turn; (10) BR-06
-Hamster Ball earns a Garbage on hits; (11) NB-01 Shredded Spectre's resource text rewritten; (12) R-03 Landfill Ox one eat for (R)(R)(R);
-(13) B-02 Bronzer to (B); (14) N-19 Resting In Peace Clause to Uncommon; (15) N-22's flavour typo.
+The cave is unchanged (B 88 / G 92 / R 78 / N 96 on seed 7000, identical to Oct 27: the cave foes run no Necrocrat cards); the D.N.A.
+roamers (88 / 100%) and the Hall (every node "ok", Mortimer 58%) read as in the Oct 27 sweep with the buffed zombie archetype. Reports
+`docs/design/sim/oct28_*.md`; the log entry "Overnight Oct 27-28, Part 1" in `docs/design/balance_log.md` has the per-set numbers (set A,
+bodies only, moved Necrocrat 33 -> 35; the Intern and the shelf Commons in the sim's package did the rest).
 
-**New cards (14)**: Hammer Thrower, Protein Shake, Desk Flip (Beefcake); Final Notice, Pending Approval, Service Charge, Compliance Review
-(Necrocrat); Amuse-Bouche, Pest Control (Gourmand); Curb Alert, Sewer Choir, Landfill Leviathan (Refusemancer); Hand-Me-Down Shield
-(Colorless); Iron Filing Clerk (Necrocrat / Beefcake). Each row carries a ChatGPT-ready image description with the style lock and Path accent.
+## The art catalogue headline (Part 2)
 
-**Early game**: power is not the problem (every starter clears the cave 87-98%); identity shows late (starters are 14-15 Colorless of 26,
-Sable's sample is five Colorless Commons plus one of each Path). The new Commons are starter candidates, one Colorless swap each; a vendor-side
-suggestion: Sable sells two Commons of the player's own Path. Designer notes (the Guidance's `#ERROR!` Buff cell, unused keywords Cook / Yeet /
-Regrow, the no-op "enters refreshed" line, the P4 section header) are at the end of the review.
+| Category | High | Medium | Low | Total |
+|---|---:|---:|---:|---:|
+| Enemy sprite sets | 21 | 0 | 0 | 21 |
+| Cut-outs (entrances) | 15 | 9 | 2 | 26 |
+| Bestiary squares | 4 | 19 | 0 | 23 |
+| Story stills | 5 | 10 | 0 | 15 |
+| Cards | 5 | 10 | 1 | 16 |
+| Portraits (Maren) + expressions | 3 | 12 | 0 | 15 |
+| NPC sprites (Maren, Primm, farmhand) | 1 | 2 | 0 | 3 |
+| Backdrops / props / sheets / trees / zone kit | 1 | 13 | 7 | 21 |
+| Icons (4 relics, 8 feat groups) | 0 | 4 | 8 | 12 |
+| Cosmetic (Leaf Crown redo) | 0 | 1 | 0 | 1 |
+| **Total** | **56** | **89** | **19** | **164** |
 
-## Graphics Tier 2 - before / after and fps
+By zone: Global 40, Crosspath 25, Capital 26, Verdant Dump 17, Gainlands 14, D.N.A. 13, Endless Buffet 13, Castle 7, Opening Forest 6,
+Lab 3. **The High list**: Maren's three portraits and her sprite set; the 21 roaming-enemy sprite sets; the four new / redone Bestiary
+squares (Pantry Hound, Lost Junior Clerk, Bin Raccoon, Quota Spotter); cut-outs for the Hollow Warden, the four gatekeepers, Clench, Quota,
+the Doppelganger, Crumb, Mortimer, Plume, the Rotheart, Clipwell, Spotless and Primm; the stills STORY-CAPTURE, STORY-THRONE, STORY-WONDER,
+STORY-MEMORY-3 and -4; the starter cards' art (Protein Shake, Pending Approval, Amuse-Bouche, Curb Alert, Hazmat Intern); the forest's
+painted cave mouth; the Rotheart backdrop with a transparent sky. Nothing is missing among maps (15/15), battleboards (25/25), vendor
+screens, key art, UI kit, item and cosmetic icons; the unused approved art is tabled in `art_batch_oct28.md`.
 
-Shots: `docs/art/graphics_tier1/t2_before/<area>.jpg` vs `t2_after/<area>.jpg` (the Tier 1 camera spots); per feature in
-`docs/art/graphics_tier2/f1_heightfog/` (Dump stream before/after), `f2_bounce/` (square, street, a 3x version, the raw channels),
-`f3_wind/`, `f4_water/`, `f5_lanterns/`.
+## Enemy renames (data only; no frozen line names them)
 
-| Area | Low before -> after (fps) | Medium before -> after | High before -> after | Medium avg ms vs budget |
-|---|---|---|---|---|
-| town_square | 93.6 -> 95.0 | 66.2 -> 65.5 | 19.5 -> 19.4 | 15.26 vs 19.5 |
-| town_street | 91.9 -> 92.7 | 64.4 -> 65.1 | 19.3 -> 18.0 | 15.36 vs 19.5 |
-| forest | 120.2 -> 125.0 | 83.6 -> 83.3 | 24.1 -> 24.4 | 12.01 vs 15.5 |
-| gainlands | 96.3 -> 95.7 | 76.5 -> 75.8 | 25.8 -> 26.1 | 13.19 vs 19.2 |
-| buffet | 106.2 -> 100.1 | 79.7 -> 77.5 | 27.6 -> 26.0 | 12.90 vs 16 |
-| dna | 99.4 -> 102.9 | 86.7 -> 86.9 | 30.6 -> 31.0 | 11.51 vs 15.7 |
-| heap | 92.0 -> 87.9 | 75.3 -> 71.9 | 26.9 -> 25.3 | 13.90 vs 17.1 |
-| capital_out | 85.2 -> 85.0 | 68.4 -> 69.0 | 22.7 -> 22.6 | 14.49 vs 18.2 |
-| capital_in | 85.8 -> 87.0 | 69.2 -> 70.0 | 23.6 -> 23.9 | 14.29 vs 18.5 |
-| battle | 363.0 -> 366.0 | 365.2 -> 363.5 | 362.5 -> 370.4 | 2.75 vs 3.8 |
-| dungeon_map | 456.0 -> 473.7 | 454.3 -> 464.6 | 446.4 -> 464.3 | 2.15 vs 2.9 |
+| Old | New | Zone | Look in one line |
+|---|---|---|---|
+| Stray Gym Hound | **Pantry Hound** | Crosspath | a sauce-drunk spaniel in an apron with a ladle |
+| Flexing Brute | **Quota Spotter** | Gainlands | a billy goat sergeant with a stopwatch and clipboard who counts your reps for Clench |
+| Zombie Intern | **Unpaid Intern** | D.N.A. | a zombie under a tower of forms |
+| Possessed Scarecrow Druid | **Hungry Scarecrow** | Verdant Dump | a druid's scarecrow that has started to grow |
+| Compliance Officer | **Correction Officer** | Capital | a mirror-visored enforcer of the Ministry of Correction |
 
-GPU ms per row and the single-feature costs are in `docs/art/graphics_tier2.md`. Medium holds 65-87 fps everywhere; Low and High are
-within run-to-run noise; every area sits 3-6 ms under its Medium budget line.
+Old saves keep their Collection Book counts and the old pictures (`Bestiary.RENAMED`, `legacy_art_ids`). The whole roster, sizes and
+behaviours: `docs/design/enemy_roster_oct28.md`.
 
-## What to look at first in-game
+## NPCs and enemies going painted
 
-1. **Crosspath square and west street** (Medium or High): the cobbles beside the timber houses lean warm now (bounce colour); walk along a
-   wall and watch the hero's feet pick up the tint. Set `light.bounce` in `data/zone_styles/main_town.json` to 0 / 3 to compare live (hot reload).
-2. **The Verdant Dump**: the water beside the entrance bridge and the stream in the ravine sit in a pale violet mist; the terraces are clear.
-3. **The Gainlands plaza**: watch a gust cross the scrub, the banners on the bridge and the trees together.
-4. **Any shallow water** (the Dump's river edge, the Buffet's shore): the bed shows through with a wobble; deep water is unchanged.
-5. **The forest camp at night**: the lantern beside the bedroll throws a real shadow (Medium: one lantern; High: two).
-6. On a discrete GPU, Settings > Display shows Auto = FSR 2 on Medium (the log line "discrete GPU: FSR 2 is the Medium upscaler under Auto").
+- **Enemies**: all 21 roamers and road guards (3 Crosspath, 3 Gainlands, 3 D.N.A., 4 Buffet, 3 Dump, 5 Capital). `ZoneEnemy` draws the
+  sprite set `FOE-<slug>` instead of its model as soon as "import npc sprites" brings it in; nothing else to wire.
+- **NPCs still 3D**: Primm at work (the postgame Crease; SPR-PRIMM row), the three nameless Dump farmhands (one SPR-DUMPWORKER set, tinted),
+  the gold Primm statue (a prop row). Every list NPC with lines is a painted sprite already.
+- **Maren**: the current portrait and sprites are a human grandmother with a shell; the rows describe an old tortoise proper (beak,
+  spectacles, mossy shell, the four-colour shawl and the carved stick kept) for the base portrait, HAPPY, WORRIED and the four sprites.
+
+## Story-scene illustrations planned (15)
+
+STORY-CAPTURE (Elowen taken at the gate), STORY-THRONE (ending beat 8), STORY-WONDER (the true Chef's dish), STORY-MEMORY-1..4, STORY-VACANCY
+(Agnes takes the office), STORY-SEVER (the seed dies), STORY-MODEL-ROOM, STORY-KEPT-FACE, STORY-FACADE-FALLS, STORY-CELL-4, STORY-FUNERAL,
+STORY-HOME. Composition, cast (by portrait ID), light and mood per row; the seven existing stills stay. Wiring is one line per still.
+
+## Boss-intro change
+
+`ui/battle/boss_intro.gd`: the figure slides in from the left over the letterbox bars (0.45 s, feet in the lower bar, no box) beside the
+name card; the picture is the `CUT-<key>` cut-out if imported, else the transparent dialogue portrait (every boss, lieutenant and gatekeeper
+tonight), else the old Bestiary square pushing in (the four nameless entrances). `Bestiary.cutout_ids()` lists the 24 cut-outs; the portrait
+importer accepts them. Needing a cut-out (all 24 are catalogue rows, optional since the portraits work): Warden, Bronson, Pallor, Gravois,
+Mulligan, Shiro, the Four-Seal Warden, Clench, Quota, the Spotter, the Doppelganger, the Itamae, Crumb, Mortimer, Betty, Plume, the Rotheart,
+Clipwell, the Raccoon, Spotless, Primm (+2 phase variants), the Automaton, Siphon, Bellows.
+
+## Dialogue lines to update
+
+`docs/dialogue/lines_to_update_oct28.csv`: **1 row** (optional): Maren's `town.elder.idle.4` line 2 speaks of tortoises as "them". No
+rename touches a frozen file; Maren's other species lines already say tortoise.
+
+## Feats (Part 3)
+
+40 feats in ten groups (`docs/design/feats.md`): story milestones, one per zone, eight side dungeons, challenges (Gold Sand, Shiro, the
+Four Seals, the Old Well, Flawless, By a Thread), collection (25 / 50 / 100%, a craft, ten packs), a card moment per Path (10-attack unit,
+three Golems, five Red Tape, four garbage in a turn, a four-kill card) and two for mixed decks; 11 hidden. Tracked through the session's
+real hooks (flags, counters, zones, cards, won battles, a live-battle watcher on the rules engine's events), saved per slot under
+`"feats"` plus `user://feats_account.json` for the account, retroactive on load (one quiet toast), unlock toast + STG-SECRET sting,
+rewards paid once per account (gold / essence; only in a saving game). Menu > Feats (pause menu, pad B steps back). Tests
+`tests/core/feats/test_feats.gd` (9).
 
 ## Checks
 
-- GUT: root 247, core 1414 (+1 pending, known), ui/audio/characters 195, world 394 - all passing (one text test updated for the wind include).
-- Walk smokes: Crosspath, opening forest, Gainlands, Buffet, D.N.A., the Dump, the Capital - all OK (run after the resume, 08:06-08:24).
-- `perf_budget.sh structure`: all budgets met. `perf_budget.sh frame`: the background run was stopped by the tool harness for low system
-  memory (it wrote nothing; an orphaned Godot process was killed by hand) and was not restarted by the run; the after-fps table stands in
-  for it (every area inside its Low/Medium lines). Please re-run `bash tools/perf_budget.sh frame` when the PC is free.
-- Not run tonight (the dropped session): the tour bot, the story playthrough bot, the first-battles and release smokes. Part 1 changed nothing
-  in the game, so it needed none.
+- GUT per part: Part 1 root 276 / core 1465 / ui 234 / world 418; Part 2 root 276 / core 1479 (+ the two not-yet-wired feats tests) /
+  ui 234 / world 418; Part 3 feats 9/9, root 276, ui 234, core 1481 (+1 known pending), world WORLD_P3.
+- Walk smokes after Part 2: Crosspath, Gainlands, D.N.A., Buffet, Dump, Capital all OK. `perf_budget.sh structure`: all budgets met (Part 1).
+- Sims: Part 1's round robin on two seeds, the cave (seed 7000), `zone:necrocrat`, `dungeon:D-HFA`.
+- Screenshots: `docs/overnight/oct27/intro_warden_cutout.png` (the new entrance). The Feats page has no screenshot (no pause-menu hook in
+  the shot tool); it is built from the Glossary page's layout.
 
 ## Inbox (yours to decide; the safest choice was taken)
 
-See `docs/overnight_inbox.md`, "Overnight Oct 25-26".
+See `docs/overnight_inbox.md`, "Overnight Oct 27-28": 1 Necrocrat cells, 2 the Hall for Refusemancers, 3 the renames, 4 foes not in the
+Bestiary, 5 the gate guards' floating text, 6 cut-outs optional, 7 Maren's line, 8 unused art, 9 feats rewards.
