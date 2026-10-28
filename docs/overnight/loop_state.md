@@ -23,8 +23,8 @@ dungeon_content.json, core/quests, story_beats.gd. New text = new keys only. Lin
 | 1 Necrocrat units | done (set B: N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, NEW N-38 Hazmat Intern 1/3 Toxic; L12 round robin N 45% two-seed mean; GUT root 276 / core 1465 / ui 234 / world 418 all green; commit a5c59207 pushed) | target: L12 round robin Necrocrat 40-50% overall, >=30% vs each Path, starters 80%+ in the cave, nothing over ~75%; log in balance_log.md + `docs/design/sheet_changes_oct28.csv` |
 | 2 art direction + catalogue | done, commit d05586d9 pushed (GUT all four groups green except the then-unwired feats test) |
 | 3 feats | done, commit 93ab2b47 pushed (feats 9/9, root 276, ui 234, core 1481 green; the world group run was killed by the harness for low memory with an orphaned Godot left, pid 7932 - rerun in the foreground once it exits) |
-| Phase 2 | starting: loop_log.md; cycles: stability (world GUT, playtest smoke, story bot), boss-intro shadow polish, scorecard | `docs/overnight/loop_log.md` |
-| report | pending | `docs/overnight_report.md` |
+| Phase 2 | 11 cycles done (loop_log.md), commits f2c0c34c 94aef8a4 18c54dcd 7a8d4910; every smoke and bot green |
+| report | written (docs/overnight_report.md); final commit = the last on main | `docs/overnight_report.md` |
 
 ## Part 1 notes
 - Baselines (Cards Oct 27, no code change since): L12 round robin Necrocrat 20% (seed 7000, 20 games) / 33% (seed 8100, 20 games);

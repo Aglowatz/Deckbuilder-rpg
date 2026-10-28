@@ -25,7 +25,7 @@ exported and no version was bumped (by rule). No art was generated: every pictur
 | 1 Necrocrat | a5c59207 | N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, new N-38 Hazmat Intern; sim packages; `sheet_changes_oct28.csv`; balance_log; tests |
 | 2 Art direction + catalogue | d05586d9 | `art_direction_oct28.md`, `enemy_roster_oct28.md`, `art_batch_oct28.csv/.md`, `lines_to_update_oct28.csv`; code: enemy sprite swap-in, 5 renames with aliases, 3 town roamers in the Bestiary, boss intro cut-outs, `CUT-*` ids in the portrait importer; `test_enemy_art_oct28.gd` |
 | 3 Feats | 93ab2b47 | `data/feats/feats.json`, `core/feats/*`, `ui/screens/feats_panel.gd`, Session hooks, pause menu entry, `docs/design/feats.md`, `test_feats.gd` |
-| Phase 2 | see `docs/overnight/loop_log.md` | polish cycles (first-hour clarity, visual polish) |
+| Phase 2 | f2c0c34c, 94aef8a4, 18c54dcd, 7a8d4910 + the final commit | 11 cycles (`docs/overnight/loop_log.md`): stability sweep, the intro halo, feat toasts that wait for the battle, the Menu > Feats hint, the Feats page shots, a third balance seed |
 
 ## The Necrocrat result (Part 1)
 
@@ -127,6 +127,17 @@ rewards paid once per account (gold / essence; only in a saving game). Menu > Fe
 - Sims: Part 1's round robin on two seeds, the cave (seed 7000), `zone:necrocrat`, `dungeon:D-HFA`.
 - Screenshots: `docs/overnight/oct27/intro_warden_cutout.png` (the new entrance). The Feats page has no screenshot (no pause-menu hook in
   the shot tool); it is built from the Glossary page's layout.
+
+## Phase 2 (22:55-23:45, 11 cycles)
+
+- **Stability**: world GUT 418 (rerun in the foreground after the harness reaped the first run for memory), first-battles smoke, the
+  opening-hour playtest smoke, story playthrough bot 90 / 90, tour bot 281 spots / 0 errors / 0 warnings, gamepad smoke (506 pad events, the
+  pause menu included), boss-rules smoke: all OK on the final tree. `perf_budget.sh structure` OK; the frame budget was not rerun (memory).
+- **Polish**: a soft halo behind the boss intro's cut-out (`docs/overnight/oct27/c2_intro_halo.png`); feat toasts queue while a battle is
+  pending and flush when it ends (a shot had caught them over the Warden's entrance); the first feat toast of a session ends with
+  "Menu > Feats"; a dev scene and a town hook photograph the Feats page (`docs/overnight/oct27/c8_feats_page.png`).
+- **Balance evidence**: a third round-robin seed (above). Scorecard: `docs/overnight/oct27/scorecard.md` (no category moved down).
+- Not done: the Dump's two blue entrance flags were not found in the zone's code (a catalogue row covers them).
 
 ## Inbox (yours to decide; the safest choice was taken)
 

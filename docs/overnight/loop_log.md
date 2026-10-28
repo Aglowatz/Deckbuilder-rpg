@@ -29,3 +29,10 @@ Parts 1-3 landed at a5c59207, d05586d9, 93ab2b47.
    (balance_log, inbox 1) rather than re-tuned at midnight.
 10. **Stability / controller**: gamepad smoke OK (506 pad events, the pause menu included, 155 s) with the new Feats entry in the menu.
 11. **Combat feel**: boss-rules smoke OK (the Before-the-fight brief and HUD rules with the cut-out entrance in front of them).
+
+## Where it ended
+
+Eleven cycles between 22:55 and 23:40: stability (world GUT 418, first-battles, playtest, story bot 90/90, tour bot 0 errors, gamepad,
+boss-rules), two polish changes (the intro halo, feat toasts that wait for the battle to end and name Menu > Feats), the Feats page shots,
+and a third balance seed. Not done: the Dump's two blue entrance flags (not found in the zone's code tonight; a catalogue row covers them)
+and `perf_budget.sh frame` (skipped on a machine that had just reaped a Godot for memory). Scorecard: `docs/overnight/oct27/scorecard.md`.
