@@ -3633,3 +3633,17 @@ with pad events only (PadDriver; 0 key / mouse events); docs.
 Tests: `test_controller_input.gd` (24), `tests/ui/test_pad_focus_screens.gd` (15: every button of 17 screens reachable by D-pad),
 `tests/ui/test_battle_pad.gd` (8). GUT: root 271, ui 218, world 394, core 1414 (+1 pending) all passing; gamepad smoke, playtest smoke
 (keyboard / mouse) and first-battles smoke OK. Screenshots: `_screenshots/gamepad/`. Not exported.
+
+## Oct 27 - Cards (docs/cards_oct27.md)
+Part 1 - Every row of the Oct 25 card review applied: 29 changed cards (Wobble Weights, Push Broom of Undeath as a Tool, Cannon Fodder 2/1...)
+and 14 new ones (Hammer Thrower, Final Notice, Amuse-Bouche, Curb Alert, Iron Filing Clerk...); engine `on_path(sel, X)`, `pump(..., next)`,
+`once` on triggers; starters swap one Colorless card for their Path's new Common; Sable sells two own-Path Commons. Sims: the cave (cave foes
+carry one Fodder fewer), the first zone, the level-12 round robin (the sim's Necrocrat cut order fixed; Final Notice kept at 1(N)(N)).
+Part 2 - Card availability GENERAL / REWARD-LOCKED / ENEMY-ONLY (`CardAvailability`, `card_overrides.csv` 4 columns) checked by every
+generator (packs, Sable, zone shelves, picks, dungeon picks, the Alchemist, the Dev Menu); the bosses' own cards (Mortimer, Betty Bones,
+Clench, Mr. Tiggle) enemy-only with grandfathering; the Hall pays Mass Layoffs, the Waiting Room the Department; boss-pick chase cards
+(`DungeonSignatures`); the Collection Book's "Seen in battle" section. Doc `docs/design/card_availability.md`.
+Part 3 - Earned cards join the collection, not the deck (the Forgotten Cave's first run excepted); "Added to your collection", a one-time
+Deck Station tip, the NEW badge (`Session.new_cards`).
+Checks - GUT all four groups green per part and on the final tree; validators, first-battles smoke, post-change sweeps
+(`docs/design/sim/cards27*`); story playthrough bot 90/90; tour bot 0 errors / 0 warnings. Exported as v0.4.6 (691 MB, release smoke OK).
