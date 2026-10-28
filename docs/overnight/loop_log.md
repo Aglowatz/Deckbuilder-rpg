@@ -24,3 +24,8 @@ Parts 1-3 landed at a5c59207, d05586d9, 93ab2b47.
 8. **UI consistency**: a dev scene for the Feats page (`scenes/dev/feats_gallery.tscn`, `bash tools/shot.sh res://scenes/dev/feats_gallery.tscn feats_page`;
    shot `docs/overnight/oct27/c8_feats_page.png`) and a `--open=feats` hook on the town for the in-menu version; the page reads like the
    Glossary (same plate, heading sizes, row layout), earned rows bright with "Earned here", locked ones dimmed, hidden ones "???".
+9. **Balance (measured, no change)**: a third round-robin seed (9200): Necrocrat 47% (three-seed mean 46), vs Gourmand 20 and vs
+   Refusemancer 60; Refusemancer 22 (mean 27). Both outliers are consistent across seeds, so they are real; logged for the designer
+   (balance_log, inbox 1) rather than re-tuned at midnight.
+10. **Stability / controller**: gamepad smoke OK (506 pad events, the pause menu included, 155 s) with the new Feats entry in the menu.
+11. **Combat feel**: boss-rules smoke OK (the Before-the-fight brief and HUD rules with the cut-out entrance in front of them).

@@ -8,7 +8,7 @@ exported and no version was bumped (by rule). No art was generated: every pictur
 ## Read this first
 
 - **Necrocrat is playable in the mirror now**: five Common / Uncommon bodies up one point and a new Common, **N-38 Hazmat Intern, 2(N) 1/3
-  Toxic**; the level-12 round robin reads 45% (was 20-33). Two cells sit outside your lines (vs Gourmand 25%, vs Refusemancer 68%); inbox 1.
+  Toxic**; the level-12 round robin reads 45% (was 20-33). Two cells sit outside your lines on every seed (vs Gourmand 23%, vs Refusemancer 65%), and **Refusemancer is the weakest Path now (27%, was 33-43)**; inbox 1.
 - **The art review** (`docs/art/art_direction_oct28.md`) and **the catalogue** (`docs/art/art_batch_oct28.csv`, 164 rows, 56 High; the
   locks, batch order and import lines in `art_batch_oct28.md`). The headline: the painted parts already read as one world; the seams are the
   3D roaming enemies, the hero landmarks that are still blocks, the skies, and the story beats with no picture.
@@ -35,7 +35,8 @@ Level-12 round robin (`--what=decks --level=12 --games=20`, both seats the plann
 |---|---:|---:|---:|---:|---|
 | before (Cards Oct 27, 7000 / 8100) | 63 / 60 | 73 / 73 | 43 / 33 | 20 / 33 | 20-40 / 10 / 30-50 |
 | after (7000 / 8100) | 60 / 55 | 65 / 72 | 35 / 23 | **40 / 50** | 30-55 / 35-15 / 55-80 |
-| two-seed mean after | 58 | 68 | 29 | **45** | 43 / 25 / 68 |
+| after, seed 9200 (Phase 2) | 58 | 73 | 22 | **47** | 60 / 20 / 60 |
+| three-seed mean after | 59 | 70 | **27** | **46** | 48 / 23 / 65 |
 
 The cave is unchanged (B 88 / G 92 / R 78 / N 96 on seed 7000, identical to Oct 27: the cave foes run no Necrocrat cards); the D.N.A.
 roamers (88 / 100%) and the Hall (every node "ok", Mortimer 58%) read as in the Oct 27 sweep with the buffed zombie archetype. Reports

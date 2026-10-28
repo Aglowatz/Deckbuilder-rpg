@@ -1399,3 +1399,10 @@ was not rerun (nothing in it changed: B 92 / G 88 / R 92 / N 92 stand; two-seed 
 (75 / 100 / 100 / 83). `dungeon:D-HFA` 6 games/Path: every node "ok"; the elites 67 / 71%, Mortimer 58% (B 67 / N 50 / G 100 / R 17), the
 Cards Oct 27 sweep had 63 / 56 / 56% with Refusemancer at 25% on all three. Within noise; no encounter changed. The Hazmat Intern is in no
 enemy deck (archetypes list cards by id), so no foe gained Toxic.
+
+**Third seed (Phase 2, 23:27)**: seed 9200, 20 games: B 58 / G 73 / R 22 / N 47 (N vs B 60, vs G 20, vs R 60). Three-seed means: Necrocrat
+**46%** (vs Beefcake 48, vs Gourmand 23, vs Refusemancer 65), Gourmand 70, Beefcake 59, **Refusemancer 27** (was 33-43 before tonight).
+The Gourmand cell holds under 30 on every seed and Refusemancer's fall is consistent (35 / 23 / 22), so both are real, not noise:
+Toxic blockers counter Refusemancer's big bodies and do little against Gourmand's Sucker Punch walls. Left for the designer (inbox 1):
+the cheapest counter-moves are one Hazmat Intern in the sim's package instead of two (the model), Pink Slip to "attack 4 or less" (the
+Gourmand cell) and a Refusemancer body or two (its own pass).

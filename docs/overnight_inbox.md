@@ -8,9 +8,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 1. **Necrocrat, Part 1** (`docs/design/balance_log.md`, "Overnight Oct 27-28, Part 1"): five bodies up one point (N-03 3/4, N-04 2/3,
    N-05 2/4, N-07 3/4, N-23 3/5) and one new Common, **N-38 Hazmat Intern, 2(N) 1/3 Toxic**. Level-12 round robin: Necrocrat 45% on the
-   two-seed mean (was 20-33), nobody over 75%. Two cells sit outside your lines: Necrocrat vs Gourmand 25% (15 / 35 by seed; the golem
-   walls kill a 1/3 Toxic blocker first) and Necrocrat vs Refusemancer 68% (Toxic counters big bodies; Refusemancer's overall fell from
-   33-43 to 29). Options: (a) accept, (b) one Hazmat Intern in the sim package instead of two, (c) Pink Slip to "attack 4 or less" for the
+   two-seed mean (was 20-33), nobody over 75%. Three seeds now (7000 / 8100 / 9200): Necrocrat 40 / 50 / 47 (mean 46). Two cells sit outside your lines on every seed:
+   Necrocrat vs Gourmand 35 / 15 / 20 (the golem walls kill a 1/3 Toxic blocker first) and Necrocrat vs Refusemancer 55 / 80 / 60 (Toxic
+   counters big bodies): **Refusemancer is the weakest Path now, 35 / 23 / 22 (mean 27; was 33-43)**. Options: (a) accept, (b) one Hazmat Intern in the sim package instead of two, (c) Pink Slip to "attack 4 or less" for the
    Gourmand cell (a spell, left alone tonight). The Intern's name, flavour and image row are in `docs/design/sheet_changes_oct28.csv`;
    rename freely.
 2. The Hall of Final Approvals reads Refusemancer 17-33% on its elites and Mortimer (6 games; the Oct 27 sweep had 25% on all three),
