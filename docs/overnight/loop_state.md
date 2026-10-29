@@ -17,8 +17,8 @@ never overwrite a good zip), notes `docs/release/v0.4.7_notes.md`, tag; do NOT s
 |---|---|---|---|
 | 0 Inventory | done | 8ead7f6c | 86/86 sound; assets/art 447 MB before |
 | 1 Story stills | done | 8ead7f6c | StillBackdrop behind cutscene/ending/scene/memory narration; scenes/dev/still_gallery.tscn; GUT root 281 ui 242 |
-| 2 Cards/icons/hat/NPC sprites | | | |
-| 3 Zone pieces | | | |
+| 2 Cards/icons/hat/NPC sprites | done | 5ba61b8d | cards 356/356, relic+feat icons, Leaf Crown hand fit, DUMPWORKER/PRIMM sets; GUT all groups OK, Dump walk OK, structure OK |
+| 3 Zone pieces | 3a done (forest, town, gainlands); 3b next (dna, buffet, heap, capital) | 2cfa186f | backdrops for all zones already in zone_looks.json (3a commit); before shots of 3b need zone_looks + CAP-PATH-WHITE from 5ba61b8d |
 | 4 Old Hob | | | |
 | 5 Verify | | | |
 | 6 v0.4.7 | | | |
