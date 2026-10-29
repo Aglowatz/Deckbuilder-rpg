@@ -13,6 +13,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    That gives the hero a beat to react; set `ZoneEnemy.THREAT_SECONDS` to 0 if you want the old instant chase.
 3. **Roamer rim**: painted roamers get a warm red-orange rim (0.62, the NPCs have the key-light colour at 0.42) so they read on busy ground and as a
    threat. `ZoneEnemy.ROAMER_RIM` / `ROAMER_RIM_STRENGTH`.
+4. **Hub walk smoke** fails one check (`bash tools/run_hub_walk_smoke.sh`, D.N.A. road): the hero walks straight into Old Hob the Gravedigger,
+   who stands on the smoke's line, so the obstacle toast is not shown. Not tonight's code (no NPC or road changed); the smoke route needs a
+   step round Hob, or Hob a step aside. Left as is.
 
 ## Overnight Oct 27-28 - yours to decide (the safest choice was taken)
 

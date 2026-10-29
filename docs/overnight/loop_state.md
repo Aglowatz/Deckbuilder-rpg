@@ -20,11 +20,11 @@ Batches 5-9 are NOT made: build no hooks for them. Inventory + import log: `docs
 
 | Part | State | Commit | Notes |
 |---|---|---|---|
-| 0 Inventory | done 20:45 | | 239 files sound; assets/art 365 MB before |
-| 1 Maren + roamers | in progress | | |
-| 2 Entrances + Bestiary | | | |
-| 3 Verify | | | |
-| 4 Battle feel | | | |
+| 0 Inventory | done 20:45 | afeb463e | 239 files sound; assets/art 365 MB before |
+| 1 Maren + roamers | done 21:45 | afeb463e | 21 FOE sets + ELDER; lineup tool; threat/hop/rim; ZoneEnemy drives actor |
+| 2 Entrances + Bestiary | done 21:45 | afeb463e | 27/31 entrances on CUT-*; Primm phases; 24 squares |
+| 3 Verify | done 22:30 | (see git log) | bots + smokes OK except hub (Hob on the line, inbox 4); payload 793.7 MB, zip ~750 |
+| 4 Battle feel | in progress | | |
 | 5 Memory leak | | | |
 | Phase 2 | | | |
 | Morning report | | | |

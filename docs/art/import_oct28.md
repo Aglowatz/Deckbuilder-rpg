@@ -286,3 +286,24 @@ plus contact sheets `_screenshots/oct28/review_{walks,idle,cut,bst}.png` looked 
 - The 23 squares show through `Bestiary.art` (Collection Book and battle plates); both Spotless ids have the picture; renamed enemies keep
   counting and keep their old pictures (`Bestiary.RENAMED`, `legacy_art_ids`).
 - Test: `tests/core/data/test_art_import_oct28.gd` (7 tests).
+
+## Part 3 - verify the art (Oct 28 21:50-22:40)
+
+| Check | Result |
+|---|---|
+| GUT (root 276, core 1490, ui 236, world 418) | all pass (1 pending, pre-existing) |
+| Tour bot | OK - 281 spots, 9 menus, 5 battles, 0 errors, 0 warnings |
+| Story playthrough bot | 90 / 90 |
+| Walk smokes | Crosspath, Gainlands, D.N.A., Buffet, Dump, Capital OK; **hub FAIL** (one check: on the D.N.A. road the hero walks into Old Hob the Gravedigger, who stands on the smoke's straight line, so the toast is still the previous road's; not tonight's code - inbox 4) |
+| First-battles smoke | OK (0 failures), lowest fps while animating 53 |
+| Gamepad smoke | OK (155 s) |
+| Structure budget | met (Capital per-frame scripts 124 -> 95 once ZoneEnemy drives its sprite) |
+| Frame budget | averages inside budget everywhere (Medium 12-17 ms = 60-80 fps); p99 marks noisy run to run (see docs/perf/budgets.md note) |
+
+**Size.** `assets/art` 365 MB -> 447 MB on disk (+82 MB of source PNG/WebP; working copies only). What the export packs: the 450 new or
+replaced files import to **26.5 MB** (`.godot/imported`). `node tools/build_audit.js`: estimated payload **793.7 MB** (world test art
+20.5 -> 39.5 MB). The v0.4.6 zip was 724 MB, so the next zip should land near **750 MB**: under the 850 MB flag. If it must shrink later:
+the 21 FOE sets keep their FRONT_TALK and every walk frame at 440 px figure height (lower FIG_H for the small roamers), and the 26 cut-outs
+are 1080 px tall (900 would do behind the letterbox).
+
+Status per Art ID: `docs/art/art_status_oct28.csv` (all 74 rows In Game; nothing needs a redo).

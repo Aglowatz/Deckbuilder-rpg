@@ -1,31 +1,32 @@
-Estimated export payload: **741.7 MB** (6186 source files)
+Estimated export payload: **793.7 MB** (6681 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
 | audio: music/ambience | 123 | 223.6 |
-| other images | 804 | 199.2 |
+| other images | 828 | 201.1 |
 | world textures (TEX/ENV/DEC, kit) | 146 | 119.4 |
 | UI and icons | 1499 | 41.1 |
-| card art | 668 | 30.2 |
-| world test art (assets/art/world_test) | 823 | 20.5 |
+| world test art (assets/art/world_test) | 1215 | 39.5 |
+| other (scripts, scenes, data) | 1100 | 38.6 |
+| card art | 669 | 30.2 |
 | world: normal/roughness maps | 51 | 17.0 |
 | audio: sfx | 503 | 16.8 |
 | backgrounds/key art | 26 | 16.0 |
-| portraits | 85 | 11.6 |
-| other (scripts, scenes, data) | 1048 | 11.4 |
+| portraits | 111 | 15.5 |
 | 3D models | 309 | 10.4 |
 | maps | 15 | 7.3 |
 | sprites (characters/cosmetics) | 42 | 7.2 |
 | battleboards | 25 | 6.0 |
 | vendor screens | 14 | 3.5 |
 | fonts | 5 | 0.6 |
-| **Total** | 6186 | **741.7** |
+| **Total** | 6681 | **793.7** |
 
 ### 30 largest files (packed size)
 
 | MB | File |
 |---:|---|
 | 7.4 | `assets/audio/music/MUS-CREDITS.ogg` |
+| 4.2 | `build_cache/capital_rim_c96cbbdb3c1f.bin` |
 | 3.0 | `assets/audio/music/MUS-REF-BOSS.ogg` |
 | 2.8 | `assets/audio/music/MUS-GOUR-BOSS.ogg` |
 | 2.7 | `assets/audio/music/MUS-REF-DUN-BATTLE.ogg` |
@@ -54,4 +55,3 @@ Estimated export payload: **741.7 MB** (6186 source files)
 | 2.3 | `assets/audio/music/MUS-NECRO-DUN-BATTLE.ogg` |
 | 2.3 | `assets/audio/music/MUS-PRIMM-03.ogg` |
 | 2.3 | `assets/audio/music/MUS-REF-DUN-EXP.ogg` |
-| 2.2 | `assets/audio/music/MUS-PANDA-BATTLE.ogg` |
