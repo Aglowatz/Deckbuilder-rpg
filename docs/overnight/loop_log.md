@@ -15,3 +15,8 @@ Last night's log: `docs/overnight/oct27/loop_log_oct27.md`.
 3. **Battle-feel timing (00:25)**: `tools/battle_sequence.tscn` got `--crop=x,y,w,h` to film part of the screen larger. The resource mote
    is visible mid-flight to its counter (`p2_feel_zoom.png`); the turn ribbon's "Turn N" line was too faint at 22 px: now 28 px in the
    ribbon colour lightened, the title nudged up (`p2_banner.png`). test_battle_feel_oct28 6/6. Kept.
+4. **Threat pose (00:35)**: `--lineup=threat` in the D.N.A. (`p2_lineup_dna_threat.png`): the managers lunge reaching, the interns and
+   couriers rear up - the FRONT_TALK frames read as a threat, in colour against the near-monochrome office. No change.
+5. **Colonel Casserole in the world (00:45)**: he is not a roamer but the Buffet's battle-gate guardian, still the 3D gate golem, so his new
+   painted set was unused. `BuffetBuilder._gate_figure` now uses `FOE_COLONEL_CASSEROLE` for the battle gate (the scene only moves and turns
+   it; the other two gate golems and the fallback stay 3D). `p2_casserole_gate.png`; Buffet walk smoke OK (the gates open); world 418/418. Kept.

@@ -905,11 +905,24 @@ func _build_landing_stages() -> void:
 func _build_gates() -> void:
 	for gate: BuffetGates.Gate in BuffetGates.gates():
 		var pos: Vector3 = layout.gate_positions[gate.id] as Vector3
-		var node: Node3D = MOBS.gate_golem(gate.id)
+		var node: Node3D = _gate_figure(gate.id)
 		node.name = "Gate_" + gate.id
 		root.add_child(node)
 		node.position = _ground(pos.x, pos.z)
 		gate_nodes[gate.id] = node
+
+
+## Overnight Oct 28-29, Phase 2: Colonel Casserole (the battle gate) is his painted set when it is imported (SPR-FOE-COLONEL-CASSEROLE, art batch
+## Oct 28); the other gate guardians and the fallback stay the 3D gate golems. The scene only moves and turns the figure, which a SpriteActor does too.
+func _gate_figure(gate_id: String) -> Node3D:
+	if gate_id == "battle" and SpriteLibrary.has_character(CASSEROLE_SET):
+		var actor: SpriteActor = NpcSprites.make_actor(CASSEROLE_SET)
+		actor.scale = Vector3.ONE * TownPlayer.MODEL_SCALE
+		return actor
+	return MOBS.gate_golem(gate_id)
+
+
+const CASSEROLE_SET: String = "FOE_COLONEL_CASSEROLE"
 
 
 ## Where a gate's golem stands when the gate is open (beside the gap, behind the fence).
