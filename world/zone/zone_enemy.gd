@@ -203,6 +203,21 @@ func _process(delta: float) -> void:
 		_play(info.anim_idle)
 		var reach: float = Vector2(player.position.x - position.x, player.position.z - position.z).length()
 		_alert.visible = reach < guard_radius + 2.5
+		# Overnight Oct 28-29, Phase 2: a painted guard and its training partners turn to face a hero who comes near, and the guard strikes its
+		# threat pose as the alert goes up (a painted figure with its back to the hero read as asleep).
+		if is_sprite():
+			var actor: SpriteActor = _model as SpriteActor
+			if reach < guard_radius + 6.0:
+				var toward: Vector3 = Vector3(player.position.x - position.x, 0.0, player.position.z - position.z)
+				_face(toward, delta)
+				for escort: Node3D in escorts:
+					var from_escort: Vector3 = player.position - escort.global_position
+					from_escort.y = 0.0
+					if from_escort.length() > 0.01:
+						escort.rotation.y = lerp_angle(escort.rotation.y, atan2(from_escort.x, from_escort.z), 1.0 - exp(-6.0 * delta))
+			actor.talking = _alert.visible
+			if actor.sprite != null:
+				_alert.position.y = actor.head_height() + 0.35
 		if reach < guard_radius and cooldown <= 0.0:
 			touched.emit(self)
 		return

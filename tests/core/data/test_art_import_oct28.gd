@@ -91,3 +91,22 @@ func test_the_new_bestiary_squares_show() -> void:
 	assert_ne(Bestiary.art("Captain Spotless"), null)
 	assert_ne(Bestiary.art("Enforcer Captain Spotless"), null, "the Old Service Tunnels name has its picture")
 	assert_ne(Bestiary.art("Stray Gym Hound"), null, "an old name still finds a picture")
+
+
+func test_a_painted_road_guard_turns_to_the_hero_and_strikes_its_threat_pose() -> void:
+	var area: ZoneMap = ZoneMap.new()
+	var hero: Node3D = Node3D.new()
+	add_child_autofree(hero)
+	hero.position = Vector3(5.0, 0.0, 0.0)  # east of the guard, inside the alert ring, outside the challenge circle
+	var guard: ZoneEnemy = ZoneEnemy.new()
+	add_child_autofree(guard)
+	guard.setup(ZoneEnemies.info(GainlandsZone.ID, "brute"), "g", Vector3.ZERO, 0.0, area, hero)
+	guard.make_guard(3.6, 2)
+	guard.cooldown = 99.0
+	for frame: int in range(90):
+		guard._process(1.0 / 60.0)
+	var actor: SpriteActor = guard.get_child(0) as SpriteActor
+	assert_almost_eq(actor.rotation.y, PI * 0.5, 0.15, "the guard faces east, toward the hero")
+	assert_true(actor.talking, "the threat pose while the alert is up")
+	for escort: Node3D in guard.escorts:
+		assert_true(absf(angle_difference(escort.rotation.y, PI * 0.5)) < 0.6, "a training partner turns too")
