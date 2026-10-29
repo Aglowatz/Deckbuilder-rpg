@@ -22,7 +22,8 @@ func test_every_npc_with_a_sprite_set_maps_to_an_imported_character() -> void:
 				assert_true(SpriteLibrary.info(character).get("dirs", []).has("FRONT"), "%s has a front view" % character)
 				checked += 1
 		elif set_name.begins_with("None"):
-			if id != "NPC-DOPPEL":  # the Doppelganger wears Escoffina's look in the Buffet (a disguise)
+			# the Doppelganger wears Escoffina's look in the Buffet (a disguise); Primm stands in the Crease after his fall (SPR-PRIMM, art import Oct 29)
+			if id != "NPC-DOPPEL" and id != "NPC-PRIMM":
 				assert_eq(NpcSprites.character_for(id), "", "%s is dungeon / battle only: no world sprite" % id)
 	assert_gt(checked, 40, "the whole list was checked")
 

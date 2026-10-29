@@ -4,11 +4,15 @@ extends Control
 
 var _page: int = 0
 var _multipath: bool = false
+## --ids=B-34,N-10,...: just these cards (two rows of eight, full frame) - art import reviews (Oct 29).
+var _only: PackedStringArray = PackedStringArray()
 
 
 func screenshot_prepare(args: Dictionary) -> void:
 	_page = int(args.get("page", 0))
 	_multipath = args.has("multipath")
+	if args.has("ids"):
+		_only = str(args["ids"]).split(",", false)
 
 
 func _ready() -> void:
@@ -23,6 +27,14 @@ func _ready() -> void:
 	var column: VBoxContainer = margin.get_child(0) as VBoxContainer
 	var row: HBoxContainer = UIKit.hbox(14)
 	column.add_child(row)
+	if not _only.is_empty():
+		for index: int in range(_only.size()):
+			if index == 8:
+				row = UIKit.hbox(14)
+				column.add_child(row)
+			var only_card: CardData = content.card(_only[index]) if content.cards.has(_only[index]) else content.multipath_cards.get(_only[index]) as CardData
+			row.add_child(CardView.wrapped(only_card, 0.5))
+		return
 	if _page < 0:
 		for index: int in range(0, 3):
 			row.add_child(CardView.wrapped(content.card(str(ids[index + 3])), 1.0))

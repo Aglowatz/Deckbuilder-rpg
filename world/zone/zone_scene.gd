@@ -284,6 +284,9 @@ func _ready() -> void:
 				Session.cosmetics.equip(wear.slot, wear_id)
 		if _screenshot_args.has("freed"):
 			Session.complete_zone(def.id)
+		# --flags=a,b: story flags for a shot (art import Oct 29: Primm in the Crease after his fall needs primm_defeated)
+		for flag: String in str(_screenshot_args.get("flags", "")).split(",", false):
+			Session.set_flag(StringName(flag))
 		if _screenshot_args.has("announce"):
 			Session.pending_zone_result = {"kind": "zone_freed", "arena_opened": true, "alchemist_opened": Session.completed_zone_count() >= 2}
 	if Session.zone_run == null:

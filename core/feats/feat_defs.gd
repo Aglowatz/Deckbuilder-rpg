@@ -9,6 +9,33 @@ const GROUP_ORDER: Array[String] = ["Story", "Zones", "Side dungeons", "Challeng
 ## Trigger kinds the tracker understands (the test checks every feat uses one).
 const KINDS: Array[String] = ["flag", "flags", "zones", "counter", "collection", "dungeon", "snapshot", "quest", "battle", "moment"]
 
+## Art import Oct 29: the feat icon of each group (ICON-FEAT-*, eight pictures for ten groups: the four one-Path groups share PATHS);
+## an unearned hidden feat shows SECRET.
+const GROUP_ICONS: Dictionary = {
+	"Story": "ICON-FEAT-STORY",
+	"Zones": "ICON-FEAT-ZONES",
+	"Side dungeons": "ICON-FEAT-SIDE",
+	"Challenges": "ICON-FEAT-CHALLENGES",
+	"Collection": "ICON-FEAT-COLLECTION",
+	"Beefcake": "ICON-FEAT-PATHS",
+	"Gourmand": "ICON-FEAT-PATHS",
+	"Necrocrat": "ICON-FEAT-PATHS",
+	"Refusemancer": "ICON-FEAT-PATHS",
+	"Dual Path": "ICON-FEAT-MIXED",
+}
+const SECRET_ICON: String = "ICON-FEAT-SECRET"
+
+
+static func group_icon(group: String) -> String:
+	return str(GROUP_ICONS.get(group, ""))
+
+
+## The icon a feat row shows: its group's, or SECRET while a hidden feat is not earned.
+static func icon_for(def: Def, earned: bool) -> String:
+	if def.hidden and not earned:
+		return SECRET_ICON
+	return group_icon(def.group)
+
 
 class Def:
 	extends RefCounted

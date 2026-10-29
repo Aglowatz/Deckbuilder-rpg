@@ -6,5 +6,5 @@
 	"BOWLER": {},
 	"TRICORN": {},
 	"WIZARD": {},
-	"LEAFCROWN": {}
+	"LEAFCROWN": {"_note": "Oct 29 redo: the wreath sat on top of the hair; sunk to the brow (eyes clear in every direction) and a little narrower.", "width": 1.25, "sink_FRONT": 0.47, "sink_FRONTSIDE": 0.46, "sink_SIDE": 0.42, "sink_BACKSIDE": 0.66, "sink_BACK": 0.68}
 }

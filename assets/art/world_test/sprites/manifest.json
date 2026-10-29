@@ -4892,5 +4892,49 @@
 		"has_talk": true,
 		"rel_height": 0.95,
 		"walk_dirs": []
+	},
+	"DUMPWORKER": {
+		"bottom_pad": 16,
+		"canvas": [
+			368,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"PRIMM": {
+		"bottom_pad": 16,
+		"canvas": [
+			256,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
 	}
 }

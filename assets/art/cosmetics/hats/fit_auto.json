@@ -26,10 +26,10 @@
 		"width": 1.3
 	},
 	"LEAFCROWN": {
-		"ratio_BACK": 0.96,
-		"ratio_BACKSIDE": 0.94,
-		"ratio_FRONTSIDE": 1.0,
-		"ratio_SIDE": 0.91,
+		"ratio_BACK": 1.0,
+		"ratio_BACKSIDE": 1.02,
+		"ratio_FRONTSIDE": 1.02,
+		"ratio_SIDE": 1.02,
 		"sink": 0.6,
 		"sink_BACK": 0.6,
 		"sink_BACKSIDE": 0.57,

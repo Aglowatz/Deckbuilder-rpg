@@ -131,3 +131,27 @@ The new stills have no captions of their own (dialogue freeze: no new `still.*` 
 Shots: `_screenshots/oct29/stills.png` (all 15 in their real screens, first lines typed) and `still_story-*.png` full size, from
 `res://scenes/dev/still_gallery.tscn` (windowed). Every narration box reads clearly (the dark band under the box; memory lines over a 0.6 dim).
 Test: `tests/test_story_backdrops_oct29.gd`.
+
+## Part 2 - cards, icons, the Leaf Crown, NPC sprites
+
+- **Cards** (`import card art`): B-34, B-35, B-36, C-35, G-34, G-35, N-34..N-38, NB-17, R-34..R-36 added, **N-10 replaced** (the Push Broom
+  redo; the importer re-copies on a changed MD5). 356 of 356 cards and tokens have art. Hand, zoom, Deck Station and packs all draw
+  `CardArt` by card ID, so nothing else was needed. Shot: `_screenshots/oct29/cards_new.png` (the card gallery's new `--ids=` filter).
+- **Gear icons** (`import icons`): ICON-GEAR-QUOTASSTOPWATCH / COLONELSLADLE / PLUMESQUILL / CLIPWELLSSHEARS. They are the pieces' own
+  icons by convention (`IconArt.gear_icon_id`), so the character screen, Bertram's lists and the reward box show them by themselves
+  (59 / 59 gear icons in the game).
+- **Feat icons**: the importer accepts ICON-FEAT-* now (`IconArt.game_ids` lists `FeatDefs.GROUP_ICONS` + SECRET). Ten groups, eight
+  pictures: Story, Zones, Side dungeons (SIDE), Challenges, Collection; the four one-Path groups share PATHS, Dual Path is MIXED; an
+  unearned hidden feat shows SECRET. Menu > Feats shows the icon beside each group heading and each row; the unlock toast carries its
+  group's icon (`Session._feat_toast_icons`). Shot: `_screenshots/oct29/feats.png`.
+- **Leaf Crown** (`import cosmetics`): the redo sheet re-split and re-fitted. Auto-fit put the wreath on top of the hair, so it has a hand fit
+  in `assets/art/cosmetics/hats/fit.json` (width 1.25, sunk to the brow; eyes clear in every direction). Shots
+  `_screenshots/oct29/hat_leafcrown.png` (auto) and `hat_leafcrown_fit.png` (final, all five directions walking). The importer's NPC
+  manifest rewrite was reverted (gotcha: it drops head anchors).
+- **NPC sprites** (`import npc sprites`; rows NP-PRIMM, NP-DUMPWORKER in `npc_sprite_batch.csv`, rel height 1.0 as catalogued): the three
+  Dump farmhands (bark.worker_1..3) are the mole set with a slight tint each (`HeapScene.WORKER_SET`, the 3D models stay the fallback);
+  postgame Primm in the Crease draws SPR-PRIMM by himself (freed-NPC entries use any imported set). Manifest: the old entries kept, the
+  two new sets added. Shots: `_screenshots/oct29/p2_primm_crease.png`, `p2_dump_worker.png` (Worker 1 stands behind the wind pump, an
+  existing spot; only his face shows from the default camera).
+- Checks: GUT core 1490 + 1 pending, ui 242, root 286, world 418 (the sprite-rollout test now names Primm as the second exception after
+  the Doppelganger); Dump walk smoke OK; structure budget met. Test `tests/test_art_import_oct29.gd`.

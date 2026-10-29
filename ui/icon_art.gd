@@ -476,6 +476,10 @@ static func game_ids() -> Dictionary:
 	for cosmetic: CosmeticData in CosmeticCatalog.all():
 		if not cosmetic.art_name.is_empty():
 			ids[cosmetic_icon_id(cosmetic.art_name)] = "%s: %s" % [cosmetic.slot_name(), cosmetic.display_name]
+	# Art import Oct 29: the feat group icons (Menu > Feats, the unlock toast).
+	for group: Variant in FeatDefs.GROUP_ICONS:
+		ids[str(FeatDefs.GROUP_ICONS[group])] = "Feat group: %s" % str(group)
+	ids[FeatDefs.SECRET_ICON] = "Feat: hidden"
 	return ids
 
 

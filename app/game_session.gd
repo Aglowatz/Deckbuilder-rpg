@@ -46,6 +46,8 @@ var _feats_busy: bool = false
 var pay_feat_rewards: bool = false
 ## Feat toasts held back while a battle is on screen (the boss entrance, the board, the result), shown when it ends.
 var _feat_toast_queue: Array[String] = []
+## The feat icon of each queued toast (art import Oct 29), same order as `_feat_toast_queue`.
+var _feat_toast_icons: Array[String] = []
 var _feat_hint_shown: bool = false
 ## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
 ## card_codex.gd) shows these normally and everything else as a silhouette.
@@ -3867,6 +3869,7 @@ func _feats_earned(ids: Array[String], announce: bool) -> void:
 			reward = def.reward_text()
 		if announce:
 			_feat_toast_queue.append("Feat: %s%s" % [def.name, "" if reward.is_empty() else "  (+%s)" % reward])
+			_feat_toast_icons.append(FeatDefs.icon_for(def, true))
 		else:
 			quiet.append(def.name)
 	flush_feat_toasts()
@@ -3879,12 +3882,16 @@ func _feats_earned(ids: Array[String], announce: bool) -> void:
 func flush_feat_toasts() -> void:
 	if _feat_toast_queue.is_empty() or pending_battle != null or toasts == null:
 		return
-	for text: String in _feat_toast_queue:
+	for index: int in range(_feat_toast_queue.size()):
+		var text: String = _feat_toast_queue[index]
+		var icon_id: String = _feat_toast_icons[index] if index < _feat_toast_icons.size() else ""
 		# First-hour clarity (Phase 2): the first feat toast of a session says where the list lives.
 		if not _feat_hint_shown:
 			_feat_hint_shown = true
 			text += "  -  Menu > Feats"
-		toasts.show_toast(text, UIStyle.GOLD, CardIcons.ui("level_badge"))
+		var icon: Texture2D = IconArt.texture(icon_id, 48) if IconArt.has(icon_id) else CardIcons.ui("level_badge")
+		toasts.show_toast(text, UIStyle.GOLD, icon)
 	_feat_toast_queue = []
+	_feat_toast_icons = []
 	if AudioRegistry.has_id("STG-SECRET"):
 		Audio.sting(&"STG-SECRET")

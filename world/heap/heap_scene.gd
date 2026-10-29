@@ -99,19 +99,31 @@ func _add_life() -> void:
 		var w: Array = workers[index] as Array
 		var at: Vector2 = w[1] as Vector2
 		var pos: Vector3 = Vector3(at.x, float(height.call(at.x, at.y)), at.y)
-		var npc: Node3D = ModelKit.character(str(w[0]))
-		npc.name = "Worker_%d" % (index + 1)
-		ModelKit.tint(npc, w[3] as Color)
-		ModelKit.place(self, npc, pos, float(w[2]), TownPlayer.MODEL_SCALE * 1.45)
-		var animation: AnimationPlayer = ModelKit.animation_player(npc)
-		if animation != null and animation.has_animation("Idle"):
-			animation.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
-			animation.play("Idle")
-			animation.seek(randf() * 1.5)
-		_add_hat(npc, str(w[4]))
+		var npc: Node3D
+		# Art import Oct 29: the three farmhands are the painted mole set (SPR-DUMPWORKER) with a slight tint each; the 3D model is the fallback.
+		if SpriteLibrary.has_character(WORKER_SET):
+			npc = NpcSprites.make_actor(WORKER_SET, (w[3] as Color).lerp(Color.WHITE, WORKER_TINT_KEEP))
+			npc.name = "Worker_%d" % (index + 1)
+			ModelKit.place(self, npc, pos, float(w[2]), TownPlayer.MODEL_SCALE)
+		else:
+			npc = ModelKit.character(str(w[0]))
+			npc.name = "Worker_%d" % (index + 1)
+			ModelKit.tint(npc, w[3] as Color)
+			ModelKit.place(self, npc, pos, float(w[2]), TownPlayer.MODEL_SCALE * 1.45)
+			var animation: AnimationPlayer = ModelKit.animation_player(npc)
+			if animation != null and animation.has_animation("Idle"):
+				animation.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+				animation.play("Idle")
+				animation.seek(randf() * 1.5)
+			_add_hat(npc, str(w[4]))
 		builder.add_blocker(pos, 0.5)
 		if npc_barks != null:
 			npc_barks.register_lines(npc, str(w[5]), story.get_lines(str(w[5])))
+
+
+## The farmhands' painted set (art import Oct 29) and how much of the white each keeps of its old tint (a slight shade, not a new colour).
+const WORKER_SET: String = "DUMPWORKER"
+const WORKER_TINT_KEEP: float = 0.55
 
 
 ## The kit clusters, reeds and fungus (`HeapDressing`, Art Part D) over the generic grass carpet.

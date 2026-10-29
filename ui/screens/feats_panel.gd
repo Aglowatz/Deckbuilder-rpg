@@ -62,7 +62,12 @@ func refresh() -> void:
 		var heading: Label = UIKit.label(group, &"", 24, UIStyle.GOLD)
 		heading.name = "Group_%s" % group.replace(" ", "_")
 		heading.add_theme_font_override("font", UIStyle.font_bold())
-		_list.add_child(heading)
+		# Art import Oct 29: the group's feat icon beside its heading.
+		var heading_row: HBoxContainer = UIKit.hbox(10)
+		if IconArt.has(FeatDefs.group_icon(group)):
+			heading_row.add_child(IconArt.rect(FeatDefs.group_icon(group), 40.0))
+		heading_row.add_child(heading)
+		_list.add_child(heading_row)
 		for def: FeatDefs.Def in defs:
 			_list.add_child(_row(def))
 
@@ -83,7 +88,7 @@ func _row(def: FeatDefs.Def) -> HBoxContainer:
 	var row: HBoxContainer = UIKit.hbox(12)
 	row.name = "Feat_%s" % def.id
 	var earned: bool = FeatAccount.has(def.id)
-	var icon_id: String = "ICON-FEAT-%s" % def.group.to_upper().replace(" ", "")
+	var icon_id: String = FeatDefs.icon_for(def, earned)
 	if IconArt.has(icon_id):
 		row.add_child(IconArt.rect(icon_id, 34.0))
 	var box: VBoxContainer = UIKit.vbox(2)
