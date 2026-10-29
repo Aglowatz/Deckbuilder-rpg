@@ -319,7 +319,7 @@ func _ready() -> void:
 	if BossIntro.wanted(context.enemy_name) and not _flag("no_intro") and not _flag("fast") and (not context.practice or _screenshot_args.has("intro")):
 		boss_intro = BossIntro.new()
 		add_child(boss_intro)
-		boss_intro.play(context.enemy_name, Bestiary.art(context.enemy_name), context.enemy_icon, Bestiary.cutout(context.enemy_name))
+		boss_intro.play(context.enemy_name, Bestiary.art(context.enemy_name), context.enemy_icon, Bestiary.cutout(context.enemy_name, context.boss_phase))
 		if str(_screenshot_args.get("intro", "")) == "hold":
 			boss_intro.hold.call_deferred()
 			return

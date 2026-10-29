@@ -4,6 +4,16 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Oct 28-29 - yours to decide (the safest choice was taken)
+
+1. **Captain Spotless as a Capital roamer** still walks as the 3D KayKit knight: the roster test wants every roamer's set under a `FOE-` key and
+   there is no `SPR-FOE-CAPTAIN-SPOTLESS` set. His stationary NPC set (`SPOTLESS`) exists; say "use his NPC set" and he swaps to it (he would hop
+   when he moves, like the other idle-only sets), or ask for a walk set in a later batch.
+2. **Threat pose**: a painted roamer that spots the hero now stops for 0.45 s in its FRONT_TALK pose (the "!" above its head) before it gives chase.
+   That gives the hero a beat to react; set `ZoneEnemy.THREAT_SECONDS` to 0 if you want the old instant chase.
+3. **Roamer rim**: painted roamers get a warm red-orange rim (0.62, the NPCs have the key-light colour at 0.42) so they read on busy ground and as a
+   threat. `ZoneEnemy.ROAMER_RIM` / `ROAMER_RIM_STRENGTH`.
+
 ## Overnight Oct 27-28 - yours to decide (the safest choice was taken)
 
 1. **Necrocrat, Part 1** (`docs/design/balance_log.md`, "Overnight Oct 27-28, Part 1"): five bodies up one point (N-03 3/4, N-04 2/3,

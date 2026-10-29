@@ -318,10 +318,10 @@
 		"bottom_pad": 16,
 		"canvas": [
 			312,
-			496
+			512
 		],
 		"cloak_hue": [
-			0.074,
+			0.092,
 			0.07
 		],
 		"dirs": [
@@ -339,24 +339,24 @@
 		"has_talk": true,
 		"head": {
 			"BACK_IDLE": [
-				152.5,
-				40,
-				80
+				149,
+				44,
+				90.4
 			],
 			"FRONT_IDLE": [
-				137.1,
-				50,
-				86
+				175.4,
+				57,
+				87.8
 			],
 			"FRONT_TALK": [
-				148.7,
-				41,
-				84
+				173.7,
+				53,
+				88.6
 			],
 			"SIDE_IDLE": [
-				125.3,
-				40,
-				87
+				108.6,
+				56,
+				88
 			]
 		},
 		"rel_height": 0.7,
@@ -541,6 +541,2974 @@
 		"has_talk": true,
 		"rel_height": 1,
 		"walk_dirs": []
+	},
+	"FOE_BIN_RACCOON": {
+		"bottom_pad": 16,
+		"canvas": [
+			408,
+			512
+		],
+		"cloak_hue": [
+			0.063,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				214.6,
+				65,
+				86.2
+			],
+			"BACKSIDE_WALK1": [
+				209.4,
+				96,
+				80
+			],
+			"BACKSIDE_WALK2": [
+				201.7,
+				89,
+				81.4
+			],
+			"BACKSIDE_WALK3": [
+				207.9,
+				94,
+				80.4
+			],
+			"BACKSIDE_WALK4": [
+				211.8,
+				89,
+				81.4
+			],
+			"BACK_IDLE": [
+				203.3,
+				56,
+				88
+			],
+			"BACK_WALK1": [
+				217.8,
+				65,
+				86.2
+			],
+			"BACK_WALK2": [
+				212.3,
+				75,
+				84.2
+			],
+			"BACK_WALK3": [
+				208.2,
+				65,
+				86.2
+			],
+			"BACK_WALK4": [
+				211.9,
+				71,
+				85
+			],
+			"FRONTSIDE_IDLE": [
+				187.1,
+				43,
+				90.6
+			],
+			"FRONTSIDE_WALK1": [
+				200.7,
+				81,
+				83
+			],
+			"FRONTSIDE_WALK2": [
+				199.5,
+				84,
+				82.4
+			],
+			"FRONTSIDE_WALK3": [
+				201.7,
+				85,
+				82.2
+			],
+			"FRONTSIDE_WALK4": [
+				199.5,
+				85,
+				82.2
+			],
+			"FRONT_IDLE": [
+				204.5,
+				53,
+				88.6
+			],
+			"FRONT_TALK": [
+				205.4,
+				55,
+				88.2
+			],
+			"FRONT_WALK1": [
+				209.3,
+				88,
+				81.6
+			],
+			"FRONT_WALK2": [
+				206.8,
+				91,
+				81
+			],
+			"FRONT_WALK3": [
+				206.7,
+				89,
+				81.4
+			],
+			"FRONT_WALK4": [
+				211.3,
+				93,
+				80.6
+			],
+			"SIDE_IDLE": [
+				198.2,
+				67,
+				85.8
+			],
+			"SIDE_WALK1": [
+				195.4,
+				79,
+				83.4
+			],
+			"SIDE_WALK2": [
+				192.1,
+				80,
+				83.2
+			],
+			"SIDE_WALK3": [
+				196,
+				80,
+				83.2
+			],
+			"SIDE_WALK4": [
+				194,
+				79,
+				83.4
+			]
+		},
+		"rel_height": 0.62,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_COLONEL_CASSEROLE": {
+		"bottom_pad": 16,
+		"canvas": [
+			368,
+			512
+		],
+		"cloak_hue": [
+			0.09,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				184.3,
+				65,
+				81
+			],
+			"FRONT_IDLE": [
+				190,
+				56,
+				81
+			],
+			"FRONT_TALK": [
+				200.8,
+				49,
+				78
+			],
+			"SIDE_IDLE": [
+				178.8,
+				47,
+				73
+			]
+		},
+		"rel_height": 1.3,
+		"walk_dirs": []
+	},
+	"FOE_CORRECTION_OFFICER": {
+		"bottom_pad": 16,
+		"canvas": [
+			280,
+			504
+		],
+		"cloak_hue": [
+			0.104,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				143.5,
+				48,
+				54
+			],
+			"BACKSIDE_WALK1": [
+				132.6,
+				43,
+				52
+			],
+			"BACKSIDE_WALK2": [
+				128.9,
+				52,
+				53
+			],
+			"BACKSIDE_WALK3": [
+				124.8,
+				44,
+				51
+			],
+			"BACKSIDE_WALK4": [
+				128.5,
+				52,
+				53
+			],
+			"BACK_IDLE": [
+				139.9,
+				48,
+				51
+			],
+			"BACK_WALK1": [
+				139.1,
+				45,
+				44
+			],
+			"BACK_WALK2": [
+				136.9,
+				51,
+				46
+			],
+			"BACK_WALK3": [
+				138.4,
+				48,
+				45
+			],
+			"BACK_WALK4": [
+				137.5,
+				50,
+				46
+			],
+			"FRONTSIDE_IDLE": [
+				136.1,
+				48,
+				47
+			],
+			"FRONTSIDE_WALK1": [
+				136,
+				47,
+				55
+			],
+			"FRONTSIDE_WALK2": [
+				130.9,
+				43,
+				56
+			],
+			"FRONTSIDE_WALK3": [
+				132.7,
+				47,
+				57
+			],
+			"FRONTSIDE_WALK4": [
+				135.9,
+				54,
+				56
+			],
+			"FRONT_IDLE": [
+				140.3,
+				48,
+				47
+			],
+			"FRONT_TALK": [
+				136.7,
+				48,
+				50
+			],
+			"FRONT_WALK1": [
+				141.1,
+				49,
+				49
+			],
+			"FRONT_WALK2": [
+				136.6,
+				48,
+				50
+			],
+			"FRONT_WALK3": [
+				140.6,
+				49,
+				51
+			],
+			"FRONT_WALK4": [
+				139.1,
+				48,
+				50
+			],
+			"SIDE_IDLE": [
+				139.7,
+				48,
+				52
+			],
+			"SIDE_WALK1": [
+				130.4,
+				48,
+				59
+			],
+			"SIDE_WALK2": [
+				130.5,
+				48,
+				61
+			],
+			"SIDE_WALK3": [
+				126.7,
+				48,
+				60
+			],
+			"SIDE_WALK4": [
+				127.5,
+				48,
+				60
+			]
+		},
+		"rel_height": 1.2,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_GELATIN_SENTINEL": {
+		"bottom_pad": 16,
+		"canvas": [
+			424,
+			512
+		],
+		"cloak_hue": [
+			0.007,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				101.2,
+				78,
+				51
+			],
+			"BACKSIDE_WALK1": [
+				124.1,
+				75,
+				44
+			],
+			"BACKSIDE_WALK2": [
+				126.9,
+				79,
+				43
+			],
+			"BACKSIDE_WALK3": [
+				124.2,
+				79,
+				46
+			],
+			"BACKSIDE_WALK4": [
+				126.6,
+				77,
+				44
+			],
+			"BACK_IDLE": [
+				306.3,
+				56,
+				53
+			],
+			"BACK_WALK1": [
+				311.5,
+				57,
+				52
+			],
+			"BACK_WALK2": [
+				315.9,
+				60,
+				54
+			],
+			"BACK_WALK3": [
+				298.6,
+				50,
+				53
+			],
+			"BACK_WALK4": [
+				304.7,
+				57,
+				53
+			],
+			"FRONTSIDE_IDLE": [
+				101.6,
+				52,
+				53
+			],
+			"FRONTSIDE_WALK1": [
+				114.2,
+				50,
+				58
+			],
+			"FRONTSIDE_WALK2": [
+				111.1,
+				53,
+				56
+			],
+			"FRONTSIDE_WALK3": [
+				107.5,
+				51,
+				56
+			],
+			"FRONTSIDE_WALK4": [
+				111.5,
+				51,
+				58
+			],
+			"FRONT_IDLE": [
+				111,
+				51,
+				53
+			],
+			"FRONT_TALK": [
+				152.1,
+				46,
+				59
+			],
+			"FRONT_WALK1": [
+				142.5,
+				55,
+				53
+			],
+			"FRONT_WALK2": [
+				146.1,
+				57,
+				51
+			],
+			"FRONT_WALK3": [
+				133.6,
+				45,
+				52
+			],
+			"FRONT_WALK4": [
+				144.5,
+				48,
+				50
+			],
+			"SIDE_IDLE": [
+				109.8,
+				59,
+				53
+			],
+			"SIDE_WALK1": [
+				115.5,
+				45,
+				56
+			],
+			"SIDE_WALK2": [
+				100.8,
+				56,
+				55
+			],
+			"SIDE_WALK3": [
+				98.5,
+				64,
+				53
+			],
+			"SIDE_WALK4": [
+				99.3,
+				72,
+				52
+			]
+		},
+		"rel_height": 1.35,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_HUNGRY_SCARECROW": {
+		"bottom_pad": 16,
+		"canvas": [
+			344,
+			504
+		],
+		"cloak_hue": [
+			0.092,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				182.6,
+				48,
+				87
+			],
+			"BACKSIDE_WALK1": [
+				167,
+				45,
+				72
+			],
+			"BACKSIDE_WALK2": [
+				166,
+				50,
+				69
+			],
+			"BACKSIDE_WALK3": [
+				166.1,
+				54,
+				66
+			],
+			"BACKSIDE_WALK4": [
+				163.6,
+				45,
+				69
+			],
+			"BACK_IDLE": [
+				156.4,
+				48,
+				57
+			],
+			"BACK_WALK1": [
+				191.1,
+				41,
+				49
+			],
+			"BACK_WALK2": [
+				184.2,
+				51,
+				47
+			],
+			"BACK_WALK3": [
+				186.2,
+				47,
+				51
+			],
+			"BACK_WALK4": [
+				182.5,
+				53,
+				52
+			],
+			"FRONTSIDE_IDLE": [
+				185,
+				48,
+				67
+			],
+			"FRONTSIDE_WALK1": [
+				173.9,
+				47,
+				75
+			],
+			"FRONTSIDE_WALK2": [
+				176,
+				47,
+				66
+			],
+			"FRONTSIDE_WALK3": [
+				185.8,
+				48,
+				86
+			],
+			"FRONTSIDE_WALK4": [
+				181.1,
+				51,
+				75
+			],
+			"FRONT_IDLE": [
+				183.6,
+				48,
+				67
+			],
+			"FRONT_TALK": [
+				203.6,
+				48,
+				77
+			],
+			"FRONT_WALK1": [
+				182.5,
+				49,
+				58
+			],
+			"FRONT_WALK2": [
+				169,
+				46,
+				52
+			],
+			"FRONT_WALK3": [
+				179.7,
+				49,
+				58
+			],
+			"FRONT_WALK4": [
+				183.2,
+				48,
+				53
+			],
+			"SIDE_IDLE": [
+				183.7,
+				48,
+				82
+			],
+			"SIDE_WALK1": [
+				183.4,
+				48,
+				88
+			],
+			"SIDE_WALK2": [
+				178.9,
+				47,
+				60
+			],
+			"SIDE_WALK3": [
+				182.4,
+				47,
+				87
+			],
+			"SIDE_WALK4": [
+				184.9,
+				51,
+				78
+			]
+		},
+		"rel_height": 1.3,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_JUNK_GULL_FLOCK": {
+		"bottom_pad": 16,
+		"canvas": [
+			608,
+			560
+		],
+		"cloak_hue": [
+			0.066,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				361.1,
+				104,
+				67
+			],
+			"FRONT_IDLE": [
+				417.1,
+				103,
+				84
+			],
+			"FRONT_TALK": [
+				366.6,
+				40,
+				77
+			],
+			"SIDE_IDLE": [
+				296,
+				122,
+				84.4
+			]
+		},
+		"rel_height": 1.1,
+		"walk_dirs": []
+	},
+	"FOE_LOST_JUNIOR_CLERK": {
+		"bottom_pad": 16,
+		"canvas": [
+			368,
+			512
+		],
+		"cloak_hue": [
+			0.087,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				176.9,
+				59,
+				26.2
+			],
+			"BACKSIDE_WALK1": [
+				165.7,
+				56,
+				88
+			],
+			"BACKSIDE_WALK2": [
+				164.3,
+				59,
+				87.4
+			],
+			"BACKSIDE_WALK3": [
+				170.2,
+				61,
+				87
+			],
+			"BACKSIDE_WALK4": [
+				156.6,
+				59,
+				59
+			],
+			"BACK_IDLE": [
+				205.4,
+				54,
+				86
+			],
+			"BACK_WALK1": [
+				189.7,
+				56,
+				88
+			],
+			"BACK_WALK2": [
+				192.8,
+				51,
+				89
+			],
+			"BACK_WALK3": [
+				189.6,
+				47,
+				89.8
+			],
+			"BACK_WALK4": [
+				190.1,
+				61,
+				87
+			],
+			"FRONTSIDE_IDLE": [
+				162.1,
+				56,
+				87
+			],
+			"FRONTSIDE_WALK1": [
+				156.8,
+				59,
+				84
+			],
+			"FRONTSIDE_WALK2": [
+				159,
+				52,
+				88
+			],
+			"FRONTSIDE_WALK3": [
+				157.4,
+				55,
+				88.2
+			],
+			"FRONTSIDE_WALK4": [
+				159.9,
+				57,
+				84
+			],
+			"FRONT_IDLE": [
+				164.3,
+				50,
+				89
+			],
+			"FRONT_TALK": [
+				172.7,
+				56,
+				82
+			],
+			"FRONT_WALK1": [
+				166.8,
+				47,
+				84
+			],
+			"FRONT_WALK2": [
+				169.7,
+				45,
+				71
+			],
+			"FRONT_WALK3": [
+				157.3,
+				52,
+				84
+			],
+			"FRONT_WALK4": [
+				162.2,
+				55,
+				88.2
+			],
+			"SIDE_IDLE": [
+				153.2,
+				68,
+				85.6
+			],
+			"SIDE_WALK1": [
+				167,
+				69,
+				81
+			],
+			"SIDE_WALK2": [
+				154.6,
+				67,
+				78
+			],
+			"SIDE_WALK3": [
+				150.2,
+				67,
+				85.8
+			],
+			"SIDE_WALK4": [
+				162.8,
+				69,
+				85.4
+			]
+		},
+		"rel_height": 0.6,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_MEATLOAF_GOLEM": {
+		"bottom_pad": 16,
+		"canvas": [
+			408,
+			536
+		],
+		"cloak_hue": [
+			0.042,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				195,
+				80,
+				88
+			],
+			"BACKSIDE_WALK1": [
+				189,
+				85,
+				87
+			],
+			"BACKSIDE_WALK2": [
+				188.8,
+				77,
+				88.6
+			],
+			"BACKSIDE_WALK3": [
+				188.8,
+				80,
+				88
+			],
+			"BACKSIDE_WALK4": [
+				190.7,
+				77,
+				88.6
+			],
+			"BACK_IDLE": [
+				204.8,
+				82,
+				87.6
+			],
+			"BACK_WALK1": [
+				205.4,
+				79,
+				88.2
+			],
+			"BACK_WALK2": [
+				205.1,
+				84,
+				87.2
+			],
+			"BACK_WALK3": [
+				204.1,
+				90,
+				86
+			],
+			"BACK_WALK4": [
+				200.5,
+				75,
+				89
+			],
+			"FRONTSIDE_IDLE": [
+				190.5,
+				66,
+				90.8
+			],
+			"FRONTSIDE_WALK1": [
+				196.6,
+				63,
+				91.4
+			],
+			"FRONTSIDE_WALK2": [
+				185.4,
+				68,
+				90.4
+			],
+			"FRONTSIDE_WALK3": [
+				187.5,
+				67,
+				90.6
+			],
+			"FRONTSIDE_WALK4": [
+				186.9,
+				64,
+				91.2
+			],
+			"FRONT_IDLE": [
+				195.2,
+				82,
+				87.6
+			],
+			"FRONT_TALK": [
+				225.4,
+				82,
+				87.6
+			],
+			"FRONT_WALK1": [
+				200.2,
+				81,
+				87.8
+			],
+			"FRONT_WALK2": [
+				202.8,
+				81,
+				87.8
+			],
+			"FRONT_WALK3": [
+				201.6,
+				84,
+				87.2
+			],
+			"FRONT_WALK4": [
+				198.1,
+				82,
+				87.6
+			],
+			"SIDE_IDLE": [
+				188.8,
+				48,
+				94.4
+			],
+			"SIDE_WALK1": [
+				188,
+				50,
+				94
+			],
+			"SIDE_WALK2": [
+				188.6,
+				50,
+				94
+			],
+			"SIDE_WALK3": [
+				183.1,
+				43,
+				95.4
+			],
+			"SIDE_WALK4": [
+				188.1,
+				49,
+				94.2
+			]
+		},
+		"rel_height": 1.35,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_MOSSY_TRASH_GOLEM": {
+		"bottom_pad": 16,
+		"canvas": [
+			344,
+			504
+		],
+		"cloak_hue": [
+			0.079,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				213.8,
+				48,
+				26.4
+			],
+			"BACKSIDE_WALK1": [
+				189.2,
+				48,
+				26.4
+			],
+			"BACKSIDE_WALK2": [
+				185.4,
+				51,
+				26.2
+			],
+			"BACKSIDE_WALK3": [
+				178.1,
+				46,
+				26.5
+			],
+			"BACKSIDE_WALK4": [
+				191.1,
+				48,
+				26.4
+			],
+			"BACK_IDLE": [
+				124,
+				53,
+				26.1
+			],
+			"BACK_WALK1": [
+				122.3,
+				53,
+				26.1
+			],
+			"BACK_WALK2": [
+				119.5,
+				54,
+				26
+			],
+			"BACK_WALK3": [
+				117.3,
+				51,
+				26.2
+			],
+			"BACK_WALK4": [
+				123.5,
+				52,
+				26.2
+			],
+			"FRONTSIDE_IDLE": [
+				219.9,
+				47,
+				26.5
+			],
+			"FRONTSIDE_WALK1": [
+				203.5,
+				49,
+				26.3
+			],
+			"FRONTSIDE_WALK2": [
+				203.5,
+				45,
+				26.6
+			],
+			"FRONTSIDE_WALK3": [
+				210.5,
+				49,
+				26.3
+			],
+			"FRONTSIDE_WALK4": [
+				208.8,
+				46,
+				26.5
+			],
+			"FRONT_IDLE": [
+				219.3,
+				59,
+				25.7
+			],
+			"FRONT_TALK": [
+				244,
+				61,
+				25.6
+			],
+			"FRONT_WALK1": [
+				211.2,
+				57,
+				25.9
+			],
+			"FRONT_WALK2": [
+				202.2,
+				58,
+				25.8
+			],
+			"FRONT_WALK3": [
+				205.4,
+				56,
+				25.9
+			],
+			"FRONT_WALK4": [
+				201.2,
+				65,
+				25.4
+			],
+			"SIDE_IDLE": [
+				206.4,
+				44,
+				26.6
+			],
+			"SIDE_WALK1": [
+				183.4,
+				43,
+				26.7
+			],
+			"SIDE_WALK2": [
+				181.4,
+				41,
+				40
+			],
+			"SIDE_WALK3": [
+				182.9,
+				41,
+				26.8
+			],
+			"SIDE_WALK4": [
+				181.5,
+				50,
+				26.3
+			]
+		},
+		"rel_height": 1.3,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_PANTRY_HOUND": {
+		"bottom_pad": 16,
+		"canvas": [
+			416,
+			512
+		],
+		"cloak_hue": [
+			0.05,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				206.4,
+				55,
+				88.2
+			],
+			"BACKSIDE_WALK1": [
+				196.7,
+				81,
+				83
+			],
+			"BACKSIDE_WALK2": [
+				196.9,
+				75,
+				84.2
+			],
+			"BACKSIDE_WALK3": [
+				198.9,
+				83,
+				82.6
+			],
+			"BACKSIDE_WALK4": [
+				197.9,
+				81,
+				83
+			],
+			"BACK_IDLE": [
+				212.5,
+				54,
+				88.4
+			],
+			"BACK_WALK1": [
+				206.7,
+				51,
+				89
+			],
+			"BACK_WALK2": [
+				207.8,
+				52,
+				88.8
+			],
+			"BACK_WALK3": [
+				206.9,
+				60,
+				87.2
+			],
+			"BACK_WALK4": [
+				206.7,
+				55,
+				88.2
+			],
+			"FRONTSIDE_IDLE": [
+				199.3,
+				56,
+				88
+			],
+			"FRONTSIDE_WALK1": [
+				188.7,
+				56,
+				88
+			],
+			"FRONTSIDE_WALK2": [
+				190.9,
+				53,
+				88.6
+			],
+			"FRONTSIDE_WALK3": [
+				180.5,
+				53,
+				88.6
+			],
+			"FRONTSIDE_WALK4": [
+				183.9,
+				61,
+				87
+			],
+			"FRONT_IDLE": [
+				203.4,
+				56,
+				88
+			],
+			"FRONT_TALK": [
+				210.5,
+				44,
+				90.4
+			],
+			"FRONT_WALK1": [
+				214.3,
+				58,
+				87.6
+			],
+			"FRONT_WALK2": [
+				213,
+				66,
+				86
+			],
+			"FRONT_WALK3": [
+				206.7,
+				52,
+				88.8
+			],
+			"FRONT_WALK4": [
+				205.3,
+				49,
+				89.4
+			],
+			"SIDE_IDLE": [
+				199.6,
+				70,
+				85.2
+			],
+			"SIDE_WALK1": [
+				191.8,
+				73,
+				84.6
+			],
+			"SIDE_WALK2": [
+				192.7,
+				69,
+				85.4
+			],
+			"SIDE_WALK3": [
+				188.6,
+				71,
+				85
+			],
+			"SIDE_WALK4": [
+				194.2,
+				69,
+				85.4
+			]
+		},
+		"rel_height": 0.75,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_PERFECTION_INSPECTOR": {
+		"bottom_pad": 16,
+		"canvas": [
+			336,
+			520
+		],
+		"cloak_hue": [
+			0.603,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				172.8,
+				70,
+				85
+			],
+			"BACKSIDE_WALK1": [
+				163.8,
+				75,
+				85.8
+			],
+			"BACKSIDE_WALK2": [
+				168.2,
+				69,
+				83
+			],
+			"BACKSIDE_WALK3": [
+				165.6,
+				70,
+				83
+			],
+			"BACKSIDE_WALK4": [
+				163,
+				68,
+				82
+			],
+			"BACK_IDLE": [
+				171.4,
+				68,
+				87.2
+			],
+			"BACK_WALK1": [
+				168.5,
+				68,
+				87.2
+			],
+			"BACK_WALK2": [
+				167.9,
+				66,
+				87
+			],
+			"BACK_WALK3": [
+				169.1,
+				65,
+				86
+			],
+			"BACK_WALK4": [
+				169.9,
+				71,
+				86
+			],
+			"FRONTSIDE_IDLE": [
+				174.7,
+				62,
+				88.4
+			],
+			"FRONTSIDE_WALK1": [
+				158.2,
+				60,
+				88.8
+			],
+			"FRONTSIDE_WALK2": [
+				159,
+				67,
+				87.4
+			],
+			"FRONTSIDE_WALK3": [
+				157.8,
+				61,
+				88.6
+			],
+			"FRONTSIDE_WALK4": [
+				158.1,
+				61,
+				88.6
+			],
+			"FRONT_IDLE": [
+				160,
+				64,
+				88
+			],
+			"FRONT_TALK": [
+				155.1,
+				42,
+				92.4
+			],
+			"FRONT_WALK1": [
+				168.1,
+				56,
+				89.6
+			],
+			"FRONT_WALK2": [
+				165.8,
+				77,
+				85.4
+			],
+			"FRONT_WALK3": [
+				165.8,
+				57,
+				89.4
+			],
+			"FRONT_WALK4": [
+				161.7,
+				66,
+				87.6
+			],
+			"SIDE_IDLE": [
+				175.7,
+				58,
+				89
+			],
+			"SIDE_WALK1": [
+				175.5,
+				58,
+				89.2
+			],
+			"SIDE_WALK2": [
+				175.9,
+				56,
+				88
+			],
+			"SIDE_WALK3": [
+				177.1,
+				58,
+				89.2
+			],
+			"SIDE_WALK4": [
+				176.6,
+				58,
+				89
+			]
+		},
+		"rel_height": 1,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_PROTEIN_SHAKE_GOLEM": {
+		"bottom_pad": 16,
+		"canvas": [
+			376,
+			512
+		],
+		"cloak_hue": [
+			0.046,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				183.5,
+				52,
+				48
+			],
+			"BACKSIDE_WALK1": [
+				172.7,
+				46,
+				90
+			],
+			"BACKSIDE_WALK2": [
+				176.2,
+				60,
+				87.2
+			],
+			"BACKSIDE_WALK3": [
+				175.7,
+				49,
+				89.4
+			],
+			"BACKSIDE_WALK4": [
+				180.9,
+				54,
+				88.4
+			],
+			"BACK_IDLE": [
+				198.4,
+				74,
+				84.4
+			],
+			"BACK_WALK1": [
+				187.9,
+				74,
+				84.4
+			],
+			"BACK_WALK2": [
+				182.7,
+				73,
+				84.6
+			],
+			"BACK_WALK3": [
+				187.2,
+				74,
+				84.4
+			],
+			"BACK_WALK4": [
+				181.1,
+				74,
+				84.4
+			],
+			"FRONTSIDE_IDLE": [
+				183.7,
+				56,
+				88
+			],
+			"FRONTSIDE_WALK1": [
+				186.9,
+				57,
+				87.8
+			],
+			"FRONTSIDE_WALK2": [
+				180.2,
+				62,
+				86.8
+			],
+			"FRONTSIDE_WALK3": [
+				175.9,
+				49,
+				89.4
+			],
+			"FRONTSIDE_WALK4": [
+				173.2,
+				57,
+				87.8
+			],
+			"FRONT_IDLE": [
+				191.5,
+				76,
+				84
+			],
+			"FRONT_TALK": [
+				201,
+				70,
+				85.2
+			],
+			"FRONT_WALK1": [
+				191.2,
+				77,
+				83.8
+			],
+			"FRONT_WALK2": [
+				188.7,
+				75,
+				84.2
+			],
+			"FRONT_WALK3": [
+				190.5,
+				77,
+				83.8
+			],
+			"FRONT_WALK4": [
+				190.8,
+				76,
+				84
+			],
+			"SIDE_IDLE": [
+				186.7,
+				49,
+				89.4
+			],
+			"SIDE_WALK1": [
+				186.2,
+				48,
+				89.6
+			],
+			"SIDE_WALK2": [
+				184.4,
+				49,
+				89.4
+			],
+			"SIDE_WALK3": [
+				181.6,
+				50,
+				89.2
+			],
+			"SIDE_WALK4": [
+				183.3,
+				48,
+				89.6
+			]
+		},
+		"rel_height": 1.35,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_QUOTA_SPOTTER": {
+		"bottom_pad": 16,
+		"canvas": [
+			336,
+			504
+		],
+		"cloak_hue": [
+			0.07,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				172.5,
+				48,
+				88
+			],
+			"BACKSIDE_WALK1": [
+				164.9,
+				49,
+				87.8
+			],
+			"BACKSIDE_WALK2": [
+				164,
+				52,
+				87.2
+			],
+			"BACKSIDE_WALK3": [
+				164.3,
+				44,
+				88.8
+			],
+			"BACKSIDE_WALK4": [
+				168,
+				47,
+				88.2
+			],
+			"BACK_IDLE": [
+				166.5,
+				47,
+				88.2
+			],
+			"BACK_WALK1": [
+				170.4,
+				47,
+				88.2
+			],
+			"BACK_WALK2": [
+				167.7,
+				45,
+				88.6
+			],
+			"BACK_WALK3": [
+				167.4,
+				45,
+				88.6
+			],
+			"BACK_WALK4": [
+				167.1,
+				51,
+				87.4
+			],
+			"FRONTSIDE_IDLE": [
+				172.6,
+				50,
+				75
+			],
+			"FRONTSIDE_WALK1": [
+				164.3,
+				49,
+				87.8
+			],
+			"FRONTSIDE_WALK2": [
+				150.7,
+				57,
+				86.2
+			],
+			"FRONTSIDE_WALK3": [
+				156.3,
+				48,
+				85
+			],
+			"FRONTSIDE_WALK4": [
+				154.8,
+				46,
+				88.4
+			],
+			"FRONT_IDLE": [
+				170.5,
+				50,
+				79
+			],
+			"FRONT_TALK": [
+				171.7,
+				48,
+				80
+			],
+			"FRONT_WALK1": [
+				171,
+				48,
+				80
+			],
+			"FRONT_WALK2": [
+				164.8,
+				55,
+				86.6
+			],
+			"FRONT_WALK3": [
+				167.9,
+				45,
+				83
+			],
+			"FRONT_WALK4": [
+				167.3,
+				52,
+				87.2
+			],
+			"SIDE_IDLE": [
+				168,
+				46,
+				88.4
+			],
+			"SIDE_WALK1": [
+				159,
+				47,
+				68
+			],
+			"SIDE_WALK2": [
+				156.7,
+				46,
+				68
+			],
+			"SIDE_WALK3": [
+				155.3,
+				46,
+				68
+			],
+			"SIDE_WALK4": [
+				152.3,
+				46,
+				67
+			]
+		},
+		"rel_height": 1.05,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_RIFT_WRETCH": {
+		"bottom_pad": 16,
+		"canvas": [
+			352,
+			504
+		],
+		"cloak_hue": [
+			0.086,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				173,
+				52,
+				68
+			],
+			"BACKSIDE_WALK1": [
+				169,
+				45,
+				74
+			],
+			"BACKSIDE_WALK2": [
+				165.5,
+				55,
+				76
+			],
+			"BACKSIDE_WALK3": [
+				166.2,
+				53,
+				71
+			],
+			"BACKSIDE_WALK4": [
+				163.7,
+				55,
+				72
+			],
+			"BACK_IDLE": [
+				168.6,
+				48,
+				78
+			],
+			"BACK_WALK1": [
+				171.7,
+				46,
+				81
+			],
+			"BACK_WALK2": [
+				170.3,
+				47,
+				80
+			],
+			"BACK_WALK3": [
+				168,
+				45,
+				68
+			],
+			"BACK_WALK4": [
+				166.7,
+				54,
+				68
+			],
+			"FRONTSIDE_IDLE": [
+				187,
+				48,
+				77
+			],
+			"FRONTSIDE_WALK1": [
+				173.1,
+				45,
+				73
+			],
+			"FRONTSIDE_WALK2": [
+				169.4,
+				52,
+				74
+			],
+			"FRONTSIDE_WALK3": [
+				172.5,
+				45,
+				74
+			],
+			"FRONTSIDE_WALK4": [
+				178.2,
+				50,
+				72
+			],
+			"FRONT_IDLE": [
+				184,
+				48,
+				67
+			],
+			"FRONT_TALK": [
+				177.3,
+				48,
+				85
+			],
+			"FRONT_WALK1": [
+				183.6,
+				47,
+				81
+			],
+			"FRONT_WALK2": [
+				180.9,
+				48,
+				75
+			],
+			"FRONT_WALK3": [
+				182.1,
+				48,
+				75
+			],
+			"FRONT_WALK4": [
+				181.4,
+				48,
+				68
+			],
+			"SIDE_IDLE": [
+				195.4,
+				48,
+				72
+			],
+			"SIDE_WALK1": [
+				187.2,
+				47,
+				83
+			],
+			"SIDE_WALK2": [
+				178.1,
+				49,
+				81
+			],
+			"SIDE_WALK3": [
+				181.4,
+				48,
+				76
+			],
+			"SIDE_WALK4": [
+				173.5,
+				47,
+				83
+			]
+		},
+		"rel_height": 1.2,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_RUNAWAY_MEATBALL": {
+		"bottom_pad": 16,
+		"canvas": [
+			440,
+			528
+		],
+		"cloak_hue": [
+			0.024,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				341.8,
+				56,
+				56
+			],
+			"FRONT_IDLE": [
+				87.6,
+				72,
+				51
+			],
+			"FRONT_TALK": [
+				100.9,
+				43,
+				93.8
+			],
+			"SIDE_IDLE": [
+				287.4,
+				120,
+				23.5
+			]
+		},
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"FOE_SHAMBLING_MIDDLE_MANAGER": {
+		"bottom_pad": 16,
+		"canvas": [
+			360,
+			512
+		],
+		"cloak_hue": [
+			0.05,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				155.7,
+				53,
+				69
+			],
+			"BACKSIDE_WALK1": [
+				153.7,
+				53,
+				78
+			],
+			"BACKSIDE_WALK2": [
+				153.4,
+				55,
+				78
+			],
+			"BACKSIDE_WALK3": [
+				146.4,
+				52,
+				78
+			],
+			"BACKSIDE_WALK4": [
+				151.5,
+				51,
+				75
+			],
+			"BACK_IDLE": [
+				192,
+				60,
+				59
+			],
+			"BACK_WALK1": [
+				180.5,
+				61,
+				60
+			],
+			"BACK_WALK2": [
+				177.8,
+				62,
+				61
+			],
+			"BACK_WALK3": [
+				193,
+				59,
+				62
+			],
+			"BACK_WALK4": [
+				177.7,
+				59,
+				60
+			],
+			"FRONTSIDE_IDLE": [
+				149.7,
+				56,
+				71
+			],
+			"FRONTSIDE_WALK1": [
+				140,
+				47,
+				84
+			],
+			"FRONTSIDE_WALK2": [
+				134.1,
+				66,
+				85
+			],
+			"FRONTSIDE_WALK3": [
+				126.7,
+				51,
+				87
+			],
+			"FRONTSIDE_WALK4": [
+				136.9,
+				59,
+				83
+			],
+			"FRONT_IDLE": [
+				168.6,
+				56,
+				60
+			],
+			"FRONT_TALK": [
+				164.5,
+				54,
+				69
+			],
+			"FRONT_WALK1": [
+				174,
+				57,
+				68
+			],
+			"FRONT_WALK2": [
+				170.2,
+				56,
+				68
+			],
+			"FRONT_WALK3": [
+				171.7,
+				54,
+				68
+			],
+			"FRONT_WALK4": [
+				172.6,
+				57,
+				68
+			],
+			"SIDE_IDLE": [
+				152.2,
+				63,
+				70
+			],
+			"SIDE_WALK1": [
+				148.1,
+				62,
+				74
+			],
+			"SIDE_WALK2": [
+				147.5,
+				61,
+				75
+			],
+			"SIDE_WALK3": [
+				141.5,
+				62,
+				75
+			],
+			"SIDE_WALK4": [
+				143.4,
+				61,
+				75
+			]
+		},
+		"rel_height": 1.15,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"FOE_SHARD_SWARM": {
+		"bottom_pad": 16,
+		"canvas": [
+			288,
+			496
+		],
+		"cloak_hue": [
+			0.072,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				135.3,
+				40,
+				26.4
+			],
+			"FRONT_IDLE": [
+				147,
+				40,
+				26.4
+			],
+			"FRONT_TALK": [
+				147.8,
+				41,
+				26.3
+			],
+			"SIDE_IDLE": [
+				144.4,
+				42,
+				26.3
+			]
+		},
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"FOE_SPEEDY_GHOST_COURIER": {
+		"bottom_pad": 16,
+		"canvas": [
+			392,
+			544
+		],
+		"cloak_hue": [
+			0.62,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				212.2,
+				78,
+				78
+			],
+			"FRONT_IDLE": [
+				193.5,
+				102,
+				61
+			],
+			"FRONT_TALK": [
+				209.8,
+				43,
+				97
+			],
+			"SIDE_IDLE": [
+				167.5,
+				88,
+				65
+			]
+		},
+		"rel_height": 0.95,
+		"walk_dirs": []
+	},
+	"FOE_SPRINTING_ENERGY_SPRITE": {
+		"bottom_pad": 16,
+		"canvas": [
+			440,
+			576
+		],
+		"cloak_hue": [
+			0.124,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				206.8,
+				86,
+				28.4
+			],
+			"FRONT_IDLE": [
+				204.4,
+				133,
+				26
+			],
+			"FRONT_TALK": [
+				203.1,
+				46,
+				36
+			],
+			"SIDE_IDLE": [
+				263.5,
+				120,
+				26.4
+			]
+		},
+		"rel_height": 0.8,
+		"walk_dirs": []
+	},
+	"FOE_TIDY_BOT": {
+		"bottom_pad": 16,
+		"canvas": [
+			376,
+			512
+		],
+		"cloak_hue": [
+			0.101,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"head": {
+			"BACK_IDLE": [
+				149.6,
+				56,
+				26.4
+			],
+			"FRONT_IDLE": [
+				223.3,
+				58,
+				26.3
+			],
+			"FRONT_TALK": [
+				227.1,
+				61,
+				26.1
+			],
+			"SIDE_IDLE": [
+				241.6,
+				47,
+				26.9
+			]
+		},
+		"rel_height": 0.9,
+		"walk_dirs": []
+	},
+	"FOE_UNPAID_INTERN": {
+		"bottom_pad": 16,
+		"canvas": [
+			400,
+			512
+		],
+		"cloak_hue": [
+			0.067,
+			0.07
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"head": {
+			"BACKSIDE_IDLE": [
+				203,
+				61,
+				30
+			],
+			"BACKSIDE_WALK1": [
+				195,
+				61,
+				26.1
+			],
+			"BACKSIDE_WALK2": [
+				191.5,
+				63,
+				26
+			],
+			"BACKSIDE_WALK3": [
+				197.6,
+				61,
+				35
+			],
+			"BACKSIDE_WALK4": [
+				196.2,
+				60,
+				26.2
+			],
+			"BACK_IDLE": [
+				200.2,
+				55,
+				62
+			],
+			"BACK_WALK1": [
+				202.8,
+				46,
+				27
+			],
+			"BACK_WALK2": [
+				200.9,
+				51,
+				26.7
+			],
+			"BACK_WALK3": [
+				187,
+				58,
+				55
+			],
+			"BACK_WALK4": [
+				199.1,
+				64,
+				25.9
+			],
+			"FRONTSIDE_IDLE": [
+				201.9,
+				54,
+				31
+			],
+			"FRONTSIDE_WALK1": [
+				198.7,
+				54,
+				32
+			],
+			"FRONTSIDE_WALK2": [
+				199.8,
+				52,
+				32
+			],
+			"FRONTSIDE_WALK3": [
+				199.5,
+				55,
+				33
+			],
+			"FRONTSIDE_WALK4": [
+				200.7,
+				53,
+				33
+			],
+			"FRONT_IDLE": [
+				202.1,
+				57,
+				30
+			],
+			"FRONT_TALK": [
+				201.1,
+				49,
+				37
+			],
+			"FRONT_WALK1": [
+				207.3,
+				54,
+				32
+			],
+			"FRONT_WALK2": [
+				196.2,
+				59,
+				31
+			],
+			"FRONT_WALK3": [
+				196.7,
+				58,
+				28
+			],
+			"FRONT_WALK4": [
+				205.3,
+				58,
+				30
+			],
+			"SIDE_IDLE": [
+				199.6,
+				56,
+				29
+			],
+			"SIDE_WALK1": [
+				196.4,
+				56,
+				37
+			],
+			"SIDE_WALK2": [
+				190.3,
+				55,
+				36
+			],
+			"SIDE_WALK3": [
+				192.3,
+				57,
+				37
+			],
+			"SIDE_WALK4": [
+				190.1,
+				56,
+				36
+			]
+		},
+		"rel_height": 0.9,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
 	},
 	"GATEKEEPER": {
 		"bottom_pad": 16,

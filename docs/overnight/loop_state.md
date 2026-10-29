@@ -1,34 +1,30 @@
-# Overnight Oct 27-28 (Fable) - loop state (resume from here)
+# Overnight Oct 28-29 (Opus) - loop state (resume from here)
 
-Start: Tue Oct 27 20:47 MDT 2026 (stop by ~05:45). Tag `pre-overnight-oct27` (= a5807ea1). Brief: the "OVERNIGHT - Oct 27 (Fable)" prompt
-(Part 1 card decisions, Part 2 art direction review + master missing-art catalogue, Part 3 feats, Phase 2 polish loop, morning report).
-Session model: Fable 5.1; if the allowance runs out or the connection drops, continue on Opus from this file. Questions go in
-`docs/overnight_inbox.md` under "Overnight Oct 27-28". STOP_OVERNIGHT: a file named `STOP_OVERNIGHT` in the repo root stops the run at
-the next part / cycle boundary.
+Start: Wed Oct 28 20:15 MDT 2026 (stop by ~05:15). Tag `pre-overnight-oct28` (= 9bdb73e5). Last run's state: `docs/overnight/oct27/loop_state_oct27.md`.
+Brief: the "OVERNIGHT - Oct 28 (Opus)" prompt (Part 0 inventory, Part 1 Maren + roaming enemies, Part 2 boss entrances + Bestiary,
+Part 3 verify the art, Part 4 battle feel, Part 5 memory leak, Phase 2 polish loop, morning report `docs/overnight_report.md`).
+Questions go in `docs/overnight_inbox.md` under "Overnight Oct 28-29". STOP_OVERNIGHT: a file named `STOP_OVERNIGHT` in the repo root
+stops the run at the next part / cycle boundary. If time runs short: cut Part 5, then Part 4 - never the art.
 
-Rules in force: one Godot process at a time, foreground, closed between runs; max 10-12 screenshots per part; GUT in groups
-(`bash tools/gut_group.sh root|core|ui|world`); sims modest, one at a time (7.4 GB RAM); per part GUT + walkability + walk smokes +
-`bash tools/perf_budget.sh structure` + commit + push; revert what can't pass; old saves keep loading; no enemy intent; NO image
-generation (descriptions only); black market vendors and cards untouched.
-
+Rules in force: one Godot process at a time, foreground, closed between runs; max 12 screenshots per part; GUT in groups
+(`bash tools/gut_group.sh root|core|ui|world`; 7.4 GB RAM); per part GUT + walkability + that area's walk smoke + `bash tools/perf_budget.sh`
++ commit + push; revert what can't pass; old saves keep loading; no enemy intent; NO image generation; never read Drive `Pending Review`
+or `Replaced Artwork - Batch 1 - Oct 28`; Drive is copy-only (never move/rename/delete); black market vendors untouched.
 **DIALOGUE FREEZE** (the user is editing `docs/dialogue/edit_oct27.csv`): never change, add, remove or reorder an existing dialogue line
-or key in data/story/*, story_scenes.json, old_well_story.json, data/npcs/npcs.json, boss_intros.json, encounter_scripts.json,
-dungeon_content.json, core/quests, story_beats.gd. New text = new keys only. Lines a change makes wrong go in
-`docs/dialogue/lines_to_update_oct28.csv` (ID matching edit_oct27.csv, current line, suggested new line, why).
+or key; new text only in new keys. No version bump, no export.
 
-## Parts
-| Part | Status | Notes |
-|---|---|---|
-| 0 setup | done | tag pushed, this file, inbox section |
-| 1 Necrocrat units | done (set B: N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, NEW N-38 Hazmat Intern 1/3 Toxic; L12 round robin N 45% two-seed mean; GUT root 276 / core 1465 / ui 234 / world 418 all green; commit a5c59207 pushed) | target: L12 round robin Necrocrat 40-50% overall, >=30% vs each Path, starters 80%+ in the cave, nothing over ~75%; log in balance_log.md + `docs/design/sheet_changes_oct28.csv` |
-| 2 art direction + catalogue | done, commit d05586d9 pushed (GUT all four groups green except the then-unwired feats test) |
-| 3 feats | done, commit 93ab2b47 pushed (feats 9/9, root 276, ui 234, core 1481 green; the world group run was killed by the harness for low memory with an orphaned Godot left, pid 7932 - rerun in the foreground once it exits) |
-| Phase 2 | 11 cycles done (loop_log.md), commits f2c0c34c 94aef8a4 18c54dcd 7a8d4910; every smoke and bot green |
-| report | written (docs/overnight_report.md); final commit = the last on main | `docs/overnight_report.md` |
+Art in scope: rows #1-74 of `docs/art/art_batch_oct28.csv` (Maren portraits + sprites, 21 SPR-FOE sets, 26 CUT-*, 23 BST-*).
+Batches 5-9 are NOT made: build no hooks for them. Inventory + import log: `docs/art/import_oct28.md`.
 
-## Part 1 notes
-- Baselines (Cards Oct 27, no code change since): L12 round robin Necrocrat 20% (seed 7000, 20 games) / 33% (seed 8100, 20 games);
-  vs Gourmand 10% on both seeds. Reports `docs/design/sim/cards27_decks_l12_*.md`.
-- Sim: `Godot_console --headless --path . -s res://tools/run_balance_sim.gd -- --what=decks --level=12 --games=20 --seed=8100 --out=res://docs/design/sim/oct28_decks_l12_<x>.md`;
-  the cave: `--what=tutorial --games=25 --seed=7000|8100`.
-- CSV edits: `_logs/necro_oct28_apply.js` (byte-exact writer, same as `_logs/cards_oct27_apply.js`), then `bash tools/import_cards.sh --stamp` and `--write`.
+## Progress
+
+| Part | State | Commit | Notes |
+|---|---|---|---|
+| 0 Inventory | done 20:45 | | 239 files sound; assets/art 365 MB before |
+| 1 Maren + roamers | in progress | | |
+| 2 Entrances + Bestiary | | | |
+| 3 Verify | | | |
+| 4 Battle feel | | | |
+| 5 Memory leak | | | |
+| Phase 2 | | | |
+| Morning report | | | |

@@ -341,6 +341,8 @@ func _ready() -> void:
 				(child as CanvasLayer).visible = false
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
+	if _screenshot_args.has("lineup"):
+		RoamerLineup.install(self, player, enemies, str(_screenshot_args["lineup"]))
 	if _screenshot_args.has("ninja") and giant_chest_node != null:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	if _screenshot_args.has("lever") and vault_lever_node != null:

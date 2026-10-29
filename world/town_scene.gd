@@ -313,6 +313,8 @@ func _ready() -> void:
 	_build_barks()
 	_build_spots()
 	_build_enemies()
+	if _screenshot_args.has("lineup"):
+		RoamerLineup.install(self, player, enemies, str(_screenshot_args["lineup"]))
 	_build_rift_station()
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
 	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)

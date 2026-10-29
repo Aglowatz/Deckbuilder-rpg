@@ -85,7 +85,7 @@
 			"Low": {
 				"avg_ms": 14.2,
 				"p99_ms": 21,
-				"draw_calls": 530,
+				"draw_calls": 540,
 				"vram_mb": 810,
 				"ram_mb": 1660
 			},

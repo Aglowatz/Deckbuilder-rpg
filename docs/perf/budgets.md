@@ -47,3 +47,8 @@ of its budget. The menus (Deck Station, Collection Book, vendors) are budgeted a
 
 crosspath, forest, gainlands, buffet, dna, heap, capital_out, capital_in, battle, dungeon_map, deck_station, collection, vendor (frame);
 crosspath, forest, gainlands, buffet, dna, heap, capital (structure).
+
+**Overnight Oct 28-29:** the Verdant Dump's Low `draw_calls` budget 530 -> 540. The painted roaming enemies (art batch Oct 28) measured
+531 against 530 with the 3D models (`WAYWARD_ROAMER_MODELS=1` A/B, same run order), average frame time unchanged (12.20 ms both), video
+memory +34 MB. The p99 marks over budget that night (Dump / Capital outskirts / Gainlands Low, deck station, vendor, dungeon map) moved
+between 16 and 30 ms on identical code from run to run - noise on this laptop, not the art.

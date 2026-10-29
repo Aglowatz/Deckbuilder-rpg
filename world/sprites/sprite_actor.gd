@@ -53,6 +53,11 @@ func apply_cosmetics() -> void:
 
 
 func _process(delta: float) -> void:
+	step(delta)
+
+
+## One frame of the actor (its own _process, or the owner's when the owner turned processing off and drives it: ZoneEnemy, overnight Oct 28-29).
+func step(delta: float) -> void:
 	if sprite == null:
 		return
 	# The card never inherits this node's scale (the contact shadow would shrink with it): the squash goes in through the shader instead.

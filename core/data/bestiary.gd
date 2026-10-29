@@ -140,16 +140,32 @@ static func cutout_id(entry_name: String) -> String:
 
 ## The transparent figure the boss intro slides in: the imported CUT-* cut-out, else the dialogue portrait itself (already transparent),
 ## else null (the intro then shows the Bestiary square, `art`).
-static func cutout(entry_name: String) -> Texture2D:
+static func cutout(entry_name: String, phase: int = -1) -> Texture2D:
 	var id: String = cutout_id(entry_name)
 	if id.is_empty():
 		return null
+	var expression: String = phase_cutout_expression(entry_name, phase)
+	if not expression.is_empty() and Portraits.has_expression(id, expression):
+		return Portraits.texture_for(id, expression)
 	if Portraits.has_portrait(id):
 		return Portraits.texture_for(id)
 	var npc: NpcRegistry.Entry = NpcRegistry.find(portrait_npc_id(entry_name))
 	if npc == null or not Portraits.has_portrait(npc.portrait_id):
 		return null
 	return Portraits.texture_for(npc.portrait_id)
+
+
+## Overnight Oct 28-29: the final boss's later phases wear their own cut-outs (CUT-PRIMM_CRACKED, CUT-PRIMM_UNRAVELLED); the phase is the
+## battle's 0-based boss phase (-1 for every other battle).
+const PHASE_CUTOUTS: Dictionary = {"Primm, His Perfection": ["", "CRACKED", "UNRAVELLED"]}
+
+
+## The expression suffix of the cut-out for the given phase of this boss ("" for the base picture).
+static func phase_cutout_expression(entry_name: String, phase: int) -> String:
+	var list: Array = PHASE_CUTOUTS.get(canonical(entry_name), []) as Array
+	if phase < 0 or phase >= list.size():
+		return ""
+	return str(list[phase])
 
 
 ## Every cut-out id a boss / lieutenant / gatekeeper entrance can use (one per speaking character with an entrance), sorted: the ids

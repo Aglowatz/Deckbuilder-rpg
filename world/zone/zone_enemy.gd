@@ -38,6 +38,12 @@ var _lost_sight: float = 0.0
 var _time: float = 0.0
 var _alert: Label3D
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Overnight Oct 28-29: seconds left of the threat pose (the painted FRONT_TALK frame, facing the hero) an enemy strikes when it spots the hero, before it gives chase.
+var _threat: float = 0.0
+const THREAT_SECONDS: float = 0.45
+## The painted roamers' rim: a warm red-orange edge, a little stronger than the NPCs' (0.42), so they read against busy ground.
+const ROAMER_RIM: Color = Color(1.0, 0.55, 0.4)
+const ROAMER_RIM_STRENGTH: float = 0.62
 
 
 func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: float, walk_area: ZoneMap, target_player: Node3D, grade: Callable = Callable()) -> void:
@@ -105,9 +111,12 @@ func make_guard(radius: float, count: int) -> void:
 
 func _make_model() -> Node3D:
 	# Overnight Oct 28: a painted 2.5D sprite set, once imported, replaces whatever model the spec names (docs/design/enemy_roster_oct28.md).
-	var key: String = info.sprite_key()
-	if SpriteLibrary.has_character(key):
-		var actor: SpriteActor = NpcSprites.make_actor(key, info.tint)
+	# The importer names a set's folder (the manifest key) with underscores: FOE-PANTRY-HOUND -> FOE_PANTRY_HOUND.
+	var key: String = info.sprite_key().replace("-", "_")
+	# WAYWARD_ROAMER_MODELS=1 keeps the 3D models (performance A/B, overnight Oct 28-29).
+	if SpriteLibrary.has_character(key) and OS.get_environment("WAYWARD_ROAMER_MODELS") != "1":
+		# The painted set carries its own colours: the spec's tint was for the 3D model (overnight Oct 28-29).
+		var actor: SpriteActor = NpcSprites.make_actor(key)
 		actor.natural_scale = info.model_scale * StorybookScale.CHAR_FACTOR
 		return actor
 	if info.model.begins_with("capital:"):
@@ -181,6 +190,11 @@ func _process(delta: float) -> void:
 	if info.hover:
 		_model.position.y = 0.22 + sin(_time * 3.2) * 0.06
 	position.y = area.height_at(position)
+	if is_sprite():
+		_drive_sprite(_model as SpriteActor, delta)
+		for escort: Node3D in escorts:
+			if escort is SpriteActor:
+				_drive_sprite(escort as SpriteActor, delta)
 	if not active or player == null:
 		_play(info.anim_idle)
 		return
@@ -210,7 +224,10 @@ func _process(delta: float) -> void:
 					_stuck_time = 0.0
 					_pick_patrol_target()
 		State.CHASE:
-			if home_distance > info.leash_range or _lost_sight > 2.0 or _stuck_time > 1.2:
+			if _threat > 0.0:
+				_threat -= delta
+				_face(to_player, delta)
+			elif home_distance > info.leash_range or _lost_sight > 2.0 or _stuck_time > 1.2:
 				_set_state(State.RETURN)
 			else:
 				if area.has_line_of_sight(position, player.position):
@@ -227,6 +244,12 @@ func _process(delta: float) -> void:
 				_stuck_time = 0.0
 				_wait = 1.0
 	_alert.visible = state == State.CHASE
+	if is_sprite():
+		var actor: SpriteActor = _model as SpriteActor
+		actor.talking = _threat > 0.0
+		if actor.sprite != null:
+			_alert.position.y = actor.head_height() + 0.35
+		_hop(moved)
 	if moved:
 		_play(info.anim_run if state == State.CHASE and _animation != null and _animation.has_animation(info.anim_run) else info.anim_walk)
 	else:
@@ -238,6 +261,35 @@ func _process(delta: float) -> void:
 ## True when this enemy is drawn as a painted sprite (its walk comes from the sprite itself; no tint, accessories, ghost pass or waddle).
 func is_sprite() -> bool:
 	return _model is SpriteActor
+
+
+## A painted set with no walk strips (the idle sets: the meatball, the courier, the gulls...) hops and sways while it moves, so it never slides;
+## floaters (hover specs) only sway. Walk-strip sets walk with their own frames.
+func _hop(moving: bool) -> void:
+	var actor: SpriteActor = _model as SpriteActor
+	if actor.sprite == null or not actor.sprite.walk_dirs().is_empty():
+		return
+	var rate: float = 11.0 if state == State.CHASE else 8.0
+	var roll: float = sin(_time * rate) * 0.07 if moving else 0.0
+	actor.rotation.z = lerpf(actor.rotation.z, roll, 0.25)
+	if not info.hover:
+		actor.position.y = absf(sin(_time * rate)) * 0.09 if moving else lerpf(actor.position.y, 0.0, 0.3)
+
+
+## The painted roamer is driven from here (one per-frame script per enemy, not two; it also skips the frames this enemy skips off-screen):
+## its frame step, and its rim once its card exists.
+func _drive_sprite(actor: SpriteActor, delta: float) -> void:
+	if actor.is_processing():
+		actor.set_process(false)
+	actor.step(delta)
+	if actor.sprite != null and actor.sprite.rim_override.a <= 0.0:
+		actor.sprite.set_rim(ROAMER_RIM, ROAMER_RIM_STRENGTH)
+
+
+## Turns the body toward the given direction (the threat pose faces the hero).
+func _face(direction: Vector3, delta: float) -> void:
+	if direction.length() > 0.01:
+		_model.rotation.y = lerp_angle(_model.rotation.y, atan2(direction.x, direction.z), 1.0 - exp(-12.0 * delta))
 
 
 ## Procedural models have no animation player: wobble while moving.
@@ -261,6 +313,8 @@ func _set_state(next: State) -> void:
 	_lost_sight = 0.0
 	if next == State.CHASE:
 		Audio.sfx(&"ui_tick", -8.0, 0.3)
+		if is_sprite():
+			_threat = THREAT_SECONDS
 
 
 func _pick_patrol_target() -> void:

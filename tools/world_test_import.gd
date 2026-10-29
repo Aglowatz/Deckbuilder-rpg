@@ -570,8 +570,67 @@ func _cut_by_columns(image: Image) -> Array:
 	cuts.append(width)
 	var parts: Array = []
 	for i: int in range(4):
-		parts.append(_figure(image, Rect2i(cuts[i], 0, cuts[i + 1] - cuts[i], height)))
+		var part: Image = image.get_region(Rect2i(cuts[i], 0, cuts[i + 1] - cuts[i], height))
+		_drop_edge_slivers(part)
+		parts.append(_figure(part, Rect2i(0, 0, part.get_width(), height)))
 	return parts
+
+
+## A column cut through touching figures leaves a sliver of the neighbour (a hand, a heel) at the cut edge: clears every piece that touches the left or right
+## edge of the part and is smaller than a quarter of the largest piece (overnight Oct 28, the roaming-enemy walk strips).
+func _drop_edge_slivers(part: Image) -> void:
+	const BLOCK: int = 4
+	var bw: int = part.get_width() / BLOCK
+	var bh: int = part.get_height() / BLOCK
+	if bw < 3 or bh < 3:
+		return
+	var comp: PackedInt32Array = PackedInt32Array()
+	comp.resize(bw * bh)
+	comp.fill(-1)
+	var filled: PackedByteArray = PackedByteArray()
+	filled.resize(bw * bh)
+	for by: int in range(bh):
+		for bx: int in range(bw):
+			filled[by * bw + bx] = 1 if part.get_pixel(bx * BLOCK + 1, by * BLOCK + 1).a > 0.05 or part.get_pixel(bx * BLOCK + 3, by * BLOCK + 3).a > 0.05 else 0
+	var areas: Array[int] = []
+	var edge: Array[bool] = []
+	for start: int in range(bw * bh):
+		if filled[start] == 0 or comp[start] >= 0:
+			continue
+		var id: int = areas.size()
+		areas.append(0)
+		edge.append(false)
+		var stack: PackedInt32Array = PackedInt32Array([start])
+		comp[start] = id
+		while not stack.is_empty():
+			var at: int = stack[stack.size() - 1]
+			stack.resize(stack.size() - 1)
+			areas[id] += 1
+			var ax: int = at % bw
+			var ay: int = at / bw
+			if ax == 0 or ax == bw - 1:
+				edge[id] = true
+			for dy: int in range(-1, 2):
+				for dx: int in range(-1, 2):
+					var nx: int = ax + dx
+					var ny: int = ay + dy
+					if nx < 0 or ny < 0 or nx >= bw or ny >= bh:
+						continue
+					var n: int = ny * bw + nx
+					if filled[n] == 1 and comp[n] < 0:
+						comp[n] = id
+						stack.append(n)
+	var biggest: int = 1
+	for area: int in areas:
+		biggest = maxi(biggest, area)
+	for by: int in range(bh):
+		for bx: int in range(bw):
+			var c: int = comp[by * bw + bx]
+			if c < 0 or not edge[c] or areas[c] * 4 >= biggest:
+				continue
+			for oy: int in range(BLOCK):
+				for ox: int in range(BLOCK):
+					part.set_pixel(bx * BLOCK + ox, by * BLOCK + oy, Color(0, 0, 0, 0))
 
 
 ## DEC-SHOREFOAM is a diagonal strip of wet sand, shallow water and a foam line. It is turned so the foam line runs along the x axis (land / sand below, open water above)

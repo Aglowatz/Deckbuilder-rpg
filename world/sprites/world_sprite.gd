@@ -35,6 +35,10 @@ var current_key: String = "FRONT_IDLE"
 var current_flip: bool = false
 var walking: bool = false
 var speed: float = 0.0
+## Screenshot aid (RoamerLineup): when > 0 the figure walks on the spot at this speed (m/s) in the way it faces.
+var demo_walk_speed: float = 0.0
+## Overnight Oct 28-29: a rim colour that wins over the zone's key light (roaming enemies: a warm hostile edge); alpha 0 = follow the light.
+var rim_override: Color = Color(0.0, 0.0, 0.0, 0.0)
 ## Sound pass, Part C: emitted on each foot contact of the walk cycle. With `footsteps` on, the sprite also plays the footstep of the ground under it
 ## (`Audio.footstep`): full level for the hero (`is_hero`), quieter and shorter-reaching for everyone else.
 signal stepped
@@ -253,6 +257,11 @@ func set_sun(sun_direction: Vector3) -> void:
 	_sun_world = -d
 
 
+## The directions this character has walk strips for (empty for an idle-only set).
+func walk_dirs() -> Array[String]:
+	return _walk_dirs
+
+
 ## Where the card's feet are (the node position without the walking bob).
 func feet_position() -> Vector3:
 	return position - Vector3(0.0, _bob, 0.0)
@@ -267,6 +276,8 @@ func follow(world_pos: Vector3, delta: float) -> void:
 	speed = moved.length() / maxf(delta, 0.0001)
 	if speed > MOVING_SPEED:
 		_target_heading = moved.normalized()
+	if demo_walk_speed > 0.0:
+		speed = demo_walk_speed
 	_update(world_pos, delta)
 
 
@@ -308,6 +319,8 @@ func _update(world_pos: Vector3, delta: float) -> void:
 			_sun_known = true
 			# Graphics Tier 1: the rim takes the zone's key light colour (a warm gold in Crosspath, teal in the forest) so the figure pops off its own background.
 			var rim: Color = (sun as DirectionalLight3D).light_color.lerp(Color.WHITE, 0.25)
+			if rim_override.a > 0.0:
+				rim = rim_override
 			for target: ShaderMaterial in [_material, _hat_material]:
 				if target != null:
 					target.set_shader_parameter("rim_color", Vector3(rim.r, rim.g, rim.b))
@@ -492,6 +505,15 @@ func set_light_response(warm: float, shade: float, rim: float) -> void:
 			target.set_shader_parameter("warm_gain", warm)
 			target.set_shader_parameter("shade_amount", shade)
 			target.set_shader_parameter("rim_strength", rim)
+
+
+## A fixed rim colour and strength (roaming enemies stand out from busy ground and read as a threat).
+func set_rim(color: Color, strength: float) -> void:
+	rim_override = Color(color.r, color.g, color.b, 1.0)
+	for target: ShaderMaterial in [_material, _hat_material]:
+		if target != null:
+			target.set_shader_parameter("rim_color", Vector3(color.r, color.g, color.b))
+			target.set_shader_parameter("rim_strength", strength)
 
 
 ## A translucent, floating character (a ghost): `alpha` is the body's opacity, `hover` the height it floats above the ground (metres) and `bob` how far it drifts up and
