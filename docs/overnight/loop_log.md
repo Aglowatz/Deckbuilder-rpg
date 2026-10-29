@@ -23,3 +23,6 @@ Last night's log: `docs/overnight/oct27/loop_log_oct27.md`.
 6. **Entrance framing (00:25)**: the Hollow Warden's entrance on the real board (`p2_intro_warden.png`): the hips-up cut-out ended in a hard
    straight crop drawn over the lower letterbox bar. The lower bar is now drawn above the figure (cut-out mode only), so the crop line sits
    behind it and the boss stands behind the bar. ui GUT 236/236, boss-rules smoke OK. Kept.
+7. **Hovering roamers (00:30)**: the courier, the shard swarm, the energy sprite and the gulls hovered by lifting the whole actor, which took
+   the contact shadow up with it. A painted hoverer now floats through `WorldSprite.set_ghost` (shadow on the ground, faded; the ghostly
+   courier at 0.88 opacity); the 3D fallback keeps the old lift. `p2_lineup_dna_hover.png`; world GUT 418/418, art test 8/8. Kept.

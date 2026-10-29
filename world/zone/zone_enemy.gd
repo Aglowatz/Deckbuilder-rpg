@@ -187,7 +187,7 @@ func _process(delta: float) -> void:
 		_skipped_delta = 0.0
 	_time += delta
 	cooldown = maxf(0.0, cooldown - delta)
-	if info.hover:
+	if info.hover and not is_sprite():
 		_model.position.y = 0.22 + sin(_time * 3.2) * 0.06
 	position.y = area.height_at(position)
 	if is_sprite():
@@ -299,6 +299,10 @@ func _drive_sprite(actor: SpriteActor, delta: float) -> void:
 	actor.step(delta)
 	if actor.sprite != null and actor.sprite.rim_override.a <= 0.0:
 		actor.sprite.set_rim(ROAMER_RIM, ROAMER_RIM_STRENGTH)
+		# Phase 2 (Oct 28-29): a hovering roamer (the courier, the swarm, the energy sprite, the gulls) floats through the sprite itself, so its
+		# contact shadow stays on the ground and fades (lifting the whole actor took the shadow up with it); a ghostly one is a little see-through.
+		if info.hover:
+			actor.sprite.set_ghost(0.88 if info.ghostly else 1.0, 0.22, 0.06)
 
 
 ## Turns the body toward the given direction (the threat pose faces the hero).
