@@ -234,29 +234,44 @@ static func grade_node(node: Node, strength: float = 1.0) -> void:
 # ---- The per-piece occlusion fade (world/dna/dna_fade.gdshader) ------------------------------------------------------------------------
 
 
-static var _fade_materials: Array[ShaderMaterial] = []
+## Overnight Oct 28-29 (Part 5, the memory leak): WEAK references. The list used to hold every fade material of every D.N.A. visit for the
+## whole session (about 560 materials and ~23 MB of video memory per visit, still fed the hero position every frame); a material now lives as
+## long as the merged mesh that draws it, and freed ones are pruned whenever the list is walked.
+static var _fade_materials: Array[WeakRef] = []
 
 
 ## DnaFadeMesh registers every material it makes so the scene can feed them the hero position each frame.
 static func register_fade_material(material: ShaderMaterial) -> void:
-	if not _fade_materials.has(material):
-		_fade_materials.append(material)
+	for entry: WeakRef in _fade_materials:
+		if entry.get_ref() == material:
+			return
+	_fade_materials.append(weakref(material))
 
 
 ## Where the hero stands (world): cabinets and partitions between the camera and this point fade out; y -1000 switches the fade off.
 static func set_hero_pos(pos: Vector3) -> void:
-	for material: ShaderMaterial in _fade_materials:
+	for material: ShaderMaterial in fade_materials():
 		material.set_shader_parameter("hero_pos", pos)
 
 
 ## Fixes Oct 27, Part 2: the room cut of the full-height walls (DnaRoomCut): up to three regions (the hero's and the ones being left) and their weights.
 static func set_room_cut(regions: Array[Vector4], weights: Vector3) -> void:
-	for material: ShaderMaterial in _fade_materials:
+	for material: ShaderMaterial in fade_materials():
 		material.set_shader_parameter("room_a", regions[0])
 		material.set_shader_parameter("room_b", regions[1])
 		material.set_shader_parameter("room_c", regions[2])
 		material.set_shader_parameter("room_w", weights)
 
 
+## The fade materials still alive (freed ones are dropped from the list here).
 static func fade_materials() -> Array[ShaderMaterial]:
-	return _fade_materials
+	var alive: Array[ShaderMaterial] = []
+	var kept: Array[WeakRef] = []
+	for entry: WeakRef in _fade_materials:
+		var material: ShaderMaterial = entry.get_ref() as ShaderMaterial
+		if material != null:
+			alive.append(material)
+			kept.append(entry)
+	if kept.size() != _fade_materials.size():
+		_fade_materials = kept
+	return alive

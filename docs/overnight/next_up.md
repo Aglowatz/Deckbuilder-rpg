@@ -8,7 +8,7 @@ Last run's list: `docs/overnight/oct22/next_up_oct22.md`.
    exported suite (`tools/run_exported_suite.sh`).
 3. **The Itamae's matchups** (inbox 3): Refusemancer / Necrocrat lose every seed-8100 game at L16 - a deck question, not a tuning knob.
 4. **Freed-zone sparring** was built in Phase 2 cycle 13 (roamers only); a hand-made challenger per freed zone (named, with a line) would be the next step.
-5. **Video memory per scene load - FIXED** (Phase 2 cycle 17): `StyleToon._cache` (keyed by the source material's instance id) and
+5. **Video memory per scene load - FIXED** (and the D.N.A. leak, overnight Oct 28-29: `DnaMaterials._fade_materials` held every visit's ~560 fade materials, +23 MB a visit; weak references now, flat over 10 round trips - `bash tools/run_memory_roundtrip_smoke.sh`, docs/perf/report.md "Memory leak") (Phase 2 cycle 17): `StyleToon._cache` (keyed by the source material's instance id) and
    `KitFoliage._materials` (every grass clump) held every visit's materials and their textures. Both now hold weak references and
    are pruned when a world scene installs its style rig: town reloads 887 -> 892 -> 893 -> 893 MB (was +12 MB a load), Crosspath <->
    Gainlands 887 -> 900 -> 901 (was 887 -> 946 -> 980), a full two-round tour plateaus at ~1007 MB. Worth re-checking on the laptop

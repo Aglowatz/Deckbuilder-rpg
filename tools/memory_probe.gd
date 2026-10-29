@@ -27,6 +27,16 @@ func _run() -> void:
 	await _arrive("town", TownScene, func() -> void: SceneManager.change_scene("res://scenes/town.tscn"))
 	var loop: int = 0
 	var route: Array[String] = ZONES + ZONES
+	# Overnight Oct 28-29: `--zone=<id> --trips=N` goes Crosspath <-> that zone N times (the leak bisect).
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--zone="):
+			route = [] as Array[String]
+			var trips: int = 4
+			for other: String in OS.get_cmdline_user_args():
+				if other.begins_with("--trips="):
+					trips = other.get_slice("=", 1).to_int()
+			for i: int in range(trips):
+				route.append(arg.get_slice("=", 1))
 	if OS.get_cmdline_user_args().has("--short"):
 		route = ["beefcake", "beefcake"] as Array[String]
 	# Oct 23: `--townloop` reloads Crosspath only (no zone in between) / `--zoneloop` goes Gainlands -> Gainlands - which side keeps memory.
@@ -60,8 +70,8 @@ func _arrive(label: String, kind: Variant, go: Callable) -> void:
 		await get_tree().create_timer(0.25).timeout
 		waited += 0.25
 	await get_tree().create_timer(3.0).timeout
-	print("memory_probe: %-12s textures %4d MB, buffers %3d MB, video %4d MB, objects %d, resources %d, caches card art %d, icons %d, UI art %d, portraits %d, sprites %d" % [label,
-		int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED) / 1048576.0),
+	print("memory_probe: %-12s static %4d MB, textures %4d MB, buffers %3d MB, video %4d MB, objects %d, resources %d, caches card art %d, icons %d, UI art %d, portraits %d, sprites %d" % [label,
+		int(OS.get_static_memory_usage() / 1048576.0), int(Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED) / 1048576.0),
 		int(Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED) / 1048576.0),
 		int(Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0),
 		int(Performance.get_monitor(Performance.OBJECT_COUNT)), int(Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT)),
@@ -76,6 +86,7 @@ func _arrive(label: String, kind: Variant, go: Callable) -> void:
 			connections += holder.get_signal_connection_list(str(sig["name"])).size()
 		census.append("%s %d/%d" % [holder.name, holder.get_child_count(true) + _descendants(holder), connections])
 	print("memory_probe:   census ", ", ".join(census))
+	print("memory_probe:   dna graded %d, fade materials %d, scene cache %d, part cache %d" % [DnaMaterials._graded.size(), DnaMaterials.fade_materials().size(), DnaBuilder._scene_cache.size(), DnaBuilder._part_cache.size()])
 	print("memory_probe:   statics foliage %d/%d/%d, decals %d, painted specials %d used %d missing %d, patches %d, clusters %d, toon %d/%d, card rules %d" % [
 		KitFoliage._materials.size() + KitFoliage._clumps.size(), KitFoliage._card_materials.size(), KitFoliage._card_cache.size(), GroundDecals._added.size(),
 		PaintedClasses._specials.size(), PaintedLibrary.used.size(), PaintedLibrary.missing.size(), PathTool._patch_cache.size(),

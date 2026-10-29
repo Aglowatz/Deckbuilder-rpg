@@ -183,3 +183,31 @@ Low: Crosspath 88.8 -> 91.1 (noise; same draws). High: 18.4 -> 18.8 fps (noise).
 met (Crosspath and capital_out each passed p99 on a re-run after one spike); the Medium draw-call lines of gainlands, buffet, dna, heap,
 capital_out and capital_in were raised to the new counts x1.2 (they are depth-only draws of the far cascade; frame time is the budget that
 matters, budgets.md "When a budget fails" 3). `perf_budget.sh structure`: OK.
+
+## Memory leak - fixed (overnight Oct 28-29, Part 5)
+
+**Symptom.** Video memory in Crosspath climbed with every trip out and back (the open "~33 MB per Crosspath visit" of next_up): with
+`tools/memory_probe.tscn` over every zone twice, town read 908 -> 985 MB video, 294 -> 457 MB static, 8968 -> 10771 objects, while the
+node count, texture memory, buffer memory and resource count stayed flat - so the leaked things were neither nodes, textures nor loaded
+resources. A Crosspath <-> one-zone loop (`memory_probe.tscn -- --zone=<id> --trips=N`, new tonight) put it on the D.N.A.: about +560
+objects and +23 MB video per visit; the other zones +0-45 objects and ~0 MB on a repeat visit. `--verbose` at exit showed the objects were
+all freed at shutdown, so something alive for the session was holding them.
+
+**Cause.** `DnaMaterials._fade_materials` (world/dna/dna_materials.gd): every `DnaFadeMesh` slot (the cabinets, partitions and full-height
+walls of the D.N.A. and the office interior) registered its ShaderMaterial in a static array so the scene can feed them the hero position
+and the room cut each frame - and nothing ever took them out. 562 materials per visit, each with its GPU-side uniform set, kept for the
+whole session (and still written to every frame).
+
+**Fix.** The list holds weak references: a material lives as long as the merged mesh that draws it, and `fade_materials()` drops freed ones
+whenever the list is walked (`set_hero_pos`, `set_room_cut`). Same pattern as the Oct 23 StyleToon / KitFoliage fix.
+
+**Numbers** (`bash tools/run_memory_roundtrip_smoke.sh`: one warm-up lap of every zone and the Forgotten Cave, then 10 measured round trips
+Crosspath -> zone or cave -> Crosspath, cycling Gainlands, D.N.A., Buffet, Dump, Capital, cave; readings in town):
+
+| | static | video | objects |
+|---|---:|---:|---:|
+| before (fix reverted) | 451.6 -> 458.2 MB (**+6.6**) | 962.9 -> 1009.4 MB (**+46.5**) | 10215 -> 11364 (**+1149**) |
+| after | 445.3 -> 446.1 MB (**+0.8**) | 935.4 -> 935.8 MB (**+0.4**) | 10025 -> 10053 (**+28**) |
+
+The smoke fails when static or video memory grows more than 5 MB or objects more than 200 over the measured trips. Not touched: the first
+visit to each area still adds its caches (sprite frames, kit textures, ~20-30 MB the first time); that is bounded (the warm-up lap).
