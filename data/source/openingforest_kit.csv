@@ -1,0 +1,15 @@
+STYLE TARGET,"Match the approved openingforest art and the painted storybook look of the game (docs/art/art_direction_oct28.md)."
+SURFACE LOCK,"See data/source/heap_kit.csv (the same locks for every zone kit)."
+CUTOUT LOCK,"See data/source/heap_kit.csv."
+SHEET LOCK,"See data/source/heap_kit.csv."
+TREE LOCK,"See data/source/heap_kit.csv."
+CONCEPT / BACKDROP LOCK,"See data/source/heap_kit.csv."
+HOW IT WORKS,"Created on 2026-10-29 (art import Oct 29) from the rows of docs/art/art_batch_oct28.csv; the descriptions live there."
+,,,,,,,,
+ID,Asset,Category,Lock,Image Description (paste STYLE TARGET + the Lock first),Size / Format,In-Game Use,Priority,Status
+OF-HERO-CAVE-MOUTH,"The Forgotten Cave mouth",Hero landmark,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x2048 PNG, transparent","The clearing, the cave entrance spot",2,Approved
+OF-BD-TORCHLINE,"Torch-line ridge",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","The clearing's far treeline",2,Approved
+OF-TREE-GIANT-01,"Giant mossy tree 1",Tree,TREE,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The clearing edge",2,Approved
+OF-TREE-GIANT-02,"Giant mossy tree 2",Tree,TREE,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The clearing edge",2,Approved
+OF-TREE-GIANT-03,"Giant mossy tree 3",Tree,TREE,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The clearing edge",2,Approved
+OF-PROP-LAB-HATCH,"The Lab hatch",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1024 PNG, transparent","The clearing, after Rip reveals it (postgame)",2,Approved

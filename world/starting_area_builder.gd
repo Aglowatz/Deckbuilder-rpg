@@ -44,6 +44,7 @@ func build(parent: Node3D) -> void:
 		if layout.floor_sdf(Vector2(obstacle.x, obstacle.y)) < obstacle.z + 0.5:
 			obstacles.append(obstacle)
 	_build_hidden_chests()
+	_build_kit_pieces()
 	if lab_open:
 		_build_lab_hatch(Vector3(OpeningForestLayout.LAB_POCKET.x, 0.0, OpeningForestLayout.LAB_POCKET.y))
 
@@ -57,6 +58,29 @@ func _build_hidden_chests() -> void:
 		ModelKit.place(root, chest, pos, rng.randf() * 360.0, 0.225)
 		obstacles.append(Vector3(pos.x, pos.z, 0.18))
 		chest_nodes[id] = chest
+
+
+## Art import Oct 29: the painted cave mouth in front of the rock arch (the Forgotten Cave's mossy Old Kingdom gate, the first landmark of
+## the game) and three giant mossy trees at the clearing's edge. Both stand outside the floor (the mouth's blocker already stops the hero).
+const CAVE_MOUTH_HEIGHT: float = 6.6
+const CAVE_MOUTH_FORWARD: float = 0.9
+## The mouth reads as the destination in the dusk: lifted out of the teal mood a little (the trees keep it).
+const CAVE_MOUTH_BRIGHTEN: float = 1.7
+## (x, z, height): the giant trees, beyond the treeline on the west and east, none on the camera side.
+const GIANT_TREES: Array[Vector3] = [Vector3(-7.0, -5.0, 15.0), Vector3(-5.8, -13.2, 17.0), Vector3(15.6, -9.6, 16.0)]
+const GIANT_TREE_BRIGHTEN: float = 1.3
+const GIANT_TREE_IDS: Array[String] = ["OF-TREE-GIANT-01", "OF-TREE-GIANT-02", "OF-TREE-GIANT-03"]
+
+
+func _build_kit_pieces() -> void:
+	var mouth: Vector3 = layout.mark("cave_mouth")
+	KitPieces.stand(root, "OF-HERO-CAVE-MOUTH", mouth + Vector3(0.0, -0.05, CAVE_MOUTH_FORWARD), CAVE_MOUTH_HEIGHT, false, CAVE_MOUTH_BRIGHTEN)
+	for index: int in range(GIANT_TREES.size()):
+		var spot: Vector3 = GIANT_TREES[index]
+		var p: Vector2 = Vector2(spot.x, spot.y)
+		if layout.floor_sdf(p) < 1.6 or layout.camera_side(p):
+			continue
+		KitPieces.stand(root, GIANT_TREE_IDS[index], Vector3(spot.x, -0.1, spot.y), spot.z, true, GIANT_TREE_BRIGHTEN)
 
 
 ## The Path-ology Lab's hatch (postgame, `lab_open`): a pale steel disc set in the forest floor with a cyan glow ring and a handle, the one thing in the clearing that is
@@ -77,7 +101,10 @@ func _build_lab_hatch(center: Vector3) -> void:
 	cylinder.height = 0.12
 	disc.mesh = cylinder
 	disc.material_override = steel
-	hatch.add_child(disc)
+	# Art import Oct 29: the painted hatch (OF-PROP-LAB-HATCH: steel, roots, a sickly seam of light) replaces the steel disc, its glow ring and handle (the light stays).
+	var painted: bool = KitPieces.ground(hatch, "OF-PROP-LAB-HATCH", Vector3(0.0, 0.03, 0.0), 0.0, 2.1) != null
+	if not painted:
+		hatch.add_child(disc)
 	var glow: StandardMaterial3D = StandardMaterial3D.new()
 	glow.albedo_color = Color("74e8ff")
 	glow.emission_enabled = true
@@ -90,14 +117,20 @@ func _build_lab_hatch(center: Vector3) -> void:
 	ring.mesh = torus
 	ring.material_override = glow
 	ring.position = Vector3(0.0, 0.08, 0.0)
-	hatch.add_child(ring)
+	if not painted:
+		hatch.add_child(ring)
 	var handle: MeshInstance3D = MeshInstance3D.new()
 	var bar: BoxMesh = BoxMesh.new()
 	bar.size = Vector3(0.5, 0.08, 0.1)
 	handle.mesh = bar
 	handle.material_override = steel
 	handle.position = Vector3(0.0, 0.14, 0.0)
-	hatch.add_child(handle)
+	if painted:
+		disc.free()
+		ring.free()
+		handle.free()
+	else:
+		hatch.add_child(handle)
 	var light: OmniLight3D = OmniLight3D.new()
 	light.light_color = Color("74e8ff")
 	light.light_energy = 1.2

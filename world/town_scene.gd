@@ -243,6 +243,33 @@ func _stage(label: String) -> void:
 		await get_tree().process_frame
 
 
+## Art import Oct 29: the town gets louder - one Path banner (TOWN-SHEET-FREED-BANNERS) hangs from a lamp post of the square for each freed
+## zone, in the order the zones are listed (Beefcake red barbell, Gourmand ladle, Necrocrat stamp, Refusemancer leaf).
+const FREED_BANNERS: Dictionary = {"beefcake": "TOWN-SHEET-FREED-BANNERS-01", "gourmand": "TOWN-SHEET-FREED-BANNERS-02", "necrocrat": "TOWN-SHEET-FREED-BANNERS-03", "refusemancer": "TOWN-SHEET-FREED-BANNERS-04"}
+const FREED_BANNER_WIDTH: float = 0.9
+const FREED_BANNER_TOP: float = 3.0
+
+
+func _hang_freed_banners() -> void:
+	var posts: Array[Vector3] = []
+	for pos: Vector3 in square.streets.lamp_points:
+		if Vector2(pos.x - TownLayout.PLAZA.x, pos.z - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS - 2.0:
+			posts.append(pos)
+	posts.sort_custom(func(a: Vector3, b: Vector3) -> bool: return atan2(a.z - TownLayout.PLAZA.z, a.x - TownLayout.PLAZA.x) < atan2(b.z - TownLayout.PLAZA.z, b.x - TownLayout.PLAZA.x))
+	var index: int = 0
+	for zone_id: String in FREED_BANNERS.keys():
+		if index >= posts.size():
+			break
+		if not Session.is_zone_completed(zone_id) and not _screenshot_args.has("banners"):
+			continue
+		var id: String = str(FREED_BANNERS[zone_id])
+		var height: float = FREED_BANNER_WIDTH / maxf(EnvKit.aspect(id), 0.01)
+		var banner: MeshInstance3D = KitPieces.wall(self, id, posts[index] + Vector3(0.0, FREED_BANNER_TOP - height * 0.5, 0.16), 0.0, FREED_BANNER_WIDTH)
+		if banner != null:
+			banner.name = "FreedBanner_%s" % zone_id
+		index += 1
+
+
 func _ready() -> void:
 	_staged_build = SceneManager.busy
 	if _staged_build:
@@ -783,6 +810,7 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	_add_spot("vault4", "The Four-Seal Vault", town.anchors["vault4"] as Vector3, 2.2)
 	four_seal_vault = FourSealVault.build(self, town.anchors["vault4_mouth"] as Vector3)
+	_hang_freed_banners()
 	# Fourth brief, Part F: The Restless Cairn - the Graveyard's scripted-battle trigger. Unlike
 	# the hidden chests, this one DOES get the normal marker/name-plate treatment (a Spot) - it's
 	# meant to be found, not stumbled on; the challenge is the fight, not finding it.

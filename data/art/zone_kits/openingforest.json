@@ -1,0 +1,181 @@
+{
+	"_about": "Written by tools/import_zone_kit.gd from data/source/openingforest_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/OpeningForest: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/openingforest/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400.0,
+	"items": {
+		"OF-BD-TORCHLINE": {
+			"aspect": 4.312,
+			"asset": "Torch-line ridge",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "OF-BD-TORCHLINE",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				475
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.of-bd-torchline",
+			"tinted": false,
+			"transparent": true,
+			"use": "The clearing's far treeline",
+			"zone": "openingforest"
+		},
+		"OF-HERO-CAVE-MOUTH": {
+			"aspect": 1.039,
+			"asset": "The Forgotten Cave mouth",
+			"category": "Hero landmark",
+			"cleared_alpha": 33580,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				2048
+			],
+			"group": "concept",
+			"id": "OF-HERO-CAVE-MOUTH",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1502,
+				1445
+			],
+			"sheet_status": "Approved",
+			"size": "2048x2048 PNG, transparent",
+			"slot": "concept.of-hero-cave-mouth",
+			"tinted": false,
+			"use": "The clearing, the cave entrance spot",
+			"zone": "openingforest"
+		},
+		"OF-PROP-LAB-HATCH": {
+			"aspect": 0.99,
+			"asset": "The Lab hatch",
+			"category": "Prop",
+			"cleared_alpha": 9214,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "OF-PROP-LAB-HATCH",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				999,
+				1009
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.of-prop-lab-hatch",
+			"tinted": false,
+			"use": "The clearing, after Rip reveals it (postgame)",
+			"zone": "openingforest"
+		},
+		"OF-TREE-GIANT-01": {
+			"aspect": 0.723,
+			"asset": "Giant mossy tree 1",
+			"category": "Tree",
+			"cleared_alpha": 20075,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "OF-TREE-GIANT-01",
+			"lock": "TREE",
+			"pivot": [
+				0.532,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1013,
+				1401
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.of-tree-giant-01",
+			"tinted": false,
+			"use": "The clearing edge",
+			"zone": "openingforest"
+		},
+		"OF-TREE-GIANT-02": {
+			"aspect": 0.777,
+			"asset": "Giant mossy tree 2",
+			"category": "Tree",
+			"cleared_alpha": 22715,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "OF-TREE-GIANT-02",
+			"lock": "TREE",
+			"pivot": [
+				0.58,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1019,
+				1311
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.of-tree-giant-02",
+			"tinted": false,
+			"use": "The clearing edge",
+			"zone": "openingforest"
+		},
+		"OF-TREE-GIANT-03": {
+			"aspect": 0.737,
+			"asset": "Giant mossy tree 3",
+			"category": "Tree",
+			"cleared_alpha": 24791,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "OF-TREE-GIANT-03",
+			"lock": "TREE",
+			"pivot": [
+				0.539,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1018,
+				1382
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.of-tree-giant-03",
+			"tinted": false,
+			"use": "The clearing edge",
+			"zone": "openingforest"
+		}
+	},
+	"zone": "openingforest"
+}

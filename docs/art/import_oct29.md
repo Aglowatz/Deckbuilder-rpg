@@ -155,3 +155,33 @@ Test: `tests/test_story_backdrops_oct29.gd`.
   existing spot; only his face shows from the default camera).
 - Checks: GUT core 1490 + 1 pending, ui 242, root 286, world 418 (the sprite-rollout test now names Primm as the second exception after
   the Doppelganger); Dump walk smoke OK; structure budget met. Test `tests/test_art_import_oct29.gd`.
+
+## Part 3 - zone pieces
+
+Kit rows: `node tools/kit_rows_oct29.js` (new sheets `data/source/openingforest_kit.csv` and `town_kit.csv`; rows added to gainlands / dna /
+buffet / heap / capital; DUMP-HERO-JUNK-MOUNTAIN's lock CONCEPT -> CUTOUT since the redo is a painted cut-out). `town` reads the Drive's
+`Approved_EnvKit` through `zonekit_folders` (its report lists the ENV-* files there as "unmatched": they belong to the env kit). Imported with
+`bash tools/import_zone_kit.sh <zone> --only=<the new ids>` (the old kit entries untouched; CAP-PATH-WHITE re-imported as the real texture).
+Backdrop strips are data: `node tools/kit_looks_oct29.js` writes them as `kit_cards` into `data/art/zone_looks.json`. Hand-placed pieces go
+through `KitPieces` (`world/kit/kit_pieces.gd`: a standing card, a wall picture, a ground picture; nothing placed when the art is missing).
+
+### 3a - Opening Forest, Crosspath, Gainlands
+
+| Area | What | Where / how |
+|---|---|---|
+| Opening Forest | OF-HERO-CAVE-MOUTH | 6.6 m card just in front of the rock arch (`StartingAreaBuilder._build_kit_pieces`), lifted 1.7x out of the teal mood so the way forward reads; the mouth's blocker unchanged |
+| | OF-TREE-GIANT-01..03 | 15-17 m cards beyond the west and east treeline (outside the floor, never on the camera side) |
+| | OF-BD-TORCHLINE | kit card north, ring 0, lifted 16 m; from the play camera the canopy hides it (it shows only where the sky opens) |
+| | OF-PROP-LAB-HATCH | postgame: the painted hatch (2.1 m) lies where the steel disc was; disc, ring and handle are left out, the light stays |
+| Crosspath | TOWN-HERO-FOUNTAIN | the royal-crest fountain card (5.8 m) replaces the stone model in the square; same blocker and anchor |
+| | TOWN-SHEET-FREED-BANNERS-01..04 | one Path banner per freed zone on the square's lamp posts (`TownScene._hang_freed_banners`; shot arg `--banners=true` shows all four) |
+| | TOWN-BD-HORIZON | kit card north, ring 2 |
+| Gainlands | GAIN-HERO-HAMSTER-WHEEL | 11 m card where the 3D wheel stood; the model stays hidden for its blocking circles |
+| | GAIN-SHEET-FLOATING-ISLANDS-01..03 | a painted islet floating beyond and above each walkable island (decor, never walkable) |
+| | GAIN-DEC-REGIME-POSTERS | four posters on the gym hall's front wall either side of the door |
+| | GAIN-BD-HOUSE-OF-GAINS | kit card north, ring 1, in front of the mesas |
+
+Shots (`_screenshots/oct29/`): `before_forest` / `after_forest`, `p3_forest_cave`; `before_town` / `after_town`; `before_gainlands` /
+`after_gainlands`, `p3_gain_hall` (`p3_gain_wheel` caught a roamer and shows the battle instead). Checks: GUT world 418 (the Buffet and D.N.A.
+skyline tests now expect the new strips), Crosspath / Gainlands walk smokes OK, prologue smoke OK, structure OK, frame budgets met on the
+re-run (first run: p99 noise and Crosspath Medium 841 vs 840 draw calls, then 839).

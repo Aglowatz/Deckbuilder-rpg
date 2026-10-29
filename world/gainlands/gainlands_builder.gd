@@ -55,6 +55,7 @@ func build(parent: Node3D) -> void:
 	_build_swolympus_gate()
 	LoadTiming.detail("gainlands: _build_swolympus_gate")
 	_build_region_landmarks()
+	_build_kit_pieces()
 	LoadTiming.detail("gainlands: _build_region_landmarks")
 	_build_clouds()
 	LoadTiming.detail("gainlands: _build_clouds")
@@ -517,6 +518,10 @@ const SHRINE_OFFSET: Vector3 = Vector3(0.0, 0.0, -1.7)
 
 func _build_region_landmarks() -> void:
 	var wheel: Node3D = _place_landmark({"id": "GAIN-HERO-WHEEL", "kind": "wheel", "size": [9.0, 9.0, 4.0]}, "HeroWheel", Vector2(GainlandsLayout.HERO_WHEEL.x, GainlandsLayout.HERO_WHEEL.y), 25.0)
+	# Art import Oct 29: the painted Colossal Hamster Wheel (wheel, mill house, regime banners) stands where the model stood; the model keeps its
+	# blocking circles but is hidden, so its spinner is left out.
+	if wheel != null and _painted_wheel(wheel):
+		wheel = null
 	if wheel != null and wheel.has_meta("spinner"):
 		var spinner: Node3D = wheel.get_meta("spinner") as Node3D
 		spinner.set_meta("phase", 0.7)
@@ -536,6 +541,44 @@ func _build_region_landmarks() -> void:
 		for piece: Node in tree.find_children("*", "MeshInstance3D", true, false):
 			piece.set_meta(&"no_range_cull", true)
 			piece.set_meta(&"no_occlusion_fade", true)
+
+
+const PAINTED_WHEEL: String = "GAIN-HERO-HAMSTER-WHEEL"
+const PAINTED_WHEEL_HEIGHT: float = 11.0
+const PAINTED_WHEEL_FORWARD: float = 1.2
+## Art import Oct 29: a painted islet (GAIN-SHEET-FLOATING-ISLANDS-01..03) drifts in the sky beside each walkable island, beyond its rim and
+## above it: (distance past the rim, rise above the island top, card height).
+const SKY_ISLETS: Array[String] = ["GAIN-SHEET-FLOATING-ISLANDS-01", "GAIN-SHEET-FLOATING-ISLANDS-02", "GAIN-SHEET-FLOATING-ISLANDS-03"]
+const SKY_ISLET_PLACE: Vector3 = Vector3(6.5, 5.0, 4.2)
+## Art import Oct 29: regime posters (GAIN-DEC-REGIME-POSTERS-01..06) on the gym hall's front wall either side of its door: (x, height, sheet part).
+const HALL_POSTERS: Array[Vector3] = [Vector3(50.6, 2.3, 1), Vector3(52.2, 2.1, 2), Vector3(59.8, 2.1, 3), Vector3(61.4, 2.3, 6)]
+const HALL_POSTER_WIDTH: float = 1.15
+
+
+func _painted_wheel(wheel: Node3D) -> bool:
+	var at: Vector3 = wheel.position
+	if KitPieces.stand(root, PAINTED_WHEEL, at + Vector3(0.0, -0.1, PAINTED_WHEEL_FORWARD), PAINTED_WHEEL_HEIGHT, true) == null:
+		return false
+	wheel.visible = false
+	return true
+
+
+func _build_kit_pieces() -> void:
+	var index: int = 0
+	for island: GainlandsLayout.Island in layout.islands:
+		var out: Vector2 = (island.center - GainlandsLayout.CENTER).normalized()
+		if out == Vector2.ZERO:
+			out = Vector2(0.0, -1.0)
+		var at: Vector2 = island.center + out * (island.radius + SKY_ISLET_PLACE.x)
+		var islet: Node3D = KitPieces.stand(root, SKY_ISLETS[index % SKY_ISLETS.size()], Vector3(at.x, island.height + SKY_ISLET_PLACE.y, at.y), SKY_ISLET_PLACE.z, false)
+		if islet != null:
+			for piece: Node in islet.find_children("*", "MeshInstance3D", true, false):
+				piece.set_meta(&"no_range_cull", true)
+		index += 1
+	var front: float = GainlandsLayout.GYM_HALL.end.y
+	for poster: Vector3 in HALL_POSTERS:
+		var id: String = "GAIN-DEC-REGIME-POSTERS-%02d" % int(poster.z)
+		KitPieces.wall(root, id, Vector3(poster.x, layout.ground_height(poster.x, front) + poster.y, front), 0.0, HALL_POSTER_WIDTH)
 
 
 ## A landmark model on the main land at (x, z) turned by `yaw`: added to the root (never chunk-culled, never faded), its circles made solid.

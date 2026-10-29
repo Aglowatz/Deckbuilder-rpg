@@ -1,0 +1,12 @@
+STYLE TARGET,"Match the approved town art and the painted storybook look of the game (docs/art/art_direction_oct28.md)."
+SURFACE LOCK,"See data/source/heap_kit.csv (the same locks for every zone kit)."
+CUTOUT LOCK,"See data/source/heap_kit.csv."
+SHEET LOCK,"See data/source/heap_kit.csv."
+TREE LOCK,"See data/source/heap_kit.csv."
+CONCEPT / BACKDROP LOCK,"See data/source/heap_kit.csv."
+HOW IT WORKS,"Created on 2026-10-29 (art import Oct 29) from the rows of docs/art/art_batch_oct28.csv; the descriptions live there."
+,,,,,,,,
+ID,Asset,Category,Lock,Image Description (paste STYLE TARGET + the Lock first),Size / Format,In-Game Use,Priority,Status
+TOWN-BD-HORIZON,"Crosspath horizon",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","Crosspath, the skyline ring",2,Approved
+TOWN-HERO-FOUNTAIN,"Royal-crest fountain",Hero landmark,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x2048 PNG, transparent","The square",2,Approved
+TOWN-SHEET-FREED-BANNERS,"Freed-zone banners",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Hung on the square after each freed zone",2,Approved

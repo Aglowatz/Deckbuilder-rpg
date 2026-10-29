@@ -31,3 +31,8 @@ DNA-PROP-GHOSTLAMP,Ghost lamp,Prop,CUTOUT,An iron street lamp burning a soft gre
 DNA-PROP-PAPER,Paper towers,Prop,CUTOUT,Tall leaning stacks of paper tied with string.,"1024x1024 PNG, transparent",Prop clusters,3,Approved
 DNA-DEC-COFFEE,Coffee rings,Decal,CUTOUT,"Brown coffee cup rings seen from above, soft edges.","1024x1024 PNG, transparent",Desks and floors,3,Approved
 DNA-DEC-FOOT,Queue footprints,Decal,CUTOUT,"Faint worn footprints in a line, seen from above, soft fading edges.","1024x1024 PNG, transparent",Queue lanes,3,Approved
+DNA-BD-HALL-FACADE,"Hall of Final Approvals facade",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","The D.N.A. skyline",2,Approved
+DNA-SHEET-FILING-TOWERS,"Filing-cabinet towers",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Cubicle Fields, the Queue",2,Approved
+DNA-SHEET-GHOST-QUEUE,"Queue of ghosts",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Queue, the lobby",2,Approved
+DNA-SHEET-PROPS,"Ghost lamps and dead topiary",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Lobby Plaza, Executive Approach",2,Approved
+DNA-DEC-FORMS,"Forms and stamps",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Walls, floors",2,Approved

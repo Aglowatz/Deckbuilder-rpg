@@ -1,6 +1,6 @@
 {
-	"_about": "Written by tools/import_zone_kit.gd from data/source/final_kit.csv and the art in C:/Users/asche/AppData/Local/Temp/claude/C--Users-asche/61d07ca6-31fd-4798-8146-e9132ec16b38/scratchpad/kitfix/Capital: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/final/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
-	"density": 400,
+	"_about": "Written by tools/import_zone_kit.gd from data/source/final_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Capital: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/final/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400.0,
 	"items": {
 		"CAP-BD-CITY": {
 			"aspect": 2.441,
@@ -8,20 +8,20 @@
 			"category": "Sky / backdrop",
 			"desc": "INSIDE. A distant perfectly symmetrical pastel skyline with white-and-gold spires.",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAP-BD-CITY",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				839
+				2048.0,
+				839.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG, transparent sky, tileable horizontally",
@@ -37,20 +37,20 @@
 			"category": "Sky / backdrop",
 			"desc": "OUTSIDE. Distant ruined hills, dead forests, and faint purple rifts on the horizon, hazy.",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAP-BD-WASTELAND",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				533
+				2048.0,
+				533.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG, transparent sky, tileable horizontally",
@@ -64,11 +64,11 @@
 			"aspect": 1.221,
 			"asset": "Ash drifts",
 			"category": "Decal",
-			"cleared_alpha": 124870,
+			"cleared_alpha": 124870.0,
 			"desc": "OUTSIDE. Soft gray ash drifts seen from above, fading edges.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "decal",
 			"id": "CAP-DEC-ASH",
@@ -79,8 +79,8 @@
 			],
 			"priority": "3",
 			"px": [
-				938,
-				768
+				938.0,
+				768.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -93,11 +93,11 @@
 			"aspect": 2.355,
 			"asset": "Polish shine",
 			"category": "Decal",
-			"cleared_alpha": 17749,
+			"cleared_alpha": 17749.0,
 			"desc": "INSIDE. A soft, unnaturally perfect gloss highlight seen from above, fading edges.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "decal",
 			"id": "CAP-DEC-SHINE",
@@ -108,8 +108,8 @@
 			],
 			"priority": "3",
 			"px": [
-				570,
-				242
+				570.0,
+				242.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -123,8 +123,8 @@
 			"category": "Surface",
 			"desc": "OUTSIDE. Dark cracked ground veined with a faint purple glow.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "ground",
 			"id": "CAP-GROUND-RIFT",
@@ -132,8 +132,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -162,16 +162,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-CORRECTION-WARD.jpg",
 			"desc": "INSIDE. A gleaming, cheerful-looking white building that is quietly sinister: barred mirrored windows, a smiling Primm sign (emblem only), a perfect lawn with no one on it.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-CORRECTION-WARD",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -186,16 +186,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-GRAVE-ROW.jpg",
 			"desc": "INSIDE. A tidy white cemetery lane with identical headstones. Show TWO states: BROKEN (restless ghosts drifting, unfiled paperwork blowing about, open graves) and RESTORED (calm, softly glowing green lanterns, flowers, peaceful).",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-GRAVE-ROW",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -210,16 +210,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-GREAT-WALL-GATE.jpg",
 			"desc": "OUTSIDE. The huge, flawless white wall around the city with an enormous gold-trimmed gate, a smiling Primm emblem above it; perfect and pristine against the ruined ashen land in front of it, a few cracks starting to show.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-GREAT-WALL-GATE",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -234,16 +234,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-IDENTICAL-ROW.jpg",
 			"desc": "INSIDE. A row of perfectly identical pastel houses with identical bakeries. Show TWO states: BROKEN (empty shelves, cold ovens, grey uniform food paste in windows) and RESTORED (warm ovens, real colorful food, copper and cream Gourmand touches).",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-IDENTICAL-ROW",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -258,16 +258,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-PRIMM-FOUNTAIN.jpg",
 			"desc": "INSIDE. The hub centerpiece: a pristine white marble fountain topped by a grand statue of Primm smiling benevolently, arms spread, gold accents, perfectly symmetrical water jets.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-PRIMM-FOUNTAIN",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -282,16 +282,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-PRIMMS-CASTLE.jpg",
 			"desc": "INSIDE. The final goal of the whole game: an immense, gleaming white-and-gold palace on a hill at the heart of the city, perfectly symmetrical, with soaring spires, mirrored windows, a grand stair, and a colossal smiling Primm emblem over the doors. Hairline cracks and faint purple rift light leak from it. Magnificent and cold; must be visible from both halves of the Capital and over the walls from far outside.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-PRIMMS-CASTLE",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -306,16 +306,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-RESISTANCE-CAMP.jpg",
 			"desc": "OUTSIDE. A small, warm hidden camp of patched tents and salvaged crates around a campfire, colorful scraps from all four Paths stitched into the tents; the only warm light in the wasteland.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-RESISTANCE-CAMP",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -330,16 +330,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-RIFT.jpg",
 			"desc": "OUTSIDE. A jagged vertical tear in reality hovering just above cracked ground, glowing bright purple at the edges with darkness inside, floating shards of stone and crystal around it.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-RIFT",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -354,16 +354,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-SERVICE-TUNNEL.jpg",
 			"desc": "OUTSIDE. A heavy old iron hatch and arched tunnel mouth set into the base of the great wall, overgrown and forgotten, a dim lantern beside it.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-SERVICE-TUNNEL",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -378,16 +378,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-THE-REEK.jpg",
 			"desc": "INSIDE. The city's back lane where refuse should be collected. Show TWO states: BROKEN (overflowing bins hidden behind a perfect painted screen, flies, grime) and RESTORED (clean compost bins, a little community garden, moss and wildflowers).",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-THE-REEK",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -402,16 +402,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-TRAM-SHED.jpg",
 			"desc": "INSIDE. A long white-and-gold tram shed with pastel trams. Show TWO states side by side: BROKEN (lights dead, trams stalled, a giant unturned wheel, eerie stillness) and RESTORED (lights on, trams running, the Beefcake wheel crews cheerful, red-gold touches).",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-TRAM-SHED",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -426,16 +426,16 @@
 			"concept": "res://docs/art/zone_kits/final/concepts/CAP-HERO-WATCHTOWER.jpg",
 			"desc": "OUTSIDE. A tall ruined stone watchtower of the old kingdom, top half collapsed, a tattered old banner of the four Paths still clinging to it.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "CAP-HERO-WATCHTOWER",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG",
@@ -463,12 +463,12 @@
 			],
 			"seam": {
 				"x": {
-					"after": 1.38,
-					"before": 3.2
+					"after": 0.0,
+					"before": 0.0
 				},
 				"y": {
-					"after": 0,
-					"before": 0
+					"after": 0.0,
+					"before": 0.0
 				}
 			},
 			"sheet_status": "Approved",
@@ -486,23 +486,23 @@
 			"aspect": 0.685,
 			"asset": "Rift crystals",
 			"category": "Tree / plant",
-			"cleared_alpha": 23190,
+			"cleared_alpha": 23190.0,
 			"desc": "OUTSIDE. A cluster of glowing purple rift crystals growing from cracked ground.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
 			"id": "CAP-PLANT-CRYSTAL",
 			"lock": "TREE",
 			"pivot": [
 				0.546,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				954,
-				1393
+				954.0,
+				1393.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
@@ -515,56 +515,56 @@
 			"aspect": 1.008,
 			"asset": "Identical rose bed",
 			"category": "Tree / plant",
-			"cleared_alpha": 15280,
+			"cleared_alpha": 15280.0,
 			"desc": "INSIDE. A perfectly trimmed bed of identical pink roses in a white planter.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
 			"id": "CAP-PLANT-ROSE",
 			"lock": "TREE",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				988,
-				980
+				988.0,
+				980.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.cap-plant-rose",
 			"tinted": false,
 			"use": "Inside gardens",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-PROP-BENCH": {
 			"aspect": 1.454,
 			"asset": "Identical bench",
 			"category": "Prop",
-			"cleared_alpha": 36615,
+			"cleared_alpha": 36615.0,
 			"desc": "INSIDE. A pastel bench with gold armrests, exactly like all the others.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
 			"id": "CAP-PROP-BENCH",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				1002,
-				689
+				1002.0,
+				689.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -577,23 +577,23 @@
 			"aspect": 0.971,
 			"asset": "Resistance campfire",
 			"category": "Prop",
-			"cleared_alpha": 23042,
+			"cleared_alpha": 23042.0,
 			"desc": "OUTSIDE. A small warm campfire ringed with stones, a kettle hanging over it.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
 			"id": "CAP-PROP-CAMPFIRE",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				914,
-				941
+				914.0,
+				941.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, transparent",
@@ -606,23 +606,23 @@
 			"aspect": 0.205,
 			"asset": "Identical lamppost",
 			"category": "Prop",
-			"cleared_alpha": 11521,
+			"cleared_alpha": 11521.0,
 			"desc": "INSIDE. A pastel lamppost with a gold cap and a perfectly round lamp.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "prop",
 			"id": "CAP-PROP-LAMP",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				307,
-				1494
+				307.0,
+				1494.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
@@ -635,23 +635,23 @@
 			"aspect": 1.561,
 			"asset": "Pastel tram",
 			"category": "Prop",
-			"cleared_alpha": 44687,
+			"cleared_alpha": 44687.0,
 			"desc": "INSIDE. A small pastel tram car with gold trim.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "prop",
 			"id": "CAP-PROP-TRAM",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				1524,
-				976
+				1524.0,
+				976.0
 			],
 			"sheet_status": "Approved",
 			"size": "1536x1024 PNG, transparent",
@@ -665,8 +665,8 @@
 			"category": "Surface",
 			"desc": "OUTSIDE. Slumped dark roof tiles with holes and charred timber.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "roof",
 			"id": "CAP-ROOF-BROKEN",
@@ -674,8 +674,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -703,8 +703,8 @@
 			"category": "Surface",
 			"desc": "INSIDE. Perfectly even pastel blue roof tiles in flawless rows.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "roof",
 			"id": "CAP-ROOF-PASTEL",
@@ -712,8 +712,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -742,8 +742,8 @@
 			"derived_from": "CAP-ROOF-PASTEL",
 			"desc": "INSIDE. Perfectly even pastel blue roof tiles in flawless rows.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "roof",
 			"id": "CAP-ROOF-PASTEL-PINK",
@@ -751,8 +751,8 @@
 			"maps": false,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, tileable",
@@ -770,8 +770,8 @@
 			"category": "Cutout sheet",
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS",
@@ -786,8 +786,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -800,15 +800,15 @@
 			"aspect": 0.771,
 			"asset": "Primm banners 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 19190,
+			"cleared_alpha": 19190.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				479,
-				621
+				479.0,
+				621.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -816,14 +816,14 @@
 				0.03
 			],
 			"px": [
-				479,
-				621
+				479.0,
+				621.0
 			],
 			"sheet_cell": [
-				94,
-				25,
-				479,
-				621
+				94.0,
+				25.0,
+				479.0,
+				621.0
 			],
 			"slot": "banner.cap-sheet-banners-01",
 			"tinted": false,
@@ -834,15 +834,15 @@
 			"aspect": 0.746,
 			"asset": "Primm banners 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14809,
+			"cleared_alpha": 14809.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				468,
-				627
+				468.0,
+				627.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -850,14 +850,14 @@
 				0.03
 			],
 			"px": [
-				468,
-				627
+				468.0,
+				627.0
 			],
 			"sheet_cell": [
-				792,
-				24,
-				468,
-				627
+				792.0,
+				24.0,
+				468.0,
+				627.0
 			],
 			"slot": "banner.cap-sheet-banners-02",
 			"tinted": false,
@@ -868,15 +868,15 @@
 			"aspect": 0.917,
 			"asset": "Primm banners 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15042,
+			"cleared_alpha": 15042.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				519,
-				566
+				519.0,
+				566.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -884,14 +884,14 @@
 				0.03
 			],
 			"px": [
-				519,
-				566
+				519.0,
+				566.0
 			],
 			"sheet_cell": [
-				1460,
-				36,
-				519,
-				566
+				1460.0,
+				36.0,
+				519.0,
+				566.0
 			],
 			"slot": "banner.cap-sheet-banners-03",
 			"tinted": false,
@@ -902,15 +902,15 @@
 			"aspect": 0.763,
 			"asset": "Primm banners 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 18998,
+			"cleared_alpha": 18998.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				496,
-				650
+				496.0,
+				650.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -918,14 +918,14 @@
 				0.03
 			],
 			"px": [
-				496,
-				650
+				496.0,
+				650.0
 			],
 			"sheet_cell": [
-				84,
-				675,
-				496,
-				650
+				84.0,
+				675.0,
+				496.0,
+				650.0
 			],
 			"slot": "banner.cap-sheet-banners-04",
 			"tinted": false,
@@ -936,15 +936,15 @@
 			"aspect": 0.711,
 			"asset": "Primm banners 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 22198,
+			"cleared_alpha": 22198.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				466,
-				655
+				466.0,
+				655.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -952,14 +952,14 @@
 				0.03
 			],
 			"px": [
-				466,
-				655
+				466.0,
+				655.0
 			],
 			"sheet_cell": [
-				795,
-				670,
-				466,
-				655
+				795.0,
+				670.0,
+				466.0,
+				655.0
 			],
 			"slot": "banner.cap-sheet-banners-05",
 			"tinted": false,
@@ -970,15 +970,15 @@
 			"aspect": 0.716,
 			"asset": "Primm banners 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 16187,
+			"cleared_alpha": 16187.0,
 			"desc": "INSIDE. 6 white-and-gold banners and posters with Primm's smiling face emblem in slightly different poses (no letters).",
 			"from_px": [
-				472,
-				659
+				472.0,
+				659.0
 			],
 			"group": "banner",
 			"id": "CAP-SHEET-BANNERS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-BANNERS",
 			"pivot": [
@@ -986,14 +986,14 @@
 				0.03
 			],
 			"px": [
-				472,
-				659
+				472.0,
+				659.0
 			],
 			"sheet_cell": [
-				1490,
-				673,
-				472,
-				659
+				1490.0,
+				673.0,
+				472.0,
+				659.0
 			],
 			"slot": "banner.cap-sheet-banners-06",
 			"tinted": false,
@@ -1005,8 +1005,8 @@
 			"category": "Cutout sheet",
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS",
@@ -1021,8 +1021,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1035,30 +1035,30 @@
 			"aspect": 0.947,
 			"asset": "Identical facade doors and windows 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14231,
+			"cleared_alpha": 14231.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				559,
-				590
+				559.0,
+				590.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				559,
-				590
+				559.0,
+				590.0
 			],
 			"sheet_cell": [
-				99,
-				41,
-				559,
-				590
+				99.0,
+				41.0,
+				559.0,
+				590.0
 			],
 			"slot": "door.cap-sheet-doors-01",
 			"tinted": false,
@@ -1069,30 +1069,30 @@
 			"aspect": 0.944,
 			"asset": "Identical facade doors and windows 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14760,
+			"cleared_alpha": 14760.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				557,
-				590
+				557.0,
+				590.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				557,
-				590
+				557.0,
+				590.0
 			],
 			"sheet_cell": [
-				748,
-				41,
-				557,
-				590
+				748.0,
+				41.0,
+				557.0,
+				590.0
 			],
 			"slot": "door.cap-sheet-doors-02",
 			"tinted": false,
@@ -1103,30 +1103,30 @@
 			"aspect": 0.939,
 			"asset": "Identical facade doors and windows 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14953,
+			"cleared_alpha": 14953.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				555,
-				591
+				555.0,
+				591.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				555,
-				591
+				555.0,
+				591.0
 			],
 			"sheet_cell": [
-				1396,
-				41,
-				555,
-				591
+				1396.0,
+				41.0,
+				555.0,
+				591.0
 			],
 			"slot": "door.cap-sheet-doors-03",
 			"tinted": false,
@@ -1137,30 +1137,30 @@
 			"aspect": 0.947,
 			"asset": "Identical facade doors and windows 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13898,
+			"cleared_alpha": 13898.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				559,
-				590
+				559.0,
+				590.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				559,
-				590
+				559.0,
+				590.0
 			],
 			"sheet_cell": [
-				99,
-				699,
-				559,
-				590
+				99.0,
+				699.0,
+				559.0,
+				590.0
 			],
 			"slot": "door.cap-sheet-doors-04",
 			"tinted": false,
@@ -1171,30 +1171,30 @@
 			"aspect": 0.942,
 			"asset": "Identical facade doors and windows 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14640,
+			"cleared_alpha": 14640.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				556,
-				590
+				556.0,
+				590.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				556,
-				590
+				556.0,
+				590.0
 			],
 			"sheet_cell": [
-				748,
-				699,
-				556,
-				590
+				748.0,
+				699.0,
+				556.0,
+				590.0
 			],
 			"slot": "door.cap-sheet-doors-05",
 			"tinted": false,
@@ -1205,30 +1205,30 @@
 			"aspect": 0.942,
 			"asset": "Identical facade doors and windows 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 12493,
+			"cleared_alpha": 12493.0,
 			"desc": "INSIDE. 6 near-identical pastel doors and windows with perfectly symmetrical shutters and gold handles; only tiny unsettling differences.",
 			"from_px": [
-				555,
-				589
+				555.0,
+				589.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-DOORS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				555,
-				589
+				555.0,
+				589.0
 			],
 			"sheet_cell": [
-				1396,
-				700,
-				555,
-				589
+				1396.0,
+				700.0,
+				555.0,
+				589.0
 			],
 			"slot": "door.cap-sheet-doors-06",
 			"tinted": false,
@@ -1240,8 +1240,8 @@
 			"category": "Cutout sheet",
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST",
@@ -1256,8 +1256,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1270,30 +1270,30 @@
 			"aspect": 0.971,
 			"asset": "Outpost doors and windows 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15394,
+			"cleared_alpha": 15394.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				593,
-				611
+				593.0,
+				611.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				593,
-				611
+				593.0,
+				611.0
 			],
 			"sheet_cell": [
-				42,
-				13,
-				593,
-				611
+				42.0,
+				13.0,
+				593.0,
+				611.0
 			],
 			"slot": "door.cap-sheet-outpost-01",
 			"tinted": false,
@@ -1304,30 +1304,30 @@
 			"aspect": 0.915,
 			"asset": "Outpost doors and windows 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13409,
+			"cleared_alpha": 13409.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				548,
-				599
+				548.0,
+				599.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				548,
-				599
+				548.0,
+				599.0
 			],
 			"sheet_cell": [
-				755,
-				26,
-				548,
-				599
+				755.0,
+				26.0,
+				548.0,
+				599.0
 			],
 			"slot": "door.cap-sheet-outpost-02",
 			"tinted": false,
@@ -1338,30 +1338,30 @@
 			"aspect": 0.867,
 			"asset": "Outpost doors and windows 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15644,
+			"cleared_alpha": 15644.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				536,
-				618
+				536.0,
+				618.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				536,
-				618
+				536.0,
+				618.0
 			],
 			"sheet_cell": [
-				1452,
-				11,
-				536,
-				618
+				1452.0,
+				11.0,
+				536.0,
+				618.0
 			],
 			"slot": "door.cap-sheet-outpost-03",
 			"tinted": false,
@@ -1372,30 +1372,30 @@
 			"aspect": 0.903,
 			"asset": "Outpost doors and windows 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15039,
+			"cleared_alpha": 15039.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				552,
-				611
+				552.0,
+				611.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				552,
-				611
+				552.0,
+				611.0
 			],
 			"sheet_cell": [
-				70,
-				701,
-				552,
-				611
+				70.0,
+				701.0,
+				552.0,
+				611.0
 			],
 			"slot": "door.cap-sheet-outpost-04",
 			"tinted": false,
@@ -1406,30 +1406,30 @@
 			"aspect": 0.912,
 			"asset": "Outpost doors and windows 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15985,
+			"cleared_alpha": 15985.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				561,
-				615
+				561.0,
+				615.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				561,
-				615
+				561.0,
+				615.0
 			],
 			"sheet_cell": [
-				757,
-				701,
-				561,
-				615
+				757.0,
+				701.0,
+				561.0,
+				615.0
 			],
 			"slot": "door.cap-sheet-outpost-05",
 			"tinted": false,
@@ -1440,30 +1440,30 @@
 			"aspect": 0.73,
 			"asset": "Outpost doors and windows 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 12630,
+			"cleared_alpha": 12630.0,
 			"desc": "OUTSIDE. 6 battered pieces: steel hatch door, splintered door, barred door, broken window, boarded window, arrow-slit window.",
 			"from_px": [
-				448,
-				614
+				448.0,
+				614.0
 			],
 			"group": "door",
 			"id": "CAP-SHEET-OUTPOST-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-OUTPOST",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				448,
-				614
+				448.0,
+				614.0
 			],
 			"sheet_cell": [
-				1496,
-				694,
-				448,
-				614
+				1496.0,
+				694.0,
+				448.0,
+				614.0
 			],
 			"slot": "door.cap-sheet-outpost-06",
 			"tinted": false,
@@ -1475,8 +1475,8 @@
 			"category": "Cutout sheet",
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE",
@@ -1491,8 +1491,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1505,30 +1505,30 @@
 			"aspect": 1.338,
 			"asset": "Rubble and wreckage 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 19568,
+			"cleared_alpha": 19568.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				641,
-				479
+				641.0,
+				479.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				641,
-				479
+				641.0,
+				479.0
 			],
 			"sheet_cell": [
-				28,
-				149,
-				641,
-				479
+				28.0,
+				149.0,
+				641.0,
+				479.0
 			],
 			"slot": "prop.cap-sheet-rubble-01",
 			"tinted": false,
@@ -1539,30 +1539,30 @@
 			"aspect": 1.433,
 			"asset": "Rubble and wreckage 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 22243,
+			"cleared_alpha": 22243.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				596,
-				416
+				596.0,
+				416.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				596,
-				416
+				596.0,
+				416.0
 			],
 			"sheet_cell": [
-				730,
-				191,
-				596,
-				416
+				730.0,
+				191.0,
+				596.0,
+				416.0
 			],
 			"slot": "prop.cap-sheet-rubble-02",
 			"tinted": false,
@@ -1573,30 +1573,30 @@
 			"aspect": 1.52,
 			"asset": "Rubble and wreckage 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 25193,
+			"cleared_alpha": 25193.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				631,
-				415
+				631.0,
+				415.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				631,
-				415
+				631.0,
+				415.0
 			],
 			"sheet_cell": [
-				1387,
-				212,
-				631,
-				415
+				1387.0,
+				212.0,
+				631.0,
+				415.0
 			],
 			"slot": "prop.cap-sheet-rubble-03",
 			"tinted": false,
@@ -1607,30 +1607,30 @@
 			"aspect": 1.676,
 			"asset": "Rubble and wreckage 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 29010,
+			"cleared_alpha": 29010.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				620,
-				370
+				620.0,
+				370.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				620,
-				370
+				620.0,
+				370.0
 			],
 			"sheet_cell": [
-				33,
-				874,
-				620,
-				370
+				33.0,
+				874.0,
+				620.0,
+				370.0
 			],
 			"slot": "prop.cap-sheet-rubble-04",
 			"tinted": false,
@@ -1641,30 +1641,30 @@
 			"aspect": 1.179,
 			"asset": "Rubble and wreckage 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 20778,
+			"cleared_alpha": 20778.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				600,
-				509
+				600.0,
+				509.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				600,
-				509
+				600.0,
+				509.0
 			],
 			"sheet_cell": [
-				723,
-				775,
-				600,
-				509
+				723.0,
+				775.0,
+				600.0,
+				509.0
 			],
 			"slot": "prop.cap-sheet-rubble-05",
 			"tinted": false,
@@ -1675,30 +1675,30 @@
 			"aspect": 1.455,
 			"asset": "Rubble and wreckage 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 17177,
+			"cleared_alpha": 17177.0,
 			"desc": "OUTSIDE. 6 pieces: white stone rubble pile, broken cart, fallen striped barrier, toppled lamppost, broken statue head, scattered crates.",
 			"from_px": [
-				614,
-				422
+				614.0,
+				422.0
 			],
 			"group": "prop",
 			"id": "CAP-SHEET-RUBBLE-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-RUBBLE",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				614,
-				422
+				614.0,
+				422.0
 			],
 			"sheet_cell": [
-				1405,
-				824,
-				614,
-				422
+				1405.0,
+				824.0,
+				614.0,
+				422.0
 			],
 			"slot": "prop.cap-sheet-rubble-06",
 			"tinted": false,
@@ -1710,8 +1710,8 @@
 			"category": "Cutout sheet",
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS",
@@ -1726,8 +1726,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1740,250 +1740,250 @@
 			"aspect": 0.943,
 			"asset": "Civic icon signs 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 12024,
+			"cleared_alpha": 12024.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				599,
-				635
+				599.0,
+				635.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				599,
-				635
+				599.0,
+				635.0
 			],
 			"sheet_cell": [
-				50,
-				21,
-				599,
-				635
+				50.0,
+				21.0,
+				599.0,
+				635.0
 			],
 			"slot": "sign.cap-sheet-signs-01",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SHEET-SIGNS-02": {
 			"aspect": 0.945,
 			"asset": "Civic icon signs 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13731,
+			"cleared_alpha": 13731.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				600,
-				635
+				600.0,
+				635.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				600,
-				635
+				600.0,
+				635.0
 			],
 			"sheet_cell": [
-				724,
-				21,
-				600,
-				635
+				724.0,
+				21.0,
+				600.0,
+				635.0
 			],
 			"slot": "sign.cap-sheet-signs-02",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SHEET-SIGNS-03": {
 			"aspect": 0.943,
 			"asset": "Civic icon signs 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14008,
+			"cleared_alpha": 14008.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				599,
-				635
+				599.0,
+				635.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				599,
-				635
+				599.0,
+				635.0
 			],
 			"sheet_cell": [
-				1400,
-				21,
-				599,
-				635
+				1400.0,
+				21.0,
+				599.0,
+				635.0
 			],
 			"slot": "sign.cap-sheet-signs-03",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SHEET-SIGNS-04": {
 			"aspect": 0.942,
 			"asset": "Civic icon signs 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13362,
+			"cleared_alpha": 13362.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				599,
-				636
+				599.0,
+				636.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				599,
-				636
+				599.0,
+				636.0
 			],
 			"sheet_cell": [
-				50,
-				695,
-				599,
-				636
+				50.0,
+				695.0,
+				599.0,
+				636.0
 			],
 			"slot": "sign.cap-sheet-signs-04",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SHEET-SIGNS-05": {
 			"aspect": 0.945,
 			"asset": "Civic icon signs 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15322,
+			"cleared_alpha": 15322.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				600,
-				635
+				600.0,
+				635.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				600,
-				635
+				600.0,
+				635.0
 			],
 			"sheet_cell": [
-				724,
-				695,
-				600,
-				635
+				724.0,
+				695.0,
+				600.0,
+				635.0
 			],
 			"slot": "sign.cap-sheet-signs-05",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SHEET-SIGNS-06": {
 			"aspect": 0.942,
 			"asset": "Civic icon signs 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14108,
+			"cleared_alpha": 14108.0,
 			"desc": "INSIDE. 6 tidy gold-framed civic signs with icons only: tram, loaf, grave, wheel, crown, raised hand.",
 			"from_px": [
-				599,
-				636
+				599.0,
+				636.0
 			],
 			"group": "sign",
 			"id": "CAP-SHEET-SIGNS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
 				0.5,
-				1
+				1.0
+			],
+			"pivot_hand": [
+				0.5,
+				1.0
 			],
 			"px": [
-				599,
-				636
+				599.0,
+				636.0
 			],
 			"sheet_cell": [
-				1400,
-				695,
-				599,
-				636
+				1400.0,
+				695.0,
+				599.0,
+				636.0
 			],
 			"slot": "sign.cap-sheet-signs-06",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final",
-			"pivot_hand": [
-				0.5,
-				1
-			]
+			"zone": "final"
 		},
 		"CAP-SKY-DUSK": {
-			"aspect": 2,
+			"aspect": 2.0,
 			"asset": "Eerie dusk sky",
 			"category": "Sky / backdrop",
 			"desc": "OUTSIDE. A flat gray overcast dusk sky with purple rifts tearing across it (full image, no transparency).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAP-SKY-DUSK",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG",
@@ -1994,25 +1994,25 @@
 			"zone": "final"
 		},
 		"CAP-SKY-NOON": {
-			"aspect": 2,
+			"aspect": 2.0,
 			"asset": "Perfect noon sky",
 			"category": "Sky / backdrop",
 			"desc": "INSIDE. A flawless pale blue sky with no clouds at all, unnaturally even (full image, no transparency).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAP-SKY-NOON",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG",
@@ -2026,23 +2026,23 @@
 			"aspect": 0.653,
 			"asset": "Dead tree",
 			"category": "Tree / plant",
-			"cleared_alpha": 52092,
+			"cleared_alpha": 52092.0,
 			"desc": "OUTSIDE. A bare, gray, split tree with a few twisted branches.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
 			"id": "CAP-TREE-DEAD",
 			"lock": "TREE",
 			"pivot": [
 				0.682,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				980,
-				1500
+				980.0,
+				1500.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
@@ -2055,23 +2055,23 @@
 			"aspect": 0.454,
 			"asset": "Topiary cone",
 			"category": "Tree / plant",
-			"cleared_alpha": 14868,
+			"cleared_alpha": 14868.0,
 			"desc": "INSIDE. A perfect green cone topiary in a gold pot.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
 			"id": "CAP-TREE-TOPIARY",
 			"lock": "TREE",
 			"pivot": [
 				0.489,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				667,
-				1470
+				667.0,
+				1470.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
@@ -2085,8 +2085,8 @@
 			"category": "Surface",
 			"desc": "INSIDE. A horizontal polished gold strip with a repeating small crown motif.",
 			"from_px": [
-				1024,
-				512
+				1024.0,
+				512.0
 			],
 			"group": "trim",
 			"id": "CAP-TRIM-GOLD",
@@ -2094,8 +2094,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				512
+				1024.0,
+				512.0
 			],
 			"seam": {
 				"x": {
@@ -2119,8 +2119,8 @@
 			"category": "Surface",
 			"desc": "OUTSIDE. Gray stone blocks blackened and cracked, ash in the seams.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-ASH",
@@ -2128,8 +2128,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -2157,8 +2157,8 @@
 			"category": "Surface",
 			"desc": "INSIDE. Perfectly even pale pink, mint, and blue painted plaster (paint as three horizontal bands so each can be cropped as its own tile).",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-PASTEL",
@@ -2166,8 +2166,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -2196,8 +2196,8 @@
 			"derived_from": "CAP-WALL-PASTEL",
 			"desc": "INSIDE. Perfectly even pale pink, mint, and blue painted plaster (paint as three horizontal bands so each can be cropped as its own tile).",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-PASTEL-BLUE",
@@ -2205,8 +2205,8 @@
 			"maps": false,
 			"priority": "1",
 			"px": [
-				1024,
-				410
+				1024.0,
+				410.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, tileable",
@@ -2225,8 +2225,8 @@
 			"derived_from": "CAP-WALL-PASTEL",
 			"desc": "INSIDE. Perfectly even pale pink, mint, and blue painted plaster (paint as three horizontal bands so each can be cropped as its own tile).",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-PASTEL-MINT",
@@ -2234,8 +2234,8 @@
 			"maps": false,
 			"priority": "1",
 			"px": [
-				1024,
-				410
+				1024.0,
+				410.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, tileable",
@@ -2254,8 +2254,8 @@
 			"derived_from": "CAP-WALL-PASTEL",
 			"desc": "INSIDE. Perfectly even pale pink, mint, and blue painted plaster (paint as three horizontal bands so each can be cropped as its own tile).",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-PASTEL-PINK",
@@ -2263,8 +2263,8 @@
 			"maps": false,
 			"priority": "1",
 			"px": [
-				1024,
-				410
+				1024.0,
+				410.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1024 PNG, tileable",
@@ -2282,8 +2282,8 @@
 			"category": "Surface",
 			"desc": "INSIDE. Flawless white plaster with subtle painted shadow lines.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-PLASTER",
@@ -2291,8 +2291,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -2320,8 +2320,8 @@
 			"category": "Surface",
 			"desc": "OUTSIDE. Crumbling pale brick with gaps and soot.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "CAP-WALL-RUIN",
@@ -2329,8 +2329,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -2353,149 +2353,735 @@
 			"use": "Ruined buildings",
 			"zone": "final"
 		},
-		"TEX-CAP-ASH": {
-			"id": "TEX-CAP-ASH",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-cap-ash",
-			"placeholder": "tex:cap_ash",
-			"tinted": true,
-			"alias": true,
-			"desc": "Ash ground (painted texture set)",
-			"asset": "Ash ground (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 6
-		},
-		"TEX-CAP-DEADGRASS": {
-			"id": "TEX-CAP-DEADGRASS",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-cap-deadgrass",
-			"placeholder": "tex:cap_deadgrass",
-			"tinted": true,
-			"alias": true,
-			"desc": "Dead grass (painted texture set)",
-			"asset": "Dead grass (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 5
-		},
-		"TEX-CAP-CRACKEDROAD": {
-			"id": "TEX-CAP-CRACKEDROAD",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-cap-crackedroad",
-			"placeholder": "tex:cap_crackedroad",
-			"tinted": true,
-			"alias": true,
-			"desc": "Cracked road (painted texture set)",
-			"asset": "Cracked road (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 3.4
-		},
-		"TEX-CAP-PASTELPLAZA": {
-			"id": "TEX-CAP-PASTELPLAZA",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-cap-pastelplaza",
-			"placeholder": "tex:cap_pastelplaza",
-			"tinted": true,
-			"alias": true,
-			"desc": "Pastel plaza paving (painted texture set)",
-			"asset": "Pastel plaza paving (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 4
-		},
-		"TEX-CAP-PERFECTLAWN": {
-			"id": "TEX-CAP-PERFECTLAWN",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-cap-perfectlawn",
-			"placeholder": "tex:cap_perfectlawn",
-			"tinted": true,
-			"alias": true,
-			"desc": "Perfect lawn (painted texture set)",
-			"asset": "Perfect lawn (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 6
-		},
-		"TEX-CAP-WHITEWALL": {
-			"id": "TEX-CAP-WHITEWALL",
-			"zone": "final",
-			"lock": "SURFACE",
-			"group": "wall",
-			"slot": "wall.tex-cap-whitewall",
-			"placeholder": "tex:cap_whitewall",
-			"tinted": true,
-			"alias": true,
-			"desc": "White wall plaster (painted texture set)",
-			"asset": "White wall plaster (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 3
-		},
-		"DEC-RIFT": {
-			"id": "DEC-RIFT",
-			"zone": "final",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-rift",
-			"placeholder": "dec:rift",
-			"tinted": false,
-			"alias": true,
-			"desc": "Rift glow (painted decal)",
-			"asset": "Rift glow (painted decal)",
-			"category": "Painted decal (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
+		"CAPI-BD-CASTLE": {
+			"aspect": 2.359,
+			"asset": "The castle on its hill",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "CAPI-BD-CASTLE",
+			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				0.5
-			]
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				868
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.capi-bd-castle",
+			"tinted": false,
+			"transparent": true,
+			"use": "Inside the wall, the palace approach skyline",
+			"zone": "final"
+		},
+		"CAPI-BD-GREAT-WALL": {
+			"aspect": 3.136,
+			"asset": "The great white wall",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "CAPI-BD-GREAT-WALL",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				653
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.capi-bd-great-wall",
+			"tinted": false,
+			"transparent": true,
+			"use": "Outside the Capital, the skyline",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY": {
+			"asset": "Lost-property posters",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY",
+			"lock": "SHEET",
+			"parts": [
+				"CAPI-DEC-LOST-PROPERTY-01",
+				"CAPI-DEC-LOST-PROPERTY-02",
+				"CAPI-DEC-LOST-PROPERTY-03",
+				"CAPI-DEC-LOST-PROPERTY-04",
+				"CAPI-DEC-LOST-PROPERTY-05",
+				"CAPI-DEC-LOST-PROPERTY-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "prop.capi-dec-lost-property",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-01": {
+			"aspect": 0.801,
+			"asset": "Lost-property posters 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 8382,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				426,
+				532
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				426,
+				532
+			],
+			"sheet_cell": [
+				128,
+				75,
+				426,
+				532
+			],
+			"slot": "prop.capi-dec-lost-property-01",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-02": {
+			"aspect": 0.784,
+			"asset": "Lost-property posters 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4952,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				417,
+				532
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				417,
+				532
+			],
+			"sheet_cell": [
+				816,
+				75,
+				417,
+				532
+			],
+			"slot": "prop.capi-dec-lost-property-02",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-03": {
+			"aspect": 0.787,
+			"asset": "Lost-property posters 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6602,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				418,
+				531
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				418,
+				531
+			],
+			"sheet_cell": [
+				1498,
+				76,
+				418,
+				531
+			],
+			"slot": "prop.capi-dec-lost-property-03",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-04": {
+			"aspect": 0.772,
+			"asset": "Lost-property posters 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 7523,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				404,
+				523
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				404,
+				523
+			],
+			"sheet_cell": [
+				139,
+				762,
+				404,
+				523
+			],
+			"slot": "prop.capi-dec-lost-property-04",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-05": {
+			"aspect": 0.825,
+			"asset": "Lost-property posters 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 8421,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				411,
+				498
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				411,
+				498
+			],
+			"sheet_cell": [
+				818,
+				775,
+				411,
+				498
+			],
+			"slot": "prop.capi-dec-lost-property-05",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-DEC-LOST-PROPERTY-06": {
+			"aspect": 0.822,
+			"asset": "Lost-property posters 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 7327,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				398,
+				484
+			],
+			"group": "prop",
+			"id": "CAPI-DEC-LOST-PROPERTY-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "CAPI-DEC-LOST-PROPERTY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				398,
+				484
+			],
+			"sheet_cell": [
+				1508,
+				782,
+				398,
+				484
+			],
+			"slot": "prop.capi-dec-lost-property-06",
+			"tinted": false,
+			"use": "Walls inside and outside",
+			"zone": "final"
+		},
+		"CAPI-PROP-PRIMM-STATUE": {
+			"aspect": 0.52,
+			"asset": "Gold Primm statue",
+			"category": "Prop",
+			"cleared_alpha": 17392,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "CAPI-PROP-PRIMM-STATUE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				785,
+				1509
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.capi-prop-primm-statue",
+			"tinted": false,
+			"use": "The Showcase Quarter",
+			"zone": "final"
+		},
+		"CAPI-PROP-STATUE-FALLEN": {
+			"aspect": 2.036,
+			"asset": "Fallen Primm statue",
+			"category": "Prop",
+			"cleared_alpha": 22069,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "prop",
+			"id": "CAPI-PROP-STATUE-FALLEN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1523,
+				748
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent",
+			"slot": "prop.capi-prop-statue-fallen",
+			"tinted": false,
+			"use": "The Showcase Quarter after Primm falls",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS": {
+			"asset": "Rifts",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS",
+			"lock": "SHEET",
+			"parts": [
+				"CAPI-SHEET-RIFTS-01",
+				"CAPI-SHEET-RIFTS-02",
+				"CAPI-SHEET-RIFTS-03",
+				"CAPI-SHEET-RIFTS-04",
+				"CAPI-SHEET-RIFTS-05",
+				"CAPI-SHEET-RIFTS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "sign.capi-sheet-rifts",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-01": {
+			"aspect": 0.604,
+			"asset": "Rifts 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9585,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				204,
+				338
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.412
+			],
+			"px": [
+				204,
+				338
+			],
+			"sheet_cell": [
+				239,
+				173,
+				204,
+				338
+			],
+			"slot": "sign.capi-sheet-rifts-01",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-02": {
+			"aspect": 0.686,
+			"asset": "Rifts 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 15112,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				313,
+				456
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.385
+			],
+			"px": [
+				313,
+				456
+			],
+			"sheet_cell": [
+				868,
+				114,
+				313,
+				456
+			],
+			"slot": "sign.capi-sheet-rifts-02",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-03": {
+			"aspect": 0.735,
+			"asset": "Rifts 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 18531,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				391,
+				532
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.446
+			],
+			"px": [
+				391,
+				532
+			],
+			"sheet_cell": [
+				1511,
+				75,
+				391,
+				532
+			],
+			"slot": "sign.capi-sheet-rifts-03",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-04": {
+			"aspect": 0.928,
+			"asset": "Rifts 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3198,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				220,
+				237
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.453
+			],
+			"px": [
+				220,
+				237
+			],
+			"sheet_cell": [
+				231,
+				905,
+				220,
+				237
+			],
+			"slot": "sign.capi-sheet-rifts-04",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-05": {
+			"aspect": 0.959,
+			"asset": "Rifts 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4341,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				280,
+				292
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.425
+			],
+			"px": [
+				280,
+				292
+			],
+			"sheet_cell": [
+				884,
+				878,
+				280,
+				292
+			],
+			"slot": "sign.capi-sheet-rifts-05",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
+		},
+		"CAPI-SHEET-RIFTS-06": {
+			"aspect": 1.053,
+			"asset": "Rifts 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6596,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				356,
+				338
+			],
+			"group": "sign",
+			"id": "CAPI-SHEET-RIFTS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "CAPI-SHEET-RIFTS",
+			"pivot": [
+				0.0,
+				0.523
+			],
+			"px": [
+				356,
+				338
+			],
+			"sheet_cell": [
+				1529,
+				855,
+				356,
+				338
+			],
+			"slot": "sign.capi-sheet-rifts-06",
+			"tinted": false,
+			"use": "The Rift Fields, the Transit Yards",
+			"zone": "final"
 		},
 		"DEC-CRACKS": {
-			"id": "DEC-CRACKS",
-			"zone": "final",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-cracks",
-			"placeholder": "dec:cracks",
-			"tinted": false,
 			"alias": true,
-			"desc": "Cracks (painted decal)",
 			"asset": "Cracks (painted decal)",
 			"category": "Painted decal (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
+			"desc": "Cracks (painted decal)",
+			"group": "decal",
+			"id": "DEC-CRACKS",
+			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
 				0.5
-			]
+			],
+			"placeholder": "dec:cracks",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-cracks",
+			"tinted": false,
+			"zone": "final"
+		},
+		"DEC-RIFT": {
+			"alias": true,
+			"asset": "Rift glow (painted decal)",
+			"category": "Painted decal (alias)",
+			"desc": "Rift glow (painted decal)",
+			"group": "decal",
+			"id": "DEC-RIFT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"placeholder": "dec:rift",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-rift",
+			"tinted": false,
+			"zone": "final"
 		},
 		"DEC-SCORCH": {
-			"id": "DEC-SCORCH",
-			"zone": "final",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-scorch",
-			"placeholder": "dec:scorch",
-			"tinted": false,
 			"alias": true,
-			"desc": "Scorch mark (painted decal)",
 			"asset": "Scorch mark (painted decal)",
 			"category": "Painted decal (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
+			"desc": "Scorch mark (painted decal)",
+			"group": "decal",
+			"id": "DEC-SCORCH",
+			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
 				0.5
-			]
+			],
+			"placeholder": "dec:scorch",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-scorch",
+			"tinted": false,
+			"zone": "final"
+		},
+		"TEX-CAP-ASH": {
+			"alias": true,
+			"asset": "Ash ground (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Ash ground (painted texture set)",
+			"group": "ground",
+			"id": "TEX-CAP-ASH",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_ash",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-cap-ash",
+			"tile": 6.0,
+			"tinted": true,
+			"zone": "final"
+		},
+		"TEX-CAP-CRACKEDROAD": {
+			"alias": true,
+			"asset": "Cracked road (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Cracked road (painted texture set)",
+			"group": "ground",
+			"id": "TEX-CAP-CRACKEDROAD",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_crackedroad",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-cap-crackedroad",
+			"tile": 3.4,
+			"tinted": true,
+			"zone": "final"
+		},
+		"TEX-CAP-DEADGRASS": {
+			"alias": true,
+			"asset": "Dead grass (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Dead grass (painted texture set)",
+			"group": "ground",
+			"id": "TEX-CAP-DEADGRASS",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_deadgrass",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-cap-deadgrass",
+			"tile": 5.0,
+			"tinted": true,
+			"zone": "final"
+		},
+		"TEX-CAP-PASTELPLAZA": {
+			"alias": true,
+			"asset": "Pastel plaza paving (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Pastel plaza paving (painted texture set)",
+			"group": "ground",
+			"id": "TEX-CAP-PASTELPLAZA",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_pastelplaza",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-cap-pastelplaza",
+			"tile": 4.0,
+			"tinted": true,
+			"zone": "final"
+		},
+		"TEX-CAP-PERFECTLAWN": {
+			"alias": true,
+			"asset": "Perfect lawn (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Perfect lawn (painted texture set)",
+			"group": "ground",
+			"id": "TEX-CAP-PERFECTLAWN",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_perfectlawn",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-cap-perfectlawn",
+			"tile": 6.0,
+			"tinted": true,
+			"zone": "final"
+		},
+		"TEX-CAP-WHITEWALL": {
+			"alias": true,
+			"asset": "White wall plaster (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "White wall plaster (painted texture set)",
+			"group": "wall",
+			"id": "TEX-CAP-WHITEWALL",
+			"lock": "SURFACE",
+			"placeholder": "tex:cap_whitewall",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "wall.tex-cap-whitewall",
+			"tile": 3.0,
+			"tinted": true,
+			"zone": "final"
 		}
 	},
 	"zone": "final"

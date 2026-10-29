@@ -1,0 +1,300 @@
+{
+	"_about": "Written by tools/import_zone_kit.gd from data/source/town_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/../Approved_EnvKit: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/town/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400.0,
+	"items": {
+		"TOWN-BD-HORIZON": {
+			"aspect": 4.541,
+			"asset": "Crosspath horizon",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "TOWN-BD-HORIZON",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				451
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.town-bd-horizon",
+			"tinted": false,
+			"transparent": true,
+			"use": "Crosspath, the skyline ring",
+			"zone": "town"
+		},
+		"TOWN-HERO-FOUNTAIN": {
+			"aspect": 1.012,
+			"asset": "Royal-crest fountain",
+			"category": "Hero landmark",
+			"cleared_alpha": 11297,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				2048
+			],
+			"group": "concept",
+			"id": "TOWN-HERO-FOUNTAIN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1444,
+				1427
+			],
+			"sheet_status": "Approved",
+			"size": "2048x2048 PNG, transparent",
+			"slot": "concept.town-hero-fountain",
+			"tinted": false,
+			"use": "The square",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS": {
+			"asset": "Freed-zone banners",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS",
+			"lock": "SHEET",
+			"parts": [
+				"TOWN-SHEET-FREED-BANNERS-01",
+				"TOWN-SHEET-FREED-BANNERS-02",
+				"TOWN-SHEET-FREED-BANNERS-03",
+				"TOWN-SHEET-FREED-BANNERS-04",
+				"TOWN-SHEET-FREED-BANNERS-05",
+				"TOWN-SHEET-FREED-BANNERS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "banner.town-sheet-freed-banners",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-01": {
+			"aspect": 1.029,
+			"asset": "Freed-zone banners 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 2458,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				601,
+				584
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				601,
+				584
+			],
+			"sheet_cell": [
+				68,
+				71,
+				601,
+				584
+			],
+			"slot": "banner.town-sheet-freed-banners-01",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-02": {
+			"aspect": 1.024,
+			"asset": "Freed-zone banners 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3090,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				598,
+				584
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				598,
+				584
+			],
+			"sheet_cell": [
+				725,
+				71,
+				598,
+				584
+			],
+			"slot": "banner.town-sheet-freed-banners-02",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-03": {
+			"aspect": 1.024,
+			"asset": "Freed-zone banners 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 2790,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				599,
+				585
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				599,
+				585
+			],
+			"sheet_cell": [
+				1380,
+				71,
+				599,
+				585
+			],
+			"slot": "banner.town-sheet-freed-banners-03",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-04": {
+			"aspect": 1.02,
+			"asset": "Freed-zone banners 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3363,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				601,
+				589
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				601,
+				589
+			],
+			"sheet_cell": [
+				68,
+				710,
+				601,
+				589
+			],
+			"slot": "banner.town-sheet-freed-banners-04",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-05": {
+			"aspect": 1.021,
+			"asset": "Freed-zone banners 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 2913,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				597,
+				585
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				597,
+				585
+			],
+			"sheet_cell": [
+				726,
+				711,
+				597,
+				585
+			],
+			"slot": "banner.town-sheet-freed-banners-05",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		},
+		"TOWN-SHEET-FREED-BANNERS-06": {
+			"aspect": 1.02,
+			"asset": "Freed-zone banners 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 2784,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				598,
+				586
+			],
+			"group": "banner",
+			"id": "TOWN-SHEET-FREED-BANNERS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "TOWN-SHEET-FREED-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				598,
+				586
+			],
+			"sheet_cell": [
+				1380,
+				711,
+				598,
+				586
+			],
+			"slot": "banner.town-sheet-freed-banners-06",
+			"tinted": false,
+			"use": "Hung on the square after each freed zone",
+			"zone": "town"
+		}
+	},
+	"zone": "town"
+}

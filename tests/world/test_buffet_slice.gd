@@ -126,9 +126,10 @@ func test_the_sky_is_the_dinner_panorama_over_a_dry_table() -> void:
 	assert_false(bool(scenery.get("water", true)), "no sea plane: it flooded the mashed potato (the table dips below the water height)")
 	var cards: Array = scenery.get("kit_cards", []) as Array
 	assert_gte(cards.size(), 3, "the cake skyline rings the horizon")
+	# art import Oct 29: the cake cathedral and Test Kitchen strips replaced the old cake strip
 	for card: Variant in cards:
-		assert_eq(str((card as Dictionary).get("id", "")), "BUFF-BD-CAKE")
-	assert_true(EnvKit.has_art("BUFF-BD-CAKE"))
+		assert_true(["BUFF-BD-CAKE-CATHEDRAL", "BUFF-BD-TEST-KITCHEN"].has(str((card as Dictionary).get("id", ""))))
+	assert_true(EnvKit.has_art("BUFF-BD-CAKE-CATHEDRAL") and EnvKit.has_art("BUFF-BD-TEST-KITCHEN"))
 
 
 func test_the_kit_cards_have_hand_heights() -> void:

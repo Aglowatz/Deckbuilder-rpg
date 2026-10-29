@@ -35,3 +35,7 @@ BUFF-PROP-FLOUR,Flour sacks,Prop,CUTOUT,"A stack of plump flour sacks, a little 
 BUFF-PROP-CAKESTAND,Cake stand,Prop,CUTOUT,A three-tier cake stand loaded with pastries.,"1024x1024 PNG, transparent",Stalls and tables,3,Needed
 BUFF-DEC-FLOUR,Flour dust,Decal,CUTOUT,"A soft dusting of white flour seen from above, fading edges.","1024x1024 PNG, transparent",Kitchen floors,3,Needed
 BUFF-DEC-STEAM,Steam wisps,Decal,CUTOUT,"Soft warm steam wisps seen from above, very translucent, fading edges.","1024x1024 PNG, transparent",Near pots and vents,3,Needed
+BUFF-BD-CAKE-CATHEDRAL,"Cake cathedral skyline",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","The Buffet skyline",2,Approved
+BUFF-BD-TEST-KITCHEN,"Test Kitchen facade",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","The far end of the zone",2,Approved
+BUFF-SHEET-TASTING-STANDS,"Tasting stands",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Grand Pantry approach",2,Approved
+BUFF-DEC-ROSETTES,"Crumb's rosettes",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Walls",2,Approved

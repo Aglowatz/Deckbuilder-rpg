@@ -76,9 +76,11 @@ func test_the_mood_carries_the_sky_panorama_and_the_tower_skyline() -> void:
 	assert_eq(str(sky.get("panorama", "")), "DNA-SKY-GLOOM", "the overcast sky is the kit backdrop")
 	assert_true(bool(sky.get("enabled", false)))
 	var cards: Array = (mood.get("scenery", {}) as Dictionary).get("kit_cards", []) as Array
-	assert_eq(cards.size(), 4, "the tower skyline rings the zone")
-	for card: Variant in cards:
-		assert_eq(str((card as Dictionary).get("id", "")), "DNA-BD-TOWERS")
+	var towers: Array = cards.filter(func(card: Variant) -> bool: return str((card as Dictionary).get("id", "")) == "DNA-BD-TOWERS")
+	assert_eq(towers.size(), 4, "the tower skyline rings the zone")
+	# art import Oct 29: the Hall of Final Approvals facade stands in front of the north towers
+	assert_eq(cards.size(), 5)
+	assert_true(cards.any(func(card: Variant) -> bool: return str((card as Dictionary).get("id", "")) == "DNA-BD-HALL-FACADE"))
 	assert_eq(WorldSky.new().get("_palette").size(), 0, "a fresh sky has no palette yet")
 
 

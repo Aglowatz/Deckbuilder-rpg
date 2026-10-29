@@ -90,11 +90,22 @@ func _plaza() -> void:
 	plaza_node = PathTool.plaza(root, TownLayout.PLAZA, TownLayout.PLAZA_RADIUS, {"seed": 5})
 
 
+const FOUNTAIN_ART: String = "TOWN-HERO-FOUNTAIN"
+const FOUNTAIN_ART_HEIGHT: float = 5.8
+const FOUNTAIN_ART_FORWARD: float = 1.3
+
+
 # ---- the fountain and the royal crest ------------------------------------------------------------------------------------------------
 
 
 func _fountain() -> void:
 	var center: Vector3 = TownLayout.PLAZA
+	# Art import Oct 29: the painted royal-crest fountain (TOWN-HERO-FOUNTAIN: four plinths in a ring, four coloured spouts) replaces the stone
+	# model; it stands a little toward the camera so its painted basin front sits on the basin's real front edge. Same blocker and anchor.
+	if KitPieces.stand(root, FOUNTAIN_ART, center + Vector3(0.0, -0.05, FOUNTAIN_ART_FORWARD), FOUNTAIN_ART_HEIGHT, false) != null:
+		town.obstacles.append(Vector3(center.x, center.z, TownLayout.FOUNTAIN_RADIUS + 0.1))
+		town.anchors["fountain"] = center
+		return
 	# Crosspath pass, Part C: the square's fountain, bigger with the square and built from kit stone (it was plain flat-coloured cylinders): a wide round
 	# basin with a thick moulded rim to sit on, a fluted pedestal, two bowls spilling into each other and a finial; lit water in the basin and bowls.
 	var radius: float = TownLayout.FOUNTAIN_RADIUS

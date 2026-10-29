@@ -1,6 +1,6 @@
 {
 	"_about": "Written by tools/import_zone_kit.gd from data/source/buffet_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Buffet: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/buffet/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
-	"density": 400,
+	"density": 400.0,
 	"items": {
 		"BUFF-BD-CAKE": {
 			"aspect": 3.568,
@@ -8,20 +8,20 @@
 			"category": "Sky / backdrop",
 			"desc": "A distant skyline of pastel cake towers, copper domes, and steaming chimneys, hazy.",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "BUFF-BD-CAKE",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				574
+				2048.0,
+				574.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1024 PNG, transparent sky, tileable horizontally",
@@ -31,15 +31,73 @@
 			"use": "Distant backdrop",
 			"zone": "buffet"
 		},
+		"BUFF-BD-CAKE-CATHEDRAL": {
+			"aspect": 2.985,
+			"asset": "Cake cathedral skyline",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "BUFF-BD-CAKE-CATHEDRAL",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				686
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.buff-bd-cake-cathedral",
+			"tinted": false,
+			"transparent": true,
+			"use": "The Buffet skyline",
+			"zone": "buffet"
+		},
+		"BUFF-BD-TEST-KITCHEN": {
+			"aspect": 2.86,
+			"asset": "Test Kitchen facade",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "BUFF-BD-TEST-KITCHEN",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				716
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG strip, transparent sky",
+			"slot": "backdrop.buff-bd-test-kitchen",
+			"tinted": false,
+			"transparent": true,
+			"use": "The far end of the zone",
+			"zone": "buffet"
+		},
 		"BUFF-DEC-FLOUR": {
 			"aspect": 1.101,
 			"asset": "Flour dust",
 			"category": "Decal",
-			"cleared_alpha": 134838,
+			"cleared_alpha": 134838.0,
 			"desc": "A soft dusting of white flour seen from above, fading edges.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "decal",
 			"id": "BUFF-DEC-FLOUR",
@@ -50,8 +108,8 @@
 			],
 			"priority": "3",
 			"px": [
-				928,
-				843
+				928.0,
+				843.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
@@ -60,15 +118,250 @@
 			"use": "Kitchen floors",
 			"zone": "buffet"
 		},
+		"BUFF-DEC-ROSETTES": {
+			"asset": "Crumb's rosettes",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES",
+			"lock": "SHEET",
+			"parts": [
+				"BUFF-DEC-ROSETTES-01",
+				"BUFF-DEC-ROSETTES-02",
+				"BUFF-DEC-ROSETTES-03",
+				"BUFF-DEC-ROSETTES-04",
+				"BUFF-DEC-ROSETTES-05",
+				"BUFF-DEC-ROSETTES-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "sign.buff-dec-rosettes",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-01": {
+			"aspect": 0.976,
+			"asset": "Crumb's rosettes 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5952,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				519,
+				532
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.499
+			],
+			"px": [
+				519,
+				532
+			],
+			"sheet_cell": [
+				82,
+				75,
+				519,
+				532
+			],
+			"slot": "sign.buff-dec-rosettes-01",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-02": {
+			"aspect": 0.977,
+			"asset": "Crumb's rosettes 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 7048,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				520,
+				532
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.5
+			],
+			"px": [
+				520,
+				532
+			],
+			"sheet_cell": [
+				765,
+				75,
+				520,
+				532
+			],
+			"slot": "sign.buff-dec-rosettes-02",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-03": {
+			"aspect": 1.017,
+			"asset": "Crumb's rosettes 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6816,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				532,
+				523
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.514
+			],
+			"px": [
+				532,
+				523
+			],
+			"sheet_cell": [
+				1441,
+				80,
+				532,
+				523
+			],
+			"slot": "sign.buff-dec-rosettes-03",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-04": {
+			"aspect": 0.994,
+			"asset": "Crumb's rosettes 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5760,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				516,
+				519
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.561
+			],
+			"px": [
+				516,
+				519
+			],
+			"sheet_cell": [
+				83,
+				764,
+				516,
+				519
+			],
+			"slot": "sign.buff-dec-rosettes-04",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-05": {
+			"aspect": 1.012,
+			"asset": "Crumb's rosettes 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6760,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				527,
+				521
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.504
+			],
+			"px": [
+				527,
+				521
+			],
+			"sheet_cell": [
+				760,
+				763,
+				527,
+				521
+			],
+			"slot": "sign.buff-dec-rosettes-05",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
+		"BUFF-DEC-ROSETTES-06": {
+			"aspect": 0.996,
+			"asset": "Crumb's rosettes 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6676,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				521,
+				523
+			],
+			"group": "sign",
+			"id": "BUFF-DEC-ROSETTES-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "BUFF-DEC-ROSETTES",
+			"pivot": [
+				0.0,
+				0.515
+			],
+			"px": [
+				521,
+				523
+			],
+			"sheet_cell": [
+				1446,
+				762,
+				521,
+				523
+			],
+			"slot": "sign.buff-dec-rosettes-06",
+			"tinted": false,
+			"use": "Walls",
+			"zone": "buffet"
+		},
 		"BUFF-DEC-STEAM": {
 			"aspect": 0.971,
 			"asset": "Steam wisps",
 			"category": "Decal",
-			"cleared_alpha": 399725,
+			"cleared_alpha": 399725.0,
 			"desc": "Soft warm steam wisps seen from above, very translucent, fading edges.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "decal",
 			"id": "BUFF-DEC-STEAM",
@@ -79,8 +372,8 @@
 			],
 			"priority": "3",
 			"px": [
-				926,
-				954
+				926.0,
+				954.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
@@ -95,16 +388,16 @@
 			"concept": "res://docs/art/zone_kits/buffet/concepts/BUFF-HERO-BROCCOLI-GIANT.jpg",
 			"desc": "An ancient colossal broccoli tree (about 22 m tall) with a thick pale-green stalk and a vast round floret canopy.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "BUFF-HERO-BROCCOLI-GIANT",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "1536x1024 PNG",
@@ -119,16 +412,16 @@
 			"concept": "res://docs/art/zone_kits/buffet/concepts/BUFF-HERO-CAKE-CATHEDRAL.jpg",
 			"desc": "A towering many-tiered cake cathedral (about 26 m tall) of pastel frosting and biscuit, with sugar-glass windows, candle spires, and piped-icing buttresses.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "BUFF-HERO-CAKE-CATHEDRAL",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "1536x1024 PNG",
@@ -143,16 +436,16 @@
 			"concept": "res://docs/art/zone_kits/buffet/concepts/BUFF-HERO-OMAKASE-PAVILION.jpg",
 			"desc": "An elegant, minimal wooden sushi pavilion on white stone cliffs, a single long counter, paper lanterns, overlooking a sea of rice; calm and formal.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "BUFF-HERO-OMAKASE-PAVILION",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "1536x1024 PNG",
@@ -167,16 +460,16 @@
 			"concept": "res://docs/art/zone_kits/buffet/concepts/BUFF-HERO-POTATO-PEAK.jpg",
 			"desc": "A huge soft hill of mashed potato with a butter-pat summit and gravy streams running down its slopes into a gravy river with little biscuit bridges.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "BUFF-HERO-POTATO-PEAK",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "1536x1024 PNG",
@@ -191,16 +484,16 @@
 			"concept": "res://docs/art/zone_kits/buffet/concepts/BUFF-HERO-TEST-KITCHEN.jpg",
 			"desc": "The main-dungeon goal: an enormous gleaming industrial kitchen-laboratory complex (castle-sized) with copper domes, towering chimney stacks venting colorful steam, giant whisk and ladle cranes, glass greenhouses, and the half-built silhouette of a food war machine peeking over its walls. Beautiful on the outside but faintly sinister. Must read from across the zone as THE place to go.",
 			"from_px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"group": "concept",
 			"id": "BUFF-HERO-TEST-KITCHEN",
 			"lock": "CONCEPT",
 			"priority": "1",
 			"px": [
-				1536,
-				1024
+				1536.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "1536x1024 PNG",
@@ -214,8 +507,8 @@
 			"category": "Surface",
 			"desc": "Ribbons of laid pasta in neat rows, lightly glossy.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "ground",
 			"id": "BUFF-PATH-NOODLE",
@@ -223,8 +516,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -251,219 +544,219 @@
 			"aspect": 0.981,
 			"asset": "Herb bush",
 			"category": "Tree / plant",
-			"cleared_alpha": 40029,
+			"cleared_alpha": 40029.0,
 			"desc": "A round bush of basil and rosemary.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
+			"height": 1.3,
 			"id": "BUFF-PLANT-HERB",
 			"lock": "TREE",
 			"pivot": [
 				0.52,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				987,
-				1006
+				987.0,
+				1006.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.buff-plant-herb",
 			"tinted": false,
 			"use": "Path edges",
-			"zone": "buffet",
-			"height": 1.3
+			"zone": "buffet"
 		},
 		"BUFF-PLANT-LEEK": {
 			"aspect": 0.602,
 			"asset": "Leek bundle",
 			"category": "Tree / plant",
-			"cleared_alpha": 37157,
+			"cleared_alpha": 37157.0,
 			"desc": "A tall bundle of leeks and green onions growing from the ground.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
+			"height": 2.1,
 			"id": "BUFF-PLANT-LEEK",
 			"lock": "TREE",
 			"pivot": [
 				0.494,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				907,
-				1507
+				907.0,
+				1507.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.buff-plant-leek",
 			"tinted": false,
 			"use": "Garden accents",
-			"zone": "buffet",
-			"height": 2.1
+			"zone": "buffet"
 		},
 		"BUFF-PROP-CAKESTAND": {
 			"aspect": 0.825,
 			"asset": "Cake stand",
 			"category": "Prop",
-			"cleared_alpha": 26718,
+			"cleared_alpha": 26718.0,
 			"desc": "A three-tier cake stand loaded with pastries.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
+			"height": 1.4,
 			"id": "BUFF-PROP-CAKESTAND",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				747,
-				906
+				747.0,
+				906.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "prop.buff-prop-cakestand",
 			"tinted": false,
 			"use": "Stalls and tables",
-			"zone": "buffet",
-			"height": 1.4
+			"zone": "buffet"
 		},
 		"BUFF-PROP-CLOCHE": {
 			"aspect": 1.255,
 			"asset": "Silver cloche",
 			"category": "Prop",
-			"cleared_alpha": 13160,
+			"cleared_alpha": 13160.0,
 			"desc": "A large silver serving cloche on a platter.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
+			"height": 1.0,
 			"id": "BUFF-PROP-CLOCHE",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				964,
-				768
+				964.0,
+				768.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "prop.buff-prop-cloche",
 			"tinted": false,
 			"use": "Prop clusters",
-			"zone": "buffet",
-			"height": 1
+			"zone": "buffet"
 		},
 		"BUFF-PROP-CUTLERY": {
 			"aspect": 0.476,
 			"asset": "Giant cutlery",
 			"category": "Prop",
-			"cleared_alpha": 46741,
+			"cleared_alpha": 46741.0,
 			"desc": "A giant fork and spoon stuck upright in the ground like posts.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "prop",
+			"height": 3.4,
 			"id": "BUFF-PROP-CUTLERY",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				690,
-				1450
+				690.0,
+				1450.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "prop.buff-prop-cutlery",
 			"tinted": false,
 			"use": "Markers, gateways",
-			"zone": "buffet",
-			"height": 3.4
+			"zone": "buffet"
 		},
 		"BUFF-PROP-FLOUR": {
 			"aspect": 1.07,
 			"asset": "Flour sacks",
 			"category": "Prop",
-			"cleared_alpha": 22287,
+			"cleared_alpha": 22287.0,
 			"desc": "A stack of plump flour sacks, a little flour spilling.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
+			"height": 1.2,
 			"id": "BUFF-PROP-FLOUR",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				974,
-				910
+				974.0,
+				910.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "prop.buff-prop-flour",
 			"tinted": false,
 			"use": "Prop clusters",
-			"zone": "buffet",
-			"height": 1.2
+			"zone": "buffet"
 		},
 		"BUFF-PROP-POT": {
 			"aspect": 1.03,
 			"asset": "Giant stock pot",
 			"category": "Prop",
-			"cleared_alpha": 39106,
+			"cleared_alpha": 39106.0,
 			"desc": "A big copper stock pot gently steaming.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "prop",
+			"height": 1.6,
 			"id": "BUFF-PROP-POT",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
-				991,
-				962
+				991.0,
+				962.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1024 PNG, transparent",
 			"slot": "prop.buff-prop-pot",
 			"tinted": false,
 			"use": "Prop clusters",
-			"zone": "buffet",
-			"height": 1.6
+			"zone": "buffet"
 		},
 		"BUFF-ROOF-COPPER": {
 			"asset": "Copper roof",
 			"category": "Surface",
 			"desc": "Hammered copper shingles with soft green verdigris streaks.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "roof",
 			"id": "BUFF-ROOF-COPPER",
@@ -471,8 +764,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -500,8 +793,8 @@
 			"category": "Surface",
 			"desc": "Golden lattice pie crust with a glossy glaze.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "roof",
 			"id": "BUFF-ROOF-CRUST",
@@ -509,8 +802,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -538,8 +831,8 @@
 			"category": "Cutout sheet",
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS",
@@ -554,8 +847,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1365 PNG, transparent",
@@ -568,219 +861,219 @@
 			"aspect": 1.726,
 			"asset": "Tablecloth awnings 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 8962,
+			"cleared_alpha": 8962.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				630,
-				365
+				630.0,
+				365.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.695
 			],
 			"px": [
-				630,
-				365
+				630.0,
+				365.0
 			],
 			"sheet_cell": [
-				32,
-				197,
-				630,
-				365
+				32.0,
+				197.0,
+				630.0,
+				365.0
 			],
 			"slot": "sign.buff-sheet-awnings-01",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-AWNINGS-02": {
 			"aspect": 1.602,
 			"asset": "Tablecloth awnings 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 9463,
+			"cleared_alpha": 9463.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				612,
-				382
+				612.0,
+				382.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.659
 			],
 			"px": [
-				612,
-				382
+				612.0,
+				382.0
 			],
 			"sheet_cell": [
-				711,
-				201,
-				612,
-				382
+				711.0,
+				201.0,
+				612.0,
+				382.0
 			],
 			"slot": "sign.buff-sheet-awnings-02",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-AWNINGS-03": {
 			"aspect": 1.725,
 			"asset": "Tablecloth awnings 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 8627,
+			"cleared_alpha": 8627.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				640,
-				371
+				640.0,
+				371.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.667
 			],
 			"px": [
-				640,
-				371
+				640.0,
+				371.0
 			],
 			"sheet_cell": [
-				1365,
-				200,
-				640,
-				371
+				1365.0,
+				200.0,
+				640.0,
+				371.0
 			],
 			"slot": "sign.buff-sheet-awnings-03",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-AWNINGS-04": {
 			"aspect": 1.63,
 			"asset": "Tablecloth awnings 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 12584,
+			"cleared_alpha": 12584.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				634,
-				389
+				634.0,
+				389.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.581
 			],
 			"px": [
-				634,
-				389
+				634.0,
+				389.0
 			],
 			"sheet_cell": [
-				32,
-				772,
-				634,
-				389
+				32.0,
+				772.0,
+				634.0,
+				389.0
 			],
 			"slot": "sign.buff-sheet-awnings-04",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-AWNINGS-05": {
 			"aspect": 1.731,
 			"asset": "Tablecloth awnings 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 9250,
+			"cleared_alpha": 9250.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				623,
-				360
+				623.0,
+				360.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.624
 			],
 			"px": [
-				623,
-				360
+				623.0,
+				360.0
 			],
 			"sheet_cell": [
-				713,
-				771,
-				623,
-				360
+				713.0,
+				771.0,
+				623.0,
+				360.0
 			],
 			"slot": "sign.buff-sheet-awnings-05",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-AWNINGS-06": {
 			"aspect": 1.643,
 			"asset": "Tablecloth awnings 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13579,
+			"cleared_alpha": 13579.0,
 			"desc": "6 scalloped awnings in striped and checked tablecloth patterns (red, pink, cream, gold, green).",
 			"from_px": [
-				631,
-				384
+				631.0,
+				384.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-AWNINGS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-AWNINGS",
 			"pivot": [
-				0,
+				0.0,
 				0.601
 			],
 			"px": [
-				631,
-				384
+				631.0,
+				384.0
 			],
 			"sheet_cell": [
-				1375,
-				770,
-				631,
-				384
+				1375.0,
+				770.0,
+				631.0,
+				384.0
 			],
 			"slot": "sign.buff-sheet-awnings-06",
 			"tinted": false,
 			"use": "Sliced into awnings",
-			"zone": "buffet",
-			"width": 3.2
+			"width": 3.2,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-DOORS": {
 			"asset": "Pastry doors",
 			"category": "Cutout sheet",
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS",
@@ -795,8 +1088,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1365 PNG, transparent",
@@ -809,30 +1102,30 @@
 			"aspect": 0.828,
 			"asset": "Pastry doors 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 14557,
+			"cleared_alpha": 14557.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				511,
-				617
+				511.0,
+				617.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				511,
-				617
+				511.0,
+				617.0
 			],
 			"sheet_cell": [
-				105,
-				18,
-				511,
-				617
+				105.0,
+				18.0,
+				511.0,
+				617.0
 			],
 			"slot": "door.buff-sheet-doors-01",
 			"tinted": false,
@@ -843,30 +1136,30 @@
 			"aspect": 0.914,
 			"asset": "Pastry doors 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13626,
+			"cleared_alpha": 13626.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				560,
-				613
+				560.0,
+				613.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				560,
-				613
+				560.0,
+				613.0
 			],
 			"sheet_cell": [
-				746,
-				23,
-				560,
-				613
+				746.0,
+				23.0,
+				560.0,
+				613.0
 			],
 			"slot": "door.buff-sheet-doors-02",
 			"tinted": false,
@@ -877,30 +1170,30 @@
 			"aspect": 0.862,
 			"asset": "Pastry doors 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 10810,
+			"cleared_alpha": 10810.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				539,
-				625
+				539.0,
+				625.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				539,
-				625
+				539.0,
+				625.0
 			],
 			"sheet_cell": [
-				1427,
-				9,
-				539,
-				625
+				1427.0,
+				9.0,
+				539.0,
+				625.0
 			],
 			"slot": "door.buff-sheet-doors-03",
 			"tinted": false,
@@ -911,30 +1204,30 @@
 			"aspect": 0.939,
 			"asset": "Pastry doors 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 11057,
+			"cleared_alpha": 11057.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				567,
-				604
+				567.0,
+				604.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				567,
-				604
+				567.0,
+				604.0
 			],
 			"sheet_cell": [
-				65,
-				674,
-				567,
-				604
+				65.0,
+				674.0,
+				567.0,
+				604.0
 			],
 			"slot": "door.buff-sheet-doors-04",
 			"tinted": false,
@@ -945,30 +1238,30 @@
 			"aspect": 0.859,
 			"asset": "Pastry doors 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 16355,
+			"cleared_alpha": 16355.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				523,
-				609
+				523.0,
+				609.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				523,
-				609
+				523.0,
+				609.0
 			],
 			"sheet_cell": [
-				767,
-				674,
-				523,
-				609
+				767.0,
+				674.0,
+				523.0,
+				609.0
 			],
 			"slot": "door.buff-sheet-doors-05",
 			"tinted": false,
@@ -979,30 +1272,30 @@
 			"aspect": 0.922,
 			"asset": "Pastry doors 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13909,
+			"cleared_alpha": 13909.0,
 			"desc": "6 doors: wafer, chocolate bar, bread-board, oven iron, iced gingerbread, pie crust.",
 			"from_px": [
-				546,
-				592
+				546.0,
+				592.0
 			],
 			"group": "door",
 			"id": "BUFF-SHEET-DOORS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				546,
-				592
+				546.0,
+				592.0
 			],
 			"sheet_cell": [
-				1425,
-				691,
-				546,
-				592
+				1425.0,
+				691.0,
+				546.0,
+				592.0
 			],
 			"slot": "door.buff-sheet-doors-06",
 			"tinted": false,
@@ -1014,8 +1307,8 @@
 			"category": "Cutout sheet",
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS",
@@ -1030,8 +1323,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1365 PNG, transparent",
@@ -1044,30 +1337,30 @@
 			"aspect": 0.885,
 			"asset": "Icon signs 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 28041,
+			"cleared_alpha": 28041.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				506,
-				572
+				506.0,
+				572.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.299
 			],
 			"px": [
-				506,
-				572
+				506.0,
+				572.0
 			],
 			"sheet_cell": [
-				112,
-				51,
-				506,
-				572
+				112.0,
+				51.0,
+				506.0,
+				572.0
 			],
 			"slot": "sign.buff-sheet-signs-01",
 			"tinted": false,
@@ -1078,30 +1371,30 @@
 			"aspect": 0.935,
 			"asset": "Icon signs 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 26400,
+			"cleared_alpha": 26400.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				531,
-				568
+				531.0,
+				568.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.29
 			],
 			"px": [
-				531,
-				568
+				531.0,
+				568.0
 			],
 			"sheet_cell": [
-				777,
-				64,
-				531,
-				568
+				777.0,
+				64.0,
+				531.0,
+				568.0
 			],
 			"slot": "sign.buff-sheet-signs-02",
 			"tinted": false,
@@ -1112,30 +1405,30 @@
 			"aspect": 0.899,
 			"asset": "Icon signs 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 25557,
+			"cleared_alpha": 25557.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				526,
-				585
+				526.0,
+				585.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.305
 			],
 			"px": [
-				526,
-				585
+				526.0,
+				585.0
 			],
 			"sheet_cell": [
-				1457,
-				51,
-				526,
-				585
+				1457.0,
+				51.0,
+				526.0,
+				585.0
 			],
 			"slot": "sign.buff-sheet-signs-03",
 			"tinted": false,
@@ -1146,30 +1439,30 @@
 			"aspect": 0.85,
 			"asset": "Icon signs 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 31949,
+			"cleared_alpha": 31949.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				526,
-				619
+				526.0,
+				619.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.293
 			],
 			"px": [
-				526,
-				619
+				526.0,
+				619.0
 			],
 			"sheet_cell": [
-				113,
-				680,
-				526,
-				619
+				113.0,
+				680.0,
+				526.0,
+				619.0
 			],
 			"slot": "sign.buff-sheet-signs-04",
 			"tinted": false,
@@ -1180,30 +1473,30 @@
 			"aspect": 0.93,
 			"asset": "Icon signs 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 36319,
+			"cleared_alpha": 36319.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				559,
-				601
+				559.0,
+				601.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.307
 			],
 			"px": [
-				559,
-				601
+				559.0,
+				601.0
 			],
 			"sheet_cell": [
-				772,
-				688,
-				559,
-				601
+				772.0,
+				688.0,
+				559.0,
+				601.0
 			],
 			"slot": "sign.buff-sheet-signs-05",
 			"tinted": false,
@@ -1214,34 +1507,269 @@
 			"aspect": 0.882,
 			"asset": "Icon signs 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 30885,
+			"cleared_alpha": 30885.0,
 			"desc": "6 hanging signs on iron brackets, icons only: whisk, spoon, loaf, cherry, fish, pepper.",
 			"from_px": [
-				546,
-				619
+				546.0,
+				619.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-SIGNS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.308
 			],
 			"px": [
-				546,
-				619
+				546.0,
+				619.0
 			],
 			"sheet_cell": [
-				1446,
-				683,
-				546,
-				619
+				1446.0,
+				683.0,
+				546.0,
+				619.0
 			],
 			"slot": "sign.buff-sheet-signs-06",
 			"tinted": false,
 			"use": "Sliced into shop signs",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS": {
+			"asset": "Tasting stands",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS",
+			"lock": "SHEET",
+			"parts": [
+				"BUFF-SHEET-TASTING-STANDS-01",
+				"BUFF-SHEET-TASTING-STANDS-02",
+				"BUFF-SHEET-TASTING-STANDS-03",
+				"BUFF-SHEET-TASTING-STANDS-04",
+				"BUFF-SHEET-TASTING-STANDS-05",
+				"BUFF-SHEET-TASTING-STANDS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "sign.buff-sheet-tasting-stands",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-01": {
+			"aspect": 1.173,
+			"asset": "Tasting stands 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4778,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				487,
+				415
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.685
+			],
+			"px": [
+				487,
+				415
+			],
+			"sheet_cell": [
+				96,
+				166,
+				487,
+				415
+			],
+			"slot": "sign.buff-sheet-tasting-stands-01",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-02": {
+			"aspect": 1.139,
+			"asset": "Tasting stands 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3846,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				499,
+				438
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.689
+			],
+			"px": [
+				499,
+				438
+			],
+			"sheet_cell": [
+				773,
+				149,
+				499,
+				438
+			],
+			"slot": "sign.buff-sheet-tasting-stands-02",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-03": {
+			"aspect": 0.969,
+			"asset": "Tasting stands 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4938,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				501,
+				517
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.755
+			],
+			"px": [
+				501,
+				517
+			],
+			"sheet_cell": [
+				1468,
+				68,
+				501,
+				517
+			],
+			"slot": "sign.buff-sheet-tasting-stands-03",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-04": {
+			"aspect": 1.221,
+			"asset": "Tasting stands 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4523,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				509,
+				417
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.674
+			],
+			"px": [
+				509,
+				417
+			],
+			"sheet_cell": [
+				86,
+				884,
+				509,
+				417
+			],
+			"slot": "sign.buff-sheet-tasting-stands-04",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-05": {
+			"aspect": 0.731,
+			"asset": "Tasting stands 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4175,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				405,
+				554
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.561
+			],
+			"px": [
+				405,
+				554
+			],
+			"sheet_cell": [
+				825,
+				751,
+				405,
+				554
+			],
+			"slot": "sign.buff-sheet-tasting-stands-05",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
+			"zone": "buffet"
+		},
+		"BUFF-SHEET-TASTING-STANDS-06": {
+			"aspect": 0.707,
+			"asset": "Tasting stands 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4271,
+			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
+			"from_px": [
+				399,
+				564
+			],
+			"group": "sign",
+			"id": "BUFF-SHEET-TASTING-STANDS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "BUFF-SHEET-TASTING-STANDS",
+			"pivot": [
+				0.0,
+				0.547
+			],
+			"px": [
+				399,
+				564
+			],
+			"sheet_cell": [
+				1523,
+				742,
+				399,
+				564
+			],
+			"slot": "sign.buff-sheet-tasting-stands-06",
+			"tinted": false,
+			"use": "The Grand Pantry approach",
 			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS": {
@@ -1249,8 +1777,8 @@
 			"category": "Cutout sheet",
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS",
@@ -1265,8 +1793,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1365 PNG, transparent",
@@ -1279,232 +1807,232 @@
 			"aspect": 0.971,
 			"asset": "Sweet windows 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 13550,
+			"cleared_alpha": 13550.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				528,
-				544
+				528.0,
+				544.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				528,
-				544
+				528.0,
+				544.0
 			],
 			"sheet_cell": [
-				74,
-				80,
-				528,
-				544
+				74.0,
+				80.0,
+				528.0,
+				544.0
 			],
 			"slot": "window.buff-sheet-windows-01",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS-02": {
 			"aspect": 0.928,
 			"asset": "Sweet windows 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 11416,
+			"cleared_alpha": 11416.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				525,
-				566
+				525.0,
+				566.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				525,
-				566
+				525.0,
+				566.0
 			],
 			"sheet_cell": [
-				767,
-				61,
-				525,
-				566
+				767.0,
+				61.0,
+				525.0,
+				566.0
 			],
 			"slot": "window.buff-sheet-windows-02",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS-03": {
 			"aspect": 0.995,
 			"asset": "Sweet windows 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 11345,
+			"cleared_alpha": 11345.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				566,
-				569
+				566.0,
+				569.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				566,
-				569
+				566.0,
+				569.0
 			],
 			"sheet_cell": [
-				1431,
-				58,
-				566,
-				569
+				1431.0,
+				58.0,
+				566.0,
+				569.0
 			],
 			"slot": "window.buff-sheet-windows-03",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS-04": {
 			"aspect": 0.917,
 			"asset": "Sweet windows 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 8311,
+			"cleared_alpha": 8311.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				556,
-				606
+				556.0,
+				606.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				556,
-				606
+				556.0,
+				606.0
 			],
 			"sheet_cell": [
-				60,
-				685,
-				556,
-				606
+				60.0,
+				685.0,
+				556.0,
+				606.0
 			],
 			"slot": "window.buff-sheet-windows-04",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS-05": {
 			"aspect": 0.974,
 			"asset": "Sweet windows 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15091,
+			"cleared_alpha": 15091.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				596,
-				612
+				596.0,
+				612.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				596,
-				612
+				596.0,
+				612.0
 			],
 			"sheet_cell": [
-				735,
-				673,
-				596,
-				612
+				735.0,
+				673.0,
+				596.0,
+				612.0
 			],
 			"slot": "window.buff-sheet-windows-05",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SHEET-WINDOWS-06": {
 			"aspect": 0.95,
 			"asset": "Sweet windows 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 9240,
+			"cleared_alpha": 9240.0,
 			"desc": "6 windows with warm oven light inside: sugar-glass, lattice, round candy, arched oven, bay, shuttered biscuit.",
 			"from_px": [
-				556,
-				585
+				556.0,
+				585.0
 			],
 			"group": "window",
 			"id": "BUFF-SHEET-WINDOWS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
-				556,
-				585
+				556.0,
+				585.0
 			],
 			"sheet_cell": [
-				1432,
-				706,
-				556,
-				585
+				1432.0,
+				706.0,
+				556.0,
+				585.0
 			],
 			"slot": "window.buff-sheet-windows-06",
 			"tinted": false,
 			"use": "Sliced into window cutouts",
-			"zone": "buffet",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "buffet"
 		},
 		"BUFF-SKY-DINNER": {
-			"aspect": 2,
+			"aspect": 2.0,
 			"asset": "Dinner evening sky",
 			"category": "Sky / backdrop",
 			"desc": "A warm orange-and-pink evening sky with soft steam-like clouds (full image, no transparency).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "BUFF-SKY-DINNER",
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"sheet_status": "Needed",
 			"size": "2048x1024 PNG",
@@ -1518,69 +2046,69 @@
 			"aspect": 0.827,
 			"asset": "Broccoli tree",
 			"category": "Tree / plant",
-			"cleared_alpha": 24830,
+			"cleared_alpha": 24830.0,
 			"desc": "A round broccoli tree with a thick pale stalk.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
+			"height": 5.5,
 			"id": "BUFF-TREE-BROCCOLI",
 			"lock": "TREE",
 			"pivot": [
 				0.519,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				1006,
-				1216
+				1006.0,
+				1216.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.buff-tree-broccoli",
 			"tinted": false,
 			"use": "Tree card",
-			"zone": "buffet",
-			"height": 5.5
+			"zone": "buffet"
 		},
 		"BUFF-TREE-CAULI": {
 			"aspect": 0.811,
 			"asset": "Cauliflower tree",
 			"category": "Tree / plant",
-			"cleared_alpha": 23114,
+			"cleared_alpha": 23114.0,
 			"desc": "A round cauliflower tree with a pale cream canopy.",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "tree",
+			"height": 4.8,
 			"id": "BUFF-TREE-CAULI",
 			"lock": "TREE",
 			"pivot": [
 				0.498,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
-				1000,
-				1233
+				1000.0,
+				1233.0
 			],
 			"sheet_status": "Needed",
 			"size": "1024x1536 PNG, transparent",
 			"slot": "tree.buff-tree-cauli",
 			"tinted": false,
 			"use": "Tree card",
-			"zone": "buffet",
-			"height": 4.8
+			"zone": "buffet"
 		},
 		"BUFF-TRIM-CLOTH": {
 			"asset": "Tablecloth trim",
 			"category": "Surface",
 			"desc": "A horizontal strip of red-and-cream checked tablecloth trim with a scalloped edge.",
 			"from_px": [
-				1024,
-				512
+				1024.0,
+				512.0
 			],
 			"group": "trim",
 			"id": "BUFF-TRIM-CLOTH",
@@ -1588,8 +2116,8 @@
 			"maps": true,
 			"priority": "2",
 			"px": [
-				1024,
-				512
+				1024.0,
+				512.0
 			],
 			"seam": {
 				"x": {
@@ -1613,8 +2141,8 @@
 			"category": "Surface",
 			"desc": "Golden shortbread blocks with docked holes and sugar sparkle.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "BUFF-WALL-BISCUIT",
@@ -1622,8 +2150,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -1651,8 +2179,8 @@
 			"category": "Surface",
 			"desc": "Warm terracotta oven brick with sooty arch marks.",
 			"from_px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"group": "wall",
 			"id": "BUFF-WALL-OVEN",
@@ -1660,8 +2188,8 @@
 			"maps": true,
 			"priority": "1",
 			"px": [
-				1024,
-				1024
+				1024.0,
+				1024.0
 			],
 			"seam": {
 				"x": {
@@ -1684,133 +2212,133 @@
 			"use": "Kitchen walls",
 			"zone": "buffet"
 		},
-		"TEX-BUFF-MASHED": {
-			"id": "TEX-BUFF-MASHED",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-buff-mashed",
-			"placeholder": "tex:buff_mashed",
-			"tinted": true,
-			"alias": true,
-			"desc": "Mashed potato ground (painted texture set)",
-			"asset": "Mashed potato ground (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 6
-		},
-		"TEX-BUFF-FROSTING": {
-			"id": "TEX-BUFF-FROSTING",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "wall",
-			"slot": "wall.tex-buff-frosting",
-			"placeholder": "tex:buff_frosting",
-			"tinted": true,
-			"alias": true,
-			"desc": "Frosting (painted texture set)",
-			"asset": "Frosting (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 4
-		},
-		"TEX-BUFF-BISCUIT": {
-			"id": "TEX-BUFF-BISCUIT",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-buff-biscuit",
-			"placeholder": "tex:buff_biscuit",
-			"tinted": true,
-			"alias": true,
-			"desc": "Biscuit paving (painted texture set)",
-			"asset": "Biscuit paving (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 3.2
-		},
-		"TEX-BUFF-CHEESE": {
-			"id": "TEX-BUFF-CHEESE",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "wall",
-			"slot": "wall.tex-buff-cheese",
-			"placeholder": "tex:buff_cheese",
-			"tinted": true,
-			"alias": true,
-			"desc": "Cheese cliff (painted texture set)",
-			"asset": "Cheese cliff (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 4.5
-		},
-		"TEX-BUFF-GRAVY": {
-			"id": "TEX-BUFF-GRAVY",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-buff-gravy",
-			"placeholder": "tex:buff_gravy",
-			"tinted": true,
-			"alias": true,
-			"desc": "Gravy (painted texture set)",
-			"asset": "Gravy (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 4
-		},
-		"TEX-BUFF-CRUMBSOIL": {
-			"id": "TEX-BUFF-CRUMBSOIL",
-			"zone": "buffet",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-buff-crumbsoil",
-			"placeholder": "tex:buff_crumbsoil",
-			"tinted": true,
-			"alias": true,
-			"desc": "Crumb soil (painted texture set)",
-			"asset": "Crumb soil (painted texture set)",
-			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
-			"tile": 3.6
-		},
 		"DEC-CRUMBS": {
-			"id": "DEC-CRUMBS",
-			"zone": "buffet",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-crumbs",
-			"placeholder": "dec:crumbs",
-			"tinted": true,
 			"alias": true,
-			"desc": "Crumbs and sprinkles decal (painted texture set)",
+			"aspect": 1.0,
 			"asset": "Crumbs and sprinkles decal (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
+			"desc": "Crumbs and sprinkles decal (painted texture set)",
+			"group": "decal",
+			"id": "DEC-CRUMBS",
+			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
 				0.5
 			],
-			"aspect": 1
+			"placeholder": "dec:crumbs",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-crumbs",
+			"tinted": true,
+			"zone": "buffet"
 		},
 		"DEC-SAUCE": {
-			"id": "DEC-SAUCE",
-			"zone": "buffet",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-sauce",
-			"placeholder": "dec:sauce",
-			"tinted": true,
 			"alias": true,
-			"desc": "Sauce spill decal (painted texture set)",
+			"aspect": 1.0,
 			"asset": "Sauce spill decal (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)",
+			"desc": "Sauce spill decal (painted texture set)",
+			"group": "decal",
+			"id": "DEC-SAUCE",
+			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
 				0.5
 			],
-			"aspect": 1
+			"placeholder": "dec:sauce",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-sauce",
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-BISCUIT": {
+			"alias": true,
+			"asset": "Biscuit paving (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Biscuit paving (painted texture set)",
+			"group": "ground",
+			"id": "TEX-BUFF-BISCUIT",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_biscuit",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-buff-biscuit",
+			"tile": 3.2,
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-CHEESE": {
+			"alias": true,
+			"asset": "Cheese cliff (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Cheese cliff (painted texture set)",
+			"group": "wall",
+			"id": "TEX-BUFF-CHEESE",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_cheese",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "wall.tex-buff-cheese",
+			"tile": 4.5,
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-CRUMBSOIL": {
+			"alias": true,
+			"asset": "Crumb soil (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Crumb soil (painted texture set)",
+			"group": "ground",
+			"id": "TEX-BUFF-CRUMBSOIL",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_crumbsoil",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-buff-crumbsoil",
+			"tile": 3.6,
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-FROSTING": {
+			"alias": true,
+			"asset": "Frosting (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Frosting (painted texture set)",
+			"group": "wall",
+			"id": "TEX-BUFF-FROSTING",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_frosting",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "wall.tex-buff-frosting",
+			"tile": 4.0,
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-GRAVY": {
+			"alias": true,
+			"asset": "Gravy (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Gravy (painted texture set)",
+			"group": "ground",
+			"id": "TEX-BUFF-GRAVY",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_gravy",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-buff-gravy",
+			"tile": 4.0,
+			"tinted": true,
+			"zone": "buffet"
+		},
+		"TEX-BUFF-MASHED": {
+			"alias": true,
+			"asset": "Mashed potato ground (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Mashed potato ground (painted texture set)",
+			"group": "ground",
+			"id": "TEX-BUFF-MASHED",
+			"lock": "SURFACE",
+			"placeholder": "tex:buff_mashed",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-buff-mashed",
+			"tile": 6.0,
+			"tinted": true,
+			"zone": "buffet"
 		}
 	},
 	"zone": "buffet"

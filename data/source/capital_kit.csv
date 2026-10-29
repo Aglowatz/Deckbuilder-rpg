@@ -47,3 +47,9 @@ CAP-PROP-TRAM,Pastel tram,Prop,CUTOUT,INSIDE. A small pastel tram car with gold 
 CAP-PROP-CAMPFIRE,Resistance campfire,Prop,CUTOUT,"OUTSIDE. A small warm campfire ringed with stones, a kettle hanging over it.","1024x1024 PNG, transparent",Resistance camp,3,Approved
 CAP-DEC-ASH,Ash drifts,Decal,CUTOUT,"OUTSIDE. Soft gray ash drifts seen from above, fading edges.","1024x1024 PNG, transparent",Wasteland ground,3,Approved
 CAP-DEC-SHINE,Polish shine,Decal,CUTOUT,"INSIDE. A soft, unnaturally perfect gloss highlight seen from above, fading edges.","1024x1024 PNG, transparent",Inside plazas,3,Approved
+CAPI-BD-GREAT-WALL,"The great white wall",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","Outside the Capital, the skyline",2,Approved
+CAPI-BD-CASTLE,"The castle on its hill",Sky / backdrop,BACKDROP,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG strip, transparent sky","Inside the wall, the palace approach skyline",2,Approved
+CAPI-DEC-LOST-PROPERTY,"Lost-property posters",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Walls inside and outside",2,Approved
+CAPI-SHEET-RIFTS,"Rifts",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Rift Fields, the Transit Yards",2,Approved
+CAPI-PROP-PRIMM-STATUE,"Gold Primm statue",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The Showcase Quarter",2,Approved
+CAPI-PROP-STATUE-FALLEN,"Fallen Primm statue",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG, transparent","The Showcase Quarter after Primm falls",2,Approved
