@@ -205,14 +205,14 @@ func turn_banner(text: String, color: Color, duration: float = 0.75, subtitle: S
 	band.add_child(label)
 	if not subtitle.is_empty():
 		# Overnight Oct 28-29: the turn number under the words, small, so the band says whose turn and which one at a glance.
-		var sub: Label = UIKit.label(subtitle, &"", 22, Color(color, 0.85), HORIZONTAL_ALIGNMENT_CENTER)
+		var sub: Label = UIKit.label(subtitle, &"", 28, color.lightened(0.25), HORIZONTAL_ALIGNMENT_CENTER)
 		sub.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 		sub.add_theme_constant_override("outline_size", 6)
-		sub.size = Vector2(band.size.x, 26)
-		sub.position = Vector2(0, band.size.y - 24)
+		sub.size = Vector2(band.size.x, 30)
+		sub.position = Vector2(0, band.size.y - 30)
 		sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.add_child(sub)
-		label.position.y = -8.0
+		label.position.y = -12.0
 	band.modulate.a = 0.0
 	label.position.x = -260.0
 	var tween: Tween = create_tween().set_parallel(true)

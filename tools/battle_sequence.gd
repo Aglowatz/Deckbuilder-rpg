@@ -3,7 +3,7 @@ extends Node
 ## seconds from `--from` for `--frames` frames, each stamped with its time - so one turn's animations (cards flying, landing, lunges, numbers,
 ## deaths, resources, the turn banner) can be judged before / after on one picture.
 ## Windowed: Godot --path . --resolution 1600x900 res://tools/battle_sequence.tscn -- --path=beefcake --out=battle_seq_beefcake
-##   [--from=6] [--every=0.2] [--frames=30] [--speed=0] [--enemy=Cave Scavenger] [--bot=8]
+##   [--from=6] [--every=0.2] [--frames=30] [--speed=0] [--enemy=Cave Scavenger] [--bot=8] [--crop=x,y,w,h]
 ## Output: _screenshots/oct28/<out>.png (4 columns, 480 x 270 cells). Also prints the battle's turn at each frame.
 
 const CELL: Vector2i = Vector2i(480, 270)
@@ -55,6 +55,10 @@ func _capture() -> void:
 	await RenderingServer.frame_post_draw
 	var shot: Image = get_viewport().get_texture().get_image()
 	shot.convert(Image.FORMAT_RGBA8)
+	# `--crop=x,y,w,h` (viewport pixels): film only that part of the screen, larger (the resource motes, the turn ribbon).
+	if _args.has("crop"):
+		var c: PackedStringArray = str(_args["crop"]).split(",")
+		shot = shot.get_region(Rect2i(int(c[0]), int(c[1]), int(c[2]), int(c[3])))
 	shot.resize(CELL.x, CELL.y, Image.INTERPOLATE_BILINEAR)
 	_sheet.blit_rect(shot, Rect2i(Vector2i.ZERO, CELL), Vector2i((_index % COLUMNS) * CELL.x, (_index / COLUMNS) * CELL.y))
 	var game: GameState = _battle.get("game") as GameState if is_instance_valid(_battle) else null
