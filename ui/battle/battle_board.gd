@@ -42,7 +42,12 @@ const SCALE_CENTER: float = 0.85
 var game: GameState
 var fx: BattleFX
 var human: int = 0
-var speed: float = 1.0
+## The battle speed (1 = normal). Overnight Oct 28-29: the effects layer follows it too.
+var speed: float = 1.0:
+	set(value):
+		speed = value
+		if fx != null:
+			fx.speed = value
 
 var views: Dictionary = {}
 var zones: Dictionary = {}
@@ -65,6 +70,8 @@ var _hover_zone_lift: bool = true
 func setup(game_state: GameState, effects: BattleFX) -> void:
 	game = game_state
 	fx = effects
+	if fx != null:
+		fx.speed = speed
 	human = 0
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -719,7 +726,9 @@ func present(event: GameEvent) -> void:
 				fx.burst(center_of(event.card), Color("9be49f"), 10, 120.0)
 			else:
 				_sfx(&"debuff")
-			fx.floating_text(center_of(event.card), "%+d/%+d" % [event.amount, event.value], Color("9be49f"), 36)
+			var buffed: CardView = view_for(event.card)
+			var buff_color: Color = UIStyle.affinity_color(buffed.data.color).lightened(0.35) if buffed != null and buffed.data != null and (event.amount > 0 or event.value > 0) else (Color("9be49f") if event.amount > 0 or event.value > 0 else Color("c9a0ff"))
+			fx.floating_text(center_of(event.card), "%+d/%+d" % [event.amount, event.value], buff_color, 36)
 			await _wait(0.25)
 		GameEvent.Type.KEYWORD_GRANTED:
 			_refresh_view(event.card)
@@ -753,9 +762,9 @@ func present(event: GameEvent) -> void:
 						_refresh_view(unit.uid)
 			# Overnight Oct 17, Part 8: a ribbon marks every turn change.
 			if event.player == 0:
-				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed)
+				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed, "Turn %d" % game.turn)
 			else:
-				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed)
+				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed, "Turn %d" % game.turn)
 		_:
 			pass
 
@@ -863,6 +872,7 @@ func _on_cast(event: GameEvent) -> void:
 	_sfx(BattleSounds.play(view.data))
 	layout()
 	_arc_to_target(event.card)
+	_thump_on_arrival(event.card)
 	await _wait(0.55)
 
 
@@ -879,6 +889,8 @@ func _on_entered(event: GameEvent) -> void:
 		await _wait(0.24)
 		_land(view, SCALE_BF)
 		fx.flash_ring(center_of(event.card), UIStyle.affinity_color(view.data.color), 60.0)
+		if view.data != null and view.data.rarity == CardEnums.Rarity.LEGENDARY:
+			await _legendary_flourish(event.card, view)
 	await _wait(0.16)
 
 
@@ -922,6 +934,37 @@ func _arc_to_target(uid: int) -> void:
 	view.set_meta("tween", tween)
 
 
+## Overnight Oct 28-29 (battle feel, Part 4): a played card lands in the middle with a soft thump and a puff of dust as its arc ends (the
+## arc itself is 0.36 s; nothing waits on this).
+func _thump_on_arrival(uid: int) -> void:
+	get_tree().create_timer(0.34 / speed, false).timeout.connect(func() -> void:
+		var view: CardView = view_for(uid)
+		if view == null or zones.get(uid) != Zone.CENTER:
+			return
+		var foot: Vector2 = view.position + Vector2(CardView.SIZE.x * 0.5, CardView.SIZE.y) * view.scale.y
+		fx.burst(foot, Color("d8c8a8"), 8, 90.0)
+		_sfx(&"land_play", -9.0))
+
+
+## Overnight Oct 28-29 (battle feel, Part 4): a Legendary unit makes an entrance - a gold double ring, a shower of sparks, its Path colour
+## behind it, a light shake and the pack-reveal chime. Adds 0.15 s (at 1x) to its arrival.
+func _legendary_flourish(uid: int, view: CardView) -> void:
+	var at: Vector2 = center_of(uid)
+	var path_color: Color = UIStyle.affinity_color(view.data.color)
+	fx.flash_ring(at, UIStyle.GOLD, 120.0)
+	fx.burst(at, UIStyle.GOLD, 26, 300.0)
+	fx.floating_text(at + Vector2(0, -140), "LEGENDARY", UIStyle.GOLD, 34)
+	fx.shake(4.0, 0.18)
+	_sfx(&"pack_reveal_legend", -8.0)
+	if not Settings.reduce_flashing:
+		var glow: Tween = create_tween()
+		glow.tween_property(view, "modulate", Color(1.45, 1.3, 0.95), 0.06 / speed)
+		glow.tween_property(view, "modulate", Color.WHITE, 0.25 / speed)
+	await _wait(0.09)
+	fx.flash_ring(at, path_color, 190.0)
+	await _wait(0.06)
+
+
 ## Battle feel, Part C: a card about to fly to the middle lifts off first (hand cards only; an enemy card is already up top).
 func _lift(view: CardView) -> bool:
 	if zones.get(view.instance_uid) != Zone.HAND or int(view.get_meta("owner", 0)) != human:
@@ -960,13 +1003,22 @@ func _on_resource(event: GameEvent, gained: bool) -> void:
 	# A token kind (a Contract) has no tray socket: its effects play at the token card stacks.
 	var spot: Vector2 = _socket_center(owner_index, maxi(slot, 0)) if slot >= 0 and ResourceKind.is_resource(event.value as ResourceKind.Kind) else TOKEN_CARD_ORIGIN[owner_index]
 	var color: Color = ResourceKind.COLORS[event.value] as Color if ResourceKind.COLORS.has(event.value) else UIStyle.GOLD
+	# Overnight Oct 28-29 (battle feel, Part 4): a made resource flies from the card that made it to its counter and pops there; a spent
+	# one flies off its counter toward the middle of the board. Neither is waited on.
 	if gained:
 		_sfx(BattleSounds.resource(event.value, true))
-		fx.burst(spot, color, 10, 140.0)
-		fx.floating_text(spot + Vector2(0, -30), "+%d" % maxi(event.amount, 1), color.lightened(0.3), 28)
+		var amount: int = maxi(event.amount, 1)
+		var pop: Callable = func() -> void:
+			fx.burst(spot, color, 10, 140.0)
+			fx.floating_text(spot + Vector2(0, -30), "+%d" % amount, color.lightened(0.3), 28)
+		if event.other > 0 and views.has(event.other) and center_of(event.other).distance_to(spot) > 60.0:
+			fx.fly_mote(center_of(event.other), spot, color, pop)
+		else:
+			pop.call()
 	else:
 		_sfx(BattleSounds.resource(event.value, false))
 		fx.flash_ring(spot, color, 44.0)
+		fx.fly_mote(spot, spot.lerp(CENTER_POINT, 0.45), color, Callable(), 0.24)
 
 
 func _on_trap_set(event: GameEvent) -> void:
@@ -1013,6 +1065,16 @@ func _on_token(event: GameEvent) -> void:
 	await _wait(0.3)
 
 
+## Overnight Oct 28-29: the hit-stop on impact, 40 ms for a 1 to 80 ms for a 5 or more (real time; the battle speed does not shorten it).
+static func hit_stop_seconds(amount: int) -> float:
+	return clampf(0.03 + 0.01 * float(maxi(amount, 1)), 0.04, 0.08)
+
+
+## The damage number: mostly red (it must read as a blow), a third the attacker's Path colour.
+static func damage_number_color(path_color: Color) -> Color:
+	return Color("ff6a5a").lerp(path_color, 0.33).lightened(0.08)
+
+
 static func damage_text_size(amount: int) -> int:
 	return 40 + mini(maxi(amount, 1), 8) * 4
 
@@ -1050,22 +1112,25 @@ func _on_damage(event: GameEvent) -> void:
 	_sfx(BattleSounds.hit(event.amount, on_player) if event.amount > 0 else &"block")
 	if event.amount > 0:
 		# the number grows with the blow: 1 -> 44 px, 3 -> 52, 5 -> 60, 8 or more -> 72
-		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), damage_text_size(event.amount))
-		fx.burst(target_center, Color("ff8a5a"), 12 + event.amount * 3, 240.0)
+		# Overnight Oct 28-29: the number is the blow's red with a share of the attacker's Path colour; the sparks are the Path's.
+		var source_color: Color = UIStyle.affinity_color(attacker_view.data.color) if attacker_view != null and attacker_view.data != null else Color("ff8a5a")
+		fx.floating_text(target_center, "-%d" % event.amount, damage_number_color(source_color), damage_text_size(event.amount))
+		fx.burst(target_center, Color("ff8a5a").lerp(source_color, 0.5), 12 + event.amount * 3, 240.0)
 	else:
 		# Overnight Oct 17, Part 8: a blow that does nothing says so.
 		fx.floating_text(target_center, "BLOCKED", Color("a9c4e8"), 34)
 	# Overnight Oct 17, Part 8: shake scaled to the damage (every hit on the hero, bigger blows on units), a hit pause on impact,
 	# the struck card recoils, and the blow that ends the duel plays in slow motion.
+	# Overnight Oct 28-29: a light shake (big blows and every blow on a hero), capped at 12 px; reduced-shake turns it off (BattleFX.shake).
 	if event.amount >= 3 or (on_player and event.amount >= 1):
-		fx.shake(minf(3.0 + float(event.amount) * 2.2, 20.0), 0.26)
+		fx.shake(minf(3.0 + float(event.amount) * 1.4, 12.0), 0.22)
 	var attacker_at: Vector2 = center_of(event.card) if attacker_view != null else target_center + Vector2(0, -200)
 	var final_blow: bool = on_player and event.amount > 0 and event.value <= 0  # value = the hero's HP after the blow
 	if final_blow:
 		fx.flash_ring(target_center, Color("ffd27a"), 260.0)
-		fx.slow_motion(0.6)
+		fx.slow_motion(0.6 / maxf(1.0, speed * 0.5))
 	elif event.amount > 0:
-		fx.hit_pause(0.03 + 0.012 * float(event.amount))
+		fx.hit_pause(hit_stop_seconds(event.amount) / maxf(1.0, speed * 0.5))
 	if not on_player:
 		var target_view: CardView = view_for(event.other)
 		if target_view != null and event.amount > 0:

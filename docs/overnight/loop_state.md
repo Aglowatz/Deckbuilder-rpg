@@ -24,7 +24,7 @@ Batches 5-9 are NOT made: build no hooks for them. Inventory + import log: `docs
 | 1 Maren + roamers | done 21:45 | afeb463e | 21 FOE sets + ELDER; lineup tool; threat/hop/rim; ZoneEnemy drives actor |
 | 2 Entrances + Bestiary | done 21:45 | afeb463e | 27/31 entrances on CUT-*; Primm phases; 24 squares |
 | 3 Verify | done 22:30 | (see git log) | bots + smokes OK except hub (Hob on the line, inbox 4); payload 793.7 MB, zip ~750 |
-| 4 Battle feel | in progress | | |
-| 5 Memory leak | | | |
+| 4 Battle feel | done 23:40 | (git log) | 4x speed, hold Space hurry, hit-stop 40-80 ms, Path numbers, resource motes, Legendary flourish, cast thump; docs/design/battle_feel.md |
+| 5 Memory leak | in progress | | |
 | Phase 2 | | | |
 | Morning report | | | |

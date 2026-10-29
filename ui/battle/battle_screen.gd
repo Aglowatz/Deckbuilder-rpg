@@ -817,6 +817,7 @@ func _update_arrows() -> void:
 
 
 func _process(_delta: float) -> void:
+	_update_hurry()
 	if mode == Mode.TARGETING:
 		# The line runs from the card (or your plate, for items and resources) and snaps onto a legal target under the mouse.
 		var aim: Vector2 = get_global_mouse_position()
@@ -953,6 +954,22 @@ func _moves_left(any_mode: bool = false) -> Vector2i:
 			if _usable_ability(card) >= 0 or not _usable_abilities(card).is_empty():
 				abilities += 1
 	return Vector2i(count + infrastructure, abilities)
+
+
+## Battle feel (overnight Oct 28-29, Part 4): holding Space / the advance button while the board is busy (animations, the enemy's turn)
+## runs every effect HURRY_FACTOR times faster; letting go returns to the chosen speed. Skips nothing the rules do, only the waiting.
+const HURRY_FACTOR: float = 3.0
+var _hurrying: bool = false
+
+
+func _update_hurry() -> void:
+	if _flag("fast") or board == null:
+		return
+	var want: bool = busy and Input.is_action_pressed(&"battle_advance")
+	if want == _hurrying:
+		return
+	_hurrying = want
+	board.speed = Settings.battle_speed_scale() * (HURRY_FACTOR if want else 1.0)
 
 
 func _on_speed_pressed() -> void:

@@ -11,6 +11,9 @@ var _shake_tween: Tween
 var _noise: NoiseTexture2D
 ## Graphics Tier 1, Part 3: every burst and ring also lights the table (BattleLights, set by BattleScreen; null in tests).
 var lights: BattleLights
+## Battle feel (overnight Oct 28-29, Part 4): the battle speed (1 = normal; BattleBoard.speed sets it, and holding Space hurries it).
+## Every timed effect here runs this much faster, so nothing outlasts the turn it belongs to.
+var speed: float = 1.0
 
 
 func _ready() -> void:
@@ -78,9 +81,12 @@ func floating_text(pos: Vector2, text: String, color: Color, size: int = 44) -> 
 	label.pivot_offset = label.size * 0.5
 	label.scale = Vector2(0.4, 0.4)
 	var tween: Tween = create_tween().set_parallel(true)
-	tween.tween_property(label, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label, "position:y", label.position.y - 70.0, 0.9).set_ease(Tween.EASE_OUT)
-	tween.tween_property(label, "modulate:a", 0.0, 0.35).set_delay(0.65)
+	var pace: float = 1.0 / maxf(speed, 0.1)
+	# Pops past full size, settles, floats up and fades (overnight Oct 28-29: a clearer pop).
+	tween.tween_property(label, "scale", Vector2(1.18, 1.18), 0.1 * pace).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(label, "scale", Vector2.ONE, 0.1 * pace).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(label, "position:y", label.position.y - 70.0, 0.8 * pace).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.3 * pace).set_delay(0.45 * pace)
 	tween.chain().tween_callback(label.queue_free)
 
 
@@ -90,10 +96,10 @@ func burst(pos: Vector2, color: Color, amount: int = 24, speed: float = 260.0) -
 	particles.emitting = false
 	particles.one_shot = true
 	particles.amount = amount
-	particles.lifetime = 0.7
+	particles.lifetime = 0.7 / clampf(speed, 1.0, 2.5)
 	particles.explosiveness = 1.0
 	particles.spread = 180.0
-	particles.gravity = Vector2(0, 380)
+	particles.gravity = Vector2(0, 380) * clampf(speed, 1.0, 2.5)
 	particles.initial_velocity_min = speed * 0.4
 	particles.initial_velocity_max = speed
 	particles.scale_amount_min = 4.0
@@ -124,8 +130,8 @@ func flash_ring(pos: Vector2, color: Color, radius: float = 110.0) -> void:
 	if lights != null:
 		lights.pulse(pos, color, radius * 2.6, 1.1, 0.45)
 	var tween: Tween = create_tween().set_parallel(true)
-	tween.tween_property(ring, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(ring, "modulate:a", 0.0, 0.35)
+	tween.tween_property(ring, "scale", Vector2.ONE, 0.35 / maxf(speed, 0.1)).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(ring, "modulate:a", 0.0, 0.35 / maxf(speed, 0.1))
 	tween.chain().tween_callback(ring.queue_free)
 
 
@@ -181,7 +187,7 @@ func recoil(view: Control, away_from: Vector2, strength: float = 16.0) -> void:
 
 
 ## A ribbon swept across the screen at the start of a turn ("YOUR TURN" / "ENEMY TURN").
-func turn_banner(text: String, color: Color, duration: float = 0.75) -> void:
+func turn_banner(text: String, color: Color, duration: float = 0.75, subtitle: String = "") -> void:
 	var band: Panel = Panel.new()
 	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	band.size = Vector2(1920, 96)
@@ -197,6 +203,16 @@ func turn_banner(text: String, color: Color, duration: float = 0.75) -> void:
 	label.size = band.size
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	band.add_child(label)
+	if not subtitle.is_empty():
+		# Overnight Oct 28-29: the turn number under the words, small, so the band says whose turn and which one at a glance.
+		var sub: Label = UIKit.label(subtitle, &"", 22, Color(color, 0.85), HORIZONTAL_ALIGNMENT_CENTER)
+		sub.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		sub.add_theme_constant_override("outline_size", 6)
+		sub.size = Vector2(band.size.x, 26)
+		sub.position = Vector2(0, band.size.y - 24)
+		sub.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_child(sub)
+		label.position.y = -8.0
 	band.modulate.a = 0.0
 	label.position.x = -260.0
 	var tween: Tween = create_tween().set_parallel(true)
@@ -206,6 +222,31 @@ func turn_banner(text: String, color: Color, duration: float = 0.75) -> void:
 	tween.chain().set_parallel(true).tween_property(band, "modulate:a", 0.0, duration * 0.28)
 	tween.tween_property(label, "position:x", 260.0, duration * 0.28).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	tween.chain().tween_callback(band.queue_free)
+
+
+## A glowing mote that flies from one point to another on a shallow arc (a resource made by a card flying to its counter, a spent one
+## leaving it) and calls back when it lands. Overnight Oct 28-29. Never waited on: it plays beside the turn, not inside it.
+func fly_mote(from: Vector2, to: Vector2, color: Color, landed: Callable = Callable(), seconds: float = 0.32) -> void:
+	var mote: Panel = Panel.new()
+	mote.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	mote.size = Vector2(26, 26)
+	mote.pivot_offset = mote.size * 0.5
+	mote.add_theme_stylebox_override("panel", UIStyle.box(Color(color.lightened(0.35), 0.95), Color(1, 1, 1, 0.9), 3, 13))
+	mote.z_index = 270
+	mote.position = from - mote.size * 0.5
+	add_child(mote)
+	var control: Vector2 = (from + to) * 0.5 + Vector2(0, -minf(from.distance_to(to) * 0.35, 140.0))
+	var duration: float = seconds / maxf(speed, 0.1)
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_method(func(t: float) -> void:
+		if is_instance_valid(mote):
+			var u: float = 1.0 - t
+			mote.position = from * u * u + control * 2.0 * u * t + to * t * t - mote.size * 0.5, 0.0, 1.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(mote, "scale", Vector2(0.6, 0.6), duration).from(Vector2(1.25, 1.25))
+	tween.chain().tween_callback(func() -> void:
+		if landed.is_valid():
+			landed.call()
+		mote.queue_free())
 
 
 func shake(strength: float = 14.0, duration: float = 0.3) -> void:

@@ -408,7 +408,7 @@ func test_dialogue_speed_option_is_offered_with_instant() -> void:
 
 
 func test_battle_options_survive_a_save_and_load() -> void:
-	assert_eq(Settings.BATTLE_SPEEDS, [1.0, 1.5, 2.0] as Array[float], "1x / 1.5x / 2x")
+	assert_eq(Settings.BATTLE_SPEEDS, [1.0, 1.5, 2.0, 4.0] as Array[float], "1x / 1.5x / 2x / 4x (4x: overnight Oct 28-29)")
 	Settings.battle_speed = 2
 	Settings.confirm_end_turn = false
 	Settings.auto_end_turn = true

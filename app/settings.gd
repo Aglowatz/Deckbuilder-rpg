@@ -32,8 +32,8 @@ const DIALOGUE_SPEEDS: Array[float] = [24.0, 55.0, 110.0, 0.0]
 const DIALOGUE_SPEED_NAMES: Array[String] = ["Slow", "Normal", "Fast", "Instant"]
 ## Battle feel, Part B: how fast AI turns and battle animations play (a multiplier on every battle wait and tween).
 ## Overnight Oct 18, Part 7: 1x / 1.5x / 2x (animations only; the rules never wait on them).
-const BATTLE_SPEEDS: Array[float] = [1.0, 1.5, 2.0]
-const BATTLE_SPEED_NAMES: Array[String] = ["1x", "1.5x", "2x"]
+const BATTLE_SPEEDS: Array[float] = [1.0, 1.5, 2.0, 4.0]
+const BATTLE_SPEED_NAMES: Array[String] = ["1x", "1.5x", "2x", "4x"]
 const UI_SCALE_MIN: float = 0.9
 const UI_SCALE_MAX: float = 1.5
 ## Windowed sizes offered by the resolution list (the ones that do not fit the screen are left out).
