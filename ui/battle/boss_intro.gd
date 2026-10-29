@@ -94,6 +94,10 @@ func play(enemy_name: String, picture: Texture2D, fallback_icon: String, cutout:
 		_portrait.scale = Vector2(1.22, 1.22)
 		_portrait.modulate = Color(1, 1, 1, 0) if picture != null else Color(accent, 0)
 	add_child(_portrait)
+	# Overnight Oct 28-29, Phase 2: a hips-up cut-out ends in a straight crop; the lower letterbox bar is drawn over the figure so that line sits
+	# behind the bar (the boss stands behind it) instead of showing as a hard edge on the black.
+	if _cutout_mode:
+		move_child(_bars[1], _portrait.get_index())
 	_card = UIKit.vbox(6)
 	_card.position = Vector2(930, 380)
 	_card.custom_minimum_size = Vector2(840, 0)
