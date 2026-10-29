@@ -1351,8 +1351,9 @@ func _face_npc(id: String) -> void:
 
 
 ## Oct 21: Old Hob, leaning on his shovel a few steps from the Restless Cairn.
+## Art import Oct 29, Part 4: one step north of where he stood (z +1.6), off the D.N.A. road's walking line (he stood 0.4 m from it).
 func _hob_spot() -> Vector3:
-	return (town.anchors["graveyard_cairn"] as Vector3) + Vector3(-2.4, 0.0, 1.6)
+	return (town.anchors["graveyard_cairn"] as Vector3) + Vector3(-2.4, 0.0, 0.2)
 
 
 ## Oct 21: Isla stands at her father's open gate once she is home.
