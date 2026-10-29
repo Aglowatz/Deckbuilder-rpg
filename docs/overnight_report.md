@@ -105,7 +105,7 @@ boss-rules OK (twice); structure budget met; memory round-trip smoke OK.
 
 ## Inbox items (Overnight Oct 28-29)
 
-1. Captain Spotless (Capital roamer) - 3D knight until a FOE set exists, or use his NPC set.
+1. Captain Spotless (Capital roamer) - 3D knight until a FOE set exists, or use his NPC set. **Oct 29: wrong - he is not a roamer and the gate NPC already wears his painted set.**
 2. The 0.45 s threat pose before a chase (`ZoneEnemy.THREAT_SECONDS`).
 3. The roamers' warm rim (`ZoneEnemy.ROAMER_RIM`).
 4. Hub walk smoke: Old Hob stands on the D.N.A. road's test line.

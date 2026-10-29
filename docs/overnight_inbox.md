@@ -6,6 +6,8 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 ## Overnight Oct 28-29 - yours to decide (the safest choice was taken)
 
+**Answered Oct 29:** 1 - checked in game: he is already his painted NPC set at the gate (`NPC-SPOTLESS` -> `SPOTLESS`, `_screenshots/oct29_spotless_gate.png`); he is not a roamer (the "spotless" enemy entry is only the gate battle), so the item was a mistake and nothing changed. 2 - keep the threat pause. 3 - keep the red-orange rim. 4 - later (still open).
+
 1. **Captain Spotless as a Capital roamer** still walks as the 3D KayKit knight: the roster test wants every roamer's set under a `FOE-` key and
    there is no `SPR-FOE-CAPTAIN-SPOTLESS` set. His stationary NPC set (`SPOTLESS`) exists; say "use his NPC set" and he swaps to it (he would hop
    when he moves, like the other idle-only sets), or ask for a walk set in a later batch.
