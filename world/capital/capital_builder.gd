@@ -1097,11 +1097,25 @@ func _build_rifts() -> void:
 	for entry: Dictionary in CapitalRifts.all():
 		var rift_id: String = str(entry["id"])
 		if CapitalRifts.is_sealed(Session.flags, rift_id):
+			_sealed_stone(entry)
 			continue
 		var node: Node3D = _make_rift(entry)
 		root.add_child(node)
 		node.position = Vector3(float(entry["x"]), 0.0, float(entry["z"]))
 		rift_nodes[rift_id] = node
+
+
+## Art import Oct 29: a painted rift (CAPI-SHEET-RIFTS-01..03, three sizes, purple) stands in each open tear, and a sealed rift leaves a
+## painted rift-sealed stone (-04..06) where it was. Heights by size: small, big.
+const RIFT_ART_HEIGHT: Vector2 = Vector2(2.6, 3.8)
+const SEALED_STONE_HEIGHT: float = 1.0
+
+
+func _sealed_stone(entry: Dictionary) -> void:
+	var at: Vector3 = Vector3(float(entry["x"]), 0.0, float(entry["z"]))
+	var id: String = "CAPI-SHEET-RIFTS-%02d" % (4 + absi(str(entry["id"]).hash()) % 3)
+	if KitPieces.stand(root, id, at, SEALED_STONE_HEIGHT) != null:
+		add_blocker(at, 0.4)
 
 
 func _make_rift(entry: Dictionary) -> Node3D:
@@ -1118,6 +1132,9 @@ func _make_rift(entry: Dictionary) -> Node3D:
 	var tear: Node3D = node.get_node_or_null("Tear") as Node3D
 	if tear != null:
 		_rift_cores.append(tear)
+	var art_index: int = 3 if big else 1 + absi(rift_id.hash()) % 2
+	if KitPieces.stand(node, "CAPI-SHEET-RIFTS-%02d" % art_index, Vector3.ZERO, RIFT_ART_HEIGHT.y if big else RIFT_ART_HEIGHT.x, false) != null and tear != null:
+		tear.visible = false
 	var orbit: Node3D = node.get_node_or_null("Orbit") as Node3D
 	if orbit != null:
 		_orbits.append(orbit)

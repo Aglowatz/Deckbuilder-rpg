@@ -408,6 +408,12 @@ static func gate_arch(final_state: bool) -> Node3D:
 # ---- the Primm statue fountain (CAP-HERO-PRIMM-FOUNTAIN) ---------------------------------------------------------------------------------------
 
 
+const PAINTED_STATUE: String = "CAPI-PROP-PRIMM-STATUE"
+const PAINTED_STATUE_FALLEN: String = "CAPI-PROP-STATUE-FALLEN"
+const PAINTED_STATUE_HEIGHT: float = 4.2
+const PAINTED_FALLEN_HEIGHT: float = 2.4
+
+
 ## The inside hub's centrepiece (7 m across, `CapitalLayout.FOUNTAIN_SIZE`): a pristine white marble basin with a gold rim and eight rose planters,
 ## a raised middle tier with Primm's face medallions and four gold spouts pouring into the basin, and on top the marble Primm smiling, arms spread,
 ## gold accents. Symmetric jets, a faint mist. When Primm has fallen the fountain runs dry and the statue lies toppled in the basin.
@@ -446,11 +452,20 @@ static func fountain(final_state: bool) -> Node3D:
 				mesh.quad("water", [points[step] - across, points[step + 1] - across, points[step + 1] + across, points[step] + across], spout + Vector3.UP)
 	mesh.lathe("marble", Vector3(0, 1.75, 0), [Vector2(0.8, 0.0), Vector2(0.7, 0.2), Vector2(0.6, 0.65), Vector2(0.75, 0.75)], 16, 0.9, false, true)
 	mesh.lathe("gold", Vector3(0, 2.4, 0), [Vector2(0.78, 0.0), Vector2(0.78, 0.1)], 16, 1.0, false, true)
-	if not final_state:
+	# art import Oct 29: the painted gold Primm (CAPI-PROP-PRIMM-STATUE) on the middle tier; after his fall the painted toppled statue
+	# (CAPI-PROP-STATUE-FALLEN) lies in the dry basin. The marble model stays the fallback.
+	var statue_art: String = PAINTED_STATUE_FALLEN if final_state else PAINTED_STATUE
+	var painted: bool = EnvKit.has(statue_art) and EnvKit.has_art(statue_art)
+	if not final_state and not painted:
 		K.primm_statue(mesh, Vector3(0, 2.5, 0), 3.6, Vector3(0, 0, 1))
-	else:
+	elif not painted:
 		K.primm_statue(mesh, Vector3(0.4, 0.3, 0.6), 3.6, Vector3(0.7, 0, 0.7).normalized(), true)
 	finish(root, mesh, [Vector3(0, 0, outer)], 6.5)
+	if painted:
+		if final_state:
+			KitPieces.stand(root, statue_art, Vector3(0.0, 0.3, 1.2), PAINTED_FALLEN_HEIGHT, false)
+		else:
+			KitPieces.stand(root, statue_art, Vector3(0.0, 2.4, 0.0), PAINTED_STATUE_HEIGHT, true)
 	if not final_state:
 		var mist: CPUParticles3D = CPUParticles3D.new()
 		mist.name = "Mist"

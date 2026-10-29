@@ -394,6 +394,9 @@ static func _horn(mesh: KitMesh, slot: String, base: Vector3, dir: Vector3, leng
 			mesh.quad("dark", quad, -(d0 + d1).normalized())
 
 
+const LOST_POSTER_ART: String = "CAPI-DEC-LOST-PROPERTY-01"
+
+
 ## A lost-property notice for the "escaped Royal Asset" (Story v2): a pinned sheet that reads like a notice about a missing umbrella. Defacing it crosses out "Asset".
 static func lost_poster(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
@@ -410,7 +413,9 @@ static func lost_poster(_story: ZoneStoryText) -> Node3D:
 		mesh.blob("red_gold", Vector3(corner.x, corner.y, 0.0), Vector3(0.04, 0.04, 0.03), 3, 6)
 	CapitalLandmarks.finish(root, mesh, [], 3.2)
 	# G-03: a face on the poster instead of lettering; the capital scene adds a spot that reads it (`prop.lost_poster` / `.known`).
-	IconSign.attach(root, "ICON-UI-CHARACTER", Vector3(0, 2.0, 0.05), 1.1)
+	# Art import Oct 29: the painted notice (CAPI-DEC-LOST-PROPERTY-01, the missing silhouette) covers the sheet; the icon face is the fallback.
+	if KitPieces.wall(root, LOST_POSTER_ART, Vector3(0, 1.95, 0.0), 0.0, 1.45) == null:
+		IconSign.attach(root, "ICON-UI-CHARACTER", Vector3(0, 2.0, 0.05), 1.1)
 	var crossed: Node3D = _state_group(root, "Defaced", false)
 	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, 32))
 	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, -32))

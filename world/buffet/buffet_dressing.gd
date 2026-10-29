@@ -28,6 +28,10 @@ const KIT_CLUSTERS: Array = [
 	["herb_bed", "", Vector2(43.6, 27.4), 180.0],
 	["flour_store", "", Vector2(84.5, 20.5), 0.0],
 ]
+## Art import Oct 29: the tasting stands of the Grand Pantry's approach (BUFF-SHEET-TASTING-STANDS-01..04: prototype tastings under cloches),
+## each with a Yes-Chef golem guard beside it (-05 / -06), on the first free spots of rings round the hub: stand height, guard height, the
+## guard's offset from its stand, how many.
+const TASTING: Dictionary = {"stand": 1.5, "guard": 1.9, "guard_offset": Vector2(1.35, 0.3), "count": 3, "rings": [13.5, 16.0, 18.5]}
 ## kit decal id, anchor ("" = world position), offset, size (m), yaw.
 const DECALS: Array = [
 	["BUFF-DEC-FLOUR", "oven", Vector2(-1.6, 2.4), 1.6, 20.0], ["BUFF-DEC-FLOUR", "", Vector2(40.0, 60.0), 2.0, 0.0], ["BUFF-DEC-FLOUR", "", Vector2(60.0, 60.0), 2.0, 70.0],
@@ -48,9 +52,37 @@ static func build(parent: Node3D, builder: BuffetBuilder, quality: int) -> Buffe
 	for pos: Variant in builder.layout.chests.values():
 		dressing._chests.append(pos as Vector3)
 	dressing._kit_clusters()
+	dressing._tasting_stands()
 	if quality > 0:
 		dressing._decals()
 	return dressing
+
+
+func _tasting_stands() -> void:
+	if not EnvKit.has_art("BUFF-SHEET-TASTING-STANDS-01") or not _builder.has_anchor("hub"):
+		return
+	var hub: Vector3 = _builder.anchor("hub")
+	var guard_offset: Vector2 = TASTING["guard_offset"] as Vector2
+	var placed: int = 0
+	for radius: Variant in TASTING["rings"] as Array:
+		for step: int in range(16):
+			if placed >= int(TASTING["count"]):
+				return
+			var angle: float = deg_to_rad(-90.0 + 22.5 * float(step))
+			var stand: Vector3 = hub + Vector3(cos(angle), 0.0, sin(angle)) * float(radius)
+			var guard: Vector3 = stand + Vector3(guard_offset.x, 0.0, guard_offset.y)
+			if not _free(stand, 2.4, 3.0) or not _free(guard, 2.0, 1.2):
+				continue
+			stand.y = _builder.layout.ground_height(stand.x, stand.z)
+			guard.y = _builder.layout.ground_height(guard.x, guard.z)
+			KitPieces.stand(root, "BUFF-SHEET-TASTING-STANDS-%02d" % (placed % 4 + 1), stand, float(TASTING["stand"]))
+			KitPieces.stand(root, "BUFF-SHEET-TASTING-STANDS-%02d" % (5 + placed % 2), guard, float(TASTING["guard"]))
+			_builder.add_blocker(Vector3(stand.x, 0.0, stand.z), 0.7)
+			_builder.add_blocker(Vector3(guard.x, 0.0, guard.z), 0.4)
+			_placed.append(Vector2(stand.x, stand.z))
+			_placed.append(Vector2(guard.x, guard.z))
+			count += 2
+			placed += 1
 
 
 func _at(anchor: String, offset: Vector2) -> Vector3:

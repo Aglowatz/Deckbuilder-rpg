@@ -110,7 +110,8 @@ func test_part_c_hub_dressing_keeps_clear() -> void:
 	builder.build(host)
 	var dressing: DnaDressing = DnaDressing.build(host, builder, GraphicsQuality.Level.HIGH)
 	assert_gt(dressing.count, 6, "the hub carries a few kit clusters and decals")
-	assert_lt(dressing.count, 40, "but stays uncluttered")
+	# art import Oct 29: +6 form decals, the filing towers, lamps, topiary and the ghost queue (40 at the time; the lobby shot reads clear)
+	assert_lt(dressing.count, 50, "but stays uncluttered")
 	var centre: Vector3 = builder.anchor("lobby_center")
 	for child: Node in dressing.root.get_children():
 		if not child.name.begins_with("Cluster_"):

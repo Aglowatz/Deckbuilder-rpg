@@ -608,8 +608,9 @@ func _build_entrance() -> void:
 ## for the layout-only readers). Spinners turn in `animate`; the Rotheart's heart pulses.
 func _build_landmarks() -> void:
 	rotheart = _place_landmark("DUMP-HERO-ROTHEART", _hero("DUMP-HERO-ROTHEART", HeapLayout.ROTHEART_SIZE), HeapLayout.ROTHEART, 0.0, true)
-	_place_landmark("DUMP-HERO-JUNK-MOUNTAIN", _hero("DUMP-HERO-JUNK-MOUNTAIN", HeapLayout.JUNK_MOUNTAIN_SIZE), HeapLayout.JUNK_MOUNTAIN, -48.0, true)
-	_place_landmark("DUMP-HERO-TRASH-PANDA-THRONE", _hero("DUMP-HERO-TRASH-PANDA-THRONE", HeapLayout.THRONE_SIZE), HeapLayout.THRONE, 0.0, true)
+	var mountain: Node3D = _place_landmark("DUMP-HERO-JUNK-MOUNTAIN", _hero("DUMP-HERO-JUNK-MOUNTAIN", HeapLayout.JUNK_MOUNTAIN_SIZE), HeapLayout.JUNK_MOUNTAIN, -48.0, true)
+	var throne: Node3D = _place_landmark("DUMP-HERO-TRASH-PANDA-THRONE", _hero("DUMP-HERO-TRASH-PANDA-THRONE", HeapLayout.THRONE_SIZE), HeapLayout.THRONE, 0.0, true)
+	_painted_views(mountain, throne)
 	_place_landmark("HEAP-ROOT-GATE", HeapLandmarks.root_gate(HeapLayout.ROOT_GATE_SIZE), HeapLayout.ROOT_GATE, 0.0, false)
 	_place_landmark("DUMP-HERO-WINDMILL", _hero("DUMP-HERO-WINDMILL", HeapLayout.WINDMILL_SIZE), HeapLayout.WINDMILL, 0.0, false)
 	_place_landmark("DUMP-HERO-COMMONS-GREENHOUSE", _hero("DUMP-HERO-COMMONS-GREENHOUSE", HeapLayout.GREENHOUSE_SIZE), HeapLayout.GREENHOUSE, 0.0, false)
@@ -625,6 +626,42 @@ func _build_landmarks() -> void:
 	for node: Variant in landmarks.values():
 		if (node as Node3D).has_meta("spinner"):
 			_spinners.append((node as Node3D).get_meta("spinner") as Node3D)
+
+
+## Art import Oct 29: the painted Junk Mountain (tyres, a rusted car, a goat on top) stands where the moss-lump model stood (the model is hidden,
+## its circles kept); the painted throne dumpster with its bottle-cap banners sits on the throne's top tier behind the raccoon king (it was a
+## plain bin); corruption decals (fungus clusters, split roots) spread on the ground before the throne and the Rotheart's root gate.
+const PAINTED_MOUNTAIN_HEIGHT: float = 34.0
+const PAINTED_MOUNTAIN_FORWARD: float = 6.0
+const THRONE_DUMPSTER_HEIGHT: float = 8.6
+## Local (x, y over the top tier, z) of the dumpster card on the throne model (its top tier ends at y 6.4, the king sits at z -3.6).
+const THRONE_DUMPSTER_AT: Vector3 = Vector3(0.0, 6.2, -5.4)
+## (x, z, width, yaw) of the corruption decals, as offsets from the throne and the root gate.
+const CORRUPTION_DECALS: Array[Vector4] = [Vector4(-3.5, 9.0, 2.2, 10.0), Vector4(4.0, 11.0, 2.6, 80.0), Vector4(-1.0, 14.0, 1.8, 200.0)]
+const ROOT_DECALS: Array[Vector4] = [Vector4(-5.5, 5.0, 2.4, 40.0), Vector4(5.0, 6.0, 2.0, 130.0), Vector4(0.5, 8.5, 1.6, 300.0)]
+
+
+func _painted_views(mountain: Node3D, throne: Node3D) -> void:
+	if mountain != null:
+		var at: Vector3 = mountain.position + Vector3(0.0, 0.0, PAINTED_MOUNTAIN_FORWARD)
+		var card: Node3D = KitPieces.stand(root, "DUMP-HERO-JUNK-MOUNTAIN", at, PAINTED_MOUNTAIN_HEIGHT, false)
+		if card != null:
+			mountain.visible = false
+			_never_cull(card, true)
+	if throne != null:
+		var dumpster: Node3D = KitPieces.stand(root, "DUMP-HERO-THRONE-DUMPSTER", throne.position + THRONE_DUMPSTER_AT, THRONE_DUMPSTER_HEIGHT, false)
+		if dumpster != null:
+			_never_cull(dumpster, true)
+	var index: int = 0
+	for set_spec: Array in [[HeapLayout.THRONE, CORRUPTION_DECALS], [HeapLayout.ROOT_GATE, ROOT_DECALS]]:
+		var origin: Vector2 = set_spec[0] as Vector2
+		for spec: Vector4 in set_spec[1] as Array[Vector4]:
+			var p: Vector3 = Vector3(origin.x + spec.x, 0.0, origin.y + spec.y)
+			if not is_floor_at(p):
+				continue
+			p.y = layout.ground_height(p.x, p.z)
+			KitPieces.ground(root, "DUMP-DEC-CORRUPTION-%02d" % (index % 6 + 1), p, spec.w, spec.z)
+			index += 1
 
 
 func _hero(id: String, size: Vector3) -> Node3D:

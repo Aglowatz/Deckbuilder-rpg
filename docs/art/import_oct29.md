@@ -185,3 +185,36 @@ Shots (`_screenshots/oct29/`): `before_forest` / `after_forest`, `p3_forest_cave
 `after_gainlands`, `p3_gain_hall` (`p3_gain_wheel` caught a roamer and shows the battle instead). Checks: GUT world 418 (the Buffet and D.N.A.
 skyline tests now expect the new strips), Crosspath / Gainlands walk smokes OK, prologue smoke OK, structure OK, frame budgets met on the
 re-run (first run: p99 noise and Crosspath Medium 841 vs 840 draw calls, then 839).
+
+### 3b - D.N.A., Endless Buffet, Verdant Dump, Capital
+
+| Area | What | Where / how |
+|---|---|---|
+| D.N.A. | DNA-BD-HALL-FACADE | kit card north, ring 0, in front of the filing-tower ring |
+| | DNA-SHEET-FILING-TOWERS-01..03 | five towers (3.4-6.2 m) in the cubicle farms and the records basement (`DnaDressing.KIT_PIECES`, first free spot of a ring round each anchor) |
+| | DNA-SHEET-GHOST-QUEUE-01..06 + FILING-TOWERS-04 | six waiting ghosts in a line behind a brass queue post, with its back to a wall (nothing walkable 1.2 m behind it) so it never walls off a room (`DnaDressing._ghost_queue`) |
+| | DNA-SHEET-PROPS-01..06 | ghost lamps (2.6 m) and dead topiary (1.6 m) in the lobby, bank, mail room and breakroom |
+| | DNA-DEC-FORMS | six floor decals (forms, DENIED stamps, tickets) added to the hub's decal list |
+| Buffet | BUFF-BD-CAKE-CATHEDRAL / -TEST-KITCHEN | replace the old BUFF-BD-CAKE strips (north, ring 2) |
+| | BUFF-SHEET-TASTING-STANDS | three tasting stands under cloches, each with a Yes-Chef golem guard, on the first free spots round the Grand Pantry (`BuffetDressing._tasting_stands`) |
+| | BUFF-DEC-ROSETTES | two of Crumb's rosettes on the front wall of each kit building, either side of the door (`BuffetBuilder._add_rosettes`) |
+| Verdant Dump | DUMP-BD-ROTHEART-SKY | north, ring 2, in place of the valley strip there (DUMP-BD-ROTHEART with its baked sky stays unused) |
+| | DUMP-HERO-JUNK-MOUNTAIN (redo) | 34 m card where the moss-lump model stood (model hidden, circles kept) |
+| | DUMP-HERO-THRONE-DUMPSTER | 8.6 m card on the throne's top tier behind the raccoon king (was a plain bin) |
+| | DUMP-SHEET-ENTRANCE-FLAGS | moss-and-rust pennants on the far landing's two posts instead of the primary-blue triangles |
+| | DUMP-DEC-CORRUPTION | six ground decals before the throne and the Rotheart's root gate |
+| Capital | CAPI-BD-GREAT-WALL / CAPI-BD-CASTLE | outside: the wall runs on along the skyline either side (315 / 45 degrees); inside: the castle north, ring 1 |
+| | CAPI-PROP-PRIMM-STATUE / -STATUE-FALLEN | the gold Primm crowns the plaza fountain; after his fall the painted toppled statue lies in the dry basin (marble model as fallback) |
+| | CAPI-DEC-LOST-PROPERTY-01 | the painted notice on every lost-property board (the icon face as fallback) |
+| | CAPI-SHEET-RIFTS-01..03 / -04..06 | a painted rift stands in each open tear (the 3D tear hidden); a sealed rift leaves a painted rift-sealed stone (blocks 0.4 m) |
+| | CAP-PATH-WHITE | the real tileable texture, same id |
+
+Shots (`_screenshots/oct29/`): `before_dna` / `after_dna` + `p3_dna_lobby`; `before_buffet` / `after_buffet` + `p3_buffet_stands`; `before_heap`
+/ `after_heap` + `p3_heap_throne`; `before_capital` / `after_capital` + `p3_capital_statue`. (The arrival shots of the D.N.A. look the same
+before and after: the new pieces are inside the rooms.) The throne dumpster was hidden behind the king in `p3_heap_throne`; it was made larger and
+moved back afterwards (checked in Part 5), and the tasting stands are out of frame in `p3_buffet_stands` (checked in Part 5).
+
+Checks: GUT world 422 (new `tests/world/test_zone_pieces_oct29.gd`; the D.N.A. clutter cap 40 -> 50, inbox); walk smokes D.N.A. (failed
+first: the ghost line walled off Pip; fixed by the back-to-a-wall rule), Buffet, Dump, Capital OK; memory round-trip flat (static +0.9 MB,
+video -0.1 MB, objects +28 over 10 trips); frame budgets: averages 13-16 ms Medium everywhere; p99 over only on the Capital outskirts Medium,
+the same with and without tonight's changes (A/B: 27.3 vs 27.0 ms), so it predates tonight (inbox).

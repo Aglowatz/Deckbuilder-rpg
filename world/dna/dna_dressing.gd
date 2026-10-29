@@ -31,7 +31,30 @@ const DECALS: Array = [
 	["DNA-DEC-FOOT", "gate", Vector2(-0.3, -2.6), 2.4, -3.0], ["DNA-DEC-FOOT", "lobby_center", Vector2(0.4, -4.6), 2.4, 2.0],
 	["DNA-DEC-FOOT", "lobby_center", Vector2(-0.3, -9.4), 2.4, -5.0], ["DNA-DEC-FOOT", "mail_center", Vector2(0.2, 5.0), 2.6, 3.0],
 	["DNA-DEC-FOOT", "mail_center", Vector2(-0.2, -5.6), 2.6, -2.0], ["DNA-DEC-FOOT", "bank_center", Vector2(0.0, -2.2), 2.4, 1.0],
+	# art import Oct 29: dropped forms, DENIED stamps and tickets (DNA-DEC-FORMS, stamp shapes only, no lettering)
+	["DNA-DEC-FORMS-01", "lobby_center", Vector2(-4.0, 3.4), 0.9, 25.0], ["DNA-DEC-FORMS-02", "mail_center", Vector2(3.2, -2.0), 1.0, -10.0],
+	["DNA-DEC-FORMS-04", "records_center", Vector2(-3.0, 2.6), 1.1, 70.0], ["DNA-DEC-FORMS-05", "breakroom_center", Vector2(1.6, 2.4), 0.8, 160.0],
+	["DNA-DEC-FORMS-01", "farm_a_center", Vector2(-4.0, -2.0), 0.9, 300.0], ["DNA-DEC-FORMS-02", "farm_b_center", Vector2(4.0, 2.4), 0.9, 15.0],
 ]
+
+## Art import Oct 29: the painted pieces of the kit sheets standing in the rooms (`KitPieces.stand`): id, anchor, height (m), blocking radius,
+## how many. Each takes the first free spot of a ring round its anchor (`_free`: walkable, off the routes and doorways, clear of every
+## anchor). Filing-cabinet towers in the cubicle farms and the records basement; ghost lamps and dead topiary in the lobby, the bank and the
+## mail room. The ghost queue is a line of its own (`QUEUE`).
+const KIT_PIECES: Array = [
+	["DNA-SHEET-FILING-TOWERS-03", "farm_a_center", 6.2, 0.75, 1], ["DNA-SHEET-FILING-TOWERS-02", "farm_a_center", 4.6, 0.65, 1],
+	["DNA-SHEET-FILING-TOWERS-01", "farm_b_center", 3.4, 0.55, 1], ["DNA-SHEET-FILING-TOWERS-03", "farm_b_center", 6.0, 0.75, 1],
+	["DNA-SHEET-FILING-TOWERS-02", "records_center", 4.4, 0.65, 1],
+	["DNA-SHEET-PROPS-01", "lobby_center", 2.6, 0.3, 2], ["DNA-SHEET-PROPS-02", "bank_center", 2.6, 0.3, 1], ["DNA-SHEET-PROPS-03", "mail_center", 2.6, 0.3, 1],
+	["DNA-SHEET-PROPS-04", "lobby_center", 1.6, 0.4, 1], ["DNA-SHEET-PROPS-05", "bank_center", 1.6, 0.4, 1], ["DNA-SHEET-PROPS-06", "breakroom_center", 1.6, 0.4, 1],
+]
+const PIECE_RINGS: Array[float] = [7.0, 9.0, 5.5, 11.0]
+## The queue of ghosts (DNA-SHEET-GHOST-QUEUE-01..06) waiting in a line with a brass queue post (DNA-SHEET-FILING-TOWERS-04) at its head: the
+## anchor whose ring is tried, the gap between ghosts and the ghosts' height.
+## The queue stands with its back to a wall (nothing walkable QUEUE_BACK metres behind it, -z), so it can never wall off a way across a room.
+const QUEUE_CLEARANCE: float = 2.5
+const QUEUE_BACK: float = 1.2
+const QUEUE: Dictionary = {"anchors": ["lobby_center", "bank_center", "mail_center", "records_center", "breakroom_center"], "gap": 0.95, "height": 1.65, "post": "DNA-SHEET-FILING-TOWERS-04"}
 
 
 static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDressing:
@@ -45,6 +68,8 @@ static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDress
 	for pos: Variant in builder.layout.chests.values():
 		dressing._anchors.append(pos as Vector3)
 	dressing._kit_clusters()
+	dressing._kit_pieces()
+	dressing._ghost_queue()
 	if quality > 0:
 		dressing._decals()
 	return dressing
@@ -73,6 +98,60 @@ func _kit_clusters() -> void:
 			var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
 			_builder.add_blocker(Vector3(world.x, 0.0, world.z), local.z)
 		count += 1
+
+
+func _kit_pieces() -> void:
+	for entry: Array in KIT_PIECES:
+		var anchor_id: String = str(entry[1])
+		if not _builder.has_anchor(anchor_id) or not EnvKit.has_art(str(entry[0])):
+			continue
+		var left: int = int(entry[4])
+		for spot: Vector3 in _ring_spots(_builder.anchor(anchor_id)):
+			if left <= 0:
+				break
+			if not _free(spot, 2.2, 1.8):
+				continue
+			if KitPieces.stand(root, str(entry[0]), spot, float(entry[2])) == null:
+				break
+			_builder.add_blocker(Vector3(spot.x, 0.0, spot.z), float(entry[3]))
+			_placed.append(Vector2(spot.x, spot.z))
+			count += 1
+			left -= 1
+
+
+## Spots on rings round `center` (PIECE_RINGS, every 30 degrees), nearest ring first.
+func _ring_spots(center: Vector3) -> Array[Vector3]:
+	var spots: Array[Vector3] = []
+	for radius: float in PIECE_RINGS:
+		for step: int in range(12):
+			var angle: float = deg_to_rad(15.0 + 30.0 * float(step))
+			spots.append(center + Vector3(cos(angle), 0.0, sin(angle)) * radius)
+	return spots
+
+
+func _ghost_queue() -> void:
+	if not EnvKit.has_art("DNA-SHEET-GHOST-QUEUE-01"):
+		return
+	var gap: float = float(QUEUE["gap"])
+	var heads: Array[Vector3] = []
+	for anchor_id: Variant in QUEUE["anchors"] as Array:
+		if _builder.has_anchor(str(anchor_id)):
+			heads.append_array(_ring_spots(_builder.anchor(str(anchor_id))))
+	for head: Vector3 in heads:
+		var line: Array[Vector3] = []
+		for index: int in range(7):
+			line.append(head + Vector3(gap * float(index), 0.0, 0.0))
+		# a whole line of solid figures: well clear of every anchor and NPC spot so it never walls off a way to someone (the walk smoke to Pip)
+		if not line.all(func(p: Vector3) -> bool: return _free(p, QUEUE_CLEARANCE, 1.4) and not _builder.is_walkable(p + Vector3(0.0, 0.0, -QUEUE_BACK), 0.3)):
+			continue
+		KitPieces.stand(root, str(QUEUE["post"]), line[0], 1.3)
+		for index: int in range(1, line.size()):
+			KitPieces.stand(root, "DNA-SHEET-GHOST-QUEUE-%02d" % index, line[index], float(QUEUE["height"]), false)
+		for p: Vector3 in line:
+			_placed.append(Vector2(p.x, p.z))
+			_builder.add_blocker(Vector3(p.x, 0.0, p.z), 0.35)
+		count += 1
+		return
 
 
 ## Free floor for a piece of dressing: walkable, `clearance` from every anchor and chest, `spacing` from the other pieces, off the plaza middle, off the executive court,

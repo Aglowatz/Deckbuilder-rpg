@@ -619,6 +619,7 @@ func _place_feature(prop: BuffetLayout.Prop, pos: Vector3) -> void:
 			node = BuildingPresets.build(preset)
 			node.set_meta("circles", BuildingKit.obstacle_circles(BuildingPresets.spec(preset)))
 			_add_circles(node, pos, prop.yaw)
+			_add_rosettes(node, pos, prop.yaw, prop.variant)
 		"hall_wing":
 			node = BuffetLandmarks.hall_wing(11.0, prop.variant)
 			_add_circles(node, pos, prop.yaw)
@@ -770,6 +771,26 @@ func _place_landmark(id: String, at: Vector2, size: Vector3, yaw: float, view: b
 
 
 ## The blocking circles a built piece carries (meta "circles", local x, z, radius) at world position `pos` turned by `yaw` degrees.
+## Art import Oct 29: two of Colonel Crumb's rosette posters (BUFF-DEC-ROSETTES-01..06) on a kit building's front wall, either side of its door
+## (the wall is the front edge of the building's blocking circles): x offsets from the middle, height above the ground, width.
+const ROSETTE_SPOTS: Array[Vector2] = [Vector2(-2.0, 2.5), Vector2(2.0, 2.5)]
+const ROSETTE_WIDTH: float = 0.9
+
+
+func _add_rosettes(node: Node3D, pos: Vector3, yaw: float, variant: int) -> void:
+	var front: float = -1.0e9
+	for circle: Variant in node.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		front = maxf(front, local.y + local.z)
+	if front < -1.0e8:
+		return
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	for index: int in range(ROSETTE_SPOTS.size()):
+		var spot: Vector2 = ROSETTE_SPOTS[index]
+		var id: String = "BUFF-DEC-ROSETTES-%02d" % ((variant * 2 + index) % 6 + 1)
+		KitPieces.wall(root, id, pos + basis * Vector3(spot.x, spot.y, front), yaw, ROSETTE_WIDTH)
+
+
 func _add_circles(node: Node3D, pos: Vector3, yaw: float) -> void:
 	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
 	for circle: Variant in node.get_meta("circles", []) as Array:

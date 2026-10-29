@@ -1129,7 +1129,12 @@ static func root_gate(size: Vector3) -> Node3D:
 
 ## The way in from town: a plank bridge on rusty girders out over the overflow pool, tyre kerbs, rope rails on scrap posts, a gate of stacked tyres with
 ## a rusty beam (the zone's icon on it) at the land end and a landing with two rag-flag posts at the town end. Along +z from the origin.
+## Art import Oct 29: the pennants hung on the far landing's two flag posts (moss green and rust, the zone palette).
+const ENTRANCE_PENNANTS: Array[String] = ["DUMP-SHEET-ENTRANCE-FLAGS-01", "DUMP-SHEET-ENTRANCE-FLAGS-02"]
+
+
 static func entrance_bridge(length: float, width: float) -> Node3D:
+	var pennants: Array[Vector3] = []
 	var mesh: KitMesh = KitMesh.new()
 	_materials(mesh)
 	var circles: Array[Vector3] = []
@@ -1192,11 +1197,16 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	for side: float in [-1.0, 1.0]:
 		var foot: Vector3 = Vector3(side * (half + 0.4), 0.0, landing_z + 1.5)
 		mesh.tube("wood_dark", foot, foot + Vector3(0.0, 2.9, 0.0), 0.14, 6, true)
-		mesh.tri("cap_blue", [foot + Vector3(0.0, 2.9, 0.0), foot + Vector3(0.0, 2.0, 0.0), foot + Vector3(side * 1.1, 2.45, 0.0)], Vector3(0.0, 0.0, 1.0))
-		mesh.tri("cap_blue", [foot + Vector3(0.0, 2.9, 0.0), foot + Vector3(side * 1.1, 2.45, 0.0), foot + Vector3(0.0, 2.0, 0.0)], Vector3(0.0, 0.0, -1.0))
+		# art import Oct 29: painted moss-and-rust pennants (DUMP-SHEET-ENTRANCE-FLAGS) replace the flat primary-blue triangles
+		if not EnvKit.has_art(ENTRANCE_PENNANTS[0]):
+			mesh.tri("cap_blue", [foot + Vector3(0.0, 2.9, 0.0), foot + Vector3(0.0, 2.0, 0.0), foot + Vector3(side * 1.1, 2.45, 0.0)], Vector3(0.0, 0.0, 1.0))
+			mesh.tri("cap_blue", [foot + Vector3(0.0, 2.9, 0.0), foot + Vector3(side * 1.1, 2.45, 0.0), foot + Vector3(0.0, 2.0, 0.0)], Vector3(0.0, 0.0, -1.0))
+		pennants.append(foot + Vector3(side * 0.5, 2.25, 0.08))
 		circles.append(Vector3(foot.x, foot.z, 0.5))
 		mesh.tube("rust_dark", Vector3(side * (half + 0.2), -4.0, landing_z), Vector3(side * (half + 0.2), -0.3, landing_z), 0.3, 8, true)
 	var root: Node3D = _finish(mesh, "Bridge", circles, Vector3(width, gate_h, length), true)
+	for index: int in range(pennants.size()):
+		KitPieces.wall(root, ENTRANCE_PENNANTS[index % ENTRANCE_PENNANTS.size()], pennants[index], 0.0, 0.85)
 	(root.get_child(0) as MeshInstance3D).set_meta(&"no_range_cull", true)
 	var bunting: MeshInstance3D = line.instance("Bunting")
 	bunting.set_meta(PaintedClasses.META_NO_PAINT, true)
