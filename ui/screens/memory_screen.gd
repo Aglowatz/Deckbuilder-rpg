@@ -7,6 +7,8 @@ signal finished
 
 const VIGNETTE_ALPHA: float = 0.42
 const LINE_FADE: float = 1.1
+## Art import Oct 29: how dark the screen gets over the fragment's painted still (`StoryStills.memory_backdrop`); 0.9 with no still.
+const STILL_SHADE: float = 0.6
 
 var number: int = 1
 var title: String = ""
@@ -33,6 +35,10 @@ func _ready() -> void:
 	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	var still: StillBackdrop = StillBackdrop.make(StoryStills.memory_backdrop(number), false)
+	if still != null:
+		add_child(still)
+		still.fade_in(1.4)
 	_shade = ColorRect.new()
 	_shade.color = Color(0.015, 0.012, 0.03, 0.0)
 	UIKit.full_rect(_shade)
@@ -53,7 +59,7 @@ func _ready() -> void:
 	_hint = UIKit.label(StoryText.shared().text("memory.hint"), &"MutedLabel", 20, Color(0.8, 0.78, 0.9, 0.0), HORIZONTAL_ALIGNMENT_CENTER)
 	stack.add_child(_hint)
 	var fade_in: Tween = create_tween().set_parallel(true)
-	fade_in.tween_property(_shade, "color:a", 0.9, 1.4)
+	fade_in.tween_property(_shade, "color:a", 0.9 if still == null else STILL_SHADE, 1.4)
 	fade_in.tween_property(_heading, "modulate:a", 1.0, 1.4).from(0.0)
 	_heading.add_theme_color_override("font_color", Color(0.86, 0.8, 0.96, 1.0))
 	_hint.add_theme_color_override("font_color", Color(0.8, 0.78, 0.9, 0.7))

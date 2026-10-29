@@ -26,6 +26,9 @@ var _done: bool = false
 var _credits_running: bool = false
 var _still_up: bool = false
 var _stills_shown: Dictionary = {}
+## Art import Oct 29: the throne and the facade beats play over their painted still (the icon stage hides meanwhile).
+var _still_holder: Control
+var _backdrop: StillBackdrop
 var _screenshot_args: Dictionary = {}
 
 
@@ -49,6 +52,10 @@ func _ready() -> void:
 	var glow: ColorRect = UIKit.gradient_background()
 	glow.modulate.a = 0.5
 	add_child(glow)
+	_still_holder = Control.new()
+	UIKit.full_rect(_still_holder)
+	_still_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_still_holder)
 	_stage = Control.new()
 	UIKit.full_rect(_stage)
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -120,6 +127,7 @@ func _show_beat() -> void:
 			_still_up = false
 			_show_beat())
 		return
+	_set_backdrop(StoryStills.ending_backdrop(str(beat["fx"])))
 	var n: int = int(beat["n"])
 	_heading.text = _story.text(EndingDefs.beat_title_key(n))
 	_text.text = "\n".join(_story.get_lines(EndingDefs.beat_key(n)))
@@ -140,6 +148,19 @@ func _show_beat() -> void:
 	if not cue.is_empty():
 		Audio.play_music(StringName(cue), 2.0)
 	_fx(str(beat["fx"]))
+
+
+## Shows the beat's still behind its words (or puts the icon stage back when the beat has none).
+func _set_backdrop(id: String) -> void:
+	if _backdrop != null and is_instance_valid(_backdrop) and _backdrop.still_id == id:
+		return
+	if _backdrop != null and is_instance_valid(_backdrop):
+		_backdrop.fade_out_and_free()
+	_backdrop = StillBackdrop.make(id)
+	if _backdrop != null:
+		_still_holder.add_child(_backdrop)
+		_backdrop.fade_in()
+	_stage.visible = _backdrop == null
 
 
 ## The screen stops the mouse, which also keeps clicks away from `_unhandled_input`: handle the click here.

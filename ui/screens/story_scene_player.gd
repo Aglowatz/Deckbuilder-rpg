@@ -10,11 +10,36 @@ static func play(dialogue: DialogueBox, id: String, then: Callable = Callable())
 		_finish(id, then)
 		return
 	GameLog.info("story", "scene %s" % id)
+	_show_backdrop(dialogue, id)
 	_play_step(dialogue, id, steps, 0, then)
+
+
+## Art import Oct 29: a scene with a painted still (`StoryStills.scene_backdrop`) plays its boxes over the picture, which sits just under
+## the dialogue box and fades out when the scene ends.
+static func _show_backdrop(dialogue: DialogueBox, id: String) -> void:
+	var still: StillBackdrop = StillBackdrop.make(StoryStills.scene_backdrop(id), false)
+	var parent: Node = dialogue.get_parent()
+	if still == null or parent == null:
+		return
+	parent.add_child(still)
+	parent.move_child(still, dialogue.get_index())
+	still.z_index = dialogue.z_index
+	still.fade_in()
+	dialogue.set_meta("still_backdrop", still)
+
+
+static func _hide_backdrop(dialogue: DialogueBox) -> void:
+	if dialogue == null or not is_instance_valid(dialogue) or not dialogue.has_meta("still_backdrop"):
+		return
+	var still: Variant = dialogue.get_meta("still_backdrop")
+	dialogue.remove_meta("still_backdrop")
+	if is_instance_valid(still):
+		(still as StillBackdrop).fade_out_and_free()
 
 
 static func _play_step(dialogue: DialogueBox, id: String, steps: Array[Dictionary], index: int, then: Callable) -> void:
 	if index >= steps.size() or not is_instance_valid(dialogue):
+		_hide_backdrop(dialogue)
 		_finish(id, then)
 		return
 	var step: Dictionary = steps[index]

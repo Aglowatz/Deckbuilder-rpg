@@ -119,9 +119,15 @@ func _ready() -> void:
 	var glow: ColorRect = UIKit.gradient_background()
 	glow.modulate.a = 0.5
 	add_child(glow)
+	# Art import Oct 29: a scene with a painted still plays its lines over the picture instead of the icon stage.
+	var still: StillBackdrop = StillBackdrop.make(StoryStills.cutscene_backdrop(scene_id))
+	if still != null:
+		add_child(still)
+		still.fade_in()
 	_stage_root = Control.new()
 	UIKit.full_rect(_stage_root)
 	_stage_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage_root.visible = still == null
 	add_child(_stage_root)
 	_extras = Control.new()
 	UIKit.full_rect(_extras)
