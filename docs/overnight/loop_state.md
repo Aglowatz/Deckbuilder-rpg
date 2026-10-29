@@ -26,5 +26,5 @@ Batches 5-9 are NOT made: build no hooks for them. Inventory + import log: `docs
 | 3 Verify | done 22:30 | (see git log) | bots + smokes OK except hub (Hob on the line, inbox 4); payload 793.7 MB, zip ~750 |
 | 4 Battle feel | done 22:54 | (git log) | 4x speed, hold Space hurry, hit-stop 40-80 ms, Path numbers, resource motes, Legendary flourish, cast thump; docs/design/battle_feel.md |
 | 5 Memory leak | done 23:55 | (git log) | DnaMaterials._fade_materials held every visit (+23 MB/visit); weak refs; memory_roundtrip smoke +0.4 MB video over 10 trips |
-| Phase 2 | in progress | | loop_log.md |
-| Morning report | | | |
+| Phase 2 | done 00:35 | 93aba051..94dcdecb | 8 cycles (loop_log.md); stopped there |
+| Morning report | done 00:50 | final | docs/overnight_report.md |

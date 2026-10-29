@@ -26,3 +26,5 @@ Last night's log: `docs/overnight/oct27/loop_log_oct27.md`.
 7. **Hovering roamers (00:30)**: the courier, the shard swarm, the energy sprite and the gulls hovered by lifting the whole actor, which took
    the contact shadow up with it. A painted hoverer now floats through `WorldSprite.set_ghost` (shadow on the ground, faded; the ghostly
    courier at 0.88 opacity); the 3D fallback keeps the old lift. `p2_lineup_dna_hover.png`; world GUT 418/418, art test 8/8. Kept.
+8. **Regression (00:40)**: tour bot again (281 spots, 5 battles, 0 errors) and the gamepad smoke again (OK, 157 s) after the battle and
+   roamer changes. Loop stopped here: the remaining ideas were churn, not polish.

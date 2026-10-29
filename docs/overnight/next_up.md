@@ -1,4 +1,9 @@
-# Next up (ranked) - after the Oct 23-24 overnight run
+# Next up (ranked) - after the Oct 28-29 overnight run
+
+0. **Play a battle with the new feel** (hold Space, 4x, a Legendary) and walk a zone with the painted roamers; then the inbox "Overnight Oct 28-29" (Spotless, threat pose, rim, the hub smoke).
+   Art batches 5-9 (story stills, the 16 cards, gear/feat icons, Leaf Crown, farmhand + Primm postgame sprites, zone pieces) are next to import.
+
+(The Oct 23-24 list follows.)
 
 Last run's list: `docs/overnight/oct22/next_up_oct22.md`.
 

@@ -1,145 +1,111 @@
-# Morning report - overnight Oct 27-28 (Necrocrat units, art direction + catalogue, feats)
+# Morning report - overnight Oct 28-29 (art batches 1-4, battle feel, memory leak)
 
-Started Tue Oct 27 20:47 MDT (Fable), tag `pre-overnight-oct27` (= a5807ea1). Brief copy `docs/overnight/oct27/brief.md`; state file
-`docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` (section "Overnight Oct 27-28", items 1-9); the dialogue freeze was
-respected (no existing line or key changed; the one suggested rewrite is in `docs/dialogue/lines_to_update_oct28.csv`). No build was
-exported and no version was bumped (by rule). No art was generated: every picture is a description.
+Started Wed Oct 28 20:15 MDT (Opus), finished Thu Oct 29 ~00:50 (about 4.5 of the 9 hours; every part done, then 8 polish cycles - I
+stopped there rather than churn). Tag `pre-overnight-oct28` (= 9bdb73e5). Brief copy `docs/overnight/oct28/brief.md`; state
+`docs/overnight/loop_state.md`; polish log `docs/overnight/loop_log.md`; questions `docs/overnight_inbox.md` ("Overnight Oct 28-29",
+items 1-4). Dialogue freeze respected (no dialogue file touched). No image was generated, Pending Review and the Replaced Artwork folder were
+never opened, the Drive was only copied from. No version bump, no export.
 
 ## Read this first
 
-- **Necrocrat is playable in the mirror now**: five Common / Uncommon bodies up one point and a new Common, **N-38 Hazmat Intern, 2(N) 1/3
-  Toxic**; the level-12 round robin reads 45% (was 20-33). Two cells sit outside your lines on every seed (vs Gourmand 23%, vs Refusemancer 65%), and **Refusemancer is the weakest Path now (27%, was 33-43)**; inbox 1.
-- **The art review** (`docs/art/art_direction_oct28.md`) and **the catalogue** (`docs/art/art_batch_oct28.csv`, 164 rows, 56 High; the
-  locks, batch order and import lines in `art_batch_oct28.md`). The headline: the painted parts already read as one world; the seams are the
-  3D roaming enemies, the hero landmarks that are still blocks, the skies, and the story beats with no picture.
-- **Every roaming enemy becomes a painted sprite** the moment its `SPR-FOE-*` set is imported (code done; 21 sets in the catalogue), **every
-  boss entrance is a cut-out character now** (the dialogue portrait slides in over the letterbox; a `CUT-*` file replaces it when made; shot
-  `docs/overnight/oct27/intro_warden_cutout.png`), and **Maren goes back to a tortoise** (portrait + expressions + sprites, same IDs).
-- **Feats shipped** (Part 3): 40 feats, Menu > Feats, per-slot + account record, retroactive on load, one-per-account rewards (gold and
-  essence; no dye / title system exists - inbox 9).
+- **All 74 rows are in the game, none needs a redo** (`docs/art/art_status_oct28.csv`). Maren is a tortoise in dialogue (3 expressions), in
+  Crosspath and at the forest cave mouth; all 21 roaming enemies walk the zones as their painted sets (the 3D models are only the fallback);
+  27 of the 31 entrances slide in their CUT-* cut-out, Primm wearing CRACKED / UNRAVELLED in phases 2 and 3; the 23 squares (24 files, the
+  Spotless copy) show in the Collection Book and on the battle plates.
+- **One real bug found on the way**: last night's sprite swap-in looked roamer sets up as `FOE-PANTRY-HOUND`, but the importer stores them as
+  `FOE_PANTRY_HOUND`, so no roamer would ever have found its art. Fixed in `ZoneEnemy._make_model`.
+- **Battle feel**: try **hold Space during the enemy's turn** (3x hurry), the new **4x** speed, a resource card (a mote flies to the counter),
+  any Legendary (an entrance), and the 40-80 ms hit-stop. Details and timings: `docs/design/battle_feel.md`.
+- **The memory leak is found and fixed**: the D.N.A. kept every visit's ~560 wall/cabinet fade materials for the whole session (+23 MB video a
+  visit). Over 10 round trips: video **+46.5 -> +0.4 MB**, static **+6.6 -> +0.8 MB**, objects **+1149 -> +28**. New smoke:
+  `bash tools/run_memory_roundtrip_smoke.sh`.
+- **Your calls** (inbox): Captain Spotless still walks the Capital as the 3D knight (no FOE set; his NPC set could stand in - item 1); the
+  new 0.45 s threat pose before a chase (2); the roamers' warm rim (3); the hub walk smoke fails one check because Old Hob stands on its line
+  (4, not tonight's code).
 
 ## By part
 
-| Part | Commits | What |
+| Part | Commit | What |
 |---|---|---|
-| 1 Necrocrat | a5c59207 | N-03 3/4, N-04 2/3, N-05 2/4, N-07 3/4, N-23 3/5, new N-38 Hazmat Intern; sim packages; `sheet_changes_oct28.csv`; balance_log; tests |
-| 2 Art direction + catalogue | d05586d9 | `art_direction_oct28.md`, `enemy_roster_oct28.md`, `art_batch_oct28.csv/.md`, `lines_to_update_oct28.csv`; code: enemy sprite swap-in, 5 renames with aliases, 3 town roamers in the Bestiary, boss intro cut-outs, `CUT-*` ids in the portrait importer; `test_enemy_art_oct28.gd` |
-| 3 Feats | 93ab2b47 | `data/feats/feats.json`, `core/feats/*`, `ui/screens/feats_panel.gd`, Session hooks, pause menu entry, `docs/design/feats.md`, `test_feats.gd` |
-| Phase 2 | f2c0c34c, 94aef8a4, 18c54dcd, 7a8d4910 + the final commit | 11 cycles (`docs/overnight/loop_log.md`): stability sweep, the intro halo, feat toasts that wait for the battle, the Menu > Feats hint, the Feats page shots, a third balance seed |
+| 0 Inventory | afeb463e | 239 files, full PNG decode (CRC, IEND, every pixel row), contact sheets; all sound; `docs/art/import_oct28.md` |
+| 1 Maren + roamers | afeb463e | 21 `NE-*` rows in `npc_sprite_batch.csv`; three importers; key fix; untinted sprites; threat pose; hop for idle sets; roamer rim; walk-strip sliver pass; ZoneEnemy drives its sprite (per-frame scripts back to budget); `--lineup` shot tool |
+| 2 Entrances + Bestiary | afeb463e | `Bestiary.cutout(name, phase)` + `PHASE_CUTOUTS`; `scenes/dev/entrance_gallery.tscn`; `test_art_import_oct28.gd` |
+| 3 Verify | a2d52559 | bots, smokes, budgets, size; `art_status_oct28.csv` |
+| 4 Battle feel | 8a5972a8 | see below; `tools/battle_sequence.tscn`; `test_battle_feel_oct28.gd` |
+| 5 Memory leak | 03021ca4 | `DnaMaterials` weak references; `memory_roundtrip_smoke`; `memory_probe --zone --trips` |
+| Phase 2 | 93aba051, 7f25f5df, 3f04830a, 3f9b7133, 94dcdecb + final | guards face the hero; Maren checked; ribbon number; threat pose checked; Casserole at his gate; entrance crop line; hovering sprites |
 
-## The Necrocrat result (Part 1)
+## What art is in game
 
-Level-12 round robin (`--what=decks --level=12 --games=20`, both seats the planning AI, no gear), two seeds:
+| Group | Where it shows | Notes |
+|---|---|---|
+| NPC-ELDER, _HAPPY, _WORRIED | every Maren dialogue, the Codex | `_screenshots/dialogue/oct28_elder.png` |
+| SPR-ELDER (4) | Crosspath, the forest cave mouth | `_screenshots/oct28/p2_maren_forest.png` |
+| 14 SPR-FOE walk sets | Pantry Hound, Lost Junior Clerk, Bin Raccoon (Crosspath); Quota Spotter, Protein Shake Golem (Gainlands); Shambling Middle Manager, Unpaid Intern (D.N.A.); Meatloaf Golem, Gelatin Sentinel (Buffet); Mossy Trash Golem, Hungry Scarecrow (Dump); Correction Officer, Perfection Inspector, Rift Wretch (Capital) | 5 directions idle + walk, right side mirrored, threat pose |
+| 7 SPR-FOE idle sets | Sprinting Energy Sprite, Speedy Ghost Courier, Runaway Meatball, Junk Gull Flock, Tidy-Bot, Shard Swarm (roamers; they hop or float as they move); Colonel Casserole (the Buffet's battle gate, Phase 2) | |
+| 26 CUT-* | every boss / lieutenant / gatekeeper entrance with a speaking character | `_screenshots/oct28/entrances.png`, `p2_intro_warden.png` |
+| 24 BST-* | Collection Book + battle plates | old-name pictures and counts still apply (`Bestiary.RENAMED`) |
 
-| | Beefcake | Gourmand | Refusemancer | Necrocrat | N vs B / G / R |
-|---|---:|---:|---:|---:|---|
-| before (Cards Oct 27, 7000 / 8100) | 63 / 60 | 73 / 73 | 43 / 33 | 20 / 33 | 20-40 / 10 / 30-50 |
-| after (7000 / 8100) | 60 / 55 | 65 / 72 | 35 / 23 | **40 / 50** | 30-55 / 35-15 / 55-80 |
-| after, seed 9200 (Phase 2) | 58 | 73 | 22 | **47** | 60 / 20 / 60 |
-| three-seed mean after | 59 | 70 | **27** | **46** | 48 / 23 / 65 |
+**Needs a redo: none.** Noted only: 22 of 70 walk strips have touching figures, so the importer cuts them at the emptiest column (tiny
+slivers are cleaned; at game scale nothing shows); a few strips' last figure touches the right edge by a few pixels.
 
-The cave is unchanged (B 88 / G 92 / R 78 / N 96 on seed 7000, identical to Oct 27: the cave foes run no Necrocrat cards); the D.N.A.
-roamers (88 / 100%) and the Hall (every node "ok", Mortimer 58%) read as in the Oct 27 sweep with the buffed zombie archetype. Reports
-`docs/design/sim/oct28_*.md`; the log entry "Overnight Oct 27-28, Part 1" in `docs/design/balance_log.md` has the per-set numbers (set A,
-bodies only, moved Necrocrat 33 -> 35; the Intern and the shelf Commons in the sim's package did the rest).
+## Screenshots per zone
 
-## The art catalogue headline (Part 2)
+| Area | Files (`_screenshots/oct28/` unless noted) |
+|---|---|
+| Crosspath | `lineup_town_idle.png`, `../dialogue/oct28_elder.png` |
+| Opening Forest | `p2_maren_forest.png` |
+| Gainlands | `lineup_gainlands_idle.png`, `p2_guard_faces.png` |
+| D.N.A. | `lineup_dna_idle.png`, `p2_lineup_dna_threat.png`, `p2_lineup_dna_hover.png` |
+| Endless Buffet | `lineup_buffet_idle.png`, `p2_casserole_gate.png` |
+| Verdant Dump | `lineup_heap_idle.png`, `lineup_heap_walk.png` |
+| Capital | `lineup_capital_idle.png` |
+| Entrances | `entrances.png` (all 31), `p2_intro_warden.png` |
+| Battle feel | `before_<path>.png`, `after_<path>.png` (one bot-played turn per Path), `p2_feel_zoom.png`, `p2_banner.png` |
+| Art review | `review_walks.png`, `review_idle.png`, `review_sides.png`, `review_cut.png`, `review_bst.png` |
 
-| Category | High | Medium | Low | Total |
-|---|---:|---:|---:|---:|
-| Enemy sprite sets | 21 | 0 | 0 | 21 |
-| Cut-outs (entrances) | 15 | 9 | 2 | 26 |
-| Bestiary squares | 4 | 19 | 0 | 23 |
-| Story stills | 5 | 10 | 0 | 15 |
-| Cards | 5 | 10 | 1 | 16 |
-| Portraits (Maren) + expressions | 3 | 12 | 0 | 15 |
-| NPC sprites (Maren, Primm, farmhand) | 1 | 2 | 0 | 3 |
-| Backdrops / props / sheets / trees / zone kit | 1 | 13 | 7 | 21 |
-| Icons (4 relics, 8 feat groups) | 0 | 4 | 8 | 12 |
-| Cosmetic (Leaf Crown redo) | 0 | 1 | 0 | 1 |
-| **Total** | **56** | **89** | **19** | **164** |
+A lineup of any area: `bash tools/shot.sh res://scenes/<zone>_zone.tscn <name> --lineup=idle|walk|threat --nohud=true --wait=6
+--set=camera_zoom:0.75` (town: `res://scenes/town.tscn ... --pos=25.2,19.5 --quiet=true`).
 
-By zone: Global 40, Crosspath 25, Capital 26, Verdant Dump 17, Gainlands 14, D.N.A. 13, Endless Buffet 13, Castle 7, Opening Forest 6,
-Lab 3. **The High list**: Maren's three portraits and her sprite set; the 21 roaming-enemy sprite sets; the four new / redone Bestiary
-squares (Pantry Hound, Lost Junior Clerk, Bin Raccoon, Quota Spotter); cut-outs for the Hollow Warden, the four gatekeepers, Clench, Quota,
-the Doppelganger, Crumb, Mortimer, Plume, the Rotheart, Clipwell, Spotless and Primm; the stills STORY-CAPTURE, STORY-THRONE, STORY-WONDER,
-STORY-MEMORY-3 and -4; the starter cards' art (Protein Shake, Pending Approval, Amuse-Bouche, Curb Alert, Hazmat Intern); the forest's
-painted cave mouth; the Rotheart backdrop with a transparent sky. Nothing is missing among maps (15/15), battleboards (25/25), vendor
-screens, key art, UI kit, item and cosmetic icons; the unused approved art is tabled in `art_batch_oct28.md`.
+## Battle feel - what changed and how to try it
 
-## Enemy renames (data only; no frozen line names them)
+- Hit-stop 40 ms (1 damage) to 80 ms (5+), was up to 120; shake capped at 12 px (was 20), off with Reduce screen shake.
+- Damage numbers pop past full size and settle; red with a third of the attacker's Path colour, sparks half Path colour; buffs in the buffed
+  card's Path colour, debuffs violet, heals green.
+- A made resource flies from its card to its counter and pops there; a spent one flies off its counter.
+- A played card lands in the middle with a soft thump and dust; units keep their landing squash and summon thud.
+- The turn ribbon says "Turn N" under YOUR TURN / ENEMY TURN.
+- A Legendary arrives with gold rings, sparks, LEGENDARY over it, a glow, its Path ring, a small shake and the pack-reveal chime (+0.15 s).
+- Every effect follows the battle speed; new 4x (1x / 1.5x / 2x / 4x; saved choices keep their index); **hold Space** to hurry 3x.
+- Nothing else is awaited: the first-battles smoke's third duel took 37 s for 14 turns before and after.
 
-| Old | New | Zone | Look in one line |
-|---|---|---|---|
-| Stray Gym Hound | **Pantry Hound** | Crosspath | a sauce-drunk spaniel in an apron with a ladle |
-| Flexing Brute | **Quota Spotter** | Gainlands | a billy goat sergeant with a stopwatch and clipboard who counts your reps for Clench |
-| Zombie Intern | **Unpaid Intern** | D.N.A. | a zombie under a tower of forms |
-| Possessed Scarecrow Druid | **Hungry Scarecrow** | Verdant Dump | a druid's scarecrow that has started to grow |
-| Compliance Officer | **Correction Officer** | Capital | a mirror-visored enforcer of the Ministry of Correction |
+## Memory before / after
 
-Old saves keep their Collection Book counts and the old pictures (`Bestiary.RENAMED`, `legacy_art_ids`). The whole roster, sizes and
-behaviours: `docs/design/enemy_roster_oct28.md`.
+| 10 round trips (after a warm-up lap) | static | video | objects |
+|---|---:|---:|---:|
+| before | +6.6 MB | +46.5 MB | +1149 |
+| after | +0.8 MB | +0.4 MB | +28 |
 
-## NPCs and enemies going painted
+Cause and fix: `docs/perf/report.md`, "Memory leak - fixed".
 
-- **Enemies**: all 21 roamers and road guards (3 Crosspath, 3 Gainlands, 3 D.N.A., 4 Buffet, 3 Dump, 5 Capital). `ZoneEnemy` draws the
-  sprite set `FOE-<slug>` instead of its model as soon as "import npc sprites" brings it in; nothing else to wire.
-- **NPCs still 3D**: Primm at work (the postgame Crease; SPR-PRIMM row), the three nameless Dump farmhands (one SPR-DUMPWORKER set, tinted),
-  the gold Primm statue (a prop row). Every list NPC with lines is a painted sprite already.
-- **Maren**: the current portrait and sprites are a human grandmother with a shell; the rows describe an old tortoise proper (beak,
-  spectacles, mossy shell, the four-colour shawl and the carved stick kept) for the base portrait, HAPPY, WORRIED and the four sprites.
+## Size and fps
 
-## Story-scene illustrations planned (15)
+- `assets/art` 365 -> 447 MB on disk (source copies). What exports: +26.5 MB imported. Estimated payload 793.7 MB (`tools/build_audit.js`);
+  the v0.4.6 zip was 724 MB, so the next zip should be about **750 MB - under 850**. If it ever needs to shrink: a lower figure height for
+  the small roamers' frames, and the cut-outs at 900 px instead of 1080.
+- Medium averages 12-17 ms everywhere (60-80 fps; Capital inside 16.6 ms is the tightest); Low 10-13 ms; battle 3.1 ms. The painted roamers
+  cost the Dump 1 draw call (530 -> 531; budget raised to 540, documented in `docs/perf/budgets.md`) and ~34 MB of video memory, and cut the
+  Capital's nodes by 410 and meshes by 341. p99 marks wander 16-30 ms run to run on identical code (noise on this laptop).
 
-STORY-CAPTURE (Elowen taken at the gate), STORY-THRONE (ending beat 8), STORY-WONDER (the true Chef's dish), STORY-MEMORY-1..4, STORY-VACANCY
-(Agnes takes the office), STORY-SEVER (the seed dies), STORY-MODEL-ROOM, STORY-KEPT-FACE, STORY-FACADE-FALLS, STORY-CELL-4, STORY-FUNERAL,
-STORY-HOME. Composition, cast (by portrait ID), light and mood per row; the seven existing stills stay. Wiring is one line per still.
+## Checks run
 
-## Boss-intro change
+GUT all groups (root 276, core 1489 + 1 pending, ui 242, world 418); tour bot 281 spots / 0 errors (twice); story bot 90/90; walk smokes
+Crosspath, Gainlands, D.N.A., Buffet, Dump, Capital OK, hub FAILS one check (inbox 4); first-battles OK (twice); gamepad OK (twice);
+boss-rules OK (twice); structure budget met; memory round-trip smoke OK.
 
-`ui/battle/boss_intro.gd`: the figure slides in from the left over the letterbox bars (0.45 s, feet in the lower bar, no box) beside the
-name card; the picture is the `CUT-<key>` cut-out if imported, else the transparent dialogue portrait (every boss, lieutenant and gatekeeper
-tonight), else the old Bestiary square pushing in (the four nameless entrances). `Bestiary.cutout_ids()` lists the 24 cut-outs; the portrait
-importer accepts them. Needing a cut-out (all 24 are catalogue rows, optional since the portraits work): Warden, Bronson, Pallor, Gravois,
-Mulligan, Shiro, the Four-Seal Warden, Clench, Quota, the Spotter, the Doppelganger, the Itamae, Crumb, Mortimer, Betty, Plume, the Rotheart,
-Clipwell, the Raccoon, Spotless, Primm (+2 phase variants), the Automaton, Siphon, Bellows.
+## Inbox items (Overnight Oct 28-29)
 
-## Dialogue lines to update
-
-`docs/dialogue/lines_to_update_oct28.csv`: **1 row** (optional): Maren's `town.elder.idle.4` line 2 speaks of tortoises as "them". No
-rename touches a frozen file; Maren's other species lines already say tortoise.
-
-## Feats (Part 3)
-
-40 feats in ten groups (`docs/design/feats.md`): story milestones, one per zone, eight side dungeons, challenges (Gold Sand, Shiro, the
-Four Seals, the Old Well, Flawless, By a Thread), collection (25 / 50 / 100%, a craft, ten packs), a card moment per Path (10-attack unit,
-three Golems, five Red Tape, four garbage in a turn, a four-kill card) and two for mixed decks; 11 hidden. Tracked through the session's
-real hooks (flags, counters, zones, cards, won battles, a live-battle watcher on the rules engine's events), saved per slot under
-`"feats"` plus `user://feats_account.json` for the account, retroactive on load (one quiet toast), unlock toast + STG-SECRET sting,
-rewards paid once per account (gold / essence; only in a saving game). Menu > Feats (pause menu, pad B steps back). Tests
-`tests/core/feats/test_feats.gd` (9).
-
-## Checks
-
-- GUT per part: Part 1 root 276 / core 1465 / ui 234 / world 418; Part 2 root 276 / core 1479 (+ the two not-yet-wired feats tests) /
-  ui 234 / world 418; Part 3 feats 9/9, root 276, ui 234, core 1481 (+1 known pending), world 418 (rerun in the foreground after the harness stopped the first run for low memory).
-- Walk smokes after Part 2: Crosspath, Gainlands, D.N.A., Buffet, Dump, Capital all OK. `perf_budget.sh structure`: all budgets met (Part 1).
-- Sims: Part 1's round robin on two seeds, the cave (seed 7000), `zone:necrocrat`, `dungeon:D-HFA`.
-- Screenshots: `docs/overnight/oct27/intro_warden_cutout.png` (the new entrance). The Feats page has no screenshot (no pause-menu hook in
-  the shot tool); it is built from the Glossary page's layout.
-
-## Phase 2 (22:55-23:45, 11 cycles)
-
-- **Stability**: world GUT 418 (rerun in the foreground after the harness reaped the first run for memory), first-battles smoke, the
-  opening-hour playtest smoke, story playthrough bot 90 / 90, tour bot 281 spots / 0 errors / 0 warnings, gamepad smoke (506 pad events, the
-  pause menu included), boss-rules smoke: all OK on the final tree. `perf_budget.sh structure` OK; the frame budget was not rerun (memory).
-- **Polish**: a soft halo behind the boss intro's cut-out (`docs/overnight/oct27/c2_intro_halo.png`); feat toasts queue while a battle is
-  pending and flush when it ends (a shot had caught them over the Warden's entrance); the first feat toast of a session ends with
-  "Menu > Feats"; a dev scene and a town hook photograph the Feats page (`docs/overnight/oct27/c8_feats_page.png`).
-- **Balance evidence**: a third round-robin seed (above). Scorecard: `docs/overnight/oct27/scorecard.md` (no category moved down).
-- Not done: the Dump's two blue entrance flags were not found in the zone's code (a catalogue row covers them).
-
-## Inbox (yours to decide; the safest choice was taken)
-
-See `docs/overnight_inbox.md`, "Overnight Oct 27-28": 1 Necrocrat cells, 2 the Hall for Refusemancers, 3 the renames, 4 foes not in the
-Bestiary, 5 the gate guards' floating text, 6 cut-outs optional, 7 Maren's line, 8 unused art, 9 feats rewards.
+1. Captain Spotless (Capital roamer) - 3D knight until a FOE set exists, or use his NPC set.
+2. The 0.45 s threat pose before a chase (`ZoneEnemy.THREAT_SECONDS`).
+3. The roamers' warm rim (`ZoneEnemy.ROAMER_RIM`).
+4. Hub walk smoke: Old Hob stands on the D.N.A. road's test line.
