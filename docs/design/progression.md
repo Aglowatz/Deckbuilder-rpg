@@ -79,13 +79,13 @@ start) and one "advanced" (tier 2, locked behind a level-up reward, see the tabl
 
 | Slot | Tier | Piece | Effect |
 |---|---|---|---|
-| Weapon | Basic | Wicked Dagger | A blade with a reputation it didn't earn honestly. Your units get +1 attack. |
+| Weapon | Basic | Wicked Dagger | A blade with a reputation it didn't earn honestly. Your Colorless units get +1 attack. |
 | Weapon | Advanced | Flamethrower | Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit. |
 | Relic | Basic | Extra Pocket | Sewn in where no one thinks to look. Max hand size +1. |
 | Relic | Advanced | Cheater's Dice | They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller. |
 | Boots | Basic | Traveler's Boots | Worn thin by roads longer than this one. Draw an extra card at the start of your first turn. |
 | Boots | Advanced | Hover Boots | A finger's width of clearance, always. Your units have Flying but cannot block. |
-| Armor | Basic | Solid Plate | Unglamorous, unyielding. Your units get +1 defense. |
+| Armor | Basic | Solid Plate | Unglamorous, unyielding. Your Colorless units get +1 defense. |
 | Armor | Advanced | Thorned Loincloth | Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage. |
 | Helm | Basic | X-Ray Goggles | Everything looks the same underneath. The opponent's hand is revealed to you - never a set trap. |
 | Helm | Advanced | Big Brain Beret | It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn. |

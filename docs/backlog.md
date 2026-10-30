@@ -190,7 +190,7 @@ All 328 imported images in `assets/art/cards/` are real art. These **11** entrie
 | Gainsmith's Lifting Belt | Armor | Brace the core, brace the deck. Max HP +3 and your units get +1 defense. |
 | Thorned Loincloth | Armor | Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage. |
 | Traveler's Boots | Boots | Worn thin by roads longer than this one. Draw an extra card at the start of your first turn. |
-| Wicked Dagger | Weapon | A blade with a reputation it didn't earn honestly. Your units get +1 attack. |
+| Wicked Dagger | Weapon | A blade with a reputation it didn't earn honestly. Your Colorless units get +1 attack (Oct 29; the any-colour +1 is the Blade of Earned Reputation). |
 | X-Ray Goggles | Helm | Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though. |
 
 **Cosmetics: hats (12) and cloaks (12).** Visual only, sold by Pip Threadwell or found.

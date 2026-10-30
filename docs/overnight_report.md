@@ -105,7 +105,7 @@ sidegrades per zone (the Boots are the thin slot).
 | Rotheart | elites 83; Compostella 67 |
 | Buffet / Capital elites | Casserole 63; Spotless 92 |
 | Primm's Castle | normals 100, elites 83-88; the phases as one HP pool 82 % -> 78 % with phase HP 40 / 36 / 36 (inbox 2) |
-| Side dungeons (6-12 games) | Iron Cave normals 75-85, Quadzilla 33 / 31 -> see the loop log (his rule softened); the Vault normals 54-67 (inbox 10), the Automaton 50 / 63; the Waiting Room 88-100, Betty 50; Omakase 88-92, the Itamae 83 |
+| Side dungeons (6-12 games) | Iron Cave normals 75-85, Quadzilla 33 / 31 -> 29 / 46 with "Max Pump" at +1 attack (inbox 11); the Vault normals 54-67 (inbox 10), the Automaton 50 / 63; the Waiting Room 88-100, Betty 50; Omakase 88-92, the Itamae 83; the Raccoon 92 -> 46 (rule +2/+2), the Grate's Spotless 88 -> 73 (rule +4/+3), the Ancient Spotter 79; the Lab elites 75-94, Siphon with Elowen 75 (inbox 12) |
 | Items alone at L12 (6 games, +-12) | Chains +17, Tonic +13 (after 6 -> 5), Pie +13, Salve +8, Firebrand +8, Scroll -8, Stone -8 (inbox 6) |
 
 The first three zones' bosses sit in or just over their 40-60 band.
@@ -131,7 +131,10 @@ The first three zones' bosses sit in or just over their 40-60 band.
 3. Hat tilt covered by `test_hat_sheets`.
 4. **Reward-pick reroll**: a world pick rerolls once for 40 + 10 x level gold (button under the cards; never counts as a win). Tests,
    gatekeeper pick probes by mouse and pad, shot `p2_reroll.png`. The economy model with it: expected leftover 3,070 -> 1,900.
-5. Later cycles: see the loop log (side-dungeon sims, Baron Quadzilla's rule, the tailor preview check).
+5. Side dungeons simmed with the real gear; Baron Quadzilla's "Max Pump" softened to +1 attack (he was under the 35 % floor).
+6. The late side bosses were far too easy with the Gauntlets and the Waistband stacked: the Raccoon's guard +2/+2 (92 -> 46 %), the
+   Grate's Spotless +4/+3 (88 -> 73 %); the rest listed for you (inbox 12).
+7. The tailor's preview checked with a hat on (`p2_tailor_hat.png`): it sits on the head.
 
 ## Checks run
 
