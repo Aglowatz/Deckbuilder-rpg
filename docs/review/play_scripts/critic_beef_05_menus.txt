@@ -1,0 +1,67 @@
+# Beefcake run 5: menus properly (dismiss tips), then walk to the cave
+wait 3
+dev load critic_beef_forest
+wait 3
+skip_dialogue 10
+wait 1
+key B
+wait 1.5
+button Got it
+wait 0.8
+shot 12_deck_station_clean
+move 97 330
+wait 1.2
+shot 12c_deck_hover_card
+move 388 560
+wait 1.2
+shot 12d_deck_hover_beef_card
+click 1550 55
+wait 1
+shot 12e_deck_closed
+key C
+wait 1.5
+button Got it
+wait 0.8
+shot 13_character
+dump
+click 1550 55
+wait 0.8
+key C
+wait 0.8
+key J
+wait 1.5
+button Got it
+wait 0.8
+shot 14_quest_log
+dump
+click 1550 55
+wait 0.8
+key J
+wait 0.8
+key M
+wait 1.5
+button Got it
+wait 0.8
+shot 15_map
+dump
+click 1550 55
+wait 0.8
+key M
+wait 0.8
+shot 15b_after_menus
+dump
+hold W+D 3
+shot 16_walk_ne_1
+hold W+D 3
+shot 17_walk_ne_2
+dump
+hold W 2
+shot 18_walk_n_3
+dump
+scene
+dev save critic_beef_cave_entry
+key E
+wait 3
+shot 19_after_e
+dump
+scene

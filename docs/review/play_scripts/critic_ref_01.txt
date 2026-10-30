@@ -1,0 +1,49 @@
+# Refusemancer run 1: new game, Path choice, first fight with the pilot (no autowin)
+wait 3
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+wait 1.5
+click 930 400
+wait 0.8
+button More
+wait 1
+shot 01_ref_more
+dump
+button Less
+wait 0.5
+button Begin
+wait 3
+shot 02_ref_forest
+skip_dialogue 10
+wait 1
+key B
+wait 1.5
+button Got it
+wait 0.5
+shot 03_ref_deck
+click 1550 55
+wait 1
+dev travel dungeon D-TUT
+wait 4
+button Got it
+wait 0.5
+click 501 500
+wait 4
+button Got it
+wait 0.5
+button Keep Hand
+wait 1.5
+shot 04_ref_t1
+dump
+pilot 150
+shot 05_ref_pilot_end
+dump
+scene
+button Continue
+wait 2
+shot 06_ref_reward
+dump
+dev save critic_ref_cave

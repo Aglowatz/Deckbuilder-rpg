@@ -1,0 +1,85 @@
+# Beefcake run 1: title, opening, Path choice, forest
+wait 3
+shot 01_title
+dump
+button New Game
+wait 1.5
+shot 02_slot_select
+dump
+button Start here
+wait 4
+shot 03_wake_1
+dump
+key E
+wait 1
+shot 03_wake_2
+key E
+wait 1
+shot 03_wake_3
+key E
+wait 1
+shot 03_wake_4
+key E
+wait 1
+shot 03_wake_5
+key E
+wait 1
+shot 03_wake_6
+key E
+wait 1
+shot 03_wake_7
+key E
+wait 1
+shot 03_wake_8
+key E
+wait 1
+shot 03_wake_9
+key E
+wait 1
+shot 03_wake_10
+dump
+key E
+wait 1
+shot 03_wake_11
+key E
+wait 1
+shot 03_wake_12
+key E
+wait 1
+shot 03_wake_13
+key E
+wait 1
+shot 03_wake_14
+dump
+scene
+# Try to reach path choice if not already
+key E
+wait 1
+shot 04_after_dialogue
+dump
+click 415 400
+wait 1
+shot 05_path_beefcake_selected
+button More
+wait 1
+shot 06_path_beefcake_more
+dump
+key Escape
+wait 0.5
+click 670 400
+wait 1
+shot 07_path_gourmand_selected
+click 930 400
+wait 1
+shot 08_path_refusemancer_selected
+click 1185 400
+wait 1
+shot 09_path_necrocrat_selected
+click 415 400
+wait 1
+button Begin
+wait 3
+shot 10_forest_start
+dump
+scene
+dev save critic_beef_forest

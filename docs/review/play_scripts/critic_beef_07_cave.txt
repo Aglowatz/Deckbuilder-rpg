@@ -1,0 +1,32 @@
+# Beefcake run 7: walk from the bedroll to the cave arch and enter it
+wait 3
+dev load critic_beef_forest
+wait 3
+skip_dialogue 10
+wait 1
+hold W+D 3
+shot 27_walk_ne_1
+dump
+hold W+D 3
+shot 28_walk_ne_2
+dump
+hold W 2
+shot 29_walk_n_3
+dump
+hold W+D 2
+shot 30_walk_ne_4
+dump
+key E
+wait 3
+shot 31_after_e
+dump
+scene
+hold W 2
+shot 32_walk_n_5
+dump
+key E
+wait 3
+shot 33_after_e2
+dump
+scene
+dev save critic_beef_cave_entry

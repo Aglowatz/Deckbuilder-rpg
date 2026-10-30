@@ -1,0 +1,42 @@
+# Beefcake run 9: could not find the arch by walking; jump into the tutorial cave
+wait 3
+dev load critic_beef_cave_entry
+wait 3
+skip_dialogue 5
+log could not reach the arch on foot in 3 runs; using dev travel
+dev travel dungeon D-TUT
+wait 4
+shot 41_cave_arrival
+dump
+scene
+key E
+wait 1.2
+shot 42_cave_line_2
+key E
+wait 1.2
+shot 43_cave_line_3
+key E
+wait 1.2
+shot 44_cave_line_4
+key E
+wait 1.2
+shot 45_cave_line_5
+dump
+skip_dialogue 20
+wait 1.5
+shot 46_cave_map
+dump
+scene
+key R
+wait 1.5
+shot 47_cave_rules
+dump
+button Got it
+wait 0.5
+button Close
+wait 0.5
+key R
+wait 1
+shot 48_after_rules
+dump
+dev save critic_beef_cave_map

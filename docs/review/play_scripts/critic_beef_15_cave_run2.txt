@@ -1,0 +1,88 @@
+# Beefcake run 15: cave with autowin, explicit Take card, well, shrine, boss, exit
+wait 3
+dev load critic_beef_prefight
+wait 3
+dev autowin on
+dev travel dungeon D-TUT
+wait 4
+click 501 500
+wait 4
+button Continue
+wait 2
+move 558 500
+wait 1
+shot 100_reward_hover
+button Take card
+wait 2
+shot 101_after_take
+dump
+scene
+click 740 670
+wait 3
+shot 102_hollow_well
+dump
+key E
+wait 1
+shot 103_well_2
+dump
+key E
+wait 1
+key E
+wait 1
+shot 104_well_3
+dump
+click 937 440
+wait 4
+button Continue
+wait 2
+button Take card
+wait 2
+shot 105_after_fight2
+dump
+click 1153 560
+wait 3
+shot 106_shrine
+dump
+key E
+wait 1
+shot 107_shrine_2
+dump
+key E
+wait 1
+key E
+wait 1
+shot 108_shrine_3
+dump
+click 1311 270
+wait 4
+shot 109_boss_intro
+dump
+key E
+wait 1.2
+shot 110_boss_intro_2
+key E
+wait 1.2
+shot 111_boss_intro_3
+key E
+wait 1.2
+shot 112_boss_intro_4
+key E
+wait 1.2
+shot 113_boss_intro_5
+dump
+key E
+wait 2
+button Continue
+wait 2
+shot 114_boss_won
+dump
+button Take card
+wait 2
+shot 115_after_boss
+dump
+key E
+wait 1.5
+shot 116_after_boss_2
+dump
+scene
+dev save critic_beef_after_cave

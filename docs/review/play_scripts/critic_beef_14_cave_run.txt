@@ -1,0 +1,77 @@
+# Beefcake run 14: through the tutorial cave with autowin, look at rewards, shrine, boss, exit to town
+wait 3
+dev load critic_beef_prefight
+wait 3
+dev autowin on
+dev travel dungeon D-TUT
+wait 4
+click 501 500
+wait 4
+button Got it
+wait 0.5
+button Keep Hand
+wait 2
+shot 85_autowin_1
+dump
+button Continue
+wait 2
+skip_dialogue 10
+wait 1.5
+shot 86_after_fight1
+dump
+scene
+click 740 670
+wait 3
+shot 87_hollow_well
+dump
+skip_dialogue 10
+wait 1.5
+shot 88_after_well
+dump
+click 937 440
+wait 4
+shot 89_mossy_gallery
+dump
+button Keep Hand
+wait 2
+button Continue
+wait 2
+skip_dialogue 10
+wait 1.5
+shot 90_after_fight2
+dump
+scene
+click 1153 560
+wait 3
+shot 91_shrine
+dump
+skip_dialogue 10
+wait 1.5
+shot 92_after_shrine
+dump
+click 1311 270
+wait 4
+shot 93_boss_intro
+dump
+key E
+wait 1.2
+shot 94_boss_intro_2
+key E
+wait 1.2
+shot 95_boss_intro_3
+skip_dialogue 10
+wait 2
+shot 96_boss_fight
+dump
+button Keep Hand
+wait 2
+button Continue
+wait 2
+shot 97_boss_won
+dump
+skip_dialogue 10
+wait 2
+shot 98_after_boss
+dump
+scene
+dev save critic_beef_after_cave

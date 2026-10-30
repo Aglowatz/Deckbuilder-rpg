@@ -1,0 +1,138 @@
+# Beefcake run 19: boss reward -> exit -> Crosspath town, shops and menus
+wait 3
+dev load critic_beef_prefight
+wait 3
+dev autowin on
+dev travel dungeon D-TUT
+wait 4
+click 501 500
+wait 4
+button Continue
+wait 2
+click 787 500
+wait 1
+button Take
+wait 2.5
+click 740 660
+wait 3.5
+button Reveal
+wait 2.5
+button Continue
+wait 2
+click 937 440
+wait 4
+button Continue
+wait 2
+click 787 500
+wait 1
+button Take
+wait 2.5
+click 1153 560
+wait 3.5
+button Rest
+wait 2
+button Continue
+wait 1.5
+click 1311 270
+wait 4
+skip_dialogue 10
+wait 1
+button Continue
+wait 2.5
+button Continue
+wait 3
+click 787 500
+wait 1
+button Take
+wait 3
+shot 170_after_boss_map
+dump
+scene
+click 1311 270
+wait 3
+shot 171_after_click_boss_node
+dump
+key E
+wait 1.5
+shot 172_e
+dump
+skip_dialogue 10
+wait 3
+shot 173_after_skip
+dump
+scene
+button Continue
+button Leave
+wait 3
+shot 174_exit
+dump
+scene
+dev save critic_beef_after_cave
+dev travel town
+wait 5
+shot 175_town_arrival
+dump
+scene
+key E
+wait 1.2
+shot 176_town_2
+dump
+key E
+wait 1.2
+shot 177_town_3
+key E
+wait 1.2
+shot 178_town_4
+skip_dialogue 20
+wait 2
+shot 179_town_free
+dump
+scene
+dev save critic_beef_town
+key J
+wait 1.5
+button Got it
+wait 0.5
+shot 180_quest_log
+dump
+key Escape
+wait 0.8
+key P
+wait 1.5
+button Got it
+wait 0.5
+shot 181_packs
+dump
+key Escape
+wait 0.8
+key T
+wait 1.5
+button Got it
+wait 0.5
+shot 182_wardrobe
+dump
+key Escape
+wait 0.8
+key C
+wait 1.5
+button Got it
+wait 0.5
+shot 183_character
+dump
+key Escape
+wait 0.8
+key M
+wait 1.5
+button Got it
+wait 0.5
+shot 184_town_map
+dump
+key Escape
+wait 0.8
+shot 185_after_menus
+hold W 3
+shot 186_walk_n
+dump
+hold D 3
+shot 187_walk_e
+dump

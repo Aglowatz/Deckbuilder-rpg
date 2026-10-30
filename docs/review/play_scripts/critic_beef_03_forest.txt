@@ -1,0 +1,61 @@
+# Beefcake run 3: begin as Beefcake, look at the forest and menus, walk to the cave
+wait 3
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+wait 1.5
+click 415 400
+wait 0.8
+button Begin
+wait 3
+shot 10_forest_start
+dump
+scene
+dev save critic_beef_forest
+key E
+wait 1.2
+shot 11_forest_after_begin
+dump
+key B
+wait 1.5
+shot 12_deck_builder
+dump
+key B
+wait 1
+key C
+wait 1.5
+shot 13_character
+dump
+key C
+wait 1
+key J
+wait 1.5
+shot 14_quest_log
+dump
+key J
+wait 1
+key M
+wait 1.5
+shot 15_map
+dump
+key M
+wait 1
+hold W+D 2
+shot 16_walk_ne_1
+hold W+D 2
+shot 17_walk_ne_2
+dump
+hold W 2
+shot 18_walk_n_3
+dump
+hold D 2
+shot 19_walk_e_4
+dump
+scene
+dev save critic_beef_forest2
+key Escape
+wait 1.5
+shot 20_pause_menu
+dump

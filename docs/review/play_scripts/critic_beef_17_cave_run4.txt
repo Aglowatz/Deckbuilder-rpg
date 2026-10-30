@@ -1,0 +1,96 @@
+# Beefcake run 17: full cave with autowin, well Reveal, shrine, boss, exit to town
+wait 3
+dev load critic_beef_prefight
+wait 3
+dev autowin on
+dev travel dungeon D-TUT
+wait 4
+click 501 500
+wait 4
+button Continue
+wait 2
+click 787 500
+wait 1
+button Take
+wait 2.5
+click 740 660
+wait 3.5
+button Reveal
+wait 2.5
+shot 140_well_result
+dump
+button Continue
+button Got it
+button Close
+button OK
+wait 1.5
+shot 141_after_well
+dump
+click 937 440
+wait 4
+button Continue
+wait 2
+click 787 500
+wait 1
+button Take
+wait 2.5
+click 1153 560
+wait 3.5
+shot 142_shrine
+dump
+button Rest
+button Pray
+button Restore
+button Use
+wait 2
+shot 143_shrine_2
+dump
+button Continue
+button Got it
+button Close
+wait 1
+click 1311 270
+wait 4
+shot 144_boss_intro
+dump
+key E
+wait 1.2
+shot 145_boss_intro_2
+key E
+wait 1.2
+shot 146_boss_intro_3
+key E
+wait 1.2
+shot 147_boss_intro_4
+dump
+key E
+wait 1.2
+key E
+wait 1.2
+key E
+wait 2
+shot 148_boss_fight
+dump
+button Continue
+wait 2
+shot 149_boss_reward
+dump
+click 787 500
+wait 1
+button Take
+wait 2.5
+shot 150_after_boss
+dump
+scene
+key E
+wait 1.5
+shot 151_after_boss_2
+dump
+key E
+wait 1.5
+key E
+wait 1.5
+shot 152_after_boss_3
+dump
+scene
+dev save critic_beef_after_cave

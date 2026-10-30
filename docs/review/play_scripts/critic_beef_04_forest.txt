@@ -1,0 +1,58 @@
+# Beefcake run 4: resume after Begin, close the dialogue, look at menus, walk to the cave
+wait 3
+dev load critic_beef_forest
+wait 3
+skip_dialogue 10
+wait 1
+shot 11_forest_free
+dump
+scene
+key B
+wait 1.5
+shot 12_deck_builder
+dump
+button Close
+wait 0.5
+key B
+wait 1
+shot 12b_after_close
+key C
+wait 1.5
+shot 13_character
+dump
+button Close
+wait 0.5
+key C
+wait 1
+key J
+wait 1.5
+shot 14_quest_log
+dump
+button Close
+wait 0.5
+key J
+wait 1
+key M
+wait 1.5
+shot 15_map
+dump
+button Close
+wait 0.5
+key M
+wait 1
+shot 15b_after_menus
+hold W+D 3
+shot 16_walk_ne_1
+dump
+hold W+D 3
+shot 17_walk_ne_2
+dump
+hold W 2
+shot 18_walk_n_3
+dump
+key E
+wait 2.5
+shot 19_after_e
+dump
+scene
+dev save critic_beef_cave_entry

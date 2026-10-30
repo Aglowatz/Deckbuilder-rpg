@@ -1,0 +1,36 @@
+# Beefcake run 8: straight north to the arch, enter the cave
+wait 3
+dev load critic_beef_cave_entry
+wait 3
+skip_dialogue 5
+wait 0.5
+shot 34_start
+hold W 2.5
+key E
+wait 0.8
+shot 35_north_1
+dump
+hold W 2
+key E
+wait 0.8
+shot 36_north_2
+dump
+hold W+D 1.5
+key E
+wait 0.8
+shot 37_ne_3
+dump
+hold W 1.5
+wait 0.5
+shot 38_north_4
+dump
+key E
+wait 3.5
+shot 39_after_e
+dump
+scene
+key E
+wait 3
+shot 40_after_e2
+dump
+scene

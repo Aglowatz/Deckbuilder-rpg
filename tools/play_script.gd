@@ -30,6 +30,7 @@ var _log_lines: PackedStringArray = []
 var _started_msec: int = 0
 var _limit: float = DEFAULT_LIMIT
 var _lines: PackedStringArray = []
+var _log_file: FileAccess = null
 
 
 func run() -> void:
@@ -359,12 +360,16 @@ func _say(text: String) -> void:
 	var line: String = "%s %s" % [stamp, text]
 	print("play: " + text)
 	_log_lines.append(line)
+	# Written as it goes, so a run killed at its time limit keeps its log.
+	if _log_file == null:
+		_log_file = FileAccess.open("%s/play.log" % _out_dir, FileAccess.WRITE)
+	if _log_file != null:
+		_log_file.store_line(line)
+		_log_file.flush()
 
 
 func _finish() -> void:
-	var file: FileAccess = FileAccess.open("%s/play.log" % _out_dir, FileAccess.WRITE)
-	if file != null:
-		file.store_string("\n".join(_log_lines) + "\n")
-		file.close()
 	_say("play: done")
+	if _log_file != null:
+		_log_file.close()
 	get_tree().quit(0)

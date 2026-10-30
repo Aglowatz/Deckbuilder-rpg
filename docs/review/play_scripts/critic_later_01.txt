@@ -1,0 +1,116 @@
+# Later content sample: Beefcake zone + gatekeeper, House of Gains boss intro, Capital, feats, collection, settings
+wait 3
+dev load critic_beef_town
+wait 4
+dev travel zone beefcake
+wait 6
+shot 200_zone_beefcake
+dump
+scene
+key E
+wait 1.2
+shot 201_zone_2
+key E
+wait 1.2
+shot 202_zone_3
+skip_dialogue 20
+wait 1.5
+shot 203_zone_free
+dump
+hold W 3
+shot 204_zone_walk_n
+dump
+hold D 3
+shot 205_zone_walk_e
+dump
+key M
+wait 1.5
+shot 206_zone_map
+dump
+key Escape
+wait 0.8
+dev travel dungeon D-HOG
+wait 5
+shot 207_hog_map
+dump
+key R
+wait 1.5
+shot 208_hog_rules
+dump
+key R
+wait 0.5
+dev travel dungeon D-HOG -2
+wait 5
+shot 209_hog_near_boss
+dump
+dev level 8
+dev heal
+dev encounter boss
+wait 5
+shot 210_boss_pick
+dump
+key E
+wait 1.2
+shot 211_boss_2
+key E
+wait 1.2
+shot 212_boss_3
+skip_dialogue 10
+wait 2
+shot 213_boss_fight
+dump
+button Continue
+wait 1.5
+button Keep Hand
+wait 1.5
+shot 214_boss_board
+dump
+pilot 100
+shot 215_boss_pilot_end
+dump
+scene
+button Continue
+wait 2
+shot 216_boss_after
+dump
+skip_dialogue 10
+wait 3
+shot 217_back_in_town
+dump
+scene
+key Escape
+wait 1.5
+shot 218_pause_menu
+dump
+button Feats
+wait 1.5
+shot 219_feats
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+button Collection
+wait 1.5
+shot 220_collection
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+button Settings
+wait 1.5
+shot 221_settings
+dump
+button Controls
+wait 1.5
+shot 222_controls
+dump
+button Graphics
+wait 1.5
+shot 223_graphics
+dump
+key Escape
+wait 1
+shot 224_end
+dump

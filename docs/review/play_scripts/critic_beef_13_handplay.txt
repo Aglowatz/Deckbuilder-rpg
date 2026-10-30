@@ -1,0 +1,82 @@
+# Beefcake run 13: play the first duel by hand, clicking each card, attacking by click
+wait 3
+dev load critic_beef_prefight
+wait 3
+dev travel dungeon D-TUT
+wait 4
+click 501 500
+wait 4
+button Got it
+wait 0.5
+button Keep Hand
+wait 1.5
+shot 70_t1_hand
+dump
+# try each hand slot, left to right
+click 475 800
+wait 1.2
+button Got it
+wait 0.4
+shot 71_t1_click1
+click 637 800
+wait 1.2
+button Got it
+wait 0.4
+shot 72_t1_click2
+click 819 800
+wait 1.2
+button Got it
+wait 0.4
+shot 73_t1_click3
+click 982 800
+wait 1.2
+button Got it
+wait 0.4
+shot 74_t1_click4
+click 1163 800
+wait 1.2
+button Got it
+wait 0.4
+shot 75_t1_click5
+dump
+key Space
+wait 1.2
+shot 76_t1_combat
+dump
+key Space
+wait 1.2
+key Space
+wait 4
+shot 77_t3_start
+dump
+# turn 3: tip trap probe - press Space with the tip open
+key Space
+wait 1.2
+shot 78_t3_space_with_tip
+dump
+# spend iron: click the iron then my unit
+click 1395 557
+wait 1
+shot 79_iron_clicked
+dump
+click 815 520
+wait 1
+shot 80_iron_target
+dump
+key Space
+wait 1.2
+shot 81_t3_combat
+dump
+click 815 520
+wait 1
+shot 82_attacker_clicked
+dump
+key Space
+wait 2.5
+shot 83_after_attack
+dump
+button Battle log
+wait 1
+shot 84_battle_log
+dump
+scene

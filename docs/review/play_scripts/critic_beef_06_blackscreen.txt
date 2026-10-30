@@ -1,0 +1,46 @@
+# Beefcake run 6: re-test deck close -> black screen, map close, then walk to the cave
+wait 3
+dev load critic_beef_forest
+wait 3
+skip_dialogue 10
+wait 1
+shot 20_forest_before
+key B
+wait 1.5
+button Got it
+wait 0.8
+click 1550 55
+wait 2
+shot 21_after_deck_close_2s
+wait 3
+shot 22_after_deck_close_5s
+dump
+hold D 1
+shot 23_after_walk_d
+key M
+wait 1.2
+shot 24_map_open
+click 1548 55
+wait 1.2
+shot 25_map_after_x
+key M
+wait 1.2
+shot 26_map_after_m
+dump
+hold W+D 3
+shot 27_walk_ne_1
+hold W+D 3
+shot 28_walk_ne_2
+dump
+hold W 2
+shot 29_walk_n_3
+dump
+hold W+D 2
+shot 30_walk_ne_4
+dump
+key E
+wait 3
+shot 31_after_e
+dump
+scene
+dev save critic_beef_cave_entry

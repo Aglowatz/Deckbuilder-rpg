@@ -17,7 +17,9 @@ func frames(count: int) -> void:
 
 
 func seconds(duration: float) -> void:
-	await tree.create_timer(duration, false).timeout
+	# Fresh eyes Oct 30: process_always, so a wait keeps ticking while the pause menu holds the tree (a paused tree froze every driver
+	# the moment it pressed Escape - the critic's "Esc hangs the game").
+	await tree.create_timer(duration, true).timeout
 
 
 ## Canvas (design) coordinates -> window pixels, which is what injected events expect.

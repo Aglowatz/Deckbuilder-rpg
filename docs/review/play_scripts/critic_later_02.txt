@@ -1,0 +1,77 @@
+# Later content 2: House of Gains boss by clicking its node, pilot it, then pause menu, Feats, Collection, Settings; then a town shop
+wait 3
+dev load critic_beef_town
+wait 4
+dev travel dungeon D-HOG -2
+wait 5
+dev level 8
+dev heal
+move 1331 253
+wait 1.2
+shot 230_boss_node_hover
+dump
+click 1331 253
+wait 4
+shot 231_boss_intro_1
+dump
+key E
+wait 1.2
+shot 232_boss_intro_2
+key E
+wait 1.2
+shot 233_boss_intro_3
+key E
+wait 1.2
+shot 234_boss_intro_4
+dump
+skip_dialogue 10
+wait 2
+shot 235_boss_prefight
+dump
+button Continue
+wait 2
+button Keep Hand
+wait 1.5
+shot 236_boss_board
+dump
+pilot 110
+shot 237_boss_pilot_end
+dump
+scene
+button Continue
+wait 2
+shot 238_boss_after
+dump
+key Escape
+wait 1.5
+shot 240_pause_menu
+dump
+button Feats
+wait 1.5
+shot 241_feats
+dump
+key Escape
+wait 1
+key Escape
+wait 1.5
+button Collection
+wait 1.5
+shot 242_collection
+dump
+key Escape
+wait 1
+key Escape
+wait 1.5
+button Settings
+wait 1.5
+shot 243_settings
+dump
+button Controls
+wait 1.5
+shot 244_controls
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot 245_after_menus

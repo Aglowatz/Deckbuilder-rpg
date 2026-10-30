@@ -1,0 +1,57 @@
+# Later content 4: Settings from the title (Esc hangs), then town Menu button -> Feats / Collection
+wait 3
+button Settings
+wait 1.5
+shot 250_title_settings
+dump
+button Controls
+wait 1.5
+shot 251_controls
+dump
+button Graphics
+wait 1.5
+shot 252_graphics
+dump
+button Audio
+wait 1.5
+shot 253_audio
+dump
+button Back
+wait 1
+button Close
+wait 1
+shot 254_title_again
+dump
+dev load critic_beef_town
+wait 4
+dev travel town
+wait 6
+button Menu
+wait 1.5
+shot 255_town_menu
+dump
+button Feats
+wait 1.5
+shot 256_feats
+dump
+button Back
+button Close
+wait 1
+shot 257_after_feats
+dump
+button Collection
+wait 1.5
+shot 258_collection
+dump
+move 400 400
+wait 1
+shot 259_collection_hover
+button Back
+button Close
+wait 1
+shot 260_after_collection
+dump
+button Glossary
+wait 1.5
+shot 261_glossary
+dump

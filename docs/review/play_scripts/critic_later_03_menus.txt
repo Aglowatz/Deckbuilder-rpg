@@ -1,0 +1,50 @@
+# Later content 3: pause menu, Feats, Collection, Settings, Controls from town
+wait 3
+dev load critic_beef_town
+wait 4
+key Escape
+wait 1.5
+shot 240_pause_menu
+dump
+button Feats
+wait 1.5
+shot 241_feats
+dump
+key Escape
+wait 1
+shot 241b_after_feats
+dump
+key Escape
+wait 1.5
+button Collection
+wait 1.5
+shot 242_collection
+dump
+key Escape
+wait 1
+shot 242b_after_collection
+dump
+key Escape
+wait 1.5
+button Settings
+wait 1.5
+shot 243_settings
+dump
+button Controls
+wait 1.5
+shot 244_controls
+dump
+button Graphics
+wait 1.5
+shot 244b_graphics
+dump
+button Audio
+wait 1.5
+shot 244c_audio
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot 245_after_menus
+dump

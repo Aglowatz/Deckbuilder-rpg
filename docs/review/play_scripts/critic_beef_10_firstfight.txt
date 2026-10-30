@@ -1,0 +1,39 @@
+# Beefcake run 10: rules panel, first fight start, battle UI dump
+wait 3
+dev load critic_beef_cave_map
+wait 3
+button Got it
+wait 0.8
+key R
+wait 1.5
+shot 49_rules_panel
+dump
+key R
+wait 0.8
+dev save critic_beef_prefight
+move 501 500
+wait 1.2
+shot 50_hover_node
+click 501 500
+wait 4
+shot 51_fight_start
+dump
+scene
+key E
+wait 1.2
+shot 52_fight_line2
+key E
+wait 1.2
+shot 53_fight_line3
+key E
+wait 1.2
+shot 54_fight_line4
+dump
+skip_dialogue 15
+wait 1.5
+shot 55_fight_board
+dump
+move 800 820
+wait 1.2
+shot 56_hover_hand
+dump
