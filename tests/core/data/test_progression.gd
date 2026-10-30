@@ -171,7 +171,7 @@ func test_deck_validator_caps_a_legendary_at_one_then_three_at_level_30() -> voi
 func test_progression_content_has_ten_equipment_two_per_slot_and_thirteen_items() -> void:
 	# New brief, Part B: 10 real pieces (a basic and an advanced one per slot), replacing the
 	# original 5 placeholders.
-	assert_eq(content.equipment.size(), 10)
+	assert_eq(content.equipment.size(), 11, "the ten plus the Blade of Earned Reputation (Oct 29)")
 	var basic_by_slot: Dictionary = {}
 	var advanced_by_slot: Dictionary = {}
 	for piece: Variant in content.equipment.values():

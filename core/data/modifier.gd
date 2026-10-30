@@ -171,4 +171,8 @@ func matches_color(card_color: Affinity.Type) -> bool:
 ## Whether this modifier applies to `card`: a multi-Path card is on both its Paths, so it receives every
 ## modifier (buff or debuff) aimed at either of them.
 func matches_card(card: CardData) -> bool:
-	return color == ANY_COLOR or card.is_on_path(color as Affinity.Type)
+	if color == ANY_COLOR:
+		return true
+	if color == int(Affinity.Type.NEUTRAL):
+		return card.paths().is_empty()  # Oct 29: a Colorless-only modifier (the Wicked Dagger, the Solid Plate) matches cards on no Path
+	return card.is_on_path(color as Affinity.Type)

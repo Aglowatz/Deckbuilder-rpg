@@ -202,6 +202,7 @@ static func default_stock() -> EquipmentVendorData:
 	data.add("cardboard_cuirass", Economy.gear_price(common, 1), always)  # Oct 16: two cheap early pieces
 	data.add("saucepan_helmet", Economy.gear_price(common, 1), always)
 	data.add("flamethrower", Economy.gear_price(epic, 3), advanced)
+	data.add("earned_blade", Economy.gear_price(epic, 3), advanced)  # Oct 29: the old Wicked Dagger's +1 attack to every unit, where a board-wide buff belongs
 	data.add("cheaters_dice", Economy.gear_price(uncommon, 3), advanced)
 	data.add("hover_boots", Economy.gear_price(uncommon, 3), advanced)
 	data.add("thorned_loincloth", Economy.gear_price(uncommon, 3), advanced)

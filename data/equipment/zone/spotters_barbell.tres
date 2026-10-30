@@ -13,13 +13,14 @@ amount = 1
 [sub_resource type="Resource" id="Resource_vffqj"]
 script = ExtResource("1_qy2p0")
 kind = 21
+color = 1
 effect = SubResource("Resource_gjax7")
 
 [resource]
 script = ExtResource("4_8nl60")
 id = "spotters_barbell"
 slot = 1
-description = "Whenever a unit enters the field under your control, deal 1 damage to the opponent."
+description = "Whenever a Beefcake unit enters the field under your control, deal 1 damage to the opponent."
 advanced = true
 flavor_text = "Every new face gets a free rep. Somebody is always counting out loud."
 rarity = 2

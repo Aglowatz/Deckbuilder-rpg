@@ -723,7 +723,7 @@ func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targe
 		fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
 		_resolve_card_abilities(card, CardAbility.Kind.ENTER, seed_ctx, null, targets)
 	if card.data.is_unit() and not is_over():
-		_fire_modifier_effects(card.owner, Modifier.Kind.ON_UNIT_ENTER_EFFECT)
+		_fire_modifier_effects(card.owner, Modifier.Kind.ON_UNIT_ENTER_EFFECT, 0, card.data)
 	if card.data.is_unit() and not is_over():
 		_fire_modifier_effects(1 - card.owner, Modifier.Kind.ON_ENEMY_UNIT_ENTER_EFFECT, card.uid)
 
@@ -2475,8 +2475,8 @@ func emit_event(
 
 ## Brief 8, Part C: resolves every effect of a modifier `kind` that `player_index` has (END_OF_TURN_EFFECT,
 ## ON_CREATURE_ENTER_EFFECT, ON_ALLY_DEATH_EFFECT), each as an effect controlled by that player.
-func _fire_modifier_effects(player_index: int, kind: Modifier.Kind, trigger_uid: int = 0) -> void:
-	for effect: EffectData in players[player_index].modifiers.effects_of(kind):
+func _fire_modifier_effects(player_index: int, kind: Modifier.Kind, trigger_uid: int = 0, triggering: CardData = null) -> void:
+	for effect: EffectData in players[player_index].modifiers.effects_of_for(kind, triggering):
 		if is_over():
 			return
 		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index, trigger_uid))

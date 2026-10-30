@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_aasb2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_e7mdf"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_xuvkd"]
+
+[sub_resource type="Resource" id="Resource_foqdl"]
+script = ExtResource("1_aasb2")
+kind = 5
+value = 1
+
+[resource]
+script = ExtResource("3_xuvkd")
+id = "earned_blade"
+slot = 1
+description = "It finally did something to deserve the stories. Your units get +1 attack."
+advanced = true
+rarity = 2
+source_name = "Blade of Earned Reputation"
+modifiers = Array[ExtResource("1_aasb2")]([SubResource("Resource_foqdl")])

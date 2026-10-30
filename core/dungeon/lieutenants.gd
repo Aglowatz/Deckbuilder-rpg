@@ -95,16 +95,17 @@ static func yards_setup(content: ContentSet) -> PlayerSetup:
 # ---- The relics (first win against each lieutenant; never sold) ------------------------------------------------------------------
 
 static func add_equipment(result: Dictionary) -> void:
-	_add(result, "quotas_stopwatch", "Quota's Stopwatch", EquipmentData.Slot.RELIC, "You always take the first turn.",
-		[_mod(Modifier.Kind.ALWAYS_FIRST, 1)], "It still clicks every second. You never asked it to.", "The House of Gains (a first win)")
-	_add(result, "colonels_ladle", "The Colonel's Ladle", EquipmentData.Slot.WEAPON, "Whenever a unit enters the field under your control, gain 1 HP.",
-		[_mod_effect(Modifier.Kind.ON_UNIT_ENTER_EFFECT, CardEnums.EffectOp.GAIN_HP, CardEnums.TargetKind.CONTROLLER)],
+	# Oct 29: each relic brought up to an Epic's worth (docs/design/equipment.md, power budget).
+	_add(result, "quotas_stopwatch", "Quota's Stopwatch", EquipmentData.Slot.RELIC, "You always take the first turn and draw an extra card on it. Max hand size +2.",
+		[_mod(Modifier.Kind.ALWAYS_FIRST, 1), _mod(Modifier.Kind.FIRST_TURN_EXTRA_DRAW, 1), _mod(Modifier.Kind.MAX_HAND_SIZE, 2)], "It still clicks every second. You never asked it to.", "The House of Gains (a first win)")
+	_add(result, "colonels_ladle", "The Colonel's Ladle", EquipmentData.Slot.WEAPON, "Whenever a unit enters the field under your control, gain 1 HP. Max HP +3.",
+		[_mod_effect(Modifier.Kind.ON_UNIT_ENTER_EFFECT, CardEnums.EffectOp.GAIN_HP, CardEnums.TargetKind.CONTROLLER), _mod(Modifier.Kind.MAX_HP, 3)],
 		"Carried like a sabre for ten years. It has finally been used for soup.", "The Paste Works (a first win)")
-	_add(result, "plumes_quill", "Plume's Notary Quill", EquipmentData.Slot.RELIC, "Start every duel with 1 Red Tape. Max HP +2.",
-		[_mod(Modifier.Kind.STARTING_RESOURCES, 1, int(ResourceKind.Kind.RED_TAPE)), _mod(Modifier.Kind.MAX_HP, 2)],
+	_add(result, "plumes_quill", "Plume's Notary Quill", EquipmentData.Slot.RELIC, "Start every duel with 2 Red Tape and 1 Contract. Max HP +2.",
+		[_mod(Modifier.Kind.STARTING_RESOURCES, 2, int(ResourceKind.Kind.RED_TAPE)), _mod(Modifier.Kind.STARTING_RESOURCES, 1, int(ResourceKind.Kind.CONTRACT)), _mod(Modifier.Kind.MAX_HP, 2)],
 		"It has signed away a Path, a kingdom and a friend. It writes beautifully.", "Primm's Castle (a first win)")
-	_add(result, "clipwells_shears", "Clipwell's Golden Shears", EquipmentData.Slot.WEAPON, "Whenever the opponent declares attackers, deal 1 damage to each of them.",
-		[_mod_effect(Modifier.Kind.RETALIATE_ON_ATTACK, CardEnums.EffectOp.DEAL_DAMAGE, CardEnums.TargetKind.ALL_ATTACKERS)],
+	_add(result, "clipwells_shears", "Clipwell's Golden Shears", EquipmentData.Slot.WEAPON, "Whenever the opponent declares attackers, deal 2 damage to each of them.",
+		[_mod_effect(Modifier.Kind.RETALIATE_ON_ATTACK, CardEnums.EffectOp.DEAL_DAMAGE, CardEnums.TargetKind.ALL_ATTACKERS, 2)],
 		"Trimmed to regulation height. Anything taller gets a polite little snip.", "The Rotheart (a first win)")
 
 
@@ -133,10 +134,10 @@ static func _mod(kind: Modifier.Kind, value: int, value2: int = 0) -> Modifier:
 	return modifier
 
 
-static func _mod_effect(kind: Modifier.Kind, op: CardEnums.EffectOp, target: CardEnums.TargetKind) -> Modifier:
+static func _mod_effect(kind: Modifier.Kind, op: CardEnums.EffectOp, target: CardEnums.TargetKind, amount: int = 1) -> Modifier:
 	var effect: EffectData = EffectData.new()
 	effect.op = op
-	effect.amount = 1
+	effect.amount = amount
 	effect.target = target
 	var modifier: Modifier = Modifier.new()
 	modifier.kind = kind

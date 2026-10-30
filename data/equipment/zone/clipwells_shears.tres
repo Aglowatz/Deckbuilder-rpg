@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="Resource_ggy0a"]
 script = ExtResource("2_c0nn0")
 target = 12
-amount = 1
+amount = 2
 
 [sub_resource type="Resource" id="Resource_uep33"]
 script = ExtResource("1_cxlkp")
@@ -19,7 +19,7 @@ effect = SubResource("Resource_ggy0a")
 script = ExtResource("4_q2bhs")
 id = "clipwells_shears"
 slot = 1
-description = "Whenever the opponent declares attackers, deal 1 damage to each of them."
+description = "Whenever the opponent declares attackers, deal 2 damage to each of them."
 advanced = true
 flavor_text = "Trimmed to regulation height. Anything taller gets a polite little snip."
 rarity = 2

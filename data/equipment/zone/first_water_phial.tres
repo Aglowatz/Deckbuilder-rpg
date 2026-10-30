@@ -21,14 +21,18 @@ script = ExtResource("1_mp8yl")
 kind = 11
 effect = SubResource("Resource_51kdq")
 
+[sub_resource type="Resource" id="Resource_04vye"]
+script = ExtResource("1_mp8yl")
+value = 3
+
 [resource]
 script = ExtResource("4_nobn4")
 id = "first_water_phial"
-description = "Your multi-Path cards cost 1 less generic energy. At the start of your turn, gain 1 HP."
+description = "Your multi-Path cards cost 1 less generic energy. At the start of your turn, gain 1 HP. Max HP +3."
 advanced = true
 flavor_text = "A thimble of the water that fed all four Paths. It does not slosh. It waits."
 rarity = 3
 tier = 3
 source = "Secret quest: The Water Under the Well"
 source_name = "Phial of First Water"
-modifiers = Array[ExtResource("1_mp8yl")]([SubResource("Resource_p8tux"), SubResource("Resource_kmmt4")])
+modifiers = Array[ExtResource("1_mp8yl")]([SubResource("Resource_p8tux"), SubResource("Resource_kmmt4"), SubResource("Resource_04vye")])

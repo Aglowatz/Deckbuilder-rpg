@@ -433,3 +433,27 @@ cycle 1); the spells-only arena (cycle 10).
    ms). It predates tonight; budget left as is.
 8. **Feat icons**: ten groups share eight pictures (the four one-Path groups all use PATHS, Dual Path uses MIXED); an unearned hidden feat
    shows SECRET.
+
+
+## Overnight Oct 29-30 (economy + equipment + hats) - yours to decide (the safest choice was taken)
+
+1. **The XP curve runs far ahead of the progression model.** With the XP the timeline really pays (quests 3,000, gatekeepers, roamers, dungeon
+   nodes), the economy model's expected player is L8 at the Gainlands (model: 5), L12 at the House of Gains (7-9), L18 at the Test Kitchen
+   boss (14), L25 at the Dump freed (19) and L30 at the Capital (18-20); `ProgressionTable.POSTGAME_STEP` is 27 (the docs say 40), so levels
+   21-30 together cost less XP than 17-20. Not touched tonight (it moves HP, hands and caps for every fight); the level track's gold was
+   front-loaded instead so the money lands where it is needed. Say if you want the curve re-based (`tools/economy_model.gd` shows the levels).
+2. **Primm as a three-phase sequence is 82 % with the real L22 gear** (B 58 / G 79 / R 92 / N 100, 12 runs per Path; 48 % on Oct 23): the
+   expected player now wears the Glass Jaw Gauntlets (+2 attack) and the Crown of Mild Hubris (+1 attack, after the +1/+1 version pushed the
+   phases alone to 92-100 %). Levers: the phases' HP (36 / 32 / 32), a stat rule on Primm's units. Not retuned blind; your call.
+3. **The House of Gains reads 5-10 points harder** with the Colorless-only Wicked Dagger at L7-9 (two seeds: normals 69-96, the Honor Guard
+   46 / 52 vs its 60-75 band, Clench 38 / 42). Nothing under 35 %. The next lever is the Honor Guard's basics; left as it is.
+4. **The late sink is still missing**: from the Capital on every profile holds 2,000-6,000 gold with only Gilded / Prismatic packs and the Royal
+   Mantle to buy. Two cheap candidates: a reward-pick reroll (e.g. 50 + 10 x level gold, once per pick) or one rotating Epic on Sable's shelf
+   at a premium. The reroll is the better sink (repeatable, every elite and boss). Say which, or neither.
+5. **Quest gold and XP were left alone** (core/quests is in the dialogue freeze); quests pay 3,500 of the ~19,600 one-time gold. Chests and
+   feats were left too (already tiered). Selling, an inn, rerolls and repairs do not exist, so there is nothing to price there.
+6. **Binding Chains measured +17 alone at level 12** (6 games per Path, +-12 noise; the Reckless Tonic +13 after its 6 -> 5 HP change, the
+   Hearty Pie +13). A one-use bounce is a real tempo play; left at the strong band (60 gold). Say if the 10-point rule should bind here too.
+7. **Zone fees** (15-20 on waking at the hub after a loss) were left: a loss already costs time.
+8. **The Gainsmith's Lifting Belt and the Spotter's Barbell are Beefcake-only now** (they are the Gainlands' puzzle and quest prizes); a
+   non-Beefcake player gets a Path piece from the first zone, like the Bandolier. Alternative: keep them Path-neutral with a drawback.

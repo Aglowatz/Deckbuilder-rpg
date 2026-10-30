@@ -16,15 +16,19 @@ script = ExtResource("1_j2p1p")
 kind = 21
 effect = SubResource("Resource_cbdq6")
 
+[sub_resource type="Resource" id="Resource_ck2vg"]
+script = ExtResource("1_j2p1p")
+value = 3
+
 [resource]
 script = ExtResource("4_41vfn")
 id = "colonels_ladle"
 slot = 1
-description = "Whenever a unit enters the field under your control, gain 1 HP."
+description = "Whenever a unit enters the field under your control, gain 1 HP. Max HP +3."
 advanced = true
 flavor_text = "Carried like a sabre for ten years. It has finally been used for soup."
 rarity = 2
 tier = 3
 source = "The Paste Works (a first win)"
 source_name = "The Colonel's Ladle"
-modifiers = Array[ExtResource("1_j2p1p")]([SubResource("Resource_c48m0")])
+modifiers = Array[ExtResource("1_j2p1p")]([SubResource("Resource_c48m0"), SubResource("Resource_ck2vg")])

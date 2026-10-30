@@ -13,13 +13,16 @@ const KW := CardEnums.Keyword
 ## values added for this brief are documented in core/data/modifier.gd.
 static func equipment() -> Dictionary:
 	var result: Dictionary = {}
-	_add(result, _piece("wicked_dagger", "Wicked Dagger", EquipmentData.Slot.WEAPON, "A blade with a reputation it didn't earn honestly. Your units get +1 attack.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)]))
+	# Overnight Oct 29 (docs/design/equipment.md, power budget): the two tier-1 Uncommons buff Colorless units only (the early decks' hired
+	# rabble), so a board-wide +1 is not on sale at level 5; the any-colour +1 attack moved to the Blade of Earned Reputation (Epic, L13 rack).
+	_add(result, _piece("wicked_dagger", "Wicked Dagger", EquipmentData.Slot.WEAPON, "A blade with a reputation it didn't earn honestly. Your Colorless units get +1 attack.", [_mod(K.STAT_CHANGE, 1, int(Affinity.Type.NEUTRAL), 0)]))
+	_add(result, _piece("earned_blade", "Blade of Earned Reputation", EquipmentData.Slot.WEAPON, "It finally did something to deserve the stories. Your units get +1 attack.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)], true))
 	_add(result, _piece("flamethrower", "Flamethrower", EquipmentData.Slot.WEAPON, "Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_UNITS))], true))
 	_add(result, _piece("extra_pocket", "Extra Pocket", EquipmentData.Slot.RELIC, "Sewn in where no one thinks to look. Max hand size +1.", [_mod(K.MAX_HAND_SIZE, 1)]))
 	_add(result, _piece("cheaters_dice", "Cheater's Dice", EquipmentData.Slot.RELIC, "They only ever land the way you need them to. You always go first.", [_mod(K.ALWAYS_FIRST, 1)], true))
 	_add(result, _piece("travelers_boots", "Traveler's Boots", EquipmentData.Slot.BOOTS, "Worn thin by roads longer than this one. Draw an extra card at the start of your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)]))
 	_add(result, _piece("hover_boots", "Hover Boots", EquipmentData.Slot.BOOTS, "A finger's width of clearance, always. Your units have Flying but cannot block.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.FLYING), Modifier.ANY_COLOR, 0), _mod(K.CANNOT_BLOCK, 1)], true))
-	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your units get +1 defense.", [_mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)]))
+	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your Colorless units get +1 defense.", [_mod(K.STAT_CHANGE, 0, int(Affinity.Type.NEUTRAL), 1)]))
 	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max HP -2; whenever an enemy unit attacks you, it takes 1 damage.", [_mod(K.MAX_HP, -2), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
 	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
 	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn, and max HP -2.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1), _mod(K.MAX_HP, -2)], true))
@@ -31,7 +34,7 @@ static func equipment() -> Dictionary:
 static func zone_equipment() -> Dictionary:
 	var result: Dictionary = {}
 	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
-	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max HP +3 and your units get +1 defense.", [_mod(K.MAX_HP, 3), _mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)], true))
+	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max HP +3 and your Beefcake units get +1 defense.", [_mod(K.MAX_HP, 3), _mod(K.STAT_CHANGE, 0, int(Affinity.Type.BEEFCAKE), 1)], true))  # Oct 29: Beefcake-only (a board-wide +1 at level 5 is over the budget)
 	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 HP.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_HP, 1, CardEnums.TargetKind.CONTROLLER))], true))
 	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_UNITS))], true))
 	_add_zone_pieces(result)
@@ -56,7 +59,7 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	var result: Dictionary = {}
 	_add_item(result, "healing_draught", "Healing Draught", "A common camp remedy.", 3, CardEnums.EffectOp.GAIN_HP, 3)
 	_add_item(result, "vitality_charm", "Vitality Charm", "A small, steady comfort.", 2, CardEnums.EffectOp.GAIN_HP, 2)
-	_add_item(result, "reckless_tonic", "Reckless Tonic", "One big gulp - use it wisely, there is only one.", 1, CardEnums.EffectOp.GAIN_HP, 6)
+	_add_item(result, "reckless_tonic", "Reckless Tonic", "One big gulp - use it wisely, there is only one.", 1, CardEnums.EffectOp.GAIN_HP, 5)  # Oct 29: 6 -> 5 (+19 points alone at level 12)
 	# New brief, Part F: 10 basic consumables, usable in battle (item bar, targeting where the
 	# effect needs it) as well as between fights - the same effect either way.
 	_add_item(result, "healing_salve", "Healing Salve", "Heal 4 HP.", 3, CardEnums.EffectOp.GAIN_HP, 4, 0, D.PERMANENT, G.CONTROLLER)
@@ -183,7 +186,9 @@ static func _add_zone_pieces(result: Dictionary) -> void:
 	var clipboard: EquipmentData = _piece("compliance_clipboard", "Compliance Clipboard", EquipmentData.Slot.RELIC, "At the end of your turn, the opponent loses 1 HP.", [_mod_effect(K.END_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.LOSE_HP, 1, CardEnums.TargetKind.OPPONENT))], true)
 	clipboard.flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."
 	_add(result, clipboard)
-	var barbell: EquipmentData = _piece("spotters_barbell", "Spotter's Barbell", EquipmentData.Slot.WEAPON, "Whenever a unit enters the field under your control, deal 1 damage to the opponent.", [_mod_effect(K.ON_UNIT_ENTER_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.OPPONENT))], true)
+	var barbell_mod: Modifier = _mod_effect(K.ON_UNIT_ENTER_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.OPPONENT))
+	barbell_mod.color = int(Affinity.Type.BEEFCAKE)  # Oct 29: Beefcake units only (+17 points at level 5 for every unit)
+	var barbell: EquipmentData = _piece("spotters_barbell", "Spotter's Barbell", EquipmentData.Slot.WEAPON, "Whenever a Beefcake unit enters the field under your control, deal 1 damage to the opponent.", [barbell_mod], true)
 	barbell.flavor_text = "Every new face gets a free rep. Somebody is always counting out loud."
 	_add(result, barbell)
 	var toque: EquipmentData = _piece("head_chef_toque", "Head Chef's Toque", EquipmentData.Slot.HELM, "Whenever you gain HP, gain 1 extra HP.", [_mod(K.HP_GAIN_BONUS, 1)], true)
@@ -197,17 +202,18 @@ static func _add_zone_pieces(result: Dictionary) -> void:
 ## Brief 16, Group G: the exclusive reward of the Four-Seal Vault (never sold): a relic that holds one of each Path's Resources and a little extra life.
 ## Story v2 Part H: the Path-ology Lab's first-clear equipment (placeholder numbers).
 static func _add_lab_gear(result: Dictionary) -> void:
-	var lens: EquipmentData = _piece("siphons_lens", "Siphon's Lens", EquipmentData.Slot.RELIC, "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card on your first turn.", [
+	var lens: EquipmentData = _piece("siphons_lens", "Siphon's Lens", EquipmentData.Slot.RELIC, "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card each turn.", [
 		_mod(K.MAX_HP, 2),
-		_mod(K.FIRST_TURN_EXTRA_DRAW, 1),
-	], true)
+		_mod(K.EXTRA_DRAWS, 1),
+	], true)  # Oct 29: an Epic's worth (it drew one card on the first turn only)
 	lens.flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."
 	_add(result, lens)
 
 
 static func _add_vault_gear(result: Dictionary) -> void:
-	var signet: EquipmentData = _piece("four_seal_signet", "Four-Seal Signet", EquipmentData.Slot.RELIC, "Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape.", [
-		_mod(K.MAX_HP, 3),
+	var signet: EquipmentData = _piece("four_seal_signet", "Four-Seal Signet", EquipmentData.Slot.RELIC, "Max HP +5. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape, and draw an extra card on your first turn.", [
+		_mod(K.MAX_HP, 5),
+		_mod(K.FIRST_TURN_EXTRA_DRAW, 1),
 		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)),
 		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.INGREDIENT)),
 		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.GARBAGE)),

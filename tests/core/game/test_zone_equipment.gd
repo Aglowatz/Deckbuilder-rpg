@@ -142,3 +142,15 @@ func test_turning_in_the_quest_grants_the_piece_once() -> void:
 	assert_true(Session.grant_equipment(piece))
 	assert_true(Session.profile.owned_equipment.has(piece))
 	assert_false(Session.grant_equipment(piece), "one time only")
+
+
+func test_spotters_barbell_counts_beefcake_units_only() -> void:
+	# Overnight Oct 29: the Barbell is Beefcake-only (+17 points alone at level 5 when every unit counted).
+	var game: GameState = _game(_piece_mods("spotters_barbell"))
+	var before: int = game.players[1].hp
+	game.create_token(0, GameFactory.vanilla(1, 1, 1, Affinity.Type.NEUTRAL))
+	assert_eq(game.players[1].hp, before, "a Colorless unit entering does nothing")
+	game.create_token(0, GameFactory.vanilla(1, 1, 1, Affinity.Type.GOURMAND))
+	assert_eq(game.players[1].hp, before, "a Gourmand unit entering does nothing")
+	game.create_token(0, GameFactory.vanilla(1, 1, 1, Affinity.Type.BEEFCAKE))
+	assert_eq(game.players[1].hp, before - 1, "a Beefcake unit entering: 1 damage")

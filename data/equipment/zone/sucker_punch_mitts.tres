@@ -11,18 +11,17 @@ value = 5
 
 [sub_resource type="Resource" id="Resource_pchqg"]
 script = ExtResource("1_enuyj")
-kind = 5
-value2 = -1
+value = -3
 
 [resource]
 script = ExtResource("3_k0twj")
 id = "sucker_punch_mitts"
 slot = 1
-description = "Your units have Sucker Punch (they deal combat damage first). Your units get -1 defense."
+description = "Your units have Sucker Punch (they deal combat damage first). Max HP -3."
 flavor_text = "Rule one of the fight club: hit first, apologise never."
-rarity = 2
+rarity = 1
 tier = 2
 source = "Granny Gristle's Compost Grange, once the Dump is free; hidden chests (tier 2)"
-drawback = "Your units get -1 defense."
+drawback = "Max HP -3."
 source_name = "Sucker Punch Mitts"
 modifiers = Array[ExtResource("1_enuyj")]([SubResource("Resource_ibgsp"), SubResource("Resource_pchqg")])

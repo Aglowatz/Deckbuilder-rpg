@@ -131,6 +131,15 @@ func effects_of(kind: Modifier.Kind) -> Array[EffectData]:
 	return result
 
 
+## Oct 29: the effects of `kind` that apply to `card` (a modifier with a colour only fires for cards of that Path; ANY_COLOR for all).
+func effects_of_for(kind: Modifier.Kind, card: CardData) -> Array[EffectData]:
+	var result: Array[EffectData] = []
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind and modifier.effect != null and (card == null or modifier.color == Modifier.ANY_COLOR or modifier.matches_card(card)):
+			result.append(modifier.effect)
+	return result
+
+
 func is_empty() -> bool:
 	return modifiers.is_empty()
 

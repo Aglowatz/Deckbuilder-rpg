@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="AIPersonality" format=3]
 
-[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_cbi6h"]
+[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_o6ixy"]
 
 [resource]
-script = ExtResource("1_cbi6h")
+script = ExtResource("1_o6ixy")
 personality_name = "First duel (tutorial)"
 board_weight = 0.5
 enemy_board_weight = 0.3

@@ -60,3 +60,22 @@ Level track,L23,Gold,300,150,postgame band trimmed (reached during the main game
 Level track,L26,Gold,350,200,postgame band trimmed,2
 Level track,L28,Gold,300,250,postgame band trimmed,2
 Level track,L29,Gold,400,300,postgame band trimmed,2
+Equipment,Wicked Dagger (Uncommon tier 1),Effect,Your units get +1 attack,Your Colorless units get +1 attack,board-wide buffs are not sold at level 5; the early decks are half Colorless,3
+Equipment,Solid Plate (Uncommon tier 1),Effect,Your units get +1 defense,Your Colorless units get +1 defense,same rule,3
+Equipment,Blade of Earned Reputation (Epic tier 3; NEW; Bertram's advanced rack L13; 450),Effect,-,Your units get +1 attack,the old Dagger's effect where a board-wide buff belongs,3
+Equipment,Gainsmith's Lifting Belt (Gainlands puzzle),Effect + rarity,Max HP +3 and your units get +1 defense; Epic,Max HP +3 and your Beefcake units get +1 defense; Uncommon,a board-wide +1 at level 5 is over the budget,3
+Equipment,Spotter's Barbell (Gainlands quest; Epic),Effect,whenever a unit enters under your control deal 1 damage to the opponent,whenever a BEEFCAKE unit enters ...,+17 points alone at level 5,3
+Equipment,Glass Jaw Gauntlets (D-HOG; Epic),Drawback,you start every duel with 3 less HP,Max HP -3,starting HP did nothing inside dungeons,3
+Equipment,Sucker Punch Mitts (Dump freed),Effect + rarity + price,Sucker Punch and -1 defense to your units; Epic; 450,Sucker Punch and max HP -3; Uncommon; 240,the old drawback cancelled the piece (+0),3
+Equipment,Gotta-Go Galoshes (Raise the Bar),Rarity,Epic,Common,a walking-speed piece took the one Epic slot until L13,3
+Equipment,Champion's Laurels (arena),Rarity,Epic,Uncommon,2.5 points,3
+Equipment,Gladiator's Net (arena),Rarity,Uncommon,Epic,+21 points alone at level 12,3
+Equipment,Crown of Mild Hubris (S-CAP; Legendary),Effect,always first + first-turn draw; max HP -4,+ your units get +1 attack,a Legendary's worth (was 0.5 points; +1/+1 made Primm's phases 92-100%),3
+Equipment,Four-Seal Signet (Vault; Legendary),Effect,max HP +3 + 1 of each resource,max HP +5 + 1 of each resource + first-turn draw,a Legendary's worth,3
+Equipment,Siphon's Lens (Lab; Epic),Effect,max HP +2 + first-turn draw,max HP +2 + draw an extra card each turn,an Epic's worth,3
+Equipment,Phial of First Water (Old Well; Legendary),Effect,multi-Path -1 generic + 1 HP per turn,+ max HP +3,a Legendary's worth,3
+Equipment,Quota's Stopwatch (lieutenant; Epic),Effect,always first,always first + first-turn draw + max hand +2,an Epic's worth,3
+Equipment,The Colonel's Ladle (lieutenant; Epic),Effect,unit enters: +1 HP,+ max HP +3,an Epic's worth,3
+Equipment,Plume's Notary Quill (lieutenant; Epic),Effect,start with 1 Red Tape; max HP +2,start with 2 Red Tape and 1 Contract; max HP +2,an Epic's worth,3
+Equipment,Clipwell's Golden Shears (lieutenant; Epic),Effect,1 damage to each attacker,2 damage to each attacker,an Epic's worth,3
+Items,Reckless Tonic,Effect,Heal 6 HP (1 use),Heal 5 HP,+19 points alone at level 12 (the 10-point rule),3

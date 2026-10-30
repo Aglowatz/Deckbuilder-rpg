@@ -23,6 +23,6 @@ id = "gladiators_net"
 slot = 1
 description = "Whenever an enemy unit enters the field, it gets -1/-1 permanently."
 flavor_text = "Thrown from the stands by a very enthusiastic fishmonger. It holds, apparently."
-rarity = 1
+rarity = 2
 source_name = "Gladiator's Net"
 modifiers = Array[ExtResource("1_wiqsb")]([SubResource("Resource_j30ri")])

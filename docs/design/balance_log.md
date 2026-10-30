@@ -1441,3 +1441,38 @@ the expected player; the rusher still sits at 18-63 gold for three stops after t
 Dagger and the Plate at L5; Part 3 moves the Dagger). Hoarding: none through the Dump; from the Capital on 2,000-3,000 stays unspent -
 the late sink is still missing (inbox: a reward-pick reroll or rotating rare stock). Unchanged: quests (frozen with the dialogue), chests,
 feats, gatekeepers, the graveyard, minigames, dungeon nodes and main clears, zone fees, the black market.
+
+## Overnight Oct 29, Part 3: equipment and items against a power budget (docs/design/equipment_budget_oct29.md)
+
+Every piece and item reviewed against a points budget by rarity and tier (the brief's rule: board-size effects are worth far more than
+single-unit ones and belong late, or reworded). Lifts measured alone vs bare with `--what=gear` (`docs/design/sim/oct29_gear_l5_before.md`,
+`oct29_gear_l5_after.md` on the Gainlands roamers at L5; `oct29_gear_l12_before.md` on the Meatloaf Golem at L12; 6-8 games per Path, +-8).
+
+| Piece / item | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Wicked Dagger (U, Bertram L5) | your units +1 attack -> **your Colorless units +1 attack** | the designer's example: a board-wide +1 was one of the first artifacts; the early decks are half Colorless, so it still matters at 5-9 and fades as the Path takes over | L5 +3 -> +5 (Colorless only); the any-colour +1 lives on in the Blade |
+| Blade of Earned Reputation (E, NEW, Bertram's L13 rack, 450) | - | the Dagger's old effect where a board-wide buff belongs; competes with the Flamethrower, the Beret, the Gauntlets for the Epic slots | L5 +3 |
+| Solid Plate (U, Bertram L5) | your units +1 defense -> **Colorless units +1 defense** | same rule | L5 +6 -> +6 |
+| Spotter's Barbell (E, Gainlands quest L5) | 1 damage whenever a unit enters -> **whenever a Beefcake unit enters** | +17 alone at L5, a clock against 4-9 HP foes | L5 +17 -> +0 (a Beefcake build piece) |
+| Gainsmith's Lifting Belt (Gainlands puzzle) | max HP +3, units +1 defense, Epic -> **Beefcake units +1 defense; Uncommon** | a board-wide +1 at level 5 | L5 +6 -> -2 (noise) |
+| Glass Jaw Gauntlets (E, D-HOG) | start every duel with 3 less HP -> **max HP -3** | starting HP did nothing inside a dungeon run, so the cost never applied where the piece is won | L5 +8 -> +9; L12 +17 |
+| Sucker Punch Mitts (Dump freed) | Sucker Punch and -1 defense to all, Epic 450 -> **Sucker Punch and max HP -3, Uncommon 240** | -1 defense to every unit cancelled the piece (L12 +0) | |
+| Gotta-Go Galoshes (quest L6) | Epic -> **Common** | a walking piece took the one Epic slot until L13 | |
+| Champion's Laurels (arena) | Epic -> **Uncommon** | 2.5 points (L12 +8) | |
+| Gladiator's Net (arena) | Uncommon -> **Epic** | L12 +21 (enemy units enter -1/-1 kills tokens) | |
+| Crown of Mild Hubris (L, S-CAP) | always first + first-turn draw, max HP -4 -> **+ your units +1 attack** | 0.5 points for a Legendary; tried +1/+1 first: Primm's phases went 92-100 % alone (`oct29_D-PC.md`), so +1 attack | |
+| Four-Seal Signet (L, Vault) | max HP +3 + resources -> **max HP +5 + resources + first-turn draw** | 3.5 points for a Legendary (L12 +13) | |
+| Siphon's Lens (E, Lab) | max HP +2 + first-turn draw -> **max HP +2 + draw an extra card every turn** | placeholder numbers (2 points) | |
+| Phial of First Water (L, Old Well) | multi-Path -1, 1 HP a turn -> **+ max HP +3** | 4 points for a Legendary | |
+| Quota's Stopwatch / Colonel's Ladle / Plume's Quill / Clipwell's Shears (E, lieutenants) | 1.5-2 points -> **first-turn draw + max hand +2 / max HP +3 / 2 Red Tape + a Contract / 2 damage to each attacker** | L12 +0 / -8 / -4 / -4 for Epics | |
+| Reckless Tonic (item) | heal 6 -> **heal 5** | +19 alone at L12 on Oct 18, over the 10-point rule | |
+| Engine | `Modifier.matches_card` treats colour NEUTRAL as "Colorless cards" (it never matched before); `ON_UNIT_ENTER_EFFECT` honours the modifier's colour (`ModifierSet.effects_of_for`) | the Dagger, the Plate and the Barbell need it | `test_equipment_modifiers`, `test_zone_equipment` |
+| Expected player (`ProgressionModel.equipment_for`) | Dagger at 7, Flamethrower at 18, Belt at 20 -> Dagger (Colorless) at 6, Gauntlets at 10 (after Clench), Waistband at 16, Crown at 22 | the gear a player really owns by then | |
+
+Verification with the expected player's real gear (`docs/design/sim/oct29_*.md`): the cave B 90 / G 92 / R 80 / N 97 (30 runs per Path);
+the Gainlands roamers at L5 81 % (B 94 / G 94 / R 69-81 / N 69); the House of Gains on two seeds (7000 x6, 8100 x12): normals 69-96, Quota
+71 / 54, the Honor Guard 46 / 52, Clench 38 / 42 (the Colorless-only Dagger makes the first dungeon 5-10 points harder than with the old
++1 to all; inbox); the Hall: Mortimer 67, the elites 67-79; the Test Kitchen: the Doppelganger 50, the elites 75-83; the Rotheart:
+Compostella 67, the elites 83; the Buffet's Casserole 63; the Capital's Spotless 92 (+17), the castle elites 83-88; Primm's phases alone
+100 / 92 / 96 with the +1/+1 Crown, re-measured as the one-HP-pool sequence after the +1 attack Crown (below). Nothing under 35 %;
+the bosses of the first three zones sit in their 40-60 band or just over.

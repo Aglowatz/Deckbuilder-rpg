@@ -105,7 +105,7 @@ func test_comparison_shows_the_numbers_that_change() -> void:
 	var lines: PackedStringArray = EquipmentCompare.diff_lines(_piece("cardboard_cuirass"), _piece("doggy_bag"))
 	assert_true(lines.has("+2 Max HP"), str(lines))
 	var glass: PackedStringArray = EquipmentCompare.diff_lines(_piece("glass_jaw_gauntlets"), null)
-	assert_true(glass.has("+2 unit attack") and glass.has("-3 starting HP"), str(glass))
+	assert_true(glass.has("+2 unit attack") and glass.has("-3 Max HP"), str(glass))
 	var text: String = EquipmentCompare.tooltip(_piece("glass_jaw_gauntlets"), _piece("pointy_stick"))
 	assert_true(text.contains("Compared with A Very Pointy Stick") and text.contains("You'd lose"))
 	assert_true(EquipmentCompare.tooltip(_piece("lucky_sock"), null).contains("Nothing in this slot"))

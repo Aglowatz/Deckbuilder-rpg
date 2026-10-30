@@ -97,23 +97,28 @@ static func equipment_for(level: int) -> Array[String]:
 	var result: Array[String] = []
 	if level < 5:
 		return result
+	# Oct 29 (docs/design/equipment.md, slot progression): the two Commons at 5, the Wicked Dagger (Colorless units) at 6, the Glass Jaw
+	# Gauntlets from the House of Gains at 10 (after Clench), the Traveler's Boots at 9, the Extra Pocket at 11, the Dog-Eared Bookmark at 16, the Elastic
+	# Waistband from the Test Kitchen at 16 (two Epics: cap 2 from 13), the Crown of Mild Hubris at 22 (Legendary cap 1).
 	result.append("saucepan_helmet")
 	result.append("cardboard_cuirass")
-	if level >= 7:
+	if level >= 6:
 		result.append("wicked_dagger")
 	if level >= 9:
 		result.append("travelers_boots")
+	if level >= 10:  # the Gauntlets are the House of Gains' first-clear prize: worn after Clench, not against him
+		result.erase("wicked_dagger")
+		result.append("glass_jaw_gauntlets")
 	if level >= 11:
 		result.append("extra_pocket")
 	if level >= 16:
 		result.erase("extra_pocket")
 		result.append("dog_eared_bookmark")
-	if level >= 18:
-		result.erase("wicked_dagger")
-		result.append("flamethrower")
-	if level >= 20:
 		result.erase("cardboard_cuirass")
-		result.append("swole_belt")
+		result.append("elastic_waistband")
+	if level >= 22:
+		result.erase("saucepan_helmet")
+		result.append("hubris_crown")
 	return result
 
 

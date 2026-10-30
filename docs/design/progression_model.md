@@ -55,8 +55,9 @@ L18; a second Legendary and a second Epic copy by L22. See the table in `core/si
 
 ## Equipment and consumables
 
-The gear list is Path-neutral and bought from Bertram or found on the way: two cheap commons at L5, the Wicked Dagger at L7, the
-Traveler's Boots at L9, the Extra Pocket at L11, Hover Boots at L14, the Dog-Eared Bookmark at L16, the Flamethrower at L18 (an
-Epic; cap 1 at L5, 2 at L13), the Gainsmith's Lifting Belt at L20. Consumables (a fight-worth of charges, since they are bought per use): one Healing Draught from L3, one Healing Salve from L6, two
+The gear list is Path-neutral and bought from Bertram or found on the way (Overnight Oct 29): two cheap commons at L5, the Wicked
+Dagger (Colorless units +1 attack) at L6, the Glass Jaw Gauntlets (the House of Gains) and the Traveler's Boots at L9, the Extra Pocket at
+L11, the Dog-Eared Bookmark and the Elastic Waistband (the Test Kitchen; two Epics, cap 2 from L13) at L16, the Crown of Mild Hubris
+(Legendary, cap 1 from L22) at L22. Consumables (a fight-worth of charges, since they are bought per use): one Healing Draught from L3, one Healing Salve from L6, two
 Salves and a Firebrand Charm once the second item slot opens at L10, plus a Sharpening Stone at L20. Encounters are tuned to be winnable
 **without** consumables (the sim's `--nogear` check) and comfortable with them.

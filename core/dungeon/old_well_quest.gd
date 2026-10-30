@@ -180,8 +180,11 @@ static func add_equipment(result: Dictionary) -> void:
 	piece.source_name = "Phial of First Water"
 	piece.source_kind = ModifierSource.SourceKind.EQUIPMENT
 	piece.slot = EquipmentData.Slot.RELIC
-	piece.description = "Your multi-Path cards cost 1 less generic energy. At the start of your turn, gain 1 HP."
-	piece.modifiers = [cheaper, mend] as Array[Modifier]
+	var deep: Modifier = Modifier.new()
+	deep.kind = Modifier.Kind.MAX_HP
+	deep.value = 3
+	piece.description = "Your multi-Path cards cost 1 less generic energy. At the start of your turn, gain 1 HP. Max HP +3."
+	piece.modifiers = [cheaper, mend, deep] as Array[Modifier]  # Oct 29: a Legendary's worth
 	piece.advanced = true
 	piece.rarity = EquipmentData.Rarity.LEGENDARY
 	piece.tier = 3

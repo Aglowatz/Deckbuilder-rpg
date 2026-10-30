@@ -107,7 +107,7 @@ func test_the_signet_is_a_relic_that_grants_resources_and_life() -> void:
 	var piece: EquipmentData = _content.equipment_piece(VaultGuardian.REWARD_EQUIPMENT_ID)
 	assert_not_null(piece)
 	assert_eq(piece.slot, EquipmentData.Slot.RELIC)
-	assert_eq(piece.modifiers.size(), 5)
+	assert_eq(piece.modifiers.size(), 6, "Oct 29: max HP, four resources, a first-turn draw")
 	assert_true(CardIcons.BY_EQUIPMENT_ID.has(piece.id))
 	assert_false(piece.flavor_text.is_empty())
 

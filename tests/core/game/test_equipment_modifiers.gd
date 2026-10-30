@@ -236,3 +236,14 @@ func test_first_unit_stat_change_buffs_only_the_first_unit_played_each_duel() ->
 	assert_eq(game.get_attack(game.players[0].find_field(first.uid)), 3, "the first unit gets +1 attack")
 	assert_eq(game.get_attack(game.players[0].find_field(second.uid)), 2, "the second does not")
 	assert_eq(game.players[1].first_unit_bonus_done, false, "the opponent has no blade")
+
+
+func test_a_colorless_only_stat_change_buffs_colorless_units_and_nothing_else() -> void:
+	# Overnight Oct 29: the Wicked Dagger and the Solid Plate buff Colorless units only (a board-wide +1 is never sold at level 5).
+	var game: GameState = _game([
+		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, int(Affinity.Type.NEUTRAL), 0),
+	])
+	var rabble: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.NEUTRAL))
+	var bruiser: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.BEEFCAKE))
+	assert_eq(game.get_attack(rabble), 3, "the Colorless unit gets +1 attack")
+	assert_eq(game.get_attack(bruiser), 2, "the Beefcake unit does not")

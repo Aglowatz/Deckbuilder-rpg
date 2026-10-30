@@ -12,13 +12,14 @@ value = 3
 script = ExtResource("1_nm655")
 kind = 5
 value2 = 1
+color = 1
 
 [resource]
 script = ExtResource("3_e2kfk")
 id = "swole_belt"
 slot = 2
-description = "Brace the core, brace the deck. Max HP +3 and your units get +1 defense."
+description = "Brace the core, brace the deck. Max HP +3 and your Beefcake units get +1 defense."
 advanced = true
-rarity = 2
+rarity = 1
 source_name = "Gainsmith's Lifting Belt"
 modifiers = Array[ExtResource("1_nm655")]([SubResource("Resource_1ur6s"), SubResource("Resource_6yjfg")])

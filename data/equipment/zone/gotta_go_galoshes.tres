@@ -15,7 +15,6 @@ id = "gotta_go_galoshes"
 slot = 3
 description = "You walk 35% faster in the overworld."
 flavor_text = "For when you absolutely, positively have to be somewhere else. Now."
-rarity = 2
 tier = 2
 source = "Main quest Raise the Bar (midpoint)"
 source_name = "Gotta-Go Galoshes"

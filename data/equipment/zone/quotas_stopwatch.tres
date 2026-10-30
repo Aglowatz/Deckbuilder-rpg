@@ -9,14 +9,24 @@ script = ExtResource("1_7ktmh")
 kind = 12
 value = 1
 
+[sub_resource type="Resource" id="Resource_wq5vf"]
+script = ExtResource("1_7ktmh")
+kind = 13
+value = 1
+
+[sub_resource type="Resource" id="Resource_doalq"]
+script = ExtResource("1_7ktmh")
+kind = 2
+value = 2
+
 [resource]
 script = ExtResource("3_vi0mc")
 id = "quotas_stopwatch"
-description = "You always take the first turn."
+description = "You always take the first turn and draw an extra card on it. Max hand size +2."
 advanced = true
 flavor_text = "It still clicks every second. You never asked it to."
 rarity = 2
 tier = 3
 source = "The House of Gains (a first win)"
 source_name = "Quota's Stopwatch"
-modifiers = Array[ExtResource("1_7ktmh")]([SubResource("Resource_i3237")])
+modifiers = Array[ExtResource("1_7ktmh")]([SubResource("Resource_i3237"), SubResource("Resource_wq5vf"), SubResource("Resource_doalq")])

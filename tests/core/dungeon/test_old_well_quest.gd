@@ -237,7 +237,7 @@ func test_the_relic_uses_existing_modifier_kinds() -> void:
 	var piece: EquipmentData = ProgressionContent.zone_equipment()[OldWellQuest.REWARD_EQUIPMENT_ID] as EquipmentData
 	assert_not_null(piece)
 	assert_eq(piece.slot, EquipmentData.Slot.RELIC)
-	assert_eq(piece.modifiers.size(), 2)
+	assert_eq(piece.modifiers.size(), 3, "Oct 29: cheaper multi-Path cards, 1 HP a turn, max HP +3")
 	assert_eq(piece.modifiers[0].kind, Modifier.Kind.MULTIPATH_COST_CHANGE)
 	assert_eq(piece.modifiers[0].value, -1)
 	assert_eq(piece.modifiers[1].kind, Modifier.Kind.START_OF_TURN_EFFECT)
