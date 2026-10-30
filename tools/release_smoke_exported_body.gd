@@ -16,6 +16,14 @@ func _run() -> void:
 	await get_tree().process_frame
 	var session: Node = get_tree().root.get_node("Session")
 	session.set("save_enabled", false)
+	# Art import Oct 29: WAYWARD_SMOKE_QUALITY=0|1|2 runs the smoke at Low / Medium / High (applied, never saved: the player's settings stay).
+	var quality: String = OS.get_environment("WAYWARD_SMOKE_QUALITY")
+	if quality.is_valid_int():
+		var settings: Node = get_tree().root.get_node("Settings")
+		settings.set("graphics_quality", clampi(int(quality), 0, 2))
+		settings.call("apply")
+		settings.emit_signal("graphics_changed")
+		print("release_smoke_exported: graphics quality %d" % int(settings.get("graphics_quality")))
 	SaveSlots.dir = "%s/saves/" % TMP
 	FeedbackReport.base = "%s/feedback" % TMP
 	FeedbackForm.open_after_send = false

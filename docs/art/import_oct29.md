@@ -218,3 +218,16 @@ Checks: GUT world 422 (new `tests/world/test_zone_pieces_oct29.gd`; the D.N.A. c
 first: the ghost line walled off Pip; fixed by the back-to-a-wall rule), Buffet, Dump, Capital OK; memory round-trip flat (static +0.9 MB,
 video -0.1 MB, objects +28 over 10 trips); frame budgets: averages 13-16 ms Medium everywhere; p99 over only on the Capital outskirts Medium,
 the same with and without tonight's changes (A/B: 27.3 vs 27.0 ms), so it predates tonight (inbox).
+
+## Part 5 - verify
+
+- Tour bot: 281 spots, 9 menus, 5 battles, 0 errors. Story playthrough: 90 / 90. First battles OK. Gamepad OK. Walk smokes: Crosspath,
+  Gainlands, D.N.A., Buffet, Dump, Capital, hub all OK (each after the last change to its area). Prologue OK. Memory round-trip flat (after
+  Part 3b: static +0.9 MB, video -0.1 MB, objects +28 over 10 trips).
+- Shots: `_screenshots/oct29/p5_heap_throne.png` (the dumpster behind the king, top of the screen), `p5_buffet_stands.png` (stands and golem
+  guards on the Pantry approach).
+- Full budgets (`_logs/oct29_perf.log`): structure OK; Medium averages 12.0-15.7 ms in every 3D area (63-83 fps), Low 7.8-12.7 ms, battle
+  2.9, menus 5.7-8.1. p99 marks over on 7 lines (Crosspath / Gainlands / Buffet / D.N.A. Low, Capital outskirts both, deck station Medium);
+  all but the Capital outskirts passed on their re-runs tonight, and the outskirts are over with and without tonight's changes (inbox 7).
+- Status: `docs/art/art_status_oct29.csv` (`node tools/art_status_oct29.js`): 90 rows, 78 In Game, 12 Skipped (portrait expressions, by
+  design), **0 Needs redo**.

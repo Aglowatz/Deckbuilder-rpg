@@ -20,6 +20,6 @@ never overwrite a good zip), notes `docs/release/v0.4.7_notes.md`, tag; do NOT s
 | 2 Cards/icons/hat/NPC sprites | done | 5ba61b8d | cards 356/356, relic+feat icons, Leaf Crown hand fit, DUMPWORKER/PRIMM sets; GUT all groups OK, Dump walk OK, structure OK |
 | 3 Zone pieces | done | 2cfa186f, bedd13ff | all zones; walk smokes OK, memory flat, budgets: capital_out Medium p99 pre-existing (A/B) |
 | 4 Old Hob | done | (this commit) | Hob 1.4 m north (was 0.4 m from the D.N.A. road line); hub walk smoke OK |
-| 5 Verify | | | |
+| 5 Verify | done | (this commit) | tour 281/0, story 90/90, smokes OK, budgets: averages OK, p99 noise + capital_out pre-existing; status 78 In Game / 12 Skipped / 0 redo |
 | 6 v0.4.7 | | | |
 | Report | | | |

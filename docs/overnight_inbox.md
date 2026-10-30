@@ -411,3 +411,25 @@ cycle 1); the spells-only arena (cycle 10).
 6. **REWARD-LOCKED replaces `not_in_packs` for the prizes**: once earned they may show up in packs and on shelves at their rarity (the brief's
    rule); before Oct 27 they never did. The Legendary leaders (The Big Unit, the Grand Chef, Compostella) included - an extra pack copy
    converts to essence at the cap of 1.
+
+
+## Art import Oct 29 - yours to decide (the safest choice was taken)
+
+1. **Row numbers**: the brief calls the delivered rows "#87-164"; in `art_batch_oct28.csv`'s own order they are rows 75-152 (SPR-PRIMM is row
+   75) plus the twelve skipped expression rows 153-164. Same set of IDs; `docs/art/art_status_oct29.csv` lists all 90 by the CSV's row number.
+2. **New stills have no captions of their own** (dialogue freeze): each plays behind its scene's existing narration instead of as a separate
+   captioned still like the original seven. If you want captions, they would be new `still.<name>` keys.
+3. **Backdrop strips are mostly above the play camera.** The torch-line ridge, Crosspath's horizon and the Capital's castle / wall strips
+   are in the scenes but sit at the top edge or above the frame at the default camera; the forest's torch line is hidden by the canopy.
+   Lifting them (or adding them to the Cinematic camera's view) is a one-number change in `tools/kit_looks_oct29.js`.
+4. **The throne dumpster** stands on the throne's top tier behind the raccoon king; from the approach it shows mostly behind him at the top of
+   the screen. Alternative: replace the 3D throne's top tier (king and bin) with the painting.
+5. **Unused sheet parts**: TOWN-SHEET-FREED-BANNERS -05/-06 (two cream crest banners: maybe for all four freed, or the postgame),
+   GAIN-SHEET-FLOATING-ISLANDS -04..-06 (rope pieces), DNA-DEC-FORMS -03/-06, CAPI-DEC-LOST-PROPERTY -02..-06 (the hooded-face versions could
+   show once the Wanderer knows who they are; the defaced one could replace the red-cross overlay).
+6. **D.N.A. clutter cap** in `tests/world/test_dna_slice.gd` raised from 40 to 50 pieces (tonight's pieces made it exactly 40; the lobby shot
+   reads clear).
+7. **Capital outskirts Medium p99** is over its budget (27 ms vs 24.3) with and without tonight's changes (A/B: 27.3 / 27.0 ms; averages 15.5
+   ms). It predates tonight; budget left as is.
+8. **Feat icons**: ten groups share eight pictures (the four one-Path groups all use PATHS, Dual Path uses MIXED); an unearned hidden feat
+   shows SECRET.

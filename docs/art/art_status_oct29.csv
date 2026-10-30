@@ -1,0 +1,91 @@
+Row,Art ID,Category,Status,Where / reason
+75,SPR-PRIMM,NPC sprite,In Game,"Primm in the Crease after his fall (freed-NPC entry, SPR-PRIMM set)"
+76,SPR-DUMPWORKER,NPC sprite,In Game,"the three Dump farmhands, a slight tint each (HeapScene.WORKER_SET)"
+77,DUMP-PROP-PRIMM-STATUE,Zone prop,In Game,delivered as CAPI-PROP-PRIMM-STATUE: the gold Primm on the plaza fountain
+78,STORY-CAPTURE,Story still,In Game,behind the pc_capture scene (castle gate)
+79,STORY-THRONE,Story still,In Game,"behind ending beat ""throne"""
+80,STORY-WONDER,Story still,In Game,"behind the ""wonder"" cutscene"
+81,STORY-VACANCY,Story still,In Game,"behind the ""vacancy"" cutscene"
+82,STORY-SEVER,Story still,In Game,"behind the ""sever"" cutscene"
+83,STORY-MODEL-ROOM,Story still,In Game,"behind the ""primm_intro"" cutscene"
+84,STORY-KEPT-FACE,Story still,In Game,"behind the ""primm_reveal"" cutscene"
+85,STORY-FACADE-FALLS,Story still,In Game,"behind ending beat ""facade"""
+86,STORY-CELL-4,Story still,In Game,behind the lab_cell4 scene
+87,STORY-FUNERAL,Story still,In Game,behind the royal_funeral scene
+88,STORY-HOME,Story still,In Game,behind the isla_homecoming scene
+89,STORY-MEMORY-3,Story still,In Game,behind memory fragment 3
+90,STORY-MEMORY-4,Story still,In Game,behind memory fragment 4
+91,STORY-MEMORY-1,Story still,In Game,behind memory fragment 1
+92,STORY-MEMORY-2,Story still,In Game,behind memory fragment 2
+93,B-34,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+94,B-35,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+95,B-36,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+96,N-34,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+97,N-35,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+98,N-36,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+99,N-37,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+100,N-38,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+101,G-34,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+102,G-35,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+103,R-34,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+104,R-35,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+105,R-36,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+106,C-35,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+107,NB-17,Card,In Game,"card art: hand, zoom, Deck Station, packs (CardArt by ID)"
+108,N-10-REDO,Card,In Game,delivered as N-10.png: replaced the Push Broom of Undeath
+109,ICON-GEAR-QUOTASSTOPWATCH,Icon,In Game,"the relic's own icon: character screen, armory lists, reward box"
+110,ICON-GEAR-COLONELSLADLE,Icon,In Game,"the relic's own icon: character screen, armory lists, reward box"
+111,ICON-GEAR-PLUMESQUILL,Icon,In Game,"the relic's own icon: character screen, armory lists, reward box"
+112,ICON-GEAR-CLIPWELLSSHEARS,Icon,In Game,"the relic's own icon: character screen, armory lists, reward box"
+113,ICON-FEAT-STORY,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+114,ICON-FEAT-ZONES,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+115,ICON-FEAT-SIDE,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+116,ICON-FEAT-CHALLENGES,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+117,ICON-FEAT-COLLECTION,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+118,ICON-FEAT-PATHS,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+119,ICON-FEAT-MIXED,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+120,ICON-FEAT-SECRET,Icon,In Game,"Menu > Feats group headings and rows, the unlock toast"
+121,COS-HAT-LEAFCROWN-SHEET,Cosmetic,In Game,"the Leaf Crown, re-split, hand fit (fit.json) in all five directions"
+122,OF-HERO-CAVE-MOUTH,Cutout prop,In Game,the Forgotten Cave mouth (lifted out of the dusk tint)
+123,OF-BD-TORCHLINE,Backdrop,In Game,kit card north of the clearing; the canopy hides it from the play camera
+124,OF-TREE-GIANT-SET,Tree,In Game,delivered as OF-TREE-GIANT-01/02/03: three giant trees beyond the treeline
+125,OF-PROP-LAB-HATCH,Cutout prop,In Game,the postgame Lab hatch (ground picture)
+126,TOWN-BD-HORIZON,Backdrop,In Game,Crosspath skyline north
+127,TOWN-HERO-FOUNTAIN,Cutout prop,In Game,the square's fountain (replaces the stone model)
+128,TOWN-SHEET-FREED-BANNERS,Sheet,In Game,one banner per freed zone on the square's lamp posts (-01..-04; -05/-06 crest banners unused)
+129,GAIN-BD-HOUSE-OF-GAINS,Backdrop,In Game,Gainlands skyline north
+130,GAIN-HERO-HAMSTER-WHEEL,Cutout prop,In Game,"Mill Fields, replaces the 3D wheel"
+131,GAIN-SHEET-FLOATING-ISLANDS,Sheet,In Game,a painted islet beside each walkable island (-01..-03; rope pieces unused)
+132,GAIN-DEC-REGIME-POSTERS,Sheet,In Game,four posters on the gym hall front
+133,DNA-BD-HALL-FACADE,Backdrop,In Game,D.N.A. skyline north
+134,DNA-SHEET-FILING-TOWERS,Sheet,In Game,five towers in the farms and records (-01..-03); the queue post (-04)
+135,DNA-SHEET-GHOST-QUEUE,Sheet,In Game,six ghosts queuing against a wall
+136,DNA-SHEET-PROPS,Sheet,In Game,"ghost lamps and dead topiary in the lobby, bank, mail room, breakroom"
+137,DNA-DEC-FORMS,Sheet,In Game,six floor decals in the hub
+138,BUFF-BD-CAKE-CATHEDRAL,Backdrop,In Game,Buffet skyline (replaces BUFF-BD-CAKE)
+139,BUFF-BD-TEST-KITCHEN,Backdrop,In Game,Buffet skyline north
+140,BUFF-SHEET-TASTING-STANDS,Sheet,In Game,three stands with golem guards on the Pantry approach
+141,BUFF-DEC-ROSETTES,Sheet,In Game,two rosettes on each kit building front
+142,DUMP-BD-ROTHEART-SKY,Backdrop,In Game,Dump skyline north (the baked-sky DUMP-BD-ROTHEART stays unused)
+143,DUMP-HERO-JUNK-MOUNTAIN,Cutout prop,In Game,replaces the moss-lump model
+144,DUMP-HERO-THRONE-DUMPSTER,Cutout prop,In Game,on the throne's top tier; from the approach mostly behind the raccoon king (top of the screen)
+145,DUMP-SHEET-ENTRANCE-FLAGS,Sheet,In Game,pennants on the far landing posts (replace the blue triangles)
+146,DUMP-DEC-CORRUPTION,Sheet,In Game,six ground decals at the throne and the root gate
+147,CAPI-BD-GREAT-WALL,Backdrop,In Game,Capital outskirts skyline either side of the wall
+148,CAPI-BD-CASTLE,Backdrop,In Game,Capital inside skyline north
+149,CAPI-DEC-LOST-PROPERTY,Sheet,In Game,the painted notice on every lost-property board (-01)
+150,CAPI-SHEET-RIFTS,Sheet,In Game,"painted rifts in open tears (-01..-03), sealed stones (-04..-06)"
+151,CAPI-PROP-STATUE-FALLEN,Cutout prop,In Game,in the dry fountain after the ending
+152,CAP-PATH-WHITE,Zone kit,In Game,the Capital's white roads (same id)
+153,NPC-ELOWEN_HOPEFUL,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+154,NPC-ELOWEN_DOUBTFUL,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+155,NPC-ELOWEN_DETERMINED,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+156,NPC-ELOWEN_SOFT,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+157,NPC-PLUME_SMARMY,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+158,NPC-PLUME_PANICKED,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+159,NPC-QUOTA_DEFEATED,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+160,NPC-CRUMB_BARKING,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+161,NPC-CRUMB_DEFEATED,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+162,NPC-CLIPWELL_DEFEATED,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+163,NPC-ISLA_TEARFUL,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
+164,NPC-ISLA_HAPPY,Portrait expression,Skipped,"not made (skipped by design, brief Oct 29)"
