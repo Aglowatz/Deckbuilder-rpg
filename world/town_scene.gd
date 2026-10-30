@@ -2959,6 +2959,13 @@ func _screenshot_open(what: String) -> void:
 		"character_gear":
 			_screenshot_gear()
 			_open_character_screen()
+		"reward_gold":  # Oct 29, Phase 2: a reward box with gold and XP (the purse line under the counters)
+			Session.add_gold(342)
+			var paid: RewardSummary = RewardSummary.new()
+			paid.title = "Hidden chest"
+			paid.gold = 70
+			paid.xp = 30
+			_show_reward_box(paid)
 		"equipment_vendor_geared":  # Oct 29, Phase 2: the stall with gear worn (rarity colours, verdicts)
 			_screenshot_gear()
 			_open_equipment_vendor()

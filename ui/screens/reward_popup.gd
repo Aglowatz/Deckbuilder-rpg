@@ -62,6 +62,9 @@ func _fill_body() -> void:
 		currency.add_child(_counter("ICON-XP", "level_badge", "+%d XP" % summary.xp, UIStyle.GOOD))
 	if currency.get_child_count() > 0:
 		body.add_child(currency)
+		# Oct 29, Phase 2: the gold means something only next to the purse and a price - what it is now, and what it is worth.
+		if summary.gold > 0:
+			body.add_child(UIKit.label("%d gold in your purse now - %s" % [Session.gold, _worth(summary.gold)], &"MutedLabel", 16, UIStyle.PARCHMENT.darkened(0.25), HORIZONTAL_ALIGNMENT_CENTER))
 	# Things row: cards with their art, then items, equipment, packs, cosmetics.
 	var things: HFlowContainer = HFlowContainer.new()
 	things.alignment = FlowContainer.ALIGNMENT_CENTER
@@ -301,3 +304,18 @@ func _on_confirmed() -> void:
 	if not summary.card_choices.is_empty():
 		Session.take_reward_pick(summary.picked)
 	finished.emit()
+
+
+## What a sum of gold buys at the curve's prices (docs/design/economy.md): a reader of "+70 gold" learns it is two Commons, "+450" an Epic piece.
+static func _worth(gold: int) -> String:
+	if gold >= Economy.gear_price(EquipmentData.Rarity.RARE, 3):
+		return "an Epic piece of gear's worth"
+	if gold >= Economy.CARD_PRICE[2]:
+		return "an Epic card's worth"
+	if gold >= Economy.CARD_PRICE[1]:
+		var uncommons: int = gold / Economy.CARD_PRICE[1]
+		return "an Uncommon card's worth" if uncommons == 1 else "%d Uncommon cards' worth" % uncommons
+	if gold >= Economy.CARD_PRICE[0]:
+		var commons: int = gold / Economy.CARD_PRICE[0]
+		return "a Common card's worth" if commons == 1 else "%d Common cards' worth" % commons
+	return "pocket money"

@@ -11,3 +11,7 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    "Uncommon Weapon" in the rarity colour with a rarity-tinted border, the effect text readable on the tile (it was invisible: only the
    tooltip had it), and the verdict line ("Sidegrade vs Solid Plate"); the character screen's piece picker leads with the verdict word before
    the number changes. Shot `_screenshots/oct29/p2_vendor_geared.png` (new opener `--open=equipment_vendor_geared`). ui GUT OK. Kept.
+2. **Reward boxes and the purse (22:05)**: under "+70 gold / +30 XP" the reward box now says "462 gold in your purse now - an Uncommon
+   card's worth" (`RewardPopup._worth`, from the curve's prices), so a sum reads against what it buys. Opener `--open=reward_gold`;
+   shot `_screenshots/oct29/p2_reward_gold.png`; ui GUT OK. Kept.
+3. **Hat tilt test (22:10)**: `fit.json` `rot` / `rot_<DIR>` covered by `test_hat_sheets` (no tilt unless set, a per-direction tilt in degrees). Kept.

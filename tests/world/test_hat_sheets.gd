@@ -62,13 +62,15 @@ func _hat(brim: int, crown: int, scale: float) -> Image:
 func test_hand_tuning_wins_over_the_importer_fit() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(TEST_HATS))
 	_write(TEST_HATS + "fit_auto.json", {"TESTHAT": {"width": 2.0, "sink": 0.3, "ratio_SIDE": 0.5}})
-	_write(TEST_HATS + "fit.json", {"TESTHAT": {"sink": 0.1, "width_BACK": 1.0}})
+	_write(TEST_HATS + "fit.json", {"TESTHAT": {"sink": 0.1, "width_BACK": 1.0, "rot_FRONTSIDE": 6.0}})
 	SpriteLibrary.reset()
 	SpriteLibrary.hat_folder = TEST_HATS
 	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "FRONT")["width"]), 2.0, 0.001, "the importer's width")
 	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "SIDE")["width"]), 1.0, 0.001, "times the side ratio")
 	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "SIDE")["sink"]), 0.1, 0.001, "the hand-tuned sink")
 	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "BACK")["width"]), 1.0, 0.001, "a hand-set direction width")
+	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "FRONT")["rot"]), 0.0, 0.001, "Oct 29: no tilt unless set")
+	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "FRONTSIDE")["rot"]), 6.0, 0.001, "a hand-set direction tilt (degrees)")
 
 
 func test_head_tracking_finds_a_moved_head() -> void:
