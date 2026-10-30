@@ -19,3 +19,12 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    (pays `Economy.reroll_price(level)`, draws the pick again without counting a win, once), a "Reroll the cards (N gold)" button under the
    three cards that greys out when the purse is short and rebuilds the row in place. Tests in `test_world_reward_pick`; gatekeeper pick probes
    by mouse and pad; shot `_screenshots/oct29/p2_reroll.png`. Economy model given reroll offers (about two per zone). Kept.
+5. **Side dungeons with the real gear (22:45)**: S-IRON / S-TOWN / S-NECRO / S-GOUR (then S-REF / S-CAP / S-BEEF / D-LAB) simmed at 6-12 games; Baron
+   Quadzilla read 33 / 31 % on two seeds (under the ~35 floor) with the Colorless-only Dagger at L8, so his "Max Pump" rule is +1 attack
+   instead of +1/+1 (29 / 46 after; `modifiers.json`, not a dialogue file). The Vault's normals (54-67) live in the frozen dungeon_content.json:
+   inbox 10. Logged in balance_log.md. Kept.
+6. **Late side bosses (23:00)**: with the real L16+ gear (Gauntlets + Waistband) the Raccoon was 92 %, the Grate's Spotless 88, the Ancient
+   Spotter 79, the Lab's Failed Experiment 94. The Raccoon's rule is +2/+2 (46 % after), Spotless's +4/+3 (73 %); the rest noted (inbox 12).
+   Core GUT OK. Kept.
+7. **Tailor preview (23:05)**: `--open=tailor --wear=cloak_red_cape,hat_wizard` - the wizard hat sits on the head in the tailor's preview
+   (`_screenshots/oct29/p2_tailor_hat.png`). No change.

@@ -462,3 +462,15 @@ cycle 1); the spells-only arena (cycle 10).
    fixed in `fit.json`. Art itself: the Leaf Crown's back half draws over the hair (a ring painted as one card; known), the Chef's BACK view is
    painted 40 % larger than its FRONT and the Wizard's SIDE view 17 % larger (the fit scales them back; a redo could draw the five views to one
    scale). No hero TALK frame exists, so hats have no talk cell to check.
+10. **The Forgotten Vault's two normals read 54-67 %** (band 80-100; two seeds, `oct29_S-TOWN*.md`) at level 6 - with the same gear the model
+    wore before tonight (the Dagger is worn from 6 now, Colorless-only). The Automaton (its boss) is 50-63 %. The foes live in
+    `dungeon_content.json` (frozen tonight); the usual lever is their basics count. Left as it is.
+11. **Baron Quadzilla** (the Iron Cave boss, L8) was 33 / 31 % on two seeds with the Colorless-only Dagger (45 / 52 on Oct 22 with the old +1 to
+    all); his "Max Pump" is +1 attack now instead of +1/+1 (29 / 46, mean 37, Refusemancer 8-42). If that is still too hard, his HP is the
+    next lever (dungeon_content.json, frozen tonight).
+12. **The late game is easier with the prizes stacked.** The expected player now wears the Glass Jaw Gauntlets (+2 attack) and the Elastic
+    Waistband (+1/+1) together from L16 (both first-clear prizes, both Epic, cap 2 from L13) and the Crown (+1 attack) from L22 - the old
+    model wore the Dagger and the Flamethrower, so the late fights were tuned against a weaker player. Measured: the Raccoon 92 -> 46 (rule
+    +2/+2), the Grate's Spotless 88 -> 73 (rule +4/+3), the Ancient Spotter 79, the Lab's Failed Experiment 94, the castle elites 83-88,
+    Spotless the roamer 92, Primm's sequence 78. The sim's AI ignores the Waistband's two-cards-a-turn and the Gauntlets' -3 max HP the way a
+    human cannot, so these read harder in play; say whether the rest should be tuned to the sim or left for playtests.

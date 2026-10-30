@@ -276,21 +276,21 @@
 		},
 		{
 			"name": "Royal Guard of Bins",
-			"text": "His Majesty's units get +1/+1.",
+			"text": "His Majesty's units get +2/+2.",
 			"icon": "delapouite/imperial-crown",
 			"kind": "stat",
-			"atk": 1,
-			"def": 1
+			"atk": 2,
+			"def": 2
 		}
 	],
 	"Enforcer Captain Spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "Spotless's units get +3/+2. Drilled until they shine.",
+			"text": "Spotless's units get +4/+3. Drilled until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
-			"atk": 3,
-			"def": 2
+			"atk": 4,
+			"def": 3
 		}
 	],
 	"Baron Quadzilla": [
@@ -304,11 +304,11 @@
 		},
 		{
 			"name": "Max Pump",
-			"text": "Baron Quadzilla's units get +1/+1.",
+			"text": "Baron Quadzilla's units get +1 attack.",
 			"icon": "lorc/muscle-up",
 			"kind": "stat",
 			"atk": 1,
-			"def": 1
+			"def": 0
 		}
 	],
 	"The Old Kingdom Automaton": [

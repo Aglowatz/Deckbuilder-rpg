@@ -1483,3 +1483,27 @@ the bosses of the first three zones sit in their 40-60 band or just over.
 |---|---|---|---|
 | Primm's phases (`PrimmBoss`) HP | 36 / 32 / 32 -> **40 / 36 / 36** | the three phases as one HP pool were 82 % with the real L22 gear (Gauntlets + Crown); HP alone moves little, as on Oct 18 | sequence 12 runs per Path: before B 58 / G 79 / R 92 / N 100 (82 %), after B 50 / G 79 / R 83 / N 100 (78 %) - `oct29_primm_sequence2.md`; the next lever is a stat rule (inbox) |
 | House of Gains, third measure (seed 7000 x12) | - | the Honor Guard reads 50 % on every seed (46 / 52 / 50; band 60-75), Clench 46 (band 40-60), the normals 81-98, Quota 63 | `oct29_D-HOG_s7000x12.md`; the Honor Guard lives in dungeon_content.json (frozen tonight) - inbox |
+
+## Overnight Oct 29, Phase 2 cycle 5: side dungeons with the new gear; Baron Quadzilla's rule
+
+| What | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Baron Quadzilla's "Max Pump" (`modifiers.json`) | his units +1/+1 -> **+1 attack** | 33 / 31 % on two seeds at L8 (the expected player wears the Colorless-only Dagger now, not +1 to all); the brief's floor is ~35 | after: 29 / 46 (mean 37; Refusemancer 8-42 is the weak Path here) - `oct29_S-IRON_pump_*.md`; the next lever is his HP (inbox) |
+
+Side dungeons, 6-12 games per Path: the Iron Cave normals 77-85; the Forgotten Vault normals 54-67 (band 80-100; inbox 10), the Automaton
+50 / 63; the Waiting Room normals 88-100, Betty Bones 50; Omakase normals 88-92, the Itamae Supreme 83 (too easy, Gourmand 100 - its own
+Path's gear from the Buffet). Reports `oct29_S-*.md`.
+
+## Overnight Oct 29, Phase 2 cycle 6: the late side bosses with the real gear
+
+With the Gauntlets (+2 attack) and the Waistband (+1/+1) both worn from L16 (both are main-dungeon prizes; the old model wore the Dagger and
+the Flamethrower instead), the late side bosses read far too easy: His Majesty the Raccoon 92, the Grate's Captain Spotless 88, the Ancient
+Spotter 79, the Lab's Failed Experiment 94, Siphon with Elowen 75 (`oct29_S-REF.md`, `oct29_S-CAP.md`, `oct29_S-BEEF.md`, `oct29_D-LAB.md`).
+
+| What | Old -> New | Why | Evidence |
+|---|---|---|---|
+| His Majesty the Raccoon, "Royal Guard of Bins" (`modifiers.json`) | his units +1/+1 -> **+2/+2** | 92 % at L19 | after 46 % (12 games per Path) - `oct29_S-REF_x12.md` |
+| Enforcer Captain Spotless (the Grate), "Spotless Drill" | +3/+2 -> **+4/+3** | 88 % at L21 | after 73 % (B 42 / G 92 / R 67 / N 92) - `oct29_S-CAP_x12.md`; still over the band, left there |
+
+Not touched (inbox 12): the Ancient Spotter 79, the Lab's elites 75-94, the castle elites 83-88, Spotless the roamer 92 - the sim's AI shrugs
+at the Waistband's two-cards-a-turn and the Gauntlets' -3 max HP in a way a human will not.

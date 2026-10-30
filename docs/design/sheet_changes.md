@@ -8,56 +8,90 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 |---|---|---|---|---|
 | R-02 | Dumpster Diver | Card Text/Effect | Exhaust, pay 1: create a Garbage. | Exhaust: create a Garbage. |
 | R-03 | Landfill Ox | Power/Toughness | 2/4 | 3/4 |
-| R-03 | Landfill Ox | Card Text/Effect | Exhaust, eat garbage twice: add (R)(R)(R)(R). | Exhaust, eat garbage twice, lose 1 HP: add (R)(R)(R)(R). |
+| R-03 | Landfill Ox | Card Text/Effect | Exhaust, eat garbage twice: add (R)(R)(R)(R). | Exhaust, eat garbage: add (R)(R)(R). |
 | R-04 | Rubbish Goat | Power/Toughness | 2/2 | 2/3 |
 | R-05 | Kidding Around | Power/Toughness | 2/2 | 2/3 |
 | R-06 | Curbside Rat | Power/Toughness | 1/1 | 1/2 |
 | R-07 | Junkyard Giraffe | Power/Toughness | 2/5 | 3/5 |
 | R-08 | Possum Prowler | Power/Toughness | 1/2 | 2/2 |
 | R-09 | Heap Tortoise | Power/Toughness | 4/6 | 5/6 |
+| R-13 | Reclaimed Land | Card Text/Effect | When an Infrastructure enters under your opponent's control, if they control more Infrastructure than you, search your deck for two Infrastructure and put them onto the field. | When an Infrastructure enters under your opponent's control, search your deck for an Infrastructure and put it onto the field. |
+| R-18 | Rusty Can Opener | Card Text/Effect | Destroy this Tool: destroy target Tool, Wonder, or resource. | Destroy this Tool: destroy target Tool, Wonder or resource. Create a Garbage. |
+| R-21 | Let Them Eat Cake | Casting Cost | 1 (R) | 2(R) |
+| R-21 | Let Them Eat Cake | Card Text/Effect | Destroy target Gourmand unit. | Deal 3 damage to target unit. If it is a Gourmand unit, destroy it instead and create a Garbage. |
+| R-22 | Acid Vomitor | Casting Cost | 2 (R) | 2(R) |
 | R-22 | Acid Vomitor | Power/Toughness | 1/3 | 2/3 |
 | R-22 | Acid Vomitor | Card Text/Effect | Exhaust, eat garbage: deal 2 damage to target unit. | Exhaust, eat garbage, lose 1 HP: deal 2 damage to target unit. |
+| R-26 | The Recycling Center | Card Text/Effect | At the end of your turn, you may use two Garbage. If you do, return target card from your Refuse Pile to your hand. | Use two Garbage: return target card from your Refuse Pile to your hand. Do this only once per turn. |
 | R-27 | Raccoon | Card Text/Effect | When your units eat garbage, they don't pay energy or lose HP. | You may eat garbage for free during your turn. |
+| R-28 | Poo-uid | Casting Cost | 2 (R) | 2(R) |
 | R-28 | Poo-uid | Power/Toughness | 2/2 | 2/3 |
 | R-28 | Poo-uid | Card Text/Effect | Exhaust, eat garbage: create a 3/3 Poo Golem token. | Exhaust, eat garbage, lose 1 HP: create a 3/3 Poo Golem token. |
 | R-33 | Archdruid Compostella | Card Text/Effect | At the start of your turn, create a Garbage and put a buff on each other unit you control. // Exhaust, eat garbage: return target card from your Refuse Pile to your hand. | At the start of your turn, create a Garbage and put a buff on each other unit you control. // Exhaust, eat garbage, lose 1 HP: return target card from your Refuse Pile to your hand. |
+| R-34 | Curb Alert | NEW ROW | - | cost 1(R), , "Return target unit card from your Refuse Pile to your hand. Create a Garbage." |
+| R-35 | Sewer Choir | NEW ROW | - | cost 2(R), 1/1, "When this unit enters, create two 1/1 Rat tokens." |
+| R-36 | Landfill Leviathan | NEW ROW | - | cost 5(R)(R), 7/7, "When this unit enters, create two Garbage. Eat garbage: this unit gains Bulldoze until end of turn." |
 | G-01 | Line Cook | Power/Toughness | 1/1 | 1/2 |
 | G-02 | Sushi Apprentice | Power/Toughness | 1/1 | 1/2 |
 | G-05 | Food Critic | Power/Toughness | 2/2 | 2/3 |
 | G-06 | Soup Kitchen Volunteer | Power/Toughness | 1/3 | 2/3 |
 | G-07 | Sous Chef | Power/Toughness | 2/2 | 2/3 |
 | G-08 | Pastry Artificer | Card Text/Effect | Exhaust, pay 2, use two Ingredients: create a 4/4 Cake Golem token. | Exhaust, pay 1, use two Ingredients: create a 4/4 Cake Golem token. |
+| G-22 | The Cullinator | Casting Cost | 3(G)(G) | 4(G)(G) |
 | G-22 | The Cullinator | Power/Toughness | 3/3 | 4/4 |
 | G-29 | Head Health Inspector | Power/Toughness | 3/6 | 4/6 |
+| G-34 | Amuse-Bouche | NEW ROW | - | cost (G), , "Create an Ingredient. Peek 1, then draw a card." |
+| G-35 | Pest Control | NEW ROW | - | cost 2(G), , "Send target unit back to its owner's hand. If it is a Refusemancer unit, Plate it instead." |
 | B-01 | Gym Bro | Power/Toughness | 2/1 | 1/1 |
+| B-02 | Bronzer | Casting Cost | 1(B) | (B) |
 | B-03 | Dropped Weights | Card Text/Effect | Deal 2 damage to target unit or opponent. | Deal 2 damage to target unit. |
 | B-04 | Millstone Pusher | Power/Toughness | 2/2 | 1/2 |
 | B-07 | Late-ish Courier | Power/Toughness | 3/1 | 2/1 |
 | B-08 | Spotter | Power/Toughness | 2/3 | 2/2 |
+| B-20 | Dry Scoop | Card Text/Effect | Target unit gains Hustle until end of turn. | Target unit gets +1/+0 and gains Hustle until end of turn. |
 | B-21 | Flex on 'Em | Casting Cost | 1(B) | 2(B) |
-| B-24 | Overclocked Mill Worker | Casting Cost | 2(B) | 3(B) |
+| B-22 | Alarm-ish Clock | Casting Cost | 2 | 1(B) |
 | B-24 | Overclocked Mill Worker | Power/Toughness | 3/3 | 2/3 |
 | B-25 | Yeet | Card Text/Effect | Target unit you control deals damage equal to its attack to target unit or opponent. | Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control. |
 | B-26 | The Carpool | Power/Toughness | 4/3 | 3/3 |
+| B-34 | Hammer Thrower | NEW ROW | - | cost 3(B), 3/3, "Overexert: this unit deals damage equal to its attack to target unit or opponent." |
+| B-35 | Protein Shake | NEW ROW | - | cost 1(B), , "Target unit gets +2/+2 until end of turn. Create an Iron." |
+| B-36 | Desk Flip | NEW ROW | - | cost 1(B), , "Deal 2 damage to target unit. If it is a Necrocrat unit, deal 4 damage instead." |
 | N-01 | Skeleton Clerk | Power/Toughness | 1/1 | 1/2 |
 | N-02 | Infernal Intern | Power/Toughness | 1/2 | 2/2 |
-| N-03 | Post-Human Resources Ghoul | Power/Toughness | 2/2 | 2/3 |
-| N-04 | Body-builder | Power/Toughness | 1/2 | 2/2 |
-| N-05 | Corpseified Public Accountant | Power/Toughness | 1/3 | 2/3 |
-| N-07 | Grave Shift Worker | Power/Toughness | 2/3 | 3/3 |
+| N-03 | Post-Human Resources Ghoul | Power/Toughness | 2/2 | 3/4 |
+| N-04 | Body-builder | Power/Toughness | 1/2 | 2/3 |
+| N-05 | Corpseified Public Accountant | Power/Toughness | 1/3 | 2/4 |
+| N-07 | Grave Shift Worker | Power/Toughness | 2/3 | 3/4 |
 | N-09 | Red Tape Dispenser | Casting Cost | 2(N) | 1(N) |
+| N-10 | Push Broom of Undeath | Casting Cost | 4(N)  | 2(N) |
+| N-10 | Push Broom of Undeath | Card Text/Effect | Whenever a unit attacks, you may Shred any number of Garbage, Iron, and Ingredients. | Exhaust: attach to target unit you control. Attached unit gets +0/+1. Whenever attached unit attacks, destroy up to two target resources your opponent controls. |
 | N-18 | Requisition Form | Casting Cost | 2(N) | 1(N) |
-| N-23 | Middle Management Zombie | Power/Toughness | 2/3 | 2/4 |
+| N-23 | Middle Management Zombie | Power/Toughness | 2/3 | 3/5 |
+| N-34 | Final Notice | NEW ROW | - | cost 1(N)(N), , "Destroy target unit. Create a Red Tape." |
+| N-35 | Pending Approval | NEW ROW | - | cost 1(N), , "Processing 1 (this resolves at the start of your next turn): create two 1/1 Zombie Temp tokens and a Red Tape." |
+| N-36 | Service Charge | NEW ROW | - | cost 1(N), , "When your opponent plays their second card in a turn, they lose 2 HP and you create a Red Tape." |
+| N-37 | Compliance Review | NEW ROW | - | cost 2(N), , "Target unit gets -2/-0 until the start of your next turn. If it is a Beefcake unit, destroy it instead." |
+| N-38 | Hazmat Intern | NEW ROW | - | cost 2(N), 1/3, "Toxic." |
+| GB-07 | Bulking Program | Casting Cost | 3(G)(B) | 2(G)(B) |
+| GB-07 | Bulking Program | Card Text/Effect | At the start of your turn, put a buff on target unit you control. | Whenever you use an Ingredient, put a buff on target unit you control. Do this only once per turn. |
 | NR-12 | Conscripted Constrictor | Card Text/Effect | Exhaust, eat garbage twice: destroy target unit. | Exhaust, eat garbage twice, lose 2 HP: destroy target unit. |
+| NB-01 | Shredded Spectre | Card Text/Effect | Use 3 Red Tape: this unit gains Elusive until end of turn. / Use 3 Iron: this unit gets +1 attack until end of turn. | Whenever you use a Red Tape or an Iron, this unit gets +1/+0 and gains Elusive until end of turn. |
+| NB-13 | Wobble Weights | Card Text/Effect | Exhaust, pay 1: attach to target unit you control. If it's a Necrocrat, it gets +5/+5. If it's a Beefcake, all Beefcakes you control get +1/+2. | Exhaust, pay 1: attach to target unit you control. If attached unit is a Necrocrat unit, it gets +5/+5. If it is a Beefcake unit, Beefcake units you control get +1/+2. |
 | NB-16 | Chancellor Clench, Iron Regent | Card Text/Effect | Overtime. // Your Iron gives +2 attack instead of +1. Your Red Tape gives -2 attack instead of -1. // At the start of your turn, create an Iron and a Red Tape. | Overtime. // Your Iron gives +2/+2 instead of +1/+1. Your Red Tape gives -4 attack instead of -2. // At the start of your turn, create an Iron and a Red Tape. |
+| NB-17 | Iron Filing Clerk | NEW ROW | - | cost 1(N)(B), 2/2, "Whenever you use an Iron, create a Red Tape. Whenever you use a Red Tape, create an Iron." |
+| BR-06 | Hamster Ball | Card Text/Effect | Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Bulldoze. | Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Bulldoze. Whenever attached unit deals combat damage to an opponent, create a Garbage. |
 | BR-16 | Tuskeroni, Junkyard Champion | Card Text/Effect | Hustle. // At the start of your turn, create a Garbage and an Iron. // Eat garbage: put a buff on this unit. It gains Bulldoze until end of turn. | Hustle. // At the start of your turn, create a Garbage and an Iron. // Eat garbage, lose 1 HP: put a buff on this unit. It gains Bulldoze until end of turn. |
-| C-09 | Old Kingdom Automaton | Power/Toughness | 5/5 | 4/5 |
+| GRB-07 | Harvest Festival | Card Text/Effect | All resources generated for all players are doubled. | Whenever a player would create one or more resources, they create twice that many instead. |
+| C-01 | Cannon Fodder | Power/Toughness | 1/1 | 2/1 |
+| C-09 | Old Kingdom Automaton | Power/Toughness | 5/5 | 4/6 |
 | C-13 | Rally the Village | Casting Cost | 2 | 3 |
 | C-21 | Old Kingdom Banner | Casting Cost | 3 | 4 |
 | C-22 | Mercenary Captain | Power/Toughness | 3/3 | 2/3 |
 | C-23 | Resistance Scout | Power/Toughness | 2/2 | 1/2 |
+| C-35 | Hand-Me-Down Shield | NEW ROW | - | cost 1, , "Exhaust: attach to target unit you control. Attached unit gets +0/+2." |
 
-50 cell changes. Cards touched per prefix: R 12, G 8, B 9, N 9, NR 1, NB 1, BR 1, C 5.
+84 cell changes. Cards touched per prefix: R 16, G 8, B 12, N 10, GB 1, NR 1, NB 3, BR 2, GRB 1, C 6.
 
 ## Token List
 
@@ -109,10 +143,10 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Betty Bones, Surly Secretary | Take a Number | enemy | starting_resources (resource="contract", count=1) | "Starts the duel with 2 Red Tape and a Contract." (icon delapouite/files) |
 | Betty Bones, Surly Secretary | Surly | enemy | stat (atk=2, def=1) | "Betty's units get +2/+1. Nobody wants to be the one she snaps at." (icon delapouite/files) |
 | His Majesty the Raccoon | Royal Larder | enemy | starting_resources (resource="garbage", count=4) | "Starts the duel with 4 Garbage." (icon delapouite/imperial-crown) |
-| His Majesty the Raccoon | Royal Guard of Bins | enemy | stat (atk=1, def=1) | "His Majesty's units get +1/+1." (icon delapouite/imperial-crown) |
-| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=3, def=2) | "Spotless's units get +3/+2. Drilled until they shine." (icon lorc/visored-helm) |
+| His Majesty the Raccoon | Royal Guard of Bins | enemy | stat (atk=2, def=2) | "His Majesty's units get +2/+2." (icon delapouite/imperial-crown) |
+| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=4, def=3) | "Spotless's units get +4/+3. Drilled until they shine." (icon lorc/visored-helm) |
 | Baron Quadzilla | Leg Day | enemy | starting_resources (resource="iron", count=2) | "Starts the duel with 2 Iron." (icon delapouite/mammoth) |
-| Baron Quadzilla | Max Pump | enemy | stat (atk=1, def=1) | "Baron Quadzilla's units get +1/+1." (icon lorc/muscle-up) |
+| Baron Quadzilla | Max Pump | enemy | stat (atk=1, def=0) | "Baron Quadzilla's units get +1 attack." (icon lorc/muscle-up) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="iron", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="redtape", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="ingredient", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
@@ -160,7 +194,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-HOG | node 6 | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":31,"hp":19} | {"name":"Vivienne Quota, Minister of Efficiency","deck":"beefcake_bruisers","size":29,"hp":16,"infra":13} |
 | D-HOG | node 8 | "Cell Block Brawler" | {"name":"Cell Block Brawler","hp":13,"size":27,"infra":13} |
 | D-HOG | node 11 | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":33,"hp":22} | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":28,"hp":12,"infra":13} |
-| D-HOG | boss | {"deck":"beefcake_bruisers","extra":{},"hp":28,"icon":"delapouite/viking-head"} | {"deck":"beefcake_bruisers","extra":{},"hp":24,"icon":"delapouite/viking-head","infra":14} |
+| D-HOG | boss | {"deck":"beefcake_bruisers","extra":{},"hp":28,"icon":"delapouite/viking-head"} | {"deck":"beefcake_bruisers","extra":{"NB-16":1},"hp":24,"icon":"delapouite/viking-head","infra":14} |
 | D-TTK | node 2 | "Prep Station Sous-Chef" | {"name":"Prep Station Sous-Chef","hp":14,"size":29,"infra":15} |
 | D-TTK | node 3 | "Frozen Line Cook" | {"name":"Frozen Line Cook","hp":17,"size":29} |
 | D-TTK | node 6 | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":30,"hp":20,"icon":"delapouite/pirate-cannon"} | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":31,"hp":17,"icon":"delapouite/pirate-cannon","infra":15} |
@@ -232,7 +266,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-LAB | node 13 | - | {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":42,"ai":"Aggressive","mixed":["necrocrat","refusemancer","beefcake"],"extra":{"N-29":1,"C-30":1},"infra":13} |
 | D-LAB | node 15 | - | {"name":"Antechamber Sentry","deck":"beefcake_bruisers","size":40,"hp":34,"ai":"Aggressive","mixed":["beefcake","necrocrat","refusemancer"]} |
 | D-LAB | node 16 | - | "Dr. Ambrose Siphon, Chief Path-ologist" |
-| D-LAB | boss | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":50,"icon":"delapouite/warlock-eye"} | {"deck":"four_paths","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1},"hp":44,"icon":"delapouite/warlock-eye","infra":15} |
+| D-LAB | boss | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":50,"icon":"delapouite/warlock-eye"} | {"deck":"four_paths","extra":{"B-32":1,"G-33":1,"R-33":1,"N-29":1},"hp":44,"icon":"delapouite/warlock-eye","infra":15} |
 | D-LAB | defaults | {"archetypes":["necro_control","gourmand_control","refuse_garbage","beefcake_bruisers"],"icons":["lorc/bubbling-flask","delapouite/warlock-eye","lorc/brainstorm","delapouite/stamper","delapouite/shambling-zombie"],"ais":["Aggressive","Balanced","Defensive"]} | {"archetypes":["necro_control","gourmand_control","refuse_garbage","beefcake_bruisers"],"icons":["lorc/bubbling-flask","delapouite/warlock-eye","lorc/brainstorm","delapouite/stamper","delapouite/shambling-zombie"],"ais":["Aggressive","Balanced","Defensive"],"infra":16} |
 | S-TOWN | node 1 | {"name":"Rusty Gate Clockwork","deck":"colorless_militia","size":27,"hp":12} | {"name":"Rusty Gate Clockwork","deck":"colorless_militia","size":26,"hp":7,"infra":16} |
 | S-TOWN | node 2 | {"name":"Banner Hall Guardian","deck":"colorless_militia","size":29,"hp":14} | {"name":"Banner Hall Guardian","deck":"colorless_militia","size":28,"hp":10,"infra":16} |
@@ -252,8 +286,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | core/zone/capital_enemies.gd | INSPECTOR | hp 16, EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 15), Defensive | hp 24, EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 13)  # Rebalance Part E: 96% at level 18, Defensive |
 | core/zone/capital_enemies.gd | WRETCH | hp 15, EnemyDecks.trimmed("necrocrat_refusemancer", 30, 15), Aggressive | hp 22, EnemyDecks.trimmed("necrocrat_refusemancer", 32, 13)  # Rebalance Part E: 100% at level 18, Aggressive |
 | core/zone/capital_enemies.gd | SPOTLESS | hp 24, EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), {"C-30": 1, "C-34": 1}), Aggressive | hp 36, EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-34": 1, "C-29": 2, "C-32": 1, "C-33": 1})  # Rebalance Part E: 98% at level 18, Aggressive |
-| core/dungeon/trial_of_the_hollow.gd | numbers | return {"BAS-G": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}; return {"BAS-R": 11, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 2, "C-04": 2, "C-05": 1, "C-07": 1}; return {"BAS-G": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "R-06": 2, "R-07": 2, "C-15": 1} | return {"BAS-G": 18, "C-01": 4, "C-02": 2, "C-04": 2}; return {"BAS-R": 12, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}; return {"BAS-G": 14, "BAS-R": 10, "C-01": 2, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1} |
-| core/dungeon/primm_boss.gd | numbers | hp = 30; hp = 28 | hp = 36 |
+| core/dungeon/trial_of_the_hollow.gd | numbers | return {"BAS-G": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}; return {"BAS-R": 11, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 2, "C-04": 2, "C-05": 1, "C-07": 1}; return {"BAS-G": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "R-06": 2, "R-07": 2, "C-15": 1} | return {"BAS-G": 19, "C-01": 3, "C-02": 2, "C-04": 2}; return {"BAS-R": 13, "BAS-G": 8, "C-01": 2, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}; return {"BAS-G": 15, "BAS-R": 10, "C-01": 1, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1} |
+| core/dungeon/primm_boss.gd | numbers | hp = 30; hp = 32; hp = 28 | hp = 40; hp = 36; hp = 36 |
 | core/dungeon/vault_guardian.gd | numbers | STARTING_HP: int = 40 | STARTING_HP: int = 28 |
 | core/dungeon/ninja_boss.gd | numbers | STARTING_HP: int = 18 | STARTING_HP: int = 38 |
 | core/dungeon/corrupted_npcs.gd | numbers | trimmed("refuse_garbage", 27, 17); trimmed("necro_control", 26, 16) | trimmed("refuse_garbage", 28, 20); trimmed("necro_zombies", 26, 20) |
@@ -261,10 +295,10 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 
 ## New rows: starting decks (one list per Path; 19 basic Infrastructure of the Path + these 26 cards)
 
-- **Beefcake** (26 cards + 19 Powerhouse): B-05 x3 (Hamster Wheel Runner), B-09 x2 (Personal Trainer), B-12 x2 (Leg Day Survivor), B-03 x2 (Dropped Weights), B-21 x1 (Flex on 'Em), B-24 x1 (Overclocked Mill Worker), C-02 x3 (Village Militia), C-06 x2 (Traveling Brawler), C-04 x2 (Courier Pigeon), C-08 x2 (Tavern Regular), C-11 x2 (Traveler's Sword), C-13 x2 (Rally the Village), C-16 x2 (Tripwire)
-- **Necrocrat** (26 cards + 19 Ghost Town): N-01 x3 (Skeleton Clerk), N-02 x3 (Infernal Intern), N-04 x2 (Body-builder), N-15 x2 (Pink Slip), N-23 x1 (Middle Management Zombie), C-03 x3 (Watchtower Archer), C-05 x2 (Shield Bearer), C-07 x2 (Wandering Medic), C-04 x2 (Courier Pigeon), C-14 x2 (Second Wind), C-02 x2 (Village Militia), C-17 x2 (Ambush Party)
-- **Gourmand** (26 cards + 19 Feastforge): G-01 x3 (Line Cook), G-12 x2 (Meatloaf Mold), G-08 x2 (Pastry Artificer), G-23 x2 (En Garde-Manger), G-06 x3 (Soup Kitchen Volunteer), C-05 x2 (Shield Bearer), C-03 x3 (Watchtower Archer), C-02 x3 (Village Militia), C-04 x2 (Courier Pigeon), C-14 x2 (Second Wind), C-16 x2 (Tripwire)
-- **Refusemancer** (26 cards + 19 Wasteworks): R-06 x3 (Curbside Rat), R-08 x3 (Possum Prowler), R-02 x2 (Dumpster Diver), R-22 x2 (Acid Vomitor), R-14 x1 (Rusty Spring Trap), C-02 x3 (Village Militia), C-03 x2 (Watchtower Archer), C-06 x2 (Traveling Brawler), C-09 x2 (Old Kingdom Automaton), C-11 x2 (Traveler's Sword), C-17 x2 (Ambush Party), C-15 x2 (Desperate Measures)
+- **Beefcake** (26 cards + 19 Powerhouse): B-05 x3 (Hamster Wheel Runner), B-09 x2 (Personal Trainer), B-12 x2 (Leg Day Survivor), B-03 x2 (Dropped Weights), B-21 x1 (Flex on 'Em), B-24 x1 (Overclocked Mill Worker), B-35 x1 (Protein Shake), C-02 x3 (Village Militia), C-06 x2 (Traveling Brawler), C-04 x2 (Courier Pigeon), C-08 x2 (Tavern Regular), C-11 x2 (Traveler's Sword), C-13 x2 (Rally the Village), C-16 x1 (Tripwire)
+- **Necrocrat** (26 cards + 19 Ghost Town): N-01 x3 (Skeleton Clerk), N-02 x3 (Infernal Intern), N-04 x2 (Body-builder), N-15 x2 (Pink Slip), N-23 x1 (Middle Management Zombie), N-35 x1 (Pending Approval), C-03 x3 (Watchtower Archer), C-05 x2 (Shield Bearer), C-07 x2 (Wandering Medic), C-04 x2 (Courier Pigeon), C-14 x2 (Second Wind), C-02 x2 (Village Militia), C-17 x1 (Ambush Party)
+- **Gourmand** (26 cards + 19 Feastforge): G-01 x3 (Line Cook), G-12 x2 (Meatloaf Mold), G-08 x2 (Pastry Artificer), G-23 x2 (En Garde-Manger), G-06 x3 (Soup Kitchen Volunteer), G-34 x1 (Amuse-Bouche), C-05 x2 (Shield Bearer), C-03 x3 (Watchtower Archer), C-02 x3 (Village Militia), C-04 x2 (Courier Pigeon), C-14 x2 (Second Wind), C-16 x1 (Tripwire)
+- **Refusemancer** (26 cards + 19 Wasteworks): R-06 x3 (Curbside Rat), R-08 x3 (Possum Prowler), R-02 x2 (Dumpster Diver), R-22 x2 (Acid Vomitor), R-14 x1 (Rusty Spring Trap), R-34 x1 (Curb Alert), C-02 x3 (Village Militia), C-03 x2 (Watchtower Archer), C-06 x2 (Traveling Brawler), C-09 x2 (Old Kingdom Automaton), C-11 x2 (Traveler's Sword), C-17 x1 (Ambush Party), C-15 x2 (Desperate Measures)
 
 ## Equipment and items
 
