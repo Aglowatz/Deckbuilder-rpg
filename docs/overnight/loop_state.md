@@ -25,11 +25,11 @@ boss_intros.json, encounter_scripts.json, dungeon_content.json text, core/quests
 | Part | State | Commit | Notes |
 |---|---|---|---|
 | 0 | done | (first commit) | title -> slot 3 -> wake-up -> Path choice -> cave; `pilot` plays a battle (Got it / Skip tips / End Turn confirm); `dev save/load` snapshots |
-| 1 | - | - | |
-| 2 | - | - | |
-| 3 | - | - | |
-| 4 | - | - | |
-| Report | - | - | |
+| 1 | done | 3808cc3f | report `docs/review/fresh_eyes_oct30.md` (scores, top 20), 66 shots, 26 scripts; the Esc "hang" was the driver's paused timer (fixed) |
+| 2 | done | 413c70de | `docs/review/fresh_eyes_triage_oct30.md`: verdicts per problem, the ten fixes, the art/dialogue recommendations |
+| 3 | done | 413c70de | ten fixes in one verified commit (GUT root/core/ui/world all green, first battles, opening forest + hub walks, structure budget); before/after shots `docs/review/fresh_eyes_fixes_oct30/`; story bot + tour bot after the commit (see the report) |
+| 4 | in progress | - | second critic (brief `docs/review/critic_brief_second_look_oct30.md`) -> `docs/review/fresh_eyes_second_look_oct30.md` |
+| Report | - | - | `docs/overnight_report.md`; dialogue rewrites `docs/dialogue/lines_to_update_oct30.csv` |
 
 ## How to resume (Opus)
 

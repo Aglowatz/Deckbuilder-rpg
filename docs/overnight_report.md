@@ -1,107 +1,109 @@
-# Report - XP pass Oct 30: XP curve, difficulty recheck, v0.4.8 candidate (Opus)
+# Report - Fresh-eyes critique + fix Oct 30 (Fable)
 
-Fri Oct 30, ~07:30 -> 11:50 MDT. Tag `pre-xp-oct30` (start) and `v0.4.8` (the candidate). State `docs/overnight/loop_state.md`; questions
-`docs/overnight_inbox.md` ("XP pass Oct 30", items 1-9). Last run's report: `docs/overnight/oct29/overnight_report_econ_oct29.md`. Dialogue
-freeze respected (in `dungeon_content.json` only `hp` / `infra` numbers changed; no dialogue line, key, quest or script text); no art
-generated; the black market untouched; no enemy intent. Old saves load and never lose a level.
+Fri Oct 30, ~18:00 -> END_TIME MDT. State `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` ("Fresh eyes
+Oct 30"). Last run's report: `docs/overnight/oct30/overnight_report_xp_oct30.md`. Dialogue freeze respected (no line or key changed;
+rewrites in `docs/dialogue/lines_to_update_oct30.csv`); no art generated; the black market, prices and the XP curve untouched; no enemy
+intent; no version bump, no export. Old saves load (nothing in the save format changed).
 
 ## Read this first
 
-- **The XP curve is re-based** on the XP the story really pays. The expected player is now L5 at the Gainlands, L8 in the House of Gains,
-  L14 at the Test Kitchen boss, L18-19 when the Dump is freed and L22 at Primm (was L8 / L12 / L18 / L25 / L29); 23-30 is a postgame
-  climb, every level dearer than the last.
-- **Every fight was re-simmed at those levels** with the expected player's real gear; 15 groups were out of band and were tuned (table
-  below). **Primm's three phases: 78 -> 68 %** - the Path spread (Necrocrat ~98, Beefcake ~32) is beyond Path-neutral levers (inbox 4).
-  **The Doppelganger sits ~35 %**: its "+1/+1" is pinned by its frozen mask script (inbox 8).
-- **v0.4.8 candidate**: `builds/TheWaywardPath-v0.4.8-windows.zip`, **762 MB** (798,323,052 bytes; under the 850 MB flag; the v0.4.7 zip
-  is still beside it). Exported release smoke PASSED on D3D12 Medium and Low. Notes: `docs/release/v0.4.8_notes.md`. Not shared.
+- **A critic with no project context played the game** (27 runs, four Paths through the cave, Beefcake to the House of Gains boss)
+  through a new play-script driver and scored it **4.8 / 10** against Slay the Spire, Inscryption, Monster Train, Sea of Stars, Octopath
+  and TCG Pocket. Report: `docs/review/fresh_eyes_oct30.md` (66 screenshots in `docs/review/fresh_eyes_oct30/`).
+- **The three "blocking bugs" were two real ones and one artefact**: the Deck Station left the world black (real: its `_exit_tree`
+  skipped the base class, so the WorldCover's 3D switch-off was never released), the battle banner read "VICT" at the bottom right
+  (real: centre anchors set before the HUD had a size), and "Esc hangs the game" was the driver's timer not ticking while the pause
+  menu paused the tree (the driver is fixed; the pause menu works).
+- **Ten fixes landed** (commit 413c70de): the cave beacon, the tutorial tip that held the turn, the black world, the banner, the Deck
+  button under the minimap, challenge outcomes in numbers, unplayable-card reasons, reward pick pre-selected with keyword help, three
+  placeholders in words, the HUD menu with Glossary / Feats / Settings. Before/after shots: `docs/review/fresh_eyes_fixes_oct30/`.
+- **Second look**: SECOND_LOOK_SUMMARY
+- **Tools**: `bash tools/play.sh <script> [name] [limit]` plays the real game from the title with keys, clicks, drags, buttons by text,
+  screenshots, a `dump` of visible text, a battle pilot, dialogue skipping, dev jumps and snapshots (`docs/play_script.md`). Any
+  future "fresh eyes" pass starts from `docs/review/critic_brief_oct30.md`.
 
-## By part
+## Part 1 - the critic's scores and top 20
 
-| Part | Commit | What |
-|---|---|---|
-| 1 XP curve | fa9a9db0 | `ProgressionTable` step table; `ProgressionModel.LEVELS` = the real levels (dungeon elites / bosses at the dungeon's level, Primm +1); economy model "Level timeline" (old vs current curve); character-screen XP bar safe for old saves; tests |
-| 2 Recheck | 906743ad | 40+ sim runs (`docs/design/sim/oct30_*.md`); 15 encounter groups tuned; `balance_log.md`, `sheet_changes_oct30.csv` |
-| 3 Small calls | 906743ad | reroll + price kept, Belt / Barbell Beefcake-only kept, Binding Chains left; Captain Spotless's enemy figure on his SPOTLESS NPC set |
-| 4 v0.4.8 | (final commit, tag `v0.4.8`) | tour bot, story playthrough, memory round trip, bump, guarded export, exported smokes, zip, notes |
+| Area | Score | Area | Score |
+|---|---:|---|---:|
+| First 5 minutes' hook | 4 | Story and humour | 6 |
+| Clarity | 4 | Visual cohesion and readability | 6 |
+| Pacing and friction | 3 | UI/UX consistency | 4 |
+| Combat depth and feel | 5 | Audio | n/a (not judgeable through screenshots) |
+| Deck-building satisfaction | 5 | Performance | 6 |
+| Reward rhythm | 6 | Bugs / stability | 3 |
+| Exploration and world | 4 | **Overall** | **4.8** |
 
-## Part 1 - the curve
+The top 20, one line each (verdicts from the triage, `docs/review/fresh_eyes_triage_oct30.md`):
 
-XP to reach a level (`ProgressionTable.xp_to_reach`; steps `EARLY_STEPS` 50 / 70 / 80 / 100 / 280 / 300 / 340 / 380 to L9, then
-325 + 10 L to L20, then 500 + 35 (L - 20)):
-
-| Level | 5 | 6 | 8 | 10 | 14 | 19 | 20 | 22 | 25 | 30 |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Old | 300 | 450 | 840 | 1,350 | 2,730 | 5,130 | 5,700 | 5,862 | 6,510 | 8,670 |
-| New | 300 | 580 | 1,220 | 2,025 | 3,825 | 6,300 | 6,825 | 7,930 | 9,850 | 13,750 |
-
-L5 stays at 300 (the store room ghosts' hand-in sends the hero to the armory). The old postgame segment (27 x (L-20)(L-19)) made levels
-21-30 together cheaper than 17-20.
-
-Level timelines (level on arrival - on leaving; `docs/design/sim/economy_model.md` has every stop, `economy_model_xp_before.md` the old run):
-
-| Stop | Model | Rusher before -> now | Expected before -> now | Thorough before -> now |
-|---|---:|---|---|---|
-| Gainlands arrival | 5 | 5-5 -> 5-5 | 6-8 -> **5-6** | 7-9 -> 6-7 |
-| House of Gains | 7-9 -> 8 | 5-9 -> 5-7 | 9-12 -> **8-10** | 10-12 -> 8-10 |
-| Test Kitchen | 14 | 12-14 -> 10-12 | 16-18 -> **14-16** | 18-20 -> 16-17 |
-| Dump freed | 19 | 16 -> 14 | 23-25 -> **18-19** | 27-28 -> 21-22 |
-| Primm's Castle | 20-22 -> 21-22 | 17-18 -> 14-15 | 28-29 -> **21-22** | 30 -> 24-25 |
-| After the postgame | 24 | 18 -> 16 | 30 -> **23-25** | 30 -> 26-28 |
-
-Track and caps at the new pace: deck slots at 7 (Gainlands / Iron Cave), 14 (Test Kitchen), 21 (the Capital); Uncommon copies 3 at L9
-(the House of Gains' end), Epic copies 2 at L12 (the Hall), Epic gear cap 2 at L13 (Buffet arrival), Legendary gear at L22 (Primm). The
-economy targets still hold: the expected profile spends 98 % of its income (was 98), no droughts, no hoarding; it now collects 2,340 of
-the track's 3,090 gold (L26-30 are the thorough player's; inbox 2). The rusher is further behind than before (L14 at the castle) by choice.
-
-## Part 2 - sims at the real levels (expected player, real gear)
-
-| Group | Before (this morning) | After | Change |
+| # | Problem | Verdict | Today |
 |---|---|---|---|
-| The cave, 30 runs per Path | B 90 / G 92 / R 80 / N 97 | same | - |
-| Gainlands roamers L5 (16 + 30 + 10 games) | 81 / 91 / 73 overall | same | Refusemancer ~71 % vs the Quota Spotter pooled (inbox 5); a basics change was mixed and reverted |
-| Later zones' roamers L10-20 | 85-100 | same | - |
-| Colonel Casserole L13 | 68 | same | - |
-| Captain Spotless (gate) L20 | 98 | **75 / 71** | HP 36 -> 46, drill +2/+1 -> +4/+3 |
-| House of Gains L8 | Honor Guard 47, Clench 34 | **65 / 63, 41 / 40** | Honor Guard HP 12 -> 9, basics 13 -> 15; Clench 2 Iron (was 3), reinforcements every 5th turn |
-| Hall of Final Approvals L11 | elites 66-75, Mortimer 53 | same | - |
-| Test Kitchen L14 | the Doppelganger 31 | **43 / 27** | HP 21 -> 16, 1 Ingredient; normals' HP 17 -> 15 (boss > normals); inbox 8 |
-| Rotheart L17 | Compostella 78, the Hive 81 / 88 | **67 / 48, 71 / 81** | Compostella +2/+2; the Hive HP 18, basics 15 |
-| Primm's Castle L21 | elites 88-91 | **65, 55 / 77, 78, 78** | Mirror Knight +3/+2, Staircase 3 Militia, Plume +1/+1, Clocktower +3/+3 |
-| Primm's sequence L22 | 78 (B 50 / G 79 / R 83 / N 100) | **66 / 70** (B 35 / 30, G 60 / 70, R 75 / 80, N 95 / 100) | phase HP 44 / 42 / 42, phase 3 +2/+2 (inbox 4) |
-| Iron Cave L6 | 69 / 75, Quadzilla 25 | **83 / 83, 44** | normals HP 4 / 5, Quadzilla HP 13 and "Max Pump" removed |
-| Forgotten Vault L7 | 53 / 63, Automaton 47 | **81 / 81, 50** | HP 5 / 7, basics 18 |
-| Waiting Room / Omakase / Trash Panda Throne / Tunnels | Betty 47, Itamae 47, Raccoon 56, Spotless 66 | same | - |
-| Swolympus / Paste Works L23 | Ancient Spotter 72, Crumb 75 | **69 / 67, 52** | +4/+3; +2/+2 |
-| Path-ology Lab L25 | - | elites 75, Siphon with Elowen 79 | Siphon HP 44 -> 48 (stays above Primm's first phase) |
+| 1 | The cave cannot be found on foot | partly (the path exists; no marker, fogged map, self-talk interrupts) | Fix 1 |
+| 2 | The first duel is lost by default on two Paths | partly / conflicts (sim 80-97 %; the critic's losses were the simple pilot + the tip deadlock; deck design) | recommendation |
+| 3 | Tutorial tip deadlock | valid (`use_targets` counted the enemy's units) | Fix 2 |
+| 4 | Esc hangs; Feats / Collection unreachable | artefact (driver) / partly (HUD menu) | driver fix; Fix 10 |
+| 5 | Deck Station X blacks out the world; Map cannot close | valid (reproduced; `_exit_tree` without super) / not reproduced (M closes the map) | Fix 3 |
+| 6 | Twenty unskippable opening lines | conflicts (dialogue freeze; art) | CSV + art recommendation |
+| 7 | Hand cards cut off at the bottom | partly (by design; hover lifts) | recommendation |
+| 8 | Combat keywords undefined outside battle | valid | Fix 9 (reward screen) |
+| 9 | No feedback for unplayable cards | partly (dimmed; the toast was terse) | Fix 8 |
+| 10 | Starter decks clog with Infrastructure | conflicts (deck design, sim evidence) | recommendation |
+| 11 | Town gives no objective on arrival | partly (the real exit lands beside Maren; the critic warped in) | CSV line for the Rescuer |
+| 12 | Banner off-screen; Deck button under the minimap | valid | Fixes 5, 6 |
+| 13 | Event outcomes opaque | valid | Fix 7 |
+| 14 | Reward screen: Skip looks primary | valid | Fix 8b |
+| 15 | Modal tips everywhere | conflicts (once-ever tips decision) | recommendation |
+| 16 | Dungeon nodes without a preview; sticky tooltip | partly (not reproduced today) | - |
+| 17 | Jargon and placeholders | valid | Fix 9b |
+| 18 | Minimap and maps black | partly (fog by design; the forest now revealed) | Fix 1 |
+| 19 | Load hitches, 8.5 s town load | valid, known (perf list) | - |
+| 20 | Zone HUD covers the landmark | partly (by design) | recommendation |
 
-Every change with its evidence: `docs/design/balance_log.md` ("XP pass Oct 30, Part 2"); sheet rows: `docs/design/sheet_changes_oct30.csv`.
+## Part 2 - triage
 
-## Part 3
+`docs/review/fresh_eyes_triage_oct30.md`: every problem checked against CLAUDE.md, the design docs and the decisions; 8 valid, 8 partly,
+4 conflicting with a deliberate decision (the dialogue freeze, the once-ever tips, deck design / balance with sim evidence), 1 harness
+artefact. The ten fixes favour clarity, onboarding, friction and feel; nothing needed new art or a dialogue edit.
 
-The reroll and its price, the Belt / Barbell as Beefcake-only and Binding Chains stand. Captain Spotless: his enemy entry now draws the
-SPOTLESS NPC set (idle-only, so he hops like the other idle sets). Finding: he never roams (the Capital spawns no Spotless), and at the gate
-he was already the painted sprite (`_screenshots/oct30/spotless_gate.png`); the 3D knights beside the gate are the unnamed gate guards
-(inbox 9).
+## Part 3 - the ten fixes (commit 413c70de)
 
-## Part 4 - v0.4.8
+| # | Fix | Where | Before / after |
+|---|---|---|---|
+| 1 | **Cave beacon**: once the Rescuer leaves (or on a return before the cave is cleared) the cave gate gets the quest objective's gold chevron + ground ring, the HUD edge pointer while off screen, the minimap's objective dot, and the clearing's map is revealed | `StartingAreaScene._show_cave_beacon`, `QuestMarkerLayer.set_fixed_objective`, `MinimapHud.reveal_all / refresh_pois_now`, `MapPoi.objective` | `before_forest.png` / `after_01_forest_beacon.png` |
+| 2 | **Tutorial "spend your Iron" tip** fires (and holds End Turn) only with a unit of the player's own to buff | `TutorialLayer._has_own_target` | (the critic's `critic_beef_13_80_iron_target.png`) |
+| 3 | **Deck Station close** no longer leaves the world black: `_exit_tree` calls the base (WorldCover release, music pop, log) | `DeckbuilderScreen._exit_tree`; source-scan test `test_overlay_exit_tree.gd` | `before_deck_closed_world.png` / `after_03_deck_closed_world.png` |
+| 4 | **Map close**: M / X reproduced as working in the forest (brightness check, three runs); nothing to change | - | `fix_repro_c/57_map_after_m.png` |
+| 5 | **Battle banner** (YOUR TURN / ENEMY TURN / VICTORY! / DEFEAT) centred | `BattleHud` banner anchors | `before_victory_banner.png` / `after_07_victory_banner.png` |
+| 6 | **Forest Deck button** left of the minimap ring | `starting_area_scene.gd` | same forest shots |
+| 7 | **Challenge outcome in numbers** ("3 of the 5 cards were Infrastructure; 3 were needed.", "You were already at full HP, so there was nothing to mend.") | `ChallengeResolver.explain / heals_on_success`, `ChallengeScreen` | tests `test_challenge_explain.gd` |
+| 8 | **Unplayable-card reasons** ("Needs 2 energy; you have 1 (each ready Infrastructure gives 1 a turn)", "One Infrastructure per turn: you already played yours...") and **the reward pick starts on the middle card** so Take is the live gold button | `BattleScreen._why_not_castable / _try_play`, `RewardsScreen` | `after_rewards_preselect.png` |
+| 9 | **Keyword help on the reward screen** (the hovered or chosen card's keywords and resources, one line each) and **placeholders in words**: shrine "Restore all your HP" / "mend all of your HP", Character "Copies per card: 3 Common, 2 Uncommon, 1 Epic, 1 Legendary", the cave's rules panel "No special rules here" | `RewardsScreen._show_keywords`, `DungeonMapScreen`, `ShrineScreen`, `CharacterScreen` | `after_06_cave_rules.png` |
+| 10 | **HUD Menu** lists Glossary, Feats and Settings (each opens the pause menu on that page) | `TownHud`, `SceneManager.show_glossary_page / show_settings_page` | `after_10_town_menu.png` |
 
-- Tour bot: OK, 281 spots, 9 menus, 5 battles, 0 errors. Story playthrough: 90 / 90. Memory round trip: 10 trips, static +0.8 MB, video
-  -0.1 MB, objects +30 - OK.
-- Version 0.4.8 (`project.godot`, `export_presets.cfg`). Guarded export: EXPORT OK, pck 851.5 MB (13,408 files, 77 baked shaders, every
-  MD5), zip **builds/TheWaywardPath-v0.4.8-windows.zip, 762 MB** (CRCs checked); peak memory import 1,042 MB, export 1,300 MB (1.7 GB was
-  free). The pack is over the 800 MB budget, as in v0.4.7 (same art).
-- Exported release smoke, D3D12: Medium PASSED, Low PASSED.
-- Notes since v0.4.6: `docs/release/v0.4.8_notes.md`. Disk: 3.5 GB free on C: after the export.
+Checks after the fixes: GUT root 286, core 1500 + 1 pending, ui 245, world 424 (all green); first-battles smoke OK (57 fps lowest);
+opening forest smoke OK (the hero still walks the path to the cave; Maren at the mouth; Crosspath); hub walk smoke OK; structure
+budget OK. After the commit: story playthrough bot 90 / 90 (a first background run was reaped by the low-memory guard; the foreground run
+passed), tour bot OK (281 spots, 9 menus, 5 battles, 0 errors, 0 warnings).
+
+## Part 4 - second look
+
+SECOND_LOOK_BODY
+
+## Recommendations that need art, dialogue or a design call
+
+- **Dialogue** (`docs/dialogue/lines_to_update_oct30.csv`): the treeline lines name the direction; the wake-up cut to about six lines;
+  the Rescuer's farewell names Crosspath and Maren; a defeat recap line.
+- **Art**: a night version of the wake-up still (the day still over the night clearing).
+- **Design calls** (sim evidence first): the starter decks' Infrastructure ratio / a smaller first-duel foe; a hand fan or a smaller
+  hand scale so the rules text shows without hovering; the zone HP widget out of the landmark's way; a Tutorial toggle in Settings; a
+  scrollbar on the Settings panel; a defeat recap.
 
 ## Checks run
 
-GUT root 286, core 1496 + 1 pending, ui 242, world 422 (after each part); card import 0 problems; first-battles smoke (twice); hub,
-Crosspath, Capital and Gainlands walk smokes; structure budget OK (twice); tour bot, story playthrough, memory round trip; exported release
-smoke x2. Screenshots: 1 (Part 3) plus the smokes' own.
+GUT root / core / ui / world after the fixes; first-battles smoke; opening forest + hub walk smokes; structure budget; the play-script
+driver's repro and verification runs (`_screenshots/play/fix_*`); story playthrough bot and tour bot (Part 3's end); the critic's 27
+runs and the second critic's runs.
 
-## Inbox (XP pass Oct 30)
+## Inbox (Fresh eyes Oct 30)
 
-1 the curve as a step table (L30 needs grinding). 2 the track's L26-30 gold. 3 no in-dungeon level offsets. 4 Primm's Path spread.
-5 Refusemancer vs the Quota Spotter. 6 Path matchups at bosses. 7 left a little over band. 8 the Doppelganger and its mask script.
-9 Spotless's figure and the gate guards.
+See `docs/overnight_inbox.md`, section "Fresh eyes Oct 30".

@@ -509,3 +509,29 @@ cycle 1); the spells-only arena (cycle 10).
    gate he was already the painted sprite (`_screenshots/oct30/spotless_gate.png`). The two 3D knights flanking the gate are the unnamed
    gate guards (`guard_in_1/2`, `guard_height`, `guard_queue`): say if those should wear a sprite set too (none exists for them).
    The other Part 3 calls stand as asked: the reroll and its price, the Belt / Barbell Beefcake-only, Binding Chains untouched.
+
+## Fresh eyes Oct 30 (critic -> triage -> ten fixes -> second look) - yours to decide (the safest choice was taken)
+
+1. **The cave beacon** (`StartingAreaScene._show_cave_beacon`): the Opening Forest pass (Part C) removed the old beacon column on purpose
+   ("the cave mouth itself is the landmark"). The critic walked into the treeline six times and never found the arch, so the gate now gets
+   the quest objective's chevron + ring, the HUD edge pointer, the minimap objective dot, and the clearing's map is revealed, once the
+   Rescuer has gone. Say if you would rather keep the clearing marker-free and only add the direction to the treeline line
+   (`docs/dialogue/lines_to_update_oct30.csv`).
+2. **The reward pick starts on the middle card** (Take is the live gold button at once; Skip stays plain). The critic skipped a first reward
+   because Skip looked primary. If you prefer "nothing chosen until the player clicks", revert `RewardsScreen._select(1, true)` in `_ready`.
+3. **The HUD Menu lists Glossary, Feats and Settings** (they open the pause menu's pages). They sit under Wardrobe without icons (no
+   ICON-UI-* art for Glossary / Feats). Say if they should go elsewhere or get icons.
+4. **"Esc hangs the game" was the driver** (its timers did not tick while the pause menu paused the tree). The pause menu works; the first
+   critic could not reach Feats / Settings through it, so the Feats / Settings / Glossary findings came through the HUD menu instead.
+5. **The first duel's losses** in the critic's report were the simple built-in pilot (`BattlePilot`) and a hand turn held by the tutorial tip
+   deadlock (fixed). The sim says the cave is 80-97 % per Path. The critic's deeper point - 45-card starters with ~19 Infrastructure clog hands,
+   one Infrastructure per turn - is a deck design question (D44 / rebalance Parts C-D): nothing changed; a sim study of a 15- or 17-Infrastructure
+   starter is the next step if you want it.
+6. **Not reproduced**: the map not closing with M / X in the forest (three driver runs: M closes it), and the sticky dungeon node tooltip.
+   Both may have been side effects of the black-world bug in the critic's session. Say if you have seen either.
+7. **Dialogue rewrites** are in `docs/dialogue/lines_to_update_oct30.csv` (treeline lines naming the direction, a shorter wake-up, the
+   Rescuer naming Crosspath and Maren, a defeat recap line); art: a night version of the wake-up still.
+8. **The play-script driver** (`bash tools/play.sh`) is a new tool: anyone (or any agent) can play the real game from a text script and
+   get screenshots + the visible text. `docs/play_script.md`; the critic briefs in `docs/review/`.
+9. **Left as recommendations** (design calls): hand cards' rules text below the edge (a smaller hand scale or a fan), the zone HP widget over
+   the landmark, a Tutorial toggle, a Settings scrollbar, a defeat recap, the day still over the night scene.
