@@ -670,6 +670,11 @@ func _build_timeline() -> Array[Step]:
 			graveyard.events.append(Event.make("the Restless Dead", "side_quest", GraveyardBoss.REWARD_GOLD, EncounterRewards.xp_for(DungeonMap.Difficulty.ELITE)))
 			steps.append(graveyard)
 		var main: Step = _dungeon_steps(str(MAIN_DUNGEON[zone_id]), zone_id, "main", "%s main dungeon (%s)" % [zone_name, str(MAIN_DUNGEON[zone_id])], level + 2)
+		# Phase 2: the dungeon's elite and boss picks reroll too (two rerolls a dungeon for the player who wants them).
+		var dungeon_reroll: Offer = Offer.make("reroll_dungeon_%s" % zone_id, "Pick reroll (%s dungeon)" % zone_name, "reroll", Economy.reroll_price(level + 2), NICE)
+		dungeon_reroll.repeat = true
+		main.offers.append(dungeon_reroll)
+		main.shop = true
 		if MAIN_QUEST_IDS.has(zone_id):
 			main.events.append(_quest_event(str(MAIN_QUEST_IDS[zone_id]), "main"))
 			main.events.append(Event.make("feat: zone freed", "feat", 50, 0))

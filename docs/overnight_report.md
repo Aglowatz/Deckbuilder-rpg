@@ -1,6 +1,6 @@
 # Report - Overnight Oct 29-30: economy + equipment balance, hat fit (Fable)
 
-Thu Oct 29, 18:54 MDT -> (the stop time is at the end). Tag `pre-overnight-oct29`. State `docs/overnight/loop_state.md`; loop log
+Thu Oct 29, 18:54 -> 23:25 MDT (4.5 hours; the loop stopped when the remaining ideas were the designer's calls in the inbox). Tag `pre-overnight-oct29`. State `docs/overnight/loop_state.md`; loop log
 `docs/overnight/loop_log.md`; questions `docs/overnight_inbox.md` ("Overnight Oct 29-30", items 1-10). Last run's report:
 `docs/overnight/oct29/overnight_report_art_oct29.md`. Dialogue freeze respected (no dialogue file, quest file or key touched); no art
 generated; the black market untouched; no version bump, no export. Old saves load: nothing is deleted or confiscated, owned pieces take
@@ -40,17 +40,17 @@ the XP curve throwing the level track's late gold into the main game; essence th
 
 ## Part 2 - targets and before / after (expected profile, gold on hand -> after buying)
 
-| Stop | Before | After (Part 2) | After (with the reroll) |
+| Stop | Before | After (Part 2) | After (with the reroll, world + dungeon picks) |
 |---|---:|---:|---:|
 | Level 5, the armory | 329 -> 39 | 320 -> 35 | 320 -> 35 |
-| Gainlands freed | 1,674 -> 323 | 1,735 -> 315 | 1,735 -> 315 |
-| D.N.A. freed | 1,703 -> 352 | 1,890 -> 340 | 1,890 -> 340 |
-| Buffet freed | 1,752 -> 341 | 1,855 -> 65 | 1,855 -> 65 |
-| Dump freed | 2,676 -> 545 | 2,695 -> 355 | 2,695 -> 355 |
-| End of the run | 3,982 left | 3,070 left | 1,900 left |
-| Spent of income | 79 % | 84 % | 90 % |
+| Gainlands freed | 1,674 -> 323 | 1,735 -> 315 | 445 -> 55 |
+| D.N.A. freed | 1,703 -> 352 | 1,890 -> 340 | 400 -> 60 |
+| Buffet freed | 1,752 -> 341 | 1,855 -> 65 | 345 -> 45 |
+| Dump freed | 2,676 -> 545 | 2,695 -> 355 | 705 -> 45 |
+| End of the run | 3,982 left | 3,070 left | 320 left |
+| Spent of income | 79 % | 84 % | 98 % |
 
-Rusher 80 -> 91 -> 95 %, thorough 72 -> 76 -> 81 %. Droughts: none for the expected player (the rusher sits at 18-63 gold for three stops
+Rusher 80 -> 91 -> 95 %, thorough 72 -> 76 -> 93 % (the model rerolls twice a zone and twice a dungeon: a keen player; a selective one keeps more). Droughts: none for the expected player (the rusher sits at 18-63 gold for three stops
 after the armory by its own choice of stock). Hoarding: none through the Dump; the Capital's surplus is what the reroll now eats.
 Targets 1-3 and 5-8 hold; target 4 (gold always has a use late) holds with the reroll. Full tables: `docs/design/sim/economy_model.md`
 (before: `economy_model_before.md`).
@@ -130,7 +130,7 @@ The first three zones' bosses sit in or just over their 40-60 band.
 2. Reward boxes: "462 gold in your purse now - an Uncommon card's worth" under the counters. Shot `p2_reward_gold.png`.
 3. Hat tilt covered by `test_hat_sheets`.
 4. **Reward-pick reroll**: a world pick rerolls once for 40 + 10 x level gold (button under the cards; never counts as a win). Tests,
-   gatekeeper pick probes by mouse and pad, shot `p2_reroll.png`. The economy model with it: expected leftover 3,070 -> 1,900.
+   gatekeeper pick probes by mouse and pad, shot `p2_reroll.png`. The economy model with it (world and dungeon picks): expected leftover 3,070 -> 320.
 5. Side dungeons simmed with the real gear; Baron Quadzilla's "Max Pump" softened to +1 attack (he was under the 35 % floor).
 6. The late side bosses were far too easy with the Gauntlets and the Waistband stacked: the Raccoon's guard +2/+2 (92 -> 46 %), the
    Grate's Spotless +4/+3 (88 -> 73 %); the rest listed for you (inbox 12).
@@ -141,8 +141,9 @@ The first three zones' bosses sit in or just over their 40-60 band.
 
 ## Checks run
 
-GUT root 286 (release-readiness fixed), core 1493 + 1 pending, ui 242, world 422; first-battles smoke (twice), hub walk smoke, Crosspath
-walk smoke, gatekeeper pick probes (mouse, pad); structure budget OK. Screenshots: 2 (Part 2), 0 (Part 3), 10 (Part 4), 4+ (Phase 2).
+GUT root 286 (release-readiness fixed; the rack count test updated for the Blade), core 1493 + 1 pending, ui 242, world 422; first-battles
+smoke (twice), hub, Crosspath and Gainlands walk smokes, gatekeeper pick probes (mouse, pad), gamepad smoke, dungeons smoke, prologue
+smoke; structure budget OK. Screenshots: 2 (Part 2), 0 (Part 3), 10 (Part 4), 6 (Phase 2).
 
 ## Inbox (Overnight Oct 29-30)
 

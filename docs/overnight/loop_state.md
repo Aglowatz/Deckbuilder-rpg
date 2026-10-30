@@ -32,5 +32,5 @@ names, descriptions and shop UI text may change. No version bump, no export.
 | 2 | done | (this commit) | core/data/economy.gd curve; cards 30/60/150/300, gear by rarity x tier, items 3 bands, cosmetics, packs II 200, essence x2, alchemy 150, roamers by tier, side clears 100/40, arena replay 25, level track front-loaded; GUT core/ui/root OK (release_readiness fixed: export_presets 0.4.7), first battles + hub walk OK |
 | 3 | done | 45311175 | budget doc, 20 piece changes + Blade, Colorless matching fix, sims, log, csv, inbox 1-8; GUT core/ui OK, first battles OK, structure budget OK |
 | 4 | done | (this commit) | tools/hat_contact_sheet.tscn + crop_png.gd, WorldSprite.forced_key + hat rot/pivot, fit.json sinks per hat x direction, DIR_SINK re-based; world GUT 422 OK, Crosspath walk OK; sheets docs/art/apparel/oct29 |
-| Phase 2 | cycles 1-7 done | 74259648 5e2ee265 f65f7631 + cycles 5-7 | verdicts + rarity colours, purse line, hat tilt test, reward-pick reroll (late sink), side-dungeon sims + Quadzilla / Raccoon / Spotless rules, tailor check |
-| Report | written | - | docs/overnight_report.md (update the stop time at the end) |
+| Phase 2 | cycles 1-10 done, loop closed 23:25 | 74259648 5e2ee265 f65f7631 + cycles 5-7 | verdicts + rarity colours, purse line, hat tilt test, reward-pick reroll (late sink), side-dungeon sims + Quadzilla / Raccoon / Spotless rules, tailor check |
+| Report | done | final | docs/overnight_report.md |

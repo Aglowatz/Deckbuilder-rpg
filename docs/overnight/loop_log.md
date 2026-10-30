@@ -34,3 +34,5 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    generator branch as the offer, the boss's chase card kept, never in the tutorial's first run), a "Reroll (N gold)" button beside Skip on the
    dungeon rewards screen that rebuilds the card row. Test in `test_world_reward_pick`; dungeons smoke and prologue smoke; shot
    `_screenshots/oct29/p2_dungeon_reroll.png`. Kept.
+10. **Model with dungeon rerolls (23:15)**: the economy model offers two rerolls a dungeon as well; expected spends 98 % (320 left), thorough
+    93 %. Loop closed here: what is left (the XP curve, Primm, the Honor Guard, the Vault, the late elites) is the designer's call (inbox).
