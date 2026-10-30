@@ -38,11 +38,11 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 | Glass Jaw Gauntlets (`glass_jaw_gauntlets`) | Weapon | Epic / 3 | Your units get +2 attack. | Max HP -3. | Hits like a truck. Takes a punch like a soufflé. | The House of Gains (first clear) |
 | Overdue Library Book (`overdue_library_book`) | Relic | Epic / 3 | Draw 2 extra cards each turn. | Then discard a random card at the start of your turn. | Due back in 1987. The fines are now sentient. | The Hall of Final Approvals (first clear) |
 | Elastic Waistband of Victory (`elastic_waistband`) | Armor | Epic / 3 | Your units get +1/+1. | You can play only 2 non-infrastructure cards per turn. | Built for the Endless Buffet. Stretches to fit any ambition. | The Test Kitchen (first clear) |
-| Crown of Mild Hubris (`hubris_crown`) | Helm | Legendary / 3 | You always go first, draw an extra card on your first turn, and your units get +1/+1. | Max HP -4. | Heavy is the head that wears the crown. Mostly because it's very heavy. | The Old Service Tunnels (first clear) |
+| Crown of Mild Hubris (`hubris_crown`) | Helm | Legendary / 3 | You always go first, draw an extra card on your first turn, and your units get +1 attack. | Max HP -4. | Heavy is the head that wears the crown. Mostly because it's very heavy. | The Old Service Tunnels (first clear) |
 | Protein Shaker Bandolier (`protein_bandolier`) | Armor | Uncommon / 2 | Your Beefcake units get +1/+1. | - | Six shakers, one for every meal, and a seventh for emotional support. | Benchley's Protein & Pasteboard, once the Gainlands are free |
 | Notarized Seal of Unlife (`notary_seal`) | Relic | Uncommon / 2 | Your Necrocrat units get +0/+2. | - | Signed, sealed, deceased. Valid in all known afterlives. | Clerk Ledgerbone's Requisitions, once the D.N.A. is free |
-| Grandma's Rolling Pin (`rolling_pin`) | Weapon | Uncommon / 2 | Your Gourmand cards cost 1 less generic energy. | - | Rolls dough, flattens arguments. Grandma never lost either. | Mirepoix's Dessert & Deckery, once the Buffet is free |
-| Trash Panda Tiara (`raccoon_crown`) | Helm | Epic / 2 | Your Refusemancer units get +1/+1. | - | Worn by the true monarch of the bins. All hail. All scavenge. | The Rotheart (first clear) |
+| Grandma's Rolling Pin (`rolling_pin`) | Weapon | Epic / 2 | Your Gourmand cards cost 1 less generic energy. | - | Rolls dough, flattens arguments. Grandma never lost either. | Mirepoix's Dessert & Deckery, once the Buffet is free |
+| Trash Panda Tiara (`raccoon_crown`) | Helm | Uncommon / 2 | Your Refusemancer units get +1/+1. | - | Worn by the true monarch of the bins. All hail. All scavenge. | The Rotheart (first clear) |
 | Side-Hustle Headband (`hustle_headband`) | Helm | Uncommon / 2 | Your Beefcake units have Hustle. | - | For when one grind just isn't enough grind. | Mount Swolympus (first clear, postgame) |
 | Paper-Plane Cape (`paper_plane_cape`) | Armor | Uncommon / 2 | Your Necrocrat units have Flying. | - | Folded from a rejected appeal. It flies better than it was ever filed. | Sub-Basement 3 (first clear) |
 | Mystery-Stain Bib (`mystery_stain_bib`) | Armor | Uncommon / 2 | Your Refusemancer units have Toxic. | - | Nobody knows what the stain is. Nobody wants to. It is load-bearing now. | The Landfill Depths (first clear) |
@@ -50,7 +50,7 @@ Chest tiers: town, forest, Gainlands, D.N.A. 1; Buffet, Dump 2; the Capital 3. D
 | Sucker Punch Mitts (`sucker_punch_mitts`) | Weapon | Uncommon / 2 | Your units have Sucker Punch (they deal combat damage first). | Max HP -3. | Rule one of the fight club: hit first, apologise never. | Granny Gristle's Compost Grange, once the Dump is free; hidden chests (tier 2) |
 | Dog-Eared Bookmark (`dog_eared_bookmark`) | Relic | Uncommon / 2 | When a duel starts, draw 2 cards. | - | Saves your place. And sometimes your life. | Mirepoix's Dessert & Deckery; hidden chests (tier 2) |
 | Participation Trophy (`participation_trophy`) | Relic | Common / 1 | Gain 25% more XP from everything. | - | You showed up. That's basically winning. The trophy agrees. | Quest: Meet the Merchants |
-| Gotta-Go Galoshes (`gotta_go_galoshes`) | Boots | Epic / 2 | You walk 35% faster in the overworld. | - | For when you absolutely, positively have to be somewhere else. Now. | Main quest Raise the Bar (midpoint) |
+| Gotta-Go Galoshes (`gotta_go_galoshes`) | Boots | Common / 2 | You walk 35% faster in the overworld. | - | For when you absolutely, positively have to be somewhere else. Now. | Main quest Raise the Bar (midpoint) |
 
 ## Overnight Oct 29, Part 3: the power budget
 

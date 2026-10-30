@@ -100,9 +100,9 @@ sidegrades per zone (the Boots are the thin slot).
 | The cave (30 runs per Path) | B 90 / G 92 / R 80 / N 97 |
 | Gainlands roamers at L5 (16 games) | 81 % (B 94 / G 94 / R 69-81 / N 69) |
 | House of Gains (seeds 7000 x6, 8100 x12, 7000 x12) | normals 69-98; Quota 71 / 54 / 63; Honor Guard 46 / 52 / 50 (band 60-75; inbox 3); Clench 38 / 42 / 46 (band 40-60) |
-| Hall of Final Approvals | elites 67-79; Mortimer 67 |
-| Test Kitchen | elites 75-83; the Doppelganger 50 |
-| Rotheart | elites 83; Compostella 67 |
+| Hall of Final Approvals (seed 7000 x6, 8100 x12) | elites 67-79 / 83; Mortimer 67 / 56 (Beefcake 8 % on the second seed: a Path matchup, not gear) |
+| Test Kitchen (seed 7000 x6, 8100 x12) | elites 75-83 / 67-83; the Doppelganger 50 / 50 |
+| Rotheart (seed 7000 x6, 8100 x12) | elites 83 / 63-83; Compostella 67 / 54 |
 | Buffet / Capital elites | Casserole 63; Spotless 92 |
 | Primm's Castle | normals 100, elites 83-88; the phases as one HP pool 82 % -> 78 % with phase HP 40 / 36 / 36 (inbox 2) |
 | Side dungeons (6-12 games) | Iron Cave normals 75-85, Quadzilla 33 / 31 -> 29 / 46 with "Max Pump" at +1 attack (inbox 11); the Vault normals 54-67 (inbox 10), the Automaton 50 / 63; the Waiting Room 88-100, Betty 50; Omakase 88-92, the Itamae 83; the Raccoon 92 -> 46 (rule +2/+2), the Grate's Spotless 88 -> 73 (rule +4/+3), the Ancient Spotter 79; the Lab elites 75-94, Siphon with Elowen 75 (inbox 12) |

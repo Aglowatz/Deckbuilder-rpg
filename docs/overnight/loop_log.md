@@ -28,3 +28,5 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    Core GUT OK. Kept.
 7. **Tailor preview (23:05)**: `--open=tailor --wear=cloak_red_cape,hat_wizard` - the wizard hat sits on the head in the tailor's preview
    (`_screenshots/oct29/p2_tailor_hat.png`). No change.
+8. **Second seeds (23:10)**: the Hall, the Test Kitchen and the Rotheart at 12 games on seed 8100 - Mortimer 56, the Doppelganger 50, the
+   elites 67-83 (Rotheart below). The bosses of the first three zones hold their band on both seeds. No change.

@@ -80,3 +80,7 @@ Equipment,Plume's Notary Quill (lieutenant; Epic),Effect,start with 1 Red Tape; 
 Equipment,Clipwell's Golden Shears (lieutenant; Epic),Effect,1 damage to each attacker,2 damage to each attacker,an Epic's worth,3
 Items,Reckless Tonic,Effect,Heal 6 HP (1 use),Heal 5 HP,+19 points alone at level 12 (the 10-point rule),3
 Sinks,Reward-pick reroll (NEW; world picks only; once per pick),Price,-,40 + 10 x level to the nearest 10 (L5 90 / L12 160 / L22 260),the repeatable late sink the audit found missing,Phase 2
+Encounters,Primm phases 1 / 2 / 3,HP,36 / 32 / 32,40 / 36 / 36,the three-phase sequence was 82% with the real L22 gear (78% after; HP alone moves little),Phase 2
+Encounters,Baron Quadzilla - Max Pump rule,Rule,his units +1/+1,his units +1 attack,33 / 31% under the floor with the Colorless-only Dagger at L8 (29 / 46 after),Phase 2
+Encounters,His Majesty the Raccoon - Royal Guard of Bins rule,Rule,his units +1/+1,his units +2/+2,92% with the Gauntlets + Waistband stacked (46 after),Phase 2
+Encounters,Enforcer Captain Spotless (the Grate) - Spotless Drill rule,Rule,his units +3/+2,his units +4/+3,88% (73 after),Phase 2
