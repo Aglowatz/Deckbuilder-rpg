@@ -1,0 +1,158 @@
+# Second look - run 2: opening again, read all lines, Gourmand choice, forest arrival, save
+wait 2
+button New Game
+wait 1.5
+button Start here
+wait 4
+shot 03_wake
+key E
+wait 0.7
+shot 04_line
+key E
+wait 0.7
+shot 05_line
+key E
+wait 0.7
+shot 06_line
+key E
+wait 0.7
+shot 07_line
+key E
+wait 0.7
+shot 08_line
+key E
+wait 0.7
+shot 09_line
+key E
+wait 0.7
+shot 10_line
+key E
+wait 0.7
+shot 11_line
+key E
+wait 0.7
+shot 12_line
+key E
+wait 0.7
+shot 13_line
+key E
+wait 0.7
+shot 14_line
+key E
+wait 0.7
+shot 15_line
+key E
+wait 0.7
+shot 16_line
+key E
+wait 0.7
+shot 17_line
+key E
+wait 0.7
+shot 18_line
+key E
+wait 0.7
+shot 19_line
+key E
+wait 0.7
+shot 20_line
+key E
+wait 0.7
+shot 21_line
+key E
+wait 0.7
+shot 22_line
+key E
+wait 0.7
+shot 23_line
+key E
+wait 0.7
+shot 24_line
+key E
+wait 0.7
+shot 25_line
+key E
+wait 0.7
+shot 26_line
+key E
+wait 0.7
+shot 27_line
+key E
+wait 0.7
+shot 28_line
+key E
+wait 0.7
+shot 29_line
+key E
+wait 0.7
+shot 30_line
+key E
+wait 0.7
+shot 31_line
+key E
+wait 0.7
+shot 32_line
+key E
+wait 0.7
+shot 33_line
+key E
+wait 0.7
+shot 34_line
+key E
+wait 0.7
+shot 35_line
+dump
+scene
+shot 40_before_path
+click 670 400
+wait 0.8
+shot 41_gourmand_selected
+dump
+button More
+wait 0.8
+shot 42_gourmand_more
+dump
+button Begin
+wait 3
+shot 43_after_begin
+scene
+dump
+key E
+wait 0.8
+shot 44_post
+key E
+wait 0.8
+shot 45_post
+key E
+wait 0.8
+shot 46_post
+key E
+wait 0.8
+shot 47_post
+key E
+wait 0.8
+shot 48_post
+key E
+wait 0.8
+shot 49_post
+key E
+wait 0.8
+shot 50_post
+key E
+wait 0.8
+shot 51_post
+key E
+wait 0.8
+shot 52_post
+key E
+wait 0.8
+shot 53_post
+dump
+scene
+skip_dialogue 30
+wait 1.5
+shot 60_forest_free
+dump
+scene
+dev save c2_forest_start
+log saved forest start

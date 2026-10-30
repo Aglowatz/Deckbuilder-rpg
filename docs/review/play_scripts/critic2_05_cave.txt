@@ -1,0 +1,72 @@
+# Second look - run 5: walk into the cave, read the intro, node map, Rules (R), hover nodes, save
+wait 2
+dev load c2_forest_start
+wait 3
+hold W+D 2
+hold W+D 1.5
+wait 0.2
+key E
+wait 0.5
+hold W 2
+hold W+D 1
+hold W 1
+wait 0.3
+shot 01_at_entrance
+key E
+wait 1.5
+shot 02_e1
+dump
+key E
+wait 1.5
+shot 03_e2
+scene
+key E
+wait 3
+shot 04_e3
+scene
+dump
+key E
+wait 1
+shot 05_e4
+key E
+wait 1
+shot 06_e5
+key E
+wait 1
+shot 07_e6
+key E
+wait 1
+shot 08_e7
+key E
+wait 1
+shot 09_e8
+key E
+wait 1
+shot 10_e9
+key E
+wait 1
+shot 11_e10
+scene
+dump
+skip_dialogue 15
+wait 1.5
+shot 12_node_map
+scene
+dump
+key R
+wait 1
+shot 13_rules
+dump
+key Escape
+wait 0.8
+shot 14_after_rules_esc
+dump
+key Escape
+wait 0.8
+shot 15_pause
+dump
+key Escape
+wait 0.8
+shot 16_resumed
+dev save c2_cave_start
+log saved cave start

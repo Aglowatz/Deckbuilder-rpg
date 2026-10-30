@@ -1,0 +1,51 @@
+# Second look - run 4: Deck Station X button, map X button, walk to the cave (continued)
+wait 2
+dev load c2_forest_start
+wait 3
+key B
+wait 1
+button Got it
+wait 0.5
+shot 01_deck_station_tip_dismissed
+click 1550 55
+wait 0.8
+shot 02_deck_closed_x
+dump
+key M
+wait 1
+click 1550 55
+wait 0.8
+shot 03_map_closed_x
+dump
+# walk: north-east then north
+hold W+D 2
+wait 0.2
+shot 04_walk1
+hold W+D 1.5
+wait 0.2
+shot 05_walk2
+dump
+key E
+wait 0.5
+hold W 2
+wait 0.2
+shot 06_walk3
+dump
+hold W+D 1
+wait 0.2
+shot 07_walk4
+dump
+hold W 1
+wait 0.2
+shot 08_walk5
+dump
+key E
+wait 3
+shot 09_after_e
+scene
+dump
+key E
+wait 2
+shot 10_after_e2
+scene
+dump

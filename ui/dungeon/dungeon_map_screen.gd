@@ -909,7 +909,8 @@ func _place_info(node: DungeonMap.MapNode) -> void:
 func _build_art_extras() -> void:
 	_rules_panel = UIKit.panel(&"DarkPanel")
 	_rules_panel.name = "RulesPanel"
-	_rules_panel.position = Vector2(160.0, 120.0)
+	# Fresh eyes Oct 30, second look: under the map tip's box (at y 140, ~150 tall) so the first dungeon's rules are never half covered by it.
+	_rules_panel.position = Vector2(160.0, 300.0)
 	_rules_panel.custom_minimum_size = Vector2(620, 0)
 	_rules_panel.z_index = 30
 	_rules_panel.visible = false

@@ -1,0 +1,106 @@
+# Second look - run 1: title, new game, opening, Gourmand Path choice, forest arrival
+wait 2
+shot 01_title
+button New Game
+wait 1.5
+shot 02_slots
+button Start here
+wait 4
+shot 03_wake
+scene
+key E
+wait 0.8
+shot 04_wake_b
+key E
+wait 0.8
+shot 05_wake_c
+key E
+wait 0.8
+shot 06_wake_d
+key E
+wait 0.8
+shot 07_wake_e
+key E
+wait 0.8
+shot 08_wake_f
+key E
+wait 0.8
+shot 09_wake_g
+key E
+wait 0.8
+shot 10_wake_h
+key E
+wait 0.8
+shot 11_wake_i
+key E
+wait 0.8
+shot 12_wake_j
+key E
+wait 0.8
+shot 13_wake_k
+key E
+wait 0.8
+shot 14_wake_l
+key E
+wait 0.8
+shot 15_wake_m
+key E
+wait 0.8
+shot 16_wake_n
+key E
+wait 0.8
+shot 17_wake_o
+key E
+wait 0.8
+shot 18_wake_p
+dump
+scene
+# Path choice should be open by now; take a shot and dump to be sure
+shot 19_path_choice
+click 670 400
+wait 0.8
+shot 20_gourmand_selected
+button More
+wait 0.8
+shot 21_gourmand_more
+dump
+key Escape
+wait 0.5
+shot 22_after_more
+button Begin
+wait 3
+shot 23_after_begin
+scene
+key E
+wait 0.8
+shot 24_post_a
+key E
+wait 0.8
+shot 25_post_b
+key E
+wait 0.8
+shot 26_post_c
+key E
+wait 0.8
+shot 27_post_d
+key E
+wait 0.8
+shot 28_post_e
+key E
+wait 0.8
+shot 29_post_f
+key E
+wait 0.8
+shot 30_post_g
+key E
+wait 0.8
+shot 31_post_h
+dump
+scene
+skip_dialogue 20
+wait 1.5
+shot 32_forest_free
+dump
+scene
+dev save c2_forest_start
+log saved forest start

@@ -1,0 +1,77 @@
+# Second look - run 7: walk in again, click Enter on the Go in? popup, cave intro, node map, Rules (R), save
+wait 2
+dev load c2_forest_start
+wait 3
+hold W+D 2
+hold W+D 1.5
+wait 0.2
+key E
+wait 0.5
+hold W 2
+hold W+D 1
+hold W 1
+wait 0.3
+key E
+wait 1.5
+key E
+wait 1.5
+key E
+wait 1.5
+shot 01_go_in_popup
+key Enter
+wait 2
+shot 02_after_enter_key
+scene
+dump
+click 710 515
+wait 4
+shot 03_after_enter_click
+scene
+dump
+key E
+wait 1
+shot 04_e1
+key E
+wait 1
+shot 05_e2
+key E
+wait 1
+shot 06_e3
+key E
+wait 1
+shot 07_e4
+key E
+wait 1
+shot 08_e5
+key E
+wait 1
+shot 09_e6
+key E
+wait 1
+shot 10_e7
+key E
+wait 1
+shot 11_e8
+key E
+wait 1
+shot 12_e9
+key E
+wait 1
+shot 13_e10
+scene
+dump
+skip_dialogue 15
+wait 1.5
+shot 14_node_map
+scene
+dump
+key R
+wait 1
+shot 15_rules
+dump
+key Escape
+wait 0.8
+shot 16_after_rules_esc
+dump
+dev save c2_cave_map
+log saved cave map

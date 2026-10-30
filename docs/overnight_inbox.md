@@ -535,3 +535,9 @@ cycle 1); the spells-only arena (cycle 10).
    get screenshots + the visible text. `docs/play_script.md`; the critic briefs in `docs/review/`.
 9. **Left as recommendations** (design calls): hand cards' rules text below the edge (a smaller hand scale or a fan), the zone HP widget over
    the landmark, a Tutorial toggle, a Settings scrollbar, a defeat recap, the day still over the night scene.
+10. **The second critic's new problems** (`docs/review/fresh_eyes_second_look_oct30.md`, not fixed tonight): confirmation popups ("Go in?",
+    the Well's Reveal / Continue, the duel's Got it tips) ignore the E key the HUD advertises as interact (a click or Enter is needed) - the
+    one it would fix first; the Path screen's "More" only renames itself to "Less" (its text did not change in the critic's shots); the
+    treeline self-talk stops the walk until dismissed; tooltip boxes overlap the "cannot play" toast, the card preview and the player plate;
+    VICTORY! can draw under a hover tooltip for its first frames. Say which to take next; the E-on-popups one touches PopupFrame /
+    ConfirmDialog / TipPanel input and is a half-day with the pad tests.

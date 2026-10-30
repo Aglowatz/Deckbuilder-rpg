@@ -1,0 +1,100 @@
+# Second look - run 10: node hovers, first duel with pilot in 8 s slices (banners), reward screen
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+button Got it
+wait 0.5
+move 1153 560
+wait 1
+shot 01_hover_shrine
+dump
+move 740 670
+wait 1
+shot 02_hover_well
+dump
+move 500 495
+wait 1
+shot 03_hover_den
+dump
+click 500 495
+wait 3
+shot 04_den_clicked
+scene
+dump
+key E
+wait 1
+shot 05_e1
+key E
+wait 1
+shot 06_e2
+key E
+wait 1
+shot 07_e3
+key E
+wait 1
+shot 08_e4
+key E
+wait 1
+shot 09_e5
+scene
+dump
+skip_dialogue 10
+wait 2
+shot 10_duel_start
+scene
+dump
+wait 1.5
+shot 11_duel_b
+dump
+pilot 6
+shot 12_pilot1
+dump
+pilot 6
+shot 13_pilot2
+pilot 6
+shot 14_pilot3
+dump
+pilot 6
+shot 15_pilot4
+pilot 6
+shot 16_pilot5
+dump
+pilot 6
+shot 17_pilot6
+pilot 6
+shot 18_pilot7
+dump
+pilot 6
+shot 19_pilot8
+pilot 6
+shot 20_pilot9
+dump
+pilot 6
+shot 21_pilot10
+pilot 6
+shot 22_pilot11
+dump
+pilot 6
+shot 23_pilot12
+pilot 6
+shot 24_pilot13
+dump
+pilot 6
+shot 25_pilot14
+pilot 6
+shot 26_pilot15
+dump
+scene
+pilot 30
+shot 27_pilot16
+dump
+scene
+wait 2
+shot 28_after
+dump
+move 800 450
+wait 1
+shot 29_hover_mid
+dump

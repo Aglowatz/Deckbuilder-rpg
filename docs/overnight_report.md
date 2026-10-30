@@ -1,6 +1,6 @@
 # Report - Fresh-eyes critique + fix Oct 30 (Fable)
 
-Fri Oct 30, ~18:00 -> END_TIME MDT. State `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` ("Fresh eyes
+Fri Oct 30, ~18:00 -> Sat Oct 31 ~02:00 MDT. State `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` ("Fresh eyes
 Oct 30"). Last run's report: `docs/overnight/oct30/overnight_report_xp_oct30.md`. Dialogue freeze respected (no line or key changed;
 rewrites in `docs/dialogue/lines_to_update_oct30.csv`); no art generated; the black market, prices and the XP curve untouched; no enemy
 intent; no version bump, no export. Old saves load (nothing in the save format changed).
@@ -17,7 +17,12 @@ intent; no version bump, no export. Old saves load (nothing in the save format c
 - **Ten fixes landed** (commit 413c70de): the cave beacon, the tutorial tip that held the turn, the black world, the banner, the Deck
   button under the minimap, challenge outcomes in numbers, unplayable-card reasons, reward pick pre-selected with keyword help, three
   placeholders in words, the HUD menu with Glossary / Feats / Settings. Before/after shots: `docs/review/fresh_eyes_fixes_oct30/`.
-- **Second look**: SECOND_LOOK_SUMMARY
+- **Second look** (a new critic, no project context, Gourmand Path, 13 runs): **8 of the 10 fixes landed, 2 partly** (the unplayable-card
+  toast can hide behind the clicked card's tooltip; the cave's Rules panel sat half under the map tip - moved below it afterwards). The
+  first 30 minutes now score **6-8** where the first critic gave 3-5 (hook 7, clarity 7, pacing 6, combat feel 7, rewards 7, readability 7,
+  UI consistency 6, bugs 8); the cave was reached on foot in ~12 s. Report: `docs/review/fresh_eyes_second_look_oct30.md`. New problems it
+  found: confirmation popups ignore the E key the HUD advertises, the Path screen's "More" only renames itself, treeline lines stop the
+  walk until dismissed, tooltips overlap the rule toast and the plate (inbox 10).
 - **Tools**: `bash tools/play.sh <script> [name] [limit]` plays the real game from the title with keys, clicks, drags, buttons by text,
   screenshots, a `dump` of visible text, a battle pilot, dialogue skipping, dev jumps and snapshots (`docs/play_script.md`). Any
   future "fresh eyes" pass starts from `docs/review/critic_brief_oct30.md`.
@@ -87,7 +92,31 @@ passed), tour bot OK (281 spots, 9 menus, 5 battles, 0 errors, 0 warnings).
 
 ## Part 4 - second look
 
-SECOND_LOOK_BODY
+A second critic subagent (brief `docs/review/critic_brief_second_look_oct30.md`, no project docs) played the first 30 minutes on the
+Gourmand Path and answered ten questions about the changed areas: 13 runs, ~75 min, 40 screenshots in `docs/review/fresh_eyes_second_look_oct30/`,
+no script errors.
+
+| # | Fix | Verdict | What the critic saw |
+|---|---|---|---|
+| 1 | Cave beacon | landed | chevron over the arch, ground ring, minimap dot, map marker; "[E] Enter the cave" reached in ~12 s with held keys; one treeline box froze the walk until E |
+| 2 | Deck Station close | landed | X and Esc both close it; the world is drawn afterwards |
+| 3 | Map close | landed | M opens, M closes, X closes |
+| 4 | Battle banners | landed | YOUR TURN / ENEMY TURN ("Turn 2") / VICTORY! whole and centred; nit: at 0.4 s VICTORY! draws under a hover tooltip and the enemy units |
+| 5 | Resource tip hold | landed | no "the duel waits for you" tip in a hand-played and a piloted duel; End Turn always available |
+| 6 | Unplayable cards | partly | both new messages appear; the floating sentence can hide behind the clicked card's own tooltip |
+| 7 | Reward screen | landed | middle card chosen, "Take Amuse-Bouche" gold, keywords (Peek, Ingredient, Wallflower) glossed under the cards |
+| 8 | Well / shrine | landed | "2 of the 5 cards were Infrastructure; 2 were needed. You were already at full HP..."; shrine "Restore all your HP" |
+| 9 | Copies / rules panel | partly | Character and Deck Station say "Copies per card: 3 Common, 2 Uncommon..."; the cave's Rules panel sat half under the map tip (**follow-up**: the panel now opens below the tip, y 300; GUT ui green) |
+| 10 | HUD Menu | landed | Character, Deck, Quests, Packs, Wardrobe, Glossary, Feats, Settings; Glossary and Feats open and Esc returns |
+
+Part A scores (first 30 minutes, Gourmand): hook 7, clarity 7, pacing and friction 6, combat feel 7, reward rhythm 7, visual
+readability 7, UI/UX consistency 6, bugs 8 (the first critic's: 4, 4, 3, 5, 6, 6, 4, 3). Its closing line: "Fix the popups and a new
+player will get from the title to their first reward without once wondering whether the game has stopped listening."
+
+New problems (inbox 10, not fixed tonight): confirmation popups ("Go in?", the Well's Reveal / Continue, the duel's Got it tips) ignore
+the E key the HUD advertises as interact and need a click or Enter; the Path screen's "More" only renames itself to "Less"; the
+treeline self-talk stops movement until dismissed; tooltip boxes overlap the rule toast, the card preview and the player plate; the
+pause menu worked everywhere tried.
 
 ## Recommendations that need art, dialogue or a design call
 

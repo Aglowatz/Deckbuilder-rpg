@@ -1,0 +1,107 @@
+# Second look - run 11: first duel by hand (clicks), unplayable cards, second Infrastructure, banners, reward screen
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+button Got it
+wait 0.5
+click 500 495
+wait 3
+shot 01_duel_open
+button Got it
+wait 0.8
+shot 02_after_tip
+dump
+button Keep Hand
+wait 1
+shot 03_hand_kept
+dump
+# play the first Feastforge (infrastructure)
+click 819 800
+wait 1.2
+shot 04_after_infra1
+dump
+# try a second Infrastructure in the same turn
+click 991 800
+wait 1.2
+shot 05_after_infra2_try
+dump
+# try a card I probably cannot afford (Meatloaf Mold, left of hand)
+click 457 800
+wait 1.2
+shot 06_after_unaffordable
+dump
+# try the Courier Pigeon (right of hand)
+click 1154 800
+wait 1.2
+shot 07_after_pigeon
+dump
+key Space
+wait 0.3
+shot 08_space1
+wait 1
+dump
+key Space
+wait 0.3
+shot 09_space2
+wait 0.5
+dump
+key Space
+wait 0.3
+shot 10_space3
+dump
+wait 5
+shot 11_enemy_turn
+dump
+wait 4
+shot 12_turn2
+dump
+click 800 800
+wait 1.2
+shot 13_t2_click1
+dump
+click 650 800
+wait 1.2
+shot 14_t2_click2
+dump
+click 950 800
+wait 1.2
+shot 15_t2_click3
+dump
+key Space
+wait 0.3
+shot 16_t2_space1
+wait 1
+key Space
+wait 0.3
+shot 17_t2_space2
+wait 1
+key Space
+wait 0.3
+shot 18_t2_space3
+dump
+wait 6
+shot 19_t3
+dump
+dev win
+wait 0.4
+shot 20_victory_banner
+wait 2.5
+shot 21_victory_popup
+dump
+button Continue
+wait 2.5
+shot 22_reward
+dump
+move 500 450
+wait 1
+shot 23_reward_hover_left
+dump
+move 800 450
+wait 1
+shot 24_reward_hover_mid
+move 1100 450
+wait 1
+shot 25_reward_hover_right
+dump

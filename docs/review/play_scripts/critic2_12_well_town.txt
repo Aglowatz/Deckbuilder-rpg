@@ -1,0 +1,90 @@
+# Second look - run 12: take the reward, Hollow Well result, town HUD Menu, Character screen (C), Glossary, Feats, Esc
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+button Got it
+wait 0.5
+click 500 495
+wait 3
+button Got it
+wait 0.8
+button Keep Hand
+wait 1
+dev win
+wait 2.5
+button Continue
+wait 2.5
+shot 01_reward
+button Take
+wait 2.5
+shot 02_after_take
+scene
+dump
+skip_dialogue 10
+wait 1
+shot 03_map_after_fight
+dump
+click 740 670
+wait 3
+shot 04_well_opened
+scene
+dump
+key E
+wait 1.2
+shot 05_well_e1
+dump
+key E
+wait 1.2
+shot 06_well_e2
+dump
+key E
+wait 1.2
+shot 07_well_e3
+dump
+key E
+wait 1.2
+shot 08_well_e4
+dump
+skip_dialogue 10
+wait 1
+shot 09_after_well
+dump
+dev travel town
+wait 6
+shot 10_town
+scene
+dump
+key C
+wait 1.2
+shot 11_character
+dump
+key Escape
+wait 0.8
+shot 12_after_c_esc
+button Menu
+wait 1
+shot 13_menu
+dump
+button Glossary
+wait 1
+shot 14_glossary
+dump
+key Escape
+wait 0.8
+shot 15_after_glossary_esc
+button Menu
+wait 1
+button Feats
+wait 1
+shot 16_feats
+dump
+key Escape
+wait 0.8
+shot 17_after_feats_esc
+dump
+key Escape
+wait 0.8
+shot 18_pause_town
+dump

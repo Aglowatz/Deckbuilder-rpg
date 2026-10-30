@@ -28,8 +28,10 @@ boss_intros.json, encounter_scripts.json, dungeon_content.json text, core/quests
 | 1 | done | 3808cc3f | report `docs/review/fresh_eyes_oct30.md` (scores, top 20), 66 shots, 26 scripts; the Esc "hang" was the driver's paused timer (fixed) |
 | 2 | done | 413c70de | `docs/review/fresh_eyes_triage_oct30.md`: verdicts per problem, the ten fixes, the art/dialogue recommendations |
 | 3 | done | 413c70de | ten fixes in one verified commit (GUT root/core/ui/world all green, first battles, opening forest + hub walks, structure budget); before/after shots `docs/review/fresh_eyes_fixes_oct30/`; story bot + tour bot after the commit (see the report) |
-| 4 | in progress | - | second critic (brief `docs/review/critic_brief_second_look_oct30.md`) -> `docs/review/fresh_eyes_second_look_oct30.md` |
-| Report | - | - | `docs/overnight_report.md`; dialogue rewrites `docs/dialogue/lines_to_update_oct30.csv` |
+| 4 | done | (final commit) | second critic: 8 landed / 2 partly, first 30 min 6-8 (was 3-5); follow-up: the dungeon Rules panel opens below the map tip (GUT ui green, structure OK) |
+| Report | done | (final commit) | `docs/overnight_report.md`; inbox items 1-10; dialogue rewrites `docs/dialogue/lines_to_update_oct30.csv` |
+
+Run finished Sat Oct 31 ~02:00 MDT. Nothing left open for an Opus resume; the new problems from the second look are inbox item 10.
 
 ## How to resume (Opus)
 

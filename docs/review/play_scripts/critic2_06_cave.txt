@@ -1,0 +1,70 @@
+# Second look - run 6: the Go in? popup with Space, cave intro, node map, Rules (R), pause (Esc), save
+wait 2
+dev load c2_cave_start
+wait 3
+shot 01_loaded
+dump
+key Space
+wait 2
+shot 02_after_space
+scene
+dump
+button Enter
+wait 4
+shot 03_after_enter
+scene
+dump
+key E
+wait 1
+shot 04_e1
+key E
+wait 1
+shot 05_e2
+key E
+wait 1
+shot 06_e3
+key E
+wait 1
+shot 07_e4
+key E
+wait 1
+shot 08_e5
+key E
+wait 1
+shot 09_e6
+key E
+wait 1
+shot 10_e7
+key E
+wait 1
+shot 11_e8
+key E
+wait 1
+shot 12_e9
+key E
+wait 1
+shot 13_e10
+scene
+dump
+skip_dialogue 15
+wait 1.5
+shot 14_node_map
+scene
+dump
+key R
+wait 1
+shot 15_rules
+dump
+key Escape
+wait 0.8
+shot 16_after_rules_esc
+dump
+key Escape
+wait 0.8
+shot 17_pause
+key Escape
+wait 0.8
+shot 18_resumed
+dump
+dev save c2_cave_map
+log saved cave map

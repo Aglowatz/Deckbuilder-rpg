@@ -1,0 +1,56 @@
+# Second look - run 8: cheat jump into the cave (the Go in? popup ignores E), intro, node map, Rules (R), save
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+shot 01_cave_arrival
+scene
+dump
+key E
+wait 1
+shot 02_e1
+key E
+wait 1
+shot 03_e2
+key E
+wait 1
+shot 04_e3
+key E
+wait 1
+shot 05_e4
+key E
+wait 1
+shot 06_e5
+key E
+wait 1
+shot 07_e6
+key E
+wait 1
+shot 08_e7
+key E
+wait 1
+shot 09_e8
+scene
+dump
+skip_dialogue 15
+wait 1.5
+shot 10_node_map
+scene
+dump
+key R
+wait 1
+shot 11_rules
+dump
+key Escape
+wait 0.8
+shot 12_after_rules_esc
+dump
+key Escape
+wait 0.8
+shot 13_pause
+key Escape
+wait 0.8
+shot 14_resumed
+dev save c2_cave_map
+log saved cave map
