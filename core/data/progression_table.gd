@@ -30,9 +30,18 @@ const DECK_BOX_EXPANSION_LEVEL: int = 7
 const BASE_DECK_SLOTS: int = DeckSlots.START_SLOTS
 const EXPANDED_DECK_SLOTS: int = DeckSlots.SLOT_COUNT
 
-## The steepness of levels 21-30 (was 40): one full playthrough offers about 8,200 XP and 8,800 with the postgame dungeons
-## (tools/xp_budget_run.gd), so 27 makes level 30 (8,670 XP) the completionist's end point (ON17-7).
-const POSTGAME_STEP: int = 27
+## XP Pass Oct 30: the curve is re-based on the XP the story timeline really pays (`tools/economy_model.gd`, "Level timeline"), so
+## the expected player is about L5 at the Gainlands, L8 in the House of Gains, L14 at the Test Kitchen boss, L18-19 when the Dump
+## is freed and L21-22 in Primm's Castle (`ProgressionModel`, docs/design/progression.md). Every level costs more than the last.
+## The XP from level L - 1 to L for L = 2..9 (the opening hours: L5 lands on the store room ghosts' hand-in).
+const EARLY_STEPS: Array[int] = [50, 70, 80, 100, 280, 300, 340, 380]
+## Levels 10-20 cost MAIN_STEP_BASE + MAIN_STEP_PER_LEVEL x L each (425 at L10 .. 525 at L20).
+const MAIN_STEP_BASE: int = 325
+const MAIN_STEP_PER_LEVEL: int = 10
+## Levels 21-30 (the postgame climb) cost POSTGAME_STEP_BASE + POSTGAME_STEP x (L - 20) each (535 at L21 .. 850 at L30;
+## was a 27 x (L - 20)(L - 19) surcharge on the old curve, which made 21-30 together cheaper than 17-20).
+const POSTGAME_STEP_BASE: int = 500
+const POSTGAME_STEP: int = 35
 
 static var _cache: Array[LevelData] = []
 
@@ -101,17 +110,25 @@ static func _steps_reached(level: int, milestones: Array[int]) -> int:
 	return steps
 
 
-## Cumulative XP needed to reach `level`. Two segments: a gentler climb through the main story (levels 1-20) and a steeper
-## postgame climb (21-30). Overnight Oct 17, Part 6: checked against the XP one playthrough offers (tools/xp_budget.gd, see
-## docs/design/level_rewards.md) so the main game ends in the low 20s and the postgame reaches 30.
+## Cumulative XP needed to reach `level`: the sum of the steps up to it (XP Pass Oct 30). The main game ends at about L22 for the
+## expected player, L25 after the postgame; the thorough player reaches about L28 and level 30 (13,750 XP) is the completionist's.
+## Old saves keep their level when it is above what their XP would give now (`Session.add_xp` never lowers a level).
 static func xp_to_reach(level: int) -> int:
+	var total: int = 0
+	for target: int in range(2, mini(level, MAX_LEVEL) + 1):
+		total += xp_step(target)
+	return total
+
+
+## The XP from level `level` - 1 to `level`.
+static func xp_step(level: int) -> int:
 	if level <= 1:
 		return 0
-	var capped: int = mini(level, 20)
-	var total: int = 15 * capped * (capped - 1)
-	if level > 20:
-		total += POSTGAME_STEP * (level - 20) * (level - 19)
-	return total
+	if level - 2 < EARLY_STEPS.size():
+		return EARLY_STEPS[level - 2]
+	if level <= 20:
+		return MAIN_STEP_BASE + MAIN_STEP_PER_LEVEL * level
+	return POSTGAME_STEP_BASE + POSTGAME_STEP * (level - 20)
 
 
 ## The level for a total XP amount, clamped to [1, MAX_LEVEL].

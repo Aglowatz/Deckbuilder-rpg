@@ -475,3 +475,16 @@ cycle 1); the spells-only arena (cycle 10).
     +2/+2), the Grate's Spotless 88 -> 73 (rule +4/+3), the Ancient Spotter 79, the Lab's Failed Experiment 94, the castle elites 83-88,
     Spotless the roamer 92, Primm's sequence 78. The sim's AI ignores the Waistband's two-cards-a-turn and the Gauntlets' -3 max HP the way a
     human cannot, so these read harder in play; say whether the rest should be tuned to the sim or left for playtests.
+
+## XP pass Oct 30 (XP curve + recheck + v0.4.8) - yours to decide (the safest choice was taken)
+
+1. **The curve is a step table now** (`ProgressionTable.EARLY_STEPS`, then 325 + 10 x L to 20, then 500 + 35 x (L - 20)). L5 stays at
+   300 XP (the store room ghosts' hand-in), L6 costs 280 (was 150) - the one visible jump; levels 2-5 stay quick. Expected player:
+   L5 Gainlands, L8 House of Gains, L11 Hall, L14 Test Kitchen boss, L18-19 Dump freed, L21-22 castle, L25 after the postgame; the
+   thorough player ends near L28 and L30 (13,750 XP) needs grinding. Say if L30 should be reachable by the thorough player.
+2. **The level track's late gold** (L26-30, ~950 gold, 3 packs) is no longer reached by the expected player (2,340 of 3,090). The
+   economy targets still hold (98 % spent, no droughts or hoarding); left as it is. Alchemy dropped out of the expected profile's buys
+   (a luxury it reaches later now).
+3. **The model's in-dungeon level offsets** (elites +1, bosses +2) are gone: one dungeon pays less than a level before its boss, so the
+   sim meets bosses at the dungeon's level (Primm +1). Bosses read 1-2 levels "harder" in the sim than before tonight for that reason
+   alone (Part 2 measures it).

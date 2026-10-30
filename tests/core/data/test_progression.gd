@@ -387,3 +387,29 @@ func test_stat_rewards_keep_their_schedule() -> void:
 		if row.equipment_choice:
 			choice_levels.append(row.level)
 	assert_eq(choice_levels, [] as Array[int], "no slot choices: the level-5 armory quest opens every slot (Overnight Oct 17)")
+
+
+## XP Pass Oct 30: the curve is re-based (slower from L6). A save made on the old curve can hold more levels than its XP gives now;
+## it keeps its level, XP and rewards, and the next level comes at the new curve's threshold.
+func test_an_old_save_above_the_new_curve_keeps_its_level() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	var row: LevelData = ProgressionTable.row(12)
+	Session.profile.apply_level(row)
+	Session.profile.xp = 2000  # level 12 on the old curve (1,980), level 9 on the new one
+	assert_lt(ProgressionTable.level_for_xp(Session.profile.xp), 12, "the new curve gives less")
+	var gold: int = Session.gold
+	assert_true(Session.add_xp(100).is_empty(), "no level gained, none lost")
+	assert_eq(Session.profile.level, 12)
+	assert_eq(Session.profile.xp, 2100)
+	assert_eq(Session.gold, gold, "no level rewards paid twice")
+	var gained: Array[LevelData] = Session.add_xp(ProgressionTable.xp_to_reach(13) - Session.profile.xp)
+	assert_eq(gained.size(), 1, "level 13 at its new threshold")
+	assert_eq(Session.profile.level, 13)
+
+
+func test_the_curve_costs_more_every_level() -> void:
+	for level: int in range(3, ProgressionTable.MAX_LEVEL + 1):
+		assert_gt(ProgressionTable.xp_step(level), ProgressionTable.xp_step(level - 1), "level %d costs more than level %d" % [level, level - 1])
+	assert_eq(ProgressionTable.xp_to_reach(5), 300, "level 5 on the store room ghosts' hand-in")

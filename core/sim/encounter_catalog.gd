@@ -269,7 +269,7 @@ static func dungeons() -> Array[EncounterSpec]:
 			spec.title = "%s - %s" % [node.title, node.enemy_name]
 			spec.group = group
 			spec.kind = _kind_of(node.kind)
-			spec.expected_level = base_level + (2 if spec.kind == EncounterSpec.Kind.BOSS else (1 if spec.kind == EncounterSpec.Kind.ELITE else 0))
+			spec.expected_level = base_level + (ProgressionModel.BOSS_STEP if spec.kind == EncounterSpec.Kind.BOSS else (ProgressionModel.ELITE_STEP if spec.kind == EncounterSpec.Kind.ELITE else 0))
 			spec.zone_id = blueprint.zone_id if ZoneEffects.has_effect(blueprint.zone_id) else ""
 			spec.dungeon_key = key
 			spec.node_number = node.number
@@ -321,7 +321,7 @@ static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: Dunge
 		spec.title = "Primm - phase %d (%s)" % [index + 1, phase.key]
 		spec.group = "dungeon:%s" % blueprint.id
 		spec.kind = EncounterSpec.Kind.BOSS
-		spec.expected_level = base_level + 2
+		spec.expected_level = base_level + ProgressionModel.PRIMM_STEP
 		spec.dungeon_key = key
 		spec.node_number = node.number
 		spec.enemy_name = "Primm (%s)" % phase.key

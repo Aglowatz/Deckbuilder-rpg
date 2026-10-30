@@ -1,36 +1,25 @@
-# Overnight Oct 29-30 (Fable) - ECONOMY + EQUIPMENT BALANCE, HAT FIT - loop state (resume from here)
+# XP Pass Oct 30 (Opus) - XP CURVE + RECHECK + v0.4.8 - loop state (resume from here)
 
-Start: Thu Oct 29 18:54 MDT 2026. Target 10 hours (stop by ~04:50). Tag `pre-overnight-oct29`. Last run's state:
-`docs/overnight/oct29/loop_state_art_oct29.md`; last report `docs/overnight/oct29/overnight_report_art_oct29.md`.
-Brief: "OVERNIGHT - Oct 29 (Fable): ECONOMY + EQUIPMENT BALANCE, HAT FIT" (Parts 1-4, Phase 2 loop, morning report).
-Questions: `docs/overnight_inbox.md`, section "Overnight Oct 29-30". Loop log: `docs/overnight/loop_log.md`.
+Start: Fri Oct 30 ~07:30 MDT 2026. Tag `pre-xp-oct30`. Last run's state: `docs/overnight/oct29/loop_state_econ_oct29.md`; its report
+`docs/overnight/oct29/overnight_report_econ_oct29.md`. Questions: `docs/overnight_inbox.md`, section "XP pass Oct 30".
 
-Rules: STOP_OVERNIGHT check per part/cycle (repo root or C:\Users\asche); one Godot at a time, foreground, closed between runs; max 12
-screenshots per part; GUT in groups (`bash tools/gut_group.sh root|core|ui|world`); sims modest, one at a time; per part GUT + data
-validators + first-battles smoke + walk smokes + `bash tools/perf_budget.sh` + commit + push; revert what can't pass. Old saves keep
-loading (owned gold/items/equipment stay owned; changed stats apply to owned copies). No enemy intent; no new art; black market (Fig Sly,
-the Secret Dealer) stock and prices untouched. **DIALOGUE FREEZE** (data/story/*, story_scenes.json, old_well_story.json, npcs.json,
-boss_intros.json, encounter_scripts.json, dungeon_content.json, core/quests, story_beats.gd): no line or key changed; item / equipment
-names, descriptions and shop UI text may change. No version bump, no export.
+Rules: one Godot process at a time, foreground; GUT in groups (`bash tools/gut_group.sh root|core|ui|world`); sims modest, one at a
+time (7.4 GB RAM); per part GUT + data validators (`bash tools/import_cards.sh`) + first-battles smoke + walk smokes +
+`bash tools/perf_budget.sh structure` + commit + push; revert what can't pass. Old saves keep loading and never lose levels. No enemy
+intent; no new art; black market untouched. DIALOGUE FREEZE: no line or key changes; numbers only in dungeon_content.json / core/quests.
 
 ## Plan
 
-| Part | What | Deliverables |
-|---|---|---|
-| 1 | Economy audit | `tools/economy_model.gd` (sources, sinks, three profiles over the story timeline), `docs/design/economy_audit_oct29.md` |
-| 2 | Economy design + pricing | `docs/design/economy.md` (targets, curve), every price/payout set from it, before/after curves |
-| 3 | Equipment + items balance | power budget in `docs/design/equipment.md`, outliers fixed (Wicked Dagger), caps/track checked, gear sims, `balance_log.md`, `docs/design/sheet_changes_oct29.csv` |
-| 4 | Hats + cloaks fit | per-hat/direction fit, preview = world anchors, contact-sheet tool, sheets committed |
-| Phase 2 | polish loop | shop/character readability of prices + rarity + upgrade hints, reward screens, loop_log.md |
-| Report | `docs/overnight_report.md` | by part with commits, curves, price table, power budget, sim results, sheets, inbox |
+| Part | What |
+|---|---|
+| 1 | XP curve re-based on the timeline's real XP; level timelines before/after; track, slots, caps, economy re-checked |
+| 2 | Re-sim at the real levels + real gear: cave + first zone per Path, zone elites, main bosses, side dungeons, Vault, Primm's sequence (45-60 %) |
+| 3 | Small calls: reroll kept, Belt/Barbell Beefcake-only kept, Binding Chains left; Captain Spotless on his SPOTLESS NPC sprite set |
+| 4 | v0.4.8 candidate: tour bot, story playthrough bot, memory round-trip smoke, bump, guarded export, exported release smoke (d3d12 Medium + Low), zip, notes, tag |
+| Report | docs/overnight_report.md |
 
 ## Progress
 
 | Part | State | Commit | Notes |
 |---|---|---|---|
-| 1 | done | 6264456c | tools/economy_model.gd + economy_model_tool.gd, docs/design/economy_audit_oct29.md, sim/economy_model_before.md |
-| 2 | done | (this commit) | core/data/economy.gd curve; cards 30/60/150/300, gear by rarity x tier, items 3 bands, cosmetics, packs II 200, essence x2, alchemy 150, roamers by tier, side clears 100/40, arena replay 25, level track front-loaded; GUT core/ui/root OK (release_readiness fixed: export_presets 0.4.7), first battles + hub walk OK |
-| 3 | done | 45311175 | budget doc, 20 piece changes + Blade, Colorless matching fix, sims, log, csv, inbox 1-8; GUT core/ui OK, first battles OK, structure budget OK |
-| 4 | done | (this commit) | tools/hat_contact_sheet.tscn + crop_png.gd, WorldSprite.forced_key + hat rot/pivot, fit.json sinks per hat x direction, DIR_SINK re-based; world GUT 422 OK, Crosspath walk OK; sheets docs/art/apparel/oct29 |
-| Phase 2 | cycles 1-10 done, loop closed 23:25 | 74259648 5e2ee265 f65f7631 + cycles 5-7 | verdicts + rarity colours, purse line, hat tilt test, reward-pick reroll (late sink), side-dungeon sims + Quadzilla / Raccoon / Spotless rules, tailor check |
-| Report | done | final | docs/overnight_report.md |
+| 1 | done | (this commit) | `ProgressionTable` step table (EARLY_STEPS, 325 + 10 L to 20, 500 + 35 (L - 20) after); `ProgressionModel.LEVELS` = real levels, ELITE/BOSS_STEP 0, PRIMM_STEP 1; economy model level timeline (old vs now); character screen XP bar clamps for old saves; tests; GUT core/root/ui OK, cards OK, first battles OK, hub + Crosspath walks OK, structure OK |

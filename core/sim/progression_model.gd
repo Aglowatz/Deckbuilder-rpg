@@ -8,17 +8,24 @@ extends RefCounted
 const ZONE_ORDER: Array[String] = ["beefcake", "necrocrat", "gourmand", "refusemancer", "final"]
 
 ## Expected level per progression point (key: "tutorial", "town:...", "zone:<id>", a dungeon ID, "arena:<tier>").
+## XP Pass Oct 30: the levels the expected player really has there on the re-based curve (`tools/economy_model.gd`, the level
+## timeline). A dungeon pays less than a level before its boss, so its elites and boss are met at the dungeon's level
+## (ELITE_STEP / BOSS_STEP; they were +1 / +2), and Primm one level up (the castle's side wings, PRIMM_STEP).
 const LEVELS: Dictionary = {
 	"tutorial": 1,
-	"town:roamer": 1, "town:storeroom": StoreroomGhosts.EXPECTED_LEVEL, "town:npc": 3, "town:graveyard": 7, "town:ninja": 12, "town:vault": 24,
-	"zone:beefcake": 5, "D-HOG": 7, "S-IRON": 6, "S-TOWN": 6, "S-BEEF": 22,
-	"zone:necrocrat": 9, "D-HFA": 11, "S-NECRO": 11,
-	"zone:gourmand": 12, "D-TTK": 14, "S-GOUR": 14,
-	"zone:refusemancer": 15, "D-ROT": 17, "S-REF": 17,
-	"zone:final": 18, "S-CAP": 19, "S-PASTE": 19, "D-PC": 20,
-	"D-LAB": 26,
-	"arena:1": 6, "arena:2": 12, "arena:3": 18,
+	"town:roamer": 1, "town:storeroom": StoreroomGhosts.EXPECTED_LEVEL, "town:npc": 3, "town:graveyard": 8, "town:ninja": 12, "town:vault": 24,
+	"zone:beefcake": 5, "D-HOG": 8, "S-IRON": 6, "S-TOWN": 7, "S-BEEF": 23,
+	"zone:necrocrat": 10, "D-HFA": 11, "S-NECRO": 10,
+	"zone:gourmand": 13, "D-TTK": 14, "S-GOUR": 14,
+	"zone:refusemancer": 16, "D-ROT": 17, "S-REF": 16,
+	"zone:final": 20, "S-CAP": 21, "S-PASTE": 23, "D-PC": 21,
+	"D-LAB": 25,
+	"arena:1": 8, "arena:2": 13, "arena:3": 22,
 }
+## Levels above a dungeon's own for its elites, its boss, and Primm (XP Pass Oct 30; were 1 / 2 / 2).
+const ELITE_STEP: int = 0
+const BOSS_STEP: int = 0
+const PRIMM_STEP: int = 1
 
 ## The deck stays at this size while upgrades come in (extra cards replace the weakest starter cards).
 const REFERENCE_DECK_SIZE: int = 46

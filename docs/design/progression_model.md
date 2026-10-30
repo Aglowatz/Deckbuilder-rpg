@@ -4,6 +4,16 @@ What the player is expected to look like at every point of the game: level, HP, 
 rarity caps) and consumables. This is the player the balance simulation plays (`core/sim/progression_model.gd` is the data; this
 file is the prose). Encounter targets (`docs/design/balance_log.md`, Part E) are tuned against this player on their first try.
 
+## XP Pass Oct 30: the levels are the real ones
+
+The XP curve (`ProgressionTable`) was re-based on the XP the story timeline really pays (`tools/economy_model.gd` writes the
+"Level timeline" in `docs/design/sim/economy_model.md`: every stop's XP and level for the rusher, expected and thorough profiles, on
+the old and the current curve). The Level column below is now what the expected player really has (`ProgressionModel.LEVELS`).
+A dungeon pays less than one level before its boss, so a dungeon's elites and boss are met at the dungeon's level
+(`ELITE_STEP` / `BOSS_STEP` 0, were +1 / +2); Primm one level up (`PRIMM_STEP`, the castle's side wings). The economy model's stop
+levels read the same table. Before the pass the expected player was L8 at the Gainlands, L12 at the House of Gains, L18 at the Test
+Kitchen and L25-30 from the Dump on.
+
 ## Overnight Oct 22: the deck column follows the Oct 22 shops
 
 The `UPGRADES` packages in `core/sim/progression_model.gd` now hold only cards a player can own at that level
@@ -25,21 +35,21 @@ Vault) after Primm. XP per fight: Tutorial 15, Normal 30, Elite 60, Boss 120 (`E
 | Tutorial (Forgotten Cave) | 1 | 10 | 5 | 1 | the Path's 45-card starting deck | none (the armory opens at L5) | none |
 | Town: corrupted NPCs (zone unlocks) | 3 | 11 | 5 | 1 | starter + 3 on-Path picks | none | Healing Draught x1 |
 | Gainlands roamers | 5 | 12 | 5 | 1 | + the second package (4-6 commons/uncommons from the level-4 Path Pack and Crosspath) | Saucepan Helmet, Cardboard Cuirass (C) | Healing Draught x1 |
-| Iron Cave (S-IRON), Forgotten Vault (S-TOWN) | 6 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
-| House of Gains (D-HOG) early / elite / boss | 7 / 8 / 9 | 13-14 | 5 | 1 | + 4 uncommons (first Path Pack at L4, L9) | Wicked Dagger (U, Colorless units) from L6; + Glass Jaw Gauntlets (E) after Clench (L10) | Healing Salve x1 |
-| Town: the Graveyard | 7 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
-| D.N.A. roamers | 9 | 14 | 6 | 1 | as above | + Traveler's Boots (C) | Healing Salve x1 |
-| Hall of Final Approvals (D-HFA), Waiting Room (S-NECRO) | 11 / 12 / 13 | 15-16 | 6 | 2 | + first Epic (L10-12) | + Extra Pocket (C) | Healing Salve x2, Firebrand Charm x1 |
-| Endless Buffet roamers, Colonel Casserole, Shiro Swindle, Arena tier 2 | 12 | 16 | 6 | 2 | as above | as above | as above |
-| Test Kitchen (D-TTK), Omakase (S-GOUR) | 14 / 15 / 16 | 17-18 | 6-7 | 2 | + 2 more Epics (L12 cap 2) | as above | as above |
-| Verdant Dump roamers | 15 | 17 | 6 | 2 | as above | as above | as above |
-| Rotheart (D-ROT), Trash Panda Throne (S-REF) | 17 / 18 / 19 | 18-19 | 7 | 2 | + the Signature Legendary (L18) | + Dog-Eared Bookmark (U), Elastic Waistband (E) from L16 (two Epics) | as above |
-| The Capital roamers, Captain Spotless, Arena tier 3 | 18 | 19 | 7 | 2 | as above | as above | as above |
-| Old Service Tunnels (S-CAP) | 19 | 19 | 7 | 2 | as above | as above | as above |
-| Primm's Castle (D-PC): nodes / elites / Primm | 20 / 21 / 22 | 20-21 | 7 | 3 | + second Legendary slot (L18 cap 2) | as above | + Sharpening Stone x1 |
-| Postgame: Mount Swolympus (S-BEEF) | 22 | 21 | 7 | 3 | full Path deck, 2 of each Epic | as above | as above |
+| Iron Cave (S-IRON), Forgotten Vault (S-TOWN) | 6 / 7 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
+| House of Gains (D-HOG) early / elite / boss | 8 / 8 / 8 | 13-14 | 5 | 1 | + 4 uncommons (first Path Pack at L4, L9) | Wicked Dagger (U, Colorless units) from L6; + Glass Jaw Gauntlets (E) after Clench (L10) | Healing Salve x1 |
+| Town: the Graveyard | 8 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
+| D.N.A. roamers | 10 | 14 | 6 | 1 | as above | + Traveler's Boots (C) | Healing Salve x1 |
+| Hall of Final Approvals (D-HFA), Waiting Room (S-NECRO) | 11 (S-NECRO 10) | 15-16 | 6 | 2 | + first Epic (L10-12) | + Extra Pocket (C) | Healing Salve x2, Firebrand Charm x1 |
+| Endless Buffet roamers, Colonel Casserole, Shiro Swindle, Arena tier 2 | 13 | 16 | 6 | 2 | as above | as above | as above |
+| Test Kitchen (D-TTK), Omakase (S-GOUR) | 14 | 17-18 | 6-7 | 2 | + 2 more Epics (L12 cap 2) | as above | as above |
+| Verdant Dump roamers | 16 | 17 | 6 | 2 | as above | as above | as above |
+| Rotheart (D-ROT), Trash Panda Throne (S-REF) | 17 (S-REF 16) | 18-19 | 7 | 2 | + the Signature Legendary (L18) | + Dog-Eared Bookmark (U), Elastic Waistband (E) from L16 (two Epics) | as above |
+| The Capital roamers, Captain Spotless, Arena tier 3 | 20 (arena 22) | 19 | 7 | 2 | as above | as above | as above |
+| Old Service Tunnels (S-CAP) | 21 | 19 | 7 | 2 | as above | as above | as above |
+| Primm's Castle (D-PC): nodes / elites / Primm | 21 / 21 / 22 | 20-21 | 7 | 3 | + second Legendary slot (L18 cap 2) | as above | + Sharpening Stone x1 |
+| Postgame: Mount Swolympus (S-BEEF) | 23 | 21 | 7 | 3 | full Path deck, 2 of each Epic | as above | as above |
 | Postgame: the Four-Seal Vault | 24 | 22 | 8 | 3 | as above | as above | as above |
-| Postgame: the Path-ology Lab (D-LAB) | 26 / 27 / 28 | 23-24 | 8 | 3 | 3 of each Epic (L22) | + Crown of Mild Hubris (L) from L22 | as above |
+| Postgame: the Path-ology Lab (D-LAB) | 25 | 23-24 | 8 | 3 | 3 of each Epic (L22) | + Crown of Mild Hubris (L) from L22 | as above |
 
 HP and hand sizes come from `ProgressionTable` (HP +1 every even level from 10, opening hand 5/6/7/8 at L8/16/24, item slots 2 at L10,
 3 at L20). Zone HP does not heal between a zone's fights: a zone's "sequence" (three roamer fights in a row, or a side dungeon's three

@@ -45,6 +45,9 @@ var _quests: Dictionary = {}
 var _out: String = "res://docs/design/sim/economy_model.md"
 var _only_profile: String = ""
 var _lines: PackedStringArray = []
+## XP Pass Oct 30: profile name -> rows of {step, model, xp_before, xp_after} for the level timeline (before / after the re-based curve).
+var _timelines: Dictionary = {}
+var _timeline_order: Array[String] = []
 
 
 class Event:
@@ -147,6 +150,7 @@ func run() -> bool:
 		if not _only_profile.is_empty() and profile.name != _only_profile:
 			continue
 		_simulate(profile, _build_timeline())  # a fresh timeline per profile: offers carry their bought counts
+	_write_level_timeline()
 	var text: String = "\n".join(_lines) + "\n"
 	var file: FileAccess = FileAccess.open(_out, FileAccess.WRITE)
 	if file != null:
@@ -607,8 +611,12 @@ func _build_timeline() -> Array[Step]:
 	armory.offers.append(_gear_offer("xray_goggles", LUXURY))
 	armory.offers.append(_cosmetic_offer("hat_tricorn", LUXURY, 5))
 	var gate_names: Dictionary = {"beefcake": "Brick Bronson", "necrocrat": "Prudence Pallor", "gourmand": "Chef Gravois", "refusemancer": "Moss Mulligan"}
-	var zone_levels: Dictionary = {"beefcake": 5, "necrocrat": 9, "gourmand": 12, "refusemancer": 15, "final": 18}
-	var freed_levels: Dictionary = {"beefcake": 9, "necrocrat": 13, "gourmand": 16, "refusemancer": 19, "final": 22}
+	# XP Pass Oct 30: the stops' model levels come from ProgressionModel (the zone on arrival, its main dungeon + 2 once freed).
+	var zone_levels: Dictionary = {}
+	var freed_levels: Dictionary = {}
+	for zone_key: String in ZONES:
+		zone_levels[zone_key] = ProgressionModel.level_for("zone:%s" % zone_key)
+		freed_levels[zone_key] = ProgressionModel.level_for(str(MAIN_DUNGEON[zone_key])) + 2
 	var path_labels: Dictionary = {"beefcake": "Beefcake", "necrocrat": "Necrocrat", "gourmand": "Gourmand", "refusemancer": "Refusemancer", "final": "Capital"}
 	for zone_id: String in ZONES:
 		var zone_name: String = str(ZONE_NAMES[zone_id])
@@ -659,19 +667,19 @@ func _build_timeline() -> Array[Step]:
 			arrive.offers.append(_cosmetic_offer("hat_wizard", LUXURY, 7))
 			arrive.offers.append(_cosmetic_offer("cloak_red_cape", LUXURY, 7))
 		steps.append(arrive)
-		var side: Step = _dungeon_steps(str(SIDE_DUNGEON[zone_id]), zone_id, "side_dungeon", "%s side dungeon (%s)" % [zone_name, str(SIDE_DUNGEON[zone_id])], level + 1)
+		var side: Step = _dungeon_steps(str(SIDE_DUNGEON[zone_id]), zone_id, "side_dungeon", "%s side dungeon (%s)" % [zone_name, str(SIDE_DUNGEON[zone_id])], ProgressionModel.level_for(str(SIDE_DUNGEON[zone_id])))
 		side.events.append(Event.make("feat: side dungeon", "feat", 25, 0))
 		steps.append(side)
 		if zone_id == "beefcake":
-			var vault: Step = _dungeon_steps("S-TOWN", "town", "side_dungeon", "The Forgotten Vault (S-TOWN)", 6)
+			var vault: Step = _dungeon_steps("S-TOWN", "town", "side_dungeon", "The Forgotten Vault (S-TOWN)", ProgressionModel.level_for("S-TOWN"))
 			vault.events.append(Event.make("feat: Four Banners", "feat", 25, 0))
 			steps.append(vault)
-			var graveyard: Step = _step("Crosspath: the Graveyard, arena tier 1", "town", 7, true)
+			var graveyard: Step = _step("Crosspath: the Graveyard, arena tier 1", "town", ProgressionModel.level_for("town:graveyard"), true)
 			graveyard.events.append(Event.make("the Restless Dead", "side_quest", GraveyardBoss.REWARD_GOLD, EncounterRewards.xp_for(DungeonMap.Difficulty.ELITE)))
 			steps.append(graveyard)
-		var main: Step = _dungeon_steps(str(MAIN_DUNGEON[zone_id]), zone_id, "main", "%s main dungeon (%s)" % [zone_name, str(MAIN_DUNGEON[zone_id])], level + 2)
+		var main: Step = _dungeon_steps(str(MAIN_DUNGEON[zone_id]), zone_id, "main", "%s main dungeon (%s)" % [zone_name, str(MAIN_DUNGEON[zone_id])], ProgressionModel.level_for(str(MAIN_DUNGEON[zone_id])))
 		# Phase 2: the dungeon's elite and boss picks reroll too (two rerolls a dungeon for the player who wants them).
-		var dungeon_reroll: Offer = Offer.make("reroll_dungeon_%s" % zone_id, "Pick reroll (%s dungeon)" % zone_name, "reroll", Economy.reroll_price(level + 2), NICE)
+		var dungeon_reroll: Offer = Offer.make("reroll_dungeon_%s" % zone_id, "Pick reroll (%s dungeon)" % zone_name, "reroll", Economy.reroll_price(ProgressionModel.level_for(str(MAIN_DUNGEON[zone_id]))), NICE)
 		dungeon_reroll.repeat = true
 		main.offers.append(dungeon_reroll)
 		main.shop = true
@@ -714,7 +722,7 @@ func _build_timeline() -> Array[Step]:
 				freed.offers.append(_pack_offer("gilded_refusemancer", LUXURY))
 				freed.offers.append(Offer.make("alchemy_3", "Alchemist brew", "alchemy", Alchemy.GOLD_COST, LUXURY, 18))
 			steps.append(freed)
-	var castle: Step = _step("The Capital: arena tier 3, Secret Dealer era", "final", 20, true)
+	var castle: Step = _step("The Capital: arena tier 3, Secret Dealer era", "final", ProgressionModel.level_for("arena:3"), true)
 	castle.events.append(Event.make("arena tier 3 clear", "arena", 200, 120))
 	castle.events.append(Event.make("arena: the Marshal", "arena", 500, 250))
 	castle.events.append(_quest_event("free_the_kingdom", "main"))
@@ -804,6 +812,7 @@ func _simulate(profile: Profile, steps: Array[Step]) -> void:
 				taken.append(event.label)
 		state.gold += gold_in
 		var level_before: int = state.level
+		var xp_before: int = state.xp
 		state.xp += xp_in
 		state.level = ProgressionTable.level_for_xp(state.xp)
 		var level_gold: int = 0
@@ -900,6 +909,10 @@ func _simulate(profile: Profile, steps: Array[Step]) -> void:
 			"unaffordable": ", ".join(wanted_unaffordable.slice(0, 4)), "affordable_unbought": affordable_unbought, "stock_cost": stock_cost, "gold_before": state.gold + spent,
 		}
 		state.rows.append(row)
+		if not _timelines.has(profile.name):
+			_timelines[profile.name] = []
+			_timeline_order.append(profile.name)
+		(_timelines[profile.name] as Array).append({"step": step.label, "model": step.expected_level, "xp_before": xp_before, "xp_after": state.xp})
 	_write_profile(profile, state)
 
 
@@ -964,4 +977,65 @@ func _write_profile(profile: Profile, state: RunState) -> void:
 		if offer.bought == 0 and offer.want >= profile.min_want and offer.sink != "fee":
 			never.append("%s %d" % [offer.label, offer.price])
 	_lines.append("- **Wanted but never bought**: %s." % (", ".join(never) if not never.is_empty() else "nothing"))
+	_lines.append("")
+
+
+# ---- Level timeline (XP Pass Oct 30) ------------------------------------------------------------------------------------------
+
+
+## The curve before the XP pass (Oct 17 - Oct 29): 15 L (L - 1) to 20, then 27 (L - 20)(L - 19) on top. Kept here so the timeline
+## shows both curves side by side.
+static func _old_xp_to_reach(level: int) -> int:
+	if level <= 1:
+		return 0
+	var capped: int = mini(level, 20)
+	var total: int = 15 * capped * (capped - 1)
+	if level > 20:
+		total += 27 * (level - 20) * (level - 19)
+	return total
+
+
+static func _old_level_for_xp(total_xp: int) -> int:
+	var level: int = 1
+	for candidate: int in range(2, ProgressionTable.MAX_LEVEL + 1):
+		if total_xp >= _old_xp_to_reach(candidate):
+			level = candidate
+		else:
+			break
+	return level
+
+
+## Per stop and profile: the XP and level on arrival (before the stop's own XP) and on leaving, under the old curve and the
+## current `ProgressionTable`, beside the progression model's level for that stop.
+func _write_level_timeline() -> void:
+	if _timeline_order.is_empty():
+		return
+	_lines.append("## Level timeline (arrival -> leaving; old curve | current curve)")
+	_lines.append("")
+	_lines.append("XP is what the timeline really pays each profile (quests, gatekeepers, roamers, dungeon nodes and bosses, first clears, arena, minigames). \"Model\" is the progression model's level for the stop (`ProgressionModel`, the encounter bands).")
+	_lines.append("")
+	var header: String = "| # | Stop | Model |"
+	var rule: String = "|---:|---|---:|"
+	for name: String in _timeline_order:
+		header += " %s XP | %s old | %s now |" % [name, name, name]
+		rule += "---:|---:|---:|"
+	_lines.append(header)
+	_lines.append(rule)
+	var count: int = (_timelines[_timeline_order[0]] as Array).size()
+	for index: int in range(count):
+		var first: Dictionary = (_timelines[_timeline_order[0]] as Array)[index]
+		var line: String = "| %d | %s | %d |" % [index + 1, str(first["step"]), int(first["model"])]
+		for name: String in _timeline_order:
+			var row: Dictionary = (_timelines[name] as Array)[index]
+			var before: int = int(row["xp_before"])
+			var after: int = int(row["xp_after"])
+			line += " %d -> %d | %d -> %d | %d -> %d |" % [before, after, _old_level_for_xp(before), _old_level_for_xp(after), ProgressionTable.level_for_xp(before), ProgressionTable.level_for_xp(after)]
+		_lines.append(line)
+	_lines.append("")
+	_lines.append("XP to reach each level (old | current):")
+	_lines.append("")
+	_lines.append("| Level | Old | Old step | Current | Current step |")
+	_lines.append("|---:|---:|---:|---:|---:|")
+	for level: int in range(2, ProgressionTable.MAX_LEVEL + 1):
+		_lines.append("| %d | %d | %d | %d | %d |" % [level, _old_xp_to_reach(level), _old_xp_to_reach(level) - _old_xp_to_reach(level - 1), ProgressionTable.xp_to_reach(level), ProgressionTable.xp_to_reach(level) - ProgressionTable.xp_to_reach(level - 1)])
 	_lines.append("")

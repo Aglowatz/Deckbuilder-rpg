@@ -278,9 +278,12 @@ func _refresh() -> void:
 		_xp_bar.max_value = 1.0
 		_xp_label.text += "  (max level)"
 	else:
+		# XP Pass Oct 30: an old save can sit above the level its XP gives on the re-based curve (it keeps its level); its bar starts
+		# at empty instead of going negative.
+		var into_level: int = clampi(profile.xp - floor_xp, 0, ceil_xp - floor_xp)
 		_xp_bar.max_value = maxf(1.0, float(ceil_xp - floor_xp))
-		_xp_bar.value = float(profile.xp - floor_xp)
-		_xp_label.text += "  -  %d / %d XP to level %d" % [profile.xp - floor_xp, ceil_xp - floor_xp, next_level]
+		_xp_bar.value = float(into_level)
+		_xp_label.text += "  -  %d / %d XP to level %d" % [into_level, ceil_xp - floor_xp, next_level]
 	for child: Node in _stats_box.get_children():
 		child.queue_free()
 	# Oct 19 night (Part 3): the Path and the deck size (once badges in spare painted frames) are plain rows here, so the figure has only its five slots.
