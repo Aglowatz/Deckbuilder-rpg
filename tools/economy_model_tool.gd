@@ -642,6 +642,10 @@ func _build_timeline() -> Array[Step]:
 			for rift: Variant in CapitalRifts.all():
 				rift_total += int(((rift as Dictionary).get("reward", {}) as Dictionary).get("gold", 0))
 			arrive.events.append(Event.make("Capital rifts sealed", "chest", rift_total, 0))
+		# Phase 2: the reroll of a world pick (the gatekeeper on the way in, the zone elite) - a repeatable sink priced by level.
+		var reroll: Offer = Offer.make("reroll_%s" % zone_id, "Pick reroll (%s)" % zone_name, "reroll", Economy.reroll_price(level), NICE)
+		reroll.repeat = true
+		arrive.offers.append(reroll)
 		var zone_fee: ZoneDef = ZoneDefs.get_def(zone_id)
 		var fee: Offer = Offer.make("fee_%s" % zone_id, "%s hub fee (a loss)" % zone_name, "fee", zone_fee.fee if zone_fee != null else 15, ESSENTIAL)
 		arrive.offers.append(fee)
@@ -842,6 +846,8 @@ func _simulate(profile: Profile, steps: Array[Step]) -> void:
 						continue
 					if offer.sink == "item" and offer.bought > 0 and items_bought >= 2:
 						continue
+					if offer.sink == "reroll" and offer.bought >= 2:
+						continue  # about two picks rerolled per zone
 					if offer.sink == "alchemy" and state.essence < Alchemy.MIN_ESSENCE_PER_PATH * 2:
 						continue
 					var wants: bool = offer.want >= profile.min_want or (offer.want == profile.min_want - 1 and state.gold - offer.price >= profile.flush)
@@ -932,7 +938,7 @@ func _write_profile(profile: Profile, state: RunState) -> void:
 	_lines.append("- **Income %d**: %s." % [total_in, ", ".join(income_parts)])
 	_lines.append("- **Spent %d** (%d%% of income): %s. Left over: %d. Packs received or bought: %d; essence (rough): %d." % [total_out, int(round(100.0 * float(total_out) / float(maxi(1, total_in)))), ", ".join(spend_parts), state.gold, state.packs, state.essence])
 	var unused: PackedStringArray = []
-	for sink: String in ["item", "gear", "card", "pack", "cosmetic", "alchemy"]:
+	for sink: String in ["item", "gear", "card", "pack", "cosmetic", "alchemy", "reroll"]:
 		if int(state.spend.get(sink, 0)) == 0:
 			unused.append(sink)
 	_lines.append("- **Sinks never used**: %s." % (", ".join(unused) if not unused.is_empty() else "none"))

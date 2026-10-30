@@ -79,3 +79,4 @@ Equipment,The Colonel's Ladle (lieutenant; Epic),Effect,unit enters: +1 HP,+ max
 Equipment,Plume's Notary Quill (lieutenant; Epic),Effect,start with 1 Red Tape; max HP +2,start with 2 Red Tape and 1 Contract; max HP +2,an Epic's worth,3
 Equipment,Clipwell's Golden Shears (lieutenant; Epic),Effect,1 damage to each attacker,2 damage to each attacker,an Epic's worth,3
 Items,Reckless Tonic,Effect,Heal 6 HP (1 use),Heal 5 HP,+19 points alone at level 12 (the 10-point rule),3
+Sinks,Reward-pick reroll (NEW; world picks only; once per pick),Price,-,40 + 10 x level to the nearest 10 (L5 90 / L12 160 / L22 260),the repeatable late sink the audit found missing,Phase 2

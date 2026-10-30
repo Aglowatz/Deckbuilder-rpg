@@ -60,18 +60,18 @@ static func phase(index: int) -> Phase:
 	made.key = PHASE_KEYS[made.index]
 	match made.index:
 		0:
-			made.hp = 36  # Overnight Oct 18 Part 2: 100% at 30
+			made.hp = 40  # Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
 			made.ai_name = "Balanced"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-32": 1})  # Overnight Oct 18 Part 2: 100% with 16 basics
 			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
 			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
-			made.hp = 32
+			made.hp = 36  # Oct 29: 32 -> 36
 			made.ai_name = "Balanced"
 			made.mirror = true
 			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 1, "He Already Knows")] as Array[Modifier]
 		_:
-			made.hp = 32  # Overnight Oct 18 Part 2: 83% at 28
+			made.hp = 36  # Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
 			made.ai_name = "Aggressive"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 16), {"P4-03": 1, "P4-01": 1, "C-30": 2})
 			made.enemy_modifiers = [

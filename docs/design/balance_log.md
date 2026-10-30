@@ -1476,3 +1476,10 @@ the Gainlands roamers at L5 81 % (B 94 / G 94 / R 69-81 / N 69); the House of Ga
 Compostella 67, the elites 83; the Buffet's Casserole 63; the Capital's Spotless 92 (+17), the castle elites 83-88; Primm's phases alone
 100 / 92 / 96 with the +1/+1 Crown, re-measured as the one-HP-pool sequence after the +1 attack Crown (below). Nothing under 35 %;
 the bosses of the first three zones sit in their 40-60 band or just over.
+
+## Overnight Oct 29, Phase 2: Primm's phase HP and the House of Gains re-measured
+
+| What | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Primm's phases (`PrimmBoss`) HP | 36 / 32 / 32 -> **40 / 36 / 36** | the three phases as one HP pool were 82 % with the real L22 gear (Gauntlets + Crown); HP alone moves little, as on Oct 18 | sequence 12 runs per Path: before B 58 / G 79 / R 92 / N 100 (82 %), after B 50 / G 79 / R 83 / N 100 (78 %) - `oct29_primm_sequence2.md`; the next lever is a stat rule (inbox) |
+| House of Gains, third measure (seed 7000 x12) | - | the Honor Guard reads 50 % on every seed (46 / 52 / 50; band 60-75), Clench 46 (band 40-60), the normals 81-98, Quota 63 | `oct29_D-HOG_s7000x12.md`; the Honor Guard lives in dungeon_content.json (frozen tonight) - inbox |

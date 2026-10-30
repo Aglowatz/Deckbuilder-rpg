@@ -207,6 +207,53 @@ func _wrapped(text: String, size: int, color: Color) -> Label:
 var _pick_tiles: Array[Control] = []
 var _pick_hint: Label
 var _pick_index: int = -1
+var _pick_row: HBoxContainer
+var _reroll_button: FancyButton
+
+
+## Oct 29, Phase 2: pays the reroll and rebuilds the card row in place (the same body, the same spot); the button goes once used.
+func _reroll() -> void:
+	if not Session.reroll_reward_pick(summary):
+		Audio.sfx(&"ui_error", -4.0)
+		return
+	Audio.sfx(&"card_shuffle")
+	var body: Node = _pick_row.get_parent()
+	var at: int = _pick_row.get_index()
+	for tile: Control in _pick_tiles:
+		tile.queue_free()
+	_pick_tiles.clear()
+	_pick_row.queue_free()
+	var row: HBoxContainer = UIKit.hbox(18)
+	row.name = "PickRow"
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for index: int in range(summary.card_choices.size()):
+		var tile: Control = _card_tile(summary.card_choices[index], PICK_SCALE)
+		tile.name = "Pick_%d" % index
+		tile.mouse_filter = Control.MOUSE_FILTER_STOP
+		tile.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		tile.tooltip_text = summary.card_choices[index].display_name
+		var which: int = index
+		tile.gui_input.connect(func(event: InputEvent) -> void:
+			var click: InputEventMouseButton = event as InputEventMouseButton
+			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+				select_pick(which)
+				tile.accept_event())
+		PadClick.enable(tile)
+		row.add_child(tile)
+		_pick_tiles.append(tile)
+	body.add_child(row)
+	body.move_child(row, at)
+	_pick_row = row
+	_pick_index = -1
+	if _reroll_button != null:
+		_reroll_button.get_parent().queue_free()
+		_reroll_button = null
+	if _pick_hint != null:
+		PromptText.bind(_pick_hint, PICK_HINT, &"text", PICK_HINT_PAD)
+	frame.set_button_text("Skip")
+	frame.first_focus = _pick_tiles[0] if not _pick_tiles.is_empty() else null
+	if InputDevice.using_pad() and not _pick_tiles.is_empty():
+		_pick_tiles[0].grab_focus.call_deferred()
 
 const PICK_HINT: String = "Click a card to keep it (or Left / Right, 1-3), then Keep. Skip takes none. The card goes to your collection."
 const PICK_HINT_PAD: String = "Choose a card with the D-pad and {confirm}, then Keep. Skip takes none. The card goes to your collection."
@@ -239,6 +286,19 @@ func _add_pick(body: VBoxContainer) -> void:
 		row.add_child(tile)
 		_pick_tiles.append(tile)
 	body.add_child(row)
+	_pick_row = row
+	# Oct 29, Phase 2: one reroll for gold (the late sink); the button names the price and greys out when the purse is short.
+	if summary.can_reroll():
+		_reroll_button = FancyButton.make("Reroll the cards (%d gold)" % summary.reroll_price, &"GhostButton", Vector2(0, 38))
+		_reroll_button.name = "RerollButton"
+		_reroll_button.add_theme_font_size_override("font_size", 17)
+		_reroll_button.disabled = Session.gold < summary.reroll_price
+		_reroll_button.tooltip_text = "Not enough gold (you have %d)." % Session.gold if _reroll_button.disabled else "Pay %d gold for three different cards. Once per pick." % summary.reroll_price
+		_reroll_button.pressed.connect(_reroll)
+		var reroll_row: HBoxContainer = UIKit.hbox(0)
+		reroll_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		reroll_row.add_child(_reroll_button)
+		body.add_child(reroll_row)
 	_pick_hint = UIKit.label(PICK_HINT, &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	_pick_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_pick_hint.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)

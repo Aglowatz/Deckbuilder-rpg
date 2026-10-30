@@ -35,6 +35,10 @@ const ARENA_REPLAY_GOLD: int = 25
 ## The Alchemist's gold half of a brew.
 const ALCHEMY_GOLD: int = 150
 
+## Phase 2 (the late sink): rerolling a world card pick once, 40 + 10 per level, to the nearest 10 (L5 90, L12 160, L22 260).
+const REROLL_BASE: int = 40
+const REROLL_PER_LEVEL: int = 10
+
 
 static func card_price(rarity: CardEnums.Rarity) -> int:
 	return CARD_PRICE[clampi(int(rarity), 0, CARD_PRICE.size() - 1)]
@@ -55,3 +59,7 @@ static func roamer_gold(zone_id: String) -> int:
 
 static func elite_gold(zone_id: String) -> int:
 	return roamer_gold(zone_id) * 2
+
+
+static func reroll_price(level: int) -> int:
+	return int(round(float(REROLL_BASE + REROLL_PER_LEVEL * maxi(1, level)) / 10.0)) * 10

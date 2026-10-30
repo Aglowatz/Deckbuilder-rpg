@@ -3535,10 +3535,11 @@ const PICK_COUNTER: String = "pick_wins:%s"
 
 
 ## The themed choice of cards for beating this elite or boss (RewardPicks), counting the win.
-func reward_pick(context: BattleContext, boss: bool) -> Array[CardData]:
+func reward_pick(context: BattleContext, boss: bool, count_the_win: bool = true) -> Array[CardData]:
 	var key: String = PICK_COUNTER % context.enemy_name
-	var repeat: bool = counter(key) > 0
-	bump_counter(key)
+	var repeat: bool = (counter(key) > 1) if not count_the_win else (counter(key) > 0)
+	if count_the_win:
+		bump_counter(key)
 	var owned: Dictionary = {}
 	var caps: Dictionary = {}
 	for source: Dictionary in [content.cards, content.multipath_cards]:
@@ -3609,7 +3610,25 @@ func queue_world_pick(context: BattleContext) -> void:
 	summary.subtitle = "Beaten. Choose a card for your collection."
 	summary.card_choices = reward_pick(context, kind == "boss")
 	if not summary.card_choices.is_empty():
+		# Oct 29, Phase 2 (the late sink): the pick can be rerolled once for gold; the fresh set is drawn the same way, the win not counted again.
+		summary.reroll_price = Economy.reroll_price(profile.level)
+		summary.reroll = func() -> Array[CardData]: return reward_pick(context, kind == "boss", false)
 		pending_popups.append(summary)
+
+
+## Oct 29, Phase 2: pays the pick's reroll price and replaces its cards (once per pick). False when it cannot be rerolled or the gold is short.
+func reroll_reward_pick(summary: RewardSummary) -> bool:
+	if summary == null or not summary.can_reroll() or gold < summary.reroll_price:
+		return false
+	var fresh: Array[CardData] = summary.reroll.call() as Array[CardData]
+	if fresh.is_empty():
+		return false
+	spend_gold(summary.reroll_price)
+	summary.card_choices = fresh
+	summary.picked = null
+	summary.rerolled = true
+	bump_counter("picks_rerolled")
+	return true
 
 
 ## The card chosen from a world pick (null = skipped); an extra copy over the cap converts to essence as usual.

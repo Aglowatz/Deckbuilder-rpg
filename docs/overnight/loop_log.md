@@ -15,3 +15,7 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    card's worth" (`RewardPopup._worth`, from the curve's prices), so a sum reads against what it buys. Opener `--open=reward_gold`;
    shot `_screenshots/oct29/p2_reward_gold.png`; ui GUT OK. Kept.
 3. **Hat tilt test (22:10)**: `fit.json` `rot` / `rot_<DIR>` covered by `test_hat_sheets` (no tilt unless set, a per-direction tilt in degrees). Kept.
+4. **Reward-pick reroll (22:25)**: the audit's missing late sink. `RewardSummary.reroll` / `reroll_price` / `rerolled`, `Session.reroll_reward_pick`
+   (pays `Economy.reroll_price(level)`, draws the pick again without counting a win, once), a "Reroll the cards (N gold)" button under the
+   three cards that greys out when the purse is short and rebuilds the row in place. Tests in `test_world_reward_pick`; gatekeeper pick probes
+   by mouse and pad; shot `_screenshots/oct29/p2_reroll.png`. Economy model given reroll offers (about two per zone). Kept.

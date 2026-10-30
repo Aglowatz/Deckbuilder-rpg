@@ -36,6 +36,29 @@ func test_a_gatekeeper_win_queues_a_pick_of_three_and_a_repeat_two() -> void:
 	assert_eq((Session.pending_popups[1] as RewardSummary).card_choices.size(), RewardPicks.REPEAT_COUNT, "a repeat win offers less")
 
 
+func test_a_pick_can_be_rerolled_once_for_gold() -> void:
+	# Overnight Oct 29, Phase 2: the late sink - a fresh set for 40 + 10 per level (to the nearest 10), once, never counting as another win.
+	var context: BattleContext = _context("beefcake")
+	Session.queue_world_pick(context)
+	var summary: RewardSummary = Session.pending_popups[0] as RewardSummary
+	assert_true(summary.can_reroll())
+	assert_eq(summary.reroll_price, Economy.reroll_price(Session.profile.level))
+	Session.gold = summary.reroll_price - 1
+	assert_false(Session.reroll_reward_pick(summary), "too poor")
+	assert_false(summary.rerolled)
+	Session.gold = 500
+	var before: Array[CardData] = summary.card_choices.duplicate()
+	assert_true(Session.reroll_reward_pick(summary))
+	assert_eq(Session.gold, 500 - summary.reroll_price)
+	assert_true(summary.rerolled)
+	assert_eq(summary.card_choices.size(), before.size(), "the same number of cards, drawn again")
+	assert_false(summary.can_reroll(), "once per pick")
+	assert_false(Session.reroll_reward_pick(summary))
+	assert_eq(Session.gold, 500 - summary.reroll_price, "a second reroll costs nothing because it never happens")
+	Session.queue_world_pick(context)
+	assert_eq((Session.pending_popups[1] as RewardSummary).card_choices.size(), RewardPicks.REPEAT_COUNT, "the reroll did not count as a win: the next win is the first repeat")
+
+
 func test_an_ordinary_fight_offers_no_pick() -> void:
 	var context: BattleContext = _context("")
 	assert_eq(Session.world_pick_kind(context), "")

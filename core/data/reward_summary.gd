@@ -28,6 +28,14 @@ var levels_reached: Array[int] = []
 ## `Session.take_reward_pick`); `picked` is the one chosen (null = skipped).
 var card_choices: Array[CardData] = []
 var picked: CardData = null
+## Overnight Oct 29, Phase 2: a world pick may be rerolled once for gold (`Session.reroll_reward_pick`): `reroll` draws a fresh set.
+var reroll: Callable = Callable()
+var reroll_price: int = 0
+var rerolled: bool = false
+
+
+func can_reroll() -> bool:
+	return reroll.is_valid() and not rerolled and reroll_price > 0 and not card_choices.is_empty()
 
 
 func add_pack(pack_id: String, pack_name: String, count: int = 1) -> void:

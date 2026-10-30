@@ -447,9 +447,10 @@ cycle 1); the spells-only arena (cycle 10).
    phases alone to 92-100 %). Levers: the phases' HP (36 / 32 / 32), a stat rule on Primm's units. Not retuned blind; your call.
 3. **The House of Gains reads 5-10 points harder** with the Colorless-only Wicked Dagger at L7-9 (two seeds: normals 69-96, the Honor Guard
    46 / 52 vs its 60-75 band, Clench 38 / 42). Nothing under 35 %. The next lever is the Honor Guard's basics; left as it is.
-4. **The late sink is still missing**: from the Capital on every profile holds 2,000-6,000 gold with only Gilded / Prismatic packs and the Royal
-   Mantle to buy. Two cheap candidates: a reward-pick reroll (e.g. 50 + 10 x level gold, once per pick) or one rotating Epic on Sable's shelf
-   at a premium. The reroll is the better sink (repeatable, every elite and boss). Say which, or neither.
+4. **The late sink**: from the Capital on every profile held 2,000-6,000 gold with only Gilded / Prismatic packs and the Royal Mantle to buy.
+   Phase 2 added a **reward-pick reroll**: a world pick (gatekeeper, zone elite, town boss, arena tier 2+) can be rerolled once for 40 + 10 x
+   level gold (L5 90, L12 160, L22 260; `Economy.reroll_price`), a button under the three cards; the reroll never counts as another win.
+   Dungeon picks (nodes, the main bosses' chase pick) do not reroll yet. Say if you want it removed, priced otherwise, or extended to dungeons.
 5. **Quest gold and XP were left alone** (core/quests is in the dialogue freeze); quests pay 3,500 of the ~19,600 one-time gold. Chests and
    feats were left too (already tiered). Selling, an inn, rerolls and repairs do not exist, so there is nothing to price there.
 6. **Binding Chains measured +17 alone at level 12** (6 games per Path, +-12 noise; the Reckless Tonic +13 after its 6 -> 5 HP change, the
