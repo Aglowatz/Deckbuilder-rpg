@@ -1,0 +1,12 @@
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 670 400
+button Begin
+wait 5
+skip_dialogue 20
+dev gold 50
+dev save critic_test
+scene

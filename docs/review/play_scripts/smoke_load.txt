@@ -1,0 +1,6 @@
+wait 2
+dev load critic_test
+wait 3
+scene
+shot 20_loaded
+dump

@@ -1,0 +1,21 @@
+# Driver smoke: slot 3 -> wake up -> Path choice -> cave -> first battle
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 415 400
+wait 1
+shot 05_path_choice
+button Begin
+wait 5
+skip_dialogue 20
+shot 06_after_choice
+dump
+scene
+hold W 2
+shot 07_walk
+skip_dialogue 20
+shot 08_more
+dump
+scene

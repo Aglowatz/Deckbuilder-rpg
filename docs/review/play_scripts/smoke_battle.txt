@@ -1,0 +1,19 @@
+# Driver smoke: new game -> Beefcake -> dev encounter tutorial:1 -> pilot
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 415 400
+button Begin
+wait 5
+skip_dialogue 20
+dev encounters tutorial
+dev encounter tutorial
+wait 3
+shot 10_battle_start
+dump
+pilot 120
+shot 11_battle_end
+dump
+scene

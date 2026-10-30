@@ -1,0 +1,8 @@
+# Driver smoke: title -> new game -> wake up -> Path choice
+shot 01_title
+dump
+scene
+button New Game
+wait 1.5
+shot 02_new_game
+dump
