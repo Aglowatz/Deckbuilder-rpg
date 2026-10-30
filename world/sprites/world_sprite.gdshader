@@ -40,6 +40,7 @@ uniform vec2 offset = vec2(0.0);
 uniform float depth_nudge = 0.0;
 // A tumble (radians, in the card plane) about the body's middle, for flips and spins.
 uniform float roll = 0.0;
+uniform float pivot_x = 0.0;
 uniform float pivot_y = 0.6;
 
 // Dye: recolours the pixels whose hue is near `dye_hue` (the cloak) to `dye_color`, keeping the painted shading. dye_amount 0 = natural colours.
@@ -71,8 +72,8 @@ void vertex() {
 	if (roll != 0.0) {
 		float cr = cos(roll);
 		float sr = sin(roll);
-		vec2 q = vec2(x, y - pivot_y);
-		x = cr * q.x - sr * q.y;
+		vec2 q = vec2(x - pivot_x, y - pivot_y);
+		x = cr * q.x - sr * q.y + pivot_x;
 		y = sr * q.x + cr * q.y + pivot_y;
 	}
 	mat4 face = mat4(vec4(right, 0.0), vec4(0.0, 1.0, 0.0, 0.0), vec4(back, 0.0), MODEL_MATRIX[3]);

@@ -53,6 +53,9 @@ var roll_radians: float = 0.0
 ## Where the hat card sits relative to the feet, as the last update placed it (for tests): Rect2(left, bottom, width, height) in metres.
 var hat_rect: Rect2 = Rect2()
 var hat_visible: bool = false
+## Overnight Oct 29 (hat fit): a frame key forced by a tool or test ("SIDE_WALK2"); "" = the frame the movement picks.
+var forced_key: String = ""
+var _hat_rot: float = 0.0
 
 var _info: Dictionary = {}
 var _dirs: Array[String] = []
@@ -240,6 +243,12 @@ func _update_hat() -> void:
 	_hat_material.set_shader_parameter("flip_h", current_flip)
 	_hat_material.set_shader_parameter("card_size", Vector2(width, height))
 	_hat_material.set_shader_parameter("offset", Vector2(x, y))
+	# Overnight Oct 29: a per-hat, per-direction tilt (fit "rot", degrees, positive = the front dips) about the hat card's own middle; mirrored with the body.
+	_hat_rot = deg_to_rad(float(fit.get("rot", 0.0))) * (-1.0 if current_flip else 1.0)
+	_hat_material.set_shader_parameter("pivot_x", x)
+	_hat_material.set_shader_parameter("pivot_y", y + height * 0.5)
+	_hat_material.set_shader_parameter("roll", roll_radians + _hat_rot)
+	_sent_roll = roll_radians + 1e9  # the next update resends the roll (the body's and the hat's)
 
 
 # ---- Light and motion ----------------------------------------------------------------------------------------------------------
@@ -348,7 +357,10 @@ func _update(world_pos: Vector3, delta: float) -> void:
 	var moving: bool = speed > MOVING_SPEED and _walk_dirs.has(best)
 	walking = moving
 	var key: String
-	if talking and _info.get("has_talk", false):
+	if forced_key != "":
+		best = forced_key.get_slice("_", 0)
+		key = forced_key
+	elif talking and _info.get("has_talk", false):
 		best = "FRONT"
 		key = "FRONT_TALK"
 		current_flip = false
@@ -366,7 +378,7 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		_phase = 0.0
 		key = "%s_IDLE" % best
 	current_dir = best
-	var flip_now: bool = _flip_for(best)
+	var flip_now: bool = _flip_for(best) if forced_key == "" else false
 	if key != _applied_key or flip_now != _applied_flip:
 		_apply(key, flip_now)
 	else:
@@ -385,7 +397,7 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		_sent_roll = roll_radians
 		for target: ShaderMaterial in _materials():
 			target.set_shader_parameter("stretch", stretch)
-			target.set_shader_parameter("roll", roll_radians)
+			target.set_shader_parameter("roll", roll_radians + (_hat_rot if target == _hat_material else 0.0))
 	position = Vector3(0.0, _bob, 0.0) if local_mode else world_pos + Vector3(0.0, _bob, 0.0)
 	_blob.position = Vector3(0.0, 0.085 - _bob, 0.0)
 	_update_rim()

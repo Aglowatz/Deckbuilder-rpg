@@ -457,3 +457,7 @@ cycle 1); the spells-only arena (cycle 10).
 7. **Zone fees** (15-20 on waking at the hub after a loss) were left: a loss already costs time.
 8. **The Gainsmith's Lifting Belt and the Spotter's Barbell are Beefcake-only now** (they are the Gainlands' puzzle and quest prizes); a
    non-Beefcake player gets a Path piece from the first zone, like the Bandolier. Alternative: keep them Path-neutral with a drawback.
+9. **Hats**: the preview was never different from the world (same anchors, checked cell by cell); the hats sat high from the side and behind in both,
+   fixed in `fit.json`. Art itself: the Leaf Crown's back half draws over the hair (a ring painted as one card; known), the Chef's BACK view is
+   painted 40 % larger than its FRONT and the Wizard's SIDE view 17 % larger (the fit scales them back; a redo could draw the five views to one
+   scale). No hero TALK frame exists, so hats have no talk cell to check.

@@ -183,7 +183,7 @@ static func hat_fit(art_name: String, dir_name: String = "") -> Dictionary:
 		_hat_fit = _read_json(hat_folder + "fit.json")
 		_hat_fit_auto = _read_json(hat_folder + "fit_auto.json")
 		_hat_fit_loaded = true
-	var result: Dictionary = {"width": 1.5, "sink": 0.3, "dx": 0.0, "dy": 0.0, "scale": 1.0}
+	var result: Dictionary = {"width": 1.5, "sink": 0.3, "dx": 0.0, "dy": 0.0, "scale": 1.0, "rot": 0.0}
 	var defaults: Dictionary = _hat_fit.get("default", {}) as Dictionary
 	for key: Variant in defaults.keys():
 		result[key] = defaults[key]
@@ -200,7 +200,7 @@ static func hat_fit(art_name: String, dir_name: String = "") -> Dictionary:
 	# Per-direction overrides: "width_SIDE": 1.3, "sink_BACK": 0.1, ... (any of width, sink, dx, dy, scale). The importer's (sink_<DIR>) count only while
 	# fit.json sets neither that direction nor the whole value by hand.
 	if dir_name != "":
-		for part: String in ["width", "sink", "dx", "dy", "scale"]:
+		for part: String in ["width", "sink", "dx", "dy", "scale", "rot"]:
 			var special: String = "%s_%s" % [part, dir_name]
 			if own.has(special):
 				result[part] = own[special]

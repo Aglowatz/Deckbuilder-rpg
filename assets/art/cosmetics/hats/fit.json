@@ -1,10 +1,50 @@
 {
-	"_about": "Hand tuning of the hats (docs/art/cosmetics.md). Wins over fit_auto.json, which tools/import_cosmetics.sh rewrites from the hat sheets. Per hat: width (hat width in head widths, front view), sink (how far the hat's bottom edge dips below the top of the hair, head widths), dx / dy (nudge, head widths), scale; any of them per direction as <key>_<DIR>, e.g. sink_SIDE, dx_BACK. Setting sink here also replaces the importer's per-direction sinks.",
+	"_about": "Hand tuning of the hats (docs/art/cosmetics.md). Wins over fit_auto.json, which tools/import_cosmetics.sh rewrites from the hat sheets. Per hat: width (hat width in head widths, front view), sink (how far the hat's bottom edge dips below the top of the hair, head widths), dx / dy (nudge, head widths), scale, rot (degrees, positive = the front dips); any of them per direction as <key>_<DIR>, e.g. sink_SIDE, dx_BACK, rot_FRONTSIDE. Setting sink here also replaces the importer's per-direction sinks.",
+	"_oct29": "Overnight Oct 29, Part 4 (tools/hat_contact_sheet.tscn, _screenshots/oct29/hats_before and hats_after): every hat floated above the hair from the side, three-quarter back and back (the importer sinks were tuned on the front view). The back of the head needs the hat about 0.2 head widths deeper, the side 0.1-0.15; a first pass at twice that buried the eyes. The preview and the world place hats from the same anchors (checked cell by cell).",
 	"default": {},
-	"WIDEBRIM": {},
-	"CHEF": {},
-	"BOWLER": {},
-	"TRICORN": {},
-	"WIZARD": {},
-	"LEAFCROWN": {"_note": "Oct 29 redo: the wreath sat on top of the hair; sunk to the brow (eyes clear in every direction) and a little narrower.", "width": 1.25, "sink_FRONT": 0.47, "sink_FRONTSIDE": 0.46, "sink_SIDE": 0.42, "sink_BACKSIDE": 0.66, "sink_BACK": 0.68}
+	"WIDEBRIM": {
+		"sink_FRONT": 0.65,
+		"sink_FRONTSIDE": 0.7,
+		"sink_SIDE": 0.66,
+		"sink_BACKSIDE": 1.08,
+		"sink_BACK": 1.15
+	},
+	"CHEF": {
+		"sink_FRONT": 0.52,
+		"sink_FRONTSIDE": 0.64,
+		"sink_SIDE": 0.6,
+		"sink_BACKSIDE": 0.86,
+		"sink_BACK": 0.98
+	},
+	"BOWLER": {
+		"sink_FRONT": 0.55,
+		"sink_FRONTSIDE": 0.6,
+		"sink_SIDE": 0.6,
+		"sink_BACKSIDE": 0.88,
+		"sink_BACK": 0.98
+	},
+	"TRICORN": {
+		"sink_FRONT": 0.6,
+		"sink_FRONTSIDE": 0.68,
+		"sink_SIDE": 0.65,
+		"sink_BACKSIDE": 1.05,
+		"sink_BACK": 1.12
+	},
+	"WIZARD": {
+		"sink_FRONT": 0.65,
+		"sink_FRONTSIDE": 0.72,
+		"sink_SIDE": 0.68,
+		"sink_BACKSIDE": 1.1,
+		"sink_BACK": 1.18,
+		"width_SIDE": 1.95
+	},
+	"LEAFCROWN": {
+		"_note": "Oct 29 redo: the wreath sat on top of the hair; sunk to the brow (eyes clear in every direction) and a little narrower.",
+		"width": 1.25,
+		"sink_FRONT": 0.47,
+		"sink_FRONTSIDE": 0.46,
+		"sink_SIDE": 0.42,
+		"sink_BACKSIDE": 0.66,
+		"sink_BACK": 0.68
+	}
 }

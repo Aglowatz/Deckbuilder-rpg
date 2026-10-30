@@ -8,7 +8,7 @@ extends RefCounted
 const DIRS: Array[String] = ["FRONT", "FRONTSIDE", "SIDE", "BACKSIDE", "BACK"]
 const ALPHA_EDGE: int = 26
 ## The hat card is drawn over the head, so from the front a hat sits higher (the brim at the brows, not over the eyes) than from behind (over the hair).
-const DIR_SINK: Dictionary = {"FRONT": 0.62, "FRONTSIDE": 0.68, "SIDE": 0.6, "BACKSIDE": 0.95, "BACK": 1.0}
+const DIR_SINK: Dictionary = {"FRONT": 0.65, "FRONTSIDE": 0.7, "SIDE": 0.66, "BACKSIDE": 1.08, "BACK": 1.15}  # Oct 29: the back and side views sit deeper (hat_contact_sheet)
 ## A piece smaller than this share of the biggest piece on the sheet is a speck.
 const SPECK_SHARE: float = 0.015
 ## A piece smaller than this share of the biggest piece of its own view is a sliver (a feather tip or brim edge drawn as its own piece stays: they are bigger).

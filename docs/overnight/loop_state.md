@@ -30,4 +30,6 @@ names, descriptions and shop UI text may change. No version bump, no export.
 |---|---|---|---|
 | 1 | done | 6264456c | tools/economy_model.gd + economy_model_tool.gd, docs/design/economy_audit_oct29.md, sim/economy_model_before.md |
 | 2 | done | (this commit) | core/data/economy.gd curve; cards 30/60/150/300, gear by rarity x tier, items 3 bands, cosmetics, packs II 200, essence x2, alchemy 150, roamers by tier, side clears 100/40, arena replay 25, level track front-loaded; GUT core/ui/root OK (release_readiness fixed: export_presets 0.4.7), first battles + hub walk OK |
-| 3 | in progress | - | budget doc equipment_budget_oct29.md, Economy curve, 20 piece changes + Blade of Earned Reputation, matches_card NEUTRAL fix, sims oct29_*.md, log + csv + inbox 1-8 written; left: first battles smoke, perf budget structure, commit |
+| 3 | done | 45311175 | budget doc, 20 piece changes + Blade, Colorless matching fix, sims, log, csv, inbox 1-8; GUT core/ui OK, first battles OK, structure budget OK |
+| 4 | done | (this commit) | tools/hat_contact_sheet.tscn + crop_png.gd, WorldSprite.forced_key + hat rot/pivot, fit.json sinks per hat x direction, DIR_SINK re-based; world GUT 422 OK, Crosspath walk OK; sheets docs/art/apparel/oct29 |
+| Phase 2 | next | - | shop/character price + rarity readability, upgrade/sidegrade hints, reward screens |

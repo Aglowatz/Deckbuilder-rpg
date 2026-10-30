@@ -128,3 +128,16 @@ by the `@set` step in the middle of `pc_capture`, so the portrait changes on the
   `Godot --headless --path . -s res://tools/split_sprite_sheets.gd -- --inbox=res://_art_inbox/pending_npc_dry/` then
   `tools/split_preview.gd -- inbox=res://_art_inbox/pending_npc_dry/`: four figures, background removed, `docs/art/apparel/rescuer_split_dry.png`.
 - Tests: `tests/core/data/test_rescuer_disguise.gd`.
+
+## Hat fit pass (Overnight Oct 29, Part 4)
+- **Contact sheet**: `Godot --path . --resolution 1200x900 res://tools/hat_contact_sheet.tscn -- --out=oct29/hats_after [--hats=WIZARD,CHEF] [--combined=1]`
+  renders every hat x every direction x idle / walk1-4 twice per cell: as the world draws it and as the wardrobe / tailor preview draws it (the real
+  `HeroPreview`), head-centred crops, one PNG per hat (or one for all), plus `fit_table.md` (where each hat's band lands against the brow line).
+  `WorldSprite.forced_key` ("SIDE_WALK2") pins a frame for tools and tests. `tools/crop_png.gd` enlarges part of a sheet.
+- **Finding**: the preview and the world place hats from the same anchors (every cell pair matches); the hats floated above the hair from the side,
+  three-quarter back and back in both, because the importer's per-direction sinks (`HatSheet.DIR_SINK`) were tuned on the front view. Fixed by hand
+  sinks per hat and direction in `fit.json` (the back about 0.2 head widths deeper, the side 0.1-0.15; the wizard's side view capped at
+  `width_SIDE` 1.95) and `DIR_SINK` re-based so a future import lands close. Sheets: `_screenshots/oct29/hats_before/*.png`, `hats_after/ALL.png`.
+- **Rotation**: `fit.json` accepts `rot` / `rot_<DIR>` (degrees, positive = the front dips) - a tilt about the hat card's own middle (the shader's
+  `pivot_x` / `pivot_y`, mirrored with the body); no hat needed one tonight.
+- The hero has no TALK frame (`has_talk` false), so there is no talk cell; the hat follows the walk's bob through the tracked `hat_anchor` of each frame.
