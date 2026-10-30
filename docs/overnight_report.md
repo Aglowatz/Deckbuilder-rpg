@@ -92,7 +92,7 @@ he was already the painted sprite (`_screenshots/oct30/spotless_gate.png`); the 
   MD5), zip **builds/TheWaywardPath-v0.4.8-windows.zip, 762 MB** (CRCs checked); peak memory import 1,042 MB, export 1,300 MB (1.7 GB was
   free). The pack is over the 800 MB budget, as in v0.4.7 (same art).
 - Exported release smoke, D3D12: Medium PASSED, Low PASSED.
-- Notes since v0.4.6: `docs/release/v0.4.8_notes.md`. Disk: about 3 GB free on C: after the export.
+- Notes since v0.4.6: `docs/release/v0.4.8_notes.md`. Disk: 3.5 GB free on C: after the export.
 
 ## Checks run
 
