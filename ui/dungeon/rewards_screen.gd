@@ -13,6 +13,8 @@ var _take_button: FancyButton
 var _where_label: Label
 var _to_deck: bool = false
 var _screenshot_args: Dictionary = {}
+var _card_row: HBoxContainer
+var _reroll_button: FancyButton
 var _boss_talk_done: bool = false
 
 
@@ -32,6 +34,8 @@ func _ready() -> void:
 		offer.enemy_name = "Hollow Warden"
 		offer.is_boss = str(_screenshot_args.get("boss", "true")) == "true"
 		offer.cards = RewardGenerator.card_choices(Session.content, Session.profile, Session.rng, 3, offer.is_boss)
+		offer.reroll_price = Economy.reroll_price(Session.profile.level)
+		offer.reroll = func() -> Array[CardData]: return RewardGenerator.card_choices(Session.content, Session.profile, Session.rng, 3, offer.is_boss)
 		Session.pending_reward = offer
 		if _screenshot_args.has("board"):
 			offer.board_key = str(_screenshot_args["board"])
@@ -72,9 +76,26 @@ func _build_rewards() -> void:
 	# Cards Oct 27, Part 3: in the tutorial cave the pick joins the deck; everywhere else it goes to the collection, for the Deck Station.
 	_to_deck = Session.rewards_go_to_deck()
 	_column.add_child(UIKit.label("Choose a card for your deck" if _to_deck else "Choose a card for your collection", &"HeadingLabel", 28, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var row: HBoxContainer = UIKit.hbox(22)
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_column.add_child(row)
+	_card_row = UIKit.hbox(22)
+	_card_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_column.add_child(_card_row)
+	_fill_cards()
+	_where_label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_where_label.name = "WhereLabel"
+	_where_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_where_label.custom_minimum_size = Vector2(760, 0)
+	_column.add_child(_where_label)
+	if not _to_deck and Session.take_collection_tip():
+		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		tip.name = "CollectionTip"
+		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		tip.custom_minimum_size = Vector2(760, 0)
+		_column.add_child(tip)
+	_add_buttons()
+
+
+## The card views of the offer's current cards, in the card row (built once, and again after a reroll).
+func _fill_cards() -> void:
 	for index: int in range(_offer.cards.size()):
 		var holder: Control = Control.new()
 		holder.custom_minimum_size = CardView.SIZE * 0.8
@@ -93,20 +114,30 @@ func _build_rewards() -> void:
 		view.unhovered.connect(func(_v: CardView) -> void:
 			if _selected != index:
 				create_tween().tween_property(view, "position:y", -CardView.SIZE.y * 0.1, 0.1))
-		row.add_child(holder)
+		_card_row.add_child(holder)
 		_cards.append(view)
-	_where_label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
-	_where_label.name = "WhereLabel"
-	_where_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_where_label.custom_minimum_size = Vector2(760, 0)
-	_column.add_child(_where_label)
-	if not _to_deck and Session.take_collection_tip():
-		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-		tip.name = "CollectionTip"
-		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		tip.custom_minimum_size = Vector2(760, 0)
-		_column.add_child(tip)
-	_add_buttons()
+
+
+## Oct 29, Phase 2: pays the reroll and shows three fresh cards in the same row; the button goes once used.
+func _reroll() -> void:
+	if not Session.reroll_dungeon_pick(_offer):
+		Audio.sfx(&"ui_error", -4.0)
+		return
+	Audio.sfx(&"card_shuffle")
+	for holder: Node in _card_row.get_children():
+		holder.queue_free()
+	_cards.clear()
+	_selected = -1
+	_fill_cards()
+	_take_button.disabled = true
+	_take_button.text = "Take card"
+	if _where_label != null:
+		_where_label.text = ""
+	if _reroll_button != null:
+		_reroll_button.queue_free()
+		_reroll_button = null
+	if InputDevice.using_pad() and not _cards.is_empty():
+		_cards[0].grab_focus.call_deferred()
 
 
 func _add_buttons() -> void:
@@ -123,6 +154,14 @@ func _add_buttons() -> void:
 			_selected = -1
 			_confirm())
 		buttons.add_child(skip)
+		# Oct 29, Phase 2: one reroll for gold (the late sink, inside dungeons too); greyed out when the purse is short.
+		if _offer.can_reroll():
+			_reroll_button = FancyButton.make("Reroll (%d gold)" % _offer.reroll_price, &"", Vector2(200, 60))
+			_reroll_button.name = "RerollButton"
+			_reroll_button.disabled = Session.gold < _offer.reroll_price
+			_reroll_button.tooltip_text = "Not enough gold (you have %d)." % Session.gold if _reroll_button.disabled else "Pay %d gold for three different cards. Once per pick." % _offer.reroll_price
+			_reroll_button.pressed.connect(_reroll)
+			buttons.add_child(_reroll_button)
 
 
 func _select(index: int) -> void:

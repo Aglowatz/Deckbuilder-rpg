@@ -59,6 +59,26 @@ func test_a_pick_can_be_rerolled_once_for_gold() -> void:
 	assert_eq((Session.pending_popups[1] as RewardSummary).card_choices.size(), RewardPicks.REPEAT_COUNT, "the reroll did not count as a win: the next win is the first repeat")
 
 
+func test_a_dungeon_offer_rerolls_once_for_gold_too() -> void:
+	# Overnight Oct 29, Phase 2: the same reroll on a dungeon node's offer (RewardOffer), drawn by the offer's own closure.
+	var offer: RewardOffer = RewardOffer.new()
+	var first: CardData = Session.content.card("C-01")
+	var second: CardData = Session.content.card("C-02")
+	offer.cards = [first] as Array[CardData]
+	offer.reroll_price = Economy.reroll_price(Session.profile.level)
+	offer.reroll = func() -> Array[CardData]: return [second] as Array[CardData]
+	assert_true(offer.can_reroll())
+	Session.gold = offer.reroll_price - 1
+	assert_false(Session.reroll_dungeon_pick(offer), "too poor")
+	Session.gold = 300
+	assert_true(Session.reroll_dungeon_pick(offer))
+	assert_eq(offer.cards[0], second, "the closure's cards")
+	assert_eq(Session.gold, 300 - offer.reroll_price)
+	assert_true(offer.rerolled)
+	assert_false(Session.reroll_dungeon_pick(offer), "once per pick")
+	assert_eq(Session.counter("picks_rerolled"), 1)
+
+
 func test_an_ordinary_fight_offers_no_pick() -> void:
 	var context: BattleContext = _context("")
 	assert_eq(Session.world_pick_kind(context), "")

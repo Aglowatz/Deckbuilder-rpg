@@ -450,7 +450,8 @@ cycle 1); the spells-only arena (cycle 10).
 4. **The late sink**: from the Capital on every profile held 2,000-6,000 gold with only Gilded / Prismatic packs and the Royal Mantle to buy.
    Phase 2 added a **reward-pick reroll**: a world pick (gatekeeper, zone elite, town boss, arena tier 2+) can be rerolled once for 40 + 10 x
    level gold (L5 90, L12 160, L22 260; `Economy.reroll_price`), a button under the three cards; the reroll never counts as another win.
-   Dungeon picks (nodes, the main bosses' chase pick) do not reroll yet. Say if you want it removed, priced otherwise, or extended to dungeons.
+   Dungeon picks reroll the same way (a "Reroll (N gold)" button beside Skip on the rewards screen; the main bosses' chase card is kept in
+   the fresh set; never in the tutorial's first run). Say if you want it removed or priced otherwise.
 5. **Quest gold and XP were left alone** (core/quests is in the dialogue freeze); quests pay 3,500 of the ~19,600 one-time gold. Chests and
    feats were left too (already tiered). Selling, an inn, rerolls and repairs do not exist, so there is nothing to price there.
 6. **Binding Chains measured +17 alone at level 12** (6 games per Path, +-12 noise; the Reckless Tonic +13 after its 6 -> 5 HP change, the

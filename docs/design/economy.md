@@ -68,7 +68,7 @@ The vendor discount of the level track (10 % at L11, 20 % at L21) still applies 
 | Gold per Colorless duplicate | 15 / 30 / 60 / 120 | 15 / 30 / 75 / 150 | half the shelf price |
 | Quests, chests, feats, gatekeepers, graveyard, minigames | unchanged | | quests are frozen with the dialogue; chests and feats are already tiered |
 
-**Added in Phase 2**: a world card pick (a gatekeeper, a zone elite, a town boss, the arena's upper tiers) can be rerolled once for
+**Added in Phase 2**: a card pick (a gatekeeper, a zone elite, a town boss, the arena's upper tiers, every dungeon node's pick) can be rerolled once for
 `Economy.reroll_price(level)` = 40 + 10 x level to the nearest 10 (L5 90, L12 160, L22 260): the repeatable sink the late game lacked.
 Not added (inbox): rotating rare stock, an essence-for-gold exchange; selling and an inn do not exist in the game.
 

@@ -135,6 +135,9 @@ The first three zones' bosses sit in or just over their 40-60 band.
 6. The late side bosses were far too easy with the Gauntlets and the Waistband stacked: the Raccoon's guard +2/+2 (92 -> 46 %), the
    Grate's Spotless +4/+3 (88 -> 73 %); the rest listed for you (inbox 12).
 7. The tailor's preview checked with a hat on (`p2_tailor_hat.png`): it sits on the head.
+8. Second seeds for the Hall, the Test Kitchen and the Rotheart (12 games): the bosses hold their band.
+9. The reroll extended to dungeon picks (the rewards screen's "Reroll (N gold)" beside Skip; the boss's chase card kept; never in the
+   tutorial's first run). Shot `p2_dungeon_reroll.png`; dungeons and prologue smokes.
 
 ## Checks run
 
@@ -143,6 +146,6 @@ walk smoke, gatekeeper pick probes (mouse, pad); structure budget OK. Screenshot
 
 ## Inbox (Overnight Oct 29-30)
 
-1 XP curve vs the progression model. 2 Primm 78 % as a sequence. 3 the Honor Guard 50 %. 4 the reroll (added; price / reach). 5 quests,
+1 XP curve vs the progression model. 2 Primm 78 % as a sequence. 3 the Honor Guard 50 %. 4 the reroll (added, world and dungeon picks; price). 5 quests,
 chests, feats left alone. 6 Binding Chains +17. 7 zone fees left. 8 the Belt and the Barbell Beefcake-only. 9 hat art notes. 10 the Vault's
 normals.

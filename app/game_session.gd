@@ -3518,10 +3518,17 @@ func complete_battle(context: BattleContext) -> void:
 	else:
 		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss, earned_cards_map())
 	# Cards Oct 27, Part 2: a main dungeon's boss always offers the dungeon's REWARD-LOCKED chase card until the player has earned it.
-	if context.is_boss and main_dungeon_active and not offer.cards.is_empty():
-		var chase: CardData = card_by_id(DungeonSignatures.boss_pick_id(dungeon_key))
-		if chase != null and not earned_cards_map().has(chase.id) and not offer.cards.has(chase):
-			offer.cards[offer.cards.size() - 1] = chase
+	_force_chase_card(offer, context)
+	# Oct 29, Phase 2 (the late sink): outside the tutorial's first run the pick can be rerolled once for gold, drawn the same way.
+	if profile.intro_dungeon_cleared and not offer.cards.is_empty():
+		offer.reroll_price = Economy.reroll_price(profile.level)
+		var themed: bool = context.card_choices > 0 and _node_is_elite_or_boss(context)
+		offer.reroll = func() -> Array[CardData]:
+			var fresh: Array[CardData] = reward_pick(context, context.is_boss, false) if themed else RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss, earned_cards_map())
+			var again: RewardOffer = RewardOffer.new()
+			again.cards = fresh
+			_force_chase_card(again, context)
+			return again.cards
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
@@ -3627,6 +3634,28 @@ func reroll_reward_pick(summary: RewardSummary) -> bool:
 	summary.card_choices = fresh
 	summary.picked = null
 	summary.rerolled = true
+	bump_counter("picks_rerolled")
+	return true
+
+
+func _force_chase_card(offer: RewardOffer, context: BattleContext) -> void:
+	if context.is_boss and main_dungeon_active and not offer.cards.is_empty():
+		var chase: CardData = card_by_id(DungeonSignatures.boss_pick_id(dungeon_key))
+		if chase != null and not earned_cards_map().has(chase.id) and not offer.cards.has(chase):
+			offer.cards[offer.cards.size() - 1] = chase
+
+
+## Oct 29, Phase 2: pays a dungeon pick's reroll price and replaces its cards (once per pick). False when it cannot be rerolled or the gold is short.
+func reroll_dungeon_pick(offer: RewardOffer) -> bool:
+	if offer == null or not offer.can_reroll() or gold < offer.reroll_price:
+		return false
+	var fresh: Array[CardData] = offer.reroll.call() as Array[CardData]
+	if fresh.is_empty():
+		return false
+	spend_gold(offer.reroll_price)
+	offer.cards = fresh
+	offer.taken = null
+	offer.rerolled = true
 	bump_counter("picks_rerolled")
 	return true
 

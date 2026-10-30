@@ -30,3 +30,7 @@ Parts 1-4 landed at 6264456c, 04d28dcc, 45311175, 2d38e6e9. Last run's log: `doc
    (`_screenshots/oct29/p2_tailor_hat.png`). No change.
 8. **Second seeds (23:10)**: the Hall, the Test Kitchen and the Rotheart at 12 games on seed 8100 - Mortimer 56, the Doppelganger 50, the
    elites 67-83 (Rotheart below). The bosses of the first three zones hold their band on both seeds. No change.
+9. **Dungeon picks reroll too (23:30)**: `RewardOffer.reroll / reroll_price / rerolled`, `Session.reroll_dungeon_pick` (the same price, the same
+   generator branch as the offer, the boss's chase card kept, never in the tutorial's first run), a "Reroll (N gold)" button beside Skip on the
+   dungeon rewards screen that rebuilds the card row. Test in `test_world_reward_pick`; dungeons smoke and prologue smoke; shot
+   `_screenshots/oct29/p2_dungeon_reroll.png`. Kept.
