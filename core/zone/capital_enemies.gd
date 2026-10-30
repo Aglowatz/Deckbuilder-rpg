@@ -108,10 +108,12 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.display_name = "Captain Spotless"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-34": 1, "C-29": 2, "C-32": 1, "C-33": 1})  # Rebalance Part E: 98% at level 18
-			made.hp = 36  # Overnight Oct 18 Part 2: 100% at 30 HP
+			made.hp = 46  # XP pass Oct 30: 98 % at L20 with 36 HP and +2/+1. Overnight Oct 18 Part 2: 100% at 30 HP
 			made.ai_name = "Aggressive"
 			made.gold_reward = Economy.elite_gold("final") + 10
 			made.xp_reward = 120
+			# XP pass Oct 30: drawn with his own NPC set (the gate figure's; idle-only, so he hops as he moves) - the 3D Knight is the fallback
+			made.sprite = "SPOTLESS"
 			made.model = "kaykit:Knight"
 			made.anim_idle = &"Idle"
 			made.anim_walk = &"Walking_A"

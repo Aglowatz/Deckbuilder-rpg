@@ -1507,3 +1507,33 @@ Spotter 79, the Lab's Failed Experiment 94, Siphon with Elowen 75 (`oct29_S-REF.
 
 Not touched (inbox 12): the Ancient Spotter 79, the Lab's elites 75-94, the castle elites 83-88, Spotless the roamer 92 - the sim's AI shrugs
 at the Waistband's two-cards-a-turn and the Gauntlets' -3 max HP in a way a human will not.
+
+## XP pass Oct 30, Part 2: every group re-measured at the real levels
+
+The XP curve was re-based (Part 1), so the expected player meets every fight at the level the timeline really gives
+(`ProgressionModel.LEVELS`; a dungeon's elites and boss at the dungeon's own level, Primm +1) with that level's gear. Reports
+`docs/design/sim/oct30_*.md` (8-16 games per Path, second seeds 8100 for anything changed or near a band edge).
+
+| What | Old -> New | Why | Evidence (before -> after) |
+|---|---|---|---|
+| Captain Spotless (Capital gate elite, `CapitalEnemies`) HP; "Spotless Drill" (`zone:final:spotless`) | 36 -> **46**; +2/+1 -> **+4/+3** | 98 % at L20 (band 60-75) | +3/+2 90, +4/+3 83, + HP 46: **75 / 71** (two seeds) |
+| Trophy Hall Honor Guard (D-HOG:11) HP, basics | 12 -> **9**, 13 -> **15** | 47 / 48 at L8 (band 60-75; 46-52 on Oct 29) | basics alone 48; with HP **65 / 63** |
+| Chancellor Clench "Iron Regent"; "Reinforcements" | 3 -> **2 Iron**; every 4th -> **every 5th** turn | 34 / 38 at L8 (band 40-60) | HP 24 -> 20 moved nothing (reverted); **41 / 40** (Gourmand 13-20: a Path matchup) |
+| The Doppelganger (D-TTK) HP; "Mise en Place"; the Test Kitchen normals (Frozen Line Cook, Assembly Line Golem, Expediter) HP | 21 -> **16**; 2 -> **1 Ingredient**; 17 -> **15** each (a boss keeps more HP than the normals, `test_main_dungeons`) | 31 at L14 (was 50 at L16) | "Perfect Copy" must stay +1/+1: the frozen mask script removes it by name and says "its units lose +1/+1" (+1/+0 read 42 / 44); 18 HP 31 / 27, 23 basics 23 / 35; kept **43 / 27** (Refusemancer 0-20, Necrocrat 17-20: those reference decks before their own zone) - inbox 8; normals 83-95 |
+| Compostella "Rot Takes Root" | +1/+1 -> **+2/+2** | 78 at L17 | +2/+1 65; **67 / 48** |
+| Hive of Mutant Bees (D-ROT:10) HP, basics | 14 -> **18**, 17 -> **15** | 81 / 88 | **71 / 81** (edge) |
+| Mirror Knight "Polished" | +3/+1 -> **+3/+2** | 88 at L21 | **65** |
+| Royal Staircase Guard: Militia; texts | 2 -> **3** (stat +2/+1 kept; the token text said +1/+1, fixed) | 88 | +1/+1 with 3 Militia 96; **55 / 77** |
+| Percival Plume "Positive Spin" | +1 attack -> **+1/+1** | 91 | +2/+1 53; **78** |
+| Clocktower Sentinel "Clockwork Precision" | +2/+2 -> **+3/+3** | 91 | **78** |
+| Primm's phases (`PrimmBoss`) HP; phase 3 "Everything He Cannot Control" | 40 / 36 / 36 -> **44 / 42 / 42**; +1/+1 -> **+2/+2** | the sequence 78 % (B 50 / G 79 / R 83 / N 100) | tried: 3 Militia in phase 1 (42 %, Beefcake 0), a +1/+1 mirror (64, B 25), 2 extra mirror draws (64, B 30); kept: **66 / 70** (B 35 / 30, G 60 / 70, R 75 / 80, N 95 / 100) - inbox 4 |
+| Iron Cave: Calf Raise Crusher, Squat Rack Squatter HP; Baron Quadzilla HP, "Max Pump" | 6 -> **4**, 7 -> **5**; 16 -> **13**, rule **removed** | at its real L6 (the boss was simmed at L8): 69 / 75 / 25 | **83 / 83 / 44** |
+| Forgotten Vault: Rusty Gate Clockwork, Banner Hall Guardian HP, basics | 7 -> **5**, 10 -> **7**; 16 -> **18** both | 53 / 63 at L7 (band 80-100; Oct 29 inbox 10) | **81 / 81**; the Automaton 47 -> 50 |
+| The Ancient Spotter "Ancient Form" | +3/+2 -> **+4/+3** | 72 at L23 | **69 / 67** (HP 34 -> 42 moved nothing, reverted; left a little over) |
+| Colonel Cornelius Crumb "Fortified Rations" | +1/+2 -> **+2/+2** | 75 at L23 | **52** |
+| Quota Spotter basics (tried) | 11 -> 13 | Refusemancer ~71 % pooled over three seeds (the first zone at L5; the curve did not move it) | mixed (91 -> 86, 73 -> 89): **reverted**, inbox 5 |
+
+In band and untouched: the cave (B 90 / G 92 / R 80 / N 97, 30 runs), the Gainlands roamers (81-91 % overall), every later zone's
+roamers (85-100), Colonel Casserole 68, the Hall of Final Approvals (Mortimer 53), the Test Kitchen and Rotheart normals and the
+Unfinished War Machine / Hortensia, the Waiting Room (Betty 47), Omakase (the Itamae 47), the Trash Panda Throne (the Raccoon 56),
+the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-measured: the Path-ology Lab (postgame, L25 now).

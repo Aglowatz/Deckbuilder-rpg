@@ -42,6 +42,9 @@ func test_every_roaming_enemy_has_a_sprite_key_the_importer_can_fill() -> void:
 		for enemy_id: String in roster[zone_id] as Array:
 			var info: ZoneEnemyInfo = ZoneEnemies.info(zone_id, enemy_id)
 			var key: String = info.sprite_key()
+			if enemy_id == CapitalEnemies.SPOTLESS:
+				assert_eq(key, "SPOTLESS", "XP pass Oct 30: Captain Spotless wears his own NPC set")
+				continue
 			assert_true(key.begins_with(Bestiary.SPRITE_PREFIX), "%s/%s: %s" % [zone_id, enemy_id, key])
 			assert_false(seen.has(key), "%s is unique (%s/%s vs %s)" % [key, zone_id, enemy_id, seen.get(key, "")])
 			seen[key] = zone_id + "/" + enemy_id

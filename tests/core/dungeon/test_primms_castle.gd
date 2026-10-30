@@ -237,7 +237,7 @@ func test_unraveling_hurts_him_each_turn_and_makes_him_stronger() -> void:
 	Session.boss_phase = 2
 	var context: BattleContext = Session.make_dungeon_battle(_map.boss())
 	var mods: ModifierSet = context.game.players[1].modifiers
-	assert_eq(mods.stat_bonus(Affinity.Type.NEUTRAL), Vector2i(1, 1))
+	assert_eq(mods.stat_bonus(Affinity.Type.NEUTRAL), Vector2i(2, 2), "XP pass Oct 30: +2/+2 (was +1/+1)")
 	assert_gt(mods.sum(Modifier.Kind.EXTRA_DRAWS), 0)
 	assert_eq(mods.effects_of(Modifier.Kind.START_OF_TURN_EFFECT).size(), 1)
 

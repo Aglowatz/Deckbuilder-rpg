@@ -488,3 +488,24 @@ cycle 1); the spells-only arena (cycle 10).
 3. **The model's in-dungeon level offsets** (elites +1, bosses +2) are gone: one dungeon pays less than a level before its boss, so the
    sim meets bosses at the dungeon's level (Primm +1). Bosses read 1-2 levels "harder" in the sim than before tonight for that reason
    alone (Part 2 measures it).
+4. **Primm's three phases as one HP pool: 78 -> 68 %** (pooled over two seeds: Beefcake 32, Gourmand 65, Refusemancer 78, Necrocrat 98).
+   The spread is a Path matchup: every Path-neutral lever (phase HP, a stronger phase 3, a buffed mirror, extra mirror draws, a third
+   Militia in phase 1) cut Beefcake as fast as the average while Necrocrat kept winning (Standardization's 3/3 makes its small units
+   bigger and Beefcake's big ones smaller). Kept: HP 44 / 42 / 42 and phase 3 +2/+2. Reaching 45-60 with no Path under 35 needs a
+   Path-aware rule (e.g. Standardization at 2/2, or something Necrocrat's recursion cannot ignore); your call.
+5. **Refusemancer vs the Quota Spotter at L5** pools to ~71 % over three seeds (the other Paths 80-90; the zone 81-91 %). The Spotter has
+   4 HP already; one more basic gave a mixed result and was reverted. The level did not change there, so it is the starting-deck matchup.
+6. **Path matchups at the bosses** (overall in band): Gourmand 13-20 % against Clench at L8, Refusemancer 8-17 % and Necrocrat 17-33 %
+   against the Doppelganger at L14, Beefcake 10-50 % against Compostella - each Path is weak before its own zone (`ProgressionModel`
+   gives it its zone's cards only after that zone's boss).
+7. **Left a little over the band**: the Ancient Spotter 67-69 % (HP does not move it), the Grate's Spotless 66 %, the Hive 71 / 81, the
+   Plume / Clocktower 78. The Path-ology Lab was not re-measured (postgame; the expected player is L25 there now, the model said 26-28).
+8. **The Doppelganger (Test Kitchen boss) sits ~35 % at L14** (43 / 27 on two seeds; Gourmand 67-80, Necrocrat 17-20, Refusemancer 0-20).
+   Its "Perfect Copy" +1/+1 is what bites, and the mask script (dialogue freeze) removes that rule by name and says "its units lose
+   +1/+1", so it stayed. At +1/+0 it read 42 / 44 - if you change the script's line, that is the fix. Siphon (the Lab) went 44 -> 48 HP
+   to stay above Primm's new first phase (test invariant); with Elowen 79 %.
+9. **Captain Spotless's figure**: his zone-enemy entry (`CapitalEnemies.SPOTLESS`) now names the SPOTLESS NPC set, so wherever he is
+   drawn as an enemy he is the painted captain (idle-only, so he hops). He does not roam today - the Capital never spawns him; at the
+   gate he was already the painted sprite (`_screenshots/oct30/spotless_gate.png`). The two 3D knights flanking the gate are the unnamed
+   gate guards (`guard_in_1/2`, `guard_height`, `guard_queue`): say if those should wear a sprite set too (none exists for them).
+   The other Part 3 calls stand as asked: the reroll and its price, the Belt / Barbell Beefcake-only, Binding Chains untouched.

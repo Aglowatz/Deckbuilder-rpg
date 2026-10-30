@@ -23,19 +23,19 @@
 	"Chancellor Clench, Iron Regent": [
 		{
 			"name": "Iron Regent",
-			"text": "Starts the duel with 3 Iron.",
+			"text": "Starts the duel with 2 Iron.",
 			"icon": "delapouite/belt-armor",
 			"kind": "starting_resources",
 			"resource": "iron",
-			"count": 3
+			"count": 2
 		},
 		{
 			"name": "Reinforcements",
-			"text": "Every fourth turn of his, a 2/2 Patchwork Body marches in.",
+			"text": "Every fifth turn of his, a 2/2 Patchwork Body marches in.",
 			"icon": "delapouite/strong-man",
 			"kind": "timed_summon",
 			"token": "T-21",
-			"every": 4
+			"every": 5
 		}
 	],
 	"Unfinished War Machine": [
@@ -60,15 +60,15 @@
 	"The Doppelganger": [
 		{
 			"name": "Mise en Place",
-			"text": "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field.",
+			"text": "Starts the duel with 1 Ingredient and a 1/1 Sashimi Weenie on the field.",
 			"icon": "delapouite/chef-toque",
 			"kind": "starting_resources",
 			"resource": "ingredient",
-			"count": 2
+			"count": 1
 		},
 		{
 			"name": "Mise en Place",
-			"text": "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field.",
+			"text": "Starts the duel with 1 Ingredient and a 1/1 Sashimi Weenie on the field.",
 			"icon": "delapouite/chef-toque",
 			"kind": "starting_tokens",
 			"token": "T-03",
@@ -176,31 +176,31 @@
 		},
 		{
 			"name": "Rot Takes Root",
-			"text": "Compostella's units get +1/+1. The rot feeds them.",
+			"text": "Compostella's units get +2/+2. The rot feeds them.",
 			"icon": "cathelineau/tree-face",
 			"kind": "stat",
-			"atk": 1,
-			"def": 1
+			"atk": 2,
+			"def": 2
 		}
 	],
 	"Mirror Knight": [
 		{
 			"name": "Polished",
-			"text": "The Knight's units get +3/+1. Reflections of a perfect guard.",
+			"text": "The Knight's units get +3/+2. Reflections of a perfect guard.",
 			"icon": "delapouite/shinto-shrine-mirror",
 			"kind": "stat",
 			"atk": 3,
-			"def": 1
+			"def": 2
 		}
 	],
 	"Royal Staircase Guard": [
 		{
 			"name": "Royal Guard",
-			"text": "Starts the duel with two 1/1 Militia on the field; its units get +1/+1.",
+			"text": "Starts the duel with three 1/1 Militia on the field; its units get +2/+1.",
 			"icon": "delapouite/guards",
 			"kind": "starting_tokens",
 			"token": "T-16",
-			"count": 2
+			"count": 3
 		},
 		{
 			"name": "Royal Guard",
@@ -222,11 +222,11 @@
 		},
 		{
 			"name": "Ancient Form",
-			"text": "The Spotter's units get +3/+2.",
+			"text": "The Spotter's units get +4/+3.",
 			"icon": "delapouite/mammoth",
 			"kind": "stat",
-			"atk": 3,
-			"def": 2
+			"atk": 4,
+			"def": 3
 		}
 	],
 	"The Itamae Supreme": [
@@ -301,14 +301,6 @@
 			"kind": "starting_resources",
 			"resource": "iron",
 			"count": 2
-		},
-		{
-			"name": "Max Pump",
-			"text": "Baron Quadzilla's units get +1 attack.",
-			"icon": "lorc/muscle-up",
-			"kind": "stat",
-			"atk": 1,
-			"def": 0
 		}
 	],
 	"The Old Kingdom Automaton": [
@@ -468,21 +460,21 @@
 	"zone:final:spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "Spotless's units get +2/+1. Drilled until they shine.",
+			"text": "Spotless's units get +4/+3. Drilled until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
-			"atk": 2,
-			"def": 1
+			"atk": 4,
+			"def": 3
 		}
 	],
 	"Clocktower Sentinel": [
 		{
 			"name": "Clockwork Precision",
-			"text": "The Sentinel's units get +2/+2.",
+			"text": "The Sentinel's units get +3/+3.",
 			"icon": "delapouite/alarm-clock",
 			"kind": "stat",
-			"atk": 2,
-			"def": 2
+			"atk": 3,
+			"def": 3
 		}
 	],
 	"The Failed Experiment": [
@@ -596,11 +588,11 @@
 		},
 		{
 			"name": "Positive Spin",
-			"text": "Plume's units get +1 attack. Everything hits harder in a press release.",
+			"text": "Plume's units get +1/+1. Everything hits harder in a press release.",
 			"icon": "delapouite/scroll-quill",
 			"kind": "stat",
 			"atk": 1,
-			"def": 0
+			"def": 1
 		}
 	],
 	"capital:quota": [
@@ -632,10 +624,10 @@
 		},
 		{
 			"name": "Fortified Rations",
-			"text": "The Colonel's units get +1/+2. Fortified with nothing at all.",
+			"text": "The Colonel's units get +2/+2. Fortified with nothing at all.",
 			"icon": "lorc/acid-blob",
 			"kind": "stat",
-			"atk": 1,
+			"atk": 2,
 			"def": 2
 		}
 	]

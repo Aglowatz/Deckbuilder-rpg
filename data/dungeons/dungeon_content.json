@@ -66,8 +66,8 @@
 					"name": "Trophy Hall Honor Guard",
 					"deck": "beefcake_bruisers",
 					"size": 28,
-					"hp": 12,
-					"infra": 13
+					"hp": 9,
+					"infra": 15
 				},
 				"13": "Chancellor Clench, Iron Regent"
 			},
@@ -175,7 +175,7 @@
 				"extra": {
 					"G-33": 1
 				},
-				"hp": 21,
+				"hp": 16,
 				"icon": "delapouite/chef-toque",
 				"infra": 19
 			},
@@ -188,7 +188,7 @@
 				},
 				"3": {
 					"name": "Frozen Line Cook",
-					"hp": 17,
+					"hp": 15,
 					"size": 29
 				},
 				"6": {
@@ -201,7 +201,7 @@
 				},
 				"8": {
 					"name": "Assembly Line Golem",
-					"hp": 17,
+					"hp": 15,
 					"size": 30,
 					"infra": 15
 				},
@@ -215,7 +215,7 @@
 				},
 				"12": {
 					"name": "Expediter of the Pass",
-					"hp": 17,
+					"hp": 15,
 					"size": 30,
 					"infra": 15
 				},
@@ -546,9 +546,9 @@
 					"name": "Hive of Mutant Bees",
 					"deck": "gourmand_refusemancer_farm",
 					"size": 30,
-					"hp": 14,
+					"hp": 18,
 					"icon": "lorc/bat-wing",
-					"infra": 17,
+					"infra": 15,
 					"ai": "Balanced"
 				},
 				"11": {
@@ -909,7 +909,7 @@
 				"extra": {
 					"B-12": 2
 				},
-				"hp": 16,
+				"hp": 13,
 				"icon": "delapouite/mammoth",
 				"infra": 13
 			},
@@ -917,7 +917,7 @@
 				"1": {
 					"name": "Calf Raise Crusher",
 					"deck": "beefcake_rush",
-					"hp": 6,
+					"hp": 4,
 					"size": 24,
 					"ai": "Balanced",
 					"icon": "lorc/muscle-up",
@@ -926,7 +926,7 @@
 				"2": {
 					"name": "Squat Rack Squatter",
 					"deck": "beefcake_rush",
-					"hp": 7,
+					"hp": 5,
 					"size": 24,
 					"ai": "Defensive",
 					"icon": "delapouite/strong-man",
@@ -1285,7 +1285,7 @@
 					"R-33": 1,
 					"N-29": 1
 				},
-				"hp": 44,
+				"hp": 48,
 				"icon": "delapouite/warlock-eye",
 				"infra": 15
 			},
@@ -1515,15 +1515,15 @@
 					"name": "Rusty Gate Clockwork",
 					"deck": "colorless_militia",
 					"size": 26,
-					"hp": 7,
-					"infra": 16
+					"hp": 5,
+					"infra": 18
 				},
 				"2": {
 					"name": "Banner Hall Guardian",
 					"deck": "colorless_militia",
 					"size": 28,
-					"hp": 10,
-					"infra": 16
+					"hp": 7,
+					"infra": 18
 				},
 				"3": {
 					"name": "The Old Kingdom Automaton",
