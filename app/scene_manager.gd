@@ -383,11 +383,24 @@ func _process(_delta: float) -> void:
 ## The playtest feedback form (F8, or the pause menu button).
 ## Overnight Oct 28 (screenshots): opens the pause menu on its Feats page.
 func show_feats_page() -> void:
+	_show_pause_page("_show_feats")
+
+
+## Fresh eyes Oct 30: the HUD's Menu button lists the Glossary and Settings too, so no feature hides behind the Esc key alone.
+func show_glossary_page() -> void:
+	_show_pause_page("_show_glossary")
+
+
+func show_settings_page() -> void:
+	_show_pause_page("_show_settings")
+
+
+func _show_pause_page(opener: String) -> void:
 	if _pause_menu == null:
 		return
 	if not _pause_menu.visible:
 		_pause_menu.toggle()
-	_pause_menu.call("_show_feats")
+	_pause_menu.call(opener)
 
 
 func open_feedback() -> void:

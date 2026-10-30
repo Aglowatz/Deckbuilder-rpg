@@ -958,6 +958,9 @@ func _save() -> void:
 
 ## Cards Oct 27, Part 3: leaving the station counts every new card as viewed (the "NEW" badges go).
 func _exit_tree() -> void:
+	# Fresh eyes Oct 30: the base class releases the WorldCover (3D rendering back on), pops the station's music and logs the close;
+	# without it the forest stayed black after leaving the station (the critic's "Deck Station X blacks out the world").
+	super._exit_tree()
 	Session.mark_new_cards_viewed()
 
 

@@ -1,0 +1,73 @@
+# Fix repro B: Deck Station X, Map M/X with the dialogue closed; sticky boss tooltip; real cave exit -> town arrival -> quest log
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 415 400
+button Begin
+wait 5
+skip_dialogue 40
+wait 5
+skip_dialogue 10
+wait 1
+skip_dialogue 10
+shot 30_forest
+dump
+key B
+wait 1.5
+button Got it
+wait 0.5
+shot 33_deck
+click 1550 55
+wait 2
+shot 34_after_deck_x
+scene
+key M
+wait 1.2
+shot 35_map
+key M
+wait 1
+shot 36_map_after_m
+click 1548 55
+wait 1
+shot 37_map_after_x
+key Escape
+wait 1
+shot 38_after_esc
+dev travel dungeon D-TUT -2
+wait 4
+move 1312 265
+wait 1
+shot 39_hover_boss
+move 800 100
+wait 1
+shot 40_hover_away
+dev autowin on
+click 1312 265
+wait 3
+skip_dialogue 30
+wait 3
+button Continue
+wait 2
+skip_dialogue 20
+shot 41_after_boss
+dump
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 20
+shot 42_rewards
+dump
+button Step outside
+wait 12
+shot 43_town_arrival
+dump
+skip_dialogue 40
+wait 1
+shot 44_town_after_talk
+key J
+wait 1
+shot 45_quest_log
+dump

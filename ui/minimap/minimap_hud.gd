@@ -76,11 +76,16 @@ func _add_frame() -> void:
 	add_child(frame)
 
 
-## Screenshot only: reveals the whole area (so every point of interest shows on the minimap and the full map).
-func reveal_all_for_screenshot() -> void:
+## Reveals the whole area (every point of interest shows on the minimap and the full map): screenshots, and the starting forest
+## (Fresh eyes Oct 30: a 40 m clearing with one goal has nothing to hide under fog).
+func reveal_all() -> void:
 	if fog == null or _player == null:
 		return
 	raster.apply_reveal(fog.reveal(Vector2(_player.position.x, _player.position.z), 2000.0))
+
+
+func reveal_all_for_screenshot() -> void:
+	reveal_all()
 
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -92,6 +97,12 @@ func _on_gui_input(event: InputEvent) -> void:
 func _refresh_pois() -> void:
 	if _poi_source.is_valid():
 		pois = _poi_source.call() as Array[MapPoi]
+
+
+## Re-reads the points of interest at once (a scene whose POIs just changed, e.g. the forest's cave beacon).
+func refresh_pois_now() -> void:
+	_refresh_pois()
+	queue_redraw()
 
 
 func _process(delta: float) -> void:

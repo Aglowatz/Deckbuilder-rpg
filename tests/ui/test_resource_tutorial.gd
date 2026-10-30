@@ -38,6 +38,15 @@ func test_every_starter_path_has_a_card_that_spends_or_a_resource_with_its_own_u
 		assert_true(spends, "%s's starter package can spend its Resource" % Affinity.display_name(path))
 
 
+func test_the_spend_prompt_wants_a_unit_of_your_own() -> void:
+	# Fresh eyes Oct 30: with only the enemy's unit on the table the Iron prompt fired and held End Turn (the critic's deadlock).
+	var game: GameState = GameFactory.blank_game()
+	GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 3))
+	assert_false(TutorialLayer._has_own_target(game, ResourceKind.Kind.IRON), "the enemy's unit is no reason to prompt")
+	GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 3))
+	assert_true(TutorialLayer._has_own_target(game, ResourceKind.Kind.IRON), "a unit of the player's own is")
+
+
 func test_prompts_are_short() -> void:
 	for step: Dictionary in TutorialLayer.STEPS:
 		assert_lt(str(step["text"]).length(), 280, "%s is short" % step["id"])

@@ -1158,8 +1158,11 @@ func _try_play(uid: int) -> void:
 	if card.data.is_infrastructure():
 		if game.can_play_infrastructure(0, uid):
 			_submit(GameAction.play_infrastructure(0, uid))
+		elif not game.in_main_phase() or game.active != 0:
+			_reject("You can only play cards in your main phase")
 		else:
-			_reject("You can only play one infrastructure per turn")
+			# Fresh eyes Oct 30: the reason in full (a new player clicked a second Infrastructure and read the old toast as a bug).
+			_reject("One Infrastructure per turn: you already played yours. Play a unit or a spell, or end the turn.")
 		return
 	if not game.can_play_card(0, uid):
 		_reject(_why_not_castable(card))
@@ -1229,8 +1232,15 @@ func _why_not_castable(card: CardInstance) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only play cards in your main phase"
 	var pips: Array[Affinity.Type] = game.pips_for(0, card.data, card)
-	if not game.can_pay_energy(0, game.generic_cost_for(0, card.data, card), pips):
-		return "Not enough energy"
+	var generic: int = game.generic_cost_for(0, card.data, card)
+	if not game.can_pay_energy(0, generic, pips):
+		# Fresh eyes Oct 30: the numbers ("Not enough energy" told a new player nothing about how energy works).
+		var player: PlayerState = game.players[0]
+		var have: int = player.ready_infrastructure().size() + player.pool.size()
+		var need: int = generic + pips.size()
+		if have < need:
+			return "Needs %d energy; you have %d (each ready Infrastructure gives 1 a turn)." % [need, have]
+		return "Needs %d energy of its Path's colour; your ready Infrastructure can't pay it." % pips.size()
 	return "There is no legal target, or you can't pay its extra cost"
 
 

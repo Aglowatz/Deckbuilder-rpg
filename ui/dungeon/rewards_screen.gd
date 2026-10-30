@@ -16,6 +16,8 @@ var _screenshot_args: Dictionary = {}
 var _card_row: HBoxContainer
 var _reroll_button: FancyButton
 var _boss_talk_done: bool = false
+## Fresh eyes Oct 30: the hovered (else the chosen) card's keywords, explained under the row - a reward cannot be judged on "Hustle." alone.
+var _keyword_help: VBoxContainer
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -85,6 +87,10 @@ func _build_rewards() -> void:
 	_where_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_where_label.custom_minimum_size = Vector2(760, 0)
 	_column.add_child(_where_label)
+	_keyword_help = UIKit.vbox(2)
+	_keyword_help.name = "KeywordHelp"
+	_keyword_help.alignment = BoxContainer.ALIGNMENT_CENTER
+	_column.add_child(_keyword_help)
 	if not _to_deck and Session.take_collection_tip():
 		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 		tip.name = "CollectionTip"
@@ -92,6 +98,12 @@ func _build_rewards() -> void:
 		tip.custom_minimum_size = Vector2(760, 0)
 		_column.add_child(tip)
 	_add_buttons()
+	# Fresh eyes Oct 30: the middle card starts chosen, so "Take" is the live gold button from the first frame (with nothing chosen the
+	# plain "Skip card" read as the primary button and the critic skipped the first reward).
+	if _cards.size() > 1:
+		_select(1, true)
+	elif not _cards.is_empty():
+		_select(0, true)
 
 
 ## The card views of the offer's current cards, in the card row (built once, and again after a reroll).
@@ -109,9 +121,11 @@ func _fill_cards() -> void:
 		PadClick.enable(view)  # controller support (Oct 26): A picks the card
 		view.hovered.connect(func(_v: CardView) -> void:
 			Audio.sfx(&"card_hover", -12.0)
+			_show_keywords(_offer.cards[index])
 			if _selected != index:
 				create_tween().tween_property(view, "position:y", view.position.y - 14.0, 0.1))
 		view.unhovered.connect(func(_v: CardView) -> void:
+			_show_keywords(_offer.cards[_selected] if _selected >= 0 and _selected < _offer.cards.size() else null)
 			if _selected != index:
 				create_tween().tween_property(view, "position:y", -CardView.SIZE.y * 0.1, 0.1))
 		_card_row.add_child(holder)
@@ -133,6 +147,8 @@ func _reroll() -> void:
 	_take_button.text = "Take card"
 	if _where_label != null:
 		_where_label.text = ""
+	if _cards.size() > 1:
+		_select(1, true)
 	if _reroll_button != null:
 		_reroll_button.queue_free()
 		_reroll_button = null
@@ -164,9 +180,10 @@ func _add_buttons() -> void:
 			buttons.add_child(_reroll_button)
 
 
-func _select(index: int) -> void:
+func _select(index: int, quiet: bool = false) -> void:
 	_selected = index
-	Audio.sfx(&"ui_select")
+	if not quiet:
+		Audio.sfx(&"ui_select")
 	for i: int in range(_cards.size()):
 		_cards[i].set_glow(CardView.Glow.SELECTED if i == index else CardView.Glow.NONE)
 		_cards[i].modulate = Color.WHITE if i == index else Color(0.7, 0.7, 0.78)
@@ -174,6 +191,24 @@ func _select(index: int) -> void:
 	_take_button.text = "Take %s" % _offer.cards[index].display_name
 	if _where_label != null:
 		_where_label.text = ("%s joins your deck." if _to_deck else "Added to your collection: %s (find it at the Deck Station).") % _offer.cards[index].display_name
+	_show_keywords(_offer.cards[index])
+
+
+## Fresh eyes Oct 30: the card's keywords and the resources its text names, each with its one-line meaning (KeywordInfo, as the Deck
+## Station's hover preview shows them); nothing for a card without any.
+func _show_keywords(card: CardData) -> void:
+	if _keyword_help == null:
+		return
+	for child: Node in _keyword_help.get_children():
+		child.queue_free()
+	if card == null:
+		return
+	for entry: Array in KeywordInfo.entries_for(card):
+		var line: Label = UIKit.label("%s: %s" % [str(entry[0]), str(entry[1])], &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		line.name = "Keyword_%s" % str(entry[0]).replace(" ", "_")
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.custom_minimum_size = Vector2(900, 0)
+		_keyword_help.add_child(line)
 	if InputDevice.using_pad() and _take_button.is_visible_in_tree():
 		_take_button.grab_focus.call_deferred()  # Fixes Oct 27: the next A takes it
 

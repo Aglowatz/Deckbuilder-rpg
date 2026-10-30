@@ -32,7 +32,9 @@ func _ready() -> void:
 	var glow: TextureRect = CardIcons.glyph(CardIcons.ui("fountain"), Color("8fe8ff"), Vector2(150, 150))
 	glow.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(glow)
-	var text: Label = UIKit.label("A quiet light gathers in the stone. Rest here and it will mend %d of your HP." % _heal, &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	# Fresh eyes Oct 30: a full heal says so (the cave's "mend 999 of your HP" read as a placeholder).
+	var full: bool = Session.run != null and _heal >= Session.run.max_hp()
+	var text: Label = UIKit.label("A quiet light gathers in the stone. Rest here and it will mend %s." % ("all of your HP" if full else "%d of your HP" % _heal), &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(680, 0)
 	column.add_child(text)

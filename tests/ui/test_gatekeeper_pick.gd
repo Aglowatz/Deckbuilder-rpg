@@ -147,9 +147,25 @@ func test_the_dungeon_elite_and_boss_pick_takes_a_click_a_key_and_the_pad() -> v
 		var screen: RewardsScreen = (load("res://scenes/rewards.tscn") as PackedScene).instantiate() as RewardsScreen
 		add_child_autofree(screen)
 		await wait_process_frames(2)
+		# Fresh eyes Oct 30: the middle card starts chosen, so Take is live from the first frame.
+		assert_eq(screen._selected, 1, "the middle card is chosen at once")
+		assert_false(screen._take_button.disabled, "Take is the live button from the start")
+		screen._show_keywords(GameFactory.vanilla(1, 1, 1, Affinity.Type.BEEFCAKE, [CardEnums.Keyword.FLYING] as Array[CardEnums.Keyword]))
+		await wait_process_frames(1)  # the previous card's lines are freed at the end of the frame
+		var lines: Array[String] = []
+		for child: Node in screen._keyword_help.get_children():
+			lines.append((child as Label).text)
+		assert_eq(lines.size(), 1, "a keyword on the card is explained under the row: %s" % str(lines))
+		assert_true(not lines.is_empty() and lines[0].begins_with("Flying:"), "by name and meaning: %s" % str(lines))
+		screen._show_keywords(null)
+		await wait_process_frames(1)
+		assert_eq(screen._keyword_help.get_child_count(), 0, "nothing without a card")
 		var key: InputEventKey = InputEventKey.new()
-		key.keycode = KEY_2
+		key.keycode = KEY_1
 		key.pressed = true
+		screen._input(key)
+		assert_eq(screen._selected, 0, "1 picks the first card")
+		key.keycode = KEY_2
 		screen._input(key)
 		assert_eq(screen._selected, 1, "2 picks the second card")
 		assert_false(screen._take_button.disabled)

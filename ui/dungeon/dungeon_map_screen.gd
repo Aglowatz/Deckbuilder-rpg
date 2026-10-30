@@ -381,7 +381,8 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.CHALLENGE:
 			text += "\nA deck challenge: the outcome depends on the cards you draw."
 		DungeonMap.Kind.SHRINE:
-			text += "\nRestore [b]%d[/b] HP." % node.heal_amount
+			# Fresh eyes Oct 30: a full heal is written as such ("Restore 999 HP" read as a placeholder).
+			text += "\nRestore [b]all[/b] your HP." if node.heal_amount >= run.max_hp() else "\nRestore [b]%d[/b] HP." % node.heal_amount
 	if map.is_cleared(id):
 		text += "  [color=#6fbf73](cleared)[/color]"
 	_info_body.text = text
@@ -934,6 +935,9 @@ func _build_art_extras() -> void:
 			# Fixes Oct 27: each with what it does (a curse in red)
 			var curse: bool = BoonText.is_curse(boon)
 			column.add_child(_rule_label("%s %s: %s" % ["[-]" if curse else "[+]", boon.source_name, BoonText.describe(boon)], Color("ff9c8f") if curse else Color("9cf5a0")))
+	# Fresh eyes Oct 30: a dungeon without rules (the Forgotten Cave) says so instead of showing a bare title.
+	if column.get_child_count() == 1:
+		column.add_child(_rule_label("No special rules here: the ordinary duel rules apply.", UIStyle.PARCHMENT))
 
 
 func _rule_label(text: String, color: Color) -> Label:

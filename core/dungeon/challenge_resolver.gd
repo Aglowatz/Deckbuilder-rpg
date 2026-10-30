@@ -4,6 +4,39 @@ extends RefCounted
 ## decides success, then applies the outcomes to the run.
 
 
+## Fresh eyes Oct 30: the outcome in numbers, so the player learns the rule ("3 of the 5 were Infrastructure; 3 were needed."). "" for
+## the challenge kinds whose outcome is the player's own choice.
+static func explain(challenge: ChallengeData, result: ChallengeResult) -> String:
+	var shown: int = result.revealed.size()
+	match challenge.kind:
+		ChallengeData.Kind.FIRST_UNIT_ATTACK:
+			for card: CardData in result.revealed:
+				if card.is_unit():
+					return "The first unit to come up was %s, with %d attack; %d was needed." % [card.display_name, card.attack, challenge.threshold]
+			return "No unit came up; one with %d attack was needed." % challenge.threshold
+		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
+			var count: int = _count(result.revealed, func(c: CardData) -> bool: return c.is_infrastructure())
+			return "%d of the %d cards were Infrastructure; %d were needed." % [count, shown, challenge.threshold]
+		ChallengeData.Kind.TOP_N_TYPE_COUNT:
+			var wanted: CardEnums.CardType = challenge.card_type
+			var count: int = _count(result.revealed, func(c: CardData) -> bool: return c.type == wanted)
+			return "%d of the %d cards were %s cards; %d were needed." % [count, shown, str(CardEnums.CardType.keys()[wanted]).capitalize(), challenge.threshold]
+		ChallengeData.Kind.TOP_N_TOTAL_COST:
+			var total: int = 0
+			for card: CardData in result.revealed:
+				total += card.energy_value()
+			return "The %d cards cost %d energy together; %d was needed." % [shown, total, challenge.threshold]
+	return ""
+
+
+## True when a passed challenge's reward list holds a heal (so "nothing changes" at full HP can say why).
+static func heals_on_success(challenge: ChallengeData) -> bool:
+	for outcome: ChallengeOutcome in challenge.on_success:
+		if outcome.kind == ChallengeOutcome.Kind.HEAL:
+			return true
+	return false
+
+
 ## Cards Oct 27, Part 3: `to_deck` = a won card also joins the run's deck (the tutorial cave); otherwise it is only reported in
 ## `gained_cards` for the caller to add to the collection.
 static func resolve(

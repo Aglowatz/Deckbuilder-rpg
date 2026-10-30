@@ -301,9 +301,19 @@ func _usable_resource_coins() -> Array[int]:
 	for uid: int in _resource_coins():
 		var view: CardView = screen.board.view_for(uid)
 		var kind: ResourceKind.Kind = view.data.resource_kind as ResourceKind.Kind
-		if ResourceKind.has_use_ability(kind) and not ResourceRules.use_targets(game, 0, kind).is_empty():
+		if ResourceKind.has_use_ability(kind) and _has_own_target(game, kind):
 			result.append(uid)
 	return result
+
+
+## Fresh eyes Oct 30: the "spend your Iron" prompt (and its hold on the turn) wants a unit of the player's OWN to buff. `use_targets` lists
+## every unit, the enemy's included, so the prompt fired - and held End Turn - while the only unit on the table was the enemy's.
+static func _has_own_target(game: GameState, kind: ResourceKind.Kind) -> bool:
+	var targets: Array[int] = ResourceRules.use_targets(game, 0, kind)
+	for unit: CardInstance in game.players[0].units():
+		if targets.has(unit.uid):
+			return true
+	return false
 
 
 ## Cards in hand or on the field that spend a Resource and could be played or used now (only while the player has one).

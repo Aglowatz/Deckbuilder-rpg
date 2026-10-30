@@ -31,6 +31,10 @@ var _overlay_layer: Control
 var _prompt_panel: PanelContainer
 var _prompt_label: Label
 var _gate_marker: Node3D
+## Fresh eyes Oct 30: the cave beacon (a QuestMarkerLayer with a fixed objective) and the HUD host it draws its edge pointer on.
+var _beacon: QuestMarkerLayer
+var _beacon_on: bool = false
+var _hud_host: Control
 var _near_gate: bool = false
 var _near_tunnel: bool = false
 var _chest_near: String = ""
@@ -111,6 +115,9 @@ func _ready() -> void:
 		_begin_cave_exit.call_deferred()
 	elif not Session.flag(&"rescuer_met") and Session.profile == null and not _screenshot_args.has("quiet"):
 		_play_awakening.call_deferred()
+	elif Session.profile != null and not Session.flag(&"trial_cleared") and not _screenshot_args.has("quiet"):
+		# A returning profile before the cave is cleared (a lost first duel): the goal is marked at once.
+		_show_cave_beacon.call_deferred()
 	ZoneTitleCard.show_in(self, Areas.START, _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
 
@@ -163,6 +170,7 @@ func _build_ui() -> void:
 	layer.layer = 5
 	add_child(layer)
 	var host: Control = UIKit.layer_host(layer)
+	_hud_host = host
 	host.add_child(UIKit.vignette(0.6))
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
@@ -183,7 +191,8 @@ func _build_ui() -> void:
 	if Session.deck != null:
 		var deck_button: FancyButton = FancyButton.make("", &"", Vector2(180, 52))
 		PromptText.bind(deck_button, "Deck ({open_deck})")
-		deck_button.position = Vector2(1650, 28)
+		# Fresh eyes Oct 30: left of the minimap ring (at x 1650 it sat under the ring's top edge).
+		deck_button.position = Vector2(1440, 28)
 		deck_button.pressed.connect(_open_deck_builder)
 		host.add_child(deck_button)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
@@ -198,7 +207,9 @@ func _build_ui() -> void:
 
 ## Minimap points of interest: the cave gate only. The hidden tunnel is a secret and never shown.
 func _collect_pois() -> Array[MapPoi]:
-	return [MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors.get("gate", Vector3.ZERO) as Vector3, "Cave gate")] as Array[MapPoi]
+	var gate: MapPoi = MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors.get("gate", Vector3.ZERO) as Vector3, "Cave gate")
+	gate.objective = _beacon_on  # Fresh eyes Oct 30: the goal's dot shows through the fog and clamps to the minimap's edge
+	return [gate] as Array[MapPoi]
 
 
 func _open_full_map() -> void:
@@ -308,7 +319,23 @@ func _rescuer_leaves() -> void:
 		_rescuer.queue_free()
 		_rescuer = null
 		_say_wanderer("prologue.wanderer.3", func() -> void:
-			_locked = false))
+			_locked = false
+			_show_cave_beacon()))
+
+
+## Fresh eyes Oct 30: the first goal, marked. Once the Rescuer has gone (or on a return before the cave is cleared) the cave gate gets the
+## quest objective's gold chevron and ground ring, the HUD's edge pointer while it is off screen, the minimap's objective dot, and the
+## clearing's map is revealed. The critic walked into the treeline six times and never found the arch; a real player had no marker either.
+func _show_cave_beacon() -> void:
+	if _beacon != null or area == null:
+		return
+	_beacon_on = true
+	if minimap != null:
+		minimap.reveal_all()
+		minimap.refresh_pois_now()
+	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+	_beacon = QuestMarkerLayer.install(self, Areas.START, _camera, func(_spot_id: String) -> Dictionary: return {}, _hud_host)
+	_beacon.set_fixed_objective({"pos": gate, "top": 1.9})
 
 
 ## Walking into the treeline (outside the nooks and the tunnel, which are secrets on purpose) makes the Wanderer talk themselves back to the cave. No exploring yet.

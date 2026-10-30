@@ -76,6 +76,18 @@ func _ready() -> void:
 		menu_column.add_child(item)
 		if signal_ref == packs_pressed:
 			_packs_item = item
+	# Fresh eyes Oct 30: the pause menu's pages a new player never finds behind Esc - the Glossary (keywords, resources), the Feats and
+	# Settings - listed here too. Each opens the pause menu on that page.
+	for extra: Array in [["Glossary", SceneManager.show_glossary_page, ""], ["Feats", SceneManager.show_feats_page, ""], ["Settings", SceneManager.show_settings_page, "ICON-UI-SETTINGS"]]:
+		var page: FancyButton = FancyButton.make(str(extra[0]), &"", Vector2(200, 48))
+		page.name = "Menu_%s" % str(extra[0])
+		if not str(extra[2]).is_empty():
+			IconArt.button_icon(page, str(extra[2]), 30.0)
+		var opener: Callable = extra[1] as Callable
+		page.pressed.connect(func() -> void:
+			close_menu()
+			opener.call())
+		menu_column.add_child(page)
 	PadFocus.register(_menu_panel)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)

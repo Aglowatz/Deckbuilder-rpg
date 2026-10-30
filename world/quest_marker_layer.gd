@@ -21,6 +21,7 @@ var _mark_nodes: Dictionary = {}
 var _objective: Node3D
 var _objective_ring: MeshInstance3D
 var _objective_key: String = ""
+var _fixed: Dictionary = {}
 var _timer: float = 0.0
 var _time: float = 0.0
 
@@ -65,8 +66,21 @@ func _process(delta: float) -> void:
 			(_objective_ring.material_override as StandardMaterial3D).albedo_color.a = 0.25 + 0.3 * (1.0 - pulse)
 
 
+## Fresh eyes Oct 30: a fixed objective that is not a quest (the forest's cave gate before any quest exists): the chevron, the ring and
+## the edge pointer point at `where` ({"pos": Vector3, "top": float}) until it is cleared with {}.
+func set_fixed_objective(where: Dictionary) -> void:
+	_fixed = where.duplicate()
+	refresh()
+
+
 func refresh() -> void:
 	if not is_inside_tree() or Session.profile == null:
+		return
+	if not _fixed.is_empty():
+		_set_objective(_fixed, "fixed|objective")
+		if pointer != null:
+			pointer.target_valid = true
+			pointer.target = _fixed["pos"] as Vector3 + Vector3(0, float(_fixed.get("top", 2.0)), 0)
 		return
 	Hitch.start("quest_markers")
 	var state: UnlockState = Session.unlock_state()

@@ -1,0 +1,40 @@
+# Fix repro C: Deck Station close paths in the forest (Esc, then X) and the map
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 415 400
+button Begin
+wait 5
+skip_dialogue 40
+wait 5
+skip_dialogue 10
+wait 1
+skip_dialogue 10
+key B
+wait 1.5
+button Got it
+wait 0.5
+shot 50_deck_open
+key Escape
+wait 2
+shot 51_after_esc
+key B
+wait 1.5
+shot 52_deck_open_again
+click 1550 55
+wait 2
+shot 53_after_x
+key B
+wait 1.5
+shot 54_deck_third
+key Escape
+wait 2
+shot 55_after_esc_again
+key M
+wait 1.5
+shot 56_map
+key M
+wait 1.5
+shot 57_map_after_m

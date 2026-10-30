@@ -1,0 +1,92 @@
+# Fix verification: after-shots for the ten fixes
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 40
+click 415 400
+button Begin
+wait 5
+skip_dialogue 40
+wait 5
+skip_dialogue 10
+wait 1
+skip_dialogue 10
+shot after_01_forest_beacon
+hold W+D 2
+shot after_02_forest_walk
+key B
+wait 1.5
+button Got it
+wait 0.5
+click 1550 55
+wait 2
+shot after_03_deck_closed_world
+key M
+wait 1.2
+shot after_04_forest_map
+key M
+wait 1
+key C
+wait 1.5
+shot after_05_character
+dump
+key Escape
+wait 1
+dev travel dungeon D-TUT
+wait 4
+key R
+wait 1
+shot after_06_cave_rules
+key R
+wait 0.5
+dev encounter tutorial
+wait 3
+button Keep Hand
+wait 1
+button Got it
+wait 0.5
+dev win
+wait 0.4
+shot after_07_victory_banner
+wait 3
+button Continue
+wait 3
+skip_dialogue 10
+dev travel dungeon D-TUT -2
+wait 4
+move 1312 265
+wait 1
+shot after_08_boss_tooltip
+dev autowin on
+click 1312 265
+wait 3
+skip_dialogue 30
+wait 3
+button Continue
+wait 2
+skip_dialogue 20
+wait 1
+button Continue
+wait 2
+skip_dialogue 20
+shot after_09_rewards
+dump
+button Take
+wait 2
+skip_dialogue 10
+button Step outside
+wait 12
+skip_dialogue 40
+wait 1
+button Menu
+wait 1
+shot after_10_town_menu
+dump
+button Glossary
+wait 1.5
+shot after_11_glossary
+key Escape
+wait 1
+key Escape
+wait 1

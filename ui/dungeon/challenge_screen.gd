@@ -99,6 +99,13 @@ func _show_outcome(result: ChallengeResult) -> void:
 	var headline: Label = UIKit.label("The well answers." if passed else "The well stays silent.", &"HeadingLabel", 36, UIStyle.GOOD if passed else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	_result_box.add_child(headline)
 	var lines: PackedStringArray = []
+	# Fresh eyes Oct 30: the rule in numbers first ("3 of the 5 were Infrastructure; 3 were needed."), and why a passed well at full
+	# HP changes nothing - the critic pressed Reveal and could not tell whether it had passed.
+	var why: String = ChallengeResolver.explain(challenge, result) if challenge != null else ""
+	if not why.is_empty():
+		lines.append(why)
+	if passed and result.hp_healed == 0 and challenge != null and ChallengeResolver.heals_on_success(challenge):
+		lines.append("You were already at full HP, so there was nothing to mend.")
 	if result.hp_healed > 0:
 		lines.append("You recover %d HP." % result.hp_healed)
 	if result.hp_lost > 0:

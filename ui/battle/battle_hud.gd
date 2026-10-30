@@ -369,9 +369,10 @@ func _build_banner() -> void:
 	_announce.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_announce)
 	_banner = UIKit.label("", &"TitleLabel", 92, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
-	_banner.set_anchors_preset(Control.PRESET_CENTER)
+	# Fresh eyes Oct 30: top-left anchors like every other HUD piece. With centre anchors the position was turned into offsets while the HUD
+	# still had no size, so once laid out the banner sat at (960 + 385, 540 + 440): "VICT" / "DEF" clipped at the bottom right of every duel.
 	_banner.custom_minimum_size = Vector2(1200, 120)
-	_banner.position = Vector2(385, 440)
+	_banner.position = Vector2(360, 440)
 	_banner.size = Vector2(1200, 120)
 	_banner.modulate.a = 0.0
 	_banner.z_index = 400
