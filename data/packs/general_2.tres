@@ -13,6 +13,6 @@ vendor_selection_only = true
 art_color = Color(0.55, 0.78, 0.95, 1)
 frame_style = "foil"
 art_icon = "faithtoken/card-random"
-price = 220
+price = 200
 sold_by = "card_vendor"
 order = 61

@@ -33,7 +33,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 13)  # Rebalance Part E: 27 / 16 basics, 14 HP -> 32 / 13, 22 (100% at level 18)
 			made.hp = 22
 			made.ai_name = "Balanced"
-			made.gold_reward = 35
+			made.gold_reward = Economy.roamer_gold("final")
 			made.xp_reward = 45
 			made.model = "kaykit:Knight"
 			made.anim_idle = &"Idle"
@@ -55,7 +55,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 13)  # Rebalance Part E: 96% at level 18
 			made.hp = 24
 			made.ai_name = "Defensive"
-			made.gold_reward = 40
+			made.gold_reward = Economy.roamer_gold("final")
 			made.xp_reward = 50
 			made.model = "kaykit:Mage"
 			made.anim_idle = &"Idle"
@@ -88,7 +88,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("necrocrat_refusemancer", 32, 13)  # Rebalance Part E: 100% at level 18
 			made.hp = 22
 			made.ai_name = "Aggressive"
-			made.gold_reward = 45
+			made.gold_reward = Economy.roamer_gold("final")
 			made.xp_reward = 55
 			made.model = "capital:wretch"
 			made.model_scale = 1.2
@@ -110,7 +110,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-34": 1, "C-29": 2, "C-32": 1, "C-33": 1})  # Rebalance Part E: 98% at level 18
 			made.hp = 36  # Overnight Oct 18 Part 2: 100% at 30 HP
 			made.ai_name = "Aggressive"
-			made.gold_reward = 120
+			made.gold_reward = Economy.elite_gold("final") + 10
 			made.xp_reward = 120
 			made.model = "kaykit:Knight"
 			made.anim_idle = &"Idle"

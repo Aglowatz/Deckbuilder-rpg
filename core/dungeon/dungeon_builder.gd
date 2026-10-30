@@ -6,10 +6,11 @@ extends RefCounted
 
 const K := DungeonMap.Kind
 const BOSS_MARKER: String = "PRIMM_BOSS"
-const DEFAULT_REWARD_GOLD: int = 200
+const DEFAULT_REWARD_GOLD: int = Economy.MAIN_FIRST_CLEAR_GOLD
 const DEFAULT_REWARD_XP: int = 150
-const SIDE_REWARD_GOLD: int = 30
-const MAIN_REPEAT_GOLD: int = 100
+const SIDE_REWARD_GOLD: int = Economy.SIDE_FIRST_CLEAR_GOLD  # Overnight Oct 29: 100 (was 30, noise next to the nodes)
+const SIDE_REPEAT_GOLD: int = Economy.SIDE_REPEAT_GOLD
+const MAIN_REPEAT_GOLD: int = Economy.MAIN_REPEAT_GOLD
 const AFFINITY_BY_NAME: Dictionary = {
 	"beefcake": Affinity.Type.BEEFCAKE, "gourmand": Affinity.Type.GOURMAND, "necrocrat": Affinity.Type.NECROCRAT, "refusemancer": Affinity.Type.REFUSEMANCER,
 }

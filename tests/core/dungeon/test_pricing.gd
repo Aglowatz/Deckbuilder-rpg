@@ -6,7 +6,8 @@ func test_prices_scale_with_rarity_and_cost() -> void:
 	var sellsword: CardData = content.card("C-01")
 	var colossus: CardData = content.card("R-33")
 	assert_true(CardPricing.price(colossus) > CardPricing.price(sellsword))
-	assert_eq(CardPricing.price(sellsword), 15 + sellsword.energy_value() * 5)
+	assert_eq(CardPricing.price(sellsword), Economy.card_price(sellsword.rarity), "Oct 29: priced by rarity alone")
+	assert_eq(CardPricing.price(colossus), 300)
 
 
 func test_sale_limits() -> void:

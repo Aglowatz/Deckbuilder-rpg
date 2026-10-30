@@ -66,7 +66,7 @@ func test_clearing_grants_the_unique_card_exactly_once() -> void:
 	_enter()
 	var second: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_false(second.has("first_clear"))
-	assert_eq(int(second.get("gold", 0)), DungeonBuilder.SIDE_REWARD_GOLD, "a repeat clear pays gold")
+	assert_eq(int(second.get("gold", 0)), DungeonBuilder.SIDE_REPEAT_GOLD, "a repeat clear pays the repeat gold")
 	assert_eq(Session.pack_count("path_necrocrat"), 1, "and a Necrocrat Path Pack")
 	assert_eq(Session.owned_count(MiniDungeon.REWARD_CARD_ID), before + 1, "one-time reward")
 

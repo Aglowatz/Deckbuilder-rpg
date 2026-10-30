@@ -190,16 +190,20 @@ static func default_stock() -> EquipmentVendorData:
 	var data: EquipmentVendorData = EquipmentVendorData.new()
 	var always: Condition = null
 	var advanced: Condition = Condition.player_level(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
-	data.add("wicked_dagger", 120, always)
-	data.add("extra_pocket", 60, always)
-	data.add("travelers_boots", 100, always)
-	data.add("solid_plate", 110, always)
-	data.add("xray_goggles", 130, always)
-	data.add("cardboard_cuirass", 60, always)  # Oct 16: two cheap early pieces
-	data.add("saucepan_helmet", 70, always)
-	data.add("flamethrower", 320, advanced)
-	data.add("cheaters_dice", 260, advanced)
-	data.add("hover_boots", 220, advanced)
-	data.add("thorned_loincloth", 280, advanced)
-	data.add("big_brain_beret", 300, advanced)
+	# Overnight Oct 29: prices from the curve (Economy.gear_price, docs/design/economy.md): basics tier 1, the advanced rack tier 3.
+	var common: EquipmentData.Rarity = EquipmentData.Rarity.COMMON
+	var uncommon: EquipmentData.Rarity = EquipmentData.Rarity.UNCOMMON
+	var epic: EquipmentData.Rarity = EquipmentData.Rarity.RARE
+	data.add("wicked_dagger", Economy.gear_price(uncommon, 1), always)
+	data.add("extra_pocket", Economy.gear_price(common, 1), always)
+	data.add("travelers_boots", Economy.gear_price(common, 1), always)
+	data.add("solid_plate", Economy.gear_price(uncommon, 1), always)
+	data.add("xray_goggles", Economy.gear_price(uncommon, 1), always)
+	data.add("cardboard_cuirass", Economy.gear_price(common, 1), always)  # Oct 16: two cheap early pieces
+	data.add("saucepan_helmet", Economy.gear_price(common, 1), always)
+	data.add("flamethrower", Economy.gear_price(epic, 3), advanced)
+	data.add("cheaters_dice", Economy.gear_price(uncommon, 3), advanced)
+	data.add("hover_boots", Economy.gear_price(uncommon, 3), advanced)
+	data.add("thorned_loincloth", Economy.gear_price(uncommon, 3), advanced)
+	data.add("big_brain_beret", Economy.gear_price(epic, 3), advanced)
 	return data

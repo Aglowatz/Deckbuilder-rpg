@@ -7,7 +7,7 @@ extends RefCounted
 ## (`tri_path_unlocked`, no tri-Path cards exist yet).
 
 const MIN_ESSENCE_PER_PATH: int = 6
-const GOLD_COST: int = 100
+const GOLD_COST: int = Economy.ALCHEMY_GOLD  # Overnight Oct 29: 150 (docs/design/economy.md)
 ## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade (the dual-Path cards are Uncommon, Epic and Legendary).
 const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]
 ## Every this-many essence beyond the two minimums shifts one weight point from Common to Epic and

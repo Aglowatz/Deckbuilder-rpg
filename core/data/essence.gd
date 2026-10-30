@@ -7,9 +7,10 @@ extends RefCounted
 ## Essence is spent at the Alchemist (`Alchemy`).
 
 ## Essence per extra copy by rarity (Common, Uncommon, Epic, Legendary).
-const VALUE_BY_RARITY: Array[int] = [1, 2, 4, 8]
-## Gold per extra neutral copy by rarity.
-const GOLD_BY_RARITY: Array[int] = [15, 30, 60, 120]
+## Overnight Oct 29: doubled (2 / 4 / 8 / 16) so packs pay essence worth having and the Alchemist is reachable mid-game (docs/design/economy.md).
+const VALUE_BY_RARITY: Array[int] = [2, 4, 8, 16]
+## Gold per extra neutral copy by rarity: half the shelf price.
+const GOLD_BY_RARITY: Array[int] = [15, 30, 75, 150]
 
 
 static func value_for(rarity: CardEnums.Rarity) -> int:

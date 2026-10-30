@@ -1413,3 +1413,31 @@ bodies are too. (c) Pink Slip to "attack 4 or less": Necrocrat 53 (vs B 65 / G 1
 Gourmand, whose golem engine wins on cards rather than on any one body. Neither was kept (`oct28_decks_l12_intern1_8100.md`,
 `oct28_decks_l12_pinkslip4_8100.md`). The Gourmand cell needs a different idea (resource denial: Push Broom / Audit Wraith in the sim's
 package, or a Gourmand-facing Common) and Refusemancer a pass of its own.
+
+## Overnight Oct 29, Part 2: the economy curve (docs/design/economy.md; audit docs/design/economy_audit_oct29.md)
+
+Measured with `tools/economy_model.gd` (three profiles over the story order; before `docs/design/sim/economy_model_before.md`, after
+`economy_model.md`). The audit found gold in lumps at the dungeons and nothing on arrival, every stock affordable at every stop, hoarding
+from the Capital on, the armory pinch at L5, prices on no curve, side-dungeon clears paying less than their nodes, essence that barely exists.
+
+| What | Old -> New | Why |
+|---|---|---|
+| Card price (`CardPricing` -> `Economy.CARD_PRICE`) | 15 / 35 / 80 / 160 + 5 per energy -> **30 / 60 / 150 / 300**, no energy term | one curve by rarity; an Epic was one Elite node and a Boss node |
+| Gear price (`Economy.gear_price`, rarity x tier) | 60-130 basics, 220-320 advanced, zone pieces 80-260 -> **Common 60 / 90, Uncommon 120 / 180 / 240, Epic 450** | the same rarity cost the same everywhere; the Epics (Flamethrower, Beret, Rolling Pin, Mitts) are the big mid-game buys |
+| Item price (`Economy.item_price`) | 25-55 -> **30 / 45 / 60** by band | three readable bands |
+| General Pack II | 220 -> **200** | round |
+| Cosmetics | 90-900 -> **100 / 120 / 150, 250 / 250, 300 / 300, 350 / 400, 1000** by unlock stage | the luxury sink keeps pace with the zones |
+| Alchemist gold | 100 -> **150** | the essence stays the real cost |
+| Essence per duplicate | 1 / 2 / 4 / 8 -> **2 / 4 / 8 / 16**; Colorless gold 15 / 30 / 60 / 120 -> 15 / 30 / 75 / 150 | packs pay essence worth having; the Alchemist reachable from the second zone |
+| Zone roamers (`Economy.roamer_gold`) | 25-45 -> **35 / 40 / 50 / 60 / 70** by zone tier; elites Casserole 50 -> 100, Spotless 120 -> 150 | income on arrival that scales with the prices; a roamer is still one Common |
+| Side dungeon first clear / repeat | 30 / 30 + pack -> **100 / 40 + pack** | the clear bonus was noise next to the nodes (170) |
+| Arena replay | 15 -> **25** | one roamer's worth |
+| Level track gold | L2-5 180, L6-10 320, L11-20 1,020, L21-30 1,550 -> **240 / 520 / 1,230 / 1,100** (total 3,090) | front-loaded to the armory and the first zones; the postgame band is reached during the main game (XP finding, inbox) |
+
+Before / after (gold on hand -> after buying, expected profile): armory 329 -> 39 / 320 -> 35; Gainlands freed 1,674 -> 323 / 1,735 ->
+315; Buffet freed 1,752 -> 341 / 1,855 -> 65 (the first stop where the stock, 1,830, is more than the purse); Dump freed 2,676 -> 545 /
+2,695 -> 355; end of the run 3,982 / 3,070 left. Spent 79 % -> 84 % of income (rusher 80 -> 91 %, thorough 72 -> 76 %). Droughts: none for
+the expected player; the rusher still sits at 18-63 gold for three stops after the armory (its own choice of stock: the model buys the
+Dagger and the Plate at L5; Part 3 moves the Dagger). Hoarding: none through the Dump; from the Capital on 2,000-3,000 stays unspent -
+the late sink is still missing (inbox: a reward-pick reroll or rotating rare stock). Unchanged: quests (frozen with the dialogue), chests,
+feats, gatekeepers, the graveyard, minigames, dungeon nodes and main clears, zone fees, the black market.

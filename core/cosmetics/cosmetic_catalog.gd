@@ -78,17 +78,18 @@ static func unlock_hint(item: CosmeticData) -> String:
 static func _build() -> void:
 	var hat: CosmeticData.Slot = CosmeticData.Slot.HAT
 	var cloak: CosmeticData.Slot = CosmeticData.Slot.CLOAK
+	# Overnight Oct 29: prices from docs/design/economy.md (start 100-150, L4-5 250, one zone 300, two zones 350-400, Primm 1000).
 	# Prices and unlock timing follow progress (docs/design/open_questions.md): three hats from the first visit, the rest as zones fall and levels rise; the found items
 	# (leaf crown, tattered cloak, royal mantle) also come from their chest or boss, the shop sells them later for a price.
 	_all = [
-		CosmeticData.make("hat_wide_brim", "Wide-Brim Hat", hat, "Shade for the head, drama for the walk.", 90, "WIDEBRIM"),
-		CosmeticData.make("hat_chef", "Chef's Toque", hat, "Tall, white and full of opinions about seasoning.", 110, "CHEF"),
-		CosmeticData.make("hat_bowler", "Bowler Hat", hat, "Respectable. Suspiciously respectable.", 140, "BOWLER"),
-		CosmeticData.make("hat_tricorn", "Tricorn", hat, "Three corners, zero regrets. Arr, mostly.", 220, "TRICORN").unlocked_by(Condition.player_level(5)),
-		CosmeticData.make("hat_wizard", "Wizard Hat", hat, "Pointy, wide and slightly too big. Comes with a feeling of competence.", 280, "WIZARD").unlocked_by(Condition.zones_completed(1)),
-		CosmeticData.make("hat_leaf_crown", "Crown of Leaves", hat, "Grown, not forged. Smells like a very good morning.", 360, "LEAFCROWN").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Verdant Dump"),
-		CosmeticData.make("cloak_patchwork", "Patchwork Cloak", cloak, "Every patch has a story. Most of them involve a goat.", 210, "PATCHWORK").unlocked_by(Condition.player_level(4)),
-		CosmeticData.make("cloak_red_cape", "Red Cape", cloak, "Flaps heroically. Does nothing else, heroically.", 260, "REDCAPE").unlocked_by(Condition.zones_completed(1)),
-		CosmeticData.make("cloak_tattered", "Tattered Cloak", cloak, "Survived things. Would survive more.", 180, "TATTERED").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Gainlands"),
-		CosmeticData.make("cloak_royal", "Royal Mantle", cloak, "Fur trim, gold clasp and a quiet sense of entitlement.", 900, "ROYAL").unlocked_by(Condition.postgame()).found_at("A reward for beating Primm"),
+		CosmeticData.make("hat_wide_brim", "Wide-Brim Hat", hat, "Shade for the head, drama for the walk.", 100, "WIDEBRIM"),
+		CosmeticData.make("hat_chef", "Chef's Toque", hat, "Tall, white and full of opinions about seasoning.", 120, "CHEF"),
+		CosmeticData.make("hat_bowler", "Bowler Hat", hat, "Respectable. Suspiciously respectable.", 150, "BOWLER"),
+		CosmeticData.make("hat_tricorn", "Tricorn", hat, "Three corners, zero regrets. Arr, mostly.", 250, "TRICORN").unlocked_by(Condition.player_level(5)),
+		CosmeticData.make("hat_wizard", "Wizard Hat", hat, "Pointy, wide and slightly too big. Comes with a feeling of competence.", 300, "WIZARD").unlocked_by(Condition.zones_completed(1)),
+		CosmeticData.make("hat_leaf_crown", "Crown of Leaves", hat, "Grown, not forged. Smells like a very good morning.", 400, "LEAFCROWN").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Verdant Dump"),
+		CosmeticData.make("cloak_patchwork", "Patchwork Cloak", cloak, "Every patch has a story. Most of them involve a goat.", 250, "PATCHWORK").unlocked_by(Condition.player_level(4)),
+		CosmeticData.make("cloak_red_cape", "Red Cape", cloak, "Flaps heroically. Does nothing else, heroically.", 300, "REDCAPE").unlocked_by(Condition.zones_completed(1)),
+		CosmeticData.make("cloak_tattered", "Tattered Cloak", cloak, "Survived things. Would survive more.", 350, "TATTERED").unlocked_by(Condition.zones_completed(2)).found_at("A hidden chest in the Gainlands"),
+		CosmeticData.make("cloak_royal", "Royal Mantle", cloak, "Fur trim, gold clasp and a quiet sense of entitlement.", 1000, "ROYAL").unlocked_by(Condition.postgame()).found_at("A reward for beating Primm"),
 	]

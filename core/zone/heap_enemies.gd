@@ -28,7 +28,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("refuse_rats", 27, 16)
 			made.hp = 14
 			made.ai_name = "Aggressive"
-			made.gold_reward = 30
+			made.gold_reward = Economy.roamer_gold("refusemancer")
 			made.xp_reward = 40
 			made.model = "heap:golem"
 			made.model_scale = 1.3
@@ -42,7 +42,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("refuse_garbage", 27, 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
-			made.gold_reward = 35
+			made.gold_reward = Economy.roamer_gold("refusemancer")
 			made.xp_reward = 45
 			made.model = "heap:scarecrow"
 			made.model_scale = 1.3

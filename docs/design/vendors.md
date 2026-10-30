@@ -1,8 +1,8 @@
 # Card vendors (UI + economy fixes, Oct 22 2026)
 
 Who sells which cards, and when. Code: `core/data/vendor_stocks.gd` (`VendorStocks.sable_sample`, `VendorStocks.zone_shelf`); the shelves
-are ordinary `VendorData` (locked entries show as "???" teasers with their unlock hint). Prices are unchanged (`CardPricing`: Common 15,
-Uncommon 35, Epic 80, Legendary 160, +5 per energy; the level track's vendor discounts apply). Cards and decks a player already owns are
+are ordinary `VendorData` (locked entries show as "???" teasers with their unlock hint). Prices (Overnight Oct 29, `Economy.CARD_PRICE` through `CardPricing`): Common 30,
+Uncommon 60, Epic 150, Legendary 300, no energy term any more (docs/design/economy.md); the level track's vendor discounts apply. Cards and decks a player already owns are
 never touched - only what is for sale changed.
 
 ## The principle

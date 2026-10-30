@@ -41,13 +41,13 @@ func test_three_copies_are_kept_the_fourth_becomes_essence() -> void:
 	assert_eq(Session.profile.essence_of(A), 0)
 	var notices: Array[String] = Session.add_cards([card] as Array[CardData])
 	assert_eq(Session.owned_count(card.id), 3, "the fourth copy is not kept")
-	assert_eq(Session.profile.essence_of(A), 1, "a common extra copy is worth 1 essence of its Path")
+	assert_eq(Session.profile.essence_of(A), 2, "a common extra copy is worth 2 essence of its Path (Oct 29: doubled)")
 	assert_eq(notices.size(), 1)
-	assert_true(notices[0].contains("converted into 1 Beefcake essence"), notices[0])
+	assert_true(notices[0].contains("converted into 2 Beefcake essence"), notices[0])
 
 
 func test_essence_scales_with_rarity() -> void:
-	var expected: Dictionary = {CardEnums.Rarity.COMMON: 1, CardEnums.Rarity.UNCOMMON: 2, CardEnums.Rarity.EPIC: 4, CardEnums.Rarity.LEGENDARY: 8}
+	var expected: Dictionary = {CardEnums.Rarity.COMMON: 2, CardEnums.Rarity.UNCOMMON: 4, CardEnums.Rarity.EPIC: 8, CardEnums.Rarity.LEGENDARY: 16}
 	for rarity: CardEnums.Rarity in expected.keys():
 		Session.profile.owned_cards.clear()
 		Session.profile.essence.clear()
@@ -67,7 +67,7 @@ func test_the_conversion_fires_a_notification_with_the_message_and_amount() -> v
 	assert_signal_emitted(EventBus, "essence_converted")
 	var params: Array = get_signal_parameters(EventBus, "essence_converted")
 	assert_true(str(params[0]).contains("Necrocrat essence"))
-	assert_eq(int((params[1] as Dictionary)[D]), 4)
+	assert_eq(int((params[1] as Dictionary)[D]), 8)
 	assert_eq(int(params[2]), 0)
 
 
@@ -102,8 +102,8 @@ func test_a_dual_path_extra_splits_its_essence_between_both_paths() -> void:
 	var card: CardData = _dual("split", A, D, CardEnums.Rarity.EPIC)
 	for i: int in range(Session.copy_cap(card) + 1):
 		Session.add_cards([card] as Array[CardData])
-	assert_eq(Session.profile.essence_of(A), 2)
-	assert_eq(Session.profile.essence_of(D), 2)
+	assert_eq(Session.profile.essence_of(A), 4)
+	assert_eq(Session.profile.essence_of(D), 4)
 	var odd: CardData = _dual("odd", B, C, CardEnums.Rarity.UNCOMMON)
 	var half: Dictionary = Essence.conversion(odd)["essence"] as Dictionary
 	assert_eq(int(half[B]) + int(half[C]), Essence.value_for(CardEnums.Rarity.UNCOMMON))
@@ -117,12 +117,12 @@ func test_essence_comes_from_every_way_of_gaining_cards_and_is_saved() -> void:
 	offer.taken = card
 	Session.pending_reward = offer
 	Session.apply_rewards()
-	assert_eq(Session.profile.essence_of(C), 1, "a reward pick beyond the cap converts too")
+	assert_eq(Session.profile.essence_of(C), 2, "a reward pick beyond the cap converts too")
 	var data: Dictionary = Session.to_dict()
 	Session.new_game()
 	Session.ensure_game(A)
 	assert_true(Session.from_dict(data))
-	assert_eq(Session.profile.essence_of(C), 1, "essence survives a save and load")
+	assert_eq(Session.profile.essence_of(C), 2, "essence survives a save and load")
 
 
 # ---- The Alchemist --------------------------------------------------------------------------------------

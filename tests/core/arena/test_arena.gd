@@ -350,7 +350,7 @@ func test_first_clear_pays_the_prize_once_then_only_replay_gold() -> void:
 	var gold_mid: int = Session.gold
 	var again: Dictionary = _win("arena_warmup")
 	assert_false(bool(again["first_clear"]))
-	assert_eq(Session.gold, gold_mid + 15, "a replay pays only the small flat gold")
+	assert_eq(Session.gold, gold_mid + Economy.ARENA_REPLAY_GOLD, "a replay pays only the small flat gold")
 	assert_eq(Session.profile.essence_of(A), 5, "no second prize")
 
 

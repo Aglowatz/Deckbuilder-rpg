@@ -75,7 +75,7 @@ func test_level_ups_pay_the_track_grants() -> void:
 	var packs_before: int = Session.profile.total_packs()
 	Session.add_xp(ProgressionTable.xp_to_reach(4) - Session.profile.xp)
 	assert_eq(Session.profile.level, 4)
-	assert_eq(Session.gold, gold_before + 60 + 40, "L2 60 gold, L3 40 gold")
+	assert_eq(Session.gold, gold_before + 60 + 60, "L2 60 gold, L3 60 gold (Oct 29)")
 	assert_true(Session.cosmetics.owns("hat_bowler"), "L3: the Bowler Hat")
 	assert_eq(Session.profile.total_packs(), packs_before + 1, "L4: a Path Pack")
 	assert_eq(Session.profile.pack_count("path_beefcake"), 1, "of the player's own Path")

@@ -36,7 +36,7 @@ var preset: Dictionary = {}
 ## First-clear prizes: gold, xp, essence ({path letter or "primary": amount}), equipment (id), item (id), card (id).
 var reward: Dictionary = {}
 ## What the first-clear prize of a replayed fight is: a flat consolation (gold) so repeats are for glory.
-var replay_gold: int = 15
+var replay_gold: int = Economy.ARENA_REPLAY_GOLD
 
 
 func is_puzzle() -> bool:

@@ -210,17 +210,21 @@ static func default_stock() -> ItemVendorData:
 	var data: ItemVendorData = ItemVendorData.new()
 	var always: Condition = null
 	var advanced: Condition = Condition.player_level(ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL)
-	data.add("healing_draught", 40, always)
-	data.add("vitality_charm", 25, always)
-	data.add("reckless_tonic", 45, always)
-	data.add("healing_salve", 50, always)
-	data.add("field_bandage", 25, always)
-	data.add("scroll_of_insight", 45, always)
-	data.add("firebrand_charm", 45, always)
-	data.add("sharpening_stone", 40, always)
-	data.add("binding_chains", 55, advanced)
-	data.add("silence_powder", 35, advanced)
-	data.add("grave_dust", 30, advanced)
-	data.add("summoning_charm", 40, advanced)
-	data.add("ward_sigil", 35, advanced)
+	# Overnight Oct 29: three price bands from the curve (Economy.item_price, docs/design/economy.md).
+	var weak: Economy.ItemBand = Economy.ItemBand.WEAK
+	var standard: Economy.ItemBand = Economy.ItemBand.STANDARD
+	var strong: Economy.ItemBand = Economy.ItemBand.STRONG
+	data.add("healing_draught", Economy.item_price(standard), always)
+	data.add("vitality_charm", Economy.item_price(weak), always)
+	data.add("reckless_tonic", Economy.item_price(standard), always)
+	data.add("healing_salve", Economy.item_price(strong), always)
+	data.add("field_bandage", Economy.item_price(weak), always)
+	data.add("scroll_of_insight", Economy.item_price(standard), always)
+	data.add("firebrand_charm", Economy.item_price(standard), always)
+	data.add("sharpening_stone", Economy.item_price(standard), always)
+	data.add("binding_chains", Economy.item_price(strong), advanced)
+	data.add("silence_powder", Economy.item_price(weak), advanced)
+	data.add("grave_dust", Economy.item_price(weak), advanced)
+	data.add("summoning_charm", Economy.item_price(standard), advanced)
+	data.add("ward_sigil", Economy.item_price(weak), advanced)
 	return data

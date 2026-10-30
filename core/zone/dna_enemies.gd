@@ -36,7 +36,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("necro_zombies", 27, 16)
 			made.hp = 14
 			made.ai_name = "Balanced"
-			made.gold_reward = 30
+			made.gold_reward = Economy.roamer_gold("necrocrat")
 			made.xp_reward = 40
 			made.model = "character-zombie"
 			made.tint = Color(0.78, 0.85, 1.0)
@@ -55,7 +55,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("necro_control", 27, 15)
 			made.hp = 10
 			made.ai_name = "Aggressive"
-			made.gold_reward = 25
+			made.gold_reward = Economy.roamer_gold("necrocrat")
 			made.xp_reward = 35
 			made.model = "character-skeleton"
 			made.tint = Color(0.75, 1.0, 0.7)

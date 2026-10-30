@@ -1,0 +1,62 @@
+Section,Item,Field,Old,New,Why,Part
+Cards,Common (any shelf),Price,15 + 5 per energy (20-45),30,one curve by rarity; no energy term,2
+Cards,Uncommon (any shelf),Price,35 + 5 per energy (40-70),60,curve,2
+Cards,Epic (any shelf),Price,80 + 5 per energy (85-110),150,curve,2
+Cards,Legendary (any shelf),Price,160 + 5 per energy (180-195),300,curve,2
+Packs,General Pack II,Price,220,200,round; the whole selection,2
+Essence,Duplicate over the cap,Essence,1 / 2 / 4 / 8 by rarity,2 / 4 / 8 / 16,packs pay essence worth having; the Alchemist reachable mid-game,2
+Essence,Colorless duplicate over the cap,Gold,15 / 30 / 60 / 120,15 / 30 / 75 / 150,half the shelf price,2
+Alchemist,Brew,Gold,100,150,curve (essence stays the real cost),2
+Equipment,Extra Pocket (Common tier 1),Price,60,60,curve,2
+Equipment,Traveler's Boots (Common tier 1),Price,100,60,curve,2
+Equipment,Cardboard Cuirass (Common tier 1),Price,60,60,curve,2
+Equipment,Saucepan Helmet (Common tier 1; also the Buffet),Price,70,60,curve,2
+Equipment,Solid Plate (Uncommon tier 1),Price,110,120,curve,2
+Equipment,Wicked Dagger (Uncommon tier 1),Price,120,120,curve (see Part 3 for its rework),2
+Equipment,X-Ray Goggles (Uncommon tier 1),Price,130,120,curve,2
+Equipment,Flip-Flops of Fortitude (Common tier 2),Price,80,90,curve,2
+Equipment,Dog-Eared Bookmark (Uncommon tier 2),Price,180,180,curve,2
+Equipment,Protein Shaker Bandolier (Uncommon tier 2),Price,220,180,curve,2
+Equipment,Notarized Seal of Unlife (Uncommon tier 2),Price,220,180,curve,2
+Equipment,Cheater's Dice (Uncommon tier 3),Price,260,240,curve,2
+Equipment,Hover Boots (Uncommon tier 3),Price,220,240,curve,2
+Equipment,Thorned Loincloth (Uncommon tier 3),Price,280,240,curve,2
+Equipment,Flamethrower (Epic tier 3),Price,320,450,curve,2
+Equipment,Big Brain Beret (Epic tier 3),Price,300,450,curve,2
+Equipment,Grandma's Rolling Pin (Epic tier 3),Price,240,450,curve,2
+Equipment,Sucker Punch Mitts (Epic tier 3),Price,260,450,curve,2
+Items,Vitality Charm / Field Bandage / Silence Powder / Grave Dust / Ward Sigil (weak),Price,25 / 25 / 35 / 30 / 35,30,three bands,2
+Items,Healing Draught / Reckless Tonic / Scroll of Insight / Firebrand Charm / Sharpening Stone / Summoning Charm (standard),Price,40 / 45 / 45 / 45 / 40 / 40,45,three bands,2
+Items,Healing Salve / Binding Chains (strong),Price,50 / 55,60,three bands,2
+Cosmetics,Wide-Brim Hat,Price,90,100,curve by unlock stage,2
+Cosmetics,Chef's Toque,Price,110,120,curve,2
+Cosmetics,Bowler Hat,Price,140,150,curve,2
+Cosmetics,Tricorn,Price,220,250,curve,2
+Cosmetics,Wizard Hat,Price,280,300,curve,2
+Cosmetics,Crown of Leaves,Price,360,400,curve,2
+Cosmetics,Patchwork Cloak,Price,210,250,curve,2
+Cosmetics,Red Cape,Price,260,300,curve,2
+Cosmetics,Tattered Cloak,Price,180,350,curve (two zones freed),2
+Cosmetics,Royal Mantle,Price,900,1000,curve,2
+Payouts,Gainlands roamers,Gold,30 / 35,35,by zone tier,2
+Payouts,D.N.A. roamers,Gold,30 / 25,40,by zone tier,2
+Payouts,Buffet roamers,Gold,30 / 35,50,by zone tier,2
+Payouts,Colonel Casserole (Buffet elite),Gold,50,100,twice the zone's roamer,2
+Payouts,Verdant Dump roamers,Gold,30 / 35,60,by zone tier,2
+Payouts,Capital roamers,Gold,35 / 40 / 45,70,by zone tier,2
+Payouts,Captain Spotless (Capital elite),Gold,120,150,twice the zone's roamer + 10,2
+Payouts,Side dungeon first clear,Gold,30,100,the bonus was noise next to the nodes (170),2
+Payouts,Side dungeon repeat clear,Gold,30 + a pack,40 + a pack,about half a first clear,2
+Payouts,Arena replay,Gold,15,25,one roamer's worth,2
+Level track,L3,Gold,40,60,front-loaded,2
+Level track,L5,Gold,80,120,the armory pays for its two Commons,2
+Level track,L8,Gold,120,150,front-loaded,2
+Level track,L10,Gold,100,150,front-loaded,2
+Level track,L13,Gold,150,200,the advanced rack,2
+Level track,L15,Gold,120,200,front-loaded,2
+Level track,L17,Gold,200,250,front-loaded,2
+Level track,L20,Gold,150,300,the castle,2
+Level track,L23,Gold,300,150,postgame band trimmed (reached during the main game under the current XP curve),2
+Level track,L26,Gold,350,200,postgame band trimmed,2
+Level track,L28,Gold,300,250,postgame band trimmed,2
+Level track,L29,Gold,400,300,postgame band trimmed,2

@@ -30,7 +30,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("gourmand_golems", 27, 18)
 			made.hp = 12  # Overnight Oct 18 Part 2: 71% at 14 HP
 			made.ai_name = "Aggressive"
-			made.gold_reward = 30
+			made.gold_reward = Economy.roamer_gold("gourmand")
 			made.xp_reward = 40
 			made.model = "buffet:loaf"
 			made.model_scale = 1.35
@@ -44,7 +44,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("gourmand_control", 27, 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
-			made.gold_reward = 35
+			made.gold_reward = Economy.roamer_gold("gourmand")
 			made.xp_reward = 45
 			made.model = "buffet:jelly"
 			made.model_scale = 1.35
@@ -65,7 +65,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 16)  # Rebalance Part E: 90% at level 12 (elite band 60-75); 22 HP overshot to 15%
 			made.hp = 12  # Overnight Oct 18 Part 2: 42% at 18 HP, 42% at 15
 			made.ai_name = "Balanced"
-			made.gold_reward = 50
+			made.gold_reward = Economy.elite_gold("gourmand")
 			made.xp_reward = 60
 			made.model = "buffet:casserole"
 	return made

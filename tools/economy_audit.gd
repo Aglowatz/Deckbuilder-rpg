@@ -65,7 +65,7 @@ func _initialize() -> void:
 	lines.append("")
 	lines.append("## Prices")
 	lines.append("")
-	lines.append("- Cards (`CardPricing`): Common 15, Uncommon 35, Epic 80, Legendary 160, +5 per energy of cost.")
+	lines.append("- Cards (`CardPricing` / `Economy.CARD_PRICE`): Common %d, Uncommon %d, Epic %d, Legendary %d (Oct 29: no energy term)." % [Economy.CARD_PRICE[0], Economy.CARD_PRICE[1], Economy.CARD_PRICE[2], Economy.CARD_PRICE[3]])
 	lines.append("- Alchemist: %d gold + all essence of two Paths (min %d each); essence per over-cap copy 1/2/4/8 by rarity." % [Alchemy.GOLD_COST, Alchemy.MIN_ESSENCE_PER_PATH])
 	var text: String = "\n".join(lines) + "\n"
 	print(text)

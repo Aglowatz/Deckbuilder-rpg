@@ -28,4 +28,6 @@ names, descriptions and shop UI text may change. No version bump, no export.
 
 | Part | State | Commit | Notes |
 |---|---|---|---|
-| 1 | in progress | - | reading done 19:00; writing the timeline model tool |
+| 1 | done | 6264456c | tools/economy_model.gd + economy_model_tool.gd, docs/design/economy_audit_oct29.md, sim/economy_model_before.md |
+| 2 | done | (this commit) | core/data/economy.gd curve; cards 30/60/150/300, gear by rarity x tier, items 3 bands, cosmetics, packs II 200, essence x2, alchemy 150, roamers by tier, side clears 100/40, arena replay 25, level track front-loaded; GUT core/ui/root OK (release_readiness fixed: export_presets 0.4.7), first battles + hub walk OK |
+| 3 | in progress | - | power budget + gear review next |

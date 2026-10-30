@@ -1,21 +1,15 @@
 class_name CardPricing
 extends RefCounted
-## What the vendor charges for a card (gold). Placeholder economy: rarity sets the base price
-## and the energy value adds a little.
+## What the vendor charges for a card (gold). Overnight Oct 29: the price is the curve's by rarity (Economy.CARD_PRICE:
+## 30 / 60 / 150 / 300, docs/design/economy.md); the old energy term is gone, so a 1-cost and a 5-cost Common cost the same.
 
-const BASE_BY_RARITY: Dictionary = {
-	CardEnums.Rarity.COMMON: 15,
-	CardEnums.Rarity.UNCOMMON: 35,
-	CardEnums.Rarity.EPIC: 80,
-	CardEnums.Rarity.LEGENDARY: 160,
-}
-const PER_ENERGY: int = 5
+const PER_ENERGY: int = 0
 ## The absolute copy limit; the real limit is the card's copy cap at the player's level (`CopyCaps`).
 const MAX_OWNED_FOR_SALE: int = CopyCaps.ABSOLUTE_MAX
 
 
 static func price(card: CardData) -> int:
-	return int(BASE_BY_RARITY.get(card.rarity, 15)) + card.energy_value() * PER_ENERGY
+	return Economy.card_price(card.rarity) + card.energy_value() * PER_ENERGY
 
 
 ## Cards are sold until the player owns as many copies as their copy cap allows (`cap` < 0: the absolute limit).

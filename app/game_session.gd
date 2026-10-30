@@ -3014,7 +3014,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 				_grant_lab_first_clear(result)
 			_grant_dungeon_gear(plan.id, result)
 		else:
-			var gold_reward: int = DungeonBuilder.SIDE_REWARD_GOLD
+			var gold_reward: int = DungeonBuilder.SIDE_REPEAT_GOLD
 			add_gold(gold_reward)
 			result["gold"] = gold_reward
 			var pack_id: String = plan.repeat_pack_id()

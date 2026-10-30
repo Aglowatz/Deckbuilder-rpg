@@ -132,19 +132,20 @@ static func zone_vendor_stock(zone_id: String) -> EquipmentVendorData:
 	var data: EquipmentVendorData = EquipmentVendorData.new()
 	var freed: Condition = Condition.flag(str(ZoneCompletion.flag_name(zone_id)))
 	match zone_id:
+		# Overnight Oct 29: prices from the curve (Economy.gear_price, docs/design/economy.md): arrival stock tier 1-2, freed Path pieces tier 2-3.
 		"beefcake":
-			data.add("flip_flops", 80)
-			data.add("protein_bandolier", 220, freed)
+			data.add("flip_flops", Economy.gear_price(R.COMMON, 2))
+			data.add("protein_bandolier", Economy.gear_price(R.UNCOMMON, 2), freed)
 		"necrocrat":
-			data.add("notary_seal", 220, freed)
-			data.add("dog_eared_bookmark", 180)
+			data.add("notary_seal", Economy.gear_price(R.UNCOMMON, 2), freed)
+			data.add("dog_eared_bookmark", Economy.gear_price(R.UNCOMMON, 2))
 		"gourmand":
-			data.add("rolling_pin", 240, freed)
-			data.add("dog_eared_bookmark", 180)
-			data.add("saucepan_helmet", 70)
+			data.add("rolling_pin", Economy.gear_price(R.RARE, 3), freed)
+			data.add("dog_eared_bookmark", Economy.gear_price(R.UNCOMMON, 2))
+			data.add("saucepan_helmet", Economy.gear_price(R.COMMON, 1))
 		"refusemancer":
-			data.add("flip_flops", 80)
-			data.add("sucker_punch_mitts", 260, freed)
+			data.add("flip_flops", Economy.gear_price(R.COMMON, 2))
+			data.add("sucker_punch_mitts", Economy.gear_price(R.RARE, 3), freed)
 	return data
 
 

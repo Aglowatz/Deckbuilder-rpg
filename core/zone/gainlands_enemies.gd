@@ -28,7 +28,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = EnemyDecks.trimmed("beefcake_rush", 24, 11)  # Oct 21: 11 basics (was 14; Rebalance Part E: 27 cards / 16 infra, 14 HP, Aggressive -> 24, 9, Balanced)
 			made.hp = 4  # Oct 21: the L5 Necrocrat brief (was 7; 63% at 9 HP on Oct 18)
 			made.ai_name = "Balanced"
-			made.gold_reward = 30
+			made.gold_reward = Economy.roamer_gold("beefcake")
 			made.xp_reward = 40
 			made.model = "kaykit:Barbarian"
 			made.tint = Color(1.0, 0.72, 0.5)
@@ -51,7 +51,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.recipe = {"BAS-B": 9, "B-05": 2, "B-08": 3, "B-09": 2, "B-02": 2, "B-14": 2, "B-16": 2, "B-15": 1, "B-18": 1}  # Oct 21: the tools without the burst and removal (Kettlebell, Yeet, Pre-Workout); was trimmed("beefcake_tools", 24, 12)
 			made.hp = 3  # Oct 21: the L5 Necrocrat brief (was 7; 63% at 9 HP on Oct 18)
 			made.ai_name = "Aggressive"  # Oct 21: was Defensive: it walled every Path out (~65%) and won late on Iron
-			made.gold_reward = 35
+			made.gold_reward = Economy.roamer_gold("beefcake")
 			made.xp_reward = 45
 			made.model = "proc:golem"
 			made.tint = Color.WHITE

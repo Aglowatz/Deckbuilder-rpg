@@ -7,18 +7,18 @@ fallback when the sprite art is missing and the look of the 3D tailor and her ma
 ## What is wearable
 Two slots, **hat** and **cloak**; data in `core/cosmetics/` (`CosmeticCatalog`, `CosmeticState`, `Dye`, `CosmeticMigration`), saved in the campaign (`Session.cosmetics`).
 
-| Item | Id | Art name | Price | Opens at |
+| Item | Id | Art name | Price (Oct 29 curve: docs/design/economy.md) | Opens at |
 |---|---|---|---|---|
-| Wide-Brim Hat | `hat_wide_brim` | WIDEBRIM | 90 | from the start |
-| Chef's Toque | `hat_chef` | CHEF | 110 | from the start (also a Buffet chest) |
-| Bowler Hat | `hat_bowler` | BOWLER | 140 | from the start (also a Capital chest) |
-| Tricorn | `hat_tricorn` | TRICORN | 220 | level 5 |
-| Wizard Hat | `hat_wizard` | WIZARD | 280 | one zone freed |
-| Crown of Leaves | `hat_leaf_crown` | LEAFCROWN | 360 | two zones freed (also the Verdant Dump hidden chest) |
-| Patchwork Cloak | `cloak_patchwork` | PATCHWORK | 210 | level 4 |
-| Red Cape | `cloak_red_cape` | REDCAPE | 260 | one zone freed (also the Four-Seal Vault's reward) |
-| Tattered Cloak | `cloak_tattered` | TATTERED | 180 | two zones freed (also the Gainlands hidden chest) |
-| Royal Mantle | `cloak_royal` | ROYAL | 900 | after Primm (also his drop) |
+| Wide-Brim Hat | `hat_wide_brim` | WIDEBRIM | 100 | from the start |
+| Chef's Toque | `hat_chef` | CHEF | 120 | from the start (also a Buffet chest) |
+| Bowler Hat | `hat_bowler` | BOWLER | 150 | from the start (also a Capital chest) |
+| Tricorn | `hat_tricorn` | TRICORN | 250 | level 5 |
+| Wizard Hat | `hat_wizard` | WIZARD | 300 | one zone freed |
+| Crown of Leaves | `hat_leaf_crown` | LEAFCROWN | 400 | two zones freed (also the Verdant Dump hidden chest) |
+| Patchwork Cloak | `cloak_patchwork` | PATCHWORK | 250 | level 4 |
+| Red Cape | `cloak_red_cape` | REDCAPE | 300 | one zone freed (also the Four-Seal Vault's reward) |
+| Tattered Cloak | `cloak_tattered` | TATTERED | 350 | two zones freed (also the Gainlands hidden chest) |
+| Royal Mantle | `cloak_royal` | ROYAL | 1000 | after Primm (also his drop) |
 
 The clothing vendor, Pip Threadwell, sells all ten. Items whose art is not imported yet show as **"arriving soon"** in the shop (Try and Buy are disabled and the session refuses
 the purchase) and cannot be worn from the wardrobe; nothing breaks while art is missing.
