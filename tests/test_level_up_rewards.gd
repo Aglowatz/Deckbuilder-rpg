@@ -29,7 +29,7 @@ func test_reaching_level_10_unlocks_advanced_equipment_at_the_vendor() -> void:
 	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL))
 	assert_gte(Session.profile.level, ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 	var after_state: UnlockState = Session.unlock_state()
-	assert_eq(vendor.available_equipment_ids(after_state).size(), 12, "all 12 pieces after reaching level 10")
+	assert_eq(vendor.available_equipment_ids(after_state).size(), 13, "all 13 pieces after reaching level 13 (Oct 29: the Blade of Earned Reputation joined the rack)")
 
 
 ## Level 6 (ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL) unlocks the item vendor's advanced half.
