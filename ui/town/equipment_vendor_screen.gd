@@ -92,8 +92,12 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	holder.tooltip_text = teaser if locked else _compare_tooltip(piece)
 	var column: VBoxContainer = UIKit.vbox(6)
 	holder.add_child(column)
-	var slot_label: Label = UIKit.label("???" if locked else EquipmentData.slot_name(piece.slot), &"MutedLabel", 15, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	# Overnight Oct 29, Phase 2: the slot and the rarity (in the rarity colour) on one line, the effect readable on the tile, and a verdict against what is worn.
+	var rarity: int = clampi(int(piece.rarity), 0, 3)
+	var slot_label: Label = UIKit.label("???" if locked else "%s  %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], &"MutedLabel", 15, UIStyle.MUTED if locked else CardView.RARITY_COLORS[rarity].lerp(UIStyle.PARCHMENT, 0.2), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(slot_label)
+	if not locked:
+		holder.add_theme_stylebox_override("panel", UIStyle.box(Color(0.08, 0.07, 0.1, 0.9), Color(CardView.RARITY_COLORS[rarity], 0.7), 2, 10))
 	var icon_row: CenterContainer = CenterContainer.new()
 	column.add_child(icon_row)
 	var icon: TextureRect = IconArt.equipment_glyph(piece, Color(0.4, 0.4, 0.46) if locked else UIStyle.PARCHMENT, 64.0)
@@ -104,7 +108,7 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	title.custom_minimum_size = Vector2(TILE_SIZE.x - 20, 0)
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD
 	column.add_child(title)
-	var desc: Label = UIKit.label("A mysterious piece of gear." if locked else piece.description, &"MutedLabel", 15, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	var desc: Label = UIKit.label("A mysterious piece of gear." if locked else _effect_text(piece), &"MutedLabel", 14, UIStyle.MUTED if locked else UIStyle.PARCHMENT.darkened(0.15), HORIZONTAL_ALIGNMENT_CENTER)
 	desc.custom_minimum_size = Vector2(TILE_SIZE.x - 20, 0)
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD
 	column.add_child(desc)
@@ -115,6 +119,13 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	var owned: Label = UIKit.label("", &"", 16, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(owned)
 	_owned_labels[piece.id] = owned
+	if not locked:
+		var equipped: EquipmentData = Session.profile.equipped_in(piece.slot) if Session.profile != null else null
+		var word: String = EquipmentCompare.verdict(piece, equipped)
+		var verdict: Label = UIKit.label(word if equipped == null or word == EquipmentCompare.VERDICT_EQUIPPED else "%s vs %s" % [word, equipped.source_name], &"MutedLabel", 14, _verdict_color(word), HORIZONTAL_ALIGNMENT_CENTER)
+		verdict.custom_minimum_size = Vector2(TILE_SIZE.x - 20, 0)
+		verdict.autowrap_mode = TextServer.AUTOWRAP_WORD
+		column.add_child(verdict)
 	if locked:
 		holder.set_meta("teaser", teaser)
 	else:
@@ -125,6 +136,28 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 		button.pressed.connect(func() -> void: _ask_to_buy(piece, price))
 		holder.add_child(button)
 	return holder
+
+
+## The effect without the flavour sentence a vendor piece carries in front of it ("A blade with a reputation... Your units get +1 attack.").
+func _effect_text(piece: EquipmentData) -> String:
+	var text: String = piece.description
+	var cut: int = text.find(". ")
+	if piece.tier == 0 and cut > 0 and cut < text.length() - 2:
+		text = text.substr(cut + 2)
+	return text
+
+
+static func _verdict_color(word: String) -> Color:
+	match word:
+		EquipmentCompare.VERDICT_UPGRADE:
+			return UIStyle.GOOD
+		EquipmentCompare.VERDICT_DOWNGRADE:
+			return Color("e06a5a")
+		EquipmentCompare.VERDICT_SIDEGRADE:
+			return Color("e8c15a")
+		EquipmentCompare.VERDICT_EQUIPPED:
+			return UIStyle.GOLD
+	return UIStyle.MUTED
 
 
 ## New brief, Part C: "a compare-to-equipped tooltip" - the piece's own tooltip plus whatever is

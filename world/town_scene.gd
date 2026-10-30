@@ -2959,6 +2959,9 @@ func _screenshot_open(what: String) -> void:
 		"character_gear":
 			_screenshot_gear()
 			_open_character_screen()
+		"equipment_vendor_geared":  # Oct 29, Phase 2: the stall with gear worn (rarity colours, verdicts)
+			_screenshot_gear()
+			_open_equipment_vendor()
 		"alchemist":
 			_open_alchemist()
 		"arena":

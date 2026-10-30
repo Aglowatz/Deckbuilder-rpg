@@ -478,8 +478,8 @@ func _open_equipment_picker(slot: EquipmentData.Slot) -> void:
 		info.tooltip_text = EquipmentCompare.tooltip(piece, equipped)  # Oct 16: hover shows the difference against what is equipped
 		if not is_equipped and equipped != null:
 			var delta: PackedStringArray = EquipmentCompare.diff_lines(piece, equipped)
-			if not delta.is_empty():
-				info.text += "\n" + ", ".join(delta)
+			# Oct 29: the verdict word first (Upgrade / Sidegrade / Downgrade), then the numbers that change.
+			info.text += "\n%s vs %s%s" % [EquipmentCompare.verdict(piece, equipped), equipped.source_name, (": " + ", ".join(delta)) if not delta.is_empty() else ""]
 		var rarity: int = int(piece.rarity)
 		info.text = "%s  [%s]" % [info.text.get_slice("\n", 0), EquipmentRarity.display_name(rarity)] + info.text.substr(info.text.get_slice("\n", 0).length())
 		if not is_equipped:
