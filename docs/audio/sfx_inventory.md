@@ -135,15 +135,15 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `attack_declare` | Battle | 8.5 | swing/cloth x4 + card/snap x4 @30ms |  |
 | `attack_lunge` | Battle | 2 | swing/whoosh x4 + swing/cloth x4 |  |
 | `battle_start` | Battle | 1 | card/riffle_long x1 + swing/whoosh x4 |  |
-| `block` | Battle | 2 | hit/block x4 + swing/cloth x4 |  |
+| `block` | Battle | 0 | hit/block x4 + swing/cloth x4 |  |
 | `boing` | World | 1 | world/boing x3 |  |
-| `book` | UI | 1 | ui/page x3 |  |
+| `book` | UI | -1 | ui/page x3 |  |
 | `buff` | Battle | 0.5 | glass/tap x5 + glass/tap x5 @85ms |  |
 | `card_discard` | Battle | 2 | card/shove x4 + card/dust x3 @60ms |  |
 | `card_draw` | Battle | 2 | card/slide x6 |  |
 | `card_hover` | Battle | -2 | card/fan x5 |  |
 | `card_pickup` | Battle | 2 | card/pickup x3 |  |
-| `card_play` | Battle | 1 | card/snap x4 + card/thud x4 @12ms + card/dust x3 @40ms |  |
+| `card_play` | Battle | -0.5 | card/snap x4 + card/thud x4 @12ms + card/dust x3 @40ms |  |
 | `card_play_cheap` | Battle | 1 | card/snap x4 + card/dust x3 @30ms |  |
 | `card_play_heavy` | Battle | 0 | card/snap x4 + card/thud_heavy x4 @14ms + card/dust x3 @50ms |  |
 | `card_return` | Battle | 1.5 | card/slide x6 + air/breath x3 |  |
@@ -151,18 +151,18 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `card_shuffle` | Battle | -1 | card/shuffle x4 |  |
 | `chest_giant` | World | 0 | world/giant_creak x1 + world/boing x3 @700ms + world/poof x2 @1100ms |  |
 | `chest_iron` | World | 1 | world/chest_iron x4 + glass/tap x5 @260ms |  |
-| `chest_open` | World | 1.5 | world/chest_wood x3 + trap/latch x3 + glass/tap x5 @260ms |  |
+| `chest_open` | World | -0.5 | world/chest_wood x3 + trap/latch x3 + glass/tap x5 @260ms |  |
 | `coin_flip` | Battle | 6 | ui/coins x3 + glass/tap x5 @200ms |  |
-| `coins` | UI | 5 | ui/coins x3 |  |
+| `coins` | UI | 2.5 | ui/coins x3 |  |
 | `contract_gain` | Battle | 3 | necro/quill x5 + card/snap x4 |  |
 | `contract_spend` | Battle | 4 | necro/quill x5 |  |
 | `craft_brew` | UI | 4 | amb/gravy_bubble x3 + air/breath x3 @300ms + glass/tap x5 @650ms + glass/tap x5 @760ms |  |
 | `death` | World | 1 | death/tear x4 + card/dust x3 @60ms |  |
-| `death_beefcake` | Battle | 4 | death/tear x4 + beef/metal x3 @80ms + card/dust x3 @60ms |  |
-| `death_gourmand` | Battle | 4 | death/tear x4 + gour/sizzle x5 @60ms + card/dust x3 @60ms |  |
-| `death_necrocrat` | Battle | 4 | death/tear x4 + necro/ghost x3 @80ms + card/dust x3 @60ms |  |
-| `death_neutral` | Battle | 4 | death/tear x4 + card/dust x3 @60ms + glass/tap x5 @120ms |  |
-| `death_refusemancer` | Battle | 4 | death/tear x4 + ref/cans x5 @60ms + card/dust x3 @60ms |  |
+| `death_beefcake` | Battle | 1.5 | death/tear x4 + beef/metal x3 @80ms + card/dust x3 @60ms |  |
+| `death_gourmand` | Battle | 0.5 | death/tear x4 + gour/sizzle x5 @60ms + card/dust x3 @60ms |  |
+| `death_necrocrat` | Battle | 2 | death/tear x4 + necro/ghost x3 @80ms + card/dust x3 @60ms |  |
+| `death_neutral` | Battle | 1.5 | death/tear x4 + card/dust x3 @60ms + glass/tap x5 @120ms |  |
+| `death_refusemancer` | Battle | 1.5 | death/tear x4 + ref/cans x5 @60ms + card/dust x3 @60ms |  |
 | `debuff` | Battle | -0.5 | glass/tap x5 + glass/tap x5 @85ms + air/breath x3 |  |
 | `deck_add` | UI | 0 | card/snap x4 + ui/tap x5 |  |
 | `deck_remove` | UI | 4 | card/shove x4 + ui/tap x5 |  |
@@ -185,12 +185,12 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `gate_big` | World | -1.5 | world/gate_big x1 + hit/boom x3 @2600ms |  |
 | `gate_cross` | World | 1 | world/gate_iron x2 |  |
 | `heal` | Battle | 2 | glass/tap x5 + glass/tap x5 @90ms + air/breath x3 |  |
-| `hero_hurt` | World | -3.5 | hit/soft x5 + hit/heavy x5 + swing/cloth x4 |  |
+| `hero_hurt` | World | -1 | hit/soft x5 + hit/heavy x5 + swing/cloth x4 |  |
 | `hit_heavy` | Battle | -2 | hit/heavy x5 + hit/boom x3 + card/dust x3 @30ms |  |
 | `hit_light` | Battle | -0.5 | hit/light x5 + hit/soft x5 |  |
-| `hit_medium` | Battle | 1 | hit/heavy x5 + hit/soft x5 |  |
-| `hit_metal` | Battle | 1.5 | hit/metal x4 |  |
-| `hit_player` | Battle | -2 | hit/soft x5 + hit/heavy x5 + hit/boom x3 |  |
+| `hit_medium` | Battle | 3.5 | hit/heavy x5 + hit/soft x5 |  |
+| `hit_metal` | Battle | -3.5 | hit/metal x4 |  |
+| `hit_player` | Battle | -0.5 | hit/soft x5 + hit/heavy x5 + hit/boom x3 |  |
 | `ingredient_gain` | Battle | -1 | gour/sizzle x5 + gour/pan x3 |  |
 | `ingredient_spend` | Battle | 2 | gour/sizzle x5 |  |
 | `iron_gain` | Battle | -1 | beef/iron x5 |  |
@@ -201,7 +201,7 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `lever_clunk` | World | 1 | world/lever x3 + tool/clink x4 @80ms |  |
 | `low_hp` | Battle | -2 | heart/beat x2 |  |
 | `notify` | UI | 6.5 | ui/paper_tick x4 + glass/tap x5 |  |
-| `pack_flip` | UI | 1 | card/snap x4 + card/slide x6 |  |
+| `pack_flip` | UI | 0 | card/snap x4 + card/slide x6 |  |
 | `pack_reveal_legend` | UI | -3.5 | wonder/gong x2 + glass/tap x5 @120ms + glass/tap x5 @220ms + glass/tap x5 @330ms + air/breath x3 |  |
 | `pack_reveal_rare` | UI | 3.5 | glass/tap x5 + glass/tap x5 @80ms + hit/bell x3 @40ms + air/breath x3 |  |
 | `pack_reveal_uncommon` | UI | 5.5 | glass/tap x5 + glass/tap x5 @90ms |  |
@@ -209,17 +209,17 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `pack_whoosh` | UI | 3.5 | swing/whoosh x4 + card/fan x5 @40ms |  |
 | `pickup` | World | 5 | glass/tap x5 + glass/tap x5 @70ms + tool/leather x4 |  |
 | `portal_enter` | World | -2 | world/whoosh_big x4 + world/riser x2 |  |
-| `preview_lethal` | Battle | -3 | turn/knock x3 + heart/beat x2 |  |
+| `preview_lethal` | Battle | -4 | turn/knock x3 + heart/beat x2 |  |
 | `preview_tick` | Battle | 4 | ui/paper_tick x4 |  |
 | `quest_accept` | UI | 3 | necro/quill x5 + ui/tap x5 @120ms + ui/tap x5 @230ms |  |
-| `quest_complete` | UI | 2.5 | necro/stamp x5 + glass/tap x5 @120ms + glass/tap x5 @240ms + ui/coins x3 @220ms |  |
+| `quest_complete` | UI | 1.5 | necro/stamp x5 + glass/tap x5 @120ms + glass/tap x5 @240ms + ui/coins x3 @220ms |  |
 | `redtape_gain` | Battle | -1 | necro/stamp x5 + necro/rip x3 @110ms |  |
 | `redtape_spend` | Battle | 2 | necro/rip x3 |  |
 | `refuse_open` | UI | 1 | card/shove x4 + ui/book_open x3 @40ms |  |
-| `resource_gain` | Battle | 8 | ui/coins x3 |  |
+| `resource_gain` | Battle | 7 | ui/coins x3 |  |
 | `rift_open` | World | 1 | world/riser x2 + amb/rift_crackle x3 @600ms |  |
 | `rift_seal` | World | -3 | world/riser x2 + hit/boom x3 @200ms + glass/tap x5 @350ms |  |
-| `shop_buy` | UI | 5 | ui/coins_big x4 + ui/coins x3 @110ms + ui/tap x5 @60ms |  |
+| `shop_buy` | UI | -0.5 | ui/coins_big x4 + ui/coins x3 @110ms + ui/tap x5 @60ms |  |
 | `sign_read` | World | 4 | trap/creak x3 + ui/page x3 |  |
 | `smoke_bomb` | World | 1 | world/poof x2 + glass/tap x5 @160ms |  |
 | `spell` | World | 2 | card/whoosh x3 + glass/tap x5 @120ms + air/breath x3 @60ms |  |
@@ -244,15 +244,15 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `summon_gourmand` | Battle | 0.5 | gour/pan x3 + gour/sizzle x5 @60ms + card/snap x4 |  |
 | `summon_necrocrat` | Battle | 4 | card/whoosh x3 + necro/ghost x3 @80ms + card/snap x4 |  |
 | `summon_neutral` | Battle | 2 | card/thud x4 + card/dust x3 @25ms |  |
-| `summon_refusemancer` | Battle | 2 | ref/tin x5 + ref/rustle x4 @40ms + card/snap x4 |  |
-| `thrower_land` | World | -0.5 | card/thud_heavy x4 + hit/soft x5 + card/dust x3 @20ms |  |
+| `summon_refusemancer` | Battle | 0 | ref/tin x5 + ref/rustle x4 @40ms + card/snap x4 |  |
+| `thrower_land` | World | -1.5 | card/thud_heavy x4 + hit/soft x5 + card/dust x3 @20ms |  |
 | `thrower_launch` | World | 4.5 | swing/whoosh x4 + card/thud_heavy x4 + world/whoosh_big x4 @60ms |  |
 | `token_create` | Battle | 4 | card/snap x4 + air/breath x3 + glass/tap x5 @40ms |  |
 | `tool_attach` | Battle | -1 | tool/leather x4 + tool/clink x4 @60ms |  |
 | `tool_equip` | UI | -0.5 | tool/leather x4 + tool/clink x4 @60ms |  |
 | `tool_unequip` | UI | 3.5 | tool/leather x4 |  |
-| `trap_set` | Battle | 1 | trap/latch x3 + trap/creak x3 @60ms |  |
-| `trap_spring` | Battle | 0.5 | trap/snap x3 + hit/block x4 @20ms + swing/whoosh x4 + hit/boom x3 @20ms |  |
+| `trap_set` | Battle | 0 | trap/latch x3 + trap/creak x3 @60ms |  |
+| `trap_spring` | Battle | -3.5 | trap/snap x3 + hit/block x4 @20ms + swing/whoosh x4 + hit/boom x3 @20ms |  |
 | `turn_end` | Battle | -3 | turn/knock x3 + turn/knock x3 @70ms + card/snap x4 |  |
 | `turn_start` | Battle | -2 | hit/bell x3 |  |
 | `turn_start_enemy` | Battle | 7.5 | hit/bell x3 |  |
@@ -260,7 +260,7 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `ui_back` | UI | -1 | ui/slide_away x3 + ui/tap x5 |  |
 | `ui_click` | UI | -1 | ui/tap x5 + ui/paper_tick x4 |  |
 | `ui_close` | UI | 1 | ui/book_close x3 + ui/slide_away x3 |  |
-| `ui_confirm` | UI | 0 | ui/tap x5 + ui/tap x5 @70ms + ui/paper_tick x4 |  |
+| `ui_confirm` | UI | -1 | ui/tap x5 + ui/tap x5 @70ms + ui/paper_tick x4 |  |
 | `ui_error` | UI | 0 | ui/knock x3 + ui/knock x3 @95ms |  |
 | `ui_hover` | UI | -2 | ui/hover x3 |  |
 | `ui_open` | UI | 1 | ui/book_open x3 + ui/slide_away x3 @20ms |  |
@@ -270,8 +270,8 @@ Bus, level (dB), layers (set x variants, delay), 3D range when it plays in the w
 | `ui_tick` | UI | 4 | ui/paper_tick x4 + ui/tap x5 |  |
 | `ui_toggle` | UI | -1 | ui/switch x3 + ui/tap x5 |  |
 | `vault_grind` | World | -1 | world/stone_slide x2 + hit/boom x3 @900ms |  |
-| `victory_layer` | Battle | 6.5 | card/fan x5 + glass/tap x5 @100ms + glass/tap x5 @230ms + air/breath x3 |  |
-| `wonder_play` | Battle | 2.5 | wonder/gong x2 + glass/tap x5 @150ms + air/breath x3 |  |
+| `victory_layer` | Battle | 3 | card/fan x5 + glass/tap x5 @100ms + glass/tap x5 @230ms + air/breath x3 |  |
+| `wonder_play` | Battle | -1.5 | wonder/gong x2 + glass/tap x5 @150ms + air/breath x3 |  |
 | `zone_transition` | World | -8 | world/whoosh_big x4 |  |
 
 ## Ambience profiles

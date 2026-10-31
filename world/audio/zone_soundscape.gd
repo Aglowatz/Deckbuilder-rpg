@@ -10,6 +10,17 @@ const HEAP_EERIE_NEAR: float = 26.0
 const HEAP_EERIE_FAR: float = 78.0
 
 
+## Overnight Oct 30-31, Part 8: the quiet bed under a dungeon's node map (by dungeon id; the cave's for anything unlisted).
+const DUNGEON_PROFILES: Dictionary = {
+	"D-HOG": "dungeon_gainlands", "D-HFA": "dungeon_dna", "S-NECRO": "dungeon_dna", "D-TTK": "dungeon_buffet", "S-GOUR": "dungeon_buffet",
+	"D-ROT": "dungeon_heap", "S-REF": "dungeon_heap", "D-PC": "dungeon_capital", "S-CAP": "dungeon_capital", "S-PASTE": "dungeon_capital",
+}
+
+
+static func dungeon_profile(dungeon_id: String) -> String:
+	return str(DUNGEON_PROFILES.get(dungeon_id, "dungeon_cave"))
+
+
 static func zone_profile(zone_id: String) -> String:
 	return str(ZONE_PROFILES.get(zone_id, "none"))
 

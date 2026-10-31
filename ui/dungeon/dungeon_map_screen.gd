@@ -43,7 +43,7 @@ func _ready() -> void:
 	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	SceneManager.pause_allowed = true
 	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
-	Audio.set_ambience("none")
+	Audio.set_ambience(ZoneSoundscape.dungeon_profile(MusicDirector.session_dungeon_id()))  # Overnight Oct 30-31, Part 8: a quiet bed per dungeon
 	if not Session.in_dungeon() and _screenshot_args.has("dungeon"):
 		_prepare_dungeon_for_screenshot()
 	elif not Session.in_dungeon() and _screenshot_args.has("main"):

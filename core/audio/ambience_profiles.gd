@@ -108,6 +108,14 @@ const PROFILES: Dictionary = {
 		],
 	},
 	# Dungeon node maps and menus: no bed.
+	# Overnight Oct 30-31, Part 8: a quiet bed under each dungeon's node map (the music leads; the bed says where you are), from the
+	# zone's own sets. ZoneSoundscape.dungeon_profile picks one by dungeon id.
+	"dungeon_cave": {"acoustic": "dry", "beds": [{"set": "amb/eerie_drone", "db": -14.0}], "oneshots": []},
+	"dungeon_gainlands": {"acoustic": "dry", "beds": [{"set": "amb/meadow_wind", "db": -12.0}], "oneshots": []},
+	"dungeon_dna": {"acoustic": "dry", "beds": [{"set": "amb/office_hum", "db": -10.0}, {"set": "amb/clock_tick", "db": -20.0}], "oneshots": []},
+	"dungeon_buffet": {"acoustic": "dry", "beds": [{"set": "amb/kitchen_bed", "db": -12.0}], "oneshots": []},
+	"dungeon_heap": {"acoustic": "dry", "beds": [{"set": "amb/crickets_bed", "db": -12.0}, {"set": "amb/eerie_drone", "db": -16.0}], "oneshots": []},
+	"dungeon_capital": {"acoustic": "dry", "beds": [{"set": "amb/dead_machine", "db": -14.0}], "oneshots": []},
 	"none": {"acoustic": "dry", "beds": [], "oneshots": []},
 }
 

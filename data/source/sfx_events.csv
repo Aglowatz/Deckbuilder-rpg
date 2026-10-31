@@ -6,7 +6,7 @@ ui_click,UI,ui/tap+ui/paper_tick:-4,-1,4,1.5,30,2,40,,,,a light wooden tap with 
 ui_select,UI,ui/tap~1.12+ui/paper_tick:-3,0,4,1.5,30,2,40,,,,
 ui_tick,UI,ui/paper_tick+ui/tap:-10,4,5,1.5,20,2,35,,,,list steps and counters
 ui_confirm,UI,ui/tap+ui/tap@70~1.26:-2+ui/paper_tick:-6,-1,3,1.5,40,2,60,,,,two wooden taps rising
-ui_back,UI,ui/slide_away+ui/tap~0.82:-8,-1,4,1.5,30,2,60,,,,a card sliding away and a low tap
+ui_back,UI,ui/slide_away+ui/tap~0.82:-8,1.5,4,1.5,30,2,60,,,,a card sliding away and a low tap
 ui_open,UI,ui/book_open+ui/slide_away@20:-8,1,4,1.5,35,2,80,,,,a folder opening
 ui_close,UI,ui/book_close+ui/slide_away:-10,1,4,1.5,35,2,80,,,,
 ui_toggle,UI,ui/switch+ui/tap:-12,-1,4,1.5,30,2,50,,,,a small brass catch
@@ -28,8 +28,8 @@ turn_start,Battle,hit/bell,-2,3,1,50,1,300,,,,a softer warm bell
 card_pickup,Battle,card/pickup,2,5,1.5,35,2,60,,,,a card lifted to drag
 card_play_cheap,Battle,card/snap:-1+card/dust@30:-12,1,5,2,55,3,40,,,,a cheap card: a light paper snap
 card_play_heavy,Battle,card/snap+card/thud_heavy@14+card/dust@50:-5,0,3,1.5,70,2,60,,,-2,an expensive card lands with weight
-spell_cast,Battle,card/whoosh+glass/tap@120~1.5:-9+air/breath@60:-10,2,4,1.5,55,2,60,,,,a spell released: paper whoosh and a glint
-spell_cast_big,Battle,card/whoosh:1+glass/tap@100~1.2:-4+glass/tap@220~1.6:-6+air/breath@40:-6,3.5,3,1.5,65,2,80,,,-2,an expensive spell
+spell_cast,Battle,card/whoosh+glass/tap@120~1.5:-9+air/breath@60:-10,0.5,4,1.5,55,2,60,,,,a spell released: paper whoosh and a glint
+spell_cast_big,Battle,card/whoosh:1+glass/tap@100~1.2:-4+glass/tap@220~1.6:-6+air/breath@40:-6,-0.5,3,1.5,65,2,80,,,-2,an expensive spell
 summon_beefcake,Battle,beef/plate+card/dust@30:-6+hit/boom:-12,-3,4,1.5,60,2,50,,,,Beefcake: a heavy gym plate set down
 summon_necrocrat,Battle,card/whoosh:-3+necro/ghost@80:-2+card/snap:-8,4,4,1.5,60,2,50,,,,Necrocrat: papery and ghostly
 summon_gourmand,Battle,gour/pan+gour/sizzle@60:-4+card/snap:-8,0.5,4,1.5,60,2,50,,,,Gourmand: a pan clatter and a sizzle
@@ -37,20 +37,20 @@ summon_refusemancer,Battle,ref/tin+ref/rustle@40:-1+card/snap:-8,0,4,1.5,60,2,50
 summon_neutral,Battle,card/thud+card/dust@25:-8,2,5,2,55,2,50,,,,
 attack_declare,Battle,swing/cloth:-3+card/snap@30:-12,8.5,5,1.5,45,3,60,,,,attackers step up
 attack_lunge,Battle,swing/whoosh+swing/cloth:-8,2,6,1.5,55,3,50,,,,the lunge before the hit
-hit_medium,Battle,hit/heavy:-4+hit/soft:-4,3.5,4,1.5,68,3,50,,,,
+hit_medium,Battle,hit/heavy:-4+hit/soft:-4,2,4,1.5,68,3,50,,,,
 hit_player,Battle,hit/soft+hit/heavy:-6+hit/boom:-6,-0.5,4,1.5,75,2,70,,,-3,a blow to the hero or the opponent
 block,Battle,hit/block+swing/cloth:-10,0,5,1.5,60,2,60,,,,a blocker catches the blow
-death_neutral,Battle,death/tear+card/dust@60:-4+glass/tap@120~0.7:-14,1.5,4,1.5,70,2,80,,,-2,a unit dies: the card tears and turns to dust
-death_beefcake,Battle,death/tear+beef/metal@80:-8+card/dust@60:-4,1.5,4,1.5,70,2,80,,,-2,
-death_necrocrat,Battle,death/tear+necro/ghost@80:-4+card/dust@60:-6,2,4,1.5,70,2,80,,,-2,
-death_gourmand,Battle,death/tear+gour/sizzle@60:-6+card/dust@60:-6,0.5,4,1.5,70,2,80,,,-2,
-death_refusemancer,Battle,death/tear+ref/cans@60:-6+card/dust@60:-6,1.5,4,1.5,70,2,80,,,-2,
+death_neutral,Battle,death/tear+card/dust@60:-4+glass/tap@120~0.7:-14,-1,4,1.5,70,2,80,,,-2,a unit dies: the card tears and turns to dust
+death_beefcake,Battle,death/tear+beef/metal@80:-8+card/dust@60:-4,-1,4,1.5,70,2,80,,,-2,
+death_necrocrat,Battle,death/tear+necro/ghost@80:-4+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
+death_gourmand,Battle,death/tear+gour/sizzle@60:-6+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
+death_refusemancer,Battle,death/tear+ref/cans@60:-6+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
 buff,Battle,glass/tap+glass/tap@85~1.335:-2,0.5,2,1.5,40,2,70,,,,a rising two-note sparkle
 debuff,Battle,glass/tap~0.9+glass/tap@85~0.75:-2+air/breath:-14,-0.5,2,1.5,40,2,70,,,,the falling version
 keyword_gain,Battle,glass/tap~1.5:-4+air/breath:-12,7,3,1.5,35,2,70,,,,
 heal,Battle,glass/tap~1.2+glass/tap@90~1.5:-3+air/breath:-6,2,2,1.5,45,2,80,,,,a warm rising chime with a breath of air
 iron_gain,Battle,beef/iron,-1,4,1.5,45,3,40,,,,Iron: a dumbbell plate clank
-iron_spend,Battle,beef/iron~0.85:-6,1,4,1.5,35,3,40,,,,
+iron_spend,Battle,beef/iron~0.85:-6,2,4,1.5,35,3,40,,,,
 redtape_gain,Battle,necro/stamp+necro/rip@110:-3,-1,4,1.5,45,3,40,,,,Red Tape: stamp and rip
 redtape_spend,Battle,necro/rip:-2,2,4,1.5,35,3,40,,,,
 contract_gain,Battle,necro/quill+card/snap:-12,3,4,1.5,45,3,40,,,,Contract: a quill scratch
@@ -58,7 +58,7 @@ contract_spend,Battle,necro/quill~1.1:-4,4,4,1.5,35,3,40,,,,
 ingredient_gain,Battle,gour/sizzle+gour/pan:-14,-1,4,1.5,45,3,40,,,,Ingredient: a sizzle
 ingredient_spend,Battle,gour/sizzle:-6,2,4,1.5,35,3,40,,,,
 garbage_gain,Battle,ref/cans+ref/tin:-10,-1.5,4,1.5,45,3,40,,,,Garbage: a rattle of cans
-garbage_spend,Battle,ref/tin:-6,3,4,1.5,35,3,40,,,,
+garbage_spend,Battle,ref/tin:-6,4,4,1.5,35,3,40,,,,
 resource_gain,Battle,ui/coins:-4,7,4,1.5,40,3,40,,,,a resource with no Path sound
 energy_tick,Battle,glass/tap~1.8:-10,8,3,1,25,4,15,,,,one tick per energy point paid
 energy_gain,Battle,glass/tap~1.4+glass/tap@60~1.8:-4,2,3,1.5,30,2,60,,,,
@@ -67,7 +67,7 @@ trap_spring,Battle,trap/snap+hit/block@20:-4+swing/whoosh:-6+hit/boom@20:-6,-3.5
 tool_attach,Battle,tool/leather+tool/clink@60:-2,-1,4,1.5,55,2,80,,,,leather and a clink
 wonder_play,Battle,wonder/gong+glass/tap@150~1.5:-6+air/breath:-4,-1.5,2,1,80,1,300,,,-3,a Wonder rises
 token_create,Battle,card/snap~1.2:-4+air/breath:-10+glass/tap@40~1.6:-12,4,5,1.5,45,3,50,,,,a small poof
-card_return,Battle,card/slide~0.9+air/breath:-12,1.5,5,1.5,45,3,50,,,,a unit sent back to the hand
+card_return,Battle,card/slide~0.9+air/breath:-12,2.5,5,1.5,45,3,50,,,,a unit sent back to the hand
 card_shred,Battle,death/tear:-2,-1,4,1.5,55,2,60,,,,
 turn_start_player,Battle,hit/bell:-8+turn/knock:-10,3.5,2,1,50,1,400,,,,your turn: a warm bell
 turn_start_enemy,Battle,hit/bell~0.84:-10,7.5,2,1,50,1,400,,,,the enemy turn: lower
@@ -98,11 +98,11 @@ step_metal,World,step/metal,0,6,2,15,4,60,3d,16,,
 footstep,World,step/dirt,0,6,2,20,3,80,,,,a token stepping along a map path
 chest_open,World,world/chest_wood+trap/latch:-8+glass/tap@260~1.4:-10,-0.5,4,1.5,60,2,200,,,,a wooden chest: lid creak and latch and a glint
 chest_iron,World,world/chest_iron+glass/tap@260~1.4:-10,1,4,1.5,60,2,200,,,,an iron chest
-chest_giant,World,world/giant_creak+world/boing@700:-2+world/poof@1100:-2,0,2,1,70,1,600,,,,the giant chest: a big creak and a spring and a cheeky pop
+chest_giant,World,world/giant_creak+world/boing@700:-2+world/poof@1100:-2,-1.5,2,1,70,1,600,,,,the giant chest: a big creak and a spring and a cheeky pop
 door,World,world/door_open,1,4,1.5,55,2,200,,,,a door or an entrance
 door_close,World,world/door_close,1.5,4,1.5,50,2,200,,,,
 gate_cross,World,world/gate_iron,1,3,1.5,60,1,600,,,,passing through the Capital's gate
-gate_big,World,world/gate_big+hit/boom@2600:-2,-1.5,2,1,80,1,3000,,,-3,the Capital's great gate winds open with a hollow boom
+gate_big,World,world/gate_big+hit/boom@2600:-2,-4.5,2,1,80,1,3000,,,-3,the Capital's great gate winds open with a hollow boom
 lever_clunk,World,world/lever+tool/clink@80:-6,1,3,1,60,1,300,,,,an iron lever
 vault_grind,World,world/stone_slide+hit/boom@900:-4,-1,2,1,70,1,800,,,-2,the vault's stone slab drags open
 smoke_bomb,World,world/poof+glass/tap@160~1.6:-8,1,3,1,65,1,400,,,,Shiro's smoke bomb: a poof and a ping
@@ -123,6 +123,8 @@ ui_slider,UI,ui/paper_tick~1.3:-4,7,3,1,15,1,55,,,,a slider notch
 dialogue,Voice,voice/tok,-1,4,1.5,20,2,50,,,,a soft woody tok per typed step (pitched per speaker)
 dialogue_airy,Voice,voice/airy,-1,6,1.5,20,2,50,,,,the breathy version for ghosts and skeletons
 notify,UI,ui/paper_tick+glass/tap~1.5:-10,6.5,4,1.5,30,1,250,,,,a notification
+goal_update,UI,ui/paper_tick+glass/tap~1.25:-8,3.5,4,1.5,25,1,400,,,,Overnight Oct 30-31: the goal pointer moves to a new goal (a step done or a new quest tracked)
+sprint_start,World,swing/whoosh~1.4:-6,-2,6,1.5,20,1,500,,,,Overnight Oct 30-31: breaking into a run (Shift / left-stick click)
 quest_accept,UI,necro/quill:-6+ui/tap@120~1.2+ui/tap@230~1.5:-3,3,2,1,55,1,500,,,,a pen scratch and a short rising motif
 quest_complete,UI,necro/stamp:-4+glass/tap@120~1.26+glass/tap@240~1.5:-2+ui/coins@220:-10,1.5,2,1,60,1,500,,,-2,a stamp and a bright rising pair
 game_save,UI,necro/quill~1.1:-4+ui/book_close@260:-2,3,3,1,45,1,500,,,,a manual save: a quill and a book closed
@@ -134,7 +136,7 @@ deck_sort,UI,card/shuffle:-4,3,3,1,30,1,400,,,,
 pack_tear,UI,pack/open+necro/rip@40:-6,0,3,1,60,1,300,,,,a pack torn open: foil and a crisp rip
 pack_whoosh,UI,swing/whoosh~1.2:-2+card/fan@40:-4,3.5,3,1,50,1,200,,,,cards fan out of the pack
 pack_flip,UI,card/snap+card/slide:-8,0,5,1.5,45,4,40,,,,a card flipped in the reveal (pitched up with rarity)
-pack_reveal_uncommon,UI,glass/tap~1.26+glass/tap@90~1.68:-2,5.5,2,1,55,1,200,,,,a bright two-note glint
+pack_reveal_uncommon,UI,glass/tap~1.26+glass/tap@90~1.68:-2,3.5,2,1,55,1,200,,,,a bright two-note glint
 pack_reveal_rare,UI,glass/tap~1.12+glass/tap@80~1.5:-2+hit/bell@40~1.5:-8+air/breath:-6,3.5,2,1,65,1,300,,,,under the rare sting
 pack_reveal_legend,UI,wonder/gong+glass/tap@120~1.26:-2+glass/tap@220~1.68:-3+glass/tap@330~2.0:-4+air/breath:-2,-3.5,1,1,80,1,600,,,-3,under the legendary sting
 level_up_layer,UI,glass/tap+glass/tap@90~1.26+glass/tap@180~1.5+glass/tap@270~2.0:-2+air/breath:-4+card/fan:-6,3,1,1,80,1,1000,,,,a rising cascade under the level-up sting
@@ -142,10 +144,10 @@ level_up_layer,UI,glass/tap+glass/tap@90~1.26+glass/tap@180~1.5+glass/tap@270~2.
 spell,World,card/whoosh+glass/tap@120~1.5:-9+air/breath@60:-10,2,4,1.5,55,2,60,,,,a small magic moment in the world (paper whoosh and a glint)
 death,World,death/tear+card/dust@60:-4,1,4,1.5,60,2,80,,,,something defeated in the world
 attack,World,swing/whoosh+swing/cloth:-8,2,6,1.5,55,2,60,,,,a swing in the world
-ding,UI,glass/tap~1.5+glass/tap@70~2.0:-4,6,2,1,40,2,60,,,,a right answer in a minigame
+ding,UI,glass/tap~1.5+glass/tap@70~2.0:-4,3.5,2,1,40,2,60,,,,a right answer in a minigame
 hero_hurt,World,hit/soft+hit/heavy:-6+swing/cloth:-8,-1,4,1.5,75,1,250,,,-3,the hero knocked by a roaming enemy
 enemy_alert,World,turn/knock~1.2+swing/cloth:-6+hit/bell~1.5:-14,1.5,3,1,65,1,500,,,,a roaming enemy engages the hero
-craft_brew,UI,amb/gravy_bubble+air/breath@300:-6+glass/tap@650~1.5:-6+glass/tap@760~2.0:-8,4,3,1,55,1,800,,,,the Alchemist's cauldron bubbles and a card rises
+craft_brew,UI,amb/gravy_bubble+air/breath@300:-6+glass/tap@650~1.5:-6+glass/tap@760~2.0:-8,1.5,3,1,55,1,800,,,,the Alchemist's cauldron bubbles and a card rises
 tool_equip,UI,tool/leather+tool/clink@60:-4,-0.5,4,1.5,45,1,150,,,,equipment buckled on
 tool_unequip,UI,tool/leather~1.1:-2,3.5,4,1.5,40,1,150,,,,equipment taken off
-arena_cheer,UI,amb/cheer,5,3,1,60,1,1500,,,,the Clashatorium's crowd cheers a win
+arena_cheer,UI,amb/cheer,1,3,1,60,1,1500,,,,the Clashatorium's crowd cheers a win
