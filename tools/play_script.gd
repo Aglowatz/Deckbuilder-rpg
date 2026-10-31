@@ -344,6 +344,11 @@ func _dev(parts: PackedStringArray) -> void:
 			result = DevActions.unlock_deck_slots()
 		"packs":
 			result = DevActions.add_packs(arg, int(arg2) if not arg2.is_empty() else 1)
+		"flag":
+			# Fresh eyes round 2 (Oct 31): `dev flag trial_cleared` (or `... off`) - a snapshot taken before the cave was cleared resumes in the
+			# forest (`Session.resume_loaded_game`), where the town hotkeys are dead; the mid-game snapshot sets this flag.
+			Session.set_flag(StringName(arg), arg2 != "off" and arg2 != "0")
+			result = "flag %s = %s" % [arg, str(Session.flag(StringName(arg)))]
 		"save":
 			result = DevActions.save_snapshot(arg)
 		"load":

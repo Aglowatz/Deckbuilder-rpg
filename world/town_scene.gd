@@ -648,7 +648,10 @@ func _label_spot(id: String, title: String, marker: Node3D) -> void:
 	var text: String = NpcLabels.text_for(npc_id, title) if not npc_id.is_empty() else title
 	if kind == "vendor" and not text.contains(" - "):
 		text = "%s - %s" % [title, {"vendor": "Cards", "item_vendor": "Items", "equipment_vendor": "Gear", "pack_vendor": "Packs", "tailor": "Clothes", "alchemist": "Alchemy"}.get(id, "Shop")]
-	_labels().register(marker, text, kind, kind != "npc", 0.3, id)
+	# Fresh eyes round 2 (Oct 31): the wandering baker's label follows her sprite (`_build_barks`); the spot's own label would print "Brindle the
+	# Baker" a second time over it (the mid-game critic's `c3_06_walk__05_northwest`).
+	if not (id == "baker" and _baker != null and _baker.sprite != null):
+		_labels().register(marker, text, kind, kind != "npc", 0.3, id)
 	if kind != "npc" and _npcs.has(id):
 		NpcGlow.attach(_npcs[id] as Node3D, NpcGlow.VENDOR if kind == "vendor" else NpcGlow.QUEST)
 

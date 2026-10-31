@@ -1164,7 +1164,8 @@ func _on_hp(event: GameEvent) -> void:
 		fx.floating_text(portrait_anchor[event.player], "+%d" % event.amount, Color("7be08a"), 48)
 		fx.burst(portrait_anchor[event.player], Color("7be08a"), 14, 200.0)
 	elif event.sequence != _last_damage_seq + 1 and event.amount < 0:
-		fx.floating_text(portrait_anchor[event.player], "%d" % event.amount, Color("ff6a5a"), 48)
+		# Fresh eyes round 2 (Oct 31): the number rises from above the plate, not over its name ("-3" sat on "YOU", `c3_14_boss__06_boss_d`).
+		fx.floating_text(portrait_anchor[event.player] + Vector2(70.0, -95.0 if event.player == 0 else 95.0), "%d" % event.amount, Color("ff6a5a"), 48)
 		_sfx(&"hit_player", -3.0)
 
 

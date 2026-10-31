@@ -536,10 +536,15 @@ func _skip() -> void:
 ## Takes one pack of `pack_id` out of the inventory, rolls it and shows the opening on top of `host`. "Open another" chains straight
 ## into the next pack of the same kind. `on_closed` runs when the player is done. False if there was no such pack.
 static func open_from_inventory(host: Node, pack_id: String, on_closed: Callable = Callable()) -> bool:
+	# Fresh eyes round 2 (Oct 31): one ceremony at a time. A second click on Open while one was up tore a second pack under the first and
+	# left its screen behind (the mid-game critic's `c3_02_town__12_town_end`).
+	if host != null and host.get_node_or_null(^"PackOpeningScreen") != null:
+		return false
 	var result: PackOpening = Session.open_pack(pack_id)
 	if result == null:
 		return false
 	var screen: PackOpeningScreen = PackOpeningScreen.new()
+	screen.name = "PackOpeningScreen"
 	screen.opening = result
 	screen.packs_left = Session.pack_count(pack_id)
 	screen.z_index = 200

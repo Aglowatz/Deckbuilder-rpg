@@ -1,0 +1,84 @@
+# Run 7 - vendor west of the fountain, deck station edit, wardrobe, glossary
+wait 2
+dev load c3_town3
+wait 4
+dev travel town
+wait 8
+hold W 4
+hold A 3
+wait 0.5
+shot 01_near_baker
+dump
+hold W+A 2
+wait 0.5
+shot 02_toward_vendor
+dump
+hold A 1.5
+wait 0.5
+shot 03_vendor_side
+dump
+key E
+wait 1.5
+shot 04_after_e
+dump
+key E
+wait 1
+shot 05_after_e2
+dump
+key E
+wait 1
+shot 06_after_e3
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+# Deck station: filter to new cards, add a card, remove a card, save
+key B
+wait 1.5
+button Got it
+wait 0.5
+shot 07_deck
+button Colorless
+wait 0.5
+button Trap
+wait 0.5
+shot 08_deck_filtered
+dump
+click 88 330
+wait 0.5
+shot 09_after_click_card
+dump
+rclick 234 330
+wait 0.5
+shot 10_after_rclick
+dump
+move 88 330
+wait 1
+shot 11_hover_card
+button All colors
+wait 0.5
+button All types
+wait 0.5
+button Save Deck
+wait 1
+shot 12_saved
+dump
+key Escape
+wait 1
+key T
+wait 1.5
+shot 13_wardrobe
+dump
+key Escape
+wait 1
+click 1450 310
+wait 0.7
+click 1502 608
+wait 1.5
+shot 14_glossary
+dump
+key Escape
+wait 1
+shot 15_end
+scene

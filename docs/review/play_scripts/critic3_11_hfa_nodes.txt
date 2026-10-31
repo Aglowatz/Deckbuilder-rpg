@@ -1,0 +1,57 @@
+# Run 11 - HFA: kiosk event, first fight (pilot, with screenshots), rewards
+wait 2
+dev load c3_hfa
+wait 4
+dev travel dungeon D-HFA
+wait 8
+button Got it
+wait 0.5
+click 404 540
+wait 2
+shot 01_kiosk
+dump
+key E
+wait 1
+shot 02_kiosk2
+dump
+key E
+wait 1
+shot 03_kiosk3
+dump
+skip_dialogue 10
+wait 1
+shot 04_after_kiosk
+dump
+click 571 690
+wait 3
+shot 05_intake_start
+dump
+key E
+wait 1
+shot 06_intake_intro
+dump
+skip_dialogue 6
+wait 2
+shot 07_battle_start
+dump
+pilot 15
+shot 08_battle_t1
+dump
+pilot 20
+shot 09_battle_t2
+dump
+pilot 25
+shot 10_battle_t3
+dump
+pilot 60
+shot 11_battle_t4
+dump
+pilot 90
+shot 12_battle_end
+dump
+skip_dialogue 10
+wait 1
+shot 13_after_fight
+dump
+scene
+dev save c3_hfa2

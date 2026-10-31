@@ -1,0 +1,66 @@
+# Run 1 - Crosspath with a mid-game collection: packs, deck, character, quests, map
+wait 2
+dev load midgame_l8
+wait 4
+shot 01_town
+dump
+scene
+# packs screen
+key P
+wait 1.5
+shot 02_packs
+dump
+# try to open a pack
+button Open
+wait 2
+shot 03_pack_open
+dump
+key Space
+wait 1
+shot 04_pack_after_space
+key E
+wait 1
+shot 05_pack_after_e
+dump
+button Open
+wait 2
+shot 06_pack_open2
+key Space
+wait 1
+key Space
+wait 1
+shot 07_pack_after
+dump
+key Escape
+wait 1
+shot 08_after_packs_esc
+# character screen
+key C
+wait 1.5
+shot 09_character
+dump
+key Escape
+wait 1
+# quest log
+key J
+wait 1.5
+shot 10_quests
+dump
+key Escape
+wait 1
+# map
+key M
+wait 1.5
+shot 11_map
+dump
+key Escape
+wait 1
+# deck builder
+key B
+wait 1.5
+shot 12_deck
+dump
+key Escape
+wait 1
+shot 13_town_end
+scene

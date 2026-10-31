@@ -1,0 +1,92 @@
+# Run 13 - HFA: Intake fight (pilot with shots), rewards, then the boss (Office of Final Approval)
+wait 2
+dev load c3_hfa3
+wait 4
+dev travel dungeon D-HFA
+wait 8
+button Got it
+wait 0.5
+button Continue
+wait 1
+click 571 690
+wait 3
+shot 01_intake_click
+dump
+key E
+wait 1.5
+shot 02_intro
+dump
+key E
+wait 1.5
+shot 03_intro2
+dump
+key E
+wait 1.5
+shot 04_intro3
+dump
+skip_dialogue 8
+wait 2
+shot 05_battle_start
+dump
+pilot 10
+shot 06_battle_a
+dump
+pilot 20
+shot 07_battle_b
+pilot 30
+shot 08_battle_c
+dump
+pilot 60
+shot 09_battle_d
+pilot 100
+shot 10_battle_e
+dump
+button Continue
+wait 1
+skip_dialogue 10
+wait 1
+shot 11_after_fight
+dump
+scene
+# boss
+dev travel dungeon D-HFA -2
+wait 8
+shot 12_near_boss
+dump
+button Got it
+wait 0.5
+click 1362 180
+wait 3
+shot 13_boss_click
+dump
+key E
+wait 1.5
+shot 14_boss_intro1
+dump
+key E
+wait 1.5
+shot 15_boss_intro2
+dump
+key E
+wait 1.5
+shot 16_boss_intro3
+dump
+key E
+wait 1.5
+shot 17_boss_intro4
+dump
+skip_dialogue 10
+wait 2
+shot 18_boss_battle_start
+dump
+pilot 15
+shot 19_boss_a
+dump
+pilot 40
+shot 20_boss_b
+dump
+pilot 80
+shot 21_boss_c
+dump
+scene
+dev save c3_hfa_boss

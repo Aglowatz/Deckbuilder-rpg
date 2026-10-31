@@ -1,0 +1,51 @@
+# Run 6 - walk Crosspath without the menu; find vendors; map after exploring
+wait 2
+dev load c3_town2
+wait 4
+dev travel town
+wait 8
+shot 01_start
+hold W 2
+wait 0.5
+shot 02_north
+dump
+hold W 2
+wait 0.5
+shot 03_north2
+dump
+hold A 3
+wait 0.5
+shot 04_west
+dump
+hold W 3
+wait 0.5
+shot 05_northwest
+dump
+hold D 4
+wait 0.5
+shot 06_north_east
+dump
+hold D 3
+wait 0.5
+shot 07_east
+dump
+hold S 4
+wait 0.5
+shot 08_south_east
+dump
+hold A 3
+wait 0.5
+shot 09_south
+dump
+hold S 3
+wait 0.5
+shot 10_south2
+dump
+key M
+wait 1.5
+shot 11_map_explored
+dump
+key Escape
+wait 1
+scene
+dev save c3_town3

@@ -1,0 +1,69 @@
+# Run 9 - Sable's card list, buy one; packs page; then the D.N.A. zone
+wait 2
+dev load c3_town4
+wait 4
+dev travel town
+wait 8
+hold W 4
+hold A 3
+hold W+A 2
+wait 0.5
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+shot 01_shop_menu
+button Cards
+wait 1.5
+shot 02_shop_cards
+dump
+move 400 400
+wait 1
+shot 03_shop_hover
+click 400 400
+wait 1
+shot 04_shop_clicked
+dump
+button Buy
+wait 1.5
+shot 05_after_buy
+dump
+button Back
+wait 1
+button Card Packs
+wait 1.5
+shot 06_shop_packs
+dump
+key Escape
+wait 1
+shot 07_closed
+scene
+# D.N.A.
+dev travel zone necrocrat
+wait 10
+shot 08_dna_arrival
+dump
+scene
+skip_dialogue 6
+wait 1
+shot 09_dna_after_skip
+dump
+hold W 3
+wait 0.5
+shot 10_dna_walk1
+dump
+hold W 3
+wait 0.5
+shot 11_dna_walk2
+dump
+key M
+wait 1.5
+shot 12_dna_map
+dump
+key Escape
+wait 1
+dev save c3_dna

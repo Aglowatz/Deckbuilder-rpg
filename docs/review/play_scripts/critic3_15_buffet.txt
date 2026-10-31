@@ -1,0 +1,52 @@
+# Run 15 - Endless Buffet zone, then The Test Kitchen boss
+wait 2
+dev load c3_town4
+wait 4
+dev travel zone gourmand
+wait 10
+shot 01_buffet_arrival
+dump
+scene
+skip_dialogue 6
+wait 1
+hold W 3
+wait 0.5
+shot 02_buffet_walk1
+dump
+hold W 3
+wait 0.5
+shot 03_buffet_walk2
+dump
+key E
+wait 1.2
+shot 04_buffet_talk1
+dump
+key E
+wait 1.2
+shot 05_buffet_talk2
+dump
+skip_dialogue 10
+hold W+D 3
+wait 0.5
+shot 06_buffet_walk3
+dump
+key M
+wait 1.5
+shot 07_buffet_map
+dump
+key Escape
+wait 1
+dev travel dungeon D-TTK
+wait 8
+shot 08_ttk_map
+dump
+key R
+wait 1
+shot 09_ttk_rules
+key Escape
+wait 0.5
+dev travel dungeon D-TTK -2
+wait 8
+shot 10_ttk_near_boss
+dump
+scene

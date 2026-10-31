@@ -1,0 +1,65 @@
+# Run 8 - talk to Sable (card vendor); then Hall of Records / other vendors if seen; buy a card
+wait 2
+dev load c3_town3
+wait 4
+dev travel town
+wait 8
+hold W 4
+hold A 3
+hold W+A 2
+wait 0.5
+shot 01_at_sable
+dump
+key E
+wait 1.5
+shot 02_sable_talk
+dump
+key E
+wait 1
+shot 03_sable_talk2
+dump
+key E
+wait 1
+shot 04_sable_talk3
+dump
+key E
+wait 1.5
+shot 05_sable_shop
+dump
+move 400 400
+wait 1
+shot 06_shop_hover
+click 400 400
+wait 1
+shot 07_shop_click
+dump
+button Buy
+wait 1
+shot 08_after_buy
+dump
+key Escape
+wait 1
+shot 09_after_esc
+dump
+key Escape
+wait 1
+# look around for other vendors to the north
+hold W 3
+wait 0.5
+shot 10_north_of_sable
+dump
+hold W 3
+wait 0.5
+shot 11_further_north
+dump
+hold D 4
+wait 0.5
+shot 12_east
+dump
+key M
+wait 1.5
+shot 13_map
+key Escape
+wait 1
+scene
+dev save c3_town4

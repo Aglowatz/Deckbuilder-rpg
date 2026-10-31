@@ -1,0 +1,88 @@
+# Run 16 - Test Kitchen boss (read intro, pilot), then the Verdant Dump zone and The Rotheart map
+wait 2
+dev load c3_town4
+wait 4
+dev travel dungeon D-TTK -2
+wait 8
+button Got it
+wait 0.5
+click 1364 220
+wait 2.5
+shot 01_ttk_boss_click
+dump
+key E
+wait 1.2
+shot 02_ttk_intro1
+dump
+key E
+wait 1.2
+shot 03_ttk_intro2
+dump
+key E
+wait 1.2
+shot 04_ttk_intro3
+dump
+skip_dialogue 10
+wait 2
+shot 05_ttk_prefight
+dump
+button Continue
+wait 3
+shot 06_ttk_battle_start
+pilot 10
+shot 07_ttk_a
+dump
+pilot 30
+shot 08_ttk_b
+dump
+pilot 60
+shot 09_ttk_c
+dump
+scene
+dev win
+wait 3
+shot 10_ttk_win
+dump
+skip_dialogue 6
+wait 1
+shot 11_ttk_after
+dump
+scene
+# Verdant Dump
+dev travel zone refusemancer
+wait 10
+shot 12_dump_arrival
+dump
+scene
+skip_dialogue 6
+wait 1
+hold W 3
+wait 0.5
+shot 13_dump_walk1
+dump
+skip_dialogue 4
+hold W 3
+wait 0.5
+shot 14_dump_walk2
+dump
+key E
+wait 1.2
+shot 15_dump_talk
+dump
+skip_dialogue 10
+key M
+wait 1.5
+shot 16_dump_map
+key Escape
+wait 1
+dev travel dungeon D-ROT
+wait 8
+shot 17_rot_map
+dump
+key R
+wait 1
+shot 18_rot_rules
+dump
+key Escape
+wait 0.5
+dev save c3_rot

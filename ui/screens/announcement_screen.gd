@@ -64,6 +64,7 @@ func _ready() -> void:
 	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	button.pressed.connect(_continue)
 	column.add_child(button)
+	ConfirmKey.attach(self, button)  # Fresh eyes round 2 (Oct 31): E / Enter / Space / pad A continue
 	_animate_in()
 	if sting.is_empty():
 		Audio.sfx(&"level_up")

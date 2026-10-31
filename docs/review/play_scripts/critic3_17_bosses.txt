@@ -1,0 +1,103 @@
+# Run 17 - Test Kitchen boss (hand-play turn 1, then pilot), then The Rotheart boss
+wait 2
+dev load c3_rot
+wait 4
+dev travel dungeon D-TTK -2
+wait 8
+button Got it
+wait 0.5
+click 1364 220
+wait 2.5
+skip_dialogue 10
+wait 1
+shot 01_ttk_still
+key Space
+wait 1.5
+shot 02_ttk_still2
+key Space
+wait 1.5
+shot 03_ttk_prefight
+dump
+button Continue
+wait 4
+key Space
+wait 2
+shot 04_ttk_battle_start
+dump
+# hand play: drag the first hand card to the board
+drag 560 800 800 560
+wait 1.5
+shot 05_after_drag
+dump
+drag 700 800 900 560
+wait 1.5
+shot 06_after_drag2
+dump
+move 800 560
+wait 1
+shot 07_hover_board
+click 1470 777
+wait 1.5
+shot 08_combat_phase
+dump
+key Space
+wait 1.5
+shot 09_after_space
+dump
+key Space
+wait 3
+shot 10_enemy_turn
+dump
+pilot 20
+shot 11_ttk_a
+dump
+pilot 40
+shot 12_ttk_b
+dump
+scene
+dev win
+wait 3
+shot 13_ttk_win
+dump
+button Continue
+wait 1
+key Space
+wait 1
+shot 14_ttk_win2
+dump
+skip_dialogue 8
+wait 1
+shot 15_ttk_after
+dump
+scene
+# Rotheart boss
+dev travel dungeon D-ROT -2
+wait 8
+shot 16_rot_near_boss
+click 1311 200
+wait 2.5
+shot 17_rot_boss_click
+dump
+key E
+wait 1.2
+shot 18_rot_intro
+dump
+skip_dialogue 10
+key Space
+wait 1.5
+shot 19_rot_prefight
+dump
+button Continue
+wait 4
+key Space
+wait 2
+shot 20_rot_battle
+dump
+pilot 45
+shot 21_rot_a
+dump
+scene
+dev win
+wait 3
+shot 22_rot_win
+dump

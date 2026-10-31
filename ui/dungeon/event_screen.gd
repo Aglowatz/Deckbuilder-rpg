@@ -111,6 +111,9 @@ func _choose(index: int) -> void:
 	go.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	go.pressed.connect(_continue.bind(result))
 	_column.add_child(go)
+	go.focus_mode = Control.FOCUS_ALL
+	go.call_deferred(&"grab_focus")
+	ConfirmKey.attach(self, go)  # Fresh eyes round 2 (Oct 31): E / Enter / Space / pad A continue
 	UIKit.pop_in(_panel)
 
 

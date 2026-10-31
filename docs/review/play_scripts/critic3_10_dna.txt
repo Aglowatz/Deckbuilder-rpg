@@ -1,0 +1,68 @@
+# Run 10 - D.N.A. walk, first NPC, then The Hall of Final Approvals: map, rules, first node
+wait 2
+dev load c3_dna
+wait 4
+dev travel zone necrocrat
+wait 10
+skip_dialogue 5
+wait 1
+move 40 60
+wait 1
+shot 01_zone_effect_hover
+move 82 60
+wait 1
+shot 02_zone_effect_hover2
+hold W 3
+wait 0.5
+shot 03_walk1
+dump
+hold W 3
+wait 0.5
+shot 04_walk2
+dump
+key E
+wait 1
+shot 05_talk1
+dump
+key E
+wait 1
+shot 06_talk2
+dump
+key E
+wait 1
+shot 07_talk3
+dump
+key E
+wait 1
+shot 08_talk4
+dump
+skip_dialogue 10
+hold W+D 3
+wait 0.5
+shot 09_walk3
+dump
+hold W 3
+wait 0.5
+shot 10_walk4
+dump
+key M
+wait 1.5
+shot 11_map
+dump
+key Escape
+wait 1
+dev travel dungeon D-HFA
+wait 8
+shot 12_hfa_entry
+dump
+skip_dialogue 8
+wait 1
+shot 13_hfa_map
+dump
+key R
+wait 1.5
+shot 14_hfa_rules
+dump
+key Escape
+wait 1
+dev save c3_hfa

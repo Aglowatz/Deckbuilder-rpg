@@ -1,0 +1,116 @@
+# Run 3 - open remaining packs by clicking, then C / J / M screens in Crosspath
+wait 2
+dev load c3_town
+wait 5
+shot 01_town
+dump
+key P
+wait 1.5
+shot 02_packs
+button Got it
+wait 0.5
+click 882 160
+wait 2
+click 800 430
+wait 2
+shot 03_tear
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 04_reveal3
+dump
+button Open another
+wait 2
+click 800 430
+wait 2
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 05_pack_general2
+dump
+button Open another
+wait 2
+click 800 430
+wait 2
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 06_pack_general3
+button Open another
+wait 2
+click 800 430
+wait 2
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 07_pack_general4
+dump
+button Done
+wait 1
+shot 08_packs_left
+dump
+# tier II packs
+click 882 241
+wait 2
+click 800 430
+wait 2
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 09_tier2_a
+dump
+button Open another
+wait 2
+click 800 430
+wait 2
+click 550 420
+wait 1
+click 800 420
+wait 1
+click 1050 420
+wait 1.5
+shot 10_tier2_b
+dump
+button Done
+wait 1
+shot 11_packs_empty
+dump
+key Escape
+wait 1
+shot 12_town_after_packs
+dump
+key C
+wait 1.5
+shot 13_character
+dump
+key Escape
+wait 1
+key J
+wait 1.5
+shot 14_quests
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+shot 15_map
+dump
+key Escape
+wait 1
+scene
+dev save c3_town2

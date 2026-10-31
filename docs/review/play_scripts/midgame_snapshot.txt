@@ -6,6 +6,7 @@ dev travel town
 wait 6
 skip_dialogue 25
 wait 1
+dev flag trial_cleared
 dev level 8
 dev gold 900
 dev heal

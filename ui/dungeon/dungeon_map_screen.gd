@@ -446,8 +446,8 @@ func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Cal
 	var row: RuleIconRow = RuleIconRow.make(badges, "", true)
 	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(row)
-	for badge: RuleBadges.Badge in badges:
-		var line: Label = UIKit.label("%s: %s" % [badge.name, badge.text.split("\n")[0]], &"", 19, badge.color())
+	for badge: RuleBadges.Badge in RulesBrief.distinct_by_name(badges):  # Fresh eyes round 2 (Oct 31): no rule printed twice
+		var line: Label = UIKit.label(RulesBrief.line_text(badge, badges), &"", 19, badge.color())
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.custom_minimum_size = Vector2(760, 0)
 		column.add_child(line)
@@ -460,6 +460,7 @@ func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Cal
 		if then.is_valid():
 			then.call())
 	column.add_child(go)
+	ConfirmKey.attach(panel, go)  # Fresh eyes round 2 (Oct 31): E / Enter / Space / pad A continue
 	go.focus_mode = Control.FOCUS_ALL
 	go.call_deferred(&"grab_focus")
 	UIKit.pop_in(panel)

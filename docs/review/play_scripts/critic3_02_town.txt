@@ -1,0 +1,58 @@
+# Run 2 - go to Crosspath properly; packs, character, quests, map
+wait 2
+dev load midgame_l8
+wait 4
+dev travel town
+wait 8
+shot 01_town
+dump
+scene
+key P
+wait 1.5
+shot 02_packs
+dump
+button Open
+wait 2.5
+shot 03_pack_opening
+dump
+key Space
+wait 1.5
+shot 04_pack_after_space
+dump
+key Space
+wait 1.5
+shot 05_pack_after_space2
+button Open
+wait 2.5
+shot 06_pack2
+key Space
+wait 1.5
+key Space
+wait 1.5
+shot 07_pack2_after
+dump
+key Escape
+wait 1
+shot 08_after_packs
+dump
+key C
+wait 1.5
+shot 09_character
+dump
+key Escape
+wait 1
+key J
+wait 1.5
+shot 10_quests
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+shot 11_map
+dump
+key Escape
+wait 1
+shot 12_town_end
+scene
+dev save c3_town

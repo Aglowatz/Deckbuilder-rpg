@@ -1,0 +1,46 @@
+# Run 14 - HFA boss fight: Continue past the rules popup, pilot with screenshots, rewards
+wait 2
+dev load c3_hfa_boss
+wait 4
+dev travel dungeon D-HFA -2
+wait 8
+click 1362 180
+wait 2
+skip_dialogue 10
+wait 2
+shot 01_prefight
+button Continue
+wait 3
+shot 02_battle_start
+dump
+pilot 8
+shot 03_boss_a
+dump
+pilot 15
+shot 04_boss_b
+dump
+pilot 25
+shot 05_boss_c
+dump
+pilot 40
+shot 06_boss_d
+dump
+pilot 60
+shot 07_boss_e
+dump
+pilot 90
+shot 08_boss_f
+dump
+scene
+pilot 120
+shot 09_boss_g
+dump
+scene
+button Continue
+wait 1
+skip_dialogue 6
+wait 1
+shot 10_after_boss
+dump
+scene
+dev save c3_hfa_done

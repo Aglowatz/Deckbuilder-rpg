@@ -1,0 +1,96 @@
+# Run 18 - the Capital, a lieutenant fight, Primm's first phase, side dungeon map
+wait 2
+dev load c3_rot
+wait 4
+dev travel capital
+wait 10
+shot 01_capital_arrival
+dump
+scene
+skip_dialogue 6
+wait 1
+hold W 3
+wait 0.5
+shot 02_capital_walk1
+dump
+hold W 3
+wait 0.5
+shot 03_capital_walk2
+dump
+key E
+wait 1.2
+shot 04_capital_talk
+dump
+skip_dialogue 8
+key M
+wait 1.5
+shot 05_capital_map
+key Escape
+wait 1
+dev encounters lieutenant
+wait 1
+dev encounter lieutenant
+wait 4
+shot 06_lt_prefight
+dump
+button Continue
+wait 4
+key Space
+wait 2
+shot 07_lt_battle_start
+dump
+button Keep Hand
+wait 1
+button Got it
+wait 1
+pilot 35
+shot 08_lt_a
+dump
+scene
+dev win
+wait 3
+shot 09_lt_win
+button Continue
+wait 2
+shot 10_lt_after
+dump
+skip_dialogue 6
+wait 1
+dev travel dungeon D-PC -2
+wait 8
+shot 11_pc_map
+dump
+key R
+wait 1
+shot 12_pc_rules
+dump
+key Escape
+wait 0.5
+dev encounter Primm
+wait 4
+shot 13_primm_prefight
+dump
+button Continue
+wait 4
+key Space
+wait 2
+shot 14_primm_battle
+dump
+button Keep Hand
+wait 1
+pilot 30
+shot 15_primm_a
+dump
+scene
+dev lose
+wait 3
+shot 16_primm_lose
+dump
+button Continue
+wait 2
+shot 17_after_lose
+dump
+dev travel dungeon S-NECRO
+wait 8
+shot 18_snecro_map
+dump

@@ -320,7 +320,8 @@ func _ready() -> void:
 		return
 	# Battle feel, Part D: tips show in a new player's battles until each has been seen once (or they are skipped), so the
 	# later topics (traps, Tools, the Refuse Pile) appear in whichever early battle first has them. Dev practice duels only when forced.
-	if not _flag("no_tutorial") and (_flag("force_tutorial") or (not context.practice and TutorialLayer.wanted())):
+	# Fresh eyes round 2 (Oct 31): never in a boss fight - the mid-game critic met "Your first duel" on a level-8 boss (a profile that had skipped the cave).
+	if not _flag("no_tutorial") and (_flag("force_tutorial") or (not context.practice and not context.is_boss and TutorialLayer.wanted())):
 		tutorial = TutorialLayer.new()
 		add_child(tutorial)
 		tutorial.setup(self)
@@ -749,6 +750,8 @@ func _refresh_ui() -> void:
 		primary += "  [%s]" % Keybinds.first_key(&"battle_advance")
 	hud.primary_button.text = primary
 	hud.primary_button.disabled = not primary_enabled
+	# Fresh eyes round 2 (Oct 31): a gold button reading "..." (the mulligan, the end of the fight) read as broken; it is hidden while it has nothing to say.
+	hud.primary_button.visible = primary != "..."
 	hud.end_turn_button.visible = end_visible
 	hud.attack_all_button.visible = mode == Mode.ATTACK
 	hud.set_prompt(prompt)

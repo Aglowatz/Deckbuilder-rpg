@@ -29,6 +29,7 @@ One command per line, `#` comments. **Coordinates are screenshot pixels** (the w
 | `dev encounters <query>` / `dev encounter <query>` | list / start a fight from the balance catalog (by name or group) |
 | `dev quest <id> <step>` / `dev freed <zone>` / `dev gate <zone>` | quest step, zone freed, gatekeeper beaten |
 | `dev card <id>` / `dev item <id>` / `dev gear <id>` / `dev slots` / `dev packs <id> <n>` | give things |
+| `dev flag <name> [off]` | set / clear a save flag (`dev flag trial_cleared` before a `dev save` taken without the cave, or the snapshot resumes in the forest) |
 | `dev autowin on|off` / `dev win` / `dev lose` | the Dev Menu's auto-win; end the current battle |
 | `dev save <name>` / `dev load <name>` | snapshot / resume |
 | `log <text>` | a note in the log |

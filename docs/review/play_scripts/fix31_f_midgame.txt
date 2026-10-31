@@ -1,0 +1,38 @@
+# Fresh eyes round 2 (Oct 31), Part 5 verification: snapshot resumes in town, pack opener double click, boss brief with E (no duplicate
+# rule lines), no tutorial tips in a boss fight, no "..." button, the HP float off the plate
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel town
+wait 6
+skip_dialogue 25
+dev flag trial_cleared
+dev level 8
+dev gold 900
+dev freed beefcake
+dev gate beefcake
+dev packs general_1 4
+dev save midgame_l8b
+wait 1
+dev load midgame_l8b
+wait 6
+scene
+shot 01_loaded_town
+key P
+wait 1.5
+shot 02_packs
+button Open
+wait 0.05
+button Open
+wait 2
+shot 03_after_double_open
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+dev travel dungeon D-HFA -2
+wait 5
+skip_dialogue 10
+shot 04_hfa_near_boss
+dump

@@ -1,0 +1,54 @@
+# Run 5 - walk Crosspath, find vendors, Menu button, map after exploring
+wait 2
+dev load c3_town2
+wait 4
+dev travel town
+wait 8
+shot 01_start
+click 1450 310
+wait 1
+shot 02_menu_button
+dump
+key Escape
+wait 1
+# walk north toward the fountain and the NPCs
+hold W 2
+wait 0.5
+shot 03_north
+dump
+hold W 2
+wait 0.5
+shot 04_north2
+dump
+hold A 3
+wait 0.5
+shot 05_west
+dump
+hold W 3
+wait 0.5
+shot 06_northwest
+dump
+hold D 4
+wait 0.5
+shot 07_north_east
+dump
+hold D 3
+wait 0.5
+shot 08_east
+dump
+hold S 4
+wait 0.5
+shot 09_south_east
+dump
+hold A 3
+wait 0.5
+shot 10_south
+dump
+key M
+wait 1.5
+shot 11_map_explored
+dump
+key Escape
+wait 1
+scene
+dev save c3_town3
