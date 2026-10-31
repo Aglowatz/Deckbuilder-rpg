@@ -25,10 +25,10 @@ market untouched. DIALOGUE FREEZE: rewrites go to `docs/dialogue/lines_to_update
 |---|---|---|---|
 | 1 | done | 13ab312e | ConfirmDialog / TipPanel / ChallengeScreen / TutorialLayer take E (+ Enter / Space / pad A; Space left alone in the duel); Path "More" = Resource + starting deck; treeline bubble (`StartingAreaScene._barks`, `NpcBarks.say`); toast layer 26 at y 585; tooltip re-fit each frame; banner layer 27; bubbles avoid `hud.preview_rect()` / `plate_rect()`. GUT all green, opening forest + first battles smokes OK; scripts `fix31_a*`, `fix31_b*`, `fix31_c` |
 | 2 | done | 6d1a96f0 | `BattleBoard.HAND_STYLES` + `hand_style` (compact default; `--hand_style=` on battle shots), Settings scrollbar restyled + body margin, defeat recap (`BattleScreen.defeat_recap_lines`), `Settings.tutorial_tips` (TutorialLayer.wanted / TipPanel.show_once). GUT ui green, scripts `fix31_d`, `fix31_e` |
-| 3 | done | (next commit) | `docs/design/sim/starter_infra_oct31.md`: keep 19 (fewer basics cut flood turns but add dead turns and cost 1-2 cave points on 3 Paths; only Beefcake's zone improves). Nothing changed. Tool: `tools/starter_infra_study.gd` (32 min for 50 games x 2 seeds: background) |
-| 4 | in progress | | snapshot `midgame_l8` made (`midgame_snapshot.txt`, Gourmand L8, Gainlands freed, 1020 gold, 9 packs); critic subagent launched with `docs/review/critic_brief_midgame_oct31.md` - run NO Godot while it works |
-| 5 | pending | | |
-| Report | pending | | |
+| 3 | done | e653daed | `docs/design/sim/starter_infra_oct31.md`: keep 19 (fewer basics cut flood turns but add dead turns and cost 1-2 cave points on 3 Paths; only Beefcake's zone improves). Nothing changed. Tool: `tools/starter_infra_study.gd` (32 min for 50 games x 2 seeds: background) |
+| 4 | done | 7ae5ab5f | critic report `docs/review/fresh_eyes_midgame_oct31.md` (5.2 / 10, top 15, 52 shots, 18 scripts critic3_*); snapshot caveat (cave never cleared) |
+| 5 | done | 7ae5ab5f | triage `docs/review/fresh_eyes_midgame_triage_oct31.md`; 7 fixes (ConfirmKey, merged rules, one pack ceremony, no boss tips, no "..." button, HP float, baker label); GUT ui/root/world green, Crosspath walk + first battles smokes OK |
+| Report | done | (final commit) | `docs/overnight_report.md`, inbox "Fresh eyes round 2" 1-12 |
 
 ## How to resume
 

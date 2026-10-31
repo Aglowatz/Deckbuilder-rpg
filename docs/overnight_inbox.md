@@ -541,3 +541,36 @@ cycle 1); the spells-only arena (cycle 10).
     treeline self-talk stops the walk until dismissed; tooltip boxes overlap the "cannot play" toast, the card preview and the player plate;
     VICTORY! can draw under a hover tooltip for its first frames. Say which to take next; the E-on-popups one touches PopupFrame /
     ConfirmDialog / TipPanel input and is a half-day with the pad tests.
+
+## Fresh eyes round 2 (Oct 31: second critic's problems -> safe recommendations -> starter study -> mid-game critic) - yours to decide (the safest choice was taken)
+
+1. **E answers popups now** (`ConfirmDialog`, `TipPanel`, the Well, the duel's info bubbles): a confirm press (E / Enter / Space / pad A) presses
+   the focused button, so on a dangerous question (Delete, Discard, Retreat) E says Cancel, like Enter. In the duel only E and Enter press
+   "Got it" - Space stays To Combat. Say if E should be the primary button everywhere instead.
+2. **The Path screen's More** now adds the Resource and the whole 45-card starting deck in words (every named card with copies). If that is
+   too much text for the choice moment, the shorter form is the counts line alone (`ElementChoiceScreen._more_text`).
+3. **The treeline self-talk is a speech bubble** over the hero (no dialogue box, the walk never stops); the nudge back toward the cave stays.
+   The lines are unchanged (freeze). The second line still fires once at the cave mouth itself (the gate counts as an edge) - harmless now.
+4. **The hand is drawn compact** (0.58 instead of 0.68, centre 950): the whole card is on screen and its rules text reads without hovering.
+   `--hand_style=classic|fan` on battle shots shows the alternatives (`docs/review/fresh_eyes_fixes_oct31/hand_*.png`); the fan overlaps the
+   text bands and the classic cuts them. The hover lift (0.86) is unchanged. Revert = `BattleBoard.hand_style = "classic"`.
+5. **Defeat recap**: a "What beat you" box on the result panel (biggest damage source in numbers + one tip chosen from the fight: missed
+   Infrastructure drops, cards left in hand, a repeat attacker, an unspent Resource, else rest/heal). Wording is mine; say if you want it
+   in the voice bible's tone or shorter.
+6. **Settings > Text > Tutorial tips** on/off; off hides the duel bubbles and the screen tips without marking them seen. It lives under Text
+   with the battle options; say if it belongs under Accessibility.
+7. **Starter decks stay at 19 Infrastructure** (`docs/design/sim/starter_infra_oct31.md`): 17 / 15 cut flood turns but add dead turns and
+   cost 1-2 cave points on three Paths. Levers that do not cost tempo if the flood feeling matters: a cantrip Common as the fill, or a
+   mulligan rule that keeps 2-3 Infrastructure.
+8. **The Well's wording** "1 of the 5 cards was Infrastructure; 2 were needed" (verb agreement) - a text change in code, not a dialogue line.
+9. **The mid-game critic's snapshot was too weak** (cave never cleared, bare starter at L8), so its top finding (Sable sells nothing) and
+   the empty quest log are artefacts; the snapshot script now sets `trial_cleared`. A rerun of `critic_brief_midgame_oct31.md` from a
+   snapshot made by the story bot (real progress, a built deck) would give a fairer mid-game score than 5.2.
+10. **Boss stalls** (Mortimer 30/30 and Vivienne 26/26 after ten turns with the bare starter): say whether a soft clock (e.g. a late-turn
+    rule in boss fights) or an AI preference for units over a fourth Tool should go to a sim pass.
+11. **Left as recommendations**: names on the town map + a dungeon-entrance icon + "Where to?", unlock hints printed on locked gear slots,
+    "Click again to go" on dungeon nodes, a banner when the HP pool changes, the long boss nameplate wrap, fewer Test Kitchen stills
+    (dialogue), D.N.A. lobby dressing (art).
+12. **One Continue rule** (`ConfirmKey`): E / Enter / Space / pad A now press Continue on the pre-fight rules card, event results and
+    announcements (Part 1 did popups, tips and the Well). Story stills already advance on E via their dialogue box; the pack opener on
+    confirm. Say if any screen should keep Continue mouse-only.
