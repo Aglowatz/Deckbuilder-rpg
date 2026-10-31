@@ -14,14 +14,14 @@ Composition: three parallel composer forks (A: Part 1 then 5; B: Part 2 then 4; 
 | Part | What | Review folder | State |
 |---|---|---|---|
 | 0 | Bible section 9, capital.py, music_list palette/description/notes for the 57 + descriptions of passes 1-2 | | done (committed) |
-| 1 | Capital world (13) | Batch 06 | composing (fork A) |
-| 2 | Primm + ending (12) | Batch 06b | composing (fork B) |
-| 3 | Path-ology Lab (5), SIPHON-BOSS own track | Batch 09 | composing (fork C) |
-| 4 | Story (9) | Batch 08b | waits for fork B |
-| 5 | Shops + quiz (10) | Batch 11 | waits for fork A |
-| 6 | Side areas (8), VAULT-BOSS own track | Batch 09b | waits for fork C |
-| 7 | Four broken districts at 15 cents (scores changed + rendered) + description rewrite (done in Part 0) | Batch 08 | rendered, delivery pending |
-| Final | full GUT run when nothing else runs | | pending |
+| 1 | Capital world (13) | Batch 06 | done (in game; TUNNEL-BOSS own track; GUT audio 90/90, music smoke OK) |
+| 2 | Primm + ending (12) | Batch 06b | done (in game; GUT audio 90/90) |
+| 3 | Path-ology Lab (5), SIPHON-BOSS own track | Batch 09 | done (in game; SIPHON-BOSS own track; GUT audio 90/90) |
+| 4 | Story (9) | Batch 08b | done (in game; hand-back test fixed; GUT audio 90/90) |
+| 5 | Shops + quiz (10) | Batch 11 | done (in game; GUT audio 90/90) |
+| 6 | Side areas (8), VAULT-BOSS own track | Batch 09b | done (in game; VAULT-BOSS own track, no aliases left; GUT audio 90/90) |
+| 7 | Four broken districts at 15 cents (scores changed + rendered) + description rewrite (done in Part 0) | Batch 08 | done (in game; GUT audio 90/90, music smoke OK) |
+| Final | full GUT run when nothing else runs | | running |
 
 Delivery per part: `build.py IDS` (already done by the fork) -> `deliver.py --review "Batch NN"` + `--approve` (+ `--own` for a former alias) ->
 `AUDIO_ONLY="ID.,ID." node tools/audio_analyze.js` -> `bash tools/import_audio.sh` -> `node tools/cut_stings.js` (boss changes) ->

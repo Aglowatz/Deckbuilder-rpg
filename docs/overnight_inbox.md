@@ -4,6 +4,41 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Music Pass 3 (Oct 31) - yours to decide (the safest choice was taken)
+
+Report: `docs/audio/music_pass3_oct31.md` (a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 06\`
+(Capital), `\Batch 06b\` (Primm + ending), `\Batch 09\` (Lab), `\Batch 08b\` (story), `\Batch 11\` (shops + quiz), `\Batch 09b\` (side areas),
+`\Batch 08\` (the four broken districts at 15 cents). All 57 cues are in game; nothing was skipped. Checked by measurement, not by ear.
+
+1. **Loudness of story/ending one-shots: -20 LUFS, not -17.** The brief says one-shots at -17, but the existing story one-shots (*-RELEASE)
+   play at -20 like the loops they sit between, and these cues (memories, quests, THRONE, REUNION, CREDITS, LAB-CELL/RESCUE, ARCHIVE, GALLERY,
+   PRIMM-DEFEAT, PRIMM-MOTIF, LULLABY) play as underscore under dialogue. Stingers stay at -17. Say "-17" and they are re-rendered.
+2. **MUS-LULLABY's melody is the pitch-tracked transcription** (theory.LULLABY_*), re-orchestrated at 70 BPM with my harmonisation; the
+   original master was audio only. Please compare it with the old master (backed up in Superseded/Music_v01/MUS-LULLABY.wav). If the rhythm or
+   a note is off, give the correction and LULLABY, THRONE, REUNION and CREDITS are one fix (they share the helper in `scores/_fork_b.py`).
+3. **MEM-04 stops the lullaby three notes short** (its row: "incomplete until the throne"), so THRONE is the first complete statement. The
+   brief allowed the whole tune in MEM-04. Say "complete it".
+4. **PRIMM-DEFEAT ends on an open IV chord**, not the resolved motif (its row asks for "a quiet unresolved human cadence").
+5. **PRIMM-03 snaps back to the rigid grid at the loop point** (so the loop seam works). If the last phase should never return to the grid,
+   the outro can stay human.
+6. **LAB-CELL uses only the lullaby's first four notes** (the rule), though it is a postgame cue whose row asks for the lullaby. **LAB-RESCUE
+   resolves the Crossroads motif** (treated like a *-RELEASE cue). Either is one line.
+7. **The Crease has no Capital theme** (its own clarinet tune plus four Path cameos; FIGSLY quotes the Crease). Say if you want a distant
+   Capital quote there.
+8. **Captain Spotless shares one idea** (an inspection flourish) between MUS-CAP-ENFORCER (G, fussier) and MUS-TUNNEL-BOSS (C, faster, with a
+   warm tunnel contrast section).
+9. **Flat on purpose:** CAP-FACADE-EXP and CASTLE-EXP span ~3.8 LU (flat muzak, a formal court), under the bible's ~6 LU guide.
+10. **Lullaby glimpses (first four notes, once):** VAULT-EXP (a royal clue), SHOP-ALEMBIC-POST (postgame), MEM-01, MEM-02, the Lab (LAB-EXP
+    breakdown, SIPHON-BOSS dissection, LAB-CELL). Say which to remove.
+11. **GRAVE-EXP has no organ** (organ is the D.N.A.'s); Old Hob's hum is bassoon + "oohs". A quiet reed organ can be added.
+12. **MUS-QUIZ is 87 s** (its row says 90-120 s; the brief's shop/quiz rule says 60-90 s).
+13. **Lab rows vs direction:** the techno direction won over the rows' "glass, piano, cello" wording; those colours live inside the techno.
+14. **A possible toolkit issue (not changed):** composer A found that a held note running past the next strike of the same pitch has its
+    note-off cut the new note (CAP-CORRECTION's seam was 7 dB off until fixed in its own helper). The shared `Score.pad` (+0.08 beat) and
+    `Score.bass` (+0.02) helpers overlap re-struck notes the same way, which may thin repeated pads across the catalogue. Fixing it in lib
+    changes every track on its next render, so it was left for you to approve ("fix the overlap").
+15. **Full GUT run:** see the end of the report / the run summary for the names of any failures.
+
 ## Music Pass 2 (Oct 31) - yours to decide (the safest choice was taken)
 
 Report: `docs/audio/music_pass2_oct31.md` (a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 03\`

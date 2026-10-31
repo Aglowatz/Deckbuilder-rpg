@@ -96,3 +96,16 @@ so the seam can be heard). A render takes about 20 s.
 | Stingers: all 21 builders in one module; `scores/STG-*.py` import theirs | `tools/music/scores/_stingers.py` |
 | Delivery: `STG-` IDs go to Approved_Audio as WAV (stings stay WAV in the game); one-shot registry records keep null loop points; a Pass 1 render replaced later is backed up as `<ID>_<revision>.ogg` beside the original (never overwritten) | `tools/music/deliver.py` |
 | Report rows (key, tempo, length, motif log, section LUFS, LUFS/TP, seam or onset, preview path) | `python tools/music/report_rows.py --batch "Batch 03" IDS...` |
+
+## Music Pass 3 additions (Oct 31)
+
+| What | Where |
+|---|---|
+| The Capital theme (built from the Primm motif), snare rudiments, `stumble` (imperfect bursts), `QUANTISED` (human feel off) | `tools/music/lib/capital.py` |
+| Synth leads/basses/pads/FX and the GS drum kits (standard, room, power, electro, TR-808; every kit shares MIDI channel 10, one per score) | `tools/music/lib/instruments.py` |
+| One command per finished part: previews + approve (+ `--own` for a former alias) + level analysis for those IDs + import (retried once) + boss stings + doc | `bash tools/music/deliver_part.sh "Batch 06" [--own "ID"] IDS` |
+| music_list palette/description/notes rewrite; `--own ID` drops a former alias's note | `tools/music/music_list_pass3.py` |
+
+Gotchas: the importer's ffmpeg calls can fail transiently while other renders load the machine (22 files dropped from the registry once);
+`deliver_part.sh` restores the generated files and retries. A held note that runs past the next strike of the same pitch has its note-off
+cut the new note (end sustained notes a hair early when re-striking).
