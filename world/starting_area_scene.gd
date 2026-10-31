@@ -242,7 +242,7 @@ func _play_awakening() -> void:
 	if not Session.flag(StoryStills.FLAG_WAKE_SEEN) and not _screenshot_args.has("quiet"):
 		Session.set_flag(StoryStills.FLAG_WAKE_SEEN)
 		_locked = true
-		StoryStillScreen.play(self, StoryStills.WAKE, func() -> void:
+		StoryStillScreen.play(self, StoryStills.opening_wake(), func() -> void:
 			_locked = false
 			_play_awakening())
 		return

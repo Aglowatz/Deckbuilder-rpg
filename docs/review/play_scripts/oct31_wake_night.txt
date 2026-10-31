@@ -1,0 +1,14 @@
+# Art import Oct 31, Part 1: the opening wake-up still (STORY-WAKE-NIGHT) with its caption box
+wait 2
+button New Game
+wait 1.5
+button Start here
+wait 4
+shot 01_wake
+dump
+key E
+wait 1
+shot 02_wake_line2
+key E
+wait 1
+shot 03_wake_line3

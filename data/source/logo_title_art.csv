@@ -50,3 +50,4 @@ STEAM-VERTICAL,Steam vertical capsule,Store art,Steam seasonal sales.,748x896 PN
 STEAM-LIBRARY,Steam library capsule,Store art,Steam library grid.,600x900 PNG,A vertical poster composition similar to STEAM-VERTICAL with the logo.,Verify current Steam sizes.,Needed
 STEAM-HERO,Steam library hero,Store art,Steam library page banner (no logo).,3840x1240 PNG,"A very wide panoramic version of the kingdom vista, no text or logo (Steam overlays the logo separately).",Verify current Steam sizes.,Needed
 ITCH-COVER,itch.io cover image,Store art,itch.io project thumbnail.,630x500 PNG,A crop of TITLE-KEYART with the logo.,,Needed
+STORY-WAKE-NIGHT,Story still: The Awakening (night),Story stills,"Opening still at night (the opening plays at night; art import Oct 31). Shows STORY-WAKE's captions (still.wake); STORY-WAKE stays the fallback.",1792x1024 PNG (16:9 crop),"Approved_KeyArt, batch 10.",,Done

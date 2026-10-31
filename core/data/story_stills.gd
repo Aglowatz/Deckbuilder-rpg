@@ -11,6 +11,9 @@ const APPROVAL: String = "STORY-APPROVAL"
 const ROTHEART: String = "STORY-ROTHEART"
 const PRIMM: String = "STORY-PRIMM"
 const REUNION: String = "STORY-REUNION"
+## Art import Oct 31: the opening plays at night, so the wake-up shows the night version. It has no captions of its own (dialogue freeze):
+## it reads STORY-WAKE's (`CAPTION_FROM`). STORY-WAKE stays in the game as the fallback when the night art is missing.
+const WAKE_NIGHT: String = "STORY-WAKE-NIGHT"
 
 const IDS: Array[String] = [WAKE, FLEX, DOPPEL, APPROVAL, ROTHEART, PRIMM, REUNION]
 
@@ -36,8 +39,20 @@ const ENDING_FX: Dictionary = {
 const FLAG_WAKE_SEEN: StringName = &"wake_still_seen"
 
 
+## Stills that show another still's captions.
+const CAPTION_FROM: Dictionary = {
+	WAKE_NIGHT: WAKE,
+}
+
+
 static func caption_key(still_id: String) -> String:
-	return "still.%s" % still_id.trim_prefix("STORY-").to_lower()
+	var source: String = str(CAPTION_FROM.get(still_id, still_id))
+	return "still.%s" % source.trim_prefix("STORY-").to_lower()
+
+
+## The still of the opening wake-up: the night one when it is in the game, else STORY-WAKE.
+static func opening_wake() -> String:
+	return WAKE_NIGHT if KeyArt.has(WAKE_NIGHT) else WAKE
 
 
 ## The caption lines of a still (a visible "[missing text: ...]" line when the story file has none).

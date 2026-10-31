@@ -81,3 +81,16 @@ func test_a_click_on_the_still_advances_the_caption_box() -> void:
 	click.pressed = true
 	screen._gui_input(click)
 	assert_true(screen.dialogue.active, "the first click only finished the typing")
+
+
+## Art import Oct 31: the opening plays at night, so the wake-up shows STORY-WAKE-NIGHT with STORY-WAKE's own captions (no new text).
+func test_the_opening_wake_up_is_the_night_still_with_the_wake_captions() -> void:
+	assert_eq(StoryStills.caption_key(StoryStills.WAKE_NIGHT), "still.wake")
+	assert_eq(StoryStills.captions(StoryStills.WAKE_NIGHT), StoryStills.captions(StoryStills.WAKE))
+	assert_true(KeyArt.has(StoryStills.WAKE_NIGHT), "STORY-WAKE-NIGHT is imported")
+	assert_true(KeyArt.has(StoryStills.WAKE), "STORY-WAKE stays in the game")
+	assert_eq(StoryStills.opening_wake(), StoryStills.WAKE_NIGHT)
+	var screen: StoryStillScreen = StoryStillScreen.make(StoryStills.WAKE_NIGHT)
+	assert_not_null(screen)
+	assert_false(screen.captions.is_empty())
+	screen.free()
