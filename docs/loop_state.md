@@ -1,14 +1,17 @@
-# Loop state - Art import batch 10 (Oct 31 2026)
+# Loop state - Music Pass 1 (Oct 31 2026)
 
-Brief: batch 10 art import (17 files from the Drive's Approved_* folders). Tag `pre-art-import-oct31`. Log `docs/art/import_oct31.md`.
-Rules: one Godot at a time, GUT in groups, commit per part, dialogue freeze, no build export. Replaced files backed up to `_art_source/superseded_oct31/`.
+Brief: orchestral toolkit + Batches 1-2 (pasted brief "MUSIC PASS 1"). Report `docs/audio/music_pass_oct31.md`. Questions go to
+`docs/overnight_inbox.md` ("Music Pass 1").
+Rules: one Godot process at a time, GUT in groups, commit per part, dialogue freeze. Python: `$LOCALAPPDATA/Programs/Python/Python312/python.exe`.
+Toolchain + commands: `docs/audio/music_toolchain.md`. Writing rules: `docs/audio/score_bible.md`.
+Previous run (art import batch 10) finished; its log is `docs/art/import_oct31.md`.
 
 | Part | What | State |
 |---|---|---|
-| 1 | STORY-WAKE-NIGHT on the opening wake-up | done (shots `_screenshots/play/oct31_wake/`) |
-| 2 | ICON-UI-GLOSSARY / ICON-UI-FEATS on the menus | done (shots `_screenshots/oct31/icons_*.png`) |
-| 3 | Hat sheet redos (Chef, Wizard, Leaf Crown) + scale normalise + contact sheet | done (`_screenshots/oct31/hats_final/ALL.png`, measure `tools/hat_measure.gd`) |
-| 4 | Captain Spotless walk set (11 files) wired to the roamer | done (lineups `_screenshots/oct31/spotless_lineup_*.png`; inbox item 1: he never spawns as a roamer) |
-| 5 | GUT groups, missing-art report, import_oct31.md | done (all groups pass; 17/17 in game) |
+| 1 | Toolchain (FluidSynth, FluidR3_GM, tools/music/lib, build.py), MUS-TOWN v04 port | done (port identical to v04 MIDI; render matches the Drive file) |
+| 2 | Score bible | done (`docs/audio/score_bible.md`) |
+| 3 | Batch 1: TITLE, FOREST, TUT-EXP, TUT-BATTLE, TUT-BOSS, TOWN-BATTLE, DECK, MAREN, TOWN-FREED | |
+| 4 | Batch 2: BEEF-EXP, BEEF-BATTLE, BEEF-DUN-EXP, BEEF-DUN-BATTLE, BEEF-BOSS, BEEF-FREED | |
+| 5 | Previews to Music Review, backups to Superseded/Music_v01, Approved_Audio + import audio, aliases, GUT audio, launch check, report | |
 
-**Run complete.** Next: read inbox "Art import Oct 31" answers (Spotless roaming, hat re-import rule, Leaf Crown ends).
+Resume: `build.py --check-only <IDs>` shows which scores exist and pass; renders are in `C:\Dev\music_tools\renders\`.
