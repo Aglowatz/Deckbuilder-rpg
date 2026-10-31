@@ -67,6 +67,9 @@ var battle_speed: int = 0
 var confirm_end_turn: bool = true
 ## Overnight Oct 18, Part 7: end the turn by itself when nothing is left to play or attack with (off by default).
 var auto_end_turn: bool = false
+## Fresh eyes round 2 (Oct 31): the first-time tips (the duel's coach bubbles, the screens' "Tip:" panels). Off = none are shown; turning it
+## back on shows the ones not yet seen (each is still once-ever).
+var tutorial_tips: bool = true
 ## Adds a Path symbol wherever a Path is shown only by its colour.
 var colorblind_symbols: bool = false
 var reduce_shake: bool = false
@@ -379,6 +382,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("battle", "speed", battle_speed)
 	config.set_value("battle", "confirm_end_turn", confirm_end_turn)
 	config.set_value("battle", "auto_end_turn", auto_end_turn)
+	config.set_value("battle", "tutorial_tips", tutorial_tips)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
@@ -434,6 +438,7 @@ func load_settings(path: String = PATH) -> void:
 	battle_speed = clampi(int(config.get_value("battle", "speed", battle_speed)), 0, BATTLE_SPEEDS.size() - 1)
 	confirm_end_turn = bool(config.get_value("battle", "confirm_end_turn", confirm_end_turn))
 	auto_end_turn = bool(config.get_value("battle", "auto_end_turn", auto_end_turn))
+	tutorial_tips = bool(config.get_value("battle", "tutorial_tips", tutorial_tips))
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
@@ -547,6 +552,7 @@ func reset_to_defaults() -> void:
 	battle_speed = 0
 	confirm_end_turn = true
 	auto_end_turn = false
+	tutorial_tips = true
 	reduce_flashing = false
 	graphics_quality = GraphicsQuality.recommended()
 	depth_of_field = true

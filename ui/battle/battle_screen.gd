@@ -62,6 +62,12 @@ var _chain_active: bool = false
 var _chain_source: int = 0
 var _chain_done: Callable = Callable()
 var _toast_label: Label
+## Fresh eyes round 2 (Oct 31): what the defeat recap reads - damage to the player by source name {name: [total, hits]}, the player's turns,
+## and the turns on which they played no Infrastructure. Presentation only: the rules never read these.
+var _recap_damage: Dictionary = {}
+var _recap_player_turns: int = 0
+var _recap_turns_without_infra: int = 0
+var _recap_infra_this_turn: bool = true
 var refuse_widgets: Array[RefusePileWidget] = []
 var refuse_viewer: RefusePileViewer
 var battle_log: BattleLog
@@ -70,6 +76,9 @@ var pad: BattlePad
 
 func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
+	# Fresh eyes round 2 (Oct 31): `--hand_style=classic|compact|fan` photographs a hand layout (BattleBoard.HAND_STYLES).
+	if BattleBoard.HAND_STYLES.has(str(args.get("hand_style", ""))):
+		BattleBoard.hand_style = str(args["hand_style"])
 
 
 ## Screenshot/dev helper: `--keep=true` keeps the opening hand; `--hover=hand:2` (also field:N, efield:N, token:N, etoken:N, resource:N,
@@ -457,6 +466,7 @@ func _on_game_event(event: GameEvent) -> void:
 	board.register_uid(event.card)
 	if event.other > 0:
 		board.register_uid(event.other)
+	_track_for_recap(event)
 	if event.type == GameEvent.Type.TURN_STARTED:
 		# "End Turn" fast-forwards through the rest of THAT turn only (skipping the attack
 		# step with no attackers declared). It must never leak into a later turn, or the
@@ -1552,6 +1562,67 @@ func _show_script_event(event: GameEvent) -> void:
 	await script_banner.show_event(trigger, context.enemy_name, board.speed)
 
 
+## Fresh eyes round 2 (Oct 31): the defeat recap's bookkeeping (see `defeat_recap_lines`).
+func _track_for_recap(event: GameEvent) -> void:
+	match event.type:
+		GameEvent.Type.TURN_STARTED:
+			if event.player == 0:
+				if _recap_player_turns > 0 and not _recap_infra_this_turn:
+					_recap_turns_without_infra += 1
+				_recap_player_turns += 1
+				_recap_infra_this_turn = false
+		GameEvent.Type.INFRASTRUCTURE_PLAYED:
+			if event.player == 0:
+				_recap_infra_this_turn = true
+		GameEvent.Type.DAMAGE_DEALT:
+			if event.player == 0 and event.other == Targets.player(0) and event.amount > 0:
+				var source: CardInstance = game.find_card(event.card)
+				var source_name: String = source.data.display_name if source != null and source.data != null else "an effect"
+				var entry: Array = _recap_damage.get(source_name, [0, 0]) as Array
+				entry[0] = int(entry[0]) + event.amount
+				entry[1] = int(entry[1]) + 1
+				_recap_damage[source_name] = entry
+
+
+## What beat you, in one or two lines, plus one tip read from the fight: the biggest damage source by name and share, then the first of -
+## missed Infrastructure drops, a hand left unplayed, units kept out of the way of a big attacker, or the Path's Resource left unspent.
+func defeat_recap_lines() -> Array[String]:
+	var lines: Array[String] = []
+	var total: int = 0
+	var top_name: String = ""
+	var top_total: int = 0
+	var top_hits: int = 0
+	for source_name: Variant in _recap_damage.keys():
+		var entry: Array = _recap_damage[source_name] as Array
+		total += int(entry[0])
+		if int(entry[0]) > top_total:
+			top_name = str(source_name)
+			top_total = int(entry[0])
+			top_hits = int(entry[1])
+	if top_total > 0:
+		var hits: String = "1 hit" if top_hits == 1 else "%d hits" % top_hits
+		if total > top_total:
+			lines.append("%s dealt %d of the %d damage you took (%s)." % [top_name, top_total, total, hits])
+		else:
+			lines.append("%s dealt all %d damage you took (%s)." % [top_name, total, hits])
+	else:
+		lines.append("%s outlasted you over %d turns." % [context.enemy_name, game.turn])
+	var me: PlayerState = game.players[0]
+	var tip: String = ""
+	if _recap_turns_without_infra >= 2 and me.infrastructure.size() < 4:
+		tip = "You played no Infrastructure on %d of your %d turns. Keep an opening hand with 2 or 3 (mulligan one with fewer), and play one every turn you can." % [_recap_turns_without_infra, _recap_player_turns]
+	elif me.hand.size() >= 4:
+		tip = "You ended with %d cards still in hand. Spend your energy every turn: cheap units first, so you have blockers when their attack comes." % me.hand.size()
+	elif top_hits >= 3 and not top_name.is_empty():
+		tip = "%s hit you %d times. Block it with a unit you can afford to lose, or trade with it early, before it adds up." % [top_name, top_hits]
+	elif not me.resources.is_empty() and ResourceKind.from_card_id(me.resources[0].data.id) >= 0:
+		tip = "You still had %s unspent. Resources do nothing on your tray: spend them the turn you make them." % ResourceKind.display_name(ResourceKind.from_card_id(me.resources[0].data.id) as ResourceKind.Kind)
+	else:
+		tip = "Rest at a shrine or heal in town before the next hard fight, and bring units that block well: unblocked attackers hit you."
+	lines.append("Tip: " + tip)
+	return lines
+
+
 func _reject(message: String) -> void:
 	Audio.sfx(&"ui_error")
 	_toast(message)
@@ -1909,6 +1980,20 @@ func _show_result() -> void:
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.practice and context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You are carried out of the dungeon. Your collection is safe.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
+	# how the fight went. The first critic lost twice and could not say why.
+	if not won and not game.is_draw:
+		var recap: PanelContainer = UIKit.panel(&"DarkPanel")
+		recap.name = "DefeatRecap"
+		var recap_box: VBoxContainer = UIKit.vbox(6)
+		recap.add_child(recap_box)
+		recap_box.add_child(UIKit.label("What beat you", &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+		for line: String in defeat_recap_lines():
+			var text: Label = UIKit.label(line, &"", 21, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+			text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			text.custom_minimum_size = Vector2(500, 0)
+			recap_box.add_child(text)
+		column.add_child(recap)
 	elif not won and not context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You can challenge them again anytime.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var button: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(240, 60))

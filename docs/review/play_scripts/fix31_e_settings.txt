@@ -1,0 +1,12 @@
+# Fresh eyes round 2 (Oct 31), Part 2 verification: the Settings pages from the title (scrollbar clear of the checkboxes)
+wait 2
+button Settings
+wait 1.2
+shot 01_settings_display
+dump
+button Text
+wait 0.8
+shot 02_settings_text
+button Controls
+wait 0.8
+shot 03_settings_controls

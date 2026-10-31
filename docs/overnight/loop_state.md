@@ -23,7 +23,7 @@ market untouched. DIALOGUE FREEZE: rewrites go to `docs/dialogue/lines_to_update
 
 | Part | State | Commit | Notes |
 |---|---|---|---|
-| 1 | in progress | | |
+| 1 | done | 13ab312e | ConfirmDialog / TipPanel / ChallengeScreen / TutorialLayer take E (+ Enter / Space / pad A; Space left alone in the duel); Path "More" = Resource + starting deck; treeline bubble (`StartingAreaScene._barks`, `NpcBarks.say`); toast layer 26 at y 585; tooltip re-fit each frame; banner layer 27; bubbles avoid `hud.preview_rect()` / `plate_rect()`. GUT all green, opening forest + first battles smokes OK; scripts `fix31_a*`, `fix31_b*`, `fix31_c` |
 | 2 | pending | | |
 | 3 | pending | | |
 | 4 | pending | | |

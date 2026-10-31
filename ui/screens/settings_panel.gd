@@ -21,6 +21,8 @@ var _capture_frame: int = 0
 var _conflict_note: Label
 var _resolution: OptionButton
 var _sample: Label
+## Fresh eyes round 2 (Oct 31): the page scroller (its bar is restyled so it can be seen).
+var _scroll: ScrollContainer
 ## Saves after every change; tests turn it off so they never touch the real settings file.
 var autosave: bool = true
 
@@ -41,12 +43,29 @@ func _ready() -> void:
 		_tabs.append(tab)
 	column.add_child(tab_row)
 	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.name = "PageScroll"
 	scroll.custom_minimum_size = PAGE_SIZE
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	column.add_child(scroll)
 	_body = UIKit.vbox(12)
 	_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(_body)
+	# The rows stop short of the bar (it used to lie over the right-hand checkboxes).
+	var pad: MarginContainer = MarginContainer.new()
+	pad.add_theme_constant_override("margin_right", 26)
+	pad.add_theme_constant_override("margin_bottom", 8)
+	pad.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(pad)
+	pad.add_child(_body)
+	# Fresh eyes round 2 (Oct 31): a scrollbar you can see. The theme's bar is a dark, 35 % black track on dark wood (invisible), so the
+	# Display page looked cut off at "Render scale" with no hint that it went on. A gold grabber on a visible track, wide enough to grab,
+	# and always shown on a page that overflows (`_refresh_scrollbar`).
+	_scroll = scroll
+	var bar: VScrollBar = scroll.get_v_scroll_bar()
+	bar.custom_minimum_size = Vector2(16, 0)
+	bar.add_theme_stylebox_override("scroll", UIStyle.box(Color(0.0, 0.0, 0.0, 0.45), UIStyle.GOLD_DIM, 1, 8))
+	bar.add_theme_stylebox_override("grabber", UIStyle.box(UIStyle.GOLD_DIM, Color(0, 0, 0, 0), 0, 8))
+	bar.add_theme_stylebox_override("grabber_highlight", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
+	bar.add_theme_stylebox_override("grabber_pressed", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
 	var back: FancyButton = FancyButton.make("Back", &"PrimaryButton", Vector2(200, 52))
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	back.pressed.connect(_on_back)
@@ -164,6 +183,8 @@ func _build_text() -> void:
 	_body.add_child(_row("Battle speed (animations only)", battle))
 	_body.add_child(_check("Warn before ending a turn with energy and playable cards left", Settings.confirm_end_turn, _on_confirm_end_turn, "ConfirmEndTurnCheck"))
 	_body.add_child(_check("Auto-end the turn when nothing is playable", Settings.auto_end_turn, _on_auto_end_turn, "AutoEndTurnCheck"))
+	# Fresh eyes round 2 (Oct 31): the once-ever first-time tips can be switched off (and back on) here.
+	_body.add_child(_check("Tutorial tips (first-time hints in duels and on new screens)", Settings.tutorial_tips, _on_tutorial_tips, "TutorialTipsCheck"))
 	_sample = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
 	_sample.name = "DialogueSample"
 	_sample.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -474,6 +495,11 @@ func _on_confirm_end_turn(pressed: bool) -> void:
 
 func _on_auto_end_turn(pressed: bool) -> void:
 	Settings.auto_end_turn = pressed
+	_saved()
+
+
+func _on_tutorial_tips(pressed: bool) -> void:
+	Settings.tutorial_tips = pressed
 	_saved()
 
 

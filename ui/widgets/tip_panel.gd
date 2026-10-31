@@ -5,7 +5,7 @@ extends PanelContainer
 
 ## Shows the tip under `parent` unless `flag` was already set. Returns the panel or null.
 static func show_once(parent: Control, flag: StringName, title: String, text: String, position: Vector2 = Vector2(560, 880)) -> TipPanel:
-	if Session.flag(flag):
+	if Session.flag(flag) or not Settings.tutorial_tips:  # Fresh eyes round 2 (Oct 31): Settings > Text > "Tutorial tips" turns them all off (unseen ones stay unseen)
 		return null
 	# Daytime Oct 19: a screen the UiArtWarmup builds unseen must not use up its one-time tip.
 	var node: Node = parent

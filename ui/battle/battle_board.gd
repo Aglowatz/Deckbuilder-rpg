@@ -17,6 +17,18 @@ const ENEMY_BF_Y: float = 366.0
 const PLAYER_BF_Y: float = 620.0
 const PLAYER_INFRASTRUCTURE_Y: float = 806.0
 const HAND_Y: float = 985.0
+## Fresh eyes round 2 (Oct 31): how the player's hand is laid out. Both critics read a hand card's rules text only by hovering: at the
+## classic scale (0.68, centre y 985) a 450-tall card's bottom third - the rules box - lies below the 1080 edge. "compact" draws the hand a
+## little smaller (0.58, 261 tall) with its centre at 950 so the whole card is on screen (bottom at 1080) and its top stays where it was
+## (~820, under the Infrastructure row's bottom edge as before); "fan" keeps the classic size but spreads the cards in a wider arc with more
+## tilt, which shows each card's text band between its neighbours. The default is "compact" (see docs/review/fresh_eyes_fixes_oct31/hand_*.png);
+## `--hand_style=classic|compact|fan` on a battle screenshot picks one.
+const HAND_STYLES: Dictionary = {
+	"classic": {"scale": 0.68, "y": 985.0, "spacing": 200.0, "arc": 2.2, "rot": 2.6},
+	"compact": {"scale": 0.58, "y": 950.0, "spacing": 182.0, "arc": 2.0, "rot": 2.4},
+	"fan": {"scale": 0.68, "y": 975.0, "spacing": 150.0, "arc": 6.0, "rot": 5.0},
+}
+static var hand_style: String = "compact"
 const CENTER_POINT: Vector2 = Vector2(985.0, 500.0)
 const BF_SPACING: float = 182.0
 const INFRASTRUCTURE_SPACING: float = 86.0
@@ -261,14 +273,16 @@ func _layout_hand(owner_index: int) -> void:
 	if count == 0:
 		return
 	var mine: bool = owner_index == human
-	var spacing: float = minf(200.0 if mine else 62.0, (900.0 if mine else 520.0) / float(maxi(count - 1, 1)))
+	var style: Dictionary = HAND_STYLES.get(hand_style, HAND_STYLES["compact"]) as Dictionary
+	var hand_y: float = float(style["y"]) if mine else ENEMY_HAND_Y
+	var spacing: float = minf((float(style["spacing"]) if mine else 62.0), (900.0 if mine else 520.0) / float(maxi(count - 1, 1)))
 	for index: int in range(count):
 		var offset: float = float(index) - float(count - 1) * 0.5
-		var arc: float = offset * offset * (2.2 if mine else 1.0)
+		var arc: float = offset * offset * (float(style["arc"]) if mine else 1.0)
 		var uid: int = cards[index]
-		var center: Vector2 = Vector2(CENTER_X + offset * spacing, (HAND_Y if mine else ENEMY_HAND_Y) + arc)
-		var rotation_degrees: float = offset * (2.6 if mine else -1.8)
-		var card_scale: float = SCALE_HAND if mine else SCALE_ENEMY_HAND
+		var center: Vector2 = Vector2(CENTER_X + offset * spacing, hand_y + arc)
+		var rotation_degrees: float = offset * (float(style["rot"]) if mine else -1.8)
+		var card_scale: float = float(style["scale"]) if mine else SCALE_ENEMY_HAND
 		var z: int = 10 + index
 		if uid == hover_uid and mine and _hover_zone_lift:
 			center = Vector2(center.x, HAND_Y - 150.0)

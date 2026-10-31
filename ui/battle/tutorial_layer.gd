@@ -72,7 +72,7 @@ var shown_log: Array[String] = []
 
 ## Whether a battle should show tips at all: until they are skipped, while any prompt has not been seen.
 static func wanted() -> bool:
-	if Session.flag(&"tutorial_done"):
+	if Session.flag(&"tutorial_done") or not Settings.tutorial_tips:  # Fresh eyes round 2 (Oct 31): Settings > Text > "Tutorial tips"
 		return false
 	for step: Dictionary in STEPS:
 		if not Session.flag(StringName("tut_%s" % str(step["id"]))):
