@@ -4,6 +4,30 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Music Pass 1 (Oct 31) - yours to decide (the safest choice was taken)
+
+Report: `docs/audio/music_pass_oct31.md` (with a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 01\`, `\Batch 02\`.
+
+1. **Gainlands rows in music_list.csv still ask for electric guitars / metal** (all six BEEF rows). The brief's Beefcake palette is orchestral
+   (heroic brass, snare, march), so the tracks are orchestral and each score says so. Say "update the BEEF rows" and I will rewrite their
+   instrument/notes columns to match.
+2. **MUS-TOWN v04's loop seam is +5.5 dB**: the outro ends louder than bar 0 (the pad starts at CC11 40 under a soft harp). Left as it is,
+   since it is the approved reference. Fix offered: start the bar 0 pad at ~75 (or end the outro softer) and render it as v05.
+3. **Lullaby glimpses**: three notes of the lullaby, once and quietly, appear in TITLE (celesta, cut off), FOREST, TUT-EXP, TUT-BOSS (the
+   Warden's recognition) and MAREN. That keeps to "at most the first four notes, once per track", but five tracks before the reveal may be
+   too many. Say which to remove.
+4. **Lullaby / Primm notes were transcribed by ear-less pitch tracking** from the WAV masters (`theory.LULLABY_HEAD`, `PRIMM_HEAD`;
+   score bible section 2). If you have the written notes, send them and the quotes get corrected.
+5. **Lengths vs music_list rows**: FOREST is 2:09 (row says 90-120 s; the brief's exploration rule says 2:00-2:45, which I followed);
+   DECK 2:00 (row 90-120 s); MAREN 1:27 (row 45-90 s).
+6. **DECK's cello section** (bar 16) is about 6 LU louder than the chord sections. Fine for "thoughtful", but flatten it if long reading
+   should be completely even.
+7. **BEEF-BOSS "stopwatch"** is the orchestra kit's metronome bell (note 34) every two bars, for Quota. Not checked by ear.
+8. **Battle/boss intros** (the ostinato-only bars at the loop point) were lifted to about 3-4 LU under the body, so the loop no longer has
+   a quiet hole every two minutes. Say if you want them softer (more contrast) or removed.
+9. **Folk colours in TOWN-FREED**: FluidR3_GM's fiddle, accordion, mandolin and recorder (standing in for the tin whistle) are thin
+   General MIDI patches. They read as colour, not as solo voices; a better library re-render (`tools/music/midi/*.mid`) would fix it.
+
 ## Overnight Oct 28-29 - yours to decide (the safest choice was taken)
 
 **Answered Oct 29:** 1 - checked in game: he is already his painted NPC set at the gate (`NPC-SPOTLESS` -> `SPOTLESS`, `_screenshots/oct29_spotless_gate.png`); he is not a roamer (the "spotless" enemy entry is only the gate battle), so the item was a mistake and nothing changed. 2 - keep the threat pause. 3 - keep the red-orange rim. 4 - later (still open).

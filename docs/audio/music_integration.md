@@ -56,11 +56,8 @@ These play, but the wrap is audible. Listed for the next production pass; the fi
 - MUS-CAP-OUT-EXP: 0.49 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail)
 - MUS-CASTLE-EXP: ends 16 dB quieter than it begins (decay / cut-off tail)
 - MUS-CREASE: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail)
-- MUS-DECK: 0.49 s of digital silence at the wrap
-- MUS-FOREST: 0.44 s of digital silence at the wrap
 - MUS-GRAVE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
 - MUS-LAB-EXP: 0.43 s of digital silence at the wrap
-- MUS-MAREN: 0.53 s of digital silence at the wrap
 - MUS-PRIMM-01: ends 15 dB quieter than it begins (decay / cut-off tail)
 - MUS-PRIMM-02: ends 14 dB quieter than it begins (decay / cut-off tail)
 - MUS-PRIMM-BREAK: 0.53 s of digital silence at the wrap
@@ -72,12 +69,9 @@ These play, but the wrap is audible. Listed for the next production pass; the fi
 - MUS-SHOP-FIGSLY: 0.51 s of digital silence at the wrap
 - MUS-SHOP-GRISTLE: 0.36 s of digital silence at the wrap
 - MUS-SHOP-SABLE: 0.45 s of digital silence at the wrap
-- MUS-TUT-EXP: 0.37 s of digital silence at the wrap
 
 ### Loops to listen to (6-12 dB step at the wrap)
 
-- MUS-TUT-BATTLE: listen: 7 dB step at the wrap
-- MUS-TUT-BOSS: listen: 7 dB step at the wrap
 - MUS-VAULT-BATTLE: listen: 8 dB step at the wrap
 - MUS-VAULT-BOSS: listen: 8 dB step at the wrap
 
@@ -90,12 +84,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-ARCHIVE | Good intentions | `music/MUS-ARCHIVE.ogg` | story | +3.0 | Primm's Castle: the Archive gate node (`pc_archive_gate`) and the early-journals event (`pc_early_journals`) | In Game | n/a (one-shot) |  |
 | MUS-ARENA-BATTLE | The Grand Clashatorium | `music/MUS-ARENA-BATTLE.ogg` | loop, loop | +0.9 | Grand Clashatorium fights, Bronze and Silver Sand (BB-ARENA) | In Game | OK |  |
 | MUS-ARENA-ELITE | The championship card | `music/MUS-ARENA-ELITE.ogg` | loop, loop | +0.9 | Grand Clashatorium Gold Sand (tier 3) fights | In Game | OK |  |
-| MUS-BEEF-BATTLE | The Gainlands — combat | `music/MUS-BEEF-BATTLE.ogg` | loop, loop | +1.2 | Overworld battles on BB-GAIN; the town's corrupted beefcake gate envoy | In Game | OK |  |
-| MUS-BEEF-BOSS | Chancellor Clench, Iron Regent | `music/MUS-BEEF-BOSS.ogg` | loop, loop | +1.2 | House of Gains principal boss (BB-HOG, boss node) | In Game | OK |  |
-| MUS-BEEF-DUN-BATTLE | House of Gains — combat | `music/MUS-BEEF-DUN-BATTLE.ogg` | loop, loop | +1.2 | House of Gains battles and elites (BB-HOG) | In Game | OK |  |
-| MUS-BEEF-DUN-EXP | House of Gains — exploration | `music/MUS-BEEF-DUN-EXP.ogg` | loop, loop | +1.1 | House of Gains node map (D-HOG) and its events | In Game | OK |  |
-| MUS-BEEF-EXP | The Gainlands — exploration | `music/MUS-BEEF-EXP.ogg` | loop, loop | +1.1 | The Gainlands (`ZoneScene`, zone `beefcake`) until its own completion flag is set | In Game | OK |  |
-| MUS-BEEF-FREED | The Gainlands — restored | `music/MUS-BEEF-FREED.ogg` | loop, loop | +1.1 | The Gainlands once `zone_beefcake_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
+| MUS-BEEF-BATTLE | The Gainlands — combat | `music/MUS-BEEF-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-GAIN; the town's corrupted beefcake gate envoy | In Game | OK |  |
+| MUS-BEEF-BOSS | Chancellor Clench, Iron Regent | `music/MUS-BEEF-BOSS.ogg` | loop, loop | +0.1 | House of Gains principal boss (BB-HOG, boss node) | In Game | OK |  |
+| MUS-BEEF-DUN-BATTLE | House of Gains — combat | `music/MUS-BEEF-DUN-BATTLE.ogg` | loop, loop | +0.1 | House of Gains battles and elites (BB-HOG) | In Game | OK |  |
+| MUS-BEEF-DUN-EXP | House of Gains — exploration | `music/MUS-BEEF-DUN-EXP.ogg` | loop, loop | +0.0 | House of Gains node map (D-HOG) and its events | In Game | OK |  |
+| MUS-BEEF-EXP | The Gainlands — exploration | `music/MUS-BEEF-EXP.ogg` | loop, loop | +0.1 | The Gainlands (`ZoneScene`, zone `beefcake`) until its own completion flag is set | In Game | OK |  |
+| MUS-BEEF-FREED | The Gainlands — restored | `music/MUS-BEEF-FREED.ogg` | loop, loop | +0.1 | The Gainlands once `zone_beefcake_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-BEEF-RELEASE | Flex's rescue and true strength | `music/MUS-BEEF-RELEASE.ogg` | story | +2.3 | House of Gains leader release scene: cutscene `rescue` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-CAP-BEEF-BROKEN | Transit Yards — broken service | `music/MUS-CAP-BEEF-BROKEN.ogg` | loop, loop | +1.1 | Transit Yards (area `transit`) while `zone_beefcake_completed` is not set | In Game | OK |  |
 | MUS-CAP-BEEF-RESTORED | Transit Yards — service returns | `music/MUS-CAP-BEEF-RESTORED.ogg` | loop, loop | +1.1 | Transit Yards (area `transit`) once `zone_beefcake_completed` is set | In Game | OK |  |
@@ -117,8 +111,8 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-CASTLE-EXP | Behind the white and gold | `music/MUS-CASTLE-EXP.ogg` | loop, loop | +1.0 | Primm's Castle node map (D-PC) and its events | In Game | Needs loop fix: ends 16 dB quieter than it begins (decay / cut-off tail) |  |
 | MUS-CREASE | Tea of dissent | `music/MUS-CREASE.ogg` | loop, loop | +1.0 | The Crease hideout (area `crease`; Wren, Nurse Hesper Dray) | In Game | Needs loop fix: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail) |  |
 | MUS-CREDITS | Many ways forward | `music/MUS-CREDITS.ogg` | story | +3.0 | Ending credits (`EndingScreen._start_credits`) | In Game | n/a (one-shot) | 332 s, longer than the placeholder credits scroll; it is a one-shot and is left to finish or be replaced by the Capital's music. |
-| MUS-DECK | A plan in the cards | `music/MUS-DECK.ogg` | loop, loop | +1.0 | Deck station, Codex / collection and the dungeon deck builder (`music_cue()` of those overlay screens) | In Game | Needs loop fix: 0.49 s of digital silence at the wrap | Short overlays (character, quests, map, wardrobe, packs, fast travel) keep the area music. |
-| MUS-FOREST | A stranger in the trees | `music/MUS-FOREST.ogg` | loop, loop | +1.0 | Starting forest (`StartingAreaScene`): waking, the Rescuer, the Path choice | In Game | Needs loop fix: 0.44 s of digital silence at the wrap | Dialogue ducks it by 4.5 dB. |
+| MUS-DECK | A plan in the cards | `music/MUS-DECK.ogg` | loop, loop | +0.1 | Deck station, Codex / collection and the dungeon deck builder (`music_cue()` of those overlay screens) | In Game | OK | Short overlays (character, quests, map, wardrobe, packs, fast travel) keep the area music. |
+| MUS-FOREST | A stranger in the trees | `music/MUS-FOREST.ogg` | loop, loop | +0.1 | Starting forest (`StartingAreaScene`): waking, the Rescuer, the Path choice | In Game | OK | Dialogue ducks it by 4.5 dB. |
 | MUS-GALLERY | Kept for reference | `music/MUS-GALLERY.ogg` | story | +3.0 | Primm's Castle: the Gallery node (`pc_gallery`, the painted-over royal portrait) | In Game | n/a (one-shot) |  |
 | MUS-GOUR-BATTLE | The Endless Buffet — combat | `music/MUS-GOUR-BATTLE.ogg` | loop, loop | +1.2 | Overworld battles on BB-BUFF; the town's corrupted gourmand gate envoy | In Game | OK |  |
 | MUS-GOUR-BOSS | The Doppelganger | `music/MUS-GOUR-BOSS.ogg` | loop, loop | +1.1 | Test Kitchen principal boss (BB-TTK, boss node) | In Game | OK |  |
@@ -134,7 +128,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-LAB-EXP | The subject's corridors | `music/MUS-LAB-EXP.ogg` | loop, loop | +1.0 | Path-ology Lab node map (D-LAB, postgame) | In Game | Needs loop fix: 0.43 s of digital silence at the wrap |  |
 | MUS-LAB-RESCUE | The hand that helped | `music/MUS-LAB-RESCUE.ogg` | story | +3.0 | Path-ology Lab rescue node (story key `dg_lab_rescue`, the captured Rescuer) | In Game | n/a (one-shot) |  |
 | MUS-LULLABY | Concordia's lullaby — motif master | `music/MUS-LULLABY.ogg` | motif | +3.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) | Imported as asked. Its theme is quoted by the memory, throne and reunion cues. |
-| MUS-MAREN | Maren — pie and secrets | `music/MUS-MAREN.ogg` | loop, loop | +1.0 | Elder Maren's memory conversations (`TownScene._play_memory`): under her lines, the fragment cue lies on top | In Game | Needs loop fix: 0.53 s of digital silence at the wrap | Pushed with the dialogue; popped over 1.5 s when the conversation ends. |
+| MUS-MAREN | Maren — pie and secrets | `music/MUS-MAREN.ogg` | loop, loop | +0.0 | Elder Maren's memory conversations (`TownScene._play_memory`): under her lines, the fragment cue lies on top | In Game | OK | Pushed with the dialogue; popped over 1.5 s when the conversation ends. |
 | MUS-MEM-01 | Warmth | `music/MUS-MEM-01.ogg` | story | +3.0 | Memory fragment 1 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
 | MUS-MEM-02 | The cells | `music/MUS-MEM-02.ogg` | story | +3.0 | Memory fragment 2 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
 | MUS-MEM-03 | The coup | `music/MUS-MEM-03.ogg` | story | +3.0 | Memory fragment 3 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
@@ -185,7 +179,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-SHOP-FIGSLY | Off the books | `music/MUS-SHOP-FIGSLY.ogg` | loop, loop | +1.0 | Figsly (black market, the Crease): vendor screen VS-FIGSLY (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.51 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-GRISTLE | Found, not stolen | `music/MUS-SHOP-GRISTLE.ogg` | loop, loop | +1.0 | Gristle (Verdant Dump): vendor screen VS-GRISTLE (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.36 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-LEDGERBONE | A correctly completed form | `music/MUS-SHOP-LEDGERBONE.ogg` | loop, loop | +1.0 | Ledgerbone (D.N.A. lobby): vendor screen VS-LEDGERBONE (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-MIREPOIX | Under the silver cloche | `music/MUS-SHOP-MIREPOIX.ogg` | loop, loop | +1.0 | Mirepoix (Endless Buffet): vendor screen VS-MIREPOIX (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-MIREPOIX | Under the silver cloche | `music/MUS-SHOP-MIREPOIX.ogg` | loop, loop | +0.0 | Mirepoix (Endless Buffet): vendor screen VS-MIREPOIX (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-SABLE | Sable's velvet salon | `music/MUS-SHOP-SABLE.ogg` | loop, loop | +1.0 | Sable (card vendor, town): vendor screen VS-SABLE (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.45 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-THREADWELL | Pip's tiny runway | `music/MUS-SHOP-THREADWELL.ogg` | loop, loop | +0.9 | Threadwell (tailor, town): vendor screen VS-THREADWELL (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-TONIC | Tilly's bubbling apothecary | `music/MUS-SHOP-TONIC.ogg` | loop, loop | +1.0 | Tonic (item vendor, town): vendor screen VS-TONIC (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
@@ -194,16 +188,16 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-SWOLY-BOSS | The Ancient Spotter | `music/MUS-SWOLY-BATTLE.ogg` (alias of MUS-SWOLY-BATTLE) | loop, loop | +1.2 | Mount Swolympus boss (BB-S-BEEF, boss node) | In Game | OK | Compatibility alias: plays MUS-SWOLY-BATTLE's file. |
 | MUS-SWOLY-EXP | Mount Swolympus — exploration | `music/MUS-SWOLY-EXP.ogg` | loop, loop | +1.1 | Mount Swolympus node map (S-BEEF) and events | In Game | OK |  |
 | MUS-THRONE | The Pathwork Throne | `music/MUS-THRONE.ogg` | story | +2.3 | Ending beat `throne` (`EndingScreen`) | In Game | n/a (one-shot) |  |
-| MUS-TITLE | The Wayward Path | `music/MUS-TITLE.ogg` | loop, loop | +1.0 | Title screen (`TitleScreen._ready`; also drops any music override left from a game) | In Game | OK |  |
-| MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.9 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
-| MUS-TOWN-BATTLE | Friendly ground, serious cards | `music/MUS-TOWN-BATTLE.ogg` | loop, loop | +0.9 | Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback | In Game | OK |  |
-| MUS-TOWN-FREED | Crosspath — returning citizens | `music/MUS-TOWN-FREED.ogg` | loop, loop | +0.9 | Town once `ZoneCompletion.count` reaches 4 (partial recovery keeps MUS-TOWN) | In Game | OK |  |
+| MUS-TITLE | The Wayward Path | `music/MUS-TITLE.ogg` | loop, loop | +0.1 | Title screen (`TitleScreen._ready`; also drops any music override left from a game) | In Game | OK |  |
+| MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.1 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
+| MUS-TOWN-BATTLE | Friendly ground, serious cards | `music/MUS-TOWN-BATTLE.ogg` | loop, loop | +0.1 | Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback | In Game | OK |  |
+| MUS-TOWN-FREED | Crosspath — returning citizens | `music/MUS-TOWN-FREED.ogg` | loop, loop | +0.1 | Town once `ZoneCompletion.count` reaches 4 (partial recovery keeps MUS-TOWN) | In Game | OK |  |
 | MUS-TUNNEL-BATTLE | Old Service Tunnels — combat | `music/MUS-TUNNEL-BATTLE.ogg` | loop, loop | +0.9 | Old Service Tunnels ordinary battles (BB-S-CAP) | In Game | OK |  |
 | MUS-TUNNEL-BOSS | Captain Spotless | `music/MUS-TUNNEL-BATTLE.ogg` (alias of MUS-TUNNEL-BATTLE) | loop, loop | +0.9 | Old Service Tunnels boss (BB-S-CAP, boss node) | In Game | OK | Compatibility alias: plays MUS-TUNNEL-BATTLE's file. |
 | MUS-TUNNEL-EXP | Old Service Tunnels — exploration | `music/MUS-TUNNEL-EXP.ogg` | loop, loop | +0.9 | Old Service Tunnels node map (S-CAP) and events | In Game | OK |  |
-| MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +1.0 | Forgotten Cave battles (BB-TUT) | In Game | listen: 7 dB step at the wrap |  |
-| MUS-TUT-BOSS | Hollow Warden — familiar scent | `music/MUS-TUT-BATTLE.ogg` (alias of MUS-TUT-BATTLE) | loop, loop | +1.0 | Hollow Warden boss (BB-TUT, boss node) | In Game | listen: 7 dB step at the wrap | Compatibility alias: plays MUS-TUT-BATTLE's file. |
-| MUS-TUT-EXP | Forgotten Cave — old passage | `music/MUS-TUT-EXP.ogg` | loop, loop | +1.0 | Forgotten Cave node map (D-TUT, no main/side dungeon active) | In Game | Needs loop fix: 0.37 s of digital silence at the wrap |  |
+| MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Cave battles (BB-TUT) | In Game | OK |  |
+| MUS-TUT-BOSS | Hollow Warden — familiar scent | `music/MUS-TUT-BOSS.ogg` | loop, loop | +0.1 | Hollow Warden boss (BB-TUT, boss node) | In Game | OK | Its own track since Music Pass 1 (Oct 31); was an alias of MUS-TUT-BATTLE. |
+| MUS-TUT-EXP | Forgotten Cave — old passage | `music/MUS-TUT-EXP.ogg` | loop, loop | +0.1 | Forgotten Cave node map (D-TUT, no main/side dungeon active) | In Game | OK |  |
 | MUS-VAULT-BATTLE | Forgotten Vault — combat | `music/MUS-VAULT-BATTLE.ogg` | loop, loop | +0.7 | Forgotten Vault ordinary battles (BB-S-TOWN) | In Game | listen: 8 dB step at the wrap |  |
 | MUS-VAULT-BOSS | The Vault Guardian | `music/MUS-VAULT-BATTLE.ogg` (alias of MUS-VAULT-BATTLE) | loop, loop | +0.7 | Forgotten Vault boss (BB-S-TOWN, boss node; also the Warden of the Four Seals duel) | In Game | listen: 8 dB step at the wrap | Compatibility alias: plays MUS-VAULT-BATTLE's file. |
 | MUS-VAULT-EXP | Forgotten Vault — exploration | `music/MUS-VAULT-EXP.ogg` | loop, loop | +0.5 | Forgotten Vault node map (S-TOWN) and events | In Game | OK |  |

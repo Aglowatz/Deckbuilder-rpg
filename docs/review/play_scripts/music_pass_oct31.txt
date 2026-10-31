@@ -1,0 +1,15 @@
+# Music Pass 1 (Oct 31): launch the real game, hear the title music, start a game and go to town. Run with MUSIC_LOG=1 so the
+# MusicManager writes its cues ("play MUS-TITLE", "play MUS-TOWN") to stdout.log.
+wait 6
+shot 01_title
+button New Game
+wait 1.5
+button Start here
+wait 5
+skip_dialogue 30
+wait 2
+shot 02_opening
+dev travel town
+wait 8
+shot 03_town
+scene

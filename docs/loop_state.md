@@ -12,6 +12,8 @@ Previous run (art import batch 10) finished; its log is `docs/art/import_oct31.m
 | 2 | Score bible | done (`docs/audio/score_bible.md`) |
 | 3 | Batch 1: TITLE, FOREST, TUT-EXP, TUT-BATTLE, TUT-BOSS, TOWN-BATTLE, DECK, MAREN, TOWN-FREED | done (all 9 rendered, checks pass; not yet in game) |
 | 4 | Batch 2: BEEF-EXP, BEEF-BATTLE, BEEF-DUN-EXP, BEEF-DUN-BATTLE, BEEF-BOSS, BEEF-FREED | done (all 6 rendered, checks pass; not yet in game) |
-| 5 | Previews to Music Review, backups to Superseded/Music_v01, Approved_Audio + import audio, aliases, GUT audio, launch check, report | |
+| 5 | Previews to Music Review, backups to Superseded/Music_v01, Approved_Audio + import audio, aliases, GUT audio, launch check, report | done (all 15 in game; TUT-BOSS own track; smoke OK; GUT audio 89/89; report `docs/audio/music_pass_oct31.md`) |
 
 Resume: `build.py --check-only <IDs>` shows which scores exist and pass; renders are in `C:\Dev\music_tools\renders\`.
+
+**Run complete.** Next: read inbox "Music Pass 1" answers; Batch 3+ uses the same toolkit (`build.py` -> `deliver.py` -> import audio).

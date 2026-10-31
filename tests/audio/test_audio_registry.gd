@@ -20,12 +20,22 @@ func test_every_catalogue_row_has_an_entry_and_a_file() -> void:
 
 
 func test_aliases_play_the_file_of_their_target() -> void:
-	for pair: Array in [["MUS-TUT-BOSS", "MUS-TUT-BATTLE"], ["MUS-SWOLY-BOSS", "MUS-SWOLY-BATTLE"], ["MUS-OMAKASE-BOSS", "MUS-OMAKASE-BATTLE"], ["MUS-WAIT-BOSS", "MUS-WAIT-BATTLE"],
+	for pair: Array in [["MUS-SWOLY-BOSS", "MUS-SWOLY-BATTLE"], ["MUS-OMAKASE-BOSS", "MUS-OMAKASE-BATTLE"], ["MUS-WAIT-BOSS", "MUS-WAIT-BATTLE"],
 			["MUS-PANDA-BOSS", "MUS-PANDA-BATTLE"], ["MUS-TUNNEL-BOSS", "MUS-TUNNEL-BATTLE"], ["MUS-VAULT-BOSS", "MUS-VAULT-BATTLE"], ["MUS-SIPHON-BOSS", "MUS-LAB-BATTLE"]]:
 		var alias: AudioRegistry.Entry = AudioRegistry.entry(str(pair[0]))
 		assert_not_null(alias, str(pair[0]))
 		assert_eq(alias.alias_of, str(pair[1]))
 		assert_eq(AudioRegistry.file_for(str(pair[0])), AudioRegistry.file_for(str(pair[1])))
+
+
+## Music Pass 1 (Oct 31): the Hollow Warden has its own track now, no longer MUS-TUT-BATTLE's file.
+func test_tut_boss_plays_its_own_file() -> void:
+	var boss: AudioRegistry.Entry = AudioRegistry.entry("MUS-TUT-BOSS")
+	assert_not_null(boss)
+	assert_eq(boss.alias_of, "")
+	assert_eq(AudioRegistry.file_for("MUS-TUT-BOSS"), "res://assets/audio/music/MUS-TUT-BOSS.ogg")
+	assert_ne(AudioRegistry.file_for("MUS-TUT-BOSS"), AudioRegistry.file_for("MUS-TUT-BATTLE"))
+	assert_true(AudioRegistry.is_playable("MUS-TUT-BOSS"))
 
 
 func test_loops_loop_and_stings_do_not() -> void:

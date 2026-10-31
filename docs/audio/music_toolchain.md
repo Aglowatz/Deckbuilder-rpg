@@ -25,9 +25,13 @@ SHA-256 of the soundfont: `74594e8f4250680adf590507a306655a299935343583256f3b722
 PY=$LOCALAPPDATA/Programs/Python/Python312/python.exe
 $PY tools/music/build.py MUS-TITLE MUS-FOREST            # render + check; .mid -> tools/music/midi/, report -> tools/music/reports/
 $PY tools/music/build.py --check-only MUS-TITLE          # score checks only, no audio (fast)
-$PY tools/music/build.py --review "Batch 01" IDS...      # also copy the MP3 previews to <Drive>/Music Review/Batch 01/
-$PY tools/music/build.py --approve IDS...                # also back up Approved_Audio/<ID>.* to Superseded/Music_v01, copy the new OGG in
+$PY tools/music/deliver.py --review "Batch 01" IDS...    # MP3 previews -> <Drive>/Music Review/Batch 01/<ID>.mp3
+$PY tools/music/deliver.py --approve IDS...              # back up Approved_Audio/<ID>.* to Superseded/Music_v01, copy the new OGG in,
+                                                         #   and set the Drive registry.json loop record to the new length
+$PY tools/music/deliver.py --own MUS-TUT-BOSS            # an ID that was a compatibility alias gets its own file (Drive metadata)
+$PY tools/music/deliver.py --record-only --revision v04 MUS-TOWN   # refresh one registry.json record from the Drive file as it is
 bash tools/import_audio.sh                               # then "import audio" as always
+node tools/cut_stings.js && node tools/audio_doc.js      # after a new *-BOSS track: re-cut its victory sting; refresh the doc
 $PY tools/music/compare_midi.py a.mid b.mid              # prove two .mid files carry the same notes
 $PY tools/music/compare_audio.py a.ogg b.ogg             # length, loudness, seam and band-envelope likeness of two renders
 ```
@@ -73,3 +77,10 @@ so the seam can be heard). A render takes about 20 s.
 - The Windows Store `python` alias is not Python; call the full path above.
 - The importer (`import audio`) re-encodes new loops at Vorbis q5 with a linear loudnorm to -20 LUFS / -2 dBTP; a render already at that
   level passes through with no gain change.
+- The Drive's `Approved_Audio/registry.json` records a loop end per file, and the importer obeys one that falls inside the file. Replace
+  a file only through `deliver.py --approve`, which rewrites that record; a stale record silently shortens the new loop.
+- Seams: the check compares the last second with the first. It fails when bar 0 has a voice the last bar lacks (or the reverse). Give the
+  last bar the same voices and dynamic as bar 0, plus a small CC11 swell or soft roll into the loop point; `tools/music/seam_view.py`
+  prints the level in 0.25 s steps either side of the seam.
+- Battle and boss loops: an intro of ostinato alone sits 10+ dB under the body and becomes a hole every time the loop comes round; give
+  the intro (and the matching outro) a sustained pad/brass bed so it stays within ~4 LU of the body.
