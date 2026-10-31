@@ -78,7 +78,7 @@ func _ready() -> void:
 			_packs_item = item
 	# Fresh eyes Oct 30: the pause menu's pages a new player never finds behind Esc - the Glossary (keywords, resources), the Feats and
 	# Settings - listed here too. Each opens the pause menu on that page.
-	for extra: Array in [["Glossary", SceneManager.show_glossary_page, ""], ["Feats", SceneManager.show_feats_page, ""], ["Settings", SceneManager.show_settings_page, "ICON-UI-SETTINGS"]]:
+	for extra: Array in [["Glossary", SceneManager.show_glossary_page, "ICON-UI-GLOSSARY"], ["Feats", SceneManager.show_feats_page, "ICON-UI-FEATS"], ["Settings", SceneManager.show_settings_page, "ICON-UI-SETTINGS"]]:
 		var page: FancyButton = FancyButton.make(str(extra[0]), &"", Vector2(200, 48))
 		page.name = "Menu_%s" % str(extra[0])
 		if not str(extra[2]).is_empty():

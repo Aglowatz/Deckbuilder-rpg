@@ -59,6 +59,10 @@ func _build() -> void:
 	add_child(column)
 	var head: HBoxContainer = UIKit.hbox(10)
 	column.add_child(head)
+	var title_icon: TextureRect = IconArt.rect("ICON-UI-GLOSSARY", FeatsPanel.HEADING_ICON_PX)  # art import Oct 31
+	if title_icon != null:
+		title_icon.name = "GlossaryIcon"
+		head.add_child(title_icon)
 	head.add_child(UIKit.label("Glossary", &"HeadingLabel", 36))
 	head.add_child(UIKit.filler())
 	var back: FancyButton = FancyButton.make("Back", &"GhostButton", Vector2(140, 44))

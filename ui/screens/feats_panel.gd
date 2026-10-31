@@ -5,6 +5,9 @@ extends PanelContainer
 
 signal closed
 
+## The menu icon before the page heading (ICON-UI-FEATS here, ICON-UI-GLOSSARY on the Glossary page): a little taller than the 36 px heading.
+const HEADING_ICON_PX: float = 44.0
+
 var _list: VBoxContainer
 var _title: Label
 
@@ -23,6 +26,10 @@ func _build() -> void:
 	add_child(column)
 	var head: HBoxContainer = UIKit.hbox(10)
 	column.add_child(head)
+	var title_icon: TextureRect = IconArt.rect("ICON-UI-FEATS", HEADING_ICON_PX)  # art import Oct 31
+	if title_icon != null:
+		title_icon.name = "FeatsIcon"
+		head.add_child(title_icon)
 	_title = UIKit.label("Feats", &"HeadingLabel", 36)
 	_title.name = "FeatsTitle"
 	head.add_child(_title)

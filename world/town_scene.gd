@@ -3031,6 +3031,11 @@ func _screenshot_open(what: String) -> void:
 			SceneManager.get("_pause_menu").call("toggle")
 			SceneManager.get("_pause_menu").call("_show_settings")
 			(SceneManager.get("_pause_menu").get("_settings") as SettingsPanel).show_page(["settings_display", "settings_text", "settings_access", "settings_controls", "settings_audio"].find(what))
+		"pause_glossary", "pause_feats":  # art import Oct 31: the pages with their menu icons
+			SceneManager.get("_pause_menu").call("toggle")
+			SceneManager.get("_pause_menu").call("_show_glossary" if what == "pause_glossary" else "_show_feats")
+		"hud_menu":
+			hud.toggle_menu()
 		"pause_load":
 			SceneManager.get("_pause_menu").call("toggle")
 			SceneManager.get("_pause_menu").call("_show_slots", SaveSlotsScreen.Mode.LOAD)

@@ -70,11 +70,13 @@ func _build_menu() -> void:
 	# Overnight Oct 23, Part 5: keywords, resources, statuses, card types and rule icons in plain words.
 	var glossary: FancyButton = FancyButton.make("Glossary", &"", Vector2(0, 54))
 	glossary.name = "GlossaryButton"
+	IconArt.button_icon(glossary, "ICON-UI-GLOSSARY", 40.0)  # art import Oct 31
 	glossary.pressed.connect(_show_glossary)
 	column.add_child(glossary)
 	# Overnight Oct 28, Part 3: the feats (achievements) page.
 	var feats_button: FancyButton = FancyButton.make("Feats", &"", Vector2(0, 54))
 	feats_button.name = "FeatsButton"
+	IconArt.button_icon(feats_button, "ICON-UI-FEATS", 40.0)  # art import Oct 31
 	feats_button.pressed.connect(_show_feats)
 	column.add_child(feats_button)
 	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)", &"", Vector2(0, 54))
