@@ -112,8 +112,9 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.ai_name = "Aggressive"
 			made.gold_reward = Economy.elite_gold("final") + 10
 			made.xp_reward = 120
-			# XP pass Oct 30: drawn with his own NPC set (the gate figure's; idle-only, so he hops as he moves) - the 3D Knight is the fallback
-			made.sprite = "SPOTLESS"
+			# Art import Oct 31: his own roamer walk set (SPR-FOE-CAPTAIN-SPOTLESS-*, 5 idles + 5 walk strips + talk; folder FOE_CAPTAIN_SPOTLESS), so he
+			# walks instead of hopping on the gate figure's idle-only SPOTLESS set (that set stays for the gate NPC). The 3D Knight is the fallback.
+			made.sprite = "FOE-CAPTAIN-SPOTLESS"
 			made.model = "kaykit:Knight"
 			made.anim_idle = &"Idle"
 			made.anim_walk = &"Walking_A"

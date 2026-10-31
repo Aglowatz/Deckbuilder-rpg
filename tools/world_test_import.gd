@@ -812,6 +812,13 @@ var _bg_removed: Array[String] = []
 func _run_npcs() -> void:
 	_src = NPC_SRC
 	_npc_mode = true
+	# Art import Oct 31: --npc_inbox=res://... imports just the sets in that folder (one new set without re-cutting every character); the report goes
+	# next to it instead of replacing docs/art/npc_sprite_import_report.md.
+	var report_path: String = NPC_REPORT
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--npc_inbox="):
+			_src = arg.get_slice("=", 1)
+			report_path = _src.path_join("import_report.md")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + "sprites"))
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SHEETS))
 	var existing: FileAccess = FileAccess.open(OUT + "sprites/manifest.json", FileAccess.READ)
@@ -862,7 +869,7 @@ func _run_npcs() -> void:
 	lines.append("- Files that match no batch row (%d): %s" % [unmatched.size(), ", ".join(unmatched) if not unmatched.is_empty() else "none"])
 	lines.append("\n## Per character\n")
 	lines.append_array(_report)
-	var file: FileAccess = FileAccess.open(NPC_REPORT, FileAccess.WRITE)
+	var file: FileAccess = FileAccess.open(report_path, FileAccess.WRITE)
 	file.store_string("\n".join(lines) + "\n")
 	file.close()
 	print("\n".join(lines))

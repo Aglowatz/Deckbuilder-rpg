@@ -18,8 +18,9 @@ var _time: float = 0.0
 var _reported: bool = false
 
 
-## Hides `enemies` and puts the lineup in their place (deferred until the camera exists).
-static func install(root: Node, player: Node3D, enemies: Array, lineup_mode: String) -> RoamerLineup:
+## Hides `enemies` and puts the lineup in their place (deferred until the camera exists). Art import Oct 31: `only` (ZoneEnemyInfo list, screenshot
+## arg `--lineup_kinds=officer,spotless`) lines up just those kinds instead, spawned in the area or not (Captain Spotless never roams).
+static func install(root: Node, player: Node3D, enemies: Array, lineup_mode: String, only: Array = []) -> RoamerLineup:
 	var lineup: RoamerLineup = RoamerLineup.new()
 	lineup.name = "RoamerLineup"
 	lineup.mode = lineup_mode
@@ -35,13 +36,24 @@ static func install(root: Node, player: Node3D, enemies: Array, lineup_mode: Str
 		enemy.process_mode = Node.PROCESS_MODE_DISABLED
 		if not kinds.has(enemy.info.display_name):
 			kinds[enemy.info.display_name] = enemy
-	var row: int = 0
+	var infos: Array[ZoneEnemyInfo] = []
+	var area: ZoneMap = null
 	for display_name: Variant in kinds:
 		var source: ZoneEnemy = kinds[display_name] as ZoneEnemy
+		area = source.area
+		if only.is_empty():
+			infos.append(source.info)
+	if not only.is_empty():
+		kinds.clear()
+		for value: Variant in only:
+			infos.append(value as ZoneEnemyInfo)
+			kinds[(value as ZoneEnemyInfo).display_name] = true
+	var row: int = 0
+	for info: ZoneEnemyInfo in infos:
 		for column: int in range(FACINGS.size()):
 			var copy: ZoneEnemy = ZoneEnemy.new()
 			root.add_child(copy)
-			copy.setup(source.info, "lineup_%d_%d" % [row, column], player.position, 0.0, source.area, null)
+			copy.setup(info, "lineup_%d_%d" % [row, column], player.position, 0.0, area, null)
 			copy.set_meta("lineup_offset", Vector2(COLUMNS[column], float(row) * ROW_DEPTH))
 			lineup._copies.append(copy)
 			lineup._facing.append(FACINGS[column])

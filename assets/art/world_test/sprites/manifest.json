@@ -4936,5 +4936,57 @@
 		"has_talk": true,
 		"rel_height": 1,
 		"walk_dirs": []
+	},
+	"FOE_CAPTAIN_SPOTLESS": {
+		"bottom_pad": 16,
+		"canvas": [
+			336,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": true,
+		"rel_height": 1.05,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
 	}
 }

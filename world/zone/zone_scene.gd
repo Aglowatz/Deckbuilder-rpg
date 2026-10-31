@@ -345,7 +345,10 @@ func _ready() -> void:
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
 	if _screenshot_args.has("lineup"):
-		RoamerLineup.install(self, player, enemies, str(_screenshot_args["lineup"]))
+		var only: Array = []
+		for type: String in str(_screenshot_args.get("lineup_kinds", "")).split(",", false):
+			only.append(ZoneEnemies.info(def.id, type))
+		RoamerLineup.install(self, player, enemies, str(_screenshot_args["lineup"]), only)
 	if _screenshot_args.has("ninja") and giant_chest_node != null:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	if _screenshot_args.has("lever") and vault_lever_node != null:

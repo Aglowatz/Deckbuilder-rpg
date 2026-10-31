@@ -11,6 +11,8 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 1. **Captain Spotless as a Capital roamer** still walks as the 3D KayKit knight: the roster test wants every roamer's set under a `FOE-` key and
    there is no `SPR-FOE-CAPTAIN-SPOTLESS` set. His stationary NPC set (`SPOTLESS`) exists; say "use his NPC set" and he swaps to it (he would hop
    when he moves, like the other idle-only sets), or ask for a walk set in a later batch.
+   **Resolved Oct 31 (art import batch 10):** the SPR-FOE-CAPTAIN-SPOTLESS walk set is imported (`FOE_CAPTAIN_SPOTLESS`) and his zone-enemy
+   entry draws it (`CapitalEnemies.SPOTLESS` -> `FOE-CAPTAIN-SPOTLESS`); the gate NPC keeps the stationary SPOTLESS set. See "Art import Oct 31" item 1.
 2. **Threat pose**: a painted roamer that spots the hero now stops for 0.45 s in its FRONT_TALK pose (the "!" above its head) before it gives chase.
    That gives the hero a beat to react; set `ZoneEnemy.THREAT_SECONDS` to 0 if you want the old instant chase.
 3. **Roamer rim**: painted roamers get a warm red-orange rim (0.62, the NPCs have the key-light colour at 0.42) so they read on busy ground and as a
@@ -612,3 +614,23 @@ cycle 1); the spells-only arena (cycle 10).
     ran out of memory (Claude Code stopped the run; its probes finished). The Oct 29 run had 7 over the same way. Worth a quiet re-run
     (`bash tools/perf_budget.sh frame`, nothing else open) before sharing: if the Deck Station (21 ms vs 14) or the zones stay over, the
     suspects from tonight are the Deck Station's curve / shape refresh and the goal pointer's second marker.
+
+## Art import Oct 31 (batch 10, 17 files) - yours to decide (the safest choice was taken)
+
+Log: `docs/art/import_oct31.md`.
+
+1. **Captain Spotless has nowhere to walk.** His walk set is in and wired: his zone-enemy entry draws `FOE_CAPTAIN_SPOTLESS` (the roster test
+   and a new test check the key the game looks up matches the imported folder). But nothing in the game spawns him as a roamer: the Capital's
+   roamer list (`CapitalLayout` spawns) has no `spotless`, he stands at the gate as a stationary NPC (SPOTLESS set, kept as asked), and his
+   entry only supplies the gate battle. So in normal play the walk set shows nowhere yet (shots come from the lineup tool,
+   `--lineup_kinds=officer,spotless`). Options: (a) leave it ready for later (taken); (b) let the gate figure pace a few steps in front of the
+   gate before it opens (visual only, he stays talkable); (c) make him a real patrolling gatekeeper on the Gate Road (touching him starts the
+   exam battle - a gameplay change).
+2. **The hat slicer now keeps one scale.** `HatSheet.normalise` scales a view more than 8 % off FRONT back to FRONT, and the importer sizes each view
+   by its drawn width instead of its "head band" (the band rule read the new Chef's side view at 0.76x because its bottom rows show the hat's
+   opening). Bowler, Tricorn and Wide Brim were NOT re-imported, so they are unchanged (fit tables identical to Oct 29). If they are ever
+   re-imported, the new rule would rescale their off-size views (Bowler BACKSIDE drawn 1.21x, Wide Brim SIDE 0.73x tall, Tricorn BACKSIDE 0.90x)
+   and their fits would want a fresh look on the contact sheet.
+3. **Leaf Crown from the front**: the arc's two ends point straight up and read a little like horns at play size
+   (`_screenshots/oct31/hats_final/ALL.png`). It sits right and leaves the hair clear from behind (now drawn behind the head there). A redo with
+   the arc ends curving round the head would fix it; otherwise fine as is.
