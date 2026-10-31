@@ -1,0 +1,116 @@
+{
+ "id": "MUS-CREASE",
+ "kind": "loop",
+ "key": "F major",
+ "bpm": 84,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 137.14,
+ "loop_seconds": 137.143,
+ "lufs": -20.0,
+ "true_peak": -6.9,
+ "lra": 7.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro piano",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -24.4
+  },
+  {
+   "section": "A clarinet tune",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 11.4,
+   "lufs": -19.0
+  },
+  {
+   "section": "B the motif, Path colours",
+   "bar": 20,
+   "bars": 12,
+   "start_s": 57.1,
+   "lufs": -22.2
+  },
+  {
+   "section": "A' strings join",
+   "bar": 32,
+   "bars": 12,
+   "start_s": 91.4,
+   "lufs": -18.3
+  },
+  {
+   "section": "outro piano",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 125.7,
+   "lufs": -25.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 15.0,
+   "form": "head (clarinet, guarded)",
+   "ch": "cl"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (cello, gentle)",
+   "ch": "vc"
+  },
+  {
+   "bar": 22.0,
+   "form": "stated (clarinet answers in F)",
+   "ch": "cl"
+  },
+  {
+   "bar": 36.0,
+   "form": "countermelody (cello under the violins)",
+   "ch": "vc"
+  }
+ ],
+ "notes": 938,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CREASE\\MUS-CREASE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CREASE\\MUS-CREASE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CREASE.mid"
+ },
+ "seam": {
+  "jump_db": -0.43,
+  "wrap_step": 0.00472,
+  "p999_step": 0.05189,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.9,
+   "bars_without_melody": [
+    19,
+    25,
+    26,
+    43,
+    47
+   ],
+   "buried_bars": [
+    28
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Human feel ON (the Crease is the resistance); no Capital theme - warmth instead; Path colours as cameos."
+ ]
+}

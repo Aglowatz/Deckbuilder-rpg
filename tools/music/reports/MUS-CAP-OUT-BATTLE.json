@@ -1,0 +1,135 @@
+{
+ "id": "MUS-CAP-OUT-BATTLE",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 132,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 116.36,
+ "loop_seconds": 116.364,
+ "lufs": -20.0,
+ "true_peak": -6.0,
+ "lra": 7.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro drive",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "A the motif fights",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.3,
+   "lufs": -20.0
+  },
+  {
+   "section": "B the patrol (Capital theme)",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 36.4,
+   "lufs": -21.6
+  },
+  {
+   "section": "C broadcast breakdown",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 65.5,
+   "lufs": -23.6
+  },
+  {
+   "section": "D climax",
+   "bar": 48,
+   "bars": 12,
+   "start_s": 87.3,
+   "lufs": -17.1
+  },
+  {
+   "section": "outro drive",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 109.1,
+   "lufs": -19.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (trombones, low)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated, then turned up (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated in G then E (horns + violins)",
+   "ch": "hn"
+  },
+  {
+   "bar": 26.0,
+   "form": "head (flute, cuts through the patrol)",
+   "ch": "fl"
+  },
+  {
+   "bar": 40.0,
+   "form": "augmented head (cello)",
+   "ch": "vc"
+  },
+  {
+   "bar": 48.0,
+   "form": "stated + sequenced (horns, violins 8va)",
+   "ch": "hn"
+  },
+  {
+   "bar": 61.0,
+   "form": "head (trombones, low)",
+   "ch": "tbn"
+  }
+ ],
+ "notes": 1811,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-OUT-BATTLE\\MUS-CAP-OUT-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-OUT-BATTLE\\MUS-CAP-OUT-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-OUT-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.29,
+  "wrap_step": 0.00421,
+  "p999_step": 0.05272,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.94,
+   "bars_without_melody": [
+    44,
+    45,
+    46,
+    47
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Capital theme in E harmonic minor (trumpets) as the pursuing patrol; outskirts pulse as ostinato; quantised."
+ ]
+}

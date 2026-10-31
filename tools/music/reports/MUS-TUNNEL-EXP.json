@@ -1,0 +1,131 @@
+{
+ "id": "MUS-TUNNEL-EXP",
+ "kind": "loop",
+ "key": "D dorian",
+ "bpm": 86,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 133.95,
+ "loop_seconds": 133.953,
+ "lufs": -20.0,
+ "true_peak": -5.4,
+ "lra": 10.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "drone",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -25.2
+  },
+  {
+   "section": "A four voices answer",
+   "bar": 4,
+   "bars": 12,
+   "start_s": 11.2,
+   "lufs": -24.1
+  },
+  {
+   "section": "B a shared direction",
+   "bar": 16,
+   "bars": 16,
+   "start_s": 44.7,
+   "lufs": -19.9
+  },
+  {
+   "section": "C the old harmony",
+   "bar": 32,
+   "bars": 12,
+   "start_s": 89.3,
+   "lufs": -16.9
+  },
+  {
+   "section": "drone",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 122.8,
+   "lufs": -25.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 4.0,
+   "form": "stated (piano, with tunnel echo)",
+   "ch": "piano"
+  },
+  {
+   "bar": 14.0,
+   "form": "stated (piano, the voices listen)",
+   "ch": "piano"
+  },
+  {
+   "bar": 16.0,
+   "form": "stated twice (cello)",
+   "ch": "vc"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated twice (violins, cello below)",
+   "ch": "vln"
+  },
+  {
+   "bar": 24.0,
+   "form": "augmented chorale (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 32.0,
+   "form": "stated three times (violins + horns, piano canon)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 835,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-TUNNEL-EXP\\MUS-TUNNEL-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-TUNNEL-EXP\\MUS-TUNNEL-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUNNEL-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.14,
+  "wrap_step": 0.0117,
+  "p999_step": 0.05503,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.81,
+   "bars_without_melody": [
+    3,
+    15,
+    21,
+    31,
+    35,
+    37,
+    42,
+    44,
+    47
+   ],
+   "buried_bars": [
+    24,
+    26
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Human feel ON; echoes = each pluck repeated softer a dotted quarter later on a far harp; Crossroads motif in full."
+ ]
+}

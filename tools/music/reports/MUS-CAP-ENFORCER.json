@@ -1,0 +1,134 @@
+{
+ "id": "MUS-CAP-ENFORCER",
+ "kind": "loop",
+ "key": "G major",
+ "bpm": 120,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 128.0,
+ "loop_seconds": 128.0,
+ "lufs": -20.1,
+ "true_peak": -5.9,
+ "lra": 7.3,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro drill",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.6
+  },
+  {
+   "section": "A Spotless inspects",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.0,
+   "lufs": -23.4
+  },
+  {
+   "section": "B the anthem in block brass",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 40.0,
+   "lufs": -19.7
+  },
+  {
+   "section": "C pressure (G minor)",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 72.0,
+   "lufs": -18.9
+  },
+  {
+   "section": "D the hero fights back",
+   "bar": 48,
+   "bars": 12,
+   "start_s": 96.0,
+   "lufs": -18.3
+  },
+  {
+   "section": "outro drill",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -21.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "head (horn, before the drill)",
+   "ch": "hn"
+  },
+  {
+   "bar": 13.0,
+   "form": "stated, short (horns, under the inspection)",
+   "ch": "hn"
+  },
+  {
+   "bar": 44.0,
+   "form": "inverted (horns: the question turned upside down)",
+   "ch": "hn"
+  },
+  {
+   "bar": 48.0,
+   "form": "stated + sequenced (horns, violins 8va)",
+   "ch": "hn"
+  },
+  {
+   "bar": 60.0,
+   "form": "head (horn, before the drill)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2865,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-ENFORCER\\MUS-CAP-ENFORCER.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-ENFORCER\\MUS-CAP-ENFORCER.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-ENFORCER.mid"
+ },
+ "seam": {
+  "jump_db": -0.74,
+  "wrap_step": 0.01466,
+  "p999_step": 0.06108,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    1,
+    46,
+    47,
+    52,
+    53,
+    54,
+    55,
+    61
+   ],
+   "buried_bars": [
+    2,
+    3,
+    62,
+    63
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Own idea SPOTLESS (fussy inspection flourish); Capital theme in G (block brass); rudiment snare (lib/capital.rudiment)."
+ ]
+}

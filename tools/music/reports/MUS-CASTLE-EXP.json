@@ -1,0 +1,119 @@
+{
+ "id": "MUS-CASTLE-EXP",
+ "kind": "loop",
+ "key": "G major",
+ "bpm": 96,
+ "meter": "3/4",
+ "bars": 72,
+ "seconds": 135.0,
+ "loop_seconds": 135.0,
+ "lufs": -20.0,
+ "true_peak": -6.8,
+ "lra": 5.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro court",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.8
+  },
+  {
+   "section": "A minuet",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.5,
+   "lufs": -19.5
+  },
+  {
+   "section": "B trio, Path ghosts",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 37.5,
+   "lufs": -20.5
+  },
+  {
+   "section": "A' the symmetry cracks",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 67.5,
+   "lufs": -18.2
+  },
+  {
+   "section": "C exposed (E minor)",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 97.5,
+   "lufs": -21.7
+  },
+  {
+   "section": "outro court",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 127.5,
+   "lufs": -21.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 9.0,
+   "form": "head (oboe, half hidden in the continuo)",
+   "ch": "ob"
+  },
+  {
+   "bar": 50.0,
+   "form": "head (oboe)",
+   "ch": "ob"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (oboe, exposed, in 3/4)",
+   "ch": "ob"
+  },
+  {
+   "bar": 55.0,
+   "form": "stated (violins answer)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 1238,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CASTLE-EXP\\MUS-CASTLE-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CASTLE-EXP\\MUS-CASTLE-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CASTLE-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.69,
+  "wrap_step": 0.01363,
+  "p999_step": 0.05088,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    61,
+    66,
+    67
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Minuet built from the Capital theme's Primm cells; the Capital theme in 4/4 across the 3/4 dance in the horns (A'); no organ; quantised."
+ ]
+}

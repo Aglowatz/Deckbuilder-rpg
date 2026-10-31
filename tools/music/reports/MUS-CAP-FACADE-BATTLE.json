@@ -1,0 +1,129 @@
+{
+ "id": "MUS-CAP-FACADE-BATTLE",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 144,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -6.5,
+ "lra": 4.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro strain",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.5
+  },
+  {
+   "section": "A measured theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.7,
+   "lufs": -20.9
+  },
+  {
+   "section": "B slips",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 33.3,
+   "lufs": -21.7
+  },
+  {
+   "section": "C the motif breaks through",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 60.0,
+   "lufs": -19.2
+  },
+  {
+   "section": "D full strain",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 86.7,
+   "lufs": -18.5
+  },
+  {
+   "section": "outro strain",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 113.3,
+   "lufs": -21.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horns, under the strain)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (horns, in D minor against the C major grid)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated higher (horns + violins)",
+   "ch": "hn"
+  },
+  {
+   "bar": 58.0,
+   "form": "head (horns, in the cracks)",
+   "ch": "hn"
+  },
+  {
+   "bar": 66.0,
+   "form": "head (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 70.0,
+   "form": "head (horns, under the strain)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2927,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-FACADE-BATTLE\\MUS-CAP-FACADE-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-FACADE-BATTLE\\MUS-CAP-FACADE-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-FACADE-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.75,
+  "wrap_step": 0.008,
+  "p999_step": 0.06209,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [
+    52,
+    58,
+    66
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Facade theme under strain: Capital theme on harpsichord/music box, repeated-note strings, rudiments, flat glass pad."
+ ]
+}

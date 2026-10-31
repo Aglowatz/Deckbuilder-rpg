@@ -1,0 +1,107 @@
+{
+ "id": "MUS-CAP-FACADE-EXP",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 120,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 128.0,
+ "loop_seconds": 128.0,
+ "lufs": -20.0,
+ "true_peak": -5.5,
+ "lra": 4.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro muzak",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.2
+  },
+  {
+   "section": "A music box theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.0,
+   "lufs": -19.6
+  },
+  {
+   "section": "B harpsichord + glock, missing cadence",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 40.0,
+   "lufs": -21.1
+  },
+  {
+   "section": "C minor slips, the burst",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 72.0,
+   "lufs": -19.3
+  },
+  {
+   "section": "A' the smile widens",
+   "bar": 48,
+   "bars": 12,
+   "start_s": 96.0,
+   "lufs": -18.9
+  },
+  {
+   "section": "outro muzak",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -22.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 12.0,
+   "form": "head (flute, far back, swallowed)",
+   "ch": "fl"
+  },
+  {
+   "bar": 27.0,
+   "form": "head (clarinet, breaks through the gap)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 1441,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-FACADE-EXP\\MUS-CAP-FACADE-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-FACADE-EXP\\MUS-CAP-FACADE-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-FACADE-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.85,
+  "wrap_step": 0.00904,
+  "p999_step": 0.08699,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.98,
+   "bars_without_melody": [
+    45
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Capital theme (lib/capital.py) on music box; quantised; dread pedal C2 + glass pad 12 cents flat; minor slips; one stumble burst at bar 44."
+ ]
+}

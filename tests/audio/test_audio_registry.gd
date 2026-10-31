@@ -20,7 +20,7 @@ func test_every_catalogue_row_has_an_entry_and_a_file() -> void:
 
 
 func test_aliases_play_the_file_of_their_target() -> void:
-	for pair: Array in [["MUS-VAULT-BOSS", "MUS-VAULT-BATTLE"], ["MUS-TUNNEL-BOSS", "MUS-TUNNEL-BATTLE"]]:
+	for pair: Array in [["MUS-VAULT-BOSS", "MUS-VAULT-BATTLE"]]:
 		var alias: AudioRegistry.Entry = AudioRegistry.entry(str(pair[0]))
 		assert_not_null(alias, str(pair[0]))
 		assert_eq(alias.alias_of, str(pair[1]))
@@ -38,10 +38,10 @@ func test_tut_boss_plays_its_own_file() -> void:
 
 
 ## Music Pass 2 (Oct 31): the four side-dungeon bosses have their own tracks now, no longer their battle track's file.
-## Music Pass 3 (Oct 31): Dr. Ambrose Siphon too.
+## Music Pass 3 (Oct 31): Dr. Ambrose Siphon and Captain Spotless (tunnels) too.
 func test_side_dungeon_bosses_play_their_own_files() -> void:
 	for pair: Array in [["MUS-SWOLY-BOSS", "MUS-SWOLY-BATTLE"], ["MUS-OMAKASE-BOSS", "MUS-OMAKASE-BATTLE"], ["MUS-WAIT-BOSS", "MUS-WAIT-BATTLE"],
-			["MUS-PANDA-BOSS", "MUS-PANDA-BATTLE"], ["MUS-SIPHON-BOSS", "MUS-LAB-BATTLE"]]:
+			["MUS-PANDA-BOSS", "MUS-PANDA-BATTLE"], ["MUS-SIPHON-BOSS", "MUS-LAB-BATTLE"], ["MUS-TUNNEL-BOSS", "MUS-TUNNEL-BATTLE"]]:
 		var boss: AudioRegistry.Entry = AudioRegistry.entry(str(pair[0]))
 		assert_not_null(boss, str(pair[0]))
 		assert_eq(boss.alias_of, "", str(pair[0]))

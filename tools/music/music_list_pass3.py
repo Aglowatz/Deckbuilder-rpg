@@ -196,7 +196,7 @@ PASS3 = {
 }
 
 # Former aliases: keep the alias note until the own track is delivered (python tools/music/music_list_pass3.py --own <ID>).
-PENDING_OWN = {"MUS-VAULT-BOSS", "MUS-TUNNEL-BOSS"}  # MUS-SIPHON-BOSS own since Part 3
+PENDING_OWN = {"MUS-VAULT-BOSS"}  # MUS-SIPHON-BOSS own since Part 3, MUS-TUNNEL-BOSS since Part 1
 
 # ---------------------------------------------------------------- descriptions of the rows done in passes 1-2 (approved directions)
 EARLIER = {

@@ -111,7 +111,7 @@ MUS-TOWN,In Game,"Town (`TownScene`) until all four zones are freed; the base un
 MUS-TOWN-BATTLE,In Game,"Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback",""
 MUS-TOWN-FREED,In Game,"Town once `ZoneCompletion.count` reaches 4 (partial recovery keeps MUS-TOWN)",""
 MUS-TUNNEL-BATTLE,In Game,"Old Service Tunnels ordinary battles (BB-S-CAP)",""
-MUS-TUNNEL-BOSS,In Game,"Old Service Tunnels boss (BB-S-CAP, boss node)","Compatibility alias: plays MUS-TUNNEL-BATTLE's file."
+MUS-TUNNEL-BOSS,In Game,"Old Service Tunnels boss (BB-S-CAP, boss node)","Its own track since Music Pass 3 (Oct 31); was an alias of MUS-TUNNEL-BATTLE."
 MUS-TUNNEL-EXP,In Game,"Old Service Tunnels node map (S-CAP) and events",""
 MUS-TUT-BATTLE,In Game,"Forgotten Cave battles (BB-TUT)",""
 MUS-TUT-BOSS,In Game,"Hollow Warden boss (BB-TUT, boss node)","Its own track since Music Pass 1 (Oct 31); was an alias of MUS-TUT-BATTLE."

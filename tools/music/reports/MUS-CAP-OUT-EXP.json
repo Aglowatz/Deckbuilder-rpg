@@ -1,0 +1,109 @@
+{
+ "id": "MUS-CAP-OUT-EXP",
+ "kind": "loop",
+ "key": "A minor",
+ "bpm": 72,
+ "meter": "4/4",
+ "bars": 44,
+ "seconds": 146.67,
+ "loop_seconds": 146.667,
+ "lufs": -20.0,
+ "true_peak": -2.9,
+ "lra": 11.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "wind",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -25.3
+  },
+  {
+   "section": "A cello and piano",
+   "bar": 4,
+   "bars": 12,
+   "start_s": 13.3,
+   "lufs": -20.4
+  },
+  {
+   "section": "B the broadcast",
+   "bar": 16,
+   "bars": 12,
+   "start_s": 53.3,
+   "lufs": -24.4
+  },
+  {
+   "section": "C strings gather",
+   "bar": 28,
+   "bars": 12,
+   "start_s": 93.3,
+   "lufs": -16.6
+  },
+  {
+   "section": "wind",
+   "bar": 40,
+   "bars": 4,
+   "start_s": 133.3,
+   "lufs": -25.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 12.0,
+   "form": "stated (lone cello, the question)",
+   "ch": "vc"
+  },
+  {
+   "bar": 24.0,
+   "form": "head (distant flute, answers)",
+   "ch": "fl"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated twice (violins, A minor then C)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 497,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-OUT-EXP\\MUS-CAP-OUT-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-OUT-EXP\\MUS-CAP-OUT-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-OUT-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.7,
+  "wrap_step": 0.00105,
+  "p999_step": 0.06041,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.89,
+   "bars_without_melody": [
+    27,
+    32,
+    33,
+    34,
+    35
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Capital theme in C on a far-off music box 20 cents flat (the broadcast) over A minor outskirts; quantised."
+ ]
+}
