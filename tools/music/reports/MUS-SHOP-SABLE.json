@@ -1,0 +1,94 @@
+{
+ "id": "MUS-SHOP-SABLE",
+ "kind": "loop",
+ "key": "D minor",
+ "bpm": 92,
+ "meter": "4/4",
+ "bars": 32,
+ "seconds": 83.48,
+ "loop_seconds": 83.478,
+ "lufs": -20.0,
+ "true_peak": -7.6,
+ "lra": 7.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A clarinet",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -18.3
+  },
+  {
+   "section": "B piano and flute",
+   "bar": 8,
+   "bars": 8,
+   "start_s": 20.9,
+   "lufs": -24.4
+  },
+  {
+   "section": "A' clarinet, celesta",
+   "bar": 16,
+   "bars": 8,
+   "start_s": 41.7,
+   "lufs": -18.4
+  },
+  {
+   "section": "C the motif",
+   "bar": 24,
+   "bars": 8,
+   "start_s": 62.6,
+   "lufs": -21.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 24.0,
+   "form": "stated (piano, home key)",
+   "ch": "piano"
+  },
+  {
+   "bar": 28.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 971,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-SABLE\\MUS-SHOP-SABLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-SABLE\\MUS-SHOP-SABLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-SABLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.64,
+  "wrap_step": 0.01545,
+  "p999_step": 0.05999,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.94,
+   "bars_without_melody": [
+    9,
+    19
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Sly velvet: swing 0.12, walking acoustic bass, brushes; mystic colours (harp glissandi, celesta)."
+ ]
+}

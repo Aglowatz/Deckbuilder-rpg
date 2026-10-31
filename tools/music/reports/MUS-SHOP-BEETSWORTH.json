@@ -1,0 +1,108 @@
+{
+ "id": "MUS-SHOP-BEETSWORTH",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 108,
+ "meter": "4/4",
+ "bars": 36,
+ "seconds": 80.0,
+ "loop_seconds": 80.0,
+ "lufs": -20.0,
+ "true_peak": -6.4,
+ "lra": 5.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro procedure",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.6
+  },
+  {
+   "section": "A bassoon, seriously",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 8.9,
+   "lufs": -20.9
+  },
+  {
+   "section": "B the oboe corrects",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 26.7,
+   "lufs": -19.9
+  },
+  {
+   "section": "A' clarinet joins",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 44.4,
+   "lufs": -17.8
+  },
+  {
+   "section": "C the motif, solemnly",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 62.2,
+   "lufs": -20.3
+  },
+  {
+   "section": "intro procedure",
+   "bar": 32,
+   "bars": 4,
+   "start_s": 71.1,
+   "lufs": -22.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 28.0,
+   "form": "stated (bassoon, very solemn)",
+   "ch": "bsn"
+  },
+  {
+   "bar": 30.0,
+   "form": "head (oboe, approving)",
+   "ch": "ob"
+  }
+ ],
+ "notes": 755,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-BEETSWORTH\\MUS-SHOP-BEETSWORTH.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-BEETSWORTH\\MUS-SHOP-BEETSWORTH.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-BEETSWORTH.mid"
+ },
+ "seam": {
+  "jump_db": -0.5,
+  "wrap_step": 0.00488,
+  "p999_step": 0.04276,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.94,
+   "bars_without_melody": [
+    7,
+    27
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Orderly quarters + dry piano accents; eccentricities: a hiccup bar (13), a wrong note corrected (bars 9-10), pompous oboe fanfares; light woodblock."
+ ]
+}

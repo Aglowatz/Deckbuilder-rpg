@@ -1,0 +1,107 @@
+{
+ "id": "MUS-SHOP-THREADWELL",
+ "kind": "loop",
+ "key": "A minor",
+ "bpm": 112,
+ "meter": "4/4",
+ "bars": 36,
+ "seconds": 77.14,
+ "loop_seconds": 77.143,
+ "lufs": -20.0,
+ "true_peak": -8.9,
+ "lra": 5.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro walk",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.7
+  },
+  {
+   "section": "A the strut",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 8.6,
+   "lufs": -20.5
+  },
+  {
+   "section": "B browsing",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 25.7,
+   "lufs": -18.8
+  },
+  {
+   "section": "A' the strut, flute ornaments",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 42.9,
+   "lufs": -19.6
+  },
+  {
+   "section": "C the motif walks",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 60.0,
+   "lufs": -19.0
+  },
+  {
+   "section": "intro walk",
+   "bar": 32,
+   "bars": 4,
+   "start_s": 68.6,
+   "lufs": -22.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 28.0,
+   "form": "stated (oboe, strutting rhythm)",
+   "ch": "ob"
+  },
+  {
+   "bar": 30.0,
+   "form": "head (clarinet answers)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 1015,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-THREADWELL\\MUS-SHOP-THREADWELL.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-THREADWELL\\MUS-SHOP-THREADWELL.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-THREADWELL.mid"
+ },
+ "seam": {
+  "jump_db": -1.04,
+  "wrap_step": 0.00527,
+  "p999_step": 0.05143,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.97,
+   "bars_without_melody": [
+    11
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Runway strut: walking acoustic bass, brushes, castanet flicks, harp glissandi on entrances; calm B section."
+ ]
+}

@@ -1,0 +1,111 @@
+{
+ "id": "MUS-QUIZ",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 116,
+ "meter": "3/4",
+ "bars": 56,
+ "seconds": 86.9,
+ "loop_seconds": 86.897,
+ "lufs": -20.0,
+ "true_peak": -8.8,
+ "lra": 7.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -27.1
+  },
+  {
+   "section": "A three questions",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.2,
+   "lufs": -19.5
+  },
+  {
+   "section": "B thinking",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 31.0,
+   "lufs": -19.7
+  },
+  {
+   "section": "A' three more",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 55.9,
+   "lufs": -19.2
+  },
+  {
+   "section": "intro",
+   "bar": 52,
+   "bars": 4,
+   "start_s": 80.7,
+   "lufs": -26.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 20.0,
+   "form": "stated in 3/4 (flute: the biggest question)",
+   "ch": "fl"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (cello answers with the same question)",
+   "ch": "vc"
+  },
+  {
+   "bar": 34.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 603,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-QUIZ\\MUS-QUIZ.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-QUIZ\\MUS-QUIZ.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-QUIZ.mid"
+ },
+ "seam": {
+  "jump_db": 1.02,
+  "wrap_step": 0.00151,
+  "p999_step": 0.04467,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    13,
+    19,
+    22,
+    23,
+    27,
+    40,
+    51
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "3/4 thinking loop, no ticking; question (flute) / answer (clarinet, bassoon) figures in threes."
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "id": "MUS-SHOP-ALEMBIC",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 76,
+ "meter": "4/4",
+ "bars": 24,
+ "seconds": 75.79,
+ "loop_seconds": 75.789,
+ "lufs": -20.0,
+ "true_peak": -7.3,
+ "lra": 6.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A the flute speaks",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.3
+  },
+  {
+   "section": "the clarinet answers",
+   "bar": 4,
+   "bars": 4,
+   "start_s": 12.6,
+   "lufs": -19.5
+  },
+  {
+   "section": "B conversation",
+   "bar": 8,
+   "bars": 8,
+   "start_s": 25.3,
+   "lufs": -20.2
+  },
+  {
+   "section": "C blended: the motif in thirds",
+   "bar": 16,
+   "bars": 4,
+   "start_s": 50.5,
+   "lufs": -17.7
+  },
+  {
+   "section": "A again",
+   "bar": 20,
+   "bars": 4,
+   "start_s": 63.2,
+   "lufs": -21.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 16.0,
+   "form": "stated (flute + clarinet in thirds below: blended)",
+   "ch": "fl"
+  },
+  {
+   "bar": 18.0,
+   "form": "stated in G (clarinet, flute a sixth above)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 458,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-ALEMBIC\\MUS-SHOP-ALEMBIC.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-ALEMBIC\\MUS-SHOP-ALEMBIC.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-ALEMBIC.mid"
+ },
+ "seam": {
+  "jump_db": 0.94,
+  "wrap_step": 0.01209,
+  "p999_step": 0.0589,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    17
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Two voices (flute = air, clarinet = earth) converse, then blend in thirds on the Crossroads motif; glass layer."
+ ]
+}

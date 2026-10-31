@@ -1,0 +1,109 @@
+{
+ "id": "MUS-SHOP-BELLOWS",
+ "kind": "loop",
+ "key": "F major",
+ "bpm": 100,
+ "meter": "4/4",
+ "bars": 32,
+ "seconds": 76.8,
+ "loop_seconds": 76.8,
+ "lufs": -20.0,
+ "true_peak": -9.4,
+ "lra": 4.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "fanfare (restrained)",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "A calm: clarinet",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 9.6,
+   "lufs": -20.0
+  },
+  {
+   "section": "fanfare",
+   "bar": 12,
+   "bars": 4,
+   "start_s": 28.8,
+   "lufs": -20.0
+  },
+  {
+   "section": "B calm: flute and harp",
+   "bar": 16,
+   "bars": 8,
+   "start_s": 38.4,
+   "lufs": -19.4
+  },
+  {
+   "section": "C the motif as a fanfare",
+   "bar": 24,
+   "bars": 4,
+   "start_s": 57.6,
+   "lufs": -22.2
+  },
+  {
+   "section": "calm",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 67.2,
+   "lufs": -19.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 24.0,
+   "form": "stated as a little fanfare (horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 26.0,
+   "form": "head (muted trumpet answers)",
+   "ch": "mtpt"
+  }
+ ],
+ "notes": 502,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-BELLOWS\\MUS-SHOP-BELLOWS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-BELLOWS\\MUS-SHOP-BELLOWS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-BELLOWS.mid"
+ },
+ "seam": {
+  "jump_db": -0.14,
+  "wrap_step": 0.00933,
+  "p999_step": 0.06521,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.91,
+   "bars_without_melody": [
+    1,
+    25,
+    27
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Showman at rest: two short restrained fanfares, long calm pizz/harp stretches; no snare, no loud spectacle."
+ ]
+}

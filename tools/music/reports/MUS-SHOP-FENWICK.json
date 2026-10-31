@@ -1,0 +1,102 @@
+{
+ "id": "MUS-SHOP-FENWICK",
+ "kind": "loop",
+ "key": "Eb major",
+ "bpm": 84,
+ "meter": "4/4",
+ "bars": 28,
+ "seconds": 80.0,
+ "loop_seconds": 80.0,
+ "lufs": -20.0,
+ "true_peak": -7.3,
+ "lra": 5.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A celesta",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -20.9
+  },
+  {
+   "section": "hold (anticipation)",
+   "bar": 8,
+   "bars": 2,
+   "start_s": 22.9,
+   "lufs": -22.4
+  },
+  {
+   "section": "B music box + flute",
+   "bar": 10,
+   "bars": 8,
+   "start_s": 28.6,
+   "lufs": -19.3
+  },
+  {
+   "section": "hold",
+   "bar": 18,
+   "bars": 2,
+   "start_s": 51.4,
+   "lufs": -22.9
+  },
+  {
+   "section": "A' the motif in the binder",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 57.1,
+   "lufs": -19.1
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 20.0,
+   "form": "stated (celesta: found in the binder)",
+   "ch": "cel"
+  },
+  {
+   "bar": 22.0,
+   "form": "stated on G (flute, the answer)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 440,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-FENWICK\\MUS-SHOP-FENWICK.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-FENWICK\\MUS-SHOP-FENWICK.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-FENWICK.mid"
+ },
+ "seam": {
+  "jump_db": 0.34,
+  "wrap_step": 0.01956,
+  "p999_step": 0.04518,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.89,
+   "bars_without_melody": [
+    12,
+    17,
+    27
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Wonder: celesta/music box/glock over warm strings; held-breath bars 8-9 and 18-19; crystal glints sparingly."
+ ]
+}

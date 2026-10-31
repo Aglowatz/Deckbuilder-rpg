@@ -50,13 +50,7 @@ to the game. Nothing in the Drive folder was moved, renamed or deleted: the impo
 
 These play, but the wrap is audible. Listed for the next production pass; the files are left as delivered.
 
-- MUS-QUIZ: 0.45 s of digital silence at the wrap
-- MUS-SHOP-ALEMBIC: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail)
-- MUS-SHOP-ALEMBIC-POST: 0.51 s of digital silence at the wrap
-- MUS-SHOP-BEETSWORTH: 0.45 s of digital silence at the wrap
-- MUS-SHOP-BELLOWS: 0.41 s of digital silence at the wrap
-- MUS-SHOP-FIGSLY: 0.51 s of digital silence at the wrap
-- MUS-SHOP-SABLE: 0.45 s of digital silence at the wrap
+(none)
 
 ### Loops to listen to (6-12 dB step at the wrap)
 
@@ -147,7 +141,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-QUEST-MARLO | Chef Marlo — the recipe box | `music/MUS-QUEST-MARLO.ogg` | story | +0.0 | Chef Marlo: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUEST-PELL | Widow Pell — a burial permit | `music/MUS-QUEST-PELL.ogg` | story | +0.0 | Widow Pell: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUEST-ROLLO | Rollo Spokes — the wheel never stops | `music/MUS-QUEST-ROLLO.ogg` | story | +0.0 | Rollo Spokes: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
-| MUS-QUIZ | Questions in triplicate | `music/MUS-QUIZ.ogg` | loop, loop | +1.0 | The four Path trivia quizzes (`QuizScreen`) | In Game | Needs loop fix: 0.45 s of digital silence at the wrap |  |
+| MUS-QUIZ | Questions in triplicate | `music/MUS-QUIZ.ogg` | loop, loop | +0.0 | The four Path trivia quizzes (`QuizScreen`) | In Game | OK |  |
 | MUS-REF-BATTLE | The Verdant Dump — combat | `music/MUS-REF-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-DUMP; the town's corrupted refusemancer gate envoy | In Game | OK |  |
 | MUS-REF-BOSS | Compostella, the Rotheart | `music/MUS-REF-BOSS.ogg` | loop, loop | +0.1 | The Rotheart principal boss (BB-ROT, boss node) | In Game | OK |  |
 | MUS-REF-DUN-BATTLE | The Rotheart — combat | `music/MUS-REF-DUN-BATTLE.ogg` | loop, loop | +0.1 | The Rotheart battles and elites (BB-ROT) | In Game | OK |  |
@@ -157,19 +151,19 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-REF-RELEASE | Compostella — let the seed return | `music/MUS-REF-RELEASE.ogg` | story | +0.0 | The Rotheart leader release scene: cutscene `sever` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +0.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |
 | MUS-SHIRO-BOSS | The oldest trick in the book | `music/MUS-SHIRO-BOSS.ogg` | loop, loop | +0.1 | Shiro Swindle's duel (after the giant-chest questline) | In Game | OK |  |
-| MUS-SHOP-ALEMBIC | Essences together | `music/MUS-SHOP-ALEMBIC.ogg` | loop, loop | +0.9 | Auntie Alembic (Alchemist, town): vendor screen VS-ALEMBIC (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail) | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-ALEMBIC-POST | Three essences, new possibilities | `music/MUS-SHOP-ALEMBIC-POST.ogg` | loop, loop | +1.0 | VS-ALEMBIC after `postgame_unlocked` | In Game | Needs loop fix: 0.51 s of digital silence at the wrap | Replaces MUS-SHOP-ALEMBIC. |
-| MUS-SHOP-BEETSWORTH | Assistant to the regional merchant | `music/MUS-SHOP-BEETSWORTH.ogg` | loop, loop | +1.0 | Beetsworth (equipment, town): vendor screen VS-BEETSWORTH (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.45 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-BELLOWS | Browsing the prizes | `music/MUS-SHOP-BELLOWS.ogg` | loop, loop | +0.9 | Bellows (Grand Clashatorium): vendor screen VS-BELLOWS (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.41 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-ALEMBIC | Essences together | `music/MUS-SHOP-ALEMBIC.ogg` | loop, loop | +0.0 | Auntie Alembic (Alchemist, town): vendor screen VS-ALEMBIC (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-ALEMBIC-POST | Three essences, new possibilities | `music/MUS-SHOP-ALEMBIC-POST.ogg` | loop, loop | +0.0 | VS-ALEMBIC after `postgame_unlocked` | In Game | OK | Replaces MUS-SHOP-ALEMBIC. |
+| MUS-SHOP-BEETSWORTH | Assistant to the regional merchant | `music/MUS-SHOP-BEETSWORTH.ogg` | loop, loop | +0.0 | Beetsworth (equipment, town): vendor screen VS-BEETSWORTH (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-BELLOWS | Browsing the prizes | `music/MUS-SHOP-BELLOWS.ogg` | loop, loop | +0.0 | Bellows (Grand Clashatorium): vendor screen VS-BELLOWS (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-BENCHLEY | The gym pro shop | `music/MUS-SHOP-BENCHLEY.ogg` | loop, loop | +0.0 | Benchley (Gainlands): vendor screen VS-BENCHLEY (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-FENWICK | Foil, whispered reverently | `music/MUS-SHOP-FENWICK.ogg` | loop, loop | +1.0 | Fenwick (pack vendor, town): vendor screen VS-FENWICK (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-FIGSLY | Off the books | `music/MUS-SHOP-FIGSLY.ogg` | loop, loop | +1.0 | Figsly (black market, the Crease): vendor screen VS-FIGSLY (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.51 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-FENWICK | Foil, whispered reverently | `music/MUS-SHOP-FENWICK.ogg` | loop, loop | +0.1 | Fenwick (pack vendor, town): vendor screen VS-FENWICK (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-FIGSLY | Off the books | `music/MUS-SHOP-FIGSLY.ogg` | loop, loop | +0.1 | Figsly (black market, the Crease): vendor screen VS-FIGSLY (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-GRISTLE | Found, not stolen | `music/MUS-SHOP-GRISTLE.ogg` | loop, loop | +0.1 | Gristle (Verdant Dump): vendor screen VS-GRISTLE (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-LEDGERBONE | A correctly completed form | `music/MUS-SHOP-LEDGERBONE.ogg` | loop, loop | +0.1 | Ledgerbone (D.N.A. lobby): vendor screen VS-LEDGERBONE (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-MIREPOIX | Under the silver cloche | `music/MUS-SHOP-MIREPOIX.ogg` | loop, loop | +0.0 | Mirepoix (Endless Buffet): vendor screen VS-MIREPOIX (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-SABLE | Sable's velvet salon | `music/MUS-SHOP-SABLE.ogg` | loop, loop | +1.0 | Sable (card vendor, town): vendor screen VS-SABLE (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.45 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-THREADWELL | Pip's tiny runway | `music/MUS-SHOP-THREADWELL.ogg` | loop, loop | +0.9 | Threadwell (tailor, town): vendor screen VS-THREADWELL (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SHOP-TONIC | Tilly's bubbling apothecary | `music/MUS-SHOP-TONIC.ogg` | loop, loop | +1.0 | Tonic (item vendor, town): vendor screen VS-TONIC (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-SABLE | Sable's velvet salon | `music/MUS-SHOP-SABLE.ogg` | loop, loop | +0.1 | Sable (card vendor, town): vendor screen VS-SABLE (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-THREADWELL | Pip's tiny runway | `music/MUS-SHOP-THREADWELL.ogg` | loop, loop | +0.0 | Threadwell (tailor, town): vendor screen VS-THREADWELL (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
+| MUS-SHOP-TONIC | Tilly's bubbling apothecary | `music/MUS-SHOP-TONIC.ogg` | loop, loop | +0.0 | Tonic (item vendor, town): vendor screen VS-TONIC (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SIPHON-BOSS | A life's work | `music/MUS-SIPHON-BOSS.ogg` | loop, loop | +0.0 | Dr. Ambrose Siphon (BB-LAB, boss node) | In Game | OK | Its own track since Music Pass 3 (Oct 31); was an alias of MUS-LAB-BATTLE. |
 | MUS-SWOLY-BATTLE | Mount Swolympus — combat | `music/MUS-SWOLY-BATTLE.ogg` | loop, loop | +0.1 | Mount Swolympus ordinary battles (BB-S-BEEF) | In Game | OK |  |
 | MUS-SWOLY-BOSS | The Ancient Spotter | `music/MUS-SWOLY-BOSS.ogg` | loop, loop | +0.1 | Mount Swolympus boss (BB-S-BEEF, boss node) | In Game | OK | Its own track since Music Pass 2 (Oct 31); was an alias of MUS-SWOLY-BATTLE. |
