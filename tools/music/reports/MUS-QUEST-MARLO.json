@@ -1,0 +1,81 @@
+{
+ "id": "MUS-QUEST-MARLO",
+ "kind": "oneshot",
+ "key": "F major",
+ "bpm": 80,
+ "meter": "4/4",
+ "bars": 22,
+ "seconds": 69.62,
+ "loop_seconds": 66.0,
+ "lufs": -20.0,
+ "true_peak": -7.1,
+ "lra": 17.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "the machine kitchen",
+   "bar": 0,
+   "bars": 10,
+   "start_s": 0.0,
+   "lufs": -22.4
+  },
+  {
+   "section": "a real recipe",
+   "bar": 10,
+   "bars": 8,
+   "start_s": 30.0,
+   "lufs": -19.2
+  },
+  {
+   "section": "flavour",
+   "bar": 18,
+   "bars": 4,
+   "start_s": 54.0,
+   "lufs": -18.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 14.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 368,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-QUEST-MARLO\\MUS-QUEST-MARLO.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-QUEST-MARLO\\MUS-QUEST-MARLO.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-QUEST-MARLO.mid"
+ },
+ "onset_ms": 2.8,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.73,
+   "bars_without_melody": [
+    7,
+    8,
+    16,
+    19,
+    20,
+    21
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Mechanical accompaniment quantised (human=False notes) under a human tune; the machine stops at bar 10."
+ ]
+}

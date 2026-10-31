@@ -1,0 +1,102 @@
+{
+ "id": "MUS-MEM-04",
+ "kind": "oneshot",
+ "key": "D major",
+ "bpm": 66,
+ "meter": "4/4",
+ "bars": 20,
+ "seconds": 77.05,
+ "loop_seconds": 72.727,
+ "lufs": -20.0,
+ "true_peak": -6.2,
+ "lra": 13.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "uncertain",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -29.2
+  },
+  {
+   "section": "the lullaby in focus",
+   "bar": 4,
+   "bars": 6,
+   "start_s": 14.5,
+   "lufs": -18.1
+  },
+  {
+   "section": "held",
+   "bar": 10,
+   "bars": 2,
+   "start_s": 36.4,
+   "lufs": -23.7
+  },
+  {
+   "section": "crossroads, open",
+   "bar": 12,
+   "bars": 5,
+   "start_s": 43.6,
+   "lufs": -17.9
+  },
+  {
+   "section": "held fifth",
+   "bar": 17,
+   "bars": 3,
+   "start_s": 61.8,
+   "lufs": -20.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 12.0,
+   "form": "stated (cello)",
+   "ch": "vc"
+  },
+  {
+   "bar": 14.0,
+   "form": "stated (violins), open",
+   "ch": "vln"
+  }
+ ],
+ "notes": 219,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MEM-04\\MUS-MEM-04.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MEM-04\\MUS-MEM-04.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MEM-04.mid"
+ },
+ "onset_ms": 3.2,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.6,
+   "bars_without_melody": [
+    0,
+    2,
+    8,
+    9,
+    10,
+    11,
+    18,
+    19
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "The lullaby clearest yet but incomplete (stops before its last three notes) - the whole statement waits for THRONE."
+ ]
+}

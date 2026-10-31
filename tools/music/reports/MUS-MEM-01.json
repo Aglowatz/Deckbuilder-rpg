@@ -1,0 +1,102 @@
+{
+ "id": "MUS-MEM-01",
+ "kind": "oneshot",
+ "key": "F major",
+ "bpm": 72,
+ "meter": "4/4",
+ "bars": 22,
+ "seconds": 77.64,
+ "loop_seconds": 73.333,
+ "lufs": -20.0,
+ "true_peak": -5.7,
+ "lra": 12.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "piano",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -26.3
+  },
+  {
+   "section": "humming",
+   "bar": 4,
+   "bars": 6,
+   "start_s": 13.3,
+   "lufs": -20.5
+  },
+  {
+   "section": "four colours",
+   "bar": 10,
+   "bars": 4,
+   "start_s": 33.3,
+   "lufs": -22.2
+  },
+  {
+   "section": "crossroads",
+   "bar": 14,
+   "bars": 6,
+   "start_s": 46.7,
+   "lufs": -17.2
+  },
+  {
+   "section": "slipping away",
+   "bar": 20,
+   "bars": 2,
+   "start_s": 66.7,
+   "lufs": -24.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 14.0,
+   "form": "stated (flute), tender",
+   "ch": "fl"
+  },
+  {
+   "bar": 18.0,
+   "form": "head (celesta), an echo",
+   "ch": "cel"
+  }
+ ],
+ "notes": 330,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MEM-01\\MUS-MEM-01.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MEM-01\\MUS-MEM-01.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MEM-01.mid"
+ },
+ "onset_ms": 4.8,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.64,
+   "bars_without_melody": [
+    2,
+    6,
+    8,
+    9,
+    16,
+    17,
+    18,
+    20
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Lullaby: first four notes only (hummed, oohs), bar 4. Ends unresolved (Gm7/C) per the row."
+ ]
+}

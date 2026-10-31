@@ -1,0 +1,73 @@
+{
+ "id": "MUS-LULLABY",
+ "kind": "oneshot",
+ "key": "D minor",
+ "bpm": 70,
+ "meter": "4/4",
+ "bars": 10,
+ "seconds": 36.54,
+ "loop_seconds": 34.286,
+ "lufs": -20.0,
+ "true_peak": -7.4,
+ "lra": 9.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "harp",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -23.3
+  },
+  {
+   "section": "the lullaby",
+   "bar": 1,
+   "bars": 5,
+   "start_s": 3.4,
+   "lufs": -17.9
+  },
+  {
+   "section": "resolution",
+   "bar": 6,
+   "bars": 4,
+   "start_s": 20.6,
+   "lufs": -25.4
+  }
+ ],
+ "motifs": [],
+ "notes": 170,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-LULLABY\\MUS-LULLABY.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-LULLABY\\MUS-LULLABY.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LULLABY.mid"
+ },
+ "onset_ms": 3.3,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.6,
+   "bars_without_melody": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Motif master: melody unchanged (transcription), re-orchestrated; the harmony resolves to D after the last E."
+ ]
+}
