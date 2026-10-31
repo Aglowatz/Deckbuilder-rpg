@@ -101,7 +101,7 @@ MUS-SHOP-MIREPOIX,In Game,"Mirepoix (Endless Buffet): vendor screen VS-MIREPOIX 
 MUS-SHOP-SABLE,In Game,"Sable (card vendor, town): vendor screen VS-SABLE (`OverlayScreen.music_cue`), one override per visit","Not retriggered by purchases; the area music resumes when the shop closes."
 MUS-SHOP-THREADWELL,In Game,"Threadwell (tailor, town): vendor screen VS-THREADWELL (`OverlayScreen.music_cue`), one override per visit","Not retriggered by purchases; the area music resumes when the shop closes."
 MUS-SHOP-TONIC,In Game,"Tonic (item vendor, town): vendor screen VS-TONIC (`OverlayScreen.music_cue`), one override per visit","Not retriggered by purchases; the area music resumes when the shop closes."
-MUS-SIPHON-BOSS,In Game,"Dr. Ambrose Siphon (BB-LAB, boss node)","Compatibility alias: plays MUS-LAB-BATTLE's file."
+MUS-SIPHON-BOSS,In Game,"Dr. Ambrose Siphon (BB-LAB, boss node)","Its own track since Music Pass 3 (Oct 31); was an alias of MUS-LAB-BATTLE."
 MUS-SWOLY-BATTLE,In Game,"Mount Swolympus ordinary battles (BB-S-BEEF)",""
 MUS-SWOLY-BOSS,In Game,"Mount Swolympus boss (BB-S-BEEF, boss node)","Its own track since Music Pass 2 (Oct 31); was an alias of MUS-SWOLY-BATTLE."
 MUS-SWOLY-EXP,In Game,"Mount Swolympus node map (S-BEEF) and events",""

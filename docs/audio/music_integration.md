@@ -57,7 +57,6 @@ These play, but the wrap is audible. Listed for the next production pass; the fi
 - MUS-CASTLE-EXP: ends 16 dB quieter than it begins (decay / cut-off tail)
 - MUS-CREASE: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail)
 - MUS-GRAVE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
-- MUS-LAB-EXP: 0.43 s of digital silence at the wrap
 - MUS-PRIMM-01: ends 15 dB quieter than it begins (decay / cut-off tail)
 - MUS-PRIMM-02: ends 14 dB quieter than it begins (decay / cut-off tail)
 - MUS-PRIMM-BREAK: 0.53 s of digital silence at the wrap
@@ -122,10 +121,10 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-GOUR-RELEASE | The true Chef and a name freely given | `music/MUS-GOUR-RELEASE.ogg` | story | +0.0 | Test Kitchen leader release scene: cutscene `wonder` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-GRAVE-BATTLE | Something beneath the stones | `music/MUS-GRAVE-BATTLE.ogg` | loop, loop | +0.9 | The Restless Cairn scripted challenge (BB-GRAVE) | In Game | OK |  |
 | MUS-GRAVE-EXP | Old Hob's evening hum | `music/MUS-GRAVE-EXP.ogg` | loop, loop | +0.9 | The town graveyard (within 6 m of the Restless Cairn): lies over MUS-TOWN, hands back 3 m further out | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-LAB-BATTLE | Experiments still running | `music/MUS-LAB-BATTLE.ogg` | loop, loop | +1.0 | Lab battles (BB-LAB) | In Game | OK |  |
-| MUS-LAB-CELL | Ten years of marks | `music/MUS-LAB-CELL.ogg` | story | +3.0 | Path-ology Lab event node 7, "The Prince's Old Cell" (event `dg_d_lab_7`) | In Game | n/a (one-shot) |  |
-| MUS-LAB-EXP | The subject's corridors | `music/MUS-LAB-EXP.ogg` | loop, loop | +1.0 | Path-ology Lab node map (D-LAB, postgame) | In Game | Needs loop fix: 0.43 s of digital silence at the wrap |  |
-| MUS-LAB-RESCUE | The hand that helped | `music/MUS-LAB-RESCUE.ogg` | story | +3.0 | Path-ology Lab rescue node (story key `dg_lab_rescue`, the captured Rescuer) | In Game | n/a (one-shot) |  |
+| MUS-LAB-BATTLE | Experiments still running | `music/MUS-LAB-BATTLE.ogg` | loop, loop | +0.0 | Lab battles (BB-LAB) | In Game | OK |  |
+| MUS-LAB-CELL | Ten years of marks | `music/MUS-LAB-CELL.ogg` | story | +0.0 | Path-ology Lab event node 7, "The Prince's Old Cell" (event `dg_d_lab_7`) | In Game | n/a (one-shot) |  |
+| MUS-LAB-EXP | The subject's corridors | `music/MUS-LAB-EXP.ogg` | loop, loop | +0.0 | Path-ology Lab node map (D-LAB, postgame) | In Game | OK |  |
+| MUS-LAB-RESCUE | The hand that helped | `music/MUS-LAB-RESCUE.ogg` | story | +0.0 | Path-ology Lab rescue node (story key `dg_lab_rescue`, the captured Rescuer) | In Game | n/a (one-shot) |  |
 | MUS-LULLABY | Concordia's lullaby — motif master | `music/MUS-LULLABY.ogg` | motif | +3.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) | Imported as asked. Its theme is quoted by the memory, throne and reunion cues. |
 | MUS-MAREN | Maren — pie and secrets | `music/MUS-MAREN.ogg` | loop, loop | +0.0 | Elder Maren's memory conversations (`TownScene._play_memory`): under her lines, the fragment cue lies on top | In Game | OK | Pushed with the dialogue; popped over 1.5 s when the conversation ends. |
 | MUS-MEM-01 | Warmth | `music/MUS-MEM-01.ogg` | story | +3.0 | Memory fragment 1 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
@@ -182,7 +181,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-SHOP-SABLE | Sable's velvet salon | `music/MUS-SHOP-SABLE.ogg` | loop, loop | +1.0 | Sable (card vendor, town): vendor screen VS-SABLE (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.45 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-THREADWELL | Pip's tiny runway | `music/MUS-SHOP-THREADWELL.ogg` | loop, loop | +0.9 | Threadwell (tailor, town): vendor screen VS-THREADWELL (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-TONIC | Tilly's bubbling apothecary | `music/MUS-SHOP-TONIC.ogg` | loop, loop | +1.0 | Tonic (item vendor, town): vendor screen VS-TONIC (`OverlayScreen.music_cue`), one override per visit | In Game | OK | Not retriggered by purchases; the area music resumes when the shop closes. |
-| MUS-SIPHON-BOSS | A life's work | `music/MUS-LAB-BATTLE.ogg` (alias of MUS-LAB-BATTLE) | loop, loop | +1.0 | Dr. Ambrose Siphon (BB-LAB, boss node) | In Game | OK | Compatibility alias: plays MUS-LAB-BATTLE's file. |
+| MUS-SIPHON-BOSS | A life's work | `music/MUS-SIPHON-BOSS.ogg` | loop, loop | +0.0 | Dr. Ambrose Siphon (BB-LAB, boss node) | In Game | OK | Its own track since Music Pass 3 (Oct 31); was an alias of MUS-LAB-BATTLE. |
 | MUS-SWOLY-BATTLE | Mount Swolympus — combat | `music/MUS-SWOLY-BATTLE.ogg` | loop, loop | +0.1 | Mount Swolympus ordinary battles (BB-S-BEEF) | In Game | OK |  |
 | MUS-SWOLY-BOSS | The Ancient Spotter | `music/MUS-SWOLY-BOSS.ogg` | loop, loop | +0.1 | Mount Swolympus boss (BB-S-BEEF, boss node) | In Game | OK | Its own track since Music Pass 2 (Oct 31); was an alias of MUS-SWOLY-BATTLE. |
 | MUS-SWOLY-EXP | Mount Swolympus — exploration | `music/MUS-SWOLY-EXP.ogg` | loop, loop | +0.1 | Mount Swolympus node map (S-BEEF) and events | In Game | OK |  |

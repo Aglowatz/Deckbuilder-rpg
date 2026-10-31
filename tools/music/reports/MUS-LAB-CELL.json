@@ -1,0 +1,96 @@
+{
+ "id": "MUS-LAB-CELL",
+ "kind": "oneshot",
+ "key": "E major",
+ "bpm": 66,
+ "meter": "4/4",
+ "bars": 18,
+ "seconds": 70.71,
+ "loop_seconds": 65.455,
+ "lufs": -20.0,
+ "true_peak": -7.0,
+ "lra": 15.7,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "marks",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -30.1
+  },
+  {
+   "section": "cello",
+   "bar": 4,
+   "bars": 4,
+   "start_s": 14.5,
+   "lufs": -22.7
+  },
+  {
+   "section": "the lullaby, four notes",
+   "bar": 8,
+   "bars": 4,
+   "start_s": 29.1,
+   "lufs": -24.3
+  },
+  {
+   "section": "warmth",
+   "bar": 12,
+   "bars": 4,
+   "start_s": 43.6,
+   "lufs": -17.3
+  },
+  {
+   "section": "held",
+   "bar": 16,
+   "bars": 2,
+   "start_s": 58.2,
+   "lufs": -18.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 4.0,
+   "form": "stated (cello, open)",
+   "ch": "vc"
+  },
+  {
+   "bar": 13.0,
+   "form": "head (horn, rising toward recovery)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 181,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-LAB-CELL\\MUS-LAB-CELL.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-LAB-CELL\\MUS-LAB-CELL.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-CELL.mid"
+ },
+ "onset_ms": 8.1,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.89,
+   "bars_without_melody": [
+    10,
+    17
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Lullaby: first four notes once (celesta, bar 8, E B G# F#), spaced by pauses - the whole melody is kept for after MEM-04."
+ ]
+}

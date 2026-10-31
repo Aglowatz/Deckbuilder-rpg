@@ -1,0 +1,163 @@
+{
+ "id": "MUS-LAB-EXP",
+ "kind": "loop",
+ "key": "A minor",
+ "bpm": 150,
+ "meter": "4/4",
+ "bars": 96,
+ "seconds": 153.6,
+ "loop_seconds": 153.6,
+ "lufs": -20.1,
+ "true_peak": -5.0,
+ "lra": 6.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "bed",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -23.3
+  },
+  {
+   "section": "A grid + cello",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 12.8,
+   "lufs": -20.3
+  },
+  {
+   "section": "B breakdown",
+   "bar": 24,
+   "bars": 16,
+   "start_s": 38.4,
+   "lufs": -22.7
+  },
+  {
+   "section": "drop 1",
+   "bar": 40,
+   "bars": 16,
+   "start_s": 64.0,
+   "lufs": -18.5
+  },
+  {
+   "section": "C glitch",
+   "bar": 56,
+   "bars": 16,
+   "start_s": 89.6,
+   "lufs": -20.5
+  },
+  {
+   "section": "drop 2",
+   "bar": 72,
+   "bars": 16,
+   "start_s": 115.2,
+   "lufs": -17.9
+  },
+  {
+   "section": "bed",
+   "bar": 88,
+   "bars": 8,
+   "start_s": 140.8,
+   "lufs": -23.1
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (piano, cold, cut short)",
+   "ch": "piano"
+  },
+  {
+   "bar": 33.0,
+   "form": "glitched (square lead, breakdown)",
+   "ch": "arp"
+  },
+  {
+   "bar": 40.0,
+   "form": "glitched (saw leads, drop 1)",
+   "ch": "lead"
+  },
+  {
+   "bar": 48.0,
+   "form": "glitched an octave up (drop 1)",
+   "ch": "lead"
+  },
+  {
+   "bar": 56.0,
+   "form": "inverted (cello, human)",
+   "ch": "vc"
+  },
+  {
+   "bar": 76.0,
+   "form": "glitched high (drop 2)",
+   "ch": "lead"
+  },
+  {
+   "bar": 86.0,
+   "form": "head (brass, end of drop 2)",
+   "ch": "brass"
+  },
+  {
+   "bar": 90.0,
+   "form": "head (piano, cold, cut short)",
+   "ch": "piano"
+  }
+ ],
+ "notes": 6372,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-LAB-EXP\\MUS-LAB-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-LAB-EXP\\MUS-LAB-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.62,
+  "wrap_step": 0.00524,
+  "p999_step": 0.08883,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.85,
+   "bars_without_melody": [
+    3,
+    30,
+    31,
+    58,
+    59,
+    63,
+    65,
+    67,
+    69,
+    78,
+    79,
+    86,
+    87,
+    91
+   ],
+   "buried_bars": [
+    36,
+    44,
+    82,
+    85
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Lab techno per the Pass 3 direction; the row's cold glass pulse, human cello and lullaby fragment are kept inside it.",
+  "Lullaby: first four notes once (piano, bar 28, transposed to A: A E C B), glitched off by a stutter."
+ ]
+}

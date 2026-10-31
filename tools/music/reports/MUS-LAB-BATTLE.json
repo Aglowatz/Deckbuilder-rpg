@@ -1,0 +1,174 @@
+{
+ "id": "MUS-LAB-BATTLE",
+ "kind": "loop",
+ "key": "F# minor",
+ "bpm": 160,
+ "meter": "4/4",
+ "bars": 96,
+ "seconds": 144.0,
+ "loop_seconds": 144.0,
+ "lufs": -20.1,
+ "true_peak": -5.8,
+ "lra": 4.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "bed",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -20.7
+  },
+  {
+   "section": "A ostinato + riff",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "B Path answers",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 30.0,
+   "lufs": -20.7
+  },
+  {
+   "section": "C quiet",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 54.0,
+   "lufs": -22.5
+  },
+  {
+   "section": "drop",
+   "bar": 52,
+   "bars": 24,
+   "start_s": 78.0,
+   "lufs": -18.4
+  },
+  {
+   "section": "D glitch",
+   "bar": 76,
+   "bars": 16,
+   "start_s": 114.0,
+   "lufs": -20.6
+  },
+  {
+   "section": "bed",
+   "bar": 92,
+   "bars": 4,
+   "start_s": 138.0,
+   "lufs": -20.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "glitched (saw lead, bed)",
+   "ch": "lead"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated (saw lead, high)",
+   "ch": "lead"
+  },
+  {
+   "bar": 22.0,
+   "form": "glitched answer to the D.N.A. waltz head",
+   "ch": "lead"
+  },
+  {
+   "bar": 26.0,
+   "form": "glitched answer to the Buffet hook",
+   "ch": "lead"
+  },
+  {
+   "bar": 30.0,
+   "form": "glitched answer to the Dump jig head",
+   "ch": "lead"
+  },
+  {
+   "bar": 34.0,
+   "form": "glitched answer to the Gainlands brass call",
+   "ch": "lead"
+  },
+  {
+   "bar": 36.0,
+   "form": "augmented (cello, quiet passage)",
+   "ch": "vc"
+  },
+  {
+   "bar": 52.0,
+   "form": "glitched high (drop)",
+   "ch": "lead"
+  },
+  {
+   "bar": 60.0,
+   "form": "head augmented (brass, drop)",
+   "ch": "brass"
+  },
+  {
+   "bar": 68.0,
+   "form": "stated (saw lead, end of drop)",
+   "ch": "lead"
+  },
+  {
+   "bar": 88.0,
+   "form": "inverted glitched (saw lead)",
+   "ch": "lead"
+  },
+  {
+   "bar": 92.0,
+   "form": "glitched (saw lead, bed)",
+   "ch": "lead"
+  }
+ ],
+ "notes": 7158,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-LAB-BATTLE\\MUS-LAB-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-LAB-BATTLE\\MUS-LAB-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 1.1,
+  "wrap_step": 0.00834,
+  "p999_step": 0.07624,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.91,
+   "bars_without_melody": [
+    21,
+    25,
+    29,
+    33,
+    39,
+    40,
+    41,
+    42,
+    44
+   ],
+   "buried_bars": [
+    48
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "B section: the four Paths' theme heads as stabs (D.N.A., Buffet hook, Dump jig, a Gainlands-style brass call)."
+ ]
+}

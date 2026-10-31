@@ -1,0 +1,193 @@
+{
+ "id": "MUS-SIPHON-BOSS",
+ "kind": "loop",
+ "key": "C minor",
+ "bpm": 170,
+ "meter": "4/4",
+ "bars": 112,
+ "seconds": 158.12,
+ "loop_seconds": 158.118,
+ "lufs": -20.1,
+ "true_peak": -5.5,
+ "lra": 4.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "bed",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.3
+  },
+  {
+   "section": "A Siphon on glass",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 5.6,
+   "lufs": -20.7
+  },
+  {
+   "section": "drop 1",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 28.2,
+   "lufs": -19.7
+  },
+  {
+   "section": "C dissection",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 50.8,
+   "lufs": -22.5
+  },
+  {
+   "section": "climax",
+   "bar": 52,
+   "bars": 24,
+   "start_s": 73.4,
+   "lufs": -18.7
+  },
+  {
+   "section": "E recombine",
+   "bar": 76,
+   "bars": 16,
+   "start_s": 107.3,
+   "lufs": -21.5
+  },
+  {
+   "section": "final drop",
+   "bar": 92,
+   "bars": 16,
+   "start_s": 129.9,
+   "lufs": -19.2
+  },
+  {
+   "section": "bed",
+   "bar": 108,
+   "bars": 4,
+   "start_s": 152.5,
+   "lufs": -22.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 8.0,
+   "form": "stated (cello, answering)",
+   "ch": "vc"
+  },
+  {
+   "bar": 16.0,
+   "form": "glitched (saw lead)",
+   "ch": "lead"
+  },
+  {
+   "bar": 28.0,
+   "form": "glitched (drop 1)",
+   "ch": "lead"
+  },
+  {
+   "bar": 36.0,
+   "form": "head, dissected (saw)",
+   "ch": "lead"
+  },
+  {
+   "bar": 38.0,
+   "form": "tail, spliced onto Siphon (piano)",
+   "ch": "piano"
+  },
+  {
+   "bar": 54.0,
+   "form": "augmented (horns, against Siphon)",
+   "ch": "hn"
+  },
+  {
+   "bar": 60.0,
+   "form": "stated (saw lead, climax)",
+   "ch": "lead"
+  },
+  {
+   "bar": 70.0,
+   "form": "head augmented (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 76.0,
+   "form": "head recombined with Siphon",
+   "ch": "lead"
+  },
+  {
+   "bar": 80.0,
+   "form": "head recombined with Siphon",
+   "ch": "lead"
+  },
+  {
+   "bar": 84.0,
+   "form": "head recombined with Siphon",
+   "ch": "lead"
+  },
+  {
+   "bar": 88.0,
+   "form": "inverted glitched (saw)",
+   "ch": "lead"
+  },
+  {
+   "bar": 92.0,
+   "form": "glitched (final drop)",
+   "ch": "lead"
+  },
+  {
+   "bar": 100.0,
+   "form": "head augmented (horns, final)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 8493,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SIPHON-BOSS\\MUS-SIPHON-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SIPHON-BOSS\\MUS-SIPHON-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SIPHON-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -0.41,
+  "wrap_step": 0.00461,
+  "p999_step": 0.13208,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    19,
+    75,
+    79,
+    83,
+    87
+   ],
+   "buried_bars": [
+    8,
+    41,
+    42,
+    45,
+    47,
+    100
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Own villain idea SIPHON (glass/piano, then brass + strings in octaves); lullaby first four notes once in the dissection.",
+  "Lullaby: first four notes once (glass, bar 40, in C: C G Eb D), dissected by a stutter."
+ ]
+}

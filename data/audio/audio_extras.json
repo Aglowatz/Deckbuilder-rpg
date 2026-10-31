@@ -98,10 +98,10 @@
 			"file": "res://assets/audio/stings/STG-WIN-SIPHON-BOSS.wav",
 			"loop": false,
 			"bus": "Music",
-			"volume_db": 4.8,
+			"volume_db": 1.9,
 			"zone": "",
 			"category": "Sting",
-			"use": "Winning the battle that plays MUS-SIPHON-BOSS: its climax (122.2 s in), cut by tools/cut_stings.js",
+			"use": "Winning the battle that plays MUS-SIPHON-BOSS: its climax (76.2 s in), cut by tools/cut_stings.js",
 			"duration": 3.6,
 			"gameplay": true
 		},
