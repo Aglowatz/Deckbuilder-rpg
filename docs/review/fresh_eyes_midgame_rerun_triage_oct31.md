@@ -23,7 +23,7 @@ untested Part 2-8 drafts (they were stashed as soon as that was noticed; no run 
 | 5 | The UI spoils twists ("posing as", "secretly Death") | **valid** | The sheets' names were shown as-is on plates and the "Boss:" line | **Fix 2** |
 | 6 | Tracker says "Go to Crosspath" inside every zone | **valid** | The tracked quest was the town's Fragments line, so the zone pointed at its exit | **Fix 3** (+ Part 2's second goal) |
 | 7 | Vendors don't open on E | **valid** (fixed after the triage) | The shot shows no "[E]" prompt: the hero stood outside the stall's reach and the bubble was a proximity bark (reach 1.8 m vs bark 3.2 m) | **Fix 7**: vendor reach 2.8 m; the critic's script now opens the stall |
-| 8 | Boss intros long, flat placeholder icons | **partly** (stills are frozen with the dialogue) | | No. Recommendation: "Skip intro" after the first viewing |
+| 8 | Boss intros long, flat placeholder icons | **partly** (stills are frozen with the dialogue) | | **Fix 8**: Esc skips a story scene or cutscene seen before (flags still set) |
 | 9 | Maps fogged and name nothing | **valid** (the fog is the design) | The full map drew icons only | **Fix 4**: names under every revealed place |
 | 10 | Arrival popups block input | **partly** | The Rift operator's intro is a dialogue (frozen) | No |
 | 11 | Same 13-node lattice in every dungeon | **conflicts** (dungeon list import) | | No |
