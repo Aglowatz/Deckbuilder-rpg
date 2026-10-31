@@ -161,12 +161,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-QUEST-PELL | Widow Pell — a burial permit | `music/MUS-QUEST-PELL.ogg` | story | +3.0 | Widow Pell: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUEST-ROLLO | Rollo Spokes — the wheel never stops | `music/MUS-QUEST-ROLLO.ogg` | story | +0.8 | Rollo Spokes: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUIZ | Questions in triplicate | `music/MUS-QUIZ.ogg` | loop, loop | +1.0 | The four Path trivia quizzes (`QuizScreen`) | In Game | Needs loop fix: 0.45 s of digital silence at the wrap |  |
-| MUS-REF-BATTLE | The Verdant Dump — combat | `music/MUS-REF-BATTLE.ogg` | loop, loop | +1.1 | Overworld battles on BB-DUMP; the town's corrupted refusemancer gate envoy | In Game | OK |  |
-| MUS-REF-BOSS | Compostella, the Rotheart | `music/MUS-REF-BOSS.ogg` | loop, loop | +1.2 | The Rotheart principal boss (BB-ROT, boss node) | In Game | OK |  |
-| MUS-REF-DUN-BATTLE | The Rotheart — combat | `music/MUS-REF-DUN-BATTLE.ogg` | loop, loop | +1.1 | The Rotheart battles and elites (BB-ROT) | In Game | OK |  |
-| MUS-REF-DUN-EXP | The Rotheart — exploration | `music/MUS-REF-DUN-EXP.ogg` | loop, loop | +1.0 | The Rotheart node map (D-ROT) and its events | In Game | OK |  |
+| MUS-REF-BATTLE | The Verdant Dump — combat | `music/MUS-REF-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-DUMP; the town's corrupted refusemancer gate envoy | In Game | OK |  |
+| MUS-REF-BOSS | Compostella, the Rotheart | `music/MUS-REF-BOSS.ogg` | loop, loop | +0.1 | The Rotheart principal boss (BB-ROT, boss node) | In Game | OK |  |
+| MUS-REF-DUN-BATTLE | The Rotheart — combat | `music/MUS-REF-DUN-BATTLE.ogg` | loop, loop | +0.1 | The Rotheart battles and elites (BB-ROT) | In Game | OK |  |
+| MUS-REF-DUN-EXP | The Rotheart — exploration | `music/MUS-REF-DUN-EXP.ogg` | loop, loop | +0.1 | The Rotheart node map (D-ROT) and its events | In Game | OK |  |
 | MUS-REF-EXP | The Verdant Dump — exploration | `music/MUS-REF-EXP.ogg` | loop, loop | +0.2 | The Verdant Dump (`ZoneScene`, zone `refusemancer`) until its own completion flag is set | In Game | OK |  |
-| MUS-REF-FREED | The Verdant Dump — restored | `music/MUS-REF-FREED.ogg` | loop, loop | +1.0 | The Verdant Dump once `zone_refusemancer_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
+| MUS-REF-FREED | The Verdant Dump — restored | `music/MUS-REF-FREED.ogg` | loop, loop | +0.1 | The Verdant Dump once `zone_refusemancer_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-REF-RELEASE | Compostella — let the seed return | `music/MUS-REF-RELEASE.ogg` | story | +2.9 | The Rotheart leader release scene: cutscene `sever` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +3.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |
 | MUS-SHIRO-BOSS | The oldest trick in the book | `music/MUS-SHIRO-BOSS.ogg` | loop, loop | +0.5 | Shiro Swindle's duel (after the giant-chest questline) | In Game | OK |  |

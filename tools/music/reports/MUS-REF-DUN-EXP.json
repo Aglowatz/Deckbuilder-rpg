@@ -1,0 +1,136 @@
+{
+ "id": "MUS-REF-DUN-EXP",
+ "kind": "loop",
+ "key": "B minor",
+ "bpm": 120,
+ "meter": "6/8",
+ "bars": 88,
+ "seconds": 132.0,
+ "loop_seconds": 132.0,
+ "lufs": -20.0,
+ "true_peak": -6.0,
+ "lra": 7.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "drone",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -25.2
+  },
+  {
+   "section": "A slow theme",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 12.0,
+   "lufs": -20.0
+  },
+  {
+   "section": "B tangle grows",
+   "bar": 24,
+   "bars": 16,
+   "start_s": 36.0,
+   "lufs": -19.4
+  },
+  {
+   "section": "spring glimpse",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 60.0,
+   "lufs": -21.6
+  },
+  {
+   "section": "A' cello theme",
+   "bar": 48,
+   "bars": 16,
+   "start_s": 72.0,
+   "lufs": -21.9
+  },
+  {
+   "section": "C canon, overgrown",
+   "bar": 64,
+   "bars": 16,
+   "start_s": 96.0,
+   "lufs": -17.5
+  },
+  {
+   "section": "drone again",
+   "bar": 80,
+   "bars": 8,
+   "start_s": 120.0,
+   "lufs": -24.8
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 28.0,
+   "form": "stated low (horns, choked by the tangle)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated (flute, the spring glimpse)",
+   "ch": "fl"
+  },
+  {
+   "bar": 76.0,
+   "form": "tail (violins, caught in the canon)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 1942,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-REF-DUN-EXP\\MUS-REF-DUN-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REF-DUN-EXP\\MUS-REF-DUN-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-DUN-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.2,
+  "wrap_step": 0.00828,
+  "p999_step": 0.04852,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.77,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    26,
+    27,
+    28,
+    29,
+    33,
+    35,
+    38,
+    39,
+    42,
+    45,
+    80,
+    81,
+    82,
+    83,
+    87
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

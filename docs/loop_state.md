@@ -13,7 +13,7 @@ Previous run (Music Pass 1) finished; its report is `docs/audio/music_pass_oct31
 | 1 | 21 stingers (Batch 07) | done (in game as WAV; victory sting fired after a pilot-played battle; GUT audio 89/89, smoke OK) |
 | 2 | D.N.A. Batch 03: NECRO-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
 | 3 | Buffet Batch 04: GOUR-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
-| 4 | Dump Batch 05: REF-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
+| 4 | Dump Batch 05: REF-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
 | 5 | Path extras Batch 08 (RELEASE, side dungeons with own BOSS, shops, minigames, Capital districts) | todo |
 
 Delivery after each part: `build.py IDS` -> `deliver.py --review "Batch NN"` + `--approve` -> `bash tools/import_audio.sh` -> `node tools/cut_stings.js`

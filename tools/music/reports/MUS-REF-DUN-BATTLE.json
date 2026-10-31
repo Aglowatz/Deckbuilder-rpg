@@ -1,0 +1,171 @@
+{
+ "id": "MUS-REF-DUN-BATTLE",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 186,
+ "meter": "6/8",
+ "bars": 156,
+ "seconds": 150.97,
+ "loop_seconds": 150.968,
+ "lufs": -20.0,
+ "true_peak": -4.6,
+ "lra": 7.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -20.8
+  },
+  {
+   "section": "A jig",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 3.9,
+   "lufs": -21.3
+  },
+  {
+   "section": "B tangle + motif",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 19.4,
+   "lufs": -21.3
+  },
+  {
+   "section": "sustained tension",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 34.8,
+   "lufs": -23.0
+  },
+  {
+   "section": "C fiddle variation",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 50.3,
+   "lufs": -20.7
+  },
+  {
+   "section": "spring glimpse",
+   "bar": 68,
+   "bars": 8,
+   "start_s": 65.8,
+   "lufs": -22.2
+  },
+  {
+   "section": "D cello theme, build",
+   "bar": 76,
+   "bars": 16,
+   "start_s": 73.5,
+   "lufs": -24.1
+  },
+  {
+   "section": "A' tutti",
+   "bar": 92,
+   "bars": 16,
+   "start_s": 89.0,
+   "lufs": -16.8
+  },
+  {
+   "section": "B' tangle tutti",
+   "bar": 108,
+   "bars": 16,
+   "start_s": 104.5,
+   "lufs": -19.8
+  },
+  {
+   "section": "E climax canon",
+   "bar": 124,
+   "bars": 16,
+   "start_s": 120.0,
+   "lufs": -16.5
+  },
+  {
+   "section": "wind-down",
+   "bar": 140,
+   "bars": 12,
+   "start_s": 135.5,
+   "lufs": -23.8
+  },
+  {
+   "section": "outro",
+   "bar": 152,
+   "bars": 4,
+   "start_s": 147.1,
+   "lufs": -20.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 26.0,
+   "form": "stated (horns through the tangle)",
+   "ch": "hn"
+  },
+  {
+   "bar": 108.0,
+   "form": "stated (horns, tutti)",
+   "ch": "hn"
+  },
+  {
+   "bar": 116.0,
+   "form": "stated a fourth up (horns)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 5315,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-REF-DUN-BATTLE\\MUS-REF-DUN-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REF-DUN-BATTLE\\MUS-REF-DUN-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-DUN-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.15,
+  "wrap_step": 0.0038,
+  "p999_step": 0.06553,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    1,
+    22,
+    23,
+    29,
+    34,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    74,
+    123,
+    148,
+    149,
+    150,
+    151
+   ],
+   "buried_bars": [
+    27
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

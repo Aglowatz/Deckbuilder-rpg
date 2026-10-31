@@ -1,0 +1,144 @@
+{
+ "id": "MUS-REF-FREED",
+ "kind": "loop",
+ "key": "E major",
+ "bpm": 168,
+ "meter": "6/8",
+ "bars": 120,
+ "seconds": 128.57,
+ "loop_seconds": 128.571,
+ "lufs": -20.0,
+ "true_peak": -4.9,
+ "lra": 10.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "spring glimmer",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -26.8
+  },
+  {
+   "section": "A flute jig",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 8.6,
+   "lufs": -21.1
+  },
+  {
+   "section": "A' fiddle",
+   "bar": 24,
+   "bars": 16,
+   "start_s": 25.7,
+   "lufs": -19.4
+  },
+  {
+   "section": "B resolved motif",
+   "bar": 40,
+   "bars": 16,
+   "start_s": 42.9,
+   "lufs": -22.6
+  },
+  {
+   "section": "C fiddle variation",
+   "bar": 56,
+   "bars": 16,
+   "start_s": 60.0,
+   "lufs": -21.2
+  },
+  {
+   "section": "D the lament in major",
+   "bar": 72,
+   "bars": 16,
+   "start_s": 77.1,
+   "lufs": -23.9
+  },
+  {
+   "section": "A'' tutti",
+   "bar": 88,
+   "bars": 24,
+   "start_s": 94.3,
+   "lufs": -16.5
+  },
+  {
+   "section": "outro glimmer",
+   "bar": 112,
+   "bars": 8,
+   "start_s": 120.0,
+   "lufs": -27.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 40.0,
+   "form": "RESOLVED (flute)",
+   "ch": "fl"
+  },
+  {
+   "bar": 48.0,
+   "form": "RESOLVED again (flute + fiddle 8vb)",
+   "ch": "fl"
+  },
+  {
+   "bar": 104.0,
+   "form": "RESOLVED (horns, tutti)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 3696,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-REF-FREED\\MUS-REF-FREED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REF-FREED\\MUS-REF-FREED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-FREED.mid"
+ },
+ "seam": {
+  "jump_db": 0.28,
+  "wrap_step": 0.00096,
+  "p999_step": 0.06956,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.82,
+   "bars_without_melody": [
+    0,
+    3,
+    4,
+    50,
+    53,
+    54,
+    76,
+    77,
+    82,
+    84,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    115,
+    116,
+    117
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

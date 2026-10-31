@@ -72,10 +72,10 @@
 			"file": "res://assets/audio/stings/STG-WIN-REF-BOSS.wav",
 			"loop": false,
 			"bus": "Music",
-			"volume_db": 4.6,
+			"volume_db": -0.1,
 			"zone": "",
 			"category": "Sting",
-			"use": "Winning the battle that plays MUS-REF-BOSS: its climax (157.7 s in), cut by tools/cut_stings.js",
+			"use": "Winning the battle that plays MUS-REF-BOSS: its climax (106.0 s in), cut by tools/cut_stings.js",
 			"duration": 3.6,
 			"gameplay": true
 		},

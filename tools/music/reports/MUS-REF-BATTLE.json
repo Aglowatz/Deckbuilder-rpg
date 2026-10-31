@@ -1,0 +1,128 @@
+{
+ "id": "MUS-REF-BATTLE",
+ "kind": "loop",
+ "key": "A Dorian",
+ "bpm": 144,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -6.0,
+ "lra": 5.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.6
+  },
+  {
+   "section": "A reel",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.7,
+   "lufs": -21.9
+  },
+  {
+   "section": "B horn call",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 33.3,
+   "lufs": -21.2
+  },
+  {
+   "section": "C fiddle variation",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 46.7,
+   "lufs": -20.8
+  },
+  {
+   "section": "D tension",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 73.3,
+   "lufs": -22.1
+  },
+  {
+   "section": "A' tutti",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 86.7,
+   "lufs": -17.1
+  },
+  {
+   "section": "outro",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 113.3,
+   "lufs": -21.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horns, the call)",
+   "ch": "hn"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (horns, A Dorian)",
+   "ch": "hn"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (horns + violins 8va)",
+   "ch": "hn"
+  },
+  {
+   "bar": 48.0,
+   "form": "tail (horns, under the fiddle)",
+   "ch": "hn"
+  },
+  {
+   "bar": 70.0,
+   "form": "head (horns, the call)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 3846,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-REF-BATTLE\\MUS-REF-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REF-BATTLE\\MUS-REF-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.01,
+  "wrap_step": 0.01827,
+  "p999_step": 0.05932,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.97,
+   "bars_without_melody": [
+    21,
+    48
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}
