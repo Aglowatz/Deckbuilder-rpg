@@ -50,7 +50,6 @@ to the game. Nothing in the Drive folder was moved, renamed or deleted: the impo
 
 These play, but the wrap is audible. Listed for the next production pass; the files are left as delivered.
 
-- MUS-GRAVE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
 - MUS-QUIZ: 0.45 s of digital silence at the wrap
 - MUS-SHOP-ALEMBIC: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail)
 - MUS-SHOP-ALEMBIC-POST: 0.51 s of digital silence at the wrap
@@ -61,8 +60,7 @@ These play, but the wrap is audible. Listed for the next production pass; the fi
 
 ### Loops to listen to (6-12 dB step at the wrap)
 
-- MUS-VAULT-BATTLE: listen: 8 dB step at the wrap
-- MUS-VAULT-BOSS: listen: 8 dB step at the wrap
+(none)
 
 ## Every ID
 
@@ -71,8 +69,8 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | ID | Cue | File | Kind | dB | Trigger(s) | Status | Loop check | Notes |
 |---|---|---|---|---|---|---|---|---|
 | MUS-ARCHIVE | Good intentions | `music/MUS-ARCHIVE.ogg` | story | +0.0 | Primm's Castle: the Archive gate node (`pc_archive_gate`) and the early-journals event (`pc_early_journals`) | In Game | n/a (one-shot) |  |
-| MUS-ARENA-BATTLE | The Grand Clashatorium | `music/MUS-ARENA-BATTLE.ogg` | loop, loop | +0.9 | Grand Clashatorium fights, Bronze and Silver Sand (BB-ARENA) | In Game | OK |  |
-| MUS-ARENA-ELITE | The championship card | `music/MUS-ARENA-ELITE.ogg` | loop, loop | +0.9 | Grand Clashatorium Gold Sand (tier 3) fights | In Game | OK |  |
+| MUS-ARENA-BATTLE | The Grand Clashatorium | `music/MUS-ARENA-BATTLE.ogg` | loop, loop | +0.1 | Grand Clashatorium fights, Bronze and Silver Sand (BB-ARENA) | In Game | OK |  |
+| MUS-ARENA-ELITE | The championship card | `music/MUS-ARENA-ELITE.ogg` | loop, loop | +0.1 | Grand Clashatorium Gold Sand (tier 3) fights | In Game | OK |  |
 | MUS-BEEF-BATTLE | The Gainlands — combat | `music/MUS-BEEF-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-GAIN; the town's corrupted beefcake gate envoy | In Game | OK |  |
 | MUS-BEEF-BOSS | Chancellor Clench, Iron Regent | `music/MUS-BEEF-BOSS.ogg` | loop, loop | +0.1 | House of Gains principal boss (BB-HOG, boss node) | In Game | OK |  |
 | MUS-BEEF-DUN-BATTLE | House of Gains — combat | `music/MUS-BEEF-DUN-BATTLE.ogg` | loop, loop | +0.1 | House of Gains battles and elites (BB-HOG) | In Game | OK |  |
@@ -110,8 +108,8 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-GOUR-EXP | The Endless Buffet — exploration | `music/MUS-GOUR-EXP.ogg` | loop, loop | +0.1 | The Endless Buffet (`ZoneScene`, zone `gourmand`) until its own completion flag is set | In Game | OK |  |
 | MUS-GOUR-FREED | The Endless Buffet — restored | `music/MUS-GOUR-FREED.ogg` | loop, loop | +0.1 | The Endless Buffet once `zone_gourmand_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-GOUR-RELEASE | The true Chef and a name freely given | `music/MUS-GOUR-RELEASE.ogg` | story | +0.0 | Test Kitchen leader release scene: cutscene `wonder` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
-| MUS-GRAVE-BATTLE | Something beneath the stones | `music/MUS-GRAVE-BATTLE.ogg` | loop, loop | +0.9 | The Restless Cairn scripted challenge (BB-GRAVE) | In Game | OK |  |
-| MUS-GRAVE-EXP | Old Hob's evening hum | `music/MUS-GRAVE-EXP.ogg` | loop, loop | +0.9 | The town graveyard (within 6 m of the Restless Cairn): lies over MUS-TOWN, hands back 3 m further out | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |
+| MUS-GRAVE-BATTLE | Something beneath the stones | `music/MUS-GRAVE-BATTLE.ogg` | loop, loop | +0.1 | The Restless Cairn scripted challenge (BB-GRAVE) | In Game | OK |  |
+| MUS-GRAVE-EXP | Old Hob's evening hum | `music/MUS-GRAVE-EXP.ogg` | loop, loop | +0.0 | The town graveyard (within 6 m of the Restless Cairn): lies over MUS-TOWN, hands back 3 m further out | In Game | OK |  |
 | MUS-LAB-BATTLE | Experiments still running | `music/MUS-LAB-BATTLE.ogg` | loop, loop | +0.0 | Lab battles (BB-LAB) | In Game | OK |  |
 | MUS-LAB-CELL | Ten years of marks | `music/MUS-LAB-CELL.ogg` | story | +0.0 | Path-ology Lab event node 7, "The Prince's Old Cell" (event `dg_d_lab_7`) | In Game | n/a (one-shot) |  |
 | MUS-LAB-EXP | The subject's corridors | `music/MUS-LAB-EXP.ogg` | loop, loop | +0.0 | Path-ology Lab node map (D-LAB, postgame) | In Game | OK |  |
@@ -158,7 +156,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-REF-FREED | The Verdant Dump — restored | `music/MUS-REF-FREED.ogg` | loop, loop | +0.1 | The Verdant Dump once `zone_refusemancer_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-REF-RELEASE | Compostella — let the seed return | `music/MUS-REF-RELEASE.ogg` | story | +0.0 | The Rotheart leader release scene: cutscene `sever` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +0.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |
-| MUS-SHIRO-BOSS | The oldest trick in the book | `music/MUS-SHIRO-BOSS.ogg` | loop, loop | +0.5 | Shiro Swindle's duel (after the giant-chest questline) | In Game | OK |  |
+| MUS-SHIRO-BOSS | The oldest trick in the book | `music/MUS-SHIRO-BOSS.ogg` | loop, loop | +0.1 | Shiro Swindle's duel (after the giant-chest questline) | In Game | OK |  |
 | MUS-SHOP-ALEMBIC | Essences together | `music/MUS-SHOP-ALEMBIC.ogg` | loop, loop | +0.9 | Auntie Alembic (Alchemist, town): vendor screen VS-ALEMBIC (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail) | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-ALEMBIC-POST | Three essences, new possibilities | `music/MUS-SHOP-ALEMBIC-POST.ogg` | loop, loop | +1.0 | VS-ALEMBIC after `postgame_unlocked` | In Game | Needs loop fix: 0.51 s of digital silence at the wrap | Replaces MUS-SHOP-ALEMBIC. |
 | MUS-SHOP-BEETSWORTH | Assistant to the regional merchant | `music/MUS-SHOP-BEETSWORTH.ogg` | loop, loop | +1.0 | Beetsworth (equipment, town): vendor screen VS-BEETSWORTH (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.45 s of digital silence at the wrap | Not retriggered by purchases; the area music resumes when the shop closes. |
@@ -187,9 +185,9 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Cave battles (BB-TUT) | In Game | OK |  |
 | MUS-TUT-BOSS | Hollow Warden — familiar scent | `music/MUS-TUT-BOSS.ogg` | loop, loop | +0.1 | Hollow Warden boss (BB-TUT, boss node) | In Game | OK | Its own track since Music Pass 1 (Oct 31); was an alias of MUS-TUT-BATTLE. |
 | MUS-TUT-EXP | Forgotten Cave — old passage | `music/MUS-TUT-EXP.ogg` | loop, loop | +0.1 | Forgotten Cave node map (D-TUT, no main/side dungeon active) | In Game | OK |  |
-| MUS-VAULT-BATTLE | Forgotten Vault — combat | `music/MUS-VAULT-BATTLE.ogg` | loop, loop | +0.7 | Forgotten Vault ordinary battles (BB-S-TOWN) | In Game | listen: 8 dB step at the wrap |  |
-| MUS-VAULT-BOSS | The Vault Guardian | `music/MUS-VAULT-BATTLE.ogg` (alias of MUS-VAULT-BATTLE) | loop, loop | +0.7 | Forgotten Vault boss (BB-S-TOWN, boss node; also the Warden of the Four Seals duel) | In Game | listen: 8 dB step at the wrap | Compatibility alias: plays MUS-VAULT-BATTLE's file. |
-| MUS-VAULT-EXP | Forgotten Vault — exploration | `music/MUS-VAULT-EXP.ogg` | loop, loop | +0.5 | Forgotten Vault node map (S-TOWN) and events | In Game | OK |  |
+| MUS-VAULT-BATTLE | Forgotten Vault — combat | `music/MUS-VAULT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Vault ordinary battles (BB-S-TOWN) | In Game | OK |  |
+| MUS-VAULT-BOSS | The Vault Guardian | `music/MUS-VAULT-BOSS.ogg` | loop, loop | +0.1 | Forgotten Vault boss (BB-S-TOWN, boss node; also the Warden of the Four Seals duel) | In Game | OK | Its own track since Music Pass 3 (Oct 31); was an alias of MUS-VAULT-BATTLE. |
+| MUS-VAULT-EXP | Forgotten Vault — exploration | `music/MUS-VAULT-EXP.ogg` | loop, loop | +0.1 | Forgotten Vault node map (S-TOWN) and events | In Game | OK |  |
 | MUS-WAIT-BATTLE | Waiting Room of Eternity — combat | `music/MUS-WAIT-BATTLE.ogg` | loop, loop | +0.1 | Waiting Room of Eternity ordinary battles (BB-S-NECRO) | In Game | OK |  |
 | MUS-WAIT-BOSS | Betty Bones | `music/MUS-WAIT-BOSS.ogg` | loop, loop | +0.1 | Waiting Room of Eternity boss (BB-S-NECRO, boss node) | In Game | OK | Its own track since Music Pass 2 (Oct 31); was an alias of MUS-WAIT-BATTLE. |
 | MUS-WAIT-EXP | Waiting Room of Eternity — exploration | `music/MUS-WAIT-EXP.ogg` | loop, loop | +0.0 | Waiting Room of Eternity node map (S-NECRO) and events | In Game | OK |  |

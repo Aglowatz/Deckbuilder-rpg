@@ -1,0 +1,125 @@
+{
+ "id": "MUS-GRAVE-EXP",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 96,
+ "meter": "3/4",
+ "bars": 64,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -7.1,
+ "lra": 8.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "lanterns",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.1
+  },
+  {
+   "section": "A the hum (bassoon, then Hob)",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.5,
+   "lufs": -19.4
+  },
+  {
+   "section": "B amusing",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 37.5,
+   "lufs": -19.4
+  },
+  {
+   "section": "C mist",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 67.5,
+   "lufs": -23.1
+  },
+  {
+   "section": "D all hum",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 97.5,
+   "lufs": -17.8
+  },
+  {
+   "section": "lanterns",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 112.5,
+   "lufs": -22.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "head (clarinet, a lantern peeking)",
+   "ch": "cl"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (clarinet, Bb major, amused)",
+   "ch": "cl"
+  },
+  {
+   "bar": 36.0,
+   "form": "inverted (cello, unease)",
+   "ch": "vc"
+  },
+  {
+   "bar": 60.0,
+   "form": "head (clarinet, a lantern peeking)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 923,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-GRAVE-EXP\\MUS-GRAVE-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-GRAVE-EXP\\MUS-GRAVE-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GRAVE-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.19,
+  "wrap_step": 0.01013,
+  "p999_step": 0.05207,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.83,
+   "bars_without_melody": [
+    3,
+    15,
+    23,
+    24,
+    35,
+    39,
+    40,
+    48,
+    49,
+    59,
+    61
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

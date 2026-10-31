@@ -1,0 +1,155 @@
+{
+ "id": "MUS-SHIRO-BOSS",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 152,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 113.68,
+ "loop_seconds": 113.684,
+ "lufs": -20.0,
+ "true_peak": -3.6,
+ "lra": 5.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "clappers",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.8
+  },
+  {
+   "section": "A the trick",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.3,
+   "lufs": -22.1
+  },
+  {
+   "section": "B the pose",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 31.6,
+   "lufs": -17.6
+  },
+  {
+   "section": "C chase (sincere)",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 44.2,
+   "lufs": -18.7
+  },
+  {
+   "section": "D brass trick",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 69.5,
+   "lufs": -22.6
+  },
+  {
+   "section": "E the pose again",
+   "bar": 60,
+   "bars": 8,
+   "start_s": 94.7,
+   "lufs": -19.2
+  },
+  {
+   "section": "clappers",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 107.4,
+   "lufs": -19.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horns, behind the curtain)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated (cello, under the trick)",
+   "ch": "vc"
+  },
+  {
+   "bar": 26.0,
+   "form": "stated (clarinet, regaining composure)",
+   "ch": "cl"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (horns, the sincere side)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "head augmented (trombones)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 66.0,
+   "form": "tail (clarinet, recovering)",
+   "ch": "cl"
+  },
+  {
+   "bar": 69.0,
+   "form": "head (horns, behind the curtain)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1825,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHIRO-BOSS\\MUS-SHIRO-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHIRO-BOSS\\MUS-SHIRO-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHIRO-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -0.96,
+  "wrap_step": 0.00546,
+  "p999_step": 0.05436,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.86,
+   "bars_without_melody": [
+    35,
+    46,
+    47,
+    50,
+    51,
+    54,
+    55,
+    58,
+    59,
+    67
+   ],
+   "buried_bars": [
+    2,
+    3,
+    12,
+    63,
+    70,
+    71
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Own idea SHIRO (sly figure) + the POSE/SLIP gesture; the sincere G-major melody in the chase."
+ ]
+}

@@ -1,0 +1,161 @@
+{
+ "id": "MUS-VAULT-BOSS",
+ "kind": "loop",
+ "key": "F# minor",
+ "bpm": 128,
+ "meter": "4/4",
+ "bars": 68,
+ "seconds": 127.5,
+ "loop_seconds": 127.5,
+ "lufs": -20.0,
+ "true_peak": -4.8,
+ "lra": 8.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "seal strokes",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.4
+  },
+  {
+   "section": "A the Guardian",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.5,
+   "lufs": -19.4
+  },
+  {
+   "section": "B four seals",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 37.5,
+   "lufs": -20.9
+  },
+  {
+   "section": "C hush",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 67.5,
+   "lufs": -25.6
+  },
+  {
+   "section": "climax",
+   "bar": 48,
+   "bars": 16,
+   "start_s": 90.0,
+   "lufs": -18.2
+  },
+  {
+   "section": "seal strokes",
+   "bar": 64,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -19.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horns, over the seals)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated (trumpet, defying)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated - horn (Beefcake seal)",
+   "ch": "hn"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated - celesta (Necrocrat seal)",
+   "ch": "cel"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated - clarinet (Gourmand seal)",
+   "ch": "cl"
+  },
+  {
+   "bar": 32.0,
+   "form": "stated - flute (Refusemancer seal)",
+   "ch": "fl"
+  },
+  {
+   "bar": 44.0,
+   "form": "head augmented (cello, hush)",
+   "ch": "vc"
+  },
+  {
+   "bar": 50.0,
+   "form": "augmented (horns, climax)",
+   "ch": "hn"
+  },
+  {
+   "bar": 56.0,
+   "form": "stated (violins high, climax)",
+   "ch": "vln"
+  },
+  {
+   "bar": 65.0,
+   "form": "head (horns, over the seals)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1733,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-VAULT-BOSS\\MUS-VAULT-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-VAULT-BOSS\\MUS-VAULT-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-VAULT-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -0.03,
+  "wrap_step": 0.00571,
+  "p999_step": 0.05062,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.84,
+   "bars_without_melody": [
+    0,
+    7,
+    17,
+    27,
+    43,
+    45,
+    46,
+    61,
+    62,
+    63,
+    64
+   ],
+   "buried_bars": [
+    26,
+    31,
+    34
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Own villain idea SEALS (four strokes + a grinding answer); the vault's royal phrase inverted as the corrupted theme."
+ ]
+}

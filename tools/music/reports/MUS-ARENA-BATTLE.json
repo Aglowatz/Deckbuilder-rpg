@@ -1,0 +1,145 @@
+{
+ "id": "MUS-ARENA-BATTLE",
+ "kind": "loop",
+ "key": "Eb major",
+ "bpm": 140,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 109.71,
+ "loop_seconds": 109.714,
+ "lufs": -20.0,
+ "true_peak": -6.3,
+ "lra": 6.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "fanfare",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.6
+  },
+  {
+   "section": "A the tune",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.9,
+   "lufs": -20.1
+  },
+  {
+   "section": "B strategy",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 34.3,
+   "lufs": -23.4
+  },
+  {
+   "section": "C the tune, strings",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 61.7,
+   "lufs": -19.2
+  },
+  {
+   "section": "D presenting",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 89.1,
+   "lufs": -18.9
+  },
+  {
+   "section": "fanfare",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 102.9,
+   "lufs": -19.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (glockenspiel sparkle)",
+   "ch": "glock"
+  },
+  {
+   "bar": 8.0,
+   "form": "stated (flute, over the trumpets)",
+   "ch": "fl"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (horn, strategy)",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated (clarinet)",
+   "ch": "cl"
+  },
+  {
+   "bar": 38.0,
+   "form": "countermelody (horns, under the violins)",
+   "ch": "hn"
+  },
+  {
+   "bar": 46.0,
+   "form": "head augmented (trombones)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 62.0,
+   "form": "head (glockenspiel sparkle)",
+   "ch": "glock"
+  }
+ ],
+ "notes": 1687,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-ARENA-BATTLE\\MUS-ARENA-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-ARENA-BATTLE\\MUS-ARENA-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-ARENA-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.31,
+  "wrap_step": 0.0061,
+  "p999_step": 0.06096,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.86,
+   "bars_without_melody": [
+    11,
+    21,
+    25,
+    26,
+    34,
+    35,
+    53,
+    56,
+    63
+   ],
+   "buried_bars": [
+    0,
+    2,
+    3,
+    59,
+    60,
+    62
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}
