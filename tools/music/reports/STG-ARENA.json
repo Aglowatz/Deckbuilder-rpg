@@ -1,0 +1,54 @@
+{
+ "id": "STG-ARENA",
+ "kind": "oneshot",
+ "key": "D major",
+ "bpm": 126,
+ "meter": "4/4",
+ "bars": 2,
+ "seconds": 5.0,
+ "loop_seconds": 3.81,
+ "lufs": -17.0,
+ "true_peak": -2.3,
+ "lra": 1.1,
+ "limited_db": 0.17,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 2,
+   "start_s": 0.0,
+   "lufs": -16.8
+  }
+ ],
+ "motifs": [],
+ "notes": 66,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-ARENA\\STG-ARENA.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-ARENA\\STG-ARENA.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-ARENA.mid"
+ },
+ "onset_ms": 5.7,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.5,
+   "bars_without_melody": [
+    1
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

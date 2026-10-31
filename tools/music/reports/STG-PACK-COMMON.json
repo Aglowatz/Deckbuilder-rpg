@@ -1,0 +1,54 @@
+{
+ "id": "STG-PACK-COMMON",
+ "kind": "oneshot",
+ "key": "C major",
+ "bpm": 140,
+ "meter": "2/4",
+ "bars": 1,
+ "seconds": 1.9,
+ "loop_seconds": 0.857,
+ "lufs": -17.0,
+ "true_peak": -4.2,
+ "lra": 0.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -14.2
+  }
+ ],
+ "motifs": [],
+ "notes": 11,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-PACK-COMMON\\STG-PACK-COMMON.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-PACK-COMMON\\STG-PACK-COMMON.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-PACK-COMMON.mid"
+ },
+ "onset_ms": 2.5,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.0,
+   "bars_without_melody": [
+    0
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

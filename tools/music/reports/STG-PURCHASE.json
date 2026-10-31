@@ -1,0 +1,54 @@
+{
+ "id": "STG-PURCHASE",
+ "kind": "oneshot",
+ "key": "C major",
+ "bpm": 150,
+ "meter": "2/4",
+ "bars": 1,
+ "seconds": 1.0,
+ "loop_seconds": 0.8,
+ "lufs": -16.9,
+ "true_peak": -6.7,
+ "lra": 0.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -16.3
+  }
+ ],
+ "motifs": [],
+ "notes": 5,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-PURCHASE\\STG-PURCHASE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-PURCHASE\\STG-PURCHASE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-PURCHASE.mid"
+ },
+ "onset_ms": 2.4,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.0,
+   "bars_without_melody": [
+    0
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

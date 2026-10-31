@@ -1,0 +1,52 @@
+{
+ "id": "STG-SHIRO",
+ "kind": "oneshot",
+ "key": "C major -> Db major",
+ "bpm": 132,
+ "meter": "4/4",
+ "bars": 1,
+ "seconds": 3.5,
+ "loop_seconds": 1.818,
+ "lufs": -16.8,
+ "true_peak": -5.8,
+ "lra": 1.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -15.5
+  }
+ ],
+ "motifs": [],
+ "notes": 18,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-SHIRO\\STG-SHIRO.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-SHIRO\\STG-SHIRO.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-SHIRO.mid"
+ },
+ "onset_ms": 4.9,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

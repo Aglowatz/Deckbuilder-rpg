@@ -12,8 +12,16 @@ const byFile = {};
 for (const r of registry.records) byFile[r.file] = r;
 const db = (x) => 20 * Math.log10(Math.max(x, 1e-9));
 const rows = [['id', 'file', 'loop', 'frames', 'registry_loop_end', 'lufs', 'true_peak_db', 'lra', 'click', 'gap_s', 'jump_db', 'end_db', 'start_db', 'flags']];
+// Music Pass 2: AUDIO_ONLY="STG-,MUS-NECRO-" analyses only files whose name starts with one of the prefixes; every other row is kept
+// from the existing CSV (a full pass over the Drive takes ~9 min).
+const only = (process.env.AUDIO_ONLY || '').split(',').map((x) => x.trim()).filter(Boolean);
+const keep = {};
+if (only.length && fs.existsSync(outCsv)) {
+  for (const line of fs.readFileSync(outCsv, 'utf8').split(/\r?\n/).slice(1)) if (line.trim()) keep[line.split(',')[1]] = line.split(',');
+}
 const files = fs.readdirSync(dir).filter((f) => /\.(ogg|wav)$/.test(f)).sort();
 for (const f of files) {
+  if (only.length && !only.some((x) => f.startsWith(x)) && keep[f]) { rows.push(keep[f]); continue; }
   const p = path.join(dir, f);
   const ebu = cp.spawnSync(path.join(ff, 'ffmpeg'), ['-nostats', '-i', p, '-af', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' }).stderr.split('\n').slice(-16).join('\n');
   const num = (re) => { const m = ebu.match(re); return m ? parseFloat(m[1]) : NaN; };

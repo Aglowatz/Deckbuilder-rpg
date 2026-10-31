@@ -1,0 +1,56 @@
+{
+ "id": "STG-CRAFT-POST",
+ "kind": "oneshot",
+ "key": "A major",
+ "bpm": 120,
+ "meter": "4/4",
+ "bars": 2,
+ "seconds": 4.8,
+ "loop_seconds": 4.0,
+ "lufs": -17.0,
+ "true_peak": -4.4,
+ "lra": 1.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 2,
+   "start_s": 0.0,
+   "lufs": -17.0
+  }
+ ],
+ "motifs": [],
+ "notes": 30,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-CRAFT-POST\\STG-CRAFT-POST.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-CRAFT-POST\\STG-CRAFT-POST.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-CRAFT-POST.mid"
+ },
+ "onset_ms": 11.2,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.5,
+   "bars_without_melody": [
+    1
+   ],
+   "buried_bars": [
+    0
+   ],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

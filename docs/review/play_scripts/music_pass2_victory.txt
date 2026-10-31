@@ -1,0 +1,28 @@
+# Music Pass 2 (Oct 31): a normal battle in Crosspath, played to a win by the built-in pilot, so STG-VICTORY fires the ordinary way.
+# Run with MUSIC_LOG=1 so the MusicManager writes its cues ("play MUS-TOWN-BATTLE", "sting STG-VICTORY") to stdout.log.
+wait 6
+button New Game
+wait 1.5
+button Start here
+wait 5
+skip_dialogue 30
+wait 2
+dev travel town
+wait 8
+dev level 12
+dev encounters town
+dev encounter town
+wait 2
+skip_dialogue 10
+shot 01_battle_start
+scene
+pilot 240
+wait 1
+shot 02_after_pilot
+scene
+wait 3
+shot 03_victory
+dump
+wait 4
+shot 04_after
+scene

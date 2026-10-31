@@ -1,0 +1,69 @@
+{
+ "id": "STG-VICTORY",
+ "kind": "oneshot",
+ "key": "Bb major",
+ "bpm": 120,
+ "meter": "4/4",
+ "bars": 2,
+ "seconds": 4.0,
+ "loop_seconds": 4.0,
+ "lufs": -17.0,
+ "true_peak": -4.8,
+ "lra": 0.7,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "lift",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -17.6
+  },
+  {
+   "section": "cadence",
+   "bar": 1,
+   "bars": 1,
+   "start_s": 2.0,
+   "lufs": -17.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.25,
+   "form": "RESOLVED tail (trumpets): the battle lands home",
+   "ch": "tpt"
+  }
+ ],
+ "notes": 76,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-VICTORY\\STG-VICTORY.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-VICTORY\\STG-VICTORY.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-VICTORY.mid"
+ },
+ "onset_ms": 5.4,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.5,
+   "bars_without_melody": [
+    1
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": [
+  "Resolved Crossroads tail D C Bb (the one exception outside freed tracks). ~4 s with the ring; no fanfare repeat."
+ ]
+}

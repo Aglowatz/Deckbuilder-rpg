@@ -1,0 +1,54 @@
+{
+ "id": "STG-PACK-RARE",
+ "kind": "oneshot",
+ "key": "D major",
+ "bpm": 120,
+ "meter": "4/4",
+ "bars": 1,
+ "seconds": 3.6,
+ "loop_seconds": 2.0,
+ "lufs": -17.0,
+ "true_peak": -6.2,
+ "lra": 1.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -16.1
+  }
+ ],
+ "motifs": [],
+ "notes": 23,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-PACK-RARE\\STG-PACK-RARE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-PACK-RARE\\STG-PACK-RARE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-PACK-RARE.mid"
+ },
+ "onset_ms": 4.5,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.0,
+   "bars_without_melody": [
+    0
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

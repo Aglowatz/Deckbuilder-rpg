@@ -1,0 +1,61 @@
+{
+ "id": "STG-ZONE-REF",
+ "kind": "oneshot",
+ "key": "E Dorian -> E major",
+ "bpm": 174,
+ "meter": "6/8",
+ "bars": 5,
+ "seconds": 8.0,
+ "loop_seconds": 5.172,
+ "lufs": -17.0,
+ "true_peak": -5.2,
+ "lra": 6.7,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 5,
+   "start_s": 0.0,
+   "lufs": -16.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "RESOLVED tail (flute, E major)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 95,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-ZONE-REF\\STG-ZONE-REF.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-ZONE-REF\\STG-ZONE-REF.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-ZONE-REF.mid"
+ },
+ "onset_ms": 4.1,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.6,
+   "bars_without_melody": [
+    3,
+    4
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

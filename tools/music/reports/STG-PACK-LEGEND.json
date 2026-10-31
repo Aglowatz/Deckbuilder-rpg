@@ -1,0 +1,56 @@
+{
+ "id": "STG-PACK-LEGEND",
+ "kind": "oneshot",
+ "key": "Eb major",
+ "bpm": 96,
+ "meter": "4/4",
+ "bars": 2,
+ "seconds": 6.0,
+ "loop_seconds": 5.0,
+ "lufs": -17.0,
+ "true_peak": -5.4,
+ "lra": 1.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 2,
+   "start_s": 0.0,
+   "lufs": -16.7
+  }
+ ],
+ "motifs": [],
+ "notes": 70,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-PACK-LEGEND\\STG-PACK-LEGEND.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-PACK-LEGEND\\STG-PACK-LEGEND.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-PACK-LEGEND.mid"
+ },
+ "onset_ms": 5.1,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 8,
+   "bars": [
+    0
+   ],
+   "ok": false
+  },
+  "melody": {
+   "coverage": 0.5,
+   "bars_without_melody": [
+    1
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

@@ -1,0 +1,54 @@
+{
+ "id": "STG-RIFT",
+ "kind": "oneshot",
+ "key": "D major",
+ "bpm": 90,
+ "meter": "4/4",
+ "bars": 1,
+ "seconds": 5.0,
+ "loop_seconds": 2.667,
+ "lufs": -17.0,
+ "true_peak": -4.1,
+ "lra": 2.3,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -20.2
+  }
+ ],
+ "motifs": [],
+ "notes": 25,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-RIFT\\STG-RIFT.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-RIFT\\STG-RIFT.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-RIFT.mid"
+ },
+ "onset_ms": 5.9,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.0,
+   "bars_without_melody": [
+    0
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}

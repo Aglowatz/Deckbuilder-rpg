@@ -1,0 +1,58 @@
+{
+ "id": "STG-ZONE-NECRO",
+ "kind": "oneshot",
+ "key": "C minor -> C major",
+ "bpm": 116,
+ "meter": "3/4",
+ "bars": 4,
+ "seconds": 8.0,
+ "loop_seconds": 6.207,
+ "lufs": -17.0,
+ "true_peak": -5.2,
+ "lra": 1.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -16.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 3.0,
+   "form": "RESOLVED tail (horn, C major): approved",
+   "ch": "hn"
+  }
+ ],
+ "notes": 75,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-ZONE-NECRO\\STG-ZONE-NECRO.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-ZONE-NECRO\\STG-ZONE-NECRO.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-ZONE-NECRO.mid"
+ },
+ "onset_ms": 3.2,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

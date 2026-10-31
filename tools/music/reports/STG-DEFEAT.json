@@ -1,0 +1,58 @@
+{
+ "id": "STG-DEFEAT",
+ "kind": "oneshot",
+ "key": "D minor -> F major",
+ "bpm": 72,
+ "meter": "4/4",
+ "bars": 1,
+ "seconds": 5.0,
+ "loop_seconds": 3.333,
+ "lufs": -17.0,
+ "true_peak": -7.5,
+ "lra": 1.3,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -16.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.38,
+   "form": "head (clarinet, a quiet question under the fall)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 34,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-DEFEAT\\STG-DEFEAT.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-DEFEAT\\STG-DEFEAT.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-DEFEAT.mid"
+ },
+ "onset_ms": 3.4,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

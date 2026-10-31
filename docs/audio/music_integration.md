@@ -204,24 +204,24 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-WAIT-BATTLE | Waiting Room of Eternity — combat | `music/MUS-WAIT-BATTLE.ogg` | loop, loop | +1.1 | Waiting Room of Eternity ordinary battles (BB-S-NECRO) | In Game | OK |  |
 | MUS-WAIT-BOSS | Betty Bones | `music/MUS-WAIT-BATTLE.ogg` (alias of MUS-WAIT-BATTLE) | loop, loop | +1.1 | Waiting Room of Eternity boss (BB-S-NECRO, boss node) | In Game | OK | Compatibility alias: plays MUS-WAIT-BATTLE's file. |
 | MUS-WAIT-EXP | Waiting Room of Eternity — exploration | `music/MUS-WAIT-EXP.ogg` | loop, loop | +1.0 | Waiting Room of Eternity node map (S-NECRO) and events | In Game | OK |  |
-| STG-ARENA | Grand Bellows presents | `stings/STG-ARENA.wav` | sting | +6.1 | Arena screen opens | In Game | n/a (one-shot) |  |
-| STG-CRAFT | Two Paths, one new card | `stings/STG-CRAFT.wav` | sting | +5.8 | Alchemist craft (two Paths) | In Game | n/a (one-shot) |  |
-| STG-CRAFT-POST | More than two | `stings/STG-CRAFT-POST.wav` | sting | +5.9 | Alchemist craft with three or more Paths | In Game | n/a (one-shot) |  |
-| STG-DEFEAT | A setback, not the end | `stings/STG-DEFEAT.wav` | sting | +6.0 | Battle lost (`defeat` effect name) | In Game | n/a (one-shot) |  |
-| STG-DUNGEON | The way through | `stings/STG-DUNGEON.wav` | sting | +6.0 | Dungeon cleared: the Forgotten Cave's end, a side dungeon first / repeat clear | In Game | n/a (one-shot) |  |
-| STG-LEVEL | A little stronger | `stings/STG-LEVEL.wav` | sting | +5.7 | Level-up popup and unlock fanfares (the `level_up` effect name) | In Game | n/a (one-shot) |  |
-| STG-MINI-FAIL | Try another approach | `stings/STG-MINI-FAIL.wav` | sting | +5.8 | Quiz or minigame failed | In Game | n/a (one-shot) |  |
-| STG-MINI-SUCCESS | Correctly sorted | `stings/STG-MINI-SUCCESS.wav` | sting | +6.2 | Quiz, minigame or puzzle passed | In Game | n/a (one-shot) |  |
-| STG-PACK-COMMON | A new possibility | `stings/STG-PACK-COMMON.wav` | sting | +7.5 | Pack opening: the pack tears open | In Game | n/a (one-shot) |  |
-| STG-PACK-LEGEND | A legend in your hands | `stings/STG-PACK-LEGEND.wav` | sting | +6.0 | Pack reveal: a legendary card | In Game | n/a (one-shot) |  |
-| STG-PACK-RARE | Something special | `stings/STG-PACK-RARE.wav` | sting | +5.8 | Pack reveal: a rare or epic card | In Game | n/a (one-shot) |  |
-| STG-PURCHASE | A good bargain | `stings/STG-PURCHASE.wav` | sting | +6.5 | Any vendor purchase (cards, items, equipment, packs, tailor) | In Game | n/a (one-shot) |  |
-| STG-QUEST | A promise kept | `stings/STG-QUEST.wav` | sting | +6.2 | Quest completed popup (`RewardPopup`) | In Game | n/a (one-shot) |  |
-| STG-RIFT | The seam closes | `stings/STG-RIFT.wav` | sting | +5.9 | A Capital rift sealed | In Game | n/a (one-shot) |  |
-| STG-SECRET | An unexpected way | `stings/STG-SECRET.wav` | sting | +6.1 | A secret discovered (`Session.discover_secret`) | In Game | n/a (one-shot) |  |
-| STG-SHIRO | Smoke bomb! | `stings/STG-SHIRO.wav` | sting | +2.8 | Shiro's smoke bomb | In Game | n/a (one-shot) |  |
-| STG-VICTORY | Battle won | `stings/STG-VICTORY.wav` | sting | +6.0 | Battle won (`BattleScreen` result; the `victory` effect name plays this sting) | In Game | n/a (one-shot) |  |
-| STG-ZONE-BEEF | The wheels breathe again | `stings/STG-ZONE-BEEF.wav` | sting | +6.1 | The Gainlands freed (announcement screen) | In Game | n/a (one-shot) |  |
-| STG-ZONE-GOUR | A meal worth sharing | `stings/STG-ZONE-GOUR.wav` | sting | +6.1 | The Endless Buffet freed | In Game | n/a (one-shot) |  |
-| STG-ZONE-NECRO | Approved: humanity | `stings/STG-ZONE-NECRO.wav` | sting | +6.1 | The D.N.A. freed | In Game | n/a (one-shot) |  |
-| STG-ZONE-REF | Back to the soil | `stings/STG-ZONE-REF.wav` | sting | +6.1 | The Verdant Dump freed | In Game | n/a (one-shot) |  |
+| STG-ARENA | Grand Bellows presents | `stings/STG-ARENA.wav` | sting | +0.0 | Arena screen opens | In Game | n/a (one-shot) |  |
+| STG-CRAFT | Two Paths, one new card | `stings/STG-CRAFT.wav` | sting | +0.0 | Alchemist craft (two Paths) | In Game | n/a (one-shot) |  |
+| STG-CRAFT-POST | More than two | `stings/STG-CRAFT-POST.wav` | sting | +0.0 | Alchemist craft with three or more Paths | In Game | n/a (one-shot) |  |
+| STG-DEFEAT | A setback, not the end | `stings/STG-DEFEAT.wav` | sting | +0.0 | Battle lost (`defeat` effect name) | In Game | n/a (one-shot) |  |
+| STG-DUNGEON | The way through | `stings/STG-DUNGEON.wav` | sting | +0.0 | Dungeon cleared: the Forgotten Cave's end, a side dungeon first / repeat clear | In Game | n/a (one-shot) |  |
+| STG-LEVEL | A little stronger | `stings/STG-LEVEL.wav` | sting | +0.0 | Level-up popup and unlock fanfares (the `level_up` effect name) | In Game | n/a (one-shot) |  |
+| STG-MINI-FAIL | Try another approach | `stings/STG-MINI-FAIL.wav` | sting | +0.0 | Quiz or minigame failed | In Game | n/a (one-shot) |  |
+| STG-MINI-SUCCESS | Correctly sorted | `stings/STG-MINI-SUCCESS.wav` | sting | +0.0 | Quiz, minigame or puzzle passed | In Game | n/a (one-shot) |  |
+| STG-PACK-COMMON | A new possibility | `stings/STG-PACK-COMMON.wav` | sting | +0.0 | Pack opening: the pack tears open | In Game | n/a (one-shot) |  |
+| STG-PACK-LEGEND | A legend in your hands | `stings/STG-PACK-LEGEND.wav` | sting | +0.0 | Pack reveal: a legendary card | In Game | n/a (one-shot) |  |
+| STG-PACK-RARE | Something special | `stings/STG-PACK-RARE.wav` | sting | +0.0 | Pack reveal: a rare or epic card | In Game | n/a (one-shot) |  |
+| STG-PURCHASE | A good bargain | `stings/STG-PURCHASE.wav` | sting | +0.0 | Any vendor purchase (cards, items, equipment, packs, tailor) | In Game | n/a (one-shot) |  |
+| STG-QUEST | A promise kept | `stings/STG-QUEST.wav` | sting | +0.0 | Quest completed popup (`RewardPopup`) | In Game | n/a (one-shot) |  |
+| STG-RIFT | The seam closes | `stings/STG-RIFT.wav` | sting | +0.0 | A Capital rift sealed | In Game | n/a (one-shot) |  |
+| STG-SECRET | An unexpected way | `stings/STG-SECRET.wav` | sting | +0.0 | A secret discovered (`Session.discover_secret`) | In Game | n/a (one-shot) |  |
+| STG-SHIRO | Smoke bomb! | `stings/STG-SHIRO.wav` | sting | +0.0 | Shiro's smoke bomb | In Game | n/a (one-shot) |  |
+| STG-VICTORY | Battle won | `stings/STG-VICTORY.wav` | sting | +0.0 | Battle won (`BattleScreen` result; the `victory` effect name plays this sting) | In Game | n/a (one-shot) |  |
+| STG-ZONE-BEEF | The wheels breathe again | `stings/STG-ZONE-BEEF.wav` | sting | +0.0 | The Gainlands freed (announcement screen) | In Game | n/a (one-shot) |  |
+| STG-ZONE-GOUR | A meal worth sharing | `stings/STG-ZONE-GOUR.wav` | sting | +0.0 | The Endless Buffet freed | In Game | n/a (one-shot) |  |
+| STG-ZONE-NECRO | Approved: humanity | `stings/STG-ZONE-NECRO.wav` | sting | +0.0 | The D.N.A. freed | In Game | n/a (one-shot) |  |
+| STG-ZONE-REF | Back to the soil | `stings/STG-ZONE-REF.wav` | sting | +0.0 | The Verdant Dump freed | In Game | n/a (one-shot) |  |

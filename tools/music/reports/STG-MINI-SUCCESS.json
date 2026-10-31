@@ -1,0 +1,54 @@
+{
+ "id": "STG-MINI-SUCCESS",
+ "kind": "oneshot",
+ "key": "C major",
+ "bpm": 132,
+ "meter": "2/4",
+ "bars": 1,
+ "seconds": 1.8,
+ "loop_seconds": 0.909,
+ "lufs": -17.0,
+ "true_peak": -3.1,
+ "lra": 0.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "all",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -14.5
+  }
+ ],
+ "motifs": [],
+ "notes": 5,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\STG-MINI-SUCCESS\\STG-MINI-SUCCESS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\STG-MINI-SUCCESS\\STG-MINI-SUCCESS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-MINI-SUCCESS.mid"
+ },
+ "onset_ms": 2.4,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.0,
+   "bars_without_melody": [
+    0
+   ],
+   "buried_bars": [],
+   "ok": false
+  }
+ },
+ "composer_notes": []
+}
