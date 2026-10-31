@@ -4,6 +4,43 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Dialogue critic pass (Oct 31) - yours to decide (nothing in the game was changed)
+
+Report: `docs/dialogue/critic_report_oct31.md`. Suggestions: `docs/dialogue/critic_suggestions_oct31.csv` (210 rows). To review them in the
+sheet, paste `docs/dialogue/critic_oct31/sheet_columns.csv` (same row order as the Dialogue Edit tab: Critic suggestion, Accept (Y), Why,
+Category, Priority) beside the tab, type Y where you agree, and download it over `edit_oct27.csv`. The importer now reads those columns
+(`docs/dialogue/edit_oct27/README.md`).
+
+1. **The sheet had no designer "New line" rewrites.** The brief said your rewrites set the voice, but the Dialogue Edit tab (F) and
+   `edit_oct27.csv` were empty in every row on Oct 31, so the pass learned the voice from the bibles and the strongest current lines. If
+   your rewrites are in another copy of the sheet, point me at it, and I'll re-check the suggestions against them (any that touch your
+   lines get marked "designer line").
+2. **Should I paste the critic columns into the sheet for you?** I didn't write to the design sheet. Say "paste them" and I'll add
+   Critic suggestion / Accept (Y) / Why / Priority as new columns on the Dialogue Edit tab.
+3. **Almost 60 suggestions restore lines the Oct 21 ChatGPT pass flattened** (castle, ending, freed Capital; `review_flags.md` flags 4-18,
+   21-22, 35-36). If you would rather restore the exact old text, `--revert=docs/dialogue/chatgpt_pass_oct21/review_flags_ids.txt` does that. The
+   suggestions differ in small ways: present tense, tokens, tested phrases kept, and "Watch." instead of "Watch how it's done."
+4. **The Crosspath gatekeeper barks** (Brick, Prudence, Fennel, Moss in `npcs.json`, named "(corrupted)") read as freed voices. Are they
+   shown before or after each gatekeeper is beaten? If before, they need corrupted versions.
+5. **The Lab, alone path:** "Her father held the door." Does the Wanderer know by then that Siphon is Elowen's father? If not: "Siphon. He
+   held the door."
+6. **Elowen's "You came for me. Twice, if you count the woods."** In the woods she rescued him. What is the second time?
+7. **The Grand Chef's "You have been my prisoner for five minutes"** (`cutscene.wonder.6::1`): a deliberate role-reversal joke?
+8. **Druid Sorrel** is narrated at the Dump's centre bridge; the voice bible says "no unseen Druid Sorrel". Add a model, or give her lines
+   to Billie or Bramble?
+9. **Rip's shirt number** bark says 213 (the Wanderer's D.N.A. number); the story bible's gag is 212. Is that deliberate?
+10. **Names to settle:** the boss room ("The Scale Model Chamber" / "the Chamber of the Model" / "the Model Room"); the Trophy Hall unit
+    ("1/1 Militia" in the rule text vs "1/1 Reserve Guard" in the banner); the hamster wheels "Gerald" and "The Colonel" (shared names);
+    "parlor" vs "parlour".
+11. **Who reads the freed Capital broadcasts?** They are labelled Plume, but one says "Nobody is on the other end".
+12. **Not changeable by the importer** (literal names where a token belongs): "Elowen..." (`lab_study/steps/3`) and "Elowen" in
+    `event.lab_cell4.body`, because `{rescuer}` has no fixed fill. The "THE SHOWCASE QUARTER" sign headings would print the token in lower
+    case. Hand edits after the freeze?
+13. **A dev note shown to players:** `ending.postgame.line.2` "(no tri-Path recipes exist yet)". Cut it, or make the recipes?
+14. **Export speaker labels** are wrong for the Paste Works quest (Marlo, not Maren), `fx.wake_outside` (a guard, not Hesper) and the
+    `.rushed` Primm-fight variants (the Wanderer, not Primm). I didn't fix `tools/export_dialogue.js`, because the CSV you edit would
+    change under you. Say "fix the labels" and I'll re-export the labels only.
+
 ## Music Pass 3 (Oct 31) - yours to decide (the safest choice was taken)
 
 Report: `docs/audio/music_pass3_oct31.md` (a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 06\`

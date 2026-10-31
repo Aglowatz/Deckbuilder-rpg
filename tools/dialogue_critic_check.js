@@ -85,6 +85,15 @@ function bannedNames() {
 	return out;
 }
 
+// What the plain tokens fill to (data/story/royal_family.tres, villain.tres), for literal-name -> token swaps.
+function fills() {
+	const read = (f) => Object.fromEntries([...fs.readFileSync(path.join(root, f), 'utf8').matchAll(/^(\w+) = "(.*)"$/gm)].map((m) => [m[1], m[2]]));
+	const r = read('data/story/royal_family.tres'), v = read('data/story/villain.tres');
+	return { '{villain}': v.villain_name, '{villain_title}': v.villain_title, '{town}': r.town, '{kingdom}': r.kingdom, '{showcase}': r.showcase,
+		'{pathordia}': r.capital_liberated, '{royal_house}': r.royal_house, '{king}': r.king_name, '{queen}': r.queen_name };
+}
+const FILLS = fills();
+
 // A multi-word phrase (8+ characters) a test literal names is a story beat to keep; a single word (a name, a place) is only a warning.
 const hardPhrase = (h) => h.phrase.includes(' ') && h.phrase.length >= 8;
 const tokensOf = (s) => (s.match(/\{[a-z_]+\}/g) || []).sort().join('');
@@ -97,7 +106,12 @@ function problemsOf(id, old, text, prot, banned) {
 	if (/[\r\n\t]/.test(text)) p.push('line break or tab');
 	const odd = [...text].filter((c) => (c < ' ' || c > '~') && !old.includes(c));
 	if (odd.length) p.push(`odd characters ${JSON.stringify([...new Set(odd)].join(''))}`);
-	if (tokensOf(old) !== tokensOf(text)) p.push(`tokens ${tokensOf(old) || '(none)'} -> ${tokensOf(text) || '(none)'}`);
+	// Like tools/apply_dialogue_pass.js: no token may be lost; a token may only be added in place of the literal name it fills to (a story
+	// line that spelled "Crosspath" may say {town}), and not in a file the game shows literally.
+	const lost = (old.match(/\{[a-z_]+\}/g) || []).filter((t) => !text.includes(t));
+	const added = (text.match(/\{[a-z_]+\}/g) || []).filter((t) => !old.includes(t));
+	const swapOk = (t) => !noTokenFile(id) && FILLS[t] && old.includes(FILLS[t]) && !(FILLS[t][0] !== FILLS[t][0].toUpperCase() && text.startsWith(t));
+	if (lost.length || !added.every(swapOk) || (!added.length && tokensOf(old) !== tokensOf(text))) p.push(`tokens ${tokensOf(old) || '(none)'} -> ${tokensOf(text) || '(none)'}`);
 	const unknown = (text.match(/\{[a-z_]+\}/g) || []).filter((t) => !TOKENS.includes(t));
 	if (unknown.length) p.push(`unknown token ${unknown.join('')}`);
 	if (placeholdersOf(old) !== placeholdersOf(text)) p.push('%s/%d changed');

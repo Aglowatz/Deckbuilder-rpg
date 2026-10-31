@@ -265,4 +265,25 @@ making it; three exclamation marks where one would do (except Tilly and Bellows,
 Inventions that the pass's suggestions add. They must not contradict canon; none is load-bearing. The Part 2 agents append theirs to
 `docs/dialogue/critic_oct31/notes_*.md`; the merged list is below.
 
-(merged after Part 2)
+Each one lives only in the suggestion that introduces it, and goes away if that suggestion is not accepted.
+
+- **Crosspath:** Bertram's Security Protocol Three covers the drawer (One is the gait check). Alembic's flasks bubble in every colour when
+  the Wanderer passes (the four-colours clue, unexplained). Townsfolk credit {villain} with clean wells (an existing canon reform).
+- **Gainlands:** Professor Pump's two burned books were a history of the Lifting Festival. The D.N.A. once asked the mill crews for exact
+  start times and got "morning-ish". The gym's scales are Capital-issue standard measures, and accurate. The confiscated plates have their
+  owners' names chalked on the back. The House of Gains entry gives a thirty-second authorization rule by order of the Minister of
+  Efficiency. Corrupted Brick "has not sat down since spring". Freed Clench spotted Gary without being asked.
+- **Endless Buffet:** the Capital's school lunches were good, then were replaced by Crumb's paste (Pate). A cook who complained was
+  "promoted to taste tester" and not seen since. The Special Sauce vats carry a clipboard: "BATCH 3,652. TASTED BY: (blank)". The weapon
+  crates are labelled SERVING UTENSILS (DEFENSIVE). The impostor's notes are in spotless copperplate (this replaces the left-handedness
+  clue). Layer-Cake Town has a mayor. After freeing, the cannons are ovens.
+- **D.N.A.:** the transfer was notarized at the Hall's Notary's Counter, and Plume left blue-green feathers there. Beefcake couriers throw
+  parcels (and sometimes couriers) through the windows. Agnes called Kyle's number twice, at 3am. The ethics questions are back in the
+  building but not yet in Ectomund's exam.
+- **Verdant Dump:** Gourmand food waste reaches the Dump ("half our garbage is their souffle"), and the Buffet eats Refusemancer carrots.
+  The Dump's stairs grow overnight. Clipwell visited Moss in person ("a very tidy lady with shears").
+- **Capital:** {villain}'s first decree was a hot school lunch for every schoolchild. Plume calls the escaped prince "lost Ministry
+  property". Plume says the public records "have never been tidier". The wheel children wear regulation school caps. The dead in Grave Row
+  have asked to use the Crease lifts.
+- **Castle and after:** the reading-room lampshade is homemade and a little crooked. Freed citizen 1 plans to wear two hats at once.
+- **Between zones:** Maren can hold her breath "for a week" (a tortoise idle).

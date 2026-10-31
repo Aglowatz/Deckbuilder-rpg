@@ -3678,3 +3678,14 @@ Report `docs/overnight_report.md`; questions `docs/overnight_inbox.md` ("Overnig
   tracker, a live-battle watcher on `GameState.event_emitted`), Session hooks (set_flag, bump_counter, complete_zone, start / complete_battle,
   save key `"feats"`, retroactive on load), `ui/screens/feats_panel.gd` in the pause menu (hidden feats "???"), rewards gold / essence once per
   account and only in a saving game (`Session.pay_feat_rewards` for tests). Tests `tests/core/feats/test_feats.gd`.
+
+## Dialogue critic pass (Oct 31 2026)
+
+Suggestions only (dialogue freeze kept: no game text changed). Report `docs/dialogue/critic_report_oct31.md`, pass voice bible
+`docs/dialogue/voice_bible.md`, suggestions `docs/dialogue/critic_suggestions_oct31.csv` (210: High 42, Medium 95, Low 73), sheet columns
+`docs/dialogue/critic_oct31/sheet_columns.csv`, chunk notes `docs/dialogue/critic_oct31/notes_01..08.md`, questions in the inbox.
+- Tools: `tools/dialogue_critic_check.js` (`--protect`: test literals per line; `--check=<csv>`: tokens, tested phrases, lengths, names),
+  `tools/dialogue_critic_merge.js` (merge, sheet columns, all-accepted temp CSV).
+- Importer: `tools/apply_dialogue_pass.js --csv=...` reads optional "Critic suggestion" + "Accept (Y)" columns (row mapping
+  `tools/dialogue_edit_rows.js`; an explicit New line wins). Test: `node tools/tests/test_dialogue_critic_accept.js` (7/7).
+- Validation: 210/210 pass the checks; dry run with all accepted: 210 would apply, 0 failed, 0 held, 0 conflicts (Godot fit measure included).
