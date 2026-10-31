@@ -11,6 +11,11 @@ var _canvas: Control
 var _raster: MapRaster
 var _fog: FogOfWar
 var _area_name: String = ""
+## Overnight Oct 30-31, Part 3: the Rift Express station of this area (FastTravel.TOWN or a zone id) when the map may offer fast travel
+## ("" = no button: the forest before the postgame, scripted moments). The scene opens the travel list on `travel_requested`.
+var travel_from: String = ""
+
+signal travel_requested
 
 
 func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[MapPoi], area_name: String) -> void:
@@ -83,7 +88,30 @@ func _legend() -> Control:
 		turn_row.add_child(turn_badge)
 		turn_row.add_child(UIKit.label("Quest ready to hand in", &"", 22))
 		column.add_child(turn_row)
+	# Overnight Oct 30-31, Part 2: the goals on this map by quest name (gold = main line, blue = side quest).
+	for goal: MapPoi in _pois:
+		if not goal.objective:
+			continue
+		var goal_row: HBoxContainer = UIKit.hbox(12)
+		var ring: Control = Control.new()
+		ring.custom_minimum_size = Vector2(34, 34)
+		ring.draw.connect(func() -> void: MapDraw.poi(ring, Vector2(17, 17), goal, 11.0))
+		goal_row.add_child(ring)
+		var goal_label: Label = UIKit.label("Goal: %s" % goal.label, &"", 22)
+		goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		goal_label.custom_minimum_size = Vector2(300, 0)
+		goal_row.add_child(goal_label)
+		column.add_child(goal_row)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
+	if travel_from != "" and not FastTravel.destinations(Session.flags, travel_from).is_empty():
+		var travel: FancyButton = FancyButton.make("Fast travel...", &"PrimaryButton", Vector2(300, 56))
+		travel.name = "MapFastTravel"
+		travel.pressed.connect(func() -> void: travel_requested.emit())
+		column.add_child(travel)
+		var travel_note: Label = UIKit.label("To a Rift Express station you have reached: Crosspath and the zones' towns (never into a dungeon).", &"MutedLabel", 17)
+		travel_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		travel_note.custom_minimum_size = Vector2(340, 0)
+		column.add_child(travel_note)
 	return panel
 
 
@@ -103,9 +131,31 @@ func _draw_map() -> void:
 	_canvas.draw_texture_rect_region(_raster.texture, Rect2(top_left, drawn), source)
 	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
 	var icon_radius: float = clampf(scale_px * 2.2, 9.0, 16.0)
-	for poi: MapPoi in MapView.visible_pois(_pois, _fog):
+	var shown: Array[MapPoi] = MapView.visible_pois(_pois, _fog)
+	for poi: MapPoi in shown:
 		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
 		MapDraw.poi(_canvas, at, poi, icon_radius)
+	# Overnight Oct 30-31 (mid-game critic #9): every revealed place is named under its icon (vendors, the Hall of Records, roads, dungeons),
+	# skipping a name that would overlap one already written.
+	var font: Font = UIStyle.font_bold()
+	var taken: Array[Rect2] = []
+	for poi: MapPoi in shown:
+		if poi.objective or poi.label.strip_edges() == "":
+			continue
+		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		var text: String = poi.label
+		var extent: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15)
+		var box: Rect2 = Rect2(at + Vector2(-extent.x * 0.5, icon_radius + 3.0), extent + Vector2(0, 4))
+		var clash: bool = false
+		for other: Rect2 in taken:
+			if other.intersects(box):
+				clash = true
+				break
+		if clash:
+			continue
+		taken.append(box)
+		_canvas.draw_string_outline(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.05, 0.95))
+		_canvas.draw_string(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, UIStyle.PARCHMENT)
 	var here: Vector2 = top_left + (Vector2(_player.position.x, _player.position.z) - _fog.origin) / FogOfWar.CELL * scale_px
 	MapDraw.arrow(_canvas, here, _player.model.rotation.y, icon_radius)
 

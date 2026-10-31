@@ -58,3 +58,52 @@ static func _via(area: String, target_area: String, quest_id: String, index: int
 	if ZoneDefs.has_def(area):
 		return {"spot": "exit", "quest": quest_id, "index": index, "via": true}
 	return {}
+
+
+## Overnight Oct 30-31, Part 2 (goal pointer everywhere): the targets of the goal pointer in this area, at most two - the tracked quest's
+## step first, then the other kind's (the most recent main line's step while a side quest is tracked, the most recent side quest's step
+## while a main line is tracked). Each is `target_for`'s dictionary plus "main" (bool). A second target on the same spot is dropped.
+static func goal_targets(area: String, qlog: QuestLog, state: UnlockState) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var tracked: QuestData = QuestCatalog.find(qlog.tracked_id())
+	if tracked == null or not qlog.is_active(tracked.id):
+		return result
+	var first: Dictionary = target_for(tracked, area, qlog, state)
+	if not first.is_empty():
+		first["main"] = tracked.is_main()
+		result.append(first)
+	for index: int in range(qlog.active.size() - 1, -1, -1):
+		var other: QuestData = QuestCatalog.find(str(qlog.active[index]))
+		if other == null or other.id == tracked.id or other.is_main() == tracked.is_main():
+			continue
+		var target: Dictionary = target_for(other, area, qlog, state)
+		if target.is_empty():
+			continue
+		if not result.is_empty() and str(result[0]["spot"]) == str(target["spot"]):
+			break
+		target["main"] = other.is_main()
+		result.append(target)
+		break
+	return result
+
+
+## One quest's goal in this area, like `objective_target` but for any quest, and a turn-in in this area points at the NPC to hand it to
+## ("turn_in": true; that NPC already wears the "?" mark, so the layer draws no chevron there, only the arrow and the map dot).
+static func target_for(quest: QuestData, area: String, qlog: QuestLog, state: UnlockState) -> Dictionary:
+	if quest == null or not qlog.is_active(quest.id):
+		return {}
+	if qlog.is_ready_to_turn_in(quest, state):
+		if quest.turn_in_area == area and quest.turn_in_spot != "":
+			return {"spot": quest.turn_in_spot, "quest": quest.id, "index": -1, "via": false, "turn_in": true}
+		return _via(area, quest.turn_in_area, quest.id, -1)
+	var index: int = qlog.current_index(quest, state)
+	if index >= quest.objectives.size():
+		return {}
+	var objective: QuestObjective = quest.objectives[index]
+	if not objective.has_marker():
+		return {}
+	if objective.target_area == area:
+		return {"spot": objective.target_id, "quest": quest.id, "index": index, "via": false}
+	if objective.target_id == QuestDefinitions.OUTSKIRTS_SPOT:
+		return {}
+	return _via(area, objective.target_area, quest.id, index)

@@ -76,6 +76,11 @@ var reduce_shake: bool = false
 var reduce_flashing: bool = false
 ## Whether the HUD minimap is drawn (the M full map always works).
 var show_minimap: bool = true
+## Overnight Oct 30-31, Part 2: the goal pointer (the quest objective's chevron and ground ring, the edge-of-screen arrow, the map's
+## objective dot). The "!" / "?" marks over quest givers stay either way.
+var goal_pointer: bool = true
+## Overnight Oct 30-31, Part 3: walk at sprint speed without holding the sprint key (holding it then walks).
+var always_sprint: bool = false
 ## Low / Medium / High (`GraphicsQuality.Level`): outlines, volumetrics, SSAO, shadows, DOF, foliage density.
 var graphics_quality: int = GraphicsQuality.Level.MEDIUM
 ## Depth of field: the tilt-shift blur pass of the world look (WorldLookRig). Not on Low.
@@ -383,6 +388,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("battle", "confirm_end_turn", confirm_end_turn)
 	config.set_value("battle", "auto_end_turn", auto_end_turn)
 	config.set_value("battle", "tutorial_tips", tutorial_tips)
+	config.set_value("hud", "goal_pointer", goal_pointer)
+	config.set_value("input", "always_sprint", always_sprint)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
@@ -439,6 +446,8 @@ func load_settings(path: String = PATH) -> void:
 	confirm_end_turn = bool(config.get_value("battle", "confirm_end_turn", confirm_end_turn))
 	auto_end_turn = bool(config.get_value("battle", "auto_end_turn", auto_end_turn))
 	tutorial_tips = bool(config.get_value("battle", "tutorial_tips", tutorial_tips))
+	goal_pointer = bool(config.get_value("hud", "goal_pointer", goal_pointer))
+	always_sprint = bool(config.get_value("input", "always_sprint", always_sprint))
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
@@ -553,6 +562,8 @@ func reset_to_defaults() -> void:
 	confirm_end_turn = true
 	auto_end_turn = false
 	tutorial_tips = true
+	goal_pointer = true
+	always_sprint = false
 	reduce_flashing = false
 	graphics_quality = GraphicsQuality.recommended()
 	depth_of_field = true

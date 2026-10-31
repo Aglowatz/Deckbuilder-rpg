@@ -38,6 +38,8 @@ var locked: bool = false
 var turn_in: bool = false
 ## Overnight Oct 16: the tracked quest's objective (a pulsing golden ring; drawn even under the fog of war).
 var objective: bool = false
+## Overnight Oct 30-31, Part 2: an objective of a side quest (drawn blue; main lines gold).
+var side_goal: bool = false
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

@@ -156,6 +156,8 @@ func _build_display() -> void:
 	zoom_options.name = "CameraZoomOptions"
 	_body.add_child(_row("Camera zoom (the mouse wheel fine-tunes)", zoom_options))
 	_body.add_child(_check("Show minimap", Settings.show_minimap, _on_minimap, "MinimapCheck"))
+	# Overnight Oct 30-31, Part 2: the goal pointer can be switched off (the quest givers' marks stay).
+	_body.add_child(_check("Goal pointer (the quest goal's marker, the arrow at the screen edge, the map dot)", Settings.goal_pointer, _on_goal_pointer, "GoalPointerCheck"))
 	_body.add_child(_note("UI scale resizes menus, popups and the HUD panels. Resolution applies to the windowed mode; Fullscreen and Borderless use your screen's size."))
 
 
@@ -232,6 +234,8 @@ func _build_controls() -> void:
 	var names: OptionButton = _options(Settings.PAD_PROMPT_NAMES, Settings.pad_prompts, _on_pad_prompts)
 	names.name = "PadPromptOptions"
 	_body.add_child(_row("Controller button names", names))
+	# Overnight Oct 30-31, Part 3: sprint without holding the key.
+	_body.add_child(_check("Always sprint (holding Sprint then walks)", Settings.always_sprint, _on_always_sprint, "AlwaysSprintCheck"))
 	_body.add_child(_note("Fixed controller buttons: %s confirms and %s goes back in every menu, %s pauses, the right stick turns the camera, the D-pad and left stick move between buttons. In a battle the D-pad and left stick move between cards, %s picks a card or target and %s cancels." % [InputDevice.pad_text(JOY_BUTTON_A), InputDevice.pad_text(JOY_BUTTON_B), InputDevice.pad_text(JOY_BUTTON_START), InputDevice.pad_text(JOY_BUTTON_A), InputDevice.pad_text(JOY_BUTTON_B)]))
 	var group: String = ""
 	for action: StringName in Keybinds.action_ids():
@@ -451,6 +455,18 @@ func _on_camera_angle(index: int) -> void:
 
 func _on_camera_zoom_preset(index: int) -> void:
 	Settings.set_camera_zoom(CameraRig.ZOOM_VALUES[clampi(index, 0, CameraRig.ZOOM_VALUES.size() - 1)])
+
+
+func _on_goal_pointer(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.goal_pointer = pressed
+	_saved()
+
+
+func _on_always_sprint(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.always_sprint = pressed
+	_saved()
 
 
 func _on_minimap(pressed: bool) -> void:

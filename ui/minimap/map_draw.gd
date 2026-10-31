@@ -31,7 +31,7 @@ static func icon_id(kind: MapPoi.Kind) -> String:
 ## "available" or "turn in" icon above their head; locked travel points are dimmed.
 static func poi(canvas: CanvasItem, centre: Vector2, point: MapPoi, radius: float) -> void:
 	if point.objective:
-		objective_ring(canvas, centre, radius)
+		objective_ring(canvas, centre, radius, Color("8fd3ff") if point.side_goal else Color("ffd25a"))
 		return
 	var icon: String = icon_id(point.kind)
 	if icon != "":
@@ -77,9 +77,8 @@ static func _quest_badge(canvas: CanvasItem, badge: Vector2, radius: float, turn
 
 
 ## The tracked quest's objective: a pulsing golden ring with a bright centre.
-static func objective_ring(canvas: CanvasItem, centre: Vector2, radius: float) -> void:
+static func objective_ring(canvas: CanvasItem, centre: Vector2, radius: float, gold: Color = Color("ffd25a")) -> void:
 	var pulse: float = 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.005)
-	var gold: Color = Color("ffd25a")
 	canvas.draw_arc(centre, radius * (1.3 + 0.5 * pulse), 0.0, TAU, 28, Color(gold, 0.9 - 0.5 * pulse), 3.0)
 	canvas.draw_circle(centre, radius * 0.75, Color(0.08, 0.05, 0.02, 0.9))
 	canvas.draw_circle(centre, radius * 0.5, gold)

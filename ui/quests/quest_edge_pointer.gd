@@ -8,6 +8,8 @@ const SIZE: float = 22.0
 const GOLD: Color = Color("ffd25a")
 
 var camera: Camera3D
+## Overnight Oct 30-31, Part 2: gold for a main line, blue for a side quest (QuestMarkerLayer sets it).
+var color: Color = GOLD
 var target: Vector3 = Vector3.ZERO
 var target_valid: bool = false
 var _alpha: float = 0.0
@@ -69,5 +71,5 @@ func _draw() -> void:
 	var inner: PackedVector2Array = []
 	for p: Vector2 in points:
 		inner.append(_at + (p - _at) * 0.78)
-	draw_colored_polygon(inner, Color(GOLD, _alpha))
-	draw_circle(_at - forward * SIZE * 0.9, 5.0, Color(GOLD, 0.6 * _alpha))
+	draw_colored_polygon(inner, Color(color, _alpha))
+	draw_circle(_at - forward * SIZE * 0.9, 5.0, Color(color, 0.6 * _alpha))
