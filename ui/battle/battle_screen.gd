@@ -187,7 +187,7 @@ func _screenshot_script_banner() -> void:
 
 func _screenshot_scenario() -> void:
 	_screenshot_script_banner()
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn", "traps", "tape", "etape"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "aim", "viewer", "field", "mark", "efield", "combat", "endturn", "traps", "tape", "etape"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -253,6 +253,12 @@ func _screenshot_scenario() -> void:
 				_try_play(card.uid)
 				break
 		await get_tree().create_timer(0.6).timeout
+	## Overnight Oct 30-31, Part 4: `--aim=N` (after `--play` of a targeted card) aims at target option N as the mouse would (the aim preview).
+	if _screenshot_args.has("aim") and mode == Mode.TARGETING:
+		var nth_aim: int = int(_screenshot_args["aim"])
+		if nth_aim >= 0 and nth_aim < _target_options.size() and board.views.has(_target_options[nth_aim]):
+			_hovered_view = board.views[_target_options[nth_aim]] as CardView
+		await get_tree().create_timer(0.8).timeout
 	if _screenshot_args.has("pick") and refuse_viewer.targeting:
 		var nth: int = int(_screenshot_args["pick"])
 		if nth >= 0 and nth < _target_options.size():
@@ -804,6 +810,32 @@ func _refresh_combat_preview() -> void:
 		board.clear_combat_preview()
 
 
+## The play a hand card's decision chain would submit if `ref` were its last pick (null when the chain is not on its last single-target step
+## or is not playing a hand card: an ability's chain, a multi-pick, an X still to choose).
+func _chain_preview_action(ref: int) -> GameAction:
+	if _chain_pos != _chain_steps.size() - 1 or game.players[0].find_hand(_chain_source) == null:
+		return null
+	var step: Dictionary = _chain_steps[_chain_pos]
+	if str(step.get("role", "")) != "target" or str(step.get("kind", "")) == "multi":
+		return null
+	var targets: Array[int] = []
+	var picks: Array[int] = []
+	for index: int in range(_chain_pos):
+		var earlier: Dictionary = _chain_steps[index]
+		match str(earlier.get("role", "")):
+			"target":
+				targets.append_array(earlier["picked"] as Array[int])
+			"pick":
+				picks.append_array(earlier["picked"] as Array[int])
+			"x":
+				return null
+	targets.append(ref)
+	var action: GameAction = GameAction.play_card(0, _chain_source, targets[0])
+	action.targets = targets
+	action.picks = picks
+	return action
+
+
 ## Overnight Oct 30-31, Part 4: while aiming a card, an ability or a Resource, the result of THAT action on the target under the aim
 ## (CombatPreview.predict_action: damage and HP left, a skull, new stats, -N HP and LETHAL on a plate). Only the player's own action.
 func _refresh_aim_preview(ref: int) -> void:
@@ -811,7 +843,9 @@ func _refresh_aim_preview(ref: int) -> void:
 		return
 	_aim_ref = ref
 	var action: GameAction = null
-	if ref != 0 and not _chain_active and _pending_item == null:
+	if ref != 0 and _chain_active:
+		action = _chain_preview_action(ref)
+	elif ref != 0 and _pending_item == null:
 		match _target_action:
 			GameAction.Type.PLAY:
 				action = GameAction.play_card(0, _target_source, ref)
