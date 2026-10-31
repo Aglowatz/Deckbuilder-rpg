@@ -37,15 +37,70 @@ func run() -> void:
 	await _early_chain(town)
 	_step(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")), "the zone main lines start once the early-game chain is done")
 	town = await _brannoch(town)
+	var snapshot_after: int = int(_arg("snapshot_after", "0"))
+	var zones_done: int = 0
 	for zone_id: String in Gatekeepers.IDS:
 		town = await _zone(town, zone_id)
 		if town == null:
 			_step(false, "%s: lost the town" % zone_id)
 			_finish()
 			return
+		zones_done += 1
+		if snapshot_after > 0 and zones_done >= snapshot_after:
+			await _save_progress_snapshot(_arg("snapshot", "midgame_real"))
+			_finish()
+			return
 	await _undercroft(town)
 	await _capital_and_castle()
 	_finish()
+
+
+## `--snapshot_after=N --snapshot=<name>` (after `--`): the value of a user argument.
+func _arg(key: String, fallback: String) -> String:
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--%s=" % key):
+			return arg.get_slice("=", 1)
+	return fallback
+
+
+## Overnight Oct 30-31, Part 1: a real-progress snapshot for a mid-game critic. The story so far was played by the bot (the cave, Maren's
+## chain, Brannoch, N zones with their favours, side and main dungeons, memories); the battles were decreed, so the level, the deck, the
+## gear, the items and the gold are set to what the expected player has at this point (`ProgressionModel`, `docs/design/sim/economy_model.md`).
+func _save_progress_snapshot(snapshot_name: String) -> void:
+	var next_zone: String = ProgressionModel.ZONE_ORDER[mini(Session.completed_zone_count(), ProgressionModel.ZONE_ORDER.size() - 1)]
+	var level: int = ProgressionModel.level_for("zone:%s" % next_zone, 13)
+	DevActions.set_level(level, true)
+	var path: Affinity.Type = Session.profile.primary_affinity
+	var deck: Deck = ProgressionModel.reference_deck(Session.content, path, level)
+	for card: CardData in deck.cards:
+		if Session.profile.owned_copies(card.id) < deck.count_of(card.id):
+			Session.profile.owned_cards.append(card)
+	EventBus.collection_changed.emit()
+	Session.save_deck_to_slot(Session.deck_box.active, deck, "%s deck" % Affinity.display_name(path))
+	for slot_value: int in EquipmentData.Slot.values():
+		Session.profile.unlock_equipment_slot(slot_value as EquipmentData.Slot)
+	Session.pending_equipment_choices = 0
+	for piece_id: String in ProgressionModel.equipment_for(level):
+		var piece: EquipmentData = Session.content.equipment_piece(piece_id)
+		if piece != null:
+			Session.grant_equipment(piece)
+			Session.equip_item(piece)
+	var items: Dictionary = ProgressionModel.items_for(level)
+	for item_id: Variant in items:
+		var item: ItemData = Session.content.item(str(item_id))
+		for _use: int in range(int(items[item_id])):
+			if item != null:
+				Session.add_item(item)
+	# Gold: the expected profile's purse after the second zone's freed stock plus a stop's income (economy model rows 16-18).
+	Session.gold = 0
+	Session.add_gold(600)
+	Session.add_pack("general_2", 2)
+	Session.add_pack("path_%s" % Affinity.display_name(path).to_lower(), 1)
+	DevActions.full_heal()
+	Session.save_game()
+	var said: String = DevActions.save_snapshot(snapshot_name)
+	_step(said.begins_with("Snapshot saved"), "%s at L%d (%d cards, %d gear, %d gold, zones freed %d)" % [said, Session.profile.level, Session.deck.size(), Session.profile.equipment.size(), Session.gold, Session.completed_zone_count()])
+	await _shot("p_snapshot_%s" % snapshot_name)
 
 
 # ---- 1b. Maren's early-game chain ---------------------------------------------------------------------------------------------------------

@@ -1,0 +1,15 @@
+# Overnight Oct 30-31, Part 1: the story-bot snapshot resumes in Crosspath with its deck and gear
+wait 2
+dev load midgame_real
+wait 6
+scene
+shot 01_town
+key J
+wait 1.5
+shot 02_quests
+key Escape
+wait 1
+key C
+wait 1.5
+shot 03_character
+dump
