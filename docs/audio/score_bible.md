@@ -175,3 +175,143 @@ via `lib/song.py`, the demos' own score engine on top of `Score`). Their melodie
 | MUS-REF-FREED | E major | q 168 (dq 112), 6/8 | spring returning: chimes, harp, the jig in major, resolved motif |
 | Batch 07 stingers | per cue | | STG-VICTORY Bb major (brass + strings over a timpani roll, cymbal, held major chord; the motif's resolved tail) |
 | Batch 08 Path extras | per Path, keys chosen in each score and listed in `docs/audio/music_pass2_oct31.md` | | Necrocrat / Gourmand / Refusemancer extras use their zone palette and theme; Beefcake extras match the Gainlands tracks (section 3) |
+
+## 9. Music Pass 3 directions (Oct 31): the Capital, Primm, the Lab, story, shops, side areas
+
+The designer's directions (design sheet, Music tab, column J and rows 147-157), turned into rules. Themes: `tools/music/lib/capital.py`
+(`CAPITAL_THEME`, `CAPITAL_PROG`, `rudiment`, `stumble`, `QUANTISED`), `theory.PRIMM_HEAD/ANSWER`, `theory.LULLABY_HEAD/ANSWER`, `lib/zones.py`.
+Synth programs and GS drum kits for the Lab are in `lib/instruments.py` (saw/square leads, synth bass, poly/metal pads, FX, `electro_kit`).
+
+### The Capital (Pathordia's capital under Primm)
+
+- **Creepy-perfect orchestral with a hint of unease.** Bright C major, rigid 120 BPM as the home tempo, **quantised: `Score(..., human=QUANTISED)`**
+  (human feel OFF). Music box, harpsichord, glockenspiel, snare rudiments (`capital.rudiment`), block brass chords, a too-wide-smile cheer.
+- **Imperfect bursts:** sudden frantic moments (rushed strings, a wrong chord, a stumble, a cluster; `capital.stumble`) that snap straight back to
+  perfect on the next downbeat, as if nothing happened.
+- **The Primm motif** (even note lengths) is the city's voice. **The CAPITAL THEME** (`capital.CAPITAL_THEME`, 16 bars, built from the two Primm
+  cells) is the zone theme of the Capital: it appears in every Capital cue (whole, a phrase, augmented, in minor, on a music box, glitched).
+- **The Crossroads motif keeps trying to break through** - fragments that get cut off or swallowed by the anthem.
+- **Human feel returns ONLY in MUS-CAP-RESTORED** (and PRIMM-03's unravelling). Exceptions with their own rules:
+  - **MUS-CREASE** (the resistance) is the one warm human place: chamber piano + clarinet + a few strings, human feel on, the Crossroads motif gentle.
+  - **MUS-TUNNEL-EXP / -BATTLE**: the old kingdom under the city: warmer, echoing, the Crossroads motif in full. **MUS-TUNNEL-BOSS** is Captain
+    Spotless: the rigid Capital march, quantised (his own track, no longer an alias).
+- **MUS-CAP-OUT-***: depleted outskirts. Sparse, wind-worn strings; the Primm motif far off like a broadcast (a thin music box / glock with heavy reverb).
+- **MUS-CAP-FACADE-***: music-box muzak, a low dread pedal, occasional minor slips; the battle version is the same surface under strain.
+- **MUS-CAP-ENFORCER**: a fussy snare-rudiment march. **MUS-CAP-CORRECTION**: a metronome, clinical high strings.
+- **MUS-CAP-RIFT**: the four zone themes glitching over each other (D.N.A. waltz, Buffet showtune, Dump jig, Gainlands march), the Capital theme
+  trying to hold them on the grid.
+- **MUS-CASTLE-***: an elegant Baroque court - strings, harpsichord, choir, minuet (3/4) / gavotte. **No organ** (organ is D.N.A.'s). In battle (the
+  mirror parquet) the hero's motif is mirrored (inverted) against Primm's.
+
+### Primm, a tragic villain
+
+| Cue | Rule |
+|---|---|
+| MUS-PRIMM-01 Standardization | the whole orchestra in unison/octaves on the Primm motif, machine-like, quantised |
+| MUS-PRIMM-02 Reflection | the Primm theme imitating each zone style in turn (D.N.A. organ waltz, Buffet showtune/EDM, Dump fiddle jig, Gainlands march), each slightly wrong |
+| MUS-PRIMM-03 Unraveling | the rigidity breaks, human feel returns, the four zone themes combine over the Crossroads motif; heroic climax (motif still open: it loops) |
+| MUS-PRIMM-BREAK | sparse; the Primm motif on a slowed music box |
+| MUS-ARCHIVE, MUS-PRIMM-DEFEAT | the Primm motif tender and human: the sincere reformer he once was (rubato, warm strings, piano) |
+| MUS-PRIMM-MOTIF | motif master: keep the existing melody (`PRIMM_HEAD` + `PRIMM_ANSWER`), re-orchestrated in the Capital palette |
+
+### The Path-ology Lab
+
+- **MUS-LAB-EXP, MUS-LAB-BATTLE, MUS-SIPHON-BOSS**: fast techno/EDM action with big-budget sci-fi combat energy, but **original** (no quotes),
+  150-170 BPM. Driving kick, distorted/saw synth bass, arpeggiators, glitch stutters (rapid retriggered notes), risers and drops, sidechain-pumped
+  pads (CC11 ducking on every beat), plus cold orchestral stabs (strings/brass hits). Clinical and relentless. GM synth programs + one drum kit;
+  layer and detune (`Score.detune`) to fatten them. The Crossroads motif appears as a glitched synth lead. SIPHON-BOSS is its own track.
+- **Lab story beats (MUS-LAB-CELL, MUS-LAB-RESCUE) are NOT techno:** orchestral, tender, hopeful.
+
+### Story cues
+
+- MUS-LULLABY, MUS-MEM-01..04, MUS-THRONE, MUS-REUNION, MUS-GALLERY, MUS-QUEST-PELL/ROLLO/MARLO/FERN, MUS-CREDITS and the Lab beats: orchestral
+  and **hopeful**, lullaby-like. Gentle strings, harp, celesta, solo woodwinds, soft horns; warm and tender, never grim for long. MEM-02/03 may be
+  darker but each **ends with hope**.
+- The Lullaby and the Crossroads motif carry them (`theory.LULLABY_*`, pitch-tracked, approximate). **MUS-LULLABY is the motif master: keep its
+  melody, re-orchestrate only.**
+- **The lullaby rule:** the WHOLE lullaby (head + answer) may be stated **only** in MUS-MEM-04, MUS-THRONE, MUS-REUNION and MUS-CREDITS (after the
+  reveal) - and in MUS-LULLABY itself. Everywhere else: at most its first four notes, once.
+- **MUS-CREDITS**: the Crosspath theme -> each zone theme in turn (Gainlands, D.N.A., Buffet, Dump) -> the Lullaby -> the Crossroads motif resolved
+  as a grand finale.
+- The Capital quest cues nod to their Path's zone theme (Pell = D.N.A., Rollo = Gainlands, Marlo = Buffet, Fern = Dump) inside the story palette.
+
+### Shops and the quiz: mystic and fun
+
+Pizzicato, celesta/music box, harp glissandi, character woodwinds (clarinet, bassoon, oboe), light percussion; a little magical, a little cheeky,
+**calm enough to browse for minutes** (60-90 s loops, low busyness). Each shopkeeper's twist: Sable sly velvet, Tonic bubbly chaos, Beetsworth
+stiff-but-odd, Threadwell runway strut, Fenwick collector's wonder, Alembic calm mystic blending (ALEMBIC-POST adds more colours), Figsly sly
+back-alley, Bellows showman at rest. MUS-QUIZ joins them.
+
+### Side areas (core orchestra + their own colour)
+
+MUS-VAULT-EXP / -BATTLE / -BOSS: ancient, royal clues (the boss is its own track; at most the lullaby's first four notes, once). MUS-GRAVE-EXP:
+creepy-cheerful, Old Hob's hum (bassoon / oohs); MUS-GRAVE-BATTLE. MUS-ARENA-BATTLE / -ELITE: showbiz spectacle (Grand Bellows). MUS-SHIRO-BOSS:
+a theatrical trickster.
+
+### Other answers (Pass 2 inbox)
+
+- Zone-freed stingers keep the resolved ending (approved).
+- "Broken" Capital districts: the sour voice goes from ~25 to **~15 cents** flat (re-rendered in Part 7).
+- MUS-NECRO-BOSS's limping waltz stays as it is.
+
+### Pass 3 key / tempo plan (57 cues; no two related cues share key AND tempo)
+
+| Batch | ID | Key | BPM / meter | Kind |
+|---|---|---|---|---|
+| 06 Capital | MUS-CAP-OUT-EXP | A minor | 72, 4/4 | loop |
+| 06 | MUS-CAP-OUT-BATTLE | E minor | 132, 4/4 | loop |
+| 06 | MUS-CAP-FACADE-EXP | C major | 120, 4/4 (the Capital home tempo) | loop |
+| 06 | MUS-CAP-FACADE-BATTLE | C major | 144, 4/4 | loop |
+| 06 | MUS-CAP-ENFORCER | G major | 120, 4/4 | loop (boss) |
+| 06 | MUS-CREASE | F major | 84, 4/4 (human feel) | loop |
+| 06 | MUS-CAP-CORRECTION | A minor | 120, 4/4 | loop |
+| 06 | MUS-CAP-RIFT | D minor | 152, 4/4 | loop |
+| 06 | MUS-TUNNEL-EXP | D dorian | 86, 4/4 | loop |
+| 06 | MUS-TUNNEL-BATTLE | D minor | 138, 4/4 | loop |
+| 06 | MUS-TUNNEL-BOSS | C major | 132, 4/4 | loop (boss) |
+| 06 | MUS-CASTLE-EXP | G major | 96, 3/4 (minuet) | loop |
+| 06 | MUS-CASTLE-BATTLE | G minor | 140, 4/4 (gavotte) | loop |
+| 06b Primm + ending | MUS-PRIMM-01 | C major | 128, 4/4 | loop (boss) |
+| 06b | MUS-PRIMM-02 | F major (moves per zone style) | 136, 4/4 | loop (boss) |
+| 06b | MUS-PRIMM-03 | D major | 146, 4/4 | loop (boss) |
+| 06b | MUS-PRIMM-BREAK | C major | 60, 4/4 | loop |
+| 06b | MUS-PRIMM-DEFEAT | F major | 66, 4/4 | one-shot |
+| 06b | MUS-PRIMM-MOTIF | C major | 104, 4/4 | one-shot |
+| 06b | MUS-ARCHIVE | Eb major | 72, 4/4 | one-shot |
+| 06b | MUS-GALLERY | G minor -> Bb major | 70, 3/4 | one-shot |
+| 06b | MUS-CAP-RESTORED | D major | 104, 4/4 (human feel) | loop |
+| 06b | MUS-THRONE | D major | 76, 4/4 | one-shot |
+| 06b | MUS-REUNION | G major | 84, 4/4 | one-shot |
+| 06b | MUS-CREDITS | D major (travels through the zone keys) | 96, 4/4 | one-shot |
+| 09 Lab | MUS-LAB-EXP | A minor | 150, 4/4 | loop |
+| 09 | MUS-LAB-BATTLE | F# minor | 160, 4/4 | loop |
+| 09 | MUS-SIPHON-BOSS | C minor | 170, 4/4 | loop (boss) |
+| 09 | MUS-LAB-CELL | E major | 66, 4/4 | one-shot |
+| 09 | MUS-LAB-RESCUE | A major | 80, 4/4 | one-shot |
+| 08b Story | MUS-LULLABY | D minor | 70, 4/4 | one-shot (motif master) |
+| 08b | MUS-MEM-01 | F major | 72, 4/4 | one-shot |
+| 08b | MUS-MEM-02 | D minor -> F major | 60, 4/4 | one-shot |
+| 08b | MUS-MEM-03 | C minor -> Eb major | 92, 4/4 | one-shot |
+| 08b | MUS-MEM-04 | D major | 66, 4/4 | one-shot |
+| 08b | MUS-QUEST-PELL | Ab major | 72, 3/4 | one-shot |
+| 08b | MUS-QUEST-ROLLO | Bb major | 88, 4/4 | one-shot |
+| 08b | MUS-QUEST-MARLO | F major | 80, 4/4 | one-shot |
+| 08b | MUS-QUEST-FERN | E major | q 132, 6/8 | one-shot |
+| 11 Shops | MUS-SHOP-SABLE | D minor | 92, 4/4 swing | loop |
+| 11 | MUS-SHOP-TONIC | G major | 128, 4/4 | loop |
+| 11 | MUS-SHOP-BEETSWORTH | C major | 108, 4/4 | loop |
+| 11 | MUS-SHOP-THREADWELL | A minor | 112, 4/4 | loop |
+| 11 | MUS-SHOP-FENWICK | Eb major | 84, 4/4 | loop |
+| 11 | MUS-SHOP-ALEMBIC | E minor | 76, 4/4 | loop |
+| 11 | MUS-SHOP-ALEMBIC-POST | E lydian | 80, 4/4 | loop |
+| 11 | MUS-SHOP-FIGSLY | B minor | 96, 4/4 swing | loop |
+| 11 | MUS-SHOP-BELLOWS | F major | 100, 4/4 | loop |
+| 11 | MUS-QUIZ | Bb major | 116, 3/4 | loop |
+| 09b Side | MUS-VAULT-EXP | F# minor | 80, 4/4 | loop |
+| 09b | MUS-VAULT-BATTLE | B minor | 140, 4/4 | loop |
+| 09b | MUS-VAULT-BOSS | F# minor | 128, 4/4 | loop (boss) |
+| 09b | MUS-GRAVE-EXP | G minor | 96, 3/4 | loop |
+| 09b | MUS-GRAVE-BATTLE | Bb minor | 144, 4/4 | loop |
+| 09b | MUS-ARENA-BATTLE | Eb major | 140, 4/4 | loop |
+| 09b | MUS-ARENA-ELITE | Ab major | 148, 4/4 | loop (boss) |
+| 09b | MUS-SHIRO-BOSS | E minor | 152, 4/4 | loop (boss) |

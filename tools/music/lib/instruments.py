@@ -19,4 +19,10 @@ GM = {
     'banjo': (0, 105), 'kalimba': (0, 108), 'bagpipe': (0, 109), 'fiddle': (0, 110), 'tinkle': (0, 112),
     'woodblock': (0, 115), 'taiko': (0, 116), 'concert_bd': (8, 116), 'castanets': (8, 115), 'melodic_tom': (0, 117),
     'orch_kit': (128, 48), 'standard_kit': (128, 0), 'brush_kit': (128, 40),
+    # Music Pass 3 (Lab techno, Capital): synth leads/basses/pads/FX and the GS drum kits (all drum kits share MIDI channel 10: one per score).
+    'elec_piano': (0, 4), 'clavinet': (0, 7), 'synth_bass': (0, 38), 'synth_bass2': (0, 39), 'synth_strings2': (0, 51),
+    'synth_brass': (0, 62), 'synth_brass2': (0, 63), 'square_lead': (0, 80), 'saw_lead': (0, 81), 'calliope': (0, 82), 'chiff_lead': (0, 83),
+    'charang': (0, 84), 'voice_lead': (0, 85), 'fifths_lead': (0, 86), 'bass_lead': (0, 87), 'new_age': (0, 88), 'poly_pad': (0, 90),
+    'metal_pad': (0, 93), 'fx_rain': (0, 96), 'fx_soundtrack': (0, 97), 'fx_goblin': (0, 101), 'fx_echo': (0, 102), 'synth_drum': (0, 118),
+    'reverse_cymbal': (0, 119), 'room_kit': (128, 8), 'power_kit': (128, 16), 'electro_kit': (128, 24), 'tr808_kit': (128, 25),
 }

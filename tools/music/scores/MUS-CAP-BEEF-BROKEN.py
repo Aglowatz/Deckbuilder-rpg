@@ -1,6 +1,6 @@
 """MUS-CAP-BEEF-BROKEN - Transit Yards, broken service (Capital district). 44 bars 4/4, 88 BPM, Bb major (120 s loop).
 The Gainlands theme (MUS-BEEF-EXP) played thin, detuned and interrupted: one horn starts each phrase and stops mid-line, a second horn
-shadows it 25 cents flat, a flute catches two notes of the echo; the tuba's march pulse is exhausted (beat one only, a bar missing here and
+shadows it 15 cents flat (Music Pass 3: was 25), a flute catches two notes of the echo; the tuba's march pulse is exhausted (beat one only, a bar missing here and
 there), a snare tap drags. Under it a faint bowed-glass rift pad, itself a little off pitch. The Crossroads motif's head on a muted
 trumpet, never finished. Human warmth barely audible.
 """
@@ -30,11 +30,11 @@ def build():
     s.seat('hn', 'tpt', 'fl', 'tuba', 'cb', 'pad', 'perc', tpt={'inst': 'muted_tpt', 'vol': 70}, pad={'vol': 70})
     s.channel('hn2', 'horn', pan=88, reverb=100, vol=66)
     s.channel('glass', 'bowed_glass', pan=50, reverb=110, vol=58)
-    s.detune('hn2', -25)          # the shadow horn, a quarter-tone-ish flat for the whole cue
+    s.detune('hn2', -15)          # the shadow horn, flat for the whole cue
     s.detune('glass', -12)
     for bar, nm in ((0, 'A thin'), (12, 'B fragments'), (24, 'C stalling'), (36, "A' thin"), (40, 'thin (loop)')):
         s.section(bar, nm)
-    s.notes.append('Broken = the Gainlands theme cut off mid-phrase, a shadow horn 25 cents flat (Score.detune), exhausted tuba pulse.')
+    s.notes.append('Broken = the Gainlands theme cut off mid-phrase, a shadow horn 15 cents flat (Music Pass 3: was 25) (Score.detune), exhausted tuba pulse.')
 
     missing = {6, 17, 27, 30, 33}
 

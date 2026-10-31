@@ -1,5 +1,5 @@
 """MUS-CAP-NECRO-BROKEN - Grave Row, broken service. Loop, 52 bars 3/4, 80 BPM, C minor.
-The D.N.A. theme played thin, detuned and interrupted: a celesta carries it with a second celesta 25 cents flat beside it (the rift),
+The D.N.A. theme played thin, detuned and interrupted: a celesta carries it with a second celesta 15 cents flat (Music Pass 3: was 25) beside it (the rift),
 each phrase stops a bar or two early as if the clerk walked away, and the clock ticks, stalls and starts again. A faint glass pad (the
 rift synth) and a barely audible low cello are all the warmth left. The Crossroads motif's head appears once in the clarinet and is cut
 off. Restless, unresolved, endless procedure - but quiet; never horror.
@@ -29,10 +29,10 @@ def build():
     s.channel('cel2', 'celesta', pan=84, reverb=100, vol=54)
     s.channel('glass', 'bowed_glass', pan=64, reverb=110, vol=46)
     s.channel('organ', 'organ', pan=58, reverb=110, vol=48)
-    s.detune('cel2', -25)
+    s.detune('cel2', -15)
     for bar, nm in ((0, 'stall'), (4, 'A thin theme'), (20, 'B interrupted'), (36, 'C the clerk returns'), (48, 'stall')):
         s.section(bar, nm)
-    s.notes.append('Broken district: the D.N.A. theme on a celesta doubled 25 cents flat (Score.detune), phrases cut off.')
+    s.notes.append('Broken district: the D.N.A. theme on a celesta doubled 15 cents flat (Music Pass 3: was 25) (Score.detune), phrases cut off.')
 
     def clock(bar, beats=(0, 1, 2), vel=30):
         for k in beats:

@@ -1,5 +1,5 @@
 """MUS-CAP-REF-BROKEN - The Reek, broken service (the Capital's Refusemancer district). 80 bars 6/8 (q = 132, dotted q = 44), E minor,
-~109 s. A depleted Verdant Dump: the jig theme (zones.DUMP_THEME, E Aeolian) played thin on a solo violin detuned 25 cents flat against a
+~109 s. A depleted Verdant Dump: the jig theme (zones.DUMP_THEME, E Aeolian) played thin on a solo violin detuned 15 cents flat (Music Pass 3: was 25) against a
 second, in-tune violin a little behind it, and interrupted - phrases stop mid-bar and leave holes. Cluttered plucked figures (pizzicato,
 harp) that cannot decay: short, dry, repeated, never allowed to ring. A faint rift texture (bowed glass) and a low drone; the harp's
 fairy glimmer starts and breaks off. The Crossroads motif drifts by on the flute, unresolved. Human warmth barely audible. Music Pass 2, Batch 08.
@@ -136,7 +136,7 @@ def build():
     S = Song('MUS-CAP-REF-BROKEN', bpm=132, bars=80, meter=(6, 8), key='E minor', seed=512, jitter=0.02)
     setup(S, 'fid', 'vln', 'fl', 'harp', 'pizz', 'vc', 'cb', 'pad', 'cel', 'kit', vln=70)
     S.add('glass', None, 92, pan=64, rev=110, vol=56)
-    S.detune('fid', -25)                      # the lead fiddle sits 25 cents flat all through
+    S.detune('fid', -15)                      # the lead fiddle sits 15 cents flat (Music Pass 3: was 25) all through
     for bar, nm in ((0, 'clutter'), (8, 'A thin theme'), (24, 'B holes'), (40, 'flute drift'), (48, "A' thinner"), (64, 'clutter, glimmer'),
                     (72, 'clutter again')):
         S.section(bar, nm)
@@ -194,12 +194,12 @@ def build():
     # A' 48-63: thinner still
     clutter(48, 16, 50)
     bed(48, 16, 50)
-    S.detune('fid', -30, 48)
+    S.detune('fid', -18, 48)
     for k, bar in enumerate(range(48, 64, 4)):
         ph = bars_of(S, TH, ((k + 1) % 4) * 4, ((k + 1) % 4) * 4 + 4)
         S.mel('fid', bar, interrupted(ph, (6.5, 9, 5, 8)[k], 12), 78, legato=.9)
         S.line('vln', bar, interrupted(ph, (6.5, 9, 5, 8)[k], 12), 46, beat=.5, legato=.85)
-    S.detune('fid', -25, 64)
+    S.detune('fid', -15, 64)
 
     # 64-71: clutter, a glimmer that breaks off, the motif's head unanswered
     clutter(64, 8, 52)

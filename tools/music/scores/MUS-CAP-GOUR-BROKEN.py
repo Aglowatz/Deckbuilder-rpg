@@ -1,5 +1,5 @@
 """MUS-CAP-GOUR-BROKEN - Hungry Quarter, broken service. 48 bars 4/4, 96 BPM, F minor (~120 s loop).
-The Buffet theme played thin, detuned and interrupted: in F minor on a lone celesta, shadowed by a clarinet bent 25 cents flat (two
+The Buffet theme played thin, detuned and interrupted: in F minor on a lone celesta, shadowed by a clarinet bent 15 cents flat (Music Pass 3: was 25) (two
 voices that never quite agree), each phrase cut off mid-bar as if the kitchen lost power. Hollow recipe phrases in sparse pizzicato, a
 cold low cello pedal, and a faint rift texture (bowed glass) underneath. The Crossroads motif's head on a flute, unanswered. Human
 warmth barely audible: one bar of the theme in F major on the cello, once, before it slips back.
@@ -32,7 +32,7 @@ def build():
     s.channel('glass', 'bowed_glass', 64, 110, 62)
     s.channel('pad', 'slow_strings', 64, 100, 64)
     s.channel('kit', 'standard_kit', 64, 80, 64)
-    s.detune('cl2', -25, 0)
+    s.detune('cl2', -15, 0)
     for bar, nm in ((0, 'rift'), (8, 'broken theme'), (24, 'hollow recipe'), (36, 'broken theme again'), (44, 'rift again')):
         s.section(bar, nm)
 
@@ -51,7 +51,7 @@ def build():
 
     rift(0, 8)
 
-    # 8-23: the theme in pieces - celesta, a clarinet 25 cents flat behind it, phrases cut mid-bar
+    # 8-23: the theme in pieces - celesta, a clarinet 15 cents flat (Music Pass 3: was 25) behind it, phrases cut mid-bar
     for i in range(16):
         ground(8 + i, COLD[i % 4], 54)
     cuts = [(0, 6), (8, 5), (16, 7), (24, 4), (32, 6), (40, 5), (48, 7), (56, 3)]
