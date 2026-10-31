@@ -34,7 +34,8 @@ static func predict(state: GameState, viewer: int, attackers: Array[int], blocks
 			if after == null:
 				units[card.uid] = {"damage": maxi(1, state.get_defense(card) - card.damage), "dies": true}
 			elif after.damage > card.damage:
-				units[card.uid] = {"damage": after.damage - card.damage, "dies": false}
+				# Overnight Oct 30-31, Part 4: the HP the unit keeps (the badge says "-2  3 left").
+				units[card.uid] = {"damage": after.damage - card.damage, "dies": false, "hp_left": trial.get_defense(after) - after.damage}
 	return result
 
 

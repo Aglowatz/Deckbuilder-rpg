@@ -34,6 +34,7 @@ func test_block_preview_marks_deaths_and_matches_the_real_combat() -> void:
 	assert_true(bool((units[attacker.uid] as Dictionary)["dies"]), "the 3/2 dies to the 2/4")
 	assert_false(bool((units[blocker.uid] as Dictionary)["dies"]))
 	assert_eq(int((units[blocker.uid] as Dictionary)["damage"]), 3)
+	assert_eq(int((units[blocker.uid] as Dictionary)["hp_left"]), 1, "Overnight Oct 30-31: the 2/4 keeps 1 HP")
 	assert_eq(int((preview["players"] as Array)[1]), 0, "blocked: nothing reaches the player")
 	assert_true(game.declare_blockers(blocks))
 	assert_null(game.find_permanent(attacker.uid), "the real combat agrees")
