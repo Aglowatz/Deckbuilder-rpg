@@ -739,7 +739,8 @@ func _do_hat(hat_name: String) -> void:
 	var found: Array[String] = []
 	var missing: Array[String] = []
 	var sheet: Image = _load("COS-HAT-%s-SHEET" % hat_name)
-	var views: Dictionary = HatSheet.split(sheet) if sheet != null else {}
+	# Art import Oct 31: a view painted bigger or smaller than FRONT is scaled to it in the slicer (HatSheet.normalise), then the fit keeps one scale.
+	var views: Dictionary = HatSheet.normalise(HatSheet.split(sheet)) if sheet != null else {}
 	for dir_name: String in DIRS:
 		var image: Image = _load("COS-HAT-%s-%s" % [hat_name, dir_name])
 		if image == null and views.has(dir_name):
@@ -792,7 +793,7 @@ func _write_hat_fit(hat_name: String, views: Dictionary) -> void:
 		if parsed_fit is Dictionary:
 			all = parsed_fit as Dictionary
 	all["_about"] = "Written by tools/import_cosmetics.sh from the hat sheets (HatSheet.fit): first-guess width/sink per hat and the per-direction width ratios. Hand tuning goes in fit.json, which wins."
-	all[hat_name] = HatSheet.fit(hat_name, views, heads)
+	all[hat_name] = HatSheet.fit(hat_name, views, heads, true)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_hat_out))
 	var out: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	out.store_string(JSON.stringify(all, "\t"))

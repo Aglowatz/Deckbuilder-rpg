@@ -243,6 +243,9 @@ func _update_hat() -> void:
 	_hat_material.set_shader_parameter("flip_h", current_flip)
 	_hat_material.set_shader_parameter("card_size", Vector2(width, height))
 	_hat_material.set_shader_parameter("offset", Vector2(x, y))
+	# Art import Oct 31: fit "behind" (per direction, behind_<DIR>) draws the card behind the body - a wreath painted as its front arc only, seen from behind,
+	# is on the far side of the head, so the hair covers it and only what sticks out past the head shows.
+	_hat_material.set_shader_parameter("depth_nudge", -HAT_NUDGE if float(fit.get("behind", 0.0)) > 0.5 else HAT_NUDGE)
 	# Overnight Oct 29: a per-hat, per-direction tilt (fit "rot", degrees, positive = the front dips) about the hat card's own middle; mirrored with the body.
 	_hat_rot = deg_to_rad(float(fit.get("rot", 0.0))) * (-1.0 if current_flip else 1.0)
 	_hat_material.set_shader_parameter("pivot_x", x)

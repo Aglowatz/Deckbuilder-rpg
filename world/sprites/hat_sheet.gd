@@ -133,10 +133,49 @@ static func _near_view(label: PackedInt32Array, view_of: PackedInt32Array, w: in
 	return false
 
 
+## Art import Oct 31: how far (share) a view's bounding box may differ from FRONT's, in width or height, before `normalise` rescales it.
+const SCALE_TOLERANCE: float = 0.08
+
+
+## A sheet should draw the five views at one scale, but ChatGPT sometimes paints one view bigger. Every view whose trimmed box differs from FRONT's by
+## more than SCALE_TOLERANCE in width or height is scaled (uniformly, its own shape kept) by the geometric mean of FRONT/view over width and height,
+## so the views come out at one size. FRONT and the views within tolerance are returned as they are.
+static func normalise(views: Dictionary) -> Dictionary:
+	var result: Dictionary = views.duplicate()
+	var front: Image = views.get("FRONT") as Image
+	if front == null:
+		return result
+	for dir_name: String in DIRS:
+		var view: Image = views.get(dir_name) as Image
+		if dir_name == "FRONT" or view == null:
+			continue
+		var share_w: float = float(view.get_width()) / float(front.get_width())
+		var share_h: float = float(view.get_height()) / float(front.get_height())
+		if absf(share_w - 1.0) <= SCALE_TOLERANCE and absf(share_h - 1.0) <= SCALE_TOLERANCE:
+			continue
+		var factor: float = 1.0 / sqrt(share_w * share_h)
+		var scaled: Image = view.duplicate() as Image
+		scaled.premultiply_alpha()
+		scaled.resize(maxi(1, int(round(view.get_width() * factor))), maxi(1, int(round(view.get_height() * factor))), Image.INTERPOLATE_LANCZOS)
+		_unpremultiply(scaled)
+		result[dir_name] = scaled
+	return result
+
+
+static func _unpremultiply(image: Image) -> void:
+	for y: int in range(image.get_height()):
+		for x: int in range(image.get_width()):
+			var c: Color = image.get_pixel(x, y)
+			if c.a > 0.0:
+				image.set_pixel(x, y, Color(c.r / c.a, c.g / c.a, c.b / c.a, c.a))
+
+
 ## The per-direction fit of one hat: {"width": front width, "sink": ..., "ratio_<DIR>": ...} for the four other views (that view's card width = width x ratio).
 ## Painted sheets do not keep one scale (a back view is often drawn bigger), so every view is scaled by its own HEAD BAND, the widest row in its bottom third
 ## (the brim, or the band of a toque): the band takes the same share of the head's width from every direction. `head_widths` is kept for the report only.
-static func fit(hat_name: String, views: Dictionary, _head_widths: Dictionary = {}) -> Dictionary:
+## Art import Oct 31: `one_scale` = the views went through `normalise` (one scale across the sheet), so each view keeps its drawn width against
+## FRONT's (ratio = view width / FRONT width). The band rule misreads views whose bottom rows show the hat's opening (the Chef's side view read 0.76).
+static func fit(hat_name: String, views: Dictionary, _head_widths: Dictionary = {}, one_scale: bool = false) -> Dictionary:
 	var base: Dictionary = BASE_FIT.get(hat_name, {"width": 1.5, "sink": 0.3}) as Dictionary
 	var result: Dictionary = {"width": float(base["width"]), "sink": float(base["sink"])}
 	var front: Image = views.get("FRONT") as Image
@@ -148,6 +187,9 @@ static func fit(hat_name: String, views: Dictionary, _head_widths: Dictionary = 
 	for dir_name: String in DIRS:
 		var view: Image = views.get(dir_name) as Image
 		if dir_name == "FRONT" or view == null:
+			continue
+		if one_scale:
+			result["ratio_" + dir_name] = snappedf(float(view.get_width()) / float(front.get_width()), 0.01)
 			continue
 		var share: float = float(view.get_width()) / maxf(1.0, band_width(view))
 		result["ratio_" + dir_name] = snappedf(share / front_share, 0.01)

@@ -110,3 +110,32 @@ func _write(path: String, data: Dictionary) -> void:
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))
 	file.close()
+
+
+## Art import Oct 31: a view painted off-size is scaled to FRONT in the slicer; views within the tolerance are left alone; the fit then keeps one scale.
+func test_normalise_scales_an_off_size_view_to_the_front() -> void:
+	var views: Dictionary = {"FRONT": _hat(100, 50, 1.0), "SIDE": _hat(100, 50, 1.05), "BACK": _hat(100, 50, 1.4)}
+	var normalised: Dictionary = HatSheet.normalise(views)
+	assert_same(normalised["SIDE"], views["SIDE"], "5 % off stays as drawn")
+	var back: Image = normalised["BACK"] as Image
+	assert_almost_eq(float(back.get_width()) / 100.0, 1.0, 0.02, "the 1.4x back view comes out FRONT's width")
+	assert_almost_eq(float(back.get_height()) / 80.0, 1.0, 0.02, "and FRONT's height")
+	var fit: Dictionary = HatSheet.fit("BOWLER", normalised, {}, true)
+	assert_almost_eq(float(fit["ratio_BACK"]), 1.0, 0.02)
+	assert_almost_eq(float(fit["ratio_SIDE"]), 1.05, 0.02, "one scale: a view keeps its drawn width against FRONT")
+
+
+func test_behind_is_a_per_direction_fit_key() -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(TEST_HATS))
+	_write(TEST_HATS + "fit_auto.json", {})
+	_write(TEST_HATS + "fit.json", {"TESTHAT": {"behind_BACK": 1}})
+	SpriteLibrary.reset()
+	SpriteLibrary.hat_folder = TEST_HATS
+	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "FRONT")["behind"]), 0.0, 0.001, "in front of the head by default")
+	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "BACK")["behind"]), 1.0, 0.001, "drawn behind from the back")
+
+
+func test_the_leaf_crown_draws_behind_the_head_from_behind_only() -> void:
+	for dir_name: String in HatSheet.DIRS:
+		var behind: bool = float(SpriteLibrary.hat_fit("LEAFCROWN", dir_name)["behind"]) > 0.5
+		assert_eq(behind, dir_name in ["BACK", "BACKSIDE"], dir_name)

@@ -7,6 +7,6 @@ Rules: one Godot at a time, GUT in groups, commit per part, dialogue freeze, no 
 |---|---|---|
 | 1 | STORY-WAKE-NIGHT on the opening wake-up | done (shots `_screenshots/play/oct31_wake/`) |
 | 2 | ICON-UI-GLOSSARY / ICON-UI-FEATS on the menus | done (shots `_screenshots/oct31/icons_*.png`) |
-| 3 | Hat sheet redos (Chef, Wizard, Leaf Crown) + scale normalise + contact sheet | in progress |
-| 4 | Captain Spotless walk set (11 files) wired to the roamer | todo |
+| 3 | Hat sheet redos (Chef, Wizard, Leaf Crown) + scale normalise + contact sheet | done (`_screenshots/oct31/hats_final/ALL.png`, measure `tools/hat_measure.gd`) |
+| 4 | Captain Spotless walk set (11 files) wired to the roamer | in progress |
 | 5 | GUT groups, missing-art report, import_oct31.md | todo |
