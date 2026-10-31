@@ -1,0 +1,227 @@
+"""Render a Score: FluidSynth (48 kHz) -> hall reverb (render_loop.py, Oct 31) -> loop fold or ring-out -> loudness -> OGG + MP3.
+
+Loops: everything past the loop point is folded back onto the start (seamless), -20 LUFS integrated.
+One-shots: the tail rings out (trailing silence trimmed), -17 LUFS.
+Both: true peak <= PEAK_TARGET (0.5 dB under the game's -1.5 dBFS ceiling: the importer's Vorbis re-encode adds a few tenths).
+"""
+import json
+import os
+import shutil
+import subprocess
+import tempfile
+
+import numpy as np
+import scipy.io.wavfile as wf
+import scipy.signal as ss
+from scipy.ndimage import minimum_filter1d
+
+SR = 48000
+LOOP_LUFS = -20.0
+ONESHOT_LUFS = -17.0
+PEAK_TARGET = -2.0
+CEILING = -1.5
+RENDER_TAIL = 6.0     # seconds rendered past the loop point (synth release + reverb), folded onto the start
+
+DEFAULT_TOOLS = r'C:\Dev\music_tools'
+
+
+def tool_paths():
+    root = os.environ.get('WP_MUSIC_TOOLS', DEFAULT_TOOLS)
+    sf = os.environ.get('WP_SOUNDFONT', os.path.join(root, 'soundfonts', 'FluidR3_GM.sf2'))
+    fs = os.environ.get('WP_FLUIDSYNTH', os.path.join(root, 'fluidsynth', 'fluidsynth-v2.6.1-win10-x64-cpp11', 'bin', 'fluidsynth.exe'))
+    ff = os.environ.get('FFMPEG') or shutil.which('ffmpeg') or 'ffmpeg'
+    for label, path in (('soundfont', sf), ('fluidsynth', fs)):
+        if not os.path.exists(path):
+            raise SystemExit(f'{label} not found at {path} (see docs/audio/music_toolchain.md)')
+    return sf, fs, ff
+
+
+# ---------------------------------------------------------------- loudness (ITU-R BS.1770-4)
+def _k_weight(x):
+    b1, a1 = [1.53512485958697, -2.69169618940638, 1.19839281085285], [1.0, -1.69065929318241, 0.73248077421585]
+    b2, a2 = [1.0, -2.0, 1.0], [1.0, -1.99004745483398, 0.99007225036621]
+    return ss.lfilter(b2, a2, ss.lfilter(b1, a1, x, axis=0), axis=0)
+
+
+def _block_power(x, block=0.4, hop=0.1):
+    y = _k_weight(x)
+    n, h = int(block * SR), int(hop * SR)
+    sq = (y ** 2).sum(axis=1)
+    c = np.concatenate([[0.0], np.cumsum(sq)])
+    starts = np.arange(0, max(1, len(sq) - n + 1), h)
+    return (c[starts + n] - c[starts]) / n, starts
+
+
+def lufs(x):
+    if len(x) < int(0.4 * SR):
+        return -70.0
+    z, _ = _block_power(x)
+    lk = -0.691 + 10 * np.log10(z + 1e-12)
+    g = z[lk > -70]
+    if not len(g):
+        return -70.0
+    rel = -0.691 + 10 * np.log10(g.mean()) - 10
+    g2 = z[(lk > -70) & (lk > rel)]
+    return float(-0.691 + 10 * np.log10(g2.mean()))
+
+
+def true_peak_db(x):
+    up = ss.resample_poly(x, 4, 1, axis=0)
+    return float(20 * np.log10(np.max(np.abs(up)) + 1e-12))
+
+
+def limit(x, ceiling_db, circular, release=0.25, look=0.005):
+    """Look-ahead peak limiter (smooth gain envelope). circular=True treats the signal as a loop so the seam stays continuous."""
+    thr = 10 ** (ceiling_db / 20)
+    pad = int(1.0 * SR)
+    xx = np.vstack([x[-pad:], x, x[:pad]]) if circular else x
+    up_peak = np.abs(ss.resample_poly(xx, 4, 1, axis=0)).max(axis=1).reshape(-1, 4).max(axis=1)[: len(xx)]
+    need = np.minimum(1.0, thr / np.maximum(up_peak, 1e-9))
+    # hold each dip across the look-ahead window (both sides, so the gain is down before the peak arrives), then release slowly
+    held = minimum_filter1d(need, size=2 * int(look * SR) + 1)
+    rel = np.exp(-1.0 / (release * SR))
+    dip = 1.0 - held
+    released = ss.lfilter([1 - rel], [1, -rel], dip)
+    gain = 1.0 - np.maximum(dip, released)
+    # a short symmetric smoothing so the gain never steps
+    k = np.hanning(int(look * SR) * 2 + 1)
+    gain = np.minimum(gain, np.convolve(gain, k / k.sum(), mode='same'))
+    y = xx * gain[:, None]
+    return y[pad:pad + len(x)] if circular else y
+
+
+# ---------------------------------------------------------------- hall reverb (render_loop.py)
+def hall(x, seed=3, length=2.6, dry=0.82, wet=0.32):
+    rng = np.random.default_rng(seed)
+    n = int(length * SR)
+    t = np.arange(n) / SR
+    env = np.exp(-t * 6.9 / length)
+    ir = rng.standard_normal((n, 2)) * env[:, None]
+    b, a = ss.butter(2, [180 / (SR / 2), 7000 / (SR / 2)], 'band')
+    ir = ss.lfilter(b, a, ir, axis=0)
+    ir[: int(0.018 * SR)] = 0
+    ir /= np.sqrt((ir ** 2).sum(axis=0))
+    w = np.stack([ss.fftconvolve(x[:, c], ir[:, c]) for c in range(2)], axis=1)
+    d = np.vstack([x, np.zeros((len(w) - len(x), 2))])
+    return d * dry + w * wet
+
+
+def synth(mid_path, wav_path, sf, fs, gain=0.45):
+    subprocess.run([fs, '-ni', '-g', str(gain), '-r', str(SR), '-F', wav_path, '-o', 'audio.file.format=float',
+                    '-o', 'synth.reverb.active=1', '-o', 'synth.reverb.room-size=0.82',
+                    '-o', 'synth.reverb.damp=0.35', '-o', 'synth.reverb.width=1.0', '-o', 'synth.reverb.level=0.55',
+                    '-o', 'synth.chorus.active=0', '-o', 'synth.polyphony=512', sf, mid_path], check=True, capture_output=True)
+    sr, x = wf.read(wav_path)
+    assert sr == SR
+    x = x.astype(np.float64)
+    if x.dtype.kind == 'i' or np.max(np.abs(x)) > 4:
+        x = x / 32768.0
+    return x
+
+
+# ---------------------------------------------------------------- checks on audio
+def rms_db(x):
+    return float(10 * np.log10(np.mean(x ** 2) + 1e-12))
+
+
+def seam_report(x):
+    """Last second vs first second (dB), and the step across the wrap compared with the file's normal sample-to-sample steps."""
+    one = SR
+    jump = rms_db(x[-one:]) - rms_db(x[:one])
+    d = np.abs(np.diff(x, axis=0)).max(axis=1)
+    wrap = float(np.abs(x[0] - x[-1]).max())
+    p999 = float(np.percentile(d, 99.9))
+    return {'jump_db': round(jump, 2), 'wrap_step': round(wrap, 5), 'p999_step': round(p999, 5),
+            'click': bool(wrap > max(p999 * 1.5, 0.01)), 'ok': bool(abs(jump) <= 1.5 and wrap <= max(p999 * 1.5, 0.01))}
+
+
+def section_arc(x, score):
+    """Integrated LUFS per section (score.sections) for the loudness-arc check."""
+    secs = score.sections or [(0, 'all')]
+    out = []
+    for i, (bar, nm) in enumerate(secs):
+        a = int(score.seconds_at(bar * score.bar_q) * SR)
+        e_bar = secs[i + 1][0] if i + 1 < len(secs) else score.bars
+        b = int(score.seconds_at(e_bar * score.bar_q) * SR)
+        out.append({'section': nm, 'bar': bar, 'bars': e_bar - bar, 'start_s': round(a / SR, 1), 'lufs': round(lufs(x[a:b]), 1)})
+    return out
+
+
+def decode(ff, path):
+    raw = subprocess.run([ff, '-v', 'error', '-i', path, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.float32).reshape(-1, 2).astype(np.float64)
+
+
+def ffmpeg_loudness(ff, path):
+    r = subprocess.run([ff, '-hide_banner', '-nostats', '-i', path, '-af', 'ebur128=peak=true', '-f', 'null', '-'], capture_output=True, text=True)
+    txt = r.stderr
+    i = txt.rfind('Integrated loudness:')
+    seg = txt[i:]
+    val = lambda key: float(seg.split(key)[1].split()[0])
+    return {'lufs': val('I:'), 'true_peak': val('Peak:'), 'lra': val('LRA:')}
+
+
+# ---------------------------------------------------------------- main entry
+def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
+    """Render `score` to <out_dir>/<id>.ogg + <id>.mp3 (preview); writes the clean .mid to `mid_out`. Returns the report dict."""
+    sf, fs, ff = tool_paths()
+    os.makedirs(out_dir, exist_ok=True)
+    score.to_midi(mid_out)
+    loop = score.kind == 'loop'
+    with tempfile.TemporaryDirectory() as tmp:
+        rmid = os.path.join(tmp, 'render.mid')
+        score.to_midi(rmid, tail_seconds=RENDER_TAIL)
+        x = synth(rmid, os.path.join(tmp, 'raw.wav'), sf, fs)
+    y = hall(x)
+    L = int(round(score.seconds * SR))
+    if loop:
+        out = y[:L].copy()
+        tail = y[L:]
+        while len(tail):                       # fold (repeatedly, for tails longer than the loop)
+            k = min(len(tail), L)
+            out[:k] += tail[:k]
+            tail = tail[k:]
+    else:
+        env = np.abs(y).max(axis=1)
+        alive = np.nonzero(env > 10 ** (-70 / 20))[0]
+        end = max(L, int(alive[-1]) + int(0.25 * SR)) if len(alive) else L
+        out = y[:end].copy()
+        fade = int(0.25 * SR)
+        out[-fade:] *= np.linspace(1, 0, fade)[:, None]
+    target = LOOP_LUFS if loop else ONESHOT_LUFS
+    limited_db = 0.0
+    for _ in range(4):
+        out *= 10 ** ((target - lufs(out)) / 20)
+        tp = true_peak_db(out)
+        if tp <= PEAK_TARGET:
+            break
+        out = limit(out, PEAK_TARGET - 0.3, circular=loop)
+        limited_db = max(limited_db, tp - PEAK_TARGET)
+    wav = os.path.join(out_dir, f'{score.id}.wav')
+    wf.write(wav, SR, out.astype(np.float32))
+    ogg = os.path.join(out_dir, f'{score.id}.ogg')
+    mp3 = os.path.join(out_dir, f'{score.id}.mp3')
+    subprocess.run([ff, '-v', 'error', '-y', '-i', wav, '-c:a', 'libvorbis', '-q:a', '6', ogg], check=True)
+    prev = np.vstack([out, out[: int(preview_tail * SR)]]) if loop else out
+    pw = os.path.join(out_dir, f'{score.id}_preview.wav')
+    wf.write(pw, SR, prev.astype(np.float32))
+    subprocess.run([ff, '-v', 'error', '-y', '-i', pw, '-c:a', 'libmp3lame', '-b:a', '192k', mp3], check=True)
+    os.remove(pw)
+    # measure what was actually written
+    dec = decode(ff, ogg)
+    meas = ffmpeg_loudness(ff, ogg)
+    rep = {
+        'id': score.id, 'kind': score.kind, 'key': score.key, 'bpm': score.bpm, 'meter': f'{score.meter[0]}/{score.meter[1]}',
+        'bars': score.bars, 'seconds': round(len(dec) / SR, 2), 'loop_seconds': round(score.seconds, 3),
+        'lufs': meas['lufs'], 'true_peak': meas['true_peak'], 'lra': meas['lra'], 'limited_db': round(limited_db, 2),
+        'peak_ok': meas['true_peak'] <= CEILING, 'lufs_ok': abs(meas['lufs'] - target) <= 0.5,
+        'sections': section_arc(dec[:L] if loop else dec, score),
+        'motifs': [{'bar': round(b, 2), 'form': f, 'ch': c} for b, f, c in score.motifs],
+        'notes': score.note_count(),
+        'files': {'ogg': ogg, 'mp3': mp3, 'mid': mid_out},
+    }
+    if loop:
+        rep['seam'] = seam_report(dec[:L] if len(dec) >= L else dec)
+    if not keep_wav:
+        os.remove(wav)
+    return rep

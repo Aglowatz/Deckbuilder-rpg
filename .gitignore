@@ -27,3 +27,6 @@
 /_audio_source/
 /build_cache/
 /_probe/
+
+# Music toolkit (docs/audio/music_toolchain.md): Python caches; renders live outside the repo
+__pycache__/
