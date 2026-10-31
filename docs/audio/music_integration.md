@@ -114,12 +114,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-DECK | A plan in the cards | `music/MUS-DECK.ogg` | loop, loop | +0.1 | Deck station, Codex / collection and the dungeon deck builder (`music_cue()` of those overlay screens) | In Game | OK | Short overlays (character, quests, map, wardrobe, packs, fast travel) keep the area music. |
 | MUS-FOREST | A stranger in the trees | `music/MUS-FOREST.ogg` | loop, loop | +0.1 | Starting forest (`StartingAreaScene`): waking, the Rescuer, the Path choice | In Game | OK | Dialogue ducks it by 4.5 dB. |
 | MUS-GALLERY | Kept for reference | `music/MUS-GALLERY.ogg` | story | +3.0 | Primm's Castle: the Gallery node (`pc_gallery`, the painted-over royal portrait) | In Game | n/a (one-shot) |  |
-| MUS-GOUR-BATTLE | The Endless Buffet — combat | `music/MUS-GOUR-BATTLE.ogg` | loop, loop | +1.2 | Overworld battles on BB-BUFF; the town's corrupted gourmand gate envoy | In Game | OK |  |
-| MUS-GOUR-BOSS | The Doppelganger | `music/MUS-GOUR-BOSS.ogg` | loop, loop | +1.1 | Test Kitchen principal boss (BB-TTK, boss node) | In Game | OK |  |
-| MUS-GOUR-DUN-BATTLE | Test Kitchen — combat | `music/MUS-GOUR-DUN-BATTLE.ogg` | loop, loop | +1.1 | Test Kitchen battles and elites (BB-TTK) | In Game | OK |  |
-| MUS-GOUR-DUN-EXP | Test Kitchen — exploration | `music/MUS-GOUR-DUN-EXP.ogg` | loop, loop | +1.1 | Test Kitchen node map (D-TTK) and its events | In Game | OK |  |
+| MUS-GOUR-BATTLE | The Endless Buffet — combat | `music/MUS-GOUR-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-BUFF; the town's corrupted gourmand gate envoy | In Game | OK |  |
+| MUS-GOUR-BOSS | The Doppelganger | `music/MUS-GOUR-BOSS.ogg` | loop, loop | +0.1 | Test Kitchen principal boss (BB-TTK, boss node) | In Game | OK |  |
+| MUS-GOUR-DUN-BATTLE | Test Kitchen — combat | `music/MUS-GOUR-DUN-BATTLE.ogg` | loop, loop | +0.1 | Test Kitchen battles and elites (BB-TTK) | In Game | OK |  |
+| MUS-GOUR-DUN-EXP | Test Kitchen — exploration | `music/MUS-GOUR-DUN-EXP.ogg` | loop, loop | +0.1 | Test Kitchen node map (D-TTK) and its events | In Game | OK |  |
 | MUS-GOUR-EXP | The Endless Buffet — exploration | `music/MUS-GOUR-EXP.ogg` | loop, loop | +0.1 | The Endless Buffet (`ZoneScene`, zone `gourmand`) until its own completion flag is set | In Game | OK |  |
-| MUS-GOUR-FREED | The Endless Buffet — restored | `music/MUS-GOUR-FREED.ogg` | loop, loop | +1.1 | The Endless Buffet once `zone_gourmand_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
+| MUS-GOUR-FREED | The Endless Buffet — restored | `music/MUS-GOUR-FREED.ogg` | loop, loop | +0.1 | The Endless Buffet once `zone_gourmand_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-GOUR-RELEASE | The true Chef and a name freely given | `music/MUS-GOUR-RELEASE.ogg` | story | +3.0 | Test Kitchen leader release scene: cutscene `wonder` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-GRAVE-BATTLE | Something beneath the stones | `music/MUS-GRAVE-BATTLE.ogg` | loop, loop | +0.9 | The Restless Cairn scripted challenge (BB-GRAVE) | In Game | OK |  |
 | MUS-GRAVE-EXP | Old Hob's evening hum | `music/MUS-GRAVE-EXP.ogg` | loop, loop | +0.9 | The town graveyard (within 6 m of the Restless Cairn): lies over MUS-TOWN, hands back 3 m further out | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |

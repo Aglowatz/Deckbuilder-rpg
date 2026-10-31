@@ -1,0 +1,141 @@
+{
+ "id": "MUS-GOUR-DUN-BATTLE",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 140,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 123.43,
+ "loop_seconds": 123.429,
+ "lufs": -20.0,
+ "true_peak": -7.0,
+ "lra": 4.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro bed",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -19.6
+  },
+  {
+   "section": "A brass theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.9,
+   "lufs": -19.4
+  },
+  {
+   "section": "B tension",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 34.3,
+   "lufs": -20.7
+  },
+  {
+   "section": "C machine drop",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 61.7,
+   "lufs": -21.9
+  },
+  {
+   "section": "D tutti",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 89.1,
+   "lufs": -19.0
+  },
+  {
+   "section": "outro bed",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 116.6,
+   "lufs": -19.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (brass, over the bed)",
+   "ch": "brass"
+  },
+  {
+   "bar": 8.0,
+   "form": "stated (horns, under the brass)",
+   "ch": "hn"
+  },
+  {
+   "bar": 20.0,
+   "form": "augmented (horns, tension)",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "augmented, a fifth up (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated (saw lead, machine drop)",
+   "ch": "lead"
+  },
+  {
+   "bar": 60.0,
+   "form": "stated (horns, tutti)",
+   "ch": "hn"
+  },
+  {
+   "bar": 69.0,
+   "form": "head (brass, over the bed)",
+   "ch": "brass"
+  }
+ ],
+ "notes": 2628,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-GOUR-DUN-BATTLE\\MUS-GOUR-DUN-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-GOUR-DUN-BATTLE\\MUS-GOUR-DUN-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-DUN-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.7,
+  "wrap_step": 0.00068,
+  "p999_step": 0.05688,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.83,
+   "bars_without_melody": [
+    0,
+    2,
+    23,
+    27,
+    31,
+    35,
+    42,
+    50,
+    66,
+    67,
+    70,
+    71
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

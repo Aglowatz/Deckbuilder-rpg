@@ -20,10 +20,10 @@
 			"file": "res://assets/audio/stings/STG-WIN-GOUR-BOSS.wav",
 			"loop": false,
 			"bus": "Music",
-			"volume_db": 3.9,
+			"volume_db": 0.1,
 			"zone": "",
 			"category": "Sting",
-			"use": "Winning the battle that plays MUS-GOUR-BOSS: its climax (169.0 s in), cut by tools/cut_stings.js",
+			"use": "Winning the battle that plays MUS-GOUR-BOSS: its climax (120.0 s in), cut by tools/cut_stings.js",
 			"duration": 3.6,
 			"gameplay": true
 		},
