@@ -1,0 +1,8 @@
+# Overnight Oct 30-31, Part 5: load timings (run with LOAD_TIMING=1): the snapshot into town, the Dump, back to town
+wait 2
+dev load midgame_real
+wait 12
+dev travel zone refusemancer
+wait 14
+dev travel town
+wait 12

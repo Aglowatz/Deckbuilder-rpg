@@ -173,7 +173,9 @@ func is_load_finished() -> bool:
 		return false
 	if _warming_popups:
 		return false
-	return _warmup == null or not is_instance_valid(_warmup) or (_warmup.screens_done() and (not _staged_build or _warmup.settled()))
+	# Overnight Oct 30-31, Part 5 (faster loading): the reveal waits for the first screens, not for the menu paintings: those keep arriving on
+	# loader threads after the fade-in (a screen opened before its painting has arrived waits for the thread's copy, as before).
+	return _warmup == null or not is_instance_valid(_warmup) or _warmup.screens_done()
 
 
 ## v0.4.2 hotfix: a level-up screen or a reward box opening at the fade-in cost a 0.5-2.6 s first frame (its live blurred backdrop, rays,
@@ -210,13 +212,21 @@ func _start_files_warmup() -> void:
 	var banner: String = Areas.banner_id(Areas.TOWN)
 	if KeyArt.has(banner):
 		_files_warmup.add_path(KeyArt.path_for(banner))  # the zone title card shown at the fade-in
+	LoadTiming.mark("town: %d files asked for on loader threads" % _files_warmup.requested())
+
+
+## What is only known at the end of the build: characters added by the later steps, and the cave arrival's portraits.
+func _warm_late_files() -> void:
+	if _files_warmup == null:
+		_start_files_warmup()
+	_files_warmup.add_sprite_characters(SceneWarmup.sprite_characters_under(self))
 	if arrival_pending:
 		var story: StoryText = StoryText.shared()
 		var lines: Array[String] = []
 		for key: String in ["cave_mouth.maren", "cave_mouth.wanderer", "cave_mouth.maren_end"]:
 			lines.append_array(story.get_lines(key))
 		_files_warmup.add_portraits(["NPC-ELDER", NpcRegistry.PLAYER_ID] as Array[String], lines)
-	LoadTiming.mark("town: %d files asked for on loader threads" % _files_warmup.requested())
+	LoadTiming.mark("town: %d files asked for in all" % _files_warmup.requested())
 
 
 ## Overnight Oct 20: SceneManager gave up waiting for the build (BUILD_TIMEOUT, or its watchdog): whatever is left switches on so the town
@@ -356,6 +366,11 @@ func _ready() -> void:
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	await _stage("town: spots, enemies, obstacles")
+	# Overnight Oct 30-31, Part 5 (faster loading): the files of the first seconds are asked for on loader threads as soon as the actors and
+	# enemies exist, so the threads work while the rest of the town builds (they were asked for at the very end and the reveal waited
+	# 1.3-2.2 s for them).
+	if _staged_build:
+		_start_files_warmup()
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
 	await _stage("town: StyleRig")
@@ -457,7 +472,7 @@ func _ready() -> void:
 		_warmup.start_now()  # behind the loading screen, not 2 s after it lifts
 	add_child(_warmup)
 	if _staged_build:
-		_start_files_warmup()
+		_warm_late_files()
 	LoadTiming.mark("town: _ready end")
 	_built = true
 	if _staged_build and is_inside_tree():

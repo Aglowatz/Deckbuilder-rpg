@@ -58,8 +58,8 @@ func run() -> void:
 	# Walk into the treeline: the Wanderer talks themselves back.
 	scene.player.position = _find_edge_spot(scene)
 	await driver.seconds(0.6)
-	_check(scene.dialogue.active, "standing at the treeline makes the Wanderer talk to themselves")
-	_check(scene.dialogue.npc_id == NpcRegistry.PLAYER_ID, "the self-talk is the Wanderer's own line")
+	_check(not scene.self_talk_line().is_empty(), "standing at the treeline makes the Wanderer talk to themselves (a speech bubble since Oct 31)")
+	_check(not scene.dialogue.active, "the self-talk is a bubble: the walk never stops")
 	await _dismiss(scene)
 
 	# The cave gate goes straight into the dungeon (no second choice).

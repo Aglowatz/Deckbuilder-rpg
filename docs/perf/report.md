@@ -211,3 +211,32 @@ Crosspath -> zone or cave -> Crosspath, cycling Gainlands, D.N.A., Buffet, Dump,
 
 The smoke fails when static or video memory grows more than 5 MB or objects more than 200 over the measured trips. Not touched: the first
 visit to each area still adds its caches (sprite frames, kit textures, ~20-30 MB the first time); that is bounded (the warm-up lap).
+
+## Faster loading (Overnight Oct 30-31, Part 5)
+
+Measured on the real path (`LOAD_TIMING=1 bash tools/play.sh docs/review/play_scripts/oct31_p5_loads.txt <run>`: title -> snapshot into
+Crosspath -> the Dump -> Crosspath; `load_timing:` lines, fade-out to fade-in, Medium, 1600x900). **This PC is noisy**: the same build
+gave 8.3 s and 12.8 s for the first town load in back-to-back runs (the slow runs spend ~5 s in "painted: swaps", disk / paging with ~2 GB
+free), so every figure below is from a quiet run and the return trip was checked twice.
+
+| Load | Before (two runs) | After (quiet run; second run) | Change |
+|---|---:|---:|---|
+| Crosspath, first arrival of the session | 8.4 / 8.3 s | 8.1 s | ~same (the first screens are built under the cover once per session: ~1.7 s, kept on purpose) |
+| The Verdant Dump | 7.3 / 6.7 s | 6.7 s | same |
+| Crosspath, coming back from a zone | 7.1 / 7.2 s | **6.0 / 6.0 s** | **-1.2 s** |
+| Worst frame in the 5 s after the fade-in | 30-68 ms | 36-49 ms | no new hitch |
+
+What changed (`world/town_scene.gd`):
+- The ~250 files of the first seconds in town (every facing of the painted characters, the footsteps, voices, ambience) are asked for on
+  loader threads as soon as the actors and enemies exist (2.9 s into the build) instead of at its end; the reveal waited 1.2-1.7 s for them.
+  The characters added later and the cave arrival's portraits are added at the end (`_warm_late_files`).
+- The reveal waits for the first screens (Sable's, Tilly's, the Deck Station, built once a session) but no longer for the menu paintings,
+  which keep arriving on threads after the fade-in (a screen opened before its painting arrives waits for the thread's copy, as before).
+
+Tried and dropped: loading the next scene file on a loader thread during the fade-out (`change_scene_to_packed`): the scene's resources
+then contend with the main thread's build - Crosspath 8.3 -> 13.1 s, the Dump 6.7 -> 11.8 s. The zones' remaining costs are their builders
+(the Dump: landmarks 0.66 s, layout 0.64 s, props 0.4 s, painted swaps 1.0 s) and Crosspath's TownSquare (1.0 s), props (0.8 s) and hub
+scenery (1.2 s); caching them is the next step (with a cold and a warm walk smoke per cached piece, the rule since the Oct 25 revert).
+
+Checks: Crosspath walk smoke OK, prologue smoke OK (the cave -> Crosspath arrival; its treeline check updated to the Oct 31 speech
+bubble), memory round trip OK (6 trips, static +1.0 MB, video +0.9 MB), structure budget OK. Raw runs: `_screenshots/play/oct31_p5_*`.
