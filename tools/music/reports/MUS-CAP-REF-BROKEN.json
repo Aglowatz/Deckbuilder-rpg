@@ -8,8 +8,8 @@
  "seconds": 109.09,
  "loop_seconds": 109.091,
  "lufs": -20.0,
- "true_peak": -6.2,
- "lra": 7.8,
+ "true_peak": -6.3,
+ "lra": 8.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -24.9
+   "lufs": -25.1
   },
   {
    "section": "A thin theme",
    "bar": 8,
    "bars": 16,
    "start_s": 10.9,
-   "lufs": -18.3
+   "lufs": -18.2
   },
   {
    "section": "B holes",
    "bar": 24,
    "bars": 16,
    "start_s": 32.7,
-   "lufs": -20.2
+   "lufs": -20.1
   },
   {
    "section": "flute drift",
    "bar": 40,
    "bars": 8,
    "start_s": 54.5,
-   "lufs": -17.4
+   "lufs": -17.5
   },
   {
    "section": "A' thinner",
    "bar": 48,
    "bars": 16,
    "start_s": 65.5,
-   "lufs": -19.9
+   "lufs": -19.8
   },
   {
    "section": "clutter, glimmer",
    "bar": 64,
    "bars": 8,
    "start_s": 87.3,
-   "lufs": -21.2
+   "lufs": -21.3
   },
   {
    "section": "clutter again",
    "bar": 72,
    "bars": 8,
    "start_s": 98.2,
-   "lufs": -25.2
+   "lufs": -25.4
   }
  ],
  "motifs": [
@@ -84,8 +84,8 @@
  },
  "seam": {
   "jump_db": -0.03,
-  "wrap_step": 0.00218,
-  "p999_step": 0.05952,
+  "wrap_step": 0.0053,
+  "p999_step": 0.06022,
   "click": false,
   "ok": true
  },

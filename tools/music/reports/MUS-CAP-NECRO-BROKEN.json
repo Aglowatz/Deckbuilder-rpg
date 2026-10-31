@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 45.0,
-   "lufs": -22.1
+   "lufs": -22.0
   },
   {
    "section": "C the clerk returns",
@@ -64,9 +64,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-NECRO-BROKEN.mid"
  },
  "seam": {
-  "jump_db": 0.92,
-  "wrap_step": 0.00051,
-  "p999_step": 0.05319,
+  "jump_db": 0.91,
+  "wrap_step": 0.00083,
+  "p999_step": 0.05326,
   "click": false,
   "ok": true
  },
@@ -107,6 +107,6 @@
   }
  },
  "composer_notes": [
-  "Broken district: the D.N.A. theme on a celesta doubled 25 cents flat (Score.detune), phrases cut off."
+  "Broken district: the D.N.A. theme on a celesta doubled 15 cents flat (Music Pass 3: was 25) (Score.detune), phrases cut off."
  ]
 }

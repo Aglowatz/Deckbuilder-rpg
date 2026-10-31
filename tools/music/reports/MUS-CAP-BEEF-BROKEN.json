@@ -8,8 +8,8 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -3.6,
- "lra": 7.6,
+ "true_peak": -2.9,
+ "lra": 7.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -47,7 +47,7 @@
    "bar": 40,
    "bars": 4,
    "start_s": 109.1,
-   "lufs": -18.0
+   "lufs": -18.1
   }
  ],
  "motifs": [
@@ -69,9 +69,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-BEEF-BROKEN.mid"
  },
  "seam": {
-  "jump_db": 0.2,
-  "wrap_step": 0.0054,
-  "p999_step": 0.03831,
+  "jump_db": -0.14,
+  "wrap_step": 0.00718,
+  "p999_step": 0.03856,
   "click": false,
   "ok": true
  },
@@ -103,6 +103,6 @@
   }
  },
  "composer_notes": [
-  "Broken = the Gainlands theme cut off mid-phrase, a shadow horn 25 cents flat (Score.detune), exhausted tuba pulse."
+  "Broken = the Gainlands theme cut off mid-phrase, a shadow horn 15 cents flat (Music Pass 3: was 25) (Score.detune), exhausted tuba pulse."
  ]
 }

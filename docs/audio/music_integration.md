@@ -50,12 +50,6 @@ to the game. Nothing in the Drive folder was moved, renamed or deleted: the impo
 
 These play, but the wrap is audible. Listed for the next production pass; the files are left as delivered.
 
-- MUS-CAP-CORRECTION: 0.60 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail)
-- MUS-CAP-FACADE-BATTLE: ends 15 dB quieter than it begins (decay / cut-off tail)
-- MUS-CAP-FACADE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
-- MUS-CAP-OUT-EXP: 0.49 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail)
-- MUS-CASTLE-EXP: ends 16 dB quieter than it begins (decay / cut-off tail)
-- MUS-CREASE: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail)
 - MUS-GRAVE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
 - MUS-QUIZ: 0.45 s of digital silence at the wrap
 - MUS-SHOP-ALEMBIC: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail)
@@ -88,23 +82,23 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-BEEF-RELEASE | Flex's rescue and true strength | `music/MUS-BEEF-RELEASE.ogg` | story | +0.0 | House of Gains leader release scene: cutscene `rescue` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-CAP-BEEF-BROKEN | Transit Yards — broken service | `music/MUS-CAP-BEEF-BROKEN.ogg` | loop, loop | +0.0 | Transit Yards (area `transit`) while `zone_beefcake_completed` is not set | In Game | OK |  |
 | MUS-CAP-BEEF-RESTORED | Transit Yards — service returns | `music/MUS-CAP-BEEF-RESTORED.ogg` | loop, loop | +0.0 | Transit Yards (area `transit`) once `zone_beefcake_completed` is set | In Game | OK |  |
-| MUS-CAP-CORRECTION | Smiled incorrectly | `music/MUS-CAP-CORRECTION.ogg` | loop, loop | +1.0 | The Correction Ward (area `ward`) | In Game | Needs loop fix: 0.60 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-CAP-ENFORCER | Every smudge is treason | `music/MUS-CAP-ENFORCER.ogg` | loop, loop | +0.7 | Captain Spotless (the Approved Gate exam) and Capital officers / inspectors | In Game | OK |  |
-| MUS-CAP-FACADE-BATTLE | Approved disagreement | `music/MUS-CAP-FACADE-BATTLE.ogg` | loop, loop | +1.0 | Capital battles on BB-CAP-IN | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-CAP-FACADE-EXP | Everything is perfectly fine | `music/MUS-CAP-FACADE-EXP.ogg` | loop, loop | +1.0 | Inside the walls: Checkpoint Plaza, the Showcase Quarter, the Castle Approach, Checkpoint Row (areas `plaza`, `perfection`, `approach`, `yard`) | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |
+| MUS-CAP-CORRECTION | Smiled incorrectly | `music/MUS-CAP-CORRECTION.ogg` | loop, loop | +0.1 | The Correction Ward (area `ward`) | In Game | OK |  |
+| MUS-CAP-ENFORCER | Every smudge is treason | `music/MUS-CAP-ENFORCER.ogg` | loop, loop | +0.1 | Captain Spotless (the Approved Gate exam) and Capital officers / inspectors | In Game | OK |  |
+| MUS-CAP-FACADE-BATTLE | Approved disagreement | `music/MUS-CAP-FACADE-BATTLE.ogg` | loop, loop | +0.1 | Capital battles on BB-CAP-IN | In Game | OK |  |
+| MUS-CAP-FACADE-EXP | Everything is perfectly fine | `music/MUS-CAP-FACADE-EXP.ogg` | loop, loop | +0.0 | Inside the walls: Checkpoint Plaza, the Showcase Quarter, the Castle Approach, Checkpoint Row (areas `plaza`, `perfection`, `approach`, `yard`) | In Game | OK |  |
 | MUS-CAP-GOUR-BROKEN | Hungry Quarter — broken service | `music/MUS-CAP-GOUR-BROKEN.ogg` | loop, loop | +0.0 | Hungry Quarter (area `hungry`) while `zone_gourmand_completed` is not set | In Game | OK |  |
 | MUS-CAP-GOUR-RESTORED | Hungry Quarter — service returns | `music/MUS-CAP-GOUR-RESTORED.ogg` | loop, loop | +0.1 | Hungry Quarter (area `hungry`) once `zone_gourmand_completed` is set | In Game | OK |  |
 | MUS-CAP-NECRO-BROKEN | Grave Row — broken service | `music/MUS-CAP-NECRO-BROKEN.ogg` | loop, loop | +0.0 | Grave Row (area `grave`) while `zone_necrocrat_completed` is not set | In Game | OK |  |
 | MUS-CAP-NECRO-RESTORED | Grave Row — service returns | `music/MUS-CAP-NECRO-RESTORED.ogg` | loop, loop | +0.1 | Grave Row (area `grave`) once `zone_necrocrat_completed` is set | In Game | OK |  |
-| MUS-CAP-OUT-BATTLE | The wasteland road | `music/MUS-CAP-OUT-BATTLE.ogg` | loop, loop | +0.8 | Capital battles on BB-CAP-OUT (before the hero has gone through the gate) | In Game | OK |  |
-| MUS-CAP-OUT-EXP | Outside the approved walls | `music/MUS-CAP-OUT-EXP.ogg` | loop, loop | +1.0 | Capital outskirts, the gate and the open road (`CapitalScene`, areas `outskirts` / `gate`) | In Game | Needs loop fix: 0.49 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail) |  |
+| MUS-CAP-OUT-BATTLE | The wasteland road | `music/MUS-CAP-OUT-BATTLE.ogg` | loop, loop | +0.1 | Capital battles on BB-CAP-OUT (before the hero has gone through the gate) | In Game | OK |  |
+| MUS-CAP-OUT-EXP | Outside the approved walls | `music/MUS-CAP-OUT-EXP.ogg` | loop, loop | +0.1 | Capital outskirts, the gate and the open road (`CapitalScene`, areas `outskirts` / `gate`) | In Game | OK |  |
 | MUS-CAP-REF-BROKEN | The Reek — broken service | `music/MUS-CAP-REF-BROKEN.ogg` | loop, loop | +0.1 | The Reek (area `reek`) while `zone_refusemancer_completed` is not set | In Game | OK |  |
 | MUS-CAP-REF-RESTORED | The Reek — service returns | `music/MUS-CAP-REF-RESTORED.ogg` | loop, loop | +0.1 | The Reek (area `reek`) once `zone_refusemancer_completed` is set | In Game | OK |  |
 | MUS-CAP-RESTORED | Pathordia — many ways home | `music/MUS-CAP-RESTORED.ogg` | loop, loop | +0.1 | Postgame Capital (`zone_final_completed`): inside the walls, outside the districts | In Game | OK |  |
-| MUS-CAP-RIFT | A seam in reality | `music/MUS-CAP-RIFT.ogg` | loop, loop | +1.0 | Capital Rift Wretches and Shard Swarms | In Game | OK |  |
-| MUS-CASTLE-BATTLE | The mirror parquet | `music/MUS-CASTLE-BATTLE.ogg` | loop, loop | +0.8 | Castle ordinary and elite battles (BB-PC) | In Game | OK |  |
-| MUS-CASTLE-EXP | Behind the white and gold | `music/MUS-CASTLE-EXP.ogg` | loop, loop | +1.0 | Primm's Castle node map (D-PC) and its events | In Game | Needs loop fix: ends 16 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-CREASE | Tea of dissent | `music/MUS-CREASE.ogg` | loop, loop | +1.0 | The Crease hideout (area `crease`; Wren, Nurse Hesper Dray) | In Game | Needs loop fix: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail) |  |
+| MUS-CAP-RIFT | A seam in reality | `music/MUS-CAP-RIFT.ogg` | loop, loop | +0.1 | Capital Rift Wretches and Shard Swarms | In Game | OK |  |
+| MUS-CASTLE-BATTLE | The mirror parquet | `music/MUS-CASTLE-BATTLE.ogg` | loop, loop | +0.1 | Castle ordinary and elite battles (BB-PC) | In Game | OK |  |
+| MUS-CASTLE-EXP | Behind the white and gold | `music/MUS-CASTLE-EXP.ogg` | loop, loop | +0.1 | Primm's Castle node map (D-PC) and its events | In Game | OK |  |
+| MUS-CREASE | Tea of dissent | `music/MUS-CREASE.ogg` | loop, loop | +0.1 | The Crease hideout (area `crease`; Wren, Nurse Hesper Dray) | In Game | OK |  |
 | MUS-CREDITS | Many ways forward | `music/MUS-CREDITS.ogg` | story | +0.0 | Ending credits (`EndingScreen._start_credits`) | In Game | n/a (one-shot) | 332 s, longer than the placeholder credits scroll; it is a one-shot and is left to finish or be replaced by the Capital's music. |
 | MUS-DECK | A plan in the cards | `music/MUS-DECK.ogg` | loop, loop | +0.1 | Deck station, Codex / collection and the dungeon deck builder (`music_cue()` of those overlay screens) | In Game | OK | Short overlays (character, quests, map, wardrobe, packs, fast travel) keep the area music. |
 | MUS-FOREST | A stranger in the trees | `music/MUS-FOREST.ogg` | loop, loop | +0.1 | Starting forest (`StartingAreaScene`): waking, the Rescuer, the Path choice | In Game | OK | Dialogue ducks it by 4.5 dB. |
@@ -187,9 +181,9 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.1 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
 | MUS-TOWN-BATTLE | Friendly ground, serious cards | `music/MUS-TOWN-BATTLE.ogg` | loop, loop | +0.1 | Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback | In Game | OK |  |
 | MUS-TOWN-FREED | Crosspath — returning citizens | `music/MUS-TOWN-FREED.ogg` | loop, loop | +0.1 | Town once `ZoneCompletion.count` reaches 4 (partial recovery keeps MUS-TOWN) | In Game | OK |  |
-| MUS-TUNNEL-BATTLE | Old Service Tunnels — combat | `music/MUS-TUNNEL-BATTLE.ogg` | loop, loop | +0.9 | Old Service Tunnels ordinary battles (BB-S-CAP) | In Game | OK |  |
-| MUS-TUNNEL-BOSS | Captain Spotless | `music/MUS-TUNNEL-BATTLE.ogg` (alias of MUS-TUNNEL-BATTLE) | loop, loop | +0.9 | Old Service Tunnels boss (BB-S-CAP, boss node) | In Game | OK | Compatibility alias: plays MUS-TUNNEL-BATTLE's file. |
-| MUS-TUNNEL-EXP | Old Service Tunnels — exploration | `music/MUS-TUNNEL-EXP.ogg` | loop, loop | +0.9 | Old Service Tunnels node map (S-CAP) and events | In Game | OK |  |
+| MUS-TUNNEL-BATTLE | Old Service Tunnels — combat | `music/MUS-TUNNEL-BATTLE.ogg` | loop, loop | +0.1 | Old Service Tunnels ordinary battles (BB-S-CAP) | In Game | OK |  |
+| MUS-TUNNEL-BOSS | Captain Spotless | `music/MUS-TUNNEL-BOSS.ogg` | loop, loop | +0.1 | Old Service Tunnels boss (BB-S-CAP, boss node) | In Game | OK | Its own track since Music Pass 3 (Oct 31); was an alias of MUS-TUNNEL-BATTLE. |
+| MUS-TUNNEL-EXP | Old Service Tunnels — exploration | `music/MUS-TUNNEL-EXP.ogg` | loop, loop | +0.1 | Old Service Tunnels node map (S-CAP) and events | In Game | OK |  |
 | MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Cave battles (BB-TUT) | In Game | OK |  |
 | MUS-TUT-BOSS | Hollow Warden — familiar scent | `music/MUS-TUT-BOSS.ogg` | loop, loop | +0.1 | Hollow Warden boss (BB-TUT, boss node) | In Game | OK | Its own track since Music Pass 1 (Oct 31); was an alias of MUS-TUT-BATTLE. |
 | MUS-TUT-EXP | Forgotten Cave — old passage | `music/MUS-TUT-EXP.ogg` | loop, loop | +0.1 | Forgotten Cave node map (D-TUT, no main/side dungeon active) | In Game | OK |  |

@@ -8,8 +8,8 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -3.8,
- "lra": 10.8,
+ "true_peak": -3.9,
+ "lra": 10.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -40,7 +40,7 @@
    "bar": 36,
    "bars": 8,
    "start_s": 90.0,
-   "lufs": -19.2
+   "lufs": -19.3
   },
   {
    "section": "rift again",
@@ -75,8 +75,8 @@
  },
  "seam": {
   "jump_db": -0.09,
-  "wrap_step": 0.00298,
-  "p999_step": 0.0539,
+  "wrap_step": 0.00401,
+  "p999_step": 0.05427,
   "click": false,
   "ok": true
  },
