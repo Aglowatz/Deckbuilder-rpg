@@ -1,0 +1,11 @@
+# Overnight Oct 30-31: the zone HP bar's breakdown in the Capital (Famine lowers it)
+wait 2
+dev load midgame_real
+wait 6
+dev travel capital
+wait 12
+skip_dialogue 20
+move 800 70
+wait 1.5
+shot 01_capital_hp_tip
+dump

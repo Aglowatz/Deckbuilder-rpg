@@ -7,6 +7,8 @@ var _label: Label
 var _bar: ProgressBar
 var _last_hp: int = -1
 var _shake: Tween
+## Overnight Oct 30-31 (mid-game critic #2): the caption names a max HP that differs from the level's own, and the tooltip breaks it down.
+var _note: Label
 
 
 func _ready() -> void:
@@ -27,7 +29,9 @@ func _ready() -> void:
 	_bar.show_percentage = false
 	UiSkin.skin_bar(_bar, "hp", 38.0, UIStyle.HP_RED)
 	column.add_child(_bar)
-	column.add_child(UIKit.label("Zone HP: no healing after battles.", &"MutedLabel", 16))
+	_note = UIKit.label("Zone HP: no healing after battles.", &"MutedLabel", 16)
+	column.add_child(_note)
+	mouse_filter = Control.MOUSE_FILTER_PASS
 	EventBus.zone_hp_changed.connect(set_hp)
 	if Session.zone_run != null:
 		set_hp(Session.zone_run.hp, Session.zone_run.max_hp())
@@ -37,6 +41,10 @@ func set_hp(hp: int, max_hp: int) -> void:
 	if _label == null:
 		return
 	_label.text = "HP  %d / %d" % [hp, max_hp]
+	if Session.zone_run != null and Session.profile != null:
+		tooltip_text = "Max HP in this zone:\n" + "\n".join(Session.zone_run.run.hp_breakdown()) + "\nZone HP carries from fight to fight; leaving the zone restores it."
+		var base: int = Session.profile.base_max_hp()
+		_note.text = "Zone HP: no healing after battles." if max_hp == base else "Zone HP: no healing after battles. Max %d here (%+d, hover)." % [max_hp, max_hp - base]
 	_bar.max_value = max_hp
 	_bar.value = hp
 	var ratio: float = float(hp) / float(maxi(max_hp, 1))
