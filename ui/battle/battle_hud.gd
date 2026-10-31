@@ -35,6 +35,10 @@ var _preview_card: CardView
 var _tip_layer: CanvasLayer
 var _tip_anchor: CardView
 const TIP_LAYER: int = 25
+## Fresh eyes round 2 (Oct 31): the turn / result banner's layer, above the tooltips (and the battle screen's toast at TOAST_LAYER).
+const TOAST_LAYER: int = 26
+const BANNER_LAYER: int = 27
+var _banner_layer: CanvasLayer
 const TIP_WIDTH: float = 330.0
 const TIP_GAP: float = 14.0
 const TIP_MARGIN: float = 10.0
@@ -357,6 +361,12 @@ func _build_preview() -> void:
 
 
 func _build_banner() -> void:
+	# Fresh eyes round 2 (Oct 31): the banner and the announce line live in their own layer above the card tooltips (TIP_LAYER) and the board, so
+	# VICTORY! is never drawn under a hover box or the enemy's units in its first frames (the second critic's `critic2_11_20_victory_banner`).
+	_banner_layer = CanvasLayer.new()
+	_banner_layer.name = "BannerLayer"
+	_banner_layer.layer = BANNER_LAYER
+	add_child(_banner_layer)
 	_announce = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_announce.name = "Announce"
 	_announce.add_theme_font_override("font", UIStyle.font_bold())
@@ -367,7 +377,7 @@ func _build_banner() -> void:
 	_announce.modulate.a = 0.0
 	_announce.z_index = 390
 	_announce.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_announce)
+	_banner_layer.add_child(_announce)
 	_banner = UIKit.label("", &"TitleLabel", 92, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	# Fresh eyes Oct 30: top-left anchors like every other HUD piece. With centre anchors the position was turned into offsets while the HUD
 	# still had no size, so once laid out the banner sat at (960 + 385, 540 + 440): "VICT" / "DEF" clipped at the bottom right of every duel.
@@ -376,7 +386,8 @@ func _build_banner() -> void:
 	_banner.size = Vector2(1200, 120)
 	_banner.modulate.a = 0.0
 	_banner.z_index = 400
-	add_child(_banner)
+	_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_banner_layer.add_child(_banner)
 
 
 # ---- Updates ----------------------------------------------------------------------------
@@ -589,6 +600,20 @@ func hide_preview() -> void:
 	_tip_anchor = null
 
 
+## Fresh eyes round 2 (Oct 31): where the enlarged card preview is drawn while it is up (canvas units), so the tutorial bubbles can keep off it.
+func preview_rect() -> Rect2:
+	if _preview_root == null or not _preview_root.visible or _preview_card == null or not is_instance_valid(_preview_card):
+		return Rect2()
+	return Rect2(_preview_card.position, CardView.SIZE * _preview_card.scale)
+
+
+## A player's HP plate (portrait, name, HP bar and energy orbs) in canvas units; empty before the HUD is built.
+func plate_rect(player_index: int) -> Rect2:
+	if player_index < 0 or player_index >= _portraits.size() or _portraits[player_index] == null:
+		return Rect2()
+	return _portraits[player_index].get_global_rect()
+
+
 ## True when the rules text is nothing but the names of keywords the box explains anyway ("Hustle." or "Bulldoze. Swat.").
 static func _only_keywords(rules: String, entries: Array[Array]) -> bool:
 	if rules.is_empty():
@@ -617,6 +642,10 @@ func _process(_delta: float) -> void:
 func _place_tip() -> void:
 	if _tip_anchor == null or not is_instance_valid(_tip_anchor) or not _tip_anchor.is_inside_tree():
 		return
+	# Fresh eyes round 2 (Oct 31): the box is re-fitted to its text every frame. Its wrapping labels report a huge height on the frame they are
+	# added (no width yet), and a Control never shrinks by itself, so the box kept that first height: a dark column down to the bottom of the
+	# screen that covered the hand and the "cannot play" toast (the second critic's `critic2_11_14_t2_click2`).
+	_tooltip.size = Vector2(TIP_WIDTH, 0)
 	var box: Vector2 = Vector2(TIP_WIDTH, maxf(_tooltip.get_combined_minimum_size().y, _tooltip.size.y))
 	_tooltip.position = tip_position(_tip_anchor.get_global_rect(), box, get_viewport().get_visible_rect().size)
 

@@ -1,0 +1,59 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification A: the Path screen's More, the treeline bubble, "Go in?" answered with E
+wait 2
+button New Game
+wait 1.5
+button Start here
+wait 4
+skip_dialogue 45
+wait 1.5
+shot 01_path_screen
+click 670 400
+wait 0.6
+shot 02_gourmand_selected
+button More
+wait 0.6
+shot 03_gourmand_more
+dump
+button Less
+wait 0.5
+shot 04_gourmand_less
+button Begin
+wait 5
+skip_dialogue 25
+wait 5
+skip_dialogue 10
+wait 1
+shot 05_forest_free
+scene
+hold W+D 2
+hold W+D 1.5
+wait 0.2
+shot 06_treeline_bubble
+dump
+scene
+hold W 1.5
+wait 0.2
+shot 07_still_walking
+scene
+hold W+D 1
+hold W 1
+wait 0.3
+shot 08_at_entrance
+dump
+key E
+wait 1.2
+shot 09_go_in_popup
+dump
+key E
+wait 3
+shot 10_after_e_confirm
+scene
+skip_dialogue 15
+wait 1.5
+shot 11_node_map
+dump
+key E
+wait 1
+shot 12_tip_after_e
+dump
+dev save r2_cave_start

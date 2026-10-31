@@ -1,0 +1,47 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification B: map tip and duel tips answered with E, toast above the tooltip, tooltip height, banner on top
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+shot 01_map_tip
+key E
+wait 1
+shot 02_map_tip_after_e
+dump
+click 500 495
+wait 3
+shot 03_duel_open
+key E
+wait 0.8
+shot 04_intro_tip_after_e
+dump
+button Keep Hand
+wait 1
+shot 05_hand
+dump
+click 819 800
+wait 1.2
+shot 06_after_infra1
+key E
+wait 0.8
+shot 07_energy_tip_after_e
+dump
+click 991 800
+wait 0.4
+shot 08_second_infra_toast
+dump
+click 457 800
+wait 0.4
+shot 09_unaffordable_toast
+move 800 300
+wait 0.6
+shot 10_tooltip_gone
+move 991 800
+wait 0.8
+shot 11_hover_tooltip
+dev win
+wait 0.4
+shot 12_victory_banner_early
+wait 2.5
+shot 13_result

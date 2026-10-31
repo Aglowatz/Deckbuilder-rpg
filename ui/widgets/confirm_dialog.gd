@@ -94,14 +94,44 @@ func _ready() -> void:
 	no.focus_mode = Control.FOCUS_ALL
 	(no if bool(get_meta("danger")) else yes).call_deferred(&"grab_focus")
 	_cancel_button = no
+	_confirm_button = yes
 	PadFocus.register(self)
 
 
 var _cancel_button: FancyButton
+var _confirm_button: FancyButton
+## Fresh eyes round 2 (Oct 31): how long the dialog has been open. A confirm press is ignored for `GUARD_TIME` after it opens, so the E
+## press that opened it ("Go in?" at the cave gate) can never also answer it.
+var _age: float = 0.0
+const GUARD_TIME: float = 0.35
+
+
+func _process(delta: float) -> void:
+	_age += delta
 
 
 ## Controller support (Oct 26): the pad's B answers with the cancel button (Esc is left to the screen below, as before).
+## Fresh eyes round 2 (Oct 31): E (the overworld's interact key, which the HUD advertises on the very screen the dialog opens over), Enter,
+## Space and the pad's A press the focused button - the one drawn gold - exactly as a click on it would. A focused FancyButton already takes
+## Enter / Space / A itself; this catches E and any confirm press that reaches the dialog while no button has the focus (a mouse user who
+## clicked beside the panel). The safe button of a dangerous question keeps the focus, so E there says "Cancel", like Enter does.
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventJoypadButton and UiInput.is_back(event) and is_visible_in_tree() and _cancel_button != null:
+	if not is_visible_in_tree():
+		return
+	if event is InputEventJoypadButton and UiInput.is_back(event) and _cancel_button != null:
 		get_viewport().set_input_as_handled()
 		_cancel_button.pressed.emit()
+		return
+	if UiInput.is_confirm(event) and _age >= GUARD_TIME:
+		get_viewport().set_input_as_handled()
+		var target: BaseButton = focused_button()
+		if target != null and not target.disabled:
+			target.pressed.emit()
+
+
+## The button a confirm key answers with: the focused one when it is one of this dialog's, else the primary button.
+func focused_button() -> BaseButton:
+	var owner_now: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	if owner_now is BaseButton and is_ancestor_of(owner_now):
+		return owner_now as BaseButton
+	return _confirm_button

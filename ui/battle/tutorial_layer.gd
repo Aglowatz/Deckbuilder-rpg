@@ -200,6 +200,22 @@ func on_attackers_changed(_count: int) -> void:
 	pass
 
 
+## Fresh eyes round 2 (Oct 31): E and Enter (the keys the game calls "interact" and "confirm") press "Got it" while an info tip is up, as the
+## click does; the pad's cursor already reaches the button (`BattlePad`). Space stays the battle's own phase key and is left alone, so a
+## Space meant for To Combat never also closes a tip. A short guard after the tip opens keeps the key that caused it from closing it unread.
+const GOT_IT_GUARD: float = 0.6
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _skipped or _current == "" or not _bubble.visible or not _got_it.visible or _time - _shown_at < GOT_IT_GUARD:
+		return
+	var key: InputEventKey = event as InputEventKey
+	var enter: bool = key != null and key.pressed and not key.echo and (key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER)
+	if enter or (InputMap.has_action(&"interact") and event.is_action_pressed(&"interact") and not event.is_echo()):
+		get_viewport().set_input_as_handled()
+		_on_got_it()
+
+
 func _on_got_it() -> void:
 	if _current != "":
 		_mark_done(_current)
@@ -555,6 +571,12 @@ func _avoid_rects(id: String) -> Array[Rect2]:
 		rects.append(_union(blockers))
 	if id in ["infrastructure", "unit", "trap", "tool"]:
 		rects.append(_union(_hand_where(func(_card: CardInstance) -> bool: return true)))
+	# Fresh eyes round 2 (Oct 31): never over the enlarged card preview (left column) or either player's plate - the second critic's "Play a unit"
+	# tip sat on the preview and its "Energy" tip on the player's plate.
+	if screen.hud != null:
+		rects.append(screen.hud.preview_rect())
+		rects.append(screen.hud.plate_rect(0))
+		rects.append(screen.hud.plate_rect(1))
 	return rects
 
 

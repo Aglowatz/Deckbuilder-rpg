@@ -49,6 +49,29 @@ func _keep_on_screen() -> void:
 
 
 func dismiss() -> void:
+	if _dismissed:
+		return
+	_dismissed = true
 	var tween: Tween = create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(queue_free)
+
+
+## Fresh eyes round 2 (Oct 31): "Got it" also answers to E / Enter / Space / the pad's A (the keys the game calls "interact" and "confirm"), after
+## a short guard so the press that opened the screen cannot also close its tip. A focused button on the screen below takes Enter / Space / A
+## first (it never sees them here); E always reaches the tip.
+const GUARD_TIME: float = 0.4
+var _age: float = 0.0
+var _dismissed: bool = false
+
+
+func _process(delta: float) -> void:
+	_age += delta
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _dismissed or _age < GUARD_TIME or not is_visible_in_tree():
+		return
+	if UiInput.is_confirm(event):
+		get_viewport().set_input_as_handled()
+		dismiss()

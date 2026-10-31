@@ -16,6 +16,10 @@ func test_infrastructure_count_is_spelled_out() -> void:
 	challenge.threshold = 3
 	var cards: Array[CardData] = [GameFactory.infra(Affinity.Type.BEEFCAKE), GameFactory.infra(Affinity.Type.BEEFCAKE), GameFactory.vanilla(2, 2), GameFactory.infra(Affinity.Type.BEEFCAKE), GameFactory.vanilla(1, 1)]
 	assert_eq(ChallengeResolver.explain(challenge, _result(cards, true)), "3 of the 5 cards were Infrastructure; 3 were needed.")
+	# Fresh eyes round 2 (Oct 31): the verb agrees with its number ("1 ... was", "2 were").
+	challenge.threshold = 1
+	var one: Array[CardData] = [GameFactory.infra(Affinity.Type.BEEFCAKE), GameFactory.vanilla(2, 2), GameFactory.vanilla(1, 1)]
+	assert_eq(ChallengeResolver.explain(challenge, _result(one, true)), "1 of the 3 cards was Infrastructure; 1 was needed.")
 
 
 func test_first_unit_attack_names_the_unit() -> void:

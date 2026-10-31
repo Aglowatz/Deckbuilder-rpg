@@ -1,0 +1,32 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification C: the Hollow Well's Reveal and Continue answered with E
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+button Got it
+wait 0.5
+click 500 495
+wait 3
+button Got it
+wait 0.8
+button Keep Hand
+wait 1
+dev win
+wait 2.5
+button Continue
+wait 2.5
+button Take
+wait 2.5
+click 740 670
+wait 3
+shot 01_well_opened
+key E
+wait 3.5
+shot 02_well_after_e
+dump
+key E
+wait 1.5
+shot 03_after_e2
+scene
+dump

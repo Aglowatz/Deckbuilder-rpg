@@ -1,0 +1,27 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification A2: "Go in?" answered with E, the cave's map tip answered with E
+wait 2
+dev load r2_cave_start
+wait 3
+shot 01_loaded
+dump
+hold W+D 1
+hold W 1
+wait 0.3
+shot 02_at_gate
+dump
+key E
+wait 1.2
+shot 03_go_in_popup
+dump
+key E
+wait 3
+shot 04_after_e_confirm
+scene
+skip_dialogue 15
+wait 1.5
+shot 05_node_map
+dump
+key E
+wait 1
+shot 06_tip_after_e
+dump

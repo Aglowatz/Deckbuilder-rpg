@@ -1,0 +1,33 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification A4: the critic's walk from the forest start, "Go in?" answered with E, the map tip answered with E
+wait 2
+dev load c2_forest_start
+wait 3
+hold W+D 2
+hold W+D 1.5
+wait 0.2
+hold W 2
+hold W+D 1
+hold W 1
+hold W 0.5
+wait 0.3
+shot 01_at_gate
+dump
+key E
+wait 1.2
+shot 02_go_in_popup
+dump
+key E
+wait 3
+shot 03_after_e_confirm
+scene
+skip_dialogue 15
+wait 1.5
+shot 04_node_map
+dump
+key E
+wait 1
+shot 05_tip_after_e
+dump
+key R
+wait 0.8
+shot 06_rules

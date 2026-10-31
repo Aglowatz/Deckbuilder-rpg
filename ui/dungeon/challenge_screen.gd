@@ -44,9 +44,29 @@ func _ready() -> void:
 	_reveal_button = FancyButton.make("Reveal", &"PrimaryButton", Vector2(260, 60))
 	_reveal_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_reveal_button.pressed.connect(_on_reveal)
+	_reveal_button.focus_mode = Control.FOCUS_ALL
 	_column.add_child(_reveal_button)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open")
+	_reveal_button.call_deferred(&"grab_focus")
+
+
+## Fresh eyes round 2 (Oct 31): E / Enter / Space / the pad's A press Reveal, and later Continue (the HUD under the well says "E: interact";
+## the critic tapped E at the well and nothing happened). A short guard keeps the click that opened the well from also revealing it.
+const GUARD_TIME: float = 0.4
+var _age: float = 0.0
+
+
+func _process(delta: float) -> void:
+	_age += delta
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _age < GUARD_TIME or not is_visible_in_tree() or _reveal_button == null or _reveal_button.disabled:
+		return
+	if UiInput.is_confirm(event):
+		get_viewport().set_input_as_handled()
+		_reveal_button.pressed.emit()
 
 
 func _pick_challenge() -> ChallengeData:

@@ -1,0 +1,29 @@
+# Fresh eyes round 2 (Oct 31), Part 1 verification B2: the "cannot play" toast drawn above the clicked card's tooltip
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel dungeon D-TUT
+wait 4
+key E
+wait 0.8
+click 500 495
+wait 3
+key E
+wait 0.8
+button Keep Hand
+wait 1.2
+shot 01_hand
+dump
+click 900 800
+wait 0.2
+shot 02_click_a
+click 560 800
+wait 0.2
+shot 03_click_b
+click 1070 800
+wait 0.2
+shot 04_click_c
+click 730 800
+wait 0.2
+shot 05_click_d
+dump

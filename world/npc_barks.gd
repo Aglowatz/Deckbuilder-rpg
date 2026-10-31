@@ -96,15 +96,25 @@ func _is_blocked() -> bool:
 	return blocked.is_valid() and bool(blocked.call())
 
 
-func _show(node: Node3D, text: String) -> void:
+func _show(node: Node3D, text: String, seconds: float = SHOW_SECONDS) -> void:
 	_speaker = node
-	_shown = SHOW_SECONDS
+	_shown = seconds
 	_label.text = text
 	_bubble.visible = true
 	_bubble.reset_size()
 	_bubble.modulate.a = 0.0
 	create_tween().tween_property(_bubble, "modulate:a", 1.0, 0.18)
 	_place()
+
+
+## Fresh eyes round 2 (Oct 31): a line said right now over `node` (the hero's treeline self-talk in the starting forest), skipping the
+## range and cooldown rules - a speech bubble that never stops the walk, where a dialogue box used to hold the player until E. It
+## replaces whatever bubble is up. `seconds` scales with the line's length so a long line can be read.
+func say(node: Node3D, text: String, seconds: float = -1.0) -> void:
+	if node == null or text.is_empty():
+		return
+	_global = GLOBAL_COOLDOWN
+	_show(node, text, seconds if seconds > 0.0 else clampf(1.8 + 0.055 * float(text.length()), SHOW_SECONDS, 7.0))
 
 
 func _hide() -> void:

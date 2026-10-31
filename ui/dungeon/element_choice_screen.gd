@@ -21,6 +21,8 @@ var _detail: PanelContainer
 var _detail_title: Label
 var _detail_identity: Label
 var _detail_playstyle: Label
+## Fresh eyes round 2 (Oct 31): the block "More" opens - the Resource and the whole starting deck.
+var _detail_more: Label
 ## The tile under the mouse or with focus (NEUTRAL = none).
 var _shown: Affinity.Type = Affinity.Type.NEUTRAL
 var _more_open: bool = false
@@ -126,6 +128,12 @@ func _make_detail() -> PanelContainer:
 	_detail_playstyle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_detail_playstyle.custom_minimum_size = Vector2(1180, 0)
 	box.add_child(_detail_playstyle)
+	_detail_more = UIKit.label("", &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_detail_more.name = "DetailMore"
+	_detail_more.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_detail_more.custom_minimum_size = Vector2(1180, 0)
+	_detail_more.visible = false
+	box.add_child(_detail_more)
 	return strip
 
 
@@ -152,7 +160,57 @@ func _show(color: Affinity.Type) -> void:
 func _toggle_more() -> void:
 	_more_open = not _more_open
 	_more.text = "Less" if _more_open else "More"
+	_more.tooltip_text = "Hide the Resource and starting deck" if _more_open else "Show the highlighted Path's Resource and its whole starting deck"
+	Audio.sfx(&"ui_select", -6.0)
 	_refresh_detail()
+
+
+## Fresh eyes round 2 (Oct 31): what "More" adds under the identity and playstyle (the second critic pressed it and saw nothing change,
+## because the strip already showed both on hover): the Path's Resource with what it does, and the 45-card starting deck in words - the
+## Infrastructure count, the card types, and every named card with its copies. Built from `CampaignStart`, so it is always the real deck.
+func _more_text(path: Affinity.Type) -> String:
+	var lines: PackedStringArray = []
+	var kind: int = ResourceKind.created_by_basic(path)
+	if kind >= 0:
+		lines.append("Resource: %s. %s" % [ResourceKind.display_name(kind as ResourceKind.Kind), str(ResourceKind.DESCRIPTIONS.get(kind, ""))])
+	var deck: Deck = CampaignStart.starter_deck(Session.content, path)
+	if deck == null or deck.cards.is_empty():
+		return "\n".join(lines)
+	var infra: int = 0
+	var units: int = 0
+	var traps: int = 0
+	var tools: int = 0
+	var spells: int = 0
+	var copies: Dictionary = {}
+	var order: Array[String] = []
+	for card: CardData in deck.cards:
+		if card.is_infrastructure():
+			infra += 1
+			continue
+		if card.is_unit():
+			units += 1
+		elif card.type == CardEnums.CardType.TRAP:
+			traps += 1
+		elif card.is_tool():
+			tools += 1
+		else:
+			spells += 1
+		if not copies.has(card.display_name):
+			order.append(card.display_name)
+		copies[card.display_name] = int(copies.get(card.display_name, 0)) + 1
+	var parts: PackedStringArray = ["%d %s Infrastructure" % [infra, UIStyle.affinity_name(path)], "%d units" % units]
+	if spells > 0:
+		parts.append("%d spells" % spells)
+	if traps > 0:
+		parts.append("%d trap%s" % [traps, "" if traps == 1 else "s"])
+	if tools > 0:
+		parts.append("%d tool%s" % [tools, "" if tools == 1 else "s"])
+	lines.append("Starting deck, %d cards: %s." % [deck.cards.size(), ", ".join(parts)])
+	var named: PackedStringArray = []
+	for card_name: String in order:
+		named.append("%s x%d" % [card_name, int(copies[card_name])])
+	lines.append("The cards: " + ", ".join(named) + ".")
+	return "\n".join(lines)
 
 
 ## Which Path the strip describes: the highlighted tile; with More open and nothing highlighted, the selected one (or the first).
@@ -177,13 +235,17 @@ func _refresh_detail() -> void:
 			offer = candidate
 	if offer == null:
 		_detail_title.text = ""
-		_detail_identity.text = "Point at a Path (or press More) to read how it plays. You can mix in other Paths later."
+		_detail_identity.text = "Point at a Path to read how it plays; More shows its Resource and its whole starting deck. You can mix in other Paths later."
 		_detail_playstyle.text = ""
+		_detail_more.visible = false
 		return
 	_detail_title.text = UIStyle.affinity_name(offer.affinity)
 	_detail_title.add_theme_color_override("font_color", UIStyle.affinity_color(offer.affinity).lightened(0.25))
 	_detail_identity.text = offer.identity
 	_detail_playstyle.text = offer.playstyle
+	_detail_more.visible = _more_open
+	if _more_open:
+		_detail_more.text = _more_text(offer.affinity)
 
 
 func _select(color: Affinity.Type) -> void:

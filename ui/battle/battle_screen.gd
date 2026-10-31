@@ -426,11 +426,20 @@ func _build_scene() -> void:
 	_toast_label.add_theme_font_override("font", UIStyle.font_bold())
 	_toast_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	_toast_label.add_theme_constant_override("outline_size", 8)
-	_toast_label.position = Vector2(585, 676)
+	# Fresh eyes round 2 (Oct 31): y 585 (was 676) - above the top of a lifted hand card and of the tooltip that is top-aligned with it (~640), so the
+	# sentence never shares pixels with the hover box of the card just clicked.
+	_toast_label.position = Vector2(585, 585)
 	_toast_label.size = Vector2(800, 40)
 	_toast_label.modulate.a = 0.0
 	_toast_label.z_index = 500
-	add_child(_toast_label)
+	_toast_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# Fresh eyes round 2 (Oct 31): the toast ("Needs 3 energy; you have 1") lives in its own layer above the card tooltips (BattleHud.TIP_LAYER), so
+	# the hover box of the card just clicked can no longer hide the sentence that explains the click (the second critic's finding 4).
+	var toast_layer: CanvasLayer = CanvasLayer.new()
+	toast_layer.name = "ToastLayer"
+	toast_layer.layer = BattleHud.TOAST_LAYER
+	add_child(toast_layer)
+	toast_layer.add_child(_toast_label)
 	# Overnight Oct 23, Part 1: scripted boss/elite events and the warning the turn before a timed one.
 	script_banner = ScriptEventBanner.new()
 	script_banner.z_index = 480
@@ -1552,7 +1561,7 @@ func _toast(message: String) -> void:
 	_toast_label.text = message
 	_toast_label.modulate.a = 1.0
 	var tween: Tween = create_tween()
-	tween.tween_interval(1.0)
+	tween.tween_interval(1.8)  # Fresh eyes round 2: a whole sentence needs longer than the old 1.0 s
 	tween.tween_property(_toast_label, "modulate:a", 0.0, 0.4)
 
 

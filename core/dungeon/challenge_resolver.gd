@@ -4,6 +4,11 @@ extends RefCounted
 ## decides success, then applies the outcomes to the run.
 
 
+## Fresh eyes round 2 (Oct 31): "1 of the 5 cards was Infrastructure; 2 were needed." - the verb agrees with its number.
+static func _were(count: int) -> String:
+	return "was" if count == 1 else "were"
+
+
 ## Fresh eyes Oct 30: the outcome in numbers, so the player learns the rule ("3 of the 5 were Infrastructure; 3 were needed."). "" for
 ## the challenge kinds whose outcome is the player's own choice.
 static func explain(challenge: ChallengeData, result: ChallengeResult) -> String:
@@ -16,11 +21,11 @@ static func explain(challenge: ChallengeData, result: ChallengeResult) -> String
 			return "No unit came up; one with %d attack was needed." % challenge.threshold
 		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
 			var count: int = _count(result.revealed, func(c: CardData) -> bool: return c.is_infrastructure())
-			return "%d of the %d cards were Infrastructure; %d were needed." % [count, shown, challenge.threshold]
+			return "%d of the %d cards %s Infrastructure; %d %s needed." % [count, shown, _were(count), challenge.threshold, _were(challenge.threshold)]
 		ChallengeData.Kind.TOP_N_TYPE_COUNT:
 			var wanted: CardEnums.CardType = challenge.card_type
 			var count: int = _count(result.revealed, func(c: CardData) -> bool: return c.type == wanted)
-			return "%d of the %d cards were %s cards; %d were needed." % [count, shown, str(CardEnums.CardType.keys()[wanted]).capitalize(), challenge.threshold]
+			return "%d of the %d cards %s %s cards; %d %s needed." % [count, shown, _were(count), str(CardEnums.CardType.keys()[wanted]).capitalize(), challenge.threshold, _were(challenge.threshold)]
 		ChallengeData.Kind.TOP_N_TOTAL_COST:
 			var total: int = 0
 			for card: CardData in result.revealed:

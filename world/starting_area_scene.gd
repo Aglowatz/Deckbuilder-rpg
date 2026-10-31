@@ -58,6 +58,13 @@ var _rescuer: Node3D
 var _maren: Node3D
 var _self_talk_cooldown: float = 0.0
 var _self_talk_index: int = 0
+## Fresh eyes round 2 (Oct 31): the hero's treeline self-talk bubble (an `NpcBarks` with the hero as its only speaker).
+var _barks: NpcBarks
+
+
+## The treeline line on screen right now ("" when none), for the smokes.
+func self_talk_line() -> String:
+	return _barks.current_line() if _barks != null else ""
 ## Postgame (Story v2 Part H): Rip's forest station, the freed Rescuer and the Lab hatch.
 var _station: FastTravelStation
 var _rip: Node3D
@@ -174,6 +181,12 @@ func _build_ui() -> void:
 	host.add_child(UIKit.vignette(0.6))
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
+	# Fresh eyes round 2 (Oct 31): the treeline self-talk is a speech bubble over the hero (the town's bark bubble), not a dialogue box -
+	# it never stops the walk. Quiet while a real conversation or a cutscene runs.
+	_barks = NpcBarks.new()
+	_barks.name = "SelfTalk"
+	_barks.blocked = func() -> bool: return _locked or dialogue.active
+	add_child(_barks)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -364,7 +377,9 @@ func _check_forest_edge(delta: float) -> void:
 	var lines: Array[String] = StoryText.shared().get_lines("prologue.self_talk")
 	var line: String = lines[_self_talk_index % lines.size()]
 	_self_talk_index += 1
-	dialogue.start("", [line] as Array[String], NpcRegistry.PLAYER_ID)
+	# Fresh eyes round 2 (Oct 31): a bubble over the hero's head instead of a dialogue box (the second critic sat with a held walk key and
+	# an open text box). `self_talk_line()` says what is up, for the smokes.
+	_barks.say(player, line)
 	# Turned gently back toward the cave.
 	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 	var back: Vector3 = player.position.move_toward(Vector3(gate.x, player.position.y, gate.z + 1.2), 0.9)
