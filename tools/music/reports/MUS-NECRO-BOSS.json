@@ -1,0 +1,150 @@
+{
+ "id": "MUS-NECRO-BOSS",
+ "kind": "loop",
+ "key": "C minor (harmonic)",
+ "bpm": 126,
+ "meter": "4/4",
+ "bars": 88,
+ "seconds": 167.62,
+ "loop_seconds": 167.619,
+ "lufs": -20.0,
+ "true_peak": -5.0,
+ "lra": 8.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -24.3
+  },
+  {
+   "section": "A Mortimer",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.6,
+   "lufs": -19.3
+  },
+  {
+   "section": "B the waltz in 4/4",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 38.1,
+   "lufs": -19.6
+  },
+  {
+   "section": "C the question inverted",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 68.6,
+   "lufs": -23.5
+  },
+  {
+   "section": "D he is sure",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 99.0,
+   "lufs": -23.0
+  },
+  {
+   "section": "E climax",
+   "bar": 60,
+   "bars": 16,
+   "start_s": 114.3,
+   "lufs": -16.9
+  },
+  {
+   "section": "F filing",
+   "bar": 76,
+   "bars": 8,
+   "start_s": 144.8,
+   "lufs": -22.3
+  },
+  {
+   "section": "outro",
+   "bar": 84,
+   "bars": 4,
+   "start_s": 160.0,
+   "lufs": -24.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horns, entering the office)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "inverted (cello)",
+   "ch": "vc"
+  },
+  {
+   "bar": 40.0,
+   "form": "inverted (horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 48.0,
+   "form": "head (horn, upright again)",
+   "ch": "hn"
+  },
+  {
+   "bar": 60.0,
+   "form": "stated (horns: the hero fights back), sequenced up a third",
+   "ch": "hn"
+  },
+  {
+   "bar": 86.0,
+   "form": "head (horns, entering the office)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2552,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-BOSS\\MUS-NECRO-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-BOSS\\MUS-NECRO-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -0.08,
+  "wrap_step": 0.00752,
+  "p999_step": 0.05605,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.9,
+   "bars_without_melody": [
+    38,
+    39,
+    42,
+    43,
+    63,
+    64,
+    65,
+    66,
+    67
+   ],
+   "buried_bars": [
+    2,
+    86
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

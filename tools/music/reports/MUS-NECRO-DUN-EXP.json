@@ -1,0 +1,138 @@
+{
+ "id": "MUS-NECRO-DUN-EXP",
+ "kind": "loop",
+ "key": "F minor",
+ "bpm": 88,
+ "meter": "3/4",
+ "bars": 64,
+ "seconds": 130.91,
+ "loop_seconds": 130.909,
+ "lufs": -20.0,
+ "true_peak": -6.6,
+ "lra": 10.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro clock",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -26.3
+  },
+  {
+   "section": "A desk to desk",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.2,
+   "lufs": -19.1
+  },
+  {
+   "section": "B fragments pile up",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 40.9,
+   "lufs": -19.2
+  },
+  {
+   "section": "C humane line",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 73.6,
+   "lufs": -21.1
+  },
+  {
+   "section": "D paperwork peak",
+   "bar": 48,
+   "bars": 12,
+   "start_s": 98.2,
+   "lufs": -19.4
+  },
+  {
+   "section": "outro clock",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 122.7,
+   "lufs": -27.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (bassoon, low)",
+   "ch": "bsn"
+  },
+  {
+   "bar": 33.0,
+   "form": "tail (horn, between desks)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated, slow (cello)",
+   "ch": "vc"
+  },
+  {
+   "bar": 41.0,
+   "form": "stated (clarinet, an answer that stops short)",
+   "ch": "cl"
+  },
+  {
+   "bar": 62.0,
+   "form": "head (bassoon, low)",
+   "ch": "bsn"
+  }
+ ],
+ "notes": 1185,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-DUN-EXP\\MUS-NECRO-DUN-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-DUN-EXP\\MUS-NECRO-DUN-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-DUN-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -1.21,
+  "wrap_step": 0.00061,
+  "p999_step": 0.0611,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.78,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    11,
+    38,
+    39,
+    43,
+    56,
+    57,
+    60,
+    61,
+    62,
+    63
+   ],
+   "buried_bars": [
+    21,
+    28,
+    58,
+    59
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

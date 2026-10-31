@@ -1,0 +1,169 @@
+{
+ "id": "MUS-NECRO-BATTLE",
+ "kind": "loop",
+ "key": "C minor",
+ "bpm": 138,
+ "meter": "3/4",
+ "bars": 96,
+ "seconds": 125.22,
+ "loop_seconds": 125.217,
+ "lufs": -20.0,
+ "true_peak": -6.8,
+ "lra": 6.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.8
+  },
+  {
+   "section": "A brass theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 5.2,
+   "lufs": -18.5
+  },
+  {
+   "section": "B motif",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 26.1,
+   "lufs": -20.7
+  },
+  {
+   "section": "C paperwork",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 47.0,
+   "lufs": -20.9
+  },
+  {
+   "section": "D organ tutti",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 57.4,
+   "lufs": -18.1
+  },
+  {
+   "section": "E augmented",
+   "bar": 60,
+   "bars": 16,
+   "start_s": 78.3,
+   "lufs": -22.3
+  },
+  {
+   "section": "F theme again",
+   "bar": 76,
+   "bars": 16,
+   "start_s": 99.1,
+   "lufs": -20.1
+  },
+  {
+   "section": "outro",
+   "bar": 92,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -24.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horns, the call)",
+   "ch": "hn"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 23.0,
+   "form": "stated (horns, sequenced up a third)",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated (horns + violins 8va)",
+   "ch": "hn"
+  },
+  {
+   "bar": 42.0,
+   "form": "tail (clarinet, left unfinished)",
+   "ch": "cl"
+  },
+  {
+   "bar": 60.0,
+   "form": "augmented (trombones)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 74.0,
+   "form": "head (horns, pushing on)",
+   "ch": "hn"
+  },
+  {
+   "bar": 82.0,
+   "form": "head (organ echo)",
+   "ch": "organ"
+  },
+  {
+   "bar": 93.0,
+   "form": "head (horns, the call)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2833,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-BATTLE\\MUS-NECRO-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-BATTLE\\MUS-NECRO-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.68,
+  "wrap_step": 0.00663,
+  "p999_step": 0.04979,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.83,
+   "bars_without_melody": [
+    0,
+    2,
+    25,
+    30,
+    59,
+    63,
+    67,
+    68,
+    71,
+    73,
+    74,
+    75,
+    83,
+    92,
+    94,
+    95
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

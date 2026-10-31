@@ -137,12 +137,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-MINIGAME-GOUR | Flambe's cooking show | `music/MUS-MINIGAME-GOUR.ogg` | loop, loop | +1.1 | The Endless Buffet minigame screen (Order game) | In Game | OK |  |
 | MUS-MINIGAME-NECRO | Kyle's memory matching | `music/MUS-MINIGAME-NECRO.ogg` | loop, loop | +1.0 | The Department of Necrotic Affairs minigame screen (Match game) | In Game | OK |  |
 | MUS-MINIGAME-REF | Rhonda's sorting ribbons | `music/MUS-MINIGAME-REF.ogg` | loop, loop | +1.0 | The Verdant Dump minigame screen (Sort game) | In Game | OK |  |
-| MUS-NECRO-BATTLE | The Department of Necrotic Affairs — combat | `music/MUS-NECRO-BATTLE.ogg` | loop, loop | +1.1 | Overworld battles on BB-DNA; the town's corrupted necrocrat gate envoy | In Game | OK |  |
-| MUS-NECRO-BOSS | Mortimer Grimsby, CE-No | `music/MUS-NECRO-BOSS.ogg` | loop, loop | +1.1 | Hall of Final Approvals principal boss (BB-HFA, boss node) | In Game | OK |  |
-| MUS-NECRO-DUN-BATTLE | Hall of Final Approvals — combat | `music/MUS-NECRO-DUN-BATTLE.ogg` | loop, loop | +1.1 | Hall of Final Approvals battles and elites (BB-HFA) | In Game | OK |  |
-| MUS-NECRO-DUN-EXP | Hall of Final Approvals — exploration | `music/MUS-NECRO-DUN-EXP.ogg` | loop, loop | +1.0 | Hall of Final Approvals node map (D-HFA) and its events | In Game | OK |  |
+| MUS-NECRO-BATTLE | The Department of Necrotic Affairs — combat | `music/MUS-NECRO-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-DNA; the town's corrupted necrocrat gate envoy | In Game | OK |  |
+| MUS-NECRO-BOSS | Mortimer Grimsby, CE-No | `music/MUS-NECRO-BOSS.ogg` | loop, loop | +0.0 | Hall of Final Approvals principal boss (BB-HFA, boss node) | In Game | OK |  |
+| MUS-NECRO-DUN-BATTLE | Hall of Final Approvals — combat | `music/MUS-NECRO-DUN-BATTLE.ogg` | loop, loop | +0.1 | Hall of Final Approvals battles and elites (BB-HFA) | In Game | OK |  |
+| MUS-NECRO-DUN-EXP | Hall of Final Approvals — exploration | `music/MUS-NECRO-DUN-EXP.ogg` | loop, loop | +0.1 | Hall of Final Approvals node map (D-HFA) and its events | In Game | OK |  |
 | MUS-NECRO-EXP | The Department of Necrotic Affairs — exploration | `music/MUS-NECRO-EXP.ogg` | loop, loop | +0.1 | The Department of Necrotic Affairs (`ZoneScene`, zone `necrocrat`) until its own completion flag is set | In Game | OK |  |
-| MUS-NECRO-FREED | The Department of Necrotic Affairs — restored | `music/MUS-NECRO-FREED.ogg` | loop, loop | +1.0 | The Department of Necrotic Affairs once `zone_necrocrat_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
+| MUS-NECRO-FREED | The Department of Necrotic Affairs — restored | `music/MUS-NECRO-FREED.ogg` | loop, loop | +0.1 | The Department of Necrotic Affairs once `zone_necrocrat_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-NECRO-RELEASE | Agnes — help people | `music/MUS-NECRO-RELEASE.ogg` | story | +3.0 | Hall of Final Approvals leader release scene: cutscene `vacancy` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-OMAKASE-BATTLE | Omakase — combat | `music/MUS-OMAKASE-BATTLE.ogg` | loop, loop | +1.1 | Omakase ordinary battles (BB-S-GOUR) | In Game | OK |  |
 | MUS-OMAKASE-BOSS | The Itamae Supreme | `music/MUS-OMAKASE-BATTLE.ogg` (alias of MUS-OMAKASE-BATTLE) | loop, loop | +1.1 | Omakase boss (BB-S-GOUR, boss node) | In Game | OK | Compatibility alias: plays MUS-OMAKASE-BATTLE's file. |

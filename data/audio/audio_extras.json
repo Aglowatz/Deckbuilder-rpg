@@ -33,10 +33,10 @@
 			"file": "res://assets/audio/stings/STG-WIN-NECRO-BOSS.wav",
 			"loop": false,
 			"bus": "Music",
-			"volume_db": 3.7,
+			"volume_db": -0.1,
 			"zone": "",
 			"category": "Sting",
-			"use": "Winning the battle that plays MUS-NECRO-BOSS: its climax (170.0 s in), cut by tools/cut_stings.js",
+			"use": "Winning the battle that plays MUS-NECRO-BOSS: its climax (127.7 s in), cut by tools/cut_stings.js",
 			"duration": 3.6,
 			"gameplay": true
 		},

@@ -11,7 +11,7 @@ Previous run (Music Pass 1) finished; its report is `docs/audio/music_pass_oct31
 |---|---|---|
 | 0 | Bible (zone directions, zone-theme rule, freed rule); demos ported as NECRO/GOUR/REF-EXP; inbox answers (music_list rows, TOWN v05, lullaby removals, DECK cello) | done (in game; GUT audio 89/89, music smoke OK) |
 | 1 | 21 stingers (Batch 07) | done (in game as WAV; victory sting fired after a pilot-played battle; GUT audio 89/89, smoke OK) |
-| 2 | D.N.A. Batch 03: NECRO-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
+| 2 | D.N.A. Batch 03: NECRO-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
 | 3 | Buffet Batch 04: GOUR-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
 | 4 | Dump Batch 05: REF-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
 | 5 | Path extras Batch 08 (RELEASE, side dungeons with own BOSS, shops, minigames, Capital districts) | todo |
