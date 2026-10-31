@@ -34,6 +34,26 @@ You can edit and apply again as often as you like. `applied_ledger.json` keeps e
 goes back to the line as it was before this pass. `export_snapshot.json` is the text at export. If a spreadsheet program
 changes a Current line cell (curly quotes, `- ` lines turned into formulas), the row still matches through the snapshot.
 
+## Critic suggestions (Oct 31)
+
+The Oct 31 critic pass wrote `docs/dialogue/critic_suggestions_oct31.csv` (one row per suggested change: ID, Zone/Area, Speaker,
+Effective line, Suggested line, Why, Category, Priority, Designer line). To review them in the sheet, add two columns to the Dialogue
+Edit tab (any position; the importer finds columns by their header):
+
+| Column | Meaning |
+|---|---|
+| Critic suggestion | The suggested line for that ID (blank on rows without one) |
+| Accept (Y) | Type `Y` (or `y`) to accept the suggestion |
+
+Rules: an explicit **New line always wins**. A row with an empty New line and Accept = Y applies the critic suggestion; a suggestion
+without Y is ignored. To change a suggestion, copy it into New line and edit it there. Download the tab as CSV over
+`docs/dialogue/edit_oct27.csv`, then run the same commands as above (dry run first, then `--apply`; `--revert` undoes it). The
+report and the console line count the accepted critic rows (would apply / failed / held / conflicts). Every accepted suggestion goes
+through the same checks as a New line.
+
+`node tools/dialogue_critic_check.js --check=<csv>` runs the critic pass's own checks on a suggestions file (tokens, tested phrases
+from `tests/`, lengths, banned names). `node tools/tests/test_dialogue_critic_accept.js` tests the Accept behaviour.
+
 Not in this export: loading tips (`data/loading/loading_tips.txt`; the Oct 21 pass format still covers them), zone quiz
 questions (trivia data, not dialogue) and `.speaker` name labels. `core/data/story_beats.gd` holds only scene ids and flags,
 so it adds no rows.

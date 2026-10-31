@@ -18,10 +18,15 @@
 //   node tools/apply_dialogue_pass.js --csv=docs/dialogue/edit_oct27.csv --revert=ids.txt   only the listed ids
 // The CSV can be applied again after more edits: the ledger keeps each line's text from before its first change, and a row whose
 // Current line a spreadsheet re-encoded still matches through the folder's export_snapshot.json.
+//
+// Oct 31, the critic pass: the sheet may also carry "Critic suggestion" and "Accept (Y)" (docs/dialogue/critic_suggestions_oct31.csv merged
+// in). A row with Accept = Y/y and an empty New line applies the critic suggestion; an explicit New line always wins (tools/dialogue_edit_rows.js).
+// Dry run, --apply and --revert work as above; the report counts the accepted critic rows.
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const { root, parseCsv, csvq, fileText, spansOf, setFileText, locate, namedSlot, encode, same } = require('./dialogue_ids');
+const { editRow } = require('./dialogue_edit_rows');
 
 const GODOT = 'C:/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe';
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const m = a.match(/^--([a-z-]+)(?:=(.*))?$/); return m ? [m[1], m[2] ?? true] : [a, true]; }));
@@ -243,8 +248,7 @@ if (args.merge) {
 const sources = [];
 if (CSV) {
 	const snapshot = fs.existsSync(SNAPSHOT) ? JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8')) : {};
-	const rows = parseCsv(fs.readFileSync(CSV, 'utf8')).map((r) => ({ id: r.ID, speaker: r.Speaker, key: (r.ID || '').split('::')[1] || '', current_text: r['Current line'] ?? '',
-		new_text: r['New line'] ?? '', snapshot: snapshot[r.ID], area: (r['Zone/Area'] || '').split(' / ')[0] }));
+	const rows = parseCsv(fs.readFileSync(CSV, 'utf8')).map((r) => editRow(r, snapshot));
 	sources.push({ name: path.basename(CSV), rows });
 } else {
 	for (const batch of fs.readdirSync(dir).filter((f) => /^batch_.*_done\.csv$/.test(f)).sort()) {
@@ -293,6 +297,9 @@ if (!args['no-fit']) {
 }
 
 const good = candidates.filter((c) => !c.problems.length);
+const criticRows = sources.flatMap((s) => s.rows).filter((r) => r.from_critic).length;
+const critic = (list) => list.filter((c) => c.from_critic).length;
+const criticLine = (verb) => `critic suggestions accepted: ${criticRows}; ${critic(good)} ${verb}, ${critic(failed)} failed, ${critic(held)} held, ${critic(conflicts)} conflicts`;
 for (const c of candidates) counts[c.area][c.problems.length ? 'failed' : 'applied']++;
 for (const c of candidates) if (c.problems.length) failed.push(c);
 
@@ -330,7 +337,8 @@ let out = `# Dialogue pass: apply report${args.apply ? '' : ' (DRY RUN - nothing
 	`## Totals\n\n- Rows: ${skippedBlank.length + locked.length + held.length + conflicts.length + candidates.length}\n- ${args.apply ? 'Applied' : 'Would apply'}: ${good.length}` +
 	`${good.filter((c) => c.moved).length ? ` (${good.filter((c) => c.moved).length} found at a moved position in their key)` : ''}\n` +
 	`- Skipped (blank new line, unchanged, or applied before): ${skippedBlank.length}\n- Conflicts (game line changed since the export): ${conflicts.length}\n` +
-	`- Failed validation: ${failed.length}\n- Held (lost a tested story beat): ${held.length}\n- Locked (black market, never applied): ${locked.length}\n\n` +
+	`- Failed validation: ${failed.length}\n- Held (lost a tested story beat): ${held.length}\n- Locked (black market, never applied): ${locked.length}\n` +
+	(criticRows ? `- Critic suggestions (Accept = Y, New line empty): ${criticLine(args.apply ? 'applied' : 'would apply')}\n` : '') + '\n' +
 	`## Per area\n\n| Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |\n|---|---:|---:|---:|---:|---:|---:|---:|\n`;
 for (const [a, c] of Object.entries(counts)) out += `| ${a} | ${c.rows} | ${c.applied} | ${c.blank} | ${c.conflict} | ${c.failed} | ${c.held} | ${c.locked} |\n`;
 if (good.length) {
@@ -351,6 +359,7 @@ if (locked.length) {
 // A dry run never overwrites the report of the real apply.
 fs.writeFileSync(path.join(dir, args.apply ? 'apply_report.md' : 'apply_report_dry_run.md'), out);
 console.log(`apply_dialogue_pass${args.apply ? '' : ' (dry run)'}: ${good.length} ${args.apply ? 'applied' : 'would apply'}, ${skippedBlank.length} blank, ` +
-	`${conflicts.length} conflicts, ${failed.length} failed validation, ${held.length} held, ${locked.length} locked`);
+	`${conflicts.length} conflicts, ${failed.length} failed validation, ${held.length} held, ${locked.length} locked` +
+	(criticRows ? ` (${criticLine(args.apply ? 'applied' : 'would apply')})` : ''));
 for (const c of failed) console.log(`  FAILED ${c.id}: ${c.problems.join('; ')}`);
 for (const c of conflicts) console.log(`  CONFLICT ${c.id}: ${c.why}`);
