@@ -13,6 +13,8 @@ const CLIP_BELOW: float = 4.0
 const SHADOW_PAD: float = 32.0
 const SLIDE: float = 70.0
 const IDLE_BRIGHTNESS: float = 0.9
+## Overnight Oct 30-31, Part 6: the listener of a back-and-forth (the last speaker, waiting on the other side) is dimmed.
+const LISTEN_BRIGHTNESS: float = 0.5
 
 var _clip: Control
 var _stage: Control
@@ -27,6 +29,8 @@ var _mirrored: bool = false
 var _image_top: float = 0.0
 var _image_size: Vector2 = Vector2.ZERO
 var shown: bool = false
+## Overnight Oct 30-31, Part 6: true while this portrait is the listener (dimmed, no bob).
+var listening: bool = false
 
 
 func _ready() -> void:
@@ -62,7 +66,8 @@ static func width_for(texture: Texture2D) -> float:
 
 
 ## Shows `texture` on the left (`right_side` false) or right of a box whose top edge is at `panel_top` and which spans `box_left`..`box_right`.
-func present(texture: Texture2D, right_side: bool, panel_top: float, box_left: float, box_right: float) -> void:
+## `slide` false: the portrait fades in where it stands (a listener staying on from the last line of a back-and-forth).
+func present(texture: Texture2D, right_side: bool, panel_top: float, box_left: float, box_right: float, slide: bool = true) -> void:
 	if _tween != null and _tween.is_valid():
 		_tween.kill()
 	_mirrored = right_side
@@ -78,12 +83,12 @@ func present(texture: Texture2D, right_side: bool, panel_top: float, box_left: f
 	_place(panel_top)
 	_talking = false
 	_time = 0.0
-	_brightness = IDLE_BRIGHTNESS
+	_brightness = LISTEN_BRIGHTNESS if listening else IDLE_BRIGHTNESS
 	_apply_look(0.0)
 	visible = true
 	shown = true
 	modulate.a = 0.0
-	var from_x: float = SLIDE if right_side else -SLIDE
+	var from_x: float = (SLIDE if right_side else -SLIDE) if slide else 0.0
 	_stage.position.x = from_x
 	_tween = create_tween().set_parallel(true)
 	_tween.tween_property(self, "modulate:a", 1.0, 0.28)
@@ -143,7 +148,7 @@ func _process(delta: float) -> void:
 	if not visible:
 		return
 	_time += delta
-	var target: float = 1.0 if _talking else IDLE_BRIGHTNESS
+	var target: float = 1.0 if _talking else (LISTEN_BRIGHTNESS if listening else IDLE_BRIGHTNESS)
 	_brightness = move_toward(_brightness, target, delta * 2.5)
 	_apply_look(sin(_time * 9.0) * 3.0 if _talking else 0.0)
 

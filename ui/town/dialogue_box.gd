@@ -20,6 +20,17 @@ const PLATE_POSITION: Vector2 = Vector2(30.0, -10.0)
 const PLATE_SIZE: Vector2 = Vector2(300.0, 66.0)
 
 var _portrait: PortraitView
+## Overnight Oct 30-31, Part 6: the listener - the previous speaker of a back-and-forth stays on the other side, dimmed, while the new one
+## speaks (two conversations started within LISTEN_GAP_MS of each other count as one exchange).
+var _listener: PortraitView
+var _last_speaker: Dictionary = {}
+const LISTEN_GAP_MS: int = 700
+## Per-letter voice blips: one every BLIP_EVERY letters (not spaces or punctuation), never closer than BLIP_GAP seconds.
+const BLIP_EVERY: int = 2
+const BLIP_GAP: float = 0.045
+var _typed: int = 0
+var _letters: int = 0
+var _blip_wait: float = 0.0
 var _panel: PanelContainer
 var _plate: TextureRect
 var _art: bool = false
@@ -41,6 +52,10 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
+	_listener = PortraitView.new()
+	_listener.name = "ListenerPortrait"
+	_listener.listening = true
+	add_child(_listener)
 	_portrait = PortraitView.new()
 	add_child(_portrait)
 	_art = UiArt.has("UI-PANEL-DIALOGUE") and UiArt.has("UI-NAMEPLATE")
@@ -168,6 +183,7 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 		_portrait.present(Portraits.texture_for(_portrait_id, _expressions[0]), _right_side, _panel.position.y + _edge(), _panel.position.x, _panel.position.x + _panel.size.x)
 	else:
 		_portrait.dismiss()
+	_present_listener(texture != null)
 	Audio.sfx(&"ui_open", -6.0)
 	# The music sits a little lower under text-heavy scenes (MusicManager.DIALOGUE_DUCK_DB).
 	Audio.set_dialogue_duck(get_instance_id(), true)
@@ -253,15 +269,44 @@ func _show_line() -> void:
 	_tween = create_tween()
 	_tween.tween_property(_text, "visible_ratio", 1.0, duration)
 	_tween.tween_callback(_portrait.set_talking.bind(false))
-	var ticker: Tween = create_tween().set_loops(int(duration / 0.07))
-	ticker.tween_callback(func() -> void: Audio.play(_voice["event"] as StringName, {"pitch_scale": float(_voice["pitch"])}))
-	ticker.tween_interval(0.07)
+	# Overnight Oct 30-31, Part 6: the voice blips follow the letters as they appear (`_process`) and stop the moment the line is complete.
+	_typed = 0
+	_letters = 0
+	_blip_wait = 0.0
+
+
+## Overnight Oct 30-31, Part 6: one voice blip every BLIP_EVERY letters typed (a skipped line stays silent).
+func _process(delta: float) -> void:
+	if not active or _text.visible_ratio >= 1.0:
+		return
+	_blip_wait -= delta
+	var shown: int = int(_text.visible_ratio * float(_text.get_total_character_count()))
+	var line: String = _text.text
+	while _typed < shown and _typed < line.length():
+		var code: int = line.unicode_at(_typed)
+		_typed += 1
+		if (code >= 48 and code <= 57) or (code >= 65 and code <= 90) or (code >= 97 and code <= 122) or code > 191:
+			_letters += 1
+			if _letters % BLIP_EVERY == 1 and _blip_wait <= 0.0:
+				_blip_wait = BLIP_GAP
+				Audio.play(_voice["event"] as StringName, {"pitch_scale": float(_voice["pitch"])})
+
+
+## Overnight Oct 30-31, Part 6: any key completes the line, then advances (not Esc, the F keys or a modifier alone: those keep their jobs).
+static func is_advance_key(event: InputEvent) -> bool:
+	var key: InputEventKey = event as InputEventKey
+	if key == null or not key.pressed or key.echo:
+		return false
+	var code: Key = key.physical_keycode if key.physical_keycode != KEY_NONE else key.keycode
+	if code == KEY_ESCAPE or (code >= KEY_F1 and code <= KEY_F12) or code in [KEY_SHIFT, KEY_CTRL, KEY_ALT, KEY_META, KEY_CAPSLOCK, KEY_TAB]:
+		return false
+	return true
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not active:
 		return
-	var pressed: bool = UiInput.is_confirm(event)
+	var pressed: bool = UiInput.is_confirm(event) or is_advance_key(event)
 	if pressed:
 		pass
 	elif event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
@@ -288,8 +333,13 @@ func press() -> void:
 		GameLog.modal_closed("Dialogue")
 		_panel.visible = false
 		_portrait.dismiss()
+		if not _portrait_id.is_empty():
+			_last_speaker = {"id": _portrait_id, "expression": _expressions[_lines.size() - 1], "right": _right_side, "msec": Time.get_ticks_msec()}
+		else:
+			_last_speaker = {}
 		Audio.set_dialogue_duck(get_instance_id(), false)
 		get_tree().create_timer(0.2).timeout.connect(_hide_when_idle)
+		get_tree().create_timer(float(LISTEN_GAP_MS) / 1000.0).timeout.connect(_end_exchange)
 		finished.emit()
 	else:
 		Audio.sfx(&"ui_tick", -6.0)
@@ -302,13 +352,42 @@ func _hide_when_idle() -> void:
 		visible = false
 
 
+## The previous speaker becomes the listener when the next conversation starts right after the last one closed and is someone else: it
+## stays on the opposite side of the new speaker, dimmed. Anything else sends the listener away.
+func _present_listener(speaker_has_portrait: bool) -> void:
+	var last: Dictionary = _last_speaker
+	_last_speaker = {}
+	var recent: bool = not last.is_empty() and Time.get_ticks_msec() - int(last["msec"]) <= LISTEN_GAP_MS
+	if not speaker_has_portrait or not recent or str(last["id"]) == _portrait_id:
+		_listener.dismiss()
+		return
+	var texture: Texture2D = Portraits.texture_for(str(last["id"]), str(last["expression"]))
+	if texture == null:
+		_listener.dismiss()
+		return
+	_listener.present(texture, not _right_side, _panel.position.y + _edge(), _panel.position.x, _panel.position.x + _panel.size.x, false)
+
+
+## The exchange is over when no one spoke up within LISTEN_GAP_MS of the last line.
+func _end_exchange() -> void:
+	if not active:
+		_listener.dismiss()
+		_last_speaker = {}
+
+
+## The listener portrait (tests and the dialogue shots read it).
+func listener_view() -> PortraitView:
+	return _listener
+
+
 ## Draws the portrait behind `sibling` (the scene's HUD) instead of over it, so a portrait never covers the quest tracker, the gold counter or the buttons.
 func stand_behind(sibling: Node) -> void:
 	if _portrait == null or sibling == null or sibling.get_parent() == null:
 		return
-	_portrait.get_parent().remove_child(_portrait)
-	sibling.get_parent().add_child(_portrait)
-	sibling.get_parent().move_child(_portrait, sibling.get_index())
+	for view: PortraitView in [_listener, _portrait]:
+		view.get_parent().remove_child(view)
+		sibling.get_parent().add_child(view)
+		sibling.get_parent().move_child(view, sibling.get_index())
 
 
 func _exit_tree() -> void:
@@ -317,6 +396,8 @@ func _exit_tree() -> void:
 	Audio.set_dialogue_duck(get_instance_id(), false)
 	if _portrait != null and is_instance_valid(_portrait) and _portrait.get_parent() != self:
 		_portrait.queue_free()
+	if _listener != null and is_instance_valid(_listener) and _listener.get_parent() != self:
+		_listener.queue_free()
 
 
 ## Overnight Oct 16 (Block 4e): how many lines `line` wraps to in this box at a dialogue text `scale` (1.0 = default, 1.4 = the largest
