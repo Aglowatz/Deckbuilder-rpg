@@ -1,138 +1,73 @@
-# Report - Fresh-eyes critique + fix Oct 30 (Fable)
+# Report - Fresh eyes round 2 (Fable, overnight Oct 31)
 
-Fri Oct 30, ~18:00 -> Sat Oct 31 ~02:00 MDT. State `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` ("Fresh eyes
-Oct 30"). Last run's report: `docs/overnight/oct30/overnight_report_xp_oct30.md`. Dialogue freeze respected (no line or key changed;
-rewrites in `docs/dialogue/lines_to_update_oct30.csv`); no art generated; the black market, prices and the XP curve untouched; no enemy
-intent; no version bump, no export. Old saves load (nothing in the save format changed).
+Sat Oct 31 ~02:30 MDT -> (in progress). State `docs/overnight/loop_state.md`; questions `docs/overnight_inbox.md` ("Fresh eyes round 2").
+Last run's report: `docs/overnight/oct30/overnight_report_fresh_eyes_oct30.md`. Dialogue freeze respected (no line or key changed;
+rewrites, if any, in `docs/dialogue/lines_to_update_oct31.csv`); no art generated; the black market, prices and the XP curve untouched; no
+enemy intent; no version bump, no export. Old saves load (nothing in the save format changed; one new settings key with a default).
 
 ## Read this first
 
-- **A critic with no project context played the game** (27 runs, four Paths through the cave, Beefcake to the House of Gains boss)
-  through a new play-script driver and scored it **4.8 / 10** against Slay the Spire, Inscryption, Monster Train, Sea of Stars, Octopath
-  and TCG Pocket. Report: `docs/review/fresh_eyes_oct30.md` (66 screenshots in `docs/review/fresh_eyes_oct30/`).
-- **The three "blocking bugs" were two real ones and one artefact**: the Deck Station left the world black (real: its `_exit_tree`
-  skipped the base class, so the WorldCover's 3D switch-off was never released), the battle banner read "VICT" at the bottom right
-  (real: centre anchors set before the HUD had a size), and "Esc hangs the game" was the driver's timer not ticking while the pause
-  menu paused the tree (the driver is fixed; the pause menu works).
-- **Ten fixes landed** (commit 413c70de): the cave beacon, the tutorial tip that held the turn, the black world, the banner, the Deck
-  button under the minimap, challenge outcomes in numbers, unplayable-card reasons, reward pick pre-selected with keyword help, three
-  placeholders in words, the HUD menu with Glossary / Feats / Settings. Before/after shots: `docs/review/fresh_eyes_fixes_oct30/`.
-- **Second look** (a new critic, no project context, Gourmand Path, 13 runs): **8 of the 10 fixes landed, 2 partly** (the unplayable-card
-  toast can hide behind the clicked card's tooltip; the cave's Rules panel sat half under the map tip - moved below it afterwards). The
-  first 30 minutes now score **6-8** where the first critic gave 3-5 (hook 7, clarity 7, pacing 6, combat feel 7, rewards 7, readability 7,
-  UI consistency 6, bugs 8); the cave was reached on foot in ~12 s. Report: `docs/review/fresh_eyes_second_look_oct30.md`. New problems it
-  found: confirmation popups ignore the E key the HUD advertises, the Path screen's "More" only renames itself, treeline lines stop the
-  walk until dismissed, tooltips overlap the rule toast and the plate (inbox 10).
-- **Tools**: `bash tools/play.sh <script> [name] [limit]` plays the real game from the title with keys, clicks, drags, buttons by text,
-  screenshots, a `dump` of visible text, a battle pilot, dialogue skipping, dev jumps and snapshots (`docs/play_script.md`). Any
-  future "fresh eyes" pass starts from `docs/review/critic_brief_oct30.md`.
+- **Part 1 (commit 13ab312e)**: the second critic's problems are fixed. E, Enter, Space and the pad's A answer every confirm dialog
+  ("Go in?"), every screen tip ("Got it"), the Hollow Well's Reveal / Continue and the duel's coach bubbles (E / Enter there; Space stays
+  the phase key). The Path screen's More now really expands (the Path's Resource and its whole 45-card starting deck in words). The
+  treeline self-talk is a speech bubble over the hero that never stops the walk. Tooltips re-fit to their text every frame (the box used
+  to keep a first-frame height that ran to the bottom of the screen), the "cannot play" toast lives in a layer above the tooltips and
+  higher on the board, the turn / result banner has its own layer above tooltips and units, and the tutorial bubbles keep off the card
+  preview and both plates. The cave beacon and the reward pre-select stay as they were.
+- **Part 2 (commit 6d1a96f0)**: the hand is drawn compact (whole card on screen, rules text readable without hovering; classic and
+  fan kept behind `--hand_style=` for comparison, shots in `docs/review/fresh_eyes_fixes_oct31/hand_*.png`), the Settings pages have a
+  visible gold scrollbar clear of the checkboxes, a defeat recap ("What beat you": the biggest damage source in numbers and one tip
+  read from the fight) sits on the result panel, and Settings > Text has a "Tutorial tips" on/off.
+- **Part 3**: the starter-deck Infrastructure study - see below (sim only).
+- **Part 4 / 5**: the mid-game critic and the fixes from its top 15 - see below.
 
-## Part 1 - the critic's scores and top 20
+## Part 1 - the second critic's problems (commit 13ab312e)
 
-| Area | Score | Area | Score |
-|---|---:|---|---:|
-| First 5 minutes' hook | 4 | Story and humour | 6 |
-| Clarity | 4 | Visual cohesion and readability | 6 |
-| Pacing and friction | 3 | UI/UX consistency | 4 |
-| Combat depth and feel | 5 | Audio | n/a (not judgeable through screenshots) |
-| Deck-building satisfaction | 5 | Performance | 6 |
-| Reward rhythm | 6 | Bugs / stability | 3 |
-| Exploration and world | 4 | **Overall** | **4.8** |
+| # | Problem (second look, Oct 30) | Fix | Where | Shots (`docs/review/fresh_eyes_fixes_oct31/`) |
+|---|---|---|---|---|
+| 1 | Confirmation popups ignore E | `ConfirmDialog._unhandled_input`: a confirm press (E / Enter / Space / pad A) presses the focused button (the safe one on a dangerous question), after a 0.35 s guard so the E that opened "Go in?" cannot answer it | `ui/widgets/confirm_dialog.gd` | `after_go_in_popup_e.png`, `after_cave_entered_by_e.png` |
+| 2 | The Well's Reveal / Continue ignore E | Reveal is focused and a confirm press presses it (then Continue) after a 0.4 s guard | `ui/dungeon/challenge_screen.gd` | `after_well_reveal_by_e.png` |
+| 3 | The duel's "Got it" tips ignore E | E / Enter press Got it on an info bubble (0.6 s guard; Space left to To Combat); screen tips ("Tip: The dungeon map") take any confirm press | `ui/battle/tutorial_layer.gd`, `ui/widgets/tip_panel.gd` | run `fix31_b` (the map tip and the intro tip gone after E) |
+| 4 | "More" only renames itself | More adds the Path's Resource with its rule and the real starting deck (45 cards: 19 Infrastructure, the types, every named card with copies) under the identity and playstyle; the hint names it | `ui/dungeon/element_choice_screen.gd` | `before_path_more.png` / `after_path_more.png` |
+| 5 | Treeline self-talk stops the walk | The line is a bark bubble over the hero (`NpcBarks.say`), the nudge back toward the cave stays; `self_talk_line()` for smokes | `world/starting_area_scene.gd`, `world/npc_barks.gd` | `before_treeline_box.png` / `after_treeline_bubble.png` |
+| 6 | Tooltip hides the "cannot play" toast | The toast is in its own CanvasLayer (26) above the tooltip layer (25) and at y 585 (above a lifted card's tooltip); it stays 1.8 s | `ui/battle/battle_screen.gd` | `before_tooltip_over_toast.png` |
+| 7 | Tooltip drawn as a dark column to the screen bottom | `_place_tip` re-fits the box to its text every frame (wrapping labels report a huge height on their first frame and a Control never shrinks by itself) | `ui/battle/battle_hud.gd` | `after_tooltip_height.png` |
+| 8 | Tip boxes over the card preview and the player plate | `_avoid_rects` adds `hud.preview_rect()` and both `plate_rect()`s | `ui/battle/tutorial_layer.gd`, `ui/battle/battle_hud.gd` | `before_tip_over_preview.png` / `after_energy_tip_clear_of_plate.png` |
+| 9 | VICTORY! under a tooltip / units for its first frames | The banner and the announce line live in a CanvasLayer (27) above tooltips and the board | `ui/battle/battle_hud.gd` | `after_victory_banner_on_top.png` |
+| 10 | "1 of the 5 cards were Infrastructure" | The verb agrees with its number (test) | `core/dungeon/challenge_resolver.gd` | - |
 
-The top 20, one line each (verdicts from the triage, `docs/review/fresh_eyes_triage_oct30.md`):
+Checks: GUT root 286, core 1500 (+1 pending, as before), ui 245, world 424 all green; opening forest smoke OK (the hero still walks the
+path to the cave; the gate asks; Maren at the mouth; Crosspath); first-battles smoke OK (0 failures, 56 fps lowest); driver scripts
+`docs/review/play_scripts/fix31_a*`, `fix31_b*`, `fix31_c` (new game -> Path screen -> More; the walk; "Go in?" with E; the map tip and
+the duel tips with E; the toast; the banner; the Well with E).
 
-| # | Problem | Verdict | Today |
+## Part 2 - safe recommendations (commit 6d1a96f0)
+
+| What | Done | Where | Shots |
 |---|---|---|---|
-| 1 | The cave cannot be found on foot | partly (the path exists; no marker, fogged map, self-talk interrupts) | Fix 1 |
-| 2 | The first duel is lost by default on two Paths | partly / conflicts (sim 80-97 %; the critic's losses were the simple pilot + the tip deadlock; deck design) | recommendation |
-| 3 | Tutorial tip deadlock | valid (`use_targets` counted the enemy's units) | Fix 2 |
-| 4 | Esc hangs; Feats / Collection unreachable | artefact (driver) / partly (HUD menu) | driver fix; Fix 10 |
-| 5 | Deck Station X blacks out the world; Map cannot close | valid (reproduced; `_exit_tree` without super) / not reproduced (M closes the map) | Fix 3 |
-| 6 | Twenty unskippable opening lines | conflicts (dialogue freeze; art) | CSV + art recommendation |
-| 7 | Hand cards cut off at the bottom | partly (by design; hover lifts) | recommendation |
-| 8 | Combat keywords undefined outside battle | valid | Fix 9 (reward screen) |
-| 9 | No feedback for unplayable cards | partly (dimmed; the toast was terse) | Fix 8 |
-| 10 | Starter decks clog with Infrastructure | conflicts (deck design, sim evidence) | recommendation |
-| 11 | Town gives no objective on arrival | partly (the real exit lands beside Maren; the critic warped in) | CSV line for the Rescuer |
-| 12 | Banner off-screen; Deck button under the minimap | valid | Fixes 5, 6 |
-| 13 | Event outcomes opaque | valid | Fix 7 |
-| 14 | Reward screen: Skip looks primary | valid | Fix 8b |
-| 15 | Modal tips everywhere | conflicts (once-ever tips decision) | recommendation |
-| 16 | Dungeon nodes without a preview; sticky tooltip | partly (not reproduced today) | - |
-| 17 | Jargon and placeholders | valid | Fix 9b |
-| 18 | Minimap and maps black | partly (fog by design; the forest now revealed) | Fix 1 |
-| 19 | Load hitches, 8.5 s town load | valid, known (perf list) | - |
-| 20 | Zone HUD covers the landmark | partly (by design) | recommendation |
+| Hand readable without hovering | `BattleBoard.HAND_STYLES`: **compact** (scale 0.58, centre y 950: the whole card incl. the rules text on screen; the top stays under the Infrastructure row as before) is the default; **classic** (0.68, y 985: the rules box below the edge) and **fan** (0.68, wider arc, more tilt: the text bands overlap) kept behind `--hand_style=` on battle shots. Compact reads best: every card's whole text is visible in the duel | `ui/battle/battle_board.gd`, `ui/battle/battle_screen.gd` | `hand_classic.png`, `hand_compact.png`, `hand_fan.png`, `after_hand_compact_in_duel.png` |
+| Settings scrollbar | The page scroller's bar restyled (gold grabber on a visible track, 16 px) and the page body given a right margin so the bar no longer lies over the checkboxes | `ui/screens/settings_panel.gd` | `before_settings_no_scrollbar.png` / `after_settings_scrollbar.png` |
+| Defeat recap | A "What beat you" box on the result panel after a loss: the biggest damage source by name, its share of the damage and its hits (or "X outlasted you over N turns"), plus one tip read from the fight (missed Infrastructure drops, a hand left unplayed, a repeat attacker to block, an unspent Resource, else rest/heal) | `ui/battle/battle_screen.gd` (`_track_for_recap`, `defeat_recap_lines`) | `after_defeat_recap.png` |
+| Tutorial tips toggle | Settings > Text > "Tutorial tips (first-time hints in duels and on new screens)"; off = no duel bubbles (`TutorialLayer.wanted`) and no screen tips (`TipPanel.show_once`), unseen ones stay unseen; saved in settings.cfg | `app/settings.gd`, `ui/screens/settings_panel.gd` | `after_settings_tutorial_toggle.png` |
 
-## Part 2 - triage
+ICON-UI art for Glossary / Feats stays a recommendation (no art tonight).
 
-`docs/review/fresh_eyes_triage_oct30.md`: every problem checked against CLAUDE.md, the design docs and the decisions; 8 valid, 8 partly,
-4 conflicting with a deliberate decision (the dialogue freeze, the once-ever tips, deck design / balance with sim evidence), 1 harness
-artefact. The ten fixes favour clarity, onboarding, friction and feel; nothing needed new art or a dialogue edit.
+## Part 3 - starter deck study (sim only)
 
-## Part 3 - the ten fixes (commit 413c70de)
+(filled in below once the run finishes)
 
-| # | Fix | Where | Before / after |
-|---|---|---|---|
-| 1 | **Cave beacon**: once the Rescuer leaves (or on a return before the cave is cleared) the cave gate gets the quest objective's gold chevron + ground ring, the HUD edge pointer while off screen, the minimap's objective dot, and the clearing's map is revealed | `StartingAreaScene._show_cave_beacon`, `QuestMarkerLayer.set_fixed_objective`, `MinimapHud.reveal_all / refresh_pois_now`, `MapPoi.objective` | `before_forest.png` / `after_01_forest_beacon.png` |
-| 2 | **Tutorial "spend your Iron" tip** fires (and holds End Turn) only with a unit of the player's own to buff | `TutorialLayer._has_own_target` | (the critic's `critic_beef_13_80_iron_target.png`) |
-| 3 | **Deck Station close** no longer leaves the world black: `_exit_tree` calls the base (WorldCover release, music pop, log) | `DeckbuilderScreen._exit_tree`; source-scan test `test_overlay_exit_tree.gd` | `before_deck_closed_world.png` / `after_03_deck_closed_world.png` |
-| 4 | **Map close**: M / X reproduced as working in the forest (brightness check, three runs); nothing to change | - | `fix_repro_c/57_map_after_m.png` |
-| 5 | **Battle banner** (YOUR TURN / ENEMY TURN / VICTORY! / DEFEAT) centred | `BattleHud` banner anchors | `before_victory_banner.png` / `after_07_victory_banner.png` |
-| 6 | **Forest Deck button** left of the minimap ring | `starting_area_scene.gd` | same forest shots |
-| 7 | **Challenge outcome in numbers** ("3 of the 5 cards were Infrastructure; 3 were needed.", "You were already at full HP, so there was nothing to mend.") | `ChallengeResolver.explain / heals_on_success`, `ChallengeScreen` | tests `test_challenge_explain.gd` |
-| 8 | **Unplayable-card reasons** ("Needs 2 energy; you have 1 (each ready Infrastructure gives 1 a turn)", "One Infrastructure per turn: you already played yours...") and **the reward pick starts on the middle card** so Take is the live gold button | `BattleScreen._why_not_castable / _try_play`, `RewardsScreen` | `after_rewards_preselect.png` |
-| 9 | **Keyword help on the reward screen** (the hovered or chosen card's keywords and resources, one line each) and **placeholders in words**: shrine "Restore all your HP" / "mend all of your HP", Character "Copies per card: 3 Common, 2 Uncommon, 1 Epic, 1 Legendary", the cave's rules panel "No special rules here" | `RewardsScreen._show_keywords`, `DungeonMapScreen`, `ShrineScreen`, `CharacterScreen` | `after_06_cave_rules.png` |
-| 10 | **HUD Menu** lists Glossary, Feats and Settings (each opens the pause menu on that page) | `TownHud`, `SceneManager.show_glossary_page / show_settings_page` | `after_10_town_menu.png` |
+## Part 4 - the mid-game critic
 
-Checks after the fixes: GUT root 286, core 1500 + 1 pending, ui 245, world 424 (all green); first-battles smoke OK (57 fps lowest);
-opening forest smoke OK (the hero still walks the path to the cave; Maren at the mouth; Crosspath); hub walk smoke OK; structure
-budget OK. After the commit: story playthrough bot 90 / 90 (a first background run was reaped by the low-memory guard; the foreground run
-passed), tour bot OK (281 spots, 9 menus, 5 battles, 0 errors, 0 warnings).
+(filled in below)
 
-## Part 4 - second look
+## Part 5 - triage and fixes
 
-A second critic subagent (brief `docs/review/critic_brief_second_look_oct30.md`, no project docs) played the first 30 minutes on the
-Gourmand Path and answered ten questions about the changed areas: 13 runs, ~75 min, 40 screenshots in `docs/review/fresh_eyes_second_look_oct30/`,
-no script errors.
-
-| # | Fix | Verdict | What the critic saw |
-|---|---|---|---|
-| 1 | Cave beacon | landed | chevron over the arch, ground ring, minimap dot, map marker; "[E] Enter the cave" reached in ~12 s with held keys; one treeline box froze the walk until E |
-| 2 | Deck Station close | landed | X and Esc both close it; the world is drawn afterwards |
-| 3 | Map close | landed | M opens, M closes, X closes |
-| 4 | Battle banners | landed | YOUR TURN / ENEMY TURN ("Turn 2") / VICTORY! whole and centred; nit: at 0.4 s VICTORY! draws under a hover tooltip and the enemy units |
-| 5 | Resource tip hold | landed | no "the duel waits for you" tip in a hand-played and a piloted duel; End Turn always available |
-| 6 | Unplayable cards | partly | both new messages appear; the floating sentence can hide behind the clicked card's own tooltip |
-| 7 | Reward screen | landed | middle card chosen, "Take Amuse-Bouche" gold, keywords (Peek, Ingredient, Wallflower) glossed under the cards |
-| 8 | Well / shrine | landed | "2 of the 5 cards were Infrastructure; 2 were needed. You were already at full HP..."; shrine "Restore all your HP" |
-| 9 | Copies / rules panel | partly | Character and Deck Station say "Copies per card: 3 Common, 2 Uncommon..."; the cave's Rules panel sat half under the map tip (**follow-up**: the panel now opens below the tip, y 300; GUT ui green) |
-| 10 | HUD Menu | landed | Character, Deck, Quests, Packs, Wardrobe, Glossary, Feats, Settings; Glossary and Feats open and Esc returns |
-
-Part A scores (first 30 minutes, Gourmand): hook 7, clarity 7, pacing and friction 6, combat feel 7, reward rhythm 7, visual
-readability 7, UI/UX consistency 6, bugs 8 (the first critic's: 4, 4, 3, 5, 6, 6, 4, 3). Its closing line: "Fix the popups and a new
-player will get from the title to their first reward without once wondering whether the game has stopped listening."
-
-New problems (inbox 10, not fixed tonight): confirmation popups ("Go in?", the Well's Reveal / Continue, the duel's Got it tips) ignore
-the E key the HUD advertises as interact and need a click or Enter; the Path screen's "More" only renames itself to "Less"; the
-treeline self-talk stops movement until dismissed; tooltip boxes overlap the rule toast, the card preview and the player plate; the
-pause menu worked everywhere tried.
+(filled in below)
 
 ## Recommendations that need art, dialogue or a design call
 
-- **Dialogue** (`docs/dialogue/lines_to_update_oct30.csv`): the treeline lines name the direction; the wake-up cut to about six lines;
-  the Rescuer's farewell names Crosspath and Maren; a defeat recap line.
-- **Art**: a night version of the wake-up still (the day still over the night clearing).
-- **Design calls** (sim evidence first): the starter decks' Infrastructure ratio / a smaller first-duel foe; a hand fan or a smaller
-  hand scale so the rules text shows without hovering; the zone HP widget out of the landmark's way; a Tutorial toggle in Settings; a
-  scrollbar on the Settings panel; a defeat recap.
+(filled in below)
 
-## Checks run
+## Inbox (Fresh eyes round 2)
 
-GUT root / core / ui / world after the fixes; first-battles smoke; opening forest + hub walk smokes; structure budget; the play-script
-driver's repro and verification runs (`_screenshots/play/fix_*`); story playthrough bot and tour bot (Part 3's end); the critic's 27
-runs and the second critic's runs.
-
-## Inbox (Fresh eyes Oct 30)
-
-See `docs/overnight_inbox.md`, section "Fresh eyes Oct 30".
+See `docs/overnight_inbox.md`, section "Fresh eyes round 2".

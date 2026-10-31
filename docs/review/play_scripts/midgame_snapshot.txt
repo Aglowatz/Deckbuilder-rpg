@@ -1,0 +1,22 @@
+# Fresh eyes round 2 (Oct 31), Part 4: the mid-game snapshot the critic starts from (Gourmand, level 8, Gainlands freed, 900 gold, 9 packs)
+wait 2
+dev load c2_forest_start
+wait 3
+dev travel town
+wait 6
+skip_dialogue 25
+wait 1
+dev level 8
+dev gold 900
+dev heal
+dev freed beefcake
+dev gate beefcake
+dev packs general_1 4
+dev packs general_2 2
+dev packs path_gourmand 3
+wait 1
+scene
+shot 01_town_l8
+dump
+dev save midgame_l8
+log saved midgame_l8
