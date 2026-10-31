@@ -17,12 +17,12 @@ untested Part 2-8 drafts (they were stashed as soon as that was noticed; no run 
 | # | Problem | Verdict | Evidence / reason | Tonight |
 |---|---|---|---|---|
 | 1 | First-time tips fire again at L13 and block the turn | **valid** (amplified by the snapshot) | `TutorialLayer` showed every unseen `tut_*` step whatever the hero's level | **Fix 1** |
-| 2 | HP tiny and inconsistent (16 / 11 / 17 / 15) | **partly / conflicts** | Each pool is a rule: zone HP carries, the Capital's Famine lowers it, bosses use the battle max | No. Recommendation (one HP breakdown tooltip) |
+| 2 | HP tiny and inconsistent (16 / 11 / 17 / 15) | **partly / conflicts** | Each pool is a rule: zone HP carries, the Capital's Famine lowers it, bosses use the battle max | **Fix 6**: the HP bar says when the max differs and breaks it down (tooltip) |
 | 3 | Bosses are walls at L13 | **partly** | The pilot played all three boss fights; the sim (`docs/design/sim/`) has these bosses in band for the expected deck. Balance only with sim evidence | No. Recommendation: a boss sweep with the story-bot snapshot deck |
 | 4 | No healing across 13 nodes | **conflicts** (zone HP is the design) + snapshot | Items given unequipped by the snapshot | No. Recommendation (badge unequipped healing items) |
 | 5 | The UI spoils twists ("posing as", "secretly Death") | **valid** | The sheets' names were shown as-is on plates and the "Boss:" line | **Fix 2** |
 | 6 | Tracker says "Go to Crosspath" inside every zone | **valid** | The tracked quest was the town's Fragments line, so the zone pointed at its exit | **Fix 3** (+ Part 2's second goal) |
-| 7 | Vendors don't open on E | **partly / artefact** | The shot shows no "[E]" prompt: the hero stood outside the stall's reach and the bubble was a proximity bark | No. Recommendation: the bark radius vs the interact radius |
+| 7 | Vendors don't open on E | **valid** (fixed after the triage) | The shot shows no "[E]" prompt: the hero stood outside the stall's reach and the bubble was a proximity bark (reach 1.8 m vs bark 3.2 m) | **Fix 7**: vendor reach 2.8 m; the critic's script now opens the stall |
 | 8 | Boss intros long, flat placeholder icons | **partly** (stills are frozen with the dialogue) | | No. Recommendation: "Skip intro" after the first viewing |
 | 9 | Maps fogged and name nothing | **valid** (the fog is the design) | The full map drew icons only | **Fix 4**: names under every revealed place |
 | 10 | Arrival popups block input | **partly** | The Rift operator's intro is a dialogue (frozen) | No |
