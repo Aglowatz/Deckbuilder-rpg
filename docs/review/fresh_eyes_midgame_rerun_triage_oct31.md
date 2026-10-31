@@ -48,3 +48,12 @@ untested Part 2-8 drafts (they were stashed as soon as that was noticed; no run 
 Checks: GUT root 286, core 1518 (+1 pending), ui 256, world 428 - all green; first-battles smoke OK (lowest 55 fps); Crosspath and Buffet
 walk smokes OK; structure budget OK; memory round trip OK (6 trips, static +0.8 MB, video +1.6 MB). Test:
 `tests/core/quests/test_midgame_rerun_fixes.gd`.
+
+## After the fixes
+
+- **Finding 2 (HP)**: the zone HP bar now says when the max differs from the level's ("Max 11 here (-5, hover)" in the Capital) and its
+  tooltip lists the base, each rule that changes it and the total (`DungeonRun.hp_breakdown`; shot `docs/review/overnight_oct31/p1_capital_hp_caption.png`).
+- **Finding 3 (boss walls) - sim evidence, no change**: the balance sim with the expected decks (8 games per Path, `docs/design/sim/boss_check_oct31_ttk.md`
+  and `_rot.md`): the Doppelganger at L14 wins 47 % overall (Beefcake 50 %, band 40-60 %); Compostella at L17 66 % overall (Beefcake 38 %,
+  Necrocrat 100 %; 8 games each is noisy). The bosses are in or near band for the expected deck; the critic's 0-damage fights were the
+  driver's simple pilot. A 25-game second-seed run would be the next step if the designer wants Compostella looked at.
