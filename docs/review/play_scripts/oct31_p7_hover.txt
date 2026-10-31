@@ -1,0 +1,11 @@
+# Overnight Oct 30-31, Part 7: works-well-with on an Iron maker
+wait 2
+dev load midgame_real
+wait 6
+skip_dialogue 10
+key B
+wait 4
+move 455 640
+wait 1.2
+shot 01_hover_iron_maker
+dump

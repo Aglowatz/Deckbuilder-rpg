@@ -48,6 +48,9 @@ var _compact: bool = false
 var _top_spacer: Control
 var _bottom_spacer: Control
 var _deck_panel: PanelContainer
+## Overnight Oct 30-31, Part 7: the deck's shape (cost curve, Paths and types); "works well with" goes in the hovered card's preview.
+var _curve_chart: DeckCurveChart
+var _shape_label: Label
 var _grid_scroll: ScrollContainer
 
 
@@ -107,6 +110,7 @@ func _build() -> void:
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	split.add_child(left)
 	_filter = CardFilterBar.new()
+	_filter.show_extra = _uses_deck_box()
 	_filter.changed.connect(_apply_filter)
 	left.add_child(_filter)
 	_grid_scroll = ScrollContainer.new()
@@ -143,7 +147,7 @@ func _build() -> void:
 	_relayout()
 	_relayout.call_deferred()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 150))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(1000, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast
 
 
 ## How many collection columns fit in `width` pixels (at least 2).
@@ -189,11 +193,26 @@ func _build_deck_panel() -> Control:
 	_count_label = UIKit.label("", &"", 22, UIStyle.PARCHMENT)
 	_wrap(_count_label)
 	column.add_child(_count_label)
+	# Overnight Oct 30-31, Part 7: the cost curve stands beside the rule rows, so the deck list keeps its height.
+	var rules_row: HBoxContainer = UIKit.hbox(10)
+	column.add_child(rules_row)
 	_rules_box = UIKit.vbox(2)
-	column.add_child(_rules_box)
+	_rules_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rules_row.add_child(_rules_box)
+	_curve_chart = DeckCurveChart.new()
+	_curve_chart.name = "CostCurve"
+	_curve_chart.custom_minimum_size = Vector2(170, 76)
+	_curve_chart.tooltip_text = "Cost curve: your spells and units by energy cost (Infrastructure left out)."
+	rules_row.add_child(_curve_chart)
 	_warning_label = UIKit.label("", &"", 19, Color("ffb066"))
 	_wrap(_warning_label)
 	column.add_child(_warning_label)
+	_shape_label = UIKit.label("", &"", 15, UIStyle.MUTED)
+	_shape_label.name = "DeckShape"
+	_shape_label.clip_text = true
+	_shape_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_shape_label.custom_minimum_size = Vector2(PANEL_MIN - 40.0, 0)
+	column.add_child(_shape_label)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -222,6 +241,12 @@ func _build_deck_panel() -> Control:
 	fill.tooltip_text = "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size."
 	fill.pressed.connect(_autofill)
 	buttons.add_child(fill)
+	if _uses_deck_box():
+		var suggest: FancyButton = FancyButton.make("Suggest a deck", &"", Vector2(170, button_height))
+		suggest.name = "SuggestDeck"
+		suggest.tooltip_text = "Builds a deck from your collection for the Path(s) you choose: a cost curve, units first, the best cards you own within the copy caps. Review it, then Save Deck."
+		suggest.pressed.connect(open_suggest)
+		buttons.add_child(suggest)
 	return panel
 
 
@@ -708,7 +733,7 @@ func _make_tile(card: CardData) -> Control:
 	view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void: _on_tile_input(card, event))
 	PadClick.enable(view)  # controller support (Oct 26): A adds the card, X takes one out
 	view.hovered.connect(func(_v: CardView) -> void:
-		_preview.show_for(holder, card)
+		_preview.show_for(holder, card, synergy_entries(card))
 		Audio.sfx(&"card_hover", -14.0))
 	view.unhovered.connect(func(_v: CardView) -> void: _preview.hide_preview())
 	var badge: Label = UIKit.label("", &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
@@ -788,6 +813,7 @@ func _refresh() -> void:
 		view.modulate = Color(1, 1, 1, 1) if in_deck > 0 or card.is_basic else Color(0.82, 0.82, 0.86, 1)
 	_rebuild_list()
 	_rebuild_rules()
+	_refresh_shape()
 	var size: int = editor.deck.size()
 	_count_label.text = "%d cards  -  %d infrastructure, %d spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
 	# Daytime Oct 19 (onboarding timing): a new hero owns no spare copies (the cave's cards are already in the deck), so "Make It Yours"
@@ -931,6 +957,107 @@ func _autofill() -> void:
 		_say("Added %d basic infrastructure." % added)
 	else:
 		_say("Nothing to fill: the deck already has %d cards." % editor.deck.size())
+	_refresh()
+
+
+## Overnight Oct 30-31, Part 7: the cost curve and the "Paths ... / Units ... Spells ..." line under it.
+func _refresh_shape() -> void:
+	if _curve_chart == null:
+		return
+	_curve_chart.set_curve(DeckInsights.cost_curve(editor.deck.cards))
+	_shape_label.text = shape_text(editor.deck.cards)
+	_shape_label.tooltip_text = _shape_label.text
+
+
+## "Beefcake 27, Colorless 4  |  Units 18, Spells 5, Tools 2, Traps 1, Infrastructure 19" for a deck.
+static func shape_text(cards: Array[CardData]) -> String:
+	var mix: Dictionary = DeckInsights.path_mix(cards)
+	var paths: Array[String] = []
+	for path: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NEUTRAL]:
+		if int(mix.get(int(path), 0)) > 0:
+			paths.append("%s %d" % [UIStyle.affinity_name(path), int(mix[int(path)])])
+	var counts: Dictionary = DeckInsights.type_counts(cards)
+	var kinds: Array[String] = []
+	for entry: Array in [[CardEnums.CardType.UNIT, "Units"], [CardEnums.CardType.SPELL, "Spells"], [CardEnums.CardType.TOOL, "Tools"], [CardEnums.CardType.TRAP, "Traps"], [CardEnums.CardType.WONDER, "Wonders"]]:
+		var count: int = int(counts.get(int(entry[0]), 0))
+		if count > 0:
+			kinds.append("%s %d" % [str(entry[1]), count])
+	kinds.append("Infrastructure %d" % int(counts.get("infrastructure", 0)))
+	return "%s  |  %s" % [", ".join(paths) if not paths.is_empty() else "No Path yet", ", ".join(kinds)]
+
+
+## Overnight Oct 30-31, Part 7: "Works well with" for the hovered card's preview, from the collection (DeckInsights.works_well_with): [] when
+## nothing in the collection is a real partner.
+func synergy_entries(card: CardData) -> Array[Array]:
+	if card == null or card.is_infrastructure():
+		return []
+	var pool: Array[CardData] = []
+	for owned_card: CardData in Session.profile.owned_cards:
+		pool.append(owned_card)
+	var partners: Array[Dictionary] = DeckInsights.works_well_with(card, pool, 3)
+	if partners.is_empty():
+		return []
+	var parts: Array[String] = []
+	for partner: Dictionary in partners:
+		var other: CardData = partner["card"] as CardData
+		parts.append("%s%s - %s" % [other.display_name, " (in deck)" if editor.count(other) > 0 else "", str(partner["why"])])
+	return [["Works well with", "\n".join(parts)]]
+
+
+## Overnight Oct 30-31, Part 7: "Suggest a deck" - pick the Path(s), get a deck built from the collection (DeckInsights.suggest) to review.
+func open_suggest() -> void:
+	var built: Array[Control] = _layer("SuggestLayer", "Suggest a deck", "A deck from the cards you own, within the copy caps. It replaces the deck being edited until you Reset.")
+	var layer: Control = built[0]
+	var column: Control = built[1]
+	var options: HFlowContainer = HFlowContainer.new()
+	options.add_theme_constant_override("h_separation", 12)
+	options.add_theme_constant_override("v_separation", 10)
+	options.custom_minimum_size = Vector2(900, 0)
+	column.add_child(options)
+	for choice: Array in suggest_choices():
+		var paths: Array[Affinity.Type] = []
+		for path: Variant in choice:
+			paths.append(path as Affinity.Type)
+		var names: Array[String] = []
+		for path: Affinity.Type in paths:
+			names.append(UIStyle.affinity_name(path))
+		var button: FancyButton = FancyButton.make(" + ".join(names), &"PrimaryButton" if paths.size() == 1 else &"", Vector2(280, 56))
+		button.name = "Suggest_%s" % "_".join(names)
+		button.pressed.connect(func() -> void:
+			_close_layer(layer)
+			apply_suggestion(paths))
+		options.add_child(button)
+	var cancel: FancyButton = FancyButton.make("Cancel", &"GhostButton", Vector2(200, 50))
+	cancel.pressed.connect(func() -> void: _close_layer(layer))
+	column.add_child(cancel)
+	PadFocus.register(layer)
+
+
+## The Path choices offered: each Path the player owns 8+ cards of (the main Path first), then pairs with it when two Paths are allowed.
+func suggest_choices() -> Array[Array]:
+	var mix: Dictionary = DeckInsights.path_mix(Session.profile.owned_cards)
+	var main: Affinity.Type = Session.profile.primary_affinity
+	var singles: Array[Affinity.Type] = [main]
+	for path: Affinity.Type in Affinity.colored_types():
+		if path != main and int(mix.get(int(path), 0)) >= 8:
+			singles.append(path)
+	var result: Array[Array] = []
+	for path: Affinity.Type in singles:
+		result.append([path])
+	if DeckValidator.max_colors(Session.profile, _active_modifiers()) >= 2:
+		for path: Affinity.Type in singles:
+			if path != main:
+				result.append([main, path])
+	return result
+
+
+func apply_suggestion(paths: Array[Affinity.Type]) -> void:
+	var suggested: Deck = DeckInsights.suggest(Session.profile.owned_cards, paths, Session.profile.level, editor.infrastructure, DeckValidator.min_deck_size(_active_modifiers()))
+	suggested.deck_name = editor.deck.deck_name
+	editor = DeckEditor.from(Session.profile, suggested, editor.infrastructure, _active_modifiers())
+	_dirty = true
+	Audio.sfx(&"deck_sort")
+	_say("Suggested a %d-card deck: review it, then Save Deck (Reset goes back)." % editor.deck.size(), UIStyle.GOLD)
 	_refresh()
 
 

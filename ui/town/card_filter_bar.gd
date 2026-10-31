@@ -1,16 +1,24 @@
 class_name CardFilterBar
 extends VBoxContainer
 ## Filter chips for card lists: affinity, card type and cost. `matches(card)` applies them.
+## Overnight Oct 30-31, Part 7: rarity, and "New" (cards that joined the collection since the station was last closed) when `show_extra`.
 
 signal changed
 
 const COST_LABELS: Array[String] = ["Any cost", "0-1", "2", "3", "4+"]
 const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder", "Tool"]
+const RARITY_LABELS: Array[String] = ["Any rarity", "Common", "Uncommon", "Epic", "Legendary"]
 
 var affinity_filter: int = -1
 var type_filter: int = -1
 var cost_filter: int = 0
-var _groups: Array[Array] = [[], [], []]
+## -1 = any; else a CardEnums.Rarity.
+var rarity_filter: int = -1
+## 1 = only cards that are new to the collection.
+var new_filter: int = 0
+## The Deck Station sets it before the bar enters the tree (the dungeon deck editor keeps the three rows).
+var show_extra: bool = false
+var _groups: Array[Array] = [[], [], [], [], []]
 
 
 func _ready() -> void:
@@ -31,6 +39,14 @@ func _ready() -> void:
 	second.add_child(UIKit.spacer(0, 14))
 	_row(2, costs, second)
 	add_child(second)
+	if show_extra:
+		var rarities: Array[Dictionary] = []
+		for index: int in range(RARITY_LABELS.size()):
+			rarities.append({"label": RARITY_LABELS[index], "value": index - 1})
+		var third: HFlowContainer = _row(3, rarities)
+		third.add_child(UIKit.spacer(0, 14))
+		_row(4, [{"label": "Any", "value": 0}, {"label": "New", "value": 1, "color": UIStyle.GOLD}] as Array[Dictionary], third)
+		add_child(third)
 
 
 func _card_type_for(index: int) -> int:
@@ -96,6 +112,10 @@ func _is_active(group: int, value: int) -> bool:
 			return value == affinity_filter
 		1:
 			return value == type_filter
+		3:
+			return value == rarity_filter
+		4:
+			return value == new_filter
 	return value == cost_filter
 
 
@@ -107,6 +127,10 @@ func _select(group: int, value: int) -> void:
 			type_filter = value
 		2:
 			cost_filter = value
+		3:
+			rarity_filter = value
+		4:
+			new_filter = value
 	for entry: Dictionary in _groups[group]:
 		(entry["button"] as Button).button_pressed = int(entry["value"]) == value
 	Audio.sfx(&"ui_tick")
@@ -117,6 +141,10 @@ func matches(card: CardData) -> bool:
 	if affinity_filter != -1 and not card.is_on_path(affinity_filter as Affinity.Type) and int(card.color) != affinity_filter:
 		return false
 	if type_filter != -1 and int(card.type) != type_filter:
+		return false
+	if rarity_filter != -1 and (card.is_basic or int(card.rarity) != rarity_filter):
+		return false
+	if new_filter == 1 and not Session.new_cards.has(card.id):
 		return false
 	var cost: int = card.energy_value()
 	match cost_filter:

@@ -24,7 +24,8 @@ func attach(target: Control, card: CardData) -> void:
 	target.mouse_exited.connect(hide_preview)
 
 
-func show_for(target: Control, card: CardData) -> void:
+## `extra`: more [title, body] entries under the keywords (the Deck Station adds "Works well with", overnight Oct 30-31).
+func show_for(target: Control, card: CardData, extra: Array[Array] = []) -> void:
 	if _card != null:
 		_card.queue_free()
 	_card = CardView.create(card, CardView.Mode.FULL)
@@ -34,6 +35,7 @@ func show_for(target: Control, card: CardData) -> void:
 	for child: Node in _help_box.get_children():
 		child.queue_free()
 	var entries: Array[Array] = KeywordInfo.entries_for(card)
+	entries.append_array(extra)
 	_help.visible = not entries.is_empty()
 	for entry: Array in entries:
 		_help_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", Settings.tooltip_font(21)))
