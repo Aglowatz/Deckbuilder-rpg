@@ -84,6 +84,8 @@ var _stage_root: Control
 var _done: bool = false
 var _still_up: bool = false
 var _music_token: int = 0
+## Overnight Oct 30-31 (mid-game critic #8): a cutscene seen before (`cutscene_seen_<id>`) can be skipped with Esc (it sets no flags).
+var _skippable: bool = false
 
 
 func _exit_tree() -> void:
@@ -104,6 +106,7 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 300
+	_skippable = Session.flag(StringName("cutscene_seen_%s" % scene_id))
 	# A leader's release scene, Primm between his phases and after his fall have their own cues over the dungeon's music; the rest keep what plays.
 	var cue: String = MusicDirector.cutscene(scene_id)
 	if not cue.is_empty():
@@ -205,6 +208,8 @@ func _show_beat() -> void:
 	_text.text = "\n".join(lines)
 	_text.visible_ratio = 0.0
 	_hint.text = "Click / Space to finish" if _index == _beats.size() - 1 else "Click / Space to continue"
+	if _skippable:
+		_hint.text += "   -   Esc: skip (seen before)"
 	var speaks_left: bool = _is_left_speaker(speaker)
 	_left.modulate = Color(1, 1, 1, 1) if speaks_left else Color(0.6, 0.6, 0.66, 1)
 	_right.modulate = Color(0.6, 0.6, 0.66, 1) if speaks_left else Color(1, 1, 1, 1)
@@ -236,6 +241,13 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if not _done and _skippable and key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		_index = _beats.size() - 1
+		_text.visible_ratio = 1.0
+		advance()
+		return
 	if _done or _still_up:
 		return
 	var pressed: bool = UiInput.is_confirm(event)
@@ -259,6 +271,7 @@ func advance() -> void:
 	_index += 1
 	if _index >= _beats.size():
 		_done = true
+		Session.set_flag(StringName("cutscene_seen_%s" % scene_id))
 		finished.emit()
 		queue_free()
 		return

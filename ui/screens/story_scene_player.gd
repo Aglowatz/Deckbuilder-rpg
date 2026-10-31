@@ -2,6 +2,10 @@ class_name StoryScenePlayer
 extends RefCounted
 ## Plays a `StoryScenes` scene in a dialogue box, one speaker after another, then calls `then`. Sets the scene's flags (`once_flag`,
 ## `sets`) when the last box closes, and saves.
+## Overnight Oct 30-31 (mid-game critic #8): a scene seen before (`scene_seen_<id>`) can be skipped with Esc; the rest of its boxes are
+## passed over but every flag it sets is still set.
+
+static var _skipping: bool = false
 
 
 static func play(dialogue: DialogueBox, id: String, then: Callable = Callable()) -> void:
@@ -10,6 +14,11 @@ static func play(dialogue: DialogueBox, id: String, then: Callable = Callable())
 		_finish(id, then)
 		return
 	GameLog.info("story", "scene %s" % id)
+	_skipping = false
+	if Session.flag(seen_flag(id)):
+		dialogue.skip_callback = func() -> void:
+			_skipping = true
+			dialogue.close_now()
 	_show_backdrop(dialogue, id)
 	_play_step(dialogue, id, steps, 0, then)
 
@@ -39,11 +48,16 @@ static func _hide_backdrop(dialogue: DialogueBox) -> void:
 
 static func _play_step(dialogue: DialogueBox, id: String, steps: Array[Dictionary], index: int, then: Callable) -> void:
 	if index >= steps.size() or not is_instance_valid(dialogue):
+		if is_instance_valid(dialogue):
+			dialogue.skip_callback = Callable()
 		_hide_backdrop(dialogue)
 		_finish(id, then)
 		return
 	var step: Dictionary = steps[index]
 	var speaker_id: String = str(step["speaker_id"])
+	if _skipping and speaker_id != StoryScenes.SET_FLAGS:
+		_play_step(dialogue, id, steps, index + 1, then)
+		return
 	if speaker_id == StoryScenes.SET_FLAGS:
 		for flag: String in step["lines"] as Array[String]:
 			Session.set_flag(StringName(flag))
@@ -60,7 +74,13 @@ static func label_for(speaker_id: String) -> String:
 	return ""
 
 
+static func seen_flag(id: String) -> StringName:
+	return StringName("scene_seen_%s" % id)
+
+
 static func _finish(id: String, then: Callable) -> void:
+	_skipping = false
+	Session.set_flag(seen_flag(id))
 	for flag: String in StoryScenes.flags_set(id):
 		Session.set_flag(StringName(flag))
 	if not StoryScenes.flags_set(id).is_empty():

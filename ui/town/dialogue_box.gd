@@ -23,6 +23,9 @@ var _portrait: PortraitView
 ## Overnight Oct 30-31, Part 6: the listener - the previous speaker of a back-and-forth stays on the other side, dimmed, while the new one
 ## speaks (two conversations started within LISTEN_GAP_MS of each other count as one exchange).
 var _listener: PortraitView
+## Overnight Oct 30-31 (mid-game critic #8): set by StoryScenePlayer for a scene seen before - Esc then skips the rest of the scene
+## (the hint says so). Cleared when the scene ends.
+var skip_callback: Callable = Callable()
 var _last_speaker: Dictionary = {}
 const LISTEN_GAP_MS: int = 700
 ## Per-letter voice blips: one every BLIP_EVERY letters (not spaces or punctuation), never closer than BLIP_GAP seconds.
@@ -254,6 +257,8 @@ func _show_line() -> void:
 	_text.visible_ratio = 0.0
 	var last: bool = _index == _lines.size() - 1
 	PromptText.bind(_hint, "E / Click to close" if last else "E / Click to continue", &"text", "{confirm} to close" if last else "{confirm} to continue")
+	if skip_callback.is_valid():
+		_hint.text += "   -   Esc: skip the scene (seen before)"
 	if not _portrait_id.is_empty():
 		_portrait.set_texture(Portraits.texture_for(_portrait_id, _expressions[_index]))
 		_portrait.set_talking(true)
@@ -306,6 +311,13 @@ static func is_advance_key(event: InputEvent) -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if not active:
 		return
+	var key: InputEventKey = event as InputEventKey
+	if skip_callback.is_valid() and key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		var skip: Callable = skip_callback
+		skip_callback = Callable()
+		skip.call()
+		return
 	var pressed: bool = UiInput.is_confirm(event) or is_advance_key(event)
 	if pressed:
 		pass
@@ -314,6 +326,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not pressed:
 		return
 	get_viewport().set_input_as_handled()
+	press()
+
+
+## Closes the conversation at once, as if its last line had been read (`finished` fires).
+func close_now() -> void:
+	if not active:
+		return
+	if _tween != null and _tween.is_valid():
+		_tween.kill()
+	_index = _lines.size() - 1
+	_text.visible_ratio = 1.0
 	press()
 
 
