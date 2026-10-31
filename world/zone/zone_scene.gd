@@ -538,6 +538,10 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	spot.title = title
 	spot.position = pos
 	spot.radius = radius
+	# Overnight Oct 30-31 (mid-game critic #7): a zone's shopkeeper answers E from as far as their bark carries, as in Crosspath
+	# (TownScene.VENDOR_REACH). The Capital's dealer (the black market) keeps its reach.
+	if kind.begins_with("vendor") and def.id != CapitalZone.ID:
+		spot.radius = maxf(radius, TownScene.VENDOR_REACH)
 	spot.prompt = prompt
 	spot.is_npc = npc
 	spot.kind = kind
