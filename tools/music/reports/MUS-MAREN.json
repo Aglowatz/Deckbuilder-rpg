@@ -1,0 +1,119 @@
+{
+ "id": "MUS-MAREN",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 66,
+ "meter": "3/4",
+ "bars": 32,
+ "seconds": 87.27,
+ "loop_seconds": 87.273,
+ "lufs": -20.0,
+ "true_peak": -8.7,
+ "lra": 10.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "A clarinet",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -18.6
+  },
+  {
+   "section": "B cello",
+   "bar": 8,
+   "bars": 8,
+   "start_s": 21.8,
+   "lufs": -21.8
+  },
+  {
+   "section": "C bare",
+   "bar": 16,
+   "bars": 8,
+   "start_s": 43.6,
+   "lufs": -25.2
+  },
+  {
+   "section": "A' duet",
+   "bar": 24,
+   "bars": 8,
+   "start_s": 65.5,
+   "lufs": -18.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "stated (low clarinet), a question",
+   "ch": "cl"
+  },
+  {
+   "bar": 9.0,
+   "form": "tail (english horn, answering)",
+   "ch": "ehn"
+  },
+  {
+   "bar": 13.0,
+   "form": "tail (english horn, answering)",
+   "ch": "ehn"
+  },
+  {
+   "bar": 18,
+   "form": "lullaby (G D Bb, three notes) - story theme",
+   "ch": "cl"
+  },
+  {
+   "bar": 20.0,
+   "form": "head augmented (cello), bare",
+   "ch": "vc"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (clarinet) with cello counter",
+   "ch": "cl"
+  }
+ ],
+ "notes": 281,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MAREN\\MUS-MAREN.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MAREN\\MUS-MAREN.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MAREN.mid"
+ },
+ "seam": {
+  "jump_db": 1.11,
+  "wrap_step": 0.00856,
+  "p999_step": 0.07424,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.72,
+   "bars_without_melody": [
+    2,
+    15,
+    16,
+    17,
+    18,
+    19,
+    21,
+    26,
+    31
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

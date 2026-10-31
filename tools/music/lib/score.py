@@ -11,6 +11,19 @@ from .instruments import GM
 
 TPB = 480
 
+# The v04 seating (docs/audio/score_bible.md, section 5): name -> (instrument, pan, reverb, volume).
+SEATING = {
+    'vln': ('strings', 36, 100, 92), 'pad': ('slow_strings', 64, 100, 84), 'vc': ('cello', 82, 90, 88), 'cb': ('contrabass', 92, 90, 92),
+    'vla': ('viola', 56, 90, 84), 'spic': ('strings', 30, 85, 84), 'trem': ('tremolo', 50, 95, 80),
+    'harp': ('harp', 46, 80, 82), 'hn': ('horn', 78, 95, 92), 'tbn': ('trombone', 88, 95, 80), 'tpt': ('trumpet', 70, 90, 74),
+    'tuba': ('tuba', 92, 90, 82), 'brass': ('brass', 74, 92, 80),
+    'fl': ('flute', 52, 85, 80), 'picc': ('piccolo', 40, 85, 70), 'ob': ('oboe', 60, 85, 76), 'ehn': ('english_horn', 62, 85, 78),
+    'cl': ('clarinet', 72, 85, 84), 'bsn': ('bassoon', 76, 85, 80),
+    'timp': ('timpani', 64, 75, 96), 'choir': ('choir', 64, 110, 70), 'pizz': ('pizz', 74, 70, 84),
+    'glock': ('glock', 44, 90, 60), 'cel': ('celesta', 44, 90, 66), 'piano': ('piano', 58, 80, 84), 'xylo': ('xylophone', 48, 80, 66),
+    'perc': ('orch_kit', 64, 80, 90),
+}
+
 
 class Score:
     def __init__(self, id, bpm, bars, meter=(4, 4), key='', seed=0, kind='loop', human=(0.018, 5)):
@@ -23,6 +36,7 @@ class Score:
         self.kind = kind            # 'loop' (tail folded onto the start) or 'oneshot' (tail rings out)
         self.rng = random.Random(seed)
         self.jitter, self.vel_spread = human
+        self.swing = 0.0
         self.ch = {}                # name -> dict(chan, bank, prog, pan, rev, vol)
         self.events = {}            # name -> [(start, dur, pitch, vel, role)]
         self.cc11 = {}              # name -> [(beat, value)]
@@ -53,6 +67,17 @@ class Score:
         self.ccs[name] = []
         return name
 
+    def seat(self, *names, **over):
+        """Add channels by their SEATING name; over={'fl': ('recorder', 52, 85, 80)} or over={'fl': {'vol': 70}} changes one."""
+        for n in names:
+            inst, pan, rev, vol = SEATING.get(n, (None, 64, 85, 84))
+            o = over.get(n)
+            if isinstance(o, tuple):
+                inst, pan, rev, vol = o
+            elif isinstance(o, dict):
+                inst, pan, rev, vol = o.get('inst', inst), o.get('pan', pan), o.get('rev', rev), o.get('vol', vol)
+            self.channel(n, inst, pan=pan, reverb=rev, vol=vol)
+
     def tempo(self, bar, bpm):
         self.tempos.append((bar * self.bar_q, bpm))
         self.tempos.sort()
@@ -82,6 +107,8 @@ class Score:
     def note(self, ch, start, dur, pitch, vel, human=True, role=None):
         if pitch == REST:
             return
+        if self.swing and abs(start % 1 - 0.5) < 1e-6:
+            start += self.swing          # swung off-beat 8th (0.1667 = triplet feel)
         j = self.rng.uniform(-self.jitter, self.jitter) if human else 0
         v = max(1, min(127, int(vel + (self.rng.randint(-self.vel_spread, self.vel_spread) if human else 0))))
         self.events[ch].append((max(0, start + j), dur, p(pitch), v, role))
@@ -178,6 +205,19 @@ class Score:
         else:
             raise ValueError(pattern)
 
+    def parts(self, spec):
+        """'Gm A' -> [(0, 2, 'Gm'), (2, 2, 'A')]: chords splitting a bar evenly."""
+        syms = spec.split()
+        q = self.bar_q / len(syms)
+        return [(i * q, q, sym) for i, sym in enumerate(syms)]
+
+    def bass_at(self, beat, dur, sym, vel, chs=('cb', 'vc'), octave=0):
+        """Sustained bass (+ cello an octave up) for part of a bar; `beat` is absolute."""
+        b = p(self.voicing(sym)[0]) + 12 * octave
+        self.note(chs[0], beat, dur + 0.02, b, vel)
+        if chs[1]:
+            self.note(chs[1], beat, dur + 0.02, b + 12, vel - 6)
+
     def harp(self, bar, sym, vel, density=8, ch='harp', octave=0, beats=None, beat=0.0):
         """v04 arpeggio: the voicing plus its octave across the bar (density 16 = up and back down)."""
         ts = sorted(p(n) + 12 * octave for n in self.voicing(sym)[1])
@@ -200,10 +240,22 @@ class Score:
             t = b if w == 'b' else ((b + 7 if not alt else ts[1]) if w == 'f' else ts[w % len(ts)])
             self.note(ch, bar * self.bar_q + beat, 0.5, t, vel + (6 if beat == 0 else 0))
 
+    def chord_tones(self, sym, low, count=8):
+        """Ascending chord tones from `low`; a named voicing in self.V supplies its own pitch classes."""
+        if sym not in self.V:
+            return tones(sym, low=low, count=count)
+        pcs = {p(n) % 12 for n in self.V[sym][1]}
+        out, k = [], p(low)
+        while len(out) < count:
+            if k % 12 in pcs:
+                out.append(k)
+            k += 1
+        return out
+
     def figure(self, ch, bar, sym, pattern, vel, low='C4', octave=0):
         """Generic accompaniment figure: pattern = [(beat, tone, dur, accent)] where tone indexes the chord tones from `low`
         ('b' = the bass an octave up)."""
-        tn = tones(sym, low=p(low) + 12 * octave, count=8)
+        tn = self.chord_tones(sym, p(low) + 12 * octave, 8)
         b = p(self.voicing(sym)[0]) + 12
         for beat, w, dur, acc in pattern:
             self.note(ch, bar * self.bar_q + beat, dur, b if w == 'b' else tn[w], vel + acc)

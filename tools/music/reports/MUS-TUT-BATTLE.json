@@ -1,0 +1,160 @@
+{
+ "id": "MUS-TUT-BATTLE",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 124,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 123.87,
+ "loop_seconds": 123.871,
+ "lufs": -20.0,
+ "true_peak": -6.7,
+ "lra": 6.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "ostinato",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.8
+  },
+  {
+   "section": "A horns",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.7,
+   "lufs": -19.4
+  },
+  {
+   "section": "B suspense",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 38.7,
+   "lufs": -23.2
+  },
+  {
+   "section": "A' brass",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 54.2,
+   "lufs": -19.2
+  },
+  {
+   "section": "C lift",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 85.2,
+   "lufs": -18.4
+  },
+  {
+   "section": "A'' inverted",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 100.6,
+   "lufs": -20.3
+  },
+  {
+   "section": "ostinato",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 116.1,
+   "lufs": -24.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 4.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 21.0,
+   "form": "head (horn), suspense",
+   "ch": "hn"
+  },
+  {
+   "bar": 25.0,
+   "form": "head (horn), suspense",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated (trumpets + horns)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 45.0,
+   "form": "head in G major (trumpet answer)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 49.0,
+   "form": "head (trumpet answer)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "inverted (trombones, counter)",
+   "ch": "tbn"
+  }
+ ],
+ "notes": 1859,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-TUT-BATTLE\\MUS-TUT-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-TUT-BATTLE\\MUS-TUT-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUT-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.16,
+  "wrap_step": 0.00955,
+  "p999_step": 0.04503,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.75,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    13,
+    20,
+    29,
+    51,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+   ],
+   "buried_bars": [
+    26,
+    34
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

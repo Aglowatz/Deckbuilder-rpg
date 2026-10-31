@@ -142,6 +142,15 @@ def tones(sym, low='C3', count=8):
 
 
 # ---------------------------------------------------------------- melodies
+def m(text):
+    """'D4:1 A4:.5 G4:.5 | F4:1.5 r:.5' -> [('D4', 1.0), ...]. '|' marks bars (ignored); a bare duration repeats the last pitch."""
+    out = []
+    for tok in text.replace('|', ' ').split():
+        n, d = tok.split(':')
+        out.append((n, float(d)))
+    return out
+
+
 def transpose(mel, semis):
     return [(n if n == REST else p(n) + semis, d) for n, d in mel]
 

@@ -1,0 +1,152 @@
+{
+ "id": "MUS-TITLE",
+ "kind": "loop",
+ "key": "D minor",
+ "bpm": 76,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 151.58,
+ "loop_seconds": 151.579,
+ "lufs": -20.0,
+ "true_peak": -3.5,
+ "lra": 13.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -27.9
+  },
+  {
+   "section": "A",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 12.6,
+   "lufs": -22.3
+  },
+  {
+   "section": "A' tutti",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 37.9,
+   "lufs": -20.3
+  },
+  {
+   "section": "B adventure",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 63.2,
+   "lufs": -22.6
+  },
+  {
+   "section": "C oboe",
+   "bar": 28,
+   "bars": 8,
+   "start_s": 88.4,
+   "lufs": -26.0
+  },
+  {
+   "section": "climax",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 113.7,
+   "lufs": -14.7
+  },
+  {
+   "section": "outro",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 138.9,
+   "lufs": -26.1
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "head, incomplete (lone horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated (tutti strings 8va + trumpet)",
+   "ch": "vln"
+  },
+  {
+   "bar": 20.0,
+   "form": "head in sequence (horn calls)",
+   "ch": "hn"
+  },
+  {
+   "bar": 35,
+   "form": "lullaby head (D A F, cut off) - story theme, not the motif",
+   "ch": "cel"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (climax, trumpets + strings 15ma)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 36.0,
+   "form": "augmented (trombones, under the tune)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 46.0,
+   "form": "head, incomplete (lone horn)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1622,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-TITLE\\MUS-TITLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-TITLE\\MUS-TITLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TITLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.55,
+  "wrap_step": 0.00223,
+  "p999_step": 0.10344,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 4,
+   "bars": [
+    39
+   ],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.9,
+   "bars_without_melody": [
+    1,
+    2,
+    44,
+    45,
+    47
+   ],
+   "buried_bars": [
+    35,
+    36,
+    37
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

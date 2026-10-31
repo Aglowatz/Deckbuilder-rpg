@@ -1,0 +1,136 @@
+{
+ "id": "MUS-TOWN-FREED",
+ "kind": "loop",
+ "key": "D major",
+ "bpm": 92,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 125.22,
+ "loop_seconds": 125.217,
+ "lufs": -20.0,
+ "true_peak": -4.2,
+ "lra": 9.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -26.1
+  },
+  {
+   "section": "A + Refusemancer",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 10.4,
+   "lufs": -21.8
+  },
+  {
+   "section": "A' + Gourmand",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 31.3,
+   "lufs": -21.8
+  },
+  {
+   "section": "B + Necrocrat",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 52.2,
+   "lufs": -21.6
+  },
+  {
+   "section": "B' + Beefcake",
+   "bar": 28,
+   "bars": 8,
+   "start_s": 73.0,
+   "lufs": -19.7
+  },
+  {
+   "section": "all four",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 93.9,
+   "lufs": -15.8
+  },
+  {
+   "section": "outro",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 114.8,
+   "lufs": -26.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head, slow (horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "RESOLVED (horn; tune head)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12.0,
+   "form": "RESOLVED (violins 8va)",
+   "ch": "vln"
+  },
+  {
+   "bar": 27.0,
+   "form": "head + tail glint (celesta)",
+   "ch": "cel"
+  },
+  {
+   "bar": 36.0,
+   "form": "RESOLVED (tutti; the tune ends on D)",
+   "ch": "vln"
+  },
+  {
+   "bar": 44.0,
+   "form": "RESOLVED (horn), farewell",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1565,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-TOWN-FREED\\MUS-TOWN-FREED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-TOWN-FREED\\MUS-TOWN-FREED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TOWN-FREED.mid"
+ },
+ "seam": {
+  "jump_db": -1.41,
+  "wrap_step": 0.00328,
+  "p999_step": 0.05945,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.9,
+   "bars_without_melody": [
+    0,
+    2,
+    45,
+    46,
+    47
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

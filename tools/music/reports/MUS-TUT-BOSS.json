@@ -1,0 +1,190 @@
+{
+ "id": "MUS-TUT-BOSS",
+ "kind": "loop",
+ "key": "B minor",
+ "bpm": 136,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 127.06,
+ "loop_seconds": 127.059,
+ "lufs": -20.0,
+ "true_peak": -4.9,
+ "lra": 11.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "stone drums",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -25.8
+  },
+  {
+   "section": "A stone theme",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 7.1,
+   "lufs": -21.2
+  },
+  {
+   "section": "B royal answer",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 21.2,
+   "lufs": -24.6
+  },
+  {
+   "section": "A' stone theme",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 35.3,
+   "lufs": -19.5
+  },
+  {
+   "section": "C familiar scent",
+   "bar": 28,
+   "bars": 8,
+   "start_s": 49.4,
+   "lufs": -25.7
+  },
+  {
+   "section": "D challenge",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 63.5,
+   "lufs": -21.0
+  },
+  {
+   "section": "climax",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 77.6,
+   "lufs": -14.7
+  },
+  {
+   "section": "E approval",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 91.8,
+   "lufs": -19.7
+  },
+  {
+   "section": "A'' stone theme",
+   "bar": 60,
+   "bars": 8,
+   "start_s": 105.9,
+   "lufs": -20.4
+  },
+  {
+   "section": "stone drums",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -25.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 12.0,
+   "form": "head, small (celesta + harp)",
+   "ch": "cel"
+  },
+  {
+   "bar": 14.0,
+   "form": "head, small (celesta + harp)",
+   "ch": "cel"
+  },
+  {
+   "bar": 16.0,
+   "form": "head, small (celesta + harp)",
+   "ch": "cel"
+  },
+  {
+   "bar": 29,
+   "form": "lullaby head (B F# D) - recognition, story theme",
+   "ch": "cel"
+  },
+  {
+   "bar": 31.0,
+   "form": "augmented (strings), dignified answer",
+   "ch": "vln"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (trumpets) against the stone theme",
+   "ch": "tpt"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated (trumpets), again",
+   "ch": "tpt"
+  },
+  {
+   "bar": 44.0,
+   "form": "stated (climax tune: trumpets, horns, violins 8va)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 52.0,
+   "form": "tail held above (strings)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 2271,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-TUT-BOSS\\MUS-TUT-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-TUT-BOSS\\MUS-TUT-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUT-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": 0.07,
+  "wrap_step": 0.00573,
+  "p999_step": 0.07368,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.74,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    23,
+    27,
+    28,
+    29,
+    30,
+    33,
+    34,
+    35,
+    39,
+    63,
+    67,
+    68,
+    69,
+    70,
+    71
+   ],
+   "buried_bars": [
+    55
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Villain idea: the stone theme W (trombones + horns), Phrygian C natural; never the Crossroads shape."
+ ]
+}
