@@ -608,3 +608,7 @@ cycle 1); the spells-only arena (cycle 10).
     A load-time re-check of zone feats would cover old saves too.
 15. **The critic's runs 22:20-22:40 loaded untested drafts** from the working tree (my mistake: drafts should live in a worktree while a
     critic plays). No script errors appeared; findings are about the shipped game.
+16. **Frame budget, 1% lows**: the v0.4.9 run has 14 area-qualities over budget on the 1% low only (averages fine), measured while the PC
+    ran out of memory (Claude Code stopped the run; its probes finished). The Oct 29 run had 7 over the same way. Worth a quiet re-run
+    (`bash tools/perf_budget.sh frame`, nothing else open) before sharing: if the Deck Station (21 ms vs 14) or the zones stay over, the
+    suspects from tonight are the Deck Station's curve / shape refresh and the goal pointer's second marker.

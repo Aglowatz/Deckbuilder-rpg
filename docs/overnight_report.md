@@ -156,7 +156,7 @@ Sound check: 170 rows, 0 silent, one event over -1 dBFS (`thrower_land` -0.9, as
 | Story playthrough bot | 90 / 90 |
 | Smokes | playtest (opening hour) OK, gamepad OK, prologue OK, first battles OK (lowest 57 fps), release OK, walk smokes Crosspath / hub / Gainlands / D.N.A. / Buffet / Dump / Capital OK, memory round trip OK (Part 5, 6 trips: static +1.0 MB, video +0.9 MB), structure budget OK |
 | GUT | root 286, core 1518 + 1 pending, ui 258, world 428 - all green |
-| Frame budget (windowed Low + Medium) | **not completed**: Claude Code stopped the run because the PC ran low on memory while it was going (its last probes finished on their own); not restarted. The fps seen tonight in smokes and probes (57+ in battle, 64-72 in zones) match the last budget run |
+| Frame budget (windowed Low + Medium) | **14 area-qualities over, all on the 1% low only** (averages within budget everywhere; e.g. the Dump Low 31.3 ms vs 21.0, the Deck Station Low 21.2 vs 14.2). Measured while the PC was so short of memory that Claude Code stopped the run (the probes finished; the comparison was run afterwards with `node tools/perf_budget_check.js`). The last run before v0.4.8 (Oct 29) already had 7 over the same way. Not attributable tonight - see inbox 16 |
 | Version | 0.4.9 (`project.godot`, `export_presets.cfg`) |
 | Guarded export | EXPORT OK: pack 850 MB, zip 762 MB (798,372,807 bytes; under the 850 MB flag), CRCs checked; peak memory import 1042 MB, export 1608 MB |
 | Exported release smoke | PASSED on D3D12 (AMD Radeon iGPU) at Medium and at Low |
