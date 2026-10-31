@@ -22,8 +22,8 @@ Disk: 5.2 GB free at start; RAM ~2 GB free at start.
 | 6 | Dialogue presentation | done | 35f84069 | any key, per-letter blips, listener portrait |
 | 7 | Smarter Deck Station | done | 089169e1 | curve, mix, filters, works-well-with, Suggest |
 | 8 | Sound pass | done | a434016b | dungeon beds, 2 events, loudness tool + 21 moved |
-| 9 | v0.4.9 build | todo | | |
-| Report | docs/overnight_report.md | todo | | |
+| 9 | v0.4.9 build | done | (final) | zip 762 MB, exported smokes D3D12 Medium + Low PASSED |
+| Report | docs/overnight_report.md | done | (final) | |
 
 ## How to resume
 

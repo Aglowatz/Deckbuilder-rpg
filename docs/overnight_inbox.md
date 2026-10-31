@@ -574,3 +574,37 @@ cycle 1); the spells-only arena (cycle 10).
 12. **One Continue rule** (`ConfirmKey`): E / Enter / Space / pad A now press Continue on the pre-fight rules card, event results and
     announcements (Part 1 did popups, tips and the Well). Story stills already advance on E via their dialogue box; the pack opener on
     confirm. Say if any screen should keep Continue mouse-only.
+
+## Overnight Oct 30-31 (eight improvements + v0.4.9) - yours to decide (the safest choice was taken)
+
+1. **Controller sprint took the left-stick click**; the camera zoom's pad default moved to Share/View (`Keybinds`). Rebindable in
+   Settings > Controls. Say if you would rather keep L3 on the zoom and put sprint elsewhere.
+2. **Sprint speed 1.65x** (`TownPlayer.SPRINT`); a controller click latches it until the hero stops. Always sprint is off by default.
+3. **Fast travel from the map** goes straight to the station (no Rip cutscene; the operator's lines still play at the station when you walk
+   up). A freed zone now counts as a reached station even if its station was never walked past. Say if map travel should only work
+   standing at a station.
+4. **The goal pointer shows two goals** (the tracked quest + the most recent quest of the other kind). If two is noise, `goal_targets`
+   can return only the tracked one; the setting already turns all of it off.
+5. **Entering a zone tracks that zone's main line** (`Session.begin_zone_visit`). A player who tracked a side quest on purpose loses that
+   choice on entering a zone (the side quest still gets the blue marker).
+6. **Beginner tips are skipped past level 5 or a freed zone** (`TutorialLayer.BASIC_STEPS`). A brand-new player is unaffected; an old
+   save that skipped them never sees them.
+7. **Cover names** (`SpoilerFree`): the Doppelganger's plate reads "The Doppelganger" (its sheet name minus "(later named Escoffina)");
+   the speaker label of the boss intro is dialogue data and unchanged. If the plate should read "Grand Chef Escoffina" until the reveal,
+   that needs a reveal flag per NPC.
+8. **Esc skips a story scene / cutscene seen before** (new save flags `scene_seen_<id>`, `cutscene_seen_<id>`; scenes seen before tonight
+   count from their next viewing). Say if Esc should skip first viewings too (with a confirm).
+9. **Vendor reach 2.8 m** (was 1.8) in town and zones; the Secret Dealer, the Alchemist and the Capital's dealer unchanged.
+10. **Loudness**: 21 events moved by up to 4 dB toward their category's median (deaths and big spells a little quieter, quiet UI
+    backs a little louder). The two hover ticks, `sprint_start` and `sign_read` exempt. Revert = `git checkout pre-overnight-oct30b --
+    data/source/sfx_events.csv` + `node tools/sfx_build.js bank`.
+11. **Dungeon maps now have a quiet ambience bed** (they were silent under the music by an earlier choice). Say if the map should stay
+    music-only.
+12. **Loading**: only the return to town improved. The zones' builders (the Dump 2.5 s, Crosspath's square and hub scenery 2 s) are the
+    next lever, via the build cache with a cold and a warm walk smoke per cached piece.
+13. **Boss nameplate wrap** ("Primm - Phase Standardization" runs under the heart): a longest-word fit was tried and had no visible effect
+    (the rendered plate is wider than the measured label); reverted. Needs a look at the art plate's label sizing.
+14. **Feats on bot-made saves**: "Free the Gainlands" was not credited on the story-bot snapshot (flags set directly); real play credits it.
+    A load-time re-check of zone feats would cover old saves too.
+15. **The critic's runs 22:20-22:40 loaded untested drafts** from the working tree (my mistake: drafts should live in a worktree while a
+    critic plays). No script errors appeared; findings are about the shipped game.

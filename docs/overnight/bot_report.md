@@ -1,6 +1,6 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-30T15:13:21, 8.2 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-31T01:16:55, 8.2 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
 - Spots used (NPCs, shops, signs, chests...): 281
@@ -12,54 +12,54 @@ Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| forest | 61 | 0 | 18 |
-| town | 3190 | 46 | 429 |
-| beefcake | 2455 | 21 | 74 |
-| beefcake battle | 241 | 1 | 44 |
-| necrocrat | 3055 | 18 | 75 |
-| necrocrat battle | 241 | 1 | 45 |
-| gourmand | 2620 | 12 | 70 |
-| gourmand battle | 241 | 1 | 62 |
-| refusemancer | 3875 | 22 | 83 |
-| refusemancer battle | 241 | 1 | 43 |
-| final | 8374 | 60 | 364 |
-| final battle | 241 | 1 | 39 |
+| forest | 59 | 2 | 46 |
+| town | 3186 | 54 | 447 |
+| beefcake | 2441 | 22 | 79 |
+| beefcake battle | 241 | 2 | 46 |
+| necrocrat | 3057 | 24 | 63 |
+| necrocrat battle | 241 | 0 | 21 |
+| gourmand | 2615 | 21 | 71 |
+| gourmand battle | 241 | 1 | 57 |
+| refusemancer | 3882 | 30 | 65 |
+| refusemancer battle | 241 | 1 | 63 |
+| final | 8367 | 62 | 360 |
+| final battle | 241 | 1 | 44 |
 
 ## Slowest moments (worst frame during one action)
 
-- town: use well: 429 ms
-- final: use sign_1: 364 ms
-- final: use sign_4: 363 ms
-- final: use sign_34: 363 ms
-- final: use seal_out_a: 361 ms
-- final: use seal_reek: 359 ms
-- final: use complaint_1: 358 ms
-- final: use lost_poster_0: 356 ms
-- town: use item_vendor: 115 ms
-- town: use deck: 107 ms
-- town: use tailor: 105 ms
-- town: open full_map: 104 ms
-- town: use pack_vendor: 95 ms
-- final: use fig: 94 ms
-- town: arrive: 92 ms
+- town: use well: 447 ms
+- final: use sign_4: 360 ms
+- final: use sign_34: 358 ms
+- final: use complaint_1: 357 ms
+- final: use sign_1: 356 ms
+- final: use seal_reek: 356 ms
+- final: use lost_poster_0: 355 ms
+- town: use deck: 183 ms
+- town: use pack_vendor: 134 ms
+- town: arrive: 132 ms
+- town: use tailor: 123 ms
+- final: use seal_out_a: 117 ms
+- town: open full_map: 111 ms
+- town: use notice_board: 100 ms
+- town: use item_vendor: 98 ms
 
 ## Where the slow frames are (frames over 33 ms per action, top 15)
 
-- town: use well: 5
-- town: use vendor: 5
-- town: use deck: 5
+- town: use vendor: 6
+- gourmand: use odalys: 5
+- refusemancer: use hob: 5
+- final: use lost_poster_0: 4
+- town: arrive: 4
 - final: use seal_reek: 4
-- final: use sign_4: 4
-- necrocrat: use barnaby: 3
-- final: use complaint_1: 3
-- final: use spotless: 3
-- necrocrat: use dolores: 3
-- final: use seal_out_a: 3
+- final: use spotless: 4
+- beefcake: use sign_0: 3
+- beefcake: use brenda: 3
+- gourmand: use quiz: 3
+- refusemancer: use quiz: 3
+- final: use wren: 3
+- final: use fig: 3
+- town: open deck_station (again): 3
 - town: open deck_station: 3
-- final: use sign_1: 3
-- refusemancer: use marigold: 3
-- final: use sign_34: 3
-- town: use item_vendor: 3
 
 ## Errors
 
