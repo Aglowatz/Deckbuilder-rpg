@@ -1,0 +1,126 @@
+{
+ "id": "MUS-MINIGAME-REF",
+ "kind": "loop",
+ "key": "A major",
+ "bpm": 150,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 76.8,
+ "loop_seconds": 76.8,
+ "lufs": -20.0,
+ "true_peak": -7.2,
+ "lra": 2.3,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.0
+  },
+  {
+   "section": "A flute reel",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.4,
+   "lufs": -19.8
+  },
+  {
+   "section": "B fiddle reel",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 32.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "C answers",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 57.6,
+   "lufs": -19.6
+  },
+  {
+   "section": "outro",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 70.4,
+   "lufs": -21.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 3.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (horns, under the fiddle)",
+   "ch": "hn"
+  },
+  {
+   "bar": 37.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 39.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 41.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 43.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 42.0,
+   "form": "head + turn (flute, closing the answers)",
+   "ch": "fl"
+  },
+  {
+   "bar": 47.0,
+   "form": "head (xylophone, the fair's ding)",
+   "ch": "xylo"
+  }
+ ],
+ "notes": 2802,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-REF\\MUS-MINIGAME-REF.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-REF\\MUS-MINIGAME-REF.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-REF.mid"
+ },
+ "seam": {
+  "jump_db": 0.7,
+  "wrap_step": 0.00987,
+  "p999_step": 0.06455,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

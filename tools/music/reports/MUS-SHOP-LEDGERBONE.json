@@ -1,0 +1,95 @@
+{
+ "id": "MUS-SHOP-LEDGERBONE",
+ "kind": "loop",
+ "key": "C minor",
+ "bpm": 84,
+ "meter": "3/4",
+ "bars": 36,
+ "seconds": 77.14,
+ "loop_seconds": 77.143,
+ "lufs": -20.0,
+ "true_peak": -6.5,
+ "lra": 8.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -25.2
+  },
+  {
+   "section": "A harpsichord theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.6,
+   "lufs": -21.8
+  },
+  {
+   "section": "B bassoon question",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 42.9,
+   "lufs": -18.8
+  },
+  {
+   "section": "A answer",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 60.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "cadence",
+   "bar": 32,
+   "bars": 4,
+   "start_s": 68.6,
+   "lufs": -16.1
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 20.0,
+   "form": "stated (bassoon, a polite question)",
+   "ch": "bsn"
+  }
+ ],
+ "notes": 640,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-LEDGERBONE\\MUS-SHOP-LEDGERBONE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-LEDGERBONE\\MUS-SHOP-LEDGERBONE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-LEDGERBONE.mid"
+ },
+ "seam": {
+  "jump_db": 1.08,
+  "wrap_step": 0.00656,
+  "p999_step": 0.06431,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.92,
+   "bars_without_melody": [
+    11,
+    22,
+    31
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

@@ -1,0 +1,111 @@
+{
+ "id": "MUS-MINIGAME-GOUR",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 138,
+ "meter": "4/4",
+ "bars": 44,
+ "seconds": 76.52,
+ "loop_seconds": 76.522,
+ "lufs": -20.0,
+ "true_peak": -6.7,
+ "lra": 8.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "studio intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.2
+  },
+  {
+   "section": "A theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.0,
+   "lufs": -23.6
+  },
+  {
+   "section": "B exchange",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 34.8,
+   "lufs": -17.8
+  },
+  {
+   "section": "A' studio band",
+   "bar": 28,
+   "bars": 12,
+   "start_s": 48.7,
+   "lufs": -18.2
+  },
+  {
+   "section": "studio intro again",
+   "bar": 40,
+   "bars": 4,
+   "start_s": 69.6,
+   "lufs": -19.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "head (muted trumpet, \"and now!\")",
+   "ch": "mtpt"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (clarinet, the exchange)",
+   "ch": "cl"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (clarinet, in C)",
+   "ch": "cl"
+  },
+  {
+   "bar": 40.0,
+   "form": "head (muted trumpet, \"and now!\")",
+   "ch": "mtpt"
+  }
+ ],
+ "notes": 1331,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-GOUR\\MUS-MINIGAME-GOUR.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-GOUR\\MUS-MINIGAME-GOUR.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-GOUR.mid"
+ },
+ "seam": {
+  "jump_db": 0.25,
+  "wrap_step": 0.01777,
+  "p999_step": 0.07951,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.91,
+   "bars_without_melody": [
+    18,
+    19,
+    23,
+    25
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

@@ -1,0 +1,150 @@
+{
+ "id": "MUS-PANDA-BOSS",
+ "kind": "loop",
+ "key": "B minor",
+ "bpm": 134,
+ "meter": "4/4",
+ "bars": 76,
+ "seconds": 136.12,
+ "loop_seconds": 136.119,
+ "lufs": -20.0,
+ "true_peak": -5.4,
+ "lra": 7.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.8
+  },
+  {
+   "section": "A KING",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.2,
+   "lufs": -20.2
+  },
+  {
+   "section": "B jig drive",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 35.8,
+   "lufs": -20.3
+  },
+  {
+   "section": "C comic collapse",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 64.5,
+   "lufs": -24.9
+  },
+  {
+   "section": "D climax",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 78.8,
+   "lufs": -17.5
+  },
+  {
+   "section": "E drive",
+   "bar": 60,
+   "bars": 8,
+   "start_s": 107.5,
+   "lufs": -20.2
+  },
+  {
+   "section": "wind-down",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 121.8,
+   "lufs": -22.3
+  },
+  {
+   "section": "outro",
+   "bar": 72,
+   "bars": 4,
+   "start_s": 129.0,
+   "lufs": -24.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horns, under the fanfare)",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "inverted (horns, the court mocks)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated (flute, the hero asks)",
+   "ch": "fl"
+  },
+  {
+   "bar": 44.0,
+   "form": "stated (horns, the hero fights back), then a fourth up",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (horns against the trumpets)",
+   "ch": "hn"
+  },
+  {
+   "bar": 74.0,
+   "form": "head (horns, under the fanfare)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 3033,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PANDA-BOSS\\MUS-PANDA-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PANDA-BOSS\\MUS-PANDA-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PANDA-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": -1.08,
+  "wrap_step": 0.01209,
+  "p999_step": 0.05387,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.92,
+   "bars_without_melody": [
+    2,
+    3,
+    42,
+    43,
+    74,
+    75
+   ],
+   "buried_bars": [
+    52,
+    53,
+    54
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Villain idea = KING (dotted fanfare + chromatic slink); own boss track since Music Pass 2."
+ ]
+}

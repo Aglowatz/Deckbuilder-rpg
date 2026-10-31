@@ -1,0 +1,144 @@
+{
+ "id": "MUS-CAP-REF-BROKEN",
+ "kind": "loop",
+ "key": "E minor",
+ "bpm": 132,
+ "meter": "6/8",
+ "bars": 80,
+ "seconds": 109.09,
+ "loop_seconds": 109.091,
+ "lufs": -20.0,
+ "true_peak": -6.2,
+ "lra": 7.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "clutter",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -24.9
+  },
+  {
+   "section": "A thin theme",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 10.9,
+   "lufs": -18.3
+  },
+  {
+   "section": "B holes",
+   "bar": 24,
+   "bars": 16,
+   "start_s": 32.7,
+   "lufs": -20.2
+  },
+  {
+   "section": "flute drift",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 54.5,
+   "lufs": -17.4
+  },
+  {
+   "section": "A' thinner",
+   "bar": 48,
+   "bars": 16,
+   "start_s": 65.5,
+   "lufs": -19.9
+  },
+  {
+   "section": "clutter, glimmer",
+   "bar": 64,
+   "bars": 8,
+   "start_s": 87.3,
+   "lufs": -21.2
+  },
+  {
+   "section": "clutter again",
+   "bar": 72,
+   "bars": 8,
+   "start_s": 98.2,
+   "lufs": -25.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 40.0,
+   "form": "stated (flute, drifting, unresolved)",
+   "ch": "fl"
+  },
+  {
+   "bar": 66.0,
+   "form": "head (flute, unanswered)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 1392,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-REF-BROKEN\\MUS-CAP-REF-BROKEN.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-REF-BROKEN\\MUS-CAP-REF-BROKEN.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-REF-BROKEN.mid"
+ },
+ "seam": {
+  "jump_db": -0.03,
+  "wrap_step": 0.00218,
+  "p999_step": 0.05952,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.69,
+   "bars_without_melody": [
+    0,
+    1,
+    4,
+    19,
+    26,
+    28,
+    29,
+    30,
+    35,
+    36,
+    39,
+    42,
+    47,
+    55,
+    58,
+    59,
+    63,
+    64,
+    66,
+    67,
+    68,
+    71,
+    72,
+    75,
+    76
+   ],
+   "buried_bars": [
+    3,
+    5,
+    6,
+    7,
+    77,
+    78,
+    79
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

@@ -1,0 +1,160 @@
+{
+ "id": "MUS-WAIT-BOSS",
+ "kind": "loop",
+ "key": "Eb minor",
+ "bpm": 124,
+ "meter": "3/4",
+ "bars": 96,
+ "seconds": 139.35,
+ "loop_seconds": 139.355,
+ "lufs": -20.0,
+ "true_peak": -6.3,
+ "lra": 12.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro bell",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -28.2
+  },
+  {
+   "section": "A Betty",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 5.8,
+   "lufs": -20.6
+  },
+  {
+   "section": "B the paperwork",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 29.0,
+   "lufs": -19.1
+  },
+  {
+   "section": "C music box",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 52.3,
+   "lufs": -28.9
+  },
+  {
+   "section": "D the desk",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 75.5,
+   "lufs": -20.3
+  },
+  {
+   "section": "E climax",
+   "bar": 68,
+   "bars": 16,
+   "start_s": 98.7,
+   "lufs": -17.8
+  },
+  {
+   "section": "F please wait",
+   "bar": 84,
+   "bars": 8,
+   "start_s": 121.9,
+   "lufs": -20.5
+  },
+  {
+   "section": "outro bell",
+   "bar": 92,
+   "bars": 4,
+   "start_s": 133.5,
+   "lufs": -28.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (celesta)",
+   "ch": "cel"
+  },
+  {
+   "bar": 28.0,
+   "form": "head twice (trombones, stamping)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 42.0,
+   "form": "stated (clarinet, past the desk?)",
+   "ch": "cl"
+  },
+  {
+   "bar": 48.0,
+   "form": "stated (cello, lower)",
+   "ch": "vc"
+  },
+  {
+   "bar": 68.0,
+   "form": "stated (horns: the hero insists), sequenced up a third",
+   "ch": "hn"
+  },
+  {
+   "bar": 93.0,
+   "form": "head (celesta)",
+   "ch": "cel"
+  }
+ ],
+ "notes": 2063,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-WAIT-BOSS\\MUS-WAIT-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-WAIT-BOSS\\MUS-WAIT-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-WAIT-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": 1.13,
+  "wrap_step": 0.00717,
+  "p999_step": 0.04909,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.79,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    9,
+    17,
+    55,
+    57,
+    61,
+    65,
+    73,
+    74,
+    75,
+    83,
+    87,
+    89,
+    91,
+    92,
+    93,
+    94,
+    95
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Own boss track (was an alias of MUS-WAIT-BATTLE). Villain idea: BETTY + the desk bell (glock)."
+ ]
+}

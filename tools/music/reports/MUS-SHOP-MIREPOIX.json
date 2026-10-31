@@ -1,0 +1,85 @@
+{
+ "id": "MUS-SHOP-MIREPOIX",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 100,
+ "meter": "4/4",
+ "bars": 36,
+ "seconds": 86.4,
+ "loop_seconds": 86.4,
+ "lufs": -20.0,
+ "true_peak": -5.8,
+ "lra": 6.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "formal",
+   "bar": 0,
+   "bars": 16,
+   "start_s": 0.0,
+   "lufs": -21.8
+  },
+  {
+   "section": "welcoming",
+   "bar": 16,
+   "bars": 12,
+   "start_s": 38.4,
+   "lufs": -17.6
+  },
+  {
+   "section": "formal again",
+   "bar": 28,
+   "bars": 8,
+   "start_s": 67.2,
+   "lufs": -22.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 19.0,
+   "form": "head (clarinet, a taste)",
+   "ch": "cl"
+  },
+  {
+   "bar": 25.0,
+   "form": "head, lower (clarinet)",
+   "ch": "cl"
+  }
+ ],
+ "notes": 488,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-MIREPOIX\\MUS-SHOP-MIREPOIX.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SHOP-MIREPOIX\\MUS-SHOP-MIREPOIX.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-MIREPOIX.mid"
+ },
+ "seam": {
+  "jump_db": 0.19,
+  "wrap_step": 0.00911,
+  "p999_step": 0.04795,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.94,
+   "bars_without_melody": [
+    14,
+    27
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

@@ -14,7 +14,7 @@ Previous run (Music Pass 1) finished; its report is `docs/audio/music_pass_oct31
 | 2 | D.N.A. Batch 03: NECRO-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
 | 3 | Buffet Batch 04: GOUR-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
 | 4 | Dump Batch 05: REF-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | done (in game; boss sting re-cut; GUT audio 89/89, smoke OK) |
-| 5 | Path extras Batch 08 (RELEASE, side dungeons with own BOSS, shops, minigames, Capital districts) | todo |
+| 5 | Path extras Batch 08 (RELEASE, side dungeons with own BOSS, shops, minigames, Capital districts) | done (32 in game; WAIT/OMAKASE/PANDA/SWOLY-BOSS own tracks; GUT audio 90/90, smoke OK) |
 
 Delivery after each part: `build.py IDS` -> `deliver.py --review "Batch NN"` + `--approve` -> `bash tools/import_audio.sh` -> `node tools/cut_stings.js`
 (boss changes) -> `node tools/audio_doc.js` -> GUT audio group + `bash tools/run_music_smoke.sh` -> commit.
@@ -22,3 +22,5 @@ Delivery after each part: `build.py IDS` -> `deliver.py --review "Batch NN"` + `
 Resume: `build.py --check-only <IDs>` shows which scores exist and pass; renders are in `C:\Dev\music_tools\renders\`.
 
 Composition: all Part 2-5 scores were written by four parallel composer forks (Oct 31) and render + pass; markers `tools/music/reports/_batch0*_done.txt`, notes `tools/music/reports/_notes_{necro,gour,ref,beef}.md`. What is left per part is delivery (previews, approve, import, doc rows, GUT audio + smoke, commit).
+
+**Run complete.** Next: read the inbox "Music Pass 2" answers.

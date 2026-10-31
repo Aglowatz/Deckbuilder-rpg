@@ -1,0 +1,119 @@
+{
+ "id": "MUS-CAP-BEEF-RESTORED",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 112,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 102.86,
+ "loop_seconds": 102.857,
+ "lufs": -20.0,
+ "true_peak": -6.6,
+ "lra": 6.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro vamp",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.4
+  },
+  {
+   "section": "A full theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.6,
+   "lufs": -21.0
+  },
+  {
+   "section": "B Capital shadow",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 42.9,
+   "lufs": -22.7
+  },
+  {
+   "section": "A' tutti",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 60.0,
+   "lufs": -17.7
+  },
+  {
+   "section": "outro vamp",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 94.3,
+   "lufs": -23.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated (trumpets: the theme the broken cue could not finish)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 24.0,
+   "form": "RESOLVED (horns: the service returns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "RESOLVED, quick (horns under the last phrase)",
+   "ch": "hn"
+  },
+  {
+   "bar": 45.0,
+   "form": "head (horn)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1787,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-RESTORED\\MUS-CAP-BEEF-RESTORED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-RESTORED\\MUS-CAP-BEEF-RESTORED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-BEEF-RESTORED.mid"
+ },
+ "seam": {
+  "jump_db": -0.04,
+  "wrap_step": 0.00187,
+  "p999_step": 0.06572,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    27,
+    39
+   ],
+   "buried_bars": [
+    1,
+    45
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Restored = the BROKEN cue's theme full and in tune; resolved motif (restored cue). Grid snare = the Capital tension."
+ ]
+}

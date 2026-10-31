@@ -1,0 +1,88 @@
+{
+ "id": "MUS-BEEF-RELEASE",
+ "kind": "oneshot",
+ "key": "Bb major",
+ "bpm": 80,
+ "meter": "4/4",
+ "bars": 24,
+ "seconds": 77.48,
+ "loop_seconds": 72.0,
+ "lufs": -20.0,
+ "true_peak": -6.2,
+ "lra": 5.6,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "opening",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.4
+  },
+  {
+   "section": "A horn theme",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 12.0,
+   "lufs": -20.2
+  },
+  {
+   "section": "B strings, swing",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 36.0,
+   "lufs": -20.5
+  },
+  {
+   "section": "resolution + held chord",
+   "bar": 20,
+   "bars": 4,
+   "start_s": 60.0,
+   "lufs": -17.4
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 4.0,
+   "form": "stated (horn: the Gainlands fanfare, slowed)",
+   "ch": "hn"
+  },
+  {
+   "bar": 20.0,
+   "form": "RESOLVED, augmented (horns, strings 8va): strength shared willingly",
+   "ch": "hn"
+  }
+ ],
+ "notes": 375,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-RELEASE\\MUS-BEEF-RELEASE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-RELEASE\\MUS-BEEF-RELEASE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-RELEASE.mid"
+ },
+ "onset_ms": 3.2,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    23
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Release cue: resolved motif allowed; starts instantly on a timpani + harp + string chord; held ending."
+ ]
+}

@@ -1,0 +1,126 @@
+{
+ "id": "MUS-OMAKASE-EXP",
+ "kind": "loop",
+ "key": "D minor",
+ "bpm": 84,
+ "meter": "4/4",
+ "bars": 48,
+ "seconds": 137.14,
+ "loop_seconds": 137.143,
+ "lufs": -20.0,
+ "true_peak": -5.2,
+ "lra": 10.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "space",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -22.4
+  },
+  {
+   "section": "A koto course",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 22.9,
+   "lufs": -20.9
+  },
+  {
+   "section": "B shakuhachi",
+   "bar": 24,
+   "bars": 8,
+   "start_s": 68.6,
+   "lufs": -18.8
+  },
+  {
+   "section": "A' strings",
+   "bar": 32,
+   "bars": 12,
+   "start_s": 91.4,
+   "lufs": -18.5
+  },
+  {
+   "section": "space again",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 125.7,
+   "lufs": -20.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (shakuhachi, a breath)",
+   "ch": "shaku"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated (shakuhachi)",
+   "ch": "shaku"
+  },
+  {
+   "bar": 28.0,
+   "form": "stated a fifth down (shakuhachi)",
+   "ch": "shaku"
+  },
+  {
+   "bar": 45.0,
+   "form": "head (shakuhachi, a breath)",
+   "ch": "shaku"
+  }
+ ],
+ "notes": 768,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-OMAKASE-EXP\\MUS-OMAKASE-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-OMAKASE-EXP\\MUS-OMAKASE-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-OMAKASE-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -0.39,
+  "wrap_step": 0.00492,
+  "p999_step": 0.06059,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.6,
+   "bars_without_melody": [
+    0,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    22,
+    23,
+    26,
+    29,
+    30,
+    40,
+    41,
+    42,
+    43,
+    44,
+    46,
+    47
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

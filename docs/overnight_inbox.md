@@ -4,6 +4,35 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Music Pass 2 (Oct 31) - yours to decide (the safest choice was taken)
+
+Report: `docs/audio/music_pass2_oct31.md` (a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 03\`
+(D.N.A.), `\Batch 04\` (Buffet), `\Batch 05\` (Dump), `\Batch 07\` (stingers), `\Batch 08\` (Path extras), `\Batch 01\` (TOWN v05, TITLE,
+FOREST, TUT-EXP, DECK re-rendered). Nothing was checked by ear; all of it was checked by measurement.
+
+1. **The STG-ZONE-* liberation stings also use the resolved motif tail.** The brief allows it outside FREED tracks only in STG-VICTORY,
+   but each zone sting plays at the moment that zone is freed, so I treated them as freed cues. If you want them to stay open, the
+   resolved tail is one line in each builder in `tools/music/scores/_stingers.py`.
+2. **"Broken" Capital districts: how sour?** All four CAP-*-BROKEN tracks have one voice about 25 cents flat (NECRO a second celesta,
+   GOUR a celesta, REF the lead fiddle at 25-30 c against an in-tune violin, BEEF a shadow horn), plus thin and interrupted phrases.
+   GOUR-BOSS also uses a celesta 40 c flat in its dark middle, and its canon copy drifts a semitone flat from bar 12. Say "more" or "less".
+3. **NECRO-BOSS corruption:** Mortimer's track forces the waltz theme into 4/4 by holding one note per bar an extra beat (it limps).
+   An inverted or minor-key version would be clearer as "corrupted" but less of a joke. Keep it?
+4. **Omakase's Japanese colour** is FluidR3's koto, shamisen and shakuhachi, which are thin GM patches. They read as colour inside the
+   showtune palette, not as solo voices; a better library re-render (`tools/music/midi/*.mid`) would fix it.
+5. **Lengths:** GOUR-DUN-BATTLE is 2:03 (its row says 150-180 s; the bible's battle rule says 1:45-2:30, which was followed). The three
+   ported zone EXP tracks are 1:39-1:56, under the 2:00 exploration rule, because their notes were kept exactly as the approved demos.
+6. **Small calls in the Path extras:** MINIGAME-BEEF has a quiet square-wave synth line in bars 12-19 (the row's "retro synth wink");
+   PANDA-EXP uses swung eighths for the swagger; MINIGAME-REF uses the GM banjo for county-fair colour (a folk instrument, but this is
+   a Refusemancer cue). Each is easy to undo.
+7. **music_list descriptions:** for answer 1 I rewrote the *instrument palette* and *notes* columns of 60 Path rows. The *music
+   description* column is your text and still says things like "chamber dance" (Gourmand) and "folk adventure" (Refusemancer). Say
+   "rewrite the descriptions too" and they will be brought in line with the approved directions.
+8. **MUS-TOWN v05:** the bar 0 pad at ~75 alone left the seam at +4.6 dB. The outro's held horn and oboe were the louder part, so their
+   last two bars were also eased (velocity only, no note changed): seam +0.41 dB. Say if you want the pad change only.
+9. **Remaining aliases:** MUS-TUNNEL-BOSS, MUS-VAULT-BOSS and MUS-SIPHON-BOSS still play their battle track's file (not in this brief).
+10. **Full GUT run:** the audio group passes 90/90 after every part (new test: the four side bosses play their own files). One full-suite run (after Part 0) showed 2490 of 2501 passing with 10 failing, and the output did not name them; memory notes a few UI tests that fail only in full runs. This pass changed no game code (audio files, data, one test, one comment). A second full run at the end was stopped by Claude Code for low system memory and was not restarted: run `bash tools/run_tests.sh` when the machine is free to get the names.
+
 ## Music Pass 1 (Oct 31) - yours to decide (the safest choice was taken)
 
 Report: `docs/audio/music_pass_oct31.md` (with a "listen for" note per track). Previews: `G:\My Drive\Card Game Art\Music Review\Batch 01\`, `\Batch 02\`.

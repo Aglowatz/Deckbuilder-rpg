@@ -1,0 +1,121 @@
+{
+ "id": "MUS-SWOLY-EXP",
+ "kind": "loop",
+ "key": "Eb major",
+ "bpm": 100,
+ "meter": "4/4",
+ "bars": 56,
+ "seconds": 134.4,
+ "loop_seconds": 134.4,
+ "lufs": -20.0,
+ "true_peak": -4.9,
+ "lra": 9.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro wind",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -26.0
+  },
+  {
+   "section": "A climb",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 9.6,
+   "lufs": -21.2
+  },
+  {
+   "section": "B vista",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 48.0,
+   "lufs": -19.4
+  },
+  {
+   "section": "C thin air",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 86.4,
+   "lufs": -24.5
+  },
+  {
+   "section": "D summit",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 105.6,
+   "lufs": -15.9
+  },
+  {
+   "section": "outro wind",
+   "bar": 52,
+   "bars": 4,
+   "start_s": 124.8,
+   "lufs": -25.7
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 4.0,
+   "form": "stated (horns: the Gainlands fanfare, climbing)",
+   "ch": "hn"
+  },
+  {
+   "bar": 28.0,
+   "form": "head (trumpet, distant, augmented)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (flute, thin air)",
+   "ch": "fl"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated a fourth higher (flute)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 1424,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-EXP\\MUS-SWOLY-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-EXP\\MUS-SWOLY-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SWOLY-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.91,
+  "wrap_step": 0.00304,
+  "p999_step": 0.05618,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 4,
+   "bars": [
+    8
+   ],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.95,
+   "bars_without_melody": [
+    31,
+    35,
+    39
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Gainlands theme (BEEF-EXP) in Eb; stone percussion = concert bass drum + low timpani; orchestral."
+ ]
+}

@@ -1,0 +1,155 @@
+{
+ "id": "MUS-OMAKASE-BOSS",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 132,
+ "meter": "4/4",
+ "bars": 80,
+ "seconds": 145.45,
+ "loop_seconds": 145.455,
+ "lufs": -20.0,
+ "true_peak": -6.8,
+ "lra": 8.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro knife",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.4
+  },
+  {
+   "section": "A Itamae",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.3,
+   "lufs": -18.3
+  },
+  {
+   "section": "B corrupted course",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 36.4,
+   "lufs": -23.6
+  },
+  {
+   "section": "C tea ceremony",
+   "bar": 36,
+   "bars": 12,
+   "start_s": 65.5,
+   "lufs": -25.3
+  },
+  {
+   "section": "build",
+   "bar": 48,
+   "bars": 4,
+   "start_s": 87.3,
+   "lufs": -21.3
+  },
+  {
+   "section": "D climax",
+   "bar": 52,
+   "bars": 20,
+   "start_s": 94.5,
+   "lufs": -18.4
+  },
+  {
+   "section": "wind-down",
+   "bar": 72,
+   "bars": 4,
+   "start_s": 130.9,
+   "lufs": -19.8
+  },
+  {
+   "section": "outro knife",
+   "bar": 76,
+   "bars": 4,
+   "start_s": 138.2,
+   "lufs": -21.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 24.0,
+   "form": "inverted (horns, against the corrupted course)",
+   "ch": "hn"
+  },
+  {
+   "bar": 32.0,
+   "form": "inverted (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated, broadened (shakuhachi, the tea ceremony)",
+   "ch": "shaku"
+  },
+  {
+   "bar": 44.0,
+   "form": "head (violins, suspense)",
+   "ch": "vln"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated twice (horns: the hero fights back)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2732,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-OMAKASE-BOSS\\MUS-OMAKASE-BOSS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-OMAKASE-BOSS\\MUS-OMAKASE-BOSS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-OMAKASE-BOSS.mid"
+ },
+ "seam": {
+  "jump_db": 0.19,
+  "wrap_step": 0.01094,
+  "p999_step": 0.06014,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.75,
+   "bars_without_melody": [
+    0,
+    2,
+    34,
+    35,
+    38,
+    41,
+    42,
+    43,
+    45,
+    46,
+    47,
+    51,
+    55,
+    56,
+    57,
+    58,
+    59,
+    76,
+    78,
+    79
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Villain idea = ITAMAE (rise, blade-like 16th cut, flat sixth) + the KNIFE 16th strokes."
+ ]
+}

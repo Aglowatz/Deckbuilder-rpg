@@ -1,0 +1,106 @@
+{
+ "id": "MUS-PANDA-EXP",
+ "kind": "loop",
+ "key": "G Mixolydian",
+ "bpm": 112,
+ "meter": "4/4",
+ "bars": 56,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -5.7,
+ "lra": 6.7,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "fanfare",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.5
+  },
+  {
+   "section": "A procession",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.6,
+   "lufs": -21.5
+  },
+  {
+   "section": "B court dance",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 42.9,
+   "lufs": -22.7
+  },
+  {
+   "section": "C chase",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 60.0,
+   "lufs": -18.9
+  },
+  {
+   "section": "A' procession tutti",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 94.3,
+   "lufs": -17.2
+  },
+  {
+   "section": "outro fanfare",
+   "bar": 52,
+   "bars": 4,
+   "start_s": 111.4,
+   "lufs": -22.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 22.0,
+   "form": "stated (xylophone, the court dance)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 26.0,
+   "form": "head (horns, answering)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2320,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PANDA-EXP\\MUS-PANDA-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PANDA-EXP\\MUS-PANDA-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PANDA-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.57,
+  "wrap_step": 0.0141,
+  "p999_step": 0.05965,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    27,
+    55
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

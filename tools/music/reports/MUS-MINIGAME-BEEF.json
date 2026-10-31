@@ -1,0 +1,131 @@
+{
+ "id": "MUS-MINIGAME-BEEF",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 128,
+ "meter": "4/4",
+ "bars": 36,
+ "seconds": 67.5,
+ "loop_seconds": 67.5,
+ "lufs": -20.0,
+ "true_peak": -6.0,
+ "lra": 6.9,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "count-in",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.5
+  },
+  {
+   "section": "A trumpet rep",
+   "bar": 4,
+   "bars": 8,
+   "start_s": 7.5,
+   "lufs": -21.0
+  },
+  {
+   "section": "B strings + xylophone",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 22.5,
+   "lufs": -19.2
+  },
+  {
+   "section": "C stretch",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 37.5,
+   "lufs": -22.7
+  },
+  {
+   "section": "D tutti rep",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 52.5,
+   "lufs": -16.1
+  },
+  {
+   "section": "count-in again",
+   "bar": 32,
+   "bars": 4,
+   "start_s": 60.0,
+   "lufs": -21.2
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horns, warming up)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated (trumpet: the Gainlands fanfare, showing off)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (horns, the stretch)",
+   "ch": "hn"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated on Eb (trumpet)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 33.0,
+   "form": "head (horns, warming up)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1297,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-BEEF\\MUS-MINIGAME-BEEF.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-BEEF\\MUS-MINIGAME-BEEF.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-BEEF.mid"
+ },
+ "seam": {
+  "jump_db": 0.13,
+  "wrap_step": 0.00989,
+  "p999_step": 0.0687,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.81,
+   "bars_without_melody": [
+    2,
+    21,
+    22,
+    23,
+    25,
+    26,
+    34
+   ],
+   "buried_bars": [
+    31,
+    32
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Four-on-the-floor on the orchestra kit; the only synth is a quiet GM square-lead wink in section B."
+ ]
+}

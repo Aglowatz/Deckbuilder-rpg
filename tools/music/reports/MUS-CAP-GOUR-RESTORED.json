@@ -1,0 +1,114 @@
+{
+ "id": "MUS-CAP-GOUR-RESTORED",
+ "kind": "loop",
+ "key": "F major",
+ "bpm": 112,
+ "meter": "4/4",
+ "bars": 56,
+ "seconds": 120.0,
+ "loop_seconds": 120.0,
+ "lufs": -20.0,
+ "true_peak": -7.9,
+ "lra": 9.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -27.0
+  },
+  {
+   "section": "A theme in tune",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.6,
+   "lufs": -17.6
+  },
+  {
+   "section": "B guarded",
+   "bar": 20,
+   "bars": 12,
+   "start_s": 42.9,
+   "lufs": -24.3
+  },
+  {
+   "section": "A' full + resolved",
+   "bar": 32,
+   "bars": 20,
+   "start_s": 68.6,
+   "lufs": -19.6
+  },
+  {
+   "section": "intro again",
+   "bar": 52,
+   "bars": 4,
+   "start_s": 111.4,
+   "lufs": -26.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  },
+  {
+   "bar": 44.0,
+   "form": "RESOLVED (horns, the district restored)",
+   "ch": "hn"
+  },
+  {
+   "bar": 48.0,
+   "form": "RESOLVED (cello, under the clarinet)",
+   "ch": "vc"
+  },
+  {
+   "bar": 53.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  }
+ ],
+ "notes": 1180,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-GOUR-RESTORED\\MUS-CAP-GOUR-RESTORED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-GOUR-RESTORED\\MUS-CAP-GOUR-RESTORED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-GOUR-RESTORED.mid"
+ },
+ "seam": {
+  "jump_db": -0.43,
+  "wrap_step": 0.00171,
+  "p999_step": 0.07042,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    0,
+    2,
+    3,
+    30,
+    47,
+    54,
+    55
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

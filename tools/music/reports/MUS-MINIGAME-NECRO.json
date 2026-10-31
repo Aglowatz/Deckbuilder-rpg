@@ -1,0 +1,110 @@
+{
+ "id": "MUS-MINIGAME-NECRO",
+ "kind": "loop",
+ "key": "A minor",
+ "bpm": 110,
+ "meter": "3/4",
+ "bars": 48,
+ "seconds": 78.55,
+ "loop_seconds": 78.545,
+ "lufs": -20.0,
+ "true_peak": -8.7,
+ "lra": 13.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -34.6
+  },
+  {
+   "section": "A cells",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 6.5,
+   "lufs": -21.4
+  },
+  {
+   "section": "B the question",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 32.7,
+   "lufs": -22.6
+  },
+  {
+   "section": "A' together",
+   "bar": 28,
+   "bars": 16,
+   "start_s": 45.8,
+   "lufs": -18.3
+  },
+  {
+   "section": "outro",
+   "bar": 44,
+   "bars": 4,
+   "start_s": 72.0,
+   "lufs": -32.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (celesta)",
+   "ch": "cel"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (flute, curious)",
+   "ch": "fl"
+  },
+  {
+   "bar": 45.0,
+   "form": "head (celesta)",
+   "ch": "cel"
+  }
+ ],
+ "notes": 764,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-NECRO\\MUS-MINIGAME-NECRO.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-NECRO\\MUS-MINIGAME-NECRO.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-NECRO.mid"
+ },
+ "seam": {
+  "jump_db": 1.05,
+  "wrap_step": 0.00091,
+  "p999_step": 0.04631,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.9,
+   "bars_without_melody": [
+    2,
+    3,
+    44,
+    46,
+    47
+   ],
+   "buried_bars": [
+    0,
+    45
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

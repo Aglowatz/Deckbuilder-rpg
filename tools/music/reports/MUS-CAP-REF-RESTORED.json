@@ -1,0 +1,127 @@
+{
+ "id": "MUS-CAP-REF-RESTORED",
+ "kind": "loop",
+ "key": "E Dorian",
+ "bpm": 150,
+ "meter": "6/8",
+ "bars": 96,
+ "seconds": 115.2,
+ "loop_seconds": 115.2,
+ "lufs": -20.0,
+ "true_peak": -4.7,
+ "lra": 9.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "glimmer",
+   "bar": 0,
+   "bars": 8,
+   "start_s": 0.0,
+   "lufs": -25.4
+  },
+  {
+   "section": "A theme whole",
+   "bar": 8,
+   "bars": 16,
+   "start_s": 9.6,
+   "lufs": -20.0
+  },
+  {
+   "section": "B flute, breathing",
+   "bar": 24,
+   "bars": 16,
+   "start_s": 28.8,
+   "lufs": -22.7
+  },
+  {
+   "section": "Capital tension",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 48.0,
+   "lufs": -23.9
+  },
+  {
+   "section": "C resolved motif",
+   "bar": 48,
+   "bars": 16,
+   "start_s": 57.6,
+   "lufs": -23.5
+  },
+  {
+   "section": "A' tutti",
+   "bar": 64,
+   "bars": 24,
+   "start_s": 76.8,
+   "lufs": -16.8
+  },
+  {
+   "section": "outro glimmer",
+   "bar": 88,
+   "bars": 8,
+   "start_s": 105.6,
+   "lufs": -25.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 48.0,
+   "form": "RESOLVED (flute, chimes)",
+   "ch": "fl"
+  },
+  {
+   "bar": 80.0,
+   "form": "RESOLVED (horns)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2477,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-REF-RESTORED\\MUS-CAP-REF-RESTORED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-REF-RESTORED\\MUS-CAP-REF-RESTORED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-REF-RESTORED.mid"
+ },
+ "seam": {
+  "jump_db": 0.1,
+  "wrap_step": 0.00375,
+  "p999_step": 0.0619,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.83,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    6,
+    28,
+    34,
+    38,
+    60,
+    61,
+    62,
+    88,
+    89,
+    90,
+    91,
+    94
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}

@@ -1,0 +1,154 @@
+{
+ "id": "MUS-WAIT-BATTLE",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 136,
+ "meter": "3/4",
+ "bars": 96,
+ "seconds": 127.06,
+ "loop_seconds": 127.059,
+ "lufs": -20.0,
+ "true_peak": -5.6,
+ "lra": 10.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -24.4
+  },
+  {
+   "section": "A piano theme",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 5.3,
+   "lufs": -22.2
+  },
+  {
+   "section": "B held, the motif",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 26.5,
+   "lufs": -21.4
+  },
+  {
+   "section": "A' flute + violins",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 47.6,
+   "lufs": -17.1
+  },
+  {
+   "section": "B' motif again",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 68.8,
+   "lufs": -23.2
+  },
+  {
+   "section": "C theme in the brass",
+   "bar": 68,
+   "bars": 16,
+   "start_s": 90.0,
+   "lufs": -17.0
+  },
+  {
+   "section": "D wind-down",
+   "bar": 84,
+   "bars": 8,
+   "start_s": 111.2,
+   "lufs": -26.9
+  },
+  {
+   "section": "outro",
+   "bar": 92,
+   "bars": 4,
+   "start_s": 121.8,
+   "lufs": -24.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 20.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 23.0,
+   "form": "stated (horns, up a third)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (clarinet, on the fifth)",
+   "ch": "cl"
+  },
+  {
+   "bar": 60.0,
+   "form": "stated (horns + violins)",
+   "ch": "hn"
+  },
+  {
+   "bar": 93.0,
+   "form": "head (horns)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2598,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-WAIT-BATTLE\\MUS-WAIT-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-WAIT-BATTLE\\MUS-WAIT-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-WAIT-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": -0.56,
+  "wrap_step": 0.01045,
+  "p999_step": 0.05873,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 4,
+   "bars": [
+    19
+   ],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.85,
+   "bars_without_melody": [
+    0,
+    2,
+    3,
+    22,
+    34,
+    35,
+    43,
+    54,
+    59,
+    67,
+    90,
+    91,
+    94,
+    95
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": []
+}
