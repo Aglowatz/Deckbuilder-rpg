@@ -11,7 +11,7 @@ Previous run (art import batch 10) finished; its log is `docs/art/import_oct31.m
 | 1 | Toolchain (FluidSynth, FluidR3_GM, tools/music/lib, build.py), MUS-TOWN v04 port | done (port identical to v04 MIDI; render matches the Drive file) |
 | 2 | Score bible | done (`docs/audio/score_bible.md`) |
 | 3 | Batch 1: TITLE, FOREST, TUT-EXP, TUT-BATTLE, TUT-BOSS, TOWN-BATTLE, DECK, MAREN, TOWN-FREED | done (all 9 rendered, checks pass; not yet in game) |
-| 4 | Batch 2: BEEF-EXP, BEEF-BATTLE, BEEF-DUN-EXP, BEEF-DUN-BATTLE, BEEF-BOSS, BEEF-FREED | |
+| 4 | Batch 2: BEEF-EXP, BEEF-BATTLE, BEEF-DUN-EXP, BEEF-DUN-BATTLE, BEEF-BOSS, BEEF-FREED | done (all 6 rendered, checks pass; not yet in game) |
 | 5 | Previews to Music Review, backups to Superseded/Music_v01, Approved_Audio + import audio, aliases, GUT audio, launch check, report | |
 
 Resume: `build.py --check-only <IDs>` shows which scores exist and pass; renders are in `C:\Dev\music_tools\renders\`.

@@ -1,0 +1,143 @@
+{
+ "id": "MUS-BEEF-EXP",
+ "kind": "loop",
+ "key": "Bb major",
+ "bpm": 116,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 132.41,
+ "loop_seconds": 132.414,
+ "lufs": -20.0,
+ "true_peak": -4.7,
+ "lra": 13.0,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro vamp",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -28.2
+  },
+  {
+   "section": "A march",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.3,
+   "lufs": -21.3
+  },
+  {
+   "section": "B gentle",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 41.4,
+   "lufs": -22.4
+  },
+  {
+   "section": "C comic",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 74.5,
+   "lufs": -27.9
+  },
+  {
+   "section": "A' tutti",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 91.0,
+   "lufs": -16.5
+  },
+  {
+   "section": "outro vamp",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 124.1,
+   "lufs": -27.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 1.0,
+   "form": "head (horn fanfare)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated (trumpet fanfare)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 32.0,
+   "form": "stated (horn, warm countermelody)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "diminished (xylophone joke)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 40.0,
+   "form": "diminished (xylophone again)",
+   "ch": "xylo"
+  },
+  {
+   "bar": 44.0,
+   "form": "stated (tutti)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 61.0,
+   "form": "head (horn fanfare)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1629,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-EXP\\MUS-BEEF-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-EXP\\MUS-BEEF-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.07,
+  "wrap_step": 0.00408,
+  "p999_step": 0.08456,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    2,
+    3,
+    38,
+    47,
+    55,
+    59,
+    62,
+    63
+   ],
+   "buried_bars": [
+    10,
+    12,
+    15
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Orchestral march by the Music Pass 1 brief (the old music_list row asked for electric guitar rock)."
+ ]
+}

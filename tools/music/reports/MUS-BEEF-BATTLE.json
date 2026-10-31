@@ -1,0 +1,151 @@
+{
+ "id": "MUS-BEEF-BATTLE",
+ "kind": "loop",
+ "key": "Bb mixolydian",
+ "bpm": 138,
+ "meter": "4/4",
+ "bars": 72,
+ "seconds": 125.22,
+ "loop_seconds": 125.217,
+ "lufs": -20.0,
+ "true_peak": -6.3,
+ "lra": 7.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro ostinato",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.3
+  },
+  {
+   "section": "A brass",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.0,
+   "lufs": -21.1
+  },
+  {
+   "section": "B stabs",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 34.8,
+   "lufs": -23.9
+  },
+  {
+   "section": "C broad",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 62.6,
+   "lufs": -20.2
+  },
+  {
+   "section": "D tutti",
+   "bar": 52,
+   "bars": 16,
+   "start_s": 90.4,
+   "lufs": -16.9
+  },
+  {
+   "section": "outro ostinato",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 118.3,
+   "lufs": -23.0
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horns, call to arms)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated (trumpets + horns)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 12.0,
+   "form": "stated again (strings join 8va)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 20.0,
+   "form": "head in sequence (horn stabs on G, Eb, C)",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "augmented (horns, under the strings)",
+   "ch": "hn"
+  },
+  {
+   "bar": 44.0,
+   "form": "augmented on Eb (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (tutti)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 60.0,
+   "form": "augmented (trombones)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 70.0,
+   "form": "head (horns, call to arms)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 2239,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-BATTLE\\MUS-BEEF-BATTLE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-BATTLE\\MUS-BEEF-BATTLE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-BATTLE.mid"
+ },
+ "seam": {
+  "jump_db": 0.63,
+  "wrap_step": 0.00885,
+  "p999_step": 0.07153,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.92,
+   "bars_without_melody": [
+    0,
+    1,
+    3,
+    57,
+    68,
+    71
+   ],
+   "buried_bars": [
+    28,
+    60,
+    69
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Orchestral by the Music Pass 1 brief (the old music_list row asked for riff-led metal)."
+ ]
+}

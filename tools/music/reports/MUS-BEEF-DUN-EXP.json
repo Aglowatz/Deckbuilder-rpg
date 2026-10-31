@@ -1,0 +1,145 @@
+{
+ "id": "MUS-BEEF-DUN-EXP",
+ "kind": "loop",
+ "key": "G minor",
+ "bpm": 108,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 142.22,
+ "loop_seconds": 142.222,
+ "lufs": -20.0,
+ "true_peak": -5.0,
+ "lra": 8.8,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro reps",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -27.4
+  },
+  {
+   "section": "A reps",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 8.9,
+   "lufs": -20.0
+  },
+  {
+   "section": "B breath",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 44.4,
+   "lufs": -23.7
+  },
+  {
+   "section": "C fortress",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 80.0,
+   "lufs": -18.4
+  },
+  {
+   "section": "A' reps tutti",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 115.6,
+   "lufs": -17.2
+  },
+  {
+   "section": "outro reps",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 133.3,
+   "lufs": -27.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 2.0,
+   "form": "head (horn, counting in)",
+   "ch": "hn"
+  },
+  {
+   "bar": 4.0,
+   "form": "stated twice (horns: rep 1, rep 2)",
+   "ch": "hn"
+  },
+  {
+   "bar": 12,
+   "form": "stated (trumpets, rep 3)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 28.0,
+   "form": "augmented (clarinet, the breath)",
+   "ch": "cl"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated, climbing G - Bb - C (trumpets)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 44.0,
+   "form": "stated (horns + trumpets 8va)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "stated (tutti)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 62.0,
+   "form": "head (horn, counting in)",
+   "ch": "hn"
+  }
+ ],
+ "notes": 1632,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-DUN-EXP\\MUS-BEEF-DUN-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-DUN-EXP\\MUS-BEEF-DUN-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-DUN-EXP.mid"
+ },
+ "seam": {
+  "jump_db": -1.15,
+  "wrap_step": 0.00415,
+  "p999_step": 0.05405,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.86,
+   "bars_without_melody": [
+    0,
+    5,
+    9,
+    17,
+    39,
+    41,
+    60,
+    61,
+    63
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Orchestral by the Music Pass 1 brief (the old music_list row asked for guitar rock)."
+ ]
+}
