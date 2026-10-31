@@ -1269,7 +1269,7 @@ func show_combat_preview(preview: Dictionary, note: String = "") -> void:
 			continue
 		if badge != null:
 			badge.free()
-		view.add_child(_preview_badge(int(entry["damage"]), bool(entry["dies"])))
+		view.add_child(_preview_badge(int(entry["damage"]), bool(entry["dies"]), entry))
 	var players: Array = preview.get("players", [0, 0]) as Array
 	# Sound pass, Part B: a soft paper tick when a new preview appears, a low knock and a heartbeat when it shows a lethal blow.
 	var signature: String = ""
@@ -1293,17 +1293,31 @@ func show_combat_preview(preview: Dictionary, note: String = "") -> void:
 			plate.text = "-%d HP%s%s" % [amount, " " + note if not note.is_empty() else "", "  LETHAL!" if lethal else ""]
 			plate.add_theme_font_size_override("font_size", 28 if plate.text.length() < 18 else 19)
 			plate.add_theme_color_override("font_color", Color("ff4a3a") if lethal else Color("ff8a6a"))
+		# Overnight Oct 30-31, Part 4: a heal aimed at a player shows what it gives back.
+		var heal: int = int((preview.get("heals", [0, 0]) as Array)[index]) if valid else 0
+		if amount <= 0 and heal > 0:
+			plate.visible = true
+			plate.text = "+%d HP (%d)" % [heal, game.players[index].hp + heal]
+			plate.add_theme_font_size_override("font_size", 28)
+			plate.add_theme_color_override("font_color", Color("7ee08a"))
 
 
 func clear_combat_preview() -> void:
 	show_combat_preview({})
 
 
-func _preview_badge(damage: int, dies: bool) -> Control:
+## Overnight Oct 30-31, Part 4: `entry` (CombatPreview.unit_change) adds the HP left under a hit and the new stats of a buff or debuff
+## ("+2/+1 -> 4/3"): a hit stays red / amber, a buff is green, a debuff violet.
+func _preview_badge(damage: int, dies: bool, entry: Dictionary = {}) -> Control:
 	var badge: PanelContainer = PanelContainer.new()
 	badge.name = "PreviewBadge"
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.add_theme_stylebox_override("panel", UIStyle.box(Color(0.12, 0.02, 0.03, 0.92), Color("ff5a4a") if dies else Color("f1b04a"), 4, 22))
+	var stats_only: bool = damage <= 0 and not dies and entry.has("attack")
+	var gain: bool = stats_only and int(entry["attack"]) + int(entry["defense"]) >= int(entry["attack_before"]) + int(entry["defense_before"])
+	var edge: Color = Color("ff5a4a") if dies else Color("f1b04a")
+	if stats_only:
+		edge = Color("6ee07a") if gain else Color("b07aff")
+	badge.add_theme_stylebox_override("panel", UIStyle.box(Color(0.12, 0.02, 0.03, 0.92) if not stats_only else Color(0.03, 0.08, 0.05, 0.92), edge, 4, 22))
 	badge.z_index = 30
 	var row: HBoxContainer = UIKit.hbox(6)
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -1313,12 +1327,26 @@ func _preview_badge(damage: int, dies: bool) -> Control:
 		var skull: TextureRect = CardIcons.glyph(load(CardIcons.BASE + "lorc/skull-crossed-bones.svg") as Texture2D, Color("ffd9cf"), Vector2(54, 54))
 		skull.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		row.add_child(skull)
-	var label: Label = UIKit.label("-%d" % damage, &"", 52, Color("ffd9cf") if dies else Color("ffcf7a"), HORIZONTAL_ALIGNMENT_CENTER)
+	var text: String = "-%d" % damage
+	var detail: String = ""
+	if not dies and entry.has("hp_left"):
+		var full: String = CombatPreview.badge_text(entry)
+		text = full.get_slice("  ", 0) if damage > 0 else full
+		if damage > 0:
+			text = "-%d" % damage
+			detail = "%d left" % int(entry["hp_left"])
+		if full.contains("->") and damage > 0:
+			detail += "  " + full.get_slice("  ", 1)
+	var label: Label = UIKit.label(text, &"", 52 if not stats_only else 34, Color("ffd9cf") if dies else (Color("ffcf7a") if not stats_only else edge.lightened(0.4)), HORIZONTAL_ALIGNMENT_CENTER)
 	label.add_theme_font_override("font", UIStyle.font_title())
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(label)
+	if detail != "":
+		var small: Label = UIKit.label(detail, &"", 24, Color("ffe9c9"), HORIZONTAL_ALIGNMENT_CENTER)
+		small.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(small)
 	badge.reset_size()
-	badge.custom_minimum_size = Vector2(150, 72) if dies else Vector2(110, 72)
+	badge.custom_minimum_size = Vector2(150, 72) if dies else Vector2(110 if detail == "" and not stats_only else 200, 72)
 	badge.size = badge.custom_minimum_size
 	badge.position = Vector2((CardView.SIZE.x - badge.size.x) * 0.5, -36.0)
 	return badge

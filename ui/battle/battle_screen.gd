@@ -55,6 +55,9 @@ var _block_assign: Dictionary = {}
 var _block_pick: int = 0
 var _discard_selection: Array[int] = []
 var _hovered_view: CardView
+## Overnight Oct 30-31, Part 4: the target the aim preview was computed for (0 none, AIM_STALE = recompute; -1 / -2 are the players).
+var _aim_ref: int = AIM_STALE
+const AIM_STALE: int = -999
 ## Brief 14: the decision chain for playing a card or activating an ability (targets, cost picks, X), one step at a time.
 var _chain_steps: Array[Dictionary] = []
 var _chain_pos: int = 0
@@ -746,6 +749,8 @@ func _refresh_ui() -> void:
 	board.set_glows(glows)
 	board.set_dims(_dims())
 	_refresh_combat_preview()
+	if _hovered_view != null and is_instance_valid(_hovered_view):
+		hud.refresh_preview_note(_hover_note(_hovered_view))
 	if primary_enabled and _SPACE_ADVANCE_MODES.has(mode):
 		primary += "  [%s]" % Keybinds.first_key(&"battle_advance")
 	hud.primary_button.text = primary
@@ -793,8 +798,31 @@ func _refresh_combat_preview() -> void:
 		board.show_combat_preview(CombatPreview.predict(game, 0, _selected_attackers, {}), "if unblocked")
 	elif mode == Mode.BLOCK:
 		board.show_combat_preview(CombatPreview.predict(game, 0, [] as Array[int], _block_assign))
+	elif mode == Mode.TARGETING:
+		_aim_ref = AIM_STALE  # recomputed next frame for whatever is under the aim
 	else:
 		board.clear_combat_preview()
+
+
+## Overnight Oct 30-31, Part 4: while aiming a card, an ability or a Resource, the result of THAT action on the target under the aim
+## (CombatPreview.predict_action: damage and HP left, a skull, new stats, -N HP and LETHAL on a plate). Only the player's own action.
+func _refresh_aim_preview(ref: int) -> void:
+	if ref == _aim_ref:
+		return
+	_aim_ref = ref
+	var action: GameAction = null
+	if ref != 0 and not _chain_active and _pending_item == null:
+		match _target_action:
+			GameAction.Type.PLAY:
+				action = GameAction.play_card(0, _target_source, ref)
+			GameAction.Type.ACTIVATE:
+				action = GameAction.activate(0, _target_source, _target_ability, ref)
+			GameAction.Type.USE_RESOURCE:
+				action = GameAction.use_resource(0, _target_ability as ResourceKind.Kind, ref)
+	if action == null:
+		board.clear_combat_preview()
+		return
+	board.show_combat_preview(CombatPreview.predict_action(game, 0, action))
 
 
 ## The short line on the hover preview of your hand card that can't be played now ("" when it can, or is not yours).
@@ -854,6 +882,13 @@ func _process(_delta: float) -> void:
 			if hud.portrait_rect(index).has_point(aim) and _target_options.has(Targets.player(index)):
 				aim = hud.portrait_center(index)
 				on_target = true
+		var aimed: int = 0
+		if _hovered_view != null and _target_options.has(_hovered_view.instance_uid):
+			aimed = _hovered_view.instance_uid
+		for index: int in range(2):
+			if hud.portrait_rect(index).has_point(aim) and _target_options.has(Targets.player(index)):
+				aimed = Targets.player(index)
+		_refresh_aim_preview(aimed)
 		var from: Vector2 = board.center_of(_target_source) if _target_source != 0 else hud.portrait_center(0)
 		var arrows: Array[Dictionary] = [{"from": from, "to": aim, "color": Color("ff3a3a") if on_target else Color("ff8a7a")}]
 		fx.set_arrows(arrows)
@@ -1631,10 +1666,16 @@ func _reject(message: String) -> void:
 	_toast(message)
 
 
+var _toast_tween: Tween
+
+
 func _toast(message: String) -> void:
 	_toast_label.text = message
 	_toast_label.modulate.a = 1.0
+	if _toast_tween != null and _toast_tween.is_valid():
+		_toast_tween.kill()  # an older toast's fade no longer cuts a newer message short
 	var tween: Tween = create_tween()
+	_toast_tween = tween
 	tween.tween_interval(1.8)  # Fresh eyes round 2: a whole sentence needs longer than the old 1.0 s
 	tween.tween_property(_toast_label, "modulate:a", 0.0, 0.4)
 
