@@ -55,7 +55,7 @@ def main():
         rep = R.render(s, os.path.join(HERE, 'midi', f'{id}.mid'), os.path.join(renders, id))
         rep['checks'] = chk
         rep['composer_notes'] = s.notes
-        audio_ok = rep['peak_ok'] and rep['lufs_ok'] and (rep.get('seam', {'ok': True})['ok'])
+        audio_ok = rep['peak_ok'] and rep['lufs_ok'] and rep.get('seam', {'ok': True})['ok'] and rep.get('onset_ok', True)
         if not audio_ok:
             failed.append(id)
         seam = rep.get('seam')
@@ -63,6 +63,7 @@ def main():
         print(f"{line} | {rep['lufs']} LUFS, TP {rep['true_peak']} dB"
               + (f", seam {seam['jump_db']:+.2f} dB{' CLICK' if seam['click'] else ''}" if seam else '')
               + (f", limited {rep['limited_db']} dB" if rep['limited_db'] else '')
+              + (f", {rep['seconds']} s, onset {rep['onset_ms']} ms" if 'onset_ms' in rep else '')
               + f" | arc {arc} | checks {'ok' if not flags else 'WARN ' + ', '.join(flags)}")
         for k in flags:
             print('   ', k, json.dumps(chk[k])[:300])

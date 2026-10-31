@@ -28,13 +28,29 @@ BACKUP = os.path.join(DRIVE, 'Superseded', 'Music_v01')
 RENDERS = os.path.join(os.environ.get('WP_MUSIC_TOOLS', R.DEFAULT_TOOLS), 'renders')
 
 
-def backup(path):
+def backup(path, tag='orch-v1'):
+    """Copy a Drive file to Superseded/Music_v01 before it is replaced. The first backup keeps the plain name (the original delivery);
+    a later replacement of a file that differs from every backup so far is kept as <name>_<tag>[_N].<ext> (Music Pass 2: the Pass 1
+    orchestral renders are kept beside the originals)."""
     os.makedirs(BACKUP, exist_ok=True)
-    dest = os.path.join(BACKUP, os.path.basename(path))
-    if os.path.exists(path) and not os.path.exists(dest):
+    if not os.path.exists(path):
+        return None
+    base = os.path.basename(path)
+    dest = os.path.join(BACKUP, base)
+    if not os.path.exists(dest):
         shutil.copy2(path, dest)
-        return os.path.basename(path)
-    return None
+        return base
+    stem, ext = os.path.splitext(base)
+    digest = sha256(path)
+    for old in glob.glob(os.path.join(BACKUP, glob.escape(stem) + '*' + ext)):
+        if sha256(old) == digest:
+            return None
+    k, cand = 1, os.path.join(BACKUP, f'{stem}_{tag}{ext}')
+    while os.path.exists(cand):
+        k += 1
+        cand = os.path.join(BACKUP, f'{stem}_{tag}_{k}{ext}')
+    shutil.copy2(path, cand)
+    return os.path.basename(cand)
 
 
 def frames_of(ff, path):
@@ -60,30 +76,41 @@ def save_json(name, data):
         json.dump(data, f, indent=2)
 
 
+def prev_rev(reg, id):
+    for r in reg['records']:
+        if r.get('id') == id and r.get('source_revision'):
+            return str(r['source_revision'])
+    return 'prev'
+
+
 def approve(ids, revision, record_only=False):
     _, _, ff = R.tool_paths()
     done = []
     reg = load_json('registry.json')
     saved = backup(os.path.join(AUDIO, 'registry.json'))
     for id in ids:
-        dest = os.path.join(AUDIO, f'{id}.ogg')
+        sting = id.startswith('STG-')            # stings stay WAV in the game (16-bit PCM copy written by the renderer)
+        ext = 'wav' if sting else 'ogg'
+        dest = os.path.join(AUDIO, f'{id}.{ext}')
         if record_only:
             n = frames_of(ff, dest)
-        src = os.path.join(RENDERS, id, f'{id}.ogg')
+        src = os.path.join(RENDERS, id, f'{id}_pcm16.wav' if sting else f'{id}.ogg')
         if not record_only and not os.path.exists(src):
             raise SystemExit(f'{id}: no render at {src} (run build.py first)')
         for old in [] if record_only else glob.glob(os.path.join(AUDIO, f'{id}.*')) + glob.glob(os.path.join(AUDIO, f'{id}_[vV]*.*')):
-            backup(old)
-            if os.path.basename(old) != f'{id}.ogg':
+            backup(old, prev_rev(reg, id))
+            if os.path.basename(old) != f'{id}.{ext}':
                 os.remove(old)    # a stale WAV / _vN would win over the new OGG in the importer
         if not record_only:
             shutil.copy2(src, dest)
             n = frames_of(ff, dest)
-        recs = [r for r in reg['records'] if r.get('file') == f'{id}.ogg' or r.get('id') == id]
+        recs = [r for r in reg['records'] if r.get('file') in (f'{id}.ogg', f'{id}.wav') or r.get('id') == id]
         for r in recs:
-            r.update({'file': f'{id}.ogg', 'source_revision': revision, 'status': 'Pending review', 'engine_verified': False,
-                      'sample_rate': R.SR, 'channels': 2, 'duration_seconds': n / R.SR, 'loop_start_frame': 0,
-                      'loop_end_exclusive_frame': n, 'sha256': sha256(dest)})
+            one_shot = sting or str(r.get('playback', '')).lower().startswith('one')
+            r.update({'file': f'{id}.{ext}', 'source_revision': revision, 'status': 'Pending review', 'engine_verified': False,
+                      'sample_rate': R.SR, 'channels': 2, 'duration_seconds': n / R.SR,
+                      'loop_start_frame': None if one_shot else 0, 'loop_end_exclusive_frame': None if one_shot else n,
+                      'sha256': sha256(dest)})
         done.append(f'{id}: {n} frames ({n / R.SR:.2f} s), {len(recs)} registry record(s)')
     save_json('registry.json', reg)
     return done, saved

@@ -118,7 +118,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-GOUR-BOSS | The Doppelganger | `music/MUS-GOUR-BOSS.ogg` | loop, loop | +1.1 | Test Kitchen principal boss (BB-TTK, boss node) | In Game | OK |  |
 | MUS-GOUR-DUN-BATTLE | Test Kitchen — combat | `music/MUS-GOUR-DUN-BATTLE.ogg` | loop, loop | +1.1 | Test Kitchen battles and elites (BB-TTK) | In Game | OK |  |
 | MUS-GOUR-DUN-EXP | Test Kitchen — exploration | `music/MUS-GOUR-DUN-EXP.ogg` | loop, loop | +1.1 | Test Kitchen node map (D-TTK) and its events | In Game | OK |  |
-| MUS-GOUR-EXP | The Endless Buffet — exploration | `music/MUS-GOUR-EXP.ogg` | loop, loop | +1.1 | The Endless Buffet (`ZoneScene`, zone `gourmand`) until its own completion flag is set | In Game | OK |  |
+| MUS-GOUR-EXP | The Endless Buffet — exploration | `music/MUS-GOUR-EXP.ogg` | loop, loop | +0.1 | The Endless Buffet (`ZoneScene`, zone `gourmand`) until its own completion flag is set | In Game | OK |  |
 | MUS-GOUR-FREED | The Endless Buffet — restored | `music/MUS-GOUR-FREED.ogg` | loop, loop | +1.1 | The Endless Buffet once `zone_gourmand_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-GOUR-RELEASE | The true Chef and a name freely given | `music/MUS-GOUR-RELEASE.ogg` | story | +3.0 | Test Kitchen leader release scene: cutscene `wonder` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-GRAVE-BATTLE | Something beneath the stones | `music/MUS-GRAVE-BATTLE.ogg` | loop, loop | +0.9 | The Restless Cairn scripted challenge (BB-GRAVE) | In Game | OK |  |
@@ -141,7 +141,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-NECRO-BOSS | Mortimer Grimsby, CE-No | `music/MUS-NECRO-BOSS.ogg` | loop, loop | +1.1 | Hall of Final Approvals principal boss (BB-HFA, boss node) | In Game | OK |  |
 | MUS-NECRO-DUN-BATTLE | Hall of Final Approvals — combat | `music/MUS-NECRO-DUN-BATTLE.ogg` | loop, loop | +1.1 | Hall of Final Approvals battles and elites (BB-HFA) | In Game | OK |  |
 | MUS-NECRO-DUN-EXP | Hall of Final Approvals — exploration | `music/MUS-NECRO-DUN-EXP.ogg` | loop, loop | +1.0 | Hall of Final Approvals node map (D-HFA) and its events | In Game | OK |  |
-| MUS-NECRO-EXP | The Department of Necrotic Affairs — exploration | `music/MUS-NECRO-EXP.ogg` | loop, loop | +1.0 | The Department of Necrotic Affairs (`ZoneScene`, zone `necrocrat`) until its own completion flag is set | In Game | OK |  |
+| MUS-NECRO-EXP | The Department of Necrotic Affairs — exploration | `music/MUS-NECRO-EXP.ogg` | loop, loop | +0.1 | The Department of Necrotic Affairs (`ZoneScene`, zone `necrocrat`) until its own completion flag is set | In Game | OK |  |
 | MUS-NECRO-FREED | The Department of Necrotic Affairs — restored | `music/MUS-NECRO-FREED.ogg` | loop, loop | +1.0 | The Department of Necrotic Affairs once `zone_necrocrat_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-NECRO-RELEASE | Agnes — help people | `music/MUS-NECRO-RELEASE.ogg` | story | +3.0 | Hall of Final Approvals leader release scene: cutscene `vacancy` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-OMAKASE-BATTLE | Omakase — combat | `music/MUS-OMAKASE-BATTLE.ogg` | loop, loop | +1.1 | Omakase ordinary battles (BB-S-GOUR) | In Game | OK |  |
@@ -165,7 +165,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-REF-BOSS | Compostella, the Rotheart | `music/MUS-REF-BOSS.ogg` | loop, loop | +1.2 | The Rotheart principal boss (BB-ROT, boss node) | In Game | OK |  |
 | MUS-REF-DUN-BATTLE | The Rotheart — combat | `music/MUS-REF-DUN-BATTLE.ogg` | loop, loop | +1.1 | The Rotheart battles and elites (BB-ROT) | In Game | OK |  |
 | MUS-REF-DUN-EXP | The Rotheart — exploration | `music/MUS-REF-DUN-EXP.ogg` | loop, loop | +1.0 | The Rotheart node map (D-ROT) and its events | In Game | OK |  |
-| MUS-REF-EXP | The Verdant Dump — exploration | `music/MUS-REF-EXP.ogg` | loop, loop | +1.0 | The Verdant Dump (`ZoneScene`, zone `refusemancer`) until its own completion flag is set | In Game | OK |  |
+| MUS-REF-EXP | The Verdant Dump — exploration | `music/MUS-REF-EXP.ogg` | loop, loop | +0.2 | The Verdant Dump (`ZoneScene`, zone `refusemancer`) until its own completion flag is set | In Game | OK |  |
 | MUS-REF-FREED | The Verdant Dump — restored | `music/MUS-REF-FREED.ogg` | loop, loop | +1.0 | The Verdant Dump once `zone_refusemancer_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-REF-RELEASE | Compostella — let the seed return | `music/MUS-REF-RELEASE.ogg` | story | +2.9 | The Rotheart leader release scene: cutscene `sever` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +3.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |

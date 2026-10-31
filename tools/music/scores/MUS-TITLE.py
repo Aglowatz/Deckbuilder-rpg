@@ -1,7 +1,7 @@
 """MUS-TITLE - The Wayward Path. 48 bars 4/4, 76 BPM, D minor (B section in F major colours).
 The grand statement of the Crossroads motif: an RPG overture, not a town tune. A lone horn begins the royal phrase and stops (incomplete),
 the orchestra opens into the full theme, an adventurous B section with a string ostinato and horn calls, a gentle oboe middle where the
-celesta remembers the lullaby's first notes and is interrupted, a tutti climax with the motif augmented in the trombones, and the lone horn again.
+celesta begins the motif's head and is interrupted, a tutti climax with the motif augmented in the trombones, and the lone horn again.
 """
 from lib import Score, m, motif, motif_head, augment, Scale, p
 
@@ -101,15 +101,15 @@ def build():
     s.swell('pad', 20, 8, 70, 100)
     s.timp_roll(27 * 4 + 2, 2, 'A1', 50, 100)
 
-    # C 28-35: the gentle middle - oboe over harp; the celesta remembers the lullaby's first notes, and is interrupted
+    # C 28-35: the gentle middle - oboe over harp; the celesta begins the motif's head and is interrupted
+    # (Music Pass 2: the lullaby glimpse is removed; the lullaby is kept for MUS-TUT-BOSS and MUS-MAREN only)
     for i, spec in enumerate(OBOE_H):
         bed(28 + i, spec, 46, harp_v=50, bass_v=50)
     s.expr('pad', 28, 80)
     s.mel('ob', 28, OBOE, 84)
     s.line('cl', 28, m('F4:4 | F4:2 E4:2 | D4:4 | C4:2 E4:2 | F4:4 | F4:4 | D4:4 | C#4:4'), 50)
     s.line('fl', 31, m('r:2 G5:1 C6:1'), 40)
-    s.line('cel', 35, m('D5:1 A5:1 F5:1'), 50)
-    s.motifs.append((35, 'lullaby head (D A F, cut off) - story theme, not the motif', 'cel'))
+    s.motif('cel', 35, motif_head('D5', 'minor'), 50, form='head (celesta, cut off)', lead=False)
     s.timp_roll(35 * 4 + 2, 2, 'A1', 46, 108)
     s.run('vln', 35, 'A4', 'D6', Scale('D4', 'harmonic'), 70, step=1 / 6, beat=3, crescendo=30)
 

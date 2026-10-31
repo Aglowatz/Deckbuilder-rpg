@@ -1,0 +1,180 @@
+{
+ "id": "MUS-GOUR-EXP",
+ "kind": "loop",
+ "key": "F major",
+ "bpm": 132,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 116.36,
+ "loop_seconds": 116.364,
+ "lufs": -20.0,
+ "true_peak": -5.3,
+ "lra": 7.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -30.3
+  },
+  {
+   "section": "A verse",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.3,
+   "lufs": -21.6
+  },
+  {
+   "section": "A' big band",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 36.4,
+   "lufs": -19.9
+  },
+  {
+   "section": "drop",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 65.5,
+   "lufs": -20.9
+  },
+  {
+   "section": "finale",
+   "bar": 52,
+   "bars": 8,
+   "start_s": 94.5,
+   "lufs": -16.7
+  },
+  {
+   "section": "outro",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 109.1,
+   "lufs": -26.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 24,
+   "form": "stated (horns, F major)",
+   "ch": "hn"
+  },
+  {
+   "bar": 40,
+   "form": "stated (saw lead, the drop)",
+   "ch": "lead"
+  },
+  {
+   "bar": 48,
+   "form": "stated (saw lead + violins + glock)",
+   "ch": "lead"
+  }
+ ],
+ "notes": 2108,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-GOUR-EXP\\MUS-GOUR-EXP.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-GOUR-EXP\\MUS-GOUR-EXP.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-EXP.mid"
+ },
+ "seam": {
+  "jump_db": 0.45,
+  "wrap_step": 0.00218,
+  "p999_step": 0.06973,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 114,
+   "bars": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+   ],
+   "ok": false
+  },
+  "melody": {
+   "coverage": 0.78,
+   "bars_without_melody": [
+    0,
+    1,
+    2,
+    3,
+    19,
+    35,
+    41,
+    42,
+    50,
+    51,
+    60,
+    61,
+    62,
+    63
+   ],
+   "buried_bars": [
+    18,
+    36,
+    37,
+    38,
+    39,
+    40,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49
+   ],
+   "ok": false
+  }
+ },
+ "composer_notes": [
+  "Ported from the approved ZONE-BUFFET demo: notes unchanged, last two bars eased for the loop seam."
+ ]
+}

@@ -103,12 +103,12 @@ def build():
     for i in range(8):
         s.pad('pad', 24 + i, WALK[i].split()[0], 40)
 
-    # DARK CELLO 32-39: back under the trees - the cello sings the motif low, tremolo rustle, a lullaby glimmer in the celesta
+    # DARK CELLO 32-39: back under the trees - the cello sings the motif low, tremolo rustle, a far motif head in the celesta
+    # (Music Pass 2: the lullaby glimmer is removed; the lullaby is kept for MUS-TUT-BOSS and MUS-MAREN only)
     night(32, high=True)
     s.motif('vc', 32, motif('A2', 'minor', R68), 80, form='stated low (solo cello)')
     s.mel('vc', 35, m('C3:1.5 D3:1.5 | E3:3 | F3:1.5 E3:1 D3:.5 | E3:3 | r:3'), 74)
-    s.line('cel', 37, m('A5:1 E6:1 C6:1'), 36)
-    s.motifs.append((37, 'lullaby glimmer (A E C, three notes, far away) - story theme', 'cel'))
+    s.motif('cel', 37, motif_head('A5', 'minor'), 36, form='head (celesta, far away)', lead=False)
 
     # WARMTH' 40-47: the strings take the warmth, horn counter, harp
     for i, spec in enumerate(WARM):

@@ -558,17 +558,17 @@
 		},
 		"MUS-GOUR-EXP": {
 			"alias_of": "",
-			"analysis": "",
+			"analysis": "drop-in",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 157.38,
+			"duration": 116.36,
 			"file": "res://assets/audio/music/MUS-GOUR-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Endless Buffet — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-BUFF",
-			"volume_db": 1.1,
+			"volume_db": 0.1,
 			"zone": "The Endless Buffet"
 		},
 		"MUS-GOUR-FREED": {
@@ -903,17 +903,17 @@
 		},
 		"MUS-NECRO-EXP": {
 			"alias_of": "",
-			"analysis": "",
+			"analysis": "drop-in",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 148.97,
+			"duration": 115.2,
 			"file": "res://assets/audio/music/MUS-NECRO-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-DNA",
-			"volume_db": 1.0,
+			"volume_db": 0.1,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-FREED": {
@@ -1265,17 +1265,17 @@
 		},
 		"MUS-REF-EXP": {
 			"alias_of": "",
-			"analysis": "",
+			"analysis": "drop-in",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 150.0,
+			"duration": 99.31,
 			"file": "res://assets/audio/music/MUS-REF-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Verdant Dump — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-DUMP",
-			"volume_db": 1.0,
+			"volume_db": 0.2,
 			"zone": "The Verdant Dump"
 		},
 		"MUS-REF-FREED": {

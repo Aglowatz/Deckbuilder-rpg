@@ -9,8 +9,8 @@
  "loop_seconds": 130.909,
  "lufs": -20.0,
  "true_peak": -2.3,
- "lra": 12.7,
- "limited_db": 0.04,
+ "lra": 13.2,
+ "limited_db": 0.05,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -31.7
+   "lufs": -31.1
   },
   {
    "section": "A",
@@ -61,7 +61,7 @@
    "bar": 44,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -25.2
+   "lufs": -26.3
   }
  ],
  "motifs": [
@@ -93,11 +93,11 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TOWN.mid"
  },
  "seam": {
-  "jump_db": 5.41,
-  "wrap_step": 0.00318,
-  "p999_step": 0.09211,
+  "jump_db": 0.41,
+  "wrap_step": 0.00141,
+  "p999_step": 0.09216,
   "click": false,
-  "ok": false
+  "ok": true
  },
  "checks": {
   "range": {
@@ -131,6 +131,6 @@
   }
  },
  "composer_notes": [
-  "v04 port; perc note 49 is an orchestra-kit timpani in FluidR3 (the sketch meant a crash) - kept for fidelity."
+  "v05 = v04 with the bar 0 pad starting at CC11 75 (seam fix); v04 port; perc note 49 is an orchestra-kit timpani in FluidR3 (the sketch meant a crash) - kept for fidelity."
  ]
 }

@@ -1,19 +1,24 @@
-# Loop state - Music Pass 1 (Oct 31 2026)
+# Loop state - Music Pass 2 (Oct 31 2026)
 
-Brief: orchestral toolkit + Batches 1-2 (pasted brief "MUSIC PASS 1"). Report `docs/audio/music_pass_oct31.md`. Questions go to
-`docs/overnight_inbox.md` ("Music Pass 1").
+Brief: zone soundtracks from the approved demos + all stingers (pasted brief "MUSIC PASS 2"). Report `docs/audio/music_pass2_oct31.md`.
+Questions go to `docs/overnight_inbox.md` ("Music Pass 2").
 Rules: one Godot process at a time, GUT in groups, commit per part, dialogue freeze. Python: `$LOCALAPPDATA/Programs/Python/Python312/python.exe`.
 Toolchain + commands: `docs/audio/music_toolchain.md`. Writing rules: `docs/audio/score_bible.md`.
-Previous run (art import batch 10) finished; its log is `docs/art/import_oct31.md`.
+Approved demos: `G:\My Drive\Card Game Art\Music_Source\zone_demos\` (ZONE-DNA / -BUFFET / -DUMP, musiclib.py, render2.py).
+Previous run (Music Pass 1) finished; its report is `docs/audio/music_pass_oct31.md`.
 
 | Part | What | State |
 |---|---|---|
-| 1 | Toolchain (FluidSynth, FluidR3_GM, tools/music/lib, build.py), MUS-TOWN v04 port | done (port identical to v04 MIDI; render matches the Drive file) |
-| 2 | Score bible | done (`docs/audio/score_bible.md`) |
-| 3 | Batch 1: TITLE, FOREST, TUT-EXP, TUT-BATTLE, TUT-BOSS, TOWN-BATTLE, DECK, MAREN, TOWN-FREED | done (all 9 rendered, checks pass; not yet in game) |
-| 4 | Batch 2: BEEF-EXP, BEEF-BATTLE, BEEF-DUN-EXP, BEEF-DUN-BATTLE, BEEF-BOSS, BEEF-FREED | done (all 6 rendered, checks pass; not yet in game) |
-| 5 | Previews to Music Review, backups to Superseded/Music_v01, Approved_Audio + import audio, aliases, GUT audio, launch check, report | done (all 15 in game; TUT-BOSS own track; smoke OK; GUT audio 89/89; report `docs/audio/music_pass_oct31.md`) |
+| 0 | Bible (zone directions, zone-theme rule, freed rule); demos ported as NECRO/GOUR/REF-EXP; inbox answers (music_list rows, TOWN v05, lullaby removals, DECK cello) | done (in game; GUT audio 89/89, music smoke OK) |
+| 1 | 21 stingers (Batch 07) | rendered, all pass (scores/_stingers.py); delivering |
+| 2 | D.N.A. Batch 03: NECRO-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
+| 3 | Buffet Batch 04: GOUR-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
+| 4 | Dump Batch 05: REF-BATTLE, -DUN-EXP, -DUN-BATTLE, -BOSS, -FREED | todo |
+| 5 | Path extras Batch 08 (RELEASE, side dungeons with own BOSS, shops, minigames, Capital districts) | todo |
+
+Delivery after each part: `build.py IDS` -> `deliver.py --review "Batch NN"` + `--approve` -> `bash tools/import_audio.sh` -> `node tools/cut_stings.js`
+(boss changes) -> `node tools/audio_doc.js` -> GUT audio group + `bash tools/run_music_smoke.sh` -> commit.
 
 Resume: `build.py --check-only <IDs>` shows which scores exist and pass; renders are in `C:\Dev\music_tools\renders\`.
 
-**Run complete.** Next: read inbox "Music Pass 1" answers; Batch 3+ uses the same toolkit (`build.py` -> `deliver.py` -> import audio).
+Composition: all Part 2-5 scores were written by four parallel composer forks (Oct 31) and render + pass; markers `tools/music/reports/_batch0*_done.txt`, notes `tools/music/reports/_notes_{necro,gour,ref,beef}.md`. What is left per part is delivery (previews, approve, import, doc rows, GUT audio + smoke, commit).

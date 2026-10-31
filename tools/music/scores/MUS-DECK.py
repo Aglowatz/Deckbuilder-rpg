@@ -48,16 +48,17 @@ def build():
     s.swell('vc', 8, 8, 80, 100, 'arch')
 
     # C 16-23: the cello sings the town's B tune slowly over pizzicato and soft piano
+    # (Music Pass 2: flattened ~3 LU so long reading stays even - cello, its swell, the pizzicato and the piano all a step softer)
     for i, spec in enumerate(C_H):
         bar = 16 + i
         for off, beats, sym in s.parts(spec):
-            s.figure('piano', bar, sym, [(0, 0, 3.8, 0), (2, 2, 1.9, -8)], 46, low='F3')
+            s.figure('piano', bar, sym, [(0, 0, 3.8, 0), (2, 2, 1.9, -8)], 42, low='F3')
             s.pad('pad', bar, sym, 44, beats=beats, beat=off, low='A3')
             s.bass_at(bar * 4 + off, beats, sym, 48, chs=('cb', None))
-        s.figure('pizz', bar, spec, [(0, 'b', .4, 4), (1.5, 1, .4, -6), (3, 2, .4, -8)], 54, low='F3')
-    s.mel('vc', 16, m('F3:2 A3:2 | D4:4 | C4:2 A3:2 | G3:4 | F3:2 A3:2 | D4:3 E4:1 | D4:2 Bb3:2 | A3:4'), 78)
+        s.figure('pizz', bar, spec, [(0, 'b', .4, 4), (1.5, 1, .4, -6), (3, 2, .4, -8)], 48, low='F3')
+    s.mel('vc', 16, m('F3:2 A3:2 | D4:4 | C4:2 A3:2 | G3:4 | F3:2 A3:2 | D4:3 E4:1 | D4:2 Bb3:2 | A3:4'), 66)
     s.motif('cel', 19, motif_tail('F5', 'major', rhythm=(1.5, .5, 2)), 50, form='tail (celesta, a glint)', lead=False)
-    s.swell('vc', 16, 8, 78, 96, 'arch')
+    s.swell('vc', 16, 8, 70, 84, 'arch')
 
     # A' 24-31: chords again, the piano's question higher, cello under
     for i, spec in enumerate(A_H):

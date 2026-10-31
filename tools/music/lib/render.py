@@ -183,12 +183,21 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
             tail = tail[k:]
     else:
         env = np.abs(y).max(axis=1)
+        # one-shots start instantly: cut the synth's lead-in silence (keep 2 ms before the first sound above -60 dBFS)
+        first = np.nonzero(env > 10 ** (-60 / 20))[0]
+        lead = max(0, int(first[0]) - int(0.002 * SR)) if len(first) else 0
+        y = y[lead:]
+        L = max(1, L - lead)
+        env = env[lead:]
         alive = np.nonzero(env > 10 ** (-70 / 20))[0]
         end = max(L, int(alive[-1]) + int(0.25 * SR)) if len(alive) else L
-        out = y[:end].copy()
         fade = int(0.25 * SR)
+        if score.max_seconds and end > int(score.max_seconds * SR):
+            end = int(score.max_seconds * SR)      # stingers heard constantly: no long tail
+            fade = int(0.5 * SR)
+        out = y[:end].copy()
         out[-fade:] *= np.linspace(1, 0, fade)[:, None]
-    target = LOOP_LUFS if loop else ONESHOT_LUFS
+    target = score.lufs if score.lufs is not None else (LOOP_LUFS if loop else ONESHOT_LUFS)   # story one-shots set -20
     limited_db = 0.0
     for _ in range(4):
         out *= 10 ** ((target - lufs(out)) / 20)
@@ -199,6 +208,9 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
         limited_db = max(limited_db, tp - PEAK_TARGET)
     wav = os.path.join(out_dir, f'{score.id}.wav')
     wf.write(wav, SR, out.astype(np.float32))
+    if not loop:
+        # the game keeps stings as WAV: a 16-bit PCM copy for delivery (deliver.py --approve uses it for STG- IDs)
+        wf.write(os.path.join(out_dir, f'{score.id}_pcm16.wav'), SR, np.clip(out * 32767, -32768, 32767).astype(np.int16))
     ogg = os.path.join(out_dir, f'{score.id}.ogg')
     mp3 = os.path.join(out_dir, f'{score.id}.mp3')
     subprocess.run([ff, '-v', 'error', '-y', '-i', wav, '-c:a', 'libvorbis', '-q:a', '6', ogg], check=True)
@@ -214,7 +226,7 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
         'id': score.id, 'kind': score.kind, 'key': score.key, 'bpm': score.bpm, 'meter': f'{score.meter[0]}/{score.meter[1]}',
         'bars': score.bars, 'seconds': round(len(dec) / SR, 2), 'loop_seconds': round(score.seconds, 3),
         'lufs': meas['lufs'], 'true_peak': meas['true_peak'], 'lra': meas['lra'], 'limited_db': round(limited_db, 2),
-        'peak_ok': meas['true_peak'] <= CEILING, 'lufs_ok': abs(meas['lufs'] - target) <= 0.5,
+        'peak_ok': bool(meas['true_peak'] <= CEILING), 'lufs_ok': bool(abs(meas['lufs'] - target) <= 0.5),
         'sections': section_arc(dec[:L] if loop else dec, score),
         'motifs': [{'bar': round(b, 2), 'form': f, 'ch': c} for b, f, c in score.motifs],
         'notes': score.note_count(),
@@ -222,6 +234,11 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
     }
     if loop:
         rep['seam'] = seam_report(dec[:L] if len(dec) >= L else dec)
+    else:
+        pk = np.abs(dec).max(axis=1)
+        hot = np.nonzero(pk > 10 ** (-30 / 20))[0]
+        rep['onset_ms'] = round(1000 * float(hot[0]) / SR, 1) if len(hot) else None
+        rep['onset_ok'] = bool(rep['onset_ms'] is not None and rep['onset_ms'] <= 20)
     if not keep_wav:
         os.remove(wav)
     return rep

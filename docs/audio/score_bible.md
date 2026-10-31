@@ -44,9 +44,9 @@ Programs are FluidR3_GM names from `tools/music/lib/instruments.py`.
 | Path | Instruments (GM/GS) | Style |
 |---|---|---|
 | Beefcake | `brass`, `horn`, `trumpet`, `trombone`, `tuba`, orchestra-kit `snare` / `bd` / `crash`, `timpani`, `xylophone` for jokes | heroic march, Bb major / Mixolydian (and its modes: C Dorian, G Aeolian, F Mixolydian), 108-132 BPM |
-| Necrocrat | `contrabass`, `cello`, `celesta`, `harpsichord`, `music_box`, `bassoon` | a music-box waltz in 3/4, minor |
-| Gourmand | `accordion` / `accordion_it`, `clarinet`, `mandolin` (bank 16), `pizz`, `castanets` | a tarantella in 6/8 |
-| Refusemancer | `fiddle`, `nylon`, `whistle` (or `flute` / `recorder` as the tin whistle), `ac_bass`, `tamb` | folk dance, reels and jigs |
+| Necrocrat | **since Music Pass 2: section 8** (dark orchestral with organ, choir, low brass, ticking woodblock clock) | a dark waltz in 3/4, C minor |
+| Gourmand | **since Music Pass 2: section 8** (Broadway showtune orchestra + modern EDM drop layer; no folk) | showtune, F major, ~132 |
+| Refusemancer | **since Music Pass 2: section 8** (orchestral fairy folk: solo violin, nylon guitar, harp, celesta, chimes, flute/piccolo, tambourine) | jigs and reels, E Dorian |
 | Capital | orchestra-kit `snare`, `harpsichord`, `trumpet` + `trombone` in rigid block chords | stiff, polished, on the grid (humanising turned down) |
 | Core (home, cave, story) | `strings`, `slow_strings`, `cello`, `contrabass`, `horn`, `harp`, `flute`, `oboe`, `clarinet`, `timpani` | the v04 orchestra |
 
@@ -122,3 +122,56 @@ Programs are FluidR3_GM names from `tools/music/lib/instruments.py`.
 | Nothing piled up in the low end | no pitched note below E1; at most 2 distinct pitches under C3 at once (`checks.low_end_report`) |
 | Melody always audible | the lead-melody line covers most bars and outweighs same-register accompaniment (`checks.melody_report`; rough: GM patches differ) |
 | Matches its music_list row | by the composer, noted per track in the report ("listen for") |
+
+## 8. Zone themes and zone directions (Music Pass 2, Oct 31)
+
+The designer listened to three zone demos and approved all three (`G:\My Drive\Card Game Art\Music_Source\zone_demos\`). They are the
+zones' sound from now on and are ported note for note as the zones' exploration tracks (`MUS-NECRO-EXP`, `MUS-GOUR-EXP`, `MUS-REF-EXP`,
+via `lib/song.py`, the demos' own score engine on top of `Score`). Their melodies live in `tools/music/lib/zones.py`.
+
+| Zone (Path) | Direction | Key / meter / tempo | Palette |
+|---|---|---|---|
+| D.N.A. (Necrocrat) | dark orchestral **with organ**; a dark 3/4 waltz; a ticking-clock woodblock; choir; low brass. People doing a job, not horror | C minor, 3/4, 100 | church organ, strings + tremolo, cello/contrabass, pizz, bassoon, clarinet, horns, trombones, tuba, timpani, choir, celesta, harpsichord, orchestra-kit woodblock clock (76/77) |
+| Endless Buffet (Gourmand) | upbeat, festive **Broadway/Disney showtune** ("Be Our Guest" energy, but always original melodies - never quote a real song) **plus modern EDM drops**: four-on-the-floor kick, claps, synth bass, pumping pad, saw lead. **No folk** | F major, 4/4, ~132 | strings, pizz, clarinet, muted trumpet, brass section, tuba oom-pah, glock, xylophone, horn, choir, piano, timpani; EDM: standard kit, synth bass, saw lead, pumped warm pad |
+| Verdant Dump (Refusemancer) | **fairy folk, but orchestral**: a fast solo-violin jig, nylon guitar, piano, harp, celesta, chimes/tubular bells, flute/piccolo, tambourine. Folk instruments belong to the Dump **only** | E Dorian, 6/8 (dotted q = 116; written q = 174) | solo violin, strings, flute, piccolo, nylon guitar, piano, harp, celesta, tubular bells, glock, pizz, cello, contrabass, horn, timpani, tambourine/triangle |
+
+### Rules
+
+- **Each zone has its OWN ZONE THEME** - the demo's main melody (`zones.DNA_THEME`, `zones.BUFFET_THEME` (+ the drop `BUFFET_HOOK`),
+  `zones.DUMP_THEME`). It appears in **every** cue of that zone and of its Path's related cues (battle, dungeon, boss, freed, release,
+  side dungeon, shop, minigame, Capital district): whole, a phrase, augmented, in another key or mode, corrupted, mirrored. The
+  **Crossroads motif guests** in each (at least one logged statement or fragment), as section 1 describes.
+- **FREED tracks take the zone theme to major** (or brighter: Dorian -> major, minor -> relative/parallel major, `zones.to_mode`) **with
+  the motif resolved** (section 1). Resolved motif still only in FREED / restored / release / homecoming cues - and in **STG-VICTORY**,
+  the single exception outside them (its last notes are the motif's resolved tail: the battle lands home).
+- Bosses: their own villain idea + the zone theme corrupted (minor, inverted, warped, imitating) + Crossroads fragments.
+- Capital districts: "broken" = the zone theme played thin, detuned (a second
+  voice 20-30 cents flat via `Score.detune`, a pitch bend) or interrupted (phrases cut mid-bar); "restored" = the same theme full and in tune.
+- Stingers: one-shots at -17 LUFS that **start instantly** (no silence at the front: first sound within 20 ms, `build.py` reports
+  `onset_ms`), ring out, no loop fold. STG-ZONE-* use their zone's theme and palette (NECRO organ, GOUR a showtune button ending with a
+  kick, REF fiddle + chimes, BEEF brass). Pack reveals rise in grandeur common -> rare -> legend.
+
+### Batch 3-8 key / tempo plan (no two tracks in a batch share key AND tempo)
+
+| ID | Key | BPM / meter | Notes |
+|---|---|---|---|
+| MUS-NECRO-EXP | C minor | 100, 3/4 | the approved demo |
+| MUS-NECRO-BATTLE | C minor | 138, 3/4 | the waltz driven: a fast scherzo-waltz, theme in brass, clock ticking 8ths |
+| MUS-NECRO-DUN-EXP | F minor | 88, 3/4 | Hall of Final Approvals: desk-to-desk phrases, layered pizz, organ |
+| MUS-NECRO-DUN-BATTLE | F minor | 146, 3/4 | deeper percussion, moving bass |
+| MUS-NECRO-BOSS | C minor (harmonic) | 126, 4/4 | Mortimer Grimsby's own theme on organ + low brass; the waltz theme forced into 4/4 (corrupted) |
+| MUS-NECRO-FREED | C major -> Eb major | 92, 3/4 | warm organ, the theme in major, resolved motif |
+| MUS-GOUR-EXP | F major | 132, 4/4 | the approved demo |
+| MUS-GOUR-BATTLE | Bb major | 142, 4/4 | showtune at battle tempo with an EDM drop section |
+| MUS-GOUR-DUN-EXP | D minor | 112, 4/4 | Test Kitchen: clockwork ostinato, cold harmony, the theme impersonal |
+| MUS-GOUR-DUN-BATTLE | G minor | 140, 4/4 | assembly-line drive, deeper percussion |
+| MUS-GOUR-BOSS | F minor | 128, 4/4 | The Doppelganger: the Buffet theme warped and imitating (canon), a mirror (inversion) of the hero's motif |
+| MUS-GOUR-FREED | F major -> G major | 124, 4/4 | the full festive finale, a real feast |
+| MUS-REF-EXP | E Dorian | dq 116 (q 174), 6/8 | the approved demo |
+| MUS-REF-BATTLE | A Dorian | 144, 4/4 (reel) | fast reel, driving fiddle |
+| MUS-REF-DUN-EXP | B minor | q 120, 6/8 | The Rotheart: cello drone, fairy glimmers fading |
+| MUS-REF-DUN-BATTLE | E minor | q 186 (dq 124), 6/8 | tangled ostinatos, deeper percussion |
+| MUS-REF-BOSS | E minor (harmonic) | q 156 (dq 104), 6/8 | Compostella: dark fairy tale, the jig in minor, roots and decay |
+| MUS-REF-FREED | E major | q 168 (dq 112), 6/8 | spring returning: chimes, harp, the jig in major, resolved motif |
+| Batch 07 stingers | per cue | | STG-VICTORY Bb major (brass + strings over a timpani roll, cymbal, held major chord; the motif's resolved tail) |
+| Batch 08 Path extras | per Path, keys chosen in each score and listed in `docs/audio/music_pass2_oct31.md` | | Necrocrat / Gourmand / Refusemancer extras use their zone palette and theme; Beefcake extras match the Gainlands tracks (section 3) |

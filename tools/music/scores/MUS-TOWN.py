@@ -1,4 +1,4 @@
-"""MUS-TOWN v04 - Crosspath, roads converge. 48 bars 4/4, 88 BPM, D Dorian.
+"""MUS-TOWN v05 (v04 + the bar 0 pad seam fix, Music Pass 2) - Crosspath, roads converge. 48 bars 4/4, 88 BPM, D Dorian.
 Port of G:/My Drive/Card Game Art/Music_Source/MUS-TOWN_v04_score.py (Oct 31) onto the shared toolkit: same calls in the same order with
 the same seed, so the notes match the original MIDI exactly. Do not "improve" it here; it is the reference for the house sound.
 """
@@ -24,7 +24,7 @@ def build():
     }
     for bar, nm in ((0, 'intro'), (4, 'A'), (12, "A'"), (20, 'B'), (28, "B'"), (36, 'climax'), (44, 'outro')):
         s.section(bar, nm)
-    s.notes.append('v04 port; perc note 49 is an orchestra-kit timpani in FluidR3 (the sketch meant a crash) - kept for fidelity.')
+    s.notes.append('v05 = v04 with the bar 0 pad starting at CC11 75 (seam fix); v04 port; perc note 49 is an orchestra-kit timpani in FluidR3 (the sketch meant a crash) - kept for fidelity.')
     progA = ['Dm', 'G', 'Dm/F', 'A7s', 'Bb', 'F', 'Gm', 'A']
     progB = ['Bb', 'F/A', 'Gm', 'C', 'Bb', 'F', 'Gm7', 'A']
     form = ['Dm', 'G', 'Dm/F', 'A7s'] + progA + progA + progB + progB + progA + ['Bb', 'F/A', 'Gm', 'A7s']
@@ -47,7 +47,7 @@ def build():
         pad('pad', i, form[i], 52)
         harp(i, form[i], 58)
         note('cb', i * 4, 4.02, p(V[form[i]][0]), 50)
-    swell('pad', 0, 4, 40, 92)
+    swell('pad', 0, 4, 75, 92)       # v05 (Music Pass 2): bar 0 pad from ~75, not 40, so the loop seam no longer drops 5.5 dB
     line('fl', 2, [('D5', 1), ('A5', 3)], 50)
     line('fl', 3, [('G5', 2), ('E5', 2)], 46)
     s.timp_roll(3 * 4 + 2, 2, p('A1'), 30, 70)
@@ -144,4 +144,6 @@ def build():
     swell('pad', 44, 4, 100, 46)
     s.motif('hn', 44, [('D4', 2), ('F4', 2), ('E4', 4), ('D4', 2), ('Bb3', 2), ('A3', 4)], 62, form='fragment (augmented, horn)', legato=1.0)
     line('ob', 46, [('G4', 4), ('A4', 3), ('r', 1)], 52)
+    # v05 seam: the held horn and oboe made the last second ~4.5 dB louder than bar 0; ease them (velocity only, notes unchanged)
+    s.fade_vel(46, 48, 0.55, ['hn', 'ob', 'harp'], start_factor=0.85)
     return s

@@ -84,3 +84,15 @@ so the seam can be heard). A render takes about 20 s.
   prints the level in 0.25 s steps either side of the seam.
 - Battle and boss loops: an intro of ostinato alone sits 10+ dB under the body and becomes a hole every time the loop comes round; give
   the intro (and the matching outro) a sustained pad/brass bed so it stays within ~4 LU of the body.
+
+## Music Pass 2 additions (Oct 31)
+
+| What | Where |
+|---|---|
+| `Song` - the zone demos' score engine (`musiclib.Song`: explicit channels, raw GM programs, chord lists in melodies, `ramp`, `pump` for the EDM pad) on top of `Score`; the demos port line for line and give identical MIDI | `tools/music/lib/song.py` |
+| The three approved zone themes, chord maps and palettes (`DNA_THEME`, `BUFFET_THEME` + `BUFFET_HOOK`, `DUMP_THEME`, `to_mode`) | `tools/music/lib/zones.py` |
+| Seam fixes without touching notes: `Score.fade_vel(bar0, bar1, factor, chans)`, `recc11`; `tag_melody` (audibility check only); `detune(ch, cents, bar)` = pitch bend for "broken" cues | `tools/music/lib/score.py` |
+| One-shots: lead-in silence trimmed, `onset_ms` reported (must be <= 20 ms), `Score.max_seconds` caps the ring-out (0.5 s fade), `Score.lufs` overrides the target (story one-shots -20), a 16-bit `<ID>_pcm16.wav` written beside the OGG | `tools/music/lib/render.py` |
+| Stingers: all 21 builders in one module; `scores/STG-*.py` import theirs | `tools/music/scores/_stingers.py` |
+| Delivery: `STG-` IDs go to Approved_Audio as WAV (stings stay WAV in the game); one-shot registry records keep null loop points; a Pass 1 render replaced later is backed up as `<ID>_<revision>.ogg` beside the original (never overwritten) | `tools/music/deliver.py` |
+| Report rows (key, tempo, length, motif log, section LUFS, LUFS/TP, seam or onset, preview path) | `python tools/music/report_rows.py --batch "Batch 03" IDS...` |

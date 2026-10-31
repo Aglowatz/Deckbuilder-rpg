@@ -1,7 +1,7 @@
 """MUS-TUT-EXP - Forgotten Cave, old passage. 36 bars 4/4, 66 BPM, E minor (modal: no raised leading tone).
 Soft mossy mystery: a low string drone, plucked notes that echo back from the walls, a breathy pan flute trying the Crossroads motif,
 water drops in the celesta. The middle turns ancient and royal: a far horn plays the motif slowly over open, old-court harmony and soft
-voices. Then the echoes return and the celesta lets slip the lullaby's first three notes before the drone takes over again.
+voices. Then the echoes return and the celesta lets slip the motif's head before the drone takes over again.
 """
 from lib import Score, m, motif, motif_head, motif_tail, augment, p
 
@@ -75,7 +75,8 @@ def build():
     s.timp_hit(20 * 4, 'G2', 50)
     s.timp_roll(23 * 4, 4, 'B1', 30, 54)
 
-    # ECHOES 24-31: plucks return with the cello singing the tail; the celesta lets slip three notes of the lullaby
+    # ECHOES 24-31: plucks return with the cello singing the tail; the celesta lets slip the motif's head
+    # (Music Pass 2: the lullaby glimmer is removed; the lullaby is kept for MUS-TUT-BOSS and MUS-MAREN only)
     for i, spec in enumerate(CAVE):
         bar = 24 + i
         s.pad('pad', bar, spec, 48, low='G3')
@@ -84,8 +85,7 @@ def build():
     s.motif('vc', 24, motif_tail('E3', rhythm=(3, 1, 4)) + m('r:4'), 78, form='tail (cello)')
     s.mel('vc', 27, m('A3:2 B3:2 | C4:3 B3:1 | A3:2 G3:2 | F#3:4'), 74)
     s.mel('fl', 30, m('B4:1 A4:.5 G4:.5 F#4:2 | E4:4'), 62)
-    s.line('cel', 29, m('E5:1 B5:1 G5:2'), 38)
-    s.motifs.append((29, 'lullaby glimmer (E B G, three notes) - story theme', 'cel'))
+    s.motif('cel', 29, motif_head('E5', 'minor', rhythm=(1, 1, 2)), 38, form='head (celesta)', lead=False)
     drops(24, 8, 34)
 
     # DRONE AGAIN 32-35: the same drone as bar 0 so the loop lands; the flute's head once more

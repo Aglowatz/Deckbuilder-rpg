@@ -34,6 +34,8 @@ class Score:
         self.bar_q = meter[0] * 4.0 / meter[1]
         self.key = key
         self.kind = kind            # 'loop' (tail folded onto the start) or 'oneshot' (tail rings out)
+        self.max_seconds = None     # one-shots: cap the ring-out at this length (a 0.5 s fade ends it); None = full tail
+        self.lufs = None            # loudness target override (story one-shots such as *-RELEASE: -20, like the loops); None = by kind
         self.rng = random.Random(seed)
         self.jitter, self.vel_spread = human
         self.swing = 0.0
@@ -41,6 +43,7 @@ class Score:
         self.events = {}            # name -> [(start, dur, pitch, vel, role)]
         self.cc11 = {}              # name -> [(beat, value)]
         self.ccs = {}               # name -> [(beat, control, value)]
+        self.bends = {}             # name -> [(beat, cents)] pitch bend (range +-2 semitones), for detuned 'broken' cues
         self.tempos = [(0.0, bpm)]
         self.sections = []          # (bar, name)
         self.motifs = []            # (bar, form, channel)
@@ -65,6 +68,7 @@ class Score:
         self.events[name] = []
         self.cc11[name] = []
         self.ccs[name] = []
+        self.bends[name] = []
         return name
 
     def seat(self, *names, **over):
@@ -309,6 +313,35 @@ class Score:
         for i in range(n):
             self.note(ch, start + i / rate, 0.1, KIT[inst], v0 + (v1 - v0) * i / n, human=False)
 
+    # ------------------------------------------------------------ seam fixes (Music Pass 2)
+    def fade_vel(self, bar0, bar1, end_factor, chans=None, start_factor=1.0):
+        """Scale the velocity of notes starting in bars [bar0, bar1) by a factor that moves linearly from start_factor to end_factor.
+        Used to fix a loop seam without changing any note (the ported zone demos)."""
+        a, b = bar0 * self.bar_q, bar1 * self.bar_q
+        for ch in (chans or list(self.events)):
+            out = []
+            for s, d, n, v, r in self.events[ch]:
+                if a <= s < b:
+                    f = start_factor + (end_factor - start_factor) * (s - a) / (b - a)
+                    v = max(1, min(127, int(round(v * f))))
+                out.append((s, d, n, v, r))
+            self.events[ch] = out
+
+    def recc11(self, ch, bar0, bar1, lo, hi):
+        """Replace the CC11 points of `ch` in bars [bar0, bar1) with a straight ramp lo -> hi."""
+        a, b = bar0 * self.bar_q, bar1 * self.bar_q
+        self.cc11[ch] = [(t, v) for t, v in self.cc11[ch] if not (a <= t < b)]
+        self.swell(ch, bar0, bar1 - bar0, lo, hi)
+
+    def detune(self, ch, cents, bar=0, beat=0.0):
+        """Bend channel `ch` by `cents` from bar (+beat) on (pitch-bend range +-200 cents); detune(ch, 0, bar) puts it back in tune."""
+        self.bends[ch].append((bar * self.bar_q + beat, cents))
+
+    def tag_melody(self, ch, bar0=0, bar1=None):
+        """Mark the notes of `ch` in bars [bar0, bar1) as the lead melody for the audibility check (no audible change)."""
+        a, b = bar0 * self.bar_q, (self.bars if bar1 is None else bar1) * self.bar_q
+        self.events[ch] = [(s, d, n, v, 'mel' if a <= s < b else r) for s, d, n, v, r in self.events[ch]]
+
     # ------------------------------------------------------------ MIDI
     def to_midi(self, path, tail_seconds=0.0):
         """Write the multi-track .mid. `tail_seconds` pushes end_of_track past the loop/end point (render copies only), so the
@@ -346,6 +379,9 @@ class Score:
                 msgs.append((0, 1, mido.Message('control_change', channel=chan, control=ctl, value=v)))
             for b, ctl, v in self.ccs[k]:
                 msgs.append((int(b * TPB), 1, mido.Message('control_change', channel=chan, control=ctl, value=max(0, min(127, v)))))
+            for b, cents in self.bends.get(k, []):
+                pw = max(-8192, min(8191, int(round(cents / 200.0 * 8191))))
+                msgs.append((int(b * TPB), 2, mido.Message('pitchwheel', channel=chan, pitch=pw)))
             for b, v in self.cc11[k]:
                 msgs.append((int(b * TPB), 2, mido.Message('control_change', channel=chan, control=11, value=max(0, min(127, v)))))
             for s, d, n, v, _ in self.events[k]:
