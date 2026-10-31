@@ -9,4 +9,6 @@ Rules: one Godot at a time, GUT in groups, commit per part, dialogue freeze, no 
 | 2 | ICON-UI-GLOSSARY / ICON-UI-FEATS on the menus | done (shots `_screenshots/oct31/icons_*.png`) |
 | 3 | Hat sheet redos (Chef, Wizard, Leaf Crown) + scale normalise + contact sheet | done (`_screenshots/oct31/hats_final/ALL.png`, measure `tools/hat_measure.gd`) |
 | 4 | Captain Spotless walk set (11 files) wired to the roamer | done (lineups `_screenshots/oct31/spotless_lineup_*.png`; inbox item 1: he never spawns as a roamer) |
-| 5 | GUT groups, missing-art report, import_oct31.md | in progress |
+| 5 | GUT groups, missing-art report, import_oct31.md | done (all groups pass; 17/17 in game) |
+
+**Run complete.** Next: read inbox "Art import Oct 31" answers (Spotless roaming, hat re-import rule, Leaf Crown ends).
