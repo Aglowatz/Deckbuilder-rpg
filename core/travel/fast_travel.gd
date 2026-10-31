@@ -39,7 +39,11 @@ static func is_unlocked(flags: Dictionary, station_id: String) -> bool:
 		return true
 	if station_id == FOREST:
 		return bool(flags.get(str(unlock_flag(FOREST)), false))
-	return is_zone_station(station_id) and bool(flags.get(str(unlock_flag(station_id)), false))
+	if not is_zone_station(station_id):
+		return false
+	# Overnight Oct 30-31, Part 3: a freed zone has certainly been visited, so its station counts as reached (a save that freed a zone
+	# without walking past its station - or the story bot - still travels there).
+	return bool(flags.get(str(unlock_flag(station_id)), false)) or (Gatekeepers.has(station_id) and ZoneCompletion.is_completed(flags, station_id))
 
 
 ## Unlocks a zone's station. Returns true only the first time.

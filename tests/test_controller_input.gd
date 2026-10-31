@@ -255,7 +255,7 @@ func test_settings_screen_rebinds_a_controller_button() -> void:
 	assert_eq(Keybinds.pad_of(&"open_map"), JOY_BUTTON_LEFT_STICK)
 	assert_eq(pad_button.text, "LS")
 	var note: Label = panel.find_child("ConflictNote", true, false) as Label
-	assert_string_contains(note.text, "Camera: cycle zoom")
+	assert_string_contains(note.text, "Sprint (hold)", "Overnight Oct 30-31: L3 is the sprint now (the zoom moved to Share)")
 
 
 func test_the_pause_row_shows_a_fixed_controller_button() -> void:

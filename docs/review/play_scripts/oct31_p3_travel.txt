@@ -1,0 +1,22 @@
+# Overnight Oct 30-31, Part 3: sprint (Shift) vs walk, then fast travel from the map to a freed zone's station
+wait 2
+dev load midgame_real
+wait 6
+skip_dialogue 10
+log walk 1.5 s
+hold S 1.5
+shot 01_after_walk
+log sprint 1.5 s
+hold Shift+S 1.5
+shot 02_after_sprint
+key M
+wait 2
+button Fast travel
+wait 1.5
+shot 03_travel_list
+dump
+button Rip
+wait 10
+skip_dialogue 10
+scene
+shot 04_arrived

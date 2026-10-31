@@ -2743,6 +2743,22 @@ func _open_full_map() -> void:
 		return
 	var screen: FullMapScreen = FullMapScreen.new()
 	screen.setup("town", town, player, _collect_pois(), "Town")
+	screen.travel_from = FastTravel.TOWN
+	screen.travel_requested.connect(_open_map_travel)
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## Overnight Oct 30-31, Part 3: fast travel from the map (M): the Rift Express list; a pick goes straight there (the station's portal
+## ride is for travellers who walk up to the operator).
+func _open_map_travel() -> void:
+	var screen: FastTravelScreen = FastTravelScreen.new()
+	screen.here = FastTravel.TOWN
+	screen.destination_chosen.connect(func(station_id: String) -> void:
+		_close_overlay()
+		_locked = true
+		Audio.sfx(&"rift_open")
+		Session.fast_travel_to(station_id))
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 

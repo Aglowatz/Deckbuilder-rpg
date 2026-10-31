@@ -25,6 +25,10 @@ var speed_multiplier: float = 1.0
 var gear_speed: float = 1.0
 var _gear_timer: float = 0.0
 var moving: bool = false
+## Overnight Oct 30-31, Part 3: sprinting this frame (Shift held, a controller's left-stick click until the hero stops, or Settings > Always
+## sprint, where holding Shift walks). Not on a mount (it is faster already) and not in scripted moves.
+var sprinting: bool = false
+var _pad_sprint: bool = false
 
 
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
@@ -67,7 +71,11 @@ func _process(delta: float) -> void:
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()
-		_velocity = world_dir * SPEED * speed_multiplier * gear_speed * minf(direction.length(), 1.0)
+		var was_sprinting: bool = sprinting
+		sprinting = wants_sprint()
+		if sprinting and not was_sprinting and input_enabled:
+			Audio.sfx(&"sprint_start")  # Part 8: a short whoosh as the hero breaks into a run
+		_velocity = world_dir * SPEED * speed_multiplier * gear_speed * minf(direction.length(), 1.0) * (SPRINT if sprinting else 1.0)
 		moving = true
 		_move(_velocity * delta)
 		var target_yaw: float = atan2(world_dir.x, world_dir.z)
@@ -82,6 +90,8 @@ func _process(delta: float) -> void:
 	else:
 		_velocity = Vector3.ZERO
 		moving = false
+		sprinting = false
+		_pad_sprint = false
 		_play(&"Idle")
 		_step_timer = 0.0
 	if not airborne:
@@ -111,6 +121,19 @@ func _read_input() -> Vector2:
 
 
 const MIN_STICK_SPEED: float = 0.4
+## Overnight Oct 30-31, Part 3: the sprint speed (x the walk; the walk animation plays faster to match).
+const SPRINT: float = 1.65
+
+
+## Whether the hero sprints now: Shift held (or not held with Always sprint), or a controller's left-stick click (latched until it stops).
+## On foot only (`speed_multiplier` 1.0: a mount is faster already).
+func wants_sprint() -> bool:
+	if speed_multiplier != 1.0 or airborne:
+		return false
+	if InputMap.has_action(&"sprint") and Input.is_action_just_pressed(&"sprint") and InputDevice.using_pad():
+		_pad_sprint = not _pad_sprint
+	var held: bool = InputMap.has_action(&"sprint") and Input.is_action_pressed(&"sprint") and not InputDevice.using_pad()
+	return _pad_sprint or (held != Settings.always_sprint)
 
 
 ## A movement action held at full strength (a key or a D-pad button); a stick reads weaker than 1 and goes through `Input.get_vector`.

@@ -51,7 +51,9 @@ const ACTIONS: Array[Dictionary] = [
 	{"id": &"camera_swivel_left", "label": "Camera: turn left (hold)", "group": GROUP_OVERWORLD, "keys": [KEY_Z, 0], "pad": PAD_LT},
 	{"id": &"camera_swivel_right", "label": "Camera: turn right (hold)", "group": GROUP_OVERWORLD, "keys": [KEY_X, 0], "pad": PAD_RT},
 	{"id": &"camera_angle", "label": "Camera: cycle angle", "group": GROUP_OVERWORLD, "keys": [KEY_V, 0], "pad": JOY_BUTTON_RIGHT_STICK},
-	{"id": &"camera_zoom", "label": "Camera: cycle zoom", "group": GROUP_OVERWORLD, "keys": [KEY_F, 0], "pad": JOY_BUTTON_LEFT_STICK},
+	{"id": &"camera_zoom", "label": "Camera: cycle zoom", "group": GROUP_OVERWORLD, "keys": [KEY_F, 0], "pad": JOY_BUTTON_MISC1},
+	# Overnight Oct 30-31, Part 3: hold to sprint (a controller click of the left stick sprints until the hero stops; L3 was the zoom, now Share)
+	{"id": &"sprint", "label": "Sprint (hold)", "group": GROUP_OVERWORLD, "keys": [KEY_SHIFT, 0], "pad": JOY_BUTTON_LEFT_STICK},
 	{"id": &"pause", "label": "Pause menu", "group": GROUP_OVERWORLD, "keys": [KEY_ESCAPE, 0], "pad": JOY_BUTTON_START, "pad_fixed": true},
 	{"id": &"dungeon_rules", "label": "Dungeon rules", "group": GROUP_DUNGEON, "keys": [KEY_R, 0], "pad": JOY_BUTTON_Y},
 	{"id": &"battle_advance", "label": "Next phase (Combat / End turn)", "group": GROUP_BATTLE, "keys": [KEY_SPACE, 0], "pad": JOY_BUTTON_X},
