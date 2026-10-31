@@ -14,17 +14,22 @@ Disk: 5.2 GB free at start; RAM ~2 GB free at start.
 
 | Part | What | State | Commit | Notes |
 |---|---|---|---|---|
-| 1 | Mid-game critic rerun from a story-bot snapshot, triage, 4-6 fixes | in progress | | snapshot: `bash tools/run_story_playthrough.sh --snapshot_after=2 --snapshot=midgame_real` |
-| 2 | Goal pointer everywhere | todo | | |
-| 3 | Fast travel + sprint | todo | | |
-| 4 | Attack previews | todo | | |
-| 5 | Faster loading | todo | | |
-| 6 | Dialogue presentation | todo | | |
-| 7 | Smarter Deck Station | todo | | |
-| 8 | Sound pass | todo | | |
+| 1 | Mid-game critic rerun from a story-bot snapshot, triage, fixes | done | ae33e08e, 479ee8f2, f1666de8, 02d53ced, c2590aaf, 0ee91f96 | 5.5/10; fixes: basics tips, SpoilerFree, zone tracks its line, map names, why-not line, HP breakdown, vendor reach, Esc skips seen scenes; boss sim no change |
+| 2 | Goal pointer everywhere | done | 28c058d6 | two goals (gold main / blue side), arrows, rings, map dots, legend, setting |
+| 3 | Fast travel + sprint | done | 9b7528d7 | Shift / L3 / Always sprint; map > Fast travel; zoom pad -> Share |
+| 4 | Attack previews | done | b3c1e0dd, 5eb21f37, 653cb843 | predict_action; chain-aware; HP left |
+| 5 | Faster loading | done (partly) | 26611b07 | return to town 7.2 -> 6.0 s; first town / zones unchanged; threaded scene switch dropped |
+| 6 | Dialogue presentation | done | 35f84069 | any key, per-letter blips, listener portrait |
+| 7 | Smarter Deck Station | done | 089169e1 | curve, mix, filters, works-well-with, Suggest |
+| 8 | Sound pass | done | a434016b | dungeon beds, 2 events, loudness tool + 21 moved |
 | 9 | v0.4.9 build | todo | | |
 | Report | docs/overnight_report.md | todo | | |
 
 ## How to resume
 
 Read this file; continue at the first Part not "done"; check the clock against the time rule (Part 9 needs the last 75 min).
+
+## Notes
+
+- 22:20-22:40: the critic's runs loaded untested drafts (stashed when noticed; no script errors in any run).
+- Bash heredocs turn \n into real newlines: write edit scripts with the Write tool.
