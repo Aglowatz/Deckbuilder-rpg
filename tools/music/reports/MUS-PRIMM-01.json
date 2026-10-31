@@ -1,0 +1,121 @@
+{
+ "id": "MUS-PRIMM-01",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 128,
+ "meter": "4/4",
+ "bars": 68,
+ "seconds": 127.5,
+ "loop_seconds": 127.5,
+ "lufs": -20.0,
+ "true_peak": -6.1,
+ "lra": 8.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro clockwork",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -21.0
+  },
+  {
+   "section": "A unison",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 7.5,
+   "lufs": -20.4
+  },
+  {
+   "section": "B the anthem",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 37.5,
+   "lufs": -21.0
+  },
+  {
+   "section": "C compression",
+   "bar": 36,
+   "bars": 16,
+   "start_s": 67.5,
+   "lufs": -22.2
+  },
+  {
+   "section": "D tutti unison",
+   "bar": 52,
+   "bars": 12,
+   "start_s": 97.5,
+   "lufs": -17.0
+  },
+  {
+   "section": "outro clockwork",
+   "bar": 64,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -20.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 14.0,
+   "form": "flattened into even quarters (clarinet), swallowed",
+   "ch": "cl"
+  },
+  {
+   "bar": 38.0,
+   "form": "head flattened (horn), cut off",
+   "ch": "hn"
+  },
+  {
+   "bar": 46.0,
+   "form": "head flattened (clarinet), swallowed",
+   "ch": "cl"
+  }
+ ],
+ "notes": 4667,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-01\\MUS-PRIMM-01.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-01\\MUS-PRIMM-01.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-01.mid"
+ },
+ "seam": {
+  "jump_db": 0.46,
+  "wrap_step": 0.00633,
+  "p999_step": 0.05292,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 2,
+   "bars": [
+    45
+   ],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.88,
+   "bars_without_melody": [
+    16,
+    17,
+    18,
+    19,
+    38,
+    39,
+    50,
+    51
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Quantised. The Primm motif in unison/octaves; the Crossroads motif forced into even quarters (form \"flattened\")."
+ ]
+}

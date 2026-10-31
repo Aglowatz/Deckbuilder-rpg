@@ -1,0 +1,86 @@
+{
+ "id": "MUS-PRIMM-MOTIF",
+ "kind": "oneshot",
+ "key": "C major",
+ "bpm": 104,
+ "meter": "4/4",
+ "bars": 14,
+ "seconds": 37.67,
+ "loop_seconds": 32.308,
+ "lufs": -20.0,
+ "true_peak": -7.3,
+ "lra": 10.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "chime",
+   "bar": 0,
+   "bars": 1,
+   "start_s": 0.0,
+   "lufs": -31.9
+  },
+  {
+   "section": "sincere: music box",
+   "bar": 1,
+   "bars": 5,
+   "start_s": 2.3,
+   "lufs": -26.0
+  },
+  {
+   "section": "coercive: the city",
+   "bar": 6,
+   "bars": 5,
+   "start_s": 13.8,
+   "lufs": -19.0
+  },
+  {
+   "section": "held",
+   "bar": 11,
+   "bars": 3,
+   "start_s": 25.4,
+   "lufs": -16.9
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 5.0,
+   "form": "head (horn) under the music box, cut off by the brass",
+   "ch": "hn"
+  }
+ ],
+ "notes": 414,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-MOTIF\\MUS-PRIMM-MOTIF.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-MOTIF\\MUS-PRIMM-MOTIF.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-MOTIF.mid"
+ },
+ "onset_ms": 2.7,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.71,
+   "bars_without_melody": [
+    0,
+    5,
+    10,
+    13
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Motif master: PRIMM_HEAD + PRIMM_ANSWER unchanged (all quarters), Capital palette, quantised."
+ ]
+}

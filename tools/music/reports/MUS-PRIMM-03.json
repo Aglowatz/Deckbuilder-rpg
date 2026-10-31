@@ -1,0 +1,187 @@
+{
+ "id": "MUS-PRIMM-03",
+ "kind": "loop",
+ "key": "D major",
+ "bpm": 146,
+ "meter": "4/4",
+ "bars": 68,
+ "seconds": 111.78,
+ "loop_seconds": 111.781,
+ "lufs": -20.0,
+ "true_peak": -5.8,
+ "lra": 6.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro grid",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -18.7
+  },
+  {
+   "section": "A fracture",
+   "bar": 4,
+   "bars": 12,
+   "start_s": 6.6,
+   "lufs": -21.9
+  },
+  {
+   "section": "B voices return",
+   "bar": 16,
+   "bars": 16,
+   "start_s": 26.3,
+   "lufs": -21.3
+  },
+  {
+   "section": "C climax",
+   "bar": 32,
+   "bars": 16,
+   "start_s": 52.6,
+   "lufs": -18.3
+  },
+  {
+   "section": "D drive",
+   "bar": 48,
+   "bars": 16,
+   "start_s": 78.9,
+   "lufs": -20.8
+  },
+  {
+   "section": "outro grid",
+   "bar": 64,
+   "bars": 4,
+   "start_s": 105.2,
+   "lufs": -18.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 6.0,
+   "form": "stated (horn) breaking through",
+   "ch": "hn"
+  },
+  {
+   "bar": 10.0,
+   "form": "stated (trumpet), louder",
+   "ch": "tpt"
+  },
+  {
+   "bar": 13.0,
+   "form": "head (horns), the grid gives way",
+   "ch": "hn"
+  },
+  {
+   "bar": 16.0,
+   "form": "augmented (trombones, bass)",
+   "ch": "tbn"
+  },
+  {
+   "bar": 26.0,
+   "form": "tail (horn) answering",
+   "ch": "hn"
+  },
+  {
+   "bar": 32.0,
+   "form": "augmented, stated (horns + strings): the climax",
+   "ch": "hn"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated (tutti)",
+   "ch": "vln"
+  },
+  {
+   "bar": 44.0,
+   "form": "stated, compressed (tutti), open on A",
+   "ch": "vln"
+  },
+  {
+   "bar": 48.0,
+   "form": "head traded (tpt)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 50.0,
+   "form": "head traded (hn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "head traded (cl)",
+   "ch": "cl"
+  },
+  {
+   "bar": 54.0,
+   "form": "head traded (fid)",
+   "ch": "fid"
+  },
+  {
+   "bar": 56.0,
+   "form": "head traded (tpt)",
+   "ch": "tpt"
+  },
+  {
+   "bar": 58.0,
+   "form": "head traded (vln)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 2554,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-03\\MUS-PRIMM-03.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-03\\MUS-PRIMM-03.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-03.mid"
+ },
+ "seam": {
+  "jump_db": 0.67,
+  "wrap_step": 0.00497,
+  "p999_step": 0.04777,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.74,
+   "bars_without_melody": [
+    12,
+    14,
+    18,
+    19,
+    23,
+    26,
+    31,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    42,
+    46,
+    49,
+    62,
+    63
+   ],
+   "buried_bars": [
+    15,
+    47
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Quantised for bars 0-15 and the outro; human feel (jitter .018 / vel 5) from bar 16. Motif open throughout."
+ ]
+}

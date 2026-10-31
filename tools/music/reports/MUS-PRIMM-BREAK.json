@@ -1,0 +1,86 @@
+{
+ "id": "MUS-PRIMM-BREAK",
+ "kind": "loop",
+ "key": "C major",
+ "bpm": 60,
+ "meter": "4/4",
+ "bars": 20,
+ "seconds": 80.0,
+ "loop_seconds": 80.0,
+ "lufs": -20.0,
+ "true_peak": -4.1,
+ "lra": 4.2,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "tick",
+   "bar": 0,
+   "bars": 2,
+   "start_s": 0.0,
+   "lufs": -20.0
+  },
+  {
+   "section": "A music box",
+   "bar": 2,
+   "bars": 8,
+   "start_s": 8.0,
+   "lufs": -19.8
+  },
+  {
+   "section": "B unstable",
+   "bar": 10,
+   "bars": 8,
+   "start_s": 40.0,
+   "lufs": -20.5
+  },
+  {
+   "section": "hold",
+   "bar": 18,
+   "bars": 2,
+   "start_s": 72.0,
+   "lufs": -19.3
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 6.0,
+   "form": "head (low cello), let go",
+   "ch": "vc"
+  }
+ ],
+ "notes": 238,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-BREAK\\MUS-PRIMM-BREAK.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-BREAK\\MUS-PRIMM-BREAK.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-BREAK.mid"
+ },
+ "seam": {
+  "jump_db": 0.11,
+  "wrap_step": 0.0034,
+  "p999_step": 0.09392,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Quantised, sparse for dialogue; the Primm motif in half notes on the music box."
+ ]
+}

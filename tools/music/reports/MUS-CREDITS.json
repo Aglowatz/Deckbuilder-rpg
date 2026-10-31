@@ -1,0 +1,210 @@
+{
+ "id": "MUS-CREDITS",
+ "kind": "oneshot",
+ "key": "D major",
+ "bpm": 96,
+ "meter": "4/4",
+ "bars": 126,
+ "seconds": 297.27,
+ "loop_seconds": 297.271,
+ "lufs": -20.0,
+ "true_peak": -4.1,
+ "lra": 7.1,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -24.7
+  },
+  {
+   "section": "Crosspath",
+   "bar": 4,
+   "bars": 18,
+   "start_s": 10.0,
+   "lufs": -19.5
+  },
+  {
+   "section": "Gainlands",
+   "bar": 22,
+   "bars": 18,
+   "start_s": 55.0,
+   "lufs": -19.2
+  },
+  {
+   "section": "D.N.A.",
+   "bar": 40,
+   "bars": 14,
+   "start_s": 95.0,
+   "lufs": -22.2
+  },
+  {
+   "section": "Buffet",
+   "bar": 54,
+   "bars": 18,
+   "start_s": 125.0,
+   "lufs": -19.9
+  },
+  {
+   "section": "Dump",
+   "bar": 72,
+   "bars": 8,
+   "start_s": 158.8,
+   "lufs": -23.0
+  },
+  {
+   "section": "adventure",
+   "bar": 80,
+   "bars": 18,
+   "start_s": 175.3,
+   "lufs": -20.1
+  },
+  {
+   "section": "lullaby",
+   "bar": 98,
+   "bars": 10,
+   "start_s": 209.4,
+   "lufs": -20.8
+  },
+  {
+   "section": "finale",
+   "bar": 108,
+   "bars": 12,
+   "start_s": 242.7,
+   "lufs": -17.6
+  },
+  {
+   "section": "tender close",
+   "bar": 120,
+   "bars": 6,
+   "start_s": 275.5,
+   "lufs": -27.8
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 0.0,
+   "form": "stated in two halves (flute)",
+   "ch": "fl"
+  },
+  {
+   "bar": 4.0,
+   "form": "Crosspath theme (horn), its head is the motif",
+   "ch": "hn"
+  },
+  {
+   "bar": 38.0,
+   "form": "head (horn), into the waltz",
+   "ch": "hn"
+  },
+  {
+   "bar": 52.0,
+   "form": "tail (flute), into the Buffet",
+   "ch": "fl"
+  },
+  {
+   "bar": 80.0,
+   "form": "stated (horns)",
+   "ch": "hn"
+  },
+  {
+   "bar": 82.0,
+   "form": "head (trumpet), answering",
+   "ch": "tpt"
+  },
+  {
+   "bar": 84.0,
+   "form": "inverted (clarinet)",
+   "ch": "cl"
+  },
+  {
+   "bar": 86.0,
+   "form": "tail (strings)",
+   "ch": "vln"
+  },
+  {
+   "bar": 88.0,
+   "form": "augmented (horns + strings)",
+   "ch": "hn"
+  },
+  {
+   "bar": 108.0,
+   "form": "RESOLVED, augmented (tutti): the grand finale",
+   "ch": "hn"
+  },
+  {
+   "bar": 116.0,
+   "form": "RESOLVED (tutti)",
+   "ch": "vln"
+  },
+  {
+   "bar": 120.0,
+   "form": "RESOLVED (flute), tender",
+   "ch": "fl"
+  }
+ ],
+ "notes": 3063,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CREDITS\\MUS-CREDITS.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CREDITS\\MUS-CREDITS.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CREDITS.mid"
+ },
+ "onset_ms": 4.5,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.77,
+   "bars_without_melody": [
+    2,
+    5,
+    13,
+    20,
+    21,
+    37,
+    39,
+    53,
+    69,
+    70,
+    71,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    110,
+    111,
+    112,
+    113,
+    114,
+    117,
+    118,
+    119,
+    122,
+    124,
+    125
+   ],
+   "buried_bars": [
+    123
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Whole lullaby (after the reveal); Crossroads RESOLVED in the finale; D.N.A. and Dump themes turn to major (healed)."
+ ]
+}

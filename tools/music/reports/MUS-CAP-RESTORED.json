@@ -1,0 +1,135 @@
+{
+ "id": "MUS-CAP-RESTORED",
+ "kind": "loop",
+ "key": "D major",
+ "bpm": 104,
+ "meter": "4/4",
+ "bars": 64,
+ "seconds": 147.69,
+ "loop_seconds": 147.692,
+ "lufs": -20.0,
+ "true_peak": -3.4,
+ "lra": 7.5,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "intro",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -22.5
+  },
+  {
+   "section": "A the city, human",
+   "bar": 4,
+   "bars": 16,
+   "start_s": 9.2,
+   "lufs": -18.7
+  },
+  {
+   "section": "B four voices weave",
+   "bar": 20,
+   "bars": 16,
+   "start_s": 46.2,
+   "lufs": -22.1
+  },
+  {
+   "section": "C gentle",
+   "bar": 36,
+   "bars": 8,
+   "start_s": 83.1,
+   "lufs": -23.1
+  },
+  {
+   "section": "D resolved tutti",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 101.5,
+   "lufs": -18.3
+  },
+  {
+   "section": "outro",
+   "bar": 60,
+   "bars": 4,
+   "start_s": 138.5,
+   "lufs": -21.6
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 33.0,
+   "form": "head (horn) under the jig",
+   "ch": "hn"
+  },
+  {
+   "bar": 36.0,
+   "form": "stated (flute), the question",
+   "ch": "fl"
+  },
+  {
+   "bar": 44.0,
+   "form": "RESOLVED, augmented (strings 8va + horns): many ways home",
+   "ch": "vln"
+  },
+  {
+   "bar": 52.0,
+   "form": "RESOLVED (tutti)",
+   "ch": "vln"
+  }
+ ],
+ "notes": 1316,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RESTORED\\MUS-CAP-RESTORED.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RESTORED\\MUS-CAP-RESTORED.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-RESTORED.mid"
+ },
+ "seam": {
+  "jump_db": 0.66,
+  "wrap_step": 0.0144,
+  "p999_step": 0.06086,
+  "click": false,
+  "ok": true
+ },
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.73,
+   "bars_without_melody": [
+    2,
+    22,
+    26,
+    27,
+    31,
+    34,
+    35,
+    47,
+    48,
+    49,
+    50,
+    53,
+    54,
+    55,
+    58,
+    62,
+    63
+   ],
+   "buried_bars": [
+    59
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Human feel ON (the only Capital cue with it). Capital theme lifted to dotted rhythms; Crossroads motif RESOLVED (restored cue)."
+ ]
+}

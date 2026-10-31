@@ -57,9 +57,6 @@ These play, but the wrap is audible. Listed for the next production pass; the fi
 - MUS-CASTLE-EXP: ends 16 dB quieter than it begins (decay / cut-off tail)
 - MUS-CREASE: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail)
 - MUS-GRAVE-EXP: ends 15 dB quieter than it begins (decay / cut-off tail)
-- MUS-PRIMM-01: ends 15 dB quieter than it begins (decay / cut-off tail)
-- MUS-PRIMM-02: ends 14 dB quieter than it begins (decay / cut-off tail)
-- MUS-PRIMM-BREAK: 0.53 s of digital silence at the wrap
 - MUS-QUIZ: 0.45 s of digital silence at the wrap
 - MUS-SHOP-ALEMBIC: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail)
 - MUS-SHOP-ALEMBIC-POST: 0.51 s of digital silence at the wrap
@@ -79,7 +76,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 
 | ID | Cue | File | Kind | dB | Trigger(s) | Status | Loop check | Notes |
 |---|---|---|---|---|---|---|---|---|
-| MUS-ARCHIVE | Good intentions | `music/MUS-ARCHIVE.ogg` | story | +3.0 | Primm's Castle: the Archive gate node (`pc_archive_gate`) and the early-journals event (`pc_early_journals`) | In Game | n/a (one-shot) |  |
+| MUS-ARCHIVE | Good intentions | `music/MUS-ARCHIVE.ogg` | story | +0.0 | Primm's Castle: the Archive gate node (`pc_archive_gate`) and the early-journals event (`pc_early_journals`) | In Game | n/a (one-shot) |  |
 | MUS-ARENA-BATTLE | The Grand Clashatorium | `music/MUS-ARENA-BATTLE.ogg` | loop, loop | +0.9 | Grand Clashatorium fights, Bronze and Silver Sand (BB-ARENA) | In Game | OK |  |
 | MUS-ARENA-ELITE | The championship card | `music/MUS-ARENA-ELITE.ogg` | loop, loop | +0.9 | Grand Clashatorium Gold Sand (tier 3) fights | In Game | OK |  |
 | MUS-BEEF-BATTLE | The Gainlands — combat | `music/MUS-BEEF-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-GAIN; the town's corrupted beefcake gate envoy | In Game | OK |  |
@@ -103,15 +100,15 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-CAP-OUT-EXP | Outside the approved walls | `music/MUS-CAP-OUT-EXP.ogg` | loop, loop | +1.0 | Capital outskirts, the gate and the open road (`CapitalScene`, areas `outskirts` / `gate`) | In Game | Needs loop fix: 0.49 s of digital silence at the wrap; ends 14 dB quieter than it begins (decay / cut-off tail) |  |
 | MUS-CAP-REF-BROKEN | The Reek — broken service | `music/MUS-CAP-REF-BROKEN.ogg` | loop, loop | +0.1 | The Reek (area `reek`) while `zone_refusemancer_completed` is not set | In Game | OK |  |
 | MUS-CAP-REF-RESTORED | The Reek — service returns | `music/MUS-CAP-REF-RESTORED.ogg` | loop, loop | +0.1 | The Reek (area `reek`) once `zone_refusemancer_completed` is set | In Game | OK |  |
-| MUS-CAP-RESTORED | Pathordia — many ways home | `music/MUS-CAP-RESTORED.ogg` | loop, loop | +1.0 | Postgame Capital (`zone_final_completed`): inside the walls, outside the districts | In Game | OK |  |
+| MUS-CAP-RESTORED | Pathordia — many ways home | `music/MUS-CAP-RESTORED.ogg` | loop, loop | +0.1 | Postgame Capital (`zone_final_completed`): inside the walls, outside the districts | In Game | OK |  |
 | MUS-CAP-RIFT | A seam in reality | `music/MUS-CAP-RIFT.ogg` | loop, loop | +1.0 | Capital Rift Wretches and Shard Swarms | In Game | OK |  |
 | MUS-CASTLE-BATTLE | The mirror parquet | `music/MUS-CASTLE-BATTLE.ogg` | loop, loop | +0.8 | Castle ordinary and elite battles (BB-PC) | In Game | OK |  |
 | MUS-CASTLE-EXP | Behind the white and gold | `music/MUS-CASTLE-EXP.ogg` | loop, loop | +1.0 | Primm's Castle node map (D-PC) and its events | In Game | Needs loop fix: ends 16 dB quieter than it begins (decay / cut-off tail) |  |
 | MUS-CREASE | Tea of dissent | `music/MUS-CREASE.ogg` | loop, loop | +1.0 | The Crease hideout (area `crease`; Wren, Nurse Hesper Dray) | In Game | Needs loop fix: 0.50 s of digital silence at the wrap; ends 17 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-CREDITS | Many ways forward | `music/MUS-CREDITS.ogg` | story | +3.0 | Ending credits (`EndingScreen._start_credits`) | In Game | n/a (one-shot) | 332 s, longer than the placeholder credits scroll; it is a one-shot and is left to finish or be replaced by the Capital's music. |
+| MUS-CREDITS | Many ways forward | `music/MUS-CREDITS.ogg` | story | +0.0 | Ending credits (`EndingScreen._start_credits`) | In Game | n/a (one-shot) | 332 s, longer than the placeholder credits scroll; it is a one-shot and is left to finish or be replaced by the Capital's music. |
 | MUS-DECK | A plan in the cards | `music/MUS-DECK.ogg` | loop, loop | +0.1 | Deck station, Codex / collection and the dungeon deck builder (`music_cue()` of those overlay screens) | In Game | OK | Short overlays (character, quests, map, wardrobe, packs, fast travel) keep the area music. |
 | MUS-FOREST | A stranger in the trees | `music/MUS-FOREST.ogg` | loop, loop | +0.1 | Starting forest (`StartingAreaScene`): waking, the Rescuer, the Path choice | In Game | OK | Dialogue ducks it by 4.5 dB. |
-| MUS-GALLERY | Kept for reference | `music/MUS-GALLERY.ogg` | story | +3.0 | Primm's Castle: the Gallery node (`pc_gallery`, the painted-over royal portrait) | In Game | n/a (one-shot) |  |
+| MUS-GALLERY | Kept for reference | `music/MUS-GALLERY.ogg` | story | +0.0 | Primm's Castle: the Gallery node (`pc_gallery`, the painted-over royal portrait) | In Game | n/a (one-shot) |  |
 | MUS-GOUR-BATTLE | The Endless Buffet — combat | `music/MUS-GOUR-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-BUFF; the town's corrupted gourmand gate envoy | In Game | OK |  |
 | MUS-GOUR-BOSS | The Doppelganger | `music/MUS-GOUR-BOSS.ogg` | loop, loop | +0.1 | Test Kitchen principal boss (BB-TTK, boss node) | In Game | OK |  |
 | MUS-GOUR-DUN-BATTLE | Test Kitchen — combat | `music/MUS-GOUR-DUN-BATTLE.ogg` | loop, loop | +0.1 | Test Kitchen battles and elites (BB-TTK) | In Game | OK |  |
@@ -148,12 +145,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-PANDA-BATTLE | Trash Panda Throne — combat | `music/MUS-PANDA-BATTLE.ogg` | loop, loop | +0.1 | Trash Panda Throne ordinary battles (BB-S-REF) | In Game | OK |  |
 | MUS-PANDA-BOSS | His Majesty the Raccoon | `music/MUS-PANDA-BOSS.ogg` | loop, loop | +0.1 | Trash Panda Throne boss (BB-S-REF, boss node) | In Game | OK | Its own track since Music Pass 2 (Oct 31); was an alias of MUS-PANDA-BATTLE. |
 | MUS-PANDA-EXP | Trash Panda Throne — exploration | `music/MUS-PANDA-EXP.ogg` | loop, loop | +0.1 | Trash Panda Throne node map (S-REF) and events | In Game | OK |  |
-| MUS-PRIMM-01 | Standardization | `music/MUS-PRIMM-01.ogg` | loop, loop | +0.9 | Primm duel phase 1 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(0).music`) | In Game | Needs loop fix: ends 15 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-PRIMM-02 | Reflection | `music/MUS-PRIMM-02.ogg` | loop, loop | +1.0 | Primm duel phase 2 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(1).music`) | In Game | Needs loop fix: ends 14 dB quieter than it begins (decay / cut-off tail) |  |
-| MUS-PRIMM-03 | Unraveling | `music/MUS-PRIMM-03.ogg` | loop, loop | +0.9 | Primm duel phase 3 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(2).music`) | In Game | OK |  |
-| MUS-PRIMM-BREAK | Rules between duels | `music/MUS-PRIMM-BREAK.ogg` | loop, loop | +1.0 | Primm cutscenes before and between the phases (`primm_intro`, `primm_p1`, `primm_p2`) | In Game | Needs loop fix: 0.53 s of digital silence at the wrap |  |
-| MUS-PRIMM-DEFEAT | Finally seeing | `music/MUS-PRIMM-DEFEAT.ogg` | story | +3.0 | Primm's fall: cutscene `primm_end`, then the ending's first beat (`crumble`) | In Game | n/a (one-shot) |  |
-| MUS-PRIMM-MOTIF | For their own good — motif master | `music/MUS-PRIMM-MOTIF.ogg` | motif | +3.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) |  |
+| MUS-PRIMM-01 | Standardization | `music/MUS-PRIMM-01.ogg` | loop, loop | +0.1 | Primm duel phase 1 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(0).music`) | In Game | OK |  |
+| MUS-PRIMM-02 | Reflection | `music/MUS-PRIMM-02.ogg` | loop, loop | +0.1 | Primm duel phase 2 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(1).music`) | In Game | OK |  |
+| MUS-PRIMM-03 | Unraveling | `music/MUS-PRIMM-03.ogg` | loop, loop | +0.1 | Primm duel phase 3 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(2).music`) | In Game | OK |  |
+| MUS-PRIMM-BREAK | Rules between duels | `music/MUS-PRIMM-BREAK.ogg` | loop, loop | +0.0 | Primm cutscenes before and between the phases (`primm_intro`, `primm_p1`, `primm_p2`) | In Game | OK |  |
+| MUS-PRIMM-DEFEAT | Finally seeing | `music/MUS-PRIMM-DEFEAT.ogg` | story | +0.0 | Primm's fall: cutscene `primm_end`, then the ending's first beat (`crumble`) | In Game | n/a (one-shot) |  |
+| MUS-PRIMM-MOTIF | For their own good — motif master | `music/MUS-PRIMM-MOTIF.ogg` | motif | +0.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) |  |
 | MUS-QUEST-FERN | Old Fern — untidy | `music/MUS-QUEST-FERN.ogg` | story | +2.9 | Old Fern: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUEST-MARLO | Chef Marlo — the recipe box | `music/MUS-QUEST-MARLO.ogg` | story | +3.0 | Chef Marlo: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
 | MUS-QUEST-PELL | Widow Pell — a burial permit | `music/MUS-QUEST-PELL.ogg` | story | +3.0 | Widow Pell: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
@@ -166,7 +163,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-REF-EXP | The Verdant Dump — exploration | `music/MUS-REF-EXP.ogg` | loop, loop | +0.2 | The Verdant Dump (`ZoneScene`, zone `refusemancer`) until its own completion flag is set | In Game | OK |  |
 | MUS-REF-FREED | The Verdant Dump — restored | `music/MUS-REF-FREED.ogg` | loop, loop | +0.1 | The Verdant Dump once `zone_refusemancer_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-REF-RELEASE | Compostella — let the seed return | `music/MUS-REF-RELEASE.ogg` | story | +0.0 | The Rotheart leader release scene: cutscene `sever` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
-| MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +3.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |
+| MUS-REUNION | Alive. File complete. | `music/MUS-REUNION.ogg` | story | +0.0 | Ending beat `reunion` (the four Paths meet) | In Game | n/a (one-shot) |  |
 | MUS-SHIRO-BOSS | The oldest trick in the book | `music/MUS-SHIRO-BOSS.ogg` | loop, loop | +0.5 | Shiro Swindle's duel (after the giant-chest questline) | In Game | OK |  |
 | MUS-SHOP-ALEMBIC | Essences together | `music/MUS-SHOP-ALEMBIC.ogg` | loop, loop | +0.9 | Auntie Alembic (Alchemist, town): vendor screen VS-ALEMBIC (`OverlayScreen.music_cue`), one override per visit | In Game | Needs loop fix: 0.54 s of digital silence at the wrap; ends 13 dB quieter than it begins (decay / cut-off tail) | Not retriggered by purchases; the area music resumes when the shop closes. |
 | MUS-SHOP-ALEMBIC-POST | Three essences, new possibilities | `music/MUS-SHOP-ALEMBIC-POST.ogg` | loop, loop | +1.0 | VS-ALEMBIC after `postgame_unlocked` | In Game | Needs loop fix: 0.51 s of digital silence at the wrap | Replaces MUS-SHOP-ALEMBIC. |
@@ -185,7 +182,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-SWOLY-BATTLE | Mount Swolympus — combat | `music/MUS-SWOLY-BATTLE.ogg` | loop, loop | +0.1 | Mount Swolympus ordinary battles (BB-S-BEEF) | In Game | OK |  |
 | MUS-SWOLY-BOSS | The Ancient Spotter | `music/MUS-SWOLY-BOSS.ogg` | loop, loop | +0.1 | Mount Swolympus boss (BB-S-BEEF, boss node) | In Game | OK | Its own track since Music Pass 2 (Oct 31); was an alias of MUS-SWOLY-BATTLE. |
 | MUS-SWOLY-EXP | Mount Swolympus — exploration | `music/MUS-SWOLY-EXP.ogg` | loop, loop | +0.1 | Mount Swolympus node map (S-BEEF) and events | In Game | OK |  |
-| MUS-THRONE | The Pathwork Throne | `music/MUS-THRONE.ogg` | story | +2.3 | Ending beat `throne` (`EndingScreen`) | In Game | n/a (one-shot) |  |
+| MUS-THRONE | The Pathwork Throne | `music/MUS-THRONE.ogg` | story | +0.0 | Ending beat `throne` (`EndingScreen`) | In Game | n/a (one-shot) |  |
 | MUS-TITLE | The Wayward Path | `music/MUS-TITLE.ogg` | loop, loop | +0.1 | Title screen (`TitleScreen._ready`; also drops any music override left from a game) | In Game | OK |  |
 | MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.1 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
 | MUS-TOWN-BATTLE | Friendly ground, serious cards | `music/MUS-TOWN-BATTLE.ogg` | loop, loop | +0.1 | Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback | In Game | OK |  |

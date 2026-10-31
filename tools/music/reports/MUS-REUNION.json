@@ -1,0 +1,111 @@
+{
+ "id": "MUS-REUNION",
+ "kind": "oneshot",
+ "key": "G major",
+ "bpm": 84,
+ "meter": "4/4",
+ "bars": 24,
+ "seconds": 73.51,
+ "loop_seconds": 68.571,
+ "lufs": -20.0,
+ "true_peak": -6.6,
+ "lra": 13.7,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "gathering",
+   "bar": 0,
+   "bars": 4,
+   "start_s": 0.0,
+   "lufs": -23.2
+  },
+  {
+   "section": "lullaby: clarinet",
+   "bar": 4,
+   "bars": 5,
+   "start_s": 11.4,
+   "lufs": -19.1
+  },
+  {
+   "section": "Path punctuation",
+   "bar": 9,
+   "bars": 4,
+   "start_s": 25.7,
+   "lufs": -23.6
+  },
+  {
+   "section": "lullaby: violins",
+   "bar": 13,
+   "bars": 5,
+   "start_s": 37.1,
+   "lufs": -17.8
+  },
+  {
+   "section": "royal cadence",
+   "bar": 18,
+   "bars": 3,
+   "start_s": 51.4,
+   "lufs": -18.8
+  },
+  {
+   "section": "space for Agnes",
+   "bar": 21,
+   "bars": 3,
+   "start_s": 60.0,
+   "lufs": -30.5
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 9.0,
+   "form": "head (flute)",
+   "ch": "fl"
+  },
+  {
+   "bar": 10.0,
+   "form": "head (horn)",
+   "ch": "hn"
+  },
+  {
+   "bar": 18.0,
+   "form": "RESOLVED (horn): a royal cadence",
+   "ch": "hn"
+  }
+ ],
+ "notes": 432,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-REUNION\\MUS-REUNION.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REUNION\\MUS-REUNION.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REUNION.mid"
+ },
+ "onset_ms": 3.1,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.92,
+   "bars_without_melody": [
+    22,
+    23
+   ],
+   "buried_bars": [
+    10,
+    20
+   ],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Whole lullaby (after the reveal), in G. Crossroads RESOLVED (homecoming). Last 3 bars held and quiet for dialogue."
+ ]
+}

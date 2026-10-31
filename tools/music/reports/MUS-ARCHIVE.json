@@ -1,0 +1,84 @@
+{
+ "id": "MUS-ARCHIVE",
+ "kind": "oneshot",
+ "key": "Eb major",
+ "bpm": 72,
+ "meter": "4/4",
+ "bars": 22,
+ "seconds": 77.99,
+ "loop_seconds": 73.939,
+ "lufs": -20.0,
+ "true_peak": -4.6,
+ "lra": 9.4,
+ "limited_db": 0.0,
+ "peak_ok": true,
+ "lufs_ok": true,
+ "sections": [
+  {
+   "section": "sincere",
+   "bar": 0,
+   "bars": 10,
+   "start_s": 0.0,
+   "lufs": -18.5
+  },
+  {
+   "section": "narrowing",
+   "bar": 10,
+   "bars": 8,
+   "start_s": 33.9,
+   "lufs": -21.2
+  },
+  {
+   "section": "the grid",
+   "bar": 18,
+   "bars": 2,
+   "start_s": 60.6,
+   "lufs": -25.6
+  },
+  {
+   "section": "bare octave",
+   "bar": 20,
+   "bars": 2,
+   "start_s": 67.3,
+   "lufs": -21.1
+  }
+ ],
+ "motifs": [
+  {
+   "bar": 8.0,
+   "form": "tail (cello), a question",
+   "ch": "vc"
+  }
+ ],
+ "notes": 322,
+ "files": {
+  "ogg": "C:\\Dev\\music_tools\\renders\\MUS-ARCHIVE\\MUS-ARCHIVE.ogg",
+  "mp3": "C:\\Dev\\music_tools\\renders\\MUS-ARCHIVE\\MUS-ARCHIVE.mp3",
+  "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-ARCHIVE.mid"
+ },
+ "onset_ms": 5.1,
+ "onset_ok": true,
+ "checks": {
+  "range": {
+   "below_E1": [],
+   "ok": true
+  },
+  "low_end": {
+   "crowded_steps": 0,
+   "bars": [],
+   "ok": true
+  },
+  "melody": {
+   "coverage": 0.91,
+   "bars_without_melody": [
+    0,
+    21
+   ],
+   "buried_bars": [],
+   "ok": true
+  }
+ },
+ "composer_notes": [
+  "Human for the first statement; jitter tightened to the grid during the second (s.jitter changes at bars 10/14/18)."
+ ]
+}
