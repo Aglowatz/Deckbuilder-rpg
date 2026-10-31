@@ -364,7 +364,7 @@ static func _blurb(blueprint: DungeonCatalog.Blueprint, node: DungeonCatalog.Blu
 		"elite":
 			return "A tougher fight: %s holds this place." % foe
 		"boss":
-			return "Boss: %s." % blueprint.boss
+			return "Boss: %s." % SpoilerFree.name(blueprint.boss)
 		"treasure":
 			return "A stash worth a look."
 		"event":

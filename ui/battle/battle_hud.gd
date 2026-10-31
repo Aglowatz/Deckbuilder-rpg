@@ -594,6 +594,20 @@ func show_preview(view: CardView, note: String = "") -> void:
 	_anchor_tip(view)
 
 
+## Overnight Oct 30-31 (mid-game critic #13): the hover box's "why not" line follows the game while the mouse stays on the card ("Needs 4
+## energy" no longer outlives the turn that made it true): an empty note removes it.
+func refresh_preview_note(note: String) -> void:
+	if not _tooltip.visible:
+		return
+	var why: Label = _tooltip_box.get_node_or_null("WhyNot") as Label
+	if why == null:
+		return
+	if note.is_empty():
+		why.queue_free()
+	else:
+		why.text = note
+
+
 func hide_preview() -> void:
 	_preview_root.visible = false
 	_tooltip.visible = false

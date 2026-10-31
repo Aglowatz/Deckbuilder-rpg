@@ -1,0 +1,40 @@
+wait 2
+dev load midgame_real
+wait 4
+dev travel dungeon D-TTK
+wait 8
+click 410 225
+wait 3
+key E
+wait 4
+button Got it
+wait 0.8
+button Keep Hand
+wait 2
+shot 01_t1
+dump
+drag 588 780 800 600
+wait 1.5
+shot 02_played_infra
+dump
+move 880 780
+wait 1.2
+shot 03_hover_unit
+drag 880 780 800 520
+wait 1.5
+shot 04_played_unit
+dump
+key Space
+wait 2
+shot 05_space
+dump
+key Space
+wait 2
+shot 06_space2
+key Space
+wait 4
+shot 07_enemy_turn
+dump
+wait 4
+shot 08_my_t2
+dump

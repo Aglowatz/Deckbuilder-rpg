@@ -1,0 +1,32 @@
+wait 2
+dev load midgame_real
+wait 4
+hold A 3
+hold W 2
+hold A 1.2
+key E
+wait 2
+shot 01_sable
+dump
+key E
+wait 1.5
+shot 02_sable
+dump
+key E
+wait 1.5
+shot 03_sable
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+hold D 1.5
+hold W 1.2
+key E
+wait 2
+shot 04_tilly
+dump
+key E
+wait 1.5
+shot 05_tilly
+dump

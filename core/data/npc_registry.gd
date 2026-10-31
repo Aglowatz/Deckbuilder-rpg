@@ -38,7 +38,7 @@ class Entry extends RefCounted:
 	func plate_name() -> String:
 		if id == "NPC-PLAYER":
 			return RoyalFamily.wanderer_plate()
-		return name.replace(" (corrupted)", "").replace(" (player)", "").strip_edges()
+		return SpoilerFree.name(name.replace(" (corrupted)", "").replace(" (player)", "").strip_edges())
 
 	## The name before a comma or a bracket ("Kyle (Deceased Since '09)" -> "Kyle"): what the game data (speaker labels, quest givers) calls the NPC.
 	func short_name() -> String:

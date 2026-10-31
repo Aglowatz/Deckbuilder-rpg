@@ -1,0 +1,48 @@
+wait 2
+dev load midgame_real
+wait 4
+shot 01_town
+dump
+scene
+key P
+wait 2
+shot 02_packs
+dump
+button Open
+wait 3
+shot 03_pack_open
+dump
+key Space
+wait 2
+shot 04_pack_after
+dump
+key Escape
+wait 1
+key B
+wait 3
+shot 05_deck
+dump
+move 400 400
+wait 1
+shot 06_deck_hover
+key Escape
+wait 1
+key C
+wait 2
+shot 07_char
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot 08_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot 09_map
+dump
+key Escape
+wait 1
+shot 10_back

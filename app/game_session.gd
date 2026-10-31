@@ -2518,6 +2518,11 @@ func begin_zone_visit(zone_id: String) -> ZoneRun:
 	zone_run = ZoneRun.enter(zone_id, profile, deck)
 	if Gatekeepers.has(zone_id) and not flag(Gatekeepers.entered_flag(zone_id)):
 		set_flag(Gatekeepers.entered_flag(zone_id))
+	# Overnight Oct 30-31 (mid-game critic #6): inside a zone the tracker and the goal pointer follow that zone's own main line (while it is
+	# open), not a town errand pointing back at the exit ("Go to Crosspath" in every zone).
+	var zone_main: String = QuestDefinitions.zone_main_id(zone_id)
+	if zone_main != "" and quest_log.is_active(zone_main) and quest_log.tracked_id() != zone_main and quest_log.track(zone_main):
+		EventBus.quest_changed.emit()
 	if zone_id == CapitalZone.ID:
 		var debuffs: ModifierSource = CapitalDebuffs.player_source(flags, content)
 		if debuffs != null:

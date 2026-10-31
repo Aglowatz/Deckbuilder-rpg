@@ -1,0 +1,49 @@
+wait 2
+dev load midgame_real
+wait 4
+dev travel zone gourmand
+wait 9
+hold W 5
+wait 0.5
+key E
+wait 1
+shot 01_square
+dump
+key M
+wait 2
+shot 02_map
+dump
+key Escape
+wait 1
+hold W 2.5
+key E
+wait 1
+shot 03_talk
+dump
+key E
+wait 1
+shot 04_talk
+key E
+wait 1
+shot 05_talk
+skip_dialogue 20
+hold D 3
+wait 0.5
+shot 06_east
+hold W 3
+wait 0.5
+shot 07_north
+key E
+wait 1
+shot 08_talk
+dump
+skip_dialogue 20
+hold A 6
+wait 0.5
+shot 09_west
+hold W 3
+shot 10_nw
+key M
+wait 2
+shot 11_map
+key Escape

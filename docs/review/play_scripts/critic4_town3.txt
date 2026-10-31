@@ -1,0 +1,49 @@
+wait 2
+dev load midgame_real
+wait 4
+hold A 3
+shot 01_west
+dump
+hold W 2
+shot 02_nw
+dump
+hold D 6
+shot 03_ne
+dump
+hold S 3
+shot 04_e
+dump
+key E
+wait 1.5
+shot 05_talk
+dump
+key E
+wait 1.5
+shot 06_talk
+dump
+key Escape
+wait 1
+click 1450 310
+wait 1
+button Glossary
+wait 2
+shot 07_glossary
+dump
+key Escape
+wait 1
+click 1450 310
+wait 1
+button Feats
+wait 2
+shot 08_feats
+dump
+key Escape
+wait 1
+dev travel dungeon S-GOUR
+wait 8
+shot 09_sgour
+dump
+key R
+wait 1.5
+shot 10_sgour_rules
+dump

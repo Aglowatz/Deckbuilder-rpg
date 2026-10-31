@@ -71,11 +71,25 @@ var shown_log: Array[String] = []
 
 
 ## Whether a battle should show tips at all: until they are skipped, while any prompt has not been seen.
+## Overnight Oct 30-31 (mid-game critic #1): the first-duel basics, never shown again to a hero past them (level 5+ or a zone freed): a save
+## that skipped them (an old save, a snapshot) no longer gets "Your first duel" at level 13. The later topics (traps, Tools, the Refuse Pile,
+## keywords, tokens, rules) still show once, when they first come up.
+const BASIC_STEPS: Array[String] = ["intro", "infrastructure", "energy", "unit", "resource_made", "resource_use", "resource_spend", "resource_why", "end_turn", "attack", "block"]
+
+
+static func past_basics() -> bool:
+	return Session.profile != null and (Session.profile.level >= 5 or Session.completed_zone_count() > 0)
+
+
+static func step_seen(id: String) -> bool:
+	return Session.flag(StringName("tut_%s" % id)) or (BASIC_STEPS.has(id) and past_basics())
+
+
 static func wanted() -> bool:
 	if Session.flag(&"tutorial_done") or not Settings.tutorial_tips:  # Fresh eyes round 2 (Oct 31): Settings > Text > "Tutorial tips"
 		return false
 	for step: Dictionary in STEPS:
-		if not Session.flag(StringName("tut_%s" % str(step["id"]))):
+		if not step_seen(str(step["id"])):
 			return true
 	return false
 
@@ -84,7 +98,7 @@ func setup(battle: BattleScreen) -> void:
 	screen = battle
 	layer = 30
 	for step: Dictionary in STEPS:
-		if Session.flag(StringName("tut_%s" % str(step["id"]))):
+		if step_seen(str(step["id"])):
 			_done[str(step["id"])] = true
 	_host = UIKit.layer_host(self)
 	_overlay = Overlay.new()

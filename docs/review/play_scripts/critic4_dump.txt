@@ -1,0 +1,28 @@
+wait 2
+dev load midgame_real
+wait 4
+dev travel zone refusemancer
+wait 9
+shot 01_arrive
+dump
+key E
+wait 1
+hold W 4
+shot 02_walk
+hold W+A 3
+shot 03_walk
+key M
+wait 2
+shot 04_map
+key Escape
+wait 1
+dev travel dungeon D-ROT -2
+wait 8
+shot 05_dmap
+dump
+key R
+wait 1.5
+shot 06_rules
+key Escape
+wait 1
+click 0 0

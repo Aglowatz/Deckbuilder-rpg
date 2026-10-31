@@ -1,0 +1,54 @@
+wait 2
+dev load midgame_real
+wait 4
+key P
+wait 2
+click 882 323
+wait 2
+click 800 450
+wait 1.5
+shot 01_gilded_tear
+click 800 450
+wait 1
+click 800 450
+wait 1
+click 800 450
+wait 1
+shot 02_gilded_reveal
+click 800 450
+wait 1
+click 800 450
+wait 1
+shot 03_gilded_summary
+dump
+button Done
+wait 1
+click 882 568
+wait 2
+button Skip
+wait 2
+shot 04_tier2_summary
+dump
+button Done
+wait 1
+key Escape
+wait 1.5
+key B
+wait 3
+shot 05_deck
+dump
+move 300 350
+wait 1.2
+shot 06_deck_hover
+key Escape
+wait 1.5
+key C
+wait 2
+shot 07_char
+dump
+key Escape
+wait 1.5
+click 1450 310
+wait 1.5
+shot 08_menu
+dump

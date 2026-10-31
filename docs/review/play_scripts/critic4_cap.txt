@@ -1,0 +1,25 @@
+wait 2
+dev load midgame_real
+wait 4
+dev travel capital
+wait 10
+shot 01_arrive
+dump
+key E
+wait 1
+hold W 4
+shot 02_walk
+hold W 4
+shot 03_walk
+dump
+key M
+wait 2
+shot 04_map
+dump
+key Escape
+wait 1
+dev encounters lieutenant
+dev travel dungeon D-PC -2
+wait 9
+shot 05_pc_map
+dump

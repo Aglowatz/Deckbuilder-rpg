@@ -1,0 +1,73 @@
+wait 2
+dev load midgame_real
+wait 4
+dev travel dungeon D-TTK -2
+wait 8
+click 1364 215
+wait 2
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+shot 01_cut_end
+dump
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+key E
+wait 0.7
+wait 2
+shot 02_battle
+dump
+button Skip tips
+button Keep Hand
+wait 1
+pilot 60
+shot 03_mid
+dump
+pilot 300
+shot 04_end
+dump
+button Continue
+wait 3
+shot 05_after
+dump
+key E
+wait 1.5
+shot 06_after
+dump
