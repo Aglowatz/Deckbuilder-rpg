@@ -37,7 +37,7 @@ Report: `docs/audio/music_pass3_oct31.md` (a "listen for" note per track). Previ
     note-off cut the new note (CAP-CORRECTION's seam was 7 dB off until fixed in its own helper). The shared `Score.pad` (+0.08 beat) and
     `Score.bass` (+0.02) helpers overlap re-struck notes the same way, which may thin repeated pads across the catalogue. Fixing it in lib
     changes every track on its next render, so it was left for you to approve ("fix the overlap").
-15. **Full GUT run:** see the end of the report / the run summary for the names of any failures.
+15. **Full GUT run:** started once at the end with nothing else running; Claude Code stopped it for low system memory after ~1290 tests had run, with no failures among them. It was not restarted. Run `bash tools/run_tests.sh` when the machine is free. This pass changed no game code beyond audio routing (audio files, data, two audio tests, one comment).
 
 ## Music Pass 2 (Oct 31) - yours to decide (the safest choice was taken)
 

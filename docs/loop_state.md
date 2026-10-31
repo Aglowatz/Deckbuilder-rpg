@@ -21,7 +21,7 @@ Composition: three parallel composer forks (A: Part 1 then 5; B: Part 2 then 4; 
 | 5 | Shops + quiz (10) | Batch 11 | done (in game; GUT audio 90/90) |
 | 6 | Side areas (8), VAULT-BOSS own track | Batch 09b | done (in game; VAULT-BOSS own track, no aliases left; GUT audio 90/90) |
 | 7 | Four broken districts at 15 cents (scores changed + rendered) + description rewrite (done in Part 0) | Batch 08 | done (in game; GUT audio 90/90, music smoke OK) |
-| Final | full GUT run when nothing else runs | | running |
+| Final | full GUT run when nothing else runs | | stopped by Claude Code for low memory after ~1290 tests (no failures so far); not restarted |
 
 Delivery per part: `build.py IDS` (already done by the fork) -> `deliver.py --review "Batch NN"` + `--approve` (+ `--own` for a former alias) ->
 `AUDIO_ONLY="ID.,ID." node tools/audio_analyze.js` -> `bash tools/import_audio.sh` -> `node tools/cut_stings.js` (boss changes) ->
