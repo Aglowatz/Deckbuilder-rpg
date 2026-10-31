@@ -238,9 +238,11 @@ func test_a_story_cue_hands_back_when_it_ends() -> void:
 	_manager.advance(0.05)
 	_manager.push("MUS-MEM-01", 0.5, true)
 	assert_eq(_manager.current_id(), "MUS-MEM-01")
-	for step: int in range(70):
+	# Music Pass 3: the memory's length comes from its file (78 s since Oct 31), not a fixed number.
+	var length: float = AudioRegistry.entry("MUS-MEM-01").duration
+	for step: int in range(int(ceil(length)) + 6):
 		_manager.advance(1.0)
-	assert_eq(_manager.current_id(), "MUS-TOWN", "the 64 s memory ended and the town music is back")
+	assert_eq(_manager.current_id(), "MUS-TOWN", "the %.0f s memory ended and the town music is back" % length)
 	assert_eq(_manager.overlay_ids(), [] as Array[String])
 
 
