@@ -54,6 +54,9 @@ const CLICK_PICK_RADIUS: float = 90.0
 ## tighter radius, so they cannot be found except by actually walking up close. See
 ## docs/design/secrets.md for the spoiler (locations + contents) - keep both in sync.
 const HIDDEN_CHEST_RADIUS: float = 1.5
+## Overnight Oct 30-31 (mid-game critic #7): a vendor answers E from as far as their bark carries (NpcBarks.RANGE 3.2 m): 2.3 x
+## INTERACT_FACTOR = 2.8 m. It was 1.5 (1.8 m): a player who heard Sable could stand there pressing E and get only her next one-liner.
+const VENDOR_REACH: float = 2.3
 ## id -> {gold, item, card, equipment}; "" / 0 means that reward type is not part of this chest.
 ## Fourth brief, Part E: added "equipment" (an equipment id) - the 2 new chests each hold one
 ## basic piece.
@@ -808,7 +811,7 @@ func _build_spots() -> void:
 	_add_spot("well", "The Old Well", town.anchors["well"] as Vector3, 1.7)
 	_add_spot("well_door", "The Iron Hatch", (town.anchors["well"] as Vector3) + Vector3(-2.2, 0.0, 0.6), 1.3)
 	_build_vault_hatch()
-	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
+	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, VENDOR_REACH)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
 	if _npcs.has("hob"):
@@ -836,13 +839,13 @@ func _build_spots() -> void:
 	if _secret_dealer_open():
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
-	_add_spot("item_vendor", "Tilly Tonic's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
+	_add_spot("item_vendor", "Tilly Tonic's Supplies", town.anchors["npc_item_vendor"] as Vector3, VENDOR_REACH)
 	# Oct 20, Part 4: the haunted store room's door, the corner house beside Tilly's shop (Maren's ghost errand starts its fight here).
 	_add_spot(StoreroomGhosts.SPOT_ID, "Tilly's Store Room", town.anchors[StoreroomGhosts.SPOT_ID] as Vector3, 1.5)
 	# Fourth brief, Part C: the equipment vendor.
-	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
-	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
-	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, 1.5)
+	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, VENDOR_REACH)
+	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, VENDOR_REACH)
+	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, VENDOR_REACH)
 	if _baker != null:
 		_add_spot("baker", "Brindle the Baker", _baker.world_position(), 1.4)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
