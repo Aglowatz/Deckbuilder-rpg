@@ -2549,6 +2549,22 @@ func begin_zone_visit(zone_id: String) -> ZoneRun:
 	return zone_run
 
 
+## Overnight Oct 31 - Nov 1 (wish list, "three HP numbers"): the banner shown on arriving in a zone whose max HP is not the hero's usual
+## (the Capital's Famine...), naming the rules that change it; "" when the pool is the usual one or the banner was shown this visit.
+var _hp_notice_run: ZoneRun = null
+
+
+func hp_pool_notice() -> String:
+	if zone_run == null or profile == null or zone_run == _hp_notice_run or zone_run.max_hp() == profile.base_max_hp():
+		return ""
+	_hp_notice_run = zone_run  # once per visit (the zone scene reloads after each battle)
+	var reasons: Array[String] = []
+	for modifier: Modifier in zone_run.run.modifiers().modifiers:
+		if modifier.kind == Modifier.Kind.MAX_HP and modifier.value != 0:
+			reasons.append("%+d %s" % [modifier.value, modifier.label if modifier.label != "" else "a rule here"])
+	return "Max HP here: %d (your usual %d%s)" % [zone_run.max_hp(), profile.base_max_hp(), "; " + ", ".join(reasons) if not reasons.is_empty() else ""]
+
+
 ## The def of the zone the player is visiting (the D.N.A. when not in a zone).
 func zone_def() -> ZoneDef:
 	return ZoneDefs.current()

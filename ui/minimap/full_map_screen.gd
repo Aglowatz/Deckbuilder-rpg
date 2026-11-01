@@ -17,6 +17,13 @@ var travel_from: String = ""
 
 signal travel_requested
 
+## Overnight Oct 31 - Nov 1 (wish list): the place picked in "Where to?" pulses on the map for a few seconds.
+const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
+	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL]
+const PING_SECONDS: float = 4.0
+var _ping: MapPoi = null
+var _ping_left: float = 0.0
+
 
 func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[MapPoi], area_name: String) -> void:
 	_area_id = area_id
@@ -102,6 +109,19 @@ func _legend() -> Control:
 		goal_label.custom_minimum_size = Vector2(300, 0)
 		goal_row.add_child(goal_label)
 		column.add_child(goal_row)
+	var places: Array[MapPoi] = where_to_places(visible_points)
+	if not places.is_empty():
+		var where: OptionButton = OptionButton.new()
+		where.name = "WhereTo"
+		where.add_theme_font_size_override("font_size", 20)
+		where.custom_minimum_size = Vector2(300, 44)
+		where.add_item("Where to?")
+		for place: MapPoi in places:
+			where.add_item("%s (%s)" % [place.label, MapPoi.kind_name(place.kind)])
+		where.item_selected.connect(func(index: int) -> void:
+			if index > 0:
+				ping(places[index - 1]))
+		column.add_child(where)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
 	if travel_from != "" and not FastTravel.destinations(Session.flags, travel_from).is_empty():
 		var travel: FancyButton = FancyButton.make("Fast travel...", &"PrimaryButton", Vector2(300, 56))
@@ -113,6 +133,28 @@ func _legend() -> Control:
 		travel_note.custom_minimum_size = Vector2(340, 0)
 		column.add_child(travel_note)
 	return panel
+
+
+## The named places a player looks for, revealed on this map: dungeons first, then vendors, healers, the Arena, quest givers..., one per name.
+static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
+	var result: Array[MapPoi] = []
+	var names: Dictionary = {}
+	for kind: MapPoi.Kind in WHERE_TO_KINDS:
+		for poi: MapPoi in points:
+			if poi.kind != kind or poi.objective or poi.label.strip_edges() == "" or names.has(poi.label):
+				continue
+			names[poi.label] = true
+			result.append(poi)
+	return result
+
+
+## Makes `poi` pulse on the map for PING_SECONDS.
+func ping(poi: MapPoi) -> void:
+	_ping = poi
+	_ping_left = PING_SECONDS
+	Audio.sfx(&"ui_select")
+	if _canvas != null:
+		_canvas.queue_redraw()
 
 
 func _draw_map() -> void:
@@ -134,7 +176,19 @@ func _draw_map() -> void:
 	var shown: Array[MapPoi] = MapView.visible_pois(_pois, _fog)
 	for poi: MapPoi in shown:
 		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
-		MapDraw.poi(_canvas, at, poi, icon_radius)
+		if poi.kind == MapPoi.Kind.DUNGEON:
+			# Overnight Oct 31 - Nov 1 (wish list): the dungeon entrance stands out - a bigger icon on a red-gold ring.
+			var ring: float = icon_radius * 1.35 * MapDraw.ICON_SCALE * 0.5 + 6.0
+			_canvas.draw_circle(at, ring, Color(0.55, 0.1, 0.12, 0.9))
+			_canvas.draw_arc(at, ring, 0.0, TAU, 40, UIStyle.GOLD, 3.0, true)
+			MapDraw.poi(_canvas, at, poi, icon_radius * 1.35)
+		else:
+			MapDraw.poi(_canvas, at, poi, icon_radius)
+	if _ping != null and _ping_left > 0.0:
+		var ping_at: Vector2 = top_left + (Vector2(_ping.pos.x, _ping.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		var phase: float = fmod(PING_SECONDS - _ping_left, 1.0)
+		_canvas.draw_arc(ping_at, icon_radius * (1.4 + phase * 2.2), 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 1.0 - phase), 4.0, true)
+		_canvas.draw_arc(ping_at, icon_radius * 1.4, 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 0.9), 3.0, true)
 	# Overnight Oct 30-31 (mid-game critic #9): every revealed place is named under its icon (vendors, the Hall of Records, roads, dungeons),
 	# skipping a name that would overlap one already written.
 	var font: Font = UIStyle.font_bold()
@@ -160,9 +214,12 @@ func _draw_map() -> void:
 	MapDraw.arrow(_canvas, here, _player.model.rotation.y, icon_radius)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if _raster != null and not _raster.refined:
 		_raster.refine(8000)
+		_canvas.queue_redraw()
+	if _ping_left > 0.0:
+		_ping_left -= delta
 		_canvas.queue_redraw()
 
 

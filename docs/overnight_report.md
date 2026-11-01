@@ -59,8 +59,24 @@ Details: `docs/perf/perf_oct31n.md`.
 ## Part 4 - Mid-game critic cycle
 (todo)
 
-## Part 5 - UX wish list + boss stall AI
-(todo)
+## Part 5 - UX wish list + boss stall AI (done except the D.N.A. lobby dressing)
+
+Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_rule.gd` (3). Shots: `_screenshots/play/p5_ux2/`
+(`p5_02b_map_ring`, `p5_07b_node_hover`), `_screenshots/play/p5_ux/p5_03_where_to_open.png`, `_screenshots/p5_locked_slots2.png`.
+- **Map**: names were already under every icon (Oct 30-31). New: a **"Where to?"** list in the legend (dungeons first, then vendors, healers,
+  the Arena, quest givers, challengers, exits; one per name) that pings the picked place for 4 s; the **dungeon entrance** draws bigger on a
+  red-gold ring.
+- **Locked gear slots** print "Opens: armory quest" ("Finish the armory quest" while it is active) above each padlock.
+- **Dungeon nodes**: an open node's preview ends with "Click again to go." (pad: "Press A to go.").
+- **HP pool banner**: arriving in a zone whose max HP differs from your usual says so once per visit ("Max HP here: 11 (your usual 16;
+  -5 Famine)"). The Capital's HP panel already showed "Max 11 here (-5, hover)".
+- **Boss stall AI (answer 7)**: from turn 9, while the AI has no unit on the field or nobody has lost any HP, its 4th+ Tool / Wonder counts
+  15 % of its worth, so it deploys a unit instead (`AIEvaluator.is_stalling`; not a clock). Sims (`docs/design/sim/stall_oct31n/`, 3 games
+  per Path, every boss): bare starter and built deck, rule off vs on - **identical win rates and lengths** (the sim's player attacks every
+  turn, so no stall forms and the rule never fires); Vivienne Quota at L8 with the bare starter, 8 games per Path: identical (25 %). So no
+  band moves; the rule only changes a genuinely stalled board (unit test). `--starter` added to the balance sim; `WAYWARD_STALL_RULE=off`
+  for A/B. Infrastructure was left alone (devaluing a 5th land risks the AI holding lands in hand).
+- **D.N.A. lobby dressing**: not done yet (left for Part 8).
 
 ## Part 6 - Late-game + postgame critic cycles
 (todo)

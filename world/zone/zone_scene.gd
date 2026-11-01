@@ -371,6 +371,9 @@ func _ready() -> void:
 			for line: String in lines:
 				print("SWAY ", line))
 	ZoneTitleCard.show_in(self, Areas.key_for_zone(def.id), _screenshot_args.is_empty() or _screenshot_args.has("card"))
+	var hp_notice: String = Session.hp_pool_notice()  # Overnight Oct 31 - Nov 1: a zone whose max HP differs says so once per visit
+	if hp_notice != "":
+		hud.queue_toast(hp_notice, Color("e06a5a"))
 	Session.save_game()
 
 

@@ -373,7 +373,9 @@ func _refresh_equipment() -> void:
 			button.add_theme_stylebox_override("disabled", locked_style)
 			button.disabled = true
 			button.tooltip_text = "Locked - %s" % _equipment_unlock_hint()
+			_set_slot_caption(button, locked_slot_caption())
 			continue
+		_set_slot_caption(button, "")
 		button.disabled = false
 		var equipped: EquipmentData = profile.equipped_in(slot)
 		if equipped == null:
@@ -414,7 +416,9 @@ func _refresh_equipment_art() -> void:
 			icon.texture = IconArt.texture("ICON-PADLOCK", icon.size.x)
 			icon.modulate = Color(1, 1, 1, 0.8)
 			button.tooltip_text = "Locked - %s" % _equipment_unlock_hint()
+			_set_slot_caption(button, locked_slot_caption())
 			continue
+		_set_slot_caption(button, "")
 		var equipped: EquipmentData = profile.equipped_in(slot)
 		if equipped == null:
 			_show_empty_slot(icon, slot)
@@ -435,6 +439,33 @@ func _show_empty_slot(icon: TextureRect, slot: EquipmentData.Slot) -> void:
 ## single slot has a fixed unlock level, so the locked tooltip states the whole rule instead.
 func _equipment_unlock_hint() -> String:
 	return "every equipment slot opens with Bertram Beetsworth's armory quest (Elder Maren will send you)."
+
+
+## Overnight Oct 31 - Nov 1 (wish list): the unlock hint printed on a locked slot, not only on hover ("five padlocks" said nothing).
+static func locked_slot_caption() -> String:
+	if Session.quest_log != null and Session.quest_log.is_active(QuestDefinitions.ARMORY):
+		return "Finish the armory quest"
+	return "Opens: armory quest"
+
+
+## Shows (or hides) the printed hint above a slot button (its name label sits below it).
+func _set_slot_caption(button: Button, text: String) -> void:
+	var caption: Label = button.get_node_or_null("LockCaption") as Label
+	if text.is_empty():
+		if caption != null:
+			caption.visible = false
+		return
+	if caption == null:
+		caption = UIKit.label(text, &"", 15, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		caption.name = "LockCaption"
+		caption.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.08))
+		caption.add_theme_constant_override("outline_size", 4)
+		caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(caption)
+	caption.text = text
+	caption.visible = true
+	caption.size = Vector2(maxf(button.size.x, 150.0), 20.0)
+	caption.position = Vector2((button.size.x - caption.size.x) * 0.5, -caption.size.y - 2.0)  # above: the slot name sits below
 
 
 func _on_equipment_slot_pressed(slot: EquipmentData.Slot) -> void:

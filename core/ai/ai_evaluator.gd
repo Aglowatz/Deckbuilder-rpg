@@ -251,18 +251,47 @@ static func _keyword_value(keyword: CardEnums.Keyword, attack: int) -> float:
 # ---- Board, hand, resources ----------------------------------------------------------------------------------------------------------
 
 
+## Answer 7 (boss stalls): from STALL_TURN on (both players' turns counted), a player with no unit on the field, or a duel where nobody has
+## lost any HP yet, is stalling; its Tools / Wonders past STALL_ARTIFACT_LIMIT then count STALL_EXTRA_ARTIFACT_SCALE of their worth.
+const STALL_TURN: int = 9
+const STALL_ARTIFACT_LIMIT: int = 3
+const STALL_EXTRA_ARTIFACT_SCALE: float = 0.15
+## WAYWARD_STALL_RULE=off turns the rule off (sim before/after).
+static var stall_rule: bool = OS.get_environment("WAYWARD_STALL_RULE") != "off"
+
+
+static func is_stalling(state: GameState, player: PlayerState) -> bool:
+	if not stall_rule or state.turn < STALL_TURN:
+		return false
+	for card: CardInstance in player.field:
+		if card.data.is_unit():
+			var untouched: bool = true
+			for each: PlayerState in state.players:
+				if each.hp < each.max_hp:
+					untouched = false
+			return untouched
+	return true
+
+
 ## `artifact_scale` multiplies the worth of Tools and Wonders (the foe's, for a Refusemancer).
 func board_value(state: GameState, player: PlayerState, artifact_scale: float = 1.0) -> float:
 	var total: float = 0.0
 	var units: int = 0
+	var artifacts: int = 0
+	# Overnight Oct 31 - Nov 1 (the designer's answer 7, boss stalls): while the duel is stalling, a 4th+ Tool / Wonder is worth little, so a
+	# unit play beats it (bosses sat on empty boards behind a pile of Tools for ten turns). Not a clock: nothing changes for the player.
+	var stall: bool = is_stalling(state, player)
 	for card: CardInstance in player.field:
 		if card.data.is_unit():
 			total += unit_value(state, card)
 			units += 1
-		elif card.data.is_tool():
-			total += (2.0 if card.attached_to != 0 else 1.5) * artifact_scale
+			continue
+		artifacts += 1
+		var extra_scale: float = STALL_EXTRA_ARTIFACT_SCALE if stall and artifacts > STALL_ARTIFACT_LIMIT else 1.0
+		if card.data.is_tool():
+			total += (2.0 if card.attached_to != 0 else 1.5) * artifact_scale * extra_scale
 		else:
-			total += (2.5 + 0.8 * float(_activated_abilities(card))) * artifact_scale
+			total += (2.5 + 0.8 * float(_activated_abilities(card))) * artifact_scale * extra_scale
 	# Going wide is worth a little on its own (more blocks, more attackers, token payoffs).
 	total += personality.width_weight * float(maxi(0, units - 1))
 	for trap: CardInstance in player.traps:

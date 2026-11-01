@@ -359,6 +359,12 @@ func _show_default_info() -> void:
 	_info_body.text = "Glowing nodes are next. [color=#a89bb5]Hover a node to see what waits there.[/color]"
 
 
+## The last line of an open node's preview: how to go there (the pad's confirm button while a controller is in use).
+static func node_go_hint() -> String:
+	var how: String = "Press %s to go." % Keybinds.confirm_key() if InputDevice.using_pad() else "Click again to go."
+	return "[color=#ffcf70][b]%s[/b][/color]" % how
+
+
 func _on_node_hovered(id: int) -> void:
 	var node: DungeonMap.MapNode = map.node(id)
 	_info_title.text = node.title
@@ -385,6 +391,9 @@ func _on_node_hovered(id: int) -> void:
 			text += "\nRestore [b]all[/b] your HP." if node.heal_amount >= run.max_hp() else "\nRestore [b]%d[/b] HP." % node.heal_amount
 	if map.is_cleared(id):
 		text += "  [color=#6fbf73](cleared)[/color]"
+	# Overnight Oct 31 - Nov 1 (wish list): an open node says how to go (the mid-game critic read the preview as the whole answer).
+	if map.is_available(id) and not _busy:
+		text += "\n" + node_go_hint()
 	_info_body.text = text
 	if _art != null:
 		_place_info(node)

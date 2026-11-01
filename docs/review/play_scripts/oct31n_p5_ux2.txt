@@ -1,0 +1,16 @@
+# Overnight Oct 31 - Nov 1, Part 5: map dungeon ring + dungeon node hint
+wait 2
+dev load midgame_real
+wait 12
+key M
+wait 2
+shot p5_02b_map_ring
+key Escape
+wait 1
+dev travel dungeon D-TTK
+wait 10
+skip_dialogue 20
+wait 2
+move 410 230
+wait 1.5
+shot p5_07b_node_hover

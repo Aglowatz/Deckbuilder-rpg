@@ -5,7 +5,7 @@ extends RefCounted
 ##         reference decks round robin at --level), iron (Beefcake's reference deck with and without using Iron, vs its home fights),
 ##         one (a single encounter, --id=..., with the full card-impact lists per Path)
 ## --mode: quick (12 games per Path and encounter) or full (100); --games overrides. --level forces the player's level. --seed sets the base seed.
-## --path=beefcake limits the player to one Path. --nogear strips equipment and items. --filter narrows the encounter list (id or group substring).
+## --path=beefcake limits the player to one Path. --nogear strips equipment and items. --starter plays the bare starter deck. --filter narrows the encounter list (id or group substring).
 ## Writes markdown to --out (default res://docs/design/sim/latest.md) and prints the table.
 
 var args: Dictionary = {}
@@ -82,6 +82,9 @@ func _player(content: ContentSet, spec: EncounterSpec, path: Affinity.Type) -> P
 	if args.has("nogear"):
 		player.equipment_ids = []
 		player.items = {}
+	# Overnight Oct 31 - Nov 1 (boss stalls, answer 7): --starter plays the bare starter deck of the Path at the expected level.
+	if args.has("starter"):
+		player.deck = CampaignStart.starter_deck(content, path)
 	return player
 
 
