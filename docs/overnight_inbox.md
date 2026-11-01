@@ -823,3 +823,9 @@ Report: `docs/overnight_report.md`. Most important first.
     Corridor node starts "Decontamination Technician" (its foe, named like another node?); (c) a leftover "Next turn" banner over Victory
     and two Victory popups after the boss; (d) Arena first-clear prizes (90-150 gold) look small at L23; (e) E on the boss card pick takes
     the highlighted card (the one Continue rule) - a critic picked an Uncommon over an Epic that way: highlight the best card instead?
+16. **The first-hour critic could not start a fresh game safely**: all three campaign slots hold saves (slot 3 written Oct 31 11:54 -
+    yours?). The driver never saves, but launching a critic that presses "Start over here" was refused by Claude Code's safety check. Either
+    free slot 3, or I add a `dev newgame` driver command next session (fresh game, no slot screen). Brief: `docs/review/critic_brief_firsthour_oct31n.md`.
+17. **Battle UI leftovers seen by critics, not fixed**: a "Next turn" banner over the Victory popup and two Victory popups after a boss (the
+    banner node is shared with VICTORY, so I did not clear it blind); the map's "Where to?" dropdown popup kept the driver's Esc / M (a real
+    mouse closes it); the Lab's "-5 max life" applies only inside its battles, so the map HUD shows the full bar.
