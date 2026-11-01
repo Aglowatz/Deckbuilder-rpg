@@ -21,6 +21,6 @@ Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0
 | 5 | UX wish list + boss stall AI | done (3a2cbaf5) except D.N.A. lobby dressing |
 | 6 | late-game + postgame critic cycles | late 4.5 (fixes 9c3a0181), postgame 3.5 (fixes 1729ed90); second looks running in Part 8 |
 | 7 | v0.5.0 RC | done: builds/TheWaywardPath-v0.5.0-windows.zip 762 MB, release smoke + exported playtest OK |
-| 8 | keep improving | cycles 1-2 done, lobby dressing done (d514ec4d); cycle 3 (first hour) blocked: slot screen needs "Start over" - add `dev newgame` to the driver first |
+| 8 | keep improving | 3 critic cycles (late 4.6, postgame 4.0, first hour 5.0) + fixes; lobby dressing; dev newgame; re-open guard (5b47569f) |
 
-Next: add a `dev newgame` play-script command (fresh game, no slot screen, saving off), then run critic_brief_firsthour_oct31n.md from a worktree; fix inbox 17 items.
+Next: the inbox design calls (HP/healing, boss tempo, Loose Ends, roofs over the hero, first duel, hand clicks); battle UI leftovers (inbox 17); second look on the first hour.

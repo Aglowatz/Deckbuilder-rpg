@@ -1,6 +1,6 @@
 # Report - Overnight Oct 31 -> Nov 1 (Opus): the 8-part loop
 
-Sat Oct 31 20:46 MDT -> Sun Nov 1 (still running at the last update, ~05:40). Tag `pre-overnight-oct31n` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`, section
+Sat Oct 31 20:46 MDT -> Sun Nov 1 ~07:15 MDT. Tag `pre-overnight-oct31n` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`, section
 "Overnight Oct 31 - Nov 1". Last run's report: `docs/overnight/oct31_dialogue/overnight_report_oct30b.md`.
 
 ## Morning summary
