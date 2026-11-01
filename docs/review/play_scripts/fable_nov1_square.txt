@@ -1,0 +1,25 @@
+# Fable pass Nov 1, Part 6: the Crosspath square - the bigger fountain, the hero behind it (silhouette), roofs between camera and hero.
+wait 2
+dev newgame
+wait 6
+dev travel town
+wait 12
+key E
+wait 1
+scene
+shot 01_arrive
+hold A 2.0
+hold W 3.4
+hold D 1.6
+wait 0.3
+scene
+shot 02_behind_fountain
+hold D 4
+hold S 6
+wait 0.3
+scene
+shot 04_under_right_roof
+hold A 7
+wait 0.3
+scene
+shot 05_under_left_roof

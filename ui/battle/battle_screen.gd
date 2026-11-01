@@ -1140,6 +1140,10 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 	if button_event.button_index == MOUSE_BUTTON_RIGHT and button_event.pressed:
 		if mode == Mode.TARGETING:
 			_cancel_targeting()
+		elif view.data != null:
+			# Fable pass Nov 1 (first hour): a right-click inspects any card (a left click plays a hand card); hover inspects too.
+			_hovered_view = view
+			hud.show_preview(view, _hover_note(view))
 		return
 	if button_event.button_index != MOUSE_BUTTON_LEFT:
 		return

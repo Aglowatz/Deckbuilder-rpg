@@ -61,6 +61,7 @@ static func tutorial() -> Array[EncounterSpec]:
 		spec.enemy_ai_name = node.ai_name
 		spec.enemy_recipe = TrialOfTheHollow.enemy_recipe(node.enemy_name)
 		spec.first_player = 0 if node.tutorial else -1
+		spec.scripted_hand = node.tutorial
 		spec.sequence = "tutorial"
 		_attach_rules(spec, node.enemy_name)
 		result.append(spec)

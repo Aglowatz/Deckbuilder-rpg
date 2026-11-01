@@ -10,6 +10,10 @@ var hand_smoother: bool = true
 var smoother_tolerance: float = 1.0
 ## Each player may take one free mulligan.
 var free_mulligan: bool = true
+## Fable pass Nov 1 (the first duel, `FirstDuel`): card ids dealt as seat `scripted_hand_player`'s opening hand (pulled from its deck in
+## this order; the rest of the hand is drawn as usual). Empty = a normal draw. A mulligan deals a normal hand.
+var scripted_opening_hand: Array[String] = []
+var scripted_hand_player: int = 0
 ## 0/1 = that player goes first, -1 = random.
 var first_player: int = 0
 ## Total turns (both players) after which an undecided game is a draw.

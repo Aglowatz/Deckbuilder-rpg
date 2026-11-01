@@ -40,6 +40,8 @@ var enemy_sources: Array[ModifierSource] = []
 var player_sources: Array[ModifierSource] = []
 ## 0 / 1 = fixed first player, -1 = alternate with the seed.
 var first_player: int = -1
+## Fable pass Nov 1: the first duel deals its teaching hand (`FirstDuel`).
+var scripted_hand: bool = false
 ## Primm's Reflection phase: the enemy plays a copy of the player's deck.
 var mirror_player_deck: bool = false
 ## Tokens placed on the player's field at the start (Grandmaster Flex in the House of Gains boss duel).

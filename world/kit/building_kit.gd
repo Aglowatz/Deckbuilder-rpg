@@ -117,7 +117,9 @@ func _assemble() -> Node3D:
 	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# A big building next to the camera is part of the picture (the paint-over has one at its right edge): it only dissolves as clutter when the lens is almost touching it.
 	body.set_meta("occlusion_near", 2.0)
-	body.set_meta("occlusion_shrink", 2.6)
+	# Fable pass Nov 1 (first hour: Crosspath's foreground roofs hid the hero 40-60 % of the time): the core is the whole footprint now (2.6 -> 0.2 m
+	# inset), so a roof whose eaves cover the hero dissolves instead of only one whose middle does.
+	body.set_meta("occlusion_shrink", 0.2)
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	root.add_child(body)
 	root.add_child(proxy)

@@ -1087,6 +1087,7 @@ func _process(delta: float) -> void:
 	_watch_lock(delta)
 	if town.undercroft != null:
 		town.undercroft.update(player.position, delta)
+	_update_fountain_silhouette()
 	_update_music(delta)
 	_update_sprite_npcs(delta)
 	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-3.0 * delta))
@@ -3237,3 +3238,42 @@ func _read_signpost(index: int) -> void:
 		lines.append(str(line))
 	Audio.sfx(&"sign_read")
 	dialogue.start("Signpost", lines)
+
+
+## Fable pass Nov 1 (the fountain never fades): while the square's fountain stands between the camera and the hero, the hero's x-ray
+## silhouette shows through it (WorldSprite.set_silhouette). The test is the fountain's footprint against the camera -> hero line on the ground.
+func _update_fountain_silhouette() -> void:
+	if player == null or _camera == null or not (player.model is SpriteActor):
+		return
+	var sprite: WorldSprite = (player.model as SpriteActor).sprite
+	if sprite == null:
+		return
+	var hidden: bool = false
+	if town.anchors.has("fountain") and fountain_hides_hero(town.anchors["fountain"] as Vector3, _camera.global_position, player.position):
+		# On the ground the fountain is in the way; on screen, is the figure really inside the painted card's rectangle?
+		var card: Vector3 = (town.anchors["fountain"] as Vector3) + Vector3(0.0, 0.0, TownStreets.FOUNTAIN_ART_FORWARD)
+		var right: Vector3 = _camera.global_transform.basis.x
+		right.y = 0.0
+		right = right.normalized()
+		var half_width: float = TownStreets.FOUNTAIN_ART_HEIGHT * 0.55
+		var bottom: Vector2 = _camera.unproject_position(card)
+		var top: Vector2 = _camera.unproject_position(card + Vector3(0.0, TownStreets.FOUNTAIN_ART_HEIGHT, 0.0))
+		var edge: Vector2 = _camera.unproject_position(card + right * half_width)
+		var figure: Vector2 = _camera.unproject_position(player.position + Vector3(0.0, 0.9, 0.0))
+		hidden = figure.y > top.y and figure.y < bottom.y + 4.0 and absf(figure.x - bottom.x) < absf(edge.x - bottom.x)
+	sprite.set_silhouette(hidden)
+
+
+## True when the fountain at `center` (its blocker radius) crosses the ground line from `cam` to `hero` in front of the hero: the painted card
+## then covers the figure. Pure geometry (tests).
+static func fountain_hides_hero(center: Vector3, cam: Vector3, hero: Vector3) -> bool:
+	var a: Vector2 = Vector2(cam.x, cam.z)
+	var b: Vector2 = Vector2(hero.x, hero.z)
+	var c: Vector2 = Vector2(center.x, center.z)
+	var ab: Vector2 = b - a
+	var length2: float = maxf(ab.length_squared(), 0.0001)
+	var t: float = clampf((c - a).dot(ab) / length2, 0.0, 1.0)
+	if t > 0.97:
+		return false  # the fountain is beside or behind the hero, not in front
+	var closest: Vector2 = a + ab * t
+	return closest.distance_to(c) < TownLayout.FOUNTAIN_RADIUS + 0.6

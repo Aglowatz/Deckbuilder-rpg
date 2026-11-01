@@ -16,6 +16,8 @@ const CAMERA_PADDING: float = 0.7
 const NEAR_CAMERA: float = 6.5
 const SPEED: float = 7.0
 const HERO_LIFT: float = 0.9
+## Fable pass Nov 1: the hero's head height - a sight line to it too, so a roof that covers the figure from above dissolves.
+const HERO_HEAD: float = 1.7
 const PADDING: float = 0.15
 const MAX_GROUP_MESHES: int = 80
 ## Meshes looked at per frame while a scan is under way.
@@ -268,6 +270,7 @@ func _run_tests() -> void:
 	var from: Vector3 = camera.global_position
 	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
 	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
+	var to_head: Vector3 = hero.global_position + Vector3(0.0, HERO_HEAD, 0.0)  # Fable pass Nov 1: a roof over the hero's head counts too
 	var blocking_groups: Dictionary = {}
 	var cut_groups: Dictionary = {}
 	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
@@ -280,13 +283,18 @@ func _run_tests() -> void:
 			cut_groups[key] = true
 		elif blocking_groups.has(key):
 			continue
-		elif box.grow(_box_near[index]).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low):
+		elif box.grow(_box_near[index]).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low) or _segment_hits(box.grow(PADDING), from, to_head):
 			blocking_groups[key] = true
 	_blocking = blocking_groups
 	_cut = cut_groups
 	if OS.get_environment("OCCLUSION_DEBUG") != "" and Engine.get_process_frames() % 120 == 0:
 		print("occlusion: ", debug_summary())
 		print("occlusion blockers: ", "; ".join(debug_blockers()))
+		print("occlusion sight: cam %s hero %s" % [str(from.snapped(Vector3(0.1, 0.1, 0.1))), str(to.snapped(Vector3(0.1, 0.1, 0.1)))])
+		for index: int in range(_boxes.size()):
+			var near_box: AABB = _boxes[index]
+			if (near_box.size.y > 5.0 or Vector2(near_box.get_center().x - to.x, near_box.get_center().z - to.z).length() < 9.0) and is_instance_valid(_candidates[index]):
+				print("occlusion near: %s/%s box %s size %s" % [str(_candidates[index].get_parent().name), str(_candidates[index].name), str(near_box.position.snapped(Vector3(0.1, 0.1, 0.1))), str(near_box.size.snapped(Vector3(0.1, 0.1, 0.1)))])
 
 
 ## Only the groups that are fading, faded or about to fade need work this frame (the rest of a big scene's groups sit at zero).

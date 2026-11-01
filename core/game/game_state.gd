@@ -145,9 +145,27 @@ func _pick_first_player() -> int:
 
 
 func _deal_opening_hand(player: PlayerState) -> void:
-	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(
-		player.deck, player.opening_hand_size, player.deck_infrastructure_ratio, options.hand_smoother, rng, options.smoother_tolerance
-	)
+	var hand: Array[CardInstance] = []
+	if player.index == options.scripted_hand_player and not options.scripted_opening_hand.is_empty():
+		# Fable pass Nov 1: the first duel's teaching hand - the scripted ids first (each pulled from the deck), the rest drawn as usual.
+		for id: String in options.scripted_opening_hand:
+			if hand.size() >= player.opening_hand_size:
+				break
+			for index: int in range(player.deck.size() - 1, -1, -1):
+				var candidate: CardInstance = player.deck[index]
+				if candidate.data != null and candidate.data.id == id:
+					player.deck.remove_at(index)
+					hand.append(candidate)
+					break
+		var rest: int = player.opening_hand_size - hand.size()
+		if rest > 0:
+			hand.append_array(HandSmoother.draw_opening_hand(player.deck, rest, player.deck_infrastructure_ratio, false, rng, 0.0))
+		else:
+			RngUtil.shuffle(player.deck, rng)
+	else:
+		hand = HandSmoother.draw_opening_hand(
+			player.deck, player.opening_hand_size, player.deck_infrastructure_ratio, options.hand_smoother, rng, options.smoother_tolerance
+		)
 	for card: CardInstance in hand:
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")

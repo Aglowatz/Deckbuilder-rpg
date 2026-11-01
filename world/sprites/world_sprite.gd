@@ -76,6 +76,9 @@ var _px_to_world: float = 0.003
 var _bottom_pad: float = 16.0
 var _feet_lift: float = 0.0
 var _hat_mesh: MeshInstance3D
+## Fable pass Nov 1: an x-ray silhouette of the card (drawn over everything) for the moments the hero stands behind a landmark that never fades.
+var _silhouette: MeshInstance3D
+var _silhouette_material: ShaderMaterial
 var _hat_material: ShaderMaterial
 var _hat_art: String = ""
 var _dye_color: Color = Color.WHITE
@@ -566,3 +569,52 @@ static func _crossed(before: float, after: float, mark: float) -> bool:
 	if after >= before:
 		return before < mark and after >= mark
 	return before < mark or after >= mark
+
+
+## Fable pass Nov 1 (the fountain): shows or hides the hero's x-ray silhouette - the same card drawn flat and dark with the depth test off, so the
+## figure reads through a landmark that never fades (the square's fountain). Call it every frame while it should show; its uniforms and transform
+## follow the real card.
+func set_silhouette(shown: bool) -> void:
+	if not shown:
+		if _silhouette != null:
+			_silhouette.visible = false
+		return
+	if _silhouette == null:
+		if _mesh == null or _material == null or _material.shader == null:
+			return
+		var code: String = _material.shader.code
+		var open: int = code.find("render_mode ")
+		var close: int = code.find(";", open)
+		if open < 0 or close < 0:
+			return
+		code = code.substr(0, open) + "render_mode unshaded, cull_disabled, depth_test_disabled, blend_mix;" + code.substr(close + 1)
+		var light_at: int = code.find("void light()")
+		if light_at >= 0:
+			code = code.substr(0, light_at)
+		var fragment_end: int = code.rfind("}")
+		if fragment_end < 0:
+			return
+		code = code.substr(0, fragment_end) + "\tALBEDO = vec3(0.07, 0.08, 0.12);\n\tALPHA = min(ALPHA, 0.6);\n}\n"
+		var shader: Shader = Shader.new()
+		shader.code = code
+		_silhouette_material = ShaderMaterial.new()
+		_silhouette_material.shader = shader
+		_silhouette_material.render_priority = 20
+		_silhouette = MeshInstance3D.new()
+		_silhouette.name = "Silhouette"
+		_silhouette.mesh = _mesh.mesh
+		_silhouette.material_override = _silhouette_material
+		_silhouette.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		_silhouette.set_meta(StyleToon.META_NO_TOON, true)
+		_silhouette.set_meta(&"no_occlusion_fade", true)
+		_silhouette.extra_cull_margin = 4.0
+		add_child(_silhouette)
+	for uniform: Dictionary in _material.shader.get_shader_uniform_list():
+		var uniform_name: String = str(uniform["name"])
+		_silhouette_material.set_shader_parameter(uniform_name, _material.get_shader_parameter(uniform_name))
+	_silhouette.transform = _mesh.transform
+	_silhouette.visible = _mesh.visible
+
+
+func silhouette_shown() -> bool:
+	return _silhouette != null and _silhouette.visible

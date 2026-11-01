@@ -125,6 +125,8 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 	options.first_player = first_player
 	options.turn_limit = TURN_LIMIT
 	options.record_events = false
+	if encounter.scripted_hand:
+		FirstDuel.apply(options, deck)
 	var game: GameState = GameState.new(options)
 	game.add_player(setup)
 	game.add_player(enemy)

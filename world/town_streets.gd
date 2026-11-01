@@ -91,8 +91,10 @@ func _plaza() -> void:
 
 
 const FOUNTAIN_ART: String = "TOWN-HERO-FOUNTAIN"
-const FOUNTAIN_ART_HEIGHT: float = 5.8
-const FOUNTAIN_ART_FORWARD: float = 1.3
+## Fable pass Nov 1: the fountain is the square's landmark - a quarter bigger (5.8 -> 7.1 m; its blocker TownLayout.FOUNTAIN_RADIUS 2.6 -> 3.2), and it never
+## fades or ghosts when the hero walks behind it (no card ghost, no occlusion fade); the hero shows through it as a silhouette instead (TownScene).
+const FOUNTAIN_ART_HEIGHT: float = 7.1
+const FOUNTAIN_ART_FORWARD: float = 1.6
 
 
 # ---- the fountain and the royal crest ------------------------------------------------------------------------------------------------
@@ -102,7 +104,15 @@ func _fountain() -> void:
 	var center: Vector3 = TownLayout.PLAZA
 	# Art import Oct 29: the painted royal-crest fountain (TOWN-HERO-FOUNTAIN: four plinths in a ring, four coloured spouts) replaces the stone
 	# model; it stands a little toward the camera so its painted basin front sits on the basin's real front edge. Same blocker and anchor.
-	if KitPieces.stand(root, FOUNTAIN_ART, center + Vector3(0.0, -0.05, FOUNTAIN_ART_FORWARD), FOUNTAIN_ART_HEIGHT, false) != null:
+	var card: Node3D = KitPieces.stand(root, FOUNTAIN_ART, center + Vector3(0.0, -0.05, FOUNTAIN_ART_FORWARD), FOUNTAIN_ART_HEIGHT, false)
+	if card != null:
+		var body: MeshInstance3D = card.get_node_or_null("Body") as MeshInstance3D
+		if body != null:
+			body.set_meta("no_occlusion_fade", true)
+			if body.material_override is ShaderMaterial:
+				var solid: ShaderMaterial = (body.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+				solid.set_shader_parameter("fade_strength", 0.0)  # never a ghost: the landmark stays solid
+				body.material_override = solid
 		town.obstacles.append(Vector3(center.x, center.z, TownLayout.FOUNTAIN_RADIUS + 0.1))
 		town.anchors["fountain"] = center
 		return

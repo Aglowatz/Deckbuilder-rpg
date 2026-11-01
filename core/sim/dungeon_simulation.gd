@@ -33,10 +33,13 @@ static func play_encounter(
 	seed_value: int,
 	first_player: int,
 	counters: RunResult = null,
+	scripted_hand: bool = false,
 ) -> GameState:
 	var options: GameOptions = GameOptions.new()
 	options.rng_seed = seed_value
 	options.first_player = first_player
+	if scripted_hand:
+		FirstDuel.apply(options, run.current_deck())  # Fable pass Nov 1: the first duel's teaching hand
 	options.turn_limit = 60
 	options.record_events = false
 	var game: GameState = run.start_encounter(enemy, null, options)
@@ -81,7 +84,7 @@ static func run_once(
 				var enemy_ai: AIPlayer = AIPlayer.for_foe(TrialOfTheHollow.personality(content, map_node.ai_name), AIPlayer.Skill.BOSS if map_node.kind == DungeonMap.Kind.BOSS else AIPlayer.Skill.NORMAL, map_node.enemy_name)
 				enemy_ai.deterministic = true
 				var first_player: int = 0 if map_node.tutorial else rng.randi_range(0, 1)
-				var game: GameState = play_encounter(run, enemy, player_ai, enemy_ai, seed_value + map_node.id * 97 + 1, first_player, result)
+				var game: GameState = play_encounter(run, enemy, player_ai, enemy_ai, seed_value + map_node.id * 97 + 1, first_player, result, map_node.tutorial)
 				run.finish_encounter(game)
 				result.turns_played += game.turn
 				if run.is_over():

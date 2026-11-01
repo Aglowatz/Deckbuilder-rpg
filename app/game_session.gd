@@ -1603,6 +1603,8 @@ func in_dungeon() -> bool:
 func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
+	if node.tutorial:
+		FirstDuel.apply(options, deck)  # Fable pass Nov 1: the first duel deals its teaching hand
 	options.rng_seed = rng.randi() % 1000000 + 1
 	var enemy: PlayerSetup
 	var player_rules: ModifierSource = null

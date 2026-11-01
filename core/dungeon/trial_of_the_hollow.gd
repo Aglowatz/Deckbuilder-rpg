@@ -121,7 +121,7 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 		# Cards Oct 27: Cannon Fodder is a 2/1 now (the card review), so each cave deck carries one Fodder fewer and one more basic (the
 		# cave had dropped to B 79 / R 77 over two seeds with the 2/1s; target 80%+ for every Path).
 		"Cave Scavenger":
-			return {"BAS-G": 19, "C-01": 3, "C-02": 2, "C-04": 2}
+			return {"BAS-G": 19, "C-01": 3, "C-04": 3}  # Fable pass Nov 1: no Village Militia (2/2): a first player's units trade up and the duel ends in 5-6 turns
 		"Hollow Stalker":
 			return {"BAS-R": 13, "BAS-G": 8, "C-01": 2, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
 		"Hollow Warden":
