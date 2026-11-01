@@ -52,6 +52,8 @@ var _deck_panel: PanelContainer
 var _curve_chart: DeckCurveChart
 var _shape_label: Label
 var _grid_scroll: ScrollContainer
+## Overnight Oct 31 - Nov 1 (mid-game critic #14): said under the filters when none of your cards match them (the board was just blank).
+var _empty_note: Label
 
 
 func _init() -> void:
@@ -127,6 +129,11 @@ func _build() -> void:
 	# The number of columns follows the room the collection has (it was a fixed 7, which pushed the deck panel off a 1280 px screen).
 	_grid.columns = _columns_for(size.x - PANEL_MIN - 90.0 if size.x > 100.0 else 1300.0)
 	_grid_scroll.resized.connect(func() -> void: _grid.columns = _columns_for(_grid_scroll.size.x))
+	_empty_note = UIKit.label("No cards match these filters. Change them above to see your cards again.", &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	_empty_note.name = "NoCardsMatch"
+	_empty_note.visible = false
+	left.add_child(_empty_note)
+	left.move_child(_empty_note, _grid_scroll.get_index())
 	_fill_grid()
 	_deck_panel = _build_deck_panel() as PanelContainer
 	split.add_child(_deck_panel)
@@ -414,6 +421,7 @@ func _layer(layer_name: String, title: String, subtitle: String) -> Array[Contro
 	UIKit.full_rect(layer)
 	layer.z_index = 200
 	layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	layer.set_meta(&"deck_layer", true)  # Esc closes the topmost of these first (request_close)
 	add_child(layer)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.78)
@@ -430,6 +438,15 @@ func _layer(layer_name: String, title: String, subtitle: String) -> Array[Contro
 	if not subtitle.is_empty():
 		column.add_child(UIKit.label(subtitle, &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 	return [layer, column] as Array[Control]
+
+
+## The last-opened popup layer still on screen (made by _layer), or null.
+func topmost_layer() -> Control:
+	for index: int in range(get_child_count() - 1, -1, -1):
+		var child: Node = get_child(index)
+		if child is Control and child.has_meta(&"deck_layer") and not child.is_queued_for_deletion():
+			return child as Control
+	return null
 
 
 func _close_layer(layer: Control) -> void:
@@ -752,9 +769,15 @@ func _make_tile(card: CardData) -> Control:
 
 
 func _apply_filter() -> void:
+	var shown: int = 0
 	for tile: Node in _grid.get_children():
 		var card: CardData = _cards_by_id.get(str(tile.get_meta("card_id"))) as CardData
 		(tile as Control).visible = _filter.matches(card)
+		if (tile as Control).visible:
+			shown += 1
+	if _empty_note != null:
+		var waiting: int = _pending_tiles.filter(func(card: CardData) -> bool: return _filter.matches(card)).size()
+		_empty_note.visible = shown + waiting == 0
 
 
 func _on_tile_input(card: CardData, event: InputEvent) -> void:
@@ -815,7 +838,7 @@ func _refresh() -> void:
 	_rebuild_rules()
 	_refresh_shape()
 	var size: int = editor.deck.size()
-	_count_label.text = "%d cards  -  %d infrastructure, %d spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
+	_count_label.text = "%d cards  -  %d infrastructure, %d units and spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
 	# Daytime Oct 19 (onboarding timing): a new hero owns no spare copies (the cave's cards are already in the deck), so "Make It Yours"
 	# could only finish after a pointless change. Until the first save, Save Deck stays available.
 	var first_save: bool = not Session.flag(&"deck_edited")
@@ -1100,6 +1123,11 @@ func request_close() -> void:
 			return
 		_close_layer(_cover_layer)
 		_cover_layer = null
+		return
+	# Overnight Oct 31 - Nov 1 (mid-game critic #8): any other popup layer (Suggest a deck...) closes before the station does.
+	var top: Control = topmost_layer()
+	if top != null:
+		_close_layer(top)
 		return
 	if _save_mode:
 		cancel_save_mode()

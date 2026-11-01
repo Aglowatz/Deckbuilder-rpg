@@ -19,7 +19,8 @@ signal travel_requested
 
 ## Overnight Oct 31 - Nov 1 (wish list): the place picked in "Where to?" pulses on the map for a few seconds.
 const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
-	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL]
+	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.INTERACTABLE]
+const WHERE_TO_MAX: int = 16
 const PING_SECONDS: float = 4.0
 var _ping: MapPoi = null
 var _ping_left: float = 0.0
@@ -109,7 +110,8 @@ func _legend() -> Control:
 		goal_label.custom_minimum_size = Vector2(300, 0)
 		goal_row.add_child(goal_label)
 		column.add_child(goal_row)
-	var places: Array[MapPoi] = where_to_places(visible_points)
+	# Mid-game critic #11 (Oct 31 - Nov 1): the list names every place, walked to or not (the fog hides the ground, not the directory).
+	var places: Array[MapPoi] = where_to_places(_pois)
 	if not places.is_empty():
 		var where: OptionButton = OptionButton.new()
 		where.name = "WhereTo"
@@ -135,7 +137,8 @@ func _legend() -> Control:
 	return panel
 
 
-## The named places a player looks for, revealed on this map: dungeons first, then vendors, healers, the Arena, quest givers..., one per name.
+## The named places a player looks for on this map, revealed or not: dungeons first, then vendors, healers, the Arena, quest givers, challengers,
+## exits and the rest (the Deck Station, the Hall of Records, people), one per name, at most WHERE_TO_MAX.
 static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	var names: Dictionary = {}
@@ -145,6 +148,8 @@ static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 				continue
 			names[poi.label] = true
 			result.append(poi)
+			if result.size() >= WHERE_TO_MAX:
+				return result
 	return result
 
 
@@ -189,6 +194,14 @@ func _draw_map() -> void:
 		var phase: float = fmod(PING_SECONDS - _ping_left, 1.0)
 		_canvas.draw_arc(ping_at, icon_radius * (1.4 + phase * 2.2), 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 1.0 - phase), 4.0, true)
 		_canvas.draw_arc(ping_at, icon_radius * 1.4, 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 0.9), 3.0, true)
+		if not shown.has(_ping):
+			# Not walked to yet: the picked place shows its icon and name through the fog while it pulses.
+			MapDraw.poi(_canvas, ping_at, _ping, icon_radius)
+			var ping_font: Font = UIStyle.font_bold()
+			var width: float = ping_font.get_string_size(_ping.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+			var at_text: Vector2 = ping_at + Vector2(-width * 0.5, icon_radius + 16.0)
+			_canvas.draw_string_outline(ping_font, at_text, _ping.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.05, 0.95))
+			_canvas.draw_string(ping_font, at_text, _ping.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, UIStyle.GOLD)
 	# Overnight Oct 30-31 (mid-game critic #9): every revealed place is named under its icon (vendors, the Hall of Records, roads, dungeons),
 	# skipping a name that would overlap one already written.
 	var font: Font = UIStyle.font_bold()

@@ -129,6 +129,7 @@ func _ready() -> void:
 	# Art import Oct 29: a scene with a painted still plays its lines over the picture instead of the icon stage.
 	var still: StillBackdrop = StillBackdrop.make(StoryStills.cutscene_backdrop(scene_id))
 	if still != null:
+		still.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(still)
 		still.fade_in()
 	_stage_root = Control.new()
@@ -152,8 +153,12 @@ func _ready() -> void:
 	panel.position = Vector2(300, 790)
 	panel.custom_minimum_size = Vector2(1320, 210)
 	panel.size = Vector2(1320, 210)
+	# Overnight Oct 31 - Nov 1 (mid-game critic #3, "the intro looks frozen"): a click ON the text panel was swallowed by it and never reached
+	# _gui_input, so only clicks beside the panel advanced. The panel and its column let the mouse through to the screen.
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(8)
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(column)
 	_speaker = UIKit.label("", &"HeadingLabel", 32)
 	column.add_child(_speaker)

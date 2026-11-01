@@ -175,3 +175,54 @@ static func _cheapest_non_basic(cards: Array[CardData]) -> CardData:
 		if best == null or card.energy_value() < best.energy_value():
 			best = card
 	return best
+
+
+## Overnight Oct 31 - Nov 1 (mid-game critic #9: "it never says what is tested"): the test in numbers, shown before the reveal.
+static func rule_text(challenge: ChallengeData) -> String:
+	match challenge.kind:
+		ChallengeData.Kind.FIRST_UNIT_ATTACK:
+			return "The test: the first unit drawn from your deck needs %d+ attack." % challenge.threshold
+		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
+			return "The test: draw %d cards from your deck - %d+ must be Infrastructure." % [challenge.reveal_count, challenge.threshold]
+		ChallengeData.Kind.TOP_N_TYPE_COUNT:
+			return "The test: draw %d cards from your deck - %d+ must be %s cards." % [challenge.reveal_count, challenge.threshold, str(CardEnums.CardType.keys()[challenge.card_type]).capitalize()]
+		ChallengeData.Kind.TOP_N_TOTAL_COST:
+			return "The test: draw %d cards from your deck - together they must cost %d+ energy." % [challenge.reveal_count, challenge.threshold]
+	return ""
+
+
+## Whether `revealed` (in draw order) passes the challenge's test - the same rule `resolve` applies.
+static func passes(challenge: ChallengeData, revealed: Array[CardData]) -> bool:
+	match challenge.kind:
+		ChallengeData.Kind.FIRST_UNIT_ATTACK:
+			for card: CardData in revealed:
+				if card.is_unit():
+					return card.attack >= challenge.threshold
+			return false
+		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
+			return _count(revealed, func(c: CardData) -> bool: return c.is_infrastructure()) >= challenge.threshold
+		ChallengeData.Kind.TOP_N_TYPE_COUNT:
+			var wanted: CardEnums.CardType = challenge.card_type
+			return _count(revealed, func(c: CardData) -> bool: return c.type == wanted) >= challenge.threshold
+		ChallengeData.Kind.TOP_N_TOTAL_COST:
+			var total: int = 0
+			for card: CardData in revealed:
+				total += card.energy_value()
+			return total >= challenge.threshold
+	return false
+
+
+## The chance (0..1) that `deck` passes, from `trials` shuffles (a fixed seed: the same deck always shows the same odds).
+static func odds(challenge: ChallengeData, deck: Array[CardData], trials: int = 600) -> float:
+	if deck.is_empty():
+		return 0.0
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 7
+	var wins: int = 0
+	var count: int = deck.size() if challenge.kind == ChallengeData.Kind.FIRST_UNIT_ATTACK else mini(challenge.reveal_count, deck.size())
+	for _trial: int in range(trials):
+		var shuffled: Array[CardData] = deck.duplicate()
+		RngUtil.shuffle(shuffled, rng)
+		if passes(challenge, shuffled.slice(0, count)):
+			wins += 1
+	return float(wins) / float(trials)

@@ -1,0 +1,31 @@
+# Repro: the Doppelganger's reveal cutscene ignoring E / Space / click (mid-game critic #3)
+wait 2
+dev load midgame_real
+wait 12
+dev travel dungeon D-TTK -2
+wait 10
+skip_dialogue 20
+wait 1
+click 1362 215
+wait 1
+click 1362 215
+wait 2
+shot i01_after_go
+key E
+wait 1
+key E
+wait 1
+shot i02_before_cut
+key E
+wait 1.5
+shot i03_cut1
+key E
+wait 1.5
+shot i04_cut_e
+key Space
+wait 1.5
+shot i05_cut_space
+click 800 500
+wait 1.5
+shot i06_cut_click
+dump

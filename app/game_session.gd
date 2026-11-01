@@ -2565,6 +2565,19 @@ func hp_pool_notice() -> String:
 	return "Max HP here: %d (your usual %d%s)" % [zone_run.max_hp(), profile.base_max_hp(), "; " + ", ".join(reasons) if not reasons.is_empty() else ""]
 
 
+## Overnight Oct 31 - Nov 1 (mid-game critic #7: "freeing a zone changes nothing you can see"): the banner on arriving in a zone you
+## freed, once per visit; "" otherwise.
+var _freed_notice_run: ZoneRun = null
+
+
+func freed_zone_notice() -> String:
+	if zone_run == null or zone_run == _freed_notice_run or not is_zone_completed(zone_run.zone_id) or zone_run.zone_id == CapitalZone.ID:
+		return ""
+	_freed_notice_run = zone_run
+	var def: ZoneDef = ZoneDefs.get_def(zone_run.zone_id)
+	return "%s is free. Its people have new things to say - and the dungeons still pay gold and XP." % (def.display_name if def != null else "This zone")
+
+
 ## The def of the zone the player is visiting (the D.N.A. when not in a zone).
 func zone_def() -> ZoneDef:
 	return ZoneDefs.current()

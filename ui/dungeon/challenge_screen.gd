@@ -34,6 +34,12 @@ func _ready() -> void:
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(1000, 0)
 	_column.add_child(text)
+	# Overnight Oct 31 - Nov 1 (mid-game critic #9): the test in numbers and your deck's chance, before you reveal.
+	var test: Label = UIKit.label(test_text(), &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	test.name = "TestRule"
+	test.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	test.custom_minimum_size = Vector2(1000, 0)
+	_column.add_child(test)
 	_column.add_child(UIKit.label(_stakes_text(), &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	_cards_row = UIKit.hbox(14)
 	_cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -81,6 +87,14 @@ func _pick_challenge() -> ChallengeData:
 	return Session.content.challenges[0]
 
 
+## "The test: draw 5 cards from your deck - 2+ must be Unit cards. Your deck: about 64 % to pass."
+func test_text() -> String:
+	var rule: String = ChallengeResolver.rule_text(challenge)
+	if rule.is_empty() or Session.run == null:
+		return rule
+	return "%s  Your deck: about %d %% to pass." % [rule, roundi(ChallengeResolver.odds(challenge, Session.run.current_deck().cards) * 100.0)]
+
+
 func _stakes_text() -> String:
 	var win: PackedStringArray = []
 	for outcome: ChallengeOutcome in challenge.on_success:
@@ -113,10 +127,17 @@ func _on_reveal() -> void:
 	_show_outcome(result)
 
 
+## The well's own words only at the well (the tutorial cave); every other deck test says plainly how it went.
+func headline_text(passed: bool) -> String:
+	if challenge != null and challenge.id == TrialOfTheHollow.CHALLENGE_ID:
+		return "The well answers." if passed else "The well stays silent."
+	return "Passed!" if passed else "Not this time."
+
+
 func _show_outcome(result: ChallengeResult) -> void:
 	var passed: bool = result.success
 	Audio.sfx(&"victory" if passed else &"defeat", -6.0)
-	var headline: Label = UIKit.label("The well answers." if passed else "The well stays silent.", &"HeadingLabel", 36, UIStyle.GOOD if passed else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
+	var headline: Label = UIKit.label(headline_text(passed), &"HeadingLabel", 36, UIStyle.GOOD if passed else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	_result_box.add_child(headline)
 	var lines: PackedStringArray = []
 	# Fresh eyes Oct 30: the rule in numbers first ("3 of the 5 were Infrastructure; 3 were needed."), and why a passed well at full

@@ -24,8 +24,21 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+var _holding_toasts: bool = false
+
+
+func _exit_tree() -> void:
+	if _holding_toasts and Session.toasts != null:
+		Session.toasts.release()
+		_holding_toasts = false
+
+
 func _ready() -> void:
 	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
+	# Overnight Oct 31 - Nov 1 (mid-game critic #15): toasts (a feat earned by the fight) wait until the pick is made.
+	if Session.toasts != null:
+		Session.toasts.hold()
+		_holding_toasts = true
 	SceneManager.pause_allowed = false
 	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
 	if Session.pending_reward == null:

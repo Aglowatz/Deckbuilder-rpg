@@ -560,7 +560,7 @@ func show_preview(view: CardView, note: String = "") -> void:
 	_preview_root.visible = true
 	for child: Node in _tooltip_box.get_children():
 		child.queue_free()
-	var rules: String = view.data.rules_text.strip_edges()
+	var rules: String = KeywordInfo.plain_rules(view.data.rules_text.strip_edges())
 	if _only_keywords(rules, KeywordInfo.entries_for(view.data)):
 		rules = ""  # "Hustle." alone: the keyword's own entry below says it better
 	if not rules.is_empty():

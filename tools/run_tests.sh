@@ -53,7 +53,7 @@ for ((s = 1; s <= SHARDS; s++)); do
 	fi
 	T_TESTS=$((T_TESTS + ${tests:-0})); T_PASS=$((T_PASS + ${pass:-0})); T_FAIL=$((T_FAIL + ${fail:-0})); T_RISKY=$((T_RISKY + ${risky:-0}))
 	# failing test names: the "* test_x" line before each "[Failed]" under its script
-	f=$(awk '/^res:\/\/tests\/.*\.gd$/ {scr=$0} /^\* test_/ {t=$2} /\[Failed\]/ {if (scr":"t != last) {print "  " scr " :: " t; last=scr":"t}}' "$log")
+	f=$(awk '/= Run Summary/ {exit} /^res:\/\/tests\/.*\.gd$/ {scr=$0} /^\* test_/ {t=$2} /\[Failed\]/ {if (scr":"t != last) {print "  " scr " :: " t; last=scr":"t}}' "$log")
 	[ -n "$f" ] && FAILS="$FAILS\n$f"
 	echo "shard $s/$SHARDS: ${pass:-0}/${tests:-0} passed${fail:+, $fail failing}  ($first ...)"
 done

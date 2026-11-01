@@ -701,7 +701,7 @@ func _refresh_ui() -> void:
 					glows[card.uid] = CardView.Glow.PLAYABLE
 			primary = "To Combat" if game.phase == GameState.Phase.MAIN1 else "End Turn"
 			end_visible = game.phase == GameState.Phase.MAIN1
-			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and play spells. " + _how("Click a card, or drag it onto the table.", "Pick a card with {confirm}.")
+			prompt = "[b]Your main phase[/b]\nPlay an infrastructure, then units and spells. " + _how("Click a card, or drag it onto the table.", "Pick a card with {confirm}.")
 			if game.phase == GameState.Phase.MAIN2:
 				prompt = "[b]Second main phase[/b]\nPlay anything you held back, then end your turn."
 		Mode.ATTACK:
@@ -1958,7 +1958,7 @@ func _show_mulligan() -> void:
 	for card: CardInstance in game.players[0].hand:
 		if card.data.is_infrastructure():
 			infrastructure += 1
-	var info: Label = UIKit.label("%d infrastructure, %d spells in your %d cards." % [infrastructure, game.players[0].hand.size() - infrastructure, game.players[0].hand.size()], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	var info: Label = UIKit.label("%d infrastructure, %d other cards (units and spells) in your %d." % [infrastructure, game.players[0].hand.size() - infrastructure, game.players[0].hand.size()], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(info)
 	var row: HBoxContainer = UIKit.hbox(14)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER

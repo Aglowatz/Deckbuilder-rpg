@@ -119,6 +119,23 @@ static func _with_icons(text: String, card: CardData, icon_px: int) -> String:
 const ENERGY_CODES: Dictionary = {"(B)": Affinity.Type.BEEFCAKE, "(N)": Affinity.Type.NECROCRAT, "(G)": Affinity.Type.GOURMAND, "(R)": Affinity.Type.REFUSEMANCER}
 
 
+## Overnight Oct 31 - Nov 1 (mid-game critic #5): rules text for a plain label (no icons), with each energy code in words: "Exhaust: add (B)."
+## -> "Exhaust: add one Beefcake energy."
+static func plain_rules(text: String) -> String:
+	const COUNT_WORDS: Array[String] = ["", "one", "two", "three", "four", "five"]
+	for code: String in ENERGY_CODES.keys():
+		var at: int = text.find(code)
+		while at >= 0:
+			var run: int = 1
+			while text.substr(at + run * code.length(), code.length()) == code:
+				run += 1
+			var count: String = COUNT_WORDS[run] if run < COUNT_WORDS.size() else str(run)
+			var words: String = "%s %s energy" % [count, UIStyle.affinity_name(ENERGY_CODES[code] as Affinity.Type)]
+			text = text.substr(0, at) + words + text.substr(at + run * code.length())
+			at = text.find(code, at + words.length())
+	return text
+
+
 ## Longest words first so "Red Tape" is not split by a shorter match and plurals are not matched twice.
 const RULES_ICON_WORDS_FIRST: Array[String] = ["Red Tape", "Ingredients", "Ingredient", "Contracts", "Contract", "Clauses", "Clause", "Irons", "Iron", "Garbage"]
 

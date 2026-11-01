@@ -63,3 +63,25 @@ func show_toast(text: String, tint: Color, icon: Texture2D) -> void:
 	tween.tween_interval(LIFETIME)
 	tween.tween_property(panel, "modulate:a", 0.0, 0.6)
 	tween.tween_callback(panel.queue_free)
+
+
+## Overnight Oct 31 - Nov 1 (mid-game critic #15: a feat toast over the boss reward's header): while something holds the layer (a reward
+## pick), toasts wait hidden with their timers paused, then show when the last hold is released. Nothing is lost.
+var _holds: int = 0
+
+
+func hold() -> void:
+	_holds += 1
+	_column.visible = false
+	_column.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func release() -> void:
+	_holds = maxi(0, _holds - 1)
+	if _holds == 0:
+		_column.process_mode = Node.PROCESS_MODE_INHERIT
+		_column.visible = true
+
+
+func is_held() -> bool:
+	return _holds > 0

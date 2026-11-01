@@ -374,6 +374,9 @@ func _ready() -> void:
 	var hp_notice: String = Session.hp_pool_notice()  # Overnight Oct 31 - Nov 1: a zone whose max HP differs says so once per visit
 	if hp_notice != "":
 		hud.queue_toast(hp_notice, Color("e06a5a"))
+	var freed_notice: String = Session.freed_zone_notice()
+	if freed_notice != "":
+		hud.queue_toast(freed_notice, UIStyle.GOOD)
 	Session.save_game()
 
 
