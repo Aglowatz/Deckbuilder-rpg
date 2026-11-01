@@ -776,3 +776,20 @@ Report: `docs/overnight_report.md`. Most important first.
    and the Doppelganger takes the name "Escoffina" as an apprentice ("Escoffina. Apprentice. Second class." in the freed Buffet). So the freed
    apprentice's plate now says "Grand Chef Escoffina". If you meant the apprentice's plate to read just "Escoffina", it is one word in
    `core/data/spoiler_free.gd` (`"name"`). The disguised figure in the Buffet before the boss still reads "Escoffina" (it is posing).
+2. **The music changed audibly in 100 of 144 tracks** (the overlap fix: pads, organ, tremolo and choir chords now hold their full length;
+   up to +65 % sounding note time). Listen to `Music Review/Overlap fix/` (10 tracks) and skim `docs/audio/music_overlap_fix_oct31.md`.
+   The old renders are in `Superseded/Music_v01/<ID>_orch-v1b.*`; to roll one back, copy it over `Approved_Audio/<ID>.ogg` and run
+   "import audio". The lullaby is among the changed tracks (pad +55 beats) - still waiting for your ears.
+3. **Boss stall AI (answer 7) does not move the sims**: with the bare starter and with built decks, every boss's win rate and length is
+   identical with the rule on and off (the sim's player always attacks, so no stall forms). It only changes a truly stalled board (no AI
+   unit or no HP lost by turn 9: a 4th+ Tool/Wonder is worth 15 %). If the critics still see stalls, the next lever would be the player's
+   side (the pilot/bare starter has no clock), not the boss.
+4. **Captain Spotless paces only until the gate opens** and stands at his post after (the gate-open state needs no sentry walking). If the
+   gate opens while you watch, he finishes his beat and keeps pacing until you leave and come back.
+5. **First-viewing Esc confirm** also covers the dungeon cutscenes (leader releases, Primm's phases) - same text.
+6. **Crosspath draw calls 874 vs budget 840** (Medium; 836 on v0.4.9). Frame times are inside budget; I did not re-base the budget. Say if
+   you want it re-based to tonight's numbers.
+7. **Loading was measured, not cached** (Part 3): the remaining big steps are model instancing (kept out of the cache by the Oct 25 "no
+   whole-scene baking" decision) and the Dump's `HeapLayout.build` (641 ms). Next lever if you want it: cache `HeapLayout` as data.
+8. **Locked gear slots print "Opens: armory quest"** above each padlock (all five open together with Bertram's quest). Long names on the
+   battle plate shrink to 10 px when they have three words ("Colonel Cornelius Crumb"); the full name is in the plate's tooltip.

@@ -46,12 +46,15 @@ func run() -> void:
 			_finish()
 			return
 		zones_done += 1
-		if snapshot_after > 0 and zones_done >= snapshot_after:
+		if snapshot_after > 0 and snapshot_after <= Gatekeepers.IDS.size() and zones_done >= snapshot_after:
 			await _save_progress_snapshot(_arg("snapshot", "midgame_real"))
 			_finish()
 			return
 	await _undercroft(town)
 	await _capital_and_castle()
+	# Overnight Oct 31 - Nov 1: --snapshot_after=5 saves after Primm's castle (a postgame snapshot for the postgame critic).
+	if snapshot_after > Gatekeepers.IDS.size():
+		await _save_progress_snapshot(_arg("snapshot", "postgame_real"))
 	_finish()
 
 
@@ -68,7 +71,7 @@ func _arg(key: String, fallback: String) -> String:
 ## gear, the items and the gold are set to what the expected player has at this point (`ProgressionModel`, `docs/design/sim/economy_model.md`).
 func _save_progress_snapshot(snapshot_name: String) -> void:
 	var next_zone: String = ProgressionModel.ZONE_ORDER[mini(Session.completed_zone_count(), ProgressionModel.ZONE_ORDER.size() - 1)]
-	var level: int = ProgressionModel.level_for("zone:%s" % next_zone, 13)
+	var level: int = maxi(ProgressionModel.level_for("zone:%s" % next_zone, 13), Session.profile.level)
 	DevActions.set_level(level, true)
 	var path: Affinity.Type = Session.profile.primary_affinity
 	var deck: Deck = ProgressionModel.reference_deck(Session.content, path, level)
@@ -93,7 +96,7 @@ func _save_progress_snapshot(snapshot_name: String) -> void:
 				Session.add_item(item)
 	# Gold: the expected profile's purse after the second zone's freed stock plus a stop's income (economy model rows 16-18).
 	Session.gold = 0
-	Session.add_gold(600)
+	Session.add_gold(600 + 300 * maxi(0, Session.completed_zone_count() - 2))  # Oct 31 - Nov 1: a later snapshot carries a fuller purse
 	Session.add_pack("general_2", 2)
 	Session.add_pack("path_%s" % Affinity.display_name(path).to_lower(), 1)
 	DevActions.full_heal()
