@@ -8,7 +8,7 @@
  "seconds": 37.67,
  "loop_seconds": 32.308,
  "lufs": -20.0,
- "true_peak": -7.3,
+ "true_peak": -7.1,
  "lra": 10.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 1,
    "start_s": 0.0,
-   "lufs": -31.9
+   "lufs": -32.0
   },
   {
    "section": "sincere: music box",
    "bar": 1,
    "bars": 5,
    "start_s": 2.3,
-   "lufs": -26.0
+   "lufs": -26.1
   },
   {
    "section": "coercive: the city",
    "bar": 6,
    "bars": 5,
    "start_s": 13.8,
-   "lufs": -19.0
+   "lufs": -18.9
   },
   {
    "section": "held",
    "bar": 11,
    "bars": 3,
    "start_s": 25.4,
-   "lufs": -16.9
+   "lufs": -17.0
   }
  ],
  "motifs": [

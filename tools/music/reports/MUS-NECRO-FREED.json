@@ -8,7 +8,7 @@
  "seconds": 140.87,
  "loop_seconds": 140.87,
  "lufs": -20.0,
- "true_peak": -5.6,
+ "true_peak": -5.9,
  "lra": 8.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -27.4
+   "lufs": -26.8
   },
   {
    "section": "A winds, major",
    "bar": 4,
    "bars": 16,
    "start_s": 7.8,
-   "lufs": -18.8
+   "lufs": -19.0
   },
   {
    "section": "A' strings + resolved motif",
    "bar": 20,
    "bars": 16,
    "start_s": 39.1,
-   "lufs": -19.6
+   "lufs": -19.5
   },
   {
    "section": "B calm",
    "bar": 36,
    "bars": 12,
    "start_s": 70.4,
-   "lufs": -23.3
+   "lufs": -23.5
   },
   {
    "section": "C Eb major tutti",
    "bar": 48,
    "bars": 16,
    "start_s": 93.9,
-   "lufs": -18.6
+   "lufs": -18.4
   },
   {
    "section": "turn home",
@@ -61,7 +61,7 @@
    "bar": 68,
    "bars": 4,
    "start_s": 133.0,
-   "lufs": -26.7
+   "lufs": -26.2
   }
  ],
  "motifs": [
@@ -113,9 +113,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-FREED.mid"
  },
  "seam": {
-  "jump_db": -0.12,
-  "wrap_step": 0.0028,
-  "p999_step": 0.04988,
+  "jump_db": -0.06,
+  "wrap_step": 0.00136,
+  "p999_step": 0.04935,
   "click": false,
   "ok": true
  },

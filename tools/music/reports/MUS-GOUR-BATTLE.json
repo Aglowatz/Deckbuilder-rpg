@@ -8,8 +8,8 @@
  "seconds": 121.69,
  "loop_seconds": 121.69,
  "lufs": -20.0,
- "true_peak": -7.0,
- "lra": 6.5,
+ "true_peak": -7.1,
+ "lra": 6.4,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 6.8,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "B minor turn",
@@ -40,7 +40,7 @@
    "bar": 36,
    "bars": 16,
    "start_s": 60.8,
-   "lufs": -21.5
+   "lufs": -21.4
   },
   {
    "section": "finale",
@@ -106,9 +106,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -1.07,
-  "wrap_step": 0.00921,
-  "p999_step": 0.07403,
+  "jump_db": -1.01,
+  "wrap_step": 0.0033,
+  "p999_step": 0.0735,
   "click": false,
   "ok": true
  },

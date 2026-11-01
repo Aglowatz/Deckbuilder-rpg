@@ -5,11 +5,11 @@
  "bpm": 66,
  "meter": "4/4",
  "bars": 18,
- "seconds": 70.71,
+ "seconds": 70.72,
  "loop_seconds": 65.455,
  "lufs": -20.0,
- "true_peak": -7.0,
- "lra": 15.7,
+ "true_peak": -6.8,
+ "lra": 15.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -30.1
+   "lufs": -30.3
   },
   {
    "section": "cello",
    "bar": 4,
    "bars": 4,
    "start_s": 14.5,
-   "lufs": -22.7
+   "lufs": -23.0
   },
   {
    "section": "the lullaby, four notes",
@@ -40,14 +40,14 @@
    "bar": 12,
    "bars": 4,
    "start_s": 43.6,
-   "lufs": -17.3
+   "lufs": -17.4
   },
   {
    "section": "held",
    "bar": 16,
    "bars": 2,
    "start_s": 58.2,
-   "lufs": -18.0
+   "lufs": -17.7
   }
  ],
  "motifs": [
@@ -68,7 +68,7 @@
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-LAB-CELL\\MUS-LAB-CELL.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-CELL.mid"
  },
- "onset_ms": 8.1,
+ "onset_ms": 8.3,
  "onset_ok": true,
  "checks": {
   "range": {

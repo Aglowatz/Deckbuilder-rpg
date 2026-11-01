@@ -8,8 +8,8 @@
  "seconds": 109.09,
  "loop_seconds": 109.091,
  "lufs": -20.0,
- "true_peak": -6.3,
- "lra": 8.0,
+ "true_peak": -6.4,
+ "lra": 7.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -25.1
+   "lufs": -24.8
   },
   {
    "section": "A thin theme",
    "bar": 8,
    "bars": 16,
    "start_s": 10.9,
-   "lufs": -18.2
+   "lufs": -18.3
   },
   {
    "section": "B holes",
    "bar": 24,
    "bars": 16,
    "start_s": 32.7,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "flute drift",
    "bar": 40,
    "bars": 8,
    "start_s": 54.5,
-   "lufs": -17.5
+   "lufs": -17.9
   },
   {
    "section": "A' thinner",
    "bar": 48,
    "bars": 16,
    "start_s": 65.5,
-   "lufs": -19.8
+   "lufs": -19.9
   },
   {
    "section": "clutter, glimmer",
    "bar": 64,
    "bars": 8,
    "start_s": 87.3,
-   "lufs": -21.3
+   "lufs": -21.1
   },
   {
    "section": "clutter again",
    "bar": 72,
    "bars": 8,
    "start_s": 98.2,
-   "lufs": -25.4
+   "lufs": -24.7
   }
  ],
  "motifs": [
@@ -83,9 +83,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-REF-BROKEN.mid"
  },
  "seam": {
-  "jump_db": -0.03,
-  "wrap_step": 0.0053,
-  "p999_step": 0.06022,
+  "jump_db": 0.47,
+  "wrap_step": 0.00269,
+  "p999_step": 0.0576,
   "click": false,
   "ok": true
  },

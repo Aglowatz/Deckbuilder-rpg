@@ -8,8 +8,8 @@
  "seconds": 167.62,
  "loop_seconds": 167.619,
  "lufs": -20.0,
- "true_peak": -5.0,
- "lra": 8.4,
+ "true_peak": -5.4,
+ "lra": 8.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.3
+   "lufs": -23.7
   },
   {
    "section": "A Mortimer",
@@ -33,21 +33,21 @@
    "bar": 20,
    "bars": 16,
    "start_s": 38.1,
-   "lufs": -19.6
+   "lufs": -19.7
   },
   {
    "section": "C the question inverted",
    "bar": 36,
    "bars": 16,
    "start_s": 68.6,
-   "lufs": -23.5
+   "lufs": -23.4
   },
   {
    "section": "D he is sure",
    "bar": 52,
    "bars": 8,
    "start_s": 99.0,
-   "lufs": -23.0
+   "lufs": -22.9
   },
   {
    "section": "E climax",
@@ -61,14 +61,14 @@
    "bar": 76,
    "bars": 8,
    "start_s": 144.8,
-   "lufs": -22.3
+   "lufs": -22.2
   },
   {
    "section": "outro",
    "bar": 84,
    "bars": 4,
    "start_s": 160.0,
-   "lufs": -24.3
+   "lufs": -23.7
   }
  ],
  "motifs": [
@@ -110,9 +110,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.08,
-  "wrap_step": 0.00752,
-  "p999_step": 0.05605,
+  "jump_db": 0.43,
+  "wrap_step": 0.00454,
+  "p999_step": 0.05512,
   "click": false,
   "ok": true
  },

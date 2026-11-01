@@ -9,7 +9,7 @@
  "loop_seconds": 142.222,
  "lufs": -20.0,
  "true_peak": -5.0,
- "lra": 8.8,
+ "lra": 8.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -27.4
+   "lufs": -27.3
   },
   {
    "section": "A reps",
    "bar": 4,
    "bars": 16,
    "start_s": 8.9,
-   "lufs": -20.0
+   "lufs": -19.9
   },
   {
    "section": "B breath",
    "bar": 20,
    "bars": 16,
    "start_s": 44.4,
-   "lufs": -23.7
+   "lufs": -23.6
   },
   {
    "section": "C fortress",
@@ -47,14 +47,14 @@
    "bar": 52,
    "bars": 8,
    "start_s": 115.6,
-   "lufs": -17.2
+   "lufs": -17.3
   },
   {
    "section": "outro reps",
    "bar": 60,
    "bars": 4,
    "start_s": 133.3,
-   "lufs": -27.3
+   "lufs": -27.1
   }
  ],
  "motifs": [
@@ -107,8 +107,8 @@
  },
  "seam": {
   "jump_db": -1.15,
-  "wrap_step": 0.00415,
-  "p999_step": 0.05405,
+  "wrap_step": 0.00406,
+  "p999_step": 0.05379,
   "click": false,
   "ok": true
  },

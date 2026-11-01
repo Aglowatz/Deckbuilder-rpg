@@ -8,8 +8,8 @@
  "seconds": 77.64,
  "loop_seconds": 73.333,
  "lufs": -20.0,
- "true_peak": -5.7,
- "lra": 12.1,
+ "true_peak": -5.9,
+ "lra": 12.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.3
+   "lufs": -26.4
   },
   {
    "section": "humming",
@@ -33,21 +33,21 @@
    "bar": 10,
    "bars": 4,
    "start_s": 33.3,
-   "lufs": -22.2
+   "lufs": -22.0
   },
   {
    "section": "crossroads",
    "bar": 14,
    "bars": 6,
    "start_s": 46.7,
-   "lufs": -17.2
+   "lufs": -17.3
   },
   {
    "section": "slipping away",
    "bar": 20,
    "bars": 2,
    "start_s": 66.7,
-   "lufs": -24.7
+   "lufs": -24.8
   }
  ],
  "motifs": [
@@ -68,7 +68,7 @@
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MEM-01\\MUS-MEM-01.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MEM-01.mid"
  },
- "onset_ms": 4.8,
+ "onset_ms": 10.4,
  "onset_ok": true,
  "checks": {
   "range": {

@@ -5,11 +5,11 @@
  "bpm": 88,
  "meter": "4/4",
  "bars": 24,
- "seconds": 76.17,
+ "seconds": 76.75,
  "loop_seconds": 73.347,
  "lufs": -20.0,
- "true_peak": -6.6,
- "lra": 6.9,
+ "true_peak": -7.3,
+ "lra": 6.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -20.4
+   "lufs": -20.5
   },
   {
    "section": "easing",
    "bar": 8,
    "bars": 4,
    "start_s": 21.8,
-   "lufs": -23.2
+   "lufs": -22.9
   },
   {
    "section": "free phrasing",
    "bar": 12,
    "bars": 8,
    "start_s": 33.7,
-   "lufs": -18.2
+   "lufs": -18.5
   },
   {
    "section": "rest",
    "bar": 20,
    "bars": 4,
    "start_s": 59.6,
-   "lufs": -22.3
+   "lufs": -20.9
   }
  ],
  "motifs": [

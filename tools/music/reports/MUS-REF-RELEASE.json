@@ -5,11 +5,11 @@
  "bpm": 108,
  "meter": "6/8",
  "bars": 40,
- "seconds": 71.35,
+ "seconds": 71.56,
  "loop_seconds": 66.667,
  "lufs": -20.0,
- "true_peak": -7.6,
- "lra": 10.5,
+ "true_peak": -7.8,
+ "lra": 10.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -27.4
+   "lufs": -27.1
   },
   {
    "section": "the lament, home",
@@ -47,7 +47,7 @@
    "bar": 32,
    "bars": 8,
    "start_s": 53.3,
-   "lufs": -19.4
+   "lufs": -19.5
   }
  ],
  "motifs": [

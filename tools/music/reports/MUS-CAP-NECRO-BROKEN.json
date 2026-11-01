@@ -8,8 +8,8 @@
  "seconds": 117.0,
  "loop_seconds": 117.0,
  "lufs": -20.0,
- "true_peak": -5.4,
- "lra": 8.2,
+ "true_peak": -5.8,
+ "lra": 8.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.8
+   "lufs": -23.9
   },
   {
    "section": "A thin theme",
@@ -33,21 +33,21 @@
    "bar": 20,
    "bars": 16,
    "start_s": 45.0,
-   "lufs": -22.0
+   "lufs": -21.9
   },
   {
    "section": "C the clerk returns",
    "bar": 36,
    "bars": 12,
    "start_s": 81.0,
-   "lufs": -17.2
+   "lufs": -17.3
   },
   {
    "section": "stall",
    "bar": 48,
    "bars": 4,
    "start_s": 108.0,
-   "lufs": -24.1
+   "lufs": -23.9
   }
  ],
  "motifs": [
@@ -64,9 +64,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-NECRO-BROKEN.mid"
  },
  "seam": {
-  "jump_db": 0.91,
-  "wrap_step": 0.00083,
-  "p999_step": 0.05326,
+  "jump_db": 1.09,
+  "wrap_step": 0.00099,
+  "p999_step": 0.05281,
   "click": false,
   "ok": true
  },

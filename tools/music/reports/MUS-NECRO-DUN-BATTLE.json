@@ -8,8 +8,8 @@
  "seconds": 157.81,
  "loop_seconds": 157.808,
  "lufs": -20.0,
- "true_peak": -5.0,
- "lra": 10.0,
+ "true_peak": -4.9,
+ "lra": 8.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,70 +19,70 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.0
+   "lufs": -23.5
   },
   {
    "section": "A walking theme",
    "bar": 4,
    "bars": 16,
    "start_s": 4.9,
-   "lufs": -19.3
+   "lufs": -19.6
   },
   {
    "section": "B held tension",
    "bar": 20,
    "bars": 16,
    "start_s": 24.7,
-   "lufs": -22.4
+   "lufs": -21.6
   },
   {
    "section": "C active motif",
    "bar": 36,
    "bars": 16,
    "start_s": 44.4,
-   "lufs": -19.9
+   "lufs": -20.2
   },
   {
    "section": "D violins",
    "bar": 52,
    "bars": 16,
    "start_s": 64.1,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "E choir",
    "bar": 68,
    "bars": 16,
    "start_s": 83.8,
-   "lufs": -26.7
+   "lufs": -25.1
   },
   {
    "section": "F brass tutti",
    "bar": 84,
    "bars": 16,
    "start_s": 103.6,
-   "lufs": -16.2
+   "lufs": -16.3
   },
   {
    "section": "G fragments",
    "bar": 100,
    "bars": 16,
    "start_s": 123.3,
-   "lufs": -22.9
+   "lufs": -23.1
   },
   {
    "section": "H climax",
    "bar": 116,
    "bars": 8,
    "start_s": 143.0,
-   "lufs": -17.7
+   "lufs": -17.6
   },
   {
    "section": "outro",
    "bar": 124,
    "bars": 4,
    "start_s": 152.9,
-   "lufs": -23.8
+   "lufs": -23.3
   }
  ],
  "motifs": [
@@ -134,9 +134,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-DUN-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.25,
+  "jump_db": 0.03,
   "wrap_step": 0.00238,
-  "p999_step": 0.05896,
+  "p999_step": 0.05744,
   "click": false,
   "ok": true
  },

@@ -5,11 +5,11 @@
  "bpm": 76,
  "meter": "4/4",
  "bars": 20,
- "seconds": 65.05,
+ "seconds": 67.19,
  "loop_seconds": 63.158,
  "lufs": -20.0,
- "true_peak": -6.1,
- "lra": 17.2,
+ "true_peak": -6.3,
+ "lra": 8.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 2,
    "start_s": 0.0,
-   "lufs": -26.6
+   "lufs": -26.3
   },
   {
    "section": "the lullaby, whole",
@@ -40,14 +40,14 @@
    "bar": 12,
    "bars": 4,
    "start_s": 37.9,
-   "lufs": -17.5
+   "lufs": -17.3
   },
   {
    "section": "ring",
    "bar": 16,
    "bars": 4,
    "start_s": 50.5,
-   "lufs": -31.3
+   "lufs": -21.7
   }
  ],
  "motifs": [

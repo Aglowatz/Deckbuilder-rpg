@@ -8,8 +8,8 @@
  "seconds": 112.94,
  "loop_seconds": 112.941,
  "lufs": -20.0,
- "true_peak": -5.1,
- "lra": 6.1,
+ "true_peak": -5.3,
+ "lra": 4.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,56 +19,56 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.5
+   "lufs": -19.6
   },
   {
    "section": "D.N.A. waltz",
    "bar": 4,
    "bars": 12,
    "start_s": 7.1,
-   "lufs": -23.1
+   "lufs": -22.1
   },
   {
    "section": "Buffet showtune",
    "bar": 16,
    "bars": 8,
    "start_s": 28.2,
-   "lufs": -21.3
+   "lufs": -21.1
   },
   {
    "section": "Buffet drop",
    "bar": 24,
    "bars": 8,
    "start_s": 42.4,
-   "lufs": -19.2
+   "lufs": -19.5
   },
   {
    "section": "Dump jig",
    "bar": 32,
    "bars": 8,
    "start_s": 56.5,
-   "lufs": -21.3
+   "lufs": -21.5
   },
   {
    "section": "Gainlands march",
    "bar": 40,
    "bars": 16,
    "start_s": 70.6,
-   "lufs": -19.1
+   "lufs": -19.2
   },
   {
    "section": "glitch stack",
    "bar": 56,
    "bars": 4,
    "start_s": 98.8,
-   "lufs": -17.1
+   "lufs": -17.3
   },
   {
    "section": "outro mirror",
    "bar": 60,
    "bars": 4,
    "start_s": 105.9,
-   "lufs": -19.5
+   "lufs": -19.6
   }
  ],
  "motifs": [
@@ -85,9 +85,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-02.mid"
  },
  "seam": {
-  "jump_db": 0.96,
-  "wrap_step": 0.01636,
-  "p999_step": 0.05112,
+  "jump_db": 0.97,
+  "wrap_step": 0.01518,
+  "p999_step": 0.04894,
   "click": false,
   "ok": true
  },

@@ -8,8 +8,8 @@
  "seconds": 127.5,
  "loop_seconds": 127.5,
  "lufs": -20.0,
- "true_peak": -5.2,
- "lra": 9.8,
+ "true_peak": -5.1,
+ "lra": 9.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 7.5,
-   "lufs": -21.3
+   "lufs": -21.2
   },
   {
    "section": "B Gainlands theme vs the count",
@@ -47,14 +47,14 @@
    "bar": 48,
    "bars": 16,
    "start_s": 90.0,
-   "lufs": -17.2
+   "lufs": -17.3
   },
   {
    "section": "outro count",
    "bar": 64,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -22.5
+   "lufs": -22.3
   }
  ],
  "motifs": [
@@ -91,9 +91,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SWOLY-BOSS.mid"
  },
  "seam": {
-  "jump_db": -1.09,
-  "wrap_step": 0.00217,
-  "p999_step": 0.05419,
+  "jump_db": -0.77,
+  "wrap_step": 0.00559,
+  "p999_step": 0.05347,
   "click": false,
   "ok": true
  },

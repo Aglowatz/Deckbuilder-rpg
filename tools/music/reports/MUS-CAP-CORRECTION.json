@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "A the anthem as procedure",
@@ -47,14 +47,14 @@
    "bar": 44,
    "bars": 16,
    "start_s": 88.0,
-   "lufs": -18.1
+   "lufs": -18.0
   },
   {
    "section": "metronome",
    "bar": 60,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -20.8
+   "lufs": -20.9
   }
  ],
  "motifs": [
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-CORRECTION.mid"
  },
  "seam": {
-  "jump_db": 0.36,
-  "wrap_step": 0.00484,
-  "p999_step": 0.08933,
+  "jump_db": 0.37,
+  "wrap_step": 0.00395,
+  "p999_step": 0.08883,
   "click": false,
   "ok": true
  },

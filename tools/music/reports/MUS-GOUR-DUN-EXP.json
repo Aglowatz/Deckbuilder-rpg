@@ -9,7 +9,7 @@
  "loop_seconds": 137.143,
  "lufs": -20.0,
  "true_peak": -5.3,
- "lra": 10.1,
+ "lra": 9.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -26.3
+   "lufs": -26.1
   },
   {
    "section": "A cold theme",
@@ -33,7 +33,7 @@
    "bar": 24,
    "bars": 12,
    "start_s": 51.4,
-   "lufs": -21.7
+   "lufs": -21.6
   },
   {
    "section": "A' strings",
@@ -47,7 +47,7 @@
    "bar": 56,
    "bars": 8,
    "start_s": 120.0,
-   "lufs": -26.3
+   "lufs": -26.1
   }
  ],
  "motifs": [
@@ -84,9 +84,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-DUN-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.8,
-  "wrap_step": 0.00717,
-  "p999_step": 0.07625,
+  "jump_db": -0.79,
+  "wrap_step": 0.0048,
+  "p999_step": 0.07588,
   "click": false,
   "ok": true
  },

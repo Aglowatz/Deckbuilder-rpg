@@ -9,7 +9,7 @@
  "loop_seconds": 86.4,
  "lufs": -20.0,
  "true_peak": -5.8,
- "lra": 6.8,
+ "lra": 6.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 16,
    "start_s": 0.0,
-   "lufs": -21.8
+   "lufs": -21.9
   },
   {
    "section": "welcoming",
@@ -56,8 +56,8 @@
  },
  "seam": {
   "jump_db": 0.19,
-  "wrap_step": 0.00911,
-  "p999_step": 0.04795,
+  "wrap_step": 0.00916,
+  "p999_step": 0.04779,
   "click": false,
   "ok": true
  },

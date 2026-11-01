@@ -61,7 +61,7 @@
    "bar": 92,
    "bars": 4,
    "start_s": 138.0,
-   "lufs": -20.7
+   "lufs": -20.6
   }
  ],
  "motifs": [
@@ -133,9 +133,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 1.1,
-  "wrap_step": 0.00834,
-  "p999_step": 0.07624,
+  "jump_db": 1.17,
+  "wrap_step": 0.00898,
+  "p999_step": 0.07595,
   "click": false,
   "ok": true
  },

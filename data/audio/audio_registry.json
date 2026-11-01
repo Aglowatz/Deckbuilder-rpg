@@ -3,7 +3,7 @@
 	"entries": {
 		"MUS-ARCHIVE": {
 			"alias_of": "",
-			"analysis": "level-jump",
+			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
 			"duration": 77.99,
@@ -133,7 +133,7 @@
 			"loop": true,
 			"name": "The Gainlands — restored",
 			"use": "Freed-zone exploration and NPC dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Gainlands"
 		},
 		"MUS-BEEF-RELEASE": {
@@ -141,7 +141,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 77.48,
+			"duration": 77.65,
 			"file": "res://assets/audio/music/MUS-BEEF-RELEASE.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -178,7 +178,7 @@
 			"loop": true,
 			"name": "Transit Yards — service returns",
 			"use": "District after its Path zone is freed",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Transit Yards"
 		},
 		"MUS-CAP-CORRECTION": {
@@ -238,7 +238,7 @@
 			"loop": true,
 			"name": "Everything is perfectly fine",
 			"use": "Perfect Plaza, identical houses and citizens",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Showcase Quarter"
 		},
 		"MUS-CAP-GOUR-BROKEN": {
@@ -441,7 +441,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 297.27,
+			"duration": 301.52,
 			"file": "res://assets/audio/music/MUS-CREDITS.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -483,10 +483,10 @@
 		},
 		"MUS-GALLERY": {
 			"alias_of": "",
-			"analysis": "silent-gap level-jump",
+			"analysis": "level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 61.71,
+			"duration": 64.89,
 			"file": "res://assets/audio/music/MUS-GALLERY.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -651,7 +651,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 70.71,
+			"duration": 70.72,
 			"file": "res://assets/audio/music/MUS-LAB-CELL.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -696,7 +696,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Motif",
-			"duration": 36.54,
+			"duration": 36.69,
 			"file": "res://assets/audio/music/MUS-LULLABY.ogg",
 			"gameplay": false,
 			"kind": "motif",
@@ -718,7 +718,7 @@
 			"loop": true,
 			"name": "Maren — pie and secrets",
 			"use": "Maren's major story conversations",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Crosspath / Maren"
 		},
 		"MUS-MEM-01": {
@@ -756,7 +756,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 77.67,
+			"duration": 77.98,
 			"file": "res://assets/audio/music/MUS-MEM-03.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -771,7 +771,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 77.05,
+			"duration": 77.31,
 			"file": "res://assets/audio/music/MUS-MEM-04.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -838,7 +838,7 @@
 			"loop": true,
 			"name": "Rhonda's sorting ribbons",
 			"use": "Path minigame gameplay",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Path minigames"
 		},
 		"MUS-NECRO-BATTLE": {
@@ -853,7 +853,7 @@
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — combat",
 			"use": "BB-DNA; Path gate envoy",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-BOSS": {
@@ -913,7 +913,7 @@
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-DNA",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-FREED": {
@@ -1093,7 +1093,7 @@
 			"loop": true,
 			"name": "Rules between duels",
 			"use": "Between phases / pre-duel dialogue",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Primm's boss dialogue"
 		},
 		"MUS-PRIMM-DEFEAT": {
@@ -1101,7 +1101,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 87.58,
+			"duration": 87.75,
 			"file": "res://assets/audio/music/MUS-PRIMM-DEFEAT.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1131,7 +1131,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 59.64,
+			"duration": 60.15,
 			"file": "res://assets/audio/music/MUS-QUEST-FERN.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1176,7 +1176,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 76.17,
+			"duration": 76.75,
 			"file": "res://assets/audio/music/MUS-QUEST-ROLLO.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1296,7 +1296,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 71.35,
+			"duration": 71.56,
 			"file": "res://assets/audio/music/MUS-REF-RELEASE.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1311,7 +1311,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 73.51,
+			"duration": 73.83,
 			"file": "res://assets/audio/music/MUS-REUNION.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1596,7 +1596,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 65.05,
+			"duration": 67.19,
 			"file": "res://assets/audio/music/MUS-THRONE.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -1633,7 +1633,7 @@
 			"loop": true,
 			"name": "Crosspath — roads converge",
 			"use": "Plaza, market and ordinary conversations",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "Crosspath"
 		},
 		"MUS-TOWN-BATTLE": {
@@ -1723,7 +1723,7 @@
 			"loop": true,
 			"name": "Forgotten Cave — first trials",
 			"use": "BB-TUT ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Cave"
 		},
 		"MUS-TUT-BOSS": {

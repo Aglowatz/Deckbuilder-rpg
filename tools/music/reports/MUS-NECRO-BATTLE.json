@@ -8,8 +8,8 @@
  "seconds": 125.22,
  "loop_seconds": 125.217,
  "lufs": -20.0,
- "true_peak": -6.8,
- "lra": 6.0,
+ "true_peak": -7.0,
+ "lra": 5.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.8
+   "lufs": -23.1
   },
   {
    "section": "A brass theme",
    "bar": 4,
    "bars": 16,
    "start_s": 5.2,
-   "lufs": -18.5
+   "lufs": -18.7
   },
   {
    "section": "B motif",
    "bar": 20,
    "bars": 16,
    "start_s": 26.1,
-   "lufs": -20.7
+   "lufs": -20.6
   },
   {
    "section": "C paperwork",
    "bar": 36,
    "bars": 8,
    "start_s": 47.0,
-   "lufs": -20.9
+   "lufs": -21.0
   },
   {
    "section": "D organ tutti",
@@ -54,7 +54,7 @@
    "bar": 60,
    "bars": 16,
    "start_s": 78.3,
-   "lufs": -22.3
+   "lufs": -22.1
   },
   {
    "section": "F theme again",
@@ -68,7 +68,7 @@
    "bar": 92,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -24.4
+   "lufs": -23.5
   }
  ],
  "motifs": [
@@ -125,9 +125,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.68,
-  "wrap_step": 0.00663,
-  "p999_step": 0.04979,
+  "jump_db": 0.8,
+  "wrap_step": 0.00592,
+  "p999_step": 0.04904,
   "click": false,
   "ok": true
  },

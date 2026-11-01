@@ -8,8 +8,8 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -6.5,
- "lra": 4.1,
+ "true_peak": -6.4,
+ "lra": 4.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.5
+   "lufs": -21.6
   },
   {
    "section": "A measured theme",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 33.3,
-   "lufs": -21.7
+   "lufs": -21.6
   },
   {
    "section": "C the motif breaks through",
@@ -96,9 +96,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-FACADE-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.75,
-  "wrap_step": 0.008,
-  "p999_step": 0.06209,
+  "jump_db": -0.59,
+  "wrap_step": 0.01238,
+  "p999_step": 0.06071,
   "click": false,
   "ok": true
  },

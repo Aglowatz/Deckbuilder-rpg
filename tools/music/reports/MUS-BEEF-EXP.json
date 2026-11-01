@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -28.2
+   "lufs": -28.3
   },
   {
    "section": "A march",
    "bar": 4,
    "bars": 16,
    "start_s": 8.3,
-   "lufs": -21.3
+   "lufs": -21.2
   },
   {
    "section": "B gentle",
@@ -40,14 +40,14 @@
    "bar": 36,
    "bars": 8,
    "start_s": 74.5,
-   "lufs": -27.9
+   "lufs": -28.0
   },
   {
    "section": "A' tutti",
    "bar": 44,
    "bars": 16,
    "start_s": 91.0,
-   "lufs": -16.5
+   "lufs": -16.6
   },
   {
    "section": "outro vamp",
@@ -102,8 +102,8 @@
  },
  "seam": {
   "jump_db": 0.07,
-  "wrap_step": 0.00408,
-  "p999_step": 0.08456,
+  "wrap_step": 0.00316,
+  "p999_step": 0.08378,
   "click": false,
   "ok": true
  },

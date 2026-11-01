@@ -8,8 +8,8 @@
  "seconds": 99.31,
  "loop_seconds": 99.31,
  "lufs": -20.0,
- "true_peak": -5.7,
- "lra": 12.1,
+ "true_peak": -5.6,
+ "lra": 12.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -30.2
+   "lufs": -30.3
   },
   {
    "section": "A jig",
@@ -33,7 +33,7 @@
    "bar": 24,
    "bars": 16,
    "start_s": 24.8,
-   "lufs": -20.1
+   "lufs": -20.2
   },
   {
    "section": "B lyrical",
@@ -54,14 +54,14 @@
    "bar": 72,
    "bars": 16,
    "start_s": 74.5,
-   "lufs": -15.9
+   "lufs": -15.8
   },
   {
    "section": "outro",
    "bar": 88,
    "bars": 8,
    "start_s": 91.0,
-   "lufs": -27.6
+   "lufs": -27.7
   }
  ],
  "motifs": [
@@ -84,8 +84,8 @@
  },
  "seam": {
   "jump_db": -0.19,
-  "wrap_step": 0.00068,
-  "p999_step": 0.06941,
+  "wrap_step": 0.00115,
+  "p999_step": 0.06913,
   "click": false,
   "ok": true
  },

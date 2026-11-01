@@ -8,8 +8,8 @@
  "seconds": 106.67,
  "loop_seconds": 106.667,
  "lufs": -20.0,
- "true_peak": -6.8,
- "lra": 4.5,
+ "true_peak": -6.3,
+ "lra": 4.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.2
+   "lufs": -19.9
   },
   {
    "section": "A the hum",
    "bar": 4,
    "bars": 16,
    "start_s": 6.7,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "B motif",
@@ -40,21 +40,21 @@
    "bar": 36,
    "bars": 16,
    "start_s": 60.0,
-   "lufs": -19.9
+   "lufs": -20.2
   },
   {
    "section": "D tension",
    "bar": 52,
    "bars": 8,
    "start_s": 86.7,
-   "lufs": -21.1
+   "lufs": -20.5
   },
   {
    "section": "bed",
    "bar": 60,
    "bars": 4,
    "start_s": 100.0,
-   "lufs": -20.7
+   "lufs": -20.1
   }
  ],
  "motifs": [
@@ -96,9 +96,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GRAVE-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.99,
-  "wrap_step": 0.00662,
-  "p999_step": 0.05169,
+  "jump_db": 1.14,
+  "wrap_step": 0.00613,
+  "p999_step": 0.05047,
   "click": false,
   "ok": true
  },

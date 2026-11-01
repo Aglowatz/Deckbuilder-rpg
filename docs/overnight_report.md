@@ -31,8 +31,20 @@ Oct 30 `_screenshots/play` critic runs (gitignored, reports already written): 4.
     ("Phase Standardization" over "Primm"). Shots: `_screenshots/oct31n/plates_new.png` (before) / `plates_final.png` (after), tool
     `tools/plate_shot.tscn`. Three-word names ("Colonel Cornelius Crumb") get small (10 px) but stay inside the band.
 
-## Part 2 - Music
-(todo)
+## Part 2 - Music (done)
+
+- **The overlap fix** (`tools/music/lib/score.py` `note_spans`, unit test `tools/music/tests/test_note_spans.py` 5/5): a re-strike of a pitch
+  that was still sounding on the same channel used to be cut off by the earlier note's note-off. Per pitch and channel, notes now merge
+  so each sounds its full written length.
+- **All 144 re-rendered** (`bash tools/music/rerender_all.sh render`): 100 tracks changed audibly (>= 5 % more sounding note time: pads,
+  organ, tremolo strings, choirs; up to +65 %), 19 slightly, 25 not at all. Per-track notes: `docs/audio/music_overlap_fix_oct31.md`.
+- **Rules held**: loops -20 LUFS; three seams went over 1.5 dB once their held notes rang through the end and got `Score.soften_tail(0.85)`
+  (MUS-CAP-REF-BROKEN +1.66 -> +0.47, MUS-MINIGAME-NECRO +1.51 -> -0.54, MUS-TUT-EXP +1.60 -> -0.51 dB); one-shots onset-checked.
+- **Delivered**: old files backed up as `Superseded/Music_v01/<ID>_orch-v1b.ogg|wav` (144), new ones approved as revision `orch-v2`,
+  "import audio" (in game 142, missing 0), boss victory stings re-cut, `docs/audio/music_integration.md` refreshed. Audio GUT 90/90, music
+  smoke OK (worst crossfade step 0.00 dB). Previews of 10 tracks: `Music Review/Overlap fix/`.
+- The import's background shell was stopped by Claude Code's low-memory guard after it had copied the files; its own Godot re-import
+  finished on its own, and the remaining steps (sting cut, doc) were run in the foreground.
 
 ## Part 3 - Performance
 (todo)

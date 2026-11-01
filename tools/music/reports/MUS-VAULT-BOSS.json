@@ -8,8 +8,8 @@
  "seconds": 127.5,
  "loop_seconds": 127.5,
  "lufs": -20.0,
- "true_peak": -4.8,
- "lra": 8.4,
+ "true_peak": -5.0,
+ "lra": 7.8,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,28 +26,28 @@
    "bar": 4,
    "bars": 16,
    "start_s": 7.5,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "B four seals",
    "bar": 20,
    "bars": 16,
    "start_s": 37.5,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "C hush",
    "bar": 36,
    "bars": 12,
    "start_s": 67.5,
-   "lufs": -25.6
+   "lufs": -25.2
   },
   {
    "section": "climax",
    "bar": 48,
    "bars": 16,
    "start_s": 90.0,
-   "lufs": -18.2
+   "lufs": -18.3
   },
   {
    "section": "seal strokes",
@@ -116,9 +116,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-VAULT-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.03,
-  "wrap_step": 0.00571,
-  "p999_step": 0.05062,
+  "jump_db": 0.06,
+  "wrap_step": 0.00369,
+  "p999_step": 0.04997,
   "click": false,
   "ok": true
  },

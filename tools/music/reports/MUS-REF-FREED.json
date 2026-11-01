@@ -9,7 +9,7 @@
  "loop_seconds": 128.571,
  "lufs": -20.0,
  "true_peak": -4.9,
- "lra": 10.2,
+ "lra": 10.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -26.8
+   "lufs": -26.9
   },
   {
    "section": "A flute jig",
    "bar": 8,
    "bars": 16,
    "start_s": 8.6,
-   "lufs": -21.1
+   "lufs": -21.2
   },
   {
    "section": "A' fiddle",
    "bar": 24,
    "bars": 16,
    "start_s": 25.7,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "B resolved motif",
@@ -54,21 +54,21 @@
    "bar": 72,
    "bars": 16,
    "start_s": 77.1,
-   "lufs": -23.9
+   "lufs": -24.0
   },
   {
    "section": "A'' tutti",
    "bar": 88,
    "bars": 24,
    "start_s": 94.3,
-   "lufs": -16.5
+   "lufs": -16.4
   },
   {
    "section": "outro glimmer",
    "bar": 112,
    "bars": 8,
    "start_s": 120.0,
-   "lufs": -27.7
+   "lufs": -27.6
   }
  ],
  "motifs": [
@@ -95,9 +95,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-FREED.mid"
  },
  "seam": {
-  "jump_db": 0.28,
-  "wrap_step": 0.00096,
-  "p999_step": 0.06956,
+  "jump_db": 0.27,
+  "wrap_step": 0.00085,
+  "p999_step": 0.06891,
   "click": false,
   "ok": true
  },

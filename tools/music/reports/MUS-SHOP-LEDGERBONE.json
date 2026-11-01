@@ -9,7 +9,7 @@
  "loop_seconds": 77.143,
  "lufs": -20.0,
  "true_peak": -6.5,
- "lra": 8.4,
+ "lra": 8.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -25.2
+   "lufs": -25.0
   },
   {
    "section": "A harpsichord theme",
@@ -33,14 +33,14 @@
    "bar": 20,
    "bars": 8,
    "start_s": 42.9,
-   "lufs": -18.8
+   "lufs": -18.9
   },
   {
    "section": "A answer",
    "bar": 28,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -19.9
+   "lufs": -19.8
   },
   {
    "section": "cadence",
@@ -64,9 +64,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-LEDGERBONE.mid"
  },
  "seam": {
-  "jump_db": 1.08,
-  "wrap_step": 0.00656,
-  "p999_step": 0.06431,
+  "jump_db": 1.16,
+  "wrap_step": 0.00491,
+  "p999_step": 0.06398,
   "click": false,
   "ok": true
  },

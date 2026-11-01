@@ -8,8 +8,8 @@
  "seconds": 78.55,
  "loop_seconds": 78.545,
  "lufs": -20.0,
- "true_peak": -8.7,
- "lra": 13.8,
+ "true_peak": -8.5,
+ "lra": 13.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -34.6
+   "lufs": -34.1
   },
   {
    "section": "A cells",
@@ -40,14 +40,14 @@
    "bar": 28,
    "bars": 16,
    "start_s": 45.8,
-   "lufs": -18.3
+   "lufs": -18.2
   },
   {
    "section": "outro",
    "bar": 44,
    "bars": 4,
    "start_s": 72.0,
-   "lufs": -32.3
+   "lufs": -31.9
   }
  ],
  "motifs": [
@@ -74,9 +74,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-NECRO.mid"
  },
  "seam": {
-  "jump_db": 1.05,
-  "wrap_step": 0.00091,
-  "p999_step": 0.04631,
+  "jump_db": -0.54,
+  "wrap_step": 0.00038,
+  "p999_step": 0.04645,
   "click": false,
   "ok": true
  },

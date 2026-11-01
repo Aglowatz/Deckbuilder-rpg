@@ -8,8 +8,8 @@
  "seconds": 132.0,
  "loop_seconds": 132.0,
  "lufs": -20.0,
- "true_peak": -6.0,
- "lra": 7.6,
+ "true_peak": -5.4,
+ "lra": 6.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -25.2
+   "lufs": -23.8
   },
   {
    "section": "A slow theme",
    "bar": 8,
    "bars": 16,
    "start_s": 12.0,
-   "lufs": -20.0
+   "lufs": -19.9
   },
   {
    "section": "B tangle grows",
    "bar": 24,
    "bars": 16,
    "start_s": 36.0,
-   "lufs": -19.4
+   "lufs": -19.3
   },
   {
    "section": "spring glimpse",
    "bar": 40,
    "bars": 8,
    "start_s": 60.0,
-   "lufs": -21.6
+   "lufs": -22.3
   },
   {
    "section": "A' cello theme",
    "bar": 48,
    "bars": 16,
    "start_s": 72.0,
-   "lufs": -21.9
+   "lufs": -22.6
   },
   {
    "section": "C canon, overgrown",
    "bar": 64,
    "bars": 16,
    "start_s": 96.0,
-   "lufs": -17.5
+   "lufs": -17.0
   },
   {
    "section": "drone again",
    "bar": 80,
    "bars": 8,
    "start_s": 120.0,
-   "lufs": -24.8
+   "lufs": -23.6
   }
  ],
  "motifs": [
@@ -88,9 +88,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-DUN-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.2,
-  "wrap_step": 0.00828,
-  "p999_step": 0.04852,
+  "jump_db": 1.02,
+  "wrap_step": 0.00678,
+  "p999_step": 0.0448,
   "click": false,
   "ok": true
  },

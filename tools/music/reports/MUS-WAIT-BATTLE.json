@@ -8,8 +8,8 @@
  "seconds": 127.06,
  "loop_seconds": 127.059,
  "lufs": -20.0,
- "true_peak": -5.6,
- "lra": 10.1,
+ "true_peak": -6.0,
+ "lra": 9.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,42 +19,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.4
+   "lufs": -23.8
   },
   {
    "section": "A piano theme",
    "bar": 4,
    "bars": 16,
    "start_s": 5.3,
-   "lufs": -22.2
+   "lufs": -22.4
   },
   {
    "section": "B held, the motif",
    "bar": 20,
    "bars": 16,
    "start_s": 26.5,
-   "lufs": -21.4
+   "lufs": -21.2
   },
   {
    "section": "A' flute + violins",
    "bar": 36,
    "bars": 16,
    "start_s": 47.6,
-   "lufs": -17.1
+   "lufs": -17.3
   },
   {
    "section": "B' motif again",
    "bar": 52,
    "bars": 16,
    "start_s": 68.8,
-   "lufs": -23.2
+   "lufs": -22.7
   },
   {
    "section": "C theme in the brass",
    "bar": 68,
    "bars": 16,
    "start_s": 90.0,
-   "lufs": -17.0
+   "lufs": -17.1
   },
   {
    "section": "D wind-down",
@@ -68,7 +68,7 @@
    "bar": 92,
    "bars": 4,
    "start_s": 121.8,
-   "lufs": -24.3
+   "lufs": -23.8
   }
  ],
  "motifs": [
@@ -110,9 +110,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-WAIT-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.56,
-  "wrap_step": 0.01045,
-  "p999_step": 0.05873,
+  "jump_db": -0.46,
+  "wrap_step": 0.00718,
+  "p999_step": 0.05772,
   "click": false,
   "ok": true
  },

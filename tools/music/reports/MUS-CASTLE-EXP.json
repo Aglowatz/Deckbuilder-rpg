@@ -8,7 +8,7 @@
  "seconds": 135.0,
  "loop_seconds": 135.0,
  "lufs": -20.0,
- "true_peak": -6.8,
+ "true_peak": -7.0,
  "lra": 5.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -86,9 +86,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CASTLE-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.69,
-  "wrap_step": 0.01363,
-  "p999_step": 0.05088,
+  "jump_db": -0.63,
+  "wrap_step": 0.01402,
+  "p999_step": 0.05087,
   "click": false,
   "ok": true
  },

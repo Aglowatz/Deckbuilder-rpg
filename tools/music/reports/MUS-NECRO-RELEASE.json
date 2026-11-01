@@ -8,8 +8,8 @@
  "seconds": 73.51,
  "loop_seconds": 70.0,
  "lufs": -20.0,
- "true_peak": -7.8,
- "lra": 9.5,
+ "true_peak": -7.4,
+ "lra": 9.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.1
+   "lufs": -25.9
   },
   {
    "section": "clarinet asks",
    "bar": 4,
    "bars": 8,
    "start_s": 10.0,
-   "lufs": -17.8
+   "lufs": -17.9
   },
   {
    "section": "strings answer",
    "bar": 12,
    "bars": 8,
    "start_s": 30.0,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "resolved motif",
    "bar": 20,
    "bars": 4,
    "start_s": 50.0,
-   "lufs": -19.7
+   "lufs": -19.4
   },
   {
    "section": "held ending",
    "bar": 24,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -24.2
+   "lufs": -24.3
   }
  ],
  "motifs": [
@@ -68,7 +68,7 @@
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-NECRO-RELEASE\\MUS-NECRO-RELEASE.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-RELEASE.mid"
  },
- "onset_ms": 2.9,
+ "onset_ms": 3.0,
  "onset_ok": true,
  "checks": {
   "range": {

@@ -8,8 +8,8 @@
  "seconds": 80.0,
  "loop_seconds": 80.0,
  "lufs": -20.0,
- "true_peak": -7.3,
- "lra": 5.6,
+ "true_peak": -7.4,
+ "lra": 5.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,7 +26,7 @@
    "bar": 8,
    "bars": 2,
    "start_s": 22.9,
-   "lufs": -22.4
+   "lufs": -22.5
   },
   {
    "section": "B music box + flute",
@@ -70,8 +70,8 @@
  },
  "seam": {
   "jump_db": 0.34,
-  "wrap_step": 0.01956,
-  "p999_step": 0.04518,
+  "wrap_step": 0.01686,
+  "p999_step": 0.04464,
   "click": false,
   "ok": true
  },

@@ -8,8 +8,8 @@
  "seconds": 166.15,
  "loop_seconds": 166.154,
  "lufs": -20.0,
- "true_peak": -4.4,
- "lra": 8.8,
+ "true_peak": -4.5,
+ "lra": 8.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -24.6
+   "lufs": -23.4
   },
   {
    "section": "A jig in minor",
    "bar": 8,
    "bars": 16,
    "start_s": 9.2,
-   "lufs": -22.1
+   "lufs": -22.2
   },
   {
    "section": "B lament",
@@ -47,21 +47,21 @@
    "bar": 56,
    "bars": 16,
    "start_s": 64.6,
-   "lufs": -26.3
+   "lufs": -26.1
   },
   {
    "section": "E drive",
    "bar": 72,
    "bars": 16,
    "start_s": 83.1,
-   "lufs": -20.8
+   "lufs": -20.9
   },
   {
    "section": "F climax",
    "bar": 88,
    "bars": 24,
    "start_s": 101.5,
-   "lufs": -16.6
+   "lufs": -16.7
   },
   {
    "section": "decay",
@@ -75,14 +75,14 @@
    "bar": 128,
    "bars": 12,
    "start_s": 147.7,
-   "lufs": -22.8
+   "lufs": -22.9
   },
   {
    "section": "roots again",
    "bar": 140,
    "bars": 4,
    "start_s": 161.5,
-   "lufs": -24.7
+   "lufs": -23.6
   }
  ],
  "motifs": [
@@ -129,9 +129,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.33,
-  "wrap_step": 0.00241,
-  "p999_step": 0.05337,
+  "jump_db": 0.71,
+  "wrap_step": 0.01579,
+  "p999_step": 0.05291,
   "click": false,
   "ok": true
  },

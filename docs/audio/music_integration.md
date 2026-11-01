@@ -70,14 +70,14 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-BEEF-DUN-BATTLE | House of Gains — combat | `music/MUS-BEEF-DUN-BATTLE.ogg` | loop, loop | +0.1 | House of Gains battles and elites (BB-HOG) | In Game | OK |  |
 | MUS-BEEF-DUN-EXP | House of Gains — exploration | `music/MUS-BEEF-DUN-EXP.ogg` | loop, loop | +0.0 | House of Gains node map (D-HOG) and its events | In Game | OK |  |
 | MUS-BEEF-EXP | The Gainlands — exploration | `music/MUS-BEEF-EXP.ogg` | loop, loop | +0.1 | The Gainlands (`ZoneScene`, zone `beefcake`) until its own completion flag is set | In Game | OK |  |
-| MUS-BEEF-FREED | The Gainlands — restored | `music/MUS-BEEF-FREED.ogg` | loop, loop | +0.1 | The Gainlands once `zone_beefcake_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
+| MUS-BEEF-FREED | The Gainlands — restored | `music/MUS-BEEF-FREED.ogg` | loop, loop | +0.0 | The Gainlands once `zone_beefcake_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-BEEF-RELEASE | Flex's rescue and true strength | `music/MUS-BEEF-RELEASE.ogg` | story | +0.0 | House of Gains leader release scene: cutscene `rescue` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-CAP-BEEF-BROKEN | Transit Yards — broken service | `music/MUS-CAP-BEEF-BROKEN.ogg` | loop, loop | +0.0 | Transit Yards (area `transit`) while `zone_beefcake_completed` is not set | In Game | OK |  |
-| MUS-CAP-BEEF-RESTORED | Transit Yards — service returns | `music/MUS-CAP-BEEF-RESTORED.ogg` | loop, loop | +0.0 | Transit Yards (area `transit`) once `zone_beefcake_completed` is set | In Game | OK |  |
+| MUS-CAP-BEEF-RESTORED | Transit Yards — service returns | `music/MUS-CAP-BEEF-RESTORED.ogg` | loop, loop | +0.1 | Transit Yards (area `transit`) once `zone_beefcake_completed` is set | In Game | OK |  |
 | MUS-CAP-CORRECTION | Smiled incorrectly | `music/MUS-CAP-CORRECTION.ogg` | loop, loop | +0.1 | The Correction Ward (area `ward`) | In Game | OK |  |
 | MUS-CAP-ENFORCER | Every smudge is treason | `music/MUS-CAP-ENFORCER.ogg` | loop, loop | +0.1 | Captain Spotless (the Approved Gate exam) and Capital officers / inspectors | In Game | OK |  |
 | MUS-CAP-FACADE-BATTLE | Approved disagreement | `music/MUS-CAP-FACADE-BATTLE.ogg` | loop, loop | +0.1 | Capital battles on BB-CAP-IN | In Game | OK |  |
-| MUS-CAP-FACADE-EXP | Everything is perfectly fine | `music/MUS-CAP-FACADE-EXP.ogg` | loop, loop | +0.0 | Inside the walls: Checkpoint Plaza, the Showcase Quarter, the Castle Approach, Checkpoint Row (areas `plaza`, `perfection`, `approach`, `yard`) | In Game | OK |  |
+| MUS-CAP-FACADE-EXP | Everything is perfectly fine | `music/MUS-CAP-FACADE-EXP.ogg` | loop, loop | +0.1 | Inside the walls: Checkpoint Plaza, the Showcase Quarter, the Castle Approach, Checkpoint Row (areas `plaza`, `perfection`, `approach`, `yard`) | In Game | OK |  |
 | MUS-CAP-GOUR-BROKEN | Hungry Quarter — broken service | `music/MUS-CAP-GOUR-BROKEN.ogg` | loop, loop | +0.0 | Hungry Quarter (area `hungry`) while `zone_gourmand_completed` is not set | In Game | OK |  |
 | MUS-CAP-GOUR-RESTORED | Hungry Quarter — service returns | `music/MUS-CAP-GOUR-RESTORED.ogg` | loop, loop | +0.1 | Hungry Quarter (area `hungry`) once `zone_gourmand_completed` is set | In Game | OK |  |
 | MUS-CAP-NECRO-BROKEN | Grave Row — broken service | `music/MUS-CAP-NECRO-BROKEN.ogg` | loop, loop | +0.0 | Grave Row (area `grave`) while `zone_necrocrat_completed` is not set | In Game | OK |  |
@@ -109,7 +109,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-LAB-EXP | The subject's corridors | `music/MUS-LAB-EXP.ogg` | loop, loop | +0.0 | Path-ology Lab node map (D-LAB, postgame) | In Game | OK |  |
 | MUS-LAB-RESCUE | The hand that helped | `music/MUS-LAB-RESCUE.ogg` | story | +0.0 | Path-ology Lab rescue node (story key `dg_lab_rescue`, the captured Rescuer) | In Game | n/a (one-shot) |  |
 | MUS-LULLABY | Concordia's lullaby — motif master | `music/MUS-LULLABY.ogg` | motif | +0.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) | Imported as asked. Its theme is quoted by the memory, throne and reunion cues. |
-| MUS-MAREN | Maren — pie and secrets | `music/MUS-MAREN.ogg` | loop, loop | +0.0 | Elder Maren's memory conversations (`TownScene._play_memory`): under her lines, the fragment cue lies on top | In Game | OK | Pushed with the dialogue; popped over 1.5 s when the conversation ends. |
+| MUS-MAREN | Maren — pie and secrets | `music/MUS-MAREN.ogg` | loop, loop | +0.1 | Elder Maren's memory conversations (`TownScene._play_memory`): under her lines, the fragment cue lies on top | In Game | OK | Pushed with the dialogue; popped over 1.5 s when the conversation ends. |
 | MUS-MEM-01 | Warmth | `music/MUS-MEM-01.ogg` | story | +0.0 | Memory fragment 1 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
 | MUS-MEM-02 | The cells | `music/MUS-MEM-02.ogg` | story | +0.0 | Memory fragment 2 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
 | MUS-MEM-03 | The coup | `music/MUS-MEM-03.ogg` | story | +0.0 | Memory fragment 3 (`MemoryScreen`; the Nth zone freed, whichever zone it was) | In Game | n/a (one-shot) | One-shot; hands back to Maren's theme / the town when the screen closes. |
@@ -117,12 +117,12 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-MINIGAME-BEEF | Chet's revolutionary routine | `music/MUS-MINIGAME-BEEF.ogg` | loop, loop | +0.1 | The Gainlands minigame screen (Rep game) | In Game | OK |  |
 | MUS-MINIGAME-GOUR | Flambe's cooking show | `music/MUS-MINIGAME-GOUR.ogg` | loop, loop | +0.1 | The Endless Buffet minigame screen (Order game) | In Game | OK |  |
 | MUS-MINIGAME-NECRO | Kyle's memory matching | `music/MUS-MINIGAME-NECRO.ogg` | loop, loop | +0.0 | The Department of Necrotic Affairs minigame screen (Match game) | In Game | OK |  |
-| MUS-MINIGAME-REF | Rhonda's sorting ribbons | `music/MUS-MINIGAME-REF.ogg` | loop, loop | +0.1 | The Verdant Dump minigame screen (Sort game) | In Game | OK |  |
-| MUS-NECRO-BATTLE | The Department of Necrotic Affairs — combat | `music/MUS-NECRO-BATTLE.ogg` | loop, loop | +0.1 | Overworld battles on BB-DNA; the town's corrupted necrocrat gate envoy | In Game | OK |  |
+| MUS-MINIGAME-REF | Rhonda's sorting ribbons | `music/MUS-MINIGAME-REF.ogg` | loop, loop | +0.0 | The Verdant Dump minigame screen (Sort game) | In Game | OK |  |
+| MUS-NECRO-BATTLE | The Department of Necrotic Affairs — combat | `music/MUS-NECRO-BATTLE.ogg` | loop, loop | +0.0 | Overworld battles on BB-DNA; the town's corrupted necrocrat gate envoy | In Game | OK |  |
 | MUS-NECRO-BOSS | Mortimer Grimsby, CE-No | `music/MUS-NECRO-BOSS.ogg` | loop, loop | +0.0 | Hall of Final Approvals principal boss (BB-HFA, boss node) | In Game | OK |  |
 | MUS-NECRO-DUN-BATTLE | Hall of Final Approvals — combat | `music/MUS-NECRO-DUN-BATTLE.ogg` | loop, loop | +0.1 | Hall of Final Approvals battles and elites (BB-HFA) | In Game | OK |  |
 | MUS-NECRO-DUN-EXP | Hall of Final Approvals — exploration | `music/MUS-NECRO-DUN-EXP.ogg` | loop, loop | +0.1 | Hall of Final Approvals node map (D-HFA) and its events | In Game | OK |  |
-| MUS-NECRO-EXP | The Department of Necrotic Affairs — exploration | `music/MUS-NECRO-EXP.ogg` | loop, loop | +0.1 | The Department of Necrotic Affairs (`ZoneScene`, zone `necrocrat`) until its own completion flag is set | In Game | OK |  |
+| MUS-NECRO-EXP | The Department of Necrotic Affairs — exploration | `music/MUS-NECRO-EXP.ogg` | loop, loop | +0.0 | The Department of Necrotic Affairs (`ZoneScene`, zone `necrocrat`) until its own completion flag is set | In Game | OK |  |
 | MUS-NECRO-FREED | The Department of Necrotic Affairs — restored | `music/MUS-NECRO-FREED.ogg` | loop, loop | +0.1 | The Department of Necrotic Affairs once `zone_necrocrat_completed` is set (returning after the boss, and every later visit) | In Game | OK |  |
 | MUS-NECRO-RELEASE | Agnes — help people | `music/MUS-NECRO-RELEASE.ogg` | story | +0.0 | Hall of Final Approvals leader release scene: cutscene `vacancy` (`CutsceneScreen`) | In Game | n/a (one-shot) | One-shot; hands back to the dungeon music when it ends or the scene closes. |
 | MUS-OMAKASE-BATTLE | Omakase — combat | `music/MUS-OMAKASE-BATTLE.ogg` | loop, loop | +0.1 | Omakase ordinary battles (BB-S-GOUR) | In Game | OK |  |
@@ -134,7 +134,7 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-PRIMM-01 | Standardization | `music/MUS-PRIMM-01.ogg` | loop, loop | +0.1 | Primm duel phase 1 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(0).music`) | In Game | OK |  |
 | MUS-PRIMM-02 | Reflection | `music/MUS-PRIMM-02.ogg` | loop, loop | +0.1 | Primm duel phase 2 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(1).music`) | In Game | OK |  |
 | MUS-PRIMM-03 | Unraveling | `music/MUS-PRIMM-03.ogg` | loop, loop | +0.1 | Primm duel phase 3 (BB-PC-BOSS; chosen from the ACTUAL phase index, `PrimmBoss.phase(2).music`) | In Game | OK |  |
-| MUS-PRIMM-BREAK | Rules between duels | `music/MUS-PRIMM-BREAK.ogg` | loop, loop | +0.0 | Primm cutscenes before and between the phases (`primm_intro`, `primm_p1`, `primm_p2`) | In Game | OK |  |
+| MUS-PRIMM-BREAK | Rules between duels | `music/MUS-PRIMM-BREAK.ogg` | loop, loop | +0.1 | Primm cutscenes before and between the phases (`primm_intro`, `primm_p1`, `primm_p2`) | In Game | OK |  |
 | MUS-PRIMM-DEFEAT | Finally seeing | `music/MUS-PRIMM-DEFEAT.ogg` | story | +0.0 | Primm's fall: cutscene `primm_end`, then the ending's first beat (`crumble`) | In Game | n/a (one-shot) |  |
 | MUS-PRIMM-MOTIF | For their own good — motif master | `music/MUS-PRIMM-MOTIF.ogg` | motif | +0.0 | Composition reference (motif master); never triggered by gameplay | Reference only | n/a (one-shot) |  |
 | MUS-QUEST-FERN | Old Fern — untidy | `music/MUS-QUEST-FERN.ogg` | story | +0.0 | Old Fern: quest hand-in dialogue in the Capital (`ZoneScene._talk_quest_npc`) | In Game | n/a (one-shot) |  |
@@ -170,13 +170,13 @@ Columns: base volume is the registry's gain in dB (loudness target), "Loop check
 | MUS-SWOLY-EXP | Mount Swolympus — exploration | `music/MUS-SWOLY-EXP.ogg` | loop, loop | +0.1 | Mount Swolympus node map (S-BEEF) and events | In Game | OK |  |
 | MUS-THRONE | The Pathwork Throne | `music/MUS-THRONE.ogg` | story | +0.0 | Ending beat `throne` (`EndingScreen`) | In Game | n/a (one-shot) |  |
 | MUS-TITLE | The Wayward Path | `music/MUS-TITLE.ogg` | loop, loop | +0.1 | Title screen (`TitleScreen._ready`; also drops any music override left from a game) | In Game | OK |  |
-| MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.1 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
+| MUS-TOWN | Crosspath — roads converge | `music/MUS-TOWN.ogg` | loop, loop | +0.2 | Town (`TownScene`) until all four zones are freed; the base under shops, the graveyard and Maren's scenes | In Game | OK |  |
 | MUS-TOWN-BATTLE | Friendly ground, serious cards | `music/MUS-TOWN-BATTLE.ogg` | loop, loop | +0.1 | Battles on BB-TOWN (town duels, neutral encounters); also the generic fight-song fallback | In Game | OK |  |
 | MUS-TOWN-FREED | Crosspath — returning citizens | `music/MUS-TOWN-FREED.ogg` | loop, loop | +0.1 | Town once `ZoneCompletion.count` reaches 4 (partial recovery keeps MUS-TOWN) | In Game | OK |  |
 | MUS-TUNNEL-BATTLE | Old Service Tunnels — combat | `music/MUS-TUNNEL-BATTLE.ogg` | loop, loop | +0.1 | Old Service Tunnels ordinary battles (BB-S-CAP) | In Game | OK |  |
 | MUS-TUNNEL-BOSS | Captain Spotless | `music/MUS-TUNNEL-BOSS.ogg` | loop, loop | +0.1 | Old Service Tunnels boss (BB-S-CAP, boss node) | In Game | OK | Its own track since Music Pass 3 (Oct 31); was an alias of MUS-TUNNEL-BATTLE. |
 | MUS-TUNNEL-EXP | Old Service Tunnels — exploration | `music/MUS-TUNNEL-EXP.ogg` | loop, loop | +0.1 | Old Service Tunnels node map (S-CAP) and events | In Game | OK |  |
-| MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Cave battles (BB-TUT) | In Game | OK |  |
+| MUS-TUT-BATTLE | Forgotten Cave — first trials | `music/MUS-TUT-BATTLE.ogg` | loop, loop | +0.0 | Forgotten Cave battles (BB-TUT) | In Game | OK |  |
 | MUS-TUT-BOSS | Hollow Warden — familiar scent | `music/MUS-TUT-BOSS.ogg` | loop, loop | +0.1 | Hollow Warden boss (BB-TUT, boss node) | In Game | OK | Its own track since Music Pass 1 (Oct 31); was an alias of MUS-TUT-BATTLE. |
 | MUS-TUT-EXP | Forgotten Cave — old passage | `music/MUS-TUT-EXP.ogg` | loop, loop | +0.1 | Forgotten Cave node map (D-TUT, no main/side dungeon active) | In Game | OK |  |
 | MUS-VAULT-BATTLE | Forgotten Vault — combat | `music/MUS-VAULT-BATTLE.ogg` | loop, loop | +0.1 | Forgotten Vault ordinary battles (BB-S-TOWN) | In Game | OK |  |

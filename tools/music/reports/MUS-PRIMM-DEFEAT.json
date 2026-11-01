@@ -5,11 +5,11 @@
  "bpm": 66,
  "meter": "4/4",
  "bars": 21,
- "seconds": 87.58,
+ "seconds": 87.75,
  "loop_seconds": 83.4,
  "lufs": -20.0,
- "true_peak": -5.2,
- "lra": 8.5,
+ "true_peak": -5.5,
+ "lra": 7.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 6,
    "start_s": 0.0,
-   "lufs": -20.2
+   "lufs": -20.4
   },
   {
    "section": "the Path voices stand apart",
    "bar": 6,
    "bars": 8,
    "start_s": 22.6,
-   "lufs": -20.0
+   "lufs": -20.1
   },
   {
    "section": "crossroads, open",
    "bar": 14,
    "bars": 4,
    "start_s": 52.9,
-   "lufs": -19.7
+   "lufs": -19.5
   },
   {
    "section": "unresolved cadence",
    "bar": 18,
    "bars": 3,
    "start_s": 69.0,
-   "lufs": -19.8
+   "lufs": -19.7
   }
  ],
  "motifs": [

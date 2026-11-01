@@ -5,11 +5,11 @@
  "bpm": 84,
  "meter": "4/4",
  "bars": 24,
- "seconds": 73.51,
+ "seconds": 73.83,
  "loop_seconds": 68.571,
  "lufs": -20.0,
  "true_peak": -6.6,
- "lra": 13.7,
+ "lra": 12.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,42 +19,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.2
+   "lufs": -22.9
   },
   {
    "section": "lullaby: clarinet",
    "bar": 4,
    "bars": 5,
    "start_s": 11.4,
-   "lufs": -19.1
+   "lufs": -18.8
   },
   {
    "section": "Path punctuation",
    "bar": 9,
    "bars": 4,
    "start_s": 25.7,
-   "lufs": -23.6
+   "lufs": -23.1
   },
   {
    "section": "lullaby: violins",
    "bar": 13,
    "bars": 5,
    "start_s": 37.1,
-   "lufs": -17.8
+   "lufs": -17.5
   },
   {
    "section": "royal cadence",
    "bar": 18,
    "bars": 3,
    "start_s": 51.4,
-   "lufs": -18.8
+   "lufs": -18.5
   },
   {
    "section": "space for Agnes",
    "bar": 21,
    "bars": 3,
    "start_s": 60.0,
-   "lufs": -30.5
+   "lufs": -29.1
   }
  ],
  "motifs": [
@@ -80,7 +80,7 @@
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-REUNION\\MUS-REUNION.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REUNION.mid"
  },
- "onset_ms": 3.1,
+ "onset_ms": 2.9,
  "onset_ok": true,
  "checks": {
   "range": {

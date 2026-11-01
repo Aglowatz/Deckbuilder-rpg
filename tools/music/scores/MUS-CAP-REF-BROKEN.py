@@ -218,4 +218,5 @@ def build():
     S.mel('vln', 74, m('E5:1.5 B4:1.5 | E5:1.5 r:1.5'), 54)
     S.mel('vln', 78, m('G5:1.5 F#5:1.5 | E5:1 r:2'), 50)
     S.fade_vel(77, 80, 1.2, ['pizz', 'harp', 'cb', 'glass'])   # seam: the clutter leans in at the loop point
+    S.soften_tail(0.85)  # Overnight Oct 31 - Nov 1: loop seam after the overlap fix (end rang +1.66 dB over the start)
     return S

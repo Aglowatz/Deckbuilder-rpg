@@ -5,11 +5,11 @@
  "bpm": 80,
  "meter": "4/4",
  "bars": 24,
- "seconds": 77.48,
+ "seconds": 77.65,
  "loop_seconds": 72.0,
  "lufs": -20.0,
- "true_peak": -6.2,
- "lra": 5.6,
+ "true_peak": -6.3,
+ "lra": 5.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.4
+   "lufs": -22.2
   },
   {
    "section": "A horn theme",
    "bar": 4,
    "bars": 8,
    "start_s": 12.0,
-   "lufs": -20.2
+   "lufs": -20.3
   },
   {
    "section": "B strings, swing",
    "bar": 12,
    "bars": 8,
    "start_s": 36.0,
-   "lufs": -20.5
+   "lufs": -20.6
   },
   {
    "section": "resolution + held chord",
    "bar": 20,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -17.4
+   "lufs": -17.3
   }
  ],
  "motifs": [

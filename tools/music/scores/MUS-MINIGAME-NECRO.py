@@ -90,4 +90,5 @@ def build():
     s.line('bsn', 36, THEME[20:], 56, transpose=-12)
 
     intro(44)
+    s.soften_tail(0.85)  # Overnight Oct 31 - Nov 1: loop seam after the overlap fix (+1.51 dB)
     return s

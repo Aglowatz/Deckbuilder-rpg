@@ -8,7 +8,7 @@
  "seconds": 76.8,
  "loop_seconds": 76.8,
  "lufs": -20.0,
- "true_peak": -9.4,
+ "true_peak": -9.0,
  "lra": 4.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -33,7 +33,7 @@
    "bar": 12,
    "bars": 4,
    "start_s": 28.8,
-   "lufs": -20.0
+   "lufs": -19.9
   },
   {
    "section": "B calm: flute and harp",
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-BELLOWS.mid"
  },
  "seam": {
-  "jump_db": -0.14,
-  "wrap_step": 0.00933,
-  "p999_step": 0.06521,
+  "jump_db": -0.29,
+  "wrap_step": 0.00846,
+  "p999_step": 0.06501,
   "click": false,
   "ok": true
  },

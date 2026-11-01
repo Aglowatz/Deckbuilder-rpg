@@ -8,8 +8,8 @@
  "seconds": 67.5,
  "loop_seconds": 67.5,
  "lufs": -20.0,
- "true_peak": -6.0,
- "lra": 6.9,
+ "true_peak": -6.2,
+ "lra": 5.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,28 +26,28 @@
    "bar": 4,
    "bars": 8,
    "start_s": 7.5,
-   "lufs": -21.0
+   "lufs": -21.1
   },
   {
    "section": "B strings + xylophone",
    "bar": 12,
    "bars": 8,
    "start_s": 22.5,
-   "lufs": -19.2
+   "lufs": -19.5
   },
   {
    "section": "C stretch",
    "bar": 20,
    "bars": 8,
    "start_s": 37.5,
-   "lufs": -22.7
+   "lufs": -21.7
   },
   {
    "section": "D tutti rep",
    "bar": 28,
    "bars": 4,
    "start_s": 52.5,
-   "lufs": -16.1
+   "lufs": -16.2
   },
   {
    "section": "count-in again",
@@ -91,9 +91,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-BEEF.mid"
  },
  "seam": {
-  "jump_db": 0.13,
-  "wrap_step": 0.00989,
-  "p999_step": 0.0687,
+  "jump_db": 0.31,
+  "wrap_step": 0.0083,
+  "p999_step": 0.06661,
   "click": false,
   "ok": true
  },

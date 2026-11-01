@@ -337,6 +337,13 @@ class Score:
         """Bend channel `ch` by `cents` from bar (+beat) on (pitch-bend range +-200 cents); detune(ch, 0, bar) puts it back in tune."""
         self.bends[ch].append((bar * self.bar_q + beat, cents))
 
+    def soften_tail(self, factor=0.85, bars=1):
+        """Loop seam (Overnight Oct 31 - Nov 1): notes struck in the last `bars` bars play at `factor` of their velocity, for a loop whose
+        end came out louder than its start once held notes rang on through the end (the overlap fix)."""
+        a = (self.bars - bars) * self.bar_q
+        for k in self.events:
+            self.events[k] = [(s, d, n, max(1, int(round(v * factor))) if s >= a else v, r) for s, d, n, v, r in self.events[k]]
+
     def tag_melody(self, ch, bar0=0, bar1=None):
         """Mark the notes of `ch` in bars [bar0, bar1) as the lead melody for the audibility check (no audible change)."""
         a, b = bar0 * self.bar_q, (self.bars if bar1 is None else bar1) * self.bar_q
@@ -384,9 +391,7 @@ class Score:
                 msgs.append((int(b * TPB), 2, mido.Message('pitchwheel', channel=chan, pitch=pw)))
             for b, v in self.cc11[k]:
                 msgs.append((int(b * TPB), 2, mido.Message('control_change', channel=chan, control=11, value=max(0, min(127, v)))))
-            for s, d, n, v, _ in self.events[k]:
-                on = int(s * TPB)
-                off = int((s + d) * TPB)
+            for on, off, n, v in note_spans(self.events[k]):
                 msgs.append((on, 4, mido.Message('note_on', channel=chan, note=n, velocity=v)))
                 msgs.append((off, 3, mido.Message('note_off', channel=chan, note=n, velocity=0)))
             msgs.sort(key=lambda m: (m[0], m[1]))
@@ -400,3 +405,33 @@ class Score:
 
     def note_count(self):
         return sum(len(e) for e in self.events.values())
+
+
+def note_spans(events):
+    """(start_tick, end_tick, pitch, velocity) for one channel's (start, dur, pitch, vel, role) events, safe for MIDI's one-voice-per-pitch rule.
+    Overnight Oct 31 - Nov 1 (the overlap fix): a channel has ONE voice per pitch, so a held note's late note_off used to cut a re-strike of the
+    same pitch short (pads and repeated chords thinned out). Per pitch: notes starting together merge (longest, loudest); a re-strike while the
+    pitch still sounds ends the old note at the re-strike, and the new note lasts to the LATER of the two ends."""
+    by_pitch = {}
+    for s, d, n, v, _ in events:
+        on, off = int(s * TPB), int((s + d) * TPB)
+        by_pitch.setdefault(n, []).append((on, max(off, on + 1), v))
+    spans = []
+    for n, notes in by_pitch.items():
+        notes.sort()
+        merged = []
+        for on, off, v in notes:
+            if merged and merged[-1][0] == on:
+                merged[-1] = (on, max(merged[-1][1], off), max(merged[-1][2], v))
+            else:
+                merged.append((on, off, v))
+        for i in range(len(merged)):
+            on, off, v = merged[i]
+            if i + 1 < len(merged) and merged[i + 1][0] < off:
+                # the next strike takes this pitch over: this note ends there, and the next one inherits the later end
+                nxt_on, nxt_off, nxt_v = merged[i + 1]
+                merged[i + 1] = (nxt_on, max(nxt_off, off), nxt_v)
+                off = nxt_on
+            spans.append((on, off, n, v))
+    spans.sort()
+    return spans

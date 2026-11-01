@@ -5,11 +5,11 @@
  "bpm": 92,
  "meter": "4/4",
  "bars": 28,
- "seconds": 77.67,
+ "seconds": 77.98,
  "loop_seconds": 73.043,
  "lufs": -20.0,
- "true_peak": -6.4,
- "lra": 6.2,
+ "true_peak": -5.9,
+ "lra": 6.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -18.7
+   "lufs": -18.5
   },
   {
    "section": "the pulse cuts in",
@@ -33,7 +33,7 @@
    "bar": 18,
    "bars": 6,
    "start_s": 47.0,
-   "lufs": -20.5
+   "lufs": -20.8
   },
   {
    "section": "hope",

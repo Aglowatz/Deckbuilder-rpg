@@ -8,7 +8,7 @@
  "seconds": 73.85,
  "loop_seconds": 73.846,
  "lufs": -20.0,
- "true_peak": -7.7,
+ "true_peak": -7.8,
  "lra": 5.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -33,7 +33,7 @@
    "bar": 16,
    "bars": 8,
    "start_s": 36.9,
-   "lufs": -22.9
+   "lufs": -22.8
   },
   {
    "section": "A' horn + flute",
@@ -67,9 +67,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-BENCHLEY.mid"
  },
  "seam": {
-  "jump_db": -1.42,
-  "wrap_step": 0.00107,
-  "p999_step": 0.04775,
+  "jump_db": -1.41,
+  "wrap_step": 0.00043,
+  "p999_step": 0.04761,
   "click": false,
   "ok": true
  },

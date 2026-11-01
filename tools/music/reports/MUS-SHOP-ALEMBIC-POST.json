@@ -57,9 +57,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-ALEMBIC-POST.mid"
  },
  "seam": {
-  "jump_db": 0.13,
-  "wrap_step": 0.01293,
-  "p999_step": 0.04393,
+  "jump_db": 0.15,
+  "wrap_step": 0.01116,
+  "p999_step": 0.04394,
   "click": false,
   "ok": true
  },

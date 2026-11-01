@@ -8,7 +8,7 @@
  "seconds": 146.67,
  "loop_seconds": 146.667,
  "lufs": -20.0,
- "true_peak": -2.9,
+ "true_peak": -3.4,
  "lra": 11.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -25.3
+   "lufs": -25.1
   },
   {
    "section": "A cello and piano",
@@ -47,7 +47,7 @@
    "bar": 40,
    "bars": 4,
    "start_s": 133.3,
-   "lufs": -25.7
+   "lufs": -25.4
   }
  ],
  "motifs": [
@@ -74,9 +74,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-OUT-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.7,
-  "wrap_step": 0.00105,
-  "p999_step": 0.06041,
+  "jump_db": -0.08,
+  "wrap_step": 0.00165,
+  "p999_step": 0.06024,
   "click": false,
   "ok": true
  },

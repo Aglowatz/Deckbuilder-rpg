@@ -8,7 +8,7 @@
  "seconds": 75.79,
  "loop_seconds": 75.789,
  "lufs": -20.0,
- "true_peak": -7.3,
+ "true_peak": -7.2,
  "lra": 6.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -69,8 +69,8 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-ALEMBIC.mid"
  },
  "seam": {
-  "jump_db": 0.94,
-  "wrap_step": 0.01209,
+  "jump_db": 0.95,
+  "wrap_step": 0.01231,
   "p999_step": 0.0589,
   "click": false,
   "ok": true

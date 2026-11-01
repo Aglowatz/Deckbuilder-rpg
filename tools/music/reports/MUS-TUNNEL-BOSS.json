@@ -101,9 +101,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUNNEL-BOSS.mid"
  },
  "seam": {
-  "jump_db": 0.14,
-  "wrap_step": 0.01338,
-  "p999_step": 0.04958,
+  "jump_db": 0.17,
+  "wrap_step": 0.01362,
+  "p999_step": 0.04957,
   "click": false,
   "ok": true
  },

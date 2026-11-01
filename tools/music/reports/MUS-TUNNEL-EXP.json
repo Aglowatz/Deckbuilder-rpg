@@ -9,7 +9,7 @@
  "loop_seconds": 133.953,
  "lufs": -20.0,
  "true_peak": -5.4,
- "lra": 10.2,
+ "lra": 10.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -25.2
+   "lufs": -25.3
   },
   {
    "section": "A four voices answer",
    "bar": 4,
    "bars": 12,
    "start_s": 11.2,
-   "lufs": -24.1
+   "lufs": -24.0
   },
   {
    "section": "B a shared direction",
    "bar": 16,
    "bars": 16,
    "start_s": 44.7,
-   "lufs": -19.9
+   "lufs": -19.8
   },
   {
    "section": "C the old harmony",
@@ -89,9 +89,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUNNEL-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.14,
-  "wrap_step": 0.0117,
-  "p999_step": 0.05503,
+  "jump_db": 0.04,
+  "wrap_step": 0.01091,
+  "p999_step": 0.05491,
   "click": false,
   "ok": true
  },

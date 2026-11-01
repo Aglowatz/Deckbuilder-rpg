@@ -8,8 +8,8 @@
  "seconds": 121.69,
  "loop_seconds": 121.69,
  "lufs": -20.0,
- "true_peak": -5.9,
- "lra": 5.5,
+ "true_peak": -6.0,
+ "lra": 4.8,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.5
+   "lufs": -22.5
   },
   {
    "section": "A theme",
    "bar": 4,
    "bars": 16,
    "start_s": 6.8,
-   "lufs": -19.2
+   "lufs": -19.3
   },
   {
    "section": "B call and climb",
@@ -54,7 +54,7 @@
    "bar": 68,
    "bars": 4,
    "start_s": 114.9,
-   "lufs": -22.4
+   "lufs": -21.8
   }
  ],
  "motifs": [
@@ -97,8 +97,8 @@
  },
  "seam": {
   "jump_db": -1.15,
-  "wrap_step": 0.0007,
-  "p999_step": 0.04297,
+  "wrap_step": 0.00044,
+  "p999_step": 0.04199,
   "click": false,
   "ok": true
  },

@@ -8,7 +8,7 @@
  "seconds": 76.52,
  "loop_seconds": 76.522,
  "lufs": -20.0,
- "true_peak": -6.7,
+ "true_peak": -6.8,
  "lra": 8.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.2
+   "lufs": -21.9
   },
   {
    "section": "A theme",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 8,
    "start_s": 34.8,
-   "lufs": -17.8
+   "lufs": -17.9
   },
   {
    "section": "A' studio band",
@@ -47,7 +47,7 @@
    "bar": 40,
    "bars": 4,
    "start_s": 69.6,
-   "lufs": -19.4
+   "lufs": -19.2
   }
  ],
  "motifs": [
@@ -79,9 +79,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-GOUR.mid"
  },
  "seam": {
-  "jump_db": 0.25,
-  "wrap_step": 0.01777,
-  "p999_step": 0.07951,
+  "jump_db": 0.72,
+  "wrap_step": 0.01624,
+  "p999_step": 0.07938,
   "click": false,
   "ok": true
  },

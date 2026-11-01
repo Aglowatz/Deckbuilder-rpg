@@ -106,9 +106,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CASTLE-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.55,
-  "wrap_step": 0.00603,
-  "p999_step": 0.05486,
+  "jump_db": -0.59,
+  "wrap_step": 0.00827,
+  "p999_step": 0.05484,
   "click": false,
   "ok": true
  },

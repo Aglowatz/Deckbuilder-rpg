@@ -8,8 +8,8 @@
  "seconds": 130.91,
  "loop_seconds": 130.909,
  "lufs": -20.0,
- "true_peak": -4.8,
- "lra": 8.8,
+ "true_peak": -5.2,
+ "lra": 8.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.6
+   "lufs": -24.1
   },
   {
    "section": "A horns",
@@ -33,28 +33,28 @@
    "bar": 12,
    "bars": 8,
    "start_s": 21.8,
-   "lufs": -18.9
+   "lufs": -19.0
   },
   {
    "section": "B clarinet",
    "bar": 20,
    "bars": 8,
    "start_s": 36.4,
-   "lufs": -20.4
+   "lufs": -20.5
   },
   {
    "section": "B' brass",
    "bar": 28,
    "bars": 8,
    "start_s": 50.9,
-   "lufs": -19.8
+   "lufs": -19.9
   },
   {
    "section": "C tossed head",
    "bar": 36,
    "bars": 8,
    "start_s": 65.5,
-   "lufs": -21.5
+   "lufs": -21.7
   },
   {
    "section": "A'' tutti",
@@ -68,21 +68,21 @@
    "bar": 52,
    "bars": 8,
    "start_s": 94.5,
-   "lufs": -25.6
+   "lufs": -25.7
   },
   {
    "section": "A''' trumpets",
    "bar": 60,
    "bars": 8,
    "start_s": 109.1,
-   "lufs": -20.0
+   "lufs": -19.7
   },
   {
    "section": "pulse",
    "bar": 68,
    "bars": 4,
    "start_s": 123.6,
-   "lufs": -24.7
+   "lufs": -24.2
   }
  ],
  "motifs": [
@@ -164,9 +164,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TOWN-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.09,
-  "wrap_step": 0.00191,
-  "p999_step": 0.05329,
+  "jump_db": 0.35,
+  "wrap_step": 0.00371,
+  "p999_step": 0.05252,
   "click": false,
   "ok": true
  },

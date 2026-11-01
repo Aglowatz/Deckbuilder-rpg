@@ -7,9 +7,9 @@
  "bars": 72,
  "seconds": 123.43,
  "loop_seconds": 123.429,
- "lufs": -20.0,
- "true_peak": -7.0,
- "lra": 4.5,
+ "lufs": -20.1,
+ "true_peak": -7.1,
+ "lra": 4.4,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.6
+   "lufs": -19.4
   },
   {
    "section": "A brass theme",
@@ -47,14 +47,14 @@
    "bar": 52,
    "bars": 16,
    "start_s": 89.1,
-   "lufs": -19.0
+   "lufs": -19.2
   },
   {
    "section": "outro bed",
    "bar": 68,
    "bars": 4,
    "start_s": 116.6,
-   "lufs": -19.3
+   "lufs": -19.0
   }
  ],
  "motifs": [
@@ -102,8 +102,8 @@
  },
  "seam": {
   "jump_db": -0.7,
-  "wrap_step": 0.00068,
-  "p999_step": 0.05688,
+  "wrap_step": 0.00185,
+  "p999_step": 0.05606,
   "click": false,
   "ok": true
  },

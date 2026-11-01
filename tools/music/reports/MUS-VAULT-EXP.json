@@ -8,8 +8,8 @@
  "seconds": 132.0,
  "loop_seconds": 132.0,
  "lufs": -20.0,
- "true_peak": -6.9,
- "lra": 7.7,
+ "true_peak": -7.1,
+ "lra": 7.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -25.2
+   "lufs": -24.6
   },
   {
    "section": "A royal phrase, four colours",
    "bar": 4,
    "bars": 16,
    "start_s": 12.0,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "B discovery",
    "bar": 20,
    "bars": 12,
    "start_s": 60.0,
-   "lufs": -19.3
+   "lufs": -19.4
   },
   {
    "section": "C the phrase together",
    "bar": 32,
    "bars": 8,
    "start_s": 96.0,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "clockwork",
    "bar": 40,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -26.5
+   "lufs": -25.0
   }
  ],
  "motifs": [
@@ -84,9 +84,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-VAULT-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.29,
-  "wrap_step": 0.00321,
-  "p999_step": 0.04587,
+  "jump_db": 0.31,
+  "wrap_step": 0.00206,
+  "p999_step": 0.04529,
   "click": false,
   "ok": true
  },

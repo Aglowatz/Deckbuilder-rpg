@@ -9,7 +9,7 @@
  "loop_seconds": 158.118,
  "lufs": -20.1,
  "true_peak": -5.5,
- "lra": 4.6,
+ "lra": 4.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -68,7 +68,7 @@
    "bar": 108,
    "bars": 4,
    "start_s": 152.5,
-   "lufs": -22.3
+   "lufs": -22.2
   }
  ],
  "motifs": [
@@ -150,9 +150,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SIPHON-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.41,
-  "wrap_step": 0.00461,
-  "p999_step": 0.13208,
+  "jump_db": -0.4,
+  "wrap_step": 0.00352,
+  "p999_step": 0.1308,
   "click": false,
   "ok": true
  },

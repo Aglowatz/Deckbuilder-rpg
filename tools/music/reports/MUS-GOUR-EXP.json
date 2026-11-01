@@ -8,8 +8,8 @@
  "seconds": 116.36,
  "loop_seconds": 116.364,
  "lufs": -20.0,
- "true_peak": -5.3,
- "lra": 7.4,
+ "true_peak": -5.0,
+ "lra": 7.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -30.3
+   "lufs": -30.4
   },
   {
    "section": "A verse",
@@ -33,14 +33,14 @@
    "bar": 20,
    "bars": 16,
    "start_s": 36.4,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "drop",
    "bar": 36,
    "bars": 16,
    "start_s": 65.5,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "finale",
@@ -82,8 +82,8 @@
  },
  "seam": {
   "jump_db": 0.45,
-  "wrap_step": 0.00218,
-  "p999_step": 0.06973,
+  "wrap_step": 0.00214,
+  "p999_step": 0.06927,
   "click": false,
   "ok": true
  },

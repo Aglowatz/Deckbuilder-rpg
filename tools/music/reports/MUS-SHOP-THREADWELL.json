@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-THREADWELL.mid"
  },
  "seam": {
-  "jump_db": -1.04,
+  "jump_db": -1.03,
   "wrap_step": 0.00527,
-  "p999_step": 0.05143,
+  "p999_step": 0.05138,
   "click": false,
   "ok": true
  },

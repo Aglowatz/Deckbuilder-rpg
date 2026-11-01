@@ -8,7 +8,7 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -6.0,
+ "true_peak": -6.2,
  "lra": 5.8,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 6.7,
-   "lufs": -21.9
+   "lufs": -22.0
   },
   {
    "section": "B horn call",
@@ -40,21 +40,21 @@
    "bar": 28,
    "bars": 16,
    "start_s": 46.7,
-   "lufs": -20.8
+   "lufs": -20.9
   },
   {
    "section": "D tension",
    "bar": 44,
    "bars": 8,
    "start_s": 73.3,
-   "lufs": -22.1
+   "lufs": -21.3
   },
   {
    "section": "A' tutti",
    "bar": 52,
    "bars": 16,
    "start_s": 86.7,
-   "lufs": -17.1
+   "lufs": -17.2
   },
   {
    "section": "outro",
@@ -98,9 +98,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.01,
-  "wrap_step": 0.01827,
-  "p999_step": 0.05932,
+  "jump_db": 0.02,
+  "wrap_step": 0.01936,
+  "p999_step": 0.05916,
   "click": false,
   "ok": true
  },

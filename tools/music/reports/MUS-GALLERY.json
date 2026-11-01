@@ -5,11 +5,11 @@
  "bpm": 70,
  "meter": "3/4",
  "bars": 24,
- "seconds": 61.71,
+ "seconds": 64.89,
  "loop_seconds": 61.714,
  "lufs": -20.0,
  "true_peak": -5.9,
- "lra": 11.3,
+ "lra": 11.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.2
+   "lufs": -26.0
   },
   {
    "section": "four notes",
    "bar": 4,
    "bars": 4,
    "start_s": 10.3,
-   "lufs": -27.2
+   "lufs": -27.0
   },
   {
    "section": "the missing answer",
    "bar": 8,
    "bars": 2,
    "start_s": 20.6,
-   "lufs": -25.0
+   "lufs": -24.8
   },
   {
    "section": "cello",
    "bar": 10,
    "bars": 8,
    "start_s": 25.7,
-   "lufs": -17.4
+   "lufs": -17.1
   },
   {
    "section": "Bb, held",
    "bar": 18,
    "bars": 6,
    "start_s": 46.3,
-   "lufs": -20.9
+   "lufs": -21.3
   }
  ],
  "motifs": [

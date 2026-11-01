@@ -8,8 +8,8 @@
  "seconds": 125.22,
  "loop_seconds": 125.217,
  "lufs": -20.0,
- "true_peak": -6.3,
- "lra": 7.8,
+ "true_peak": -6.5,
+ "lra": 7.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.3
+   "lufs": -22.7
   },
   {
    "section": "A brass",
    "bar": 4,
    "bars": 16,
    "start_s": 7.0,
-   "lufs": -21.1
+   "lufs": -21.2
   },
   {
    "section": "B stabs",
    "bar": 20,
    "bars": 16,
    "start_s": 34.8,
-   "lufs": -23.9
+   "lufs": -24.0
   },
   {
    "section": "C broad",
@@ -54,7 +54,7 @@
    "bar": 68,
    "bars": 4,
    "start_s": 118.3,
-   "lufs": -23.0
+   "lufs": -22.4
   }
  ],
  "motifs": [
@@ -111,9 +111,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.63,
-  "wrap_step": 0.00885,
-  "p999_step": 0.07153,
+  "jump_db": 0.61,
+  "wrap_step": 0.00994,
+  "p999_step": 0.07093,
   "click": false,
   "ok": true
  },

@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 10,
    "start_s": 0.0,
-   "lufs": -22.4
+   "lufs": -22.6
   },
   {
    "section": "a real recipe",
    "bar": 10,
    "bars": 8,
    "start_s": 30.0,
-   "lufs": -19.2
+   "lufs": -19.1
   },
   {
    "section": "flavour",
    "bar": 18,
    "bars": 4,
    "start_s": 54.0,
-   "lufs": -18.7
+   "lufs": -18.9
   }
  ],
  "motifs": [

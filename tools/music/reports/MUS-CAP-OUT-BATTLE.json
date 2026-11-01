@@ -102,8 +102,8 @@
  },
  "seam": {
   "jump_db": 0.29,
-  "wrap_step": 0.00421,
-  "p999_step": 0.05272,
+  "wrap_step": 0.005,
+  "p999_step": 0.05266,
   "click": false,
   "ok": true
  },

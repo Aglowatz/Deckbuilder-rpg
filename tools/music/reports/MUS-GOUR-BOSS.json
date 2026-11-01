@@ -8,8 +8,8 @@
  "seconds": 150.0,
  "loop_seconds": 150.0,
  "lufs": -20.0,
- "true_peak": -5.3,
- "lra": 10.4,
+ "true_peak": -5.1,
+ "lra": 10.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.7
+   "lufs": -21.2
   },
   {
    "section": "A borrowed elegance",
@@ -40,28 +40,28 @@
    "bar": 36,
    "bars": 16,
    "start_s": 67.5,
-   "lufs": -25.9
+   "lufs": -25.5
   },
   {
    "section": "D warped drop",
    "bar": 52,
    "bars": 20,
    "start_s": 97.5,
-   "lufs": -20.0
+   "lufs": -19.8
   },
   {
    "section": "wind-down",
    "bar": 72,
    "bars": 4,
    "start_s": 135.0,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "outro mask",
    "bar": 76,
    "bars": 4,
    "start_s": 142.5,
-   "lufs": -21.6
+   "lufs": -21.1
   }
  ],
  "motifs": [
@@ -118,9 +118,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.08,
-  "wrap_step": 0.01063,
-  "p999_step": 0.07003,
+  "jump_db": -0.07,
+  "wrap_step": 0.01011,
+  "p999_step": 0.07035,
   "click": false,
   "ok": true
  },

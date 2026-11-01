@@ -8,8 +8,8 @@
  "seconds": 84.73,
  "loop_seconds": 80.0,
  "lufs": -20.0,
- "true_peak": -8.3,
- "lra": 5.6,
+ "true_peak": -8.9,
+ "lra": 4.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 2,
    "start_s": 0.0,
-   "lufs": -22.6
+   "lufs": -23.1
   },
   {
    "section": "separated notes",
    "bar": 2,
    "bars": 10,
    "start_s": 8.0,
-   "lufs": -21.1
+   "lufs": -20.7
   },
   {
    "section": "the cello remembers",
    "bar": 12,
    "bars": 4,
    "start_s": 48.0,
-   "lufs": -18.7
+   "lufs": -18.9
   },
   {
    "section": "F major",
    "bar": 16,
    "bars": 4,
    "start_s": 64.0,
-   "lufs": -18.2
+   "lufs": -18.5
   }
  ],
  "motifs": [
@@ -56,7 +56,7 @@
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MEM-02\\MUS-MEM-02.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MEM-02.mid"
  },
- "onset_ms": 14.0,
+ "onset_ms": 14.1,
  "onset_ok": true,
  "checks": {
   "range": {

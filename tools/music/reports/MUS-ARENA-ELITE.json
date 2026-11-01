@@ -8,8 +8,8 @@
  "seconds": 110.27,
  "loop_seconds": 110.27,
  "lufs": -20.0,
- "true_peak": -6.5,
- "lra": 6.2,
+ "true_peak": -6.6,
+ "lra": 6.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "A tune + countersubject + canon",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 8,
    "start_s": 32.4,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "C climax",
@@ -47,21 +47,21 @@
    "bar": 44,
    "bars": 12,
    "start_s": 71.4,
-   "lufs": -23.8
+   "lufs": -23.7
   },
   {
    "section": "E tutti return",
    "bar": 56,
    "bars": 8,
    "start_s": 90.8,
-   "lufs": -18.9
+   "lufs": -19.0
   },
   {
    "section": "fanfare",
    "bar": 64,
    "bars": 4,
    "start_s": 103.8,
-   "lufs": -19.8
+   "lufs": -19.7
   }
  ],
  "motifs": [
@@ -103,9 +103,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-ARENA-ELITE.mid"
  },
  "seam": {
-  "jump_db": -0.89,
-  "wrap_step": 0.00607,
-  "p999_step": 0.06384,
+  "jump_db": -0.37,
+  "wrap_step": 0.01545,
+  "p999_step": 0.06283,
   "click": false,
   "ok": true
  },

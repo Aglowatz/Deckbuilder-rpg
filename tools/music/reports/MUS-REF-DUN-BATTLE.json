@@ -8,8 +8,8 @@
  "seconds": 150.97,
  "loop_seconds": 150.968,
  "lufs": -20.0,
- "true_peak": -4.6,
- "lra": 7.8,
+ "true_peak": -4.9,
+ "lra": 7.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,84 +19,84 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.8
+   "lufs": -20.4
   },
   {
    "section": "A jig",
    "bar": 4,
    "bars": 16,
    "start_s": 3.9,
-   "lufs": -21.3
+   "lufs": -21.5
   },
   {
    "section": "B tangle + motif",
    "bar": 20,
    "bars": 16,
    "start_s": 19.4,
-   "lufs": -21.3
+   "lufs": -21.5
   },
   {
    "section": "sustained tension",
    "bar": 36,
    "bars": 16,
    "start_s": 34.8,
-   "lufs": -23.0
+   "lufs": -21.9
   },
   {
    "section": "C fiddle variation",
    "bar": 52,
    "bars": 16,
    "start_s": 50.3,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "spring glimpse",
    "bar": 68,
    "bars": 8,
    "start_s": 65.8,
-   "lufs": -22.2
+   "lufs": -22.3
   },
   {
    "section": "D cello theme, build",
    "bar": 76,
    "bars": 16,
    "start_s": 73.5,
-   "lufs": -24.1
+   "lufs": -24.3
   },
   {
    "section": "A' tutti",
    "bar": 92,
    "bars": 16,
    "start_s": 89.0,
-   "lufs": -16.8
+   "lufs": -16.9
   },
   {
    "section": "B' tangle tutti",
    "bar": 108,
    "bars": 16,
    "start_s": 104.5,
-   "lufs": -19.8
+   "lufs": -20.0
   },
   {
    "section": "E climax canon",
    "bar": 124,
    "bars": 16,
    "start_s": 120.0,
-   "lufs": -16.5
+   "lufs": -16.6
   },
   {
    "section": "wind-down",
    "bar": 140,
    "bars": 12,
    "start_s": 135.5,
-   "lufs": -23.8
+   "lufs": -22.7
   },
   {
    "section": "outro",
    "bar": 152,
    "bars": 4,
    "start_s": 147.1,
-   "lufs": -20.9
+   "lufs": -20.5
   }
  ],
  "motifs": [
@@ -123,9 +123,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-DUN-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.15,
-  "wrap_step": 0.0038,
-  "p999_step": 0.06553,
+  "jump_db": 0.51,
+  "wrap_step": 0.00872,
+  "p999_step": 0.06434,
   "click": false,
   "ok": true
  },

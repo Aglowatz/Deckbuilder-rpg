@@ -9,7 +9,7 @@
  "loop_seconds": 125.217,
  "lufs": -20.0,
  "true_peak": -4.2,
- "lra": 9.6,
+ "lra": 9.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.1
+   "lufs": -25.9
   },
   {
    "section": "A + Refusemancer",
    "bar": 4,
    "bars": 8,
    "start_s": 10.4,
-   "lufs": -21.8
+   "lufs": -21.7
   },
   {
    "section": "A' + Gourmand",
    "bar": 12,
    "bars": 8,
    "start_s": 31.3,
-   "lufs": -21.8
+   "lufs": -21.7
   },
   {
    "section": "B + Necrocrat",
@@ -47,7 +47,7 @@
    "bar": 28,
    "bars": 8,
    "start_s": 73.0,
-   "lufs": -19.7
+   "lufs": -19.8
   },
   {
    "section": "all four",
@@ -61,7 +61,7 @@
    "bar": 44,
    "bars": 4,
    "start_s": 114.8,
-   "lufs": -26.0
+   "lufs": -25.3
   }
  ],
  "motifs": [
@@ -103,9 +103,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TOWN-FREED.mid"
  },
  "seam": {
-  "jump_db": -1.41,
-  "wrap_step": 0.00328,
-  "p999_step": 0.05945,
+  "jump_db": -0.92,
+  "wrap_step": 0.0008,
+  "p999_step": 0.059,
   "click": false,
   "ok": true
  },

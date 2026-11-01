@@ -8,8 +8,8 @@
  "seconds": 128.0,
  "loop_seconds": 128.0,
  "lufs": -20.0,
- "true_peak": -5.5,
- "lra": 4.1,
+ "true_peak": -5.7,
+ "lra": 4.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 8.0,
-   "lufs": -19.6
+   "lufs": -19.7
   },
   {
    "section": "B harpsichord + glock, missing cadence",
@@ -40,21 +40,21 @@
    "bar": 36,
    "bars": 12,
    "start_s": 72.0,
-   "lufs": -19.3
+   "lufs": -19.2
   },
   {
    "section": "A' the smile widens",
    "bar": 48,
    "bars": 12,
    "start_s": 96.0,
-   "lufs": -18.9
+   "lufs": -19.0
   },
   {
    "section": "outro muzak",
    "bar": 60,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -22.3
+   "lufs": -22.2
   }
  ],
  "motifs": [
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-FACADE-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.85,
-  "wrap_step": 0.00904,
-  "p999_step": 0.08699,
+  "jump_db": 0.14,
+  "wrap_step": 0.00639,
+  "p999_step": 0.08485,
   "click": false,
   "ok": true
  },

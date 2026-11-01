@@ -92,4 +92,5 @@ def build():
     drone(32, n=4)
     plucks(32, [(0, 'E4'), (6, 'B4'), (12, 'G4')], 58)
     s.mel('fl', 34, motif_head('E4', rhythm=(1, .5, 2.5)) + m('r:4'), 62)
+    s.soften_tail(0.85)  # Overnight Oct 31 - Nov 1: loop seam after the overlap fix (+1.60 dB)
     return s
