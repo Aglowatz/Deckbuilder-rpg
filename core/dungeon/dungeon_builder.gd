@@ -105,6 +105,8 @@ static func _add_foe(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, n
 		icon = str(boss.get("icon", icon))
 		recipe = EnemyDecks.with_cards(EnemyDecks.recipe(deck_key, int(boss.get("infra", 17))), (boss.get("extra", {}) as Dictionary).duplicate())
 		def.add_foe(name, hp, str(data.get("ai", "Balanced")), recipe, icon)
+		# Fable pass Nov 1 (boss tempo): every boss opens with a setup window (`setup_turns` in its block; the default otherwise).
+		EncounterModifiers.ensure_setup_rule(name, BossTempo.turns_of(boss))
 		return
 	var size: int = int(data.get("size", (31 if kind == K.ELITE else 27 + index % 3)))
 	# Rebalance Part E: "infra" sets how many basic Infrastructure the foe runs (default 16); every basic that enters makes a resource, so

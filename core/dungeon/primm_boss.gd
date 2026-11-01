@@ -19,6 +19,8 @@ const PHASES: int = 3
 const STANDARD_ATTACK: int = 3
 const STANDARD_DEFENSE: int = 3
 const SPELL_CAP: int = 2
+## Fable pass Nov 1 (boss tempo): each phase's setup window in turns (`BossTempo`).
+const SETUP_TURNS: int = 2  # = BossTempo.DEFAULT_SETUP_TURNS (a const cannot reference another class here)
 const UNRAVEL_HP_LOSS: int = 1
 ## The enemy name of the boss node (the battle screen's title is the phase title).
 const BOSS_FOE: String = "Primm"
@@ -58,24 +60,26 @@ static func phase(index: int) -> Phase:
 	# Each phase has its own music slot (MUS-PRIMM-01..03): the cue follows the actual phase, never a timer.
 	made.music = StringName("MUS-PRIMM-%02d" % (made.index + 1))
 	made.key = PHASE_KEYS[made.index]
+	EncounterModifiers.ensure_setup_rule(rules_key(made.index), SETUP_TURNS)
 	match made.index:
 		0:
-			made.hp = 44  # XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
+			made.hp = 56  # Fable pass Nov 1: 44 -> 56 (100 % at L22 at the new HP curve; 83 % at 50 with 3 Militia). XP pass Oct 30: 40 -> 44. Oct 29: 36 -> 40 (the sequence was 82% with the L22 gear; Overnight Oct 18 Part 2: 100% at 30)
 			made.ai_name = "Balanced"
-			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-32": 1})  # Overnight Oct 18 Part 2: 100% with 16 basics
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 2, "C-32": 2})  # Overnight Oct 18 Part 2: 100% with 16 basics
 			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
 			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
-			made.hp = 42  # XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
+			made.hp = 52  # Fable pass Nov 1: 42 -> 52 (and Boss skill, AIPlayer.SKILL_OVERRIDES: 100 % at 48 / Elite). XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36
 			made.ai_name = "Balanced"
 			made.mirror = true
-			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 1, "He Already Knows")] as Array[Modifier]
+			# Fable pass Nov 1: He Already Knows draws 2 extra (was 1; the mirror phase was 100 % at L22).
+			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 2, "He Already Knows")] as Array[Modifier]
 		_:
-			made.hp = 42  # XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
+			made.hp = 50  # Fable pass Nov 1: 42 -> 50. XP pass Oct 30: 36 -> 42. Oct 29: 32 -> 36 (Overnight Oct 18 Part 2: 83% at 28)
 			made.ai_name = "Aggressive"
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 16), {"P4-03": 1, "P4-01": 1, "C-30": 2})
 			made.enemy_modifiers = [
-				_mod(Modifier.Kind.STAT_CHANGE, 2, "Everything He Cannot Control", 2),  # XP pass Oct 30: +1/+1 -> +2/+2 (the sequence was 78 % at L22)
+				_mod(Modifier.Kind.STAT_CHANGE, 3, "Everything He Cannot Control", 3),  # Fable pass Nov 1: +2/+2 -> +3/+3. XP pass Oct 30: +1/+1 -> +2/+2 (the sequence was 78 % at L22)
 				_mod(Modifier.Kind.EXTRA_DRAWS, 1, "Panic"),
 				_unraveling_effect(),
 			] as Array[Modifier]

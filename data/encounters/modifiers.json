@@ -222,11 +222,11 @@
 		},
 		{
 			"name": "Ancient Form",
-			"text": "The Spotter's units get +4/+3.",
+			"text": "The Spotter's units get +5/+4.",
 			"icon": "delapouite/mammoth",
 			"kind": "stat",
-			"atk": 4,
-			"def": 3
+			"atk": 5,
+			"def": 4
 		}
 	],
 	"The Itamae Supreme": [
@@ -258,10 +258,10 @@
 		},
 		{
 			"name": "Surly",
-			"text": "Betty's units get +2/+1. Nobody wants to be the one she snaps at.",
+			"text": "Betty's units get +3/+1. Nobody wants to be the one she snaps at.",
 			"icon": "delapouite/files",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 3,
 			"def": 1
 		}
 	],
@@ -286,10 +286,10 @@
 	"Enforcer Captain Spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "Spotless's units get +4/+3. Drilled until they shine.",
+			"text": "Spotless's units get +5/+3. Drilled until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
-			"atk": 4,
+			"atk": 5,
 			"def": 3
 		}
 	],
@@ -338,11 +338,11 @@
 		},
 		{
 			"name": "Old Kingdom Steel",
-			"text": "The Automaton's units get +1/+1.",
+			"text": "The Automaton's units get +2/+2.",
 			"icon": "delapouite/cyborg-face",
 			"kind": "stat",
-			"atk": 1,
-			"def": 1
+			"atk": 2,
+			"def": 2
 		}
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
@@ -356,11 +356,11 @@
 		},
 		{
 			"name": "Replication",
-			"text": "Protocol: at the start of every second turn of his, a 3/3 Failed Experiment joins him.",
+			"text": "Protocol: at the start of every third turn of his, a 3/3 Failed Experiment joins him.",
 			"icon": "delapouite/shambling-zombie",
 			"kind": "timed_summon",
 			"token": "T-25",
-			"every": 2,
+			"every": 3,
 			"count": 1
 		},
 		{
@@ -415,10 +415,10 @@
 		},
 		{
 			"name": "Smoke and Mirrors",
-			"text": "Shiro's units get +2/+1.",
+			"text": "Shiro's units get +3/+1.",
 			"icon": "delapouite/carnival-mask",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 3,
 			"def": 1
 		}
 	],
@@ -500,21 +500,21 @@
 	"Primm (standardization)": [
 		{
 			"name": "Royal Guard",
-			"text": "Primm starts the duel with 2 Militia on the field (3/3, like every unit under Standardization).",
+			"text": "Primm starts the duel with 4 Militia on the field (3/3, like every unit under Standardization).",
 			"icon": "delapouite/guards",
 			"kind": "starting_tokens",
 			"token": "T-16",
-			"count": 2
+			"count": 4
 		}
 	],
 	"town:old_well": [
 		{
 			"name": "The Spring Remembers",
-			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"text": "The Echo's units get +3/+3. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
 			"icon": "lorc/drop",
 			"kind": "stat",
-			"atk": 2,
-			"def": 2
+			"atk": 3,
+			"def": 3
 		},
 		{
 			"name": "The Spring Remembers",
@@ -629,6 +629,16 @@
 			"kind": "stat",
 			"atk": 2,
 			"def": 2
+		}
+	],
+	"town:vault": [
+		{
+			"name": "Four Seals",
+			"text": "The Warden's units get +1/+1. Only one may pass, and he is long dead.",
+			"icon": "lorc/padlock",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
 		}
 	]
 }

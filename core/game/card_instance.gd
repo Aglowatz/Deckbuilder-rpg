@@ -29,6 +29,8 @@ var temp_keywords: Array[CardEnums.Keyword] = []
 var cannot_block: bool = false
 ## Brief 14: how many buffs (permanent +1/+1) this unit has received.
 var buffs: int = 0
+## Fable pass Nov 1: how many Wild Growth (OVERGROWTH) buffs this unit has had, capped at `GameState.OVERGROWTH_CAP`.
+var overgrowth_stacks: int = 0
 ## Brief 14: the unit this Tool is attached to (0 = not attached).
 var attached_to: int = 0
 ## Brief 14: how many of its controller's upcoming turns this card does NOT refresh (Contract, Overexert, Food Coma...).
@@ -164,6 +166,7 @@ func clone() -> CardInstance:
 	copy.temp_keywords = temp_keywords.duplicate()
 	copy.cannot_block = cannot_block
 	copy.buffs = buffs
+	copy.overgrowth_stacks = overgrowth_stacks
 	copy.attached_to = attached_to
 	copy.skip_refresh = skip_refresh
 	copy.token_override = token_override

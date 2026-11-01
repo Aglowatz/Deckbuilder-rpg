@@ -38,7 +38,9 @@ func test_the_lab_is_far_harder_than_the_castle_on_paper() -> void:
 	var lab_boss: MainDungeonDef.Foe = MainDungeons.def(PathologyLab.DUNGEON_ID).foe("Dr. Ambrose Siphon, Chief Path-ologist")
 	var castle_boss: MainDungeonDef.Foe = MainDungeons.def("final").foe(PrimmBoss.BOSS_FOE)
 	assert_not_null(lab_boss)
-	assert_true(lab_boss.hp > castle_boss.hp, "more boss HP than Primm's first phase")
+	# Fable pass Nov 1: Primm's phases carry more HP now (56 / 52 / 50 on one pool); the Lab is harder by its four Protocols, not by HP.
+	assert_gte(lab_boss.hp, 42, "a real boss pool (48 -> 42 on Nov 1: 33 % without Elowen)")
+	assert_gt(castle_boss.hp, 0)
 	var recipe: Dictionary = lab_boss.recipe
 	# Cards Oct 27: Mortimer's card is his alone (ENEMY-ONLY); Siphon's Necrocrat specimen is Mass Layoffs.
 	for leader: String in ["N-29", "B-32", "G-33", "R-33"]:

@@ -95,7 +95,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			]
 		"D-ROT":
 			return [
-				_rule("Wild Growth", "At the start of each turn, each unit gets a buff.", "both", [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1)] as Array[Modifier]),
+				_rule("Wild Growth", "At the start of each turn, each unit gets a buff (up to 3 per unit).", "both", [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1)] as Array[Modifier]),
 				_rule("Rot", "At end of turn, units with 1 defense are destroyed.", "both", [CardBuilder.modifier(Modifier.Kind.ROT, 1)] as Array[Modifier]),
 			]
 		"D-PC":

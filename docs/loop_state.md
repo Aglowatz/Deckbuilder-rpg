@@ -12,8 +12,8 @@ Already done this morning (d2d5fedb, a796eb84): max HP 15 -> 30, Loose Ends ques
 | Part | What | State |
 |---|---|---|
 | 1 | Healing: Crease heal, castle halfway heal node, Capital drain toast names its source | done (the Crease tea and the Safe Room already existed: made findable + reachable; toast names rift/roamer; tests + 2 play scripts) |
-| 2 | Boss tempo (setup_turns) + Wild Growth cap + boss sims + tuning | in progress |
-| 3 | Dungeon-clear XP bonus + curve recheck | - |
+| 2 | Boss tempo (setup_turns) + Wild Growth cap + boss sims + tuning | done: 17/22 in band; Primm phases 83/100/67 (gauntlet 47 %), Spotless 67, Siphon+Elowen 100, arena 100 left (inbox); docs/design/sim/bosses_nov1.md |
+| 3 | Dungeon-clear XP bonus + curve recheck | in progress |
 | 4 | Escoffina / Doppelganger / Grand Chef naming | - |
 | 5 | Roamers stop hurting once freed | - |
 | 6 | First hour: first duel, click-to-play, roofs fade, fountain, starter study, critic | - |

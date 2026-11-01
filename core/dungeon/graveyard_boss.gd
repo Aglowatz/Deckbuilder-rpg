@@ -68,6 +68,7 @@ static func enemy_setup(content: ContentSet) -> PlayerSetup:
 	setup.starting_hp = STARTING_HP
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = STARTING_HP
+	EncounterModifiers.ensure_setup_rule(RULES_KEY, BossTempo.DEFAULT_SETUP_TURNS)  # Fable pass Nov 1: the boss setup window
 	EncounterModifiers.apply_to_enemy(setup, RULES_KEY)
 	return setup
 

@@ -53,9 +53,12 @@ const SIGNATURES: Dictionary = {
 ## Elite fights played at Normal skill (with mistakes), and so does the first boss (its escalating summons are the challenge).
 const SKILL_OVERRIDES: Dictionary = {
 	"Brick Bronson": Skill.NORMAL, "Chef Fennel Gravois": Skill.NORMAL, "Moss Mulligan": Skill.NORMAL, "Prudence Pallor": Skill.NORMAL,
-	"The Restless Dead": Skill.NORMAL,
+	# Fable pass Nov 1: the Restless Dead plays at Elite now (75 % at L8 with the new HP curve at Normal).
+	"The Restless Dead": Skill.ELITE,
 	# The final boss is three duels on one HP pool: at Boss skill the gauntlet cleared 38% (Gourmand 17); Elite keeps it a fight.
-	"Primm": Skill.ELITE, "Primm (standardization)": Skill.ELITE, "Primm (reflection)": Skill.ELITE, "Primm (unraveling)": Skill.ELITE,
+	"Primm": Skill.ELITE, "Primm (standardization)": Skill.ELITE, "Primm (unraveling)": Skill.ELITE,
+	# Fable pass Nov 1: the mirror phase plays at Boss skill (100 % at Elite with 2 extra draws and 48 HP; it mirrors the player, so its cards are the player's own).
+	"Primm (reflection)": Skill.BOSS,
 }
 
 var personality: AIPersonality

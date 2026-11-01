@@ -12,7 +12,7 @@ const COUNTER_LEVERS: String = "vault_levers_pulled"
 const FLAG_PREFIX: String = "vault_lever_"
 ## The four zones (ZoneDefs ids) that each hide one lever, in the order of the seals on the door: Gainlands, Endless Buffet, Verdant Dump, D.N.A.
 const ZONE_IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
-const STARTING_HP: int = 28  # Rebalance Part E: was 40 (0% at level 24 with the old escalation; 23% at 34)
+const STARTING_HP: int = 30  # Fable pass Nov 1: 28 -> 30 with the Four Seals rule (+1/+1); 36 + +2/+2 was 0 %. Rebalance Part E: was 40 (0% at level 24 with the old escalation; 23% at 34)
 const AI_NAME: String = "Aggressive"
 ## Overnight Oct 23: its encounter key (scripted events in data/encounters/encounter_scripts.json).
 const RULES_KEY: String = "town:vault"
@@ -120,6 +120,7 @@ static func enemy_setup(content: ContentSet) -> PlayerSetup:
 	setup.starting_hp = STARTING_HP
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = STARTING_HP
+	EncounterModifiers.ensure_setup_rule(RULES_KEY, BossTempo.DEFAULT_SETUP_TURNS)  # Fable pass Nov 1: the boss setup window
 	EncounterModifiers.apply_to_enemy(setup, RULES_KEY)
 	return setup
 

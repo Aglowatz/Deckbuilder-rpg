@@ -1537,3 +1537,16 @@ In band and untouched: the cave (B 90 / G 92 / R 80 / N 97, 30 runs), the Gainla
 roamers (85-100), Colonel Casserole 68, the Hall of Final Approvals (Mortimer 53), the Test Kitchen and Rotheart normals and the
 Unfinished War Machine / Hortensia, the Waiting Room (Betty 47), Omakase (the Itamae 47), the Trash Panda Throne (the Raccoon 56),
 the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-measured: the Path-ology Lab (postgame, L25 now).
+
+## Fable pass Nov 1, Part 2: boss tempo + every boss into its band at the 15 -> 30 HP curve (docs/design/sim/bosses_nov1.md)
+
+- **Setup window** (`BossTempo`, `Modifier.Kind.SETUP_TURNS`, rule "Setting Up"): every boss's units do not attack during its first 2 turns
+  (per boss: `setup_turns` in its `dungeon_content.json` boss block; Primm's phases `PrimmBoss.SETUP_TURNS`; the Restless Dead and the Warden
+  through their own setups). The sims do not move (the sim player never dies on turn 1-2); it is for people.
+- **Wild Growth** (D-ROT OVERGROWTH) caps at +3 per unit (`GameState.OVERGROWTH_CAP`, `CardInstance.overgrowth_stacks`); Compostella 22 -> 26 HP.
+- Harder: the Restless Dead Normal -> Elite skill; Shiro 38 -> 40 HP, +3/+1; the Warden 28 -> 30 HP + Four Seals +1/+1 (36 HP and +2/+2 was 0 %);
+  the Echo +3/+3; the Spotter 40 HP, +5/+4, +B-31; Betty 36 HP, +3/+1, +N-32/N-28; Spotless 34 HP, +5/+3, +C-30/C-34/C-32/C-33; the Automaton
+  28 HP, +2/+2; Primm phase 1 56 HP + 4 Militia + C-30/C-32 x2, phase 2 52 HP + 2 extra draws + Boss skill, phase 3 50 HP + +3/+3.
+- Easier: Siphon 48 -> 42 HP, Replication every 3 turns (33 -> 50 % without Elowen; 100 % with her, inbox).
+- Result (3 games/Path, seed 7100): 17 of 22 in band; outside: Primm phases 83/100/67 per phase (gauntlet 47 %: Beefcake 0/8, Necrocrat 8/8),
+  Spotless 67 (+7, noise), Siphon with Elowen 100, arena tier 3 100.

@@ -16,6 +16,9 @@ static func possible_attackers(state: GameState, player_index: int) -> Array[Car
 static func _can_attack(state: GameState, card: CardInstance) -> bool:
 	if card.exhausted or state.unit_has_keyword(card, CardEnums.Keyword.WALLFLOWER):
 		return false
+	# Fable pass Nov 1 (boss tempo): a boss in its setup window does not attack (`BossTempo`).
+	if state.setup_turns_left(card.owner) > 0:
+		return false
 	return not card.summoning_sick or state.unit_has_keyword(card, CardEnums.Keyword.HUSTLE)
 
 

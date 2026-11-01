@@ -13,7 +13,8 @@ extends RefCounted
 ## cost_change {amount, path?} | enter_exhausted {path?} | token_stats {atk, def} | start_of_turn_damage {amount} |
 ## start_of_turn_heal {amount} | retaliate {amount} | max_hp {amount} | max_traps {amount} | resource_bonus {resource, count} |
 ## first_turn_draw {count} | always_first | max_plays {count} | block_resource {resource} | keyword_stat {keyword, atk} |
-## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols) | hp_gain_bonus {amount} (Oct 21, the Old Well).
+## first_card_cost {amount} | start_of_turn_resources {resource, count} (Oct 21, Siphon's Protocols) | hp_gain_bonus {amount} (Oct 21, the Old Well) |
+## setup_turns {turns} (Fable pass Nov 1: the owner's units do not attack during its first turns; bosses get one by default, see `BossTempo`).
 
 const PATH: String = "res://data/encounters/modifiers.json"
 const DEFAULT_ICON: String = "lorc/crossed-swords"
@@ -88,6 +89,32 @@ static func keys() -> Array[String]:
 static func problems() -> Array[String]:
 	_load()
 	return _problems
+
+
+## Fable pass Nov 1 (boss tempo): gives `key` a "Setting Up" rule of `turns` turns unless it already has a setup rule (from the JSON or an
+## earlier call); 0 turns adds nothing. Called when a boss is defined (`DungeonBuilder._add_foe`, `PrimmBoss.phase`, the town bosses), so
+## the node map, the brief, the HUD and the sim all see it.
+static func ensure_setup_rule(key: String, turns: int) -> void:
+	_load()
+	var list: Array[Rule] = _rules.get(key, [] as Array[Rule]) as Array[Rule]
+	for existing: Rule in list:
+		for modifier: Modifier in existing.modifiers:
+			if modifier.kind == Modifier.Kind.SETUP_TURNS:
+				return
+	var made: Rule = BossTempo.rule(turns)
+	if made == null:
+		return
+	list.append(made)
+	_rules[key] = list
+
+
+## The setup window of `key` in turns (0 without one).
+static func setup_turns(key: String) -> int:
+	for rule: Rule in rules(key):
+		for modifier: Modifier in rule.modifiers:
+			if modifier.kind == Modifier.Kind.SETUP_TURNS:
+				return modifier.value
+	return 0
 
 
 static func has_rules(key: String) -> bool:
@@ -252,6 +279,8 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.BLOCK_RESOURCE_USE, _resource_of(spec)))
 		"hp_gain_bonus":
 			made.append(CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, int(spec.get("amount", 1))))
+		"setup_turns":
+			made.append(CardBuilder.modifier(Modifier.Kind.SETUP_TURNS, maxi(1, int(spec.get("turns", BossTempo.DEFAULT_SETUP_TURNS)))))
 		"first_card_cost":
 			made.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(spec.get("amount", 1))))
 		"start_of_turn_resources":

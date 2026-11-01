@@ -112,7 +112,8 @@ enum Kind {
 	FIRST_SPELL_COST_CHANGE,
 	## Dungeon rule (Experimental): the first unit each side puts onto the field this duel gains a random keyword (presence).
 	EXPERIMENTAL_KEYWORD,
-	## Dungeon rule (Overgrowth): at the start of every turn every unit on either side gets +1/+1 for good (presence).
+	## Dungeon rule (Overgrowth): at the start of every turn every unit on either side gets +1/+1 for good (presence); Fable pass Nov 1:
+	## at most `GameState.OVERGROWTH_CAP` times per unit (Compostella's Wild Growth stacked a Possum to 8/10).
 	OVERGROWTH,
 	## Dungeon rule (Rot): at the end of every turn every unit with exactly 1 defense is destroyed (presence).
 	ROT,
@@ -148,6 +149,9 @@ enum Kind {
 	## Overnight Oct 23, Part 1: carries an encounter's scripted mid-fight events (`label` = the EncounterScripts key) onto the foe's
 	## seat; `GameState.add_player` starts the script's runtime from it. No effect by itself.
 	ENCOUNTER_SCRIPT,
+	## Fable pass Nov 1 (boss tempo, `BossTempo`): the owner's units cannot attack during the owner's first `value` turns - a boss's
+	## setup window, so its gimmick is seen before it can kill (`GameState.setup_turns_left`, `CombatResolver._can_attack`).
+	SETUP_TURNS,
 }
 
 ## `color` value meaning "matches every card".

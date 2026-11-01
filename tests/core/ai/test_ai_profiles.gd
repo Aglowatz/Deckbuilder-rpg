@@ -153,8 +153,8 @@ func test_for_foe_sets_skill_and_signature() -> void:
 	assert_eq(boss.personality.skill, 2)
 	assert_eq(boss.personality.signature, "trickster")
 	assert_eq(boss.personality.mistake_rate, 0.0)
-	# Part 5: the first boss is an exception - it plays at Normal skill (AIPlayer.SKILL_OVERRIDES) and keeps its signature.
+	# Part 5: the first boss is an exception - it plays below Boss skill (AIPlayer.SKILL_OVERRIDES: Normal until Nov 1, Elite since the
+	# 15 -> 30 HP curve made it 75 %) and keeps its signature.
 	var first: AIPlayer = AIPlayer.for_foe(AIPersonality.balanced(), AIPlayer.Skill.BOSS, GraveyardBoss.DISPLAY_NAME)
-	assert_eq(first.personality.skill, 0)
+	assert_eq(first.personality.skill, 1)
 	assert_eq(first.personality.signature, "patience")
-	assert_gt(first.personality.careless_blocks, 0.0)

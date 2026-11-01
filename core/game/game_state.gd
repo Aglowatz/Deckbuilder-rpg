@@ -286,11 +286,24 @@ func get_defense(card: CardInstance) -> int:
 
 
 ## Whether any player has a dungeon rule of `kind` (rules that hit both sides, like Rot, are in both players' sets).
+## Fable pass Nov 1: Wild Growth (OVERGROWTH) buffs a unit at most this many times.
+const OVERGROWTH_CAP: int = 3
+
+
 func rule_active(kind: Modifier.Kind) -> bool:
 	for player: PlayerState in players:
 		if player.modifiers.has(kind):
 			return true
 	return false
+
+
+## Fable pass Nov 1 (boss tempo): the turns of `player_index`'s setup window still to come, this turn included (0 when they have
+## none or it is over). A SETUP_TURNS modifier keeps the owner's units from attacking during the owner's first N turns (`BossTempo`).
+func setup_turns_left(player_index: int) -> int:
+	var player: PlayerState = players[player_index]
+	if not player.modifiers.has(Modifier.Kind.SETUP_TURNS):
+		return 0
+	return maxi(0, player.modifiers.sum(Modifier.Kind.SETUP_TURNS) - player.turns_taken + 1)
 
 
 ## The keyword cap of the dungeon rule Perfect Order (-1 = none).
@@ -854,7 +867,10 @@ func _begin_turn() -> void:
 	if rule_active(Modifier.Kind.OVERGROWTH):
 		for each_player: PlayerState in players:
 			for unit: CardInstance in each_player.field.duplicate():
-				buff_unit(unit, 1)
+				# Fable pass Nov 1 (Part 2): Wild Growth stops at OVERGROWTH_CAP buffs per unit (a Possum reached 8/10 by turn 6).
+				if unit.data.is_unit() and unit.overgrowth_stacks < OVERGROWTH_CAP:
+					unit.overgrowth_stacks += 1
+					buff_unit(unit, 1)
 	_resolve_delayed(active)
 	if is_over():
 		return
