@@ -1,4 +1,5 @@
 # Fable pass Nov 1, Part 7: Captain Spotless with the gate open - E must open his lines (the late critic saw "[E] Talk" that opened nothing).
+# dev travel capital lands in the Crease: the ladder up to the Reek's manhole, then east and south to his post by the gate.
 wait 2
 dev newgame
 wait 6
@@ -7,8 +8,15 @@ dev travel capital
 wait 12
 key E
 wait 1
+hold A 3.7
+hold W 1.0
+wait 0.3
 scene
-hold W 10.2
+key E
+wait 4
+scene
+hold D 2.95
+hold S 6.4
 wait 0.5
 scene
 shot 01_at_spotless

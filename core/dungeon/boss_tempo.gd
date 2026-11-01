@@ -13,6 +13,20 @@ const ICON: String = "lorc/hourglass"
 ## The boss data key.
 const DATA_KEY: String = "setup_turns"
 
+## Encounter key -> setup turns, registered when a boss is defined (`DungeonBuilder._add_foe`, `PrimmBoss.phase`, the town bosses). The
+## first registration of a key wins. `EncounterModifiers.rules(key)` adds the "Setting Up" rule from here, so a reset of the JSON rules
+## (tests) or a cached dungeon def never loses it.
+static var _registered: Dictionary = {}
+
+
+static func register(key: String, turns: int) -> void:
+	if turns > 0 and not _registered.has(key):
+		_registered[key] = turns
+
+
+static func turns_for(key: String) -> int:
+	return int(_registered.get(key, 0))
+
 
 static func rule_text(turns: int) -> String:
 	if turns == 1:

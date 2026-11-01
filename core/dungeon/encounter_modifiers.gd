@@ -95,17 +95,19 @@ static func problems() -> Array[String]:
 ## earlier call); 0 turns adds nothing. Called when a boss is defined (`DungeonBuilder._add_foe`, `PrimmBoss.phase`, the town bosses), so
 ## the node map, the brief, the HUD and the sim all see it.
 static func ensure_setup_rule(key: String, turns: int) -> void:
-	_load()
-	var list: Array[Rule] = _rules.get(key, [] as Array[Rule]) as Array[Rule]
-	for existing: Rule in list:
+	BossTempo.register(key, turns)
+
+
+## The registered setup window of `key` as a rule, unless the JSON already gives it one (null otherwise).
+static func _registered_setup_rule(key: String, json_rules: Array[Rule]) -> Rule:
+	var turns: int = BossTempo.turns_for(key)
+	if turns <= 0:
+		return null
+	for existing: Rule in json_rules:
 		for modifier: Modifier in existing.modifiers:
 			if modifier.kind == Modifier.Kind.SETUP_TURNS:
-				return
-	var made: Rule = BossTempo.rule(turns)
-	if made == null:
-		return
-	list.append(made)
-	_rules[key] = list
+				return null
+	return BossTempo.rule(turns)
 
 
 ## The setup window of `key` in turns (0 without one).
@@ -119,7 +121,7 @@ static func setup_turns(key: String) -> int:
 
 static func has_rules(key: String) -> bool:
 	_load()
-	return (_rules.has(key) and not (_rules[key] as Array).is_empty()) or EncounterScripts.has_script(key)
+	return (_rules.has(key) and not (_rules[key] as Array).is_empty()) or EncounterScripts.has_script(key) or BossTempo.turns_for(key) > 0
 
 
 ## The encounter's one-sided rules, then (Oct 23) its scripted events as display-only rules (`scripted`, no modifiers).
@@ -128,6 +130,9 @@ static func rules(key: String) -> Array[Rule]:
 	var result: Array[Rule] = []
 	if _rules.has(key):
 		result.append_array(_rules[key] as Array[Rule])
+	var setup: Rule = _registered_setup_rule(key, result)
+	if setup != null:
+		result.append(setup)
 	result.append_array(EncounterScripts.display_rules(key))
 	return result
 
