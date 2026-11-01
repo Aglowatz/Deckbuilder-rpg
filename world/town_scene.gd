@@ -1276,6 +1276,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed(&"interact"):
 		get_viewport().set_input_as_handled()
+		# Oct 31 - Nov 1 (first-hour critic): the E that closed a conversation's last line must not start it again (Bertram re-opened).
+		if Time.get_ticks_msec() - dialogue_closed_msec() < REOPEN_GUARD_MS:
+			return
 		_interact(_near)
 		return
 	if event is InputEventMouseButton:
@@ -1287,6 +1290,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## Where `spot`'s marker currently projects to on screen, for click picking.
+const REOPEN_GUARD_MS: int = 250
+
+
+## When the dialogue box last closed (0 = never).
+func dialogue_closed_msec() -> int:
+	return dialogue.closed_msec if dialogue != null else 0
+
+
 func _screen_pos_of(spot: Spot) -> Vector2:
 	return _camera.unproject_position(spot.marker.position)
 

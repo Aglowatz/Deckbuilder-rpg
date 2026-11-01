@@ -80,3 +80,15 @@ func test_first_hour_fixes() -> void:
 	choice.queue_free()
 	await wait_frames(2)
 	assert_true(SceneManager.pause_allowed)
+
+
+func test_the_closing_e_does_not_reopen_a_conversation() -> void:
+	var box: DialogueBox = DialogueBox.new()
+	add_child_autofree(box)
+	await wait_frames(1)
+	box.start("Bertram", ["One line."] as Array[String])
+	await wait_frames(1)
+	box.close_now()
+	assert_gt(box.closed_msec, 0, "the box stamps its closing time")
+	var source: String = FileAccess.get_file_as_string("res://world/town_scene.gd")
+	assert_true(source.contains("dialogue_closed_msec() < REOPEN_GUARD_MS"), "the town ignores the E that closed it")

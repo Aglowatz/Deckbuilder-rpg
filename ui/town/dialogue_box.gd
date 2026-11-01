@@ -28,6 +28,8 @@ var _listener: PortraitView
 var skip_callback: Callable = Callable()
 ## Overnight Oct 31 - Nov 1 (the designer's answer 9): true for a FIRST viewing - Esc then asks "Skip this scene? You haven't seen it."
 var skip_needs_confirm: bool = false
+## When the last conversation closed (ms ticks; 0 = none yet): a scene ignores the E that closed it (Oct 31 - Nov 1).
+var closed_msec: int = 0
 var _skip_confirm: ConfirmDialog = null
 var _last_speaker: Dictionary = {}
 const LISTEN_GAP_MS: int = 700
@@ -374,6 +376,7 @@ func press() -> void:
 	_index += 1
 	if _index >= _lines.size():
 		active = false
+		closed_msec = Time.get_ticks_msec()
 		GameLog.modal_closed("Dialogue")
 		_panel.visible = false
 		_portrait.dismiss()

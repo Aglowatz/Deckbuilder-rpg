@@ -834,4 +834,5 @@ Report: `docs/overnight_report.md`. Most important first.
     right-click/hover); (d) the 45-card starter (19 basic infrastructure) makes reward picks ~2 % of the deck - smaller starter?;
     (e) Bertram reads as a straight Dwight Schrute (The Office) lift - the critic's words; (f) **typos in your rewritten opening lines**
     (frozen, so not touched): "its much" (it's), "shes leading" (she's), "By the way their shouting" (they're), "aquainted" (acquainted)
-    - in `data/story/intro_story.tres` prologue keys; (g) Bertram's talk re-opens when E is pressed after his last line.
+    - in `data/story/intro_story.tres` prologue keys; (g) Bertram's talk re-opening on the closing E: fixed (the town ignores interact
+    for 250 ms after a conversation closes).
