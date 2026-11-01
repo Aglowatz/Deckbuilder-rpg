@@ -836,3 +836,24 @@ Report: `docs/overnight_report.md`. Most important first.
     (frozen, so not touched): "its much" (it's), "shes leading" (she's), "By the way their shouting" (they're), "aquainted" (acquainted)
     - in `data/story/intro_story.tres` prologue keys; (g) Bertram's talk re-opening on the closing E: fixed (the town ignores interact
     for 250 ms after a conversation closes).
+
+## Fable pass Nov 1 - yours to decide (the safest choice was taken)
+
+Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
+
+1. **Primm's phases** are still too easy one at a time (83 / 100 / 67 % per phase with fresh HP; the mirror phase plays your own deck and
+   cannot be made hard with HP, draws or AI skill - it is at Boss skill now). The gauntlet (three phases on one HP pool, the way Oct 23
+   judged it) is 47 %: Beefcake 0 of 8, Gourmand 3 of 8, Refusemancer 4 of 8, Necrocrat 8 of 8. Say if you want per-phase 40-60 % anyway
+   (that makes the gauntlet ~12 %), or a Beefcake-only lever (its units vs Standardization's 3/3 Militia).
+2. **Siphon with Elowen** stays at 100 % (33 -> 50 % without her after 48 -> 42 HP and Replication every 3rd turn). Her jam is worth ~50
+   points; which case should sit in the band? (Weakening her jam to every other turn is the lever.) **Arena tier 3** (Bellows) is 100 %
+   with the built deck - not a zone or side boss; untouched.
+3. **The castle's Safe Room** already was a full heal, on every road to the boss, at step 7 of 10 (4 fights before it, 2 after). Moving it to
+   the exact middle (swap with the Ministry of Correction) means re-fitting the painted map's rooms; I left it and made nothing else heal.
+4. **Naming (Part 4)**: every surface now agrees (plates, intro, Bestiary, music, quest log, node blurb before/after the reveal, the freed
+   apprentice "Escoffina", the chef "The Grand Chef"). Two things I did not touch: card G-33 is still "Grand Chef Escoffina" (the card
+   list is frozen in canon.md; it reads as the name the reward card was printed with) and the Bestiary blurb "Posing as Grand Chef
+   Escoffina" (true before and after). No existing dialogue line contradicts the rule; the sheet's export labels ("The Doppelganger, later
+   Escoffina") are list annotations, not plates.
+5. **Side dungeons' first-clear gold** (`def.reward_gold` 100) is counted by the economy model but never paid by the game (only the card,
+   the gear and now the XP bonus). Pay it, or drop it from the model?

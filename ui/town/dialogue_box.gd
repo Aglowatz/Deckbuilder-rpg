@@ -203,7 +203,8 @@ func _plate_text(speaker: String, entry: NpcRegistry.Entry) -> String:
 	if entry == null:
 		return speaker
 	if speaker.strip_edges().is_empty() or NpcRegistry.resolve_name(speaker) == entry.id:
-		return entry.plate_name()
+		# Fable pass Nov 1: "The Doppelganger" / "Escoffina" as the writer labelled the beat; the registry plate otherwise.
+		return SpoilerFree.plate_for(entry.id, speaker, entry.plate_name())
 	return speaker
 
 

@@ -64,7 +64,7 @@ static func find(enemy_name: String) -> Dictionary:
 	elif title.is_empty() and enemy_name.contains(", "):
 		title = enemy_name.get_slice(", ", 1)
 	return {
-		"name": SpoilerFree.revealed(shown_name),
+		"name": shown_name,  # Fable pass Nov 1: the boss fight always reads the foe's name ("The Doppelganger"), reveal or not
 		"title": title,
 		"line": str(entry.get("line", "")),
 		"sting": str(entry.get("sting", "")),
