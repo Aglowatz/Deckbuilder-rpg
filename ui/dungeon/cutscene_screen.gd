@@ -91,7 +91,15 @@ var _first_view: bool = true
 var _skip_confirm: ConfirmDialog = null
 
 
+## How many cutscenes are up (one can start before the last is freed) and whether the pause menu was allowed before the first.
+static var _open: int = 0
+static var _pause_was_allowed: bool = false
+
+
 func _exit_tree() -> void:
+	_open = maxi(0, _open - 1)
+	if _open == 0:
+		SceneManager.pause_allowed = _pause_was_allowed
 	if _music_token != 0:
 		Audio.pop_music(_music_token, 1.5)
 		_music_token = 0
@@ -109,6 +117,14 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 300
+	# Overnight Oct 31 - Nov 1 (late-game critic #1, Primm's intro "soft-locked": the line stopped typing and only Esc answered): the scene
+	# keeps running even if something pauses the tree, and the pause menu cannot open over it (Esc is the scene's skip; an Esc that opened the
+	# pause menu froze the scene behind it, and E then pressed pause-menu buttons).
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	if _open == 0:
+		_pause_was_allowed = SceneManager.pause_allowed
+	_open += 1
+	SceneManager.pause_allowed = false
 	_first_view = not Session.flag(StringName("cutscene_seen_%s" % scene_id))
 	_skippable = true
 	# A leader's release scene, Primm between his phases and after his fall have their own cues over the dungeon's music; the rest keep what plays.

@@ -409,7 +409,7 @@ func _build_scene() -> void:
 	# Playtest v0.4.0 Part F: one icon row for every rule of the fight (the old text panels are gone); Primm's phase rule keeps its own panel.
 	hud.set_rule_badges(context.rule_badges)
 	if context.zone_id == CapitalZone.ID and not context.rules_text.is_empty():
-		hud.set_capital_panels({}, context.rules_text)
+		hud.set_capital_panels(Session.flags, context.rules_text)  # Oct 31 - Nov 1 (late-game critic #4): {} read as "every service broken" (4 of 4 in battle, 0 of 4 outside)
 	if not context.arena_id.is_empty():
 		hud.set_arena_banner(context.arena_id)
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]
@@ -2064,7 +2064,9 @@ func _show_result() -> void:
 		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.practice and context.town_npc_id.is_empty():
-		column.add_child(UIKit.label("You are carried out of the dungeon. Your collection is safe.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+		# Oct 31 - Nov 1 (late-game critic #15): "the dungeon" only when there is one (a fight outside a run said it too).
+		var where: String = "You are carried out of the dungeon." if Session.run != null else "You come to, a little bruised."
+		column.add_child(UIKit.label("%s Your collection is safe." % where, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.
 	if not won and not game.is_draw:

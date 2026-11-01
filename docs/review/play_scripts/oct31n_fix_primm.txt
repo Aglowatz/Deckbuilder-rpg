@@ -1,0 +1,62 @@
+# Repro: Primm's intro stuck on its last line (late-game critic #1)
+wait 2
+dev load lategame_real
+wait 12
+dev travel dungeon D-PC -2
+wait 10
+skip_dialogue 10
+click 1322 380
+wait 2
+click 1322 380
+wait 2
+shot p00
+key E
+wait 1.2
+key E
+wait 1.2
+key E
+wait 1.2
+key E
+wait 1.2
+key E
+wait 1.2
+shot p01
+dump
+key E
+wait 1.2
+key E
+wait 1.2
+key E
+wait 1.2
+shot p02
+dump
+key E
+wait 1.2
+key E
+wait 1.2
+shot p03
+dump
+click 800 500
+wait 1.5
+shot p04
+dump
+key E
+wait 1.5
+shot p05
+dump
+key E
+wait 1.5
+shot p06
+dump
+key E
+wait 1.5
+shot p07
+dump
+key E
+wait 1.5
+shot p08
+dump
+key E
+wait 3
+shot p09
+dump

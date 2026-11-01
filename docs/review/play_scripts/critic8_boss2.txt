@@ -1,0 +1,44 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-TTK -2
+wait 10
+click 1364 215
+wait 3
+key E
+wait 1.5
+key E
+wait 2
+key Space
+wait 2
+shot 88_cut2
+dump
+key Space
+wait 2
+shot 89_cut3
+dump
+key Space
+wait 2
+key Space
+wait 2
+key Space
+wait 2
+shot 90_cut4
+dump
+key Escape
+wait 4
+shot 91_board
+dump
+button Keep Hand
+wait 2
+button Got it
+wait 1
+pilot 150
+shot 92_mid
+dump
+pilot 200
+shot 93_end
+dump
+wait 3
+shot 94_end2
+dump

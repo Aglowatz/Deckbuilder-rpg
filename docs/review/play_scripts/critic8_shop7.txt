@@ -1,0 +1,17 @@
+wait 2
+dev load midgame_real
+wait 12
+hold A 2.5
+hold W 5
+hold D 0.4
+hold W 1.5
+shot 150_tilly_near
+dump
+key E
+wait 2
+shot 151_tilly
+dump
+skip_dialogue 4
+wait 1
+shot 152_tilly_shop
+dump

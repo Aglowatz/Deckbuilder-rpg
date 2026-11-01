@@ -1,0 +1,17 @@
+wait 2
+dev load midgame_real
+wait 12
+hold A 2.5
+hold W 5
+click 600 610
+wait 4
+shot 30_click_sable
+dump
+key E
+wait 2
+shot 31_sable_b
+dump
+skip_dialogue 6
+wait 1
+shot 32_shop
+dump

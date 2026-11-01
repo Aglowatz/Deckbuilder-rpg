@@ -1,0 +1,57 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-TTK -2
+wait 10
+click 1364 215
+wait 3
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+wait 2
+button Keep Hand
+wait 2
+dev win
+wait 5
+shot 130_win
+dump
+wait 3
+shot 131_win2
+dump
+skip_dialogue 3
+wait 2
+shot 132_win3
+dump
+skip_dialogue 6
+wait 3
+shot 133_win4
+dump
+skip_dialogue 10
+wait 4
+shot 134_win5
+dump

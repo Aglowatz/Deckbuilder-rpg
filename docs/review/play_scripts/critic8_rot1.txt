@@ -1,0 +1,11 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-ROT -2
+wait 10
+shot 120_rot_map
+dump
+key R
+wait 1
+shot 121_rot_rules
+dump

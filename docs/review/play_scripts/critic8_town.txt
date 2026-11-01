@@ -1,0 +1,10 @@
+wait 2
+dev load midgame_real
+wait 12
+shot 01_town
+dump
+scene
+key P
+wait 2
+shot 02_packs
+dump

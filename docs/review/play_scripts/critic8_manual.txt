@@ -1,0 +1,243 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-TTK
+wait 10
+click 398 650
+wait 3
+button Continue
+wait 6
+button Keep Hand
+wait 3
+button Got it
+wait 1
+shot 161_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 161_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 161_c_attackers
+dump
+key Space
+wait 3
+shot 161_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 162_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 162_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 162_c_attackers
+dump
+key Space
+wait 3
+shot 162_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 163_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 163_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 163_c_attackers
+dump
+key Space
+wait 3
+shot 163_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 164_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 164_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 164_c_attackers
+dump
+key Space
+wait 3
+shot 164_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 165_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 165_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 165_c_attackers
+dump
+key Space
+wait 3
+shot 165_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 166_a_turnstart
+dump
+click 430 800
+wait 1.2
+click 560 800
+wait 1.2
+click 690 800
+wait 1.2
+click 820 800
+wait 1.2
+click 950 800
+wait 1.2
+click 1080 800
+wait 1.2
+click 1210 800
+wait 1.2
+shot 166_b_played
+key Space
+wait 1.5
+click 600 560
+wait 0.5
+click 750 560
+wait 0.5
+click 900 560
+wait 0.5
+click 1050 560
+wait 0.5
+shot 166_c_attackers
+dump
+key Space
+wait 3
+shot 166_d_after_attack
+key Space
+wait 1
+button End Turn
+wait 8
+button Got it
+wait 0.5
+shot 169_end
+dump

@@ -1,0 +1,15 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-TTK
+wait 10
+click 398 650
+wait 3
+button Continue
+wait 6
+shot 58_battle
+dump
+skip_dialogue 3
+wait 2
+shot 59_battle_b
+dump

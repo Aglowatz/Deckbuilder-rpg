@@ -1,0 +1,41 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-TTK
+wait 10
+click 398 650
+wait 3
+button Continue
+wait 6
+button Keep Hand
+wait 3
+button Got it
+wait 1
+drag 431 800 700 500
+wait 2
+shot 70_drag_infra
+dump
+key Space
+wait 2
+button End Turn
+wait 8
+shot 71_t3
+dump
+drag 763 800 700 500
+wait 2
+shot 72_t3_infra
+drag 1194 800 700 450
+wait 2
+shot 73_t3_unit
+dump
+key Space
+wait 2
+shot 74_combat
+dump
+pilot 200
+shot 75_after_pilot
+dump
+skip_dialogue 5
+shot 76_after
+dump
+dev save c8_ttk1

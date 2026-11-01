@@ -1,0 +1,18 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon S-GOUR
+wait 10
+click 520 655
+wait 3
+button Continue
+wait 6
+button Keep Hand
+wait 2
+button Got it
+pilot 240
+shot 172_omakase_end
+dump
+wait 3
+shot 173_omakase_end2
+dump

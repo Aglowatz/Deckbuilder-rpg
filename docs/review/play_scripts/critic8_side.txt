@@ -1,0 +1,12 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon S-GOUR
+wait 10
+skip_dialogue 4
+shot 170_omakase_map
+dump
+key R
+wait 1
+shot 171_omakase_rules
+dump

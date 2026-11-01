@@ -1,0 +1,37 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel zone necrocrat
+wait 10
+skip_dialogue 4
+shot 110_dna_arrive
+dump
+hold W 3
+skip_dialogue 3
+shot 111_dna_walk
+dump
+hold W 3
+shot 112_dna_walk2
+dump
+dev travel zone refusemancer
+wait 10
+skip_dialogue 4
+shot 113_dump_arrive
+dump
+key M
+wait 2
+button Where to?
+wait 1
+shot 114_dump_map
+key Escape
+wait 1
+key Escape
+wait 1
+hold W 4
+skip_dialogue 3
+shot 115_dump_walk
+dump
+hold W 3
+hold D 2
+shot 116_dump_walk2
+dump

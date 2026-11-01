@@ -1,0 +1,58 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel dungeon D-ROT -2
+wait 10
+click 1311 200
+wait 3
+shot 122_rot_click
+dump
+key Space
+wait 1.5
+shot 123_rot_scene_1
+key Space
+wait 1.5
+shot 123_rot_scene_2
+key Space
+wait 1.5
+shot 123_rot_scene_3
+key Space
+wait 1.5
+shot 123_rot_scene_4
+key Space
+wait 1.5
+shot 123_rot_scene_5
+key Space
+wait 1.5
+shot 123_rot_scene_6
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+key Space
+wait 1.2
+shot 124_rot_board
+dump
+wait 3
+button Keep Hand
+wait 2
+button Got it
+wait 1
+pilot 60
+shot 125_rot_mid1
+dump
+pilot 90
+shot 126_rot_mid2
+dump
+pilot 200
+shot 127_rot_end
+dump
+wait 3
+shot 128_rot_end2
+dump

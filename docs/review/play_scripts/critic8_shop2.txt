@@ -1,0 +1,14 @@
+wait 2
+dev load midgame_real
+wait 12
+hold A 2.5
+hold W 3
+shot 22_nw
+dump
+hold W 2
+shot 23_nw2
+dump
+key E
+wait 2
+shot 24_interact
+dump

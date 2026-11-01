@@ -1,0 +1,20 @@
+wait 2
+dev load midgame_real
+wait 12
+key M
+wait 2
+button Where to?
+wait 1
+click 1290 534
+wait 1
+shot 18_map_cardvendor
+key Escape
+wait 1
+shot 19_after_whereto
+dump
+hold W 2
+shot 20_walk1
+dump
+hold W 2
+shot 21_walk2
+dump

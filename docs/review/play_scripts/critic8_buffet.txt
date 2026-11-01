@@ -1,0 +1,33 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel zone gourmand
+wait 10
+shot 40_buffet_arrive
+dump
+skip_dialogue 3
+shot 41_buffet_a
+key M
+wait 2
+shot 42_buffet_map
+dump
+button Where to?
+wait 1
+shot 43_buffet_whereto
+key Escape
+wait 1
+key Escape
+wait 1
+hold W 3
+shot 44_walk
+dump
+hold W 3
+shot 45_walk
+dump
+hold D 2
+shot 46_walk
+dump
+key E
+wait 1.5
+shot 47_talk
+dump

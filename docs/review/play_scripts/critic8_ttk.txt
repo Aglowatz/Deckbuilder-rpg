@@ -1,0 +1,37 @@
+wait 2
+dev load midgame_real
+wait 10
+dev travel zone gourmand
+wait 10
+skip_dialogue 3
+hold W 4
+skip_dialogue 3
+hold W 1.5
+hold A 1.5
+shot 48_near_tarragon
+dump
+key E
+wait 1.5
+shot 49_tarragon1
+dump
+key E
+wait 1.5
+shot 50_tarragon2
+key E
+wait 1.5
+shot 51_tarragon3
+dump
+skip_dialogue 10
+dev travel dungeon D-TTK
+wait 10
+shot 52_ttk_map
+dump
+skip_dialogue 4
+shot 53_ttk_map2
+dump
+key R
+wait 1.5
+shot 54_ttk_rules
+dump
+key Escape
+wait 1

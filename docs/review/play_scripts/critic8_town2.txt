@@ -1,0 +1,50 @@
+wait 2
+dev load midgame_real
+wait 12
+key P
+wait 2
+button Got it
+wait 1
+click 882 323
+wait 2
+shot 03_gilded_open
+dump
+wait 2
+shot 04_gilded_open_b
+skip_dialogue 5
+click 882 160
+wait 3
+shot 05_beefpack
+dump
+skip_dialogue 5
+shot 06_packs_after
+key Escape
+wait 1
+key B
+wait 3
+shot 07_deck
+dump
+move 400 400
+wait 1
+shot 08_deck_hover
+key Escape
+wait 1
+key C
+wait 2
+shot 09_char
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot 10_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot 11_map
+dump
+key Escape
+wait 1
+shot 12_back
