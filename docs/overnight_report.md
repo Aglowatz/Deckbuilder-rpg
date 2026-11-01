@@ -151,10 +151,9 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   the sealed trailhead was tried and reverted (an earlier decision: the gate never opens; Old Man Mountain is the way, and he is listed).
 - **D.N.A. lobby dressing** (the last Part 5 item): a waiting bench and a water cooler on the west wall and a television by the north
   wall, from the zone's own pieces (the middle stays open, GC-7). D.N.A. walk smoke OK, D.N.A. tests 35/35. Shot: `_screenshots/dna_walk/w_02_the_lobby_plaza.png`.
-- **Cycle 3 (the first hour) not run**: every campaign slot on this PC holds a save (slot 3 since Oct 31 11:54), so a fresh game from the
-  title needs "Start over here". The play driver never saves (nothing would be deleted), but Claude Code's safety check refused to launch a
-  critic told to press it, and that is your call. Next time: a driver command `dev newgame` that starts a fresh game without the slot
-  screen, or free slot 3. The brief is ready: `docs/review/critic_brief_firsthour_oct31n.md`.
+- **Cycle 3 - the first hour**: the first launch was refused by Claude Code's safety check (the brief had the critic press "Start over
+  here" on a slot holding a save; the driver never saves, but that is your call). Added a driver command `dev newgame` (a fresh game
+  without the slot screen; slot 3's save verified untouched) and relaunched. Result: (running).
 - **Suite after the cycles**: core 1534 + 1 pending, world 431, ui 194 (Nov 1 05:30), all passing.
 
 ## Critic scores
