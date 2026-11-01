@@ -3074,6 +3074,11 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 				add_cards([card] as Array[CardData])
 				result["card"] = card.display_name
 			result["first_clear"] = true
+			# Fable pass Nov 1 (Part 3): a side dungeon's first clear pays XP scaled with its tier (DungeonClearBonus; it paid none).
+			var clear_xp: int = DungeonClearBonus.side_xp(plan.id)
+			if clear_xp > 0:
+				pending_level_ups.append_array(add_xp(clear_xp))
+				result["xp"] = clear_xp
 			if plan.id == PathologyLab.DUNGEON_ID:
 				_grant_lab_first_clear(result)
 			_grant_dungeon_gear(plan.id, result)

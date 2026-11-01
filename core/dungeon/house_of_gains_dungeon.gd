@@ -56,7 +56,7 @@ static func build_def() -> MainDungeonDef:
 	var def: MainDungeonDef = DungeonBuilder.build_def(DungeonCatalog.find(DUNGEON_ID))
 	def.backdrop = "house"
 	def.reward_gold = 220
-	def.reward_xp = 160
+	def.reward_xp = DungeonClearBonus.main_xp(DUNGEON_ID)  # Fable pass Nov 1: scaled with the tier (was a flat 160)
 	def.boon = heartlift_boon()
 	# The Stairs to the Iron-less Prison (node 7).
 	var descent: DungeonEvent = DungeonEvent.make("hg_descent")

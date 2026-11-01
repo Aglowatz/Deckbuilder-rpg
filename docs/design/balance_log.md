@@ -1550,3 +1550,8 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 - Easier: Siphon 48 -> 42 HP, Replication every 3 turns (33 -> 50 % without Elowen; 100 % with her, inbox).
 - Result (3 games/Path, seed 7100): 17 of 22 in band; outside: Primm phases 83/100/67 per phase (gauntlet 47 %: Beefcake 0/8, Necrocrat 8/8),
   Spotless 67 (+7, noise), Siphon with Elowen 100, arena tier 3 100.
+
+## Fable pass Nov 1, Part 3: dungeon-clear XP bonus scaled with the tier (docs/design/progression.md)
+
+- `DungeonClearBonus`: main first clears pay 0.5 x the next level's step at the dungeon's tier (190 / 225 / 240 / 255; was 160), side
+  first clears 0.15 x (45-90; was 0), D-PC keeps 400; per-fight XP unchanged. Expected player: Dump 17 -> 18, castle 21 -> 22 (model 17 / 21).

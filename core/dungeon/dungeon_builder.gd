@@ -53,7 +53,8 @@ static func build_def(blueprint: DungeonCatalog.Blueprint) -> MainDungeonDef:
 	def.dungeon_name = blueprint.dungeon_name
 	def.reward_card_id = blueprint.reward_card_id()
 	def.reward_gold = SIDE_REWARD_GOLD if blueprint.is_side() else DEFAULT_REWARD_GOLD
-	def.reward_xp = 0 if blueprint.is_side() else DEFAULT_REWARD_XP
+	# Fable pass Nov 1 (Part 3): a first clear pays XP scaled with the dungeon's tier (a side dungeon paid none before).
+	def.reward_xp = DungeonClearBonus.side_xp(blueprint.id) if blueprint.is_side() else DungeonClearBonus.main_xp(blueprint.id)
 	var defaults: Dictionary = content.get("defaults", {}) as Dictionary
 	var foes: Dictionary = content.get("foes", {}) as Dictionary
 	var battle_index: int = 0

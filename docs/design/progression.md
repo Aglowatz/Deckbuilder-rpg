@@ -107,3 +107,13 @@ more consumables were added in the third brief's Part F, see `docs/progress.md`)
 | Healing Draught | 3 | A common camp remedy. |
 | Reckless Tonic | 1 | One big gulp - use it wisely, there is only one. |
 | Vitality Charm | 2 | A small, steady comfort. |
+
+## Dungeon-clear XP bonus (Fable pass Nov 1, Part 3)
+
+A dungeon's FIRST clear pays XP scaled with its tier (`DungeonClearBonus`): the tier is the level the progression model expects there
+(`ProgressionModel.LEVELS`), and the bonus is a fraction of what the next level costs at that tier (`ProgressionTable.xp_step`), so it keeps
+pace with the curve by itself. Main dungeons pay 0.5 of a level (D-HOG 190, D-HFA 225, D-TTK 240, D-ROT 255; was a flat 160) on top of the
+pack config's flat 100 and the Gilded Pack; side dungeons pay 0.15 of a level (S-IRON 45 .. S-CAP 80, S-BEEF / S-PASTE 90; they paid no XP).
+Primm's Castle keeps its 400. Per-fight XP is unchanged. Timeline (`docs/design/sim/economy_model.md`): the expected player arrives at the
+Dump at 18 (model 17; was 17) and at the castle at 22 (model 21; was 21); the rusher is unchanged until the Capital (15); the thorough player
+is +1 (the Dump at 20, the castle at 25). Fractions 0.6 / 0.35 over-levelled the expected player by two at the Dump and were dropped.

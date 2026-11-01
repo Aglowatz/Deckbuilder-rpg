@@ -14,5 +14,5 @@ static func build_def() -> MainDungeonDef:
 	var def: MainDungeonDef = DungeonBuilder.build_def(DungeonCatalog.find(DUNGEON_ID))
 	def.backdrop = "kitchen"
 	def.reward_gold = 220
-	def.reward_xp = 160
+	def.reward_xp = DungeonClearBonus.main_xp(DUNGEON_ID)  # Fable pass Nov 1: scaled with the tier (was a flat 160)
 	return def
