@@ -63,7 +63,7 @@ function npcFor(word) {
 }
 // Oct 31: labels the Oct 21 export got wrong, checked against the game (who actually speaks).
 const SPEAKER_FIXES = [
-	[/^data\/story\/capital_story\.tres::fx\.wake_outside$/, 'Capital guards and clerks'],
+	[/^data\/story\/capital_story\.tres::fx\.wake_outside$/, 'A gate guard'],
 ];
 const SPEAKER_RULES = [
 	[/^town\.elder\./, 'Elder Maren'], [/^storeroom\.wanderer/, 'The Wanderer'], [/^storeroom\.(before|challenge|after_win|after_loss)/, 'The Store Room Ghosts'],

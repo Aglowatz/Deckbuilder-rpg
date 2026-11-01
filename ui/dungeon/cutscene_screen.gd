@@ -86,6 +86,9 @@ var _still_up: bool = false
 var _music_token: int = 0
 ## Overnight Oct 30-31 (mid-game critic #8): a cutscene seen before (`cutscene_seen_<id>`) can be skipped with Esc (it sets no flags).
 var _skippable: bool = false
+## Overnight Oct 31 - Nov 1 (the designer's answer 9): a FIRST viewing can be skipped too, after "Skip this scene? You haven't seen it."
+var _first_view: bool = true
+var _skip_confirm: ConfirmDialog = null
 
 
 func _exit_tree() -> void:
@@ -106,7 +109,8 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 300
-	_skippable = Session.flag(StringName("cutscene_seen_%s" % scene_id))
+	_first_view = not Session.flag(StringName("cutscene_seen_%s" % scene_id))
+	_skippable = true
 	# A leader's release scene, Primm between his phases and after his fall have their own cues over the dungeon's music; the rest keep what plays.
 	var cue: String = MusicDirector.cutscene(scene_id)
 	if not cue.is_empty():
@@ -209,7 +213,7 @@ func _show_beat() -> void:
 	_text.visible_ratio = 0.0
 	_hint.text = "Click / Space to finish" if _index == _beats.size() - 1 else "Click / Space to continue"
 	if _skippable:
-		_hint.text += "   -   Esc: skip (seen before)"
+		_hint.text += "   -   Esc: skip" if _first_view else "   -   Esc: skip (seen before)"
 	var speaks_left: bool = _is_left_speaker(speaker)
 	_left.modulate = Color(1, 1, 1, 1) if speaks_left else Color(0.6, 0.6, 0.66, 1)
 	_right.modulate = Color(0.6, 0.6, 0.66, 1) if speaks_left else Color(1, 1, 1, 1)
@@ -241,12 +245,16 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(_skip_confirm):
+		return
 	var key: InputEventKey = event as InputEventKey
 	if not _done and _skippable and key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
-		_index = _beats.size() - 1
-		_text.visible_ratio = 1.0
-		advance()
+		if _first_view:
+			_skip_confirm = ConfirmDialog.ask(self, "Skip this scene?", "Skip this scene? You haven't seen it.", "Skip", "Keep watching")
+			_skip_confirm.confirmed.connect(skip_to_end)
+		else:
+			skip_to_end()
 		return
 	if _done or _still_up:
 		return
@@ -258,6 +266,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not pressed:
 		return
 	get_viewport().set_input_as_handled()
+	advance()
+
+
+## Esc (after the confirm on a first viewing): jumps to the last beat and out.
+func skip_to_end() -> void:
+	_skip_confirm = null
+	if _done:
+		return
+	_index = _beats.size() - 1
+	_text.visible_ratio = 1.0
 	advance()
 
 

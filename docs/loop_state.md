@@ -1,25 +1,26 @@
-# Loop state - Dialogue critic pass (Oct 31 2026)
+# Loop state - Overnight Oct 31 -> Nov 1 (Opus)
 
-Brief: pasted "DIALOGUE CRITIC PASS" (suggest rewrites only; DIALOGUE FREEZE: no game dialogue file is edited). Questions: `docs/overnight_inbox.md`
-("Dialogue critic pass"). Rules: one Godot process at a time; at most 3 agents at once; commit per part.
-Previous loop state (Music Pass 3, all parts done) is in git history (commit 048e8233).
+Brief: pasted "OVERNIGHT LOOP Oct 31 -> Nov 1" (8 parts + the designer's 11 answers). Questions: `docs/overnight_inbox.md`
+("Overnight Oct 31 - Nov 1"). Report: `docs/overnight_report.md`. Tag `pre-overnight-oct31n` at the start.
+Stop when `STOP_OVERNIGHT` exists in the repo root (check before every part/cycle).
+Rules: one Godot process at a time; <= 3 agents and never while Godot runs; commit + push per part; critics play in a worktree at HEAD;
+dialogue freeze (new lines -> `docs/dialogue/new_lines_proposed_oct31.csv`); no art requests in game.
+Previous states: `docs/overnight/oct31_dialogue/loop_state.md` (dialogue critic pass).
 
-Source: `docs/dialogue/edit_oct27.csv` (4203 rows). The sheet's Dialogue Edit tab (design sheet 1GRfPvgp9I4TWVRO4T7p4bOJMwJ9kaVKt2q-0ybdXfYw) has
-NO designer "New line" filled on Oct 31 (checked F:H), only 4 earlier review suggestions in G/H (same as lines_to_update_oct28/oct30).
+Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0.4.9) + Oct 30 `_screenshots/play` runs -> 4.9 GB.
 
 | Part | What | State |
 |---|---|---|
-| 1 | `docs/dialogue/voice_bible.md`, `docs/dialogue/critic_report_oct31.md` | done |
-| 2 | 8 chunk agents -> `critic_oct31/suggestions_01..08.csv` + `notes_01..08.md`; lead pass `lead_edits.md`, `suggestions_09.csv`; merged `docs/dialogue/critic_suggestions_oct31.csv` (210) | done |
-| 3 | apply_dialogue_pass.js critic columns, `tools/dialogue_edit_rows.js`, node test `tools/tests/test_dialogue_critic_accept.js` (7/7), README | done |
-| 4 | `node tools/dialogue_critic_merge.js` + `--check` 210/210; dry run all accepted: 210 would apply, 0 failed/held/conflicts | done |
+| 1a | push | done (origin was level) |
+| 1b | sharded GUT runner | done (2506/2507 + 1 pending) |
+| 1c | 37 rewrites (already applied in 657af1f1), labels | done |
+| 1d | Spotless pacing, first-view Esc confirm, Doppelganger reveal name, feats re-check on load, boss plate wrap | done |
+| 2 | music overlap fix + re-render all | lib fix + unit test done; backup done (orch-v1b); re-render running (_logs/music_rerender.log) |
+| 3 | perf (frame budget, Deck Station, build cache for zone builders) | todo |
+| 4 | mid-game critic cycle | todo |
+| 5 | UX wish list + boss stall AI | todo |
+| 6 | late-game + postgame critic cycles | todo |
+| 7 | v0.5.0 RC | todo |
+| 8 | keep improving | todo |
 
-Tools: `node tools/dialogue_critic_check.js --protect` (tested phrases per line -> `docs/dialogue/critic_oct31/protected_phrases.json`),
-`--check=<csv> [--out=report.md]`.
-
-All parts done Oct 31. Next step is the designer's: review in the sheet (paste `critic_oct31/sheet_columns.csv`), then dry run, --apply, story GUT groups.
-
-## Oct 31 evening: the designer's answers (docs/dialogue/fixes_oct31/README.md)
-Done: 37 typed-over rewrites found + importer support; sheet "Critic Oct 31" tab + Dialogue Edit I-M; game fixes 5-13 (19 merges +
-4 {rescuer} hand edits); tri-Path recipes (Alchemy.craft_tri, Session.craft_tri_card, Alchemist screen); export labels. Open: apply the
-designer's rewrites (waiting for "apply").
+Next: Part 2 delivery after the re-render (deliver_part.sh "Overlap fix" + previews + note doc), then Part 3.

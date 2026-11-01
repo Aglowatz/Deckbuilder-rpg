@@ -162,3 +162,23 @@ func test_feat_toasts_wait_while_a_battle_is_pending() -> void:
 	Session.flush_feat_toasts()
 	assert_true(Session.toasts.history.size() > shown, "shown once the battle is over")
 	assert_true(Session.toasts.history[Session.toasts.history.size() - 1].begins_with("Feat: Chef Always Tastes"))
+
+
+## Overnight Oct 31 - Nov 1: a slot that earned feats while saving was off (the story bot) carries them into the account record on load,
+## and a zone freed by flag alone is credited from the flags; no reward is paid twice.
+func test_loading_credits_the_slots_feats_and_the_freed_zones_to_the_account() -> void:
+	var data: Dictionary = Session.to_dict()
+	data["feats"] = {"version": 1, "unlocked": {"first_gate": 1000}}
+	(data["flags"] as Dictionary)["zone_beefcake_completed"] = true
+	FeatAccount.reset()
+	assert_false(FeatAccount.has("first_gate"))
+	var gold_before: int = int(data.get("gold", 0))
+	assert_true(Session.from_dict(data))
+	assert_true(FeatAccount.has("first_gate"), "the slot's feat reaches the account record")
+	assert_true(FeatAccount.has("hold_my_coat"), "Free the Gainlands is credited from the zone flag")
+	assert_true(Session.feats.state.has("hold_my_coat"))
+	var paid: int = 0
+	for id: Variant in Session.feats.state.unlocked.keys():
+		if str(id) != "first_gate":
+			paid += FeatDefs.find(str(id)).reward_gold
+	assert_eq(Session.gold, gold_before + paid, "only newly earned feats pay; the slot's old one does not pay again")

@@ -14,6 +14,11 @@ var character: String = "CITIZEN"
 var tint: Color = Color.WHITE
 ## How far from home they roam (metres).
 var radius: float = 3.2
+## Overnight Oct 31 - Nov 1 (the designer's answer 8, Captain Spotless): a fixed beat instead of random ambling - offsets from home walked
+## in turn (include Vector3.ZERO to come back to the post); at home they face `home_facing`. Empty = random ambling.
+var pace: Array[Vector3] = []
+var home_facing: Vector3 = Vector3.ZERO
+var _pace_index: int = 0
 ## Stand still (the hero is talking to them).
 var frozen: bool = false
 var _walkable: Callable
@@ -94,6 +99,8 @@ func tick(delta: float, player_pos: Vector3) -> void:
 		_pos = _target
 		_has_target = false
 		_pause = _rng.randf_range(PAUSE_MIN, PAUSE_MAX)
+		if not pace.is_empty() and home_facing != Vector3.ZERO and _pos.distance_squared_to(_home) < 0.01:
+			sprite.look_toward(home_facing)
 	else:
 		var next: Vector3 = _pos + to_target.normalized() * step
 		if _walkable.is_valid() and not bool(_walkable.call(next)):
@@ -105,6 +112,15 @@ func tick(delta: float, player_pos: Vector3) -> void:
 
 
 func _pick_target() -> bool:
+	if not pace.is_empty():
+		var candidate_beat: Vector3 = _home + pace[_pace_index % pace.size()]
+		candidate_beat.y = _pos.y
+		_pace_index += 1
+		if _line_clear(_pos, candidate_beat):
+			_target = candidate_beat
+			_has_target = true
+			return true
+		return false
 	for attempt: int in range(10):
 		var angle: float = _rng.randf() * TAU
 		var distance: float = _rng.randf_range(1.0, radius)

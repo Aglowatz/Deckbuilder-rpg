@@ -716,8 +716,39 @@ class Portrait:
 	## UI art kit (UI-HUD-PLAYERPLATE): the plate with its round portrait socket and name/HP band, the HP bar frame under it and the energy orbs under that.
 	const PLATE_SIZE: Vector2 = Vector2(330, 126)
 	const STAGE_SIZE: Vector2 = Vector2(330, 202)
+	## The name's box on the plate's band: from the portrait socket to just short of the heart (x 226).
+	const NAME_BOX: Rect2 = Rect2(122, 38, 98, 46)
 	var _art: bool = false
 	var _ring: Panel
+
+	## The boss phase's caption, above the band in the plate art's empty top edge (right of the portrait socket).
+	const CAPTION_BOX: Rect2 = Rect2(124, 4, 196, 30)
+
+	## "Primm - Phase Standardization" -> ["Primm", "Phase Standardization"] (name, boss phase); other names -> [name].
+	static func plate_title_parts(text: String) -> PackedStringArray:
+		var at: int = text.find(" - ")
+		if at <= 0:
+			return PackedStringArray([text])
+		return PackedStringArray([text.substr(0, at), text.substr(at + 3)])
+
+	## The largest font size (max_size down to min_size) at which every word of `text` fits `box` whole and the wrapped lines fit its
+	## height; `one_line` asks for the whole text on one line.
+	static func plate_title_size(font: Font, text: String, box: Vector2, max_size: int, min_size: int, one_line: bool = false) -> int:
+		for font_size: int in range(max_size, min_size - 1, -1):
+			if one_line:
+				if font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x <= box.x:
+					return font_size
+				continue
+			var widest: float = 0.0
+			for word: String in text.split(" ", false):
+				widest = maxf(widest, font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x)
+			if widest > box.x:
+				continue
+			var height: float = font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, box.x, font_size, -1,
+				TextServer.BREAK_WORD_BOUND | TextServer.BREAK_MANDATORY).y
+			if height <= box.y - 2.0:
+				return font_size
+		return min_size
 
 	func _picture_rect(px: float) -> TextureRect:
 		var rect: TextureRect = TextureRect.new()
@@ -805,21 +836,42 @@ class Portrait:
 		glyph.size = Vector2(glyph_px, glyph_px)
 		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		stage.add_child(glyph)
-		var name_label: Label = UIKit.label(title, &"", 21, Color("2b2233"), HORIZONTAL_ALIGNMENT_LEFT)
+		# Overnight Oct 31 - Nov 1 (the boss plate wrap): the name sits in a clipping box the size of the band (the label alone grew past
+		# its set size and ran under the heart, so no font fit showed), at the largest size where every word fits whole. A boss phase
+		# ("Primm - Phase Standardization") goes on a gold caption above the band; the band keeps the name.
+		var parts: PackedStringArray = plate_title_parts(title)
+		var box: Control = Control.new()
+		box.name = "NameBox"
+		box.position = NAME_BOX.position
+		box.size = NAME_BOX.size
+		box.clip_contents = true
+		box.mouse_filter = Control.MOUSE_FILTER_PASS
+		box.tooltip_text = title
+		stage.add_child(box)
+		var name_label: Label = UIKit.label(parts[0], &"", 21, Color("2b2233"), HORIZONTAL_ALIGNMENT_LEFT)
+		name_label.name = "NameLabel"
 		name_label.add_theme_font_override("font", UIStyle.font_title())
 		name_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
-		name_label.position = Vector2(122, 38)
-		name_label.size = Vector2(100, 50)
+		name_label.add_theme_constant_override("line_spacing", -3)
 		name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		name_label.clip_text = true
-		name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		var name_size: int = 22
-		while name_size > 12 and UIStyle.font_title().get_multiline_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, name_label.size.x, name_size, -1, TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE | TextServer.BREAK_MANDATORY).y > name_label.size.y - 4.0:
-			name_size -= 1
-		name_label.add_theme_font_size_override("font_size", name_size)
-		name_label.tooltip_text = title
-		name_label.mouse_filter = Control.MOUSE_FILTER_PASS
-		stage.add_child(name_label)
+		name_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		name_label.add_theme_font_size_override("font_size", plate_title_size(UIStyle.font_title(), parts[0], NAME_BOX.size, 22, 10))
+		name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		box.add_child(name_label)
+		name_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		if parts.size() > 1:
+			var caption: Label = UIKit.label(parts[1], &"", 17, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_LEFT)
+			caption.name = "PhaseCaption"
+			caption.add_theme_font_override("font", UIStyle.font_title())
+			caption.add_theme_color_override("font_outline_color", Color(0.08, 0.05, 0.1))
+			caption.add_theme_constant_override("outline_size", 5)
+			caption.add_theme_font_size_override("font_size", plate_title_size(UIStyle.font_title(), parts[1], Vector2(CAPTION_BOX.size.x, 999.0), 18, 11, true))
+			caption.position = CAPTION_BOX.position
+			caption.size = CAPTION_BOX.size
+			caption.clip_text = true
+			caption.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+			caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			stage.add_child(caption)
 		var heart: HeartIcon = HeartIcon.new()
 		heart.custom_minimum_size = Vector2(34, 34)
 		heart.size = Vector2(34, 34)

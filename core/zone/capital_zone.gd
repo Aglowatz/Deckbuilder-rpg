@@ -147,7 +147,11 @@ static func build_def() -> ZoneDef:
 		{"id": "pell", "npc_id": "NPC-PELL", "model": "Mage", "anchor": "pell", "yaw": 180.0, "tint": Color(0.75, 0.7, 0.95), "scale": 1.45},
 		{"id": "rollo", "npc_id": "NPC-ROLLO", "model": "Barbarian", "anchor": "rollo", "yaw": 180.0, "tint": Color(1.2, 0.85, 0.7), "scale": 1.85},
 		{"id": "marlo", "npc_id": "NPC-MARLO", "model": "Rogue", "anchor": "marlo", "yaw": 180.0, "tint": Color(1.1, 0.95, 0.7), "scale": 1.5},
-		{"id": "spotless", "npc_id": "NPC-SPOTLESS", "model": "Knight", "anchor": "spotless", "yaw": 0.0, "tint": Color(0.9, 0.9, 1.0), "scale": 1.7},
+		# Overnight Oct 31 - Nov 1 (answer 8): until the gate opens he paces a few steps either side of his post on his walk set (visual
+		# only; his talk spot follows him), then comes back and faces the road.
+		{"id": "spotless", "npc_id": "NPC-SPOTLESS", "model": "Knight", "anchor": "spotless", "yaw": 0.0, "tint": Color(0.9, 0.9, 1.0), "scale": 1.7,
+			"pace": [Vector3(-1.8, 0.0, 0.5), Vector3.ZERO, Vector3(1.8, 0.0, 0.5), Vector3.ZERO], "pace_until_flag": str(FLAG_GATE_OPEN),
+			"pace_sprite": "FOE_CAPTAIN_SPOTLESS"},
 		{"id": "guard_height", "model": "Knight", "anchor": "guard_height", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_queue", "model": "Knight", "anchor": "guard_queue", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_in_1", "model": "Knight", "anchor": "guard_in_1", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},

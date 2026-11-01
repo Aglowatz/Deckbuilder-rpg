@@ -359,6 +359,7 @@ func sync_story_tokens() -> void:
 	RoyalFamily.set_capital_liberated(bool(flags.get("primm_defeated", false)))
 	RoyalFamily.set_identity_revealed(bool(flags.get("prince_revealed", false)))
 	RoyalFamily.set_rescuer_named(bool(flags.get("rescuer_named", false)))
+	SpoilerFree.sync(flags)
 
 
 ## Any card (spell, token or basic infrastructure) by its id.
@@ -1144,6 +1145,10 @@ func from_dict(data: Dictionary) -> bool:
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	feats.load(data.get("feats", {}) as Dictionary)
+	# Overnight Oct 31 - Nov 1: feats this slot earned while saving was off (bot and play-script runs) never reached the account record the
+	# Feats page reads; credit them now (no reward: the slot had it). Then the state feats re-check from the flags (zones freed etc).
+	for id: Variant in feats.state.unlocked.keys():
+		FeatAccount.record(str(id), save_enabled)
 	check_feats(false)  # retroactive: an old save earns the state feats it already satisfies (one quiet toast)
 	return true
 

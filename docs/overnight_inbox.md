@@ -765,3 +765,14 @@ Log: `docs/art/import_oct31.md`.
 3. **Leaf Crown from the front**: the arc's two ends point straight up and read a little like horns at play size
    (`_screenshots/oct31/hats_final/ALL.png`). It sits right and leaves the hair clear from behind (now drawn behind the head there). A redo with
    the arc ends curving round the head would fix it; otherwise fine as is.
+
+## Overnight Oct 31 - Nov 1 (8-part loop) - yours to decide (the safest choice was taken)
+
+Report: `docs/overnight_report.md`. Most important first.
+
+1. **"Grand Chef Escoffina" after the reveal (answer 10)**: done as you wrote it - the Doppelganger's dialogue plate and boss-intro name read
+   "The Doppelganger" until the reveal, then "Grand Chef Escoffina" (`SpoilerFree.REVEALS`; the reveal = the naming cutscene `wonder` seen,
+   or the Buffet freed for older saves). But the story names them the other way round after the reveal: the real chef is "The Grand Chef",
+   and the Doppelganger takes the name "Escoffina" as an apprentice ("Escoffina. Apprentice. Second class." in the freed Buffet). So the freed
+   apprentice's plate now says "Grand Chef Escoffina". If you meant the apprentice's plate to read just "Escoffina", it is one word in
+   `core/data/spoiler_free.gd` (`"name"`). The disguised figure in the Buffet before the boss still reads "Escoffina" (it is posing).

@@ -4,6 +4,7 @@ extends RefCounted
 ## `sets`) when the last box closes, and saves.
 ## Overnight Oct 30-31 (mid-game critic #8): a scene seen before (`scene_seen_<id>`) can be skipped with Esc; the rest of its boxes are
 ## passed over but every flag it sets is still set.
+## Overnight Oct 31 - Nov 1 (the designer's answer 9): a FIRST viewing can be skipped too, after a confirm (`DialogueBox.ask_skip`).
 
 static var _skipping: bool = false
 
@@ -15,10 +16,10 @@ static func play(dialogue: DialogueBox, id: String, then: Callable = Callable())
 		return
 	GameLog.info("story", "scene %s" % id)
 	_skipping = false
-	if Session.flag(seen_flag(id)):
-		dialogue.skip_callback = func() -> void:
-			_skipping = true
-			dialogue.close_now()
+	dialogue.skip_needs_confirm = not Session.flag(seen_flag(id))
+	dialogue.skip_callback = func() -> void:
+		_skipping = true
+		dialogue.close_now()
 	_show_backdrop(dialogue, id)
 	_play_step(dialogue, id, steps, 0, then)
 
@@ -50,6 +51,7 @@ static func _play_step(dialogue: DialogueBox, id: String, steps: Array[Dictionar
 	if index >= steps.size() or not is_instance_valid(dialogue):
 		if is_instance_valid(dialogue):
 			dialogue.skip_callback = Callable()
+			dialogue.skip_needs_confirm = false
 		_hide_backdrop(dialogue)
 		_finish(id, then)
 		return

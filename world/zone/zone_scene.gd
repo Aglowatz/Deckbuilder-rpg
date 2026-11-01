@@ -469,11 +469,20 @@ func _make_npc(entry: Dictionary, pos: Vector3, anim_name: String) -> Node3D:
 	var character: String = NpcSprites.character_for_entry(entry)
 	if character != "":
 		var walk_dirs: Array = SpriteLibrary.info(character).get("walk_dirs", []) as Array
-		if bool(entry.get("wander", false)) and not walk_dirs.is_empty():
+		# Overnight Oct 31 - Nov 1 (answer 8): `pace` entries walk a fixed beat about their post until `pace_until_flag` is set; then they stand.
+		var pacing: bool = entry.has("pace") and not Session.flag(StringName(str(entry.get("pace_until_flag", ""))))
+		if pacing and str(entry.get("pace_sprite", "")) != "" and SpriteLibrary.has_character(str(entry["pace_sprite"])):
+			character = str(entry["pace_sprite"])
+			walk_dirs = SpriteLibrary.info(character).get("walk_dirs", []) as Array
+		if (bool(entry.get("wander", false)) or pacing) and not walk_dirs.is_empty():
 			var stroller: SpriteStroller = SpriteStroller.new()
 			stroller.character = character
 			stroller.tint = entry.get("sprite_tint", Color.WHITE) as Color
 			stroller.name = "Stroller_%s" % str(entry["id"])
+			if pacing:
+				for offset: Variant in entry["pace"] as Array:
+					stroller.pace.append(offset as Vector3)
+				stroller.home_facing = Vector3(sin(deg_to_rad(float(entry["yaw"]))), 0.0, cos(deg_to_rad(float(entry["yaw"]))))
 			add_child(stroller)
 			stroller.setup(pos, func(p: Vector3) -> bool: return builder.is_walkable(p, 0.25), hash(str(entry["id"])))
 			_strollers.append(stroller)

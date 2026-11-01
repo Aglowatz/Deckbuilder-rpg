@@ -64,7 +64,7 @@ static func find(enemy_name: String) -> Dictionary:
 	elif title.is_empty() and enemy_name.contains(", "):
 		title = enemy_name.get_slice(", ", 1)
 	return {
-		"name": shown_name,
+		"name": SpoilerFree.revealed(shown_name),
 		"title": title,
 		"line": str(entry.get("line", "")),
 		"sting": str(entry.get("sting", "")),

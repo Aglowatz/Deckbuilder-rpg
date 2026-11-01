@@ -26,6 +26,9 @@ var _listener: PortraitView
 ## Overnight Oct 30-31 (mid-game critic #8): set by StoryScenePlayer for a scene seen before - Esc then skips the rest of the scene
 ## (the hint says so). Cleared when the scene ends.
 var skip_callback: Callable = Callable()
+## Overnight Oct 31 - Nov 1 (the designer's answer 9): true for a FIRST viewing - Esc then asks "Skip this scene? You haven't seen it."
+var skip_needs_confirm: bool = false
+var _skip_confirm: ConfirmDialog = null
 var _last_speaker: Dictionary = {}
 const LISTEN_GAP_MS: int = 700
 ## Per-letter voice blips: one every BLIP_EVERY letters (not spaces or punctuation), never closer than BLIP_GAP seconds.
@@ -258,7 +261,7 @@ func _show_line() -> void:
 	var last: bool = _index == _lines.size() - 1
 	PromptText.bind(_hint, "E / Click to close" if last else "E / Click to continue", &"text", "{confirm} to close" if last else "{confirm} to continue")
 	if skip_callback.is_valid():
-		_hint.text += "   -   Esc: skip the scene (seen before)"
+		_hint.text += "   -   Esc: skip the scene" if skip_needs_confirm else "   -   Esc: skip the scene (seen before)"
 	if not _portrait_id.is_empty():
 		_portrait.set_texture(Portraits.texture_for(_portrait_id, _expressions[_index]))
 		_portrait.set_talking(true)
@@ -309,14 +312,15 @@ static func is_advance_key(event: InputEvent) -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not active:
+	if not active or is_instance_valid(_skip_confirm):
 		return
 	var key: InputEventKey = event as InputEventKey
 	if skip_callback.is_valid() and key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
-		var skip: Callable = skip_callback
-		skip_callback = Callable()
-		skip.call()
+		if skip_needs_confirm:
+			ask_skip()
+		else:
+			_skip_now()
 		return
 	var pressed: bool = UiInput.is_confirm(event) or is_advance_key(event)
 	if pressed:
@@ -327,6 +331,23 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	press()
+
+
+## A first viewing: asks before skipping (Skip / Keep watching); the box ignores input while the question is up.
+func ask_skip() -> void:
+	var host: Node = get_parent() if get_parent() != null else self
+	_skip_confirm = ConfirmDialog.ask(host, "Skip this scene?", "Skip this scene? You haven't seen it.", "Skip", "Keep watching")
+	_skip_confirm.confirmed.connect(_skip_now)
+
+
+func _skip_now() -> void:
+	_skip_confirm = null
+	if not skip_callback.is_valid():
+		return
+	var skip: Callable = skip_callback
+	skip_callback = Callable()
+	skip_needs_confirm = false
+	skip.call()
 
 
 ## Closes the conversation at once, as if its last line had been read (`finished` fires).
