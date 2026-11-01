@@ -1,0 +1,6 @@
+ID,Current line,Found,Fix,Why
+"data/story/intro_story.tres::prologue.rescuer.1::0","Easy. Stay down.  Gather what strength you have. I can't imagine it's much after what they put you through.","double space","one space","double space"
+"data/story/intro_story.tres::prologue.wanderer.3::0","She's gone, and shes leading them away.  By the way their shouting I do not want to be caught by them.","double space","one space","double space"
+"data/encounters/encounter_scripts.json::Hollow Warden/0/line::0","What is that I sense in you?  NO! You are not HIM!","double space","one space","double space"
+"data/story/intro_story.tres::town.elder.stage.1::1","Have you found answers to any of your questions? I can't deny, I am intrigued despite my better judgment .","judgment .","(no space before the punctuation)","space before punctuation"
+"data/dungeons/dungeon_content.json::dungeons/D-LAB/events/7/body::0","A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.","color","colour","British spelling elsewhere (colour)"
