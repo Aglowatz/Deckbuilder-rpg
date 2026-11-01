@@ -379,7 +379,7 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health a reserve guard steps off a pedestal: a 1/1 Militia joins.",
+			"text": "At half health a reserve guard steps off a pedestal: a 1/1 Reserve Guard joins.",
 			"line": "This trophy is reserved. For the Chancellor. For anyone but you.",
 			"effects": [
 				{

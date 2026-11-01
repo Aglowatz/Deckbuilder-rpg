@@ -276,7 +276,7 @@ func test_the_vine_bridges_are_shortcuts_and_the_east_one_opens_the_pocket() -> 
 	# without the east stairs the arched bridge would be the way: both lead to the same terrace, so the bridges are loops, never the only way
 	var no_bridges: Dictionary = _reach([] as Array[String], [] as Array[String], false, [] as Array[String])
 	var with_centre: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, [] as Array[String])
-	assert_true(_reaches(no_bridges, "land_center") and _reaches(with_centre, "land_center"), "the farm terrace is reached with and without Sorrel's bridge")
+	assert_true(_reaches(no_bridges, "land_center") and _reaches(with_centre, "land_center"), "the farm terrace is reached with and without Moss's bridge")
 	var east: Dictionary = _reach(["bridge_east"] as Array[String], [] as Array[String], false, [] as Array[String])
 	for anchor: String in ["land_east", "pickup_junk_3"]:
 		assert_true(_reaches(east, anchor), "%s is reachable over the east vine bridge" % anchor)

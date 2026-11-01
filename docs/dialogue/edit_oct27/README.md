@@ -45,8 +45,15 @@ Edit tab (any position; the importer finds columns by their header):
 | Critic suggestion | The suggested line for that ID (blank on rows without one) |
 | Accept (Y) | Type `Y` (or `y`) to accept the suggestion |
 
-Rules: an explicit **New line always wins**. A row with an empty New line and Accept = Y applies the critic suggestion; a suggestion
-without Y is ignored. To change a suggestion, copy it into New line and edit it there. Download the tab as CSV over
+Rules, first match wins:
+1. an explicit **New line**;
+2. the **critic suggestion with Accept = Y** (that also takes a critic "designer line" fix of a line you rewrote);
+3. a **rewrite typed straight over Current line** (the export snapshot says what the line was; a leading `'` that Google Sheets swallows
+   is not an edit).
+
+A suggestion without Y is ignored. To change a suggestion, copy it into New line and edit it there. Your own lines (New line or typed
+over) may move a known token such as `{town}` between lines; accepted critic suggestions may not. The Dialogue Edit tab's critic columns
+are VLOOKUPs into the "Critic Oct 31" tab; only Accept (Y) is typed by hand. Download the tab as CSV over
 `docs/dialogue/edit_oct27.csv`, then run the same commands as above (dry run first, then `--apply`; `--revert` undoes it). The
 report and the console line count the accepted critic rows (would apply / failed / held / conflicts). Every accepted suggestion goes
 through the same checks as a New line.

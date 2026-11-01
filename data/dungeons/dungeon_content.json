@@ -1754,7 +1754,7 @@
 			"Cell 4"
 		],
 		"event.lab_cell4.body": [
-			"Your old cell: ten years of tally marks, a child's drawing in four colors, and Elowen under it with her hands bound."
+			"Your old cell: ten years of tally marks, a child's drawing in four colors, and {rescuer} under it with her hands bound."
 		],
 		"event.lab_cell4.choice.0": [
 			"Break the lock"

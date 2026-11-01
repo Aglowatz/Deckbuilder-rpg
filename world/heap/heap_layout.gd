@@ -619,7 +619,7 @@ static func ravine_bridge_ends(x: float) -> Array[Vector2]:
 	return [Vector2(x, stream_z(x) + reach), Vector2(x, stream_z(x) - reach)]
 
 
-## The arched vine bridge in the middle (Druid Sorrel's), the west vine bridge (a bean) and the east vine bridge across the sludge chasm (a bean).
+## The arched vine bridge in the middle (Moss Mulligan's), the west vine bridge (a bean) and the east vine bridge across the sludge chasm (a bean).
 func _bridges() -> void:
 	var centre: Array[Vector2] = ravine_bridge_ends(46.0)
 	_bridge("bridge_center", centre[0], centre[1], TIER_HEIGHTS[0], TIER_HEIGHTS[1], 1.8)

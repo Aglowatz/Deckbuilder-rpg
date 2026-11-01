@@ -3689,3 +3689,6 @@ Suggestions only (dialogue freeze kept: no game text changed). Report `docs/dial
 - Importer: `tools/apply_dialogue_pass.js --csv=...` reads optional "Critic suggestion" + "Accept (Y)" columns (row mapping
   `tools/dialogue_edit_rows.js`; an explicit New line wins). Test: `node tools/tests/test_dialogue_critic_accept.js` (7/7).
 - Validation: 210/210 pass the checks; dry run with all accepted: 210 would apply, 0 failed, 0 held, 0 conflicts (Godot fit measure included).
+- Oct 31 evening (designer's answers, `docs/dialogue/fixes_oct31/README.md`): rewrites typed over Current line are applied by the importer
+  (priority New line > accepted critic row > typed over); sheet tab "Critic Oct 31" + lookup columns; Model Room, Moss's bridge, Rip 212,
+  Reserve Guard, wheel names, parlour, freed Plume, Lab reveal, Grand Chef, Elowen lines; tri-Path crafting in the Alchemist; export labels.

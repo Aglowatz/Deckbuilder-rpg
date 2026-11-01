@@ -1,9 +1,9 @@
 class_name AlchemistScreen
 extends OverlayScreen
 ## Auntie Alembic's (Part F): the Alchemist's crafting UI. Left: the player's Path essence (click up to two Paths
-## that have enough to take part). Right: what the trade costs (ALL essence of both Paths plus gold), the four
-## dual-Path cards it can produce with their odds, and the Craft button, which plays a short brewing animation
-## (a bubbling cauldron, swirling motes in both Path colors) before the card is revealed. Rules: `Alchemy`.
+## that have enough to take part; three once the postgame opens tri-Path crafting). Right: what the trade costs (ALL essence
+## of the chosen Paths plus gold), the cards it can produce with their odds, and the Craft button, which plays a short brewing
+## animation (a bubbling cauldron, swirling motes in the Path colors) before the card is revealed. Rules: `Alchemy`.
 
 signal crafted(card: CardData)
 
@@ -99,7 +99,7 @@ func _build_essence_column() -> Control:
 		_essence_rows[path] = {"button": row, "bar": bar, "amount": amount}
 	column.add_child(UIKit.spacer(6))
 	if Alchemy.tri_path_unlocked(Session.profile):
-		var tri: Label = UIKit.label("TRI-PATH CRAFTING UNLOCKED: with Primm gone the Paths may mix freely, and the cauldron will take three. (No tri-Path recipes exist yet; the hook is ready.)", &"MutedLabel", 20)
+		var tri: Label = UIKit.label("TRI-PATH CRAFTING: with Primm gone the Paths mix freely, and the cauldron takes three. Pick three Paths for a tri-Path card (%d gold)." % Alchemy.TRI_GOLD_COST, &"MutedLabel", 20)
 		tri.name = "TriPathHint"
 		tri.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		tri.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
@@ -153,7 +153,7 @@ func _toggle_path(path: Affinity.Type) -> void:
 			Audio.sfx(&"ui_error")
 			_refresh()
 			return
-		if _selected.size() >= Alchemy.max_craft_paths(Session.profile) or _selected.size() >= 2:
+		if _selected.size() >= Alchemy.max_craft_paths(Session.profile):
 			_selected.remove_at(0)
 		_selected.append(path)
 	Audio.sfx(&"ui_tick")
@@ -172,10 +172,20 @@ func _refresh() -> void:
 		button.button_pressed = _selected.has(path as Affinity.Type)
 		button.tooltip_text = "%d / %d essence needed to craft." % [amount, Alchemy.MIN_ESSENCE_PER_PATH] if amount < Alchemy.MIN_ESSENCE_PER_PATH else "Click to use this Path in the brew."
 	_rebuild_preview()
+	if _selected.size() == 3:
+		var essence: Array[String] = []
+		for path: Affinity.Type in _selected:
+			essence.append("%d %s" % [Session.profile.essence_of(path), Affinity.display_name(path)])
+		_craft_button.disabled = _brewing or not Alchemy.tri_problem(Session.profile, Session.gold, _selected).is_empty()
+		_cost_label.text = "Trade %s essence and %d gold for a random tri-Path card of all three." % [" + ".join(essence), Alchemy.TRI_GOLD_COST]
+		_hint_label.text = Alchemy.tri_problem(Session.profile, Session.gold, _selected)
+		return
 	var pair_ready: bool = _selected.size() == 2
 	_craft_button.disabled = _brewing or not pair_ready or not Alchemy.can_craft(Session.profile, Session.gold, _selected[0], _selected[1])
 	if _selected.size() < 2:
 		_cost_label.text = "Choose two Paths. The brew takes ALL of your essence of both, plus %d gold, and gives you ONE random dual-Path card of those Paths." % Alchemy.GOLD_COST
+		if Alchemy.tri_path_unlocked(Session.profile):
+			_cost_label.text += " Or choose three for a tri-Path card (%d gold)." % Alchemy.TRI_GOLD_COST
 		_hint_label.text = StoryText.shared().text("town.alchemist.need_more") if not Alchemy.can_craft_something(Session.profile) else ""
 	else:
 		var first: int = Session.profile.essence_of(_selected[0])
@@ -187,11 +197,13 @@ func _refresh() -> void:
 func _rebuild_preview() -> void:
 	for child: Node in _preview_box.get_children():
 		child.queue_free()
-	if _selected.size() != 2:
+	if _selected.size() < 2:
 		return
-	var pool: Array[CardData] = Alchemy.possible_cards(Session.content, _selected[0], _selected[1])
-	var total: int = Session.profile.essence_of(_selected[0]) + Session.profile.essence_of(_selected[1])
-	var weights: Array[int] = Alchemy.weights_for(total)
+	var pool: Array[CardData] = Alchemy.possible_cards(Session.content, _selected[0], _selected[1]) if _selected.size() == 2 else Alchemy.tri_path_pool(Session.content, _selected)
+	var total: int = 0
+	for path: Affinity.Type in _selected:
+		total += Session.profile.essence_of(path)
+	var weights: Array[int] = Alchemy.weights_for(total, _selected.size())
 	var weight_sum: int = 0
 	for card: CardData in pool:
 		weight_sum += weights[int(card.rarity)]
@@ -207,11 +219,11 @@ func _rebuild_preview() -> void:
 
 
 func _craft() -> void:
-	if _brewing or _selected.size() != 2:
+	if _brewing or _selected.size() < 2:
 		return
 	var first: Affinity.Type = _selected[0]
 	var second: Affinity.Type = _selected[1]
-	var result: Alchemy.Result = Session.craft_dual_card(first, second)
+	var result: Alchemy.Result = Session.craft_dual_card(first, second) if _selected.size() == 2 else Session.craft_tri_card(_selected.duplicate())
 	if not result.ok:
 		Audio.sfx(&"ui_error")
 		_hint_label.text = result.reason

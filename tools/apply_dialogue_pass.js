@@ -22,6 +22,8 @@
 // Oct 31, the critic pass: the sheet may also carry "Critic suggestion" and "Accept (Y)" (docs/dialogue/critic_suggestions_oct31.csv merged
 // in). A row with Accept = Y/y and an empty New line applies the critic suggestion; an explicit New line always wins (tools/dialogue_edit_rows.js).
 // Dry run, --apply and --revert work as above; the report counts the accepted critic rows.
+// Also Oct 31: a rewrite typed straight over "Current line" (New line left empty) is applied as the new line; the folder's
+// export_snapshot.json says what the line was. A leading ' that Google Sheets swallows is not an edit.
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
@@ -104,7 +106,8 @@ const tagOf = (s) => (s.match(/^\[[a-z_]+\]/) || [''])[0];
 
 function validate(row, text) {
 	const problems = [];
-	const old = row.current_text;
+	// An accepted critic fix of a line the designer typed over is checked against the designer's line (the line it corrects).
+	const old = row.from_critic && row.designer_text ? row.designer_text : row.current_text;
 	const file = row.id.split('::')[0];
 	const noTokens = noTokenFile(row.id);
 	if (/[\r\n\t]/.test(text) && !/[\r\n\t]/.test(old)) problems.push('line break or tab');
@@ -115,7 +118,10 @@ function validate(row, text) {
 	const lost = tokensOf(old).filter((t) => !text.includes(t));
 	const added = tokensOf(text).filter((t) => !old.includes(t));
 	const swapOk = (t) => FILLS[t] && old.includes(FILLS[t]) && !(FILLS[t][0] !== FILLS[t][0].toUpperCase() && text.startsWith(t));
-	if (lost.length || !added.every(swapOk)) problems.push(`tokens ${tokensOf(old).join('') || '(none)'} -> ${tokensOf(text).join('') || '(none)'}`);
+	// The designer's own rewrites (a New line or a line typed over Current line) may move a known token between lines of a story file;
+	// outside passes (the Oct 21 batches, accepted critic suggestions) may not.
+	const ownLine = CSV && row.own_line && !noTokens;
+	if (!ownLine && (lost.length || !added.every(swapOk))) problems.push(`tokens ${tokensOf(old).join('') || '(none)'} -> ${tokensOf(text).join('') || '(none)'}`);
 	const unknown = tokensOf(text).filter((t) => !TOKENS.includes(t));
 	if (unknown.length) problems.push(`unknown token ${unknown.join('')}`);
 	if (noTokens && tokensOf(text).length > tokensOf(old).length) problems.push('token where the game shows it literally');
@@ -300,6 +306,11 @@ const good = candidates.filter((c) => !c.problems.length);
 const criticRows = sources.flatMap((s) => s.rows).filter((r) => r.from_critic).length;
 const critic = (list) => list.filter((c) => c.from_critic).length;
 const criticLine = (verb) => `critic suggestions accepted: ${criticRows}; ${critic(good)} ${verb}, ${critic(failed)} failed, ${critic(held)} held, ${critic(conflicts)} conflicts`;
+// Typed-over rows the game already says (applied before, or fixed in the game since the export) are not counted.
+const blankIds = new Set(skippedBlank);
+const overRows = sources.flatMap((s) => s.rows).filter((r) => r.typed_over && !blankIds.has(r.id)).length;
+const over = (list) => list.filter((c) => c.typed_over).length;
+const overLine = (verb) => `rewrites typed over Current line: ${overRows}; ${over(good)} ${verb}, ${over(failed)} failed, ${over(held)} held, ${over(conflicts)} conflicts`;
 for (const c of candidates) counts[c.area][c.problems.length ? 'failed' : 'applied']++;
 for (const c of candidates) if (c.problems.length) failed.push(c);
 
@@ -338,6 +349,7 @@ let out = `# Dialogue pass: apply report${args.apply ? '' : ' (DRY RUN - nothing
 	`${good.filter((c) => c.moved).length ? ` (${good.filter((c) => c.moved).length} found at a moved position in their key)` : ''}\n` +
 	`- Skipped (blank new line, unchanged, or applied before): ${skippedBlank.length}\n- Conflicts (game line changed since the export): ${conflicts.length}\n` +
 	`- Failed validation: ${failed.length}\n- Held (lost a tested story beat): ${held.length}\n- Locked (black market, never applied): ${locked.length}\n` +
+	(overRows ? `- Designer rewrites typed over Current line (New line empty): ${overLine(args.apply ? 'applied' : 'would apply')}\n` : '') +
 	(criticRows ? `- Critic suggestions (Accept = Y, New line empty): ${criticLine(args.apply ? 'applied' : 'would apply')}\n` : '') + '\n' +
 	`## Per area\n\n| Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |\n|---|---:|---:|---:|---:|---:|---:|---:|\n`;
 for (const [a, c] of Object.entries(counts)) out += `| ${a} | ${c.rows} | ${c.applied} | ${c.blank} | ${c.conflict} | ${c.failed} | ${c.held} | ${c.locked} |\n`;
@@ -360,6 +372,7 @@ if (locked.length) {
 fs.writeFileSync(path.join(dir, args.apply ? 'apply_report.md' : 'apply_report_dry_run.md'), out);
 console.log(`apply_dialogue_pass${args.apply ? '' : ' (dry run)'}: ${good.length} ${args.apply ? 'applied' : 'would apply'}, ${skippedBlank.length} blank, ` +
 	`${conflicts.length} conflicts, ${failed.length} failed validation, ${held.length} held, ${locked.length} locked` +
+	(overRows ? ` (${overLine(args.apply ? 'applied' : 'would apply')})` : '') +
 	(criticRows ? ` (${criticLine(args.apply ? 'applied' : 'would apply')})` : ''));
 for (const c of failed) console.log(`  FAILED ${c.id}: ${c.problems.join('; ')}`);
 for (const c of conflicts) console.log(`  CONFLICT ${c.id}: ${c.why}`);

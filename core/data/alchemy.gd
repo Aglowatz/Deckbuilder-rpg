@@ -3,8 +3,8 @@ extends RefCounted
 ## Brief 9, Part F: the Alchemist's crafting rules. Once the player has at least `MIN_ESSENCE_PER_PATH` essence
 ## of two different Paths, they may trade ALL of their essence of those two Paths plus `GOLD_COST` gold for ONE random
 ## dual-Path card of those two Paths (the designed card set has 16 per pair). The more essence traded
-## beyond the minimum, the better the odds of the rarer cards. Tri-Path crafting is a postgame hook only
-## (`tri_path_unlocked`, no tri-Path cards exist yet).
+## beyond the minimum, the better the odds of the rarer cards. Postgame (Oct 31), the cauldron takes three: ALL the
+## essence of three Paths plus `TRI_GOLD_COST` gold for ONE random tri-Path card of exactly those three (8 per trio).
 
 const MIN_ESSENCE_PER_PATH: int = 6
 const GOLD_COST: int = Economy.ALCHEMY_GOLD  # Overnight Oct 29: 150 (docs/design/economy.md)
@@ -13,6 +13,8 @@ const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]
 ## Every this-many essence beyond the two minimums shifts one weight point from Common to Epic and
 ## one from Uncommon to Legendary.
 const BONUS_STEP: int = 10
+## The postgame tri-Path brew costs twice the dual-Path gold.
+const TRI_GOLD_COST: int = GOLD_COST * 2
 
 
 class Result:
@@ -68,10 +70,10 @@ static func possible_cards(content: ContentSet, first: Affinity.Type, second: Af
 	return result
 
 
-## Rarity weights (Common..Legendary) for a trade of `essence_total` essence.
-static func weights_for(essence_total: int) -> Array[int]:
+## Rarity weights (Common..Legendary) for a trade of `essence_total` essence from `path_count` Paths.
+static func weights_for(essence_total: int, path_count: int = 2) -> Array[int]:
 	var weights: Array[int] = BASE_WEIGHTS.duplicate()
-	var bonus: int = maxi(0, (essence_total - 2 * MIN_ESSENCE_PER_PATH) / BONUS_STEP)
+	var bonus: int = maxi(0, (essence_total - path_count * MIN_ESSENCE_PER_PATH) / BONUS_STEP)
 	for step: int in range(bonus):
 		weights[0] = maxi(1, weights[0] - 1)
 		weights[2] += 1
@@ -118,11 +120,10 @@ static func craft(content: ContentSet, profile: PlayerProfile, gold: int, first:
 	return result
 
 
-# ---- Postgame hook: tri-Path crafting ----------------------------------------------------------
+# ---- Postgame: tri-Path crafting ---------------------------------------------------------------
 
 
-## Once the main boss is beaten (`PlayerProfile.postgame_unlocked`) the Alchemist may offer tri-Path crafting.
-## There are no tri-Path (or quad-Path) cards yet, so this only exposes the flag.
+## Once the main boss is beaten (`PlayerProfile.postgame_unlocked`) the Alchemist's cauldron takes three Paths.
 static func tri_path_unlocked(profile: PlayerProfile) -> bool:
 	return profile.postgame_unlocked
 
@@ -143,4 +144,69 @@ static func tri_path_cards(content: ContentSet, paths: Array[Affinity.Type]) -> 
 			if fits:
 				result.append(data)
 	result.sort_custom(func(a: CardData, b: CardData) -> bool: return int(a.rarity) < int(b.rarity))
+	return result
+
+
+## The tri-Path cards a brew of exactly these three Paths can produce (availability as for dual crafting), rarest last.
+static func tri_path_pool(content: ContentSet, paths: Array[Affinity.Type], earned: Dictionary = {}) -> Array[CardData]:
+	var result: Array[CardData] = []
+	for card: CardData in tri_path_cards(content, paths):
+		if CardAvailability.allowed(card, earned):
+			result.append(card)
+	return result
+
+
+## Why this three-Path brew cannot be made (empty = it can).
+static func tri_problem(profile: PlayerProfile, gold: int, paths: Array[Affinity.Type]) -> String:
+	if not tri_path_unlocked(profile):
+		return "The cauldron only takes two Paths for now."
+	var distinct: Dictionary = {}
+	for path: Affinity.Type in paths:
+		if path != Affinity.Type.NEUTRAL:
+			distinct[path] = true
+	if paths.size() != 3 or distinct.size() != 3:
+		return "Pick three different Paths."
+	for path: Affinity.Type in paths:
+		if profile.essence_of(path) < MIN_ESSENCE_PER_PATH:
+			return "Not enough %s essence (%d needed)." % [Affinity.display_name(path), MIN_ESSENCE_PER_PATH]
+	if gold < TRI_GOLD_COST:
+		return "You need %d gold." % TRI_GOLD_COST
+	return ""
+
+
+## Spends ALL the essence of the three Paths (the caller pays the gold) and picks a tri-Path card, like `craft` does for two.
+static func craft_tri(content: ContentSet, profile: PlayerProfile, gold: int, paths: Array[Affinity.Type], rng: RandomNumberGenerator) -> Result:
+	var result: Result = Result.new()
+	var why_not: String = tri_problem(profile, gold, paths)
+	if not why_not.is_empty():
+		result.reason = why_not
+		return result
+	var earned: Dictionary = {}
+	for owned: CardData in profile.owned_cards:
+		earned[owned.id] = true
+	var pool: Array[CardData] = tri_path_pool(content, paths, earned)
+	if pool.is_empty():
+		result.reason = "These Paths have no tri-Path cards yet."
+		return result
+	var total_essence: int = 0
+	for path: Affinity.Type in paths:
+		total_essence += profile.essence_of(path)
+	var weights: Array[int] = weights_for(total_essence, 3)
+	var total: int = 0
+	for card: CardData in pool:
+		total += weights[int(card.rarity)]
+	var roll: int = rng.randi() % maxi(1, total)
+	var chosen: CardData = pool[pool.size() - 1]
+	for card: CardData in pool:
+		roll -= weights[int(card.rarity)]
+		if roll < 0:
+			chosen = card
+			break
+	for path: Affinity.Type in paths:
+		result.essence_spent[path] = profile.essence_of(path)
+		profile.set_essence(path, 0)
+	result.ok = true
+	result.card = chosen
+	result.paths = paths.duplicate()
+	result.gold_spent = TRI_GOLD_COST
 	return result

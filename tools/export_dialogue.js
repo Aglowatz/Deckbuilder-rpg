@@ -50,14 +50,21 @@ const priorSpeaker = new Map();
 const priorDir = path.join(root, 'docs/dialogue/chatgpt_pass_oct21');
 for (const f of fs.readdirSync(priorDir).filter((x) => /^batch_.*_done\.csv$/.test(x))) {
 	for (const r of parseCsv(fs.readFileSync(path.join(priorDir, f), 'utf8'))) {
-		if (r.speaker && !/^\(check key\)$/.test(r.speaker)) priorSpeaker.set(r.id.replace(/::\d+$/, ''), r.speaker);
+		if (r.speaker && !/^\(check key\)$/.test(r.speaker)) priorSpeaker.set(r.id.replace(/::\d+$/, ''), r.speaker.replace(/^Wren Muckfoot$/, 'Billie Muckfoot'));
 	}
 }
+// Oct 31: the gatekeepers' registry names carry "(corrupted)" (their sprite state), but every line of theirs a player reads by name is
+// spoken after they are beaten; the label drops it.
+const plainName = (name) => name.replace(/ \(corrupted\)$/, '');
 function npcFor(word) {
 	const w = word.toLowerCase();
 	const n = npcs.find((x) => x.id.toLowerCase().endsWith('-' + w)) || npcs.find((x) => x.name.toLowerCase().split(/[ ,]+/).includes(w));
-	return n ? n.name : null;
+	return n ? plainName(n.name) : null;
 }
+// Oct 31: labels the Oct 21 export got wrong, checked against the game (who actually speaks).
+const SPEAKER_FIXES = [
+	[/^data\/story\/capital_story\.tres::fx\.wake_outside$/, 'Capital guards and clerks'],
+];
 const SPEAKER_RULES = [
 	[/^town\.elder\./, 'Elder Maren'], [/^storeroom\.wanderer/, 'The Wanderer'], [/^storeroom\.(before|challenge|after_win|after_loss)/, 'The Store Room Ghosts'],
 	[/^storeroom\./, '(narration)'], [/^(town\.hidden_vendor|pack\.black_market)/, 'Fig Sly'], [/^npc\.minigame\./, '(minigame host)'],
@@ -128,10 +135,13 @@ function when(key, speaker = '') {
 }
 
 function speakerFor(file, key, speakerLabels) {
+	for (const [re, who] of SPEAKER_FIXES) if (re.test(`${file}::${key}`)) return who;
+	// A variant key (cutscene.primm_p2.2.gourmand, .rushed) speaks with its parent's label, as the game does (CutsceneDefs speaker_key).
+	const parent = key.replace(/\.[a-z_]+$/, '');
+	if (/^cutscene\./.test(key) && parent !== key && !speakerLabels.has(key) && speakerLabels.has(parent)) return speakerLabels.get(parent) === 'You' ? 'The Wanderer' : speakerLabels.get(parent);
 	const prior = priorSpeaker.get(`${file}::${key}`);
 	if (prior) return prior;
-	// A variant key (cutscene.primm_p2.2.gourmand) speaks with its parent's label.
-	const label = speakerLabels.get(key) ?? speakerLabels.get(key.replace(/\.[a-z_]+$/, ''));
+	const label = speakerLabels.get(key) ?? speakerLabels.get(parent);
 	if (label) return label === 'You' ? 'The Wanderer' : label;
 	let m;
 	for (const [re, who] of SPEAKER_RULES) if (re.test(key)) return who;
@@ -225,9 +235,11 @@ function dungeonContent() {
 		else if ((m = key.match(/^dungeon\.dg_s_(\w+)_boss\.(before|after)$/))) { const d = SIDE_DUNGEON[m[1]]; place = { ch: DUNGEON_AT[d][0], phase: DUNGEON_AT[d][1], node: d === 'S-TOWN' ? 6 : 3, sub: m[2] === 'before' ? 1 : 7 }; area = d; }
 		else if (/lab_/.test(key)) { place = { ch: 9, phase: 3, node: 11, sub: 4 }; area = 'D-LAB'; }
 		const loc = locate(`${file}::${key}::0`);
-		const speaker = /^quest\.side_s_(\w+)\./.test(key) ? (npcFor(QUEST_GIVER[key.split('.')[1]] ? QUEST_GIVER[key.split('.')[1]][1] : '') || '(quest giver)')
-			: priorSpeaker.get(`${file}::${key}`) || (/^(event|dungeon|fx)\./.test(key) ? '(narration)' : 'Elder Maren');
-		loc.slots.forEach((s, i) => add({ id: `${file}::${key}::${i}`, key, text: s.value, speaker: priorSpeaker.get(`${file}::${key}`) || speaker, when: when(key), area, ...place }));
+		// A quest's lines are its giver's (zone_quest_definitions.gd GIVERS: the Paste Works is Chef Marlo's); Maren only for town quests.
+		const giver = (key.match(/^quest\.(\w+)\./) || [])[1];
+		const speaker = (giver && QUEST_GIVER[giver] && npcFor(QUEST_GIVER[giver][1])) || priorSpeaker.get(`${file}::${key}`)
+			|| (giver && QUEST_GIVER[giver] ? '(quest giver)' : /^(event|dungeon|fx)\./.test(key) ? '(narration)' : 'Elder Maren');
+		loc.slots.forEach((s, i) => add({ id: `${file}::${key}::${i}`, key, text: s.value, speaker, when: when(key), area, ...place }));
 	}
 	for (const [d, x] of Object.entries(content.dungeons)) {
 		const [ch, phase] = DUNGEON_AT[d] || [9, 2];
@@ -372,8 +384,9 @@ function barkChapter(loc) {
 function barks() {
 	const file = 'data/npcs/npcs.json';
 	for (const n of npcs) {
-		(n.barks || []).forEach((text, i) => add({ id: `${file}::${n.id}.barks::${i}`, key: `${n.id}.barks`, text, speaker: n.name,
-			when: `Bark (speech bubble when you walk past ${n.name}; ${n.location})`, ch: barkChapter(n.location || ''), sub: 9 }));
+		const beaten = n.name !== plainName(n.name) ? ', after the gatekeeper is beaten' : '';
+		(n.barks || []).forEach((text, i) => add({ id: `${file}::${n.id}.barks::${i}`, key: `${n.id}.barks`, text, speaker: plainName(n.name),
+			when: `Bark (speech bubble when you walk past ${plainName(n.name)}${beaten}; ${n.location})`, ch: barkChapter(n.location || ''), sub: 9 }));
 	}
 }
 

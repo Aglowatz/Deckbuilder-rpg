@@ -154,7 +154,7 @@ lines = {
 "wheel.already": ["The grid purrs. Nothing left to route."],
 "wheel.hint": ["Start from the machine with the fewest options. The Mill needs 9, and only the wheels piped to it can supply it. Work out which wheel MUST feed the Gate."],
 "wheel.machines": ["The Lift", "The Gate", "The Mill"],
-"wheel.wheel_names": ["Hammy", "Gerald", "Princess Nibbles", "Sir Squeaks", "Biscuit", "The Colonel"],
+"wheel.wheel_names": ["Hammy", "Nugget", "Princess Nibbles", "Sir Squeaks", "Biscuit", "Big Lou"],
 "hud.objective.freed": ["The Gainlands, free at last: the Swole Station is open to everyone. HP does not come back after battles - soak in the Cooldown Hot Tub, or walk back down to town."],
 "ui.exit.body.freed": ["Leaving the Gainlands ends this visit. Town heals you fully. The brutes, golems and sprites are off-duty now, but they still enjoy a scrap."],
 "sign.hub_main.freed": ["THE SWOLE STATION", "Hub of the Gainlands. Heal here. Brag here. Do NOT skip leg day here.", "(Gatherings are now welcome. Mandatory cardio has been abolished. Gary is thrilled.)"],

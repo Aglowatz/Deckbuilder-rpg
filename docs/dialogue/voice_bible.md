@@ -4,21 +4,29 @@ The working brief for the Oct 31 critic pass (`docs/dialogue/critic_suggestions_
 bible (`docs/design/voice_bible.md`, which wins on any per-character detail and "Never" rule). Facts: `docs/design/story_bible.md`.
 Locked names and banned names: `docs/design/canon.md`.
 
-Note on the source: the Dialogue Edit tab and `docs/dialogue/edit_oct27.csv` have no designer "New line" rewrites yet (all 4203 rows are
-empty in that column on Oct 31), so this pass critiques the current game text and takes its voice from the bibles and the strongest current
-lines. Every row is effectively "Current line".
+Note on the source (corrected Oct 31, evening): the designer's rewrites are typed straight over "Current line" in the sheet, not into
+"New line". 37 rows were rewritten that way, all in the prologue, the cave and Maren's first talks (`docs/dialogue/fixes_oct31/README.md`).
+The pass itself was written before that was known, so it took its voice from the bibles; the section below now learns from the rewrites.
 
-## 1. What good looks like in this game
+## 1. What good looks like: the designer's own rewrites
 
-The best current lines already show the target, and the pass should write toward them:
+The designer rewrote the first ten minutes, and the rewrites set the voice:
 
-- "...Cold. Leaves in my mouth. Great start." (the Wanderer: physical, dry, short)
-- "That is no prince, I told them. That is a damp young man with good posture." (Maren: a sting in the tail that hides what she knows)
-- "Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing." (character comedy from one obsession)
-- "Hear that? They're close. I'll draw them off the other way. They know my face; let them chase it." (the Rescuer: plot told as action)
+- **Story and stakes first, quips second.** "That will have to do. The Path-ologists are hunting us." / "Hmph... about time you showed up.
+  {villain}'s soldiers have been out and about today." The player learns who is hunting him, and who rules, in the first lines.
+- **Plain, readable sentences.** "I search for my name. For how I got here. But I find nothing." The writer cut clever constructions
+  ("Two hands, one of them shaking. I'll start with the other one.") for direct ones.
+- **Characters with a stake in the scene.** Maren is reluctant and a bit put out: "I said I'd help whoever she sends along, not take in a
+  stray." / "I told her not to go through with whatever she has planned." The Warden guards a house for someone he believes is dead: "Only
+  one may pass, and he is long dead." / "NO! You are not HIM!"
+- **Direction inside the dialogue.** "We solve everything here with cards. It looks like you already have a deck." / "You should get
+  acquainted with the townsfolk. Say hello to Sable, Tilly and Pip."
+- **Fewer winks.** Bertram's "The TO is load-bearing" was cut; the Warden's after-line became plain narration ("The light drains from the
+  Warden's eyes.").
 
-The pattern: **one concrete detail, one turn, punchline last.** Facts arrive inside character, not as a lecture. A line earns its box if
-you could cover the name plate and still know who said it.
+So: **clarity and story beats come first; a joke has to earn its place inside a line that already does its job.** Humour lives in the
+characters' situations (a reluctant host, a fussy shopkeeper) more than in wordplay. A line still earns its box if you could cover the name
+plate and know who said it. Where the critic suggestions are wittier than this voice, prefer the designer's plainness.
 
 ## 2. Hard rules for every suggestion
 

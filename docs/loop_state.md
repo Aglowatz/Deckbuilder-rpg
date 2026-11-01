@@ -18,3 +18,8 @@ Tools: `node tools/dialogue_critic_check.js --protect` (tested phrases per line 
 `--check=<csv> [--out=report.md]`.
 
 All parts done Oct 31. Next step is the designer's: review in the sheet (paste `critic_oct31/sheet_columns.csv`), then dry run, --apply, story GUT groups.
+
+## Oct 31 evening: the designer's answers (docs/dialogue/fixes_oct31/README.md)
+Done: 37 typed-over rewrites found + importer support; sheet "Critic Oct 31" tab + Dialogue Edit I-M; game fixes 5-13 (19 merges +
+4 {rescuer} hand edits); tri-Path recipes (Alchemy.craft_tri, Session.craft_tri_card, Alchemist screen); export labels. Open: apply the
+designer's rewrites (waiting for "apply").

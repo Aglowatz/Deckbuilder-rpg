@@ -41,12 +41,6 @@
 	],
 	"data/story/intro_story.tres::prologue.rescuer.3::1": [
 		{
-			"phrase": "Tell me: which Path resonates the strongest within you?",
-			"tests": [
-				"tests/test_prologue_rescuer_text.gd"
-			]
-		},
-		{
 			"phrase": "Path",
 			"tests": [
 				"tests/ui/test_character_layout.gd",
@@ -82,7 +76,7 @@
 			]
 		}
 	],
-	"data/story/intro_story.tres::prologue.rescuer.4::2": [
+	"data/story/intro_story.tres::prologue.rescuer.4::3": [
 		{
 			"phrase": "draw them off",
 			"tests": [
@@ -90,11 +84,19 @@
 			]
 		}
 	],
-	"data/story/intro_story.tres::tutorial.warden.before::0": [
+	"data/encounters/boss_intros.json::Hollow Warden/title::0": [
 		{
-			"phrase": "Another",
+			"phrase": "Hollow Warden",
 			"tests": [
-				"tests/core/data/test_deck_box.gd"
+				"tests/core/data/test_bestiary_art.gd",
+				"tests/core/data/test_enemy_art_oct28.gd",
+				"tests/core/dungeon/test_campaign_start.gd"
+			]
+		},
+		{
+			"phrase": "Warden",
+			"tests": [
+				"tests/core/quests/test_quest_reveal.gd"
 			]
 		}
 	],
@@ -124,17 +126,27 @@
 	],
 	"data/story/intro_story.tres::tutorial.warden.after::1": [
 		{
-			"phrase": "Someone",
-			"tests": [
-				"tests/core/quests/test_quests.gd"
-			]
-		}
-	],
-	"data/story/intro_story.tres::cave_mouth.maren::1": [
-		{
 			"phrase": "Warden",
 			"tests": [
 				"tests/core/quests/test_quest_reveal.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::cave_mouth.maren::0": [
+		{
+			"phrase": "Primm",
+			"tests": [
+				"tests/core/data/test_gatekeeper_freed_lines.gd",
+				"tests/core/data/test_map_art.gd",
+				"tests/core/dungeon/test_old_well_quest.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::cave_mouth.maren_end::0": [
+		{
+			"phrase": "Well",
+			"tests": [
+				"tests/ui/test_codex_gear_tab.gd"
 			]
 		}
 	],
@@ -145,12 +157,6 @@
 				"tests/core/data/test_npc_registry.gd",
 				"tests/core/data/test_portraits.gd",
 				"tests/ui/test_dialogue_portraits.gd"
-			]
-		},
-		{
-			"phrase": "First",
-			"tests": [
-				"tests/core/data/test_save_slots.gd"
 			]
 		},
 		{
@@ -3619,16 +3625,6 @@
 			]
 		}
 	],
-	"data/story/gainlands_story.tres::wheel.wheel_names::1": [
-		{
-			"phrase": "Gerald",
-			"tests": [
-				"tests/core/data/test_npc_registry.gd",
-				"tests/core/zone/test_mini_dungeon.gd",
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		}
-	],
 	"data/story/gainlands_story.tres::sign.regime_rules::0": [
 		{
 			"phrase": "Chancellor Clench",
@@ -4099,6 +4095,14 @@
 			"phrase": "Empty",
 			"tests": [
 				"tests/core/data/test_campaign_slots.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::Trophy Hall Honor Guard/0/text::0": [
+		{
+			"phrase": "Guard",
+			"tests": [
+				"tests/core/dungeon/test_encounter_modifiers.gd"
 			]
 		}
 	],
@@ -9239,12 +9243,26 @@
 			]
 		}
 	],
+	"data/story/refusemancer_story.tres::grow.bridge_center.pass::0": [
+		{
+			"phrase": "Moss Mulligan",
+			"tests": [
+				"tests/ui/test_oct23_battle_help.gd"
+			]
+		}
+	],
 	"data/story/refusemancer_story.tres::grow.bridge_center.need::0": [
 		{
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
 				"tests/ui/test_dialogue_portraits.gd"
+			]
+		},
+		{
+			"phrase": "Moss Mulligan",
+			"tests": [
+				"tests/ui/test_oct23_battle_help.gd"
 			]
 		}
 	],
@@ -9380,6 +9398,12 @@
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
 				"tests/ui/test_dialogue_portraits.gd"
+			]
+		},
+		{
+			"phrase": "Moss Mulligan",
+			"tests": [
+				"tests/ui/test_oct23_battle_help.gd"
 			]
 		}
 	],
@@ -9567,6 +9591,14 @@
 			"phrase": "Walk",
 			"tests": [
 				"tests/world/test_heap_slice.gd"
+			]
+		}
+	],
+	"data/story/refusemancer_story.tres::quest.heap_herd.done::0": [
+		{
+			"phrase": "Moss Mulligan",
+			"tests": [
+				"tests/ui/test_oct23_battle_help.gd"
 			]
 		}
 	],
@@ -14002,6 +14034,14 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::dungeon.pc_model_warden.blurb::0": [
+		{
+			"phrase": "The Model Room",
+			"tests": [
+				"tests/core/dungeon/test_primms_castle.gd"
+			]
+		}
+	],
 	"data/story/capital_story.tres::dungeon.pc_model_warden.after::0": [
 		{
 			"phrase": "Warden",
@@ -14015,6 +14055,14 @@
 			"phrase": "Somebody",
 			"tests": [
 				"tests/ui/test_dialogue_portraits.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::dungeon.pc_boss.before::0": [
+		{
+			"phrase": "The Model Room",
+			"tests": [
+				"tests/core/dungeon/test_primms_castle.gd"
 			]
 		}
 	],
@@ -14063,6 +14111,14 @@
 				"tests/core/data/test_gatekeeper_freed_lines.gd",
 				"tests/core/data/test_map_art.gd",
 				"tests/core/dungeon/test_old_well_quest.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::dungeon.pc_boss.title::0": [
+		{
+			"phrase": "The Model Room",
+			"tests": [
+				"tests/core/dungeon/test_primms_castle.gd"
 			]
 		}
 	],
@@ -15527,6 +15583,12 @@
 	],
 	"data/story/capital_story.tres::ending.postgame.line.2::0": [
 		{
+			"phrase": "a tri-Path card",
+			"tests": [
+				"tests/core/data/test_essence_alchemy.gd"
+			]
+		},
+		{
 			"phrase": "Path",
 			"tests": [
 				"tests/ui/test_character_layout.gd",
@@ -15827,11 +15889,9 @@
 	],
 	"data/dungeons/dungeon_content.json::event.lab_cell4.body::0": [
 		{
-			"phrase": "Elowen",
+			"phrase": "{rescuer}",
 			"tests": [
-				"tests/core/data/test_story_beats.gd",
-				"tests/core/dungeon/test_lieutenants.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/dungeon/test_lieutenants.gd"
 			]
 		},
 		{
@@ -15886,11 +15946,9 @@
 	],
 	"data/story/story_scenes.json::scenes/lab_study/steps/3::1": [
 		{
-			"phrase": "Elowen",
+			"phrase": "{rescuer}",
 			"tests": [
-				"tests/core/data/test_story_beats.gd",
-				"tests/core/dungeon/test_lieutenants.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/dungeon/test_lieutenants.gd"
 			]
 		}
 	],
@@ -15909,6 +15967,12 @@
 		}
 	],
 	"data/story/story_scenes.json::scenes/lab_study_alone/steps/0::1": [
+		{
+			"phrase": "{rescuer}",
+			"tests": [
+				"tests/core/dungeon/test_lieutenants.gd"
+			]
+		},
 		{
 			"phrase": "a rug",
 			"tests": [
@@ -15937,6 +16001,12 @@
 			"tests": [
 				"tests/core/data/test_story_beats.gd",
 				"tests/core/quests/test_quest_reveal.gd"
+			]
+		},
+		{
+			"phrase": "{rescuer}",
+			"tests": [
+				"tests/core/dungeon/test_lieutenants.gd"
 			]
 		}
 	],

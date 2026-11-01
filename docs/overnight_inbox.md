@@ -4,7 +4,15 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
-## Dialogue critic pass (Oct 31) - yours to decide (nothing in the game was changed)
+## Dialogue critic pass (Oct 31) - ANSWERED Oct 31 (evening)
+
+All 14 answered; what was done: `docs/dialogue/fixes_oct31/README.md`. Still open:
+- **Apply your 37 rewrites?** They are typed over Current line in the sheet and are not in the game yet. 36 pass the importer;
+  `cave_mouth.maren::0` spells "Primm" (Y on its critic row swaps in {villain}). Applying them changes two tested beats
+  (`tests/test_prologue_rescuer_text.gd`: "which Path resonates the strongest within you?" and "alone"), so the test follows your text.
+  Say "apply" (with or without the accepted critic rows).
+
+The original questions, for reference:
 
 Report: `docs/dialogue/critic_report_oct31.md`. Suggestions: `docs/dialogue/critic_suggestions_oct31.csv` (210 rows). To review them in the
 sheet, paste `docs/dialogue/critic_oct31/sheet_columns.csv` (same row order as the Dialogue Edit tab: Critic suggestion, Accept (Y), Why,

@@ -215,13 +215,73 @@ func test_crafting_is_deterministic_for_a_seed() -> void:
 	assert_eq(picks[0], picks[1])
 
 
-func test_tri_path_crafting_is_only_a_postgame_hook() -> void:
+func test_tri_path_crafting_opens_in_the_postgame() -> void:
 	assert_eq(Alchemy.max_craft_paths(Session.profile), 2)
 	assert_false(Alchemy.tri_path_unlocked(Session.profile))
 	Session.profile.postgame_unlocked = true
 	assert_true(Alchemy.tri_path_unlocked(Session.profile))
 	assert_eq(Alchemy.max_craft_paths(Session.profile), 3)
 	assert_false(Alchemy.tri_path_cards(Session.content, [A, B, C] as Array[Affinity.Type]).is_empty(), "tri-Path cards exist")
+
+
+## Oct 31: the tri-Path recipes. Every trio of Paths brews into one of its own tri-Path cards; the brew takes ALL essence of the three
+## Paths plus TRI_GOLD_COST, and is refused before the postgame, with two Paths, a repeated Path, too little essence or gold.
+func test_every_trio_of_paths_brews_into_one_of_its_tri_path_cards() -> void:
+	var trios: Array = [[A, B, C], [A, B, D], [A, C, D], [B, C, D]]
+	Session.profile.postgame_unlocked = true
+	for trio: Array in trios:
+		var paths: Array[Affinity.Type] = []
+		paths.assign(trio)
+		for path: Affinity.Type in Affinity.colored_types():
+			Session.profile.set_essence(path, 0)
+		for path: Affinity.Type in paths:
+			Session.profile.set_essence(path, 20)
+		Session.gold = Alchemy.TRI_GOLD_COST + 5
+		var result: Alchemy.Result = Session.craft_tri_card(paths)
+		assert_true(result.ok, "%s: %s" % [trio, result.reason])
+		assert_eq(result.card.paths().size(), 3, "a tri-Path card")
+		for path: Affinity.Type in paths:
+			assert_true(result.card.is_on_path(path))
+			assert_eq(Session.profile.essence_of(path), 0, "ALL essence of the three Paths is spent")
+		assert_eq(Session.gold, 5)
+		assert_false(CardAvailability.is_enemy_only(result.card))
+
+
+func test_the_tri_path_brew_refuses_bad_trades_and_costs_nothing() -> void:
+	var profile: PlayerProfile = Session.profile
+	var trio: Array[Affinity.Type] = [A, B, C]
+	for path: Affinity.Type in trio:
+		profile.set_essence(path, Alchemy.MIN_ESSENCE_PER_PATH)
+	assert_false(Alchemy.tri_problem(profile, 999, trio).is_empty(), "not before the postgame")
+	profile.postgame_unlocked = true
+	assert_eq(Alchemy.tri_problem(profile, Alchemy.TRI_GOLD_COST, trio), "")
+	assert_false(Alchemy.tri_problem(profile, Alchemy.TRI_GOLD_COST - 1, trio).is_empty(), "and the gold")
+	assert_false(Alchemy.tri_problem(profile, 999, [A, A, B] as Array[Affinity.Type]).is_empty(), "three different Paths")
+	assert_false(Alchemy.tri_problem(profile, 999, [A, B] as Array[Affinity.Type]).is_empty(), "three, not two")
+	profile.set_essence(C, Alchemy.MIN_ESSENCE_PER_PATH - 1)
+	Session.gold = 999
+	var result: Alchemy.Result = Session.craft_tri_card(trio)
+	assert_false(result.ok)
+	assert_eq(profile.essence_of(A), Alchemy.MIN_ESSENCE_PER_PATH, "a failed brew spends nothing")
+	assert_eq(Session.gold, 999)
+
+
+func test_the_alchemist_screen_takes_three_paths_in_the_postgame() -> void:
+	Session.profile.postgame_unlocked = true
+	for path: Affinity.Type in [A, B, C]:
+		Session.profile.set_essence(path, 12)
+	Session.gold = Alchemy.TRI_GOLD_COST
+	var screen: AlchemistScreen = AlchemistScreen.new()
+	add_child_autofree(screen)
+	await wait_frames(3)
+	for path: Affinity.Type in [A, B, C]:
+		((screen.find_child("EssenceRow%d" % int(path), true, false)) as Button).pressed.emit()
+	await wait_frames(2)
+	var craft: FancyButton = screen.find_child("CraftButton", true, false) as FancyButton
+	assert_false(craft.disabled, "three eligible Paths chosen")
+	craft.pressed.emit()
+	assert_eq(Session.gold, 0, "the tri-Path brew was paid")
+	assert_eq(Session.profile.essence_of(B), 0)
 
 
 func test_the_alchemist_screen_lists_essence_and_enables_craft() -> void:

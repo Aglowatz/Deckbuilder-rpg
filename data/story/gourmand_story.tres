@@ -256,7 +256,7 @@ lines = {
 "cutscene.wonder.5.speaker": ["The Endless Buffet"],
 "cutscene.wonder.5": ["Before you sits a plain, golden dish, large enough to share. You smell butter and warm bread.", "The first bite breaks the enchantment all through the Endless Buffet.", "You watch the chefs blink at their hands. Across the Buffet, a thousand golems lower their ladles."],
 "cutscene.wonder.6.speaker": ["The Grand Chef"],
-"cutscene.wonder.6": ["Come here, you. No face, no name. What you are called does not matter. What you do is what matters.", "You have been my prisoner for five minutes, and you have given me no trouble. Let me give you something in return.", "So take my old name. Escoffina. I was always prouder of the work than of the title."],
+"cutscene.wonder.6": ["Come here, you. No face, no name. What you are called does not matter. What you do is what matters.", "You wore my face for ten years and never once learned to taste. Today you start. Let me give you something to start with.", "So take my old name. Escoffina. I was always prouder of the work than of the title."],
 "cutscene.wonder.7.speaker": ["Escoffina"],
 "cutscene.wonder.7": ["...Escoffina. I will try to cook honestly. I will try to be someone worth the name."],
 "freed_npc.escoffina": ["Escoffina. Apprentice. Second class.", "Third, if you count the dishes. Chef says what I am called does not matter, only what I do. So I am doing a great many dishes.", "I made a sauce today. A real one. I tasted it. As me. It had too much salt.", "Everyone ate it anyway and said it was a good start. I did not know people could be so kind about salt.", "I have a face of my own now. I am still deciding what to do with it. I am trying."],

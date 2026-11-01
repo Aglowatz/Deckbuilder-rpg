@@ -489,7 +489,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"Elowen..."
+					"{rescuer}..."
 				],
 				[
 					"NPC-ELOWEN",
@@ -501,7 +501,7 @@
 			"steps": [
 				[
 					"",
-					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand. The last entry is ten years old."
+					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand, and a child's drawing: 'For Papa, from {rescuer}.' The last entry is ten years old."
 				],
 				[
 					"",
@@ -509,7 +509,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"Siphon. Her father held the door."
+					"Siphon is {rescuer}'s father. He held the door."
 				]
 			]
 		},

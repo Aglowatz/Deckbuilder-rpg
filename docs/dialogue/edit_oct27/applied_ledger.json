@@ -1,0 +1,135 @@
+[
+	{
+		"id": "data/story/intro_story.tres::postgame.rescuer.freed::0",
+		"file": "data/story/intro_story.tres",
+		"before": "You came for me. Twice, if you count the woods. I'm counting the woods.",
+		"after": "You came back for me. Down there, on purpose. I'm going to need a while to stop being cross about it.",
+		"merged": true
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.6::1",
+		"file": "data/story/gourmand_story.tres",
+		"before": "You have been my prisoner for five minutes, and you have given me no trouble. Let me give you something in return.",
+		"after": "You wore my face for ten years and never once learned to taste. Today you start. Let me give you something to start with.",
+		"merged": true
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.pass::0",
+		"file": "data/story/refusemancer_story.tres",
+		"before": "Druid Sorrel clasps her hands. \"You brought Billie's herd home? The goat, the pig and that raccoon? Then the stream owes you a bridge.\"",
+		"after": "Moss Mulligan hops up from the bank. \"You got Billie's herd home? The goat, the pig AND the raccoon? Then the stream owes you a bridge.\"",
+		"merged": true
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::0",
+		"file": "data/story/refusemancer_story.tres",
+		"before": "Druid Sorrel shakes her head gently. \"I only grow bridges for people who have helped the herd, and Billie Muckfoot's animals have got out again.",
+		"after": "Moss Mulligan tucks her hands behind her back. \"Sorry! I only grow bridges for people who have helped the herd, and Billie Muckfoot's animals have got out again.",
+		"merged": true
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::1",
+		"file": "data/story/refusemancer_story.tres",
+		"before": "Round them up for Billie, then come back to me, and I will grow you a way across.\"",
+		"after": "Round them up for Billie, then come back to me, and I will grow you a way across. No thorns. Promise.\"",
+		"merged": true
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sign.bridge_center::1",
+		"file": "data/story/refusemancer_story.tres",
+		"before": "Druid Sorrel grows this one for anyone who helps Billie Muckfoot round up the herd.",
+		"after": "Moss Mulligan grows this one for anyone who helps Billie Muckfoot round up the herd.",
+		"merged": true
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.done::0",
+		"file": "data/story/refusemancer_story.tres",
+		"before": "The herd's home and it's plotting. Thanks! Druid Sorrel at the centre bridge will grow you a crossing now. Tell her I sent you.",
+		"after": "The herd's home and it's plotting. Thanks! Moss Mulligan at the centre bridge will grow you a crossing now. Tell her I sent you.",
+		"merged": true
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-RIP.barks::1",
+		"file": "data/npcs/npcs.json",
+		"before": "Shirt number two hundred and thirteen. Very proud of it. Notice my form?",
+		"after": "Shirt number two hundred and twelve. Very proud of it. Notice my form?",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_model_warden.blurb::0",
+		"file": "data/story/capital_story.tres",
+		"before": "The last guard before the Chamber of the Model: a warden whose job is to keep everyone away from the table. (Elite)",
+		"after": "The last guard before the Model Room: a warden whose job is to keep everyone away from the table. (Elite)",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_boss.title::0",
+		"file": "data/story/capital_story.tres",
+		"before": "The Scale Model Chamber",
+		"after": "The Model Room",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_boss.before::0",
+		"file": "data/story/capital_story.tres",
+		"before": "The Chamber of the Model is round and domed, and in its centre stands a table the size of a house: a perfect miniature of {kingdom}.",
+		"after": "The Model Room is round and domed, and in its centre stands a table the size of a house: a perfect miniature of {kingdom}.",
+		"merged": true
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::Trophy Hall Honor Guard/0/text::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"before": "At half health a reserve guard steps off a pedestal: a 1/1 Militia joins.",
+		"after": "At half health a reserve guard steps off a pedestal: a 1/1 Reserve Guard joins.",
+		"merged": true
+	},
+	{
+		"id": "data/story/gainlands_story.tres::wheel.wheel_names::1",
+		"file": "data/story/gainlands_story.tres",
+		"before": "Gerald",
+		"after": "Nugget",
+		"merged": true
+	},
+	{
+		"id": "data/story/gainlands_story.tres::wheel.wheel_names::5",
+		"file": "data/story/gainlands_story.tres",
+		"before": "The Colonel",
+		"after": "Big Lou",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::prop.parlor::0",
+		"file": "data/story/capital_story.tres",
+		"before": "PELL FAMILY PARLOR",
+		"after": "PELL FAMILY PARLOUR",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::sign.grave_waiting::1",
+		"file": "data/story/capital_story.tres",
+		"before": "The deceased are asked to remain in their parlors until a permit has been approved. Please do not wander.",
+		"after": "The deceased are asked to remain in their parlours until a permit has been approved. Please do not wander.",
+		"merged": true
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::_cap_burial::1",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"before": "Widow Pell's husband has sat in the family parlor for three years because his burial permit loops forever. It needs the Stamp of Final Approval, somewhere in Grave Row.",
+		"after": "Widow Pell's husband has sat in the family parlour for three years because his burial permit loops forever. It needs the Stamp of Final Approval, somewhere in Grave Row.",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::facade.speaker.1.0.freed::0",
+		"file": "data/story/capital_story.tres",
+		"before": "Attention, citizens. (a cough) This is a loudspeaker. Nobody is on the other end.",
+		"after": "Attention, citizens. (a cough) The weather is no longer approved. It is just weather. It seems to be managing.",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.postgame.line.2::0",
+		"file": "data/story/capital_story.tres",
+		"before": "The Alchemist's tri-Path crafting is unlocked (no tri-Path recipes exist yet).",
+		"after": "The Alchemist's cauldron now takes three Paths at once: brew their essence into a tri-Path card.",
+		"merged": true
+	}
+]

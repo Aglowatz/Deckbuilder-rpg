@@ -5,7 +5,9 @@ part of the game (chunks in `docs/dialogue/critic_oct31/chunks/`), then the lead
 `docs/dialogue/critic_oct31/notes_01.md` to `notes_08.md`. The suggestions: `docs/dialogue/critic_suggestions_oct31.csv` (210 rows).
 The voice and register brief: `docs/dialogue/voice_bible.md`.
 
-Source note: on Oct 31 the sheet's "New line" column was empty in every row, so every line below is judged as it stands in the game.
+Source note: the critique judges every line as it stands in the game. The designer's 37 rewrites (typed over "Current line" in the
+sheet, found after this report; all in the prologue, the cave and Maren's first talks) are not in the scores; they set the voice now
+(`voice_bible.md` section 1). Answers to this report's questions and what was changed: `docs/dialogue/fixes_oct31/README.md`.
 
 ## The short version
 

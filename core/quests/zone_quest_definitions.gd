@@ -309,7 +309,7 @@ static func _cap_burial() -> QuestData:
 	quest.id = CapitalZone.QUEST_BURIAL
 	quest.order = 510
 	quest.title = "Form 27-B/6: A Burial Permit"
-	quest.summary = "Widow Pell's husband has sat in the family parlor for three years because his burial permit loops forever. It needs the Stamp of Final Approval, somewhere in Grave Row."
+	quest.summary = "Widow Pell's husband has sat in the family parlour for three years because his burial permit loops forever. It needs the Stamp of Final Approval, somewhere in Grave Row."
 	quest.giver_npc = CapitalZone.NPC_PELL
 	quest.turn_in_npc = CapitalZone.NPC_PELL
 	quest.objectives = [

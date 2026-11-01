@@ -6,7 +6,7 @@ extends RefCounted
 ##   the Great Hall -> the Portrait Gallery (endless "improved" portraits) -> the Hall of Mirrors (mirrors that reflect only him)
 ##   -> the Ministry of Correction -> the Four Wings (one for each Path: the Doppelganger's lab notes, the coup orders, the
 ##   notarized paperwork, the corrupted seed; each a dead-end branch) -> the Archive of Good Intentions (his early journals and
-##   blueprints) -> the Scale Model Chamber (a giant model of the kingdom he rearranges by hand) and the boss, PRIMM.
+##   blueprints) -> the Model Room (a giant model of the kingdom he rearranges by hand) and the boss, PRIMM.
 ## Mixes battles, elites, deck challenges, events, shrines, treasure and story nodes. Serious beats: the corrected citizens, the Archive's
 ## journals, the last journal (he truly believes he is the hero). Text: data/story/capital_story.tres (`dungeon.pc_*`, `event.pc_*`,
 ## `challenge.pc_*`, `cutscene.primm_*`). The boss is `PrimmBoss` (three phases).

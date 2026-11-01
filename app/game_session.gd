@@ -487,6 +487,19 @@ func craft_dual_card(first: Affinity.Type, second: Affinity.Type) -> Alchemy.Res
 		save_game()
 	return result
 
+
+## Postgame: the three-Path brew (`Alchemy.craft_tri`), paid and saved like `craft_dual_card`.
+func craft_tri_card(paths: Array[Affinity.Type]) -> Alchemy.Result:
+	if profile == null:
+		return Alchemy.Result.new()
+	var result: Alchemy.Result = Alchemy.craft_tri(content, profile, gold, paths, rng)
+	if result.ok:
+		spend_gold(result.gold_spent)
+		add_cards([result.card] as Array[CardData])
+		bump_counter("cards_crafted")
+		save_game()
+	return result
+
 ## The copy cap of a card at the player's level (`CopyCaps`: at most 3, fewer for rarer cards until level-ups raise it).
 func copy_cap(card: CardData) -> int:
 	return CopyCaps.for_card(card, profile.level if profile != null else 1)

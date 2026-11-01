@@ -2,7 +2,7 @@ class_name HeapGrowth
 extends RefCounted
 ## The things a Refusemancer can grow in the Verdant Dump: two kinds of crossing - VINE BRIDGES across the recycling
 ## stream and BEANSTALK LADDERS up the junk mountains - and how each is grown: by a DRUID NPC once a condition is
-## met (the centre bridge: Druid Sorrel wants the herd rounded up), or by planting a MAGIC BEAN at its sprout mound.
+## met (the centre bridge: Moss Mulligan, freed, wants the herd rounded up), or by planting a MAGIC BEAN at its sprout mound.
 ## Once grown it stays grown (a flag). Also the junk barricades (smashed by a charging mount) and a few counts.
 
 const CROP_PLOTS: int = 3
@@ -52,7 +52,7 @@ static func _growth(id: String, kind: String, how: String, title: String, speake
 
 static func all() -> Array[Growth]:
 	return [
-		_growth("bridge_center", "bridge", "druid", "Druid Sorrel's Vine Bridge", "Druid Sorrel", "sorrel", Condition.quest_completed(HeapZone.QUEST_HERD)),
+		_growth("bridge_center", "bridge", "druid", "Moss Mulligan's Vine Bridge", "Moss Mulligan", "sorrel", Condition.quest_completed(HeapZone.QUEST_HERD)),
 		_growth("bridge_west", "bridge", "bean", "West Sprout Mound (vine bridge)", "the mound", "mound_west"),
 		_growth("bridge_east", "bridge", "bean", "East Sprout Mound (vine bridge)", "the mound", "mound_east"),
 		_growth("ladder_a", "ladder", "bean", "Mount Scrapmore Sprout Mound (beanstalk)", "the mound", "mound_a"),

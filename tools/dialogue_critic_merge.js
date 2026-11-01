@@ -9,7 +9,8 @@
 //   --out=<folder> (default docs/dialogue/critic_oct31/dry_run).
 const fs = require('fs');
 const path = require('path');
-const { root, parseCsv, csvq } = require('./dialogue_ids');
+const { root, parseCsv, csvq, locate, namedSlot } = require('./dialogue_ids');
+const { typedOver, sameLine } = require('./dialogue_edit_rows');
 const { problemsOf, bannedNames } = require('./dialogue_critic_check');
 
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const m = a.match(/^--([a-z-]+)(?:=(.*))?$/); return m ? [m[1], m[2] ?? true] : [a, true]; }));
@@ -24,6 +25,15 @@ const edit = parseCsv(fs.readFileSync(EDIT, 'utf8'));
 const order = new Map(edit.map((r, i) => [r.ID, i]));
 const byId = new Map(edit.map((r) => [r.ID, r]));
 const effective = (r) => ((r['New line'] || '').trim() ? r['New line'] : r['Current line']) || '';
+// The designer's line: a New line, or a rewrite typed over Current line that the game does not say yet (a row changed in the game since
+// the export, and synced into the sheet, is not theirs).
+const snapshot = JSON.parse(fs.readFileSync(path.join(root, 'docs/dialogue/edit_oct27/export_snapshot.json'), 'utf8'));
+function designerLine(r) {
+	if ((r['New line'] || '').trim()) return true;
+	if (!typedOver(r, snapshot)) return false;
+	const slot = namedSlot(locate(r.ID));
+	return !slot || !sameLine(slot.value, r['Current line']);
+}
 const prot = JSON.parse(fs.readFileSync(path.join(DIR, 'protected_phrases.json'), 'utf8'));
 const banned = bannedNames();
 
@@ -42,7 +52,7 @@ for (const file of fs.readdirSync(DIR).filter((f) => /^suggestions_\d+\.csv$/.te
 		if (seen.has(r.ID)) p.push(`duplicate of a row in ${seen.get(r.ID)}`);
 		if (!CATEGORIES.includes(r.Category)) p.push(`category "${r.Category}"`);
 		if (!PRIORITIES.includes(r.Priority)) p.push(`priority "${r.Priority}"`);
-		const row = { ...r, 'Effective line': src ? effective(src) : r['Effective line'], 'Designer line': (src && (src['New line'] || '').trim()) ? 'Y' : 'N', file };
+		const row = { ...r, Speaker: src ? src.Speaker : r.Speaker, 'Zone/Area': src ? src['Zone/Area'] : r['Zone/Area'], 'Effective line': src ? effective(src) : r['Effective line'], 'Designer line': src && designerLine(src) ? 'Y' : 'N', file };
 		if (p.length) { dropped.push({ ...row, problems: p }); continue; }
 		seen.set(r.ID, file);
 		kept.push(row);
