@@ -46,8 +46,15 @@ Oct 30 `_screenshots/play` critic runs (gitignored, reports already written): 4.
 - The import's background shell was stopped by Claude Code's low-memory guard after it had copied the files; its own Godot re-import
   finished on its own, and the remaining steps (sting cut, doc) were run in the foreground.
 
-## Part 3 - Performance
-(todo)
+## Part 3 - Performance (partial: frame budget done, loading measured but not cached)
+
+Details: `docs/perf/perf_oct31n.md`.
+- **Quiet frame-budget run**: every average inside budget; after re-running the four areas whose first-pass 1% low was over, every 1% low
+  inside too (v0.4.9's run had 14 over, taken under memory pressure). Steady over: Crosspath Medium draw calls 874 vs 840 (frame time fine).
+- **Deck Station**: 7.6 ms avg / 10.7 ms 1% low quiet (the 21 ms was memory pressure). **Goal pointer second marker**: no cost (A/B).
+- **Thorn wall**: 103 mesh nodes -> 19 (spikes and vines as MultiMeshes); hub walk smoke OK cold and warm.
+- **Loading** (warm): town -> Dump 6.6 s, Dump -> town 5.5 s. The big steps left are model instancing (kept out of the cache by the Oct 25
+  decision) and `HeapLayout.build` (641 ms, needs serialising ~15 object kinds): logged as the next lever, not done tonight.
 
 ## Part 4 - Mid-game critic cycle
 (todo)

@@ -229,6 +229,15 @@ func _thorns(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 		tree.position = Vector3(lerpf(-3.3, 3.3, float(i) / 6.0) + _rng.randf_range(-0.25, 0.25), 0.0, _rng.randf_range(-0.5, 0.3))
 		holder.add_child(tree)
 	var vine_color: Color = Color(0.2, 0.28, 0.14)
+	# Overnight Oct 31 - Nov 1 (Part 3, Crosspath draw calls 874 > 840): the 72 thorn spikes and 12 vines were one mesh node each (84 draw
+	# calls); each set is now one MultiMesh with the same shapes, placements (same random sequence) and materials.
+	var spike_shape: CylinderMesh = CylinderMesh.new()
+	spike_shape.top_radius = 0.0
+	spike_shape.bottom_radius = 0.06
+	spike_shape.height = 0.42
+	spike_shape.radial_segments = 5
+	var spike_transforms: Array[Transform3D] = []
+	var vine_transforms: Array[Transform3D] = []
 	for i: int in range(12):
 		var x: float = lerpf(-3.4, 3.4, float(i) / 15.0) + _rng.randf_range(-0.2, 0.2)
 		var height: float = 1.6 + _rng.randf() * 1.6
@@ -244,25 +253,16 @@ func _thorns(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 		clump.position = Vector3(x, height * 0.45, _rng.randf_range(-0.4, 0.4))
 		holder.add_child(clump)
 		# Thorns: dark spikes sticking out of each clump.
-		var spike_material: StandardMaterial3D = _plain(Color(0.25, 0.18, 0.12))
 		for k: int in range(6):
-			var spike: MeshInstance3D = MeshInstance3D.new()
-			var cone: CylinderMesh = CylinderMesh.new()
-			cone.top_radius = 0.0
-			cone.bottom_radius = 0.06
-			cone.height = 0.42
-			cone.radial_segments = 5
-			spike.mesh = cone
-			spike.material_override = spike_material
 			var dir: Vector3 = Vector3(_rng.randf_range(-1.0, 1.0), _rng.randf_range(-0.2, 1.0), _rng.randf_range(-1.0, 1.0)).normalized()
-			spike.position = clump.position + dir * sphere.radius * 0.9
-			spike.basis = Basis(Quaternion(Vector3.UP, dir))
-			holder.add_child(spike)
-		# Twisted vines between the clumps.
-		var vine: MeshInstance3D = _box(Vector3(0.12, height * 1.1, 0.12), _textured(BARK_TEX, Color(0.3, 0.26, 0.18), Vector3.ONE))
-		vine.position = Vector3(x + 0.2, height * 0.5, 0.3)
-		vine.rotation.z = _rng.randf_range(-0.5, 0.5)
-		holder.add_child(vine)
+			spike_transforms.append(Transform3D(Basis(Quaternion(Vector3.UP, dir)), clump.position + dir * sphere.radius * 0.9))
+		# Twisted vines between the clumps (a unit box scaled to the vine).
+		var tilt: float = _rng.randf_range(-0.5, 0.5)
+		vine_transforms.append(Transform3D(Basis(Vector3.BACK, tilt) * Basis.from_scale(Vector3(0.12, height * 1.1, 0.12)), Vector3(x + 0.2, height * 0.5, 0.3)))
+	holder.add_child(_batch("ThornSpikes", spike_shape, _plain(Color(0.25, 0.18, 0.12)), spike_transforms))
+	var vine_shape: BoxMesh = BoxMesh.new()
+	vine_shape.size = Vector3.ONE
+	holder.add_child(_batch("ThornVines", vine_shape, _textured(BARK_TEX, Color(0.3, 0.26, 0.18), Vector3.ONE), vine_transforms))
 	if is_cleared:
 		holder.visible = false
 	movers[zone_id] = holder
@@ -354,6 +354,21 @@ func _seal(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 
 
 # ---- helpers -------------------------------------------------------------------------------------------------------------------------------------
+
+
+## One MultiMesh node drawing `shape` with `material` at every transform (one draw call instead of one per copy).
+func _batch(batch_name: String, shape: Mesh, material: Material, transforms: Array[Transform3D]) -> MultiMeshInstance3D:
+	var multi: MultiMesh = MultiMesh.new()
+	multi.transform_format = MultiMesh.TRANSFORM_3D
+	multi.mesh = shape
+	multi.instance_count = transforms.size()
+	for index: int in transforms.size():
+		multi.set_instance_transform(index, transforms[index])
+	var node: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	node.name = batch_name
+	node.multimesh = multi
+	node.material_override = material
+	return node
 
 
 func _box(size: Vector3, material: Material) -> MeshInstance3D:
