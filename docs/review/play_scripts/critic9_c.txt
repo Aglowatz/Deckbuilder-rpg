@@ -1,0 +1,33 @@
+wait 2
+dev load c9_lt
+wait 10
+dev encounter lieutenant
+wait 10
+button Keep Hand
+wait 3
+shot 01_kept
+dump
+drag 690 780 800 560
+wait 2
+shot 02_infra
+move 940 780
+wait 1
+shot 03_hover
+drag 940 780 800 560
+wait 2
+shot 04_unit
+dump
+key Space
+wait 2
+shot 05_space
+dump
+key Space
+wait 2
+shot 06_space2
+key Space
+wait 4
+shot 07_enemy
+dump
+wait 4
+shot 08_turn2
+dump

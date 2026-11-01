@@ -1,0 +1,33 @@
+wait 2
+dev load c9_capital
+wait 12
+hold D 4
+wait 1
+shot 01_crease_door
+key E
+wait 8
+shot 02_after_door
+scene
+dump
+hold W 4
+shot 03_walk
+hold W 4
+shot 04_walk
+hold A 3
+shot 05_walk
+key M
+wait 2
+shot 06_map
+dump
+key Escape
+wait 1
+dev encounters lieutenant
+wait 1
+dev encounter lieutenant
+wait 10
+shot 07_battle_start
+dump
+wait 3
+shot 08_battle
+dump
+dev save c9_lt

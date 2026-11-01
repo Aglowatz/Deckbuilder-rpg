@@ -1,0 +1,39 @@
+wait 2
+dev load c9_capital
+wait 10
+dev travel dungeon D-PC -2
+wait 12
+shot 01_map
+dump
+skip_dialogue 30
+wait 1
+shot 02_map
+dump
+dev save c9_boss
+click 1322 340
+wait 3
+shot 03_click
+dump
+click 1322 340
+wait 3
+shot 04_click2
+dump
+key E
+wait 1
+shot 05_intro
+key E
+wait 1
+shot 06_intro
+key E
+wait 1
+shot 07_intro
+key E
+wait 1
+shot 08_intro
+key E
+wait 1
+shot 09_intro
+key E
+wait 1
+shot 10_intro
+dump

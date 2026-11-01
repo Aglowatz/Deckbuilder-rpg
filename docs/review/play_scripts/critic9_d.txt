@@ -1,0 +1,32 @@
+wait 2
+dev load c9_lt
+wait 10
+dev encounter lieutenant
+wait 10
+button Keep Hand
+wait 3
+click 420 800
+wait 2
+shot 01_infra
+dump
+key Space
+wait 2
+key Space
+wait 6
+shot 02_t2
+click 420 800
+wait 2
+shot 03_t2infra
+dump
+key Space
+wait 2
+key Space
+wait 6
+shot 04_t3
+pilot 240
+shot 05_after_pilot
+dump
+skip_dialogue 10
+wait 4
+shot 06_after
+scene

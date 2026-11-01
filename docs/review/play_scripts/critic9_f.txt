@@ -1,0 +1,40 @@
+wait 2
+dev load c9_capital
+wait 10
+dev travel dungeon D-PC
+wait 12
+key E
+wait 0.8
+shot 01_intro
+key E
+wait 0.8
+shot 02_intro
+key E
+wait 0.8
+shot 03_intro
+key E
+wait 0.8
+shot 04_intro
+key E
+wait 0.8
+shot 05_intro
+key E
+wait 0.8
+shot 06_intro
+skip_dialogue 20
+wait 1
+click 322 565
+wait 3
+shot 07_node_click
+dump
+key E
+wait 0.8
+shot 08_pre
+skip_dialogue 10
+wait 8
+shot 09_battle
+dump
+button Keep Hand
+wait 3
+shot 10_kept
+dump

@@ -1,0 +1,106 @@
+wait 2
+dev load c9_capital
+wait 10
+dev autowin on
+dev travel dungeon D-PC
+wait 12
+skip_dialogue 30
+wait 1
+click 322 565
+wait 3
+shot n1_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n1_b
+skip_dialogue 25
+wait 3
+shot n1_c
+click 458 630
+wait 3
+shot n2_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n2_b
+skip_dialogue 25
+wait 3
+shot n2_c
+click 593 470
+wait 3
+shot n3_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n3_b
+skip_dialogue 25
+wait 3
+shot n3_c
+click 733 540
+wait 3
+shot n4_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n4_b
+skip_dialogue 25
+wait 3
+shot n4_c
+click 883 430
+wait 3
+shot n5_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n5_b
+skip_dialogue 25
+wait 3
+shot n5_c
+click 1032 505
+wait 3
+shot n6_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n6_b
+skip_dialogue 25
+wait 3
+shot n6_c
+click 1145 375
+wait 3
+shot n7_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n7_b
+skip_dialogue 25
+wait 3
+shot n7_c
+click 1259 470
+wait 3
+shot n8_a
+dump
+button Continue
+wait 6
+key E
+wait 1
+shot n8_b
+skip_dialogue 25
+wait 3
+shot n8_c
+dev save c9_preboss
+dump

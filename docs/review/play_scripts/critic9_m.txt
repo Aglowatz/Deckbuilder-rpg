@@ -1,0 +1,79 @@
+wait 2
+dev load c9_boss
+wait 10
+dev travel dungeon D-PC -2
+wait 10
+click 1322 340
+wait 2
+click 1322 340
+wait 2
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+key Space
+wait 0.8
+skip_dialogue 20
+wait 1
+button Continue
+wait 2
+skip_dialogue 10
+button Continue
+wait 8
+shot b01
+button Keep Hand
+wait 8
+shot b02
+dump
+button Got it
+wait 1
+pilot 75
+shot b03
+dump
+pilot 75
+shot b04
+dump
+pilot 75
+shot b05
+dump
+pilot 75
+shot b06
+dump
