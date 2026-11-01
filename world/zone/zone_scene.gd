@@ -988,6 +988,11 @@ func _nearest_spot(pos: Vector3) -> ZoneSpot:
 	var candidates: Array[ZoneSpot] = _near_spots if _near_count == spots.size() and pos.distance_to(_near_from) < 6.0 else spots
 	for spot: ZoneSpot in candidates:
 		var distance: float = Vector2(pos.x - spot.position.x, pos.z - spot.position.z).length()
+		# Overnight Oct 31 - Nov 1 (postgame critic #2, late critic #14): an NPC's talk spot sits in front of them, so a hero standing at their
+		# side got no prompt (Old Man Mountain, Captain Spotless). The NPC's own body counts as well.
+		var body: Vector3 = npc_body_position(spot)
+		if body.x < 1.0e8:
+			distance = minf(distance, Vector2(pos.x - body.x, pos.z - body.z).length())
 		var reach: float = spot.radius * StorybookScale.INTERACT_FACTOR
 		if spot.kind == "sign":
 			distance += SIGN_YIELD
@@ -996,6 +1001,16 @@ func _nearest_spot(pos: Vector3) -> ZoneSpot:
 			best = spot
 			best_distance = distance
 	return best
+
+
+## Where the NPC a talk spot belongs to stands (a strolling NPC: where they walk), or x = 1e9 for a spot without one.
+func npc_body_position(spot: ZoneSpot) -> Vector3:
+	var npc: Node = _npcs.get(str(spot.data.get("npc", ""))) as Node
+	if npc is SpriteStroller:
+		return (npc as SpriteStroller).world_position()
+	if npc is Node3D and is_instance_valid(npc):
+		return (npc as Node3D).position
+	return Vector3(1.0e9, 0.0, 0.0)
 
 
 func _update_nearest() -> void:

@@ -2554,15 +2554,27 @@ func begin_zone_visit(zone_id: String) -> ZoneRun:
 var _hp_notice_run: ZoneRun = null
 
 
+## The hero's max HP outside any zone rule: the level's base plus their gear and items (those go everywhere). Only a zone's own rules
+## make "here" different (the HUD said "-7 here" for the postgame critic's Glass Jaw Gauntlets and Crown of Mild Hubris).
+func usual_max_hp() -> int:
+	if profile == null:
+		return 1
+	return maxi(1, profile.base_max_hp() + ModifierPipeline.build(profile, null, [] as Array[ModifierSource]).sum(Modifier.Kind.MAX_HP))
+
+
 func hp_pool_notice() -> String:
-	if zone_run == null or profile == null or zone_run == _hp_notice_run or zone_run.max_hp() == profile.base_max_hp():
+	if zone_run == null or profile == null or zone_run == _hp_notice_run:
+		return ""
+	var usual: int = usual_max_hp()
+	if zone_run.max_hp() == usual:
 		return ""
 	_hp_notice_run = zone_run  # once per visit (the zone scene reloads after each battle)
 	var reasons: Array[String] = []
-	for modifier: Modifier in zone_run.run.modifiers().modifiers:
-		if modifier.kind == Modifier.Kind.MAX_HP and modifier.value != 0:
-			reasons.append("%+d %s" % [modifier.value, modifier.label if modifier.label != "" else "a rule here"])
-	return "Max HP here: %d (your usual %d%s)" % [zone_run.max_hp(), profile.base_max_hp(), "; " + ", ".join(reasons) if not reasons.is_empty() else ""]
+	for source: ModifierSource in zone_run.run.dungeon_sources:
+		for modifier: Modifier in source.modifiers:
+			if modifier.kind == Modifier.Kind.MAX_HP and modifier.value != 0:
+				reasons.append("%+d %s" % [modifier.value, modifier.label if modifier.label != "" else source.source_name])
+	return "Max HP here: %d (your usual %d%s)" % [zone_run.max_hp(), usual, "; " + ", ".join(reasons) if not reasons.is_empty() else ""]
 
 
 ## Overnight Oct 31 - Nov 1 (mid-game critic #7: "freeing a zone changes nothing you can see"): the banner on arriving in a zone you

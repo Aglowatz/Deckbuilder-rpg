@@ -38,3 +38,28 @@ func test_the_capital_battle_panel_reads_the_real_services() -> void:
 func test_the_defeat_line_only_mentions_a_dungeon_inside_one() -> void:
 	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd")
 	assert_true(source.contains("\"You are carried out of the dungeon.\" if Session.run != null else"))
+
+
+func test_gear_that_lowers_max_hp_is_not_a_zone_rule() -> void:
+	var glass: EquipmentData = EquipmentData.new()
+	glass.id = "test_glass_jaw"
+	glass.slot = EquipmentData.Slot.WEAPON
+	glass.rarity = EquipmentData.Rarity.COMMON
+	var penalty: Modifier = CardBuilder.modifier(Modifier.Kind.MAX_HP, -3)
+	penalty.label = "Glass Jaw"
+	glass.modifiers = [penalty] as Array[Modifier]
+	Session.profile.level = 20
+	Session.profile.max_hp = 21
+	for slot: Variant in EquipmentData.Slot.values():
+		Session.profile.unlock_equipment_slot(slot as EquipmentData.Slot)
+	Session.profile.owned_equipment.append(glass)
+	assert_true(Session.profile.equip(glass))
+	assert_eq(Session.usual_max_hp(), Session.profile.base_max_hp() - 3, "the piece costs max HP everywhere")
+	Session.begin_zone_visit(GainlandsZone.ID)
+	assert_eq(Session.zone_run.max_hp(), Session.usual_max_hp(), "the Gainlands has no max-HP rule of its own")
+	assert_eq(Session.hp_pool_notice(), "", "so no 'Max HP here' banner for gear")
+
+
+func test_an_npc_answers_from_beside_them_not_only_from_in_front() -> void:
+	var source: String = FileAccess.get_file_as_string("res://world/zone/zone_scene.gd")
+	assert_true(source.contains("var body: Vector3 = npc_body_position(spot)"), "the NPC's body counts for reach (Old Man Mountain, Spotless)")

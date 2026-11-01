@@ -43,7 +43,7 @@ func set_hp(hp: int, max_hp: int) -> void:
 	_label.text = "HP  %d / %d" % [hp, max_hp]
 	if Session.zone_run != null and Session.profile != null:
 		tooltip_text = "Max HP in this zone:\n" + "\n".join(Session.zone_run.run.hp_breakdown()) + "\nZone HP carries from fight to fight; leaving the zone restores it."
-		var base: int = Session.profile.base_max_hp()
+		var base: int = Session.usual_max_hp()  # gear included: "here" means this zone's rules only (Oct 31 - Nov 1)
 		_note.text = "Zone HP: no healing after battles." if max_hp == base else "Zone HP: no healing after battles. Max %d here (%+d, hover)." % [max_hp, max_hp - base]
 	_bar.max_value = max_hp
 	_bar.value = hp

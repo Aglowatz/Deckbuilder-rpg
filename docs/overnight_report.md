@@ -99,7 +99,10 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   `_triage.md`). **Fixes (9c3a0181)**: cutscenes keep running under a pause and block the pause menu while up (Primm's intro froze
   mid-line, only Esc answered), the Capital battle panel reads the real services (it said 4 of 4 broken from an empty dict), "carried out of
   the dungeon" only inside one. Second look: not run (the RC came first; see Part 8).
-- **Postgame critic**: playing.
+- **Postgame critic: 3.5/10** (55 min, 13 runs; `docs/review/fresh_eyes_postgame_oct31n.md`, triage `_triage.md`). **Fixes**: NPCs answer
+  from beside them, not only from the point in front (Old Man Mountain gave no prompt from his side - so Swolympus looked sealed; same for
+  Spotless); the zone HP panel and the HP banner no longer call gear "here" (the -7 was the expected L23 gear). Loose Ends quest / boss
+  tuning / freed-zone healing are design calls (inbox).
 
 ## Part 7 - v0.5.0 RC (done, not shared)
 
@@ -122,8 +125,13 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 |---|---|---|
 | Mid game (Part 4) | 4.8 | 5.5 |
 | Late game + ending (Part 6) | ~4.5 | (second look not run yet) |
+| Postgame (Part 6) | 3.5 | (second look not run yet) |
 
 ## Test suite (sharded, full)
+
+- Start (before tonight's changes): 2506/2507 passed, 1 pending, 0 failing (30 shards, 19 min).
+- After Parts 1-7 + the postgame fixes (Nov 1 03:47): **2540/2541 passed, 1 pending, 0 failing** (ui 194, audio 90, characters 4, root 287,
+  core 1534 + 1 pending, world 431).
 
 ## New dialogue lines proposed
 `docs/dialogue/new_lines_proposed_oct31.csv` (none yet).

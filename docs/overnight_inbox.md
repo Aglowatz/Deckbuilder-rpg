@@ -813,3 +813,6 @@ Report: `docs/overnight_report.md`. Most important first.
 11. **Captain Spotless with the gate open showed "[E] Talk" that opened nothing** for the late critic - not reproduced yet (Part 8 list).
 12. **The v0.5.0 RC is built** (`builds/TheWaywardPath-v0.5.0-windows.zip`, 762 MB) and not shared. I removed `builds/_export` (its unpacked
     copy) for disk space; any export re-makes it. The v0.4.9 zip is still beside it - delete it when you no longer need it (762 MB).
+13. **Postgame design calls (critic 3.5/10)**: a "Loose Ends" quest after the credits pointing at Swolympus, the Path-ology Lab and the
+    Arena (needs quest text: propose lines?); the expected L23 gear in the sim/bot costs 7 max HP (Glass Jaw Gauntlets + Crown of Mild
+    Hubris) - keep that in the reference profile?; freed zones keep "no healing after battles" (same HP call as 9).

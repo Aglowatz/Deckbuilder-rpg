@@ -1,0 +1,24 @@
+# Repro: no prompt beside Old Man Mountain in the freed Gainlands (postgame critic #2)
+wait 2
+dev load postgame_real
+wait 12
+dev travel zone beefcake
+wait 14
+skip_dialogue 10
+wait 1
+shot b01_arrive
+dump
+hold D 3
+hold W 4
+hold W 4
+wait 0.5
+shot b02_near
+dump
+hold S 0.4
+wait 0.5
+shot b03_front
+dump
+key E
+wait 1.5
+shot b04_e
+dump

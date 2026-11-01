@@ -43,7 +43,7 @@ func max_hp() -> int:
 ## Overnight Oct 30-31 (mid-game critic #2): where the max HP comes from, one line each: the level's base (with gear), then every rule or
 ## piece that changes it ("-5  Famine"), then the total.
 func hp_breakdown() -> Array[String]:
-	var lines: Array[String] = ["%d  your level and gear" % profile.base_max_hp()]
+	var lines: Array[String] = ["%d  your level" % profile.base_max_hp()]  # gear and items follow as their own lines (they are modifiers)
 	for modifier: Modifier in modifiers().modifiers:
 		if modifier.kind == Modifier.Kind.MAX_HP and modifier.value != 0:
 			lines.append("%+d  %s" % [modifier.value, modifier.label if modifier.label != "" else "a rule here"])
