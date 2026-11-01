@@ -131,5 +131,265 @@
 		"before": "The Alchemist's tri-Path crafting is unlocked (no tri-Path recipes exist yet).",
 		"after": "The Alchemist's cauldron now takes three Paths at once: brew their essence into a tri-Path card.",
 		"merged": true
+	},
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "...Cold. Leaves in my mouth. Great start.",
+		"after": "Ugh... Where am I? Who am I?"
+	},
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I reach for my name. Nothing. Not even the shape of one.",
+		"after": "I search for my name. For how I got here. But I find nothing."
+	},
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Two hands, one of them shaking. I'll start with the other one. ...And I'm not alone.",
+		"after": "I try to rise, but I am weak. A low groan escapes my mouth."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Easy. Stay down. Hands like ice, pulse like a rabbit's. We'll fix that later.",
+		"after": "Easy. Stay down. Gather what strength you have. I can't imagine its much after what they put you through."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "A friend. That's all I can give you, and it's already more than is safe.",
+		"after": "A friend. That's all I can say, there isn't much time."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Can you still fight, still draw on the Paths? Hold out your hand like you used to... never mind, just your hand.",
+		"after": "Can you still fight, still draw on the Paths? Hold out your hand."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Faint will do - it has to. Those torches on the ridge are looking for us.",
+		"after": "That will have to do. The path-ologists are hunting us."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.3::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Tell me: which Path resonates the strongest within you?",
+		"after": "Tell me: which Path resonates within you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "That one, then. Hold on to it, and it will hold on to you.",
+		"after": "That one, then. Cling to it. Hopefully you can walk the others again soon."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Hear that? They're close. I'll draw them off the other way. They know my face; let them chase it.",
+		"after": "Hear that? They're close, but they do not know of this place, few do."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "So you go on alone. Don't thank me. Thank me when you're somewhere with a roof. Go!",
+		"after": "You must escape. I'll draw them off the other way. I'll find you if I make it out."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.wanderer.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "...Gone, toward the torches. I never even asked their name.",
+		"after": "She's gone, and shes leading them away. By the way their shouting I do not want to be caught by them."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "The trees close up that way. The cave, then.",
+		"after": "The trees are too dense to pass through. To the cave."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Torches that way, cave this way. I'll take the one that isn't looking for me.",
+		"after": "Whoever that was said help would be waiting on the other side. Whatever is inside the cave seems like a better option than those path-ologists."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "...Hm. Woken. For this. Another of the little scavengers, I suppose.",
+		"after": "...Hm. Woken from my slumber."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "...No. Not that. You smell familiar. Like old stone, and cold nights, in a house I used to keep.",
+		"after": "It has been some time since anyone has walked this path."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "The house does not open for just anyone. ...Show me.",
+		"after": "No matter. Only one may pass, and he is long dead."
+	},
+	{
+		"id": "data/encounters/boss_intros.json::Hollow Warden/title::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "(name card)",
+		"before": "Keeper of the House",
+		"after": "Hollow Warden"
+	},
+	{
+		"id": "data/encounters/boss_intros.json::Hollow Warden/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "Hollow Warden",
+		"before": "...You smell familiar. Show me your hands.",
+		"after": "I shall perform my duty."
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::Hollow Warden/0/text::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "(battle UI)",
+		"before": "At half health the Warden wakes a little more: a 1/1 Cave Echo rises beside it.",
+		"after": "At half health the Warden wakes a little more: a Cave Echo rises beside it."
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::Hollow Warden/0/line::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "Hollow Warden",
+		"before": "...You hit like someone I knew. Small. Stubborn.",
+		"after": "What is that I sense in you? NO! You are not HIM!"
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::Hollow Warden/0/banner::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "(battle UI)",
+		"before": "A 1/1 Cave Echo rises beside the Warden.",
+		"after": "A Cave Echo rises beside the Warden."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "...Yes. The old walls do not lie. The spring at the end ran once. You would not remember.",
+		"after": "Let the Paths guide you."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "Go. The house is yours to leave. Someone is waiting at the far end with a kettle on.",
+		"after": "The light drains from the Warden's eyes."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I was told someone would come past the dry spring and that grumpy Warden. Nobody mentioned I'd need to wring them out.",
+		"after": "And look at the state of you! I said I'd help whoever she sends along, not take in a stray."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "This isn't trust, dearie. You could be anyone's spy, and whoever pushed you into that tunnel is reckless. I don't like reckless.",
+		"after": "I don't love being wrapped up in this. I told her not to go through with whatever she has planned."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "But a body in that state needs a bed, and I have far too much pie. Welcome to {town}. Questions later.",
+		"after": "But a body in that state needs a bed, and I have far too much pie. I can't just leave you out on your own, now can I?"
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.wanderer::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "...I don't remember who I am. Not sure I'm worth the bed.",
+		"after": "...I don't remember who I am, or where I am. I don't even know who rescued me."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren_end::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Hm. Then we start with tea and pie and work up from there.",
+		"after": "Hm. Well if you don't know then I'm not telling. There must be a reason she didn't give you her name. As for here, this is {town}. We solve everything here with cards. It looks like you already have a deck."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren_end::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "First, get yourself known. Say hello to Sable, Tilly and Pip on the square, and buy a card from Sable. Then come back and knock.",
+		"after": "If you really don't remember anything you might be here awhile. You should get aquainted with the townsfolk. Say hello to Sable, Tilly and Pip on the square, and buy a card from Sable. Then come back."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.wake::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "Beside you kneels someone hooded, very still, as if they have waited a long time.",
+		"after": "Beside you kneels someone hooded. They nudge you gently, then not so gently. You look up but cannot make out their face."
+	},
+	{
+		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing.",
+		"after": "Bertram Beetsworth, Assistant to the Regional Merchant."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.0::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Eat. Rest. Mind the questions you ask out loud, dearie. This town has ears.",
+		"after": "I don't know who you are, but I can't turn away someone in need. And you are definitely in need."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.0::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "And stop staring at my stick. Four little carvings in a ring, older than you, and none of your business.",
+		"after": "You can have as much pie as you like, but don't go stealing my recipe."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You are warmer than you were. Don't mistake me, dearie, I am still watching you. The watching is free.",
+		"after": "I sense something within you that wasn't there before. I trust the Paths to guide you."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.1::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "My pie recipe is pinned by the door, in my own hand. Round letters, careful loops. Copy it if you like. Smudge it and I will know.",
+		"after": "Have you found answers to any of your questions? I can't deny, I am intrigued despite my better judgment ."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "So. You're the one they sent through the old tunnel. Kettle's been on since noon.",
+		"after": "Hmph... about time you showed up. {villain}'s soldiers have been out and about today.",
+		"hand_edit": "designer line with {villain} for the literal Primm"
 	}
 ]

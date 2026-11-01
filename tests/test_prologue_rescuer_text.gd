@@ -1,7 +1,7 @@
 extends GutTest
 ## Oct 20, Part 2: the Rescuer's opening conversation carries the requested beats - the Wanderer asks "...Who are you?", the question
-## "Tell me: which Path resonates the strongest within you?", the cave leads to town where someone waits, the pursuers are close and the
-## Rescuer draws them away so the Wanderer goes on alone; no line about carrying only one Path.
+## "Tell me: which Path resonates within you?" (the designer's Oct 31 wording), the cave leads to town where someone waits, the pursuers
+## are close and the Rescuer draws them away so the Wanderer escapes; no line about carrying only one Path.
 
 
 func _joined(key: String) -> String:
@@ -13,15 +13,15 @@ func test_the_wanderer_asks_who_the_rescuer_is() -> void:
 
 
 func test_the_path_question_is_asked_word_for_word() -> void:
-	assert_string_contains(_joined("prologue.rescuer.3"), "Tell me: which Path resonates the strongest within you?")
+	assert_string_contains(_joined("prologue.rescuer.3"), "Tell me: which Path resonates within you?")
 
 
-func test_the_send_off_names_the_cave_the_town_the_pursuers_and_going_alone() -> void:
+func test_the_send_off_names_the_cave_the_town_the_pursuers_and_the_escape() -> void:
 	var text: String = _joined("prologue.rescuer.4")
 	assert_string_contains(text, "Forgotten Cave")
 	assert_string_contains(text, "waiting for you")
 	assert_string_contains(text, "draw them off")
-	assert_string_contains(text, "alone")
+	assert_string_contains(text, "escape")
 
 
 func test_no_line_says_the_wanderer_can_carry_only_one_path() -> void:

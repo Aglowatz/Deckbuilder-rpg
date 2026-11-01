@@ -9,8 +9,8 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the Warden wakes a little more: a 1/1 Cave Echo rises beside it.",
-			"line": "...You hit like someone I knew. Small. Stubborn.",
+			"text": "At half health the Warden wakes a little more: a Cave Echo rises beside it.",
+			"line": "What is that I sense in you? NO! You are not HIM!",
 			"effects": [
 				{
 					"kind": "summon",
@@ -20,7 +20,7 @@
 					"token_keywords": []
 				}
 			],
-			"banner": "A 1/1 Cave Echo rises beside the Warden."
+			"banner": "A Cave Echo rises beside the Warden."
 		}
 	],
 	"town:npc:beefcake": [

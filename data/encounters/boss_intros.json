@@ -1,8 +1,8 @@
 {
 	"_about": "Overnight Oct 23, Part 3: the short skippable entrance before a boss, lieutenant or gatekeeper battle (BossIntro, ui/battle/boss_intro.gd). Key = the battle's enemy name as the battle shows it (for 'Name, Title' and 'Name - Phase' names the part before the separator also matches). title = the line under the name card (default: the part after ', '), line = the opening line, sting = an STG- music sting id, path = the accent colour (beefcake/necrocrat/gourmand/refusemancer/regime/neutral).",
 	"Hollow Warden": {
-		"title": "Keeper of the House",
-		"line": "...You smell familiar. Show me your hands.",
+		"title": "Hollow Warden",
+		"line": "I shall perform my duty.",
 		"sting": "STG-DUNGEON",
 		"path": "neutral"
 	},

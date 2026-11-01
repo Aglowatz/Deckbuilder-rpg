@@ -6,11 +6,9 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 ## Dialogue critic pass (Oct 31) - ANSWERED Oct 31 (evening)
 
-All 14 answered; what was done: `docs/dialogue/fixes_oct31/README.md`. Still open:
-- **Apply your 37 rewrites?** They are typed over Current line in the sheet and are not in the game yet. 36 pass the importer;
-  `cave_mouth.maren::0` spells "Primm" (Y on its critic row swaps in {villain}). Applying them changes two tested beats
-  (`tests/test_prologue_rescuer_text.gd`: "which Path resonates the strongest within you?" and "alone"), so the test follows your text.
-  Say "apply" (with or without the accepted critic rows).
+All 14 answered; what was done: `docs/dialogue/fixes_oct31/README.md`. The designer's 37 rewrites were applied Oct 31 (36 by the importer,
+`cave_mouth.maren::0` by hand with {villain} for the literal Primm). Still open: the 12 "designer line" typo fixes and the 205 other
+suggestions wait for a Y in the sheet's Accept (Y) column.
 
 The original questions, for reference:
 
