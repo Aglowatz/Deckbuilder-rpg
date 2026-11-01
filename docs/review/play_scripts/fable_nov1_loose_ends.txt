@@ -1,0 +1,92 @@
+# Fable pass Nov 1, Part 8: the Loose Ends quest in play - given in the postgame (the story bot's save), its four steps in order, the reward.
+# A boss node: one click opens its intro lines (skip_dialogue walks through them into the auto-won fight), Continue, the rewards.
+wait 2
+dev load postgame_real
+wait 12
+dev autowin on
+# step 1: Mount Swolympus's boss
+dev travel dungeon S-BEEF -2
+wait 10
+click 1220 178
+wait 2
+skip_dialogue 20
+wait 2
+button Continue
+wait 6
+dev win
+wait 5
+button Continue
+wait 4
+dump
+button Take
+wait 2
+button Continue
+wait 2
+button Skip card
+wait 2
+button Continue
+wait 2
+skip_dialogue 30
+wait 2
+scene
+# step 2: Rip at the Rift Station in Crosspath
+dev travel town
+wait 12
+key E
+wait 1
+hold S 0.9
+wait 0.4
+hold D 1.4
+wait 0.3
+scene
+key E
+wait 2
+skip_dialogue 12
+wait 1
+# step 3: the Lab's boss
+dev travel dungeon D-LAB -2
+wait 10
+click 1350 178
+wait 2
+skip_dialogue 20
+wait 2
+button Continue
+wait 6
+dev win
+wait 5
+button Continue
+wait 4
+dump
+button Take
+wait 2
+button Continue
+wait 2
+button Skip card
+wait 2
+button Continue
+wait 2
+skip_dialogue 30
+wait 2
+scene
+# step 4: the first arena bout
+dev travel arena
+wait 10
+click 1475 285
+wait 6
+dev win
+wait 5
+button Continue
+wait 3
+button Continue
+wait 3
+skip_dialogue 10
+wait 2
+scene
+dev travel town
+wait 12
+key E
+wait 1
+key J
+wait 2
+shot 06_quest_done
+dump

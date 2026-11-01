@@ -79,11 +79,38 @@ section "Fable pass Nov 1". Last run's report: `docs/overnight/oct31n/overnight_
   the hero shows through it as an x-ray silhouette (`WorldSprite.set_silhouette`, shown while the card's screen rectangle covers the figure).
 - **Starter study** (`docs/design/sim/starter_nov1.md`): 45 / 35 / 30 cards at the same ratios - cave 88 / 92 / 96 %, first zone 85 / 89 / 87 %.
   **Recommendation: 35 cards (15 basics)** - same strength, each reward pick a third more of the deck; not applied.
-- **Critic 12 (first hour, fresh, worktree)**: CRITIC_RESULT
+- **Critic 12 (first hour, fresh, worktree)**: **5.7 / 10** (last night's first-hour critic: 5.0). Report `docs/review/fresh_eyes_firsthour_nov1.md`, 57 shots in
+  `fresh_eyes_firsthour_nov1/`. Scores: hook 4, clarity 6, pacing 3, combat 6, deck building 6, reward rhythm 7, exploration 5, story 6,
+  visuals 7, UI/UX 4, performance 6, bugs 5. Its top 5: duels of 7-16 turns against 3-4 HP foes (the critic's pilot: 13 turns; the teaching
+  hand was dealt - shot c12f_01 - and the sim player wins in 4), 22 taps of exposition before the Path choice, the cave path on foot, tutorial
+  modals stacking, inconsistent popup keys. **Fixed**: a tip never opens over a confirm dialog; the Victory banner holds solid until the result
+  panel (it was caught mid-fade behind the last card); a click on the field clears a stale card tooltip; the quest log's empty state hides its
+  blank panel. **Yours** (inbox 6): the opening's length, the Path screen's readability, a "How a turn works" card, hand card text size, the
+  Deck Station's locked slots, the forest path, Esc over a battle. No second look was run (the three Part 8 critics take the time).
 
 ## Part 7 - The yes-to-all list
 
-PART7_RESULT
+All done, tested in GUT (core 1564, ui 196, world 431 green) except where noted (commit 33dc7eeb):
+
+- **Click an NPC to walk there and talk**: a click on any named spot's marker out of reach walks the hero to it (`TownPlayer.walk_to`; any
+  key cancels; 6 s give-up) and talks on arrival, in Crosspath and every zone. Not yet exercised by a critic.
+- **Boss card picks 2 of 3 on-Path or Colorless**: the first two slots always fit (`RewardPicks.fits_own`); the third may be the chase card.
+- **Decline on deck-test events**: "Leave it (no test)" under Reveal passes the node with nothing won or lost.
+- **E on the boss pick highlights the rarest card** (the middle among equals).
+- **One Victory popup, no leftover "Next turn" banner**: `_result_shown` guards the two paths to the result; the script banner's warning is
+  cleared when the fight ends.
+- **Draw-call budget** re-based: Crosspath Medium 840 -> 890 (874 measured Oct 31).
+- **HeapLayout cached as data**: `HeapLayout.build_cached` (snapshot / restore of its peaks, chutes, ramps, bridges, props, signs, areas,
+  spots): 641 -> 117 ms; the Dump walk smoke passes cold and warm.
+- **Captain Spotless "[E] Talk opens nothing"**: not reproduced; my walk from the Crease ladder to his post hit a wall south of the manhole
+  twice and I stopped (the critic's late-game run will pass him again).
+- **The Lab's -5 max life on the map HUD**: Specimen Conditions rides the run from entry (the map shows 10/10 of 15), battles no longer add it a
+  second time (test).
+- **The Intake Corridor's foe** is the "Intake Orderly" (Bestiary and request list follow).
+- **Arena first-clear prizes** scale with the level over the tier's expected level (a L24 player at tier 1: 90 -> 270 gold), never below print.
+- **Typo sweep** (`node tools/typo_sweep.js`): the sheet's 4203 lines and 638 scripts' prose strings - no misspellings; 5 frozen-line fixes for
+  you in `docs/dialogue/typo_fixes_nov1.csv` (three double spaces, "judgment .", one "color" in the Lab against 17 "colour"); the UI's double
+  spaces are deliberate spacing ("HP  12 / 15") and were left.
 
 ## Part 8 - Verify + build
 

@@ -198,6 +198,8 @@ func _scene_info() -> void:
 	# Fable pass Nov 1: in a zone, where the hero stands and the spots within 4 m (their distance and E reach), so a walk script can be aimed.
 	if scene is ZoneScene:
 		_say("  " + (scene as ZoneScene).where_am_i())
+	elif scene is TownScene:
+		_say("  " + (scene as TownScene).where_am_i())
 
 
 func _find_battle() -> BattleScreen:

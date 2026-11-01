@@ -1326,6 +1326,17 @@ func _screen_pos_of(spot: Spot) -> Vector2:
 	return _camera.unproject_position(spot.marker.position)
 
 
+## Fable pass Nov 1 (the play driver's `scene` line): the hero's position and every spot within 6 m with its distance and E reach.
+func where_am_i() -> String:
+	var pos: Vector3 = player.position
+	var parts: PackedStringArray = []
+	for spot: Spot in spots:
+		var distance: float = Vector2(pos.x - spot.position.x, pos.z - spot.position.z).length()
+		if distance < 6.0:
+			parts.append("%s %.1f/%.1f at (%.1f, %.1f)" % [spot.id, distance, spot.radius * StorybookScale.INTERACT_FACTOR, spot.position.x, spot.position.z])
+	return "hero at (%.1f, %.1f); near: %s; E -> %s" % [pos.x, pos.z, ", ".join(parts) if not parts.is_empty() else "nothing", _near.id if _near != null else "-"]
+
+
 ## Fable pass Nov 1 (Part 7): the named spot whose marker is under `screen_pos` (within CLICK_PICK_RADIUS; the closest wins), or null.
 var _auto_spot: Spot
 

@@ -1,0 +1,18 @@
+wait 2
+dev load postgame_real
+wait 12
+dev autowin on
+dev travel dungeon S-BEEF -2
+wait 10
+shot 01_map
+move 1220 178
+wait 0.5
+click 1220 178
+wait 1.5
+shot 02_click1
+dump
+click 1220 178
+wait 4
+shot 03_click2
+dump
+scene
