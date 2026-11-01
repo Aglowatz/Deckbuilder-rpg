@@ -1,0 +1,36 @@
+wait 2
+dev load midgame_real
+wait 12
+key B
+wait 3
+button Got it
+wait 1
+button New
+wait 1.5
+shot 01_new_filter
+dump
+button Any
+wait 1
+button Gourmand
+wait 1.5
+shot 02_gourmand
+button All colors
+wait 1
+move 240 380
+wait 1.2
+shot 03_hover_card
+button Suggest a deck
+wait 2
+shot 04_suggest
+dump
+key Escape
+wait 1.5
+shot 05_esc
+dump
+key Escape
+wait 1.5
+key T
+wait 2
+shot 06_wardrobe
+key Escape
+wait 1

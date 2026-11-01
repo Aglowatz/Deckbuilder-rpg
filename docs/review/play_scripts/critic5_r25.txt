@@ -1,0 +1,30 @@
+wait 2
+dev load midgame_real
+wait 12
+dev autowin on
+dev travel dungeon D-TTK -2
+wait 10
+click 1364 215
+wait 3
+key E
+wait 3
+key E
+wait 3
+shot 01_cut
+dump
+key Space
+wait 3
+shot 02_cut2
+dump
+key Escape
+wait 1.5
+button Skip
+wait 3
+button Continue
+wait 8
+shot 03_boss_aw
+dump
+button Continue
+wait 3
+shot 04_boss_reward
+dump

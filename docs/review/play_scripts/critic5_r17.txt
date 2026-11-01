@@ -1,0 +1,17 @@
+wait 2
+dev load midgame_real
+wait 12
+dev travel dungeon D-ROT
+wait 10
+shot 01_rot_map
+dump
+key R
+wait 1.5
+shot 02_rot_rules
+dump
+key Escape
+wait 1
+dev travel dungeon D-ROT -2
+wait 10
+shot 03_rot_preboss
+dump

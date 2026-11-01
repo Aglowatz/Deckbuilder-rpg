@@ -1,0 +1,41 @@
+wait 2
+dev load midgame_real
+wait 12
+hold D 9
+hold W 2.2
+click 776 500
+wait 3
+shot 01_clickfenwick
+dump
+skip_dialogue 4
+shot 02_shop
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+dev travel zone gourmand
+wait 10
+shot 03_buffet_arrive
+dump
+skip_dialogue 10
+shot 04_buffet
+dump
+key M
+wait 2
+shot 05_buffet_map
+click 1358 493
+wait 1
+shot 06_buffet_whereto
+dump
+key Escape
+wait 1
+hold W 4
+shot 07_walk1
+dump
+hold W 4
+shot 08_walk2
+dump
+hold W+D 4
+shot 09_walk3
+dump

@@ -1,0 +1,32 @@
+wait 2
+dev load midgame_real
+wait 12
+key P
+wait 2
+button Got it
+click 882 405
+wait 2
+click 800 420
+wait 2
+click 545 415
+wait 1.5
+click 800 415
+wait 1.5
+click 1055 415
+wait 2
+shot 01_reveal
+dump
+click 800 415
+wait 2
+shot 02_after
+dump
+click 1548 55
+wait 1.5
+shot 03_back
+key M
+wait 2
+shot 04_map
+click 1358 456
+wait 1.5
+shot 05_whereto
+dump

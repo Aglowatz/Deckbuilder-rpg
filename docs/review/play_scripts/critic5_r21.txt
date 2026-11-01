@@ -1,0 +1,21 @@
+wait 2
+dev load midgame_real
+wait 12
+dev travel dungeon D-TTK
+wait 10
+click 398 650
+wait 2
+button Continue
+wait 6
+button Keep Hand
+wait 3
+button Skip tips
+wait 1
+drag 440 790 800 520
+wait 2
+key Space
+wait 2
+key Space
+wait 8
+shot 01_t2
+dump

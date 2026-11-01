@@ -1,0 +1,21 @@
+wait 2
+dev load midgame_real
+wait 12
+dev travel dungeon D-TTK
+wait 10
+click 398 650
+wait 2
+button Continue
+wait 6
+pilot 240
+wait 2
+shot 01_result
+dump
+button Continue
+wait 3
+shot 02_reward
+dump
+skip_dialogue 6
+wait 2
+shot 03_map_after
+dump

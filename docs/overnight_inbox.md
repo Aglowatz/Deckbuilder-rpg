@@ -793,3 +793,12 @@ Report: `docs/overnight_report.md`. Most important first.
    whole-scene baking" decision) and the Dump's `HeapLayout.build` (641 ms). Next lever if you want it: cache `HeapLayout` as data.
 8. **Locked gear slots print "Opens: armory quest"** above each padlock (all five open together with Bertram's quest). Long names on the
    battle plate shrink to 10 px when they have three words ("Colonel Cornelius Crumb"); the full name is in the plate's tooltip.
+9. **Mid-game design calls from the critic (4.8/10)** - none applied; each is yours:
+   - **HP and healing**: 16 HP at L13 with no healing after battles anywhere, freed zones included. Options: freed zones heal after each
+     battle; or partial heals (30-50 %) after dungeon fights; or +1-2 max HP per level. The critic's #1.
+   - **Boss tempo**: the Doppelganger and Compostella killed the (weak) pilot on turns 5-6 before their scripted phases showed. Sims put
+     the Doppelganger at 25 % with the built deck (TOO HARD band); Compostella's every-turn "Wild Growth" buff stacked a Possum to 8/10.
+     Options: a 1-3 turn setup window for bosses, a cap on Wild Growth stacks, or a Doppelganger tune (Oct 23 lesson: HP alone moves little).
+   - **XP per fight** (~15 fights a level at L13; the Oct 30 step table). Option: a dungeon-clear XP bonus rather than per-fight XP.
+   - **Click an NPC to walk there and talk**; **Rift Station unlocks as a toast** instead of Rip's dialogue box (his lines are frozen);
+     **"Open all" packs**; **boss card picks weighted 2-of-3 on-Path or Colorless**; **a decline option on deck-test events**.

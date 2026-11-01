@@ -1,0 +1,16 @@
+wait 2
+dev load midgame_real
+wait 12
+dev travel dungeon D-TTK
+wait 10
+shot 01_ttk_enter
+dump
+skip_dialogue 3
+shot 02_ttk_map
+dump
+key R
+wait 1.5
+shot 03_rules
+dump
+key Escape
+wait 1

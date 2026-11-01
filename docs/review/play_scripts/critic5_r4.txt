@@ -1,0 +1,36 @@
+wait 2
+dev load midgame_real
+wait 12
+key M
+wait 2
+click 1358 456
+wait 1.5
+shot 01_whereto
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+hold A 3
+wait 0.5
+shot 02_west
+dump
+hold A 3
+shot 03_west2
+dump
+hold D 6
+hold D 3
+shot 04_east
+dump
+hold D 3
+shot 05_east2
+dump
+hold W 3
+shot 06_north
+dump
+hold S 8
+shot 07_south
+dump
+key M
+wait 2
+shot 08_map

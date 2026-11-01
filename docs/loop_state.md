@@ -17,10 +17,10 @@ Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0
 | 1d | Spotless pacing, first-view Esc confirm, Doppelganger reveal name, feats re-check on load, boss plate wrap | done |
 | 2 | music overlap fix + re-render all | done (509d532f) |
 | 3 | perf | partial (83329b97): frame budget done, loading measured not cached |
-| 4 | mid-game critic cycle | critic playing in worktree /c/Dev/wp_critic (HEAD 3a2cbaf5, .godot hard-linked); report -> docs/review/fresh_eyes_midgame_oct31n.md; brief critic_brief_midgame_oct31n.md |
+| 4 | mid-game critic cycle | first 4.8, fixes df634833, second-look critic running (report fresh_eyes_midgame_oct31n_second.md); then write docs/review/midgame_cycle_oct31n.md |
 | 5 | UX wish list + boss stall AI | done (3a2cbaf5) except D.N.A. lobby dressing |
 | 6 | late-game + postgame critic cycles | todo |
 | 7 | v0.5.0 RC | todo |
 | 8 | keep improving | todo |
 
-Next: when the critic reports: triage -> top ~10 fixes -> second look (fresh critic, same save). Then Part 6 (late + postgame saves via story bot). Remove the worktree after the critics (git worktree remove /c/Dev/wp_critic --force).
+Next: after the second look: write midgame_cycle_oct31n.md, then Part 6: story bot --snapshot_after=4 --snapshot=lategame_real, then =5 postgame_real; critics with critic_brief_lategame/postgame_oct31n.md (copy the brief into the worktree, move it to HEAD).

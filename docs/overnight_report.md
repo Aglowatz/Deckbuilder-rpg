@@ -57,7 +57,16 @@ Details: `docs/perf/perf_oct31n.md`.
   decision) and `HeapLayout.build` (641 ms, needs serialising ~15 object kinds): logged as the next lever, not done tonight.
 
 ## Part 4 - Mid-game critic cycle
-(todo)
+
+Full write-up: `docs/review/midgame_cycle_oct31n.md` (made at the end of the cycle). Save: `midgame_real` (story bot, Oct 30-31: cave,
+Maren's chain, the Gainlands and the D.N.A. freed with their dungeons, L13 expected deck/gear). Critics play from a worktree at the last
+commit (`/c/Dev/wp_critic`, import cache hard-linked: no extra disk).
+- **First critic: 4.8/10** (52 min, 28 runs; `docs/review/fresh_eyes_midgame_oct31n.md`). Triage: `docs/review/fresh_eyes_midgame_oct31n_triage.md`.
+- **Fixes (df634833)**: the "frozen" boss intro (clicks on the cutscene's text panel were swallowed), energy codes in plain tooltips,
+  "units and spells", Esc closes the topmost Deck Station popup first, deck-test events state the test and your odds before the reveal
+  ("the well stays silent" only at the well), "Where to?" names every place (revealed or not) and pings it through the fog, empty-filter
+  note, the Rotheart's "Overgrowth" renamed "Wild Growth", toasts wait while a reward pick is up, a "X is free" banner in freed zones.
+- **Second look**: running.
 
 ## Part 5 - UX wish list + boss stall AI (done except the D.N.A. lobby dressing)
 
