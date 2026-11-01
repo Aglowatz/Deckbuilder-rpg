@@ -195,6 +195,9 @@ func _scene_info() -> void:
 		if Session.zone_run != null:
 			state += ", run hp %d/%d" % [Session.zone_run.hp, Session.zone_run.max_hp()]
 	_say("  scene %s (%s); %s" % [scene.name if scene != null else "-", scene.get_class() if scene != null else "-", state])
+	# Fable pass Nov 1: in a zone, where the hero stands and the spots within 4 m (their distance and E reach), so a walk script can be aimed.
+	if scene is ZoneScene:
+		_say("  " + (scene as ZoneScene).where_am_i())
 
 
 func _find_battle() -> BattleScreen:

@@ -437,7 +437,8 @@ func _label_spot(spot: ZoneSpot, marker: Node3D) -> void:
 		kind = "vendor"
 	elif (spot.kind.contains("quest") or bool(spot.data.get("quest", false))) and kind == "npc":
 		kind = "quest"
-	var text: String = NpcLabels.text_for(npc_id, spot.title) if not npc_id.is_empty() else spot.title
+	# Fable pass Nov 1: a spot NPC without a list id shows its short title ("Nurse Hesper Dray"), like a list NPC shows its short name.
+	var text: String = NpcLabels.text_for(npc_id, spot.title) if not npc_id.is_empty() else NpcLabels.short_title(spot.title)
 	if kind == "vendor" and not text.contains(" - "):
 		text = "%s - Shop" % spot.title
 	_labels().register(marker, text, kind, kind != "npc", 0.3, spot.id)
@@ -980,6 +981,20 @@ func _update_camera(delta: float) -> void:
 const SIGN_YIELD: float = 3.0
 
 
+## Fable pass Nov 1 (the play driver's `scene` line): the hero's position and every spot within 4 m with its distance and E reach.
+func where_am_i() -> String:
+	var pos: Vector3 = player.position
+	var parts: PackedStringArray = []
+	for spot: ZoneSpot in spots:
+		var distance: float = Vector2(pos.x - spot.position.x, pos.z - spot.position.z).length()
+		var body: Vector3 = npc_body_position(spot)
+		if body.x < 1.0e8:
+			distance = minf(distance, Vector2(pos.x - body.x, pos.z - body.z).length())
+		if distance < 4.0:
+			parts.append("%s %.1f/%.1f at (%.1f, %.1f)" % [spot.id, distance, spot.radius * StorybookScale.INTERACT_FACTOR, spot.position.x, spot.position.z])
+	return "hero at (%.1f, %.1f); near: %s; E -> %s" % [pos.x, pos.z, ", ".join(parts) if not parts.is_empty() else "nothing", _near.id if _near != null else "-"]
+
+
 ## The spot E would use from `pos`: the closest one in reach; a sign counts as SIGN_YIELD farther, so it never steals the E from a spot beside it.
 func _nearest_spot(pos: Vector3) -> ZoneSpot:
 	var best: ZoneSpot = null
@@ -1517,7 +1532,7 @@ func _on_enemy_touched(enemy: ZoneEnemy) -> void:
 	if enemy.info.kind == ZoneEnemyInfo.Kind.DAMAGE:
 		if _invulnerable > 0.0:
 			return
-		hit_player(enemy.info.damage, enemy.position, "knocked flat by a %s" % enemy.info.display_name)
+		hit_player(enemy.info.damage, enemy.position, "knocked flat by a %s" % enemy.info.display_name, "roamer", "A %s" % enemy.info.display_name)
 		Session.bestiary_meet(enemy.info.display_name)  # Part 10: roamers that never fight are met by touch
 		enemy.retreat_from(player.position, ZoneEnemies.RETREAT_TIME)
 		return
@@ -1548,13 +1563,15 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 
 ## Damage to the persistent zone HP: flash, shake, HUD update, knockback and a short
 ## invulnerability window. At 0 HP the player faints and wakes at the hub.
-func hit_player(amount: int, from: Vector3, cause: String = "knocked flat") -> void:
+## Fable pass Nov 1 (Part 1): `source_key` / `source_name` let the toast name what hit you when the zone has an `fx.hit_<source_key>` line
+## (the Capital: a rift, a named roamer); zones without one keep their plain `fx.hit` line.
+func hit_player(amount: int, from: Vector3, cause: String = "knocked flat", source_key: String = "", source_name: String = "") -> void:
 	var run: ZoneRun = Session.zone_run
 	run.damage(amount)
 	_invulnerable = ZoneEnemies.HIT_COOLDOWN
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	Audio.sfx(&"hero_hurt")
-	hud.toast(story.text("fx.hit"), Color("ff8a85"))
+	hud.toast(story.hit_text(amount, source_key, source_name), Color("ff8a85"))
 	_flash.color.a = 0.38
 	create_tween().tween_property(_flash, "color:a", 0.0, 0.45)
 	_floating_text("-%d" % amount, Color("ff6a60"))

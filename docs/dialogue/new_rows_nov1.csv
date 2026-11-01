@@ -1,0 +1,3 @@
+ID,Zone/Area,Speaker,When it's heard,Line
+"data/story/capital_story.tres::fx.hit_rift::0","Capital","(toast)","Walking into an open rift in the Capital (replaces the plain 'Ow! The Capital has hurt you again.' for rifts)","A rift tears at you as you pass. The Capital has no record of it. (-%d HP)"
+"data/story/capital_story.tres::fx.hit_roamer::0","Capital","(toast)","A damaging roamer (Tidy-Bot, Shard Swarm...) touches you in the Capital; %s is its name","%s knocks you flat. Please remain orderly. (-%d HP)"

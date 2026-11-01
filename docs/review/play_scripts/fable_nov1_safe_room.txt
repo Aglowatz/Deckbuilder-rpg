@@ -1,0 +1,20 @@
+# Fable pass Nov 1, Part 1: Primm's Castle's Resistance Safe Room (a full heal on the critical path) in play.
+wait 2
+dev newgame
+wait 6
+dev travel dungeon D-PC 6
+wait 10
+scene
+shot 01_map
+dump
+button Got it
+wait 0.5
+click 1032 535
+wait 2.5
+shot 02_room
+dump
+button Rest
+wait 1.5
+shot 03_rested
+dump
+scene

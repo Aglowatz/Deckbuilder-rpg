@@ -388,7 +388,7 @@ func _rift_contact() -> void:
 			_shake = maxf(_shake, 0.35 if distance < float(entry["radius"]) + 1.0 else 0.12)
 	if touching.is_empty() or _invulnerable > 0.0:
 		return
-	hit_player(CapitalRifts.damage_of(touching), Vector3(float(touching["x"]), 0.0, float(touching["z"])), "torn apart by a rift")
+	hit_player(CapitalRifts.damage_of(touching), Vector3(float(touching["x"]), 0.0, float(touching["z"])), "torn apart by a rift", "rift", "a rift")
 
 
 func _track_progress() -> void:

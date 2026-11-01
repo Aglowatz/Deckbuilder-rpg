@@ -24,6 +24,8 @@ lines = {
 "fx.heal_couch": ["Nurse Hesper hands you a cup of the Tea of Dissent. It is strong, bitter and entirely unapproved. HP restored."],
 "fx.heal_already": ["You are already at full HP. Nurse Hesper hands you a cup anyway. 'Dissent,' she says, 'is good for the circulation.'"],
 "fx.hit": ["Ow! The Capital has hurt you again. (-HP)"],
+"fx.hit_rift": ["A rift tears at you as you pass. The Capital has no record of it. (-%d HP)"],
+"fx.hit_roamer": ["%s knocks you flat. Please remain orderly. (-%d HP)"],
 "fx.wake": ["You wake up on a cot in the Crease. Nurse Hesper Dray is writing on a clipboard that, you notice, is blank on purpose.", "'Dragged you in by the collar. Correction fee is yours. Drink. Then we can discuss your habit of arriving unconscious.'"],
 "fx.wake.freed": ["You wake up on a cot in the Crease. Nurse Hesper Dray is writing on a clipboard. It says 'NOTES', and then, in small letters, 'finally'.", "'Fell over. We rolled you in. Fee is yours. Drink the tea while it is hot; freedom hasn't changed that part.'"],
 "fx.wake_outside": ["You wake in the dust outside the Approved Gate. A guard leans over you, measuring your height with a long stick.", "'Falling in the approved queue area: minor offence. Fine payable. Stand up, citizen. I cannot measure you along the ground.'"],

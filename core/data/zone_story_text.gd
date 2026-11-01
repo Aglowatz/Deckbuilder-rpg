@@ -74,6 +74,16 @@ func text(key: String) -> String:
 	return "\n".join(get_lines(key))
 
 
+## Fable pass Nov 1 (Part 1): the toast for a hit to the zone HP names what hit you when the zone has a line for that source:
+## `fx.hit_<source_key>` with `%s` for the source's name and `%d` for the HP lost ("fx.hit_rift", "fx.hit_roamer"); otherwise the zone's
+## plain `fx.hit` line, as before.
+func hit_text(amount: int, source_key: String = "", source_name: String = "") -> String:
+	var key: String = "fx.hit_%s" % source_key
+	if source_key.is_empty() or not lines.has(key):
+		return text("fx.hit")
+	return text(key).replace("%s", source_name).replace("%d", str(amount))
+
+
 static var _shared: ZoneStoryText
 static var _by_zone: Dictionary = {}
 

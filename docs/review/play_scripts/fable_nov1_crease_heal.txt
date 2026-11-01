@@ -1,0 +1,25 @@
+# Fable pass Nov 1, Part 1: the Crease's healer (Nurse Hesper Dray, the Tea of Dissent) in play.
+# From the spawn (22,116): slip between the map table and the pillar, walk to the north wall, step right under the banner, back off to her.
+wait 2
+dev newgame
+wait 6
+dev flag cap_hub_known
+dev flag cap_inside
+dev travel capital
+wait 12
+key E
+wait 1
+scene
+hold A 0.6
+hold W 4.5
+hold D 0.7
+hold S 2.2
+wait 0.4
+scene
+shot 01_nurse
+dump
+key E
+wait 0.6
+shot 02_tea
+dump
+scene

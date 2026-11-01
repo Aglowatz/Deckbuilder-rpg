@@ -173,7 +173,10 @@ static func _spots() -> Array[Dictionary]:
 	spots.append(_spot("wren", "Wren, Resistance Leader", "wren", Vector3(0, 0, 1.0), 1.8, "Talk", "zone", {"npc": "wren", "npc_id": "NPC-WREN", "speaker": "Wren", "act": "wren"}))
 	spots.append(_spot("fig", "Fig Sly's Contraband & Curiosities", "fig", Vector3(0, 0, 1.0), 1.8, "Browse the black market", "vendor_npc", {"npc": "fig", "npc_id": "V-FIGSLY", "npc_name": NPC_FIG, "speaker": "Fig Sly"}))
 	spots.append(_spot("fig_crate", "Fig's Crate of Supplies", "fig_crate", Vector3(0, 0, 0.0), 1.8, "Buy supplies", "zone", {"act": "supplies"}))
-	spots.append(_spot("heal", "The Tea of Dissent", "heal", Vector3(0, 0, 1.0), 1.8, "Take a cup of the Tea of Dissent (full heal)", "heal"))
+	# Fable pass Nov 1 (Part 1, the designer: no healing after battles in freed zones, a full heal at the Crease): the nurse is the Capital's
+	# healer, named like one on her label and the map (the spot was already a full heal; the critics never found it). `npc` makes her body
+	# count for the E reach and gives her a floating name (a hero at her side got no prompt: the spot sat in front of her).
+	spots.append(_spot("heal", "Nurse Hesper Dray, the Tea of Dissent", "heal", Vector3(0, 0, 1.0), TownScene.VENDOR_REACH, "Take a cup of Nurse Hesper's Tea of Dissent (full heal)", "heal", {"npc": "hesper"}))
 	spots.append(_spot("ladder_up", "The Ladder (to the Reek)", "ladder_up", Vector3(0, 0, 0.0), 1.6, "Climb the ladder up to the Capital", "zone", {"act": "ladder"}))
 	spots.append(_spot("tunnel_out", "The Old Joint Works Tunnel", "tunnel_out", Vector3(0, 0, 0.0), 1.8, "Crawl out through the tunnel to the Outskirts", "zone", {"act": "tunnel_out"}))
 	for destination: String in CapitalLayout.NETWORK_DESTINATIONS:
