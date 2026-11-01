@@ -833,7 +833,7 @@ func _apply_pending_result() -> void:
 
 func _add_service_panel() -> void:
 	var services: int = CapitalDebuffs.active(Session.flags).size()
-	hud.add_panel(HudChip.wrap("capital_services", "Broken services: %d of 4" % services, ServiceDebuffsPanel.BAD if services > 0 else ServiceDebuffsPanel.GOOD, ServiceDebuffsPanel.make(Session.flags), "Each freed zone restores one service (click for details)"))
+	hud.add_panel(HudChip.wrap("capital_services", "Services restored: %d of 4" % (4 - services), ServiceDebuffsPanel.BAD if services > 0 else ServiceDebuffsPanel.GOOD, ServiceDebuffsPanel.make(Session.flags), "Each freed zone restores one service (click for details)"))
 
 
 func _update_objective() -> void:

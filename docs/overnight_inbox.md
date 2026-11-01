@@ -816,3 +816,6 @@ Report: `docs/overnight_report.md`. Most important first.
 13. **Postgame design calls (critic 3.5/10)**: a "Loose Ends" quest after the credits pointing at Swolympus, the Path-ology Lab and the
     Arena (needs quest text: propose lines?); the expected L23 gear in the sim/bot costs 7 max HP (Glass Jaw Gauntlets + Crown of Mild
     Hubris) - keep that in the reference profile?; freed zones keep "no healing after battles" (same HP call as 9).
+14. **After the ending the Capital still has hostile roamers that knock HP off** ("Ow! The Capital has hurt you again"), with the city
+    liberated. Remove the damage roamers once the Capital is freed (and the toast)? Also: the ending's scenes between Primm's phases use
+    the icon stage (no stills) - art request: stills for those beats (see the art list in the report).

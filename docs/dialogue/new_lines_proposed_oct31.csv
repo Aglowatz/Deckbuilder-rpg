@@ -1,1 +1,2 @@
 "ID (proposed)","Where","Speaker","When it's heard","Proposed line","Why (which fix needs it)"
+"data/story/capital_story.tres::boss.phase.standardization.rule::0 (rewrite)","Primm's Castle / Primm phase 1","(battle UI)","Primm phase 1 rule panel","Every unit, yours and his, starts as a 3/3; buffs and debuffs still change it. You may play at most two non-infrastructure cards a turn. (Two is the perfect number.)","Late-game critics: the rule said every unit IS a 3/3 while buffed units showed 7/1 and 6/4 (the rule sets the base stats; modifiers still apply)"

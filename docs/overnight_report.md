@@ -118,13 +118,18 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   removed for disk space during the export (2.3 -> 4.3 GB free) and is re-created for the next critic.
 
 ## Part 8 - Keep improving
-(todo)
+
+- **Cycle 1 - late game second look: 4.6/10** (from ~4.5; reached all three Primm phases, the ending and the credits, phases 2-3 with
+  autowin; `docs/review/fresh_eyes_lategame_oct31n_second.md`). Its top items: the ending's icon stages (art), the placeholder credits (your
+  answer 3: kept), Primm phase 1 a wall for the pilot, the rule "every unit is a 3/3" vs buffed units (rewording proposed in
+  `docs/dialogue/new_lines_proposed_oct31.csv`), "Broken services: 0 of 4" read as no progress. **Fixed**: the counter now reads
+  "Services restored: N of 4" (chip and panel).
 
 ## Critic scores
 | Area | Before | After |
 |---|---|---|
 | Mid game (Part 4) | 4.8 | 5.5 |
-| Late game + ending (Part 6) | ~4.5 | (second look not run yet) |
+| Late game + ending (Part 6) | ~4.5 | 4.6 |
 | Postgame (Part 6) | 3.5 | (second look not run yet) |
 
 ## Test suite (sharded, full)
@@ -138,3 +143,6 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 
 ## Art requests (not in game)
 - Leaf Crown: the front view's arc ends point up like horns; a redo curving them round the head (answer 11: next art batch).
+- Stills (or portraits) for the cutscenes that still use the icon stage: Primm's phase transitions and most of the epilogue, the
+  Doppelganger's reveal (chef hat / wizard hat glyphs). Three critics flagged them as placeholder right after the painted art.
+- The D.N.A. lobby and the Capital's Crease / Gate Road read as greybox (critics); dressing from existing kit pieces was not done tonight.

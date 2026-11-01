@@ -17,7 +17,7 @@ static func make(flags: Dictionary) -> ServiceDebuffsPanel:
 	column.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(column)
 	var active_count: int = CapitalDebuffs.active(flags).size()
-	column.add_child(UIKit.label("Broken services (%d of 4)" % active_count, &"HeadingLabel", 21))
+	column.add_child(UIKit.label("Services restored (%d of 4)" % (4 - active_count), &"HeadingLabel", 21))  # Oct 31 - Nov 1: counted from the player's side ("0 of 4 broken" read as no progress)
 	for debuff: CapitalDebuffs.Debuff in CapitalDebuffs.all():
 		var active: bool = CapitalDebuffs.is_active(flags, debuff.zone_id)
 		column.add_child(_row(debuff, active))
