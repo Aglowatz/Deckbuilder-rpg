@@ -2747,13 +2747,22 @@ const POI_KINDS: Dictionary = {
 }
 
 
+## Oct 31 - Nov 1 (first-hour critic: the quest says "Sable", the map said "Card Vendor"): a person's place leads with their name,
+## "Sable - Card Vendor"; other places keep their title.
+static func poi_label(spot_id: String, title: String) -> String:
+	var entry: NpcRegistry.Entry = NpcRegistry.find(str(NPC_IDS.get(spot_id, ""))) if NPC_IDS.has(spot_id) else null
+	if entry == null or entry.short_name() == "" or title.begins_with(entry.short_name()):
+		return title
+	return "%s - %s" % [entry.short_name(), title]
+
+
 func _collect_pois() -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	for spot: Spot in spots:
 		if not spot.named:
 			continue
 		if POI_KINDS.has(spot.id):
-			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, spot.title))
+			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, poi_label(spot.id, spot.title)))
 		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
 			result.append(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title))
 		elif spot.id.begins_with("portal_"):

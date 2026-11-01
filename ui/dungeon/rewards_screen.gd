@@ -236,7 +236,7 @@ func pad_first_focus() -> Control:
 ## Fixes Oct 27, Part 1: the keyboard chooses too - Left / Right step the chosen card, 1-3 choose one, Enter / Space / E takes it.
 func _input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
-	if _cards.is_empty() or key == null or not key.pressed or key.echo or InputDevice.using_pad() or PadFocus.top_root(get_tree()) != self:
+	if _cards.is_empty() or not is_instance_valid(_take_button) or key == null or not key.pressed or key.echo or InputDevice.using_pad() or PadFocus.top_root(get_tree()) != self:
 		return
 	var index: int = -1
 	if key.keycode >= KEY_1 and key.keycode <= KEY_9:
@@ -245,7 +245,7 @@ func _input(event: InputEvent) -> void:
 		index = maxi(0, _selected - 1) if _selected >= 0 else 0
 	elif key.keycode == KEY_RIGHT or key.keycode == KEY_D:
 		index = mini(_cards.size() - 1, _selected + 1)
-	elif UiInput.is_confirm(event) and _selected >= 0 and not _take_button.disabled and _take_button.is_visible_in_tree():
+	elif UiInput.is_confirm(event) and _selected >= 0 and is_instance_valid(_take_button) and not _take_button.disabled and _take_button.is_visible_in_tree():  # Oct 31 - Nov 1: the button is gone once a card is taken (20 SCRIPT ERRORs on E)
 		get_viewport().set_input_as_handled()
 		_take_button.pressed.emit()
 		return
@@ -352,4 +352,5 @@ func _show_trial_complete(first_clear: bool) -> void:
 			Session.cave_exit_pending = true
 		SceneManager.go_to_town())
 	_column.add_child(home)
+	ConfirmKey.attach(self, home)  # Oct 31 - Nov 1 (first-hour critic): E / Enter / Space step outside too
 	UIKit.pop_in(_panel)

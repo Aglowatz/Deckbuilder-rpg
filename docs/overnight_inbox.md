@@ -828,3 +828,10 @@ Report: `docs/overnight_report.md`. Most important first.
 17. **Battle UI leftovers seen by critics, not fixed**: a "Next turn" banner over the Victory popup and two Victory popups after a boss (the
     banner node is shared with VICTORY, so I did not clear it blind); the map's "Where to?" dropdown popup kept the driver's Esc / M (a real
     mouse closes it); the Lab's "-5 max life" applies only inside its battles, so the map HUD shows the full bar.
+18. **First-hour critic (5.0/10), design calls**: (a) Crosspath's foreground roofs hide the hero 40-60 % of the time - fade/cut roofs
+    between camera and hero, or a closer camera; (b) the first tutorial duel (Cave Scavenger) runs 8-10 turns and was lost 2 of 3 times by
+    the critic - script a fixed opening hand / weaker enemy?; (c) a single click on an affordable hand card should play it (inspect on
+    right-click/hover); (d) the 45-card starter (19 basic infrastructure) makes reward picks ~2 % of the deck - smaller starter?;
+    (e) Bertram reads as a straight Dwight Schrute (The Office) lift - the critic's words; (f) **typos in your rewritten opening lines**
+    (frozen, so not touched): "its much" (it's), "shes leading" (she's), "By the way their shouting" (they're), "aquainted" (acquainted)
+    - in `data/story/intro_story.tres` prologue keys; (g) Bertram's talk re-opens when E is pressed after his last line.

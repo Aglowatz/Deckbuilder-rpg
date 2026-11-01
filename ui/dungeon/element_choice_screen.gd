@@ -28,7 +28,18 @@ var _shown: Affinity.Type = Affinity.Type.NEUTRAL
 var _more_open: bool = false
 
 
+var _pause_was_allowed: bool = false
+
+
+## Overnight Oct 31 - Nov 1 (first-hour critic): Esc on the Path choice opened the pause menu over it, and the next click meant for
+## "Begin" pressed the pause menu's Quit Game. The choice is a one-time screen: no pause menu while it is up.
+func _exit_tree() -> void:
+	SceneManager.pause_allowed = _pause_was_allowed
+
+
 func _ready() -> void:
+	_pause_was_allowed = SceneManager.pause_allowed
+	SceneManager.pause_allowed = false
 	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
 	var shade: ColorRect = ColorRect.new()

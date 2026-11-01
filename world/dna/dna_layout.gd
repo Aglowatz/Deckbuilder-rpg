@@ -435,13 +435,13 @@ func _furnish_lobby() -> void:
 	anchors["exit_door"] = Vector3(46.5, 0.0, 59.5)
 	_sign("sign.exit", Vector3(43.2, 1.7, 59.4), 180.0, "sign", 1.0)
 	# Overnight Oct 31 - Nov 1 (critics: "the lobby reads as a greybox"): the waiting area along the west wall and a television by the
-	# north wall, from the zone's own pieces; the middle stays open (GC-7).
+	# wall, from the zone's own pieces; the middle stays open (GC-7) and the north wall keeps the ghost queue.
 	_piece("bench", Vector3(36.6, 0.0, 50.6), 90.0, 2.0)
 	_blockers(Vector3(36.6, 0.0, 49.7), Vector3(36.6, 0.0, 51.5), 0.35, 0.4)
 	_piece("water_cooler", Vector3(36.6, 0.0, 48.6), 90.0)
 	_blockers(Vector3(36.6, 0.0, 48.6), Vector3(36.6, 0.0, 48.6), 0.3)
-	_piece("television", Vector3(49.6, 0.0, 46.7), 0.0)
-	_blockers(Vector3(49.6, 0.0, 46.7), Vector3(49.6, 0.0, 46.7), 0.35)
+	_piece("television", Vector3(36.7, 0.0, 52.7), 90.0)
+	_blockers(Vector3(36.7, 0.0, 52.7), Vector3(36.7, 0.0, 52.7), 0.35)
 	anchors["lobby_center"] = cell_center(45, 53)
 
 

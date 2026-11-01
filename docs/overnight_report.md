@@ -14,7 +14,7 @@ Sat Oct 31 20:46 MDT -> Sun Nov 1 (still running at the last update, ~05:40). Ta
 | 5 UX wish list + boss stall AI | done (the D.N.A. lobby dressing in Part 8) | 3a2cbaf5 |
 | 6 Late-game + postgame cycles | done: late ~4.5 -> 4.6, postgame 3.5 -> 4.0 (second looks ran in Part 8) | 9c3a0181, 1729ed90, cfe698b5, a13a7279 |
 | 7 v0.5.0 RC | done, not shared: `builds/TheWaywardPath-v0.5.0-windows.zip`, **762 MB** | 2d573726 |
-| 8 Keep improving | 2 critic cycles (the two second looks + fixes), D.N.A. lobby dressing; the first-hour cycle was not run (see Part 8) | cfe698b5, a13a7279, d514ec4d |
+| 8 Keep improving | 3 critic cycles (late and postgame second looks, the first hour 5.0) + fixes, D.N.A. lobby dressing, `dev newgame` | cfe698b5, a13a7279, d514ec4d |
 
 - **Tests**: full sharded suite 2540/2541 passed, 1 pending, 0 failing (after Parts 1-7); core/world/ui re-run green after Part 8.
 - **Decide first** (inbox "Overnight Oct 31 - Nov 1", most important first): 1 the Escoffina naming after the reveal; 9 the HP / healing rules
@@ -153,7 +153,11 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   wall, from the zone's own pieces (the middle stays open, GC-7). D.N.A. walk smoke OK, D.N.A. tests 35/35. Shot: `_screenshots/dna_walk/w_02_the_lobby_plaza.png`.
 - **Cycle 3 - the first hour**: the first launch was refused by Claude Code's safety check (the brief had the critic press "Start over
   here" on a slot holding a save; the driver never saves, but that is your call). Added a driver command `dev newgame` (a fresh game
-  without the slot screen; slot 3's save verified untouched) and relaunched. Result: (running).
+  without the slot screen; slot 3's save verified untouched) and relaunched. **Result: 5.0/10** (51 min, Necrocrat + Gourmand;
+  `docs/review/fresh_eyes_firsthour_oct31n.md`). **Fixed**: 20 SCRIPT ERRORs on E after the cave (`RewardsScreen._input` on a freed Take
+  button) and E now steps outside; Esc no longer opens the pause menu over the Path choice (the next click had hit Quit Game); the town
+  map names people ("Sable - Card Vendor", as the quests do). The lobby TV moved to the west wall (it took the ghost queue's spot).
+  Design calls (inbox 18): the roofs hiding the hero in Crosspath, the long losable first duel, click-to-play, the 45-card starter.
 - **Suite after the cycles**: core 1534 + 1 pending, world 431, ui 194 (Nov 1 05:30), all passing.
 
 ## Critic scores
@@ -162,6 +166,7 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 | Mid game (Part 4) | 4.8 | 5.5 |
 | Late game + ending (Part 6) | ~4.5 | 4.6 |
 | Postgame (Part 6) | 3.5 | 4.0 |
+| First hour (Part 8) | 5.0 (first look tonight) | - |
 
 ## Test suite (sharded, full)
 

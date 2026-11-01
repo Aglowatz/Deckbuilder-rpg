@@ -63,3 +63,20 @@ func test_gear_that_lowers_max_hp_is_not_a_zone_rule() -> void:
 func test_an_npc_answers_from_beside_them_not_only_from_in_front() -> void:
 	var source: String = FileAccess.get_file_as_string("res://world/zone/zone_scene.gd")
 	assert_true(source.contains("var body: Vector3 = npc_body_position(spot)"), "the NPC's body counts for reach (Old Man Mountain, Spotless)")
+
+
+func test_first_hour_fixes() -> void:
+	assert_true(TownScene.poi_label("vendor", "Card Vendor").ends_with(" - Card Vendor"), "the map names Sable, as the quest does")
+	assert_ne(TownScene.poi_label("vendor", "Card Vendor"), "Card Vendor")
+	assert_eq(TownScene.poi_label("deck", "Deck Station"), "Deck Station", "places without a person keep their title")
+	var rewards: String = FileAccess.get_file_as_string("res://ui/dungeon/rewards_screen.gd")
+	assert_true(rewards.contains("not is_instance_valid(_take_button) or key == null"), "no input on a freed Take button (20 SCRIPT ERRORs on E)")
+	assert_true(rewards.contains("ConfirmKey.attach(self, home)"), "E steps outside after the cave")
+	SceneManager.pause_allowed = true
+	var choice: ElementChoiceScreen = ElementChoiceScreen.new()
+	add_child(choice)
+	await wait_frames(1)
+	assert_false(SceneManager.pause_allowed, "no pause menu over the Path choice")
+	choice.queue_free()
+	await wait_frames(2)
+	assert_true(SceneManager.pause_allowed)
