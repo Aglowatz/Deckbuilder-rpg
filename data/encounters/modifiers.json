@@ -348,7 +348,7 @@
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
 		{
 			"name": "Augmentation",
-			"text": "Protocol: his units get +2/+1. Elowen can jam one Protocol each turn.",
+			"text": "Protocol: his units get +2/+1. (If you rescued Elowen in this run, she jams one Protocol each turn.)",
 			"icon": "lorc/bubbling-flask",
 			"kind": "stat",
 			"atk": 2,

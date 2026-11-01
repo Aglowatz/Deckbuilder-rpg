@@ -18,7 +18,7 @@ var travel_from: String = ""
 signal travel_requested
 
 ## Overnight Oct 31 - Nov 1 (wish list): the place picked in "Where to?" pulses on the map for a few seconds.
-const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
+const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.GATE, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
 	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.INTERACTABLE]
 const WHERE_TO_MAX: int = 16
 const PING_SECONDS: float = 4.0

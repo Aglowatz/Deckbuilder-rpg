@@ -1,0 +1,25 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon S-BEEF
+wait 10
+click 443 685
+wait 2
+shot 01_click
+dump
+key E
+wait 1.5
+shot 02
+dump
+key E
+wait 1.5
+shot 03
+dump
+key E
+wait 1.5
+shot 04
+dump
+skip_dialogue 6
+wait 4
+shot 05_battle
+dump

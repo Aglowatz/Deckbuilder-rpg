@@ -1,0 +1,25 @@
+wait 2
+dev load c10c
+wait 12
+key M
+wait 2
+button Where to?
+wait 1
+click 1320 455
+wait 1.5
+shot 01_pick
+dump
+key Escape
+wait 1.5
+shot 02_after
+dump
+hold W 4
+shot 03_walk
+hold W 4
+shot 04_walk
+dump
+key M
+wait 2
+shot 05_map
+key Escape
+wait 1

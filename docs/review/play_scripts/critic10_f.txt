@@ -1,0 +1,64 @@
+wait 2
+dev load c10e
+wait 12
+shot a0
+hold W 1.6
+shot a1
+dump
+key E
+wait 1.5
+shot om1
+dump
+key E
+wait 1.5
+shot om2
+dump
+key E
+wait 1.5
+shot om3
+dump
+key E
+wait 1.5
+shot om4
+dump
+key E
+wait 1.5
+shot om5
+dump
+key E
+wait 1.5
+shot om6
+dump
+key E
+wait 1.5
+shot om7
+dump
+key E
+wait 1.5
+shot om8
+dump
+key E
+wait 1.5
+shot om9
+dump
+key E
+wait 1.5
+shot om10
+dump
+key E
+wait 1.5
+shot om11
+dump
+key E
+wait 1.5
+shot om12
+dump
+skip_dialogue 10
+key J
+wait 1.5
+shot j
+dump
+key Escape
+dev save c10f
+dev encounters Spotter
+dev encounters Siphon

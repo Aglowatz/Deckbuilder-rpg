@@ -1,0 +1,84 @@
+wait 2
+dev load c10c
+wait 12
+hold W 8
+key E
+wait 1.5
+shot flex1
+dump
+key E
+wait 1.5
+shot flex2
+dump
+key E
+wait 1.5
+shot flex3
+dump
+key E
+wait 1.5
+shot flex4
+dump
+key E
+wait 1.5
+shot flex5
+dump
+key E
+wait 1.5
+shot flex6
+dump
+key E
+wait 1.5
+shot flex7
+dump
+key E
+wait 1.5
+shot flex8
+dump
+skip_dialogue 10
+hold W 2.5
+shot n1
+dump
+hold D 3
+shot n2
+dump
+key E
+wait 1.5
+shot om1
+dump
+key E
+wait 1.5
+shot om2
+dump
+key E
+wait 1.5
+shot om3
+dump
+key E
+wait 1.5
+shot om4
+dump
+key E
+wait 1.5
+shot om5
+dump
+key E
+wait 1.5
+shot om6
+dump
+key E
+wait 1.5
+shot om7
+dump
+key E
+wait 1.5
+shot om8
+dump
+key E
+wait 1.5
+shot om9
+dump
+key E
+wait 1.5
+shot om10
+dump
+dev save c10e

@@ -1,0 +1,53 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon S-BEEF
+wait 10
+click 443 685
+wait 2
+button Continue
+wait 3
+button Keep Hand
+wait 2
+drag 560 780 800 560
+wait 2
+shot 01_infra
+move 430 780
+wait 1
+shot 02_hover
+drag 430 780 800 520
+wait 2
+shot 03_unit
+dump
+key Space
+wait 2
+shot 04_space
+key Space
+wait 2
+shot 05_space2
+dump
+pilot 150
+wait 2
+shot 06_after
+dump
+skip_dialogue 10
+wait 2
+shot 07_map
+dump
+dev save c10i
+click 859 395
+wait 2
+shot 08_node2
+dump
+button Continue
+wait 3
+button Keep Hand
+pilot 150
+wait 2
+shot 09_after2
+dump
+skip_dialogue 10
+wait 2
+shot 10_map
+dump
+dev save c10i2

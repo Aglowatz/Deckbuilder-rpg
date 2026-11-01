@@ -1,0 +1,146 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon D-LAB -2
+wait 10
+skip_dialogue 4
+shot 01_map
+dump
+click 1350 165
+wait 2
+shot i01
+dump
+key E
+wait 1.5
+shot i02
+dump
+key E
+wait 1.5
+shot i03
+dump
+key E
+wait 1.5
+shot i04
+dump
+key E
+wait 1.5
+shot i05
+dump
+key E
+wait 1.5
+shot i06
+dump
+key E
+wait 1.5
+shot i07
+dump
+key E
+wait 1.5
+shot i08
+dump
+key E
+wait 1.5
+shot i09
+dump
+key E
+wait 1.5
+shot i10
+dump
+key E
+wait 1.5
+shot i11
+dump
+key E
+wait 1.5
+shot i12
+dump
+key E
+wait 1.5
+shot i13
+dump
+key E
+wait 1.5
+shot i14
+dump
+key E
+wait 1.5
+button Continue
+wait 3
+button Keep Hand
+wait 3
+shot 02_board
+dump
+pilot 60
+shot 03_mid
+dump
+pilot 60
+shot 04_mid2
+dump
+pilot 150
+wait 2
+shot 05_end
+dump
+button Continue
+wait 2.5
+shot 06_reward
+dump
+button Continue
+wait 1.5
+shot o1
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o2
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o3
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o4
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o5
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o6
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o7
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o8
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o9
+dump
+key E
+wait 1
+button Continue
+wait 1.5
+shot o10
+dump
+key E
+wait 1

@@ -1,0 +1,29 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon S-BEEF
+wait 10
+shot 01_enter
+dump
+key E
+wait 1.5
+shot 02
+dump
+key E
+wait 1.5
+shot 03
+dump
+key E
+wait 1.5
+shot 04
+dump
+skip_dialogue 10
+wait 1
+shot 05_map
+dump
+key R
+wait 1.5
+shot 06_rules
+dump
+key Escape
+wait 1

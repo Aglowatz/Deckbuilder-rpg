@@ -819,3 +819,7 @@ Report: `docs/overnight_report.md`. Most important first.
 14. **After the ending the Capital still has hostile roamers that knock HP off** ("Ow! The Capital has hurt you again"), with the city
     liberated. Remove the damage roamers once the Capital is freed (and the toast)? Also: the ending's scenes between Primm's phases use
     the icon stage (no stills) - art request: stills for those beats (see the art list in the report).
+15. **Postgame, second look (4.0)**: (a) the Lab's "max life 5 lower" did not show on the HUD (14/14) - not investigated yet; (b) the Intake
+    Corridor node starts "Decontamination Technician" (its foe, named like another node?); (c) a leftover "Next turn" banner over Victory
+    and two Victory popups after the boss; (d) Arena first-clear prizes (90-150 gold) look small at L23; (e) E on the boss card pick takes
+    the highlighted card (the one Continue rule) - a critic picked an Uncommon over an Epic that way: highlight the best card instead?

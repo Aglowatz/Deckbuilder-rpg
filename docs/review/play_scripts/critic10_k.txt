@@ -1,0 +1,53 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon D-LAB
+wait 10
+shot e1
+dump
+key E
+wait 1.5
+shot e2
+dump
+key E
+wait 1.5
+shot e3
+dump
+key E
+wait 1.5
+shot e4
+dump
+key E
+wait 1.5
+shot e5
+dump
+key E
+wait 1.5
+shot e6
+dump
+key E
+wait 1.5
+shot e7
+dump
+key E
+wait 1.5
+shot e8
+dump
+key E
+wait 1.5
+shot e9
+dump
+key E
+wait 1.5
+shot e10
+dump
+key E
+wait 1.5
+shot 01_map
+dump
+key R
+wait 1.5
+shot 02_rules
+dump
+key Escape
+wait 1

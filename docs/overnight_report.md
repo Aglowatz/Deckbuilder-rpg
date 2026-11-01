@@ -124,13 +124,18 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   answer 3: kept), Primm phase 1 a wall for the pilot, the rule "every unit is a 3/3" vs buffed units (rewording proposed in
   `docs/dialogue/new_lines_proposed_oct31.csv`), "Broken services: 0 of 4" read as no progress. **Fixed**: the counter now reads
   "Services restored: N of 4" (chip and panel).
+- **Cycle 2 - postgame second look: 4.0/10** (from 3.5; `docs/review/fresh_eyes_postgame_oct31n_second.md`). Still: nothing after the credits
+  says what is left (Loose Ends = design call), Siphon a wall for the pilot (48 HP vs 14, drains each turn), the Swolympus route hard to
+  find, flat summit pay-off. **Fixed**: Siphon's rule no longer promises Elowen when she was not rescued in the run. A gate marker for
+  the sealed trailhead was tried and reverted (an earlier decision: the gate never opens; Old Man Mountain is the way, and he is listed).
+- **Suite after the cycles**: core 1534 + 1 pending, world 431, ui 194 (Nov 1 05:30), all passing.
 
 ## Critic scores
 | Area | Before | After |
 |---|---|---|
 | Mid game (Part 4) | 4.8 | 5.5 |
 | Late game + ending (Part 6) | ~4.5 | 4.6 |
-| Postgame (Part 6) | 3.5 | (second look not run yet) |
+| Postgame (Part 6) | 3.5 | 4.0 |
 
 ## Test suite (sharded, full)
 

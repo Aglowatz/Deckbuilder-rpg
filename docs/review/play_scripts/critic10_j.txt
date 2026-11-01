@@ -1,0 +1,89 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon S-BEEF -2
+wait 10
+shot 01_map
+click 1219 180
+wait 2
+shot 02_click
+dump
+key E
+wait 1.5
+shot i1
+dump
+key E
+wait 1.5
+shot i2
+dump
+key E
+wait 1.5
+shot i3
+dump
+key E
+wait 1.5
+shot i4
+dump
+key E
+wait 1.5
+shot i5
+dump
+key E
+wait 1.5
+shot i6
+dump
+key E
+wait 1.5
+shot i7
+dump
+key E
+wait 1.5
+shot i8
+dump
+button Continue
+wait 3
+shot 03_board
+button Keep Hand
+wait 3
+shot 04_board
+dump
+pilot 200
+wait 2
+shot 05_end
+dump
+button Continue
+wait 2
+shot o1
+dump
+key E
+wait 1.5
+shot o2
+dump
+key E
+wait 1.5
+shot o3
+dump
+key E
+wait 1.5
+shot o4
+dump
+key E
+wait 1.5
+shot o5
+dump
+key E
+wait 1.5
+shot o6
+dump
+key E
+wait 1.5
+shot o7
+dump
+key E
+wait 1.5
+shot o8
+dump
+key E
+wait 1.5
+shot 06_final
+dump
