@@ -18,4 +18,4 @@ Already done this morning (d2d5fedb, a796eb84): max HP 15 -> 30, Loose Ends ques
 | 5 | Roamers stop hurting once freed | done (ZoneEnemy.peaceful via ZoneEnemies.is_peaceful/is_freed; Capital on primm_defeated, rifts close) |
 | 6 | First hour: first duel, click-to-play, roofs fade, fountain, starter study, critic | a-e done (23c02536, eda8d80e); critic 12 running from /c/Dev/wp_critic (brief critic_brief_firsthour_nov1.md) |
 | 7 | Yes-to-all list | done (33dc7eeb) except the Spotless repro (walk blocked) |
-| 8 | Verify + build v0.5.1 | in progress: dialogue export done (b91e4cb8); story-bot saves running; then Loose Ends check, 3 critics, full suite, export |
+| 8 | Verify + build v0.5.1 | Loose Ends checked, saves made, suite green, v0.5.1 exported + smokes PASSED; critics 13 running (mid, late, post in sequence from /c/Dev/wp_critic) |

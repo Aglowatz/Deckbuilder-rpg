@@ -114,4 +114,17 @@ All done, tested in GUT (core 1564, ui 196, world 431 green) except where noted 
 
 ## Part 8 - Verify + build
 
-PART8_RESULT
+- **Loose Ends in play** (`fable_nov1_loose_ends` from the postgame story-bot save): given on town entry (0/4, "500 gold / 400 XP" in the log);
+  the four steps progress in order (Mount Swolympus cleared, Rip at the Rift Station, the Lab cleared, an arena bout) and the reward lands
+  after the fourth (1800 -> 2770 gold = the arena's 270 + the level-25 purse 200 + the quest's 500; level 24 -> 25). A level-up popup sat
+  over the final quest-log shot. Note: the quest counts its steps **in order** - an arena win before Swolympus does not tick.
+- **Story-bot saves at the new HP curve**: `midgame_real` (L13, 2 zones freed), `lategame_real` (L20, 4 zones), `postgame_real` (L23 after
+  Primm). The bot defaults every snapshot to one name - pass `--snapshot=<name>` (the first late run overwrote the midgame one).
+- **Full sharded suite**: core 1563/1564 (1 pending), ui 196/196, world 431/431, characters 4/4, root 287/287 - 0 failing.
+- **Dialogue CSV re-exported** in place: 4203 rows in the same order (8 current lines refreshed), 13 new rows appended and listed in
+  `new_rows_nov1.csv` (b91e4cb8).
+- **v0.5.1**: `builds/TheWaywardPath-v0.5.1-windows.zip`, **762 MB** (payload 849 MB over the 800 MB budget, as v0.5.0 was); release smoke
+  PASSED on the project and on the exported pack (0.5.1). Not shared.
+- **Disk: 1.5 GB free.** The permission classifier refused my deletes; please remove `builds/TheWaywardPath-v0.4.9-windows.zip` (762 MB),
+  `builds/_export` (955 MB, re-made by any export) and the old `_screenshots/play/critic*` folders by hand.
+- **Mid / late / postgame critics**: CRITICS_RESULT
