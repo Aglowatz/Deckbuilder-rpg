@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5.0 - release candidate (Nov 1 2026)
+
+- Music: every track re-rendered with the note-overlap fix (pads, organ and choir chords hold their full length).
+- The designer's 37 dialogue rewrites for the prologue, the cave and Maren's first talks.
+- Captain Spotless paces before the Capital gate; Esc can skip a scene on a first viewing (after a confirm); the Doppelganger keeps its
+  cover name until the reveal.
+- Map: a "Where to?" list that pings any named place, a marked dungeon entrance. Locked gear slots say how to open them; dungeon nodes
+  say "Click again to go"; a banner when a zone's max HP differs and when you return to a freed zone.
+- Fixes: boss intros no longer ignore clicks or freeze; Sable answers from in front of her stall; plain tooltips spell out energy;
+  deck-test events show the test and your odds first; "Open all" for packs; Esc closes Deck Station popups first; Quit Game asks and saves.
+- Battle AI: a boss that stalls with no units deploys units instead of a fourth Tool.
+
 ## v0.3.1 - smaller build
 
 Same game as v0.3.0, one third of the download: 477 MB instead of 1.63 GB, with no visible change in the art.

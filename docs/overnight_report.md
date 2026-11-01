@@ -91,10 +91,24 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 - **D.N.A. lobby dressing**: not done yet (left for Part 8).
 
 ## Part 6 - Late-game + postgame critic cycles
-(todo)
 
-## Part 7 - v0.5.0 RC
-(todo)
+- **Saves (story bot, a6299c9c)**: `lategame_real` (L20, the four zones freed, 1200 gold, 47 cards) and `postgame_real` (L23 after Primm,
+  49 cards). 150+ bot checks passed, none failed. The bot runs were stopped twice by the low-memory guard as background shells; their Godot
+  kept going and finished (waited on in the foreground).
+- **Late-game critic**: playing.
+
+## Part 7 - v0.5.0 RC (done, not shared)
+
+- **Build**: `C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v0.5.0-windows.zip` - **762 MB** (798,770,733 bytes; payload 849 MB before
+  zip). `tools/export_windows.sh 0.5.0`: EXPORT OK (pck MD5s, baked shaders, zip CRCs). Version 0.5.0 in project.godot / export presets;
+  CHANGELOG entry. Not uploaded or shared. The v0.4.9 zip is kept beside it.
+- **Build smoke on the exported pack**: release smoke PASSED (title with v0.5.0, New Game -> the forest, F8 report, pause menu version,
+  manual save -> load with gold back); the playtest bot on the exported test pack OK (forest, Path choice, the cave, Maren, merchants and a
+  card, Deck Station, the store room ghosts fight, level 5, Bertram's quest; auto-win through the real result screen; no SCRIPT ERROR).
+  The exported runs do not log music, so the title cue and the victory sting rest on the pck's MD5 check plus the in-editor music smoke on
+  the same files (Part 2: OK).
+- Done before Part 6's second looks (a safe order: the RC exists whatever happens to the rest of the night). The critic worktree was
+  removed for disk space during the export (2.3 -> 4.3 GB free) and is re-created for the next critic.
 
 ## Part 8 - Keep improving
 (todo)
