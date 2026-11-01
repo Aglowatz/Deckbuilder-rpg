@@ -802,3 +802,14 @@ Report: `docs/overnight_report.md`. Most important first.
    - **XP per fight** (~15 fights a level at L13; the Oct 30 step table). Option: a dungeon-clear XP bonus rather than per-fight XP.
    - **Click an NPC to walk there and talk**; **Rift Station unlocks as a toast** instead of Rip's dialogue box (his lines are frozen);
      **"Open all" packs**; **boss card picks weighted 2-of-3 on-Path or Colorless**; **a decline option on deck-test events**.
+10. **Late-game design calls from the critic (~4.5/10)** - none applied:
+    - **The way to the Capital**: the quest log only says where the castle is inside the Capital; a step "Go down to the Undercroft under
+      Crosspath" with a goal ring would need a quest text line (proposed lines go to `docs/dialogue/new_lines_proposed_oct31.csv` once you
+      say yes). "Free the Four Zones" stays the title while its 5th step (the castle) is open - rename or split?
+    - **The Capital's HP drain** (18 -> 12 walking the main road): name the source in the toast; heal at the Crease?
+    - **The final dungeon**: 22 nodes on one non-healing bar; a guaranteed heal at the Resistance Safe Room or a shorter critical path?
+    - **Basic infrastructure floods late hands** (five Powerhouses on turn 4): the auto-fill target (16-20) for a 47-card deck?
+    - **Narration under Primm's name tag** before the boss (story speaker mapping), placeholder icon stage in the phase transition (art).
+11. **Captain Spotless with the gate open showed "[E] Talk" that opened nothing** for the late critic - not reproduced yet (Part 8 list).
+12. **The v0.5.0 RC is built** (`builds/TheWaywardPath-v0.5.0-windows.zip`, 762 MB) and not shared. I removed `builds/_export` (its unpacked
+    copy) for disk space; any export re-makes it. The v0.4.9 zip is still beside it - delete it when you no longer need it (762 MB).

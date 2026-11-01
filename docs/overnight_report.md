@@ -95,7 +95,11 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 - **Saves (story bot, a6299c9c)**: `lategame_real` (L20, the four zones freed, 1200 gold, 47 cards) and `postgame_real` (L23 after Primm,
   49 cards). 150+ bot checks passed, none failed. The bot runs were stopped twice by the low-memory guard as background shells; their Godot
   kept going and finished (waited on in the foreground).
-- **Late-game critic**: playing.
+- **Late-game critic: ~4.5/10** (85 min, 16 runs; did not reach Phase 3 or the ending; `docs/review/fresh_eyes_lategame_oct31n.md`, triage
+  `_triage.md`). **Fixes (9c3a0181)**: cutscenes keep running under a pause and block the pause menu while up (Primm's intro froze
+  mid-line, only Esc answered), the Capital battle panel reads the real services (it said 4 of 4 broken from an empty dict), "carried out of
+  the dungeon" only inside one. Second look: not run (the RC came first; see Part 8).
+- **Postgame critic**: playing.
 
 ## Part 7 - v0.5.0 RC (done, not shared)
 
@@ -117,6 +121,7 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 | Area | Before | After |
 |---|---|---|
 | Mid game (Part 4) | 4.8 | 5.5 |
+| Late game + ending (Part 6) | ~4.5 | (second look not run yet) |
 
 ## Test suite (sharded, full)
 
