@@ -1,0 +1,25 @@
+wait 2
+dev load postgame_real
+wait 12
+dev encounters Spotter
+dev encounters swolympus
+dev encounter Ancient Spotter
+wait 6
+shot 01_intro
+dump
+key E
+wait 1.5
+shot 02_intro2
+dump
+key E
+wait 1.5
+shot 03_intro3
+dump
+key E
+wait 1.5
+shot 04_intro4
+dump
+key E
+wait 2
+shot 05_board
+dump

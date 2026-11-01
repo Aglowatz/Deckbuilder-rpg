@@ -19,8 +19,8 @@ Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0
 | 3 | perf | partial (83329b97): frame budget done, loading measured not cached |
 | 4 | mid-game critic cycle | done: 4.8 -> 5.5 (df634833, cfd95045), docs/review/midgame_cycle_oct31n.md |
 | 5 | UX wish list + boss stall AI | done (3a2cbaf5) except D.N.A. lobby dressing |
-| 6 | late-game + postgame critic cycles | saves made (a6299c9c: lategame_real L20, postgame_real L23); late critic playing in the worktree (report fresh_eyes_lategame_oct31n.md); then fixes, second look, postgame critic (critic_brief_postgame_oct31n.md) |
+| 6 | late-game + postgame critic cycles | late 4.5 (fixes 9c3a0181), postgame 3.5 (fixes 1729ed90); second looks running in Part 8 |
 | 7 | v0.5.0 RC | done: builds/TheWaywardPath-v0.5.0-windows.zip 762 MB, release smoke + exported playtest OK |
-| 8 | keep improving | todo |
+| 8 | keep improving | cycle 1: late-game second look running (fresh_eyes_lategame_oct31n_second.md); next: postgame second look |
 
-Next: after the second look: write midgame_cycle_oct31n.md, then Part 6: story bot --snapshot_after=4 --snapshot=lategame_real, then =5 postgame_real; critics with critic_brief_lategame/postgame_oct31n.md (copy the brief into the worktree, move it to HEAD).
+Next: late second look -> fixes -> postgame second look (brief: copy critic_brief_postgame_oct31n.md with _second names, prefix critic10_) -> fixes; after two cycles run the sharded suite (ui, audio, characters, gut_group root, core, world in foreground chunks).

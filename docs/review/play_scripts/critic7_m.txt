@@ -1,0 +1,40 @@
+wait 2
+dev load postgame_real
+wait 12
+click 1450 310
+wait 1.5
+button Feats
+wait 2
+shot 01_feats
+dump
+key Escape
+wait 1
+click 1450 310
+wait 1.5
+button Deck
+wait 3
+shot 02_deck
+dump
+key Escape
+wait 1.5
+shot 03_after_deck
+key Escape
+wait 1
+dev travel arena
+wait 10
+shot 04_arena
+dump
+skip_dialogue 6
+shot 05_arena2
+dump
+hold W 2
+shot 06_arena_walk
+dump
+key E
+wait 2
+shot 07_arena_e
+dump
+key E
+wait 1.5
+shot 08_arena_e2
+dump

@@ -1,0 +1,43 @@
+wait 2
+dev load c7_gain3
+wait 12
+hold D 3
+hold W 4
+hold W 4
+shot 01_near
+dump
+key E
+wait 1.5
+shot 02_om1
+dump
+key E
+wait 1.2
+shot 03_om2
+dump
+key E
+wait 1.2
+shot 04_om3
+dump
+key E
+wait 1.2
+shot 05_om4
+dump
+key E
+wait 1.2
+shot 06_om5
+dump
+key E
+wait 1.2
+shot 07_om6
+dump
+skip_dialogue 20
+wait 2
+shot 09_after
+dump
+hold W 5
+shot 10_north
+dump
+hold W 4
+shot 11_north2
+dump
+dev save c7_om

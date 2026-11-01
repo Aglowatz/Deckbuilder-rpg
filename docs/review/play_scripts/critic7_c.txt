@@ -1,0 +1,27 @@
+wait 2
+dev load c7_gain
+wait 12
+skip_dialogue 5
+key M
+wait 2
+button Where to?
+wait 1.5
+click 1250 455
+wait 1.5
+shot 01_map_oldman
+dump
+key Escape
+wait 1
+shot 02_after_map
+hold W 4
+shot 03_walk
+dump
+hold W 3
+shot 04_walk
+dump
+key M
+wait 2
+shot 05_map2
+key Escape
+wait 1
+dev save c7_gain2

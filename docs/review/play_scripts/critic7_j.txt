@@ -1,0 +1,52 @@
+wait 2
+dev load postgame_real
+wait 12
+dev travel dungeon D-LAB
+wait 10
+skip_dialogue 6
+click 336 475
+wait 3
+shot 01_node1
+dump
+key E
+wait 1.2
+shot 02_node1b
+key E
+wait 1.2
+shot 03_node1c
+skip_dialogue 10
+wait 5
+shot 04_battle
+dump
+button Keep Hand
+wait 2
+pilot 200
+wait 3
+shot 05_result
+dump
+button Continue
+wait 3
+shot 06_reward
+dump
+skip_dialogue 10
+wait 2
+shot 07_map
+dump
+click 503 375
+wait 3
+shot 08_node2
+dump
+skip_dialogue 10
+wait 5
+button Keep Hand
+wait 2
+pilot 150
+wait 3
+shot 09_result2
+dump
+button Continue
+wait 3
+shot 10_reward2
+dump
+skip_dialogue 10
+shot 11_map

@@ -1,0 +1,38 @@
+wait 2
+dev load postgame_real
+wait 12
+key J
+wait 1.5
+button Side
+wait 1
+shot 01_quests_side
+dump
+button Completed
+wait 1
+shot 02_quests_done
+key Escape
+wait 1
+click 1450 310
+wait 1.5
+shot 03_menu
+dump
+key Escape
+wait 1
+dev travel zone beefcake
+wait 12
+shot 04_gainlands
+dump
+skip_dialogue 10
+key M
+wait 2
+shot 05_gain_map
+dump
+button Where to?
+wait 1.5
+shot 06_whereto
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+dev save c7_gain
