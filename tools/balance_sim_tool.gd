@@ -84,7 +84,7 @@ func _player(content: ContentSet, spec: EncounterSpec, path: Affinity.Type) -> P
 		player.items = {}
 	# Overnight Oct 31 - Nov 1 (boss stalls, answer 7): --starter plays the bare starter deck of the Path at the expected level.
 	if args.has("starter"):
-		player.deck = CampaignStart.starter_deck(content, path)
+		player.deck = CampaignStart.starter_deck_sized(content, path, int(args.get("starter_size", 0)))  # Fable pass Nov 1: --starter_size=30|35 trims it
 	return player
 
 
@@ -163,6 +163,8 @@ func _tutorial(content: ContentSet, games: int, seed_value: int, lines: PackedSt
 	ai.deterministic = true
 	for path: Affinity.Type in _paths():
 		var deck: Deck = ProgressionModel.reference_deck(content, path, 1)
+		if args.has("starter_size"):
+			deck = CampaignStart.starter_deck_sized(content, path, int(args["starter_size"]))  # Fable pass Nov 1: the starter study
 		var results: Array[DungeonSimulation.RunResult] = DungeonSimulation.run_many(content, map, deck, ai, runs, seed_value + int(path) * 100000, path)
 		var fail_counts: Dictionary = {}
 		var turns: int = 0

@@ -96,6 +96,25 @@ static func starter_deck(content: ContentSet, primary: Affinity.Type) -> Deck:
 	return deck
 
 
+## Fable pass Nov 1 (the starter study, sims only): the starter trimmed to `size` cards with the same ratios - basics in the 19/45 proportion
+## (30 -> 13, 35 -> 15), the spells spread evenly over the Path's 26-card list so every role keeps its share. The real starter is unchanged.
+static func starter_deck_sized(content: ContentSet, primary: Affinity.Type, size: int) -> Deck:
+	var full: Deck = starter_deck(content, primary)
+	if size <= 0 or size >= full.cards.size():
+		return full
+	var deck: Deck = Deck.new()
+	deck.deck_name = "%s (%d)" % [STARTER_DECK_NAME, size]
+	var basics: int = int(round(float(INFRASTRUCTURE_COUNT) * float(size) / float(full.cards.size())))
+	var infra: CardData = content.infrastructure[int(primary)] as CardData
+	for i: int in range(basics):
+		deck.cards.append(infra)
+	var spells: Array[CardData] = starter_spells(content, primary)
+	var keep: int = size - basics
+	for i: int in range(keep):
+		deck.cards.append(spells[int(floor(float(i) * float(spells.size()) / float(keep)))])
+	return deck
+
+
 static func game_plan(primary: Affinity.Type) -> String:
 	return str(GAME_PLANS.get(primary, ""))
 
