@@ -601,7 +601,7 @@ func test_taste_test_outcomes_have_real_effects() -> void:
 	BuffetInteractables.apply_taste(run, "good")
 	assert_eq(run.hp, 6, "good heals 3")
 	BuffetInteractables.apply_taste(run, "great")
-	assert_eq(run.hp, run.max_hp(), "great heals up to full")
+	assert_eq(run.hp, mini(12, run.max_hp()), "great heals 6 (up to full)")
 	var max_before: int = run.max_hp()
 	BuffetInteractables.apply_taste(run, "buff")
 	assert_eq(run.max_hp(), max_before + 1, "the buff raises max HP for the visit")

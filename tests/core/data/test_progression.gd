@@ -18,9 +18,9 @@ func test_table_has_exactly_thirty_levels_in_order() -> void:
 		assert_eq(rows[i].level, i + 1)
 
 
-func test_hp_reaches_25_at_level_30_via_even_levels_only() -> void:
+func test_hp_runs_15_to_30_via_even_levels_only() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
-	assert_eq(rows[0].max_hp, PlayerProfile.START_MAX_HP)
+	assert_eq(rows[0].max_hp, 15, "Nov 1: the hero starts at 15")
 	assert_eq(rows[29].max_hp, PlayerProfile.ENDGAME_MAX_HP)
 	for row: LevelData in rows:
 		if row.level == 1:
@@ -378,7 +378,7 @@ func test_deck_slots_open_two_at_a_time_at_7_14_21() -> void:
 
 func test_stat_rewards_keep_their_schedule() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
-	assert_eq(rows[29].max_hp, 25)
+	assert_eq(rows[29].max_hp, 30)
 	assert_eq(rows[23].opening_hand_size, 8)
 	assert_eq(rows[29].item_slots, 4)
 	assert_eq(rows[27].max_hand_size, 12)

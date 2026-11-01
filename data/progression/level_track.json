@@ -2,6 +2,7 @@
 	"max_level": 30,
 	"_about": "Overnight Oct 17, Part 6: the one level 1-30 reward track (LevelTrack). Hand-formatted: edit as text. docs/design/level_rewards.md is generated from it (tools/level_rewards_doc.gd). 'stats' and 'vendor' list the levels of the computed stat steps and shop unlocks; 'copy_caps' and 'equip_caps' the cap raises; 'levels' what each level grants (gold, packs: 'path'/'gilded' mean the player's own Path, cosmetics) plus its headline and whether it is a big level.",
 	"stats": {
+		"hp_start": 15,
 		"hp_every": 2,
 		"opening_hand": [8, 16, 24],
 		"item_slots": [10, 20, 30],

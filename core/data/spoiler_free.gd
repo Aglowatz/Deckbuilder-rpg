@@ -9,7 +9,7 @@ extends RefCounted
 ## the name until then, `name` after; the reveal counts once ANY of `flags` is set (the naming cutscene, or the zone freed for saves
 ## made before the cutscene had a seen flag). `GameSession.sync_story_tokens` feeds the flags in (`sync`).
 const REVEALS: Dictionary = {
-	"NPC-DOPPEL": {"cover": "The Doppelganger", "name": "Grand Chef Escoffina", "flags": ["cutscene_seen_wonder", "zone_gourmand_completed"]},
+	"NPC-DOPPEL": {"cover": "The Doppelganger", "name": "The Doppelganger", "flags": ["cutscene_seen_wonder", "zone_gourmand_completed"]},  # Nov 1: the designer keeps "The Doppelganger" after the reveal too
 }
 
 static var _revealed: Dictionary = {}

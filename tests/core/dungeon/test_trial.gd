@@ -121,8 +121,8 @@ func test_no_dungeon_wide_blessing_run_uses_plain_base_hp() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(content, Affinity.Type.BEEFCAKE)
 	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE)
 	var run: DungeonRun = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
-	assert_eq(run.hp, PlayerProfile.START_MAX_HP)
-	assert_eq(run.max_hp(), PlayerProfile.START_MAX_HP)
+	assert_eq(run.hp, ProgressionTable.row(1).max_hp)
+	assert_eq(run.max_hp(), ProgressionTable.row(1).max_hp)
 
 
 func test_enemy_setup_uses_node_hp() -> void:

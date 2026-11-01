@@ -14,10 +14,10 @@ func test_the_doppelganger_keeps_its_cover_name_until_the_reveal() -> void:
 	assert_eq(str(BossIntros.find("The Doppelganger")["name"]), "The Doppelganger")
 
 
-func test_the_doppelganger_reads_grand_chef_escoffina_after_the_reveal() -> void:
+func test_the_doppelganger_keeps_its_name_after_the_reveal() -> void:
 	SpoilerFree.sync({"cutscene_seen_wonder": true})
-	assert_eq(NpcRegistry.find("NPC-DOPPEL").plate_name(), "Grand Chef Escoffina")
-	assert_eq(str(BossIntros.find("The Doppelganger")["name"]), "Grand Chef Escoffina")
+	assert_eq(NpcRegistry.find("NPC-DOPPEL").plate_name(), "The Doppelganger", "Nov 1: the designer keeps the name after the reveal")
+	assert_eq(str(BossIntros.find("The Doppelganger")["name"]), "The Doppelganger")
 	assert_eq(str(BossIntros.find("The Itamae Supreme")["name"]), "The Itamae Supreme", "other bosses unchanged")
 
 

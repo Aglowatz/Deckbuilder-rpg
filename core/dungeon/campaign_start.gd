@@ -107,6 +107,7 @@ static func new_profile(content: ContentSet, primary: Affinity.Type) -> PlayerPr
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.primary_affinity = primary
 	profile.owned_cards = starter_spells(content, primary)
+	profile.max_hp = ProgressionTable.row(1).max_hp  # Nov 1: the level-1 row's max HP (15), not the profile default
 	return profile
 
 

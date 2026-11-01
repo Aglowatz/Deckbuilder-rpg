@@ -55,6 +55,8 @@ static func build() -> Array[LevelData]:
 	var item_levels: Array[int] = _ints(stats.get("item_slots", ITEM_SLOT_LEVELS))
 	var max_hand_levels: Array[int] = _ints(stats.get("max_hand", MAX_HAND_LEVELS))
 	var hp_every: int = maxi(1, int(stats.get("hp_every", 2)))
+	# Nov 1 (the designer: "maybe the max hp is starting too low"): the hero starts at 15 and reaches 30 at level 30 (was 10 -> 25).
+	var hp_start: int = int(stats.get("hp_start", PlayerProfile.START_MAX_HP))
 	var discount_levels: Array[int] = _ints(vendor.get("discount_levels", BONUS_DISCOUNT_LEVELS))
 	var discount_percent: int = int(vendor.get("discount_percent", FILLER_DISCOUNT_PERCENT))
 	var rare_levels: Array[int] = _ints(vendor.get("rare_stock_levels", BONUS_VENDOR_UNLOCK_LEVELS))
@@ -63,7 +65,7 @@ static func build() -> Array[LevelData]:
 		var row: LevelData = LevelData.new()
 		row.level = level
 		row.xp_to_reach = xp_to_reach(level)
-		row.max_hp = PlayerProfile.START_MAX_HP + int(level / hp_every)
+		row.max_hp = hp_start + int(level / hp_every)
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, hand_levels)
 		row.item_slots = 1 + _steps_reached(level, item_levels)
 		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, max_hand_levels)

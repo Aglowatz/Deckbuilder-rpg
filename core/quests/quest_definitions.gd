@@ -43,10 +43,42 @@ static func build_all() -> Array[QuestData]:
 	result.append(OldWellQuest.quest())  # Overnight Oct 19-20, Part 6: the Old Well secret quest (started by the well's vision, never auto-given)
 	result.append(_armory())
 	result.append(_first_deck_edit())
+	result.append(_loose_ends())
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
+
+
+## Nov 1 (the designer's yes to the postgame critics): after the credits the quest log said "Nothing here right now". Loose Ends
+## is given at once in the postgame (old saves too) and points at what is left: Mount Swolympus, the Path-ology Lab, the Arena.
+const LOOSE_ENDS: String = "loose_ends"
+
+
+static func _loose_ends() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = LOOSE_ENDS
+	quest.category = QuestData.Category.MAIN
+	quest.order = 90
+	quest.title = "Loose Ends"
+	quest.summary = "{villain} is gone, but the kingdom is not quite done with you. A mountain nobody has climbed, a secret Rip has been keeping, and a crowd under Crosspath that wants a show."
+	quest.auto_give = true
+	quest.prerequisite = Condition.postgame()
+	var arena_wins: Array[Condition] = []
+	for encounter: ArenaEncounter in ArenaDefs.all():
+		arena_wins.append(Condition.flag(str(ArenaDefs.flag_name(encounter.id))))
+	quest.objectives = [
+		QuestObjective.make("Climb Mount Swolympus: Old Man Mountain at the Swole Station knows the way up", Condition.dungeon_cleared("The Ascent of Mount Swolympus"))
+			.at(QuestObjective.TargetKind.NPC, GainlandsZone.ID, "brenda", "Old Man Mountain, in front of the gym hall in the Gainlands"),
+		QuestObjective.make("Ask Rip at Crosspath's Rift Station what he has been keeping quiet", Condition.flag("rip_forest_tip"))
+			.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "The Rift Express station in Crosspath"),
+		QuestObjective.make("Follow Rip's lead to the end", Condition.dungeon_cleared("The Path-ology Lab")),
+		QuestObjective.make("Win a bout in the Arena, down the cellar hatch in Crosspath", Condition.any_of(arena_wins))
+			.at(QuestObjective.TargetKind.SPOT, "town", "arena", "The cellar hatch to the Undercroft, in Crosspath"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 500
+	quest.reward_xp = 400
+	return quest
 
 
 static func zone_main_id(zone_id: String) -> String:

@@ -34,7 +34,7 @@ func test_new_profile_owns_the_colorless_starter_cards_and_the_path_package() ->
 	assert_eq(profile.owned_cards.size(), CampaignStart.SPELL_COUNT)
 	for card: CardData in profile.owned_cards:
 		assert_true(card.color == Affinity.Type.REFUSEMANCER or card.paths().is_empty(), card.id)
-	assert_eq(profile.base_max_hp(), 10)
+	assert_eq(profile.base_max_hp(), 15, "a new hero starts at the level-1 row (15)")
 	assert_eq(profile.base_opening_hand(), 5)
 	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.REFUSEMANCER)
 	var modifiers: ModifierSet = ModifierSet.new()

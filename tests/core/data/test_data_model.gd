@@ -85,7 +85,7 @@ func test_profile_defaults_and_clamping() -> void:
 	assert_eq(profile.max_hand_size, 10)
 	profile.max_hp = 99
 	profile.opening_hand_size = 12
-	assert_eq(profile.base_max_hp(), 25)
+	assert_eq(profile.base_max_hp(), 30, "Nov 1: the hero curve tops out at 30")
 	assert_eq(profile.base_opening_hand(), 8)
 	profile.max_hp = 1
 	profile.opening_hand_size = 0

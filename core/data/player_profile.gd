@@ -4,7 +4,7 @@ extends Resource
 ## Modifiers on top of these base values.
 
 const START_MAX_HP: int = 10
-const ENDGAME_MAX_HP: int = 25
+const ENDGAME_MAX_HP: int = 30  # Nov 1: 15 -> 30 hero curve (level_track.json hp_start)
 const MIN_OPENING_HAND: int = 5
 const MAX_OPENING_HAND: int = 8
 const DEFAULT_MAX_HAND_SIZE: int = 10
