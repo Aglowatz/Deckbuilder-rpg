@@ -11,7 +11,7 @@ Sat Oct 31 20:46 MDT -> Sun Nov 1 (still running at the last update, ~05:40). Ta
 | 2 Music overlap fix + re-render all 144 | done | 509d532f |
 | 3 Performance | partial: frame budget done (all inside after a re-run), loading measured but not cached | 83329b97 |
 | 4 Mid-game critic cycle | done: 4.8 -> 5.5 | df634833, cfd95045 |
-| 5 UX wish list + boss stall AI | done except the D.N.A. lobby dressing | 3a2cbaf5 |
+| 5 UX wish list + boss stall AI | done (the D.N.A. lobby dressing in Part 8) | 3a2cbaf5 |
 | 6 Late-game + postgame cycles | done: late ~4.5 -> 4.6, postgame 3.5 -> 4.0 (second looks ran in Part 8) | 9c3a0181, 1729ed90, cfe698b5, a13a7279 |
 | 7 v0.5.0 RC | done, not shared: `builds/TheWaywardPath-v0.5.0-windows.zip`, **762 MB** | 2d573726 |
 | 8 Keep improving | 2 cycles (the two second looks + fixes) | cfe698b5, a13a7279 |
@@ -109,7 +109,7 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   turn, so no stall forms and the rule never fires); Vivienne Quota at L8 with the bare starter, 8 games per Path: identical (25 %). So no
   band moves; the rule only changes a genuinely stalled board (unit test). `--starter` added to the balance sim; `WAYWARD_STALL_RULE=off`
   for A/B. Infrastructure was left alone (devaluing a 5th land risks the AI holding lands in hand).
-- **D.N.A. lobby dressing**: not done yet (left for Part 8).
+- **D.N.A. lobby dressing**: done in Part 8 (see there).
 
 ## Part 6 - Late-game + postgame critic cycles
 
@@ -149,6 +149,8 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
   says what is left (Loose Ends = design call), Siphon a wall for the pilot (48 HP vs 14, drains each turn), the Swolympus route hard to
   find, flat summit pay-off. **Fixed**: Siphon's rule no longer promises Elowen when she was not rescued in the run. A gate marker for
   the sealed trailhead was tried and reverted (an earlier decision: the gate never opens; Old Man Mountain is the way, and he is listed).
+- **D.N.A. lobby dressing** (the last Part 5 item): a waiting bench and a water cooler on the west wall and a television by the north
+  wall, from the zone's own pieces (the middle stays open, GC-7). D.N.A. walk smoke OK, D.N.A. tests 35/35. Shot: `_screenshots/dna_walk/w_02_the_lobby_plaza.png`.
 - **Suite after the cycles**: core 1534 + 1 pending, world 431, ui 194 (Nov 1 05:30), all passing.
 
 ## Critic scores
