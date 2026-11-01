@@ -45,7 +45,7 @@ static func guardian_id(rift_id: String) -> String:
 
 ## True once the rift is closed: sealed by the player, or all rifts closing when Primm fell.
 static func is_sealed(flags: Dictionary, rift_id: String) -> bool:
-	return bool(flags.get(str(sealed_flag(rift_id)), false)) or bool(flags.get(str(CapitalZone.FLAG_FREED), false))
+	return bool(flags.get(str(sealed_flag(rift_id)), false)) or bool(flags.get(str(CapitalZone.FLAG_FREED), false)) or bool(flags.get("primm_defeated", false))  # Fable pass Nov 1: Primm's fall closes every rift
 
 
 static func open_count(flags: Dictionary) -> int:

@@ -19,6 +19,8 @@ var patrol_radius: float = 3.0
 var area: ZoneMap
 var player: Node3D
 var state: State = State.PATROL
+## Fable pass Nov 1 (Part 5): a roamer of a freed zone - it wanders its patrol and never chases or touches (`ZoneEnemies.is_peaceful`).
+var peaceful: bool = false
 ## The scene sets this false while dialogue/menus are open so enemies freeze with the world.
 var active: bool = true
 ## While > 0 the enemy cannot trigger `touched` (after hitting the player, or the spawn grace).
@@ -228,7 +230,7 @@ func _process(delta: float) -> void:
 	var moved: bool = false
 	match state:
 		State.PATROL:
-			if distance < info.aggro_range and area.has_line_of_sight(position, player.position) and home_distance < info.leash_range:
+			if not peaceful and distance < info.aggro_range and area.has_line_of_sight(position, player.position) and home_distance < info.leash_range:
 				_set_state(State.CHASE)
 			elif _wait > 0.0:
 				_wait -= delta
@@ -239,7 +241,9 @@ func _process(delta: float) -> void:
 					_stuck_time = 0.0
 					_pick_patrol_target()
 		State.CHASE:
-			if _threat > 0.0:
+			if peaceful:
+				_set_state(State.RETURN)
+			elif _threat > 0.0:
 				_threat -= delta
 				_face(to_player, delta)
 			elif home_distance > info.leash_range or _lost_sight > 2.0 or _stuck_time > 1.2:

@@ -730,6 +730,8 @@ func _build_enemies() -> void:
 		var enemy: ZoneEnemy = ZoneEnemy.new()
 		add_child(enemy)
 		enemy.setup(ZoneEnemies.info(def.id, str(spawn["type"])), instance_id, spawn["home"] as Vector3, float(spawn["patrol"]), builder, player, _grade_enemy)
+		# Fable pass Nov 1 (Part 5): a freed zone's hostile roamers stand down (touch-damage ones wander, no chase, no hit).
+		enemy.peaceful = ZoneEnemies.is_peaceful(def.id, str(spawn["type"]), ZoneEnemies.is_freed(def.id, Session.flags))
 		if float(spawn.get("guard", 0.0)) > 0.0:
 			enemy.make_guard(float(spawn["guard"]), int(spawn.get("escorts", 0)))  # a road guard (the Gainlands' middle road, v2 Part G)
 		enemy.touched.connect(_on_enemy_touched)
@@ -1527,7 +1529,7 @@ func on_ninja_ready() -> void:
 
 
 func _on_enemy_touched(enemy: ZoneEnemy) -> void:
-	if _locked or dialogue.active or _fainting or _spawn_grace > 0.0 or player.airborne:
+	if _locked or dialogue.active or _fainting or _spawn_grace > 0.0 or player.airborne or enemy.peaceful:
 		return
 	if enemy.info.kind == ZoneEnemyInfo.Kind.DAMAGE:
 		if _invulnerable > 0.0:

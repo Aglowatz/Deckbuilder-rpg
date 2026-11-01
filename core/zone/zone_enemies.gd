@@ -65,6 +65,27 @@ static func freed_recipe(zone_id: String, enemy_id: String) -> Dictionary:
 	return EnemyDecks.trimmed(str(FREED_DECKS[zone_id]), total, basics)
 
 
+## Fable pass Nov 1 (Part 5): true once the zone is freed - its boss down, or for the Capital once Primm fell - from a save's flags.
+static func is_freed(zone_id: String, flags: Dictionary) -> bool:
+	if zone_id == CapitalZone.ID:
+		return bool(flags.get("primm_defeated", false)) or bool(flags.get(str(CapitalZone.FLAG_FREED), false))
+	return bool(flags.get(str(ZoneCompletion.flag_name(zone_id)), false))
+
+
+## Fable pass Nov 1 (Part 5): in a freed zone the hostile roamers stop hurting you. A touch-damage roamer wanders in peace and never
+## chases (no hit, no "-HP" toast); a battle roamer with a sparring deck keeps its friendly rematch; one without (the Capital's officers,
+## the zone elites) stands down too. Before the zone is freed nothing changes.
+static func is_peaceful(zone_id: String, enemy_id: String, freed: bool) -> bool:
+	if not freed:
+		return false
+	var data: ZoneEnemyInfo = info(zone_id, enemy_id)
+	if data == null:
+		return false
+	if data.kind == ZoneEnemyInfo.Kind.DAMAGE:
+		return true
+	return freed_recipe(zone_id, enemy_id).is_empty()
+
+
 ## The enemy seat for a zone duel: the type's deck and its own HP total (`freed`: the zone is free - a two-Path sparring deck).
 static func enemy_setup(content: ContentSet, zone_id: String, enemy_id: String, freed: bool = false) -> PlayerSetup:
 	var data: ZoneEnemyInfo = info(zone_id, enemy_id)
