@@ -287,6 +287,13 @@ func _dev(parts: PackedStringArray) -> void:
 	var battle: BattleScreen = _find_battle()
 	var result: String = ""
 	match what:
+		"newgame":
+			# Overnight Oct 31 - Nov 1: a fresh game as the title's New Game starts one, without the campaign slot screen (every slot on the
+			# dev PC holds a save; this driver never saves, so no slot is touched).
+			Session.save_enabled = false
+			Session.new_game()
+			SceneManager.go_to_start_area()
+			result = "New game started (no slot touched, saving off)"
 		"level":
 			result = DevActions.set_level(int(arg), true)
 		"gold":

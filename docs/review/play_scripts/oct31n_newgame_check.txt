@@ -1,0 +1,7 @@
+wait 2
+shot n01_title
+dev newgame
+wait 6
+shot n02_after
+dump
+scene

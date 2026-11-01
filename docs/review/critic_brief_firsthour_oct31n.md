@@ -49,6 +49,7 @@ Debug jumps (they do what the in-game developer menu on F10 does; prefer these):
 
 | Command | Does |
 |---|---|
+| `dev newgame` | a fresh game from the opening, as New Game would start it (no save slot is touched) |
 | `dev save <name>` / `dev load <name>` | snapshot the whole game / resume it (works across runs; a run always starts at the title screen, so `dev load` is normally the first line of a script after `wait 2`). A snapshot restores the place and the game state, not an open popup or a dungeon's node map: re-enter a dungeon with `dev travel dungeon` after a load |
 | `dev level <n>` / `dev gold <n>` / `dev heal` | silent level set, add gold, full heal |
 | `dev travel town` / `forest` / `capital` / `arena` | jump to the town (Crosspath), the starting forest, the Capital's inside, the arena |
@@ -61,20 +62,17 @@ Debug jumps (they do what the in-game developer menu on F10 does; prefer these):
 
 ## Starting a fresh game (do this at the start of every Path)
 
-The title screen shows Continue / New Game / Load Game / Settings / Quit because this PC has the developer's saves. A brand-new player
-would see only New Game. Use:
+The title screen shows Continue / Load Game because this PC has the developer's saves; a brand-new player would see only New Game.
+Look at the title screen, then start a fresh game with the driver's own command (it never touches a save slot):
 
 ```
+wait 2
 shot 01_title
-button New Game
-wait 1.5
-button Start over here   # every slot on this PC holds a developer save; this driver never saves, so nothing is deleted
-wait 1
-button Start Over        # the confirm
-wait 4
+dev newgame
+wait 6
 ```
 
-NEVER press "Delete" or "Copy" on the slot screen.
+Never use the title's New Game / slot screen (every slot holds the developer's saves).
 
 You wake in a forest; the wake-up lines lead into a conversation and then a **Path choice** screen with four columns:
 Beefcake (click about `415 400`), Gourmand (`670 400`), Refusemancer (`930 400`), Necrocrat (`1185 400`); `button More` opens a longer
