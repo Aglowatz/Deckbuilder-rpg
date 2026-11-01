@@ -56,7 +56,8 @@ const CLICK_PICK_RADIUS: float = 90.0
 const HIDDEN_CHEST_RADIUS: float = 1.5
 ## Overnight Oct 30-31 (mid-game critic #7): a vendor answers E from as far as their bark carries (NpcBarks.RANGE 3.2 m): 2.3 x
 ## INTERACT_FACTOR = 2.8 m. It was 1.5 (1.8 m): a player who heard Sable could stand there pressing E and get only her next one-liner.
-const VENDOR_REACH: float = 2.3
+## Overnight Oct 31 - Nov 1 (both mid-game critics could not raise Sable's prompt from in front of her stall): 2.7 x 1.2 = 3.24 m, her bark's range.
+const VENDOR_REACH: float = 2.7
 ## id -> {gold, item, card, equipment}; "" / 0 means that reward type is not part of this chest.
 ## Fourth brief, Part E: added "equipment" (an equipment id) - the 2 new chests each hold one
 ## basic piece.
@@ -1180,9 +1181,15 @@ static func _hidden_chest_secret(id: String) -> String:
 
 
 
+## "Talk to Sable": the prompt names who answers (the critic could not tell whose prompt it was in the crowded square).
+static func talk_prompt(spot_id: String) -> String:
+	var entry: NpcRegistry.Entry = NpcRegistry.find(str(NPC_IDS.get(spot_id, ""))) if NPC_IDS.has(spot_id) else null
+	return "Talk to %s" % entry.short_name() if entry != null and entry.short_name() != "" else "Talk"
+
+
 func _prompt_text(spot: Spot) -> String:
 	if spot.id in NPC_SPOT_IDS:
-		return "Talk"
+		return talk_prompt(spot.id)
 	match spot.id:
 		"well_door":
 			return "Open the iron hatch" if Session.side_unlocked("S-TOWN") else "Try the iron hatch"

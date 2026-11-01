@@ -58,7 +58,7 @@ Details: `docs/perf/perf_oct31n.md`.
 
 ## Part 4 - Mid-game critic cycle
 
-Full write-up: `docs/review/midgame_cycle_oct31n.md` (made at the end of the cycle). Save: `midgame_real` (story bot, Oct 30-31: cave,
+Full write-up: `docs/review/midgame_cycle_oct31n.md`. Save: `midgame_real` (story bot, Oct 30-31: cave,
 Maren's chain, the Gainlands and the D.N.A. freed with their dungeons, L13 expected deck/gear). Critics play from a worktree at the last
 commit (`/c/Dev/wp_critic`, import cache hard-linked: no extra disk).
 - **First critic: 4.8/10** (52 min, 28 runs; `docs/review/fresh_eyes_midgame_oct31n.md`). Triage: `docs/review/fresh_eyes_midgame_oct31n_triage.md`.
@@ -66,7 +66,10 @@ commit (`/c/Dev/wp_critic`, import cache hard-linked: no extra disk).
   "units and spells", Esc closes the topmost Deck Station popup first, deck-test events state the test and your odds before the reveal
   ("the well stays silent" only at the well), "Where to?" names every place (revealed or not) and pings it through the fog, empty-filter
   note, the Rotheart's "Overgrowth" renamed "Wild Growth", toasts wait while a reward pick is up, a "X is free" banner in freed zones.
-- **Second look**: running.
+- **Second look: 5.5/10** (fresh critic, same save; `docs/review/fresh_eyes_midgame_oct31n_second.md`).
+- **After the second look**: Sable reachable (vendor reach = her bark range 3.24 m; prompts name who answers), clicking another hand card
+  leaves "Choose a target", Quit Game asks and saves, "Open all" packs with one summary. Its big remaining items are design calls (inbox 9):
+  the Buffet/Dump difficulty wall for a two-zone deck, the 13-card hand layout, boss tempo.
 
 ## Part 5 - UX wish list + boss stall AI (done except the D.N.A. lobby dressing)
 
@@ -99,6 +102,7 @@ Tests: `tests/ui/test_overnight_oct31n_ux.gd` (4), `tests/core/ai/test_ai_stall_
 ## Critic scores
 | Area | Before | After |
 |---|---|---|
+| Mid game (Part 4) | 4.8 | 5.5 |
 
 ## Test suite (sharded, full)
 

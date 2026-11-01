@@ -1,0 +1,6 @@
+# Can the hero reach Sable's prompt? (two critics never got "[E] Talk" next to her)
+wait 2
+dev load midgame_real
+wait 12
+shot s01_start
+dump

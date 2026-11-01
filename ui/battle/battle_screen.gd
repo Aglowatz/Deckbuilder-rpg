@@ -1171,6 +1171,13 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 		Mode.TARGETING:
 			if button_event.pressed and _target_options.has(uid):
 				_finish_targeting(uid)
+			elif button_event.pressed and zone == BattleBoard.Zone.HAND and mine:
+				# Overnight Oct 31 - Nov 1 (second-look critic): clicking another card in hand drops the pending target choice and picks
+				# that card up instead (only a right-click cancelled, and the player was "trapped in Choose a target").
+				_cancel_targeting()
+				if mode == Mode.MAIN:
+					_press_uid = uid
+					_press_pos = get_global_mouse_position()
 
 
 ## Controller support (Oct 26): what a left click on `view` does, for the pad's A (`BattlePad`) - except that a card in hand plays at once

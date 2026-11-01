@@ -1,0 +1,19 @@
+wait 2
+dev load midgame_real
+wait 12
+hold W+A 1.2
+wait 0.5
+shot s02_a
+dump
+hold W+A 0.8
+wait 0.5
+shot s03_b
+dump
+hold A 0.6
+wait 0.5
+shot s04_c
+dump
+hold W 0.6
+wait 0.5
+shot s05_d
+dump

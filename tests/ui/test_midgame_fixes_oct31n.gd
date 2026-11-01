@@ -121,3 +121,40 @@ func test_a_freed_zone_says_so_once_per_visit() -> void:
 	Session.begin_zone_visit(DnaZone.ID)
 	assert_string_contains(Session.freed_zone_notice(), "is free")
 	assert_eq(Session.freed_zone_notice(), "", "once per visit")
+
+
+func test_open_all_opens_every_plain_pack_with_one_summary() -> void:
+	Session.add_pack("general_2", 3)
+	var plain_before: int = PacksScreen.plain_pack_count()
+	assert_gte(plain_before, 3)
+	var owned_before: int = Session.profile.owned_cards.size()
+	var openings: Array[PackOpening] = PacksScreen.open_all()
+	assert_eq(openings.size(), plain_before, "every plain pack opened")
+	assert_eq(PacksScreen.plain_pack_count(), 0)
+	assert_gt(Session.profile.owned_cards.size(), owned_before, "the cards joined the collection")
+	var lines: PackedStringArray = PacksScreen.summary_lines(openings)
+	assert_string_contains(lines[0], "Opened %d packs" % plain_before)
+	var screen: PacksScreen = PacksScreen.new()
+	add_child_autofree(screen)
+	await wait_frames(2)
+	assert_null(screen.find_child("OpenAll", true, false), "no button with nothing left to open")
+
+
+func test_vendors_answer_from_their_bark_range_and_prompts_name_them() -> void:
+	assert_gte(TownScene.VENDOR_REACH * StorybookScale.INTERACT_FACTOR, NpcBarks.RANGE, "E reaches as far as the bark carries")
+	assert_string_contains(TownScene.talk_prompt("vendor"), "Talk to ")
+	assert_ne(TownScene.talk_prompt("vendor"), "Talk to ", "a name follows")
+	assert_eq(TownScene.talk_prompt("no_such_spot"), "Talk")
+
+
+func test_quit_game_asks_and_saves_first() -> void:
+	var source: String = FileAccess.get_file_as_string("res://ui/screens/pause_menu.gd")
+	assert_true(source.contains("quit.pressed.connect(_ask_quit)"))
+	assert_true(source.contains("Session.save_game()\n\t\tSceneManager.quit_game()"))
+
+
+func test_clicking_another_hand_card_leaves_target_choice() -> void:
+	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd")
+	var at: int = source.find("		Mode.TARGETING:\n			if button_event.pressed and _target_options.has(uid):")
+	assert_gt(at, 0)
+	assert_true(source.substr(at, 700).contains("_cancel_targeting()"), "a click on a hand card cancels the target choice")

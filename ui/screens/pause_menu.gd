@@ -91,7 +91,8 @@ func _build_menu() -> void:
 	title.pressed.connect(_to_title)
 	column.add_child(title)
 	var quit: FancyButton = FancyButton.make("Quit Game", &"DangerButton", Vector2(0, 54))
-	quit.pressed.connect(SceneManager.quit_game)
+	quit.name = "QuitGameButton"
+	quit.pressed.connect(_ask_quit)
 	column.add_child(quit)
 	var version: Label = UIKit.label("The Wayward Path  v%s" % FeedbackReport.version(), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	version.name = "VersionLabel"
@@ -179,6 +180,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		_build_menu()
 	else:
 		toggle()
+
+
+## Overnight Oct 31 - Nov 1 (second-look critic): Quit Game asks first and saves like Quit to Title (it closed at once, unsaved).
+func _ask_quit() -> void:
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_root, "Quit the game?", "Your game is saved before it closes.", "Quit", "Keep playing", true)
+	dialog.name = "QuitConfirm"
+	dialog.confirmed.connect(func() -> void:
+		Session.save_game()
+		SceneManager.quit_game())
 
 
 func _to_title() -> void:

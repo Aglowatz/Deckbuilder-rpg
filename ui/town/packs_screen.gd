@@ -30,6 +30,16 @@ func _refresh() -> void:
 	for child: Node in _list.get_children():
 		child.queue_free()
 	var shown: int = 0
+	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more plain packs, "Open all" opens them in one go with one summary;
+	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.
+	var plain: int = plain_pack_count()
+	if plain >= 2:
+		var all_button: FancyButton = FancyButton.make("Open all (%d packs)" % plain, &"PrimaryButton", Vector2(300, 52))
+		all_button.name = "OpenAll"
+		all_button.pressed.connect(func() -> void:
+			Audio.sfx(&"ui_confirm")
+			_show_open_all(open_all()))
+		_list.add_child(all_button)
 	for pack: PackData in PackCatalog.all():
 		var count: int = Session.profile.pack_count(pack.id)
 		if count <= 0:
@@ -49,3 +59,101 @@ func _refresh() -> void:
 		_list.add_child(row)
 	if shown == 0:
 		_list.add_child(UIKit.label("No unopened packs. Free a zone, finish quests, or visit the Pack Vendor.", &"MutedLabel", 26))
+
+
+## How many packs "Open all" would open (every pack but the gilded ones).
+static func plain_pack_count() -> int:
+	var total: int = 0
+	for pack: PackData in PackCatalog.all():
+		if not pack.guarantee_epic_or_legendary:
+			total += Session.profile.pack_count(pack.id)
+	return total
+
+
+## Opens every plain pack in the inventory (cards join the collection as with one pack at a time) and returns the openings.
+static func open_all() -> Array[PackOpening]:
+	var openings: Array[PackOpening] = []
+	for pack: PackData in PackCatalog.all():
+		if pack.guarantee_epic_or_legendary:
+			continue
+		while Session.profile.pack_count(pack.id) > 0:
+			var opening: PackOpening = Session.open_pack(pack.id)
+			if opening == null:
+				break
+			openings.append(opening)
+	return openings
+
+
+## The summary of an "Open all": how many packs and cards, the new cards by name, the rest with copy counts, and what extra copies became.
+static func summary_lines(openings: Array[PackOpening]) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	var cards: int = 0
+	var new_names: PackedStringArray = []
+	var other: Dictionary = {}
+	var essence: int = 0
+	var gold: int = 0
+	for opening: PackOpening in openings:
+		for entry: PackOpening.Entry in opening.entries:
+			cards += 1
+			if entry.is_new and not new_names.has(entry.card.display_name):
+				new_names.append(entry.card.display_name)
+			elif not entry.converted:
+				other[entry.card.display_name] = int(other.get(entry.card.display_name, 0)) + 1
+			for path: Variant in entry.essence.keys():
+				essence += int(entry.essence[path])
+			gold += entry.gold
+	lines.append("Opened %d pack%s: %d cards." % [openings.size(), "" if openings.size() == 1 else "s", cards])
+	if not new_names.is_empty():
+		lines.append("[color=#ffcf70]New: %s[/color]" % ", ".join(new_names))
+	if not other.is_empty():
+		var parts: PackedStringArray = []
+		for card_name: Variant in other.keys():
+			parts.append("%s%s" % [card_name, "" if int(other[card_name]) == 1 else " x%d" % int(other[card_name])])
+		lines.append("More copies: %s" % ", ".join(parts))
+	if essence > 0 or gold > 0:
+		lines.append("Extra copies past the cap became %d essence and %d gold." % [essence, gold])
+	return lines
+
+
+func _show_open_all(openings: Array[PackOpening]) -> void:
+	if openings.is_empty():
+		return
+	if AudioRegistry.has_id("STG-PACK-COMMON"):
+		Audio.sting(&"STG-PACK-COMMON")
+	var layer: Control = Control.new()
+	layer.name = "OpenAllSummary"
+	UIKit.full_rect(layer)
+	layer.z_index = 200
+	layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(layer)
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.01, 0.05, 0.8)
+	UIKit.full_rect(shade)
+	layer.add_child(shade)
+	var center: CenterContainer = CenterContainer.new()
+	UIKit.full_rect(center)
+	layer.add_child(center)
+	var panel: PanelContainer = UIKit.panel()
+	panel.custom_minimum_size = Vector2(1000, 0)
+	center.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(14)
+	panel.add_child(column)
+	column.add_child(UIKit.label("Packs opened", &"HeadingLabel", 36, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var text: RichTextLabel = RichTextLabel.new()
+	text.bbcode_enabled = true
+	text.fit_content = true
+	text.custom_minimum_size = Vector2(940, 0)
+	text.add_theme_font_size_override("normal_font_size", 22)
+	text.text = "
+
+".join(summary_lines(openings))
+	column.add_child(text)
+	column.add_child(UIKit.label("Every card is in your collection now: build with them at the Deck Station (B).", &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	var done: FancyButton = FancyButton.make("Done", &"PrimaryButton", Vector2(220, 56))
+	done.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	done.pressed.connect(func() -> void:
+		layer.queue_free()
+		_refresh())
+	column.add_child(done)
+	ConfirmKey.attach(layer, done)
+	done.call_deferred(&"grab_focus")
