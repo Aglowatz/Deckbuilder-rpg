@@ -54,7 +54,7 @@ func run() -> void:
 	await _capital_and_castle()
 	# Overnight Oct 31 - Nov 1: --snapshot_after=5 saves after Primm's castle (a postgame snapshot for the postgame critic).
 	if snapshot_after > Gatekeepers.IDS.size():
-		await _save_progress_snapshot(_arg("snapshot", "postgame_real"))
+		await _save_progress_snapshot(_arg("snapshot", "postgame_real"), ProgressionModel.level_for("S-BEEF", 23))
 	_finish()
 
 
@@ -69,9 +69,10 @@ func _arg(key: String, fallback: String) -> String:
 ## Overnight Oct 30-31, Part 1: a real-progress snapshot for a mid-game critic. The story so far was played by the bot (the cave, Maren's
 ## chain, Brannoch, N zones with their favours, side and main dungeons, memories); the battles were decreed, so the level, the deck, the
 ## gear, the items and the gold are set to what the expected player has at this point (`ProgressionModel`, `docs/design/sim/economy_model.md`).
-func _save_progress_snapshot(snapshot_name: String) -> void:
+## `at_level` > 0 sets the level outright (the postgame snapshot: the expected player after Primm, who meets Swolympus at 23).
+func _save_progress_snapshot(snapshot_name: String, at_level: int = 0) -> void:
 	var next_zone: String = ProgressionModel.ZONE_ORDER[mini(Session.completed_zone_count(), ProgressionModel.ZONE_ORDER.size() - 1)]
-	var level: int = maxi(ProgressionModel.level_for("zone:%s" % next_zone, 13), Session.profile.level)
+	var level: int = at_level if at_level > 0 else maxi(ProgressionModel.level_for("zone:%s" % next_zone, 13), Session.profile.level)
 	DevActions.set_level(level, true)
 	var path: Affinity.Type = Session.profile.primary_affinity
 	var deck: Deck = ProgressionModel.reference_deck(Session.content, path, level)

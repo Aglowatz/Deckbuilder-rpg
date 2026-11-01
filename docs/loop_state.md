@@ -17,9 +17,9 @@ Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0
 | 1d | Spotless pacing, first-view Esc confirm, Doppelganger reveal name, feats re-check on load, boss plate wrap | done |
 | 2 | music overlap fix + re-render all | done (509d532f) |
 | 3 | perf | partial (83329b97): frame budget done, loading measured not cached |
-| 4 | mid-game critic cycle | first 4.8, fixes df634833, second-look critic running (report fresh_eyes_midgame_oct31n_second.md); then write docs/review/midgame_cycle_oct31n.md |
+| 4 | mid-game critic cycle | done: 4.8 -> 5.5 (df634833, cfd95045), docs/review/midgame_cycle_oct31n.md |
 | 5 | UX wish list + boss stall AI | done (3a2cbaf5) except D.N.A. lobby dressing |
-| 6 | late-game + postgame critic cycles | todo |
+| 6 | late-game + postgame critic cycles | story bot making lategame_real (_logs/story_late.txt) |
 | 7 | v0.5.0 RC | todo |
 | 8 | keep improving | todo |
 
