@@ -21,6 +21,6 @@ Start (20:46 MDT): disk was 1.7 GB free -> deleted `builds/_export` (unpacked v0
 | 5 | UX wish list + boss stall AI | done (3a2cbaf5) except D.N.A. lobby dressing |
 | 6 | late-game + postgame critic cycles | late 4.5 (fixes 9c3a0181), postgame 3.5 (fixes 1729ed90); second looks running in Part 8 |
 | 7 | v0.5.0 RC | done: builds/TheWaywardPath-v0.5.0-windows.zip 762 MB, release smoke + exported playtest OK |
-| 8 | keep improving | cycle 1 late second look 4.6 (cfe698b5); cycle 2 postgame second look running (fresh_eyes_postgame_oct31n_second.md); then sharded suite |
+| 8 | keep improving | cycles 1-2 done (late 4.6, postgame 4.0; a13a7279); next: D.N.A. lobby dressing, Lab max-HP display, the "Where to?" popup and M/Esc, first-hour critic |
 
-Next: late second look -> fixes -> postgame second look (brief: copy critic_brief_postgame_oct31n.md with _second names, prefix critic10_) -> fixes; after two cycles run the sharded suite (ui, audio, characters, gut_group root, core, world in foreground chunks).
+Next: Part 8 polish (see table); the critic worktree was removed (re-create with git worktree add --detach /c/Dev/wp_critic HEAD + cp -al .godot).

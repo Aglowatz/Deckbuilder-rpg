@@ -1,7 +1,28 @@
 # Report - Overnight Oct 31 -> Nov 1 (Opus): the 8-part loop
 
-Sat Oct 31 20:46 MDT ->. Tag `pre-overnight-oct31n` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`, section
+Sat Oct 31 20:46 MDT -> Sun Nov 1 (still running at the last update, ~05:40). Tag `pre-overnight-oct31n` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`, section
 "Overnight Oct 31 - Nov 1". Last run's report: `docs/overnight/oct31_dialogue/overnight_report_oct30b.md`.
+
+## Morning summary
+
+| Part | State | Commits |
+|---|---|---|
+| 1 Housekeeping (sharded GUT, rewrites/labels, answers 8-10, feats, boss plate) | done | ae91a42a |
+| 2 Music overlap fix + re-render all 144 | done | 509d532f |
+| 3 Performance | partial: frame budget done (all inside after a re-run), loading measured but not cached | 83329b97 |
+| 4 Mid-game critic cycle | done: 4.8 -> 5.5 | df634833, cfd95045 |
+| 5 UX wish list + boss stall AI | done except the D.N.A. lobby dressing | 3a2cbaf5 |
+| 6 Late-game + postgame cycles | done: late ~4.5 -> 4.6, postgame 3.5 -> 4.0 (second looks ran in Part 8) | 9c3a0181, 1729ed90, cfe698b5, a13a7279 |
+| 7 v0.5.0 RC | done, not shared: `builds/TheWaywardPath-v0.5.0-windows.zip`, **762 MB** | 2d573726 |
+| 8 Keep improving | 2 cycles (the two second looks + fixes) | cfe698b5, a13a7279 |
+
+- **Tests**: full sharded suite 2540/2541 passed, 1 pending, 0 failing (after Parts 1-7); core/world/ui re-run green after Part 8.
+- **Decide first** (inbox "Overnight Oct 31 - Nov 1", most important first): 1 the Escoffina naming after the reveal; 9 the HP / healing rules
+  (every critic's #1 or #2: 16 HP at L13, no healing even in freed zones); 9 boss tempo (the Doppelganger 25 % in sims); 13 a "Loose Ends"
+  quest after the credits; 2 listen to the overlap-fixed music.
+- **Recurring bug class found tonight**: NPC talk spots sit in front of the NPC, so standing beside them gave no prompt (Sable, Old Man
+  Mountain, Spotless). Fixed in zones (the NPC's body counts) and in town (vendor reach = bark range).
+- **New dialogue lines proposed**: 1 (Primm's phase-1 rule wording) in `docs/dialogue/new_lines_proposed_oct31.csv`.
 
 **Start-up**: the C: drive had 1.7 GB free. Deleted `builds/_export` (the unpacked copy of the v0.4.9 zip, re-made by every export) and the
 Oct 30 `_screenshots/play` critic runs (gitignored, reports already written): 4.9 GB free. The v0.4.9 zip is kept.
