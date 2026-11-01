@@ -94,12 +94,26 @@ static func apply_preset(game: GameState, content: ContentSet, preset: Dictionar
 
 
 ## The reward of a first clear with the "primary" Path resolved to the player's own, as
+## The prize multiplier: the player's level over the tier's expected level (`ProgressionModel` "arena:<tier>"), at least 1.
+static func prize_factor(tier: int, level: int) -> float:
+	if level <= 0:
+		return 1.0
+	var expected: int = maxi(1, ProgressionModel.level_for("arena:%d" % tier, level))
+	return maxf(1.0, float(level) / float(expected))
+
+
 ## {"gold", "xp", "essence": {Affinity.Type: amount}, "equipment", "item", "card"}.
-static func resolve_reward(encounter: ArenaEncounter, primary: Affinity.Type) -> Dictionary:
+static func resolve_reward(encounter: ArenaEncounter, primary: Affinity.Type, level: int = 0) -> Dictionary:
 	var result: Dictionary = {}
 	for key: Variant in encounter.reward.keys():
 		if str(key) != "essence":
 			result[str(key)] = encounter.reward[key]
+	# Fable pass Nov 1 (Part 7): the gold and XP of a first clear scale with the player's level above the tier's expected level (a postgame
+	# L23 player at tier 1 paid 90 gold); never below the printed prize.
+	var factor: float = prize_factor(encounter.tier, level)
+	for key: String in ["gold", "xp"]:
+		if result.has(key):
+			result[key] = int(round(float(int(result[key])) * factor / 5.0)) * 5
 	var essence: Dictionary = {}
 	for key: Variant in (encounter.reward.get("essence", {}) as Dictionary).keys():
 		var path: Affinity.Type = primary if str(key) == "primary" else Affinity.from_symbol(str(key))

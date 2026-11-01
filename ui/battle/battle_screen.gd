@@ -39,6 +39,8 @@ var _screenshot_args: Dictionary = {}
 var _overlay_layer: Control
 var _mulligan_panel: Control
 var _result_panel: Control
+## Fable pass Nov 1 (Part 7): the result shows once (two paths used to reach it after a boss).
+var _result_shown: bool = false
 var _press_uid: int = 0
 var _press_pos: Vector2 = Vector2.ZERO
 var _dragging: bool = false
@@ -1165,9 +1167,13 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 				_on_resource_pressed(view.data.resource_kind as ResourceKind.Kind)
 		Mode.ATTACK:
 			if button_event.pressed and zone == BattleBoard.Zone.FIELD and mine:
+				hud.hide_preview()
+				_hovered_view = null
 				_toggle_attacker(uid)
 		Mode.BLOCK:
 			if button_event.pressed and zone == BattleBoard.Zone.FIELD:
+				hud.hide_preview()
+				_hovered_view = null
 				_block_click(uid, mine)
 		Mode.TOSS:
 			if button_event.pressed and zone == BattleBoard.Zone.HAND and mine:
@@ -2005,6 +2011,11 @@ func boss_victory_sting() -> String:
 
 
 func _show_result() -> void:
+	if _result_shown:
+		return
+	_result_shown = true
+	if script_banner != null:
+		script_banner.clear_warning()  # no "Next turn: ..." over Victory
 	mode = Mode.OVER
 	_refresh_ui()
 	var won: bool = game.winner == 0
@@ -2021,7 +2032,9 @@ func _show_result() -> void:
 		Audio.sfx(&"victory" if won else &"defeat")
 	# Battle feel, Part C: a short end sequence before the result panel: the banner, the losing plate knocked out, and a
 	# gold shower on a win. Fast and Very Fast shorten it.
-	hud.show_banner("Victory!" if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"))
+	hud.hide_preview()  # critic 12 #13: no card tooltip over the result
+	_hovered_view = null
+	hud.show_banner("Victory!" if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"), 1.4 / maxf(board.speed, 1.0))  # critic 12 #6: solid until the panel
 	if not game.is_draw and game.winner >= 0:
 		hud.knock_out(1 - game.winner)
 		fx.burst(hud.portrait_center(1 - game.winner), Color("ff8a5a"), 30, 320.0)

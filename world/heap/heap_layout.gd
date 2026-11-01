@@ -224,7 +224,143 @@ var corruption: Dictionary = {}
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
+## Fable pass Nov 1 (Part 7, loading): `build()` took 641 ms of every Dump load; its result is plain data (peaks, chutes, ramps,
+## bridges, props, signs, areas, spots, anchors, spawns...), so it is kept in the BuildCache (`snapshot` / `restore`) and read back
+## the next time. The key names the layout version: bump it when `build` changes what it stores.
+const CACHE_KEY: String = "heap_layout_v1"
+var _built: bool = false
+
+
+func build_cached() -> void:
+	var saved: Variant = BuildCache.fetch(CACHE_KEY, func() -> Variant:
+		build()
+		return snapshot())
+	if not _built and saved is Dictionary:
+		restore(saved as Dictionary)
+
+
+## Everything `build` produced, as plain Variants (store_var-safe).
+func snapshot() -> Dictionary:
+	var out: Dictionary = {
+		"pits": pits.duplicate(), "scree": scree.duplicate(), "anchors": anchors.duplicate(), "enemy_spawns": enemy_spawns.duplicate(true),
+		"chests": chests.duplicate(), "paths": paths.duplicate(true), "flat_spots": flat_spots.duplicate(), "obstacles": obstacles.duplicate(),
+		"barricade_positions": barricade_positions.duplicate(), "corruption": corruption.duplicate(true),
+	}
+	var peak_rows: Array = []
+	for peak: Peak in peaks:
+		peak_rows.append({"id": peak.id, "title": peak.title, "center": peak.center, "radius": peak.radius, "height": peak.height})
+	var chute_rows: Array = []
+	for chute: Chute in chutes:
+		chute_rows.append({"id": chute.id, "title": chute.title, "pos": chute.pos, "radius": chute.radius, "path": chute.path, "dest_anchor": chute.dest_anchor})
+	var ramp_rows: Array = []
+	for ramp: Ramp in ramps:
+		ramp_rows.append({"id": ramp.id, "kind": ramp.kind, "rect": ramp.rect, "y0": ramp.y0, "y1": ramp.y1})
+	var bridge_rows: Array = []
+	for bridge: Bridge in bridges:
+		bridge_rows.append({"id": bridge.id, "a": bridge.a, "b": bridge.b, "y_a": bridge.y_a, "y_b": bridge.y_b, "rise": bridge.rise, "x": bridge.x})
+	var prop_rows: Array = []
+	for prop: Prop in props:
+		prop_rows.append({"kind": prop.kind, "pos": prop.pos, "yaw": prop.yaw, "model_scale": prop.model_scale, "radius": prop.radius, "variant": prop.variant})
+	var sign_rows: Array = []
+	for sign: Sign in signs:
+		sign_rows.append({"key": sign.key, "pos": sign.pos, "yaw": sign.yaw, "size": sign.size, "style": sign.style})
+	var area_rows: Array = []
+	for area: Area in areas:
+		area_rows.append({"id": area.id, "title": area.title, "center": area.center, "radius": area.radius})
+	out["peaks"] = peak_rows
+	out["chutes"] = chute_rows
+	out["ramps"] = ramp_rows
+	out["bridges"] = bridge_rows
+	out["props"] = prop_rows
+	out["signs"] = sign_rows
+	out["areas"] = area_rows
+	return out
+
+
+## The inverse of `snapshot`.
+func restore(data: Dictionary) -> void:
+	pits.assign(data.get("pits", []) as Array)
+	scree.assign(data.get("scree", []) as Array)
+	anchors = (data.get("anchors", {}) as Dictionary).duplicate()
+	enemy_spawns.assign(data.get("enemy_spawns", []) as Array)
+	chests = (data.get("chests", {}) as Dictionary).duplicate()
+	paths.assign(data.get("paths", []) as Array)
+	flat_spots.assign(data.get("flat_spots", []) as Array)
+	obstacles.assign(data.get("obstacles", []) as Array)
+	barricade_positions = (data.get("barricade_positions", {}) as Dictionary).duplicate()
+	corruption = (data.get("corruption", {}) as Dictionary).duplicate(true)
+	peaks.clear()
+	for row: Dictionary in data.get("peaks", []) as Array:
+		var peak: Peak = Peak.new()
+		peak.id = str(row["id"])
+		peak.title = str(row["title"])
+		peak.center = row["center"] as Vector2
+		peak.radius = float(row["radius"])
+		peak.height = float(row["height"])
+		peaks.append(peak)
+	chutes.clear()
+	for row: Dictionary in data.get("chutes", []) as Array:
+		var chute: Chute = Chute.new()
+		chute.id = str(row["id"])
+		chute.title = str(row["title"])
+		chute.pos = row["pos"] as Vector2
+		chute.radius = float(row["radius"])
+		chute.path = row["path"] as PackedVector2Array
+		chute.dest_anchor = str(row["dest_anchor"])
+		chutes.append(chute)
+	ramps.clear()
+	for row: Dictionary in data.get("ramps", []) as Array:
+		var ramp: Ramp = Ramp.new()
+		ramp.id = str(row["id"])
+		ramp.kind = str(row["kind"])
+		ramp.rect = row["rect"] as Rect2
+		ramp.y0 = float(row["y0"])
+		ramp.y1 = float(row["y1"])
+		ramps.append(ramp)
+	bridges.clear()
+	for row: Dictionary in data.get("bridges", []) as Array:
+		var bridge: Bridge = Bridge.new()
+		bridge.id = str(row["id"])
+		bridge.a = row["a"] as Vector2
+		bridge.b = row["b"] as Vector2
+		bridge.y_a = float(row["y_a"])
+		bridge.y_b = float(row["y_b"])
+		bridge.rise = float(row["rise"])
+		bridge.x = float(row["x"])
+		bridges.append(bridge)
+	props.clear()
+	for row: Dictionary in data.get("props", []) as Array:
+		var prop: Prop = Prop.new()
+		prop.kind = str(row["kind"])
+		prop.pos = row["pos"] as Vector3
+		prop.yaw = float(row["yaw"])
+		prop.model_scale = float(row["model_scale"])
+		prop.radius = float(row["radius"])
+		prop.variant = int(row["variant"])
+		props.append(prop)
+	signs.clear()
+	for row: Dictionary in data.get("signs", []) as Array:
+		var sign: Sign = Sign.new()
+		sign.key = str(row["key"])
+		sign.pos = row["pos"] as Vector3
+		sign.yaw = float(row["yaw"])
+		sign.size = float(row["size"])
+		sign.style = str(row["style"])
+		signs.append(sign)
+	areas.clear()
+	for row: Dictionary in data.get("areas", []) as Array:
+		var area: Area = Area.new()
+		area.id = str(row["id"])
+		area.title = str(row["title"])
+		area.center = row["center"] as Vector2
+		area.radius = float(row["radius"])
+		areas.append(area)
+	_view_targets = PackedVector3Array()
+	_built = true
+
+
 func build() -> void:
+	_built = true
 	_rng.seed = 8181
 	corruption = ZoneStyles.style("heap").get("corruption", {}) as Dictionary
 	_peaks()

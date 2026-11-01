@@ -244,6 +244,9 @@ func _process(delta: float) -> void:
 		return
 	_time += delta
 	if _current == "":
+		# Fable pass Nov 1 (critic 12 #4): a tip never opens over a confirm dialog ("Play a unit" sat on "End your turn?"); it waits.
+		if not get_tree().root.find_children("*", "ConfirmDialog", true, false).is_empty():
+			return
 		for step: Dictionary in STEPS:
 			var id: String = str(step["id"])
 			if not _done.has(id) and _triggered(id):

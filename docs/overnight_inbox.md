@@ -857,3 +857,18 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    Escoffina") are list annotations, not plates.
 5. **Side dungeons' first-clear gold** (`def.reward_gold` 100) is counted by the economy model but never paid by the game (only the card,
    the gear and now the XP bonus). Pay it, or drop it from the model?
+6. **First-hour critic 12 (5.4 / 10, up from 5.0)** - the fixes I applied: tips never open over a confirm dialog, the Victory banner holds
+   solid until the result panel (it was caught mid-fade behind the last card), a click on the field drops a stale card tooltip, the quest
+   log's empty state hides its blank panel. The design calls, yours: (a) **22 dialogue taps before the Path choice** (the critic's #1; the
+   lines are yours and frozen - cut to ~8 and move the cave directions into the cave's first node text?); (b) **the Path screen's card
+   thumbnails are unreadable** and "More" is jargon ("19 Beefcake Infrastructure") - enlarge the three cards on hover, three plain
+   sentences per Path?; (c) **a one-screen "How a turn works" card** before the first duel (infrastructure = energy, units attack, you block);
+   (d) **card text at hand size ~9 px** - hand cards +20 %, rules font 12 px minimum?; (e) **the Deck Station's locked slots shout "Level 7"
+   at level 1** - a simple first view until level 5?; (f) **the forest path to the cave** is a one-tile strip the critic failed to find three
+   times (widen it, a lit footpath from the bedroll, an "E - Enter the cave" prompt from farther away?); (g) **Esc opens Pause over a battle
+   and Pause > Glossary hides the battle** - Esc should close the top-most panel first?; (h) the critic's pilot still took 7-13 turns in the
+   first duel (six Infrastructure a side) - the teaching hand was dealt (2 Powerhouse, 2 Hamster Wheel Runners, Dropped Weights; shot
+   c12f_01) and the sim's competent player wins in 4 turns; the pilot is the critic's tool, not a player, but say if you want the Scavenger's
+   deck cut to fewer basics so its turns stay short.
+7. **The town HUD's `"()-+/%&` label** the critic read in a dump is the font warmup (a 3-pixel, 2 %-alpha clip on a hidden layer) - not visible
+   to a player; left alone.

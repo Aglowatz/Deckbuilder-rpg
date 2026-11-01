@@ -70,6 +70,10 @@ func _process(delta: float) -> void:
 		return
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
+		auto_walking = false
+	elif auto_walking and input_enabled:
+		direction = _auto_direction(delta)
+	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()
 		var was_sprinting: bool = sprinting
 		sprinting = wants_sprint()
@@ -121,6 +125,33 @@ func _read_input() -> Vector2:
 
 
 const MIN_STICK_SPEED: float = 0.4
+## Fable pass Nov 1 (Part 7): a click on an NPC or a spot walks the hero there (`walk_to`, from the town and zone scenes); any key or
+## stick input cancels it, and a walk that makes no progress for AUTO_WALK_TIMEOUT seconds gives up.
+const AUTO_WALK_TIMEOUT: float = 6.0
+var auto_target: Vector3 = Vector3.ZERO
+var auto_walking: bool = false
+var _auto_time: float = 0.0
+
+
+func walk_to(target: Vector3) -> void:
+	auto_target = target
+	auto_walking = true
+	_auto_time = 0.0
+
+
+func stop_walking() -> void:
+	auto_walking = false
+
+
+## The input-frame direction toward the auto-walk target (what `_read_input` would return), or zero once there.
+func _auto_direction(delta: float) -> Vector2:
+	var flat: Vector3 = Vector3(auto_target.x - position.x, 0.0, auto_target.z - position.z)
+	_auto_time += delta
+	if flat.length() < 0.35 or _auto_time > AUTO_WALK_TIMEOUT:
+		auto_walking = false
+		return Vector2.ZERO
+	var local: Vector3 = flat.normalized().rotated(Vector3.UP, -move_yaw)
+	return Vector2(local.x, local.z)
 ## Overnight Oct 30-31, Part 3: the sprint speed (x the walk; the walk animation plays faster to match).
 const SPRINT: float = 1.65
 

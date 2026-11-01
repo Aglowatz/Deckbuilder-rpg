@@ -1,0 +1,20 @@
+# Fable pass Nov 1, Part 7: Captain Spotless with the gate open - E must open his lines (the late critic saw "[E] Talk" that opened nothing).
+wait 2
+dev newgame
+wait 6
+dev flag cap_gate_open
+dev travel capital
+wait 12
+key E
+wait 1
+scene
+hold W 10.2
+wait 0.5
+scene
+shot 01_at_spotless
+dump
+key E
+wait 1.5
+shot 02_after_e
+dump
+scene

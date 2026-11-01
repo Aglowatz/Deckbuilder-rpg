@@ -1045,6 +1045,47 @@ func _update_nearest() -> void:
 			hud.hide_prompt()
 	else:
 		hud.show_prompt("[E]  %s" % _prompt_for(_near))
+	# Fable pass Nov 1 (Part 7): a clicked spot - talk once the walk brings it in reach (or drop it if the walk ended elsewhere).
+	if _auto_spot != null and (_near == _auto_spot or not player.auto_walking):
+		var target: ZoneSpot = _auto_spot
+		_auto_spot = null
+		player.stop_walking()
+		if _near == target:
+			_interact(target)
+
+
+## Fable pass Nov 1 (Part 7): the visible spot whose marker is under `screen_pos` (within CLICK_PICK_RADIUS; the closest wins), or null.
+var _auto_spot: ZoneSpot
+
+
+func _spot_under(screen_pos: Vector2) -> ZoneSpot:
+	var best: ZoneSpot = null
+	var best_distance: float = CLICK_PICK_RADIUS
+	for spot: ZoneSpot in spots:
+		if bool(spot.data.get("hidden", false)) or spot.marker == null or not is_instance_valid(spot.marker) or spot.kind == "sign":
+			continue
+		var at: Vector3 = spot.marker.global_position
+		if _camera.is_position_behind(at):
+			continue
+		var distance: float = _camera.unproject_position(at).distance_to(screen_pos)
+		if distance <= best_distance:
+			best = spot
+			best_distance = distance
+	return best
+
+
+## Walks the hero to `spot` (stopping a little short, on the hero's side; an NPC's body counts) and talks on arrival.
+func _walk_to_spot(spot: ZoneSpot) -> void:
+	_auto_spot = spot
+	var goal: Vector3 = spot.position
+	var body: Vector3 = npc_body_position(spot)
+	if body.x < 1.0e8:
+		goal = body
+	var toward: Vector3 = player.position - goal
+	toward.y = 0.0
+	var stop_at: Vector3 = goal + (toward.normalized() * minf(spot.radius * 0.6, toward.length()) if toward.length() > 0.01 else Vector3.ZERO)
+	player.walk_to(stop_at)
+	Audio.sfx(&"ui_tick", -14.0)
 
 
 func _prompt_for(spot: ZoneSpot) -> String:
@@ -1160,12 +1201,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			_interact(_near)
 			return
-	if event is InputEventMouseButton and _near != null:
+	if event is InputEventMouseButton:
 		var click: InputEventMouseButton = event as InputEventMouseButton
 		if click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-			if _camera.unproject_position(_near.marker.position).distance_to(click.position) <= CLICK_PICK_RADIUS:
+			if _near != null and _camera.unproject_position(_near.marker.position).distance_to(click.position) <= CLICK_PICK_RADIUS:
 				get_viewport().set_input_as_handled()
 				_interact(_near)
+			else:
+				# Fable pass Nov 1 (Part 7): a click on an NPC or a spot out of reach walks the hero there and talks on arrival.
+				var target: ZoneSpot = _spot_under(click.position)
+				if target != null:
+					get_viewport().set_input_as_handled()
+					_walk_to_spot(target)
 
 
 # ---- Interactions ----------------------------------------------------------------------------

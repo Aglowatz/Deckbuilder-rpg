@@ -12,7 +12,7 @@
 			"Medium": {
 				"avg_ms": 19.5,
 				"p99_ms": 25.3,
-				"draw_calls": 840,
+				"draw_calls": 890,
 				"vram_mb": 960,
 				"ram_mb": 1850
 			}

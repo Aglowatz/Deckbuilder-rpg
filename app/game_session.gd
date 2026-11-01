@@ -1600,6 +1600,17 @@ func in_dungeon() -> bool:
 
 
 ## Builds the duel for a battle or boss node. HP carries over from the run.
+## Fable pass Nov 1: true when the run already carries the dungeon's player-side rules (the Lab: on the run since entry).
+func _run_carries_rules(key: String, node_number: int) -> bool:
+	var rules: ModifierSource = DungeonRules.player_source(key, node_number)
+	if rules == null or run == null:
+		return false
+	for source: ModifierSource in run.dungeon_sources:
+		if source != null and source.source_name == rules.source_name:
+			return true
+	return false
+
+
 func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
@@ -1632,7 +1643,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	if main_dungeon_active or mini_active:
 		# The dungeon list's own buffs and debuffs, on top of the zone effects (`DungeonRules`).
 		zone_source = DungeonRules.with_shared(zone_source, dungeon_key, node.number)
-		if player_rules == null:
+		if player_rules == null and not _run_carries_rules(dungeon_key, node.number):
 			player_rules = DungeonRules.player_source(dungeon_key, node.number)
 		var enemy_rules: ModifierSource = DungeonRules.enemy_source(dungeon_key, node.number)
 		if enemy_rules != null:
@@ -3114,7 +3125,12 @@ func enter_lab() -> void:
 		return
 	dungeon_key = plan.id
 	dungeon_map = MainDungeons.build_map(plan.id)
-	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
+	# Fable pass Nov 1 (Part 7): Specimen Conditions (-5 max life) rides the run, so the map HUD shows it; battles do not add it again.
+	var lab_rules: ModifierSource = DungeonRules.player_source(plan.id)
+	var lab_sources: Array[ModifierSource] = []
+	if lab_rules != null:
+		lab_sources.append(lab_rules)
+	run = DungeonRun.enter(profile, deck, lab_sources)
 	mini_active = true
 	town_side_active = true
 	main_dungeon_active = false
@@ -3458,7 +3474,7 @@ func resolve_arena_battle(context: BattleContext) -> Dictionary:
 		if not is_arena_cleared(encounter.id):
 			set_flag(ArenaDefs.flag_name(encounter.id))
 			result["first_clear"] = true
-			var reward: Dictionary = ArenaScenario.resolve_reward(encounter, profile.primary_affinity)
+			var reward: Dictionary = ArenaScenario.resolve_reward(encounter, profile.primary_affinity, profile.level)
 			result["reward"] = reward
 			_grant_arena_reward(reward)
 		else:

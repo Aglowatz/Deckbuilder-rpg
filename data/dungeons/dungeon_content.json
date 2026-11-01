@@ -1299,7 +1299,7 @@
 			},
 			"foes": {
 				"2": {
-					"name": "Decontamination Technician",
+					"name": "Intake Orderly",
 					"deck": "necro_control",
 					"size": 40,
 					"hp": 30,

@@ -16,6 +16,6 @@ Already done this morning (d2d5fedb, a796eb84): max HP 15 -> 30, Loose Ends ques
 | 3 | Dungeon-clear XP bonus + curve recheck | done (DungeonClearBonus 0.5 / 0.15 of a level; expected +1 at the Dump/castle) |
 | 4 | Escoffina / Doppelganger / Grand Chef naming | done (REVEALS name Escoffina, boss intro never reveals, formerly/posing handling, plate_for; inbox 4) |
 | 5 | Roamers stop hurting once freed | done (ZoneEnemy.peaceful via ZoneEnemies.is_peaceful/is_freed; Capital on primm_defeated, rifts close) |
-| 6 | First hour: first duel, click-to-play, roofs fade, fountain, starter study, critic | in progress |
-| 7 | Yes-to-all list | - |
+| 6 | First hour: first duel, click-to-play, roofs fade, fountain, starter study, critic | a-e done (23c02536, eda8d80e); critic 12 running from /c/Dev/wp_critic (brief critic_brief_firsthour_nov1.md) |
+| 7 | Yes-to-all list | code written, untested (click-to-walk, 2-of-3 picks, Leave on deck tests, best card first, one Victory, budget 890, Lab -5 on the run, Intake Orderly, arena prizes x level, typo sweep tools/typo_sweep.js); HeapLayout cache + Spotless repro still to do |
 | 8 | Verify + build v0.5.1 | - |

@@ -44,7 +44,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 func build(parent: Node3D) -> void:
 	_rng.seed = 33
-	layout.build()
+	layout.build_cached()  # Fable pass Nov 1 (Part 7): the layout as data from the BuildCache (641 ms cold -> a read)
 	LoadTiming.detail("heap: layout.build")
 	story = ZoneStoryText.for_zone(HeapZone.ID)
 	root = Node3D.new()

@@ -490,7 +490,7 @@ func set_prompt(text: String) -> void:
 	_prompt.text = text
 
 
-func show_banner(text: String, color: Color) -> void:
+func show_banner(text: String, color: Color, hold: float = 0.5) -> void:
 	_banner.text = text.to_upper()
 	_banner.add_theme_color_override("font_color", color)
 	_banner.pivot_offset = _banner.size * 0.5
@@ -498,7 +498,7 @@ func show_banner(text: String, color: Color) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(_banner, "modulate:a", 1.0, 0.15)
 	tween.parallel().tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_interval(0.5)
+	tween.tween_interval(hold)
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
 
 

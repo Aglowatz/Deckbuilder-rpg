@@ -113,10 +113,9 @@ func _build_rewards() -> void:
 	_add_buttons()
 	# Fresh eyes Oct 30: the middle card starts chosen, so "Take" is the live gold button from the first frame (with nothing chosen the
 	# plain "Skip card" read as the primary button and the critic skipped the first reward).
-	if _cards.size() > 1:
-		_select(1, true)
-	elif not _cards.is_empty():
-		_select(0, true)
+	# Fable pass Nov 1 (Part 7): the rarest card starts chosen (a critic took an Uncommon over an Epic with E); ties keep the middle.
+	if not _cards.is_empty():
+		_select(_best_index(), true)
 
 
 ## The card views of the offer's current cards, in the card row (built once, and again after a reroll).
@@ -191,6 +190,15 @@ func _add_buttons() -> void:
 			_reroll_button.tooltip_text = "Not enough gold (you have %d)." % Session.gold if _reroll_button.disabled else "Pay %d gold for three different cards. Once per pick." % _offer.reroll_price
 			_reroll_button.pressed.connect(_reroll)
 			buttons.add_child(_reroll_button)
+
+
+## The index of the rarest card of the offer; the middle card among equals.
+func _best_index() -> int:
+	var best: int = 1 if _offer.cards.size() > 1 else 0
+	for index: int in range(_offer.cards.size()):
+		if int(_offer.cards[index].rarity) > int(_offer.cards[best].rarity):
+			best = index
+	return best
 
 
 func _select(index: int, quiet: bool = false) -> void:

@@ -1152,6 +1152,13 @@ func _update_nearest() -> void:
 		hud.hide_prompt()
 	else:
 		hud.show_prompt("[E]  %s" % _prompt_text(_near))
+	# Fable pass Nov 1 (Part 7): a clicked spot - talk once the walk brings it in reach (or drop it if the walk ended elsewhere).
+	if _auto_spot != null and (_near == _auto_spot or not player.auto_walking):
+		var target: Spot = _auto_spot
+		_auto_spot = null
+		player.stop_walking()
+		if _near == target:
+			_interact(target)
 
 
 ## New brief, Part D: hidden chests have no marker to draw the player's eye from a distance - the
@@ -1273,7 +1280,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			_open_hidden_chest(_hidden_chest_near)
 			return
-	if _locked or dialogue.active or _near == null:
+	if _locked or dialogue.active:
+		return
+	if event is InputEventMouseButton and _near == null:
+		# Fable pass Nov 1 (Part 7): a click on an NPC or a spot out of reach walks the hero there and talks on arrival.
+		var walk_click: InputEventMouseButton = event as InputEventMouseButton
+		if walk_click.pressed and walk_click.button_index == MOUSE_BUTTON_LEFT:
+			var target: Spot = _spot_under(walk_click.position)
+			if target != null:
+				get_viewport().set_input_as_handled()
+				_walk_to_spot(target)
+		return
+	if _near == null:
 		return
 	if event.is_action_pressed(&"interact"):
 		get_viewport().set_input_as_handled()
@@ -1288,6 +1306,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			if _screen_pos_of(_near).distance_to(click.position) <= CLICK_PICK_RADIUS:
 				get_viewport().set_input_as_handled()
 				_interact(_near)
+			else:
+				var target: Spot = _spot_under(click.position)
+				if target != null:
+					get_viewport().set_input_as_handled()
+					_walk_to_spot(target)
 
 
 ## Where `spot`'s marker currently projects to on screen, for click picking.
@@ -1301,6 +1324,35 @@ func dialogue_closed_msec() -> int:
 
 func _screen_pos_of(spot: Spot) -> Vector2:
 	return _camera.unproject_position(spot.marker.position)
+
+
+## Fable pass Nov 1 (Part 7): the named spot whose marker is under `screen_pos` (within CLICK_PICK_RADIUS; the closest wins), or null.
+var _auto_spot: Spot
+
+
+func _spot_under(screen_pos: Vector2) -> Spot:
+	var best: Spot = null
+	var best_distance: float = CLICK_PICK_RADIUS
+	for spot: Spot in spots:
+		if not spot.named or spot.marker == null or not is_instance_valid(spot.marker):
+			continue
+		if _camera.is_position_behind(spot.marker.position):
+			continue
+		var distance: float = _screen_pos_of(spot).distance_to(screen_pos)
+		if distance <= best_distance:
+			best = spot
+			best_distance = distance
+	return best
+
+
+## Walks the hero to `spot` (stopping a little short of it, on the hero's side) and talks on arrival (`_update_nearest`).
+func _walk_to_spot(spot: Spot) -> void:
+	_auto_spot = spot
+	var toward: Vector3 = player.position - spot.position
+	toward.y = 0.0
+	var stop_at: Vector3 = spot.position + (toward.normalized() * minf(spot.radius * 0.6, toward.length()) if toward.length() > 0.01 else Vector3.ZERO)
+	player.walk_to(stop_at)
+	Audio.sfx(&"ui_tick", -14.0)
 
 
 # ---- Interactions -----------------------------------------------------------------------

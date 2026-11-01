@@ -74,7 +74,32 @@ static func choose(
 		chosen.append_array(_weighted_pick(capped, capped_weights, rng, count - chosen.size()))
 	if chosen.size() < count:
 		chosen.append_array(_fallback(content, rng, count - chosen.size(), chosen, only_path, owned, caps))
+	# Fable pass Nov 1 (Part 7): a 3-card pick is at least 2 of 3 on the player's Path or Colorless - the first two slots (the third may be
+	# the dungeon's chase card, swapped in after).
+	if not repeat and only_path < 0 and own_path != Affinity.Type.NEUTRAL and chosen.size() >= 3:
+		_ensure_own_share(chosen, pool, weights, own_path, rng)
 	return chosen
+
+
+## True for a card the player can run from day one: on their Path, or Colorless.
+static func fits_own(card: CardData, own_path: Affinity.Type) -> bool:
+	return card.color == Affinity.Type.NEUTRAL or card.is_on_path(own_path)
+
+
+## Replaces whichever of the first two picks is off-Path with a weighted draw from the pool's on-Path / Colorless cards (not already chosen).
+static func _ensure_own_share(chosen: Array[CardData], pool: Array[CardData], weights: Array[float], own_path: Affinity.Type, rng: RandomNumberGenerator) -> void:
+	for slot: int in range(2):
+		if fits_own(chosen[slot], own_path):
+			continue
+		var fitting: Array[CardData] = []
+		var fitting_weights: Array[float] = []
+		for index: int in range(pool.size()):
+			if fits_own(pool[index], own_path) and not chosen.has(pool[index]):
+				fitting.append(pool[index])
+				fitting_weights.append(weights[index])
+		var replacement: Array[CardData] = _weighted_pick(fitting, fitting_weights, rng, 1)
+		if not replacement.is_empty():
+			chosen[slot] = replacement[0]
 
 
 ## Fixes Oct 27, Part 1: a short pool never makes a short (or empty) pick. Fills up from that Path's other rarities (a gatekeeper's Path,

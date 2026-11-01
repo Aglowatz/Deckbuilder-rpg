@@ -10,6 +10,7 @@ var _column: VBoxContainer
 var _cards_row: HBoxContainer
 var _result_box: VBoxContainer
 var _reveal_button: FancyButton
+var _leave_button: FancyButton
 var _resolved: bool = false
 
 
@@ -52,6 +53,13 @@ func _ready() -> void:
 	_reveal_button.pressed.connect(_on_reveal)
 	_reveal_button.focus_mode = Control.FOCUS_ALL
 	_column.add_child(_reveal_button)
+	# Fable pass Nov 1 (Part 7): a deck test can be declined - the node is passed with nothing won or lost.
+	_leave_button = FancyButton.make("Leave it (no test)", &"", Vector2(260, 52))
+	_leave_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_leave_button.pressed.connect(func() -> void:
+		Audio.sfx(&"ui_select")
+		finished.emit())
+	_column.add_child(_leave_button)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open")
 	_reveal_button.call_deferred(&"grab_focus")
@@ -106,6 +114,8 @@ func _stakes_text() -> String:
 
 
 func _on_reveal() -> void:
+	if _leave_button != null:
+		_leave_button.visible = false
 	if _resolved:
 		finished.emit()
 		return

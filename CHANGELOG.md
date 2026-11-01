@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.5.1 - the Fable pass (Nov 1 2026)
+
+- Max HP 15 -> 30 over the game (was 10 -> 25); a "Loose Ends" quest after the credits.
+- Healing: the Crease nurse reads as a healer and answers E from her side; the Capital's hit toast names what hit you (a rift, a roamer).
+- Bosses: every boss opens with a 2-turn setup window (its units do not attack: "Setting Up"); Compostella's Wild Growth stops at +3 per unit;
+  the too-easy and too-hard bosses retuned into their band (the Restless Dead, Shiro, the Warden, the Echo, the Spotter, Betty, Spotless, the
+  Automaton harder; Siphon without Elowen easier; Primm's phases tougher).
+- A dungeon's first clear pays an XP bonus scaled with its tier (side dungeons too).
+- The Grand Chef, the Doppelganger and Escoffina named consistently before and after the reveal.
+- Freed zones: their damaging roamers wander in peace; the Capital stands down once Primm fell and its rifts close.
+- First hour: the first duel deals a teaching hand and ends in a few turns; a right-click inspects any card; Crosspath roofs dissolve when
+  they cover you; the square's fountain is bigger, never fades, and shows your silhouette through it.
+- Click an NPC or a sign to walk there and talk; boss card picks offer at least two cards of your Path or Colorless; deck-test events can be
+  declined; the rarest card of a pick starts chosen; one Victory popup; the Lab's -5 max life shows on the map; arena first-clear prizes
+  scale with your level; the Verdant Dump loads faster (its layout is cached).
+
 ## v0.5.0 - release candidate (Nov 1 2026)
 
 - Music: every track re-rendered with the note-overlap fix (pads, organ and choir chords hold their full length).

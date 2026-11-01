@@ -11,6 +11,7 @@ var _tab: Tab = Tab.MAIN
 var _selected: String = ""
 var _list: VBoxContainer
 var _detail: VBoxContainer
+var _detail_panel: PanelContainer
 var _tab_buttons: Array[FancyButton] = []
 
 
@@ -50,6 +51,7 @@ func _build() -> void:
 	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list_scroll.add_child(_list)
 	var detail_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	_detail_panel = detail_panel
 	detail_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	split.add_child(detail_panel)
@@ -150,6 +152,8 @@ func _refresh() -> void:
 		_selected = ids[0]
 	if ids.is_empty():
 		_list.add_child(UIKit.label("No completed quests yet." if _tab == Tab.COMPLETED else "Nothing here right now.", &"MutedLabel", 26))
+	if _detail_panel != null:
+		_detail_panel.visible = not ids.is_empty()  # Fable pass Nov 1 (critic 12 #10): no blank panel beside "Nothing here right now."
 	var state: UnlockState = Session.unlock_state()
 	var tracked: String = Session.quest_log.tracked_id()
 	for quest_id: String in ids:

@@ -112,5 +112,10 @@ func warn(text: String) -> void:
 	tween.tween_property(_warning, "modulate:a", 0.0, 0.5)
 
 
+## Fable pass Nov 1: drops a pending "Next turn" warning (the fight ended first).
+func clear_warning() -> void:
+	_warning.modulate.a = 0.0
+
+
 func warning_text() -> String:
 	return _warning.text if _warning.modulate.a > 0.01 else ""

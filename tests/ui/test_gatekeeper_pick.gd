@@ -147,8 +147,11 @@ func test_the_dungeon_elite_and_boss_pick_takes_a_click_a_key_and_the_pad() -> v
 		var screen: RewardsScreen = (load("res://scenes/rewards.tscn") as PackedScene).instantiate() as RewardsScreen
 		add_child_autofree(screen)
 		await wait_process_frames(2)
-		# Fresh eyes Oct 30: the middle card starts chosen, so Take is live from the first frame.
-		assert_eq(screen._selected, 1, "the middle card is chosen at once")
+		# Fresh eyes Oct 30: a card starts chosen, so Take is live from the first frame; Fable pass Nov 1 (Part 7): the rarest one (the middle among equals).
+		assert_eq(screen._selected, screen._best_index(), "the rarest card is chosen at once")
+		var best_rarity: int = int(offer.cards[screen._selected].rarity)
+		for card: CardData in offer.cards:
+			assert_lte(int(card.rarity), best_rarity, "nothing rarer than the chosen card")
 		assert_false(screen._take_button.disabled, "Take is the live button from the start")
 		screen._show_keywords(GameFactory.vanilla(1, 1, 1, Affinity.Type.BEEFCAKE, [CardEnums.Keyword.FLYING] as Array[CardEnums.Keyword]))
 		await wait_process_frames(1)  # the previous card's lines are freed at the end of the frame
