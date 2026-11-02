@@ -72,36 +72,49 @@ bushes.
 
 ## Part 3 - Loading times (partly done; the run stopped here at the usage limit)
 
-**Measured first** (tools/run_loading_timing.sh, windowed, real SceneManager, cold = cache miss, warm = second visit): docs/perf/loading_nov2_before.md.
-Back from a fight 2.5-3.5 s in the zones, 4.2 s in town, 8.6 s in the Capital; town -> zone 3.5-3.9 s warm (Capital 10 s, Dump 11 s cold); zone -> town 5.2 s;
-zone -> side dungeon map 2.3 s (1.6 s of it the loading screen's minimum hold). Peak working set 2222 MB.
+**Measured first** (`tools/run_loading_timing.sh`, windowed, the real SceneManager; cold = build-cache miss, warm = second visit):
+`docs/perf/loading_nov2_before.md`. Back from a fight 2.5-3.5 s in the zones, 4.2 s in town, 8.6 s in the Capital; town -> zone 3.5-3.9 s warm
+(the Capital 10 s, the Dump 11 s cold: painted swaps 5 s); zone -> town 5.2 s; zone -> side dungeon map 2.3 s (1.6 s of it the loading screen's
+minimum hold). Peak working set 2222 MB.
 
-**(1) Return from a fight - done.** SceneManager parks the world scene (out of the tree, alive) for a zone or town roamer battle and puts it back on the
-return ( /  / ; , , ;
- asks for it only for roamer fights - gatekeeper, arena, graveyard, dungeon and dev battles rebuild as before). After: 0.9-1.0 s
-in every zone, the town and the Capital (docs/perf/loading_nov2_after_parked.md); peak RAM 2113 MB (no rise); no script errors over 60 transitions.
+**(1) Return from a fight - done.** SceneManager keeps the world scene alive OUT of the tree for a zone or town roamer battle and puts it back on
+the return (`park_next`, `has_parked`, `_resume_parked`; `ZoneScene.resume_after_battle`, `TownScene.resume_after_battle`, `AmbientEmitter.resume_in`;
+`Session.start_battle` asks for it only for roamer fights - gatekeeper, arena, graveyard, dungeon and dev battles rebuild as before). After: 0.9-1.0 s
+in every zone, the town and the Capital (`docs/perf/loading_nov2_after_parked.md`); peak RAM 2113 MB (no rise); no script errors over 60 transitions.
 
-**(2) Procedural layouts cached - Capital done in part.**  + : the townhouse and tower generators
-() keep their geometry in the BuildCache (the painted card slots re-resolved on a hit). Capital builder 7.5 s -> 4.9 s warm (houses 2.5 s -> 0.2 s,
-skyline 1.2 s -> 0.7 s). Left: the other Capital buildings (1.2 s), landmarks / props (1.1 s), the merge (0.4 s); the town's props (0.8 s), square (0.9 s)
-and hub land (0.8 s) are spread over many small pieces and are not cached yet (town -> zone stays 3.5-3.9 s warm, zone -> town 5.2 s).
+**(2) Procedural layouts cached - the Capital, in part.** `KitMesh.fill_cached_set` + `CapitalKit.resolve_slot`: the townhouse and tower generators
+(`CapitalGrand`) keep their geometry in the BuildCache (the painted card slots are re-resolved on a hit). Capital builder 7.5 s -> 4.9 s warm (the 16
+houses 2.5 s -> 0.2 s, the skyline 1.2 s -> 0.7 s). Left: the other Capital buildings (1.2 s), landmarks + props (1.1 s), the merge (0.4 s); the town's
+props (0.8 s), square (0.9 s) and hub land (0.8 s) are many small pieces and are not cached yet (town -> zone stays 3.5-3.9 s warm, zone -> town 5.2 s).
 
-**Loading screen hold** 1.6 -> 0.9 s (): zone -> dungeon map 2.3 -> 1.6 s.
+**Loading screen hold** 1.6 -> 0.9 s (`LoadingScreen.MIN_SECONDS`): zone -> dungeon map 2.3 -> 1.6 s.
 
-**Not done**: (3) threaded pre-loading during the fade, (4) shader pre-warm at boot (the settle step is 0.45-0.65 s per zone load, worst frame 320-440 ms),
-(5) the loading screen already shows zone art + a tip for area changes. The full after-measurement with the Capital cache was not re-run.
+**Not done**: (3) threaded pre-loading during the fade, (4) shader pre-warm at boot (the settle step is 0.45-0.65 s per zone load, worst frame
+320-440 ms), (5) the loading screen already shows zone art + a tip for area changes. The full after-measurement with the Capital cache was not re-run.
 
-## Parts 4-7 - state when the run stopped
+## Part 4 - Items (sim run, no data changed)
 
-- Part 4:  written (item variants vs the expected player); the low-shelf (L6, Gainlands) and high-shelf (L18, Dump) sims were running at the stop
-  ( /  when finished). No item data changed yet. Plan: Scroll of Insight -> Draw 1 at 45; Reckless Tonic "Heal 5 HP. One use."
-  at 30; Field Bandage -> +0/+3 this turn or +0/+2 for the battle by the sim; high shelf to level 17 ( item_advanced + ,
-  the L6 headline "Tilly's back shelf" moves) with retuned items (Chains 2 uses 90 g, Silence toss 2, Dust bury 6, Charm 3 Militia, Ward 60 g).
-- Part 5: not started (the preview and the world place hats from the same anchors per fit.json; a tailor try-on screenshot is the next step).
-- Part 6: the solid fountain is WRITTEN in  (, , ) with ,
-  UNCOMMITTED and NOT yet compiled or screenshotted.
-- Part 7: the pack holder centring in  and  is WRITTEN, uncommitted, not yet screenshotted.
-- Part 8: not run (sharded GUT, walk smokes, perf budget, play script).
+`tools/item_sim.gd` plays every encounter of a filter with the expected player, no item vs one charge of each variant. Low shelf (Gainlands, L6, 12 games
+x 4 Paths x each encounter, `docs/design/sim/items_nov2_low.md`): no item 86.5 % wins. Lift in points: Healing Draught +7.3, Vitality Charm +5.2,
+Reckless Tonic 5 HP +1.0 (7 HP -3.1: the policy drinks it too early), Healing Salve +5.2, Field Bandage as it is (mend 3) -1.0 and used in 0 % of
+games (confirmed useless), Bandage +0/+3 this turn +11.5 (used 99 %), Bandage +0/+2 for the battle +5.2, Bandage +1/+1 for the battle +0.0,
+Scroll of Insight draw 2 +12.5, draw 1 +9.4, Firebrand +10.4, Sharpening Stone +9.4.
+Reading: Draw 1 at 45 keeps the Scroll in line with the Firebrand and the Stone (draw 2 is the strongest item on the shelf); the Bandage as
+"+0/+3 this turn" is the strongest at 30 gold, so pick "+0/+2 for the rest of the battle" (+5.2, a lasting job the Stone does not do) or price the
++0/+3 version at 45. The high-shelf sim (Dump, L18) may have finished after the stop: `docs/design/sim/items_nov2_high.md`.
+Plan not applied: Scroll -> Draw 1 at 45; Reckless Tonic "Heal 5 HP. One use." at 30; Field Bandage -> "+0/+2 for the battle" at 30; the high
+shelf to level 17 (`data/progression/level_track.json` item_advanced + `ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL`; the L6 headline
+"Tilly's back shelf" moves to L17 beside "Sable's rare stock"), its items retuned (Chains 2 uses 90 g, Silence toss 2, Dust bury 6, Charm 3 Militia,
+Ward 60 g) by the high sim; every description to state numbers, target, duration, uses; regenerate `data/items/*.tres` with
+`tools/generate_content.gd` (the game loads the .tres, the code in `core/data/progression_content.gd` is the source).
+
+## Parts 5-8 - state when the run stopped
+
+- Part 5: not started. The fit data says the preview and the world place hats from the same anchors; a tailor try-on screenshot is the next step.
+- Part 6: the solid fountain is WRITTEN in `world/town_streets.gd` (`_fountain`, `_pool_colour`, `_fountain_stream`, FOUNTAIN_ART_HEIGHT 3.55,
+  FOUNTAIN_ART_FORWARD 0) with `assets/shaders/fountain_water.gdshader`: UNCOMMITTED, not yet compiled or screenshotted.
+- Part 7: the pack holder centring in `ui/screens/reward_popup.gd` and `ui/town/pack_shop_screen.gd` is WRITTEN, uncommitted, not yet screenshotted.
+- Part 8: not run (sharded GUT, walk smokes, perf budget, play script). The compile-all-scripts test last passed before the fountain and Part 7 edits.
 
 
 ---
