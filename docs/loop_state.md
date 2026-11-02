@@ -23,6 +23,6 @@ Transit Yards):
 | 2 | Buildings: the Reek yards, the Grave Row crypts and the Hungry stalls become CapitalGrand townhouses (wide, 3-4 storeys) with their district's service layer at the foot (broken / restored); the district "spire" pylons dropped; the plaza-corner spires become gate piers (plinth, pilaster, gilded urn); the inner faces of the west, east and north walls dressed with a blind arcade, attached facades and engaged towers in rhythm | done (`world/capital/capital_sides.gd`) |
 | 3 | Side plazas at the boulevard / lane junctions (19, 58) and (100, 58): a two-tier side fountain variant, a gilded statue pair each, a paving disc with ring borders; the routes end at the rim; moved props (chest_reek, the junk, the inspector, the transit rift, the wheels, the pylons) | done |
 | 4 | Gardens: parterres and topiary-urn rows on the district lawns, planter runs along the separators, small statues in niches, wall basins; lane lamps in rows | done (grid gardens yield little: blocks crowded; two hand beds on Grave Row) |
-| 5 | Tests (world + core shards), walk smoke, walkability probe, perf frame capital_in | |
-| 6 | Shots (the standard set + a side shot at the user's angle each side), contact sheet, fresh critic on the SIDES; fix the lowest, repeat | |
+| 5 | Tests (world + core shards), walk smoke, walkability probe, perf frame capital_in | world 432/433, walk smoke OK, capital_in Medium 833 draws (budget 850), p99 19.5; core shards pending |
+| 6 | Shots (the standard set + a side shot at the user's angle each side), contact sheet, fresh critic on the SIDES; fix the lowest, repeat | s2 shot (23), critic running |
 | 7 | Report: before/after gallery, scores, perf, tests; commit + push | |

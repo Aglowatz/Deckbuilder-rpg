@@ -1390,16 +1390,20 @@ static func kit_compost_heap() -> Node3D:
 	mesh.set_material("sprout", EnvKit.glow(Color("8ae070"), 1.1))
 	# the sides pass: the banished heap under the Capital's finish - a round white planter with a gold lip, a gold domed cover over the compost,
 	# the healthy sprouts pushing out round its edge (the one thing the polish cannot hide)
-	CapitalGrand.planter_ring(mesh, Vector3.ZERO, 1.0, 0.34)
+	# (round 2: on a white drum with a gold band, so it reads as a gilded monument, not a flat basin)
+	mesh.lathe("marble", Vector3.ZERO, [Vector2(1.05, 0.0), Vector2(1.0, 0.12), Vector2(0.9, 0.14), Vector2(0.9, 0.56), Vector2(1.0, 0.6)], 20, 0.9, false, false)
+	mesh.lathe("gold", Vector3(0, 0.3, 0), [Vector2(0.93, 0.0), Vector2(0.93, 0.08)], 20, 1.0, false, false)
+	CapitalGrand.planter_ring(mesh, Vector3(0, 0.6, 0), 1.0, 0.3)
 	mesh.alias("loam", "flat", Color("8a6a48").srgb_to_linear())  # a lighter loam than the kit's compost (near-black under the toon shade)
-	mesh.lathe("loam", Vector3(0, 0.3, 0), [Vector2(0.8, 0.0), Vector2(0.55, 0.12), Vector2(0.0, 0.16)], 12, 1.0, false, true)
-	mesh.lathe("gold", Vector3(0, 0.4, 0), [Vector2(0.62, 0.0), Vector2(0.58, 0.1), Vector2(0.36, 0.22), Vector2(0.0, 0.28)], 14, 1.0, false, true)
-	mesh.lathe("marble", Vector3(0, 0.66, 0), [Vector2(0.2, 0.0), Vector2(0.2, 0.03)], 12, 1.0, false, true)
-	CapitalKit.sun_emblem(mesh, Vector3(0, 0.7, 0), 0.14, Vector3.UP)
+	mesh.lathe("loam", Vector3(0, 0.86, 0), [Vector2(0.8, 0.0), Vector2(0.55, 0.12), Vector2(0.0, 0.16)], 12, 1.0, false, true)
+	mesh.lathe("gold", Vector3(0, 0.96, 0), [Vector2(0.62, 0.0), Vector2(0.58, 0.12), Vector2(0.36, 0.3), Vector2(0.0, 0.4)], 14, 1.0, false, true)
+	mesh.lathe("marble", Vector3(0, 1.34, 0), [Vector2(0.2, 0.0), Vector2(0.2, 0.03)], 12, 1.0, false, true)
+	CapitalKit.sun_emblem(mesh, Vector3(0, 1.38, 0), 0.14, Vector3.UP)
+	CapitalKit.finial(mesh, Vector3(0, 1.36, 0), 0.5)
 	for index: int in range(6):
 		var angle: float = TAU * float(index) / 6.0
-		mesh.blob("sprout", Vector3(cos(angle) * 0.7, 0.46, sin(angle) * 0.7), Vector3(0.1, 0.13, 0.1), 3, 6)
-	return CapitalLandmarks.finish(root, mesh, [], 0.9)
+		mesh.blob("sprout", Vector3(cos(angle) * 0.72, 1.0, sin(angle) * 0.72), Vector3(0.1, 0.13, 0.1), 3, 6)
+	return CapitalLandmarks.finish(root, mesh, [], 1.8)
 
 
 ## Old Fern's shack in the Reek: a lean-to of salvaged boards with a moss-green roof and the Refusemancers' sign; once they are free, a warm lit

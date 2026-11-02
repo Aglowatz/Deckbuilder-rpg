@@ -289,6 +289,18 @@ func _kerb_planters(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void
 							_planter(mesh, Vector2(2.0 * AXIS_X - p0.x, p0.y), Vector2(2.0 * AXIS_X - p1.x, p1.y))
 					run_start = -1.0
 				t += PLANTER_SAMPLE
+	# the side plazas (round 2): three arcs of rose planter round each lamp ring, between the lamps, in the sectors with no route mouth, the
+	# shed or the wheels - the same three on both sides (mirrored about the plaza's north-south axis)
+	for plaza: int in range(CapitalLayout.SIDE_PLAZAS.size()):
+		var centre: Vector2 = CapitalLayout.SIDE_PLAZAS[plaza]
+		var arcs: Array = [[27.0, 63.0], [117.0, 153.0], [297.0, 333.0]] if plaza == 0 else [[27.0, 63.0], [117.0, 153.0], [207.0, 243.0]]
+		for arc: Array in arcs:
+			var steps: int = 3
+			for step: int in range(steps):
+				var a0: float = deg_to_rad(lerpf(float(arc[0]), float(arc[1]), float(step) / float(steps)))
+				var a1: float = deg_to_rad(lerpf(float(arc[0]), float(arc[1]), float(step + 1) / float(steps)))
+				var r: float = CapitalLayout.SIDE_LAMP_RADIUS + 1.0
+				_planter(mesh, centre + Vector2(cos(a0), sin(a0)) * r, centre + Vector2(cos(a1), sin(a1)) * r)
 	var node: MeshInstance3D = mesh.instance("KerbPlanters")
 	node.set_meta(PaintedClasses.META_NO_PAINT, true)
 	node.set_meta(&"no_occlusion_fade", true)

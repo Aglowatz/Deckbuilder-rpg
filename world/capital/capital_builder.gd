@@ -910,10 +910,36 @@ func _build_props() -> void:
 		if ghost != null:
 			_ghosts.append(ghost)
 	for kind: String in card_fields.keys():
-		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, "cap_lamp" if kind == "lamp_perfect" else "cap_bench", card_fields[kind] as Array[Dictionary], true)
+		if kind == "lamp_perfect":
+			_lamp_field(card_fields[kind] as Array[Dictionary])
+			continue
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, "cap_bench", card_fields[kind] as Array[Dictionary], true)
 		if field != null:
 			field.name = "Props_" + kind
 	_apply_initial_states()
+
+
+## The sides pass: the inside's lamps are the 3D pink lamp post with its glowing globe (CapitalGrand.lamp_mesh) in one MultiMesh - the painted
+## lamp card read brown and dark from the hero's eye level. Thin posts: never faded, no shadow.
+func _lamp_field(entries: Array[Dictionary]) -> void:
+	if entries.is_empty():
+		return
+	var multimesh: MultiMesh = MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = CapitalGrand.lamp_mesh(3.6, not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)))
+	multimesh.instance_count = entries.size()
+	for index: int in range(entries.size()):
+		multimesh.set_instance_transform(index, Transform3D(Basis.IDENTITY, entries[index]["pos"] as Vector3))
+	var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	instance.name = "Props_lamp_perfect"
+	instance.multimesh = multimesh
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.extra_cull_margin = 8.0
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta("points", entries)
+	root.add_child(instance)
 
 
 ## Props whose look follows a saved flag: picked-up pickups vanish, a planted patch blooms, the cut cable sparks...

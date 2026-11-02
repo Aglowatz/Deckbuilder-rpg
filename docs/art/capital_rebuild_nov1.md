@@ -269,3 +269,26 @@ cards (nothing new imported); the dialogue is untouched. State: `docs/loop_state
   kerbs, 8 m, mirrored about the lane, where a slot is clear).
 - The arcade's second rhythm of statues and the wall basins (above). The light and haze are the inside's one zone style, so the sides share the
   centre's. The sun banners stay on the plazas' lamps only: on a street lamp the pair hangs at the hero's eye level and hides the globe.
+
+## Part 5: gameplay and performance
+
+- World tests: `bash tools/run_tests.sh --only=tests/world` 432/433 (the one pending is the arrival-queue hotkey test, pre-existing); the new
+  `test_capital_sides.gd` (2) and every Capital test (art / slice / pass / order / bounds / mood / walkability) pass; the slice test's stall
+  count is 2 (one long shop-house a side). The walkability test skips the side fountains' anchors like the main one's (scenery, no prompt).
+- `bash tools/run_capital_walk_smoke.sh`: OK (36 screenshots; the gate, every district, the Ward, the castle door, the hidden hole, save/load,
+  the four Paths freed and welcomed).
+- `bash tools/perf_budget.sh frame capital_in "1"` at the gate (Medium 1600x900, the development iGPU):
+
+| capital_in Medium | avg ms | 1 % low ms | draw calls | VRAM MB | result |
+|---|---|---|---|---|---|
+| budget | 18.5 | 25.0 | 850 | 880 | |
+| the rebuild (c6) | 16.48 | 22.1 | 847 | 845 | met |
+| the sides, first measure | 16.95 | 27.3 | 859 | 845 | over (draw calls, p99) |
+| the service layers drawn into the detail meshes, the side fountains batched | 16.84 | 25.0 | 857 | 882 | over (draw calls, VRAM) |
+| the plazas' statics (statues, side fountains, gate piers) one batch per material for the whole city; gardens cast no shadow | 16.55 | 19.5 | 833 | 871 | met |
+
+  The draw calls were in the batching cells: the gilded pairs, the side fountains and the four gate piers each sat in their own 16 m cell and
+  cost a draw per material per cell; merged city-wide first (`CapitalBuilder._plaza_statics`, cell 4096) they cost one per material.
+- Occlusion: the Reek's three houses stay single meshes (they stand between the trailing camera and a hero north of them, so the fader dims
+  one house at a time); the Hungry Quarter's shop-houses and Grave Row's chapel houses merge (beside the lane / against the north wall, never
+  between); the arcade, the towers, the statues and both fountains never fade.
