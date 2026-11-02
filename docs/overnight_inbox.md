@@ -872,3 +872,12 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    deck cut to fewer basics so its turns stay short.
 7. **The town HUD's `"()-+/%&` label** the critic read in a dump is the font warmup (a 3-pixel, 2 %-alpha clip on a hidden layer) - not visible
    to a player; left alone.
+8. **Mid / late / postgame critics (5.3 / ~5 / ~5)**, the design calls: (a) the **Loose Ends** quest shows three of its four steps as ???
+   (the one-step reveal rule), so nothing points at the Lab until Swolympus is done - show all four, or reveal the Lab step on Rip's tip?;
+   (b) a **dungeon defeat** throws away the run's cleared nodes (the postgame critic lost 15 Lab nodes) - keep them for a boss retry, or a
+   Defeat recap with the toll on it?; (c) **Infrastructure floods late hands** (10 of 12 Powerhouses in the castle; Primm's mirror deck
+   too) - lower the auto-fill target late, or cap basics per draw?; (d) the **Swolympus hook** (Old Man Mountain twice, spot Gary, a Flex
+   Mirror) sits behind NPCs who stand in the bridge mouth and by the gym hall; (e) the **Lab's Specimen Conditions** at 14 max HP with
+   Siphon's drain are a wall for the bot's deck even after the tune - percentage-based, or a heal node before the Extraction Theater?;
+   (f) the map's **"Goal:" line and "Where to?"** never learn about the Capital after the four zones; (g) the **ending** still uses the
+   icon stage and PLACEHOLDER CREDITS (art + text).

@@ -11,7 +11,7 @@ func before_each() -> void:
 
 func test_an_open_dungeon_node_says_how_to_go() -> void:
 	InputDevice.set_kind(InputDevice.Kind.KEYBOARD)
-	assert_string_contains(DungeonMapScreen.node_go_hint(), "Click again to go.")
+	assert_string_contains(DungeonMapScreen.node_go_hint(), "Click again or press E to go.")  # Fable pass Nov 1: the confirm key goes too
 	InputDevice.set_kind(InputDevice.Kind.PAD)
 	assert_string_contains(DungeonMapScreen.node_go_hint(), "to go.")
 	assert_false(DungeonMapScreen.node_go_hint().contains("Click"), "a pad player is told the button")

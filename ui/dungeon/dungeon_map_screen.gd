@@ -226,7 +226,9 @@ func _build_nodes() -> void:
 		if map.nodes.size() > DENSE_NODE_COUNT:
 			button.scale = Vector2.ONE * DENSE_NODE_SCALE
 		button.hovered.connect(_on_node_hovered)
-		button.unhovered.connect(func(_id: int) -> void: _show_default_info())
+		button.unhovered.connect(func(_id: int) -> void:
+			_hovered_id = -1
+			_show_default_info())
 		button.chosen.connect(_on_node_chosen)
 		_buttons[node.id] = button
 	if map.nodes.size() > DENSE_NODE_COUNT:
@@ -361,11 +363,16 @@ func _show_default_info() -> void:
 
 ## The last line of an open node's preview: how to go there (the pad's confirm button while a controller is in use).
 static func node_go_hint() -> String:
-	var how: String = "Press %s to go." % Keybinds.confirm_key() if InputDevice.using_pad() else "Click again to go."
+	var how: String = "Press %s to go." % Keybinds.confirm_key() if InputDevice.using_pad() else "Click again or press E to go."
 	return "[color=#ffcf70][b]%s[/b][/color]" % how
 
 
+## Fable pass Nov 1 (late critic #1): the node under the mouse, so the confirm key can go there (keyboard players had only the click).
+var _hovered_id: int = -1
+
+
 func _on_node_hovered(id: int) -> void:
+	_hovered_id = id
 	var node: DungeonMap.MapNode = map.node(id)
 	_info_title.text = node.title
 	var text: String = node.blurb
@@ -705,6 +712,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"open_deck"):
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
+		return
+	if _hovered_id >= 0 and map.is_available(_hovered_id) and not InputDevice.using_pad() and UiInput.is_confirm(event):
+		get_viewport().set_input_as_handled()
+		_on_node_chosen(_hovered_id)
 
 
 ## Part C: a deck builder reachable from inside the dungeon, same validation rules as town (see

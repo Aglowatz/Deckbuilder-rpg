@@ -1225,8 +1225,20 @@ func pad_click_card(view: CardView) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"battle_advance"):
-		if not busy and _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled:
+	# Fable pass Nov 1 (late critic #1): Space, E and Enter also keep the opening hand and press Continue on the result panel (a keyboard
+	# player was stuck on both: they were mouse-only).
+	if event.is_action_pressed(&"battle_advance") or (UiInput.is_confirm(event) and (mode == Mode.MULLIGAN or mode == Mode.OVER)):
+		if busy or _confirm_open:
+			return
+		if mode == Mode.MULLIGAN and _mulligan_panel != null:
+			get_viewport().set_input_as_handled()
+			_mulligan_choice(true)
+			return
+		if mode == Mode.OVER and _result_panel != null:
+			get_viewport().set_input_as_handled()
+			_continue()
+			return
+		if _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled and event.is_action_pressed(&"battle_advance"):
 			_on_primary()
 		return
 	if event.is_action_pressed(&"battle_end_turn"):

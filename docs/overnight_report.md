@@ -1,6 +1,6 @@
 # Report - Fable pass Nov 1 (Fable 5.1): core gameplay + first hour + the designer's answers
 
-Sun Nov 1 10:27 MST -> (end time below). Tag `pre-fable-nov1` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`,
+Sun Nov 1 10:27 -> 18:45 MST. Tag `pre-fable-nov1` before the run. State `docs/loop_state.md`; questions `docs/overnight_inbox.md`,
 section "Fable pass Nov 1". Last run's report: `docs/overnight/oct31n/overnight_report_oct31n.md`.
 
 ## Morning summary
@@ -14,7 +14,7 @@ section "Fable pass Nov 1". Last run's report: `docs/overnight/oct31n/overnight_
 | 5 Freed roamers | done: damage roamers wander in peace once the zone is freed; the Capital once Primm fell | 1112bf0a |
 | 6 First hour | a-e done (teaching hand, right-click inspect, roofs dissolve, the fountain, starter study); critic 12 + fixes: see below | 23c02536, eda8d80e |
 | 7 Yes-to-all | see below | |
-| 8 Verify + build | see below | b91e4cb8 (dialogue export) |
+| 8 Verify + build | done: Loose Ends in play, saves, suite green, v0.5.1 + smokes, three critics (mid 5.3, late ~5, post ~5) | b91e4cb8, bdc35851, fcfe99a8 |
 
 - **Decide first** (inbox "Fable pass Nov 1"): 1 Primm's phases (gauntlet 47 %, per phase 83/100/67), 2 Siphon with Elowen 100 %,
   3 the Safe Room's place, 4 card G-33's name, 5 side dungeons' first-clear gold.
@@ -138,7 +138,11 @@ All done, tested in GUT (core 1564, ui 196, world 431 green) except where noted 
     "Click again to go" ignore E/Space (seven runs to reach the credits by keyboard), the map's "Where to?" / "Goal:" never learn about the
     Capital after the four zones, Infrastructure floods castle hands (10 of 12 Powerhouses; Primm's mirror deck too), the ending staged as
     icon collages and PLACEHOLDER CREDITS, the Capital arrival in the grey Crease with a silent nurse.
-  - **Postgame**: still running at the usage cut-off; its report lands in `docs/review/fresh_eyes_postgame_nov1.md` when it finishes.
-  - **Not fixed (next pass, in order)**: E/Space on the Victory panel, the Opening Hand popup and an armed node (keyboard players stall
-    mid-boss); the map's goal after the four zones; the Infrastructure flood late (the auto-fill target); a Defeat recap on a dungeon loss;
+  - **Postgame ~5** (last night 4.0). Top: both postgame bosses are walls for the snapshot's own deck (the pilot lost to Siphon in 8 turns at
+    14 max HP in the Lab; the Spotter's Millstone Pusher did 25 in two hits), a dungeon defeat throws away the run's cleared nodes, E/Space on
+    the result popups (fixed below), nothing points at the Lab (Loose Ends hides three of its four steps as ???), the Swolympus hook is a
+    hidden fetch chain behind NPCs who block the paths.
+  - **Fixed after the critics** (tested: ui 196/196, play script `fable_nov1_keys`): Space / E / Enter keep the opening hand, press Continue
+    on the Victory or Defeat panel, and go to a hovered dungeon node ("Click again or press E to go").
+  - **Not fixed (next pass, in order)**: the map's goal after the four zones; the Infrastructure flood late (the auto-fill target); a Defeat recap on a dungeon loss;
     the ending's placeholder art and credits (art).

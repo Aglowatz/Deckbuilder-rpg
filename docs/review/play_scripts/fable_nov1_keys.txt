@@ -1,0 +1,18 @@
+# Fable pass Nov 1 (late critic #1): Space keeps the opening hand and presses Continue on the Victory panel.
+wait 2
+dev newgame
+wait 6
+dev encounter Cave Scavenger
+wait 8
+button Got it
+wait 0.8
+dump
+key Space
+wait 1.5
+dump
+dev win
+wait 5
+dump
+key Space
+wait 4
+scene
