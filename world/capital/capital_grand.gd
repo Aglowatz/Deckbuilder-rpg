@@ -489,11 +489,15 @@ static func fountain_side(outer: float, final_state: bool) -> Node3D:
 		mesh.blob("gold", spout * (r2 + 0.14) + Vector3(0, 1.88, 0), Vector3(0.14, 0.12, 0.14), 4, 8)
 		if not final_state:
 			_jet(mesh, spout * (r2 + 0.26), 1.88, outer - 0.8, 0.56, 0.12)
-	# the gilded urn on a short stem, a flame finial
-	mesh.lathe("marble", Vector3(0, 2.0, 0), [Vector2(r2 * 0.45, 0.0), Vector2(r2 * 0.3, 0.5), Vector2(r2 * 0.5, 0.7)], 12, 0.9, false, true)
-	gold_urn(mesh, Vector3(0, 2.7, 0), r2 * 0.55)
-	K.finial(mesh, Vector3(0, 3.35, 0), 1.3)
-	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 4.7)
+	# a gold-banded pedestal on a short stem, the gilded Primm on it (smaller than the plaza's; the fallen card in the basin once he has fallen)
+	mesh.lathe("marble", Vector3(0, 2.0, 0), [Vector2(r2 * 0.45, 0.0), Vector2(r2 * 0.3, 0.5), Vector2(r2 * 0.55, 0.75)], 12, 0.9, false, true)
+	mesh.lathe("gold", Vector3(0, 2.75, 0), [Vector2(r2 * 0.58, 0.0), Vector2(r2 * 0.58, 0.1)], 12, 1.0, false, true)
+	var statue_h: float = outer * 0.9
+	if final_state:
+		K.card(mesh, FALLEN_ART, Vector3(0.0, 0.38, r2 + 0.9), 2.0, Vector3(0, 0, 1), false, FALLEN_GOLD)
+	else:
+		K.card(mesh, STATUE_ART, Vector3(0, 2.85, 0), statue_h, Vector3(0, 0, 1))
+	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 2.85 + statue_h)
 	root.set_meta("statue", true)
 	L.mark_view(root)
 	if not final_state:

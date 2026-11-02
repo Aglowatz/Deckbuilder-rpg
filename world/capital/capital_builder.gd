@@ -1254,6 +1254,38 @@ func _build_rifts() -> void:
 		root.add_child(node)
 		node.position = Vector3(float(entry["x"]), 0.0, float(entry["z"]))
 		rift_nodes[rift_id] = node
+		if float(entry["z"]) < float(CapitalLayout.WALL_Z0):
+			var cordon: Node3D = _rift_cordon(float(entry["radius"]))
+			cordon.name = "RiftCordon_" + rift_id
+			root.add_child(cordon)
+			cordon.position = node.position
+
+
+## The sides pass: a white-and-gold cordon round a rift inside the wall (perfect even round the wrongness): eight posts with gold balls on a ring
+## `radius` + 1.6 out, a gold rope between them, no rope across the east (the sealing spot stands there). Decoration only: never a blocker.
+func _rift_cordon(radius: float) -> Node3D:
+	var root_node: Node3D = Node3D.new()
+	var mesh: KitMesh = CapitalGrand.mesh_for(bool(ctx.get("final", false)))
+	var r: float = radius + 1.6
+	var posts: Array[Vector3] = []
+	for index: int in range(8):
+		var angle: float = TAU * (float(index) + 0.5) / 8.0
+		var p: Vector3 = Vector3(cos(angle) * r, 0.0, sin(angle) * r)
+		posts.append(p)
+		CapitalKit.post(mesh, p, Vector3(0.22, 0.95, 0.22), true)
+	for index: int in range(8):
+		if index == 7:
+			continue  # the gap toward +x, where the seal spot stands
+		var a: Vector3 = posts[index] + Vector3(0, 0.85, 0)
+		var b: Vector3 = posts[(index + 1) % 8] + Vector3(0, 0.85, 0)
+		var mid: Vector3 = (a + b) * 0.5 - Vector3(0, 0.18, 0)
+		mesh.tube("gold", a, mid, 0.035, 6)
+		mesh.tube("gold", mid, b, 0.035, 6)
+	CapitalLandmarks.finish(root_node, mesh, [], 1.2)
+	for child: Node in root_node.find_children("*", "MeshInstance3D", true, false):
+		child.set_meta(&"kit_static", true)
+		child.set_meta(&"no_occlusion_fade", true)
+	return root_node
 
 
 ## Art import Oct 29: a painted rift (CAPI-SHEET-RIFTS-01..03, three sizes, purple) stands in each open tear, and a sealed rift leaves a

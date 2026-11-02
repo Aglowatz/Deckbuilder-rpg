@@ -61,7 +61,7 @@ const PLAZA_LAMP_RADIUS: float = 8.2
 ## a side fountain at its centre, a gilded statue pair on its south side, the paving disc with its ring borders, lamps on a ring.
 const SIDE_PLAZAS: Array[Vector2] = [Vector2(19.0, 58.0), Vector2(100.0, 58.0)]
 const SIDE_PLAZA_RADIUS: float = 8.5
-const SIDE_FOUNTAIN_RADIUS: float = 3.0
+const SIDE_FOUNTAIN_RADIUS: float = 3.6
 const SIDE_LAMP_RADIUS: float = 6.2
 const SIDE_STATUE_OFFSET: Vector2 = Vector2(6.3, 6.5)
 const PLAZA_BED_RADIUS: float = 9.2
@@ -330,16 +330,16 @@ func _routes() -> void:
 	_route("ring_w", Vector2(38.5, 15.0), Vector2(38.5, 70.0), MAIN_ROUTE_WIDTH)
 	_route("ring_e", Vector2(81.5, 15.0), Vector2(81.5, 70.0), MAIN_ROUTE_WIDTH)
 	# the sides pass: the boulevards and the lanes end at the side plazas' rims (the plaza is open round its fountain, like the Gate Plaza)
-	_route("boulevard_w", Vector2(24.5, 58.0), Vector2(49.0, 58.0), MAIN_ROUTE_WIDTH)
-	_route("boulevard_e", Vector2(71.0, 58.0), Vector2(94.5, 58.0), MAIN_ROUTE_WIDTH)
+	_route("boulevard_w", Vector2(25.1, 58.0), Vector2(49.0, 58.0), MAIN_ROUTE_WIDTH)
+	_route("boulevard_e", Vector2(71.0, 58.0), Vector2(93.9, 58.0), MAIN_ROUTE_WIDTH)
 	_route("separator_w", Vector2(4.0, 35.0), Vector2(38.5, 35.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e1", Vector2(81.5, 21.0), Vector2(115.5, 21.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e2", Vector2(81.5, 45.0), Vector2(115.5, 45.0), MAIN_ROUTE_WIDTH)
 	_route("grave_lane", Vector2(19.0, 4.0), Vector2(19.0, 35.0), MAIN_ROUTE_WIDTH)
-	_route("reek_lane", Vector2(19.0, 35.0), Vector2(19.0, 52.5), MAIN_ROUTE_WIDTH)
-	_route("reek_lane_s", Vector2(19.0, 63.5), Vector2(19.0, 70.0), MAIN_ROUTE_WIDTH)
+	_route("reek_lane", Vector2(19.0, 35.0), Vector2(19.0, 51.9), MAIN_ROUTE_WIDTH)
+	_route("reek_lane_s", Vector2(19.0, 64.1), Vector2(19.0, 70.0), MAIN_ROUTE_WIDTH)
 	_route("hungry_lane", Vector2(100.0, 21.0), Vector2(100.0, 45.0), MAIN_ROUTE_WIDTH)
-	_route("transit_lane", Vector2(100.0, 45.0), Vector2(100.0, 52.5), MAIN_ROUTE_WIDTH)
+	_route("transit_lane", Vector2(100.0, 45.0), Vector2(100.0, 51.9), MAIN_ROUTE_WIDTH)
 
 
 ## Distance from (x, z) to the nearest route's edge (negative inside a route).

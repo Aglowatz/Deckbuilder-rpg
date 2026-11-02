@@ -292,3 +292,29 @@ cards (nothing new imported); the dialogue is untouched. State: `docs/loop_state
 - Occlusion: the Reek's three houses stay single meshes (they stand between the trailing camera and a hero north of them, so the fader dims
   one house at a time); the Hungry Quarter's shop-houses and Grave Row's chapel houses merge (beside the lane / against the north wall, never
   between); the arcade, the towers, the statues and both fountains never fade.
+
+## Part 6: compare and iterate (the sides scored on their own)
+
+A fresh critic agent each round sees only the target, the brief (`docs/review/critic_brief_capital_sides_nov2.md`: the eight criteria below,
+the sides only, the story's broken services judged on whether they belong) and one shot folder; it writes `docs/review/capital_critic_sides_<phase>.md`.
+
+| phase | grandeur | perfection / symmetry | building scale + detail | fountains / statues | gardens | paving cleanliness | lighting | overall |
+|---|---|---|---|---|---|---|---|---|
+| s2 (Parts 1-4) | 4 | 4 | 5 | 5 | 4 | 3 | 5 | 4 |
+| s3 (round 2: 3D pink lamps, rose arcs on the side plazas, compost covers on drums, the side cameras inside the wall) | 4 | 4 | 5 | 5 | 4 | 4 | 6 | 5 |
+
+What each round changed and why:
+
+- **s2 -> round 2.** The critic's lowest score was paving cleanliness (3), on "a raw dark dirt band across the bottom third" of every side shot:
+  the side cameras stood at z 67-70, so the trailing camera hung over the front wall and saw the outside's cracked ground past the faded wall.
+  The side shots now stand at z 64-66. "Brown lamp posts": the inside's lamps were the painted lamp card (CAP-PROP-LAMP), which reads brown and
+  dark from the hero's eye level; they are now the 3D pink lamp post with its glowing globe in one MultiMesh (`CapitalBuilder._lamp_field`).
+  "Two flat yellow basins": the compost covers, now on a white drum with a gold band and a flame finial. "Give each side plaza a formal
+  garden": three arcs of rose planter round each lamp ring, between the lamps, in the sectors with no route mouth, the shed or the wheels,
+  mirrored (`_kerb_planters`). Not done: the wheels cut to one pair, the rifts moved onto the axis, the Ward's props removed - story.
+- **s3 -> round 3.** "A half-size fountain": the side fountains are half as big again (`SIDE_FOUNTAIN_RADIUS` 3.0 -> 3.6, the routes end 6.1 m
+  from the centre) with the gilded Primm on a gold-banded pedestal on top instead of the urn. "Black earth under every rift": every rift inside
+  the wall gets a white-and-gold cordon (eight posts with gold balls, a gold rope, a gap at the sealing spot's side; decoration, never a
+  blocker: `CapitalBuilder._rift_cordon`), so the wrongness is framed the way the city frames everything. Not done (story or the centre): a
+  second pavilion to mirror the tram shed, the wheels as a matched pair on plinths, the Hungry Quarter's dispenser as a fountain, the Ward's
+  booth and ladder, the dry sick patch, the rifts' own black ground, the striped lawns (the approach's and Grave Row's are the paint-overs').
