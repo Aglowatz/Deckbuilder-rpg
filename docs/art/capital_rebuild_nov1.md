@@ -318,3 +318,41 @@ What each round changed and why:
   blocker: `CapitalBuilder._rift_cordon`), so the wrongness is framed the way the city frames everything. Not done (story or the centre): a
   second pavilion to mirror the tram shed, the wheels as a matched pair on plinths, the Hungry Quarter's dispenser as a fountain, the Ward's
   booth and ladder, the dry sick patch, the rifts' own black ground, the striped lawns (the approach's and Grave Row's are the paint-overs').
+| s4 (round 3: bigger side fountains with the gilded figure, rift cordons) | 5 | 5 | 6 | 6 | 4 | 4 | 6 | 5 |
+
+The s4 critic's three changes (not done, for the next pass - `docs/review/capital_critic_sides_s4.md`): every rift in an octagonal
+white-and-gold kerb with urns at its corners, mirrored by a sealed twin across the plaza axis, its glow a pale lilac (the rifts' look is the
+story's hazard signal); four parterre beds at each side plaza's ring diagonals and Grave Row's lawns cut into gold-bordered checker paths with
+the headstones inside beds (the plazas' north diagonals fit on the west only - the tram shed takes the east's; Grave Row's lawn is the
+paint-over's); the service props re-skinned as mirrored pairs on the plaza axes and the cable a straight white line between gold posts; the
+side townhouses' roofs - out of frame for the play camera (the rebuild's inbox 4).
+
+## Part 7: where it stands
+
+The sides went from the user's screenshot - slabs, loose cards on the checker, black bins, a mud disc, a bare wall - to two formal plazas with
+a fountain and a gilded pair each, grand district houses with their services tidied into the Capital's finish, arcaded walls with eleven towers
+on them, planter runs with urn cones on every lane, pink lamps in rows, and not one near-black surface inside the wall. The critics' scores
+for the sides rose on every criterion but gardens (4 / 4 / 5 / 5 / 4 / 3 / 5 / 4 -> 5 / 5 / 6 / 6 / 4 / 4 / 6 / 5); none reached 8, and what
+they ask for next is mostly the story's props (inbox 1). Tests: world 432/433, core (see the overnight report), the walk smoke OK, the
+walkability test green, `capital_in` Medium 833 draw calls / p99 19.5 ms (budget 850 / 25).
+
+### Before / after (the user's angle and the standard side spots)
+
+| before (c6) | after (s4) |
+|---|---|
+| ![](capital_rebuild_nov1/c6/the_reek.jpg) the Reek (the user's screenshot angle) | ![](capital_rebuild_nov1/s4/the_reek.jpg) |
+| ![](capital_rebuild_nov1/c6/grave_row.jpg) Grave Row | ![](capital_rebuild_nov1/s4/grave_row.jpg) |
+| ![](capital_rebuild_nov1/c6/transit_yards.jpg) the Transit Yards | ![](capital_rebuild_nov1/s4/transit_yards.jpg) |
+| ![](capital_rebuild_nov1/c6/hungry_quarter.jpg) the Hungry Quarter | ![](capital_rebuild_nov1/s4/hungry_quarter.jpg) |
+| ![](capital_rebuild_nov1/c6/overview.jpg) overview | ![](capital_rebuild_nov1/s4/overview.jpg) |
+
+### The sides' new spots (after only)
+
+| | |
+|---|---|
+| ![](capital_rebuild_nov1/s4/side_w.jpg) the west plaza (the Reek) | ![](capital_rebuild_nov1/s4/side_e.jpg) the east plaza (the Transit Yards) |
+| ![](capital_rebuild_nov1/s4/overview_w.jpg) the west plaza from above | ![](capital_rebuild_nov1/s4/overview_e.jpg) the east plaza from above |
+| ![](capital_rebuild_nov1/s4/hungry_row.jpg) the Hungry Quarter's shop-houses | ![](capital_rebuild_nov1/s4/grave_arcade.jpg) Grave Row's chapel houses and the north arcade |
+| ![](capital_rebuild_nov1/s4/reek_wall.jpg) the west wall's arcade | ![](capital_rebuild_nov1/s4/ward_wall.jpg) the Ward's wall |
+
+Contact sheets against the target: `capital_rebuild_nov1/s4/compare_*.jpg`.

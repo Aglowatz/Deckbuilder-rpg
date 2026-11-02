@@ -6,7 +6,20 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 ## Capital sides Nov 2 - yours to decide (the safest choice was taken)
 
-(filled in as the pass runs; the state is in `docs/loop_state.md`)
+Report: `docs/art/capital_rebuild_nov1.md` ("The sides pass (Nov 2)"). Critics: `docs/review/capital_critic_sides_s2/s3/s4.md`.
+
+1. **The story props the critics keep asking to cut or move** - not touched: the three energy wheels (re-spaced to x 88 / 100 / 112 round the
+   east plaza, still "townhouse-tall"), the tram shed (a second one to mirror it?), the cable, the rifts (now in white-and-gold cordons; their
+   own black ground and the purple stay), the Ward's booth and ladder, the paste dispenser ("a bare white cylinder"), the sick patch (dry until
+   the seed). Every one is a quest step or a district's identity. Say which may change and how far (e.g. the wheels at half size on plinths).
+2. **The side plazas are at the boulevard / lane junctions** (19, 58) and (100, 58) - one metre off a true mirror (the lanes are at x 19 and
+   x 100). A true mirror means moving the Hungry / Transit lane and its stalls to x 101: not done.
+3. **The compost heaps** (quest pickups, the "brown mud discs") are now gold-covered monuments on white drums; the Reek's "banished compost"
+   reads as something the city gilded over. If you would rather they stay honest heaps, say so.
+4. **Grave Row's and the approach's striped lawns** are the paint-overs' (CAP-37); the critics call the green "off-palette" and want checker
+   plus parterres. Left as painted.
+5. **The district blocks are too full of the districts' own things for grid gardens** (the auto-grid found room for one urn); two parterre beds
+   are hand-placed on Grave Row. More formal gardens there mean moving story props (the permit office, the parlour, Fern's shack, the junk).
 
 ## Capital rebuild Nov 1-2 - yours to decide (the safest choice was taken)
 

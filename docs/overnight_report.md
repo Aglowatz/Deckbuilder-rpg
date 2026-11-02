@@ -1,3 +1,34 @@
+# Report - Capital sides pass (Nov 2, Fable 5.1)
+
+Sun Nov 2 07:00 -> 09:30 MST. Brief: "CAPITAL SIDES PASS (follow-up to the inner-city rebuild)", items 1-7. Tag `pre-capital-sides-nov2`.
+Full report (what the screenshot showed, every part, the critics' rounds, perf, the before / after gallery): `docs/art/capital_rebuild_nov1.md`,
+section "The sides pass (Nov 2)". Judgment calls: `docs/overnight_inbox.md` ("Capital sides Nov 2", items 1-5). Previous report below.
+
+## Morning summary
+
+- **No scatter on paving.** Plants stand only on painted lawn or inside a planter; every district lane and separator is lined with continuous
+  white planters (gold lips, roses, a cone in a gold urn every 4 m). A test counts loose plants inside the wall (0).
+- **No black objects.** The cause was the kit's near-black flat slots under the toon shadow band, not a missing texture. Every inside piece is
+  restyled white and gold (bins, sacks, crates, the compost covers, the sick patch, drain covers, Ward bars, tram rails, dead windows, dead
+  globes, Fern's shack). A probe test walks every visible triangle inside the wall: 434.8 m2 of near-black before, 0.31 after (budget 0.6).
+- **No skinny buildings.** The Reek's yards, Grave Row's crypts and the Hungry Quarter's six stalls are grand townhouses with their district's
+  service layer (one long shop-house a side of the Hungry lane); the plaza corners' pylons are gate piers; the district pylons are gone; the
+  walls' inner faces wear a blind arcade with niche statuettes, wall basins and eleven engaged towers.
+- **Side plazas** at (19, 58) and (100, 58): a two-tier side fountain with the gilded Primm on top, a gilded statue pair, a checker disc with
+  ring borders, banner lamps, rose planter arcs; the routes end at the rim. The wheels, the pylons, a chest, the junk and the transit rift
+  moved a little for them; every NPC, talk spot, pickup and entrance stays.
+- **Gardens / order**: pink 3D lamps in rows on every lane (the painted card read brown), two parterre beds on Grave Row, a white-and-gold
+  cordon round every rift inside the wall.
+- **Critics (sides only, strict)**: s2 4/4/5/5/4/3/5/4 -> s3 4/4/5/5/4/4/6/5 -> s4 5/5/6/6/4/4/6/5. What they ask for next is mostly the
+  story's props (the wheels, the rifts, the shed, the cable) - inbox 1.
+- **Verified**: world 432/433 (one pre-existing pending), core 1563/1564 (one pre-existing pending), walk smoke OK (36 screenshots), the walkability test green,
+  `capital_in` Medium 833 draw calls / p99 19.5 ms (budget 850 / 25; the first measure was 859 - the new statics merged city-wide fixed it).
+
+Commits: ca14bb1c (Parts 1-4), ff06ea81 (perf), af4b45b2 (round 2), 88762f43 (round 3), and the finish commit.
+
+
+---
+
 # Report - Capital inner-city rebuild (Nov 1-2, Fable 5.1)
 
 Sun Nov 1 20:10 -> 23:15 MST. Brief: "CAPITAL INNER-CITY REBUILD (overnight)", Parts A-G. Tag `pre-capital-rebuild-nov1`. Full report with
