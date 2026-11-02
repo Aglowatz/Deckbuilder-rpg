@@ -127,4 +127,18 @@ All done, tested in GUT (core 1564, ui 196, world 431 green) except where noted 
   PASSED on the project and on the exported pack (0.5.1). Not shared.
 - **Disk: 1.5 GB free.** The permission classifier refused my deletes; please remove `builds/TheWaywardPath-v0.4.9-windows.zip` (762 MB),
   `builds/_export` (955 MB, re-made by any export) and the old `_screenshots/play/critic*` folders by hand.
-- **Mid / late / postgame critics**: CRITICS_RESULT
+- **Mid / late / postgame critics**: fresh critics from the worktree at HEAD on the new story-bot saves (reports and cited shots in
+  `docs/review/fresh_eyes_{midgame,lategame,postgame}_nov1[.md|/]`):
+  - **Mid-game 5.3** (last night 5.5; a different reviewer's eye). Top: fights long and inert (a 26-turn trash fight by the critic's
+    pilot; "play one Powerhouse, pass"), a dungeon loss ejects you with a toll line and no Defeat recap, energy taught after the failed
+    play, "shops cannot be opened", black zone map / "Where to?" a text field. The shop item is **not a regression**: its own log shows E
+    pressed after walking out of Sable's prompt, and Escape on Fenwick's second greeting line (the stall opens when the greeting ends);
+    the first-hour critic opened Sable's stall on the same build.
+  - **Late-game ~5** (last night 4.6; "a 7 with the flow bugs and ending staging fixed"). Top: Victory, Opening Hand and the boss node's
+    "Click again to go" ignore E/Space (seven runs to reach the credits by keyboard), the map's "Where to?" / "Goal:" never learn about the
+    Capital after the four zones, Infrastructure floods castle hands (10 of 12 Powerhouses; Primm's mirror deck too), the ending staged as
+    icon collages and PLACEHOLDER CREDITS, the Capital arrival in the grey Crease with a silent nurse.
+  - **Postgame**: still running at the usage cut-off; its report lands in `docs/review/fresh_eyes_postgame_nov1.md` when it finishes.
+  - **Not fixed (next pass, in order)**: E/Space on the Victory panel, the Opening Hand popup and an armed node (keyboard players stall
+    mid-boss); the map's goal after the four zones; the Infrastructure flood late (the auto-fill target); a Defeat recap on a dungeon loss;
+    the ending's placeholder art and credits (art).
