@@ -27,7 +27,7 @@ shot() {
 	[ -f "_screenshots/crb_$name.jpg" ] && mv "_screenshots/crb_$name.jpg" "$out/$name.jpg"
 }
 # the reference framing (the fountain at the bottom, the boulevard and the castle beyond; the camera inside the wall) and the plaza from the gate
-shot "ref" --pos=63.5,50 --set=$MID
+shot "ref" --pos=60,62 --set=camera_angle:0,camera_zoom:1.7
 shot "ref_mid" --pos=60,64 --set=$MID
 shot "ref_play" --pos=60,64 --set=$DEFAULT
 # the standard spots

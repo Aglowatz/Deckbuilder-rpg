@@ -847,7 +847,7 @@
 			"blur_far": 1.2,
 			"blur_near": 1.6,
 			"warmth": 0.04,
-			"saturation": 1.32,
+			"saturation": 1.4,
 			"vignette": 0.08,
 			"bloom": 0.2,
 			"bloom_threshold": 1.25,

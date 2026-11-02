@@ -42,7 +42,10 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return statue(prop.model_scale, bool(ctx.get("final", false)))
 		"gilded_statue":
 			# the rebuild: the painted gold Primm on a tall laurel plinth (CapitalGrand), toppled once he has fallen
-			return CapitalGrand.statue_plinth(3.2, 4.4, bool(ctx.get("final", false)), bool(ctx.get("final", false)))
+			var gilded: Node3D = CapitalGrand.statue_plinth(3.2, 4.4, bool(ctx.get("final", false)), bool(ctx.get("final", false)))
+			for mesh: Node in gilded.find_children("*", "MeshInstance3D", true, false):
+				mesh.set_meta(&"kit_static", true)  # perf: never fades anyway, so it merges
+			return gilded
 		"toppled_statue":
 			return fallen_statue()
 		"portrait":
@@ -394,6 +397,7 @@ static func _horn(mesh: KitMesh, slot: String, base: Vector3, dir: Vector3, leng
 			var d1: Vector3 = side * cos(a1) + up * sin(a1)
 			var quad: Array[Vector3] = [p0 + d0 * rad0, p0 + d1 * rad0, p1 + d1 * rad1, p1 + d0 * rad1]
 			mesh.quad(slot, quad, (d0 + d1).normalized())
+			mesh.quad(slot, quad, -(d0 + d1).normalized())  # the rebuild: the bell's inside is gold too (an open horn read as a black disc from the front)
 			mesh.quad("dark", quad, -(d0 + d1).normalized())
 
 

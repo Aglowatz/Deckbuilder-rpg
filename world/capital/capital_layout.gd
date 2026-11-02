@@ -696,7 +696,7 @@ func _plaza() -> void:
 	# The rebuild (Nov 1): slender towers at the plaza's four corners (2 x 2 m, off every route and spot), the gilded Primm pair flanking the
 	# avenue's mouth (facing the gate), eight pink lamps on the walk round the fountain between the parterres (thin cards: never blockers).
 	for corner: Vector2 in [Vector2(48.0, 49.0), Vector2(72.0, 49.0), Vector2(50.0, 67.5), Vector2(70.0, 67.5)]:
-		_building("spire", corner.x - 1.0, corner.y - 1.0, 2.0, 2.0, 16.0, 0.0, "", 0 if corner.y < PLAZA_CENTER.y else 1)
+		_building("spire", corner.x - 1.0, corner.y - 1.0, 2.0, 2.0, 12.0, 0.0, "", 0 if corner.y < PLAZA_CENTER.y else 1)  # 12 m: the low camera still sees their spires from across the plaza
 	for side: float in [-1.0, 1.0]:
 		_prop("gilded_statue", PLAZA_CENTER.x + side * 8.5, 47.0, 0.0, 1.0, 1.5)
 	for index: int in range(8):

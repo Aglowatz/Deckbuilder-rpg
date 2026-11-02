@@ -409,6 +409,12 @@ func _build_buildings() -> void:
 	_build_houses(houses)
 
 
+## Flags every mesh under `node` (body and detail) for `KitBatch.merge_static`.
+static func _batch_all(node: Node) -> void:
+	for mesh: Node in node.find_children("*", "MeshInstance3D", true, false):
+		mesh.set_meta(&"kit_static", true)
+
+
 ## Flags the kit model's main mesh under `node` for `KitBatch.merge_static` (built once, never changed at run time).
 static func _batchable(node: Node) -> void:
 	for mesh: Node in node.find_children("Body", "MeshInstance3D", true, false):
@@ -443,6 +449,7 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 			# the rebuild's slender towers (CapitalGrand.tower): blue spires round the plaza, pink at its north corners, gold-roofed by the forecourt
 			var roof: String = ["roof_blue", "roof_pink", "gold"][building.variant % 3]
 			node.add_child(CapitalGrand.tower(h, 1.1 if h < 20.0 else 1.35, roof, final_state))
+			_batch_all(node)  # perf: a thin tower merges with its neighbours
 		"castle":
 			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
@@ -594,6 +601,9 @@ func _build_houses(houses: Array[CapitalLayout.Building]) -> void:
 		node.name = "Townhouse_%d" % index
 		node.position = Vector3(rect.get_center().x, 0.0, rect.get_center().y)
 		root.add_child(node)
+		if not inner:
+			# perf: the second rank merges by material and cell (it never stands between the trailing camera and the hero on the avenue or in the alleys)
+			_batch_all(node)
 		if final_state:
 			for light: Variant in node.get_meta("lights", []) as Array:
 				var list: Array = district_lights.get("approach", []) as Array
@@ -756,12 +766,12 @@ func _build_skyline() -> void:
 			var house: Node3D = CapitalGrand.townhouse({"w": 4.6, "d": 4.6, "storeys": 4 + (index % 2), "bays": 3, "accent": ["pink", "sage", "lavender", "blue"][index], "roof": ["hip", "mansard"][index % 2], "balcony": true, "pediment": true, "final": final_state, "banner": ""})
 			house.position = Vector3(x, top, -7.0)
 			skyline.add_child(house)
-		var near: Node3D = CapitalGrand.tower(20.0, 1.2, "roof_pink", final_state, false)
-		near.position = Vector3(60.0 + side * 39.0, top, -1.5)
-		skyline.add_child(near)
-		var far: Node3D = CapitalGrand.tower(26.0, 1.4, "roof_blue", final_state, false)
-		far.position = Vector3(60.0 + side * 60.0, top, -4.0)
-		skyline.add_child(far)
+		# a run of spires along the hill top behind the townhouses, stepping up and down so the silhouette over the north wall is all spires
+		var spires: Array = [[39.0, -1.5, 20.0, 1.2, "roof_pink"], [45.0, -11.0, 24.0, 1.3, "roof_blue"], [52.0, -12.0, 18.0, 1.1, "roof_pink"], [60.0, -4.0, 26.0, 1.4, "roof_blue"], [56.0, -13.0, 22.0, 1.2, "gold"]]
+		for spire: Array in spires:
+			var tower: Node3D = CapitalGrand.tower(float(spire[2]), float(spire[3]), str(spire[4]), final_state, false)
+			tower.position = Vector3(60.0 + side * float(spire[0]), top, float(spire[1]))
+			skyline.add_child(tower)
 		# behind the side walls (x -7 and 127): a row of five-storey fronts facing the city and a tower at each run's middle
 		var wall_x: float = -7.0 if side < 0.0 else 127.0
 		var z: float = 6.0
@@ -774,9 +784,11 @@ func _build_skyline() -> void:
 		var mid: Node3D = CapitalGrand.tower(24.0, 1.3, "gold", final_state, false)
 		mid.position = Vector3(wall_x, 0.0, 30.0)
 		skyline.add_child(mid)
-	for node: Node in skyline.get_children():
-		_batchable(node)
+	for mesh: Node in skyline.find_children("*", "MeshInstance3D", true, false):
+		mesh.set_meta(&"kit_static", true)
 	CapitalLandmarks.mark_view(skyline)
+	# one batch per material for the whole skyline (it is never culled, so the 16 m cells would only multiply the draw calls)
+	KitBatch.merge_static(skyline, 4096.0)
 
 
 ## The hero landmarks (`CapitalLandmarks`, modelled after the kit's concepts): Primm's Castle on its hill at the city's heart, the great gate's
@@ -840,7 +852,17 @@ func _prop_key(kind: String, pos: Vector3) -> String:
 
 
 func _build_props() -> void:
+	# perf (the rebuild): the inside's painted lamps and benches are one card field each (a MultiMesh), not a node per prop
+	var card_fields: Dictionary = {"lamp_perfect": [] as Array[Dictionary], "bench": [] as Array[Dictionary]}
 	for prop: CapitalLayout.Prop in layout.props:
+		if card_fields.has(prop.kind) and prop.pos.z < float(CapitalLayout.WALL_Z0):
+			(card_fields[prop.kind] as Array[Dictionary]).append({"pos": prop.pos, "scale": prop.model_scale})
+			var stand_in: Node3D = Node3D.new()
+			stand_in.name = "Card_" + prop.kind
+			root.add_child(stand_in)
+			stand_in.position = prop.pos
+			prop_nodes[_prop_key(prop.kind, prop.pos)] = stand_in
+			continue
 		var node: Node3D = P.build(prop, ctx, story)
 		if node == null:
 			continue
@@ -862,6 +884,10 @@ func _build_props() -> void:
 		var ghost: Node3D = node.get_node_or_null("Ghost") as Node3D
 		if ghost != null:
 			_ghosts.append(ghost)
+	for kind: String in card_fields.keys():
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, "cap_lamp" if kind == "lamp_perfect" else "cap_bench", card_fields[kind] as Array[Dictionary], true)
+		if field != null:
+			field.name = "Props_" + kind
 	_apply_initial_states()
 
 

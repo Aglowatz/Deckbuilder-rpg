@@ -61,3 +61,71 @@ The plan:
 - **Removed**: the Grave Row flower clumps, the generic lamp model, the old row pattern inside the Showcase (replaced by the parterres).
 - **Pieces** (Part B, `world/capital/capital_grand.gd`): townhouse, tower, plinth + statue, fountain, planter run, urn + topiary, lamp, banner set,
   paving border, balustrade.
+
+## Part B: the kit (`world/capital/capital_grand.gd`, look-dev `tools/capital_lineup.tscn`)
+
+`bash tools/shot.sh res://tools/capital_lineup.tscn lineup_houses --pieces=old_house,house_hip,house_mansard,house_gable,house_tall --nohud=true`
+(pieces: house_hip / house_mansard / house_gable / house_tall / tower / tower_pink / statue / statue_fallen / fountain / lamp / planter /
+old_house / old_fountain; `--final=true` for the fallen state).
+
+| | |
+|---|---|
+| ![](capital_rebuild_nov1/lineup/lineup_houses.jpg) the old house, then the townhouse generator: hip, mansard, gable, five storeys | ![](capital_rebuild_nov1/lineup/lineup_towers.jpg) the gilded statue, towers (blue and pink spires), the tiered fountain, the toppled statue, a lamp, a planter run |
+
+- **Townhouse** (`CapitalGrand.townhouse(spec)`): storeys (STOREY 2.6 m, a hero and a half), bays, accent (pink / sage / lavender / blue / cream:
+  the upper storeys' plaster tinted, the ground storey cream), roof (hip blue slate / mansard pink / gable blue with a pediment), balcony on
+  the first floor with a balustrade on gold brackets, pediment with the sun medallion at the roofline, gold trim at every floor line, corner
+  pilasters with gold caps, arched mirrored windows in every bay (a flower box with a rose card under each upper one), the doors sheet's door
+  under a small pediment with the emblem and two lanterns, a parapet balustrade with pinnacles at the corners, one sun banner over the door
+  (`banner_roll` degrees off). `final`: dim gold, warm honest windows, the banner 7 degrees crooked, a warm light at the door.
+- **Tower** (`tower(height, radius, roof, final)`): square gold-capped plinth, banded round shaft with slot windows, a balcony ring with its
+  balustrade and four pinnacles, a lantern of four mirrored lancets, a pointed cone (blue / pink / gold) with a collar and finial, a sun banner
+  below the balcony.
+- **Gilded statue** (`statue_plinth`): the painted gold Primm on his laurel plinth (CAPI-PROP-PRIMM-STATUE: the target's statue) raised on a
+  stepped white plinth with gold bands, a gold laurel-and-sun relief front and back, corner rosettes; toppled (the fallen card at its foot, a
+  stump on top) once Primm has fallen. Never fades or culls.
+- **Fountain** (`fountain(outer, final)`): a gold-bordered step, three tiers of white marble with gold rims, eight rose planters on the lowest
+  rim, water in every tier, eight jets from the middle tier and four from the upper, four emblems on the drum, the painted statue on top; dry
+  with the fallen card in the basin once Primm has fallen. The plaza's hazard circle grew from 3.3 to 4.6 m (the avenue now starts at z 46.5
+  and the boulevards end at x 49 / 71, so the open ring round it keeps the layout rule).
+- **Planters, borders, balustrades, lamp banners**: `planter_run` (a low white box with a gold lip; the rose cards' positions come back for the
+  card field), `planter_box`, `border` (a white strip with a gold line on the paving), `ring_border`, `balustrade`, `card_rolled` (a card
+  hung a few degrees off), `lamp_mesh` / `lamp_banner_mesh` (a 3D pink lamp and its banner pair, for MultiMeshes).
+
+## Part C: the layout
+
+- The sixteen footprints and every route, anchor, spot and sign stay where they were. The inner columns (x 49.5 / 66.5) are four-storey
+  townhouses, the outer (43.5 / 72.5) five, each row its own roof and accent mirrored across the axis; the plaza-side pair keep the
+  storefronts' doors, house 6 its different door; house 9's banner hangs a degree and a half off. One mesh per house (the fader dims one, not a
+  row); every state (the fallen one loosened: crooked banners, warm windows) - the old ruined-house swap is gone (inbox 2).
+- Towers ("spire" buildings, 2 x 2 m): the plaza's four corners (48, 49) (72, 49) (50, 67.5) (70, 67.5) at 16 m, one per district at its inner
+  corner (Grave Row (33, 9.5), the Reek (33, 45), the Transit Yards (113, 62), the Ward (116, 9)) at 14 m; the tallest pair (20 m, gold) on the
+  hill top either side of the stair's landing (the forecourt's lawn holds two rifts, so no pair fits there).
+- Gilded pairs: (51.5, 47) and (68.5, 47) flanking the avenue's mouth, facing the gate.
+- The skyline beyond the walkable city (`CapitalBuilder._build_skyline`): on the hill top either side of the palace four townhouses and two
+  towers (20 / 26 m) per side; behind the side walls a row of five-storey fronts facing the city and a 24 m gold tower each; merged, never
+  culled (`KitBatch` now carries `no_range_cull` through a merge).
+- Gardens (`CapitalDressing`): four parterre beds on the plaza's diagonals (a 2.8 m white planter, sixteen roses, a topiary cone in its gold
+  urn; the planter blocks), rose runs along both verges of the boulevard (x 56 / 64, z 18.5-44.5) and along the lawn panels by the ring
+  streets (x 41.6 / 78.4, broken round the two hidden chests), a matched banner pair on each of the plaza's eight lamps (one a degree off); the
+  Grave Row flower clumps are gone. The garden pieces live in `garden_fields`, apart from the rows the people-room rule governs.
+- Paving: a 2 m checker of pink, sage and cream over every plaza cell (the painted plaza texture underneath is a 1 m checker that no vertex
+  colour can change), white-and-gold borders along the avenue's edges, round the plaza and round the fountain's walk.
+- The gate piers' faces toward the opening and the city carry the sun medallion, a mirrored lancet and a banner.
+
+## Part D: light
+
+`data/zone_styles/capital_inside.json` + the `capital_inside` mood in `data/art/zone_looks.json`: the violet ambient (#9a90d8) is a pale cool
+white (#cfcde6) at 0.38, the sun 0.95 with shadows at 0.62 opacity, fog 0.0016 -> 0.0005 (and the castle's own haze 0.0012 -> 0.0005), exposure
+0.78 -> 0.62 with contrast 1.18, warmth 0.15 -> 0.04, bloom 0.5/0.7 at 0.95 -> 0.2 at 1.25 (a white city bloomed everywhere), the tilt-shift's
+far blur 7 -> 1.2 inside the walls, vignette 0.08. The pale look that remains at the Far zoom is the scene's own brightness (cream plaster in
+full sun under AgX), not fog: a fog-off shot and an ACES shot were taken to check.
+
+## Part F: the scores
+
+A fresh critic (`docs/review/critic_brief_capital_nov1.md`: sees only the target and one folder of shots, reads nothing else, runs nothing)
+scores each iteration 1-10. Reports: `docs/review/capital_critic_<phase>.md`.
+
+| Iteration | Grandeur | Symmetry | Buildings | Towers | Statues/fountain | Gardens | Paving | Light | Overall |
+|---|---|---|---|---|---|---|---|---|---|
+| c2 (Showcase rebuilt, first light pass) | 4 | 5 | 4 | 2 | 7 | 4 | 6 | 3 | 4 |

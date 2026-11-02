@@ -76,6 +76,7 @@ static func townhouse(spec: Dictionary) -> Node3D:
 	root.name = "Townhouse"
 	var final_state: bool = bool(spec.get("final", false))
 	var mesh: KitMesh = mesh_for(final_state)
+	var detail: KitMesh = mesh_for(final_state)  # windows, trim, cards, balustrades: drawn without shadows (perf: half the shadow passes)
 	var w: float = float(spec.get("w", 4.0))
 	var d: float = float(spec.get("d", 4.0))
 	var storeys: int = clampi(int(spec.get("storeys", 3)), 2, 6)
@@ -98,11 +99,11 @@ static func townhouse(spec: Dictionary) -> Node3D:
 	mesh.box("accent_cream", Vector3(0, STOREY * 0.5 - 0.02, 0), Vector3(w + 0.05, STOREY - 0.3, d + 0.05), Basis.IDENTITY, 0.0, 0.9)
 	for storey: int in range(storeys + 1):
 		var y: float = STOREY * float(storey) - (0.08 if storey == 0 else 0.0)
-		mesh.box("trim", Vector3(0, y + (0.18 if storey == 0 else 0.0), 0), Vector3(w + 0.14, 0.22, d + 0.14))
+		detail.box("trim", Vector3(0, y + (0.18 if storey == 0 else 0.0), 0), Vector3(w + 0.14, 0.22, d + 0.14))
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
 			mesh.box("plaster", Vector3(sx * (hw - 0.22), h * 0.5, sz * (front - 0.22)), Vector3(0.5, h + 0.1, 0.5), Basis.IDENTITY, 0.03, 0.9)
-			mesh.box("gold", Vector3(sx * (hw - 0.22), h + 0.08, sz * (front - 0.22)), Vector3(0.6, 0.14, 0.6))
+			detail.box("gold", Vector3(sx * (hw - 0.22), h + 0.08, sz * (front - 0.22)), Vector3(0.6, 0.14, 0.6))
 	# the faces: windows in every bay on every storey (the front and the sides; the back one bay less), pastel panels between the upper windows
 	var faces: Array = [[Vector3(0, 0, 1), w, front, bays], [Vector3(1, 0, 0), d, hw, maxi(1, bays - 1)], [Vector3(-1, 0, 0), d, hw, maxi(1, bays - 1)], [Vector3(0, 0, -1), w, front, maxi(1, bays - 1)]]
 	for face: Array in faces:
@@ -122,51 +123,51 @@ static func townhouse(spec: Dictionary) -> Node3D:
 				if is_door:
 					continue
 				if storey == 0:
-					K.arched_window(mesh, at + Vector3(0, 0.55, 0), win_w, STOREY * 0.62, normal, glass)
+					K.arched_window(detail, at + Vector3(0, 0.55, 0), win_w, STOREY * 0.62, normal, glass)
 				else:
-					K.arched_window(mesh, at + Vector3(0, base_y + 0.5, 0), win_w, STOREY * 0.66, normal, glass)
+					K.arched_window(detail, at + Vector3(0, base_y + 0.5, 0), win_w, STOREY * 0.66, normal, glass)
 					# the flower box on the sill: a white box with a gold lip and a rose card (brighter once Primm has fallen)
 					mesh.box("plaster", at + Vector3(0, base_y + 0.38, 0) + normal * 0.16, Vector3(win_w + 0.3, 0.22, 0.3), Basis(Vector3.UP, atan2(normal.x, normal.z)))
-					mesh.box("gold", at + Vector3(0, base_y + 0.5, 0) + normal * 0.16, Vector3(win_w + 0.34, 0.04, 0.34), Basis(Vector3.UP, atan2(normal.x, normal.z)))
-					K.card(mesh, "CAP-PLANT-ROSE", at + Vector3(0, base_y + 0.44, 0) + normal * 0.2, 0.42, normal, false, Color(1.1, 1.0, 1.0) if final_state else Color.WHITE)
+					detail.box("gold", at + Vector3(0, base_y + 0.5, 0) + normal * 0.16, Vector3(win_w + 0.34, 0.04, 0.34), Basis(Vector3.UP, atan2(normal.x, normal.z)))
+					K.card(detail, "CAP-PLANT-ROSE", at + Vector3(0, base_y + 0.44, 0) + normal * 0.2, 0.42, normal, false, Color(1.1, 1.0, 1.0) if final_state else Color.WHITE)
 				# the pastel panel between this bay and the next (upper storeys), a gold frame line round it
 				if storey > 0 and bay < count - 1:
 					var panel: Vector3 = normal * (out + 0.015) + right * ((float(bay) + 1.0) / float(count) - 0.5) * inner + Vector3(0, base_y + STOREY * 0.52, 0)
 					var pw: float = maxf(inner / float(count) - win_w - 0.3, 0.12)
 					var ph: float = STOREY * 0.62
-					mesh.quad("marble", [panel - right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 + Vector3(0, ph * 0.5, 0), panel - right * pw * 0.5 + Vector3(0, ph * 0.5, 0)], normal)
-					mesh.box("gold", panel + normal * 0.01 + Vector3(0, ph * 0.5, 0), Vector3(pw + 0.06, 0.05, 0.03) if absf(normal.z) > 0.5 else Vector3(0.03, 0.05, pw + 0.06))
-					mesh.box("gold", panel + normal * 0.01 - Vector3(0, ph * 0.5, 0), Vector3(pw + 0.06, 0.05, 0.03) if absf(normal.z) > 0.5 else Vector3(0.03, 0.05, pw + 0.06))
+					detail.quad("marble", [panel - right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 + Vector3(0, ph * 0.5, 0), panel - right * pw * 0.5 + Vector3(0, ph * 0.5, 0)], normal)
+					detail.box("gold", panel + normal * 0.01 + Vector3(0, ph * 0.5, 0), Vector3(pw + 0.06, 0.05, 0.03) if absf(normal.z) > 0.5 else Vector3(0.03, 0.05, pw + 0.06))
+					detail.box("gold", panel + normal * 0.01 - Vector3(0, ph * 0.5, 0), Vector3(pw + 0.06, 0.05, 0.03) if absf(normal.z) > 0.5 else Vector3(0.03, 0.05, pw + 0.06))
 	# the door in the middle of the front, under a small gold-edged pediment with the emblem, two lanterns beside it
 	var door_at: Vector3 = Vector3(0, 0.02, front + 0.03)
-	K.card(mesh, door, door_at, 2.4, Vector3(0, 0, 1))
-	mesh.box("gold", Vector3(0, 2.52, front + 0.06), Vector3(1.9, 0.1, 0.12))
+	K.card(detail, door, door_at, 2.4, Vector3(0, 0, 1))
+	detail.box("gold", Vector3(0, 2.52, front + 0.06), Vector3(1.9, 0.1, 0.12))
 	mesh.tri("plaster", [Vector3(-1.0, 2.6, front + 0.04), Vector3(1.0, 2.6, front + 0.04), Vector3(0, 3.35, front + 0.04)], Vector3(0, 0, 1))
-	L.band(mesh, "gold", Vector3(-1.0, 2.62, front + 0.07), Vector3(0, 3.37, front + 0.07), 0.08, Vector3(0, 0, 1))
-	L.band(mesh, "gold", Vector3(0, 3.37, front + 0.07), Vector3(1.0, 2.62, front + 0.07), 0.08, Vector3(0, 0, 1))
-	K.emblem(mesh, Vector3(0, 2.92, front + 0.06), 0.2, Vector3(0, 0, 1), final_state, false)
+	L.band(detail, "gold", Vector3(-1.0, 2.62, front + 0.07), Vector3(0, 3.37, front + 0.07), 0.08, Vector3(0, 0, 1))
+	L.band(detail, "gold", Vector3(0, 3.37, front + 0.07), Vector3(1.0, 2.62, front + 0.07), 0.08, Vector3(0, 0, 1))
+	K.emblem(detail, Vector3(0, 2.92, front + 0.06), 0.2, Vector3(0, 0, 1), final_state, false)
 	for side: float in [-1.0, 1.0]:
-		mesh.blob("lamp", Vector3(side * 0.95, 2.1, front + 0.2), Vector3(0.1, 0.13, 0.1), 3, 8)
-		mesh.box("gold", Vector3(side * 0.95, 1.95, front + 0.1), Vector3(0.06, 0.2, 0.2))
+		detail.blob("gold", Vector3(side * 0.95, 2.1, front + 0.2), Vector3(0.1, 0.13, 0.1), 3, 8)  # gold lantern balls (one surface fewer per house)
+		detail.box("gold", Vector3(side * 0.95, 1.95, front + 0.1), Vector3(0.06, 0.2, 0.2))
 	# the balcony across the first floor's front: a slab on gold brackets, a small balustrade, pots at its ends
 	if balcony and storeys >= 2:
 		var y: float = STOREY
 		var depth: float = 0.75
 		mesh.box("plaster", Vector3(0, y + 0.08, front + depth * 0.5), Vector3(w - 0.7, 0.16, depth), Basis.IDENTITY, 0.02)
-		mesh.box("gold", Vector3(0, y - 0.02, front + depth * 0.5), Vector3(w - 0.64, 0.05, depth + 0.04))
+		detail.box("gold", Vector3(0, y - 0.02, front + depth * 0.5), Vector3(w - 0.64, 0.05, depth + 0.04))
 		for bx: float in [-(hw - 0.75), 0.0, hw - 0.75]:
-			mesh.tri("gold", [Vector3(bx, y - 0.02, front + 0.02), Vector3(bx, y - 0.02, front + depth - 0.05), Vector3(bx, y - 0.55, front + 0.02)], Vector3(1, 0, 0))
-			mesh.tri("gold", [Vector3(bx, y - 0.02, front + 0.02), Vector3(bx, y - 0.55, front + 0.02), Vector3(bx, y - 0.02, front + depth - 0.05)], Vector3(-1, 0, 0))
-		balustrade(mesh, Vector3(-(hw - 0.4), y + 0.16, front + depth - 0.1), Vector3(hw - 0.4, y + 0.16, front + depth - 0.1), 0.62)
+			detail.tri("gold", [Vector3(bx, y - 0.02, front + 0.02), Vector3(bx, y - 0.02, front + depth - 0.05), Vector3(bx, y - 0.55, front + 0.02)], Vector3(1, 0, 0))
+			detail.tri("gold", [Vector3(bx, y - 0.02, front + 0.02), Vector3(bx, y - 0.55, front + 0.02), Vector3(bx, y - 0.02, front + depth - 0.05)], Vector3(-1, 0, 0))
+		balustrade(detail, Vector3(-(hw - 0.4), y + 0.16, front + depth - 0.1), Vector3(hw - 0.4, y + 0.16, front + depth - 0.1), 0.62)
 		for side: float in [-1.0, 1.0]:
-			balustrade(mesh, Vector3(side * (hw - 0.4), y + 0.16, front + 0.1), Vector3(side * (hw - 0.4), y + 0.16, front + depth - 0.1), 0.62)
+			balustrade(detail, Vector3(side * (hw - 0.4), y + 0.16, front + 0.1), Vector3(side * (hw - 0.4), y + 0.16, front + depth - 0.1), 0.62)
 	# the parapet: a balustrade along the front and the sides over the top trim, pinnacles at the corners, then the roof
 	var parapet_y: float = h + 0.15
-	balustrade(mesh, Vector3(-(hw - 0.55), parapet_y, front - 0.25), Vector3(hw - 0.55, parapet_y, front - 0.25), 0.8)
+	balustrade(detail, Vector3(-(hw - 0.55), parapet_y, front - 0.25), Vector3(hw - 0.55, parapet_y, front - 0.25), 0.8)
 	for side: float in [-1.0, 1.0]:
-		balustrade(mesh, Vector3(side * (hw - 0.25), parapet_y, front - 0.55), Vector3(side * (hw - 0.25), parapet_y, -(front - 0.55)), 0.8)
+		balustrade(detail, Vector3(side * (hw - 0.25), parapet_y, front - 0.55), Vector3(side * (hw - 0.25), parapet_y, -(front - 0.55)), 0.8)
 		for sz: float in [-1.0, 1.0]:
-			L.pinnacle(mesh, Vector3(side * (hw - 0.22), parapet_y, sz * (front - 0.22)), 0.42, 1.9)
+			L.pinnacle(detail, Vector3(side * (hw - 0.22), parapet_y, sz * (front - 0.22)), 0.42, 1.9)
 	match roof:
 		"mansard":
 			# a steep pink slate mansard with a flat gold-edged top and a row of dormer finials
@@ -180,8 +181,8 @@ static func townhouse(spec: Dictionary) -> Node3D:
 				var j: int = (index + 1) % 4
 				mesh.quad("roof_pink", [lo[index], lo[j], hi[j], hi[index]], normals[index])
 			mesh.quad("roof_pink", [hi[0], hi[1], hi[2], hi[3]], Vector3.UP)
-			mesh.box("gold", c + Vector3(0, rise + 0.04, 0), Vector3(w - inset * 2.0 + 0.2, 0.1, d - inset * 2.0 + 0.2))
-			K.finial(mesh, c + Vector3(0, rise + 0.08, 0), 1.0)
+			detail.box("gold", c + Vector3(0, rise + 0.04, 0), Vector3(w - inset * 2.0 + 0.2, 0.1, d - inset * 2.0 + 0.2))
+			K.finial(detail, c + Vector3(0, rise + 0.08, 0), 1.0)
 		"gable":
 			# a blue gable across the front with a pediment and the sun medallion in it
 			var rise: float = 2.2
@@ -192,11 +193,11 @@ static func townhouse(spec: Dictionary) -> Node3D:
 				mesh.quad("roof_blue", [Vector3(-hw - 0.2, parapet_y, eave), Vector3(hw + 0.2, parapet_y, eave), ridge_b, ridge_a], Vector3(0, 0.8, sz))
 			for sx: float in [-1.0, 1.0]:
 				mesh.tri("plaster", [Vector3(sx * hw, parapet_y, -front), Vector3(sx * hw, parapet_y, front), Vector3(sx * hw, parapet_y + rise - 0.05, 0)], Vector3(sx, 0, 0))
-			mesh.box("gold", Vector3(0, parapet_y + rise + 0.1, 0), Vector3(w + 0.6, 0.2, 0.3))
-			K.finial(mesh, Vector3(0, parapet_y + rise + 0.15, 0), 1.1)
+			detail.box("gold", Vector3(0, parapet_y + rise + 0.1, 0), Vector3(w + 0.6, 0.2, 0.3))
+			K.finial(detail, Vector3(0, parapet_y + rise + 0.15, 0), 1.1)
 		_:
 			CapitalCastle._hip_roof(mesh, Vector3(0, parapet_y, 0), Vector2(w - 0.4, d - 0.4), 2.1, "roof_blue")
-			K.finial(mesh, Vector3(0, parapet_y + 2.25, 0), 1.0)
+			K.finial(detail, Vector3(0, parapet_y + 2.25, 0), 1.0)
 	# the pediment over the front's middle at the roofline: a white triangle with gold edges and the sun medallion
 	if pediment:
 		var pw: float = minf(w * 0.6, 3.2)
@@ -205,14 +206,15 @@ static func townhouse(spec: Dictionary) -> Node3D:
 		mesh.tri("plaster", [Vector3(-pw * 0.5, py, front + 0.02), Vector3(pw * 0.5, py, front + 0.02), apex], Vector3(0, 0, 1))
 		mesh.tri("plaster", [Vector3(pw * 0.5, py, front - 0.3), Vector3(-pw * 0.5, py, front - 0.3), apex - Vector3(0, 0, 0.32)], Vector3(0, 0, -1))
 		mesh.box("plaster", Vector3(0, py + pw * 0.21, front - 0.14), Vector3(pw, pw * 0.42, 0.28), Basis.IDENTITY, 0.0, 1.0)
-		L.band(mesh, "gold", Vector3(-pw * 0.5, py + 0.02, front + 0.05), apex + Vector3(0, 0.02, 0.03), 0.1, Vector3(0, 0, 1))
-		L.band(mesh, "gold", apex + Vector3(0, 0.02, 0.03), Vector3(pw * 0.5, py + 0.02, front + 0.05), 0.1, Vector3(0, 0, 1))
-		mesh.box("gold", Vector3(0, py, front + 0.04), Vector3(pw + 0.2, 0.1, 0.1))
-		K.sun_emblem(mesh, Vector3(0, py + pw * 0.15, front + 0.05), pw * 0.09, Vector3(0, 0, 1))
+		L.band(detail, "gold", Vector3(-pw * 0.5, py + 0.02, front + 0.05), apex + Vector3(0, 0.02, 0.03), 0.1, Vector3(0, 0, 1))
+		L.band(detail, "gold", apex + Vector3(0, 0.02, 0.03), Vector3(pw * 0.5, py + 0.02, front + 0.05), 0.1, Vector3(0, 0, 1))
+		detail.box("gold", Vector3(0, py, front + 0.04), Vector3(pw + 0.2, 0.1, 0.1))
+		K.sun_emblem(detail, Vector3(0, py + pw * 0.15, front + 0.05), pw * 0.09, Vector3(0, 0, 1))
 	# the sun banner hung from the first floor's trim, centred over the door
 	if banner != "":
-		card_rolled(mesh, banner, Vector3(0, STOREY * 2.0 - 0.1, front + 0.22), 1.9, Vector3(0, 0, 1), banner_roll)
+		card_rolled(detail, banner, Vector3(0, STOREY * 2.0 - 0.1, front + 0.22), 1.9, Vector3(0, 0, 1), banner_roll)
 	L.finish(root, mesh, [], h + 3.0)
+	attach_detail(root, detail)
 	root.set_meta("storeys", storeys)
 	if final_state:
 		# colour in the windows: a warm light behind each
@@ -224,6 +226,17 @@ static func townhouse(spec: Dictionary) -> Node3D:
 		root.add_child(light)
 		root.set_meta("lights", [light])
 	return root
+
+
+## The detail mesh of a piece (windows, trim, cards): a second instance beside the body that casts no shadow; the piece's triangle count adds up.
+static func attach_detail(root: Node3D, detail: KitMesh) -> void:
+	if detail.triangle_count() == 0:
+		return
+	var node: MeshInstance3D = detail.instance("Detail")
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(node)
+	root.set_meta("triangles", int(root.get_meta("triangles", 0)) + detail.triangle_count())
 
 
 ## A small white balustrade from `a` to `b` (same y): a rail on turned posts, every fourth capped gold; `height` metres.
@@ -255,23 +268,24 @@ static func tower(height: float, radius: float, roof: String, final_state: bool,
 	var root: Node3D = Node3D.new()
 	root.name = "Tower"
 	var mesh: KitMesh = mesh_for(final_state)
+	var detail: KitMesh = mesh_for(final_state)
 	var plinth: float = radius * 2.0 + 0.9
 	mesh.box("plaster", Vector3(0, 0.7, 0), Vector3(plinth, 1.4, plinth), Basis.IDENTITY, 0.04, 0.85)
-	mesh.box("trim", Vector3(0, 1.45, 0), Vector3(plinth + 0.16, 0.24, plinth + 0.16))
+	detail.box("trim", Vector3(0, 1.45, 0), Vector3(plinth + 0.16, 0.24, plinth + 0.16))
 	mesh.box("plaster", Vector3(0, 2.0, 0), Vector3(plinth - 0.5, 0.9, plinth - 0.5), Basis.IDENTITY, 0.03, 0.9)
 	var shaft_top: float = height * 0.72
 	mesh.lathe("plaster", Vector3(0, 2.4, 0), [Vector2(radius * 1.12, 0.0), Vector2(radius, 1.2), Vector2(radius, shaft_top - 2.4)], 14, 0.85, false, false)
 	var band: float = 4.4
 	while band < shaft_top - 2.0:
-		mesh.lathe("gold", Vector3(0, band, 0), [Vector2(radius * 1.05, 0.0), Vector2(radius * 1.05, 0.28)], 14, 1.0, false, false)
+		detail.lathe("gold", Vector3(0, band, 0), [Vector2(radius * 1.05, 0.0), Vector2(radius * 1.05, 0.28)], 14, 1.0, false, false)
 		# a slot window above every band on the street side and the back
 		for side: Vector3 in [Vector3(0, 0, 1), Vector3(0, 0, -1)]:
-			K.arched_window(mesh, side * (radius + 0.01) + Vector3(0, band + 0.8, 0), radius * 0.36, radius * 1.1, side, "window_warm" if final_state else "mirror")
+			K.arched_window(detail, side * (radius + 0.01) + Vector3(0, band + 0.8, 0), radius * 0.36, radius * 1.1, side, "window_warm" if final_state else "mirror")
 		band += 4.4
 	# the balcony ring: a gold-rimmed white disc, a ring of balustrade posts, pinnacles at four points
 	var ring_r: float = radius * 1.75
 	mesh.lathe("plaster", Vector3(0, shaft_top - 0.5, 0), [Vector2(radius * 0.9, 0.0), Vector2(ring_r, 0.4), Vector2(ring_r, 0.62)], 14, 0.9, false, true)
-	mesh.lathe("gold", Vector3(0, shaft_top + 0.1, 0), [Vector2(ring_r + 0.05, 0.0), Vector2(ring_r + 0.05, 0.1)], 14, 1.0, false, false)
+	detail.lathe("gold", Vector3(0, shaft_top + 0.1, 0), [Vector2(ring_r + 0.05, 0.0), Vector2(ring_r + 0.05, 0.1)], 14, 1.0, false, false)
 	var posts: int = 14
 	for index: int in range(posts):
 		var angle: float = TAU * float(index) / float(posts)
@@ -280,22 +294,23 @@ static func tower(height: float, radius: float, roof: String, final_state: bool,
 	mesh.lathe("plaster", Vector3(0, shaft_top + 0.85, 0), [Vector2(ring_r - 0.05, 0.0), Vector2(ring_r - 0.05, 0.12)], 14, 1.0, false, true)
 	for index: int in range(4):
 		var angle: float = PI * 0.25 + PI * 0.5 * float(index)
-		L.pinnacle(mesh, Vector3(cos(angle), 0, sin(angle)) * (ring_r - 0.3) + Vector3(0, shaft_top + 0.2, 0), 0.34, 1.6)
+		L.pinnacle(detail, Vector3(cos(angle), 0, sin(angle)) * (ring_r - 0.3) + Vector3(0, shaft_top + 0.2, 0), 0.34, 1.6)
 	# the lantern: a narrower drum with four tall mirrored lancets, a gold cornice
 	var lantern_r: float = radius * 0.92
 	var lantern_h: float = height - shaft_top - 0.2
 	mesh.lathe("plaster", Vector3(0, shaft_top + 0.2, 0), [Vector2(lantern_r, 0.0), Vector2(lantern_r, lantern_h)], 14, 0.9, false, false)
 	for side: Vector3 in [Vector3(0, 0, 1), Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, -1)]:
-		K.lancet_window(mesh, side * (lantern_r + 0.01) + Vector3(0, shaft_top + 1.0, 0), lantern_r * 0.75, lantern_h * 0.7, side, "window_warm" if final_state else "mirror")
-	mesh.lathe("gold", Vector3(0, height - 0.3, 0), [Vector2(lantern_r * 1.16, 0.0), Vector2(lantern_r * 1.16, 0.34)], 14, 1.0, false, true)
+		K.lancet_window(detail, side * (lantern_r + 0.01) + Vector3(0, shaft_top + 1.0, 0), lantern_r * 0.75, lantern_h * 0.7, side, "window_warm" if final_state else "mirror")
+	detail.lathe("gold", Vector3(0, height - 0.3, 0), [Vector2(lantern_r * 1.16, 0.0), Vector2(lantern_r * 1.16, 0.34)], 14, 1.0, false, true)
 	# the spire: a tall pointed cone, a gold collar, a finial
 	var cone: float = maxf(height * 0.38, 4.0)
 	mesh.lathe(roof, Vector3(0, height, 0), [Vector2(lantern_r * 1.3, 0.0), Vector2(lantern_r * 1.0, cone * 0.22), Vector2(lantern_r * 0.5, cone * 0.6), Vector2(0.0, cone)], 14, 1.0, true, false)
-	mesh.lathe("gold", Vector3(0, height + cone * 0.22, 0), [Vector2(lantern_r * 1.05, 0.0), Vector2(lantern_r * 0.98, 0.2)], 14, 1.0, false, false)
-	K.finial(mesh, Vector3(0, height + cone - 0.1, 0), maxf(radius * 0.8, 0.8))
+	detail.lathe("gold", Vector3(0, height + cone * 0.22, 0), [Vector2(lantern_r * 1.05, 0.0), Vector2(lantern_r * 0.98, 0.2)], 14, 1.0, false, false)
+	K.finial(detail, Vector3(0, height + cone - 0.1, 0), maxf(radius * 0.8, 0.8))
 	if banner:
-		card_rolled(mesh, BANNER_TOWER, Vector3(0, shaft_top - 0.7, radius + 0.08), 3.2, Vector3(0, 0, 1), 6.0 if final_state else 0.0)
+		card_rolled(detail, BANNER_TOWER, Vector3(0, shaft_top - 0.7, radius + 0.08), 3.2, Vector3(0, 0, 1), 6.0 if final_state else 0.0)
 	L.finish(root, mesh, [Vector3(0, 0, plinth * 0.5 + 0.2)], height + cone)
+	attach_detail(root, detail)
 	return root
 
 

@@ -9,7 +9,7 @@ const CELL: float = 16.0
 
 
 ## Returns how many source meshes were merged away.
-static func merge_static(root: Node) -> int:
+static func merge_static(root: Node, cell_size: float = CELL) -> int:
 	var groups: Dictionary = {}
 	var victims: Array[MeshInstance3D] = []
 	for node: Node in root.find_children("*", "MeshInstance3D", true, false):
@@ -17,7 +17,7 @@ static func merge_static(root: Node) -> int:
 		if source == null or source.mesh == null or not source.has_meta(&"kit_static") or not source.is_inside_tree():
 			continue
 		var xform: Transform3D = source.global_transform
-		var cell: Vector2i = Vector2i(floori(xform.origin.x / CELL), floori(xform.origin.z / CELL))
+		var cell: Vector2i = Vector2i(floori(xform.origin.x / cell_size), floori(xform.origin.z / cell_size))
 		for surface: int in range(source.mesh.get_surface_count()):
 			var material_value: Material = source.mesh.surface_get_material(surface)
 			if material_value == null:
