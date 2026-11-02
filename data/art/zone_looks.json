@@ -938,7 +938,7 @@
 			]
 		},
 		"foliage": {
-			"density": 1,
+			"density": 0,
 			"cells": [
 				0,
 				2,
@@ -1014,7 +1014,7 @@
 			"brightness": 1
 		},
 		"foliage": {
-			"density": 1,
+			"density": 0,
 			"cells": [
 				0,
 				1,

@@ -168,9 +168,16 @@ static func _avoided(pos: Vector3, avoid: Array[Vector3]) -> bool:
 static func _make_multimesh(root: Node3D, chunk: Dictionary) -> void:
 	var transforms: Array[Transform3D] = chunk["transforms"] as Array[Transform3D]
 	var mesh: Mesh = chunk["mesh"] as Mesh
+	# Nov 2 pass: every instance's position kept as metadata - a headless (dummy) renderer reads MultiMesh transforms back as the identity, and
+	# the Capital's no-scatter-inside-the-wall test counts them.
+	var positions: PackedVector3Array = PackedVector3Array()
+	for xform: Transform3D in transforms:
+		positions.append(xform.origin)
 	if StyleGrass.replaces(str(chunk["model"])):
 		var grass: Array[Color] = chunk["grass"] as Array[Color]
-		root.add_child(StyleGrass.multimesh_instance(transforms, grass[0], grass[1]))
+		var grass_instance: MultiMeshInstance3D = StyleGrass.multimesh_instance(transforms, grass[0], grass[1])
+		grass_instance.set_meta(&"positions", positions)
+		root.add_child(grass_instance)
 		return
 	var foliage: bool = _is_foliage(str(chunk["model"]))
 	for surface: int in range(mesh.get_surface_count()):
@@ -193,6 +200,7 @@ static func _make_multimesh(root: Node3D, chunk: Dictionary) -> void:
 	instance.multimesh = multimesh
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.set_meta(StyleToon.META_NO_TOON, true)
+	instance.set_meta(&"positions", positions)
 	root.add_child(instance)
 
 

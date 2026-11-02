@@ -222,6 +222,7 @@ func _build(transforms: Array[Transform3D], datas: Array[Color]) -> void:
 		_positions.append(xform.origin)
 	_instance = MultiMeshInstance3D.new()
 	_instance.multimesh = multimesh
+	_instance.set_meta(&"positions", PackedVector3Array(_positions))  # Nov 2 pass: readable in headless tests (the dummy renderer returns no transforms)
 	_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_instance.extra_cull_margin = 4.0
 	add_child(_instance)
