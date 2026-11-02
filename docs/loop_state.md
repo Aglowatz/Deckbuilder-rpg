@@ -1,22 +1,28 @@
-# Loop state - Capital inner-city rebuild (Nov 1-2, Fable 5.1)
+# Loop state - Capital sides pass (Nov 2, Fable 5.1)
 
-Brief: pasted "CAPITAL INNER-CITY REBUILD (overnight)" (Parts A-G). Questions: `docs/overnight_inbox.md` ("Capital rebuild Nov 1-2").
-Report: `docs/art/capital_rebuild_nov1.md` (before/after, scores per iteration, perf, art requests); summary in `docs/overnight_report.md`.
-Tag `pre-capital-rebuild-nov1` at the start. Stop when `STOP_OVERNIGHT` exists in the repo root (check before every part).
-Rules: one Godot at a time; <= 3 agents and never while Godot/tests run; GUT sharded (`bash tools/run_tests.sh`); commit + push per part;
-DIALOGUE FREEZE (no line changes). Art rule: only art already in the game or approved on Drive; new geometry in code is encouraged.
-Previous state: `docs/overnight/nov1/loop_state.md` (the Fable pass Nov 1).
+Brief: pasted "CAPITAL SIDES PASS (follow-up to the inner-city rebuild)" (items 1-7). Questions: `docs/overnight_inbox.md` ("Capital sides Nov 2").
+Report: appended to `docs/art/capital_rebuild_nov1.md` ("The sides pass, Nov 2"). Tag `pre-capital-sides-nov2` at the start.
+Stop when `STOP_OVERNIGHT` exists in the repo root (check before every part).
+Rules: one Godot at a time; <= 3 agents and never while Godot/tests run; GUT sharded (`bash tools/run_tests.sh --only=...`); verify + commit + push
+per part; DIALOGUE FREEZE; existing art only (kit textures/meshes; code-built geometry); gameplay keeps working (NPCs, talk spots, quests, rifts,
+district service states, the Crease, tram, roamer routes, walkability probe, Capital world tests); perf inside budget on Medium (capital_in 850
+draw calls); tall masses never hide the hero (occlusion fade; statues and fountains never fade).
+Previous state: `docs/overnight/nov1/loop_state_rebuild.md` (the inner-city rebuild, Nov 1-2).
 
-Target: `docs/art/paintovers/PAINTOVER-CAP-INNER-CITY.png`. Shots: `bash tools/capital_rebuild_shots.sh <phase> [prefixes] [--flags=...]` ->
-`docs/art/capital_rebuild_nov1/<phase>/`. Scoring: a fresh critic agent sees only the reference and the shots
-(`docs/review/critic_brief_capital_nov1.md` -> `docs/review/capital_critic_<phase>.md`).
+What the user's screenshot shows (matched to `docs/art/capital_rebuild_nov1/c6/the_reek.jpg`): the Reek from its paint-over camera - the two
+Reek yards' rear walls seen edge-on (the "pink-capped gateposts"), the lane planters' topiary cards and rose beds on the district checker (the
+"scatter"), the yards' bins / bags / rubble card (the "black objects"), the compost heap pickup (the "brown mud disc"), the empty Reek floor
+against the west wall.
+
+Plan (sides = everything inside the wall west of the ring_w street and east of ring_e: Grave Row, the Reek, the Ward, the Hungry Quarter, the
+Transit Yards):
 
 | Part | What | State |
 |---|---|---|
-| A | Audit + plan (before shots, the plan in the report) | done (fc73c016) |
-| B | The kit: townhouse generator, towers, plinth + gilded statue, fountain, planters/urns/topiary, lamps, banners, paving borders, balustrades; lineup shots | done (`world/capital/capital_grand.gd`, `tools/capital_lineup.tscn`; 663bf3af) |
-| C | Layout: boulevard, plazas and gardens with strict symmetry; buildings and towers; skyline stepping to the castle; the scatter removed | done (663bf3af, b69feace): 16 townhouses on the old footprints, towers, statue pairs, parterres, paving + borders, skyline beyond the walls |
-| D | Light + atmosphere | done: four grade passes (see the report); the sky's horizon band bluer |
-| E | Gameplay + perf checks | done: world 431/431, core 1564/1564 after moving the Transit tower off a Tidy-Bot home and dropping the Ward tower (it cut the strip to the Ward chest), walk smoke OK, capital_in Medium 1004 -> 847 draw calls (budget 850) |
-| F | Compare + iterate with a fresh critic | c2 -> c5 scored (4/5/4/2/7/4/6/3/4 -> 6/7/6/4/7/6/7/4/5); towers (4) and light (4) are bounded by the play camera's six degrees of sky (inbox 4) |
-| G | Finish: gallery, scores, perf, art requests, commit + push | done (c6 6/6/5/4/7/6/7/4/5; report, overnight report, inbox 1-4) |
+| 1 | Scatter: rows / lane cards only on LAWN cells; lanes and separators get continuous white planter runs instead; restored-state blooms in rows; the compost heaps, the sick patch, the junk, the yards' bins, the crates restyled white-and-gold (no near-black surface inside the wall); tests: scatter on paving = 0, no near-black surface inside | done (434.8 -> 0.31 m2 near-black; sides test green) |
+| 2 | Buildings: the Reek yards, the Grave Row crypts and the Hungry stalls become CapitalGrand townhouses (wide, 3-4 storeys) with their district's service layer at the foot (broken / restored); the district "spire" pylons dropped; the plaza-corner spires become gate piers (plinth, pilaster, gilded urn); the inner faces of the west, east and north walls dressed with a blind arcade, attached facades and engaged towers in rhythm | done (`world/capital/capital_sides.gd`) |
+| 3 | Side plazas at the boulevard / lane junctions (19, 58) and (100, 58): a two-tier side fountain variant, a gilded statue pair each, a paving disc with ring borders; the routes end at the rim; moved props (chest_reek, the junk, the inspector, the transit rift, the wheels, the pylons) | done |
+| 4 | Gardens: parterres and topiary-urn rows on the district lawns, planter runs along the separators, small statues in niches, wall basins; lane lamps in rows | done (grid gardens yield little: blocks crowded; two hand beds on Grave Row) |
+| 5 | Tests (world + core shards), walk smoke, walkability probe, perf frame capital_in | |
+| 6 | Shots (the standard set + a side shot at the user's angle each side), contact sheet, fresh critic on the SIDES; fix the lowest, repeat | |
+| 7 | Report: before/after gallery, scores, perf, tests; commit + push | |

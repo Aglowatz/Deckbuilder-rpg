@@ -32,6 +32,9 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return facade_arch(story)
 		"fountain":
 			return CapitalLandmarks.build({"id": "CAP-HERO-PRIMM-FOUNTAIN", "final": bool(ctx.get("final", false))})
+		"fountain_side":
+			# the sides pass: the side plazas' two-tier fountain (never fades, never batched: its water moves)
+			return CapitalGrand.fountain_side(CapitalLayout.SIDE_FOUNTAIN_RADIUS - 0.7, bool(ctx.get("final", false)))
 		"hedge":
 			return hedge()
 		"lamp_perfect":
@@ -398,7 +401,6 @@ static func _horn(mesh: KitMesh, slot: String, base: Vector3, dir: Vector3, leng
 			var quad: Array[Vector3] = [p0 + d0 * rad0, p0 + d1 * rad0, p1 + d1 * rad1, p1 + d0 * rad1]
 			mesh.quad(slot, quad, (d0 + d1).normalized())
 			mesh.quad(slot, quad, -(d0 + d1).normalized())  # the rebuild: the bell's inside is gold too (an open horn read as a black disc from the front)
-			mesh.quad("dark", quad, -(d0 + d1).normalized())
 
 
 const LOST_POSTER_ART: String = "CAPI-DEC-LOST-PROPERTY-01"
@@ -494,8 +496,9 @@ static func sick_patch() -> Node3D:
 		var group: Node3D = _state_group(root, "On" if planted else "Off", not planted)
 		var mesh: KitMesh = KitMesh.new()
 		CapitalKit.materials(mesh)
-		mesh.lathe("marble_shade", Vector3.ZERO, [Vector2(1.75, 0.0), Vector2(1.75, 0.16), Vector2(1.55, 0.18), Vector2(1.55, 0.06)], 24, 0.9, false, false)
-		mesh.lathe("leaf" if planted else "soil", Vector3(0, 0.07, 0), [Vector2(1.56, 0.0), Vector2(1.2, 0.04), Vector2(0.0, 0.06)], 24, 1.0, false, false)
+		# the sides pass: a formal round bed in a white kerb with a gold lip; the sour soil is pale ash until the seed goes in
+		CapitalGrand.planter_ring(mesh, Vector3.ZERO, 1.75, 0.2)
+		mesh.lathe("leaf" if planted else "ash_flat", Vector3(0, 0.07, 0), [Vector2(1.56, 0.0), Vector2(1.2, 0.04), Vector2(0.0, 0.06)], 24, 1.0, false, false)
 		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 		rng.seed = 404
 		for index: int in range(9 if planted else 7):
@@ -506,8 +509,8 @@ static func sick_patch() -> Node3D:
 				mesh.blob(["rose", "wildflower", "lavender"][index % 3], foot + Vector3(0, 0.66, 0), Vector3(0.11, 0.09, 0.11), 3, 6)
 			else:
 				var bend: Vector3 = foot + Vector3(rng.randf_range(-0.1, 0.1), 0.42, rng.randf_range(-0.1, 0.1))
-				mesh.tube("wood_dark", foot, bend, 0.025, 4)
-				mesh.tube("wood_dark", bend, bend + Vector3(rng.randf_range(-0.25, 0.25), -0.12, rng.randf_range(-0.25, 0.25)), 0.02, 4)
+				mesh.tube("dust", foot, bend, 0.025, 4)
+				mesh.tube("dust", bend, bend + Vector3(rng.randf_range(-0.25, 0.25), -0.12, rng.randf_range(-0.25, 0.25)), 0.02, 4)
 		CapitalLandmarks.finish(group, mesh, [], 0.8)
 	return root
 
@@ -527,12 +530,13 @@ static func manhole() -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
 	mesh.lathe("gold", Vector3(0, 0.0, 0), [Vector2(0.66, 0.0), Vector2(0.66, 0.04), Vector2(0.56, 0.06)], 20, 1.0, false, false)
-	mesh.lathe("iron", Vector3(0, 0.0, 0), [Vector2(0.56, 0.06), Vector2(0.5, 0.075), Vector2(0.0, 0.08)], 20, 1.0, false, false)
+	# the sides pass: a gilded drain cover (a marble disc in a gold rim with gold ribs), never an iron lid
+	mesh.lathe("marble_shade", Vector3(0, 0.0, 0), [Vector2(0.56, 0.06), Vector2(0.5, 0.075), Vector2(0.0, 0.08)], 20, 1.0, false, false)
 	for index: int in range(5):
 		var x: float = -0.36 + 0.18 * float(index)
 		var half: float = sqrt(maxf(0.0, 0.46 * 0.46 - x * x))
-		mesh.box("iron_dark", Vector3(x, 0.085, 0), Vector3(0.04, 0.012, half * 2.0))
-		mesh.box("iron_dark", Vector3(0, 0.086, x), Vector3(half * 2.0, 0.012, 0.04))
+		mesh.box("gold", Vector3(x, 0.085, 0), Vector3(0.04, 0.012, half * 2.0))
+		mesh.box("gold", Vector3(0, 0.086, x), Vector3(half * 2.0, 0.012, 0.04))
 	mesh.box("cream", Vector3(0.1, 0.095, 0.05), Vector3(0.3, 0.01, 0.03), Basis(Vector3.UP, 0.6))
 	return CapitalLandmarks.finish(root, mesh, [], 0.1)
 
@@ -931,8 +935,11 @@ static func fallen_statue() -> Node3D:
 ## An abandoned checkpoint booth outside the walls: a shack of grey boards under a broken roof, its window boarded up (the outpost sheet).
 ## Plank walls round a `w` x `d` footprint, `h` tall: vertical boards of two shades on each face (`skip` leaves a gap on the +x face at that board, -1 for
 ## none), corner posts, a stone footing. Shared by the checkpoints and Fern's shack.
-static func plank_walls(mesh: KitMesh, w: float, d: float, h: float, lean: Basis, skip: int) -> void:
-	mesh.box("ash_flat", Vector3(0, 0.08, 0), Vector3(w + 0.2, 0.16, d + 0.2), Basis.IDENTITY, 0.04, 0.7)
+static func plank_walls(mesh: KitMesh, w: float, d: float, h: float, lean: Basis, skip: int, whitewashed: bool = false) -> void:
+	var light: String = "paper" if whitewashed else "wood"
+	var dark: String = "cream" if whitewashed else "wood_dark"
+	var post: String = "gold" if whitewashed else "wood_dark"
+	mesh.box("marble_shade" if whitewashed else "ash_flat", Vector3(0, 0.08, 0), Vector3(w + 0.2, 0.16, d + 0.2), Basis.IDENTITY, 0.04, 0.7)
 	for face: Array in [[Vector3(0, 0, 1), w], [Vector3(0, 0, -1), w], [Vector3(1, 0, 0), d], [Vector3(-1, 0, 0), d]]:
 		var normal: Vector3 = face[0] as Vector3
 		var span: float = float(face[1])
@@ -944,10 +951,10 @@ static func plank_walls(mesh: KitMesh, w: float, d: float, h: float, lean: Basis
 				continue
 			var off: float = -span * 0.5 + (float(index) + 0.5) * span / float(boards)
 			var height: float = h - 0.06 * float(index % 3)
-			var slot: String = "wood" if index % 2 == 0 else "wood_dark"
+			var slot: String = light if index % 2 == 0 else dark
 			mesh.box(slot, normal * reach + along * off + Vector3(0, 0.16 + height * 0.5, 0), (Vector3(span / float(boards) - 0.02, height, 0.05) if normal.x == 0.0 else Vector3(0.05, height, span / float(boards) - 0.02)), lean, 0.0, 0.75)
 	for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
-		mesh.box("wood_dark", Vector3(corner.x * (w * 0.5 + 0.02), 0.16 + h * 0.5, corner.y * (d * 0.5 + 0.02)), Vector3(0.12, h + 0.1, 0.12), lean, 0.02)
+		mesh.box(post, Vector3(corner.x * (w * 0.5 + 0.02), 0.16 + h * 0.5, corner.y * (d * 0.5 + 0.02)), Vector3(0.12, h + 0.1, 0.12), lean, 0.02)
 
 
 ## An abandoned checkpoint outside the walls: a plank shack on corner posts and a stone footing, a gabled roof of broken shingles with one corner
@@ -1263,7 +1270,7 @@ static func kit_pylon(lit: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
-	mesh.set_material("insulator", EnvKit.glow(Color(0.5, 0.85, 1.0), 2.0) if lit else EnvKit.flat(Color(0.25, 0.25, 0.28), "cap_insulator"))
+	mesh.set_material("insulator", EnvKit.glow(Color(0.5, 0.85, 1.0), 2.0) if lit else EnvKit.flat(Color(0.78, 0.8, 0.84), "cap_insulator"))
 	mesh.box("plaster", Vector3(0, 2.5, 0), Vector3(0.24, 5.0, 0.24), Basis.IDENTITY, 0.02)
 	mesh.box("gold", Vector3(0, 4.6, 0), Vector3(2.4, 0.16, 0.16))
 	for side: float in [-1.0, 1.0]:
@@ -1274,9 +1281,14 @@ static func kit_pylon(lit: bool) -> Node3D:
 
 ## The yards' crates: the rubble sheet's scattered crates, stacked tidy.
 static func kit_crates() -> Node3D:
+	# the sides pass: white crates with gold edges, stacked square (the rubble card read as a black heap)
 	var root: Node3D = Node3D.new()
-	CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-06", Vector3.ZERO, 1.3)
-	return root
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	CapitalGrand.white_crate(mesh, Vector3(-0.5, 0.0, 0.0), Vector3(0.9, 0.8, 0.9), 0.0)
+	CapitalGrand.white_crate(mesh, Vector3(0.5, 0.0, 0.1), Vector3(0.9, 0.8, 0.9), 0.0)
+	CapitalGrand.white_crate(mesh, Vector3(0.0, 0.8, 0.05), Vector3(0.8, 0.7, 0.8), 0.0)
+	return CapitalLandmarks.finish(root, mesh, [], 1.6)
 
 
 ## Widow Pell's parlour on Grave Row: a little white-and-gold house (a blue hipped roof, an arched door, a lit window, the Necrocrats' essence on
@@ -1308,7 +1320,7 @@ static func kit_permit_office(closed_for_good: bool) -> Node3D:
 	mesh.box("plaster", Vector3(0, 1.2, 0), Vector3(3.0, 2.4, 2.2), Basis.IDENTITY, 0.03, 0.82)
 	mesh.box("trim", Vector3(0, 2.25, 0), Vector3(3.06, 0.24, 2.26))
 	CapitalCastle._hip_roof(mesh, Vector3(0, 2.4, 0), Vector2(3.3, 2.5), 0.9, "roof_blue")
-	mesh.box("gold" if closed_for_good else "dark", Vector3(0, 1.4, 1.11), Vector3(1.4, 0.7, 0.04))
+	mesh.box("gold" if closed_for_good else "mirror", Vector3(0, 1.4, 1.11), Vector3(1.4, 0.7, 0.04))
 	mesh.box("marble_shade", Vector3(0, 1.0, 1.3), Vector3(1.5, 0.08, 0.5))
 	if not closed_for_good:
 		for index: int in range(6):
@@ -1335,7 +1347,7 @@ static func kit_family_plot() -> Node3D:
 			for index: int in range(7):
 				mesh.blob(["rose", "rose_white", "wildflower", "lavender"][index % 4], Vector3(-0.7 + 0.23 * float(index), 0.24, 0.2 + 0.25 * sin(float(index) * 1.7)), Vector3(0.1, 0.08, 0.1), 3, 6)
 		else:
-			mesh.box("soil", Vector3(0, 0.03, 0.15), Vector3(1.8, 0.06, 1.6))
+			mesh.box("ash_flat", Vector3(0, 0.03, 0.15), Vector3(1.8, 0.06, 1.6))
 		CapitalLandmarks.finish(group, mesh, [], 1.0)
 	return root
 
@@ -1358,11 +1370,12 @@ static func kit_junk(variant: int, tidied: bool) -> Node3D:
 			mesh.tube("leaf", p, p + Vector3(0, 0.35, 0), 0.02, 4)
 			mesh.blob(["wildflower", "rose", "leaf", "lavender"][index % 4], p + Vector3(0, 0.4, 0), Vector3(0.1, 0.08, 0.1), 3, 6)
 	else:
-		mesh.box("bin", Vector3(-0.3, 0.5, -0.2), Vector3(1.0, 1.0, 0.8), Basis(Vector3.UP, 0.2), 0.04, 0.6)
-		mesh.box("bin_dark", Vector3(-0.3, 1.05, -0.35), Vector3(1.05, 0.08, 0.85), Basis(Vector3.UP, 0.2) * Basis(Vector3.RIGHT, -0.4), 0.02)
-		for index: int in range(7):
-			mesh.blob("bag", Vector3(rng.randf_range(-0.9, 0.9), rng.randf_range(0.2, 0.9), rng.randf_range(-0.6, 0.7)), Vector3(0.38, 0.3, 0.34), 3, 8)
-		CapitalKit.card(mesh, "CAP-SHEET-RUBBLE-06", Vector3(0.6, 0.0, 0.6), 0.9, Vector3(0, 0, 1))
+		# the sides pass: the Reek's junk in the Capital's finish - two white enamel bins with gold lids on a marble slab, cream sacks in a tidy row
+		mesh.box("marble_shade", Vector3(0, 0.04, 0), Vector3(2.4, 0.08, 1.6), Basis.IDENTITY, 0.02, 0.9)
+		CapitalGrand.gilded_bin(mesh, Vector3(-0.6, 0.08, -0.3), 0.0, true)
+		CapitalGrand.gilded_bin(mesh, Vector3(0.4, 0.08, -0.3), 0.0, false)
+		for index: int in range(3):
+			CapitalGrand.sack(mesh, Vector3(-0.7 + 0.7 * float(index), 0.3, 0.45), Vector3(0.3, 0.24, 0.26))
 	return CapitalLandmarks.finish(root, mesh, [], 1.4)
 
 
@@ -1372,13 +1385,17 @@ static func kit_compost_heap() -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
 	mesh.set_material("sprout", EnvKit.glow(Color("8ae070"), 1.1))
-	mesh.lathe("compost", Vector3.ZERO, [Vector2(0.95, 0.0), Vector2(0.85, 0.3), Vector2(0.5, 0.6), Vector2(0.0, 0.7)], 12, 0.8, false, true)
-	for index: int in range(8):
-		var angle: float = TAU * float(index) / 8.0
-		mesh.box("wood", Vector3(cos(angle), 0, sin(angle)) * 1.0 + Vector3(0, 0.18, 0), Vector3(0.12, 0.36, 0.7), Basis(Vector3.UP, -angle))
-	for index: int in range(5):
-		var angle: float = TAU * float(index) / 5.0
-		mesh.blob("sprout", Vector3(cos(angle) * 0.45, 0.52, sin(angle) * 0.45), Vector3(0.1, 0.12, 0.1), 3, 6)
+	# the sides pass: the banished heap under the Capital's finish - a round white planter with a gold lip, a gold domed cover over the compost,
+	# the healthy sprouts pushing out round its edge (the one thing the polish cannot hide)
+	CapitalGrand.planter_ring(mesh, Vector3.ZERO, 1.0, 0.34)
+	mesh.alias("loam", "flat", Color("8a6a48").srgb_to_linear())  # a lighter loam than the kit's compost (near-black under the toon shade)
+	mesh.lathe("loam", Vector3(0, 0.3, 0), [Vector2(0.8, 0.0), Vector2(0.55, 0.12), Vector2(0.0, 0.16)], 12, 1.0, false, true)
+	mesh.lathe("gold", Vector3(0, 0.4, 0), [Vector2(0.62, 0.0), Vector2(0.58, 0.1), Vector2(0.36, 0.22), Vector2(0.0, 0.28)], 14, 1.0, false, true)
+	mesh.lathe("marble", Vector3(0, 0.66, 0), [Vector2(0.2, 0.0), Vector2(0.2, 0.03)], 12, 1.0, false, true)
+	CapitalKit.sun_emblem(mesh, Vector3(0, 0.7, 0), 0.14, Vector3.UP)
+	for index: int in range(6):
+		var angle: float = TAU * float(index) / 6.0
+		mesh.blob("sprout", Vector3(cos(angle) * 0.7, 0.46, sin(angle) * 0.7), Vector3(0.1, 0.13, 0.1), 3, 6)
 	return CapitalLandmarks.finish(root, mesh, [], 0.9)
 
 
@@ -1388,19 +1405,20 @@ static func kit_fern_shack(free: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
-	# salvaged boards of every shade on corner posts, a lean-to roof of mossy planks sloping to the back, a stovepipe
-	plank_walls(mesh, 2.4, 1.6, 2.0, Basis(Vector3.FORWARD, -0.02), -1)
+	# the sides pass: Old Fern's salvaged boards whitewashed to the Capital's rule (cream boards, gold corner posts), a lean-to roof of clipped
+	# hedge-green planks sloping to the back, a gold stovepipe; the window mirrored until the Refusemancers are free
+	plank_walls(mesh, 2.4, 1.6, 2.0, Basis(Vector3.FORWARD, -0.02), -1, true)
 	for step: int in range(4):
 		var z0: float = 1.05 - 2.1 * float(step) / 4.0
 		var z1: float = 1.05 - 2.1 * float(step + 1) / 4.0
 		var y0: float = 2.25 - 0.4 * float(step) / 4.0
 		var y1: float = 2.25 - 0.4 * float(step + 1) / 4.0
 		var strip: Array[Vector3] = [Vector3(-1.45, y0, z0), Vector3(1.45, y0, z0), Vector3(1.45, y1, z1), Vector3(-1.45, y1, z1)]
-		mesh.quad("moss" if step % 2 == 0 else "wood_dark", strip, Vector3(0, 1, 0.2))
-		mesh.quad("wood_dark", strip, Vector3(0, -1, -0.2))
-	mesh.tube("iron_dark", Vector3(0.85, 1.9, -0.5), Vector3(0.85, 2.85, -0.5), 0.09, 8)
-	mesh.lathe("iron_dark", Vector3(0.85, 2.85, -0.5), [Vector2(0.16, 0.0), Vector2(0.0, 0.12)], 8, 1.0, true, false)
-	mesh.box("window_warm" if free else "dark", Vector3(0.65, 1.3, 0.82), Vector3(0.6, 0.5, 0.03))
+		mesh.quad("hedge" if step % 2 == 0 else "cream", strip, Vector3(0, 1, 0.2))
+		mesh.quad("cream", strip, Vector3(0, -1, -0.2))
+	mesh.tube("gold", Vector3(0.85, 1.9, -0.5), Vector3(0.85, 2.85, -0.5), 0.09, 8)
+	mesh.lathe("gold", Vector3(0.85, 2.85, -0.5), [Vector2(0.16, 0.0), Vector2(0.0, 0.12)], 8, 1.0, true, false)
+	mesh.box("window_warm" if free else "mirror", Vector3(0.65, 1.3, 0.82), Vector3(0.6, 0.5, 0.03))
 	if free:
 		for index: int in range(4):
 			mesh.blob(["wildflower", "rose", "lavender", "leaf"][index], Vector3(0.45 + 0.13 * float(index), 1.0, 0.9), Vector3(0.08, 0.07, 0.06), 3, 6)
@@ -1453,7 +1471,7 @@ static func kit_kitchen_cart(freed: bool) -> Node3D:
 	mesh.box("cream", Vector3(0, 0.75, 0), Vector3(2.0, 0.9, 1.0), Basis.IDENTITY, 0.04, 0.8)
 	mesh.box("copper", Vector3(0, 1.22, 0), Vector3(2.06, 0.06, 1.06))
 	for side: float in [-1.0, 1.0]:
-		mesh.lathe("wood_dark", Vector3(side * 0.85, 0.35, 0.55), [Vector2(0.35, 0.0), Vector2(0.35, 0.08)], 12, 1.0, true, true)
+		mesh.lathe("gold", Vector3(side * 0.85, 0.35, 0.55), [Vector2(0.35, 0.0), Vector2(0.35, 0.08)], 12, 1.0, true, true)
 	mesh.lathe("copper", Vector3(-0.45, 1.25, 0), [Vector2(0.28, 0.0), Vector2(0.3, 0.35)], 12, 0.9, false, false)
 	mesh.lathe("copper", Vector3(0.4, 1.25, 0), [Vector2(0.22, 0.0), Vector2(0.24, 0.28)], 12, 0.9, false, false)
 	if freed:

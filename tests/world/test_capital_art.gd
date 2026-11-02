@@ -168,8 +168,10 @@ func test_the_inside_rows_keep_off_the_routes_and_the_people() -> void:
 			var room: float = CapitalDressing.ROW_CLEAR if float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0)) > 0.0 else CapitalDressing.LOW_CLEAR
 			for anchor: Vector3 in keep:
 				assert_gte(Vector2(anchor.x - p.x, anchor.z - p.z).length(), room - 0.01, "%s leaves the people their room" % kind)
-	assert_gt(total, 16, "rows of topiaries, roses, lamps and benches line the white roads (%d)" % total)
-	assert_gt(dressing.count("cap_topiary"), 0)
+	for kind: String in dressing.garden_fields.keys():
+		total += (dressing.garden_fields[kind] as Array).size()
+	assert_gt(total, 16, "rows of topiaries, roses, lamps and benches line the white roads and the planters (%d)" % total)
+	assert_gt((dressing.garden_fields.get("cap_topiary", []) as Array).size(), 0, "topiary cones in their urns along the planters")
 	assert_not_null(parent.find_child("WhiteRoads", true, false), "the white roads with their gold lines")
 	var houses: Node3D = CapitalDistricts.facade_houses([Rect2(43.5, 19.5, 4.0, 4.0), Rect2(49.5, 19.5, 4.0, 4.0)], [3.4, 3.4])
 	var body: MeshInstance3D = houses.get_node("Body") as MeshInstance3D

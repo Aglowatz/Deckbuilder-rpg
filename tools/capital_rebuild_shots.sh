@@ -41,4 +41,16 @@ shot "hungry_quarter" --at=po_hungry_quarter --set=$DEFAULT
 shot "grave_row" --at=po_grave_row --set=$DEFAULT
 shot "the_reek" --at=po_the_reek --set=$DEFAULT
 shot "overview" --pos=60,70 --set=$REF
+# the sides pass (Nov 2): the side plazas from their south rims (the user's screenshot angle: standing in a side district looking north), the
+# districts' fronts, the walls' inner faces, and an overview from each side
+shot "side_w" --pos=19,67 --set=$DEFAULT
+shot "side_e" --pos=100,67 --set=$DEFAULT
+shot "side_w_mid" --pos=19,68 --set=$MID
+shot "side_e_mid" --pos=100,68 --set=$MID
+shot "grave_arcade" --pos=19,24 --set=$DEFAULT
+shot "hungry_row" --pos=100,44 --set=$DEFAULT
+shot "reek_wall" --pos=10,56 --set=$DEFAULT
+shot "ward_wall" --pos=100,20 --set=$DEFAULT
+shot "overview_w" --pos=19,70 --set=$REF
+shot "overview_e" --pos=100,70 --set=$REF
 ls "$out" | wc -l

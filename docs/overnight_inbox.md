@@ -4,6 +4,10 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Capital sides Nov 2 - yours to decide (the safest choice was taken)
+
+(filled in as the pass runs; the state is in `docs/loop_state.md`)
+
 ## Capital rebuild Nov 1-2 - yours to decide (the safest choice was taken)
 
 1. Framing: the target picture looks from higher and farther than any game camera (the hero small at the bottom, the fountain a third of the way up, the castle at the top). The standard "ref" shot uses the Overview pitch and the Far zoom from the plaza; the critics score that. If you want the game camera itself higher in the Capital, say so (it would be a per-zone camera pitch, like the Capital's saved angle).

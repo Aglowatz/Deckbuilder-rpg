@@ -57,6 +57,13 @@ const PLAZA_CENTER: Vector2 = Vector2(60.0, 58.0)
 const PLAZA_RADIUS: float = 10.5
 ## The rebuild: the plaza's eight lamps stand on this ring, its four parterre beds on the diagonals at PLAZA_BED_RADIUS (dressing, not props).
 const PLAZA_LAMP_RADIUS: float = 8.2
+## The sides pass (Nov 2): a formal plaza each side where the boulevard meets the district lane (the Reek's lane west, the Transit Yards' east),
+## a side fountain at its centre, a gilded statue pair on its south side, the paving disc with its ring borders, lamps on a ring.
+const SIDE_PLAZAS: Array[Vector2] = [Vector2(19.0, 58.0), Vector2(100.0, 58.0)]
+const SIDE_PLAZA_RADIUS: float = 8.5
+const SIDE_FOUNTAIN_RADIUS: float = 3.0
+const SIDE_LAMP_RADIUS: float = 6.2
+const SIDE_STATUE_OFFSET: Vector2 = Vector2(6.3, 6.5)
 const PLAZA_BED_RADIUS: float = 9.2
 const PLAZA_BED_SIZE: float = 2.8
 
@@ -216,6 +223,7 @@ func build() -> void:
 	_outpost()
 	_crease()
 	_ring_rows()
+	_lane_lamps()
 	_enemies()
 	_cracks()
 	_clusters()
@@ -321,15 +329,17 @@ func _routes() -> void:
 	_route("forecourt", Vector2(36.5, 15.0), Vector2(83.5, 15.0), MAIN_ROUTE_WIDTH)
 	_route("ring_w", Vector2(38.5, 15.0), Vector2(38.5, 70.0), MAIN_ROUTE_WIDTH)
 	_route("ring_e", Vector2(81.5, 15.0), Vector2(81.5, 70.0), MAIN_ROUTE_WIDTH)
-	_route("boulevard_w", Vector2(19.0, 58.0), Vector2(49.0, 58.0), MAIN_ROUTE_WIDTH)
-	_route("boulevard_e", Vector2(71.0, 58.0), Vector2(100.0, 58.0), MAIN_ROUTE_WIDTH)
+	# the sides pass: the boulevards and the lanes end at the side plazas' rims (the plaza is open round its fountain, like the Gate Plaza)
+	_route("boulevard_w", Vector2(24.5, 58.0), Vector2(49.0, 58.0), MAIN_ROUTE_WIDTH)
+	_route("boulevard_e", Vector2(71.0, 58.0), Vector2(94.5, 58.0), MAIN_ROUTE_WIDTH)
 	_route("separator_w", Vector2(4.0, 35.0), Vector2(38.5, 35.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e1", Vector2(81.5, 21.0), Vector2(115.5, 21.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e2", Vector2(81.5, 45.0), Vector2(115.5, 45.0), MAIN_ROUTE_WIDTH)
 	_route("grave_lane", Vector2(19.0, 4.0), Vector2(19.0, 35.0), MAIN_ROUTE_WIDTH)
-	_route("reek_lane", Vector2(19.0, 35.0), Vector2(19.0, 70.0), MAIN_ROUTE_WIDTH)
+	_route("reek_lane", Vector2(19.0, 35.0), Vector2(19.0, 52.5), MAIN_ROUTE_WIDTH)
+	_route("reek_lane_s", Vector2(19.0, 63.5), Vector2(19.0, 70.0), MAIN_ROUTE_WIDTH)
 	_route("hungry_lane", Vector2(100.0, 21.0), Vector2(100.0, 45.0), MAIN_ROUTE_WIDTH)
-	_route("transit_lane", Vector2(100.0, 45.0), Vector2(100.0, 58.0), MAIN_ROUTE_WIDTH)
+	_route("transit_lane", Vector2(100.0, 45.0), Vector2(100.0, 52.5), MAIN_ROUTE_WIDTH)
 
 
 ## Distance from (x, z) to the nearest route's edge (negative inside a route).
@@ -389,6 +399,12 @@ func _ground() -> void:
 		for cx: int in range(41, 80):
 			if Vector2(float(cx) + 0.5, float(cz) + 0.5).distance_to(PLAZA_CENTER) <= PLAZA_RADIUS + 2.5 or cz >= 66:
 				floors[_at(cx, cz)] = Floor.PLAZA
+	# the side plazas' paving discs (the sides pass)
+	for centre: Vector2 in SIDE_PLAZAS:
+		for cz: int in range(int(centre.y - SIDE_PLAZA_RADIUS) - 1, int(centre.y + SIDE_PLAZA_RADIUS) + 2):
+			for cx: int in range(int(centre.x - SIDE_PLAZA_RADIUS) - 1, int(centre.x + SIDE_PLAZA_RADIUS) + 2):
+				if in_bounds(cx, cz) and cells[_at(cx, cz)] == Cell.GROUND and Vector2(float(cx) + 0.5, float(cz) + 0.5).distance_to(centre) <= SIDE_PLAZA_RADIUS:
+					floors[_at(cx, cz)] = Floor.PLAZA
 
 
 func _paint_route(route: Dictionary) -> void:
@@ -470,6 +486,8 @@ func _anchors() -> void:
 	_anchor("guard_in_2", 65.5, 68.5)
 	_anchor("plaza_statue", PLAZA_CENTER.x, PLAZA_CENTER.y)
 	_anchor("fountain", PLAZA_CENTER.x, PLAZA_CENTER.y)
+	_anchor("fountain_w", SIDE_PLAZAS[0].x, SIDE_PLAZAS[0].y)
+	_anchor("fountain_e", SIDE_PLAZAS[1].x, SIDE_PLAZAS[1].y)
 	_anchor("exit_booth", 71.0, 63.0)
 	_anchor("complaint_1", 49.0, 63.0)
 	_anchor("manhole", 48.5, 52.0)
@@ -517,9 +535,9 @@ func _anchors() -> void:
 	_anchor("net_grave", 32.5, 30.5)
 	# The Transit Yards (Beefcakes), south-east: the energy wheels in a row along the wall, the tram shed, the cable.
 	_anchor("rollo", 106.0, 62.0)
-	_anchor("wheel_1", 91.0, 70.0)
-	_anchor("wheel_2", 101.0, 70.0)
-	_anchor("wheel_3", 111.0, 70.0)
+	_anchor("wheel_1", 88.0, 70.0)  # the sides pass: the wheels re-spaced round the east plaza's statue pair
+	_anchor("wheel_2", 100.0, 70.0)
+	_anchor("wheel_3", 112.0, 70.0)
 	_anchor("cable", 110.0, 58.5)
 	_anchor("quota_yards", 97.0, 62.5)  # Oct 21: Vivienne Quota, timing the crews (Lieutenants.YARDS_SPOT)
 	_anchor("net_transit", 86.0, 63.5)
@@ -564,7 +582,7 @@ func _chests() -> void:
 	chests = {
 		"chest_wreck": Vector3(8.5, 0.0, 119.5),
 		"chest_rock": Vector3(115.0, 0.0, 77.5),
-		"chest_reek": Vector3(13.0, 0.0, 53.5),
+		"chest_reek": Vector3(9.5, 0.0, 56.5),
 		"chest_crypt": Vector3(3.5, 0.0, 30.0),
 		"chest_cellar": Vector3(116.0, 0.0, 36.0),
 		"chest_wheel": Vector3(115.5, 0.0, 66.0),
@@ -695,8 +713,9 @@ func _plaza() -> void:
 	_prop_at("manhole", "net_plaza")
 	# The rebuild (Nov 1): slender towers at the plaza's four corners (2 x 2 m, off every route and spot), the gilded Primm pair flanking the
 	# avenue's mouth (facing the gate), eight pink lamps on the walk round the fountain between the parterres (thin cards: never blockers).
+	# the sides pass (Nov 2): the plaza's corner pylons are gate piers (a plinth, a pilaster, a gilded urn; CapitalSides.gate_pier), never skinny towers
 	for corner: Vector2 in [Vector2(48.0, 49.0), Vector2(72.0, 49.0), Vector2(50.0, 67.5), Vector2(70.0, 67.5)]:
-		_building("spire", corner.x - 1.0, corner.y - 1.0, 2.0, 2.0, 12.0, 0.0, "", 0 if corner.y < PLAZA_CENTER.y else 1)  # 12 m: the low camera still sees their spires from across the plaza
+		_building("pier", corner.x - 1.0, corner.y - 1.0, 2.0, 2.0, 6.5, 0.0, "", 0 if corner.y < PLAZA_CENTER.y else 1)
 	for side: float in [-1.0, 1.0]:
 		_prop("gilded_statue", PLAZA_CENTER.x + side * 8.5, 47.0, 0.0, 1.0, 1.5)
 	for index: int in range(8):
@@ -705,6 +724,14 @@ func _plaza() -> void:
 	_prop("bench", 47.0, 54.4, 90.0)
 	_prop("bench", 73.0, 54.4, 270.0)
 	_sign("sign.plaza_main", 54.0, 49.0, 0.0, 1.2, "banner")
+	# the side plazas (the sides pass): the side fountain, the gilded pair on the plaza's south side facing the gate, eight lamps on a ring
+	for centre: Vector2 in SIDE_PLAZAS:
+		_prop("fountain_side", centre.x, centre.y, 0.0, 1.0, SIDE_FOUNTAIN_RADIUS)
+		for side: float in [-1.0, 1.0]:
+			_prop("gilded_statue", centre.x + side * SIDE_STATUE_OFFSET.x, centre.y + SIDE_STATUE_OFFSET.y, 0.0, 1.0, 1.5)
+		for index: int in range(8):
+			var angle: float = deg_to_rad(22.5 + 45.0 * float(index))
+			_prop("lamp_perfect", centre.x + cos(angle) * SIDE_LAMP_RADIUS, centre.y + sin(angle) * SIDE_LAMP_RADIUS, 0.0, 1.0, 0.0)
 	_sign("sign.facade_welcome", 66.0, 49.0, 0.0, 1.2, "banner")
 	_sign("sign.plaza_exit_interview", 73.5, 60.5, 270.0, 0.8, "sign")
 	_sign("sign.plaza_complaints", 46.0, 63.0, 90.0, 0.8, "sign")
@@ -757,11 +784,13 @@ func _palace_approach() -> void:
 
 
 func _reek() -> void:
-	# The Reek's back lane: the passage through the wall comes out at its south end between the leaning rear walls of the houses (the same size,
-	# broken), the compost heaps in the corners, Old Fern's shack by the sick patch, junk in two tidy piles.
-	_row("ruin", 3.0, 62.5, 4.5, 3.5, 5.0, 2, Vector2(6.5, 0.0), "refusemancer", 4.0)
-	_building("ruin", 24.5, 62.5, 4.0, 3.5, 5.0, -3.0, "refusemancer", 1)
-	_building("ruin", 9.5, 39.5, 5.0, 3.5, 5.5, 3.0, "refusemancer", 2)
+	# The Reek's back lane: the passage through the wall comes out at its south end; the sides pass (Nov 2) made the Reek's houses grand townhouses
+	# (CapitalSides.district_house "refusemancer": a wide four-storey house against the west wall, a three-storey one east of the lane's plaza, a
+	# four-storey one north by the rift), each with its bins behind the painted screen; the compost heaps in the corners, Old Fern's shack by the
+	# sick patch, junk in two tidy piles.
+	_building("ruin", 3.0, 62.5, 8.0, 3.5, 10.4, 0.0, "refusemancer", 0)
+	_building("ruin", 30.0, 62.5, 4.0, 3.5, 7.8, 0.0, "refusemancer", 1)
+	_building("ruin", 7.5, 39.5, 6.9, 3.5, 10.4, 0.0, "refusemancer", 2)
 	for heap_anchor: String in ["heap_1", "heap_2", "heap_3"]:
 		_prop_at("compost_heap", heap_anchor, 0.0, 0.0, "refusemancer")
 	_prop_at("sick_patch", "sick_patch", 0.0, 0.0, "refusemancer")
@@ -769,11 +798,10 @@ func _reek() -> void:
 	_prop("stall_shack", fern_pos.x + 3.0, fern_pos.z - 1.5, 270.0, 1.0, 1.4)
 	_prop_at("seed_jar", "seed")
 	_prop_at("manhole", "net_reek")
-	for junk: Vector3 in [Vector3(33.5, 63.5, 0.0), Vector3(25.5, 52.5, 1.0)]:
+	for junk: Vector3 in [Vector3(32.5, 48.5, 0.0), Vector3(25.0, 40.5, 1.0)]:
 		_prop("junk_pile", junk.x, junk.y, 30.0 + junk.z * 70.0, 1.3, 1.3, int(junk.z), "refusemancer")
-	_building("spire", 32.0, 44.0, 2.0, 2.0, 14.0, 0.0, "", 1)  # the rebuild: the district's tower at its inner corner
 	_sign("sign.reek_main", 22.0, 39.0, 0.0, 1.0, "wall")
-	_sign("sign.reek_untidy", 15.0, 57.5, 90.0, 0.9, "sign")
+	_sign("sign.reek_untidy", 12.0, 61.5, 90.0, 0.9, "sign")
 	_sign("sign.reek_sick_patch", 32.0, 40.0, 270.0, 0.8, "sign")
 	_sign("sign.net_reek", 34.5, 52.5, 270.0, 0.7, "sign")
 
@@ -784,8 +812,9 @@ func _reek() -> void:
 func _grave_row() -> void:
 	# The Grave Row lane: a straight cemetery lane lined with two perfect rows of identical headstones, crypts at the north end, the permit office
 	# on the west, the Pell parlour and the family plot on the east.
-	_row("crypt", 5.0, 3.0, 4.0, 4.0, 4.5, 2, Vector2(5.5, 0.0), "necrocrat")
-	_building("crypt", 30.5, 2.5, 3.5, 4.0, 4.5, 0.0, "necrocrat", 2)
+	# the sides pass (Nov 2): the crypts are three-storey chapel townhouses (CapitalSides.district_house "necrocrat"), a wide one west, one east of the royal graves
+	_building("crypt", 5.0, 3.0, 9.5, 4.0, 7.8, 0.0, "necrocrat", 0)
+	_building("crypt", 29.0, 2.5, 6.0, 4.0, 7.8, 0.0, "necrocrat", 2)
 	for index: int in range(10):
 		var z: float = 9.5 + float(index) * 2.2
 		_prop("grave", 14.4, z, 90.0, 1.0, 0.45, index % 3, "necrocrat")
@@ -797,7 +826,6 @@ func _grave_row() -> void:
 	_prop("notary_booth", 3.8, 13.0, 90.0, 1.0, 0.9)
 	_prop_at("family_plot", "pell_plot")
 	_prop_at("manhole", "net_grave")
-	_building("spire", 32.0, 8.5, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the district's tower at its inner corner
 	_sign("sign.grave_main", 19.0, 2.6, 0.0, 1.0, "wall")
 	_sign("sign.grave_permit", 11.0, 24.5, 270.0, 0.9, "sign")
 	_sign("sign.grave_plot", 26.5, 9.0, 0.0, 0.8, "sign")
@@ -817,10 +845,9 @@ func _transit_yards() -> void:
 	var rollo_pos: Vector3 = anchors["rollo"] as Vector3
 	_prop("crate_stack", rollo_pos.x + 3.5, rollo_pos.z + 1.5, 0.0, 1.0, 1.0)
 	_prop_at("power_cable", "cable", 0.0, 0.0, "beefcake")
-	for pylon_x: float in [86.0, 106.0]:
+	for pylon_x: float in [84.0, 108.4]:
 		_prop("pylon", pylon_x, 66.0, 0.0, 1.0, 0.5, 0, "beefcake")
 	_prop_at("manhole", "net_transit")
-	_building("spire", 115.0, 52.0, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the yards' tower in the city's east corner beside the shed (off the Tidy-Bot's beat)
 	_sign("sign.transit_main", 109.5, 48.9, 0.0, 1.0, "wall")
 	_sign("sign.transit_cardio", 90.0, 61.5, 0.0, 0.9, "sign")
 	_sign("sign.transit_cable", 113.5, 58.5, 270.0, 0.8, "sign")
@@ -831,9 +858,10 @@ func _transit_yards() -> void:
 
 
 func _hungry_quarter() -> void:
-	# The identical row: three identical shuttered stall-houses each side of the lane, mirrored about it; the dispenser on the lane's east side.
-	_row("stall", 86.0, 25.5, 4.0, 3.5, 3.6, 3, Vector2(0.0, 5.5), "gourmand")
-	_row("stall", 110.0, 25.5, 4.0, 3.5, 3.6, 3, Vector2(0.0, 5.5), "gourmand")
+	# The identical row: one long shuttered shop-house each side of the lane, mirrored about it (the sides pass, Nov 2: a 14.5 m three-storey
+	# townhouse with the stalls' awning along its whole front, CapitalSides.district_house "gourmand"); the dispenser on the lane's east side.
+	_building("stall", 86.0, 25.5, 4.0, 14.5, 7.8, 0.0, "gourmand", 0)
+	_building("stall", 110.0, 25.5, 4.0, 14.5, 7.8, 0.0, "gourmand", 1)
 	_prop_at("paste_dispenser", "dispenser", 0.8, 90.0, "gourmand")
 	var marlo_pos: Vector3 = anchors["marlo"] as Vector3
 	_prop("kitchen_cart", marlo_pos.x - 0.5, marlo_pos.z - 2.6, 0.0, 1.0, 1.2, 0, "gourmand")
@@ -961,6 +989,30 @@ const RING_ROW_STEP: float = 6.0
 const RING_ROW_KERB: float = 2.8
 
 
+## The sides pass: pink lamps in exact rows along the district lanes (both kerbs, LANE_LAMP_STEP apart, mirrored about each lane), where a slot is clear.
+const LANE_LAMP_STEP: float = 8.0
+const LANE_LAMP_KERB: float = 1.9
+
+
+func _lane_lamps() -> void:
+	for route: Dictionary in routes:
+		if not str(route["id"]) in ["grave_lane", "reek_lane", "reek_lane_s", "hungry_lane", "transit_lane"]:
+			continue
+		var a: Vector2 = route["a"] as Vector2
+		var b: Vector2 = route["b"] as Vector2
+		var along: Vector2 = (b - a).normalized()
+		var across: Vector2 = Vector2(-along.y, along.x)
+		var half: float = float(route["width"]) * 0.5
+		var t: float = LANE_LAMP_STEP * 0.5
+		while t < a.distance_to(b):
+			var west: Vector2 = a + along * t - across * (half + LANE_LAMP_KERB)
+			var east: Vector2 = a + along * t + across * (half + LANE_LAMP_KERB)
+			if _row_slot_clear(west) and _row_slot_clear(east):
+				_prop("lamp_perfect", west.x, west.y, 0.0, 1.0, 0.25)
+				_prop("lamp_perfect", east.x, east.y, 0.0, 1.0, 0.25)
+			t += LANE_LAMP_STEP
+
+
 func _ring_rows() -> void:
 	var x: float = 38.5 + RING_ROW_KERB
 	var z: float = 19.0
@@ -1031,7 +1083,7 @@ func _enemies() -> void:
 	_spawn("officer", 89.0, 58.0, 4.0)
 	_spawn("tidybot", 113.0, 63.0, 3.0)
 	_spawn("swarm", 93.0, 57.0, 2.0)
-	_spawn("inspector", 100.0, 52.0, 3.0)
+	_spawn("inspector", 100.0, 49.0, 3.0)
 	# The Hungry Quarter.
 	_spawn("inspector", 100.0, 28.0, 3.0)
 	_spawn("wretch", 104.0, 27.0, 2.0, "guard_hungry")

@@ -2,7 +2,7 @@ extends Node3D
 ## Capital rebuild (Nov 1-2): look-dev lineup of the grand pieces (CapitalGrand) on a pale paved ground under the Capital's inside style.
 ##   bash tools/shot.sh res://tools/capital_lineup.tscn lineup_houses --pieces=house_hip,house_mansard,house_gable --nohud=true
 ##   --pieces=<name,...>  house_hip | house_mansard | house_gable | house_tall | tower | tower_pink | statue | statue_fallen | fountain | lamp |
-##                       planter | old_house | old_fountain
+##                       planter | old_house | old_fountain | reek_house[_restored] | grave_house[_restored] | hungry_house[_restored] | pier
 ##   --final=true (the fallen state)   --cam=x,y,z --look=x,y,z (a free camera)   --gap=<m>
 
 var _args: Dictionary = {}
@@ -38,6 +38,16 @@ func _piece(piece_name: String, final_state: bool) -> Node3D:
 			return CapitalLandmarks.fountain(final_state)
 		"old_house":
 			return CapitalDistricts.facade_houses([Rect2(-2.0, -2.0, 4.0, 4.0)], [3.4])
+		"reek_house", "reek_house_restored":
+			return CapitalSides.district_house("refusemancer", Vector3(11.0, 10.4, 3.5), piece_name.ends_with("restored"), final_state)
+		"grave_house", "grave_house_restored":
+			return CapitalSides.district_house("necrocrat", Vector3(9.5, 7.8, 4.0), piece_name.ends_with("restored"), final_state)
+		"hungry_house", "hungry_house_restored":
+			return CapitalSides.district_house("gourmand", Vector3(14.5, 7.8, 4.0), piece_name.ends_with("restored"), final_state)
+		"pier":
+			return CapitalSides.gate_pier(final_state)
+		"side_fountain":
+			return CapitalGrand.fountain_side(2.3, final_state)
 		"lamp":
 			var root: Node3D = Node3D.new()
 			var lamp: MeshInstance3D = MeshInstance3D.new()

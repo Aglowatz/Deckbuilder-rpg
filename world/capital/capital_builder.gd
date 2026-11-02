@@ -450,6 +450,10 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 			var roof: String = ["roof_blue", "roof_pink", "gold"][building.variant % 3]
 			node.add_child(CapitalGrand.tower(h, 1.1 if h < 20.0 else 1.35, roof, final_state))
 			_batch_all(node)  # perf: a thin tower merges with its neighbours
+		"pier":
+			# the sides pass: the plaza corners' gate piers (a plinth, a pilaster, a gilded urn)
+			node.add_child(CapitalSides.gate_pier(final_state))
+			_batch_all(node)
 		"castle":
 			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
@@ -463,22 +467,23 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 			node.add_child(CapitalDistricts.storefront(Vector3(w, h, d), building.variant, final_state))
 		"stall":
 			# the identical row faces its lane: the west row looks east, the east row west (the model's front is its local +z)
-			var house: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-IDENTICAL-ROW", "size": [d, h, w], "state": state})
+			var house: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-IDENTICAL-ROW", "size": [d, h, w], "state": state, "final": final_state, "seed": building.variant})
 			house.rotation_degrees.y = 90.0 if center.x < 100.0 else -90.0
 			node.add_child(house)
+			_batch_all(node)  # perf: the long shop-houses stand beside the lane, never between the trailing camera and the hero
 		"factory":
 			_factory(node, w, d, h, free or not bool(ctx.get("dark", false)))
 		"crypt":
-			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-GRAVE-ROW", "size": [w, h, d], "state": state}))
+			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-GRAVE-ROW", "size": [w, h, d], "state": state, "final": final_state}))
+			_batch_all(node)  # perf: against the north wall, never between the camera and the hero
 		"house":
 			# Primm has fallen: the identical houses stand as the old kingdom's ruins they were built over (kit masonry, a slumped roof)
 			node.add_child(CapitalLandmarks.ruined_house(w, h, d, building.lean + 4.0, int(rect.position.x + rect.position.y)))
 		_:
 			if building.district == "refusemancer":
-				# the Reek's back yards face the back lane (x 17..21)
-				var yard: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-THE-REEK", "size": [d, h, w], "state": state, "seed": int(rect.position.x * 7.0 + rect.position.y)})
-				yard.rotation_degrees.y = 90.0 if center.x < 19.0 else -90.0
-				node.add_child(yard)
+				# the Reek's houses face south (their fronts to the camera); they stand between the trailing camera and a hero north of them, so
+				# they are never batched: the occlusion fader dims one house at a time
+				node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-THE-REEK", "size": [w, h, d], "state": state, "final": final_state, "seed": int(rect.position.x * 7.0 + rect.position.y)}))
 			else:
 				# the ruined outpost's fallen guardhouses, from the kit (pale crumbling brick, a slumped broken roof, the outpost sheet's doors and windows)
 				node.add_child(CapitalLandmarks.ruined_house(w, h, d, building.lean, int(rect.position.x)))
@@ -491,7 +496,7 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 					var list: Array = district_lights.get(area.id, []) as Array
 					list.append(light)
 					district_lights[area.id] = list
-	if building.style in ["stall", "crypt", "ruin"]:
+	if building.style == "ruin" and building.district != "refusemancer":
 		_batchable(node)
 	if building.style in ["wall", "tower"]:
 		# the great wall dominates every outside view: its long pieces never range-cull (they still fade when they hide the hero)
@@ -732,6 +737,9 @@ func _build_boundaries() -> void:
 		root.add_child(corner)
 		corner.position = Vector3(corner_x, 0.0, float(CapitalLayout.WALL_Z1 + 1) - 2.0)
 		CapitalLandmarks.mark_view(corner, true)
+	# the sides pass (Nov 2): the walls' inner faces wear a blind arcade with engaged towers (CapitalSides)
+	CapitalSides.wall_dressing(root, bool(ctx.get("final", false)))
+	LoadTiming.detail("capital: wall dressing")
 	# The land round the map (the Capital pass, Part B): rough ash ground rising from the walkable edge to ridges of rock, rubble and dead trees and
 	# falling back to the plain under the haze, the road running on to Crosspath between the hills; dark pines beyond the city's other walls.
 	LoadTiming.detail("capital: hole + towers")

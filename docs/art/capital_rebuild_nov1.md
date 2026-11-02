@@ -190,3 +190,82 @@ except statues/fountain once (c4). The after gallery is the c6 set (`docs/art/ca
 Art requests (nothing missing was invented): a side / three-quarter painting of the gold Primm statue (the pairs could then face each other
 across the boulevard instead of south); a sage pastel slate roof tile (only pink and blue exist); a gold urn card without the topiary; the
 CAP-PATH-WHITE re-upload (truncated on the Drive since the art pass).
+
+# The sides pass (Nov 2)
+
+Brief: "CAPITAL SIDES PASS (follow-up to the inner-city rebuild)". Tag `pre-capital-sides-nov2`. The centre (the boulevard / fountain axis)
+was judged good after the rebuild; the LEFT and RIGHT sides inside the wall were not. The user's screenshot is the Reek from its paint-over camera
+(`capital_rebuild_nov1/c6/the_reek.jpg`): the two Reek yards' rear walls seen edge-on (the "pink-capped gateposts"), the lane planters' topiary
+cards and rose beds loose on the district checker (the "scatter"), the yards' bins, bags and the rubble card (the "black objects"), the compost
+heap pickup (the "brown mud disc"), the empty Reek floor against a bare wall. Everything below is code-built from the kit's own textures and
+cards (nothing new imported); the dialogue is untouched. State: `docs/loop_state.md`; questions: `docs/overnight_inbox.md` ("Capital sides Nov 2").
+
+## Part 1: no scatter on paving, no black objects
+
+- **Scatter.** The rows along the white roads (`CapitalDressing._rows`) place a plant only on a cell the painted ground paints as lawn
+  (`CapitalDressing.is_lawn_at`: the painted ground's own rule - Grave Row is a lawn but for its lanes, the Reek is paved whatever its cells say,
+  elsewhere the lawn / soil / grass cells); a lamp or a bench may still stand on district paving, never the plaza. The old lane planters (loose
+  topiary cones and rose beds along every district lane) are gone; in their place every inside route whose kerb is district paving gets a
+  **continuous white planter with a gold lip** (`_kerb_planters`: 0.9 m off the edge, broken at the junctions and round the people and their
+  spots, mirrored across the avenue on the mirrored streets) with roses in it and a **clipped cone in a gold urn every 4 m** (`CapitalGrand.gold_urn`).
+  Every planter's footprint is recorded (`CapitalDressing.planters`); `loose_on_paving()` lists any plant off a lawn or outside a planter.
+- **Black objects.** The cause was the palette, not a missing texture: the kit's flat slots `bag` (#2c2c34), `bin_dark`, `dark` (#141018),
+  `wood_dark`, `iron_dark`, `stone_dark` and the dead-window flat (#2e2c34) sit at a linear luminance of 0.02-0.05, and under the toon shader's
+  shadow band at noon they render black. Every inside piece that used them is restyled in the Capital's finish, "perfect even when broken":
+  white enamel bins with gold bands and lids, cream sacks tied with gold cord, white crates with gold edges (`CapitalGrand.gilded_bin / sack /
+  white_crate`), the compost heaps (pickups) under a gold domed cover with the sun emblem in a white planter ring with the healthy sprouts
+  pushing out round it, the sick patch a formal round bed (white kerb, gold lip, pale ash soil until the seed goes in), gilded drain covers for
+  the manholes, gold bars on the Ward's windows, gold tram rails, dead windows as mirrored glass, dead lamp globes pale, Old Fern's shack
+  whitewashed with gold posts, the loudspeakers' bells gold inside (the "dark" inner quad was still drawn), the dead insulators pale, the
+  planters' earth a lighter loam. The rubble card (`CAP-SHEET-RUBBLE-06`) that stood for the yards' crates is gone.
+- **Tests** (`tests/world/test_capital_sides.gd`): `test_nothing_grows_loose_on_paving_inside_the_wall` (every plant inside is on a lawn or in
+  a planter; the planters and the urn cones are counted) and `test_nothing_inside_the_wall_renders_near_black` - a probe that builds the whole
+  Capital, walks every visible triangle inside the wall (x 1..119, z 1..72, y < 40), multiplies the material's albedo (sRGB -> linear) by the
+  vertex colour and sums the area of triangles under a linear luminance of 0.10 (sRGB ~0.36), ignoring textured, emissive and shader
+  surfaces, the rifts and the Transit Yards' cable (black by story). Before the restyle: **434.8 m2** of near-black inside the wall; after:
+  **0.31 m2** (budget 0.6).
+
+## Part 2: no skinny buildings
+
+- The districts' houses are **CapitalGrand townhouses with a service layer** (`world/capital/capital_sides.gd`, `CapitalSides.district_house`):
+  the Reek's three yards (two 4.5 m rear-wall slabs and a 4 m one) are an 8 m four-storey sage house against the west wall, a 4 m three-storey
+  one east of the Reek's plaza and a 6.9 m four-storey one north by the rift - each with the painted white-and-gold screen across its front
+  and the gilded bins and sacks in rows behind it (broken; flies over them) or white compost bins, a raised bed of blooms in a row, moss squares
+  and a gold can (restored). Grave Row's three crypts are two three-storey lavender chapel houses (9.5 m and 6 m, gable roofs) with dead lanterns
+  on posts and empty gold urns in a row (broken) or green lanterns, topiary in the urns and roses (restored, with a light). The Hungry Quarter's
+  six stalls are **one long 14.5 m three-storey shop-house each side of the lane**, mirrored, the striped awning the whole length of the ground
+  floor, marble shelves under every window with grey paste (broken) or real food, copper pots and a warm oven light (restored). The same
+  `CAP-HERO-*` ids and states, so the district tests and the freed states hold.
+- The **plaza corners' pylons are gate piers** (`CapitalSides.gate_pier`: a stepped plinth, a square pilaster with gold bands and the sun emblem
+  on every face, a cornice, a gilded urn with a flame finial; 6.7 m); the three district pylons (the Reek, Grave Row, the Transit Yards) are gone.
+- **The walls' inner faces are dressed** (`CapitalSides.wall_dressing`): along the west, east and north walls a blind arcade - a pilaster every
+  4 m with gold caps, a gold semicircular arch over a cream panel in every bay, a sun medallion or a painted sun banner by turns, a gold string
+  course - with a **small gilded Primm in a niche every fourth bay and a wall basin with a gold spout every fourth bay** (Part 4), and an
+  **engaged tower every 14 m rising from the wall's top** (13 m to the eaves, pink / blue / gold spires by turns, a banner facing the city):
+  eleven towers, so the skyline is spires from every angle. One merged piece, never culled or faded (it lies on the city's edge).
+- Lineup pieces for look-dev: `--pieces=reek_house,grave_house,hungry_house,pier,side_fountain` (`_restored` variants).
+
+## Part 3: the side plazas
+
+- Where each boulevard meets its district lane - **(19, 58)** in the Reek and **(100, 58)** in the Transit Yards - a formal plaza: a paving
+  disc of the 2 m checker (r 8.5) with white-and-gold ring borders at the rim and round the fountain, the **side fountain** at its centre
+  (`CapitalGrand.fountain_side`: two tiers instead of three, an octagonal basin with gold balls on its corners, a fluted drum with the sun
+  emblem on four faces, a scalloped upper bowl with eight spouts, a gilded urn with a flame finial on top; animated water and mist; dry once
+  Primm has fallen), a **gilded statue pair** on tall plinths on its south side facing the gate, and eight pink banner lamps on a ring. The
+  boulevards and the lanes end at the plaza's rim (2.4 m clear of the fountain's step), the plaza is open round it; `fountain_w` / `fountain_e`
+  anchors (scenery, no prompt).
+- Moved for the plazas: the Reek's chest to (9.5, 56.5), the untidy sign to (12, 61.5), the junk piles to (32.5, 48.5) and (25, 40.5), the
+  Transit Yards' inspector home to (100, 49), the big transit rift two metres west to (88.5, 51), the three energy wheels re-spaced to x 88 / 100
+  / 112 (their anchors with them) and the pylons to x 84 / 108.4, so the east plaza's statue pair stands clear of the wheels. Everything else
+  (every NPC, talk spot, quest pickup, rift, entrance, the Crease, the tram shed) stays where it was.
+
+## Part 4: the sides grand
+
+- **Gardens**: the kerb planters with their urn cones on every district lane and separator (Part 1); a grid of garden candidates in every open
+  district block, taken in mirrored pairs about the block's own axis - parterre beds on lawn, topiary urns on paving - wherever the ground is
+  open, off the routes, the people, the junctions, the rifts, the chests and the enemies' homes (`CapitalDressing._district_gardens`,
+  `GARDEN_BLOCKS`); the blocks are crowded with the districts' own things, so the grid yields little (one urn) and two parterre beds are placed by
+  hand on Grave Row's lawns, mirrored about its lane (`GARDEN_SPOTS`). Pink lamps in exact rows along every district lane (`_lane_lamps`, both
+  kerbs, 8 m, mirrored about the lane, where a slot is clear).
+- The arcade's second rhythm of statues and the wall basins (above). The light and haze are the inside's one zone style, so the sides share the
+  centre's. The sun banners stay on the plazas' lamps only: on a street lamp the pair hangs at the hero's eye level and hides the globe.

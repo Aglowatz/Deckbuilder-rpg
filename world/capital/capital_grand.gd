@@ -34,6 +34,7 @@ static func mesh_for(final_state: bool) -> KitMesh:
 		mesh.alias("accent_" + accent, "flat", (ACCENTS[accent] as Color).srgb_to_linear())
 		mesh.set_material("plaster_" + accent, K.surface("CAP-WALL-PLASTER", K.PORCELAIN, ACCENTS[accent] as Color))
 	mesh.alias("lamp_pink", "flat", Color("f0a8c0").srgb_to_linear())
+	mesh.alias("loam", "flat", Color("8a6a48").srgb_to_linear())  # the planters' earth: lighter than the kit's soil (near-black under the toon shade)
 	mesh.alias("water_deep", "flat", Color("6fb4e8").srgb_to_linear())
 	mesh.alias("window_free", "flat", Color("ffd27a").srgb_to_linear())
 	mesh.set_material("window_free_glow", EnvKit.glow(Color("ffd9a0"), 1.2))
@@ -448,6 +449,77 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 	return root
 
 
+## The side plazas' fountain (the sides pass, Nov 2): a variant of the Primm fountain with two tiers instead of three - an octagonal lowest basin
+## with a gold rim on a gold-bordered octagonal step, a fluted drum with the sun emblem on four faces, a scalloped upper bowl with eight spouts
+## pouring into the basin, and a gilded urn with a flame finial on top (no statue: the sides frame the gilded pairs on their plinths). Water
+## animated as the centrepiece's. Dry once Primm has fallen. The hazard circle is `outer` + the step.
+static func fountain_side(outer: float, final_state: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "SideFountain"
+	var mesh: KitMesh = mesh_for(final_state)
+	var water: String = "water" if not final_state else "dust"
+	# the octagonal step and basin (eight-segment lathes), gold on every rim
+	mesh.lathe("marble_shade", Vector3.ZERO, [Vector2(outer + 0.7, 0.0), Vector2(outer + 0.7, 0.16), Vector2(outer + 0.1, 0.16)], 8, 1.0, false, false)
+	mesh.lathe("gold", Vector3(0, 0.16, 0), [Vector2(outer + 0.72, 0.0), Vector2(outer + 0.72, 0.05), Vector2(outer + 0.45, 0.05)], 8, 1.0, false, false)
+	mesh.lathe("marble", Vector3(0, 0.16, 0), [Vector2(outer, 0.0), Vector2(outer, 0.62), Vector2(outer - 0.36, 0.62), Vector2(outer - 0.36, 0.3)], 8, 0.85, false, false)
+	mesh.lathe("gold", Vector3(0, 0.76, 0), [Vector2(outer + 0.05, 0.0), Vector2(outer + 0.05, 0.1), Vector2(outer - 0.4, 0.1)], 8, 1.0, false, false)
+	mesh.lathe(water, Vector3(0, 0.56 if not final_state else 0.36, 0), [Vector2(outer - 0.36, 0.0), Vector2(0.0, 0.0)], 8, 1.0, false, false)
+	# a gold ball on every corner of the basin
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0
+		mesh.blob("gold", Vector3(cos(angle), 0, sin(angle)) * (outer + 0.02) + Vector3(0, 0.86, 0), Vector3(0.14, 0.14, 0.14), 3, 6)
+	# the fluted drum with four sun emblems, the scalloped bowl above it, its spouts
+	var r2: float = outer * 0.5
+	mesh.lathe("marble", Vector3(0, 0.3, 0), [Vector2(r2 * 0.62, 0.0), Vector2(r2 * 0.55, 0.3), Vector2(r2 * 0.55, 1.3), Vector2(r2 * 0.7, 1.45)], 16, 0.85, false, false)
+	for index: int in range(4):
+		var angle: float = TAU * float(index) / 4.0 + PI * 0.25
+		var dir: Vector3 = Vector3(cos(angle), 0, sin(angle))
+		K.sun_emblem(mesh, dir * (r2 * 0.55 + 0.02) + Vector3(0, 1.0, 0), r2 * 0.2, dir)
+	mesh.lathe("marble", Vector3(0, 1.6, 0), [Vector2(r2 * 0.7, 0.0), Vector2(r2 + 0.05, 0.3), Vector2(r2 + 0.12, 0.5), Vector2(r2 - 0.3, 0.5), Vector2(r2 - 0.3, 0.3)], 16, 0.85, false, false)
+	mesh.lathe("gold", Vector3(0, 2.1, 0), [Vector2(r2 + 0.16, 0.0), Vector2(r2 + 0.16, 0.08), Vector2(r2 - 0.32, 0.08)], 16, 1.0, false, false)
+	if not final_state:
+		mesh.lathe("water", Vector3(0, 2.02, 0), [Vector2(r2 - 0.3, 0.0), Vector2(0.0, 0.0)], 16, 1.0, false, false)
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0 + PI / 8.0
+		var spout: Vector3 = Vector3(cos(angle), 0, sin(angle))
+		mesh.blob("gold", spout * (r2 + 0.14) + Vector3(0, 1.88, 0), Vector3(0.14, 0.12, 0.14), 4, 8)
+		if not final_state:
+			_jet(mesh, spout * (r2 + 0.26), 1.88, outer - 0.8, 0.56, 0.12)
+	# the gilded urn on a short stem, a flame finial
+	mesh.lathe("marble", Vector3(0, 2.0, 0), [Vector2(r2 * 0.45, 0.0), Vector2(r2 * 0.3, 0.5), Vector2(r2 * 0.5, 0.7)], 12, 0.9, false, true)
+	gold_urn(mesh, Vector3(0, 2.7, 0), r2 * 0.55)
+	K.finial(mesh, Vector3(0, 3.35, 0), 1.3)
+	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 4.7)
+	root.set_meta("statue", true)
+	L.mark_view(root)
+	if not final_state:
+		var mist: CPUParticles3D = CPUParticles3D.new()
+		mist.name = "Mist"
+		mist.amount = 20
+		mist.lifetime = 1.4
+		mist.preprocess = 1.4
+		mist.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
+		mist.emission_ring_axis = Vector3.UP
+		mist.emission_ring_radius = r2 + 0.3
+		mist.emission_ring_inner_radius = r2 - 0.1
+		mist.emission_ring_height = 0.1
+		mist.direction = Vector3.UP
+		mist.spread = 25.0
+		mist.initial_velocity_min = 0.3
+		mist.initial_velocity_max = 0.7
+		mist.gravity = Vector3(0, -0.7, 0)
+		var drop: SphereMesh = SphereMesh.new()
+		drop.radius = 0.04
+		drop.height = 0.08
+		drop.radial_segments = 4
+		drop.rings = 2
+		mist.mesh = drop
+		mist.material_override = K.water(0.55)
+		mist.position = Vector3(0, 1.9, 0)
+		root.add_child(mist)
+	return root
+
+
 ## A water jet: an arc from `from` (at `y0`) out to radius `to_r` falling to `y1`, as a strip of `width`.
 static func _jet(mesh: KitMesh, from: Vector3, y0: float, to_r: float, y1: float, width: float) -> void:
 	var dir: Vector3 = Vector3(from.x, 0, from.z).normalized()
@@ -473,13 +545,56 @@ static func planter_run(mesh: KitMesh, a: Vector3, b: Vector3, width: float, ste
 	var size: Vector3 = Vector3(length, height, width) if along_x else Vector3(width, height, length)
 	mesh.box("plaster", mid + Vector3(0, height * 0.5, 0), size, Basis.IDENTITY, 0.02, 0.88)
 	mesh.box("gold", mid + Vector3(0, height + 0.02, 0), Vector3(size.x + 0.08, 0.06, size.z + 0.08))
-	mesh.box("soil", mid + Vector3(0, height - 0.02, 0), Vector3(size.x - 0.2, 0.08, size.z - 0.2))
+	mesh.box("loam", mid + Vector3(0, height - 0.02, 0), Vector3(size.x - 0.2, 0.08, size.z - 0.2))
 	var positions: Array[Vector3] = []
 	var count: int = maxi(1, int(length / step))
 	for index: int in range(count):
 		var t: float = (float(index) + 0.5) / float(count)
 		positions.append(a.lerp(b, t) + Vector3(0, height - 0.04, 0))
 	return positions
+
+
+## The sides pass (Nov 2): the broken services' clutter in the Capital's own finish - perfect even when broken, never a black bin or bag.
+## A white enamel bin with two gold bands and a gold lid at `base` (`lid_open` tips the lid back).
+static func gilded_bin(mesh: KitMesh, base: Vector3, yaw: float, lid_open: bool) -> void:
+	mesh.lathe("marble", base, [Vector2(0.38, 0.0), Vector2(0.4, 0.88), Vector2(0.44, 0.92)], 10, 0.9, false, false)
+	for y: float in [0.28, 0.6]:
+		mesh.lathe("gold", base + Vector3(0, y, 0), [Vector2(0.42, 0.0), Vector2(0.42, 0.07)], 10, 1.0, false, false)
+	var lid_basis: Basis = Basis(Vector3.UP, yaw) * (Basis(Vector3.RIGHT, -0.55) if lid_open else Basis.IDENTITY)
+	var lid_at: Vector3 = base + Vector3(0, 0.96, 0) + (Basis(Vector3.UP, yaw) * Vector3(0, 0.12, -0.22) if lid_open else Vector3.ZERO)
+	mesh.box("gold", lid_at, Vector3(0.94, 0.07, 0.94), lid_basis, 0.03)
+	mesh.blob("gold", lid_at + lid_basis * Vector3(0, 0.08, 0), Vector3(0.09, 0.06, 0.09), 3, 6)
+
+
+## A cream sack tied with a gold cord, lying at `center` (its middle), `radii` across.
+static func sack(mesh: KitMesh, center: Vector3, radii: Vector3) -> void:
+	mesh.blob("cream", center, radii, 3, 8, 0.9)
+	mesh.lathe("gold", center + Vector3(0, radii.y * 0.72, 0), [Vector2(radii.x * 0.42, 0.0), Vector2(radii.x * 0.42, 0.05)], 8, 1.0, false, false)
+
+
+## A white crate with gold edges, its base at `base`, `size` across, turned `yaw`.
+static func white_crate(mesh: KitMesh, base: Vector3, size: Vector3, yaw: float) -> void:
+	var basis: Basis = Basis(Vector3.UP, yaw)
+	mesh.box("paper", base + Vector3(0, size.y * 0.5, 0), size, basis, 0.02, 0.9)
+	for sx: float in [-1.0, 1.0]:
+		for sz: float in [-1.0, 1.0]:
+			mesh.box("gold", base + basis * Vector3(sx * (size.x * 0.5 - 0.02), size.y * 0.5, sz * (size.z * 0.5 - 0.02)), Vector3(0.05, size.y + 0.02, 0.05), basis)
+	mesh.box("gold", base + Vector3(0, size.y + 0.01, 0), Vector3(size.x + 0.02, 0.03, 0.08), basis)
+	mesh.box("gold", base + Vector3(0, size.y + 0.01, 0), Vector3(0.08, 0.03, size.z + 0.02), basis)
+
+
+## A round white planter ring with a gold lip at `center` (its foot), `radius` outside, `height` tall: the sides pass's formal round bed.
+static func planter_ring(mesh: KitMesh, center: Vector3, radius: float, height: float = 0.36) -> void:
+	mesh.lathe("marble_shade", center, [Vector2(radius, 0.0), Vector2(radius, height), Vector2(radius - 0.2, height), Vector2(radius - 0.2, 0.06)], 24, 0.9, false, false)
+	mesh.lathe("gold", center + Vector3(0, height, 0), [Vector2(radius + 0.03, 0.0), Vector2(radius + 0.03, 0.05), Vector2(radius - 0.23, 0.05), Vector2(radius - 0.23, 0.0)], 24, 1.0, false, false)
+
+
+## A gold urn standing at `base` (its foot), `radius` at the bowl: a square plinth, a turned foot, the bowl with a rolled rim (a topiary cone or
+## a rose stands in it). One lathe and two boxes.
+static func gold_urn(mesh: KitMesh, base: Vector3, radius: float) -> void:
+	mesh.box("marble_shade", base + Vector3(0, 0.05, 0), Vector3(radius * 1.6, 0.1, radius * 1.6), Basis.IDENTITY, 0.01, 0.9)
+	mesh.lathe("gold", base + Vector3(0, 0.1, 0), [Vector2(radius * 0.45, 0.0), Vector2(radius * 0.3, 0.12), Vector2(radius * 0.32, 0.22), Vector2(radius * 0.8, 0.38), Vector2(radius, 0.5), Vector2(radius * 1.08, 0.56), Vector2(radius * 0.9, 0.6)], 10, 1.0, false, true)
+	mesh.lathe("loam", base + Vector3(0, 0.68, 0), [Vector2(radius * 0.86, 0.0), Vector2(0.0, 0.02)], 10, 1.0, false, false)
 
 
 ## A square white planter box with a gold lip at `center` (for a topiary urn to stand in, or a rose bed), `size` across.

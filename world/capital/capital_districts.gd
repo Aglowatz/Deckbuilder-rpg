@@ -23,11 +23,12 @@ static func build(spec: Dictionary) -> Node3D:
 		"CAP-HERO-TRAM-SHED":
 			return tram_shed(size, restored)
 		"CAP-HERO-IDENTICAL-ROW":
-			return row_house(size, restored)
+			# the sides pass (Nov 2): the districts' houses are grand townhouses with a service layer (CapitalSides); the old models stay below for the record
+			return CapitalSides.district_house("gourmand", size, restored, bool(spec.get("final", false)), int(spec.get("seed", 0)))
 		"CAP-HERO-GRAVE-ROW":
-			return mausoleum(size, restored)
+			return CapitalSides.district_house("necrocrat", size, restored, bool(spec.get("final", false)), int(spec.get("seed", 0)))
 		"CAP-HERO-THE-REEK":
-			return reek_yard(size, restored, int(spec.get("seed", 0)))
+			return CapitalSides.district_house("refusemancer", size, restored, bool(spec.get("final", false)), int(spec.get("seed", 0)))
 		"CAP-HERO-CORRECTION-WARD":
 			return ward_piece(size, str(spec.get("piece", "side")), bool(spec.get("final", false)))
 	return null
@@ -36,11 +37,12 @@ static func build(spec: Dictionary) -> Node3D:
 static func _mesh(restored: bool) -> KitMesh:
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
-	mesh.set_material("lamp_off", EnvKit.flat(Color("3c3a40"), "cap_lamp_off"))
+	# the sides pass: a dead lamp is a pale unlit globe and a dead window is mirrored glass (nothing inside the wall renders near-black)
+	mesh.set_material("lamp_off", EnvKit.flat(Color("dcd8d0"), "cap_lamp_off"))
 	mesh.set_material("green_glow", EnvKit.glow(GREEN_LANTERN, 2.0))
 	if not restored:
 		# the broken half of each concept is the same city with the colour drained out of its signs of life
-		mesh.set_material("window_warm", EnvKit.flat(Color("2e2c34"), "cap_window_dead"))
+		mesh.set_material("window_warm", K.mirror())
 	return mesh
 
 
@@ -86,7 +88,7 @@ static func tram_shed(size: Vector3, restored: bool) -> Node3D:
 		mesh.box("gold", Vector3(x, spring, d * 0.5 - 0.35), Vector3(0.85, 0.22, 0.85))
 		K.finial(mesh, Vector3(x, h + 0.55, d * 0.5 - 0.35), 1.2)
 		if not restored:
-			L.band(mesh, "stone_dark", Vector3(x - 0.15, 0.3, d * 0.5 + 0.02), Vector3(x + 0.05, spring - 0.4, d * 0.5 + 0.02), 0.12, Vector3(0, 0, 1))
+			L.band(mesh, "dust", Vector3(x - 0.15, 0.3, d * 0.5 + 0.02), Vector3(x + 0.05, spring - 0.4, d * 0.5 + 0.02), 0.12, Vector3(0, 0, 1))
 	mesh.box("plaster", Vector3(0, (spring + h) * 0.5 + 0.4, d * 0.5 - 0.35), Vector3(w, h - spring - 0.8, 0.6))
 	mesh.box("trim", Vector3(0, h - 0.25, d * 0.5 - 0.02), Vector3(w + 0.2, 0.5, 0.1))
 	for index: int in range(bays):
@@ -101,7 +103,7 @@ static func tram_shed(size: Vector3, restored: bool) -> Node3D:
 			previous = point
 		# the stalled (or running) tram on its rails, the banner hanging in the arch, the bay's lantern
 		for rail: float in [-0.55, 0.55]:
-			mesh.box("iron", Vector3(cx + rail, 0.2, 0.4), Vector3(0.1, 0.08, d + 1.2))
+			mesh.box("gold", Vector3(cx + rail, 0.2, 0.4), Vector3(0.1, 0.08, d + 1.2))  # gilded rails (the sides pass: nothing black inside)
 		_card(mesh, "CAP-PROP-TRAM", Vector3(cx, 0.18, -0.3), 2.1, Vector3(0, 0, 1), restored)
 		K.card(mesh, "CAP-SHEET-BANNERS-04", Vector3(cx, spring + half * 0.75, d * 0.5 - 0.6), 1.7, Vector3(0, 0, 1))
 		mesh.blob("lamp" if restored else "lamp_off", Vector3(cx, spring - 0.6, d * 0.5 - 1.2), Vector3(0.22, 0.28, 0.22), 4, 8)
@@ -116,7 +118,7 @@ static func tram_shed(size: Vector3, restored: bool) -> Node3D:
 	for index: int in range(3):
 		var x: float = -w * 0.3 + float(index) * w * 0.3
 		var c: Vector3 = Vector3(x, h + 1.15, d * 0.18)
-		var slot: String = "dark" if not restored else "window_warm"
+		var slot: String = "marble_shade" if not restored else "window_warm"
 		mesh.quad(slot, [c + Vector3(-0.6, -0.3, 0.55), c + Vector3(0.6, -0.3, 0.55), c + Vector3(0.6, 0.3, -0.05), c + Vector3(-0.6, 0.3, -0.05)], Vector3(0, 1, 0.5))
 	# lamp posts and planters at the front corners
 	for side: float in [-1.0, 1.0]:
@@ -177,7 +179,7 @@ static func row_house(size: Vector3, restored: bool) -> Node3D:
 		# missing tiles: dark holes in the front slope
 		for hole: Vector2 in [Vector2(-w * 0.25, 0.4), Vector2(w * 0.3, 0.7)]:
 			var c: Vector3 = Vector3(hole.x, h - 0.1 + rise * hole.y, (d * 0.5 + 0.35) * (1.0 - hole.y) + 0.03)
-			mesh.quad("dark", [c + Vector3(-0.3, -0.15, 0.1), c + Vector3(0.3, -0.15, 0.1), c + Vector3(0.3, 0.15, -0.1), c + Vector3(-0.3, 0.15, -0.1)], Vector3(0, 0.8, 1))
+			mesh.quad("marble_shade", [c + Vector3(-0.3, -0.15, 0.1), c + Vector3(0.3, -0.15, 0.1), c + Vector3(0.3, 0.15, -0.1), c + Vector3(-0.3, 0.15, -0.1)], Vector3(0, 0.8, 1))
 	mesh.box("plaster", Vector3(w * 0.28, h + rise + 0.2, -d * 0.18), Vector3(0.55, 1.4, 0.55))
 	mesh.box("gold", Vector3(w * 0.28, h + rise + 0.95, -d * 0.18), Vector3(0.7, 0.14, 0.7))
 	K.finial(mesh, Vector3(w * 0.28, h + rise + 1.02, -d * 0.18), 0.5)
@@ -190,7 +192,7 @@ static func row_house(size: Vector3, restored: bool) -> Node3D:
 		var bottom: Vector3 = Vector3(wx, 0.55, front + 0.02)
 		K.arched_window(mesh, bottom, 0.9, 1.35, Vector3(0, 0, 1), "window_warm")
 		for shelf: float in [0.95, 1.35]:
-			mesh.box("wood", Vector3(wx, shelf, front + 0.05), Vector3(0.8, 0.04, 0.06))
+			mesh.box("marble", Vector3(wx, shelf, front + 0.05), Vector3(0.8, 0.04, 0.06))
 			for item: int in range(3):
 				var ix: float = wx - 0.26 + 0.26 * float(item)
 				if restored:
@@ -260,11 +262,10 @@ static func mausoleum(size: Vector3, restored: bool) -> Node3D:
 	L.band(mesh, "gold", apex, g1, 0.1, Vector3(0, 0, 1))
 	K.finial(mesh, apex, 0.9)
 	K.emblem(mesh, Vector3(0, top + 0.45, front + 0.09), 0.36, Vector3(0, 0, 1))
-	# the arched door: shut and gold once restored, ajar on darkness while broken
-	K.arched_window(mesh, Vector3(0, 0.46, front + 0.02), 1.3, 2.3, Vector3(0, 0, 1), "gold" if restored else "dark")
+	# the arched door: gold, shut in both states (the sides pass: nothing black inside the wall); while broken a crack runs up beside it
+	K.arched_window(mesh, Vector3(0, 0.46, front + 0.02), 1.3, 2.3, Vector3(0, 0, 1), "gold")
 	if not restored:
-		mesh.box("wood_dark", Vector3(0.5, 0.46 + 0.9, front + 0.35), Vector3(0.08, 1.8, 0.62), Basis(Vector3.UP, 0.7))
-		L.band(mesh, "stone_dark", Vector3(-w * 0.32, 0.6, front + 0.04), Vector3(-w * 0.26, h * 0.7, front + 0.04), 0.06, Vector3(0, 0, 1))
+		L.band(mesh, "dust", Vector3(-w * 0.32, 0.6, front + 0.04), Vector3(-w * 0.26, h * 0.7, front + 0.04), 0.06, Vector3(0, 0, 1))
 		for paper: Vector3 in [Vector3(-0.6, 0.32, front + 0.55), Vector3(0.7, 0.32, front + 0.75), Vector3(0.2, 0.05, front + 1.1)]:
 			mesh.quad("paper", [paper + Vector3(-0.15, 0.01, -0.1), paper + Vector3(0.15, 0.01, -0.12), paper + Vector3(0.16, 0.02, 0.1), paper + Vector3(-0.14, 0.01, 0.12)], Vector3.UP)
 	for side: float in [-1.0, 1.0]:
@@ -313,20 +314,20 @@ static func reek_yard(size: Vector3, restored: bool, seed_value: int) -> Node3D:
 	K.arched_window(mesh, Vector3(-w * 0.25, h * 0.45, back + 1.21), 0.8, 1.4, Vector3(0, 0, 1), "mirror")
 	K.arched_window(mesh, Vector3(w * 0.25, h * 0.45, back + 1.21), 0.8, 1.4, Vector3(0, 0, 1), "mirror")
 	var yard: float = back + 1.2
+	mesh.alias("loam", "flat", Color("8a6a48").srgb_to_linear())
 	if not restored:
-		# grime down the back wall, the overflowing bins and bags, a slick of stink
+		# the sides pass: the overflow in the Capital's finish - pale dust streaks down the wall, white enamel bins with gold lids in an exact
+		# row, cream sacks in a row in front of them, a white crate; the stink is in the flies
 		for streak: int in range(3):
-			var x: float = rng.randf_range(-w * 0.4, w * 0.4)
-			L.band(mesh, "stone_dark", Vector3(x, h * 0.9, back + 1.22), Vector3(x + rng.randf_range(-0.2, 0.2), 0.2, back + 1.22), 0.25, Vector3(0, 0, 1))
+			var x: float = -w * 0.3 + float(streak) * w * 0.3
+			L.band(mesh, "dust", Vector3(x, h * 0.9, back + 1.22), Vector3(x + 0.1, 0.2, back + 1.22), 0.22, Vector3(0, 0, 1))
 		for index: int in range(3):
 			var bx: float = -w * 0.32 + float(index) * w * 0.32
-			mesh.box("bin", Vector3(bx, 0.5, yard + 0.6), Vector3(1.0, 1.0, 0.8), Basis(Vector3.UP, rng.randf_range(-0.1, 0.1)), 0.04, 0.6)
-			mesh.box("bin_dark", Vector3(bx, 1.05, yard + 0.45), Vector3(1.05, 0.08, 0.85), Basis(Vector3.RIGHT, -0.35), 0.02)
-			mesh.blob("bag", Vector3(bx + 0.1, 1.15, yard + 0.6), Vector3(0.35, 0.3, 0.3), 3, 8)
-		for index: int in range(5):
-			mesh.blob("bag", Vector3(rng.randf_range(-w * 0.45, w * 0.45), 0.25, yard + rng.randf_range(1.2, 1.8)), Vector3(0.32, 0.28, 0.32), 3, 8)
-		mesh.quad("slime", [Vector3(-w * 0.35, 0.03, yard + 1.0), Vector3(w * 0.3, 0.03, yard + 1.1), Vector3(w * 0.25, 0.03, yard + 1.9), Vector3(-w * 0.3, 0.03, yard + 1.8)], Vector3.UP)
-		mesh.box("crate", Vector3(w * 0.38, 0.3, yard + 1.5), Vector3(0.6, 0.6, 0.6), Basis(Vector3.UP, 0.4), 0.03, 0.8)
+			CapitalGrand.gilded_bin(mesh, Vector3(bx, 0.0, yard + 0.6), 0.0, index != 1)
+		for index: int in range(4):
+			CapitalGrand.sack(mesh, Vector3(-w * 0.36 + float(index) * w * 0.24, 0.24, yard + 1.5), Vector3(0.3, 0.24, 0.28))
+		mesh.lathe("marble_shade", Vector3(0, 0.02, yard + 1.45), [Vector2(w * 0.3, 0.0), Vector2(0.0, 0.015)], 12, 1.0, false, true)
+		CapitalGrand.white_crate(mesh, Vector3(w * 0.38, 0.0, yard + 2.0), Vector3(0.6, 0.6, 0.6), 0.4)
 		# the perfect painted screen at the yard's front: white panels in gold frames, painted topiaries and Primm's face
 		var screen_z: float = d * 0.5 - 0.15
 		var panels: int = maxi(2, int(w / 1.6))
@@ -349,23 +350,25 @@ static func reek_yard(size: Vector3, restored: bool, seed_value: int) -> Node3D:
 			var x: float = -w * 0.4 + float(vine) * w * 0.27
 			L.band(mesh, "moss", Vector3(x, h, back + 1.23), Vector3(x + rng.randf_range(-0.3, 0.3), h * 0.3, back + 1.23), 0.3, Vector3(0, 0, 1))
 			mesh.blob("rose", Vector3(x, h * 0.55, back + 1.3), Vector3(0.12, 0.1, 0.06), 3, 6)
+		# the sides pass: white compost bins with gold slats, a white raised bed with its blooms in an exact row, moss squares in a row, a gold can
 		for index: int in range(2):
 			var bx: float = -w * 0.28 + float(index) * w * 0.4
-			mesh.box("wood", Vector3(bx, 0.45, yard + 0.6), Vector3(1.1, 0.9, 0.9), Basis.IDENTITY, 0.03, 0.75)
-			mesh.box("compost", Vector3(bx, 0.88, yard + 0.6), Vector3(0.95, 0.06, 0.75))
+			mesh.box("marble", Vector3(bx, 0.45, yard + 0.6), Vector3(1.1, 0.9, 0.9), Basis.IDENTITY, 0.03, 0.85)
+			mesh.box("loam", Vector3(bx, 0.88, yard + 0.6), Vector3(0.95, 0.06, 0.75))
 			for slat: float in [0.2, 0.45, 0.7]:
-				mesh.box("wood_dark", Vector3(bx, slat, yard + 1.06), Vector3(1.12, 0.05, 0.03))
-		mesh.box("wood", Vector3(0, 0.25, d * 0.5 - 0.7), Vector3(w * 0.8, 0.5, 1.0), Basis.IDENTITY, 0.03, 0.8)
-		mesh.box("soil", Vector3(0, 0.51, d * 0.5 - 0.7), Vector3(w * 0.76, 0.03, 0.9))
+				mesh.box("gold", Vector3(bx, slat, yard + 1.06), Vector3(1.12, 0.05, 0.03))
+		mesh.box("marble", Vector3(0, 0.25, d * 0.5 - 0.7), Vector3(w * 0.8, 0.5, 1.0), Basis.IDENTITY, 0.03, 0.88)
+		mesh.box("gold", Vector3(0, 0.51, d * 0.5 - 0.7), Vector3(w * 0.84, 0.04, 1.04))
+		mesh.box("soil", Vector3(0, 0.52, d * 0.5 - 0.7), Vector3(w * 0.76, 0.03, 0.9))
 		for index: int in range(int(w * 2.0)):
 			var fx: float = -w * 0.36 + float(index) * (w * 0.72) / maxf(float(int(w * 2.0)) - 1.0, 1.0)
 			var bloom: String = ["wildflower", "rose", "lavender", "leaf"][index % 4]
-			mesh.tube("leaf", Vector3(fx, 0.52, d * 0.5 - 0.7 + rng.randf_range(-0.3, 0.3)), Vector3(fx, 0.85, d * 0.5 - 0.7), 0.02, 4)
+			mesh.tube("leaf", Vector3(fx, 0.52, d * 0.5 - 0.7), Vector3(fx, 0.85, d * 0.5 - 0.7), 0.02, 4)
 			mesh.blob(bloom, Vector3(fx, 0.9, d * 0.5 - 0.7), Vector3(0.1, 0.08, 0.1), 3, 6)
-		for patch: int in range(4):
-			var p: Vector3 = Vector3(rng.randf_range(-w * 0.45, w * 0.45), 0.02, yard + rng.randf_range(1.4, 2.0))
+		for patch: int in range(3):
+			var p: Vector3 = Vector3(-w * 0.3 + float(patch) * w * 0.3, 0.02, yard + 1.7)
 			mesh.quad("moss", [p + Vector3(-0.4, 0, -0.3), p + Vector3(0.4, 0, -0.3), p + Vector3(0.4, 0, 0.3), p + Vector3(-0.4, 0, 0.3)], Vector3.UP)
-		mesh.lathe("iron", Vector3(w * 0.4, 0, yard + 1.6), [Vector2(0.14, 0.0), Vector2(0.14, 0.25), Vector2(0.08, 0.3)], 8, 1.0, false, true)
+		mesh.lathe("gold", Vector3(w * 0.4, 0, yard + 1.6), [Vector2(0.14, 0.0), Vector2(0.14, 0.25), Vector2(0.08, 0.3)], 8, 1.0, false, true)
 	L.finish(root, mesh, [], h + 0.5)
 	if not restored:
 		var flies: CPUParticles3D = CPUParticles3D.new()
@@ -451,8 +454,8 @@ static func _barred_window(mesh: KitMesh, center: Vector3, normal: Vector3) -> v
 	var right: Vector3 = Vector3.UP.cross(normal).normalized()
 	for bar: int in range(4):
 		var x: float = -0.42 + 0.28 * float(bar)
-		mesh.box("iron_dark", center + right * x + normal * 0.08 - Vector3(0, 0.05, 0), Vector3(0.05, 1.9, 0.05) if absf(normal.z) > 0.5 else Vector3(0.05, 1.9, 0.05))
-	mesh.box("iron_dark", center + normal * 0.08 + Vector3(0, 0.2, 0), Vector3(1.0, 0.05, 0.05) if absf(normal.z) > 0.5 else Vector3(0.05, 0.05, 1.0))
+		mesh.box("gold", center + right * x + normal * 0.08 - Vector3(0, 0.05, 0), Vector3(0.05, 1.9, 0.05) if absf(normal.z) > 0.5 else Vector3(0.05, 1.9, 0.05))
+	mesh.box("gold", center + normal * 0.08 + Vector3(0, 0.2, 0), Vector3(1.0, 0.05, 0.05) if absf(normal.z) > 0.5 else Vector3(0.05, 0.05, 1.0))
 
 
 ## The Ward's palace front on the compound's north piece, facing the yard (+z): a raised central pavilion with a blue dome and a gold spire, Primm's
@@ -471,7 +474,7 @@ static func _ward_front(mesh: KitMesh, w: float, h: float, d: float, final_state
 			continue
 		K.arched_window(mesh, Vector3(x, h + 0.9, front - 0.96), 1.2, 2.6, Vector3(0, 0, 1), "mirror")
 		for bar: int in range(3):
-			mesh.box("iron_dark", Vector3(x - 0.3 + 0.3 * float(bar), h + 2.1, front - 0.9), Vector3(0.05, 2.4, 0.05))
+			mesh.box("gold", Vector3(x - 0.3 + 0.3 * float(bar), h + 2.1, front - 0.9), Vector3(0.05, 2.4, 0.05))
 	# the central pavilion, its dome, the door and the smiling sign
 	mesh.box("plaster", Vector3(0, (body_h + 3.0) * 0.5, front - 1.6), Vector3(7.0, body_h + 3.0, 3.6), Basis.IDENTITY, 0.04, 0.82)
 	mesh.box("trim", Vector3(0, body_h + 2.7, front + 0.21), Vector3(7.1, 0.4, 0.08))

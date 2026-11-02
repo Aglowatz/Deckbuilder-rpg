@@ -163,7 +163,7 @@ func test_the_inside_is_perfectly_symmetric_and_the_plaza_open() -> void:
 		assert_eq(rect.size, Vector2(4.0, 4.0), "every house the same size")
 		var mirror: Rect2 = Rect2(120.0 - rect.end.x, rect.position.y, rect.size.x, rect.size.y)
 		assert_true(houses.has(mirror), "the house at %s has its twin across the avenue" % str(rect))
-	assert_eq(stalls.size(), 6)
+	assert_eq(stalls.size(), 2, "one long shop-house each side of the Hungry Quarter's lane (the sides pass)")
 	for rect: Rect2 in stalls:
 		assert_true(stalls.has(Rect2(200.0 - rect.end.x, rect.position.y, rect.size.x, rect.size.y)), "the stall at %s has its twin across the lane" % str(rect))
 	# the plaza: nothing solid within its radius but the fountain, the hub's things on its rim
