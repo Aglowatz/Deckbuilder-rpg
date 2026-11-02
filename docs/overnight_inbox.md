@@ -4,6 +4,13 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Nov 2 pass - yours to decide (the safest choice was taken)
+
+1. **Gate guards wear the Correction Officer set.** The five Capital guards (two outside the gate, two inside by the fountain, Primm's guard in the Crease) now draw the painted Correction Officer (the only guard-like set); the art list carries a dedicated SPR-CAPITAL-GUARD at Low in case the officer reads wrong as a gate guard. Say the word and I raise it to High.
+2. **The Exit Clerk stays 3D for now.** The only clerk set (the Lost Junior Clerk) is a 0.6-height child; putting it at the exit booth would read as a joke. He is High on the art list (SPR-EXIT-CLERK + portrait).
+3. **Animals stay 3D.** The Dump critters and the stable animal are Cube Pets models (ambient wildlife, not characters); the art audit table lists them as kept. If you want painted animals, they need a set each (raccoon, gull, the stable beast).
+4. **Capital freed state: no wildflowers.** The freed mood used to scatter seed grass and wildflowers over the city (the same layer that made the bushes). Both are off now so every entry path matches; if the freed city should bloom, the right place is CapitalDressing's lawn-only rows (restored-state blooms already exist there).
+
 ## Capital sides Nov 2 - yours to decide (the safest choice was taken)
 
 Report: `docs/art/capital_rebuild_nov1.md` ("The sides pass (Nov 2)"). Critics: `docs/review/capital_critic_sides_s2/s3/s4.md`.

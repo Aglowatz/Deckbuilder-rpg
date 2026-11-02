@@ -136,7 +136,7 @@ static func build_def() -> ZoneDef:
 		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
 		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
 		{"id": "primm", "npc_id": "NPC-PRIMM", "model": "Knight", "offset": Vector3(10.5, 0.0, -3.4), "yaw": 180.0, "tint": Color(0.72, 0.72, 0.8), "scale": 1.45, "name": "Primm, at work", "speaker": "Primm"},
-		{"id": "primm_guard", "model": "Knight", "offset": Vector3(8.8, 0.0, -2.4), "yaw": 150.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5, "name": "Primm's Guard", "speaker": "Guard"},
+		{"id": "primm_guard", "sprite": "FOE_CORRECTION_OFFICER", "model": "Knight", "offset": Vector3(8.8, 0.0, -2.4), "yaw": 150.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5, "name": "Primm's Guard", "speaker": "Guard"},
 	] as Array[Dictionary]
 	def.npcs = [
 		{"id": "wren", "npc_id": "NPC-WREN", "model": "Mage", "anchor": "wren", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
@@ -152,13 +152,13 @@ static func build_def() -> ZoneDef:
 		{"id": "spotless", "npc_id": "NPC-SPOTLESS", "model": "Knight", "anchor": "spotless", "yaw": 0.0, "tint": Color(0.9, 0.9, 1.0), "scale": 1.7,
 			"pace": [Vector3(-1.8, 0.0, 0.5), Vector3.ZERO, Vector3(1.8, 0.0, 0.5), Vector3.ZERO], "pace_until_flag": str(FLAG_GATE_OPEN),
 			"pace_sprite": "FOE_CAPTAIN_SPOTLESS"},
-		{"id": "guard_height", "model": "Knight", "anchor": "guard_height", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
-		{"id": "guard_queue", "model": "Knight", "anchor": "guard_queue", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
-		{"id": "guard_in_1", "model": "Knight", "anchor": "guard_in_1", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
-		{"id": "guard_in_2", "model": "Knight", "anchor": "guard_in_2", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
+		{"id": "guard_height", "sprite": "FOE_CORRECTION_OFFICER", "model": "Knight", "anchor": "guard_height", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
+		{"id": "guard_queue", "sprite": "FOE_CORRECTION_OFFICER", "model": "Knight", "anchor": "guard_queue", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
+		{"id": "guard_in_1", "sprite": "FOE_CORRECTION_OFFICER", "model": "Knight", "anchor": "guard_in_1", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
+		{"id": "guard_in_2", "sprite": "FOE_CORRECTION_OFFICER", "model": "Knight", "anchor": "guard_in_2", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		# Fixes Oct 26: the clerk stands beside the booth's front, facing the plaza (he was inside the closed booth, out of sight)
 		{"id": "exit_clerk", "model": "Rogue_Hooded", "anchor": "exit_booth", "offset": Vector3(-1.5, 0.0, 0.8), "yaw": 0.0, "tint": Color(0.9, 0.9, 0.9), "scale": 1.4},
-		{"id": "patient", "model": "Rogue", "anchor": "ward_patient", "yaw": 180.0, "tint": Color(0.75, 0.75, 0.8), "scale": 1.4},
+		{"id": "patient", "sprite": "CITIZEN", "sprite_tint": Color(0.9, 0.9, 0.95), "model": "Rogue", "anchor": "ward_patient", "yaw": 180.0, "tint": Color(0.75, 0.75, 0.8), "scale": 1.4},
 	]
 	for index: int in range(1, 10):
 		def.npcs.append({"id": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true, "wander": true})

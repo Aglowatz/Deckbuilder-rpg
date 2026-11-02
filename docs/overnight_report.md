@@ -1,3 +1,77 @@
+# ART LIST READY - docs/art/art_needed_nov2.csv (47 rows; Part 1 of the Nov 2 pass)
+
+# Report - Nov 2 pass (Fix + polish, Fable 5.1)
+
+Sun Nov 2, from 09:45 MST. Brief: "FIX + POLISH PASS Nov 2 - The Wayward Path", Parts 1-8. Tag `pre-nov2`. Judgment calls:
+`docs/overnight_inbox.md` ("Nov 2 pass"). State: `docs/loop_state.md`. Previous report (the Capital sides pass) is below this one.
+
+## Part 1 - Art audit (done first; commit "Nov 2 pass, Part 1")
+
+**The art list**: `docs/art/art_needed_nov2.csv`, the Art Batch tab's columns (Art ID, Category, Zone, Name/what, Priority, Lock, Size/format,
+Save to, File name(s), Image description, Notes), 47 rows. High = seen in normal play. Contents: the Rescuer portrait redo (both arms), two
+Rescuer expressions on the redone base, the Leaf Crown sheet redo, 11 sprite sets + 7 portraits for the figures below that have no fitting set
+(plus a Low-priority dedicated gate-guard set), 11 story stills for the beats that still play on the icon stage (Primm's phase 1, phase 2
+and fall; the House of Gains rescue; the Doppelganger reveal; epilogue beats 1, 3, 9, 4, 10, 6, 7), the Crease prop sheet + brick texture, the
+D.N.A. lobby carpet / terrazzo / prop sheet, the Gate Road palace backdrop, the Buffet bridge's salt-shaker pillars, the Quota lieutenant
+battle board, the four Capital requests from the Nov 1 report, the skipped expression portraits and N-10-REDO. No item icon changes: Part 4
+keeps every item's name and object (see Part 4).
+
+**3D figures found in walkable areas** (every NPC, roamer, guard, citizen, vendor and enemy was checked: the sprite-vs-model choice is
+`NpcSprites.character_for_entry` for list NPCs (an entry with neither `npc_id` nor `sprite` keeps its 3D model), `ZoneEnemy._make_model` for
+roamers (all 22 enemy kinds have painted sets), `TownScene._add_npc` for Crosspath). The Rescuer, Maren, the rift operators, the ninja, the
+Dump workers and Colonel Casserole have painted sets with a 3D fallback only when the art is missing; none fall back today.
+
+| Figure | Where | Was | Now |
+|---|---|---|---|
+| Gate Guard (Height Inspection), Gate Guard (Queue Management) | Capital, outside the gate beside Spotless | tinted KayKit Knight | painted Correction Officer set (`"sprite": "FOE_CORRECTION_OFFICER"`, 1.2 x hero): a white-and-gold officer, the fitting guard look; talk spots unchanged |
+| Gate Guard (Exit Control) x 2 | Capital, inside the gate by the plaza fountain (the ones in the user's screenshot) | tinted Knight | the same officer set, facing into the city as before (`nov2_p1_gate_guards_in.jpg`) |
+| Primm's Guard | the Crease after Primm falls (freed state) | tinted Knight | the same officer set |
+| Citizen 4471 (the ward patient) | Capital, Correction Ward | tinted Rogue | the painted CITIZEN set, pale tint (`nov2_p1_patient.jpg`) |
+| Foreman Gus | Gainlands, by the works | tinted Rogue_Hooded (his own set existed but the entry never named it) | `"sprite": "GUS"` (`nov2_p1_gus.jpg`) |
+| Nurse Hesper Dray | Capital, the Crease heal spot | tinted Mage | art list: SPR-HESPER + NPC-HESPER (High) |
+| The Exit Clerk | Capital, Gate Plaza booth | tinted Rogue_Hooded | art list: SPR-EXIT-CLERK + NPC-EXIT-CLERK (High); the Lost Junior Clerk set is a 0.6-height child and reads wrong |
+| Gym attendant (cheering) | Gainlands gym hall | Barbarian, Cheer animation | art list: SPR-GYM-ATTENDANT (High; barks only, no portrait) |
+| Gary, Currently Under a Barbell | Gainlands yard | Barbarian, Lie_Idle | art list: SPR-GARY (a lying set) + NPC-GARY (High) |
+| Sous-Chef Tarragon | Endless Buffet | Rogue_Hooded | art list: SPR-TARRAGON + NPC-TARRAGON (High) |
+| Brisket, Sir Loin (gate guardians) | Endless Buffet gates | code-built 3D golems (Casserole is painted) | art list: SPR-BRISKET, SPR-SIR-LOIN (High) |
+| Billie Muckfoot | Verdant Dump | Rogue | art list: SPR-MUCKFOOT + NPC-MUCKFOOT (High) |
+| Sorrel (growth-spot druid) | Verdant Dump | Mage | art list: SPR-SORREL + NPC-SORREL (High) |
+| The Secret Dealer | Crosspath hidden alley | Rogue_Hooded | art list: SPR-DEALER + NPC-DEALER (Medium, hidden) |
+| Threadwell's window mannequin | Crosspath | HeroModel "mannequin" | kept: it is a mannequin by design |
+| Dump critters, the stable animal | Verdant Dump | Cube Pets animals | kept: ambient wildlife, not characters (inbox 1) |
+| D.N.A. queue figures | D.N.A. far landmark (backdrop, not walkable) | KitMesh ghost silhouettes | kept: part of the painted landmark's composition |
+
+**The Rescuer**: only the dialogue portrait `NPC-RESCUER` has the one-armed read (her left arm vanishes under the cloak). Her sprite set and the
+STORY-CAPTURE still show both arms; NPC-ELOWEN (revealed) is fine. The list row describes the same design with both hands placed.
+**Leaf Crown**: the FRONT view's arc ends point straight up (horns); the row asks for a closed ring whose ends sweep down and round the head.
+
+Shots: `docs/overnight/nov2/shots/nov2_p1_*.jpg`.
+
+## Part 2 - Capital: no plants inside the walls on every entry path
+
+**Cause**: the look rig (`WorldLookRig`) builds a random foliage layer (grass, wildflowers, bushes) from the zone mood's `foliage` block, once,
+at scene build, from the mood the hero stands in. `capital_inside` / `capital_freed` carried `density 1` (cells grass, wildflowers, tall
+flowers, bush) while `capital_outskirts` has `density 0`. Walking in through the gate therefore never built the layer (the mood change at
+the gate only toggles visibility of a layer that does not exist), but any build that STARTS with the hero inside - a save loaded inside, the
+return from a fight inside, the first build after the hole in the west wall or the service shaft, the freed city - scattered 2811 cards over
+the city, 1418 of them inside the wall. The build cache replayed the same placement.
+
+**Fix**: `data/art/zone_looks.json`: `capital_inside` and `capital_freed` foliage density 0 (the dark variants extend them). The design
+dressing (CapitalDressing: topiary, rose planters, parterres) is untouched. Every path now produces the same scene: no WorldFoliage layer,
+ZoneDressing's 395 wasteland items all outside the wall (z >= 76).
+
+**Test**: `tests/world/test_capital_no_scatter_paths.gd` builds the real Capital scene per entry path (gate, west-wall hole, service shaft /
+Crease spawn, fast-travel landing, a save loaded inside at four points, back from a battle inside, the freed city inside and at the gate, a
+second build from the build cache) and counts the generic scatter layers' instances inside the wall: 0 on every path; plus the moods' density
+is asserted 0. Run with the old density it fails with 1418 inside. Because the headless renderer returns no MultiMesh transforms, both scatter
+producers now keep their instance positions as node metadata (`positions`), which the test reads.
+
+**Screenshot**: `docs/overnight/nov2/shots/nov2_p2_side_left.jpg` - Grave Row's lawn after a build that started inside (the hole's exit), no
+bushes.
+
+
+---
+
 # Report - Capital sides pass (Nov 2, Fable 5.1)
 
 Sun Nov 2 07:00 -> 09:30 MST. Brief: "CAPITAL SIDES PASS (follow-up to the inner-city rebuild)", items 1-7. Tag `pre-capital-sides-nov2`.
