@@ -760,6 +760,10 @@ func _build_skyline() -> void:
 		var stair: Node3D = CapitalGrand.tower(20.0, 1.35, "gold", final_state)
 		stair.position = Vector3(60.0 + side * 8.5, top, 4.5)
 		skyline.add_child(stair)
+		# a second gilded pair on the lower terrace, so the palace rises in steps behind the fountain: fountain, boulevard pair, terrace pair, stair towers, keep
+		var terrace: Node3D = CapitalGrand.statue_plinth(2.4, 3.6, final_state, final_state)
+		terrace.position = Vector3(60.0 + side * 10.5, CapitalLayout.HILL_HEIGHT * 0.5, 10.4)
+		skyline.add_child(terrace)
 		# on the hill: four townhouses in a row at z -7, a tower between the palace's outer towers and them, a taller tower at the far end
 		for index: int in range(4):
 			var x: float = 60.0 + side * (41.5 + float(index) * 5.5)

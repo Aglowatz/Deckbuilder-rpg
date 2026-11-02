@@ -12,13 +12,13 @@
 		"#7FC97F"
 	],
 	"light": {
-		"key_color": "#ffe8c0",
-		"key_energy": 0.95,
+		"key_color": "#fff3e2",
+		"key_energy": 1.0,
 		"key_pitch": -46,
 		"key_yaw": -30,
 		"ambient_color": "#cfcde6",
-		"ambient_energy": 0.38,
-		"shadow_opacity": 0.62
+		"ambient_energy": 0.3,
+		"shadow_opacity": 0.85
 	},
 	"fog": {
 		"color": "#e6f1ff",
@@ -30,8 +30,8 @@
 		"contrast": 1.24,
 		"post_saturation": 1.4,
 		"tonemap": "agx",
-		"exposure": 0.52,
-		"post_contrast": 1.1,
+		"exposure": 0.47,
+		"post_contrast": 1.14,
 		"shadow_tint": "#f2f0fa",
 		"highlight_tint": "#fff9ee"
 	},

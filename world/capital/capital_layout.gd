@@ -820,7 +820,7 @@ func _transit_yards() -> void:
 	for pylon_x: float in [86.0, 106.0]:
 		_prop("pylon", pylon_x, 66.0, 0.0, 1.0, 0.5, 0, "beefcake")
 	_prop_at("manhole", "net_transit")
-	_building("spire", 112.0, 61.0, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the yards' tower by the cable
+	_building("spire", 115.0, 52.0, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the yards' tower in the city's east corner beside the shed (off the Tidy-Bot's beat)
 	_sign("sign.transit_main", 109.5, 48.9, 0.0, 1.0, "wall")
 	_sign("sign.transit_cardio", 90.0, 61.5, 0.0, 0.9, "sign")
 	_sign("sign.transit_cable", 113.5, 58.5, 270.0, 0.8, "sign")
@@ -860,7 +860,6 @@ func _ward() -> void:
 		_prop("bed", 99.0 + float(index) * 3.0, 6.0, 0.0, 1.0, 0.0)
 	_prop_at("loudspeaker", "ward_speaker", 0.3)
 	_prop("window_booth", 103.0, 12.2, 0.0, 1.0, 0.0)  # beside the door, never in it
-	_building("spire", 115.0, 8.0, 2.0, 2.0, 14.0, 0.0, "", 1)  # the rebuild: the Ward's tower in the city's north-east corner
 	_sign("sign.ward_main", 93.0, 14.6, 0.0, 1.0, "wall")
 	_sign("sign.ward_permit", 96.5, 15.6, 0.0, 0.8, "sign")
 

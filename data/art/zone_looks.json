@@ -855,9 +855,9 @@
 			"cloud_speed": 0.6
 		},
 		"sky": {
-			"horizon": "e4f2ff",
-			"gold": "fff2d8",
-			"mid": "96c8f8",
+			"horizon": "c4def8",
+			"gold": "f4ecd8",
+			"mid": "7ab2ee",
 			"zenith": "3f8fe6",
 			"sun": "ffe8c0",
 			"sun_glow": 1,

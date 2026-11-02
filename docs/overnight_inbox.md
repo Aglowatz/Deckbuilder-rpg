@@ -7,6 +7,17 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 ## Capital rebuild Nov 1-2 - yours to decide (the safest choice was taken)
 
 1. Framing: the target picture looks from higher and farther than any game camera (the hero small at the bottom, the fountain a third of the way up, the castle at the top). The standard "ref" shot uses the Overview pitch and the Far zoom from the plaza; the critics score that. If you want the game camera itself higher in the Capital, say so (it would be a per-zone camera pitch, like the Capital's saved angle).
+2. After Primm falls the Showcase's houses used to swap for ruined kit houses ("the old kingdom's ruins"). The brief says keep the grand
+   architecture and loosen the perfection, so the townhouses now stay in the fallen state with crooked banners, warm honest windows, dim gold
+   and a light at every door; the toppled statues, the dry fountain and the weeds stay as the story had them. Say if you want the ruins back.
+3. The inner districts keep their own kit models (the stalls, the mausoleums, the Reek yards, the tram shed) with their broken / restored
+   states; the rebuild framed them (a tower at each district's inner corner, the five-storey rows beyond the walls, the same paving) rather than
+   replacing them with townhouse modules, which every critic asked for. Replacing them means new broken / restored variants of each and a day
+   of work on the district tests: your call.
+4. The play camera sees only about six degrees above the horizon, so the townhouses' roofs and the plaza towers' spires are out of frame
+   unless far away (every critic scored "no roofs, no spires", and "overexposed / white sky" for the sunlit cream plaster and the sky's
+   horizon band). A Capital-only camera pitch of about 28-30 degrees would show the roofs and the blue sky (the saved-angle test and the
+   wall-fade rules would need a look). Not done: a camera change is yours to decide.
 
 ## Dialogue critic pass (Oct 31) - ANSWERED Oct 31 (evening)
 

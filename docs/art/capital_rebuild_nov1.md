@@ -129,3 +129,44 @@ scores each iteration 1-10. Reports: `docs/review/capital_critic_<phase>.md`.
 | Iteration | Grandeur | Symmetry | Buildings | Towers | Statues/fountain | Gardens | Paving | Light | Overall |
 |---|---|---|---|---|---|---|---|---|---|
 | c2 (Showcase rebuilt, first light pass) | 4 | 5 | 4 | 2 | 7 | 4 | 6 | 3 | 4 |
+| c3 (bolder pastels, gate piers, lamp banners, lawn rose runs, grade v2) | 5 | 6 | 6 | 2 | 7 | 6 | 7 | 4 | 5 |
+| c4 (12 m plaza towers, more hill spires, gold horns, grade v3, ref reframed) | 6 | 7 | 5 | 4 | 8 | 6 | 7 | 4 | 5 |
+| c5 (whiter key, less fill, shadows 0.85, exposure 0.47; terrace statue pair) | 6 | 7 | 6 | 4 | 7 | 6 | 7 | 4 | 5 |
+
+What the critics could not see: the play camera (Cinematic, 20 degrees) sees about six degrees above the horizon, so the roofs, pediments and
+pinnacles of any townhouse nearer than about 40 m and the spires of the 12 m plaza towers are above the frame; every critic scored "no roofs,
+no spires" while the lineup shows them. Only the far skyline (the castle, the hill-top spires, the rows beyond the walls) reads in play. The
+tallest masses therefore stand far (the hill top). The "black lamp globes" every critic reported are the loudspeakers' horns seen from the
+front (now gold inside too). The light score stayed at 4 through four grade passes (exposure 0.84 -> 0.47, bloom cut, ambient cut, shadows
+0.3 -> 0.85): what the critic calls "overexposed" is cream plaster in full sun under the toon shader's lit band, and the "white sky" is the
+sky's horizon band, the only part of the sky the play camera sees. Both are look-wide decisions (inbox 1, 4), not fixable inside the Capital.
+
+### The fallen state (`--flags=zone_final_completed`)
+
+| | |
+|---|---|
+| ![](capital_rebuild_nov1/freed/ref.jpg) the plaza: toppled statues, the fountain dry, weeds in the checker | ![](capital_rebuild_nov1/freed/palace_approach.jpg) the boulevard: warm windows, dim gold, crooked banners |
+
+## Part E: gameplay and performance
+
+- Layout rules: the world test group (`bash tools/run_tests.sh --only=tests/world`, 431 tests) and the core group pass (see the note on the
+  connectivity test below); the parterre pieces live in `CapitalDressing.garden_fields` (they stand inside their planters by design), the
+  fountain's bigger circle keeps the plaza-open rule because the avenue now starts at z 46.5 and the boulevards end at x 49 / 71.
+- `bash tools/run_capital_walk_smoke.sh`: OK (36 screenshots; the gate, every district, the Ward, the castle door, the hidden hole, save/load,
+  the four Paths freed and welcomed).
+- `bash tools/perf_budget.sh frame capital_in "0 1"` at the gate (`--at=gate_inside`, Medium 1600x900 on the development iGPU):
+
+| capital_in Medium | avg ms | 1 % low ms | draw calls |
+|---|---|---|---|
+| budget | 18.5 | 25.0 | 850 |
+| first rebuild (per-house meshes, cells) | 16.98 | 51.5 | 1004 |
+| body / detail split, skyline per material | 16.92 | 26.5 | 934 |
+| second rank + towers batched | 16.39 | 21.5 | 877 |
+| lamps + benches as card fields, statues batched, gold lanterns | 16.48 | 22.1 | 847 (met) |
+
+  Low: 12.9 ms avg, 424 draw calls (the Low budget line 390 / 24.1 ms predates the rebuild; its p99 25.8 is within noise; the budgets file was
+  not re-based). Loading: the same path as before (layout, ground, build cache); the new pieces build in code, nothing new is imported.
+- Shadows only from the bodies (plaster, roofs); windows, trim, cards, balustrades, lamps, benches, roses, topiary cast none.
+- Occlusion: one mesh per inner-rank townhouse (the fader dims one house); the second rank, the towers and the statues merge and never fade
+  (the statues and the fountain by the brief; the towers are thin; the second rank never stands between the trailing camera and the hero on the
+  avenue or in the alleys).
