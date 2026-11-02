@@ -119,6 +119,9 @@ func _process(delta: float) -> bool:
 	if str(_args.get("clean", "false")) == "true" and not _cleaned:
 		_cleaned = true
 		# `--clean=true`: no world labels or spot markers in the picture (paint-over inputs, like tools/zone_shots.gd)
+		# Capital rebuild Nov 1: no toasts (feat notices) in a clean picture either
+		for layer: Node in root.find_children("*", "ToastLayer", true, false):
+			layer.call("hold")
 		for label: Node in root.find_children("*", "Label3D", true, false):
 			(label as Label3D).visible = false
 		for mesh: Node in root.find_children("*", "MeshInstance3D", true, false):

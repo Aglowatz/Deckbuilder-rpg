@@ -1,21 +1,21 @@
-# Loop state - Fable pass Nov 1 (Fable 5.1)
+# Loop state - Capital inner-city rebuild (Nov 1-2, Fable 5.1)
 
-Brief: pasted "FABLE PASS Nov 1 - core gameplay + first hour + designer answers" (8 parts). Questions: `docs/overnight_inbox.md`
-("Fable pass Nov 1"). Report: `docs/overnight_report.md` (section "Fable pass Nov 1"). Tag `pre-fable-nov1` at the start.
-Stop when `STOP_OVERNIGHT` exists in the repo root (check before every part).
+Brief: pasted "CAPITAL INNER-CITY REBUILD (overnight)" (Parts A-G). Questions: `docs/overnight_inbox.md` ("Capital rebuild Nov 1-2").
+Report: `docs/art/capital_rebuild_nov1.md` (before/after, scores per iteration, perf, art requests); summary in `docs/overnight_report.md`.
+Tag `pre-capital-rebuild-nov1` at the start. Stop when `STOP_OVERNIGHT` exists in the repo root (check before every part).
 Rules: one Godot at a time; <= 3 agents and never while Godot/tests run; GUT sharded (`bash tools/run_tests.sh`); commit + push per part;
-critics play from a worktree at HEAD; DIALOGUE FREEZE on existing lines - new lines go to `docs/dialogue/new_rows_nov1.csv`.
-Previous state: `docs/overnight/oct31n/loop_state.md`.
+DIALOGUE FREEZE (no line changes). Art rule: only art already in the game or approved on Drive; new geometry in code is encouraged.
+Previous state: `docs/overnight/nov1/loop_state.md` (the Fable pass Nov 1).
 
-Already done this morning (d2d5fedb, a796eb84): max HP 15 -> 30, Loose Ends quest, opening typos, Doppelganger plate.
+Target: `docs/art/paintovers/PAINTOVER-CAP-INNER-CITY.png`. Shots: `bash tools/capital_rebuild_shots.sh <phase> [prefixes]` ->
+`docs/art/capital_rebuild_nov1/<phase>/`. Scoring: a fresh critic agent sees only the reference and the shots.
 
 | Part | What | State |
 |---|---|---|
-| 1 | Healing: Crease heal, castle halfway heal node, Capital drain toast names its source | done (the Crease tea and the Safe Room already existed: made findable + reachable; toast names rift/roamer; tests + 2 play scripts) |
-| 2 | Boss tempo (setup_turns) + Wild Growth cap + boss sims + tuning | done: 17/22 in band; Primm phases 83/100/67 (gauntlet 47 %), Spotless 67, Siphon+Elowen 100, arena 100 left (inbox); docs/design/sim/bosses_nov1.md |
-| 3 | Dungeon-clear XP bonus + curve recheck | done (DungeonClearBonus 0.5 / 0.15 of a level; expected +1 at the Dump/castle) |
-| 4 | Escoffina / Doppelganger / Grand Chef naming | done (REVEALS name Escoffina, boss intro never reveals, formerly/posing handling, plate_for; inbox 4) |
-| 5 | Roamers stop hurting once freed | done (ZoneEnemy.peaceful via ZoneEnemies.is_peaceful/is_freed; Capital on primm_defeated, rifts close) |
-| 6 | First hour: first duel, click-to-play, roofs fade, fountain, starter study, critic | a-e done (23c02536, eda8d80e); critic 12 running from /c/Dev/wp_critic (brief critic_brief_firsthour_nov1.md) |
-| 7 | Yes-to-all list | done (33dc7eeb) except the Spotless repro (walk blocked) |
-| 8 | Verify + build v0.5.1 | done (critics mid 5.3 / late ~5 / post ~5; keyboard confirm fix after) |
+| A | Audit + plan (before shots, the plan in the report) | in progress |
+| B | The kit: townhouse generator, towers, plinth + gilded statue, fountain, planters/urns/topiary, lamps, banners, paving borders, balustrades; lineup shots | - |
+| C | Layout: boulevard, plazas, gardens, buildings, towers, skyline; remove the scatter | - |
+| D | Light + atmosphere | - |
+| E | Gameplay + perf checks (GUT world + core, walk smoke, walkability, perf_budget frame) | - |
+| F | Compare + iterate with a fresh critic until every score is 8+ | - |
+| G | Finish: gallery, scores, perf, art requests, commit + push | - |
