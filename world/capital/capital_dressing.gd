@@ -363,6 +363,7 @@ func _district_gardens(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> v
 	node.set_meta(PaintedClasses.META_NO_PAINT, true)
 	node.set_meta(&"no_occlusion_fade", true)
 	node.set_meta(&"no_wind", true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(node)
 
 

@@ -24,6 +24,9 @@ var prop_nodes: Dictionary = {}
 ## The great wall's pieces and their boxes (`CapitalScene` hides a faded piece that blocks the lens, VD-22).
 var great_wall: Array[Node3D] = []
 var great_wall_boxes: Array[AABB] = []
+## The sides pass (perf): the plazas' statics (the gilded statues, the side fountains, the gate piers) merge into ONE batch per material for the
+## whole city before the cell merge (they never fade; in 16 m cells each cost a draw call per material per cell).
+var _plaza_statics: Node3D
 ## The restored districts' lights (district area id -> Array of OmniLight3D): the first return to a freed district flickers them on
 ## (`CapitalScene._welcome_district`).
 var district_lights: Dictionary = {}
@@ -52,6 +55,9 @@ func build(parent: Node3D) -> void:
 	root = Node3D.new()
 	root.name = "Capital"
 	parent.add_child(root)
+	_plaza_statics = Node3D.new()
+	_plaza_statics.name = "PlazaStatics"
+	root.add_child(_plaza_statics)
 	_build_ground()
 	LoadTiming.detail("capital: _build_ground")
 	_build_buildings()
@@ -78,6 +84,7 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("capital: _index_obstacles")
 	# the repeated kit models (the identical row, the mausoleums, the Reek's yards, the ruins, the rifts' ground, the crystals) merge by material
 	# and 16 m cell: a few dozen draw calls instead of hundreds (the iGPU is bound by draw calls); they cast no shadow, which the flat noon wants
+	KitBatch.merge_static(_plaza_statics, 4096.0)
 	KitBatch.merge_static(root)
 	LoadTiming.detail("capital: KitBatch.merge_static")
 
@@ -401,7 +408,10 @@ func _build_buildings() -> void:
 		var node: Node3D = _building_node(building)
 		if node != null:
 			node.name = "Building_%s" % building.style
-			root.add_child(node)
+			if building.style == "pier":
+				_plaza_statics.add_child(node)
+			else:
+				root.add_child(node)
 			if building.style in ["wall", "tower"] and building.district != "facade":
 				great_wall.append(node)
 				# (the towers stand out a metre to the south and 2.4 m over the wall, their spires higher)
@@ -878,7 +888,10 @@ func _build_props() -> void:
 		var node: Node3D = P.build(prop, ctx, story)
 		if node == null:
 			continue
-		root.add_child(node)
+		if prop.kind in ["gilded_statue", "fountain_side"]:
+			_plaza_statics.add_child(node)
+		else:
+			root.add_child(node)
 		node.position = prop.pos
 		node.rotation_degrees.y = prop.yaw if prop.kind != "rift_crystals" else 0.0  # painted crystal cards face the camera side
 		if not prop.kind in ["statue_primm", "fountain"] and prop.model_scale != 1.0:

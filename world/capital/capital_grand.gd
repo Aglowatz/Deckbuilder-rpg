@@ -214,6 +214,10 @@ static func townhouse(spec: Dictionary) -> Node3D:
 	# the sun banner hung from the first floor's trim, centred over the door
 	if banner != "":
 		card_rolled(detail, banner, Vector3(0, STOREY * 2.0 - 0.1, front + 0.22), 1.9, Vector3(0, 0, 1), banner_roll)
+	# the sides pass: a district's service layer drawn into the detail mesh (one draw call fewer per unbatched house): spec["service"] is a
+	# Callable(detail: KitMesh, root: Node3D)
+	if spec.has("service"):
+		(spec["service"] as Callable).call(detail, root)
 	L.finish(root, mesh, [], h + 3.0)
 	attach_detail(root, detail)
 	root.set_meta("storeys", storeys)

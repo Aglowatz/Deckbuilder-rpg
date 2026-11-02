@@ -49,26 +49,21 @@ static func district_house(district: String, size: Vector3, restored: bool, fina
 			spec["accent"] = "pink"
 			spec["roof"] = "mansard"
 			spec["door"] = "CAP-SHEET-DOORS-03"
+	var lights: Array = []
+	# the service layer goes into the townhouse's own detail mesh (perf: no extra draw call per house)
+	spec["service"] = func(service: KitMesh, house: Node3D) -> void:
+		service.set_material("lamp_off", EnvKit.flat(Color("dcd8d0"), "cap_lamp_off"))
+		service.set_material("green_glow", EnvKit.glow(GREEN_LANTERN, 2.0))
+		service.alias("loam", "flat", Color("8a6a48").srgb_to_linear())
+		match district:
+			"refusemancer":
+				_reek_service(house, service, w, d, restored)
+			"necrocrat":
+				lights.append_array(_grave_service(house, service, w, d, restored))
+			_:
+				lights.append_array(_hungry_service(house, service, w, d, restored, seed_value))
 	var root: Node3D = G.townhouse(spec)
 	root.name = "DistrictHouse_" + district
-	var service: KitMesh = G.mesh_for(final_state)
-	service.set_material("lamp_off", EnvKit.flat(Color("dcd8d0"), "cap_lamp_off"))
-	service.set_material("green_glow", EnvKit.glow(GREEN_LANTERN, 2.0))
-	service.alias("loam", "flat", Color("8a6a48").srgb_to_linear())
-	var lights: Array = []
-	match district:
-		"refusemancer":
-			_reek_service(root, service, w, d, restored)
-		"necrocrat":
-			lights = _grave_service(root, service, w, d, restored)
-		_:
-			lights = _hungry_service(root, service, w, d, restored, seed_value)
-	var node: MeshInstance3D = service.instance("Service")
-	node.set_meta(PaintedClasses.META_NO_PAINT, true)
-	node.set_meta(&"no_wind", true)
-	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	root.add_child(node)
-	root.set_meta("triangles", int(root.get_meta("triangles", 0)) + service.triangle_count())
 	if not lights.is_empty():
 		var all: Array = root.get_meta("lights", []) as Array
 		all.append_array(lights)

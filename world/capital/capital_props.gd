@@ -34,7 +34,10 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return CapitalLandmarks.build({"id": "CAP-HERO-PRIMM-FOUNTAIN", "final": bool(ctx.get("final", false))})
 		"fountain_side":
 			# the sides pass: the side plazas' two-tier fountain (never fades, never batched: its water moves)
-			return CapitalGrand.fountain_side(CapitalLayout.SIDE_FOUNTAIN_RADIUS - 0.7, bool(ctx.get("final", false)))
+			var side_fountain: Node3D = CapitalGrand.fountain_side(CapitalLayout.SIDE_FOUNTAIN_RADIUS - 0.7, bool(ctx.get("final", false)))
+			for mesh: Node in side_fountain.find_children("*", "MeshInstance3D", true, false):
+				mesh.set_meta(&"kit_static", true)  # perf: never fades anyway, so it merges (its water is a time-driven shader, the mist a particle node)
+			return side_fountain
 		"hedge":
 			return hedge()
 		"lamp_perfect":
