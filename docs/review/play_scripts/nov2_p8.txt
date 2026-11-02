@@ -1,0 +1,85 @@
+# Nov 2 pass, Part 8: a fight and return (a Gainlands roamer, the scene parked and resumed), a zone change, Tilly's shop, the wardrobe,
+# the Crosspath fountain from four sides, the Capital entered inside (the Crease spawn: the build path that used to scatter bushes).
+wait 2
+dev newgame
+wait 6
+dev level 12
+dev gold 600
+dev travel town
+wait 12
+key E
+wait 1
+scene
+shot 01_town_arrive
+# the fountain from four sides (nothing fades, turns or pops as the hero walks round it)
+hold W 2.0
+wait 0.3
+shot 02_fountain_s
+hold A 3.0
+hold W 3.6
+wait 0.3
+shot 03_fountain_w
+hold D 3.6
+wait 0.3
+shot 04_fountain_n
+hold D 3.0
+hold S 3.6
+wait 0.3
+shot 05_fountain_e
+scene
+# the wardrobe (T): the same fit as the tailor's preview
+key T
+wait 1.5
+shot 06_wardrobe
+dump
+key Escape
+wait 1
+# Tilly's stall is on the north side of the square: walk up and use it
+hold A 3.6
+hold W 7.0
+wait 0.3
+scene
+key E
+wait 1.5
+shot 07_tilly_or_whoever
+dump
+skip_dialogue 4
+key Escape
+wait 1
+# a zone change: the Gainlands, then a walk into the roamers' ground; a fight is played by the pilot and the zone resumes
+dev travel zone beefcake
+wait 12
+scene
+shot 08_gainlands
+hold W 4.0
+hold D 3.0
+hold W 4.0
+wait 0.5
+shot 09_gainlands_walk
+hold W 4.0
+hold A 3.0
+hold W 4.0
+wait 0.5
+shot 10_gainlands_walk2
+pilot 120
+wait 1
+skip_dialogue 12
+wait 2
+scene
+shot 11_after_fight
+dump
+# the Capital, entered inside (the Crease spawn): no bushes on the lawns
+dev travel capital
+wait 14
+scene
+shot 12_capital_inside
+hold W 4.0
+hold A 4.0
+wait 0.5
+shot 13_capital_left
+skip_dialogue 4
+# and back to town (a zone change the other way)
+dev travel town
+wait 12
+scene
+shot 14_town_again

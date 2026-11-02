@@ -80,7 +80,7 @@ Town (LOAD_TIMING=1 detail): TownBuilder.build 0.86 s (props 0.77), TownSquare 0
 
 1. **Return from a fight** (`SceneManager.park_next` / `_park_current` / `_resume_parked`; `ZoneScene.resume_after_battle`, `TownScene.resume_after_battle`, `AmbientEmitter.resume_in`; `Session.start_battle`): a zone or town roamer battle keeps the world scene alive out of the tree and puts it back on the return - the beaten roamer leaves, the hero stands where the fight began (or wakes at the hub by the pending result), the emitters play again, the HUD HP line is refreshed, the usual result toast / popups follow. Gatekeeper, arena, graveyard, dungeon and dev battles rebuild as before (they change the world). Back from a fight: 0.9-1.0 s in every zone, the town and the Capital (target 1.5 s).
 2. **Capital geometry cache** (`KitMesh.fill_cached_set`, `CapitalKit.resolve_slot`, `CapitalGrand.townhouse` / `tower` -> `_townhouse_geometry` / `_tower_geometry`): the townhouse and tower meshes are built once per spec and come from the BuildCache after (the painted card slots re-resolved on a hit; a district house with a service layer builds live). Builder 7.5 -> 4.9 s.
-3. **Loading screen hold** `LoadingScreen.MIN_SECONDS` 1.6 -> 0.9 s: zone -> dungeon map 2.3 -> 1.6 s; it still never flashes (0.28 s in, 0.4 s out).
+3. **Loading screen hold** `LoadingScreen.MIN_SECONDS` 1.6 -> 1.0 s: zone -> dungeon map 2.3 -> 1.6 s; it still never flashes (0.28 s in, 0.4 s out).
 
 ## Not done (next, in value order)
 

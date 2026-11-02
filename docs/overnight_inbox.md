@@ -22,7 +22,7 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    Firebrand and the Stone at the same price). Draw 2 at 90 on the high shelf was not added (it would outshine the shelf).
 9. **The parked scene covers roamer fights only.** A gatekeeper, arena, graveyard, dungeon or dev battle still rebuilds the world on return (those
    change the town / the zone); the other return paths could be parked too once each scene's post-fight changes are applied by its resume hook.
-10. **Loading screen hold 1.6 -> 0.9 s.** It never flashes (0.28 s in, 0.4 s out) and the dungeon map change dropped from 2.3 to 1.6 s; put it back
+10. **Loading screen hold 1.6 -> 1.0 s.** It never flashes (0.28 s in, 0.4 s out) and the dungeon map change dropped from 2.3 to 1.6 s; put it back
    if the short hold reads as a flicker to you.
 
 ## Capital sides Nov 2 - yours to decide (the safest choice was taken)

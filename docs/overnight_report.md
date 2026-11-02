@@ -5,6 +5,17 @@
 Sun Nov 2, from 09:45 MST. Brief: "FIX + POLISH PASS Nov 2 - The Wayward Path", Parts 1-8. Tag `pre-nov2`. Judgment calls:
 `docs/overnight_inbox.md` ("Nov 2 pass"). State: `docs/loop_state.md`. Previous report (the Capital sides pass) is below this one.
 
+## Summary (all eight parts; commits edf1950d, 3fcd7d39, 6cf0462e, e027e5df, 27d49f01 and the finish commit)
+
+- **Art list** `docs/art/art_needed_nov2.csv` (47 rows) + seven 3D figures swapped to painted sets (Part 1).
+- **No plants inside the Capital walls** on any entry path, with a test per path (Part 2).
+- **Back from a fight in 0.9-1.0 s** everywhere (the world scene parked through the battle; was 2.5-8.6 s); the Capital builder 7.5 -> 4.9 s;
+  the rest of the loading work (town caching, threaded pre-load, shader pre-warm) is listed as next in `docs/perf/loading_nov2.md` (Part 3).
+- **Items**: every description exact; Scroll Draw 1, Tonic 30 g, Bandage +0/+2 for the battle, the high shelf at level 17 retuned, by sim (Part 4).
+- **Hats** fitted to the head in the tailor and the world alike (Part 5). **The Crosspath fountain** is solid, symbol pillars and coloured
+  water, never fading or turning (Part 6). **Packs centred** in reward boxes (Part 7).
+- **Verified**: GUT 2586/2589 (2 pending), six walk smokes OK, perf inside budget, a play-script run (Part 8). Judgment calls: inbox items 1-10.
+
 ## Part 1 - Art audit (done first; commit "Nov 2 pass, Part 1")
 
 **The art list**: `docs/art/art_needed_nov2.csv`, the Art Batch tab's columns (Art ID, Category, Zone, Name/what, Priority, Lock, Size/format,
@@ -87,7 +98,7 @@ in every zone, the town and the Capital (`docs/perf/loading_nov2_after_parked.md
 houses 2.5 s -> 0.2 s, the skyline 1.2 s -> 0.7 s). Left: the other Capital buildings (1.2 s), landmarks + props (1.1 s), the merge (0.4 s); the town's
 props (0.8 s), square (0.9 s) and hub land (0.8 s) are many small pieces and are not cached yet (town -> zone stays 3.5-3.9 s warm, zone -> town 5.2 s).
 
-**Loading screen hold** 1.6 -> 0.9 s (`LoadingScreen.MIN_SECONDS`): zone -> dungeon map 2.3 -> 1.6 s.
+**Loading screen hold** 1.6 -> 1.0 s (`LoadingScreen.MIN_SECONDS`): zone -> dungeon map 2.3 -> 1.6 s.
 
 **Not done**: (3) threaded pre-loading during the fade, (4) shader pre-warm at boot (the settle step is 0.45-0.65 s per zone load, worst frame
 320-440 ms), (5) the loading screen already shows zone art + a tip for area changes. The full after-measurement with the Capital cache was not re-run.
@@ -149,9 +160,23 @@ in the column (`SIZE_SHRINK_CENTER`), and the art re-centres on the holder's rea
 flag (`ui/town/pack_shop_screen.gd`). Cards and item icons were already centred (direct children of the row / shrink-centre). Shot:
 `nov2_p7_reward_pack.jpg` (a STEP REWARD box with a card, an item and a pack; new shot hook `--open=reward_pack`).
 
-## Part 8 - Verify + finish
+## Part 8 - Verify + finish (done; no build export)
 
-(pending: sharded GUT, walk smokes, perf budget, play-script run)
+- **Sharded GUT** (`bash tools/run_tests.sh`, 31 shards, 20 min): 2586 / 2589 passed, 2 pre-existing pending, the one failure was
+  `test_loading_screens` wanting the loading-screen hold at least 1.0 s - the hold is 1.0 s now (not 0.9), the test passes, the dungeon map
+  change stays at 1.6 s.
+- **Walk smokes**: Crosspath (19 shots), Gainlands (11), Buffet (22), D.N.A. (20), Dump (21), Capital gate AND the hidden hole + districts +
+  save / load + freed (36): all OK.
+- **Perf frame budget** (Medium): crosspath avg 15.2 ms, 1 % low 24.8 ms, 794 draws, RAM 1549 MB; capital_in avg 17.3 ms, 1 % low 19.3 ms,
+  734 draws (was 847: the cached townhouse / tower geometry batches the same), RAM 1512 MB - inside every budget. (A first measure right after
+  the 20-minute suite read a 36 ms 1 % low on the Capital; the rerun on a quiet machine is the number above.)
+- **Play script** `docs/review/play_scripts/nov2_p8.txt` (`bash tools/play.sh ... nov2_p8 420`, 14 shots in `_screenshots/play/nov2_p8/`):
+  the Crosspath fountain walked round from four sides (steady), the wardrobe, a zone change to the Gainlands and a walk through its roamers'
+  ground, the Capital entered inside at the Crease spawn (no bushes on the left side, `13_capital_left`), back to town. No roamer happened to
+  intercept the blind walk, so the pilot logged "no battle on screen": the fight-and-return path is covered by the loading tool's run (ten
+  roamer fights resumed into their parked scenes, `docs/perf/loading_nov2_after_parked.md`) and the blind walk to Tilly's stall stopped at the
+  old well; her shop was checked by a screenshot instead (`nov2_p4_tilly_l17.jpg`: the new descriptions, the high shelf open at level 17).
+- `docs/design/level_rewards.md` regenerated (the level-6 and level-17 headlines).
 
 
 ---
