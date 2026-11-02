@@ -132,6 +132,7 @@ scores each iteration 1-10. Reports: `docs/review/capital_critic_<phase>.md`.
 | c3 (bolder pastels, gate piers, lamp banners, lawn rose runs, grade v2) | 5 | 6 | 6 | 2 | 7 | 6 | 7 | 4 | 5 |
 | c4 (12 m plaza towers, more hill spires, gold horns, grade v3, ref reframed) | 6 | 7 | 5 | 4 | 8 | 6 | 7 | 4 | 5 |
 | c5 (whiter key, less fill, shadows 0.85, exposure 0.47; terrace statue pair) | 6 | 7 | 6 | 4 | 7 | 6 | 7 | 4 | 5 |
+| c6 (bluer horizon band; the Transit tower moved, the Ward tower dropped) | 6 | 6 | 5 | 4 | 7 | 6 | 7 | 4 | 5 |
 
 What the critics could not see: the play camera (Cinematic, 20 degrees) sees about six degrees above the horizon, so the roofs, pediments and
 pinnacles of any townhouse nearer than about 40 m and the spires of the 12 m plaza towers are above the frame; every critic scored "no roofs,
@@ -170,3 +171,22 @@ sky's horizon band, the only part of the sky the play camera sees. Both are look
 - Occlusion: one mesh per inner-rank townhouse (the fader dims one house); the second rank, the towers and the statues merge and never fade
   (the statues and the fountain by the brief; the towers are thin; the second rank never stands between the trailing camera and the hero on the
   avenue or in the alleys).
+
+## Part G: where it stands
+
+The plaza, the boulevard and the castle approach match the target in composition and vocabulary (the critics' own words: "the composition and
+asset set are right", "would pass as a decent indie screenshot"); the scores plateaued at c4-c6 because the three things every critic asked
+for next are outside the Capital's own files: a higher camera pitch (roofs, spires, sky), the districts' models replaced by townhouse modules
+(inbox 3), and the look-wide exposure of sunlit cream plaster under the toon shader. None of the nine criteria reached 8 on the strict scale
+except statues/fountain once (c4). The after gallery is the c6 set (`docs/art/capital_rebuild_nov1/c6/`):
+
+| | |
+|---|---|
+| ![](capital_rebuild_nov1/c6/ref.jpg) the plaza from the gate (was: ![](capital_rebuild_nov1/before/ref_play.jpg)) | ![](capital_rebuild_nov1/c6/palace_approach.jpg) the palace approach (was: ![](capital_rebuild_nov1/before/palace_approach.jpg)) |
+| ![](capital_rebuild_nov1/c6/fountain.jpg) the fountain plaza | ![](capital_rebuild_nov1/c6/boulevard.jpg) the boulevard's mouth |
+| ![](capital_rebuild_nov1/c6/inner_gate.jpg) the inner gate | ![](capital_rebuild_nov1/c6/overview.jpg) overview |
+| ![](capital_rebuild_nov1/c6/transit_yards.jpg) the Transit Yards | ![](capital_rebuild_nov1/c6/grave_row.jpg) Grave Row |
+
+Art requests (nothing missing was invented): a side / three-quarter painting of the gold Primm statue (the pairs could then face each other
+across the boulevard instead of south); a sage pastel slate roof tile (only pink and blue exist); a gold urn card without the topiary; the
+CAP-PATH-WHITE re-upload (truncated on the Drive since the art pass).

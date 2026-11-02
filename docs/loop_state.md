@@ -19,4 +19,4 @@ Target: `docs/art/paintovers/PAINTOVER-CAP-INNER-CITY.png`. Shots: `bash tools/c
 | D | Light + atmosphere | done: four grade passes (see the report); the sky's horizon band bluer |
 | E | Gameplay + perf checks | done: world 431/431, core 1564/1564 after moving the Transit tower off a Tidy-Bot home and dropping the Ward tower (it cut the strip to the Ward chest), walk smoke OK, capital_in Medium 1004 -> 847 draw calls (budget 850) |
 | F | Compare + iterate with a fresh critic | c2 -> c5 scored (4/5/4/2/7/4/6/3/4 -> 6/7/6/4/7/6/7/4/5); towers (4) and light (4) are bounded by the play camera's six degrees of sky (inbox 4) |
-| G | Finish: gallery, scores, perf, art requests, commit + push | in progress |
+| G | Finish: gallery, scores, perf, art requests, commit + push | done (c6 6/6/5/4/7/6/7/4/5; report, overnight report, inbox 1-4) |
