@@ -70,6 +70,40 @@ producers now keep their instance positions as node metadata (`positions`), whic
 bushes.
 
 
+## Part 3 - Loading times (partly done; the run stopped here at the usage limit)
+
+**Measured first** (tools/run_loading_timing.sh, windowed, real SceneManager, cold = cache miss, warm = second visit): docs/perf/loading_nov2_before.md.
+Back from a fight 2.5-3.5 s in the zones, 4.2 s in town, 8.6 s in the Capital; town -> zone 3.5-3.9 s warm (Capital 10 s, Dump 11 s cold); zone -> town 5.2 s;
+zone -> side dungeon map 2.3 s (1.6 s of it the loading screen's minimum hold). Peak working set 2222 MB.
+
+**(1) Return from a fight - done.** SceneManager parks the world scene (out of the tree, alive) for a zone or town roamer battle and puts it back on the
+return ( /  / ; , , ;
+ asks for it only for roamer fights - gatekeeper, arena, graveyard, dungeon and dev battles rebuild as before). After: 0.9-1.0 s
+in every zone, the town and the Capital (docs/perf/loading_nov2_after_parked.md); peak RAM 2113 MB (no rise); no script errors over 60 transitions.
+
+**(2) Procedural layouts cached - Capital done in part.**  + : the townhouse and tower generators
+() keep their geometry in the BuildCache (the painted card slots re-resolved on a hit). Capital builder 7.5 s -> 4.9 s warm (houses 2.5 s -> 0.2 s,
+skyline 1.2 s -> 0.7 s). Left: the other Capital buildings (1.2 s), landmarks / props (1.1 s), the merge (0.4 s); the town's props (0.8 s), square (0.9 s)
+and hub land (0.8 s) are spread over many small pieces and are not cached yet (town -> zone stays 3.5-3.9 s warm, zone -> town 5.2 s).
+
+**Loading screen hold** 1.6 -> 0.9 s (): zone -> dungeon map 2.3 -> 1.6 s.
+
+**Not done**: (3) threaded pre-loading during the fade, (4) shader pre-warm at boot (the settle step is 0.45-0.65 s per zone load, worst frame 320-440 ms),
+(5) the loading screen already shows zone art + a tip for area changes. The full after-measurement with the Capital cache was not re-run.
+
+## Parts 4-7 - state when the run stopped
+
+- Part 4:  written (item variants vs the expected player); the low-shelf (L6, Gainlands) and high-shelf (L18, Dump) sims were running at the stop
+  ( /  when finished). No item data changed yet. Plan: Scroll of Insight -> Draw 1 at 45; Reckless Tonic "Heal 5 HP. One use."
+  at 30; Field Bandage -> +0/+3 this turn or +0/+2 for the battle by the sim; high shelf to level 17 ( item_advanced + ,
+  the L6 headline "Tilly's back shelf" moves) with retuned items (Chains 2 uses 90 g, Silence toss 2, Dust bury 6, Charm 3 Militia, Ward 60 g).
+- Part 5: not started (the preview and the world place hats from the same anchors per fit.json; a tailor try-on screenshot is the next step).
+- Part 6: the solid fountain is WRITTEN in  (, , ) with ,
+  UNCOMMITTED and NOT yet compiled or screenshotted.
+- Part 7: the pack holder centring in  and  is WRITTEN, uncommitted, not yet screenshotted.
+- Part 8: not run (sharded GUT, walk smokes, perf budget, play script).
+
+
 ---
 
 # Report - Capital sides pass (Nov 2, Fable 5.1)

@@ -334,6 +334,29 @@ static func fill_cached(mesh: KitMesh, key: String, fill: Callable) -> void:
 		mesh.restore(data as Dictionary)
 
 
+## Nov 2 pass, Part 3: several meshes filled by ONE pass (a piece's body and its detail mesh) cached together under `key`. On a hit each
+## mesh takes its geometry back and `resolve` (slot name -> Material, or null) supplies the materials the fill would have set on the way
+## (the painted cards' "card_<ID>" slots); the materials set before the fill (the kit's slots) are the caller's as usual.
+static func fill_cached_set(meshes: Array[KitMesh], key: String, fill: Callable, resolve: Callable = Callable()) -> void:
+	var data: Variant = BuildCache.fetch(key, func() -> Variant:
+		fill.call()
+		var snaps: Array = []
+		for mesh: KitMesh in meshes:
+			snaps.append(mesh.snapshot())
+		return snaps)
+	if not (data is Array) or (data as Array).size() != meshes.size():
+		return
+	for index: int in range(meshes.size()):
+		var mesh: KitMesh = meshes[index]
+		mesh.restore((data as Array)[index] as Dictionary)
+		if resolve.is_valid():
+			for slot: String in mesh._order:
+				if mesh.material_of(slot) == null:
+					var material: Material = resolve.call(slot) as Material
+					if material != null:
+						mesh.set_material(slot, material)
+
+
 ## Convenience: a MeshInstance3D of the built mesh.
 func instance(node_name: String = "KitMesh") -> MeshInstance3D:
 	var node: MeshInstance3D = MeshInstance3D.new()

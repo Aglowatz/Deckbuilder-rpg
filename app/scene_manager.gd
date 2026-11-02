@@ -25,6 +25,16 @@ var skip_loading_once: bool = false
 ## Emitted when a scene change has finished (the fade or loading screen is gone), so something that belongs to the new scene can start.
 signal revealed
 
+## Nov 2 pass, Part 3 (loading times): the world scene a roamer battle starts from is kept alive OUT of the tree while the battle runs and
+## put back when the battle returns to that same scene - no rebuild (2.5 s in a zone, 4 s in town, 8.6 s in the Capital), only the fade
+## out and in. `Session.start_battle` sets `park_next` for a zone or town roamer fight (the scene must have `resume_after_battle`); a
+## change to any other scene throws the parked scene away. The area bookkeeping and the world-art caches are untouched by a battle.
+var park_next: bool = false
+var _parked: Node = null
+var _parked_path: String = ""
+## How many returns from a battle resumed a parked scene this session (the game log and the loading-time tool read it).
+var parked_resumes: int = 0
+
 ## v0.4.2 hotfix: a scene that builds over several frames (the town) answers `is_load_finished()` false until it is built and warmed up; the
 ## loading screen (or the black fade) stays up until then, at most BUILD_TIMEOUT seconds.
 const BUILD_TIMEOUT: float = 90.0
@@ -130,6 +140,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	_set_phase("fade out")
 	_close_pause()
 	_fade.mouse_filter = Control.MOUSE_FILTER_STOP
+	var resume: bool = has_parked(path)
 	var area: String = Areas.key_for_scene(path)
 	# Overnight Oct 18, Part 3: autosave on every area change (a crash-safe write, see SaveSystem).
 	if area != current_area and Session.has_profile():
@@ -153,6 +164,11 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 		return
 	LoadTiming.mark("fade out")
 	pause_allowed = false
+	if resume:
+		await _resume_parked(id)
+		return
+	if _parked != null:
+		_discard_parked()  # leaving the battle for somewhere else: the kept scene is not wanted
 	var shown_at: int = Time.get_ticks_msec()
 	if screen != null:
 		screen.modulate.a = 0.0
@@ -168,6 +184,9 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 			return
 	LoadTiming.mark("loading screen up")
 	_set_phase("change scene")
+	if park_next:
+		park_next = false
+		_park_current()
 	var error: Error = get_tree().change_scene_to_file(path)
 	LoadTiming.mark("change_scene_to_file")
 	if error != OK:
@@ -220,6 +239,70 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 		if id != _transition_id:
 			return
 	LoadTiming.mark("fade in")
+	_end_transition()
+
+
+## True when the scene at `path` is parked (kept alive from a battle) and can be put back instead of built.
+func has_parked(path: String) -> bool:
+	return _parked != null and is_instance_valid(_parked) and _parked_path == path
+
+
+## Takes the current world scene out of the tree (alive, its state kept) before the battle scene replaces it.
+func _park_current() -> void:
+	var current: Node = get_tree().current_scene
+	if current == null or not current.has_method(&"resume_after_battle"):
+		return
+	_discard_parked()
+	_parked = current
+	_parked_path = current.scene_file_path
+	get_tree().root.remove_child(current)
+	get_tree().current_scene = null
+	LoadTiming.mark("parked %s" % _parked_path.get_file())
+	GameLog.info("scene", "%s parked for the battle" % _parked_path.get_file())
+
+
+func _discard_parked() -> void:
+	if _parked != null and is_instance_valid(_parked):
+		GameLog.info("scene", "parked %s dropped" % _parked_path.get_file())
+		_parked.free()
+	_parked = null
+	_parked_path = ""
+
+
+## The return from a battle to the scene it started from: the battle scene goes, the parked scene comes back and resumes, a short settle,
+## the fade in. Behind the cover throughout.
+func _resume_parked(id: int) -> void:
+	var parked: Node = _parked
+	_parked = null
+	_parked_path = ""
+	var battle: Node = get_tree().current_scene
+	if battle != null:
+		get_tree().current_scene = null
+		battle.queue_free()
+	await get_tree().process_frame
+	if id != _transition_id:
+		return
+	get_tree().root.add_child(parked)
+	get_tree().current_scene = parked
+	LoadTiming.mark("parked scene back")
+	parked.call(&"resume_after_battle")
+	parked_resumes += 1
+	LoadTiming.mark("resumed")
+	await get_tree().process_frame
+	if id != _transition_id:
+		return
+	_set_phase("settle")
+	await _settle()
+	if id != _transition_id:
+		return
+	_set_phase("fade in")
+	var back: Tween = _track(create_tween())
+	back.tween_property(_fade, "modulate:a", 0.0, FADE_TIME)
+	await back.finished
+	if id != _transition_id:
+		return
+	LoadTiming.mark("fade in")
+	GameLog.info("scene", "%s resumed from the battle (%.0f ms)" % [_target, LoadTiming.elapsed_ms()])
 	_end_transition()
 
 

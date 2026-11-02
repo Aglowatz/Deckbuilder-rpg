@@ -11,9 +11,9 @@ Previous state: docs/overnight/nov2/loop_state_capital_sides.md (the Capital sid
 |---|---|---|
 | 1 | Art audit: 3D figures -> painted sets or the art list; docs/art/art_needed_nov2.csv (Rescuer redo, Leaf Crown, cutscene stills, greybox, icons, flagged placeholders); "ART LIST READY" at the top of the report | done: 7 swaps (5 guards, patient, Gus), 45-row list, report + shots; commit pending |
 | 2 | Capital: no scatter inside the walls on every build path (gate, side passage, fast travel, save load, back from battle, freed, cache); a test per path; side screenshot | done: mood foliage density 0 (capital_inside / capital_freed), test_capital_no_scatter_paths 9/9, side shot; commit pending |
-| 3 | Loading times: measure cold/warm, keep the zone alive through a fight, cache layouts, threaded loads, shader pre-warm, loading screen; docs/perf/loading_nov2.md | pending |
-| 4 | Usable items + economy: exact descriptions, Scroll of Insight, Reckless Tonic, Field Bandage, high shelf at 17-20; docs/design/items_nov2.md; tests | pending |
-| 5 | Wardrobe hat try-on scale / anchor unified with the world; screenshots per hat | pending |
-| 6 | Crosspath fountain as solid geometry (basin, four pillars, four coloured spouts, ivy, animated water); 4-angle before / after | pending |
-| 7 | Reward pack / card art centred on every reward screen; screenshots | pending |
-| 8 | Sharded GUT, walk smokes, perf budget, play-script run, report, commit + push | pending |
+| 3 | Loading times: measure cold/warm, keep the zone alive through a fight, cache layouts, threaded loads, shader pre-warm, loading screen; docs/perf/loading_nov2.md | PARTLY DONE (usage limit): parked scene (back from a fight 0.9-1.0 s, was 2.5-8.6 s), Capital townhouse/tower cache (builder 7.5 -> 4.9 s), loading hold 0.9 s; committed. Left: more Capital/town caching, threaded preload, shader pre-warm, final after-measurement |
+| 4 | Usable items + economy: exact descriptions, Scroll of Insight, Reckless Tonic, Field Bandage, high shelf at 17-20; docs/design/items_nov2.md; tests | STOPPED: tools/item_sim.gd written, sims were running; no data changed |
+| 5 | Wardrobe hat try-on scale / anchor unified with the world; screenshots per hat | not started |
+| 6 | Crosspath fountain as solid geometry (basin, four pillars, four coloured spouts, ivy, animated water); 4-angle before / after | code written in town_streets.gd + fountain_water.gdshader, UNCOMMITTED, not compiled / shot |
+| 7 | Reward pack / card art centred on every reward screen; screenshots | fix written in reward_popup.gd + pack_shop_screen.gd, UNCOMMITTED, not shot |
+| 8 | Sharded GUT, walk smokes, perf budget, play-script run, report, commit + push | not run |

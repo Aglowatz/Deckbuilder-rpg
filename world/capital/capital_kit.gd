@@ -171,6 +171,22 @@ static func card(mesh: KitMesh, id: String, pivot_pos: Vector3, height: float, n
 	mesh.quad(slot, [bottom_left, bottom_right, bottom_right + Vector3(0, height, 0), bottom_left + Vector3(0, height, 0)], normal, [], uvs)
 
 
+## Nov 2 pass, Part 3: the material of a slot a cached geometry fill would have set on the way (KitMesh.fill_cached_set): the painted cards'
+## "card_<ID>" / "card_<ID>_<rrggbbaa>" slots (`card`, `CapitalGrand.card_rolled`). Null for any other slot.
+static func resolve_slot(slot: String) -> Material:
+	if not slot.begins_with("card_"):
+		return null
+	var rest: String = slot.substr(5)
+	var mul: Color = Color.WHITE
+	var cut: int = rest.rfind("_")
+	if cut > 0 and Color.html_is_valid(rest.substr(cut + 1)):
+		mul = Color.html(rest.substr(cut + 1))
+		rest = rest.substr(0, cut)
+	if not EnvKit.has(rest):
+		return null
+	return EnvKit.material(rest, true, mul)
+
+
 ## A painted card lying flat on the ground (a decal: ash drifts, the polish shine), `size` metres across, turned by `yaw` (radians).
 static func ground_card(mesh: KitMesh, id: String, center: Vector3, size: float, yaw: float) -> void:
 	if not EnvKit.has(id):

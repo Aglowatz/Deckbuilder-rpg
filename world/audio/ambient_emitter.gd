@@ -9,6 +9,15 @@ var sound_set: String = ""
 var level_db: float = 0.0
 
 
+## Nov 2 pass, Part 3: a scene kept alive out of the tree during a battle comes back with its emitters stopped (leaving the tree stops a
+## stream player; _ready does not run twice): every emitter under `root` with a stream plays again.
+static func resume_in(root: Node) -> void:
+	for node: Node in root.find_children("*", "AmbientEmitter", true, false):
+		var emitter: AmbientEmitter = node as AmbientEmitter
+		if emitter.stream != null and not emitter.playing:
+			emitter.play(Audio.picker.interval(0.0, maxf(emitter.stream.get_length() - 0.5, 0.0)))
+
+
 static func make(sound: String, position_3d: Vector3, reach: float = 18.0, db: float = 0.0) -> AmbientEmitter:
 	var emitter: AmbientEmitter = AmbientEmitter.new()
 	emitter.name = "Emitter_" + sound.get_file()

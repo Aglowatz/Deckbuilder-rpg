@@ -78,6 +78,37 @@ static func townhouse(spec: Dictionary) -> Node3D:
 	var final_state: bool = bool(spec.get("final", false))
 	var mesh: KitMesh = mesh_for(final_state)
 	var detail: KitMesh = mesh_for(final_state)  # windows, trim, cards, balustrades: drawn without shadows (perf: half the shadow passes)
+	var storeys: int = clampi(int(spec.get("storeys", 3)), 2, 6)
+	var h: float = STOREY * float(storeys)
+	var front: float = float(spec.get("d", 4.0)) * 0.5
+	# Nov 2 pass, Part 3 (loading times): the geometry (2.5 s for the city's houses, every visit) comes from the build cache after the first
+	# build of this spec; a house with a district service layer (a Callable, not data) is built live as before.
+	if spec.has("service"):
+		_townhouse_geometry(mesh, detail, spec)
+		# the sides pass: a district's service layer drawn into the detail mesh (one draw call fewer per unbatched house): spec["service"] is a
+		# Callable(detail: KitMesh, root: Node3D)
+		(spec["service"] as Callable).call(detail, root)
+	else:
+		var key: String = "cap_townhouse_v1_%s" % JSON.stringify(spec).md5_text()
+		KitMesh.fill_cached_set([mesh, detail], key, func() -> void: _townhouse_geometry(mesh, detail, spec), K.resolve_slot)
+	L.finish(root, mesh, [], h + 3.0)
+	attach_detail(root, detail)
+	root.set_meta("storeys", storeys)
+	if final_state:
+		# colour in the windows: a warm light behind each
+		var light: OmniLight3D = OmniLight3D.new()
+		light.light_color = Color("ffc890")
+		light.light_energy = 0.5
+		light.omni_range = 5.0
+		light.position = Vector3(0, 2.2, front + 1.0)
+		root.add_child(light)
+		root.set_meta("lights", [light])
+	return root
+
+
+## The townhouse's geometry (body into `mesh`, windows / trim / cards into `detail`): deterministic from `spec`, so it is cached (see `townhouse`).
+static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary) -> void:
+	var final_state: bool = bool(spec.get("final", false))
 	var w: float = float(spec.get("w", 4.0))
 	var d: float = float(spec.get("d", 4.0))
 	var storeys: int = clampi(int(spec.get("storeys", 3)), 2, 6)
@@ -214,23 +245,6 @@ static func townhouse(spec: Dictionary) -> Node3D:
 	# the sun banner hung from the first floor's trim, centred over the door
 	if banner != "":
 		card_rolled(detail, banner, Vector3(0, STOREY * 2.0 - 0.1, front + 0.22), 1.9, Vector3(0, 0, 1), banner_roll)
-	# the sides pass: a district's service layer drawn into the detail mesh (one draw call fewer per unbatched house): spec["service"] is a
-	# Callable(detail: KitMesh, root: Node3D)
-	if spec.has("service"):
-		(spec["service"] as Callable).call(detail, root)
-	L.finish(root, mesh, [], h + 3.0)
-	attach_detail(root, detail)
-	root.set_meta("storeys", storeys)
-	if final_state:
-		# colour in the windows: a warm light behind each
-		var light: OmniLight3D = OmniLight3D.new()
-		light.light_color = Color("ffc890")
-		light.light_energy = 0.5
-		light.omni_range = 5.0
-		light.position = Vector3(0, 2.2, front + 1.0)
-		root.add_child(light)
-		root.set_meta("lights", [light])
-	return root
 
 
 ## The detail mesh of a piece (windows, trim, cards): a second instance beside the body that casts no shadow; the piece's triangle count adds up.
@@ -275,6 +289,18 @@ static func tower(height: float, radius: float, roof: String, final_state: bool,
 	var mesh: KitMesh = mesh_for(final_state)
 	var detail: KitMesh = mesh_for(final_state)
 	var plinth: float = radius * 2.0 + 0.9
+	var cone: float = maxf(height * 0.38, 4.0)
+	# Nov 2 pass, Part 3: the geometry comes from the build cache after the first build of these numbers (the skyline alone was 2.3 s a visit)
+	var key: String = "cap_tower_v1_%s" % JSON.stringify([height, radius, roof, final_state, banner]).md5_text()
+	KitMesh.fill_cached_set([mesh, detail], key, func() -> void: _tower_geometry(mesh, detail, height, radius, roof, final_state, banner), K.resolve_slot)
+	L.finish(root, mesh, [Vector3(0, 0, plinth * 0.5 + 0.2)], height + cone)
+	attach_detail(root, detail)
+	return root
+
+
+## The tower's geometry (see `tower`): deterministic from its numbers, so it is cached.
+static func _tower_geometry(mesh: KitMesh, detail: KitMesh, height: float, radius: float, roof: String, final_state: bool, banner: bool) -> void:
+	var plinth: float = radius * 2.0 + 0.9
 	mesh.box("plaster", Vector3(0, 0.7, 0), Vector3(plinth, 1.4, plinth), Basis.IDENTITY, 0.04, 0.85)
 	detail.box("trim", Vector3(0, 1.45, 0), Vector3(plinth + 0.16, 0.24, plinth + 0.16))
 	mesh.box("plaster", Vector3(0, 2.0, 0), Vector3(plinth - 0.5, 0.9, plinth - 0.5), Basis.IDENTITY, 0.03, 0.9)
@@ -314,9 +340,6 @@ static func tower(height: float, radius: float, roof: String, final_state: bool,
 	K.finial(detail, Vector3(0, height + cone - 0.1, 0), maxf(radius * 0.8, 0.8))
 	if banner:
 		card_rolled(detail, BANNER_TOWER, Vector3(0, shaft_top - 0.7, radius + 0.08), 3.2, Vector3(0, 0, 1), 6.0 if final_state else 0.0)
-	L.finish(root, mesh, [Vector3(0, 0, plinth * 0.5 + 0.2)], height + cone)
-	attach_detail(root, detail)
-	return root
 
 
 # ---- the gilded statue on its plinth -----------------------------------------------------------------------------------------------------

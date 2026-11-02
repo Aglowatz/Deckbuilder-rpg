@@ -326,6 +326,10 @@ func _welcome_crowd(colors: Array) -> void:
 
 ## The Capital's music follows the area the hero stands in (`CapitalLayout` areas) and the world state: outside the walls, the facade, each district
 ## broken or restored by its own Path's completion flag, the Correction Ward, the Crease, the restored city after Primm.
+func _resume_sound() -> void:
+	_play_area_music(0.5)
+
+
 func _play_area_music(fade: float) -> void:
 	var area: CapitalLayout.Area = capital.layout.area_at(player.position.x, player.position.z) if capital != null and capital.layout != null else null
 	var area_id: String = area.id if area != null else ""

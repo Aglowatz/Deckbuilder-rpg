@@ -1710,6 +1710,28 @@ func _on_roamer_touched(enemy: ZoneEnemy) -> void:
 	Session.start_town_battle(enemy.info.id, enemy.instance_id)
 
 
+## Nov 2 pass, Part 3: the town was kept alive out of the tree during an outskirts roamer battle (SceneManager parks it) and is back: the
+## hero where the fight began, the beaten roamer gone, the others awake again, the ambience back, then the usual results queue.
+func resume_after_battle() -> void:
+	SceneManager.pause_allowed = true
+	if Session.has_town_return_position and player != null:
+		player.position = Session.town_return_position
+		Session.has_town_return_position = false
+	for enemy: ZoneEnemy in enemies.duplicate():
+		if Session.town_roamer_is_down(enemy.instance_id):
+			enemies.erase(enemy)
+			enemy.queue_free()
+		else:
+			enemy.active = true
+			enemy.cooldown = maxf(enemy.cooldown, 2.0)
+	_locked = false
+	_lock_idle = 0.0
+	Audio.set_ambience("town")
+	AmbientEmitter.resume_in(self)
+	_results_shown = false
+	_show_pending_results.call_deferred()
+
+
 ## After an outskirts duel: what it paid (and a level-up), or a shrug on a loss.
 func _show_town_result() -> void:
 	if Session.pending_town_result.is_empty():

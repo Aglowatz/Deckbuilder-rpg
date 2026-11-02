@@ -4,7 +4,8 @@ extends Control
 ## (`LoadingTips`, `data/loading/loading_tips.txt`), a slim progress bar and the emblem turning slowly. `SceneManager.change_scene` shows it for at least `MIN_SECONDS` so
 ## it never flashes. Without the art for an area nothing is shown (the plain fade stays).
 
-const MIN_SECONDS: float = 1.6
+## Nov 2 pass, Part 3: 1.6 -> 0.9 s (the dungeon map's whole change was the hold; with the fades it never flashes).
+const MIN_SECONDS: float = 0.9
 const FADE_IN: float = 0.28
 const FADE_OUT: float = 0.4
 const TIP_WIDTH: float = 1380.0

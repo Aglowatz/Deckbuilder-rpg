@@ -416,7 +416,9 @@ func _build_buildings() -> void:
 				great_wall.append(node)
 				# (the towers stand out a metre to the south and 2.4 m over the wall, their spires higher)
 				great_wall_boxes.append(AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height + 3.0, building.rect.size.y + 1.0)).grow(0.6))
+	LoadTiming.detail("capital: buildings (not houses)")
 	_build_houses(houses)
+	LoadTiming.detail("capital: houses")
 
 
 ## Flags every mesh under `node` (body and detail) for `KitBatch.merge_static`.

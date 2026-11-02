@@ -1712,6 +1712,9 @@ func start_battle(context: BattleContext) -> void:
 	if scene is TownScene and (scene as TownScene).player != null:
 		town_return_position = (scene as TownScene).player.position
 		has_town_return_position = true
+	# Nov 2 pass, Part 3: a roamer fight in a zone or the town keeps its scene alive for the return (SceneManager parks it); a gatekeeper,
+	# arena, graveyard, dungeon or dev battle changes the world and rebuilds it as before.
+	SceneManager.park_next = scene != null and scene.has_method(&"resume_after_battle") and not context.practice and not context.dev_battle and (context.zone_battle or not context.town_roamer_id.is_empty())
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 

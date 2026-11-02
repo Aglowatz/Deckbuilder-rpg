@@ -1705,6 +1705,39 @@ func _show_wake_dialogue(fee_override: int) -> void:
 
 
 ## After returning from a zone battle: show what happened (rewards / woke at hub).
+## Nov 2 pass, Part 3: the scene was kept alive out of the tree during a roamer battle (SceneManager parks it) and is back: the hero at the
+## spot the fight began (the hub after a loss, by the pending result), the beaten roamer gone, the others given a breath, the ambience and
+## the HUD's HP line fresh, then the result's toast or wake-up as after a rebuild.
+func resume_after_battle() -> void:
+	SceneManager.pause_allowed = true
+	var run: ZoneRun = Session.zone_run
+	if run != null and run.has_return_position and player != null:
+		player.position = run.return_position
+		player.position.y = builder.height_at(run.return_position)
+		run.has_return_position = false
+	for enemy: ZoneEnemy in enemies.duplicate():
+		if run != null and run.is_defeated(enemy.instance_id):
+			enemies.erase(enemy)
+			enemy.queue_free()
+		else:
+			enemy.cooldown = maxf(enemy.cooldown, 2.0)
+	_battle_push = 1.0
+	_locked = false
+	_spawn_grace = SPAWN_GRACE
+	if _camera != null and player != null:
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+	_resume_sound()
+	AmbientEmitter.resume_in(self)
+	if run != null:
+		EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
+	_apply_pending_result.call_deferred()
+
+
+## The area's ambience after a battle (the battle's song hands the area track back itself); the Capital picks per district.
+func _resume_sound() -> void:
+	Audio.set_ambience(ZoneSoundscape.zone_profile(def.id))
+
+
 func _apply_pending_result() -> void:
 	var result: Dictionary = Session.pending_zone_result
 	Session.pending_zone_result = {}
