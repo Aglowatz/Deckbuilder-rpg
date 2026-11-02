@@ -3043,6 +3043,23 @@ func _screenshot_slots(mode_name: String) -> void:
 
 func _screenshot_open(what: String) -> void:
 	match what:
+		"reward_pack":  # Nov 2 pass, Part 7: a STEP REWARD box with a pack, a card and an item (the pack's centring in its tile)
+			var summary: RewardSummary = RewardSummary.new()
+			summary.kind = RewardSummary.Kind.QUEST_STEP
+			summary.title = "Meet the Merchants"
+			summary.subtitle = "Step done"
+			summary.gold = 40
+			summary.xp = 30
+			var pack: PackData = PackCatalog.find("general_1")
+			if pack != null:
+				summary.packs.append({"id": pack.id, "count": 1, "name": pack.display_name})
+			var card: CardData = Session.content.cards.get("B-01") as CardData
+			if card != null:
+				summary.cards.append(card)
+			var item: ItemData = Session.content.item("healing_draught")
+			if item != null:
+				summary.items.append(item)
+			_show_reward_box(summary)
 		"bestiary_boss":  # Oct 23: a met boss's Bestiary page with its signature moves (Chancellor Clench, met and beaten once)
 			Session.bestiary_meet("Chancellor Clench, Iron Regent")
 			Session.bump_counter("bestiary_won:%s" % "Chancellor Clench, Iron Regent")
@@ -3220,6 +3237,8 @@ func _open_tailor() -> void:
 	var screen: TailorScreen = TailorScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+	if _screenshot_args.has("try"):
+		screen.try_item.call_deferred(str(_screenshot_args["try"]))  # Nov 2 pass, Part 5: --open=tailor --try=hat_wizard shows that try-on
 
 
 ## The Packs menu entry (hotkey P): unopened packs with Open buttons.

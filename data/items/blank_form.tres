@@ -14,6 +14,6 @@ amount2 = 2
 script = ExtResource("2_1y1wk")
 id = "blank_form"
 display_name = "Blank Form"
-description = "Create 2 Red Tape."
+description = "You create 2 Red Tape. Two uses, one per battle."
 uses = 2
 effect = SubResource("Resource_442pd")

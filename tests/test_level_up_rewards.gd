@@ -32,14 +32,14 @@ func test_reaching_level_10_unlocks_advanced_equipment_at_the_vendor() -> void:
 	assert_eq(vendor.available_equipment_ids(after_state).size(), 13, "all 13 pieces after reaching level 13 (Oct 29: the Blade of Earned Reputation joined the rack)")
 
 
-## Level 6 (ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL) unlocks the item vendor's advanced half.
+## Level 17 (ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL; was 6 before the Nov 2 pass) unlocks the item vendor's advanced half.
 func test_reaching_level_6_unlocks_advanced_items_at_the_vendor() -> void:
 	var vendor: ItemVendorData = ItemVendorScreen.default_stock()
 	var before_count: int = vendor.available_item_ids(Session.unlock_state()).size()
 	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL))
 	assert_gte(Session.profile.level, ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL)
 	var after_count: int = vendor.available_item_ids(Session.unlock_state()).size()
-	assert_gt(after_count, before_count, "reaching level 6 should unlock more item stock, not less or the same")
+	assert_gt(after_count, before_count, "reaching the high-shelf level should unlock more item stock, not less or the same")
 
 
 ## The vendor-discount filler reward actually reduces what Session charges, not just what a

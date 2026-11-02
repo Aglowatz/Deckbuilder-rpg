@@ -8,12 +8,12 @@
 script = ExtResource("1_rk1ey")
 target = 1
 op = 6
-amount = 1
+amount = 3
 token = ExtResource("2_vgltb")
 
 [resource]
 script = ExtResource("3_bkafn")
 id = "summoning_charm"
 display_name = "Summoning Charm"
-description = "Summon a 1/1 Militia token."
+description = "Summon three 1/1 Militia tokens on your side. One use."
 effect = SubResource("Resource_541tm")

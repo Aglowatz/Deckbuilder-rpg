@@ -14,6 +14,6 @@ amount2 = 3
 script = ExtResource("2_lr2qo")
 id = "bag_of_rubbish"
 display_name = "Bag of Rubbish"
-description = "Create 3 Garbage."
+description = "You create 3 Garbage. Two uses, one per battle."
 uses = 2
 effect = SubResource("Resource_ltw8e")

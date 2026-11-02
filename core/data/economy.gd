@@ -17,9 +17,9 @@ const GEAR_PRICE: Dictionary = {
 	EquipmentData.Rarity.LEGENDARY: [0, 900, 900, 900, 900],
 }
 
-## Item price by strength band.
-enum ItemBand { WEAK, STANDARD, STRONG }
-const ITEM_PRICE: Array[int] = [30, 45, 60]
+## Item price by strength band. Nov 2 pass, Part 4: LATE and PREMIUM for the high shelf (level 17, where a shop stop holds 400-1400 gold).
+enum ItemBand { WEAK, STANDARD, STRONG, LATE, PREMIUM }
+const ITEM_PRICE: Array[int] = [30, 45, 60, 90, 120]
 
 ## Roamer pay by zone tier (Normal fights); an elite pays about twice its zone's roamer. Index 0 = Crosspath outskirts.
 const ROAMER_GOLD: Array[int] = [13, 35, 40, 50, 60, 70]

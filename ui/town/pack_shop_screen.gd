@@ -89,6 +89,7 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	tile.add_child(column)
 	var art_holder: Control = Control.new()
 	art_holder.custom_minimum_size = PackArt.SIZE * _art_scale
+	art_holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER  # Nov 2 pass, Part 7: the pack centred in its tile, not left of it
 	art_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var art: PackArt = PackArt.create(pack)
 	art.scale = Vector2.ONE * _art_scale

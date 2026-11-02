@@ -161,6 +161,13 @@ func _add_dyes(parent: VBoxContainer, slot: CosmeticData.Slot, title: String) ->
 	_dye_rows[key] = buttons
 
 
+## Nov 2 pass, Part 5: a try-on by item id (screenshot runs: --open=tailor --try=hat_wizard).
+func try_item(item_id: String) -> void:
+	var item: CosmeticData = CosmeticCatalog.find(item_id)
+	if item != null:
+		_try(item, false)
+
+
 ## Puts `item` on the preview (worn for the try-on only; nothing is owned until it is bought).
 func _try(item: CosmeticData, sound: bool = true) -> void:
 	_selected = item

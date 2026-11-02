@@ -70,7 +70,7 @@ producers now keep their instance positions as node metadata (`positions`), whic
 bushes.
 
 
-## Part 3 - Loading times (partly done; the run stopped here at the usage limit)
+## Part 3 - Loading times (the return from a fight done; the rest in part)
 
 **Measured first** (`tools/run_loading_timing.sh`, windowed, the real SceneManager; cold = build-cache miss, warm = second visit):
 `docs/perf/loading_nov2_before.md`. Back from a fight 2.5-3.5 s in the zones, 4.2 s in town, 8.6 s in the Capital; town -> zone 3.5-3.9 s warm
@@ -92,29 +92,66 @@ props (0.8 s), square (0.9 s) and hub land (0.8 s) are many small pieces and are
 **Not done**: (3) threaded pre-loading during the fade, (4) shader pre-warm at boot (the settle step is 0.45-0.65 s per zone load, worst frame
 320-440 ms), (5) the loading screen already shows zone art + a tip for area changes. The full after-measurement with the Capital cache was not re-run.
 
-## Part 4 - Items (sim run, no data changed)
+## Part 4 - Usable items + economy (done; `docs/design/items_nov2.md`, test `tests/core/data/test_items_nov2.gd`)
 
-`tools/item_sim.gd` plays every encounter of a filter with the expected player, no item vs one charge of each variant. Low shelf (Gainlands, L6, 12 games
-x 4 Paths x each encounter, `docs/design/sim/items_nov2_low.md`): no item 86.5 % wins. Lift in points: Healing Draught +7.3, Vitality Charm +5.2,
-Reckless Tonic 5 HP +1.0 (7 HP -3.1: the policy drinks it too early), Healing Salve +5.2, Field Bandage as it is (mend 3) -1.0 and used in 0 % of
-games (confirmed useless), Bandage +0/+3 this turn +11.5 (used 99 %), Bandage +0/+2 for the battle +5.2, Bandage +1/+1 for the battle +0.0,
-Scroll of Insight draw 2 +12.5, draw 1 +9.4, Firebrand +10.4, Sharpening Stone +9.4.
-Reading: Draw 1 at 45 keeps the Scroll in line with the Firebrand and the Stone (draw 2 is the strongest item on the shelf); the Bandage as
-"+0/+3 this turn" is the strongest at 30 gold, so pick "+0/+2 for the rest of the battle" (+5.2, a lasting job the Stone does not do) or price the
-+0/+3 version at 45. The high-shelf sim (Dump, L18) may have finished after the stop: `docs/design/sim/items_nov2_high.md`.
-Plan not applied: Scroll -> Draw 1 at 45; Reckless Tonic "Heal 5 HP. One use." at 30; Field Bandage -> "+0/+2 for the battle" at 30; the high
-shelf to level 17 (`data/progression/level_track.json` item_advanced + `ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL`; the L6 headline
-"Tilly's back shelf" moves to L17 beside "Sable's rare stock"), its items retuned (Chains 2 uses 90 g, Silence toss 2, Dust bury 6, Charm 3 Militia,
-Ward 60 g) by the high sim; every description to state numbers, target, duration, uses; regenerate `data/items/*.tres` with
-`tools/generate_content.gd` (the game loads the .tres, the code in `core/data/progression_content.gd` is the source).
+Every description now states the effect in plain words (numbers, target, duration, uses), the flavour after the rules where it fits; the
+.tres the game loads are regenerated from the code (`tools/generate_content.gd`) and the test checks both agree. Sims: `tools/item_sim.gd`
+(no item vs one charge of a variant, the expected player of each Path, every encounter of a zone). Changes:
 
-## Parts 5-8 - state when the run stopped
+| Item | Change | Why (sim) |
+|---|---|---|
+| Scroll of Insight | Draw 2 -> **Draw 1**, 2 uses, 45 g | Draw 2 was the strongest item on the shelf (+12.5 pts at L6); Draw 1 +9.4, level with the Firebrand (+10.4) and the Stone (+9.4) at 45 |
+| Reckless Tonic | "One big gulp - use it wisely, there is only one." -> "You heal 5 HP in one big gulp. One use - there is only one."; 45 -> **30 g** | +1.0 at 45 (7 HP tested worse, -3.1); a one-use 5 HP is a weak item |
+| Field Bandage | Mend 3 damage on a unit -> **"+0/+2 for the rest of the battle"** on one of your units, 3 uses, 30 g | the mend did nothing (-1.0, used in 0 % of games: unit damage clears each turn); +0/+3 this turn was +11.5 (too strong at 30); +0/+2 for the battle +5.2, a lasting job the Stone's one-turn strike does not do |
+| High shelf | opens at **level 17** (was 6; `ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL`, `level_track.json` item_advanced + headlines: L6 "A little pocket money", L17 "The shops' best stock: Sable's rares, Tilly's high shelf") | the brief's 17-20; 17 already opens Sable's rare stock, 18 is the Legendary / gilded level, 20 the third item slot |
+| Binding Chains | 1 -> **2 uses**, 60 -> 90 g (new `Economy.ItemBand.LATE`) | +2.1 at L17 vs the Capital with one use; the second use makes it the late tempo item |
+| Silence Powder | toss 1 -> **toss 2**, 30 -> 60 g | toss 1 +2.1, toss 2 +6.8 |
+| Grave Dust | bury 3 -> **bury 6**, 30 -> 45 g | -1.6 / -2.1 against the Capital's graveyard-happy foes: a deck-out niche for the long bosses, kept cheap |
+| Summoning Charm | 1 -> **three** 1/1 Militia, 45 -> 90 g | a 1/1 at L17 is nothing; three bodies are a wall or a swarm (the Capital sim for the rest of the shelf timed out at 10 min; `items_nov2_high_b.md` if it is rerun) |
+| Ward Sigil | 30 -> 60 g, text states the keyword, the turn and the uses | the policy never found a use (0 %), the price follows the shelf |
+| The rest | Draught / Charm / Salve / Firebrand / Stone / rations / Pie: descriptions only | - |
 
-- Part 5: not started. The fit data says the preview and the world place hats from the same anchors; a tailor try-on screenshot is the next step.
-- Part 6: the solid fountain is WRITTEN in `world/town_streets.gd` (`_fountain`, `_pool_colour`, `_fountain_stream`, FOUNTAIN_ART_HEIGHT 3.55,
-  FOUNTAIN_ART_FORWARD 0) with `assets/shaders/fountain_water.gdshader`: UNCOMMITTED, not yet compiled or screenshotted.
-- Part 7: the pack holder centring in `ui/screens/reward_popup.gd` and `ui/town/pack_shop_screen.gd` is WRITTEN, uncommitted, not yet screenshotted.
-- Part 8: not run (sharded GUT, walk smokes, perf budget, play script). The compile-all-scripts test last passed before the fountain and Part 7 edits.
+Use count, stacking, where: unchanged (one use per equipped item per battle, charges = uses, the HP ones also between fights; the
+inventory has no cap, the item slots pick what comes to a fight). No icon changed (no item changed its object), so nothing went on the
+art list. Game-text changes (not dialogue): the 18 item descriptions above, the two level headlines, the shop's frosted-glass line now says
+level 17 (it reads the constant).
+
+## Part 5 - Wardrobe hat try-on (done)
+
+The preview and the world place hats from the same anchors and the same fit data (`tools/hat_contact_sheet.tscn` draws every hat x direction
+as the world and as the real HeroPreview side by side: identical cells before and after), so there was no second scale path to unify - the
+three big hats were simply fitted too big and too deep for both: brims of 1.85-2.25 head widths sunk 0.6-0.7 head widths over the brow,
+so in the tailor's close 1.25x view the Wide-Brim covered the whole face. `assets/art/cosmetics/hats/fit.json`: Wide-Brim width 2.25 -> 1.75,
+Wizard 1.9 -> 1.55, Tricorn 1.85 -> 1.55, Bowler 1.45 -> 1.3; the front / side sinks lifted (0.48-0.56) so the brim clears the eyes, the back
+sinks eased (0.88-0.98). Chef and the (held) Leaf Crown unchanged. Shots: `nov2_p5_before_try_wide_brim.jpg` -> `nov2_p5_try2_wide_brim.jpg`,
+`nov2_p5_try2_wizard.jpg`, `nov2_p5_try2_tricorn.jpg`, the world `nov2_p5_world2_wide_brim.jpg`, the contact sheets `nov2_p5_sheet_before_widebrim.jpg`
+/ `nov2_p5_sheet_after_widebrim.jpg` / `nov2_p5_sheet_after_wizard.jpg` (FRONT, FRONTSIDE, SIDE, BACKSIDE, BACK; world | preview each), the
+numbers in `docs/overnight/nov2/hat_fit_table_after.md`. New shot hook: `--open=tailor --try=hat_wizard`.
+
+## Part 6 - Crosspath fountain (done)
+
+The painted card (TOWN-HERO-FOUNTAIN, a camera-facing billboard) is replaced by solid geometry in `TownStreets._fountain`: a round sandstone
+basin of two courses with seams, four square pillars on the rim with a framed Path symbol each (the same icons as the crest ring, facing out)
+and a spout mouth facing in, four coloured streams arcing into a vertex-coloured pool (one animated material, `assets/shaders/fountain_water.gdshader`:
+two-layer scrolling noise + foam, the Path colour per stream and blended into the pool round each landing), a stepped column with a medallion
+and a flat cap, ivy (the kit's decal) on the basin and the pillars, a few drops at each landing. 4.6 m tall (the card stood 7.1 m: the solid
+pieces read smaller from the play camera, so the first pass was scaled up a fifth), the blocker radius, anchor and the hero's x-ray silhouette
+test unchanged (`FOUNTAIN_ART_HEIGHT` 4.6, `FOUNTAIN_ART_FORWARD` 0). Nothing fades, pops, rotates or billboards. Before / after from four
+angles: `nov2_p6_before_{n,s,e,w}.jpg` -> `nov2_p6_after3_n.jpg`, `nov2_p6_after3_e.jpg`, `nov2_p6_after2_s.jpg`, `nov2_p6_after2_w.jpg`; the
+symbol face close up `nov2_p6_pillar6.jpg`. One bug on the way: the frame, panel and mouth boxes had their wide axis along the pillar's
+outward direction (fins that swallowed the symbol quad) - the axes swapped.
+
+## Part 7 - Pack reward centring (done)
+
+The pack tile's holder filled the tile's width (170 px) while the art was parked at the middle of the holder's minimum width (102 px), so
+every pack sat 34 px left of centre in a reward box, at any resolution. `ui/screens/reward_popup.gd`: the holder keeps its own size, centred
+in the column (`SIZE_SHRINK_CENTER`), and the art re-centres on the holder's real size when it changes; the pack shop's tile got the same
+flag (`ui/town/pack_shop_screen.gd`). Cards and item icons were already centred (direct children of the row / shrink-centre). Shot:
+`nov2_p7_reward_pack.jpg` (a STEP REWARD box with a card, an item and a pack; new shot hook `--open=reward_pack`).
+
+## Part 8 - Verify + finish
+
+(pending: sharded GUT, walk smokes, perf budget, play-script run)
 
 
 ---

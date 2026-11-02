@@ -22,7 +22,7 @@ const HAND_SIZE_LEVELS: Array[int] = [8, 16, 24]
 ## Item slots increase at these levels (1 -> 4 over 3 steps).
 const ITEM_SLOT_LEVELS: Array[int] = [10, 20, 30]
 const EQUIPMENT_VENDOR_UNLOCK_LEVEL: int = 13
-const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 6
+const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 17  # Nov 2 pass, Part 4: was 6 (the shelf opens with Sable's rare stock, its items retuned for the late game)
 const FILLER_DISCOUNT_PERCENT: int = 10
 ## Overnight Oct 17, Part 4: the Deck Station has 10 slots; 4 are open at the start and 2 more open at levels 7, 14 and 21
 ## (`DeckSlots`). DECK_BOX_EXPANSION_LEVEL is the first of those levels.

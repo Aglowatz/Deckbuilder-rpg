@@ -214,17 +214,20 @@ static func default_stock() -> ItemVendorData:
 	var weak: Economy.ItemBand = Economy.ItemBand.WEAK
 	var standard: Economy.ItemBand = Economy.ItemBand.STANDARD
 	var strong: Economy.ItemBand = Economy.ItemBand.STRONG
+	var late: Economy.ItemBand = Economy.ItemBand.LATE
+	# Nov 2 pass, Part 4 (docs/design/items_nov2.md): the Tonic is a weak one-use item (30), the Scroll draws 1, the Bandage is a lasting +0/+2;
+	# the high shelf opens at level 17 (ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL) with its items retuned and priced for late gold.
 	data.add("healing_draught", Economy.item_price(standard), always)
 	data.add("vitality_charm", Economy.item_price(weak), always)
-	data.add("reckless_tonic", Economy.item_price(standard), always)
+	data.add("reckless_tonic", Economy.item_price(weak), always)
 	data.add("healing_salve", Economy.item_price(strong), always)
 	data.add("field_bandage", Economy.item_price(weak), always)
 	data.add("scroll_of_insight", Economy.item_price(standard), always)
 	data.add("firebrand_charm", Economy.item_price(standard), always)
 	data.add("sharpening_stone", Economy.item_price(standard), always)
-	data.add("binding_chains", Economy.item_price(strong), advanced)
-	data.add("silence_powder", Economy.item_price(weak), advanced)
-	data.add("grave_dust", Economy.item_price(weak), advanced)
-	data.add("summoning_charm", Economy.item_price(standard), advanced)
-	data.add("ward_sigil", Economy.item_price(weak), advanced)
+	data.add("binding_chains", Economy.item_price(late), advanced)
+	data.add("silence_powder", Economy.item_price(strong), advanced)
+	data.add("grave_dust", Economy.item_price(standard), advanced)
+	data.add("summoning_charm", Economy.item_price(late), advanced)
+	data.add("ward_sigil", Economy.item_price(strong), advanced)
 	return data

@@ -13,6 +13,6 @@ amount = 3
 script = ExtResource("2_5ghmb")
 id = "healing_draught"
 display_name = "Healing Draught"
-description = "A common camp remedy."
+description = "You heal 3 HP. Three uses, one per battle. A common camp remedy."
 uses = 3
 effect = SubResource("Resource_00fgg")

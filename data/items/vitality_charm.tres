@@ -13,6 +13,6 @@ amount = 2
 script = ExtResource("2_0i51g")
 id = "vitality_charm"
 display_name = "Vitality Charm"
-description = "A small, steady comfort."
+description = "You heal 2 HP. Two uses, one per battle. A small, steady comfort."
 uses = 2
 effect = SubResource("Resource_n32ws")

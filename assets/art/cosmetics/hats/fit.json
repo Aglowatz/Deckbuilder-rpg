@@ -3,11 +3,12 @@
 	"_oct29": "Overnight Oct 29, Part 4 (tools/hat_contact_sheet.tscn, _screenshots/oct29/hats_before and hats_after): every hat floated above the hair from the side, three-quarter back and back (the importer sinks were tuned on the front view). The back of the head needs the hat about 0.2 head widths deeper, the side 0.1-0.15; a first pass at twice that buried the eyes. The preview and the world place hats from the same anchors (checked cell by cell).",
 	"default": {},
 	"WIDEBRIM": {
-		"sink_FRONT": 0.65,
-		"sink_FRONTSIDE": 0.7,
-		"sink_SIDE": 0.66,
-		"sink_BACKSIDE": 1.08,
-		"sink_BACK": 1.15
+		"sink_FRONT": 0.5,
+		"sink_FRONTSIDE": 0.55,
+		"sink_SIDE": 0.52,
+		"sink_BACKSIDE": 0.9,
+		"sink_BACK": 0.98,
+		"width": 1.75
 	},
 	"CHEF": {
 		"sink_FRONT": 0.52,
@@ -21,21 +22,24 @@
 		"sink_FRONTSIDE": 0.6,
 		"sink_SIDE": 0.6,
 		"sink_BACKSIDE": 0.88,
-		"sink_BACK": 0.98
+		"sink_BACK": 0.98,
+		"width": 1.3
 	},
 	"TRICORN": {
-		"sink_FRONT": 0.6,
-		"sink_FRONTSIDE": 0.68,
-		"sink_SIDE": 0.65,
-		"sink_BACKSIDE": 1.05,
-		"sink_BACK": 1.12
+		"sink_FRONT": 0.5,
+		"sink_FRONTSIDE": 0.56,
+		"sink_SIDE": 0.54,
+		"sink_BACKSIDE": 0.9,
+		"sink_BACK": 0.96,
+		"width": 1.55
 	},
 	"WIZARD": {
-		"sink_FRONT": 0.59,
-		"sink_FRONTSIDE": 0.58,
-		"sink_SIDE": 0.6,
-		"sink_BACKSIDE": 1.03,
-		"sink_BACK": 1.06
+		"sink_FRONT": 0.48,
+		"sink_FRONTSIDE": 0.48,
+		"sink_SIDE": 0.5,
+		"sink_BACKSIDE": 0.88,
+		"sink_BACK": 0.92,
+		"width": 1.55
 	},
 	"LEAFCROWN": {
 		"_note": "Oct 29 redo: the wreath sat on top of the hair; sunk to the brow (eyes clear in every direction) and a little narrower.",
@@ -49,5 +53,6 @@
 		"behind_BACK": 1,
 		"_note_oct31": "Oct 31 redo paints only the front arc: from BACKSIDE and BACK that arc is on the far side of the head, so it draws behind the hero (behind_<DIR>)."
 	},
-	"_oct31": "Art import Oct 31: Chef, Wizard and Leaf Crown redrawn and re-sliced; the slicer now scales an off-size view to FRONT and sizes views by drawn width (HatSheet.normalise, one_scale). The Wizard width_SIDE 1.95 (made for the old sheet) is gone."
+	"_oct31": "Art import Oct 31: Chef, Wizard and Leaf Crown redrawn and re-sliced; the slicer now scales an off-size view to FRONT and sizes views by drawn width (HatSheet.normalise, one_scale). The Wizard width_SIDE 1.95 (made for the old sheet) is gone.",
+	"_nov2": "Nov 2 pass, Part 5: the three big hats dwarfed the head (brim 1.9-2.25 head widths) and their brims hung over the eyes in the tailor preview and the world alike (the same anchors); widths cut and the front/side sinks lifted so the brim clears the brow. Checked with tools/hat_contact_sheet.tscn (_screenshots/nov2/hats_before and hats_after)."
 }

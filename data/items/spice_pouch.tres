@@ -14,6 +14,6 @@ amount2 = 2
 script = ExtResource("2_l1uup")
 id = "spice_pouch"
 display_name = "Spice Pouch"
-description = "Create 2 Ingredients."
+description = "You create 2 Ingredients. Two uses, one per battle."
 uses = 2
 effect = SubResource("Resource_xsahh")

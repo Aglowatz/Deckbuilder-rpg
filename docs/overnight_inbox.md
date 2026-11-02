@@ -10,6 +10,20 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 2. **The Exit Clerk stays 3D for now.** The only clerk set (the Lost Junior Clerk) is a 0.6-height child; putting it at the exit booth would read as a joke. He is High on the art list (SPR-EXIT-CLERK + portrait).
 3. **Animals stay 3D.** The Dump critters and the stable animal are Cube Pets models (ambient wildlife, not characters); the art audit table lists them as kept. If you want painted animals, they need a set each (raccoon, gull, the stable beast).
 4. **Capital freed state: no wildflowers.** The freed mood used to scatter seed grass and wildflowers over the city (the same layer that made the bushes). Both are off now so every entry path matches; if the freed city should bloom, the right place is CapitalDressing's lawn-only rows (restored-state blooms already exist there).
+5. **The high shelf opens at level 17** (the brief said "around 17-20"): 17 already carries Sable's rare stock, so both shop unlocks share one
+   headline; 18 is the Legendary-cap + gilded-pack level, 20 the third item slot. Move `item_advanced` in level_track.json and
+   `ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL` together if you want 18 or 20.
+6. **Field Bandage = "+0/+2 for the rest of the battle" at 30 gold.** The sim at level 6: the mend did nothing (-1.0, never used); "+0/+3 this turn"
+   was +11.5 (the strongest item on the shelf, too much for 30 gold); "+0/+2 for the battle" +5.2, a lasting job the Sharpening Stone's one-turn
+   strike does not do. If you prefer the "prevent 3 damage this turn" feel, the +0/+3-this-turn version at 45 gold is the equivalent.
+7. **Reckless Tonic stays 5 HP, one use, priced 30 (was 45).** 7 HP tested worse (-3.1: the sim's player drinks it too early) and the 5 HP one-use is
+   worth about a Vitality Charm. The description now says what it does.
+8. **Scroll of Insight -> Draw 1 at 45**, as you leaned: Draw 2 was +12.5 points at level 6 (the strongest item), Draw 1 +9.4 (level with the
+   Firebrand and the Stone at the same price). Draw 2 at 90 on the high shelf was not added (it would outshine the shelf).
+9. **The parked scene covers roamer fights only.** A gatekeeper, arena, graveyard, dungeon or dev battle still rebuilds the world on return (those
+   change the town / the zone); the other return paths could be parked too once each scene's post-fight changes are applied by its resume hook.
+10. **Loading screen hold 1.6 -> 0.9 s.** It never flashes (0.28 s in, 0.4 s out) and the dungeon map change dropped from 2.3 to 1.6 s; put it back
+   if the short hold reads as a flicker to you.
 
 ## Capital sides Nov 2 - yours to decide (the safest choice was taken)
 

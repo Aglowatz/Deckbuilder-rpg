@@ -181,12 +181,17 @@ func _pack_tile(entry: Dictionary) -> Control:
 	if pack != null:
 		var holder: Control = Control.new()
 		holder.custom_minimum_size = PackArt.SIZE * 0.34
+		# Nov 2 pass, Part 7: the holder filled the tile's width (170 px) while the art was parked at the middle of the holder's MINIMUM width
+		# (102 px), so every pack sat 34 px left of centre in its box. The holder keeps its own size, centred in the column, and the art
+		# follows the holder's real size whenever that changes (any resolution or UI scale).
+		holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var art: PackArt = PackArt.create(pack)
 		holder.add_child(art)
 		# PackArt scales about its own centre, so park that centre in the middle of the holder.
 		art.scale = Vector2.ONE * 0.34
 		art.position = holder.custom_minimum_size * 0.5 - PackArt.SIZE * 0.5
+		holder.resized.connect(func() -> void: art.position = holder.size * 0.5 - PackArt.SIZE * 0.5)
 		column.add_child(holder)
 	var count: int = int(entry["count"])
 	column.add_child(_wrapped(str(entry["name"]) if count == 1 else "%dx %s" % [count, str(entry["name"])], 20, UIStyle.GOLD))

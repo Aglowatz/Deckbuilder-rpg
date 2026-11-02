@@ -14,6 +14,6 @@ keyword = 11
 script = ExtResource("2_3k25h")
 id = "ward_sigil"
 display_name = "Ward Sigil"
-description = "Give a unit Untouchable until end of turn."
+description = "One of your units gains Untouchable until the end of this turn. Two uses, one per battle."
 uses = 2
 effect = SubResource("Resource_bjqk8")

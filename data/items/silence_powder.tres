@@ -7,12 +7,12 @@
 script = ExtResource("1_uhe5y")
 target = 2
 op = 3
-amount = 1
+amount = 2
 
 [resource]
 script = ExtResource("2_a0rdg")
 id = "silence_powder"
 display_name = "Silence Powder"
-description = "The opponent tosses a random card."
+description = "The opponent tosses 2 random cards from their hand. Two uses, one per battle."
 uses = 2
 effect = SubResource("Resource_jsxgi")

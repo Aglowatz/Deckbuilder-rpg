@@ -6,13 +6,13 @@
 [sub_resource type="Resource" id="Resource_fxti3"]
 script = ExtResource("1_o03do")
 target = 6
-op = 1
-amount = 3
+op = 5
+amount2 = 2
 
 [resource]
 script = ExtResource("2_unv7v")
 id = "field_bandage"
 display_name = "Field Bandage"
-description = "Mend 3 damage from one of your units."
+description = "One of your units gets +0/+2 for the rest of the battle. Three uses, one per battle."
 uses = 3
 effect = SubResource("Resource_fxti3")

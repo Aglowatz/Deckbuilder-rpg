@@ -93,72 +93,191 @@ func _plaza() -> void:
 const FOUNTAIN_ART: String = "TOWN-HERO-FOUNTAIN"
 ## Fable pass Nov 1: the fountain is the square's landmark - a quarter bigger (5.8 -> 7.1 m; its blocker TownLayout.FOUNTAIN_RADIUS 2.6 -> 3.2), and it never
 ## fades or ghosts when the hero walks behind it (no card ghost, no occlusion fade); the hero shows through it as a silhouette instead (TownScene).
-const FOUNTAIN_ART_HEIGHT: float = 7.1
-const FOUNTAIN_ART_FORWARD: float = 1.6
+const FOUNTAIN_ART_HEIGHT: float = 4.6  # Nov 2 pass: the solid fountain's height (the silhouette test, TownScene)
+const FOUNTAIN_ART_FORWARD: float = 0.0  # Nov 2 pass: solid geometry stands on the centre (the painted card stood 1.6 m forward)
 
 
 # ---- the fountain and the royal crest ------------------------------------------------------------------------------------------------
 
 
+## Nov 2 pass, Part 6: the fountain is solid geometry that matches the painted design (TOWN-HERO-FOUNTAIN): a round sandstone basin of
+## two courses, four square pillars on the rim with a framed Path symbol each, a coloured spout from every pillar into the pool, a stepped
+## central column with a round medallion and a flat cap, ivy on the stones; the water (the pool and the four streams) is one animated
+## material (assets/shaders/fountain_water.gdshader). Nothing here fades, billboards or turns with the camera (the painted card did all three
+## as the hero walked round it). Same blocker radius, same anchor, same silhouette test (TownScene) as before.
+const FOUNTAIN_HEIGHT: float = 4.6
+const FOUNTAIN_PILLAR_ANGLES: Array[float] = [PI * 0.25, PI * 0.75, PI * 1.25, PI * 1.75]
+## The four pillars, clockwise from the front-left as the painting has them: the Path's icon (EndingDefs.PATH_ICONS: Beefcake, Gourmand,
+## Refusemancer, Necrocrat) and the colour of its water.
+const FOUNTAIN_PATH_ORDER: Array[int] = [0, 1, 3, 2]
+
+
 func _fountain() -> void:
 	var center: Vector3 = TownLayout.PLAZA
-	# Art import Oct 29: the painted royal-crest fountain (TOWN-HERO-FOUNTAIN: four plinths in a ring, four coloured spouts) replaces the stone
-	# model; it stands a little toward the camera so its painted basin front sits on the basin's real front edge. Same blocker and anchor.
-	var card: Node3D = KitPieces.stand(root, FOUNTAIN_ART, center + Vector3(0.0, -0.05, FOUNTAIN_ART_FORWARD), FOUNTAIN_ART_HEIGHT, false)
-	if card != null:
-		var body: MeshInstance3D = card.get_node_or_null("Body") as MeshInstance3D
-		if body != null:
-			body.set_meta("no_occlusion_fade", true)
-			if body.material_override is ShaderMaterial:
-				var solid: ShaderMaterial = (body.material_override as ShaderMaterial).duplicate() as ShaderMaterial
-				solid.set_shader_parameter("fade_strength", 0.0)  # never a ghost: the landmark stays solid
-				body.material_override = solid
-		town.obstacles.append(Vector3(center.x, center.z, TownLayout.FOUNTAIN_RADIUS + 0.1))
-		town.anchors["fountain"] = center
-		return
-	# Crosspath pass, Part C: the square's fountain, bigger with the square and built from kit stone (it was plain flat-coloured cylinders): a wide round
-	# basin with a thick moulded rim to sit on, a fluted pedestal, two bowls spilling into each other and a finial; lit water in the basin and bowls.
 	var radius: float = TownLayout.FOUNTAIN_RADIUS
-	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(1.0, 0.97, 0.9)))
-	mesh.set_material("rim", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.82, 0.74)))
-	mesh.set_material("water", EnvKit.glow(Color("6fd0ea"), 0.45))
-	# the basin wall: a belly under a rounded lip, hollow inside
-	mesh.lathe("stone", Vector3.ZERO, [Vector2(radius + 0.12, 0.0), Vector2(radius + 0.2, 0.12), Vector2(radius + 0.1, 0.5), Vector2(radius + 0.24, 0.58), Vector2(radius + 0.24, 0.72), Vector2(radius - 0.32, 0.72), Vector2(radius - 0.32, 0.2)], 28, 0.75, false, false)
-	mesh.lathe("water", Vector3(0, 0.52, 0), [Vector2(radius - 0.32, 0.0), Vector2(radius - 0.32, 0.01)], 24, 1.0, false, true)
-	# pedestal, lower bowl, stem, upper bowl, finial
-	mesh.lathe("rim", Vector3.ZERO, [Vector2(0.62, 0.0), Vector2(0.62, 0.3), Vector2(0.42, 0.42), Vector2(0.36, 1.25), Vector2(0.5, 1.4)], 16, 0.8, false, false)
-	mesh.lathe("stone", Vector3(0, 1.38, 0), [Vector2(0.3, 0.0), Vector2(1.15, 0.22), Vector2(1.25, 0.34), Vector2(1.05, 0.36)], 22, 0.85, true, false)
-	mesh.lathe("water", Vector3(0, 1.66, 0), [Vector2(1.05, 0.0), Vector2(1.05, 0.01)], 18, 1.0, false, true)
-	mesh.lathe("rim", Vector3(0, 1.7, 0), [Vector2(0.22, 0.0), Vector2(0.16, 0.7), Vector2(0.28, 0.82)], 12, 0.85, false, false)
-	mesh.lathe("stone", Vector3(0, 2.5, 0), [Vector2(0.16, 0.0), Vector2(0.62, 0.16), Vector2(0.66, 0.26), Vector2(0.52, 0.28)], 16, 0.9, true, false)
-	mesh.lathe("water", Vector3(0, 2.74, 0), [Vector2(0.5, 0.0), Vector2(0.5, 0.01)], 14, 1.0, false, true)
-	mesh.lathe("rim", Vector3(0, 2.76, 0), [Vector2(0.1, 0.0), Vector2(0.1, 0.3), Vector2(0.18, 0.42), Vector2(0.0, 0.62)], 10, 0.9, false, true)
-	var fountain: MeshInstance3D = mesh.instance("FountainStone")
-	fountain.position = center
-	fountain.set_meta(&"no_wind", true)
-	fountain.set_meta(&"occlusion_near", 1.2)
-	root.add_child(fountain)
-	var jet: CPUParticles3D = CPUParticles3D.new()
-	jet.position = center + Vector3(0, 3.3, 0)
-	jet.amount = 24
-	jet.lifetime = 1.2
-	jet.direction = Vector3.UP
-	jet.spread = 18.0
-	jet.initial_velocity_min = 0.9
-	jet.initial_velocity_max = 1.5
-	jet.gravity = Vector3(0, -3.0, 0)
-	var drop: SphereMesh = SphereMesh.new()
-	drop.radius = 0.03
-	drop.height = 0.06
-	var drop_material: StandardMaterial3D = StandardMaterial3D.new()
-	drop_material.albedo_color = Color("c9f1ff")
-	drop_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	drop.material = drop_material
-	jet.mesh = drop
-	root.add_child(jet)
+	var stone: KitMesh = KitMesh.new()
+	# pale warm sandstone as flat colour under the toon bands (the kit's foundation texture is a fine rubble that read as a heap of rocks);
+	# the block courses are thin dark seams round the basin and the column
+	stone.set_material("stone", EnvKit.flat(Color("e9d9ae"), "fountain_stone"))
+	stone.set_material("stone_dark", EnvKit.flat(Color("cdb98a"), "fountain_stone_dark"))
+	stone.set_material("seam", EnvKit.flat(Color("8c7a56"), "fountain_seam"))
+	stone.set_material("gold", EnvKit.flat(Color("e2b654"), "fountain_gold"))
+	stone.set_material("ivy", EnvKit.material("DEC-IVY", true))
+	# the basin: a lower course a step wider, the upper course with a rounded lip, the inner wall down to the water
+	stone.lathe("stone_dark", Vector3.ZERO, [Vector2(radius + 0.42, 0.0), Vector2(radius + 0.44, 0.3), Vector2(radius + 0.36, 0.72), Vector2(radius + 0.08, 0.72)], 24, 0.9, false, false)
+	stone.lathe("stone", Vector3(0, 0.72, 0), [Vector2(radius + 0.1, 0.0), Vector2(radius + 0.12, 0.42), Vector2(radius + 0.24, 0.62), Vector2(radius + 0.24, 0.78), Vector2(radius + 0.1, 0.84), Vector2(radius - 0.36, 0.84), Vector2(radius - 0.36, 0.1)], 24, 0.95, false, false)
+	for seam_y: float in [0.34, 0.72, 1.14]:
+		stone.lathe("seam", Vector3(0, seam_y, 0), [Vector2(radius + (0.45 if seam_y < 0.72 else 0.26), 0.0), Vector2(radius + (0.45 if seam_y < 0.72 else 0.26), 0.05)], 24, 1.0, false, false)
+	for seam_a: int in range(12):
+		var sa: float = TAU * float(seam_a) / 12.0 + 0.13
+		stone.box("seam", Vector3(cos(sa), 0.0, sin(sa)) * (radius + 0.44) + Vector3(0, 0.36, 0), Vector3(0.05, 0.7, 0.05), Basis(Vector3.UP, -sa))
+		stone.box("seam", Vector3(cos(sa + 0.26), 0.0, sin(sa + 0.26)) * (radius + 0.26) + Vector3(0, 1.14, 0), Vector3(0.05, 0.8, 0.05), Basis(Vector3.UP, -(sa + 0.26)))
+	# the central column: a base drum in the water, the shaft, a collar, the flat cap
+	stone.lathe("stone", Vector3(0, 0.75, 0), [Vector2(1.15, 0.0), Vector2(1.15, 0.8), Vector2(0.98, 0.86), Vector2(0.72, 0.86), Vector2(0.72, 2.6), Vector2(0.9, 2.66), Vector2(0.9, 3.0), Vector2(0.72, 3.05), Vector2(0.72, 3.35), Vector2(1.18, 3.42), Vector2(1.18, 3.85), Vector2(0.0, 3.85)], 20, 0.95, false, true)
+	for seam_y: float in [1.9, 2.45, 3.0]:
+		stone.lathe("seam", Vector3(0, seam_y, 0), [Vector2(0.735, 0.0), Vector2(0.735, 0.04)], 20, 1.0, false, false)
+	# the medallion on the column's front: a ring of stone studs round a small gold boss
+	for index: int in range(12):
+		var a: float = TAU * float(index) / 12.0
+		stone.box("stone_dark", Vector3(cos(a) * 0.4, 2.5 + sin(a) * 0.4, 0.76), Vector3(0.14, 0.14, 0.08))
+	stone.box("gold", Vector3(0, 2.5, 0.76), Vector3(0.3, 0.3, 0.06))
+	# ivy on the basin wall and the pillars (the kit's ivy decal on quads standing just off the stone)
+	for a: float in [0.15, 1.35, 2.9, 4.25, 5.5]:
+		var dir: Vector3 = Vector3(cos(a), 0.0, sin(a))
+		var tangent: Vector3 = Vector3(-dir.z, 0.0, dir.x)
+		var foot: Vector3 = dir * (radius + 0.43)
+		var w: float = 1.5
+		stone.quad("ivy", [foot - tangent * w * 0.5, foot + tangent * w * 0.5, foot + tangent * w * 0.5 + Vector3(0, 1.55, 0), foot - tangent * w * 0.5 + Vector3(0, 1.55, 0)], dir, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+	var water: KitMesh = KitMesh.new()
+	var water_material: ShaderMaterial = ShaderMaterial.new()
+	water_material.shader = load("res://assets/shaders/fountain_water.gdshader") as Shader
+	water_material.set_shader_parameter("foam", 0.28)
+	water_material.set_shader_parameter("glow", 0.22)
+	water.set_material("pool", water_material)
+	var stream_material: ShaderMaterial = water_material.duplicate() as ShaderMaterial
+	stream_material.set_shader_parameter("use_uv", true)
+	stream_material.set_shader_parameter("alpha", 0.97)
+	stream_material.set_shader_parameter("glow", 0.45)
+	stream_material.set_shader_parameter("foam", 0.35)
+	water.set_material("stream", stream_material)
+	# the four pillars on the rim, their framed symbols facing out, their spouts facing in
+	var path_colors: Array[Color] = []
+	for index: int in range(4):
+		var spec: Dictionary = EndingDefs.PATH_ICONS[FOUNTAIN_PATH_ORDER[index]]
+		var tint: Color = Color(str(spec["color"]))
+		path_colors.append(tint)
+		var a: float = FOUNTAIN_PILLAR_ANGLES[index]
+		var dir: Vector3 = Vector3(cos(a), 0.0, sin(a))
+		var basis: Basis = Basis(Vector3.UP, -a)
+		var foot: Vector3 = dir * (radius - 0.06)
+		stone.box("stone_dark", foot + Vector3(0, 1.56 + 0.22, 0), Vector3(1.3, 0.44, 1.3), basis, 0.02, 0.95)
+		stone.box("stone", foot + Vector3(0, 2.0 + 0.95, 0), Vector3(1.1, 1.9, 1.1), basis, 0.03, 1.0)
+		stone.box("stone", foot + Vector3(0, 3.9 + 0.14, 0), Vector3(1.34, 0.28, 1.34), basis, 0.03, 1.0)
+		stone.box("stone_dark", foot + Vector3(0, 4.04 + 0.12, 0), Vector3(1.04, 0.24, 1.04), basis, 0.02, 1.0)
+		# the framed symbol on the outward face
+		var face: Vector3 = foot + dir * 0.56 + Vector3(0, 2.95, 0)
+		stone.box("gold", face + dir * 0.02, Vector3(0.05, 0.96, 0.82), basis)  # local X runs along dir: the thin side faces out
+		stone.box("stone_dark", face + dir * 0.045, Vector3(0.02, 0.82, 0.68), basis)
+		var icon: MeshInstance3D = MeshInstance3D.new()
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = Vector2(0.58, 0.58)
+		icon.mesh = quad
+		var icon_material: ShaderMaterial = ShaderMaterial.new()
+		icon_material.shader = load("res://assets/shaders/icon_mask_3d.gdshader") as Shader
+		icon_material.set_shader_parameter("icon_texture", CardIcons.named(str(spec["icon"])))
+		icon_material.set_shader_parameter("tint", tint)
+		icon.material_override = icon_material
+		icon.set_meta(StyleToon.META_NO_TOON, true)
+		icon.set_meta("no_occlusion_fade", true)
+		icon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		icon.position = center + face + dir * 0.07
+		icon.rotation.y = atan2(dir.x, dir.z)
+		root.add_child(icon)
+		# the spout: a stone mouth on the inward face, the stream arcing down into the pool
+		var mouth: Vector3 = foot - dir * 0.56 + Vector3(0, 3.0, 0)
+		stone.box("stone_dark", mouth - dir * 0.04, Vector3(0.16, 0.36, 0.42), basis)
+		_fountain_stream(water, mouth - dir * 0.1, dir, radius, tint)
+		# ivy climbing the pillar's outer corner
+		var side: Vector3 = Vector3(-dir.z, 0.0, dir.x)
+		var ivy_foot: Vector3 = foot + dir * 0.57 + side * 0.36 + Vector3(0, 1.56, 0)
+		stone.quad("ivy", [ivy_foot - side * 0.5, ivy_foot + side * 0.5, ivy_foot + side * 0.5 + Vector3(0, 1.9, 0), ivy_foot - side * 0.5 + Vector3(0, 1.9, 0)], dir, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+	# the pool: a fan of triangles at the water line, each spout's colour bleeding into the blue round its landing
+	var pool_r: float = radius - 0.38
+	var blue: Color = Color(0.62, 0.86, 1.0)
+	var pool_segments: int = 40
+	for index: int in range(pool_segments):
+		var a0: float = TAU * float(index) / float(pool_segments)
+		var a1: float = TAU * float(index + 1) / float(pool_segments)
+		var p0: Vector3 = Vector3(cos(a0), 0.0, sin(a0)) * pool_r + Vector3(0, 1.3, 0)
+		var p1: Vector3 = Vector3(cos(a1), 0.0, sin(a1)) * pool_r + Vector3(0, 1.3, 0)
+		water.tri("pool", [Vector3(0, 1.3, 0), p1, p0], Vector3.UP, [blue, _pool_colour(a1, blue, path_colors), _pool_colour(a0, blue, path_colors)])
+	var stone_node: MeshInstance3D = stone.instance("FountainStone")
+	stone_node.position = center
+	stone_node.set_meta(&"no_wind", true)
+	stone_node.set_meta("no_occlusion_fade", true)
+	root.add_child(stone_node)
+	var water_node: MeshInstance3D = water.instance("FountainWater")
+	water_node.position = center
+	water_node.set_meta(&"no_wind", true)
+	water_node.set_meta("no_occlusion_fade", true)
+	water_node.set_meta(StyleToon.META_NO_TOON, true)
+	water_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(water_node)
+	# a few drops where each stream lands
+	for index: int in range(4):
+		var a: float = FOUNTAIN_PILLAR_ANGLES[index]
+		var splash: CPUParticles3D = CPUParticles3D.new()
+		splash.position = center + Vector3(cos(a), 0.0, sin(a)) * 1.55 + Vector3(0, 1.32, 0)
+		splash.amount = 10
+		splash.lifetime = 0.7
+		splash.direction = Vector3.UP
+		splash.spread = 50.0
+		splash.initial_velocity_min = 0.6
+		splash.initial_velocity_max = 1.3
+		splash.gravity = Vector3(0, -4.0, 0)
+		var drop: SphereMesh = SphereMesh.new()
+		drop.radius = 0.025
+		drop.height = 0.05
+		var drop_material: StandardMaterial3D = StandardMaterial3D.new()
+		drop_material.albedo_color = path_colors[index].lerp(Color.WHITE, 0.55)
+		drop_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		drop.material = drop_material
+		splash.mesh = drop
+		splash.set_meta("no_occlusion_fade", true)
+		root.add_child(splash)
 	town.obstacles.append(Vector3(center.x, center.z, TownLayout.FOUNTAIN_RADIUS + 0.1))
 	town.anchors["fountain"] = center
+
+
+## The pool's colour at angle `a`: the blue, warmed towards each spout's colour near where that spout lands.
+static func _pool_colour(a: float, blue: Color, path_colors: Array[Color]) -> Color:
+	var colour: Color = blue
+	for index: int in range(4):
+		var weight: float = pow(maxf(cos(a - FOUNTAIN_PILLAR_ANGLES[index]), 0.0), 3.0)
+		colour = colour.lerp(path_colors[index].lerp(Color.WHITE, 0.25), weight * 0.85)
+	return colour
+
+
+## One spout's stream: a ribbon of quads from the mouth, arcing inward and down to the pool (UV v runs down the stream for the flow).
+static func _fountain_stream(mesh: KitMesh, from: Vector3, dir: Vector3, radius: float, tint: Color) -> void:
+	var inward: Vector3 = -dir
+	var landing: Vector3 = inward * (radius - 1.65)
+	landing.y = 1.3
+	var points: Array[Vector3] = []
+	var steps: int = 8
+	for step: int in range(steps + 1):
+		var t: float = float(step) / float(steps)
+		var flat: Vector3 = from.lerp(Vector3(landing.x, from.y, landing.z), t)
+		var y: float = from.y + 0.12 * sin(t * PI) - (from.y - landing.y) * t * t
+		points.append(Vector3(flat.x, y, flat.z))
+	var across: Vector3 = Vector3(-dir.z, 0.0, dir.x) * 0.15
+	var colour: Color = tint.lerp(Color.WHITE, 0.2)
+	for step: int in range(steps):
+		var v0: float = float(step) / float(steps)
+		var v1: float = float(step + 1) / float(steps)
+		var w0: float = 1.0 + 0.5 * v0
+		var w1: float = 1.0 + 0.5 * v1
+		mesh.quad("stream", [points[step] - across * w0, points[step + 1] - across * w1, points[step + 1] + across * w1, points[step] + across * w0], inward + Vector3.UP, [colour, colour, colour, colour], [Vector2(0, v0), Vector2(0, v1), Vector2(1, v1), Vector2(1, v0)])
 
 
 ## The royal crest: four plinths in a ring round the fountain, each topped by its Path's symbol in the Path's colour, with a gold ring inlaid in the paving.

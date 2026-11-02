@@ -13,6 +13,6 @@ amount = 4
 script = ExtResource("2_e3slu")
 id = "healing_salve"
 display_name = "Healing Salve"
-description = "Heal 4 HP."
+description = "You heal 4 HP. Three uses, one per battle."
 uses = 3
 effect = SubResource("Resource_t7hn6")

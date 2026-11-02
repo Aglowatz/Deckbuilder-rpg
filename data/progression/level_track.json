@@ -13,7 +13,7 @@
 		"discount_percent": 10,
 		"rare_stock_levels": [17, 27],
 		"equipment_advanced": 13,
-		"item_advanced": 6
+		"item_advanced": 17
 	},
 	"copy_caps": {
 		"absolute_max": 3,
@@ -44,7 +44,7 @@
 		{"level": 3, "headline": "Looking sharp", "grants": [{"kind": "cosmetic", "id": "hat_bowler"}, {"kind": "gold", "amount": 60}]},
 		{"level": 4, "headline": "Your first Path Pack", "grants": [{"kind": "pack", "pack": "path"}]},
 		{"level": 5, "big": true, "headline": "The armory opens", "grants": [{"kind": "gold", "amount": 120}]},
-		{"level": 6, "headline": "Tilly's back shelf", "grants": [{"kind": "gold", "amount": 100}]},
+		{"level": 6, "headline": "A little pocket money", "grants": [{"kind": "gold", "amount": 100}]},
 		{"level": 7, "big": true, "headline": "Two more deck slots", "grants": [{"kind": "pack", "pack": "general_1"}]},
 		{"level": 8, "headline": "A bigger opening hand", "grants": [{"kind": "gold", "amount": 150}]},
 		{"level": 9, "headline": "Uncommons up to 3 copies", "grants": [{"kind": "pack", "pack": "path"}]},
@@ -55,7 +55,7 @@
 		{"level": 14, "big": true, "headline": "Two more deck slots", "grants": [{"kind": "pack", "pack": "general_2"}]},
 		{"level": 15, "headline": "A hat with opinions", "grants": [{"kind": "cosmetic", "id": "hat_tricorn"}, {"kind": "gold", "amount": 200}]},
 		{"level": 16, "headline": "A bigger opening hand", "grants": [{"kind": "pack", "pack": "path"}]},
-		{"level": 17, "headline": "Sable's rare stock", "grants": [{"kind": "gold", "amount": 250}]},
+		{"level": 17, "headline": "The shops' best stock: Sable's rares, Tilly's high shelf", "grants": [{"kind": "gold", "amount": 250}]},
 		{"level": 18, "big": true, "headline": "Legendaries up to 2 copies", "grants": [{"kind": "pack", "pack": "gilded"}]},
 		{"level": 19, "headline": "A third Epic piece", "grants": [{"kind": "gold", "amount": 250}]},
 		{"level": 20, "big": true, "headline": "A third item slot", "grants": [{"kind": "pack", "pack": "path"}, {"kind": "gold", "amount": 300}]},

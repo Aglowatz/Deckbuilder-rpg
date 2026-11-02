@@ -13,5 +13,5 @@ amount = 5
 script = ExtResource("2_5d4fh")
 id = "reckless_tonic"
 display_name = "Reckless Tonic"
-description = "One big gulp - use it wisely, there is only one."
+description = "You heal 5 HP in one big gulp. One use - there is only one."
 effect = SubResource("Resource_njwcd")
