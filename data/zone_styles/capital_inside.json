@@ -13,37 +13,37 @@
 	],
 	"light": {
 		"key_color": "#ffe8c0",
-		"key_energy": 0.8,
+		"key_energy": 0.95,
 		"key_pitch": -46,
 		"key_yaw": -30,
-		"ambient_color": "#9a90d8",
-		"ambient_energy": 0.5,
-		"shadow_opacity": 0.3
+		"ambient_color": "#cfcde6",
+		"ambient_energy": 0.38,
+		"shadow_opacity": 0.62
 	},
 	"fog": {
-		"color": "#d8ecff",
-		"density": 0.0016
+		"color": "#e6f1ff",
+		"density": 0.0005
 	},
 	"grade": {
-		"warmth": 0.15,
-		"saturation": 1.04,
-		"contrast": 1.1,
-		"post_saturation": 1.26,
+		"warmth": 0.04,
+		"saturation": 1.1,
+		"contrast": 1.18,
+		"post_saturation": 1.3,
 		"tonemap": "agx",
-		"exposure": 0.78,
-		"post_contrast": 1.02,
+		"exposure": 0.62,
+		"post_contrast": 1.1,
 		"shadow_tint": "#f2f0fa",
-		"highlight_tint": "#fff4da"
+		"highlight_tint": "#fff9ee"
 	},
 	"bloom": {
-		"intensity": 0.5,
-		"threshold": 1.05
+		"intensity": 0.2,
+		"threshold": 1.25
 	},
-	"vignette": 0.14,
+	"vignette": 0.08,
 	"far_haze": {
 		"_about": "Primm's Castle's own haze inside the walls (CAP-22)",
-		"color": "#e4eef8",
-		"density": 0.0012
+		"color": "#e8f0fa",
+		"density": 0.0005
 	},
 	"material_swaps": {
 		"ENV-WALL-TIMBER": "ENV-WALL-TIMBER-WARM",

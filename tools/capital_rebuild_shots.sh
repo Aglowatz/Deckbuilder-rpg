@@ -26,10 +26,10 @@ shot() {
 	SHOT_RES=1280x720 timeout 300 bash tools/shot.sh res://scenes/capital_zone.tscn "crb_$name" --size=1280x720 --nohud=true --clean=true --jpg=true --wait=3 --still=true --gate=true "$@" $extra 2>&1 | grep -E "saved|SCRIPT ERROR"
 	[ -f "_screenshots/crb_$name.jpg" ] && mv "_screenshots/crb_$name.jpg" "$out/$name.jpg"
 }
-# the reference framing (the target's camera) and the same spot from the play camera
-shot "ref" --pos=60,66 --set=$REF
-shot "ref_mid" --pos=60,66 --set=$MID
-shot "ref_play" --pos=60,66 --set=$DEFAULT
+# the reference framing (the fountain at the bottom, the boulevard and the castle beyond; the camera inside the wall) and the plaza from the gate
+shot "ref" --pos=63.5,50 --set=$MID
+shot "ref_mid" --pos=60,64 --set=$MID
+shot "ref_play" --pos=60,64 --set=$DEFAULT
 # the standard spots
 shot "gate_plaza" --at=po_gate_plaza --set=$DEFAULT
 shot "inner_gate" --pos=60,68 --set=$DEFAULT

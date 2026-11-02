@@ -58,6 +58,8 @@ func build(parent: Node3D) -> void:
 	LoadTiming.detail("capital: _build_buildings")
 	_build_boundaries()
 	LoadTiming.detail("capital: _build_boundaries")
+	_build_skyline()
+	LoadTiming.detail("capital: _build_skyline")
 	_build_landmarks()
 	LoadTiming.detail("capital: _build_landmarks")
 	_build_props()
@@ -312,9 +314,11 @@ func _inside_color(kind: CapitalLayout.Floor, cx: int, cz: int, n: float, checke
 	var stripe: bool = (cx / 2) % 2 == 0
 	match kind:
 		CapitalLayout.Floor.ROAD:
-			return Color(0.78, 0.72, 0.64).lerp(Color(0.7, 0.64, 0.58), 0.35 if checker else n * 0.1)
+			return Color(0.92, 0.88, 0.8).lerp(Color(0.86, 0.82, 0.76), 0.5 if ((cx >> 1) + (cz >> 1)) % 2 == 0 else 0.0)
 		CapitalLayout.Floor.PLAZA:
-			return Color(0.84, 0.78, 0.7).lerp(Color(0.72, 0.66, 0.6), 0.5 if checker else 0.0)
+			# the rebuild: a crisp 2 m checker of pink, sage and cream on the plazas and the boulevard (the target's paving)
+			var big: int = ((cx >> 1) + (cz >> 1)) % 3
+			return [Color(0.96, 0.8, 0.84), Color(0.8, 0.9, 0.82), Color(0.98, 0.94, 0.86)][big]
 		CapitalLayout.Floor.LAWN:
 			return Color(0.3, 0.7, 0.32) * (1.0 if stripe else 0.88)
 		CapitalLayout.Floor.SOIL:
@@ -391,8 +395,8 @@ func _box(parent: Node3D, size: Vector3, material: Material, pos: Vector3, rot_d
 func _build_buildings() -> void:
 	var houses: Array[CapitalLayout.Building] = []
 	for building: CapitalLayout.Building in layout.buildings:
-		if building.style == "house" and not bool(ctx.get("final", false)):
-			houses.append(building)
+		if building.style in ["house", "shop"]:
+			houses.append(building)  # the rebuild: grand townhouses in every state (loosened once Primm has fallen)
 			continue
 		var node: Node3D = _building_node(building)
 		if node != null:
@@ -435,6 +439,10 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 				node.add_child(CapitalLandmarks.wall_piece(w, h, d, int(rect.position.x), towers, Vector2(0.3, 0.0)))
 		"tower":
 			node.add_child(CapitalLandmarks.gate_tower(w, h, d))
+		"spire":
+			# the rebuild's slender towers (CapitalGrand.tower): blue spires round the plaza, pink at its north corners, gold-roofed by the forecourt
+			var roof: String = ["roof_blue", "roof_pink", "gold"][building.variant % 3]
+			node.add_child(CapitalGrand.tower(h, 1.1 if h < 20.0 else 1.35, roof, final_state))
 		"castle":
 			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
@@ -561,13 +569,36 @@ func _shop(node: Node3D, building: CapitalLayout.Building) -> void:
 func _build_houses(houses: Array[CapitalLayout.Building]) -> void:
 	if houses.is_empty():
 		return
-	# the Showcase's identical houses from the kit (CapitalDistricts.facade_houses): one mesh for all sixteen
-	var rects: Array[Rect2] = []
-	var heights: Array[float] = []
-	for house: CapitalLayout.Building in houses:
-		rects.append(house.rect)
-		heights.append(house.height)
-	root.add_child(CapitalDistricts.facade_houses(rects, heights))
+	# The rebuild (Nov 1, docs/art/capital_rebuild_nov1.md): grand townhouses (CapitalGrand.townhouse) on the sixteen footprints, mirrored about the
+	# avenue: the inner columns three storeys, the outer four (the skyline steps up away from the boulevard and nothing near the camera hides the
+	# hero); each row its own roof and accent, identical across the axis; the same door card on every house but the one that differs (index 6);
+	# the plaza-side pair are the painted storefronts' doors. One mesh per house, so the occlusion fader dims one house, never a row. One banner
+	# on the whole boulevard hangs a degree and a half off (the wrong detail only the observant notice).
+	var final_state: bool = bool(ctx.get("final", false))
+	var roofs: Array[String] = ["hip", "mansard", "gable", "hip"]
+	var accents: Array[String] = ["pink", "sage", "lavender", "blue"]
+	for index: int in range(houses.size()):
+		var house: CapitalLayout.Building = houses[index]
+		var rect: Rect2 = house.rect
+		var column: int = index / 4
+		var row: int = index % 4
+		var inner: bool = column == 1 or column == 2
+		var door: String = "CAP-SHEET-DOORS-01"
+		if house.style == "shop":
+			door = "CAP-SHEET-DOORS-03" if house.variant % 2 == 1 else "CAP-SHEET-DOORS-02"
+		elif index == 6:
+			door = "CAP-SHEET-DOORS-05"
+		var spec: Dictionary = {"w": rect.size.x, "d": rect.size.y, "storeys": 4 if inner else 5, "bays": 3, "accent": accents[row], "roof": roofs[row],
+			"balcony": true, "pediment": row != 1, "door": door, "final": final_state, "banner_roll": 1.5 if index == 9 else 0.0}
+		var node: Node3D = CapitalGrand.townhouse(spec)
+		node.name = "Townhouse_%d" % index
+		node.position = Vector3(rect.get_center().x, 0.0, rect.get_center().y)
+		root.add_child(node)
+		if final_state:
+			for light: Variant in node.get_meta("lights", []) as Array:
+				var list: Array = district_lights.get("approach", []) as Array
+				list.append(light)
+				district_lights["approach"] = list
 
 
 ## The layout pass's stand-in houses (kept for reference; the kit houses replaced them in the art pass).
@@ -703,6 +734,49 @@ func _build_boundaries() -> void:
 	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:
 		var wall: Vector3 = Vector3(rect.position.x + rect.size.x * 0.5, 2.6, rect.position.y + rect.size.y * 0.5)
 		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), M.flat(M.BRICK_DEAD.darkened(0.3)), wall)
+
+
+## The rebuild's skyline beyond the walkable city: tall townhouses and towers on the castle hill's top either side of the palace (behind the
+## north wall, 7 m up, so they show over it from every inside street and step the skyline up toward the keep), and rows behind the side walls.
+## Never walked, never culled, never faded (far views); one merged mesh per side.
+func _build_skyline() -> void:
+	var final_state: bool = bool(ctx.get("final", false))
+	var skyline: Node3D = Node3D.new()
+	skyline.name = "Skyline"
+	root.add_child(skyline)
+	var top: float = CapitalLayout.HILL_HEIGHT
+	for side: float in [-1.0, 1.0]:
+		# the tallest pair flanks the grand stair's landing on the hill top (the forecourt's lawn holds the rifts, so they stand on the castle instead)
+		var stair: Node3D = CapitalGrand.tower(20.0, 1.35, "gold", final_state)
+		stair.position = Vector3(60.0 + side * 8.5, top, 4.5)
+		skyline.add_child(stair)
+		# on the hill: four townhouses in a row at z -7, a tower between the palace's outer towers and them, a taller tower at the far end
+		for index: int in range(4):
+			var x: float = 60.0 + side * (41.5 + float(index) * 5.5)
+			var house: Node3D = CapitalGrand.townhouse({"w": 4.6, "d": 4.6, "storeys": 4 + (index % 2), "bays": 3, "accent": ["pink", "sage", "lavender", "blue"][index], "roof": ["hip", "mansard"][index % 2], "balcony": true, "pediment": true, "final": final_state, "banner": ""})
+			house.position = Vector3(x, top, -7.0)
+			skyline.add_child(house)
+		var near: Node3D = CapitalGrand.tower(20.0, 1.2, "roof_pink", final_state, false)
+		near.position = Vector3(60.0 + side * 39.0, top, -1.5)
+		skyline.add_child(near)
+		var far: Node3D = CapitalGrand.tower(26.0, 1.4, "roof_blue", final_state, false)
+		far.position = Vector3(60.0 + side * 60.0, top, -4.0)
+		skyline.add_child(far)
+		# behind the side walls (x -7 and 127): a row of five-storey fronts facing the city and a tower at each run's middle
+		var wall_x: float = -7.0 if side < 0.0 else 127.0
+		var z: float = 6.0
+		while z < 56.0:
+			var front: Node3D = CapitalGrand.townhouse({"w": 5.0, "d": 4.0, "storeys": 5, "bays": 3, "accent": "cream", "roof": "hip", "balcony": false, "pediment": true, "final": final_state, "banner": ""})
+			front.position = Vector3(wall_x, 0.0, z)
+			front.rotation_degrees.y = 90.0 if side < 0.0 else -90.0
+			skyline.add_child(front)
+			z += 8.0
+		var mid: Node3D = CapitalGrand.tower(24.0, 1.3, "gold", final_state, false)
+		mid.position = Vector3(wall_x, 0.0, 30.0)
+		skyline.add_child(mid)
+	for node: Node in skyline.get_children():
+		_batchable(node)
+	CapitalLandmarks.mark_view(skyline)
 
 
 ## The hero landmarks (`CapitalLandmarks`, modelled after the kit's concepts): Primm's Castle on its hill at the city's heart, the great gate's

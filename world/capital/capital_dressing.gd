@@ -29,6 +29,9 @@ const LOW_CLEAR: float = 3.0
 
 var root: Node3D
 var fields: Dictionary = {}
+## The rebuild's formal gardens (the plaza's parterres, the boulevard's and the lawn panels' rose runs, the lamp banners): their own card fields.
+## They stand inside their planters by design (the planter blocks, never the cone), so the rows' people-room rule does not apply to them.
+var garden_fields: Dictionary = {}
 ## Why the row slots were refused (reason -> count): the report and the tests read it.
 var refused: Dictionary = {}
 
@@ -41,10 +44,17 @@ static func build(parent: Node3D, builder: CapitalBuilder, keep_clear: Array[Vec
 	dressing._roads(builder.layout)
 	dressing._rows(builder, keep_clear)
 	dressing._lanes(builder, keep_clear)
-	dressing._grave_flowers(builder, keep_clear)
+	# the rebuild (Nov 1): no flower clumps anywhere inside (nothing random); the plaza's parterres and the boulevard's planters, the paving borders
+	dressing._paving(builder.layout)
+	dressing._parterres(builder)
+	dressing._borders(builder.layout)
 	dressing._shine()
 	for kind: String in dressing.fields.keys():
 		KitFoliage.tree_field(dressing.root, kind, dressing.fields[kind] as Array[Dictionary], kind != "cap_rose")
+	for kind: String in dressing.garden_fields.keys():
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(dressing.root, kind, dressing.garden_fields[kind] as Array[Dictionary], kind != "cap_rose")
+		if field != null:
+			field.name = "Garden_" + kind
 	return dressing
 
 
@@ -197,8 +207,119 @@ func _lanes(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
 						builder.add_blocker(Vector3(q.x, 0.0, q.y), radius)
 
 
+## The rebuild's formal gardens (CapitalGrand): four square parterre beds on the plaza's diagonals (a white planter with a gold lip, roses round
+## its edge, a clipped topiary cone in a gold urn at its middle; the bed blocks, the walk round the fountain and the four mouths stay open), and
+## continuous low rose planters along both verges of the boulevard between the house fronts and the road (never blockers: a low kerb).
+func _parterres(builder: CapitalBuilder) -> void:
+	var mesh: KitMesh = CapitalGrand.mesh_for(false)
+	var centre: Vector2 = CapitalLayout.PLAZA_CENTER
+	var half: float = CapitalLayout.PLAZA_BED_RADIUS / sqrt(2.0)
+	for sx: float in [-1.0, 1.0]:
+		for sz: float in [-1.0, 1.0]:
+			var at: Vector3 = Vector3(centre.x + sx * half, 0.0, centre.y + sz * half)
+			var size: float = CapitalLayout.PLAZA_BED_SIZE
+			CapitalGrand.planter_box(mesh, at, size, 0.46)
+			_field("cap_topiary", at + Vector3(0, 0.46, 0), 1.0)
+			for index: int in range(12):
+				var angle: float = TAU * (float(index) + 0.5) / 12.0
+				var r: float = size * 0.34 / maxf(absf(cos(angle)), absf(sin(angle)))
+				_field("cap_rose", at + Vector3(cos(angle) * r, 0.4, sin(angle) * r), 0.95)
+			for index: int in range(4):
+				var angle: float = PI * 0.25 + PI * 0.5 * float(index)
+				_field("cap_rose", at + Vector3(cos(angle) * size * 0.2, 0.4, sin(angle) * size * 0.2), 0.8)
+			builder.add_blocker(at, size * 0.5 + 0.3)
+	# the boulevard's verges: a rose planter each side of the avenue, from the first house row to the plaza, outside the kerb line the props stand on
+	for side: float in [-1.0, 1.0]:
+		var x: float = CapitalLayout.PLAZA_CENTER.x + side * 4.0
+		var roses: Array[Vector3] = CapitalGrand.planter_run(mesh, Vector3(x, 0.0, 18.5), Vector3(x, 0.0, 44.5), 0.7, 1.1, 0.3)
+		for p: Vector3 in roses:
+			_field("cap_rose", p, 0.6)
+	# the lawn panels between the ring streets and the outer townhouses: a rose run each side, broken round the hidden chests
+	for run: Array in [[41.6, 19.0, 29.5], [41.6, 34.5, 44.5], [78.4, 19.0, 22.5], [78.4, 27.5, 44.5]]:
+		var x: float = float(run[0])
+		for p: Vector3 in CapitalGrand.planter_run(mesh, Vector3(x, 0.0, float(run[1])), Vector3(x, 0.0, float(run[2])), 0.7, 1.1, 0.3):
+			_field("cap_rose", p, 0.6)
+	# the plaza lamps carry a matched pair of sun banners each (the same angle on every post; one post's a degree off)
+	var lamp_index: int = 0
+	for prop: CapitalLayout.Prop in builder.layout.props:
+		if prop.kind != "lamp_perfect" or Vector2(prop.pos.x, prop.pos.z).distance_to(CapitalLayout.PLAZA_CENTER) > CapitalLayout.PLAZA_LAMP_RADIUS + 0.5:
+			continue
+		var roll: float = 1.0 if lamp_index == 3 else 0.0
+		mesh.tube("gold", prop.pos + Vector3(-0.5, 2.75, 0), prop.pos + Vector3(0.5, 2.75, 0), 0.03, 6)
+		CapitalGrand.card_rolled(mesh, CapitalGrand.BANNER_LAMP, prop.pos + Vector3(0, 2.7, 0.04), 1.1, Vector3(0, 0, 1), roll)
+		CapitalGrand.card_rolled(mesh, CapitalGrand.BANNER_LAMP, prop.pos + Vector3(0, 2.7, -0.04), 1.1, Vector3(0, 0, -1), -roll)
+		lamp_index += 1
+	var node: MeshInstance3D = mesh.instance("Parterres")
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.set_meta(&"no_occlusion_fade", true)
+	node.set_meta(&"no_wind", true)
+	root.add_child(node)
+
+
+## The rebuild's paving: every plaza cell inside the walls (the Gate Plaza, the boulevard, the forecourt, the inner gate) as a crisp 2 m checker of
+## pink, sage and cream over the painted ground (the painted plaza texture is a 1 m checker that no vertex colour can change), a hair above it,
+## never painted, never faded. One mesh, one surface.
+func _paving(layout: CapitalLayout) -> void:
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "cap_paving"))
+	var tones: Array[Color] = [Color("ecb9c6"), Color("b9d3bd"), Color("f3e6ca")]
+	for index: int in range(tones.size()):
+		mesh.alias("tone_%d" % index, "flat", tones[index].srgb_to_linear())
+	var lift: float = 0.02
+	var count: int = 0
+	for cz: int in range(2, CapitalLayout.WALL_Z0):
+		for cx: int in range(2, 117):
+			if layout.cell_at(cx, cz) != CapitalLayout.Cell.GROUND or layout.floor_at(cx, cz) != CapitalLayout.Floor.PLAZA:
+				continue
+			var tone: String = "tone_%d" % (((cx >> 1) + (cz >> 1)) % 3)
+			var x: float = float(cx)
+			var z: float = float(cz)
+			mesh.quad(tone, [Vector3(x, lift, z), Vector3(x + 1.0, lift, z), Vector3(x + 1.0, lift, z + 1.0), Vector3(x, lift, z + 1.0)], Vector3.UP)
+			count += 1
+	if count == 0:
+		return
+	var node: MeshInstance3D = mesh.instance("Paving")
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.set_meta(&"no_occlusion_fade", true)
+	node.set_meta(&"no_range_cull", true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(node)
+
+
+## The paving borders (white strips with a gold line): the avenue's two edges from the forecourt to the plaza, the ring round the plaza, the walk
+## round the fountain, the gate road's edges inside the gate.
+func _borders(layout: CapitalLayout) -> void:
+	var mesh: KitMesh = CapitalGrand.mesh_for(false)
+	var axis: float = CapitalLayout.PLAZA_CENTER.x
+	var avenue: Dictionary = {}
+	for route: Dictionary in layout.routes:
+		if str(route["id"]) == "avenue":
+			avenue = route
+	var half: float = float(avenue.get("width", 6.0)) * 0.5
+	var top: float = (avenue["b"] as Vector2).y if not avenue.is_empty() else 14.0
+	var mouth: float = (avenue["a"] as Vector2).y if not avenue.is_empty() else 46.5
+	for side: float in [-1.0, 1.0]:
+		CapitalGrand.border(mesh, Vector3(axis + side * half, 0.0, top), Vector3(axis + side * half, 0.0, mouth + 2.0), 0.6)
+		CapitalGrand.border(mesh, Vector3(axis + side * half, 0.0, float(CapitalLayout.WALL_Z0) - 0.5), Vector3(axis + side * half, 0.0, CapitalLayout.PLAZA_CENTER.y + CapitalLayout.PLAZA_RADIUS - 1.0), 0.6)
+	var centre: Vector3 = Vector3(CapitalLayout.PLAZA_CENTER.x, 0.0, CapitalLayout.PLAZA_CENTER.y)
+	CapitalGrand.ring_border(mesh, centre, CapitalLayout.PLAZA_RADIUS, CapitalLayout.PLAZA_RADIUS + 0.6)
+	CapitalGrand.ring_border(mesh, centre, 4.7, 5.3)
+	var node: MeshInstance3D = mesh.instance("PavingBorders")
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.set_meta(&"no_occlusion_fade", true)
+	node.set_meta(&"no_range_cull", true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(node)
+
+
+func _field(kind: String, pos: Vector3, scale: float) -> void:
+	if not garden_fields.has(kind):
+		garden_fields[kind] = [] as Array[Dictionary]
+	(garden_fields[kind] as Array[Dictionary]).append({"pos": pos, "scale": scale})
+
+
 ## Grave Row's lawns full of flowers (its paint-over): clumps of wildflowers and foxgloves between the headstone rows and the walls, never on a lane
-## or round a spot.
+## or round a spot. (The rebuild no longer places them: nothing random inside the walls; kept for the record.)
 func _grave_flowers(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
 	var layout: CapitalLayout = builder.layout
 	var entries: Array[Dictionary] = []

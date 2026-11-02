@@ -27,6 +27,8 @@ static func merge_static(root: Node) -> int:
 				var tool: SurfaceTool = SurfaceTool.new()
 				tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 				groups[key] = {"material": material_value, "tool": tool, "cell": cell}
+			if source.has_meta(&"no_range_cull"):
+				(groups[key] as Dictionary)["view"] = true  # a far view (the Capital's skyline) stays a far view once merged
 			((groups[key] as Dictionary)["tool"] as SurfaceTool).append_from(source.mesh, surface, xform)
 		victims.append(source)
 	if groups.is_empty():
@@ -45,6 +47,8 @@ static func merge_static(root: Node) -> int:
 		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		instance.set_meta("no_occlusion_fade", true)
 		instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+		if bool(data.get("view", false)):
+			instance.set_meta(&"no_range_cull", true)
 		holder.add_child(instance)
 	for victim: MeshInstance3D in victims:
 		victim.get_parent().remove_child(victim)

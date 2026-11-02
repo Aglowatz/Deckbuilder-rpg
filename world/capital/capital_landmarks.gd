@@ -34,7 +34,7 @@ static func build(spec: Dictionary) -> Node3D:
 		"CAP-HERO-GREAT-WALL-GATE":
 			node = gate_arch(final_state)
 		"CAP-HERO-PRIMM-FOUNTAIN":
-			node = fountain(final_state)
+			node = CapitalGrand.fountain(3.9, final_state)  # the rebuild's tiered fountain (the old basin stays as `fountain` for the lineup)
 		"CAP-HERO-RIFT":
 			node = rift(int(spec.get("seed", 0)), float(spec.get("radius", 1.2)), bool(spec.get("big", false)))
 		"CAP-HERO-WATCHTOWER":
@@ -363,6 +363,14 @@ static func gate_tower(w: float, h: float, d: float) -> Node3D:
 	K.finial(mesh, Vector3(0, h + 5.6, 0), 1.4)
 	sun_banner(mesh, Vector3(0, h - 0.8, d * 0.5 + 0.02), 3.0, 8.4, Vector3(0, 0, 1))
 	K.card(mesh, "CAP-SHEET-BANNERS-03", Vector3(0, h - 1.4, -d * 0.5 - 0.06), 5.0, Vector3(0, 0, -1))
+	# the rebuild (Nov 1): the piers' faces toward the opening and the city carry the sun medallion, a tall mirrored lancet and a banner, so the first
+	# view of the city is not two blank walls
+	for side: Vector3 in [Vector3(1, 0, 0), Vector3(-1, 0, 0)]:
+		var face: Vector3 = side * (w * 0.5 + 0.01)
+		K.sun_emblem(mesh, face + Vector3(0, h * 0.72, 0), 0.9, side)
+		K.lancet_window(mesh, face + Vector3(0, h * 0.22, 0), 1.3, 4.6, side, "mirror")
+		K.card(mesh, "CAP-SHEET-BANNERS-01", face + side * 0.08 + Vector3(0, h * 0.52, 0), 3.2, side)
+	K.sun_emblem(mesh, Vector3(0, h * 0.72, -d * 0.5 - 0.02), 0.9, Vector3(0, 0, -1))
 	return finish(root, mesh, [], h + 6.0)
 
 

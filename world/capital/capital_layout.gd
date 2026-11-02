@@ -55,6 +55,10 @@ const ANCHOR_CLEARANCE: float = 5.5
 ## The Gate Plaza: an open round about the Primm statue fountain; the hub's things stand round its rim.
 const PLAZA_CENTER: Vector2 = Vector2(60.0, 58.0)
 const PLAZA_RADIUS: float = 10.5
+## The rebuild: the plaza's eight lamps stand on this ring, its four parterre beds on the diagonals at PLAZA_BED_RADIUS (dressing, not props).
+const PLAZA_LAMP_RADIUS: float = 8.2
+const PLAZA_BED_RADIUS: float = 9.2
+const PLAZA_BED_SIZE: float = 2.8
 
 ## Region ids (several rects may share one id), outside then inside, in reading order.
 const OUTSIDE_REGIONS: Array[String] = ["gate", "camp", "rifts", "outpost", "tunnels"]
@@ -64,7 +68,7 @@ const INSIDE_REGIONS: Array[String] = ["plaza", "approach", "reek", "grave", "tr
 const CASTLE: Vector3 = Vector3(60.0, 0.0, -21.0)
 const CASTLE_SIZE: Vector3 = Vector3(78.0, 46.0, 44.0)
 const HILL_HEIGHT: float = 7.0
-const FOUNTAIN_SIZE: Vector3 = Vector3(7.0, 6.5, 7.0)
+const FOUNTAIN_SIZE: Vector3 = Vector3(9.2, 8.5, 9.2)
 const WATCHTOWER: Vector2 = Vector2(91.0, 96.5)
 const TUNNEL_MOUTH: Vector2 = Vector2(96.0, 76.0)
 const TRAM_SHED: Rect2 = Rect2(104.5, 49.5, 10.0, 6.0)
@@ -78,7 +82,7 @@ const WALL_TOWERS: Array[float] = [9.0, 23.0, 37.0, 83.0, 109.0]
 ## Blocking circles of the stand-ins that stand on walkable ground (x, z, radius), for the layout-only readers (walkability, tests). The
 ## fountain and the crystals are props with these circles; the watchtower and the camp are only circles (their models are landmarks).
 const LANDMARK_BLOCKERS: Array[Vector3] = [
-	Vector3(60.0, 58.0, 3.3),     # the Primm statue fountain (the inside hub's centre)
+	Vector3(60.0, 58.0, 4.6),     # the Primm statue fountain (the inside hub's centre; the rebuild's tiered fountain, 9.2 m across with its step)
 	Vector3(91.0, 96.5, 3.4),     # the broken watchtower (the ruined outpost)
 	Vector3(40.0, 89.5, 1.6),     # rift crystals A (the rift fields)
 	Vector3(21.0, 99.0, 1.6),     # rift crystals B
@@ -313,12 +317,12 @@ func _routes() -> void:
 	_route("east_track", Vector2(108.0, 81.5), Vector2(108.0, 106.0), MAIN_ROUTE_WIDTH)
 	# Inside: the grand avenue from the plaza to the castle stair (the gate road ends at the plaza's rim, the plaza is open), the forecourt along the castle hill, the two ring streets, the plaza boulevards,
 	# the district separators and lanes. Every district sits on a loop.
-	_route("avenue", Vector2(60.0, 47.5), Vector2(60.0, 14.0), 6.0)
+	_route("avenue", Vector2(60.0, 46.5), Vector2(60.0, 14.0), 6.0)
 	_route("forecourt", Vector2(36.5, 15.0), Vector2(83.5, 15.0), MAIN_ROUTE_WIDTH)
 	_route("ring_w", Vector2(38.5, 15.0), Vector2(38.5, 70.0), MAIN_ROUTE_WIDTH)
 	_route("ring_e", Vector2(81.5, 15.0), Vector2(81.5, 70.0), MAIN_ROUTE_WIDTH)
-	_route("boulevard_w", Vector2(19.0, 58.0), Vector2(50.0, 58.0), MAIN_ROUTE_WIDTH)
-	_route("boulevard_e", Vector2(70.0, 58.0), Vector2(100.0, 58.0), MAIN_ROUTE_WIDTH)
+	_route("boulevard_w", Vector2(19.0, 58.0), Vector2(49.0, 58.0), MAIN_ROUTE_WIDTH)
+	_route("boulevard_e", Vector2(71.0, 58.0), Vector2(100.0, 58.0), MAIN_ROUTE_WIDTH)
 	_route("separator_w", Vector2(4.0, 35.0), Vector2(38.5, 35.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e1", Vector2(81.5, 21.0), Vector2(115.5, 21.0), MAIN_ROUTE_WIDTH)
 	_route("separator_e2", Vector2(81.5, 45.0), Vector2(115.5, 45.0), MAIN_ROUTE_WIDTH)
@@ -684,13 +688,20 @@ func _walls_and_gate() -> void:
 
 func _plaza() -> void:
 	# The Primm statue fountain at the centre of an empty round; the hub's things on its rim, each facing in.
-	_prop("fountain", PLAZA_CENTER.x, PLAZA_CENTER.y, 0.0, 1.55, 3.3)
+	_prop("fountain", PLAZA_CENTER.x, PLAZA_CENTER.y, 0.0, 1.55, 4.6)
 	_prop_at("booth", "exit_booth", 0.9, 270.0, "", 2)
 	_prop_at("complaint_box", "complaint_1", 0.35, 90.0)
 	_prop_at("manhole", "manhole")
 	_prop_at("manhole", "net_plaza")
-	for lamp: Vector2 in [Vector2(51.0, 49.0), Vector2(69.0, 49.0), Vector2(50.5, 67.0), Vector2(69.5, 67.0)]:
-		_prop("lamp_perfect", lamp.x, lamp.y, 0.0, 1.0, 0.25)
+	# The rebuild (Nov 1): slender towers at the plaza's four corners (2 x 2 m, off every route and spot), the gilded Primm pair flanking the
+	# avenue's mouth (facing the gate), eight pink lamps on the walk round the fountain between the parterres (thin cards: never blockers).
+	for corner: Vector2 in [Vector2(48.0, 49.0), Vector2(72.0, 49.0), Vector2(50.0, 67.5), Vector2(70.0, 67.5)]:
+		_building("spire", corner.x - 1.0, corner.y - 1.0, 2.0, 2.0, 16.0, 0.0, "", 0 if corner.y < PLAZA_CENTER.y else 1)
+	for side: float in [-1.0, 1.0]:
+		_prop("gilded_statue", PLAZA_CENTER.x + side * 8.5, 47.0, 0.0, 1.0, 1.5)
+	for index: int in range(8):
+		var angle: float = deg_to_rad(22.5 + 45.0 * float(index))
+		_prop("lamp_perfect", PLAZA_CENTER.x + cos(angle) * PLAZA_LAMP_RADIUS, PLAZA_CENTER.y + sin(angle) * PLAZA_LAMP_RADIUS, 0.0, 1.0, 0.0)
 	_prop("bench", 47.0, 54.4, 90.0)
 	_prop("bench", 73.0, 54.4, 270.0)
 	_sign("sign.plaza_main", 54.0, 49.0, 0.0, 1.2, "banner")
@@ -760,6 +771,7 @@ func _reek() -> void:
 	_prop_at("manhole", "net_reek")
 	for junk: Vector3 in [Vector3(33.5, 63.5, 0.0), Vector3(25.5, 52.5, 1.0)]:
 		_prop("junk_pile", junk.x, junk.y, 30.0 + junk.z * 70.0, 1.3, 1.3, int(junk.z), "refusemancer")
+	_building("spire", 32.0, 44.0, 2.0, 2.0, 14.0, 0.0, "", 1)  # the rebuild: the district's tower at its inner corner
 	_sign("sign.reek_main", 22.0, 39.0, 0.0, 1.0, "wall")
 	_sign("sign.reek_untidy", 15.0, 57.5, 90.0, 0.9, "sign")
 	_sign("sign.reek_sick_patch", 32.0, 40.0, 270.0, 0.8, "sign")
@@ -785,6 +797,7 @@ func _grave_row() -> void:
 	_prop("notary_booth", 3.8, 13.0, 90.0, 1.0, 0.9)
 	_prop_at("family_plot", "pell_plot")
 	_prop_at("manhole", "net_grave")
+	_building("spire", 32.0, 8.5, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the district's tower at its inner corner
 	_sign("sign.grave_main", 19.0, 2.6, 0.0, 1.0, "wall")
 	_sign("sign.grave_permit", 11.0, 24.5, 270.0, 0.9, "sign")
 	_sign("sign.grave_plot", 26.5, 9.0, 0.0, 0.8, "sign")
@@ -807,6 +820,7 @@ func _transit_yards() -> void:
 	for pylon_x: float in [86.0, 106.0]:
 		_prop("pylon", pylon_x, 66.0, 0.0, 1.0, 0.5, 0, "beefcake")
 	_prop_at("manhole", "net_transit")
+	_building("spire", 112.0, 61.0, 2.0, 2.0, 14.0, 0.0, "", 0)  # the rebuild: the yards' tower by the cable
 	_sign("sign.transit_main", 109.5, 48.9, 0.0, 1.0, "wall")
 	_sign("sign.transit_cardio", 90.0, 61.5, 0.0, 0.9, "sign")
 	_sign("sign.transit_cable", 113.5, 58.5, 270.0, 0.8, "sign")
@@ -846,6 +860,7 @@ func _ward() -> void:
 		_prop("bed", 99.0 + float(index) * 3.0, 6.0, 0.0, 1.0, 0.0)
 	_prop_at("loudspeaker", "ward_speaker", 0.3)
 	_prop("window_booth", 103.0, 12.2, 0.0, 1.0, 0.0)  # beside the door, never in it
+	_building("spire", 115.0, 8.0, 2.0, 2.0, 14.0, 0.0, "", 1)  # the rebuild: the Ward's tower in the city's north-east corner
 	_sign("sign.ward_main", 93.0, 14.6, 0.0, 1.0, "wall")
 	_sign("sign.ward_permit", 96.5, 15.6, 0.0, 0.8, "sign")
 

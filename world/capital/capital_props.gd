@@ -40,6 +40,9 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return street_lamp(not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)))
 		"statue_primm":
 			return statue(prop.model_scale, bool(ctx.get("final", false)))
+		"gilded_statue":
+			# the rebuild: the painted gold Primm on a tall laurel plinth (CapitalGrand), toppled once he has fallen
+			return CapitalGrand.statue_plinth(3.2, 4.4, bool(ctx.get("final", false)), bool(ctx.get("final", false)))
 		"toppled_statue":
 			return fallen_statue()
 		"portrait":
