@@ -18,7 +18,8 @@ extends Node
 ##   dev <action> ...               debug shortcuts: level N | gold N | autowin on|off | win | lose | heal | travel town|forest|capital|arena |
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
-##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped)
+##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
+##                                  goto <spot id> (the hero onto a talk / use spot of the current zone or town; then `key E`)
 ##   log <text>                     write a note to the log
 ## The run stops after --limit seconds (default 900) or at the end of the script; every line is echoed to play.log with a timestamp.
 
@@ -361,6 +362,14 @@ func _dev(parts: PackedStringArray) -> void:
 			# forest (`Session.resume_loaded_game`), where the town hotkeys are dead; the mid-game snapshot sets this flag.
 			Session.set_flag(StringName(arg), arg2 != "off" and arg2 != "0")
 			result = "flag %s = %s" % [arg, str(Session.flag(StringName(arg)))]
+		"goto":
+			# Batch 11 (Nov 2): `dev goto <spot id>` stands the hero on a talk / use spot of the current zone or town (then `key E` uses it), the
+			# walk smokes' shortcut for long legs; the camera follows at once.
+			result = _goto_spot(arg)
+		"secret":
+			# Batch 11: `dev secret harbor_chest` - a found secret (the Secret Dealer's alley opens on the next town load)
+			Session.discover_secret(arg)
+			result = "secret %s found" % arg
 		"save":
 			result = DevActions.save_snapshot(arg)
 		"load":
@@ -370,6 +379,23 @@ func _dev(parts: PackedStringArray) -> void:
 			result = "unknown dev action %s" % what
 	_say("  dev: %s" % result)
 	await driver.seconds(0.5)
+
+
+## The hero onto the spot `id` of the current scene (a ZoneScene or the TownScene: both keep `spots`, `player`, `_camera`, `camera_offset`).
+func _goto_spot(id: String) -> String:
+	var scene: Node = get_tree().current_scene
+	if scene == null or not ("spots" in scene) or not ("player" in scene):
+		return "goto: no spots in this scene"
+	for spot: Variant in scene.get("spots") as Array:
+		if str(spot.get("id")) != id:
+			continue
+		var player: Node3D = scene.get("player") as Node3D
+		player.position = spot.get("position") as Vector3
+		var camera: Camera3D = scene.get("_camera") as Camera3D
+		if camera != null:
+			camera.position = player.position + CameraRig.shape(scene.get("camera_offset") as Vector3)
+		return "goto %s at %s" % [id, str(player.position)]
+	return "goto: no spot %s here" % id
 
 
 func _say(text: String) -> void:

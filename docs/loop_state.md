@@ -13,4 +13,4 @@ Disk: C: was full at the start (94 MB) - freed 1.7 GB (builds/_export = the unzi
 | 2 | Characters: 10 stationary sets + 7 portraits + the guard set, wired to their NPCs; Rescuer portrait; 3D-figure audit | done: 11 sets wired (guards to CAPITAL_GUARD), 8 portraits, extra_npcs speakers, audit test 6/6 |
 | 3 | Story stills as cutscene / ending backdrops; contact sheet | done: 12 stills, per-beat backdrops, only flex 1-2 on the icon stage, 66-beat contact sheet |
 | 4 | World pieces: the Crease, D.N.A. lobby, Capital pieces, salt shakers, Quota board, N-10, Leaf Crown | done: all 13 rows wired (palace card not visible at play cameras - inbox 6) |
-| 5 | Walk smokes, play script, perf, sharded GUT, art_status, report, commit + push | |
+| 5 | Walk smokes, play script, perf, sharded GUT, art_status, report, commit + push | done: 7 walk smokes OK, play script batch11, perf (pre-existing Capital multimesh; lobby props ~0 ms), GUT 2598/2600 (2 pending), committed + pushed |

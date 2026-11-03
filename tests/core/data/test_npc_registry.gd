@@ -8,7 +8,7 @@ func before_each() -> void:
 
 
 func test_the_list_has_every_character_row() -> void:
-	assert_eq(NpcRegistry.all().size(), 72, "68 list characters plus the four the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well)")
+	assert_eq(NpcRegistry.all().size(), 79, "68 list characters plus the eleven the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well; Batch 11: Hesper, the Exit Clerk, Gary, Tarragon, Billie Muckfoot, Sorrel, the Secret Dealer)")
 	var entry: NpcRegistry.Entry = NpcRegistry.find("NPC-ELDER")
 	assert_not_null(entry)
 	assert_eq(entry.name, "Elder Maren")
@@ -33,7 +33,9 @@ func test_speakers_resolve_by_name_alias_and_prefix() -> void:
 	assert_eq(NpcRegistry.resolve_speaker("Rita"), "NPC-RIP", "the portal rippers share Rip Tearson")
 	assert_eq(NpcRegistry.resolve_speaker("Rip Tearson (Cousin #3)"), "NPC-RIP")
 	assert_eq(NpcRegistry.resolve_speaker("Agnes Overdue (over the intercom)"), "NPC-AGNES")
-	assert_eq(NpcRegistry.resolve_speaker("Billie Muckfoot"), "", "an NPC with no list match has no portrait")
+	assert_eq(NpcRegistry.resolve_speaker("Billie Muckfoot"), "NPC-MUCKFOOT", "Batch 11: an extra NPC named as its speaker label")
+	assert_eq(NpcRegistry.resolve_speaker("A Secret Dealer"), "NPC-DEALER", "an extra alias")
+	assert_eq(NpcRegistry.resolve_speaker("Gate Guard"), "", "an NPC with no list match has no portrait")
 	assert_eq(NpcRegistry.resolve_speaker(""), "")
 	assert_eq(NpcRegistry.resolve_speaker("The Restless Cairn"), "")
 

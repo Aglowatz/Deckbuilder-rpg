@@ -1,0 +1,149 @@
+# Batch 11 import (Nov 2), Part 5: the prologue (the Rescuer's new portrait), each newly painted NPC talked to once, the Crease, the D.N.A.
+# lobby, the Buffet bridge, Threadwell's try-on with the Leaf Crown. `dev goto <spot>` stands the hero on a talk spot (long legs), then E.
+wait 2
+dev newgame
+wait 8
+shot 01_wake
+# the prologue: the wake still, then the forest; the Rescuer comes to the clearing
+key E
+wait 1.5
+key E
+wait 1.5
+key E
+wait 1.5
+shot 02_prologue_a
+key E
+wait 1.5
+shot 03_prologue_b
+key E
+wait 1.5
+shot 04_prologue_c
+key E
+wait 1.5
+shot 05_prologue_d
+key E
+wait 1.5
+shot 06_prologue_e
+key E
+wait 1.5
+shot 07_prologue_f
+skip_dialogue 30
+scene
+# the rest is mid-game: levels, gold, two zones freed (the Leaf Crown unlocks), the Secret Dealer's alley open
+dev level 14
+dev gold 2000
+dev freed beefcake
+dev freed refusemancer
+dev secret harbor_chest
+# The Capital: the Crease (Hesper's heal spot, Fig Sly's stall, the ladder), the Gate Plaza's Exit Clerk, a gate guard
+dev travel zone final
+wait 14
+skip_dialogue 8
+scene
+shot 10_capital_arrive
+dev goto heal
+wait 1
+shot 11_crease_heal_spot
+key E
+wait 1.5
+shot 12_hesper
+skip_dialogue 6
+dev goto fig
+wait 1
+shot 13_crease_fig_stall
+dev goto exit_booth
+wait 1.5
+key E
+wait 1.5
+shot 14_exit_clerk
+skip_dialogue 6
+key Escape
+wait 1
+dev goto guard_in_1
+wait 1
+key E
+wait 1.5
+shot 15_gate_guard
+skip_dialogue 6
+# The Gainlands: Gary under his barbell, the gym attendant (barks)
+dev travel zone beefcake
+wait 12
+skip_dialogue 8
+dev goto spot_me
+wait 1
+key E
+wait 1.5
+shot 20_gary
+skip_dialogue 8
+key Escape
+wait 1
+# The Endless Buffet: the bridge (arrival), Tarragon, Brisket and Sir Loin at their gates
+dev travel zone gourmand
+wait 12
+skip_dialogue 8
+shot 30_buffet_bridge
+dev goto tarragon
+wait 1
+key E
+wait 1.5
+shot 31_tarragon
+skip_dialogue 8
+key Escape
+wait 1
+dev goto gate_ingredient
+wait 1
+key E
+wait 1.5
+shot 32_brisket
+skip_dialogue 8
+dev goto gate_quest
+wait 1
+key E
+wait 1.5
+shot 33_sir_loin
+skip_dialogue 8
+# The Verdant Dump: Billie Muckfoot, Sorrel at the vine bridge
+dev travel zone refusemancer
+wait 12
+skip_dialogue 8
+dev goto wren
+wait 1
+key E
+wait 1.5
+shot 40_muckfoot
+skip_dialogue 8
+key Escape
+wait 1
+dev goto bridge_center
+wait 1
+key E
+wait 1.5
+shot 41_sorrel_growth_spot
+skip_dialogue 8
+# The D.N.A.: the lobby
+dev travel zone necrocrat
+wait 12
+skip_dialogue 8
+shot 50_dna_lobby
+# Crosspath: the Secret Dealer, then Threadwell's shop and the Leaf Crown
+dev travel town
+wait 14
+skip_dialogue 8
+dev goto hidden_vendor
+wait 1
+key E
+wait 1.5
+shot 60_secret_dealer
+skip_dialogue 8
+wait 1
+shot 61_dealer_shop
+key Escape
+wait 1
+dev goto tailor
+wait 1
+key E
+wait 2
+skip_dialogue 6
+wait 1
+shot 62_threadwell
+dump

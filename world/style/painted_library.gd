@@ -205,8 +205,9 @@ static func noise() -> Texture2D:
 	return _textures["noise"] as Texture2D
 
 
-## Textures the game code uses directly (not through a preset): the Buffet's flowing gravy and the D.N.A.'s two-band walls.
-const CODE_USED: Array[String] = ["buff_gravy", "dna_paneling", "dna_wallpaper"]
+## Textures the game code uses directly (not through a preset): the Buffet's flowing gravy, the D.N.A.'s two-band walls and (Batch 11) the Crease's
+## brick walls (CapitalBuilder) and the sage townhouse roofs (CapitalKit.roof_slate).
+const CODE_USED: Array[String] = ["buff_gravy", "dna_paneling", "dna_wallpaper", "crease_brick", "cap_roof_slate"]
 
 
 ## Every texture and decal name (decals as "decal:<name>") the game uses: the presets' layers, variants, cliffs, specials, prop overrides and decals, the shared material

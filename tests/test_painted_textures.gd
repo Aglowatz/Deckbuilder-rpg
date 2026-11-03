@@ -24,7 +24,7 @@ func test_every_csv_texture_is_imported() -> void:
 		elif id.begins_with("DEC-"):
 			assert_true(ResourceLoader.exists("res://assets/art/decals/%s.webp" % base), "%s decal" % id)
 			checked += 1
-	assert_eq(checked, 65, "51 textures + 14 decals")
+	assert_eq(checked, 68, "54 textures + 14 decals (Batch 11: crease_brick, dna_lobby_floor, cap_roof_slate)")
 
 
 func test_presets_only_name_existing_textures() -> void:

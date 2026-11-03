@@ -1,5 +1,11 @@
 # Batch 11 art import (Nov 2)
 
+**Summary: all 45 images In Game, no REDOs.** 11 painted sets (the last 3D NPCs - only the window mannequin and the Dump's animals stay 3D)
++ 8 portraits (the Rescuer with both arms), 12 story stills as per-beat backdrops (only Flex's beats 1-2 keep the icon stage), the Crease and the
+D.N.A. lobby dressed and textured, side-view statues, gold urns, sage slate roofs, salt-shaker bridge pillars, the Quota board, N-10, and the
+Leaf Crown back in the shop. 7 walk smokes OK, GUT 2598/2600 (2 pending). Decisions for you: docs/overnight_inbox.md "Batch 11 import" (8 items;
+the palace backdrop not visible at play cameras and Sorrel's voice first).
+
 Source: docs/art/art_needed_nov2.csv = the design sheet's Art Batch tab rows 188-232 (Batch 11, # 172-216, 45 images, all approved).
 Tag `pre-batch11`. Loop state docs/loop_state.md; questions in docs/overnight_inbox.md ("Batch 11 import").
 Backups of every replaced file: `_art_source/superseded_batch11/` (NPC-RESCUER portrait, N-10 card + thumb, the LEAFCROWN hat cards + icon +
@@ -199,3 +205,40 @@ per Batch 11 still `p3_batch11_beats.jpg`. (The TOGETHER cell is caught mid gold
 Manifests: the importers rewrite their manifests from the narrowed source; `node tools/merge_import_manifest.js <manifest>` now keeps HEAD's
 order and HEAD's row wherever the run wrote MISSING. The zone kit registries (final / dna / buffet .json) lost nothing (18 new entries; the
 rest of their diff is Godot's number formatting).
+
+## Part 5 - Verify + finish
+
+**Walk smokes** (`_screenshots/batch11/run_smokes.sh`, one Godot at a time): Crosspath 184 s, Gainlands 87 s, D.N.A. 106 s, Buffet 122 s,
+Dump 123 s, Capital 223 s (the gate, the hidden hole in the west wall with the gate shut, every district, out through the gate), hub 172 s -
+**all seven exit 0**. The Crease is not in a walk smoke (the Capital smoke skips the hideout on purpose); it was walked in the play script
+(the heal spot, Fig Sly's stall) and shot in Part 4.
+
+**Play script** (`docs/review/play_scripts/batch11.txt`, `bash tools/play.sh ... batch11`; new driver actions `dev goto <spot>` and
+`dev secret <id>` in tools/play_script.gd): the prologue - the Rescuer speaks with the new both-arms portrait; Hesper's heal spot in the
+painted Crease; Gary; Billie Muckfoot; the Secret Dealer and his shop; Threadwell's shop lists the Crown of Leaves (two zones freed); the
+Buffet bridge's salt shakers; the D.N.A. lobby. Five talks (Exit Clerk, Tarragon, Brisket, Sir Loin, Sorrel's growth spot) were eaten by
+arrival popups / a pause-menu Escape in the script; Tarragon, Brisket and Sir Loin were shot through `tools/dialogue_shots.sh` instead, the
+Exit Clerk in Part 2, Sorrel's spot has no `goto` id (the growth spot is not a zone spot). Shots: `docs/art/batch11/p5_play_*.jpg`.
+
+**Perf** (`bash tools/perf_budget.sh`, 1600x900, the dev PC): structure - only `capital multimesh_instances 854 > 660`, the same 854 with
+the pre-batch Capital code (checked by building it from `pre-batch11`), so it predates this batch; the batch lowered the Capital's nodes
+2374 -> 2312 and meshes 1077 -> 1016. Frame - over on p99 (1 % lows) in Crosspath Medium, the Gainlands, the Dump and capital_out, areas this
+batch did not touch, so read as run-to-run noise on the iGPU; capital_in and dna inside on both qualities. The Crease (`fps.sh --at=heal`):
+Low 13.4 ms / Medium 16.4 ms (capital_in budget 15.7 / 18.5). The D.N.A. lobby (`--at=lobby_center`): Low 12.3 ms, Medium 17.4-18.7 ms, 1018
+draw calls; the six lobby props cost about 10 draw calls and no measurable time (17.6 ms with them switched off). The lobby view is heavier
+than the zone's budget spot (Medium 15.7 ms) with or without them.
+
+**Sharded GUT** (`bash tools/run_tests.sh`, 31 shards, 20 min): 2593/2600 with 5 failing, all from this batch's own counts and examples -
+the NPC registry count (72 -> 79 with the seven extra speakers), Billie Muckfoot as the "no portrait" example (she has one now; the tests use
+"Gate Guard"), the texture count (65 -> 68) and the "every imported texture is used" check (crease_brick / cap_roof_slate are used from code:
+added to `PaintedLibrary.CODE_USED`). Fixed; the three files re-run 34/34. **2598/2600, 2 pending** (the chef-hat pending and one known).
+`test_buffet_slice` "a fresh visit starts on the bridge" failed once in a 20-file targeted run and passes alone and in the full suite
+(order-dependent, not from this batch).
+
+Shots: `p5_play_script.jpg` (the prologue's Rescuer, Hesper in the Crease, Gary, Muckfoot, the Secret Dealer, Threadwell's shop with the
+Crown of Leaves, the salt-shaker bridge, the D.N.A. lobby), `p5_buffet_npcs.jpg` (Tarragon's portrait, Brisket and Sir Loin at their gates).
+
+## REDOs
+
+None. Not delivered and not part of Batch 11: NPC-RESCUER_WORRIED / _RESOLVED (the follow-up row). Status per row:
+`docs/art/art_status_nov2_batch11.csv` (45 rows, all In Game).
