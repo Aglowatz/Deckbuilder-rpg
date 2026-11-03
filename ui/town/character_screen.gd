@@ -653,6 +653,12 @@ func _unequip(slot: EquipmentData.Slot) -> void:
 
 func _use(owned_item: ItemData) -> void:
 	if Session.use_item(owned_item):
+		if ItemUseResolver.last_backfired:
+			# Overnight Nov 2-3, Part 2: the reckless tonic went wrong
+			Audio.sfx(&"hit_light")
+			_say("The %s backfires! You take %d damage instead." % [owned_item.display_name, owned_item.backfire_damage], Color("ff8a85"))
+			_refresh()
+			return
 		Audio.sfx(&"heal")
 		_say("Used %s." % owned_item.display_name, UIStyle.GOOD)
 		_refresh()

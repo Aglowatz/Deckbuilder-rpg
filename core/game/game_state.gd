@@ -26,6 +26,8 @@ const EVENT_NAMES: Array[String] = [
 
 var options: GameOptions
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Whether the last `use_item` backfired (ItemData.backfire_chance): the screen's cue for the "it backfires" feedback.
+var last_item_backfired: bool = false
 var players: Array[PlayerState] = []
 var events: Array[GameEvent] = []
 var stage: Stage = Stage.SETUP
@@ -620,7 +622,12 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 	if item.effect.needs_chosen_target() and not legal_targets(player_index, item.effect, 0).has(target):
 		return false
 	items_used[player_index][item.id] = true
-	EffectResolver.resolve(self, item.effect, EffectContext.make(0, player_index, 0, target))
+	# Overnight Nov 2-3, Part 2: a reckless item may backfire - the damage to its user instead of its effect (the battle screen says so)
+	last_item_backfired = item.backfire_chance > 0.0 and item.backfires(rng.randf())
+	if last_item_backfired:
+		deal_damage_to_player(0, player_index, item.backfire_damage)
+	else:
+		EffectResolver.resolve(self, item.effect, EffectContext.make(0, player_index, 0, target))
 	check_state()
 	return true
 

@@ -2,7 +2,7 @@ extends SceneTree
 ## Nov 2 pass, Part 4: how much one consumable is worth in a fight. For every encounter of a filter (EncounterCatalog, e.g. zone:beefcake)
 ## the expected player of each Path (ProgressionModel, --level overrides) plays `games` games with NO items, then with one charge of each
 ## item variant below; the table shows the win rate and the lift per variant. Variants that do not exist in the game are built here
-## (Draw 1, the Field Bandage reworks, the high shelf retunes) so the choice is made on numbers.
+## (Draw 1, the Field Bandage reworks (now Power Wraps), the high shelf retunes) so the choice is made on numbers.
 ##   Godot --headless --path . -s res://tools/item_sim.gd -- --filter=zone:beefcake --level=6 --games=16 --variants=insight --out=res://docs/design/sim/items_nov2_low.md
 ## --variants: all | low | high | insight | bandage | tonic | <comma list of variant keys>
 
@@ -38,6 +38,13 @@ func _item(id: String, name: String, uses: int, op: CardEnums.EffectOp, amount: 
 	return item
 
 
+## A reckless variant: backfires (1 damage to the user instead) with `chance`.
+func _backfire(item: ItemData, chance: float) -> ItemData:
+	item.backfire_chance = chance
+	item.backfire_damage = 1
+	return item
+
+
 ## variant key -> ItemData (the id the sim equips; a variant of a shop item keeps that id so the policy treats it the same way)
 func _variants(content: ContentSet, group: String) -> Dictionary:
 	var militia: CardData = content.tokens.get("T-16") as CardData
@@ -47,11 +54,15 @@ func _variants(content: ContentSet, group: String) -> Dictionary:
 		"vitality_2": _item("vitality_charm", "Vitality Charm (2 HP)", 2, CardEnums.EffectOp.GAIN_HP, 2),
 		"tonic_5": _item("reckless_tonic", "Reckless Tonic (5 HP)", 1, CardEnums.EffectOp.GAIN_HP, 5),
 		"tonic_7": _item("reckless_tonic", "Reckless Tonic (7 HP)", 1, CardEnums.EffectOp.GAIN_HP, 7),
+		# Overnight Nov 2-3, Part 2: the reckless tonic heals 5 or backfires for 1 damage (odds 1 in 6 / 4 / 3)
+		"tonic_5_b6": _backfire(_item("reckless_tonic", "Reckless Tonic (5 HP, 1 in 6 backfires)", 1, CardEnums.EffectOp.GAIN_HP, 5), 1.0 / 6.0),
+		"tonic_5_b4": _backfire(_item("reckless_tonic", "Reckless Tonic (5 HP, 1 in 4 backfires)", 1, CardEnums.EffectOp.GAIN_HP, 5), 0.25),
+		"tonic_5_b3": _backfire(_item("reckless_tonic", "Reckless Tonic (5 HP, 1 in 3 backfires)", 1, CardEnums.EffectOp.GAIN_HP, 5), 1.0 / 3.0),
 		"salve_4": _item("healing_salve", "Healing Salve (4 HP)", 3, CardEnums.EffectOp.GAIN_HP, 4),
-		"bandage_heal3": _item("field_bandage", "Field Bandage (mend 3)", 3, CardEnums.EffectOp.HEAL, 3, 0, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
-		"bandage_0_3_turn": _item("field_bandage", "Field Bandage (+0/+3 this turn)", 3, CardEnums.EffectOp.BUFF, 0, 3, CardEnums.Duration.END_OF_TURN, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
-		"bandage_0_2_perm": _item("field_bandage", "Field Bandage (+0/+2 for the battle)", 3, CardEnums.EffectOp.BUFF, 0, 2, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
-		"bandage_1_1_perm": _item("field_bandage", "Field Bandage (+1/+1 for the battle)", 3, CardEnums.EffectOp.BUFF, 1, 1, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
+		"bandage_heal3": _item("power_wraps", "Power Wraps (mend 3)", 3, CardEnums.EffectOp.HEAL, 3, 0, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
+		"bandage_0_3_turn": _item("power_wraps", "Power Wraps (+0/+3 this turn)", 3, CardEnums.EffectOp.BUFF, 0, 3, CardEnums.Duration.END_OF_TURN, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
+		"bandage_0_2_perm": _item("power_wraps", "Power Wraps (+0/+2 for the battle)", 3, CardEnums.EffectOp.BUFF, 0, 2, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
+		"bandage_1_1_perm": _item("power_wraps", "Power Wraps (+1/+1 for the battle)", 3, CardEnums.EffectOp.BUFF, 1, 1, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ALLY),
 		"insight_draw2": _item("scroll_of_insight", "Scroll of Insight (draw 2)", 2, CardEnums.EffectOp.DRAW, 2),
 		"insight_draw1": _item("scroll_of_insight", "Scroll of Insight (draw 1)", 2, CardEnums.EffectOp.DRAW, 1),
 		"firebrand_2": _item("firebrand_charm", "Firebrand Charm (2 dmg)", 2, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, CardEnums.Duration.PERMANENT, CardEnums.TargetKind.CHOSEN_UNIT_ENEMY),
@@ -73,7 +84,7 @@ func _variants(content: ContentSet, group: String) -> Dictionary:
 		"high": ["chains_1", "silence_1", "silence_2", "dust_3", "dust_6", "summon_1", "summon_3", "ward_1", "firebrand_2", "firebrand_4", "stone_2_2", "stone_3_3", "salve_4"],
 		"insight": ["insight_draw2", "insight_draw1", "draught_3x3", "firebrand_2"],
 		"bandage": ["bandage_heal3", "bandage_0_3_turn", "bandage_0_2_perm", "bandage_1_1_perm", "stone_2_2"],
-		"tonic": ["tonic_5", "tonic_7", "draught_3x3", "salve_4"],
+		"tonic": ["tonic_5", "tonic_5_b6", "tonic_5_b4", "tonic_5_b3", "vitality_2"],
 	}
 	var keys: Array = all.keys() if group == "all" else (groups.get(group, group.split(",", false)) as Array)
 	var picked: Dictionary = {}

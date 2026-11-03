@@ -221,7 +221,7 @@ static func default_stock() -> ItemVendorData:
 	data.add("vitality_charm", Economy.item_price(weak), always)
 	data.add("reckless_tonic", Economy.item_price(weak), always)
 	data.add("healing_salve", Economy.item_price(strong), always)
-	data.add("field_bandage", Economy.item_price(weak), always)
+	data.add("power_wraps", Economy.item_price(weak), always)
 	data.add("scroll_of_insight", Economy.item_price(standard), always)
 	data.add("firebrand_charm", Economy.item_price(standard), always)
 	data.add("sharpening_stone", Economy.item_price(standard), always)

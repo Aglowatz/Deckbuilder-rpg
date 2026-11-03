@@ -12,10 +12,20 @@ static func can_apply(item: ItemData) -> bool:
 	return item != null and item.effect != null and SUPPORTED_OPS.has(item.effect.op)
 
 
-## Applies the item to `run` if possible. Returns true if something happened.
-static func apply(item: ItemData, run: DungeonRun) -> bool:
+## Overnight Nov 2-3, Part 2: whether the last `apply` backfired (the item hurt its user instead; the screen says so).
+static var last_backfired: bool = false
+
+
+## Applies the item to `run` if possible. Returns true if something happened. `roll` (0..1) decides a reckless item's backfire (random when
+## omitted; tests pass one).
+static func apply(item: ItemData, run: DungeonRun, roll: float = -1.0) -> bool:
+	last_backfired = false
 	if not can_apply(item) or run == null:
 		return false
+	if item.backfire_chance > 0.0 and item.backfires(roll if roll >= 0.0 else randf()):
+		last_backfired = true
+		run.lose_hp(item.backfire_damage)
+		return true
 	match item.effect.op:
 		CardEnums.EffectOp.GAIN_HP:
 			run.heal(item.effect.amount)

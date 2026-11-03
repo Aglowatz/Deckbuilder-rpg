@@ -68,8 +68,17 @@ func equipment_piece(id: String) -> EquipmentData:
 	return equipment.get(id) as EquipmentData
 
 
+## Overnight Nov 2-3, Part 2: items renamed since a save was written (old id -> new id); a save holding the old one gets the new.
+const ITEM_RENAMES: Dictionary = {"field_bandage": "power_wraps"}
+
+
+## The current id of an item id from a save (a renamed item's new id, else the id itself).
+static func current_item_id(id: String) -> String:
+	return str(ITEM_RENAMES.get(id, id))
+
+
 func item(id: String) -> ItemData:
-	return items.get(id) as ItemData
+	return items.get(current_item_id(id)) as ItemData
 
 
 func deck(deck_name: String) -> Deck:

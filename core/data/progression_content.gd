@@ -61,13 +61,17 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	# (one use per battle each, the item's charges in all); a flavour line after the rules where it fits.
 	_add_item(result, "healing_draught", "Healing Draught", "You heal 3 HP. Three uses, one per battle. A common camp remedy.", 3, CardEnums.EffectOp.GAIN_HP, 3)
 	_add_item(result, "vitality_charm", "Vitality Charm", "You heal 2 HP. Two uses, one per battle. A small, steady comfort.", 2, CardEnums.EffectOp.GAIN_HP, 2)
-	_add_item(result, "reckless_tonic", "Reckless Tonic", "You heal 5 HP in one big gulp. One use - there is only one.", 1, CardEnums.EffectOp.GAIN_HP, 5)  # Oct 29: 6 -> 5 (+19 points alone at level 12); Nov 2: priced as a weak item (sim +1.0 at 45)
+	_add_item(result, "reckless_tonic", "Reckless Tonic", "You heal 5 HP in one big gulp - but 1 in 4 times it backfires and deals 1 damage to you instead. One use.", 1, CardEnums.EffectOp.GAIN_HP, 5)  # Oct 29: 6 -> 5; Nov 2: priced weak (45 -> 30); Nov 3: it may backfire
+	# Overnight Nov 2-3, Part 2: reckless - 1 in 4 uses deal 1 damage instead (docs/design/sim/items_nov3_tonic.md: every odds from 1 in 6 to 1 in 3
+	# sits with the Vitality Charm within the sim's noise; expected 3.5 HP against the charm's 4 over two uses)
+	(result["reckless_tonic"] as ItemData).backfire_chance = TONIC_BACKFIRE_CHANCE
+	(result["reckless_tonic"] as ItemData).backfire_damage = 1
 	# New brief, Part F: 10 basic consumables, usable in battle (item bar, targeting where the
 	# effect needs it) as well as between fights - the same effect either way.
 	_add_item(result, "healing_salve", "Healing Salve", "You heal 4 HP. Three uses, one per battle.", 3, CardEnums.EffectOp.GAIN_HP, 4, 0, D.PERMANENT, G.CONTROLLER)
 	# Nov 2: mending a unit did nothing (unit damage clears each turn; the sim never used it). Now a lasting +0/+2: the sturdy-unit job the
 	# Sharpening Stone's one-turn +2/+2 does not do (sim: +5.2 points at level 6, the +0/+3-this-turn version was +11.5 and too strong at 30 gold).
-	_add_item(result, "field_bandage", "Field Bandage", "One of your units gets +0/+2 for the rest of the battle. Three uses, one per battle.", 3, CardEnums.EffectOp.BUFF, 0, 2, D.PERMANENT, G.CHOSEN_UNIT_ALLY)
+	_add_item(result, "power_wraps", "Power Wraps", "One of your units gets +0/+2 for the rest of the battle. Three uses, one per battle.", 3, CardEnums.EffectOp.BUFF, 0, 2, D.PERMANENT, G.CHOSEN_UNIT_ALLY)
 	# Nov 2: Draw 2 was the strongest item on the shelf at 45 gold (sim +12.5 points); Draw 1 (+9.4) sits with the Firebrand and the Stone.
 	_add_item(result, "scroll_of_insight", "Scroll of Insight", "You draw 1 card. Two uses, one per battle.", 2, CardEnums.EffectOp.DRAW, 1, 0, D.PERMANENT, G.CONTROLLER)
 	_add_item(result, "firebrand_charm", "Firebrand Charm", "Deal 2 damage to one enemy unit. Two uses, one per battle.", 2, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
@@ -138,6 +142,10 @@ static func _effect_ab(op: CardEnums.EffectOp, amount: int, amount2: int, target
 
 static func _add(result: Dictionary, piece: EquipmentData) -> void:
 	result[piece.id] = piece
+
+
+## Overnight Nov 2-3, Part 2: the Reckless Tonic's backfire odds (its description says "1 in 4": keep the two together).
+const TONIC_BACKFIRE_CHANCE: float = 0.25
 
 
 static func _add_item(

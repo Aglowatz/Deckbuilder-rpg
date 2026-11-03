@@ -18,7 +18,7 @@ const BY_ITEM_ID: Dictionary = {
 	"vitality_charm": "delapouite/healing",
 	"reckless_tonic": "lorc/potion-ball",
 	"healing_salve": "delapouite/health-potion",
-	"field_bandage": "delapouite/hand-bandage",
+	"power_wraps": "delapouite/hand-bandage",
 	"scroll_of_insight": "lorc/scroll-unfurled",
 	"firebrand_charm": "lorc/fire-punch",
 	"sharpening_stone": "lorc/muscle-up",

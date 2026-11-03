@@ -57,7 +57,7 @@ const RIFT_COOLDOWN: float = 1.4
 
 ## Hidden chest rewards: id -> {gold, item, card, equipment}. Documented in docs/design/secrets.md - keep both in sync.
 const CHEST_REWARDS: Dictionary = {
-	"chest_wreck": {"gold": 60, "item": "field_bandage", "card": ""},
+	"chest_wreck": {"gold": 60, "item": "power_wraps", "card": ""},
 	"chest_rock": {"gold": 80, "item": "", "card": "G-26"},
 	"chest_reek": {"gold": 40, "item": "healing_salve", "card": ""},
 	"chest_crypt": {"gold": 90, "item": "", "card": "N-31"},
@@ -81,7 +81,7 @@ const DEFACE_SPOTS: Array[String] = ["portrait_f1", "portrait_f2", "portrait_f3"
 
 ## The black market's items (id -> price).
 const BLACK_MARKET_ITEMS: Dictionary = {
-	"healing_draught": 40, "field_bandage": 25, "scroll_of_insight": 60, "firebrand_charm": 90,
+	"healing_draught": 40, "power_wraps": 25, "scroll_of_insight": 60, "firebrand_charm": 90,
 	"vitality_charm": 120, "ward_sigil": 80, "binding_chains": 70, "summoning_charm": 110,
 	"iron_ration": 60, "spice_pouch": 60, "bag_of_rubbish": 40, "blank_form": 60,
 }

@@ -1057,7 +1057,7 @@ func from_dict(data: Dictionary) -> bool:
 			loaded.owned_items.append(owned_item)
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	for id: Variant in data.get("equipped_items", []) as Array:
-		loaded.equipped_item_ids.append(str(id))
+		loaded.equipped_item_ids.append(ContentSet.current_item_id(str(id)))  # a renamed item (Field Bandage -> Power Wraps) keeps its slot
 	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
 	for pack_key: Variant in (data.get("packs", {}) as Dictionary).keys():
 		loaded.packs[str(pack_key)] = int((data["packs"] as Dictionary)[pack_key])

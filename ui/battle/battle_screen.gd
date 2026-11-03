@@ -1629,9 +1629,20 @@ func _on_item_pressed(item: ItemData) -> void:
 	_use_item(item, 0)
 
 
+## The toast when an item backfires (item name, damage).
+const BACKFIRE_TEXT: String = "The %s backfires! You take %d damage instead."
+
+
 func _use_item(item: ItemData, target: int) -> void:
 	if not Session.use_equipped_item(game, 0, item, target):
 		_reject("Cannot use that right now")
+		return
+	if game.last_item_backfired:
+		# Overnight Nov 2-3, Part 2: the reckless tonic went wrong - its damage is already on the board (the floating number); say so out loud
+		Audio.sfx(&"hit_light")
+		_toast(BACKFIRE_TEXT % [item.display_name, item.backfire_damage])
+		_clear_selection_state()
+		_drive()
 		return
 	Audio.sfx(&"ui_confirm")
 	_clear_selection_state()

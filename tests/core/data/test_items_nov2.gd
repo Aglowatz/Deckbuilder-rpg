@@ -21,8 +21,8 @@ func test_scroll_of_insight_draws_one_card() -> void:
 		assert_true(item.description.contains("draw 1 card"), item.description)
 
 
-func test_field_bandage_is_a_lasting_toughness_buff() -> void:
-	for item: ItemData in [content.item("field_bandage"), _code_item("field_bandage")]:
+func test_power_wraps_is_a_lasting_toughness_buff() -> void:
+	for item: ItemData in [content.item("power_wraps"), _code_item("power_wraps")]:
 		assert_eq(item.effect.op, CardEnums.EffectOp.BUFF, "mending damage did nothing: unit damage clears each turn")
 		assert_eq(item.effect.amount, 0)
 		assert_eq(item.effect.amount2, 2)
@@ -72,7 +72,7 @@ func test_the_high_shelf_opens_at_level_17_with_retuned_items() -> void:
 	assert_eq(locked_at_16, ["binding_chains", "grave_dust", "silence_powder", "summoning_charm", "ward_sigil"])
 	assert_eq(int(prices["scroll_of_insight"]), 45, "Draw 1 at about the same price")
 	assert_eq(int(prices["reckless_tonic"]), 30, "a one-use 5 HP is a weak item")
-	assert_eq(int(prices["field_bandage"]), 30)
+	assert_eq(int(prices["power_wraps"]), 30)
 	assert_eq(int(prices["binding_chains"]), 90)
 	assert_eq(int(prices["summoning_charm"]), 90)
 	assert_eq(int(prices["silence_powder"]), 60)
@@ -86,7 +86,7 @@ func test_the_high_shelf_opens_at_level_17_with_retuned_items() -> void:
 
 func test_a_bandaged_unit_keeps_its_toughness_next_turn() -> void:
 	# the whole point of the rework: the buff outlives the turn (the old mend was gone before the opponent could hit the unit)
-	var item: ItemData = content.item("field_bandage")
+	var item: ItemData = content.item("power_wraps")
 	assert_eq(item.effect.duration, CardEnums.Duration.PERMANENT)
 	assert_eq(Economy.ITEM_PRICE.size(), 5, "two late bands for the high shelf")
 	assert_eq(Economy.item_price(Economy.ItemBand.LATE), 90)

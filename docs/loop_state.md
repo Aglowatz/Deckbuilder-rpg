@@ -9,7 +9,7 @@ Previous state: docs/overnight/nov2/loop_state_batch11.md (Batch 11 import, done
 | Part | What | State |
 |---|---|---|
 | 1 | Dialogue: all 210 critic suggestions + typo_fixes_nov1 + new_lines_proposed_oct31; story GUT; edit_nov3.csv; applied_nov3.md | done: 217 applied, 2 no-ops, 1 held beat reworded; story groups green; edit_nov3.csv |
-| 2 | Items: Field Bandage -> Power Wraps (save migration); Reckless Tonic backfire (sim-tuned odds) | |
+| 2 | Items: Field Bandage -> Power Wraps (save migration); Reckless Tonic backfire (sim-tuned odds) | done: power_wraps + ITEM_RENAMES, tonic 1 in 4 (sim), feedback, tests 193 green |
 | 3 | Parked scene for arena / graveyard / dungeon fights; docs/perf/loading_nov3.md | |
 | 4 | Capital props (wheels, paste dispenser, second tram shed) + Grave Row / palace approach parterres | |
 | 5 | Capital camera: Raised + Low (HD-2D) + setting; 6 spots x 3 cameras; critic ranking | |
