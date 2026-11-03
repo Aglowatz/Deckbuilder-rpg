@@ -8,7 +8,7 @@
 	},
 	"Brick Bronson": {
 		"title": "The Spotter of the Gorge",
-		"line": "NOBODY CROSSES THE GORGE WITHOUT A SPOTTER. I AM THE SPOTTER. SPOT THIS.",
+		"line": "SPOTTERS ONLY. I AM SPOTTERS. ...SPOTTER. I AM ONE SPOTTER.",
 		"sting": "STG-ZONE-BEEF",
 		"path": "beefcake"
 	},
@@ -104,7 +104,7 @@
 	},
 	"Betty Bones, Surly Secretary": {
 		"title": "Surly Secretary",
-		"line": "Take a number. The number is irrelevant. Take it anyway.",
+		"line": "Take a number. I won't be calling it. Take it anyway.",
 		"sting": "STG-ZONE-NECRO",
 		"path": "necrocrat"
 	},

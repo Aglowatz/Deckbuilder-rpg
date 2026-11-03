@@ -290,7 +290,7 @@
 				"pct": 50
 			},
 			"text": "At half health Colonel Casserole demands a proper duel: his units get +1/+1 for the rest of the fight.",
-			"line": "En garde, traveller. A duel of honour. Lids up. Yes, Chef.",
+			"line": "En garde! Thirty years of service, and I have never once boiled over. Until now. Yes, Chef.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -877,7 +877,7 @@
 				"pct": 50
 			},
 			"text": "At half health Clipwell trims two topiaries into guards: two 1/1 Topiaries join her (Prize Topiary makes them 2/2).",
-			"line": "Such a pretty weed. Such a shame. Now, stand still while I tidy you.",
+			"line": "Gentlemen, if you would. He is well over regulation height.",
 			"effects": [
 				{
 					"kind": "summon",

@@ -58,7 +58,7 @@
 				],
 				[
 					"NPC-QUOTA",
-					"You. Again. You cost me the Gainlands in four hours and eleven minutes. I have had the figure framed.",
+					"You. Again. You cost me the Gainlands in four hours and twelve minutes. I have had the figure framed.",
 					"These wheels lit the facade at a hundred and ten percent. Now they are 'resting'. Do you know what rest is? Unmeasured time."
 				],
 				[
@@ -150,7 +150,7 @@
 				],
 				[
 					"NPC-CRUMB",
-					"HALT! This is a restricted pantry! Those recipes are confiscated for the war effort!",
+					"ATTENTION! This is a restricted pantry! Those recipes are confiscated for the war effort!",
 					"What war? The war on FLAVOUR, son. Every citizen fed the same, at the same time, from the same tap. Perfect discipline."
 				],
 				[
@@ -265,7 +265,7 @@
 				],
 				[
 					"NPC-FERN",
-					"Granny Gristle needs hands on the compost rows down in the Dump. Peel from shell. Messy work."
+					"Granny Gristle needs hands on the compost rows down in the Dump. Sorting peel from shell, all day. Messy. You'll hate it. Good."
 				],
 				[
 					"NPC-CLIPWELL",
@@ -315,7 +315,7 @@
 				],
 				[
 					"NPC-PLUME",
-					"Great news, citizens! The traitor has been located!"
+					"Great news, citizens! The traitor has been located! Please hold your applause until she has been removed."
 				],
 				[
 					"",
@@ -351,7 +351,7 @@
 			"steps": [
 				[
 					"",
-					"The Necrocrat wing's archive is filing from floor to ceiling. On the desk, under a paperweight shaped like a peacock, lies a memo, the ink still wet."
+					"The Necrocrat wing's archive is paper from floor to ceiling. On the desk, under a paperweight shaped like a peacock, lies a memo, the ink still wet."
 				],
 				[
 					"",
@@ -580,7 +580,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Get up, Dad. You're going to Crosspath. Agnes has a form for you, Maren has a great deal to say, and you are going to listen to all of it."
+					"Get up, Dad. You're going to {town}. Agnes has a form for you, Maren has a great deal to say, and you are going to listen to all of it."
 				],
 				[
 					"NPC-SIPHON",
@@ -624,7 +624,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"No. It was yours too. Get up. You're going to Crosspath, and you're going to listen to every word Maren says."
+					"No. It was yours too. Get up. You're going to {town}, and you're going to listen to every word Maren says."
 				],
 				[
 					"NPC-SIPHON",
@@ -847,7 +847,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Just measuring. Lovely broad shoulders round here. Very roomy work. Heh."
+					"Just measuring. Lovely broad shoulders round here. Very roomy work, when it comes. It hasn't, lately. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -864,7 +864,7 @@
 				[
 					"NPC-HOB",
 					"Can't collect a soul in this building, dear. The paperwork won't let me past the lobby. I've been waiting since the transfer.",
-					"I took a number. Heh. It's a big one."
+					"I took a number. Heh. Makes a change. Usually I'm the one calling them."
 				],
 				[
 					"NPC-PLAYER",
@@ -981,7 +981,7 @@
 				],
 				[
 					"NPC-ISLA",
-					"You're the one who knocked the castle over? Dad says hi. Dad says a lot, actually. Thank you."
+					"You're the one who knocked the castle over? Dad says thank you. That's what the 'Hm' meant. Thank you from me, too."
 				]
 			]
 		},

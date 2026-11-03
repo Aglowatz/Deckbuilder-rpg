@@ -1,0 +1,3381 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[INFO]:  using [C:/Users/asche/AppData/Roaming/Deckbuilder-RPG] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+
+
+res://tests/core/data/test_card_availability.gd
+* test_the_overrides_import_availability_and_source
+* test_allowed_follows_the_three_kinds
+* test_every_dungeon_prize_and_boss_pick_is_reward_locked
+* test_packs_never_roll_enemy_only_or_unearned_locked_cards_and_roll_locked_ones_once_earned
+* test_vendor_shelves_filter_by_availability
+* test_reward_picks_and_dungeon_picks_filter_by_availability
+* test_the_alchemist_never_crafts_clench_and_crafts_the_clerk_once_earned
+* test_generic_archetypes_hold_no_enemy_only_card
+* test_from_recipe_keeps_a_signature_for_its_owner_only
+WARNING: ZoneDecks: N-33 is enemy-only and Intake Clerk is not its owner; dropped
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] from_recipe (res://core/zone/zone_decks.gd:20)
+       [1] test_from_recipe_keeps_a_signature_for_its_owner_only (res://tests/core/data/test_card_availability.gd:155)
+       [2] _run_test (res://addons/gut/gut.gd:622)
+       [3] _test_the_scripts (res://addons/gut/gut.gd:835)
+* test_the_named_bosses_keep_their_signatures_in_the_built_dungeons
+* test_earning_a_locked_card_unlocks_it_and_old_saves_keep_enemy_only_cards_grandfathered
+* test_the_dev_menu_refuses_locked_cards_without_the_override
+* test_a_main_dungeon_boss_offers_its_chase_card_until_earned
+13/13 passed.
+
+
+res://tests/core/data/test_dialogue_features_oct22.gd
+* test_each_lesson_line_quotes_only_freed_leaders
+* test_beats_for_picks_the_variant_per_line
+* test_maren_has_a_short_greeting_for_each_count_of_freed_zones
+* test_agnes_has_a_met_variant_in_the_hall
+* test_capital_npcs_have_freed_barks
+5/5 passed.
+
+
+res://tests/core/data/test_npc_registry.gd
+* test_the_list_has_every_character_row
+* test_plate_and_short_names
+* test_speakers_resolve_by_name_alias_and_prefix
+* test_story_speakers
+* test_the_game_map_only_names_real_npcs
+* test_every_stored_npc_id_exists_and_names_match
+* test_town_npc_ids_exist
+* test_in_game_names_are_the_list_names
+8/8 passed.
+
+
+res://tests/core/data/test_npc_truth.gd
+* test_every_npc_has_the_source_of_truth_fields
+* test_species_are_set_and_mixed
+* test_the_game_reads_barks_and_descriptions_from_it
+* test_barks_are_short
+* test_the_registry_csv_follows_the_sheet_columns
+* test_barks_show_one_line_when_the_hero_walks_up
+6/6 passed.
+
+
+res://tests/core/data/test_story_beats.gd
+* test_the_cave_mouth_scenes_come_one_per_freed_zone_in_order
+* test_no_cave_mouth_scene_after_the_capture
+* test_the_scenes_grow_warmer_and_never_name_her_early
+3/3 passed.
+
+
+res://tests/core/dungeon/test_boon_effects.gd
+* test_no_badge_falls_back_to_the_placeholder
+    8 Orphans
+        * [Toast:<PanelContainer#1165781637486>] + 3
+        * [@PanelContainer@99:<PanelContainer#1166150736257>] + 3
+* test_each_token_reads_its_own_numbers_and_curses_are_curses
+    8 Orphans
+        * [@PanelContainer@103:<PanelContainer#1169824941725>] + 3
+        * [@PanelContainer@107:<PanelContainer#1170093382205>] + 3
+* test_cut_the_line_raises_attack_in_every_fight_of_the_run_and_ends_with_it
+    8 Orphans
+        * [@PanelContainer@128:<PanelContainer#1191115234041>] + 3
+        * [Toast:<PanelContainer#1191383669513>] + 3
+* test_every_content_boon_and_curse_does_what_it_says
+    8 Orphans
+        * [@PanelContainer@135:<PanelContainer#1199419955208>] + 3
+        * [@PanelContainer@139:<PanelContainer#1199688391031>] + 3
+* test_a_start_of_fight_boon_adds_hp_each_fight_without_piling_up
+    8 Orphans
+        * [@PanelContainer@143:<PanelContainer#1201735211017>] + 3
+        * [@PanelContainer@147:<PanelContainer#1202003647184>] + 3
+8 orphans
+5/5 passed.
+
+
+res://tests/core/dungeon/test_boss_rules_wiring.gd
+* test_shiro_duel_carries_and_lists_his_rules
+* test_grand_bellows_duel_carries_his_rules
+* test_gatekeeper_duel_lists_its_rules
+* test_primm_phase_rules_have_their_own_keys
+* test_every_rule_key_parses
+* test_every_rule_icon_exists
+6/6 passed.
+
+
+res://tests/core/dungeon/test_campaign_start.gd
+* test_each_starting_deck_is_a_legal_45_card_path_deck
+* test_neutral_is_not_a_valid_starting_choice
+* test_new_profile_owns_the_colorless_starter_cards_and_the_path_package
+* test_no_sample_pair_deck_is_given_to_the_player
+* test_random_element_cards_are_distinct_and_on_element
+* test_random_element_cards_same_seed_same_picks
+* test_profile_choice_survives_tres
+* test_each_starting_deck_is_mostly_commons_within_the_copy_caps_and_teaches_its_resource
+* test_the_forgotten_cave_enemy_decks_avoid_beefcake_and_necrocrat
+9/9 passed.
+
+
+res://tests/core/dungeon/test_challenge_explain.gd
+* test_infrastructure_count_is_spelled_out
+* test_first_unit_attack_names_the_unit
+* test_total_cost_and_the_choice_kinds
+* test_heals_on_success_reads_the_outcome_list
+4/4 passed.
+
+
+res://tests/core/dungeon/test_challenges.gd
+* test_first_unit_power_success_grants_boon
+* test_first_unit_power_failure_costs_hp
+* test_first_unit_skips_non_units_when_revealing
+* test_first_unit_with_no_units_in_deck_fails
+* test_top_five_infrastructure_count_success_heals
+* test_top_five_infrastructure_count_failure_loses_the_priciest_revealed_card
+* test_lose_card_never_takes_basic_infrastructure
+* test_type_count_success_gains_a_card_from_the_pool
+* test_type_count_failure_loses_hp
+* test_total_cost_threshold
+* test_sacrifice_uses_the_players_choice
+* test_sacrifice_defaults_to_the_cheapest_non_basic_card
+* test_sacrifice_of_a_card_not_in_the_deck_falls_back_to_default
+* test_sacrifice_with_nothing_to_give_fails_without_outcomes
+* test_pay_hp_accepted_gains_card_and_loses_hp
+* test_pay_hp_declined_does_nothing
+* test_pay_hp_cannot_be_afforded_at_low_hp
+* test_six_examples_cover_every_challenge_kind
+* test_challenges_round_trip_through_tres
+* test_results_are_deterministic_for_a_seed
+20/20 passed.
+
+
+res://tests/core/dungeon/test_collection_routing.gd
+* test_the_tutorials_first_run_adds_the_pick_to_the_deck_and_the_collection
+    8 Orphans
+        * [Toast:<PanelContainer#1213881916157>] + 3
+        * [@PanelContainer@154:<PanelContainer#1214150351617>] + 3
+* test_after_the_cave_a_pick_goes_to_the_collection_only
+    8 Orphans
+        * [@PanelContainer@158:<PanelContainer#1307549112709>] + 3
+        * [@PanelContainer@162:<PanelContainer#1307817548169>] + 3
+* test_a_replay_of_the_cave_leaves_the_deck_alone
+    8 Orphans
+        * [@PanelContainer@176:<PanelContainer#1353317357619>] + 3
+        * [Toast:<PanelContainer#1354273660042>] + 3
+* test_events_and_challenges_only_loan_a_card_to_the_deck_in_the_tutorial
+    8 Orphans
+        * [@PanelContainer@183:<PanelContainer#1355196406318>] + 3
+        * [@PanelContainer@187:<PanelContainer#1355464842001>] + 3
+* test_new_badges_survive_a_save_and_clear_when_the_station_closes
+    8 Orphans
+        * [@PanelContainer@191:<PanelContainer#1356555361563>] + 3
+        * [@PanelContainer@195:<PanelContainer#1356823797075>] + 3
+* test_world_picks_quests_and_chests_never_touch_the_deck
+    8 Orphans
+        * [Toast:<PanelContainer#1358971280648>] + 3
+        * [@PanelContainer@202:<PanelContainer#1359239716143>] + 3
+8 orphans
+6/6 passed.
+
+
+res://tests/core/dungeon/test_corrupted_npcs.gd
+* test_four_ids_matching_zone_portals
+* test_every_deck_card_is_known_and_strictly_mono_color
+* test_enemy_setup_starts_at_its_own_hp
+* test_every_npc_has_a_resolvable_ai_personality
+* test_reward_item_resolves_to_a_real_item
+* test_unlock_flag_matches_the_zone_id_convention
+* test_reference_player_decks_are_45_cards_and_reasonably_on_color
+7/7 passed.
+
+
+res://tests/core/dungeon/test_deck_editor.gd
+* test_starter_deck_is_valid_with_the_tutorial_waiver
+* test_starter_deck_is_valid_without_the_waiver_too
+* test_cannot_add_more_than_owned_or_the_copy_cap
+* test_cannot_add_unowned_cards
+* test_third_color_is_refused
+* test_third_color_allowed_after_postgame_unlocked
+* test_remove_and_size_rules
+* test_autofill_infrastructure_reaches_the_modifier_adjusted_minimum
+* test_autofill_infrastructure_reaches_the_plain_minimum_without_a_waiver
+* test_basic_infrastructure_are_unlimited
+* test_dual_path_cards_wait_for_the_second_path
+11/11 passed.
+
+
+res://tests/core/dungeon/test_deck_rules_card_set.gd
+* test_three_copies_of_a_card_are_fine_and_a_fourth_is_not
+* test_infrastructure_is_unlimited_including_special_and_dual_ones
+* test_a_deck_may_use_two_paths_until_the_postgame
+* test_a_multi_path_card_counts_as_each_of_its_paths
+* test_colorless_cards_use_no_path
+5/5 passed.
+
+
+res://tests/core/dungeon/test_dungeon_catalog.gd
+* test_every_dungeon_of_the_list_is_there
+    8 Orphans
+        * [@PanelContainer@206:<PanelContainer#1360514783608>] + 3
+        * [@PanelContainer@210:<PanelContainer#1360783219974>] + 3
+* test_names_and_zones
+    8 Orphans
+        * [Toast:<PanelContainer#1362377055282>] + 3
+        * [@PanelContainer@214:<PanelContainer#1362108620019>] + 3
+* test_every_map_is_sound_and_has_the_csv_nodes
+    8 Orphans
+        * [@PanelContainer@229:<PanelContainer#1591520272383>] + 3
+        * [@PanelContainer@233:<PanelContainer#1591788707856>] + 3
+* test_node_types_names_and_links_follow_the_csv
+    8 Orphans
+        * [@PanelContainer@241:<PanelContainer#1595865569862>] + 3
+        * [@PanelContainer@237:<PanelContainer#1595597134605>] + 3
+* test_house_of_gains_prison_branch_and_rescue
+    8 Orphans
+        * [@PanelContainer@248:<PanelContainer#1599489448854>] + 3
+        * [Toast:<PanelContainer#1599221013811>] + 3
+* test_primms_castle_dead_end_branches_return_to_their_branch_point
+    8 Orphans
+        * [@PanelContainer@256:<PanelContainer#1613968187397>] + 3
+        * [@PanelContainer@252:<PanelContainer#1613699751942>] + 3
+* test_walking_a_dead_end_returns_to_the_branch_point
+    8 Orphans
+        * [@PanelContainer@260:<PanelContainer#1631617817728>] + 3
+        * [Toast:<PanelContainer#1631886253291>] + 3
+* test_side_dungeons_start_on_their_first_battle_with_a_hidden_entrance
+    8 Orphans
+        * [@PanelContainer@271:<PanelContainer#1636432878459>] + 3
+        * [@PanelContainer@267:<PanelContainer#1636164443019>] + 3
+* test_bosses_use_the_names_of_the_boss_column
+    8 Orphans
+        * [@PanelContainer@275:<PanelContainer#1642472677394>] + 3
+        * [@PanelContainer@279:<PanelContainer#1642741112856>] + 3
+* test_every_battle_has_a_real_enemy_deck
+    8 Orphans
+        * [Toast:<PanelContainer#1648428587589>] + 3
+        * [@PanelContainer@286:<PanelContainer#1648697023429>] + 3
+* test_every_event_challenge_and_treasure_node_can_be_played
+    8 Orphans
+        * [@PanelContainer@290:<PanelContainer#1653965065542>] + 3
+        * [@PanelContainer@294:<PanelContainer#1654233505937>] + 3
+* test_story_beats_and_boss_speakers_exist
+    8 Orphans
+        * [@PanelContainer@298:<PanelContainer#1666313101321>] + 3
+        * [Toast:<PanelContainer#1666581536952>] + 3
+* test_rewards_are_unique_cards_that_stay_out_of_packs
+    8 Orphans
+        * [@PanelContainer@309:<PanelContainer#1687687273358>] + 3
+        * [@PanelContainer@305:<PanelContainer#1687418837903>] + 3
+* test_battleboards_of_the_list_exist_and_battles_use_them
+    8 Orphans
+        * [@PanelContainer@313:<PanelContainer#1699515210588>] + 3
+        * [@PanelContainer@317:<PanelContainer#1699783647239>] + 3
+* test_quest_hooks_name_the_npcs
+    8 Orphans
+        * [@PanelContainer@324:<PanelContainer#1705504676595>] + 3
+        * [Toast:<PanelContainer#1705236242602>] + 3
+8 orphans
+15/15 passed.
+
+
+res://tests/core/dungeon/test_dungeon_clear_bonus.gd
+* test_the_bonus_grows_with_the_tier_and_mains_pay_more_than_sides
+* test_every_dungeon_def_carries_its_tier_bonus
+2/2 passed.
+
+
+res://tests/core/dungeon/test_dungeon_events.gd
+* test_every_event_and_rescue_node_has_content
+* test_written_events_have_two_or_three_choices_with_results
+* test_built_events_match_their_data_and_cards_exist
+* test_a_curse_is_a_boon_with_negative_numbers_and_says_so
+* test_the_gym_locker_room_lets_you_take_a_curse_for_gold
+5/5 passed.
+
+
+res://tests/core/dungeon/test_dungeon_rules.gd
+* test_every_rule_in_the_dungeon_list_is_enforced
+* test_rot_destroys_units_with_one_defense_at_end_of_turn
+* test_overgrowth_buffs_every_unit_at_the_start_of_each_turn
+* test_perfect_order_caps_a_unit_at_two_keywords
+* test_mirrors_copies_only_the_first_card_each_player_plays
+* test_processing_time_taxes_only_the_first_spell_each_turn
+* test_thin_air_gives_hustle_units_plus_one_attack
+* test_fresh_fish_tokens_enter_bigger
+* test_midnight_snack_pays_back_the_hp_of_eating_garbage
+* test_forgotten_harmony_makes_multipath_cards_cheaper
+* test_the_prison_blocks_iron_only_on_nodes_8_and_9
+* test_experimental_gives_each_side_a_random_keyword_on_its_first_unit
+* test_corrupted_food_still_heals_one_less
+* test_a_dungeon_without_extra_rules_changes_nothing
+14/14 passed.
+
+
+res://tests/core/dungeon/test_element_choice.gd
+* test_one_offer_per_affinity_in_order
+* test_every_offer_has_text_and_sample_cards_of_its_own_color
+* test_offer_for_matches_offers_and_is_null_for_neutral
+3/3 passed.
+
+
+res://tests/core/dungeon/test_encounter_modifiers.gd
+* test_the_data_loads_with_no_problems_and_every_rule_is_described
+* test_rules_land_on_the_right_seat_only
+* test_starting_tokens_and_resources_appear_at_the_start_of_the_duel
+* test_a_timed_summon_fires_every_nth_own_turn
+* test_dungeon_and_zone_enemy_setups_carry_their_rules
+* test_the_sim_catalog_sees_the_same_rules
+* test_unknown_kinds_are_reported_not_crashed
+7/7 passed.
+
+
+res://tests/core/dungeon/test_encounter_scripts.gd
+* test_an_hp_threshold_fires_once_when_crossed
+* test_heal_can_go_back_up_to_a_boss_starting_hp_above_max
+* test_a_turn_trigger_warns_the_turn_before_and_fires_on_the_foes_turn
+* test_a_timed_summon_rule_also_warns_the_turn_before
+* test_unit_deaths_and_unit_counts
+* test_a_phase_change_replaces_a_rule
+* test_cards_resources_debuffs_exhaust_damage_and_draws
+* test_look_ahead_copies_fire_on_their_own
+* test_a_seat_without_a_script_costs_nothing
+* test_scripted_triggers_are_listed_with_the_rules_and_ride_on_the_enemy_source
+* test_the_shipped_scripts_load_cleanly
+* test_every_scripted_boss_shows_its_moves_in_the_bestiary
+12/12 passed.
+
+
+res://tests/core/dungeon/test_ending_postgame.gd
+* test_every_ending_text_key_exists
+    8 Orphans
+        * [@PanelContainer@332:<PanelContainer#1709816421163>] + 3
+        * [@PanelContainer@328:<PanelContainer#1709547985812>] + 3
+* test_the_ending_carries_the_theme
+    8 Orphans
+        * [Toast:<PanelContainer#1720067300206>] + 3
+        * [@PanelContainer@336:<PanelContainer#1719798865971>] + 3
+* test_the_ending_screen_plays_through_credits_and_the_postgame_announcement
+* test_the_ending_scene_loads
+    8 Orphans
+        * [@PanelContainer@365:<PanelContainer#1882202312021>] + 3
+        * [@PanelContainer@369:<PanelContainer#1882470752315>] + 3
+* test_a_three_path_deck_is_illegal_before_and_legal_after_the_postgame_unlock
+    32 Orphans
+        * [Toast:<PanelContainer#1883108284347>] + 3
+        * [@PanelContainer@460:<PanelContainer#1899063417919>] + 3
+        * [@PanelContainer@468:<PanelContainer#1900137160788>] + 3
+        * [@PanelContainer@376:<PanelContainer#1883376722171>] + 3
+        * [@PanelContainer@479:<PanelContainer#1901361897724>] + 3
+        * [@PanelContainer@475:<PanelContainer#1900757918145>] + 3
+        * [Toast:<PanelContainer#1900405596684>] + 3
+        * [@PanelContainer@464:<PanelContainer#1899331854931>] + 3
+* test_the_deck_editor_allows_a_third_path_after_the_unlock
+    32 Orphans
+        * [Toast:<PanelContainer#1902217534249>] + 3
+        * [Toast:<PanelContainer#1904264354879>] + 3
+        * [@PanelContainer@494:<PanelContainer#1902485969995>] + 3
+        * [@PanelContainer@498:<PanelContainer#1903291277601>] + 3
+        * [@PanelContainer@487:<PanelContainer#1901932323217>] + 3
+        * [@PanelContainer@502:<PanelContainer#1903559713207>] + 3
+        * [@PanelContainer@483:<PanelContainer#1901647110584>] + 3
+        * [@PanelContainer@506:<PanelContainer#1903979143723>] + 3
+* test_the_alchemists_tri_path_hook_opens
+    32 Orphans
+        * [@PanelContainer@513:<PanelContainer#1904549567260>] + 3
+        * [@PanelContainer@525:<PanelContainer#1905388428144>] + 3
+        * [@PanelContainer@532:<PanelContainer#1906411838478>] + 3
+        * [@PanelContainer@517:<PanelContainer#1904834781243>] + 3
+        * [@PanelContainer@521:<PanelContainer#1905119993939>] + 3
+        * [@PanelContainer@540:<PanelContainer#1907015819644>] + 3
+        * [@PanelContainer@536:<PanelContainer#1906730607010>] + 3
+        * [Toast:<PanelContainer#1906143404700>] + 3
+* test_the_postgame_unlock_is_saved
+    32 Orphans
+        * [@PanelContainer@563:<PanelContainer#1909180077969>] + 3
+        * [Toast:<PanelContainer#1909482069202>] + 3
+        * [@PanelContainer@570:<PanelContainer#1909767282945>] + 3
+        * [@PanelContainer@551:<PanelContainer#1907871457690>] + 3
+        * [@PanelContainer@555:<PanelContainer#1908139893223>] + 3
+        * [@PanelContainer@544:<PanelContainer#1907301032468>] + 3
+        * [Toast:<PanelContainer#1907586245175>] + 3
+        * [@PanelContainer@559:<PanelContainer#1908911645242>] + 3
+* test_primms_fall_frees_the_four_paths_so_the_factions_reunite
+    32 Orphans
+        * [@PanelContainer@593:<PanelContainer#1911881210744>] + 3
+        * [@PanelContainer@574:<PanelContainer#1910052495488>] + 3
+        * [@PanelContainer@578:<PanelContainer#1910337708340>] + 3
+        * [@PanelContainer@589:<PanelContainer#1911612776766>] + 3
+        * [@PanelContainer@597:<PanelContainer#1912199979404>] + 3
+        * [Toast:<PanelContainer#1910891356646>] + 3
+        * [@PanelContainer@601:<PanelContainer#1912485192208>] + 3
+        * [@PanelContainer@582:<PanelContainer#1910622921255>] + 3
+* test_the_capital_is_changed_after_the_ending
+    32 Orphans
+        * [@PanelContainer@608:<PanelContainer#1913055614818>] + 3
+        * [@PanelContainer@616:<PanelContainer#1913609262968>] + 3
+        * [@PanelContainer@620:<PanelContainer#1914548788315>] + 3
+        * [Toast:<PanelContainer#1912770404562>] + 3
+        * [@PanelContainer@627:<PanelContainer#1915119214829>] + 3
+        * [Toast:<PanelContainer#1914817225023>] + 3
+        * [@PanelContainer@631:<PanelContainer#1915404427584>] + 3
+        * [@PanelContainer@612:<PanelContainer#1913340830084>] + 3
+* test_a_free_capital_builds_and_the_facade_is_down
+    35 Orphans
+        * [Toast:<PanelContainer#1918206221148>] + 3
+        * [Toast:<PanelContainer#1916260064275>] + 3
+        * [@PanelContainer@639:<PanelContainer#1915974852822>] + 3
+        * [@PanelContainer@635:<PanelContainer#1915689640194>] + 3
+        * [@PanelContainer@646:<PanelContainer#1916528501021>] + 3
+        * [@PanelContainer@654:<PanelContainer#1917619020141>] + 3
+        * [@PanelContainer@650:<PanelContainer#1917350584771>] + 3
+        * [@PanelContainer@658:<PanelContainer#1917921010207>] + 3
+        * [<Node3D#2050310022383>]
+        * [<Node3D#2051148883463>]
+        * [<Node3D#2054336554559>]
+35 orphans
+11/11 passed.
+
+
+res://tests/core/dungeon/test_fable_nov1_part7.gd
+* test_a_boss_pick_offers_two_of_three_on_path_or_colorless
+    8 Orphans
+        * [@PanelContainer@669:<PanelContainer#1918776646203>] + 3
+        * [@PanelContainer@665:<PanelContainer#1918491435163>] + 3
+* test_fits_own_means_on_path_or_colorless
+    8 Orphans
+        * [@PanelContainer@673:<PanelContainer#1919061860627>] + 3
+        * [@PanelContainer@677:<PanelContainer#1919330296333>] + 3
+* test_the_labs_specimen_conditions_ride_the_run_once
+    32 Orphans
+        * [Toast:<PanelContainer#2118240966541>] + 3
+        * [@PanelContainer@1088:<PanelContainer#2123660008220>] + 3
+        * [@PanelContainer@1073:<PanelContainer#2122166836290>] + 3
+        * [@PanelContainer@1077:<PanelContainer#2122804371886>] + 3
+        * [Toast:<PanelContainer#2123072807368>] + 3
+        * [@PanelContainer@1084:<PanelContainer#2123374797270>] + 3
+        * [@PanelContainer@1069:<PanelContainer#2121898402319>] + 3
+        * [@PanelContainer@1065:<PanelContainer#2118509404711>] + 3
+* test_arena_first_clear_prizes_scale_with_the_level
+    8 Orphans
+        * [@PanelContainer@1096:<PanelContainer#2124230435168>] + 3
+        * [@PanelContainer@1092:<PanelContainer#2123945222771>] + 3
+* test_the_intake_corridor_has_its_own_foe
+    8 Orphans
+        * [Toast:<PanelContainer#2124515646550>] + 3
+        * [@PanelContainer@1103:<PanelContainer#2124784084250>] + 3
+16 orphans
+5/5 passed.
+
+
+res://tests/core/dungeon/test_finale_v2.gd
+* test_the_reveal_scene_tells_the_wanderer_who_he_is
+* test_the_fight_scenes_carry_the_reflection_line_and_the_zone_lessons
+* test_the_ending_has_the_throne_primm_the_stamp_and_marens_welcome
+* test_primm_works_under_guard_after_the_ending
+    1 Orphans
+        * [DungeonMap:<Control#2135504726555>(dungeon_map_screen.gd)]
+* test_the_capital_and_the_player_are_renamed_by_tokens
+    12 Orphans
+        * [@PanelContainer@1107:<PanelContainer#2132736483705>] + 3
+        * [@PanelContainer@1111:<PanelContainer#2133004921377>] + 3
+        * [@PanelContainer@1115:<PanelContainer#2133709564450>] + 3
+* test_lost_property_posters_can_be_defaced_like_the_portraits
+* test_the_castle_gallery_ward_and_wren_and_the_rifts
+    [Failed]:  the rift sign explains Primm's failing hold
+      at line 91
+6/7 passed.
+
+
+res://tests/core/dungeon/test_graveyard_boss.gd
+* test_deck_is_real_and_strictly_dark_colored
+* test_enemy_setup_starts_at_its_own_hp_total
+* test_has_a_resolvable_ai_personality
+* test_reward_equipment_resolves_to_a_real_advanced_piece
+* test_enemy_setup_carries_the_escalation_modifier_with_seven_stages
+* test_escalation_actually_fires_in_a_real_duel_against_the_boss
+6/6 passed.
+
+
+res://tests/core/dungeon/test_lieutenants.gd
+* test_each_lieutenant_is_a_fight_with_a_rule_a_bestiary_entry_and_a_relic
+    8 Orphans
+        * [@PanelContainer@1128:<PanelContainer#2136175812666>] + 3
+        * [@PanelContainer@1132:<PanelContainer#2136511357265>] + 3
+* test_the_first_win_pays_the_relic_once
+    8 Orphans
+        * [Toast:<PanelContainer#2137652206394>] + 3
+        * [@PanelContainer@1137:<PanelContainer#2137383773017>] + 3
+* test_the_scenes_play_where_the_sheet_puts_them
+    8 Orphans
+        * [@PanelContainer@1249:<PanelContainer#2204140316341>] + 3
+        * [@PanelContainer@1253:<PanelContainer#2204408751825>] + 3
+* test_every_scene_exists_and_every_speaker_is_known
+    8 Orphans
+        * [@PanelContainer@1261:<PanelContainer#2212730247740>] + 3
+        * [@PanelContainer@1257:<PanelContainer#2212461812936>] + 3
+* test_the_fled_scenes_wait_for_the_freed_zone_and_play_once
+    12 Orphans
+        * [@PanelContainer@1268:<PanelContainer#2213720103854>] + 3
+        * [Toast:<PanelContainer#2213451669644>] + 3
+        * [@PanelContainer@1272:<PanelContainer#2222695917240>] + 3
+* test_quota_waits_in_the_yards_until_beaten
+    8 Orphans
+        * [@PanelContainer@1280:<PanelContainer#2231889829979>] + 3
+        * [@PanelContainer@1276:<PanelContainer#2222964352749>] + 3
+* test_clipwell_waits_at_the_sick_patch_once
+    8 Orphans
+        * [@PanelContainer@1287:<PanelContainer#2232477032443>] + 3
+        * [Toast:<PanelContainer#2232158265835>] + 3
+* test_the_paste_works_is_a_capital_side_dungeon_with_its_rules
+    8 Orphans
+        * [@PanelContainer@1291:<PanelContainer#2233181674481>] + 3
+        * [@PanelContainer@1295:<PanelContainer#2233450111041>] + 3
+* test_marlo_offers_the_paste_works_after_his_recipes_and_the_freed_buffet
+    16 Orphans
+        * [@PanelContainer@1310:<PanelContainer#2240244882169>] + 3
+        * [Toast:<PanelContainer#2239338913884>] + 3
+        * [@PanelContainer@1306:<PanelContainer#2239976448155>] + 3
+        * [@PanelContainer@1299:<PanelContainer#2239070480071>] + 3
+* test_the_capital_anchors_stand_on_open_ground
+    8 Orphans
+        * [@PanelContainer@1318:<PanelContainer#2244170752009>] + 3
+        * [@PanelContainer@1314:<PanelContainer#2243902316747>] + 3
+* test_the_capture_names_the_rescuer_and_old_saves_catch_up
+    8 Orphans
+        * [@PanelContainer@1325:<PanelContainer#2248482494384>] + 3
+        * [Toast:<PanelContainer#2244875395462>] + 3
+8 orphans
+11/11 passed.
+
+
+res://tests/core/dungeon/test_main_dungeons.gd
+* test_every_zone_has_a_dungeon_named_as_in_the_story
+    8 Orphans
+        * [@PanelContainer@1329:<PanelContainer#2249203914706>] + 3
+        * [@PanelContainer@1333:<PanelContainer#2249472352324>] + 3
+* test_maps_have_ten_to_fifteen_nodes_and_are_sound
+    8 Orphans
+        * [@PanelContainer@1337:<PanelContainer#2255092717524>] + 3
+        * [Toast:<PanelContainer#2255361153753>] + 3
+* test_routes_branch_and_rejoin
+    8 Orphans
+        * [@PanelContainer@1350:<PanelContainer#2256971766524>] + 3
+        * [@PanelContainer@1346:<PanelContainer#2256703334070>] + 3
+* test_each_dungeon_mixes_every_node_type
+    8 Orphans
+        * [@PanelContainer@1354:<PanelContainer#2264034974633>] + 3
+        * [@PanelContainer@1358:<PanelContainer#2264303410131>] + 3
+* test_the_map_walks_from_start_to_boss_along_any_route
+    8 Orphans
+        * [@PanelContainer@1365:<PanelContainer#2266568333276>] + 3
+        * [Toast:<PanelContainer#2266299900112>] + 3
+* test_a_synthetic_map_reports_its_structure
+    8 Orphans
+        * [@PanelContainer@1373:<PanelContainer#2268480937160>] + 3
+        * [@PanelContainer@1369:<PanelContainer#2268212502880>] + 3
+* test_every_battle_has_a_themed_legal_enemy_deck
+    8 Orphans
+        * [@PanelContainer@1377:<PanelContainer#2270309653237>] + 3
+        * [Toast:<PanelContainer#2270578089251>] + 3
+* test_bosses_and_elites_are_tougher_and_pay_a_card_choice
+    8 Orphans
+        * [@PanelContainer@1388:<PanelContainer#2273446993972>] + 3
+        * [@PanelContainer@1384:<PanelContainer#2273178558610>] + 3
+* test_a_dungeon_battle_carries_the_zone_effects_and_zone_hp
+    40 Orphans
+        * [@PanelContainer@1415:<PanelContainer#2286147344222>] + 3
+        * [@PanelContainer@1403:<PanelContainer#2280896075621>] + 3
+        * [@PanelContainer@1392:<PanelContainer#2274420070248>] + 3
+        * [Toast:<PanelContainer#2280627640251>] + 3
+        * [@PanelContainer@1396:<PanelContainer#2274688505801>] + 3
+        * [@PanelContainer@1422:<PanelContainer#2289536342962>] + 3
+        * [@PanelContainer@1411:<PanelContainer#2282959675560>] + 3
+        * [@PanelContainer@1407:<PanelContainer#2282691240326>] + 3
+        * [@PanelContainer@1426:<PanelContainer#2289804781191>] + 3
+        * [Toast:<PanelContainer#2286415783577>] + 3
+* test_every_node_event_and_cutscene_has_story_text
+    8 Orphans
+        * [@PanelContainer@1430:<PanelContainer#2292438797655>] + 3
+        * [@PanelContainer@1434:<PanelContainer#2292707239453>] + 3
+* test_the_cutscenes_have_every_beat_and_speaker
+    8 Orphans
+        * [Toast:<PanelContainer#2295911686814>] + 3
+        * [@PanelContainer@1441:<PanelContainer#2296180122360>] + 3
+* test_every_event_choice_resolves_and_chains_exist
+    224 Orphans
+        * [@PanelContainer@1479:<PanelContainer#2304098965447>] + 3
+        * [Toast:<PanelContainer#2306514885634>] + 3
+        * [Toast:<PanelContainer#2309819997491>] + 3
+        * [@PanelContainer@1487:<PanelContainer#2305306926413>] + 3
+        * [Toast:<PanelContainer#2303830532091>] + 3
+        * [@PanelContainer@1521:<PanelContainer#2311044735250>] + 3
+        * [@PanelContainer@1525:<PanelContainer#2311313171287>] + 3
+        * [@PanelContainer@1468:<PanelContainer#2302656127838>] + 3
+        * [@PanelContainer@1453:<PanelContainer#2299804001815>] + 3
+        * [@PanelContainer@1445:<PanelContainer#2296985429544>] + 3
+        * [@PanelContainer@1517:<PanelContainer#2310088435254>] + 3
+        * [@PanelContainer@1559:<PanelContainer#2317000648251>] + 3
+        * [@PanelContainer@1540:<PanelContainer#2313695536718>] + 3
+        * [Toast:<PanelContainer#2312521131662>] + 3
+        * [@PanelContainer@1483:<PanelContainer#2305038493338>] + 3
+        * [@PanelContainer@1506:<PanelContainer#2308612040368>] + 3
+        * [@PanelContainer@1548:<PanelContainer#2314869941951>] + 3
+        * [@PanelContainer@1567:<PanelContainer#2318208607947>] + 3
+        * [@PanelContainer@1449:<PanelContainer#2297253865166>] + 3
+        * [@PanelContainer@1502:<PanelContainer#2307689293556>] + 3
+        * [@PanelContainer@1472:<PanelContainer#2302924564229>] + 3
+        * [Toast:<PanelContainer#2300072437518>] + 3
+        * [@PanelContainer@1498:<PanelContainer#2307420858136>] + 3
+        * [@PanelContainer@1491:<PanelContainer#2306246453022>] + 3
+        * [Toast:<PanelContainer#2315792688965>] + 3
+        * [@PanelContainer@1544:<PanelContainer#2314601506635>] + 3
+        * [@PanelContainer@1460:<PanelContainer#2301448169300>] + 3
+        * [@PanelContainer@1464:<PanelContainer#2301716604774>] + 3
+        * [@PanelContainer@1510:<PanelContainer#2308880476018>] + 3
+        * [@PanelContainer@1529:<PanelContainer#2312252696437>] + 3
+        * [@PanelContainer@1536:<PanelContainer#2313427101578>] + 3
+        * [@PanelContainer@1574:<PanelContainer#2319450122192>] + 3
+        * [@PanelContainer@1555:<PanelContainer#2316061124564>] + 3
+        * [@PanelContainer@1582:<PanelContainer#2320674858987>] + 3
+        * [@PanelContainer@1563:<PanelContainer#2317269084166>] + 3
+        * [Toast:<PanelContainer#2321899595796>] + 3
+        * [Toast:<PanelContainer#2318477043751>] + 3
+        * [@PanelContainer@1597:<PanelContainer#2323090778179>] + 3
+        * [@PanelContainer@1578:<PanelContainer#2319718557765>] + 3
+        * [@PanelContainer@1605:<PanelContainer#2324315514990>] + 3
+        * [@PanelContainer@1586:<PanelContainer#2320943294578>] + 3
+        * [@PanelContainer@1612:<PanelContainer#2325506697349>] + 3
+        * [@PanelContainer@1593:<PanelContainer#2322168031382>] + 3
+        * [@PanelContainer@1620:<PanelContainer#2326714656941>] + 3
+        * [@PanelContainer@1601:<PanelContainer#2323359213751>] + 3
+        * [Toast:<PanelContainer#2327922616532>] + 3
+        * [Toast:<PanelContainer#2324583950557>] + 3
+        * [@PanelContainer@1635:<PanelContainer#2329130576106>] + 3
+        * [@PanelContainer@1616:<PanelContainer#2325775132919>] + 3
+        * [@PanelContainer@1643:<PanelContainer#2330304981268>] + 3
+        * [@PanelContainer@1624:<PanelContainer#2326983092509>] + 3
+        * [@PanelContainer@1650:<PanelContainer#2331512940854>] + 3
+        * [@PanelContainer@1631:<PanelContainer#2328191052087>] + 3
+        * [@PanelContainer@1639:<PanelContainer#2329399011672>] + 3
+        * [Toast:<PanelContainer#2330573416827>] + 3
+        * [@PanelContainer@1654:<PanelContainer#2331781376413>] + 3
+* test_events_heal_hurt_and_pay_through_the_run_and_gold
+    8 Orphans
+        * [@PanelContainer@1658:<PanelContainer#2332720900426>] + 3
+        * [@PanelContainer@1662:<PanelContainer#2332989336002>] + 3
+* test_treasure_grants_loot
+    8 Orphans
+        * [Toast:<PanelContainer#2333895305592>] + 3
+        * [@PanelContainer@1669:<PanelContainer#2334163741166>] + 3
+* test_rescuing_heartlift_adds_a_dungeon_wide_boon
+    8 Orphans
+        * [@PanelContainer@1673:<PanelContainer#2335740799386>] + 3
+        * [@PanelContainer@1677:<PanelContainer#2336009234856>] + 3
+* test_the_prison_is_a_section_and_the_rescue_comes_before_the_boss
+    8 Orphans
+        * [Toast:<PanelContainer#2337435298026>] + 3
+        * [@PanelContainer@1681:<PanelContainer#2337166862765>] + 3
+* test_beating_the_boss_completes_the_zone_with_the_unique_card
+    56 Orphans
+        * [@PanelContainer@1700:<PanelContainer#2342334244926>] + 3
+        * [@PanelContainer@1730:<PanelContainer#2347451295868>] + 3
+        * [Toast:<PanelContainer#2346209781965>] + 3
+        * [@PanelContainer@1734:<PanelContainer#2348122384720>] + 3
+        * [@PanelContainer@1738:<PanelContainer#2349112240484>] + 3
+        * [Toast:<PanelContainer#2343256992110>] + 3
+        * [@PanelContainer@1707:<PanelContainer#2343525427585>] + 3
+        * [@PanelContainer@1696:<PanelContainer#2342065809803>] + 3
+        * [@PanelContainer@1726:<PanelContainer#2347182860708>] + 3
+        * [@PanelContainer@1719:<PanelContainer#2345555470767>] + 3
+        * [@PanelContainer@1715:<PanelContainer#2345287035349>] + 3
+        * [@PanelContainer@1688:<PanelContainer#2338441931243>] + 3
+        * [@PanelContainer@1711:<PanelContainer#2344313956849>] + 3
+        * [@PanelContainer@1692:<PanelContainer#2338710366710>] + 3
+* test_first_completion_opens_the_arena_and_the_second_the_alchemist
+    16 Orphans
+        * [@PanelContainer@1745:<PanelContainer#2350034986701>] + 3
+        * [@PanelContainer@1753:<PanelContainer#2351276500950>] + 3
+        * [Toast:<PanelContainer#2349380675921>] + 3
+        * [@PanelContainer@1749:<PanelContainer#2351008065963>] + 3
+* test_losing_in_the_dungeon_wakes_you_at_the_hub_without_completing
+    8 Orphans
+        * [Toast:<PanelContainer#2352383795408>] + 3
+        * [@PanelContainer@1757:<PanelContainer#2352115361921>] + 3
+* test_the_unique_cards_are_reward_locked_and_of_their_path
+    8 Orphans
+        * [@PanelContainer@1764:<PanelContainer#2353038105368>] + 3
+        * [@PanelContainer@1768:<PanelContainer#2353709196901>] + 3
+* test_the_main_dungeon_icons_exist
+    8 Orphans
+        * [@PanelContainer@1776:<PanelContainer#2354682275780>] + 3
+        * [@PanelContainer@1772:<PanelContainer#2354413840629>] + 3
+* test_the_backdrops_build_for_every_theme
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+22/22 passed.
+
+
+res://tests/core/dungeon/test_modifiers_and_decks.gd
+* test_every_source_kind_flows_through_one_pipeline
+* test_max_traps_modifier_raises_the_trap_cap
+* test_enemy_pipeline_uses_zone_and_enemy_sources
+* test_start_of_combat_effect_fires_for_the_active_player
+* test_start_of_combat_buff_helps_attackers
+* test_start_of_combat_effect_can_end_the_game
+* test_legal_two_color_deck_passes
+* test_deck_with_too_few_cards_fails
+* test_more_than_three_copies_fails_but_basic_infrastructure_are_exempt
+* test_color_limit_is_two_until_postgame_then_four
+* test_neutral_cards_do_not_count_as_a_color
+* test_max_colors_modifier_raises_the_limit
+* test_min_deck_size_modifier_lowers_the_minimum
+* test_min_deck_size_never_goes_below_one
+* test_ownership_check
+* test_entering_a_dungeon_fully_heals
+* test_max_hp_includes_dungeon_modifiers
+* test_hp_carries_between_encounters
+* test_healing_between_encounters_is_capped
+* test_losing_an_encounter_or_all_hp_fails_the_run
+* test_a_drawn_encounter_also_fails_the_run
+* test_max_hp_boon_also_heals_by_the_same_amount
+* test_dungeon_modifiers_apply_in_the_duel
+* test_zone_modifier_applies_only_for_that_encounter
+* test_lost_and_gained_cards_change_the_deck_for_the_dungeon_only
+* test_the_path_limit_grows_with_freed_zones_and_the_postgame
+* test_the_session_keeps_zones_freed_in_sync_with_the_zone_flags
+    12 Orphans
+        * [@PanelContainer@1795:<PanelContainer#2361443493508>] + 3
+        * [@PanelContainer@1791:<PanelContainer#2357014308709>] + 3
+        * [@PanelContainer@1787:<PanelContainer#2356745873293>] + 3
+12 orphans
+27/27 passed.
+
+
+res://tests/core/dungeon/test_ninja_boss.gd
+* test_he_steals_fifty_or_everything
+* test_every_chest_has_its_own_taunt_and_only_the_fifth_adds_the_hint
+* test_the_five_chests_are_the_town_and_the_four_zones
+* test_opening_a_chest_takes_gold_starts_the_quest_and_counts
+    4 Orphans
+        * [Toast:<PanelContainer#2361711929245>] + 3
+* test_a_chest_only_opens_once
+    4 Orphans
+        * [@PanelContainer@2734:<PanelContainer#2448634685720>] + 3
+* test_with_less_than_fifty_gold_he_takes_all_of_it
+    4 Orphans
+        * [@PanelContainer@2738:<PanelContainer#2448903122343>] + 3
+* test_the_fifth_chest_is_fifth_in_any_order_and_arms_the_original
+    4 Orphans
+        * [@PanelContainer@2742:<PanelContainer#2449221889296>] + 3
+* test_the_duel_uses_the_town_battleboard_with_a_trap_deck
+* test_winning_returns_the_gold_pays_three_gilded_packs_and_ends_the_quest
+    8 Orphans
+        * [Toast:<PanelContainer#2459288217484>] + 3
+        * [@PanelContainer@2748:<PanelContainer#2458550020106>] + 3
+* test_reward_paths_cover_random_paths
+* test_progress_survives_a_save_round_trip
+    4 Orphans
+        * [@PanelContainer@2755:<PanelContainer#2459908974345>] + 3
+* test_the_npc_has_real_portrait_art
+4 orphans
+12/12 passed.
+
+
+res://tests/core/dungeon/test_old_well_quest.gd
+* test_the_quest_is_a_hidden_side_quest_with_no_markers
+* test_the_well_keeps_its_old_greeting_until_a_zone_is_free
+    8 Orphans
+        * [@PanelContainer@2763:<PanelContainer#2464489155848>] + 3
+        * [@PanelContainer@2759:<PanelContainer#2460680728024>] + 3
+* test_the_hums_only_answer_while_their_step_is_open
+    8 Orphans
+        * [Toast:<PanelContainer#2468633122779>] + 3
+        * [@PanelContainer@2767:<PanelContainer#2465730669915>] + 3
+* test_buffet_first_then_dump_reaches_the_echo
+    8 Orphans
+        * [@PanelContainer@2792:<PanelContainer#2480259737293>] + 3
+        * [@PanelContainer@2796:<PanelContainer#2480528174522>] + 3
+* test_dump_first_then_buffet_reaches_the_echo
+    8 Orphans
+        * [@PanelContainer@2800:<PanelContainer#2481216040116>] + 3
+        * [@PanelContainer@2804:<PanelContainer#2481484475852>] + 3
+* test_the_echo_pays_once_and_a_loss_pays_nothing
+    12 Orphans
+        * [Toast:<PanelContainer#2482105231309>] + 3
+        * [@PanelContainer@2811:<PanelContainer#2482373668136>] + 3
+        * [@PanelContainer@2815:<PanelContainer#2483178974674>] + 3
+* test_a_win_without_the_quest_does_nothing
+* test_progress_survives_a_save_round_trip
+    8 Orphans
+        * [@PanelContainer@2819:<PanelContainer#2483447405234>] + 3
+        * [@PanelContainer@2823:<PanelContainer#2484185605689>] + 3
+* test_a_save_from_before_the_quest_loads_hidden
+    4 Orphans
+        * [Toast:<PanelContainer#2484454042951>] + 3
+* test_stage_rules_are_pure
+* test_the_duel_carries_and_lists_its_one_sided_rule
+* test_the_rule_parses_and_its_icon_exists
+* test_the_sim_can_find_and_build_the_echo
+* test_the_deck_is_existing_cards_from_all_four_paths
+* test_the_relic_uses_existing_modifier_kinds
+* test_the_dump_hum_is_on_the_highest_terrace_and_reachable
+load_timing: dungeon_map 2561 ms (slowest step: settled (7 frames, worst 298 ms) 1435 ms); worst frame in the first 5 s after the fade-in: 3299 ms (at 3.8 s)
+* test_the_buffet_hum_is_on_the_pond_bank_and_reachable
+* test_the_hums_are_clear_of_the_other_interact_spots
+* test_every_line_fits_the_box
+* test_every_beat_and_text_the_code_uses_exists
+* test_no_retired_or_unrevealed_name_in_the_text
+[GUT WARNING]:  Test script has 2 unfreed children.  Increase log level for more details.
+21/21 passed.
+
+
+res://tests/core/dungeon/test_pathology_lab.gd
+* test_the_lab_is_the_sheets_16_node_postgame_dungeon_with_branching_and_the_story_nodes
+    8 Orphans
+        * [@PanelContainer@2834:<PanelContainer#2485980764843>] + 3
+        * [@PanelContainer@2830:<PanelContainer#2485259349217>] + 3
+* test_the_lab_is_far_harder_than_the_castle_on_paper
+    8 Orphans
+        * [@PanelContainer@2842:<PanelContainer#2487574605079>] + 3
+        * [@PanelContainer@2838:<PanelContainer#2486249205049>] + 3
+* test_the_story_nodes_have_their_scenes
+    8 Orphans
+        * [@PanelContainer@2851:<PanelContainer#2538896108534>] + 3
+        * [Toast:<PanelContainer#2538627673521>] + 3
+* test_the_scene_variants_follow_the_rescue
+    8 Orphans
+        * [@PanelContainer@2855:<PanelContainer#2543409177573>] + 3
+        * [@PanelContainer@2859:<PanelContainer#2543677613936>] + 3
+* test_elowen_joins_the_boss_fight_only_when_freed
+    8 Orphans
+        * [@PanelContainer@2863:<PanelContainer#2549767744467>] + 3
+        * [Toast:<PanelContainer#2550036180673>] + 3
+* test_rips_tip_opens_the_forest_station_and_reveals_the_hatch
+    8 Orphans
+        * [@PanelContainer@2874:<PanelContainer#2554717023230>] + 3
+        * [@PanelContainer@2870:<PanelContainer#2554448587781>] + 3
+* test_the_hatch_is_invisible_and_blocked_until_the_lab_is_revealed
+    8 Orphans
+        * [@PanelContainer@2878:<PanelContainer#2559162985830>] + 3
+        * [@PanelContainer@2882:<PanelContainer#2559431421455>] + 3
+* test_clearing_the_lab_rewards_the_lens_gold_and_xp_once_and_a_rescue_sets_a_flag
+    12 Orphans
+        * [@PanelContainer@2893:<PanelContainer#2570873476926>] + 3
+        * [@PanelContainer@2889:<PanelContainer#2570202389738>] + 3
+        * [Toast:<PanelContainer#2569933958337>] + 3
+* test_the_freed_rescuer_has_forest_lines
+    8 Orphans
+        * [@PanelContainer@2897:<PanelContainer#2571141912560>] + 3
+        * [@PanelContainer@2908:<PanelContainer#2576426738955>] + 3
+20 orphans
+9/9 passed.
+
+
+res://tests/core/dungeon/test_pricing.gd
+* test_prices_scale_with_rarity_and_cost
+* test_sale_limits
+2/2 passed.
+
+
+res://tests/core/dungeon/test_primm_rushed_lines.gd
+* test_rushed_beats_swap_only_the_three_lesson_lines
+* test_the_rushed_lines_name_no_leader
+2/2 passed.
+
+
+res://tests/core/dungeon/test_primms_castle.gd
+* test_the_castle_is_registered_and_sound
+    8 Orphans
+        * [@PanelContainer@2915:<PanelContainer#2580738485548>] + 3
+        * [Toast:<PanelContainer#2576695176537>] + 3
+* test_heavy_branching_and_dead_end_side_branches
+    8 Orphans
+        * [@PanelContainer@2923:<PanelContainer#2581761890144>] + 3
+        * [@PanelContainer@2919:<PanelContainer#2581493455818>] + 3
+* test_dead_end_branches_double_back
+    8 Orphans
+        * [@PanelContainer@2933:<PanelContainer#2601810663237>] + 3
+        * [Toast:<PanelContainer#2602079099543>] + 3
+* test_doubling_back_returns_to_the_branch_point_and_the_main_route_stays_open
+    8 Orphans
+        * [@PanelContainer@2940:<PanelContainer#2605333879539>] + 3
+        * [@PanelContainer@2944:<PanelContainer#2605602319356>] + 3
+* test_the_four_wings_are_dead_end_branches_one_per_path
+    8 Orphans
+        * [@PanelContainer@2952:<PanelContainer#2606910936960>] + 3
+        * [@PanelContainer@2948:<PanelContainer#2606642506744>] + 3
+* test_sections_and_node_kinds
+    8 Orphans
+        * [@PanelContainer@2959:<PanelContainer#2608236337130>] + 3
+        * [Toast:<PanelContainer#2607967907555>] + 3
+* test_the_final_chamber_and_the_boss
+    8 Orphans
+        * [@PanelContainer@2967:<PanelContainer#2609578516932>] + 3
+        * [@PanelContainer@2963:<PanelContainer#2609310084556>] + 3
+* test_every_foe_deck_is_real_and_every_icon_exists
+    8 Orphans
+        * [Toast:<PanelContainer#2610937470122>] + 3
+        * [@PanelContainer@2971:<PanelContainer#2610669037287>] + 3
+* test_every_text_key_the_castle_uses_exists
+    8 Orphans
+        * [@PanelContainer@2978:<PanelContainer#2611994434376>] + 3
+        * [@PanelContainer@2982:<PanelContainer#2612262869899>] + 3
+* test_the_story_beats_are_in_the_story_data_not_in_code
+    8 Orphans
+        * [@PanelContainer@2986:<PanelContainer#2613420496766>] + 3
+        * [@PanelContainer@2990:<PanelContainer#2613688934445>] + 3
+* test_three_phases_with_their_own_rules
+    8 Orphans
+        * [Toast:<PanelContainer#2616054523624>] + 3
+        * [@PanelContainer@2997:<PanelContainer#2616322959102>] + 3
+* test_standardization_makes_every_unit_the_same_in_a_real_duel
+    8 Orphans
+        * [@PanelContainer@3001:<PanelContainer#2617463808132>] + 3
+        * [@PanelContainer@3005:<PanelContainer#2617732244824>] + 3
+* test_reflection_copies_the_players_deck
+    8 Orphans
+        * [@PanelContainer@3009:<PanelContainer#2618789208180>] + 3
+        * [Toast:<PanelContainer#2619057646771>] + 3
+* test_unraveling_hurts_him_each_turn_and_makes_him_stronger
+    8 Orphans
+        * [@PanelContainer@3020:<PanelContainer#2621020580809>] + 3
+        * [@PanelContainer@3016:<PanelContainer#2620752145384>] + 3
+* test_capital_debuffs_apply_to_castle_duels_too
+    8 Orphans
+        * [@PanelContainer@3024:<PanelContainer#2625869196779>] + 3
+        * [@PanelContainer@3028:<PanelContainer#2626137632270>] + 3
+* test_freed_leaders_lend_a_boon_each
+    28 Orphans
+        * [@PanelContainer@3047:<PanelContainer#2640717027232>] + 3
+        * [@PanelContainer@3035:<PanelContainer#2631439229013>] + 3
+        * [@PanelContainer@3043:<PanelContainer#2636505948449>] + 3
+        * [Toast:<PanelContainer#2640985465225>] + 3
+        * [@PanelContainer@3039:<PanelContainer#2636237514117>] + 3
+        * [Toast:<PanelContainer#2631170796781>] + 3
+        * [@PanelContainer@3054:<PanelContainer#2642277314033>] + 3
+* test_winning_a_phase_goes_on_to_the_next_and_the_last_completes_the_node
+    8 Orphans
+        * [@PanelContainer@3062:<PanelContainer#2642847733619>] + 3
+        * [@PanelContainer@3058:<PanelContainer#2642562526760>] + 3
+* test_beating_primm_unlocks_the_postgame_and_sets_the_ending
+    32 Orphans
+        * [@PanelContainer@3092:<PanelContainer#2657846562136>] + 3
+        * [Toast:<PanelContainer#2657544574867>] + 3
+        * [@PanelContainer@3085:<PanelContainer#2656252729259>] + 3
+        * [@PanelContainer@3081:<PanelContainer#2655984294744>] + 3
+        * [Toast:<PanelContainer#2643401382869>] + 3
+        * [@PanelContainer@3066:<PanelContainer#2643132948639>] + 3
+        * [@PanelContainer@3073:<PanelContainer#2644827450251>] + 3
+        * [@PanelContainer@3077:<PanelContainer#2645095885713>] + 3
+* test_losing_a_phase_sends_you_home_and_resets_the_boss
+    8 Orphans
+        * [@PanelContainer@3100:<PanelContainer#2658416992856>] + 3
+        * [@PanelContainer@3096:<PanelContainer#2658131783178>] + 3
+* test_every_castle_node_resolves_through_the_session_api_in_a_full_run
+    8 Orphans
+        * [@PanelContainer@3104:<PanelContainer#2658702205403>] + 3
+        * [Toast:<PanelContainer#2658970643402>] + 3
+8 orphans
+20/20 passed.
+
+
+res://tests/core/dungeon/test_protocol_jam.gd
+* test_parking_takes_a_labelled_rule_out_and_puts_it_back
+    8 Orphans
+        * [@PanelContainer@3111:<PanelContainer#2660262484893>] + 3
+        * [@PanelContainer@3115:<PanelContainer#2660530924833>] + 3
+* test_the_four_protocols_are_on_the_right_seats
+    8 Orphans
+        * [@PanelContainer@3119:<PanelContainer#2662208643670>] + 3
+        * [@PanelContainer@3123:<PanelContainer#2662477082122>] + 3
+* test_elowen_jams_one_protocol_on_your_turn_and_you_can_switch_it
+    8 Orphans
+        * [@PanelContainer@3132:<PanelContainer#2686837597894>] + 3
+        * [Toast:<PanelContainer#2686569164066>] + 3
+* test_the_pick_follows_the_board
+    8 Orphans
+        * [@PanelContainer@3140:<PanelContainer#2694622224771>] + 3
+        * [@PanelContainer@3136:<PanelContainer#2694353791863>] + 3
+* test_sabotage_failed_experiments_enter_exhausted_against_elowen
+    8 Orphans
+        * [Toast:<PanelContainer#2702239078308>] + 3
+        * [@PanelContainer@3144:<PanelContainer#2701970647897>] + 3
+* test_a_lookahead_copy_never_parks_the_real_game
+    8 Orphans
+        * [@PanelContainer@3151:<PanelContainer#2709822383856>] + 3
+        * [@PanelContainer@3155:<PanelContainer#2710090820427>] + 3
+* test_extraction_drains_a_life_at_the_start_of_his_turn
+    8 Orphans
+        * [@PanelContainer@3163:<PanelContainer#2717841891961>] + 3
+        * [@PanelContainer@3159:<PanelContainer#2717573458869>] + 3
+* test_start_of_turn_resources_are_created
+    8 Orphans
+        * [Toast:<PanelContainer#2725324530315>] + 3
+        * [@PanelContainer@3170:<PanelContainer#2725592966966>] + 3
+8 orphans
+8/8 passed.
+
+
+res://tests/core/dungeon/test_reward_picks.gd
+* test_three_distinct_cards_never_a_legendary_and_no_early_epic_from_an_elite
+* test_picks_lean_to_the_encounters_paths
+* test_two_path_cards_only_when_their_paths_fit
+* test_a_repeat_fight_offers_two_mostly_common_cards
+* test_capped_cards_are_left_out_while_others_remain
+* test_deck_paths_reads_the_foes_paths
+6/6 passed.
+
+
+res://tests/core/dungeon/test_rewards.gd
+* test_offers_distinct_cards
+* test_favours_primary_color_and_neutral
+* test_deterministic_for_seed
+* test_card_choices_for_color_never_leaves_the_given_color
+* test_card_choices_for_color_never_repeats_a_card
+* test_card_choices_for_color_boss_table_skews_rarer
+6/6 passed.
+
+
+res://tests/core/dungeon/test_trial.gd
+* test_map_shape_and_order
+* test_tutorial_encounters_have_low_hp
+* test_non_boss_opponents_use_the_aggressive_dumb_ai_the_boss_does_not
+* test_non_boss_decks_are_weak_and_vanilla_with_1_cost_units
+* test_shrine_before_the_boss_is_a_full_heal
+* test_only_connected_nodes_are_available
+* test_walking_the_whole_map_completes_it
+* test_enemy_decks_resolve_all_cards
+* test_deck_size_waiver_matches_the_starter_deck
+* test_no_dungeon_wide_blessing_run_uses_plain_base_hp
+* test_enemy_setup_uses_node_hp
+* test_total_tutorial_rewards_sums_only_battle_and_boss_nodes
+* test_save_round_trip
+13/13 passed.
+
+
+res://tests/core/dungeon/test_vault_guardian.gd
+* test_the_four_levers_are_in_the_four_path_zones
+* test_the_quest_is_hidden_until_the_first_lever_and_counts_them
+    4 Orphans
+        * [@PanelContainer@3174:<PanelContainer#2734736548047>] + 3
+* test_a_lever_works_once_and_any_order_unlocks_the_vault
+    4 Orphans
+        * [@PanelContainer@3178:<PanelContainer#2735004986240>] + 3
+* test_the_cutaway_messages_count_to_four
+* test_lever_state_survives_a_save_round_trip
+    4 Orphans
+        * [@PanelContainer@3182:<PanelContainer#2742537953365>] + 3
+* test_the_warden_is_a_four_path_boss_with_a_big_deck_and_an_escalating_summon
+* test_winning_pays_packs_essence_gear_a_cloak_and_xp
+    8 Orphans
+        * [@PanelContainer@3197:<PanelContainer#2931331967987>] + 3
+        * [Toast:<PanelContainer#2742806392189>] + 3
+* test_the_signet_is_a_relic_that_grants_resources_and_life
+* test_the_lever_and_the_vault_are_built_from_the_save
+    4 Orphans
+        * [@PanelContainer@3201:<PanelContainer#2931986276950>] + 3
+12 orphans
+9/9 passed.
+
+
+res://tests/core/dungeon/test_zone_stories_v2.gd
+* test_every_cutscene_beat_has_text_and_a_speaker
+* test_the_new_scenes_are_attached_to_their_boss_nodes
+* test_agnes_and_the_records_labyrinth_have_story_beats
+* test_every_freed_npc_has_dialogue
+* test_each_freed_leader_speaks_to_the_wanderer
+* test_flex_walks_out_on_his_own_when_not_rescued
+* test_the_rotheart_cure_is_letting_the_seed_rot
+7/7 passed.
+
+
+res://tests/core/game/test_boss_tempo.gd
+* test_a_boss_in_its_setup_window_has_no_attackers_then_attacks
+* test_without_the_modifier_nothing_changes
+* test_the_setup_rule_is_data_and_idempotent
+* test_every_dungeon_boss_and_primms_phases_open_with_a_setup_window
+* test_wild_growth_stops_at_three_buffs_per_unit
+5/5 passed.
+
+
+res://tests/core/game/test_zone_equipment.gd
+* test_each_zone_has_one_more_piece_in_a_different_slot
+* test_each_piece_uses_a_different_new_hook
+* test_compliance_clipboard_drains_the_opponent_at_the_end_of_your_turn_only
+* test_spotters_barbell_hits_the_opponent_whenever_a_unit_enters
+* test_head_chefs_toque_adds_one_to_every_hp_gain
+* test_compost_boots_grow_your_units_when_one_of_yours_dies
+* test_each_piece_is_a_quest_reward_in_its_own_zone_and_nowhere_in_the_equipment_vendor
+* test_turning_in_the_quest_grants_the_piece_once
+    8 Orphans
+        * [@PanelContainer@3209:<PanelContainer#2936902003516>] + 3
+        * [@PanelContainer@3205:<PanelContainer#2933211016427>] + 3
+* test_spotters_barbell_counts_beefcake_units_only
+9/9 passed.
+
+
+res://tests/core/quests/test_early_chain.gd
+* test_out_of_the_cave_the_only_quest_is_marens
+    8 Orphans
+        * [Toast:<PanelContainer#2937791196017>] + 3
+        * [@PanelContainer@3217:<PanelContainer#2939317922998>] + 3
+* test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story
+    12 Orphans
+        * [@PanelContainer@3231:<PanelContainer#3010235212700>] + 3
+        * [@PanelContainer@3237:<PanelContainer#3016006577347>] + 3
+        * [@PanelContainer@3227:<PanelContainer#3009966779944>] + 3
+* test_the_chain_xp_adds_up_to_level_5_exactly_at_the_ghost_hand_in
+    8 Orphans
+        * [Toast:<PanelContainer#3016409230189>] + 3
+        * [@PanelContainer@3244:<PanelContainer#3017264869058>] + 3
+* test_grinding_to_level_5_early_does_not_start_the_armory
+    8 Orphans
+        * [@PanelContainer@3248:<PanelContainer#3017667520119>] + 3
+        * [@PanelContainer@3252:<PanelContainer#3018187615093>] + 3
+* test_the_ghost_rule_adds_a_plain_1_1_ghost_token_each_ghost_turn
+    8 Orphans
+        * [@PanelContainer@3256:<PanelContainer#3026140012931>] + 3
+        * [Toast:<PanelContainer#3026542666737>] + 3
+* test_a_lost_storeroom_fight_changes_nothing
+    8 Orphans
+        * [@PanelContainer@3263:<PanelContainer#3027196980721>] + 3
+        * [@PanelContainer@3267:<PanelContainer#3027599634111>] + 3
+* test_old_saves_past_this_point_keep_their_quests
+    12 Orphans
+        * [@PanelContainer@3275:<PanelContainer#3028723705641>] + 3
+        * [Toast:<PanelContainer#3031391284066>] + 3
+        * [@PanelContainer@3271:<PanelContainer#3028321054406>] + 3
+* test_an_old_save_still_in_the_cave_gets_the_new_chain
+    8 Orphans
+        * [@PanelContainer@3286:<PanelContainer#3034276960167>] + 3
+        * [@PanelContainer@3282:<PanelContainer#3031793933299>] + 3
+* test_the_pack_step_gives_no_extra_pack_and_old_saves_skip_it
+    12 Orphans
+        * [@PanelContainer@3294:<PanelContainer#3035283595300>] + 3
+        * [@PanelContainer@3290:<PanelContainer#3034679618545>] + 3
+        * [Toast:<PanelContainer#3036256677477>] + 3
+* test_a_save_before_the_deck_quest_gets_the_pack_step
+    8 Orphans
+        * [@PanelContainer@3301:<PanelContainer#3036659329634>] + 3
+        * [@PanelContainer@3305:<PanelContainer#3037498191579>] + 3
+20 orphans
+10/10 passed.
+
+
+res://tests/core/quests/test_every_fight_counts.gd
+* test_a_gatekeeper_win_counts
+    8 Orphans
+        * [@PanelContainer@3313:<PanelContainer#3038420937237>] + 3
+        * [@PanelContainer@3309:<PanelContainer#3037900844401>] + 3
+* test_the_town_bosses_and_the_arena_count
+    8 Orphans
+        * [@PanelContainer@3320:<PanelContainer#3040098657361>] + 3
+        * [Toast:<PanelContainer#3039696006535>] + 3
+* test_a_loss_never_counts
+    8 Orphans
+        * [@PanelContainer@3326:<PanelContainer#3048973803533>] + 3
+        * [@PanelContainer@3330:<PanelContainer#3049242240246>] + 3
+* test_an_outskirts_roamer_and_a_zone_roamer_count
+    8 Orphans
+        * [@PanelContainer@3334:<PanelContainer#3058536817960>] + 3
+        * [Toast:<PanelContainer#3058805255577>] + 3
+* test_a_dungeon_battle_counts_through_its_rewards
+    8 Orphans
+        * [@PanelContainer@3345:<PanelContainer#3069190351743>] + 3
+        * [@PanelContainer@3341:<PanelContainer#3068921917064>] + 3
+* test_the_quest_completes_on_any_single_win
+    8 Orphans
+        * [@PanelContainer@3353:<PanelContainer#3072176694164>] + 3
+        * [@PanelContainer@3349:<PanelContainer#3071908260452>] + 3
+* test_the_level_five_notice_no_longer_points_at_bertram
+    8 Orphans
+        * [Toast:<PanelContainer#3076991757202>] + 3
+        * [@PanelContainer@3360:<PanelContainer#3077260193289>] + 3
+16 orphans
+7/7 passed.
+
+
+res://tests/core/quests/test_goal_targets.gd
+* test_the_tracked_main_line_is_the_one_goal_without_a_side_quest
+    8 Orphans
+        * [@PanelContainer@3368:<PanelContainer#3078250048873>] + 3
+        * [@PanelContainer@3364:<PanelContainer#3077981613468>] + 3
+* test_a_side_quest_adds_a_second_goal_after_the_tracked_main_line
+    8 Orphans
+        * [@PanelContainer@3372:<PanelContainer#3081353831429>] + 3
+        * [Toast:<PanelContainer#3081622269607>] + 3
+* test_tracking_the_side_quest_puts_it_first_and_a_main_line_second
+    8 Orphans
+        * [@PanelContainer@3385:<PanelContainer#3082863779862>] + 3
+        * [@PanelContainer@3381:<PanelContainer#3082595346988>] + 3
+* test_a_turn_in_here_points_at_the_npc
+    8 Orphans
+        * [@PanelContainer@3389:<PanelContainer#3084155626549>] + 3
+        * [@PanelContainer@3393:<PanelContainer#3084424063543>] + 3
+* test_the_layer_draws_two_goals_and_the_setting_hides_them
+    8 Orphans
+        * [@PanelContainer@3400:<PanelContainer#3086118558384>] + 3
+        * [Toast:<PanelContainer#3085850127593>] + 3
+16 orphans
+5/5 passed.
+
+
+res://tests/core/quests/test_loose_ends.gd
+* test_loose_ends_waits_for_the_postgame_then_is_given_and_tracked
+    8 Orphans
+        * [@PanelContainer@3404:<PanelContainer#3087544624188>] + 3
+        * [@PanelContainer@3408:<PanelContainer#3087813059665>] + 3
+* test_its_steps_follow_real_progress
+    12 Orphans
+        * [@PanelContainer@3412:<PanelContainer#3088735808051>] + 3
+        * [@PanelContainer@3426:<PanelContainer#3091252391550>] + 3
+        * [Toast:<PanelContainer#3089004244622>] + 3
+12 orphans
+2/2 passed.
+
+
+res://tests/core/quests/test_midgame_rerun_fixes.gd
+* test_cover_names_hide_the_twist
+    8 Orphans
+        * [@PanelContainer@3434:<PanelContainer#3093198545012>] + 3
+        * [@PanelContainer@3430:<PanelContainer#3091520826777>] + 3
+* test_the_first_duel_basics_are_skipped_past_level_5
+    8 Orphans
+        * [Toast:<PanelContainer#3094742050125>] + 3
+        * [@PanelContainer@3438:<PanelContainer#3093466983770>] + 3
+* test_a_zone_tracks_its_own_main_line_on_arrival
+    8 Orphans
+        * [@PanelContainer@3451:<PanelContainer#3096621096963>] + 3
+        * [@PanelContainer@3447:<PanelContainer#3096352662106>] + 3
+16 orphans
+3/3 passed.
+
+
+res://tests/core/quests/test_path_direction.gd
+* test_the_story_opens_on_the_players_own_path_zone
+    48 Orphans
+        * [@PanelContainer@3480:<PanelContainer#3101167720342>] + 3
+        * [@PanelContainer@3455:<PanelContainer#3097376072786>] + 3
+        * [Toast:<PanelContainer#3098282043994>] + 3
+        * [@PanelContainer@3487:<PanelContainer#3102946110781>] + 3
+        * [@PanelContainer@3476:<PanelContainer#3100395973978>] + 3
+        * [@PanelContainer@3499:<PanelContainer#3105496247646>] + 3
+        * [@PanelContainer@3491:<PanelContainer#3103717862803>] + 3
+        * [@PanelContainer@3459:<PanelContainer#3097644510620>] + 3
+        * [@PanelContainer@3466:<PanelContainer#3098550480315>] + 3
+        * [Toast:<PanelContainer#3102660898272>] + 3
+        * [@PanelContainer@3472:<PanelContainer#3100110761514>] + 3
+        * [@PanelContainer@3495:<PanelContainer#3105211035246>] + 3
+* test_marens_lines_use_the_real_zone_effects
+* test_maren_first_errand_still_leads_when_everything_starts_at_once
+    8 Orphans
+        * [Toast:<PanelContainer#3106267999251>] + 3
+        * [@PanelContainer@3506:<PanelContainer#3107761171804>] + 3
+* test_a_save_past_its_gatekeeper_is_not_sent_back
+    16 Orphans
+        * [Toast:<PanelContainer#3111032727495>] + 3
+        * [@PanelContainer@3518:<PanelContainer#3110764293159>] + 3
+        * [@PanelContainer@3510:<PanelContainer#3108046384176>] + 3
+        * [@PanelContainer@3514:<PanelContainer#3108818136132>] + 3
+* test_the_glossary_explains_rivals_and_every_zone
+* test_a_path_zone_title_card_lists_its_effects
+6/6 passed.
+
+
+res://tests/core/quests/test_quest_markers.gd
+* test_before_the_armory_quest_no_story_marks_show
+    8 Orphans
+        * [@PanelContainer@3529:<PanelContainer#3112509118358>] + 3
+        * [@PanelContainer@3525:<PanelContainer#3112223910999>] + 3
+* test_a_giver_with_a_quest_on_offer_shows_an_exclamation_mark
+    8 Orphans
+        * [@PanelContainer@3537:<PanelContainer#3114639829867>] + 3
+        * [@PanelContainer@3533:<PanelContainer#3113280875410>] + 3
+* test_a_quest_ready_to_hand_in_shows_a_question_mark_instead
+    8 Orphans
+        * [Toast:<PanelContainer#3115730346554>] + 3
+        * [@PanelContainer@3546:<PanelContainer#3115998784562>] + 3
+* test_the_objective_marker_follows_only_the_tracked_quest
+    8 Orphans
+        * [@PanelContainer@3550:<PanelContainer#3116921528683>] + 3
+        * [@PanelContainer@3554:<PanelContainer#3117189967144>] + 3
+* test_a_target_in_another_area_points_at_the_way_there
+    12 Orphans
+        * [@PanelContainer@3565:<PanelContainer#3119102567390>] + 3
+        * [@PanelContainer@3558:<PanelContainer#3117894608613>] + 3
+        * [Toast:<PanelContainer#3118163045421>] + 3
+* test_a_turn_in_adds_no_second_marker_where_the_question_mark_stands
+    8 Orphans
+        * [@PanelContainer@3573:<PanelContainer#3120629293153>] + 3
+        * [@PanelContainer@3569:<PanelContainer#3119371004998>] + 3
+* test_the_edge_pointer_only_shows_for_off_screen_targets
+    8 Orphans
+        * [Toast:<PanelContainer#3121887586096>] + 3
+        * [@PanelContainer@3577:<PanelContainer#3120897731626>] + 3
+* test_tracker_window_keeps_long_lists_short
+    8 Orphans
+        * [@PanelContainer@3588:<PanelContainer#3123061992478>] + 3
+        * [@PanelContainer@3584:<PanelContainer#3122793557175>] + 3
+* test_the_tracker_names_the_area_of_a_step_elsewhere
+    8 Orphans
+        * [@PanelContainer@3592:<PanelContainer#3123967962163>] + 3
+        * [@PanelContainer@3596:<PanelContainer#3124236397655>] + 3
+* test_the_tracker_says_nothing_when_the_area_is_unknown
+    8 Orphans
+        * [@PanelContainer@3603:<PanelContainer#3125175920542>] + 3
+        * [Toast:<PanelContainer#3124907486762>] + 3
+8 orphans
+10/10 passed.
+
+
+res://tests/core/quests/test_quest_reveal.gd
+* test_no_quest_exposes_a_step_beyond_the_current_one
+    632 Orphans
+        * [@PanelContainer@3731:<PanelContainer#3141147826107>] + 3
+        * [@PanelContainer@3689:<PanelContainer#3135779116999>] + 3
+        * [@PanelContainer@3700:<PanelContainer#3137389729748>] + 3
+        * [@PanelContainer@3670:<PanelContainer#3133631634098>] + 3
+        * [@PanelContainer@3795:<PanelContainer#3148932455156>] + 3
+        * [Toast:<PanelContainer#3139268778745>] + 3
+        * [@PanelContainer@3917:<PanelContainer#3163964841267>] + 3
+        * [@PanelContainer@3807:<PanelContainer#3150543069268>] + 3
+        * [Toast:<PanelContainer#3148664021514>] + 3
+        * [Toast:<PanelContainer#3146113884692>] + 3
+        * [@PanelContainer@3788:<PanelContainer#3147992932991>] + 3
+        * [@PanelContainer@3704:<PanelContainer#3137658167966>] + 3
+        * [@PanelContainer@3765:<PanelContainer#3145174360741>] + 3
+        * [@PanelContainer@3814:<PanelContainer#3151482593966>] + 3
+        * [@PanelContainer@3780:<PanelContainer#3147053408962>] + 3
+        * [@PanelContainer@3799:<PanelContainer#3149603545824>] + 3
+        * [Toast:<PanelContainer#3167454503767>] + 3
+        * [@PanelContainer@3632:<PanelContainer#3128934016005>] + 3
+        * [Toast:<PanelContainer#3127138853894>] + 3
+        * [@PanelContainer@3708:<PanelContainer#3138329257488>] + 3
+        * [@PanelContainer@3712:<PanelContainer#3138597692968>] + 3
+        * [@PanelContainer@3909:<PanelContainer#3163025319537>] + 3
+        * [@PanelContainer@3928:<PanelContainer#3165575456371>] + 3
+        * [@PanelContainer@3746:<PanelContainer#3143026878129>] + 3
+        * [@PanelContainer@3723:<PanelContainer#3140208305850>] + 3
+        * [Toast:<PanelContainer#3155509126933>] + 3
+        * [@PanelContainer@3681:<PanelContainer#3134839596830>] + 3
+        * [Toast:<PanelContainer#3136718645023>] + 3
+        * [@PanelContainer@3719:<PanelContainer#3139537217318>] + 3
+        * [@PanelContainer@3902:<PanelContainer#3162085795640>] + 3
+        * [@PanelContainer@3738:<PanelContainer#3142087354218>] + 3
+        * [@PanelContainer@3936:<PanelContainer#3166514980778>] + 3
+        * [@PanelContainer@3921:<PanelContainer#3164635932633>] + 3
+        * [@PanelContainer@3894:<PanelContainer#3161146271728>] + 3
+        * [@PanelContainer@3674:<PanelContainer#3133900072969>] + 3
+        * [@PanelContainer@3871:<PanelContainer#3158327699523>] + 3
+        * [Toast:<PanelContainer#3160206747729>] + 3
+        * [@PanelContainer@3913:<PanelContainer#3163696408695>] + 3
+        * [@PanelContainer@3822:<PanelContainer#3152422119571>] + 3
+        * [@PanelContainer@3879:<PanelContainer#3159267223708>] + 3
+        * [Toast:<PanelContainer#3162756884639>] + 3
+        * [@PanelContainer@3898:<PanelContainer#3161817360551>] + 3
+        * [@PanelContainer@3845:<PanelContainer#3155240691890>] + 3
+        * [@PanelContainer@3890:<PanelContainer#3160877836512>] + 3
+        * [@PanelContainer@3864:<PanelContainer#3157388175615>] + 3
+        * [@PanelContainer@3856:<PanelContainer#3156448651571>] + 3
+        * [@PanelContainer@3841:<PanelContainer#3154569603383>] + 3
+        * [@PanelContainer@3883:<PanelContainer#3159938312519>] + 3
+        * [@PanelContainer@3852:<PanelContainer#3156180216160>] + 3
+        * [@PanelContainer@3837:<PanelContainer#3154301167975>] + 3
+        * [Toast:<PanelContainer#3153361643883>] + 3
+        * [@PanelContainer@3693:<PanelContainer#3136450210161>] + 3
+        * [@PanelContainer@3826:<PanelContainer#3152690555265>] + 3
+        * [@PanelContainer@3875:<PanelContainer#3158998788522>] + 3
+        * [@PanelContainer@3818:<PanelContainer#3151751031215>] + 3
+        * [@PanelContainer@3833:<PanelContainer#3153630079417>] + 3
+        * [Toast:<PanelContainer#3158059264450>] + 3
+        * [@PanelContainer@3860:<PanelContainer#3157119740368>] + 3
+        * [Toast:<PanelContainer#3150811507165>] + 3
+        * [@PanelContainer@3803:<PanelContainer#3149871983110>] + 3
+        * [@PanelContainer@3643:<PanelContainer#3130141977162>] + 3
+        * [Toast:<PanelContainer#3143966403245>] + 3
+        * [@PanelContainer@3727:<PanelContainer#3140476742328>] + 3
+        * [Toast:<PanelContainer#3141416266454>] + 3
+        * [@PanelContainer@3761:<PanelContainer#3144905927401>] + 3
+        * [@PanelContainer@3742:<PanelContainer#3142355790583>] + 3
+        * [@PanelContainer@3776:<PanelContainer#3146784975618>] + 3
+        * [@PanelContainer@3769:<PanelContainer#3145845451527>] + 3
+        * [@PanelContainer@3750:<PanelContainer#3143295314706>] + 3
+        * [@PanelContainer@3784:<PanelContainer#3147724499749>] + 3
+        * [@PanelContainer@3757:<PanelContainer#3144234838832>] + 3
+        * [@PanelContainer@3615:<PanelContainer#3126870420297>] + 3
+        * [@PanelContainer@3628:<PanelContainer#3128363592672>] + 3
+        * [Toast:<PanelContainer#3129873542184>] + 3
+        * [@PanelContainer@3611:<PanelContainer#3126132223040>] + 3
+        * [Toast:<PanelContainer#3134571162731>] + 3
+        * [@PanelContainer@3651:<PanelContainer#3131081501820>] + 3
+        * [Toast:<PanelContainer#3132021025945>] + 3
+        * [@PanelContainer@3685:<PanelContainer#3135510686888>] + 3
+        * [@PanelContainer@3666:<PanelContainer#3132960550076>] + 3
+        * [@PanelContainer@3624:<PanelContainer#3128095157505>] + 3
+        * [@PanelContainer@3607:<PanelContainer#3125863787926>] + 3
+        * [@PanelContainer@3662:<PanelContainer#3132692115061>] + 3
+        * [@PanelContainer@3655:<PanelContainer#3131752590968>] + 3
+        * [@PanelContainer@3636:<PanelContainer#3129202454183>] + 3
+        * [@PanelContainer@3647:<PanelContainer#3130813066934>] + 3
+        * [@PanelContainer@3951:<PanelContainer#3168394030855>] + 3
+        * [Toast:<PanelContainer#3164904369942>] + 3
+        * [@PanelContainer@3932:<PanelContainer#3165843894068>] + 3
+        * [@PanelContainer@3959:<PanelContainer#3169333555011>] + 3
+        * [@PanelContainer@3940:<PanelContainer#3166783418193>] + 3
+        * [@PanelContainer@3966:<PanelContainer#3170273079136>] + 3
+        * [@PanelContainer@3947:<PanelContainer#3167722942319>] + 3
+        * [@PanelContainer@3974:<PanelContainer#3171212603263>] + 3
+        * [@PanelContainer@3955:<PanelContainer#3168662466446>] + 3
+        * [Toast:<PanelContainer#3172152127389>] + 3
+        * [Toast:<PanelContainer#3169601990571>] + 3
+        * [@PanelContainer@3989:<PanelContainer#3173091651515>] + 3
+        * [@PanelContainer@3970:<PanelContainer#3170541514698>] + 3
+        * [@PanelContainer@3997:<PanelContainer#3174031175641>] + 3
+        * [@PanelContainer@3978:<PanelContainer#3171481038823>] + 3
+        * [@PanelContainer@4004:<PanelContainer#3174970699767>] + 3
+        * [@PanelContainer@3985:<PanelContainer#3172420562950>] + 3
+        * [@PanelContainer@4012:<PanelContainer#3175910223893>] + 3
+        * [@PanelContainer@3993:<PanelContainer#3173360087075>] + 3
+        * [Toast:<PanelContainer#3176849748018>] + 3
+        * [Toast:<PanelContainer#3174299611201>] + 3
+        * [@PanelContainer@4027:<PanelContainer#3177789272145>] + 3
+        * [@PanelContainer@4008:<PanelContainer#3175239135328>] + 3
+        * [@PanelContainer@4035:<PanelContainer#3178728796271>] + 3
+        * [@PanelContainer@4016:<PanelContainer#3176178659453>] + 3
+        * [@PanelContainer@4050:<PanelContainer#3180607844492>] + 3
+        * [@PanelContainer@4042:<PanelContainer#3179668320397>] + 3
+        * [@PanelContainer@4023:<PanelContainer#3177118183580>] + 3
+        * [@PanelContainer@4031:<PanelContainer#3178057707706>] + 3
+        * [Toast:<PanelContainer#3181547368649>] + 3
+        * [Toast:<PanelContainer#3178997231831>] + 3
+        * [@PanelContainer@4065:<PanelContainer#3182486892775>] + 3
+        * [@PanelContainer@4046:<PanelContainer#3179936755958>] + 3
+        * [@PanelContainer@4073:<PanelContainer#3183426416901>] + 3
+        * [@PanelContainer@4054:<PanelContainer#3180876280083>] + 3
+        * [@PanelContainer@4080:<PanelContainer#3184365941027>] + 3
+        * [@PanelContainer@4061:<PanelContainer#3181815804210>] + 3
+        * [@PanelContainer@4088:<PanelContainer#3185305465153>] + 3
+        * [@PanelContainer@4069:<PanelContainer#3182755328335>] + 3
+        * [Toast:<PanelContainer#3186244989278>] + 3
+        * [Toast:<PanelContainer#3183694852461>] + 3
+        * [@PanelContainer@4103:<PanelContainer#3187184513404>] + 3
+        * [@PanelContainer@4084:<PanelContainer#3184634376587>] + 3
+        * [@PanelContainer@4111:<PanelContainer#3188124037530>] + 3
+        * [@PanelContainer@4092:<PanelContainer#3185573900713>] + 3
+        * [@PanelContainer@4118:<PanelContainer#3189063561656>] + 3
+        * [@PanelContainer@4099:<PanelContainer#3186513424839>] + 3
+        * [@PanelContainer@4126:<PanelContainer#3190003085782>] + 3
+        * [@PanelContainer@4107:<PanelContainer#3187452948965>] + 3
+        * [Toast:<PanelContainer#3190942609908>] + 3
+        * [Toast:<PanelContainer#3188392473091>] + 3
+        * [@PanelContainer@4141:<PanelContainer#3191882134034>] + 3
+        * [@PanelContainer@4122:<PanelContainer#3189331997217>] + 3
+        * [@PanelContainer@4149:<PanelContainer#3192821658160>] + 3
+        * [@PanelContainer@4130:<PanelContainer#3190271521343>] + 3
+        * [@PanelContainer@4156:<PanelContainer#3193761182286>] + 3
+        * [@PanelContainer@4137:<PanelContainer#3191211045469>] + 3
+        * [@PanelContainer@4164:<PanelContainer#3194700706412>] + 3
+        * [@PanelContainer@4145:<PanelContainer#3192150569595>] + 3
+        * [Toast:<PanelContainer#3195640230538>] + 3
+        * [Toast:<PanelContainer#3193090093721>] + 3
+        * [@PanelContainer@4179:<PanelContainer#3196579754665>] + 3
+        * [@PanelContainer@4160:<PanelContainer#3194029617848>] + 3
+        * [@PanelContainer@4187:<PanelContainer#3197519278791>] + 3
+        * [@PanelContainer@4168:<PanelContainer#3194969141973>] + 3
+        * [@PanelContainer@4194:<PanelContainer#3198458802917>] + 3
+        * [@PanelContainer@4175:<PanelContainer#3195908666100>] + 3
+        * [@PanelContainer@4202:<PanelContainer#3199398327043>] + 3
+        * [@PanelContainer@4183:<PanelContainer#3196848190225>] + 3
+        * [Toast:<PanelContainer#3197787714352>] + 3
+        * [@PanelContainer@4198:<PanelContainer#3198727238477>] + 3
+        * [@PanelContainer@4206:<PanelContainer#3199666762604>] + 3
+* test_a_later_step_met_early_stays_hidden_until_its_turn
+    12 Orphans
+        * [Toast:<PanelContainer#3200337851169>] + 3
+        * [@PanelContainer@4217:<PanelContainer#3201277375295>] + 3
+        * [@PanelContainer@4213:<PanelContainer#3200606286729>] + 3
+* test_a_finished_quest_shows_every_step
+    8 Orphans
+        * [@PanelContainer@4225:<PanelContainer#3204951585629>] + 3
+        * [@PanelContainer@4221:<PanelContainer#3201545810856>] + 3
+* test_the_hud_tracker_shows_only_the_current_step_and_question_marks
+* test_the_quest_log_shows_only_the_current_step_and_question_marks
+* test_no_quest_text_names_a_twist
+    8 Orphans
+        * [@PanelContainer@4244:<PanelContainer#3207350727577>] + 3
+        * [Toast:<PanelContainer#3207619163055>] + 3
+* test_every_step_still_says_what_to_do
+    8 Orphans
+        * [@PanelContainer@4283:<PanelContainer#3210488066908>] + 3
+        * [@PanelContainer@4279:<PanelContainer#3210219631470>] + 3
+16 orphans
+7/7 passed.
+
+
+res://tests/core/quests/test_quests.gd
+* test_starter_quests_exist_with_the_right_objectives
+    8 Orphans
+        * [@PanelContainer@4367:<PanelContainer#3216980849443>] + 3
+        * [@PanelContainer@4371:<PanelContainer#3217249284966>] + 3
+* test_auto_quests_are_given_once
+    8 Orphans
+        * [@PanelContainer@4378:<PanelContainer#3218155254610>] + 3
+        * [Toast:<PanelContainer#3217886819183>] + 3
+* test_merchants_quest_progresses_per_vendor_and_completes_with_rewards
+    12 Orphans
+        * [@PanelContainer@4392:<PanelContainer#3220118188542>] + 3
+        * [@PanelContainer@4388:<PanelContainer#3219396768625>] + 3
+        * [@PanelContainer@4384:<PanelContainer#3219128333194>] + 3
+* test_beating_a_gatekeeper_moves_its_main_line_and_pays_the_pack_once
+    16 Orphans
+        * [@PanelContainer@4403:<PanelContainer#3222114677429>] + 3
+        * [@PanelContainer@4407:<PanelContainer#3223238750980>] + 3
+        * [@PanelContainer@4399:<PanelContainer#3221846242108>] + 3
+        * [Toast:<PanelContainer#3220386624325>] + 3
+* test_quest_xp_reward_queues_level_ups
+    8 Orphans
+        * [@PanelContainer@4411:<PanelContainer#3224933249845>] + 3
+        * [Toast:<PanelContainer#3225201685362>] + 3
+* test_counter_objective_counts_from_acceptance
+    8 Orphans
+        * [@PanelContainer@4422:<PanelContainer#3226644525912>] + 3
+        * [@PanelContainer@4418:<PanelContainer#3226376090465>] + 3
+* test_turn_in_quest_waits_for_the_npc
+    8 Orphans
+        * [@PanelContainer@4430:<PanelContainer#3227802153736>] + 3
+        * [@PanelContainer@4426:<PanelContainer#3227533718392>] + 3
+* test_prerequisite_blocks_start
+    8 Orphans
+        * [Toast:<PanelContainer#3228456465281>] + 3
+        * [@PanelContainer@4437:<PanelContainer#3228724900758>] + 3
+* test_quest_state_survives_save_and_load
+    12 Orphans
+        * [@PanelContainer@4449:<PanelContainer#3230536835608>] + 3
+        * [@PanelContainer@4441:<PanelContainer#3229546981178>] + 3
+        * [@PanelContainer@4445:<PanelContainer#3229815419828>] + 3
+* test_old_saves_with_only_completed_quests_still_load
+    12 Orphans
+        * [@PanelContainer@4456:<PanelContainer#3231543471089>] + 3
+        * [@PanelContainer@4460:<PanelContainer#3231811908418>] + 3
+        * [Toast:<PanelContainer#3230805275563>] + 3
+* test_objectives_are_ordered_and_the_current_one_is_the_first_not_done
+    8 Orphans
+        * [@PanelContainer@4464:<PanelContainer#3232935981829>] + 3
+        * [@PanelContainer@4468:<PanelContainer#3233875505992>] + 3
+* test_every_quest_has_a_category_name_summary_and_named_objectives
+    8 Orphans
+        * [@PanelContainer@4475:<PanelContainer#3234563367298>] + 3
+        * [Toast:<PanelContainer#3234143940928>] + 3
+* test_each_zone_main_line_pays_two_path_packs_and_midpoint_gear
+    8 Orphans
+        * [@PanelContainer@4479:<PanelContainer#3235234460145>] + 3
+        * [@PanelContainer@4483:<PanelContainer#3235502896038>] + 3
+* test_tracker_cycles_through_active_quests_main_first
+    8 Orphans
+        * [Toast:<PanelContainer#3236593411898>] + 3
+        * [@PanelContainer@4487:<PanelContainer#3236324979545>] + 3
+* test_migration_of_an_old_save_retires_clear_the_paths_and_never_double_pays
+    12 Orphans
+        * [@PanelContainer@4498:<PanelContainer#3237532938543>] + 3
+        * [@PanelContainer@4502:<PanelContainer#3238371799478>] + 3
+        * [@PanelContainer@4494:<PanelContainer#3237264503627>] + 3
+* test_migration_files_a_finished_line_as_completed_silently
+    12 Orphans
+        * [@PanelContainer@4506:<PanelContainer#3238640234872>] + 3
+        * [Toast:<PanelContainer#3240066298640>] + 3
+        * [@PanelContainer@4513:<PanelContainer#3240334734261>] + 3
+* test_new_saves_are_current_and_round_trip_milestones
+    16 Orphans
+        * [Toast:<PanelContainer#3242314445284>] + 3
+        * [@PanelContainer@4521:<PanelContainer#3241609802505>] + 3
+        * [@PanelContainer@4517:<PanelContainer#3240770941819>] + 3
+        * [@PanelContainer@4525:<PanelContainer#3241878238125>] + 3
+16 orphans
+17/17 passed.
+
+
+res://tests/core/sim/test_dungeon_simulation.gd
+* test_enemy_attacks_at_least_once_across_the_tutorial
+* test_reward_picks_grow_the_deck_from_42_towards_45
+* test_no_reward_color_means_the_deck_never_grows
+3/3 passed.
+
+
+res://tests/core/zone/test_buffet.gd
+* test_the_table_is_about_the_size_of_the_d_n_a
+    8 Orphans
+        * [@PanelContainer@4532:<PanelContainer#3243002311242>] + 3
+        * [@PanelContainer@4536:<PanelContainer#3243270747001>] + 3
+* test_surface_rules
+    8 Orphans
+        * [@PanelContainer@4540:<PanelContainer#3244411597605>] + 3
+        * [@PanelContainer@4544:<PanelContainer#3244680033087>] + 3
+* test_there_are_mesas_pads_rafts_and_a_susan
+    8 Orphans
+        * [@PanelContainer@4555:<PanelContainer#18647892373833>] + 3
+        * [Toast:<PanelContainer#18647623938897>] + 3
+* test_every_anchor_chest_and_enemy_stands_on_real_ground
+    8 Orphans
+        * [@PanelContainer@4559:<PanelContainer#18674098385700>] + 3
+        * [@PanelContainer@4563:<PanelContainer#18674366821291>] + 3
+* test_ground_is_hilly_and_flat_at_the_hub_and_the_banks
+    8 Orphans
+        * [Toast:<PanelContainer#18675407006403>] + 3
+        * [@PanelContainer@4567:<PanelContainer#18675138573210>] + 3
+* test_the_south_is_reachable_on_foot_and_the_north_is_not
+    8 Orphans
+        * [@PanelContainer@4578:<PanelContainer#18676396858568>] + 3
+        * [@PanelContainer@4574:<PanelContainer#18676128428109>] + 3
+* test_crossings_and_pads_reach_the_gravy_bank_and_the_mesas_but_gates_still_block_the_districts
+    8 Orphans
+        * [@PanelContainer@4586:<PanelContainer#18677386719605>] + 3
+        * [@PanelContainer@4582:<PanelContainer#18677118284644>] + 3
+* test_with_every_gate_open_the_whole_zone_is_reachable
+    8 Orphans
+        * [Toast:<PanelContainer#18678108137310>] + 3
+        * [@PanelContainer@4593:<PanelContainer#18678376573600>] + 3
+* test_each_gate_leads_to_its_own_district
+    8 Orphans
+        * [@PanelContainer@4597:<PanelContainer#18679097995378>] + 3
+        * [@PanelContainer@4601:<PanelContainer#18679366430958>] + 3
+* test_the_hidden_chests_are_at_least_six_and_nowhere_near_a_marked_spot
+    8 Orphans
+        * [Toast:<PanelContainer#18680356287258>] + 3
+        * [@PanelContainer@4605:<PanelContainer#18680087851936>] + 3
+* test_every_pad_has_a_destination_that_does_not_retrigger_it
+    8 Orphans
+        * [@PanelContainer@4612:<PanelContainer#18681077705404>] + 3
+        * [@PanelContainer@4616:<PanelContainer#18681346140927>] + 3
+* test_rafts_dock_against_both_banks
+    8 Orphans
+        * [@PanelContainer@4620:<PanelContainer#18682067560710>] + 3
+        * [@PanelContainer@4624:<PanelContainer#18682335998448>] + 3
+* test_rafts_wait_at_the_banks_and_cross_in_between
+    8 Orphans
+        * [Toast:<PanelContainer#18683023860218>] + 3
+        * [@PanelContainer@4631:<PanelContainer#18683292300187>] + 3
+* test_the_lazy_susan_spans_the_river_and_has_a_pillar
+    8 Orphans
+        * [@PanelContainer@4635:<PanelContainer#18684013718183>] + 3
+        * [@PanelContainer@4639:<PanelContainer#18684282155808>] + 3
+* test_a_rider_is_safe_on_a_platform_and_falls_without_one
+    8 Orphans
+        * [Toast:<PanelContainer#18685272011116>] + 3
+        * [@PanelContainer@4643:<PanelContainer#18685003575816>] + 3
+* test_enemies_never_enter_the_soup_or_climb_cliffs
+    8 Orphans
+        * [@PanelContainer@4650:<PanelContainer#18686060538370>] + 3
+        * [@PanelContainer@4654:<PanelContainer#18686328975515>] + 3
+* test_falling_into_the_soup_costs_one_hp_and_is_logged
+    8 Orphans
+        * [@PanelContainer@4658:<PanelContainer#18687016839915>] + 3
+        * [@PanelContainer@4662:<PanelContainer#18687285276752>] + 3
+* test_three_gates_one_of_each_kind
+    8 Orphans
+        * [Toast:<PanelContainer#18688006694838>] + 3
+        * [@PanelContainer@4669:<PanelContainer#18688275131057>] + 3
+* test_the_ingredient_gate_needs_saffron_and_uses_it_up
+    8 Orphans
+        * [@PanelContainer@4677:<PanelContainer#18689231431524>] + 3
+        * [@PanelContainer@4673:<PanelContainer#18688962999217>] + 3
+* test_the_quest_gate_needs_the_mend_quest_completed
+    8 Orphans
+        * [@PanelContainer@4681:<PanelContainer#18690036738804>] + 3
+        * [Toast:<PanelContainer#18690305176348>] + 3
+* test_the_battle_gate_is_opened_only_by_a_fight
+    8 Orphans
+        * [@PanelContainer@4688:<PanelContainer#18691211142838>] + 3
+        * [@PanelContainer@4692:<PanelContainer#18691479581138>] + 3
+* test_gate_blockers_leave_no_gap_and_open_gates_let_you_through
+    8 Orphans
+        * [@PanelContainer@4700:<PanelContainer#18692670762904>] + 3
+        * [@PanelContainer@4696:<PanelContainer#18692402327630>] + 3
+* test_the_zone_is_registered_and_named
+    8 Orphans
+        * [Toast:<PanelContainer#18693476069721>] + 3
+        * [@PanelContainer@4707:<PanelContainer#18693744505683>] + 3
+* test_hub_has_a_heal_spot_a_vendor_chefs_and_quests
+    8 Orphans
+        * [@PanelContainer@4715:<PanelContainer#18697200609995>] + 3
+        * [@PanelContainer@4711:<PanelContainer#18696932175860>] + 3
+* test_main_dungeon_signs_name_the_test_kitchen
+    8 Orphans
+        * [Toast:<PanelContainer#18698240799509>] + 3
+        * [@PanelContainer@4719:<PanelContainer#18697972364143>] + 3
+* test_zone_hp_rules_use_the_dish_duty_fee
+    8 Orphans
+        * [@PanelContainer@4726:<PanelContainer#18699146767024>] + 3
+        * [@PanelContainer@4730:<PanelContainer#18699415202935>] + 3
+* test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer
+    8 Orphans
+        * [@PanelContainer@4738:<PanelContainer#18700539277389>] + 3
+        * [@PanelContainer@4734:<PanelContainer#18700270842784>] + 3
+* test_a_buffet_battle_uses_the_zone_hp_and_the_gourmand_deck
+    8 Orphans
+        * [@PanelContainer@4745:<PanelContainer#18701529130854>] + 3
+        * [Toast:<PanelContainer#18701260698495>] + 3
+* test_buffet_cards_equipment_and_items_exist
+    8 Orphans
+        * [@PanelContainer@4753:<PanelContainer#18702602872670>] + 3
+        * [@PanelContainer@4749:<PanelContainer#18702334437638>] + 3
+* test_mini_dungeon_is_three_battles_and_a_one_time_unique_gourmand_card
+    12 Orphans
+        * [Toast:<PanelContainer#18703726945848>] + 3
+        * [@PanelContainer@4764:<PanelContainer#18706662959783>] + 3
+        * [@PanelContainer@4757:<PanelContainer#18703458513553>] + 3
+* test_every_sign_npc_gate_and_quest_text_exists_in_the_story_file
+    8 Orphans
+        * [@PanelContainer@4768:<PanelContainer#18706931394064>] + 3
+        * [@PanelContainer@4772:<PanelContainer#18707887696547>] + 3
+* test_the_quiz_has_four_questions_about_the_gourmands_with_findable_answers
+    8 Orphans
+        * [Toast:<PanelContainer#18708709777654>] + 3
+        * [@PanelContainer@4776:<PanelContainer#18708156131168>] + 3
+* test_taste_test_outcomes_have_real_effects
+    8 Orphans
+        * [@PanelContainer@4787:<PanelContainer#18709699634845>] + 3
+        * [@PanelContainer@4783:<PanelContainer#18709431200258>] + 3
+* test_pickups_are_once_per_visit_and_the_oven_bakes_a_pie_from_them
+    8 Orphans
+        * [@PanelContainer@4791:<PanelContainer#18710706266280>] + 3
+        * [@PanelContainer@4795:<PanelContainer#18710974704319>] + 3
+* test_soup_fountain_heals_up_to_three_times_per_visit
+    8 Orphans
+        * [@PanelContainer@4802:<PanelContainer#18712014889605>] + 3
+        * [Toast:<PanelContainer#18711746455478>] + 3
+* test_fortune_cookies_cycle_through_secret_hints
+    8 Orphans
+        * [@PanelContainer@4810:<PanelContainer#18713440955054>] + 3
+        * [@PanelContainer@4806:<PanelContainer#18713172521765>] + 3
+* test_old_meatloaf_is_mended_with_sea_salt_and_a_truffle
+    8 Orphans
+        * [Toast:<PanelContainer#18714665687727>] + 3
+        * [@PanelContainer@4814:<PanelContainer#18714397258675>] + 3
+* test_quest_objectives_follow_the_zone_actions
+    8 Orphans
+        * [@PanelContainer@4821:<PanelContainer#18715655547632>] + 3
+        * [@PanelContainer@4825:<PanelContainer#18715923985265>] + 3
+* test_the_recipe_puzzle_has_exactly_one_solution
+    8 Orphans
+        * [@PanelContainer@4829:<PanelContainer#18716662180626>] + 3
+        * [@PanelContainer@4833:<PanelContainer#18716930617711>] + 3
+* test_no_single_clue_is_enough_and_wrong_stews_never_solve
+    8 Orphans
+        * [Toast:<PanelContainer#18717769471843>] + 3
+        * [@PanelContainer@4840:<PanelContainer#18718037911222>] + 3
+* test_the_recipe_puzzle_gives_the_ladle_through_the_def
+    8 Orphans
+        * [@PanelContainer@4844:<PanelContainer#18719396864224>] + 3
+        * [@PanelContainer@4848:<PanelContainer#18719665301256>] + 3
+* test_a_flawless_shift_is_18_points_and_three_stars
+    8 Orphans
+        * [Toast:<PanelContainer#18721192028892>] + 3
+        * [@PanelContainer@4852:<PanelContainer#18720923595596>] + 3
+* test_never_cooking_is_six_timeouts_and_no_stars
+    8 Orphans
+        * [@PanelContainer@4859:<PanelContainer#18722131548921>] + 3
+        * [@PanelContainer@4863:<PanelContainer#18722399990295>] + 3
+* test_a_wrong_ingredient_tosses_the_plate_and_costs_time
+    8 Orphans
+        * [@PanelContainer@4867:<PanelContainer#18723138185967>] + 3
+        * [@PanelContainer@4871:<PanelContainer#18723406622875>] + 3
+* test_faster_service_scores_more_and_the_gap_ignores_presses
+    8 Orphans
+        * [@PanelContainer@4878:<PanelContainer#18724430029470>] + 3
+        * [Toast:<PanelContainer#18724161598087>] + 3
+* test_star_thresholds_and_rewards
+    8 Orphans
+        * [@PanelContainer@4886:<PanelContainer#18725470215108>] + 3
+        * [@PanelContainer@4882:<PanelContainer#18725201783519>] + 3
+* test_the_minigame_is_a_different_type_from_the_memory_and_timing_games
+    8 Orphans
+        * [Toast:<PanelContainer#18726510404230>] + 3
+        * [@PanelContainer@4890:<PanelContainer#18726241969720>] + 3
+* test_every_spot_can_be_stood_at_and_reached_from_the_spawn_side
+    8 Orphans
+        * [@PanelContainer@4897:<PanelContainer#18727298935473>] + 3
+        * [@PanelContainer@4901:<PanelContainer#18727567372681>] + 3
+8 orphans
+48/48 passed.
+
+
+res://tests/core/zone/test_capital.gd
+* test_the_capital_is_registered_under_the_final_portal_id
+    8 Orphans
+        * [@PanelContainer@4905:<PanelContainer#18728372676448>] + 3
+        * [@PanelContainer@4909:<PanelContainer#18728641112870>] + 3
+* test_the_final_entrance_is_open_from_the_start
+    8 Orphans
+        * [@PanelContainer@4916:<PanelContainer#18729698075348>] + 3
+        * [Toast:<PanelContainer#18729429644060>] + 3
+* test_the_capital_is_at_least_as_large_as_the_other_zones
+    8 Orphans
+        * [@PanelContainer@4922:<PanelContainer#18730721484968>] + 3
+        * [@PanelContainer@4926:<PanelContainer#18730989922086>] + 3
+* test_every_spot_anchor_exists_and_is_walkable
+    8 Orphans
+        * [@PanelContainer@4930:<PanelContainer#18736559958750>] + 3
+        * [Toast:<PanelContainer#18736828394286>] + 3
+* test_all_spots_hubs_chests_and_enemies_are_connected_to_the_spawn_through_the_gate
+    8 Orphans
+        * [@PanelContainer@4941:<PanelContainer#18742717196657>] + 3
+        * [@PanelContainer@4937:<PanelContainer#18742448763685>] + 3
+* test_the_closed_gate_stays_shut
+    8 Orphans
+        * [@PanelContainer@4949:<PanelContainer#18748505336589>] + 3
+        * [@PanelContainer@4945:<PanelContainer#18748236903057>] + 3
+* test_the_hideout_is_a_separate_underground_hall
+    8 Orphans
+        * [Toast:<PanelContainer#18754092149441>] + 3
+        * [@PanelContainer@4956:<PanelContainer#18754360586861>] + 3
+* test_the_hub_has_a_heal_a_vendor_and_resistance_npcs_and_no_enemies
+    8 Orphans
+        * [@PanelContainer@4964:<PanelContainer#18760215833308>] + 3
+        * [@PanelContainer@4960:<PanelContainer#18759947397913>] + 3
+* test_districts_and_areas
+    8 Orphans
+        * [Toast:<PanelContainer#18766071083630>] + 3
+        * [@PanelContainer@4968:<PanelContainer#18765802648485>] + 3
+* test_the_facade_is_sixteen_identical_houses_and_painted_shops
+    8 Orphans
+        * [@PanelContainer@4975:<PanelContainer#18771657893481>] + 3
+        * [@PanelContainer@4979:<PanelContainer#18771926331977>] + 3
+* test_at_least_six_hidden_chests_with_rewards
+    8 Orphans
+        * [@PanelContainer@4987:<PanelContainer#18777680915140>] + 3
+        * [@PanelContainer@4983:<PanelContainer#18777412479691>] + 3
+* test_the_secret_tunnel_is_hidden_and_listed_in_the_secrets_doc
+    8 Orphans
+        * [@PanelContainer@4994:<PanelContainer#18783469053791>] + 3
+        * [Toast:<PanelContainer#18783200620658>] + 3
+* test_each_service_debuff_is_active_until_its_zone_is_free
+    12 Orphans
+        * [@PanelContainer@5002:<PanelContainer#18789273970512>] + 3
+        * [@PanelContainer@4998:<PanelContainer#18789005535494>] + 3
+        * [@PanelContainer@5006:<PanelContainer#18795112444363>] + 3
+* test_blackout_darkens_slows_blocks_travel_and_exhausts_your_units
+    8 Orphans
+        * [@PanelContainer@5013:<PanelContainer#18800883803937>] + 3
+        * [Toast:<PanelContainer#18795380877923>] + 3
+* test_famine_lowers_max_hp_and_blocks_healing_items
+    12 Orphans
+        * [@PanelContainer@5021:<PanelContainer#18806319622826>] + 3
+        * [@PanelContainer@5017:<PanelContainer#18801152240368>] + 3
+        * [@PanelContainer@5025:<PanelContainer#18807024267534>] + 3
+* test_clutter_shuffles_junk_into_your_deck_in_every_capital_duel
+    12 Orphans
+        * [Toast:<PanelContainer#18807292699271>] + 3
+        * [@PanelContainer@5036:<PanelContainer#18813164728216>] + 3
+        * [@PanelContainer@5032:<PanelContainer#18812896292856>] + 3
+* test_restless_dead_makes_enemy_units_return_from_the_graveyard
+    12 Orphans
+        * [@PanelContainer@5040:<PanelContainer#18818550212130>] + 3
+        * [@PanelContainer@5044:<PanelContainer#18819372297379>] + 3
+        * [Toast:<PanelContainer#18819640734369>] + 3
+* test_debuff_text_and_tooltips_come_from_the_story_file
+    8 Orphans
+        * [@PanelContainer@5055:<PanelContainer#18831116348191>] + 3
+        * [@PanelContainer@5051:<PanelContainer#18827307921445>] + 3
+* test_rifts_hurt_on_contact_and_empower_nearby_enemies
+    8 Orphans
+        * [@PanelContainer@5063:<PanelContainer#18841165900521>] + 3
+        * [@PanelContainer@5059:<PanelContainer#18831384785085>] + 3
+* test_an_empowered_enemy_fights_with_more_hp_and_stronger_units
+    8 Orphans
+        * [@PanelContainer@5070:<PanelContainer#18844571675811>] + 3
+        * [Toast:<PanelContainer#18844303241313>] + 3
+* test_some_rifts_can_be_sealed_for_a_reward_after_their_guardian_falls
+    8 Orphans
+        * [@PanelContainer@5088:<PanelContainer#18850762466035>] + 3
+        * [@PanelContainer@5084:<PanelContainer#18850494034731>] + 3
+* test_primm_falling_closes_every_rift
+    8 Orphans
+        * [@PanelContainer@5092:<PanelContainer#18856315723944>] + 3
+        * [Toast:<PanelContainer#18856584164126>] + 3
+* test_defacing_propaganda_pays_a_small_reward_once_each
+    8 Orphans
+        * [@PanelContainer@5099:<PanelContainer#18866767932113>] + 3
+        * [@PanelContainer@5103:<PanelContainer#18867036368993>] + 3
+* test_the_complaint_box_replies_differently_and_has_a_limit
+    8 Orphans
+        * [@PanelContainer@5107:<PanelContainer#18872723845672>] + 3
+        * [@PanelContainer@5111:<PanelContainer#18872992281387>] + 3
+* test_the_four_path_quests_exist_with_rewards_and_an_insight
+    8 Orphans
+        * [@PanelContainer@5118:<PanelContainer#18878797197604>] + 3
+        * [Toast:<PanelContainer#18878528762497>] + 3
+* test_the_necrocrat_quest_plays_out_through_its_interactables
+    8 Orphans
+        * [@PanelContainer@5126:<PanelContainer#18884618891084>] + 3
+        * [@PanelContainer@5122:<PanelContainer#18884350456004>] + 3
+* test_the_other_quests_objects
+    8 Orphans
+        * [Toast:<PanelContainer#18890994233896>] + 3
+        * [@PanelContainer@5130:<PanelContainer#18890725798731>] + 3
+* test_enemy_types_use_the_framework_slow_battle_starters_and_fast_damagers
+    8 Orphans
+        * [@PanelContainer@5141:<PanelContainer#18896883033699>] + 3
+        * [@PanelContainer@5137:<PanelContainer#18896614599267>] + 3
+* test_the_gate_battle_is_challenging_and_winning_it_opens_the_gate
+    8 Orphans
+        * [@PanelContainer@5145:<PanelContainer#18903006717456>] + 3
+        * [@PanelContainer@5149:<PanelContainer#18903275156106>] + 3
+* test_a_lost_gate_battle_wakes_you_outside_with_a_fee
+    8 Orphans
+        * [@PanelContainer@5156:<PanelContainer#18909600161791>] + 3
+        * [Toast:<PanelContainer#18909331730644>] + 3
+* test_modifier_engine_rules_standardize_units_and_junk
+    8 Orphans
+        * [@PanelContainer@5164:<PanelContainer#18915841288016>] + 3
+        * [@PanelContainer@5160:<PanelContainer#18915572855388>] + 3
+* test_every_text_key_the_capital_uses_exists
+    8 Orphans
+        * [Toast:<PanelContainer#18924481553936>] + 3
+        * [@PanelContainer@5168:<PanelContainer#18924213119668>] + 3
+* test_the_capital_story_has_a_freed_variant_for_its_key_signs_and_people
+    12 Orphans
+        * [@PanelContainer@5183:<PanelContainer#18940705123739>] + 3
+        * [@PanelContainer@5179:<PanelContainer#18933054714068>] + 3
+        * [@PanelContainer@5175:<PanelContainer#18932786279204>] + 3
+* test_the_villains_name_lives_in_one_place
+    8 Orphans
+        * [Toast:<PanelContainer#18946577150146>] + 3
+        * [@PanelContainer@5187:<PanelContainer#18940973560689>] + 3
+* test_new_cards_and_the_junk_token_exist
+    8 Orphans
+        * [@PanelContainer@5194:<PanelContainer#18946845584085>] + 3
+        * [@PanelContainer@5198:<PanelContainer#18951996191445>] + 3
+8 orphans
+35/35 passed.
+
+
+res://tests/core/zone/test_capital_wall_passage.gd
+* test_the_front_wall_has_no_way_through_but_the_gate
+* test_the_west_wall_wraps_the_city_with_one_small_low_hole
+* test_the_west_route_is_walkable_end_to_end_with_the_gate_shut
+* test_the_strip_is_narrow_and_unremarkable
+* test_no_sign_spot_or_marker_gives_the_hole_away
+5/5 passed.
+
+
+res://tests/core/zone/test_dna_layout.gd
+* test_zone_is_about_three_times_the_town
+* test_every_anchor_is_walkable_and_reachable_from_spawn
+* test_hidden_chests_are_reachable_and_numerous
+* test_enemy_homes_are_reachable_and_all_three_types_exist
+* test_hub_rooms_are_safe_and_have_no_enemies
+* test_room_titles_cover_the_whole_brief
+6/6 passed.
+
+
+res://tests/core/zone/test_fable_nov1_freed_roamers.gd
+* test_nothing_changes_before_a_zone_is_freed
+* test_each_freed_zone_keeps_its_damage_roamers_peaceful_and_its_sparring_partners
+* test_the_capital_stands_down_once_primm_fell_and_its_rifts_close
+* test_a_peaceful_roamer_never_chases
+4/4 passed.
+
+
+res://tests/core/zone/test_fable_nov1_healing.gd
+* test_the_capital_hit_toast_names_a_rift_or_a_roamer
+    8 Orphans
+        * [@PanelContainer@5202:<PanelContainer#18952684051396>] + 3
+        * [@PanelContainer@5206:<PanelContainer#18952952490201>] + 3
+* test_the_other_zones_keep_their_own_hit_line
+    8 Orphans
+        * [Toast:<PanelContainer#18958623189141>] + 3
+        * [@PanelContainer@5213:<PanelContainer#18958891624897>] + 3
+* test_the_crease_healer_is_named_and_is_a_full_heal
+    8 Orphans
+        * [@PanelContainer@5229:<PanelContainer#19018266192976>] + 3
+        * [@PanelContainer@5225:<PanelContainer#19017997758795>] + 3
+* test_primms_castle_has_a_full_heal_on_every_road_to_the_boss_near_the_middle
+    8 Orphans
+        * [Toast:<PanelContainer#19019289602820>] + 3
+        * [@PanelContainer@5233:<PanelContainer#19019021169281>] + 3
+8 orphans
+4/4 passed.
+
+
+res://tests/core/zone/test_fog_and_map.gd
+* test_everything_starts_hidden
+    8 Orphans
+        * [@PanelContainer@5240:<PanelContainer#19019994245419>] + 3
+        * [@PanelContainer@5244:<PanelContainer#19020262683827>] + 3
+* test_reveal_marks_a_disc_around_the_player
+    8 Orphans
+        * [@PanelContainer@5252:<PanelContainer#19021252539505>] + 3
+        * [@PanelContainer@5248:<PanelContainer#19020984104068>] + 3
+* test_reveal_near_the_edge_does_not_crash_or_leak
+    8 Orphans
+        * [Toast:<PanelContainer#19022594716018>] + 3
+        * [@PanelContainer@5261:<PanelContainer#19022863152322>] + 3
+* test_fog_round_trips_through_a_dictionary
+    8 Orphans
+        * [@PanelContainer@5269:<PanelContainer#19023853005095>] + 3
+        * [@PanelContainer@5265:<PanelContainer#19023584569725>] + 3
+* test_fog_survives_a_map_resize
+    8 Orphans
+        * [@PanelContainer@5273:<PanelContainer#19024524094961>] + 3
+        * [Toast:<PanelContainer#19024792531073>] + 3
+* test_revealed_areas_persist_in_the_save_per_zone
+    8 Orphans
+        * [@PanelContainer@5280:<PanelContainer#19025480397154>] + 3
+        * [@PanelContainer@5284:<PanelContainer#19025748833482>] + 3
+* test_pois_only_show_on_revealed_ground
+    8 Orphans
+        * [@PanelContainer@5292:<PanelContainer#19026705131112>] + 3
+        * [@PanelContainer@5288:<PanelContainer#19026436699287>] + 3
+* test_there_is_no_poi_kind_for_secrets
+    8 Orphans
+        * [Toast:<PanelContainer#19027426551792>] + 3
+        * [@PanelContainer@5299:<PanelContainer#19027694990197>] + 3
+* test_zone_defs_never_list_a_secret_as_a_poi
+    8 Orphans
+        * [@PanelContainer@5307:<PanelContainer#19028919724728>] + 3
+        * [@PanelContainer@5303:<PanelContainer#19028651291013>] + 3
+* test_d_n_a_chest_positions_are_never_poi_positions
+    8 Orphans
+        * [@PanelContainer@5311:<PanelContainer#19029859250832>] + 3
+        * [Toast:<PanelContainer#19030127686515>] + 3
+* test_town_poi_whitelist_has_no_secrets
+    8 Orphans
+        * [@PanelContainer@5322:<PanelContainer#19031033656460>] + 3
+        * [@PanelContainer@5318:<PanelContainer#19030765221056>] + 3
+8 orphans
+11/11 passed.
+
+
+res://tests/core/zone/test_freed_sparring.gd
+* test_each_freed_zone_roamer_plays_two_paths_with_its_own_deck_size
+* test_the_freed_seat_gets_more_hp_and_the_unfreed_one_is_unchanged
+2/2 passed.
+
+
+res://tests/core/zone/test_gainlands.gd
+* test_main_land_grew_by_about_half
+    8 Orphans
+        * [@PanelContainer@5326:<PanelContainer#19031704745056>] + 3
+        * [@PanelContainer@5330:<PanelContainer#19031973180596>] + 3
+* test_there_are_several_floating_islands_clear_of_the_main_land
+    8 Orphans
+        * [Toast:<PanelContainer#19058112080077>] + 3
+        * [@PanelContainer@5337:<PanelContainer#19058380517473>] + 3
+* test_surface_rules_ground_island_rim_void
+    8 Orphans
+        * [@PanelContainer@5349:<PanelContainer#19063094913209>] + 3
+        * [@PanelContainer@5345:<PanelContainer#19062826480827>] + 3
+* test_every_anchor_chest_and_enemy_stands_on_real_ground
+    8 Orphans
+        * [@PanelContainer@5353:<PanelContainer#19063833111343>] + 3
+        * [Toast:<PanelContainer#19064101549181>] + 3
+* test_the_plateau_is_level_with_a_swell_and_the_mesa_stands_higher
+    8 Orphans
+        * [@PanelContainer@5360:<PanelContainer#19064789410133>] + 3
+        * [@PanelContainer@5364:<PanelContainer#19065057847727>] + 3
+* test_everything_on_the_main_land_is_reachable_from_the_spawn
+    18 Orphans
+        * [rock_single_E2:<Node3D#19109802680662>] + 1
+        * [@PanelContainer@5372:<PanelContainer#19066114811430>] + 3
+        * [@PanelContainer@5368:<PanelContainer#19065846376383>] + 3
+        * [rock_single_B2:<Node3D#19108896713825>] + 1
+        * [rock_single_A2:<Node3D#19108594723951>] + 1
+        * [rock_single_D2:<Node3D#19109500693868>] + 1
+        * [rock_single_C2:<Node3D#19109198704003>] + 1
+* test_islands_are_walkable_once_you_are_on_them
+    18 Orphans
+        * [rock_single_C2:<Node3D#19142283373344>] + 1
+        * [rock_single_B2:<Node3D#19142216265481>] + 1
+        * [rock_single_A2:<Node3D#19142149156652>] + 1
+        * [@PanelContainer@5379:<PanelContainer#19067624763211>] + 3
+        * [rock_single_D2:<Node3D#19142350483952>] + 1
+        * [rock_single_E2:<Node3D#19142417592949>] + 1
+        * [Toast:<PanelContainer#19067356329141>] + 3
+* test_the_hidden_chests_are_at_least_six_quarter_size_and_on_islands_too
+    8 Orphans
+        * [@PanelContainer@5383:<PanelContainer#19068346182124>] + 3
+        * [@PanelContainer@5387:<PanelContainer#19068614618918>] + 3
+* test_every_travel_point_and_destination_exists
+    8 Orphans
+        * [@PanelContainer@5766:<PanelContainer#19122217822434>] + 3
+        * [Toast:<PanelContainer#19122486260887>] + 3
+* test_every_island_has_an_always_open_way_back
+    8 Orphans
+        * [@PanelContainer@6152:<PanelContainer#19149698902247>] + 3
+        * [@PanelContainer@6148:<PanelContainer#19149430469832>] + 3
+* test_some_islands_are_only_reachable_by_chains_and_some_points_are_locked
+    8 Orphans
+        * [@PanelContainer@6160:<PanelContainer#19150671981238>] + 3
+        * [@PanelContainer@6156:<PanelContainer#19150403545908>] + 3
+* test_travel_locks_open_with_their_conditions
+    8 Orphans
+        * [Toast:<PanelContainer#19151628280818>] + 3
+        * [@PanelContainer@6167:<PanelContainer#19151896718447>] + 3
+* test_falling_costs_one_hp_and_is_logged
+    8 Orphans
+        * [@PanelContainer@6175:<PanelContainer#19153792543116>] + 3
+        * [@PanelContainer@6171:<PanelContainer#19153524109773>] + 3
+* test_hub_has_a_heal_spot_vendor_npcs_and_quests
+    8 Orphans
+        * [@PanelContainer@6179:<PanelContainer#19154983725190>] + 3
+        * [Toast:<PanelContainer#19155252162970>] + 3
+* test_main_dungeon_signs_name_the_house_of_gains
+    8 Orphans
+        * [@PanelContainer@6190:<PanelContainer#19157349313316>] + 3
+        * [@PanelContainer@6186:<PanelContainer#19157080880295>] + 3
+* test_zone_hp_rules_use_the_gainlands_fee
+    8 Orphans
+        * [@PanelContainer@6198:<PanelContainer#19158406279839>] + 3
+        * [@PanelContainer@6194:<PanelContainer#19158137844920>] + 3
+* test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer
+    8 Orphans
+        * [Toast:<PanelContainer#19159312246957>] + 3
+        * [@PanelContainer@6205:<PanelContainer#19159580685456>] + 3
+* test_a_gainlands_battle_uses_the_zone_hp_and_the_beefcake_deck
+    8 Orphans
+        * [@PanelContainer@6213:<PanelContainer#19160570538799>] + 3
+        * [@PanelContainer@6209:<PanelContainer#19160302103573>] + 3
+* test_defeating_a_gainlands_enemy_bumps_the_zone_counter
+    8 Orphans
+        * [@PanelContainer@6217:<PanelContainer#19161342288548>] + 3
+        * [Toast:<PanelContainer#19161610727813>] + 3
+* test_gainlands_cards_and_equipment_exist
+    8 Orphans
+        * [@PanelContainer@6228:<PanelContainer#19162835460091>] + 3
+        * [@PanelContainer@6224:<PanelContainer#19162567025123>] + 3
+* test_mini_dungeon_is_three_battles_and_a_one_time_unique_beefcake_card
+    12 Orphans
+        * [@PanelContainer@6232:<PanelContainer#19165603702840>] + 3
+        * [Toast:<PanelContainer#19168774596911>] + 3
+        * [@PanelContainer@6236:<PanelContainer#19165872139654>] + 3
+* test_every_sign_npc_and_travel_text_exists_in_the_story_file
+    8 Orphans
+        * [@PanelContainer@6247:<PanelContainer#19169747675486>] + 3
+        * [@PanelContainer@6243:<PanelContainer#19169043032584>] + 3
+* test_the_quiz_has_four_questions_about_energy_and_transport_with_findable_answers
+    8 Orphans
+        * [@PanelContainer@6255:<PanelContainer#19171005968428>] + 3
+        * [@PanelContainer@6251:<PanelContainer#19170016112797>] + 3
+* test_protein_shake_outcomes_have_real_effects
+    8 Orphans
+        * [Toast:<PanelContainer#19171811275051>] + 3
+        * [@PanelContainer@6262:<PanelContainer#19172079710608>] + 3
+* test_flex_mirror_heals_up_to_three_times_per_visit
+    8 Orphans
+        * [@PanelContainer@6270:<PanelContainer#19177263867918>] + 3
+        * [@PanelContainer@6266:<PanelContainer#19176995432526>] + 3
+* test_spotting_gary_gives_a_buff_each_visit_and_gold_only_once
+    8 Orphans
+        * [Toast:<PanelContainer#19178337607998>] + 3
+        * [@PanelContainer@6274:<PanelContainer#19178069176153>] + 3
+* test_running_the_wheel_powers_the_grid_once
+    8 Orphans
+        * [@PanelContainer@6281:<PanelContainer#19179277133899>] + 3
+        * [@PanelContainer@6285:<PanelContainer#19179545569975>] + 3
+* test_the_power_puzzle_has_exactly_one_solution
+    8 Orphans
+        * [@PanelContainer@6293:<PanelContainer#19180803863047>] + 3
+        * [@PanelContainer@6289:<PanelContainer#19180535428252>] + 3
+* test_every_wheel_feeds_two_different_machines
+    8 Orphans
+        * [Toast:<PanelContainer#19181810491871>] + 3
+        * [@PanelContainer@6300:<PanelContainer#19182078931588>] + 3
+* test_running_too_many_wheels_never_solves_it
+    8 Orphans
+        * [@PanelContainer@6304:<PanelContainer#19182867457595>] + 3
+        * [@PanelContainer@6308:<PanelContainer#19183135894324>] + 3
+* test_the_puzzle_gives_the_gainlands_equipment_through_the_def
+    8 Orphans
+        * [Toast:<PanelContainer#19184243190363>] + 3
+        * [@PanelContainer@6312:<PanelContainer#19183974756748>] + 3
+* test_rep_game_judges_by_timing
+    8 Orphans
+        * [@PanelContainer@6319:<PanelContainer#19185165938028>] + 3
+        * [@PanelContainer@6323:<PanelContainer#19185434375277>] + 3
+* test_a_flawless_set_is_24_points_and_three_stars
+    8 Orphans
+        * [@PanelContainer@6327:<PanelContainer#19186122238372>] + 3
+        * [@PanelContainer@6331:<PanelContainer#19186390676048>] + 3
+* test_never_pressing_is_eight_misses_and_no_stars
+    8 Orphans
+        * [Toast:<PanelContainer#19187162422145>] + 3
+        * [@PanelContainer@6338:<PanelContainer#19187430864053>] + 3
+* test_star_thresholds_and_stray_taps
+    8 Orphans
+        * [@PanelContainer@6346:<PanelContainer#19188471048279>] + 3
+        * [@PanelContainer@6342:<PanelContainer#19188202614545>] + 3
+* test_rewards_depend_on_stars_and_the_first_clear_bonus_is_one_time
+    8 Orphans
+        * [Toast:<PanelContainer#19189528012731>] + 3
+        * [@PanelContainer@6350:<PanelContainer#19189259577637>] + 3
+* test_the_minigame_is_a_different_type_from_the_memory_game
+    8 Orphans
+        * [@PanelContainer@6357:<PanelContainer#19190282986215>] + 3
+        * [@PanelContainer@6361:<PanelContainer#19190551423399>] + 3
+16 orphans
+37/37 passed.
+
+
+res://tests/core/zone/test_health_travel_rules.gd
+* test_arriving_in_town_ends_the_zone_visit_and_the_next_one_is_at_full_hp
+    8 Orphans
+        * [@PanelContainer@6365:<PanelContainer#19191423838375>] + 3
+        * [@PanelContainer@6369:<PanelContainer#19191692274809>] + 3
+* test_entering_a_different_zone_from_a_zone_is_a_full_heal
+    8 Orphans
+        * [@PanelContainer@6376:<PanelContainer#19192715684198>] + 3
+        * [Toast:<PanelContainer#19192447250878>] + 3
+* test_town_heals_a_lingering_run_too
+    8 Orphans
+        * [@PanelContainer@6382:<PanelContainer#19193789425974>] + 3
+        * [@PanelContainer@6386:<PanelContainer#19194057863731>] + 3
+* test_within_a_zone_the_hp_rules_still_apply
+    8 Orphans
+        * [Toast:<PanelContainer#19195198712187>] + 3
+        * [@PanelContainer@6390:<PanelContainer#19194930278511>] + 3
+* test_the_capital_debuffs_still_apply_on_arrival
+    8 Orphans
+        * [@PanelContainer@6401:<PanelContainer#19200198322189>] + 3
+        * [@PanelContainer@6397:<PanelContainer#19199929889143>] + 3
+* test_portal_rips_cost_nothing_and_only_have_story_or_quest_locks
+    8 Orphans
+        * [@PanelContainer@6405:<PanelContainer#19200953299196>] + 3
+        * [@PanelContainer@6409:<PanelContainer#19201221735533>] + 3
+8 orphans
+6/6 passed.
+
+
+res://tests/core/zone/test_heap.gd
+* test_the_land_is_deeper_than_wide_and_at_least_as_big_as_before
+    8 Orphans
+        * [Toast:<PanelContainer#19201993482891>] + 3
+        * [@PanelContainer@6416:<PanelContainer#19202261920539>] + 3
+* test_the_terraces_rise_from_the_market_to_the_plateau
+    8 Orphans
+        * [@PanelContainer@6420:<PanelContainer#19203100782420>] + 3
+        * [@PanelContainer@6424:<PanelContainer#19203369218824>] + 3
+* test_surface_rules
+    8 Orphans
+        * [Toast:<PanelContainer#19212781236286>] + 3
+        * [@PanelContainer@6430:<PanelContainer#19212512801913>] + 3
+* test_the_ways_up_are_ramps_of_several_kinds
+    8 Orphans
+        * [@PanelContainer@6437:<PanelContainer#19213519431744>] + 3
+        * [@PanelContainer@6441:<PanelContainer#19213787867442>] + 3
+* test_there_are_peaks_chutes_bridges_pits_and_scree
+    8 Orphans
+        * [@PanelContainer@6445:<PanelContainer#19214677059324>] + 3
+        * [@PanelContainer@6449:<PanelContainer#19214945495239>] + 3
+* test_every_anchor_chest_and_enemy_stands_on_real_ground
+    8 Orphans
+        * [@PanelContainer@6456:<PanelContainer#19216086346526>] + 3
+        * [Toast:<PanelContainer#19215817912620>] + 3
+* test_the_bridge_ends_are_level_with_their_terraces
+    8 Orphans
+        * [@PanelContainer@6464:<PanelContainer#19217210419039>] + 3
+        * [@PanelContainer@6460:<PanelContainer#19216941984453>] + 3
+* test_the_lower_terraces_are_reachable_on_foot_and_the_plateau_the_summits_and_the_pocket_are_not
+    8 Orphans
+        * [@PanelContainer@6468:<PanelContainer#19218015727868>] + 3
+        * [Toast:<PanelContainer#19218284164198>] + 3
+* test_the_vine_bridges_are_shortcuts_and_the_east_one_opens_the_pocket
+    8 Orphans
+        * [@PanelContainer@6479:<PanelContainer#19220012214555>] + 3
+        * [@PanelContainer@6475:<PanelContainer#19219743780979>] + 3
+* test_an_ungrown_bridge_is_the_water_and_a_partly_grown_one_holds_only_as_far_as_it_has_grown
+    8 Orphans
+        * [@PanelContainer@6487:<PanelContainer#19220968515714>] + 3
+        * [@PanelContainer@6483:<PanelContainer#19220700081180>] + 3
+* test_the_junk_barricade_plugs_the_stairs_to_the_plateau
+    8 Orphans
+        * [@PanelContainer@6494:<PanelContainer#19221958371453>] + 3
+        * [Toast:<PanelContainer#19221689936224>] + 3
+* test_the_barricade_or_the_scree_opens_the_plateau_with_a_mount
+    8 Orphans
+        * [@PanelContainer@6502:<PanelContainer#19222948227451>] + 3
+        * [@PanelContainer@6498:<PanelContainer#19222679793901>] + 3
+* test_the_beanstalks_reach_the_summits_and_the_chutes_come_back_down
+    8 Orphans
+        * [Toast:<PanelContainer#19223904528368>] + 3
+        * [@PanelContainer@6506:<PanelContainer#19223636095641>] + 3
+* test_all_three_bridges_and_both_beanstalks_make_everything_reachable_with_a_mount
+    8 Orphans
+        * [@PanelContainer@6517:<PanelContainer#19224911159972>] + 3
+        * [@PanelContainer@6513:<PanelContainer#19224642727718>] + 3
+* test_every_pair_of_neighbouring_terraces_has_at_least_two_ways
+    8 Orphans
+        * [@PanelContainer@6525:<PanelContainer#19225901017058>] + 3
+        * [@PanelContainer@6521:<PanelContainer#19225632584825>] + 3
+* test_nothing_walkable_lies_under_a_bridge
+    8 Orphans
+        * [Toast:<PanelContainer#19226655994051>] + 3
+        * [@PanelContainer@6532:<PanelContainer#19226924429722>] + 3
+* test_the_hidden_chests_are_at_least_six_and_nowhere_near_a_marked_spot
+    8 Orphans
+        * [@PanelContainer@6536:<PanelContainer#19227645844217>] + 3
+        * [@PanelContainer@6540:<PanelContainer#19227914285519>] + 3
+* test_every_chute_starts_on_a_summit_slopes_down_and_lands_on_the_ground
+    8 Orphans
+        * [Toast:<PanelContainer#19228870586538>] + 3
+        * [@PanelContainer@6544:<PanelContainer#19228602151212>] + 3
+* test_falling_into_the_hazards_costs_one_hp_and_is_logged
+    8 Orphans
+        * [@PanelContainer@6551:<PanelContainer#19229592004713>] + 3
+        * [@PanelContainer@6555:<PanelContainer#19229860441199>] + 3
+* test_hazards_are_walkable_for_the_player_but_not_for_enemies_and_scree_needs_a_mount
+    8 Orphans
+        * [@PanelContainer@6563:<PanelContainer#19230816741938>] + 3
+        * [@PanelContainer@6559:<PanelContainer#19230548308220>] + 3
+* test_the_player_is_faster_on_a_mount
+    8 Orphans
+        * [@PanelContainer@6570:<PanelContainer#19231840151540>] + 3
+        * [Toast:<PanelContainer#19231571719277>] + 3
+* test_five_things_to_grow_two_by_druid_rules_and_beans
+    8 Orphans
+        * [@PanelContainer@6574:<PanelContainer#19232595126587>] + 3
+        * [@PanelContainer@6578:<PanelContainer#19232863562139>] + 3
+* test_a_bean_grows_a_bridge_once_and_is_used_up
+    8 Orphans
+        * [@PanelContainer@6582:<PanelContainer#19233584982242>] + 3
+        * [Toast:<PanelContainer#19233853419984>] + 3
+* test_druid_sorrel_needs_the_herd_rounded_up
+    8 Orphans
+        * [@PanelContainer@6593:<PanelContainer#19234843275422>] + 3
+        * [@PanelContainer@6589:<PanelContainer#19234574839994>] + 3
+* test_smashing_a_barricade_is_permanent_and_counted
+    8 Orphans
+        * [@PanelContainer@6597:<PanelContainer#19235665357029>] + 3
+        * [@PanelContainer@6601:<PanelContainer#19235933795080>] + 3
+* test_the_zone_is_registered_and_named
+    8 Orphans
+        * [Toast:<PanelContainer#19236822985040>] + 3
+        * [@PanelContainer@6608:<PanelContainer#19237091422895>] + 3
+* test_hub_has_a_heal_spot_a_vendor_npcs_and_quests
+    8 Orphans
+        * [@PanelContainer@6616:<PanelContainer#19238282601636>] + 3
+        * [@PanelContainer@6612:<PanelContainer#19238014168902>] + 3
+* test_main_dungeon_signs_name_the_rotheart
+    8 Orphans
+        * [Toast:<PanelContainer#19239440230420>] + 3
+        * [@PanelContainer@6620:<PanelContainer#19239171796689>] + 3
+* test_zone_hp_rules_use_the_mucking_out_fee
+    8 Orphans
+        * [@PanelContainer@6631:<PanelContainer#19240597860434>] + 3
+        * [@PanelContainer@6627:<PanelContainer#19240329425597>] + 3
+* test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer
+    8 Orphans
+        * [@PanelContainer@6635:<PanelContainer#19241554161492>] + 3
+        * [@PanelContainer@6639:<PanelContainer#19241822597235>] + 3
+* test_a_heap_battle_uses_the_zone_hp_and_the_refusemancer_deck
+    8 Orphans
+        * [@PanelContainer@6646:<PanelContainer#19242829230297>] + 3
+        * [Toast:<PanelContainer#19242560795366>] + 3
+* test_heap_cards_and_equipment_exist
+    8 Orphans
+        * [@PanelContainer@6654:<PanelContainer#19243902970208>] + 3
+        * [@PanelContainer@6650:<PanelContainer#19243634536878>] + 3
+* test_mini_dungeon_is_three_battles_and_a_one_time_unique_card
+    12 Orphans
+        * [@PanelContainer@6658:<PanelContainer#19244859270981>] + 3
+        * [@PanelContainer@6665:<PanelContainer#19248063720820>] + 3
+        * [Toast:<PanelContainer#19245127708875>] + 3
+* test_every_text_key_the_zone_needs_exists_in_the_story_file
+    8 Orphans
+        * [@PanelContainer@6673:<PanelContainer#19249288454795>] + 3
+        * [@PanelContainer@6669:<PanelContainer#19248332156032>] + 3
+* test_the_quiz_has_four_questions_about_the_refusemancers_with_findable_answers
+    8 Orphans
+        * [@PanelContainer@6677:<PanelContainer#19249556894099>] + 3
+        * [Toast:<PanelContainer#19250093765747>] + 3
+* test_the_compost_bin_turns_junk_into_a_visit_buff_twice_per_visit
+    8 Orphans
+        * [@PanelContainer@6684:<PanelContainer#19250815182679>] + 3
+        * [@PanelContainer@6688:<PanelContainer#19251083619512>] + 3
+* test_crops_grow_over_time_and_pay_a_harvest
+    8 Orphans
+        * [@PanelContainer@6692:<PanelContainer#19251922480244>] + 3
+        * [@PanelContainer@6696:<PanelContainer#19252190915710>] + 3
+* test_shrine_blessing_once_per_visit_and_trough_pays_for_junk
+    8 Orphans
+        * [Toast:<PanelContainer#19252962666945>] + 3
+        * [@PanelContainer@6703:<PanelContainer#19253231103144>] + 3
+* test_herding_each_escaped_animal_counts_once_per_visit
+    8 Orphans
+        * [@PanelContainer@6711:<PanelContainer#19254506169974>] + 3
+        * [@PanelContainer@6707:<PanelContainer#19254237738092>] + 3
+* test_quest_objectives_follow_the_zone_actions
+    8 Orphans
+        * [@PanelContainer@6715:<PanelContainer#19255361808573>] + 3
+        * [Toast:<PanelContainer#19255630245957>] + 3
+* test_the_garden_has_solutions_and_the_shortest_is_long
+    8 Orphans
+        * [@PanelContainer@6722:<PanelContainer#19256620098245>] + 3
+        * [@PanelContainer@6726:<PanelContainer#19256888537539>] + 3
+* test_planting_flips_a_plot_and_its_neighbours
+    8 Orphans
+        * [@PanelContainer@6730:<PanelContainer#19257693841313>] + 3
+        * [@PanelContainer@6734:<PanelContainer#19257962278932>] + 3
+* test_the_garden_puzzle_gives_the_satchel_through_the_def
+    8 Orphans
+        * [Toast:<PanelContainer#19260327864908>] + 3
+        * [@PanelContainer@6741:<PanelContainer#19260596302010>] + 3
+* test_a_flawless_run_is_three_stars_and_a_full_streak
+    8 Orphans
+        * [@PanelContainer@6745:<PanelContainer#19261284162515>] + 3
+        * [@PanelContainer@6749:<PanelContainer#19261552602214>] + 3
+* test_never_sorting_loses_every_piece
+    8 Orphans
+        * [@PanelContainer@6753:<PanelContainer#19262324353329>] + 3
+        * [Toast:<PanelContainer#19262592789666>] + 3
+* test_a_wrong_bin_breaks_the_streak_and_early_presses_are_ignored
+    8 Orphans
+        * [@PanelContainer@6760:<PanelContainer#19263297432685>] + 3
+        * [@PanelContainer@6764:<PanelContainer#19263565869256>] + 3
+* test_pieces_arrive_faster_and_every_bin_is_used
+    8 Orphans
+        * [@PanelContainer@6772:<PanelContainer#19264639609967>] + 3
+        * [@PanelContainer@6768:<PanelContainer#19264371174557>] + 3
+* test_star_thresholds_and_rewards
+    8 Orphans
+        * [Toast:<PanelContainer#19265377807063>] + 3
+        * [@PanelContainer@6779:<PanelContainer#19265646242911>] + 3
+* test_the_minigame_is_a_different_type_from_the_other_three
+    8 Orphans
+        * [@PanelContainer@6783:<PanelContainer#19266585765963>] + 3
+        * [@PanelContainer@6787:<PanelContainer#19266854203529>] + 3
+8 orphans
+49/49 passed.
+
+
+res://tests/core/zone/test_legacy_sub_areas.gd
+* test_every_removed_sub_area_resolves_to_its_main_area
+* test_the_landing_spots_are_the_old_gate_positions
+* test_unknown_tokens_fall_back_sensibly
+* test_loading_a_sub_area_save_resumes_in_the_main_area_at_the_gate
+    18 Orphans
+        * [Toast:<PanelContainer#19267844056730>] + 3
+        * [@PanelContainer@6791:<PanelContainer#19267575622756>] + 3
+        * [rock_single_A2:<Node3D#19294217844049>] + 1
+        * [rock_single_B2:<Node3D#19294284952917>] + 1
+        * [rock_single_C2:<Node3D#19294352061785>] + 1
+        * [rock_single_D2:<Node3D#19294419170653>] + 1
+        * [rock_single_E2:<Node3D#19294486279521>] + 1
+18 orphans
+4/4 passed.
+
+
+res://tests/core/zone/test_mini_dungeon.gd
+* test_map_is_three_battles_in_a_row_ending_in_a_boss
+    8 Orphans
+        * [@PanelContainer@6802:<PanelContainer#19268951350209>] + 3
+        * [@PanelContainer@6798:<PanelContainer#19268682920637>] + 3
+* test_run_starts_at_the_zone_hp_and_battles_use_mini_decks
+    8 Orphans
+        * [@PanelContainer@6812:<PanelContainer#19271568600618>] + 3
+        * [@PanelContainer@6808:<PanelContainer#19271300166453>] + 3
+* test_clearing_grants_the_unique_card_exactly_once
+    12 Orphans
+        * [Toast:<PanelContainer#19301650147397>] + 3
+        * [@PanelContainer@7200:<PanelContainer#19303311092069>] + 3
+        * [@PanelContainer@7196:<PanelContainer#19301918583934>] + 3
+* test_hp_left_goes_back_to_the_zone
+    8 Orphans
+        * [@PanelContainer@7208:<PanelContainer#19306649759787>] + 3
+        * [@PanelContainer@7204:<PanelContainer#19303579529883>] + 3
+* test_losing_wakes_at_the_hub_for_a_fee
+    8 Orphans
+        * [Toast:<PanelContainer#19306918188911>] + 3
+        * [@PanelContainer@7215:<PanelContainer#19307404734641>] + 3
+* test_the_old_service_tunnels_are_the_secret_way_into_the_capital
+    12 Orphans
+        * [@PanelContainer@7223:<PanelContainer#19308595913413>] + 3
+        * [@PanelContainer@7227:<PanelContainer#19309434776687>] + 3
+        * [@PanelContainer@7219:<PanelContainer#19308327481808>] + 3
+* test_every_side_dungeon_is_sealed_until_its_quest_is_done
+    8 Orphans
+        * [Toast:<PanelContainer#19309703210847>] + 3
+        * [@PanelContainer@7234:<PanelContainer#19310625960173>] + 3
+20 orphans
+7/7 passed.
+
+
+res://tests/core/zone/test_minigames.gd
+* test_quiz_has_four_questions_each_with_a_valid_correct_answer
+    8 Orphans
+        * [@PanelContainer@7242:<PanelContainer#19311431265404>] + 3
+        * [@PanelContainer@7238:<PanelContainer#19310894394560>] + 3
+* test_every_quiz_answer_is_discoverable_in_the_zone_text
+    8 Orphans
+        * [@PanelContainer@7246:<PanelContainer#19312186241341>] + 3
+        * [Toast:<PanelContainer#19312454677199>] + 3
+* test_quiz_first_pass_reward_scales_and_failing_pays_nothing
+    8 Orphans
+        * [@PanelContainer@7255:<PanelContainer#19314182727998>] + 3
+        * [@PanelContainer@7259:<PanelContainer#19314451165630>] + 3
+* test_quiz_first_pass_pays_large_then_every_attempt_pays_small
+    8 Orphans
+        * [@PanelContainer@7263:<PanelContainer#19315222916957>] + 3
+        * [@PanelContainer@7267:<PanelContainer#19315491352951>] + 3
+* test_quiz_scoring
+    8 Orphans
+        * [Toast:<PanelContainer#19316128884283>] + 3
+        * [@PanelContainer@7274:<PanelContainer#19316397320167>] + 3
+* test_match_game_has_eight_pairs_and_matching_works
+    8 Orphans
+        * [@PanelContainer@7278:<PanelContainer#19317085187183>] + 3
+        * [@PanelContainer@7282:<PanelContainer#19317353623370>] + 3
+* test_match_game_perfect_play_scores_three_stars
+    8 Orphans
+        * [@PanelContainer@7286:<PanelContainer#19318209256085>] + 3
+        * [Toast:<PanelContainer#19318477697406>] + 3
+* test_match_game_loses_when_moves_run_out
+    8 Orphans
+        * [@PanelContainer@7293:<PanelContainer#19319182336916>] + 3
+        * [@PanelContainer@7297:<PanelContainer#19319450773513>] + 3
+* test_match_first_win_is_large_then_every_win_is_small
+    8 Orphans
+        * [@PanelContainer@7305:<PanelContainer#19320641955984>] + 3
+        * [@PanelContainer@7301:<PanelContainer#19320373520777>] + 3
+16 orphans
+9/9 passed.
+
+
+res://tests/core/zone/test_town_roamers.gd
+* test_three_roamers_with_real_decks_and_small_rewards
+    8 Orphans
+        * [@PanelContainer@7312:<PanelContainer#19321648589105>] + 3
+        * [Toast:<PanelContainer#19321380156077>] + 3
+* test_spawns_sit_on_the_outskirts_never_the_square
+    8 Orphans
+        * [@PanelContainer@7320:<PanelContainer#19323091426364>] + 3
+        * [@PanelContainer@7316:<PanelContainer#19322822994235>] + 3
+* test_a_fight_pays_counts_for_the_armory_quest_and_puts_the_roamer_down_for_a_while
+    8 Orphans
+        * [@PanelContainer@7326:<PanelContainer#19331865909060>] + 3
+        * [Toast:<PanelContainer#19332134351064>] + 3
+* test_a_loss_costs_nothing
+    8 Orphans
+        * [@PanelContainer@7333:<PanelContainer#19333560412359>] + 3
+        * [@PanelContainer@7337:<PanelContainer#19333828849498>] + 3
+* test_the_balance_sim_lists_the_roamers_at_level_one
+    8 Orphans
+        * [@PanelContainer@7341:<PanelContainer#19334466381915>] + 3
+        * [@PanelContainer@7345:<PanelContainer#19334734817662>] + 3
+* test_the_outskirts_map_keeps_roamers_off_the_square_and_the_passages
+    8 Orphans
+        * [Toast:<PanelContainer#19337536612359>] + 3
+        * [@PanelContainer@7352:<PanelContainer#19337805047948>] + 3
+8 orphans
+6/6 passed.
+
+
+res://tests/core/zone/test_tube_puzzle.gd
+* test_junctions_flip_after_each_capsule
+* test_every_setup_sends_the_eight_capsules_to_eight_different_bins
+* test_exactly_one_setup_solves_the_puzzle
+* test_the_hidden_solution_solves_it_and_a_wrong_setup_does_not
+* test_reset_restores_the_initial_setup
+5/5 passed.
+
+
+res://tests/core/zone/test_zone_completion.gd
+* test_no_zone_is_completed_in_a_new_game
+* test_complete_zone_sets_the_flag_once_and_counts
+* test_completion_fires_the_event_with_the_zone_id
+* test_unlock_thresholds_arena_after_one_alchemist_after_two
+* test_completed_zones_survive_a_save_and_load
+    16 Orphans
+        * [@PanelContainer@7356:<PanelContainer#19340371960449>] + 3
+        * [Toast:<PanelContainer#19342536222876>] + 3
+        * [@PanelContainer@7360:<PanelContainer#19340640399499>] + 3
+        * [@PanelContainer@7364:<PanelContainer#19342267789861>] + 3
+* test_a_new_game_clears_the_freed_story_state
+* test_a_freed_zone_is_lit_brighter_than_an_oppressed_one
+    2 Orphans
+        * [<DirectionalLight3D#19353978283993>]
+        * [<WorldEnvironment#19353911175259>]
+* test_the_rulers_statue_and_banners_stand_until_the_zone_is_freed
+* test_every_zone_has_a_ruler_and_a_freed_leader_with_dialogue
+* test_the_announcement_text_exists_for_every_zone
+* test_the_announcement_screen_shows_the_title_and_unlock_lines
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+2 orphans
+11/11 passed.
+
+
+res://tests/core/zone/test_zone_effects.gd
+* test_every_zone_has_a_buff_for_its_path_and_a_debuff_for_the_rival
+* test_each_zone_has_named_flavored_effects_and_a_tooltip
+* test_gainlands_buff_beefcake_power_for_both_sides
+* test_gainlands_processing_time_necrocrat_units_enter_exhausted
+* test_gainlands_processing_time_exhausts_only_the_first_necrocrat_unit_each_turn
+* test_dna_buffs_necrocrat_defense_and_taxes_beefcake_cards
+* test_buffet_buffs_gourmand_and_debuffs_refusemancer_power
+* test_dump_buffs_refusemancer_defense_and_debuffs_gourmand_defense
+* test_a_debuff_never_kills_a_one_defense_unit_by_itself
+* test_outside_a_zone_nothing_changes
+* test_a_real_zone_battle_applies_the_effects_to_player_and_enemy
+    8 Orphans
+        * [@PanelContainer@7375:<PanelContainer#19351696582949>] + 3
+        * [@PanelContainer@7379:<PanelContainer#19351965020563>] + 3
+* test_zone_dungeon_battles_carry_the_zone_effects_too
+    8 Orphans
+        * [@PanelContainer@7383:<PanelContainer#19352267006982>] + 3
+        * [@PanelContainer@7387:<PanelContainer#19352552220577>] + 3
+* test_the_battle_hud_shows_the_zone_effects_panel
+* test_a_zone_warns_the_path_it_works_against
+14/14 passed.
+
+
+res://tests/core/zone/test_zone_run.gd
+* test_entering_starts_at_full_hp
+    8 Orphans
+        * [Toast:<PanelContainer#19385922101984>] + 3
+        * [@PanelContainer@7521:<PanelContainer#19386190539522>] + 3
+* test_damage_and_heal_persist_and_clamp
+    8 Orphans
+        * [@PanelContainer@7525:<PanelContainer#19388958777982>] + 3
+        * [@PanelContainer@7529:<PanelContainer#19389227214857>] + 3
+* test_no_healing_after_battle_hp_carries_over
+    8 Orphans
+        * [@PanelContainer@7549:<PanelContainer#19393673172935>] + 3
+        * [Toast:<PanelContainer#19393941613316>] + 3
+* test_zone_battle_starts_at_the_persisted_hp
+    8 Orphans
+        * [@PanelContainer@7560:<PanelContainer#19394981798823>] + 3
+        * [@PanelContainer@7556:<PanelContainer#19394713367843>] + 3
+* test_zero_hp_wakes_at_hub_with_paperwork_fee_and_is_logged
+    8 Orphans
+        * [@PanelContainer@7564:<PanelContainer#19395803882030>] + 3
+        * [@PanelContainer@7568:<PanelContainer#19396072322317>] + 3
+* test_fee_never_exceeds_gold
+    8 Orphans
+        * [Toast:<PanelContainer#19398907668613>] + 3
+        * [@PanelContainer@7575:<PanelContainer#19399176105867>] + 3
+* test_defeated_enemies_stay_gone_for_the_visit_only
+    8 Orphans
+        * [@PanelContainer@7583:<PanelContainer#19402229560101>] + 3
+        * [@PanelContainer@7579:<PanelContainer#19401961125104>] + 3
+* test_slow_enemies_are_slower_than_the_player_and_courier_is_faster
+    8 Orphans
+        * [Toast:<PanelContainer#19403303299496>] + 3
+        * [@PanelContainer@7587:<PanelContainer#19403034864064>] + 3
+* test_enemy_decks_are_legal_necrocrat_decks
+    8 Orphans
+        * [@PanelContainer@7594:<PanelContainer#19404041496888>] + 3
+        * [@PanelContainer@7598:<PanelContainer#19404309932730>] + 3
+* test_zone_vendor_cards_exist
+    8 Orphans
+        * [@PanelContainer@7606:<PanelContainer#19405350120605>] + 3
+        * [@PanelContainer@7602:<PanelContainer#19405081687279>] + 3
+* test_time_clock_buff_raises_max_hp_once
+    8 Orphans
+        * [@PanelContainer@7613:<PanelContainer#19406440639224>] + 3
+        * [Toast:<PanelContainer#19406172206363>] + 3
+* test_coffee_and_printer_outcomes
+    8 Orphans
+        * [@PanelContainer@7621:<PanelContainer#19407497605640>] + 3
+        * [@PanelContainer@7617:<PanelContainer#19407229170946>] + 3
+8 orphans
+12/12 passed.
+
+
+res://tests/core/zone/test_zone_shrine.gd
+* test_the_offering_is_a_card_of_the_zone_table
+* test_one_of_a_kind_entries_are_never_drawn
+* test_a_table_without_cards_pays_a_little_gold
+* test_the_shrine_spots_and_their_flags
+4/4 passed.
+
+
+res://tests/test_dialogue_fit.gd
+* test_every_story_line_fits_the_box_at_default_and_large_text
+* test_the_largest_text_size_is_the_one_checked
+[GUT WARNING]:  Test script has 2 unfreed children.  Increase log level for more details.
+2/2 passed.
+
+
+res://tests/test_dialogue_quality.gd
+* test_canon_lists_the_banned_names
+* test_no_banned_old_name_in_player_text
+* test_every_quest_step_says_what_to_do
+* test_every_dungeon_content_line_fits_the_box
+* test_raw_story_arrays_show_no_raw_tokens
+[GUT WARNING]:  Test script has 2 unfreed children.  Increase log level for more details.
+5/5 passed.
+
+
+res://tests/test_painted_textures.gd
+* test_every_csv_texture_is_imported
+* test_presets_only_name_existing_textures
+* test_town_preset_builds_a_terrain_material
+* test_missing_base_texture_returns_null
+WARNING: PaintedLibrary: missing texture does_not_exist (falls back to the flat look)
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] _load (res://world/style/painted_library.gd:75)
+       [1] albedo (res://world/style/painted_library.gd:50)
+       [2] material (res://world/style/painted_terrain.gd:43)
+       [3] test_missing_base_texture_returns_null (res://tests/test_painted_textures.gd:59)
+       [4] _run_test (res://addons/gut/gut.gd:622)
+       [5] _test_the_scripts (res://addons/gut/gut.gd:835)
+* test_unknown_zone_has_no_preset
+* test_decal_scatter_is_deterministic_and_masked
+* test_decal_density_follows_quality
+* test_decal_avoid_circles_are_respected
+* test_classifier_separates_materials
+* test_material_array_has_every_layer
+* test_every_imported_texture_is_used_somewhere
+* test_variants_and_specials_name_existing_textures
+* test_a_kit_layer_without_art_falls_back_to_its_stand_in
+13/13 passed.
+
+
+res://tests/test_prologue_rescuer_text.gd
+* test_the_wanderer_asks_who_the_rescuer_is
+* test_the_path_question_is_asked_word_for_word
+* test_the_send_off_names_the_cave_the_town_the_pursuers_and_the_escape
+* test_no_line_says_the_wanderer_can_carry_only_one_path
+* test_every_box_stays_short
+5/5 passed.
+
+
+res://tests/test_story_backdrops_batch11.gd
+* test_the_new_stills_are_in_the_game
+* test_cutscene_beats_wear_their_stills
+* test_epilogue_beats_wear_their_stills
+* test_beats_left_on_the_icon_stage
+* test_the_screen_swaps_the_still_per_beat
+5/5 passed.
+
+
+res://tests/test_story_backdrops_oct29.gd
+* test_every_backdrop_still_is_in_the_game
+* test_every_hook_names_a_real_moment
+* test_every_backdrop_still_is_used
+* test_backdrop_needs_no_new_text
+* test_missing_art_keeps_the_old_look
+5/5 passed.
+
+
+res://tests/test_story_rewrite.gd
+* test_the_verdant_heap_is_now_the_verdant_dump_in_every_story_file
+* test_every_zone_text_mentions_its_oppression_and_the_ruler
+* test_corrupted_envoys_fit_each_factions_situation
+* test_the_town_has_a_name_and_a_story_intro
+* test_a_freed_zone_uses_the_freed_variants
+* test_every_freed_key_has_a_base_key
+6/6 passed.
+
+
+res://tests/test_story_stills.gd
+* test_every_still_has_art_and_captions_in_the_story_file
+* test_the_stills_are_placed_where_the_brief_says
+* test_a_still_fades_in_types_its_captions_and_ends_after_the_last_click
+    --- Awaiting 1.2 seconds  ---
+    --- Awaiting 1.4 seconds  ---
+* test_a_missing_picture_just_carries_on
+* test_a_click_on_the_still_advances_the_caption_box
+    --- Awaiting 1.2 seconds  ---
+* test_the_opening_wake_up_is_the_night_still_with_the_wake_captions
+6/6 passed.
+
+
+res://tests/test_zone_title_cards.gd
+* test_every_area_spells_its_name
+* test_a_card_shows_on_entry_from_another_area_but_not_when_reloading_the_same_one
+* test_the_card_draws_the_name_over_the_banner
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_a_long_name_shrinks_to_fit_the_banner_middle
+* test_dark_ribbons_get_light_names_and_parchment_gets_dark_ones
+* test_the_scene_manager_remembers_where_you_came_from
+* test_a_dungeon_card_uses_its_zones_banner_and_a_flourish
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_later_arrivals_get_the_brief_card
+* test_zone_cards_settle_below_the_zone_hp_plate
+9/9 passed.
+
+
+res://tests/ui/test_dialogue_portraits.gd
+* test_a_list_npc_shows_its_portrait_and_list_name
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_the_plate_uses_the_full_list_name_for_a_short_label
+* test_an_alias_keeps_its_own_name_but_borrows_the_portrait
+* test_an_explicit_npc_id_wins_and_fills_an_empty_plate
+* test_an_npc_with_no_portrait_shows_the_plain_box
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_a_portrait_that_is_missing_falls_back_to_no_portrait
+* test_expression_tags_are_stripped_and_fall_back
+* test_the_box_stays_on_screen_and_grows_upwards_for_long_lines
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_the_portrait_stands_behind_the_top_edge_and_never_reaches_the_text
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_an_npc_on_the_right_side_is_mirrored
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_finishing_emits_and_dismisses_the_portrait
+* test_talking_emphasis_follows_the_typing
+* test_chained_conversations_do_not_hide_the_new_box
+13/13 passed.
+
+
+res://tests/ui/test_dialogue_presentation.gd
+* test_any_key_advances_but_not_escape_f_keys_or_shift
+* test_a_key_completes_the_line_then_closes
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_the_last_speaker_listens_dimmed_on_the_other_side
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    --- Awaiting 0.6 seconds  ---
+* test_a_lone_conversation_has_no_listener
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    --- Awaiting 0.9 seconds  ---
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+4/4 passed.
+
+
+res://tests/ui/test_quest_notices.gd
+* test_start_step_and_complete_are_announced_with_the_new_objective
+* test_notices_queue_and_merge
+    4 Orphans
+        * [Toast:<PanelContainer#19614243235404>] + 3
+4 orphans
+2/2 passed.
+
+
+res://tests/ui/test_scene_skip.gd
+* test_a_seen_scene_skips_with_escape_and_keeps_its_flags
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_a_first_viewing_asks_before_skipping
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_keep_watching_leaves_the_scene_playing
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+    [DEPRECATED]:  wait_frames has been replaced with wait_physics_frames which is counted in _physics_process.  wait_process_frames has also been added which is counted in _process.
+* test_the_cutscene_screen_confirms_a_first_viewing
+    8 Orphans
+        * [@PanelContainer@8115:<PanelContainer#19619997822983>] + 3
+        * [@PanelContainer@8119:<PanelContainer#19620266259360>] + 3
+8 orphans
+4/4 passed.
+
+
+res://tests/world/test_capital_art.gd
+* test_every_hero_landmark_builds_a_textured_model
+* test_the_castle_is_immense_symmetric_and_never_culled
+* test_the_districts_change_state_on_the_same_footprint
+* test_the_rifts_are_varied_copies
+* test_the_camp_holds_the_only_warm_lights_outside
+* test_the_castle_door_is_a_grand_entrance_that_stays_off_the_forecourt
+* test_outside_lights_leave_the_warmth_to_the_camp
+* test_the_inside_rows_keep_off_the_routes_and_the_people
+    rows refused: { "floor": 83, "blocked": 12, "route": 17, "junction": 7, "person": 5, "garden_person": 13, "garden_blocked": 13, "garden_rift": 2, "garden_route": 17, "garden_floor": 6, "garden_chest": 1, "gardens": 201 }
+* test_the_first_return_to_a_freed_district_is_welcomed_once
+9/9 passed.
+
+
+res://tests/world/test_capital_bounds.gd
+* test_nothing_outside_the_intended_ground_is_reachable
+* test_the_road_from_crosspath_is_the_only_way_into_the_outside
+* test_every_edge_of_the_walkable_ground_has_a_blocker_you_can_see
+3/3 passed.
+
+
+res://tests/world/test_capital_mood.gd
+* test_inside_is_bright_and_outside_is_gray
+* test_preset_follows_the_wall
+* test_both_capital_tracks_exist
+* test_wasteland_dressing_keeps_the_road_clear
+    3 Orphans
+        * [<Node3D#19764248324396>]
+        * [<Node3D#19763828897429>]
+        * [<Node3D#19767385667298>]
+3 orphans
+4/4 passed.
+
+
+res://tests/world/test_capital_no_scatter_paths.gd
+* test_the_capital_moods_carry_no_random_foliage
+* test_entry_through_the_gate
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    gate (fresh visit, outside): hero at (60.0, 0.0, 114.0), mood capital_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    7 Orphans
+        * [Particles_rift:<GPUParticles3D#20042867548493>]
+        * [Particles_rift:<GPUParticles3D#20042833994162>]
+        * [Particles_rift:<GPUParticles3D#20042397788302>]
+        * [Particles_rift:<GPUParticles3D#20042431344352>]
+        * [<Node3D#19930460206882>]
+        * [<Node3D#19930879637310>]
+        * [<Node3D#19934000199811>]
+* test_entry_through_the_hidden_hole_in_the_west_wall
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    west-wall hole: hero at (8.0, 0.0, 30.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    3 Orphans
+        * [<Node3D#20212317435760>]
+        * [<Node3D#20208777447295>]
+        * [<Node3D#20209196877722>]
+* test_entry_through_the_service_shaft_into_the_crease
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    service shaft (Crease spawn): hero at (60.0, 0.0, 114.0), mood capital_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    7 Orphans
+        * [<Node3D#20435840280977>]
+        * [Particles_rift:<GPUParticles3D#20525262848095>]
+        * [Particles_rift:<GPUParticles3D#20525229293665>]
+        * [Particles_rift:<GPUParticles3D#20524826640516>]
+        * [Particles_rift:<GPUParticles3D#20524793086087>]
+        * [<Node3D#20432300296028>]
+        * [<Node3D#20432719726543>]
+* test_fast_travel_landing
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    fast travel (rift station): hero at (28.0, 0.0, 148.4), mood capital_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    7 Orphans
+        * [<Node3D#20655437260660>]
+        * [Particles_rift:<GPUParticles3D#20748366266371>]
+        * [Particles_rift:<GPUParticles3D#20748399820804>]
+        * [<Node3D#20655856697513>]
+        * [Particles_rift:<GPUParticles3D#20747930059524>]
+        * [Particles_rift:<GPUParticles3D#20747963613998>]
+        * [<Node3D#20658977261606>]
+* test_a_save_loaded_inside_the_walls
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    save loaded inside at (60.0, 0.0, 40.0): hero at (60.0, 0.0, 40.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    save loaded inside at (20.0, 0.0, 58.0): hero at (20.0, 0.0, 58.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    save loaded inside at (100.0, 0.0, 58.0): hero at (100.0, 0.0, 58.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    save loaded inside at (8.0, 0.0, 30.0): hero at (8.0, 0.0, 30.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    12 Orphans
+        * [<Node3D#21549780314248>]
+        * [<Node3D#21103439264374>]
+        * [<Node3D#21326341356419>]
+        * [<Node3D#21550199749523>]
+        * [<Node3D#21326760786938>]
+        * [<Node3D#21106979257668>]
+        * [<Node3D#21103858695765>]
+        * [<Node3D#20880906272636>]
+        * [<Node3D#20880486842458>]
+        * [<Node3D#21553320313031>]
+        * [<Node3D#21329881350403>]
+        * [<Node3D#20884026837049>]
+* test_the_return_from_a_battle_inside_the_walls
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    back from a battle inside: hero at (60.0, 0.0, 40.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    3 Orphans
+        * [<Node3D#21772900515410>]
+        * [<Node3D#21776440508090>]
+        * [<Node3D#21773319947005>]
+* test_the_freed_city
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    freed city, hero inside: hero at (60.0, 0.0, 40.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    freed city, hero at the gate: hero at (60.0, 0.0, 114.0), mood capital_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    10 Orphans
+        * [Particles_rift:<GPUParticles3D#22311398812866>]
+        * [<Node3D#22222345352872>]
+        * [<Node3D#21996339477136>]
+        * [Particles_rift:<GPUParticles3D#22311365262324>]
+        * [Particles_rift:<GPUParticles3D#22311835024393>]
+        * [Particles_rift:<GPUParticles3D#22311801469963>]
+        * [<Node3D#21999460040242>]
+        * [<Node3D#22218805364105>]
+        * [<Node3D#21995920049689>]
+        * [<Node3D#22219224794892>]
+* test_a_rebuild_from_the_build_cache
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    first build inside (fills the cache): hero at (60.0, 0.0, 40.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+    second build inside (from the cache): hero at (60.0, 0.0, 40.0), mood capital_inside_dark, scatter layers ["ZoneDressing"], 442 instances, 0 inside the wall
+      ranges: { &"ZoneDressing": [(-4.679173, 0.0, 76.18162), (117.6027, 0.0, 153.7874), 395] }
+    6 Orphans
+        * [<Node3D#22441707448781>]
+        * [<Node3D#22665045752444>]
+        * [<Node3D#22664626322418>]
+        * [<Node3D#22445247446095>]
+        * [<Node3D#22442126885589>]
+        * [<Node3D#22668166317821>]
+55 orphans
+9/9 passed.
+
+
+res://tests/world/test_capital_order.gd
+* test_the_avenue_rows_mirror_exactly
+    [Risky]:  test_the_avenue_rows_mirror_exactly did not assert
+* test_the_ring_streets_have_exact_mirrored_rows
+* test_the_wasteland_gathers_in_composed_vignettes_off_the_roads
+* test_the_chests_stand_square
+3/4 passed.
+
+
+res://tests/world/test_capital_pass.gd
+* test_the_capital_props_are_kit_models_not_primitives
+* test_nothing_rigid_in_the_capital_sways
+* test_the_great_wall_has_its_towers_and_closed_corners
+* test_the_box_edges_are_gone
+* test_the_rim_is_flush_at_the_walkable_edge_and_rises_beyond
+* test_the_rim_never_rises_between_the_camera_and_the_hero
+* test_the_road_to_crosspath_runs_on_between_the_hills
+* test_the_city_floor_meets_its_walls
+8/8 passed.
+
+
+res://tests/world/test_capital_sides.gd
+* test_nothing_inside_the_wall_renders_near_black
+    near-black inside the wall: 0.31 m2 in 6 cells
+      cell 0,48: 0.12 m2
+      cell 48,56: 0.06 m2
+      cell 64,40: 0.06 m2
+    by mesh: complaint_box_(49_0, 0_0, 63_0): 0.06, complaint_box_(65_4, 0_0, 45_5): 0.06, seed_jar_(5_0, 0_0, 52_0): 0.12
+    by shade: 
+      
+    3 Orphans
+        * [<Node3D#22949520228001>]
+        * [<Node3D#22945980235556>]
+        * [<Node3D#22946399668193>]
+* test_nothing_grows_loose_on_paving_inside_the_wall
+    rows refused: { "floor": 83, "blocked": 12, "route": 17, "junction": 7, "person": 5, "garden_person": 13, "garden_blocked": 13, "garden_rift": 2, "garden_route": 17, "garden_floor": 6, "garden_chest": 1, "gardens": 201 }; planters 60; fields ["cap_lamp", "cap_topiary", "cap_rose", "cap_bench"]
+3 orphans
+2/2 passed.
+
+
+res://tests/world/test_capital_slice.gd
+* test_the_thirteen_regions_are_the_brief_regions
+* test_routes_are_wide_and_nothing_solid_stands_on_them
+* test_every_region_is_reached_from_the_gate_road
+* test_open_ground_round_every_anchor_and_chest
+* test_prompts_never_fight
+* test_the_inside_is_perfectly_symmetric_and_the_plaza_open
+* test_the_castle_is_immense_on_its_hill_and_seen_from_every_inside_region
+* test_the_stand_ins_stand_clear
+* test_the_paint_over_cameras_are_layout_data_on_open_ground
+* test_the_way_in_is_walked_and_the_wall_is_great
+* test_district_states_follow_their_path_zones
+* test_the_dungeon_doors_carry_no_lettered_plate
+12/12 passed.
+
+
+res://tests/world/test_freed_leader_barks.gd
+* test_every_freed_leader_and_listed_npc_has_lines
+1/1 passed.
+
+
+res://tests/world/test_no_citizen_outside_capital.gd
+* test_no_zone_but_the_capital_places_a_citizen_npc
+* test_no_scene_script_outside_the_capital_spawns_the_citizen_sprite
+* test_the_crosspath_strollers_are_villagers
+3/3 passed.
+
+
+res://tests/world/test_npc_labels.gd
+* test_vendor_labels_say_what_they_sell
+* test_kinds_vendor_quest_plain_and_the_black_market_has_none
+* test_colors_tell_vendors_and_quest_givers_apart
+* test_an_always_label_is_on_screen_and_a_plain_one_only_near_the_hero
+* test_a_quest_mark_boosts_a_plain_label
+* test_overlapping_labels_are_spread_apart
+* test_the_glow_is_a_flat_additive_disc_under_the_npc
+* test_vendor_and_quest_giver_labels_follow_the_same_radius
+8/8 passed.
+
+
+res://tests/world/test_npc_sprite_rollout.gd
+* test_every_npc_with_a_sprite_set_maps_to_an_imported_character
+* test_special_mappings
+* test_throwers_and_portal_rippers_reuse_hurl_and_rip
+* test_the_ghosts_are_translucent_and_float
+* test_plates_sit_above_the_figure_at_its_relative_height
+    1 Orphans
+        * [<Node3D#23043942397544>]
+* test_a_stroller_wanders_and_stays_on_walkable_ground
+* test_the_capital_citizens_wander_with_their_own_tints
+1 orphans
+7/7 passed.
+
+
+res://tests/world/test_painted_npcs_batch11.gd
+* test_every_zone_npc_entry_is_a_painted_set
+* test_batch11_entries_wear_their_new_sets
+* test_relative_heights_from_the_row_notes
+* test_the_buffet_gate_guardians_are_painted
+* test_crosspath_has_no_3d_npc_but_the_mannequin
+* test_new_speakers_show_their_portraits
+6/6 passed.
+
+
+res://tests/world/test_sprite_npcs.gd
+* test_the_town_npcs_are_sprites_and_only_the_unnamed_ones_are_models
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 677 cards
+ERROR: Resumed function '_warm_screens()' after await, but class instance is gone. At script: res://ui/ui_art_warmup.gd:186
+   at: resume (modules/gdscript/gdscript_function.cpp:323)
+* test_they_use_the_talk_pose_during_dialogue_and_face_the_hero
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 677 cards
+    5 Orphans
+        * [<TextureRect#24581456801691>]
+        * [<TextureRect#24582077561619>]
+        * [<TextureRect#24578638234358>]
+        * [<TextureRect#24580836050139>]
+        * [<TextureRect#24580215293257>]
+ERROR: Resumed function '_prewarm_glyphs()' after await, but class instance is gone. At script: res://ui/ui_art_warmup.gd:283
+   at: resume (modules/gdscript/gdscript_function.cpp:323)
+* test_the_baker_is_talkable_and_wanders
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 677 cards
+ERROR: Resumed function '_prewarm_glyphs()' after await, but class instance is gone. At script: res://ui/ui_art_warmup.gd:283
+   at: resume (modules/gdscript/gdscript_function.cpp:323)
+* test_townsfolk_stroll_their_own_loops
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 677 cards
+ERROR: Resumed function '_prewarm_glyphs()' after await, but class instance is gone. At script: res://ui/ui_art_warmup.gd:283
+   at: resume (modules/gdscript/gdscript_function.cpp:323)
+5 orphans
+4/4 passed.
+
+
+res://tests/world/test_walkability_zones.gd
+* test_dna
+    dna: 47 key locations, unreachable: []
+    dna: widest body radius that still reaches everything: 0.35
+* test_gainlands
+    gainlands: 36 key locations, unreachable: []
+    gainlands: widest body radius that still reaches everything: 0.65
+* test_buffet
+    buffet: 55 key locations, unreachable: []
+    buffet: widest body radius that still reaches everything: 0.60
+* test_heap
+    heap: 65 key locations, unreachable: []
+    heap: widest body radius that still reaches everything: 0.65
+* test_capital
+    capital: 123 key locations, unreachable: []
+    capital: widest body radius that still reaches everything: 0.65
+* test_gainlands_gym_hall_has_no_invisible_wall
+* test_gainlands_island_travel_reaches_every_island_anchor
+* test_starting_area_everything_reachable
+    starting area: 6 key locations, unreachable: []
+* test_small_decorative_rocks_have_no_collision
+9/9 passed.
+
+
+res://tests/world/test_zone_dressing.gd
+* test_every_zone_preset_has_a_recipe
+* test_recipe_models_exist
+* test_dressing_on_the_starting_area_stays_on_land_and_in_budget
+* test_toon_keeps_colour_flags_on_instances
+* test_material_override_meshes_are_converted
+5/5 passed.
+
+
+res://tests/world/test_zone_kit.gd
+* test_slicer_finds_six_items_in_reading_order
+* test_slicer_marks_an_empty_cell
+* test_pivots_follow_the_family
+* test_groups_from_the_sheet_columns
+* test_gainlands_registry_resolves_through_envkit
+* test_gainlands_swaps_land_on_zone_art_untinted
+* test_buffet_registry_resolves_through_envkit
+* test_heap_registry_resolves_through_envkit
+* test_capital_registry_resolves_through_envkit
+9/9 passed.
+
+
+res://tests/world/test_zone_pieces_oct29.gd
+* test_every_new_piece_is_registered_with_its_art
+* test_backdrop_strips_stand_in_their_moods
+* test_dna_pieces_and_the_ghost_queue_are_placed_clear
+* test_missing_art_places_nothing
+4/4 passed.
+
+
+res://tests/world/test_zone_styles.gd
+* test_every_area_has_a_complete_style_file
+* test_swaps_point_at_real_kit_ids
+* test_the_town_is_untouched_by_tinting
+* test_a_zone_swaps_and_tints_neutral_kit_surfaces
+* test_retint_follows_a_changed_tint
+* test_presets_take_the_style_light
+6/6 passed.
+
+
+
+
+==============================================
+= 72 Orphans
+==============================================
+test_ending_postgame.gd
+    - test_a_free_capital_builds_and_the_facade_is_down
+        * [<Node3D#2050310022383>]
+        * [<Node3D#2051148883463>]
+        * [<Node3D#2054336554559>]
+test_zone_completion.gd
+    - test_a_freed_zone_is_lit_brighter_than_an_oppressed_one
+        * [<DirectionalLight3D#19353978283993>]
+        * [<WorldEnvironment#19353911175259>]
+test_capital_mood.gd
+    - test_wasteland_dressing_keeps_the_road_clear
+        * [<Node3D#19764248324396>]
+        * [<Node3D#19763828897429>]
+        * [<Node3D#19767385667298>]
+test_capital_no_scatter_paths.gd
+    - test_entry_through_the_gate
+        * [Particles_rift:<GPUParticles3D#20042867548493>]
+        * [Particles_rift:<GPUParticles3D#20042833994162>]
+        * [Particles_rift:<GPUParticles3D#20042397788302>]
+        * [Particles_rift:<GPUParticles3D#20042431344352>]
+        * [<Node3D#19930460206882>]
+        * [<Node3D#19930879637310>]
+        * [<Node3D#19934000199811>]
+    - test_entry_through_the_hidden_hole_in_the_west_wall
+        * [<Node3D#20212317435760>]
+        * [<Node3D#20208777447295>]
+        * [<Node3D#20209196877722>]
+    - test_entry_through_the_service_shaft_into_the_crease
+        * [<Node3D#20435840280977>]
+        * [Particles_rift:<GPUParticles3D#20525262848095>]
+        * [Particles_rift:<GPUParticles3D#20525229293665>]
+        * [Particles_rift:<GPUParticles3D#20524826640516>]
+        * [Particles_rift:<GPUParticles3D#20524793086087>]
+        * [<Node3D#20432300296028>]
+        * [<Node3D#20432719726543>]
+    - test_fast_travel_landing
+        * [<Node3D#20655437260660>]
+        * [Particles_rift:<GPUParticles3D#20748366266371>]
+        * [Particles_rift:<GPUParticles3D#20748399820804>]
+        * [<Node3D#20655856697513>]
+        * [Particles_rift:<GPUParticles3D#20747930059524>]
+        * [Particles_rift:<GPUParticles3D#20747963613998>]
+        * [<Node3D#20658977261606>]
+    - test_a_save_loaded_inside_the_walls
+        * [<Node3D#21549780314248>]
+        * [<Node3D#21103439264374>]
+        * [<Node3D#21326341356419>]
+        * [<Node3D#21550199749523>]
+        * [<Node3D#21326760786938>]
+        * [<Node3D#21106979257668>]
+        * [<Node3D#21103858695765>]
+        * [<Node3D#20880906272636>]
+        * [<Node3D#20880486842458>]
+        * [<Node3D#21553320313031>]
+        * [<Node3D#21329881350403>]
+        * [<Node3D#20884026837049>]
+    - test_the_return_from_a_battle_inside_the_walls
+        * [<Node3D#21772900515410>]
+        * [<Node3D#21776440508090>]
+        * [<Node3D#21773319947005>]
+    - test_the_freed_city
+        * [Particles_rift:<GPUParticles3D#22311398812866>]
+        * [<Node3D#22222345352872>]
+        * [<Node3D#21996339477136>]
+        * [Particles_rift:<GPUParticles3D#22311365262324>]
+        * [Particles_rift:<GPUParticles3D#22311835024393>]
+        * [Particles_rift:<GPUParticles3D#22311801469963>]
+        * [<Node3D#21999460040242>]
+        * [<Node3D#22218805364105>]
+        * [<Node3D#21995920049689>]
+        * [<Node3D#22219224794892>]
+    - test_a_rebuild_from_the_build_cache
+        * [<Node3D#22441707448781>]
+        * [<Node3D#22665045752444>]
+        * [<Node3D#22664626322418>]
+        * [<Node3D#22445247446095>]
+        * [<Node3D#22442126885589>]
+        * [<Node3D#22668166317821>]
+test_capital_sides.gd
+    - test_nothing_inside_the_wall_renders_near_black
+        * [<Node3D#22949520228001>]
+        * [<Node3D#22945980235556>]
+        * [<Node3D#22946399668193>]
+test_npc_sprite_rollout.gd
+    - test_plates_sit_above_the_figure_at_its_relative_height
+        * [<Node3D#23043942397544>]
+test_sprite_npcs.gd
+    - test_they_use_the_talk_pose_during_dialogue_and_face_the_hero
+        * [<TextureRect#24581456801691>]
+        * [<TextureRect#24582077561619>]
+        * [<TextureRect#24578638234358>]
+        * [<TextureRect#24580836050139>]
+        * [<TextureRect#24580215293257>]
+
+
+==============================================
+= Run Summary
+==============================================
+
+res://tests/core/dungeon/test_finale_v2.gd
+- test_the_castle_gallery_ward_and_wren_and_the_rifts
+    [Failed]:  the rift sign explains Primm's failing hold
+          at line 91
+- test_the_avenue_rows_mirror_exactly
+    [Risky]:  Did not assert
+
+Totals
+------
+Warnings              3
+Deprecated           26
+
+Scripts             104
+Tests               925
+Passing Tests       923
+Failing Tests         1
+Risky/Pending         1
+Asserts           45902/45903
+Orphans              72
+Time              316.893s
+
+
+---- 1 failing tests ----
+
+ERROR: 1 RID allocations of type 'N26RendererEnvironmentStorage11EnvironmentE' were leaked at exit.
+ERROR: 1 RID allocations of type 'N13RendererDummy15MaterialStorage13DummyMaterialE' were leaked at exit.
+ERROR: 5 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit.
+ERROR: 17 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+WARNING: 5 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+WARNING: 164 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 6 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

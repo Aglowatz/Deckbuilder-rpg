@@ -184,9 +184,9 @@
 		"description": "The rule-bound equipment vendor who runs the level-5 armory quest.",
 		"personality": "Intense, rule-obsessed, beet-farming equipment salesman with a desk-drawer arsenal, a fierce love of security protocols, and enormous pride in his title. Original character with affectionate office-comedy nods.",
 		"speech_style": "Clipped, dead-serious, oddly specific facts about beets and bears.",
-		"sample_line": "Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol One.",
+		"sample_line": "Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol Three.",
 		"barks": [
-			"Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol One.",
+			"Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol Three.",
 			"Assistant TO the Regional Merchant. The TO is load-bearing. Say it."
 		],
 		"game_function": "Equipment vendor (basic stock; advanced stock unlocks by level).",
@@ -292,9 +292,9 @@
 		"description": "An otherworldly alchemist who brews multi-Path cards from essence.",
 		"personality": "A calm, eccentric alchemist who mixes the four Paths' essences into multi-path cards. Talks to her flasks. Believes the kingdom was healthiest when everything was mixed together.",
 		"speech_style": "Soft, mystical, unexpectedly blunt.",
-		"sample_line": "The flasks are humming today, dear. Don't touch the red one. It bites.",
+		"sample_line": "The flasks all bubbled when you passed, dear. Every colour. They never do that for me.",
 		"barks": [
-			"The flasks are humming today, dear. Don't touch the red one. It bites.",
+			"The flasks all bubbled when you passed, dear. Every colour. They never do that for me.",
 			"They say one spring once fed all four Paths. Mixed, dear. Like a good soup."
 		],
 		"game_function": "Crafting vendor: trades essence + gold for multi-path cards (unlocks after 2 zones completed).",
@@ -398,9 +398,9 @@
 		"description": "A former Beefcake courier twisted by the regime: angry, paranoid, obsessed with 'only iron matters'.",
 		"personality": "A former Beefcake courier twisted by the regime: angry, paranoid, obsessed with 'only iron matters'. Freed, he is sweet, sheepish, and loves stretching.",
 		"speech_style": "Corrupted: barking slogans. Freed: gentle and apologetic.",
-		"sample_line": "Never lift alone. An old man told me that. Never broke, they say. Huh.",
+		"sample_line": "Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
 		"barks": [
-			"Never lift alone. An old man told me that. Never broke, they say. Huh.",
+			"Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
 			"Hydration. Stretching. Sorry, am I ordering again? I meant we could do them together."
 		],
 		"game_function": "Battle that unlocks the Gainlands entrance.",
@@ -812,7 +812,7 @@
 		"sample_line": "is it still '09 out there? no? huh. brb, updating my away message.",
 		"barks": [
 			"is it still '09 out there? no? huh. brb, updating my away message.",
-			"brb, haunting. actually stay. nobody reads the 'be right back' part."
+			"brb, haunting. been brb since '09. it's a long b."
 		],
 		"game_function": "Hosts the D.N.A. memory matching minigame.",
 		"quest_links": [],
@@ -1378,7 +1378,7 @@
 		"sample_line": "Ten years... on the wheel... my calves... have calves.",
 		"barks": [
 			"Ten years... on the wheel... my calves... have calves.",
-			"Trained with... the Gainlands wheel crews. They told us... it was cardio."
+			"Back in the Gainlands... we threw commuters. Now I'd pay... to be thrown."
 		],
 		"barks_freed": ["No wheel... and my legs... keep going anyway. Ghost cardio.","The crews took a day off. Then another. We're... getting good at it."],
 		"game_function": "Beefcake Path quest in the Capital.",
@@ -2365,9 +2365,9 @@
 		"description": "Townsfolk (strollers in the lanes and yards)",
 		"personality": "",
 		"speech_style": "",
-		"sample_line": "Lovely day for a quest, isn't it? Shh. Not too lovely. Somebody's listening.",
+		"sample_line": "Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
 		"barks": [
-			"Lovely day for a quest, isn't it? Shh. Not too lovely. Somebody's listening.",
+			"Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
 			"The old cottage cheers at night now. From the cellar. I'm choosing to love it.",
 			"The well hummed at me. Wells don't hum. I said thank you anyway.",
 			"Four plinths round the fountain, and nobody remembers what stood on them."

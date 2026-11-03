@@ -958,3 +958,9 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 7. **Sage roofs**: wired to every sage-accent townhouse (`roof_sage`); my shot cameras did not catch one clearly (inside shots are low,
    the top view from outside is in haze). Worth a glance in the Reek / west district in play.
 8. **The river landing stages** in the Buffet still have white meringue posts (not the entrance bridge's pillars, so left as they were).
+
+## Overnight Nov 2-3 - yours to decide (the safest choice was taken)
+
+1. **Dialogue applied (Part 1): 217 lines**, every critic suggestion + the Nov 1 typo fix + Primm's rule wording; 2 suggestions were already
+   in the game; one held beat (the rift sign's "failing") reworded around. Highlights: docs/dialogue/applied_nov3.md. The freeze is over;
+   your next edits go in docs/dialogue/edit_nov3.csv (the game's current text).

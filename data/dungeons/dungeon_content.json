@@ -74,7 +74,7 @@
 			"events": {
 				"5": {
 					"title": "Locker Room of Legends",
-					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, humming the theme from a boxing movie.",
+					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, humming a training-montage tune to itself.",
 					"choices": [
 						[
 							"Borrow the lucky towel",
@@ -247,7 +247,7 @@
 				},
 				"10": {
 					"title": "R&D Archives",
-					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed by the Grand Chef leans the wrong way, as if written by someone who has only ever read about left-handedness.",
+					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every note signed by the Grand Chef is in perfect copperplate, without one gravy stain. Real chefs' notes are mostly gravy stain.",
 					"choices": [
 						[
 							"Compare the handwriting",
@@ -564,7 +564,7 @@
 					"choices": [
 						[
 							"Drink from the pool",
-							"It tastes of rain and regret. You feel hardier, and a little poisoned.",
+							"It tastes of rain and old boots. You feel hardier, and a little poisoned.",
 							"boon:Compost Courage|max_hp=3",
 							"damage:2"
 						],
@@ -602,7 +602,7 @@
 			"challenges": {
 				"4": {
 					"title": "Strangled Greenhouse",
-					"text": "The vines are choosing who gets through. Can your deck keep its footing?",
+					"text": "The vines are choosing who gets through. They are reading your deck very closely.",
 					"kind": "infra",
 					"reveal": 5,
 					"threshold": 2,
@@ -1198,7 +1198,7 @@
 				"3": "dg_s_cap_boss"
 			},
 			"blurbs": {
-				"2": "The junction crew trains on scrap: tyre flips, bin presses, dumbbells made of drain pipe. Every Garbage becomes muscle."
+				"2": "Beefcake bore, Gourmand vents, Necrocrat signs, Refusemancer drains. The junction crew lifts the scrap. Every Garbage becomes muscle."
 			}
 		},
 		"S-PASTE": {
@@ -1414,7 +1414,7 @@
 				},
 				"7": {
 					"title": "The Draining Chamber",
-					"body": "A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.",
+					"body": "A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done.",
 					"choices": [
 						[
 							"Put your hand on the glass",
@@ -1694,7 +1694,7 @@
 			"'Nobody. Skips. Leg day.' He presses another rep. 'In my cave. Show me yours. No standing ovation required.'"
 		],
 		"dungeon.dg_s_iron_boss.after": [
-			"Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says. 'Standing. Wobbly. Like a first rep.'",
+			"Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says, looking down. 'So those are my feet. Hello, feet.'",
 			"He hands you a sweaty ribbon. 'Leg day survivor. Wear it. Stretch. That order.'"
 		],
 		"dungeon.dg_s_beef_boss.before": [
@@ -1722,7 +1722,7 @@
 		],
 		"dungeon.dg_s_ref_boss.before": [
 			"The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.",
-			"'WE DID NOT EAT THE COMPOST. We sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'"
+			"'WE DID NOT EAT THE COMPOST. We... sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'"
 		],
 		"dungeon.dg_s_ref_boss.after": [
 			"His Majesty abdicates with great dignity and a crust of pizza. The crown rolls under the throne.",
