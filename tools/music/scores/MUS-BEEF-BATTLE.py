@@ -1,120 +1,163 @@
-"""MUS-BEEF-BATTLE - The Gainlands, combat. 72 bars 4/4, 138 BPM, Bb Mixolydian.
-A driving string ostinato and timpani under the Crossroads motif in the brass (Bb F Eb D C F, then sequenced onto Ab - the Mixolydian
-flat seven gives it the sports-anthem swagger). Sections: A brass fanfare, B tense horn stabs over G minor, C a broad string tune with the
-motif augmented in the horns, D tutti, then the ostinato alone so the loop lands. Orchestral by the Music Pass 1 brief.
+"""MUS-BEEF-BATTLE - The Gainlands, combat. 64 bars 4/4, 140 BPM, E minor. TECHNO HARD ROCK (Gainlands rock Nov 3).
+The approved demo (Music_Source/zone_demos/ZONE-GAINLANDS_demo_score.py, "Gainlands battle demo (techno hard rock).mp3") ported note for
+note through lib/rock.py: riff -> theme -> build -> drop -> breakdown -> build -> drop 2 -> outro. Distorted double-tracked guitars,
+bass + synth sub in the drops, GS power kit, noise risers, heroic brass stabs, the Crossroads motif on lead guitar (E B A G F# B) and the
+Gainlands answer phrase - the Gainlands theme every Beefcake cue carries. Loop fixes only (see the end).
 """
-from lib import Score, m, motif, motif_head, augment, p
-
-TUNE = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:3 r:1 | Ab5:1.5 G5:.5 F5:1 Eb5:1 | F5:2 D5:2 '
-         '| Ab4:1 Eb5:.5 Db5:.5 C5:1.5 Bb4:.5 | Eb5:3 r:1 | C5:1 Eb5:1 G5:1 F5:1 | F5:2 G5:1 A5:1')
-TUNE_H = ['Bb', 'Bb', 'Ab', 'Bb', 'Ab', 'Ab', 'Cm', 'F']
-STABS = m('G4:1 D5:.5 C5:.5 D5:2 | r:2 Bb4:.5 C5:.5 D5:1 | Eb4:1 Bb4:.5 Ab4:.5 Bb4:2 | r:2 G4:.5 Ab4:.5 Bb4:1 '
-          '| C5:1 G5:.5 F5:.5 Eb5:1.5 D5:.5 | G5:3 r:1 | F5:1 Eb5:1 D5:1 C5:1 | A4:2 C5:2')
-STABS_H = ['Gm', 'Gm', 'Eb', 'Eb', 'Cm', 'Cm', 'F', 'F']
-BROAD = m('G5:2 F5:1 Eb5:1 | D5:2 Bb4:2 | C5:1 D5:1 Eb5:1 G5:1 | Ab5:3 G5:1 '
-          '| G5:2 F5:1 Eb5:1 | F5:2 D5:2 | Eb5:1 F5:1 Ab5:1 C6:1 | A5:4')
-BROAD_H = ['Eb', 'Bb/D', 'Cm', 'Ab', 'Eb', 'Bb/D', 'Ab', 'F']
-GROOVE = [(0, 'bd', 8), (1, 'snare', 0), (1.5, 'bd', -10), (2, 'bd', 0), (3, 'snare', 4), (3.75, 'snare', -16)]
+from lib import Song, p
+from lib import rock as R
+from lib.rock import PROG, ROOT, MOTIF, ANSWER, ANSWER_TAG, LICK, BRASS_HITS
 
 
 def build():
-    s = Score('MUS-BEEF-BATTLE', bpm=138, bars=72, key='Bb mixolydian', seed=202)
-    s.seat('spic', 'vln', 'vc', 'cb', 'hn', 'tpt', 'tbn', 'brass', 'fl', 'picc', 'timp', 'pad', 'perc')
-    for bar, nm in ((0, 'intro ostinato'), (4, 'A brass'), (20, 'B stabs'), (36, 'C broad'), (52, 'D tutti'), (68, 'outro ostinato')):
-        s.section(bar, nm)
-    s.notes.append('Orchestral by the Music Pass 1 brief (the old music_list row asked for riff-led metal).')
+    S = Song('MUS-BEEF-BATTLE', bpm=140, bars=64, key='E minor', seed=5)
+    S.jitter = 0.006
+    R.band(S)
+    for bar, nm in ((0, 'intro arp'), (4, 'riff'), (12, 'theme'), (20, 'build'), (24, 'drop'), (32, 'breakdown'),
+                    (40, 'build 2'), (44, 'drop 2'), (56, 'outro riff'), (62, 'outro arp')):
+        S.section(bar, nm)
+    S.notes.append('The approved Gainlands techno hard rock demo, ported exactly (lib/rock.py keeps its note order and humanising).')
 
-    def ost(bar, sym, vel):
-        """8th-note string ostinato on the chord's root/third/fifth, accents on 1, the and of 2, and 4."""
-        r = p(s.voicing(sym)[0])
-        while r < p('F4'):
-            r += 12
-        third = r + (3 if sym.startswith(('Cm', 'Gm')) else 4)
-        cell = [r, r, r + 7, r, third, r, r + 7, r + 12]
-        acc = [10, -6, 0, 6, -4, -6, 4, -2]
-        for k, (n, a) in enumerate(zip(cell, acc)):
-            s.note('spic', bar * 4 + k * .5, .35, n - 12, vel + a)
+    # 0-3 INTRO: saw arp over a kick pulse; riser into the riff
+    for i in range(4):
+        c = PROG[i % 4]
+        R.arp(S, i, c, 50 + i * 8)
+        R.kick_pulse(S, i, 70 + i * 10)
+    S.ramp('saw', 0, 4, 40, 110)
+    R.snare_roll(S, 3, 1, 50, 110)
+    R.riser(S, 2, 2)
 
-    def drive(bar, sym, vel, drums=True, timp=True):
-        ost(bar, sym, vel)
-        s.bass(bar, sym, vel - 4, 'pulse', chs=('cb', None))
-        if timp:
-            r = p(s.voicing(sym)[0]) + 12
-            s.timp_hit(bar * 4, r, vel + 6)
-            s.timp_hit(bar * 4 + 2.5, r, vel - 10)
-        if drums:
-            s.drum(bar, GROOVE, vel - 6)
+    # 4-11 RIFF A: gallop chug, rock beat, bass
+    R.crash(S, 4)
+    for i in range(8):
+        bar = 4 + i
+        c = PROG[(i // 2) % 4]
+        R.chug(S, bar, c, 86)
+        R.bassline(S, bar, c, 92)
+        R.rock_beat(S, bar, 104, fill=(i == 7))
 
-    def intro(bar):
-        for i, sym in enumerate(['Bb', 'Bb', 'Ab', 'Bb']):
-            drive(bar + i, sym, 82)
-            s.pad('brass', bar + i, sym, 46, low='F3', n=3, beats=1, beat=3)
-            s.pad('pad', bar + i, sym, 64)
-            s.brass('tbn', bar + i, sym, 62, low='F3', n=2)
-        s.motif('hn', bar + 2, motif_head('Bb3', 'mixolydian', rhythm=(1, .5, 2.5)), 70, form='head (horns, call to arms)')
+    # 12-19 THEME: lead guitar motif + answer, brass stabs, sustained power chords
+    R.crash(S, 12)
+    for i in range(8):
+        bar = 12 + i
+        c = PROG[(i // 2) % 4]
+        if i % 2 == 0:
+            R.sustain(S, bar, c, 80, beats=8)
+        R.bassline(S, bar, c, 90)
+        R.rock_beat(S, bar, 104, fill=(i == 7))
+        S.chord('brass', S.B(bar), .6, BRASS_HITS[c], 92)
+        S.chord('brass', S.B(bar, 2.5), .4, BRASS_HITS[c], 80)
+    S.motif('lead', 12, MOTIF, 104, form='stated (lead guitar)', tr=12)
+    S.mel('lead', 14, ANSWER, 102, tr=0)
+    S.motif('lead', 16, MOTIF, 108, form='stated again (lead guitar)', tr=12)
+    S.mel('lead', 18, ANSWER_TAG, 110)
 
-    intro(0)
-    s.snare_roll(3 * 4 + 2, 2, 40, 80)
+    # 20-23 BUILD: half-time, snare roll, riser, guitars swell
+    for i in range(4):
+        bar = 20 + i
+        c = ['C', 'D', 'C', 'D'][i]
+        R.sustain(S, bar, c, 48 + i * 10)
+        S.chord('pad', S.B(bar), 4, [p(n) + 12 for n in BRASS_HITS[c][1:]], 70)
+    R.snare_roll(S, 20, 4, 30, 112)
+    for k in range(32):
+        S.note('timp', S.B(22) + k * .25, .2, p('E2'), 40 + k * 2, human=False)
+    R.riser(S, 20, 4)
 
-    # A 4-19: the motif in the brass over the drive
-    for i in range(16):
-        sym = TUNE_H[i % 8]
-        drive(4 + i, sym, 72 if i < 8 else 78)
-        s.pad('brass', 4 + i, sym, 50, low='F3', n=3) if i % 2 == 1 else None
-    s.motif('tpt', 4, TUNE, 92, form='stated (trumpets + horns)')
-    s.line('hn', 4, TUNE, 80, transpose=-12)
-    s.motif('tpt', 12, TUNE, 96, form='stated again (strings join 8va)')
-    s.line('hn', 12, TUNE, 84, transpose=-12)
-    s.line('vln', 12, TUNE, 84, transpose=12)
-    s.hit('crash', 4 * 4, 80, dur=2)
-    s.hit('crash', 12 * 4, 86, dur=2)
-    s.snare_roll(19 * 4 + 2, 2, 50, 90)
+    # 24-31 DROP 1: four-on-the-floor, sub bass, chug locked to the kick, saw stabs
+    R.crash(S, 24, 120)
+    for i in range(8):
+        bar = 24 + i
+        c = PROG[(i // 2) % 4]
+        R.four_floor(S, bar, 118)
+        R.subdrop(S, bar, c, 104)
+        R.chug(S, bar, c, 90, pattern='straight')
+        for b in (0, 1.5, 3):
+            S.chord('saw', S.B(bar, b), .3, [p(ROOT[c]) + 36, p(ROOT[c]) + 43], 80)
+    S.pump('pad', 24, 8, lo=20, hi=100)
+    for i in range(8):
+        S.chord('pad', S.B(24 + i), 4, [p(n) + 12 for n in BRASS_HITS[PROG[(i // 2) % 4]][1:]], 76)
+    S.motif('lead', 28, MOTIF, 96, form='stated (lead guitar, in the drop)', tr=12)
 
-    # B 20-35: tension - G minor, horn stabs on the motif head, lighter drums, the ostinato drops an octave
-    for i in range(16):
-        sym = STABS_H[i % 8]
-        drive(20 + i, sym, 62 if i < 8 else 70, drums=False, timp=(i % 2 == 0))
-        s.drum(20 + i, [(0, 'bd', 0), (2.5, 'bd', -8), (3, 'rim', -10)], 56)
-    s.motif('hn', 20, STABS, 90, form='head in sequence (horn stabs on G, Eb, C)')
-    s.mel('tpt', 28, STABS, 84)
-    s.line('hn', 28, STABS, 78, transpose=-12)
-    s.swell('spic', 20, 16, 80, 110)
-    s.timp_roll(35 * 4, 4, 'F2', 50, 100)
+    # 32-39 BREAKDOWN: half-time groove, gym clank (cowbell), lead lick, brass chorale
+    for i in range(8):
+        bar = 32 + i
+        c = ['E', 'E', 'C', 'C', 'D', 'D', 'B', 'B'][i]
+        R.rock_beat(S, bar, 96, half=True)
+        if i % 2 == 0:
+            R.sustain(S, bar, c, 66, beats=8)
+            S.chord('brass', S.B(bar), 7.9, BRASS_HITS[c], 70)
+        R.bassline(S, bar, c, 84, style='hold')
+        S.note('kit', S.B(bar, 1.5), .2, 56, 70, human=False)      # cowbell clank
+        S.note('kit', S.B(bar, 3.5), .2, 56, 60, human=False)
+    S.mel('lead', 32, LICK, 100)
 
-    # C 36-51: the broad string tune; the motif augmented in the horns beneath
-    for i in range(16):
-        sym = BROAD_H[i % 8]
-        ost(36 + i, sym, 58)
-        s.bass_at((36 + i) * 4, 4, sym, 66, chs=('cb', 'vc'))
-        s.pad('pad', 36 + i, sym, 56)
-        s.drum(36 + i, [(0, 'bd', 0), (3, 'snare', -8)], 52)
+    # 40-43 BUILD 2: bigger roll + riser + timpani
+    for i in range(4):
+        bar = 40 + i
+        c = ['C', 'D', 'C', 'B'][i]
+        R.sustain(S, bar, c, 52 + i * 10)
+        S.chord('brass', S.B(bar), 3.9, BRASS_HITS[c], 56 + i * 10)
+    R.snare_roll(S, 40, 4, 36, 118)
+    for k in range(32):
+        S.note('timp', S.B(42) + k * .25, .2, p('B1'), 46 + k * 2, human=False)
+    R.riser(S, 40, 4)
+
+    # 44-55 DROP 2 + THEME: everything - four-floor, sub, chug, brass, motif an octave up
+    R.crash(S, 44, 124)
+    for i in range(12):
+        bar = 44 + i
+        c = PROG[(i // 2) % 4]
+        R.four_floor(S, bar, 122)
+        R.subdrop(S, bar, c, 108)
+        R.chug(S, bar, c, 96, pattern='gallop' if i % 4 < 2 else 'straight')
+        S.chord('brass', S.B(bar), .5, BRASS_HITS[c], 100)
+        S.chord('brass', S.B(bar, 1.5), .4, BRASS_HITS[c], 88)
+        S.chord('brass', S.B(bar, 3), .5, BRASS_HITS[c], 94)
         if i % 4 == 0:
-            s.timp_hit((36 + i) * 4, p(s.voicing(sym)[0]) + 12, 76)
-    s.mel('vln', 36, BROAD, 92, transpose=0)
-    s.line('vln', 36, BROAD, 74, transpose=-12)
-    s.motif('hn', 36, augment(motif('Bb3', 'mixolydian'), 2), 70, form='augmented (horns, under the strings)', lead=False)
-    s.mel('vln', 44, BROAD, 98, transpose=0)
-    s.line('fl', 44, BROAD, 70, transpose=12)
-    s.motif('hn', 44, augment(motif('Eb4', 'major'), 2), 76, form='augmented on Eb (horns)', lead=False)
-    s.swell('vln', 36, 16, 84, 118)
-    s.snare_roll(51 * 4, 4, 40, 100)
+            R.crash(S, bar, 112)
+    S.motif('lead', 44, MOTIF, 112, form='stated 8va (lead guitar, drop 2)', tr=12)
+    S.mel('lead', 46, ANSWER, 110, tr=12)
+    S.motif('lead', 48, MOTIF, 114, form='stated 8va again', tr=12)
+    S.mel('lead', 50, ANSWER_TAG, 116, tr=12)
+    S.motif('saw', 52, MOTIF, 86, form='stated 2 octaves up (saw)', tr=24)
+    S.pump('pad', 44, 12, lo=20, hi=104)
+    for i in range(12):
+        S.chord('pad', S.B(44 + i), 4, [p(n) + 12 for n in BRASS_HITS[PROG[(i // 2) % 4]][1:]], 80)
 
-    # D 52-67: tutti - motif in trumpets, trombones and horns, strings on top, cymbals every 4 bars
-    for i in range(16):
-        sym = TUNE_H[i % 8]
-        drive(52 + i, sym, 84)
-        s.pad('brass', 52 + i, sym, 62, low='F3', n=3)
-        if i % 4 == 0:
-            s.hit('crash', (52 + i) * 4, 92, dur=2)
-    s.motif('tpt', 52, TUNE, 100, form='stated (tutti)')
-    s.line('hn', 52, TUNE, 92, transpose=-12)
-    s.line('vln', 52, TUNE, 100, transpose=12)
-    s.motif('tbn', 60, augment(motif('Bb3', 'mixolydian'), 2), 84, form='augmented (trombones)', lead=False)
-    s.mel('tpt', 60, TUNE, 100)
-    s.line('vln', 60, TUNE, 104, transpose=12)
-    s.line('picc', 60, TUNE, 64, transpose=24)
-    s.swell('vln', 64, 4, 120, 100)
+    # 56-63 OUTRO RIFF: back to the gallop riff, thinning into the intro arp so the loop wraps
+    for i in range(8):
+        bar = 56 + i
+        c = PROG[(i // 2) % 4]
+        if i < 6:
+            R.chug(S, bar, c, 84 - i * 2)
+            R.bassline(S, bar, c, 88)
+            R.rock_beat(S, bar, 100 - i * 3, fill=(i == 5))
+        else:
+            R.arp(S, bar, c, 46)
+            R.kick_pulse(S, bar, 72)
+            R.bassline(S, bar, c, 70, style='hold')
 
-    # OUTRO 68-71: the ostinato alone again, same voices and level as bar 0
-    intro(68)
-    return s
+    # LOOP/LOUDNESS FIX (added after the port, so every note above keeps its humanising draw). The approved MP3's first four bars are
+    # kick-heavy and ~16 dB louder than the same bars when its preview wraps; rendered from the script they sit 13 LU under the track
+    # (a 7 s hole at every battle start and loop). Both arp sections get the same bed so the seam stays matched: a firmer kick pulse,
+    # the drops' synth-sub 8ths, a pad, and the saw's CC11 starting at 100 instead of 40.
+    S.cc11['saw'] = [(t, v) for t, v in S.cc11['saw'] if t >= S.B(4)]
+    S.ramp('saw', 0, 4, 100, 116)
+    S.ramp('saw', 62, 2, 100, 108)
+    for bar, c in ((0, 'E'), (1, 'C'), (2, 'D'), (3, 'B'), (62, 'D'), (63, 'B')):
+        R.kick_pulse(S, bar, 116)
+        R.subdrop(S, bar, c, 100)
+        R.pad_chord(S, bar, c, 70)
+        R.sustain(S, bar, c, 58)                                   # a held power chord under the arp, as in the builds
+    S.fade_vel(0, 4, 1.7, chans=['saw'], start_factor=1.7)      # the arp itself up (velocities only)
+    S.fade_vel(62, 64, 2.3, chans=['saw'], start_factor=2.1)
+    for ch in ('gtrL', 'gtrR'):
+        S.ramp(ch, 0, 4, 76, 100)
+        S.ramp(ch, 62, 2, 76, 84)
+
+    # The riff is the tune in the riff/build sections (audibility check only, no audible change).
+    for a, b in ((4, 12), (20, 28), (40, 44), (56, 62)):
+        S.tag_melody('gtrL', a, b)
+    S.tag_melody('saw', 0, 4)
+    S.tag_melody('saw', 62, 64)
+    return S

@@ -49,6 +49,12 @@ class Score:
         self.motifs = []            # (bar, form, channel)
         self.V = {}                 # named voicings: symbol -> (bass, [voicing]); falls back to theory.voice
         self.notes = []             # free-text composer notes for the report
+        # Gainlands rock Nov 3: render profile. 'orchestral' = the v04 chain; 'rock' = render.rock_chain (the approved Gainlands demo):
+        # the `stem` channels (guitars) render on their own through an amp sim, `risers` (beat, beats) add noise risers, shorter hall + bus glue.
+        self.profile = 'orchestral'
+        self.stem = set()
+        self.risers = []
+        self.stack_drums = False    # rock: simultaneous same-note drum hits stay two voices (the demo's doubled crash-bar kicks)
 
     # ------------------------------------------------------------ setup
     def channel(self, name, instrument, pan=64, reverb=80, vol=90, chan=None):
@@ -350,9 +356,9 @@ class Score:
         self.events[ch] = [(s, d, n, v, 'mel' if a <= s < b else r) for s, d, n, v, r in self.events[ch]]
 
     # ------------------------------------------------------------ MIDI
-    def to_midi(self, path, tail_seconds=0.0):
+    def to_midi(self, path, tail_seconds=0.0, only=None, skip=None):
         """Write the multi-track .mid. `tail_seconds` pushes end_of_track past the loop/end point (render copies only), so the
-        synth's release and reverb are rendered instead of cut."""
+        synth's release and reverb are rendered instead of cut. `only` / `skip` (channel names) write a stem (the rock profile)."""
         mid = mido.MidiFile(ticks_per_beat=TPB)
         meta = mido.MidiTrack()
         msgs = []
@@ -373,6 +379,8 @@ class Score:
         meta.append(mido.MetaMessage('end_of_track', time=end - last))
         mid.tracks.append(meta)
         for k, c in self.ch.items():
+            if (only is not None and k not in only) or (skip is not None and k in skip):
+                continue
             tr = mido.MidiTrack()
             tr.append(mido.MetaMessage('track_name', name=k, time=0))
             chan = c['chan']
@@ -391,7 +399,10 @@ class Score:
                 msgs.append((int(b * TPB), 2, mido.Message('pitchwheel', channel=chan, pitch=pw)))
             for b, v in self.cc11[k]:
                 msgs.append((int(b * TPB), 2, mido.Message('control_change', channel=chan, control=11, value=max(0, min(127, v)))))
-            for on, off, n, v in note_spans(self.events[k]):
+            spans = note_spans(self.events[k])
+            if c['drums'] and self.stack_drums:
+                spans = sorted((int(st * TPB), max(int(st * TPB) + 1, int((st + d) * TPB)), n, v) for st, d, n, v, _ in self.events[k])
+            for on, off, n, v in spans:
                 msgs.append((on, 4, mido.Message('note_on', channel=chan, note=n, velocity=v)))
                 msgs.append((off, 3, mido.Message('note_off', channel=chan, note=n, velocity=0)))
             msgs.sort(key=lambda m: (m[0], m[1]))

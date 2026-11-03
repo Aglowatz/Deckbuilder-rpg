@@ -43,7 +43,7 @@ Programs are FluidR3_GM names from `tools/music/lib/instruments.py`.
 
 | Path | Instruments (GM/GS) | Style |
 |---|---|---|
-| Beefcake | `brass`, `horn`, `trumpet`, `trombone`, `tuba`, orchestra-kit `snare` / `bd` / `crash`, `timpani`, `xylophone` for jokes | heroic march, Bb major / Mixolydian (and its modes: C Dorian, G Aeolian, F Mixolydian), 108-132 BPM |
+| Beefcake | **since Gainlands rock Nov 3: section 10** (TECHNO HARD ROCK: distorted double-tracked guitars, lead guitar, bass + synth sub, GS power kit, risers, heroic brass, saw synth, pumped pad, cowbell clank; render profile `rock`) | E minor home (freed: E major), 120-150 BPM |
 | Necrocrat | **since Music Pass 2: section 8** (dark orchestral with organ, choir, low brass, ticking woodblock clock) | a dark waltz in 3/4, C minor |
 | Gourmand | **since Music Pass 2: section 8** (Broadway showtune orchestra + modern EDM drop layer; no folk) | showtune, F major, ~132 |
 | Refusemancer | **since Music Pass 2: section 8** (orchestral fairy folk: solo violin, nylon guitar, harp, celesta, chimes, flute/piccolo, tambourine) | jigs and reels, E Dorian |
@@ -55,7 +55,7 @@ Programs are FluidR3_GM names from `tools/music/lib/instruments.py`.
 | Category | Length | Shape |
 |---|---|---|
 | Exploration | 2:00-2:45 loop | at least 2 contrasting sections, one of them a gentle B section |
-| Battle | 1:45-2:30 loop, 120-150 BPM | a driving string/timpani ostinato under the motif in the brass; sections alternate tension and drive |
+| Battle | 1:45-2:30 loop, 120-150 BPM | a driving string/timpani ostinato under the motif in the brass; sections alternate tension and drive (Beefcake: the riff/drop form of section 10) |
 | Boss | loop | heavier than its battle; its **own villain idea** plus Crossroads fragments; one big climax |
 | Freed | loop | the zone theme reharmonised warmer, **resolved** motif, the zone palette plus the core orchestra |
 | Menu / story | as its music_list row | low busyness under reading or dialogue; ends lead back to the start |
@@ -315,3 +315,70 @@ a theatrical trickster.
 | 09b | MUS-ARENA-BATTLE | Eb major | 140, 4/4 | loop |
 | 09b | MUS-ARENA-ELITE | Ab major | 148, 4/4 | loop (boss) |
 | 09b | MUS-SHIRO-BOSS | E minor | 152, 4/4 | loop (boss) |
+
+## 10. The Gainlands is TECHNO HARD ROCK (Gainlands rock Nov 3)
+
+Designer decision, Nov 3: the original music_list rows asked for electric guitars; Music Pass 1 made the Beefcake cues orchestral by
+mistake. The approved demo (`Music_Source/zone_demos/ZONE-GAINLANDS_demo_score.py` + `render_rock.py`, "Gainlands battle demo (techno hard
+rock).mp3") is the base and the inspiration for the **whole Beefcake set**. It is `MUS-BEEF-BATTLE`, ported note for note.
+Section 3's old Beefcake row (orchestral march, Bb) and the Batch 1-2 Beefcake keys are superseded; the Batch 1-2 table stays as history.
+
+### Palette (`tools/music/lib/rock.py`, `band()` seats it)
+
+| Part | GM/GS | Role |
+|---|---|---|
+| `gtrL` / `gtrR` | 30 distortion guitar, panned 20 / 108, 12-15 ms apart | double-tracked rhythm: gallop (`GALLOP`) and straight 8th chugs (`STRAIGHT`), 16th `MACHINE` chugs for the House of Gains; power chords (root-fifth-octave) on the accents, palm-muted root+fifth between |
+| `lead` | 29 overdriven guitar, centre | the Crossroads motif and the Gainlands answer, licks |
+| `bass` | 33 finger bass | 8ths with octave pops, gallop, or held roots in breakdowns |
+| `sub` | 38 synth bass | drops only: off-beat octave 8ths (`subdrop`) |
+| `kit` | GS power kit (bank 128 / 16), channel 10 | `rock_beat` (fills on toms), `four_floor` in drops, `double_kick` for the heaviest cues, `snare_roll` builds, `crash` on drops, `clank` = gym cowbell |
+| `brass` | 61 brass section | heroic stabs on the hits (`BRASS_HITS`), chorales in breakdowns - the Beefcake link |
+| `saw` / `pad` | 81 saw lead / 89 warm pad | intro arps and drop stabs; the pad pumped (`Song.pump`) in drops |
+| `timp` | 47 timpani | 16th rolls under builds |
+| risers | `rock.riser(s, bar, bars)` | white-noise risers before drops (render.add_risers) |
+
+### Render profile `rock` (render.rock_chain; Score.profile = 'rock', set by band())
+
+The demo's chain: the guitar stem (`Score.stem`, the `GTR` channels) renders on its own (synth reverb 0.25) through `amp_sim` (120 Hz
+high-pass, tanh drive x7, 5.2 kHz cabinet low-pass, a slight 700-1600 Hz scoop); the rest renders with synth reverb 0.45 (room 0.6); mix
+0.9 / 0.85; noise risers; a shorter, brighter hall (1.6 s) and light bus saturation (`glue`). Then the usual loop fold, -20 LUFS, peak limit.
+`Score.stack_drums` (rock) keeps simultaneous same-note drum hits as two voices, as the demo stacked its crash-bar kicks. Test:
+`python -m unittest tools.music.tests.test_rock_render`.
+
+### Themes (all in `lib/rock.py`)
+
+- Home key **E minor**, the progression **i - VI - VII - V (E C D B)** in power chords. FREED / restored: **E major**.
+- **The Crossroads motif on lead guitar: E B A G F# B** (`MOTIF`, q e e dq e dh); `MOTIF_RESOLVED` (E B A G# F# **E**) only in FREED /
+  restored / release cues (section 1's rule still holds).
+- **The Gainlands theme** = the demo's riff (the gallop chug over E C D B) + its answer phrase (`ANSWER`, `ANSWER_TAG`; `ANSWER_MAJOR`
+  for E major) + the breakdown lick (`LICK`). Every Beefcake cue carries the riff or the answer (whole, a phrase, half-time, detuned...).
+  (The old orchestral Gainlands march theme is still quoted by non-Beefcake cues - FOREST, DECK, CREDITS, PRIMM-02, QUEST-ROLLO... -
+  untouched in this pass; see the inbox.)
+- Tempo 120-150 BPM. Form for the action cues: riff -> theme -> build -> drop -> breakdown -> build -> drop 2 -> outro (the demo).
+
+### Dynamics (rock is dense)
+
+Keep a real arc: builds quieter than drops, breakdowns lower still; check the report's per-section LUFS (at least ~4 LU between the
+quietest and loudest section in action cues, ~6 LU in exploration). Intros that are an arp alone sit 13 LU low through this chain: give
+them a held power chord, the sub and a pad (MUS-BEEF-BATTLE's loop fix), and give the outro the same bed so the seam matches.
+
+### Set plan (key / tempo; no two cues of the set share both)
+
+| ID | Key | BPM | Job |
+|---|---|---|---|
+| MUS-BEEF-BATTLE | E minor | 140 | the approved demo |
+| MUS-BEEF-EXP | E minor | 120 | lighter rock groove for walking around: the riff and the theme, no huge drop, room to breathe, long-play friendly |
+| MUS-BEEF-DUN-EXP | E minor | 126 | House of Gains: chugging mid-tempo machine riff, gym-machine clank, a quieter breath section for Flex |
+| MUS-BEEF-DUN-BATTLE | E minor | 150 | faster and heavier than the zone battle, relentless drops |
+| MUS-BEEF-BOSS | D minor (drop-D) | 136 | Chancellor Clench: his own villain riff (lower, the motif inverted), the stopwatch ding, a huge final drop, the hero's motif fighting back on lead guitar |
+| MUS-BEEF-FREED | E major | 128 | triumphant arena rock, the motif RESOLVED on lead guitar, big brass, celebratory not aggressive |
+| MUS-BEEF-RELEASE | E major | 100 | one-shot: starts orchestral and hopeful, then the band swells in for "true strength" |
+| MUS-SWOLY-EXP | B minor | 118 | Mount Swolympus: epic mountain rock, wide and half-time |
+| MUS-SWOLY-BATTLE | B minor | 146 | mountain rock in combat |
+| MUS-SWOLY-BOSS | F# minor | 138 | The Ancient Spotter's own track and riff |
+| MUS-MINIGAME-BEEF | A major | 132 | Chet's aerobics: 80s synth-rock workout |
+| MUS-SHOP-BENCHLEY | E Dorian | 104 | the gym pro shop: still mystic and fun like the other shops, with a light rock groove |
+| MUS-CAP-BEEF-BROKEN | E minor | 116 | Transit Yards: the Gainlands riff thin and detuned ~15 cents, the Capital grid underneath |
+| MUS-CAP-BEEF-RESTORED | E major | 116 | the same, full and in tune; motif resolved |
+| STG-ZONE-BEEF | E major | 140 | power chord + crash, resolved ending |
+

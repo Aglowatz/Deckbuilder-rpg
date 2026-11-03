@@ -108,17 +108,87 @@ def hall(x, seed=3, length=2.6, dry=0.82, wet=0.32):
     return d * dry + w * wet
 
 
-def synth(mid_path, wav_path, sf, fs, gain=0.45):
+def synth(mid_path, wav_path, sf, fs, gain=0.45, room=0.82, damp=0.35, level=0.55, polyphony=512):
     subprocess.run([fs, '-ni', '-g', str(gain), '-r', str(SR), '-F', wav_path, '-o', 'audio.file.format=float',
-                    '-o', 'synth.reverb.active=1', '-o', 'synth.reverb.room-size=0.82',
-                    '-o', 'synth.reverb.damp=0.35', '-o', 'synth.reverb.width=1.0', '-o', 'synth.reverb.level=0.55',
-                    '-o', 'synth.chorus.active=0', '-o', 'synth.polyphony=512', sf, mid_path], check=True, capture_output=True)
+                    '-o', 'synth.reverb.active=1', '-o', f'synth.reverb.room-size={room}',
+                    '-o', f'synth.reverb.damp={damp}', '-o', 'synth.reverb.width=1.0', '-o', f'synth.reverb.level={level}',
+                    '-o', 'synth.chorus.active=0', '-o', f'synth.polyphony={polyphony}', sf, mid_path], check=True, capture_output=True)
     sr, x = wf.read(wav_path)
     assert sr == SR
     x = x.astype(np.float64)
     if x.dtype.kind == 'i' or np.max(np.abs(x)) > 4:
         x = x / 32768.0
     return x
+
+
+# ---------------------------------------------------------------- rock profile (Gainlands rock Nov 3: Music_Source/zone_demos/render_rock.py)
+def amp_sim(g, drive=7.0, out=0.55):
+    """Guitar amp: pre-EQ (120 Hz high-pass), tanh drive, 4-pole cabinet low-pass at 5.2 kHz, a touch of mid scoop (700-1600 Hz)."""
+    b, a = ss.butter(2, 120 / (SR / 2), 'high')
+    g = ss.lfilter(b, a, g, axis=0)
+    g = np.tanh(g * drive) * out
+    b, a = ss.butter(4, 5200 / (SR / 2), 'low')
+    g = ss.lfilter(b, a, g, axis=0)
+    b, a = ss.butter(2, [700 / (SR / 2), 1600 / (SR / 2)], 'bandstop')
+    return 0.75 * g + 0.25 * ss.lfilter(b, a, g, axis=0)
+
+
+def add_risers(mix, risers, seed=1, level=0.18):
+    """White-noise risers: a band-pass sweeping up (300 Hz -> ~6.3 kHz) that swells (t^2.2). risers = [(start_s, length_s)]."""
+    rng = np.random.default_rng(seed)
+    n = len(mix)
+    for start, length in risers:
+        s0, L = int(start * SR), int(length * SR)
+        noise = rng.standard_normal(L)
+        out = np.zeros(L)
+        seg = 2048
+        for i in range(0, L, seg):
+            lo = 300 + 6000 * (i / L) ** 2
+            bb, aa = ss.butter(2, [lo / (SR / 2), min(0.95, (lo * 2.2) / (SR / 2))], 'band')
+            out[i:i + seg] = ss.lfilter(bb, aa, noise[i:i + seg])
+        out *= np.linspace(0, 1, L) ** 2.2 * level
+        e = min(n, s0 + L)
+        if e > s0:
+            mix[s0:e, 0] += out[:e - s0]
+            mix[s0:e, 1] += out[:e - s0] * 0.9
+    return mix
+
+
+def glue(mix, seed=3, length=1.6, dry=0.88, wet=0.16, drive=1.6):
+    """A shorter, brighter hall than the orchestra's, then light bus saturation (tanh soft knee, normalised to the peak)."""
+    rng = np.random.default_rng(seed)
+    m = int(length * SR)
+    t = np.arange(m) / SR
+    ir = rng.standard_normal((m, 2)) * np.exp(-t * 6.9 / length)[:, None]
+    b, a = ss.butter(2, [200 / (SR / 2), 6000 / (SR / 2)], 'band')
+    ir = ss.lfilter(b, a, ir, axis=0)
+    ir[: int(0.012 * SR)] = 0
+    ir /= np.sqrt((ir ** 2).sum(axis=0))
+    w = np.stack([ss.fftconvolve(mix[:, c], ir[:, c]) for c in range(2)], axis=1)
+    y = np.vstack([mix, np.zeros((len(w) - len(mix), 2))]) * dry + w * wet
+    pk = np.max(np.abs(y)) + 1e-12
+    return np.tanh(y / pk * drive) / np.tanh(drive)
+
+
+def rock_chain(score, tmp, sf, fs, tail_seconds):
+    """The approved Gainlands demo's render: band (everything but score.stem) with synth reverb 0.45, the guitar stem with 0.25 through
+    amp_sim, mixed 0.9 / 0.85, noise risers, glue. Returns the stereo mix (loop/one-shot handling and loudness follow in render)."""
+    stem = set(score.stem)
+    kw = dict(gain=0.5, room=0.6, damp=0.35, polyphony=768)
+    parts = []
+    for name, sel, level in (('rest', dict(skip=stem), 0.45), ('gtr', dict(only=stem), 0.25)):
+        mid = os.path.join(tmp, f'{name}.mid')
+        score.to_midi(mid, tail_seconds=tail_seconds, **sel)
+        parts.append(synth(mid, os.path.join(tmp, f'{name}.wav'), sf, fs, level=level, **kw) if (stem or name == 'rest') else None)
+    rest, gtr = parts
+    if gtr is None:
+        gtr = np.zeros_like(rest)
+    n = max(len(rest), len(gtr))
+    rest = np.vstack([rest, np.zeros((n - len(rest), 2))])
+    gtr = np.vstack([gtr, np.zeros((n - len(gtr), 2))])
+    mix = rest * 0.9 + amp_sim(gtr) * 0.85
+    mix = add_risers(mix, [(score.seconds_at(b), score.seconds_at(b + L) - score.seconds_at(b)) for b, L in score.risers])
+    return glue(mix)
 
 
 # ---------------------------------------------------------------- checks on audio
@@ -171,10 +241,12 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
     score.to_midi(mid_out)
     loop = score.kind == 'loop'
     with tempfile.TemporaryDirectory() as tmp:
-        rmid = os.path.join(tmp, 'render.mid')
-        score.to_midi(rmid, tail_seconds=RENDER_TAIL)
-        x = synth(rmid, os.path.join(tmp, 'raw.wav'), sf, fs)
-    y = hall(x)
+        if score.profile == 'rock':
+            y = rock_chain(score, tmp, sf, fs, RENDER_TAIL)
+        else:
+            rmid = os.path.join(tmp, 'render.mid')
+            score.to_midi(rmid, tail_seconds=RENDER_TAIL)
+            y = hall(synth(rmid, os.path.join(tmp, 'raw.wav'), sf, fs))
     L = int(round(score.seconds * SR))
     if loop:
         out = y[:L].copy()
@@ -233,7 +305,7 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
     meas = ffmpeg_loudness(ff, ogg)
     rep = {
         'id': score.id, 'kind': score.kind, 'key': score.key, 'bpm': score.bpm, 'meter': f'{score.meter[0]}/{score.meter[1]}',
-        'bars': score.bars, 'seconds': round(len(dec) / SR, 2), 'loop_seconds': round(score.seconds, 3),
+        'profile': score.profile, 'bars': score.bars, 'seconds': round(len(dec) / SR, 2), 'loop_seconds': round(score.seconds, 3),
         'lufs': meas['lufs'], 'true_peak': meas['true_peak'], 'lra': meas['lra'], 'limited_db': round(limited_db, 2),
         'peak_ok': bool(meas['true_peak'] <= CEILING), 'lufs_ok': bool(abs(meas['lufs'] - target) <= 0.5),
         'sections': section_arc(dec[:L] if loop else dec, score),
