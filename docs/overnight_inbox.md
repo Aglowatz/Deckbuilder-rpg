@@ -973,3 +973,7 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 4. **City camera: pick one** (Part 5). Settings > "City camera" (Standard / Raised / Low), default still Standard. The critic and I
    recommend **Raised** as the Capital's default (closest to the paint-over, best to play); Low is the grand HD-2D one but hides the path -
    good as an option or for scripted arrivals. Contact sheet: docs/art/capital_camera_nov3/contact_sheet.jpg. Tell me which to make default.
+5. **Part 6 is stopped - your call.** The full sharded GUT run was killed by Claude Code for low system memory (not restarted, as
+   instructed by the harness), and C: has 1.4 GB free: the v0.5.2 export needs ~1.7 GB. Deleting `_art_inbox/npc_sprites` (890 MB, the
+   sprite importer's re-creatable staging copy) was not permitted. To continue: close other apps, free disk (that folder, or the v0.4.9 /
+   v0.5.0 zips in builds/), then ask for Part 6 (GUT, smokes, perf, play script, export + release smoke) and Part 7.

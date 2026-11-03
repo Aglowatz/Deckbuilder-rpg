@@ -1,3 +1,28 @@
+# Report - Overnight Nov 2-3 (Opus 5.5)
+
+Brief: "QUEUED FOLLOW-ON - OVERNIGHT Nov 2 -> 3" (Parts 1-7), started after the Batch 11 import (e33421ca). Tag `pre-overnight-nov2`.
+State: docs/loop_state.md. Decisions: docs/overnight_inbox.md ("Overnight Nov 2-3").
+
+**STOPPED IN PART 6.** The sharded full GUT run was stopped by Claude Code (the machine ran critically low on memory) and is not restarted
+without you; C: has 1.4 GB free, too little for the v0.5.2 export (about 1.7 GB peak), and deleting the importer's staging folder
+`_art_inbox/npc_sprites` (890 MB) to make room was not permitted. Parts 1-5 are done, verified on their own test groups and pushed.
+
+| Part | State | Commit |
+|---|---|---|
+| 1 Dialogue (freeze ends) | **done**: 217 lines applied (208 critic suggestions, 4 designer-line fixes, 3 over the Nov 1 typo fixes, 1 typo fix, Primm's phase-1 rule wording); 2 suggestions already in; 0 conflicts / failures; 1 held beat (the rift sign's "failing") reworded around; story / quest / dialogue groups (104 files) green; `docs/dialogue/edit_nov3.csv` re-exported; `docs/dialogue/applied_nov3.md` (counts + 15 highlights) | 7c2d4538 |
+| 2 Items | **done**: Field Bandage -> **Power Wraps** (id power_wraps; old saves load it through `ContentSet.ITEM_RENAMES`); **Reckless Tonic** heals 5 or, **1 in 4**, deals 1 damage instead (sim: every odds from 1/6 to 1/3 sits with the Vitality Charm; the description states both and the odds; toast + sound); `docs/design/items_nov3.md`; 193 item tests green | 77c90e1c |
+| 3 Faster returns | **done**: arena 4.6 / 4.2 s -> **1.0 / 0.9 s**, graveyard 4.2 / 4.3 s -> **0.88 / 0.87 s** (parked town); dungeon node fights keep the rebuild (0.7 s, mostly fades); two park bugs fixed (dialogue portraits freed when a scene left the tree - this also hit the Nov 2 roamer resumes; UI sounds wired twice); `docs/perf/loading_nov3.md` | 6c40c713 |
+| 4 Capital props + Grave Row | **done**: wheels at 60 % on gilded plinths, the paste dispenser gilded and ornate, a decorative twin tram shed (the big transit rift moved to the yards' east corner - inbox 2), Grave Row and the palace approach paved in checker with formal parterres; `docs/art/capital_nov3/` (before / after); Capital tests + walk smoke OK | 94e7fdd2 |
+| 5 City camera | **done**: Settings "City camera" Standard / Raised / Low (default Standard) + a Dev Menu picker; six spots x three cameras, `docs/art/capital_camera_nov3/contact_sheet.jpg`; fresh critic: **Raised 1st** (7/8/6), Standard 2nd, Low 3rd (grandest, least readable); **recommend Raised** - inbox 4 | 12f6806d |
+| 6 Verify + build | **stopped**: full GUT killed for low memory (not restarted); export blocked by disk space. Walk smokes, perf and the release smoke not run this night (the Batch 11 run earlier did all seven smokes + perf) | - |
+| 7 Critic cycles | not started | - |
+
+Decisions for you (also in the inbox, most important first): 1) free memory / disk and say go for Part 6 (full GUT, smokes, perf, export
+v0.5.2); 2) the city camera default (Raised recommended); 3) the twin tram shed moved the big transit rift; 4) Grave Row's headstones read
+lower on the pale checker; 5) the dialogue is applied - your next edits go in edit_nov3.csv.
+
+---
+
 # ART LIST READY - docs/art/art_needed_nov2.csv (47 rows; Part 1 of the Nov 2 pass)
 
 # Report - Nov 2 pass (Fix + polish, Fable 5.1)
