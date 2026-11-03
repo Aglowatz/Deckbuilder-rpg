@@ -55,6 +55,18 @@ const PIECE_RINGS: Array[float] = [7.0, 9.0, 5.5, 11.0]
 const QUEUE_CLEARANCE: float = 2.5
 const QUEUE_BACK: float = 1.2
 const QUEUE: Dictionary = {"anchors": ["lobby_center", "bank_center", "mail_center", "records_center", "breakroom_center"], "gap": 0.95, "height": 1.65, "post": "DNA-SHEET-FILING-TOWERS-04"}
+## Batch 11 (Nov 2): the lobby's own dressing, the six cut-outs of DNA-SHEET-LOBBY (id, preferred spot by a wall of the lobby (x 36-56,
+## z 46-60), height m, blocking radius). Placed after the ghost queue, each on the first free spot (`_free`: off the open middle, clear of
+## the talk spots, the queue and each other) near its wish, so the queue keeps its place and the middle stays open.
+const LOBBY_PROPS: Array = [
+	["DNA-SHEET-LOBBY-01", Vector3(37.2, 0.0, 56.0), 1.0, 0.7],   # bolted waiting chairs along the west wall, south of the bench
+	["DNA-SHEET-LOBBY-05", Vector3(37.0, 0.0, 57.9), 1.1, 0.25],  # the brass ashtray at the end of the chairs
+	["DNA-SHEET-LOBBY-03", Vector3(37.2, 0.0, 59.0), 1.5, 0.35],  # the half-dead rubber plant in the south-west corner
+	["DNA-SHEET-LOBBY-04", Vector3(51.5, 0.0, 59.2), 1.6, 0.4],   # the notice board by the south wall, east of the exit
+	["DNA-SHEET-LOBBY-06", Vector3(55.0, 0.0, 57.5), 1.9, 0.5],   # the dead vending machine against the east wall
+	["DNA-SHEET-LOBBY-02", Vector3(39.5, 0.0, 50.8), 1.5, 0.25],  # TAKE A NUMBER by the counter's west end
+]
+const LOBBY_NUDGES: Array[Vector3] = [Vector3.ZERO, Vector3(0, 0, -1), Vector3(0, 0, 1), Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, -2), Vector3(0, 0, 2), Vector3(2, 0, 0), Vector3(-2, 0, 0)]
 
 
 static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDressing:
@@ -70,6 +82,7 @@ static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDress
 	dressing._kit_clusters()
 	dressing._kit_pieces()
 	dressing._ghost_queue()
+	dressing._lobby_props()
 	if quality > 0:
 		dressing._decals()
 	return dressing
@@ -152,6 +165,28 @@ func _ghost_queue() -> void:
 			_builder.add_blocker(Vector3(p.x, 0.0, p.z), 0.35)
 		count += 1
 		return
+
+
+## Batch 11: the lobby's cut-outs (LOBBY_PROPS); each one that finds no free spot near its wish is left out. The ids placed are kept in
+## `lobby_placed` (tests, the report).
+var lobby_placed: Dictionary = {}
+
+
+func _lobby_props() -> void:
+	for entry: Array in LOBBY_PROPS:
+		if not EnvKit.has_art(str(entry[0])):
+			continue
+		for nudge: Vector3 in LOBBY_NUDGES:
+			var spot: Vector3 = (entry[1] as Vector3) + nudge
+			if not _free(spot, 1.6, 1.2):
+				continue
+			if KitPieces.stand(root, str(entry[0]), spot, float(entry[2])) == null:
+				break
+			_builder.add_blocker(Vector3(spot.x, 0.0, spot.z), float(entry[3]))
+			_placed.append(Vector2(spot.x, spot.z))
+			lobby_placed[str(entry[0])] = spot
+			count += 1
+			break
 
 
 ## Free floor for a piece of dressing: walkable, `clearance` from every anchor and chest, `spacing` from the other pieces, off the plaza middle, off the executive court,

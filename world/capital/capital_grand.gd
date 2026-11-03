@@ -15,6 +15,12 @@ const L = preload("res://world/capital/capital_landmarks.gd")
 const STOREY: float = 2.6
 ## The painted gold Primm on his laurel plinth (CAPI-PROP-PRIMM-STATUE, the target's statue) and his toppled self.
 const STATUE_ART: String = "CAPI-PROP-PRIMM-STATUE"
+## Batch 11 (Nov 2): the same statue from its side (three-quarter). A standing statue is two crossed cards - the front facing +z (the gate) and
+## the side across it - so from the side plazas and the cross streets it shows a statue, not an edge-on sliver.
+const STATUE_SIDE_ART: String = "CAP-PROP-PRIMM-STATUE-SIDE"
+## Batch 11: the painted gold urn under the planters' cones and roses, and its height as a multiple of the urn's bowl radius.
+const URN_ART: String = "CAP-PROP-GOLD-URN"
+const URN_HEIGHT: float = 2.0
 const FALLEN_ART: String = "CAPI-PROP-STATUE-FALLEN"
 ## The sun-face banners of the sheet used on the townhouses, the lamps and the towers (one id per use, so every set is identical).
 const BANNER_HOUSE: String = "CAP-SHEET-BANNERS-02"
@@ -89,7 +95,7 @@ static func townhouse(spec: Dictionary) -> Node3D:
 		# Callable(detail: KitMesh, root: Node3D)
 		(spec["service"] as Callable).call(detail, root)
 	else:
-		var key: String = "cap_townhouse_v1_%s" % JSON.stringify(spec).md5_text()
+		var key: String = "cap_townhouse_v2_%s" % JSON.stringify(spec).md5_text()
 		KitMesh.fill_cached_set([mesh, detail], key, func() -> void: _townhouse_geometry(mesh, detail, spec), K.resolve_slot)
 	L.finish(root, mesh, [], h + 3.0)
 	attach_detail(root, detail)
@@ -115,6 +121,8 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 	var bays: int = clampi(int(spec.get("bays", 3)), 1, 5)
 	var accent: String = "accent_" + str(spec.get("accent", "pink"))
 	var roof: String = str(spec.get("roof", "hip"))
+	# Batch 11 (Nov 2): a sage house wears the painted sage slate whatever its roof's shape; the others keep the pink / blue slate
+	var sage: bool = str(spec.get("accent", "")) == "sage"
 	var balcony: bool = bool(spec.get("balcony", true))
 	var pediment: bool = bool(spec.get("pediment", true))
 	var door: String = str(spec.get("door", "CAP-SHEET-DOORS-01"))
@@ -211,8 +219,8 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 			var normals: Array[Vector3] = [Vector3(0, 0.4, -1), Vector3(1, 0.4, 0), Vector3(0, 0.4, 1), Vector3(-1, 0.4, 0)]
 			for index: int in range(4):
 				var j: int = (index + 1) % 4
-				mesh.quad("roof_pink", [lo[index], lo[j], hi[j], hi[index]], normals[index])
-			mesh.quad("roof_pink", [hi[0], hi[1], hi[2], hi[3]], Vector3.UP)
+				mesh.quad("roof_sage" if sage else "roof_pink", [lo[index], lo[j], hi[j], hi[index]], normals[index])
+			mesh.quad("roof_sage" if sage else "roof_pink", [hi[0], hi[1], hi[2], hi[3]], Vector3.UP)
 			detail.box("gold", c + Vector3(0, rise + 0.04, 0), Vector3(w - inset * 2.0 + 0.2, 0.1, d - inset * 2.0 + 0.2))
 			K.finial(detail, c + Vector3(0, rise + 0.08, 0), 1.0)
 		"gable":
@@ -222,13 +230,13 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 			var ridge_b: Vector3 = Vector3(hw + 0.2, parapet_y + rise, 0)
 			for sz: float in [-1.0, 1.0]:
 				var eave: float = sz * (front + 0.3)
-				mesh.quad("roof_blue", [Vector3(-hw - 0.2, parapet_y, eave), Vector3(hw + 0.2, parapet_y, eave), ridge_b, ridge_a], Vector3(0, 0.8, sz))
+				mesh.quad("roof_sage" if sage else "roof_blue", [Vector3(-hw - 0.2, parapet_y, eave), Vector3(hw + 0.2, parapet_y, eave), ridge_b, ridge_a], Vector3(0, 0.8, sz))
 			for sx: float in [-1.0, 1.0]:
 				mesh.tri("plaster", [Vector3(sx * hw, parapet_y, -front), Vector3(sx * hw, parapet_y, front), Vector3(sx * hw, parapet_y + rise - 0.05, 0)], Vector3(sx, 0, 0))
 			detail.box("gold", Vector3(0, parapet_y + rise + 0.1, 0), Vector3(w + 0.6, 0.2, 0.3))
 			K.finial(detail, Vector3(0, parapet_y + rise + 0.15, 0), 1.1)
 		_:
-			CapitalCastle._hip_roof(mesh, Vector3(0, parapet_y, 0), Vector2(w - 0.4, d - 0.4), 2.1, "roof_blue")
+			CapitalCastle._hip_roof(mesh, Vector3(0, parapet_y, 0), Vector2(w - 0.4, d - 0.4), 2.1, "roof_sage" if sage else "roof_blue")
 			K.finial(detail, Vector3(0, parapet_y + 2.25, 0), 1.0)
 	# the pediment over the front's middle at the roofline: a white triangle with gold edges and the sun medallion
 	if pediment:
@@ -380,11 +388,19 @@ static func statue_plinth(height: float, statue_height: float, final_state: bool
 		mesh.box("marble_shade", Vector3(0.3, height + 0.35, 0.2), Vector3(0.6, 0.5, 0.5), Basis(Vector3.UP, 0.4), 0.05)
 		K.card(mesh, FALLEN_ART, Vector3(0.2, 0.02, base * 0.5 + 1.4), statue_height * 0.6, Vector3(0, 0, 1), false, FALLEN_GOLD)
 	else:
-		K.card(mesh, STATUE_ART, Vector3(0, height + 0.16, 0), statue_height, Vector3(0, 0, 1))
+		statue_cards(mesh, Vector3(0, height + 0.16, 0), statue_height)
 	L.finish(root, mesh, [Vector3(0, 0, base * 0.5)], height + statue_height)
 	root.set_meta("statue", true)
 	L.mark_view(root)
 	return root
+
+
+## The standing gold Primm at `base`: the front card toward +z and, when the side art is in, the side card across it (toward +x; the card is
+## two-sided, so from -x it shows mirrored).
+static func statue_cards(mesh: KitMesh, base: Vector3, height: float) -> void:
+	K.card(mesh, STATUE_ART, base, height, Vector3(0, 0, 1))
+	if EnvKit.has(STATUE_SIDE_ART) and EnvKit.has_art(STATUE_SIDE_ART):
+		K.card(mesh, STATUE_SIDE_ART, base, height, Vector3(1, 0, 0))
 
 
 # ---- the tiered fountain -------------------------------------------------------------------------------------------------------------------
@@ -444,7 +460,7 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 	if final_state:
 		K.card(mesh, FALLEN_ART, Vector3(0.0, 0.42, r2 + 1.0), 2.4, Vector3(0, 0, 1), false, FALLEN_GOLD)
 	else:
-		K.card(mesh, STATUE_ART, Vector3(0, 4.2, 0), statue_h, Vector3(0, 0, 1))
+		statue_cards(mesh, Vector3(0, 4.2, 0), statue_h)
 	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 4.2 + statue_h)
 	root.set_meta("statue", true)
 	L.mark_view(root)
@@ -519,7 +535,7 @@ static func fountain_side(outer: float, final_state: bool) -> Node3D:
 	if final_state:
 		K.card(mesh, FALLEN_ART, Vector3(0.0, 0.38, r2 + 0.9), 2.0, Vector3(0, 0, 1), false, FALLEN_GOLD)
 	else:
-		K.card(mesh, STATUE_ART, Vector3(0, 2.85, 0), statue_h, Vector3(0, 0, 1))
+		statue_cards(mesh, Vector3(0, 2.85, 0), statue_h)
 	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 2.85 + statue_h)
 	root.set_meta("statue", true)
 	L.mark_view(root)
@@ -622,8 +638,14 @@ static func planter_ring(mesh: KitMesh, center: Vector3, radius: float, height: 
 
 ## A gold urn standing at `base` (its foot), `radius` at the bowl: a square plinth, a turned foot, the bowl with a rolled rim (a topiary cone or
 ## a rose stands in it). One lathe and two boxes.
+## Batch 11 (Nov 2): the painted urn (CAP-PROP-GOLD-URN) as two crossed cards when its art is in, its rim at the foot of the cone or rose in it
+## (which is unchanged); the turned gold lathe stays the fallback.
 static func gold_urn(mesh: KitMesh, base: Vector3, radius: float) -> void:
 	mesh.box("marble_shade", base + Vector3(0, 0.05, 0), Vector3(radius * 1.6, 0.1, radius * 1.6), Basis.IDENTITY, 0.01, 0.9)
+	if EnvKit.has(URN_ART) and EnvKit.has_art(URN_ART):
+		for normal: Vector3 in [Vector3(0, 0, 1), Vector3(1, 0, 0)]:
+			K.card(mesh, URN_ART, base + Vector3(0, 0.1, 0), radius * URN_HEIGHT, normal)
+		return
 	mesh.lathe("gold", base + Vector3(0, 0.1, 0), [Vector2(radius * 0.45, 0.0), Vector2(radius * 0.3, 0.12), Vector2(radius * 0.32, 0.22), Vector2(radius * 0.8, 0.38), Vector2(radius, 0.5), Vector2(radius * 1.08, 0.56), Vector2(radius * 0.9, 0.6)], 10, 1.0, false, true)
 	mesh.lathe("loam", base + Vector3(0, 0.68, 0), [Vector2(radius * 0.86, 0.0), Vector2(0.0, 0.02)], 10, 1.0, false, false)
 

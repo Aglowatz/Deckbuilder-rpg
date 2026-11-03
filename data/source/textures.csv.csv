@@ -63,6 +63,9 @@ TEX-CAP-WHITEWALL,White-and-gold wall,The Capital,Wall material,"City walls, fac
 PRIMM'S CASTLE GROUNDS,,,,,,,,,
 TEX-CASTLE-MARBLE,White palace marble,Primm's Castle,Ground (interior),Castle courtyard and halls (3D areas).,Gleaming white with gold veins,"1024x1024 PNG, tileable","Gleaming polished white marble with fine gold veins, flawless and cold.",,Needed
 TEX-CASTLE-PARQUET,Gold parquet,Primm's Castle,Ground (interior),Throne halls and galleries.,Honey gold and white,"1024x1024 PNG, tileable","Ornate parquet floor in a herringbone pattern of honey-gold and pale wood, highly polished.",,Needed
+TEX-CREASE-BRICK,Crease brick,The Capital (the Crease),Wall (interior),"The Crease hideout walls under the Capital (Batch 11).",Dark red brick gone grey-green with damp,"1024x1024 PNG, tileable","Old dark-red brick gone grey-green with damp, mortar crumbling, a few chalk marks.",docs/art/art_needed_nov2.csv,Approved
+TEX-DNA-LOBBY-FLOOR,Lobby terrazzo,The D.N.A.,Ground (interior),"The D.N.A. lobby floor (Batch 11).",Pale green-grey terrazzo with a brass inlay,"1024x1024 PNG, tileable","Pale green-grey terrazzo with dark flecks, hairline cracks, a yellowed wax sheen, one brass inlay line.",docs/art/art_needed_nov2.csv,Approved
+TEX-CAP-ROOF-SLATE,Sage slate roof,The Capital (inside),Roof,"The sage townhouse roofs inside the walls (Batch 11).",Sage green slate with soft gold edges,"1024x1024 PNG, tileable","Small sage-green slate tiles with soft gold edges in neat rows, slight colour variation per tile.",docs/art/art_needed_nov2.csv,Approved
 DECALS (all zones),,,,,,,,,
 DEC-MOSS,Moss patch,All zones,Decal,"On stones, walls, roofs, ground.",Velvety greens,"1024x1024 PNG, transparent","An irregular patch of velvety green moss with soft, fading edges.",,Needed
 DEC-CRACKS,Cracks,All zones,Decal,"On stone, walls, roads.",Dark gray,"1024x1024 PNG, transparent",A spidering pattern of dark hairline cracks radiating from a center point.,,Needed

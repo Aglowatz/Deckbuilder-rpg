@@ -53,3 +53,7 @@ CAPI-DEC-LOST-PROPERTY,"Lost-property posters",Cutout sheet,SHEET,"See docs/art/
 CAPI-SHEET-RIFTS,"Rifts",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Rift Fields, the Transit Yards",2,Approved
 CAPI-PROP-PRIMM-STATUE,"Gold Primm statue",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The Showcase Quarter",2,Approved
 CAPI-PROP-STATUE-FALLEN,"Fallen Primm statue",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1024 PNG, transparent","The Showcase Quarter after Primm falls",2,Approved
+CAP-SHEET-CREASE,The Crease hideout props,Cutout sheet,SHEET,"See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.","2048x1365 PNG, transparent",Sliced into six Crease props,1,Approved
+CAP-BD-PALACE,The palace skyline from the Gate Road,Sky / backdrop,BACKDROP,See docs/art/art_needed_nov2.csv (Batch 11).,"2048x1024 PNG, transparent sky",Gate Road / outside the wall backdrop,1,Approved
+CAP-PROP-PRIMM-STATUE-SIDE,"Gold Primm statue, side view",Prop,CUTOUT,See docs/art/art_needed_nov2.csv (Batch 11).,"1024x1536 PNG, transparent",Statues seen from the side plazas,2,Approved
+CAP-PROP-GOLD-URN,Gold urn (no topiary),Prop,CUTOUT,See docs/art/art_needed_nov2.csv (Batch 11).,"1024x1536 PNG, transparent",Under the planters' roses,2,Approved

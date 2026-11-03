@@ -1,5 +1,5 @@
 {
-	"_about": "Written by tools/import_zone_kit.gd from data/source/final_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Capital: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/final/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"_about": "Written by tools/import_zone_kit.gd from data/source/final_kit.csv and the art in C:/Dev/Deckbuilder-rpg/_art_inbox/batch11/Approved_ZoneKits/Capital: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/final/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
 	"density": 400.0,
 	"items": {
 		"CAP-BD-CITY": {
@@ -29,6 +29,35 @@
 			"tinted": false,
 			"transparent": true,
 			"use": "Distant backdrop inside",
+			"zone": "final"
+		},
+		"CAP-BD-PALACE": {
+			"aspect": 2.214,
+			"asset": "The palace skyline from the Gate Road",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "CAP-BD-PALACE",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				2048,
+				925
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent sky",
+			"slot": "backdrop.cap-bd-palace",
+			"tinted": false,
+			"transparent": true,
+			"use": "Gate Road / outside the wall backdrop",
 			"zone": "final"
 		},
 		"CAP-BD-WASTELAND": {
@@ -602,6 +631,35 @@
 			"use": "Resistance camp",
 			"zone": "final"
 		},
+		"CAP-PROP-GOLD-URN": {
+			"aspect": 0.764,
+			"asset": "Gold urn (no topiary)",
+			"category": "Prop",
+			"cleared_alpha": 25079,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "CAP-PROP-GOLD-URN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				979,
+				1281
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.cap-prop-gold-urn",
+			"tinted": false,
+			"use": "Under the planters' roses",
+			"zone": "final"
+		},
 		"CAP-PROP-LAMP": {
 			"aspect": 0.205,
 			"asset": "Identical lamppost",
@@ -629,6 +687,35 @@
 			"slot": "prop.cap-prop-lamp",
 			"tinted": false,
 			"use": "Inside streets",
+			"zone": "final"
+		},
+		"CAP-PROP-PRIMM-STATUE-SIDE": {
+			"aspect": 0.56,
+			"asset": "Gold Primm statue, side view",
+			"category": "Prop",
+			"cleared_alpha": 21577,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "CAP-PROP-PRIMM-STATUE-SIDE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				838,
+				1496
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.cap-prop-primm-statue-side",
+			"tinted": false,
+			"use": "Statues seen from the side plazas",
 			"zone": "final"
 		},
 		"CAP-PROP-TRAM": {
@@ -998,6 +1085,241 @@
 			"slot": "banner.cap-sheet-banners-06",
 			"tinted": false,
 			"use": "Sliced into banners",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE": {
+			"asset": "The Crease hideout props",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE",
+			"lock": "SHEET",
+			"parts": [
+				"CAP-SHEET-CREASE-01",
+				"CAP-SHEET-CREASE-02",
+				"CAP-SHEET-CREASE-03",
+				"CAP-SHEET-CREASE-04",
+				"CAP-SHEET-CREASE-05",
+				"CAP-SHEET-CREASE-06"
+			],
+			"priority": "1",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "prop.cap-sheet-crease",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-01": {
+			"aspect": 0.56,
+			"asset": "The Crease hideout props 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 17928,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				294,
+				525
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				294,
+				525
+			],
+			"sheet_cell": [
+				200,
+				67,
+				294,
+				525
+			],
+			"slot": "prop.cap-sheet-crease-01",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-02": {
+			"aspect": 1.242,
+			"asset": "The Crease hideout props 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 26962,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				503,
+				405
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				503,
+				405
+			],
+			"sheet_cell": [
+				758,
+				172,
+				503,
+				405
+			],
+			"slot": "prop.cap-sheet-crease-02",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-03": {
+			"aspect": 1.101,
+			"asset": "The Crease hideout props 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 32578,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				521,
+				473
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				521,
+				473
+			],
+			"sheet_cell": [
+				1434,
+				110,
+				521,
+				473
+			],
+			"slot": "prop.cap-sheet-crease-03",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-04": {
+			"aspect": 1.83,
+			"asset": "The Crease hideout props 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9681,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				571,
+				312
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				571,
+				312
+			],
+			"sheet_cell": [
+				70,
+				892,
+				571,
+				312
+			],
+			"slot": "prop.cap-sheet-crease-04",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-05": {
+			"aspect": 0.743,
+			"asset": "The Crease hideout props 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 10344,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				385,
+				518
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				385,
+				518
+			],
+			"sheet_cell": [
+				747,
+				753,
+				385,
+				518
+			],
+			"slot": "prop.cap-sheet-crease-05",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
+			"zone": "final"
+		},
+		"CAP-SHEET-CREASE-06": {
+			"aspect": 0.552,
+			"asset": "The Crease hideout props 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 33997,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): tea urn, map table with the true records, ladder + manhole, bunks, Fig Sly's crate stall, lanterns.",
+			"from_px": [
+				294,
+				533
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-CREASE-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "CAP-SHEET-CREASE",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				294,
+				533
+			],
+			"sheet_cell": [
+				1540,
+				750,
+				294,
+				533
+			],
+			"slot": "prop.cap-sheet-crease-06",
+			"tinted": false,
+			"use": "Sliced into six Crease props",
 			"zone": "final"
 		},
 		"CAP-SHEET-DOORS": {
@@ -2359,8 +2681,8 @@
 			"category": "Sky / backdrop",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAPI-BD-CASTLE",
@@ -2371,8 +2693,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				868
+				2048.0,
+				868.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG strip, transparent sky",
@@ -2388,8 +2710,8 @@
 			"category": "Sky / backdrop",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "CAPI-BD-GREAT-WALL",
@@ -2400,8 +2722,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				653
+				2048.0,
+				653.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG strip, transparent sky",
@@ -2416,8 +2738,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY",
@@ -2432,8 +2754,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -2446,15 +2768,15 @@
 			"aspect": 0.801,
 			"asset": "Lost-property posters 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 8382,
+			"cleared_alpha": 8382.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				426,
-				532
+				426.0,
+				532.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2462,14 +2784,14 @@
 				1.0
 			],
 			"px": [
-				426,
-				532
+				426.0,
+				532.0
 			],
 			"sheet_cell": [
-				128,
-				75,
-				426,
-				532
+				128.0,
+				75.0,
+				426.0,
+				532.0
 			],
 			"slot": "prop.capi-dec-lost-property-01",
 			"tinted": false,
@@ -2480,15 +2802,15 @@
 			"aspect": 0.784,
 			"asset": "Lost-property posters 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4952,
+			"cleared_alpha": 4952.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				417,
-				532
+				417.0,
+				532.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2496,14 +2818,14 @@
 				1.0
 			],
 			"px": [
-				417,
-				532
+				417.0,
+				532.0
 			],
 			"sheet_cell": [
-				816,
-				75,
-				417,
-				532
+				816.0,
+				75.0,
+				417.0,
+				532.0
 			],
 			"slot": "prop.capi-dec-lost-property-02",
 			"tinted": false,
@@ -2514,15 +2836,15 @@
 			"aspect": 0.787,
 			"asset": "Lost-property posters 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6602,
+			"cleared_alpha": 6602.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				418,
-				531
+				418.0,
+				531.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2530,14 +2852,14 @@
 				1.0
 			],
 			"px": [
-				418,
-				531
+				418.0,
+				531.0
 			],
 			"sheet_cell": [
-				1498,
-				76,
-				418,
-				531
+				1498.0,
+				76.0,
+				418.0,
+				531.0
 			],
 			"slot": "prop.capi-dec-lost-property-03",
 			"tinted": false,
@@ -2548,15 +2870,15 @@
 			"aspect": 0.772,
 			"asset": "Lost-property posters 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 7523,
+			"cleared_alpha": 7523.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				404,
-				523
+				404.0,
+				523.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2564,14 +2886,14 @@
 				1.0
 			],
 			"px": [
-				404,
-				523
+				404.0,
+				523.0
 			],
 			"sheet_cell": [
-				139,
-				762,
-				404,
-				523
+				139.0,
+				762.0,
+				404.0,
+				523.0
 			],
 			"slot": "prop.capi-dec-lost-property-04",
 			"tinted": false,
@@ -2582,15 +2904,15 @@
 			"aspect": 0.825,
 			"asset": "Lost-property posters 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 8421,
+			"cleared_alpha": 8421.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				411,
-				498
+				411.0,
+				498.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2598,14 +2920,14 @@
 				1.0
 			],
 			"px": [
-				411,
-				498
+				411.0,
+				498.0
 			],
 			"sheet_cell": [
-				818,
-				775,
-				411,
-				498
+				818.0,
+				775.0,
+				411.0,
+				498.0
 			],
 			"slot": "prop.capi-dec-lost-property-05",
 			"tinted": false,
@@ -2616,15 +2938,15 @@
 			"aspect": 0.822,
 			"asset": "Lost-property posters 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 7327,
+			"cleared_alpha": 7327.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				398,
-				484
+				398.0,
+				484.0
 			],
 			"group": "prop",
 			"id": "CAPI-DEC-LOST-PROPERTY-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-DEC-LOST-PROPERTY",
 			"pivot": [
@@ -2632,14 +2954,14 @@
 				1.0
 			],
 			"px": [
-				398,
-				484
+				398.0,
+				484.0
 			],
 			"sheet_cell": [
-				1508,
-				782,
-				398,
-				484
+				1508.0,
+				782.0,
+				398.0,
+				484.0
 			],
 			"slot": "prop.capi-dec-lost-property-06",
 			"tinted": false,
@@ -2650,11 +2972,11 @@
 			"aspect": 0.52,
 			"asset": "Gold Primm statue",
 			"category": "Prop",
-			"cleared_alpha": 17392,
+			"cleared_alpha": 17392.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				1024,
-				1536
+				1024.0,
+				1536.0
 			],
 			"group": "prop",
 			"id": "CAPI-PROP-PRIMM-STATUE",
@@ -2665,8 +2987,8 @@
 			],
 			"priority": "2",
 			"px": [
-				785,
-				1509
+				785.0,
+				1509.0
 			],
 			"sheet_status": "Approved",
 			"size": "1024x1536 PNG, transparent",
@@ -2679,11 +3001,11 @@
 			"aspect": 2.036,
 			"asset": "Fallen Primm statue",
 			"category": "Prop",
-			"cleared_alpha": 22069,
+			"cleared_alpha": 22069.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "prop",
 			"id": "CAPI-PROP-STATUE-FALLEN",
@@ -2694,8 +3016,8 @@
 			],
 			"priority": "2",
 			"px": [
-				1523,
-				748
+				1523.0,
+				748.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG, transparent",
@@ -2709,8 +3031,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS",
@@ -2725,8 +3047,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -2739,15 +3061,15 @@
 			"aspect": 0.604,
 			"asset": "Rifts 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 9585,
+			"cleared_alpha": 9585.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				204,
-				338
+				204.0,
+				338.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2755,14 +3077,14 @@
 				0.412
 			],
 			"px": [
-				204,
-				338
+				204.0,
+				338.0
 			],
 			"sheet_cell": [
-				239,
-				173,
-				204,
-				338
+				239.0,
+				173.0,
+				204.0,
+				338.0
 			],
 			"slot": "sign.capi-sheet-rifts-01",
 			"tinted": false,
@@ -2773,15 +3095,15 @@
 			"aspect": 0.686,
 			"asset": "Rifts 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 15112,
+			"cleared_alpha": 15112.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				313,
-				456
+				313.0,
+				456.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2789,14 +3111,14 @@
 				0.385
 			],
 			"px": [
-				313,
-				456
+				313.0,
+				456.0
 			],
 			"sheet_cell": [
-				868,
-				114,
-				313,
-				456
+				868.0,
+				114.0,
+				313.0,
+				456.0
 			],
 			"slot": "sign.capi-sheet-rifts-02",
 			"tinted": false,
@@ -2807,15 +3129,15 @@
 			"aspect": 0.735,
 			"asset": "Rifts 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 18531,
+			"cleared_alpha": 18531.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				391,
-				532
+				391.0,
+				532.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2823,14 +3145,14 @@
 				0.446
 			],
 			"px": [
-				391,
-				532
+				391.0,
+				532.0
 			],
 			"sheet_cell": [
-				1511,
-				75,
-				391,
-				532
+				1511.0,
+				75.0,
+				391.0,
+				532.0
 			],
 			"slot": "sign.capi-sheet-rifts-03",
 			"tinted": false,
@@ -2841,15 +3163,15 @@
 			"aspect": 0.928,
 			"asset": "Rifts 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 3198,
+			"cleared_alpha": 3198.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				220,
-				237
+				220.0,
+				237.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2857,14 +3179,14 @@
 				0.453
 			],
 			"px": [
-				220,
-				237
+				220.0,
+				237.0
 			],
 			"sheet_cell": [
-				231,
-				905,
-				220,
-				237
+				231.0,
+				905.0,
+				220.0,
+				237.0
 			],
 			"slot": "sign.capi-sheet-rifts-04",
 			"tinted": false,
@@ -2875,15 +3197,15 @@
 			"aspect": 0.959,
 			"asset": "Rifts 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4341,
+			"cleared_alpha": 4341.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				280,
-				292
+				280.0,
+				292.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2891,14 +3213,14 @@
 				0.425
 			],
 			"px": [
-				280,
-				292
+				280.0,
+				292.0
 			],
 			"sheet_cell": [
-				884,
-				878,
-				280,
-				292
+				884.0,
+				878.0,
+				280.0,
+				292.0
 			],
 			"slot": "sign.capi-sheet-rifts-05",
 			"tinted": false,
@@ -2909,15 +3231,15 @@
 			"aspect": 1.053,
 			"asset": "Rifts 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6596,
+			"cleared_alpha": 6596.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				356,
-				338
+				356.0,
+				338.0
 			],
 			"group": "sign",
 			"id": "CAPI-SHEET-RIFTS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "CAPI-SHEET-RIFTS",
 			"pivot": [
@@ -2925,14 +3247,14 @@
 				0.523
 			],
 			"px": [
-				356,
-				338
+				356.0,
+				338.0
 			],
 			"sheet_cell": [
-				1529,
-				855,
-				356,
-				338
+				1529.0,
+				855.0,
+				356.0,
+				338.0
 			],
 			"slot": "sign.capi-sheet-rifts-06",
 			"tinted": false,

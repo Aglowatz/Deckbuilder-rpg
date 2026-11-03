@@ -176,3 +176,26 @@ away - inbox 5). Every other cutscene beat and all ten epilogue beats have a sti
 Contact sheets through the real CutsceneScreen / EndingScreen (`Godot --path . --resolution 1600x900 res://tools/beat_shots.tscn`, out
 `_screenshots/beats/`): every wired beat (66) `docs/art/batch11/p3_every_wired_beat.jpg` (order in `p3_every_wired_beat.txt`), and one cell
 per Batch 11 still `p3_batch11_beats.jpg`. (The TOGETHER cell is caught mid gold flash of the `unite` effect, which fades.)
+
+## Part 4 - World pieces
+
+| Piece | Imported with | Wired | Shot |
+|---|---|---|---|
+| N-10 Push Broom of Undeath | `import_art.sh` (+ `card_thumbs.js`; it also made 28 thumbnails earlier imports skipped) | the card's art | - |
+| BB-LIEUTENANT-QUOTA | `import_battleboards.sh` (row in battleboard_list) | context `lieutenant:quota` (data/battleboards.json) for `Session.make_quota_yards_battle`; her music stays the facade battle song (`MusicDirector._capital_battle`) | - |
+| COS-HAT-LEAFCROWN-SHEET | `world_test_import.gd --cosmetics --cos_inbox=` with only this sheet (Bowler / Tricorn / Wide-Brim not re-imported) | refit in `hats/fit.json`: a whole ring now, no `behind_*` keys, sinks FRONT .65 / FRONTSIDE .45 / SIDE .40 / BACKSIDE .80 / BACK .89 (eyes clear in profile, hair clear from behind, no horns); `SpriteCosmetics.HELD_HATS` empty - **back in Threadwell's shop** | p4_leafcrown_after.jpg (contact sheet, world + preview, idle + walk), p4_leafcrown_tryon.jpg, p4_leafcrown_first_fit.jpg (the halo before the refit), fit table |
+| TEX-CREASE-BRICK | `import_textures.sh --only=` (rows in textures.csv) | the Crease's four walls (`CapitalBuilder`, PaintedTriplanar, world-space 2.6 m tile; flat colour fallback) | p4_crease_before_after.jpg, p4_crease_wide.jpg |
+| CAP-SHEET-CREASE (six props) | `import_zone_kit.sh final --only=` | `CapitalProps._crease_painted`: tea urn (Hesper's heal spot) 1.7 m, records / map tables 1.6, Fig Sly's stall 2.6, bedrolls 0.75 (both cots), lantern columns 3.4 (keep their light), ladder up to the manhole 4.0; spots, anchors and blockers unchanged; the code boxes stay the fallback | same |
+| TEX-DNA-CARPET | textures (replaces the old dna_carpet; backup in superseded_batch11/textures) | the offices' carpet variant (already wired) | - |
+| TEX-DNA-LOBBY-FLOOR | textures | new `lobby` mask (PaintedContexts.dna) + a terrazzo layer under the checker inlay in the `tile` variant: the lobby only; the mail room / elevator bank keep the marble | p4_lobby_terrazzo_vs_mail_marble.jpg |
+| DNA-SHEET-LOBBY (six props) | `import_zone_kit.sh dna --only=` | `DnaDressing._lobby_props` after the ghost queue: chairs + ashtray + plant on the west / south-west wall, notice board by the south wall, vending machine on the east wall, TAKE A NUMBER by the counter; each on a `_free` spot (the middle 5.5 m stays open, talk spots clear, the queue keeps its place) | p4_lobby_before_after.jpg |
+| CAP-PROP-PRIMM-STATUE-SIDE | zone kit final | `CapitalGrand.statue_cards`: every standing gilded statue (plinths, both fountains) is the front card + the side card crossed, so from the side plazas / cross streets it reads as a statue | p4_statue_side_view.jpg, p4_statue_front_urns.jpg |
+| CAP-PROP-GOLD-URN | zone kit final | `CapitalGrand.gold_urn`: two crossed painted cards (2.0 x the bowl radius, rim at the cone's foot) under every planter cone / rose; the turned lathe is the fallback | p4_statue_front_urns.jpg |
+| TEX-CAP-ROOF-SLATE | textures | new `roof_sage` slot (`CapitalKit.roof_slate`): every sage-accent townhouse roof (the Reek's district houses, the skyline's sage houses); townhouse geometry cache key v2 | not seen from the shot cameras (see inbox) |
+| CAP-PATH-WHITE (re-upload) | zone kit final (backup of the old albedo / normal / roughness) | already the `road_white` surface | - |
+| CAP-BD-PALACE | zone kit final | the outskirts look's north kit card (`zone_looks.json` capital_outskirts, was CAP-BD-WASTELAND @0) | p4_gate_road.jpg - **not visible at play cameras** (inbox) |
+| BUF-PROP-SALT-SHAKER | zone kit buffet | `BuffetLandmarks.entrance_bridge`: the side posts (1.7 m), the gate pair (3.8 m, keep lanterns / sign / bunting) and the far landing's pair (2.9 m) are crossed salt-shaker cards; the white meringue lathes are the fallback (the river landing stages keep theirs) | p4_buffet_salt_shakers.jpg |
+
+Manifests: the importers rewrite their manifests from the narrowed source; `node tools/merge_import_manifest.js <manifest>` now keeps HEAD's
+order and HEAD's row wherever the run wrote MISSING. The zone kit registries (final / dna / buffet .json) lost nothing (18 new entries; the
+rest of their diff is Godot's number formatting).

@@ -25,7 +25,7 @@ TEX-GAIN-CHALKDIRT,gain_chalkdirt,texture,TEX-GAIN-CHALKDIRT.png,ok,1.32,1.18
 TEX-GAIN-GYMMAT,gain_gymmat,texture,TEX-GAIN-GYMMAT.png,ok,1.73,0.93
 TEX-GAIN-HAY,gain_hay,texture,TEX-GAIN-HAY.png,ok,1.48,1.07
 TEX-GAIN-ISLANDROCK,gain_islandrock,texture,TEX-GAIN-ISLANDROCK.png,ok,1.53,1.12
-TEX-DNA-CARPET,dna_carpet,texture,TEX-DNA-CARPET.png,ok,1.40,1.19
+TEX-DNA-CARPET,dna_carpet,texture,TEX-DNA-CARPET.png,ok,0.00,1.19
 TEX-DNA-MARBLE,dna_marble,texture,TEX-DNA-MARBLE.png,ok,1.88,1.16
 TEX-DNA-LINOLEUM,dna_linoleum,texture,TEX-DNA-LINOLEUM.png,ok,1.56,0.95
 TEX-DNA-CHECKERTILE,dna_checkertile,texture,TEX-DNA-CHECKERTILE.png,ok,15.44,6.82
@@ -64,3 +64,6 @@ DEC-ECTOPLASM,ectoplasm,decal,DEC-ECTOPLASM.png,ok,,
 DEC-CRUMBS,crumbs,decal,DEC-CRUMBS.png,ok,,
 DEC-SAUCE,sauce,decal,DEC-SAUCE.png,ok,,
 DEC-RIFT,rift,decal,DEC-RIFT.png,ok,,
+TEX-CREASE-BRICK,crease_brick,texture,TEX-CREASE-BRICK.png,ok,0.00,0.84
+TEX-DNA-LOBBY-FLOOR,dna_lobby_floor,texture,TEX-DNA-LOBBY-FLOOR.png,ok,0.00,1.34
+TEX-CAP-ROOF-SLATE,cap_roof_slate,texture,TEX-CAP-ROOF-SLATE.png,ok,0.00,1.06

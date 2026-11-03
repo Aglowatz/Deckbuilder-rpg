@@ -1,5 +1,5 @@
 {
-	"_about": "Written by tools/import_zone_kit.gd from data/source/dna_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/DNA: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/dna/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"_about": "Written by tools/import_zone_kit.gd from data/source/dna_kit.csv and the art in C:/Dev/Deckbuilder-rpg/_art_inbox/batch11/Approved_ZoneKits/DNA: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/dna/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
 	"density": 400.0,
 	"items": {
 		"DEC-ECTOPLASM": {
@@ -46,8 +46,8 @@
 			"category": "Sky / backdrop",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "DNA-BD-HALL-FACADE",
@@ -58,8 +58,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				814
+				2048.0,
+				814.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG strip, transparent sky",
@@ -161,8 +161,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS",
@@ -177,8 +177,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -191,15 +191,15 @@
 			"aspect": 0.836,
 			"asset": "Forms and stamps 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 863,
+			"cleared_alpha": 863.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				377,
-				451
+				377.0,
+				451.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -207,14 +207,14 @@
 				0.488
 			],
 			"px": [
-				377,
-				451
+				377.0,
+				451.0
 			],
 			"sheet_cell": [
-				153,
-				115,
-				377,
-				451
+				153.0,
+				115.0,
+				377.0,
+				451.0
 			],
 			"slot": "sign.dna-dec-forms-01",
 			"tinted": false,
@@ -225,15 +225,15 @@
 			"aspect": 1.434,
 			"asset": "Forms and stamps 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 20550,
+			"cleared_alpha": 20550.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				532,
-				371
+				532.0,
+				371.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -241,14 +241,14 @@
 				0.38
 			],
 			"px": [
-				532,
-				371
+				532.0,
+				371.0
 			],
 			"sheet_cell": [
-				758,
-				156,
-				532,
-				371
+				758.0,
+				156.0,
+				532.0,
+				371.0
 			],
 			"slot": "sign.dna-dec-forms-02",
 			"tinted": false,
@@ -259,15 +259,15 @@
 			"aspect": 1.184,
 			"asset": "Forms and stamps 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 30304,
+			"cleared_alpha": 30304.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				490,
-				414
+				490.0,
+				414.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -275,14 +275,14 @@
 				0.735
 			],
 			"px": [
-				490,
-				414
+				490.0,
+				414.0
 			],
 			"sheet_cell": [
-				1462,
-				134,
-				490,
-				414
+				1462.0,
+				134.0,
+				490.0,
+				414.0
 			],
 			"slot": "sign.dna-dec-forms-03",
 			"tinted": false,
@@ -293,15 +293,15 @@
 			"aspect": 1.017,
 			"asset": "Forms and stamps 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 22778,
+			"cleared_alpha": 22778.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				474,
-				466
+				474.0,
+				466.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -309,14 +309,14 @@
 				0.425
 			],
 			"px": [
-				474,
-				466
+				474.0,
+				466.0
 			],
 			"sheet_cell": [
-				104,
-				791,
-				474,
-				466
+				104.0,
+				791.0,
+				474.0,
+				466.0
 			],
 			"slot": "sign.dna-dec-forms-04",
 			"tinted": false,
@@ -327,15 +327,15 @@
 			"aspect": 1.804,
 			"asset": "Forms and stamps 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2724,
+			"cleared_alpha": 2724.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				487,
-				270
+				487.0,
+				270.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -343,14 +343,14 @@
 				0.482
 			],
 			"px": [
-				487,
-				270
+				487.0,
+				270.0
 			],
 			"sheet_cell": [
-				780,
-				889,
-				487,
-				270
+				780.0,
+				889.0,
+				487.0,
+				270.0
 			],
 			"slot": "sign.dna-dec-forms-05",
 			"tinted": false,
@@ -361,15 +361,15 @@
 			"aspect": 1.081,
 			"asset": "Forms and stamps 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 24876,
+			"cleared_alpha": 24876.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				468,
-				433
+				468.0,
+				433.0
 			],
 			"group": "sign",
 			"id": "DNA-DEC-FORMS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-DEC-FORMS",
 			"pivot": [
@@ -377,14 +377,14 @@
 				0.516
 			],
 			"px": [
-				468,
-				433
+				468.0,
+				433.0
 			],
 			"sheet_cell": [
-				1473,
-				807,
-				468,
-				433
+				1473.0,
+				807.0,
+				468.0,
+				433.0
 			],
 			"slot": "sign.dna-dec-forms-06",
 			"tinted": false,
@@ -1254,8 +1254,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS",
@@ -1270,8 +1270,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1284,15 +1284,15 @@
 			"aspect": 0.847,
 			"asset": "Filing-cabinet towers 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 3821,
+			"cleared_alpha": 3821.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				371,
-				438
+				371.0,
+				438.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1300,14 +1300,14 @@
 				1.0
 			],
 			"px": [
-				371,
-				438
+				371.0,
+				438.0
 			],
 			"sheet_cell": [
-				171,
-				209,
-				371,
-				438
+				171.0,
+				209.0,
+				371.0,
+				438.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-01",
 			"tinted": false,
@@ -1318,15 +1318,15 @@
 			"aspect": 0.63,
 			"asset": "Filing-cabinet towers 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4264,
+			"cleared_alpha": 4264.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				347,
-				551
+				347.0,
+				551.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1334,14 +1334,14 @@
 				1.0
 			],
 			"px": [
-				347,
-				551
+				347.0,
+				551.0
 			],
 			"sheet_cell": [
-				853,
-				104,
-				347,
-				551
+				853.0,
+				104.0,
+				347.0,
+				551.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-02",
 			"tinted": false,
@@ -1352,15 +1352,15 @@
 			"aspect": 0.612,
 			"asset": "Filing-cabinet towers 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6736,
+			"cleared_alpha": 6736.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				399,
-				652
+				399.0,
+				652.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1368,14 +1368,14 @@
 				1.0
 			],
 			"px": [
-				399,
-				652
+				399.0,
+				652.0
 			],
 			"sheet_cell": [
-				1504,
-				25,
-				399,
-				652
+				1504.0,
+				25.0,
+				399.0,
+				652.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-03",
 			"tinted": false,
@@ -1386,15 +1386,15 @@
 			"aspect": 0.816,
 			"asset": "Filing-cabinet towers 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 1584,
+			"cleared_alpha": 1584.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				307,
-				376
+				307.0,
+				376.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1402,14 +1402,14 @@
 				1.0
 			],
 			"px": [
-				307,
-				376
+				307.0,
+				376.0
 			],
 			"sheet_cell": [
-				283,
-				853,
-				307,
-				376
+				283.0,
+				853.0,
+				307.0,
+				376.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-04",
 			"tinted": false,
@@ -1420,15 +1420,15 @@
 			"aspect": 0.942,
 			"asset": "Filing-cabinet towers 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2104,
+			"cleared_alpha": 2104.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				358,
-				380
+				358.0,
+				380.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1436,14 +1436,14 @@
 				1.0
 			],
 			"px": [
-				358,
-				380
+				358.0,
+				380.0
 			],
 			"sheet_cell": [
-				927,
-				850,
-				358,
-				380
+				927.0,
+				850.0,
+				358.0,
+				380.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-05",
 			"tinted": false,
@@ -1454,15 +1454,15 @@
 			"aspect": 0.818,
 			"asset": "Filing-cabinet towers 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 1392,
+			"cleared_alpha": 1392.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				311,
-				380
+				311.0,
+				380.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-FILING-TOWERS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-FILING-TOWERS",
 			"pivot": [
@@ -1470,14 +1470,14 @@
 				1.0
 			],
 			"px": [
-				311,
-				380
+				311.0,
+				380.0
 			],
 			"sheet_cell": [
-				1594,
-				850,
-				311,
-				380
+				1594.0,
+				850.0,
+				311.0,
+				380.0
 			],
 			"slot": "prop.dna-sheet-filing-towers-06",
 			"tinted": false,
@@ -1489,8 +1489,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE",
@@ -1505,8 +1505,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1519,15 +1519,15 @@
 			"aspect": 0.641,
 			"asset": "Queue of ghosts 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2010,
+			"cleared_alpha": 2010.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				296,
-				462
+				296.0,
+				462.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1535,14 +1535,14 @@
 				0.484
 			],
 			"px": [
-				296,
-				462
+				296.0,
+				462.0
 			],
 			"sheet_cell": [
-				213,
-				106,
-				296,
-				462
+				213.0,
+				106.0,
+				296.0,
+				462.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-01",
 			"tinted": false,
@@ -1553,15 +1553,15 @@
 			"aspect": 0.481,
 			"asset": "Queue of ghosts 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 1878,
+			"cleared_alpha": 1878.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				229,
-				476
+				229.0,
+				476.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1569,14 +1569,14 @@
 				0.581
 			],
 			"px": [
-				229,
-				476
+				229.0,
+				476.0
 			],
 			"sheet_cell": [
-				884,
-				100,
-				229,
-				476
+				884.0,
+				100.0,
+				229.0,
+				476.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-02",
 			"tinted": false,
@@ -1587,15 +1587,15 @@
 			"aspect": 0.554,
 			"asset": "Queue of ghosts 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2561,
+			"cleared_alpha": 2561.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				268,
-				484
+				268.0,
+				484.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1603,14 +1603,14 @@
 				0.52
 			],
 			"px": [
-				268,
-				484
+				268.0,
+				484.0
 			],
 			"sheet_cell": [
-				1536,
-				91,
-				268,
-				484
+				1536.0,
+				91.0,
+				268.0,
+				484.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-03",
 			"tinted": false,
@@ -1621,15 +1621,15 @@
 			"aspect": 0.619,
 			"asset": "Queue of ghosts 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2000,
+			"cleared_alpha": 2000.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				299,
-				483
+				299.0,
+				483.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1637,14 +1637,14 @@
 				0.562
 			],
 			"px": [
-				299,
-				483
+				299.0,
+				483.0
 			],
 			"sheet_cell": [
-				204,
-				756,
-				299,
-				483
+				204.0,
+				756.0,
+				299.0,
+				483.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-04",
 			"tinted": false,
@@ -1655,15 +1655,15 @@
 			"aspect": 0.61,
 			"asset": "Queue of ghosts 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 1223,
+			"cleared_alpha": 1223.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				288,
-				472
+				288.0,
+				472.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1671,14 +1671,14 @@
 				0.542
 			],
 			"px": [
-				288,
-				472
+				288.0,
+				472.0
 			],
 			"sheet_cell": [
-				851,
-				763,
-				288,
-				472
+				851.0,
+				763.0,
+				288.0,
+				472.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-05",
 			"tinted": false,
@@ -1689,15 +1689,15 @@
 			"aspect": 0.594,
 			"asset": "Queue of ghosts 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2239,
+			"cleared_alpha": 2239.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				284,
-				478
+				284.0,
+				478.0
 			],
 			"group": "sign",
 			"id": "DNA-SHEET-GHOST-QUEUE-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-GHOST-QUEUE",
 			"pivot": [
@@ -1705,18 +1705,253 @@
 				0.522
 			],
 			"px": [
-				284,
-				478
+				284.0,
+				478.0
 			],
 			"sheet_cell": [
-				1540,
-				762,
-				284,
-				478
+				1540.0,
+				762.0,
+				284.0,
+				478.0
 			],
 			"slot": "sign.dna-sheet-ghost-queue-06",
 			"tinted": false,
 			"use": "The Queue, the lobby",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY": {
+			"asset": "D.N.A. lobby dressing",
+			"category": "Cutout sheet",
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY",
+			"lock": "SHEET",
+			"parts": [
+				"DNA-SHEET-LOBBY-01",
+				"DNA-SHEET-LOBBY-02",
+				"DNA-SHEET-LOBBY-03",
+				"DNA-SHEET-LOBBY-04",
+				"DNA-SHEET-LOBBY-05",
+				"DNA-SHEET-LOBBY-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "prop.dna-sheet-lobby",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-01": {
+			"aspect": 1.66,
+			"asset": "D.N.A. lobby dressing 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 26884,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				551,
+				332
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				551,
+				332
+			],
+			"sheet_cell": [
+				90,
+				227,
+				551,
+				332
+			],
+			"slot": "prop.dna-sheet-lobby-01",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-02": {
+			"aspect": 0.416,
+			"asset": "D.N.A. lobby dressing 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 18884,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				220,
+				529
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				220,
+				529
+			],
+			"sheet_cell": [
+				919,
+				79,
+				220,
+				529
+			],
+			"slot": "prop.dna-sheet-lobby-02",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-03": {
+			"aspect": 0.677,
+			"asset": "D.N.A. lobby dressing 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 27239,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				350,
+				517
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				350,
+				517
+			],
+			"sheet_cell": [
+				1508,
+				75,
+				350,
+				517
+			],
+			"slot": "prop.dna-sheet-lobby-03",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-04": {
+			"aspect": 1.098,
+			"asset": "D.N.A. lobby dressing 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 20220,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				471,
+				429
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				471,
+				429
+			],
+			"sheet_cell": [
+				121,
+				766,
+				471,
+				429
+			],
+			"slot": "prop.dna-sheet-lobby-04",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-05": {
+			"aspect": 0.374,
+			"asset": "D.N.A. lobby dressing 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 10638,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				190,
+				508
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				190,
+				508
+			],
+			"sheet_cell": [
+				930,
+				767,
+				190,
+				508
+			],
+			"slot": "prop.dna-sheet-lobby-05",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-LOBBY-06": {
+			"aspect": 0.645,
+			"asset": "D.N.A. lobby dressing 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 2403,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.",
+			"from_px": [
+				338,
+				524
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-LOBBY-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-LOBBY",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				338,
+				524
+			],
+			"sheet_cell": [
+				1523,
+				747,
+				338,
+				524
+			],
+			"slot": "prop.dna-sheet-lobby-06",
+			"tinted": false,
+			"use": "Sliced into six lobby props",
 			"zone": "dna"
 		},
 		"DNA-SHEET-PROPS": {
@@ -1724,8 +1959,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS",
@@ -1740,8 +1975,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1754,15 +1989,15 @@
 			"aspect": 0.327,
 			"asset": "Ghost lamps and dead topiary 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2098,
+			"cleared_alpha": 2098.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				160,
-				490
+				160.0,
+				490.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1770,14 +2005,14 @@
 				1.0
 			],
 			"px": [
-				160,
-				490
+				160.0,
+				490.0
 			],
 			"sheet_cell": [
-				309,
-				98,
-				160,
-				490
+				309.0,
+				98.0,
+				160.0,
+				490.0
 			],
 			"slot": "prop.dna-sheet-props-01",
 			"tinted": false,
@@ -1788,15 +2023,15 @@
 			"aspect": 0.324,
 			"asset": "Ghost lamps and dead topiary 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2535,
+			"cleared_alpha": 2535.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				155,
-				479
+				155.0,
+				479.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1804,14 +2039,14 @@
 				1.0
 			],
 			"px": [
-				155,
-				479
+				155.0,
+				479.0
 			],
 			"sheet_cell": [
-				940,
-				110,
-				155,
-				479
+				940.0,
+				110.0,
+				155.0,
+				479.0
 			],
 			"slot": "prop.dna-sheet-props-02",
 			"tinted": false,
@@ -1822,15 +2057,15 @@
 			"aspect": 0.306,
 			"asset": "Ghost lamps and dead topiary 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2106,
+			"cleared_alpha": 2106.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				150,
-				490
+				150.0,
+				490.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1838,14 +2073,14 @@
 				1.0
 			],
 			"px": [
-				150,
-				490
+				150.0,
+				490.0
 			],
 			"sheet_cell": [
-				1589,
-				99,
-				150,
-				490
+				1589.0,
+				99.0,
+				150.0,
+				490.0
 			],
 			"slot": "prop.dna-sheet-props-03",
 			"tinted": false,
@@ -1856,15 +2091,15 @@
 			"aspect": 0.441,
 			"asset": "Ghost lamps and dead topiary 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 1974,
+			"cleared_alpha": 1974.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				212,
-				481
+				212.0,
+				481.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1872,14 +2107,14 @@
 				1.0
 			],
 			"px": [
-				212,
-				481
+				212.0,
+				481.0
 			],
 			"sheet_cell": [
-				287,
-				807,
-				212,
-				481
+				287.0,
+				807.0,
+				212.0,
+				481.0
 			],
 			"slot": "prop.dna-sheet-props-04",
 			"tinted": false,
@@ -1890,15 +2125,15 @@
 			"aspect": 0.419,
 			"asset": "Ghost lamps and dead topiary 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2000,
+			"cleared_alpha": 2000.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				203,
-				485
+				203.0,
+				485.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1906,14 +2141,14 @@
 				1.0
 			],
 			"px": [
-				203,
-				485
+				203.0,
+				485.0
 			],
 			"sheet_cell": [
-				921,
-				803,
-				203,
-				485
+				921.0,
+				803.0,
+				203.0,
+				485.0
 			],
 			"slot": "prop.dna-sheet-props-05",
 			"tinted": false,
@@ -1924,15 +2159,15 @@
 			"aspect": 0.447,
 			"asset": "Ghost lamps and dead topiary 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 2660,
+			"cleared_alpha": 2660.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				213,
-				476
+				213.0,
+				476.0
 			],
 			"group": "prop",
 			"id": "DNA-SHEET-PROPS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "DNA-SHEET-PROPS",
 			"pivot": [
@@ -1940,14 +2175,14 @@
 				1.0
 			],
 			"px": [
-				213,
-				476
+				213.0,
+				476.0
 			],
 			"sheet_cell": [
-				1555,
-				812,
-				213,
-				476
+				1555.0,
+				812.0,
+				213.0,
+				476.0
 			],
 			"slot": "prop.dna-sheet-props-06",
 			"tinted": false,

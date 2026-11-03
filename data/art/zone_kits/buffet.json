@@ -1,7 +1,36 @@
 {
-	"_about": "Written by tools/import_zone_kit.gd from data/source/buffet_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Buffet: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/buffet/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"_about": "Written by tools/import_zone_kit.gd from data/source/buffet_kit.csv and the art in C:/Dev/Deckbuilder-rpg/_art_inbox/batch11/Approved_ZoneKits/Buffet: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/buffet/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
 	"density": 400.0,
 	"items": {
+		"BUF-PROP-SALT-SHAKER": {
+			"aspect": 0.499,
+			"asset": "Salt-shaker bridge pillar",
+			"category": "Prop",
+			"cleared_alpha": 13554,
+			"desc": "See docs/art/art_needed_nov2.csv (Batch 11).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "BUF-PROP-SALT-SHAKER",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				756,
+				1514
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.buf-prop-salt-shaker",
+			"tinted": false,
+			"use": "The entrance bridge's pillars",
+			"zone": "buffet"
+		},
 		"BUFF-BD-CAKE": {
 			"aspect": 3.568,
 			"asset": "Cake skyline",
@@ -37,8 +66,8 @@
 			"category": "Sky / backdrop",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "BUFF-BD-CAKE-CATHEDRAL",
@@ -49,8 +78,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				686
+				2048.0,
+				686.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG strip, transparent sky",
@@ -66,8 +95,8 @@
 			"category": "Sky / backdrop",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1024
+				2048.0,
+				1024.0
 			],
 			"group": "backdrop",
 			"id": "BUFF-BD-TEST-KITCHEN",
@@ -78,8 +107,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				716
+				2048.0,
+				716.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1024 PNG strip, transparent sky",
@@ -123,8 +152,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES",
@@ -139,8 +168,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -153,15 +182,15 @@
 			"aspect": 0.976,
 			"asset": "Crumb's rosettes 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 5952,
+			"cleared_alpha": 5952.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				519,
-				532
+				519.0,
+				532.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -169,14 +198,14 @@
 				0.499
 			],
 			"px": [
-				519,
-				532
+				519.0,
+				532.0
 			],
 			"sheet_cell": [
-				82,
-				75,
-				519,
-				532
+				82.0,
+				75.0,
+				519.0,
+				532.0
 			],
 			"slot": "sign.buff-dec-rosettes-01",
 			"tinted": false,
@@ -187,15 +216,15 @@
 			"aspect": 0.977,
 			"asset": "Crumb's rosettes 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 7048,
+			"cleared_alpha": 7048.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				520,
-				532
+				520.0,
+				532.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -203,14 +232,14 @@
 				0.5
 			],
 			"px": [
-				520,
-				532
+				520.0,
+				532.0
 			],
 			"sheet_cell": [
-				765,
-				75,
-				520,
-				532
+				765.0,
+				75.0,
+				520.0,
+				532.0
 			],
 			"slot": "sign.buff-dec-rosettes-02",
 			"tinted": false,
@@ -221,15 +250,15 @@
 			"aspect": 1.017,
 			"asset": "Crumb's rosettes 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6816,
+			"cleared_alpha": 6816.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				532,
-				523
+				532.0,
+				523.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -237,14 +266,14 @@
 				0.514
 			],
 			"px": [
-				532,
-				523
+				532.0,
+				523.0
 			],
 			"sheet_cell": [
-				1441,
-				80,
-				532,
-				523
+				1441.0,
+				80.0,
+				532.0,
+				523.0
 			],
 			"slot": "sign.buff-dec-rosettes-03",
 			"tinted": false,
@@ -255,15 +284,15 @@
 			"aspect": 0.994,
 			"asset": "Crumb's rosettes 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 5760,
+			"cleared_alpha": 5760.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				516,
-				519
+				516.0,
+				519.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -271,14 +300,14 @@
 				0.561
 			],
 			"px": [
-				516,
-				519
+				516.0,
+				519.0
 			],
 			"sheet_cell": [
-				83,
-				764,
-				516,
-				519
+				83.0,
+				764.0,
+				516.0,
+				519.0
 			],
 			"slot": "sign.buff-dec-rosettes-04",
 			"tinted": false,
@@ -289,15 +318,15 @@
 			"aspect": 1.012,
 			"asset": "Crumb's rosettes 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6760,
+			"cleared_alpha": 6760.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				527,
-				521
+				527.0,
+				521.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -305,14 +334,14 @@
 				0.504
 			],
 			"px": [
-				527,
-				521
+				527.0,
+				521.0
 			],
 			"sheet_cell": [
-				760,
-				763,
-				527,
-				521
+				760.0,
+				763.0,
+				527.0,
+				521.0
 			],
 			"slot": "sign.buff-dec-rosettes-05",
 			"tinted": false,
@@ -323,15 +352,15 @@
 			"aspect": 0.996,
 			"asset": "Crumb's rosettes 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 6676,
+			"cleared_alpha": 6676.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				521,
-				523
+				521.0,
+				523.0
 			],
 			"group": "sign",
 			"id": "BUFF-DEC-ROSETTES-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-DEC-ROSETTES",
 			"pivot": [
@@ -339,14 +368,14 @@
 				0.515
 			],
 			"px": [
-				521,
-				523
+				521.0,
+				523.0
 			],
 			"sheet_cell": [
-				1446,
-				762,
-				521,
-				523
+				1446.0,
+				762.0,
+				521.0,
+				523.0
 			],
 			"slot": "sign.buff-dec-rosettes-06",
 			"tinted": false,
@@ -1542,8 +1571,8 @@
 			"category": "Cutout sheet",
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS",
@@ -1558,8 +1587,8 @@
 			],
 			"priority": "2",
 			"px": [
-				2048,
-				1365
+				2048.0,
+				1365.0
 			],
 			"sheet_status": "Approved",
 			"size": "2048x1365 PNG, transparent",
@@ -1572,15 +1601,15 @@
 			"aspect": 1.173,
 			"asset": "Tasting stands 1",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4778,
+			"cleared_alpha": 4778.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				487,
-				415
+				487.0,
+				415.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-01",
-			"index": 1,
+			"index": 1.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1588,14 +1617,14 @@
 				0.685
 			],
 			"px": [
-				487,
-				415
+				487.0,
+				415.0
 			],
 			"sheet_cell": [
-				96,
-				166,
-				487,
-				415
+				96.0,
+				166.0,
+				487.0,
+				415.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-01",
 			"tinted": false,
@@ -1606,15 +1635,15 @@
 			"aspect": 1.139,
 			"asset": "Tasting stands 2",
 			"category": "Cutout sheet",
-			"cleared_alpha": 3846,
+			"cleared_alpha": 3846.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				499,
-				438
+				499.0,
+				438.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-02",
-			"index": 2,
+			"index": 2.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1622,14 +1651,14 @@
 				0.689
 			],
 			"px": [
-				499,
-				438
+				499.0,
+				438.0
 			],
 			"sheet_cell": [
-				773,
-				149,
-				499,
-				438
+				773.0,
+				149.0,
+				499.0,
+				438.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-02",
 			"tinted": false,
@@ -1640,15 +1669,15 @@
 			"aspect": 0.969,
 			"asset": "Tasting stands 3",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4938,
+			"cleared_alpha": 4938.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				501,
-				517
+				501.0,
+				517.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-03",
-			"index": 3,
+			"index": 3.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1656,14 +1685,14 @@
 				0.755
 			],
 			"px": [
-				501,
-				517
+				501.0,
+				517.0
 			],
 			"sheet_cell": [
-				1468,
-				68,
-				501,
-				517
+				1468.0,
+				68.0,
+				501.0,
+				517.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-03",
 			"tinted": false,
@@ -1674,15 +1703,15 @@
 			"aspect": 1.221,
 			"asset": "Tasting stands 4",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4523,
+			"cleared_alpha": 4523.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				509,
-				417
+				509.0,
+				417.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-04",
-			"index": 4,
+			"index": 4.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1690,14 +1719,14 @@
 				0.674
 			],
 			"px": [
-				509,
-				417
+				509.0,
+				417.0
 			],
 			"sheet_cell": [
-				86,
-				884,
-				509,
-				417
+				86.0,
+				884.0,
+				509.0,
+				417.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-04",
 			"tinted": false,
@@ -1708,15 +1737,15 @@
 			"aspect": 0.731,
 			"asset": "Tasting stands 5",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4175,
+			"cleared_alpha": 4175.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				405,
-				554
+				405.0,
+				554.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-05",
-			"index": 5,
+			"index": 5.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1724,14 +1753,14 @@
 				0.561
 			],
 			"px": [
-				405,
-				554
+				405.0,
+				554.0
 			],
 			"sheet_cell": [
-				825,
-				751,
-				405,
-				554
+				825.0,
+				751.0,
+				405.0,
+				554.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-05",
 			"tinted": false,
@@ -1742,15 +1771,15 @@
 			"aspect": 0.707,
 			"asset": "Tasting stands 6",
 			"category": "Cutout sheet",
-			"cleared_alpha": 4271,
+			"cleared_alpha": 4271.0,
 			"desc": "See docs/art/art_batch_oct28.csv (art import Oct 29).",
 			"from_px": [
-				399,
-				564
+				399.0,
+				564.0
 			],
 			"group": "sign",
 			"id": "BUFF-SHEET-TASTING-STANDS-06",
-			"index": 6,
+			"index": 6.0,
 			"lock": "CUTOUT",
 			"parent": "BUFF-SHEET-TASTING-STANDS",
 			"pivot": [
@@ -1758,14 +1787,14 @@
 				0.547
 			],
 			"px": [
-				399,
-				564
+				399.0,
+				564.0
 			],
 			"sheet_cell": [
-				1523,
-				742,
-				399,
-				564
+				1523.0,
+				742.0,
+				399.0,
+				564.0
 			],
 			"slot": "sign.buff-sheet-tasting-stands-06",
 			"tinted": false,

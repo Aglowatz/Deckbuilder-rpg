@@ -66,7 +66,7 @@
 		"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base"}],
 		"variants": {
 			"carpet": {"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base", "bright": 0.95}]},
-			"tile": {"layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.68}, {"tex": "dna_checkertile", "tile": 4.0, "plain": true, "mode": "mask", "mask": "inlay", "soft": 0.05, "warp": 0.0}]},
+			"tile": {"layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.68}, {"tex": "dna_lobby_floor", "tile": 3.5, "mode": "mask", "mask": "lobby", "soft": 0.05, "warp": 0.0, "bright": 0.85}, {"tex": "dna_checkertile", "tile": 4.0, "plain": true, "mode": "mask", "mask": "inlay", "soft": 0.05, "warp": 0.0}]},
 			"exec": {"color": "#b89896", "layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.7}]},
 			"lino": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base", "bright": 0.85}]},
 			"concrete": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base", "bright": 0.68}, {"tex": "dna_checkertile", "tile": 4.0, "plain": true, "mode": "mask", "mask": "records", "soft": 0.05, "warp": 0.0}]}

@@ -11,6 +11,8 @@ const B = preload("res://world/buffet/buffet_props.gd")
 ## Everything south of this z is the underground hideout: it lives on visual layer 2 so the sun does not light it.
 const CREASE_Z: float = 128.0
 const CREASE_LAYER: int = 2
+## Batch 11 (Nov 2): the painted texture of the Crease's walls.
+const CREASE_BRICK: String = "crease_brick"
 
 var layout: CapitalLayout = CapitalLayout.new()
 var root: Node3D
@@ -759,11 +761,14 @@ func _build_boundaries() -> void:
 	LoadTiming.detail("capital: rim")
 	CapitalRim.pines(root)
 	LoadTiming.detail("capital: pines")
-	# The Crease's walls (inside layer 2).
+	# The Crease's walls (inside layer 2). Batch 11 (Nov 2): painted damp brick (TEX-CREASE-BRICK, world-space so it tiles across every wall);
+	# the flat colour stays the fallback when the texture is missing.
 	var dz: float = float(CapitalLayout.CREASE_Z0 - 100)
+	var crease_flat: Color = M.BRICK_DEAD.darkened(0.3)
+	var crease_wall: Material = PaintedTriplanar.material(CREASE_BRICK, 2.6, crease_flat, 0.15)
 	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:
 		var wall: Vector3 = Vector3(rect.position.x + rect.size.x * 0.5, 2.6, rect.position.y + rect.size.y * 0.5)
-		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), M.flat(M.BRICK_DEAD.darkened(0.3)), wall)
+		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), crease_wall if crease_wall != null else M.flat(crease_flat), wall)
 
 
 ## The rebuild's skyline beyond the walkable city: tall townhouses and towers on the castle hill's top either side of the palace (behind the

@@ -127,17 +127,17 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"height_post":
 			return height_post()
 		"crease_column":
-			return crease_column()
+			return _crease_painted(CREASE_COLUMN, crease_column)
 		"crease_table":
-			return crease_table()
+			return _crease_painted(CREASE_TABLE, crease_table)
 		"crease_stall":
-			return crease_stall()
+			return _crease_painted(CREASE_STALL, crease_stall)
 		"tea_urn":
-			return tea_urn()
+			return _crease_painted(CREASE_URN, tea_urn)
 		"map_table":
-			return crease_table()
+			return _crease_painted(CREASE_TABLE, crease_table)
 		"ladder":
-			return ladder()
+			return _crease_painted(CREASE_LADDER, ladder)
 		"tunnel_arch":
 			return tunnel_arch()
 		"crease_crate":
@@ -145,7 +145,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"shaft_door":
 			return shaft_door(prop.variant)
 		"cot":
-			return bed()
+			return _crease_painted(CREASE_BEDROLLS, bed)
 	return null
 
 
@@ -1074,6 +1074,34 @@ static func height_post() -> Node3D:
 
 
 # ---- The Crease (the hideout) ----------------------------------------------------------------------
+
+## Batch 11 (Nov 2): the Crease's props are the six painted cut-outs of CAP-SHEET-CREASE (art slice, height in metres) - the tea urn of
+## Hesper's heal spot, the records / map tables, Fig Sly's stall, the bedrolls, the lantern columns and the ladder up to the manhole. Each
+## keeps its code-built version as the fallback when the art is missing; the spots, anchors and blocking circles are the layout's, unchanged.
+const CREASE_URN: Array = ["CAP-SHEET-CREASE-01", 1.7]
+const CREASE_TABLE: Array = ["CAP-SHEET-CREASE-02", 1.6]
+const CREASE_STALL: Array = ["CAP-SHEET-CREASE-03", 2.6]
+const CREASE_BEDROLLS: Array = ["CAP-SHEET-CREASE-04", 0.75]
+const CREASE_COLUMN: Array = ["CAP-SHEET-CREASE-05", 3.4]
+const CREASE_LADDER: Array = ["CAP-SHEET-CREASE-06", 4.0]
+
+
+## The painted Crease piece `art` ([id, height]) standing on the prop's spot, else `fallback`'s code-built prop. A column keeps its
+## lantern light (the hideout is lit by them).
+static func _crease_painted(art: Array, fallback: Callable) -> Node3D:
+	var root: Node3D = Node3D.new()
+	if KitPieces.stand(root, str(art[0]), Vector3.ZERO, float(art[1]), false) == null:
+		root.free()
+		return fallback.call() as Node3D
+	if art == CREASE_COLUMN:
+		var light: OmniLight3D = OmniLight3D.new()
+		light.light_color = Color(1.0, 0.7, 0.4)
+		light.light_energy = 0.8
+		light.omni_range = 8.0
+		light.position = Vector3(-0.6, 2.6, 0.6)
+		root.add_child(light)
+	return root
+
 
 
 static func crease_column() -> Node3D:

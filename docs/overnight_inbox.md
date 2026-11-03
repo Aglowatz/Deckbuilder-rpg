@@ -951,3 +951,10 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    Clench's taunt and "Hold my coat" it spoils beat 3. Wired 3-5 instead (beat 3 after its full-screen view). If you want 1-2 painted too,
    it is one line in `StoryStills.CUTSCENE_BEAT_BACKDROPS` (or STORY-RESCUE could stand in for them). Reveal beat 5 now sits on STORY-DOPPEL
    and epilogue beat 5 on STORY-REUNION, so neither drops back to the icon stage after its full-screen still.
+6. **CAP-BD-PALACE is in, but the Gate Road camera never sees it.** It replaced the outskirts ring's north card (CAP-BD-WASTELAND @0), but
+   at the play camera the wall fills the top of the frame, and the outskirts haze greys anything past it (`docs/art/batch11/p4_gate_road.jpg`).
+   The critic's "washed-out flat palace backdrop" is the fogged 3D wall and skyline. A real fix is the outskirts fog / haze toward the north
+   (or the castle hill lit through it) - a lighting change, not part of this art import. Say if you want it.
+7. **Sage roofs**: wired to every sage-accent townhouse (`roof_sage`); my shot cameras did not catch one clearly (inside shots are low,
+   the top view from outside is in haze). Worth a glance in the Reek / west district in play.
+8. **The river landing stages** in the Buffet still have white meringue posts (not the entrance bridge's pillars, so left as they were).

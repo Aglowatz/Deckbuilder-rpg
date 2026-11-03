@@ -242,6 +242,8 @@ static func dna(scene: ZoneScene) -> Dictionary:
 	var farms: Array[Rect2] = [Rect2(2, 26, 32, 18), Rect2(56, 26, 32, 18)]
 	var records_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, records)
 	var inlay_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, lobby_inlay)
+	# Batch 11 (Nov 2): the lobby's own terrazzo (TEX-DNA-LOBBY-FLOOR) on its tile floor; the mail room and the elevator bank keep the marble
+	var lobby_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, Rect2(36, 46, 20, 14))
 	var office_mask: Callable = func(p: Vector2) -> float:
 		return maxf(PaintedContexts.rect_mask(p, farms[0]), PaintedContexts.rect_mask(p, farms[1]))
 	var lino_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, Rect2(18, 48, 17, 12))
@@ -249,7 +251,7 @@ static func dna(scene: ZoneScene) -> Dictionary:
 		return maxf(PaintedContexts.rect_mask(p, Rect2(36, 46, 20, 14)), PaintedContexts.rect_mask(p, Rect2(36, 2, 18, 12)))
 	return {
 		"bounds": Rect2(0, 0, float(DnaLayout.W), float(DnaLayout.H)),
-		"masks": {"records": records_mask, "inlay": inlay_mask, "office": office_mask, "lino": lino_mask, "marble": marble_mask},
+		"masks": {"records": records_mask, "inlay": inlay_mask, "lobby": lobby_mask, "office": office_mask, "lino": lino_mask, "marble": marble_mask},
 		"swaps": swaps,
 	}
 

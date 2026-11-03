@@ -164,6 +164,17 @@ static func _materials(mesh: KitMesh) -> void:
 
 
 ## A painted cut-out standing upright in the mesh: pivot at `pivot_pos`, `height` metres tall, facing `normal` (horizontal unit vector).
+## Batch 11: the salt-shaker pillar of the entrance bridge, and the height of the posts along its sides (the gate's pair is the gate's height).
+const SALT_SHAKER: String = "BUF-PROP-SALT-SHAKER"
+const SHAKER_POST_HEIGHT: float = 1.7
+
+
+## A salt shaker standing at `base`, `height` metres: two crossed cards (it is round, so it reads from every side).
+static func _shaker(mesh: KitMesh, base: Vector3, height: float) -> void:
+	_card(mesh, SALT_SHAKER, base, height, Vector3(0, 0, 1))
+	_card(mesh, SALT_SHAKER, base, height, Vector3(1, 0, 0))
+
+
 static func _card(mesh: KitMesh, id: String, pivot_pos: Vector3, height: float, normal: Vector3) -> void:
 	if not EnvKit.has(id):
 		return
@@ -726,13 +737,18 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	# the kerbs: low biscuit lips the hero cannot step over (the layout's BRIDGE_RAIL)
 	for side: float in [-1.0, 1.0]:
 		mesh.box("biscuit_dark", Vector3(side * (half - 0.15), 0.12, length * 0.5), Vector3(0.3, 0.28, length), Basis.IDENTITY, 0.03)
-	# meringue posts with strawberries every few metres, copper pillars down into the gravy
+	# meringue posts with strawberries every few metres, copper pillars down into the gravy. Batch 11 (Nov 2): the posts are the painted salt
+	# shakers (BUF-PROP-SALT-SHAKER, two crossed cards) when the art is in; the white meringue cones stay the fallback.
+	var shakers: bool = EnvKit.has(SALT_SHAKER) and EnvKit.has_art(SALT_SHAKER)
 	var post_step: float = 3.6
 	var posts: int = maxi(2, int(round(length / post_step)))
 	for index: int in range(1, posts):
 		var z: float = length * float(index) / float(posts)
 		for side: float in [-1.0, 1.0]:
 			var base: Vector3 = Vector3(side * (half + 0.3), 0.0, z)
+			if shakers:
+				_shaker(mesh, base, SHAKER_POST_HEIGHT)
+				continue
 			mesh.lathe("white", base, [Vector2(0.34, 0.0), Vector2(0.4, 0.3), Vector2(0.3, 0.7), Vector2(0.36, 1.0), Vector2(0.2, 1.3), Vector2(0.0, 1.45)], 10, 0.9, true, true)
 			_strawberry(mesh, base + Vector3(0, 1.35, 0), 0.5)
 		mesh.tube("copper_flat", Vector3(0.0, -3.2, z), Vector3(0.0, -0.3, z), 0.35, 8, true)
@@ -741,9 +757,12 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	var gate_h: float = 3.8
 	for side: float in [-1.0, 1.0]:
 		var foot: Vector3 = Vector3(side * (half + 0.55), 0.0, 0.4)
-		mesh.lathe("white", foot, [Vector2(0.62, 0.0), Vector2(0.7, 0.5), Vector2(0.52, 1.4), Vector2(0.6, 2.4), Vector2(0.42, gate_h - 0.4), Vector2(0.0, gate_h)], 12, 0.88, true, true)
+		if shakers:
+			_shaker(mesh, foot, gate_h)
+		else:
+			mesh.lathe("white", foot, [Vector2(0.62, 0.0), Vector2(0.7, 0.5), Vector2(0.52, 1.4), Vector2(0.6, 2.4), Vector2(0.42, gate_h - 0.4), Vector2(0.0, gate_h)], 12, 0.88, true, true)
+			_strawberry(mesh, foot + Vector3(0, gate_h - 0.1, 0), 0.9)
 		mesh.box("cloth", foot + Vector3(0, 0.1, 0), Vector3(1.5, 0.2, 1.5), Basis.IDENTITY, 0.02)
-		_strawberry(mesh, foot + Vector3(0, gate_h - 0.1, 0), 0.9)
 		_lantern(mesh, foot + Vector3(side * 0.9, gate_h * 0.62, 0.0), lights, 0.52)
 		mesh.tube("wood_dark", foot + Vector3(0, gate_h * 0.62 + 0.1, 0), foot + Vector3(side * 0.9, gate_h * 0.62 + 0.1, 0), 0.05, 5, true)
 		circles.append(Vector3(foot.x, foot.z, 0.75))
@@ -763,8 +782,11 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	mesh.box("biscuit", Vector3(0.0, -0.08, landing_z), Vector3(width + 1.2, 0.16, 3.4), Basis.IDENTITY, 0.03, 0.92)
 	for side: float in [-1.0, 1.0]:
 		var foot: Vector3 = Vector3(side * (half + 0.4), 0.0, landing_z + 1.5)
-		mesh.lathe("white", foot, [Vector2(0.4, 0.0), Vector2(0.46, 0.4), Vector2(0.34, 1.6), Vector2(0.4, 2.4), Vector2(0.0, 2.9)], 10, 0.9, true, true)
-		_strawberry(mesh, foot + Vector3(0, 2.8, 0), 0.7)
+		if shakers:
+			_shaker(mesh, foot, 2.9)
+		else:
+			mesh.lathe("white", foot, [Vector2(0.4, 0.0), Vector2(0.46, 0.4), Vector2(0.34, 1.6), Vector2(0.4, 2.4), Vector2(0.0, 2.9)], 10, 0.9, true, true)
+			_strawberry(mesh, foot + Vector3(0, 2.8, 0), 0.7)
 		circles.append(Vector3(foot.x, foot.z, 0.5))
 		mesh.tube("copper_flat", Vector3(side * (half + 0.2), -3.2, landing_z), Vector3(side * (half + 0.2), -0.3, landing_z), 0.3, 8, true)
 	var body: MeshInstance3D = mesh.instance("Body")

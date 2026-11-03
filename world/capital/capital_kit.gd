@@ -37,6 +37,32 @@ static func surface(id: String, fallback: Color, mul: Color = Color.WHITE) -> Ma
 	return EnvKit.flat(fallback * mul, "cap_kit")
 
 
+## Batch 11 (Nov 2): the sage slate of the sage townhouses' roofs (TEX-CAP-ROOF-SLATE, a painted texture, one repeat per ROOF_SLATE_TILE
+## metres of the kit's metre UVs; vertex colours carry the baked occlusion like every kit surface). A flat sage when the texture is missing.
+const ROOF_SLATE: String = "cap_roof_slate"
+const ROOF_SLATE_TILE: float = 2.2
+const SAGE_ROOF: Color = Color("a9c4a4")
+static var _roof_slate: Material = null
+
+
+static func roof_slate() -> Material:
+	if _roof_slate != null:
+		return _roof_slate
+	var texture: Texture2D = PaintedLibrary.albedo(ROOF_SLATE)
+	if texture == null:
+		_roof_slate = EnvKit.flat(SAGE_ROOF, "cap_kit")
+		return _roof_slate
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.resource_name = ROOF_SLATE
+	material.albedo_texture = texture
+	material.vertex_color_use_as_albedo = true
+	material.roughness = 0.85
+	material.uv1_scale = Vector3(1.0 / ROOF_SLATE_TILE, 1.0 / ROOF_SLATE_TILE, 1.0)
+	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	_roof_slate = material
+	return _roof_slate
+
+
 ## A glow of its own (not the shared cache), so a model can pulse it (the castle's rift cracks, a rift's tear) or swap it for a freed state.
 static func own_glow(color: Color, energy: float, alpha: float = 1.0, unshaded: bool = false) -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
@@ -103,6 +129,7 @@ static func materials(mesh: KitMesh, gold_mul: Color = Color.WHITE) -> void:
 	mesh.set_material("pastel_mint", surface("CAP-WALL-PASTEL-MINT", MINT))
 	mesh.set_material("pastel_blue", surface("CAP-WALL-PASTEL-BLUE", SKY))
 	mesh.set_material("roof_blue", surface("CAP-ROOF-PASTEL", SKY))
+	mesh.set_material("roof_sage", roof_slate())
 	mesh.set_material("roof_pink", surface("CAP-ROOF-PASTEL-PINK", PINK))
 	mesh.set_material("trim", surface("CAP-TRIM-GOLD", GOLD, gold_mul))
 	mesh.set_material("ash", surface("CAP-WALL-ASH", ASH))
