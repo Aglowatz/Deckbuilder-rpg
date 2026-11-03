@@ -934,3 +934,11 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    Siphon's drain are a wall for the bot's deck even after the tune - percentage-based, or a heal node before the Extraction Theater?;
    (f) the map's **"Goal:" line and "Where to?"** never learn about the Capital after the four zones; (g) the **ending** still uses the
    icon stage and PLACEHOLDER CREDITS (art + text).
+
+## Batch 11 import (Nov 2, 45 images) - yours to decide (the safest choice was taken)
+
+1. **Delivery: complete.** All 45 Batch 11 images are on Drive with the right names, sizes and alpha (table in docs/art/import_nov2_batch11.md).
+   No REDOs from Part 1. Not delivered (not in this batch): NPC-RESCUER_WORRIED / _RESOLVED - every tag still falls back to the new base.
+2. **Disk was full** at the start (C: 94 MB free, Drive could not stream files). I deleted `builds/_export` (the unzipped v0.5.1 export - the
+   zip stays) and `_art_inbox/oct28_check` + `oct29_check` (old staging copies of Drive files): 1.7 GB back. The three release zips in
+   `builds/` (v0.4.9, v0.5.0, v0.5.1, 762 MB each) are the next big win if you no longer need the older two.

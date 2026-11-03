@@ -1,19 +1,16 @@
-# Loop state - Fix + polish pass (Nov 2, Fable 5.1)
+# Loop state - Batch 11 art import (Nov 2, Opus 5.5)
 
-Brief: pasted "FIX + POLISH PASS Nov 2 - The Wayward Path" (Parts 1-8). Questions: docs/overnight_inbox.md ("Nov 2 pass").
-Report: docs/overnight_report.md ("Nov 2 pass"). Tag pre-nov2 at the start.
-Stop when STOP_OVERNIGHT exists in the repo root (check before every part).
+Brief: pasted "BATCH 11 ART IMPORT - The Wayward Path" (Parts 1-5). Questions: docs/overnight_inbox.md ("Batch 11 import").
+Report: docs/art/import_nov2_batch11.md. Tag pre-batch11 at the start. Source list: docs/art/art_needed_nov2.csv (45 images, sheet rows 188-232).
 Rules: one Godot at a time; <= 3 agents and never while Godot/tests run; GUT sharded (bash tools/run_tests.sh); verify + commit + push per
-part; DIALOGUE FREEZE on existing lines (item / UI descriptions are game text and may change - each change listed in the report).
-Previous state: docs/overnight/nov2/loop_state_capital_sides.md (the Capital sides pass, Nov 2 morning).
+part; import only from the Approved_* folders with the usual importers; DIALOGUE FREEZE (no line changes); no build export.
+Previous state: docs/overnight/nov2/loop_state_nov2_pass.md.
+Disk: C: was full at the start (94 MB) - freed 1.7 GB (builds/_export = the unzipped v0.5.1, _art_inbox/oct28_check + oct29_check).
 
 | Part | What | State |
 |---|---|---|
-| 1 | Art audit: 3D figures -> painted sets or the art list; docs/art/art_needed_nov2.csv (Rescuer redo, Leaf Crown, cutscene stills, greybox, icons, flagged placeholders); "ART LIST READY" at the top of the report | done: 7 swaps (5 guards, patient, Gus), 45-row list, report + shots; commit pending |
-| 2 | Capital: no scatter inside the walls on every build path (gate, side passage, fast travel, save load, back from battle, freed, cache); a test per path; side screenshot | done: mood foliage density 0 (capital_inside / capital_freed), test_capital_no_scatter_paths 9/9, side shot; commit pending |
-| 3 | Loading times: measure cold/warm, keep the zone alive through a fight, cache layouts, threaded loads, shader pre-warm, loading screen; docs/perf/loading_nov2.md | done in part: parked scene (back from a fight 0.9-1.0 s, was 2.5-8.6 s), Capital townhouse/tower cache (builder 7.5 -> 4.9 s), loading hold 1.0 s, docs/perf/loading_nov2.md; left: town caching, threaded preload, shader pre-warm |
-| 4 | Usable items + economy: exact descriptions, Scroll of Insight, Reckless Tonic, Field Bandage, high shelf at 17-20; docs/design/items_nov2.md; tests | done: descriptions, Scroll Draw 1, Tonic 30 g, Bandage +0/+2 for the battle, high shelf L17 retuned, LATE/PREMIUM bands, .tres regenerated, test_items_nov2 6/6, docs/design/items_nov2.md |
-| 5 | Wardrobe hat try-on scale / anchor unified with the world; screenshots per hat | done: fit.json widths / sinks for Wide-Brim, Wizard, Tricorn, Bowler (world = preview, contact sheets before/after), shots |
-| 6 | Crosspath fountain as solid geometry (basin, four pillars, four coloured spouts, ivy, animated water); 4-angle before / after | done: solid KitMesh fountain + fountain_water shader, 4-angle before/after, pillar symbol shot |
-| 7 | Reward pack / card art centred on every reward screen; screenshots | done: holder shrink-centre + resize re-centre (reward popup, pack shop), shot |
-| 8 | Sharded GUT, walk smokes, perf budget, play-script run, report, commit + push | done: GUT 2586/2589 (2 pending), six walk smokes OK, perf inside budget, play script nov2_p8; committed + pushed |
+| 1 | Verify the delivery: names, size/format, alpha, sheet layouts, sprite ground lines; table in the report; backups | done: 45/45 present, no REDO; backups in _art_source/superseded_batch11 |
+| 2 | Characters: 10 stationary sets + 7 portraits + the guard set, wired to their NPCs; Rescuer portrait; 3D-figure audit | |
+| 3 | Story stills as cutscene / ending backdrops; contact sheet | |
+| 4 | World pieces: the Crease, D.N.A. lobby, Capital pieces, salt shakers, Quota board, N-10, Leaf Crown | |
+| 5 | Walk smokes, play script, perf, sharded GUT, art_status, report, commit + push | |
