@@ -1257,8 +1257,25 @@ static func ghost(variant: int) -> Node3D:
 
 ## An energy wheel of the Transit Yards (the tram shed concept's giant wheel): a white rim in gold, white spokes, a gold hub on white-and-gold
 ## uprights on a plaster plinth. Restored (the Beefcakes are free): red-and-gold spokes and bunting, the hub glowing. The "Spin" child turns.
+## Overnight Nov 2-3, Part 4 (the designer's answer): the wheel and its uprights at WHEEL_SCALE of their old size, raised on a gilded plinth
+## (a marble foot, a plaster drum with gold bands and a laurel line, a gold cap) - an exhibit of Primm's, not a machine in the street.
+const WHEEL_SCALE: float = 0.6
+const WHEEL_PLINTH: float = 1.25
+
+
 static func kit_energy_wheel(freed: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
+	var plinth: KitMesh = KitMesh.new()
+	CapitalKit.materials(plinth)
+	plinth.box("marble_shade", Vector3(0, 0.1, 0), Vector3(3.9, 0.2, 1.7), Basis.IDENTITY, 0.03, 0.85)
+	plinth.box("plaster", Vector3(0, 0.62, 0), Vector3(3.5, 0.84, 1.35), Basis.IDENTITY, 0.06, 0.9)
+	for y: float in [0.28, 0.98]:
+		plinth.box("gold", Vector3(0, y, 0), Vector3(3.58, 0.1, 1.43))
+	plinth.box("trim", Vector3(0, 0.63, 0.69), Vector3(3.0, 0.08, 0.04))
+	for side: float in [-1.0, 1.0]:
+		CapitalKit.sun_emblem(plinth, Vector3(side * 1.25, 0.63, 0.69), 0.18, Vector3(0, 0, 1))
+	plinth.box("gold", Vector3(0, WHEEL_PLINTH - 0.1, 0), Vector3(3.7, 0.16, 1.55))
+	CapitalLandmarks.finish(root, plinth, [], WHEEL_PLINTH + 5.2 * WHEEL_SCALE)
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
 	mesh.box("plaster", Vector3(0, 0.12, 0), Vector3(5.6, 0.24, 2.0), Basis.IDENTITY, 0.04, 0.85)
@@ -1267,10 +1284,15 @@ static func kit_energy_wheel(freed: bool) -> Node3D:
 		mesh.box("plaster", Vector3(0, 1.6, side * 0.8), Vector3(0.3, 3.2, 0.3), Basis.IDENTITY, 0.03)
 		mesh.box("gold", Vector3(0, 3.25, side * 0.8), Vector3(0.38, 0.12, 0.38))
 	mesh.box("gold", Vector3(0, 2.7, 0), Vector3(0.2, 0.2, 1.9))
-	CapitalLandmarks.finish(root, mesh, [], 5.2)
+	var frame: MeshInstance3D = mesh.instance("Frame")
+	frame.set_meta(PaintedClasses.META_NO_PAINT, true)
+	frame.position = Vector3(0, WHEEL_PLINTH, 0)
+	frame.scale = Vector3.ONE * WHEEL_SCALE
+	root.add_child(frame)
 	var spin: Node3D = Node3D.new()
 	spin.name = "Spin"
-	spin.position = Vector3(0, 2.7, 0)
+	spin.position = Vector3(0, WHEEL_PLINTH + 2.7 * WHEEL_SCALE, 0)
+	spin.scale = Vector3.ONE * WHEEL_SCALE
 	spin.set_meta("spin_speed", 0.9 if not freed else 0.25)
 	root.add_child(spin)
 	var wheel: KitMesh = KitMesh.new()
@@ -1468,13 +1490,26 @@ static func kit_paste_dispenser(freed: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
-	# the machine: a plinth, a rounded body with gold bands, a domed top under a hopper, pipes down its sides, a dial
-	mesh.box("marble_shade", Vector3(0, 0.12, 0), Vector3(1.8, 0.24, 1.2), Basis.IDENTITY, 0.05, 0.8)
-	mesh.box("plaster", Vector3(0, 1.2, 0), Vector3(1.5, 1.95, 0.95), Basis.IDENTITY, 0.18, 0.84)
-	for y: float in [0.45, 1.9]:
-		mesh.box("trim", Vector3(0, y, 0), Vector3(1.56, 0.14, 1.0), Basis.IDENTITY, 0.05)
-	mesh.lathe("plaster", Vector3(0, 2.15, 0), [Vector2(0.62, 0.0), Vector2(0.5, 0.3), Vector2(0.22, 0.48)], 14, 1.0, false, false)
-	mesh.lathe("gold", Vector3(0, 2.6, 0), [Vector2(0.16, 0.0), Vector2(0.3, 0.32), Vector2(0.32, 0.38)], 10, 1.0, false, false)
+	# Overnight Nov 2-3, Part 4 (the designer's answer: gilded and ornate, no bare white cylinder): a stepped marble plinth, a gilded body with a
+	# white recessed panel framing Primm's face, fluted gold pilasters at the corners, gold bands and a cornice, a ribbed gold dome under a hopper
+	# and a crown finial, the gold pipes down its sides and the dial
+	mesh.box("marble_shade", Vector3(0, 0.08, 0), Vector3(1.95, 0.16, 1.35), Basis.IDENTITY, 0.04, 0.8)
+	mesh.box("marble", Vector3(0, 0.22, 0), Vector3(1.75, 0.14, 1.18), Basis.IDENTITY, 0.03, 0.85)
+	mesh.box("gold", Vector3(0, 1.2, 0), Vector3(1.5, 1.95, 0.95), Basis.IDENTITY, 0.06, 0.9)
+	mesh.box("plaster", Vector3(0, 1.32, 0.46), Vector3(1.0, 1.25, 0.06), Basis.IDENTITY, 0.03, 0.9)
+	for sx: float in [-1.0, 1.0]:
+		for sz: float in [-1.0, 1.0]:
+			mesh.tube("gold", Vector3(sx * 0.76, 0.3, sz * 0.49), Vector3(sx * 0.76, 2.1, sz * 0.49), 0.09, 8)
+			mesh.blob("gold", Vector3(sx * 0.76, 2.12, sz * 0.49), Vector3(0.13, 0.1, 0.13), 3, 6)
+	for y: float in [0.42, 1.95]:
+		mesh.box("trim", Vector3(0, y, 0), Vector3(1.62, 0.12, 1.06), Basis.IDENTITY, 0.04)
+	mesh.box("gold", Vector3(0, 2.16, 0), Vector3(1.72, 0.14, 1.16), Basis.IDENTITY, 0.03)
+	mesh.lathe("gold", Vector3(0, 2.2, 0), [Vector2(0.66, 0.0), Vector2(0.54, 0.3), Vector2(0.24, 0.5)], 16, 1.0, false, false)
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0
+		mesh.tube("trim", Vector3(cos(angle) * 0.62, 2.22, sin(angle) * 0.62), Vector3(cos(angle) * 0.26, 2.68, sin(angle) * 0.26), 0.035, 5)
+	mesh.lathe("gold", Vector3(0, 2.68, 0), [Vector2(0.18, 0.0), Vector2(0.32, 0.32), Vector2(0.34, 0.38)], 10, 1.0, false, false)
+	CapitalKit.finial(mesh, Vector3(0, 3.06, 0), 0.8)
 	for side: float in [-1.0, 1.0]:
 		mesh.tube("gold", Vector3(side * 0.82, 0.3, 0.1), Vector3(side * 0.82, 2.0, 0.1), 0.06, 6)
 		mesh.tube("gold", Vector3(side * 0.82, 2.0, 0.1), Vector3(side * 0.5, 2.35, 0.1), 0.06, 6)
@@ -1488,7 +1523,7 @@ static func kit_paste_dispenser(freed: bool) -> Node3D:
 		mesh.blob("berry", Vector3(0.08, 0.95, 0.58), Vector3(0.06, 0.06, 0.06), 3, 6)
 	else:
 		mesh.lathe("food_grey", Vector3(0, 0.88, 0.6), [Vector2(0.2, 0.0), Vector2(0.0, 0.06)], 10, 1.0, false, false)
-	CapitalLandmarks.finish(root, mesh, [], 2.6)
+	CapitalLandmarks.finish(root, mesh, [], 3.4)
 	var on: Node3D = _state_group(root, "On", false)
 	var slop: KitMesh = KitMesh.new()
 	slop.set_material("slop", EnvKit.glow(Color(0.5, 1.0, 0.2), 1.4))

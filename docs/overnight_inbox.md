@@ -964,3 +964,9 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 1. **Dialogue applied (Part 1): 217 lines**, every critic suggestion + the Nov 1 typo fix + Primm's rule wording; 2 suggestions were already
    in the game; one held beat (the rift sign's "failing") reworded around. Highlights: docs/dialogue/applied_nov3.md. The freeze is over;
    your next edits go in docs/dialogue/edit_nov3.csv (the game's current text).
+2. **The twin tram shed displaced the big transit rift** (Part 4): its mirror block held the rift, and nowhere else in the yards had room for
+   a 3.2 m rift (the east plaza's statues fill the wheels' yard), so the rift moved to the yards' east corner at radius 2.6 (still "big":
+   same damage). The twin is 4 m deep instead of 6 (route clearance). If you'd rather keep the rift where it was, drop TRAM_SHED_TWIN and revert
+   capital_rifts.gd's transit row.
+3. **Grave Row's headstones read lower on the pale checker** than on the lawn (docs/art/capital_nov3/p4_before_after.jpg); a cooler grey
+   checker for Grave Row would bring them back - say if you want it.

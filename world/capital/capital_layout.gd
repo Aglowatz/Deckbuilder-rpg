@@ -79,6 +79,9 @@ const FOUNTAIN_SIZE: Vector3 = Vector3(9.2, 8.5, 9.2)
 const WATCHTOWER: Vector2 = Vector2(91.0, 96.5)
 const TUNNEL_MOUTH: Vector2 = Vector2(96.0, 76.0)
 const TRAM_SHED: Rect2 = Rect2(104.5, 49.5, 10.0, 6.0)
+## Overnight Nov 2-3, Part 4 (the designer's answer): its twin, mirrored about the east side plaza (x 100) for symmetry - decorative (no spot,
+## no quest); the big transit rift moved from the block it stands in to the yards' east corner (core/zone/capital_rifts.gd).
+const TRAM_SHED_TWIN: Rect2 = Rect2(86.0, 49.5, 9.5, 4.0)  # the mirror's span inside the route clearances: 4 m deep, the west boulevard runs past its south side
 const RIFT_CRYSTALS: Array[Vector2] = [Vector2(40.0, 89.5), Vector2(21.0, 99.0)]
 const CAMP_FIRE: Vector2 = Vector2(34.5, 113.5)
 const CAMP_TENTS: Array[Vector2] = [Vector2(29.0, 116.5), Vector2(40.5, 116.5)]
@@ -384,12 +387,14 @@ func _ground() -> void:
 	_view_floor(ROAD_BEYOND, Floor.ROAD)                                                  # the road on to Crosspath, seen, never walked
 	_set_cells(Rect2i(4, CREASE_Z0, 37, 21), Cell.GROUND, Floor.HUB)                      # the Crease (x 4..40, z 134..154)
 	# District floors (inside every floor is painted idyllic; the kinds keep each district's tone).
-	_floor_rect(Rect2i(2, 2, 37, 33), Floor.GRAY)                       # Grave Row
+	# Overnight Nov 2-3, Part 4 (the designer's answer): Grave Row and the palace approach are checker paving with formal parterres (no
+	# striped lawns); TILE is the inside's checker paving that the district gardens may stand on (PLAZA is kept clear)
+	_floor_rect(Rect2i(2, 2, 37, 33), Floor.TILE)                       # Grave Row
 	_floor_rect(Rect2i(2, 37, 37, 35), Floor.SOIL)                      # the Reek
 	_floor_rect(Rect2i(84, 2, 34, 19), Floor.GRAY)                      # the Correction Ward
 	_floor_rect(Rect2i(84, 23, 34, 22), Floor.TILE)                     # the Hungry Quarter
 	_floor_rect(Rect2i(84, 47, 34, 25), Floor.METAL)                    # the Transit Yards
-	_floor_rect(Rect2i(41, 17, 38, 31), Floor.LAWN)                     # the palace approach's lawns
+	_floor_rect(Rect2i(41, 17, 38, 31), Floor.TILE)                     # the palace approach (its lawns until Nov 3)
 	# Routes: cracked road outside, cream streets inside; the avenue, the forecourt and the Gate Plaza are paved.
 	for route: Dictionary in routes:
 		_paint_route(route)
@@ -839,9 +844,10 @@ func _transit_yards() -> void:
 	# The tram shed (a long open shed over the dead tram) in the north-east block, the three energy wheels in a row along the wall, two pylons at
 	# its ends, the big rift in the north-west block.
 	_building("shed", TRAM_SHED.position.x, TRAM_SHED.position.y, TRAM_SHED.size.x, TRAM_SHED.size.y, 6.5, 0.0, "beefcake", 0)
+	_building("shed", TRAM_SHED_TWIN.position.x, TRAM_SHED_TWIN.position.y, TRAM_SHED_TWIN.size.x, TRAM_SHED_TWIN.size.y, 6.5, 0.0, "beefcake", 1)
 	for wheel: String in ["wheel_1", "wheel_2", "wheel_3"]:
 		var pos: Vector3 = anchors[wheel] as Vector3
-		_prop("energy_wheel", pos.x, pos.z - 3.0, 0.0, 1.0, 2.6, 0, "beefcake")
+		_prop("energy_wheel", pos.x, pos.z - 3.0, 0.0, 1.0, 2.0, 0, "beefcake")  # Nov 3: 60 % wheels on a 3.9 x 1.7 m plinth (was 2.6)
 	var rollo_pos: Vector3 = anchors["rollo"] as Vector3
 	_prop("crate_stack", rollo_pos.x + 3.5, rollo_pos.z + 1.5, 0.0, 1.0, 1.0)
 	_prop_at("power_cable", "cable", 0.0, 0.0, "beefcake")

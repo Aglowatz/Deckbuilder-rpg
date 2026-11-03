@@ -78,10 +78,8 @@ static func is_lawn_at(layout: CapitalLayout, x: float, z: float) -> bool:
 	if not CapitalLayout.is_inside(x, z):
 		return false
 	var area: CapitalLayout.Area = layout.area_at(x, z)
-	if area != null and area.id == "grave":
-		return layout.route_edge_distance(x, z) >= 0.2
-	if area != null and area.id == "reek":
-		return false
+	if area != null and area.id in ["grave", "approach", "reek"]:
+		return false  # paved whatever the cells say (Grave Row and the approach since Nov 3)
 	var cell: Vector2i = layout.cell_of(x, z)
 	return layout.floor_at(cell.x, cell.y) in [CapitalLayout.Floor.LAWN, CapitalLayout.Floor.SOIL, CapitalLayout.Floor.GRASS]
 
@@ -95,7 +93,18 @@ const GARDEN_BLOCKS: Array = [
 	[84.0, 47.5, 13.0, 8.0], [84.0, 60.0, 32.0, 11.0],  # the Transit Yards: by the rift, the wheels' yard
 	[91.0, 23.0, 7.0, 21.0], [102.0, 23.0, 7.0, 21.0],  # the Hungry Quarter: the strips between the shop-houses and the lane
 	[84.0, 14.5, 32.0, 6.0],  # the Correction Ward's yard
+	[41.0, 17.0, 14.0, 31.0], [65.0, 17.0, 14.0, 31.0],  # the palace approach: west and east of the avenue (Nov 3)
 ]
+## Overnight Nov 2-3, Part 4 (the designer's answer): the districts whose paved blocks get formal parterres instead of urn rows - a white
+## planter of roses, a clipped cone in a gold urn on it, a white path border round it.
+const PARTERRE_DISTRICTS: Array[String] = ["grave", "approach"]
+const PARTERRE_BORDER: float = 0.6
+## The palace approach's house grid leaves no 4 m of open ground for a full bed, so its parterres are compact (COMPACT_BED across, a narrow
+## border) along the paved band between the last houses and the plaza (the band behind them is the forecourt route's clearance), in mirrored
+## pairs about the avenue (x 60): [x, z] of the west one.
+const APPROACH_PARTERRES: Array = [[45.4, 46.0], [49.6, 46.0]]
+const COMPACT_BED: float = 1.6
+const COMPACT_BORDER: float = 0.25
 const GARDEN_PITCH: float = 4.5
 ## Hand-placed beds where the grid finds no room but a bed fits (mirrored about Grave Row's lane): [x, z].
 const GARDEN_SPOTS: Array = [[4.5, 20.5], [33.5, 20.5]]
@@ -332,15 +341,19 @@ func _district_gardens(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> v
 				var pair: Array[Vector2] = [Vector2(centre.x + float(i) * GARDEN_PITCH, z)]
 				if i > 0:
 					pair.append(Vector2(centre.x - float(i) * GARDEN_PITCH, z))
-				var lawn: bool = is_lawn_at(layout, pair[0].x, pair[0].y)
+				var lawn: bool = is_lawn_at(layout, pair[0].x, pair[0].y) or _parterre_at(layout, pair[0])
 				var ok: bool = true
 				for q: Vector2 in pair:
-					ok = ok and _garden_ok(builder, q, junctions, keep_clear, lawn) and is_lawn_at(layout, q.x, q.y) == lawn
+					ok = ok and _garden_ok(builder, q, junctions, keep_clear, lawn) and (is_lawn_at(layout, q.x, q.y) or _parterre_at(layout, q)) == lawn
 				if not ok:
 					continue
 				for q: Vector2 in pair:
 					var at: Vector3 = Vector3(q.x, 0.0, q.y)
-					if lawn:
+					if lawn and _parterre_at(layout, q):
+						_parterre(mesh, at)
+						builder.add_blocker(at, BED_SIZE * 0.5 + 0.3)
+						beds += 1
+					elif lawn:
 						CapitalGrand.planter_box(mesh, at, BED_SIZE, 0.46)
 						planters.append(Rect2(q.x - BED_SIZE * 0.5, q.y - BED_SIZE * 0.5, BED_SIZE, BED_SIZE))
 						_field("cap_topiary", at + Vector3(0, 0.46, 0), 1.0)
@@ -361,15 +374,18 @@ func _district_gardens(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> v
 		if not _garden_ok(builder, q, junctions, keep_clear, true):
 			continue
 		var at: Vector3 = Vector3(q.x, 0.0, q.y)
-		CapitalGrand.planter_box(mesh, at, BED_SIZE, 0.46)
-		planters.append(Rect2(q.x - BED_SIZE * 0.5, q.y - BED_SIZE * 0.5, BED_SIZE, BED_SIZE))
-		_field("cap_topiary", at + Vector3(0, 0.46, 0), 1.0)
-		for index: int in range(8):
-			var angle: float = TAU * (float(index) + 0.5) / 8.0
-			var r: float = BED_SIZE * 0.34 / maxf(absf(cos(angle)), absf(sin(angle)))
-			_field("cap_rose", at + Vector3(cos(angle) * r, 0.4, sin(angle) * r), 0.85)
+		_parterre(mesh, at)  # Grave Row's two hand-placed beds are on paving since Nov 3
 		builder.add_blocker(at, BED_SIZE * 0.5 + 0.3)
 		beds += 1
+	for spot: Array in APPROACH_PARTERRES:
+		var pair: Array[Vector2] = [Vector2(float(spot[0]), float(spot[1])), Vector2(120.0 - float(spot[0]), float(spot[1]))]
+		if not pair.all(func(q: Vector2) -> bool: return _garden_ok(builder, q, junctions, keep_clear, false)):
+			continue
+		for q: Vector2 in pair:
+			var at: Vector3 = Vector3(q.x, 0.0, q.y)
+			_parterre(mesh, at, COMPACT_BED, COMPACT_BORDER)
+			builder.add_blocker(at, COMPACT_BED * 0.5 + 0.2)
+			beds += 1
 	refused["gardens"] = beds * 100 + urns  # (beds, urns) for the report
 	var node: MeshInstance3D = mesh.instance("DistrictGardens")
 	node.set_meta(PaintedClasses.META_NO_PAINT, true)
@@ -377,6 +393,30 @@ func _district_gardens(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> v
 	node.set_meta(&"no_wind", true)
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(node)
+
+
+## True on the paving of a parterre district (PARTERRE_DISTRICTS).
+static func _parterre_at(layout: CapitalLayout, q: Vector2) -> bool:
+	var area: CapitalLayout.Area = layout.area_at(q.x, q.y)
+	return area != null and area.id in PARTERRE_DISTRICTS
+
+
+## A formal parterre at `at`: the white planter of roses (BED_SIZE), a clipped cone in a gold urn on its middle, a white path border with its
+## gold line round it on the paving. It blocks like a bed.
+func _parterre(mesh: KitMesh, at: Vector3, size: float = BED_SIZE, border: float = PARTERRE_BORDER) -> void:
+	var k: float = size / BED_SIZE
+	CapitalGrand.planter_box(mesh, at, size, 0.46)
+	planters.append(Rect2(at.x - size * 0.5, at.z - size * 0.5, size, size))
+	CapitalGrand.gold_urn(mesh, at + Vector3(0, 0.46, 0), 0.34 * k)
+	_field("cap_topiary", at + Vector3(0, 0.46 + 0.84 * k, 0), 0.9 * k)
+	for index: int in range(8):
+		var angle: float = TAU * (float(index) + 0.5) / 8.0
+		var r: float = size * 0.36 / maxf(absf(cos(angle)), absf(sin(angle)))
+		_field("cap_rose", at + Vector3(cos(angle) * r, 0.4, sin(angle) * r), 0.85 * k)
+	var h: float = size * 0.5 + border
+	var corners: Array[Vector3] = [at + Vector3(-h, 0, -h), at + Vector3(h, 0, -h), at + Vector3(h, 0, h), at + Vector3(-h, 0, h)]
+	for index: int in range(4):
+		CapitalGrand.border(mesh, corners[index], corners[(index + 1) % 4], 0.36)
 
 
 func _garden_ok(builder: CapitalBuilder, q: Vector2, junctions: Array[Vector2], keep_clear: Array[Vector3], bed: bool) -> bool:

@@ -383,9 +383,8 @@ static func capital(scene: ZoneScene) -> Dictionary:
 		if not inside.call(p):
 			return 0.0
 		match str(district_at.call(p)):
-			"grave":
-				return 0.0 if layout.route_edge_distance(p.x, p.y) < 0.2 else 1.0
-			"reek":
+			"grave", "approach", "reek":
+				# Overnight Nov 2-3, Part 4: Grave Row and the palace approach are checker paving now (their parterres carry the green)
 				return 0.0
 		match int(kind_at.call(p)):
 			CapitalLayout.Floor.LAWN, CapitalLayout.Floor.SOIL, CapitalLayout.Floor.GRASS:

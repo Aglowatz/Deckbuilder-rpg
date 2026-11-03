@@ -19,7 +19,7 @@ static func all() -> Array[Dictionary]:
 		{"id": "out_b", "x": 35.0, "z": 95.5, "radius": 2.4, "big": false, "sealable": false, "reward": {}},
 		{"id": "reek", "x": 9.5, "z": 46.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "R-26"}},
 		{"id": "grave", "x": 30.0, "z": 16.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "grave_dust"}},
-		{"id": "transit", "x": 88.5, "z": 51.0, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
+		{"id": "transit", "x": 114.0, "z": 61.5, "radius": 2.6, "big": true, "sealable": false, "reward": {}},  # Overnight Nov 2-3: the twin tram shed took its block (88.5, 51, r 3.2); the only open ground left in the yards is this east corner
 		{"id": "hungry", "x": 105.5, "z": 32.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "hearty_pie"}},
 		{"id": "approach_w", "x": 41.5, "z": 6.5, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
 		{"id": "approach_e", "x": 79.0, "z": 6.5, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 90, "item": "vitality_charm"}},
