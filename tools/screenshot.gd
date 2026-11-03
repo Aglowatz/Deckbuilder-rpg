@@ -130,6 +130,11 @@ func _process(delta: float) -> bool:
 			if (mesh as MeshInstance3D).mesh is PrismMesh:
 				(mesh as MeshInstance3D).visible = false
 		return false  # one more frame so the hidden labels are gone from the picture
+	if str(_args.get("texfit", "false")) == "true":
+		# Size pass Nov 3: `--texfit=true` appends every drawn 2D texture's native vs on-screen size to _logs/texfit/<name>.txt (tools/texfit.gd)
+		DirAccess.make_dir_recursive_absolute("res://_logs/texfit")
+		var tex_fit: GDScript = load("res://tools/texfit.gd") as GDScript  # loaded by path: a -s run does not rescan class names
+		print("texfit: %d textures listed in _logs/texfit/%s.txt" % [tex_fit.call("report", root, "res://_logs/texfit/%s.txt" % _shot_name, _shot_name), _shot_name])
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots")
 	# `--jpg=true` writes a small JPEG instead (for the screenshots committed under docs/art/screens).

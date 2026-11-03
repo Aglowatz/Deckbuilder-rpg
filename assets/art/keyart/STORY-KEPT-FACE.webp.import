@@ -3,22 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bo06kcyg0i5h3"
-path.bptc="res://.godot/imported/STORY-KEPT-FACE.webp-473d4ef2dfbcdae4ae141184e0e49bab.bptc.ctex"
+path="res://.godot/imported/STORY-KEPT-FACE.webp-473d4ef2dfbcdae4ae141184e0e49bab.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/art/keyart/STORY-KEPT-FACE.webp"
-dest_files=["res://.godot/imported/STORY-KEPT-FACE.webp-473d4ef2dfbcdae4ae141184e0e49bab.bptc.ctex"]
+dest_files=["res://.godot/imported/STORY-KEPT-FACE.webp-473d4ef2dfbcdae4ae141184e0e49bab.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
-compress/lossy_quality=0.85
+compress/mode=1
+compress/high_quality=false
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

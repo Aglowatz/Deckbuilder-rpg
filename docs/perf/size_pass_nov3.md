@@ -139,6 +139,44 @@ files were a mix of q6 renders (up to 170 kbps) and q5 drop-in loops (110-130 kb
 ones barely (MUS-CAP-CORRECTION 102 %, MUS-NECRO-FREED 100 %: VBR was already spending little on them). q2 would take a further
 ~40 MB. Stings (STG-, WAV / QOA, 5 MB) and ambience (8 MB) are unchanged.
 
-## Parts 3-8
+## Part 3 - painted 2D art
+
+**On-screen sizes** (`bash tools/texfit_run.sh` + `node tools/texfit_report.js`, 26 screens: title, every town screen and vendor,
+Collection Book, Bestiary, character, rewards, pick, battle, dungeon map, ending; table in `docs/art/size_pass/texfit.md`). Every
+full-screen painting is already drawn **larger** than it is stored (boards / maps / UI backgrounds 1.25x, vendor stages 1.15x, the title
+1.24x, vendor portraits 1.27x at 1080p), so their `size_limit` stays; shrinking them would blur them on screen. Cards: the painting
+window is 280x428 at 1080p, 571 px tall at 1440p -> 768 stays (1.3x). Bestiary pictures are drawn at most 180 px (240 at 1440p) ->
+512 becomes **384**. Icons are drawn at their own size (256 / 128) and stay lossless.
+
+**Quality** (`tools/webp_quality_test.py`, libwebp = the importer's encoder, 100 % crops; sheets in `docs/art/size_pass/`):
+
+| Image (worst case) | q0.75 | q0.80 | q0.85 | q0.92 | Sheet |
+|---|---|---|---|---|---|
+| VS-THREADWELL (gold trim, fabric) 1672x941 | 146 KB, SSIM 0.964 | 176 KB, 0.971 | 220 KB, 0.979 | 337 KB, 0.995 | `VS-THREADWELL_sheet.png` |
+| NPC-AGNES (face, glow gradient) 512x768 | 74 KB, 0.948 | 81 KB, 0.972 | 92 KB, 0.982 | 121 KB, 0.999 | `NPC-AGNES_sheet.png` |
+| STORY-WAKE-NIGHT (night sky gradient) | 160 KB, 0.966 | 192 KB, 0.972 | 240 KB, 0.979 | 372 KB, 0.995 | `STORY-WAKE-NIGHT_sheet.png` |
+| MAP-HOG (line art) 1536x1024 | 288 KB, 0.964 | 347 KB, 0.973 | 426 KB, 0.984 | 559 KB, 0.996 | `MAP-HOG_sheet.png` |
+| BB-CAP-IN (board) 1536x864 | 131 KB, 0.962 | 167 KB, 0.980 | 200 KB, 0.995 | 246 KB, 0.995 | `BB-CAP-IN_sheet.png` |
+| B-01 (card) 768x1152 | 100 KB, 0.962 | 131 KB, 0.980 | 156 KB, 0.995 | 190 KB, 0.994 | `B-01_sheet.png` |
+| world sprite FRONT_IDLE (AGNES, PLAYER) | - | - | 27 KB | (0.90) 31 KB | `FRONT_IDLE_sheet.png` |
+
+At 100 % zoom q0.75 softens the moon's craters and the brass filigree slightly; q0.80 shows no difference I can see at 1x or at 2x
+on any crop (`_zoom_*.png`), so it is the new setting for full-screen paintings, boards, maps, vendor stages, stills and cards; faces
+(portraits) and world sprites take 0.85 (the eye is pickiest there), title key art and the logo keep 0.88 (drawn upscaled). The
+world sprites keep their canvas sizes (no `size_limit`; anchors and hat fits unchanged). Text-bearing UI and icons stay lossless.
+
+**Stills back to lossy:** the Oct 25 pass made the story stills and three loading paintings BC7 (1.8 MB each on disk, ~50 MB in
+all) to save video memory. With the bounded art cache (Part 5) only the still on screen is held, so its RGBA8 decode (8 MB) does not
+pile up; on disk they are now ~0.2 MB each. The UI backgrounds stay BC7 (shown on many screens).
+
+| Folder (packed MB) | before | after |
+|---|---:|---:|
+| assets/art/keyart (stills, loading paintings, banners) | 64.2 | 12.7 |
+| assets/art/cards + cards_thumb | 39.6 | 30.2 |
+| assets/art/world_test (sprites, backdrops) | 42.7 | 37.5 |
+| portraits / bestiary / vendors / boards / maps | 40.9 | ~36 |
+| **Payload** (after Part 2) | **838.5** | **763.0** |
+
+## Parts 4-8
 
 (filled in as each part lands)

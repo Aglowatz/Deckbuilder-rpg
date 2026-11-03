@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/NPC-RHONDA.webp-f9d8115b1acf70e9e9fbf80a6ee8b
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

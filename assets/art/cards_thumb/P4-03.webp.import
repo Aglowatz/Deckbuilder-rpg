@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/P4-03.webp-63e841634287d693737ca21c2526ef9c.c
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.85
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

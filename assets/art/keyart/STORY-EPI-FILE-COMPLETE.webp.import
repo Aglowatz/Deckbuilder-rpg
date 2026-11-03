@@ -3,22 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbkbi3qig25bg"
-path.bptc="res://.godot/imported/STORY-EPI-FILE-COMPLETE.webp-983b97342d9946429e61f0acb41213cb.bptc.ctex"
+path="res://.godot/imported/STORY-EPI-FILE-COMPLETE.webp-983b97342d9946429e61f0acb41213cb.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/art/keyart/STORY-EPI-FILE-COMPLETE.webp"
-dest_files=["res://.godot/imported/STORY-EPI-FILE-COMPLETE.webp-983b97342d9946429e61f0acb41213cb.bptc.ctex"]
+dest_files=["res://.godot/imported/STORY-EPI-FILE-COMPLETE.webp-983b97342d9946429e61f0acb41213cb.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
-compress/lossy_quality=0.85
+compress/mode=1
+compress/high_quality=false
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

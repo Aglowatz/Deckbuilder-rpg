@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/CUT-DOPPEL.webp-8bef3df6ea6b17b5c845d1b3fe5cf
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

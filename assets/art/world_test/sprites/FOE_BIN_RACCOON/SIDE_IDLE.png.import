@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/SIDE_IDLE.png-cb2d293f7ec724d426f6e01d5b0d4d9
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/MAP-S-GOUR.webp-bcddd3e68eaa3ec25113bd2e2c642
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.86
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

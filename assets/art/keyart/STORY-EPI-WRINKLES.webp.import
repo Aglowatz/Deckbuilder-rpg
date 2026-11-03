@@ -3,22 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cjiqweyarwnj3"
-path.bptc="res://.godot/imported/STORY-EPI-WRINKLES.webp-de265f2cfaf1431e95b613a657013f86.bptc.ctex"
+path="res://.godot/imported/STORY-EPI-WRINKLES.webp-de265f2cfaf1431e95b613a657013f86.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/art/keyart/STORY-EPI-WRINKLES.webp"
-dest_files=["res://.godot/imported/STORY-EPI-WRINKLES.webp-de265f2cfaf1431e95b613a657013f86.bptc.ctex"]
+dest_files=["res://.godot/imported/STORY-EPI-WRINKLES.webp-de265f2cfaf1431e95b613a657013f86.ctex"]
 
 [params]
 
-compress/mode=2
-compress/high_quality=true
-compress/lossy_quality=0.85
+compress/mode=1
+compress/high_quality=false
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

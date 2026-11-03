@@ -17,7 +17,7 @@ dest_files=["res://.godot/imported/NPC-MORTIMER.webp-11eb25e81c078db621b6bc261aa
 
 compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.9
+compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
