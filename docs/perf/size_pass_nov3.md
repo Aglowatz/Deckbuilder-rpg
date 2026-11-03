@@ -177,6 +177,38 @@ pile up; on disk they are now ~0.2 MB each. The UI backgrounds stay BC7 (shown o
 | portraits / bestiary / vendors / boards / maps | 40.9 | ~36 |
 | **Payload** (after Part 2) | **838.5** | **763.0** |
 
-## Parts 4-8
+## Part 4 - world textures
+
+Format test (`tools/texfmt_patch.js` + `tools/texfmt_crops.gd` on copies of four textures; crops `docs/art/size_pass/texfmt_bc7_vs_bc1.png`):
+
+| Texture | BC7 KB | BC1 KB | BC7 error | BC1 error | Basis UASTC |
+|---|---:|---:|---:|---:|---|
+| DUMP-GROUND-CLOVER (busiest) | 1365 | 683 | 2.5 | 7.7 | stored uncompressed (4 MB): rejected |
+| buff_biscuit_albedo | 1365 | 683 | 1.4 | 5.2 | same |
+| CAP-WALL-PLASTER (flat, banding risk) | 1365 | 683 | 0.5 | 2.3 | same |
+
+Error = mean absolute difference from the source in 8-bit levels. At 2x zoom BC1 shows a faint blockiness on the clover only; the camera
+sees these surfaces below 1:1 through mipmaps, where it is gone. **Applied:** every opaque tiling surface (textures/*_albedo and the
+env / zone kit GROUND, PATH, WALL, ROOF, TRIM, SURF, TEX- pieces; checked for alpha: DUMP-WALL-SCRAP and ENV-ROOF-EAVE have real
+alpha and keep BC7) -> **BC1 with mipmaps**. Kit surfaces had no mipmaps (Oct 14 choice for crispness); they now have them - less
+shimmer and texture bandwidth at a distance, still crisp because the kit materials filter anisotropically. Normal maps (`_n`, BC7) and
+roughness maps (`_r`, BC1) of the kits and the `_nr` maps of the painted terrain go to **256 px** (a quarter of the colour texture):
+the toon ramp shows almost none of their detail. Cut-outs, trees, props, signs, decals and sheets keep BC7 (alpha).
+
+Not downsized to 512: backdrop strips and sky panoramas are drawn across the whole horizon (a 2048 strip covers about 1400 screen
+pixels at the play camera), so a 512 copy would blur visibly; there are no floors the camera never gets near at the play angle.
+
+Before / after from the nine standard camera spots at Medium (`tools/tier1_shots.sh size_p4_before|size_p4_after`,
+`docs/art/graphics_tier1/size_p4_*/`, crops side by side `docs/art/size_pass/p4_world_before_after.jpg`): no visible change at play
+size; mean grey difference 1.4-4.4 levels, the usual run-to-run drift of these shots (wind, walking NPCs).
+
+| Folder (packed MB) | before | after |
+|---|---:|---:|
+| assets/art/zone_kits | 212.6 | 178.7 |
+| assets/art/textures | 90.0 | 40.5 |
+| assets/art/env_kit | 42.3 | 35.8 |
+| **Payload** | **763.0** | **669.7** |
+
+## Parts 5-8
 
 (filled in as each part lands)

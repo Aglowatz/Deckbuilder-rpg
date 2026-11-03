@@ -3,21 +3,81 @@
 	"rules": [
 		{
 			"match": "assets/art/textures/*_nr.webp",
-			"why": "normal (RG) + roughness (B): must stay RGB, so not the normal-map mode; half the colour texture's size",
+			"why": "normal (RG) + roughness (B): must stay RGB, so not the normal-map mode; Size pass Nov 3: a quarter of the colour texture (512 -> 256), the toon ramp hides the detail (docs/art/graphics_tier1/size_p4_*)",
 			"mode": 2,
 			"hq": true,
 			"mipmaps": true,
 			"normal_map": 0,
-			"size_limit": 512
+			"size_limit": 256
 		},
 		{
 			"match": "assets/art/textures/*",
-			"why": "world ground and surface textures",
+			"why": "world ground and surface textures, all opaque. Size pass Nov 3: BC1 (hq false; half of BC7, docs/art/size_pass/texfmt_bc7_vs_bc1.png)",
 			"mode": 2,
-			"hq": true,
+			"hq": false,
 			"mipmaps": true,
 			"size_limit": 1024
 		},
+		{
+			"match": "assets/art/*/*_n.webp",
+			"why": "Size pass Nov 3: kit normal maps 512 -> 256 (normal_scale 0.7 under the toon ramp), BC7 (BC1 bands normals)",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 256
+		},
+		{
+			"match": "assets/art/*/*/*_n.webp",
+			"why": "Size pass Nov 3: zone kit normal maps 512 -> 256 (as the env kit's)",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 256
+		},
+		{
+			"match": "assets/art/*/*_r.webp",
+			"why": "Size pass Nov 3: kit roughness maps 512 -> 256 (the toon ramp barely shows roughness)",
+			"mode": 2,
+			"hq": false,
+			"mipmaps": true,
+			"size_limit": 256
+		},
+		{
+			"match": "assets/art/*/*/*_r.webp",
+			"why": "Size pass Nov 3: zone kit roughness maps 512 -> 256",
+			"mode": 2,
+			"hq": false,
+			"mipmaps": true,
+			"size_limit": 256
+		},
+		{
+			"match": "assets/art/zone_kits/heap/DUMP-WALL-SCRAP.webp",
+			"why": "Size pass Nov 3: a wall with real alpha (cut-out holes) keeps BC7",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1024
+		},
+		{
+			"match": "assets/art/env_kit/ENV-ROOF-EAVE.webp",
+			"why": "Size pass Nov 3: an eave with real alpha keeps BC7",
+			"mode": 2,
+			"hq": true,
+			"size_limit": 1024
+		},
+		{
+			"match": "assets/art/*/*-GROUND-*",
+			"why": "Size pass Nov 3: opaque tiling surfaces (ground, path, wall, roof, trim, surf, TEX-) of the env kit and zone kits -> BC1 with mipmaps (were BC7, and kit surfaces had no mipmaps: they shimmered at a distance; the materials filter anisotropically, so they stay crisp)",
+			"mode": 2,
+			"hq": false,
+			"mipmaps": true,
+			"size_limit": 1024
+		},
+		{ "match": "assets/art/*/*-PATH-*", "why": "Size pass Nov 3: opaque surface, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/*/*-WALL-*", "why": "Size pass Nov 3: opaque surface, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/*/*-ROOF-*", "why": "Size pass Nov 3: opaque surface, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/*/*-TRIM-*", "why": "Size pass Nov 3: opaque surface, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/*/*-SURF-*", "why": "Size pass Nov 3: opaque surface, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/zone_kits/*/TEX-*", "why": "Size pass Nov 3: opaque Gainlands surfaces, BC1 + mipmaps", "mode": 2, "hq": false, "mipmaps": true, "size_limit": 1024 },
 		{
 			"match": "assets/art/env_kit/*",
 			"why": "kit building, prop and sign surfaces",

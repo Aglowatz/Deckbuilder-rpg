@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hh8o85ytj77h"
-path.bptc="res://.godot/imported/DNA-ROOF-SLATE.webp-e2e72ca56e593c027d29f4824309e2d1.bptc.ctex"
+path.s3tc="res://.godot/imported/DNA-ROOF-SLATE.webp-e2e72ca56e593c027d29f4824309e2d1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,19 +12,19 @@ metadata={
 [deps]
 
 source_file="res://assets/art/zone_kits/dna/DNA-ROOF-SLATE.webp"
-dest_files=["res://.godot/imported/DNA-ROOF-SLATE.webp-e2e72ca56e593c027d29f4824309e2d1.bptc.ctex"]
+dest_files=["res://.godot/imported/DNA-ROOF-SLATE.webp-e2e72ca56e593c027d29f4824309e2d1.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

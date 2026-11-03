@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c00x4uoarj36x"
-path.bptc="res://.godot/imported/mat_woodplanks_albedo.webp-efa184fef9d960db36ffd8a063a087db.bptc.ctex"
+path.s3tc="res://.godot/imported/mat_woodplanks_albedo.webp-efa184fef9d960db36ffd8a063a087db.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/art/textures/mat_woodplanks_albedo.webp"
-dest_files=["res://.godot/imported/mat_woodplanks_albedo.webp-efa184fef9d960db36ffd8a063a087db.bptc.ctex"]
+dest_files=["res://.godot/imported/mat_woodplanks_albedo.webp-efa184fef9d960db36ffd8a063a087db.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

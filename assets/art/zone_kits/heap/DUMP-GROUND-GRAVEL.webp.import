@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://6pfynyrf034f"
-path.bptc="res://.godot/imported/DUMP-GROUND-GRAVEL.webp-c4eda6751401d4f2a5452a0acfb2086a.bptc.ctex"
+path.s3tc="res://.godot/imported/DUMP-GROUND-GRAVEL.webp-c4eda6751401d4f2a5452a0acfb2086a.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/art/zone_kits/heap/DUMP-GROUND-GRAVEL.webp"
-dest_files=["res://.godot/imported/DUMP-GROUND-GRAVEL.webp-c4eda6751401d4f2a5452a0acfb2086a.bptc.ctex"]
+dest_files=["res://.godot/imported/DUMP-GROUND-GRAVEL.webp-c4eda6751401d4f2a5452a0acfb2086a.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

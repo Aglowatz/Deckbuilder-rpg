@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bj5mdrq8vy8cj"
-path.bptc="res://.godot/imported/GAIN-PATH-CHALK.webp-2f461e0b1a568dd0e4518aa086a1bd5c.bptc.ctex"
+path.s3tc="res://.godot/imported/GAIN-PATH-CHALK.webp-2f461e0b1a568dd0e4518aa086a1bd5c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,19 +12,19 @@ metadata={
 [deps]
 
 source_file="res://assets/art/zone_kits/gainlands/GAIN-PATH-CHALK.webp"
-dest_files=["res://.godot/imported/GAIN-PATH-CHALK.webp-2f461e0b1a568dd0e4518aa086a1bd5c.bptc.ctex"]
+dest_files=["res://.godot/imported/GAIN-PATH-CHALK.webp-2f461e0b1a568dd0e4518aa086a1bd5c.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.85
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://x067270sd4xe"
-path.bptc="res://.godot/imported/castle_marble_albedo.webp-10ef90ef063f0b0238515510cef32f4b.bptc.ctex"
+path.s3tc="res://.godot/imported/castle_marble_albedo.webp-10ef90ef063f0b0238515510cef32f4b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -12,12 +12,12 @@ metadata={
 [deps]
 
 source_file="res://assets/art/textures/castle_marble_albedo.webp"
-dest_files=["res://.godot/imported/castle_marble_albedo.webp-10ef90ef063f0b0238515510cef32f4b.bptc.ctex"]
+dest_files=["res://.godot/imported/castle_marble_albedo.webp-10ef90ef063f0b0238515510cef32f4b.s3tc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=true
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
