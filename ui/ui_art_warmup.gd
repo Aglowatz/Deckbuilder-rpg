@@ -168,7 +168,7 @@ func _warm_screens() -> void:
 		add_child(layer)
 		for maker: Callable in first_screens:
 			if not is_inside_tree():
-				return
+				break
 			var screen: OverlayScreen = maker.call() as OverlayScreen
 			if screen == null:
 				continue
@@ -183,14 +183,20 @@ func _warm_screens() -> void:
 			_last_step_frame = Engine.get_process_frames()
 			layer.add_child(screen)
 			for _frame: int in range(SCREEN_FRAMES):
+				if not is_inside_tree():
+					break
 				await get_tree().process_frame
 				_last_step_frame = Engine.get_process_frames()
 			if not is_inside_tree():
-				return
+				break
 			get_viewport().gui_disable_input = false
 			_input_off = false
 			screen.queue_free()
 			await get_tree().process_frame
+		# Nov 3: the scene can leave the tree mid-warmup (parked for an arena / graveyard fight; get_tree() is then null). _exit_tree gave
+		# input back; the rest is skipped and the half-drawn screen goes with the layer.
+		if not is_inside_tree():
+			_input_off = false
 		layer.queue_free()
 	_screens_done = true
 

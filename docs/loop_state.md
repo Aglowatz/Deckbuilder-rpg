@@ -13,5 +13,5 @@ Previous state: docs/overnight/nov2/loop_state_batch11.md (Batch 11 import, done
 | 3 | Parked scene for arena / graveyard / dungeon fights; docs/perf/loading_nov3.md | done: arena 4.6 -> 1.0 s, graveyard 4.2 -> 0.9 s; dungeon kept (0.7 s fades); 2 park bugs fixed; tests |
 | 4 | Capital props (wheels, paste dispenser, second tram shed) + Grave Row / palace approach parterres | done: 60 % wheels on plinths, gilded dispenser, twin shed (rift moved), paved + parterres; tests + smoke OK |
 | 5 | Capital camera: Raised + Low (HD-2D) + setting; 6 spots x 3 cameras; critic ranking | done: CityCamera + setting + dev picker, 18 shots + contact sheet, critic: Raised 1st; default Standard |
-| 6 | Verify + export v0.5.2 + release smoke | STOPPED: full GUT killed for low memory (not restarted); export blocked by disk (1.4 GB free, cleanup denied) |
+| 6 | Verify + export v0.5.2 + release smoke | Nov 3: cleanup done (C: 4.6 GB free, docs/cleanup_nov3.md); full GUT 2615/2617, 0 failing after 2 fixes; export 0.5.2 STOPPED by Claude Code for low memory (zone cache bake) - not restarted; v0.5.1 zip kept; no release smoke |
 | 7 | Critic cycles until stopped | not started (Part 6 blocked) |
