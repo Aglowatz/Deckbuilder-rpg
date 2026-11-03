@@ -123,10 +123,10 @@ static func build_def() -> ZoneDef:
 	def.npcs = [
 		{"id": "marigold", "npc_id": "NPC-BRAMBLE", "model": "Mage", "anchor": "marigold", "yaw": 0.0, "tint": Color(0.75, 1.2, 0.75), "scale": 1.7, "hat": "wreath"},
 		{"id": "hob", "npc_id": "V-GRISTLE", "model": "Barbarian", "anchor": "hob", "yaw": 200.0, "tint": Color(1.15, 0.95, 0.7), "scale": 1.55, "hat": "straw"},
-		{"id": "wren", "model": "Rogue", "anchor": "wren", "yaw": 90.0, "tint": Color(0.85, 1.05, 0.8), "scale": 1.45, "hat": "cap"},
+		{"id": "wren", "sprite": "MUCKFOOT", "model": "Rogue", "anchor": "wren", "yaw": 90.0, "tint": Color(0.85, 1.05, 0.8), "scale": 1.45, "hat": "cap"},
 		{"id": "quiz", "npc_id": "NPC-THISTLEWICK", "model": "Mage", "anchor": "quiz", "yaw": 180.0, "tint": Color(1.1, 1.2, 0.8), "scale": 1.5, "hat": "wreath"},
 		{"id": "minigame", "npc_id": "NPC-RHONDA", "model": "Knight", "anchor": "minigame", "yaw": 180.0, "tint": Color(0.7, 0.85, 1.3), "scale": 1.6, "hat": "ribbon"},
-		{"id": "sorrel", "model": "Mage", "anchor": "sorrel", "yaw": 180.0, "tint": Color(0.7, 1.1, 0.85), "scale": 1.55, "hat": "wreath"},
+		{"id": "sorrel", "sprite": "SORREL", "model": "Mage", "anchor": "sorrel", "yaw": 180.0, "tint": Color(0.7, 1.1, 0.85), "scale": 1.55, "hat": "wreath"},
 	]
 	def.spots = [
 		_spot("marigold", "Brother Bramble, Warden of the Stream", "marigold", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "marigold", "npc_id": "NPC-BRAMBLE", "npc_name": NPC_MARIGOLD, "speaker": "Brother Bramble"}),

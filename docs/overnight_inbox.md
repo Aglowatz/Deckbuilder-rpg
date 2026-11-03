@@ -942,3 +942,8 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 2. **Disk was full** at the start (C: 94 MB free, Drive could not stream files). I deleted `builds/_export` (the unzipped v0.5.1 export - the
    zip stays) and `_art_inbox/oct28_check` + `oct29_check` (old staging copies of Drive files): 1.7 GB back. The three release zips in
    `builds/` (v0.4.9, v0.5.0, v0.5.1, 762 MB each) are the next big win if you no longer need the older two.
+3. **Sorrel's portrait has no speaker.** Since the Oct 31 critic pass the growth-spot lines are spoken by "Moss Mulligan" (heap_growth.gd),
+   while the figure standing there is Sorrel (now her painted set). Dialogue freeze: I left the speaker. If the druid at the growth spot
+   should be Sorrel, the fix is one speaker label (`HeapGrowth` bridge_center) and NPC-SORREL shows at once; if it should be Moss Mulligan,
+   the entry could wear the MULLIGAN set instead. Safest kept: Sorrel's sprite + Mulligan's voice, as before.
+4. **The Rescuer's expressions** (WORRIED / RESOLVED) were not in Batch 11; every tag falls back to the new base portrait.

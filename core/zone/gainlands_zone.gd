@@ -104,8 +104,8 @@ static func build_def() -> ZoneDef:
 		{"id": "quiz", "npc_id": "NPC-PUMP", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.85, 0.95, 1.0), "scale": 1.1},
 		{"id": "minigame", "npc_id": "NPC-THUNDERABS", "model": "Rogue", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.0, 0.45, 0.85), "scale": 1.1},
 		# Fixes Oct 25, Part 2: a Beefcake gym attendant at the hall's entrance with passing lines (story key `ambient.gym_attendant`, `.freed` once free)
-		{"id": "gym_attendant", "model": "Barbarian", "anchor": "gym_attendant", "yaw": 330.0, "tint": Color(1.0, 0.82, 0.72), "scale": 1.45, "anim": "Cheer", "lines": "ambient.gym_attendant"},
-		{"id": "gary", "model": "Barbarian", "anchor": "spot_me", "yaw": 200.0, "tint": Color(0.9, 1.0, 0.8), "scale": 1.4, "anim": "Lie_Idle"},
+		{"id": "gym_attendant", "sprite": "GYM_ATTENDANT", "model": "Barbarian", "anchor": "gym_attendant", "yaw": 330.0, "tint": Color(1.0, 0.82, 0.72), "scale": 1.45, "anim": "Cheer", "lines": "ambient.gym_attendant"},
+		{"id": "gary", "sprite": "GARY", "model": "Barbarian", "anchor": "spot_me", "yaw": 200.0, "tint": Color(0.9, 1.0, 0.8), "scale": 1.4, "anim": "Lie_Idle"},
 	]
 	def.spots = [
 		_spot("brenda", "Old Man Mountain, Hermit of the Swole Station", "brenda", Vector3(0, 0, 1.5), 2.0, "Talk", "quest_npc", {"npc": "brenda", "npc_id": "NPC-MOUNTAIN", "npc_name": NPC_BRENDA, "speaker": "Old Man Mountain"}),

@@ -4988,5 +4988,247 @@
 			"BACKSIDE",
 			"BACK"
 		]
+	},
+	"BRISKET": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.35,
+		"walk_dirs": []
+	},
+	"CAPITAL_GUARD": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.2,
+		"walk_dirs": []
+	},
+	"DEALER": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"EXIT_CLERK": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"GARY": {
+		"bottom_pad": 16,
+		"canvas": [
+			752,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 0.55,
+		"walk_dirs": []
+	},
+	"GYM_ATTENDANT": {
+		"bottom_pad": 16,
+		"canvas": [
+			208,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"HESPER": {
+		"bottom_pad": 16,
+		"canvas": [
+			240,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"MUCKFOOT": {
+		"bottom_pad": 16,
+		"canvas": [
+			216,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
+	},
+	"SIR_LOIN": {
+		"bottom_pad": 16,
+		"canvas": [
+			352,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.35,
+		"walk_dirs": []
+	},
+	"SORREL": {
+		"bottom_pad": 16,
+		"canvas": [
+			232,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.1,
+		"walk_dirs": []
+	},
+	"TARRAGON": {
+		"bottom_pad": 16,
+		"canvas": [
+			224,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1,
+		"walk_dirs": []
 	}
 }

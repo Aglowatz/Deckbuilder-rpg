@@ -108,4 +108,45 @@ sheet's follow-up row and not part of Batch 11; they are listed as not delivered
 | 79 | CAP-PATH-WHITE.png | Approved_ZoneKits/Capital | 1461 | 1024x1024 | opaque | OK |
 | 80 | N-10.png | Approved | 3189 | 1024x1536 | opaque | OK - size 1024x1536, asked 768x1152 |
 
-Contact sheets of the delivery: docs/art/batch11/contact_sets_0.png, contact_sets_1.png (four poses + portrait per row).
+Contact sheets of the delivery: docs/art/batch11/contact_sets_0.jpg, contact_sets_1.jpg (four poses + portrait per row).
+
+## Part 2 - Characters
+
+**Sprite sets** (`world_test_import.gd --npcs --npc_inbox=res://_art_inbox/npc_sprites_b11/` - the trailing slash matters; the importer
+rewrote the whole manifest again, so only the 11 new keys were spliced into HEAD's text). Rows NP-HESPER .. NP-CAPITAL-GUARD added to
+`data/source/npc_sprite_batch.csv` with each row note's height:
+
+| Set (manifest key) | Height | Wired to | Was |
+|---|---|---|---|
+| HESPER | 1.0 | capital_zone.gd `hesper` (the Crease heal spot) | tinted Mage |
+| EXIT_CLERK | 1.0 | capital_zone.gd `exit_clerk` (beside the booth) | tinted Rogue_Hooded |
+| CAPITAL_GUARD | 1.2 | capital_zone.gd `guard_height`, `guard_queue`, `guard_in_1`, `guard_in_2`, freed `primm_guard` | the Correction Officer set (Nov 2 stand-in) |
+| GARY | 0.55 (lying) | gainlands_zone.gd `gary` | Barbarian, Lie_Idle |
+| GYM_ATTENDANT | 1.0 | gainlands_zone.gd `gym_attendant` (barks only) | Barbarian, Cheer |
+| TARRAGON | 1.0 | buffet_zone.gd `tarragon` | Rogue_Hooded |
+| BRISKET / SIR_LOIN | 1.35 | buffet_builder.gd `GATE_SETS` (ingredient / quest gates; Casserole already painted) | code-built 3D golems (kept as the fallback when a set is missing) |
+| MUCKFOOT | 1.0 | heap_zone.gd `wren` (Billie Muckfoot) | tinted Rogue |
+| SORREL | 1.1 | heap_zone.gd `sorrel` | tinted Mage |
+| DEALER | 1.0 | town_scene.gd `NPC_SPRITES["hidden_vendor"]` | Rogue_Hooded |
+
+Talk spots, yaws and anchors are unchanged (a sprite takes its size from the art's relative height; the entry's model `scale` does not
+apply). Shots of the hero beside each: `docs/art/batch11/p2_npcs_beside_hero.jpg` (Hesper, Exit Clerk, outer guards / Gary, gym
+attendant, Tarragon / Muckfoot, Sorrel, the Dealer) and `p2_exit_clerk_muckfoot.jpg` (the two the first camera hid behind the booth pillar / a
+tree). All SIDE poses look left, so turning to the hero mirrors correctly.
+
+**Portraits**: NPC-HESPER, -EXIT-CLERK, -GARY, -TARRAGON, -MUCKFOOT, -SORREL, -DEALER imported (`import_portraits.sh`, source = the staged
+byte-for-byte copies of the Approved_Characters files because the disk could not stream the whole folder; the importer rewrote
+`portrait_import_manifest.csv` with only these rows, so HEAD's rows were merged back). The seven speakers are `extra_npcs` in
+`data/npcs/npc_game_map.json`, named exactly as the code's speaker labels ("Nurse Hesper Dray", "Exit Clerk", "Gary", "Sous-Chef Tarragon",
+"Billie Muckfoot", "Secret Dealer" + the alias "A Secret Dealer"), so no line or label changed. Sorrel's portrait is imported but the
+growth-spot lines speak as "Moss Mulligan" since the Oct 31 critic pass (inbox). The gym attendant, Brisket and Sir Loin have no portrait (as listed).
+
+**NPC-RESCUER**: the redone portrait (both arms) replaced `assets/art/portraits/NPC-RESCUER.webp` (manifest MD5 updated). It is used only by
+the dialogue box (`RescuerDisguise.portrait_id`); no cut-out or cache derives from it (the Godot import cache was refreshed). Shot:
+`p2_rescuer_portrait.jpg`. The prologue's own `call:_start_rescuer_scene` shot stops on the forest-wake still first, so the town shot shows
+the same portrait in the dialogue box.
+
+**3D-figure audit (re-run)** as a test: `tests/world/test_painted_npcs_batch11.gd` - every NPC entry of every zone (57, freed leaders
+included) resolves to an imported painted set; the three Buffet gates are painted; Crosspath's NPCs are painted; heights match the row
+notes; the six speakers resolve to their portraits. 6/6 pass. 3D characters left: Threadwell's window mannequin (by design) and the
+Verdant Dump's ambient animals (critters, the stable animal - kept by choice).

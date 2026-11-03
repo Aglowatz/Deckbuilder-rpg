@@ -14,7 +14,8 @@
 		"Raelynn": "NPC-RIP",
 		"Auntie Alembic's": "V-ALEMBIC",
 		"The Grand Clashatorium": "NPC-BELLOWS",
-		"The Undercroft": "NPC-BELLOWS"
+		"The Undercroft": "NPC-BELLOWS",
+		"A Secret Dealer": "NPC-DEALER"
 	},
 	"speaker_prefixes": {
 		"Rip Tearson": "NPC-RIP",
@@ -96,6 +97,76 @@
 			"species": "",
 			"species_type": "Object",
 			"notes": "Art Batch Oct 22 (docs/art/import_oct22.md): the speaker \"The Old Well\" in data/story/old_well_story.json resolves to this entry by name; until NPC-OLDWELL.webp is imported the lines show without a portrait, as before."
+		},
+		{
+			"id": "NPC-HESPER",
+			"name": "Nurse Hesper Dray",
+			"role": "Resistance nurse (the Tea of Dissent heal spot)",
+			"location": "The Capital, the Crease",
+			"portrait_id": "NPC-HESPER",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-EXIT-CLERK",
+			"name": "Exit Clerk",
+			"role": "Exit Interview Booth clerk",
+			"location": "The Capital, Gate Plaza",
+			"portrait_id": "NPC-EXIT-CLERK",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-GARY",
+			"name": "Gary",
+			"role": "Gym-goer stuck under a barbell (spotting favour)",
+			"location": "The Gainlands, House of Gains yard",
+			"portrait_id": "NPC-GARY",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-TARRAGON",
+			"name": "Sous-Chef Tarragon",
+			"role": "Sous-chef, quest giver (the pantry run)",
+			"location": "The Endless Buffet",
+			"portrait_id": "NPC-TARRAGON",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-MUCKFOOT",
+			"name": "Billie Muckfoot",
+			"role": "Animal handler, quest giver (the herd)",
+			"location": "The Verdant Dump",
+			"portrait_id": "NPC-MUCKFOOT",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-SORREL",
+			"name": "Sorrel",
+			"role": "Druid of the growth spots",
+			"location": "The Verdant Dump",
+			"portrait_id": "NPC-SORREL",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
+		},
+		{
+			"id": "NPC-DEALER",
+			"name": "Secret Dealer",
+			"role": "Hidden vendor in the alley",
+			"location": "Crosspath, the hidden alley",
+			"portrait_id": "NPC-DEALER",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Batch 11 (Nov 2): painted sprite set + dialogue portrait; the name is the speaker label the code already uses."
 		}
 	]
 }

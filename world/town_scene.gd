@@ -32,7 +32,7 @@ const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## The town NPCs that are painted sprites (docs/art/world_rollout.md, Part D): spot id -> sprite set. Everyone else is still a 3D model.
-const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN", "hob": "HOB", "isla": "ISLA"}
+const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK", "rescuer": "ELOWEN", "hob": "HOB", "isla": "ISLA", "hidden_vendor": "DEALER"}
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
 	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker", "rescuer", "hob", "isla",

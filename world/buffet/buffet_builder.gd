@@ -934,16 +934,20 @@ func _build_gates() -> void:
 
 
 ## Overnight Oct 28-29, Phase 2: Colonel Casserole (the battle gate) is his painted set when it is imported (SPR-FOE-COLONEL-CASSEROLE, art batch
-## Oct 28); the other gate guardians and the fallback stay the 3D gate golems. The scene only moves and turns the figure, which a SpriteActor does too.
+## Oct 28); Batch 11 (Nov 2): Brisket (ingredient gate) and Sir Loin (quest gate) too. A gate whose set is missing stays the 3D gate golem. The scene
+## only moves and turns the figure, which a SpriteActor does too.
 func _gate_figure(gate_id: String) -> Node3D:
-	if gate_id == "battle" and SpriteLibrary.has_character(CASSEROLE_SET):
-		var actor: SpriteActor = NpcSprites.make_actor(CASSEROLE_SET)
+	var set_key: String = str(GATE_SETS.get(gate_id, ""))
+	if set_key != "" and SpriteLibrary.has_character(set_key):
+		var actor: SpriteActor = NpcSprites.make_actor(set_key)
 		actor.scale = Vector3.ONE * TownPlayer.MODEL_SCALE
 		return actor
 	return MOBS.gate_golem(gate_id)
 
 
 const CASSEROLE_SET: String = "FOE_COLONEL_CASSEROLE"
+## Gate id -> its guardian's painted set.
+const GATE_SETS: Dictionary = {"battle": CASSEROLE_SET, "ingredient": "BRISKET", "quest": "SIR_LOIN"}
 
 
 ## Where a gate's golem stands when the gate is open (beside the gap, behind the fence).
