@@ -112,6 +112,7 @@ func _process(delta: float) -> bool:
 	parts.append("buf_mb=%.0f" % (Performance.get_monitor(Performance.RENDER_BUFFER_MEM_USED) / 1048576.0))
 	parts.append("vram_mb=%.0f" % (Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0))
 	parts.append("ram_mb=%.0f" % _working_set_mb())
+	parts.append("peak_mb=%.0f" % _peak_working_set_mb())
 	print("perf_probe: " + " ".join(parts))
 	if _args.has("far"):
 		_far_report(float(_args["far"]))
@@ -152,6 +153,15 @@ func _working_set_mb() -> float:
 		return -1.0
 	var kb: String = fields[4].replace("\"", "").replace(" K", "").replace(",", "").replace(".", "").strip_edges()
 	return float(kb) / 1024.0
+
+
+## Size pass Nov 3: the process's peak working set so far (Windows PeakWorkingSet64) - the number a 4 GB laptop has to fit.
+func _peak_working_set_mb() -> float:
+	var output: Array = []
+	OS.execute("powershell.exe", ["-NoProfile", "-Command", "(Get-Process -Id %d).PeakWorkingSet64" % OS.get_process_id()], output)
+	if output.is_empty():
+		return -1.0
+	return float(str(output[0]).strip_edges()) / 1048576.0
 
 
 ## `--far=60`: the visible meshes whose box centre is farther than that from the camera, by triangle count (MultiMesh: per instance x instances),

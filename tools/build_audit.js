@@ -86,6 +86,23 @@ for (const rel of files) {
   items.push({ src: rel, bytes, cat: category(rel) });
 }
 
+// Size pass Nov 3: `--folders [depth]` prints the packed bytes per source folder (default depth 3), largest first.
+if (args.includes("--folders")) {
+  const depth = Number(args[args.indexOf("--folders") + 1]) || 3;
+  const byDir = {};
+  for (const it of items) {
+    const key = it.src.split("/").slice(0, -1).slice(0, depth).join("/") || ".";
+    byDir[key] = byDir[key] || { n: 0, b: 0 };
+    byDir[key].n++; byDir[key].b += it.bytes;
+  }
+  console.log("| Folder | Files | MB |\n|---|---:|---:|");
+  for (const [d, v] of Object.entries(byDir).sort((a, b) => b[1].b - a[1].b)) {
+    if (v.b < 0.5 * 1048576) break;
+    console.log(`| ${d} | ${v.n} | ${(v.b / 1048576).toFixed(1)} |`);
+  }
+  process.exit(0);
+}
+
 const byCat = {};
 let total = 0;
 for (const it of items) { byCat[it.cat] = (byCat[it.cat] || { n: 0, b: 0 }); byCat[it.cat].n++; byCat[it.cat].b += it.bytes; total += it.bytes; }

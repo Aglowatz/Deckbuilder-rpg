@@ -11,8 +11,8 @@ out="docs/perf/runs/$tag.md"
 raw="docs/perf/runs/$tag.txt"
 names=(Low Medium High)
 : > "$raw"
-echo "| Area | Q | avg fps | 1% low | avg ms | CPU ms | GPU ms | draw calls | objects | nodes | load ms | worst ms | RAM MB | VRAM MB | tex MB |" > "$out"
-echo "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|" >> "$out"
+echo "| Area | Q | avg fps | 1% low | avg ms | CPU ms | GPU ms | draw calls | objects | nodes | load ms | worst ms | RAM MB | peak MB | VRAM MB | tex MB |" > "$out"
+echo "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|" >> "$out"
 
 val() { echo "$1" | sed -n "s/.* $2=\([-0-9.]*\).*/\1/p"; }
 
@@ -25,10 +25,13 @@ run() {
 		text=$(timeout 300 /c/Tools/Godot/Godot_v4.7.2-stable_win64.exe --path . -s res://tools/perf_probe.gd -- --scene="res://scenes/$scene.tscn" --quality="$q" --area="$area" "$@" 2>&1)
 		line=$(echo "$text" | grep "^perf_probe:" | tail -1)
 		echo "$line" >> "$raw"
-		echo "| $area | ${names[$q]} | $(val "$line" avg_fps) | $(val "$line" low1_fps) | $(val "$line" avg_ms) | $(val "$line" cpu_ms) | $(val "$line" gpu_ms) | $(val "$line" draw_calls) | $(val "$line" objects) | $(val "$line" nodes) | $(val "$line" load_ms) | $(val "$line" worst_ms) | $(val "$line" ram_mb) | $(val "$line" vram_mb) | $(val "$line" tex_mb) |" | tee -a "$out"
+		echo "| $area | ${names[$q]} | $(val "$line" avg_fps) | $(val "$line" low1_fps) | $(val "$line" avg_ms) | $(val "$line" cpu_ms) | $(val "$line" gpu_ms) | $(val "$line" draw_calls) | $(val "$line" objects) | $(val "$line" nodes) | $(val "$line" load_ms) | $(val "$line" worst_ms) | $(val "$line" ram_mb) | $(val "$line" peak_mb) | $(val "$line" vram_mb) | $(val "$line" tex_mb) |" | tee -a "$out"
 	done
 }
 
+# Size pass Nov 3: the title and a long story scene (the ending) too - memory spots, not frame-time budgets; run only when named in the area list.
+run title title --quiet=true
+run story ending --quiet=true
 run crosspath town --pos=25.2,19.5 --quiet=true
 run forest starting_area --quiet=true --pos=1.6,-2.0
 run gainlands gainlands_zone
