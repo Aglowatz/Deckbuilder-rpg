@@ -41,7 +41,10 @@ for (const line of out.split("\n")) {
 	else models.push(m[1]);
 }
 if (kept.length) console.log("export excludes: kept " + kept.length + " models loaded by name: " + kept.join(", "));
-const filter = FIXED.concat(models.sort()).join(", ");
+// Size pass Nov 3 (Part 1): files tools/reference_graph.js found unreferenced and a person confirmed (tools/export_unused.json).
+let unusedFiles = [];
+try { unusedFiles = JSON.parse(fs.readFileSync(path.join(__dirname, "export_unused.json"), "utf8")).files.filter((f) => fs.existsSync(path.join(root, f))); } catch {}
+const filter = FIXED.concat(models.sort(), unusedFiles.sort()).join(", ");
 
 let cfg = fs.readFileSync(cfgPath, "utf8");
 const next = cfg.replace(/^exclude_filter=".*"$/m, (line, offset) => {
@@ -52,5 +55,5 @@ if (process.argv.includes("--check")) {
 	console.log(models.length + " unreferenced models would be excluded; preset " + (next === cfg ? "is up to date" : "needs an update"));
 } else {
 	fs.writeFileSync(cfgPath, next);
-	console.log("export excludes: " + FIXED.length + " fixed patterns + " + models.length + " unreferenced models");
+	console.log("export excludes: " + FIXED.length + " fixed patterns + " + models.length + " unreferenced models + " + unusedFiles.length + " unreferenced files (export_unused.json)");
 }

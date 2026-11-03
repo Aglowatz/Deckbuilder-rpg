@@ -88,6 +88,25 @@ Reading of the baseline:
 - Frame times at Medium are GPU-bound (11-15 ms of GPU in the zones, CPU 2 ms). Low is 8-10 ms of GPU: the UHD 620 at a third of the
   shading rate needs the render scale and the per-pixel passes cut, not fewer draw calls (Oct 25 finding).
 
-## Parts 1-8
+## Part 1 - what the game never uses
+
+`node tools/reference_graph.js [--list]` builds the reference check the brief asked for: live code and data (scripts no other live text
+mentions are dropped first - 5 dead scripts found, listed by the tool, left in place), the shipped asset text (kit scenes, manifests),
+plus every loader that builds a path from an id: sprite sets by folder name (`SpriteLibrary`), `_n` / `_r` / `_nr` maps from the base
+texture id (`EnvKit.map_texture`, `PaintedLibrary`), `BST-` / `ICON-GEAR-` / `ICON-ITEM-` / `CUT-` / expression-tagged portraits
+(ids compared with punctuation removed), `_128` / `_96` icon sizes, build-cache entries by name, model textures next to a referenced glb.
+
+Result: the export was already clean. Of 7005 exported files (866 MB packed) the graph leaves **84 unreferenced files, 0.8 MB**, and
+after a hand check only two are dead: `UI-HUD-TOKENS.webp` and `UI-HUD-REFUSE.webp` (0.4 MB; no `UiArt.has(...)` names them). They
+are listed in `tools/export_unused.json`, which `update_export_excludes.js` now folds into the export's exclude filter. The rest of the
+list is pattern-loaded art whose id the data no longer carries (four Bestiary pictures of renamed enemies, cosmetic icon sizes) - kept,
+since a data edit brings them back. No `_v2` / `(1)` / `_old` duplicates exist in the exported folders; the 450 unreferenced glb
+models were already excluded (Oct 23 rule); every sound and font is named by the audio registry or the theme. The world-test folder
+is the game's painted sprite art, not test art (all 99 sets are in the manifests and named by NPC data).
+
+The "nothing missing on an exported build" check runs on the test-pack export after the content parts (3-4) and again on the v0.5.2
+release export (Part 8), since each export costs about 1.7 GB of RAM on this machine.
+
+## Parts 2-8
 
 (filled in as each part lands)

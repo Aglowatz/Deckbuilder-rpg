@@ -11,8 +11,8 @@ Previous state: docs/overnight/nov2/loop_state_overnight_nov2.md (Overnight Nov 
 | Part | What | State |
 |---|---|---|
 | 0 | Baseline: payload by category, RAM/VRAM/load per spot, frame times Medium + Low, min-spec note | done: 874 MB payload (music 219, VRAM textures ~340, keyart 64), floor 600 MB RAM, zones 1.2-1.6 GB RAM + 0.6-0.85 GB VRAM, loads 3-8 s; docs/perf/size_pass_nov3.md |
-| 1 | Unused files: reference graph, exclude from export, exported-build smokes | in progress |
-| 2 | Music: re-render + Vorbis q2/q3/q4 A/B, pick, apply, audio GUT + music smoke | - |
+| 1 | Unused files: reference graph, exclude from export, exported-build smokes | done: tools/reference_graph.js; export already clean (0.8 MB unreferenced, 2 HUD files excluded via export_unused.json); exported-build check deferred to the Part 4 test pack + Part 8 |
+| 2 | Music: re-render + Vorbis q2/q3/q4 A/B, pick, apply, audio GUT + music smoke | in progress |
 | 3 | Painted 2D art: size limits from on-screen sizes, WebP quality test, contact sheets | - |
 | 4 | World textures: BC1 for opaque, far textures 512, normal maps half, mipmaps | - |
 | 5 | Memory: on-demand art with an LRU cache, streamed music, parked scene per preset | - |
