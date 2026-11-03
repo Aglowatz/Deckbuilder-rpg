@@ -8,7 +8,7 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -7.0,
+ "true_peak": -7.1,
  "lra": 13.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -31.7
+   "lufs": -31.8
   },
   {
    "section": "A piano tune",
    "bar": 4,
    "bars": 16,
    "start_s": 7.5,
-   "lufs": -23.9
+   "lufs": -24.0
   },
   {
    "section": "A' flute",
    "bar": 20,
    "bars": 16,
    "start_s": 37.5,
-   "lufs": -16.8
+   "lufs": -16.9
   },
   {
    "section": "B the question",
@@ -47,14 +47,14 @@
    "bar": 52,
    "bars": 8,
    "start_s": 97.5,
-   "lufs": -20.5
+   "lufs": -20.6
   },
   {
    "section": "outro",
    "bar": 60,
    "bars": 4,
    "start_s": 112.5,
-   "lufs": -29.4
+   "lufs": -29.5
   }
  ],
  "motifs": [
@@ -87,8 +87,8 @@
  },
  "seam": {
   "jump_db": 1.19,
-  "wrap_step": 0.00502,
-  "p999_step": 0.05451,
+  "wrap_step": 0.00762,
+  "p999_step": 0.05418,
   "click": false,
   "ok": true
  },

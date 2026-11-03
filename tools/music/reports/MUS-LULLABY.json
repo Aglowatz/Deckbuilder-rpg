@@ -7,9 +7,9 @@
  "bars": 10,
  "seconds": 36.69,
  "loop_seconds": 34.286,
- "lufs": -20.0,
- "true_peak": -7.6,
- "lra": 7.7,
+ "lufs": -20.1,
+ "true_peak": -7.9,
+ "lra": 7.8,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -33,7 +33,7 @@
    "bar": 6,
    "bars": 4,
    "start_s": 20.6,
-   "lufs": -24.5
+   "lufs": -24.6
   }
  ],
  "motifs": [],

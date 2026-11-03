@@ -20,8 +20,10 @@ FFDIR="$(dirname "$(command -v ffmpeg 2>/dev/null || ls "$LOCALAPPDATA"/Microsof
 AUDIO_ONLY="$ONLY" node tools/audio_analyze.js "$SRC" "$FFDIR" data/source/audio_levels.csv 2>/dev/null | tail -3
 # The importer's ffmpeg calls can fail transiently under load (Oct 31: 22 files dropped while three renders ran): restore the generated
 # files and try once more, then stop.
+# Size pass Nov 3: toolkit renders are imported verbatim (--no-process). The drop-in pipeline (loop re-seat, loudnorm, re-encode) is for
+# WAV loops dropped in by hand; on a finished OGG render it decoded and re-encoded the file (q3 -> q5: a second lossy pass, no smaller).
 for try in 1 2; do
-	LOG="$(bash tools/import_audio.sh 2>&1)"
+	LOG="$(bash tools/import_audio.sh --no-process 2>&1)"
 	if ! echo "$LOG" | grep -q "^Error:" && echo "$LOG" | grep -q "IDs missing a file (0)"; then break; fi
 	echo "$LOG" | grep -E "^Error:|missing a file" | cut -c1-200
 	git checkout data/audio/audio_registry.json data/source/audio_import_manifest.csv data/source/audio_levels_local.csv

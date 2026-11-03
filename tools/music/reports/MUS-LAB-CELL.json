@@ -7,8 +7,8 @@
  "bars": 18,
  "seconds": 70.72,
  "loop_seconds": 65.455,
- "lufs": -20.0,
- "true_peak": -6.8,
+ "lufs": -20.1,
+ "true_peak": -7.0,
  "lra": 15.5,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -30.3
+   "lufs": -30.4
   },
   {
    "section": "cello",
@@ -33,21 +33,21 @@
    "bar": 8,
    "bars": 4,
    "start_s": 29.1,
-   "lufs": -24.3
+   "lufs": -24.4
   },
   {
    "section": "warmth",
    "bar": 12,
    "bars": 4,
    "start_s": 43.6,
-   "lufs": -17.4
+   "lufs": -17.5
   },
   {
    "section": "held",
    "bar": 16,
    "bars": 2,
    "start_s": 58.2,
-   "lufs": -17.7
+   "lufs": -17.8
   }
  ],
  "motifs": [

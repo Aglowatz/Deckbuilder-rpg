@@ -107,6 +107,38 @@ is the game's painted sprite art, not test art (all 99 sets are in the manifests
 The "nothing missing on an exported build" check runs on the test-pack export after the content parts (3-4) and again on the v0.5.2
 release export (Part 8), since each export costs about 1.7 GB of RAM on this machine.
 
-## Parts 2-8
+## Part 2 - music
+
+Every MUS- score was re-rendered from its Python score through the MIDI + FluidSynth pipeline (`tools/music/build.py`, 123 tracks,
+~50 min) and encoded at Vorbis **q3**; the renderer now takes the quality from `VORBIS_Q` / `WP_VORBIS_Q`, writes extra `_q2/_q3/_q4`
+encodes with `WP_VORBIS_EXTRA`, and keeps the float WAV master with `WP_KEEP_WAV=1` (about 60 MB a track, so only for checks). Loop
+points stay whole-file loops (the render folds the tail onto the start; `deliver.py --approve` re-derived every loop end from the new
+file's frame count), levels stay -20 LUFS loops / -17 LUFS stings (every render report says `lufs_ok`; two renders printed
+NEEDS ATTENTION but their reports pass every check - the flag belongs to the score checks, not the audio). The previous in-game files
+are kept in `C:\Dev\music_tools\q6_backup\` and in git; the Drive registry was backed up by the delivery.
+
+Blind A/B folder: `G:\My Drive\Card Game Art\Music Review\Bitrate test\` (six tracks x q2 / q3 / q4 / current, shuffled letters,
+`KEY.txt`). The objective check (`tools/music/bitrate_check.py`, against the WAV masters, sample-aligned):
+
+| Track | Variant | kbps | KB | bandwidth kHz | SNR 2-4k | SNR 4-8k | SNR 8-14k | pre-echo dB |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| MUS-CAP-RESTORED | q2 / q3 / q4 / q6 | 86 / 104 / 120 / 170 | 1552 / 1868 / 2159 / 3065 | 20 / 20 / 20 / 20 | 6.3 / 9.6 / 10.6 / 13.4 | 3.5 / 6.4 / 7.8 / 10.5 | -0.4 / 0.4 / 0.8 / 8.4 | -0.02 / -0.14 / -0.10 / -0.08 |
+| MUS-GOUR-EXP | q2 / q3 / q4 / q6 | 88 / 108 / 127 / 180 | 1255 / 1537 / 1805 / 2559 | 16.5 / 17.8 / 19.1 / 20 | 7.1 / 10.2 / 10.7 / 13.6 | 5.7 / 8.2 / 10.4 / 13.3 | 1.2 / 2.2 / 2.9 / 9.8 | -0.05 / -0.29 / -0.26 / -0.18 |
+| MUS-REF-EXP | q2 / q3 / q4 / q6 | 95 / 115 / 139 / 198 | 1148 / 1398 / 1681 / 2404 | 16.4 / 17.9 / 19.5 / 20 | 7.6 / 10.8 / 11.6 / 14.7 | 5.0 / 7.8 / 10.4 / 13.4 | 2.5 / 3.6 / 4.4 / 10.6 | -0.09 / -0.39 / -0.38 / -0.28 |
+| MUS-NECRO-EXP | q2 / q3 / q4 / q6 | 85 / 105 / 125 / 174 | 1189 / 1475 / 1755 / 2445 | 20 / 20 / 20 / 20 | 9.6 / 12.9 / 14.7 / 17.7 | 7.8 / 10.8 / 13.3 / 16.1 | 1.2 / 2.2 / 2.6 / 8.9 | -0.14 / -0.16 / -0.10 / -0.05 |
+| MUS-MEM-01 | q2 / q3 / q4 / q6 | 85 / 103 / 118 / 165 | 808 / 974 / 1115 / 1567 | 16.5 / 17.2 / 17.6 / 18.2 | 6.5 / 9.6 / 10.4 / 13.2 | 4.2 / 7.2 / 8.9 / 11.7 | 0.0 / 1.0 / 1.4 / 8.6 | 0.01 / -0.25 / -0.18 / -0.18 |
+| STG-VICTORY | q2 / q3 / q4 / q6 | 94 / 112 / 129 / 180 | 46 / 55 / 63 / 88 | 16.5 / 17.3 / 19.1 / 19.9 | 7.1 / 9.7 / 10.5 / 13.3 | 4.4 / 6.8 / 8.5 / 11.3 | -0.6 / 0.1 / 0.5 / 8.7 | 0.10 / -0.28 / 0.03 / -0.23 |
+
+SNR = the 5th percentile (worst frames) of the per-frame band signal-to-coding-noise ratio; the band's own signal masks noise about
+13-15 dB below it, so the 2-8 kHz numbers are the ones to listen for (string / cymbal "swirl"); the 8-14 kHz band is noise-filled by
+every Vorbis level below q6 by design (low waveform SNR, perceptually shaped). Pre-echo is nil at every level. **Pick: q3** - the
+lowest level that keeps the bandwidth above 17 kHz and the 2-8 kHz worst frames within 3 dB of q4; q2 drops to 16.5 kHz and 6-8 dB.
+
+Saving: the in-game music folder goes **213.3 -> 174.5 MB (-39 MB)**. Less than the six loud tracks promised (-40 %), because the old
+files were a mix of q6 renders (up to 170 kbps) and q5 drop-in loops (110-130 kbps); the quiet cues shrink most (-40 %), the dense
+ones barely (MUS-CAP-CORRECTION 102 %, MUS-NECRO-FREED 100 %: VBR was already spending little on them). q2 would take a further
+~40 MB. Stings (STG-, WAV / QOA, 5 MB) and ambience (8 MB) are unchanged.
+
+## Parts 3-8
 
 (filled in as each part lands)

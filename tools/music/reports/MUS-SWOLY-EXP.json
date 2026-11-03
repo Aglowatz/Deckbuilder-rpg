@@ -7,8 +7,8 @@
  "bars": 56,
  "seconds": 134.4,
  "loop_seconds": 134.4,
- "lufs": -20.0,
- "true_peak": -4.7,
+ "lufs": -20.1,
+ "true_peak": -4.9,
  "lra": 9.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.1
+   "lufs": -26.2
   },
   {
    "section": "A climb",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 48.0,
-   "lufs": -19.3
+   "lufs": -19.4
   },
   {
    "section": "C thin air",
@@ -47,14 +47,14 @@
    "bar": 44,
    "bars": 8,
    "start_s": 105.6,
-   "lufs": -16.0
+   "lufs": -16.1
   },
   {
    "section": "outro wind",
    "bar": 52,
    "bars": 4,
    "start_s": 124.8,
-   "lufs": -25.8
+   "lufs": -25.9
   }
  ],
  "motifs": [
@@ -86,9 +86,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SWOLY-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.98,
-  "wrap_step": 0.0021,
-  "p999_step": 0.05559,
+  "jump_db": 0.96,
+  "wrap_step": 0.0017,
+  "p999_step": 0.05503,
   "click": false,
   "ok": true
  },

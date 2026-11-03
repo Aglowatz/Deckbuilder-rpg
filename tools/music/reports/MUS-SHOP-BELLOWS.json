@@ -8,7 +8,7 @@
  "seconds": 76.8,
  "loop_seconds": 76.8,
  "lufs": -20.0,
- "true_peak": -9.0,
+ "true_peak": -9.2,
  "lra": 4.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,42 +19,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "A calm: clarinet",
    "bar": 4,
    "bars": 8,
    "start_s": 9.6,
-   "lufs": -20.0
+   "lufs": -20.1
   },
   {
    "section": "fanfare",
    "bar": 12,
    "bars": 4,
    "start_s": 28.8,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "B calm: flute and harp",
    "bar": 16,
    "bars": 8,
    "start_s": 38.4,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "C the motif as a fanfare",
    "bar": 24,
    "bars": 4,
    "start_s": 57.6,
-   "lufs": -22.2
+   "lufs": -22.3
   },
   {
    "section": "calm",
    "bar": 28,
    "bars": 4,
    "start_s": 67.2,
-   "lufs": -19.2
+   "lufs": -19.3
   }
  ],
  "motifs": [
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-BELLOWS.mid"
  },
  "seam": {
-  "jump_db": -0.29,
-  "wrap_step": 0.00846,
-  "p999_step": 0.06501,
+  "jump_db": -0.31,
+  "wrap_step": 0.01349,
+  "p999_step": 0.06466,
   "click": false,
   "ok": true
  },

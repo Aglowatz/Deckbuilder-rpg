@@ -7,8 +7,8 @@
  "bars": 64,
  "seconds": 137.14,
  "loop_seconds": 137.143,
- "lufs": -20.0,
- "true_peak": -5.3,
+ "lufs": -20.1,
+ "true_peak": -5.4,
  "lra": 9.7,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -26.1
+   "lufs": -26.2
   },
   {
    "section": "A cold theme",
    "bar": 8,
    "bars": 16,
    "start_s": 17.1,
-   "lufs": -17.6
+   "lufs": -17.7
   },
   {
    "section": "B assembly line",
    "bar": 24,
    "bars": 12,
    "start_s": 51.4,
-   "lufs": -21.6
+   "lufs": -21.7
   },
   {
    "section": "A' strings",
    "bar": 36,
    "bars": 20,
    "start_s": 77.1,
-   "lufs": -19.1
+   "lufs": -19.2
   },
   {
    "section": "machinery again",
    "bar": 56,
    "bars": 8,
    "start_s": 120.0,
-   "lufs": -26.1
+   "lufs": -26.2
   }
  ],
  "motifs": [
@@ -84,9 +84,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-DUN-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.79,
-  "wrap_step": 0.0048,
-  "p999_step": 0.07588,
+  "jump_db": -0.8,
+  "wrap_step": 0.00408,
+  "p999_step": 0.07534,
   "click": false,
   "ok": true
  },

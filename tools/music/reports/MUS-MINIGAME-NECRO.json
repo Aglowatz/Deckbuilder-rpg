@@ -8,8 +8,8 @@
  "seconds": 78.55,
  "loop_seconds": 78.545,
  "lufs": -20.0,
- "true_peak": -8.5,
- "lra": 13.5,
+ "true_peak": -8.7,
+ "lra": 13.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -34.1
+   "lufs": -34.2
   },
   {
    "section": "A cells",
@@ -40,14 +40,14 @@
    "bar": 28,
    "bars": 16,
    "start_s": 45.8,
-   "lufs": -18.2
+   "lufs": -18.3
   },
   {
    "section": "outro",
    "bar": 44,
    "bars": 4,
    "start_s": 72.0,
-   "lufs": -31.9
+   "lufs": -32.0
   }
  ],
  "motifs": [
@@ -75,8 +75,8 @@
  },
  "seam": {
   "jump_db": -0.54,
-  "wrap_step": 0.00038,
-  "p999_step": 0.04645,
+  "wrap_step": 0.00098,
+  "p999_step": 0.04626,
   "click": false,
   "ok": true
  },

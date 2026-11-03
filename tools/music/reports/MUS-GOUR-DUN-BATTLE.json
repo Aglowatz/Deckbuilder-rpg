@@ -8,7 +8,7 @@
  "seconds": 123.43,
  "loop_seconds": 123.429,
  "lufs": -20.1,
- "true_peak": -7.1,
+ "true_peak": -6.9,
  "lra": 4.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "A brass theme",
    "bar": 4,
    "bars": 16,
    "start_s": 6.9,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "B tension",
    "bar": 20,
    "bars": 16,
    "start_s": 34.3,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "C machine drop",
    "bar": 36,
    "bars": 16,
    "start_s": 61.7,
-   "lufs": -21.9
+   "lufs": -22.0
   },
   {
    "section": "D tutti",
@@ -54,7 +54,7 @@
    "bar": 68,
    "bars": 4,
    "start_s": 116.6,
-   "lufs": -19.0
+   "lufs": -19.1
   }
  ],
  "motifs": [
@@ -101,9 +101,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-DUN-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.7,
-  "wrap_step": 0.00185,
-  "p999_step": 0.05606,
+  "jump_db": -0.72,
+  "wrap_step": 0.00979,
+  "p999_step": 0.05499,
   "click": false,
   "ok": true
  },

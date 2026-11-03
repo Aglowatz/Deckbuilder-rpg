@@ -12,10 +12,10 @@ Previous state: docs/overnight/nov2/loop_state_overnight_nov2.md (Overnight Nov 
 |---|---|---|
 | 0 | Baseline: payload by category, RAM/VRAM/load per spot, frame times Medium + Low, min-spec note | done: 874 MB payload (music 219, VRAM textures ~340, keyart 64), floor 600 MB RAM, zones 1.2-1.6 GB RAM + 0.6-0.85 GB VRAM, loads 3-8 s; docs/perf/size_pass_nov3.md |
 | 1 | Unused files: reference graph, exclude from export, exported-build smokes | done: tools/reference_graph.js; export already clean (0.8 MB unreferenced, 2 HUD files excluded via export_unused.json); exported-build check deferred to the Part 4 test pack + Part 8 |
-| 2 | Music: re-render + Vorbis q2/q3/q4 A/B, pick, apply, audio GUT + music smoke | in progress |
-| 3 | Painted 2D art: size limits from on-screen sizes, WebP quality test, contact sheets | - |
-| 4 | World textures: BC1 for opaque, far textures 512, normal maps half, mipmaps | - |
-| 5 | Memory: on-demand art with an LRU cache, streamed music, parked scene per preset | - |
-| 6 | Low-end preset + Compatibility renderer fallback + auto-pick | - |
+| 2 | Music: re-render + Vorbis q2/q3/q4 A/B, pick, apply, audio GUT + music smoke | in progress: 123 MUS re-rendered at q3 (213 -> 174.5 MB), A/B folder + KEY on Drive, spectral table in the report, inbox 1; delivery (approve + import) running; GUT audio + music smoke next |
+| 3 | Painted 2D art: size limits from on-screen sizes, WebP quality test, contact sheets | in progress: quality test + sheets in docs/art/size_pass/ (q 0.80 kept for stills/boards/maps/vendors/cards, 0.85 portraits/sprites/bestiary), rules edited (not yet imported); texfit sweep (tools/texfit_run.sh) for the size limits next |
+| 4 | World textures: BC1 for opaque, far textures 512, normal maps half, mipmaps | prepared: assets/art/_fmt_test copies + tools/texfmt_patch.js + tools/texfmt_crops.gd (BC7 / BC1 / Basis UASTC rdo 1 / rdo 3); needs Godot |
+| 5 | Memory: on-demand art with an LRU cache, streamed music, parked scene per preset | code written: core/data/art_cache.gd (LRU, budget per preset) behind UiArt/KeyArt/Portraits/CardArt/Battleboards/MapArt/Bestiary + warmup + AreaCaches; AudioRegistry stream cache bounded to 8; tests written, not yet run |
+| 6 | Low-end preset + Compatibility renderer fallback + auto-pick | code written: GraphicsQuality.low_end (+knobs), Settings.low_end + first-launch rule + 30 fps cap, settings row, no parking, project fallback_to_* ; tests written, not yet run; shader check on opengl3 next |
 | 7 | Slimmer engine (optional) | - |
 | 8 | Export v0.5.2, smokes, compare, policy doc, GUT, delete v0.5.1 zip | - |

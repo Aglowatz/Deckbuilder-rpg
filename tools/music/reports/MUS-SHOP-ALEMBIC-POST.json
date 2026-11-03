@@ -8,7 +8,7 @@
  "seconds": 84.0,
  "loop_seconds": 84.0,
  "lufs": -20.0,
- "true_peak": -8.3,
+ "true_peak": -8.5,
  "lra": 5.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -33,14 +33,14 @@
    "bar": 16,
    "bars": 8,
    "start_s": 48.0,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "A again",
    "bar": 24,
    "bars": 4,
    "start_s": 72.0,
-   "lufs": -21.1
+   "lufs": -21.2
   }
  ],
  "motifs": [
@@ -57,9 +57,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-ALEMBIC-POST.mid"
  },
  "seam": {
-  "jump_db": 0.15,
-  "wrap_step": 0.01116,
-  "p999_step": 0.04394,
+  "jump_db": 0.14,
+  "wrap_step": 0.00814,
+  "p999_step": 0.04358,
   "click": false,
   "ok": true
  },

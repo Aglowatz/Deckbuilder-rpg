@@ -7,8 +7,8 @@
  "bars": 112,
  "seconds": 158.12,
  "loop_seconds": 158.118,
- "lufs": -20.1,
- "true_peak": -5.5,
+ "lufs": -20.2,
+ "true_peak": -5.1,
  "lra": 4.5,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 5.6,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "drop 1",
@@ -61,14 +61,14 @@
    "bar": 92,
    "bars": 16,
    "start_s": 129.9,
-   "lufs": -19.2
+   "lufs": -19.3
   },
   {
    "section": "bed",
    "bar": 108,
    "bars": 4,
    "start_s": 152.5,
-   "lufs": -22.2
+   "lufs": -22.3
   }
  ],
  "motifs": [
@@ -151,8 +151,8 @@
  },
  "seam": {
   "jump_db": -0.4,
-  "wrap_step": 0.00352,
-  "p999_step": 0.1308,
+  "wrap_step": 0.00322,
+  "p999_step": 0.13003,
   "click": false,
   "ok": true
  },

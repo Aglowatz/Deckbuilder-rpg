@@ -8,7 +8,7 @@
  "seconds": 120.0,
  "loop_seconds": 120.0,
  "lufs": -20.0,
- "true_peak": -3.3,
+ "true_peak": -3.4,
  "lra": 7.0,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,14 +26,14 @@
    "bar": 12,
    "bars": 12,
    "start_s": 32.7,
-   "lufs": -22.0
+   "lufs": -22.1
   },
   {
    "section": "C stalling",
    "bar": 24,
    "bars": 12,
    "start_s": 65.5,
-   "lufs": -20.4
+   "lufs": -20.5
   },
   {
    "section": "A' thin",
@@ -47,7 +47,7 @@
    "bar": 40,
    "bars": 4,
    "start_s": 109.1,
-   "lufs": -18.3
+   "lufs": -18.4
   }
  ],
  "motifs": [
@@ -69,9 +69,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-BEEF-BROKEN.mid"
  },
  "seam": {
-  "jump_db": -0.15,
-  "wrap_step": 0.00993,
-  "p999_step": 0.03765,
+  "jump_db": -0.13,
+  "wrap_step": 0.00953,
+  "p999_step": 0.03747,
   "click": false,
   "ok": true
  },

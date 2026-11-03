@@ -7,9 +7,9 @@
  "bars": 80,
  "seconds": 145.45,
  "loop_seconds": 145.455,
- "lufs": -20.0,
- "true_peak": -6.5,
- "lra": 8.2,
+ "lufs": -20.1,
+ "true_peak": -7.0,
+ "lra": 8.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.1
+   "lufs": -21.2
   },
   {
    "section": "A Itamae",
    "bar": 4,
    "bars": 16,
    "start_s": 7.3,
-   "lufs": -18.3
+   "lufs": -18.4
   },
   {
    "section": "B corrupted course",
    "bar": 20,
    "bars": 16,
    "start_s": 36.4,
-   "lufs": -23.4
+   "lufs": -23.5
   },
   {
    "section": "C tea ceremony",
@@ -47,28 +47,28 @@
    "bar": 48,
    "bars": 4,
    "start_s": 87.3,
-   "lufs": -20.3
+   "lufs": -20.4
   },
   {
    "section": "D climax",
    "bar": 52,
    "bars": 20,
    "start_s": 94.5,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "wind-down",
    "bar": 72,
    "bars": 4,
    "start_s": 130.9,
-   "lufs": -19.5
+   "lufs": -19.6
   },
   {
    "section": "outro knife",
    "bar": 76,
    "bars": 4,
    "start_s": 138.2,
-   "lufs": -21.0
+   "lufs": -21.1
   }
  ],
  "motifs": [
@@ -105,9 +105,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-OMAKASE-BOSS.mid"
  },
  "seam": {
-  "jump_db": 0.2,
-  "wrap_step": 0.01012,
-  "p999_step": 0.05932,
+  "jump_db": 0.17,
+  "wrap_step": 0.01401,
+  "p999_step": 0.05862,
   "click": false,
   "ok": true
  },

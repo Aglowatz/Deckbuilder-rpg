@@ -8,7 +8,7 @@
  "seconds": 77.64,
  "loop_seconds": 73.333,
  "lufs": -20.0,
- "true_peak": -5.9,
+ "true_peak": -5.8,
  "lra": 12.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.4
+   "lufs": -26.5
   },
   {
    "section": "humming",
@@ -33,21 +33,21 @@
    "bar": 10,
    "bars": 4,
    "start_s": 33.3,
-   "lufs": -22.0
+   "lufs": -22.1
   },
   {
    "section": "crossroads",
    "bar": 14,
    "bars": 6,
    "start_s": 46.7,
-   "lufs": -17.3
+   "lufs": -17.4
   },
   {
    "section": "slipping away",
    "bar": 20,
    "bars": 2,
    "start_s": 66.7,
-   "lufs": -24.8
+   "lufs": -24.9
   }
  ],
  "motifs": [

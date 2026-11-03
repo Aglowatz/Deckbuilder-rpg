@@ -977,3 +977,18 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    instructed by the harness), and C: has 1.4 GB free: the v0.5.2 export needs ~1.7 GB. Deleting `_art_inbox/npc_sprites` (890 MB, the
    sprite importer's re-creatable staging copy) was not permitted. To continue: close other apps, free disk (that folder, or the v0.4.9 /
    v0.5.0 zips in builds/), then ask for Part 6 (GUT, smokes, perf, play script, export + release smoke) and Part 7.
+
+## Size pass Nov 3 - yours to decide (the safest choice was taken)
+
+1. **Music bitrate: q3 applied (about 105 kbps actual).** The old in-game files were a mix: the Oct 31 renders at q6 (up to 170 kbps on
+   the loud tracks) and the earlier drop-in loops at q5 (110-130 kbps), so the saving is **213 -> 174.5 MB (-39 MB)**, less than the
+   40 % the six loud test tracks suggested; q2 would take a further ~40 MB off (about 135 MB). Blind A/B folder:
+   `G:\My Drive\Card Game Art\Music Review\Bitrate test\` - six tracks (orchestral climax MUS-CAP-RESTORED, the Buffet EDM drop
+   MUS-GOUR-EXP, the Dump fiddle jig MUS-REF-EXP, the D.N.A. organ MUS-NECRO-EXP, the quiet memory cue MUS-MEM-01, the victory sting)
+   as A/B/C/D (q2, q3, q4 and the current in-game file, shuffled per track); KEY.txt says which is which. My spectral check
+   (tools/music/bitrate_check.py, table in docs/perf/size_pass_nov3.md): no pre-echo at any level (Vorbis switches to short blocks on
+   transients); q2 low-passes at 16.5 kHz and its worst frames in the 2-8 kHz band sit 6-8 dB under the signal (where string "swirl" starts);
+   q3 keeps 17-18 kHz and 10-13 dB, q4 19 kHz and 11-15 dB, the old q6 20 kHz and 13-18 dB. If you hear a difference on your speakers
+   (or hear none and want the extra 40 MB from q2), say "q4" / "q6" / "q2" and the re-encode is one command:
+   `WP_VORBIS_Q=4 bash tools/music/rerender_all.sh render` + `bash tools/music/deliver_part.sh "Bitrate q4" <IDs>`.
+   Stings stay WAV (QOA in the pack, 5 MB) - not part of this.

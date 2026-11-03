@@ -7,8 +7,8 @@
  "bars": 52,
  "seconds": 117.0,
  "loop_seconds": 117.0,
- "lufs": -20.0,
- "true_peak": -5.8,
+ "lufs": -20.1,
+ "true_peak": -6.0,
  "lra": 8.0,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 45.0,
-   "lufs": -21.9
+   "lufs": -22.0
   },
   {
    "section": "C the clerk returns",
@@ -47,7 +47,7 @@
    "bar": 48,
    "bars": 4,
    "start_s": 108.0,
-   "lufs": -23.9
+   "lufs": -24.0
   }
  ],
  "motifs": [
@@ -64,9 +64,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-NECRO-BROKEN.mid"
  },
  "seam": {
-  "jump_db": 1.09,
-  "wrap_step": 0.00099,
-  "p999_step": 0.05281,
+  "jump_db": 1.11,
+  "wrap_step": 0.00272,
+  "p999_step": 0.05212,
   "click": false,
   "ok": true
  },

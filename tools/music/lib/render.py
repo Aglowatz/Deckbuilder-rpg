@@ -18,6 +18,8 @@ from scipy.ndimage import minimum_filter1d
 SR = 48000
 LOOP_LUFS = -20.0
 ONESHOT_LUFS = -17.0
+# Size pass Nov 3: the delivered Vorbis quality (was q6 ~120 kbps actual for this orchestral content: 219 MB of the build).
+VORBIS_Q = 6
 PEAK_TARGET = -2.0
 CEILING = -1.5
 RENDER_TAIL = 6.0     # seconds rendered past the loop point (synth release + reverb), folded onto the start
@@ -213,7 +215,14 @@ def render(score, mid_out, out_dir, preview_tail=15.0, keep_wav=False):
         wf.write(os.path.join(out_dir, f'{score.id}_pcm16.wav'), SR, np.clip(out * 32767, -32768, 32767).astype(np.int16))
     ogg = os.path.join(out_dir, f'{score.id}.ogg')
     mp3 = os.path.join(out_dir, f'{score.id}.mp3')
-    subprocess.run([ff, '-v', 'error', '-y', '-i', wav, '-c:a', 'libvorbis', '-q:a', '6', ogg], check=True)
+    # Size pass Nov 3: the delivered OGG's Vorbis quality is VORBIS_Q (env WP_VORBIS_Q overrides); WP_VORBIS_EXTRA="2,3,4" also writes
+    # <ID>_q2.ogg ... next to it for a bitrate A/B; WP_KEEP_WAV=1 keeps the float WAV master (about 60 MB a track) for spectral checks.
+    q = os.environ.get('WP_VORBIS_Q', str(VORBIS_Q))
+    subprocess.run([ff, '-v', 'error', '-y', '-i', wav, '-c:a', 'libvorbis', '-q:a', q, ogg], check=True)
+    for extra in [e for e in os.environ.get('WP_VORBIS_EXTRA', '').split(',') if e.strip()]:
+        subprocess.run([ff, '-v', 'error', '-y', '-i', wav, '-c:a', 'libvorbis', '-q:a', extra.strip(),
+                        os.path.join(out_dir, f'{score.id}_q{extra.strip()}.ogg')], check=True)
+    keep_wav = keep_wav or os.environ.get('WP_KEEP_WAV') == '1'
     prev = np.vstack([out, out[: int(preview_tail * SR)]]) if loop else out
     pw = os.path.join(out_dir, f'{score.id}_preview.wav')
     wf.write(pw, SR, prev.astype(np.float32))

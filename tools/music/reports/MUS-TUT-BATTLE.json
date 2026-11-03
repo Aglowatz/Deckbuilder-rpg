@@ -7,8 +7,8 @@
  "bars": 64,
  "seconds": 123.87,
  "loop_seconds": 123.871,
- "lufs": -20.0,
- "true_peak": -6.7,
+ "lufs": -20.1,
+ "true_peak": -6.9,
  "lra": 5.8,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.0
+   "lufs": -22.1
   },
   {
    "section": "A horns",
    "bar": 4,
    "bars": 16,
    "start_s": 7.7,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "B suspense",
    "bar": 20,
    "bars": 8,
    "start_s": 38.7,
-   "lufs": -23.3
+   "lufs": -23.4
   },
   {
    "section": "A' brass",
    "bar": 28,
    "bars": 16,
    "start_s": 54.2,
-   "lufs": -19.2
+   "lufs": -19.3
   },
   {
    "section": "C lift",
    "bar": 44,
    "bars": 8,
    "start_s": 85.2,
-   "lufs": -18.5
+   "lufs": -18.6
   },
   {
    "section": "A'' inverted",
@@ -113,9 +113,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUT-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.07,
-  "wrap_step": 0.01065,
-  "p999_step": 0.0446,
+  "jump_db": 0.05,
+  "wrap_step": 0.00039,
+  "p999_step": 0.0441,
   "click": false,
   "ok": true
  },

@@ -7,8 +7,8 @@
  "bars": 36,
  "seconds": 67.5,
  "loop_seconds": 67.5,
- "lufs": -20.0,
- "true_peak": -6.2,
+ "lufs": -20.1,
+ "true_peak": -6.3,
  "lra": 5.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,42 +19,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.5
+   "lufs": -21.6
   },
   {
    "section": "A trumpet rep",
    "bar": 4,
    "bars": 8,
    "start_s": 7.5,
-   "lufs": -21.1
+   "lufs": -21.2
   },
   {
    "section": "B strings + xylophone",
    "bar": 12,
    "bars": 8,
    "start_s": 22.5,
-   "lufs": -19.5
+   "lufs": -19.6
   },
   {
    "section": "C stretch",
    "bar": 20,
    "bars": 8,
    "start_s": 37.5,
-   "lufs": -21.7
+   "lufs": -21.8
   },
   {
    "section": "D tutti rep",
    "bar": 28,
    "bars": 4,
    "start_s": 52.5,
-   "lufs": -16.2
+   "lufs": -16.3
   },
   {
    "section": "count-in again",
    "bar": 32,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -21.2
+   "lufs": -21.3
   }
  ],
  "motifs": [
@@ -91,9 +91,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-BEEF.mid"
  },
  "seam": {
-  "jump_db": 0.31,
-  "wrap_step": 0.0083,
-  "p999_step": 0.06661,
+  "jump_db": 0.33,
+  "wrap_step": 0.01109,
+  "p999_step": 0.0651,
   "click": false,
   "ok": true
  },

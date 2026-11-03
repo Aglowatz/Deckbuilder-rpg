@@ -7,8 +7,8 @@
  "bars": 20,
  "seconds": 80.0,
  "loop_seconds": 80.0,
- "lufs": -20.0,
- "true_peak": -5.1,
+ "lufs": -20.1,
+ "true_peak": -5.2,
  "lra": 3.0,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,28 +19,28 @@
    "bar": 0,
    "bars": 2,
    "start_s": 0.0,
-   "lufs": -20.4
+   "lufs": -20.5
   },
   {
    "section": "A music box",
    "bar": 2,
    "bars": 8,
    "start_s": 8.0,
-   "lufs": -19.8
+   "lufs": -19.9
   },
   {
    "section": "B unstable",
    "bar": 10,
    "bars": 8,
    "start_s": 40.0,
-   "lufs": -20.4
+   "lufs": -20.5
   },
   {
    "section": "hold",
    "bar": 18,
    "bars": 2,
    "start_s": 72.0,
-   "lufs": -19.5
+   "lufs": -19.6
   }
  ],
  "motifs": [
@@ -57,9 +57,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-BREAK.mid"
  },
  "seam": {
-  "jump_db": 0.27,
-  "wrap_step": 0.005,
-  "p999_step": 0.08394,
+  "jump_db": 0.29,
+  "wrap_step": 0.01069,
+  "p999_step": 0.08288,
   "click": false,
   "ok": true
  },

@@ -7,8 +7,8 @@
  "bars": 48,
  "seconds": 137.14,
  "loop_seconds": 137.143,
- "lufs": -20.0,
- "true_peak": -6.9,
+ "lufs": -20.1,
+ "true_peak": -6.8,
  "lra": 7.3,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,28 +26,28 @@
    "bar": 4,
    "bars": 16,
    "start_s": 11.4,
-   "lufs": -19.0
+   "lufs": -19.1
   },
   {
    "section": "B the motif, Path colours",
    "bar": 20,
    "bars": 12,
    "start_s": 57.1,
-   "lufs": -22.2
+   "lufs": -22.3
   },
   {
    "section": "A' strings join",
    "bar": 32,
    "bars": 12,
    "start_s": 91.4,
-   "lufs": -18.3
+   "lufs": -18.4
   },
   {
    "section": "outro piano",
    "bar": 44,
    "bars": 4,
    "start_s": 125.7,
-   "lufs": -24.9
+   "lufs": -25.0
   }
  ],
  "motifs": [
@@ -79,9 +79,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CREASE.mid"
  },
  "seam": {
-  "jump_db": 0.63,
-  "wrap_step": 0.00334,
-  "p999_step": 0.05163,
+  "jump_db": 0.64,
+  "wrap_step": 0.00187,
+  "p999_step": 0.05128,
   "click": false,
   "ok": true
  },

@@ -7,7 +7,7 @@
  "bars": 21,
  "seconds": 71.67,
  "loop_seconds": 66.316,
- "lufs": -20.0,
+ "lufs": -20.1,
  "true_peak": -8.3,
  "lra": 7.4,
  "limited_db": 0.0,
@@ -19,35 +19,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.6
+   "lufs": -24.7
   },
   {
    "section": "cello theme",
    "bar": 4,
    "bars": 8,
    "start_s": 12.6,
-   "lufs": -18.5
+   "lufs": -18.6
   },
   {
    "section": "violins",
    "bar": 12,
    "bars": 4,
    "start_s": 37.9,
-   "lufs": -21.0
+   "lufs": -21.1
   },
   {
    "section": "resolution",
    "bar": 16,
    "bars": 4,
    "start_s": 50.5,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "held chord",
    "bar": 20,
    "bars": 1,
    "start_s": 63.2,
-   "lufs": -18.4
+   "lufs": -18.5
   }
  ],
  "motifs": [

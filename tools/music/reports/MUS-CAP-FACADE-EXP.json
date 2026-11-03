@@ -7,7 +7,7 @@
  "bars": 64,
  "seconds": 128.0,
  "loop_seconds": 128.0,
- "lufs": -20.0,
+ "lufs": -20.1,
  "true_peak": -5.7,
  "lra": 4.0,
  "limited_db": 0.0,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.2
+   "lufs": -22.3
   },
   {
    "section": "A music box theme",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 40.0,
-   "lufs": -21.1
+   "lufs": -21.2
   },
   {
    "section": "C minor slips, the burst",
@@ -47,14 +47,14 @@
    "bar": 48,
    "bars": 12,
    "start_s": 96.0,
-   "lufs": -19.0
+   "lufs": -19.1
   },
   {
    "section": "outro muzak",
    "bar": 60,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -22.2
+   "lufs": -22.3
   }
  ],
  "motifs": [
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-FACADE-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.14,
-  "wrap_step": 0.00639,
-  "p999_step": 0.08485,
+  "jump_db": 0.15,
+  "wrap_step": 0.00776,
+  "p999_step": 0.08356,
   "click": false,
   "ok": true
  },

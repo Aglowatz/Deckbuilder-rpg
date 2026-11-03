@@ -7,8 +7,8 @@
  "bars": 48,
  "seconds": 102.86,
  "loop_seconds": 102.857,
- "lufs": -20.0,
- "true_peak": -7.0,
+ "lufs": -20.1,
+ "true_peak": -7.4,
  "lra": 6.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,28 +26,28 @@
    "bar": 4,
    "bars": 16,
    "start_s": 8.6,
-   "lufs": -20.9
+   "lufs": -21.0
   },
   {
    "section": "B Capital shadow",
    "bar": 20,
    "bars": 8,
    "start_s": 42.9,
-   "lufs": -22.5
+   "lufs": -22.6
   },
   {
    "section": "A' tutti",
    "bar": 28,
    "bars": 16,
    "start_s": 60.0,
-   "lufs": -17.8
+   "lufs": -17.9
   },
   {
    "section": "outro vamp",
    "bar": 44,
    "bars": 4,
    "start_s": 94.3,
-   "lufs": -23.2
+   "lufs": -23.3
   }
  ],
  "motifs": [
@@ -85,8 +85,8 @@
  },
  "seam": {
   "jump_db": -0.01,
-  "wrap_step": 0.00552,
-  "p999_step": 0.06415,
+  "wrap_step": 0.00375,
+  "p999_step": 0.0633,
   "click": false,
   "ok": true
  },

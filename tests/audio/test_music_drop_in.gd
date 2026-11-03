@@ -146,8 +146,9 @@ func test_loop_choice() -> void:
 
 
 func test_repaired_files_keep_their_measured_levels() -> void:
-	# tools/music_fix.js (Oct 19) rebuilt these loops at -20 LUFS; the local levels apply while the file's MD5 matches.
-	var local: Dictionary = AudioRegistry._local_levels()
+	# tools/music_fix.js (Oct 19) rebuilt these loops at -20 LUFS (local levels while the file's MD5 matched); since the Size pass Nov 3 the
+	# toolkit renders are imported verbatim and measured into audio_levels.csv instead - either way the merged table says -20 LUFS.
+	var local: Dictionary = AudioRegistry._levels()
 	for id: String in ["MUS-BEEF-EXP", "MUS-BEEF-DUN-EXP", "MUS-BEEF-DUN-BATTLE", "MUS-BEEF-BOSS", "MUS-SHOP-MIREPOIX"]:
 		assert_true(local.has(id), id)
 		if local.has(id):

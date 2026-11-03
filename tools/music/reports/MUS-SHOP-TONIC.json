@@ -7,8 +7,8 @@
  "bars": 40,
  "seconds": 75.0,
  "loop_seconds": 75.0,
- "lufs": -20.0,
- "true_peak": -6.7,
+ "lufs": -20.1,
+ "true_peak": -6.8,
  "lra": 4.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,21 +26,21 @@
    "bar": 4,
    "bars": 8,
    "start_s": 7.5,
-   "lufs": -19.5
+   "lufs": -19.6
   },
   {
    "section": "B flute and clarinet argue",
    "bar": 12,
    "bars": 8,
    "start_s": 22.5,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "A' xylophone",
    "bar": 20,
    "bars": 8,
    "start_s": 37.5,
-   "lufs": -22.8
+   "lufs": -22.9
   },
   {
    "section": "C the motif bubbles up",
@@ -54,7 +54,7 @@
    "bar": 36,
    "bars": 4,
    "start_s": 67.5,
-   "lufs": -19.7
+   "lufs": -19.8
   }
  ],
  "motifs": [
@@ -76,9 +76,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-TONIC.mid"
  },
  "seam": {
-  "jump_db": -1.15,
-  "wrap_step": 0.00322,
-  "p999_step": 0.05843,
+  "jump_db": -1.16,
+  "wrap_step": 0.00875,
+  "p999_step": 0.05482,
   "click": false,
   "ok": true
  },

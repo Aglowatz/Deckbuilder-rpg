@@ -77,3 +77,24 @@ func test_alias_target_is_read_from_the_notes() -> void:
 	assert_eq(AudioRegistry.alias_target({"notes": "Compatibility alias — use MUS-TUT-BATTLE for this dungeon boss", "related": "MUS-TUT-BATTLE"}), "MUS-TUT-BATTLE")
 	assert_eq(AudioRegistry.alias_target({"notes": "v03 compatibility alias: reuses MUS-OMAKASE-BATTLE for all Omakase fights.", "related": "MUS-OMAKASE-BATTLE"}), "MUS-OMAKASE-BATTLE")
 	assert_eq(AudioRegistry.alias_target({"notes": "v01 draft", "related": "MUS-X"}), "")
+
+
+func test_the_stream_cache_keeps_only_the_last_few_cues() -> void:
+	# Size pass Nov 3 (Part 5): an OGG stream holds its whole file in RAM; the registry keeps the recent cues, not every cue of the session.
+	AudioRegistry._streams.clear()
+	var ids: Array[String] = []
+	for id: String in AudioRegistry.ids():
+		if AudioRegistry.is_playable(id) and AudioRegistry.entry(id).gameplay:
+			ids.append(id)
+		if ids.size() >= AudioRegistry.STREAM_CACHE_SIZE + 3:
+			break
+	assert_gt(ids.size(), AudioRegistry.STREAM_CACHE_SIZE, "enough cues to test with")
+	for id: String in ids:
+		assert_not_null(AudioRegistry.stream(id), id)
+	assert_eq(AudioRegistry._streams.size(), AudioRegistry.STREAM_CACHE_SIZE, "bounded")
+	assert_false(AudioRegistry._streams.has(ids[0]), "the first cue asked for was dropped")
+	assert_true(AudioRegistry._streams.has(ids[ids.size() - 1]), "the last one stays")
+	var first: AudioStream = AudioRegistry.stream(ids[ids.size() - 1])
+	AudioRegistry.stream(ids[ids.size() - 2])
+	assert_same(AudioRegistry.stream(ids[ids.size() - 1]), first, "a cue asked for again is the same held stream, moved to the back")
+	AudioRegistry._streams.clear()

@@ -26,14 +26,14 @@
    "bar": 4,
    "bars": 4,
    "start_s": 12.6,
-   "lufs": -19.5
+   "lufs": -19.6
   },
   {
    "section": "B conversation",
    "bar": 8,
    "bars": 8,
    "start_s": 25.3,
-   "lufs": -20.2
+   "lufs": -20.3
   },
   {
    "section": "C blended: the motif in thirds",
@@ -70,8 +70,8 @@
  },
  "seam": {
   "jump_db": 0.95,
-  "wrap_step": 0.01231,
-  "p999_step": 0.0589,
+  "wrap_step": 0.01498,
+  "p999_step": 0.05852,
   "click": false,
   "ok": true
  },

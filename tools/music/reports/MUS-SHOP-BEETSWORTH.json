@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.6
+   "lufs": -22.7
   },
   {
    "section": "A bassoon, seriously",
@@ -47,14 +47,14 @@
    "bar": 28,
    "bars": 4,
    "start_s": 62.2,
-   "lufs": -20.3
+   "lufs": -20.4
   },
   {
    "section": "intro procedure",
    "bar": 32,
    "bars": 4,
    "start_s": 71.1,
-   "lufs": -22.4
+   "lufs": -22.5
   }
  ],
  "motifs": [
@@ -77,8 +77,8 @@
  },
  "seam": {
   "jump_db": -0.5,
-  "wrap_step": 0.00488,
-  "p999_step": 0.04276,
+  "wrap_step": 0.00617,
+  "p999_step": 0.04254,
   "click": false,
   "ok": true
  },

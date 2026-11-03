@@ -7,8 +7,8 @@
  "bars": 80,
  "seconds": 133.33,
  "loop_seconds": 133.333,
- "lufs": -20.0,
- "true_peak": -5.4,
+ "lufs": -20.1,
+ "true_peak": -5.9,
  "lra": 8.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.8
+   "lufs": -22.9
   },
   {
    "section": "A drive",
@@ -33,14 +33,14 @@
    "bar": 20,
    "bars": 12,
    "start_s": 33.3,
-   "lufs": -21.2
+   "lufs": -21.3
   },
   {
    "section": "C drive 2",
    "bar": 32,
    "bars": 16,
    "start_s": 53.3,
-   "lufs": -21.3
+   "lufs": -21.4
   },
   {
    "section": "D breath",
@@ -54,14 +54,14 @@
    "bar": 60,
    "bars": 16,
    "start_s": 100.0,
-   "lufs": -16.7
+   "lufs": -16.8
   },
   {
    "section": "outro riff",
    "bar": 76,
    "bars": 4,
    "start_s": 126.7,
-   "lufs": -23.9
+   "lufs": -24.0
   }
  ],
  "motifs": [
@@ -129,8 +129,8 @@
  },
  "seam": {
   "jump_db": -1.2,
-  "wrap_step": 0.00261,
-  "p999_step": 0.06609,
+  "wrap_step": 0.00465,
+  "p999_step": 0.06527,
   "click": false,
   "ok": true
  },

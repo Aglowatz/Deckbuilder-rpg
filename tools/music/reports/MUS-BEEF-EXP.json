@@ -7,7 +7,7 @@
  "bars": 64,
  "seconds": 132.41,
  "loop_seconds": 132.414,
- "lufs": -20.0,
+ "lufs": -20.1,
  "true_peak": -4.7,
  "lra": 13.0,
  "limited_db": 0.0,
@@ -19,21 +19,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -28.3
+   "lufs": -28.4
   },
   {
    "section": "A march",
    "bar": 4,
    "bars": 16,
    "start_s": 8.3,
-   "lufs": -21.2
+   "lufs": -21.3
   },
   {
    "section": "B gentle",
    "bar": 20,
    "bars": 16,
    "start_s": 41.4,
-   "lufs": -22.4
+   "lufs": -22.5
   },
   {
    "section": "C comic",
@@ -47,14 +47,14 @@
    "bar": 44,
    "bars": 16,
    "start_s": 91.0,
-   "lufs": -16.6
+   "lufs": -16.7
   },
   {
    "section": "outro vamp",
    "bar": 60,
    "bars": 4,
    "start_s": 124.1,
-   "lufs": -27.5
+   "lufs": -27.6
   }
  ],
  "motifs": [
@@ -101,9 +101,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.07,
-  "wrap_step": 0.00316,
-  "p999_step": 0.08378,
+  "jump_db": 0.08,
+  "wrap_step": 0.00635,
+  "p999_step": 0.08291,
   "click": false,
   "ok": true
  },

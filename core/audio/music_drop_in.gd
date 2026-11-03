@@ -19,7 +19,9 @@ extends RefCounted
 
 const SEAM_RATE: int = 4000
 const OUT_RATE: int = 48000
-const VORBIS_QUALITY: int = 5
+## Size pass Nov 3 (Part 2): q3 (about 105 kbps for this content; was q5). Toolkit renders are imported verbatim (`import_audio.sh --no-process`,
+## the renderer already folds the loop and levels the track at the same quality); this is for a loop dropped in as a WAV.
+const VORBIS_QUALITY: int = 3
 ## 0.5 dB under AudioRegistry.PEAK_CEILING_DB: the Vorbis encode adds a few tenths.
 const ENCODE_TP: float = -2.0
 const MIN_NCC: float = 0.6

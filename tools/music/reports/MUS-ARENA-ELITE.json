@@ -7,8 +7,8 @@
  "bars": 68,
  "seconds": 110.27,
  "loop_seconds": 110.27,
- "lufs": -20.0,
- "true_peak": -6.6,
+ "lufs": -20.1,
+ "true_peak": -6.5,
  "lra": 6.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.6
+   "lufs": -19.7
   },
   {
    "section": "A tune + countersubject + canon",
    "bar": 4,
    "bars": 16,
    "start_s": 6.5,
-   "lufs": -20.2
+   "lufs": -20.3
   },
   {
    "section": "B fugato",
    "bar": 20,
    "bars": 8,
    "start_s": 32.4,
-   "lufs": -20.0
+   "lufs": -20.1
   },
   {
    "section": "C climax",
    "bar": 28,
    "bars": 16,
    "start_s": 45.4,
-   "lufs": -18.8
+   "lufs": -18.9
   },
   {
    "section": "D strategy canon",
    "bar": 44,
    "bars": 12,
    "start_s": 71.4,
-   "lufs": -23.7
+   "lufs": -23.8
   },
   {
    "section": "E tutti return",
    "bar": 56,
    "bars": 8,
    "start_s": 90.8,
-   "lufs": -19.0
+   "lufs": -19.1
   },
   {
    "section": "fanfare",
    "bar": 64,
    "bars": 4,
    "start_s": 103.8,
-   "lufs": -19.7
+   "lufs": -19.8
   }
  ],
  "motifs": [
@@ -104,8 +104,8 @@
  },
  "seam": {
   "jump_db": -0.37,
-  "wrap_step": 0.01545,
-  "p999_step": 0.06283,
+  "wrap_step": 0.01461,
+  "p999_step": 0.06192,
   "click": false,
   "ok": true
  },

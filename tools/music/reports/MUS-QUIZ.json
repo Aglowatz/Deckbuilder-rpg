@@ -8,8 +8,8 @@
  "seconds": 86.9,
  "loop_seconds": 86.897,
  "lufs": -20.0,
- "true_peak": -8.8,
- "lra": 7.0,
+ "true_peak": -8.9,
+ "lra": 7.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +19,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -27.1
+   "lufs": -27.2
   },
   {
    "section": "A three questions",
@@ -33,7 +33,7 @@
    "bar": 20,
    "bars": 16,
    "start_s": 31.0,
-   "lufs": -19.7
+   "lufs": -19.8
   },
   {
    "section": "A' three more",
@@ -47,7 +47,7 @@
    "bar": 52,
    "bars": 4,
    "start_s": 80.7,
-   "lufs": -26.7
+   "lufs": -26.8
   }
  ],
  "motifs": [
@@ -74,9 +74,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-QUIZ.mid"
  },
  "seam": {
-  "jump_db": 1.06,
-  "wrap_step": 0.00122,
-  "p999_step": 0.04467,
+  "jump_db": 1.11,
+  "wrap_step": 0.00451,
+  "p999_step": 0.04447,
   "click": false,
   "ok": true
  },

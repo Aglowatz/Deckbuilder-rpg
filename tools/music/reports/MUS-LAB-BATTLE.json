@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "A ostinato + riff",
    "bar": 4,
    "bars": 16,
    "start_s": 6.0,
-   "lufs": -19.9
+   "lufs": -20.0
   },
   {
    "section": "B Path answers",
    "bar": 20,
    "bars": 16,
    "start_s": 30.0,
-   "lufs": -20.7
+   "lufs": -20.8
   },
   {
    "section": "C quiet",
    "bar": 36,
    "bars": 16,
    "start_s": 54.0,
-   "lufs": -22.5
+   "lufs": -22.6
   },
   {
    "section": "drop",
    "bar": 52,
    "bars": 24,
    "start_s": 78.0,
-   "lufs": -18.4
+   "lufs": -18.5
   },
   {
    "section": "D glitch",
    "bar": 76,
    "bars": 16,
    "start_s": 114.0,
-   "lufs": -20.6
+   "lufs": -20.7
   },
   {
    "section": "bed",
    "bar": 92,
    "bars": 4,
    "start_s": 138.0,
-   "lufs": -20.6
+   "lufs": -20.7
   }
  ],
  "motifs": [
@@ -133,9 +133,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 1.17,
-  "wrap_step": 0.00898,
-  "p999_step": 0.07595,
+  "jump_db": 1.19,
+  "wrap_step": 0.01147,
+  "p999_step": 0.07465,
   "click": false,
   "ok": true
  },

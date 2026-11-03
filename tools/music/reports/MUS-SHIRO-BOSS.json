@@ -7,8 +7,8 @@
  "bars": 72,
  "seconds": 113.68,
  "loop_seconds": 113.684,
- "lufs": -20.0,
- "true_peak": -3.7,
+ "lufs": -20.1,
+ "true_peak": -3.9,
  "lra": 5.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.4
+   "lufs": -19.5
   },
   {
    "section": "A the trick",
    "bar": 4,
    "bars": 16,
    "start_s": 6.3,
-   "lufs": -22.2
+   "lufs": -22.3
   },
   {
    "section": "B the pose",
    "bar": 20,
    "bars": 8,
    "start_s": 31.6,
-   "lufs": -17.6
+   "lufs": -17.7
   },
   {
    "section": "C chase (sincere)",
    "bar": 28,
    "bars": 16,
    "start_s": 44.2,
-   "lufs": -18.7
+   "lufs": -18.8
   },
   {
    "section": "D brass trick",
    "bar": 44,
    "bars": 16,
    "start_s": 69.5,
-   "lufs": -22.8
+   "lufs": -22.9
   },
   {
    "section": "E the pose again",
    "bar": 60,
    "bars": 8,
    "start_s": 94.7,
-   "lufs": -19.2
+   "lufs": -19.3
   },
   {
    "section": "clappers",
    "bar": 68,
    "bars": 4,
    "start_s": 107.4,
-   "lufs": -19.7
+   "lufs": -19.8
   }
  ],
  "motifs": [
@@ -109,8 +109,8 @@
  },
  "seam": {
   "jump_db": -0.67,
-  "wrap_step": 0.00697,
-  "p999_step": 0.05361,
+  "wrap_step": 0.01035,
+  "p999_step": 0.05295,
   "click": false,
   "ok": true
  },

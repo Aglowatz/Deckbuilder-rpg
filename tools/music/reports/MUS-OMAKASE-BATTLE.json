@@ -7,9 +7,9 @@
  "bars": 72,
  "seconds": 123.43,
  "loop_seconds": 123.429,
- "lufs": -20.0,
+ "lufs": -20.1,
  "true_peak": -5.8,
- "lra": 6.1,
+ "lra": 6.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,7 +26,7 @@
    "bar": 4,
    "bars": 16,
    "start_s": 6.9,
-   "lufs": -20.3
+   "lufs": -20.4
   },
   {
    "section": "B knife",
@@ -40,21 +40,21 @@
    "bar": 36,
    "bars": 16,
    "start_s": 61.7,
-   "lufs": -19.6
+   "lufs": -19.7
   },
   {
    "section": "D tutti",
    "bar": 52,
    "bars": 16,
    "start_s": 89.1,
-   "lufs": -18.9
+   "lufs": -19.0
   },
   {
    "section": "outro bed",
    "bar": 68,
    "bars": 4,
    "start_s": 116.6,
-   "lufs": -19.2
+   "lufs": -19.3
   }
  ],
  "motifs": [
@@ -96,9 +96,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-OMAKASE-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.13,
-  "wrap_step": 0.00897,
-  "p999_step": 0.04528,
+  "jump_db": 0.11,
+  "wrap_step": 0.01034,
+  "p999_step": 0.04465,
   "click": false,
   "ok": true
  },

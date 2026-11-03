@@ -7,8 +7,8 @@
  "bars": 22,
  "seconds": 69.62,
  "loop_seconds": 66.0,
- "lufs": -20.0,
- "true_peak": -7.1,
+ "lufs": -20.1,
+ "true_peak": -7.2,
  "lra": 17.0,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,14 +19,14 @@
    "bar": 0,
    "bars": 10,
    "start_s": 0.0,
-   "lufs": -22.6
+   "lufs": -22.7
   },
   {
    "section": "a real recipe",
    "bar": 10,
    "bars": 8,
    "start_s": 30.0,
-   "lufs": -19.1
+   "lufs": -19.2
   },
   {
    "section": "flavour",

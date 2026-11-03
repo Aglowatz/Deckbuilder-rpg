@@ -7,9 +7,9 @@
  "bars": 64,
  "seconds": 115.2,
  "loop_seconds": 115.2,
- "lufs": -20.0,
- "true_peak": -4.9,
- "lra": 15.8,
+ "lufs": -20.1,
+ "true_peak": -5.2,
+ "lra": 15.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,42 +19,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -33.2
+   "lufs": -33.3
   },
   {
    "section": "A waltz",
    "bar": 4,
    "bars": 16,
    "start_s": 7.2,
-   "lufs": -23.9
+   "lufs": -24.0
   },
   {
    "section": "A' organ",
    "bar": 20,
    "bars": 16,
    "start_s": 36.0,
-   "lufs": -23.4
+   "lufs": -23.5
   },
   {
    "section": "B calm",
    "bar": 36,
    "bars": 8,
    "start_s": 64.8,
-   "lufs": -30.7
+   "lufs": -30.8
   },
   {
    "section": "climax",
    "bar": 44,
    "bars": 16,
    "start_s": 79.2,
-   "lufs": -16.1
+   "lufs": -16.2
   },
   {
    "section": "outro",
    "bar": 60,
    "bars": 4,
    "start_s": 108.0,
-   "lufs": -29.7
+   "lufs": -29.8
   }
  ],
  "motifs": [
@@ -86,9 +86,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-NECRO-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.87,
-  "wrap_step": 0.0004,
-  "p999_step": 0.06524,
+  "jump_db": 0.89,
+  "wrap_step": 0.00021,
+  "p999_step": 0.06454,
   "click": false,
   "ok": true
  },

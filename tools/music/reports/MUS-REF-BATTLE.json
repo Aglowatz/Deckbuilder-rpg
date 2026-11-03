@@ -7,8 +7,8 @@
  "bars": 72,
  "seconds": 120.0,
  "loop_seconds": 120.0,
- "lufs": -20.0,
- "true_peak": -6.2,
+ "lufs": -20.1,
+ "true_peak": -6.5,
  "lra": 5.8,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,49 +19,49 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.6
+   "lufs": -21.7
   },
   {
    "section": "A reel",
    "bar": 4,
    "bars": 16,
    "start_s": 6.7,
-   "lufs": -22.0
+   "lufs": -22.1
   },
   {
    "section": "B horn call",
    "bar": 20,
    "bars": 8,
    "start_s": 33.3,
-   "lufs": -21.2
+   "lufs": -21.3
   },
   {
    "section": "C fiddle variation",
    "bar": 28,
    "bars": 16,
    "start_s": 46.7,
-   "lufs": -20.9
+   "lufs": -21.0
   },
   {
    "section": "D tension",
    "bar": 44,
    "bars": 8,
    "start_s": 73.3,
-   "lufs": -21.3
+   "lufs": -21.4
   },
   {
    "section": "A' tutti",
    "bar": 52,
    "bars": 16,
    "start_s": 86.7,
-   "lufs": -17.2
+   "lufs": -17.3
   },
   {
    "section": "outro",
    "bar": 68,
    "bars": 4,
    "start_s": 113.3,
-   "lufs": -21.2
+   "lufs": -21.3
   }
  ],
  "motifs": [
@@ -98,9 +98,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-BATTLE.mid"
  },
  "seam": {
-  "jump_db": 0.02,
-  "wrap_step": 0.01936,
-  "p999_step": 0.05916,
+  "jump_db": 0.04,
+  "wrap_step": 0.01736,
+  "p999_step": 0.05673,
   "click": false,
   "ok": true
  },
