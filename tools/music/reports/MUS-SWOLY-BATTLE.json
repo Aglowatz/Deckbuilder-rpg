@@ -1,104 +1,133 @@
 {
  "id": "MUS-SWOLY-BATTLE",
  "kind": "loop",
- "key": "C minor",
- "bpm": 142,
+ "key": "B minor",
+ "bpm": 146,
  "meter": "4/4",
- "bars": 72,
- "seconds": 121.69,
- "loop_seconds": 121.69,
- "lufs": -20.1,
- "true_peak": -6.2,
- "lra": 4.8,
+ "profile": "rock",
+ "bars": 80,
+ "seconds": 131.51,
+ "loop_seconds": 131.507,
+ "lufs": -20.2,
+ "true_peak": -13.1,
+ "lra": 5.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro bed",
+   "section": "intro",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.6
+   "lufs": -25.5
   },
   {
-   "section": "A theme",
+   "section": "climbing riff",
    "bar": 4,
-   "bars": 16,
-   "start_s": 6.8,
+   "bars": 12,
+   "start_s": 6.6,
+   "lufs": -20.5
+  },
+  {
+   "section": "theme + brass calls",
+   "bar": 16,
+   "bars": 8,
+   "start_s": 26.3,
    "lufs": -19.4
   },
   {
-   "section": "B call and climb",
-   "bar": 20,
-   "bars": 16,
-   "start_s": 33.8,
-   "lufs": -22.0
+   "section": "build",
+   "bar": 24,
+   "bars": 4,
+   "start_s": 39.5,
+   "lufs": -23.4
   },
   {
-   "section": "C broad",
-   "bar": 36,
-   "bars": 16,
-   "start_s": 60.8,
+   "section": "drop",
+   "bar": 28,
+   "bars": 12,
+   "start_s": 46.0,
+   "lufs": -20.5
+  },
+  {
+   "section": "breakdown",
+   "bar": 40,
+   "bars": 8,
+   "start_s": 65.8,
+   "lufs": -20.4
+  },
+  {
+   "section": "build 2",
+   "bar": 48,
+   "bars": 4,
+   "start_s": 78.9,
+   "lufs": -22.2
+  },
+  {
+   "section": "drop 2",
+   "bar": 52,
+   "bars": 20,
+   "start_s": 85.5,
    "lufs": -18.5
   },
   {
-   "section": "D stone breakdown",
-   "bar": 52,
-   "bars": 16,
-   "start_s": 87.9,
-   "lufs": -20.6
+   "section": "outro riff",
+   "bar": 72,
+   "bars": 6,
+   "start_s": 118.4,
+   "lufs": -21.4
   },
   {
-   "section": "outro bed",
-   "bar": 68,
-   "bars": 4,
-   "start_s": 114.9,
-   "lufs": -21.9
+   "section": "outro",
+   "bar": 78,
+   "bars": 2,
+   "start_s": 128.2,
+   "lufs": -26.1
   }
  ],
  "motifs": [
   {
-   "bar": 1.0,
-   "form": "head (trumpet call)",
-   "ch": "tpt"
+   "bar": 16.0,
+   "form": "stated (lead, after the brass call)",
+   "ch": "lead"
   },
   {
    "bar": 20.0,
-   "form": "stated (trumpets)",
-   "ch": "tpt"
+   "form": "stated again",
+   "ch": "lead"
   },
   {
-   "bar": 24.0,
-   "form": "stated on Ab (trumpets)",
-   "ch": "tpt"
+   "bar": 32.0,
+   "form": "stated (drop)",
+   "ch": "lead"
   },
   {
-   "bar": 28.0,
-   "form": "augmented (horns), trumpets answer with the theme head",
-   "ch": "hn"
+   "bar": 52.0,
+   "form": "stated 8va (drop 2)",
+   "ch": "lead"
   },
   {
-   "bar": 64.0,
-   "form": "head twice, climbing (trumpets)",
-   "ch": "tpt"
+   "bar": 56.0,
+   "form": "stated 8va again",
+   "ch": "lead"
   },
   {
-   "bar": 69.0,
-   "form": "head (trumpet call)",
-   "ch": "tpt"
+   "bar": 60.0,
+   "form": "saw, 2 octaves up",
+   "ch": "saw"
   }
  ],
- "notes": 2324,
+ "notes": 5339,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-BATTLE\\MUS-SWOLY-BATTLE.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-BATTLE\\MUS-SWOLY-BATTLE.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SWOLY-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -1.12,
-  "wrap_step": 0.00303,
-  "p999_step": 0.04122,
+  "jump_db": -0.82,
+  "wrap_step": 0.00242,
+  "p999_step": 0.07355,
   "click": false,
   "ok": true
  },
@@ -108,36 +137,65 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
-  },
-  "melody": {
-   "coverage": 0.83,
-   "bars_without_melody": [
+   "crowded_steps": 481,
+   "bars": [
     0,
-    2,
-    3,
-    19,
+    4,
+    8,
+    12,
+    16,
+    18,
+    20,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
     32,
     33,
     34,
-    66,
-    67,
-    68,
-    70,
-    71
+    35,
+    36,
+    40,
+    42,
+    44,
+    46,
+    48,
+    50,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64
+   ],
+   "ok": false
+  },
+  "melody": {
+   "coverage": 0.96,
+   "bars_without_melody": [
+    21,
+    57,
+    70
    ],
    "buried_bars": [
-    1,
-    21,
-    23,
-    69
+    60
    ],
    "ok": true
   }
  },
  "composer_notes": [
-  "Gainlands theme in C minor; climbing string ostinato; stone drums; orchestral."
+  "Mountain rock battle: the riff climbs B-D-E-F#, brass calls answered by the lead; demo form at 146."
  ]
 }

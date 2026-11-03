@@ -294,47 +294,40 @@ def zone_ref():
 
 # ---------------------------------------------------------------- STG-ZONE-BEEF
 def zone_beef():
-    """The Gainlands theme's opening (the Crossroads motif as its fanfare) on trumpets over a march; this time the motif RESOLVES - warm
-    horns sing Bb F Eb D C Bb, the bass walks freely, and a healthy snare/timpani flourish leads to a held Bb major chord."""
-    s = sting('STG-ZONE-BEEF', 126, 4, 'Bb major', 709, cap=8.0)
-    s.seat('tpt', 'hn', 'tbn', 'tuba', 'vln', 'pad', 'cb', 'timp', 'perc', 'xylo')
-    s.mel('tpt', 0, m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1'), 94)
-    s.line('vln', 0, m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1'), 82, transpose=12)
-    s.drum(0, [(0, 'snare', 10), (1, 'snare', -6), (1.5, 'snare', -12), (2, 'snare', 4), (3, 'snare', -6), (3.5, 'snare', -10)], 70, bars=2)
-    for bar, (sym, bass) in enumerate([(['D4', 'F4', 'Bb4'], 'Bb1'), (['F4', 'A4', 'C5'], 'F2')]):
-        for k in range(4):
-            s.note('tuba', bar * 4 + k, 0.7, p(bass) + (7 if k % 2 else 0), 84 + (6 if k == 0 else 0), human=False)
-            if k % 2:
-                chord(s, 'hn', bar * 4 + k, 0.5, sym, 66)
-    s.timp_hit(0.0, 'Bb2', 96)
-    s.hit('crash', 0.0, 80, dur=2)
-    # the motif resolves in warm horns, the bass walks up, the strings pad
-    res = motif('Bb4', 'major', rhythm=(1, .5, .5, 1.5, .5, 2), resolved=True)
-    s.motif('hn', 2, res, 96, form='RESOLVED, stated (warm horns)', transpose=-12)
-    s.line('tpt', 2, res, 80)
-    s.line('cb', 2, m('Bb1:1 D2:1 Eb2:1 E2:1 | F2:1 A1:1 Bb1:2'), 82)
-    s.line('tuba', 2, m('Bb1:1 D2:1 Eb2:1 E2:1 | F2:1 A1:1 Bb1:2'), 80)
-    for beat, sym in ((8, ['D4', 'F4', 'Bb4']), (10, ['Eb4', 'G4', 'Bb4']), (12, ['C4', 'Eb4', 'A4'])):
-        chord(s, 'pad', beat, 2.0, sym, 70)
-        chord(s, 'tbn', beat, 1.8, [p(n) - 12 for n in sym], 70)
-    s.snare_roll(13.0, 1.0, 50, 100)
-    s.timp_roll(13.0, 1.0, 'F2', 60, 104)
-    land = 14.0
-    chord(s, 'hn', land, 2.6, ['Bb3', 'D4', 'F4'], 92)
-    chord(s, 'tbn', land, 2.4, ['F3', 'Bb3', 'D4'], 88)
-    chord(s, 'pad', land, 3.0, ['F3', 'Bb3', 'D4', 'F4', 'Bb4'], 84)
-    s.note('tpt', land, 2.4, p('D5'), 90, human=False)
-    s.note('vln', land, 3.0, p('F6'), 86, human=False)
-    s.note('tuba', land, 2.6, p('Bb1'), 96, human=False)
-    s.note('cb', land, 3.0, p('Bb1'), 90, human=False)
-    s.timp_hit(land, 'Bb2', 110)
-    s.hit('crash', land, 96, dur=2)
-    s.hit('bd', land, 96)
-    s.note('xylo', land, 1.0, p('Bb5'), 70, human=False)
+    """Gainlands rock Nov 3: techno hard rock. Beat 0: an E power chord with a crash and the kick (instant attack); the lead guitar climbs
+    the Gainlands answer in E major (G# A B C# E) over E - A - B, a tom fill, then the Crossroads motif's RESOLVED tail (G# F# E) lands
+    on a held E major power chord with brass, crash and sub - the wheels breathe again."""
+    from lib import rock as R
+    s = Song('STG-ZONE-BEEF', bpm=140, bars=4, key='E major', seed=709, kind='oneshot', jitter=0.004)
+    s.max_seconds = 7.5
+    R.band(s)
+    s.section(0, 'answer')
+    s.section(2, 'resolved landing')
+    # bar 0-1: power chords E A B, crash on 1, rock beat, the answer climbing on lead
+    R.crash(s, 0, 116)
+    for bar, chords in ((0, (('E', 0, 2), ('A', 2, 2))), (1, (('B', 0, 4),))):
+        for c, beat, beats in chords:
+            for ch, off in (('gtrL', 0.0), ('gtrR', 0.012)):
+                s.chord(ch, s.B(bar, beat) + off, beats - 0.05, R.power(c), 100)
+            s.note('bass', s.B(bar, beat), beats - 0.05, R.root(c), 100, human=False)
+        R.rock_beat(s, bar, 108, fill=(bar == 1))
+    s.chord('brass', 0.0, .6, R.BRASS_HITS['Emaj'], 96)
+    s.chord('brass', 2.0, .6, R.BRASS_HITS['A'], 92)
+    s.mel('lead', 0, R.ANSWER_MAJOR[:5] + [('F#5', 1.5), ('E5', .5), ('C#5', 1), ('B4', 1)], 108)
+    # bar 2: the resolved tail G# F# E (8va) on the held E major landing
+    s.motif('lead', 2, [('G#5', 1.5), ('F#5', .5), ('E5', 6)], 114, form='RESOLVED tail (lead guitar): the Gainlands freed')
+    R.crash(s, 2, 124)
+    for ch, off in (('gtrL', 0.0), ('gtrR', 0.015)):
+        s.chord(ch, s.B(2) + off, 7.5, R.power('E'), 104)
+    s.note('bass', s.B(2), 7.5, R.root('E'), 104, human=False)
+    s.note('sub', s.B(2), 7.0, R.root('E') + 12, 96, human=False)
+    s.chord('brass', s.B(2), 7.0, R.BRASS_HITS['Emaj'], 100)
+    R.pad_chord(s, 2, 'Emaj', 80, beats=7.5)
+    s.ramp('gtrL', 3, 1, 100, 60)
+    s.ramp('gtrR', 3, 1, 100, 60)
     return s
 
 
-# ---------------------------------------------------------------- pack reveals (grandeur rises common -> rare -> legend)
 def pack_common():
     """1.3 s: a small celesta/harp sparkle (E G C) and a clean C major chord."""
     s = sting('STG-PACK-COMMON', 140, 1, 'C major', 710, meter=(2, 4), cap=1.9)

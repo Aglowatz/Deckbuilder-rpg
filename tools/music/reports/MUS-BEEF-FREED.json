@@ -1,119 +1,141 @@
 {
  "id": "MUS-BEEF-FREED",
  "kind": "loop",
- "key": "Bb major",
- "bpm": 108,
+ "key": "E major",
+ "bpm": 128,
  "meter": "4/4",
- "bars": 64,
- "seconds": 142.22,
- "loop_seconds": 142.222,
- "lufs": -20.1,
- "true_peak": -6.4,
- "lra": 9.0,
+ "profile": "rock",
+ "bars": 68,
+ "seconds": 127.5,
+ "loop_seconds": 127.5,
+ "lufs": -20.2,
+ "true_peak": -12.6,
+ "lra": 7.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro swing",
+   "section": "intro bed",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -28.4
+   "lufs": -26.4
   },
   {
-   "section": "A theme",
+   "section": "riff",
    "bar": 4,
-   "bars": 16,
-   "start_s": 8.9,
-   "lufs": -19.6
-  },
-  {
-   "section": "B gentle",
-   "bar": 20,
-   "bars": 16,
-   "start_s": 44.4,
-   "lufs": -23.0
-  },
-  {
-   "section": "C shared",
-   "bar": 36,
    "bars": 8,
-   "start_s": 80.0,
-   "lufs": -22.3
+   "start_s": 7.5,
+   "lufs": -21.2
   },
   {
-   "section": "A' tutti",
-   "bar": 44,
-   "bars": 16,
-   "start_s": 97.8,
-   "lufs": -17.4
+   "section": "theme",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 22.5,
+   "lufs": -19.1
   },
   {
-   "section": "outro swing",
-   "bar": 60,
+   "section": "B anthem half-time",
+   "bar": 20,
+   "bars": 8,
+   "start_s": 37.5,
+   "lufs": -21.2
+  },
+  {
+   "section": "build",
+   "bar": 28,
    "bars": 4,
-   "start_s": 133.3,
-   "lufs": -27.5
+   "start_s": 52.5,
+   "lufs": -22.6
+  },
+  {
+   "section": "arena chorus",
+   "bar": 32,
+   "bars": 16,
+   "start_s": 60.0,
+   "lufs": -17.9
+  },
+  {
+   "section": "riff",
+   "bar": 48,
+   "bars": 8,
+   "start_s": 90.0,
+   "lufs": -20.3
+  },
+  {
+   "section": "theme 2",
+   "bar": 56,
+   "bars": 8,
+   "start_s": 105.0,
+   "lufs": -21.2
+  },
+  {
+   "section": "outro bed",
+   "bar": 64,
+   "bars": 4,
+   "start_s": 120.0,
+   "lufs": -26.9
   }
  ],
  "motifs": [
   {
-   "bar": 1.0,
-   "form": "head (horn, relaxed)",
-   "ch": "hn"
+   "bar": 2.0,
+   "form": "head (brass, over the bed)",
+   "ch": "brass"
   },
   {
-   "bar": 4.0,
-   "form": "RESOLVED (horns, bars 4-5 and 12-13)",
-   "ch": "hn"
+   "bar": 12.0,
+   "form": "RESOLVED (lead guitar)",
+   "ch": "lead"
+  },
+  {
+   "bar": 16.0,
+   "form": "RESOLVED again",
+   "ch": "lead"
+  },
+  {
+   "bar": 24.0,
+   "form": "RESOLVED augmented (brass chorale)",
+   "ch": "brass"
   },
   {
    "bar": 32.0,
-   "form": "RESOLVED (horn, countermelody)",
-   "ch": "hn"
+   "form": "RESOLVED 8va (arena chorus)",
+   "ch": "lead"
   },
   {
    "bar": 36.0,
-   "form": "RESOLVED (horns)",
-   "ch": "hn"
-  },
-  {
-   "bar": 38.0,
-   "form": "RESOLVED on Eb (trumpets)",
-   "ch": "tpt"
+   "form": "RESOLVED 8va again",
+   "ch": "lead"
   },
   {
    "bar": 40.0,
-   "form": "RESOLVED (strings)",
-   "ch": "vln"
-  },
-  {
-   "bar": 42.0,
-   "form": "RESOLVED on Eb (flute + clarinet)",
-   "ch": "fl"
+   "form": "RESOLVED (saw, 2 octaves up)",
+   "ch": "saw"
   },
   {
    "bar": 44.0,
-   "form": "RESOLVED (tutti, strings 8va + horns)",
-   "ch": "vln"
+   "form": "RESOLVED 8va (chorus end)",
+   "ch": "lead"
   },
   {
-   "bar": 61.0,
-   "form": "head (horn, relaxed)",
-   "ch": "hn"
+   "bar": 58.0,
+   "form": "RESOLVED (theme 2)",
+   "ch": "lead"
   }
  ],
- "notes": 2048,
+ "notes": 3795,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-FREED\\MUS-BEEF-FREED.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-FREED\\MUS-BEEF-FREED.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-FREED.mid"
  },
  "seam": {
-  "jump_db": 0.62,
-  "wrap_step": 0.00185,
-  "p999_step": 0.07156,
+  "jump_db": 0.04,
+  "wrap_step": 0.00168,
+  "p999_step": 0.07463,
   "click": false,
   "ok": true
  },
@@ -123,27 +145,40 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 170,
+   "bars": [
+    3,
+    10,
+    11,
+    18,
+    26,
+    29,
+    31,
+    38,
+    39,
+    46,
+    47,
+    54,
+    55,
+    62,
+    67
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.91,
+   "coverage": 0.97,
    "bars_without_melody": [
-    0,
-    2,
-    47,
-    60,
-    62,
-    63
+    17,
+    27
    ],
    "buried_bars": [
-    32
+    3,
+    40
    ],
    "ok": true
   }
  },
  "composer_notes": [
-  "Resolved motif (Bb F Eb D C Bb) - FREED only. Orchestral by the Music Pass 1 brief (old row: open guitar rock + brass)."
+  "FREED: resolved motif on lead guitar, E major, big brass; celebratory (rock beat + crashes, no drop machinery)."
  ]
 }

@@ -1,0 +1,69 @@
+# Gainlands rock Nov 3 (Part 4): the Gainlands set in the real game. Run with MUSIC_LOG=1 so the MusicManager writes its cues to stdout.log:
+#   MUSIC_LOG=1 bash tools/play.sh docs/review/play_scripts/gainlands_rock_nov3.txt gainlands_rock_nov3 900
+# Expect: MUS-BEEF-EXP (zone) -> MUS-BEEF-BATTLE (zone battle) -> MUS-BEEF-DUN-EXP (House of Gains map) -> MUS-BEEF-DUN-BATTLE (a dungeon
+# battle) -> MUS-BEEF-BOSS (Chancellor Clench, after his intro) -> STG-WIN-BEEF-BOSS (win) -> MUS-BEEF-FREED (the freed zone).
+wait 6
+button New Game
+wait 1.5
+button Start here
+wait 5
+skip_dialogue 30
+wait 2
+dev level 14
+dev autowin on
+log --- the Gainlands zone (MUS-BEEF-EXP)
+dev travel zone beefcake
+wait 8
+skip_dialogue 10
+shot 01_zone
+scene
+log --- a zone battle (MUS-BEEF-BATTLE)
+dev encounters zone:beefcake
+dev encounter zone:beefcake
+wait 2
+skip_dialogue 10
+shot 02_zone_battle
+scene
+pilot 120
+wait 3
+skip_dialogue 10
+wait 3
+log --- the House of Gains map (MUS-BEEF-DUN-EXP)
+dev travel dungeon D-HOG
+wait 6
+skip_dialogue 10
+shot 03_hog_map
+scene
+log --- a House of Gains battle (MUS-BEEF-DUN-BATTLE)
+dev encounters BB-HOG
+dev encounter BB-HOG
+wait 2
+skip_dialogue 10
+shot 04_hog_battle
+scene
+pilot 120
+wait 3
+skip_dialogue 10
+wait 3
+log --- Chancellor Clench: intro + boss music (MUS-BEEF-BOSS), then the win sting
+dev encounters Clench
+dev encounter Clench
+wait 2
+shot 05_clench_intro
+skip_dialogue 20
+wait 4
+shot 06_clench_battle
+scene
+pilot 200
+wait 3
+shot 07_clench_after
+skip_dialogue 20
+wait 4
+log --- the freed Gainlands (MUS-BEEF-FREED)
+dev freed beefcake
+dev travel zone beefcake
+wait 8
+skip_dialogue 10
+shot 08_freed_zone
+scene
+wait 4

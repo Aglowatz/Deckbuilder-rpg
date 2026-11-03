@@ -1,123 +1,133 @@
-"""MUS-BEEF-DUN-EXP - House of Gains, exploration. 64 bars 4/4, 108 BPM, G minor.
-Compulsory repetitions: a cello "rep" figure that never stops counting, a clank of weights (cowbell + sticks) and a metronome click, the
-Crossroads motif in the horns stated twice like a set of reps (G D C Bb A D). A quiet B section breathes - string swells that inhale and
-exhale over Eb major, a flute line and the motif augmented - for Grandmaster Flex's meditation. Then the fortress tightens (snare, brass,
-the motif climbing through G, Bb and C) before the reps return. Orchestral by the Music Pass 1 brief.
+"""MUS-BEEF-DUN-EXP - House of Gains, exploration. 72 bars 4/4, 126 BPM, E minor. TECHNO HARD ROCK (Gainlands rock Nov 3).
+Exuberance turned into compulsory repetitions: the Gainlands riff ground into 16th MACHINE chugs (a gym machine's reps), metallic clank on
+the power kit (ride bell, cowbell, side stick), the Crossroads motif stern on lead guitar over brass stabs. A quiet breath section for Flex:
+the guitars stop, a clean guitar sings the Gainlands answer over a brass chorale and pad. Then the riff returns heavier with the lick.
 """
-from lib import Score, m, motif, augment, p
-
-REPS = m('G4:1 D5:.5 C5:.5 Bb4:1.5 A4:.5 | D5:3 r:1 | Eb5:1.5 D5:.5 C5:1 Bb4:1 | A4:2 F#4:2 '
-         '| G4:1 D5:.5 C5:.5 Bb4:1.5 A4:.5 | D5:3 r:1 | Eb5:1 G5:1 F5:1 Eb5:1 | D5:4')
-REPS_H = ['Gm', 'Gm', 'Eb', 'D', 'Gm', 'Gm', 'Cm', 'D']
-BREATH = m('G5:3 Bb5:1 | G5:2 F5:2 | Eb5:3 C5:1 | D5:4 | G5:3 Bb5:1 | C6:2 Bb5:2 | Ab5:2 G5:2 | F5:4')
-BREATH_H = ['Ebmaj7', 'Cm7', 'Abmaj7', 'Bbsus4', 'Ebmaj7', 'Cm7', 'Abmaj7', 'Bbsus4']
-FORT = m('G4:1 D5:.5 C5:.5 Bb4:1.5 A4:.5 | D5:3 r:1 | Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | G5:3 r:1 '
-         '| C5:1 G5:.5 F5:.5 Eb5:1.5 D5:.5 | Ab5:3 r:1 | G5:1 F#5:1 A5:1 C6:1 | D6:3 r:1')
-FORT_H = ['Gm', 'Eb', 'Gm', 'Eb', 'Cm', 'Ab', 'D', 'D7']
-CLANK = [(0, 'cowbell', -18), (1, 'stick', -12), (2, 'bd', -6), (3, 'stick', -12), (3.5, 'stick', -20)]
+from lib import Song, p
+from lib import rock as R
+from lib.rock import PROG, MOTIF, ANSWER, ANSWER_TAG, LICK, BRASS_HITS
 
 
 def build():
-    s = Score('MUS-BEEF-DUN-EXP', bpm=108, bars=64, key='G minor', seed=203)
-    s.seat('vln', 'vc', 'cb', 'hn', 'tpt', 'tbn', 'fl', 'cl', 'harp', 'pad', 'timp', 'perc')
-    for bar, nm in ((0, 'intro reps'), (4, 'A reps'), (20, 'B breath'), (36, 'C fortress'), (52, "A' reps tutti"), (60, 'outro reps')):
+    s = Song('MUS-BEEF-DUN-EXP', bpm=126, bars=72, key='E minor', seed=311)
+    s.jitter = 0.006
+    R.band(s)
+    s.add('clean', 10, 27, pan=44, rev=90, vol=124)        # clean electric guitar (not in the amp stem): Flex's breath
+    for bar, nm in ((0, 'intro machine'), (4, 'machine riff'), (16, 'theme (stern)'), (28, 'breath (Flex)'), (40, 'build'),
+                    (44, 'riff + lick'), (60, 'outro riff'), (68, 'outro machine')):
         s.section(bar, nm)
-    s.notes.append('Orchestral by the Music Pass 1 brief (the old music_list row asked for guitar rock).')
+    s.notes.append('House of Gains: the Gainlands riff as 16th machine reps; a guitar-free breath section for Flex.')
 
-    def rep(bar, sym, vel, cb=True):
-        """The rep figure: cello 8ths on the chord, counted, with the contrabass on the downbeats."""
-        r = p(s.voicing(sym)[0])
-        while r < p('C2'):
-            r += 12
-        third = r + (3 if sym.startswith(('Gm', 'Cm')) else 4)
-        cell = [r, r, third, r, r + 7, r, r + 5 if not sym.startswith('D') else r + 3, third]
-        for k, n in enumerate(cell):
-            s.note('vc', bar * 4 + k * .5, .4, n, vel + (10 if k % 4 == 0 else -4))
-        if cb:
-            s.note('cb', bar * 4, 1.8, p(s.voicing(sym)[0]), vel)
-            s.note('cb', bar * 4 + 2, 1.8, p(s.voicing(sym)[0]), vel - 8)
+    def clank(bar, vel):
+        """The gym machine: ride bell on the beats, cowbell on the off-beats, a side-stick 'click' at the end of each rep."""
+        for b in range(4):
+            s.note('kit', s.B(bar, b), .1, 53, vel - 10, human=False)
+        R.clank(s, bar, vel, beats=(1.5, 3.5))
+        s.note('kit', s.B(bar, 3.75), .1, 37, vel - 16, human=False)
 
-    def gym(bar, vel):
-        s.drum(bar, CLANK, vel)
-        s.drum(bar, [(0, 'click', -4), (1, 'click', -14), (2, 'click', -10), (3, 'click', -14)], vel - 18)
+    def bed(bar, c):
+        """Intro and outro (the same, so the seam matches): held power chord, synth sub, pad, kick pulse, the machine clank."""
+        R.sustain(s, bar, c, 60)
+        R.kick_pulse(s, bar, 104)
+        for b in range(4):
+            s.note('sub', s.B(bar, b), .9, R.root(c), 86, human=False)
+        R.pad_chord(s, bar, c, 66)
+        clank(bar, 82)
 
-    def intro(bar):
-        for i, sym in enumerate(['Gm', 'Gm', 'Eb', 'D']):
-            rep(bar + i, sym, 66)
-            gym(bar + i, 60)
-            s.pad('pad', bar + i, sym, 44)
-        s.expr('pad', bar, 70)
-        s.motif('hn', bar + 2, m('G3:1 D4:.5 C4:.5 D4:2'), 64, form='head (horn, counting in)')
+    for i, c in enumerate(['E', 'E', 'C', 'D']):
+        bed(i, c)
+    R.snare_roll(s, 3, 1, 44, 90)
 
-    intro(0)
+    # 4-15 MACHINE RIFF: 16th chugs on E C D B, gallop bass, rock beat, clank
+    R.crash(s, 4, 100)
+    for i in range(12):
+        bar = 4 + i
+        c = PROG[(i // 2) % 4]
+        R.chug(s, bar, c, 78, pattern='machine')
+        R.bassline(s, bar, c, 86, style='gallop')
+        R.rock_beat(s, bar, 96, fill=(i == 11))
+        clank(bar, 72)
 
-    # A 4-19: reps - horns state the motif twice, the strings answer; the second time trumpets and violins add weight
+    # 16-27 THEME (stern): the motif on lead guitar, brass stabs, straight chugs lower
+    R.crash(s, 16, 104)
+    for i in range(12):
+        bar = 16 + i
+        c = PROG[(i // 2) % 4]
+        R.chug(s, bar, c, 70, pattern='straight')
+        R.bassline(s, bar, c, 86)
+        R.rock_beat(s, bar, 96, fill=(i == 11))
+        R.brass_hits(s, bar, c, vels=(86, 74))
+        clank(bar, 64)
+    s.motif('lead', 16, MOTIF, 100, form='stated (lead guitar, stern)', tr=12)
+    s.mel('lead', 18, ANSWER, 96)
+    s.motif('lead', 20, MOTIF, 102, form='stated again (lead guitar)', tr=12)
+    s.mel('lead', 22, ANSWER_TAG, 104)
+    s.motif('brass', 24, R.transpose(MOTIF, -12), 84, form='stated low (brass, the machine answers)')
+    s.mel('lead', 26, ANSWER[:5] + [('E5', 3)], 96)
+
+    # 28-39 BREATH (Flex): no distorted guitars; clean guitar on the answer, brass chorale, pad, side-stick and soft kick
+    for i in range(12):
+        bar = 28 + i
+        c = ['E', 'E', 'C', 'C', 'D', 'D', 'B', 'B', 'C', 'C', 'D', 'B'][i]
+        if i % 2 == 0 or i >= 8:
+            long = i % 2 == 0 and i < 8
+            R.pad_chord(s, bar, c, 84, beats=8 if long else 4)
+            s.chord('brass', s.B(bar), 7.8 if long else 3.8, BRASS_HITS[c], 76)
+        R.bassline(s, bar, c, 70, style='hold')
+        s.note('bass', s.B(bar, 2.5), .45, R.root(c) + 7, 74)
+        s.note('kit', s.B(bar), .2, 36, 86, human=False)
+        s.note('kit', s.B(bar, 2), .1, 37, 76, human=False)
+        s.note('kit', s.B(bar, 3.5), .2, 56, 64, human=False)
+    s.mel('clean', 28, ANSWER, 116)
+    s.motif('clean', 30, MOTIF, 114, form='stated (clean guitar, Flex breathing)')
+    s.mel('clean', 32, ANSWER_TAG, 118)
+    s.mel('clean', 34, [('B4', 2), ('A4', 1), ('G4', 1), ('F#4', 4)], 112)
+    s.mel('clean', 36, [('E5', 1), ('D5', .5), ('B4', .5), ('C5', 2), ('D5', 2), ('D#5', 2), ('F#5', 2), ('B4', 4)], 116)
+
+    # 40-43 BUILD: power chords swell, snare roll, riser, timpani
+    for i in range(4):
+        bar = 40 + i
+        c = ['C', 'D', 'C', 'B'][i]
+        R.sustain(s, bar, c, 50 + i * 8)
+        R.pad_chord(s, bar, c, 66)
+        clank(bar, 56 + i * 6)
+    R.snare_roll(s, 40, 4, 30, 108)
+    for k in range(32):
+        s.note('timp', s.B(42) + k * .25, .2, p('B1'), 40 + k * 2, human=False)
+    R.riser(s, 40, 4)
+
+    # 44-59 RIFF + LICK: the machine riff full, the breakdown lick on lead, brass hits, motif 8va
+    R.crash(s, 44, 112)
     for i in range(16):
-        sym = REPS_H[i % 8]
-        rep(4 + i, sym, 70 if i < 8 else 78)
-        gym(4 + i, 62 if i < 8 else 68)
-        s.pad('pad', 4 + i, sym, 50 if i < 8 else 58)
-    s.motif('hn', 4, REPS, 86, form='stated twice (horns: rep 1, rep 2)')
-    s.mel('tpt', 12, REPS, 90)
-    s.line('hn', 12, REPS, 80, transpose=-12)
-    s.line('vln', 12, REPS, 70, transpose=12)
-    s.motifs.append((12, 'stated (trumpets, rep 3)', 'tpt'))
-    s.timp_hit(4 * 4, 'G2', 76)
-    s.timp_hit(12 * 4, 'G2', 84)
-    s.swell('vln', 12, 8, 70, 104)
-    s.line('tbn', 18, m('C3:4 | D3:4'), 62)
+        bar = 44 + i
+        c = PROG[(i // 2) % 4]
+        R.chug(s, bar, c, 88, pattern='machine' if i % 4 < 2 else 'gallop')
+        R.bassline(s, bar, c, 92)
+        R.rock_beat(s, bar, 106, fill=(i % 8 == 7))
+        R.brass_hits(s, bar, c, vels=(94, 82))
+        clank(bar, 74)
+        if i % 8 == 0 and i:
+            R.crash(s, bar, 108)
+    s.mel('lead', 44, LICK, 104)
+    s.motif('lead', 52, MOTIF, 112, form='stated 8va (lead guitar, the reps at full weight)', tr=12)
+    s.mel('lead', 54, ANSWER, 110, tr=12)
+    s.motif('lead', 56, MOTIF, 112, form='stated 8va again', tr=12)
+    s.mel('lead', 58, ANSWER_TAG, 112, tr=12)
 
-    # B 20-35: breath - the reps stop; string pads inhale and exhale every two bars, flute sings, the motif is augmented and slow
-    for i in range(16):
-        sym = BREATH_H[i % 8]
-        bar = 20 + i
-        s.pad('pad', bar, sym, 44)
-        s.bass_at(bar * 4, 4, sym, 44, chs=('cb', None))
-        s.harp(bar, sym, 40 if i < 8 else 46)
-        s.swell('pad', bar, 1, 50 if i % 2 == 0 else 86, 86 if i % 2 == 0 else 50)
-    s.mel('fl', 20, BREATH, 72, legato=1.0)
-    s.motif('cl', 28, augment(motif('Eb4', 'major'), 2), 72, form='augmented (clarinet, the breath)')
-    s.mel('fl', 28, BREATH, 66, legato=1.0)
-    s.line('hn', 32, m('Eb4:4 | Eb4:2 D4:2'), 50, legato=1.0)
-    # the reps creep back in, very soft, under the last bars of the breath
-    for bar, sym in ((34, 'Ab'), (35, 'Bb')):
-        rep(bar, sym, 48, cb=False)
-    s.timp_roll(35 * 4, 4, 'D3', 30, 84)
-
-    # C 36-51: the fortress tightens - snare, trombone/trumpet motif climbing through G, Bb and C
-    for i in range(16):
-        sym = FORT_H[i % 8]
-        bar = 36 + i
-        s.bass_at(bar * 4, 4, sym, 76, chs=('cb', 'vc'))
-        s.pad('pad', bar, sym, 60)
-        s.drum(bar, [(0, 'snare', 8), (1, 'snare', -8), (1.5, 'snare', -12), (2, 'snare', 0), (2.5, 'snare', -12), (3, 'snare', -6),
-                     (0, 'bd', 0), (2, 'bd', -6)], 56 if i < 8 else 64)
-        if i % 2 == 0:
-            s.timp_hit(bar * 4, p(s.voicing(sym)[0]) + 12, 80)
-        for k in range(4):
-            s.note('vln', bar * 4 + k, .5, s.voicing(sym)[1][2] + 12, 58 + (8 if k == 0 else 0))
-    s.motif('tpt', 36, FORT, 88, form='stated, climbing G - Bb - C (trumpets)')
-    s.line('tbn', 36, FORT, 76, transpose=-12)
-    s.motif('hn', 44, FORT, 92, form='stated (horns + trumpets 8va)')
-    s.mel('tpt', 44, FORT, 92, transpose=0)
-    s.line('tbn', 44, FORT, 80, transpose=-12)
-    s.hit('crash', 44 * 4, 84, dur=2)
-    s.swell('vln', 36, 16, 70, 110)
-    s.timp_roll(51 * 4, 4, 'D2', 60, 104)
-
-    # A' 52-59: reps tutti
+    # 60-67 OUTRO RIFF: the machine riff thinning
     for i in range(8):
-        sym = REPS_H[i]
-        rep(52 + i, sym, 82)
-        gym(52 + i, 70)
-        s.pad('pad', 52 + i, sym, 64)
-    s.motif('tpt', 52, REPS, 94, form='stated (tutti)')
-    s.line('hn', 52, REPS, 88, transpose=-12)
-    s.line('vln', 52, REPS, 90, transpose=12)
-    s.hit('crash', 52 * 4, 90, dur=2)
-    s.timp_hit(52 * 4, 'G2', 92)
-    s.swell('vln', 56, 4, 110, 80)
+        bar = 60 + i
+        c = PROG[(i // 2) % 4]
+        R.chug(s, bar, c, 80 - i * 2, pattern='machine')
+        R.bassline(s, bar, c, 84, style='gallop')
+        R.rock_beat(s, bar, 98 - i * 2, fill=(i == 7))
+        clank(bar, 72)
 
-    # OUTRO 60-63: the reps alone, as bar 0
-    intro(60)
+    # 68-71 OUTRO MACHINE: the intro's bed, leading back into bar 0 (E)
+    for i, c in enumerate(['C', 'D', 'C', 'B']):
+        bed(68 + i, c)
+
+    s.soften_tail(0.8, bars=1)                 # seam: the last bar's B chord rings over bar 0's E
+    for a, b in ((0, 16), (40, 44), (60, 72)):
+        s.tag_melody('gtrL', a, b)
     return s

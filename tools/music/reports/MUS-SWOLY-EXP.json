@@ -1,94 +1,110 @@
 {
  "id": "MUS-SWOLY-EXP",
  "kind": "loop",
- "key": "Eb major",
- "bpm": 100,
+ "key": "B minor",
+ "bpm": 118,
  "meter": "4/4",
- "bars": 56,
- "seconds": 134.4,
- "loop_seconds": 134.4,
+ "profile": "rock",
+ "bars": 64,
+ "seconds": 130.17,
+ "loop_seconds": 130.169,
  "lufs": -20.1,
- "true_peak": -4.9,
- "lra": 9.9,
+ "true_peak": -14.0,
+ "lra": 10.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro wind",
+   "section": "intro",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.2
+   "lufs": -26.1
   },
   {
-   "section": "A climb",
+   "section": "A wide",
    "bar": 4,
    "bars": 16,
-   "start_s": 9.6,
-   "lufs": -21.2
+   "start_s": 8.1,
+   "lufs": -19.9
   },
   {
-   "section": "B vista",
+   "section": "B thin air",
    "bar": 20,
-   "bars": 16,
-   "start_s": 48.0,
-   "lufs": -19.4
+   "bars": 12,
+   "start_s": 40.7,
+   "lufs": -28.0
   },
   {
-   "section": "C thin air",
-   "bar": 36,
-   "bars": 8,
-   "start_s": 86.4,
-   "lufs": -24.6
+   "section": "C the climb",
+   "bar": 32,
+   "bars": 16,
+   "start_s": 65.1,
+   "lufs": -18.8
   },
   {
    "section": "D summit",
-   "bar": 44,
-   "bars": 8,
-   "start_s": 105.6,
-   "lufs": -16.1
+   "bar": 48,
+   "bars": 12,
+   "start_s": 97.6,
+   "lufs": -18.4
   },
   {
-   "section": "outro wind",
-   "bar": 52,
+   "section": "outro",
+   "bar": 60,
    "bars": 4,
-   "start_s": 124.8,
-   "lufs": -25.9
+   "start_s": 122.0,
+   "lufs": -26.6
   }
  ],
  "motifs": [
   {
    "bar": 4.0,
-   "form": "stated (horns: the Gainlands fanfare, climbing)",
-   "ch": "hn"
+   "form": "stated (lead guitar)",
+   "ch": "lead"
+  },
+  {
+   "bar": 8.0,
+   "form": "stated again, climbing",
+   "ch": "lead"
+  },
+  {
+   "bar": 24.0,
+   "form": "stated low (thin air)",
+   "ch": "lead"
   },
   {
    "bar": 28.0,
-   "form": "head (trumpet, distant, augmented)",
-   "ch": "tpt"
+   "form": "echo (saw, high)",
+   "ch": "saw"
   },
   {
-   "bar": 36.0,
-   "form": "stated (flute, thin air)",
-   "ch": "fl"
+   "bar": 32.0,
+   "form": "stated 8va (the climb)",
+   "ch": "lead"
   },
   {
-   "bar": 40.0,
-   "form": "stated a fourth higher (flute)",
-   "ch": "fl"
+   "bar": 50.0,
+   "form": "stated (summit)",
+   "ch": "lead"
+  },
+  {
+   "bar": 54.0,
+   "form": "saw doubling, 2 octaves up",
+   "ch": "saw"
   }
  ],
- "notes": 1424,
+ "notes": 2362,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-EXP\\MUS-SWOLY-EXP.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-SWOLY-EXP\\MUS-SWOLY-EXP.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SWOLY-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.96,
-  "wrap_step": 0.0017,
-  "p999_step": 0.05503,
+  "jump_db": -0.39,
+  "wrap_step": 0.0014,
+  "p999_step": 0.07285,
   "click": false,
   "ok": true
  },
@@ -98,24 +114,66 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 4,
+   "crowded_steps": 508,
    "bars": [
-    8
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    50,
+    52,
+    54,
+    56,
+    58,
+    60,
+    61,
+    62,
+    63
    ],
-   "ok": true
+   "ok": false
   },
   "melody": {
-   "coverage": 0.95,
+   "coverage": 0.94,
    "bars_without_melody": [
-    31,
-    35,
-    39
+    22,
+    55,
+    59,
+    60
    ],
-   "buried_bars": [],
+   "buried_bars": [
+    29
+   ],
    "ok": true
   }
  },
  "composer_notes": [
-  "Gainlands theme (BEEF-EXP) in Eb; stone percussion = concert bass drum + low timpani; orchestral."
+  "Mount Swolympus: half-time mountain rock, two-bar power chords, the Gainlands answer climbing on the lead."
  ]
 }

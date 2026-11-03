@@ -12,6 +12,6 @@ Disk: C: had 1.2 GB free at the start; deleted builds/_testpack (stale, rebuilt 
 | Part | What | State |
 |---|---|---|
 | 1 | Rock render profile + unit test; bible section 10; music_list rows | done: render.rock_chain (amp_sim, add_risers, glue), Score.profile/stem/risers/stack_drums, to_midi only/skip, lib/rock.py, tests/test_rock_render.py (16 OK); MUS-BEEF-BATTLE ported (guitar stem note-identical to the demo MIDI; rest identical note-ons) + intro/outro loudness fix; 15 music_list rows |
-| 2 | Compose the Gainlands set (15 more cues) + Drive previews | |
+| 2 | Compose the Gainlands set (15 more cues) + Drive previews | done: 3 composer forks, all 15 pass build.py (seams <= 1.09 dB, arcs in docs/audio/music_gainlands_rock_nov3.md); previews + sources (MIDI, guitar/band stems, scores) in Music Review/Gainlands rock; deliver.py --no-backup, tools/music/review_sources.py, MusicDropIn q6, policy q6 |
 | 3 | Re-render everything at q6, deliver, import, stings, routing, audio GUT + music smoke, policy doc | |
 | 4 | Full sharded GUT, play-script run with MUSIC_LOG, export v0.5.3 + release smoke, cleanup, report | |

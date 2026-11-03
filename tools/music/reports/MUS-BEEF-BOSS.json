@@ -1,133 +1,193 @@
 {
  "id": "MUS-BEEF-BOSS",
  "kind": "loop",
- "key": "F minor",
- "bpm": 126,
+ "key": "D minor",
+ "bpm": 136,
  "meter": "4/4",
- "bars": 80,
- "seconds": 152.38,
- "loop_seconds": 152.381,
- "lufs": -20.1,
- "true_peak": -4.4,
- "lra": 8.6,
+ "profile": "rock",
+ "bars": 96,
+ "seconds": 169.41,
+ "loop_seconds": 169.412,
+ "lufs": -20.2,
+ "true_peak": -12.6,
+ "lra": 5.8,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro wheel",
+   "section": "intro stopwatch",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.2
+   "lufs": -24.1
   },
   {
-   "section": "A Clench",
+   "section": "Clench riff",
    "bar": 4,
    "bars": 16,
-   "start_s": 7.6,
-   "lufs": -21.1
+   "start_s": 7.1,
+   "lufs": -21.3
   },
   {
-   "section": "B drive",
+   "section": "the hero fights back",
    "bar": 20,
+   "bars": 8,
+   "start_s": 35.3,
+   "lufs": -19.3
+  },
+  {
+   "section": "constriction",
+   "bar": 28,
+   "bars": 4,
+   "start_s": 49.4,
+   "lufs": -22.8
+  },
+  {
+   "section": "drop 1",
+   "bar": 32,
    "bars": 16,
-   "start_s": 38.1,
-   "lufs": -20.7
+   "start_s": 56.5,
+   "lufs": -19.3
   },
   {
-   "section": "C constriction",
-   "bar": 36,
-   "bars": 12,
-   "start_s": 68.6,
-   "lufs": -23.5
-  },
-  {
-   "section": "D deflation",
+   "section": "breakdown",
    "bar": 48,
    "bars": 8,
-   "start_s": 91.4,
-   "lufs": -24.9
+   "start_s": 84.7,
+   "lufs": -21.2
   },
   {
-   "section": "E climax",
+   "section": "build",
    "bar": 56,
-   "bars": 16,
-   "start_s": 106.7,
-   "lufs": -16.3
+   "bars": 4,
+   "start_s": 98.8,
+   "lufs": -22.7
   },
   {
-   "section": "wind-down",
-   "bar": 72,
-   "bars": 4,
-   "start_s": 137.1,
-   "lufs": -23.1
+   "section": "final drop",
+   "bar": 60,
+   "bars": 20,
+   "start_s": 105.9,
+   "lufs": -18.0
   },
   {
-   "section": "outro wheel",
-   "bar": 76,
+   "section": "Clench riff returns",
+   "bar": 80,
+   "bars": 12,
+   "start_s": 141.2,
+   "lufs": -22.4
+  },
+  {
+   "section": "outro stopwatch",
+   "bar": 92,
    "bars": 4,
-   "start_s": 144.8,
-   "lufs": -21.6
+   "start_s": 162.4,
+   "lufs": -24.3
   }
  ],
  "motifs": [
   {
-   "bar": 2.0,
-   "form": "inverted head (horns)",
-   "ch": "hn"
+   "bar": 4,
+   "form": "inverted (villain riff, drop-D guitars)",
+   "ch": "gtrL"
   },
   {
-   "bar": 7.0,
-   "form": "inverted head (horn, answering the boast)",
-   "ch": "hn"
+   "bar": 8.0,
+   "form": "inverted (Clench, brass)",
+   "ch": "brass"
+  },
+  {
+   "bar": 12.0,
+   "form": "inverted 8va (Clench, brass)",
+   "ch": "brass"
+  },
+  {
+   "bar": 16.0,
+   "form": "inverted (saw, mocking)",
+   "ch": "saw"
   },
   {
    "bar": 20.0,
-   "form": "inverted, stated (horns)",
-   "ch": "hn"
+   "form": "stated (the hero's motif, lead guitar, open)",
+   "ch": "lead"
   },
   {
-   "bar": 28.0,
-   "form": "inverted, stated (trumpets, strings 8va)",
-   "ch": "tpt"
+   "bar": 24.0,
+   "form": "stated again (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 52.0,
-   "form": "stated (clarinet, the hero answers)",
-   "ch": "cl"
+   "bar": 32.0,
+   "form": "stated (lead guitar, drop 1)",
+   "ch": "lead"
   },
   {
-   "bar": 56.0,
-   "form": "stated (horns: the hero fights back), then sequenced up a fourth",
-   "ch": "hn"
+   "bar": 36.0,
+   "form": "inverted (Clench pushes back, brass)",
+   "ch": "brass"
+  },
+  {
+   "bar": 40.0,
+   "form": "stated 8va",
+   "ch": "lead"
+  },
+  {
+   "bar": 44.0,
+   "form": "inverted again (brass)",
+   "ch": "brass"
+  },
+  {
+   "bar": 68,
+   "form": "inverted (villain riff under the hero, final drop)",
+   "ch": "gtrL"
   },
   {
    "bar": 60.0,
-   "form": "stated (tutti, strings 8va)",
-   "ch": "tpt"
+   "form": "stated 8va (lead guitar, final drop)",
+   "ch": "lead"
   },
   {
-   "bar": 66.0,
-   "form": "head (horns, under the theme)",
-   "ch": "hn"
+   "bar": 64.0,
+   "form": "stated 8va again",
+   "ch": "lead"
   },
   {
-   "bar": 78.0,
-   "form": "inverted head (horns)",
-   "ch": "hn"
+   "bar": 68.0,
+   "form": "stated over his riff (the fight)",
+   "ch": "lead"
+  },
+  {
+   "bar": 68.0,
+   "form": "inverted (saw, his theme against the hero)",
+   "ch": "saw"
+  },
+  {
+   "bar": 72.0,
+   "form": "stated 8va (lead guitar)",
+   "ch": "lead"
+  },
+  {
+   "bar": 76.0,
+   "form": "stated 2 octaves up (saw)",
+   "ch": "saw"
+  },
+  {
+   "bar": 84.0,
+   "form": "inverted (Clench, brass, last word)",
+   "ch": "brass"
   }
  ],
- "notes": 2809,
+ "notes": 9276,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-BOSS\\MUS-BEEF-BOSS.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-BOSS\\MUS-BEEF-BOSS.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-BOSS.mid"
  },
  "seam": {
-  "jump_db": -0.29,
-  "wrap_step": 0.01368,
-  "p999_step": 0.05906,
+  "jump_db": -0.52,
+  "wrap_step": 0.00496,
+  "p999_step": 0.07521,
   "click": false,
   "ok": true
  },
@@ -137,39 +197,68 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 3,
+   "crowded_steps": 457,
    "bars": [
-    21
-   ],
-   "ok": true
-  },
-  "melody": {
-   "coverage": 0.88,
-   "bars_without_melody": [
-    0,
-    1,
+    2,
+    3,
+    4,
+    5,
+    6,
     7,
+    8,
+    9,
+    10,
     11,
+    12,
+    13,
+    14,
     15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
     23,
-    51,
-    57,
-    76,
-    79
-   ],
-   "buried_bars": [
-    41,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    34,
+    35,
+    38,
+    39,
+    42,
     43,
-    44,
-    45,
     46,
     47,
-    71
+    50,
+    54
    ],
+   "ok": false
+  },
+  "melody": {
+   "coverage": 0.92,
+   "bars_without_melody": [
+    37,
+    38,
+    39,
+    41,
+    47,
+    69,
+    79,
+    95
+   ],
+   "buried_bars": [],
    "ok": true
   }
  },
  "composer_notes": [
-  "Villain idea = CLENCH (boast + chromatic deflation) and the wheel ostinato; orchestral by the Music Pass 1 brief (the old row asked for metal)."
+  "Clench's villain riff is the inverted Crossroads motif as drop-D chugs; the hero's motif answers on lead guitar, open."
  ]
 }

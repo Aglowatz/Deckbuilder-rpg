@@ -1,169 +1,198 @@
-"""MUS-BEEF-BOSS - Chancellor Clench, Iron Regent. 80 bars 4/4, 126 BPM, F minor.
-Clench's own idea: a pompous brass boast that climbs (F F F Ab C Db) and then deflates chromatically to an unresolved E - strength
-without heart, an insecure figurehead. Under it the endless energy wheel: violas turning in a narrow chromatic circle, and Quota's stopwatch
-(metronome click, a bell every two bars). The Crossroads motif appears inverted (the question turned upside down), then the hero's own
-form fights back in the climax against Clench's theme in the trombones. The phrases constrict (4 bars, 2, 1, half) before a comic
-deflation - Clench's theme on a lonely bassoon - and the big climax. Orchestral by the Music Pass 1 brief.
+"""MUS-BEEF-BOSS - Chancellor Clench, Iron Regent. 96 bars 4/4, 136 BPM, D minor (drop-D). TECHNO HARD ROCK (Gainlands rock Nov 3).
+The heaviest Beefcake cue. Clench's own villain riff: the Crossroads motif INVERTED (D G A Bb C G, the question turned upside down) ground
+out as low drop-D 16th chugs, power chords down to G1, under a double kick. Quota's stopwatch from the orchestral version is kept: metronome
+clicks on the 8ths and a ding (metronome bell + triangle) every two bars. The hero's motif (D A G F E A, open) fights back on lead guitar
+over his riff, the phrases constrict (2 bars, 1, a half) into the drops, and the final drop is the biggest in the set.
 """
-from lib import Score, m, motif, motif_head, p
+from lib import Song, p, motif
+from lib import rock as R
+from lib.rock import MOTIF, ANSWER, ANSWER_TAG, LICK, BRASS_HITS
 
-CLENCH = m('F4:1 F4:.5 F4:.5 Ab4:1 C5:1 | Db5:2 C5:1 B4:1 | C5:1 Bb4:.5 Ab4:.5 G4:1 F4:1 | E4:3 r:1')
-CLENCH_H = ['Fm', 'Dbmaj7', 'Bbm6', 'C']
-B_LINE = m('F4:1 Bb3:.5 C4:.5 Db4:1.5 Eb4:.5 | Bb3:3 r:1 | Ab4:1 Gb4:1 F4:1 E4:1 | F4:4 '
-           '| Bb4:1 Bb4:.5 Bb4:.5 Db5:1 F5:1 | Gb5:2 F5:1 E5:1 | F5:1 Eb5:.5 Db5:.5 C5:1 Bb4:1 | E5:3 r:1')
-B_H = ['Fm', 'Gb', 'Fm', 'Fm', 'Bbm', 'Gb', 'Db', 'C']
-WHEEL = [0, 1, 0, -1, 0, 3, 2, 1]
+PROG = ['D2', 'Bb1', 'C2', 'A1']                       # i - VI - VII - V in D minor, drop-D low
+HIT = {'D2': 'Dm', 'Bb1': 'Bb', 'C2': 'C', 'A1': 'A'}
+HERO = R.transpose(MOTIF, -2)                          # D4 A4 G4 F4 E4 A4: open, never resolved here
+HERO_ANSWER = R.transpose(ANSWER, -2)
+HERO_TAG = R.transpose(ANSWER_TAG, -2)
+VILLAIN = motif('D2', 'minor', inverted=True)          # D2 G1 A1 Bb1 C2 G1 (q e e dq e dh)
 
 
 def build():
-    s = Score('MUS-BEEF-BOSS', bpm=126, bars=80, key='F minor', seed=205)
-    s.seat('vla', 'vc', 'cb', 'vln', 'trem', 'hn', 'tpt', 'tbn', 'bsn', 'cl', 'timp', 'xylo', 'pizz', 'perc')
-    for bar, nm in ((0, 'intro wheel'), (4, 'A Clench'), (20, 'B drive'), (36, 'C constriction'), (48, 'D deflation'),
-                    (56, 'E climax'), (72, 'wind-down'), (76, 'outro wheel')):
+    s = Song('MUS-BEEF-BOSS', bpm=136, bars=96, key='D minor', seed=513)
+    s.jitter = 0.005
+    R.band(s, brass=61)
+    for bar, nm in ((0, 'intro stopwatch'), (4, 'Clench riff'), (20, 'the hero fights back'), (28, 'constriction'),
+                    (32, 'drop 1'), (48, 'breakdown'), (56, 'build'), (60, 'final drop'), (80, 'Clench riff returns'), (92, 'outro stopwatch')):
         s.section(bar, nm)
-    s.notes.append('Villain idea = CLENCH (boast + chromatic deflation) and the wheel ostinato; orchestral by the Music Pass 1 brief '
-                   '(the old row asked for metal).')
-
-    def wheel(bar, sym, vel, rate=2):
-        r = p(s.voicing(sym)[0])
-        while r < p('E3'):
-            r += 12
-        step = 1 / rate
-        for k in range(int(4 * rate)):
-            s.note('vla', bar * 4 + k * step, step * 0.85, r + WHEEL[k % 8], vel + (8 if k % 4 == 0 else -4))
+    s.notes.append("Clench's villain riff is the inverted Crossroads motif as drop-D chugs; the hero's motif answers on lead guitar, open.")
 
     def stopwatch(bar, vel):
-        s.drum(bar, [(k * .5, 'click', -6 if k % 2 == 0 else -14) for k in range(8)], vel)
+        for k in range(8):
+            s.note('kit', s.B(bar, k * .5), .1, 33, vel - (4 if k % 2 == 0 else 14), human=False)
         if bar % 2 == 0:
-            s.hit(34, bar * 4, vel + 4)
+            s.note('kit', s.B(bar), .4, 34, vel + 6, human=False)
+            s.note('kit', s.B(bar), 1.0, 81, vel - 8, human=False)
 
-    def pedal(bar, sym, vel, timp=True):
-        b = p(s.voicing(sym)[0])
-        for k in range(4):
-            s.note('cb', bar * 4 + k, .7, b, vel + (8 if k == 0 else -4))
-        if timp:
-            s.timp_hit(bar * 4, b if b >= p('D2') else b + 12, vel + 4)
+    def villain(bar, vel, beats=8):
+        """The riff: each note of the inverted motif as 16th chugs (power chord on the attack), then a beat of D chugs; `beats` cuts it."""
+        t = 0.0
+        cells = VILLAIN + [(p('D2'), 1)]
+        for n, d in cells:
+            r = p(n)
+            for k in range(int(round(d * 4))):
+                if t + k * .25 >= beats:
+                    break
+                acc = k == 0
+                notes = [r, r + 7, r + 12] if acc else [r, r + 7]
+                for ch, off in (('gtrL', 0.0), ('gtrR', 0.012)):
+                    s.chord(ch, s.B(bar, t + k * .25) + off, .22 if not acc else .24, notes, vel + (12 if acc else -6))
+            if t < beats:
+                s.note('bass', s.B(bar, t), min(d, beats - t) * .95, r, vel + 4)
+            t += d
+            if t >= beats:
+                break
 
-    def stab(bar, sym, vel):
-        r = p(s.voicing(sym)[0])
-        while r < p('C3'):
-            r += 12
-        for n in (r, r + 7):
-            s.note('tbn', bar * 4, .6, n, vel)
+    def bed(bar, c):
+        """Intro / outro (identical): the low D power chord held, sub, pad, kick pulse, the stopwatch."""
+        R.sustain(s, bar, c, 62)
+        R.kick_pulse(s, bar, 110)
+        R.subdrop(s, bar, c, 92)
+        R.pad_chord(s, bar, HIT[c], 70)
+        stopwatch(bar, 90)
 
-    def intro(bar):
-        for i, sym in enumerate(['Fm', 'Fm', 'Fm', 'C']):
-            wheel(bar + i, sym, 78)
-            stopwatch(bar + i, 62)
-            pedal(bar + i, sym, 72, timp=(i % 2 == 1))
-            s.pad('trem', bar + i, sym, 74, low='F3')
-            s.brass('hn', bar + i, sym, 68, low='C4', n=2)
-            s.drum(bar + i, [(0, 'bd', 0), (2, 'bd', -12)], 70)
-            stab(bar + i, sym, 58 if i == 0 else 70)
-        s.motif('hn', bar + 2, m('F4:1 Bb3:.5 C4:.5 Db4:2'), 72, form='inverted head (horns)')
+    for i, c in enumerate(['D2', 'D2', 'Bb1', 'A1']):
+        bed(i, c)
+    R.snare_roll(s, 3, 1, 50, 108)
+    R.riser(s, 2, 2)
 
-    intro(0)
-    s.snare_roll(3 * 4 + 2, 2, 40, 86)
-
-    # A 4-19: Clench's theme, four times - trombones and horns, then trumpets with tremolo strings
-    for i in range(16):
-        sym = CLENCH_H[i % 4]
-        wheel(4 + i, sym, 72 if i < 8 else 78)
-        stopwatch(4 + i, 58)
-        pedal(4 + i, sym, 70 if i < 8 else 78, timp=(i % 2 == 0))
-        s.drum(4 + i, [(0, 'bd', 0), (2, 'snare', -4), (3, 'snare', -12)], 60)
-        if i >= 8:
-            s.pad('trem', 4 + i, sym, 58, low='F3')
-    s.mel('tbn', 4, CLENCH * 2, 92)
-    s.line('hn', 4, CLENCH * 2, 76)
-    s.mel('tpt', 12, CLENCH * 2, 94)
-    s.line('tbn', 12, CLENCH * 2, 86, transpose=-12)
-    s.line('hn', 12, CLENCH * 2, 82)
-    s.hit('crash', 12 * 4, 80, dur=2)
-    s.motif('hn', 7, m('r:1 F4:1 Bb3:.5 C4:.5 Db4:1'), 64, form='inverted head (horn, answering the boast)', lead=False)
-    s.timp_roll(19 * 4, 4, 'C3', 50, 100)
-
-    # B 20-35: drive - the inverted motif in the horns, Clench's head in the trumpets, a drum groove
-    for i in range(16):
-        sym = B_H[i % 8]
-        wheel(20 + i, sym, 76)
-        pedal(20 + i, sym, 78, timp=True)
-        s.drum(20 + i, [(0, 'bd', 8), (1, 'snare', 0), (1.5, 'bd', -10), (2, 'bd', 0), (3, 'snare', 6), (3.75, 'snare', -14)], 62)
-        if i >= 8:
-            s.pad('trem', 20 + i, sym, 62, low='F3')
-    s.motif('hn', 20, B_LINE, 94, form='inverted, stated (horns)')
-    s.line('tbn', 20, B_LINE, 72, transpose=-12)
-    s.motif('tpt', 28, B_LINE, 96, form='inverted, stated (trumpets, strings 8va)')
-    s.line('hn', 28, B_LINE, 84)
-    s.line('vln', 28, B_LINE, 84, transpose=12)
-    s.hit('crash', 28 * 4, 84, dur=2)
-
-    # C 36-47: constriction - the phrase shrinks (4 bars, 2, 1, a half) and the wheel spins twice as fast
-    spec = ['Fm', 'Dbmaj7', 'Bbm6', 'C', 'Fm', 'Dbmaj7', 'Fm', 'Dbmaj7', 'C7', 'C7', 'C7', 'C7']
-    for i, sym in enumerate(spec):
-        bar = 36 + i
-        wheel(bar, sym, 70 + i * 2, rate=2 if i < 4 else 4)
-        pedal(bar, sym, 72 + i, timp=(i < 8))
-        stopwatch(bar, 56 + i)
-        s.drum(bar, [(0, 'bd', 0), (2, 'snare', -4)], 60 + i)
-    s.mel('tpt', 36, CLENCH, 90)
-    s.line('tbn', 36, CLENCH, 80, transpose=-12)
-    s.mel('tpt', 40, m('F4:1 F4:.5 F4:.5 Ab4:1 C5:1 | Db5:4'), 92)
-    s.mel('tpt', 42, m('F4:1 F4:.5 F4:.5 Ab4:2 | F4:1 F4:.5 F4:.5 Ab4:2'), 94)
-    s.mel('tpt', 44, [('F4' if k % 2 == 0 else 'Gb4', .5) for k in range(32)], 92, shape=False)
-    s.line('tbn', 40, m('F3:4 | F3:4 | F3:4 | F3:4 | E3:4 | E3:4 | E3:4 | E3:4'), 76)
-    s.swell('tpt', 44, 4, 90, 127)
-    s.swell('vla', 44, 4, 90, 127)
-    s.snare_roll(44 * 4, 16, 40, 110)
-    s.timp_roll(46 * 4, 8, 'C3', 60, 112)
-
-    # D 48-55: deflation - Clench's boast on a lonely bassoon over pizzicato; a clarinet asks the hero's question
+    # 4-19 CLENCH RIFF: the villain riff x8 under double kick, stopwatch, low brass stating it
+    R.crash(s, 4, 116)
     for i in range(8):
-        sym = CLENCH_H[i % 4]
-        s.pizz(48 + i, sym, 58)
-        s.note('cb', (48 + i) * 4, 1, p(s.voicing(sym)[0]), 56)
-        stopwatch(48 + i, 46)
-    s.mel('bsn', 48, CLENCH, 86, transpose=-12)
-    s.line('xylo', 51, m('r:3 E5:1'), 66)
-    s.motif('cl', 52, m('F4:1 C5:.5 Bb4:.5 Ab4:1.5 G4:.5 | C5:3 r:1'), 80, form='stated (clarinet, the hero answers)')
-    s.mel('cl', 54, m('Db5:2 C5:2 | E4:4'), 74)
-    s.timp_roll(54 * 4, 8, 'C3', 30, 108)
-    s.snare_roll(55 * 4, 4, 30, 100)
+        villain(4 + i * 2, 90)
+        for k in range(2):
+            R.double_kick(s, 4 + i * 2 + k, 100)
+            stopwatch(4 + i * 2 + k, 70)
+    s.motifs.append((4, 'inverted (villain riff, drop-D guitars)', 'gtrL'))
+    s.motif('brass', 8, R.transpose(VILLAIN, 12), 96, form='inverted (Clench, brass)')
+    s.motif('brass', 12, R.transpose(VILLAIN, 24), 100, form='inverted 8va (Clench, brass)')
+    s.motif('saw', 16, R.transpose(VILLAIN, 36), 80, form='inverted (saw, mocking)')
 
-    # E 56-71: climax - the hero's motif in horns and trumpets against Clench's theme in the trombones
+    # 20-27 THE HERO FIGHTS BACK: the riff goes on, the hero's motif answers on lead guitar
+    for i in range(4):
+        villain(20 + i * 2, 86)
+        for k in range(2):
+            R.double_kick(s, 20 + i * 2 + k, 98)
+            stopwatch(20 + i * 2 + k, 64)
+    s.motif('lead', 20, HERO, 108, form="stated (the hero's motif, lead guitar, open)", tr=12)
+    s.mel('lead', 22, HERO_ANSWER, 104)
+    s.motif('lead', 24, HERO, 110, form='stated again (lead guitar)', tr=12)
+    s.mel('lead', 26, HERO_TAG, 112)
+
+    # 28-31 CONSTRICTION: the riff's phrase shrinks (2 bars, 1, a half, a half) - quieter, a roll and a riser
+    villain(28, 74, beats=8)
+    villain(30, 70, beats=4)
+    villain(31, 72, beats=2)
+    villain(31.5, 76, beats=2)
+    for k in range(4):
+        stopwatch(28 + k, 60 + k * 6)
+        R.kick_pulse(s, 28 + k, 76 + k * 8)
+    R.snare_roll(s, 28, 4, 34, 118)
+    for k in range(32):
+        s.note('timp', s.B(30) + k * .25, .2, p('A1'), 40 + k * 2, human=False)
+    R.riser(s, 28, 4)
+
+    # 32-47 DROP 1: four-floor + double kick, sub, straight chugs on D Bb C A, saw stabs, the hero vs Clench
+    R.crash(s, 32, 122)
     for i in range(16):
-        sym = CLENCH_H[i % 4]
-        bar = 56 + i
-        wheel(bar, sym, 84)
-        pedal(bar, sym, 88)
-        s.pad('trem', bar, sym, 70, low='F3')
-        s.drum(bar, [(0, 'bd', 8), (1, 'snare', 0), (2, 'bd', 0), (3, 'snare', 6), (3.5, 'snare', -10)], 70)
-        if i % 4 == 0:
-            s.hit('crash', bar * 4, 96, dur=2)
-    hero = m('F4:1 C5:.5 Bb4:.5 Ab4:1.5 G4:.5 | C5:3 r:1 | Bb4:1 F5:.5 Eb5:.5 Db5:1.5 C5:.5 | E5:3 r:1')
-    s.motif('hn', 56, hero, 100, form='stated (horns: the hero fights back), then sequenced up a fourth')
-    s.line('tpt', 56, hero, 88)
-    s.line('tbn', 56, CLENCH, 92, transpose=-12)
-    s.motif('tpt', 60, hero, 104, form='stated (tutti, strings 8va)')
-    s.line('hn', 60, hero, 100)
-    s.line('vln', 60, hero, 100, transpose=12)
-    s.line('tbn', 60, CLENCH, 96, transpose=-12)
-    s.mel('tpt', 64, CLENCH * 2, 108)
-    s.line('hn', 64, CLENCH * 2, 98)
-    s.line('vln', 64, CLENCH * 2, 104, transpose=12)
-    s.line('tbn', 64, CLENCH * 2, 92, transpose=-12)
-    s.motif('hn', 66, motif_head('F4', 'minor', rhythm=(1, .5, 2.5)), 90, form='head (horns, under the theme)', lead=False)
-    s.swell('vln', 64, 8, 110, 127)
+        bar = 32 + i
+        c = PROG[(i // 2) % 4]
+        R.double_kick(s, bar, 116)
+        s.note('kit', s.B(bar, 2), .2, 39, 100, human=False)
+        R.subdrop(s, bar, c, 104)
+        R.chug(s, bar, c, 92, pattern='straight')
+        for b in (0, 1.5, 3):
+            s.chord('saw', s.B(bar, b), .3, [p(c) + 36, p(c) + 43], 78)
+        R.pad_chord(s, bar, HIT[c], 76)
+        if i % 4 == 0 and i:
+            R.crash(s, bar, 108)
+    s.pump('pad', 32, 16, lo=20, hi=100)
+    s.motif('lead', 32, HERO, 112, form='stated (lead guitar, drop 1)', tr=12)
+    s.mel('lead', 34, HERO_ANSWER, 108)
+    s.motif('brass', 36, R.transpose(VILLAIN, 24), 102, form='inverted (Clench pushes back, brass)')
+    s.motif('lead', 40, HERO, 114, form='stated 8va', tr=24)
+    s.mel('lead', 42, HERO_TAG, 112, tr=12)
+    s.motif('brass', 44, R.transpose(VILLAIN, 24), 104, form='inverted again (brass)')
+    s.mel('lead', 46, [('D5', 2), ('C5', 1), ('A4', 1), ('C#5', 4)], 108)
 
-    # wind-down 72-75: the wheel slows back to the intro texture
-    for i, sym in enumerate(['Fm', 'Dbmaj7', 'Bbm6', 'C']):
-        wheel(72 + i, sym, 78 - i * 2)
-        pedal(72 + i, sym, 74 - i * 2)
-        stopwatch(72 + i, 58)
-        stab(72 + i, sym, 76 - i * 2)
-    s.mel('hn', 72, m('F4:1 Bb3:.5 C4:.5 Db4:2 | C4:4 | Db4:2 C4:2 | B3:2 C4:2'), 82)
+    # 48-55 BREAKDOWN: half time, the stopwatch alone with the riff held, the lick (in D) on lead, brass chorale on Clench
+    for i in range(8):
+        bar = 48 + i
+        c = ['D2', 'D2', 'Bb1', 'Bb1', 'C2', 'C2', 'A1', 'A1'][i]
+        R.rock_beat(s, bar, 92, half=True)
+        stopwatch(bar, 84)
+        if i % 2 == 0:
+            R.sustain(s, bar, c, 62, beats=8)
+            s.chord('brass', s.B(bar), 7.9, BRASS_HITS[HIT[c]], 66)
+        R.bassline(s, bar, c, 82, style='hold')
+    s.mel('lead', 48, R.transpose(LICK, -2), 98)
 
-    # OUTRO 76-79: as bar 0
-    intro(76)
-    s.snare_roll(79 * 4 + 2, 2, 40, 86)
+    # 56-59 BUILD: the riff constricting again, the biggest roll, riser, timpani
+    villain(56, 70, beats=8)
+    villain(58, 74, beats=4)
+    villain(59, 80, beats=2)
+    villain(59.5, 84, beats=2)
+    for k in range(4):
+        stopwatch(56 + k, 66 + k * 6)
+        R.pad_chord(s, 56 + k, ['Dm', 'Dm', 'Bb', 'A'][k], 64)
+    R.snare_roll(s, 56, 4, 36, 124)
+    for k in range(32):
+        s.note('timp', s.B(58) + k * .25, .2, p('D2'), 44 + k * 2, human=False)
+    R.riser(s, 56, 4)
+
+    # 60-79 FINAL DROP: everything, crashes every 2 bars, the hero's motif 8va over Clench's riff in the guitars and his theme in the brass
+    R.crash(s, 60, 127)
+    for i in range(20):
+        bar = 60 + i
+        c = PROG[(i // 2) % 4]
+        R.double_kick(s, bar, 122)
+        s.note('kit', s.B(bar, 2), .2, 39, 106, human=False)
+        R.subdrop(s, bar, c, 110)
+        if i < 8 or i >= 16:
+            R.chug(s, bar, c, 98, pattern='gallop' if i % 2 == 0 else 'machine')
+        s.chord('brass', s.B(bar), .5, BRASS_HITS[HIT[c]], 102)
+        s.chord('brass', s.B(bar, 1.5), .4, BRASS_HITS[HIT[c]], 90)
+        s.chord('brass', s.B(bar, 3), .5, BRASS_HITS[HIT[c]], 96)
+        R.pad_chord(s, bar, HIT[c], 80)
+        if i % 2 == 0 and i:
+            R.crash(s, bar, 110)
+    for j in range(4):
+        villain(68 + j * 2, 100)                            # 68-75: the guitars on his riff, the lead against it
+    s.motifs.append((68, 'inverted (villain riff under the hero, final drop)', 'gtrL'))
+    s.pump('pad', 60, 20, lo=20, hi=106)
+    s.motif('lead', 60, HERO, 116, form='stated 8va (lead guitar, final drop)', tr=12)
+    s.mel('lead', 62, HERO_ANSWER, 114, tr=12)
+    s.motif('lead', 64, HERO, 118, form='stated 8va again', tr=12)
+    s.mel('lead', 66, HERO_TAG, 118, tr=12)
+    s.motif('lead', 68, HERO, 118, form='stated over his riff (the fight)', tr=12)
+    s.motif('saw', 68, R.transpose(VILLAIN, 36), 86, form='inverted (saw, his theme against the hero)')
+    s.mel('lead', 70, HERO_ANSWER, 116, tr=12)
+    s.motif('lead', 72, HERO, 120, form='stated 8va (lead guitar)', tr=12)
+    s.mel('lead', 74, HERO_TAG, 120, tr=12)
+    s.motif('saw', 76, HERO, 88, form='stated 2 octaves up (saw)', tr=24)
+    s.mel('lead', 76, HERO_ANSWER, 114, tr=12)
+    s.mel('lead', 78, [('A5', 2), ('G5', 1), ('E5', 1), ('C#5', 4)], 112)
+
+    # 80-91 CLENCH RIFF RETURNS, thinning
+    for i in range(6):
+        villain(80 + i * 2, 90 - i * 3)
+        for k in range(2):
+            R.double_kick(s, 80 + i * 2 + k, 102 - i * 3)
+            stopwatch(80 + i * 2 + k, 72)
+    s.motif('brass', 84, R.transpose(VILLAIN, 12), 92, form='inverted (Clench, brass, last word)')
+
+    # 92-95 OUTRO STOPWATCH: the intro bed, back to bar 0
+    for i, c in enumerate(['D2', 'Bb1', 'C2', 'A1']):
+        bed(92 + i, c)
+
+    for a, b in ((0, 20), (28, 32), (56, 60), (80, 96)):
+        s.tag_melody('gtrL', a, b)
     return s

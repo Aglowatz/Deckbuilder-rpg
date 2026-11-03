@@ -1,100 +1,109 @@
-"""MUS-CAP-BEEF-BROKEN - Transit Yards, broken service (Capital district). 44 bars 4/4, 88 BPM, Bb major (120 s loop).
-The Gainlands theme (MUS-BEEF-EXP) played thin, detuned and interrupted: one horn starts each phrase and stops mid-line, a second horn
-shadows it 15 cents flat (Music Pass 3: was 25), a flute catches two notes of the echo; the tuba's march pulse is exhausted (beat one only, a bar missing here and
-there), a snare tap drags. Under it a faint bowed-glass rift pad, itself a little off pitch. The Crossroads motif's head on a muted
-trumpet, never finished. Human warmth barely audible.
+"""MUS-CAP-BEEF-BROKEN - Transit Yards, broken service (Capital district). 56 bars 4/4, 116 BPM, E minor (116 s loop).
+TECHNO HARD ROCK palette (Gainlands rock Nov 3), run down: the Gainlands riff on ONE guitar only (no double), hits missing, whole bars gone;
+a shadow guitar on its own channel 15 cents flat (Score.detune) echoes the answer and the Crossroads motif's head and gives out mid-phrase;
+the bass on beat one only. Under it the stiff Capital grid: quantised harpsichord block chords on every beat and a march rudiment on the
+snare (human feel off). Intro bed -> A thin riff -> B fragments -> C stalling -> A' thin -> the bed again.
 """
-from lib import Score, m, motif_head, voice, p, split_beats, REST
+from lib import Song, p
+from lib import rock as R
+from lib.rock import PROG, MOTIF, ANSWER, GALLOP
+from scores._rock_a import cut, grid_chord, grid_snare
 
-THEME = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-          '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1 '
-          '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 G5:1 A5:1 | Bb5:2 G5:1 Eb5:1 | F5:3 r:1 '
-          '| Ab5:1.5 G5:.5 F5:1 Eb5:1 | G5:1.5 F5:.5 Eb5:1 D5:1 | C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
-PHRASE = [split_beats(THEME, 16 * k, 16 * k + 16) for k in range(4)]
-PH_H = [['Bb', 'Bb', 'Cm7', 'F'], ['Eb', 'Gm', 'F', 'Bb'], ['Bb', 'F', 'Eb', 'F'], ['Ab', 'Eb', 'F7', 'Bb']]
+GRID = {'E': ['E3', 'G3', 'B3'], 'C': ['E3', 'G3', 'C4'], 'D': ['D3', 'F#3', 'A3'], 'B': ['D#3', 'F#3', 'B3']}
+THIN = tuple(h for i, h in enumerate(GALLOP) if i not in (2, 6, 7))          # the gallop with hits missing
 
 
-def cut(mel, keep):
-    """The first `keep` beats of a phrase, then silence: the line gives out."""
-    out, pos = [], 0.0
-    for n, d in mel:
-        if pos >= keep:
-            break
-        out.append((n, min(d, keep - pos)))
-        pos += d
-    return out
+def grid(s, bar, c, vel):
+    grid_chord(s, 'harpsi', bar, GRID[c], vel)
+    s.note('kit', s.B(bar), .2, 36, vel + 30, human=False)
+    s.note('kit', s.B(bar, 2), .2, 36, vel + 22, human=False)
+
+
+def bed(s, bar, c):
+    grid(s, bar, c, 62)
+    grid_snare(s, bar, 52, 'march' if bar % 2 == 0 else 'flam')
+    s.note('sub', s.B(bar), 3.9, R.root(c), 76, human=False)
+    R.pad_chord(s, bar, c, 60)
+    R.sustain(s, bar, c, 50, chs=('gtrL',))
 
 
 def build():
-    s = Score('MUS-CAP-BEEF-BROKEN', bpm=88, bars=44, key='Bb major', seed=816)
-    s.seat('hn', 'tpt', 'fl', 'tuba', 'cb', 'pad', 'perc', tpt={'inst': 'muted_tpt', 'vol': 70}, pad={'vol': 70})
-    s.channel('hn2', 'horn', pan=88, reverb=100, vol=66)
-    s.channel('glass', 'bowed_glass', pan=50, reverb=110, vol=58)
-    s.detune('hn2', -15)          # the shadow horn, flat for the whole cue
-    s.detune('glass', -12)
-    for bar, nm in ((0, 'A thin'), (12, 'B fragments'), (24, 'C stalling'), (36, "A' thin"), (40, 'thin (loop)')):
+    s = Song('MUS-CAP-BEEF-BROKEN', bpm=116, bars=56, key='E minor', seed=816)
+    s.jitter = 0.004
+    R.band(s, kit_vol=104, gtr_vol=104)
+    s.add('gtr2', 10, 30, pan=96, rev=60, vol=96)          # the shadow guitar, flat for the whole cue
+    s.add('harpsi', 11, 6, pan=40, rev=60, vol=92)         # the Capital grid
+    s.stem = s.stem | {'gtr2'}
+    s.detune('gtr2', -15)
+    for bar, nm in ((0, 'intro bed'), (4, 'A thin'), (16, 'B fragments'), (32, 'C stalling'), (44, "A' thin"), (52, 'outro bed')):
         s.section(bar, nm)
-    s.notes.append('Broken = the Gainlands theme cut off mid-phrase, a shadow horn 15 cents flat (Music Pass 3: was 25) (Score.detune), exhausted tuba pulse.')
+    s.notes.append('Broken = the Gainlands riff on one guitar with hits and bars missing, a shadow guitar 15 cents flat, the Capital grid underneath.')
 
-    missing = {6, 17, 27, 30, 33}
+    for i, c in enumerate(PROG):
+        bed(s, i, c)
 
-    def pulse(bar, sym, vel):
-        if bar % 44 in missing:
-            return
-        b = p(s.voicing(sym)[0])
-        s.note('tuba', bar * 4, 1.2, b + 12 if b < p('Bb1') else b, vel)
-        s.note('cb', bar * 4, 3.0, b, vel - 14)
-        if bar % 3 == 1:
-            s.hit('snare', bar * 4 + 3.08, vel - 24)
-
-    def bed(bar, sym, vel):
-        s.pad('glass', bar, sym, vel, low='D4', n=3)
-        s.pad('pad', bar, sym, vel - 14, low='F3', n=3)
-
-    def phrase(bar, k, keep, vel, lead='hn', beat=0.0):
-        frag = cut(PHRASE[k], keep)
-        s.mel(lead, bar, frag, vel, beat=beat)
-        if lead == 'hn':
-            s.line('hn2', bar, frag, vel - 18, beat=beat)
-        tail = [x for x in frag if x[0] != REST][-2:]
-        s.mel('fl', bar + 2, [(n, 1.0) for n, _ in tail] + [('r', 2)], 50, transpose=12)
-
-    def thin(bar, k, keep, vel, beat=0.0):
-        for i, sym in enumerate(PH_H[k]):
-            pulse(bar + i, sym, 60)
-            bed(bar + i, sym, 50)
-        phrase(bar, k, keep, vel, beat=beat)
-
-    # A 0-11: the theme's first three phrases, each giving out sooner
-    thin(0, 0, 9, 66, beat=1.0)          # the horn comes in late, softly (loop seam)
-    thin(4, 1, 7, 70)
-    thin(8, 2, 6, 66)
-
-    # B 12-23: fragments pass between muted trumpet and horn; the motif head on the muted trumpet, unfinished
+    # 4-15 A thin: one guitar, the gallop with holes, bars 7, 11 and 14 gone; bass on one
+    missing = {7, 11, 14}
     for i in range(12):
-        sym = PH_H[3 if i < 4 else (0 if i < 8 else 1)][i % 4]
-        pulse(12 + i, sym, 56)
-        bed(12 + i, sym, 54)
-    phrase(12, 3, 6, 66, lead='tpt')
-    s.motif('tpt', 16, motif_head('Bb4', 'major', rhythm=(1, .5, 2.5)) + m('r:4'), 64, form='head (muted trumpet, unfinished)')
-    phrase(17, 0, 5, 62)
-    phrase(20, 1, 6, 64, lead='tpt')
+        bar = 4 + i
+        c = PROG[(i // 2) % 4]
+        grid(s, bar, c, 58)
+        if bar % 4 == 0:
+            grid_snare(s, bar, 56)
+        if bar in missing:
+            continue
+        R.chug(s, bar, c, 82, pattern=THIN, chs=('gtrL',))
+        s.note('bass', s.B(bar), 1.5, R.root(c), 86)
+        s.note('kit', s.B(bar, 1), .2, 38, 84, human=False)
+        s.note('kit', s.B(bar, 3), .2, 38, 78, human=False)
 
-    # C 24-35: stalling - the pulse drags and drops out, the glass rises, the horn tries the opening twice
+    # 16-31 B fragments: the answer on lead guitar cut short; the flat shadow guitar echoes the motif head and stops
+    for i in range(16):
+        bar = 16 + i
+        c = ['E', 'E', 'C', 'C', 'D', 'D', 'B', 'B'][i % 8]
+        grid(s, bar, c, 56)
+        if i % 2 == 0:
+            R.sustain(s, bar, c, 58, beats=6, chs=('gtrL',))
+            s.note('bass', s.B(bar), 3, R.root(c), 80)
+        if i % 4 == 2:
+            grid_snare(s, bar, 54, 'flam')
+    for k, bar in enumerate((16, 20, 24, 28)):
+        s.mel('lead', bar, cut(ANSWER, 4.5 if k % 2 == 0 else 3), 98)
+        s.motif('gtr2', bar + 2, cut(MOTIF, 2 + k % 2), 92, form='head (shadow guitar, 15 cents flat, cut off)', tr=12)
+    s.motif('lead', 30, cut(MOTIF, 5), 96, form='stated, gives out mid-phrase', tr=12)
+
+    # 32-43 C stalling: the riff starts and stops (two beats, then nothing); the grid carries on regardless
     for i in range(12):
-        sym = ['Gm', 'Eb', 'Cm7', 'F'][i % 4]
-        pulse(24 + i, sym, 52)
-        bed(24 + i, sym, 56 + (i % 4) * 2)
-    phrase(24, 0, 4, 62)
-    phrase(28, 0, 3, 58)
-    s.motif('hn', 32, motif_head('F4', 'major', rhythm=(2, 1, 3)) + m('r:2'), 60, form='head (horn, slowed, unfinished)')
-    s.line('hn2', 32, motif_head('F4', 'major', rhythm=(2, 1, 3)), 44)
-    s.mel('fl', 34, m('C6:2 Bb5:2 | A5:4'), 46)
+        bar = 32 + i
+        c = PROG[(i // 2) % 4]
+        grid(s, bar, c, 60)
+        grid_snare(s, bar, 50 + (i % 3) * 4, 'march' if i % 2 == 0 else 'flam')
+        if i % 3 != 2:
+            R.chug(s, bar, c, 80, pattern=tuple(h for h in GALLOP if h[0] < (2 if i % 3 == 0 else 1)), chs=('gtrL',))
+            s.note('bass', s.B(bar), 1, R.root(c), 82)
+        if i % 4 == 1:
+            s.chord('brass', s.B(bar, 2), .5, R.BRASS_HITS[c], 74)
+    s.mel('gtr2', 36, cut(ANSWER, 3.5), 90, tr=12)
+    s.mel('lead', 40, cut(ANSWER, 5), 94)
 
-    # A' 36-43: thin again; bars 40-43 have bar 0's voices so the loop closes
-    thin(36, 1, 8, 70)
-    thin(40, 3, 6, 72)
-    s.line('hn', 43, m('F4:4'), 62)          # a held note left hanging into the loop
-    s.line('hn2', 43, m('F4:4'), 46)
-    s.swell('glass', 43, 1, 96, 110)
+    # 44-51 A' thin
+    for i in range(8):
+        bar = 44 + i
+        c = PROG[(i // 2) % 4]
+        grid(s, bar, c, 58)
+        if bar in (47, 50):
+            continue
+        R.chug(s, bar, c, 80, pattern=THIN, chs=('gtrL',))
+        s.note('bass', s.B(bar), 1.5, R.root(c), 84)
+        s.note('kit', s.B(bar, 1), .2, 38, 80, human=False)
+        s.note('kit', s.B(bar, 3), .2, 38, 74, human=False)
+    s.motif('gtr2', 48, cut(MOTIF, 2), 88, form='head (shadow, flat)', tr=12)
+
+    for i, c in enumerate(PROG):
+        bed(s, 52 + i, c)
+
+    for a, b in ((4, 16), (32, 36), (44, 52)):
+        s.tag_melody('gtrL', a, b)
+    s.tag_melody('harpsi', 0, 4)
+    s.tag_melody('harpsi', 52, 56)
     return s

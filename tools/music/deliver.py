@@ -4,6 +4,8 @@
     python tools/music/deliver.py --approve IDS...               new OGG -> <Drive>/Approved_Audio/<ID>.ogg (old file backed up first)
     python tools/music/deliver.py --record-only --revision v04 MUS-TOWN   only refresh the registry.json record of the Drive file
     python tools/music/deliver.py --own MUS-TUT-BOSS             drop a compatibility alias in the Drive metadata (it has its own file now)
+    --no-backup (with --approve): skip the Superseded copies of the replaced audio files - for a re-encode of the same scores whose old
+    encode is not worth keeping (Gainlands rock Nov 3: the q3 files the designer turned down; registry.json is still backed up).
 
 --approve also brings the Drive's registry.json record up to date (loop end = the new file's length, duration, sha256): the importer treats a
 recorded loop end that falls inside the file as an explicit loop point, so a stale record would cut the new loop short. Every Drive file this
@@ -83,7 +85,7 @@ def prev_rev(reg, id):
     return 'prev'
 
 
-def approve(ids, revision, record_only=False):
+def approve(ids, revision, record_only=False, no_backup=False):
     _, _, ff = R.tool_paths()
     done = []
     reg = load_json('registry.json')
@@ -98,7 +100,8 @@ def approve(ids, revision, record_only=False):
         if not record_only and not os.path.exists(src):
             raise SystemExit(f'{id}: no render at {src} (run build.py first)')
         for old in [] if record_only else glob.glob(os.path.join(AUDIO, f'{id}.*')) + glob.glob(os.path.join(AUDIO, f'{id}_[vV]*.*')):
-            backup(old, prev_rev(reg, id))
+            if not no_backup:
+                backup(old, prev_rev(reg, id))
             if os.path.basename(old) != f'{id}.{ext}':
                 os.remove(old)    # a stale WAV / _vN would win over the new OGG in the importer
         if not record_only:
@@ -145,6 +148,7 @@ def main():
     ap.add_argument('--own', action='store_true')
     ap.add_argument('--record-only', action='store_true', help='refresh the registry.json record from the Drive file as it is')
     ap.add_argument('--revision', default='orch-v1')
+    ap.add_argument('--no-backup', action='store_true')
     a = ap.parse_args()
     if a.review:
         d = os.path.join(DRIVE, 'Music Review', a.review)
@@ -153,7 +157,7 @@ def main():
             shutil.copy2(os.path.join(RENDERS, id, f'{id}.mp3'), os.path.join(d, f'{id}.mp3'))
         print(f'{len(a.ids)} previews -> {d}')
     if a.approve or a.record_only:
-        done, saved = approve(a.ids, a.revision, record_only=a.record_only)
+        done, saved = approve(a.ids, a.revision, record_only=a.record_only, no_backup=a.no_backup)
         print('\n'.join(done))
         if saved:
             print('backed up', saved)

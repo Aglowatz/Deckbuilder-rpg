@@ -1,77 +1,105 @@
 {
  "id": "MUS-CAP-BEEF-BROKEN",
  "kind": "loop",
- "key": "Bb major",
- "bpm": 88,
+ "key": "E minor",
+ "bpm": 116,
  "meter": "4/4",
- "bars": 44,
- "seconds": 120.0,
- "loop_seconds": 120.0,
- "lufs": -20.0,
- "true_peak": -3.4,
- "lra": 7.0,
+ "profile": "rock",
+ "bars": 56,
+ "seconds": 115.86,
+ "loop_seconds": 115.862,
+ "lufs": -20.1,
+ "true_peak": -11.2,
+ "lra": 8.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "A thin",
+   "section": "intro bed",
    "bar": 0,
-   "bars": 12,
+   "bars": 4,
    "start_s": 0.0,
-   "lufs": -19.4
+   "lufs": -25.7
+  },
+  {
+   "section": "A thin",
+   "bar": 4,
+   "bars": 12,
+   "start_s": 8.3,
+   "lufs": -20.0
   },
   {
    "section": "B fragments",
-   "bar": 12,
-   "bars": 12,
-   "start_s": 32.7,
-   "lufs": -22.1
+   "bar": 16,
+   "bars": 16,
+   "start_s": 33.1,
+   "lufs": -18.9
   },
   {
    "section": "C stalling",
-   "bar": 24,
+   "bar": 32,
    "bars": 12,
-   "start_s": 65.5,
-   "lufs": -20.5
+   "start_s": 66.2,
+   "lufs": -20.1
   },
   {
    "section": "A' thin",
-   "bar": 36,
-   "bars": 4,
-   "start_s": 98.2,
-   "lufs": -18.0
+   "bar": 44,
+   "bars": 8,
+   "start_s": 91.0,
+   "lufs": -19.9
   },
   {
-   "section": "thin (loop)",
-   "bar": 40,
+   "section": "outro bed",
+   "bar": 52,
    "bars": 4,
-   "start_s": 109.1,
-   "lufs": -18.4
+   "start_s": 107.6,
+   "lufs": -25.9
   }
  ],
  "motifs": [
   {
-   "bar": 16.0,
-   "form": "head (muted trumpet, unfinished)",
-   "ch": "tpt"
+   "bar": 18.0,
+   "form": "head (shadow guitar, 15 cents flat, cut off)",
+   "ch": "gtr2"
   },
   {
-   "bar": 32.0,
-   "form": "head (horn, slowed, unfinished)",
-   "ch": "hn"
+   "bar": 22.0,
+   "form": "head (shadow guitar, 15 cents flat, cut off)",
+   "ch": "gtr2"
+  },
+  {
+   "bar": 26.0,
+   "form": "head (shadow guitar, 15 cents flat, cut off)",
+   "ch": "gtr2"
+  },
+  {
+   "bar": 30.0,
+   "form": "head (shadow guitar, 15 cents flat, cut off)",
+   "ch": "gtr2"
+  },
+  {
+   "bar": 30.0,
+   "form": "stated, gives out mid-phrase",
+   "ch": "lead"
+  },
+  {
+   "bar": 48.0,
+   "form": "head (shadow, flat)",
+   "ch": "gtr2"
   }
  ],
- "notes": 505,
+ "notes": 1553,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-BROKEN\\MUS-CAP-BEEF-BROKEN.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-BROKEN\\MUS-CAP-BEEF-BROKEN.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-BEEF-BROKEN.mid"
  },
  "seam": {
-  "jump_db": -0.13,
-  "wrap_step": 0.00953,
-  "p999_step": 0.03747,
+  "jump_db": -0.84,
+  "wrap_step": 0.00266,
+  "p999_step": 0.0876,
   "click": false,
   "ok": true
  },
@@ -81,28 +109,36 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 86,
+   "bars": [
+    3,
+    10,
+    22,
+    30,
+    38,
+    39,
+    51,
+    55
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.84,
+   "coverage": 0.86,
    "bars_without_melody": [
-    7,
-    9,
-    11,
-    15,
-    33,
+    19,
+    21,
+    37,
+    38,
     39,
+    41,
+    42,
     43
    ],
-   "buried_bars": [
-    42
-   ],
+   "buried_bars": [],
    "ok": true
   }
  },
  "composer_notes": [
-  "Broken = the Gainlands theme cut off mid-phrase, a shadow horn 15 cents flat (Music Pass 3: was 25) (Score.detune), exhausted tuba pulse."
+  "Broken = the Gainlands riff on one guitar with hits and bars missing, a shadow guitar 15 cents flat, the Capital grid underneath."
  ]
 }

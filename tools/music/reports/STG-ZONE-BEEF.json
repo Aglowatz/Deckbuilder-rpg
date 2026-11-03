@@ -1,41 +1,49 @@
 {
  "id": "STG-ZONE-BEEF",
  "kind": "oneshot",
- "key": "Bb major",
- "bpm": 126,
+ "key": "E major",
+ "bpm": 140,
  "meter": "4/4",
+ "profile": "rock",
  "bars": 4,
- "seconds": 8.0,
- "loop_seconds": 7.619,
- "lufs": -17.0,
- "true_peak": -2.3,
- "lra": 3.9,
+ "seconds": 7.5,
+ "loop_seconds": 6.857,
+ "lufs": -17.1,
+ "true_peak": -12.8,
+ "lra": 2.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "all",
+   "section": "answer",
    "bar": 0,
-   "bars": 4,
+   "bars": 2,
    "start_s": 0.0,
-   "lufs": -17.1
+   "lufs": -16.6
+  },
+  {
+   "section": "resolved landing",
+   "bar": 2,
+   "bars": 2,
+   "start_s": 3.4,
+   "lufs": -17.6
   }
  ],
  "motifs": [
   {
    "bar": 2.0,
-   "form": "RESOLVED, stated (warm horns)",
-   "ch": "hn"
+   "form": "RESOLVED tail (lead guitar): the Gainlands freed",
+   "ch": "lead"
   }
  ],
- "notes": 127,
+ "notes": 94,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\STG-ZONE-BEEF\\STG-ZONE-BEEF.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\STG-ZONE-BEEF\\STG-ZONE-BEEF.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\STG-ZONE-BEEF.mid"
  },
- "onset_ms": 3.5,
+ "onset_ms": 3.6,
  "onset_ok": true,
  "checks": {
   "range": {
@@ -43,13 +51,17 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 16,
+   "bars": [
+    1
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 1.0,
-   "bars_without_melody": [],
+   "coverage": 0.75,
+   "bars_without_melody": [
+    3
+   ],
    "buried_bars": [],
    "ok": true
   }

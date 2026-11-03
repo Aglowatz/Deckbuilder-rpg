@@ -1,114 +1,119 @@
 {
  "id": "MUS-BEEF-DUN-EXP",
  "kind": "loop",
- "key": "G minor",
- "bpm": 108,
+ "key": "E minor",
+ "bpm": 126,
  "meter": "4/4",
- "bars": 64,
- "seconds": 142.22,
- "loop_seconds": 142.222,
- "lufs": -20.1,
- "true_peak": -5.0,
- "lra": 8.7,
+ "profile": "rock",
+ "bars": 72,
+ "seconds": 137.14,
+ "loop_seconds": 137.143,
+ "lufs": -20.2,
+ "true_peak": -11.7,
+ "lra": 11.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro reps",
+   "section": "intro machine",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -27.4
+   "lufs": -22.9
   },
   {
-   "section": "A reps",
+   "section": "machine riff",
    "bar": 4,
-   "bars": 16,
-   "start_s": 8.9,
-   "lufs": -20.0
+   "bars": 12,
+   "start_s": 7.6,
+   "lufs": -21.8
   },
   {
-   "section": "B breath",
-   "bar": 20,
-   "bars": 16,
-   "start_s": 44.4,
-   "lufs": -23.7
+   "section": "theme (stern)",
+   "bar": 16,
+   "bars": 12,
+   "start_s": 30.5,
+   "lufs": -19.1
   },
   {
-   "section": "C fortress",
-   "bar": 36,
-   "bars": 16,
-   "start_s": 80.0,
-   "lufs": -18.4
+   "section": "breath (Flex)",
+   "bar": 28,
+   "bars": 12,
+   "start_s": 53.3,
+   "lufs": -29.4
   },
   {
-   "section": "A' reps tutti",
-   "bar": 52,
-   "bars": 8,
-   "start_s": 115.6,
+   "section": "build",
+   "bar": 40,
+   "bars": 4,
+   "start_s": 76.2,
+   "lufs": -21.7
+  },
+  {
+   "section": "riff + lick",
+   "bar": 44,
+   "bars": 16,
+   "start_s": 83.8,
    "lufs": -17.3
   },
   {
-   "section": "outro reps",
+   "section": "outro riff",
    "bar": 60,
+   "bars": 8,
+   "start_s": 114.3,
+   "lufs": -22.6
+  },
+  {
+   "section": "outro machine",
+   "bar": 68,
    "bars": 4,
-   "start_s": 133.3,
-   "lufs": -27.2
+   "start_s": 129.5,
+   "lufs": -23.0
   }
  ],
  "motifs": [
   {
-   "bar": 2.0,
-   "form": "head (horn, counting in)",
-   "ch": "hn"
+   "bar": 16.0,
+   "form": "stated (lead guitar, stern)",
+   "ch": "lead"
   },
   {
-   "bar": 4.0,
-   "form": "stated twice (horns: rep 1, rep 2)",
-   "ch": "hn"
+   "bar": 20.0,
+   "form": "stated again (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 12,
-   "form": "stated (trumpets, rep 3)",
-   "ch": "tpt"
+   "bar": 24.0,
+   "form": "stated low (brass, the machine answers)",
+   "ch": "brass"
   },
   {
-   "bar": 28.0,
-   "form": "augmented (clarinet, the breath)",
-   "ch": "cl"
-  },
-  {
-   "bar": 36.0,
-   "form": "stated, climbing G - Bb - C (trumpets)",
-   "ch": "tpt"
-  },
-  {
-   "bar": 44.0,
-   "form": "stated (horns + trumpets 8va)",
-   "ch": "hn"
+   "bar": 30.0,
+   "form": "stated (clean guitar, Flex breathing)",
+   "ch": "clean"
   },
   {
    "bar": 52.0,
-   "form": "stated (tutti)",
-   "ch": "tpt"
+   "form": "stated 8va (lead guitar, the reps at full weight)",
+   "ch": "lead"
   },
   {
-   "bar": 62.0,
-   "form": "head (horn, counting in)",
-   "ch": "hn"
+   "bar": 56.0,
+   "form": "stated 8va again",
+   "ch": "lead"
   }
  ],
- "notes": 1632,
+ "notes": 5147,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-DUN-EXP\\MUS-BEEF-DUN-EXP.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-DUN-EXP\\MUS-BEEF-DUN-EXP.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-DUN-EXP.mid"
  },
  "seam": {
-  "jump_db": -1.18,
-  "wrap_step": 0.00329,
-  "p999_step": 0.0531,
+  "jump_db": 0.59,
+  "wrap_step": 0.00046,
+  "p999_step": 0.08041,
   "click": false,
   "ok": true
  },
@@ -118,28 +123,38 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 124,
+   "bars": [
+    10,
+    11,
+    22,
+    23,
+    34,
+    39,
+    42,
+    43,
+    50,
+    51,
+    58,
+    59,
+    66,
+    67,
+    71
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.86,
+   "coverage": 0.96,
    "bars_without_melody": [
-    0,
-    5,
-    9,
-    17,
+    31,
     39,
-    41,
-    60,
-    61,
-    63
+    53
    ],
    "buried_bars": [],
    "ok": true
   }
  },
  "composer_notes": [
-  "Orchestral by the Music Pass 1 brief (the old music_list row asked for guitar rock)."
+  "House of Gains: the Gainlands riff as 16th machine reps; a guitar-free breath section for Flex."
  ]
 }

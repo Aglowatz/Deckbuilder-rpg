@@ -83,7 +83,7 @@ MACHINE = [(i * .25, .25, 1 if i in (0, 6, 8, 14) else 0) for i in range(16)]
 
 def chug(s, bar, r, vel, pattern='gallop', chs=('gtrL', 'gtrR')):
     """Palm-muted chugs on the root with power-chord accents, doubled L/R (12 ms apart)."""
-    hits = {'gallop': GALLOP, 'straight': STRAIGHT, 'machine': MACHINE}.get(pattern, pattern)
+    hits = {'gallop': GALLOP, 'straight': STRAIGHT, 'machine': MACHINE}[pattern] if isinstance(pattern, str) else pattern
     rr = root(r)
     for t, d, acc in hits:
         notes = power(r) if acc else [rr, rr + 7]

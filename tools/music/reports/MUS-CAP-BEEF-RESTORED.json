@@ -1,92 +1,105 @@
 {
  "id": "MUS-CAP-BEEF-RESTORED",
  "kind": "loop",
- "key": "Bb major",
- "bpm": 112,
+ "key": "E major",
+ "bpm": 116,
  "meter": "4/4",
- "bars": 48,
- "seconds": 102.86,
- "loop_seconds": 102.857,
+ "profile": "rock",
+ "bars": 56,
+ "seconds": 115.86,
+ "loop_seconds": 115.862,
  "lufs": -20.1,
- "true_peak": -7.4,
- "lra": 6.2,
+ "true_peak": -13.0,
+ "lra": 8.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro vamp",
+   "section": "intro bed",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.5
+   "lufs": -27.2
   },
   {
-   "section": "A full theme",
+   "section": "A riff",
    "bar": 4,
+   "bars": 12,
+   "start_s": 8.3,
+   "lufs": -20.5
+  },
+  {
+   "section": "B theme",
+   "bar": 16,
    "bars": 16,
-   "start_s": 8.6,
+   "start_s": 33.1,
+   "lufs": -18.9
+  },
+  {
+   "section": "C riff + brass",
+   "bar": 32,
+   "bars": 12,
+   "start_s": 66.2,
+   "lufs": -19.1
+  },
+  {
+   "section": "A' theme",
+   "bar": 44,
+   "bars": 8,
+   "start_s": 91.0,
    "lufs": -21.0
   },
   {
-   "section": "B Capital shadow",
-   "bar": 20,
-   "bars": 8,
-   "start_s": 42.9,
-   "lufs": -22.6
-  },
-  {
-   "section": "A' tutti",
-   "bar": 28,
-   "bars": 16,
-   "start_s": 60.0,
-   "lufs": -17.9
-  },
-  {
-   "section": "outro vamp",
-   "bar": 44,
+   "section": "outro bed",
+   "bar": 52,
    "bars": 4,
-   "start_s": 94.3,
-   "lufs": -23.3
+   "start_s": 107.6,
+   "lufs": -27.1
   }
  ],
  "motifs": [
   {
-   "bar": 1.0,
-   "form": "head (horn)",
-   "ch": "hn"
+   "bar": 16.0,
+   "form": "RESOLVED (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 4.0,
-   "form": "stated (trumpets: the theme the broken cue could not finish)",
-   "ch": "tpt"
+   "bar": 20.0,
+   "form": "RESOLVED again",
+   "ch": "lead"
   },
   {
    "bar": 24.0,
-   "form": "RESOLVED (horns: the service returns)",
-   "ch": "hn"
+   "form": "RESOLVED (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 40.0,
-   "form": "RESOLVED, quick (horns under the last phrase)",
-   "ch": "hn"
+   "bar": 28.0,
+   "form": "RESOLVED again",
+   "ch": "lead"
   },
   {
-   "bar": 45.0,
-   "form": "head (horn)",
-   "ch": "hn"
+   "bar": 36.0,
+   "form": "RESOLVED 8va (peak)",
+   "ch": "lead"
+  },
+  {
+   "bar": 46.0,
+   "form": "RESOLVED (closing)",
+   "ch": "lead"
   }
  ],
- "notes": 1787,
+ "notes": 3555,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-RESTORED\\MUS-CAP-BEEF-RESTORED.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-BEEF-RESTORED\\MUS-CAP-BEEF-RESTORED.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-BEEF-RESTORED.mid"
  },
  "seam": {
-  "jump_db": -0.01,
-  "wrap_step": 0.00375,
-  "p999_step": 0.0633,
+  "jump_db": 1.09,
+  "wrap_step": 0.00351,
+  "p999_step": 0.07131,
   "click": false,
   "ok": true
  },
@@ -96,24 +109,28 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 118,
+   "bars": [
+    3,
+    10,
+    11,
+    22,
+    30,
+    38,
+    39,
+    50,
+    55
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.96,
-   "bars_without_melody": [
-    27,
-    39
-   ],
-   "buried_bars": [
-    1,
-    45
-   ],
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [],
    "ok": true
   }
  },
  "composer_notes": [
-  "Restored = the BROKEN cue's theme full and in tune; resolved motif (restored cue). Grid snare = the Capital tension."
+  "Restored = the broken cue whole and in tune: doubled riff, every hit back, resolved motif; the Capital grid underneath."
  ]
 }

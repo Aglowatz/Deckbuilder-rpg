@@ -18,7 +18,7 @@ from scipy.ndimage import minimum_filter1d
 SR = 48000
 LOOP_LUFS = -20.0
 ONESHOT_LUFS = -17.0
-# Size pass Nov 3: the delivered Vorbis quality (was q6 ~120 kbps actual for this orchestral content: 219 MB of the build).
+# The delivered Vorbis quality: q6 by design (Gainlands rock Nov 3: the designer preferred it by ear; the size pass's q3 renders were undone).
 VORBIS_Q = 6
 PEAK_TARGET = -2.0
 CEILING = -1.5

@@ -1,67 +1,85 @@
 {
  "id": "MUS-BEEF-RELEASE",
  "kind": "oneshot",
- "key": "Bb major",
- "bpm": 80,
+ "key": "E major",
+ "bpm": 100,
  "meter": "4/4",
- "bars": 24,
- "seconds": 77.65,
- "loop_seconds": 72.0,
+ "profile": "rock",
+ "bars": 28,
+ "seconds": 68.82,
+ "loop_seconds": 67.2,
  "lufs": -20.1,
- "true_peak": -6.1,
- "lra": 5.3,
+ "true_peak": -12.4,
+ "lra": 7.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "opening",
+   "section": "hope (orchestral)",
    "bar": 0,
-   "bars": 4,
-   "start_s": 0.0,
-   "lufs": -22.3
-  },
-  {
-   "section": "A horn theme",
-   "bar": 4,
    "bars": 8,
-   "start_s": 12.0,
-   "lufs": -20.4
+   "start_s": 0.0,
+   "lufs": -24.7
   },
   {
-   "section": "B strings, swing",
+   "section": "the band swells in",
+   "bar": 8,
+   "bars": 4,
+   "start_s": 19.2,
+   "lufs": -20.3
+  },
+  {
+   "section": "true strength",
    "bar": 12,
    "bars": 8,
-   "start_s": 36.0,
-   "lufs": -20.7
+   "start_s": 28.8,
+   "lufs": -17.9
   },
   {
-   "section": "resolution + held chord",
+   "section": "chorale",
    "bar": 20,
    "bars": 4,
-   "start_s": 60.0,
-   "lufs": -17.4
+   "start_s": 48.0,
+   "lufs": -19.8
+  },
+  {
+   "section": "held E major",
+   "bar": 24,
+   "bars": 4,
+   "start_s": 57.6,
+   "lufs": -20.5
   }
  ],
  "motifs": [
   {
-   "bar": 4.0,
-   "form": "stated (horn: the Gainlands fanfare, slowed)",
+   "bar": 5.0,
+   "form": "head (horn, hopeful)",
    "ch": "hn"
   },
   {
+   "bar": 12.0,
+   "form": "RESOLVED (lead guitar: true strength)",
+   "ch": "lead"
+  },
+  {
+   "bar": 16.0,
+   "form": "RESOLVED 8va",
+   "ch": "lead"
+  },
+  {
    "bar": 20.0,
-   "form": "RESOLVED, augmented (horns, strings 8va): strength shared willingly",
-   "ch": "hn"
+   "form": "RESOLVED augmented (brass chorale)",
+   "ch": "brass"
   }
  ],
- "notes": 375,
+ "notes": 1016,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-RELEASE\\MUS-BEEF-RELEASE.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-RELEASE\\MUS-BEEF-RELEASE.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-RELEASE.mid"
  },
- "onset_ms": 3.2,
+ "onset_ms": 9.8,
  "onset_ok": true,
  "checks": {
   "range": {
@@ -69,20 +87,35 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 80,
+   "bars": [
+    9,
+    11,
+    18,
+    19,
+    21,
+    23
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.96,
+   "coverage": 0.68,
    "bars_without_melody": [
-    23
+    3,
+    6,
+    7,
+    20,
+    23,
+    24,
+    25,
+    26,
+    27
    ],
    "buried_bars": [],
    "ok": true
   }
  },
  "composer_notes": [
-  "Release cue: resolved motif allowed; starts instantly on a timpani + harp + string chord; held ending."
+  "Release cue: orchestral opening, the rock band swells in at bar 8; resolved motif; starts instantly; held ending."
  ]
 }

@@ -1,109 +1,119 @@
 {
  "id": "MUS-BEEF-EXP",
  "kind": "loop",
- "key": "Bb major",
- "bpm": 116,
+ "key": "E minor",
+ "bpm": 120,
  "meter": "4/4",
- "bars": 64,
- "seconds": 132.41,
- "loop_seconds": 132.414,
- "lufs": -20.1,
- "true_peak": -4.7,
- "lra": 13.0,
+ "profile": "rock",
+ "bars": 72,
+ "seconds": 144.0,
+ "loop_seconds": 144.0,
+ "lufs": -20.2,
+ "true_peak": -12.3,
+ "lra": 9.0,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
  "sections": [
   {
-   "section": "intro vamp",
+   "section": "intro bed",
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -28.4
+   "lufs": -25.9
   },
   {
-   "section": "A march",
+   "section": "riff",
    "bar": 4,
-   "bars": 16,
-   "start_s": 8.3,
-   "lufs": -21.3
+   "bars": 8,
+   "start_s": 8.0,
+   "lufs": -20.1
+  },
+  {
+   "section": "theme",
+   "bar": 12,
+   "bars": 8,
+   "start_s": 24.0,
+   "lufs": -18.5
   },
   {
    "section": "B gentle",
    "bar": 20,
    "bars": 16,
-   "start_s": 41.4,
-   "lufs": -22.5
+   "start_s": 40.0,
+   "lufs": -22.8
   },
   {
-   "section": "C comic",
+   "section": "lift",
    "bar": 36,
-   "bars": 8,
-   "start_s": 74.5,
-   "lufs": -28.0
-  },
-  {
-   "section": "A' tutti",
-   "bar": 44,
-   "bars": 16,
-   "start_s": 91.0,
-   "lufs": -16.7
-  },
-  {
-   "section": "outro vamp",
-   "bar": 60,
    "bars": 4,
-   "start_s": 124.1,
-   "lufs": -27.6
+   "start_s": 72.0,
+   "lufs": -21.2
+  },
+  {
+   "section": "riff + theme",
+   "bar": 40,
+   "bars": 16,
+   "start_s": 80.0,
+   "lufs": -17.7
+  },
+  {
+   "section": "riff thinning",
+   "bar": 56,
+   "bars": 12,
+   "start_s": 112.0,
+   "lufs": -21.3
+  },
+  {
+   "section": "outro bed",
+   "bar": 68,
+   "bars": 4,
+   "start_s": 136.0,
+   "lufs": -25.8
   }
  ],
  "motifs": [
   {
-   "bar": 1.0,
-   "form": "head (horn fanfare)",
-   "ch": "hn"
+   "bar": 2.0,
+   "form": "head (saw, over the bed)",
+   "ch": "saw"
   },
   {
-   "bar": 4.0,
-   "form": "stated (trumpet fanfare)",
-   "ch": "tpt"
+   "bar": 12.0,
+   "form": "stated (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 32.0,
-   "form": "stated (horn, warm countermelody)",
-   "ch": "hn"
+   "bar": 16.0,
+   "form": "stated again",
+   "ch": "lead"
   },
   {
-   "bar": 36.0,
-   "form": "diminished (xylophone joke)",
-   "ch": "xylo"
+   "bar": 28.0,
+   "form": "augmented (brass chorale)",
+   "ch": "brass"
   },
   {
    "bar": 40.0,
-   "form": "diminished (xylophone again)",
-   "ch": "xylo"
+   "form": "stated 8va (lead guitar, peak)",
+   "ch": "lead"
   },
   {
    "bar": 44.0,
-   "form": "stated (tutti)",
-   "ch": "tpt"
-  },
-  {
-   "bar": 61.0,
-   "form": "head (horn fanfare)",
-   "ch": "hn"
+   "form": "stated 8va again",
+   "ch": "lead"
   }
  ],
- "notes": 1629,
+ "notes": 3674,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-EXP\\MUS-BEEF-EXP.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-BEEF-EXP\\MUS-BEEF-EXP.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-BEEF-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.08,
-  "wrap_step": 0.00635,
-  "p999_step": 0.08291,
+  "jump_db": -0.4,
+  "wrap_step": 0.00242,
+  "p999_step": 0.08246,
   "click": false,
   "ok": true
  },
@@ -113,31 +123,46 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 151,
+   "bars": [
+    3,
+    10,
+    11,
+    18,
+    26,
+    34,
+    39,
+    46,
+    47,
+    54,
+    55,
+    62,
+    63,
+    71
+   ],
+   "ok": false
   },
   "melody": {
    "coverage": 0.88,
    "bars_without_melody": [
-    2,
-    3,
-    38,
-    47,
-    55,
-    59,
-    62,
-    63
+    31,
+    32,
+    33,
+    34,
+    35,
+    50,
+    51,
+    54,
+    55
    ],
    "buried_bars": [
-    10,
-    12,
-    15
+    48,
+    49
    ],
    "ok": true
   }
  },
  "composer_notes": [
-  "Orchestral march by the Music Pass 1 brief (the old music_list row asked for electric guitar rock)."
+  "Exploration: the Gainlands riff and answer at 120, no drop; gentle half-time B section with the breakdown lick."
  ]
 }

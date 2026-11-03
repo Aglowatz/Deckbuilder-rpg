@@ -1,77 +1,101 @@
-"""MUS-BEEF-RELEASE - Flex's rescue and true strength (story one-shot). 24 bars 4/4, 80 BPM, Bb major, ~74 s with the ring-out.
-The Gainlands march slowed into a sincere character moment: the heavy rhythm loosens into a light swung pizzicato and tuba, breathing room
-between phrases for dialogue. A warm horn sings the Gainlands theme (MUS-BEEF-EXP), the strings take its second half, and the Crossroads
-motif - augmented, then RESOLVED to Bb (a release cue) - closes on a long held Bb major chord that rings out.
+"""MUS-BEEF-RELEASE - Flex's rescue and true strength (story one-shot). 28 bars 4/4, 100 BPM, E major, ~67 s + ring-out.
+TECHNO HARD ROCK palette (Gainlands rock Nov 3), but it starts orchestral and hopeful: a held string chord, harp, and a warm horn singing the
+Gainlands answer in major, room for dialogue. Then the band swells in for "true strength" - power chords crescendo under a snare roll and
+riser, and the full band takes the Crossroads motif RESOLVED on lead guitar (a release cue). It broadens to a brass + strings chorale and
+ends on a held E major chord with a crash that rings out. -20 LUFS like the loops (story cue).
 """
-from lib import Score, m, motif, augment, voice, p, split_beats
+from lib import Song, p
+from lib import rock as R
+from lib.rock import MOTIF_RESOLVED, ANSWER_MAJOR, BRASS_HITS
+from scores._rock_a import riff, augment
 
-THEME = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-          '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1 '
-          '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 G5:1 A5:1 | Bb5:2 G5:1 Eb5:1 | F5:3 r:1 '
-          '| Ab5:1.5 G5:.5 F5:1 Eb5:1 | G5:1.5 F5:.5 Eb5:1 D5:1 | C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
-H1 = ['Bbmaj7', 'Gm7', 'Cm7', 'F7sus4', 'Ebmaj7', 'Gm7', 'F7', 'Bb6']
-H2 = ['Bbmaj7', 'F/A', 'Ebmaj7', 'F7sus4', 'Abmaj7', 'Ebmaj7', 'Cm7 F7', 'Bb6']
+PROG = ['E', 'C#', 'A', 'B']
+HITS = {'E': 'Emaj', 'C#': 'C#m', 'A': 'A', 'B': 'B'}
+STR = {'E': ['E3', 'B3', 'E4', 'G#4'], 'C#': ['C#3', 'G#3', 'C#4', 'E4'], 'A': ['A2', 'E3', 'A3', 'C#4'], 'B': ['B2', 'F#3', 'B3', 'D#4']}
 
 
 def build():
-    s = Score('MUS-BEEF-RELEASE', bpm=80, bars=24, key='Bb major', seed=818, kind='oneshot')
+    s = Song('MUS-BEEF-RELEASE', bpm=100, bars=28, key='E major', seed=818, kind='oneshot')
     s.lufs = -20.0                                 # story cue: sits with the loops
-    s.swing = 0.14
-    s.seat('hn', 'tpt', 'tbn', 'tuba', 'vln', 'pad', 'vc', 'cb', 'harp', 'cl', 'pizz', 'timp', 'perc')
-    for bar, nm in ((0, 'opening'), (4, 'A horn theme'), (12, 'B strings, swing'), (20, 'resolution + held chord')):
+    s.jitter = 0.01
+    R.band(s, kit_vol=112)
+    s.add('strs', 10, 49, pan=50, rev=100, vol=124)     # slow strings
+    s.add('hn', 11, 60, pan=78, rev=95, vol=118)        # French horn
+    s.add('harp', 12, 46, pan=40, rev=85, vol=110)
+    for bar, nm in ((0, 'hope (orchestral)'), (8, 'the band swells in'), (12, 'true strength'), (20, 'chorale'), (24, 'held E major')):
         s.section(bar, nm)
-    s.notes.append('Release cue: resolved motif allowed; starts instantly on a timpani + harp + string chord; held ending.')
+    s.notes.append('Release cue: orchestral opening, the rock band swells in at bar 8; resolved motif; starts instantly; held ending.')
 
-    # opening 0-3: a soft timpani stroke and a held Bb chord start at once; the horn breathes the theme's head
-    s.note('timp', 0, 2.0, p('Bb2'), 74, human=False)
-    for n in voice('Bbmaj7', 'D3', 4):
-        s.note('harp', 0, 3.0, n, 70, human=False)
-    for i, sym in enumerate(['Bbmaj7', 'Ebmaj7', 'Bbmaj7', 'F7sus4']):
-        s.pad('pad', i, sym, 56)
-        s.note('cb', i * 4, 4.02, p(s.voicing(sym)[0]), 54)
-    s.mel('hn', 1, m('Bb3:2 F4:1 Eb4:1 | D4:6 r:2'), 76)
-    s.mel('cl', 3, m('r:2 C5:1 D5:1'), 58)
+    # 0-7 hope: strings + harp start at once; the horn sings the major answer, then the motif head
+    for i in range(8):
+        c = PROG[(i // 2) % 4]
+        for n in STR[c]:
+            s.note('strs', s.B(i), 3.95, p(n), 100 if i else 112, human=(i > 0))
+        for k in range(8):
+            notes = STR[c][1:] + [p(STR[c][2]) + 12]
+            s.note('harp', s.B(i, k * .5), 1.0, p(notes[k % 4]) + 12, 84 - (k % 4) * 3, human=(i > 0 or k > 0))
+        s.note('timp', s.B(i), 1.0, R.root(c) + 12, 96 if i == 0 else 70, human=False) if i % 2 == 0 else None
+    s.mel('hn', 1, [(n, d * 2) for n, d in ANSWER_MAJOR[:5]], 108)
+    s.motif('hn', 5, MOTIF_RESOLVED[:3], 104, form='head (horn, hopeful)')
+    s.swell('strs', 0, 8, 100, 120)
 
-    # A 4-11: the warm horn on the first half of the theme; harp and soft tuba, plenty of room
-    for i, sym in enumerate(H1):
-        bar = 4 + i
-        s.pad('pad', bar, sym, 52)
-        s.harp(bar, sym, 46)
-        s.note('tuba', bar * 4, 1.6, p(s.voicing(sym)[0]), 54)
-    s.motif('hn', 4, THEME[:6], 84, form='stated (horn: the Gainlands fanfare, slowed)')
-    s.mel('hn', 4, split_beats(THEME, 0, 32)[6:], 84, beat=7)
-    s.line('vc', 8, m('Bb3:4 | Bb3:2 A3:2 | F3:4 | F3:4'), 52)
+    # 8-11 the band swells in: held power chords crescendo, kick pulse, snare roll, riser, strings keep going
+    for i in range(4):
+        c = ['A', 'B', 'A', 'B'][i]
+        R.sustain(s, 8 + i, c, 64 + i * 10)
+        for n in STR[c]:
+            s.note('strs', s.B(8 + i), 3.95, p(n), 80)
+        s.note('bass', s.B(8 + i), 3.9, R.root(c), 80 + i * 6)
+        R.kick_pulse(s, 8 + i, 80 + i * 10)
+        s.chord('brass', s.B(8 + i), 3.9, BRASS_HITS[HITS[c]], 60 + i * 10)
+    R.snare_roll(s, 10, 2, 40, 112)
+    R.riser(s, 9, 3)
+    s.mel('hn', 8, [('B4', 2), ('C#5', 2), ('D#5', 2), ('F#5', 2), ('E5', 4), ('F#5', 4)], 86)
 
-    # B 12-19: the strings take the second half; the rhythm gains a light swing (pizzicato + tuba), horns hum
-    for i, sym in enumerate(H2):
+    # 12-19 true strength: the full band, the motif resolved on lead guitar, strings doubling
+    R.crash(s, 12, 118)
+    for i in range(8):
         bar = 12 + i
-        for off, beats, ch in s.parts(sym):
-            b = p(s.voicing(ch)[0])
-            s.note('tuba', bar * 4 + off, .9, b, 58)
-            if beats >= 2:
-                s.note('tuba', bar * 4 + off + 2, .9, b + 7 if b + 7 < p('C3') else b - 5, 50)
-        s.pizz(bar, sym.split()[0], 46, pattern=[(1, 2), (1.5, 1), (3, 2), (3.5, 3)])
-        s.pad('pad', bar, sym.split()[0], 50)
-        s.drum(bar, [(1, 'snare', -30), (3, 'snare', -26)], 70)
-    s.mel('vln', 12, split_beats(THEME, 32, 64), 86, transpose=12)
-    s.line('hn', 12, m('D4:4 | C4:4 | Bb3:4 | A3:4 | C4:4 | Bb3:4 | Bb3:2 A3:2 | D4:4'), 56)
-    s.swell('vln', 12, 8, 80, 104, 'arch')
-    s.timp_roll(19 * 4 + 2, 2, 'F2', 30, 70)
+        c = PROG[(i // 2) % 4]
+        riff(s, bar, c, 90, pattern='gallop' if i < 4 else 'straight', beat=108, fill=(i == 7))
+        s.chord('brass', s.B(bar), .6, BRASS_HITS[HITS[c]], 96)
+        s.chord('brass', s.B(bar, 2.5), .4, BRASS_HITS[HITS[c]], 86)
+        for n in STR[c]:
+            s.note('strs', s.B(bar), 3.95, p(n) + 12, 78)
+        if i == 4:
+            R.crash(s, bar, 110)
+    s.motif('lead', 12, MOTIF_RESOLVED, 110, form='RESOLVED (lead guitar: true strength)', tr=12)
+    s.mel('lead', 14, ANSWER_MAJOR, 108)
+    s.motif('lead', 16, MOTIF_RESOLVED, 114, form='RESOLVED 8va', tr=12)
+    s.mel('lead', 18, ANSWER_MAJOR[:6] + [('G#5', 1), ('B5', 1.5)], 114)
 
-    # 20-23: the Crossroads motif augmented and RESOLVED (horns + strings 8va), then the held Bb major chord
-    for i, sym in enumerate(['Ebmaj7', 'F7sus4', 'Bb', 'Bb']):
-        s.pad('pad', 20 + i, sym, 58)
-        if i < 3:
-            s.harp(20 + i, sym, 50)
-        s.note('cb', (20 + i) * 4, 4.02, p(s.voicing(sym)[0]), 60)
-    res = motif('Bb3', 'major', resolved=True, rhythm=[2, 1, 1, 3, 1, 8])
-    s.motif('hn', 20, res, 92, form='RESOLVED, augmented (horns, strings 8va): strength shared willingly')
-    s.line('vln', 20, res, 80, transpose=12)
-    # the motif lands on Bb at bar 22: the held Bb major chord (trombones, tuba, a soft timpani and cymbal) rings out from there
-    for n in voice('Bb', 'F3', 4):
-        s.note('tbn', 22 * 4, 8.0, n, 66)
-    s.note('tuba', 22 * 4, 8.0, p('Bb1'), 66)
-    s.note('timp', 22 * 4, 1.0, p('Bb2'), 70)
-    s.hit('crash', 22 * 4, 54, dur=4)
-    s.swell('pad', 22, 2, 90, 110)
+    # 20-23 chorale: half-time, brass + strings take the motif augmented and resolved
+    for i in range(4):
+        bar = 20 + i
+        c = ['A', 'B', 'C#', 'B'][i]
+        R.rock_beat(s, bar, 92, half=True)
+        R.sustain(s, bar, c, 74)
+        R.bassline(s, bar, c, 86, style='hold')
+        for n in STR[c]:
+            s.note('strs', s.B(bar), 3.95, p(n) + 12, 84)
+    s.motif('brass', 20, augment(MOTIF_RESOLVED[:6]), 92, form='RESOLVED augmented (brass chorale)', lead=False)
+    s.mel('lead', 20, [('C#6', 4), ('D#6', 4), ('E6', 4), ('F#6', 4)], 96)
+
+    # 24-27 the held E major chord: everything lands on E and rings out
+    R.crash(s, 24, 120)
+    R.sustain(s, 24, 'E', 92, beats=12)
+    s.chord('brass', s.B(24), 12, BRASS_HITS['Emaj'], 92)
+    for n in STR['E']:
+        s.note('strs', s.B(24), 12, p(n) + 12, 88)
+    s.note('lead', s.B(24), 12, p('E5'), 100)
+    s.note('bass', s.B(24), 12, R.root('E'), 92)
+    s.note('sub', s.B(24), 8, R.root('E'), 84, human=False)
+    for k in range(16):
+        s.note('timp', s.B(24) + k * .25, .2, p('E2'), 80 - k * 3, human=False)
+    for k in range(8):
+        s.note('harp', s.B(24, k * .25), 2.0, p(['E4', 'G#4', 'B4', 'E5'][k % 4]) + 12 * (k // 4), 70)
+
+    s.tag_melody('strs', 0, 1)
+    s.tag_melody('gtrL', 8, 12)
+    s.tag_melody('lead', 24, 28)
     return s

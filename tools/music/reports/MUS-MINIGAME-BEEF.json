@@ -1,14 +1,15 @@
 {
  "id": "MUS-MINIGAME-BEEF",
  "kind": "loop",
- "key": "Bb major",
- "bpm": 128,
+ "key": "A major",
+ "bpm": 132,
  "meter": "4/4",
- "bars": 36,
- "seconds": 67.5,
- "loop_seconds": 67.5,
- "lufs": -20.1,
- "true_peak": -6.3,
+ "profile": "rock",
+ "bars": 40,
+ "seconds": 72.73,
+ "loop_seconds": 72.727,
+ "lufs": -20.2,
+ "true_peak": -12.2,
  "lra": 5.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -17,83 +18,85 @@
   {
    "section": "count-in",
    "bar": 0,
-   "bars": 4,
+   "bars": 2,
    "start_s": 0.0,
-   "lufs": -21.6
+   "lufs": -23.4
   },
   {
-   "section": "A trumpet rep",
-   "bar": 4,
+   "section": "A workout",
+   "bar": 2,
    "bars": 8,
-   "start_s": 7.5,
-   "lufs": -21.2
+   "start_s": 3.6,
+   "lufs": -21.5
   },
   {
-   "section": "B strings + xylophone",
-   "bar": 12,
+   "section": "B lead + count",
+   "bar": 10,
    "bars": 8,
-   "start_s": 22.5,
-   "lufs": -19.6
+   "start_s": 18.2,
+   "lufs": -19.0
   },
   {
-   "section": "C stretch",
-   "bar": 20,
-   "bars": 8,
-   "start_s": 37.5,
-   "lufs": -21.8
-  },
-  {
-   "section": "D tutti rep",
-   "bar": 28,
+   "section": "cool-down",
+   "bar": 18,
    "bars": 4,
-   "start_s": 52.5,
-   "lufs": -16.3
+   "start_s": 32.7,
+   "lufs": -24.0
   },
   {
-   "section": "count-in again",
-   "bar": 32,
+   "section": "build",
+   "bar": 22,
    "bars": 4,
-   "start_s": 60.0,
-   "lufs": -21.3
+   "start_s": 40.0,
+   "lufs": -22.5
+  },
+  {
+   "section": "drop",
+   "bar": 26,
+   "bars": 12,
+   "start_s": 47.3,
+   "lufs": -18.5
+  },
+  {
+   "section": "count-in",
+   "bar": 38,
+   "bars": 2,
+   "start_s": 69.1,
+   "lufs": -23.3
   }
  ],
  "motifs": [
   {
-   "bar": 1.0,
-   "form": "head (horns, warming up)",
-   "ch": "hn"
+   "bar": 10.0,
+   "form": "stated (lead guitar)",
+   "ch": "lead"
   },
   {
-   "bar": 4.0,
-   "form": "stated (trumpet: the Gainlands fanfare, showing off)",
-   "ch": "tpt"
+   "bar": 14.0,
+   "form": "stated again",
+   "ch": "lead"
   },
   {
-   "bar": 20.0,
-   "form": "stated (horns, the stretch)",
-   "ch": "hn"
+   "bar": 28.0,
+   "form": "stated 8va (drop)",
+   "ch": "lead"
   },
   {
-   "bar": 24.0,
-   "form": "stated on Eb (trumpet)",
-   "ch": "tpt"
-  },
-  {
-   "bar": 33.0,
-   "form": "head (horns, warming up)",
-   "ch": "hn"
+   "bar": 32.0,
+   "form": "saw 8va",
+   "ch": "saw"
   }
  ],
- "notes": 1297,
+ "notes": 3586,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-BEEF\\MUS-MINIGAME-BEEF.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-MINIGAME-BEEF\\MUS-MINIGAME-BEEF.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-BEEF.mid"
  },
  "seam": {
-  "jump_db": 0.33,
-  "wrap_step": 0.01109,
-  "p999_step": 0.0651,
+  "jump_db": -0.36,
+  "wrap_step": 0.00271,
+  "p999_step": 0.08016,
   "click": false,
   "ok": true
  },
@@ -103,29 +106,46 @@
    "ok": true
   },
   "low_end": {
-   "crowded_steps": 0,
-   "bars": [],
-   "ok": true
+   "crowded_steps": 154,
+   "bars": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38
+   ],
+   "ok": false
   },
   "melody": {
-   "coverage": 0.81,
+   "coverage": 0.88,
    "bars_without_melody": [
-    2,
+    11,
+    20,
     21,
-    22,
-    23,
-    25,
-    26,
-    34
+    33,
+    37
    ],
    "buried_bars": [
-    31,
-    32
+    29
    ],
    "ok": true
   }
  },
  "composer_notes": [
-  "Four-on-the-floor on the orchestra kit; the only synth is a quiet GM square-lead wink in section B."
+  "Chet's aerobics: 80s synth rock - gated power chords, saw arps, synth brass, a synth voice counting the reps."
  ]
 }

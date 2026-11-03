@@ -1,117 +1,131 @@
-"""MUS-BEEF-FREED - The Gainlands, restored. 64 bars 4/4, 108 BPM, Bb major, swung 8ths.
-The BEEF-EXP march, slowed, swung and reharmonised warmer (maj7, 6th and 9th chords), the Beefcake brass joined by the core strings, harp
-and woodwinds. The Crossroads motif is RESOLVED here (Bb F Eb D C -> Bb): the question answered. Warm horns lead; in the middle every
-section of the band takes the resolved motif in turn - strength shared willingly - before a full, unhurried tutti.
+"""MUS-BEEF-FREED - The Gainlands restored. 68 bars 4/4, 128 BPM, E major (127.5 s loop). TECHNO HARD ROCK (Gainlands rock Nov 3).
+Triumphant arena rock: the Gainlands riff in E major (I - vi - IV - V: E C#m A B), straight bright chugs, big brass, the Gainlands answer in
+major (ANSWER_MAJOR) and the Crossroads motif RESOLVED on lead guitar (E B A G# F# E - a FREED cue). Celebratory, not aggressive: rock beat
+with crashes, no double kick, no four-on-the-floor; the sub only in the anthem chorus. Intro bed -> riff -> theme -> half-time anthem B
+(brass chorale, the motif augmented) -> build -> arena chorus (the peak) -> riff -> outro bed = the intro.
 """
-from lib import Score, m, motif, motif_head, voice, p, split_beats
+from lib import Song, p
+from lib import rock as R
+from lib.rock import MOTIF_RESOLVED, ANSWER_MAJOR, BRASS_HITS
+from scores._rock_a import bed, riff, augment
 
-THEME = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:3 D5:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-          '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1 '
-          '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:2 G5:1 A5:1 | Bb5:2 G5:1 Eb5:1 | F5:3 r:1 '
-          '| Ab5:1.5 G5:.5 F5:1 Eb5:1 | G5:1.5 F5:.5 Eb5:1 D5:1 | C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
-THEME_H = ['Bbmaj7', 'Gm7', 'Cm7', 'F7sus4', 'Ebmaj7', 'Gm7', 'F7', 'Bb6',
-           'Bbmaj7', 'Gm7', 'Ebmaj7', 'F7sus4', 'Abmaj7', 'Ebmaj7', 'Cm7 F7', 'Bb6']
-GENTLE = m('G4:1.5 Bb4:.5 Eb5:2 | D5:1.5 C5:.5 Bb4:2 | C5:1 Eb5:1 G5:1 F5:1 | F5:3 r:1 '
-           '| Eb5:1.5 D5:.5 C5:1 Bb4:1 | F4:1 Bb4:1 D5:2 | D5:1 C5:1 Bb4:1 G4:1 | A4:2 C5:2')
-GENTLE_H = ['Ebmaj7', 'Bb/D', 'Cm9', 'F7sus4', 'Ebmaj7', 'Bb/D', 'Gm7', 'F7']
-SHARE_H = ['Bbmaj7', 'Gm7', 'Ebmaj7', 'F7sus4', 'Bbmaj7', 'Gm7', 'Ebmaj7', 'F7']
-RESOLVED = motif('Bb4', 'major', resolved=True)
+PROG = ['E', 'C#', 'A', 'B']
+HITS = {'E': 'Emaj', 'C#': 'C#m', 'A': 'A', 'B': 'B'}
+# a major-key lick for the anthem section (E major pentatonic climbing to the octave)
+LICK_MAJOR = [('B4', 1), ('C#5', .5), ('E5', .5), ('G#5', 2), ('F#5', 1), ('E5', 1), ('C#5', 1), ('B4', 1),
+              ('A4', 1), ('C#5', .5), ('E5', .5), ('A5', 2), ('G#5', 1), ('F#5', 1), ('E5', 2),
+              ('F#5', 1), ('G#5', .5), ('A5', .5), ('B5', 2), ('A5', 1), ('G#5', 1), ('F#5', 2),
+              ('D#5', 2), ('F#5', 2), ('B5', 4)]
 
 
 def build():
-    s = Score('MUS-BEEF-FREED', bpm=108, bars=64, key='Bb major', seed=206)
-    s.swing = 0.16
-    s.seat('hn', 'tpt', 'tbn', 'tuba', 'vln', 'pad', 'vc', 'cb', 'harp', 'fl', 'cl', 'pizz', 'timp', 'xylo', 'perc')
-    for bar, nm in ((0, 'intro swing'), (4, 'A theme'), (20, 'B gentle'), (36, 'C shared'), (44, "A' tutti"), (60, 'outro swing')):
+    s = Song('MUS-BEEF-FREED', bpm=128, bars=68, key='E major', seed=128)
+    s.jitter = 0.007
+    R.band(s, kit_vol=116)
+    for bar, nm in ((0, 'intro bed'), (4, 'riff'), (12, 'theme'), (20, 'B anthem half-time'), (28, 'build'), (32, 'arena chorus'),
+                    (48, 'riff'), (56, 'theme 2'), (64, 'outro bed')):
         s.section(bar, nm)
-    s.notes.append('Resolved motif (Bb F Eb D C Bb) - FREED only. Orchestral by the Music Pass 1 brief (old row: open guitar rock + brass).')
+    s.notes.append('FREED: resolved motif on lead guitar, E major, big brass; celebratory (rock beat + crashes, no drop machinery).')
 
-    def swing_bar(bar, spec, vel, chords='pizz', drums=True):
-        for off, beats, sym in s.parts(spec):
-            b = p(s.voicing(sym)[0])
-            t = bar * 4 + off
-            s.note('tuba', t, 0.9, b, vel)
-            if beats >= 2:
-                s.note('tuba', t + 2, 0.9, b + 7 if b + 7 < p('C3') else b - 5, vel - 8)
-            for k in range(1, int(beats), 2):
-                for n in voice(sym, 'F3', 4):
-                    s.note(chords, t + k, 0.4, n, vel - 16)
-                    if k == 3 or beats == 2:
-                        s.note(chords, t + k + .5, 0.3, n, vel - 26)
-        if drums:
-            s.drum(bar, [(0, 'bd', 0), (1, 'snare', -14), (2, 'bd', -8), (3, 'snare', -10), (3.5, 'snare', -24)], vel - 18)
+    # 0-3 intro bed
+    for i, c in enumerate(PROG):
+        bed(s, i, c, 52, brass=HITS[c])
+    s.motif('brass', 2, MOTIF_RESOLVED[:3], 76, form='head (brass, over the bed)', tr=0)
 
-    def vamp(bar):
-        for i, spec in enumerate(['Bbmaj7', 'Gm7', 'Cm7', 'F7sus4']):
-            swing_bar(bar + i, spec, 68)
-            s.pad('pad', bar + i, spec, 44)
-        s.expr('pad', bar, 74)
-        s.motif('hn', bar + 1, motif_head('Bb3', 'major', rhythm=(1, .5, 2.5)), 70, form='head (horn, relaxed)')
+    # 4-11 riff: straight bright chugs
+    R.crash(s, 4, 104)
+    for i in range(8):
+        c = PROG[(i // 2) % 4]
+        riff(s, 4 + i, c, 82, pattern='straight', beat=98, fill=(i == 7))
+        s.chord('brass', s.B(4 + i), .5, BRASS_HITS[HITS[c]], 80)
 
-    vamp(0)
+    # 12-19 theme: resolved motif + major answer, sustained chords, brass stabs
+    R.crash(s, 12, 108)
+    for i in range(8):
+        bar = 12 + i
+        c = PROG[(i // 2) % 4]
+        if i % 2 == 0:
+            R.sustain(s, bar, c, 78, beats=8)
+        R.bassline(s, bar, c, 88)
+        R.rock_beat(s, bar, 100, fill=(i == 7))
+        s.chord('brass', s.B(bar), .6, BRASS_HITS[HITS[c]], 92)
+        s.chord('brass', s.B(bar, 2.5), .4, BRASS_HITS[HITS[c]], 82)
+    s.motif('lead', 12, MOTIF_RESOLVED, 104, form='RESOLVED (lead guitar)', tr=12)
+    s.mel('lead', 14, ANSWER_MAJOR, 102)
+    s.motif('lead', 16, MOTIF_RESOLVED, 108, form='RESOLVED again', tr=12)
+    s.mel('lead', 18, ANSWER_MAJOR[:6] + [('G#5', 1), ('B5', 1.5)], 110)
 
-    # A 4-19: the theme on warm horns; the motif resolves to Bb in bars 5 and 13
-    for i, spec in enumerate(THEME_H):
-        bar = 4 + i
-        swing_bar(bar, spec, 72 if i < 8 else 76)
-        s.pad('pad', bar, spec.split()[0], 50 if i < 8 else 56)
-        if i >= 8:
-            s.harp(bar, spec.split()[0], 46)
-    s.motif('hn', 4, THEME, 90, form='RESOLVED (horns, bars 4-5 and 12-13)')
-    s.line('cl', 4, THEME, 56, transpose=-12)
-    s.line('vln', 4, THEME, 64, transpose=12)
-    s.expr('vln', 4, 30)
-    s.swell('vln', 4, 8, 30, 70)
-    s.swell('vln', 12, 8, 70, 100, 'arch')
-    s.timp_hit(4 * 4, 'Bb2', 70)
-    s.timp_hit(12 * 4, 'Bb2', 74)
-    s.hit('crash2', 12 * 4, 50, dur=2)
+    # 20-27 B anthem: half-time, brass chorale, the motif augmented in the brass, the major lick on lead
+    for i in range(8):
+        bar = 20 + i
+        c = ['E', 'E', 'C#', 'C#', 'A', 'A', 'B', 'B'][i]
+        R.rock_beat(s, bar, 84, half=True)
+        if i % 2 == 0:
+            R.sustain(s, bar, c, 60, beats=8)
+            R.pad_chord(s, bar, HITS[c], 70, beats=8)
+        R.bassline(s, bar, c, 78, style='hold')
+        R.clank(s, bar, 56)
+    s.mel('lead', 20, LICK_MAJOR, 92)
+    s.motif('brass', 24, augment(MOTIF_RESOLVED), 70, form='RESOLVED augmented (brass chorale)', lead=False)
 
-    # B 20-35: gentle - clarinet then flute, harp and pizzicato, the swing on brushes only
-    for k in range(2):
-        for i, spec in enumerate(GENTLE_H):
-            bar = 20 + k * 8 + i
-            s.pad('pad', bar, spec, 36 + 4 * k)
-            s.harp(bar, spec, 40)
-            s.bass(bar, spec, 50, 'half', chs=('cb', None))
-            s.drum(bar, [(1, 'snare', -10), (3, 'snare', -8)], 40)
-    s.expr('pad', 20, 62)
-    s.mel('cl', 20, GENTLE, 74)
-    s.line('hn', 24, m('Bb3:4 | F3:4 | G3:2 F3:2 | Eb3:2 F3:2'), 52, legato=1.0, shape=False)
-    s.mel('fl', 28, GENTLE, 68, transpose=12)
-    s.line('cl', 28, GENTLE, 44)
-    s.line('xylo', 31, m('r:2 F5:.5 G5:.5 A5:1'), 54)
-    s.motif('hn', 32, motif('Bb3', 'major', resolved=True), 66, form='RESOLVED (horn, countermelody)', lead=False)
+    # 28-31 build
+    for i in range(4):
+        c = ['A', 'B', 'A', 'B'][i]
+        R.sustain(s, 28 + i, c, 54 + i * 8)
+        s.chord('brass', s.B(28 + i), 3.9, BRASS_HITS[HITS[c]], 58 + i * 8)
+    R.snare_roll(s, 28, 4, 34, 108)
+    for k in range(32):
+        s.note('timp', s.B(30) + k * .25, .2, p('B1'), 44 + k * 2, human=False)
+    R.riser(s, 28, 4)
 
-    # C 36-43: strength shared - every section takes the resolved motif in turn
-    for i, spec in enumerate(SHARE_H):
-        swing_bar(36 + i, spec, 78, chords='harp')
-        s.pad('pad', 36 + i, spec, 58)
-    s.motif('hn', 36, RESOLVED, 92, form='RESOLVED (horns)')
-    s.motif('tpt', 38, motif('Eb5', 'major', resolved=True), 90, form='RESOLVED on Eb (trumpets)', transpose=-12)
-    s.motif('vln', 40, RESOLVED, 92, form='RESOLVED (strings)', transpose=12)
-    s.motif('fl', 42, motif('Eb5', 'major', resolved=True), 86, form='RESOLVED on Eb (flute + clarinet)')
-    s.line('cl', 42, motif('Eb5', 'major', resolved=True), 60, transpose=-12)
-    s.line('tbn', 43, [(n, .125) for n in range(p('F3'), p('Bb3'))] + [('Bb3', .5)], 64, shape=False)
-    s.timp_roll(43 * 4 + 2, 2, 'F2', 40, 80)
+    # 32-47 arena chorus: the peak - gallop and straight chugs, crashes every 4 bars, big brass, sub, motif 8va, saw doubling
+    R.crash(s, 32, 118)
+    for i in range(16):
+        bar = 32 + i
+        c = PROG[(i // 2) % 4]
+        riff(s, bar, c, 92, pattern='gallop' if i % 4 < 2 else 'straight', beat=110, fill=(i % 8 == 7))
+        R.subdrop(s, bar, c, 92)
+        s.chord('brass', s.B(bar), .5, BRASS_HITS[HITS[c]], 100)
+        s.chord('brass', s.B(bar, 1.5), .4, BRASS_HITS[HITS[c]], 86)
+        s.chord('brass', s.B(bar, 3), .5, BRASS_HITS[HITS[c]], 92)
+        if i % 4 == 0 and i:
+            R.crash(s, bar, 108)
+    s.pump('pad', 32, 16, lo=30, hi=100)
+    for i in range(16):
+        R.pad_chord(s, 32 + i, HITS[PROG[(i // 2) % 4]], 74)
+    s.motif('lead', 32, MOTIF_RESOLVED, 112, form='RESOLVED 8va (arena chorus)', tr=12)
+    s.mel('lead', 34, ANSWER_MAJOR, 110, tr=12)
+    s.motif('lead', 36, MOTIF_RESOLVED, 114, form='RESOLVED 8va again', tr=12)
+    s.mel('lead', 38, ANSWER_MAJOR[:6] + [('G#5', 1), ('B5', 1.5)], 116, tr=12)
+    s.motif('saw', 40, MOTIF_RESOLVED, 84, form='RESOLVED (saw, 2 octaves up)', tr=24)
+    s.mel('lead', 42, ANSWER_MAJOR, 110, tr=12)
+    s.motif('lead', 44, MOTIF_RESOLVED, 112, form='RESOLVED 8va (chorus end)', tr=12)
+    s.mel('lead', 46, ANSWER_MAJOR, 108)
 
-    # A' 44-59: tutti - unhurried, warm; strings on top, horns in the middle, trumpets only on the second half
-    for i, spec in enumerate(THEME_H):
-        bar = 44 + i
-        swing_bar(bar, spec, 80, chords='pizz')
-        s.pad('pad', bar, spec.split()[0], 62)
-        s.harp(bar, spec.split()[0], 48)
-    s.motif('vln', 44, THEME, 94, form='RESOLVED (tutti, strings 8va + horns)', transpose=12)
-    s.line('hn', 44, THEME, 86)
-    s.line('vc', 44, THEME, 64, transpose=-12)
-    s.line('tpt', 52, split_beats(THEME, 32, 64), 72)
-    s.expr('vln', 44, 96)
-    s.swell('vln', 52, 8, 96, 116, 'arch')
-    s.timp_hit(44 * 4, 'Bb2', 82)
-    s.hit('crash2', 44 * 4, 70, dur=2)
-    s.timp_hit(52 * 4, 'Bb2', 84)
-    s.swell('pad', 58, 2, 100, 74)
+    # 48-55 riff
+    for i in range(8):
+        c = PROG[(i // 2) % 4]
+        riff(s, 48 + i, c, 84, beat=100, fill=(i == 7))
+        s.chord('brass', s.B(48 + i), .5, BRASS_HITS[HITS[c]], 82)
 
-    # OUTRO 60-63: the swing vamp, as bar 0
-    vamp(60)
+    # 56-63 theme 2: the answer on lead, sustained chords, thinning toward the bed
+    for i in range(8):
+        bar = 56 + i
+        c = PROG[(i // 2) % 4]
+        if i % 2 == 0:
+            R.sustain(s, bar, c, 72 - i * 2, beats=8)
+        R.bassline(s, bar, c, 82 - i * 2)
+        R.rock_beat(s, bar, 94 - i * 3, fill=(i == 7))
+    s.mel('lead', 56, ANSWER_MAJOR, 100)
+    s.motif('lead', 58, MOTIF_RESOLVED, 98, form='RESOLVED (theme 2)', tr=12)
+    s.mel('lead', 60, ANSWER_MAJOR, 92)
+
+    # 64-67 outro bed = the intro
+    for i, c in enumerate(PROG):
+        bed(s, 64 + i, c, 52, brass=HITS[c])
+
+    for a, b in ((4, 12), (28, 32), (48, 56), (62, 64)):
+        s.tag_melody('gtrL', a, b)
+    s.tag_melody('saw', 0, 4)
+    s.tag_melody('saw', 64, 68)
     return s

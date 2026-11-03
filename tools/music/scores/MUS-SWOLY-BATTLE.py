@@ -1,122 +1,153 @@
-"""MUS-SWOLY-BATTLE - Mount Swolympus, combat. 72 bars 4/4, 142 BPM, C minor.
-The Gainlands theme (MUS-BEEF-EXP) turned to C minor and set on a climbing string ostinato with stone drums (concert bass drum, low
-timpani). Two contrasting battle phrases: A the theme in the horns over the ostinato, B the Crossroads motif as a trumpet call answered by
-a flute climbing on the wind; C a broad passage with the theme in the trombones and strings 8va; D a breakdown on stone drums that builds
-back. Intro and outro have a brass/pad bed so the loop never thins to the ostinato alone.
+"""MUS-SWOLY-BATTLE - Mount Swolympus, combat. 80 bars 4/4, 146 BPM, B minor. TECHNO HARD ROCK (Gainlands rock Nov 3).
+Mountain rock in combat, the demo's form: intro -> climbing riff -> theme -> build -> drop -> breakdown -> build -> drop 2 -> outro. The
+Gainlands riff climbs (gallop chugs on B - D - E - F#, one step a bar), brass calls answered by the lead guitar's Gainlands answer, the
+Crossroads motif (B F# E D C# F#, open) stated on the lead and in the drops. Intro and outro share one bed so the loop lands.
 """
-from lib import Score, m, motif, motif_head, augment, transpose, p, split_beats
-from lib.zones import to_mode
+from lib import Song, p
+from lib import rock as R
+from scores._rock_c import brass, pad, bed, gtr_ramp, brass_call
 
-_BEEF = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-          '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1 '
-          '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 G5:1 A5:1 | Bb5:2 G5:1 Eb5:1 | F5:3 r:1 '
-          '| Ab5:1.5 G5:.5 F5:1 Eb5:1 | G5:1.5 F5:.5 Eb5:1 D5:1 | C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
-# Bb major -> C major (+2) -> C minor (E, A, B flattened); horn register
-THEME = to_mode(transpose(_BEEF, -10), {4: -1, 9: -1, 11: -1})
-THEME_H = ['Cm', 'Cm', 'Dm7b5', 'G', 'Fm', 'Ab', 'G', 'Cm', 'Cm', 'G', 'Fm', 'G', 'Bb', 'Fm', 'G7', 'Cm']
-CALL_H = ['Ab', 'Ab', 'Fm', 'G', 'Ab', 'Bb', 'Eb', 'G']
-BREAK_H = ['Cm', 'Bb', 'Ab', 'G'] * 2
-GROOVE = [(0, 'bd', 8), (1, 'snare', 0), (1.5, 'bd', -10), (2, 'bd', 0), (3, 'snare', 4), (3.75, 'snare', -16)]
+PROG = [('B1', 'Bm'), ('G1', 'G'), ('A1', 'A'), ('F#1', 'F#')]
+CLIMB = [('B1', 'Bm'), ('D2', 'D'), ('E2', 'Emaj'), ('F#2', 'F#')]       # the climbing riff (E major chord = B Dorian lift)
+DN = -5
+MOTIF = R.transpose(R.MOTIF, DN)
+ANSWER = R.transpose(R.ANSWER, DN)
+ANSWER_TAG = R.transpose(R.ANSWER_TAG, DN)
+LICK = R.transpose(R.LICK, DN)
 
 
 def build():
-    s = Score('MUS-SWOLY-BATTLE', bpm=142, bars=72, key='C minor', seed=812)
-    s.seat('spic', 'vln', 'vc', 'cb', 'hn', 'tpt', 'tbn', 'tuba', 'fl', 'pad', 'timp', 'perc')
-    for bar, nm in ((0, 'intro bed'), (4, 'A theme'), (20, 'B call and climb'), (36, 'C broad'), (52, 'D stone breakdown'),
-                    (68, 'outro bed')):
+    s = Song('MUS-SWOLY-BATTLE', bpm=146, bars=80, key='B minor', seed=4202)
+    s.jitter = 0.006
+    R.band(s)
+    for bar, nm in ((0, 'intro'), (4, 'climbing riff'), (16, 'theme + brass calls'), (24, 'build'), (28, 'drop'),
+                    (40, 'breakdown'), (48, 'build 2'), (52, 'drop 2'), (72, 'outro riff'), (78, 'outro')):
         s.section(bar, nm)
-    s.notes.append('Gainlands theme in C minor; climbing string ostinato; stone drums; orchestral.')
+    s.notes.append('Mountain rock battle: the riff climbs B-D-E-F#, brass calls answered by the lead; demo form at 146.')
 
-    def ost(bar, sym, vel):
-        r = p(s.voicing(sym)[0])
-        while r < p('C4'):
-            r += 12
-        third = r + (3 if 'm' in sym.split('/')[0][1:] or sym.startswith('Dm') else 4)
-        cell = [r, r + 7, r + 12, r + 7, third + 12, r + 7, r + 12, r + 14]
-        acc = [10, -6, 2, -6, 6, -6, 2, -4]
-        for k, (n, a) in enumerate(zip(cell, acc)):
-            s.note('spic', bar * 4 + k * .5, .35, n - 12, vel + a)
+    def ch(i, per=2):
+        return PROG[(i // per) % 4]
 
-    def drive(bar, sym, vel, drums=True):
-        ost(bar, sym, vel)
-        s.bass(bar, sym, vel - 6, 'pulse', chs=('cb', None))
-        if drums:
-            s.drum(bar, GROOVE, vel - 8)
-            s.hit('bd2', bar * 4, vel - 4)
+    def arp_bed(bar0, n, lo, hi):
+        for i in range(n):
+            r, c = CLIMB[(bar0 + i) % 4] if bar0 == 0 else CLIMB[(i + 2) % 4]
+            bed(s, bar0 + i, r, c, kick=114, sub=98, padv=70, gtr=60)
+            R.arp(s, bar0 + i, r, 92)
+        gtr_ramp(s, bar0, n, lo, hi)
+        s.ramp('saw', bar0, n, 96, 110)
 
-    def bed(bar):
-        for i, sym in enumerate(['Cm', 'Cm', 'Ab', 'G']):
-            drive(bar + i, sym, 72)
-            s.pad('pad', bar + i, sym, 62)
-            s.brass('hn', bar + i, sym, 64, low='G3', n=3)
-            s.timp_hit((bar + i) * 4, 'C2' if sym == 'Cm' else 'G1', 70)
-        s.motif('tpt', bar + 1, motif_head('C4', 'minor', rhythm=(1, .5, 2.5)), 76, form='head (trumpet call)')
-        s.swell('pad', bar + 3, 1, 90, 100)
+    # 0-3 INTRO
+    arp_bed(0, 4, 78, 100)
+    R.snare_roll(s, 3, 1, 50, 108)
+    R.riser(s, 2, 2)
 
-    bed(0)
-
-    # A 4-19: the theme in the horns over the ostinato
-    for i, sym in enumerate(THEME_H):
+    # 4-15 CLIMBING RIFF
+    R.crash(s, 4)
+    for i in range(12):
         bar = 4 + i
-        drive(bar, sym, 74 if i < 8 else 80)
-        s.pad('pad', bar, sym, 50)
-        if i % 4 == 0:
-            s.timp_hit(bar * 4, 'C2', 86)
-            s.hit('crash', bar * 4, 70, dur=2)
-    s.mel('hn', 4, THEME, 96)
-    s.line('tbn', 12, split_beats(THEME, 32, 64), 72, transpose=-12)
-    s.line('vln', 12, split_beats(THEME, 32, 64), 82, transpose=12)
+        r, c = CLIMB[i % 4]
+        R.chug(s, bar, r, 88)
+        R.bassline(s, bar, r, 92, style='gallop' if i % 4 == 3 else '8ths')
+        R.rock_beat(s, bar, 106, fill=(i == 11))
+        if i % 4 == 3:
+            brass(s, bar, c, hits=((0, .5, 88), (2, .5, 92), (3, .9, 98)))
 
-    # B 20-35: phrase two - the Crossroads motif as a trumpet call, a flute climbing on the wind in answer
-    for k in range(2):
-        for i, sym in enumerate(CALL_H):
-            bar = 20 + 8 * k + i
-            drive(bar, sym, 70 + 4 * k, drums=(i % 2 == 0 or k == 1))
-            s.pad('pad', bar, sym, 58)
-            s.brass('tbn', bar, sym, 56, low='F3', n=3)
-    s.motif('tpt', 20, motif('C5', 'minor') + m('r:1'), 94, form='stated (trumpets)')
-    s.mel('fl', 22, m('G5:.5 Ab5:.5 Bb5:.5 C6:.5 D6:1 Eb6:1 | F6:2 Eb6:1 D6:1'), 78)
-    s.motif('tpt', 24, motif('Ab4', 'major') + m('r:1'), 92, form='stated on Ab (trumpets)')
-    s.mel('fl', 26, m('Bb5:.5 C6:.5 D6:.5 Eb6:.5 F6:1 G6:1 | G6:2 F6:1 D6:1'), 80)
-    s.motif('hn', 28, motif('C4', 'minor', rhythm=[2, 1, 1, 3, 1, 8]), 90, form='augmented (horns), trumpets answer with the theme head')
-    s.mel('tpt', 30, split_beats(THEME, 0, 8), 88, transpose=12)
-    s.swell('pad', 28, 8, 70, 110)
-    s.timp_roll(35 * 4, 4, 'G1', 50, 104)
+    # 16-23 THEME: brass call -> lead answer, sustained chords, motif on the lead
+    R.crash(s, 16)
+    for i in range(8):
+        bar = 16 + i
+        r, c = ch(i)
+        if i % 2 == 0:
+            R.sustain(s, bar, r, 82, beats=8)
+            brass_call(s, bar, c, 98)
+        R.bassline(s, bar, r, 90)
+        R.rock_beat(s, bar, 104, fill=(i == 7))
+    s.motif('lead', 16, MOTIF, 104, form='stated (lead, after the brass call)', tr=12, beat=0)
+    s.mel('lead', 18, ANSWER, 104, tr=12)
+    s.motif('lead', 20, MOTIF, 108, form='stated again', tr=12)
+    s.mel('lead', 22, ANSWER_TAG, 110, tr=12)
 
-    # C 36-51: broad - theme in the trombones, strings 8va, horns chords
-    for i, sym in enumerate(THEME_H):
-        bar = 36 + i
-        drive(bar, sym, 80)
-        s.brass('hn', bar, sym, 66, low='G3', n=3)
-        s.pad('pad', bar, sym, 62)
-        if i % 4 == 0:
-            s.hit('crash', bar * 4, 82, dur=2)
-            s.timp_hit(bar * 4, 'C2', 94)
-    s.mel('vln', 36, THEME, 98, transpose=12)
-    s.line('tbn', 36, THEME, 86, transpose=-12)
-    s.line('tpt', 44, split_beats(THEME, 32, 64), 86, transpose=12)
+    # 24-27 BUILD
+    for i in range(4):
+        bar = 24 + i
+        r, c = [('G1', 'G'), ('A1', 'A'), ('G1', 'G'), ('F#1', 'F#')][i]
+        R.sustain(s, bar, r, 48 + i * 10)
+        pad(s, bar, c, 70)
+    R.snare_roll(s, 24, 4, 30, 114)
+    for k in range(32):
+        s.note('timp', s.B(26) + k * .25, .2, p('F#2'), 40 + k * 2, human=False)
+    R.riser(s, 24, 4)
 
-    # D 52-67: stone breakdown - drums and low strings, the theme head on the horns, then the climb back
-    for i, sym in enumerate(BREAK_H * 2):
+    # 28-39 DROP: four-floor, sub, straight chug, saw stabs, the climbing riff returns in the second half
+    R.crash(s, 28, 120)
+    for i in range(12):
+        bar = 28 + i
+        r, c = ch(i) if i < 8 else CLIMB[i % 4]
+        R.four_floor(s, bar, 118)
+        R.subdrop(s, bar, r, 104)
+        R.chug(s, bar, r, 90, pattern='straight')
+        for b in (0, 1.5, 3):
+            s.chord('saw', s.B(bar, b), .3, [R.root(r) + 36, R.root(r) + 43], 82)
+        pad(s, bar, c, 74)
+    s.pump('pad', 28, 12, lo=20, hi=100)
+    s.motif('lead', 32, MOTIF, 100, form='stated (drop)', tr=12)
+    s.mel('lead', 34, ANSWER, 100, tr=12)
+
+    # 40-47 BREAKDOWN: half-time, the lick on the lead, brass chorale, clank
+    for i in range(8):
+        bar = 40 + i
+        r, c = PROG[i // 2]
+        R.rock_beat(s, bar, 94, half=True)
+        if i % 2 == 0:
+            R.sustain(s, bar, r, 64, beats=8)
+            brass(s, bar, c, hits=((0, 7.9, 70),))
+        R.bassline(s, bar, r, 82, style='hold')
+        R.clank(s, bar, 68)
+    s.mel('lead', 40, LICK, 100, tr=12)
+
+    # 48-51 BUILD 2: the climb up, brass calls rising
+    for i in range(4):
+        bar = 48 + i
+        r, c = CLIMB[i]
+        R.sustain(s, bar, r, 54 + i * 10)
+        brass_call(s, bar, c, 64 + i * 10)
+    R.snare_roll(s, 48, 4, 36, 118)
+    for k in range(32):
+        s.note('timp', s.B(50) + k * .25, .2, p('B1'), 46 + k * 2, human=False)
+    R.riser(s, 48, 4)
+
+    # 52-71 DROP 2: everything - the motif 8va, brass on every hit, crashes every 4
+    R.crash(s, 52, 124)
+    for i in range(20):
         bar = 52 + i
-        s.hit('bd2', bar * 4, 84)
-        s.hit('bd2', bar * 4 + 1.5, 66)
-        s.hit('bd2', bar * 4 + 2.5, 74)
-        if sym in ('Cm', 'G'):
-            s.timp_hit(bar * 4, 'C2' if sym == 'Cm' else 'G1', 70 + i)
-        s.bass(bar, sym, 60 + i, 'march', chs=('cb', None))
-        s.note('vc', bar * 4, 3.9, p(s.voicing(sym)[0]) + 12, 54 + i)
-        s.pad('pad', bar, sym, 52 + i * 2)
-        if i >= 8:
-            ost(bar, sym, 60 + (i - 8) * 3)
-    s.mel('hn', 52, split_beats(THEME, 0, 16), 84)
-    s.mel('hn', 56, split_beats(THEME, 0, 16), 88, transpose=2)
-    s.mel('tpt', 60, split_beats(THEME, 0, 16), 90, transpose=12)
-    s.motif('tpt', 64, motif_head('C5', 'minor', rhythm=(1, 1, 2)) + motif_head('Eb5', 'minor', rhythm=(1, 1, 2)), 96,
-            form='head twice, climbing (trumpets)')
-    s.snare_roll(66 * 4, 8, 40, 100)
-    s.timp_roll(67 * 4 + 2, 2, 'G2', 60, 100)
+        r, c = ch(i) if i < 16 else CLIMB[i % 4]
+        R.four_floor(s, bar, 122)
+        R.subdrop(s, bar, r, 108)
+        R.chug(s, bar, r, 96, pattern='gallop' if i % 4 < 2 else 'straight')
+        brass(s, bar, c, hits=((0, .5, 100), (1.5, .4, 88), (3, .5, 94)))
+        pad(s, bar, c, 80)
+        if i % 4 == 0 and i:
+            R.crash(s, bar, 112)
+    s.pump('pad', 52, 20, lo=20, hi=104)
+    s.motif('lead', 52, MOTIF, 112, form='stated 8va (drop 2)', tr=24)
+    s.mel('lead', 54, ANSWER, 110, tr=12)
+    s.motif('lead', 56, MOTIF, 114, form='stated 8va again', tr=24)
+    s.mel('lead', 58, ANSWER_TAG, 116, tr=12)
+    s.motif('saw', 60, MOTIF, 86, form='saw, 2 octaves up', tr=24)
+    s.mel('lead', 62, LICK, 112, tr=12)
+    s.mel('lead', 70, [(p('F#5'), 4), (p('A#5'), 4)], 108)
 
-    # OUTRO 68-71: the bed (bar 0's voices)
-    bed(68)
+    # 72-77 OUTRO RIFF, 78-79 the intro bed
+    for i in range(6):
+        bar = 72 + i
+        r, c = CLIMB[i % 4]
+        R.chug(s, bar, r, 86 - i * 2)
+        R.bassline(s, bar, r, 88)
+        R.rock_beat(s, bar, 102 - i * 2, fill=(i == 5))
+    arp_bed(78, 2, 90, 80)
+
+    for a, b in ((4, 16), (24, 32), (36, 40), (48, 52), (72, 78)):
+        s.tag_melody('gtrL', a, b)
+    s.tag_melody('saw', 0, 4)
+    s.tag_melody('saw', 78, 80)
     return s
