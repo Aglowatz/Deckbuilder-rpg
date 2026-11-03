@@ -1701,6 +1701,12 @@ var start_return_position: Vector3 = Vector3.ZERO
 var has_start_return_position: bool = false
 
 
+## Overnight Nov 2-3, Part 3: town fights whose return resumes the parked town: the arena and the graveyard (nothing in the town's build
+## depends on their outcome; their results show through the resume hook).
+static func parks_town_scene(context: BattleContext) -> bool:
+	return not context.arena_id.is_empty() or context.is_graveyard_boss
+
+
 func start_battle(context: BattleContext) -> void:
 	if context.game != null and not context.practice:
 		feats.watch(context.game)
@@ -1712,9 +1718,11 @@ func start_battle(context: BattleContext) -> void:
 	if scene is TownScene and (scene as TownScene).player != null:
 		town_return_position = (scene as TownScene).player.position
 		has_town_return_position = true
-	# Nov 2 pass, Part 3: a roamer fight in a zone or the town keeps its scene alive for the return (SceneManager parks it); a gatekeeper,
-	# arena, graveyard, dungeon or dev battle changes the world and rebuilds it as before.
-	SceneManager.park_next = scene != null and scene.has_method(&"resume_after_battle") and not context.practice and not context.dev_battle and (context.zone_battle or not context.town_roamer_id.is_empty())
+	# Nov 2 pass, Part 3: a roamer fight in a zone or the town keeps its scene alive for the return (SceneManager parks it). Overnight Nov 2-3,
+	# Part 3: the arena and the graveyard too (the town comes back with their results, `TownScene.resume_after_battle`). A gatekeeper or a
+	# corrupted NPC's duel changes the town (a freed NPC, a gate), the vault / ninja / Old Well bosses change their places, and a dungeon fight
+	# goes on to the rewards scene: those rebuild as before (docs/perf/loading_nov3.md).
+	SceneManager.park_next = scene != null and scene.has_method(&"resume_after_battle") and not context.practice and not context.dev_battle and (context.zone_battle or not context.town_roamer_id.is_empty() or parks_town_scene(context))
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 

@@ -25,6 +25,11 @@ func _ready() -> void:
 func _on_node_added(node: Node) -> void:
 	if not _armed or node.has_meta(&"no_ui_sound"):
 		return
+	# Overnight Nov 2-3, Part 3: a scene parked for a battle comes back into the tree; its controls are wired already (once only)
+	if node.has_meta(&"ui_sound_wired"):
+		return
+	if node is BaseButton or node is TabBar or node is TabContainer or node is Slider:
+		node.set_meta(&"ui_sound_wired", true)
 	if node is BaseButton:
 		var button: BaseButton = node as BaseButton
 		button.mouse_entered.connect(_on_hover.bind(button))

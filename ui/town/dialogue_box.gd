@@ -442,6 +442,13 @@ func _exit_tree() -> void:
 	if active:
 		GameLog.modal_closed("Dialogue")
 	Audio.set_dialogue_duck(get_instance_id(), false)
+
+
+## Overnight Nov 2-3, Part 3: the portraits that stand behind the HUD (`stand_behind`) go with the box when it is deleted - not when it only
+## leaves the tree: a scene parked for a battle (SceneManager) takes the box out and puts it back, and the portraits must still be there.
+func _notification(what: int) -> void:
+	if what != NOTIFICATION_PREDELETE:
+		return
 	if _portrait != null and is_instance_valid(_portrait) and _portrait.get_parent() != self:
 		_portrait.queue_free()
 	if _listener != null and is_instance_valid(_listener) and _listener.get_parent() != self:

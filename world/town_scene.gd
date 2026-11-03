@@ -1726,10 +1726,17 @@ func resume_after_battle() -> void:
 			enemy.cooldown = maxf(enemy.cooldown, 2.0)
 	_locked = false
 	_lock_idle = 0.0
+	# Overnight Nov 2-3, Part 3: the arena and the graveyard park the town too - the graveyard's camera push-in is undone, a leftover overlay
+	# (the arena's rules brief) closes, and their results play as a fresh build would play them (the arena list reopens with the result)
+	_battle_push = 1.0
+	if _overlay != null:
+		_close_overlay()
 	Audio.set_ambience("town")
 	AmbientEmitter.resume_in(self)
 	_results_shown = false
 	_show_pending_results.call_deferred()
+	_announce_new_unlocks.call_deferred()
+	_show_pending_arena_result.call_deferred()
 
 
 ## After an outskirts duel: what it paid (and a level-up), or a shrug on a loss.

@@ -16,6 +16,9 @@ var zones: Array[String] = ZONES.duplicate()
 var rows: Array[Dictionary] = []
 var _revealed: bool = false
 var _peak_ram: float = 0.0
+## Overnight Nov 2-3, Part 3: `--fights=1` measures only the fight returns that are not roamer fights: the arena and the graveyard (from the
+## town) and a dungeon node (zone side dungeon: battle -> rewards -> map on a win, battle -> map on a loss), cold and warm.
+var fights_only: bool = false
 
 
 func run() -> void:
@@ -24,6 +27,8 @@ func run() -> void:
 			run_name = arg.substr(6)
 		elif arg.begins_with("--zones="):
 			zones.assign(arg.substr(8).split(",", false))
+		elif arg.begins_with("--fights="):
+			fights_only = arg.substr(9) != "0"
 	SceneManager.revealed.connect(func() -> void: _revealed = true)
 	Session.save_enabled = false
 	Session.new_game()
@@ -32,6 +37,11 @@ func run() -> void:
 	DevActions.set_level(12, true)
 	await _frames(5)
 	await _go("title -> town (cold)", func() -> void: SceneManager.go_to_town())
+	if fights_only:
+		await _fight_returns()
+		_write()
+		get_tree().quit(0)
+		return
 	await _go("town -> forest (cold)", func() -> void: DevActions.travel_forest())
 	await _go("forest -> town (warm)", func() -> void: DevActions.travel_town())
 	await _town_battle("town")
@@ -46,6 +56,48 @@ func run() -> void:
 			await _go("%s -> town (%s)" % [zone, pass_name], func() -> void: DevActions.travel_town())
 	_write()
 	get_tree().quit(0)
+
+
+## The arena, the graveyard and a dungeon node fight, twice each (cold, warm).
+func _fight_returns() -> void:
+	for pass_name: String in ["cold", "warm"]:
+		var arena: ArenaEncounter = ArenaDefs.all()[0]
+		await _go("town -> arena battle (%s)" % pass_name, func() -> void: Session.start_arena_battle(arena.id))
+		await _win_and_continue()
+		await _go("arena battle -> town (%s)" % pass_name, func() -> void: pass)
+		await _close_town_overlays()
+		await _go("town -> graveyard battle (%s)" % pass_name, func() -> void: Session.challenge_graveyard_boss())
+		await _win_and_continue()
+		await _go("graveyard battle -> town (%s)" % pass_name, func() -> void: pass)
+		await _close_town_overlays()
+	await _go("town -> dungeon map S-IRON", func() -> void: DevActions.travel_dungeon("S-IRON"))
+	for pass_name: String in ["first", "second"]:
+		var node: DungeonMap.MapNode = null
+		for candidate: DungeonMap.MapNode in Session.dungeon_map.available():
+			if candidate.kind == DungeonMap.Kind.BATTLE:
+				node = candidate
+				break
+		if node == null:
+			print("loading_timing: no battle node on the map")
+			return
+		await _go("dungeon map -> battle (%s)" % pass_name, func() -> void: Session.start_battle(Session.make_dungeon_battle(node)))
+		await _win_and_continue()
+		await _go("battle -> rewards (%s)" % pass_name, func() -> void: pass)
+		await _frames(20)
+		await _go("rewards -> dungeon map (%s)" % pass_name, func() -> void: SceneManager.change_scene("res://scenes/dungeon_map.tscn"))
+
+
+## Closes what a town result left open (the arena list, a dialogue) so the next fight starts from the plain town.
+func _close_town_overlays() -> void:
+	await _frames(20)
+	var town: Node = get_tree().current_scene
+	if town != null and town.has_method(&"_close_overlay"):
+		town.call(&"_close_overlay")
+	for box: Node in town.find_children("*", "DialogueBox", true, false) if town != null else []:
+		(box as DialogueBox).visible = false
+	if town != null and "_locked" in town:
+		town.set("_locked", false)
+	await _frames(10)
 
 
 func _frames(n: int) -> void:
