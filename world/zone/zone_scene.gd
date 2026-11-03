@@ -971,12 +971,21 @@ var _battle_push: float = 1.0
 
 
 func _update_camera(delta: float) -> void:
-	var target: Vector3 = player.position + CameraRig.shape(camera_offset) * _battle_push
-	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
+	# Overnight Nov 2-3, Part 5: the Capital's city camera (Raised / Low) shapes its own offset, trails a little in Low and pulls in out of buildings
+	var target: Vector3 = player.position + CityCamera.shape(camera_offset) * _battle_push
+	if CityCamera.mode() == CityCamera.LOW:
+		target = CityCamera.pull_in(player.position, target, _camera_blocked)
+	_camera.position = _camera.position.lerp(target, 1.0 - exp(-CityCamera.follow_rate() * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
 	if _cam_shake_time > 0.0:
 		_cam_shake_time = maxf(0.0, _cam_shake_time - delta)
 		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _cam_shake_power * 0.14 * minf(1.0, _cam_shake_time * 3.0)
+
+
+## Overnight Nov 2-3, Part 5: whether the camera's lens may not stand at ground point `p` (the city camera's pull-in): a building, not a
+## prop's blocker (the occlusion fader handles those). A zone with a cell grid overrides it.
+func _camera_blocked(_p: Vector3) -> bool:
+	return false
 
 
 ## Signs (G-03 read spots) count as this much farther away, so any other spot in range wins the E.

@@ -30,6 +30,23 @@ var _inside_timer: float = 0.0
 var _hold_still: bool = false
 
 
+## Overnight Nov 2-3, Part 5: the city camera works while the Capital is the scene in the tree (parked for a battle it is out of it).
+func _enter_tree() -> void:
+	CityCamera.in_capital = true
+
+
+func _exit_tree() -> void:
+	CityCamera.in_capital = false
+
+
+## The city camera's pull-in stops at buildings, the walls and the hill (solid / void cells), never at a prop's blocker.
+func _camera_blocked(p: Vector3) -> bool:
+	if capital == null:
+		return false
+	var cell: Vector2i = capital.layout.cell_of(p.x, p.z)
+	return capital.layout.cell_at(cell.x, cell.y) != CapitalLayout.Cell.GROUND
+
+
 func _zone_id() -> String:
 	return CapitalZone.ID
 

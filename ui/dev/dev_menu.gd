@@ -480,6 +480,8 @@ func _build_view() -> void:
 	_check(overlay, "Walkable overlay", _walk_overlay != null, func(on: bool) -> void: _set_walk_overlay(on))
 	var cam: HBoxContainer = _row("Camera")
 	_check(cam, "Free camera (world paused; WASD, Q/E, Shift, right-drag)", _free_cam != null, func(on: bool) -> void: _set_free_camera(on))
+	# Overnight Nov 2-3, Part 5: the Capital's city camera (the same setting as Settings > City camera)
+	_options(cam, CityCamera.MODE_NAMES, Settings.city_camera, func(index: int) -> void: Settings.set_city_camera(index), 200.0)
 	var speed: HBoxContainer = _row("Time scale")
 	for scale: float in TIME_SCALES:
 		var button: Button = _button(speed, "%sx" % str(scale), func() -> String:

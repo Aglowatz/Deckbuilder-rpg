@@ -155,6 +155,9 @@ func _build_display() -> void:
 	var zoom_options: OptionButton = _options(CameraRig.ZOOM_NAMES, CameraRig.zoom_index(), _on_camera_zoom_preset)
 	zoom_options.name = "CameraZoomOptions"
 	_body.add_child(_row("Camera zoom (the mouse wheel fine-tunes)", zoom_options))
+	var city_options: OptionButton = _options(CityCamera.MODE_NAMES, Settings.city_camera, _on_city_camera)
+	city_options.name = "CityCameraOptions"
+	_body.add_child(_row("City camera (the Capital only)", city_options))
 	_body.add_child(_check("Show minimap", Settings.show_minimap, _on_minimap, "MinimapCheck"))
 	# Overnight Oct 30-31, Part 2: the goal pointer can be switched off (the quest givers' marks stay).
 	_body.add_child(_check("Goal pointer (the quest goal's marker, the arrow at the screen edge, the map dot)", Settings.goal_pointer, _on_goal_pointer, "GoalPointerCheck"))
@@ -451,6 +454,10 @@ func _on_zoom(value: float) -> void:
 
 func _on_camera_angle(index: int) -> void:
 	Settings.set_camera_angle(index)
+
+
+func _on_city_camera(index: int) -> void:
+	Settings.set_city_camera(index)
 
 
 func _on_camera_zoom_preset(index: int) -> void:

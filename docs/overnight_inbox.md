@@ -970,3 +970,6 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    capital_rifts.gd's transit row.
 3. **Grave Row's headstones read lower on the pale checker** than on the lawn (docs/art/capital_nov3/p4_before_after.jpg); a cooler grey
    checker for Grave Row would bring them back - say if you want it.
+4. **City camera: pick one** (Part 5). Settings > "City camera" (Standard / Raised / Low), default still Standard. The critic and I
+   recommend **Raised** as the Capital's default (closest to the paint-over, best to play); Low is the grand HD-2D one but hides the path -
+   good as an option or for scripted arrivals. Contact sheet: docs/art/capital_camera_nov3/contact_sheet.jpg. Tell me which to make default.

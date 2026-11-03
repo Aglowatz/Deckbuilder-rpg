@@ -150,6 +150,7 @@ func _ready() -> void:
 	values = values_for(mood)
 	_blend = values.duplicate()
 	_blend.merge(CameraRig.adjust(values), true)
+	_blend.merge(CityCamera.adjust(_blend), true)
 	if style_rig != null and style_rig.sun != null:
 		_sun_travel = -style_rig.sun.global_basis.z
 	_build_post()
@@ -391,7 +392,7 @@ func _process(delta: float) -> void:
 	var offset: Vector3 = camera.global_position - follow.global_position
 	if offset.length() > 0.01:
 		var look_basis: Basis = Basis.looking_at(-offset.normalized(), Vector3.UP)
-		var tilt: float = atan2(float(_blend["height"]), float(_blend["distance"]))
+		var tilt: float = atan2(float(_blend["height"]), float(_blend["distance"])) + deg_to_rad(CityCamera.extra_tilt())
 		camera.global_basis = look_basis.rotated(look_basis.x, tilt)
 	camera.fov = float(_blend["fov"])
 	if sky != null:
@@ -404,6 +405,7 @@ func _blend_values(delta: float) -> void:
 	var k: float = 1.0 - exp(-4.0 * delta)
 	var targets: Dictionary = values.duplicate()
 	targets.merge(CameraRig.adjust(values), true)
+	targets.merge(CityCamera.adjust(targets), true)  # Overnight Nov 2-3: the Capital's city camera (Standard changes nothing)
 	for key: Variant in targets.keys():
 		var target: Variant = targets[key]
 		if target is float or target is int:
