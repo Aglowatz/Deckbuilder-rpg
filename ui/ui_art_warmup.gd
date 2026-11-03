@@ -139,24 +139,19 @@ func pending() -> int:
 func _start() -> void:
 	_started_usec = Time.get_ticks_usec()
 	GameLog.info("warmup", "UiArtWarmup: start (%d first screens, %s)" % [first_screens.size(), "loader threads" if SceneWarmup.threads_allowed() else "main thread, Safe Mode"])
+	# Size pass Nov 3 (Part 5): the pictures go into the bounded ArtCache (UiArt.store / KeyArt.store / CardArt.store_thumb)
 	for id: String in UI_BACKGROUNDS:
-		if not UiArt._textures.has(id) and UiArt.has(id):
-			_request(UiArt.path_for(id), func(texture: Texture2D) -> void:
-				if not UiArt._textures.has(id):
-					UiArt._textures[id] = texture)
+		if not UiArt.is_cached(id) and UiArt.has(id):
+			_request(UiArt.path_for(id), func(texture: Texture2D) -> void: UiArt.store(id, texture))
 	for id: String in vendor_screens:
-		if not KeyArt._textures.has(id) and KeyArt.has(id):
-			_request(KeyArt.path_for(id), func(texture: Texture2D) -> void:
-				if not KeyArt._textures.has(id):
-					KeyArt._textures[id] = texture)
+		if not KeyArt.is_cached(id) and KeyArt.has(id):
+			_request(KeyArt.path_for(id), func(texture: Texture2D) -> void: KeyArt.store(id, texture))
 	_prewarm_card_drawing()
 	_glyphs_after_screens()
 	for card_id: String in _first_thumbs():
 		var thumb_path: String = "%s%s.%s" % [CardArt.THUMB_DIR, card_id, CardArt.EXTENSION]
-		if not CardArt._thumbs.has(card_id) and ResourceLoader.exists(thumb_path):
-			_request(thumb_path, func(texture: Texture2D) -> void:
-				if not CardArt._thumbs.has(card_id):
-					CardArt._thumbs[card_id] = texture)
+		if not CardArt.has_thumb_cached(card_id) and ResourceLoader.exists(thumb_path):
+			_request(thumb_path, func(texture: Texture2D) -> void: CardArt.store_thumb(card_id, texture))
 
 
 ## The first screens one after another (each built in its own frame, drawn SCREEN_FRAMES frames, freed). GUI input is off while a screen

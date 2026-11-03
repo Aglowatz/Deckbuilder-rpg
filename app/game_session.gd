@@ -1722,7 +1722,8 @@ func start_battle(context: BattleContext) -> void:
 	# Part 3: the arena and the graveyard too (the town comes back with their results, `TownScene.resume_after_battle`). A gatekeeper or a
 	# corrupted NPC's duel changes the town (a freed NPC, a gate), the vault / ninja / Old Well bosses change their places, and a dungeon fight
 	# goes on to the rewards scene: those rebuild as before (docs/perf/loading_nov3.md).
-	SceneManager.park_next = scene != null and scene.has_method(&"resume_after_battle") and not context.practice and not context.dev_battle and (context.zone_battle or not context.town_roamer_id.is_empty() or parks_town_scene(context))
+	# Size pass Nov 3 (Part 6): the Low-end preset never parks (the parked area is 600-900 MB kept through the fight; a rebuild costs 1-5 s instead).
+	SceneManager.park_next = GraphicsQuality.parks_scene() and scene != null and scene.has_method(&"resume_after_battle") and not context.practice and not context.dev_battle and (context.zone_battle or not context.town_roamer_id.is_empty() or parks_town_scene(context))
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 

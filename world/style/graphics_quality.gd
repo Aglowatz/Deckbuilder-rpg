@@ -22,6 +22,51 @@ static var heavy_passes_allowed: bool = true
 ## Graphics Tier 2: a discrete GPU (by name, `GpuInfo.current_kind`; Settings sets it at start) gets FSR 2 as the Medium default under Auto - it costs
 ## 6 ms on the development iGPU (Tier 1, D1) but a GTX-class card has that to spare and the temporal upscale is sharper. Integrated GPUs keep FSR 1.
 static var discrete_gpu: bool = false
+## Size pass Nov 3 (Part 6): the Low-end preset (a 2018 laptop: Intel UHD 620, 4 GB) is Low plus the memory and fill-rate savers below:
+## a sharper mipmap bias (smaller texture levels), a quarter of the decorative foliage and particles, fewer dressing lights, a shorter
+## cull distance, the smallest 2D art cache (ArtCache), no parked world scene during fights (RAM over speed) and a 30 fps cap by default.
+## Low's render scale (0.5, FSR 1) is kept: at a third of the development iGPU's shading rate, 0.5 is what holds 30 fps (0.67 measured too slow).
+## `Settings.low_end` owns the choice; Settings sets this at start and when the preset changes.
+static var low_end: bool = false
+const LOW_END_NAME: String = "Low-end (old laptops)"
+## Mipmap bias on Low-end: +0.5 picks the next smaller texture level a little earlier (less texture bandwidth, less shimmer on an iGPU).
+const LOW_END_MIPMAP_BIAS: float = 0.5
+## Machines with this much physical memory or less get the Low-end preset on their first launch.
+const LOW_END_RAM_MB: int = 4608
+
+
+static func preset_name(level: int, low_end_preset: bool) -> String:
+	return LOW_END_NAME if low_end_preset else display_name(level)
+
+
+## First-launch rule for the Low-end preset: an integrated or software GPU, a machine with 4 GB, or the Compatibility renderer
+## (which has no FSR and no normal-roughness pass). The player can change it afterwards.
+static func recommended_low_end() -> bool:
+	return not low_end_reason().is_empty()
+
+
+static func low_end_reason() -> String:
+	var kind: GpuInfo.Kind = GpuInfo.current_kind()
+	if kind == GpuInfo.Kind.CPU:
+		return "software renderer"
+	if GpuInfo.is_integrated(kind):
+		return "integrated GPU (%s)" % GpuInfo.KIND_NAMES[kind]
+	var physical_mb: int = int(OS.get_memory_info().get("physical", 0)) / 1048576
+	if physical_mb > 0 and physical_mb <= LOW_END_RAM_MB:
+		return "%d MB of RAM" % physical_mb
+	if not forward_plus():
+		return "Compatibility renderer"
+	return ""
+
+
+## Mipmap bias for the viewport (0 = the engine default).
+static func texture_mipmap_bias(_level: int) -> float:
+	return LOW_END_MIPMAP_BIAS if low_end else 0.0
+
+
+## Whether a fight may keep the world scene parked in memory for a quick return (Overnight Nov 2-3, Part 3): not on Low-end (RAM first).
+static func parks_scene() -> bool:
+	return not low_end
 
 
 static func display_name(level: int) -> String:
@@ -97,15 +142,21 @@ static func glow(level: int) -> bool:
 
 ## The most ambient particles alive at once (all emitters of a preset together).
 static func ambient_particle_budget(level: int) -> int:
+	if low_end:
+		return 60
 	return [120, 260, 400][clampi(level, 0, 2)]
 
 
 static func ambient_particles_scale(level: int) -> float:
+	if low_end:
+		return 0.2
 	return [0.35, 0.8, 1.0][clampi(level, 0, 2)]
 
 
-## Share of decorative foliage kept (grass tufts, bushes, flowers): scatter code keeps an item when `keep_item` says so.
+## Share of decorative foliage kept (grass tufts, bushes, flowers): scatter code keeps an item when `keep_item` says so. Low-end keeps a quarter.
 static func foliage_density(level: int) -> float:
+	if low_end:
+		return 0.25
 	return [0.4, 0.75, 1.0][clampi(level, 0, 2)]
 
 
@@ -178,15 +229,20 @@ static func apply_to_viewport(viewport: Viewport, level: int) -> void:
 	var ssaa_ok: bool = RenderingServer.get_current_rendering_method() != "gl_compatibility"
 	var temporal: bool = mode == Viewport.SCALING_3D_MODE_FSR2
 	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if fxaa(level) and ssaa_ok and not temporal else Viewport.SCREEN_SPACE_AA_DISABLED
+	viewport.texture_mipmap_bias = texture_mipmap_bias(level)
 
 
 ## How many dressing lights (lanterns, fires) stay on at once: the nearest ones to the hero (lights beyond the budget are switched off).
 static func light_budget(level: int) -> int:
+	if low_end:
+		return 2
 	return [3, 6, 12][clampi(level, 0, 2)]
 
 
 ## Tier 1: the mesh visibility range of a zone (`StyleRig.cull_distance`) is scaled down on Low, where the CPU side (draw calls) is the limit.
 static func cull_scale(level: int) -> float:
+	if low_end:
+		return 0.7
 	return [0.8, 1.0, 1.0][clampi(level, 0, 2)]
 
 

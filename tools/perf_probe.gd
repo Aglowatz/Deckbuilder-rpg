@@ -58,6 +58,9 @@ func _process(delta: float) -> bool:
 				settings.set(kv[0], int(kv[1]))
 			elif typeof(current) == TYPE_FLOAT:
 				settings.set(kv[0], float(kv[1]))
+		if _args.has("posatlas"):
+			# Size pass Nov 3: `--posatlas=N` sets the root viewport's positional (lamp) shadow atlas size (0 = none) for an A/B
+			root.positional_shadow_atlas_size = int(_args["posatlas"])
 		var t0: int = Time.get_ticks_usec()
 		var packed: PackedScene = load(str(_args.get("scene", "res://scenes/town.tscn"))) as PackedScene
 		_scene = packed.instantiate()
@@ -129,8 +132,44 @@ func _process(delta: float) -> bool:
 		for node: Node in root.find_children("*", "Light3D", true, false):
 			var light: Light3D = node as Light3D
 			print("perf_probe_light: %s %s visible=%s shadow=%s energy=%.2f" % [light.get_path(), light.get_class(), str(light.is_visible_in_tree()), str(light.shadow_enabled), light.light_energy])
+	if _args.has("texusage"):
+		_texture_usage_report(int(_args["texusage"]))
 	quit(0)
 	return true
+
+
+## Size pass Nov 3: `--texusage=N`: EVERY live texture of the renderer (RenderingServer.texture_debug_usage, so generated images, arrays and
+## render targets too): totals per kind (path folder, or "(no path) <format> <w>x<h>") and the N biggest.
+func _texture_usage_report(top: int) -> void:
+	var server: Object = Engine.get_singleton("RenderingServer")
+	var rows: Array = []
+	for method: String in ["texture_debug_usage", "get_texture_debug_usage", "_texture_debug_usage"]:
+		if server.has_method(method):
+			rows = server.call(method)
+			break
+	if rows.is_empty():
+		var names: PackedStringArray = []
+		for m: Dictionary in server.get_method_list():
+			if str(m["name"]).contains("texture") and (str(m["name"]).contains("debug") or str(m["name"]).contains("usage") or str(m["name"]).contains("info")):
+				names.append(str(m["name"]))
+		print("perf_probe_tex: no texture usage method; candidates: %s" % ", ".join(names))
+		return
+	var groups: Dictionary = {}
+	var total: int = 0
+	for row: Dictionary in rows:
+		var bytes: int = int(row.get("bytes", 0))
+		total += bytes
+		var path: String = str(row.get("path", ""))
+		var key: String = path.get_base_dir().replace("res://", "") if not path.is_empty() else "(no path) %s" % str(row.get("format", ""))
+		groups[key] = int(groups.get(key, 0)) + bytes
+	print("perf_probe_tex: %d textures, %.1f MB" % [rows.size(), float(total) / 1048576.0])
+	var keys: Array = groups.keys()
+	keys.sort_custom(func(a: String, b: String) -> bool: return int(groups[a]) > int(groups[b]))
+	for key: String in keys.slice(0, 25):
+		print("perf_probe_tex: group %7.1f MB  %s" % [float(groups[key]) / 1048576.0, key])
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.get("bytes", 0)) > int(b.get("bytes", 0)))
+	for row: Dictionary in rows.slice(0, top):
+		print("perf_probe_tex: %7.2f MB  %dx%dx%d fmt %s  %s" % [float(int(row.get("bytes", 0))) / 1048576.0, int(row.get("width", 0)), int(row.get("height", 0)), int(row.get("depth", 0)), str(row.get("format", "")), str(row.get("path", "(no path)"))])
 
 
 func _mean(values: PackedFloat32Array) -> float:

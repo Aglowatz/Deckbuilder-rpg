@@ -53,6 +53,7 @@ static var _art_cache: Dictionary = {}
 ## Forgets the remembered pictures (after `BestiaryArt.import_from_source`, and in tests) so a newly imported BST-* file shows.
 static func reset_art() -> void:
 	_art_cache = {}
+	ArtCache.forget_group(ART_CACHE_GROUP)
 
 
 ## "Cave Scavenger" -> "BST-CAVE-SCAVENGER" (letters and digits, everything else a single dash).
@@ -93,8 +94,14 @@ static func slug(text: String) -> String:
 ## shows the head and shoulders of their dialogue portrait.
 static func art(entry_name: String) -> Texture2D:
 	var id: String = art_id(entry_name)
-	if _art_cache.has(id):
-		return _art_cache[id] as Texture2D
+	# Size pass Nov 3 (Part 5): the bounded ArtCache holds the pictures (group "bestiary"; AreaCaches forgets the group on an area change)
+	return ArtCache.fetch(ART_CACHE_GROUP, id, func() -> Texture2D: return _load_art(id, entry_name))
+
+
+const ART_CACHE_GROUP: StringName = &"bestiary"
+
+
+static func _load_art(id: String, entry_name: String) -> Texture2D:
 	var texture: Texture2D = null
 	var candidates: Array[String] = [id]
 	candidates.append_array(legacy_art_ids(entry_name))
@@ -108,7 +115,6 @@ static func art(entry_name: String) -> Texture2D:
 			break
 	if texture == null:
 		texture = portrait_art(entry_name)
-	_art_cache[id] = texture
 	return texture
 
 

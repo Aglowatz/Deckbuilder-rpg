@@ -21,6 +21,10 @@ static func release() -> int:
 	EnvKit.clear_cache()
 	DnaMaterials.reset_cache()
 	dropped += SpriteLibrary.release_area_frames()
+	# Size pass Nov 3 (Part 5): the per-area picture groups of the bounded ArtCache (zone banners, loading paintings, vendor stages, boards,
+	# maps, bestiary pictures); the menus' UI art, portraits and card paintings stay, bounded by the cache's budget instead.
+	for group: StringName in [KeyArt.CACHE_GROUP, Battleboards.CACHE_GROUP, MapArt.CACHE_GROUP, Bestiary.ART_CACHE_GROUP]:
+		dropped += ArtCache.forget_group(group)
 	return dropped
 
 
@@ -44,9 +48,5 @@ static func _dictionaries() -> Array[Dictionary]:
 		GainlandsMaterials._cache,
 		HeapMaterials._cache,
 		HeapModels._cache,
-		MapArt._textures,
-		Battleboards._textures,
-		# Zone banners, loading-screen paintings and vendor stage pictures are per area; the title and menus reload theirs on demand.
-		KeyArt._textures,
-		Bestiary._art_cache,
+		# Maps, boards, zone banners / loading paintings / vendor stages and bestiary pictures: ArtCache groups now (release() above).
 	] as Array[Dictionary]

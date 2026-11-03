@@ -3,9 +3,8 @@ extends GutTest
 
 
 func test_backgrounds_and_vendor_art_arrive_in_the_caches() -> void:
-	for id: String in UiArtWarmup.UI_BACKGROUNDS:
-		UiArt._textures.erase(id)
-	KeyArt._textures.erase("VS-SABLE")
+	ArtCache.forget_group(UiArt.CACHE_GROUP)
+	ArtCache.forget_group(KeyArt.CACHE_GROUP)
 	var warmup: UiArtWarmup = UiArtWarmup.make(["VS-SABLE"])
 	UiArtWarmup._warmed.clear()
 	warmup._delay = 0.01
@@ -18,10 +17,12 @@ func test_backgrounds_and_vendor_art_arrive_in_the_caches() -> void:
 	assert_eq(warmup.pending(), 0, "every request finished")
 	for id: String in UiArtWarmup.UI_BACKGROUNDS:
 		if UiArt.has(id):
-			assert_true(UiArt._textures.get(id) is Texture2D, id)
+			assert_true(ArtCache.has(UiArt.CACHE_GROUP, id), id)
 	if KeyArt.has("VS-SABLE"):
-		assert_true(KeyArt._textures.get("VS-SABLE") is Texture2D)
-	assert_eq(UiArt.texture("UI-BG-CHARACTER"), UiArt._textures.get("UI-BG-CHARACTER"), "screens read the warmed copy")
+		assert_true(ArtCache.has(KeyArt.CACHE_GROUP, "VS-SABLE"))
+	var loads_before: int = ArtCache.loads
+	assert_true(UiArt.texture("UI-BG-CHARACTER") is Texture2D, "screens read the warmed copy")
+	assert_eq(ArtCache.loads, loads_before, "no second load of a warmed picture")
 
 
 func test_the_glyph_warmup_covers_the_menu_sizes_and_outlines() -> void:

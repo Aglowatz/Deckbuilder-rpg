@@ -14,14 +14,26 @@ const THUMB_DIR: String = "res://assets/art/cards_thumb/"
 static var _thumbs: Dictionary = {}
 
 
+## Size pass Nov 3 (Part 5): both the full paintings and the thumbnails live in the bounded ArtCache (a long session no longer holds
+## every card it ever drew: 3.5 MB a painting decoded). `_cache` / `_thumbs` stay as names for the tests.
+const CACHE_GROUP: StringName = &"cards"
+const THUMB_GROUP: StringName = &"card_thumbs"
+
+
 ## The small copy of a card's art (a ninth of the pixels), or the full art when there is no thumbnail.
 static func thumb(card_id: String) -> Texture2D:
-	if _thumbs.has(card_id):
-		return _thumbs[card_id] as Texture2D
-	var path: String = "%s%s.%s" % [THUMB_DIR, card_id, EXTENSION]
-	var loaded: Texture2D = load(path) as Texture2D if ResourceLoader.exists(path) else texture(card_id)
-	_thumbs[card_id] = loaded
-	return loaded
+	return ArtCache.fetch(THUMB_GROUP, card_id, func() -> Texture2D:
+		var path: String = "%s%s.%s" % [THUMB_DIR, card_id, EXTENSION]
+		return load(path) as Texture2D if ResourceLoader.exists(path) else texture(card_id))
+
+
+static func has_thumb_cached(card_id: String) -> bool:
+	return ArtCache.known(THUMB_GROUP, card_id)
+
+
+static func store_thumb(card_id: String, loaded: Texture2D) -> void:
+	if not ArtCache.known(THUMB_GROUP, card_id):
+		ArtCache.put(THUMB_GROUP, card_id, loaded)
 
 
 static func path_for(card_id: String) -> String:
@@ -42,13 +54,7 @@ static func has_art(card_id: String) -> bool:
 
 ## The full 2:3 art, or null when this card has no art yet (use the placeholder).
 static func texture(card_id: String) -> Texture2D:
-	if _cache.has(card_id):
-		return _cache[card_id] as Texture2D
-	var loaded: Texture2D = null
-	if has_art(card_id):
-		loaded = load(path_for(card_id)) as Texture2D
-	_cache[card_id] = loaded
-	return loaded
+	return ArtCache.fetch(CACHE_GROUP, card_id, func() -> Texture2D: return load(path_for(card_id)) as Texture2D if has_art(card_id) else null)
 
 
 ## A square crop (full width, from 8% down) of the art for small thumbnails, or null.
@@ -78,6 +84,8 @@ static func compact(card_id: String) -> Texture2D:
 
 static func clear_cache() -> void:
 	_cache.clear()
+	ArtCache.forget_group(CACHE_GROUP)
+	ArtCache.forget_group(THUMB_GROUP)
 
 
 # ---- Art crop (UI + economy fixes Oct 22, Part 3) -------------------------------------------------------------------------------

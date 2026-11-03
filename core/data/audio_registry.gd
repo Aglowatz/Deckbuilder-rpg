@@ -154,7 +154,11 @@ static func is_playable(id: String) -> bool:
 ## The stream of `id`, loop flag applied (loops loop the whole file: the delivered OGG files are full-file loops). null when not playable.
 static func stream(id: String) -> AudioStream:
 	if _streams.has(id):
-		return _streams[id] as AudioStream
+		# Size pass Nov 3 (Part 5): most recently used last, so the oldest is the first to go when the cache is over its size
+		var held: AudioStream = _streams[id] as AudioStream
+		_streams.erase(id)
+		_streams[id] = held
+		return held
 	var found: Entry = entry(id)
 	var result: AudioStream = null
 	if found != null and is_playable(id):
@@ -174,7 +178,16 @@ static func stream(id: String) -> AudioStream:
 		else:
 			result = loaded
 	_streams[id] = result
+	# Size pass Nov 3 (Part 5): an OGG stream holds its whole file's packets in RAM (1-6 MB a track) and this cache used to keep every cue
+	# of the session. Only the last STREAM_CACHE_SIZE cues stay; a cue that is playing is held by its player anyway, and a dropped one
+	# is loaded again from the pack when asked for (a few ms). Stings (WAV) are small and fall under the same rule.
+	while _streams.size() > STREAM_CACHE_SIZE:
+		_streams.erase(_streams.keys()[0])
 	return result
+
+
+## Music streams held besides the ones playing: the area track, a battle cue, a vendor theme and a few returns (docs/perf/size_pass_nov3.md).
+const STREAM_CACHE_SIZE: int = 8
 
 
 static func _kind_from_name(name: String) -> Kind:

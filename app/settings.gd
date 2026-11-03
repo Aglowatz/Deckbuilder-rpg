@@ -83,6 +83,11 @@ var goal_pointer: bool = true
 var always_sprint: bool = false
 ## Low / Medium / High (`GraphicsQuality.Level`): outlines, volumetrics, SSAO, shadows, DOF, foliage density.
 var graphics_quality: int = GraphicsQuality.Level.MEDIUM
+## Size pass Nov 3 (Part 6): the Low-end preset = Low plus the memory and fill-rate savers (`GraphicsQuality.low_end`: sharper mipmap bias,
+## fewer foliage and particles, the smallest art cache, no parked world scene, the 30 fps cap as the first-launch default). Picked on the
+## first launch for integrated GPUs, software renderers, 4 GB machines and the Compatibility renderer; the player can change it.
+var low_end: bool = false
+const LOW_END_FRAME_CAP: int = 30
 ## Depth of field: the tilt-shift blur pass of the world look (WorldLookRig). Not on Low.
 var depth_of_field: bool = true
 ## The bloom (glow) of the world look; the quality level still decides whether it is affordable.
@@ -298,6 +303,8 @@ func apply_tooltip_theme() -> void:
 
 func apply_performance() -> void:
 	Engine.max_fps = max_fps
+	GraphicsQuality.low_end = low_end
+	ArtCache.budget_mb = ArtCache.budget_for_level(graphics_quality, low_end)
 
 
 func set_ui_scale(value: float) -> void:
@@ -372,6 +379,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "ui_scale", ui_scale)
 	config.set_value("video", "minimap", show_minimap)
 	config.set_value("video", "quality", graphics_quality)
+	config.set_value("video", "low_end", low_end)
 	config.set_value("video", "tilt_shift", depth_of_field)
 	config.set_value("video", "bloom", bloom)
 	config.set_value("video", "fog_quality", fog_quality)
@@ -406,6 +414,13 @@ func load_settings(path: String = PATH) -> void:
 	var config: ConfigFile = ConfigFile.new()
 	if config.load(path) != OK:
 		graphics_quality = GraphicsQuality.recommended()
+		# Size pass Nov 3 (Part 6): first launch on an integrated GPU, a software renderer, a 4 GB machine or the Compatibility renderer
+		# starts on the Low-end preset with the 30 fps cap; the player can change both in Settings.
+		low_end = GraphicsQuality.recommended_low_end()
+		if low_end:
+			graphics_quality = GraphicsQuality.Level.LOW
+			max_fps = LOW_END_FRAME_CAP
+			GameLog.info("settings", "first launch: Low-end preset (%s)" % GraphicsQuality.low_end_reason())
 		Keybinds.reset_all()
 		return
 	master_volume = float(config.get_value("audio", "master", master_volume))
@@ -425,6 +440,9 @@ func load_settings(path: String = PATH) -> void:
 	ui_scale = clampf(float(config.get_value("video", "ui_scale", ui_scale)), UI_SCALE_MIN, UI_SCALE_MAX)
 	show_minimap = bool(config.get_value("video", "minimap", show_minimap))
 	graphics_quality = clampi(int(config.get_value("video", "quality", GraphicsQuality.recommended())), 0, 2)
+	low_end = bool(config.get_value("video", "low_end", false))
+	if low_end:
+		graphics_quality = GraphicsQuality.Level.LOW
 	depth_of_field = bool(config.get_value("video", "tilt_shift", depth_of_field))
 	bloom = bool(config.get_value("video", "bloom", bloom))
 	fog_quality = clampi(int(config.get_value("video", "fog_quality", fog_quality)), 0, 2)

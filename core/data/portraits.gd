@@ -44,8 +44,14 @@ static func texture_for(portrait_id: String, expression: String = "") -> Texture
 	if portrait_id.is_empty():
 		return null
 	var key: String = _key(portrait_id, expression)
-	if _textures.has(key):
-		return _textures[key] as Texture2D
+	# Size pass Nov 3 (Part 5): held by the bounded ArtCache (group "portraits") instead of for the whole session
+	return ArtCache.fetch(CACHE_GROUP, key, func() -> Texture2D: return _load_any(portrait_id, expression))
+
+
+const CACHE_GROUP: StringName = &"portraits"
+
+
+static func _load_any(portrait_id: String, expression: String) -> Texture2D:
 	var texture: Texture2D = null
 	if not expression.is_empty():
 		texture = _load(_path(portrait_id, expression))
@@ -53,7 +59,6 @@ static func texture_for(portrait_id: String, expression: String = "") -> Texture
 		texture = _load(_path(portrait_id, ""))
 	if texture == null and PortraitPlaceholders.has(portrait_id):
 		texture = PortraitPlaceholders.texture(portrait_id)
-	_textures[key] = texture
 	return texture
 
 
@@ -69,6 +74,7 @@ static func has_expression(portrait_id: String, expression: String) -> bool:
 
 static func reset() -> void:
 	_textures = {}
+	ArtCache.forget_group(CACHE_GROUP)
 
 
 static func _key(portrait_id: String, expression: String) -> String:

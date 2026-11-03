@@ -121,7 +121,9 @@ func _build_display() -> void:
 	var quality_names: Array[String] = []
 	for level: int in range(GraphicsQuality.NAMES.size()):
 		quality_names.append(GraphicsQuality.display_name(level))
-	var quality: OptionButton = _options(quality_names, Settings.graphics_quality, _on_quality)
+	# Size pass Nov 3 (Part 6): the Low-end preset is Low with the memory savers on top (one more row in the same list)
+	quality_names.append(GraphicsQuality.LOW_END_NAME)
+	var quality: OptionButton = _options(quality_names, GraphicsQuality.NAMES.size() if Settings.low_end else Settings.graphics_quality, _on_quality)
 	quality.name = "QualityOptions"
 	_body.add_child(_row("Graphics quality", quality))
 	_body.add_child(_check("Depth of field (tilt-shift blur, Medium and High)", Settings.depth_of_field, _on_dof, "DofCheck"))
@@ -390,7 +392,9 @@ func _on_frame_cap(index: int) -> void:
 
 func _on_quality(index: int) -> void:
 	Audio.sfx(&"ui_toggle")
-	Settings.graphics_quality = index
+	# the last row is the Low-end preset: Low plus the memory savers (GraphicsQuality.low_end)
+	Settings.low_end = index >= GraphicsQuality.NAMES.size()
+	Settings.graphics_quality = GraphicsQuality.Level.LOW if Settings.low_end else index
 	Settings.graphics_changed.emit()
 	_saved()
 

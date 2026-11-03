@@ -45,10 +45,13 @@ static func _file_for(map_id: String) -> String:
 static func texture_for(map_id: String) -> Texture2D:
 	if map_id.is_empty():
 		return null
-	if not _textures.has(map_id):
+	# Size pass Nov 3 (Part 5): the bounded ArtCache holds the maps (group "maps"; AreaCaches forgets the group on an area change)
+	return ArtCache.fetch(CACHE_GROUP, map_id, func() -> Texture2D:
 		var path: String = _file_for(map_id)
-		_textures[map_id] = load(path) as Texture2D if ResourceLoader.exists(path) else null
-	return _textures[map_id] as Texture2D
+		return load(path) as Texture2D if ResourceLoader.exists(path) else null)
+
+
+const CACHE_GROUP: StringName = &"maps"
 
 
 static func has_map(map_id: String) -> bool:
@@ -57,6 +60,7 @@ static func has_map(map_id: String) -> bool:
 
 static func reset() -> void:
 	_textures = {}
+	ArtCache.forget_group(CACHE_GROUP)
 
 
 ## The configured Drive folder (env MAP_SOURCE_DIR wins), "" when unset.

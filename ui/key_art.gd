@@ -73,16 +73,26 @@ static func has(id: String) -> bool:
 
 
 ## The texture of an ID; null when there is no image (the caller keeps its fallback).
+## Size pass Nov 3 (Part 5): the bounded `ArtCache` holds the pictures (group "keyart"; AreaCaches forgets the group on an area change).
+const CACHE_GROUP: StringName = &"keyart"
+
+
 static func texture(id: String) -> Texture2D:
-	if _textures.has(id):
-		return _textures[id] as Texture2D
-	var loaded: Texture2D = load(path_for(id)) as Texture2D if has(id) else null
-	_textures[id] = loaded
-	return loaded
+	return ArtCache.fetch(CACHE_GROUP, id, func() -> Texture2D: return load(path_for(id)) as Texture2D if has(id) else null)
+
+
+static func is_cached(id: String) -> bool:
+	return ArtCache.known(CACHE_GROUP, id)
+
+
+static func store(id: String, loaded: Texture2D) -> void:
+	if not ArtCache.known(CACHE_GROUP, id):
+		ArtCache.put(CACHE_GROUP, id, loaded)
 
 
 static func reset() -> void:
 	_textures = {}
+	ArtCache.forget_group(CACHE_GROUP)
 
 
 # ---- Sheets ---------------------------------------------------------------------------------

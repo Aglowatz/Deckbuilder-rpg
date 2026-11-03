@@ -64,6 +64,7 @@ static func reset() -> void:
 	_loaded = false
 	_contexts = {}
 	_textures = {}
+	ArtCache.forget_group(CACHE_GROUP)
 
 
 ## The board image for a context key or Battleboard ID; a neutral placeholder when the ID is unmapped or its image is missing.
@@ -71,12 +72,14 @@ static func texture_for(key_or_id: String) -> Texture2D:
 	var id: String = key_or_id if key_or_id.begins_with("BB-") else board_for(key_or_id)
 	if id.is_empty():
 		return _placeholder()
-	if not _textures.has(id):
+	# Size pass Nov 3 (Part 5): the bounded ArtCache holds the boards (group "boards"; AreaCaches forgets the group on an area change)
+	var texture: Texture2D = ArtCache.fetch(CACHE_GROUP, id, func() -> Texture2D:
 		var path: String = _file_for(id)
-		var loaded: Texture2D = load(path) as Texture2D if ResourceLoader.exists(path) else null
-		_textures[id] = loaded
-	var texture: Texture2D = _textures[id] as Texture2D
+		return load(path) as Texture2D if ResourceLoader.exists(path) else null)
 	return texture if texture != null else _placeholder()
+
+
+const CACHE_GROUP: StringName = &"boards"
 
 
 ## STANDIN boards (Oct 19 night, Part 3): a dungeon whose own board is still to come shows another board until its file arrives (its own file always

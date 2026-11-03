@@ -118,7 +118,7 @@ func test_cards_without_art_use_the_placeholder_and_still_build() -> void:
 
 func test_square_and_compact_crops_come_from_the_full_art() -> void:
 	var fake: ImageTexture = ImageTexture.create_from_image(Image.create(768, 1152, false, Image.FORMAT_RGB8))
-	CardArt._cache["TEST-ART"] = fake
+	ArtCache.put(CardArt.CACHE_GROUP, "TEST-ART", fake)
 	var square: AtlasTexture = CardArt.square("TEST-ART") as AtlasTexture
 	assert_eq(square.region.size.x, square.region.size.y, "square")
 	var compact: AtlasTexture = CardArt.compact("TEST-ART") as AtlasTexture
@@ -166,7 +166,7 @@ func test_source_import_skips_unchanged_and_replaces_changed_art() -> void:
 
 func test_art_picture_is_sized_to_the_card_not_to_the_texture() -> void:
 	var fake: ImageTexture = ImageTexture.create_from_image(Image.create(768, 1152, false, Image.FORMAT_RGB8))
-	CardArt._cache["C-01"] = fake
+	ArtCache.put(CardArt.CACHE_GROUP, "C-01", fake)
 	for mode: CardView.Mode in [CardView.Mode.FULL, CardView.Mode.COMPACT]:
 		var view: CardView = CardView.create(Session.content.card("C-01"), mode)
 		add_child_autofree(view)

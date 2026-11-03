@@ -77,23 +77,37 @@ static func has(id: String) -> bool:
 
 
 ## The texture of a UI ID; null when there is no image (the caller keeps its fallback look).
+## Size pass Nov 3 (Part 5): the pictures live in the bounded `ArtCache` (group "ui"); `_textures` is kept as the legacy name for tests.
+const CACHE_GROUP: StringName = &"ui"
+
+
 static func texture(id: String) -> Texture2D:
-	if _textures.has(id):
-		return _textures[id] as Texture2D
-	var loaded: Texture2D = load(path_for(id)) as Texture2D if has(id) else null
-	_textures[id] = loaded
-	return loaded
+	return ArtCache.fetch(CACHE_GROUP, id, func() -> Texture2D: return load(path_for(id)) as Texture2D if has(id) else null)
+
+
+## Whether the picture is already held (the warmup skips what is there).
+static func is_cached(id: String) -> bool:
+	return ArtCache.known(CACHE_GROUP, id)
+
+
+## A picture loaded elsewhere (the warmup's loader thread) handed to the cache.
+static func store(id: String, loaded: Texture2D) -> void:
+	if not ArtCache.known(CACHE_GROUP, id):
+		ArtCache.put(CACHE_GROUP, id, loaded)
 
 
 static func reset() -> void:
 	_textures = {}
+	ArtCache.forget_group(CACHE_GROUP)
 
 
 ## `id` as a texture drawn at `factor` times its stored size (cached): 9-slice art is shrunk this way so its corners are as big as the game wants them, never stretched.
 static func scaled_texture(id: String, factor: float, grey: float = 0.0) -> Texture2D:
 	var key: String = "%s|%.3f|%.2f" % [id, factor, grey]
-	if _textures.has(key):
-		return _textures[key] as Texture2D
+	return ArtCache.fetch(CACHE_GROUP, key, func() -> Texture2D: return _make_scaled(id, factor, grey))
+
+
+static func _make_scaled(id: String, factor: float, grey: float) -> Texture2D:
 	var source: Texture2D = texture(id)
 	if source == null:
 		return null
@@ -111,9 +125,7 @@ static func scaled_texture(id: String, factor: float, grey: float = 0.0) -> Text
 				if pixel.a > 0.0:
 					var luma: float = pixel.get_luminance()
 					image.set_pixel(x, y, Color(lerpf(pixel.r, luma, grey), lerpf(pixel.g, luma, grey), lerpf(pixel.b, luma, grey), pixel.a))
-	var result: ImageTexture = ImageTexture.create_from_image(image)
-	_textures[key] = result
-	return result
+	return ImageTexture.create_from_image(image)
 
 
 ## A 9-slice StyleBoxTexture of `id` drawn at `factor` times its size. `margin` is (left, top, right, bottom) as fractions of the stored image (so the corners and edges
