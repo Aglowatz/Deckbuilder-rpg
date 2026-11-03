@@ -205,7 +205,8 @@ static func _capital_battle(context: BattleContext, board: String) -> String:
 			return "MUS-CAP-RIFT"
 		CapitalEnemies.OFFICER, CapitalEnemies.INSPECTOR:
 			return "MUS-CAP-ENFORCER"
-	return "MUS-CAP-FACADE-BATTLE" if board == "BB-CAP-IN" else "MUS-CAP-OUT-BATTLE"
+	# Batch 11: Quota's Transit Yards board is inside the walls too (her duel keeps the facade battle song)
+	return "MUS-CAP-FACADE-BATTLE" if board == "BB-CAP-IN" or board == "BB-LIEUTENANT-QUOTA" else "MUS-CAP-OUT-BATTLE"
 
 
 # ---- Shops, minigames and the story ---------------------------------------------------------------------

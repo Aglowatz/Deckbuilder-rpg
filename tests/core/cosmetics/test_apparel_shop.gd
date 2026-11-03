@@ -51,14 +51,15 @@ func test_every_item_with_art_is_for_sale_and_every_item_without_is_not() -> voi
 		assert_eq(Session.buy_cosmetic(item.id), SpriteCosmetics.art_ready(item), "%s: buyable exactly when its art exists" % item.id)
 
 
-func test_a_held_hat_is_not_sold_or_worn_until_its_redo() -> void:
+## Batch 11 (Nov 2): the Leaf Crown's redone sheet (a whole ring, no horns) replaced the held one - it is sold and worn again.
+func test_the_leaf_crown_is_back_in_the_shop() -> void:
 	_open_everything()
 	Session.gold = 5000
 	var crown: CosmeticData = CosmeticCatalog.find("hat_leaf_crown")
-	assert_true(SpriteCosmetics.HELD_HATS.has(crown.art_name), "the upright-ring Leaf Crown sheet waits for its redo")
-	assert_false(SpriteCosmetics.art_ready(crown), "a held hat is 'arriving soon'")
-	assert_false(Session.buy_cosmetic("hat_leaf_crown"), "a held hat cannot be bought")
-	assert_eq(Session.gold, 5000)
+	assert_false(SpriteCosmetics.HELD_HATS.has(crown.art_name), "the Leaf Crown is no longer held")
+	assert_true(SpriteCosmetics.art_ready(crown), "its five views are imported")
+	assert_true(Session.buy_cosmetic("hat_leaf_crown"), "it can be bought")
+	assert_eq(Session.gold, 5000 - crown.price)
 
 
 func test_the_found_pieces_arrive_owned() -> void:

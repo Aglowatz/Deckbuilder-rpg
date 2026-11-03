@@ -135,7 +135,8 @@ func test_behind_is_a_per_direction_fit_key() -> void:
 	assert_almost_eq(float(SpriteLibrary.hat_fit("TESTHAT", "BACK")["behind"]), 1.0, 0.001, "drawn behind from the back")
 
 
-func test_the_leaf_crown_draws_behind_the_head_from_behind_only() -> void:
+## Batch 11 (Nov 2): the redone Leaf Crown is a whole ring in every view, so it never draws behind the head (the Oct 31 sheet painted only
+## the front arc, which had to sit behind the head from BACK / BACKSIDE).
+func test_the_leaf_crown_ring_draws_in_front_from_every_side() -> void:
 	for dir_name: String in HatSheet.DIRS:
-		var behind: bool = float(SpriteLibrary.hat_fit("LEAFCROWN", dir_name)["behind"]) > 0.5
-		assert_eq(behind, dir_name in ["BACK", "BACKSIDE"], dir_name)
+		assert_almost_eq(float(SpriteLibrary.hat_fit("LEAFCROWN", dir_name)["behind"]), 0.0, 0.001, dir_name)

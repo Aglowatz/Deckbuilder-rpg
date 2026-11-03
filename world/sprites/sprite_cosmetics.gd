@@ -4,8 +4,8 @@ extends RefCounted
 ## Items whose art has not been imported yet change nothing (the default look stays), so nothing breaks while the art is on its way.
 
 ## Hats whose imported sheet is held back for a redo (docs/art/import_oct22_final.md): treated as "arriving soon" (not sold, not worn) until a good sheet
-## replaces it. LEAFCROWN is painted as an upright ring, so on the hero it stands on the head like a hoop instead of lying on the hair.
-const HELD_HATS: Array[String] = ["LEAFCROWN"]
+## replaces it. Empty since Batch 11 (Nov 2): the Leaf Crown's redone sheet (a whole ring lying on the hair) replaced the upright-ring one.
+const HELD_HATS: Array[String] = []
 
 
 ## The art name (WIZARD, REDCAPE, ...) of an item id, "" for none or an unknown id.

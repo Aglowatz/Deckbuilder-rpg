@@ -2739,7 +2739,7 @@ func make_quota_yards_battle() -> BattleContext:
 	context.enemy_name = Lieutenants.foe_name(Lieutenants.QUOTA)
 	context.zone_id = CapitalZone.ID
 	context.zone_battle = true
-	context.board_key = "capital:in"
+	context.board_key = "lieutenant:quota"  # Batch 11 (Nov 2): her own board, the Transit Yards (BB-LIEUTENANT-QUOTA)
 	context.zone_enemy_id = Lieutenants.YARDS_SPOT
 	context.zone_enemy_type = Lieutenants.YARDS_SPOT
 	context.encounter_rules = EncounterModifiers.rules(Lieutenants.YARDS_RULES_KEY)
