@@ -947,3 +947,7 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    should be Sorrel, the fix is one speaker label (`HeapGrowth` bridge_center) and NPC-SORREL shows at once; if it should be Moss Mulligan,
    the entry could wear the MULLIGAN set instead. Safest kept: Sorrel's sprite + Mulligan's voice, as before.
 4. **The Rescuer's expressions** (WORRIED / RESOLVED) were not in Batch 11; every tag falls back to the new base portrait.
+5. **Flex beats 1-2 keep the icon stage.** The brief allowed STORY-FLEX on beats 1, 2, 4, 5, but that picture IS the coat coming off; behind
+   Clench's taunt and "Hold my coat" it spoils beat 3. Wired 3-5 instead (beat 3 after its full-screen view). If you want 1-2 painted too,
+   it is one line in `StoryStills.CUTSCENE_BEAT_BACKDROPS` (or STORY-RESCUE could stand in for them). Reveal beat 5 now sits on STORY-DOPPEL
+   and epilogue beat 5 on STORY-REUNION, so neither drops back to the icon stage after its full-screen still.

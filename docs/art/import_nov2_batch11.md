@@ -150,3 +150,29 @@ the same portrait in the dialogue box.
 included) resolves to an imported painted set; the three Buffet gates are painted; Crosspath's NPCs are painted; heights match the row
 notes; the six speakers resolve to their portraits. 6/6 pass. 3D characters left: Threadwell's window mannequin (by design) and the
 Verdant Dump's ambient animals (critters, the stable animal - kept by choice).
+
+## Part 3 - Story stills
+
+Imported with `import_key_art.sh` (12 new rows in `data/source/logo_title_art.csv`; source = the staged copies of the Approved_KeyArt files;
+`node tools/merge_import_manifest.js data/source/key_art_import_manifest.csv` put HEAD's rows back after the importer's rewrite).
+Wired in `StoryStills` - the cutscene screen now picks the still **per beat** (`cutscene_backdrop(scene, beat)`, new
+`CUTSCENE_BEAT_BACKDROPS`; `CutsceneScreen._set_backdrop` swaps the picture between beats like the ending screen does):
+
+| Moment | Beats | Still |
+|---|---|---|
+| primm_p1 | 1-4 | STORY-PRIMM-P1 |
+| primm_p2 | 1-5 | STORY-PRIMM-P2 |
+| primm_end | 1-8 | STORY-PRIMM-FALL |
+| rescue | 1-3 | STORY-RESCUE |
+| reveal | 1-4 / 5 | STORY-REVEAL-KITCHEN / STORY-DOPPEL (beat 5 comes right after the full-screen DOPPEL still) |
+| flex | 3-5 | STORY-FLEX (beat 3 is its full-screen still; behind beats 3-5 afterwards) |
+| epilogue (EndingDefs n) | 1 crumble, 3 rifts, 4 wrinkles, 6 unite, 7 dove, 9 primm_sees, 10 stamp | STORY-EPI-MODEL-FALLS, -RIFTS-CLOSE, -WRINKLES, -TOGETHER, -DECREE, -PRIMM-SEES, -FILE-COMPLETE |
+| epilogue 5 reunion | 5 | STORY-REUNION stays behind its words after the full-screen view (it fell back to the icon stage before) |
+
+**Beats still on the icon stage: flex 1 and flex 2 only** (STORY-FLEX is the reveal itself; behind "Hold my coat" it would give the reveal
+away - inbox 5). Every other cutscene beat and all ten epilogue beats have a still (`tests/test_story_backdrops_batch11.gd`, 5/5;
+`test_story_backdrops_oct29.gd` updated for 27 backdrops, where a caption still may also sit behind beats).
+
+Contact sheets through the real CutsceneScreen / EndingScreen (`Godot --path . --resolution 1600x900 res://tools/beat_shots.tscn`, out
+`_screenshots/beats/`): every wired beat (66) `docs/art/batch11/p3_every_wired_beat.jpg` (order in `p3_every_wired_beat.txt`), and one cell
+per Batch 11 still `p3_batch11_beats.jpg`. (The TOGETHER cell is caught mid gold flash of the `unite` effect, which fades.)

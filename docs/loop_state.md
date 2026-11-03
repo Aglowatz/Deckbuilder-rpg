@@ -11,6 +11,6 @@ Disk: C: was full at the start (94 MB) - freed 1.7 GB (builds/_export = the unzi
 |---|---|---|
 | 1 | Verify the delivery: names, size/format, alpha, sheet layouts, sprite ground lines; table in the report; backups | done: 45/45 present, no REDO; backups in _art_source/superseded_batch11 |
 | 2 | Characters: 10 stationary sets + 7 portraits + the guard set, wired to their NPCs; Rescuer portrait; 3D-figure audit | done: 11 sets wired (guards to CAPITAL_GUARD), 8 portraits, extra_npcs speakers, audit test 6/6 |
-| 3 | Story stills as cutscene / ending backdrops; contact sheet | |
+| 3 | Story stills as cutscene / ending backdrops; contact sheet | done: 12 stills, per-beat backdrops, only flex 1-2 on the icon stage, 66-beat contact sheet |
 | 4 | World pieces: the Crease, D.N.A. lobby, Capital pieces, salt shakers, Quota board, N-10, Leaf Crown | |
 | 5 | Walk smokes, play script, perf, sharded GUT, art_status, report, commit + push | |

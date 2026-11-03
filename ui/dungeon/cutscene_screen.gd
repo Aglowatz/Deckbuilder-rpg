@@ -81,6 +81,9 @@ var _flash: ColorRect
 var _tween: Tween
 var _shake_origin: Vector2 = Vector2.ZERO
 var _stage_root: Control
+## Batch 11 (Nov 2): the still behind the current beat (null = the icon stage) and the layer it sits in, under the stage and the text.
+var _backdrop: StillBackdrop = null
+var _still_holder: Control
 var _done: bool = false
 var _still_up: bool = false
 var _music_token: int = 0
@@ -142,16 +145,15 @@ func _ready() -> void:
 	var glow: ColorRect = UIKit.gradient_background()
 	glow.modulate.a = 0.5
 	add_child(glow)
-	# Art import Oct 29: a scene with a painted still plays its lines over the picture instead of the icon stage.
-	var still: StillBackdrop = StillBackdrop.make(StoryStills.cutscene_backdrop(scene_id))
-	if still != null:
-		still.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		add_child(still)
-		still.fade_in()
+	# Art import Oct 29: a scene with a painted still plays its lines over the picture instead of the icon stage. Batch 11: the still is
+	# picked per beat (`_set_backdrop` from `_show_beat`).
+	_still_holder = Control.new()
+	UIKit.full_rect(_still_holder)
+	_still_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_still_holder)
 	_stage_root = Control.new()
 	UIKit.full_rect(_stage_root)
 	_stage_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_stage_root.visible = still == null
 	add_child(_stage_root)
 	_extras = Control.new()
 	UIKit.full_rect(_extras)
@@ -227,6 +229,7 @@ func _add_roots() -> void:
 
 func _show_beat() -> void:
 	var beat: Dictionary = _beats[_index]
+	_set_backdrop(StoryStills.cutscene_backdrop(scene_id, int(beat["n"])))
 	var speaker: String = _story.text(str(beat["speaker_key"]))
 	_speaker.text = speaker
 	var lines: Array[String] = _story.get_lines(str(beat["key"]))
@@ -249,6 +252,25 @@ func _show_beat() -> void:
 		_tween.tween_property(_text, "visible_ratio", 1.0, duration)
 	Audio.sfx(&"dialogue", -10.0)
 	_fx(str(beat["fx"]))
+
+
+## Shows the beat's still behind its words, or puts the icon stage back when the beat has none (as the ending screen does).
+func _set_backdrop(id: String) -> void:
+	if _backdrop != null and is_instance_valid(_backdrop) and _backdrop.still_id == id:
+		return
+	if _backdrop != null and is_instance_valid(_backdrop):
+		_backdrop.fade_out_and_free()
+	_backdrop = StillBackdrop.make(id)
+	if _backdrop != null:
+		_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_still_holder.add_child(_backdrop)
+		_backdrop.fade_in()
+	_stage_root.visible = _backdrop == null
+
+
+## The still behind the current beat ("" = the icon stage).
+func backdrop_id() -> String:
+	return _backdrop.still_id if _backdrop != null and is_instance_valid(_backdrop) else ""
 
 
 ## The left actor is the leader/boss; "You" is always the right actor.

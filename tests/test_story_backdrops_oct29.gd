@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_every_backdrop_still_is_in_the_game() -> void:
-	assert_eq(StoryStills.BACKDROP_IDS.size(), 15)
+	assert_eq(StoryStills.BACKDROP_IDS.size(), 27, "15 from Oct 29 + 12 from Batch 11 (Nov 2)")
 	for id: String in StoryStills.BACKDROP_IDS:
 		assert_true(KeyArt.has(id), "%s imported" % id)
 		assert_true(KeyArt.known_ids().has(id), "%s is a row of logo_title_art.csv" % id)
@@ -25,11 +25,16 @@ func test_every_hook_names_a_real_moment() -> void:
 	assert_eq(StoryStills.memory_backdrop(5), "")
 
 
-func test_every_backdrop_still_is_used_once() -> void:
+## Batch 11 (Nov 2): a backdrop may sit behind several beats, and a caption still (STORY-FLEX, -DOPPEL, -REUNION) may stay behind the
+## beats after its full-screen view; every backdrop still is still used somewhere and nothing else is.
+func test_every_backdrop_still_is_used() -> void:
 	var used: Array[String] = []
-	for map: Dictionary in [StoryStills.CUTSCENE_BACKDROPS, StoryStills.ENDING_BACKDROPS, StoryStills.SCENE_BACKDROPS]:
+	var maps: Array = [StoryStills.CUTSCENE_BACKDROPS, StoryStills.ENDING_BACKDROPS, StoryStills.SCENE_BACKDROPS]
+	maps.append_array(StoryStills.CUTSCENE_BEAT_BACKDROPS.values())
+	for map: Dictionary in maps:
 		for value: Variant in map.values():
-			used.append(str(value))
+			if not used.has(str(value)) and not StoryStills.IDS.has(str(value)):
+				used.append(str(value))
 	used.append_array(StoryStills.MEMORIES)
 	used.sort()
 	var expected: Array[String] = StoryStills.BACKDROP_IDS.duplicate()
