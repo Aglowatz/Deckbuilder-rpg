@@ -13,7 +13,7 @@
 # Peak memory of each Godot run is sampled by tools/measure_process.ps1; logs go to _logs/export/.
 set -u -o pipefail
 GODOT="C:/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
-BUDGET_MB=800
+BUDGET_MB=750
 # Measured Oct 23 on this 7.4 GB laptop: the windowed export with the shader baker peaks at ~1.7 GB (the editor ~1.45 GB + the
 # baker ~0.25 GB); the headless import ~1.0-1.2 GB; tar and the checks almost nothing. Below NEED it warns; below MIN it stops.
 NEED_FREE_MB=${NEED_FREE_MB:-2000}

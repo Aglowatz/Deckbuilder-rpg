@@ -11,7 +11,7 @@ cd "$(dirname "$0")/.."
 camera="${1:-}"
 out="$(pwd)/_screenshots/heap_walk_smoke${camera:+_cam$camera}.log"
 mkdir -p _screenshots/heap_walk
-HEAP_WALK_CAMERA="$camera" timeout 600 "$GODOT" --path . --resolution 1600x900 res://tools/heap_walk_smoke_launcher.tscn > "$out" 2>&1
+HEAP_WALK_CAMERA="$camera" timeout 600 "$GODOT" ${GODOT_ARGS:-} --path . --resolution 1600x900 res://tools/heap_walk_smoke_launcher.tscn > "$out" 2>&1
 code=$?
 grep -E "^heap_walk_smoke:|SCRIPT ERROR" "$out"
 if grep -q "SCRIPT ERROR" "$out"; then echo "heap_walk_smoke: script errors found"; code=1; fi

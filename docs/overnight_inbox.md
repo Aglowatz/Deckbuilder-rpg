@@ -992,3 +992,21 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    (or hear none and want the extra 40 MB from q2), say "q4" / "q6" / "q2" and the re-encode is one command:
    `WP_VORBIS_Q=4 bash tools/music/rerender_all.sh render` + `bash tools/music/deliver_part.sh "Bitrate q4" <IDs>`.
    Stings stay WAV (QOA in the pack, 5 MB) - not part of this.
+2. **The download is 600 MB, not 350-450.** The next 150 MB would need one of these trade-offs, so I did not take them on my own:
+   (a) the zone kit cut-outs (sheets, trees, props, decals) from BC7 to lossy WebP: about -120 MB of download, but about 4x their video
+   memory in a zone (RGBA8), which works against the 4 GB laptop; (b) music at q2: about -40 MB, a duller top end (16.5 kHz);
+   (c) a custom engine build (Part 7): about -15 MB of zip, needs a C++ toolchain and 10-20 GB of free disk. Say which, if any.
+3. **Peak RAM is down 4-7 % on D3D12, not a third.** The 2D art was not what fills memory: a zone is the engine's ~600 MB floor plus
+   generated world textures and render targets. That needs an engine-side pass (smaller terrain layer arrays, fewer generated maps,
+   world streaming). Say if you want it as the next brief.
+4. **Make OpenGL the Low-end renderer?** On this PC, Low-end on OpenGL 3.3 uses 40-45 % less video memory and 8-15 % less RAM than
+   Low-end on D3D12, loads faster and runs as fast (table in docs/perf/size_pass_nov3.md, Part 6). Every shader compiles there; only
+   the water loses its refraction. Switching the renderer needs a restart, so it would be "Low-end on first launch also starts the
+   Compatibility renderer". I left D3D12 as the default; say if you want the switch.
+5. **Render scale 0.5, not 0.67, on Low-end.** 0.67 cost 2.1 ms of GPU in the Capital; on a UHD 620 that is the difference between
+   about 33 and 29 fps (an estimate, no such GPU here). Players can pick 62 or 75 % in Settings. One tester run on a real 2018 laptop
+   would settle it.
+6. **Things to look at / listen to:** the blind music A/B folder (item 1); `docs/art/size_pass/` sheets (faces, night sky, gold trim,
+   map line art at 100 %); `docs/art/size_pass/p4_world_before_after.jpg` (BC1 + mipmaps in nine zones); `p6_opengl_low_end.jpg`
+   (the Dump's water is flat on OpenGL). `builds/_testpack/` (735 MB, the test pack for the exported bots) can be deleted when you need
+   the disk; C: has 2.7 GB free.

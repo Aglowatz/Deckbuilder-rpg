@@ -15,7 +15,7 @@ Previous state: docs/overnight/nov2/loop_state_overnight_nov2.md (Overnight Nov 
 | 2 | Music: re-render + Vorbis q2/q3/q4 A/B, pick, apply, audio GUT + music smoke | done: q3, 213 -> 175 MB, A/B folder + KEY on Drive, renders imported verbatim, audio GUT + music smoke OK; 762266e0 |
 | 3 | Painted 2D art: size limits from on-screen sizes, WebP quality test, contact sheets | done: texfit sweep (26 screens, docs/art/size_pass/texfit.md) - paintings already drawn above native, limits kept (bestiary 512 -> 384); q 0.80 paintings/cards, 0.85 portraits/sprites; stills BC7 -> lossy; payload 838.5 -> 763 MB |
 | 4 | World textures: BC1 for opaque, far textures 512, normal maps half, mipmaps | done: opaque surfaces BC1 + mipmaps, _n/_r/_nr 256, backdrops kept (drawn wide); 9-spot before/after shots, no visible change; payload 763 -> 669.7 MB |
-| 5 | Memory: on-demand art with an LRU cache, streamed music, parked scene per preset | code written: core/data/art_cache.gd (LRU, budget per preset) behind UiArt/KeyArt/Portraits/CardArt/Battleboards/MapArt/Bestiary + warmup + AreaCaches; AudioRegistry stream cache bounded to 8; tests written, not yet run |
-| 6 | Low-end preset + Compatibility renderer fallback + auto-pick | code written: GraphicsQuality.low_end (+knobs), Settings.low_end + first-launch rule + 30 fps cap, settings row, no parking, project fallback_to_* ; tests written, not yet run; shader check on opengl3 next |
-| 7 | Slimmer engine (optional) | - |
-| 8 | Export v0.5.2, smokes, compare, policy doc, GUT, delete v0.5.1 zip | - |
+| 5 | Memory: on-demand art with an LRU cache, streamed music, parked scene per preset | done: ArtCache + 8 streams + no parking on Low-end; re-measured all spots (size_after_*); single-area RAM -0..7 % (engine-side memory, inbox 3) |
+| 6 | Low-end preset + Compatibility renderer fallback + auto-pick | done: preset + row + auto-pick; OpenGL shaders all compile; walk smokes, battles, exported bot OK on OpenGL; Low-end OpenGL -45 % VRAM (inbox 4) |
+| 7 | Slimmer engine (optional) | not attempted: no C++ toolchain, 2.7 GB disk (inbox 2c) |
+| 8 | Export v0.5.2, smokes, compare, policy doc, GUT, delete v0.5.1 zip | done: zip 600 MB, release smoke + exported bot OK, GUT 0 failing, policy + 750 MB budget, v0.5.1 zip deleted |

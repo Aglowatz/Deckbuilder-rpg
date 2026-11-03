@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.."
 size="${1:-1600x900}"
 out="$(pwd)/_screenshots/first_battles_smoke.log"
 mkdir -p _screenshots
-timeout 600 "$GODOT" --path . --resolution "$size" res://tools/first_battles_smoke.tscn > "$out" 2>&1
+timeout 600 "$GODOT" ${GODOT_ARGS:-} --path . --resolution "$size" res://tools/first_battles_smoke.tscn > "$out" 2>&1
 code=$?
 grep -E "^first_battles_smoke:|SCRIPT ERROR" "$out"
 if grep -q "SCRIPT ERROR" "$out"; then echo "first_battles_smoke: script errors found"; code=1; fi

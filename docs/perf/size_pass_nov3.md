@@ -209,6 +209,121 @@ size; mean grey difference 1.4-4.4 levels, the usual run-to-run drift of these s
 | assets/art/env_kit | 42.3 | 35.8 |
 | **Payload** | **763.0** | **669.7** |
 
-## Parts 5-8
+## Part 5 - memory: load on demand, free when done
 
-(filled in as each part lands)
+- **Audit** of what lives for the whole session: seven 2D loaders (UiArt, KeyArt, Portraits, CardArt + thumbs, Battleboards, MapArt,
+  Bestiary) each kept every picture ever loaded in a static dictionary. KeyArt, boards, maps and bestiary were already dropped on an
+  area change (AreaCaches, Oct 20), but card paintings (3.5 MB decoded each), portraits and UI art grew without limit. The registry
+  kept every music stream ever played (1-6 MB of packets each). The world's own caches (kit meshes, zone materials, painted textures,
+  sprite frames) were already released per area.
+- **ArtCache** (`core/data/art_cache.gd`): the seven loaders now go through one least-recently-used cache with a decoded-size budget per
+  preset (Low-end 96, Low 160, Medium 256, High 512 MB). Missing art is remembered without cost. Evicting only drops the cache's
+  reference, so a picture still on screen stays alive until its screen closes. The warmup (`UiArtWarmup`) still prefetches the next
+  likely screens (menu backgrounds, the area's vendor stages, the first card thumbnails) into the same cache, so nothing pops in.
+- **Music** streams from its compressed OGG packets (Godot never decodes a whole track); the registry now keeps the last 8 cues.
+  Short sound effects stay in memory.
+- **Parked scene:** kept on Low / Medium / High (fast returns), off on Low-end (`GraphicsQuality.parks_scene`: a fight frees the area,
+  600-900 MB, and the return rebuilds it in 1-5 s).
+- Tests: `tests/core/data/test_art_cache.gd`, the stream-cache test in `test_audio_registry.gd`, four existing tests moved to the cache.
+
+What it does **not** change is a single area's footprint. In Crosspath only ~124 MB of the ~390 MB of texture memory are art files
+(`tools/texture_census.gd`); the rest is generated at load (terrain layer arrays, splat and ground-light maps, sprite normal maps)
+plus render targets, and Godot 4.7 exposes no per-texture list to scripts to break it down further. The lamp shadow atlas was ruled
+out (`perf_probe --posatlas=0`: no change). The cache's effect is on long sessions, where the old dictionaries grew with every card
+and portrait seen.
+
+## Part 6 - Low-end preset and the Compatibility renderer
+
+- **Renderer fallback:** Godot 4.7's defaults already fall back D3D12 -> Vulkan -> OpenGL 3.3 (`rendering_device/fallback_to_*` are
+  true by default, checked in the running project). `GraphicsQuality.forward_plus()` already turned off the Forward+-only passes.
+- **Shaders on OpenGL 3.3** (`--rendering-driver opengl3 --rendering-method gl_compatibility`): every custom shader compiles (toon,
+  double-sided toon, painted terrain / triplanar / flow / decal, foliage, grass, water, fades, the occlusion dither, the outline, the
+  world post and tilt-shift, the sky, the UI shaders); no shader errors in the Crosspath, Dump, Capital, forest and battle runs. The
+  water loses its screen-texture refraction on that renderer and reads as flat calm water; everything else looks as on D3D12 at Low
+  (`docs/art/size_pass/p6_opengl_low_end.jpg`).
+- **Low-end preset** = Low plus: mipmap bias +0.5, a quarter of the decorative foliage, 60 ambient particles, 2 dressing lights, cull
+  distance x0.7, the smallest art cache, no parked scene, and a 30 fps cap on first launch. Sun shadows, SSAO, glow, volumetrics and
+  depth of field are already off on Low. Settings > Graphics quality has a "Low-end (old laptops)" row.
+- **Render scale:** kept at Low's 0.5 with FSR 1, not the brief's 0.67. In the Capital (the heaviest spot) 0.67 costs 2.1 ms more GPU
+  (9.4 -> 11.4 ms). Scaled to a UHD 620 at roughly a third of this GPU that is about 33 vs 29 fps - an estimate, no such GPU here.
+  A player can still pick 62 or 75 % in Settings.
+- **Auto-pick on first launch:** an integrated GPU (by name, GpuInfo), a software renderer, 4.5 GB of RAM or less, or the Compatibility
+  renderer -> Low-end + 30 fps cap. Existing settings files are untouched. Tests: `tests/test_low_end_preset.gd`.
+
+Low-end results (this PC, 1600x900, vsync off; `docs/perf/runs/size_lowend.txt`):
+
+| Spot | Renderer | avg fps | 1% low | GPU ms | load ms | RAM MB | peak MB | VRAM MB |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Crosspath | D3D12 | 88.0 | 34.6 | 8.24 | 4484 | 1488 | 1512 | 794 |
+| Crosspath | OpenGL 3.3 | 107.8 | 70.4 | 6.76 | 3891 | 1302 | 1305 | 451 |
+| Verdant Dump | D3D12 | 84.1 | 57.0 | 8.02 | 4507 | 1338 | 1366 | 694 |
+| Verdant Dump | OpenGL 3.3 | 88.6 | 51.6 | 8.01 | 3814 | 1225 | 1225 | 390 |
+| Capital outskirts | D3D12 | 78.3 | 57.8 | 9.41 | 7034 | 1427 | 1457 | 779 |
+| Capital outskirts | OpenGL 3.3 | 82.2 | 60.0 | 8.58 | 6462 | 1254 | 1256 | 442 |
+| Battle | D3D12 | 340.6 | 330.0 | 1.87 | 439 | 770 | 775 | 178 |
+| Battle | OpenGL 3.3 | 348.8 | 330.0 | 1.95 | 458 | 666 | 690 | 161 |
+
+OpenGL at Low-end uses **40-45 % less video memory and 8-15 % less RAM** than D3D12 at Low-end, loads faster and runs as fast or
+faster. Smokes on OpenGL: Crosspath walk OK, Dump walk OK, first battles OK, exported playtest bot OK. The Low-end knobs themselves
+change frame time more than memory: in a zone they save almost no video memory on D3D12 (Capital 779 vs 784 MB at plain Low).
+
+## Part 7 - slimmer engine: not attempted
+
+A custom export template needs the Godot 4.7.2 source, SCons, a C++ toolchain (MSVC or MinGW) and 10-20 GB of disk for the build;
+this PC has 2.7 GB free and no toolchain installed. The win would be about 30-40 MB of the 104 MB executable (about 15 MB of zip).
+Left out, as the brief allowed; inbox item.
+
+## Part 8 - verify and build
+
+- **v0.5.2 exported** (`bash tools/export_windows.sh 0.5.2`): pck 699.4 MB (13764 files, every MD5 checked, 77 baked shaders), **zip
+  600 MB**, export peak 1.58-1.69 GB. Release smoke on the exported pack: PASSED. Exported playtest bot on the test pack (D3D12 Medium
+  and OpenGL Low): both OK, **no missing-resource errors** in either log, so Part 1's exclusions are safe. The first export carried the
+  old 0.5.1.0 file version in the exe (export presets); fixed and re-exported, the exe now says 0.5.2.0, release smoke passed again.
+- `builds/TheWaywardPath-v0.5.1-windows.zip` deleted after v0.5.2 passed.
+- Budget warning lowered 800 -> 750 MB; `docs/build_size_policy.md` rewritten with the new rules.
+- Full sharded GUT: world 457/458, audio 91/91, characters 4/4, UI 196/196, core 1582/1583, root 298/298 after the preset version fix
+  (the two not counted are pending tests, as before): **0 failing**.
+
+### Before / after
+
+| | v0.5.1 (baseline) | v0.5.2 | change |
+|---|---:|---:|---:|
+| **Download (zip)** | 799 MB | **600 MB** | -25 % |
+| Pack | ~883 MB | 699 MB | -21 % |
+| music | 219 MB | 180 MB | -39 MB |
+| world textures + zone kits + env kit | ~375 MB | ~255 MB | -120 MB |
+| key art (stills, loading, banners) | 64 MB | 13 MB | -51 MB |
+| cards + thumbs | 40 MB | 30 MB | -10 MB |
+
+| Spot (Medium, D3D12) | RAM before | RAM after | peak before | peak after | VRAM before | VRAM after | load ms before | load ms after | fps before | fps after |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| title | 638 | 667 | 644 | 673 | 109 | 109 | 255 | 256 | 304 | 295 |
+| story (ending) | 602 | 617 | 672 | 674 | 83 | 88 | 250 | 276 | 413 | 397 |
+| Crosspath | 1542 | 1470 | 1575 | 1516 | 843 | 815 | 5129 | 4978 | 65.0 | 65.9 |
+| forest | 797 | 787 | 802 | 792 | 253 | 247 | 1993 | 1919 | 80.1 | 83.9 |
+| Gainlands | 1321 | 1330 | 1354 | 1364 | 691 | 676 | 3682 | 3774 | 71.6 | 75.0 |
+| Buffet | 1192 | 1188 | 1227 | 1221 | 590 | 591 | 3293 | 3556 | 72.9 | 76.2 |
+| D.N.A. | 1247 | 1246 | 1247 | 1246 | 609 | 599 | 3470 | 4109 | 76.7 | 76.4 |
+| Verdant Dump | 1331 | 1340 | 1371 | 1376 | 716 | 711 | 4929 | 4825 | 66.4 | 66.3 |
+| Capital outskirts | 1475 | 1484 | 1511 | 1484 | 828 | 813 | 7344 | 7299 | 58.0 | 58.9 |
+| Capital inside | 1489 | 1425 | 1513 | 1451 | 819 | 813 | 7069 | 7029 | 58.3 | 61.2 |
+| battle | 775 | 771 | 779 | 775 | 176 | 179 | 446 | 435 | 361 | 359 |
+| dungeon map | 606 | 615 | 673 | 673 | 113 | 113 | 904 | 910 | 480 | 477 |
+| Deck Station | 1572 | 1471 | 1609 | 1507 | 878 | 802 | 4937 | 5074 | 129 | 129 |
+| Collection | 1557 | 1466 | 1592 | 1500 | 843 | 768 | 4646 | 4963 | 153 | 152 |
+| vendor | 1460 | 1496 | 1495 | 1531 | 778 | 804 | 4847 | 4958 | 178 | 174 |
+
+Raw: `docs/perf/runs/size_base.md` and `size_after_{a,b,c,d}.md`. This laptop drifts ~10 % run to run, so single-digit changes in fps
+and load times are noise. Best case for a weak PC = **Low-end on OpenGL**: Crosspath peak 1305 MB and 451 MB of video memory, against
+1575 / 843 MB at Medium on D3D12 before (-17 % RAM, -46 % VRAM).
+
+### Goals not reached
+
+- **Download 350-450 MB: reached 600 MB.** What is left is mostly the zone kit cut-outs (sheets, trees, props, decals: ~150 MB as
+  BC7), music (180 MB at q3) and the BC1 surfaces. Lossy WebP for the cut-outs would take ~120 MB off the download but quadruple their
+  video memory (RGBA8 in VRAM), which works against the 4 GB target; music at q2 would take ~40 MB more. Both are your call (inbox).
+- **Peak RAM -1/3: reached -4 to -7 % in the menu-heavy spots on D3D12 and -17 % on Low-end OpenGL.** The art pictures were not what
+  fills RAM: a zone's footprint is the engine (~600 MB floor before any world), generated world textures and render targets. Bringing
+  that down is engine-side work (fewer generated layers, smaller terrain arrays, streaming the world), a separate pass.
+- **30+ fps on a UHD 620:** estimated only (no such GPU here). Low-end at 0.5 scale holds 78-88 fps on this Vega 6 in the worst zones,
+  which suggests 28-33 fps on a GPU a third as fast. Worth one tester run on a real old laptop.

@@ -1,3 +1,31 @@
+# Report - Size + performance pass Nov 3 (Fable 5.1, then Opus 5.5)
+
+Brief: "SIZE + PERFORMANCE PASS" (Parts 0-8). Tag `pre-size-pass`. Full report: `docs/perf/size_pass_nov3.md`. Decisions:
+`docs/overnight_inbox.md` ("Size pass Nov 3", 6 items). v0.5.2 exported and smoke-tested; the v0.5.1 zip is deleted.
+
+| | v0.5.1 | v0.5.2 |
+|---|---:|---:|
+| Download (zip) | 799 MB | **600 MB** (-25 %) |
+| Pack | ~883 MB | 699 MB |
+| Crosspath peak RAM / VRAM, Medium D3D12 | 1575 / 843 MB | 1516 / 815 MB |
+| Crosspath peak RAM / VRAM, Low-end OpenGL | - | 1305 / 451 MB |
+| Capital outskirts fps, Medium / Low-end D3D12 / Low-end OpenGL | 58.0 / - / - | 58.9 / 78.3 / 82.2 |
+
+| Part | Result |
+|---|---|
+| 0 Baseline | payload by category, RAM / peak / VRAM / load / fps in 15 spots at Low and Medium, min-spec note (UHD 620, 4 GB) |
+| 1 Unused files | reference graph tool; the export was already clean (0.8 MB unreferenced, 2 HUD images excluded); no missing resources on the exported build |
+| 2 Music | all 123 tracks re-rendered at Vorbis q3 (213 -> 175 MB), blind A/B folder on Drive, spectral check; audio GUT + music smoke OK |
+| 3 2D art | on-screen sweep of 26 screens (paintings already drawn above native), WebP 0.80 / 0.85 by kind, stills back to lossy; -75 MB |
+| 4 World textures | opaque surfaces BC1 + mipmaps, normal / roughness maps 256; nine before/after shots, no visible change; -93 MB |
+| 5 Memory | bounded LRU ArtCache behind seven loaders, 8 music streams kept, no parked scene on Low-end |
+| 6 Low-end | preset + settings row + first-launch auto-pick + 30 fps cap; all shaders compile on OpenGL 3.3; walk smokes, battles and the exported bot OK there |
+| 7 Engine build | not attempted (no toolchain, 2.7 GB disk) |
+| 8 Build | v0.5.2 zip 600 MB, release smoke + exported playtest bot OK, full sharded GUT 0 failing, policy doc + 750 MB budget |
+
+Not reached: the 350-450 MB download (600 MB; the rest needs a trade-off, inbox 2) and a third off peak RAM (4-7 % on D3D12, 17 % on
+Low-end OpenGL; the remaining memory is engine-side, inbox 3).
+
 # Report - Overnight Nov 2-3 (Opus 5.5)
 
 Brief: "QUEUED FOLLOW-ON - OVERNIGHT Nov 2 -> 3" (Parts 1-7), started after the Batch 11 import (e33421ca). Tag `pre-overnight-nov2`.

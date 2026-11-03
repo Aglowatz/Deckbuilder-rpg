@@ -124,4 +124,4 @@ if (mdOut) {
 }
 if (!quiet) console.log(md);
 else console.log(`Export payload ~${mb(total)} MB`);
-if (total > 800 * 1048576) console.log(`WARNING: export payload ${mb(total)} MB exceeds the 800 MB budget`);
+if (total > 750 * 1048576) console.log(`WARNING: export payload ${mb(total)} MB exceeds the 750 MB budget (docs/build_size_policy.md)`);
