@@ -415,6 +415,11 @@ func _partition(a: Vector3, b: Vector3) -> void:
 ## The Lobby Plaza (GC-7 applied from the start): an empty middle, the things that matter round its rim with breathing room. Agnes behind the front counter along the
 ## north wall, Clerk Ledgerbone at the Requisitions desk on the east wall, the Rift Express in the south-east, the gate to the approach in the south wall; two office
 ## plants in the north corners and ghost lamps at the corners are the whole dressing.
+## Fix pass Nov 4 (B), Part 3.3: the lobby's west strip, from the breakroom's doorway (x 35, z 51-55) south past the waiting area: no dressing stands in it
+## (DnaDressing._free), so the way from the gate to the breakroom along the west wall is at least 2 m wide everywhere.
+const LOBBY_WEST_PASSAGE: Rect2 = Rect2(35.0, 47.8, 4.4, 10.4)
+
+
 func _furnish_lobby() -> void:
 	var r: Rect2i = Rect2i(36, 46, 20, 14)
 	_lamp_ring(r, 9, Color(0.72, 1.0, 0.82), 1.2)
@@ -436,12 +441,14 @@ func _furnish_lobby() -> void:
 	_sign("sign.exit", Vector3(43.2, 1.7, 59.4), 180.0, "sign", 1.0)
 	# Overnight Oct 31 - Nov 1 (critics: "the lobby reads as a greybox"): the waiting area along the west wall and a television by the
 	# wall, from the zone's own pieces; the middle stays open (GC-7) and the north wall keeps the ghost queue.
-	_piece("bench", Vector3(36.6, 0.0, 50.6), 90.0, 2.0)
-	_blockers(Vector3(36.6, 0.0, 49.7), Vector3(36.6, 0.0, 51.5), 0.35, 0.4)
-	_piece("water_cooler", Vector3(36.6, 0.0, 48.6), 90.0)
-	_blockers(Vector3(36.6, 0.0, 48.6), Vector3(36.6, 0.0, 48.6), 0.3)
-	_piece("television", Vector3(36.7, 0.0, 52.7), 90.0)
-	_blockers(Vector3(36.7, 0.0, 52.7), Vector3(36.7, 0.0, 52.7), 0.35)
+	# Fix pass Nov 4 (B), Part 3.3: the west side of the lobby is a clear passage (LOBBY_WEST_PASSAGE) from the gate to the breakroom's doorway; the
+	# bench and the cooler moved to the south wall west of the exit, the television to the east wall (they stood in front of the doorway).
+	_piece("bench", Vector3(40.2, 0.0, 59.3), 180.0, 2.0)
+	_blockers(Vector3(39.3, 0.0, 59.3), Vector3(41.1, 0.0, 59.3), 0.35, 0.4)
+	_piece("water_cooler", Vector3(42.0, 0.0, 59.4), 180.0)
+	_blockers(Vector3(42.0, 0.0, 59.4), Vector3(42.0, 0.0, 59.4), 0.3)
+	_piece("television", Vector3(55.3, 0.0, 49.2), -90.0)
+	_blockers(Vector3(55.3, 0.0, 49.2), Vector3(55.3, 0.0, 49.2), 0.35)
 	anchors["lobby_center"] = cell_center(45, 53)
 
 
@@ -671,6 +678,10 @@ static func _edge(a: Vector2i, b: Vector2i) -> String:
 # ---- Elevator bank -------------------------------------------------------------------------
 
 
+## The elevator bank's north wall face (its wall cells are row 15) and the doors' half depth, so they stand flush against it.
+const ELEVATOR_WALL_Z: float = 16.0 + 0.13
+
+
 func _furnish_elevator_bank() -> void:
 	var r: Rect2i = Rect2i(36, 16, 18, 8)
 	_wall_lamp(Vector3(35.5, 0.0, 23.5), 1, Color(0.8, 1.0, 0.9))
@@ -678,13 +689,13 @@ func _furnish_elevator_bank() -> void:
 	_wall_lamp(Vector3(35.5, 0.0, 15.5), 3, Color(0.8, 1.0, 0.9))
 	_wall_lamp(Vector3(54.5, 0.0, 15.5), 1, Color(0.8, 1.0, 0.9))
 	_sign("sign.elevator_bank", Vector3(45.0, 1.8, 24.0), 180.0, "sign", 1.0)
-	# Four elevators along the north wall (doors drawn by the builder at these anchors).
-	anchors["elevator_1"] = cell_center(39, 16) + Vector3(0.0, 0, 0.9)
-	anchors["elevator_2"] = cell_center(43, 16) + Vector3(0.0, 0, 0.9)
-	anchors["mini_dungeon"] = cell_center(48, 16) + Vector3(0.0, 0, 0.9)
-	anchors["elevator_4"] = cell_center(52, 16) + Vector3(0.0, 0, 0.9)
-	_sign("sign.elevator_rule", Vector3(43.5, 1.45, 16.2), 0.0, "poster", 0.8)
-	_sign("sign.mini_dungeon", Vector3(48.5, 1.95, 16.2), 0.0, "sign", 0.85)
+	# Four elevators along the north wall (doors drawn by the builder at these anchors). Fix pass Nov 4 (B), Part 3.2: each stands flush against the wall
+	# (ELEVATOR_WALL_Z) on a whole pair of wall cells (centred on a cell line), two either side of the corridor to the executive floor (x 43-47) - the
+	# second one used to stand half in that opening, and all four floated 0.4 m out from the wall.
+	for entry: Array in [["elevator_1", 38.0], ["elevator_2", 41.0], ["mini_dungeon", 49.0], ["elevator_4", 52.0]]:
+		anchors[str(entry[0])] = Vector3(float(entry[1]), 0.0, ELEVATOR_WALL_Z + 1.25)
+	_sign("sign.elevator_rule", Vector3(47.5, 1.45, 16.2), 0.0, "poster", 0.8)
+	_sign("sign.mini_dungeon", Vector3(49.0, 1.95, 16.2), 0.0, "sign", 0.85)
 	_card("DNA-PLANT-OFFICE", cell_center(37, 17), 1.6, 0.3)
 	_card("DNA-PLANT-OFFICE", cell_center(53, 17), 1.6, 0.3)
 	anchors["bank_center"] = cell_center(45, 20)

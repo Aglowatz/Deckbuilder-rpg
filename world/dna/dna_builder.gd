@@ -527,7 +527,7 @@ func _build_set_pieces() -> void:
 	# Elevators along the elevator bank's north wall; the live one is Sub-Basement 3.
 	for key: String in ["elevator_1", "elevator_2", "mini_dungeon", "elevator_4"]:
 		var pos: Vector3 = anchor(key)
-		_place_piece(DnaProps.elevator(key == "mini_dungeon"), Vector3(pos.x, 0.0, pos.z - 0.9))
+		_place_piece(DnaProps.elevator(key == "mini_dungeon"), Vector3(pos.x, 0.0, DnaLayout.ELEVATOR_WALL_Z))  # flush with the wall (Fix pass Nov 4 (B))
 	# Time clock on the breakroom's west wall, the suggestion box by the lobby doorway, the haunted printer in farm B.
 	var clock_pos: Vector3 = anchor("time_clock")
 	_place_piece(DnaProps.time_clock(), Vector3(clock_pos.x - 0.35, 0.0, clock_pos.z))

@@ -1,0 +1,20 @@
+# Fix pass Nov 4 (B), Part 3.2-3.3: the D.N.A. elevators (flush, off the corridor) and the lobby's clear west passage.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel zone necrocrat
+wait 12
+skip_dialogue 20
+skip_dialogue 10
+wait 2
+skip_dialogue 10
+dev tp 42 54
+wait 1.5
+shot 00_lobby_west_passage
+dev tp 38 52
+wait 1.5
+shot 01_lobby_west_door
+dev tp 45 19.5
+wait 1.5
+shot 02_elevator_bank

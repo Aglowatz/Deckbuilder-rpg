@@ -13,7 +13,6 @@ var _placed: Array[Vector2] = []
 
 ## cluster, anchor, offset (x, z) from the anchor, yaw (the back of the cluster faces -z rotated by yaw: 0 north wall, 90 west wall, 180 south wall, -90 east wall).
 const KIT_CLUSTERS: Array = [
-	["cabinet_row", "lobby_center", Vector2(-8.0, 1.6), 90.0],
 	["lily_nook", "lobby_center", Vector2(-7.2, 4.8), 180.0],
 	["paper_towers", "breakroom_center", Vector2(3.0, -4.2), 0.0],
 	["paper_towers", "mail_center", Vector2(7.0, 2.8), 180.0],
@@ -200,6 +199,8 @@ func _free(pos: Vector3, clearance: float, spacing: float) -> bool:
 	var room: DnaLayout.Room = layout.room_at(pos)
 	if room == null or room.id == "exec":
 		return false
+	if DnaLayout.LOBBY_WEST_PASSAGE.grow(0.8).has_point(Vector2(pos.x, pos.z)):
+		return false  # Fix pass Nov 4 (B), Part 3.3: the lobby's west passage stays clear
 	if DnaLayout.on_approach(pos.x, pos.z):
 		return false
 	for anchor: Vector3 in _anchors:
