@@ -362,7 +362,7 @@ static func can_pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], p
 			"exhaust", "overexert":
 				if ctx.source == null or ctx.source.exhausted:
 					return false
-				if ctx.source.data.is_unit() and ctx.source.fresh_stitches and not state.unit_has_keyword(ctx.source, CardEnums.Keyword.HUSTLE):
+				if ctx.source.data.is_unit() and ctx.source.just_arrived and not state.unit_has_keyword(ctx.source, CardEnums.Keyword.HUSTLE):
 					return false
 			"destroy_self":
 				if ctx.source == null:

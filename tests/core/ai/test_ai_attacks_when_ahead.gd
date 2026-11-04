@@ -95,13 +95,13 @@ func test_a_big_lead_presses_the_attack() -> void:
 
 
 func test_the_starting_weenie_does_not_scare_the_colonel_off_attacking() -> void:
-	# The Colonel's own token with Fresh Stitches must not stop the units that CAN attack.
+	# The Colonel's own token with Just Arrived must not stop the units that CAN attack.
 	var game: GameState = _board(4, 12)
 	var weenie: CardInstance = game.create_token(1, TokenRegistry.data("T-03"))
-	assert_true(weenie.fresh_stitches)
+	assert_true(weenie.just_arrived)
 	_unit(game, 1, 4, 3)
 	var sent: Array[int] = _declared(game, _foe_ai("Colonel Casserole"))
-	assert_false(sent.has(weenie.uid), "a unit with Fresh Stitches is never declared")
+	assert_false(sent.has(weenie.uid), "a unit with Just Arrived is never declared")
 	assert_gte(_power(game, sent), 4, "the ready 4/3 swings for lethal")
 
 

@@ -57,12 +57,12 @@ func test_activated_ability_costs_pay_exhaust_and_energy_then_create() -> void:
 	assert_false(_activate(game, diver), "an exhausted unit cannot activate again")
 
 
-func test_a_fresh_stitches_unit_cannot_pay_exhaust_costs_unless_it_has_hustle() -> void:
+func test_a_just_arrived_unit_cannot_pay_exhaust_costs_unless_it_has_hustle() -> void:
 	var game: GameState = _game()
 	_energy(game)
 	var sick: CardInstance = GameFactory.add_to_field(game, 0, CardSet.card("R-02"), false)
-	assert_false(_activate(game, sick), "Fresh Stitches")
-	assert_true(sick.fresh_stitches)
+	assert_false(_activate(game, sick), "Just Arrived")
+	assert_true(sick.just_arrived)
 
 
 func test_energy_abilities_add_floating_energy_that_pays_costs() -> void:

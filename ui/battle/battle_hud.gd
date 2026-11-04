@@ -617,8 +617,8 @@ func show_preview(view: CardView, note: String = "") -> void:
 		why.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
 		_tooltip_box.add_child(why)
 	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
-	if card != null and card.fresh_stitches and card.data.is_unit() and game.players[card.owner].field.has(card):
-		entries.append(["Fresh Stitches", str(KeywordInfo.GLOSSARY["Fresh Stitches"])])
+	if card != null and card.just_arrived and card.data.is_unit() and game.players[card.owner].field.has(card):
+		entries.append(["Just Arrived", str(KeywordInfo.GLOSSARY["Just Arrived"])])
 	# Overnight Oct 23, Part 5: what is happening to this card right now (exhausted, Red Tape with turns left, pumps, buffs, rules, Tools).
 	if card != null:
 		entries.append_array(StatusInfo.entries(game, card))

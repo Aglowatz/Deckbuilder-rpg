@@ -46,7 +46,7 @@ static func place_ally(game: GameState) -> CardInstance:
 	if data == null:
 		return null
 	var ally: CardInstance = game.create_token(0, data)
-	ally.fresh_stitches = false
+	ally.just_arrived = false
 	return ally
 
 

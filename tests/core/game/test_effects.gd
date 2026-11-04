@@ -174,7 +174,7 @@ func test_summon_tokens() -> void:
 	_cast(game, _spell1(summon))
 	assert_eq(game.players[0].field.size(), 2)
 	var token: CardInstance = game.players[0].field[0]
-	assert_true(token.fresh_stitches)
+	assert_true(token.just_arrived)
 	assert_eq(game.get_attack(token), 1)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.TOKEN_CREATED), 2)
 	game.destroy_unit(token)

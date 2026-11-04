@@ -41,7 +41,7 @@ static func place_ally(game: GameState) -> CardInstance:
 	if data == null:
 		return null
 	var ally: CardInstance = game.create_token(0, data)
-	ally.fresh_stitches = false
+	ally.just_arrived = false
 	return ally
 
 ## Grandmaster Flex's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).

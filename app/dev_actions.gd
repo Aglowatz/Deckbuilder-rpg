@@ -570,7 +570,7 @@ static func make_encounter_battle(spec_id: String, deck_choice: int = DECK_MINE)
 	for token_id: String in spec.ally_token_ids:
 		var data: CardData = TokenRegistry.data(token_id)
 		if data != null:
-			game.create_token(0, data).fresh_stitches = false
+			game.create_token(0, data).just_arrived = false
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, spec.enemy_ai_name), EncounterSpec.skill_for(spec.kind), spec.enemy_name)

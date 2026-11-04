@@ -107,7 +107,7 @@ Towns - a deck-build question, not an AI one: with nothing castable the planner 
 
 ## Examples of smarter plays (from the verbose replays)
 
-- Prudence vs Beefcake L3 (seed 7000, game 0): turn 9, Prudence at 2 HP behind a Fresh Stitches Notary Wraith: Dropped Weights on the
+- Prudence vs Beefcake L3 (seed 7000, game 0): turn 9, Prudence at 2 HP behind a Just Arrived Notary Wraith: Dropped Weights on the
   Wraith, two Iron on Leg Day Survivor, attack with everything for lethal. The old AI held three Hustle units at home for four turns
   in the same spot.
 - The probe position (`tools/ai_probe.gd`): Brawler pumped to 5/4 against Mortimer 3/5, a Temp and a Clerk with Prudence at 5 HP:

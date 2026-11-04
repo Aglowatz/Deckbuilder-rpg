@@ -230,15 +230,15 @@ func _begin_playing() -> void:
 	_begin_turn()
 
 
-## Fix pass Nov 4 (Part 1.3): every unit already on the table that would have Fresh Stitches (it entered like a played card) keeps them
-## through its controller's first turn. Units a setup made ready on purpose (fresh_stitches = false, e.g. a dungeon ally) stay ready.
+## Fix pass Nov 4 (Part 1.3): every unit already on the table that would have Just Arrived (it entered like a played card) keeps them
+## through its controller's first turn. Units a setup made ready on purpose (just_arrived = false, e.g. a dungeon ally) stay ready.
 ## Also called by board presets (the Arena) that place units after the start.
 func mark_placed_before_duel(only_player: int = -1) -> void:
 	for player: PlayerState in players:
 		if only_player >= 0 and player.index != only_player:
 			continue
 		for card: CardInstance in player.field:
-			if card.data.is_unit() and card.fresh_stitches:
+			if card.data.is_unit() and card.just_arrived:
 				card.placed_before_duel = true
 
 
@@ -784,7 +784,7 @@ func _first_unit_bonus(card: CardInstance) -> void:
 func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targets: Array[int] = [] as Array[int], seed_ctx: AbilityContext = null) -> void:
 	var player: PlayerState = players[card.owner]
 	player.field.append(card)
-	card.fresh_stitches = true
+	card.just_arrived = true
 	card.exhausted = false
 	card.damage = 0
 	card.entered_turn = turn
@@ -922,8 +922,8 @@ func _begin_turn() -> void:
 		_refresh(infra)
 	for card: CardInstance in player.field:
 		_refresh(card)
-		# Fix pass Nov 4 (Part 1.3): a unit that started the duel on the table keeps Fresh Stitches on its side's first turn.
-		card.fresh_stitches = card.placed_before_duel and player.turns_taken <= 1
+		# Fix pass Nov 4 (Part 1.3): a unit that started the duel on the table keeps Just Arrived on its side's first turn.
+		card.just_arrived = card.placed_before_duel and player.turns_taken <= 1
 		card.placed_before_duel = false
 		card.activated_this_turn = false
 		card.used_abilities.clear()
@@ -1991,7 +1991,7 @@ func steal_card(card: CardInstance, to_player: int, temporary: bool) -> bool:
 		if card.data.is_unit():
 			_detach_all(card)
 		card.owner = to_player
-		card.fresh_stitches = true
+		card.just_arrived = true
 		target.field.append(card)
 	elif source.infrastructure.has(card):
 		source.infrastructure.erase(card)

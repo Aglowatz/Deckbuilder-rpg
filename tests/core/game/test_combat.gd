@@ -69,7 +69,7 @@ func test_passing_in_combat_means_no_attack_then_no_block() -> void:
 	assert_eq(game2.players[1].hp, 7)
 
 
-func test_fresh_stitches_unit_cannot_attack_but_haste_can() -> void:
+func test_just_arrived_unit_cannot_attack_but_haste_can() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var sick: CardInstance = GameFactory.add_to_field(game, 0, _vanilla(2, 2), false)
 	var fast_kws: Array[CardEnums.Keyword] = [KW.HUSTLE]
@@ -181,7 +181,7 @@ func test_cannot_block_with_exhausted_or_foreign_unit() -> void:
 	assert_false(game.declare_blockers({999: exhausted.uid}), "unknown attacker")
 
 
-func test_fresh_stitches_units_can_block() -> void:
+func test_just_arrived_units_can_block() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var attacker: CardInstance = GameFactory.add_to_field(game, 0, _vanilla(1, 1))
 	var fresh: CardInstance = GameFactory.add_to_field(game, 1, _vanilla(1, 3), false)

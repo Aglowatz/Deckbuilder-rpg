@@ -2026,8 +2026,8 @@ func _toggle_attacker(uid: int) -> void:
 	var available: Array[CardInstance] = game.possible_attackers(0)
 	if PlayerState.find_in(available, uid) == null:
 		var unit: CardInstance = game.find_permanent(uid)
-		var fresh: bool = unit != null and unit.fresh_stitches and not unit.exhausted and not unit.has_keyword(CardEnums.Keyword.HUSTLE)
-		_reject(KeywordInfo.FRESH_STITCHES_REMINDER if fresh else "That unit cannot attack")
+		var fresh: bool = unit != null and unit.just_arrived and not unit.exhausted and not unit.has_keyword(CardEnums.Keyword.HUSTLE)
+		_reject(KeywordInfo.JUST_ARRIVED_REMINDER if fresh else "That unit cannot attack")
 		return
 	if _selected_attackers.has(uid):
 		_selected_attackers.erase(uid)

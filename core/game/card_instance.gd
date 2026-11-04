@@ -10,9 +10,9 @@ var owner: int = 0
 var real_owner: int = 0
 var damage: int = 0
 var exhausted: bool = false
-## Fresh Stitches: entered play this turn and can't attack yet (cleared when its controller's turn starts).
-var fresh_stitches: bool = false
-## Fix pass Nov 4 (Part 1.3): on the table before the duel began (a boss's starting unit). It keeps Fresh Stitches through its
+## Just Arrived: entered play this turn and can't attack yet (cleared when its controller's turn starts).
+var just_arrived: bool = false
+## Fix pass Nov 4 (Part 1.3): on the table before the duel began (a boss's starting unit). It keeps Just Arrived through its
 ## controller's first turn, exactly as if it had just been played.
 var placed_before_duel: bool = false
 var face_down: bool = false
@@ -76,7 +76,7 @@ func is_token() -> bool:
 func reset() -> void:
 	damage = 0
 	exhausted = false
-	fresh_stitches = false
+	just_arrived = false
 	placed_before_duel = false
 	face_down = false
 	activated_this_turn = false
@@ -159,7 +159,7 @@ func clone() -> CardInstance:
 	copy.real_owner = real_owner
 	copy.damage = damage
 	copy.exhausted = exhausted
-	copy.fresh_stitches = fresh_stitches
+	copy.just_arrived = just_arrived
 	copy.placed_before_duel = placed_before_duel
 	copy.face_down = face_down
 	copy.activated_this_turn = activated_this_turn

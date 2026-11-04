@@ -46,7 +46,7 @@ func test_a_boss_in_its_setup_window_has_no_attackers_then_attacks() -> void:
 	var game: GameState = _game(mods)
 	assert_eq(game.setup_turns_left(1), 3, "before its first turn: 2 turns to come, counted from turn 1")
 	assert_eq(game.setup_turns_left(0), 0, "the hero has no window")
-	GameFactory.pass_turn(game)  # the boss's turn 1: a token arrives (Fresh Stitches anyway)
+	GameFactory.pass_turn(game)  # the boss's turn 1: a token arrives (Just Arrived anyway)
 	assert_eq(game.active, 1)
 	assert_eq(game.setup_turns_left(1), 2)
 	assert_true(game.possible_attackers(1).is_empty())

@@ -196,7 +196,7 @@ func _play_one(content: ContentSet, player: PlayerSpec, encounter: EncounterSpec
 		var data: CardData = TokenRegistry.data(token_id)
 		if data != null:
 			var ally: CardInstance = game.create_token(0, data)
-			ally.fresh_stitches = false
+			ally.just_arrived = false
 	var ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, player.ai_name), AIPlayer.Skill.ELITE)
 	ai.use_resources = player.use_resources
 	var enemy_ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, encounter.enemy_ai_name), EncounterSpec.skill_for(encounter.kind), encounter.enemy_name)

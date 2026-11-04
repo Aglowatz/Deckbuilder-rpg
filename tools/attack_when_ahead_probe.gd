@@ -132,6 +132,6 @@ func _board(game: GameState, index: int) -> String:
 	var parts: PackedStringArray = []
 	for card: CardInstance in game.players[index].field:
 		if card.data.is_unit():
-			parts.append("%s %d/%d%s%s" % [card.data.display_name, game.get_attack(card), game.get_defense(card) - card.damage, " x" if card.exhausted else "", " fresh" if card.fresh_stitches else ""])
+			parts.append("%s %d/%d%s%s" % [card.data.display_name, game.get_attack(card), game.get_defense(card) - card.damage, " x" if card.exhausted else "", " fresh" if card.just_arrived else ""])
 	var traps: int = game.players[index].traps.size() if "traps" in game.players[index] else 0
 	return "%s | traps %d | hand %d" % [", ".join(parts), traps, game.players[index].hand.size()]

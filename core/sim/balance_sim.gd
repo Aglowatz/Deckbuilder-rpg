@@ -135,7 +135,7 @@ static func play_game(content: ContentSet, player: PlayerSpec, encounter: Encoun
 		var data: CardData = TokenRegistry.data(token_id)
 		if data != null:
 			var ally: CardInstance = game.create_token(0, data)
-			ally.fresh_stitches = false
+			ally.just_arrived = false
 	# Battle AI upgrade, Part 5: the player seat is a decent human (Elite search, no mistakes); the enemy plays at the skill its kind calls for, with its boss signature.
 	var ai: AIPlayer = AIPlayer.for_foe(ZoneDecks.personality(content, player.ai_name), AIPlayer.Skill.ELITE)
 	ai.use_resources = player.use_resources

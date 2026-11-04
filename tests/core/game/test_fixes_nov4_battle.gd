@@ -1,5 +1,5 @@
 extends GutTest
-## Fix pass Nov 4, Part 1: Fresh Stitches (the rename, and boss units that start on the table), the Endless Buffet's Well Fed (+0/+1,
+## Fix pass Nov 4, Part 1: Just Arrived (the rename, and boss units that start on the table), the Endless Buffet's Well Fed (+0/+1,
 ## exactly once per Gourmand unit in every Buffet fight, on both seats - it is a zone-wide rule) and the blockers that step aside from the
 ## "defeated" flag.
 
@@ -12,15 +12,15 @@ func before_each() -> void:
 	Session.ensure_game(Affinity.Type.GOURMAND)
 
 
-# ---- Fresh Stitches ----------------------------------------------------------------------------------------------
+# ---- Just Arrived ----------------------------------------------------------------------------------------------
 
 
 func test_the_old_name_is_gone_from_player_facing_text() -> void:
 	for path: String in ["res://ui/card/keyword_info.gd", "res://ui/screens/glossary_panel.gd", "res://ui/battle/battle_hud.gd", "res://data/loading/loading_tips.txt"]:
 		var text: String = FileAccess.get_file_as_string(path).to_lower()
 		assert_false(text.contains(OLD_NAME), "%s still says the old name" % path)
-	assert_true(KeywordInfo.GLOSSARY.has("Fresh Stitches"))
-	assert_eq(KeywordInfo.FRESH_STITCHES_REMINDER, "Fresh Stitches: can't attack the turn it enters play.")
+	assert_true(KeywordInfo.GLOSSARY.has("Just Arrived"))
+	assert_eq(KeywordInfo.JUST_ARRIVED_REMINDER, "Just Arrived: can't attack the turn it enters play.")
 
 
 func _casserole_game(first_player: int) -> GameState:
@@ -48,7 +48,7 @@ func _enemy_units(game: GameState) -> Array[CardInstance]:
 	return units
 
 
-func test_the_colonels_starting_weenie_has_fresh_stitches_on_his_first_turn() -> void:
+func test_the_colonels_starting_weenie_has_just_arrived_on_his_first_turn() -> void:
 	for first: int in [0, 1]:
 		var game: GameState = _casserole_game(first)
 		if game.active == 0:
@@ -57,15 +57,15 @@ func test_the_colonels_starting_weenie_has_fresh_stitches_on_his_first_turn() ->
 		assert_eq(game.players[1].turns_taken, 1, "the Colonel's first turn (he went %s)" % ("first" if first == 1 else "second"))
 		var units: Array[CardInstance] = _enemy_units(game)
 		assert_eq(units.size(), 1, "the Sashimi Weenie starts on the table")
-		assert_true(units[0].fresh_stitches, "Fresh Stitches on his first turn, as if just played")
+		assert_true(units[0].just_arrived, "Just Arrived on his first turn, as if just played")
 		assert_true(game.possible_attackers(1).is_empty(), "it can't attack yet")
 		GameFactory.pass_turn(game)
 		GameFactory.pass_turn(game)
 		assert_eq(game.active, 1)
-		assert_false(_enemy_units(game)[0].fresh_stitches, "ready on his second turn")
+		assert_false(_enemy_units(game)[0].just_arrived, "ready on his second turn")
 
 
-func test_every_encounter_with_preplaced_units_gives_them_fresh_stitches() -> void:
+func test_every_encounter_with_preplaced_units_gives_them_just_arrived() -> void:
 	# The starting_tokens rules in data/encounters/modifiers.json: build each foe's seat and start a duel.
 	var keys: Array[String] = ["Trophy Hall Honor Guard", "The Doppelganger", "Royal Staircase Guard", "zone:gourmand:casserole", "Primm (standardization)"]
 	for key: String in keys:
@@ -84,22 +84,22 @@ func test_every_encounter_with_preplaced_units_gives_them_fresh_stitches() -> vo
 		assert_eq(game.active, 1, key)
 		assert_false(_enemy_units(game).is_empty(), "%s starts with units" % key)
 		for unit: CardInstance in _enemy_units(game):
-			assert_true(unit.fresh_stitches, "%s: %s has Fresh Stitches on the foe's first turn" % [key, unit.data.display_name])
+			assert_true(unit.just_arrived, "%s: %s has Just Arrived on the foe's first turn" % [key, unit.data.display_name])
 
 
-func test_arena_preset_enemy_units_have_fresh_stitches_and_yours_are_ready() -> void:
+func test_arena_preset_enemy_units_have_just_arrived_and_yours_are_ready() -> void:
 	var game: GameState = GameFactory.blank_game(5)
 	var content: ContentSet = Session.content
 	ArenaScenario.apply_preset(game, content, {"player": {"field": {"B-11": 1}}, "enemy": {"field": {"C-02": 1}}})
-	assert_false(game.players[0].field[0].fresh_stitches, "your preset unit is ready")
-	assert_true(game.players[1].field[0].fresh_stitches)
+	assert_false(game.players[0].field[0].just_arrived, "your preset unit is ready")
+	assert_true(game.players[1].field[0].just_arrived)
 	assert_true(game.players[1].field[0].placed_before_duel)
 
 
 func test_a_dungeon_ally_made_ready_stays_ready() -> void:
 	var game: GameState = _casserole_game(0)
 	var ally: CardInstance = game.create_token(0, TokenRegistry.data("T-03"))
-	ally.fresh_stitches = false
+	ally.just_arrived = false
 	game.mark_placed_before_duel()
 	assert_false(ally.placed_before_duel, "a unit made ready on purpose is left alone")
 

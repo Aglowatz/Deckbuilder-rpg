@@ -134,7 +134,7 @@ func test_lethal_lunch_starts_on_the_preset_board() -> void:
 	assert_eq(game.players[0].hand.size(), 2)
 	assert_not_null(_unit(game, 0, "B-11"))
 	assert_not_null(_unit(game, 1, "C-02"))
-	assert_false(_unit(game, 0, "B-11").fresh_stitches, "preset units are ready to attack")
+	assert_false(_unit(game, 0, "B-11").just_arrived, "preset units are ready to attack")
 
 
 func test_lethal_lunch_has_a_win_this_turn_solution() -> void:

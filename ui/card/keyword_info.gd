@@ -21,12 +21,12 @@ const KEYWORD_TEXT: Dictionary = {
 ## Most explanations a card tooltip lists, so a text-heavy card does not bury the card itself.
 const MAX_ENTRIES: int = 5
 
-## Fix pass Nov 4 (Part 1.2): the reminder line for a unit that just entered play (the rule the glossary calls Fresh Stitches).
-const FRESH_STITCHES_REMINDER: String = "Fresh Stitches: can't attack the turn it enters play."
+## Fix pass Nov 4 (Part 1.2): the reminder line for a unit that just entered play (the rule the glossary calls Just Arrived).
+const JUST_ARRIVED_REMINDER: String = "Just Arrived: can't attack the turn it enters play."
 
 const GLOSSARY: Dictionary = {
 	"Trap": "Played face-down on your turn. It springs automatically on your opponent's turn when its condition is met, then goes to your Refuse Pile.",
-	"Fresh Stitches": "Can't attack the turn it enters play. It can still block, and units with Hustle ignore it.",
+	"Just Arrived": "Can't attack the turn it enters play. It can still block, and units with Hustle ignore it.",
 	"Exhaust": "An exhausted card is spent until it refreshes at the start of its controller's turn.",
 	"Activate": "Using an ability. Activated abilities can only be used on your own turn.",
 	"Shred": "Removed from the game for good.",

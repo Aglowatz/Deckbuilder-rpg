@@ -129,6 +129,24 @@ func test_winning_returns_the_gold_pays_three_gilded_packs_and_ends_the_quest() 
 	assert_eq(Session.counter(NinjaBoss.COUNTER_STOLEN), 0)
 
 
+## Fix pass Nov 4 (B), Part 1.1: finishing "The Oldest Trick in the Book" gives exactly 3 Gilded packs - in the inventory, not just the result.
+func test_finishing_the_oldest_trick_puts_exactly_three_gilded_packs_in_the_inventory() -> void:
+	for path: Affinity.Type in Affinity.colored_types():
+		assert_not_null(PackCatalog.find(PackRules.gilded_pack_id(path)), "every Path has a Gilded pack")
+	for chest_id: String in NinjaBoss.CHEST_IDS:
+		Session.open_giant_chest(chest_id)
+	var before: int = Session.profile.total_packs()
+	Session.apply_ninja_win()
+	assert_eq(Session.profile.total_packs() - before, 3, "exactly three packs")
+	var gilded: int = 0
+	for pack_id: Variant in Session.profile.packs.keys():
+		if str(pack_id).begins_with("gilded_"):
+			gilded += Session.profile.pack_count(str(pack_id))
+	assert_eq(gilded, 3, "all three are Gilded")
+	assert_true(Session.quest_log.is_completed(NinjaBoss.QUEST_ID))
+	assert_true(Session.ninja_defeated(), "a rematch takes the not-first-win branch and pays nothing")
+
+
 func test_reward_paths_cover_random_paths() -> void:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 5
