@@ -2759,7 +2759,8 @@ func _talk_item_vendor() -> void:
 	if Session.quest_log.is_active(QuestDefinitions.MERCHANTS) and not Session.flag(Session.FLAG_TILLY_EQUIPPED):
 		if Session.give_tilly_gift():
 			lines.append_array(StoryText.shared().get_lines("town.item_vendor.gift"))
-			hud.queue_toast("Received: Power Wraps (1 charge)", UIStyle.GOLD)
+			# Nov 3-4 (critic): the toast after her lines, never behind the dialogue box
+			dialogue.finished.connect(func() -> void: hud.queue_toast("Received: Power Wraps (1 charge). Press C to equip it.", UIStyle.GOLD), CONNECT_ONE_SHOT)
 		else:
 			lines = StoryText.shared().get_lines("town.item_vendor.gift_waiting")
 		dialogue.start("Tilly Tonic", lines)

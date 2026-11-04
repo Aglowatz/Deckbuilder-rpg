@@ -185,3 +185,26 @@ func test_bertram_tutorial_collect_hands_the_blade_and_equip_completes_the_quest
 	assert_true(Session.flag(Session.FLAG_ARMORY_EQUIPPED))
 	Session.refresh_quests()
 	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY), "the last step was the equip")
+
+
+## Nov 3-4 (critic): Escape closes the Equipment page first, then the Character page.
+func test_escape_goes_back_then_closes() -> void:
+	Session.set_flag(&"armory_unlocked")
+	for slot: Variant in EquipmentData.Slot.values():
+		Session.profile.unlock_equipment_slot(slot as EquipmentData.Slot)
+	var screen: CharacterScreen = await _page()
+	watch_signals(screen)
+	screen.open_equipment_page(EquipmentData.Slot.HELM)
+	var cancel: InputEventAction = InputEventAction.new()
+	cancel.action = &"ui_cancel"
+	cancel.pressed = true
+	screen._unhandled_input(cancel)
+	assert_false(screen.equipment_page_open(), "Escape: back from the Equipment page")
+	assert_signal_not_emitted(screen, "closed")
+	screen._unhandled_input(cancel)
+	assert_signal_emitted(screen, "closed", "Escape again: the page closes")
+
+
+func test_floating_energy_is_spelled_out() -> void:
+	assert_eq(BattleHud.pool_text([] as Array[int]), "")
+	assert_eq(BattleHud.pool_text([int(Affinity.Type.BEEFCAKE)] as Array[int]), "+1 Beefcake energy this turn")

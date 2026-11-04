@@ -1,0 +1,51 @@
+wait 2
+dev travel town
+wait 8
+dev quest some_assembly_required 2
+wait 1
+dev goto equipment_vendor
+wait 2
+key E
+wait 1.5
+skip_dialogue 15
+wait 1
+key C
+wait 2
+move 160 495
+wait 1.2
+shot 00_hover_weapon
+click 160 495
+wait 1.5
+shot 01_click_weapon
+dump
+click 1548 55
+wait 1
+skip_dialogue 4
+dev travel dungeon S-IRON -2
+wait 8
+skip_dialogue 4
+wait 1
+shot 02_iron_boss_map
+dump
+move 1223 260
+wait 1.5
+shot 03_hover_boss
+dump
+click 1223 260
+wait 6
+skip_dialogue 8
+wait 2
+shot 04_boss_intro
+dump
+button Keep Hand
+wait 2
+shot 05_boss_t1
+pilot 50
+shot 06_pilot50
+dump
+pilot 50
+shot 07_pilot100
+dump
+pilot 50
+shot 08_pilot150
+dump

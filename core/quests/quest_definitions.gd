@@ -105,7 +105,7 @@ static func _meet_the_merchants() -> QuestData:
 	# it (Character page > Items > the item > an empty slot); the step completes on equip (Session.note_item_equipped).
 	quest.objectives = [
 		QuestObjective.make("Say hello to Tilly Tonic at her supply shop", Condition.flag("item_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Tilly Tonic's Supplies, on the north side of Crosspath's square"),
-		QuestObjective.make("Equip Tilly's Power Wraps: Menu > Character > Items, then an empty slot", Condition.flag("tilly_item_equipped")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Your Character page (Menu > Character): the Items panel"),
+		QuestObjective.make("Equip Tilly's Power Wraps: press C, pick them in Items, then an empty slot", Condition.flag("tilly_item_equipped")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Your Character page (Menu > Character): the Items panel"),
 		QuestObjective.make("Say hello to Sable at her card shop", Condition.flag("vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
 		QuestObjective.make("Buy a card from Sable", Condition.counter("cards_bought", 1)).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
 		QuestObjective.make("Say hello to Pip Threadwell at the hat shop", Condition.flag("tailor_seen")).at(QuestObjective.TargetKind.NPC, "town", "tailor", "Threadwell's Hats & Hems, on the east side of Crosspath's square"),
@@ -274,7 +274,7 @@ static func _armory() -> QuestData:
 		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)).at(QuestObjective.TargetKind.SPOT, "town", OUTSKIRTS_SPOT, "Enemies roam the outskirts, on the lanes round the edge of Crosspath. Any win counts"),
 		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 		# Overnight Nov 3-4, Part B6: collecting opens the slots and hands over the Starter Blade; wearing it (any piece) completes the quest.
-		QuestObjective.make("Equip your new blade: Menu > Character > the Weapon slot", Condition.flag("armory_gear_equipped")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Your Character page (Menu > Character): click the Weapon slot"),
+		QuestObjective.make("Equip your new blade: press C (Character), then the Weapon slot", Condition.flag("armory_gear_equipped")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Your Character page (Menu > Character): click the Weapon slot"),
 	] as Array[QuestObjective]
 	quest.reward_xp = 30
 	quest.reward_equipment_ids = [] as Array[String]  # Nov 3-4: the blade is handed over at "Collect your gear" (Session.armory_talk)

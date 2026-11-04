@@ -1,0 +1,49 @@
+wait 2
+dev travel town
+wait 8
+dev item energy_draught
+wait 1
+key C
+wait 2
+click 1013 505
+wait 1
+click 1019 275
+wait 1.5
+shot 00_equipped
+click 1548 55
+wait 1.5
+shot 01_closed
+dev encounter Baron Quadzilla
+wait 8
+skip_dialogue 6
+wait 1
+button Keep Hand
+wait 3
+shot 02_turn1
+move 140 620
+wait 1.2
+shot 03_hover_draught
+dump
+click 140 620
+wait 1.5
+shot 04_clicked_draught
+dump
+button Beefcake
+wait 2
+shot 05_after_choice
+dump
+move 140 620
+wait 1.2
+shot 06_hover_after
+click 140 620
+wait 1
+shot 07_click_again
+key Escape
+wait 1
+pilot 120
+wait 2
+shot 08_after_pilot
+dump
+skip_dialogue 6
+wait 3
+shot 09_end

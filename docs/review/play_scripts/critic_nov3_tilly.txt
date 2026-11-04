@@ -1,0 +1,45 @@
+wait 2
+dev travel town
+wait 8
+shot 00_town
+dev quest meet_the_merchants 0
+wait 1
+dev goto item_vendor
+wait 2
+shot 01_beside_tilly
+key E
+wait 1.5
+shot 02_talk1
+key E
+wait 1
+shot 03_talk2
+key E
+wait 1
+shot 04_talk3
+key E
+wait 1
+shot 05_talk4
+key E
+wait 1
+shot 06_talk5
+key E
+wait 1
+shot 07_talk6
+key E
+wait 1
+shot 08_talk7
+key E
+wait 1
+shot 09_talk8
+dump
+key E
+wait 1
+shot 10_talk9
+key E
+wait 1
+shot 11_talk10
+key E
+wait 1
+shot 12_talk11
+dump
+scene

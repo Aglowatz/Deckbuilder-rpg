@@ -1,0 +1,45 @@
+wait 2
+dev travel town
+wait 8
+dev quest meet_the_merchants 0
+wait 1
+dev goto item_vendor
+wait 2
+key E
+wait 1.5
+skip_dialogue 20
+wait 1.5
+dev item energy_draught
+wait 1
+key C
+wait 2
+click 1013 505
+wait 1
+shot 00_wraps_selected
+click 1019 275
+wait 2
+shot 01_wraps_equipped
+dump
+skip_dialogue 5
+wait 1
+shot 02_after_equip
+click 1128 505
+wait 1
+shot 03_draught_selected
+dump
+click 1172 275
+wait 1.5
+shot 04_both_equipped
+move 1172 275
+wait 1
+shot 05_hover_slot
+key Escape
+wait 1.5
+skip_dialogue 5
+shot 06_back_town
+dev encounter Baron Quadzilla
+wait 8
+skip_dialogue 6
+wait 2
+shot 07_battle_start
+dump

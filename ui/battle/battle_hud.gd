@@ -393,7 +393,41 @@ func _build_banner() -> void:
 # ---- Updates ----------------------------------------------------------------------------
 
 
+## Overnight Nov 3-4 (critic): floating energy (an Energy Draught, an "add (R)" ability) showed nowhere until it was spent - a line by your
+## portrait now reads "+1 Beefcake energy this turn" while the pool holds any.
+var _pool_label: Label
+
+
+static func pool_text(pool: Array[int]) -> String:
+	if pool.is_empty():
+		return ""
+	var counts: Dictionary = {}
+	for entry: int in pool:
+		counts[entry] = int(counts.get(entry, 0)) + 1
+	var parts: PackedStringArray = []
+	for entry: Variant in counts.keys():
+		var path_name: String = "any-Path" if int(entry) == PlayerState.POOL_ANY else Affinity.display_name(int(entry) as Affinity.Type)
+		parts.append("+%d %s" % [int(counts[entry]), path_name])
+	return "%s energy this turn" % ", ".join(parts)
+
+
+func _refresh_pool() -> void:
+	if _pool_label == null:
+		_pool_label = UIKit.label("", &"", 22, UIStyle.GOLD)
+		_pool_label.name = "FloatingEnergy"
+		_pool_label.add_theme_font_override("font", UIStyle.font_bold())
+		_pool_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+		_pool_label.add_theme_constant_override("outline_size", 6)
+		_pool_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_pool_label)
+	_pool_label.position = _portraits[0].position + Vector2(8.0, -40.0)
+	_pool_label.size = Vector2(520, 32)
+	_pool_label.text = pool_text(game.players[0].pool)
+	_pool_label.visible = not _pool_label.text.is_empty()
+
+
 func refresh_all() -> void:
+	_refresh_pool()
 	for index: int in range(2):
 		var player: PlayerState = game.players[index]
 		_portraits[index].set_hp(player.hp, false)

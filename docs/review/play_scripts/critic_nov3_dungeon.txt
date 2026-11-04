@@ -1,0 +1,22 @@
+wait 2
+dev travel town
+wait 8
+dev travel dungeon S-BEEF
+wait 8
+shot 00_beef_arrive
+skip_dialogue 4
+wait 1
+shot 01_beef_after_popups
+dump
+scene
+move 800 450
+wait 1
+shot 02_beef_hover_mid
+dev travel dungeon S-IRON
+wait 8
+shot 03_iron_arrive
+skip_dialogue 4
+wait 1
+shot 04_iron_after
+dump
+scene
