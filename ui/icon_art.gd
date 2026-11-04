@@ -222,7 +222,7 @@ static func gear_icon_id(equipment_id_text: String) -> String:
 
 ## The own icon of a consumable item: ICON-ITEM-<id upper, no underscores> ("firebrand_charm" -> ICON-ITEM-FIREBRANDCHARM).
 ## Nov 3-4, Part B4: a renamed item keeps its painting (the Energy Draught is the old Healing Draught's bottle).
-const ITEM_ART_ALIASES: Dictionary = {"energy_draught": "healing_draught"}
+const ITEM_ART_ALIASES: Dictionary = {"energy_draught": "healing_draught", "power_wraps": "field_bandage"}
 
 
 static func item_icon_id(item_id: String) -> String:

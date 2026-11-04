@@ -121,3 +121,16 @@ Items panel's style (accent border):
 
 `CharacterScreen.highlight(target)` pulses a gold outline on: `"items"` (the Items panel), `"inventory:<item id>"`, `"empty_slot"`
 (every empty unlocked slot), `"equipment:<slot>"`, `"equip_grid:<piece id>"`. The tutorial steps call it while their quest step is open.
+
+## 9. Result and critic pass (Step 4)
+
+`docs/ui/ref/character_menu_result.png`: the target, then the early save, the mid save and the Equipment selection page (shots in
+docs/overnight_shots/nov3/, play scripts docs/review/play_scripts/nov3_overnight.txt and nov3_mid.txt).
+
+Element by element against sections 1-6 (all present). Gaps found and fixed before the re-shoot:
+- the backdrop sat under the OverlayScreen's own dark shade (no poster) - now above it, below the header;
+- the Boots label ran under the unlock pill - Boots moved up to y 835;
+- the Equipment page was see-through over the panels and opened with nothing selected - the panels step aside, the first piece is selected;
+- a two-line effect crowded the status line in the detail row - tightened;
+- Power Wraps showed a white fallback glyph since the Nov 2 rename - it uses the Field Bandage painting (`IconArt.ITEM_ART_ALIASES`).
+Left as is: the LEVEL panel's icon is our ICON-LEVEL (the target draws a star); the inventory scrollbar only appears past ten item types.

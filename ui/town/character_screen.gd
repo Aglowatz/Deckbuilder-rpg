@@ -21,7 +21,7 @@ const EQUIP_CENTERS: Dictionary = {
 	EquipmentData.Slot.ARMOR: Vector2(363, 400),
 	EquipmentData.Slot.WEAPON: Vector2(193, 590),
 	EquipmentData.Slot.RELIC: Vector2(533, 590),
-	EquipmentData.Slot.BOOTS: Vector2(363, 860),
+	EquipmentData.Slot.BOOTS: Vector2(363, 835),
 }
 const SLOT_ORDER: Array[EquipmentData.Slot] = [
 	EquipmentData.Slot.HELM, EquipmentData.Slot.ARMOR, EquipmentData.Slot.WEAPON, EquipmentData.Slot.RELIC, EquipmentData.Slot.BOOTS,
@@ -130,7 +130,11 @@ func _add_backdrop() -> void:
 	UIKit.full_rect(back)
 	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(back)
-	move_child(back, 0)
+	# above the OverlayScreen's own dark shade and glow, below its header (the close button) and the page
+	for child: Node in get_children():
+		if child is MarginContainer:
+			move_child(back, child.get_index())
+			break
 	if texture == null:
 		return
 	var tex_size: Vector2 = texture.get_size()
@@ -361,13 +365,13 @@ func _build_items_panel() -> void:
 	_detail_meta = _text("", 21, UIStyle.PARCHMENT, Vector2(158, 762), 380)
 	_detail_meta.name = "DetailMeta"
 	panel.add_child(_detail_meta)
-	_detail_effect = _text("", 19, UIStyle.MUTED, Vector2(158, 790), 390)
+	_detail_effect = _text("", 18, UIStyle.MUTED, Vector2(158, 789), 390)
 	_detail_effect.name = "DetailEffect"
 	_detail_effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_detail_effect.size.y = 50
 	_detail_effect.clip_text = true
 	panel.add_child(_detail_effect)
-	_detail_status = _text("", 21, UIStyle.GOOD, Vector2(158, 836), 380)
+	_detail_status = _text("", 21, UIStyle.GOOD, Vector2(158, 838), 380)
 	_detail_status.name = "DetailStatus"
 	panel.add_child(_detail_status)
 	_detail_button = FancyButton.make("Equip", &"", Vector2(190, 60))
@@ -752,7 +756,11 @@ func open_equipment_page(slot: EquipmentData.Slot) -> void:
 	close_equipment_page()
 	_equipment_slot = slot
 	_selected_piece = Session.profile.equipped_in(slot)
+	if _selected_piece == null and not pieces_for(slot).is_empty():
+		_selected_piece = pieces_for(slot)[0]  # something to read at once
+	_set_columns_visible(false)
 	_equipment_page = _make_panel("EquipmentPage", EQUIP_PAGE_RECT, true)
+	(_equipment_page.get_theme_stylebox(&"panel") as StyleBoxFlat).bg_color.a = 0.97
 	_refresh_equipment_page()
 	_apply_tutorial_highlight()
 	UIKit.pop_in(_equipment_page)
@@ -763,7 +771,16 @@ func close_equipment_page() -> void:
 		clear_highlight()
 		_equipment_page.queue_free()
 		_equipment_page = null
+		_set_columns_visible(true)
 		_apply_tutorial_highlight()
+
+
+## The LEVEL, CARD PACKS and ITEMS panels step aside while the Equipment selection page covers them.
+func _set_columns_visible(shown: bool) -> void:
+	for panel_name: String in ["LevelPanel", "PacksPanel", "ItemsPanel"]:
+		var panel: Control = _page.get_node_or_null(NodePath(panel_name)) as Control
+		if panel != null:
+			panel.visible = shown
 
 
 func equipment_page_open() -> bool:

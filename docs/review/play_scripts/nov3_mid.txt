@@ -1,0 +1,35 @@
+# Overnight Nov 3-4, Part C: the character page at a mid save (level 12, equipment unlocked, items equipped) and the Equipment page.
+wait 2
+dev travel town
+wait 6
+dev level 12
+dev quest some_assembly_required 2
+dev goto equipment_vendor
+wait 1
+key E
+wait 2
+skip_dialogue 14
+wait 2
+dev item firebrand_charm
+dev item firebrand_charm
+dev item healing_salve
+dev item energy_draught
+dev item scroll_of_insight
+dev item power_wraps
+key C
+wait 2.5
+shot c_07_mid_before
+click 1011 505
+wait 0.6
+click 1020 275
+wait 0.6
+click 1127 505
+wait 0.6
+click 1326 275
+wait 0.6
+click 1244 505
+wait 0.8
+shot c_08_mid_save
+click 160 490
+wait 1.5
+shot c_09_equipment_page

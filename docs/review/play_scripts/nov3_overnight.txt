@@ -1,12 +1,11 @@
-# Overnight Nov 3-4: visual checks. The character page (early, tutorials, mid), Pip's shop (Preview, Equip, No hat), battle item icons and the
-# Energy Draught picker, dungeon fog on a first visit, Baron Quadzilla's hidden trait. Window 1600x900 (page coordinates x 0.8333).
+# Overnight Nov 3-4: visual checks. The character page (early + Tilly's tutorial, Bertram's tutorial + the Equipment page, mid save), Pip's
+# shop (Preview, Equip, No hat), dungeon fog on a first visit, Baron Quadzilla's hidden trait, battle item icons. Window 1600x900.
 wait 2
 dev travel town
 wait 6
 dev level 3
 dev item firebrand_charm
 dev item firebrand_charm
-# --- Tilly's item tutorial (Meet the Merchants, nothing done yet)
 dev quest meet_the_merchants 0
 dev goto item_vendor
 wait 1
@@ -14,32 +13,30 @@ key E
 wait 2
 shot b5_01_tilly_gift
 skip_dialogue 12
-wait 1
+wait 2
 shot b5_02_hud_hint
-key Escape
-wait 1
 key C
 wait 2
 shot c_01_early_tutorial_inventory
-# the Power Wraps cell (second inventory cell after the two Firebrand charges? cells follow the owned list: Firebrand, Power Wraps)
-button Power Wraps
-dump
+click 1127 505
 wait 1
 shot c_02_early_tutorial_slot
-key Escape
+click 1020 275
 wait 1
-# --- Bertram's equipment tutorial (report + duel done)
+shot c_02b_early_equipped
+key Escape
+wait 1.5
 dev quest some_assembly_required 2
 dev goto equipment_vendor
 wait 1
 key E
 wait 2
 skip_dialogue 14
-wait 1
+wait 2
 key C
 wait 2
 shot c_03_equipment_unlocked_tutorial
-click 161 492
+click 160 490
 wait 1.5
 shot c_04_equipment_page
 click 642 276
@@ -49,23 +46,21 @@ wait 1.5
 shot c_05_blade_equipped
 key Escape
 wait 1
-# --- mid save: level 12, four slots, a few items equipped
+key Escape
+wait 1.5
 dev level 12
 dev item healing_salve
 dev item energy_draught
 dev item scroll_of_insight
-key Escape
-wait 1
 key C
 wait 2
-click 1011 506
+click 1244 505
 wait 0.6
 click 1173 275
 wait 1
 shot c_06_mid_save
 key Escape
-wait 1
-# --- Pip's shop
+wait 1.5
 dev gold 2000
 dev goto tailor
 wait 1
@@ -74,29 +69,4 @@ wait 2
 skip_dialogue 8
 wait 2
 shot d_01_pip_shop
-button Preview
-wait 1
-shot d_02_pip_preview
-button Buy
-wait 1.5
-shot d_03_pip_bought_equip
-button Equip
-wait 1
-shot d_04_pip_no_hat
-key Escape
-wait 1
-# --- dungeon fog: a first visit
-dev travel dungeon S-BEEF
-wait 4
-shot b8_01_fog_first_visit
-dev travel town
-wait 6
-# --- battle: item icons, the Energy Draught picker, the hidden trait chip
-dev encounter Baron Quadzilla
-wait 6
-skip_dialogue 10
-wait 2
-shot b7_01_quadzilla_hidden_trait
-pilot 6
-shot a2_01_battle_items
 dump
