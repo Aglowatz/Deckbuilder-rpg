@@ -35,8 +35,8 @@ skip_dialogue 10
 shot 03_hog_map
 scene
 log --- a House of Gains battle (MUS-BEEF-DUN-BATTLE)
-dev encounters BB-HOG
-dev encounter BB-HOG
+dev encounters dungeon:D-HOG
+dev encounter dungeon:D-HOG
 wait 2
 skip_dialogue 10
 shot 04_hog_battle

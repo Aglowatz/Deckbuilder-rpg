@@ -153,3 +153,16 @@ func test_auto_win_ends_a_battle_as_a_win() -> void:
 	DevActions.set_auto_win(false)
 	assert_true(game.is_over(), "the battle ended at once")
 	assert_eq(game.winner, 0, "as a win for the hero")
+
+
+func test_zone_and_dungeon_encounters_keep_their_real_board_and_music() -> void:
+	# Gainlands rock Nov 3: a dev battle used to fall back to the town board, so it played MUS-TOWN-BATTLE instead of the area's song.
+	var zone: BattleContext = DevActions.make_encounter_battle("zone:beefcake:brute", DevActions.DECK_MINE)
+	assert_not_null(zone)
+	if zone != null:
+		assert_eq(MusicDirector.for_battle(zone), "MUS-BEEF-BATTLE")
+	var boss: BattleContext = DevActions.make_encounter_battle("D-HOG:13", DevActions.DECK_MINE)
+	assert_not_null(boss)
+	if boss != null:
+		assert_eq(boss.board_key, "BB-HOG")
+		assert_eq(MusicDirector.for_battle(boss), "MUS-BEEF-BOSS")

@@ -576,6 +576,14 @@ static func make_encounter_battle(spec_id: String, deck_choice: int = DECK_MINE)
 	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, spec.enemy_ai_name), EncounterSpec.skill_for(spec.kind), spec.enemy_name)
 	context.enemy_name = spec.enemy_name
 	context.is_boss = spec.kind == EncounterSpec.Kind.BOSS
+	# Gainlands rock Nov 3: a zone / dungeon encounter keeps its real board ("zone:beefcake", "dungeon:D-HOG"), so the battleboard and the
+	# music (MusicDirector.for_battle reads the board) are the ones the real fight gets, not the town fallback.
+	if not Battleboards.board_for(spec.group).is_empty():
+		context.board_key = spec.group
+	elif spec.group.begins_with("dungeon:"):
+		var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(spec.group.trim_prefix("dungeon:"))
+		if plan != null and not plan.battleboard_id.is_empty():
+			context.board_key = plan.battleboard_id
 	context.dev_battle = true
 	return context
 

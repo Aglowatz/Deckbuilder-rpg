@@ -4,6 +4,28 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Gainlands rock Nov 3 - yours to decide (the safest choice was taken)
+
+Report: `docs/audio/music_gainlands_rock_nov3.md`. Previews: `Music Review/Gainlands rock` (+ `sources/`, `README_listen_for.md`).
+
+1. **q6 is bigger than the "old quality" you heard.** The old in-game files were q6 renders re-encoded by the drop-in pipeline at **q5**
+   (nominal 160 kbps). Fresh single-pass q6 (192 kbps) makes the music folder **290 MB** (q3 175, old 224), about +65 MB on the old pack and
+   the export near or over the 750 MB budget warning. Kept q6 as the brief says. If you prefer the old size, `WP_VORBIS_Q=5` + rerender is
+   the same quality you approved (one lossy pass instead of two) at ~225 MB.
+2. **MUS-BEEF-BATTLE intro bed.** From the script the demo's 4-bar arp intro (and the matching outro) sat 13 LU under the track - a 7 s hole
+   at every battle start and loop (your MP3's opening was loud, but its own preview wrap was quiet: the file and the script disagree). Added a
+   held power chord, the drops' sub 8ths, a pad and a louder saw in both arp sections; every other note is the demo. Say if you want it bare.
+3. **The old orchestral Gainlands march theme** is still quoted by non-Beefcake cues (FOREST, DECK, CREDITS, PRIMM-02, QUEST-ROLLO, CAP-RIFT,
+   TUT-EXP, REUNION, THRONE...). They were not re-composed (scope). Switch their Gainlands quotes to the rock riff/answer (lib/rock.py)?
+4. **MUS-MINIGAME-BEEF's synth-voice "1-2-3-4" count-in** (A C# E A): aerobics, or cheesy in a bad way? Easy to drop.
+5. **MUS-SWOLY-BOSS** uses the Spotter's own counted riff and the hero's motif (open); there is no inverted Crossroads motif in it (the
+   brief asked for that only for Clench). **MUS-BEEF-BOSS's stopwatch** = power-kit click 8ths + metronome bell, doubled by a triangle.
+6. **MUS-BEEF-RELEASE** renders through the rock chain end to end, so its orchestral opening has the rock mix's shorter hall (drier than the
+   other story cues). A two-profile cue (orchestral hall -> rock) is possible if you hear it as too dry.
+7. **Drop-ins at q6** (`MusicDropIn.VORBIS_QUALITY`; it was q5 before the size pass, q3 during it) to match "q6 for every track".
+8. **Disk and Drive are nearly full**: C: ~2 GB free, Google Drive 2.4 GB of 100 GB. The q3 files were not backed up to Superseded
+   (`deliver.py --no-backup`); the Gainlands set's orchestral versions were.
+
 ## Nov 2 pass - yours to decide (the safest choice was taken)
 
 1. **Gate guards wear the Correction Officer set.** The five Capital guards (two outside the gate, two inside by the fountain, Primm's guard in the Crease) now draw the painted Correction Officer (the only guard-like set); the art list carries a dedicated SPR-CAPITAL-GUARD at Low in case the officer reads wrong as a gate guard. Say the word and I raise it to High.
