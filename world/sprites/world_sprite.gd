@@ -191,6 +191,8 @@ func set_dye(color: Color, amount: float = 1.0) -> void:
 	if _material != null:
 		_material.set_shader_parameter("dye_color", color)
 		_material.set_shader_parameter("dye_amount", amount)
+		if current_key != "":
+			_apply(current_key, current_flip)  # the mask of the frame on show
 
 
 func _build_hat_card() -> void:
@@ -482,6 +484,11 @@ func _apply(key: String, flip: bool) -> void:
 		_material.set_shader_parameter("use_normal", normal != null)
 		if normal != null:
 			_material.set_shader_parameter("normal_tex", normal)
+		# Nov 3-4, Part D3: the plain cloak's dye follows its painted mask frame by frame
+		var mask: Texture2D = SpriteLibrary.dye_mask(character, key) if _dye_amount > 0.001 else null
+		_material.set_shader_parameter("use_dye_mask", mask != null)
+		if mask != null:
+			_material.set_shader_parameter("dye_mask", mask)
 	for target: ShaderMaterial in [_material, _shadow_material]:
 		target.set_shader_parameter("flip_h", flip)
 	_update_hat()

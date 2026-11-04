@@ -1,17 +1,22 @@
 class_name TailorScreen
 extends OverlayScreen
-## Threadwell's Hats & Hems (was Thimble's, the tailor's retired name): the clothing shop. The hero's rotating copy tries anything on before it is bought (hover or "Try"); pick a dye, then buy: the item is added to the
-## wardrobe and worn at once. Stock grows with zones freed and levels (`CosmeticCatalog.vendor_stock`); locked pieces are teasers with their requirement.
+## Threadwell's Hats & Hems (was Thimble's, the tailor's retired name): the clothing shop. Stock grows with zones freed and levels
+## (`CosmeticCatalog.vendor_stock`); locked pieces are teasers with their requirement.
+## Overnight Nov 3-4, Part D: "Try" is **Preview** - the item alone, large, centred on a plain panel (the hero's body hid the hat, and its
+## cloak competed with it); an owned item's Buy button is **Equip** ("Equipped" while worn), and a "No hat" entry takes the hat off. What is
+## worn shows in the world as before. Cloak dyes live in the Wardrobe, where the hero is shown (a dye needs the cloak on the body to judge).
 
-var _look: CosmeticState
-var _preview: HeroPreview
+const PREVIEW_SIZE: float = 380.0
+
 var _gold_label: Label
 var _quip: Label
 var _grid: GridContainer
 var _tiles: Dictionary = {}
-var _dye_rows: Dictionary = {}
 var _selected: CosmeticData
 var _selected_label: Label
+var _preview_icon: TextureRect
+var _preview_name: Label
+var _preview_kind: Label
 
 
 func _init() -> void:
@@ -28,20 +33,13 @@ func _build() -> void:
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
 	_gold_label.add_theme_font_override("font", UIStyle.font_title())
 	header_extra.add_child(_gold_label)
-	_look = Session.cosmetics.duplicate_state()
 	var line: Label = UIKit.label(story.text("town.tailor.line"), &"", 24, UIStyle.PARCHMENT)
 	line.add_theme_font_override("font", UIStyle.font_italic())
 	body.add_child(line)
 	var row: HBoxContainer = UIKit.hbox(26)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
-	var preview_panel: PanelContainer = UIKit.panel()
-	row.add_child(preview_panel)
-	_preview = HeroPreview.new()
-	_preview.look = _look
-	if stage != null:
-		_preview.custom_minimum_size = Vector2(500, 620)
-	preview_panel.add_child(_preview)
+	row.add_child(_build_preview())
 	var right: VBoxContainer = UIKit.vbox(10)
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(right)
@@ -56,14 +54,39 @@ func _build() -> void:
 	_grid.add_theme_constant_override("v_separation", 14)
 	scroll.add_child(_grid)
 	_populate()
-	_selected_label = UIKit.label("Hover or press Try to see it on you.", &"MutedLabel", 22)
+	_selected_label = UIKit.label("Hover or press Preview to see a piece up close.", &"MutedLabel", 22)
 	right.add_child(_selected_label)
-	_add_dyes(right, CosmeticData.Slot.CLOAK, "Cloak dye")
 	_quip = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_quip.add_theme_font_override("font", UIStyle.font_italic())
 	body.add_child(_quip)
 	_refresh()
 
+
+## The preview: a plain panel with the item alone, large and centred, its name and kind under it.
+func _build_preview() -> Control:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.name = "PreviewPanel"
+	panel.add_theme_stylebox_override("panel", UIStyle.box(Color(0.1, 0.08, 0.15, 0.92), UIStyle.GOLD_DIM, 2, 18))
+	panel.custom_minimum_size = Vector2(500 if stage != null else 460, 620)
+	var column: VBoxContainer = UIKit.vbox(10)
+	column.alignment = BoxContainer.ALIGNMENT_CENTER
+	panel.add_child(column)
+	var holder: CenterContainer = CenterContainer.new()
+	holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(holder)
+	_preview_icon = TextureRect.new()
+	_preview_icon.name = "PreviewIcon"
+	_preview_icon.custom_minimum_size = Vector2(PREVIEW_SIZE, PREVIEW_SIZE)
+	_preview_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	holder.add_child(_preview_icon)
+	_preview_name = UIKit.label("", &"HeadingLabel", 34, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	_preview_name.name = "PreviewName"
+	column.add_child(_preview_name)
+	_preview_kind = UIKit.label("", &"MutedLabel", 22, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(_preview_kind)
+	column.add_child(UIKit.spacer(18))
+	return panel
 
 
 func _populate() -> void:
@@ -77,24 +100,54 @@ func _populate() -> void:
 			open_items.append(item)
 		else:
 			locked_items.append(item)
+	_grid.add_child(_make_none_tile(CosmeticData.Slot.HAT))
+	_grid.add_child(_make_none_tile(CosmeticData.Slot.CLOAK))
 	for item: CosmeticData in open_items:
 		_grid.add_child(_make_tile(item, true))
 	for item: CosmeticData in locked_items:
 		_grid.add_child(_make_tile(item, false))
 
 
+## "No hat" takes the hat off; "Plain hooded cloak" puts the hero's own cloak back (always free, always there).
+func _make_none_tile(slot: CosmeticData.Slot) -> Control:
+	var key: String = none_id(slot)
+	var tile: PanelContainer = UIKit.panel()
+	tile.name = "Tile_%s" % key
+	tile.custom_minimum_size = Vector2(340 if stage == null else 282, 150)
+	var column: VBoxContainer = UIKit.vbox(4)
+	tile.add_child(column)
+	var hat: bool = slot == CosmeticData.Slot.HAT
+	column.add_child(UIKit.label("No hat" if hat else "Plain hooded cloak", &"HeadingLabel", 24, UIStyle.GOLD))
+	var blurb: Label = UIKit.label("Let the hair breathe. Pip will pretend not to mind." if hat else "Your own dark teal cloak. Dye it in your Wardrobe.", &"", 17, UIStyle.PARCHMENT)
+	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	blurb.custom_minimum_size = Vector2(300 if stage == null else 244, 46)
+	column.add_child(blurb)
+	column.add_child(UIKit.filler())
+	var buttons: HBoxContainer = UIKit.hbox(8)
+	column.add_child(buttons)
+	buttons.add_child(UIKit.filler())
+	var equip: FancyButton = FancyButton.make("Equip", &"PrimaryButton", Vector2(130, 44))
+	equip.name = "Equip_%s" % key
+	equip.pressed.connect(func() -> void: _equip_none(slot))
+	buttons.add_child(equip)
+	_tiles[key] = {"buy": equip, "slot": slot}
+	return tile
+
+
+static func none_id(slot: CosmeticData.Slot) -> String:
+	return "none_hat" if slot == CosmeticData.Slot.HAT else "none_cloak"
+
 
 func _make_tile(item: CosmeticData, open: bool) -> Control:
 	var tile: PanelContainer = UIKit.panel()
+	tile.name = "Tile_%s" % item.id
 	tile.custom_minimum_size = Vector2(340 if stage == null else 282, 150)
 	var column: VBoxContainer = UIKit.vbox(4)
 	tile.add_child(column)
 	var head: HBoxContainer = UIKit.hbox(8)
 	column.add_child(head)
 	# Oct 19 night (Part 3): the shop icon ICON-COS-<art name> once imported, else the old sprite-library picture.
-	var icon: Texture2D = IconArt.cosmetic_texture(item, 52.0) if open else null
-	if icon == null and open:
-		icon = SpriteLibrary.item_icon(item.slot == CosmeticData.Slot.HAT, item.art_name)
+	var icon: Texture2D = _icon_of(item, 52.0) if open else null
 	if icon != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.name = "Icon_%s" % item.id
@@ -120,70 +173,60 @@ func _make_tile(item: CosmeticData, open: bool) -> Control:
 	column.add_child(buttons)
 	var price: Label = UIKit.label("", &"", 24, UIStyle.GOLD)
 	price.add_theme_font_override("font", UIStyle.font_title())
-	price.custom_minimum_size = Vector2(90, 0)
+	price.custom_minimum_size = Vector2(80, 0)
 	buttons.add_child(price)
-	var try_button: FancyButton = FancyButton.make("Try", &"", Vector2(90, 44))
-	try_button.name = "Try_%s" % item.id
-	try_button.pressed.connect(func() -> void: _try(item))
-	buttons.add_child(try_button)
-	var buy: FancyButton = FancyButton.make("Buy", &"PrimaryButton", Vector2(110, 44))
+	var preview_button: FancyButton = FancyButton.make("Preview", &"", Vector2(110, 44))
+	preview_button.name = "Preview_%s" % item.id
+	preview_button.pressed.connect(func() -> void: _preview(item))
+	buttons.add_child(preview_button)
+	var buy: FancyButton = FancyButton.make("Buy", &"PrimaryButton", Vector2(120, 44))
 	buy.name = "Buy_%s" % item.id
-	buy.pressed.connect(func() -> void: _buy(item))
+	buy.pressed.connect(func() -> void: _buy_or_equip(item))
 	buttons.add_child(buy)
-	tile.mouse_entered.connect(func() -> void: _try(item, false))
-	_tiles[item.id] = {"price": price, "buy": buy, "try": try_button}
+	tile.mouse_entered.connect(func() -> void: _preview(item, false))
+	_tiles[item.id] = {"price": price, "buy": buy, "preview": preview_button}
 	return tile
 
 
-func _add_dyes(parent: VBoxContainer, slot: CosmeticData.Slot, title: String) -> void:
-	var key: String = "hat" if slot == CosmeticData.Slot.HAT else "cloak"
-	var dyes: HBoxContainer = UIKit.hbox(8)
-	parent.add_child(dyes)
-	var caption: Label = UIKit.label(title, &"MutedLabel", 22)
-	caption.custom_minimum_size = Vector2(130, 0)
-	dyes.add_child(caption)
-	var buttons: Array[Button] = []
-	for index: int in range(Dye.NATURAL, Dye.count()):
-		var swatch: Button = Button.new()
-		swatch.name = "Dye_%s_%d" % [key, index]
-		swatch.custom_minimum_size = Vector2(42, 42)
-		if index == Dye.NATURAL:
-			swatch.text = "A"
-		swatch.tooltip_text = Dye.dye_name(index)
-		swatch.focus_mode = Control.FOCUS_NONE
-		swatch.pressed.connect(func() -> void:
-			_look.set_dye(slot, index)
-			_preview.set_look(_look)
-			Audio.sfx(&"ui_tick")
-			_refresh())
-		dyes.add_child(swatch)
-		buttons.append(swatch)
-	_dye_rows[key] = buttons
+## The item's own picture: its shop icon, else the hat's front image / the sprite library's item picture.
+static func _icon_of(item: CosmeticData, px: float) -> Texture2D:
+	var icon: Texture2D = IconArt.cosmetic_texture(item, px)
+	if icon == null:
+		icon = SpriteLibrary.item_icon(item.slot == CosmeticData.Slot.HAT, item.art_name)
+	return icon
 
 
-## Nov 2 pass, Part 5: a try-on by item id (screenshot runs: --open=tailor --try=hat_wizard).
+## Nov 2 pass, Part 5 (screenshot runs: --open=tailor --try=hat_wizard): shows an item in the preview by id.
 func try_item(item_id: String) -> void:
 	var item: CosmeticData = CosmeticCatalog.find(item_id)
 	if item != null:
-		_try(item, false)
+		_preview(item, false)
 
 
-## Puts `item` on the preview (worn for the try-on only; nothing is owned until it is bought).
-func _try(item: CosmeticData, sound: bool = true) -> void:
+## Shows `item` alone, large, on the preview panel (nothing is worn or owned by previewing).
+func _preview(item: CosmeticData, sound: bool = true) -> void:
 	_selected = item
-	_look.grant(item.id)
-	_look.equip(item.slot, item.id, true)
-	_preview.set_look(_look)
+	_preview_icon.texture = _icon_of(item, PREVIEW_SIZE)
+	_preview_name.text = item.display_name
+	_preview_kind.text = item.slot_name()
 	if sound:
 		Audio.sfx(&"ui_tick")
 	_refresh()
 
 
+func previewed() -> CosmeticData:
+	return _selected
+
+
+func _buy_or_equip(item: CosmeticData) -> void:
+	if Session.cosmetics.owns(item.id):
+		_equip(item)
+		return
+	_buy(item)
+
+
 func _buy(item: CosmeticData) -> void:
 	var story: StoryText = StoryText.shared()
-	if Session.cosmetics.owns(item.id):
-		_say(story.get_lines("tailor.owned"))
-		return
 	if Session.gold < item.price:
 		_say(story.get_lines("tailor.poor"))
 		Audio.sfx(&"ui_error")
@@ -191,20 +234,40 @@ func _buy(item: CosmeticData) -> void:
 	if not Session.buy_cosmetic(item.id):
 		_say(story.get_lines("tailor.locked"))
 		return
-	# wear it with the dye that was previewed
-	var worn: CosmeticState = Session.cosmetics.duplicate_state()
-	worn.equip(item.slot, item.id, true)
-	worn.set_dye(item.slot, _look.dye_index(item.slot))
-	Session.apply_look(worn)
-	_look.hat_id = worn.hat_id
-	_look.cloak_id = worn.cloak_id
-	_preview.set_look(_look)
-	_preview.play_once(&"Cheer")
+	_wear(item.slot, item.id)
 	Audio.sting(&"STG-PURCHASE")
 	_say(story.get_lines("tailor.bought"))
 	if stage != null:
 		stage.flourish("buy")
+	_preview(item, false)
+
+
+## Puts on an owned item (the world and the Wardrobe show it at once).
+func _equip(item: CosmeticData) -> void:
+	if Session.cosmetics.equipped_id(item.slot) == item.id:
+		return
+	_wear(item.slot, item.id)
+	Audio.sfx(&"tool_equip")
+	_say(StoryText.shared().get_lines("tailor.equipped"))
 	_refresh()
+
+
+func _equip_none(slot: CosmeticData.Slot) -> void:
+	if Session.cosmetics.equipped_id(slot) == "":
+		return
+	_wear(slot, "")
+	Audio.sfx(&"tool_unequip")
+	_say(StoryText.shared().get_lines("tailor.bare_head" if slot == CosmeticData.Slot.HAT else "tailor.equipped"))
+	_refresh()
+
+
+func _wear(slot: CosmeticData.Slot, item_id: String) -> void:
+	var worn: CosmeticState = Session.cosmetics.duplicate_state()
+	if slot == CosmeticData.Slot.HAT:
+		worn.hat_id = item_id
+	else:
+		worn.cloak_id = item_id
+	Session.apply_look(worn)
 
 
 func _say(lines: Array[String]) -> void:
@@ -221,33 +284,20 @@ func _say(lines: Array[String]) -> void:
 func _refresh() -> void:
 	_gold_label.text = str(Session.gold)
 	for item_id: String in _tiles:
-		var item: CosmeticData = CosmeticCatalog.find(item_id)
 		var entry: Dictionary = _tiles[item_id] as Dictionary
+		var buy: FancyButton = entry["buy"] as FancyButton
+		if entry.has("slot"):
+			var bare: bool = Session.cosmetics.equipped_id(entry["slot"] as CosmeticData.Slot) == ""
+			buy.text = "Equipped" if bare else "Equip"
+			buy.disabled = bare
+			continue
+		var item: CosmeticData = CosmeticCatalog.find(item_id)
 		var owned: bool = Session.cosmetics.owns(item_id)
+		var worn: bool = owned and Session.cosmetics.equipped_id(item.slot) == item_id
 		var ready: bool = SpriteCosmetics.art_ready(item)
 		(entry["price"] as Label).text = "Owned" if owned else ("%dg" % item.price if ready else "Soon")
-		var buy: FancyButton = entry["buy"] as FancyButton
-		buy.disabled = owned or not ready
-		buy.text = "Worn" if owned and Session.cosmetics.equipped_id(item.slot) == item_id else ("Owned" if owned else ("Buy" if ready else "Soon"))
-		(entry["try"] as FancyButton).disabled = not ready
-	for key: String in _dye_rows:
-		var slot: CosmeticData.Slot = CosmeticData.Slot.HAT if key == "hat" else CosmeticData.Slot.CLOAK
-		var buttons: Array = _dye_rows[key] as Array
-		for position: int in range(buttons.size()):
-			var index: int = position + Dye.NATURAL
-			var swatch: Button = buttons[position] as Button
-			var selected: bool = _look.dye_index(slot) == index
-			# Apparel Part 3: the dye only shows on the plain hooded cloak, so the swatches rest while a named cloak is worn.
-			var dyeable: bool = slot == CosmeticData.Slot.HAT or SpriteCosmetics.dye_applies(_look)
-			swatch.disabled = not dyeable
-			swatch.tooltip_text = Dye.dye_name(index) if dyeable else "Dyes colour the plain hooded cloak"
-			swatch.modulate.a = 1.0 if dyeable else 0.4
-			for state_name: String in ["normal", "hover", "pressed", "focus", "disabled"]:
-				var box: StyleBoxFlat = StyleBoxFlat.new()
-				box.bg_color = Dye.primary(index) if index >= 0 else Color("3a3550")
-				box.set_corner_radius_all(10)
-				box.set_border_width_all(4 if selected else 2)
-				box.border_color = UIStyle.GOLD if selected else Color(0, 0, 0, 0.55)
-				swatch.add_theme_stylebox_override(state_name, box)
+		buy.text = "Equipped" if worn else ("Equip" if owned else ("Buy" if ready else "Soon"))
+		buy.disabled = worn or not ready
+		(entry["preview"] as FancyButton).disabled = not ready
 	if _selected != null:
-		_selected_label.text = "Trying on: %s (%s)" % [_selected.display_name, "owned" if Session.cosmetics.owns(_selected.id) else "%d gold" % _selected.price]
+		_selected_label.text = "Preview: %s (%s)" % [_selected.display_name, "owned" if Session.cosmetics.owns(_selected.id) else "%d gold" % _selected.price]

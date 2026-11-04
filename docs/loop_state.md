@@ -23,9 +23,9 @@ Previous state: docs/overnight/nov3b/loop_state_gainlands_rock_nov3.md.
 | Part | What | State |
 |---|---|---|
 | 0 | State check + image notes | done |
-| A | Quick fixes 1-7 | todo |
-| B | Systems + balance 1-10 | todo |
-| C | Character page redesign | todo |
-| D | Pip's shop | todo |
-| E | Art audit CSV | todo |
+| A | Quick fixes 1-7 | done (4435bd02, with items B1-B4): pack toasts wait, item badge, Saucepan Helmet, chest back, wheel run, NPC routes, 4 slots |
+| B | Systems + balance 1-10 | done (acf6b130): tutorials, hidden traits, fog, cards 300/600/1500/3000 + 2x repeat fights, townsfolk; full GUT stopped by host (low memory) at 31/33, failing/unrun files rerun green |
+| C | Character page redesign | code in (acf6b130), tests green; TODO shots, compare image, critic pass |
+| D | Pip's shop | in progress: masked cloak dye (25 masks PLAYER/*_dye.png, shader), new tailor screen in scratchpad; timebox started 21:22 |
+| E | Art audit CSV | docs/art/art_needed_nov4.csv written (27 rows), not committed yet |
 | Finish | GUT, critic, report, export, smoke | todo |

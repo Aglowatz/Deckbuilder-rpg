@@ -48,6 +48,10 @@ uniform vec3 dye_color : source_color = vec3(0.8, 0.2, 0.2);
 uniform float dye_amount : hint_range(0.0, 1.0) = 0.0;
 uniform float dye_hue = 0.5;
 uniform float dye_width = 0.07;
+// Overnight Nov 3-4, Part D3: the cloak's painted mask per frame (white = cloak, PLAYER/<KEY>_dye.png from _art_source/cloak_masks). With a
+// mask the dye touches the cloak only - the hue guess also caught the eyes, the glow and the shirt's shadows, and missed the cloak's darks.
+uniform sampler2D dye_mask : filter_linear_mipmap, repeat_disable;
+uniform bool use_dye_mask = false;
 
 vec3 rgb2hsv(vec3 c) {
 	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -99,6 +103,12 @@ void fragment() {
 		float m = (1.0 - smoothstep(dye_width, dye_width * 1.9, dh)) * smoothstep(0.1, 0.28, hsv.y) * dye_amount;
 		vec3 target = rgb2hsv(dye_color);
 		vec3 dyed = hsv2rgb(vec3(target.x, clamp(hsv.y * target.y / 0.5, 0.0, 1.0), hsv.z * clamp(target.z / 0.55, 0.55, 1.5)));
+		if (use_dye_mask) {
+			m = texture(dye_mask, uv).r * dye_amount;
+			// keep the cloth's light and shade, take the dye's hue and saturation; white / pale dyes lift the darks
+			float shade = clamp(hsv.z / 0.45, 0.0, 1.6);
+			dyed = hsv2rgb(vec3(target.x, target.y * 0.95, clamp(target.z * shade, 0.0, 1.0)));
+		}
 		col = mix(col, dyed, m);
 	}
 	// Rim: edge pixels whose neighbour towards the sun is empty.

@@ -102,6 +102,11 @@ static func normal_frame(character: String, key: String) -> Texture2D:
 	return _texture("%s%s/%s_n.png" % [FOLDER, character, key])
 
 
+## Overnight Nov 3-4, Part D3: the cloak dye mask of a frame (white = the cloak), or null.
+static func dye_mask(character: String, key: String) -> Texture2D:
+	return _texture("%s%s/%s_dye.png" % [FOLDER, character, key])
+
+
 ## The normal map of a hat image, or null.
 static func hat_normal(art_name: String, dir_name: String) -> Texture2D:
 	return _texture("%s%s/%s_n.png" % [hat_folder, art_name, dir_name])
