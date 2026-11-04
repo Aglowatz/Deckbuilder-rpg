@@ -106,7 +106,7 @@ Items panel's style (accent border):
 | Back button | top-right of the panel, "Back" (Esc also goes back) | - |
 | "OWNED" + "N pieces" | 26 px caps | `profile.owned_equipment` filtered by slot |
 | Grid | 7 columns, cells 140 x 140, scrolls; equipped piece ticked | `EquipmentData` icon via `IconArt.equipment_glyph`, rarity border colour |
-| Detail row | icon 110 px, name (rarity colour), rarity + tier line, effect text, "Equipped" / "Not equipped", Equip / Unequip | `source_name`, `description`, `EquipCaps.why_not` (shown red when it cannot be worn) |
+| Detail row | icon 110 px, name (rarity colour), rarity + tier line, effect text, "Equipped" / "Not equipped", Equip / Unequip | `source_name`, `description`, `GameSession.why_not_equip` (shown red when it cannot be worn: armory still closed) |
 | Empty state | "You own nothing for this slot yet. Bertram's smithy and dungeon chests have gear." | - |
 
 ## 7. Visual rules (Step 3)

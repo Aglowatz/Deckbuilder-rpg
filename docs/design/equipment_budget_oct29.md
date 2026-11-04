@@ -95,7 +95,7 @@ The Hearty Pot Pie (6 HP, a quest and chest item, never sold) is left as the one
 
 ## Caps and the track
 
-- Equip caps (`level_track.json`): Common 5; Uncommon 2, 3 at L10, 5 at L16; Epic 1 at L5, 2 at L13, 3 at L19, 5 at L25; Legendary 1 at
+- (Dropped Nov 4: equipment has no rarity caps any more.) Equip caps (`level_track.json`): Common 5; Uncommon 2, 3 at L10, 5 at L16; Epic 1 at L5, 2 at L13, 3 at L19, 5 at L25; Legendary 1 at
   L22, 2 at L28. With the review: the Epics a player can hold by stage are the Barbell (L5-6, quest), the Gauntlets (L9), the Clipboard
   (L10), then the rack and the Book at L13 - one Epic slot until 13 is a real choice, two from 13, three from 19. The Uncommon cap of 2
   until L10 bites (Dagger / Plate / Goggles / Locket / Bandolier / Bookmark / Lanyard / Cape) - also a choice. Unchanged.

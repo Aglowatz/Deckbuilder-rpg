@@ -342,7 +342,7 @@ func _gear(content: ContentSet, games: int, seed_value: int, lines: PackedString
 		var piece: EquipmentData = content.equipment_piece(str(id))
 		if piece == null:
 			continue
-		variants.append({"label": str(id), "gear": [str(id)], "items": {}, "rarity": EquipmentRarity.display_name(int(piece.rarity)), "cap": EquipCaps.cap_for(int(piece.rarity), level)})
+		variants.append({"label": str(id), "gear": [str(id)], "items": {}, "rarity": EquipmentRarity.display_name(int(piece.rarity))})
 	if str(args.get("items", "1")) != "0":
 		var item_ids: Array = content.items.keys()
 		item_ids.sort()

@@ -21,7 +21,7 @@ Brief: `docs/prompts/fixes_nov4.md`. Report: `docs/overnight_report.md`. Tag `pr
 5. **Peek panel.** Shows all N cards together (Peek 1 is the same panel with one card); Top / Bottom per card, the first card sent Top is
    drawn next, Reset and Done. A Peek on the opponent's turn (none of the current cards does that) and every AI Peek still resolve by
    themselves.
-6. **Equipment rarity caps still apply, unannounced.** The level-ups no longer mention equipment, but `EquipCaps` (no Epic piece before
+6. **DONE Nov 4 (your answer: drop them) - Equipment rarity caps still apply, unannounced.** The level-ups no longer mention equipment, but `EquipCaps` (no Epic piece before
    level 5, 2 at 13, a Legendary from 22...) still limits what can be worn; it explains itself when you try to equip. With gear now costing
    1,200-5,500 (4-6 pieces a playthrough) the caps barely bite. Drop them (everyone may wear what they bought)?
 7. **Townsfolk.** The gym attendant's two spots are mole farm hands; four standing townsfolk are now moles in four tints. Every other painted

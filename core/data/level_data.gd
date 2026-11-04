@@ -28,13 +28,12 @@ extends Resource
 @export var deck_slots: int = 5
 @export var reward_deck_expansion: bool = false
 ## Overnight Oct 17, Part 6 (the reward track, `data/progression/level_track.json`): a big level (highlighted on the level-up
-## screen), its headline, what it grants (gold, packs, cosmetics: {kind, ...}), the copy and equipment cap raises gained here
-## ([{rarity, cap}]) and whether the armory opens.
+## screen), its headline, what it grants (gold, packs, cosmetics: {kind, ...}), the copy cap raises gained here ([{rarity, cap}]) and
+## whether the armory opens.
 @export var big: bool = false
 @export var headline: String = ""
 @export var grants: Array[Dictionary] = []
 @export var copy_cap_raises: Array[Dictionary] = []
-@export var equip_cap_raises: Array[Dictionary] = []
 @export var armory: bool = false
 ## One-line human-readable summary of everything this level grants (level-up screen + the doc
 ## table share this exact text).

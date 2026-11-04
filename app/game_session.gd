@@ -989,7 +989,7 @@ func note_duel_won() -> void:
 
 
 ## Save migration (Part 5): a save from before the armory quest that already had equipment slots (the old level-5 slot choice)
-## gets every slot and the quest marked done, so nobody loses gear they could wear. Pieces over their rarity's equip cap come off.
+## gets every slot and the quest marked done, so nobody loses gear they could wear.
 func _migrate_armory() -> String:
 	if profile == null:
 		return ""
@@ -1001,21 +1001,16 @@ func _migrate_armory() -> String:
 		for slot: Variant in EquipmentData.Slot.values():
 			profile.unlock_equipment_slot(slot as EquipmentData.Slot)
 	pending_equipment_choices = 0
-	var removed: Array[EquipmentData] = EquipCaps.over_cap(profile.equipment, profile.level)
-	for piece: EquipmentData in removed:
-		profile.unequip(piece.slot)
-	if removed.is_empty():
-		return ""
-	return "Equipment now has rarity caps: %d piece%s went back into your bag." % [removed.size(), "" if removed.size() == 1 else "s"]
+	return ""
 
 
-## Why `piece` cannot be worn right now ("" = it can): the armory is still closed, or its rarity's equip cap is full.
+## Why `piece` cannot be worn right now ("" = it can): the armory is still closed. Any rarity may be worn (Nov 4: the level caps are gone).
 func why_not_equip(piece: EquipmentData) -> String:
 	if profile == null or piece == null:
 		return "Nothing to equip."
 	if not gear_unlocked():
 		return "Equipment slots open with Bertram Beetsworth's armory quest (Elder Maren will send you)."
-	return EquipCaps.why_not(profile.equipment, piece, profile.level)
+	return ""
 
 
 ## Equips an owned piece, unequipping whatever was in that slot. Saves on success.

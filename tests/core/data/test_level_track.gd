@@ -35,14 +35,11 @@ func test_anchors() -> void:
 	for rarity: int in range(CardEnums.Rarity.size()):
 		assert_eq(CopyCaps.cap_for(rarity as CardEnums.Rarity, 30), 3, "every rarity reaches 3 copies by 30")
 	var copy_levels: Array[int] = []
-	var equip_levels: Array[int] = []
 	for row: LevelData in ProgressionTable.build():
 		if not row.copy_cap_raises.is_empty():
 			copy_levels.append(row.level)
-		if not row.equip_cap_raises.is_empty():
-			equip_levels.append(row.level)
 	assert_eq(copy_levels, [9, 12, 18, 22, 30] as Array[int])
-	assert_eq(equip_levels, [5, 10, 13, 16, 19, 22, 25, 28] as Array[int])
+	assert_false(LevelTrack.section("equip_caps").size() > 0, "Fix pass Nov 4: no equipment rarity caps")
 
 
 func test_code_constants_match_the_track() -> void:

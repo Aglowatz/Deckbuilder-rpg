@@ -85,7 +85,6 @@ static func build() -> Array[LevelData]:
 		for grant: Variant in entry.get("grants", []) as Array:
 			row.grants.append((grant as Dictionary).duplicate())
 		row.copy_cap_raises = CopyCaps.raises_at(level)
-		row.equip_cap_raises = EquipCaps.raises_at(level)
 		rows.append(row)
 	_fill_summaries(rows)
 	_cache = rows
@@ -189,8 +188,8 @@ static func reward_lines(current: LevelData, previous: LevelData, primary: Affin
 		lines.append("Deck Station: %d to %d deck slots." % [previous.deck_slots, current.deck_slots])
 	for raise: Dictionary in current.copy_cap_raises:
 		lines.append("%s cards: up to %d copies." % [CopyCaps.rarity_name(int(raise["rarity"]) as CardEnums.Rarity), int(raise["cap"])])
-	# Fix pass Nov 4 (Part 3.1): no equipment lines at a level-up - equipment opens with its quest (Some Assembly Required). The rarity caps
-	# (`EquipCaps`) still apply and explain themselves where a piece is worn (`GameSession.why_not_equip`).
+	# Fix pass Nov 4 (Part 3.1): no equipment lines at a level-up - equipment opens with its quest (Some Assembly Required), and any piece
+	# may be worn in its slot whatever its rarity (the level-based rarity caps were dropped).
 	if previous != null:
 		if current.item_slots > previous.item_slots:
 			lines.append("+1 item slot (%d)." % current.item_slots)

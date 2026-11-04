@@ -1,6 +1,6 @@
 {
 	"max_level": 30,
-	"_about": "Overnight Oct 17, Part 6: the one level 1-30 reward track (LevelTrack). Hand-formatted: edit as text. docs/design/level_rewards.md is generated from it (tools/level_rewards_doc.gd). 'stats' and 'vendor' list the levels of the computed stat steps and shop unlocks; 'copy_caps' and 'equip_caps' the cap raises; 'levels' what each level grants (gold, packs: 'path'/'gilded' mean the player's own Path, cosmetics) plus its headline and whether it is a big level.",
+	"_about": "Overnight Oct 17, Part 6: the one level 1-30 reward track (LevelTrack). Hand-formatted: edit as text. docs/design/level_rewards.md is generated from it (tools/level_rewards_doc.gd). 'stats' and 'vendor' list the levels of the computed stat steps and shop unlocks; 'copy_caps' the copy-cap raises (equipment has no rarity caps since Nov 4); 'levels' what each level grants (gold, packs: 'path'/'gilded' mean the player's own Path, cosmetics) plus its headline and whether it is a big level.",
 	"stats": {
 		"hp_start": 15,
 		"hp_every": 2,
@@ -25,19 +25,6 @@
 			{"level": 18, "rarity": "legendary", "cap": 2},
 			{"level": 22, "rarity": "epic", "cap": 3},
 			{"level": 30, "rarity": "legendary", "cap": 3}
-		]
-	},
-	"equip_caps": {
-		"start": {"common": 5, "uncommon": 2, "epic": 0, "legendary": 0},
-		"raises": [
-			{"level": 5, "rarity": "epic", "cap": 1},
-			{"level": 10, "rarity": "uncommon", "cap": 3},
-			{"level": 13, "rarity": "epic", "cap": 2},
-			{"level": 16, "rarity": "uncommon", "cap": 5},
-			{"level": 19, "rarity": "epic", "cap": 3},
-			{"level": 22, "rarity": "legendary", "cap": 1},
-			{"level": 25, "rarity": "epic", "cap": 5},
-			{"level": 28, "rarity": "legendary", "cap": 2}
 		]
 	},
 	"levels": [

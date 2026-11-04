@@ -1,6 +1,6 @@
 extends GutTest
 ## Overnight Oct 17, Part 5 / Oct 20, Part 4: the armory quest (Beetsworth closed until Elder Maren sends the hero after the store room -
-## never by level; it ends with the Starter Blade and every equipment slot), equipment rarities from data, and equip caps by rarity and level.
+## never by level; it ends with the Starter Blade and every equipment slot), equipment rarities from data. Fix pass Nov 4: no rarity caps - any piece is worn in its slot at any level.
 
 
 func before_each() -> void:
@@ -79,20 +79,8 @@ func test_no_more_slot_choices_on_level_up() -> void:
 		assert_false(ProgressionTable.row(level).equipment_choice)
 
 
-func test_equip_caps_scale_with_level() -> void:
-	assert_eq(EquipCaps.cap_for(int(CardEnums.Rarity.COMMON), 5), 5)
-	assert_eq(EquipCaps.cap_for(int(CardEnums.Rarity.EPIC), 4), 0)
-	assert_eq(EquipCaps.cap_for(int(CardEnums.Rarity.EPIC), 5), 1, "the first Epic at level 5")
-	assert_eq(EquipCaps.cap_for(int(CardEnums.Rarity.LEGENDARY), 21), 0)
-	assert_eq(EquipCaps.cap_for(int(CardEnums.Rarity.LEGENDARY), 22), 1, "the first Legendary late")
-	for rarity: int in range(4):
-		for level: int in range(2, 31):
-			assert_gte(EquipCaps.cap_for(rarity, level), EquipCaps.cap_for(rarity, level - 1))
-			assert_lte(EquipCaps.cap_for(rarity, level), EquipCaps.SLOTS)
-
-
-func test_an_epic_over_the_cap_is_refused_with_a_reason() -> void:
-	_to_level(5)
+func test_any_rarity_is_worn_at_any_level() -> void:
+	_to_level(2)
 	_sent_by_maren()
 	Session.armory_talk()
 	Session.note_duel_won()
@@ -103,13 +91,9 @@ func test_an_epic_over_the_cap_is_refused_with_a_reason() -> void:
 	Session.grant_equipment(first)
 	Session.grant_equipment(second)
 	assert_eq(Session.why_not_equip(first), "")
-	assert_true(Session.equip_item(first))
-	var reason: String = Session.why_not_equip(second)
-	assert_true(reason.contains("1 Epic piece"), reason)
-	assert_false(Session.equip_item(second))
-	_to_level(13)
-	assert_eq(Session.why_not_equip(second), "", "level 13 allows two Epics")
-	assert_true(Session.equip_item(second))
+	assert_true(Session.equip_item(first), "an Epic at level 2")
+	assert_eq(Session.why_not_equip(second), "")
+	assert_true(Session.equip_item(second), "and a second Epic beside it")
 
 
 func test_swapping_a_piece_in_the_same_slot_is_never_blocked_by_its_own_rarity() -> void:
@@ -123,7 +107,7 @@ func test_swapping_a_piece_in_the_same_slot_is_never_blocked_by_its_own_rarity()
 	assert_eq(Session.why_not_equip(b), "", "replacing the Epic in the same slot is fine")
 
 
-func test_old_saves_with_slots_keep_them_and_lose_capped_pieces() -> void:
+func test_old_saves_with_slots_keep_them_and_their_pieces() -> void:
 	_to_level(6)
 	Session.profile.unlock_equipment_slot(EquipmentData.Slot.WEAPON)
 	Session.profile.unlock_equipment_slot(EquipmentData.Slot.HELM)
@@ -136,5 +120,4 @@ func test_old_saves_with_slots_keep_them_and_lose_capped_pieces() -> void:
 	assert_true(Session.from_dict(data))
 	assert_true(Session.gear_unlocked(), "an old save with slots counts as done")
 	assert_true(Session.profile.has_equipment_slot(EquipmentData.Slot.BOOTS), "and gets every slot")
-	assert_eq(Session.profile.equipment.size(), 1, "one Epic over the level-6 cap came off")
-	assert_true(Session.town_notice.contains("rarity caps"), Session.town_notice)
+	assert_eq(Session.profile.equipment.size(), 2, "both Epics stay on")
