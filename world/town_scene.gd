@@ -2712,6 +2712,9 @@ func _use_alchemist() -> void:
 	_face_npc("alchemist")
 	var lines: Array[String] = story.get_lines("town.alchemist.return" if Session.flag(&"alchemist_met") else "town.alchemist.intro")
 	Session.set_flag(&"alchemist_met")
+	if Session.visit_alchemist():
+		lines.append_array(story.get_lines("town.alchemist.quest_gift"))  # Fix pass Nov 4 (B): the starter jar of every Path
+		hud.toast("+%d essence of every Path" % Alchemy.MIN_ESSENCE_PER_PATH, UIStyle.GOLD, 4.0)
 	dialogue.start("Auntie Alembic", lines)
 	dialogue.finished.connect(_open_alchemist, CONNECT_ONE_SHOT)
 

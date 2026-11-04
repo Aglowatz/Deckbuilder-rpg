@@ -58,8 +58,9 @@ func essence_of(path: Affinity.Type) -> int:
 	return int(essence.get(int(path), 0))
 
 
+## Fix pass Nov 4 (B): a Path holds at most Alchemy.ESSENCE_CAP_PER_PATH (three crafts' worth); more is lost.
 func add_essence(path: Affinity.Type, amount: int) -> void:
-	essence[int(path)] = essence_of(path) + amount
+	essence[int(path)] = mini(essence_of(path) + amount, maxi(Alchemy.ESSENCE_CAP_PER_PATH, essence_of(path)))
 
 
 func set_essence(path: Affinity.Type, amount: int) -> void:

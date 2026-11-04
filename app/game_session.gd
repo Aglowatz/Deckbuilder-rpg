@@ -487,7 +487,20 @@ func unlock_state() -> UnlockState:
 	return state
 
 
-## The Alchemist (Part F): trades ALL essence of two Paths plus gold for a random dual-Path card of those Paths
+## Fix pass Nov 4 (B), Part 4.2: the first visit to Auntie Alembic's while "A Pinch of Everything" is active completes its first step and pays
+## Alchemy.MIN_ESSENCE_PER_PATH essence of every Path (one brew's worth of any two). True when it paid (once ever).
+func visit_alchemist() -> bool:
+	if profile == null or flag(StringName(QuestDefinitions.FLAG_ALEMBIC_VISITED)) or not quest_log.active.has(QuestDefinitions.ALEMBIC):
+		return false
+	for path: Affinity.Type in Affinity.colored_types():
+		profile.add_essence(path, Alchemy.MIN_ESSENCE_PER_PATH)
+	set_flag(StringName(QuestDefinitions.FLAG_ALEMBIC_VISITED))
+	refresh_quests()
+	save_game()
+	return true
+
+
+## The Alchemist (Part F): trades essence of two Paths (what the brew needs) plus gold for a random dual-Path card of those Paths
 ## (`Alchemy.craft`). On success the gold is paid and the card joins the collection (an extra copy converts like any
 ## other). The result says why a trade could not be made.
 func craft_dual_card(first: Affinity.Type, second: Affinity.Type) -> Alchemy.Result:

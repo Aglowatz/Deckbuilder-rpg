@@ -44,10 +44,38 @@ static func build_all() -> Array[QuestData]:
 	result.append(_armory())
 	result.append(_first_deck_edit())
 	result.append(_loose_ends())
+	result.append(_alembic())
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
+
+
+## Fix pass Nov 4 (B), Part 4.2: when the Alchemist opens (two zones free) a quest points the player to Auntie Alembic's. Its first step (talking to
+## her) pays MIN_ESSENCE_PER_PATH essence of every Path (`Session.visit_alchemist`), enough for one brew of any two; the second is that brew.
+const ALEMBIC: String = "alembic_cauldron"
+const FLAG_ALEMBIC_VISITED: String = "alembic_quest_visited"
+
+
+static func _alembic() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = ALEMBIC
+	quest.category = QuestData.Category.SIDE
+	quest.order = 95
+	quest.title = "A Pinch of Everything"
+	quest.summary = "Auntie Alembic's cauldron is bubbling again. She brews cards of two Paths at once out of essence, and she has a starter jar for you."
+	quest.auto_give = true
+	quest.prerequisite = Condition.zones_completed(ZoneCompletion.ALCHEMIST_UNLOCK_COUNT)
+	quest.giver_npc = "Auntie Alembic"
+	quest.giver_area = "town"
+	quest.giver_spot = "alchemist"
+	quest.objectives = [
+		QuestObjective.make("Visit Auntie Alembic's in Crosspath", Condition.flag(FLAG_ALEMBIC_VISITED)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's, the alchemist's shop in Crosspath"),
+		QuestObjective.make("Brew a card of two Paths at her cauldron", Condition.counter("cards_crafted", 1)).at(QuestObjective.TargetKind.NPC, "town", "alchemist", "Auntie Alembic's cauldron: pick two Paths"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 50
+	quest.reward_xp = 40
+	return quest
 
 
 ## Nov 1 (the designer's yes to the postgame critics): after the credits the quest log said "Nothing here right now". Loose Ends

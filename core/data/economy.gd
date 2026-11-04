@@ -55,7 +55,7 @@ const MAIN_REPEAT_GOLD: int = 100
 const ARENA_REPLAY_GOLD: int = 25
 
 ## The Alchemist's gold half of a brew.
-const ALCHEMY_GOLD: int = 150
+const ALCHEMY_GOLD: int = 100  # Fix pass Nov 4 (B), Part 4.2 (was 150)
 
 ## Phase 2 (the late sink): rerolling a world card pick once, 40 + 10 per level, to the nearest 10 (L5 90, L12 160, L22 260).
 const REROLL_BASE: int = 40

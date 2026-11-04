@@ -54,7 +54,7 @@ func _build_essence_column() -> Control:
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Your Path essence", &"HeadingLabel", 32))
-	var blurb: Label = UIKit.label("Every copy of a card beyond your copy cap (now %s) turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each." % [_caps_text(), Alchemy.MIN_ESSENCE_PER_PATH], &"MutedLabel", 20)
+	var blurb: Label = UIKit.label("Every copy of a card beyond your copy cap (now %s) turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each; a brew uses %d of each, and a Path holds at most %d." % [_caps_text(), Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.ESSENCE_CAP_PER_PATH], &"MutedLabel", 20)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 	column.add_child(blurb)
@@ -177,20 +177,20 @@ func _refresh() -> void:
 		for path: Affinity.Type in _selected:
 			essence.append("%d %s" % [Session.profile.essence_of(path), Affinity.display_name(path)])
 		_craft_button.disabled = _brewing or not Alchemy.tri_problem(Session.profile, Session.gold, _selected).is_empty()
-		_cost_label.text = "Trade %s essence and %d gold for a random tri-Path card of all three." % [" + ".join(essence), Alchemy.TRI_GOLD_COST]
+		_cost_label.text = "Trade %d essence of each (you have %s) and %d gold for a random tri-Path card of all three." % [Alchemy.MIN_ESSENCE_PER_PATH, " + ".join(essence), Alchemy.TRI_GOLD_COST]
 		_hint_label.text = Alchemy.tri_problem(Session.profile, Session.gold, _selected)
 		return
 	var pair_ready: bool = _selected.size() == 2
 	_craft_button.disabled = _brewing or not pair_ready or not Alchemy.can_craft(Session.profile, Session.gold, _selected[0], _selected[1])
 	if _selected.size() < 2:
-		_cost_label.text = "Choose two Paths. The brew takes ALL of your essence of both, plus %d gold, and gives you ONE random dual-Path card of those Paths." % Alchemy.GOLD_COST
+		_cost_label.text = "Choose two Paths. The brew takes %d essence of each, plus %d gold, and gives you ONE random dual-Path card of those Paths. The rest stays in your jars." % [Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.GOLD_COST]
 		if Alchemy.tri_path_unlocked(Session.profile):
 			_cost_label.text += " Or choose three for a tri-Path card (%d gold)." % Alchemy.TRI_GOLD_COST
 		_hint_label.text = StoryText.shared().text("town.alchemist.need_more") if not Alchemy.can_craft_something(Session.profile) else ""
 	else:
 		var first: int = Session.profile.essence_of(_selected[0])
 		var second: int = Session.profile.essence_of(_selected[1])
-		_cost_label.text = "Trade %d %s + %d %s essence and %d gold for a random %s / %s card." % [first, Affinity.display_name(_selected[0]), second, Affinity.display_name(_selected[1]), Alchemy.GOLD_COST, Affinity.display_name(_selected[0]), Affinity.display_name(_selected[1])]
+		_cost_label.text = "Trade %d %s + %d %s essence (of your %d + %d) and %d gold for a random %s / %s card." % [Alchemy.MIN_ESSENCE_PER_PATH, Affinity.display_name(_selected[0]), Alchemy.MIN_ESSENCE_PER_PATH, Affinity.display_name(_selected[1]), first, second, Alchemy.GOLD_COST, Affinity.display_name(_selected[0]), Affinity.display_name(_selected[1])]
 		_hint_label.text = Alchemy.problem(Session.profile, Session.gold, _selected[0], _selected[1])
 
 

@@ -143,7 +143,8 @@ func test_crafting_needs_enough_essence_of_two_paths_and_gold() -> void:
 	assert_eq(Alchemy.eligible_paths(profile), [A, D] as Array[Affinity.Type])
 
 
-func test_crafting_trades_all_essence_of_both_paths_and_gold_for_a_dual_card() -> void:
+## Fix pass Nov 4 (B), Part 4.2: a brew spends only what it needs (it used to take ALL the essence of both Paths).
+func test_crafting_trades_the_needed_essence_of_both_paths_and_gold_for_a_dual_card() -> void:
 	var profile: PlayerProfile = Session.profile
 	profile.set_essence(A, 17)
 	profile.set_essence(D, 12)
@@ -153,12 +154,55 @@ func test_crafting_trades_all_essence_of_both_paths_and_gold_for_a_dual_card() -
 	assert_true(result.ok, result.reason)
 	assert_true(result.card.is_multipath())
 	assert_true(result.card.is_on_path(A) and result.card.is_on_path(D), "a Beefcake / Necrocrat card")
-	assert_eq(profile.essence_of(A), 0, "ALL essence of both Paths is spent")
-	assert_eq(profile.essence_of(D), 0)
+	assert_eq(profile.essence_of(A), 17 - Alchemy.MIN_ESSENCE_PER_PATH, "only the needed essence is spent")
+	assert_eq(profile.essence_of(D), 12 - Alchemy.MIN_ESSENCE_PER_PATH)
 	assert_eq(profile.essence_of(B), 5, "other Paths are untouched")
 	assert_eq(Session.gold, 250 - Alchemy.GOLD_COST)
 	assert_eq(Session.owned_count(result.card.id), 1, "the card joins the collection")
 	assert_eq(Session.counter("cards_crafted"), 1)
+
+
+## Fix pass Nov 4 (B), Part 4.2: the owner's example - 18 essence, a craft that needs 6, leaves 12. The gold is 100; a Path holds at most 18.
+func test_eighteen_essence_and_one_craft_leaves_twelve() -> void:
+	var profile: PlayerProfile = Session.profile
+	profile.set_essence(A, 18)
+	profile.set_essence(D, 18)
+	Session.gold = 500
+	assert_eq(Alchemy.MIN_ESSENCE_PER_PATH, 6)
+	assert_eq(Alchemy.GOLD_COST, 100, "crafting costs 100 gold")
+	var result: Alchemy.Result = Session.craft_dual_card(A, D)
+	assert_true(result.ok, result.reason)
+	assert_eq(profile.essence_of(A), 12)
+	assert_eq(profile.essence_of(D), 12)
+	assert_eq(Session.gold, 400)
+	assert_eq(int(result.essence_spent[A]), 6)
+
+
+func test_essence_is_capped_at_three_crafts_worth_per_path() -> void:
+	var profile: PlayerProfile = Session.profile
+	assert_eq(Alchemy.ESSENCE_CAP_PER_PATH, 3 * Alchemy.MIN_ESSENCE_PER_PATH)
+	profile.set_essence(A, 0)
+	profile.add_essence(A, 50)
+	assert_eq(profile.essence_of(A), 18, "a Path holds at most 18")
+	profile.add_essence(A, 2)
+	assert_eq(profile.essence_of(A), 18)
+
+
+func test_the_alembic_quest_pays_a_starter_jar_of_every_path_on_the_first_visit() -> void:
+	var quest: QuestData = QuestCatalog.find(QuestDefinitions.ALEMBIC)
+	assert_not_null(quest)
+	assert_true(quest.auto_give)
+	assert_eq(quest.objectives.size(), 2)
+	assert_false(Session.visit_alchemist(), "nothing before the quest is given")
+	Session.quest_log.active.append(QuestDefinitions.ALEMBIC)  # (its real trigger is two freed zones)
+	for path: Affinity.Type in Affinity.colored_types():
+		Session.profile.set_essence(path, 0)
+	assert_true(Session.visit_alchemist())
+	for path: Affinity.Type in Affinity.colored_types():
+		assert_eq(Session.profile.essence_of(path), Alchemy.MIN_ESSENCE_PER_PATH, "the minimum of every Path")
+	assert_true(Alchemy.can_craft_something(Session.profile), "enough for one brew of any two")
+	assert_false(Session.visit_alchemist(), "once only")
+	assert_eq(Session.profile.essence_of(A), Alchemy.MIN_ESSENCE_PER_PATH)
 
 
 func test_a_failed_craft_costs_nothing() -> void:
@@ -242,7 +286,7 @@ func test_every_trio_of_paths_brews_into_one_of_its_tri_path_cards() -> void:
 		assert_eq(result.card.paths().size(), 3, "a tri-Path card")
 		for path: Affinity.Type in paths:
 			assert_true(result.card.is_on_path(path))
-			assert_eq(Session.profile.essence_of(path), 0, "ALL essence of the three Paths is spent")
+			assert_eq(Session.profile.essence_of(path), 20 - Alchemy.MIN_ESSENCE_PER_PATH, "only the needed essence of the three Paths is spent")
 		assert_eq(Session.gold, 5)
 		assert_false(CardAvailability.is_enemy_only(result.card))
 
@@ -281,7 +325,7 @@ func test_the_alchemist_screen_takes_three_paths_in_the_postgame() -> void:
 	assert_false(craft.disabled, "three eligible Paths chosen")
 	craft.pressed.emit()
 	assert_eq(Session.gold, 0, "the tri-Path brew was paid")
-	assert_eq(Session.profile.essence_of(B), 0)
+	assert_eq(Session.profile.essence_of(B), 12 - Alchemy.MIN_ESSENCE_PER_PATH)
 
 
 func test_the_alchemist_screen_lists_essence_and_enables_craft() -> void:
@@ -302,7 +346,7 @@ func test_the_alchemist_screen_lists_essence_and_enables_craft() -> void:
 	craft.pressed.emit()
 	await wait_seconds(2.3)
 	assert_signal_emitted(screen, "crafted")
-	assert_eq(Session.profile.essence_of(A), 0)
+	assert_eq(Session.profile.essence_of(A), 14 - Alchemy.MIN_ESSENCE_PER_PATH)
 	assert_not_null(screen.find_child("CraftResult", true, false))
 
 
