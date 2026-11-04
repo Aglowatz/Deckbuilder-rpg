@@ -25,7 +25,7 @@ Previous state: docs/overnight/nov3b/loop_state_gainlands_rock_nov3.md.
 | 0 | State check + image notes | done |
 | A | Quick fixes 1-7 | done (4435bd02, with items B1-B4): pack toasts wait, item badge, Saucepan Helmet, chest back, wheel run, NPC routes, 4 slots |
 | B | Systems + balance 1-10 | done (acf6b130): tutorials, hidden traits, fog, cards 300/600/1500/3000 + 2x repeat fights, townsfolk; full GUT stopped by host (low memory) at 31/33, failing/unrun files rerun green |
-| C | Character page redesign | code in (acf6b130), tests green; TODO shots, compare image, critic pass |
-| D | Pip's shop | in progress: masked cloak dye (25 masks PLAYER/*_dye.png, shader), new tailor screen in scratchpad; timebox started 21:22 |
-| E | Art audit CSV | docs/art/art_needed_nov4.csv written (27 rows), not committed yet |
-| Finish | GUT, critic, report, export, smoke | todo |
+| C | Character page redesign | done (fd32a0f9): shots, character_menu_result.png, critic fixes |
+| D | Pip's shop | done (de19ef3e): Preview, Equip, No hat; cloaks KEPT (masked dye) |
+| E | Art audit CSV | done (43ff071e): docs/art/art_needed_nov4.csv, 27 rows |
+| Finish | GUT, critic, report, export, smoke | GUT green (foreground chunks), critic 6/5/5/6/6/4 + fixes (98e26ed4), report + inbox written; EXPORT BLOCKED (editor open, 1.6 GB disk) - release smoke not run |

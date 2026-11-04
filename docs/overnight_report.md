@@ -1,3 +1,122 @@
+# Report - Overnight Nov 3-4 (Opus 5.5): items, character page, Pip, dungeon fog, polish
+
+Brief: `docs/prompts/overnight_nov3.md`. Tag `pre-overnight-nov3`. State: `docs/loop_state.md`. Decisions: `docs/overnight_inbox.md`
+("Overnight Nov 3-4"). Shots: `docs/overnight_shots/nov3/`. Commits 4435bd02 (A + items), acf6b130 (B), de19ef3e (D), fd32a0f9 (C), 43ff071e (E).
+
+## Part 0 - state check
+- The Gainlands techno-hard-rock set and the true Vorbis q6 rollback **landed** (Nov 3 commits 795560c2..66ee34f2).
+- Missing from that pass: the v0.5.3 export + release smoke (blocked on disk). Still blocked tonight (see Export).
+- The six reference images are described in `docs/loop_state.md`.
+
+## Part A - quick fixes
+| # | Result |
+|---|---|
+| 1 | Pack opening: the essence / gold toasts are held (`ToastLayer.hold`) and each card's "Extra copy" label stays hidden until the last card is face up; a click during the last flip no longer jumps to the summary. Test with a pack of duplicates. |
+| 2 | Battle item slots: the badge box was stretched over the whole slot by its PanelContainer (the dark bar). Icon + badge now sit on a plain layer; the count is a small outlined "x2" pill bottom-right, checked for every item (`test_item_bar_badge`, shot `e_02/e_04`). |
+| 3 | Saucepan Helmet: "Max HP +1, and heal 1 HP at the start of every duel." Max HP +1 and a start-of-duel heal capped at max (the old +1 starting HP did nothing with carried HP). 5 tests. |
+| 4 | Crosspath's giant chest (Shiro's) opens from the back too (`chest_back` spot, same chest, once). |
+| 5 | Gainlands wheel: the painted hero ignored the old 3D "Running_A"; the sprite now runs its walk cycle at 7.5 cycles/s facing the run, then idles (`WorldSprite.run_cycles`). |
+| 6 | NPC clipping: a townsfolk spur point with no clear way to the ring was linked to point 0 straight through walls; links were sampled 8 times (~1 m apart). Now: unlinked spurs, a sample every 0.2 m, a 0.75 m clearance from every building rectangle (`TownBuilder.npc_can_stand`), roamers kept out of buildings, zone strollers checked every ~0.15 m. Crosspath tested route by route (`test_crosspath_bounds`); the other towns' strollers already stop at walls step by step (spot-checked in code). |
+| 7 | Item slots were 1 + one at levels 10 / 20 / 30. Now four: 2 from the start, L6, L12 (Part B2). |
+
+## Part B - systems and balance
+1. **Single-use items**: every item `uses = 1`; a purchase / reward adds one charge, a use spends it, 0 charges empties the slot; extra charges
+   wait in the inventory. Old saves keep their charges.
+2. **Four positional slots** (2 / L6 / L12), locked slots read "Level 6 unlock" / "Level 12 unlock"; migration keeps every equipped item that fits.
+3. **Prices** (per charge; `Economy.ITEM_PRICES`, docs/design/items_nov4.md):
+
+| Item | Before (for 1-3 uses) | Now |
+|---|---:|---:|
+| Reckless Tonic / Vitality Charm | 30 / 30 | 50 / 50 |
+| Power Wraps | 30 | 60 |
+| Healing Salve | 60 | 70 |
+| Scroll of Insight / Sharpening Stone | 45 / 45 | 80 / 80 |
+| Energy Draught (was Healing Draught) / Firebrand Charm | 45 / 45 | 100 / 100 |
+| High shelf (L17): Binding Chains, Silence Powder, Grave Dust, Summoning Charm, Ward Sigil | 90 / 60 / 45 / 90 / 60 | 150 each |
+
+4. **Energy Draught** (same bottle art): "Choose a Path in your deck: gain 1 energy of that Path this turn." Only the deck's Paths are offered
+   (one Path = no question, shot `e_03`); off every healing list; not usable outside a battle.
+5. **Tilly's item tutorial**: Meet the Merchants now opens with Tilly; she gives one free Power Wraps (the Field Bandage's name since Nov 2)
+   and says how to equip it; the Menu button and its Character entry glow, then on the page the item, then an empty slot; done on equip.
+6. **Equipment tutorial**: "Collect your gear" opens the slots and hands over the Starter Blade unworn; Bertram explains; the Weapon slot and
+   then the blade on the new Equipment page glow; the new last step completes the armory quest on equip (shot `c_05`).
+7. **Hidden battle triggers**: "Hidden trait ?" chip (tooltip "Something happens in this fight you haven't seen yet.") in the battle row,
+   every pre-fight description and the Collection Book until the trigger fired once in this save; it turns into the real badge when it fires.
+8. **Dungeon fog**: nodes "?" until stepped on (boss included), known on later runs; dungeon names "???" until entered (`SpoilerFree.dungeon_name`);
+   new game = hidden; old saves keep cleared dungeons revealed (shot `b8_01`).
+9. **Card economy** (`tools/gold_study.gd` -> `docs/balance/gold_economy_nov3.md`):
+
+| No-grind playthrough | Gold |
+|---|---:|
+| Starting gold | 120 |
+| Crosspath (cave, early chain, outskirts, level track) | 2119 |
+| Gainlands / D.N.A. / Buffet / Dump | 2010 / 1930 / 2145 / 2250 |
+| Capital | 3700 |
+| Postgame | 1755 |
+| **Total** | **16,029** |
+| Also bought: 7 item charges 530, 3 hats 700, essential gear 690, 5 hub fees 95 | -2,015 |
+| **Left for cards** | **14,014** |
+
+| Card price | Before | After |
+|---|---:|---:|
+| Common | 30 | **300** |
+| Uncommon | 60 | **600** |
+| Epic | 150 | **1500** |
+| Legendary | 300 | **3000** |
+
+   A 20-card mix (10 C, 6 U, 3 E, 1 L) costs 14,100: **19.9 cards** (the old prices bought ~198). Grinding: a roamer spot beaten before now
+   pays 2x (first wins unchanged): **repeat fights per Common - Gainlands 4.3, D.N.A. 3.8, Buffet 3.0, Dump 2.5, Capital 2.1** (Crosspath
+   outskirts 11.5); per Uncommon twice that. Packs were not repriced (inbox).
+10. **Townsfolk**: four standing townsfolk from non-story sets (mole farm hand, gym attendant, tinted) beside the tinted badger strollers; the
+   Capital citizen stays Capital-only.
+
+## Part C - Character page
+Spec: `docs/ui/character_menu_spec.md`. Comparison: `docs/ui/ref/character_menu_result.png` (target | early save | mid save | Equipment
+page). Every element of the target is in; the critic pass fixes are listed in the spec (section 9). Keyboard / pad: every slot and cell is a
+focusable button.
+
+## Part D - Pip's shop
+Preview shows the item alone, large, on a plain panel; owned items Equip / Equipped; "No hat" and "Plain hooded cloak" entries (shots
+`d_02`, `d_04`). **Cloak decision: kept.** The dye was a hue guess (it caught eyes, glow and shirt shadows); it now follows the painted cloak
+mask of each of the 25 frames (`PLAYER/<KEY>_dye.png` from `_art_source/cloak_masks`), fixed inside the 45-minute timebox and checked in all
+five facings, idle and walking (`cloak_dye_sheet.png`). The hero is not drawn in battle at all (a hat icon stands for the player), so "in
+battle" cannot show any cosmetic - inbox.
+
+## Part E - art audit
+`docs/art/art_needed_nov4.csv`, 27 rows: Flex as a lion everywhere (portrait old + transformed, STORY-RESCUE, every SPR-FLEX frame, a
+freed-Flex sprite set for today's 3D stand-in), STORY-FLEX's throne figure to the new Clench, the missing still before the Clench fight
+(STORY-CLENCH-THRONE, beats 1-2 of the flex cutscene), consistency mismatches (Primm's sprite, the hero's cloak colour, the ghost clerks),
+placeholders (townsfolk portrait, Rollo as Gus, Figsly 3D, four missing portraits, five bestiary entries).
+
+## Finish
+- GUT: the host stopped one full run for low memory (shard 31/33); the suite was then run in foreground chunks: **~2,670 tests, 0 failing,
+  2 pending**.
+- Critic play-through (`docs/review/critic_brief_nov3.md` -> `docs/review/fresh_eyes_nov3.md`, 8 runs, no SCRIPT ERROR). It played from
+  the main repo at HEAD (committed, untouched while it ran): a worktree checkout (~1.6 GB) did not fit the 1.8 GB of free disk. Scores:
+  Tilly's lesson 6, Energy Draught 5, dungeon first visit 5, Pip's shop 6, Character page 6, Baron's hidden trait 4 (it saw only the
+  "before" half: its last run never started the boss fight).
+  - Fixed: floating energy now shows by your portrait while unspent ("+1 Beefcake energy this turn"; shot `e_05`); Tilly's "Received" toast
+    comes after her lines and says "Press C"; tutorial lines and steps name the C key.
+  - Kept by the brief: every unvisited node is "?" (boss included); Preview shows the hat alone, not the hero.
+  - Checked, not a bug: Escape closes the Equipment page, then the Character page (test added) - the critic pressed it during the open fade.
+  - Open (inbox): a used item slot looks like an empty one; the boss pre-fight panel is a wall of rules; Pip's tiles shift a little between
+    states; Bertram's plate is cut off ("Bertram Beetsworth, Assis...").
+- **Export: NOT done.** `tools/export_windows.sh 0.5.3` stopped at its preflight - the Godot editor is open (PID 20172, since 6:15 PM; not
+  closed by me) and C: has 1.6 GB free (it needs ~2.5 GB). Nothing was replaced; v0.5.2 stays the newest zip. The release smoke was not run.
+  To ship: close the editor, free ~1 GB (the v0.5.2 zip in builds/, or old runs in the git-ignored `_screenshots/`: 914 MB), then
+  `bash tools/export_windows.sh 0.5.3` and the release smoke.
+
+## Screenshots (docs/overnight_shots/nov3/)
+`b5_01_tilly_gift`, `b5_02_hud_hint`, `c_01_early_tutorial_inventory`, `c_02_early_tutorial_slot`, `c_02b_early_equipped`,
+`c_03_equipment_unlocked_tutorial`, `c_04_equipment_page`, `c_05_blade_equipped`, `c_07/08_mid_save`, `c_09_equipment_page`, `d_01..04`
+(Pip), `b8_01_fog_first_visit`, `e_01_four_equipped`, `e_02..05` (battle items, Energy Draught), `cloak_dye_sheet.png`;
+`docs/ui/ref/character_menu_result.png`.
+
+## Open questions
+In `docs/overnight_inbox.md`, "Overnight Nov 3-4" (15 items): the gift item's name, step order, once-per-battle with single charges, item
+price feel, pack prices vs the new card prices, fog migration and the main dungeons' prompt text, hidden traits in the Collection Book,
+the hero absent from battle (cosmetics), townsfolk portraits, the critic's open UX points, the export.
+
 # Report - Gainlands rock set + music quality rollback Nov 3 (Opus 5.5)
 
 Brief: "GAINLANDS ROCK SET + MUSIC QUALITY ROLLBACK" (Parts 1-4). Tag `pre-gainlands-rock`. Full report:
