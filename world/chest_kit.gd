@@ -8,6 +8,11 @@ const LID_NODE: String = "chest_gold_lid"
 const BODY_NODE: String = "chest_gold"
 ## The lid's rotation about its hinge when open (degrees about X: up and back).
 const OPEN_ANGLE: float = -112.0
+## Fix pass Nov 4 (Part 4.2): every hidden chest 25% bigger (0.225 -> 0.28125) so it is easier to spot, its solid footprint with it
+## (0.18 -> 0.225 m) and the reach to open it (1.5 -> 1.6 m).
+const SCALE: float = 0.28125
+const FOOTPRINT: float = 0.225
+const REACH: float = 1.6
 
 
 static func lid_of(chest: Node3D) -> Node3D:

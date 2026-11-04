@@ -211,10 +211,11 @@ func test_town_roamers_stay_out_of_buildings() -> void:
 ## Nov 3-4, Part B10: the standing townsfolk come from the non-story pool, never the Capital's citizen, and stand clear of every building.
 func test_townsfolk_pool_and_standing_spots() -> void:
 	assert_does_not_have(TownScene.TOWNSFOLK_POOL, "CITIZEN", "Primm's citizen walks only the Capital")
-	var characters: Dictionary = {}
+	var looks: Dictionary = {}
 	for spec: Dictionary in TownScene.STANDING_TOWNSFOLK:
 		assert_has(TownScene.TOWNSFOLK_POOL, str(spec["character"]))
-		characters[str(spec["character"])] = true
+		assert_ne(str(spec["character"]), "GYM_ATTENDANT", "Fix pass Nov 4: no gym kit in the town square")
+		looks["%s %s" % [spec["character"], str(spec["tint"])]] = true
 		var pos: Vector3 = (_town.anchors[str(spec["anchor"])] as Vector3) + (spec["offset"] as Vector3)
 		assert_true(_town.npc_can_stand(pos), "%s by %s stands clear" % [spec["character"], spec["anchor"]])
-	assert_gte(characters.size(), 2, "more than one look among the standing townsfolk")
+	assert_eq(looks.size(), TownScene.STANDING_TOWNSFOLK.size(), "every standing townsperson has a look of their own (set and tint)")

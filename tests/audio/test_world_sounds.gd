@@ -91,3 +91,39 @@ func test_area_surfaces_name_real_footsteps() -> void:
 				found[surface] = true
 	for surface: String in ["carpet", "marble", "tile", "mashed", "junk", "ash", "cobble", "pastel", "wood"]:
 		assert_true(found.has(surface), "%s appears somewhere" % surface)
+
+
+## Fix pass Nov 4 (Part 4.3): the Buffet's paved cracker roads are cobbles (they squelched like the mashed meadow), the Grand Pantry's checkered
+## plaza is tile, the meadow still squelches; the Dump's trodden paths are dirt, even through the wetlands.
+func test_paths_sound_like_paths() -> void:
+	var buffet: BuffetBuilder = BuffetBuilder.new()
+	buffet.layout.build()
+	var on_path: int = 0
+	for path: Dictionary in buffet.layout.paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		for i: int in range(line.size() - 1):
+			for step: int in range(1, 4):
+				var p: Vector2 = line[i].lerp(line[i + 1], float(step) / 4.0)
+				var at: Vector3 = Vector3(p.x, 0.0, p.y)
+				if buffet.layout.surface_at(p.x, p.y) != BuffetLayout.Surface.GROUND or not buffet.platform_under(at).is_empty():
+					continue
+				on_path += 1
+				var surface: StringName = buffet.surface_at(at)
+				assert_true(surface == &"cobble" or surface == &"tile", "Buffet road at %s steps on %s" % [str(p), surface])
+	assert_gt(on_path, 20)
+	assert_eq(buffet.surface_at(Vector3(50.0, 0.0, 64.0)), &"tile", "the Grand Pantry's plaza")
+	var meadow: int = 0
+	for x: int in range(10, 90, 4):
+		for z: int in range(10, 90, 4):
+			if buffet.layout.path_weight(float(x), float(z)) == 0.0 and buffet.surface_at(Vector3(float(x), 0.0, float(z))) == &"mashed":
+				meadow += 1
+	assert_gt(meadow, 10, "the open mashed-potato meadow still squelches")
+	var heap: HeapBuilder = HeapBuilder.new()
+	heap.layout.build()
+	for path: Dictionary in heap.layout.paths:
+		var heap_line: PackedVector2Array = path["line"] as PackedVector2Array
+		for i: int in range(heap_line.size() - 1):
+			var mid: Vector2 = heap_line[i].lerp(heap_line[i + 1], 0.5)
+			if heap.layout.surface_at(mid.x, mid.y) != HeapLayout.Surface.GROUND:
+				continue
+			assert_eq(heap.surface_at(Vector3(mid.x, 0.0, mid.y)), &"dirt", "Dump path at %s" % str(mid))

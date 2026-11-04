@@ -12,7 +12,7 @@ extends Node3D
 ## The approved world-look framing (WorldLookRig.base_offset() for the F5 values: pitch 20, distance 6.2); scenes read the live value.
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 2.12, 5.83)
 const CLICK_PICK_RADIUS: float = 90.0
-const HIDDEN_CHEST_RADIUS: float = 1.5
+const HIDDEN_CHEST_RADIUS: float = ChestKit.REACH
 const SPAWN_GRACE: float = 2.0
 ## Meshes farther than this from the (low) camera are not drawn: the low camera sees the whole map to the horizon, which the old high camera never did (docs/art/world_rollout.md).
 const CULL_DISTANCE: float = 48.0

@@ -19,7 +19,7 @@ const CLICK_PICK_RADIUS: float = 90.0
 ## chests, since the only tell it exists at all is this prompt appearing once genuinely close.
 const TUNNEL_RADIUS: float = 1.5
 ## Polish round: the treeline nooks' hidden chests use the same tight radius.
-const CHEST_RADIUS: float = 1.5
+const CHEST_RADIUS: float = ChestKit.REACH
 ## Story v2: how close to the treeline the hero may get before talking themselves back to the cave.
 const EDGE_PROBE: float = 0.7
 

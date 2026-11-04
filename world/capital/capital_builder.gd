@@ -1391,8 +1391,9 @@ func _build_chests() -> void:
 		# square to the streets inside (perfection), a quarter turn at most outside; never at random
 		var at: Vector3 = layout.chests[id] as Vector3
 		chest.rotation_degrees.y = 0.0 if CapitalLayout.is_inside(at.x, at.z) else [0.0, 90.0, 180.0, 270.0][absi(str(id).hash()) % 4]
-		chest.scale = Vector3.ONE * 0.225
+		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[str(id)] = chest
+		_add_obstacle(Vector3(at.x, at.z, ChestKit.FOOTPRINT))  # Fix pass Nov 4: solid, like every other zone's chests
 
 
 ## Everything in the underground hideout is moved onto visual layer 2 (the sun does not light it).

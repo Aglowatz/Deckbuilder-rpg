@@ -53,7 +53,7 @@ const CLICK_PICK_RADIUS: float = 90.0
 ## the regular Spot system above, these have no marker/plate/click-picking at all, and a much
 ## tighter radius, so they cannot be found except by actually walking up close. See
 ## docs/design/secrets.md for the spoiler (locations + contents) - keep both in sync.
-const HIDDEN_CHEST_RADIUS: float = 1.5
+const HIDDEN_CHEST_RADIUS: float = ChestKit.REACH
 ## Overnight Oct 30-31 (mid-game critic #7): a vendor answers E from as far as their bark carries (NpcBarks.RANGE 3.2 m): 2.3 x
 ## INTERACT_FACTOR = 2.8 m. It was 1.5 (1.8 m): a player who heard Sable could stand there pressing E and get only her next one-liner.
 ## Overnight Oct 31 - Nov 1 (both mid-game critics could not raise Sable's prompt from in front of her stall): 2.7 x 1.2 = 3.24 m, her bark's range.
@@ -721,12 +721,14 @@ var _strollers: Array[SpriteWanderer] = []
 ## Crosspath: the badger villager (the only townsfolk set with a walk cycle, so the strollers keep it, each in its own coat tint), the mole
 ## farm hand (DUMPWORKER, a Dump extra) and the gym attendant (a Gainlands extra), both standing sets, with their own tints. The Capital's
 ## CITIZEN stays out (Primm's perfect citizen walks only the Capital - Playtest v0.4.0).
-const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER", "GYM_ATTENDANT"]
+## Fix pass Nov 4 (Part 4.1): the gym attendant (a Gainlands extra in gym kit) looked out of place by the trainer's lamp post and in the market;
+## both spots are farm hands come to town to sell (the mole set, its own tint each). Every other non-story set is someone with a name.
+const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER"]
 const STANDING_TOWNSFOLK: Array[Dictionary] = [
 	{"character": "DUMPWORKER", "anchor": "well", "offset": Vector3(-3.2, 0, 2.6), "yaw": 150.0, "tint": Color(1.0, 1.0, 1.0)},
 	{"character": "DUMPWORKER", "anchor": "plaza", "offset": Vector3(-6.5, 0, 5.5), "yaw": 210.0, "tint": Color(0.86, 0.92, 1.08)},
-	{"character": "GYM_ATTENDANT", "anchor": "arena_gate", "offset": Vector3(-2.6, 0, 2.2), "yaw": 160.0, "tint": Color(1.0, 0.95, 0.9)},
-	{"character": "GYM_ATTENDANT", "anchor": "market", "offset": Vector3(2.2, 0, 3.4), "yaw": 200.0, "tint": Color(0.92, 1.0, 0.94)},
+	{"character": "DUMPWORKER", "anchor": "arena_gate", "offset": Vector3(-2.6, 0, 2.2), "yaw": 160.0, "tint": Color(1.08, 0.97, 0.86)},
+	{"character": "DUMPWORKER", "anchor": "market", "offset": Vector3(2.2, 0, 3.4), "yaw": 200.0, "tint": Color(0.95, 1.06, 0.92)},
 ]
 var _standing_townsfolk: Array[SpriteActor] = []
 

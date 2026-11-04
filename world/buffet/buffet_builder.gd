@@ -115,15 +115,21 @@ func is_floor_at(pos: Vector3) -> bool:
 	return surface == BuffetLayout.Surface.GROUND or surface == BuffetLayout.Surface.MESA
 
 
-## Footsteps: the mashed-potato meadow squelches; the bridges, rafts and the lazy susan are wood; the districts have their own ground.
+## Footsteps: the mashed-potato meadow squelches; the bridges and rafts are wood; the districts have their own ground.
+## Fix pass Nov 4 (Part 4.3): the paved cracker roads (`path_weight`, the same weight that paints them) are cobbles and the Grand Pantry's
+## checkered plaza is tile - both used to squelch (roads) or knock like wood (the plaza, from the old lazy-susan hub).
 func surface_at(pos: Vector3) -> StringName:
 	var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == BuffetLayout.Surface.BRIDGE or not platform_under(pos).is_empty():
 		return &"wood"
+	if Vector2(pos.x - 50.0, pos.z - 64.0).length() < 10.5:
+		return &"tile"
+	if surface == BuffetLayout.Surface.GROUND and layout.path_weight(pos.x, pos.z) > 0.5:
+		return &"cobble"
 	var area: BuffetLayout.Area = layout.area_at(pos.x, pos.z)
 	match area.id if area != null else "":
 		"hub":
-			return &"wood"
+			return &"tile"
 		"forest":
 			return &"grass"
 		"salt":
@@ -1010,7 +1016,7 @@ func _build_chests() -> void:
 		root.add_child(chest)
 		chest.position = pos
 		chest.rotation_degrees.y = _rng.randf() * 360.0
-		chest.scale = Vector3.ONE * 0.225
+		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[id] = chest
 
 

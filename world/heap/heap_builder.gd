@@ -128,6 +128,9 @@ func is_floor_at(pos: Vector3) -> bool:
 func surface_at(pos: Vector3) -> StringName:
 	if layout.surface_at(pos.x, pos.z) == HeapLayout.Surface.BRIDGE:
 		return &"wood"
+	# Fix pass Nov 4 (Part 4.3): the trodden paths are packed dirt everywhere (through the wetlands they used to squelch like mud).
+	if layout.surface_at(pos.x, pos.z) == HeapLayout.Surface.GROUND and layout.path_weight(pos.x, pos.z) > 0.5:
+		return &"dirt"
 	var area: HeapLayout.Area = layout.area_at(pos.x, pos.z)
 	match area.id if area != null else "":
 		"commons", "farm":
@@ -1305,7 +1308,7 @@ func _build_chests() -> void:
 		root.add_child(chest)
 		chest.position = pos
 		chest.rotation_degrees.y = _rng.randf() * 360.0
-		chest.scale = Vector3.ONE * 0.225
+		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[id] = chest
 
 

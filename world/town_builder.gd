@@ -619,8 +619,8 @@ func _build_hidden_chests() -> void:
 		var offset: Vector3 = HIDDEN_CHEST_OFFSETS[id] as Vector3
 		var pos: Vector3 = cell_center(cell.x, cell.y) + offset
 		var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
-		ModelKit.place(root, chest, pos, _rng.randf() * 360.0, 0.225)
-		obstacles.append(Vector3(pos.x, pos.z, 0.18))
+		ModelKit.place(root, chest, pos, _rng.randf() * 360.0, ChestKit.SCALE)
+		obstacles.append(Vector3(pos.x, pos.z, ChestKit.FOOTPRINT))
 		anchors["hidden_chest_%s" % id] = pos
 		hidden_chest_nodes[id] = chest
 

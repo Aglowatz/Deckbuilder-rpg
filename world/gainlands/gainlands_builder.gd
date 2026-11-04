@@ -237,7 +237,7 @@ func _index_obstacles() -> void:
 			_add_obstacle(Vector3(prop.pos.x, prop.pos.z, prop.radius))
 	for id: Variant in layout.chests.keys():
 		var chest: Vector3 = layout.chests[id] as Vector3
-		_add_obstacle(Vector3(chest.x, chest.z, 0.18))
+		_add_obstacle(Vector3(chest.x, chest.z, ChestKit.FOOTPRINT))
 	for rect: Rect2 in layout.blocker_rects:
 		add_rect_blocker(rect)
 
@@ -960,7 +960,7 @@ func _build_chests() -> void:
 		root.add_child(chest)
 		chest.position = pos
 		chest.rotation_degrees.y = _rng.randf() * 360.0
-		chest.scale = Vector3.ONE * 0.225
+		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[id] = chest
 
 

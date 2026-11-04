@@ -1374,6 +1374,6 @@ func _index_obstacles() -> void:
 			obstacles.append(Vector3(prop.pos.x, prop.pos.z, prop.radius))
 	for chest_id: Variant in chests.keys():
 		var chest: Vector3 = chests[chest_id] as Vector3
-		obstacles.append(Vector3(chest.x, chest.z, 0.18))
+		obstacles.append(Vector3(chest.x, chest.z, ChestKit.FOOTPRINT))
 	for blocker: Vector3 in LANDMARK_BLOCKERS:
 		obstacles.append(blocker)

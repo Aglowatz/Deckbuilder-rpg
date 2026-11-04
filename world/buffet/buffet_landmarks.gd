@@ -470,8 +470,8 @@ static func _cathedral(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arra
 # ---- Potato Peak ----------------------------------------------------------------------------------------------------------------------------------
 
 
-## A view beyond the west rim: a huge soft hill of mashed potato with a butter pat on the summit, gravy streams running down into a gravy pool with little biscuit
-## bridges, broccoli and cauliflower cards on the slopes, cheese cubes, and steam (meta "steam").
+## A view beyond the west rim: a huge soft hill of mashed potato with a butter pat on the summit, gravy streams running down into a gravy pool,
+## broccoli and cauliflower cards on the slopes, cheese cubes, and steam (meta "steam").
 static func _potato_peak(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], steam: Array[Vector3]) -> void:
 	var r: float = size.x * 0.5
 	var height: float = size.y
@@ -501,15 +501,10 @@ static func _potato_peak(root: Node3D, mesh: KitMesh, size: Vector3, circles: Ar
 			mesh.box("gravy", (at + previous) * 0.5, Vector3(width * (0.6 + 0.6 * t), 0.3, along.length() + 0.4), basis, 0.05)
 			previous = at
 		steam.append(Vector3(cos(angle) * r * 0.55, _peak_height(profile, r * 0.55) + 0.6, sin(angle) * r * 0.55))
-	# the gravy pool round the foot, biscuit bridges over it, cheese cubes and cauliflower on the shore
+	# the gravy pool round the foot, cheese cubes and cauliflower on the shore. Fix pass Nov 4 (Part 4.4): the three little pie-crust "biscuit
+	# bridges" over the pool are gone - pure decoration with no script or collision, and the north one sat on the playable table by the
+	# Cheddar Cliffs, where it read as a stair to nowhere (docs/ui/ref/nov4/buffet_topleft_stairs.png).
 	mesh.lathe("gravy", Vector3(0, -0.4, 0), [Vector2(r * 1.12, 0.0), Vector2(r * 1.1, 0.35), Vector2(0.0, 0.4)], 20, 1.0, false, true)
-	for bridge: Array in [[1.05, 1.1], [-2.0, 1.12], [2.75, 1.08]]:
-		var angle: float = float(bridge[0])
-		var at: Vector3 = Vector3(cos(angle) * r * float(bridge[1]), 0.0, sin(angle) * r * float(bridge[1]))
-		var basis: Basis = Basis(Vector3.UP, -angle)
-		for step: int in range(5):
-			var lift: float = sin(PI * (float(step) + 0.5) / 5.0) * 0.9
-			mesh.box("crust", at + Vector3(0, lift + 0.2, 0) + basis * Vector3(0, 0, (float(step) - 2.0) * 1.1), Vector3(3.2, 0.6, 1.0), basis, 0.08, 0.9)
 	for cube: Array in [[0.4, 1.12, 1.6], [-1.3, 1.15, 1.3], [2.3, 0.95, 1.9], [3.7, 1.18, 1.4]]:
 		var angle: float = float(cube[0])
 		var at: Vector3 = Vector3(cos(angle) * r * float(cube[1]), 0.0, sin(angle) * r * float(cube[1]))

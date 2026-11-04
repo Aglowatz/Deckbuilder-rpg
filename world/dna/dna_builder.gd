@@ -626,9 +626,9 @@ func _build_chests() -> void:
 		chunk_for(pos).add_child(chest)
 		chest.position = pos
 		chest.rotation_degrees.y = _rng.randf() * 360.0
-		chest.scale = Vector3.ONE * 0.225
+		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[id] = chest
-		var obstacle: Vector3 = Vector3(pos.x, pos.z, 0.18)
+		var obstacle: Vector3 = Vector3(pos.x, pos.z, ChestKit.FOOTPRINT)
 		_add_obstacle(obstacle)
 
 

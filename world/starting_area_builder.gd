@@ -55,8 +55,8 @@ func _build_hidden_chests() -> void:
 	for id: String in HIDDEN_CHESTS.keys():
 		var pos: Vector3 = (HIDDEN_CHESTS[id] as Dictionary)["pos"] as Vector3
 		var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
-		ModelKit.place(root, chest, pos, rng.randf() * 360.0, 0.225)
-		obstacles.append(Vector3(pos.x, pos.z, 0.18))
+		ModelKit.place(root, chest, pos, rng.randf() * 360.0, ChestKit.SCALE)
+		obstacles.append(Vector3(pos.x, pos.z, ChestKit.FOOTPRINT))
 		chest_nodes[id] = chest
 
 
