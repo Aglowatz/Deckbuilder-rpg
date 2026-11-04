@@ -51,8 +51,9 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.GAINLANDS:
 			return {
 				"items": [
-					# Gainlands v2: sparse dry scrub and loose sandstone on the plateau (no flowers or mushrooms; the dry grass is painted into the ground)
-					[NATURE, "grass_leafs", 9.0, 1.3, 2.1], [NATURE, "stone_smallB", 2.2, 1.6, 2.6], [NATURE, "stone_largeA", 0.5, 1.3, 2.0],
+					# Gainlands v2: loose sandstone on the plateau (no flowers or mushrooms; the dry grass is painted into the ground). Fix pass Nov 4 (B), Part 1.4:
+					# the dry grass clumps (StyleGrass blades tinted sand) are gone - on the island meadows they read as small tan spiky cones and served no purpose.
+					[NATURE, "stone_smallB", 2.2, 1.6, 2.6], [NATURE, "stone_largeA", 0.5, 1.3, 2.0],
 				],
 				"patches": [Color("cdb27a"), Color("b8995e"), Color("d9c290")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 1.0,
 			}

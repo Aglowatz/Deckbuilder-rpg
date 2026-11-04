@@ -157,7 +157,7 @@ func test_power_lines_cross_the_zone_on_believable_pylons() -> void:
 # ---- Part F: the dungeons -------------------------------------------------------------------------------------------------
 
 
-func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_left_path() -> void:
+func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_middle_path() -> void:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(GainlandsZone.ID)
 	assert_eq(plan.id, "S-IRON", "the Gainlands' side-dungeon door opens the Iron Cave")
 	assert_true(plan.always_open, "available from the start")
@@ -175,10 +175,13 @@ func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_left_path() -> vo
 	var rules: Array = DungeonRules.rules("S-IRON")
 	assert_eq(rules.size(), 1, "one dungeon rule")
 	assert_true(str((rules[0] as Dictionary)["name"]).contains("Leg Day"), "a leg-day rule")
-	# the entrance: on the left road's cave spur, a mouth in the cliff with its leg-day kit
+	# Fix pass Nov 4 (B), Part 1.3: the entrance is on the MIDDLE road, in a crag beside the ridge between the second and third guards, facing the road
 	var cave: Vector3 = layout.anchors["mini_dungeon"] as Vector3
 	assert_true(Geometry2D.is_point_in_polygon(Vector2(cave.x, cave.z), PackedVector2Array(GainlandsLayout.SOUTH)), "on the plateau")
-	assert_lt(cave.x, 40.0, "on the left (west) side")
+	assert_between(cave.x, 51.0, 61.0, "on the middle road's ridge")
+	assert_between(cave.z, GainlandsLayout.NARROWS[2].y, GainlandsLayout.NARROWS[1].y, "between the second and third guard fights")
+	assert_true(builder.is_walkable(cave, 0.3), "the hero can stand at the mouth")
+	assert_gt(Vector2(cave.x, cave.z).distance_to(Vector2(15.0, 24.5)), 30.0, "the old entrance on the left road is gone")
 	var spur_end: Vector2 = layout.route("left")[0]
 	var nearest: float = 99.0
 	for path: Dictionary in layout.paths:
@@ -190,7 +193,9 @@ func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_left_path() -> vo
 	var mouth: Node3D = builder.root.find_child("IronCaveMouth", false, false) as Node3D
 	assert_not_null(mouth, "the cave mouth stands in the cliff face")
 	if mouth != null:
-		assert_almost_eq(mouth.position.z, GainlandsLayout.CAVE_CLIFF.end.y + 0.3, 0.01, "at the foot of the cliff")
+		assert_almost_eq(Vector2(mouth.position.x, mouth.position.z).distance_to(GainlandsLayout.IRON_CAVE_MOUTH), 0.0, 0.01, "at the foot of the crag's face")
+		assert_almost_eq(mouth.rotation_degrees.y, GainlandsLayout.IRON_CAVE_YAW, 0.01, "facing the road and the camera (south-west)")
+		assert_not_null(builder.root.find_child("IronCrag", false, false), "the crag it is cut into")
 		assert_eq(mouth.find_children("*", "Label3D", true, false).size(), 0, "no lettering")
 	var kinds: Array[String] = []
 	for yard: Dictionary in layout.yards:
@@ -276,6 +281,8 @@ func test_no_way_along_the_middle_road_avoids_every_encounter() -> void:
 	var ridge: Rect2 = Rect2(49.0, 21.0, 14.0, 36.0)
 	var along: Callable = func(pos: Vector3) -> bool: return ridge.has_point(Vector2(pos.x, pos.z)) and builder.is_walkable(pos, 0.3)
 	assert_eq(WalkProbe.unreachable(along, start, ridge, tip), [] as Array[String], "without its guards the middle road runs from behind the gym hall to the forecourt")
+	var cave: Dictionary = {"iron_cave": layout.anchors["mini_dungeon"]}
+	assert_eq(WalkProbe.unreachable(along, start, ridge, cave), [] as Array[String], "the Iron Cave's mouth is on the middle road (Fix pass Nov 4 (B))")
 	var guarded: Callable = func(pos: Vector3) -> bool: return ridge.has_point(Vector2(pos.x, pos.z)) and bool(_free_of(_guards()).call(pos))
 	assert_eq(WalkProbe.unreachable(guarded, start, ridge, tip), ["ridge_tip"] as Array[String], "every way along the middle road crosses a guard's challenge circle")
 	# and over the whole zone: with both side spans closed, the fortress cannot be reached without a fight
@@ -285,7 +292,7 @@ func test_no_way_along_the_middle_road_avoids_every_encounter() -> void:
 
 
 func test_the_left_and_right_paths_both_reach_the_fortress() -> void:
-	var target: Dictionary = {"main_dungeon": layout.anchors["main_dungeon"], "mini_dungeon": layout.anchors["mini_dungeon"], "swolympus_gate": (layout.anchors["swolympus_gate"] as Vector3) + Vector3(-2.5, 0.0, 2.5)}
+	var target: Dictionary = {"main_dungeon": layout.anchors["main_dungeon"], "swolympus_gate": (layout.anchors["swolympus_gate"] as Vector3) + Vector3(-2.5, 0.0, 2.5)}
 	var spawn: Vector3 = layout.anchors["spawn"] as Vector3
 	# the side roads' enemies are optional: their reach (aggro range) can be walked round
 	var optional: Array[Vector3] = []
@@ -304,7 +311,6 @@ func test_the_left_and_right_paths_both_reach_the_fortress() -> void:
 	assert_between(right_enemies, 1, 2, "1-2 optional encounters on the right")
 	var by_left: Array[String] = WalkProbe.unreachable(_free_of(_guards(), optional, [1] as Array[int]), spawn, builder.map_bounds(), target)
 	assert_does_not_have(by_left, "main_dungeon", "the left road (east span closed) reaches the fortress without a fight")
-	assert_does_not_have(by_left, "mini_dungeon", "past the Iron Cave")
 	var by_right: Array[String] = WalkProbe.unreachable(_free_of(_guards(), optional, [0] as Array[int]), spawn, builder.map_bounds(), target)
 	assert_does_not_have(by_right, "main_dungeon", "the right road (west span closed) reaches the fortress without a fight")
 	assert_does_not_have(by_right, "swolympus_gate", "past the Swolympus overlook")

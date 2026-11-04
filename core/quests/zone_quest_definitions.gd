@@ -426,8 +426,8 @@ const SIDE_QUESTS: Dictionary = {
 
 static func side_quests() -> Array[QuestData]:
 	return [
-		_side(SIDE_BEEF, "S-BEEF", 230, "Water for the Hermit", GainlandsZone.NPC_BRENDA, "Old Man Mountain won't show you the way up Mount Swolympus on an empty cup. Bring him a protein shake from the Station's stand.",
-			[QuestObjective.make("Buy a protein shake at the Station's stand", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11): never offered in the main story
+		_side(SIDE_BEEF, "S-BEEF", 230, "Only the Worthy...", GainlandsZone.NPC_BRENDA, "With Primm gone, Old Man Mountain will open the gate to Mount Swolympus. Only for the worthy. The worthy bring him a protein shake from the Station's stand.",
+			[QuestObjective.make("Buy a protein shake at the Station's stand", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11); handing it in opens the gate and the ridge (Fix pass Nov 4 (B), Part 1.2)
 		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "Basil knows of a golden reservation card: 'Seating: 1. Courses: 3. Survival: optional.' It is in one of the Buffet's hidden stashes.",
 			[QuestObjective.make("Find a hidden stash in the Buffet", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
 		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Gerald is Number 4,000,212 and they are on 3. Thin out the queue to the Waiting Room of Eternity: process two roaming staff.",

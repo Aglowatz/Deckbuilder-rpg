@@ -32,6 +32,8 @@ func _zone_id() -> String:
 
 func _make_map() -> ZoneMap:
 	gain = GainlandsBuilder.new()
+	# Fix pass Nov 4 (B), Part 1.2: built open once the hero has seen it open; unlocked but unseen, it opens in front of them (_update_swolympus_gate)
+	gain.swolympus_open = Session.side_unlocked(GainlandsZone.SWOLYMPUS_DUNGEON) and Session.flag(GainlandsZone.FLAG_SWOLYMPUS_SEEN)
 	return gain
 
 
@@ -109,12 +111,18 @@ func _prompt_for(spot: ZoneSpot) -> String:
 		var point: GainlandsTravel.Point = GainlandsTravel.find(str(spot.data["travel"]))
 		if point != null and not GainlandsTravel.is_unlocked(point, Session.unlock_state()):
 			return "Ask %s about the ride (locked)" % point.speaker
+	if spot.id == GainlandsZone.SWOLYMPUS_GATE and Session.side_unlocked(GainlandsZone.SWOLYMPUS_DUNGEON):
+		return "Mount Swolympus (open)"
 	return spot.prompt
 
 
 ## Mount Swolympus is the end-game climb (S-BEEF): its gate at the overlook is sealed and says so in the UI (a padlock board on the gate, never world text).
 ## The Iron Cave's door (the zone's "mini dungeon", S-IRON) is open from the start and goes through ZoneScene's side-dungeon flow (Gainlands v2, Part F).
-const SWOLYMPUS_TOAST: String = "Sealed. The way to Mount Swolympus is closed for now."
+const SWOLYMPUS_TOAST: String = "Sealed. Old Man Mountain says it opens when the kingdom is whole again."
+const SWOLYMPUS_TOAST_ASK: String = "Sealed. Old Man Mountain at the gym hall knows how to open it."
+const SWOLYMPUS_TOAST_OPEN: String = "The gate is open. Follow the ridge to the mountain's foot."
+## The unlocked gate opens when the hero comes this close (metres) and has not watched it open yet.
+const SWOLYMPUS_REVEAL_RANGE: float = 30.0
 
 
 func _extra_pois() -> Array[MapPoi]:
@@ -128,6 +136,7 @@ func _extra_pois() -> Array[MapPoi]:
 
 func _zone_process(delta: float) -> void:
 	gain.animate(delta)
+	_update_swolympus_gate()
 	_update_bridge_exit()
 	var target_speed: float = 1.8 if Session.flag(GainlandsZone.FLAG_WHEEL_POWERED) else 0.45
 	if not player.airborne:
@@ -178,10 +187,61 @@ func _interact_zone(spot: ZoneSpot) -> void:
 		"run_wheel":
 			_use_run_wheel(spot)
 		GainlandsZone.SWOLYMPUS_GATE:
-			# the sealed trailhead gate (SR-4): E only says it is sealed (the unlock condition is an open question, GL2-F2)
+			# the trailhead gate (SR-4): sealed until Old Man Mountain's quest after Primm (Fix pass Nov 4 (B), Part 1.2), then it only points the way
 			player.face(spot.position)
+			if Session.side_unlocked(GainlandsZone.SWOLYMPUS_DUNGEON):
+				_open_swolympus_gate()
+				hud.toast(SWOLYMPUS_TOAST_OPEN, UIStyle.GOLD)
+				return
 			Audio.sfx(&"ui_error")
-			hud.toast(SWOLYMPUS_TOAST, UIStyle.PARCHMENT)
+			hud.toast(SWOLYMPUS_TOAST_ASK if Session.flag(&"primm_defeated") else SWOLYMPUS_TOAST, UIStyle.PARCHMENT)
+		GainlandsZone.SWOLYMPUS_TRAIL:
+			_ask_swolympus(spot)
+
+
+# ---- Mount Swolympus (Fix pass Nov 4 (B), Part 1.2) ---------------------------------------------------
+
+
+## Unlocked but not yet seen open: the first time the hero comes near the overlook the gate opens in front of them.
+func _update_swolympus_gate() -> void:
+	if gain.swolympus_open or _locked or player == null or not Session.side_unlocked(GainlandsZone.SWOLYMPUS_DUNGEON):
+		return
+	var gate: Vector3 = gain.anchor(GainlandsZone.SWOLYMPUS_GATE)
+	if Vector2(player.position.x - gate.x, player.position.z - gate.z).length() <= SWOLYMPUS_REVEAL_RANGE:
+		_open_swolympus_gate()
+
+
+## The barrier grinds down into the ground with a rumble and dust, the broken span of the ridge rises back into place, and the climb is walkable.
+func _open_swolympus_gate() -> void:
+	if gain.swolympus_open:
+		return
+	Session.set_flag(GainlandsZone.FLAG_SWOLYMPUS_SEEN)
+	var gate: Vector3 = gain.anchor(GainlandsZone.SWOLYMPUS_GATE)
+	Audio.sfx_at(&"door", gate)
+	_shake = 0.6
+	_dust_burst(gate)
+	gain.open_swolympus(true)
+	hud.toast("The gate to Mount Swolympus grinds open.", UIStyle.GOLD, 4.0)
+
+
+func _ask_swolympus(spot: ZoneSpot) -> void:
+	player.face(spot.position)
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(GainlandsZone.SWOLYMPUS_DUNGEON)
+	if plan == null or not Session.side_unlocked(plan.id):
+		return
+	_locked = true
+	var cleared: bool = Session.flag(Session.side_cleared_flag(plan))
+	var body: String = "%s
+
+%s" % [plan.story, "You have been to the top before: a repeat climb pays gold and a pack." if cleared else "First clear: a unique card."]
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, body, "Climb", "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			Session.zone_run.return_position = spot.position + Vector3(-0.8, 0, 1.6)
+			Session.zone_run.has_return_position = true
+			Audio.sfx(&"dungeon_enter")
+			Session.enter_mini_dungeon(plan.id), func() -> void: _locked = false))
+	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
 # ---- Travel: throwers and portal rippers -------------------------------------------------------------

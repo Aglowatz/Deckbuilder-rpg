@@ -105,7 +105,38 @@ static func swolympus_ridge(start: Vector2, break_at: Vector2, far: Vector2, foo
 	# the collapse: the near span's broken arch hanging over the chasm, fallen blocks in the water below
 	var dir_near: Vector2 = (break_at - start).normalized()
 	var lip: Vector2 = break_at + dir_near * 0.9
-	mesh.box("sandstone", Vector3(lip.x, deck_y - 0.35, lip.y), Vector3(2.4, 0.5, 1.6), Basis(Vector3.UP, atan2(dir_near.x, dir_near.y)) * Basis(Vector3(1, 0, 0), 0.32), 0.05)
+	var lip_mesh: KitMesh = GainlandsStructures._kit()
+	lip_mesh.box("sandstone", Vector3(lip.x, deck_y - 0.35, lip.y), Vector3(2.4, 0.5, 1.6), Basis(Vector3.UP, atan2(dir_near.x, dir_near.y)) * Basis(Vector3(1, 0, 0), 0.32), 0.05)
+	var lip_body: MeshInstance3D = lip_mesh.instance("CollapseLip")
+	lip_body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	lip_body.set_meta(&"no_occlusion_fade", true)
+	lip_body.set_meta(&"no_range_cull", true)
+	root.add_child(lip_body)
+	# Fix pass Nov 4 (B), Part 1.2: the rebuilt span across the chasm (shown once Mount Swolympus opens): fresh cream-stone deck blocks on two piers that
+	# rise out of the water, with posts along both edges like the rest of the causeway.
+	var span_mesh: KitMesh = GainlandsStructures._kit()
+	var gap_dir: Vector2 = (far - break_at).normalized()
+	var gap_across: Vector2 = Vector2(-gap_dir.y, gap_dir.x)
+	var gap_yaw: float = atan2(gap_dir.x, gap_dir.y)
+	var gap_len: float = break_at.distance_to(far)
+	var gap_steps: int = maxi(3, int(ceilf(gap_len / 1.1)) + 1)
+	for k: int in range(gap_steps):
+		var p: Vector2 = break_at.lerp(far, (float(k) + 0.5) / float(gap_steps))
+		span_mesh.box("cream_stone", Vector3(p.x, deck_y - 0.12, p.y), Vector3(2.7, 0.26, gap_len / float(gap_steps) + 0.12), Basis(Vector3.UP, gap_yaw), 0.03, 0.9)
+		for side: float in [-1.0, 1.0]:
+			var q: Vector2 = p + gap_across * side * 1.45
+			span_mesh.box("cream_stone", Vector3(q.x, deck_y + 0.3, q.y), Vector3(0.3, 0.6, 0.5), Basis(Vector3.UP, gap_yaw), 0.03)
+	for t: float in [0.3, 0.7]:
+		var pier: Vector2 = break_at.lerp(far, t)
+		span_mesh.box("sandstone", Vector3(pier.x, (deck_y - 0.25) * 0.5 - 0.6, pier.y), Vector3(1.6, deck_y + 0.95, 1.2), Basis(Vector3.UP, gap_yaw), 0.08, 0.85)
+	var span_body: MeshInstance3D = span_mesh.instance("Deck")
+	span_body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	span_body.set_meta(&"no_occlusion_fade", true)
+	span_body.set_meta(&"no_range_cull", true)
+	var span_root: Node3D = Node3D.new()
+	span_root.name = "RebuiltSpan"
+	span_root.add_child(span_body)
+	root.add_child(span_root)
 	var chasm: Vector2 = (break_at + far) * 0.5
 	for k: int in range(5):
 		var off: Vector2 = Vector2(cos(float(k) * 2.1), sin(float(k) * 2.1)) * (0.8 + 0.4 * float(k % 2))

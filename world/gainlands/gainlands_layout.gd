@@ -86,6 +86,23 @@ const NARROWS: Array[Vector2] = [Vector2(56, 47), Vector2(56, 37.5), Vector2(56,
 ## Rock that rises out of the sea next to the land (not walkable): the Iron Cave's cliff in the north-west (x, z, w, d, top height) and the fortress rock.
 const CAVE_CLIFF: Rect2 = Rect2(3.0, 1.0, 25.0, 19.5)
 const CAVE_CLIFF_TOP: float = 13.5
+## Fix pass Nov 4 (B), Part 1.3: the Iron Cave (S-IRON) moved onto the MIDDLE road: its mouth is cut into a sandstone crag that rises out of the east canyon
+## right beside the ridge, between the second and third road guards (narrows at z 37.5 and 28). Its face (IRON_CRAG[0] to IRON_CRAG[1]) turns south-west, to
+## the road and to the camera coming up it; the mouth stands just in front of the face (IRON_CAVE_MOUTH, facing IRON_CAVE_YAW), the hero at the
+## "mini_dungeon" anchor in front of it. The crag's foot on the ridge's rim is solid (IRON_CRAG_BLOCKERS).
+const IRON_CAVE_Z: float = 32.8
+const IRON_CAVE_YAW: float = -60.0
+const IRON_CAVE_MOUTH: Vector2 = Vector2(60.84, IRON_CAVE_Z)
+const IRON_CRAG: Array[Vector2] = [Vector2(59.8, 30.4), Vector2(62.4, 34.9), Vector2(65.6, 36.4), Vector2(68.2, 33.6), Vector2(68.0, 29.8), Vector2(65.2, 27.6), Vector2(61.6, 27.9)]
+const IRON_CRAG_TOP: float = PLATEAU_Y + 7.5
+const IRON_CRAG_BLOCKERS: Array[Vector3] = [Vector3(60.4, 30.3, 0.7), Vector3(61.2, 29.4, 0.7)]
+## Fix pass Nov 4 (B), Part 1.2: the ridge to Mount Swolympus behind the trailhead gate. The walkway's centre line runs from the overlook just behind the
+## gate, along the near spine, across the rebuilt span (RIDGE[2] to RIDGE[3], the old collapse) and down the far spine to the mountain's foot. Walkable
+## only once the gate is open (`ridge_open`, from S-BEEF being unlocked); the deck stands at RIDGE_Y, easing up to the overlook's swell near the gate.
+const RIDGE: Array[Vector2] = [Vector2(105.0, 19.2), Vector2(106.8, 16.2), Vector2(110.0, 6.5), Vector2(111.8, 2.0), Vector2(115.0, -6.0)]
+const RIDGE_HALF_WIDTH: float = 1.3
+const RIDGE_RAIL: float = 0.35
+const RIDGE_Y: float = PLATEAU_Y - 0.1
 
 
 class Island:
@@ -157,6 +174,8 @@ var power_lines: Array = []
 ## The sandstone stacks the towers stand on: Vector4(x, z, radius, top height).
 var stacks: Array[Vector4] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## True once Mount Swolympus is open (S-BEEF unlocked): the ridge behind the gate is walkable.
+var ridge_open: bool = false
 
 
 func build() -> void:
@@ -315,6 +334,25 @@ static func span_at(x: float, z: float) -> int:
 	return -1
 
 
+## Metres from (x, z) to the ridge's centre line (RIDGE).
+static func ridge_distance(x: float, z: float) -> float:
+	var p: Vector2 = Vector2(x, z)
+	var best: float = INF
+	for index: int in range(RIDGE.size() - 1):
+		best = minf(best, p.distance_to(Geometry2D.get_closest_point_to_segment(p, RIDGE[index], RIDGE[index + 1])))
+	return best
+
+
+## On the open ridge's deck (off the main land; the land wins where they overlap at the gate).
+func on_ridge(x: float, z: float) -> bool:
+	return ridge_open and ridge_distance(x, z) <= RIDGE_HALF_WIDTH and not is_main_ground(x, z)
+
+
+## The ridge deck's walking height: RIDGE_Y, stepping up the approach stairs (RIDGE[0] to RIDGE[1]) to meet the overlook's swell at the land's edge.
+static func ridge_height(x: float, z: float) -> float:
+	return RIDGE_Y + 1.0 * (1.0 - smoothstep(1.6, 3.6, Vector2(x, z).distance_to(RIDGE[0])))
+
+
 static func on_stairs(x: float, z: float) -> bool:
 	return STAIRS.has_point(Vector2(x, z))
 
@@ -329,6 +367,8 @@ static func stairs_height(z: float) -> float:
 ## past an island's edge (stepping there means falling), or nothing.
 func surface_at(x: float, z: float) -> Surface:
 	if on_bridge(x, z) or span_at(x, z) >= 0:
+		return Surface.BRIDGE
+	if on_ridge(x, z):
 		return Surface.BRIDGE
 	if on_stairs(x, z) or is_main_ground(x, z):
 		return Surface.GROUND
@@ -347,6 +387,8 @@ func ground_height(x: float, z: float) -> float:
 		return stairs_height(z)
 	if span_at(x, z) >= 0:
 		return PLATEAU_Y + 0.05
+	if on_ridge(x, z):
+		return ridge_height(x, z)
 	var level: int = level_at(x, z)
 	if level == 0:
 		var island: Island = island_at(x, z)
@@ -485,7 +527,7 @@ func _anchors() -> void:
 	_at("thrower_west", 9.0, 47.0)
 	_at("land_west", 12.0, 54.0)
 	_at("land_calf", 11.0, 60.0)
-	_at("mini_dungeon", 15.0, 24.5)  # the Iron Cave's mouth in the north-west cliff (Part F)
+	_at("mini_dungeon", 59.3, 33.7)  # Fix pass Nov 4 (B): the Iron Cave's mouth in the crag beside the middle road (was the north-west cliff, 15, 24.5)
 	_at("shrine", 36.5, 28.5)  # the Pump Shrine beside the Champions Arch (SR-7): the hero stands here, the shrine itself is just north
 	_at("thrower_pec", 31.0, 19.5)
 	_at("land_pec", 28.0, 23.0)
@@ -502,6 +544,7 @@ func _anchors() -> void:
 	_at("land_glute", 98.5, 58.5)
 	_at("ripper_delt", 88.0, 18.0)
 	_at("land_delt", 93.0, 22.0)
+	_at("swolympus_foot", 114.2, -4.0)  # Fix pass Nov 4 (B): the trail up Mount Swolympus starts at the ridge's far end (S-BEEF's entrance)
 	_at("swolympus_gate", 103.0, 22.0)  # the locked trailhead gate at the overlook, where the ridge to Mount Swolympus starts (SR-4, Part F)
 	_at("vault_lever", 104.5, 48.5)  # Brief 16: the hidden vault lever behind the farthest weight racks, on the east rim
 	# The House of Gains gate on the mesa top, in front of the fortress doors (GC-10).
@@ -607,7 +650,7 @@ func _paths_and_pipes() -> void:
 	_path([Vector2(66.5, 62), Vector2(76, 64.5), Vector2(86, 63), Vector2(93, 55), Vector2(96.5, 46), Vector2(99, 36.5), Vector2(101, 27), Vector2(95, 20.5),
 		Vector2(86, 15.5), Vector2(76, 18), Vector2(69, 18), Vector2(62, 18)], MAIN_PATH_WIDTH, "right")
 	# spurs: the Iron Cave, the overlook, the west thrower, the lifting yard right of the entrance, the studio, the north throwers
-	_path([Vector2(18, 31), Vector2(15.3, 26.8)], SIDE_PATH_WIDTH, "spur")
+	_path([Vector2(56, 34.0), Vector2(59.4, 33.6)], SIDE_PATH_WIDTH, "spur")  # Fix pass Nov 4 (B): to the Iron Cave's mouth (the left road's cave spur is gone)
 	_path([Vector2(101, 27), Vector2(103, 23)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(17, 50), Vector2(10, 48.5)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(60, 84), Vector2(71, 82)], SIDE_PATH_WIDTH, "spur")
@@ -668,8 +711,10 @@ func _features() -> void:
 	_prop("wheel", 104.0, 56.0, 0.0, 0.75, 0.0, 2)
 	for stand: Vector3 in [Vector3(99.0, 35.2, 0.7), Vector3(99.0, 38.8, 0.7), Vector3(87.0, 31.5, 0.6), Vector3(87.0, 34.5, 0.6), Vector3(104.0, 54.7, 0.55), Vector3(104.0, 57.3, 0.55)]:
 		_prop("pylon", stand.x, stand.y, 0.0, 1.0, stand.z)
-	# The Iron Cave mouth in the north-west cliff face (Part F builds the cave).
-	_prop("cavern", 15.0, 21.3, 0.0, 1.0, 2.2)
+	# The Iron Cave mouth in the crag beside the middle road (Fix pass Nov 4 (B); Part F builds the cave), facing the road (west).
+	_prop("cavern", IRON_CAVE_MOUTH.x, IRON_CAVE_MOUTH.y, IRON_CAVE_YAW, 1.0, 0.0)
+	for blocker: Vector3 in IRON_CRAG_BLOCKERS:
+		_prop("crag_foot", blocker.x, blocker.y, 0.0, 1.0, blocker.z)
 	_yards()
 	_power()
 	# Island dressing: crystals, the mirror on Pec Perch.
@@ -697,13 +742,25 @@ func _signs() -> void:
 	_sign("sign.exit", 60.8, 86.0, 180.0)
 	_sign("sign.vendor", 66.0, 73.5, 190.0)
 	_sign("sign.ripper_rule", 84.5, 21.0, 190.0)
-	_sign("sign.mini_dungeon", 19.5, 25.0, 180.0)
+	_sign("sign.mini_dungeon", 59.9, 35.9, 180.0)  # Fix pass Nov 4 (B): beside the Iron Cave's new mouth on the middle road
 	_sign("sign.main_dungeon", 60.5, -2.5, 180.0, 1.4)
 	_sign("sign.beefcake_poster", 63.8, 69.5, 170.0, 1.0, "poster")
 	_sign("sign.record_board", 26.0, 36.5, 180.0)  # the Record Board of the old Proving Grounds, at the Champions Arch (SR-7)
 
 
 ## The lifting yards' ground (gym mat in the painted terrain): x, z, w, d.
+## Fix pass Nov 4 (B), Part 2.1: the blue rubber mats under the lifting yards (their rects grown by the painted mat's soft edge) take no scatter: no shrub,
+## grass, rock, tree or loose prop. The builder's is_floor_at() says no here, so every dressing pass that plants on the floor skips the mats.
+const MAT_MARGIN: float = 1.2
+
+
+func on_mat(x: float, z: float) -> bool:
+	for rect: Rect2 in yard_rects():
+		if rect.grow(MAT_MARGIN).has_point(Vector2(x, z)):
+			return true
+	return false
+
+
 func yard_rects() -> Array[Rect2]:
 	var result: Array[Rect2] = []
 	for yard: Dictionary in yards:
@@ -874,6 +931,8 @@ func _scatter() -> void:
 
 
 func _is_clear(x: float, z: float, keep_clear: Array[Vector3]) -> bool:
+	if on_mat(x, z):
+		return false
 	for spot: Vector3 in keep_clear:
 		if Vector2(x - spot.x, z - spot.y).length() < spot.z:
 			return false

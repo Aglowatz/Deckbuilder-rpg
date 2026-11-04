@@ -35,6 +35,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 func build(parent: Node3D) -> void:
 	_rng.seed = 77
 	layout.build()
+	layout.ridge_open = swolympus_open
 	LoadTiming.detail("gainlands: layout.build")
 	story = ZoneStoryText.for_zone(GainlandsZone.ID)
 	root = Node3D.new()
@@ -117,6 +118,8 @@ func is_floor_at(pos: Vector3) -> bool:
 		return true
 	if surface != GainlandsLayout.Surface.GROUND or GainlandsLayout.on_stairs(pos.x, pos.z):
 		return false
+	if layout.on_mat(pos.x, pos.z):
+		return false  # Fix pass Nov 4 (B), Part 2.1: nothing grows or lies on the blue workout mats
 	return layout.path_weight(pos.x, pos.z) < 0.5
 
 
@@ -136,6 +139,8 @@ func map_bounds() -> Rect2:
 	var bounds: Rect2 = Rect2(GainlandsLayout.GRID_ORIGIN, Vector2(GainlandsLayout.GRID_W, GainlandsLayout.GRID_H) * GainlandsLayout.GRID_CELL)
 	for island: GainlandsLayout.Island in layout.islands:
 		bounds = bounds.merge(Rect2(island.center - Vector2(island.radius, island.radius), Vector2(island.radius, island.radius) * 2.0))
+	if layout.ridge_open:
+		bounds = bounds.merge(Rect2(GainlandsLayout.RIDGE[4] - Vector2(3.0, 3.0), Vector2(6.0, 6.0)))
 	bounds = bounds.merge(Rect2(GainlandsLayout.BRIDGE_X - GainlandsLayout.BRIDGE_HALF_WIDTH - 2.0, GainlandsLayout.BRIDGE_Z0 - 2.0, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0 + 4.0, GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0 + 6.0))
 	return bounds
 
@@ -167,6 +172,9 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		if GainlandsLayout.on_bridge(pos.x, pos.z):
 			# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
 			return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
+		if layout.on_ridge(pos.x, pos.z):
+			# the ridge to Mount Swolympus (open): its low walls are the edge
+			return GainlandsLayout.ridge_distance(pos.x, pos.z) <= GainlandsLayout.RIDGE_HALF_WIDTH - GainlandsLayout.RIDGE_RAIL and not _hits_obstacle(pos, body_radius)
 		# a stone span over a canyon: its parapets are the edge (only the sides shrink: both ends overlap the land with no gap)
 		var span: Rect2 = GainlandsLayout.SPANS[GainlandsLayout.span_at(pos.x, pos.z)]
 		return absf(pos.z - span.get_center().y) <= span.size.y * 0.5 - GainlandsLayout.SPAN_RAIL and not _hits_obstacle(pos, body_radius)
@@ -177,7 +185,9 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 	if stairs.grow(0.6).has_point(Vector2(pos.x, pos.z)) and (pos.x < stairs.position.x or pos.x > stairs.end.x):
 		return false
 	if surface == GainlandsLayout.Surface.GROUND and GainlandsLayout.main_edge_distance(pos.x, pos.z) < GainlandsLayout.EDGE_STOP:
-		return false
+		# the open ridge to Mount Swolympus leaves the overlook here: its walkway carries on past the land's edge
+		if not (layout.ridge_open and GainlandsLayout.ridge_distance(pos.x, pos.z) <= GainlandsLayout.RIDGE_HALF_WIDTH - GainlandsLayout.RIDGE_RAIL):
+			return false
 	return not _hits_obstacle(pos, body_radius)
 
 
@@ -267,6 +277,8 @@ func _build_land() -> void:
 	iron.add_child(GainlandsTerrain.rock(PackedVector2Array([cliff.position, Vector2(cliff.end.x - 3.0, cliff.position.y - 1.0), Vector2(cliff.end.x + 1.0, cliff.position.y + 8.0),
 		Vector2(cliff.end.x, cliff.end.y), Vector2(cliff.position.x + 2.0, cliff.end.y), Vector2(cliff.position.x - 2.0, cliff.position.y + 10.0)]), GainlandsLayout.CAVE_CLIFF_TOP, "IronCliffBase", GainlandsTerrain.SAND, true))
 	iron.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(cliff.get_center().x - 1.0, cliff.position.y + 6.0), Vector2(9.0, 5.0), 10, 7.7), GainlandsLayout.CAVE_CLIFF_TOP + 4.0, "IronCliffTop"))
+	# Fix pass Nov 4 (B), Part 1.3: the Iron Cave's crag, rising out of the east canyon beside the middle road (its mouth is the "cavern" prop)
+	root.add_child(GainlandsTerrain.rock(PackedVector2Array(GainlandsLayout.IRON_CRAG), GainlandsLayout.IRON_CRAG_TOP, "IronCrag", GainlandsTerrain.SAND, true))
 	var rock_x0: float = GainlandsLayout.HOUSE_OF_GAINS.x - GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_x1: float = GainlandsLayout.HOUSE_OF_GAINS.x + GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_z0: float = GainlandsLayout.HOUSE_OF_GAINS.y - GainlandsLayout.HOUSE_OF_GAINS_SIZE.z * 0.6
@@ -453,12 +465,74 @@ func _build_swolympus() -> void:
 	for piece: Node in mountain.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)
 		piece.set_meta(&"no_occlusion_fade", true)
-	# Gainlands v2, Part F: the land bridge from the overlook (behind the sealed gate) toward the mountain, ending at a collapsed span over a chasm
-	root.add_child(GainlandsCave.swolympus_ridge(SWOLYMPUS_RIDGE[0], SWOLYMPUS_RIDGE[1], SWOLYMPUS_RIDGE[2], SWOLYMPUS_RIDGE[3], GainlandsLayout.PLATEAU_Y - 0.1))
+	# Gainlands v2, Part F: the land bridge from the overlook (behind the sealed gate) toward the mountain, ending at a collapsed span over a chasm.
+	# Fix pass Nov 4 (B), Part 1.2: once Mount Swolympus is open the span is rebuilt and the ridge is walkable (GainlandsLayout.RIDGE).
+	var ridge: Node3D = GainlandsCave.swolympus_ridge(SWOLYMPUS_RIDGE[0], SWOLYMPUS_RIDGE[1], SWOLYMPUS_RIDGE[2], SWOLYMPUS_RIDGE[3], GainlandsLayout.RIDGE_Y)
+	root.add_child(ridge)
+	# the approach: stone steps from the overlook's edge down to the causeway (walked once the gate is open; GainlandsLayout.ridge_height)
+	var steps: KitMesh = GainlandsStructures._kit()
+	var a: Vector2 = GainlandsLayout.RIDGE[0]
+	var b: Vector2 = GainlandsLayout.RIDGE[1]
+	var step_yaw: float = atan2((b - a).x, (b - a).y)
+	for k: int in range(5):
+		var p: Vector2 = a.lerp(b, 0.42 + 0.13 * float(k))
+		var top: float = GainlandsLayout.ridge_height(p.x, p.y)
+		steps.box("sandstone", Vector3(p.x, top - 0.6, p.y), Vector3(2.7, 1.2, 0.55), Basis(Vector3.UP, step_yaw), 0.03, 0.9)
+	var steps_body: MeshInstance3D = steps.instance("ApproachSteps")
+	steps_body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	steps_body.set_meta(&"no_occlusion_fade", true)
+	ridge.add_child(steps_body)
+	_ridge_span = ridge.get_node_or_null("RebuiltSpan") as Node3D
+	_ridge_lip = ridge.get_node_or_null("CollapseLip") as Node3D
+	if _ridge_span != null:
+		_ridge_span.visible = swolympus_open
+	if _ridge_lip != null:
+		_ridge_lip.visible = not swolympus_open
 
 
 ## The ridge to Mount Swolympus: its start just off the overlook's rim behind the gate, the near end of the collapse, the far side of the chasm, the mountain's foot.
-const SWOLYMPUS_RIDGE: Array[Vector2] = [Vector2(106.8, 16.2), Vector2(110.0, 6.5), Vector2(111.8, 2.0), Vector2(115.0, -6.0)]
+const SWOLYMPUS_RIDGE: Array[Vector2] = [GainlandsLayout.RIDGE[1], GainlandsLayout.RIDGE[2], GainlandsLayout.RIDGE[3], GainlandsLayout.RIDGE[4]]
+## How far the opened gate's barrier sinks (into a slot in the ground) and how long opening takes.
+const GATE_SINK: float = 4.4
+const GATE_OPEN_TIME: float = 2.6
+
+## Fix pass Nov 4 (B), Part 1.2: true once S-BEEF is unlocked (Old Man Mountain's "Only the Worthy..." handed in, after Primm). Set before build().
+var swolympus_open: bool = false
+var _gate_barrier: Node3D
+var _gate_obstacles: Array[Vector3] = []
+var _ridge_span: Node3D
+var _ridge_lip: Node3D
+
+
+## Opens the trailhead gate: the barrier sinks into the ground, the collapsed span rises back into place, and the ridge becomes walkable.
+## `animated` false snaps it (a load or a test). Returns the tween (null when snapped or already open).
+func open_swolympus(animated: bool = true) -> Tween:
+	if swolympus_open and layout.ridge_open:
+		return null
+	swolympus_open = true
+	layout.ridge_open = true
+	for obstacle: Vector3 in _gate_obstacles:
+		var list: Array = _buckets.get(_bucket_key(obstacle.x, obstacle.y), []) as Array
+		list.erase(obstacle)
+	_gate_obstacles.clear()
+	if _ridge_lip != null:
+		_ridge_lip.visible = false
+	if not animated or _gate_barrier == null or not _gate_barrier.is_inside_tree():
+		if _gate_barrier != null:
+			_gate_barrier.position.y = -GATE_SINK
+			_gate_barrier.visible = false
+		if _ridge_span != null:
+			_ridge_span.visible = true
+			_ridge_span.position.y = 0.0
+		return null
+	var tween: Tween = _gate_barrier.create_tween().set_parallel(true)
+	tween.tween_property(_gate_barrier, "position:y", -GATE_SINK, GATE_OPEN_TIME).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	if _ridge_span != null:
+		_ridge_span.visible = true
+		_ridge_span.position.y = -6.0
+		tween.tween_property(_ridge_span, "position:y", 0.0, GATE_OPEN_TIME * 0.8).set_delay(GATE_OPEN_TIME * 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_callback(func() -> void: _gate_barrier.visible = false)
+	return tween
 
 
 ## The locked trailhead gate to Mount Swolympus (SR-4): the trailhead gate model of the concept (GAIN-HERO-TRAILHEAD-GATE) stands on the north-east rim at the
@@ -501,9 +575,16 @@ func _build_swolympus_gate() -> void:
 	lock.name = "LockIcon"
 	holder.add_child(lock)
 	gate.add_child(holder)
-	for step: float in [-1.0, 0.0, 1.0]:
-		var world: Vector3 = gate.position + basis * Vector3(step * opening * 0.3, 0.0, 0.0)
-		_add_obstacle(Vector3(world.x, world.z, opening * 0.2))
+	_gate_barrier = holder
+	if swolympus_open:
+		holder.position.y = -GATE_SINK
+		holder.visible = false
+	else:
+		for step: float in [-1.0, 0.0, 1.0]:
+			var world: Vector3 = gate.position + basis * Vector3(step * opening * 0.3, 0.0, 0.0)
+			var obstacle: Vector3 = Vector3(world.x, world.z, opening * 0.2)
+			_add_obstacle(obstacle)
+			_gate_obstacles.append(obstacle)
 	for piece: Node in gate.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)
 		piece.set_meta(&"no_occlusion_fade", true)  # a landmark at the rim: its towers never dissolve beside the hero (nothing walkable behind it)
@@ -758,9 +839,10 @@ func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
 		"gate":
 			node = GainlandsProps.gate()
 		"cavern":
-			# the Iron Cave's mouth in the north-west cliff face (the cliff itself is the IronCliff rock; its leg-day kit is the "cave" lifting yard)
+			# the Iron Cave's mouth in the crag beside the middle road (Fix pass Nov 4 (B); the crag is the IronCrag rock), facing the road
 			node = GainlandsCave.mouth()
-			node.position = Vector3(pos.x, GainlandsLayout.PLATEAU_Y, GainlandsLayout.CAVE_CLIFF.end.y + 0.3)
+			node.position = Vector3(pos.x, GainlandsLayout.PLATEAU_Y, pos.z)
+			node.rotation_degrees.y = prop.yaw
 			root.add_child(node)
 			return
 		"stage":

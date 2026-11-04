@@ -3143,14 +3143,16 @@ func begin_primm_fight() -> Array[String]:
 
 
 ## From the zone's elevator: a run that starts at the zone's current HP (no healing).
-func enter_mini_dungeon() -> void:
+## Fix pass Nov 4 (B): `dungeon_id` picks one of the zone's other side dungeons (Mount Swolympus, S-BEEF, beside the Gainlands' Iron Cave); empty = the
+## zone's own entrance (DungeonCatalog.side_for_zone).
+func enter_mini_dungeon(dungeon_id: String = "") -> void:
 	if zone_run == null:
 		return
-	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(zone_run.zone_id)
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(zone_run.zone_id) if dungeon_id.is_empty() else DungeonCatalog.find(dungeon_id)
 	if plan == null:
 		return
 	dungeon_key = plan.id
-	dungeon_map = MiniDungeon.build_map(zone_run.zone_id)
+	dungeon_map = MiniDungeon.build_map(zone_run.zone_id) if dungeon_id.is_empty() else MainDungeons.build_map(plan.id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
 	mini_active = true

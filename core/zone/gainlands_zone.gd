@@ -31,6 +31,11 @@ const FLAG_MINI_CLEARED: StringName = &"gain_mini_dungeon_cleared"
 ## says at it (a padlock board on the gate, no "coming soon"; the unlock condition is an open question, GL2-F2).
 const SWOLYMPUS_GATE: String = "swolympus_gate"
 const SWOLYMPUS_GATE_PROMPT: String = "Mount Swolympus (sealed)"
+## Fix pass Nov 4 (B), Part 1.2: Mount Swolympus opens after Primm falls and Old Man Mountain's "Only the Worthy..." is handed in (S-BEEF unlocked).
+## The trail spot at the ridge's far end enters S-BEEF; FLAG_SWOLYMPUS_SEEN is set once the hero has watched the gate open.
+const SWOLYMPUS_DUNGEON: String = "S-BEEF"
+const SWOLYMPUS_TRAIL: String = "swolympus_trail"
+const FLAG_SWOLYMPUS_SEEN: StringName = &"swolympus_gate_opened"
 const FLAG_REPS_FIRST: StringName = &"gain_reps_first_clear"
 const FLAG_WHEEL_POWERED: StringName = &"gain_wheel_powered"
 const FLAG_SPOTTED: StringName = &"gain_spotted_gary"
@@ -115,6 +120,7 @@ static func build_def() -> ZoneDef:
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Iron Cave", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cave: leg day", "mini_dungeon", {"no_plate": true}),  # S-IRON, open from the start (Gainlands v2, Part F); its icon board, not lettering
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon", {"no_plate": true}),  # the fortress gate carries an icon board, not lettering (GC-10)
+		_spot(SWOLYMPUS_TRAIL, "The Ascent of Mount Swolympus", "swolympus_foot", Vector3(0, 0, 0), 2.0, "Climb Mount Swolympus", "zone", {"no_plate": true}),  # Fix pass Nov 4 (B): S-BEEF, reached along the ridge once the gate is open
 		_spot(SWOLYMPUS_GATE, "Mount Swolympus", SWOLYMPUS_GATE, Vector3(-1.8, 0, 1.8), 2.2, SWOLYMPUS_GATE_PROMPT, "zone", {"no_plate": true}),  # the locked trailhead gate (sealed): a closed arch with its own banners, no lettering, nothing walkable behind it (SR-4)
 		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),
 		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),

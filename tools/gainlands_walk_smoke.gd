@@ -40,6 +40,7 @@ func run() -> void:
 	await _left_road_to_the_fortress(zone)
 	await _house_of_gains_gate(zone)
 	await _locked_swolympus(zone)
+	await _open_swolympus(zone)
 	await _back_out_over_the_bridge(zone)
 	_finish(_failures.is_empty(), "bridge -> plaza -> Iron Cave -> left road, west span, mesa stairs -> House of Gains gate -> sealed Swolympus gate -> bridge -> town (%d screenshots)" % _shots)
 
@@ -67,8 +68,10 @@ func _iron_cave(zone: GainlandsScene) -> void:
 	_check(cave != null, "Iron Cave: the cave's spot exists")
 	if cave == null:
 		return
-	_teleport(zone, Vector3(18.0, 0.0, 31.0))
-	await _walk_to(zone, cave.position + Vector3(0.0, 0.0, 0.8), 1.2, 8.0)
+	# Fix pass Nov 4 (B), Part 1.3: the cave is on the MIDDLE road now, between the second and third guards (their fights are off for the smoke)
+	_teleport(zone, Vector3(56.0, 0.0, 35.0))
+	_check(absf(cave.position.x - 56.0) < 6.0 and cave.position.z > GainlandsLayout.NARROWS[2].y and cave.position.z < GainlandsLayout.NARROWS[1].y, "Iron Cave: on the middle road between the guards (%.0f, %.0f)" % [cave.position.x, cave.position.z])
+	await _walk_to(zone, cave.position, 1.2, 8.0)
 	await driver.frames(6)
 	_check(zone._near == cave, "Iron Cave: its prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 	var prompt: String = str(zone.hud._prompt_label.text)
@@ -86,6 +89,7 @@ func _iron_cave(zone: GainlandsScene) -> void:
 
 ## From the cave, on foot along the left road: east along the north rim, over the west span, across the forecourt and up the stairs onto the mesa.
 func _left_road_to_the_fortress(zone: GainlandsScene) -> void:
+	_teleport(zone, Vector3(18.0, 0.0, 31.0))  # the left road's north bend (the cave left it, Fix pass Nov 4 (B))
 	for waypoint: Vector3 in [Vector3(25.0, 0.0, 26.0), Vector3(31.0, 0.0, 23.5), Vector3(36.0, 0.0, 18.0), Vector3(43.0, 0.0, 18.0), Vector3(50.0, 0.0, 18.0), Vector3(56.0, 0.0, 18.5)]:
 		await _walk_to(zone, waypoint, 1.6, 9.0)
 	_check(GainlandsLayout.level_at(zone.player.position.x, zone.player.position.z) == 1 and zone.player.position.z < 22.5, "left road: over the west span onto the forecourt")
@@ -135,6 +139,33 @@ func _locked_swolympus(zone: GainlandsScene) -> void:
 	_check(get_tree().current_scene == zone, "Swolympus: E at the locked gate goes nowhere (scene still the hub, was %s)" % before)
 	_check(str(zone.hud._toast.text).to_lower().contains("sealed"), "Swolympus: the HUD toast says sealed")
 	await _shot("g_06_swolympus_gate_toast")
+
+
+## Fix pass Nov 4 (B), Part 1.2: after Primm and Old Man Mountain's quest (S-BEEF unlocked) the gate opens as the hero comes near, and the rebuilt ridge
+## carries them to the trail at the mountain's foot, where E offers the climb.
+func _open_swolympus(zone: GainlandsScene) -> void:
+	Session.set_flag(DungeonCatalog.side_unlock_flag(GainlandsZone.SWOLYMPUS_DUNGEON))
+	var gate_pos: Vector3 = zone.builder.anchor(GainlandsZone.SWOLYMPUS_GATE)
+	await _walk_to(zone, gate_pos + Vector3(-4.0, 0.0, 4.0), 1.5, 6.0)
+	await driver.seconds(0.4)
+	_check(zone.gain.swolympus_open, "Swolympus: the unlocked gate opens as the hero comes near")
+	await driver.seconds(1.2)
+	await _shot("g_07_swolympus_gate_opening")
+	await driver.seconds(2.4)
+	for point: Vector2 in GainlandsLayout.RIDGE:
+		await _walk_to(zone, Vector3(point.x, 0.0, point.y), 1.2, 8.0)
+	await _shot("g_08_swolympus_ridge")
+	var foot: Vector3 = zone.builder.anchor("swolympus_foot")
+	await _walk_to(zone, foot, 1.2, 6.0)
+	await driver.frames(6)
+	_check(zone._near != null and zone._near.id == GainlandsZone.SWOLYMPUS_TRAIL, "Swolympus: the trail prompt is up at the mountain's foot (near %s)" % (zone._near.id if zone._near != null else "nothing"))
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.6)
+	_check(driver.find_button("Climb") != null, "Swolympus: E offers the climb")
+	await _shot("g_09_swolympus_climb_ask")
+	if driver.find_button("Not yet") != null:
+		await driver.click_button("Not yet")
+		await driver.seconds(0.4)
 
 
 func _back_out_over_the_bridge(zone: GainlandsScene) -> void:
