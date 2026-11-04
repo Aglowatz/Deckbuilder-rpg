@@ -9,8 +9,7 @@ const COLUMNS: int = 8
 ## With a vendor stage the grid sits on the right, so the cards are a little smaller and there are fewer columns.
 const STAGED_COLUMNS: int = 5
 const STAGED_SCALE: float = 0.64
-## Gristle's cans: how far a card hides in its can and rises on hover.
-const CAN_REST: float = 34.0
+## Benchley's supplement tubs (one colour per tile).
 const TUB_COLORS: Array[Color] = [Color(0.86, 0.36, 0.24), Color(0.25, 0.55, 0.78), Color(0.3, 0.65, 0.35), Color(0.8, 0.62, 0.2), Color(0.6, 0.35, 0.7)]
 
 var stock: VendorData
@@ -148,7 +147,7 @@ func _process(_delta: float) -> void:
 
 func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var holder: Control = Control.new()
-	var lift: float = CAN_REST if vendor_screen_id == "VS-GRISTLE" else 0.0
+	var lift: float = 0.0  # Fix pass Nov 4: no card stands in a can any more (the can hid its rules text)
 	holder.custom_minimum_size = CardView.SIZE * _card_scale + Vector2(0, 42.0 + lift)
 	holder.set_meta("card_id", card.id)
 	var view: CardView = CardView.create(card, CardView.Mode.BACK if locked else CardView.Mode.FULL, true)
@@ -202,19 +201,15 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 
 
 
-## The sheet's per-vendor tile looks (docs: VENDOR SCREENS in the NPC list): Mirepoix's cloches, Gristle's tin cans, Benchley's supplement tubs, Fig Sly's hidden compartments and
-## Sable's gently fanned rows. Purely cosmetic.
-func _decorate_tile(holder: Control, view: CardView, area: Rect2) -> void:
+## The sheet's per-vendor tile looks (docs: VENDOR SCREENS in the NPC list): Gristle's tin cans and Benchley's supplement tubs under the cards, and
+## Sable's gently fanned rows. Purely cosmetic. Fix pass Nov 4 (Part 3.4): nothing is drawn over a card face any more - Mirepoix's cloches (the
+## "white arches" on every card), Gristle's can front over the rules text and Fig Sly's compartment doors are gone; the stands sit under the card.
+func _decorate_tile(holder: Control, _view: CardView, area: Rect2) -> void:
 	match vendor_screen_id:
-		"VS-MIREPOIX":
-			VendorFx.add_cloche(holder, area)
 		"VS-GRISTLE":
 			VendorFx.add_stand(holder, area, VendorFx.Stand.CAN, Color(0.62, 0.66, 0.7))
-			VendorFx.add_pull_out(holder, view, view.position, CAN_REST)
 		"VS-BENCHLEY":
 			VendorFx.add_stand(holder, area, VendorFx.Stand.TUB, TUB_COLORS[_tiles.size() % TUB_COLORS.size()])
-		"VS-FIGSLY":
-			VendorFx.add_compartment(holder, area)
 		"VS-SABLE":
 			var columns: int = _grid.columns
 			holder.pivot_offset = Vector2(holder.custom_minimum_size.x * 0.5, holder.custom_minimum_size.y)

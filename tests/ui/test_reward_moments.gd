@@ -18,15 +18,26 @@ func _labels(root: Node) -> String:
 
 func test_the_level_up_moment_shows_the_number_headline_and_rewards() -> void:
 	var screen: LevelUpScreen = LevelUpScreen.new()
-	screen.setup([ProgressionTable.row(5)] as Array[LevelData])
+	screen.setup([ProgressionTable.row(6)] as Array[LevelData])
 	add_child_autofree(screen)
 	await wait_process_frames(2)
 	var joined: String = _labels(screen)
 	assert_true(joined.contains("LEVEL UP"))
-	assert_eq((screen.find_child("LevelNumber", true, false) as Label).text, "5")
-	assert_true(joined.contains(ProgressionTable.row(5).headline), joined)
-	assert_true(joined.contains("armory"), "the big unlock is listed")
+	assert_eq((screen.find_child("LevelNumber", true, false) as Label).text, "6")
+	assert_true(joined.contains(ProgressionTable.row(6).headline), joined)
+	assert_true(joined.contains("item slot"), "the big unlock (Fix pass Nov 4: the level-6 item slot) is listed")
 	assert_true(joined.contains("NEW"), "and highlighted")
+
+
+func test_no_level_up_mentions_equipment_slots() -> void:
+	# Fix pass Nov 4 (Part 3.1): equipment opens with its quest; the item slots at 6 and 12 still show.
+	for level: int in range(2, ProgressionTable.MAX_LEVEL + 1):
+		var row: LevelData = ProgressionTable.row(level)
+		var text: String = (row.headline + " " + " ".join(ProgressionTable.reward_lines(row, ProgressionTable.row(level - 1))) + " " + " ".join(UnlockDigest.level_unlocks(level))).to_lower()
+		for phrase: String in ["equipment slot", "wear up to", "armory opens", "epic piece", "legendary piece", "legendary gear", "gear in every slot"]:
+			assert_false(text.contains(phrase), "L%d mentions %s: %s" % [level, phrase, text])
+	for level: int in [6, 12]:
+		assert_true(" ".join(ProgressionTable.reward_lines(ProgressionTable.row(level), ProgressionTable.row(level - 1))).contains("item slot"), "L%d still shows its item slot" % level)
 
 
 func test_unlock_lines_are_told_apart_from_number_lines() -> void:

@@ -28,7 +28,7 @@ func test_every_level_from_2_to_30_grants_something() -> void:
 
 func test_anchors() -> void:
 	assert_false(ProgressionTable.row(5).armory, "Oct 20: the armory quest comes from Elder Maren, not from a level")
-	assert_true(ProgressionTable.row(5).big)
+	assert_false(ProgressionTable.row(5).big, "Fix pass Nov 4: level 5 is plain gold now (the armory opens with its quest)")
 	for level: int in [7, 14, 21]:
 		assert_true(ProgressionTable.row(level).reward_deck_expansion, "L%d: deck slots" % level)
 		assert_true(ProgressionTable.row(level).big)

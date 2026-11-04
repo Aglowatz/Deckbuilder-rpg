@@ -134,7 +134,7 @@ func _show_level() -> void:
 
 ## Unlock lines (new things, not just numbers going up) get the gold box and the NEW chip.
 static func is_unlock(line: String) -> bool:
-	for word: String in ["armory", "Deck Station", "copies", "Wear up to", "item slot", "Unlocks", "(cosmetic)"]:
+	for word: String in ["Deck Station", "copies", "item slot", "Unlocks", "(cosmetic)"]:
 		if line.contains(word):
 			return true
 	return false

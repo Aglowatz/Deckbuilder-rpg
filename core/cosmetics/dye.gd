@@ -4,6 +4,8 @@ extends RefCounted
 ## the cloak as painted.
 
 const NATURAL: int = -1
+## Fix pass Nov 4 (Part 3.3): every dye is bought once at Pip's (the natural colour is free); the Wardrobe then picks among the owned ones.
+const PRICE: int = 60
 
 const PALETTE: Array[Dictionary] = [
 	{"name": "Crimson", "color": Color("d6403a")},

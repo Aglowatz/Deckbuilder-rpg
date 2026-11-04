@@ -15,13 +15,16 @@ const ROOM_REGION: Rect2 = Rect2(836, 0, 700, 864)
 const POSTER_REGION: Rect2 = Rect2(245, 0, 590, 760)
 const POSTER_POS: Vector2 = Vector2(10, 95)
 const POSTER_SCALE: float = 1.1
-const SLOT_SIZE: float = 124.0
-const EQUIP_CENTERS: Dictionary = {
-	EquipmentData.Slot.HELM: Vector2(363, 200),
-	EquipmentData.Slot.ARMOR: Vector2(363, 400),
-	EquipmentData.Slot.WEAPON: Vector2(193, 590),
-	EquipmentData.Slot.RELIC: Vector2(533, 590),
-	EquipmentData.Slot.BOOTS: Vector2(363, 835),
+const SLOT_SIZE: float = 110.0  # Fix pass Nov 4: 124 -> 110 so the Helm caption clears the Armor slot on the figure
+## Fix pass Nov 4 (Part 3.2): where each slot sits ON THE SILHOUETTE, in the poster crop's own pixels (POSTER_REGION, 590 x 760, read off
+## the UI-BG-CHARACTER art): helm over the head, armor mid-chest, weapon on the left hand, relic on the right hand, boots between the feet.
+## The slot centres follow the poster rect (`equip_center`), so they stay on the figure at any window size (the page scales as one).
+const SILHOUETTE_POINTS: Dictionary = {
+	EquipmentData.Slot.HELM: Vector2(295, 84),
+	EquipmentData.Slot.ARMOR: Vector2(295, 226),
+	EquipmentData.Slot.WEAPON: Vector2(126, 382),
+	EquipmentData.Slot.RELIC: Vector2(462, 382),
+	EquipmentData.Slot.BOOTS: Vector2(295, 668),
 }
 const SLOT_ORDER: Array[EquipmentData.Slot] = [
 	EquipmentData.Slot.HELM, EquipmentData.Slot.ARMOR, EquipmentData.Slot.WEAPON, EquipmentData.Slot.RELIC, EquipmentData.Slot.BOOTS,
@@ -30,7 +33,7 @@ const SLOT_KEYS: Dictionary = {
 	EquipmentData.Slot.HELM: "helm", EquipmentData.Slot.WEAPON: "weapon", EquipmentData.Slot.ARMOR: "armor",
 	EquipmentData.Slot.BOOTS: "boots", EquipmentData.Slot.RELIC: "relic",
 }
-const PILL_RECT: Rect2 = Rect2(105, 935, 505, 48)
+const PILL_RECT: Rect2 = Rect2(82, 935, 505, 48)  # centred under the silhouette (x 334)
 const LEVEL_RECT: Rect2 = Rect2(672, 95, 412, 420)
 const PACKS_RECT: Rect2 = Rect2(672, 530, 412, 485)
 const ITEMS_RECT: Rect2 = Rect2(1112, 95, 775, 920)
@@ -164,6 +167,11 @@ func _add_backdrop() -> void:
 	back.add_child(poster_rect)
 
 
+## The centre of an equipment slot on the page (1920 x 1080 design space): its point on the silhouette, through the poster rect.
+static func equip_center(slot: EquipmentData.Slot) -> Vector2:
+	return POSTER_POS + (SILHOUETTE_POINTS[slot] as Vector2) * POSTER_SCALE
+
+
 func _build_equipment() -> void:
 	var stage: Control = Control.new()
 	stage.name = "EquipmentStage"
@@ -175,7 +183,7 @@ func _build_equipment() -> void:
 		button.name = "EquipSlot_%s" % str(SLOT_KEYS[slot])
 		button.size = Vector2(SLOT_SIZE, SLOT_SIZE)
 		button.custom_minimum_size = button.size
-		button.position = (EQUIP_CENTERS[slot] as Vector2) - button.size * 0.5
+		button.position = equip_center(slot) - button.size * 0.5
 		button.focus_mode = Control.FOCUS_ALL
 		button.add_theme_stylebox_override("focus", UIStyle.focus_ring())
 		var icon: TextureRect = _icon_rect(Vector2(SLOT_SIZE, SLOT_SIZE) * 0.18, Vector2(SLOT_SIZE, SLOT_SIZE) * 0.64)

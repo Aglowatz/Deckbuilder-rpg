@@ -150,6 +150,11 @@ var outskirt_dressing: OutskirtDressing
 
 func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
+	# Fix pass Nov 4: `--dye=N` dresses the hero in the Plain Cloak dyed N (a bought dye) for world shots.
+	if args.has("dye"):
+		Session.ensure_game()
+		Session.cosmetics.grant_dye(int(args["dye"]))
+		Session.cosmetics.cloak_dye = int(args["dye"])
 
 
 ## v0.4.2 hotfix: arriving through SceneManager the town is built in stages, one per frame (`_stage`), behind the loading screen, which keeps

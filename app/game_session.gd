@@ -4062,9 +4062,23 @@ func buy_cosmetic(item_id: String) -> bool:
 func apply_look(look: CosmeticState) -> void:
 	cosmetics.hat_id = look.hat_id if cosmetics.owns(look.hat_id) else ""
 	cosmetics.cloak_id = look.cloak_id if cosmetics.owns(look.cloak_id) else ""
-	cosmetics.cloak_dye = Dye.clamp_index(look.cloak_dye)
+	var dye: int = Dye.clamp_index(look.cloak_dye)
+	cosmetics.cloak_dye = dye if cosmetics.owns_dye(dye) else cosmetics.cloak_dye
 	EventBus.cosmetics_changed.emit()
 	save_game()
+
+
+## Fix pass Nov 4 (Part 3.3): buys one cloak dye at Pip's (`Dye.PRICE`). False when owned already or the gold is short.
+func buy_dye(index: int) -> bool:
+	if index < 0 or index >= Dye.count() or cosmetics.owns_dye(index):
+		return false
+	if not spend_gold(Dye.PRICE):
+		return false
+	cosmetics.grant_dye(index)
+	bump_counter("cosmetics_bought")
+	EventBus.cosmetics_changed.emit()
+	save_game()
+	return true
 
 
 

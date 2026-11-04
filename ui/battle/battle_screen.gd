@@ -298,6 +298,13 @@ func _ready() -> void:
 			# Oct 23 (screenshots): `--as=<name>` shows the practice foe under another name (a boss's entrance, its banner lines).
 			if _screenshot_args.has("as"):
 				context.enemy_name = str(_screenshot_args["as"])
+			# Fix pass Nov 4 (screenshots): `--dye=N` dresses the hero in the Plain Cloak dyed N, `--hat=<id>` puts a hat on (the plate's bust).
+			if _screenshot_args.has("dye"):
+				Session.cosmetics.grant_dye(int(_screenshot_args["dye"]))
+				Session.cosmetics.cloak_dye = int(_screenshot_args["dye"])
+			if _screenshot_args.has("hat"):
+				Session.cosmetics.grant(str(_screenshot_args["hat"]))
+				Session.cosmetics.hat_id = str(_screenshot_args["hat"])
 	Session.pending_battle = null
 	_music_token = Audio.push_music(StringName(MusicDirector.for_battle(context, Session.flags)), 0.6, false)
 	# Sound pass: the place's ambience gives way to the table, and the cards are riffled as the battle begins.

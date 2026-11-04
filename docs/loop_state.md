@@ -10,6 +10,6 @@ At start: C: 1.6 GB free; the Godot editor (title.tscn) is open (left running - 
 |---|---|---|
 | 1 | Battle rules (Peek, Fresh Stitches, pre-placed units, Buffet buff, Casserole AI, boss flags) | done: Peek panel + PEEK action, rename, placed_before_duel, Well Fed +0/+1 (Casserole hidden +1 atk removed), AI min 5 candidates, BossBlockers + sync_world_flags |
 | 2 | Economy (card + equipment prices, gold study) | done: cards 100/200/500/1000, gear 1200-5500 (4 essential or 6 cheapest pieces), study section in gold_economy_nov3.md |
-| 3 | UI + shops (level-up popup, Character icons, Pip, white arches) | in progress |
-| 4 | World (townsfolk, chests x1.25, Buffet footsteps, Buffet stairs) | todo |
+| 3 | UI + shops (level-up popup, Character icons, Pip, white arches) | done: no equipment lines at level-ups, slots on the silhouette (SILHOUETTE_POINTS), Pip tabs + Plain Cloak + dyes for sale + HeroBust in battle, cloches/cans/doors off the cards |
+| 4 | World (townsfolk, chests x1.25, Buffet footsteps, Buffet stairs) | in progress |
 | Finish | GUT, critic, report, export 0.5.4, smoke, push | todo |

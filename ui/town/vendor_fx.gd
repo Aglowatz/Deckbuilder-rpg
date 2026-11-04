@@ -108,14 +108,14 @@ class StandFront extends Control:
 			draw_rect(Rect2(0.0, 0.0, w, h), tint.lightened(0.3), false, 3.0)
 
 
-## A can or tub drawn over the lower part of a card (`card_area`); the card sits in it. Returns the front so a caller can raise the card on hover.
+## A can or tub under a card (`card_area`), behind the price row. Fix pass Nov 4: never over the card face (the can used to cover its rules text).
 static func add_stand(holder: Control, card_area: Rect2, kind: Stand, tint: Color) -> StandFront:
 	var front: StandFront = StandFront.new()
 	front.name = "Stand"
 	front.kind = kind
 	front.tint = tint
-	var height: float = card_area.size.y * 0.30 if kind == Stand.CAN else 50.0
-	front.position = Vector2(card_area.position.x - 2.0, card_area.end.y - height + 4.0 if kind == Stand.CAN else card_area.end.y - 8.0)
+	var height: float = 46.0
+	front.position = Vector2(card_area.position.x - 2.0, card_area.end.y - 2.0)
 	front.size = Vector2(card_area.size.x + 4.0, height)
 	front.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(front)

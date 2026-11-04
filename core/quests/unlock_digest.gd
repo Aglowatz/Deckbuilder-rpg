@@ -65,8 +65,6 @@ static func level_unlocks(reached_level: int) -> Array[String]:
 			lines.append("New stock at the Item Vendor")
 		if not row.reward_vendor_unlock.is_empty():
 			lines.append("%s now at the vendor" % row.reward_vendor_unlock)
-		if row.equipment_choice:
-			lines.append("A new equipment slot to unlock")
 	for item: CosmeticData in CosmeticCatalog.all():
 		if item.unlock != null and item.unlock.kind == Condition.Kind.PLAYER_LEVEL and item.unlock.amount == reached_level and item.is_for_sale():
 			lines.append("New at the tailor: %s" % item.display_name)

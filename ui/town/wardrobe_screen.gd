@@ -1,7 +1,7 @@
 class_name WardrobeScreen
 extends OverlayScreen
 ## The wardrobe (hotkey T, HUD button): a turning preview of the painted hero, the owned hats and cloaks, and the cloak dye row. Purely cosmetic; every change is applied
-## and saved at once. The hero starts in the default look (the dark teal hooded cloak, no hat): there is no look to choose at the start of a game any more.
+## and saved at once. The hero starts in the default look (the Plain Cloak, dark teal, no hat): there is no look to choose at the start of a game any more.
 
 var _look: CosmeticState
 var _preview: HeroPreview
@@ -51,7 +51,7 @@ func _add_section(parent: VBoxContainer, slot: CosmeticData.Slot, title: String)
 	flow.add_theme_constant_override("v_separation", 8)
 	parent.add_child(flow)
 	var key: String = "hat" if slot == CosmeticData.Slot.HAT else "cloak"
-	var none: FancyButton = FancyButton.make("None" if slot == CosmeticData.Slot.HAT else "Plain teal cloak", &"", Vector2(120 if slot == CosmeticData.Slot.HAT else 230, 46))
+	var none: FancyButton = FancyButton.make("None" if slot == CosmeticData.Slot.HAT else TailorScreen.PLAIN_CLOAK, &"", Vector2(120 if slot == CosmeticData.Slot.HAT else 230, 46))
 	none.name = "%s_none" % title
 	none.pressed.connect(func() -> void: _equip(slot, ""))
 	flow.add_child(none)
@@ -127,11 +127,13 @@ func _refresh() -> void:
 	for index: Variant in _dye_buttons:
 		var swatch: Button = _dye_buttons[index] as Button
 		var selected_dye: bool = _look.cloak_dye == int(index)
-		# Apparel Part 3: the dye only shows on the plain hooded cloak, so the swatches rest while a named cloak is worn.
+		# Apparel Part 3: the dye only shows on the Plain Cloak, so the swatches rest while a named cloak is worn. Fix pass Nov 4: a dye not
+		# bought yet at Pip's rests too.
 		var dyeable: bool = SpriteCosmetics.dye_applies(_look)
-		swatch.disabled = not dyeable
-		swatch.tooltip_text = Dye.dye_name(int(index)) if dyeable else "Dyes colour the plain hooded cloak"
-		swatch.modulate.a = 1.0 if dyeable else 0.4
+		var owned_dye: bool = Session.cosmetics.owns_dye(int(index))
+		swatch.disabled = not dyeable or not owned_dye
+		swatch.tooltip_text = (Dye.dye_name(int(index)) if owned_dye else "%s: buy it at Pip Threadwell's" % Dye.dye_name(int(index))) if dyeable else "Dyes colour the Plain Cloak"
+		swatch.modulate.a = 1.0 if dyeable and owned_dye else 0.4
 		for state: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 			var box: StyleBoxFlat = StyleBoxFlat.new()
 			box.bg_color = Dye.primary(int(index)) if int(index) >= 0 else Color("3a3550")
@@ -141,4 +143,4 @@ func _refresh() -> void:
 			swatch.add_theme_stylebox_override(state, box)
 	var hat: CosmeticData = CosmeticCatalog.find(_look.hat_id)
 	var cloak: CosmeticData = CosmeticCatalog.find(_look.cloak_id)
-	_status.text = "Hat: %s    Cloak: %s%s" % [hat.display_name if hat != null else "none", cloak.display_name if cloak != null else "dark teal hooded cloak", " (%s)" % Dye.dye_name(_look.cloak_dye) if SpriteCosmetics.dye_applies(_look) else ""]
+	_status.text = "Hat: %s    Cloak: %s%s" % [hat.display_name if hat != null else "none", cloak.display_name if cloak != null else TailorScreen.PLAIN_CLOAK, " (%s)" % Dye.dye_name(_look.cloak_dye) if SpriteCosmetics.dye_applies(_look) else ""]

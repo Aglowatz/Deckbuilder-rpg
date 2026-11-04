@@ -8,6 +8,8 @@ var hat_id: String = ""
 var cloak_id: String = ""
 var hat_dye: int = 0
 var cloak_dye: int = Dye.NATURAL
+## Fix pass Nov 4 (Part 3.3): the cloak dyes bought at Pip's (indexes into `Dye.PALETTE`; the natural colour is always owned).
+var owned_dyes: Array[int] = []
 ## Set when an old save was loaded: the gold its bought items are worth (the session pays it out once and clears it).
 var legacy_refund: int = 0
 
@@ -20,6 +22,17 @@ func grant(item_id: String) -> bool:
 	if CosmeticCatalog.find(item_id) == null or owns(item_id):
 		return false
 	owned.append(item_id)
+	return true
+
+
+func owns_dye(index: int) -> bool:
+	return index == Dye.NATURAL or owned_dyes.has(index)
+
+
+func grant_dye(index: int) -> bool:
+	if index < 0 or index >= Dye.count() or owned_dyes.has(index):
+		return false
+	owned_dyes.append(index)
 	return true
 
 
@@ -58,7 +71,7 @@ func duplicate_state() -> CosmeticState:
 
 
 func to_dict() -> Dictionary:
-	return {"version": CosmeticMigration.VERSION, "owned": owned.duplicate(), "hat": hat_id, "cloak": cloak_id, "cloak_dye": cloak_dye}
+	return {"version": CosmeticMigration.VERSION, "owned": owned.duplicate(), "hat": hat_id, "cloak": cloak_id, "cloak_dye": cloak_dye, "dyes": owned_dyes.duplicate()}
 
 
 func from_dict(data: Dictionary) -> void:
@@ -68,6 +81,7 @@ func from_dict(data: Dictionary) -> void:
 	cloak_id = ""
 	hat_dye = 0
 	cloak_dye = Dye.NATURAL
+	owned_dyes.clear()
 	if int(data.get("version", 1)) < CosmeticMigration.VERSION:
 		# An old save: back to the default look, bought items refunded, found items kept.
 		var migrated: Dictionary = CosmeticMigration.migrate(data)
@@ -85,3 +99,11 @@ func from_dict(data: Dictionary) -> void:
 	if cloak_id != "" and not owns(cloak_id):
 		cloak_id = ""
 	cloak_dye = Dye.clamp_index(int(data.get("cloak_dye", Dye.NATURAL)))
+	if data.has("dyes"):
+		for index: Variant in data["dyes"] as Array:
+			grant_dye(int(index))
+	else:
+		# A save from before the dyes were sold (Fix pass Nov 4): the dye being worn is kept as owned.
+		grant_dye(cloak_dye)
+	if not owns_dye(cloak_dye):
+		cloak_dye = Dye.NATURAL

@@ -161,6 +161,12 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	var player_panel: Portrait = Portrait.new()
 	player_panel.title = "You"
 	player_panel.icon_key = "lorc/pointy-hat"
+	# Fix pass Nov 4 (Part 3.3): your plate shows the hero as dressed (hat, cloak, dye), not a pointy-hat glyph.
+	if Session.profile != null and SpriteLibrary.has_character("PLAYER"):
+		var bust: HeroBust = HeroBust.new()
+		bust.name = "HeroBust"
+		add_child(bust)
+		player_panel.picture = bust.texture()
 	player_panel.accent = UIStyle.GOLD
 	player_panel.position = Vector2(24, 884.0 - (10.0 if UiArt.has("UI-HUD-PLAYERPLATE") else 0.0))
 	add_child(player_panel)
