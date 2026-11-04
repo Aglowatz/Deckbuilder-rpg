@@ -362,6 +362,39 @@ func _dev(parts: PackedStringArray) -> void:
 			# forest (`Session.resume_loaded_game`), where the town hotkeys are dead; the mid-game snapshot sets this flag.
 			Session.set_flag(StringName(arg), arg2 != "off" and arg2 != "0")
 			result = "flag %s = %s" % [arg, str(Session.flag(StringName(arg)))]
+		"hand", "energy", "play":
+			# Fix pass Nov 4: `dev hand <card id>` puts a card in your battle hand, `dev energy` lays one of every basic infrastructure,
+			# `dev play <card id>` plays that hand card as a click would (Peek and other choices then show their real panels).
+			if battle == null:
+				result = "no battle"
+			elif what == "hand":
+				var data: CardData = Session.content.card(arg)
+				if data == null:
+					result = "no card %s" % arg
+				else:
+					battle.game.players[0].hand.append(battle.game.create_instance(data, 0))
+					battle.board.register_all()
+					battle.board.sync_state(false)
+					battle.board.layout(false)
+					result = "%s in hand" % data.display_name
+			elif what == "energy":
+				for number: int in range(1, 12):
+					var infra: CardData = load("res://data/cards/INF-%02d.tres" % number) as CardData
+					if infra != null:
+						battle.game.players[0].infrastructure.append(battle.game.create_instance(infra, 0))
+				battle.board.register_all()
+				battle.board.sync_state(false)
+				battle.board.layout(false)
+				battle.hud.refresh_all()
+				result = "energy laid"
+			else:
+				result = "no %s in hand" % arg
+				for card: CardInstance in battle.game.players[0].hand:
+					if card.data.id == arg:
+						battle._try_play(card.uid)
+						result = "played %s" % card.data.display_name
+						break
+				await driver.seconds(1.5)
 		"goto":
 			# Batch 11 (Nov 2): `dev goto <spot id>` stands the hero on a talk / use spot of the current zone or town (then `key E` uses it), the
 			# walk smokes' shortcut for long legs; the camera follows at once.

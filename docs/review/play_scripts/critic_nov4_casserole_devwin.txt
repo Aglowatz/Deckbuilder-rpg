@@ -1,0 +1,35 @@
+# Fix pass Nov 4 critic: Colonel Casserole beaten with the dev win; the golem must step aside.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev level 12
+dev travel zone gourmand
+wait 8
+skip_dialogue 12
+dev goto gate_battle
+wait 1.5
+key E
+wait 1.5
+skip_dialogue 12
+wait 1
+button Battle
+wait 9
+skip_dialogue 8
+wait 2
+button Keep Hand
+wait 4
+shot 00_first_turn
+dev win
+wait 3
+shot 01_result
+button Continue
+wait 10
+skip_dialogue 12
+wait 3
+shot 02_gate_after_dev_win
+dev goto gate_battle
+wait 1.5
+shot 03_gate_spot
+dump
+scene
