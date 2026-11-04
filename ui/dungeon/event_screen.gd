@@ -80,6 +80,7 @@ func _show_event() -> void:
 		button.disabled = choice.gold_cost() > Session.gold
 		if button.disabled:
 			button.tooltip_text = "You need %d gold." % choice.gold_cost()
+			button.text = "%s   (you need %d gold)" % [label, choice.gold_cost()]  # Fix pass Nov 4 (B): the reason on the button itself, not only a tooltip
 		button.pressed.connect(_choose.bind(index))
 		_column.add_child(button)
 		_buttons.append(button)
@@ -98,7 +99,10 @@ func _choose(index: int) -> void:
 	for child: Node in _column.get_children():
 		child.queue_free()
 	_column.add_child(UIKit.label(_story.text(event.title_key()), &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var text: Label = UIKit.label(_story.text(event.result_key(index)), &"", 25, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	var result_text: String = _story.text(event.result_key(index))
+	if not result.lost_cards.is_empty():
+		result_text = result_text.replace("{card}", result.lost_cards[0].display_name)  # Fix pass Nov 4 (B): the result names the card that left
+	var text: Label = UIKit.label(result_text, &"", 25, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	text.name = "EventResult"
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(1000, 0)
@@ -131,6 +135,8 @@ func _summary_lines(result: EventResolver.Result) -> Array[String]:
 		lines.append("%s: %s. %s" % [BoonText.kind_word(boon), boon.source_name, BoonText.describe(boon)])  # Fixes Oct 27: what it does, not just its name
 	for card: CardData in result.cards:
 		lines.append("Card: %s" % card.display_name)
+	for lost: CardData in result.lost_cards:
+		lines.append("Lost for this run: %s (back after the run)" % lost.display_name)
 	return lines
 
 

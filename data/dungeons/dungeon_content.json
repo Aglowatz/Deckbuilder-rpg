@@ -58,9 +58,10 @@
 				},
 				"8": {
 					"name": "Cell Block Brawler",
-					"hp": 13,
-					"size": 27,
-					"infra": 13
+					"deck": "beefcake_bruisers",
+					"hp": 16,
+					"size": 28,
+					"infra": 12
 				},
 				"11": {
 					"name": "Trophy Hall Honor Guard",

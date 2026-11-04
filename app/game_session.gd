@@ -3561,7 +3561,7 @@ func _treasure_area() -> String:
 ## Resolves one choice of a story event for the current dungeon run: HP/boons/cards go to the run, gold
 ## to the player. Returns the `EventResolver.Result` (ok = false when the choice could not be taken).
 func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResolver.Result:
-	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold, rewards_go_to_deck())
+	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold, rewards_go_to_deck(), rng)
 	if result.ok:
 		if result.gold_delta > 0:
 			add_gold(result.gold_delta)

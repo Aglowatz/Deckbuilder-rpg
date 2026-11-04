@@ -6,7 +6,8 @@ extends RefCounted
 ## `event.<id>.title`, `.body`, `.choice.<n>` and `.result.<n>`; this class only holds the mechanics.
 ## An outcome of kind NEXT chains into another event ("forms that require other forms").
 
-enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT }
+## LOSE_CARD (Fix pass Nov 4 (B)): a random non-basic card leaves the run's deck for the rest of this run (it is back after the run).
+enum OutcomeKind { NOTHING, HEAL, DAMAGE, GOLD, PAY_GOLD, BOON, CARD, NEXT, LOSE_CARD }
 
 
 class Outcome:
@@ -34,6 +35,8 @@ class Outcome:
 				return "%s: %s (%s)" % ["curse" if _is_curse() else "boon", boon.source_name, BoonText.short(boon)]  # Fixes Oct 27: what it does
 			OutcomeKind.CARD:
 				return "gain a card"
+			OutcomeKind.LOSE_CARD:
+				return "a random card leaves your deck for this run"
 			OutcomeKind.NEXT:
 				return "continue..."
 		return ""
@@ -134,6 +137,10 @@ static func card(card_id: String) -> Outcome:
 	var outcome: Outcome = _outcome(OutcomeKind.CARD)
 	outcome.card_id = card_id
 	return outcome
+
+
+static func lose_card() -> Outcome:
+	return _outcome(OutcomeKind.LOSE_CARD)
 
 
 static func next(event_id: String) -> Outcome:

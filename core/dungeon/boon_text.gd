@@ -9,7 +9,7 @@ const DURATION: String = "for the rest of this run"
 ## Boons that change no number but something else in the run (their effect lives in the dungeon's own code).
 const MARKERS: Dictionary = {
 	PathologyLab.BOON_NAME: "Elowen Vey fights beside you in the Siphon fight",
-	HouseOfGainsDungeon.BOON_NAME: "Grandmaster Flex fights beside you in the boss fight",
+	HouseOfGainsDungeon.BOON_NAME: "Grandmaster Flex fights beside you in the final battle",
 	RotheartDungeon.SEVERED_BOON_NAME: "the Rotheart starts her fight with %d less HP" % RotheartDungeon.SEVERED_HP_LOSS,
 }
 

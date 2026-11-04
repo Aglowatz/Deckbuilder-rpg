@@ -10,6 +10,16 @@
 			"def": 0
 		}
 	],
+	"Cell Block Brawler": [
+		{
+			"name": "Smuggled Weights",
+			"text": "Nobody can use Iron in the prison. Nobody told him: he has been curling contraband plates under his bunk for years. The Brawler's units get +1 attack.",
+			"icon": "lorc/muscle-up",
+			"kind": "stat",
+			"atk": 1,
+			"def": 0
+		}
+	],
 	"Trophy Hall Honor Guard": [
 		{
 			"name": "Honor Guard",

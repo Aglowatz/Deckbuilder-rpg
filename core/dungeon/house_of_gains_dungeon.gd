@@ -16,6 +16,9 @@ const RESCUE_NODE_KEY: String = "hg_rescue"
 const BOON_NAME: String = "Grandmaster Flex Fights Beside You"
 ## The rescued leader as a card-game ally (the token sheet's T-15): he starts on your field in the boss fight.
 const ALLY_TOKEN_ID: String = "T-15"
+## The Descent's prices (Fix pass Nov 4 (B), Part 2.2).
+const DESCENT_BRIBE: int = 40
+const DESCENT_DAMAGE: int = 3
 
 
 ## True when the player rescued the leader in this run (the rescue event grants the boon).
@@ -44,12 +47,10 @@ static func place_ally(game: GameState) -> CardInstance:
 	ally.just_arrived = false
 	return ally
 
-## Grandmaster Flex's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).
+## Grandmaster Flex's boon: he fights beside you in the final battle (his T-15 ally, 3/5), and that is all it does. Fix pass Nov 4 (B), Part 2.3: the
+## +1/+1 to all your units and +3 max HP are gone.
 static func heartlift_boon() -> ModifierSource:
-	return MainDungeonDef.boon_source(BOON_NAME, [
-		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1),
-		CardBuilder.modifier(Modifier.Kind.MAX_HP, 3),
-	] as Array[Modifier])
+	return MainDungeonDef.boon_source(BOON_NAME, [] as Array[Modifier])
 
 
 static func build_def() -> MainDungeonDef:
@@ -58,11 +59,12 @@ static func build_def() -> MainDungeonDef:
 	def.reward_gold = 220
 	def.reward_xp = DungeonClearBonus.main_xp(DUNGEON_ID)  # Fable pass Nov 1: scaled with the tier (was a flat 160)
 	def.boon = heartlift_boon()
-	# The Stairs to the Iron-less Prison (node 7).
+	# The Stairs to the Iron-less Prison (node 7). Fix pass Nov 4 (B), Part 2.2: every way past the guard costs something - a 40-gold bribe (greyed out
+	# below 40 gold), 3 HP, or a random card from your deck for the rest of this run (back after it).
 	var descent: DungeonEvent = DungeonEvent.make("hg_descent")
-	descent.choice([DungeonEvent.nothing()] as Array[DungeonEvent.Outcome])
-	descent.choice([DungeonEvent.gold(40), DungeonEvent.damage(2)] as Array[DungeonEvent.Outcome])
-	descent.choice([DungeonEvent.heal(3)] as Array[DungeonEvent.Outcome])
+	descent.choice([DungeonEvent.pay_gold(DESCENT_BRIBE)] as Array[DungeonEvent.Outcome])
+	descent.choice([DungeonEvent.damage(DESCENT_DAMAGE)] as Array[DungeonEvent.Outcome])
+	descent.choice([DungeonEvent.lose_card()] as Array[DungeonEvent.Outcome])
 	def.add_event(descent)
 	# The Iron-less Prison (node 9): the rescue. The BOON outcome IS the rescue: Grandmaster Flex joins and fights beside you in the boss duel.
 	var rescue: DungeonEvent = DungeonEvent.make("hg_rescue")

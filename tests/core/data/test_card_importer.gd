@@ -103,8 +103,8 @@ func test_tokens() -> void:
 	assert_eq(CardSet.card("T-14").type, CardEnums.CardType.RESOURCE)
 	assert_eq(CardSet.card("T-13").resource_kind, int(ResourceKind.Kind.CONTRACT))
 	assert_eq(CardSet.card("T-12").type, CardEnums.CardType.TOKEN, "the Clause is a special token")
-	assert_eq(CardSet.card("T-15").attack, 7)
-	assert_true(CardSet.card("T-15").has_keyword(CardEnums.Keyword.UNBREAKABLE))
+	assert_eq(CardSet.card("T-15").attack, 3, "Fix pass Nov 4 (B): Grandmaster Flex's ally is a 3/5")
+	assert_true(CardSet.card("T-15").has_keyword(CardEnums.Keyword.OVERTIME))
 	assert_eq(CardSet.card("T-17").paths().size(), 2, "Compost Golem is Gourmand/Refusemancer")
 	assert_true(CardSet.card("RES-IRON").is_resource())
 

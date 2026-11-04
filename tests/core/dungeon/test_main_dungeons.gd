@@ -294,13 +294,14 @@ func test_rescuing_heartlift_adds_a_dungeon_wide_boon() -> void:
 	var rescue: EventResolver.Result = Session.resolve_dungeon_event(dungeon.event("hg_rescue"), 0)
 	assert_true(rescue.ok)
 	assert_eq(rescue.boons.size(), 1)
-	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i(1, 1), "Grandmaster Flex fights beside you: +1/+1")
-	assert_eq(Session.run.max_hp(), hp_before + 3)
-	# The boon is carried into the next duel for the rest of the run.
-	var map: DungeonMap = Session.dungeon_map
-	var node: DungeonMap.MapNode = map.available()[0]
-	var context: BattleContext = Session.make_dungeon_battle(node)
-	assert_gte(context.game.players[0].modifiers.stat_bonus(Affinity.Type.BEEFCAKE).x, 1)
+	# Fix pass Nov 4 (B), Part 2.3: the only boon is Flex at your side in the final battle - no stats, no max HP
+	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i.ZERO, "no +1/+1 any more")
+	assert_eq(Session.run.max_hp(), hp_before, "no +3 max HP any more")
+	assert_true(HouseOfGainsDungeon.rescued(Session.run), "but he is rescued: he fights beside you")
+	assert_eq(BoonText.short(rescue.boons[0]), "Grandmaster Flex fights beside you in the final battle")
+	var flex: CardData = TokenRegistry.data(HouseOfGainsDungeon.ALLY_TOKEN_ID)
+	assert_eq(Vector2i(flex.attack, flex.defense), Vector2i(3, 5), "his ally is a 3/5")
+	assert_false(flex.has_keyword(CardEnums.Keyword.UNBREAKABLE), "no longer Unbreakable")
 
 
 func test_the_prison_is_a_section_and_the_rescue_comes_before_the_boss() -> void:

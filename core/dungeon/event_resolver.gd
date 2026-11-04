@@ -12,6 +12,8 @@ class Result:
 	var hp_delta: int = 0
 	var boons: Array[ModifierSource] = []
 	var cards: Array[CardData] = []
+	## Cards that left the run's deck for the rest of the run (LOSE_CARD).
+	var lost_cards: Array[CardData] = []
 	## The id of the event this choice leads into ("" = the event is over).
 	var next_event: String = ""
 	var choice_index: int = -1
@@ -21,7 +23,7 @@ class Result:
 ## below 0 gold); the resolver itself never touches the Session's gold - callers apply `gold_delta`.
 ## Cards Oct 27, Part 3: `to_deck` = the card also joins the run's deck (the tutorial cave); otherwise it is only reported in `cards` for the
 ## caller to add to the collection.
-static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, content: ContentSet, gold_available: int, to_deck: bool = true) -> Result:
+static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, content: ContentSet, gold_available: int, to_deck: bool = true, rng: RandomNumberGenerator = null) -> Result:
 	var result: Result = Result.new()
 	result.choice_index = choice_index
 	if choice_index < 0 or choice_index >= event.choices.size():
@@ -57,6 +59,19 @@ static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, con
 					if to_deck:
 						run.gain_card(card)
 					result.cards.append(card)
+			DungeonEvent.OutcomeKind.LOSE_CARD:
+				var candidates: Array[CardData] = []
+				for card: CardData in run.current_deck().cards:
+					if not card.is_basic:
+						candidates.append(card)
+				if not candidates.is_empty():
+					var roll: RandomNumberGenerator = rng
+					if roll == null:
+						roll = RandomNumberGenerator.new()
+						roll.randomize()
+					var victim: CardData = RngUtil.pick(candidates, roll) as CardData
+					if run.lose_card(victim):
+						result.lost_cards.append(victim)
 			DungeonEvent.OutcomeKind.NEXT:
 				result.next_event = outcome.event_id
 	return result
