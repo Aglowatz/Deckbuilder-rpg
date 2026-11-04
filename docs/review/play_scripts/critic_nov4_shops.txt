@@ -17,6 +17,8 @@ button Cards
 wait 2
 shot 00_sable_cards
 key Escape
+wait 1.2
+key Escape
 wait 1.5
 skip_dialogue 4
 dev goto tailor

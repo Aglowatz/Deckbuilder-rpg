@@ -21,6 +21,20 @@ Brief: `docs/prompts/fixes_nov4.md`. Report: `docs/overnight_report.md`. Tag `pr
 5. **Peek panel.** Shows all N cards together (Peek 1 is the same panel with one card); Top / Bottom per card, the first card sent Top is
    drawn next, Reset and Done. A Peek on the opponent's turn (none of the current cards does that) and every AI Peek still resolve by
    themselves.
+6. **Equipment rarity caps still apply, unannounced.** The level-ups no longer mention equipment, but `EquipCaps` (no Epic piece before
+   level 5, 2 at 13, a Legendary from 22...) still limits what can be worn; it explains itself when you try to equip. With gear now costing
+   1,200-5,500 (4-6 pieces a playthrough) the caps barely bite. Drop them (everyone may wear what they bought)?
+7. **Townsfolk.** The gym attendant's two spots are mole farm hands; four standing townsfolk are now moles in four tints. Every other painted
+   set is a named character, and only the badger and the Capital citizen walk, so no idle wander. A generic townsfolk set (idle + walk) on the
+   art list would fix both.
+8. **Dyes cost 60 gold each** (they were free in the Wardrobe). An old save keeps the dye it is wearing; the rest are bought once at Pip's.
+   Say if they should be free (Equip without Buy) or cheaper.
+9. **Fig Sly's item compartments stay** (his items, not cards, hide behind little doors until hovered); only the card overlays were removed.
+10. **Economy design target 2** ("the stock a player wants at a stop costs 1.5-2x the gold on hand") no longer holds for gear - by design now
+    (a piece is a saving goal). Packs were not repriced: a General Pack (100) equals a Common single, a Path Pack is 150.
+11. **Export 0.5.4 not done:** the editor is open and C: has 1.4 GB free (needs ~2.5 GB). Version 0.5.4 is set; nothing was deleted.
+12. **The critic played from the main repo** at HEAD (no disk for a worktree), short scripted runs instead of a no-context critic agent.
+13. **The ninja's giant chest keeps its size** (it is already giant); only the hidden chests grew.
 
 ## Overnight Nov 3-4 - yours to decide (the safest choice was taken)
 

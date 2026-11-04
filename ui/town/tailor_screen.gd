@@ -119,7 +119,21 @@ func show_tab(tab: String) -> void:
 	_populate()
 	for key: String in _tab_buttons:
 		(_tab_buttons[key] as FancyButton).theme_type_variation = &"PrimaryButton" if key == _tab else &""
+	# Fix pass Nov 4 (critic): the preview panel never opens empty - the tab's first open piece (a dye when no cloak is open yet).
+	var first: CosmeticData = _first_open(CosmeticData.Slot.HAT if tab == TAB_HATS else CosmeticData.Slot.CLOAK)
+	if first != null:
+		_preview(first, false)
+	elif tab == TAB_CLOAKS:
+		preview_dye(0, false)
 	_refresh()
+
+
+func _first_open(slot: CosmeticData.Slot) -> CosmeticData:
+	var state: UnlockState = Session.unlock_state()
+	for item: CosmeticData in CosmeticCatalog.all():
+		if item.slot == slot and item.is_for_sale() and Condition.met(item.unlock, state) and SpriteCosmetics.art_ready(item):
+			return item
+	return null
 
 
 func current_tab() -> String:
@@ -476,6 +490,8 @@ func _refresh() -> void:
 		buy.text = "Equipped" if worn else ("Equip" if owned else ("Buy" if ready else "Soon"))
 		buy.disabled = worn or not ready
 		(entry["preview"] as FancyButton).disabled = not ready
+	if _selected_label == null:
+		return  # still building (the first tab previews before the label exists)
 	if _selected != null:
 		_selected_label.text = "Preview: %s (%s)" % [_selected.display_name, "owned" if Session.cosmetics.owns(_selected.id) else "%d gold" % _selected.price]
 	elif _selected_dye != Dye.NATURAL and _selected_label != null:

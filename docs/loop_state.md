@@ -12,4 +12,4 @@ At start: C: 1.6 GB free; the Godot editor (title.tscn) is open (left running - 
 | 2 | Economy (card + equipment prices, gold study) | done: cards 100/200/500/1000, gear 1200-5500 (4 essential or 6 cheapest pieces), study section in gold_economy_nov3.md |
 | 3 | UI + shops (level-up popup, Character icons, Pip, white arches) | done: no equipment lines at level-ups, slots on the silhouette (SILHOUETTE_POINTS), Pip tabs + Plain Cloak + dyes for sale + HeroBust in battle, cloches/cans/doors off the cards |
 | 4 | World (townsfolk, chests x1.25, Buffet footsteps, Buffet stairs) | done: mole farm hands for the gym attendant, ChestKit.SCALE/FOOTPRINT/REACH, Buffet roads cobble + plaza tile, Dump paths dirt, Potato Peak biscuit bridges removed |
-| Finish | GUT, critic, report, export 0.5.4, smoke, push | in progress |
+| Finish | GUT, critic, report, export 0.5.4, smoke, push | GUT green; critic (4 scripted runs from the main repo) + Pip preview fix; report + inbox (13 items); version 0.5.4; EXPORT BLOCKED (editor open, 1.4 GB disk) - release smoke not run |

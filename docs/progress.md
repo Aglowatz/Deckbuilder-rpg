@@ -3692,3 +3692,15 @@ Suggestions only (dialogue freeze kept: no game text changed). Report `docs/dial
 - Oct 31 evening (designer's answers, `docs/dialogue/fixes_oct31/README.md`): rewrites typed over Current line are applied by the importer
   (priority New line > accepted critic row > typed over); sheet tab "Critic Oct 31" + lookup columns; Model Room, Moss's bridge, Rip 212,
   Reserve Guard, wheel names, parlour, freed Plume, Lab reveal, Grand Chef, Elowen lines; tri-Path crafting in the Alchemist; export labels.
+
+## Fix pass Nov 4 (playtest feedback round 1) - done (export pending)
+
+Brief `docs/prompts/fixes_nov4.md`, report `docs/overnight_report.md`, tag `pre-fixes-nov4`.
+- Battle: interactive Peek (`peek_requests`, `GameAction.PEEK`, `PeekPanel`); "Fresh Stitches" (was summoning sickness); units on the table
+  before the duel keep Fresh Stitches on their side's first turn; Well Fed +0/+1 (the Colonel's hidden +1 attack gone); the AI's attack and
+  block searches always weigh 5 candidates; blockers step aside from their flag (`BossBlockers`, `ZoneScene.sync_world_flags`).
+- Economy: cards 100 / 200 / 500 / 1000, gear 1,200-5,500 (4-6 pieces per no-grind game; study in `docs/balance/gold_economy_nov3.md`).
+- UI: no equipment lines at level-ups, Character slots on the silhouette, Pip's Hats/Cloaks tabs + Plain Cloak + dyes for sale, `HeroBust`
+  on your battle plate, no overlays on shop cards.
+- World: mole farm hands for the gym attendant, chests x1.25 (`ChestKit.SCALE`), Buffet roads cobble / plaza tile, Dump paths dirt, the
+  Potato Peak's biscuit bridges removed. Version 0.5.4 (export blocked: editor open, disk).
