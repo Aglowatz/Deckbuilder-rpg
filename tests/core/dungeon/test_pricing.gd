@@ -8,7 +8,8 @@ func test_prices_scale_with_rarity_and_cost() -> void:
 	assert_true(CardPricing.price(colossus) > CardPricing.price(sellsword))
 	assert_eq(CardPricing.price(sellsword), Economy.card_price(sellsword.rarity), "Oct 29: priced by rarity alone")
 	assert_eq(CardPricing.price(colossus), Economy.CARD_PRICE[int(colossus.rarity)])
-	assert_eq(Economy.CARD_PRICE, [300, 600, 1500, 3000] as Array[int], "Nov 3-4, Part B9: about 20 cards in a no-grind playthrough")
+	assert_eq(Economy.CARD_PRICE, [100, 200, 500, 1000] as Array[int], "Fix pass Nov 4: a Common costs what a General Pack costs")
+	assert_eq(Economy.CARD_PRICE[0], 100)
 
 
 func test_sale_limits() -> void:
@@ -16,3 +17,15 @@ func test_sale_limits() -> void:
 	assert_true(CardPricing.is_for_sale(content.card("B-03"), 0))
 	assert_false(CardPricing.is_for_sale(content.card("B-03"), 3))
 	assert_false(CardPricing.is_for_sale(content.card("T-16"), 0))
+
+
+func test_equipment_is_a_saving_goal() -> void:
+	# Fix pass Nov 4 (Part 2.2): 4-6 shop pieces per no-grind playthrough (docs/balance/gold_economy_nov3.md); every tier dearer than the last.
+	for rarity: EquipmentData.Rarity in [EquipmentData.Rarity.COMMON, EquipmentData.Rarity.UNCOMMON, EquipmentData.Rarity.RARE]:
+		for tier: int in range(1, 4):
+			assert_lte(Economy.gear_price(rarity, tier), Economy.gear_price(rarity, tier + 1))
+	assert_eq(Economy.gear_price(EquipmentData.Rarity.COMMON, 1), 1200, "the cheapest piece costs twelve Commons")
+	assert_gt(Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 1), Economy.gear_price(EquipmentData.Rarity.COMMON, 4))
+	assert_gt(Economy.gear_price(EquipmentData.Rarity.RARE, 1), Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 4))
+	for entry: EquipmentVendorEntry in EquipmentVendorScreen.default_stock().entries:
+		assert_gte(entry.price, 1200, "%s is a real purchase" % entry.equipment_id)

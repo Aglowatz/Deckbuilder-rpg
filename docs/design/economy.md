@@ -26,10 +26,10 @@ rack (L13) and the late zones, **4** = the Capital and the postgame.
 
 | Sink | Common | Uncommon | Epic | Legendary |
 |---|---:|---:|---:|---:|
-| Cards (any shelf; no energy term any more) | 30 | 60 | 150 | 300 |
-| Equipment, tier 1 | 60 | 120 | - | - |
-| Equipment, tier 2 | 90 | 180 | 300 | - |
-| Equipment, tier 3 | - | 240 | 450 | - |
+| Cards (any shelf; no energy term; Fix pass Nov 4 - was 30 / 60 / 150 / 300 on Oct 29, 300 / 600 / 1500 / 3000 on Nov 3) | 100 | 200 | 500 | 1000 |
+| Equipment, tier 1 (Nov 4: a saving goal, 4-6 pieces per no-grind game; was 60 / 120) | 1200 | 2000 | 3500 | - |
+| Equipment, tier 2 (was 90 / 180 / 300) | 1400 | 2400 | 3500 | - |
+| Equipment, tier 3 (was 240 / 450) | 1600 | 2800 | 4500 | - |
 | Items (weak / standard / strong) | 30 | 45 | 60 | - |
 
 | Packs | Price | Why |

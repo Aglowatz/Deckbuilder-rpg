@@ -9,7 +9,9 @@ extends RefCounted
 ## Card price by rarity (Common, Uncommon, Epic, Legendary); no energy term (a 1-cost and a 5-cost Common cost the same).
 ## Overnight Nov 3-4, Part B9 (docs/balance/gold_economy_nov3.md): a no-grind playthrough leaves about 14,000 gold after items, hats, gear and
 ## fees - about 20 cards in a normal mix at these prices (was 30 / 60 / 150 / 300: hundreds of cards). Ratio 1 : 2 : 5 : 10 kept.
-const CARD_PRICE: Array[int] = [300, 600, 1500, 3000]
+## Fix pass Nov 4 (Part 2.1): a Common costs 100, the same as a General Pack; the ratio stays 1 : 2 : 5 : 10. The gold this frees goes to
+## equipment, now the big purchase (GEAR_PRICE; study in docs/balance/gold_economy_nov3.md, "Fix pass Nov 4").
+const CARD_PRICE: Array[int] = [100, 200, 500, 1000]
 ## Part B9: a roamer fought again (the same spot won before) pays this many times its zone's gold, so grinding buys a Common in about 2-4
 ## repeat fights; the first win of every spot pays the plain rate (the no-grind economy above is unchanged).
 const REPEAT_FIGHT_MULTIPLIER: int = 2
@@ -20,11 +22,14 @@ static func fight_gold(base: int, repeat: bool) -> int:
 	return base * (REPEAT_FIGHT_MULTIPLIER if repeat else 1)
 
 ## Equipment price by rarity, then tier (index 0 unused: tiers are 1-based). A Legendary piece is never sold.
+## Fix pass Nov 4 (Part 2.2): equipment is a saving goal - a no-grind player affords about 4-6 shop pieces over the whole game on top of
+## ~20 cards and normal item use (was 60-600: every piece on every shelf). Before: Common 60/90/120/150, Uncommon 120/180/240/300,
+## Epic 300/300/450/600.
 const GEAR_PRICE: Dictionary = {
-	EquipmentData.Rarity.COMMON: [0, 60, 90, 120, 150],
-	EquipmentData.Rarity.UNCOMMON: [0, 120, 180, 240, 300],
-	EquipmentData.Rarity.RARE: [0, 300, 300, 450, 600],
-	EquipmentData.Rarity.LEGENDARY: [0, 900, 900, 900, 900],
+	EquipmentData.Rarity.COMMON: [0, 1200, 1400, 1600, 1800],
+	EquipmentData.Rarity.UNCOMMON: [0, 2000, 2400, 2800, 3200],
+	EquipmentData.Rarity.RARE: [0, 3500, 3500, 4500, 5500],
+	EquipmentData.Rarity.LEGENDARY: [0, 10000, 10000, 10000, 10000],
 }
 
 ## Nov 3-4, Part B3: one price per single-use charge, by item. The regular shelf runs 50-100 by power (cheapest 50; the Energy Draught and the
