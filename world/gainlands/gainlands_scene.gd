@@ -525,6 +525,10 @@ func _use_spot_me() -> void:
 		Session.save_game())
 
 
+## Walk cycles per second while running the wheel (a normal walk is capped at 3.2).
+const WHEEL_RUN_CYCLES: float = 7.5
+
+
 ## Running the colossal wheel: you hop in, run, the grid lights up (once ever), then you hop out.
 func _use_run_wheel(spot: ZoneSpot) -> void:
 	if _busy_travel:
@@ -541,15 +545,16 @@ func _use_run_wheel(spot: ZoneSpot) -> void:
 	hop.tween_property(player, "position", inside, 0.7)
 	player.face(inside + Vector3(0, 0, -1))
 	await hop.finished
-	player.model.rotation.y = PI
-	player.forced_animation = &"Running_A"
+	# Nov 3-4, Part A5: the hero runs inside the wheel - the walk cycle at a very fast rate, facing the way the floor makes them run (the wheel
+	# spins counter-clockwise on screen, so its floor slides right and the runner faces left), then idle again.
+	player.run_in_place(WHEEL_RUN_CYCLES, Vector3.LEFT)
 	gain.wheel_speed = 4.5
 	Audio.sfx(&"footstep", -4.0, 0.2)
 	for beat: int in range(8):
 		Audio.sfx(&"footstep", -6.0, 0.25)
 		_shake = 0.25
 		await get_tree().create_timer(0.38).timeout
-	player.forced_animation = &""
+	player.run_in_place(0.0)
 	var first: bool = GainlandsInteractables.run_wheel()
 	var out: Vector3 = builder.anchor("run_wheel")
 	var drop: Tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
@@ -575,8 +580,7 @@ func _teleport(anchor_name: String) -> void:
 		inside.y = builder.height_at(inside) + 0.8
 		player.position = inside
 		player.airborne = true
-		player.forced_animation = &"Running_A"
-		player.model.rotation.y = PI
+		player.run_in_place(WHEEL_RUN_CYCLES, Vector3.LEFT)
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 30.0
 		return

@@ -81,7 +81,7 @@ const DEFACE_SPOTS: Array[String] = ["portrait_f1", "portrait_f2", "portrait_f3"
 
 ## The black market's items (id -> price).
 const BLACK_MARKET_ITEMS: Dictionary = {
-	"healing_draught": 40, "power_wraps": 25, "scroll_of_insight": 60, "firebrand_charm": 90,
+	"energy_draught": 90, "power_wraps": 25, "scroll_of_insight": 60, "firebrand_charm": 90,
 	"vitality_charm": 120, "ward_sigil": 80, "binding_chains": 70, "summoning_charm": 110,
 	"iron_ration": 60, "spice_pouch": 60, "bag_of_rubbish": 40, "blank_form": 60,
 }

@@ -1626,7 +1626,77 @@ func _on_item_pressed(item: ItemData) -> void:
 		_pending_item = item
 		_begin_targeting(0, options, GameAction.Type.PLAY, 0)
 		return
+	if item.effect.op == CardEnums.EffectOp.ADD_ENERGY:
+		_choose_energy_path(item)
+		return
 	_use_item(item, 0)
+
+
+## Nov 3-4, Part B4: the Energy Draught asks which Path to give energy of - only the Paths in the deck you brought (one Path: no question).
+var path_chooser: Control
+
+
+func _choose_energy_path(item: ItemData) -> void:
+	var choices: Array[Affinity.Type] = game.item_path_choices(0)
+	if choices.size() == 1:
+		_use_energy_item(item, choices[0])
+		return
+	if path_chooser != null and is_instance_valid(path_chooser):
+		path_chooser.queue_free()
+	path_chooser = Control.new()
+	path_chooser.name = "PathChooser"
+	UIKit.full_rect(path_chooser)
+	path_chooser.mouse_filter = Control.MOUSE_FILTER_STOP
+	path_chooser.z_index = 150
+	add_child(path_chooser)
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.01, 0.05, 0.6)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UIKit.full_rect(shade)
+	path_chooser.add_child(shade)
+	var center: CenterContainer = CenterContainer.new()
+	UIKit.full_rect(center)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	path_chooser.add_child(center)
+	var panel: PanelContainer = UIKit.panel()
+	center.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(16)
+	panel.add_child(column)
+	column.add_child(UIKit.label(item.display_name, &"", 34, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.label("Choose a Path: +1 energy of it this turn.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+	var row: HBoxContainer = UIKit.hbox(14)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(row)
+	for path: Affinity.Type in choices:
+		var button: FancyButton = FancyButton.make(Affinity.display_name(path), &"", Vector2(210, 64))
+		button.name = "Path%d" % int(path)
+		button.add_theme_color_override("font_color", UIStyle.affinity_color(path).lightened(0.35))
+		var icon_id: String = IconArt.energy_id(path)
+		if UiArt.has(icon_id):
+			button.icon = IconArt.texture(icon_id, 36.0)
+		var chosen: Affinity.Type = path
+		button.pressed.connect(func() -> void: _use_energy_item(item, chosen))
+		row.add_child(button)
+	var cancel: FancyButton = FancyButton.make("Cancel", &"GhostButton", Vector2(170, 52))
+	cancel.pressed.connect(_close_path_chooser)
+	var cancel_row: HBoxContainer = UIKit.hbox(0)
+	cancel_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	cancel_row.add_child(cancel)
+	column.add_child(cancel_row)
+	PadFocus.register(path_chooser)
+
+
+func _close_path_chooser() -> void:
+	if path_chooser != null and is_instance_valid(path_chooser):
+		path_chooser.queue_free()
+	path_chooser = null
+
+
+func _use_energy_item(item: ItemData, path: Affinity.Type) -> void:
+	_close_path_chooser()
+	_use_item(item, int(path))
+	if game.item_used(0, item):
+		_toast("+1 %s energy this turn." % Affinity.display_name(path))
 
 
 ## The toast when an item backfires (item name, damage).

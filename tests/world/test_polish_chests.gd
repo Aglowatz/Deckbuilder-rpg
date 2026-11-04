@@ -237,7 +237,7 @@ func test_chests_found_in_the_save_are_shown_open_after_loading() -> void:
 
 func test_a_chest_reward_is_paid_and_described() -> void:
 	var gold_before: int = Session.gold
-	var reward: Dictionary = {"gold": 70, "item": "healing_draught", "card": "C-22", "equipment": "hover_boots", "cosmetic": "hat_chef", "pack": "path_beefcake"}
+	var reward: Dictionary = {"gold": 70, "item": "energy_draught", "card": "C-22", "equipment": "hover_boots", "cosmetic": "hat_chef", "pack": "path_beefcake"}
 	var summary: RewardSummary = Session.grant_chest_reward(reward, "Test chest")
 	assert_eq(Session.gold, gold_before + 70)
 	assert_eq(summary.gold, 70)
@@ -252,7 +252,7 @@ func test_a_chest_reward_is_paid_and_described() -> void:
 
 
 func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
-	var summary: RewardSummary = Session.grant_chest_reward({"gold": 55, "item": "healing_draught", "card": "B-28", "pack": "gilded_beefcake", "equipment": "hover_boots"}, "Hidden chest")
+	var summary: RewardSummary = Session.grant_chest_reward({"gold": 55, "item": "energy_draught", "card": "B-28", "pack": "gilded_beefcake", "equipment": "hover_boots"}, "Hidden chest")
 	var popup: RewardPopup = RewardPopup.make(summary)
 	add_child_autofree(popup)
 	await get_tree().process_frame
@@ -262,7 +262,7 @@ func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
 	var joined: String = " | ".join(texts)
 	assert_true(joined.contains("NEW GEAR!"), "header: a chest with gear says so (Overnight Oct 17)")
 	assert_true(joined.contains("+55 gold"), "gold shown")
-	assert_true(joined.contains(Session.content.item("healing_draught").display_name), "item shown")
+	assert_true(joined.contains(Session.content.item("energy_draught").display_name), "item shown")
 	assert_true(joined.contains("Gilded"), "pack shown")
 	assert_gt(_count_of(popup, CardView), 0, "the card is drawn as a real card with its art")
 	var finished: Array[bool] = [false]

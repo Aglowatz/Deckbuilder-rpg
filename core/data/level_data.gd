@@ -10,7 +10,7 @@ extends Resource
 @export var xp_to_reach: int = 0
 @export var max_hp: int = 10
 @export var opening_hand_size: int = 5
-@export var item_slots: int = 1
+@export var item_slots: int = 2
 ## Maximum hand size at this level (10, +1 at levels 14 and 28 - replaces the old rarity copy-limit rewards).
 @export var max_hand_size: int = 10
 ## True on levels 5/10/15/20/25: an equipment slot choice screen is shown.

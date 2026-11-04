@@ -69,7 +69,7 @@ func equipment_piece(id: String) -> EquipmentData:
 
 
 ## Overnight Nov 2-3, Part 2: items renamed since a save was written (old id -> new id); a save holding the old one gets the new.
-const ITEM_RENAMES: Dictionary = {"field_bandage": "power_wraps"}
+const ITEM_RENAMES: Dictionary = {"field_bandage": "power_wraps", "healing_draught": "energy_draught"}
 
 
 ## The current id of an item id from a save (a renamed item's new id, else the id itself).

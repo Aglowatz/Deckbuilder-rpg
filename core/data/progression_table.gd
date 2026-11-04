@@ -19,8 +19,9 @@ const BONUS_VENDOR_UNLOCK_LEVELS: Array[int] = [17, 27]
 const BONUS_VENDOR_UNLOCK_NAME: String = "Sable's rare stock"
 ## Opening hand size increases at these levels (5 -> 8 over 3 steps).
 const HAND_SIZE_LEVELS: Array[int] = [8, 16, 24]
-## Item slots increase at these levels (1 -> 4 over 3 steps).
-const ITEM_SLOT_LEVELS: Array[int] = [10, 20, 30]
+## Nov 3-4, Part B2: four item slots - two from the start (ITEM_SLOTS_START), the third at level 6, the fourth at level 12.
+const ITEM_SLOTS_START: int = 2
+const ITEM_SLOT_LEVELS: Array[int] = [6, 12]
 const EQUIPMENT_VENDOR_UNLOCK_LEVEL: int = 13
 const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 17  # Nov 2 pass, Part 4: was 6 (the shelf opens with Sable's rare stock, its items retuned for the late game)
 const FILLER_DISCOUNT_PERCENT: int = 10
@@ -53,6 +54,7 @@ static func build() -> Array[LevelData]:
 	var vendor: Dictionary = LevelTrack.section("vendor")
 	var hand_levels: Array[int] = _ints(stats.get("opening_hand", HAND_SIZE_LEVELS))
 	var item_levels: Array[int] = _ints(stats.get("item_slots", ITEM_SLOT_LEVELS))
+	var item_start: int = int(stats.get("item_slots_start", ITEM_SLOTS_START))
 	var max_hand_levels: Array[int] = _ints(stats.get("max_hand", MAX_HAND_LEVELS))
 	var hp_every: int = maxi(1, int(stats.get("hp_every", 2)))
 	# Nov 1 (the designer: "maybe the max hp is starting too low"): the hero starts at 15 and reaches 30 at level 30 (was 10 -> 25).
@@ -67,7 +69,7 @@ static func build() -> Array[LevelData]:
 		row.xp_to_reach = xp_to_reach(level)
 		row.max_hp = hp_start + int(level / hp_every)
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, hand_levels)
-		row.item_slots = 1 + _steps_reached(level, item_levels)
+		row.item_slots = item_start + _steps_reached(level, item_levels)
 		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, max_hand_levels)
 		row.deck_slots = DeckSlots.unlocked_at(level)
 		row.reward_deck_expansion = DeckSlots.UNLOCK_LEVELS.has(level)

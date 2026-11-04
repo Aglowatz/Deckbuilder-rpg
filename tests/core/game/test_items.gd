@@ -72,6 +72,10 @@ func test_every_real_item_resolves_without_crashing() -> void:
 		var ally: CardInstance = GameFactory.add_to_field(game, 0, CardBuilder.unit("ally", "Ally", Affinity.Type.BEEFCAKE, 1, [], 2, 2))
 		GameFactory.add_to_field(game, 1, CardBuilder.unit("foe", "Foe", Affinity.Type.BEEFCAKE, 1, [], 2, 2))
 		var target: int = 0
+		if item.effect.op == CardEnums.EffectOp.ADD_ENERGY:
+			# Nov 3-4, Part B4: the Energy Draught's target is a Path of the deck
+			game.players[0].deck_paths = [int(Affinity.Type.BEEFCAKE)] as Array[int]
+			target = int(Affinity.Type.BEEFCAKE)
 		if item.effect.needs_chosen_target():
 			var options: Array[int] = game.legal_targets(0, item.effect, 0)
 			assert_false(options.is_empty(), "%s should have a legal target on a normal board" % item.id)

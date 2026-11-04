@@ -29,7 +29,7 @@ const PATH: String = "res://data/story/dna_story.tres"
 	{"gold": 10, "xp": 0, "item": ""},
 	{"gold": 25, "xp": 10, "item": ""},
 	{"gold": 50, "xp": 25, "item": ""},
-	{"gold": 100, "xp": 60, "item": "healing_draught"},
+	{"gold": 100, "xp": 60, "item": "energy_draught"},
 ]
 
 

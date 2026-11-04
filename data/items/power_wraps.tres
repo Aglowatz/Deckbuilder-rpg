@@ -13,6 +13,5 @@ amount2 = 2
 script = ExtResource("2_5pnab")
 id = "power_wraps"
 display_name = "Power Wraps"
-description = "One of your units gets +0/+2 for the rest of the battle. Three uses, one per battle."
-uses = 3
+description = "One of your units gets +0/+2 for the rest of the battle."
 effect = SubResource("Resource_esw7u")

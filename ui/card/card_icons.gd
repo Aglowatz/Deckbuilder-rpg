@@ -14,7 +14,7 @@ const BY_ID: Dictionary = {
 
 ## New brief, Part F: item icons, looked up by item id (same game-icons.net silhouette style).
 const BY_ITEM_ID: Dictionary = {
-	"healing_draught": "delapouite/health-potion",
+	"energy_draught": "delapouite/health-potion",
 	"vitality_charm": "delapouite/healing",
 	"reckless_tonic": "lorc/potion-ball",
 	"healing_salve": "delapouite/health-potion",

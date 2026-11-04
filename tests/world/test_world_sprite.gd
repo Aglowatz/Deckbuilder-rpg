@@ -129,3 +129,25 @@ func test_look_params_are_complete() -> void:
 			assert_true(values.has(key), "%s present" % key)
 			assert_between(float(values[key]), float(slider["min"]) - 0.001, float(slider["max"]) + 0.001, "%s inside its slider range" % key)
 	assert_true(LookParams.recommended().has("fog_color"))
+
+
+## Nov 3-4, Part A5: running the Gainlands wheel - standing still, the hero plays the walk cycle very fast (past the normal cap) facing the
+## running direction, and goes back to idle when the run ends.
+func test_run_in_place_plays_a_fast_walk_cycle_then_idles() -> void:
+	var sprite: WorldSprite = _sprite("PLAYER")
+	sprite.snap_heading(Vector3.LEFT)
+	sprite.run_cycles = 7.5
+	var changes: int = 0
+	var last: String = ""
+	for i: int in range(60):  # one second, standing still
+		sprite.follow(Vector3.ZERO, 1.0 / 60.0)
+		if sprite.current_key != last:
+			changes += 1
+			last = sprite.current_key
+		assert_true(sprite.current_key.begins_with("SIDE_WALK"), "running sideways: %s" % sprite.current_key)
+	assert_true(sprite.walking)
+	assert_gt(changes, int(WorldSprite.MAX_CYCLES_PER_SECOND * 4.0), "faster than any normal walk (%d frame changes in 1 s)" % changes)
+	sprite.run_cycles = 0.0
+	sprite.follow(Vector3.ZERO, 1.0 / 60.0)
+	assert_false(sprite.walking)
+	assert_true(sprite.current_key.ends_with("_IDLE"), sprite.current_key)

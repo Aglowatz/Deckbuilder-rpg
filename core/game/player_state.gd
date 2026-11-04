@@ -42,6 +42,8 @@ var tokens: Array[CardInstance] = []
 ## Brief 14: floating energy (from "add (R)" abilities): each entry is an Affinity.Type, or POOL_ANY for "one energy of any
 ## Path". It is spent before infrastructure and empties at the end of the turn.
 var pool: Array[int] = []
+## Nov 3-4, Part B4: the Paths of the deck this player brought (Affinity.Type as int, sorted) - what an Energy Draught may give.
+var deck_paths: Array[int] = []
 ## Cards played so far this turn (any type), for "for each other card they've played this turn".
 var cards_played_this_turn: int = 0
 ## Spells played this turn (the dungeon rule Processing Time taxes the first one).
@@ -155,6 +157,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.scripted_summon_count = scripted_summon_count
 	copy.turns_taken = turns_taken
 	copy.pool = pool.duplicate()
+	copy.deck_paths = deck_paths.duplicate()
 	copy.cards_played_this_turn = cards_played_this_turn
 	copy.spells_played_this_turn = spells_played_this_turn
 	copy.mirrored = mirrored

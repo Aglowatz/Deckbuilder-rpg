@@ -24,6 +24,26 @@ var _badges: Array[Label] = []
 var _items: Array[ItemData] = []
 var _usable: Array[bool] = []
 var _pulse_tween: Tween
+var _icons: Array[TextureRect] = []
+
+const BADGE_SIZE: Vector2 = Vector2(34, 24)
+
+
+## Nov 3-4, Part A2: the charge count - a small dark pill with a gold rim and outlined text, readable on any icon (the character page uses it too).
+static func charge_badge(font_size: int) -> Label:
+	var badge: Label = UIKit.label("", &"ChargeBadge", font_size, Color("fff3d6"), HORIZONTAL_ALIGNMENT_CENTER)
+	badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	badge.add_theme_font_override("font", UIStyle.font_bold())
+	badge.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+	badge.add_theme_constant_override("outline_size", 5)
+	badge.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.7))
+	badge.add_theme_constant_override("shadow_offset_x", 1)
+	badge.add_theme_constant_override("shadow_offset_y", 2)
+	badge.add_theme_stylebox_override("normal", UIStyle.box(Color(0.06, 0.04, 0.1, 0.86), UIStyle.GOLD_DIM, 1, 8, 0))
+	badge.size = BADGE_SIZE
+	badge.custom_minimum_size = BADGE_SIZE
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return badge
 
 
 ## The slot look: the UI art kit slot (UI-HUD-SLOT) tinted per state, the old flat box without it.
@@ -45,19 +65,22 @@ func setup(game_state: GameState, profile: PlayerProfile) -> void:
 		slot.custom_minimum_size = SLOT_SIZE
 		slot.size = SLOT_SIZE
 		add_child(slot)
+		# Nov 3-4, Part A2: the icon and the charge badge sit on a plain layer. As direct children of the PanelContainer they were
+		# stretched over the whole slot, so the badge's dark box became a bar across the icon.
+		var layer: Control = Control.new()
+		layer.name = "Layer"
+		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.add_child(layer)
 		var icon: TextureRect = TextureRect.new()
-		icon.custom_minimum_size = SLOT_SIZE * 0.62
-		icon.position = SLOT_SIZE * 0.19
+		icon.position = SLOT_SIZE * 0.16
+		icon.size = SLOT_SIZE * 0.68
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		slot.add_child(icon)
-		var badge: Label = UIKit.label("", &"", 18, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_RIGHT)
-		badge.add_theme_stylebox_override("normal", UIStyle.box(Color(0, 0, 0, 0.8), Color(0, 0, 0, 0), 0, 6))
-		badge.position = Vector2(SLOT_SIZE.x - 30, SLOT_SIZE.y - 28)
-		badge.size = Vector2(28, 24)
-		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		slot.add_child(badge)
+		layer.add_child(icon)
+		var badge: Label = charge_badge(16)
+		badge.position = SLOT_SIZE - BADGE_SIZE - Vector2(4, 4)
+		layer.add_child(badge)
 		var button: Button = Button.new()
 		button.flat = true
 		UIKit.full_rect(button)
@@ -67,6 +90,7 @@ func setup(game_state: GameState, profile: PlayerProfile) -> void:
 		slot.add_child(button)
 		_slots.append(slot)
 		_badges.append(badge)
+		_icons.append(icon)
 		_items.append(null)
 		_usable.append(false)
 	refresh()
@@ -76,17 +100,18 @@ func refresh() -> void:
 	var any_usable_changed: bool = false
 	for i: int in range(_slots.size()):
 		var item: ItemData = null
-		if i < _profile.equipped_item_ids.size():
-			item = Session.content.item(_profile.equipped_item_ids[i])
+		if not _profile.item_in_slot(i).is_empty():
+			item = Session.content.item(_profile.item_in_slot(i))
 		_items[i] = item
 		var slot: PanelContainer = _slots[i]
-		var icon: TextureRect = slot.get_child(0) as TextureRect
+		var icon: TextureRect = _icons[i]
 		var badge: Label = _badges[i]
 		if item == null:
 			icon.texture = CardIcons.ui("item_slot")
 			icon.visible = true
 			icon.modulate = Color(1, 1, 1, 0.22)
 			badge.text = ""
+			badge.visible = false
 			slot.tooltip_text = "Empty item slot"
 			slot.add_theme_stylebox_override("panel", _slot_style(EMPTY_FILL, EMPTY_BORDER, 2, 0, Color(0.7, 0.72, 0.85, 0.85)))
 			_usable[i] = false
@@ -94,7 +119,8 @@ func refresh() -> void:
 		icon.texture = IconArt.item_texture(item, SLOT_SIZE.x * 0.62)  # its own ICON-ITEM-* once imported, else the old silhouette
 		icon.visible = true
 		icon.modulate = Color(1, 1, 1, 1.0)
-		badge.text = str(_profile.item_uses_left(item))
+		badge.text = "x%d" % _profile.item_uses_left(item)
+		badge.visible = true
 		var usable: bool = game != null and game.can_use_item(0, item)
 		if usable != _usable[i]:
 			any_usable_changed = true

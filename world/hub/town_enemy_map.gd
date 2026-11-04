@@ -46,6 +46,8 @@ func enemy_spawns() -> Array[Dictionary]:
 func is_enemy_walkable(pos: Vector3, body_radius: float = 0.25) -> bool:
 	if not is_walkable(pos, body_radius):
 		return false
+	if TownBuilder.in_building(pos, TownBuilder.NPC_CLEARANCE):
+		return false  # Nov 3-4, Part A6: never through a building's wall (its circles leave gaps)
 	if town.hub_land and not TownBounds.contains(pos):
 		return false
 	for point: Vector3 in keep_out:

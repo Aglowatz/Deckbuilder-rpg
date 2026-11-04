@@ -182,6 +182,19 @@ func _move(step: Vector3) -> void:
 		position.z += step.z
 
 
+## Nov 3-4, Part A5: runs on the spot (the walk cycle at `cycles` per second) facing `direction`; 0 cycles = back to normal (idle when still).
+func run_in_place(cycles: float, direction: Vector3 = Vector3.ZERO) -> void:
+	if direction != Vector3.ZERO:
+		model.rotation.y = atan2(direction.x, direction.z)
+	var actor: SpriteActor = model as SpriteActor
+	if actor == null or actor.sprite == null:
+		forced_animation = &"Running_A" if cycles > 0.0 else &""  # the 3D fallback hero
+		return
+	if direction != Vector3.ZERO:
+		actor.sprite.snap_heading(direction)
+	actor.sprite.run_cycles = maxf(cycles, 0.0)
+
+
 func face(target: Vector3) -> void:
 	var offset: Vector3 = target - position
 	model.rotation.y = atan2(offset.x, offset.z)

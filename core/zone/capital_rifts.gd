@@ -15,7 +15,7 @@ const EMPOWER_STAT: int = 1
 ## [{id, x, z, radius, big, sealable, reward}] in the order the map places them (positions from the Capital layout pass, docs/art/capital_slice.md).
 static func all() -> Array[Dictionary]:
 	return [
-		{"id": "out_a", "x": 24.0, "z": 92.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 70, "item": "healing_draught"}},
+		{"id": "out_a", "x": 24.0, "z": 92.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 70, "item": "energy_draught"}},
 		{"id": "out_b", "x": 35.0, "z": 95.5, "radius": 2.4, "big": false, "sealable": false, "reward": {}},
 		{"id": "reek", "x": 9.5, "z": 46.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "R-26"}},
 		{"id": "grave", "x": 30.0, "z": 16.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "grave_dust"}},

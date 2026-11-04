@@ -25,8 +25,8 @@ const AI_NAMES: Dictionary = {
 ## Reward item per NPC (Part D/F's small item pool) - thematically matched. Only 3 items exist
 ## before Part F; Necrocrat reuses Gourmand's (a real item pool arrives in Part F).
 const REWARD_ITEMS: Dictionary = {
-	"beefcake": "reckless_tonic", "gourmand": "healing_draught", "refusemancer": "vitality_charm",
-	"necrocrat": "healing_draught",
+	"beefcake": "reckless_tonic", "gourmand": "energy_draught", "refusemancer": "vitality_charm",
+	"necrocrat": "energy_draught",
 }
 
 

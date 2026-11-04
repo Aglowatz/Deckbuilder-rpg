@@ -6,7 +6,7 @@ extends RefCounted
 ## | Tier | Fight | Kind | Prize (first clear) |
 ## | 1 | Warm-Up Brawl | battle, your deck | gold, essence |
 ## | 1 | Lethal Lunch | puzzle: win this turn | gold, essence |
-## | 1 | The Neutral Mile | battle, restricted deck | gold, a Healing Draught |
+## | 1 | The Neutral Mile | battle, restricted deck | gold, an Energy Draught |
 ## | 2 | Hold the Line | puzzle: survive 3 turns | Champion's Laurels |
 ## | 2 | Spells Only, Please | battle, no unit plays, restricted deck | Crowd-Pleaser's Cape |
 ## | 2 | The Four Fists | battle, your deck | gold, essence of every Path |
@@ -66,7 +66,7 @@ static func _build() -> Array[ArenaEncounter]:
 	mile.player_recipe = {
 		"BAS-B": 15, "C-01": 3, "C-02": 3, "C-03": 3, "C-04": 3, "C-06": 2, "C-07": 2, "C-08": 2, "C-13": 2, "C-14": 2, "C-12": 2, "C-16": 1,
 	}
-	mile.reward = {"gold": 100, "xp": 40, "item": "healing_draught"}
+	mile.reward = {"gold": 100, "xp": 40, "item": "energy_draught"}
 	list.append(mile)
 	# ---- Tier 2: Silver Sand ------------------------------------------------------------------------
 	var line: ArenaEncounter = _puzzle("arena_hold_the_line", 2, ArenaEncounter.Goal.SURVIVE_TURNS, 3, 1)

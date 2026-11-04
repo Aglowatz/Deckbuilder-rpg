@@ -159,3 +159,50 @@ func test_the_outskirts_dressing_keeps_the_lane_and_every_spot_clear() -> void:
 			targets[key] = _town.anchors[key]
 	var can: Callable = func(p: Vector3) -> bool: return _town.is_walkable(p, 0.3)
 	assert_eq(WalkProbe.unreachable(can, spawn, _town.map_bounds(), targets), [] as Array[String], "every out-of-town spot still reached")
+
+
+## Nov 3-4, Part A4: the giant chest opens from the front AND the back - both spots stand where the hero can walk.
+func test_the_giant_chest_can_be_reached_from_both_sides() -> void:
+	for key: String in ["chest", "chest_back"]:
+		assert_true(_town.anchors.has(key), key)
+		assert_true(_town.is_walkable(_town.anchors[key] as Vector3), "%s is walkable" % key)
+	var front: Vector3 = _town.anchors["chest"] as Vector3
+	var back: Vector3 = _town.anchors["chest_back"] as Vector3
+	var centre: Vector3 = _town.anchors["chest_centre"] as Vector3
+	assert_lt((front - centre).dot(back - centre), 0.0, "opposite sides of the chest")
+
+
+## Nov 3-4, Part A6: no townsperson's route goes through (or brushes) a building - every stroller loop and the baker's plaza walk, sampled
+## every 10 cm, keeps the NPC clearance from every building rectangle and stays on walkable ground; every loop still has a walk.
+func test_townsfolk_routes_never_cross_a_building() -> void:
+	var specs: Array[Dictionary] = []
+	for spec: Dictionary in TownScene.STROLLERS:
+		specs.append({"plaza": _town.anchors[str(spec["anchor"])], "radius": float(spec["radius"]), "seed": int(spec["seed"]), "name": str(spec["anchor"])})
+	specs.append({"plaza": TownLayout.PLAZA, "radius": SpriteWanderer.RING_RADIUS, "seed": 11, "name": "baker"})
+	for spec: Dictionary in specs:
+		var wanderer: SpriteWanderer = SpriteWanderer.new()
+		wanderer.seed_value = int(spec["seed"])
+		wanderer.ring_radius = float(spec["radius"])
+		wanderer.build_graph_only(_town, spec["plaza"] as Vector3)
+		var links: Array[Array] = wanderer.links()
+		assert_gte(links.size(), 3, "%s still has a loop to walk" % spec["name"])
+		var bad: Array[String] = []
+		for link: Array in links:
+			var a: Vector3 = link[0] as Vector3
+			var b: Vector3 = link[1] as Vector3
+			var steps: int = maxi(2, ceili(a.distance_to(b) / 0.1))
+			for i: int in range(steps + 1):
+				var p: Vector3 = a.lerp(b, float(i) / float(steps))
+				if TownBuilder.in_building(p, 0.6) or not _town.is_walkable(p, 0.3):
+					bad.append("(%.1f, %.1f)" % [p.x, p.z])
+					break
+		assert_eq(bad.size(), 0, "%s route clips at %s" % [spec["name"], ", ".join(bad)])
+		wanderer.free()
+
+
+func test_town_roamers_stay_out_of_buildings() -> void:
+	var map: TownEnemyMap = TownEnemyMap.wrap(_town)
+	for shop: TownLayout.Shop in TownLayout.shops() + TownExpansion.shops():
+		if shop.kind != "kit":
+			continue
+		assert_false(map.is_enemy_walkable(shop.center), "a roamer cannot stand inside %s" % shop.label)

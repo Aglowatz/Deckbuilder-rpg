@@ -63,14 +63,14 @@ const VENDOR_REACH: float = 2.7
 ## basic piece.
 const HIDDEN_CHEST_REWARDS: Dictionary = {
 	"west_woods": {"gold": 45, "item": "", "card": ""},
-	"harbor_dock": {"gold": 30, "item": "healing_draught", "card": ""},
+	"harbor_dock": {"gold": 30, "item": "energy_draught", "card": ""},
 	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "N-06"},
 	"uplands": {"gold": 50, "item": "", "card": "C-05"},
 	"beefcake_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
 	"uplands_ridge": {"gold": 0, "item": "", "card": "", "equipment": "travelers_boots"},
 	"harbor_dock_back": {"gold": 0, "item": "", "card": "", "equipment": "solid_plate"},
 	# Polish round: the shores and ridges, paid by how far they are from the spawn (see docs/design/secrets.md).
-	"clashatorium_west": {"gold": 60, "item": "healing_draught", "card": ""},
+	"clashatorium_west": {"gold": 60, "item": "energy_draught", "card": ""},
 	"harbor_pier": {"gold": 50, "item": "", "card": "C-22"},
 	"northeast_ridge": {"gold": 60, "item": "", "card": "C-29"},
 	"southeast_shore": {"gold": 80, "item": "", "card": "", "pack": "gilded_gourmand"},
@@ -828,6 +828,7 @@ func _build_spots() -> void:
 	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
 	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
+	_add_spot("chest_back", "A Hidden Chest", town.anchors["chest_back"] as Vector3, 1.3)
 	_add_spot("lever", "An Old Lever", town.anchors["lever"] as Vector3, 1.2)
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	_add_spot("vault4", "The Four-Seal Vault", town.anchors["vault4"] as Vector3, 2.2)
@@ -1211,7 +1212,7 @@ func _prompt_text(spot: Spot) -> String:
 			return "Browse the Codex"
 		"notice_board":
 			return "Read the notice board (quests)"
-		"chest":
+		"chest", "chest_back":
 			return "Open the chest"
 		"lever":
 			return "Pull the lever"
@@ -1405,7 +1406,7 @@ func _interact(spot: Spot) -> void:
 			_open_codex()
 		"notice_board":
 			_open_quest_log()
-		"chest":
+		"chest", "chest_back":
 			_open_chest()
 		"lever":
 			_pull_lever()
@@ -2416,7 +2417,7 @@ func _vault_condition() -> Condition:
 
 
 func _open_chest() -> void:
-	player.face(town.anchors["chest"] as Vector3)
+	player.face(town.anchors["chest_centre"] as Vector3)
 	if Session.ninja_defeated():
 		hud.toast("The chest is empty. Only a faint smell of smoke remains.", UIStyle.MUTED)
 		return
@@ -3063,7 +3064,7 @@ func _screenshot_open(what: String) -> void:
 			var card: CardData = Session.content.cards.get("B-01") as CardData
 			if card != null:
 				summary.cards.append(card)
-			var item: ItemData = Session.content.item("healing_draught")
+			var item: ItemData = Session.content.item("energy_draught")
 			if item != null:
 				summary.items.append(item)
 			_show_reward_box(summary)
@@ -3177,7 +3178,7 @@ func _screenshot_open(what: String) -> void:
 			SceneManager.get("_pause_menu").call("toggle")
 			SceneManager.get("_pause_menu").call("_show_slots", SaveSlotsScreen.Mode.LOAD)
 		"chest_popup":
-			_show_reward_box(Session.grant_chest_reward({"gold": 80, "item": "healing_draught", "card": "C-29", "equipment": "hover_boots", "pack": "gilded_gourmand"}, "Hidden chest"))
+			_show_reward_box(Session.grant_chest_reward({"gold": 80, "item": "energy_draught", "card": "C-29", "equipment": "hover_boots", "pack": "gilded_gourmand"}, "Hidden chest"))
 		"quest_popup":
 			_show_reward_box(_sample_quest_summary())
 		"level_popup":
@@ -3206,7 +3207,7 @@ func _sample_quest_summary() -> RewardSummary:
 	summary.gold = 150
 	summary.xp = 120
 	summary.cards.append(Session.card_by_id("C-22"))
-	summary.items.append(Session.content.item("healing_draught"))
+	summary.items.append(Session.content.item("energy_draught"))
 	summary.add_pack("path_beefcake", "Beefcake Pack")
 	summary.unlocks = ["The Gainlands entrance is now open", "New stock at the Equipment Vendor", "The Alchemist is now available"] as Array[String]
 	return summary
@@ -3260,7 +3261,7 @@ func _open_packs() -> void:
 ## Hidden things and vendors whose stock is not open yet carry no name plate and no map icon: a locked shop does not announce itself.
 func _spot_is_named(id: String) -> bool:
 	match id:
-		"chest", "lever", "vault4":
+		"chest", "chest_back", "lever", "vault4":
 			return false
 		"alchemist":
 			return Session.alchemist_unlocked()

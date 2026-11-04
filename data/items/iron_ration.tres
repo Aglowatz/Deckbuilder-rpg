@@ -13,6 +13,5 @@ amount2 = 2
 script = ExtResource("2_ijnhc")
 id = "iron_ration"
 display_name = "Iron Ration"
-description = "You create 2 Iron. Two uses, one per battle."
-uses = 2
+description = "You create 2 Iron."
 effect = SubResource("Resource_e5bme")

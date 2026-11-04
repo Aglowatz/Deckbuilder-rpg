@@ -220,9 +220,13 @@ static func gear_icon_id(equipment_id_text: String) -> String:
 	return GEAR_PREFIX + id_slug(equipment_id_text)
 
 
-## The own icon of a consumable item: ICON-ITEM-<id upper, no underscores> ("healing_draught" -> ICON-ITEM-HEALINGDRAUGHT).
+## The own icon of a consumable item: ICON-ITEM-<id upper, no underscores> ("firebrand_charm" -> ICON-ITEM-FIREBRANDCHARM).
+## Nov 3-4, Part B4: a renamed item keeps its painting (the Energy Draught is the old Healing Draught's bottle).
+const ITEM_ART_ALIASES: Dictionary = {"energy_draught": "healing_draught"}
+
+
 static func item_icon_id(item_id: String) -> String:
-	return ITEM_PREFIX + id_slug(item_id)
+	return ITEM_PREFIX + id_slug(str(ITEM_ART_ALIASES.get(item_id, item_id)))
 
 
 ## The shop / wardrobe icon of a hat or cloak: ICON-COS-<art name> ("WIDEBRIM" -> ICON-COS-WIDEBRIM, "REDCAPE" -> ICON-COS-REDCAPE).

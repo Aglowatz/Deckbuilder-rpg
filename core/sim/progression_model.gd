@@ -135,7 +135,7 @@ static func items_for(level: int) -> Dictionary:
 		return {}
 	# A fight-worth of charges, not a full shop: consumables are bought per use and a player does not burn three Salves on every roamer.
 	if level < 6:
-		return {"healing_draught": 1}
+		return {"vitality_charm": 1}  # Nov 3-4: the Healing Draught became the Energy Draught (no heal)
 	if level < 10:
 		return {"healing_salve": 1}
 	if level < 20:

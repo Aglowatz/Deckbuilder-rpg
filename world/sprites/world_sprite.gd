@@ -37,6 +37,8 @@ var walking: bool = false
 var speed: float = 0.0
 ## Screenshot aid (RoamerLineup): when > 0 the figure walks on the spot at this speed (m/s) in the way it faces.
 var demo_walk_speed: float = 0.0
+## Nov 3-4, Part A5: when > 0 the figure runs on the spot at this many walk cycles per second, past the normal cap (the Gainlands wheel).
+var run_cycles: float = 0.0
 ## Overnight Oct 28-29: a rim colour that wins over the zone's key light (roaming enemies: a warm hostile edge); alpha 0 = follow the light.
 var rim_override: Color = Color(0.0, 0.0, 0.0, 0.0)
 ## Sound pass, Part C: emitted on each foot contact of the walk cycle. With `footsteps` on, the sprite also plays the footstep of the ground under it
@@ -360,7 +362,7 @@ func _update(world_pos: Vector3, delta: float) -> void:
 	_time += delta
 	_turn(delta)
 	var best: String = _choose_direction()
-	var moving: bool = speed > MOVING_SPEED and _walk_dirs.has(best)
+	var moving: bool = (speed > MOVING_SPEED or run_cycles > 0.0) and _walk_dirs.has(best)
 	walking = moving
 	var key: String
 	if forced_key != "":
@@ -371,7 +373,7 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		key = "FRONT_TALK"
 		current_flip = false
 	elif moving:
-		var cycles: float = minf(speed / (STRIDE_HEIGHTS * world_height), MAX_CYCLES_PER_SECOND)
+		var cycles: float = run_cycles if run_cycles > 0.0 else minf(speed / (STRIDE_HEIGHTS * world_height), MAX_CYCLES_PER_SECOND)
 		var before: float = _phase
 		_phase = fposmod(_phase + cycles * delta, 1.0)
 		# Sound pass, Part C: a footstep on each foot contact, the low point of the bob in the WALK1 and WALK3 frames (ghosts float, so they never step).

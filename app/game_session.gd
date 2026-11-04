@@ -611,14 +611,15 @@ func pack_label(pack_id: String, amount: int = 1) -> String:
 ## an item id at all means one inventory entry with a shared uses-remaining count (see
 ## PlayerProfile.item_uses_remaining, keyed by id) - granting an already-owned item tops up its
 ## uses instead of appending a second, indistinguishable entry.
-func add_item(item: ItemData) -> void:
-	if profile == null or item == null:
+## Nov 3-4, Part B1: items are single-use - each grant (a purchase, a chest, a quest) adds `charges` charges (one by default).
+func add_item(item: ItemData, charges: int = 1) -> void:
+	if profile == null or item == null or charges <= 0:
 		return
 	if profile.owns_item(item):
-		profile.item_uses_remaining[item.id] = profile.item_uses_left(item) + item.uses
+		profile.item_uses_remaining[item.id] = profile.item_uses_left(item) + charges
 	else:
 		profile.owned_items.append(item)
-		profile.item_uses_remaining[item.id] = item.uses
+		profile.item_uses_remaining[item.id] = charges
 	EventBus.collection_changed.emit()
 
 
@@ -1058,6 +1059,7 @@ func from_dict(data: Dictionary) -> bool:
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	for id: Variant in data.get("equipped_items", []) as Array:
 		loaded.equipped_item_ids.append(ContentSet.current_item_id(str(id)))  # a renamed item (Field Bandage -> Power Wraps) keeps its slot
+	loaded.normalize_item_slots()  # Nov 3-4, Part B2: four positional slots (2 + L6 + L12); every equipped item that fits stays
 	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
 	for pack_key: Variant in (data.get("packs", {}) as Dictionary).keys():
 		loaded.packs[str(pack_key)] = int((data["packs"] as Dictionary)[pack_key])

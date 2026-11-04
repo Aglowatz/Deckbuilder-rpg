@@ -17,9 +17,16 @@ const GEAR_PRICE: Dictionary = {
 	EquipmentData.Rarity.LEGENDARY: [0, 900, 900, 900, 900],
 }
 
-## Item price by strength band. Nov 2 pass, Part 4: LATE and PREMIUM for the high shelf (level 17, where a shop stop holds 400-1400 gold).
-enum ItemBand { WEAK, STANDARD, STRONG, LATE, PREMIUM }
-const ITEM_PRICE: Array[int] = [30, 45, 60, 90, 120]
+## Nov 3-4, Part B3: one price per single-use charge, by item. The regular shelf runs 50-100 by power (cheapest 50; the Energy Draught and the
+## Firebrand Charm top it at 100); every item on the high shelf (level 17) is 150. Items sold nowhere (rewards only) have no price.
+const ITEM_PRICES: Dictionary = {
+	"reckless_tonic": 50, "vitality_charm": 50, "power_wraps": 60, "healing_salve": 70, "scroll_of_insight": 80, "sharpening_stone": 80,
+	"energy_draught": 100, "firebrand_charm": 100,
+	"binding_chains": 150, "silence_powder": 150, "grave_dust": 150, "summoning_charm": 150, "ward_sigil": 150,
+}
+const ITEM_PRICE_MIN: int = 50
+const ITEM_PRICE_REGULAR_MAX: int = 100
+const ITEM_PRICE_HIGH_SHELF: int = 150
 
 ## Roamer pay by zone tier (Normal fights); an elite pays about twice its zone's roamer. Index 0 = Crosspath outskirts.
 const ROAMER_GOLD: Array[int] = [13, 35, 40, 50, 60, 70]
@@ -49,8 +56,9 @@ static func gear_price(rarity: EquipmentData.Rarity, tier: int) -> int:
 	return int(row[clampi(tier, 1, row.size() - 1)])
 
 
-static func item_price(band: ItemBand) -> int:
-	return ITEM_PRICE[clampi(int(band), 0, ITEM_PRICE.size() - 1)]
+## The shop price of one charge of `item_id` (0 when the item is not sold).
+static func item_price(item_id: String) -> int:
+	return int(ITEM_PRICES.get(item_id, 0))
 
 
 static func roamer_gold(zone_id: String) -> int:

@@ -104,7 +104,7 @@ static func _backlog() -> QuestData:
 	quest.objectives = [QuestObjective.make("Duel roaming staff on the D.N.A. floors", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
 	quest.reward_gold = 60
 	quest.reward_xp = 60
-	quest.reward_item_ids = ["healing_draught"] as Array[String]
+	quest.reward_item_ids = ["energy_draught"] as Array[String]
 	return quest
 
 
@@ -318,7 +318,7 @@ static func _cap_burial() -> QuestData:
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 120
-	quest.reward_item_ids = ["healing_draught"] as Array[String]
+	quest.reward_item_ids = ["energy_draught"] as Array[String]
 	quest.reward_card_ids = ["N-28"] as Array[String]
 	quest.reward_equipment_ids = ["clerks_stamp"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("necrocrat"))] as Array[String]

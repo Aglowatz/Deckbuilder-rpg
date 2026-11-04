@@ -38,6 +38,9 @@ var _banner: Label
 var _summary: Control
 var _pack_bob: Tween
 var _legendary_rays: PackFx.Rays
+## Nov 3-4, Part A1: the extra-copy notices (the essence/gold toasts and each card's "Extra copy" label) wait until every card is revealed.
+var _toast_held: bool = false
+var _conversions_shown: bool = false
 
 
 func _ready() -> void:
@@ -190,6 +193,7 @@ func _reveal_next() -> void:
 	await _flip(index)
 	_busy = false
 	if _next >= _holders.size():
+		_show_conversions()
 		_hint.text = "Click to see the summary"
 	else:
 		_hint.text = "Click to reveal the next card"
@@ -206,6 +210,7 @@ func _reveal_rest() -> void:
 			_busy = false
 		else:
 			await get_tree().process_frame
+	_show_conversions()
 	if _phase == Phase.REVEAL:
 		_show_summary()
 
@@ -386,6 +391,8 @@ func _add_card_labels(index: int, holder: Control, entry: PackOpening.Entry, col
 		convert.position = Vector2(-10, holder.size.y + 46.0)
 		convert.size = Vector2(holder.size.x + 20.0, 58)
 		convert.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		convert.name = "Conversion"
+		convert.visible = _conversions_shown
 		holder.add_child(convert)
 
 
@@ -402,9 +409,34 @@ func _conversion_text(entry: PackOpening.Entry) -> String:
 # ---- Summary --------------------------------------------------------------------------------------------
 
 
+## Nov 3-4, Part A1: every card is face up - now the extra copies may say what they became (card labels fade in, held toasts show).
+func _show_conversions() -> void:
+	if _conversions_shown:
+		return
+	_conversions_shown = true
+	for holder: Control in _holders:
+		var label: Control = holder.get_node_or_null(^"Conversion") as Control
+		if label != null and _phase == Phase.REVEAL:
+			label.modulate.a = 0.0
+			label.visible = true
+			create_tween().tween_property(label, "modulate:a", 1.0, 0.3)
+	_release_toasts()
+
+
+func _release_toasts() -> void:
+	if _toast_held and Session.toasts != null:
+		Session.toasts.release()
+	_toast_held = false
+
+
+func _exit_tree() -> void:
+	_release_toasts()
+
+
 func _show_summary() -> void:
 	if _phase == Phase.SUMMARY:
 		return
+	_show_conversions()
 	_phase = Phase.SUMMARY
 	_hint.text = ""
 	_title.text = "%s - opened" % opening.pack.display_name
@@ -512,6 +544,8 @@ func _advance() -> void:
 		Phase.PACK:
 			_tear()
 		Phase.REVEAL:
+			if _busy:
+				return  # Nov 3-4, Part A1: never jump to the summary while the last card is still turning
 			if _next >= _holders.size():
 				_show_summary()
 			else:
@@ -540,13 +574,21 @@ static func open_from_inventory(host: Node, pack_id: String, on_closed: Callable
 	# left its screen behind (the mid-game critic's `c3_02_town__12_town_end`).
 	if host != null and host.get_node_or_null(^"PackOpeningScreen") != null:
 		return false
+	# Nov 3-4, Part A1: opening the pack converts extra copies at once (EventBus.essence_converted -> toasts); hold those toasts until
+	# the last card is face up so they do not spoil the reveal.
+	var held: bool = Session.toasts != null
+	if held:
+		Session.toasts.hold()
 	var result: PackOpening = Session.open_pack(pack_id)
 	if result == null:
+		if held:
+			Session.toasts.release()
 		return false
 	var screen: PackOpeningScreen = PackOpeningScreen.new()
 	screen.name = "PackOpeningScreen"
 	screen.opening = result
 	screen.packs_left = Session.pack_count(pack_id)
+	screen._toast_held = held
 	screen.z_index = 200
 	host.add_child(screen)
 	screen.finished.connect(func(again: bool) -> void:

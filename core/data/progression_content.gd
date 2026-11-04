@@ -57,44 +57,46 @@ const K2 := CardEnums.Keyword
 ## `tokens` is the same dict `ContentDefinitions.build_tokens()` produces - Summoning Charm summons the sheet's Militia token.
 static func items(tokens: Dictionary = {}) -> Dictionary:
 	var result: Dictionary = {}
-	# Nov 2 pass, Part 4 (docs/design/items_nov2.md): every description states the effect in plain words - numbers, target, duration, uses
-	# (one use per battle each, the item's charges in all); a flavour line after the rules where it fits.
-	_add_item(result, "healing_draught", "Healing Draught", "You heal 3 HP. Three uses, one per battle. A common camp remedy.", 3, CardEnums.EffectOp.GAIN_HP, 3)
-	_add_item(result, "vitality_charm", "Vitality Charm", "You heal 2 HP. Two uses, one per battle. A small, steady comfort.", 2, CardEnums.EffectOp.GAIN_HP, 2)
-	_add_item(result, "reckless_tonic", "Reckless Tonic", "You heal 5 HP in one big gulp - but 1 in 4 times it backfires and deals 1 damage to you instead. One use.", 1, CardEnums.EffectOp.GAIN_HP, 5)  # Oct 29: 6 -> 5; Nov 2: priced weak (45 -> 30); Nov 3: it may backfire
+	# Nov 2 pass, Part 4 (docs/design/items_nov2.md): every description states the effect in plain words - numbers, target, duration; a flavour
+	# line after the rules where it fits. Nov 3-4, Part B1: every item is single-use - one bought = one charge, one use spends it for good (the
+	# old "Three uses" texts went; the UI says "Single-use" and the charges owned). Each equipped item still works once per battle.
+	# Nov 3-4, Part B4: the Healing Draught is the Energy Draught (same bottle): +1 energy of a Path in your deck, this turn only.
+	_add_item(result, "energy_draught", "Energy Draught", "Choose a Path in your deck: gain 1 energy of that Path this turn. A fizzy kick in a familiar bottle.", 1, CardEnums.EffectOp.ADD_ENERGY, 1)
+	_add_item(result, "vitality_charm", "Vitality Charm", "You heal 2 HP. A small, steady comfort.", 1, CardEnums.EffectOp.GAIN_HP, 2)
+	_add_item(result, "reckless_tonic", "Reckless Tonic", "You heal 5 HP in one big gulp - but 1 in 4 times it backfires and deals 1 damage to you instead.", 1, CardEnums.EffectOp.GAIN_HP, 5)  # Oct 29: 6 -> 5; Nov 2: priced weak (45 -> 30); Nov 3: it may backfire
 	# Overnight Nov 2-3, Part 2: reckless - 1 in 4 uses deal 1 damage instead (docs/design/sim/items_nov3_tonic.md: every odds from 1 in 6 to 1 in 3
 	# sits with the Vitality Charm within the sim's noise; expected 3.5 HP against the charm's 4 over two uses)
 	(result["reckless_tonic"] as ItemData).backfire_chance = TONIC_BACKFIRE_CHANCE
 	(result["reckless_tonic"] as ItemData).backfire_damage = 1
 	# New brief, Part F: 10 basic consumables, usable in battle (item bar, targeting where the
 	# effect needs it) as well as between fights - the same effect either way.
-	_add_item(result, "healing_salve", "Healing Salve", "You heal 4 HP. Three uses, one per battle.", 3, CardEnums.EffectOp.GAIN_HP, 4, 0, D.PERMANENT, G.CONTROLLER)
+	_add_item(result, "healing_salve", "Healing Salve", "You heal 4 HP.", 1, CardEnums.EffectOp.GAIN_HP, 4, 0, D.PERMANENT, G.CONTROLLER)
 	# Nov 2: mending a unit did nothing (unit damage clears each turn; the sim never used it). Now a lasting +0/+2: the sturdy-unit job the
 	# Sharpening Stone's one-turn +2/+2 does not do (sim: +5.2 points at level 6, the +0/+3-this-turn version was +11.5 and too strong at 30 gold).
-	_add_item(result, "power_wraps", "Power Wraps", "One of your units gets +0/+2 for the rest of the battle. Three uses, one per battle.", 3, CardEnums.EffectOp.BUFF, 0, 2, D.PERMANENT, G.CHOSEN_UNIT_ALLY)
+	_add_item(result, "power_wraps", "Power Wraps", "One of your units gets +0/+2 for the rest of the battle.", 1, CardEnums.EffectOp.BUFF, 0, 2, D.PERMANENT, G.CHOSEN_UNIT_ALLY)
 	# Nov 2: Draw 2 was the strongest item on the shelf at 45 gold (sim +12.5 points); Draw 1 (+9.4) sits with the Firebrand and the Stone.
-	_add_item(result, "scroll_of_insight", "Scroll of Insight", "You draw 1 card. Two uses, one per battle.", 2, CardEnums.EffectOp.DRAW, 1, 0, D.PERMANENT, G.CONTROLLER)
-	_add_item(result, "firebrand_charm", "Firebrand Charm", "Deal 2 damage to one enemy unit. Two uses, one per battle.", 2, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
-	_add_item(result, "sharpening_stone", "Sharpening Stone", "One of your units gets +2/+2 until the end of this turn. Three uses, one per battle.", 3, CardEnums.EffectOp.BUFF, 2, 2, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY)
+	_add_item(result, "scroll_of_insight", "Scroll of Insight", "You draw 1 card.", 1, CardEnums.EffectOp.DRAW, 1, 0, D.PERMANENT, G.CONTROLLER)
+	_add_item(result, "firebrand_charm", "Firebrand Charm", "Deal 2 damage to one enemy unit.", 1, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
+	_add_item(result, "sharpening_stone", "Sharpening Stone", "One of your units gets +2/+2 until the end of this turn.", 1, CardEnums.EffectOp.BUFF, 2, 2, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY)
 	# Nov 2: the high shelf opens at level 17 now (was 6); its five items are worth the wait: more uses or bigger numbers, priced for late gold.
-	_add_item(result, "binding_chains", "Binding Chains", "Return one enemy unit to its owner's hand. Two uses, one per battle.", 2, CardEnums.EffectOp.SEND_BACK, 0, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
-	_add_item(result, "silence_powder", "Silence Powder", "The opponent tosses 2 random cards from their hand. Two uses, one per battle.", 2, CardEnums.EffectOp.TOSS, 2, 0, D.PERMANENT, G.OPPONENT)
-	_add_item(result, "grave_dust", "Grave Dust", "The opponent buries the top 6 cards of their deck. Two uses, one per battle.", 2, CardEnums.EffectOp.BURY, 6, 0, D.PERMANENT, G.OPPONENT)
-	_add_resource_item(result, "iron_ration", "Iron Ration", "You create 2 Iron. Two uses, one per battle.", ResourceKind.Kind.IRON, 2)
-	_add_resource_item(result, "spice_pouch", "Spice Pouch", "You create 2 Ingredients. Two uses, one per battle.", ResourceKind.Kind.INGREDIENT, 2)
-	_add_resource_item(result, "bag_of_rubbish", "Bag of Rubbish", "You create 3 Garbage. Two uses, one per battle.", ResourceKind.Kind.GARBAGE, 3)
-	_add_resource_item(result, "blank_form", "Blank Form", "You create 2 Red Tape. Two uses, one per battle.", ResourceKind.Kind.RED_TAPE, 2)
+	_add_item(result, "binding_chains", "Binding Chains", "Return one enemy unit to its owner's hand.", 1, CardEnums.EffectOp.SEND_BACK, 0, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
+	_add_item(result, "silence_powder", "Silence Powder", "The opponent tosses 2 random cards from their hand.", 1, CardEnums.EffectOp.TOSS, 2, 0, D.PERMANENT, G.OPPONENT)
+	_add_item(result, "grave_dust", "Grave Dust", "The opponent buries the top 6 cards of their deck.", 1, CardEnums.EffectOp.BURY, 6, 0, D.PERMANENT, G.OPPONENT)
+	_add_resource_item(result, "iron_ration", "Iron Ration", "You create 2 Iron.", ResourceKind.Kind.IRON, 2)
+	_add_resource_item(result, "spice_pouch", "Spice Pouch", "You create 2 Ingredients.", ResourceKind.Kind.INGREDIENT, 2)
+	_add_resource_item(result, "bag_of_rubbish", "Bag of Rubbish", "You create 3 Garbage.", ResourceKind.Kind.GARBAGE, 3)
+	_add_resource_item(result, "blank_form", "Blank Form", "You create 2 Red Tape.", ResourceKind.Kind.RED_TAPE, 2)
 	var militia: CardData = tokens.get("T-16") as CardData
 	if militia == null:
 		militia = CardBuilder.token("T-16", "Militia", 1, 1)
-	_add_item(result, "summoning_charm", "Summoning Charm", "Summon three 1/1 Militia tokens on your side. One use.", 1, CardEnums.EffectOp.SUMMON_TOKEN, 3, 0, D.PERMANENT, G.CONTROLLER, null, militia)
-	_add_item(result, "ward_sigil", "Ward Sigil", "One of your units gains Untouchable until the end of this turn. Two uses, one per battle.", 2, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY, K2.UNTOUCHABLE)
-	_add_item(result, "hearty_pie", "Hearty Pot Pie", "You heal 6 HP. One use. Baked at the Grand Pantry oven.", 1, CardEnums.EffectOp.GAIN_HP, 6, 0, D.PERMANENT, G.CONTROLLER)
+	_add_item(result, "summoning_charm", "Summoning Charm", "Summon three 1/1 Militia tokens on your side.", 1, CardEnums.EffectOp.SUMMON_TOKEN, 3, 0, D.PERMANENT, G.CONTROLLER, null, militia)
+	_add_item(result, "ward_sigil", "Ward Sigil", "One of your units gains Untouchable until the end of this turn.", 1, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY, K2.UNTOUCHABLE)
+	_add_item(result, "hearty_pie", "Hearty Pot Pie", "You heal 6 HP. Baked at the Grand Pantry oven.", 1, CardEnums.EffectOp.GAIN_HP, 6, 0, D.PERMANENT, G.CONTROLLER)
 	return result
 
 
 static func _add_resource_item(result: Dictionary, id: String, title: String, description: String, kind: ResourceKind.Kind, count: int) -> void:
-	_add_item(result, id, title, description, 2, CardEnums.EffectOp.CREATE_RESOURCE, int(kind), count, D.PERMANENT, G.CONTROLLER)
+	_add_item(result, id, title, description, 1, CardEnums.EffectOp.CREATE_RESOURCE, int(kind), count, D.PERMANENT, G.CONTROLLER)
 
 
 static func _piece(id: String, title: String, slot: EquipmentData.Slot, description: String, modifiers: Array[Modifier], advanced: bool = false) -> EquipmentData:

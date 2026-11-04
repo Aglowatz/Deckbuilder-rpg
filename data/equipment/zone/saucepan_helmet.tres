@@ -1,25 +1,32 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_wc70k"]
-[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xek0e"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_grfud"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_xek0e"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_grfud"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="3_gnn4j"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_lvqvm"]
 
-[sub_resource type="Resource" id="Resource_gnn4j"]
-script = ExtResource("1_wc70k")
+[sub_resource type="Resource" id="Resource_8a2cs"]
+script = ExtResource("1_xek0e")
 value = 1
 
-[sub_resource type="Resource" id="Resource_lvqvm"]
-script = ExtResource("1_wc70k")
-kind = 1
-value = 1
+[sub_resource type="Resource" id="Resource_7y0qk"]
+script = ExtResource("3_gnn4j")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_wf3up"]
+script = ExtResource("1_xek0e")
+kind = 25
+effect = SubResource("Resource_7y0qk")
 
 [resource]
-script = ExtResource("3_grfud")
+script = ExtResource("4_lvqvm")
 id = "saucepan_helmet"
 slot = 0
-description = "Max HP +1, and start every duel with 1 extra HP."
+description = "Max HP +1, and heal 1 HP at the start of every duel."
 flavor_text = "Handle in the back, for steering. Smells faintly of soup."
 tier = 1
 source = "Bertram's equipment stall, Crosspath"
 source_name = "Saucepan Helmet"
-modifiers = Array[ExtResource("1_wc70k")]([SubResource("Resource_gnn4j"), SubResource("Resource_lvqvm")])
+modifiers = Array[ExtResource("1_xek0e")]([SubResource("Resource_8a2cs"), SubResource("Resource_wf3up")])

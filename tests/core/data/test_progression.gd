@@ -36,7 +36,12 @@ func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
 	assert_eq(rows[0].opening_hand_size, PlayerProfile.MIN_OPENING_HAND)
 	assert_eq(rows[29].opening_hand_size, PlayerProfile.MAX_OPENING_HAND)
-	assert_eq(rows[0].item_slots, 1)
+	# Nov 3-4, Part B2: two slots from the start, the third at level 6, the fourth at level 12.
+	assert_eq(rows[0].item_slots, 2)
+	assert_eq(rows[4].item_slots, 2)
+	assert_eq(rows[5].item_slots, 3)
+	assert_eq(rows[10].item_slots, 3)
+	assert_eq(rows[11].item_slots, 4)
 	assert_eq(rows[29].item_slots, 4)
 	# Gradually: never a jump greater than 1 at a time.
 	for i: int in range(1, rows.size()):
@@ -257,14 +262,15 @@ func test_equipped_gear_flows_through_the_pipeline_into_a_real_game() -> void:
 
 func test_use_item_consumes_a_charge_and_heals_the_run() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
-	var draught: ItemData = content.item("healing_draught")
-	profile.owned_items.append(draught)
+	var salve: ItemData = content.item("healing_salve")
+	profile.owned_items.append(salve)
+	profile.item_uses_remaining[salve.id] = 2
 	var run: DungeonRun = DungeonRun.enter(profile, GameFactory.make_deck())
 	run.lose_hp(5)
 	var before: int = run.hp
-	assert_true(profile.use_item(draught, run))
-	assert_eq(run.hp, before + 3)
-	assert_eq(profile.item_uses_left(draught), draught.uses - 1)
+	assert_true(profile.use_item(salve, run))
+	assert_eq(run.hp, before + 4)
+	assert_eq(profile.item_uses_left(salve), 1)
 
 
 func test_item_is_removed_once_out_of_uses() -> void:
@@ -280,7 +286,7 @@ func test_item_is_removed_once_out_of_uses() -> void:
 
 func test_use_item_fails_for_an_unowned_item_or_an_unsupported_effect() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
-	var draught: ItemData = content.item("healing_draught")
+	var draught: ItemData = content.item("energy_draught")
 	var run: DungeonRun = DungeonRun.enter(profile, GameFactory.make_deck())
 	assert_false(profile.use_item(draught, run), "not owned")
 	var weird: ItemData = ItemData.new()
@@ -299,7 +305,7 @@ func test_use_item_fails_for_an_unowned_item_or_an_unsupported_effect() -> void:
 func test_equip_is_limited_by_item_slots() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.item_slots = 1
-	var draught: ItemData = content.item("healing_draught")
+	var draught: ItemData = content.item("energy_draught")
 	var tonic: ItemData = content.item("reckless_tonic")
 	profile.owned_items.append(draught)
 	profile.owned_items.append(tonic)
@@ -307,13 +313,13 @@ func test_equip_is_limited_by_item_slots() -> void:
 	assert_false(profile.equip_item_id(tonic), "only 1 item slot at level 1")
 	profile.item_slots = 2
 	assert_true(profile.equip_item_id(tonic), "a second slot frees up room")
-	assert_eq(profile.equipped_item_ids, ["healing_draught", "reckless_tonic"])
+	assert_eq(profile.equipped_item_ids, ["energy_draught", "reckless_tonic"])
 
 
 func test_cannot_equip_an_unowned_item_or_equip_twice() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.item_slots = 4
-	var draught: ItemData = content.item("healing_draught")
+	var draught: ItemData = content.item("energy_draught")
 	assert_false(profile.equip_item_id(draught), "not owned")
 	profile.owned_items.append(draught)
 	assert_true(profile.equip_item_id(draught))

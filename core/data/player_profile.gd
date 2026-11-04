@@ -30,7 +30,7 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 
 @export var level: int = 1
 @export var xp: int = 0
-@export var item_slots: int = 1
+@export var item_slots: int = 2
 ## Brief 16: saved-deck slots in the deck box (5, raised to 10 by a level reward).
 @export var deck_slots: int = 5
 ## Everything owned, whether equipped or not.
@@ -123,6 +123,8 @@ func apply_level(row: LevelData) -> void:
 	opening_hand_size = row.opening_hand_size
 	item_slots = row.item_slots
 	deck_slots = row.deck_slots
+	if equipped_item_ids.size() > item_slots:
+		normalize_item_slots()
 
 
 func has_equipment_slot(slot: EquipmentData.Slot) -> bool:
@@ -190,18 +192,90 @@ func is_item_equipped(item: ItemData) -> bool:
 	return item != null and equipped_item_ids.has(item.id)
 
 
-## Equips `item` into a free slot (up to `item_slots`, see progression). False if not owned,
-## already equipped, or every slot is full.
-func equip_item_id(item: ItemData) -> bool:
-	if item == null or not owns_item(item) or is_item_equipped(item) or equipped_item_ids.size() >= item_slots:
+## Nov 3-4, Part B2: slots are positions - `equipped_item_ids[i]` is slot i+1's item id, "" for an empty slot (trailing empties trimmed), so the
+## character page can fill slot 3 while slot 2 stays empty. How many slots hold an item.
+func equipped_count() -> int:
+	var count: int = 0
+	for id: String in equipped_item_ids:
+		if not id.is_empty():
+			count += 1
+	return count
+
+
+## The item id in slot `index` (0-based), "" when empty or past the list.
+func item_in_slot(index: int) -> String:
+	return equipped_item_ids[index] if index >= 0 and index < equipped_item_ids.size() else ""
+
+
+## The slot (0-based) `item` is equipped in, or -1.
+func slot_of_item(item: ItemData) -> int:
+	return equipped_item_ids.find(item.id) if item != null and not item.id.is_empty() else -1
+
+
+## The first empty unlocked slot (0-based), or -1 when every unlocked slot is full.
+func first_empty_item_slot() -> int:
+	for index: int in range(item_slots):
+		if item_in_slot(index).is_empty():
+			return index
+	return -1
+
+
+## Equips `item` into slot `slot` (0-based; -1 = the first empty one). False if not owned, already equipped, the slot is locked or taken, or
+## every slot is full.
+func equip_item_id(item: ItemData, slot: int = -1) -> bool:
+	if item == null or not owns_item(item) or is_item_equipped(item):
 		return false
-	equipped_item_ids.append(item.id)
+	if slot < 0:
+		slot = first_empty_item_slot()
+	if slot < 0 or slot >= item_slots or not item_in_slot(slot).is_empty():
+		return false
+	while equipped_item_ids.size() <= slot:
+		equipped_item_ids.append("")
+	equipped_item_ids[slot] = item.id
 	return true
 
 
 func unequip_item_id(item: ItemData) -> void:
-	if item != null:
-		equipped_item_ids.erase(item.id)
+	if item == null:
+		return
+	var slot: int = slot_of_item(item)
+	if slot >= 0:
+		equipped_item_ids[slot] = ""
+	_trim_item_slots()
+
+
+func _trim_item_slots() -> void:
+	while not equipped_item_ids.is_empty() and equipped_item_ids[equipped_item_ids.size() - 1].is_empty():
+		equipped_item_ids.remove_at(equipped_item_ids.size() - 1)
+
+
+## Nov 3-4, Part B2 (save migration): drops slots holding an item no longer owned or listed twice, and keeps every equipped item that fits - an item
+## in a slot that is locked now moves into an empty unlocked slot when there is one.
+func normalize_item_slots() -> void:
+	var owned_ids: Dictionary = {}
+	for owned_item: ItemData in owned_items:
+		owned_ids[owned_item.id] = true
+	var seen: Dictionary = {}
+	var overflow: Array[String] = []
+	for index: int in range(equipped_item_ids.size()):
+		var id: String = equipped_item_ids[index]
+		if id.is_empty() or not owned_ids.has(id) or seen.has(id):
+			equipped_item_ids[index] = ""
+			continue
+		seen[id] = true
+		if index >= item_slots:
+			overflow.append(id)
+			equipped_item_ids[index] = ""
+	if equipped_item_ids.size() > item_slots:
+		equipped_item_ids.resize(item_slots)
+	for id: String in overflow:
+		var free: int = first_empty_item_slot()
+		if free < 0:
+			break
+		while equipped_item_ids.size() <= free:
+			equipped_item_ids.append("")
+		equipped_item_ids[free] = id
+	_trim_item_slots()
 
 
 ## Spends one charge of an owned item without applying its effect - the caller already applied

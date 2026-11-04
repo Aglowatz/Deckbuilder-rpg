@@ -36,6 +36,10 @@ func setup(town: TownBuilder, plaza: Vector3, camera: Camera3D, sun_direction: V
 	_build_graph(plaza)
 	if _points.size() < 3:
 		return  # no walkable loop here: this stroller stays home (`sprite` stays null)
+	for i: int in range(_links.size()):
+		if not _links[i].is_empty():
+			_at = i  # start on the walk, not on a point cut off from it
+			break
 	sprite = WorldSprite.new()
 	add_child(sprite)
 	sprite.setup(character, camera, sun_direction)
@@ -70,14 +74,15 @@ func _build_graph(plaza: Vector3) -> void:
 	for i: int in range(ring_count):
 		_link(i, (i + 1) % ring_count)
 	for i: int in range(ring_count, _points.size()):
-		var nearest: int = 0
+		var nearest: int = -1  # Nov 3-4, Part A6: a spur with no clear way to the ring stays unlinked (it used to join point 0 through walls)
 		var best: float = 1e9
 		for j: int in range(ring_count):
 			var d: float = _points[i].distance_to(_points[j])
 			if d < best and _clear(_points[i], _points[j]):
 				best = d
 				nearest = j
-		_link(i, nearest)
+		if nearest >= 0:
+			_link(i, nearest)
 	# Drop ring links that cross something solid.
 	for i: int in range(ring_count):
 		var j: int = (i + 1) % ring_count
@@ -90,15 +95,38 @@ func _add_point(point: Vector3) -> void:
 		_points.append(point)
 
 
+## Nov 3-4, Part A6: a sample every CLEAR_STEP metres along a link (it was 8 per link, ~1 m on a spur - enough to step over a wall), and the
+## townsperson's clearance from buildings (TownBuilder.npc_can_stand).
+const CLEAR_STEP: float = 0.2
+
+
 func _is_ok(point: Vector3) -> bool:
-	return _town.is_walkable(point, 0.3)
+	return _town.npc_can_stand(point)
 
 
 func _clear(from: Vector3, to: Vector3) -> bool:
-	for step: int in range(1, 9):
-		if not _is_ok(from.lerp(to, float(step) / 8.0)):
+	var steps: int = maxi(2, ceili(from.distance_to(to) / CLEAR_STEP))
+	for step: int in range(1, steps + 1):
+		if not _is_ok(from.lerp(to, float(step) / float(steps))):
 			return false
 	return true
+
+
+## Every link of the graph as [from, to] (tests and probes).
+func links() -> Array[Array]:
+	var result: Array[Array] = []
+	for i: int in range(_links.size()):
+		for j: int in _links[i]:
+			if j > i:
+				result.append([_points[i], _points[j]])
+	return result
+
+
+## Builds only the route graph (no sprite) - tests and probes.
+func build_graph_only(town: TownBuilder, plaza: Vector3) -> void:
+	_town = town
+	_rng.seed = seed_value
+	_build_graph(plaza)
 
 
 func _link(a: int, b: int) -> void:

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_tlnoa"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_ghog1"]
+
+[sub_resource type="Resource" id="Resource_tngha"]
+script = ExtResource("1_tlnoa")
+target = 1
+op = 13
+amount = 1
+
+[resource]
+script = ExtResource("2_ghog1")
+id = "energy_draught"
+display_name = "Energy Draught"
+description = "Choose a Path in your deck: gain 1 energy of that Path this turn. A fizzy kick in a familiar bottle."
+effect = SubResource("Resource_tngha")

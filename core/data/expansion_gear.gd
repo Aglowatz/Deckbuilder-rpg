@@ -38,8 +38,8 @@ static func add_all(result: Dictionary) -> void:
 		"Box-fresh armour. Literally. Do not get it wet.", [_mod(K.MAX_HP, 2)])
 	_add(result, "pointy_stick", "A Very Pointy Stick", S.WEAPON, R.COMMON, 1, "When a duel starts, deal 1 damage to the opponent.", "",
 		"Found on the ground. Sharpened on a rock. Named with love.", [_eff(K.START_OF_DUEL_EFFECT, O.DEAL_DAMAGE, 1, G.OPPONENT)])
-	_add(result, "saucepan_helmet", "Saucepan Helmet", S.HELM, R.COMMON, 1, "Max HP +1, and start every duel with 1 extra HP.", "",
-		"Handle in the back, for steering. Smells faintly of soup.", [_mod(K.MAX_HP, 1), _mod(K.STARTING_HP, 1)])
+	_add(result, "saucepan_helmet", "Saucepan Helmet", S.HELM, R.COMMON, 1, "Max HP +1, and heal 1 HP at the start of every duel.", "",
+		"Handle in the back, for steering. Smells faintly of soup.", [_mod(K.MAX_HP, 1), _eff(K.START_OF_DUEL_EFFECT, O.GAIN_HP, 1, G.CONTROLLER)])  # Nov 3-4, Part A3: a heal (never above max) - the old +1 starting HP did nothing with carried HP
 	_add(result, "flip_flops", "Flip-Flops of Fortitude", S.BOOTS, R.COMMON, 1, "Whenever one of your units dies, gain 1 HP.", "",
 		"Thwap. Thwap. Thwap. The sound of a hero who has given up on socks.", [_eff(K.ON_ALLY_DEATH_EFFECT, O.GAIN_HP, 1, G.CONTROLLER)])
 	# -- Four resource pieces (tier 2): generate Iron, Red Tape, Ingredients and Garbage (the starting-resource pieces already exist).

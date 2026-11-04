@@ -287,7 +287,7 @@
 				"5": {
 					"gold": 80,
 					"xp": 40,
-					"item": "healing_draught"
+					"item": "energy_draught"
 				}
 			},
 			"story_keys": {
@@ -840,12 +840,12 @@
 				"11": {
 					"gold": 70,
 					"xp": 30,
-					"item": "healing_draught"
+					"item": "energy_draught"
 				},
 				"18": {
 					"gold": 80,
 					"xp": 40,
-					"item": "healing_draught"
+					"item": "energy_draught"
 				},
 				"19": {
 					"gold": 110,

@@ -7,7 +7,7 @@ extends Node3D
 const SPEED: float = 0.85
 const PAUSE_MIN: float = 1.6
 const PAUSE_MAX: float = 5.0
-const STEP_CHECKS: int = 8
+const STEP_CHECKS: int = 24  # Nov 3-4, Part A6: was 8 (~0.4 m apart over a 3.2 m walk); every ~0.15 m now
 
 var sprite: WorldSprite
 var character: String = "CITIZEN"

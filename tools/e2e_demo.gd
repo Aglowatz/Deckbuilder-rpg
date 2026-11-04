@@ -465,7 +465,7 @@ func _shop_item(vendor: ItemVendorScreen) -> void:
 	if tip != null:
 		await driver.click(driver.button_center(tip))
 		await driver.seconds(0.3)
-	var item: ItemData = Session.content.item("healing_draught")
+	var item: ItemData = Session.content.item("energy_draught")
 	_bought_item_id = item.id
 	var before_gold: int = Session.gold
 	var tile: Control = null
@@ -617,7 +617,7 @@ func _try_use_item_in_battle(screen: BattleScreen) -> bool:
 	var item: ItemData = null
 	var index: int = -1
 	for i: int in range(Session.profile.equipped_item_ids.size()):
-		var candidate: ItemData = Session.content.item(Session.profile.equipped_item_ids[i])
+		var candidate: ItemData = Session.content.item(Session.profile.item_in_slot(i))
 		if candidate != null and screen.game.can_use_item(0, candidate):
 			item = candidate
 			index = i

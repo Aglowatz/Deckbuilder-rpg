@@ -17,7 +17,7 @@ func test_scroll_of_insight_draws_one_card() -> void:
 	for item: ItemData in [content.item("scroll_of_insight"), _code_item("scroll_of_insight")]:
 		assert_eq(item.effect.op, CardEnums.EffectOp.DRAW)
 		assert_eq(item.effect.amount, 1, "Draw 1 (Draw 2 was the strongest item on the shelf at 45 gold)")
-		assert_eq(item.uses, 2)
+		assert_eq(item.uses, 1, "Nov 3-4: every item is single-use")
 		assert_true(item.description.contains("draw 1 card"), item.description)
 
 
@@ -38,10 +38,10 @@ func test_reckless_tonic_says_what_it_does() -> void:
 		assert_eq(item.effect.amount, 5)
 		assert_eq(item.uses, 1)
 		assert_true(item.description.contains("heal 5 HP"), item.description)
-		assert_true(item.description.contains("One use"), item.description)
 
 
-func test_every_item_description_states_numbers_and_uses() -> void:
+## Nov 3-4, Part B1: every item is single-use, so no description counts uses any more (the UI says "Single-use" and the charges owned).
+func test_every_item_description_states_numbers_and_no_use_count() -> void:
 	for id: Variant in content.items.keys():
 		var item: ItemData = content.item(str(id))
 		var text: String = item.description
@@ -50,7 +50,8 @@ func test_every_item_description_states_numbers_and_uses() -> void:
 			if text.contains(digit):
 				has_number = true
 		assert_true(has_number, "%s names a number: %s" % [str(id), text])
-		assert_true(text.contains("use"), "%s says how many uses: %s" % [str(id), text])
+		assert_false(text.contains("uses") or text.contains("One use") or text.contains("one per battle"), "%s: no use count: %s" % [str(id), text])
+		assert_eq(item.uses, 1, "%s is single-use" % str(id))
 		assert_eq(_code_item(str(id)).description, text, "%s: the .tres matches the code (run tools/generate_content.gd)" % str(id))
 
 
@@ -70,15 +71,18 @@ func test_the_high_shelf_opens_at_level_17_with_retuned_items() -> void:
 			assert_true(Condition.met(entry.unlock, state_17), "%s opens at 17" % entry.item_id)
 	locked_at_16.sort()
 	assert_eq(locked_at_16, ["binding_chains", "grave_dust", "silence_powder", "summoning_charm", "ward_sigil"])
-	assert_eq(int(prices["scroll_of_insight"]), 45, "Draw 1 at about the same price")
-	assert_eq(int(prices["reckless_tonic"]), 30, "a one-use 5 HP is a weak item")
-	assert_eq(int(prices["power_wraps"]), 30)
-	assert_eq(int(prices["binding_chains"]), 90)
-	assert_eq(int(prices["summoning_charm"]), 90)
-	assert_eq(int(prices["silence_powder"]), 60)
-	assert_eq(int(prices["ward_sigil"]), 60)
-	assert_eq(int(prices["grave_dust"]), 45)
-	assert_eq(content.item("binding_chains").uses, 2)
+	# Nov 3-4, Part B3: the regular shelf 50-100 by power, the high shelf 150 each (one charge per purchase).
+	for id: String in locked_at_16:
+		assert_eq(int(prices[id]), 150, "%s: every high-shelf item is 150" % id)
+	var cheapest: int = 1000
+	for id: Variant in prices.keys():
+		if not locked_at_16.has(str(id)):
+			assert_between(int(prices[id]), 50, 100, str(id))
+			cheapest = mini(cheapest, int(prices[id]))
+	assert_eq(cheapest, 50, "the cheapest item is 50")
+	assert_eq(int(prices["energy_draught"]), 100)
+	assert_eq(int(prices["firebrand_charm"]), 100)
+	assert_eq(content.item("binding_chains").uses, 1)
 	assert_eq(content.item("silence_powder").effect.amount, 2)
 	assert_eq(content.item("grave_dust").effect.amount, 6)
 	assert_eq(content.item("summoning_charm").effect.amount, 3)
@@ -88,6 +92,4 @@ func test_a_bandaged_unit_keeps_its_toughness_next_turn() -> void:
 	# the whole point of the rework: the buff outlives the turn (the old mend was gone before the opponent could hit the unit)
 	var item: ItemData = content.item("power_wraps")
 	assert_eq(item.effect.duration, CardEnums.Duration.PERMANENT)
-	assert_eq(Economy.ITEM_PRICE.size(), 5, "two late bands for the high shelf")
-	assert_eq(Economy.item_price(Economy.ItemBand.LATE), 90)
-	assert_eq(Economy.item_price(Economy.ItemBand.PREMIUM), 120)
+	assert_eq(Economy.item_price("hearty_pie"), 0, "a reward-only item has no price")

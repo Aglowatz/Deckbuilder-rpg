@@ -61,7 +61,7 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_compost": {"gold": 25, "item": "healing_salve", "card": ""},
 	"chest_peak_a": {"gold": 0, "item": "", "card": "R-26"},
 	"chest_hay": {"gold": 30, "item": "scroll_of_insight", "card": ""},
-	"chest_log": {"gold": 60, "item": "healing_draught", "card": ""},
+	"chest_log": {"gold": 60, "item": "energy_draught", "card": ""},
 	"chest_peak_b": {"gold": 20, "item": "", "card": "R-09"},
 	"chest_car": {"gold": 90, "item": "firebrand_charm", "card": ""},
 	"chest_barn": {"gold": 50, "item": "vitality_charm", "card": ""},

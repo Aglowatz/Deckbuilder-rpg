@@ -13,6 +13,5 @@ amount = 1
 script = ExtResource("2_d0q0t")
 id = "scroll_of_insight"
 display_name = "Scroll of Insight"
-description = "You draw 1 card. Two uses, one per battle."
-uses = 2
+description = "You draw 1 card."
 effect = SubResource("Resource_j4amb")

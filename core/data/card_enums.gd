@@ -88,6 +88,9 @@ enum EffectOp {
 	GRANT_KEYWORD,
 	## Brief 14: create resources (`amount` = ResourceKind ordinal, `amount2` = how many, default 1) for the target player.
 	CREATE_RESOURCE,
+	## Nov 3-4, Part B4 (the Energy Draught): `amount` floating energy of one Path the user picks among the Paths in their deck (an item's
+	## target is that Path's Affinity.Type). It empties at the end of the turn like every floating energy.
+	ADD_ENERGY,
 }
 
 enum Duration { PERMANENT, END_OF_TURN }

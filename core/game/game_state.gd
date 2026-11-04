@@ -104,6 +104,11 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 		if modifier.kind == Modifier.Kind.SHUFFLE_JUNK_INTO_DECK and not modifier.tokens.is_empty():
 			for junk_index: int in range(maxi(modifier.value, 0)):
 				player.deck.append(create_instance(modifier.tokens[0], player.index))
+	for data: CardData in setup.deck.cards:
+		for path: Affinity.Type in data.paths():
+			if not player.deck_paths.has(int(path)):
+				player.deck_paths.append(int(path))
+	player.deck_paths.sort()
 	if setup.deck.size() > 0:
 		player.deck_infrastructure_ratio = float(setup.deck.infrastructure_count()) / float(setup.deck.size())
 	players.append(player)
@@ -607,6 +612,8 @@ func can_use_item(player_index: int, item: ItemData) -> bool:
 		return false
 	if item_used(player_index, item):
 		return false
+	if item.effect.op == CardEnums.EffectOp.ADD_ENERGY:
+		return not item_path_choices(player_index).is_empty()
 	if item.effect.needs_chosen_target():
 		return not legal_targets(player_index, item.effect, 0).is_empty()
 	return true
@@ -621,15 +628,31 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 		return false
 	if item.effect.needs_chosen_target() and not legal_targets(player_index, item.effect, 0).has(target):
 		return false
+	if item.effect.op == CardEnums.EffectOp.ADD_ENERGY and not item_path_choices(player_index).has(target as Affinity.Type):
+		return false  # Nov 3-4, Part B4: an Energy Draught's target is a Path of the deck
 	items_used[player_index][item.id] = true
 	# Overnight Nov 2-3, Part 2: a reckless item may backfire - the damage to its user instead of its effect (the battle screen says so)
 	last_item_backfired = item.backfire_chance > 0.0 and item.backfires(rng.randf())
 	if last_item_backfired:
 		deal_damage_to_player(0, player_index, item.backfire_damage)
+	elif item.effect.op == CardEnums.EffectOp.ADD_ENERGY:
+		for i: int in range(maxi(1, item.effect.amount)):
+			players[player_index].pool.append(target)
+		emit_event(GameEvent.Type.ENERGY_ADDED, player_index, 0, 0, maxi(1, item.effect.amount))
 	else:
 		EffectResolver.resolve(self, item.effect, EffectContext.make(0, player_index, 0, target))
 	check_state()
 	return true
+
+
+## Nov 3-4, Part B4: the Paths an Energy Draught may give `player_index` - only the Paths present in the deck they brought to this duel.
+func item_path_choices(player_index: int) -> Array[Affinity.Type]:
+	var result: Array[Affinity.Type] = []
+	if player_index < 0 or player_index >= players.size():
+		return result
+	for path: int in players[player_index].deck_paths:
+		result.append(path as Affinity.Type)
+	return result
 
 
 ## True when `player_index` already used `item` this battle (each equipped item works once per battle).

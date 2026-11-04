@@ -345,6 +345,9 @@ func _build_props() -> void:
 	harbor_chest_node = GiantChestEvent.make_chest(root, chest_pos, 200.0)
 	obstacles.append(Vector3(chest_pos.x, chest_pos.z, 0.5))
 	anchors["chest"] = chest_pos + Vector3(0.0, 0, 1.5)
+	# Nov 3-4, Part A4: the chest opens from the back too (the same chest, once) - players walk round it on the peninsula.
+	anchors["chest_back"] = chest_pos + Vector3(0.0, 0, -1.5)
+	anchors["chest_centre"] = chest_pos
 	# Brief 16: the old vault's lever now sits far from it (the south-west of the long southern strip), where only an explorer finds it.
 	var lever_pos: Vector3 = cell_center(LEVER_CELL.x, LEVER_CELL.y) + Vector3(0.3, 0, 0.2)
 	# Crosspath pass, Part B: a lever in a stone block (the old KayKit ladder stood in for it).
@@ -693,6 +696,30 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		if dx * dx + dz * dz < reach * reach:
 			return false
 	return true
+
+
+## Nov 3-4, Part A6: a building's walls are a row of obstacle circles, and a townsperson's sprite is wider than the hero's body, so NPC routes
+## also keep clear of every kit building's rectangle (the square's shops and houses, the expansion sites) by `clearance` metres.
+const NPC_CLEARANCE: float = 0.75
+static var _building_rects: Array[TownLayout.Shop] = []
+
+
+static func in_building(pos: Vector3, margin: float = 0.0) -> bool:
+	if _building_rects.is_empty():
+		for shop: TownLayout.Shop in TownLayout.shops():
+			if shop.kind == "kit":
+				_building_rects.append(shop)
+		for shop: TownLayout.Shop in TownExpansion.shops():
+			_building_rects.append(shop)
+	for shop: TownLayout.Shop in _building_rects:
+		if shop.covers(pos, margin):
+			return true
+	return false
+
+
+## Where a townsperson may stand: walkable with a wider body than the hero's, and clear of every building's rectangle.
+func npc_can_stand(pos: Vector3, clearance: float = NPC_CLEARANCE) -> bool:
+	return is_walkable(pos, 0.45) and not in_building(pos, clearance)
 
 
 ## The town map's symbol under `pos` ("." outside the map: open land or water).

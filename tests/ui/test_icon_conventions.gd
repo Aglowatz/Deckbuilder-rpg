@@ -45,7 +45,7 @@ func test_gear_icon_ids_follow_the_upper_case_no_underscore_rule() -> void:
 
 
 func test_item_and_cosmetic_icon_ids() -> void:
-	assert_eq(IconArt.item_icon_id("healing_draught"), "ICON-ITEM-HEALINGDRAUGHT")
+	assert_eq(IconArt.item_icon_id("energy_draught"), "ICON-ITEM-HEALINGDRAUGHT")
 	assert_eq(IconArt.item_icon_id("bag_of_rubbish"), "ICON-ITEM-BAGOFRUBBISH")
 	assert_eq(IconArt.cosmetic_icon_id("WIDEBRIM"), "ICON-COS-WIDEBRIM")
 	assert_eq(IconArt.cosmetic_icon_id("REDCAPE"), "ICON-COS-REDCAPE")
@@ -119,7 +119,7 @@ func test_drop_in_import_of_gear_item_and_cosmetic_icons() -> void:
 
 
 func test_items_and_cosmetics_keep_their_old_look_until_their_icon_exists() -> void:
-	var item: ItemData = load("res://data/items/healing_draught.tres") as ItemData
+	var item: ItemData = load("res://data/items/energy_draught.tres") as ItemData
 	if IconArt.has_item_icon(item):
 		assert_eq(IconArt.item_texture(item, 64.0), IconArt.texture(IconArt.item_icon_id(item.id), 64.0), "its own icon once imported")
 	else:
