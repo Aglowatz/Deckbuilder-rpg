@@ -87,7 +87,7 @@ func _board(game: GameState) -> String:
 			var flags: String = ""
 			if unit.exhausted:
 				flags += "x"
-			if unit.summoning_sick:
+			if unit.fresh_stitches:
 				flags += "s"
 			units.append("%s %d/%d%s" % [unit.data.display_name, game.get_attack(unit), game.get_defense(unit) - unit.damage, (" (" + flags + ")") if not flags.is_empty() else ""])
 		var others: PackedStringArray = []

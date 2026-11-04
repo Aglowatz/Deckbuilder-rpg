@@ -78,8 +78,11 @@ static func apply_preset(game: GameState, content: ContentSet, preset: Dictionar
 			for card_id: Variant in (spec["field"] as Dictionary).keys():
 				for copy: int in range(int((spec["field"] as Dictionary)[card_id])):
 					var unit: CardInstance = game.create_instance(content.card(str(card_id)), index)
-					unit.summoning_sick = false
+					# Fix pass Nov 4 (Part 1.3): the enemy's preset units have Fresh Stitches on its first turn; yours are ready.
+					unit.fresh_stitches = index == 1
 					state.field.append(unit)
+		if spec.has("field") and index == 1:
+			game.mark_placed_before_duel(1)
 		if spec.has("infrastructure"):
 			state.infrastructure.clear()
 			for letter: Variant in (spec["infrastructure"] as Dictionary).keys():

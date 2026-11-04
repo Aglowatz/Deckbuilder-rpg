@@ -10,7 +10,11 @@ var owner: int = 0
 var real_owner: int = 0
 var damage: int = 0
 var exhausted: bool = false
-var summoning_sick: bool = false
+## Fresh Stitches: entered play this turn and can't attack yet (cleared when its controller's turn starts).
+var fresh_stitches: bool = false
+## Fix pass Nov 4 (Part 1.3): on the table before the duel began (a boss's starting unit). It keeps Fresh Stitches through its
+## controller's first turn, exactly as if it had just been played.
+var placed_before_duel: bool = false
 var face_down: bool = false
 var activated_this_turn: bool = false
 ## Permanent stat changes (buffs, "gets -2/-2 permanently"...). Iron and Red Tape are temporary since the Oct 18 rebalance.
@@ -72,7 +76,8 @@ func is_token() -> bool:
 func reset() -> void:
 	damage = 0
 	exhausted = false
-	summoning_sick = false
+	fresh_stitches = false
+	placed_before_duel = false
 	face_down = false
 	activated_this_turn = false
 	attack_bonus = 0
@@ -154,7 +159,8 @@ func clone() -> CardInstance:
 	copy.real_owner = real_owner
 	copy.damage = damage
 	copy.exhausted = exhausted
-	copy.summoning_sick = summoning_sick
+	copy.fresh_stitches = fresh_stitches
+	copy.placed_before_duel = placed_before_duel
 	copy.face_down = face_down
 	copy.activated_this_turn = activated_this_turn
 	copy.attack_bonus = attack_bonus

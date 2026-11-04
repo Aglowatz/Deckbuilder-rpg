@@ -232,7 +232,8 @@ static func execute(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 				state.draw_cards(index, count)
 			return count > 0
 		"peek":
-			state.peek_deck(ctx.controller, AbilityRunner.eval_int(fx.args[0], ctx))
+			if state.peek_deck(ctx.controller, AbilityRunner.eval_int(fx.args[0], ctx), ctx):
+				ctx.data[AbilityRunner.PEEK_WAIT] = true
 			return true
 		"bury":
 			var buried: Array[CardInstance] = []

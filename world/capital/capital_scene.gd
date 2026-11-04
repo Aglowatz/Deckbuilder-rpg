@@ -820,6 +820,13 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	super(enemy)
 
 
+## Fix pass Nov 4 (Part 1.6): Captain Spotless beaten (any way) while the scene was parked or shown: the gate barrier lifts.
+func sync_world_flags() -> void:
+	super()
+	if capital != null and Session.flag(CapitalZone.FLAG_GATE_OPEN) and not capital.gate_open:
+		capital.open_gate()
+
+
 func _apply_pending_result() -> void:
 	_add_service_panel()
 	_update_objective()

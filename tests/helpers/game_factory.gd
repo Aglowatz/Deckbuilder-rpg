@@ -72,7 +72,7 @@ static func add_infrastructure_cards(game: GameState, player_index: int, count: 
 static func add_to_field(game: GameState, player_index: int, data: CardData, ready: bool = true) -> CardInstance:
 	var card: CardInstance = game.create_instance(data, player_index)
 	game.players[player_index].field.append(card)
-	card.summoning_sick = not ready
+	card.fresh_stitches = not ready
 	return card
 
 

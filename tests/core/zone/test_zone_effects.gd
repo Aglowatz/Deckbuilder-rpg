@@ -111,7 +111,7 @@ func test_dna_buffs_necrocrat_defense_and_taxes_beefcake_cards() -> void:
 func test_buffet_buffs_gourmand_and_debuffs_refusemancer_power() -> void:
 	var game: GameState = _game_in(BuffetZone.ID)
 	var gourmand: CardInstance = _unit(game, 0, B)
-	assert_eq(game.get_attack(gourmand), 3)
+	assert_eq(game.get_attack(gourmand), 2, "Well Fed is +0/+1 since Nov 4")
 	assert_eq(game.get_defense(gourmand), 3)
 	assert_eq(game.get_attack(_unit(game, 1, C)), 1, "Dress Code Violation: -1 attack on Refusemancers")
 

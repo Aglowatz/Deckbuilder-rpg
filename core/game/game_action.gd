@@ -17,6 +17,8 @@ enum Type {
 	ACTIVATE_ABILITY,
 	## Brief 14: pay 1 energy and use an Iron, Red Tape or Contract on a target unit (`effect_index` = ResourceKind).
 	USE_RESOURCE,
+	## Fix pass Nov 4: answer a waiting Peek - `uids` stay on top in this order (first = drawn next), `picks` go to the bottom.
+	PEEK,
 }
 
 var type: Type = Type.PASS
@@ -39,6 +41,13 @@ static func make(action_type: Type, acting_player: int) -> GameAction:
 	var action: GameAction = GameAction.new()
 	action.type = action_type
 	action.player = acting_player
+	return action
+
+
+static func peek(acting_player: int, top_uids: Array[int], bottom_uids: Array[int]) -> GameAction:
+	var action: GameAction = make(Type.PEEK, acting_player)
+	action.uids = top_uids.duplicate()
+	action.picks = bottom_uids.duplicate()
 	return action
 
 

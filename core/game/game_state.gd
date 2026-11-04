@@ -46,6 +46,12 @@ var winner: int = -1
 var is_draw: bool = false
 ## Cards the active player must discard before their turn ends (hand size limit).
 var pending_toss: int = 0
+## Fix pass Nov 4 (Part 1.1): seats whose Peeks wait for the player's own Top/Bottom choice (the battle screen sets [0] for a human).
+## Off in look-ahead clones and for the AI, which keeps the old automatic sort.
+var interactive_peek: Array[bool] = [false, false]
+## Waiting Peeks, oldest first: {player, count, ctx (AbilityContext or null), rest (Array[CardAbility.Fx] still to run after the choice)}.
+## The looked-at cards stay on top of the deck until `resolve_peek`; every other action waits.
+var peek_requests: Array[Dictionary] = []
 ## Current combat: attacker uids, attacker -> blocker, and the attackers that were blocked (even if the blocker later died).
 var attackers: Array[int] = []
 var blocks: Dictionary = {}
@@ -220,7 +226,20 @@ func _begin_playing() -> void:
 		for modifier: Modifier in players[index].modifiers.modifiers:
 			if modifier.kind == Modifier.Kind.STARTING_RESOURCES and modifier.value > 0:
 				ResourceRules.create(self, index, modifier.value2 as ResourceKind.Kind, modifier.value)
+	mark_placed_before_duel()
 	_begin_turn()
+
+
+## Fix pass Nov 4 (Part 1.3): every unit already on the table that would have Fresh Stitches (it entered like a played card) keeps them
+## through its controller's first turn. Units a setup made ready on purpose (fresh_stitches = false, e.g. a dungeon ally) stay ready.
+## Also called by board presets (the Arena) that place units after the start.
+func mark_placed_before_duel(only_player: int = -1) -> void:
+	for player: PlayerState in players:
+		if only_player >= 0 and player.index != only_player:
+			continue
+		for card: CardInstance in player.field:
+			if card.data.is_unit() and card.fresh_stitches:
+				card.placed_before_duel = true
 
 
 # --------------------------------------------------------------------------------------
@@ -242,6 +261,8 @@ func awaiting_player() -> int:
 					return index
 			return -1
 		Stage.PLAYING:
+			if not peek_requests.is_empty():
+				return int(peek_requests[0]["player"])
 			if pending_toss > 0:
 				return active
 			if phase == Phase.COMBAT and combat_step == CombatStep.DECLARE_BLOCKERS:
@@ -403,7 +424,7 @@ func pips_for(player_index: int, data: CardData, card: CardInstance = null) -> A
 
 
 func in_main_phase() -> bool:
-	return stage == Stage.PLAYING and (phase == Phase.MAIN1 or phase == Phase.MAIN2) and pending_toss == 0
+	return stage == Stage.PLAYING and (phase == Phase.MAIN1 or phase == Phase.MAIN2) and pending_toss == 0 and peek_requests.is_empty()
 
 
 # --------------------------------------------------------------------------------------
@@ -763,7 +784,7 @@ func _first_unit_bonus(card: CardInstance) -> void:
 func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targets: Array[int] = [] as Array[int], seed_ctx: AbilityContext = null) -> void:
 	var player: PlayerState = players[card.owner]
 	player.field.append(card)
-	card.summoning_sick = true
+	card.fresh_stitches = true
 	card.exhausted = false
 	card.damage = 0
 	card.entered_turn = turn
@@ -901,7 +922,9 @@ func _begin_turn() -> void:
 		_refresh(infra)
 	for card: CardInstance in player.field:
 		_refresh(card)
-		card.summoning_sick = false
+		# Fix pass Nov 4 (Part 1.3): a unit that started the duel on the table keeps Fresh Stitches on its side's first turn.
+		card.fresh_stitches = card.placed_before_duel and player.turns_taken <= 1
+		card.placed_before_duel = false
 		card.activated_this_turn = false
 		card.used_abilities.clear()
 		card.targeted_this_turn.clear()
@@ -1197,13 +1220,91 @@ func bury_deck(player_index: int, count: int) -> Array[CardInstance]:
 	return buried
 
 
-## Peek X: look at the top X cards of your deck and put any on the bottom in any order. The engine keeps the cards worth
-## drawing on top (best last = drawn first) and sends the ones that are not useful right now to the bottom.
-func peek_deck(player_index: int, count: int) -> void:
+## Peek X: look at the top X cards of your deck and put any on the bottom in any order. For a seat in `interactive_peek` (on its
+## own turn) the Peek waits for the player: returns true, the cards stay on top and `resolve_peek` applies the choice. Otherwise
+## the engine keeps the cards worth drawing on top (best last = drawn first) and sends the ones not useful right now to the bottom.
+func peek_deck(player_index: int, count: int, ctx: AbilityContext = null) -> bool:
 	var player: PlayerState = players[player_index]
 	var take: int = mini(count, player.deck.size())
 	if take <= 0:
-		return
+		return false
+	if interactive_peek[player_index] and player_index == active and stage == Stage.PLAYING:
+		peek_requests.append({"player": player_index, "count": count, "ctx": ctx, "rest": [] as Array[CardAbility.Fx]})
+		return true
+	_auto_peek(player_index, take)
+	return false
+
+
+## The cards the first waiting Peek shows, top card first (empty when no Peek waits).
+func peek_cards() -> Array[CardInstance]:
+	var shown: Array[CardInstance] = []
+	if peek_requests.is_empty():
+		return shown
+	var deck: Array[CardInstance] = players[int(peek_requests[0]["player"])].deck
+	var take: int = mini(int(peek_requests[0]["count"]), deck.size())
+	for i: int in range(take):
+		shown.append(deck[deck.size() - 1 - i])
+	return shown
+
+
+## Answers the first waiting Peek: `top_uids` go back on top in this order (the first is drawn next), `bottom_uids` go under the
+## deck (the first one deepest). Together they must be exactly the shown cards. Then the rest of the Peeking ability runs.
+func resolve_peek(player_index: int, top_uids: Array[int], bottom_uids: Array[int]) -> bool:
+	if peek_requests.is_empty() or int(peek_requests[0]["player"]) != player_index:
+		return false
+	var shown: Array[CardInstance] = peek_cards()
+	var by_uid: Dictionary = {}
+	for card: CardInstance in shown:
+		by_uid[card.uid] = card
+	var chosen: Array[int] = top_uids + bottom_uids
+	if chosen.size() != shown.size():
+		return false
+	for uid: int in chosen:
+		if not by_uid.has(uid) or chosen.count(uid) != 1:
+			return false
+	var request: Dictionary = peek_requests.pop_front()
+	var deck: Array[CardInstance] = players[player_index].deck
+	deck.resize(deck.size() - shown.size())
+	for i: int in range(bottom_uids.size() - 1, -1, -1):
+		deck.insert(0, by_uid[bottom_uids[i]])
+	for i: int in range(top_uids.size() - 1, -1, -1):
+		deck.append(by_uid[top_uids[i]])
+	emit_event(GameEvent.Type.PEEKED, player_index, 0, 0, shown.size(), bottom_uids.size())
+	var rest: Array[CardAbility.Fx] = request["rest"]
+	var ctx: AbilityContext = request["ctx"]
+	if ctx != null:
+		ctx.data.erase(AbilityRunner.PEEK_WAIT)
+	if ctx != null and not rest.is_empty() and not is_over():
+		defer_state_checks += 1
+		AbilityRunner.run_effects(ctx, rest)
+		defer_state_checks -= 1
+		if defer_state_checks == 0:
+			check_state()
+	return true
+
+
+## The automatic Peek choice for the first waiting Peek (what the engine would keep on top), as [top_uids, bottom_uids].
+func auto_peek_choice() -> Array:
+	var shown: Array[CardInstance] = peek_cards()
+	if shown.is_empty():
+		return [[] as Array[int], [] as Array[int]]
+	var infra_out: int = players[int(peek_requests[0]["player"])].infrastructure.size()
+	var keep: Array[CardInstance] = []
+	var bottom: Array[int] = []
+	for card: CardInstance in shown:
+		if _peek_value(card, infra_out) < 1.2:
+			bottom.append(card.uid)
+		else:
+			keep.append(card)
+	keep.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return _peek_value(a, infra_out) > _peek_value(b, infra_out))
+	var top: Array[int] = []
+	for card: CardInstance in keep:
+		top.append(card.uid)
+	return [top, bottom]
+
+
+func _auto_peek(player_index: int, take: int) -> void:
+	var player: PlayerState = players[player_index]
 	var looked: Array[CardInstance] = []
 	for i: int in range(take):
 		looked.append(player.deck.pop_back())
@@ -1890,7 +1991,7 @@ func steal_card(card: CardInstance, to_player: int, temporary: bool) -> bool:
 		if card.data.is_unit():
 			_detach_all(card)
 		card.owner = to_player
-		card.summoning_sick = true
+		card.fresh_stitches = true
 		target.field.append(card)
 	elif source.infrastructure.has(card):
 		source.infrastructure.erase(card)
@@ -2397,6 +2498,9 @@ func _activation_actions(player_index: int) -> Array[GameAction]:
 
 
 func apply_action(action: GameAction) -> bool:
+	if not peek_requests.is_empty():
+		# Fix pass Nov 4: nothing else happens until the waiting Peek is answered.
+		return action.type == GameAction.Type.PEEK and resolve_peek(action.player, action.uids, action.picks)
 	match action.type:
 		GameAction.Type.PASS:
 			return action.player == awaiting_player() and advance_phase()
@@ -2479,6 +2583,7 @@ func clone(deep_deck: bool = true, hide_traps_of: int = -1) -> GameState:
 			copy.players[index].modifiers = players[index].modifiers.clone()
 	copy.is_draw = is_draw
 	copy.pending_toss = pending_toss
+	# A waiting Peek is not copied (its ability context belongs to this game); clones never wait on one.
 	copy.attackers = attackers.duplicate()
 	copy.blocks = blocks.duplicate()
 	copy.blocked_attackers = blocked_attackers.duplicate()

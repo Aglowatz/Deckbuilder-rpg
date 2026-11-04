@@ -20,11 +20,11 @@ func _run() -> void:
 	var mmz: CardInstance = GameFactory.add_to_field(game, 1, CardSet.card("N-23"))
 	mmz.exhausted = true
 	var mortimer: CardInstance = GameFactory.add_to_field(game, 1, CardSet.card("N-33"))
-	mortimer.summoning_sick = true
+	mortimer.fresh_stitches = true
 	var temp: CardInstance = GameFactory.add_to_field(game, 1, TokenRegistry.data("T-10"))
-	temp.summoning_sick = true
+	temp.fresh_stitches = true
 	var clerk: CardInstance = GameFactory.add_to_field(game, 1, CardSet.card("N-01"))
-	clerk.summoning_sick = true
+	clerk.fresh_stitches = true
 	ResourceRules.create(game, 1, ResourceKind.Kind.RED_TAPE, 1)
 	ResourceRules.create(game, 0, ResourceKind.Kind.IRON, 3)
 	print("board: ", [militia.uid, brawler.uid, ripper.uid, mmz.uid, mortimer.uid, temp.uid, clerk.uid])

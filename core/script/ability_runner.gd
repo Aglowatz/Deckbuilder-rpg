@@ -18,6 +18,10 @@ const VALUE_NAMES: Array[String] = [
 # ---- Entry points ---------------------------------------------------------------------------
 
 
+## Set in an ability context's data while one of its Peeks waits for the player (`GameState.peek_requests`).
+const PEEK_WAIT: String = "_peek_wait"
+
+
 ## Resolves an ability's effects (after costs were paid and targets chosen). Returns whether it ran.
 static func resolve(ctx: AbilityContext) -> bool:
 	var state: GameState = ctx.state
@@ -28,6 +32,7 @@ static func resolve(ctx: AbilityContext) -> bool:
 	state.trigger_depth += 1
 	state.defer_state_checks += 1
 	run_effects(ctx, ctx.ability.effects)
+	ctx.data.erase(PEEK_WAIT)
 	state.defer_state_checks -= 1
 	state.trigger_depth -= 1
 	if state.defer_state_checks == 0:
@@ -36,10 +41,17 @@ static func resolve(ctx: AbilityContext) -> bool:
 
 
 static func run_effects(ctx: AbilityContext, effects: Array[CardAbility.Fx]) -> void:
-	for fx: CardAbility.Fx in effects:
+	if ctx.data.has(PEEK_WAIT):
+		return
+	for i: int in range(effects.size()):
 		if ctx.state.is_over():
 			return
-		ctx.last_ok = AbilityOps.execute(fx, ctx)
+		ctx.last_ok = AbilityOps.execute(effects[i], ctx)
+		if ctx.data.has(PEEK_WAIT):
+			# Fix pass Nov 4: a Peek waits for the player - the effects after it ("then draw a card") run once they choose.
+			if not ctx.state.peek_requests.is_empty():
+				(ctx.state.peek_requests.back()["rest"] as Array[CardAbility.Fx]).append_array(effects.slice(i + 1))
+			return
 
 
 static func run_block(ctx: AbilityContext, block: CardAbility.FxBlock) -> void:
@@ -350,7 +362,7 @@ static func can_pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], p
 			"exhaust", "overexert":
 				if ctx.source == null or ctx.source.exhausted:
 					return false
-				if ctx.source.data.is_unit() and ctx.source.summoning_sick and not state.unit_has_keyword(ctx.source, CardEnums.Keyword.HUSTLE):
+				if ctx.source.data.is_unit() and ctx.source.fresh_stitches and not state.unit_has_keyword(ctx.source, CardEnums.Keyword.HUSTLE):
 					return false
 			"destroy_self":
 				if ctx.source == null:

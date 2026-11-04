@@ -447,14 +447,6 @@
 			"kind": "starting_tokens",
 			"token": "T-03",
 			"count": 1
-		},
-		{
-			"name": "Field Rations",
-			"text": "The Colonel's units get +1 attack. Well fed.",
-			"icon": "delapouite/chef-toque",
-			"kind": "stat",
-			"atk": 1,
-			"def": 0
 		}
 	],
 	"zone:final:spotless": [

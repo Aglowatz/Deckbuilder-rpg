@@ -19,7 +19,7 @@ static func _can_attack(state: GameState, card: CardInstance) -> bool:
 	# Fable pass Nov 1 (boss tempo): a boss in its setup window does not attack (`BossTempo`).
 	if state.setup_turns_left(card.owner) > 0:
 		return false
-	return not card.summoning_sick or state.unit_has_keyword(card, CardEnums.Keyword.HUSTLE)
+	return not card.fresh_stitches or state.unit_has_keyword(card, CardEnums.Keyword.HUSTLE)
 
 
 static func possible_blockers(state: GameState, defender_index: int) -> Array[CardInstance]:

@@ -797,6 +797,7 @@ func _build_ui() -> void:
 	hud.wardrobe_pressed.connect(_open_wardrobe)
 	hud.packs_pressed.connect(_open_packs)
 	EventBus.quest_notice.connect(_on_quest_notice)
+	EventBus.flag_set.connect(_on_flag_set)
 	hp_bar = ZoneHpBar.new()
 	hp_bar.position = Vector2(790, 24)
 	host.add_child(hp_bar)
@@ -1721,6 +1722,7 @@ func _show_wake_dialogue(fee_override: int) -> void:
 ## the HUD's HP line fresh, then the result's toast or wake-up as after a rebuild.
 func resume_after_battle() -> void:
 	SceneManager.pause_allowed = true
+	sync_world_flags()
 	var run: ZoneRun = Session.zone_run
 	if run != null and run.has_return_position and player != null:
 		player.position = run.return_position
@@ -1742,6 +1744,17 @@ func resume_after_battle() -> void:
 	if run != null:
 		EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	_apply_pending_result.call_deferred()
+
+
+## Fix pass Nov 4 (Part 1.6): puts the world in line with the story flags - a beaten blocker steps aside (`BossBlockers`). Runs on the
+## return to a parked scene and whenever a flag is set while the scene is shown; zones with blockers override it.
+func sync_world_flags() -> void:
+	pass
+
+
+func _on_flag_set(_name: StringName) -> void:
+	if is_inside_tree():
+		sync_world_flags()
 
 
 ## The area's ambience after a battle (the battle's song hands the area track back itself); the Capital picks per district.

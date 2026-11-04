@@ -53,6 +53,11 @@ func act() -> void:
 			if confirm == null:
 				confirm = driver.find_button("No Blocks")
 			await driver.click(driver.button_center(confirm))
+		BattleScreen.Mode.PEEK:
+			# Fix pass Nov 4: keep every peeked card on top, in the order shown.
+			for i: int in range(screen.peek_panel.cards.size()):
+				await driver.click_button("Top")
+			await driver.click_button("Done")
 		BattleScreen.Mode.TOSS:
 			for card: CardInstance in game.players[0].hand.slice(0, game.pending_toss):
 				await driver.click(_view_center(card.uid))

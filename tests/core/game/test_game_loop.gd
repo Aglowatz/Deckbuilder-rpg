@@ -256,14 +256,14 @@ func test_infrastructure_ready_at_start_of_turn() -> void:
 	assert_false(infrastructure_card.exhausted)
 
 
-func test_cast_unit_pays_generic_energy_and_enters_summoning_sick() -> void:
+func test_cast_unit_pays_generic_energy_and_enters_fresh_stitches() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 3)
 	var bear: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2))
 	assert_true(game.play_card(0, bear.uid))
 	assert_eq(game.players[0].ready_infrastructure().size(), 1)
 	assert_eq(game.players[0].field.size(), 1)
-	assert_true(bear.summoning_sick)
+	assert_true(bear.fresh_stitches)
 	assert_eq(game.players[0].hand.size(), 0)
 
 
@@ -345,16 +345,16 @@ func test_cast_emits_events() -> void:
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.PERMANENT_ENTERED), 1)
 
 
-func test_units_lose_summoning_sickness_next_own_turn() -> void:
+func test_units_lose_fresh_stitchesness_next_own_turn() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	game.play_card(0, card.uid)
-	assert_true(card.summoning_sick)
+	assert_true(card.fresh_stitches)
 	GameFactory.pass_turn(game)
-	assert_true(card.summoning_sick, "still sick during the opponent's turn")
+	assert_true(card.fresh_stitches, "still sick during the opponent's turn")
 	GameFactory.pass_turn(game)
-	assert_false(card.summoning_sick)
+	assert_false(card.fresh_stitches)
 
 
 func test_spell_goes_to_graveyard_and_trap_is_set_face_down() -> void:

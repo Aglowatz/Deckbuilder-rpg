@@ -9,7 +9,7 @@ extends RefCounted
 ## | Zone | Buff | Debuff |
 ## | Gainlands | Pump It Up: Beefcake units +1 attack | Processing Time: the first Necrocrat unit costing 3+ each turn enters exhausted (Oct 21) |
 ## | D.N.A. | Approved Procedure: Necrocrat units +1 defense | Unauthorized Activity: Beefcake cards cost 1 more |
-## | Endless Buffet | Well Fed: Gourmand units +1/+1 | Dress Code Violation: Refusemancer units -1 attack |
+## | Endless Buffet | Well Fed: Gourmand units +0/+1 (Nov 4; was +1/+1) | Dress Code Violation: Refusemancer units -1 attack |
 ## | Verdant Dump | Overgrowth: Refusemancer units +2 defense | Spoilage: Gourmand units -1 defense |
 ##
 ## Names and flavor text live in each zone's story file (`effect.buff.name`, `effect.buff.flavor`,
@@ -144,7 +144,7 @@ static func _build(zone_id: String) -> Effect:
 			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 0, 1, "Approved Procedure")
 			effect.debuff = _mod(Modifier.Kind.COST_CHANGE, effect.rival, 1, 0, "Unauthorized Activity")
 		BuffetZone.ID:
-			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 1, 1, "Well Fed")
+			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 0, 1, "Well Fed")  # Fix pass Nov 4 (Part 1.4): +0/+1 (was +1/+1)
 			effect.debuff = _mod(Modifier.Kind.STAT_CHANGE, effect.rival, -1, 0, "Dress Code Violation")
 		HeapZone.ID:
 			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 0, 2, "Overgrowth")

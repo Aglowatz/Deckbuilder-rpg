@@ -253,7 +253,7 @@ func test_second_hand_life_and_permission_to_die_denied() -> void:
 	var unit2: CardInstance = _field(game2, 0, "C-03")
 	game2.destroy_unit(unit2)
 	assert_true(game2.players[0].field.has(unit2), "Reinstated at once")
-	assert_true(unit2.summoning_sick)
+	assert_true(unit2.fresh_stitches)
 
 
 func test_trap_limit_is_three() -> void:
@@ -389,7 +389,7 @@ func test_reinstate_puts_a_unit_from_your_refuse_pile_onto_the_field() -> void:
 	_play(game, "N-07", [dead.uid] as Array[int])
 	assert_true(game.players[0].field.has(dead))
 	assert_false(game.players[0].refuse_pile.has(dead))
-	assert_true(dead.summoning_sick, "it enters like any unit")
+	assert_true(dead.fresh_stitches, "it enters like any unit")
 	var too_big: CardInstance = _bury(game, 0, "C-09")
 	var worker: CardInstance = GameFactory.add_to_hand(game, 0, CardSet.card("N-07"))
 	assert_true(game.legal_play_targets(0, worker.uid, 0).has(dead.uid) == false, "already on the field")
@@ -483,7 +483,7 @@ func test_reclamation_order_takes_the_attacker_next_turn() -> void:
 	var attacker: CardInstance = _unit(game, 1, 3, 3)
 	var real: CardInstance = game.create_instance(CardSet.card("C-09"), 1)
 	game.players[1].field.append(real)
-	real.summoning_sick = false
+	real.fresh_stitches = false
 	game.players[1].field.erase(attacker)
 	_opponent_attacks_with(game, real)
 	assert_false(game.players[1].field.has(real), "destroyed when it attacked")
@@ -502,7 +502,7 @@ func test_unconscionable_contract_steals_a_unit_for_good() -> void:
 	assert_true(game.players[0].field.has(prize))
 	assert_eq(prize.owner, 0)
 	assert_eq(_count(game, 0, KIND.CONTRACT), 3)
-	assert_true(prize.summoning_sick)
+	assert_true(prize.fresh_stitches)
 	_until_turn_of(game, 1)
 	assert_true(game.players[0].field.has(prize), "permanent")
 

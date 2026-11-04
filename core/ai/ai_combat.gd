@@ -10,6 +10,10 @@ extends RefCounted
 const WASTED_PUMP_PENALTY: float = 1.5
 ## Score taken off a block in which the blocker dies without killing the attacker, when no block would not have been lethal.
 const CHUMP_RELUCTANCE: float = 1.0
+## Fix pass Nov 4 (Part 1.5): candidates always scored, whatever the wall clock says. In the live game the attack search has a time
+## budget (half the personality's); on a slow machine it used to stop after the first candidate - "no attack" - so a boss with a
+## clearly winning swing held back. The first candidates are now the attacking ones, and "no attack" is always among these.
+const MIN_LIVE_CANDIDATES: int = 5
 
 ## Prints every candidate and its score (tools/ai_probe.gd).
 var debug: bool = false
@@ -44,7 +48,7 @@ func choose_attackers(state: GameState, who: int, budget: AISearchBudget, max_ca
 	var best_score: float = -INF
 	last_ranked = []
 	for candidate: Array[int] in candidates:
-		if not budget.tick() and best_score > -INF:
+		if not budget.tick() and best_score > -INF and last_ranked.size() >= MIN_LIVE_CANDIDATES:
 			break
 		var trial: GameState = state.clone(false, 1 - who)
 		if candidate.is_empty():
@@ -88,7 +92,9 @@ func choose_attackers(state: GameState, who: int, budget: AISearchBudget, max_ca
 ## Representative attacker sets: none, everyone, each alone, everyone but one, the evasive units, the "safe" units (no ready foe
 ## blocker can kill them), the units no blocker stops profitably, power prefixes, and the plan's hint. Deduplicated, capped.
 func attack_candidates(state: GameState, who: int, available: Array[CardInstance], hint: Array[int], cap: int) -> Array[Array]:
-	var options: Array[Array] = [[] as Array[int]]
+	# Fix pass Nov 4: the attacking sets come first and "no attack" fifth (see MIN_LIVE_CANDIDATES), so a search cut short by the clock
+	# has weighed a real attack against holding back.
+	var options: Array[Array] = []
 	var everyone: Array[int] = []
 	for card: CardInstance in available:
 		everyone.append(card.uid)
@@ -123,8 +129,9 @@ func attack_candidates(state: GameState, who: int, available: Array[CardInstance
 		if _no_profitable_block(state, card, ready_blockers):
 			profitable.append(card.uid)
 	options.append(safe)
-	options.append(evasive)
 	options.append(profitable)
+	options.append(evasive)
+	options.insert(mini(options.size(), MIN_LIVE_CANDIDATES - 1), [] as Array[int])
 	var by_power: Array[CardInstance] = available.duplicate()
 	by_power.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_attack(a) > state.get_attack(b))
 	for count: int in range(1, by_power.size()):
@@ -179,7 +186,8 @@ func _model_blocks(state: GameState, defender: int, budget: AISearchBudget) -> D
 	var modeller: AICombat = AICombat.new(_model)
 	var own: AISearchBudget = AISearchBudget.new()
 	own.max_nodes = 16
-	own.deadline_usec = budget.deadline_usec
+	# Fix pass Nov 4: node-limited only - a clock-starved model predicted no blocks at all and made every swing look free.
+	own.deadline_usec = 0
 	return modeller.choose_blocks(state, defender, own, 12)
 
 
@@ -213,13 +221,16 @@ func choose_blocks(state: GameState, who: int, budget: AISearchBudget, enumerati
 	var best_score: float = -INF
 	var seen: Dictionary = {}
 	var no_block_lethal: bool = false
+	var scored: int = 0
 	for candidate: Dictionary in candidates:
 		var key: String = str(candidate)
 		if seen.has(key):
 			continue
 		seen[key] = true
-		if not budget.tick() and best_score > -INF:
+		# Fix pass Nov 4: as for attacks, the first few (no block, the value blocks, the life-saving chumps) are always weighed.
+		if not budget.tick() and best_score > -INF and scored >= MIN_LIVE_CANDIDATES:
 			break
+		scored += 1
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.declare_blockers(candidate):
 			continue

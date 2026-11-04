@@ -398,6 +398,20 @@ func _open_gate(gate: BuffetGates.Gate) -> void:
 	Session.save_game()
 
 
+## Fix pass Nov 4 (Part 1.6): a gate whose flag is set while the scene is alive (the Colonel beaten - by a normal or a dev win - and the
+## parked scene back) opens now: the golem steps aside.
+func sync_world_flags() -> void:
+	for gate: BuffetGates.Gate in BuffetGates.gates():
+		if not Session.flag(gate.flag) or buf.is_gate_open(gate.id):
+			continue
+		buf.open_gate(gate.id)
+		var golem: Node3D = buf.gate_nodes.get(gate.id) as Node3D
+		if golem != null:
+			var tween: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tween.tween_property(golem, "position", buf.gate_open_position(gate.id), 1.3)
+			create_tween().tween_property(golem, "rotation:y", 0.0, 1.0)
+
+
 ## Gates opened on an earlier visit (or by winning the battle) start the visit open.
 func _restore_gates() -> void:
 	if Session.zone_run.is_defeated(BuffetGates.INSTANCE_BATTLE) and not Session.flag(BuffetZone.FLAG_GATE_BATTLE):

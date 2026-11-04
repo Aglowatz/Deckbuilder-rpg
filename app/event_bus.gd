@@ -20,6 +20,8 @@ signal packs_changed
 signal cosmetics_changed
 ## Quest log changed (started, progressed, completed) - the HUD tracker redraws.
 signal quest_changed
+## Fix pass Nov 4: a story flag was set (`GameSession.set_flag`) - scenes move world blockers from flags (`BossBlockers`).
+signal flag_set(name: StringName)
 ## A quest toast: text, and true when it is a "new quest" (false = completed).
 signal quest_notice(text: String, is_new: bool)
 ## Fixes Oct 25, Part 7: a quest started ("start"), a step was done ("step") or a quest finished ("complete") - the quest update banner

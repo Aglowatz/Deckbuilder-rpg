@@ -338,6 +338,7 @@ func set_flag(name: StringName, value: bool = true) -> void:
 	sync_story_tokens()
 	refresh_quests()
 	check_feats()
+	EventBus.flag_set.emit(name)
 
 
 ## Keeps `PlayerProfile.zones_freed` equal to the number of freed zones (it decides how many Paths a deck may use).
@@ -3081,6 +3082,10 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 	zone_run.finish_battle(context.game)
 	if context.won:
 		zone_run.mark_defeated(context.zone_enemy_id)
+		# Fix pass Nov 4 (Part 1.6): a foe that blocks the way sets its flag now; the scene moves it aside from the flag.
+		var blocker_flag: StringName = BossBlockers.flag_for(zone_run.zone_id, str(context.zone_enemy_id))
+		if blocker_flag != &"" and not flag(blocker_flag):
+			set_flag(blocker_flag)
 		# Overnight Nov 3-4, Part B9: a spot beaten before pays the repeat rate (grinding buys cards at a reasonable pace)
 		var won_key: String = "roamer_won:%s:%s" % [zone_run.zone_id, str(context.zone_enemy_id)]
 		var gold: int = Economy.fight_gold(context.gold_reward, counter(won_key) > 0)

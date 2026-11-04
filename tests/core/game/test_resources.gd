@@ -398,12 +398,12 @@ func test_the_ai_never_wastes_iron_after_combat_or_on_a_unit_that_cannot_attack(
 	game.active = 0
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	var sick: CardInstance = _unit(game, 0, 2, 3)
-	sick.summoning_sick = true
+	sick.fresh_stitches = true
 	_give(game, 0, KIND.IRON, 2)
 	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
 	var action: GameAction = ai.choose_action(game)
 	assert_ne(action.type, GameAction.Type.USE_RESOURCE, "no Iron on a unit that cannot attack this turn")
-	sick.summoning_sick = false
+	sick.fresh_stitches = false
 	game.advance_phase()
 	game.advance_phase()
 	assert_eq(game.phase, GameState.Phase.MAIN2)

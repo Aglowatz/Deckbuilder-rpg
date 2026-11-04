@@ -1300,7 +1300,7 @@ func _set_stats(attack: int, defense: int, damage: int) -> void:
 	_attack_label.add_theme_color_override("font_color", color)
 
 
-## Refreshes attack/defense/damage/exhausted/summoning-sick from the rules engine.
+## Refreshes attack/defense/damage/exhausted/Fresh Stitches from the rules engine.
 func apply_instance(instance: CardInstance, game: GameState) -> void:
 	_last_instance = instance
 	_last_game = game
@@ -1313,7 +1313,7 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 		_damage_label.visible = instance.damage > 0
 		_damage_label.text = "-%d" % instance.damage
 	if _badge_sick != null:
-		_badge_sick.visible = instance.summoning_sick and data.is_unit() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HUSTLE)
+		_badge_sick.visible = instance.fresh_stitches and data.is_unit() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HUSTLE)
 	if _tint_overlay != null:
 		_tint_overlay.color = Color(0.05, 0.05, 0.12, 0.45) if instance.exhausted else Color(0, 0, 0, 0)
 	if _exhaust_icon != null:

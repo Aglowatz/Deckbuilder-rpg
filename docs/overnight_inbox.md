@@ -4,6 +4,24 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fix pass Nov 4 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fixes_nov4.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov4`.
+
+1. **Colonel Casserole's hidden +1 attack is gone.** His units got +2/+1 because the fight had TWO rules both named "Field Rations": the
+   starting Sashimi Weenie and "+1 attack, Well fed". The badge row merges same-named rules into one badge, so only the Weenie text showed
+   while the +1 attack stacked on the zone's +1/+1. I removed the +1 attack (with Well Fed now +0/+1 his Gourmand units are +0/+1, like
+   yours). If you want the Colonel tougher again, give him a separately named rule (e.g. "Mess Hall Seconds: +1 attack").
+2. **Pre-placed units: enemy only.** Every unit that starts a duel on the table and would have Fresh Stitches keeps them through its side's
+   first turn. Units a setup made ready on purpose stay ready (Flex in the House of Gains, Elowen in the Lab - both fight beside you), and
+   the Arena's preset boards keep YOUR preset units ready (they are puzzle positions); the enemy's preset units get Fresh Stitches.
+3. **Well Fed stays zone-wide** (both seats, as all zone effects): your Gourmand units get +0/+1 in the Buffet too.
+4. **The AI fix changes sim numbers slightly.** The attack (and block) search now always weighs at least 5 candidates and tries the
+   attacking sets before "no attack". Balance sims are deterministic per seed but may move a few points.
+5. **Peek panel.** Shows all N cards together (Peek 1 is the same panel with one card); Top / Bottom per card, the first card sent Top is
+   drawn next, Reset and Done. A Peek on the opponent's turn (none of the current cards does that) and every AI Peek still resolve by
+   themselves.
+
 ## Overnight Nov 3-4 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/overnight_nov3.md`. Report: `docs/overnight_report.md`. Tag `pre-overnight-nov3`.

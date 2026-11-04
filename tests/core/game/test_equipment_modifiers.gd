@@ -167,7 +167,7 @@ func test_cannot_block_modifier_unit_can_never_be_declared_as_blocker() -> void:
 	assert_true(grounded.cannot_block)
 	assert_false(CombatResolver.possible_blockers(game, 1).has(grounded), "cannot appear as a possible blocker at all")
 	GameFactory.pass_turn(game) # back to P0's turn, so P0 can attack
-	attacker.summoning_sick = false
+	attacker.fresh_stitches = false
 	game.advance_phase() # MAIN1 -> COMBAT
 	assert_true(game.declare_attackers([attacker.uid]))
 	assert_false(game.declare_blockers({attacker.uid: grounded.uid}), "cannot be assigned as a blocker either")

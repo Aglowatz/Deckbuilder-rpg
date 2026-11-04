@@ -10,7 +10,7 @@ const TABS: Array[String] = ["Keywords", "Resources", "Statuses", "Card types", 
 
 const STATUSES: Array[Array] = [
 	["Exhausted", "Spent for this turn: it attacked, used an ability or entered exhausted. It can't attack or block until it refreshes at the start of its controller's turn. Some effects make it skip one refresh."],
-	["Summoning sickness", "A unit that just entered can't attack until your next turn, unless it has Hustle. It can still block."],
+	["Fresh Stitches", "Can't attack the turn it enters play. It can still block, and units with Hustle ignore it."],
 	["Red Tape (-2/-0)", "A Necrocrat Resource used on a unit: -2 attack until the start of its user's next turn, so it stays shrunk through the other side's turn. Hover the unit to see how long is left."],
 	["Until end of turn", "A pump that fades when the turn ends, like Iron's +1/+1."],
 	["Buff", "+1/+1 for good, for as long as the unit stays on the field. Several buffs stack."],

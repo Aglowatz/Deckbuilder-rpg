@@ -65,8 +65,8 @@ resource") never include Contracts; effects that say "token" (Waste Manager "use
 
 Card types: **Unit, Spell, Trap, Tool, Wonder, Infrastructure**; Resources and Tokens are token permanents (`Resource`, `Token`).
 
-- **Unit** - enters the field with summoning sickness (Hustle: can attack and activate at once). Units with an `Exhaust` ability
-  cannot use it while summoning sick unless they have Hustle.
+- **Unit** - enters the field with Fresh Stitches (Hustle: can attack and activate at once). Units with an `Exhaust` ability
+  cannot use it while it has Fresh Stitches unless they have Hustle.
 - **Spell** - played on your turn, resolves, goes to your Refuse Pile.
 - **Trap** - played face-down on your turn (max 3 set); springs on whichever turn its condition is met, resolves, goes to the Refuse Pile.
 - **Tool** - a permanent. "Exhaust: attach to target unit you control" (your turn; it may be moved to another unit later) gives the
@@ -108,7 +108,7 @@ Several traps/triggers on one event are all judged against the event as it happe
 Start (ready, draw; the first player skips their first draw) → Main 1 → Combat → Main 2 → End.
 
 - One infrastructure may be played per turn.
-- Units have summoning sickness.
+- Units have Fresh Stitches.
 - Damage on units clears at end of turn.
 
 ## Combat

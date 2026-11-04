@@ -8,8 +8,8 @@ At start: C: 1.6 GB free; the Godot editor (title.tscn) is open (left running - 
 
 | Part | What | State |
 |---|---|---|
-| 1 | Battle rules (Peek, Fresh Stitches, pre-placed units, Buffet buff, Casserole AI, boss flags) | in progress |
-| 2 | Economy (card + equipment prices, gold study) | todo |
+| 1 | Battle rules (Peek, Fresh Stitches, pre-placed units, Buffet buff, Casserole AI, boss flags) | done: Peek panel + PEEK action, rename, placed_before_duel, Well Fed +0/+1 (Casserole hidden +1 atk removed), AI min 5 candidates, BossBlockers + sync_world_flags |
+| 2 | Economy (card + equipment prices, gold study) | in progress |
 | 3 | UI + shops (level-up popup, Character icons, Pip, white arches) | todo |
 | 4 | World (townsfolk, chests x1.25, Buffet footsteps, Buffet stairs) | todo |
 | Finish | GUT, critic, report, export 0.5.4, smoke, push | todo |

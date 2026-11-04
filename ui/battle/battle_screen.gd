@@ -6,7 +6,7 @@ extends Control
 
 signal finished(won: bool)
 
-enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, TOSS, MULLIGAN, OVER }
+enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, TOSS, MULLIGAN, OVER, PEEK }
 
 const DRAG_START_DISTANCE: float = 16.0
 const PLAY_LINE_Y: float = 720.0
@@ -38,6 +38,8 @@ var _fast_end_turn: bool = false
 var _screenshot_args: Dictionary = {}
 var _overlay_layer: Control
 var _mulligan_panel: Control
+## Fix pass Nov 4: the open Peek choice (null when none).
+var peek_panel: PeekPanel
 var _result_panel: Control
 ## Fable pass Nov 1 (Part 7): the result shows once (two paths used to reach it after a boss).
 var _result_shown: bool = false
@@ -303,6 +305,8 @@ func _ready() -> void:
 	Audio.sfx(&"battle_start")
 	game = context.game
 	ai = context.ai
+	# Fix pass Nov 4 (Part 1.1): your Peeks wait for your Top/Bottom choice (a bot playing your seat answers them itself).
+	game.interactive_peek[0] = true
 	_build_scene()
 	_screenshot_give(str(_screenshot_args.get("give", "")))
 	_screenshot_hover(str(_screenshot_args.get("hover", "")))
@@ -522,6 +526,10 @@ func _drive() -> void:
 		if human_bot != null and _bot_active():
 			mode = Mode.WAITING
 			_refresh_ui()
+			if not game.peek_requests.is_empty():
+				var auto: Array = game.auto_peek_choice()
+				game.apply_action(GameAction.peek(0, auto[0], auto[1]))
+				continue
 			await _bot_step()
 			continue
 		if _auto_pass_if_pointless():
@@ -582,7 +590,7 @@ func _bot_step() -> void:
 
 ## Skips decisions that have no choices (no possible attackers, no possible blockers).
 func _auto_pass_if_pointless() -> bool:
-	if game.stage != GameState.Stage.PLAYING or game.pending_toss > 0:
+	if game.stage != GameState.Stage.PLAYING or game.pending_toss > 0 or not game.peek_requests.is_empty():
 		return false
 	if game.phase != GameState.Phase.COMBAT:
 		if _fast_end_turn and game.active == 0 and game.phase != GameState.Phase.END:
@@ -666,6 +674,10 @@ func _enter_human_mode() -> void:
 	if game.stage == GameState.Stage.MULLIGAN:
 		mode = Mode.MULLIGAN
 		_show_mulligan()
+	elif not game.peek_requests.is_empty():
+		mode = Mode.PEEK
+		_fast_end_turn = false
+		_show_peek()
 	elif game.pending_toss > 0:
 		mode = Mode.TOSS
 		_fast_end_turn = false
@@ -751,6 +763,10 @@ func _refresh_ui() -> void:
 			primary = "..."
 			primary_enabled = false
 			prompt = "[b]Opening hand[/b]\nKeep it, or take your free mulligan."
+		Mode.PEEK:
+			primary = "..."
+			primary_enabled = false
+			prompt = "[b]Peek[/b]\nTop or Bottom for each card, then Done."
 		Mode.OVER:
 			primary = "..."
 			primary_enabled = false
@@ -866,7 +882,7 @@ func _hover_note(view: CardView) -> String:
 	if bool(view.get_meta("trap_peek", false)):
 		return "Set face down - only you can read it."
 	var card: CardInstance = game.players[0].find_hand(view.instance_uid)
-	if card == null or mode == Mode.MULLIGAN or mode == Mode.TOSS or mode == Mode.OVER:
+	if card == null or mode == Mode.MULLIGAN or mode == Mode.TOSS or mode == Mode.OVER or mode == Mode.PEEK:
 		return ""
 	if game.active != 0:
 		return "Not your turn"
@@ -2002,7 +2018,9 @@ func _on_attack_all() -> void:
 func _toggle_attacker(uid: int) -> void:
 	var available: Array[CardInstance] = game.possible_attackers(0)
 	if PlayerState.find_in(available, uid) == null:
-		_reject("That unit cannot attack")
+		var unit: CardInstance = game.find_permanent(uid)
+		var fresh: bool = unit != null and unit.fresh_stitches and not unit.exhausted and not unit.has_keyword(CardEnums.Keyword.HUSTLE)
+		_reject(KeywordInfo.FRESH_STITCHES_REMINDER if fresh else "That unit cannot attack")
 		return
 	if _selected_attackers.has(uid):
 		_selected_attackers.erase(uid)
@@ -2098,6 +2116,22 @@ func _show_mulligan() -> void:
 	row.add_child(redraw)
 	UIKit.pop_in(panel)
 	PadFocus.register(center)
+
+
+func _show_peek() -> void:
+	if peek_panel != null:
+		peek_panel.queue_free()
+	peek_panel = PeekPanel.make(game.peek_cards())
+	peek_panel.lift = 125.0  # clear of the infrastructure row and the hand
+	peek_panel.chosen.connect(_peek_choice)
+	_overlay_layer.add_child(peek_panel)
+
+
+func _peek_choice(top_uids: Array[int], bottom_uids: Array[int]) -> void:
+	if peek_panel != null:
+		peek_panel.queue_free()
+		peek_panel = null
+	_submit(GameAction.peek(0, top_uids, bottom_uids))
 
 
 func _mulligan_choice(keep: bool) -> void:
