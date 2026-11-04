@@ -1,0 +1,28 @@
+# Fix pass Nov 4 (B), Part 2.5: the natural zone edges - the Crosspath gorge (CliffSkirt walls) and the Verdant Dump's ledged valley walls.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev goto portal_beefcake
+wait 1
+scene
+hold S 1.6
+wait 1
+shot 00_gorge_from_town
+hold W 2.4
+wait 1
+shot 01_gorge_close
+dev travel zone refusemancer
+wait 12
+skip_dialogue 20
+scene
+shot 02_dump_arrival
+dev goto mini_dungeon
+wait 1.5
+shot 03_dump_rim
+dev goto main_dungeon
+wait 1.5
+shot 04_dump_north

@@ -6,7 +6,8 @@ func test_every_zone_preset_has_a_recipe() -> void:
 	for id: StringName in [StylePresets.TOWN, StylePresets.START, StylePresets.DNA, StylePresets.GAINLANDS, StylePresets.BUFFET, StylePresets.HEAP, StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_OUTSKIRTS]:
 		var recipe: Dictionary = ZoneDressing.recipe(id)
 		# the Capital's outside keeps only dry grass (the Capital pass: its wreckage stands in composed clusters, never scattered)
-		assert_gt((recipe["items"] as Array).size(), 0 if id == StylePresets.CAPITAL_OUTSKIRTS else 2, "%s has items" % id)
+		# Fix pass Nov 4 (B): the Gainlands keeps only its two loose stones (its grass clumps read as tan cones)
+		assert_gt((recipe["items"] as Array).size(), 0 if id == StylePresets.CAPITAL_OUTSKIRTS else (1 if id == StylePresets.GAINLANDS else 2), "%s has items" % id)
 		assert_false((recipe["patches"] as Array).is_empty(), "%s has ground patches" % id)
 
 

@@ -399,6 +399,9 @@ func _dev(parts: PackedStringArray) -> void:
 			# Batch 11 (Nov 2): `dev goto <spot id>` stands the hero on a talk / use spot of the current zone or town (then `key E` uses it), the
 			# walk smokes' shortcut for long legs; the camera follows at once.
 			result = _goto_spot(arg)
+		"tp":
+			# Fix pass Nov 4 (B): `dev tp <x> <z>` stands the hero at a world position (ground height from the map), camera following - for edge shots
+			result = _teleport(arg, arg2)
 		"secret":
 			# Batch 11: `dev secret harbor_chest` - a found secret (the Secret Dealer's alley opens on the next town load)
 			Session.discover_secret(arg)
@@ -429,6 +432,24 @@ func _goto_spot(id: String) -> String:
 			camera.position = player.position + CameraRig.shape(scene.get("camera_offset") as Vector3)
 		return "goto %s at %s" % [id, str(player.position)]
 	return "goto: no spot %s here" % id
+
+
+func _teleport(x_text: String, z_text: String) -> String:
+	var scene: Node = get_tree().current_scene
+	if scene == null or not ("player" in scene):
+		return "tp: no hero here"
+	var x: float = float(x_text)
+	var z: float = float(z_text)
+	var player: Node3D = scene.get("player") as Node3D
+	var map: Variant = scene.get("builder") if "builder" in scene else null
+	var y: float = player.position.y
+	if map != null and (map as Object).has_method("height_at"):
+		y = float((map as Object).call("height_at", Vector3(x, 0.0, z)))
+	player.position = Vector3(x, y, z)
+	var camera: Camera3D = scene.get("_camera") as Camera3D
+	if camera != null:
+		camera.position = player.position + CameraRig.shape(scene.get("camera_offset") as Vector3)
+	return "tp to %s" % str(player.position)
 
 
 func _say(text: String) -> void:

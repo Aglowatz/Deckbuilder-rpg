@@ -32,6 +32,9 @@ const GORGE_FROM: float = 3.0
 const GORGE_WIDTH: float = 7.2
 const GORGE_LENGTH: float = 90.0
 const GORGE_DEPTH: float = 9.0
+## The gorge walls' strata (CliffSkirt): the town's grey-brown field stone.
+const GORGE_ROCK_LIGHT: Color = Color(0.74, 0.68, 0.6)
+const GORGE_ROCK_DARK: Color = Color(0.47, 0.42, 0.38)
 
 var town: TownBuilder
 var ground_material: ShaderMaterial
@@ -365,42 +368,20 @@ func _build_gorge() -> void:
 	var out: Vector3 = road["out"] as Vector3
 	var right: Vector3 = road["right"] as Vector3
 	var c: Vector3 = (road["mouth"] as Vector3) + out * (GORGE_FROM + GORGE_WIDTH * 0.5)
-	var rock: StandardMaterial3D = StandardMaterial3D.new()
-	rock.albedo_texture = load("res://assets/art/textures/mat_rock_albedo.webp") as Texture2D
-	rock.uv1_scale = Vector3(GORGE_LENGTH / 3.5, GORGE_DEPTH / 3.5, 1.0)
-	rock.albedo_color = Color(0.78, 0.72, 0.66)
-	rock.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var root: Node3D = Node3D.new()
 	root.name = "Gorge"
 	add_child(root)
+	# Fix pass Nov 4 (B), Part 2.5: the walls are the Gainlands' layered, ragged cliff (CliffSkirt) in the town's rock colours, not two flat quads:
+	# a lip, an upper face, a ledge and a talus leaning into the cleft, darkening towards the bottom.
+	var out2: Vector2 = Vector2(out.x, out.z)
+	var right2: Vector2 = Vector2(right.x, right.z)
 	for side: float in [-1.0, 1.0]:
-		var wall: MeshInstance3D = MeshInstance3D.new()
-		var quad: QuadMesh = QuadMesh.new()
-		quad.size = Vector2(GORGE_LENGTH, GORGE_DEPTH)
-		wall.mesh = quad
-		wall.material_override = rock
-		var basis: Basis = Basis(right, Vector3.UP, out * side)
-		wall.transform = Transform3D(basis, c + out * side * GORGE_WIDTH * 0.5 + Vector3(0.0, GROUND_Y - GORGE_DEPTH * 0.5, 0.0))
-		wall.set_meta(&"no_occlusion_fade", true)
+		var lip: Vector3 = c + out * side * GORGE_WIDTH * 0.5
+		var line: PackedVector2Array = PackedVector2Array([Vector2(lip.x, lip.z) - right2 * GORGE_LENGTH * 0.5, Vector2(lip.x, lip.z) + right2 * GORGE_LENGTH * 0.5])
+		var left_normal: Vector2 = Vector2(-right2.y, right2.x)
+		var face_side: float = signf(left_normal.dot(-out2 * side))
+		var wall: MeshInstance3D = CliffSkirt.wall(line, GROUND_Y, GROUND_Y - GORGE_DEPTH, face_side, "GorgeWall%d" % (0 if side < 0.0 else 1), GORGE_ROCK_LIGHT, GORGE_ROCK_DARK)
 		root.add_child(wall)
-		# Shadow deepening down the wall: a gradient from clear at the lip to near black at the bottom, just in front of the rock.
-		var shade: MeshInstance3D = MeshInstance3D.new()
-		shade.mesh = quad
-		var gradient: GradientTexture2D = GradientTexture2D.new()
-		gradient.gradient = Gradient.new()
-		gradient.gradient.set_color(0, Color(0.05, 0.05, 0.08, 0.0))
-		gradient.gradient.set_color(1, Color(0.04, 0.04, 0.07, 0.92))
-		gradient.fill_from = Vector2(0.5, 0.0)
-		gradient.fill_to = Vector2(0.5, 1.0)
-		var shade_material: StandardMaterial3D = StandardMaterial3D.new()
-		shade_material.albedo_texture = gradient
-		shade_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		shade_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		shade_material.cull_mode = BaseMaterial3D.CULL_DISABLED
-		shade.material_override = shade_material
-		shade.transform = Transform3D(basis, c + out * side * (GORGE_WIDTH * 0.5 - 0.04) + Vector3(0.0, GROUND_Y - GORGE_DEPTH * 0.5, 0.0))
-		shade.set_meta(&"no_occlusion_fade", true)
-		root.add_child(shade)
 	var floor_mesh: MeshInstance3D = MeshInstance3D.new()
 	var plane: PlaneMesh = PlaneMesh.new()
 	plane.size = Vector2(GORGE_WIDTH, GORGE_LENGTH)

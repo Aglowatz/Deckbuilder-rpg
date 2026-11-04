@@ -1,0 +1,17 @@
+# Fix pass Nov 4 (B), Part 2.5: the Crosspath gorge walls (CliffSkirt) beside the Gainlands road.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev tp 25 74
+wait 1.5
+shot 00_gorge_a
+dev tp 25 84
+wait 1.5
+shot 01_gorge_b
+dev tp 12 86
+wait 1.5
+shot 02_gorge_c

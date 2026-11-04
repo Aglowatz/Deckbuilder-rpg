@@ -554,6 +554,13 @@ func _plain_height(x: float, z: float) -> float:
 	return height + _hills(x, z) * feature
 
 
+## Fix pass Nov 4 (B), Part 2.5: the valley's walls rise like the Gainlands' cliffs - three courses with two ledges between them (6.5 m in all), their
+## lines ragged along the rim (the distance is jittered), so the edge reads as layered rock instead of one smooth ramp. `out` = metres past the rim.
+static func wall_rise(x: float, z: float, out: float) -> float:
+	var d: float = out + (sin(x * 0.37 + z * 0.11) * 0.5 + sin(x * 0.13 - z * 0.41 + 1.7) * 0.4)
+	return 2.6 * smoothstep(0.0, 1.3, d) + 2.2 * smoothstep(2.4, 3.4, d) + 1.7 * smoothstep(4.4, 5.4, d)
+
+
 func ground_height(x: float, z: float) -> float:
 	var edge: float = edge_distance(x, z)
 	if edge < 0.0:
@@ -566,7 +573,7 @@ func ground_height(x: float, z: float) -> float:
 		# plateau's level, so the tree and its roots stand where the root gate is)
 		var inner: Vector2 = Vector2(clampf(x, MIN_CORNER.x + 0.5, MAX_CORNER.x - 0.5), clampf(z, MIN_CORNER.y + 0.5, MAX_CORNER.y - 0.5))
 		var mound: float = 1.0 - smoothstep(30.0, 40.0, absf(x - ROTHEART.x)) if z < MIN_CORNER.y else 0.0
-		return tier_height(tier_at(inner.x, inner.y)) + (smoothstep(0.0, 6.0, -edge) * 6.5 + (-edge) * 0.08) * (1.0 - mound)
+		return tier_height(tier_at(inner.x, inner.y)) + (wall_rise(x, z, -edge) + (-edge) * 0.08) * (1.0 - mound)
 	var ramp: Ramp = ramp_at(x, z)
 	if ramp != null:
 		return ramp.height_at(z)
