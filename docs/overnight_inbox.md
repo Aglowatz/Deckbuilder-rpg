@@ -4,6 +4,45 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 3-4 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/overnight_nov3.md`. Report: `docs/overnight_report.md`. Tag `pre-overnight-nov3`.
+
+1. **Field Bandage = Power Wraps.** The Field Bandage was renamed Power Wraps on Nov 2 (same item, `ContentSet.ITEM_RENAMES`). Tilly's free
+   tutorial item is the Power Wraps. Say if you want the old name back for this moment.
+2. **"Right after the first intro fight".** The first fight is the Forgotten Cave trial; the next quest is Meet the Merchants. Tilly's two
+   steps (say hello, equip the gift) now come FIRST in that quest (before Sable and Pip), so the item lesson follows the first fight directly.
+3. **Single-use items and the old saves.** Charges already owned are kept as they are (a 3-use Salve bought earlier = 3 charges). Every item
+   is `uses = 1` now and each purchase / reward adds one charge. Each equipped item still works once per battle (the old rule): with
+   single charges that rule only matters when you own several charges of one item. Drop it?
+4. **Prices are per charge now**, so items cost 2-3x what a use cost before (table in docs/design/items_nov4.md). Healing between fights is
+   pricier; the economy study (docs/balance/gold_economy_nov3.md) includes about 7 charges per playthrough.
+5. **Equipment unlock text** reads "Equipment unlocks after Some Assembly Required" (the real quest title - Bertram's armory quest).
+6. **Bertram's equip step**: "Collect your gear" now opens the five slots and hands over the Starter Blade WITHOUT wearing it; the quest's
+   new last step ("Equip your new blade") completes on any equip. Before tonight the blade was worn automatically.
+7. **Dungeon fog migration**: old saves keep no per-node record, so a dungeon the save already CLEARED counts as entered with every node
+   known; an unfinished run keeps its cleared nodes; everything else starts hidden. The main dungeon's entry prompt title reads "???" before
+   the first visit, but its body text (zone story file `ui.main.body`) still describes the place - rewrite those five bodies?
+8. **Hidden traits in the Collection Book**: a boss's never-seen moves read "Hidden trait ?" there too (same rule as the battle UI).
+9. **Townsfolk variety**: only the badger villager (VILLAGER) and the Capital citizen (CITIZEN) have walk cycles; the citizen stays Capital-
+   only (your Playtest v0.4.0 rule). Crosspath's strollers keep the badger in tinted coats, and four STANDING townsfolk were added from the
+   mole farm hand (DUMPWORKER) and the gym attendant (GYM_ATTENDANT) sets, tinted. Hats on NPC sprites were not used (the hat fit data is
+   the hero's only). A generic townsfolk portrait is on the art list (NPC-TOWNSFOLK: today they speak with the Capital citizen's face).
+10. **Card prices vs packs.** Cards are 300 / 600 / 1500 / 3000 now (about 20 bought cards in a no-grind run, docs/balance/gold_economy_nov3.md),
+    but packs were not repriced: a Path Pack (several cards) is still 150, a General Pack 100. Packs are now by far the cheapest cards.
+    Reprice packs (e.g. x5-x8) or keep them as the bargain? Not changed tonight.
+11. **The hero is never drawn in battle** (the player seat shows a pointy-hat icon), so neither hats nor cloaks can show there. The cloak dye
+    was fixed with the painted masks and checked in all directions in the world and the Wardrobe; the brief's "in battle" bar has nothing to
+    show. Show the hero's portrait / sprite on the player plate?
+12. **Repeat fights pay 2x** (a roamer spot beaten before). Grinding buys a Common in 2-4 fights in the Path zones; Crosspath's outskirts stay
+    poor (11 fights). Fine, or a different multiplier?
+13. **Critic's open UX points** (not fixed): a used item slot looks like an empty one; the boss pre-fight panel lists many rules (the
+    hidden trait is one line among them); Pip's tiles shift a little between states; Bertram's plate is cut off.
+14. **Export v0.5.3 not done**: the Godot editor was open and C: has 1.6 GB free (needs ~2.5 GB). Free space (the v0.5.2 zip, or old runs in
+    `_screenshots/`, 914 MB, git-ignored) - I did not delete anything.
+15. **The critic played from the main repo**, not a worktree (no disk for a second checkout); the repo was at HEAD and untouched meanwhile.
+
+
 ## Gainlands rock Nov 3 - yours to decide (the safest choice was taken)
 
 Report: `docs/audio/music_gainlands_rock_nov3.md`. Previews: `Music Review/Gainlands rock` (+ `sources/`, `README_listen_for.md`).
