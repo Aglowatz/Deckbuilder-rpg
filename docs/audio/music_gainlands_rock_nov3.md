@@ -56,4 +56,17 @@ The resolved motif appears only in FREED, RELEASE, CAP-BEEF-RESTORED and STG-ZON
 
 ## Part 4 - verify + build
 
-(filled in below)
+- Full sharded GUT: **2628/2630 passed, 0 failing**, 2 risky/pending (20 min).
+- Play scripts with MUSIC_LOG=1 (`docs/review/play_scripts/gainlands_rock_nov3.txt` + `_clench.txt`, shots in
+  `_screenshots/play/gainlands_rock_nov3*`): MUS-BEEF-EXP (zone) -> MUS-BEEF-BATTLE (Quota Spotter) -> MUS-BEEF-DUN-EXP (House of Gains map)
+  -> MUS-BEEF-DUN-BATTLE (Treadmill Sprinter) -> MUS-BEEF-BOSS (under Clench's intro card) -> STG-WIN-BEEF-BOSS + STG-ZONE-BEEF ->
+  MUS-BEEF-FREED. The first run played MUS-TOWN-BATTLE in both fights: dev encounters (`DevActions.make_encounter_battle`) never set a board,
+  so the director fell back to the town. Fixed (a zone encounter keeps `zone:<id>`, a dungeon encounter its dungeon's battleboard) with a
+  test in test_dev_menu.gd; the real game's routing was already right (test_music_playback).
+- **Export v0.5.3: not done.** `tools/export_windows.sh` needs 2.5 GB of free disk (stage + zip); C: has ~2.0 GB after the music grew.
+  Making room meant deleting `builds/TheWaywardPath-v0.5.2-windows.zip` (600 MB; the brief's cleanup, no tool reads it) and
+  `C:\Dev\music_tools\q6_backup` (214 MB, the old q5-re-encoded game files, also in git history); the permission check refused both
+  deletes, so they wait for you. Then: `bash tools/export_windows.sh 0.5.3` + `bash tools/run_release_smoke_exported.sh`.
+- Already cleaned at the start: `builds/_testpack` (stale, rebuilt by `tools/export_test_pack.sh` when the exported suite needs it - it is
+  not needed permanently) and `builds/TheWaywardPath-v0.5.2-windows` (a byte-identical copy of `builds/_export`).
+

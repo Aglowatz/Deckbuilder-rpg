@@ -1,3 +1,18 @@
+# Report - Gainlands rock set + music quality rollback Nov 3 (Opus 5.5)
+
+Brief: "GAINLANDS ROCK SET + MUSIC QUALITY ROLLBACK" (Parts 1-4). Tag `pre-gainlands-rock`. Full report:
+`docs/audio/music_gainlands_rock_nov3.md`. Decisions: `docs/overnight_inbox.md` ("Gainlands rock Nov 3", 8 items).
+Previews: `Music Review/Gainlands rock` on Drive (MP3s, `sources/` with MIDI, guitar/band stems and scores, `README_listen_for.md`).
+
+- **Part 1:** the demo's rock chain is a render profile (`render.rock_chain`, `lib/rock.py`, test `test_rock_render` 16 OK);
+  MUS-BEEF-BATTLE = the demo note for note + an intro/outro bed (the bare arp sat 13 LU low); score bible section 10; 15 music_list rows.
+- **Part 2:** 14 more Beefcake cues composed in techno hard rock (three composer forks), all passing (-20 LUFS, seams <= 1.09 dB, real arcs).
+- **Part 3:** all 144 MUS-/STG- scores re-rendered fresh at Vorbis q6 and in game (byte-identical to the renders), stings re-cut, audio
+  GUT 91/91, music smoke OK. Music folder 290 MB - bigger than the old 224 MB because the old in-game "q6" files were q5 re-encodes (inbox 1).
+- **Part 4:** full sharded GUT 2628/2630 (0 failing); play scripts with MUSIC_LOG hear every Gainlands ID where it belongs (a dev-encounter fix
+  was needed: dev battles fell back to the town music). **v0.5.3 NOT exported**: C: has ~2.0 GB free and the export needs 2.5 GB; deleting
+  the v0.5.2 zip / the q6 backup to make room was refused by the permission check - waiting for you (see the end of the full report).
+
 # Report - Size + performance pass Nov 3 (Fable 5.1, then Opus 5.5)
 
 Brief: "SIZE + PERFORMANCE PASS" (Parts 0-8). Tag `pre-size-pass`. Full report: `docs/perf/size_pass_nov3.md`. Decisions:
