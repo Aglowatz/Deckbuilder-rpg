@@ -4,6 +4,7 @@
  "key": "E minor",
  "bpm": 112,
  "meter": "2/4",
+ "profile": "orchestral",
  "bars": 1,
  "seconds": 1.9,
  "loop_seconds": 1.071,

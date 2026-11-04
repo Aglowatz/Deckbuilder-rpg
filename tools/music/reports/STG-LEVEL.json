@@ -4,6 +4,7 @@
  "key": "G major",
  "bpm": 132,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 1,
  "seconds": 3.8,
  "loop_seconds": 1.818,

@@ -4,12 +4,13 @@
  "key": "D minor",
  "bpm": 92,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 32,
  "seconds": 83.48,
  "loop_seconds": 83.478,
- "lufs": -20.1,
- "true_peak": -7.4,
- "lra": 7.4,
+ "lufs": -20.0,
+ "true_peak": -7.6,
+ "lra": 7.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +20,14 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -18.3
+   "lufs": -18.2
   },
   {
    "section": "B piano and flute",
    "bar": 8,
    "bars": 8,
    "start_s": 20.9,
-   "lufs": -24.5
+   "lufs": -24.4
   },
   {
    "section": "A' clarinet, celesta",
@@ -40,7 +41,7 @@
    "bar": 24,
    "bars": 8,
    "start_s": 62.6,
-   "lufs": -21.5
+   "lufs": -21.4
   }
  ],
  "motifs": [
@@ -62,9 +63,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-SABLE.mid"
  },
  "seam": {
-  "jump_db": 0.66,
-  "wrap_step": 0.01564,
-  "p999_step": 0.05945,
+  "jump_db": 0.64,
+  "wrap_step": 0.01545,
+  "p999_step": 0.06001,
   "click": false,
   "ok": true
  },

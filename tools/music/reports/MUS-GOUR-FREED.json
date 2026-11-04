@@ -4,11 +4,12 @@
  "key": "F major",
  "bpm": 124,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 80,
  "seconds": 154.84,
  "loop_seconds": 154.839,
- "lufs": -20.1,
- "true_peak": -5.8,
+ "lufs": -20.0,
+ "true_peak": -6.0,
  "lra": 10.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,35 +27,35 @@
    "bar": 4,
    "bars": 16,
    "start_s": 7.7,
-   "lufs": -24.3
+   "lufs": -24.2
   },
   {
    "section": "A' the house sings",
    "bar": 20,
    "bars": 16,
    "start_s": 38.7,
-   "lufs": -19.5
+   "lufs": -19.4
   },
   {
    "section": "feast drop",
    "bar": 36,
    "bars": 16,
    "start_s": 69.7,
-   "lufs": -22.8
+   "lufs": -22.7
   },
   {
    "section": "climb",
    "bar": 52,
    "bars": 4,
    "start_s": 100.6,
-   "lufs": -19.0
+   "lufs": -18.8
   },
   {
    "section": "G major tutti",
    "bar": 56,
    "bars": 16,
    "start_s": 108.4,
-   "lufs": -16.8
+   "lufs": -16.7
   },
   {
    "section": "home",
@@ -110,9 +111,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GOUR-FREED.mid"
  },
  "seam": {
-  "jump_db": 0.36,
-  "wrap_step": 0.00538,
-  "p999_step": 0.08309,
+  "jump_db": 0.34,
+  "wrap_step": 0.00368,
+  "p999_step": 0.08381,
   "click": false,
   "ok": true
  },

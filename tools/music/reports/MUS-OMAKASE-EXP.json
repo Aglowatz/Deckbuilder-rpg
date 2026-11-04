@@ -4,12 +4,13 @@
  "key": "D minor",
  "bpm": 84,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 48,
  "seconds": 137.14,
  "loop_seconds": 137.143,
- "lufs": -20.1,
- "true_peak": -5.0,
- "lra": 9.7,
+ "lufs": -20.0,
+ "true_peak": -4.9,
+ "lra": 9.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +20,14 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -22.2
+   "lufs": -22.1
   },
   {
    "section": "A koto course",
    "bar": 8,
    "bars": 16,
    "start_s": 22.9,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "B shakuhachi",
@@ -80,8 +81,8 @@
  },
  "seam": {
   "jump_db": 0.82,
-  "wrap_step": 0.00313,
-  "p999_step": 0.05968,
+  "wrap_step": 0.00029,
+  "p999_step": 0.06046,
   "click": false,
   "ok": true
  },

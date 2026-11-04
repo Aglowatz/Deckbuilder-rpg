@@ -4,11 +4,12 @@
  "key": "Eb major",
  "bpm": 72,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 22,
  "seconds": 77.99,
  "loop_seconds": 73.939,
- "lufs": -20.1,
- "true_peak": -5.0,
+ "lufs": -20.0,
+ "true_peak": -4.8,
  "lra": 9.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,14 +20,14 @@
    "bar": 0,
    "bars": 10,
    "start_s": 0.0,
-   "lufs": -18.6
+   "lufs": -18.5
   },
   {
    "section": "narrowing",
    "bar": 10,
    "bars": 8,
    "start_s": 33.9,
-   "lufs": -21.2
+   "lufs": -21.1
   },
   {
    "section": "the grid",
@@ -40,7 +41,7 @@
    "bar": 20,
    "bars": 2,
    "start_s": 67.3,
-   "lufs": -21.4
+   "lufs": -21.3
   }
  ],
  "motifs": [

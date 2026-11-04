@@ -4,11 +4,12 @@
  "key": "A major",
  "bpm": 80,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 24,
  "seconds": 77.14,
  "loop_seconds": 72.0,
- "lufs": -20.1,
- "true_peak": -8.0,
+ "lufs": -20.0,
+ "true_peak": -7.9,
  "lra": 4.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,14 +20,14 @@
    "bar": 0,
    "bars": 6,
    "start_s": 0.0,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "turn",
    "bar": 6,
    "bars": 2,
    "start_s": 18.0,
-   "lufs": -20.3
+   "lufs": -20.2
   },
   {
    "section": "relief",
@@ -40,14 +41,14 @@
    "bar": 16,
    "bars": 4,
    "start_s": 48.0,
-   "lufs": -18.5
+   "lufs": -18.4
   },
   {
    "section": "breath",
    "bar": 20,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -20.3
+   "lufs": -20.2
   }
  ],
  "motifs": [

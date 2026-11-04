@@ -4,11 +4,12 @@
  "key": "D dorian",
  "bpm": 86,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 48,
  "seconds": 133.95,
  "loop_seconds": 133.953,
- "lufs": -20.1,
- "true_peak": -5.5,
+ "lufs": -20.0,
+ "true_peak": -5.4,
  "lra": 10.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +20,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -25.4
+   "lufs": -25.3
   },
   {
    "section": "A four voices answer",
    "bar": 4,
    "bars": 12,
    "start_s": 11.2,
-   "lufs": -24.1
+   "lufs": -24.0
   },
   {
    "section": "B a shared direction",
    "bar": 16,
    "bars": 16,
    "start_s": 44.7,
-   "lufs": -19.9
+   "lufs": -19.8
   },
   {
    "section": "C the old harmony",
    "bar": 32,
    "bars": 12,
    "start_s": 89.3,
-   "lufs": -17.0
+   "lufs": -16.9
   },
   {
    "section": "drone",
    "bar": 44,
    "bars": 4,
    "start_s": 122.8,
-   "lufs": -25.4
+   "lufs": -25.3
   }
  ],
  "motifs": [
@@ -89,9 +90,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUNNEL-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.03,
-  "wrap_step": 0.01736,
-  "p999_step": 0.05437,
+  "jump_db": 0.04,
+  "wrap_step": 0.01091,
+  "p999_step": 0.05491,
   "click": false,
   "ok": true
  },

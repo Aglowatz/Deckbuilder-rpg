@@ -4,12 +4,13 @@
  "key": "Bb major",
  "bpm": 142,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 72,
  "seconds": 121.69,
  "loop_seconds": 121.69,
- "lufs": -20.1,
- "true_peak": -7.0,
- "lra": 6.5,
+ "lufs": -20.0,
+ "true_peak": -7.1,
+ "lra": 6.4,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.1
+   "lufs": -22.0
   },
   {
    "section": "A showtune",
@@ -33,14 +34,14 @@
    "bar": 20,
    "bars": 16,
    "start_s": 33.8,
-   "lufs": -22.5
+   "lufs": -22.4
   },
   {
    "section": "drop",
    "bar": 36,
    "bars": 16,
    "start_s": 60.8,
-   "lufs": -21.5
+   "lufs": -21.4
   },
   {
    "section": "finale",
@@ -54,7 +55,7 @@
    "bar": 68,
    "bars": 4,
    "start_s": 114.9,
-   "lufs": -22.4
+   "lufs": -22.3
   }
  ],
  "motifs": [
@@ -107,8 +108,8 @@
  },
  "seam": {
   "jump_db": -1.01,
-  "wrap_step": 0.00533,
-  "p999_step": 0.07275,
+  "wrap_step": 0.0033,
+  "p999_step": 0.0735,
   "click": false,
   "ok": true
  },

@@ -4,11 +4,12 @@
  "key": "D minor",
  "bpm": 138,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 68,
  "seconds": 118.26,
  "loop_seconds": 118.261,
- "lufs": -20.1,
- "true_peak": -5.3,
+ "lufs": -20.0,
+ "true_peak": -5.1,
  "lra": 6.5,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,42 +20,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.5
+   "lufs": -20.4
   },
   {
    "section": "A the motif in full",
    "bar": 4,
    "bars": 16,
    "start_s": 7.0,
-   "lufs": -19.6
+   "lufs": -19.5
   },
   {
    "section": "B four voices",
    "bar": 20,
    "bars": 16,
    "start_s": 34.8,
-   "lufs": -22.8
+   "lufs": -22.7
   },
   {
    "section": "A' augmented, countermelody",
    "bar": 36,
    "bars": 16,
    "start_s": 62.6,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "C climax",
    "bar": 52,
    "bars": 12,
    "start_s": 90.4,
-   "lufs": -18.4
+   "lufs": -18.3
   },
   {
    "section": "outro",
    "bar": 64,
    "bars": 4,
    "start_s": 111.3,
-   "lufs": -20.3
+   "lufs": -20.2
   }
  ],
  "motifs": [
@@ -102,8 +103,8 @@
  },
  "seam": {
   "jump_db": -0.92,
-  "wrap_step": 0.00462,
-  "p999_step": 0.0659,
+  "wrap_step": 0.00523,
+  "p999_step": 0.06682,
   "click": false,
   "ok": true
  },

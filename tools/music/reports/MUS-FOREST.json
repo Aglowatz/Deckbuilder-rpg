@@ -4,11 +4,12 @@
  "key": "A minor",
  "bpm": 78,
  "meter": "6/8",
+ "profile": "orchestral",
  "bars": 56,
  "seconds": 129.23,
  "loop_seconds": 129.231,
- "lufs": -20.1,
- "true_peak": -5.3,
+ "lufs": -20.0,
+ "true_peak": -5.0,
  "lra": 9.0,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -24.7
+   "lufs": -24.6
   },
   {
    "section": "fragments",
@@ -33,35 +34,35 @@
    "bar": 16,
    "bars": 8,
    "start_s": 36.9,
-   "lufs": -18.2
+   "lufs": -18.1
   },
   {
    "section": "the road",
    "bar": 24,
    "bars": 8,
    "start_s": 55.4,
-   "lufs": -17.2
+   "lufs": -17.1
   },
   {
    "section": "dark cello",
    "bar": 32,
    "bars": 8,
    "start_s": 73.8,
-   "lufs": -22.9
+   "lufs": -22.8
   },
   {
    "section": "warmth'",
    "bar": 40,
    "bars": 8,
    "start_s": 92.3,
-   "lufs": -18.2
+   "lufs": -18.1
   },
   {
    "section": "night again",
    "bar": 48,
    "bars": 8,
    "start_s": 110.8,
-   "lufs": -25.8
+   "lufs": -25.7
   }
  ],
  "motifs": [
@@ -113,9 +114,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-FOREST.mid"
  },
  "seam": {
-  "jump_db": -0.8,
-  "wrap_step": 0.01517,
-  "p999_step": 0.0473,
+  "jump_db": -0.83,
+  "wrap_step": 0.01068,
+  "p999_step": 0.04761,
   "click": false,
   "ok": true
  },

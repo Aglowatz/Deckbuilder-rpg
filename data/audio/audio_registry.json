@@ -18,7 +18,7 @@
 		},
 		"MUS-ARENA-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 109.71,
@@ -28,12 +28,12 @@
 			"loop": true,
 			"name": "The Grand Clashatorium",
 			"use": "BB-ARENA ordinary and challenge encounters",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Arena"
 		},
 		"MUS-ARENA-ELITE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 110.27,
@@ -43,7 +43,7 @@
 			"loop": true,
 			"name": "The championship card",
 			"use": "Arena boss / high-tier encounters",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Arena"
 		},
 		"MUS-BEEF-BATTLE": {
@@ -51,14 +51,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
-			"duration": 125.22,
+			"duration": 109.71,
 			"file": "res://assets/audio/music/MUS-BEEF-BATTLE.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Gainlands — combat",
 			"use": "BB-GAIN; Path gate envoy",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "The Gainlands"
 		},
 		"MUS-BEEF-BOSS": {
@@ -66,14 +66,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
-			"duration": 152.38,
+			"duration": 169.41,
 			"file": "res://assets/audio/music/MUS-BEEF-BOSS.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "Chancellor Clench, Iron Regent",
 			"use": "D-HOG principal boss",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "House of Gains"
 		},
 		"MUS-BEEF-DUN-BATTLE": {
@@ -81,14 +81,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
-			"duration": 133.33,
+			"duration": 153.6,
 			"file": "res://assets/audio/music/MUS-BEEF-DUN-BATTLE.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "House of Gains — combat",
 			"use": "BB-HOG; dungeon battles and elites",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "House of Gains"
 		},
 		"MUS-BEEF-DUN-EXP": {
@@ -96,14 +96,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 142.22,
+			"duration": 137.14,
 			"file": "res://assets/audio/music/MUS-BEEF-DUN-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "House of Gains — exploration",
 			"use": "D-HOG node map and ordinary events",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "House of Gains"
 		},
 		"MUS-BEEF-EXP": {
@@ -111,14 +111,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 132.41,
+			"duration": 144.0,
 			"file": "res://assets/audio/music/MUS-BEEF-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Gainlands — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-GAIN",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "The Gainlands"
 		},
 		"MUS-BEEF-FREED": {
@@ -126,14 +126,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
-			"duration": 142.22,
+			"duration": 127.5,
 			"file": "res://assets/audio/music/MUS-BEEF-FREED.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Gainlands — restored",
 			"use": "Freed-zone exploration and NPC dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "The Gainlands"
 		},
 		"MUS-BEEF-RELEASE": {
@@ -141,7 +141,7 @@
 			"analysis": "silent-gap level-jump",
 			"bus": "Music",
 			"category": "Story",
-			"duration": 77.65,
+			"duration": 68.82,
 			"file": "res://assets/audio/music/MUS-BEEF-RELEASE.ogg",
 			"gameplay": true,
 			"kind": "story",
@@ -153,25 +153,25 @@
 		},
 		"MUS-CAP-BEEF-BROKEN": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 120.0,
+			"duration": 115.86,
 			"file": "res://assets/audio/music/MUS-CAP-BEEF-BROKEN.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "Transit Yards — broken service",
 			"use": "District before its Path zone is freed",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Transit Yards"
 		},
 		"MUS-CAP-BEEF-RESTORED": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
-			"duration": 102.86,
+			"duration": 115.86,
 			"file": "res://assets/audio/music/MUS-CAP-BEEF-RESTORED.ogg",
 			"gameplay": true,
 			"kind": "loop",
@@ -183,7 +183,7 @@
 		},
 		"MUS-CAP-CORRECTION": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 128.0,
@@ -193,12 +193,12 @@
 			"loop": true,
 			"name": "Smiled incorrectly",
 			"use": "Ward exploration / prisoner scenes",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Correction Ward"
 		},
 		"MUS-CAP-ENFORCER": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 128.0,
@@ -213,7 +213,7 @@
 		},
 		"MUS-CAP-FACADE-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 120.0,
@@ -223,12 +223,12 @@
 			"loop": true,
 			"name": "Approved disagreement",
 			"use": "BB-CAP-IN ordinary combat",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Showcase Quarter"
 		},
 		"MUS-CAP-FACADE-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 128.0,
@@ -238,12 +238,12 @@
 			"loop": true,
 			"name": "Everything is perfectly fine",
 			"use": "Perfect Plaza, identical houses and citizens",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Showcase Quarter"
 		},
 		"MUS-CAP-GOUR-BROKEN": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 120.0,
@@ -258,7 +258,7 @@
 		},
 		"MUS-CAP-GOUR-RESTORED": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
 			"duration": 120.0,
@@ -268,12 +268,12 @@
 			"loop": true,
 			"name": "Hungry Quarter — service returns",
 			"use": "District after its Path zone is freed",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Hungry Quarter"
 		},
 		"MUS-CAP-NECRO-BROKEN": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 117.0,
@@ -288,7 +288,7 @@
 		},
 		"MUS-CAP-NECRO-RESTORED": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
 			"duration": 112.5,
@@ -298,12 +298,12 @@
 			"loop": true,
 			"name": "Grave Row — service returns",
 			"use": "District after its Path zone is freed",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Grave Row"
 		},
 		"MUS-CAP-OUT-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 116.36,
@@ -313,12 +313,12 @@
 			"loop": true,
 			"name": "The wasteland road",
 			"use": "BB-CAP-OUT ordinary combat",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital outskirts"
 		},
 		"MUS-CAP-OUT-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 146.67,
@@ -328,12 +328,12 @@
 			"loop": true,
 			"name": "Outside the approved walls",
 			"use": "Outskirts, cracked road, abandoned checkpoints",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital outskirts"
 		},
 		"MUS-CAP-REF-BROKEN": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 109.09,
@@ -343,12 +343,12 @@
 			"loop": true,
 			"name": "The Reek — broken service",
 			"use": "District before its Path zone is freed",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Reek"
 		},
 		"MUS-CAP-REF-RESTORED": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
 			"duration": 115.2,
@@ -358,12 +358,12 @@
 			"loop": true,
 			"name": "The Reek — service returns",
 			"use": "District after its Path zone is freed",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Reek"
 		},
 		"MUS-CAP-RESTORED": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Restoration",
 			"duration": 147.69,
@@ -373,12 +373,12 @@
 			"loop": true,
 			"name": "Pathordia — many ways home",
 			"use": "Postgame city exploration",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Restored Capital"
 		},
 		"MUS-CAP-RIFT": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 126.32,
@@ -388,12 +388,12 @@
 			"loop": true,
 			"name": "A seam in reality",
 			"use": "Rift Wretches, Shard Swarms and major rift combat",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital rifts"
 		},
 		"MUS-CASTLE-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 116.57,
@@ -403,12 +403,12 @@
 			"loop": true,
 			"name": "The mirror parquet",
 			"use": "BB-PC ordinary and elite battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm's Castle"
 		},
 		"MUS-CASTLE-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 135.0,
@@ -418,12 +418,12 @@
 			"loop": true,
 			"name": "Behind the white and gold",
 			"use": "D-PC node map, mirror halls and Path wings",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm's Castle"
 		},
 		"MUS-CREASE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 137.14,
@@ -433,7 +433,7 @@
 			"loop": true,
 			"name": "Tea of dissent",
 			"use": "Resistance hideout; Wren and Nurse Hesper Dray",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Crease"
 		},
 		"MUS-CREDITS": {
@@ -448,7 +448,7 @@
 			"loop": false,
 			"name": "Many ways forward",
 			"use": "Ending credits",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Credits"
 		},
 		"MUS-DECK": {
@@ -463,7 +463,7 @@
 			"loop": true,
 			"name": "A plan in the cards",
 			"use": "Deck station, collection and long planning screens",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath / menus"
 		},
 		"MUS-FOREST": {
@@ -478,7 +478,7 @@
 			"loop": true,
 			"name": "A stranger in the trees",
 			"use": "Waking, Rescuer and starting Path choice",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Prologue forest"
 		},
 		"MUS-GALLERY": {
@@ -493,7 +493,7 @@
 			"loop": false,
 			"name": "Kept for reference",
 			"use": "Painted-over royal family portrait",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm's Private Gallery"
 		},
 		"MUS-GOUR-BATTLE": {
@@ -508,7 +508,7 @@
 			"loop": true,
 			"name": "The Endless Buffet — combat",
 			"use": "BB-BUFF; Path gate envoy",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Endless Buffet"
 		},
 		"MUS-GOUR-BOSS": {
@@ -523,7 +523,7 @@
 			"loop": true,
 			"name": "The Doppelganger",
 			"use": "D-TTK principal boss",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Test Kitchen"
 		},
 		"MUS-GOUR-DUN-BATTLE": {
@@ -553,7 +553,7 @@
 			"loop": true,
 			"name": "Test Kitchen — exploration",
 			"use": "D-TTK node map and ordinary events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Test Kitchen"
 		},
 		"MUS-GOUR-EXP": {
@@ -568,7 +568,7 @@
 			"loop": true,
 			"name": "The Endless Buffet — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-BUFF",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Endless Buffet"
 		},
 		"MUS-GOUR-FREED": {
@@ -583,7 +583,7 @@
 			"loop": true,
 			"name": "The Endless Buffet — restored",
 			"use": "Freed-zone exploration and NPC dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Endless Buffet"
 		},
 		"MUS-GOUR-RELEASE": {
@@ -598,12 +598,12 @@
 			"loop": false,
 			"name": "The true Chef and a name freely given",
 			"use": "Leader rescue / liberation story sequence",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Test Kitchen"
 		},
 		"MUS-GRAVE-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 106.67,
@@ -613,12 +613,12 @@
 			"loop": true,
 			"name": "Something beneath the stones",
 			"use": "BB-GRAVE scripted challenge",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath graveyard"
 		},
 		"MUS-GRAVE-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 120.0,
@@ -633,7 +633,7 @@
 		},
 		"MUS-LAB-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 144.0,
@@ -643,7 +643,7 @@
 			"loop": true,
 			"name": "Experiments still running",
 			"use": "D-LAB ordinary battles, failed experiments and guards",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Path-ology Lab"
 		},
 		"MUS-LAB-CELL": {
@@ -658,12 +658,12 @@
 			"loop": false,
 			"name": "Ten years of marks",
 			"use": "Postgame childhood evidence",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Prince's old lab cell"
 		},
 		"MUS-LAB-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 153.6,
@@ -673,7 +673,7 @@
 			"loop": true,
 			"name": "The subject's corridors",
 			"use": "D-LAB node map, tanks and experimental rooms",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Path-ology Lab"
 		},
 		"MUS-LAB-RESCUE": {
@@ -688,7 +688,7 @@
 			"loop": false,
 			"name": "The hand that helped",
 			"use": "Postgame rescuing the defected Path-ologist",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Rescuer release"
 		},
 		"MUS-LULLABY": {
@@ -703,12 +703,12 @@
 			"loop": false,
 			"name": "Concordia's lullaby — motif master",
 			"use": "Composition reference for memories and ending",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Story / royal family"
 		},
 		"MUS-MAREN": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Story",
 			"duration": 87.27,
@@ -718,7 +718,7 @@
 			"loop": true,
 			"name": "Maren — pie and secrets",
 			"use": "Maren's major story conversations",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath / Maren"
 		},
 		"MUS-MEM-01": {
@@ -748,7 +748,7 @@
 			"loop": false,
 			"name": "The cells",
 			"use": "Second freed-zone memory",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Memory 2"
 		},
 		"MUS-MEM-03": {
@@ -763,7 +763,7 @@
 			"loop": false,
 			"name": "The coup",
 			"use": "Third freed-zone memory",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Memory 3"
 		},
 		"MUS-MEM-04": {
@@ -778,27 +778,27 @@
 			"loop": false,
 			"name": "His name",
 			"use": "Maren's fourth memory or Primm's early identity reveal",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Memory 4 / alternate reveal"
 		},
 		"MUS-MINIGAME-BEEF": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Minigame",
-			"duration": 67.5,
+			"duration": 72.73,
 			"file": "res://assets/audio/music/MUS-MINIGAME-BEEF.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "Chet's revolutionary routine",
 			"use": "Path minigame gameplay",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "Path minigames"
 		},
 		"MUS-MINIGAME-GOUR": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Minigame",
 			"duration": 76.52,
@@ -808,12 +808,12 @@
 			"loop": true,
 			"name": "Flambe's cooking show",
 			"use": "Path minigame gameplay",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Path minigames"
 		},
 		"MUS-MINIGAME-NECRO": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Minigame",
 			"duration": 78.55,
@@ -828,7 +828,7 @@
 		},
 		"MUS-MINIGAME-REF": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Minigame",
 			"duration": 76.8,
@@ -853,7 +853,7 @@
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — combat",
 			"use": "BB-DNA; Path gate envoy",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-BOSS": {
@@ -868,7 +868,7 @@
 			"loop": true,
 			"name": "Mortimer Grimsby, CE-No",
 			"use": "D-HFA principal boss",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Hall of Final Approvals"
 		},
 		"MUS-NECRO-DUN-BATTLE": {
@@ -883,7 +883,7 @@
 			"loop": true,
 			"name": "Hall of Final Approvals — combat",
 			"use": "BB-HFA; dungeon battles and elites",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Hall of Final Approvals"
 		},
 		"MUS-NECRO-DUN-EXP": {
@@ -898,7 +898,7 @@
 			"loop": true,
 			"name": "Hall of Final Approvals — exploration",
 			"use": "D-HFA node map and ordinary events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Hall of Final Approvals"
 		},
 		"MUS-NECRO-EXP": {
@@ -913,7 +913,7 @@
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-DNA",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-FREED": {
@@ -928,7 +928,7 @@
 			"loop": true,
 			"name": "The Department of Necrotic Affairs — restored",
 			"use": "Freed-zone exploration and NPC dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Department of Necrotic Affairs"
 		},
 		"MUS-NECRO-RELEASE": {
@@ -943,7 +943,7 @@
 			"loop": false,
 			"name": "Agnes — help people",
 			"use": "Leader rescue / liberation story sequence",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Hall of Final Approvals"
 		},
 		"MUS-OMAKASE-BATTLE": {
@@ -958,7 +958,7 @@
 			"loop": true,
 			"name": "Omakase — combat",
 			"use": "BB-S-GOUR; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Omakase"
 		},
 		"MUS-OMAKASE-BOSS": {
@@ -973,7 +973,7 @@
 			"loop": true,
 			"name": "The Itamae Supreme",
 			"use": "S-GOUR boss; BB-S-GOUR",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Omakase"
 		},
 		"MUS-OMAKASE-EXP": {
@@ -988,12 +988,12 @@
 			"loop": true,
 			"name": "Omakase — exploration",
 			"use": "S-GOUR map and events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Omakase"
 		},
 		"MUS-PANDA-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 131.51,
@@ -1003,12 +1003,12 @@
 			"loop": true,
 			"name": "Trash Panda Throne — combat",
 			"use": "BB-S-REF; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Trash Panda Throne"
 		},
 		"MUS-PANDA-BOSS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 136.12,
@@ -1018,7 +1018,7 @@
 			"loop": true,
 			"name": "His Majesty the Raccoon",
 			"use": "S-REF boss; BB-S-REF",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Trash Panda Throne"
 		},
 		"MUS-PANDA-EXP": {
@@ -1033,12 +1033,12 @@
 			"loop": true,
 			"name": "Trash Panda Throne — exploration",
 			"use": "S-REF map and events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Trash Panda Throne"
 		},
 		"MUS-PRIMM-01": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 127.5,
@@ -1048,12 +1048,12 @@
 			"loop": true,
 			"name": "Standardization",
 			"use": "BB-PC-BOSS; final boss phase 1",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Model Room"
 		},
 		"MUS-PRIMM-02": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 112.94,
@@ -1063,12 +1063,12 @@
 			"loop": true,
 			"name": "Reflection",
 			"use": "BB-PC-BOSS; final boss phase 2",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Model Room"
 		},
 		"MUS-PRIMM-03": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 111.78,
@@ -1078,12 +1078,12 @@
 			"loop": true,
 			"name": "Unraveling",
 			"use": "BB-PC-BOSS; final boss phase 3",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Model Room"
 		},
 		"MUS-PRIMM-BREAK": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Story",
 			"duration": 80.0,
@@ -1093,7 +1093,7 @@
 			"loop": true,
 			"name": "Rules between duels",
 			"use": "Between phases / pre-duel dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm's boss dialogue"
 		},
 		"MUS-PRIMM-DEFEAT": {
@@ -1108,7 +1108,7 @@
 			"loop": false,
 			"name": "Finally seeing",
 			"use": "Primm recognizes the kingdom and his harm",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm defeated"
 		},
 		"MUS-PRIMM-MOTIF": {
@@ -1123,7 +1123,7 @@
 			"loop": false,
 			"name": "For their own good — motif master",
 			"use": "Reference for Capital, Castle and boss phases",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Primm / story"
 		},
 		"MUS-QUEST-FERN": {
@@ -1138,7 +1138,7 @@
 			"loop": false,
 			"name": "Old Fern — untidy",
 			"use": "Major quest conclusion / meaningful dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital Path quests"
 		},
 		"MUS-QUEST-MARLO": {
@@ -1153,7 +1153,7 @@
 			"loop": false,
 			"name": "Chef Marlo — the recipe box",
 			"use": "Major quest conclusion / meaningful dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital Path quests"
 		},
 		"MUS-QUEST-PELL": {
@@ -1168,7 +1168,7 @@
 			"loop": false,
 			"name": "Widow Pell — a burial permit",
 			"use": "Major quest conclusion / meaningful dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital Path quests"
 		},
 		"MUS-QUEST-ROLLO": {
@@ -1183,12 +1183,12 @@
 			"loop": false,
 			"name": "Rollo Spokes — the wheel never stops",
 			"use": "Major quest conclusion / meaningful dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Capital Path quests"
 		},
 		"MUS-QUIZ": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Menu",
 			"duration": 86.9,
@@ -1213,7 +1213,7 @@
 			"loop": true,
 			"name": "The Verdant Dump — combat",
 			"use": "BB-DUMP; Path gate envoy",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Verdant Dump"
 		},
 		"MUS-REF-BOSS": {
@@ -1228,7 +1228,7 @@
 			"loop": true,
 			"name": "Compostella, the Rotheart",
 			"use": "D-ROT principal boss",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Rotheart"
 		},
 		"MUS-REF-DUN-BATTLE": {
@@ -1243,7 +1243,7 @@
 			"loop": true,
 			"name": "The Rotheart — combat",
 			"use": "BB-ROT; dungeon battles and elites",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Rotheart"
 		},
 		"MUS-REF-DUN-EXP": {
@@ -1258,7 +1258,7 @@
 			"loop": true,
 			"name": "The Rotheart — exploration",
 			"use": "D-ROT node map and ordinary events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Rotheart"
 		},
 		"MUS-REF-EXP": {
@@ -1273,7 +1273,7 @@
 			"loop": true,
 			"name": "The Verdant Dump — exploration",
 			"use": "Zone traversal and ordinary NPC dialogue; BB-DUMP",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Verdant Dump"
 		},
 		"MUS-REF-FREED": {
@@ -1288,7 +1288,7 @@
 			"loop": true,
 			"name": "The Verdant Dump — restored",
 			"use": "Freed-zone exploration and NPC dialogue",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Verdant Dump"
 		},
 		"MUS-REF-RELEASE": {
@@ -1303,7 +1303,7 @@
 			"loop": false,
 			"name": "Compostella — let the seed return",
 			"use": "Leader rescue / liberation story sequence",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Rotheart"
 		},
 		"MUS-REUNION": {
@@ -1318,12 +1318,12 @@
 			"loop": false,
 			"name": "Alive. File complete.",
 			"use": "Freed leaders gather; Maren calls him Tessar",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Ending reunion"
 		},
 		"MUS-SHIRO-BOSS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 113.68,
@@ -1333,12 +1333,12 @@
 			"loop": true,
 			"name": "The oldest trick in the book",
 			"use": "Secret ninja boss after the chest questline",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Shiro Swindle secret encounter"
 		},
 		"MUS-SHOP-ALEMBIC": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 75.79,
@@ -1353,7 +1353,7 @@
 		},
 		"MUS-SHOP-ALEMBIC-POST": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 84.0,
@@ -1368,7 +1368,7 @@
 		},
 		"MUS-SHOP-BEETSWORTH": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 80.0,
@@ -1383,7 +1383,7 @@
 		},
 		"MUS-SHOP-BELLOWS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 76.8,
@@ -1398,7 +1398,7 @@
 		},
 		"MUS-SHOP-BENCHLEY": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 73.85,
@@ -1413,7 +1413,7 @@
 		},
 		"MUS-SHOP-FENWICK": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 80.0,
@@ -1423,12 +1423,12 @@
 			"loop": true,
 			"name": "Foil, whispered reverently",
 			"use": "VS-FENWICK; vendor browsing",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath"
 		},
 		"MUS-SHOP-FIGSLY": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 80.0,
@@ -1438,12 +1438,12 @@
 			"loop": true,
 			"name": "Off the books",
 			"use": "VS-FIGSLY; vendor browsing",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "The Crease"
 		},
 		"MUS-SHOP-GRISTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 70.0,
@@ -1453,12 +1453,12 @@
 			"loop": true,
 			"name": "Found, not stolen",
 			"use": "VS-GRISTLE; vendor browsing",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Verdant Dump / Compost Grange"
 		},
 		"MUS-SHOP-LEDGERBONE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 77.14,
@@ -1468,12 +1468,12 @@
 			"loop": true,
 			"name": "A correctly completed form",
 			"use": "VS-LEDGERBONE; vendor browsing",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "D.N.A. Lobby"
 		},
 		"MUS-SHOP-MIREPOIX": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 86.4,
@@ -1488,7 +1488,7 @@
 		},
 		"MUS-SHOP-SABLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 83.48,
@@ -1498,12 +1498,12 @@
 			"loop": true,
 			"name": "Sable's velvet salon",
 			"use": "VS-SABLE; vendor browsing",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath"
 		},
 		"MUS-SHOP-THREADWELL": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 77.14,
@@ -1518,7 +1518,7 @@
 		},
 		"MUS-SHOP-TONIC": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Shop",
 			"duration": 75.0,
@@ -1533,7 +1533,7 @@
 		},
 		"MUS-SIPHON-BOSS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 158.12,
@@ -1543,7 +1543,7 @@
 			"loop": true,
 			"name": "A life's work",
 			"use": "Dr. Ambrose Siphon",
-			"volume_db": 0.0,
+			"volume_db": 0.1,
 			"zone": "Path-ology Lab"
 		},
 		"MUS-SWOLY-BATTLE": {
@@ -1551,14 +1551,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
-			"duration": 121.69,
+			"duration": 131.51,
 			"file": "res://assets/audio/music/MUS-SWOLY-BATTLE.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "Mount Swolympus — combat",
 			"use": "BB-S-BEEF; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "Mount Swolympus"
 		},
 		"MUS-SWOLY-BOSS": {
@@ -1566,14 +1566,14 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
-			"duration": 127.5,
+			"duration": 125.22,
 			"file": "res://assets/audio/music/MUS-SWOLY-BOSS.ogg",
 			"gameplay": true,
 			"kind": "loop",
 			"loop": true,
 			"name": "The Ancient Spotter",
 			"use": "S-BEEF boss; BB-S-BEEF",
-			"volume_db": 0.1,
+			"volume_db": 0.2,
 			"zone": "Mount Swolympus"
 		},
 		"MUS-SWOLY-EXP": {
@@ -1581,7 +1581,7 @@
 			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
-			"duration": 134.4,
+			"duration": 130.17,
 			"file": "res://assets/audio/music/MUS-SWOLY-EXP.ogg",
 			"gameplay": true,
 			"kind": "loop",
@@ -1603,7 +1603,7 @@
 			"loop": false,
 			"name": "The Pathwork Throne",
 			"use": "Full memory and power return",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Ending"
 		},
 		"MUS-TITLE": {
@@ -1618,7 +1618,7 @@
 			"loop": true,
 			"name": "The Wayward Path",
 			"use": "Title / main menu",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Global"
 		},
 		"MUS-TOWN": {
@@ -1633,7 +1633,7 @@
 			"loop": true,
 			"name": "Crosspath — roads converge",
 			"use": "Plaza, market and ordinary conversations",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath"
 		},
 		"MUS-TOWN-BATTLE": {
@@ -1648,7 +1648,7 @@
 			"loop": true,
 			"name": "Friendly ground, serious cards",
 			"use": "BB-TOWN; neutral encounters",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath"
 		},
 		"MUS-TOWN-FREED": {
@@ -1663,12 +1663,12 @@
 			"loop": true,
 			"name": "Crosspath — returning citizens",
 			"use": "Town after all four zones are freed",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Crosspath"
 		},
 		"MUS-TUNNEL-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 118.26,
@@ -1678,12 +1678,12 @@
 			"loop": true,
 			"name": "Old Service Tunnels — combat",
 			"use": "BB-S-CAP; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Old Service Tunnels"
 		},
 		"MUS-TUNNEL-BOSS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 123.64,
@@ -1693,12 +1693,12 @@
 			"loop": true,
 			"name": "Captain Spotless",
 			"use": "S-CAP boss; BB-S-CAP",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Old Service Tunnels"
 		},
 		"MUS-TUNNEL-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 133.95,
@@ -1708,7 +1708,7 @@
 			"loop": true,
 			"name": "Old Service Tunnels — exploration",
 			"use": "S-CAP map and events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Old Service Tunnels"
 		},
 		"MUS-TUT-BATTLE": {
@@ -1723,7 +1723,7 @@
 			"loop": true,
 			"name": "Forgotten Cave — first trials",
 			"use": "BB-TUT ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Cave"
 		},
 		"MUS-TUT-BOSS": {
@@ -1738,7 +1738,7 @@
 			"loop": true,
 			"name": "Hollow Warden — familiar scent",
 			"use": "D-TUT Hollow Warden boss",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Cave"
 		},
 		"MUS-TUT-EXP": {
@@ -1753,12 +1753,12 @@
 			"loop": true,
 			"name": "Forgotten Cave — old passage",
 			"use": "Dungeon D-TUT exploration",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Cave"
 		},
 		"MUS-VAULT-BATTLE": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Combat",
 			"duration": 123.43,
@@ -1768,12 +1768,12 @@
 			"loop": true,
 			"name": "Forgotten Vault — combat",
 			"use": "BB-S-TOWN; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Vault"
 		},
 		"MUS-VAULT-BOSS": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Boss",
 			"duration": 127.5,
@@ -1783,12 +1783,12 @@
 			"loop": true,
 			"name": "The Vault Guardian",
 			"use": "S-TOWN boss; BB-S-TOWN",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Vault"
 		},
 		"MUS-VAULT-EXP": {
 			"alias_of": "",
-			"analysis": "drop-in",
+			"analysis": "",
 			"bus": "Music",
 			"category": "Exploration",
 			"duration": 132.0,
@@ -1798,7 +1798,7 @@
 			"loop": true,
 			"name": "Forgotten Vault — exploration",
 			"use": "S-TOWN map and events",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Forgotten Vault"
 		},
 		"MUS-WAIT-BATTLE": {
@@ -1813,7 +1813,7 @@
 			"loop": true,
 			"name": "Waiting Room of Eternity — combat",
 			"use": "BB-S-NECRO; ordinary battles",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Waiting Room of Eternity"
 		},
 		"MUS-WAIT-BOSS": {
@@ -1828,7 +1828,7 @@
 			"loop": true,
 			"name": "Betty Bones",
 			"use": "S-NECRO boss; BB-S-NECRO",
-			"volume_db": 0.1,
+			"volume_db": 0.0,
 			"zone": "Waiting Room of Eternity"
 		},
 		"MUS-WAIT-EXP": {

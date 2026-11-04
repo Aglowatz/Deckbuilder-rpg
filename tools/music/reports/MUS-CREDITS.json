@@ -4,11 +4,12 @@
  "key": "D major",
  "bpm": 96,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 126,
  "seconds": 301.52,
  "loop_seconds": 297.271,
- "lufs": -20.1,
- "true_peak": -3.8,
+ "lufs": -20.0,
+ "true_peak": -3.7,
  "lra": 7.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,70 +20,70 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -24.4
+   "lufs": -24.3
   },
   {
    "section": "Crosspath",
    "bar": 4,
    "bars": 18,
    "start_s": 10.0,
-   "lufs": -19.5
+   "lufs": -19.4
   },
   {
    "section": "Gainlands",
    "bar": 22,
    "bars": 18,
    "start_s": 55.0,
-   "lufs": -19.2
+   "lufs": -19.1
   },
   {
    "section": "D.N.A.",
    "bar": 40,
    "bars": 14,
    "start_s": 95.0,
-   "lufs": -22.2
+   "lufs": -22.1
   },
   {
    "section": "Buffet",
    "bar": 54,
    "bars": 18,
    "start_s": 125.0,
-   "lufs": -20.0
+   "lufs": -19.9
   },
   {
    "section": "Dump",
    "bar": 72,
    "bars": 8,
    "start_s": 158.8,
-   "lufs": -21.8
+   "lufs": -21.7
   },
   {
    "section": "adventure",
    "bar": 80,
    "bars": 18,
    "start_s": 175.3,
-   "lufs": -20.2
+   "lufs": -20.1
   },
   {
    "section": "lullaby",
    "bar": 98,
    "bars": 10,
    "start_s": 209.4,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "finale",
    "bar": 108,
    "bars": 12,
    "start_s": 242.7,
-   "lufs": -17.5
+   "lufs": -17.4
   },
   {
    "section": "tender close",
    "bar": 120,
    "bars": 6,
    "start_s": 275.5,
-   "lufs": -27.8
+   "lufs": -27.7
   }
  ],
  "motifs": [

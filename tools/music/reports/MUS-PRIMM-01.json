@@ -4,10 +4,11 @@
  "key": "C major",
  "bpm": 128,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 68,
  "seconds": 127.5,
  "loop_seconds": 127.5,
- "lufs": -20.1,
+ "lufs": -20.0,
  "true_peak": -6.0,
  "lra": 7.9,
  "limited_db": 0.0,
@@ -19,42 +20,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.0
+   "lufs": -20.9
   },
   {
    "section": "A unison",
    "bar": 4,
    "bars": 16,
    "start_s": 7.5,
-   "lufs": -20.7
+   "lufs": -20.6
   },
   {
    "section": "B the anthem",
    "bar": 20,
    "bars": 16,
    "start_s": 37.5,
-   "lufs": -21.1
+   "lufs": -21.0
   },
   {
    "section": "C compression",
    "bar": 36,
    "bars": 16,
    "start_s": 67.5,
-   "lufs": -22.2
+   "lufs": -22.1
   },
   {
    "section": "D tutti unison",
    "bar": 52,
    "bars": 12,
    "start_s": 97.5,
-   "lufs": -17.0
+   "lufs": -16.9
   },
   {
    "section": "outro clockwork",
    "bar": 64,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -20.8
+   "lufs": -20.7
   }
  ],
  "motifs": [
@@ -82,8 +83,8 @@
  },
  "seam": {
   "jump_db": 0.58,
-  "wrap_step": 0.00789,
-  "p999_step": 0.05181,
+  "wrap_step": 0.00351,
+  "p999_step": 0.05236,
   "click": false,
   "ok": true
  },

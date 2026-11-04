@@ -4,11 +4,12 @@
  "key": "B minor",
  "bpm": 136,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 72,
  "seconds": 127.06,
  "loop_seconds": 127.059,
- "lufs": -20.1,
- "true_peak": -4.7,
+ "lufs": -20.0,
+ "true_peak": -4.4,
  "lra": 10.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,7 +27,7 @@
    "bar": 4,
    "bars": 8,
    "start_s": 7.1,
-   "lufs": -21.3
+   "lufs": -21.2
   },
   {
    "section": "B royal answer",
@@ -40,49 +41,49 @@
    "bar": 20,
    "bars": 8,
    "start_s": 35.3,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "C familiar scent",
    "bar": 28,
    "bars": 8,
    "start_s": 49.4,
-   "lufs": -25.2
+   "lufs": -25.1
   },
   {
    "section": "D challenge",
    "bar": 36,
    "bars": 8,
    "start_s": 63.5,
-   "lufs": -21.4
+   "lufs": -21.3
   },
   {
    "section": "climax",
    "bar": 44,
    "bars": 8,
    "start_s": 77.6,
-   "lufs": -14.9
+   "lufs": -14.8
   },
   {
    "section": "E approval",
    "bar": 52,
    "bars": 8,
    "start_s": 91.8,
-   "lufs": -19.6
+   "lufs": -19.5
   },
   {
    "section": "A'' stone theme",
    "bar": 60,
    "bars": 8,
    "start_s": 105.9,
-   "lufs": -20.4
+   "lufs": -20.3
   },
   {
    "section": "stone drums",
    "bar": 68,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -24.5
+   "lufs": -24.4
   }
  ],
  "motifs": [
@@ -140,8 +141,8 @@
  },
  "seam": {
   "jump_db": 0.19,
-  "wrap_step": 0.00753,
-  "p999_step": 0.07084,
+  "wrap_step": 0.00866,
+  "p999_step": 0.07169,
   "click": false,
   "ok": true
  },

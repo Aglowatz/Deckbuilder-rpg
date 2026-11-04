@@ -4,11 +4,12 @@
  "key": "A major",
  "bpm": 150,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 48,
  "seconds": 76.8,
  "loop_seconds": 76.8,
- "lufs": -20.1,
- "true_peak": -6.3,
+ "lufs": -20.0,
+ "true_peak": -6.5,
  "lra": 2.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +20,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -21.2
+   "lufs": -21.1
   },
   {
    "section": "A flute reel",
    "bar": 4,
    "bars": 16,
    "start_s": 6.4,
-   "lufs": -20.0
+   "lufs": -19.9
   },
   {
    "section": "B fiddle reel",
    "bar": 20,
    "bars": 16,
    "start_s": 32.0,
-   "lufs": -20.1
+   "lufs": -20.0
   },
   {
    "section": "C answers",
    "bar": 36,
    "bars": 8,
    "start_s": 57.6,
-   "lufs": -19.4
+   "lufs": -19.3
   },
   {
    "section": "outro",
    "bar": 44,
    "bars": 4,
    "start_s": 70.4,
-   "lufs": -21.3
+   "lufs": -21.2
   }
  ],
  "motifs": [
@@ -99,9 +100,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MINIGAME-REF.mid"
  },
  "seam": {
-  "jump_db": 0.69,
-  "wrap_step": 0.01945,
-  "p999_step": 0.06057,
+  "jump_db": 0.7,
+  "wrap_step": 0.01016,
+  "p999_step": 0.06416,
   "click": false,
   "ok": true
  },

@@ -4,11 +4,12 @@
  "key": "E Dorian",
  "bpm": 150,
  "meter": "6/8",
+ "profile": "orchestral",
  "bars": 96,
  "seconds": 115.2,
  "loop_seconds": 115.2,
- "lufs": -20.1,
- "true_peak": -4.6,
+ "lufs": -20.0,
+ "true_peak": -4.9,
  "lra": 9.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,28 +20,28 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -25.6
+   "lufs": -25.5
   },
   {
    "section": "A theme whole",
    "bar": 8,
    "bars": 16,
    "start_s": 9.6,
-   "lufs": -20.3
+   "lufs": -20.2
   },
   {
    "section": "B flute, breathing",
    "bar": 24,
    "bars": 16,
    "start_s": 28.8,
-   "lufs": -22.9
+   "lufs": -22.8
   },
   {
    "section": "Capital tension",
    "bar": 40,
    "bars": 8,
    "start_s": 48.0,
-   "lufs": -23.3
+   "lufs": -23.2
   },
   {
    "section": "C resolved motif",
@@ -61,7 +62,7 @@
    "bar": 88,
    "bars": 8,
    "start_s": 105.6,
-   "lufs": -25.2
+   "lufs": -25.1
   }
  ],
  "motifs": [
@@ -83,9 +84,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-REF-RESTORED.mid"
  },
  "seam": {
-  "jump_db": 0.1,
-  "wrap_step": 0.00394,
-  "p999_step": 0.0579,
+  "jump_db": 0.09,
+  "wrap_step": 0.00241,
+  "p999_step": 0.06091,
   "click": false,
   "ok": true
  },

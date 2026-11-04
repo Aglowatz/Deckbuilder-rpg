@@ -4,6 +4,7 @@
  "key": "C major",
  "bpm": 108,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 36,
  "seconds": 80.0,
  "loop_seconds": 80.0,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.7
+   "lufs": -22.6
   },
   {
    "section": "A bassoon, seriously",
@@ -47,14 +48,14 @@
    "bar": 28,
    "bars": 4,
    "start_s": 62.2,
-   "lufs": -20.4
+   "lufs": -20.3
   },
   {
    "section": "intro procedure",
    "bar": 32,
    "bars": 4,
    "start_s": 71.1,
-   "lufs": -22.5
+   "lufs": -22.4
   }
  ],
  "motifs": [
@@ -77,8 +78,8 @@
  },
  "seam": {
   "jump_db": -0.5,
-  "wrap_step": 0.00617,
-  "p999_step": 0.04254,
+  "wrap_step": 0.00488,
+  "p999_step": 0.04276,
   "click": false,
   "ok": true
  },

@@ -4,12 +4,13 @@
  "key": "E minor",
  "bpm": 186,
  "meter": "6/8",
+ "profile": "orchestral",
  "bars": 156,
  "seconds": 150.97,
  "loop_seconds": 150.968,
- "lufs": -20.1,
- "true_peak": -5.2,
- "lra": 7.6,
+ "lufs": -20.0,
+ "true_peak": -4.9,
+ "lra": 7.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,14 +20,14 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.5
+   "lufs": -20.4
   },
   {
    "section": "A jig",
    "bar": 4,
    "bars": 16,
    "start_s": 3.9,
-   "lufs": -21.6
+   "lufs": -21.5
   },
   {
    "section": "B tangle + motif",
@@ -40,35 +41,35 @@
    "bar": 36,
    "bars": 16,
    "start_s": 34.8,
-   "lufs": -22.0
+   "lufs": -21.9
   },
   {
    "section": "C fiddle variation",
    "bar": 52,
    "bars": 16,
    "start_s": 50.3,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "spring glimpse",
    "bar": 68,
    "bars": 8,
    "start_s": 65.8,
-   "lufs": -22.4
+   "lufs": -22.3
   },
   {
    "section": "D cello theme, build",
    "bar": 76,
    "bars": 16,
    "start_s": 73.5,
-   "lufs": -24.4
+   "lufs": -24.3
   },
   {
    "section": "A' tutti",
    "bar": 92,
    "bars": 16,
    "start_s": 89.0,
-   "lufs": -17.0
+   "lufs": -16.9
   },
   {
    "section": "B' tangle tutti",
@@ -82,21 +83,21 @@
    "bar": 124,
    "bars": 16,
    "start_s": 120.0,
-   "lufs": -16.7
+   "lufs": -16.6
   },
   {
    "section": "wind-down",
    "bar": 140,
    "bars": 12,
    "start_s": 135.5,
-   "lufs": -22.8
+   "lufs": -22.7
   },
   {
    "section": "outro",
    "bar": 152,
    "bars": 4,
    "start_s": 147.1,
-   "lufs": -20.6
+   "lufs": -20.5
   }
  ],
  "motifs": [
@@ -124,8 +125,8 @@
  },
  "seam": {
   "jump_db": 0.51,
-  "wrap_step": 0.01382,
-  "p999_step": 0.06144,
+  "wrap_step": 0.00872,
+  "p999_step": 0.06434,
   "click": false,
   "ok": true
  },

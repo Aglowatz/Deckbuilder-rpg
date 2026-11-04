@@ -4,12 +4,13 @@
  "key": "G minor",
  "bpm": 96,
  "meter": "3/4",
+ "profile": "orchestral",
  "bars": 64,
  "seconds": 120.0,
  "loop_seconds": 120.0,
- "lufs": -20.1,
+ "lufs": -20.0,
  "true_peak": -7.3,
- "lra": 7.7,
+ "lra": 7.6,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,21 +20,21 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.0
+   "lufs": -21.9
   },
   {
    "section": "A the hum (bassoon, then Hob)",
    "bar": 4,
    "bars": 16,
    "start_s": 7.5,
-   "lufs": -19.4
+   "lufs": -19.3
   },
   {
    "section": "B amusing",
    "bar": 20,
    "bars": 16,
    "start_s": 37.5,
-   "lufs": -19.4
+   "lufs": -19.3
   },
   {
    "section": "C mist",
@@ -54,7 +55,7 @@
    "bar": 60,
    "bars": 4,
    "start_s": 112.5,
-   "lufs": -21.7
+   "lufs": -21.6
   }
  ],
  "motifs": [
@@ -86,9 +87,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-GRAVE-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.09,
-  "wrap_step": 0.00218,
-  "p999_step": 0.05156,
+  "jump_db": 0.08,
+  "wrap_step": 0.00305,
+  "p999_step": 0.05198,
   "click": false,
   "ok": true
  },

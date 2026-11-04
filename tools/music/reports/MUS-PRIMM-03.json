@@ -4,11 +4,12 @@
  "key": "D major",
  "bpm": 146,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 68,
  "seconds": 111.78,
  "loop_seconds": 111.781,
- "lufs": -20.1,
- "true_peak": -6.7,
+ "lufs": -20.0,
+ "true_peak": -6.3,
  "lra": 5.8,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,42 +20,42 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -18.9
+   "lufs": -18.8
   },
   {
    "section": "A fracture",
    "bar": 4,
    "bars": 12,
    "start_s": 6.6,
-   "lufs": -22.1
+   "lufs": -22.0
   },
   {
    "section": "B voices return",
    "bar": 16,
    "bars": 16,
    "start_s": 26.3,
-   "lufs": -21.5
+   "lufs": -21.4
   },
   {
    "section": "C climax",
    "bar": 32,
    "bars": 16,
    "start_s": 52.6,
-   "lufs": -18.5
+   "lufs": -18.4
   },
   {
    "section": "D drive",
    "bar": 48,
    "bars": 16,
    "start_s": 78.9,
-   "lufs": -20.4
+   "lufs": -20.3
   },
   {
    "section": "outro grid",
    "bar": 64,
    "bars": 4,
    "start_s": 105.2,
-   "lufs": -18.8
+   "lufs": -18.7
   }
  ],
  "motifs": [
@@ -136,9 +137,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PRIMM-03.mid"
  },
  "seam": {
-  "jump_db": 0.69,
-  "wrap_step": 0.00869,
-  "p999_step": 0.04547,
+  "jump_db": 0.68,
+  "wrap_step": 0.00239,
+  "p999_step": 0.04605,
   "click": false,
   "ok": true
  },

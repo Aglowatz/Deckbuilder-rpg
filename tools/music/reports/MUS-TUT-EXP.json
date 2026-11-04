@@ -4,10 +4,11 @@
  "key": "E minor",
  "bpm": 66,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 36,
  "seconds": 130.91,
  "loop_seconds": 130.909,
- "lufs": -20.1,
+ "lufs": -20.0,
  "true_peak": -6.0,
  "lra": 9.5,
  "limited_db": 0.0,
@@ -33,21 +34,21 @@
    "bar": 16,
    "bars": 8,
    "start_s": 58.2,
-   "lufs": -18.3
+   "lufs": -18.2
   },
   {
    "section": "echoes",
    "bar": 24,
    "bars": 8,
    "start_s": 87.3,
-   "lufs": -19.9
+   "lufs": -19.8
   },
   {
    "section": "drone again",
    "bar": 32,
    "bars": 4,
    "start_s": 116.4,
-   "lufs": -25.5
+   "lufs": -25.4
   }
  ],
  "motifs": [
@@ -84,9 +85,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TUT-EXP.mid"
  },
  "seam": {
-  "jump_db": -0.53,
-  "wrap_step": 0.00199,
-  "p999_step": 0.03266,
+  "jump_db": -0.51,
+  "wrap_step": 0.00285,
+  "p999_step": 0.03309,
   "click": false,
   "ok": true
  },

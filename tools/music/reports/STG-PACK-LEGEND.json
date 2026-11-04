@@ -4,6 +4,7 @@
  "key": "Eb major",
  "bpm": 96,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 2,
  "seconds": 6.0,
  "loop_seconds": 5.0,

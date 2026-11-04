@@ -4,6 +4,7 @@
  "key": "A minor",
  "bpm": 112,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 36,
  "seconds": 77.14,
  "loop_seconds": 77.143,
@@ -40,21 +41,21 @@
    "bar": 20,
    "bars": 8,
    "start_s": 42.9,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "C the motif walks",
    "bar": 28,
    "bars": 4,
    "start_s": 60.0,
-   "lufs": -19.1
+   "lufs": -19.0
   },
   {
    "section": "intro walk",
    "bar": 32,
    "bars": 4,
    "start_s": 68.6,
-   "lufs": -22.8
+   "lufs": -22.7
   }
  ],
  "motifs": [
@@ -76,9 +77,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-SHOP-THREADWELL.mid"
  },
  "seam": {
-  "jump_db": -1.04,
-  "wrap_step": 0.01074,
-  "p999_step": 0.05111,
+  "jump_db": -1.03,
+  "wrap_step": 0.00527,
+  "p999_step": 0.05138,
   "click": false,
   "ok": true
  },

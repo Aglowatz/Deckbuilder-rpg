@@ -4,6 +4,7 @@
  "key": "C minor -> C major",
  "bpm": 116,
  "meter": "3/4",
+ "profile": "orchestral",
  "bars": 4,
  "seconds": 8.0,
  "loop_seconds": 6.207,

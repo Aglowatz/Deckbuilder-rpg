@@ -4,11 +4,12 @@
  "key": "F major",
  "bpm": 72,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 36,
  "seconds": 120.0,
  "loop_seconds": 120.0,
- "lufs": -20.1,
- "true_peak": -6.9,
+ "lufs": -20.0,
+ "true_peak": -6.6,
  "lra": 5.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +20,35 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -22.1
+   "lufs": -22.0
   },
   {
    "section": "B question",
    "bar": 8,
    "bars": 8,
    "start_s": 26.7,
-   "lufs": -19.8
+   "lufs": -19.7
   },
   {
    "section": "C cello",
    "bar": 16,
    "bars": 8,
    "start_s": 53.3,
-   "lufs": -19.4
+   "lufs": -19.3
   },
   {
    "section": "A' chords",
    "bar": 24,
    "bars": 8,
    "start_s": 80.0,
-   "lufs": -19.1
+   "lufs": -19.0
   },
   {
    "section": "A again",
    "bar": 32,
    "bars": 4,
    "start_s": 106.7,
-   "lufs": -21.9
+   "lufs": -21.8
   }
  ],
  "motifs": [
@@ -89,9 +90,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-DECK.mid"
  },
  "seam": {
-  "jump_db": 0.29,
-  "wrap_step": 0.00802,
-  "p999_step": 0.03647,
+  "jump_db": 0.3,
+  "wrap_step": 0.00434,
+  "p999_step": 0.03686,
   "click": false,
   "ok": true
  },

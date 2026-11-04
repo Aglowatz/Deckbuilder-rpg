@@ -4,11 +4,12 @@
  "key": "C major",
  "bpm": 104,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 14,
  "seconds": 37.67,
  "loop_seconds": 32.308,
- "lufs": -20.1,
- "true_peak": -7.2,
+ "lufs": -20.0,
+ "true_peak": -7.1,
  "lra": 10.4,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 1,
    "start_s": 0.0,
-   "lufs": -32.1
+   "lufs": -32.0
   },
   {
    "section": "sincere: music box",
@@ -33,14 +34,14 @@
    "bar": 6,
    "bars": 5,
    "start_s": 13.8,
-   "lufs": -19.0
+   "lufs": -18.9
   },
   {
    "section": "held",
    "bar": 11,
    "bars": 3,
    "start_s": 25.4,
-   "lufs": -17.1
+   "lufs": -17.0
   }
  ],
  "motifs": [

@@ -4,11 +4,12 @@
  "key": "D major",
  "bpm": 66,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 20,
  "seconds": 77.31,
  "loop_seconds": 72.727,
- "lufs": -20.1,
- "true_peak": -6.0,
+ "lufs": -20.0,
+ "true_peak": -5.8,
  "lra": 13.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,35 +20,35 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -29.1
+   "lufs": -29.0
   },
   {
    "section": "the lullaby in focus",
    "bar": 4,
    "bars": 6,
    "start_s": 14.5,
-   "lufs": -18.3
+   "lufs": -18.2
   },
   {
    "section": "held",
    "bar": 10,
    "bars": 2,
    "start_s": 36.4,
-   "lufs": -24.1
+   "lufs": -24.0
   },
   {
    "section": "crossroads, open",
    "bar": 12,
    "bars": 5,
    "start_s": 43.6,
-   "lufs": -18.4
+   "lufs": -18.3
   },
   {
    "section": "held fifth",
    "bar": 17,
    "bars": 3,
    "start_s": 61.8,
-   "lufs": -20.2
+   "lufs": -20.1
   }
  ],
  "motifs": [

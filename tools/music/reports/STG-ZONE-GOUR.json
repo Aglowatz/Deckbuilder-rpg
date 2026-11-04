@@ -4,6 +4,7 @@
  "key": "F major",
  "bpm": 132,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 3,
  "seconds": 7.0,
  "loop_seconds": 5.455,

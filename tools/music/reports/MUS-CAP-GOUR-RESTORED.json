@@ -4,12 +4,13 @@
  "key": "F major",
  "bpm": 112,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 56,
  "seconds": 120.0,
  "loop_seconds": 120.0,
- "lufs": -20.1,
- "true_peak": -8.0,
- "lra": 9.6,
+ "lufs": -20.0,
+ "true_peak": -7.9,
+ "lra": 9.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,28 +20,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -26.4
+   "lufs": -26.3
   },
   {
    "section": "A theme in tune",
    "bar": 4,
    "bars": 16,
    "start_s": 8.6,
-   "lufs": -17.7
+   "lufs": -17.6
   },
   {
    "section": "B guarded",
    "bar": 20,
    "bars": 12,
    "start_s": 42.9,
-   "lufs": -24.3
+   "lufs": -24.2
   },
   {
    "section": "A' full + resolved",
    "bar": 32,
    "bars": 20,
    "start_s": 68.6,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "intro again",
@@ -80,8 +81,8 @@
  },
  "seam": {
   "jump_db": 0.1,
-  "wrap_step": 0.00225,
-  "p999_step": 0.07026,
+  "wrap_step": 0.00226,
+  "p999_step": 0.07064,
   "click": false,
   "ok": true
  },

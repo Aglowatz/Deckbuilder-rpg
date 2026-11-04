@@ -4,11 +4,12 @@
  "key": "B minor",
  "bpm": 134,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 76,
  "seconds": 136.12,
  "loop_seconds": 136.119,
- "lufs": -20.1,
- "true_peak": -5.8,
+ "lufs": -20.0,
+ "true_peak": -5.4,
  "lra": 6.3,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.9
+   "lufs": -22.8
   },
   {
    "section": "A KING",
@@ -33,42 +34,42 @@
    "bar": 20,
    "bars": 16,
    "start_s": 35.8,
-   "lufs": -20.4
+   "lufs": -20.3
   },
   {
    "section": "C comic collapse",
    "bar": 36,
    "bars": 8,
    "start_s": 64.5,
-   "lufs": -24.9
+   "lufs": -24.8
   },
   {
    "section": "D climax",
    "bar": 44,
    "bars": 16,
    "start_s": 78.8,
-   "lufs": -17.7
+   "lufs": -17.6
   },
   {
    "section": "E drive",
    "bar": 60,
    "bars": 8,
    "start_s": 107.5,
-   "lufs": -20.4
+   "lufs": -20.3
   },
   {
    "section": "wind-down",
    "bar": 68,
    "bars": 4,
    "start_s": 121.8,
-   "lufs": -22.2
+   "lufs": -22.1
   },
   {
    "section": "outro",
    "bar": 72,
    "bars": 4,
    "start_s": 129.0,
-   "lufs": -23.2
+   "lufs": -23.1
   }
  ],
  "motifs": [
@@ -110,9 +111,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-PANDA-BOSS.mid"
  },
  "seam": {
-  "jump_db": -1.01,
-  "wrap_step": 0.00404,
-  "p999_step": 0.05195,
+  "jump_db": -1.0,
+  "wrap_step": 0.00895,
+  "p999_step": 0.0535,
   "click": false,
   "ok": true
  },

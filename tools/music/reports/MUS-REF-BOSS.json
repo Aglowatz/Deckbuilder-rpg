@@ -4,12 +4,13 @@
  "key": "E harmonic minor",
  "bpm": 156,
  "meter": "6/8",
+ "profile": "orchestral",
  "bars": 144,
  "seconds": 166.15,
  "loop_seconds": 166.154,
- "lufs": -20.1,
+ "lufs": -20.0,
  "true_peak": -4.5,
- "lra": 8.0,
+ "lra": 8.1,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -19,42 +20,42 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -23.5
+   "lufs": -23.4
   },
   {
    "section": "A jig in minor",
    "bar": 8,
    "bars": 16,
    "start_s": 9.2,
-   "lufs": -22.3
+   "lufs": -22.2
   },
   {
    "section": "B lament",
    "bar": 24,
    "bars": 16,
    "start_s": 27.7,
-   "lufs": -21.3
+   "lufs": -21.2
   },
   {
    "section": "C lament trapped",
    "bar": 40,
    "bars": 16,
    "start_s": 46.2,
-   "lufs": -17.9
+   "lufs": -17.8
   },
   {
    "section": "grief break",
    "bar": 56,
    "bars": 16,
    "start_s": 64.6,
-   "lufs": -26.2
+   "lufs": -26.1
   },
   {
    "section": "E drive",
    "bar": 72,
    "bars": 16,
    "start_s": 83.1,
-   "lufs": -21.0
+   "lufs": -20.9
   },
   {
    "section": "F climax",
@@ -68,21 +69,21 @@
    "bar": 112,
    "bars": 16,
    "start_s": 129.2,
-   "lufs": -21.9
+   "lufs": -21.8
   },
   {
    "section": "drive again",
    "bar": 128,
    "bars": 12,
    "start_s": 147.7,
-   "lufs": -23.0
+   "lufs": -22.9
   },
   {
    "section": "roots again",
    "bar": 140,
    "bars": 4,
    "start_s": 161.5,
-   "lufs": -23.7
+   "lufs": -23.6
   }
  ],
  "motifs": [
@@ -129,9 +130,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-REF-BOSS.mid"
  },
  "seam": {
-  "jump_db": 0.7,
-  "wrap_step": 0.01965,
-  "p999_step": 0.0524,
+  "jump_db": 0.71,
+  "wrap_step": 0.01579,
+  "p999_step": 0.05291,
   "click": false,
   "ok": true
  },

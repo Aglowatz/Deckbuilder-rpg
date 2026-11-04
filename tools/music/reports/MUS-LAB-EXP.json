@@ -4,11 +4,12 @@
  "key": "A minor",
  "bpm": 150,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 96,
  "seconds": 153.6,
  "loop_seconds": 153.6,
  "lufs": -20.1,
- "true_peak": -4.8,
+ "true_peak": -5.1,
  "lra": 6.1,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,21 +20,21 @@
    "bar": 0,
    "bars": 8,
    "start_s": 0.0,
-   "lufs": -23.4
+   "lufs": -23.3
   },
   {
    "section": "A grid + cello",
    "bar": 8,
    "bars": 16,
    "start_s": 12.8,
-   "lufs": -20.3
+   "lufs": -20.2
   },
   {
    "section": "B breakdown",
    "bar": 24,
    "bars": 16,
    "start_s": 38.4,
-   "lufs": -22.9
+   "lufs": -22.8
   },
   {
    "section": "drop 1",
@@ -54,7 +55,7 @@
    "bar": 72,
    "bars": 16,
    "start_s": 115.2,
-   "lufs": -18.0
+   "lufs": -17.9
   },
   {
    "section": "bed",
@@ -113,9 +114,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-LAB-EXP.mid"
  },
  "seam": {
-  "jump_db": 0.63,
-  "wrap_step": 0.00658,
-  "p999_step": 0.08624,
+  "jump_db": 0.61,
+  "wrap_step": 0.00495,
+  "p999_step": 0.08785,
   "click": false,
   "ok": true
  },

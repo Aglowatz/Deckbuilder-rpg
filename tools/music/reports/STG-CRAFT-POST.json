@@ -4,6 +4,7 @@
  "key": "A major",
  "bpm": 120,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 2,
  "seconds": 4.8,
  "loop_seconds": 4.0,

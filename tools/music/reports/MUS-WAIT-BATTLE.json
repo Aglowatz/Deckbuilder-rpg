@@ -4,11 +4,12 @@
  "key": "G minor",
  "bpm": 136,
  "meter": "3/4",
+ "profile": "orchestral",
  "bars": 96,
  "seconds": 127.06,
  "loop_seconds": 127.059,
- "lufs": -20.1,
- "true_peak": -5.9,
+ "lufs": -20.0,
+ "true_peak": -6.0,
  "lra": 9.2,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -23.9
+   "lufs": -23.8
   },
   {
    "section": "A piano theme",
@@ -47,28 +48,28 @@
    "bar": 52,
    "bars": 16,
    "start_s": 68.8,
-   "lufs": -22.8
+   "lufs": -22.7
   },
   {
    "section": "C theme in the brass",
    "bar": 68,
    "bars": 16,
    "start_s": 90.0,
-   "lufs": -17.2
+   "lufs": -17.1
   },
   {
    "section": "D wind-down",
    "bar": 84,
    "bars": 8,
    "start_s": 111.2,
-   "lufs": -27.0
+   "lufs": -26.9
   },
   {
    "section": "outro",
    "bar": 92,
    "bars": 4,
    "start_s": 121.8,
-   "lufs": -23.9
+   "lufs": -23.8
   }
  ],
  "motifs": [
@@ -110,9 +111,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-WAIT-BATTLE.mid"
  },
  "seam": {
-  "jump_db": -0.48,
-  "wrap_step": 0.0111,
-  "p999_step": 0.05708,
+  "jump_db": -0.46,
+  "wrap_step": 0.00718,
+  "p999_step": 0.05772,
   "click": false,
   "ok": true
  },

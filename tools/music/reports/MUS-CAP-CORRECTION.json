@@ -4,11 +4,12 @@
  "key": "A minor",
  "bpm": 120,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 64,
  "seconds": 128.0,
  "loop_seconds": 128.0,
- "lufs": -20.1,
- "true_peak": -4.3,
+ "lufs": -20.0,
+ "true_peak": -4.6,
  "lra": 11.8,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,28 +20,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.9
+   "lufs": -20.8
   },
   {
    "section": "A the anthem as procedure",
    "bar": 4,
    "bars": 16,
    "start_s": 8.0,
-   "lufs": -24.2
+   "lufs": -24.1
   },
   {
    "section": "B threat",
    "bar": 20,
    "bars": 12,
    "start_s": 40.0,
-   "lufs": -17.6
+   "lufs": -17.5
   },
   {
    "section": "C the unfinished phrase",
    "bar": 32,
    "bars": 12,
    "start_s": 64.0,
-   "lufs": -24.1
+   "lufs": -24.0
   },
   {
    "section": "D threat returns",
@@ -54,7 +55,7 @@
    "bar": 60,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -21.0
+   "lufs": -20.9
   }
  ],
  "motifs": [
@@ -77,8 +78,8 @@
  },
  "seam": {
   "jump_db": 0.37,
-  "wrap_step": 0.01292,
-  "p999_step": 0.08813,
+  "wrap_step": 0.00395,
+  "p999_step": 0.08883,
   "click": false,
   "ok": true
  },

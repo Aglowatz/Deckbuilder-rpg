@@ -4,11 +4,12 @@
  "key": "D minor",
  "bpm": 76,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 48,
  "seconds": 151.58,
  "loop_seconds": 151.579,
- "lufs": -20.1,
- "true_peak": -3.7,
+ "lufs": -20.0,
+ "true_peak": -3.6,
  "lra": 13.3,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,42 +27,42 @@
    "bar": 4,
    "bars": 8,
    "start_s": 12.6,
-   "lufs": -22.3
+   "lufs": -22.2
   },
   {
    "section": "A' tutti",
    "bar": 12,
    "bars": 8,
    "start_s": 37.9,
-   "lufs": -20.3
+   "lufs": -20.2
   },
   {
    "section": "B adventure",
    "bar": 20,
    "bars": 8,
    "start_s": 63.2,
-   "lufs": -22.6
+   "lufs": -22.5
   },
   {
    "section": "C oboe",
    "bar": 28,
    "bars": 8,
    "start_s": 88.4,
-   "lufs": -26.0
+   "lufs": -25.9
   },
   {
    "section": "climax",
    "bar": 36,
    "bars": 8,
    "start_s": 113.7,
-   "lufs": -14.8
+   "lufs": -14.7
   },
   {
    "section": "outro",
    "bar": 44,
    "bars": 4,
    "start_s": 138.9,
-   "lufs": -25.9
+   "lufs": -25.8
   }
  ],
  "motifs": [
@@ -113,9 +114,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-TITLE.mid"
  },
  "seam": {
-  "jump_db": 0.21,
-  "wrap_step": 0.005,
-  "p999_step": 0.10257,
+  "jump_db": 0.23,
+  "wrap_step": 0.00746,
+  "p999_step": 0.10336,
   "click": false,
   "ok": true
  },

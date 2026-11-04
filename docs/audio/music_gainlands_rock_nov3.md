@@ -39,7 +39,20 @@ The resolved motif appears only in FREED, RELEASE, CAP-BEEF-RESTORED and STG-ZON
 
 ## Part 3 - back to q6 for everything
 
-(filled in below)
+- Every one of the 144 toolkit scores (all MUS- and STG- IDs) re-rendered fresh at Vorbis q6 (`WP_VORBIS_Q=6 bash tools/music/rerender_all.sh
+  render`; the host stopped one 12-ID chunk for low memory, its 7 IDs were rendered again on resume). Delivered with `deliver.py --approve`
+  (Gainlands set `--revision rock-v1`, its orchestral versions backed up to Superseded/Music_v01; the other 129 `--no-backup --revision
+  orch-q6`: their q3 files were turned down and their q6 originals are in `C:\Dev\music_tools\q6_backup`), levels re-analysed, "import
+  audio" with `--no-process` (124 copied, 20 unchanged, 0 missing). Every game file is byte-identical to its render (checked 144/144).
+- Boss victory stings re-cut (`cut_stings.js`: STG-WIN-BEEF-BOSS from 126.0 s, STG-WIN-SWOLY-BOSS from 83.0 s); `audio_doc.js`: 142 in game, 0 missing.
+- Routing: the music smoke (OK - forest -> town -> graveyard -> shop -> battle -> zone -> dungeon -> boss -> zone freed -> Capital, worst
+  crossfade 0.00 dB, including MUS-CAP-BEEF-RESTORED + STG-ZONE-BEEF), test_music_playback (zone/battle/dungeon/boss -> the BEEF IDs), and
+  the Part 4 play-script run below. Audio GUT 91/91 (one tolerance aligned: the rock chain lands at -20.2 LUFS after encoding, so the
+  registry trims +0.2 dB; the "no double gain" check now uses the same 0.25 tolerance as its loudness check).
+- **Size, read this:** the music folder is **290 MB** (q3 was 175, the old in-game "q6" 224). The old in-game files were never really q6:
+  the drop-in pipeline re-encoded the q6 renders at q5 (nominal 160 kbps; `ffprobe` on q6_backup). Fresh single-pass q6 is 192 kbps nominal,
+  ~35 % bigger. See the inbox for the q5 option.
+
 
 ## Part 4 - verify + build
 

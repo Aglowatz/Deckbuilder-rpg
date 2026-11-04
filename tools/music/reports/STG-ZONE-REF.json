@@ -4,6 +4,7 @@
  "key": "E Dorian -> E major",
  "bpm": 174,
  "meter": "6/8",
+ "profile": "orchestral",
  "bars": 5,
  "seconds": 8.0,
  "loop_seconds": 5.172,

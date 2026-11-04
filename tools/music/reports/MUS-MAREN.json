@@ -4,11 +4,12 @@
  "key": "G minor",
  "bpm": 66,
  "meter": "3/4",
+ "profile": "orchestral",
  "bars": 32,
  "seconds": 87.27,
  "loop_seconds": 87.273,
- "lufs": -20.1,
- "true_peak": -8.0,
+ "lufs": -20.0,
+ "true_peak": -8.1,
  "lra": 10.6,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -26,7 +27,7 @@
    "bar": 8,
    "bars": 8,
    "start_s": 21.8,
-   "lufs": -21.8
+   "lufs": -21.7
   },
   {
    "section": "C bare",
@@ -40,7 +41,7 @@
    "bar": 24,
    "bars": 8,
    "start_s": 65.5,
-   "lufs": -18.1
+   "lufs": -18.0
   }
  ],
  "motifs": [
@@ -82,9 +83,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-MAREN.mid"
  },
  "seam": {
-  "jump_db": 1.18,
-  "wrap_step": 0.00392,
-  "p999_step": 0.07452,
+  "jump_db": 1.15,
+  "wrap_step": 0.01082,
+  "p999_step": 0.07484,
   "click": false,
   "ok": true
  },

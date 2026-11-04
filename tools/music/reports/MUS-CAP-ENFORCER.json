@@ -4,12 +4,13 @@
  "key": "G major",
  "bpm": 120,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 64,
  "seconds": 128.0,
  "loop_seconds": 128.0,
  "lufs": -20.1,
- "true_peak": -5.8,
- "lra": 7.3,
+ "true_peak": -5.7,
+ "lra": 7.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -26,35 +27,35 @@
    "bar": 4,
    "bars": 16,
    "start_s": 8.0,
-   "lufs": -23.4
+   "lufs": -23.3
   },
   {
    "section": "B the anthem in block brass",
    "bar": 20,
    "bars": 16,
    "start_s": 40.0,
-   "lufs": -19.7
+   "lufs": -19.6
   },
   {
    "section": "C pressure (G minor)",
    "bar": 36,
    "bars": 12,
    "start_s": 72.0,
-   "lufs": -19.1
+   "lufs": -19.0
   },
   {
    "section": "D the hero fights back",
    "bar": 48,
    "bars": 12,
    "start_s": 96.0,
-   "lufs": -18.4
+   "lufs": -18.3
   },
   {
    "section": "outro drill",
    "bar": 60,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -21.6
+   "lufs": -21.5
   }
  ],
  "motifs": [
@@ -91,9 +92,9 @@
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-ENFORCER.mid"
  },
  "seam": {
-  "jump_db": -0.93,
-  "wrap_step": 0.01673,
-  "p999_step": 0.05963,
+  "jump_db": -0.92,
+  "wrap_step": 0.0125,
+  "p999_step": 0.06091,
   "click": false,
   "ok": true
  },

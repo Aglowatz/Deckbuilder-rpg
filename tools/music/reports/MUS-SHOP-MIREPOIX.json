@@ -4,11 +4,12 @@
  "key": "Bb major",
  "bpm": 100,
  "meter": "4/4",
+ "profile": "orchestral",
  "bars": 36,
  "seconds": 86.4,
  "loop_seconds": 86.4,
- "lufs": -20.1,
- "true_peak": -6.1,
+ "lufs": -20.0,
+ "true_peak": -5.8,
  "lra": 6.9,
  "limited_db": 0.0,
  "peak_ok": true,
@@ -19,7 +20,7 @@
    "bar": 0,
    "bars": 16,
    "start_s": 0.0,
-   "lufs": -22.0
+   "lufs": -21.9
   },
   {
    "section": "welcoming",
@@ -33,7 +34,7 @@
    "bar": 28,
    "bars": 8,
    "start_s": 67.2,
-   "lufs": -22.5
+   "lufs": -22.4
   }
  ],
  "motifs": [
@@ -56,8 +57,8 @@
  },
  "seam": {
   "jump_db": 0.19,
-  "wrap_step": 0.011,
-  "p999_step": 0.04735,
+  "wrap_step": 0.00916,
+  "p999_step": 0.04779,
   "click": false,
   "ok": true
  },
