@@ -31,7 +31,8 @@ const BADGE_SIZE: Vector2 = Vector2(34, 24)
 
 ## Nov 3-4, Part A2: the charge count - a small dark pill with a gold rim and outlined text, readable on any icon (the character page uses it too).
 static func charge_badge(font_size: int) -> Label:
-	var badge: Label = UIKit.label("", &"ChargeBadge", font_size, Color("fff3d6"), HORIZONTAL_ALIGNMENT_CENTER)
+	var badge: Label = UIKit.label("", &"", font_size, Color("fff3d6"), HORIZONTAL_ALIGNMENT_CENTER)
+	badge.name = "ChargeBadge"
 	badge.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	badge.add_theme_font_override("font", UIStyle.font_bold())
 	badge.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))

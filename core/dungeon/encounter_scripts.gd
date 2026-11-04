@@ -24,6 +24,23 @@ extends RefCounted
 ## `GameState` (`script_runs`) and is copied by `GameState.clone`, so the AI's look-ahead sees what crossing a threshold will do.
 
 const PATH: String = "res://data/encounters/encounter_scripts.json"
+## Overnight Nov 3-4, Part B7: a trigger stays hidden until it has fired once in THIS save - the rule row and every pre-fight description show
+## a "Hidden trait ?" chip instead of its name and text. `hide_unseen` is switched on by the game (Session; sims and tools see everything);
+## `seen` is the save's set of "key|id" refs (the same Dictionary as `Session.seen_triggers`).
+const HIDDEN_NAME: String = "Hidden trait ?"
+const HIDDEN_TEXT: String = "Something happens in this fight you haven't seen yet."
+const HIDDEN_ICON: String = "delapouite/carnival-mask"
+static var hide_unseen: bool = false
+static var seen: Dictionary = {}
+
+
+static func ref_of(key: String, trigger_id: String) -> String:
+	return "%s|%s" % [key, trigger_id]
+
+
+## True while the trigger has never fired in this save (and the game hides unseen triggers).
+static func is_hidden(key: String, trigger_id: String) -> bool:
+	return hide_unseen and not seen.has(ref_of(key, trigger_id))
 const DEFAULT_ICON: String = "lorc/fire-bowl"
 const WHEN_TYPES: Array[String] = ["hp_below", "turn", "units_died", "foe_units_at_least", "own_units_at_most", "foe_hp_below"]
 const EFFECT_KINDS: Array[String] = [
@@ -225,6 +242,26 @@ const ENTRY_KEYS: Dictionary = {
 
 
 ## The scripted events a Bestiary entry's fights have (its "signature moves"), in order.
+## The keys a Collection Book entry's triggers come from (for `is_hidden`).
+static func keys_for_entry(entry_name: String) -> Array[String]:
+	var result: Array[String] = []
+	for key: Variant in ENTRY_KEYS.get(entry_name, [entry_name]) as Array:
+		result.append(str(key))
+	if entry_name == "Vivienne Quota, Minister of Efficiency":
+		result.append("capital:quota")
+	return result
+
+
+## Nov 3-4, Part B7: whether a Collection Book move is still hidden in this save (its trigger never fired under any of the entry's keys).
+static func entry_move_hidden(entry_name: String, move: Trigger) -> bool:
+	for key: String in keys_for_entry(entry_name):
+		if not is_hidden(key, move.id):
+			for each: Trigger in triggers(key):
+				if each == move:
+					return false
+	return hide_unseen
+
+
 static func triggers_for_entry(entry_name: String) -> Array[Trigger]:
 	var result: Array[Trigger] = []
 	var keys: Array = ENTRY_KEYS.get(entry_name, [entry_name]) as Array
@@ -259,6 +296,12 @@ static func display_rules(key: String) -> Array[EncounterModifiers.Rule]:
 		rule.text = each.text
 		rule.icon = each.icon
 		rule.scripted = true
+		rule.trigger_ref = ref_of(key, each.id)
+		if is_hidden(key, each.id):
+			rule.hidden = true
+			rule.name = HIDDEN_NAME
+			rule.text = HIDDEN_TEXT
+			rule.icon = HIDDEN_ICON
 		result.append(rule)
 	return result
 

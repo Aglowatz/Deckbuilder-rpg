@@ -84,8 +84,16 @@ var pending_equipment_choices: int = 0
 var level_track_grants: bool = true
 
 
+## Overnight Nov 3-4, Part B7: the scripted battle triggers seen in this save ("key|id" -> true; EncounterScripts.seen is this Dictionary).
+var seen_triggers: Dictionary = {}
+## Part B8: the dungeon fog of this save: dungeon key -> {"entered": bool, "seen": [node ids], "all": bool (a migrated cleared dungeon)}.
+var dungeon_fog: Dictionary = {}
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	EncounterScripts.hide_unseen = true
+	EncounterScripts.seen = seen_triggers
 	# The project name is the window title too; the save folder keeps its old name through config/custom_user_dir_name.
 	DisplayServer.window_set_title("The Wayward Path")
 	rng.randomize()
@@ -169,6 +177,10 @@ func new_game() -> void:
 	zone_log = []
 	map_fog = {}
 	_fog_live = {}
+	seen_triggers = {}
+	EncounterScripts.seen = seen_triggers
+	dungeon_fog = {}
+	SpoilerFree.sync_dungeons(dungeon_fog)
 	zone_run = null
 	pending_level_ups = []
 	pending_popups = []
@@ -762,18 +774,133 @@ func gear_unlocked() -> bool:
 
 
 ## Talking to Beetsworth moves the armory quest on: the first report, then collecting the gear. Returns the new stage.
+## Nov 3-4, Part B6: collecting opens every equipment slot and hands over the Starter Blade (not worn yet); the quest's last step is to equip it.
 func armory_talk() -> int:
 	var stage: int = armory_stage()
 	if stage == 1:
 		set_flag(&"armory_reported")
 	elif stage == 3:
 		set_flag(&"armory_collected")
+		_open_the_armory(false)
 	refresh_quests()
 	return stage
 
 
-## Every equipment slot opens and the Starter Blade goes straight into the weapon slot.
-func _open_the_armory() -> void:
+# ---- Tutorials: Tilly's item, Bertram's gear (Overnight Nov 3-4, Parts B5 + B6) ---------------------------------------------------
+
+const FLAG_TILLY_GIFT: StringName = &"tilly_item_given"
+const FLAG_TILLY_EQUIPPED: StringName = &"tilly_item_equipped"
+const FLAG_ARMORY_EQUIPPED: StringName = &"armory_gear_equipped"
+## The free item Tilly hands over on the first visit (the Field Bandage of the old sheets is Power Wraps since Nov 2).
+const TILLY_GIFT_ITEM: String = "power_wraps"
+
+
+## True while Tilly's gift step is open: the item is given, not yet equipped, and Meet the Merchants is still running.
+func item_tutorial_open() -> bool:
+	return profile != null and flag(FLAG_TILLY_GIFT) and not flag(FLAG_TILLY_EQUIPPED) and quest_log.is_active(QuestDefinitions.MERCHANTS)
+
+
+## True while Bertram's equip step is open (the gear is collected, nothing equipped since).
+func equipment_tutorial_open() -> bool:
+	return profile != null and flag(&"armory_collected") and not flag(FLAG_ARMORY_EQUIPPED) and quest_log.is_active(QuestDefinitions.ARMORY)
+
+
+## Tilly's gift: one Power Wraps charge, once. True when it was given now.
+func give_tilly_gift() -> bool:
+	if profile == null or flag(FLAG_TILLY_GIFT):
+		return false
+	var item: ItemData = content.item(TILLY_GIFT_ITEM)
+	if item == null:
+		return false
+	add_item(item, 1)
+	set_flag(FLAG_TILLY_GIFT)
+	return true
+
+
+## What the tutorial highlights should point at: "items" (Tilly's step), "equipment" (Bertram's), "" for none.
+func tutorial_target() -> String:
+	if item_tutorial_open():
+		return "items"
+	if equipment_tutorial_open():
+		return "equipment"
+	return ""
+
+
+## The character page equipped an item into a slot (any item counts for Tilly's step).
+func note_item_equipped(_item: ItemData) -> void:
+	if item_tutorial_open():
+		set_flag(FLAG_TILLY_EQUIPPED)
+		save_game()
+
+
+## A piece of equipment went on (any piece counts for Bertram's step).
+func note_equipment_equipped(_piece: EquipmentData) -> void:
+	if equipment_tutorial_open():
+		set_flag(FLAG_ARMORY_EQUIPPED)
+		save_game()
+
+
+# ---- Hidden battle triggers (Part B7) -------------------------------------------------------------------------------------------
+
+## A scripted trigger ("key|id") fired in one of the player's duels. True the first time in this save.
+func note_trigger_seen(ref: String) -> bool:
+	if ref.is_empty() or seen_triggers.has(ref):
+		return false
+	seen_triggers[ref] = true
+	return true
+
+
+# ---- Dungeon fog (Part B8) -----------------------------------------------------------------------------------------------------
+
+func _fog(key: String) -> Dictionary:
+	if not dungeon_fog.has(key):
+		dungeon_fog[key] = {"entered": false, "seen": [], "all": false}
+	return dungeon_fog[key] as Dictionary
+
+
+func dungeon_entered(key: String) -> bool:
+	return dungeon_fog.has(key) and bool((dungeon_fog[key] as Dictionary).get("entered", false))
+
+
+func note_dungeon_entered(key: String) -> void:
+	if key.is_empty():
+		return
+	_fog(key)["entered"] = true
+	SpoilerFree.sync_dungeons(dungeon_fog)
+
+
+## True once the player has stepped on node `node_id` of dungeon `key` in this save (its real icon shows on every later run).
+func node_revealed(key: String, node_id: int) -> bool:
+	if not dungeon_fog.has(key):
+		return false
+	var fog: Dictionary = dungeon_fog[key] as Dictionary
+	return bool(fog.get("all", false)) or (fog.get("seen", []) as Array).has(node_id)
+
+
+func note_node_seen(key: String, node_id: int) -> void:
+	if key.is_empty():
+		return
+	var seen: Array = _fog(key)["seen"] as Array
+	if not seen.has(node_id):
+		seen.append(node_id)
+
+
+## A save from before the fog: a dungeon it cleared counts as entered with every node known (the save keeps no per-node record); the rest
+## start hidden. An unfinished run's cleared nodes are known too.
+func _migrate_dungeon_fog() -> void:
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		if cleared_dungeons.has(plan.dungeon_name):
+			dungeon_fog[plan.id] = {"entered": true, "seen": [], "all": true}
+	if dungeon_map != null and not dungeon_key.is_empty():
+		_fog(dungeon_key)["entered"] = true
+		for node: DungeonMap.MapNode in dungeon_map.nodes:
+			if dungeon_map.is_cleared(node.id):
+				note_node_seen(dungeon_key, node.id)
+
+
+## Every equipment slot opens and the Starter Blade is handed over. Nov 3-4, Part B6: at "Collect your gear" it is NOT worn yet - the
+## quest's last step teaches equipping it (`wear_blade` true only for old paths that skipped that step).
+func _open_the_armory(wear_blade: bool = true) -> void:
 	if profile == null:
 		return
 	flags["armory_unlocked"] = true
@@ -781,8 +908,13 @@ func _open_the_armory() -> void:
 		profile.unlock_equipment_slot(slot as EquipmentData.Slot)
 	pending_equipment_choices = 0
 	var blade: EquipmentData = content.equipment_piece(EquipmentRarity.STARTER_BLADE)
-	if blade != null and profile.equipped_in(EquipmentData.Slot.WEAPON) == null:
-		profile.equip(blade)
+	if blade == null:
+		return
+	if not profile.owned_equipment.has(blade):
+		grant_equipment(blade)
+	if wear_blade and profile.equipped_in(EquipmentData.Slot.WEAPON) == null and not flag(FLAG_ARMORY_EQUIPPED):
+		if quest_log.is_completed(QuestDefinitions.ARMORY) and not flag(&"armory_collected"):
+			profile.equip(blade)
 
 
 # ---- The Bestiary and the Collection Book (Overnight Oct 17, Part 10) -------------------------------------------------
@@ -889,6 +1021,7 @@ func why_not_equip(piece: EquipmentData) -> String:
 func equip_item(item: EquipmentData) -> bool:
 	if profile == null or not profile.equip(item):
 		return false
+	note_equipment_equipped(item)  # Nov 3-4, Part B6
 	save_game()
 	return true
 
@@ -997,6 +1130,8 @@ func to_dict() -> Dictionary:
 		"grandfathered_cards": grandfathered_cards.keys(),
 		"new_cards": new_cards.keys(),
 		"found_secrets": found_secrets,
+		"seen_triggers": seen_triggers.keys(),
+		"dungeon_fog": dungeon_fog,
 		"completed_quests": completed_quests,
 		"quests": quest_log.to_dict(),
 		"counters": counters,
@@ -1113,6 +1248,14 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("new_cards", []) as Array:
 		new_cards[str(id)] = true
 	found_secrets.assign(data.get("found_secrets", []) as Array)
+	seen_triggers = {}
+	for ref: Variant in data.get("seen_triggers", []) as Array:
+		seen_triggers[str(ref)] = true
+	EncounterScripts.seen = seen_triggers
+	dungeon_fog = (data.get("dungeon_fog", {}) as Dictionary).duplicate(true)
+	if not data.has("dungeon_fog"):
+		_migrate_dungeon_fog()
+	SpoilerFree.sync_dungeons(dungeon_fog)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	quest_migration_pending = quest_log.version < QuestLog.VERSION
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
@@ -2853,9 +2996,11 @@ func make_town_battle(enemy_type: String, instance_id: String) -> BattleContext:
 func resolve_town_battle(context: BattleContext) -> Dictionary:
 	var result: Dictionary = {"kind": "roamer", "won": context.won, "enemy": context.enemy_name}
 	if context.won:
+		var repeat: bool = counters.has("town_roamer_beaten:%s" % context.town_roamer_id)  # Nov 3-4, Part B9: beaten before
 		counters["town_roamer_beaten:%s" % context.town_roamer_id] = int(Time.get_unix_time_from_system())
-		add_gold(context.gold_reward)
-		result["gold"] = context.gold_reward
+		var gold: int = Economy.fight_gold(context.gold_reward, repeat)
+		add_gold(gold)
+		result["gold"] = gold
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("town_roamers_defeated")
@@ -2936,8 +3081,13 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 	zone_run.finish_battle(context.game)
 	if context.won:
 		zone_run.mark_defeated(context.zone_enemy_id)
-		add_gold(context.gold_reward)
-		result["gold"] = context.gold_reward
+		# Overnight Nov 3-4, Part B9: a spot beaten before pays the repeat rate (grinding buys cards at a reasonable pace)
+		var won_key: String = "roamer_won:%s:%s" % [zone_run.zone_id, str(context.zone_enemy_id)]
+		var gold: int = Economy.fight_gold(context.gold_reward, counter(won_key) > 0)
+		bump_counter(won_key)
+		add_gold(gold)
+		result["gold"] = gold
+		result["repeat"] = counter(won_key) > 1
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("zone_enemies_defeated")

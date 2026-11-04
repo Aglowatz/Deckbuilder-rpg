@@ -31,12 +31,17 @@ class Rule:
 	var harmful: bool = false
 	## Overnight Oct 23: a scripted mid-fight event of the encounter (EncounterScripts) - what can happen, shown with the rules.
 	var scripted: bool = false
+	## Overnight Nov 3-4, Part B7: the scripted trigger behind this rule ("key|id"), and whether it is still hidden in this save.
+	var trigger_ref: String = ""
+	var hidden: bool = false
 	var modifiers: Array[Modifier] = []
 
 	func is_enemy_side() -> bool:
 		return side != "player"
 
 	func tooltip() -> String:
+		if hidden:
+			return text
 		if scripted:
 			return "%s\n\nScripted event: it happens once, when its moment comes." % text
 		return "%s\n\n%s" % [text, "Applies to the enemy only." if is_enemy_side() else "Applies to you only."]

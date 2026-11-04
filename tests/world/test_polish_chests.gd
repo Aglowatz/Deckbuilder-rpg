@@ -287,6 +287,7 @@ func test_completing_a_quest_queues_a_quest_complete_box_with_rewards_and_unlock
 	Session.set_flag(&"vendor_seen")
 	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
+	Session.set_flag(&"tilly_item_equipped")  # Nov 3-4, Part B5: Tilly's gift equipped
 	Session.set_flag(&"tailor_seen")
 	assert_true(Session.turn_in_quest(QuestDefinitions.MERCHANTS), "handed back to Maren (Oct 20)")
 	assert_eq(Session.pending_popups.size(), 1, "one Quest Complete box is waiting")

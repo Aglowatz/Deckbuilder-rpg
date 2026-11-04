@@ -1419,7 +1419,7 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 		return
 	# A side dungeon opens once its quest is done (`ZoneQuestDefinitions.SIDE_QUESTS`); until then the entrance only drops the hook.
 	if not Session.side_unlocked(plan.id):
-		hud.toast("%s is sealed. %s" % [plan.dungeon_name, plan.hook], Color("ffcf70"))
+		hud.toast("%s is sealed. %s" % [SpoilerFree.dungeon_name(plan.id, plan.dungeon_name), plan.hook], Color("ffcf70"))
 		Audio.sfx(&"ui_error")
 		return
 	_locked = true
@@ -1427,7 +1427,7 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 	var body: String = "%s
 
 %s" % [plan.story, "You have been here before: a repeat clear pays gold and a pack." if cleared else "First clear: a unique card."]
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, SpoilerFree.dungeon_name(plan.id, def.mini.dungeon_name), body, "Enter", "Not yet")  # Nov 3-4, Part B8: "???" before the first visit
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			var run: ZoneRun = Session.zone_run
@@ -1451,7 +1451,9 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 	if def.id == CapitalZone.ID and not CapitalDebuffs.active(Session.flags).is_empty() and not Session.flag(&"primm_defeated"):
 		# Oct 16: the Capital is open from the start, but storming the castle with services still broken is a speedrunner's dare.
 		body = "%s\n\n%s (%d of 4 services still broken.)" % [StoryText.shared().text("capital.castle.warning"), body, CapitalDebuffs.active(Session.flags).size()]
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, story.text("ui.main.title"), body, story.text("ui.main.button"), "Not yet")
+	var main_plan: DungeonCatalog.Blueprint = DungeonCatalog.main_for_zone(def.id)
+	var main_title: String = SpoilerFree.dungeon_name(main_plan.id, story.text("ui.main.title")) if main_plan != null else story.text("ui.main.title")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, main_title, body, story.text("ui.main.button"), "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			var run: ZoneRun = Session.zone_run

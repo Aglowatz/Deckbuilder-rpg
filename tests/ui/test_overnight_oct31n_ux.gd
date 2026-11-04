@@ -18,17 +18,16 @@ func test_an_open_dungeon_node_says_how_to_go() -> void:
 	InputDevice.set_kind(InputDevice.Kind.KEYBOARD)
 
 
+## Nov 3-4, Part C: the locked figure carries one printed hint - the pill under it names the real quest (it was five "Opens: armory quest" captions).
 func test_locked_gear_slots_print_their_unlock_hint() -> void:
-	assert_eq(CharacterScreen.locked_slot_caption(), "Opens: armory quest")
+	assert_eq(CharacterScreen.equipment_unlock_text(), "Equipment unlocks after Some Assembly Required")
 	var screen: CharacterScreen = CharacterScreen.new()
 	add_child_autofree(screen)
 	await wait_frames(3)
-	var printed: int = 0
-	for slot: Variant in screen._equipment_slot_buttons.keys():
-		var caption: Label = (screen._equipment_slot_buttons[slot] as Button).get_node_or_null("LockCaption") as Label
-		if caption != null and caption.visible:
-			printed += 1
-	assert_eq(printed, 5, "all five locked slots print the hint")
+	var pill: Control = screen.find_child("UnlockPill", true, false) as Control
+	assert_not_null(pill)
+	assert_true(pill.visible)
+	assert_eq((pill.find_child("PillText", true, false) as Label).text, CharacterScreen.equipment_unlock_text())
 
 
 func test_a_zone_with_a_different_hp_pool_announces_it_once_per_visit() -> void:

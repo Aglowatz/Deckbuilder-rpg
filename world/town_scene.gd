@@ -572,6 +572,7 @@ func _build_actors() -> void:
 		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
 	_build_baker()
 	_build_strollers()
+	_build_standing_townsfolk()
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -694,6 +695,9 @@ func _build_barks() -> void:
 	for stroller: SpriteWanderer in _strollers:
 		npc_barks.register(stroller.sprite, "NPC-TOWNSFOLK")
 		_labels().register(stroller.sprite, "Townsfolk", "npc", false, stroller.sprite.head_height() + 0.3)
+	for actor: SpriteActor in _standing_townsfolk:
+		npc_barks.register(actor, "NPC-TOWNSFOLK")
+		_labels().register(actor, "Townsfolk", "npc", false, actor.head_height() + 0.3)
 	# Overnight Oct 17, Part 14: dandelion fluff drifting over the town, and footstep puffs.
 	AmbientFx.add(self, "town", player)
 
@@ -707,6 +711,35 @@ const STROLLERS: Array[Dictionary] = [
 	{"anchor": "arena_gate", "radius": 3.6, "seed": 57, "tint": 1},
 ]
 var _strollers: Array[SpriteWanderer] = []
+
+## Overnight Nov 3-4, Part B10: every generic townsperson was the badger. The pool of NON-story sprite sets that never appear as someone in
+## Crosspath: the badger villager (the only townsfolk set with a walk cycle, so the strollers keep it, each in its own coat tint), the mole
+## farm hand (DUMPWORKER, a Dump extra) and the gym attendant (a Gainlands extra), both standing sets, with their own tints. The Capital's
+## CITIZEN stays out (Primm's perfect citizen walks only the Capital - Playtest v0.4.0).
+const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER", "GYM_ATTENDANT"]
+const STANDING_TOWNSFOLK: Array[Dictionary] = [
+	{"character": "DUMPWORKER", "anchor": "well", "offset": Vector3(-3.2, 0, 2.6), "yaw": 150.0, "tint": Color(1.0, 1.0, 1.0)},
+	{"character": "DUMPWORKER", "anchor": "plaza", "offset": Vector3(-6.5, 0, 5.5), "yaw": 210.0, "tint": Color(0.86, 0.92, 1.08)},
+	{"character": "GYM_ATTENDANT", "anchor": "arena_gate", "offset": Vector3(-2.6, 0, 2.2), "yaw": 160.0, "tint": Color(1.0, 0.95, 0.9)},
+	{"character": "GYM_ATTENDANT", "anchor": "market", "offset": Vector3(2.2, 0, 3.4), "yaw": 200.0, "tint": Color(0.92, 1.0, 0.94)},
+]
+var _standing_townsfolk: Array[SpriteActor] = []
+
+
+func _build_standing_townsfolk() -> void:
+	for spec: Dictionary in STANDING_TOWNSFOLK:
+		var character: String = str(spec["character"])
+		if not town.anchors.has(str(spec["anchor"])) or not SpriteLibrary.has_character(character):
+			continue
+		var pos: Vector3 = (town.anchors[str(spec["anchor"])] as Vector3) + (spec["offset"] as Vector3)
+		if not town.npc_can_stand(pos):
+			continue  # never inside or against a building (Part A6)
+		pos.y = town.height_at(pos)
+		var actor: SpriteActor = NpcSprites.make_actor(character, spec["tint"] as Color)
+		actor.name = "Townsfolk%d" % (_standing_townsfolk.size() + 1)
+		ModelKit.place(self, actor, pos, float(spec["yaw"]), TownPlayer.MODEL_SCALE)
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.3))
+		_standing_townsfolk.append(actor)
 
 
 func _build_strollers() -> void:
@@ -2170,7 +2203,7 @@ func _use_well_door() -> void:
 		Audio.sfx(&"ui_error")
 		return
 	_locked = true
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, "%s
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, SpoilerFree.dungeon_name(plan.id, plan.dungeon_name), "%s
 
 You are fully healed on entry. Lose a duel and you are carried back to town." % plan.story, "Descend", "Not yet")
 	dialog.confirmed.connect(func() -> void:
@@ -2721,6 +2754,16 @@ func _talk_item_vendor() -> void:
 	if not Session.flag(&"item_vendor_seen"):
 		Session.set_flag(&"item_vendor_seen")
 		lines = StoryText.shared().get_lines("town.item_vendor.first")
+	# Overnight Nov 3-4, Part B5: during Meet the Merchants Tilly gives one free Power Wraps and says how to equip it (once); until it is
+	# equipped she reminds you, and the shop waits.
+	if Session.quest_log.is_active(QuestDefinitions.MERCHANTS) and not Session.flag(Session.FLAG_TILLY_EQUIPPED):
+		if Session.give_tilly_gift():
+			lines.append_array(StoryText.shared().get_lines("town.item_vendor.gift"))
+			hud.queue_toast("Received: Power Wraps (1 charge)", UIStyle.GOLD)
+		else:
+			lines = StoryText.shared().get_lines("town.item_vendor.gift_waiting")
+		dialogue.start("Tilly Tonic", lines)
+		return
 	dialogue.start("Tilly Tonic", lines)
 	dialogue.finished.connect(_open_item_vendor, CONNECT_ONE_SHOT)
 
@@ -2761,6 +2804,12 @@ func _talk_equipment_vendor() -> void:
 			lines = shared.get_lines("quest.armory.waiting")
 		3:
 			lines = shared.get_lines("quest.armory.done")
+			lines.append_array(shared.get_lines("quest.armory.equip"))  # Nov 3-4, Part B6: then how to wear it
+			opens_shop = false
+	# Overnight Nov 3-4, Part B6: the blade is collected but not worn yet - Bertram repeats the steps instead of opening the shop.
+	if stage == 4 and Session.equipment_tutorial_open():
+		lines = shared.get_lines("quest.armory.equip_waiting")
+		opens_shop = false
 	dialogue.start("Bertram Beetsworth", lines)
 	if opens_shop:
 		dialogue.finished.connect(_open_equipment_vendor, CONNECT_ONE_SHOT)

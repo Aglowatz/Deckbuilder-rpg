@@ -622,7 +622,11 @@ func show_beast(entry: Bestiary.Entry) -> void:
 			heading.add_theme_font_override("font", UIStyle.font_bold())
 			_beast_detail.add_child(heading)
 			for move: EncounterScripts.Trigger in moves.slice(0, 4):
-				var line: Label = UIKit.label("%s: %s" % [move.name, move.text], &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+				# Nov 3-4, Part B7: a move never seen in this save stays a mystery here too
+				var shown: String = "%s: %s" % [move.name, move.text]
+				if EncounterScripts.entry_move_hidden(entry.name, move):
+					shown = "%s %s" % [EncounterScripts.HIDDEN_NAME, EncounterScripts.HIDDEN_TEXT]
+				var line: Label = UIKit.label(shown, &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 				line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 				line.custom_minimum_size = Vector2(480, 0)
 				_beast_detail.add_child(line)

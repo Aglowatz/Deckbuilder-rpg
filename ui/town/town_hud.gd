@@ -76,6 +76,8 @@ func _ready() -> void:
 		menu_column.add_child(item)
 		if signal_ref == packs_pressed:
 			_packs_item = item
+		if signal_ref == character_pressed:
+			_character_item = item
 	# Fresh eyes Oct 30: the pause menu's pages a new player never finds behind Esc - the Glossary (keywords, resources), the Feats and
 	# Settings - listed here too. Each opens the pause menu on that page.
 	for extra: Array in [["Glossary", SceneManager.show_glossary_page, "ICON-UI-GLOSSARY"], ["Feats", SceneManager.show_feats_page, "ICON-UI-FEATS"], ["Settings", SceneManager.show_settings_page, "ICON-UI-SETTINGS"]]:
@@ -134,8 +136,21 @@ func _ready() -> void:
 	_sync_packs_hint()
 
 
+## Overnight Nov 3-4, Parts B5 / B6: the same glow leads to the Character entry while Tilly's item or Bertram's blade waits to be equipped.
+var _character_item: FancyButton
+var _hint_entry: FancyButton
+
+
 func _sync_packs_hint() -> void:
-	set_packs_hint(Session.pack_step_open())
+	var tutorial: bool = not Session.tutorial_target().is_empty()
+	_hint_entry = _character_item if tutorial else _packs_item
+	if tutorial and _packs_hint and _item_badge != null and _item_badge.get_parent() != _hint_entry and _hint_entry != null:
+		_item_badge.reparent(_hint_entry, false)
+	set_packs_hint(tutorial or Session.pack_step_open())
+
+
+func character_hint_shown() -> bool:
+	return _packs_hint and _hint_entry == _character_item and _character_item != null
 
 
 ## Fixes Oct 25, Part 6: lights the way to the packs (a pulsing Menu button with a "!", and the Packs entry once the menu is open).
@@ -146,16 +161,18 @@ func set_packs_hint(on: bool) -> void:
 	if on and _hint_badge == null:
 		_hint_badge = _make_hint_badge("PacksHintBadge", Vector2(-34, -6))
 		_menu_button.add_child(_hint_badge)
-		if _packs_item != null:
+		var entry: FancyButton = _hint_entry if _hint_entry != null else _packs_item
+		if entry != null:
 			_item_badge = _make_hint_badge("PacksItemBadge", Vector2(-30, -4))
-			_packs_item.add_child(_item_badge)
+			entry.add_child(_item_badge)
 	for badge: Label in [_hint_badge, _item_badge]:
 		if badge != null:
 			badge.visible = on
 	if not on:
 		_menu_button.modulate = Color.WHITE
-		if _packs_item != null:
-			_packs_item.modulate = Color.WHITE
+		for entry: FancyButton in [_packs_item, _character_item]:
+			if entry != null:
+				entry.modulate = Color.WHITE
 
 
 func _make_hint_badge(badge_name: String, at: Vector2) -> Label:
@@ -181,8 +198,9 @@ func _pulse_packs_hint(delta: float) -> void:
 	var glow: float = 0.5 + 0.5 * sin(_hint_time * 4.0)
 	var lit: Color = Color(1.0 + 0.6 * glow, 1.0 + 0.45 * glow, 1.0 - 0.3 * glow)
 	_menu_button.modulate = lit
-	if _packs_item != null:
-		_packs_item.modulate = lit
+	var entry: FancyButton = _hint_entry if _hint_entry != null else _packs_item
+	if entry != null:
+		entry.modulate = lit
 	for badge: Label in [_hint_badge, _item_badge]:
 		if badge != null:
 			badge.scale = Vector2.ONE * (1.0 + 0.2 * glow)

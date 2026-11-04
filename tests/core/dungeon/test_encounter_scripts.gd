@@ -184,6 +184,7 @@ func test_a_seat_without_a_script_costs_nothing() -> void:
 
 func test_scripted_triggers_are_listed_with_the_rules_and_ride_on_the_enemy_source() -> void:
 	EncounterScripts.register(KEY, [_trigger({"name": "Big Finish", "text": "At 25% health: something big.", "when": {"type": "hp_below", "pct": 25}, "effects": [{"kind": "heal", "amount": 2}]})])
+	Session.note_trigger_seen(EncounterScripts.ref_of(KEY, EncounterScripts.triggers(KEY)[0].id))  # Nov 3-4, Part B7: seen once in this save
 	var rules: Array[EncounterModifiers.Rule] = EncounterModifiers.rules(KEY)
 	assert_eq(rules.size(), 1)
 	assert_true(rules[0].scripted)

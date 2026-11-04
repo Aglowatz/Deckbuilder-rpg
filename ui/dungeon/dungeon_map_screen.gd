@@ -64,6 +64,7 @@ func _ready() -> void:
 	if Session.main_dungeon_active or Session.mini_active:
 		_main_def = MainDungeons.def(Session.dungeon_key)
 	_plan = _find_plan()
+	_note_fog()
 	_art = MapArt.texture_for(_plan.map_id) if _plan != null else null
 	if _art != null:
 		_build_art()
@@ -213,12 +214,34 @@ func _node_position(node: DungeonMap.MapNode) -> Vector2:
 	return MAP_ORIGIN + Vector2(node.position.x * MAP_EXTENT.x, node.position.y * MAP_EXTENT.y - 60.0)
 
 
+## Overnight Nov 3-4, Part B8: the dungeon fog key (the blueprint id) and what the player knows. Entering marks the dungeon entered and every
+## node stood on so far (cleared, or the current one) as seen; a node never stepped on in this save shows "?" - locked or reachable alike,
+## the boss too - and keeps its secrets in the hover text.
+func fog_key() -> String:
+	return _plan.id if _plan != null else ""
+
+
+func _note_fog() -> void:
+	var key: String = fog_key()
+	if key.is_empty() or map == null:
+		return
+	Session.note_dungeon_entered(key)
+	for node: DungeonMap.MapNode in map.nodes:
+		if map.is_cleared(node.id) or node.id == map.current:
+			Session.note_node_seen(key, node.id)
+
+
+func node_known(node: DungeonMap.MapNode) -> bool:
+	return Session.node_revealed(fog_key(), node.id) or map.is_cleared(node.id) or node.id == map.current
+
+
 func _build_nodes() -> void:
 	var available_ids: Array[int] = []
 	for node: DungeonMap.MapNode in map.available():
 		available_ids.append(node.id)
 	for node: DungeonMap.MapNode in map.nodes:
 		var button: MapNodeButton = MapNodeButton.new()
+		button.fogged = not node_known(node)
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))
 		add_child(button)
 		button.position = _node_position(node) - Vector2(MapNodeButton.DIAMETER, MapNodeButton.DIAMETER) * 0.5
@@ -374,6 +397,12 @@ var _hovered_id: int = -1
 func _on_node_hovered(id: int) -> void:
 	_hovered_id = id
 	var node: DungeonMap.MapNode = map.node(id)
+	if not node_known(node):
+		_info_title.text = MapNodeButton.FOG_TITLE
+		_info_body.text = "Unknown. Step on it to find out what waits there." + ("\n" + node_go_hint() if map.is_available(id) and not _busy else "")
+		if _art != null:
+			_place_info(node)
+		return
 	_info_title.text = node.title
 	var text: String = node.blurb
 	if not node.section.is_empty():
@@ -414,6 +443,7 @@ func _on_node_chosen(id: int) -> void:
 		return
 	var node: DungeonMap.MapNode = map.node(id)
 	Audio.sfx(&"ui_select")
+	Session.note_node_seen(fog_key(), node.id)  # Nov 3-4, Part B8: stepped on - known on every later run in this save
 	_play_before(node, _run_node.bind(node))
 
 

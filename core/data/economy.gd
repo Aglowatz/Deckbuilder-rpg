@@ -7,7 +7,17 @@ extends RefCounted
 ## the late zones, 4 = the Capital and the postgame.
 
 ## Card price by rarity (Common, Uncommon, Epic, Legendary); no energy term (a 1-cost and a 5-cost Common cost the same).
-const CARD_PRICE: Array[int] = [30, 60, 150, 300]
+## Overnight Nov 3-4, Part B9 (docs/balance/gold_economy_nov3.md): a no-grind playthrough leaves about 14,000 gold after items, hats, gear and
+## fees - about 20 cards in a normal mix at these prices (was 30 / 60 / 150 / 300: hundreds of cards). Ratio 1 : 2 : 5 : 10 kept.
+const CARD_PRICE: Array[int] = [300, 600, 1500, 3000]
+## Part B9: a roamer fought again (the same spot won before) pays this many times its zone's gold, so grinding buys a Common in about 2-4
+## repeat fights; the first win of every spot pays the plain rate (the no-grind economy above is unchanged).
+const REPEAT_FIGHT_MULTIPLIER: int = 2
+
+
+## The gold of a roamer win: the plain rate the first time a spot is beaten, REPEAT_FIGHT_MULTIPLIER times it after.
+static func fight_gold(base: int, repeat: bool) -> int:
+	return base * (REPEAT_FIGHT_MULTIPLIER if repeat else 1)
 
 ## Equipment price by rarity, then tier (index 0 unused: tiers are 1-based). A Legendary piece is never sold.
 const GEAR_PRICE: Dictionary = {

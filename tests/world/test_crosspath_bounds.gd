@@ -206,3 +206,15 @@ func test_town_roamers_stay_out_of_buildings() -> void:
 		if shop.kind != "kit":
 			continue
 		assert_false(map.is_enemy_walkable(shop.center), "a roamer cannot stand inside %s" % shop.label)
+
+
+## Nov 3-4, Part B10: the standing townsfolk come from the non-story pool, never the Capital's citizen, and stand clear of every building.
+func test_townsfolk_pool_and_standing_spots() -> void:
+	assert_does_not_have(TownScene.TOWNSFOLK_POOL, "CITIZEN", "Primm's citizen walks only the Capital")
+	var characters: Dictionary = {}
+	for spec: Dictionary in TownScene.STANDING_TOWNSFOLK:
+		assert_has(TownScene.TOWNSFOLK_POOL, str(spec["character"]))
+		characters[str(spec["character"])] = true
+		var pos: Vector3 = (_town.anchors[str(spec["anchor"])] as Vector3) + (spec["offset"] as Vector3)
+		assert_true(_town.npc_can_stand(pos), "%s by %s stands clear" % [spec["character"], spec["anchor"]])
+	assert_gte(characters.size(), 2, "more than one look among the standing townsfolk")

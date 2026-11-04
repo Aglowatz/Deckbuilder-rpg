@@ -58,13 +58,18 @@ func test_maren_sends_you_and_the_quest_ends_with_gear_and_all_slots() -> void:
 	Session.refresh_quests()
 	assert_eq(Session.armory_stage(), 3)
 	Session.armory_talk()
-	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
 	assert_true(Session.gear_unlocked())
 	for slot: Variant in EquipmentData.Slot.values():
 		assert_true(Session.profile.has_equipment_slot(slot as EquipmentData.Slot), "slot %d open" % int(slot))
-	var weapon: EquipmentData = Session.profile.equipped_in(EquipmentData.Slot.WEAPON)
-	assert_not_null(weapon)
-	assert_eq(weapon.id, EquipmentRarity.STARTER_BLADE, "the Starter Blade is worn at once")
+	# Nov 3-4, Part B6: the blade is handed over, not worn - the quest's last step is equipping it on the Character page
+	var blade: EquipmentData = Session.content.equipment_piece(EquipmentRarity.STARTER_BLADE)
+	assert_true(Session.profile.owned_equipment.has(blade))
+	assert_null(Session.profile.equipped_in(EquipmentData.Slot.WEAPON))
+	assert_false(Session.quest_log.is_completed(QuestDefinitions.ARMORY), "one step left: equip it")
+	assert_true(Session.equip_item(blade))
+	Session.refresh_quests()
+	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
+	assert_eq(Session.profile.equipped_in(EquipmentData.Slot.WEAPON).id, EquipmentRarity.STARTER_BLADE)
 
 
 func test_no_more_slot_choices_on_level_up() -> void:

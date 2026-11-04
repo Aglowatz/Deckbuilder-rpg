@@ -1733,10 +1733,26 @@ var script_banner: ScriptEventBanner
 var boss_intro: BossIntro
 
 
+## Nov 3-4, Part B7: the scripted events that fired in this duel (badge name -> turn), re-marked when the row is rebuilt by a reveal.
+var _fired_badges: Dictionary = {}
+
+
 func _show_script_event(event: GameEvent) -> void:
 	var trigger: EncounterScripts.Trigger = EncounterScripts.trigger_for_event(event.detail)
-	if trigger == null or script_banner == null:
+	if trigger == null:
 		return
+	# Nov 3-4, Part B7: a trigger seen once is known for the rest of this save; its hidden chip becomes the real badge now.
+	var first_time: bool = Session.note_trigger_seen(event.detail)
+	if first_time and hud.rule_row != null:
+		var revealed: Array[RuleBadges.Badge] = RuleBadges.reveal(context.rule_badges, event.detail, trigger)
+		if revealed != context.rule_badges:
+			context.rule_badges = revealed
+			hud.set_rule_badges(revealed)
+			for fired_name: Variant in _fired_badges.keys():
+				hud.rule_row.mark_fired(str(fired_name), int(_fired_badges[fired_name]))
+	if script_banner == null:
+		return
+	_fired_badges[trigger.name] = game.turn
 	if hud.rule_row != null:
 		hud.rule_row.mark_fired(trigger.name, game.turn)
 	if lights != null:

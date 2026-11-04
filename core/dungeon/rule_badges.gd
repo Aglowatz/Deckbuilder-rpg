@@ -38,6 +38,9 @@ class Badge:
 	var side: String = "both"
 	## True for a rule that helps the player (green), false for one that hurts or binds (red); shared rules are gold.
 	var good: bool = false
+	## Overnight Nov 3-4, Part B7: the scripted triggers this badge stands for ("key|id"); a "Hidden trait ?" chip can stand for several.
+	var refs: Array[String] = []
+	var hidden: bool = false
 
 	func is_good() -> bool:
 		return good
@@ -62,6 +65,8 @@ class Badge:
 		return "Applies to you and to the enemy."
 
 	func tooltip() -> String:
+		if hidden:
+			return text
 		return "%s\n\n%s" % [text, side_text()]
 
 	func line() -> String:
@@ -135,13 +140,43 @@ static func for_encounter(rules: Array[EncounterModifiers.Rule]) -> Array[Badge]
 	var seen: Dictionary = {}
 	for rule: EncounterModifiers.Rule in rules:
 		if seen.has(rule.name):
+			# Nov 3-4, Part B7: one "Hidden trait ?" chip stands for every unseen trigger of the fight
+			if rule.hidden:
+				for badge: Badge in result:
+					if badge.hidden and not rule.trigger_ref.is_empty():
+						badge.refs.append(rule.trigger_ref)
 			continue
 		seen[rule.name] = true
 		var side: String = SIDE_ENEMY if rule.is_enemy_side() else SIDE_PLAYER
 		if rule.scripted:
-			result.append(_badge("scripted", rule.name, rule.text, rule.icon, SIDE_ENEMY, false))
+			var badge: Badge = _badge("scripted", rule.name, rule.text, rule.icon, SIDE_ENEMY, false)
+			badge.hidden = rule.hidden
+			if not rule.trigger_ref.is_empty():
+				badge.refs.append(rule.trigger_ref)
+			result.append(badge)
 			continue
 		result.append(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER and not rule.harmful))
+	return result
+
+
+## Nov 3-4, Part B7: `badges` after the trigger `ref` fired for the first time: the hidden chip lets go of it (and goes when it stood for
+## nothing else) and the trigger's own badge takes its place.
+static func reveal(badges: Array[Badge], ref: String, trigger: EncounterScripts.Trigger) -> Array[Badge]:
+	var result: Array[Badge] = []
+	var placed: bool = false
+	for badge: Badge in badges:
+		if badge.hidden and badge.refs.has(ref):
+			var real: Badge = _badge("scripted", trigger.name, trigger.text, trigger.icon, SIDE_ENEMY, false)
+			real.refs.append(ref)
+			result.append(real)
+			placed = true
+			badge.refs.erase(ref)
+			if not badge.refs.is_empty():
+				result.append(badge)
+			continue
+		result.append(badge)
+	if not placed:
+		return badges
 	return result
 
 

@@ -22,6 +22,7 @@ func _through_the_armory(path: Affinity.Type) -> void:
 	Session.note_duel_won()
 	Session.refresh_quests()
 	Session.armory_talk()
+	Session.equip_item(Session.content.equipment_piece(EquipmentRarity.STARTER_BLADE))  # Nov 3-4, Part B6: the last step
 	Session.refresh_quests()
 
 

@@ -160,7 +160,7 @@ func _check_item_vendor() -> void:
 	_check(scene._overlay is ItemVendorScreen, "the item vendor dialogue leads into the Item Vendor screen")
 	if scene._overlay is ItemVendorScreen:
 		var vendor_screen: ItemVendorScreen = scene._overlay as ItemVendorScreen
-		var item: ItemData = Session.content.item("healing_draught")
+		var item: ItemData = Session.content.item("energy_draught")
 		var gold_before: int = Session.gold
 		_check(not Session.profile.owns_item(item), "a fresh profile does not already own it")
 		var tile: Control = _find_item_tile(vendor_screen, item.id)

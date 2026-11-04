@@ -9,20 +9,6 @@ func before_each() -> void:
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
-## Oct 19 night (Part 3): the spare painted frames are covered (only five equipment slots on the figure); level, Path and deck are stats rows
-## (tests/ui/test_character_layout.gd covers the layout).
-func test_level_path_and_deck_moved_to_the_stats_panel() -> void:
-	var screen: CharacterScreen = CharacterScreen.new()
-	add_child_autofree(screen)
-	await wait_frames(3)
-	assert_eq(screen.find_children("Badge_*", "", true, false).size(), 0, "no badges in spare frames")
-	var labels: Array[String] = []
-	for node: Node in screen.find_children("*", "Label", true, false):
-		labels.append((node as Label).text)
-	assert_has(labels, "%d cards" % Session.deck.size())
-	assert_has(labels, UIStyle.affinity_name(Affinity.Type.BEEFCAKE))
-
-
 func test_alchemist_blurb_uses_the_copy_caps() -> void:
 	var screen: AlchemistScreen = AlchemistScreen.new()
 	add_child_autofree(screen)

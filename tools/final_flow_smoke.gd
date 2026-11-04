@@ -131,7 +131,7 @@ func _check_character_screen_shows_unlocked_slot(town: TownScene) -> void:
 ## covered by their own tests; this step only needs *an* equipped item to check its tooltip in a
 ## real battle.
 func _equip_a_test_item() -> ItemData:
-	var item: ItemData = Session.content.item("healing_draught")
+	var item: ItemData = Session.content.item("energy_draught")
 	Session.add_item(item)
 	Session.profile.equip_item_id(item)
 	Session.save_game()

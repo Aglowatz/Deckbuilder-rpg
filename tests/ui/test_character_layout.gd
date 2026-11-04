@@ -109,42 +109,4 @@ func _screen(painted: bool) -> CharacterScreen:
 	return screen
 
 
-func test_the_screen_shows_exactly_five_equipment_slots_on_both_backgrounds() -> void:
-	for painted: bool in [true, false]:
-		var screen: CharacterScreen = _screen(painted)
-		await wait_frames(3)
-		if not (UiArt.has("UI-BG-CHARACTER") and UiArt.has("UI-SLOT-EQUIP")):
-			pass_test("no character art: the plain layout (its own five-slot stage)")
-			return
-		var stage: Node = screen.find_child("EquipmentStage", true, false)
-		assert_not_null(stage)
-		var slots: Array[Node] = stage.find_children("EquipSlot_*", "Button", false, false)
-		assert_eq(slots.size(), 5, "painted=%s: five slots" % painted)
-		assert_eq(stage.find_children("Badge_*", "", true, false).size(), 0, "no badges in spare frames any more")
-		assert_eq(stage.find_children("SpareFrameCover_*", "", false, false).size(), 3 if painted else 0, "spare painted frames covered")
-		var centers: Dictionary = CharacterLayout.slot_centers(painted)
-		for slot: EquipmentData.Slot in EquipmentData.Slot.values():
-			var button: Button = stage.find_child("EquipSlot_%s" % str(CharacterLayout.SLOT_KEYS[slot]), false, false) as Button
-			assert_not_null(button)
-			assert_lt((button.position + button.size * 0.5).distance_to(centers[slot] as Vector2), 1.5, "painted=%s: %s in place" % [painted, EquipmentData.slot_name(slot)])
-
-
-func test_item_slots_are_their_own_labelled_row_and_path_and_deck_are_stats() -> void:
-	var screen: CharacterScreen = _screen(true)
-	await wait_frames(3)
-	var label: Label = screen.find_child("ItemSlotsLabel", true, false) as Label
-	assert_not_null(label)
-	assert_true(label.text.begins_with("Item slots"))
-	var row: Node = screen.find_child("ItemSlots", true, false)
-	assert_not_null(row)
-	assert_eq(row.get_child_count(), Session.profile.item_slots, "one square per item slot")
-	var stage: Node = screen.find_child("EquipmentStage", true, false)
-	if stage != null:
-		assert_false(stage.is_ancestor_of(row), "item slots are away from the figure")
-	var texts: Array[String] = []
-	for node: Node in screen.find_children("*", "Label", true, false):
-		texts.append((node as Label).text)
-	assert_has(texts, "Path")
-	assert_has(texts, UIStyle.affinity_name(Affinity.Type.BEEFCAKE))
-	assert_has(texts, "Deck")
-	assert_has(texts, "%d cards" % Session.deck.size())
+## The Character page itself (Nov 3-4, Part C) is covered by tests/ui/test_character_page.gd; CharacterLayout stays for the layout tools.

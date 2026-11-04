@@ -179,7 +179,8 @@ func test_the_duel_carries_and_lists_its_one_sided_rule() -> void:
 	assert_eq(context.enemy_name, OldWellQuest.DISPLAY_NAME)
 	assert_eq(context.encounter_rules.size(), EncounterModifiers.rules(OldWellQuest.RULES_KEY).size())
 	assert_gt(context.encounter_rules.size(), 0, "town:old_well has rules")
-	assert_eq(context.rule_badges.size(), 2 + EncounterScripts.triggers(OldWellQuest.RULES_KEY).size(), "The Spring Remembers (its parts share a name) and, on your side, First, Water (Oct 21), then (Oct 23) its scripted events")
+	# Nov 3-4, Part B7: unseen scripted events share one "Hidden trait ?" chip
+	assert_eq(context.rule_badges.size(), 2 + mini(1, EncounterScripts.triggers(OldWellQuest.RULES_KEY).size()), "The Spring Remembers (its parts share a name) and, on your side, First, Water (Oct 21), then (Oct 23) its scripted events - hidden until seen")
 	assert_eq(context.rule_badges[0].name, "The Spring Remembers")
 	assert_eq(context.rule_badges[0].side, RuleBadges.SIDE_ENEMY)
 	assert_true(context.game.players[1].modifiers.has(Modifier.Kind.START_OF_TURN_EFFECT), "the heal is on the Echo's seat")

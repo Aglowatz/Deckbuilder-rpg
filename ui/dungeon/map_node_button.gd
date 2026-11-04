@@ -52,6 +52,11 @@ var _plate: PanelContainer
 var _pulse: Tween
 
 
+## Overnight Nov 3-4, Part B8: a node never stepped on in this save: a "?" medallion and "???" for a name (set before it enters the tree).
+const FOG_TITLE: String = "???"
+var fogged: bool = false
+
+
 func setup(node: DungeonMap.MapNode, is_available: bool, is_cleared: bool) -> void:
 	map_node = node
 	available = is_available
@@ -68,7 +73,17 @@ func _ready() -> void:
 	_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_ring)
 	var medallion_id: String = str(NODE_ICONS.get(map_node.kind, ""))
-	if IconArt.has(medallion_id):
+	if fogged:
+		var mark: Label = UIKit.label("?", &"", 64, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		mark.name = "FogMark"
+		mark.add_theme_font_override("font", UIStyle.font_title())
+		mark.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.08, 0.95))
+		mark.add_theme_constant_override("outline_size", 10)
+		mark.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		mark.size = Vector2(DIAMETER, DIAMETER)
+		mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(mark)
+	elif IconArt.has(medallion_id):
 		_build_medallion(medallion_id)
 	else:
 		var icon_key: String = str(KIND_ICONS.get(map_node.kind, "map"))
@@ -76,13 +91,14 @@ func _ready() -> void:
 		_glyph.position = Vector2(DIAMETER - 60.0, DIAMETER - 60.0) * 0.5
 		_glyph.size = Vector2(60, 60)
 		add_child(_glyph)
-	_name_label = UIKit.label(map_node.title, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	var shown_title: String = FOG_TITLE if fogged else map_node.title
+	_name_label = UIKit.label(shown_title, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_name_label.add_theme_font_override("font", UIStyle.font_bold())
 	# Two short lines at most (an ellipsis after that), so neighbouring nodes never run their names together; the name sits on a small dark plate so it reads on any painted map.
 	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_name_label.max_lines_visible = 2
 	_name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	var text_width: float = UIStyle.font_bold().get_string_size(map_node.title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	var text_width: float = UIStyle.font_bold().get_string_size(shown_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
 	_name_label.custom_minimum_size = Vector2(minf(text_width + 6.0, PLATE_MAX_WIDTH), 0.0)
 	_plate = PanelContainer.new()
 	_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -161,7 +177,8 @@ func refresh() -> void:
 		_apply_medallion_state(border)
 	else:
 		_ring.add_theme_stylebox_override("panel", UIStyle.box(base, border, 5 if available else 3, int(DIAMETER * 0.5), 12 if available else 4))
-		(_glyph.material as ShaderMaterial).set_shader_parameter("tint", glyph_color)
+		if _glyph != null:  # a fogged node (Nov 3-4) has its "?" mark instead
+			(_glyph.material as ShaderMaterial).set_shader_parameter("tint", glyph_color)
 	_plate.modulate.a = 1.0 if (available or cleared) else 0.8
 	if _pulse != null and _pulse.is_valid():
 		_pulse.kill()

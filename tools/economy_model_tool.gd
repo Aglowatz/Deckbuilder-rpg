@@ -582,7 +582,7 @@ func _build_timeline() -> Array[Step]:
 		arrival.events.append(Event.make("outskirts roamer", "roamer", 13, 31))
 	for index: int in range(6):
 		arrival.events.append(Event.make("outskirts roamer (again)", "roamer_repeat", 13, 31))
-	arrival.offers.append(_item_offer("healing_draught", ESSENTIAL))
+	arrival.offers.append(_item_offer("energy_draught", ESSENTIAL))
 	arrival.offers.append(_item_offer("vitality_charm", LUXURY))
 	arrival.offers.append(_item_offer("reckless_tonic", NICE))
 	arrival.offers.append_array(_card_offers("town", "Sable", 3, 1, 0, 0, NICE))

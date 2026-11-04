@@ -20,6 +20,27 @@ const REVEALS: Dictionary = {
 static var _revealed: Dictionary = {}
 
 
+## Overnight Nov 3-4, Part B8: a dungeon's name reads "???" until the player has entered it once in this save (`GameSession.dungeon_fog`).
+const UNKNOWN_DUNGEON: String = "???"
+static var _dungeons_entered: Dictionary = {}
+static var dungeon_fog_on: bool = false
+
+
+static func sync_dungeons(fog: Dictionary) -> void:
+	dungeon_fog_on = true
+	_dungeons_entered = {}
+	for key: Variant in fog.keys():
+		if bool((fog[key] as Dictionary).get("entered", false)):
+			_dungeons_entered[str(key)] = true
+
+
+## A dungeon's name as the player may see it: "???" before their first visit.
+static func dungeon_name(dungeon_key: String, real_name: String) -> String:
+	if not dungeon_fog_on or _dungeons_entered.has(dungeon_key):
+		return real_name
+	return UNKNOWN_DUNGEON
+
+
 ## Records which REVEALS have happened, from the save's flags.
 static func sync(flags: Dictionary) -> void:
 	_revealed.clear()

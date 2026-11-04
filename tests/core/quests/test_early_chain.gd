@@ -63,6 +63,7 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	Session.set_flag(&"vendor_seen")
 	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
+	Session.set_flag(&"tilly_item_equipped")  # Nov 3-4, Part B5: Tilly's gift equipped
 	Session.set_flag(&"tailor_seen")
 	_hand_in(QuestDefinitions.MERCHANTS)
 	# 2. Make It Yours.
@@ -93,6 +94,9 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	Session.note_duel_won()
 	Session.refresh_quests()
 	Session.armory_talk()
+	assert_false(Session.quest_log.is_completed(QuestDefinitions.ARMORY), "Nov 3-4, Part B6: one step left - equip the blade")
+	assert_true(Session.equip_item(Session.content.equipment_piece(EquipmentRarity.STARTER_BLADE)))
+	Session.refresh_quests()
 	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
 	assert_true(Session.gear_unlocked())
 	# 5. The story's main quests appear at once.
@@ -173,6 +177,7 @@ func test_the_pack_step_gives_no_extra_pack_and_old_saves_skip_it() -> void:
 	Session.set_flag(&"vendor_seen")
 	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
+	Session.set_flag(&"tilly_item_equipped")  # Nov 3-4, Part B5: Tilly's gift equipped
 	Session.set_flag(&"tailor_seen")
 	_hand_in(QuestDefinitions.MERCHANTS)
 	Session.add_pack("path_gourmand")
