@@ -1,0 +1,39 @@
+# Overnight Nov 3-4: Pip's shop (Preview, Buy -> Equipped, No hat), dungeon fog on a first visit, Baron Quadzilla's hidden trait, the battle
+# item icons and the Energy Draught's Path picker.
+wait 2
+dev travel town
+wait 6
+dev level 12
+dev gold 3000
+dev goto tailor
+wait 1
+key E
+wait 2
+skip_dialogue 8
+wait 2.5
+shot d_01_pip_shop
+button Preview
+wait 1
+shot d_02_pip_preview
+button Buy
+wait 1.5
+shot d_03_pip_bought
+button Equip
+wait 1
+shot d_04_pip_no_hat
+key Escape
+wait 1.5
+dev travel dungeon S-BEEF
+wait 4
+shot b8_01_fog_first_visit
+dev travel town
+wait 6
+dev item firebrand_charm
+dev item energy_draught
+dev item healing_salve
+dev encounter Baron Quadzilla
+wait 6
+skip_dialogue 10
+wait 3
+shot b7_01_quadzilla_hidden_trait
+dump

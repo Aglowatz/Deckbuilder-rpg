@@ -18,7 +18,7 @@ func before_each() -> void:
 func test_starter_quests_exist_with_the_right_objectives() -> void:
 	var merchants: QuestData = QuestCatalog.find(QuestDefinitions.MERCHANTS)
 	assert_not_null(merchants)
-	assert_eq(merchants.objectives.size(), 4, "Sable, a card bought, Tilly, Pip (Oct 20: Bertram's smithy waits for the armory quest)")
+	assert_eq(merchants.objectives.size(), 5, "Tilly, equip her gift (Nov 3-4), Sable, a card bought, Pip (Oct 20: Bertram's smithy waits for the armory quest)")
 	assert_true(merchants.auto_give and merchants.is_main())
 	assert_eq(merchants.turn_in_npc, QuestDefinitions.MAREN, "handed back to Maren")
 	assert_null(QuestCatalog.find(QuestDefinitions.RETIRED_PATHS), "Clear the Paths is retired: each zone's MAIN line starts at its gatekeeper")
@@ -46,6 +46,7 @@ func test_merchants_quest_progresses_per_vendor_and_completes_with_rewards() -> 
 	assert_eq(Session.quest_log.objectives_met_count(quest, Session.unlock_state()), 1)
 	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
+	Session.set_flag(&"tilly_item_equipped")  # Nov 3-4, Part B5
 	assert_true(Session.quest_log.is_active(quest.id))
 	Session.set_flag(&"tailor_seen")
 	assert_true(Session.quest_log.is_active(quest.id), "every step done: it waits for Maren")

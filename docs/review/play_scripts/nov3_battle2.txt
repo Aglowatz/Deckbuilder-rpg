@@ -1,0 +1,45 @@
+# Overnight Nov 3-4: battle item icons (charge badges), the Energy Draught's Path picker, and the hidden trait in the Iron Cave boss's
+# pre-fight description and battle row.
+wait 2
+dev travel town
+wait 6
+dev level 12
+dev item firebrand_charm
+dev item firebrand_charm
+dev item energy_draught
+dev item healing_salve
+dev item scroll_of_insight
+key C
+wait 2.5
+click 1011 505
+wait 0.5
+click 1020 275
+wait 0.5
+click 1127 505
+wait 0.5
+click 1173 275
+wait 0.5
+click 1244 505
+wait 0.5
+click 1326 275
+wait 0.5
+click 1361 505
+wait 0.5
+click 1479 275
+wait 0.8
+shot e_01_four_equipped
+key Escape
+wait 1.5
+dev encounter Baron Quadzilla
+wait 6
+skip_dialogue 6
+wait 1
+button Keep Hand
+wait 4
+shot e_02_battle_items_and_rules
+click 142 620
+wait 1.5
+shot e_03_energy_draught_picker
+button Beefcake
+wait 1.5
+shot e_04_energy_used

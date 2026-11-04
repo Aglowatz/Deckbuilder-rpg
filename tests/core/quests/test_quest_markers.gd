@@ -17,7 +17,7 @@ func test_before_the_armory_quest_no_story_marks_show() -> void:
 	Session.offer_auto_quests()
 	var marks: Dictionary = QuestMarkers.giver_marks("town", Session.quest_log, QuestCatalog.all(), Session.unlock_state())
 	assert_false(marks.has("guard"), "Brannoch has nothing to offer yet")
-	assert_eq(str(QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state()).get("spot", "")), "vendor", "the one marker points at Sable for Meet the Merchants")
+	assert_eq(str(QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state()).get("spot", "")), "item_vendor", "the one marker points at Tilly for Meet the Merchants (her item lesson comes first since Nov 3-4)")
 
 
 func test_a_giver_with_a_quest_on_offer_shows_an_exclamation_mark() -> void:
