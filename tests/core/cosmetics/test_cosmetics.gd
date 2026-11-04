@@ -52,6 +52,7 @@ func test_state_round_trips() -> void:
 	state.grant("cloak_royal")
 	state.equip(CosmeticData.Slot.HAT, "hat_chef")
 	state.equip(CosmeticData.Slot.CLOAK, "cloak_royal")
+	state.grant_dye(7)  # Fix pass Nov 4: a dye is bought before it is worn
 	state.set_dye(CosmeticData.Slot.CLOAK, 7)
 	var copy: CosmeticState = CosmeticState.new()
 	copy.from_dict(state.to_dict())
@@ -107,6 +108,7 @@ func test_session_equip_and_save_round_trip() -> void:
 	assert_eq(Session.cosmetics.cloak_dye, Dye.NATURAL)
 	Session.grant_cosmetic("hat_chef")
 	Session.grant_cosmetic("cloak_tattered")
+	Session.cosmetics.grant_dye(4)  # Fix pass Nov 4: bought at Pip's
 	var look: CosmeticState = Session.cosmetics.duplicate_state()
 	look.equip(CosmeticData.Slot.HAT, "hat_chef")
 	look.equip(CosmeticData.Slot.CLOAK, "cloak_tattered")
