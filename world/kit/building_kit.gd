@@ -502,6 +502,53 @@ func _door(face: String, u: float, id: String, data: Dictionary) -> void:
 		_pots(face, u + w * 0.5 + 0.8, 0.4)
 
 
+## Space kept between a window and its face's corners / the roof line.
+const WINDOW_MARGIN: float = 0.15
+## A fitted window never shrinks below this width (it moves down instead).
+const MIN_WINDOW: float = 1.1
+
+
+## The face's half width (front/back run along x, left/right along z).
+func face_half_width(face: String) -> float:
+	return hw if face == "front" or face == "back" else hd
+
+
+## How high the wall goes at `u` on `face`: the eave line (wall_top) on an eave face, up the gable triangle on a gable end of a gable roof.
+func face_top(face: String, u: float) -> float:
+	var roof_data: Dictionary = spec.get("roof", {}) as Dictionary
+	var style: String = str(roof_data.get("style", "gable"))
+	if style != "gable" and style != "thatch":
+		return wall_top
+	var gable_front: bool = bool(roof_data.get("gable_front", false))
+	var gable_face: bool = (face == "front" or face == "back") == gable_front
+	if not gable_face:
+		return wall_top
+	var pitch: float = deg_to_rad(float(roof_data.get("pitch", 40.0)))
+	return wall_top + tan(pitch) * maxf(face_half_width(face) - absf(u), 0.0)
+
+
+## (u, y, size) of a `size`-wide window of aspect `aspect` (width / height) moved and shrunk to fit its face (see _window).
+func fit_window(face: String, u: float, y: float, size: float, aspect: float) -> Vector3:
+	var half_w: float = face_half_width(face) - WINDOW_MARGIN
+	size = minf(size, half_w * 2.0)
+	u = clampf(u, -half_w + size * 0.5, half_w - size * 0.5)
+	# the top must stay under the roof line at the window's outer corners (the lower one on a gable slope): shrink it in place first (so an upper
+	# window never slides down onto the one below), and only if it would get too small, keep that size and lower it
+	var bottom: float = foundation + 0.2
+	for step: int in range(8):
+		var top: float = minf(face_top(face, u - size * 0.5), face_top(face, u + size * 0.5)) - WINDOW_MARGIN
+		var room: float = minf(top - y, y - bottom) * 2.0
+		if size / aspect <= room + 0.001:
+			break
+		var wanted: float = maxf(room * aspect, MIN_WINDOW)
+		if wanted < size:
+			size = wanted
+			u = clampf(u, -half_w + size * 0.5, half_w - size * 0.5)
+		else:
+			y = clampf(y, bottom + size / aspect * 0.5, top - size / aspect * 0.5)
+	return Vector3(u, y, size)
+
+
 ## Window styles of the kit (the geometry stand-ins of ENV-WINDOW-01..05): width, height.
 const WINDOW_SIZES: Dictionary = {
 	"cross": Vector2(1.25, 1.6), "wide": Vector2(2.0, 1.4), "round": Vector2(1.1, 1.1), "arch": Vector2(1.2, 1.9), "shop": Vector2(3.0, 1.7), "dark": Vector2(1.25, 1.6),
@@ -513,7 +560,14 @@ func _window(face: String, u: float, y: float, id: String, data: Dictionary) -> 
 	if EnvKit.has_art(id):
 		var art_widths: Dictionary = {"ENV-WINDOW-01": 2.5, "ENV-WINDOW-02": 1.9, "ENV-WINDOW-03": 1.7, "ENV-WINDOW-04": 1.35, "ENV-WINDOW-05": 3.3}
 		var size: float = float(data.get("w", art_widths.get(id, float(EnvKit.entry(id).get("width", 1.6)))))
-		var half_h: float = size / EnvKit.aspect(id) * 0.5
+		var aspect: float = EnvKit.aspect(id)
+		# Fix pass Nov 4 (B), Part 3.1: the painted window (open shutters included) must sit ON its wall - never past the face's corners, never up into the
+		# roof above an eave or a gable's slope, never below the foundation. Too big for its spot: it shrinks; then it slides inward to fit.
+		var fit: Vector3 = fit_window(face, u, y, size, aspect)
+		u = fit.x
+		y = fit.y
+		size = fit.z
+		var half_h: float = size / aspect * 0.5
 		var material_slot: String = "art_%s" % id
 		mesh.set_material(material_slot, EnvKit.material(id, true))
 		_face_quad(material_slot, face, u - size * 0.5, u + size * 0.5, y - half_h, y + half_h, 0.05, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])

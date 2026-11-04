@@ -1,0 +1,17 @@
+# Fix pass Nov 4 (B), Part 3.1: the houses by the lake road (painted windows fitted to their walls).
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev tp 46 40
+wait 1.5
+shot 00_lake_a
+dev tp 46 52
+wait 1.5
+shot 01_lake_b
+dev tp 46 64
+wait 1.5
+shot 02_lake_c
