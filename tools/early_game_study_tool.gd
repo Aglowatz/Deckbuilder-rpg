@@ -39,7 +39,13 @@ func run() -> bool:
 	_md.append("reaches, and the model's equipment and items for that level; %d runs per Path." % _runs)
 	_md.append("")
 	var summary: PackedStringArray = []
+	var only: String = ""
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--path="):
+			only = arg.substr(7).to_lower()  # one Path per run (each takes about ten minutes)
 	for path: Affinity.Type in Affinity.colored_types():
+		if not only.is_empty() and Affinity.display_name(path).to_lower() != only:
+			continue
 		summary.append(_study_path(path, profile))
 		print("early_game_study: %s done" % Affinity.display_name(path))
 		var partial: FileAccess = FileAccess.open(out, FileAccess.WRITE)
