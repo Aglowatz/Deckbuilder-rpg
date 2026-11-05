@@ -16,7 +16,7 @@ const WIRED: Dictionary = {
 		6: "STORY-EPI-MODEL-FALLS", 7: "STORY-EPI-MODEL-FALLS", 8: "STORY-EPI-MODEL-FALLS"},
 	"rescue": {1: "STORY-RESCUE", 2: "STORY-RESCUE", 3: "STORY-RESCUE"},
 	"reveal": {1: "STORY-REVEAL-KITCHEN", 2: "STORY-REVEAL-KITCHEN", 3: "STORY-REVEAL-KITCHEN", 4: "STORY-REVEAL-KITCHEN", 5: "STORY-DOPPEL"},
-	"flex": {3: "STORY-FLEX", 4: "STORY-FLEX", 5: "STORY-FLEX"},
+	"flex": {1: "STORY-CLENCH-THRONE", 2: "STORY-CLENCH-THRONE", 3: "STORY-FLEX", 4: "STORY-FLEX", 5: "STORY-FLEX"},
 }
 
 ## Epilogue beat number (EndingDefs "n") -> its still.
@@ -49,9 +49,10 @@ func test_beats_left_on_the_icon_stage() -> void:
 	var icon_stage: Array[String] = []
 	for scene_id: String in CutsceneDefs.SCENES.keys():
 		for beat: Dictionary in CutsceneDefs.beats(scene_id):
-			if StoryStills.cutscene_backdrop(scene_id, int(beat["n"])) == "":
+			var still: String = StoryStills.cutscene_backdrop(scene_id, int(beat["n"]))
+			if still == "" or not KeyArt.has(still):  # Overnight Nov 4-5: STORY-CLENCH-THRONE is wired before its art
 				icon_stage.append("%s %d" % [scene_id, int(beat["n"])])
-	assert_eq(icon_stage, ["flex 1", "flex 2"] as Array[String], "only Flex's beats before his reveal keep the icon stage")
+	assert_eq(icon_stage, ["flex 1", "flex 2"] as Array[String], "only Flex's beats before his reveal keep the icon stage (until STORY-CLENCH-THRONE arrives)")
 	for beat: Dictionary in EndingDefs.BEATS:
 		assert_ne(StoryStills.ending_backdrop(str(beat["fx"])), "", "epilogue beat %d has a still" % int(beat["n"]))
 
@@ -65,5 +66,5 @@ func test_the_screen_swaps_the_still_per_beat() -> void:
 	var flex: CutsceneScreen = CutsceneScreen.make("flex")
 	add_child_autofree(flex)
 	await get_tree().process_frame
-	assert_eq(flex.backdrop_id(), "", "Flex's beat 1 keeps the icon stage")
+	assert_eq(flex.backdrop_id(), "", "Flex's beat 1 keeps the icon stage until STORY-CLENCH-THRONE is imported")
 	assert_true(flex._stage_root.visible)

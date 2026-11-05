@@ -37,6 +37,8 @@ func test_every_backdrop_still_is_used() -> void:
 				used.append(str(value))
 	used.append_array(StoryStills.MEMORIES)
 	used.append_array(StoryStills.PARKED)  # Fix pass Nov 4 (B): parked until redone, not dropped
+	for id: String in StoryStills.AWAITING_ART:  # Overnight Nov 4-5: wired before its art exists
+		used.erase(id)
 	used.sort()
 	var expected: Array[String] = StoryStills.BACKDROP_IDS.duplicate()
 	expected.sort()

@@ -106,6 +106,12 @@ const BACKDROP_IDS: Array[String] = [CAPTURE, THRONE, WONDER, VACANCY, SEVER, MO
 ## Fix pass Nov 4 (B): backdrop stills kept in the game but shown nowhere until their redo (docs/art/art_needed_nov4.csv).
 const PARKED: Array[String] = [PRIMM_FALL]
 
+## Overnight Nov 4-5, Part 7: Clench on his throne with Flex in chains, behind the flex cutscene's beats 1-2 (before the reveal). Wired
+## before its art exists (docs/art/art_needed_nov4.csv): until then `StillBackdrop.make` finds no file and the beats keep the icon stage.
+## Moves into BACKDROP_IDS once imported.
+const CLENCH_THRONE: String = "STORY-CLENCH-THRONE"
+const AWAITING_ART: Array[String] = [CLENCH_THRONE]
+
 ## Dungeon cutscene (`CutsceneDefs` id) -> its backdrop: the true Chef's dish, Agnes takes the office, letting the seed die, Primm at his
 ## model before the fight, "I kept your face".
 const CUTSCENE_BACKDROPS: Dictionary = {
@@ -124,10 +130,10 @@ const CUTSCENE_BACKDROPS: Dictionary = {
 
 ## Batch 11 (Nov 2): a still for some beats of a scene only (beat number -> still); a beat not listed falls back to the scene's
 ## CUTSCENE_BACKDROPS entry, else the icon stage. Grandmaster Flex's coat: his reveal still (STORY-FLEX, shown full screen on beat 3)
-## stays behind beats 3-5 - before the reveal it would give it away, so beats 1-2 keep the icon stage. The Test Kitchen: beats 1-4 in the
+## stays behind beats 3-5 - before the reveal it would give it away, so beats 1-2 show Clench on his throne (CLENCH_THRONE) instead. The Test Kitchen: beats 1-4 in the
 ## kitchen, beat 5 (after the STORY-DOPPEL still) behind the revealed form.
 const CUTSCENE_BEAT_BACKDROPS: Dictionary = {
-	"flex": {3: FLEX, 4: FLEX, 5: FLEX},
+	"flex": {1: CLENCH_THRONE, 2: CLENCH_THRONE, 3: FLEX, 4: FLEX, 5: FLEX},
 	"reveal": {1: REVEAL_KITCHEN, 2: REVEAL_KITCHEN, 3: REVEAL_KITCHEN, 4: REVEAL_KITCHEN, 5: DOPPEL},
 }
 
