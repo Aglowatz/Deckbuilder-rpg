@@ -573,8 +573,7 @@ func _map(scene: DungeonMapScreen) -> void:
 		await driver.click(driver.button_center(tip))
 	if not _did.has("dungeon_deck"):
 		_did["dungeon_deck"] = true
-		await _try_dungeon_deck_builder(scene)
-		return
+		_check(driver.find_button("Deck") == null, "no Deck button inside a dungeon (Overnight Nov 4-5: the run keeps the deck it entered with)")
 	var available: Array[DungeonMap.MapNode] = scene.map.available()
 	if available.is_empty():
 		await driver.frames(10)
@@ -583,28 +582,6 @@ func _map(scene: DungeonMapScreen) -> void:
 	_note("map: entering %s (HP %d)" % [available[0].title, Session.run.hp])
 	await driver.click(driver.center_of_control(button))
 	await driver.seconds(1.0)
-
-
-## Part C: a Deck button on the dungeon map opens the same Deck Station, editing the run's
-## current (still 42-card, size-waived) deck. Opened once, checked, closed without changing it.
-func _try_dungeon_deck_builder(scene: DungeonMapScreen) -> void:
-	await driver.click_button("Deck")
-	await driver.seconds(0.6)
-	var screen: DungeonDeckbuilderScreen = null
-	for child: Node in scene.get_children():
-		if child is DungeonDeckbuilderScreen:
-			screen = child as DungeonDeckbuilderScreen
-	_check(screen != null, "the dungeon map's Deck button opens the in-dungeon deck builder")
-	if screen == null:
-		return
-	_check(screen.editor.deck.size() == Session.run.current_deck().size(), "it edits the run's current deck")
-	_check(screen.editor.is_valid(), "the size-waived starter deck is valid in the in-dungeon builder")
-	var tip: Button = driver.find_button("Got it")
-	if tip != null:
-		await driver.click(driver.button_center(tip))
-		await driver.seconds(0.3)
-	await driver.click_button("Close")
-	await driver.seconds(0.5)
 
 
 # ---- Battle ----------------------------------------------------------------------------

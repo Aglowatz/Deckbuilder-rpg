@@ -47,7 +47,7 @@ static func path_pack(path: Affinity.Type, order: int) -> PackData:
 	pack.art_color = PATH_COLORS[path] as Color
 	pack.art_icon = str(PATH_ICONS[path])
 	pack.frame_style = "foil"
-	pack.price = 150
+	pack.price = 200
 	pack.sold_by = PackData.VENDOR_PACK
 	pack.unlock = Condition.flag("zone_%s_completed" % PackRules.zone_for_path(path))  # = ZoneCompletion.flag_name (a test checks it)
 	pack.order = order
@@ -62,7 +62,7 @@ static func gilded_pack(path: Affinity.Type, order: int) -> PackData:
 	pack.guarantee_epic_or_legendary = true
 	pack.rarity_weights = [40, 30, 22, 8] as Array[int]
 	pack.frame_style = "gilded"
-	pack.price = 600
+	pack.price = 800
 	pack.sold_by = PackData.VENDOR_BLACK_MARKET
 	return pack
 
@@ -81,7 +81,7 @@ static func prismatic(order: int) -> PackData:
 	pack.art_color = Color(0.85, 0.6, 0.95)
 	pack.art_icon = "lorc/rainbow-star"
 	pack.frame_style = "prismatic"
-	pack.price = 900
+	pack.price = 1200
 	pack.sold_by = PackData.VENDOR_PACK
 	pack.unlock = Condition.postgame()
 	pack.order = order
@@ -106,9 +106,9 @@ static func general(tier: int, order: int) -> PackData:
 	if tier == 1:
 		pack.rarity_weights = [70, 30, 0, 0] as Array[int]
 		pack.max_rarity = CardEnums.Rarity.UNCOMMON
-		pack.price = 100
+		pack.price = 150
 	else:
 		pack.rarity_weights = [58, 28, 11, 3] as Array[int]
-		pack.price = 220
+		pack.price = 300
 	return pack
 

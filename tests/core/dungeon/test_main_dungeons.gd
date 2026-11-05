@@ -278,7 +278,7 @@ func test_treasure_grants_loot() -> void:
 			chest = node
 	var gold_before: int = Session.gold
 	var granted: Dictionary = Session.apply_treasure(chest)
-	assert_eq(Session.gold, gold_before + int(chest.treasure["gold"]))
+	assert_eq(Session.gold, gold_before + EncounterRewards.dungeon_share(int(chest.treasure["gold"])), "half the loot gold (Nov 5: the clear bonus doubles it)")
 	assert_true(granted.has("item"), "a healing item")
 	assert_true(Session.profile.owns_item(Session.content.item("energy_draught")))
 

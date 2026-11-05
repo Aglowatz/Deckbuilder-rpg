@@ -64,7 +64,7 @@ func _init() -> void:
 
 
 ## Overridable so the same screen can edit the dungeon run's current deck instead of the town
-## deck (see DungeonDeckbuilderScreen) with the same validation rules either way.
+## deck with the same validation rules either way (the in-dungeon editor was removed Nov 5: no deck changes inside a dungeon).
 func _source_deck() -> Deck:
 	return Session.deck_box.build(_editing, Session.deck_lookup()) if _uses_deck_box() else Session.deck
 

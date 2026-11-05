@@ -12,14 +12,14 @@ extends RefCounted
 ## Fix pass Nov 4 (Part 2.1): a Common costs 100, the same as a General Pack; the ratio stays 1 : 2 : 5 : 10. The gold this frees goes to
 ## equipment, now the big purchase (GEAR_PRICE; study in docs/balance/gold_economy_nov3.md, "Fix pass Nov 4").
 const CARD_PRICE: Array[int] = [100, 200, 500, 1000]
-## Part B9: a roamer fought again (the same spot won before) pays this many times its zone's gold, so grinding buys a Common in about 2-4
-## repeat fights; the first win of every spot pays the plain rate (the no-grind economy above is unchanged).
-const REPEAT_FIGHT_MULTIPLIER: int = 2
+## Overnight Nov 4-5, Part 2.2: a repeat fight pays the SAME gold as the first win (Part B9's x2 for repeats is gone); the extra gold now comes
+## from dungeon clear bonuses (`Session.pay_clear_bonus`) and richer quests (QuestDefinitions / ZoneQuestDefinitions, `QUEST_GOLD_SCALE`).
+const REPEAT_FIGHT_MULTIPLIER: int = 1
 
 
-## The gold of a roamer win: the plain rate the first time a spot is beaten, REPEAT_FIGHT_MULTIPLIER times it after.
-static func fight_gold(base: int, repeat: bool) -> int:
-	return base * (REPEAT_FIGHT_MULTIPLIER if repeat else 1)
+## The gold of a roamer win: the same the first time a spot is beaten and after (`repeat` kept for the callers and the study).
+static func fight_gold(base: int, _repeat: bool) -> int:
+	return base * REPEAT_FIGHT_MULTIPLIER
 
 ## Equipment price by rarity, then tier (index 0 unused: tiers are 1-based). A Legendary piece is never sold.
 ## Fix pass Nov 4 (Part 2.2): equipment is a saving goal - a no-grind player affords about 4-6 shop pieces over the whole game on top of

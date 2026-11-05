@@ -31,15 +31,22 @@ var _md: PackedStringArray = []
 
 
 func run() -> bool:
+	var before: bool = false
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--out="):
 			_study_out = arg.substr(6)
+		elif arg == "--before":
+			before = true  # Overnight Nov 4-5: the economy before Part 2 (no clear bonus, the authored quest gold)
 	_content = ContentLibrary.load_all()
+	# Overnight Nov 4-5: the study never filled the quest table (every quest step paid 0 here); it reads the quests the game reads now - scaled
+	# by QuestCatalog (Part 2.2) unless --before.
+	for quest: QuestData in (QuestDefinitions.build_all() if before else QuestCatalog.all()):
+		_quests[quest.id] = quest
 	var profile: Profile = Profile.new()
 	profile.name = "no-grind"
 	# The model's "expected" player minus every repeat: main path, roamers once, half the chests, two thirds of the side quests, every side
 	# dungeon once, the minigames and half the arena once, most feats.
-	profile.takes = {"main": 1.0, "roamer": 1.0, "chest": 0.5, "side_quest": 0.67, "side_dungeon": 1.0, "dungeon_side": 0.5, "minigame": 1.0, "arena": 0.5, "feat": 0.75, "secret": 0.5, "postgame": 1.0}
+	profile.takes = {"clear_bonus": 0.0 if before else 1.0, "main": 1.0, "roamer": 1.0, "chest": 0.5, "side_quest": 0.67, "side_dungeon": 1.0, "dungeon_side": 0.5, "minigame": 1.0, "arena": 0.5, "feat": 0.75, "secret": 0.5, "postgame": 1.0}
 	var steps: Array[Step] = _build_timeline()
 	var by_zone: Dictionary = {}
 	var zone_order: Array[String] = []

@@ -166,3 +166,71 @@ Repeat roamer fights pay 2 x the zone's rate. At about 12 repeat fights an hour 
 | Capital | 140 | 1680 | 16.8 | 7.1 | 0.7 |
 
 Crosspath's outskirts stay a poor place to grind, on purpose.
+
+## Overnight Nov 4-5: packs, the clear bonus, richer quests, no repeat x2
+
+Re-run with `tools/gold_study.gd` (the same no-grind player). **The earlier runs of this study never loaded the quest table**, so every
+quest paid 0 in them; the "before" column below is the Nov 4 economy with the quests counted (`--before`), so it is higher than the
+16,029 above.
+
+What changed (Part 2 of `docs/prompts/overnight_nov4.md`):
+
+- **Packs:** General 100 -> **150**, Path 150 -> **200**, Gilded 600 -> **800** (4x the Path Pack, as before), General II 200 -> 300,
+  Prismatic 900 -> 1200 (6x the Path Pack, as before). A pack of several cards still costs less than two Commons.
+- **Repeat fights pay the same as the first win** (`Economy.REPEAT_FIGHT_MULTIPLIER` 2 -> 1).
+- **Dungeon clear bonus:** beating a dungeon's boss pays everything the run paid once more (`Session.pay_clear_bonus`, shown on the boss's
+  Victory screen as "Clear bonus: +X gold"). Tuning lever: a dungeon node now pays **half** of what it did
+  (`EncounterRewards.DUNGEON_NODE_GOLD_SHARE` 0.5, fights and treasure), so a **finished** run pays exactly the old amount and an abandoned or
+  lost run half of it. At a share of 1.0 (no cut) the no-grind player would earn 25,364 and afford about 9 gear pieces after the 20 cards.
+- **Quests pay more:** main line x1.75, side quests of 3+ steps x1.6, shorter side quests x1.5 (`QuestCatalog.gold_scale`; milestones too).
+
+### Gold earned per zone
+
+| Zone / stage | Before (Nov 4) | **After** |
+|---|---:|---:|
+| Starting gold | 120 | 120 |
+| Town | 2389 | **2494** |
+| Gainlands | 2370 | **2635** |
+| D.N.A. | 2300 | **2550** |
+| Buffet | 2525 | **2805** |
+| Dump | 3400 | **3965** |
+| Capital | 4050 | **4560** |
+| Postgame | 2005 | **2060** |
+| **Whole playthrough** | **19159** | **21189** |
+
+### By source
+
+| Source | Before | **After** |
+|---|---:|---:|
+| main (story fights, gatekeepers, main dungeons, main quests) | 6285 | **6415** |
+| quests (side) | 1650 | **2180** |
+| dungeon clear bonus | - | **2165** |
+| side dungeons (nodes) | 1620 | **1140** |
+| postgame dungeons (nodes) | 1355 | **980** |
+| dungeon side branches | 190 | **100** |
+| level track | 2540 | 2540 |
+| chests | 2495 | 2495 |
+| roamers (once each) | 1199 | 1199 |
+| feats | 735 | 735 |
+| minigames | 420 | 420 |
+| secrets | 250 | **400** |
+| arena | 300 | 300 |
+
+### What the no-grind player affords
+
+| | Before | **After** |
+|---|---:|---:|
+| Earned | 19159 | **21189** |
+| Items (7 charges), hats (3), hub fees | -1325 | -1325 |
+| The 20-card mix (10 Common, 6 Uncommon, 3 Epic, 1 Legendary) | -4700 | -4700 |
+| **Left for equipment** | **13134** | **15164** |
+| Shop pieces: the 4 essential (8900) + Uncommon t2 pieces (2400 each) | 5 | **6** |
+
+Target kept: about 20 cards, **6** pieces of gear (the top of the 4-6 window) and normal item use, with no grinding. A player who fails
+dungeons often keeps less (half pay per node until a clear).
+
+### Grinding: extra cards per hour
+
+Repeat roamer fights now pay 1 x the zone's rate (13 / 35 / 40 / 50 / 60 / 70 by tier). At about 12 repeat fights an hour that is 156 / 420 /
+480 / 600 / 720 / 840 gold an hour: a Common every 15 minutes in the Gainlands, a tier-1 Common gear piece (1200) every 2.9 hours there.
+Replaying a cleared dungeon is now the better grind: its nodes, the clear bonus on top, and the repeat clear's gold and Path Pack.

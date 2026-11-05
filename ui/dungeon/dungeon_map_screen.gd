@@ -353,12 +353,6 @@ func _build_hud() -> void:
 	retreat.position = Vector2(60, 960)
 	retreat.pressed.connect(_ask_retreat)
 	add_child(retreat)
-	var deck_button: FancyButton = FancyButton.make("", &"", Vector2(160, 56))
-	PromptText.bind(deck_button, "Deck ({open_deck})")
-	deck_button.position = Vector2(60, 894)
-	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
-	deck_button.pressed.connect(_open_deck_builder)
-	add_child(deck_button)
 
 
 func _refresh_hp() -> void:
@@ -737,30 +731,12 @@ func pad_first_focus() -> Control:
 	return UiInput.focus_first(self)
 
 
-## New brief, Part B: a B hotkey alongside the existing Deck button, matching town/zones.
+## Overnight Nov 4-5, Part 2.4: no deck changes inside a dungeon - the run is played with the deck it entered with (the Deck button, the B
+## hotkey and the in-dungeon Deck Station are gone; cards won here go to the collection, except in the tutorial cave, where they join the deck).
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"open_deck"):
-		get_viewport().set_input_as_handled()
-		_open_deck_builder()
-		return
 	if _hovered_id >= 0 and map.is_available(_hovered_id) and not InputDevice.using_pad() and UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
 		_on_node_chosen(_hovered_id)
-
-
-## Part C: a deck builder reachable from inside the dungeon, same validation rules as town (see
-## DungeonDeckbuilderScreen) - it edits the run's current deck, not a map node, so it does not
-## flow through `_open_modal`/`_on_modal_finished` (no node to complete afterward).
-func _open_deck_builder() -> void:
-	if _busy or _modal != null:
-		return
-	Audio.sfx(&"ui_select")
-	var screen: DungeonDeckbuilderScreen = DungeonDeckbuilderScreen.new()
-	_modal = screen
-	screen.z_index = 100
-	add_child(screen)
-	screen.tree_exited.connect(func() -> void: _modal = null)
-	screen.closed.connect(screen.queue_free)
 
 
 func _ask_retreat() -> void:
@@ -778,8 +754,6 @@ func _open_from_screenshot(what: String) -> void:
 			_open_modal(ChallengeScreen.new(), 2)
 		"shrine":
 			_open_modal(ShrineScreen.new(), 4)
-		"deck":
-			_open_deck_builder()
 		"event":
 			var shown: DungeonEvent = _main_def.event(str(_screenshot_args.get("event_id", ""))) if _main_def != null else null
 			if shown != null:
@@ -915,18 +889,13 @@ func _build_art_hud() -> void:
 	gold.add_theme_font_override("font", UIStyle.font_title())
 	gold_row.add_child(gold)
 	var buttons: VBoxContainer = UIKit.vbox(8)
-	buttons.position = Vector2(8.0, 1080.0 - 3.0 * 60.0 - 8.0)
+	buttons.position = Vector2(8.0, 1080.0 - 2.0 * 60.0 - 8.0)
 	add_child(buttons)
 	var rules_button: FancyButton = FancyButton.make("", &"", Vector2(134, 52))
 	PromptText.bind(rules_button, "Rules ({dungeon_rules})")
 	rules_button.name = "RulesButton"
 	rules_button.pressed.connect(_toggle_rules)
 	buttons.add_child(rules_button)
-	var deck_button: FancyButton = FancyButton.make("", &"", Vector2(134, 52))
-	PromptText.bind(deck_button, "Deck ({open_deck})")
-	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
-	deck_button.pressed.connect(_open_deck_builder)
-	buttons.add_child(deck_button)
 	var retreat: FancyButton = FancyButton.make("Retreat", &"DangerButton", Vector2(134, 52))
 	retreat.pressed.connect(_ask_retreat)
 	buttons.add_child(retreat)

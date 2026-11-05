@@ -1146,3 +1146,12 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 3. **A dark round object still stands beside the D.N.A. lobby's west passage** (`docs/overnight_shots/nov5/p1_10_dna_lobby.png`, left of
    the hero). The passage is walkable; I moved the waiting chairs and ashtray out of it but could not identify that piece in the time I
    gave it. Say if it should go.
+4. **Economy (Part 2): dungeon nodes now pay half, and the clear bonus doubles it back.** With the bonus on top of the old node gold the
+   no-grind player earns 25,364 and affords about 9 gear pieces after the 20 cards, far past "4-6". I kept "the clear bonus equals the run's
+   gold" exactly as written and tuned the run's gold instead (`EncounterRewards.DUNGEON_NODE_GOLD_SHARE` 0.5): a finished run pays exactly
+   what it used to, an abandoned or lost one half. Quests: main x1.75, long side x1.6, short side x1.5 (`QuestCatalog`). Result: 19,159 ->
+   21,189 earned, 20 cards + 6 gear pieces. Also found: the gold study had never loaded the quests (they counted as 0), so the Nov 3-4 / Nov 4
+   numbers were about 3,000 low. If you would rather have the run's gold untouched (share 1.0, ~9 gear pieces) or a 50 % bonus instead, it
+   is one constant each.
+5. **The in-dungeon deck editor is deleted** (`ui/dungeon/dungeon_deckbuilder_screen.gd`, its Deck button and B on the map) as Part 2.4 asked
+   ("the button, the screen access and any code path"). It is in git history (`git show pre-overnight-nov4:ui/dungeon/dungeon_deckbuilder_screen.gd`).

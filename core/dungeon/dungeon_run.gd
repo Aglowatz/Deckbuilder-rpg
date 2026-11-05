@@ -7,6 +7,9 @@ var profile: PlayerProfile
 var base_deck: Deck
 var hp: int = 0
 var encounters_won: int = 0
+## Overnight Nov 4-5, Part 2.2: every coin this run has paid so far (fights, treasure, events). Beating the boss pays it once more as the
+## clear bonus (`Session.pay_clear_bonus`), so a cleared run's gold doubles.
+var gold_earned: int = 0
 var failed: bool = false
 ## Cards lost / gained for this dungeon only (the profile's collection is never touched).
 var lost_cards: Array[CardData] = []

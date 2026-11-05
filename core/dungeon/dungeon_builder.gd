@@ -306,7 +306,7 @@ static func build_map(blueprint: DungeonCatalog.Blueprint, def: MainDungeonDef) 
 						added.card_choices = 3  # Overnight Oct 23, Part 4: side-dungeon bosses offer a pick too (their prize stays)
 					_:
 						added.difficulty = DungeonMap.Difficulty.NORMAL
-				added.gold_reward = EncounterRewards.gold_for(added.difficulty) / 2
+				added.gold_reward = EncounterRewards.dungeon_fight_gold(added.difficulty)
 				battle_index += 1
 			K.EVENT, K.RESCUE:
 				var event_data: Variant = (content.get("events", {}) as Dictionary).get(str(node.number))

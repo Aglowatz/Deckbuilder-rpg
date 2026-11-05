@@ -85,6 +85,12 @@ func _build_rewards() -> void:
 	count.tween_callback(func() -> void: Audio.sfx(&"coins"))
 	if _offer.xp > 0:
 		_column.add_child(UIKit.label("+%d XP" % _offer.xp, &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+	# Overnight Nov 4-5, Part 2.2: the boss is down, so the run's gold is paid again (Session.pay_clear_bonus does it as the dungeon closes).
+	var bonus: int = Session.clear_bonus_preview(_offer.gold) if Session.trial_finished else 0
+	if bonus > 0:
+		var bonus_label: Label = UIKit.label("Clear bonus: +%d gold  (everything this run paid you, once more)" % bonus, &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		bonus_label.name = "ClearBonus"
+		_column.add_child(bonus_label)
 	if _offer.cards.is_empty():
 		_add_buttons()
 		return
@@ -105,7 +111,7 @@ func _build_rewards() -> void:
 	_keyword_help.alignment = BoxContainer.ALIGNMENT_CENTER
 	_column.add_child(_keyword_help)
 	if not _to_deck and Session.take_collection_tip():
-		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		var tip: Label = UIKit.label("New: cards you win go to your collection, not straight into your deck. Build them in at the Deck Station in Crosspath once this run is over: a dungeon is played with the deck you brought.", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 		tip.name = "CollectionTip"
 		tip.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		tip.custom_minimum_size = Vector2(760, 0)

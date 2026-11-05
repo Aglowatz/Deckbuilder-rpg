@@ -263,7 +263,7 @@ func test_dialogue_ducks_the_music_a_little_and_releases() -> void:
 
 func test_screens_name_their_own_music() -> void:
 	var screens: Dictionary = {
-		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new(), DungeonDeckbuilderScreen.new()],
+		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new()],
 		"MUS-QUIZ": [QuizScreen.new()],
 		"MUS-MINIGAME-NECRO": [MatchGameScreen.new()],
 		"MUS-MINIGAME-GOUR": [OrderGameScreen.new()],

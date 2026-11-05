@@ -268,7 +268,34 @@ func has_profile() -> bool:
 
 func add_gold(amount: int) -> void:
 	gold = maxi(0, gold + amount)
+	if amount > 0 and counts_for_clear_bonus():
+		run.gold_earned += amount
 	EventBus.gold_changed.emit(gold)
+
+
+## Overnight Nov 4-5, Part 2.2: gold paid inside a dungeon run counts toward its clear bonus (not the tutorial cave's).
+func counts_for_clear_bonus() -> bool:
+	return run != null and (main_dungeon_active or mini_active) and not _paying_clear_bonus
+
+
+var _paying_clear_bonus: bool = false
+
+
+## The clear bonus a boss win would pay now: everything the run has paid (`extra`: gold about to be paid, the boss fight's own).
+func clear_bonus_preview(extra: int = 0) -> int:
+	return (run.gold_earned + extra) if run != null and (main_dungeon_active or mini_active) else 0
+
+
+## Pays the clear bonus (once, when the boss falls) and records it in `result` ("clear_bonus") for the screens. Returns it.
+func pay_clear_bonus(result: Dictionary) -> int:
+	var bonus: int = clear_bonus_preview()
+	if bonus <= 0:
+		return 0
+	_paying_clear_bonus = true
+	add_gold(bonus)
+	_paying_clear_bonus = false
+	result["clear_bonus"] = bonus
+	return bonus
 
 
 ## New brief, Part D: the price actually shown/charged after the profile's vendor_discount_percent
@@ -3263,6 +3290,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_key)
 	var dungeon: MainDungeonDef = MainDungeons.def(dungeon_key)
 	if cleared and plan != null:
+		pay_clear_bonus(result)
 		if dungeon != null and not cleared_dungeons.has(dungeon.dungeon_name):
 			cleared_dungeons.append(dungeon.dungeon_name)
 		if plan.id == "S-CAP":
@@ -3407,6 +3435,7 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	if zone_run != null and run != null:
 		zone_run.hp = run.hp
 	if cleared and dungeon != null:
+		pay_clear_bonus(result)
 		if not cleared_dungeons.has(dungeon.dungeon_name):
 			cleared_dungeons.append(dungeon.dungeon_name)
 		var first_clear: bool = not is_zone_completed(zone_id)
@@ -3540,7 +3569,8 @@ func return_from_ending() -> void:
 func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
 	var loot: Dictionary = node.treasure
 	var granted: Dictionary = {}
-	var gold_amount: int = int(loot.get("gold", 0))
+	# Overnight Nov 4-5: treasure gold is a dungeon node's too (half, doubled back by the clear bonus); not in the tutorial cave
+	var gold_amount: int = EncounterRewards.dungeon_share(int(loot.get("gold", 0))) if counts_for_clear_bonus() else int(loot.get("gold", 0))
 	if gold_amount > 0:
 		add_gold(gold_amount)
 		granted["gold"] = gold_amount

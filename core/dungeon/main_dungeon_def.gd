@@ -97,7 +97,7 @@ func battle(map: DungeonMap, kind: DungeonMap.Kind, key: String, position: Vecto
 		_:
 			added.difficulty = DungeonMap.Difficulty.NORMAL
 			added.card_choices = 0
-	added.gold_reward = EncounterRewards.gold_for(added.difficulty) / 2
+	added.gold_reward = EncounterRewards.dungeon_fight_gold(added.difficulty)
 	return added
 
 
