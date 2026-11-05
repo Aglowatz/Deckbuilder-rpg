@@ -40,3 +40,41 @@ Gold study (`docs/balance/gold_economy_nov3.md`, "Overnight Nov 4-5"). The study
 | Left for gear | 13,134 (5 pieces) | **15,164 (6 pieces)** |
 
 By source after: main 6,415, side quests 2,180, clear bonus 2,165, side-dungeon nodes 1,140, postgame nodes 980, the rest unchanged.
+
+## Part 4 - dialogue rewrite
+
+Full write-up: `docs/dialogue/rewrite_nov5.md`; style guide `docs/dialogue/story_voice_nov5.md`; review sheet **`docs/dialogue/edit_nov5.csv`**.
+
+- 1,178 lines rewritten in 15 story-order chunks (main quests first, then primary characters, side quests, barks), applied as a revertible
+  pass; the 15 lines a blind critic preferred in their old form were put back and 4 weak ones fixed.
+- Blind critic (100 random changed lines, versions unlabelled): main story new 49 / old 5 (6 ties), side content new 29 / old 10. Averages
+  new vs old - main: voice 7.5 vs 6.3, clarity 8.0 vs 7.3, emotion 7.0 vs 6.0, humour 7.2 vs 6.3; side: voice 7.4 vs 6.6, clarity 8.1 vs
+  7.3, humour 7.2 vs 6.7.
+- Best before/after examples: the table in `docs/dialogue/rewrite_nov5.md`.
+
+## Part 6 - music: the Gainlands quotes
+
+| Cue | What quoted the old march | Now |
+|---|---|---|
+| MUS-CREDITS | the Gainlands section (bars 22-39, trumpets + horns) | the rock riff and answer, same bars and orchestration |
+| MUS-PRIMM-02 | the Gainlands section of the medley (trumpet + horn, violins) | rock riff / answer |
+| MUS-PRIMM-03 | the Gainlands head in D | rock riff head |
+| MUS-PRIMM-DEFEAT | the Gainlands head on horn | rock riff head |
+| MUS-QUEST-ROLLO | the whole theme (horn, then violins) | rock riff / answer |
+| MUS-REUNION | a horn call from the theme's head | rock riff head |
+| MUS-THRONE | the head on trumpet | rock riff head |
+| MUS-CAP-RESTORED | the head in D | rock riff head |
+| MUS-CAP-RIFT | its own copy of the march, bent to D minor | rock riff / answer, bent the same way |
+
+Method: the march melody (`scores/_fork_b.py` GAIN_THEME, CAP-RIFT's BEEF) was replaced by 16 bars of the rock material (`lib/rock.py`
+MOTIF_RESOLVED / ANSWER_MAJOR, up a tritone into the march's Bb major and harmony), so each cue keeps its own instruments, key and length.
+All nine re-rendered at q6 one at a time, every check OK (-20.0 LUFS), delivered (`deliver_part.sh`), music smoke OK. FOREST, DECK and
+TUT-EXP already quote the rock riff's melody (it is the Crossroads motif) and were left alone (inbox 6).
+
+## Part 7 - art list and import prep
+
+- `docs/art/art_needed_nov4.csv`: every row now has its target id(s), game file, size and format (38 rows). New rows: SPR-TOWNSFOLK-A/B/C
+  (a human market regular, a badger labourer, an old hare; idle + walk in FRONT / FRONTSIDE / SIDE / BACK, talk, REF) with a portrait each
+  (NPC-TOWNSFOLK-A/B/C), and MAP-S-GALLERY with a full map description. Sprite batch rows NT-TOWNSFOLK-A/B/C give the importer their height.
+- `docs/art/import_nov5_ready.md`: for each id, the Approved_* folder and filename, and the command.
+- Node guide for the map: `docs/art/paintover_inputs/gallery_map_guide.png` (1536 x 1024, `tools/art/gallery_map_guide.py`).

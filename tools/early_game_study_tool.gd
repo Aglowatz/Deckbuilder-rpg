@@ -186,9 +186,12 @@ func _simulate_dungeon(path: Affinity.Type, zone_id: String, level: int, bought:
 		node = map.nodes[node.next[0]] if node.next[0] < map.nodes.size() else null
 	# the game eases a zone played before its designed place, and the first zone a little more (ZoneOrderEase); --no_ease measures without it
 	var factor: float = 1.0 if OS.get_cmdline_user_args().has("--no_ease") else ZoneOrderEase.hp_factor(zone_id, 0)
+	var attack: int = 0 if OS.get_cmdline_user_args().has("--no_ease") else ZoneOrderEase.attack_ease(zone_id, 0)
 	for spec: EncounterSpec in specs:
 		spec.enemy_hp = maxi(4, roundi(float(spec.enemy_hp) * factor))
-	_md.append("Foe HP factor in this run (ZoneOrderEase, first zone, %d places early): %.2f." % [ZoneOrderEase.places_early(zone_id, 0), factor])
+		if attack != 0:
+			spec.enemy_sources.append(CardBuilder.modifier_source("Zone order ease", ModifierSource.SourceKind.ZONE, [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, attack, Modifier.ANY_COLOR, 0)] as Array[Modifier]))
+	_md.append("Foe HP factor in this run (ZoneOrderEase, first zone, %d places early): %.2f; foe attack ease %d." % [ZoneOrderEase.places_early(zone_id, 0), factor, attack])
 	var deck: Deck = CampaignStart.starter_deck_sized(_content, path, 0)
 	var with_buys: Deck = Deck.new()
 	with_buys.deck_name = deck.deck_name

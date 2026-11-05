@@ -1824,7 +1824,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null) else ""
 	# Overnight Nov 4-5, Part 3: a Path zone played earlier than its designed place in the order has easier foes (ZoneOrderEase)
 	if not effect_zone.is_empty():
-		ZoneOrderEase.apply(enemy, ZoneOrderEase.hp_factor(effect_zone, completed_zone_count(), is_zone_completed(effect_zone)))
+		ZoneOrderEase.ease_seat(enemy, effect_zone, completed_zone_count(), is_zone_completed(effect_zone))
 	if capital:
 		var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
 		if rules != null:
@@ -1941,7 +1941,7 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 		player_side.append(EncounterModifiers.player_source(npc_key))
 	game.add_player(PlayerSetup.create(deck, profile, player_side, "You"))
 	var gatekeeper: PlayerSetup = CorruptedNpcs.enemy_setup(content, id)
-	ZoneOrderEase.apply(gatekeeper, ZoneOrderEase.hp_factor(id, completed_zone_count()))  # Overnight Nov 4-5, Part 3: a gatekeeper met early is eased too
+	ZoneOrderEase.ease_seat(gatekeeper, id, completed_zone_count())  # Overnight Nov 4-5, Part 3: a gatekeeper met early is eased too
 	game.add_player(gatekeeper)
 	game.start()
 	var context: BattleContext = BattleContext.new()
@@ -2895,7 +2895,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 		player.starting_hp = zone_run.hp
 	game.add_player(player)
 	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type, is_zone_completed(zone_id))  # Oct 23: freed zones spar with two Paths
-	ZoneOrderEase.apply(zone_enemy, ZoneOrderEase.hp_factor(zone_id, completed_zone_count(), is_zone_completed(zone_id)))  # Overnight Nov 4-5, Part 3
+	ZoneOrderEase.ease_seat(zone_enemy, zone_id, completed_zone_count(), is_zone_completed(zone_id))  # Overnight Nov 4-5, Part 3
 	if zone_source != null:
 		zone_enemy.modifiers.add_source(zone_source)
 	if zone_id == CapitalZone.ID:

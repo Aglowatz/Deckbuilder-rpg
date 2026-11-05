@@ -9,7 +9,7 @@ extends RefCounted
 ## Zone -> its designed place in the order (1-4).
 const DESIGNED_PLACE: Dictionary = {"beefcake": 1, "necrocrat": 2, "gourmand": 3, "refusemancer": 4}
 ## HP factor by how many places early the zone is entered (0, 1, 2, 3).
-const EARLY_HP_FACTOR: Array[float] = [1.0, 0.82, 0.7, 0.6]
+const EARLY_HP_FACTOR: Array[float] = [1.0, 0.95, 0.85, 0.42]
 ## Extra factor while no zone is freed yet (the player's first zone).
 const FIRST_ZONE_FACTOR: float = 0.85
 
@@ -29,6 +29,23 @@ static func hp_factor(zone_id: String, zones_freed: int, zone_freed: bool = fals
 	if zones_freed == 0:
 		factor *= FIRST_ZONE_FACTOR
 	return factor
+
+
+## Units of a zone entered at least one place early hit 1 softer (HP alone left its bosses winning half the time against a starter deck).
+const EARLY_ATTACK_EASE: int = -1
+
+
+## The attack ease for the zone right now (0 = none).
+static func attack_ease(zone_id: String, zones_freed: int, zone_freed: bool = false) -> int:
+	return EARLY_ATTACK_EASE if not zone_freed and places_early(zone_id, zones_freed) > 0 else 0
+
+
+## Eases an enemy seat in the zone: HP times hp_factor and, when the zone is early, the attack ease on its units.
+static func ease_seat(setup: PlayerSetup, zone_id: String, zones_freed: int, zone_freed: bool = false) -> void:
+	apply(setup, hp_factor(zone_id, zones_freed, zone_freed))
+	var attack: int = attack_ease(zone_id, zones_freed, zone_freed)
+	if setup != null and attack != 0:
+		setup.modifiers.add_source(CardBuilder.modifier_source("Zone order ease", ModifierSource.SourceKind.ZONE, [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, attack, Modifier.ANY_COLOR, 0)] as Array[Modifier]))
 
 
 ## Eases an enemy seat in place: its starting and max HP times `factor` (at least 4).
