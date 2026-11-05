@@ -479,7 +479,7 @@ lines = {
 "cutscene.primm_p2.1.speaker": ["Primm"],
 "cutscene.primm_p2.1": ["Your cards, your plays, your very own deck, held in my hands and played rather more tidily than you ever played it.", "And still you beat me. I should very much like to know how."],
 "cutscene.primm_p2.2.speaker": ["You"],
-"cutscene.primm_p2.2": ["You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.", "And nobody files me under 'subject' ever again."],
+"cutscene.primm_p2.2": ["You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.", "And nobody files me under 'subject' ever again. No order outranks treating people with respect."],
 "cutscene.primm_p2.2.rushed": ["You copied my cards. You can't copy what I do with them.","My name is mine to sign. You don't get to decide who I am."],
 "cutscene.primm_p2.2.gourmand": ["You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.", "Copying a face never made anyone a cook. You don't get to decide who I am."],
 "cutscene.primm_p2.2.necrocrat": ["You copied my cards. You can't copy what I do with them.", "Nobody files me under 'subject' ever again. No order you could write outranks treating people with respect."],

@@ -105,7 +105,7 @@ func test_rips_tip_opens_the_forest_station_and_reveals_the_hatch() -> void:
 	assert_true(FastTravel.can_travel(Session.flags, FastTravel.TOWN, FastTravel.FOREST))
 	assert_true(FastTravel.destinations(Session.flags, FastTravel.FOREST).has(FastTravel.TOWN))
 	var tip: String = "\n".join(StoryText.shared().get_lines("travel.forest_tip"))
-	assert_true(tip.contains("exploring") and tip.contains("interesting things") and tip.contains("rift station"), "Rip's tip")
+	assert_true(tip.contains("forest") and tip.contains("interesting things") and tip.contains("rift station"), "Rip's tip")
 
 
 func test_the_hatch_is_invisible_and_blocked_until_the_lab_is_revealed() -> void:

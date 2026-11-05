@@ -3811,7 +3811,7 @@
 "data/story/capital_story.tres::cutscene.primm_p2.1::0","The Capital / Primm's Castle","Primm","Cutscene ""primm p2"", beat 1","Your cards, your plays, your very own deck, held in my hands and played rather more tidily than you ever played it.",""
 "data/story/capital_story.tres::cutscene.primm_p2.1::1","The Capital / Primm's Castle","Primm","Cutscene ""primm p2"", beat 1","And still you beat me. I should very much like to know how.",""
 "data/story/capital_story.tres::cutscene.primm_p2.2::0","The Capital / Primm's Castle","The Wanderer","Cutscene ""primm p2"", beat 2","You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.",""
-"data/story/capital_story.tres::cutscene.primm_p2.2::1","The Capital / Primm's Castle","The Wanderer","Cutscene ""primm p2"", beat 2","And nobody files me under 'subject' ever again.",""
+"data/story/capital_story.tres::cutscene.primm_p2.2::1","The Capital / Primm's Castle","The Wanderer","Cutscene ""primm p2"", beat 2","And nobody files me under 'subject' ever again. No order outranks treating people with respect.",""
 "data/story/capital_story.tres::cutscene.primm_p2.2.rushed::0","The Capital / Primm's Castle","The Wanderer","Cutscene: primm p2 2 rushed","You copied my cards. You can't copy what I do with them.",""
 "data/story/capital_story.tres::cutscene.primm_p2.2.rushed::1","The Capital / Primm's Castle","The Wanderer","Cutscene: primm p2 2 rushed","My name is mine to sign. You don't get to decide who I am.",""
 "data/story/capital_story.tres::cutscene.primm_p2.2.gourmand::0","The Capital / Primm's Castle","The Wanderer","Cutscene: primm p2 2 gourmand","You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.",""

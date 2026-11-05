@@ -188,3 +188,20 @@ reach. No SCRIPT ERROR in any run.
 | 10 | Long name plates overflow; hand cards cut off; a tip overlaps the phase panel | logged (inbox 11) |
 
 Tests: `tests/core/test_overnight_nov5_part8.gd`.
+
+## Open questions (details in `docs/overnight_inbox.md`, "Overnight Nov 4-5")
+
+1. **Primm's real fight through the driver** stalled in the Model Room staging. Verified through code instead; one manual castle run is
+   worth doing (inbox 1).
+2. **A dark round object by the D.N.A. lobby's west passage**: unidentified. Keep it or remove it? (inbox 3)
+3. **Clear bonus vs node gold:** the nodes pay half and the bonus doubles them back (21,189 earned, 6 gear pieces). Would you rather keep
+   the full node gold (~9 pieces) or a 50 % bonus? (inbox 4)
+4. **The Shattered Gallery's whole run** is a wall (0 % clears in every measured setting; Silver Reserve +40 is unmeasured). How hard
+   should the full run be? (inbox 8)
+5. **ZoneOrderEase:** Necrocrat and Gourmand sim at 90 % for their first dungeon, a little over the 65-80 % goal (inbox 9).
+6. **The tutorial cave:** losses now retry at full HP. Should the cave decks also be softened? A second critic run starting past the
+   cave is needed to review Crosspath through the first dungeon (inbox 10).
+7. **The critic's remaining items:** Path choice readability, grey forest rocks, other Paths' basics in the cave, battle layout
+   clipping (inbox 11).
+8. **Art:** STORY-CLENCH-THRONE, OF-PROP-BRAMBLES and GAIN-HERO-IRON-CRAG were wired or listed tonight. Their sheet rows say
+   "Needed" / "Requested" until the art arrives (`docs/art/import_nov5_ready.md`).

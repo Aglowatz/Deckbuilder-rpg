@@ -27,7 +27,7 @@ func after_each() -> void:
 
 func test_definitions_load_with_unique_ids_and_known_triggers() -> void:
 	var defs: Array[FeatDefs.Def] = FeatDefs.all()
-	assert_eq(defs.size(), 40, "forty feats")
+	assert_eq(defs.size(), 41, "forty-one feats (Overnight Nov 4-5: Through the Glass)")
 	var ids: Dictionary = {}
 	var hidden: int = 0
 	for def: FeatDefs.Def in defs:
