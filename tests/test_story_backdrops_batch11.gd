@@ -11,8 +11,9 @@ const NEW_STILLS: Array[String] = ["STORY-PRIMM-P1", "STORY-PRIMM-P2", "STORY-PR
 const WIRED: Dictionary = {
 	"primm_p1": {1: "STORY-PRIMM-P1", 2: "STORY-PRIMM-P1", 3: "STORY-PRIMM-P1", 4: "STORY-PRIMM-P1"},
 	"primm_p2": {1: "STORY-PRIMM-P2", 2: "STORY-PRIMM-P2", 3: "STORY-PRIMM-P2", 4: "STORY-PRIMM-P2", 5: "STORY-PRIMM-P2"},
-	"primm_end": {1: "STORY-PRIMM-FALL", 2: "STORY-PRIMM-FALL", 3: "STORY-PRIMM-FALL", 4: "STORY-PRIMM-FALL", 5: "STORY-PRIMM-FALL",
-		6: "STORY-PRIMM-FALL", 7: "STORY-PRIMM-FALL", 8: "STORY-PRIMM-FALL"},
+	# Fix pass Nov 4 (B): the giant-Primm still is parked until its redo; the broken model city stands in
+	"primm_end": {1: "STORY-EPI-MODEL-FALLS", 2: "STORY-EPI-MODEL-FALLS", 3: "STORY-EPI-MODEL-FALLS", 4: "STORY-EPI-MODEL-FALLS", 5: "STORY-EPI-MODEL-FALLS",
+		6: "STORY-EPI-MODEL-FALLS", 7: "STORY-EPI-MODEL-FALLS", 8: "STORY-EPI-MODEL-FALLS"},
 	"rescue": {1: "STORY-RESCUE", 2: "STORY-RESCUE", 3: "STORY-RESCUE"},
 	"reveal": {1: "STORY-REVEAL-KITCHEN", 2: "STORY-REVEAL-KITCHEN", 3: "STORY-REVEAL-KITCHEN", 4: "STORY-REVEAL-KITCHEN", 5: "STORY-DOPPEL"},
 	"flex": {3: "STORY-FLEX", 4: "STORY-FLEX", 5: "STORY-FLEX"},
@@ -59,7 +60,7 @@ func test_the_screen_swaps_the_still_per_beat() -> void:
 	var screen: CutsceneScreen = CutsceneScreen.make("primm_end")
 	add_child_autofree(screen)
 	await get_tree().process_frame
-	assert_eq(screen.backdrop_id(), "STORY-PRIMM-FALL")
+	assert_eq(screen.backdrop_id(), "STORY-EPI-MODEL-FALLS", "Fix pass Nov 4 (B): the giant-Primm still is parked")
 	assert_false(screen._stage_root.visible, "a beat with a still hides the icon stage")
 	var flex: CutsceneScreen = CutsceneScreen.make("flex")
 	add_child_autofree(flex)

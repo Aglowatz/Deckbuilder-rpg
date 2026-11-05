@@ -113,7 +113,9 @@ const CUTSCENE_BACKDROPS: Dictionary = {
 	"primm_reveal": KEPT_FACE,
 	"primm_p1": PRIMM_P1,
 	"primm_p2": PRIMM_P2,
-	"primm_end": PRIMM_FALL,
+	# Fix pass Nov 4 (B), Part 5.1: STORY-PRIMM-FALL paints Primm as a giant beside a tiny hero; until its redo (docs/art/art_needed_nov4.csv) his
+	# defeat plays over the broken model city with nobody in it (no scene ever shows him scaled up).
+	"primm_end": EPI_MODEL_FALLS,
 	"rescue": RESCUE,
 }
 

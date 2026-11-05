@@ -13,8 +13,10 @@ signal slot_pressed(slot: int)
 const ART_SIZE: Vector2 = Vector2(1536, 1024)
 const TOP_Y: Vector2 = Vector2(42, 186)
 const TOP_X: Array[Vector2] = [Vector2(400, 548), Vector2(552, 700), Vector2(704, 852), Vector2(856, 1004), Vector2(1008, 1148)]
-const BOTTOM_Y: Vector2 = Vector2(768, 936)
-const BOTTOM_X: Array[Vector2] = [Vector2(412, 548), Vector2(556, 692), Vector2(700, 836), Vector2(844, 980), Vector2(988, 1124)]
+## Fix pass Nov 4 (B), Part 5.2: the bottom row lines up with the top one - the same five columns, the same height - 5 above, 5 below (the painted
+## background gets matching alcoves with the new art, docs/art/art_needed_nov4.csv; until then the tiles sit over the old rack).
+const BOTTOM_Y: Vector2 = Vector2(792, 936)
+const BOTTOM_X: Array[Vector2] = TOP_X
 const INSET: Vector2 = Vector2(6, 6)
 ## UI + economy fixes Oct 22, Part 2: the even margin between a slot's edge and its cover painting.
 const ART_MARGIN: float = 5.0
