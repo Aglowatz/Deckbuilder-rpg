@@ -161,3 +161,18 @@ Rows appended to `docs/art/art_needed_nov4.csv`:
 
 ## Finish
 (filled in below as it runs)
+- **Tests:** every part's own tests and the world, quest, game and dungeon folders were run green as I went.
+  - The final full GUT run was **stopped by Claude Code because the system was low on memory**, after 14 shards (about 1,400 tests).
+  - Two failures showed up there, both from the new essence cap: the vault reward and a save migration. Both are fixed, and those two
+    test files pass again.
+  - The full suite still needs a clean run.
+- **Critic play:** **not run.** The scripts are ready (`docs/review/play_scripts/critic_nov4b_{gainlands,house_of_gains,town,postgame}.txt`)
+  and the HEAD worktree is at `/c/Dev/wp_critic`, hard-linked, so it uses no extra disk.
+  - `critic_nov4b_town.txt` needs two play-driver actions that are not written yet: `dev essence <path> <n>` and `dev shiro`.
+- **Export 0.5.5 and release smoke:** **not run.**
+  - The version is still 0.5.4.
+  - Disk is 2.5 GB free after deleting `builds/_export` (export staging) and old play-run shots. The export peaks at about 1.7 GB.
+- New tools:
+  - Play driver: `dev tp <x> <z>` and `dev postgame`.
+  - `tools/deck_station_guide.gd`.
+  - `CliffSkirt` (world/kit).

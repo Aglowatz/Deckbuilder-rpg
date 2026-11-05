@@ -4,6 +4,31 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fix pass Nov 4 (B) - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fixes_nov4b.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov4b`.
+
+1. **Swolympus opens on the quest, not the instant Primm falls.** After Primm, Old Man Mountain offers "Only the Worthy..." (bring him a
+   protein shake); handing it in unlocks S-BEEF and the gate opens in front of you the next time you near the overlook. Say if it should
+   open straight away at Primm's fall instead (one flag).
+2. **Grandmaster Flex lost Unbreakable** as well as the stat boon: a 3/5 that cannot die and pumps your team each turn trivialised Clench.
+   He keeps Overtime and his +1/+1 rally.
+3. **Cell Block Brawler: 72% player wins (28% losses)** with Beefcake Bruisers, 16 HP, 12 basics and Smuggled Weights (+1 attack).
+4. **Essence over the cap is lost** (no gold conversion). Saves already above 18 keep their amount until they spend it. The Four-Seal
+   Vault's reward drops from 40 to 18 essence per Path (it would have been capped anyway).
+5. **The Iron Cave now sits behind two road-guard fights** (it was free on the left road early on). It is still "open from the start".
+6. **"Under the Forest" is given by Rip** (the story already has him find the hatch). Its text does not name Elowen or the Path-ology Lab
+   (the spoiler test forbids it); the steps say "the hatch" and "the prisoner in Cell 4".
+7. **Natural edges: only the Crosspath gorge and the Dump's valley walls changed.** The Buffet (cake rim), the D.N.A. and the Capital walls
+   stay built on purpose; the forest's edge is its treeline (no drop).
+8. **Primm's defeat plays over the broken model city** (STORY-EPI-MODEL-FALLS, also the first epilogue beat) until STORY-PRIMM-FALL is
+   redone.
+9. **The Descent's lost card comes back if you rebuild your deck mid-dungeon** (the dungeon deckbuilder clears the run's losses, as it
+   always did for challenges).
+10. **Finish not done: the system ran low on memory.** Claude Code stopped the full GUT run (14 of ~30 shards had finished, 2 failures, both
+    fixed and re-run green). The critic play (scripts ready: `docs/review/play_scripts/critic_nov4b_*.txt`, worktree `/c/Dev/wp_critic`),
+    the 0.5.5 export and the release smoke were not run. Disk: 2.5 GB free after clearing `builds/_export` and old play shots.
+
 ## Fix pass Nov 4 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fixes_nov4.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov4`.
