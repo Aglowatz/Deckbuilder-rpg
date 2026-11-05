@@ -278,7 +278,24 @@ func _build_land() -> void:
 		Vector2(cliff.end.x, cliff.end.y), Vector2(cliff.position.x + 2.0, cliff.end.y), Vector2(cliff.position.x - 2.0, cliff.position.y + 10.0)]), GainlandsLayout.CAVE_CLIFF_TOP, "IronCliffBase", GainlandsTerrain.SAND, true))
 	iron.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(cliff.get_center().x - 1.0, cliff.position.y + 6.0), Vector2(9.0, 5.0), 10, 7.7), GainlandsLayout.CAVE_CLIFF_TOP + 4.0, "IronCliffTop"))
 	# Fix pass Nov 4 (B), Part 1.3: the Iron Cave's crag, rising out of the east canyon beside the middle road (its mouth is the "cavern" prop)
-	root.add_child(GainlandsTerrain.rock(PackedVector2Array(GainlandsLayout.IRON_CRAG), GainlandsLayout.IRON_CRAG_TOP, "IronCrag", GainlandsTerrain.SAND, true))
+	var crag: MeshInstance3D = GainlandsTerrain.rock(PackedVector2Array(GainlandsLayout.IRON_CRAG), GainlandsLayout.IRON_CRAG_TOP, "IronCrag", GainlandsTerrain.SAND, true)
+	root.add_child(crag)
+	# Overnight Nov 4-5, Part 1: the flat-topped block read as a box with a door. Two ragged tiers stacked off-centre on its back and a leaning
+	# spire break the silhouette into a crag; the mouth (GainlandsCave) keeps its arch, torches and dark recess, and a little leg-day kit sits outside it.
+	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(65.0, 31.6), Vector2(3.0, 3.3), 9, 4.3), GainlandsLayout.IRON_CRAG_TOP + 2.6, "IronCragTier"))
+	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(66.2, 30.6), Vector2(1.5, 1.7), 7, 9.1), GainlandsLayout.IRON_CRAG_TOP + 5.2, "IronCragSpire"))
+	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(62.6, 30.2), Vector2(1.6, 1.4), 7, 2.2), GainlandsLayout.IRON_CRAG_TOP + 1.2, "IronCragShoulder"))
+	var front: Vector3 = Basis(Vector3.UP, deg_to_rad(GainlandsLayout.IRON_CAVE_YAW)) * Vector3(0, 0, 1)
+	var side: Vector3 = Vector3(front.z, 0.0, -front.x)
+	var mouth: Vector3 = Vector3(GainlandsLayout.IRON_CAVE_MOUTH.x, GainlandsLayout.PLATEAU_Y, GainlandsLayout.IRON_CAVE_MOUTH.y)
+	var kit: Array = [
+		{"kind": "chalk_bucket", "pos": mouth + front * 1.9 + side * 3.0},
+		{"kind": "plate_stack", "pos": mouth + front * 1.4 - side * 3.1},
+		{"kind": "kettlebell_rack", "pos": mouth + front * 2.6 - side * 4.2},
+	]
+	var yard: Node3D = GainlandsGym.yard(kit, mouth, "IronCaveKit")
+	yard.position = mouth
+	root.add_child(yard)
 	var rock_x0: float = GainlandsLayout.HOUSE_OF_GAINS.x - GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_x1: float = GainlandsLayout.HOUSE_OF_GAINS.x + GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_z0: float = GainlandsLayout.HOUSE_OF_GAINS.y - GainlandsLayout.HOUSE_OF_GAINS_SIZE.z * 0.6

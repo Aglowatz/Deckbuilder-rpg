@@ -1153,6 +1153,7 @@ func to_dict() -> Dictionary:
 		"equipped": equipped_ids,
 		"owned_items": item_saves,
 		"equipped_items": profile.equipped_item_ids,
+		"spent_item_slots": profile.spent_item_slots.duplicate(),
 		"pending_equipment_choices": pending_equipment_choices,
 		"vendor_discount_percent": profile.vendor_discount_percent,
 		"essence": _essence_to_dict(),
@@ -1203,6 +1204,8 @@ func from_dict(data: Dictionary) -> bool:
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	for id: Variant in data.get("equipped_items", []) as Array:
 		loaded.equipped_item_ids.append(ContentSet.current_item_id(str(id)))  # a renamed item (Field Bandage -> Power Wraps) keeps its slot
+	for slot_key: Variant in (data.get("spent_item_slots", {}) as Dictionary).keys():
+		loaded.spent_item_slots[str(slot_key)] = ContentSet.current_item_id(str((data["spent_item_slots"] as Dictionary)[slot_key]))
 	loaded.normalize_item_slots()  # Nov 3-4, Part B2: four positional slots (2 + L6 + L12); every equipped item that fits stays
 	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
 	for pack_key: Variant in (data.get("packs", {}) as Dictionary).keys():
@@ -2362,6 +2365,8 @@ func take_path_direction() -> void:
 func offer_auto_quests() -> void:
 	if profile == null:
 		return
+	if profile.postgame_unlocked:
+		close_zone_lines()  # a save from before Nov 5 that beat Primm with a zone line still open
 	var tracked_before: String = quest_log.tracked_id()
 	var started: Array[String] = []
 	for quest: QuestData in QuestCatalog.all():
@@ -2387,6 +2392,9 @@ func offer_auto_quests() -> void:
 			if tracked_before == QuestDefinitions.ARMORY or not quest_log.is_active(tracked_before):
 				tracked_before = own
 		quest_log.track(tracked_before if quest_log.is_active(tracked_before) else pick)
+		# Overnight Nov 4-5, Part 1: the postgame's main line takes the tracker when it arrives (an old save reaching town after Primm).
+		if started.has(QuestDefinitions.UNDER_THE_FOREST):
+			quest_log.track(QuestDefinitions.UNDER_THE_FOREST)
 		EventBus.quest_changed.emit()
 		# Fixes Oct 25, Part 7: one banner for the batch - the tracked quest, and how many more joined the log
 		var more: String = "" if started.size() == 1 else "+%d more in your Quest Log (%s)" % [started.size() - 1, Keybinds.first_key(&"open_quests")]
@@ -2605,6 +2613,16 @@ func quests_ready_for(npc_name: String) -> Array[QuestData]:
 			result.append(quest)
 	return result
 
+
+## Overnight Nov 4-5, Part 1: the active quests this NPC gave or takes back, NEWEST first - an NPC speaks to the step of
+## the quest the player picked up last (Old Man Mountain's shake errand, not the old "Spot Gary" one).
+func quests_active_for(npc_name: String) -> Array[QuestData]:
+	var result: Array[QuestData] = []
+	for i: int in range(quest_log.active.size() - 1, -1, -1):
+		var quest: QuestData = QuestCatalog.find(str(quest_log.active[i]))
+		if quest != null and (quest.giver_npc == npc_name or quest.turn_in_npc == npc_name):
+			result.append(quest)
+	return result
 
 # ---- Map fog of war (brief 6, Part C) ----------------------------------------------------
 
@@ -3485,11 +3503,28 @@ func unlock_postgame() -> bool:
 	if profile == null or profile.postgame_unlocked:
 		return false
 	profile.postgame_unlocked = true
+	settle_postgame_quests()
 	if save_enabled:
 		TitleMeta.mark_postgame()
 	EventBus.collection_changed.emit()
 	save_game()
 	return true
+
+
+## Overnight Nov 4-5, Part 1: with Primm gone the zone lines are over - an unfinished one (a zone his fall freed, "0/4") is closed quietly
+## instead of lingering in the Main tab, and "Under the Forest" starts at once and is tracked (it no longer waits for a talk with Rip).
+func settle_postgame_quests() -> void:
+	close_zone_lines()
+	start_quest(QuestDefinitions.UNDER_THE_FOREST, false)
+	quest_log.track(QuestDefinitions.UNDER_THE_FOREST)
+	EventBus.quest_changed.emit()
+
+
+func close_zone_lines() -> void:
+	for zone_id: String in Gatekeepers.IDS:
+		var main_id: String = QuestDefinitions.zone_main_id(zone_id)
+		if quest_log.is_active(main_id):
+			quest_log.complete(main_id)
 
 
 ## After the ending sequence (and its postgame announcement): back to the Capital, which has changed (a fresh visit at full HP).

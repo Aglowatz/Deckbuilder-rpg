@@ -834,7 +834,8 @@ func _power() -> void:
 	stacks = [
 		Vector4(-1.5, 74.0, 2.8, STACK_TOP), Vector4(-2.5, 46.0, 2.8, STACK_TOP), Vector4(37.5, 3.0, 2.4, STACK_TOP),
 		Vector4(113.0, 78.0, 2.8, STACK_TOP), Vector4(113.5, 46.0, 2.8, STACK_TOP), Vector4(117.5, 24.0, 2.8, STACK_TOP), Vector4(74.5, 3.0, 2.4, STACK_TOP),
-		Vector4(47.7, 40.5, 2.1, CANYON_STACK_TOP), Vector4(64.3, 40.5, 2.1, CANYON_STACK_TOP), Vector4(-3.0, 30.0, 2.6, STACK_TOP), Vector4(114.5, 32.0, 2.6, STACK_TOP),
+		# Overnight Nov 4-5, Part 1: the second canyon stack moved 10 m south (was 64.3, 40.5) - its tower stood in front of the Iron Cave crag at the default camera
+		Vector4(47.7, 40.5, 2.1, CANYON_STACK_TOP), Vector4(64.0, 50.5, 2.1, CANYON_STACK_TOP), Vector4(-3.0, 30.0, 2.6, STACK_TOP), Vector4(114.5, 32.0, 2.6, STACK_TOP),
 	]
 	var top: Callable = func(index: int) -> Vector3: return Vector3(stacks[index].x, stacks[index].w, stacks[index].y)
 	power_lines = [

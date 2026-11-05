@@ -1,0 +1,42 @@
+# Overnight Nov 4-5, Part 1.3: a new save to Primm's defeat (two zones left unfinished), the fight won by the pilot (no dev win), then the
+# tracker and the quest log after the ending.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 10
+skip_dialogue 20
+dev freed necrocrat
+dev freed beefcake
+dev quest main_gourmand 2
+dev quest main_refusemancer 0
+dev level 22
+dev travel dungeon D-PC -2
+wait 9
+shot 01_pc_map
+
+button Got it
+wait 1.5
+wait 1
+click 1322 338
+wait 0.4
+click 1322 338
+wait 4
+shot c1
+scene
+wait 4
+shot c2
+scene
+wait 4
+shot c3
+scene
+wait 4
+shot c4
+scene
+wait 4
+shot c5
+scene
+wait 4
+shot c6
+scene

@@ -241,6 +241,8 @@ static func _zone_main(zone_id: String) -> QuestData:
 	var favours: Array[Condition] = []
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		favours.append(Condition.quest_completed(favour_id))
+	# Overnight Nov 4-5, Part 1: a freed zone finishes its line - a skipped favour no longer leaves "3/4" in the log forever.
+	favours.append(Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
 	quest.objectives = [
 		QuestObjective.make(str(text["gate"]), Condition.flag(str(CorruptedNpcs.unlock_flag(zone_id))))
 			.at(QuestObjective.TargetKind.BATTLE, "town", "npc_%s" % zone_id, str(text["gate_hint"]))

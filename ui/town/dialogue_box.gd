@@ -127,13 +127,31 @@ func _build_plate() -> void:
 	_plate.add_child(_speaker)
 
 
+const PLATE_MAX_WIDTH: float = 560.0
+
+
+func _speaker_width(font_size: int) -> float:
+	return UIStyle.font_title().get_string_size(_speaker.text.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x * 1.04
+
+
 ## Shrinks the speaker name until it fits the plate.
 func _fit_speaker() -> void:
 	if not _art:
 		return
+	# Overnight Nov 4-5, Part 1: long names with titles ("Rip Tearson, Rift Technician") were cut off with "...". The title font draws small
+	# capitals a little wider than it measures, so the fit keeps a margin; below 20 px the plate widens instead (up to PLATE_MAX_WIDTH).
 	var size_try: int = 26
-	while size_try > 14 and UIStyle.font_title().get_string_size(_speaker.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_try).x > _speaker.size.x:
+	_plate.size = PLATE_SIZE
+	_speaker.size = Vector2(PLATE_SIZE.x - 92.0, PLATE_SIZE.y - 18.0)
+	while size_try > 20 and _speaker_width(size_try) > _speaker.size.x:
 		size_try -= 1
+	var needed: float = _speaker_width(size_try)
+	if needed > _speaker.size.x:
+		var width: float = minf(PLATE_MAX_WIDTH, needed + 92.0 + 8.0)
+		_plate.size = Vector2(width, PLATE_SIZE.y)
+		_speaker.size = Vector2(width - 92.0, PLATE_SIZE.y - 18.0)
+		while size_try > 14 and _speaker_width(size_try) > _speaker.size.x:
+			size_try -= 1
 	_speaker.add_theme_font_size_override("font_size", size_try)
 	_plate.visible = _speaker.text.strip_edges() != ""
 	# narration: the panel without its name tab, so no empty tab sits over the text

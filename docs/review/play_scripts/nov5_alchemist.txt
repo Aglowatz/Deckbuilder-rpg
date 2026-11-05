@@ -1,0 +1,40 @@
+# Overnight Nov 4-5, Part 1.2: a real craft at Auntie Alembic's with 18 essence (two jars selected, Craft, 12 left).
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev freed beefcake
+dev freed necrocrat
+dev gold 400
+dev travel town
+wait 10
+skip_dialogue 20
+dev goto alchemist
+key E
+wait 1.5
+skip_dialogue 20
+wait 1.5
+key Escape
+wait 1
+dev essence beefcake 18
+dev essence necrocrat 18
+dev goto alchemist
+key E
+skip_dialogue 20
+wait 1.5
+shot 01_alchemist_none_selected
+# dump
+click 665 267
+wait 0.6
+shot 02_one_selected
+click 665 502
+wait 0.6
+move 1000 820
+wait 0.4
+shot 03_two_selected
+button Craft —
+wait 3.5
+move 1000 820
+wait 0.5
+shot 04_crafted_12_left
+dump

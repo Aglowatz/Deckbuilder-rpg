@@ -13,7 +13,7 @@
 	"Cell Block Brawler": [
 		{
 			"name": "Smuggled Weights",
-			"text": "Nobody can use Iron in the prison. Nobody told him: he has been curling contraband plates under his bunk for years. The Brawler's units get +1 attack.",
+			"text": "He has been curling contraband plates under his bunk for years. The Brawler's units get +1 attack.",
 			"icon": "lorc/muscle-up",
 			"kind": "stat",
 			"atk": 1,
@@ -85,7 +85,7 @@
 			"count": 1
 		},
 		{
-			"name": "Perfect Copy",
+			"name": "Plated Just So",
 			"text": "The Doppelganger's units get +1/+1. Every dish is plated just so.",
 			"icon": "delapouite/chef-toque",
 			"kind": "stat",
@@ -123,8 +123,8 @@
 	],
 	"Mortimer Grimsby, CE-No": [
 		{
-			"name": "Red Tape Everywhere",
-			"text": "Starts the duel with 3 Red Tape.",
+			"name": "Paper Mountain",
+			"text": "Mortimer starts the duel with 3 more Red Tape (on top of the Hall's one).",
 			"icon": "delapouite/stamper",
 			"kind": "starting_resources",
 			"resource": "redtape",
@@ -150,7 +150,7 @@
 	"Hortensia Clipwell, Royal Groundskeeper": [
 		{
 			"name": "Prize Topiary",
-			"text": "Clipwell's tokens enter with +1/+1, trimmed to regulation.",
+			"text": "Clipwell's tokens get a further +1/+1 on top of Royal Groundskeeper, trimmed to regulation.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "token_stats",
 			"atk": 1,
@@ -406,7 +406,7 @@
 			"amount": 1
 		},
 		{
-			"name": "Drained Strength",
+			"name": "Borrowed Strength",
 			"text": "The Warden's units get +1/+1.",
 			"icon": "lorc/bubbling-flask",
 			"kind": "stat",
@@ -501,7 +501,7 @@
 	],
 	"Primm (standardization)": [
 		{
-			"name": "Royal Guard",
+			"name": "Standing Army",
 			"text": "Primm starts the duel with 4 Militia on the field (3/3, like every unit under Standardization).",
 			"icon": "delapouite/guards",
 			"kind": "starting_tokens",

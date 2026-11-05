@@ -54,6 +54,7 @@ var frame: OpeningForestFrame
 ## The painted texture look (data/art/texture_presets.json); Shift+T toggles it in debug builds.
 var painted_world: PaintedWorld
 var _worn_path_node: MeshInstance3D
+var _lab_trail_node: MeshInstance3D
 var _rescuer: Node3D
 var _maren: Node3D
 var _self_talk_cooldown: float = 0.0
@@ -774,3 +775,9 @@ func _worn_path() -> void:
 	for p: Vector2 in OpeningForestLayout.PATH:
 		points.append(Vector3(p.x, 0.0, p.y))
 	_worn_path_node = GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, OpeningForestLayout.PATH_HALF * 1.5, [Color("8a7458"), Color("6a5a48")], 3.0)
+	if area.lab_open:
+		# Overnight Nov 4-5, Part 1: the postgame trail south to the Lab hatch is worn dirt as well (the painted ground paints it from the same line)
+		var trail: Array[Vector3] = []
+		for p: Vector2 in OpeningForestLayout.LAB_PATH:
+			trail.append(Vector3(p.x, 0.0, p.y))
+		_lab_trail_node = GroundDecals.add_path(self, trail, GroundDecals.Kind.WORN_PATH, OpeningForestLayout.LAB_PATH_HALF * 1.6, [Color("8a7458"), Color("6a5a48")], 7.0)

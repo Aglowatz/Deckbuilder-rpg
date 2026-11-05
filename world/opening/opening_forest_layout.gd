@@ -28,11 +28,12 @@ const POCKETS: Dictionary = {
 ## Fix pass Nov 4 (B), Part 3.4: the Path-ology Lab's hatch lies far SOUTH of the clearing (on the camera side), at the end of a fairly straight path
 ## through a glade. At the start of the game none of it is floor: a bramble thicket (BRAMBLES, StartingAreaBuilder) fills the gap in the treeline where
 ## the path will run, so the forest itself blocks the way. Once the Lab is revealed (postgame) the path, the glade and the hatch's pocket are floor.
-const LAB_POCKET: Vector3 = Vector3(3.4, 16.6, 2.1)
-const LAB_PATH: Array[Vector2] = [Vector2(1.2, 4.2), Vector2(1.9, 8.6), Vector2(2.7, 12.6), Vector2(3.4, 15.6)]
+## Overnight Nov 4-5, Part 1: the hatch moved from z 15 to z 34 (about 30 m below the clearing's south rim), so the trail is a real walk.
+const LAB_POCKET: Vector3 = Vector3(3.6, 35.0, 2.4)
+const LAB_PATH: Array[Vector2] = [Vector2(1.2, 4.2), Vector2(1.7, 10.0), Vector2(2.2, 16.0), Vector2(2.7, 22.0), Vector2(3.2, 28.0), Vector2(3.6, 33.6)]
 const LAB_PATH_HALF: float = 1.9
 ## The glade halfway down the path (x, z, radius): the postgame forest is more open.
-const LAB_GLADE: Vector3 = Vector3(1.6, 9.4, 3.2)
+const LAB_GLADE: Vector3 = Vector3(2.0, 18.0, 3.4)
 ## The bramble thicket at the clearing's south rim where the path will run (x, z, radius): present until the Lab is revealed.
 const BRAMBLES: Vector3 = Vector3(1.3, 6.0, 2.2)
 
@@ -40,7 +41,7 @@ const BRAMBLES: Vector3 = Vector3(1.3, 6.0, 2.2)
 const SPAWN: Vector3 = Vector3(-0.4, 0.0, 1.0)
 const GATE: Vector3 = Vector3(10.4, 0.0, -19.4)
 const TUNNEL: Vector3 = Vector3(-6.5, 0.0, 2.4)
-const LAB: Vector3 = Vector3(3.4, 0.0, 15.4)
+const LAB: Vector3 = Vector3(3.6, 0.0, 33.8)
 ## The three hidden chests (ids as before, gold unchanged): no marker, no glow, the 1.5 m prompt is the only tell (docs/design/secrets.md).
 const HIDDEN_CHESTS: Dictionary = {
 	"start_west": {"pos": Vector3(-5.0, 0.0, -9.5), "gold": 40},

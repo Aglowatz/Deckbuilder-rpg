@@ -1365,10 +1365,10 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 			if after.is_valid():
 				after.call(), portrait_npc)
 		return
-	for quest_id: String in Session.quest_log.active:
-		var active_quest: QuestData = QuestCatalog.find(quest_id)
-		if active_quest != null and active_quest.giver_npc == npc_name:
-			_say(speaker, story.get_lines("quest.%s.active" % quest_id), after, portrait_npc)
+	for active_quest: QuestData in Session.quests_active_for(npc_name):
+		var active_lines: Array[String] = story.get_lines("quest.%s.active" % active_quest.id)
+		if not active_lines.is_empty():
+			_say(speaker, active_lines, after, portrait_npc)
 			return
 	_say(speaker, _greeting(npc_id), after, portrait_npc)
 
@@ -1428,7 +1428,9 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 	var body: String = "%s
 
 %s" % [plan.story, "You have been here before: a repeat clear pays gold and a pack." if cleared else "First clear: a unique card."]
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, SpoilerFree.dungeon_name(plan.id, def.mini.dungeon_name), body, "Enter", "Not yet")  # Nov 3-4, Part B8: "???" before the first visit
+	# Overnight Nov 4-5, Part 1: at the entrance the popup uses the real name - the prompt over the door already says it ("Enter the Iron Cave"), so
+	# "???" there only contradicted it. Maps and lists still say "???" before the first visit (Nov 3-4, Part B8).
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			var run: ZoneRun = Session.zone_run

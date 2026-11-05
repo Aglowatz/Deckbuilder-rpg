@@ -47,6 +47,7 @@ func build(parent: Node3D) -> void:
 	_build_kit_pieces()
 	if lab_open:
 		_build_lab_hatch(Vector3(OpeningForestLayout.LAB_POCKET.x, 0.0, OpeningForestLayout.LAB_POCKET.y))
+		_build_lab_trail()
 	else:
 		_build_brambles()
 
@@ -82,6 +83,110 @@ func _build_brambles() -> void:
 	for k: int in range(5):
 		var t: float = float(k) / 4.0
 		obstacles.append(Vector3(center.x - radius + t * radius * 2.0, center.z + (0.4 if k % 2 == 0 else -0.4), 0.9))
+
+
+## Overnight Nov 4-5, Part 1: the postgame trail reads as a trail - a stone kerb along both edges, flagstones down the middle (the painted ground
+## paints the dirt from LAB_PATH), clumps of glowing blue mushrooms every few metres and two lanterns on posts, and a soft beacon of light over
+## the hatch at the end. Every piece is KitMesh primitives with the forest's rock texture (no new art). The lights are few (3 + the hatch's).
+const TRAIL_SHROOM: Color = Color("7fe0ff")
+const TRAIL_LANTERN: Color = Color("ffc773")
+var trail_light_count: int = 0
+
+
+func _build_lab_trail() -> void:
+	var line: Array[Vector2] = OpeningForestLayout.LAB_PATH
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("stone", OpeningForestModels.textured(OpeningForestModels.ROCK_TEX, Color(0.62, 0.62, 0.6), 1.1))
+	var stem: StandardMaterial3D = StandardMaterial3D.new()
+	stem.albedo_color = Color(0.82, 0.86, 0.8)
+	mesh.set_material("stem", stem)
+	var cap: StandardMaterial3D = StandardMaterial3D.new()
+	cap.albedo_color = TRAIL_SHROOM
+	cap.emission_enabled = true
+	cap.emission = TRAIL_SHROOM
+	cap.emission_energy_multiplier = 2.4
+	mesh.set_material("cap", cap)
+	var post: StandardMaterial3D = StandardMaterial3D.new()
+	post.albedo_color = Color(0.25, 0.18, 0.13)
+	mesh.set_material("post", post)
+	var flame: StandardMaterial3D = StandardMaterial3D.new()
+	flame.albedo_color = TRAIL_LANTERN
+	flame.emission_enabled = true
+	flame.emission = TRAIL_LANTERN
+	flame.emission_energy_multiplier = 3.0
+	mesh.set_material("flame", flame)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5011
+	var total: float = 0.0
+	for index: int in range(line.size() - 1):
+		total += line[index].distance_to(line[index + 1])
+	var walked: float = 0.0
+	var next_shroom: float = 3.0
+	var shroom_side: float = 1.0
+	var lanterns_at: Array[float] = [total * 0.38, total * 0.76]
+	for index: int in range(line.size() - 1):
+		var a: Vector2 = line[index]
+		var b: Vector2 = line[index + 1]
+		var length: float = a.distance_to(b)
+		var dir: Vector2 = (b - a) / length
+		var side: Vector2 = Vector2(-dir.y, dir.x)
+		var t: float = 0.0
+		while t < length:
+			var c: Vector2 = a + dir * t
+			var turn: float = atan2(dir.x, dir.y)
+			# the kerb: a stone every ~0.6 m on each edge, a little irregular
+			for edge: float in [-1.0, 1.0]:
+				var p: Vector2 = c + side * edge * (OpeningForestLayout.LAB_PATH_HALF + rng.randf_range(-0.05, 0.12))
+				var size: Vector3 = Vector3(rng.randf_range(0.28, 0.4), rng.randf_range(0.14, 0.24), rng.randf_range(0.42, 0.6))
+				mesh.box("stone", Vector3(p.x, size.y * 0.35, p.y), size, Basis(Vector3.UP, turn + rng.randf_range(-0.25, 0.25)), 0.05, rng.randf_range(0.75, 0.95))
+			# flagstones down the middle, with gaps
+			if rng.randf() < 0.55:
+				var f: Vector2 = c + side * rng.randf_range(-0.6, 0.6)
+				mesh.box("stone", Vector3(f.x, -0.015, f.y), Vector3(rng.randf_range(0.5, 0.85), 0.08, rng.randf_range(0.4, 0.65)), Basis(Vector3.UP, turn + rng.randf_range(-0.4, 0.4)), 0.03, 0.7)
+			if walked + t >= next_shroom:
+				_trail_shrooms(mesh, rng, c + side * shroom_side * (OpeningForestLayout.LAB_PATH_HALF + 0.55))
+				shroom_side = -shroom_side
+				next_shroom += rng.randf_range(3.2, 4.4)
+			for at: float in lanterns_at:
+				if walked + t <= at and walked + t + 0.6 > at:
+					_trail_lantern(mesh, c - side * (OpeningForestLayout.LAB_PATH_HALF + 0.5))
+			t += 0.6
+		walked += length
+	var body: MeshInstance3D = mesh.instance("LabTrail")
+	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(body)
+	# one cool fill light halfway down (the mushrooms' glow), so the trail is not a dark gap in the dusk
+	var middle: Vector2 = line[line.size() / 2]
+	_trail_light(Vector3(middle.x, 1.2, middle.y), TRAIL_SHROOM, 0.9, 7.0)
+
+
+func _trail_shrooms(mesh: KitMesh, rng: RandomNumberGenerator, at: Vector2) -> void:
+	for k: int in range(3 + rng.randi() % 3):
+		var p: Vector2 = at + Vector2(rng.randf_range(-0.35, 0.35), rng.randf_range(-0.35, 0.35))
+		var height: float = rng.randf_range(0.12, 0.3)
+		mesh.tube("stem", Vector3(p.x, 0.0, p.y), Vector3(p.x, height, p.y), 0.025, 5, false)
+		var radius: float = rng.randf_range(0.06, 0.12)
+		mesh.blob("cap", Vector3(p.x, height, p.y), Vector3(radius, radius * 0.55, radius), 3, 6)
+
+
+func _trail_lantern(mesh: KitMesh, at: Vector2) -> void:
+	mesh.tube("post", Vector3(at.x, 0.0, at.y), Vector3(at.x, 1.5, at.y), 0.05, 6, true)
+	mesh.box("post", Vector3(at.x, 1.52, at.y), Vector3(0.24, 0.04, 0.24))
+	mesh.blob("flame", Vector3(at.x, 1.38, at.y), Vector3(0.09, 0.12, 0.09), 4, 6)
+	mesh.box("post", Vector3(at.x, 1.24, at.y), Vector3(0.22, 0.03, 0.22))
+	_trail_light(Vector3(at.x, 1.45, at.y), TRAIL_LANTERN, 1.1, 5.5)
+
+
+func _trail_light(at: Vector3, color: Color, energy: float, reach: float) -> void:
+	var light: OmniLight3D = OmniLight3D.new()
+	light.name = "TrailLight%d" % trail_light_count
+	light.light_color = color
+	light.light_energy = energy
+	light.omni_range = reach
+	light.shadow_enabled = false
+	light.position = at
+	root.add_child(light)
+	trail_light_count += 1
 
 
 func _build_hidden_chests() -> void:
@@ -168,10 +273,32 @@ func _build_lab_hatch(center: Vector3) -> void:
 		hatch.add_child(handle)
 	var light: OmniLight3D = OmniLight3D.new()
 	light.light_color = Color("74e8ff")
-	light.light_energy = 1.2
-	light.omni_range = 4.0
+	light.light_energy = 2.2
+	light.omni_range = 6.0
 	light.position = Vector3(0.0, 0.8, 0.0)
 	hatch.add_child(light)
+	# Overnight Nov 4-5, Part 1: a soft beacon - a pale shaft of light rising from the hatch, seen from the clearing at the far end of the trail.
+	var beam: MeshInstance3D = MeshInstance3D.new()
+	beam.name = "HatchBeacon"
+	var shaft: CylinderMesh = CylinderMesh.new()
+	shaft.top_radius = 0.25
+	shaft.bottom_radius = 0.75
+	shaft.height = 7.0
+	shaft.cap_top = false
+	shaft.cap_bottom = false
+	beam.mesh = shaft
+	var shine: StandardMaterial3D = StandardMaterial3D.new()
+	shine.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	shine.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	shine.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	shine.cull_mode = BaseMaterial3D.CULL_DISABLED
+	shine.albedo_color = Color(0.45, 0.85, 1.0, 0.22)
+	shine.proximity_fade_enabled = true
+	shine.proximity_fade_distance = 0.6
+	beam.material_override = shine
+	beam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	beam.position = Vector3(0.0, 3.5, 0.0)
+	hatch.add_child(beam)
 
 
 func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
@@ -193,6 +320,8 @@ func is_floor_at(pos: Vector3) -> bool:
 ## Dirt on the worn path and the camp, the forest floor's grass and moss elsewhere.
 func surface_at(pos: Vector3) -> StringName:
 	var p: Vector2 = Vector2(pos.x, pos.z)
+	if layout.lab_open and OpeningForestLayout.polyline_distance(p, OpeningForestLayout.LAB_PATH) < OpeningForestLayout.LAB_PATH_HALF * 0.8:
+		return &"dirt"
 	if layout.path_distance(p) < OpeningForestLayout.PATH_HALF * 0.8 or p.distance_to(Vector2(OpeningForestLayout.SPAWN.x, OpeningForestLayout.SPAWN.z)) < 2.6:
 		return &"dirt"
 	return &"grass"

@@ -48,16 +48,20 @@ static func can_craft(profile: PlayerProfile, gold: int, first: Affinity.Type, s
 	return problem(profile, gold, first, second).is_empty()
 
 
+## Overnight Nov 4-5, Part 1: the reason a Path cannot join a brew, said the way the Craft button says it ("Need 6 more Necrocrat essence").
+static func short_essence(profile: PlayerProfile, path: Affinity.Type) -> String:
+	return "Need %d more %s essence" % [MIN_ESSENCE_PER_PATH - profile.essence_of(path), Affinity.display_name(path)]
+
+
 ## Why this trade cannot be made (empty = it can).
 static func problem(profile: PlayerProfile, gold: int, first: Affinity.Type, second: Affinity.Type) -> String:
 	if first == second or first == Affinity.Type.NEUTRAL or second == Affinity.Type.NEUTRAL:
 		return "Pick two different Paths."
-	if profile.essence_of(first) < MIN_ESSENCE_PER_PATH:
-		return "Not enough %s essence (%d needed)." % [Affinity.display_name(first), MIN_ESSENCE_PER_PATH]
-	if profile.essence_of(second) < MIN_ESSENCE_PER_PATH:
-		return "Not enough %s essence (%d needed)." % [Affinity.display_name(second), MIN_ESSENCE_PER_PATH]
+	for path: Affinity.Type in [first, second]:
+		if profile.essence_of(path) < MIN_ESSENCE_PER_PATH:
+			return short_essence(profile, path)
 	if gold < GOLD_COST:
-		return "You need %d gold." % GOLD_COST
+		return "Need %d gold" % GOLD_COST
 	return ""
 
 
@@ -171,9 +175,9 @@ static func tri_problem(profile: PlayerProfile, gold: int, paths: Array[Affinity
 		return "Pick three different Paths."
 	for path: Affinity.Type in paths:
 		if profile.essence_of(path) < MIN_ESSENCE_PER_PATH:
-			return "Not enough %s essence (%d needed)." % [Affinity.display_name(path), MIN_ESSENCE_PER_PATH]
+			return short_essence(profile, path)
 	if gold < TRI_GOLD_COST:
-		return "You need %d gold." % TRI_GOLD_COST
+		return "Need %d gold" % TRI_GOLD_COST
 	return ""
 
 

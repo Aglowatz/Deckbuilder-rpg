@@ -45,6 +45,9 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 ## long) - the whole inventory (`owned_items`) has no cap, but only equipped items are usable in
 ## a duel (GameState.use_item). Use equip_item_id/unequip_item_id, not direct mutation.
 @export var equipped_item_ids: Array[String] = []
+## Overnight Nov 4-5, Part 1: slots whose single-use item was used up (slot index as a string -> item id). Such a slot shows the item greyed
+## with a "Used" badge (battle bar and Character page), not as an empty slot, until something new is equipped there.
+@export var spent_item_slots: Dictionary = {}
 ## New brief, Part D: a permanent level-up reward (replacing removed card-choice fillers) - a
 ## flat percentage off every vendor's listed price (cards, items, equipment alike). Stacks
 ## additively across however many such levels are gained (see ProgressionTable).
@@ -231,7 +234,15 @@ func equip_item_id(item: ItemData, slot: int = -1) -> bool:
 	while equipped_item_ids.size() <= slot:
 		equipped_item_ids.append("")
 	equipped_item_ids[slot] = item.id
+	spent_item_slots.erase(str(slot))
 	return true
+
+
+## The id of the item used up in this (now empty) slot, else "".
+func spent_item_in_slot(index: int) -> String:
+	if not item_in_slot(index).is_empty():
+		return ""
+	return str(spent_item_slots.get(str(index), ""))
 
 
 func unequip_item_id(item: ItemData) -> void:
@@ -286,6 +297,9 @@ func spend_item_charge(item: ItemData) -> void:
 	var remaining: int = item_uses_left(item) - 1
 	item_uses_remaining[item.id] = remaining
 	if remaining <= 0:
+		var slot: int = slot_of_item(item)
+		if slot >= 0:
+			spent_item_slots[str(slot)] = item.id
 		owned_items.erase(item)
 		item_uses_remaining.erase(item.id)
 		unequip_item_id(item)

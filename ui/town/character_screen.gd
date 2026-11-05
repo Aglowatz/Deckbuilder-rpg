@@ -591,6 +591,16 @@ func _refresh_item_slot(index: int) -> void:
 		caption.text = "Level %d unlock" % item_slot_unlock_level(index)
 		caption.add_theme_color_override("font_color", UIStyle.MUTED)
 		button.tooltip_text = "Slot %d opens at level %d." % [index + 1, item_slot_unlock_level(index)]
+	elif item == null and Session.content.item(profile.spent_item_in_slot(index)) != null:
+		# Overnight Nov 4-5, Part 1: a slot whose item was used up shows it greyed with "Used" (as on the battle bar); equipping replaces it.
+		var spent: ItemData = Session.content.item(profile.spent_item_in_slot(index))
+		icon.texture = IconArt.item_texture(spent, 84.0)
+		icon.modulate = ItemBar.SPENT_TINT
+		badge.visible = true
+		ItemBar.fit_badge(badge, "Used")
+		caption.text = "%s (used)" % spent.display_name
+		caption.add_theme_color_override("font_color", UIStyle.MUTED)
+		button.tooltip_text = "%s was used up. Select an item, then click here to fill the slot." % spent.display_name
 	elif item == null:
 		icon.visible = false
 		plus.visible = true
@@ -600,7 +610,7 @@ func _refresh_item_slot(index: int) -> void:
 	else:
 		icon.texture = IconArt.item_texture(item, 84.0)
 		badge.visible = true
-		badge.text = "x%d" % profile.item_uses_left(item)
+		ItemBar.fit_badge(badge, "x%d" % profile.item_uses_left(item))
 		caption.text = item.display_name
 		caption.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 		button.tooltip_text = item.tooltip_text()

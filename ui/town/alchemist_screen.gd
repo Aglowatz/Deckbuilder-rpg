@@ -66,7 +66,8 @@ func _build_essence_column() -> Control:
 		row.focus_mode = Control.FOCUS_NONE
 		row.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.05), UIStyle.affinity_color(path).darkened(0.3), 2, 12))
 		row.add_theme_stylebox_override("hover", UIStyle.box(Color(1, 1, 1, 0.09), UIStyle.affinity_color(path), 3, 12))
-		row.add_theme_stylebox_override("pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.55), UIStyle.GOLD, 4, 12))
+		row.add_theme_stylebox_override("pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.35), UIStyle.GOLD, 5, 12, 10))
+		row.add_theme_stylebox_override("hover_pressed", UIStyle.box(UIStyle.affinity_color(path).darkened(0.3), UIStyle.GOLD, 5, 12, 10))
 		row.add_theme_stylebox_override("disabled", UIStyle.box(Color(1, 1, 1, 0.02), Color(1, 1, 1, 0.08), 2, 12))
 		row.pressed.connect(_toggle_path.bind(path))
 		var inner: HBoxContainer = UIKit.hbox(14)
@@ -95,8 +96,22 @@ func _build_essence_column() -> Control:
 		amount.custom_minimum_size = Vector2(70, 0)
 		amount.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		inner.add_child(amount)
+		# Overnight Nov 4-5, Part 1: a chosen jar says so - a gold tick and "Selected" on the row (the pressed style is the highlight).
+		var tick: Label = UIKit.label("✓ Selected", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_RIGHT)
+		tick.name = "Selected"
+		tick.add_theme_font_override("font", UIStyle.font_title())
+		tick.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		tick.add_theme_constant_override("outline_size", 6)
+		tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tick.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+		tick.offset_left = -170
+		tick.offset_right = -12
+		tick.offset_top = -2
+		tick.offset_bottom = 24
+		tick.visible = false
+		row.add_child(tick)
 		column.add_child(row)
-		_essence_rows[path] = {"button": row, "bar": bar, "amount": amount}
+		_essence_rows[path] = {"button": row, "bar": bar, "amount": amount, "tick": tick}
 	column.add_child(UIKit.spacer(6))
 	if Alchemy.tri_path_unlocked(Session.profile):
 		var tri: Label = UIKit.label("TRI-PATH CRAFTING: with Primm gone the Paths mix freely, and the cauldron takes three. Pick three Paths for a tri-Path card (%d gold)." % Alchemy.TRI_GOLD_COST, &"MutedLabel", 20)
@@ -118,14 +133,14 @@ func _build_brew_column() -> Control:
 	_cost_label.custom_minimum_size = Vector2(700, 0)
 	column.add_child(_cost_label)
 	_stage = Control.new()
-	_stage.custom_minimum_size = Vector2(700, 330)
+	_stage.custom_minimum_size = Vector2(700, 270)
 	_stage.clip_contents = false
 	column.add_child(_stage)
 	_cauldron = CardIcons.glyph(CardIcons.named("lorc/cauldron"), Color("8fd36a"), Vector2(200, 200))
 	_cauldron.name = "Cauldron"
 	_cauldron.size = Vector2(200, 200)
 	_cauldron.pivot_offset = Vector2(100, 100)
-	_cauldron.position = Vector2(250, 110)
+	_cauldron.position = Vector2(250, 50)
 	_stage.add_child(_cauldron)
 	_preview_box = UIKit.vbox(6)
 	_preview_box.name = "PossibleCards"
@@ -135,7 +150,7 @@ func _build_brew_column() -> Control:
 	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_hint_label.custom_minimum_size = Vector2(700, 0)
 	column.add_child(_hint_label)
-	_craft_button = FancyButton.make("Craft", &"PrimaryButton", Vector2(340, 66))
+	_craft_button = FancyButton.make("Craft", &"PrimaryButton", Vector2(520, 96))
 	_craft_button.name = "CraftButton"
 	_craft_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_craft_button.pressed.connect(_craft)
@@ -149,10 +164,9 @@ func _toggle_path(path: Affinity.Type) -> void:
 	if _selected.has(path):
 		_selected.erase(path)
 	else:
+		# A jar short of essence can still be picked: the Craft button then says how much more it needs.
 		if Session.profile.essence_of(path) < Alchemy.MIN_ESSENCE_PER_PATH:
 			Audio.sfx(&"ui_error")
-			_refresh()
-			return
 		if _selected.size() >= Alchemy.max_craft_paths(Session.profile):
 			_selected.remove_at(0)
 		_selected.append(path)
@@ -170,18 +184,23 @@ func _refresh() -> void:
 		(entry["bar"] as ProgressBar).value = float(mini(amount, Alchemy.MIN_ESSENCE_PER_PATH))
 		var button: Button = entry["button"] as Button
 		button.button_pressed = _selected.has(path as Affinity.Type)
+		(entry["tick"] as Label).visible = button.button_pressed
 		button.tooltip_text = "%d / %d essence needed to craft." % [amount, Alchemy.MIN_ESSENCE_PER_PATH] if amount < Alchemy.MIN_ESSENCE_PER_PATH else "Click to use this Path in the brew."
 	_rebuild_preview()
 	if _selected.size() == 3:
 		var essence: Array[String] = []
 		for path: Affinity.Type in _selected:
 			essence.append("%d %s" % [Session.profile.essence_of(path), Affinity.display_name(path)])
-		_craft_button.disabled = _brewing or not Alchemy.tri_problem(Session.profile, Session.gold, _selected).is_empty()
+		var tri_problem: String = Alchemy.tri_problem(Session.profile, Session.gold, _selected)
+		_craft_button.disabled = _brewing or not tri_problem.is_empty()
 		_cost_label.text = "Trade %d essence of each (you have %s) and %d gold for a random tri-Path card of all three." % [Alchemy.MIN_ESSENCE_PER_PATH, " + ".join(essence), Alchemy.TRI_GOLD_COST]
-		_hint_label.text = Alchemy.tri_problem(Session.profile, Session.gold, _selected)
+		_hint_label.text = ""
+		_set_craft_text(Alchemy.TRI_GOLD_COST, 3, tri_problem)
 		return
 	var pair_ready: bool = _selected.size() == 2
-	_craft_button.disabled = _brewing or not pair_ready or not Alchemy.can_craft(Session.profile, Session.gold, _selected[0], _selected[1])
+	var pair_problem: String = "Pick two Paths" if not pair_ready else Alchemy.problem(Session.profile, Session.gold, _selected[0], _selected[1])
+	_craft_button.disabled = _brewing or not pair_problem.is_empty()
+	_set_craft_text(Alchemy.GOLD_COST, 2, pair_problem)
 	if _selected.size() < 2:
 		_cost_label.text = "Choose two Paths. The brew takes %d essence of each, plus %d gold, and gives you ONE random dual-Path card of those Paths. The rest stays in your jars." % [Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.GOLD_COST]
 		if Alchemy.tri_path_unlocked(Session.profile):
@@ -191,7 +210,20 @@ func _refresh() -> void:
 		var first: int = Session.profile.essence_of(_selected[0])
 		var second: int = Session.profile.essence_of(_selected[1])
 		_cost_label.text = "Trade %d %s + %d %s essence (of your %d + %d) and %d gold for a random %s / %s card." % [Alchemy.MIN_ESSENCE_PER_PATH, Affinity.display_name(_selected[0]), Alchemy.MIN_ESSENCE_PER_PATH, Affinity.display_name(_selected[1]), first, second, Alchemy.GOLD_COST, Affinity.display_name(_selected[0]), Affinity.display_name(_selected[1])]
-		_hint_label.text = Alchemy.problem(Session.profile, Session.gold, _selected[0], _selected[1])
+		_hint_label.text = ""
+
+
+## Overnight Nov 4-5, Part 1: the Craft button always shows its price ("Craft - 100 gold, 6 + 6") and, when it cannot be
+## pressed, the reason on a second line ("Pick two Paths", "Need 6 more Necrocrat essence", "Need 100 gold").
+func _set_craft_text(gold: int, paths: int, problem: String) -> void:
+	var each: Array[String] = []
+	for index: int in range(paths):
+		each.append(str(Alchemy.MIN_ESSENCE_PER_PATH))
+	var label: String = "Craft — %d gold, %s" % [gold, " + ".join(each)]
+	if not problem.is_empty() and not _brewing:
+		label += "\n" + problem.trim_suffix(".")
+	_craft_button.text = label
+	_craft_button.tooltip_text = problem
 
 
 func _rebuild_preview() -> void:
@@ -207,12 +239,16 @@ func _rebuild_preview() -> void:
 	var weight_sum: int = 0
 	for card: CardData in pool:
 		weight_sum += weights[int(card.rarity)]
-	var row: HBoxContainer = UIKit.hbox(14)
+	# Overnight Nov 4-5, Part 1: a pair has 16 cards; in one row they pushed the screen past its right edge. Two rows of 8.
+	var row: GridContainer = GridContainer.new()
+	row.columns = 8
+	row.add_theme_constant_override("h_separation", 10)
+	row.add_theme_constant_override("v_separation", 4)
 	row.name = "PossibleRow"
 	_preview_box.add_child(row)
 	for card: CardData in pool:
 		var holder: VBoxContainer = UIKit.vbox(2)
-		holder.add_child(CardView.wrapped(card, 0.4))
+		holder.add_child(CardView.wrapped(card, 0.34))
 		var odds: Label = UIKit.label("%d%%" % roundi(100.0 * float(weights[int(card.rarity)]) / float(maxi(1, weight_sum))), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 		holder.add_child(odds)
 		row.add_child(holder)
@@ -277,9 +313,9 @@ func _reveal(result: Alchemy.Result) -> void:
 	flash_tween.tween_callback(flash.queue_free)
 	_result_holder = Control.new()
 	_result_holder.name = "CraftResult"
-	_result_holder.position = Vector2(240, 10)
+	_result_holder.position = Vector2(270, 0)
 	_stage.add_child(_result_holder)
-	var holder: Control = CardView.wrapped(result.card, 0.7)
+	var holder: Control = CardView.wrapped(result.card, 0.55)
 	holder.pivot_offset = holder.custom_minimum_size * 0.5
 	holder.scale = Vector2(0.1, 0.1)
 	holder.position = Vector2(0, 160)
@@ -289,7 +325,7 @@ func _reveal(result: Alchemy.Result) -> void:
 	rise.tween_property(holder, "position", Vector2(0, 0), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	var caption: Label = UIKit.label("%s joins your collection!" % result.card.display_name, &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	caption.name = "CraftCaption"
-	caption.position = Vector2(-120, 300)
+	caption.position = Vector2(-150, 232)
 	caption.size = Vector2(500, 36)
 	_result_holder.add_child(caption)
 	_brewing = false

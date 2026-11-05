@@ -119,7 +119,7 @@ func test_well_fed_is_plus_0_plus_1_and_says_so() -> void:
 	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(BuffetZone.ID)
 	assert_eq(effect.buff.value, 0)
 	assert_eq(effect.buff.value2, 1)
-	assert_eq(effect.buff_mechanic(), "Gourmand units get +1 defense.")
+	assert_eq(effect.buff_mechanic(), "Gourmand units on both sides get +1 defense.")
 	assert_true(effect.tooltip().contains("+1 defense"))
 	assert_false(effect.tooltip().contains("+1 attack"))
 

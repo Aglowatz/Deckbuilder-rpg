@@ -98,6 +98,9 @@ static func start(scene: StartingAreaScene) -> Dictionary:
 	var camp: Vector2 = Vector2(OpeningForestLayout.SPAWN.x, OpeningForestLayout.SPAWN.z)
 	var path_mask: Callable = func(p: Vector2) -> float:
 		var on_path: float = PaintedContexts.ramp(OpeningForestLayout.PATH_HALF * 0.78 - layout.path_distance(p), 1.2)
+		if layout.lab_open:
+			# Overnight Nov 4-5, Part 1: the postgame trail to the Lab hatch is dirt too (it read as dark undergrowth)
+			on_path = maxf(on_path, PaintedContexts.ramp(OpeningForestLayout.LAB_PATH_HALF * 0.8 - OpeningForestLayout.polyline_distance(p, OpeningForestLayout.LAB_PATH), 1.0))
 		var at_camp: float = PaintedContexts.ramp(2.6 - p.distance_to(camp + Vector2(-0.8, 0.2)), 1.4)
 		return maxf(on_path, at_camp * 0.85)
 	var off_path: Callable = func(p: Vector2) -> float:
@@ -113,6 +116,8 @@ static func start(scene: StartingAreaScene) -> Dictionary:
 		hidden.append_array(flat_overlays(scene, [scene.forest, scene.get_node_or_null("ZoneDressing")]))
 	if scene._worn_path_node != null:
 		hidden.append(scene._worn_path_node)
+	if scene._lab_trail_node != null:
+		hidden.append(scene._lab_trail_node)
 	return {"bounds": layout.bounds().grow(4.0), "masks": {"path": path_mask, "grass": off_path}, "terrain": terrain, "flat_hidden": hidden, "cover": cover, "floor": cover}
 
 

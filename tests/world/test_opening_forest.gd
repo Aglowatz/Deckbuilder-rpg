@@ -164,7 +164,7 @@ func test_quality_scales_the_mist_rays_and_mushrooms() -> void:
 ## Fix pass Nov 4 (B), Part 3.4: the Lab's hatch lies far south; at the start a bramble thicket (solid, visible) fills the gap where its path will run;
 ## in the postgame the forest opens: a fairly straight path south through a glade to the hatch.
 func test_the_lab_is_far_south_behind_brambles_until_the_postgame_opens_a_straight_path() -> void:
-	assert_gt(OpeningForestLayout.LAB.z, 12.0, "well south of the clearing")
+	assert_gt(OpeningForestLayout.LAB.z - (OpeningForestLayout.CLEARING[0].y + OpeningForestLayout.CLEARING[0].z), 25.0, "25-30 m below the clearing (Overnight Nov 4-5)")
 	var closed: StartingAreaBuilder = _built(false)
 	assert_not_null(closed.root.find_child("Brambles", true, false), "brambles block the way at the start")
 	for p: Vector2 in OpeningForestLayout.LAB_PATH.slice(1):

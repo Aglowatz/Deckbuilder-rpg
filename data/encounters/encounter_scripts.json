@@ -605,12 +605,12 @@
 				"type": "hp_below",
 				"pct": 50
 			},
-			"text": "At half health the disguise slips: Perfect Copy ends (its units lose +1/+1), and two 1/1 Sashimi Weenies are rushed out.",
+			"text": "At half health the disguise slips: Plated Just So ends (its units lose +1/+1), and two 1/1 Sashimi Weenies are rushed out.",
 			"line": "Delicious. Delicious. I have been told that is the word. ...Why will it not stay on?",
 			"effects": [
 				{
 					"kind": "remove_rule",
-					"name": "Perfect Copy"
+					"name": "Plated Just So"
 				},
 				{
 					"kind": "summon",
@@ -618,7 +618,7 @@
 					"count": 2
 				}
 			],
-			"banner": "Perfect Copy ends. Two 1/1 Sashimi Weenies are rushed out."
+			"banner": "Plated Just So ends. Two 1/1 Sashimi Weenies are rushed out."
 		},
 		{
 			"id": "noface",

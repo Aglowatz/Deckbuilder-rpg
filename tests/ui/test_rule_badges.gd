@@ -30,8 +30,8 @@ func test_zone_effects_become_a_buff_and_a_debuff_badge() -> void:
 
 func test_dungeon_rules_become_badges_with_icons_and_node_limits() -> void:
 	var all_rules: Array[RuleBadges.Badge] = RuleBadges.for_dungeon(HouseOfGainsDungeon.ZONE_ID)
-	assert_eq(all_rules.size(), 2, "Pump Iron and the Iron-less Prison")
-	assert_eq(all_rules[0].name, "Pump Iron")
+	assert_eq(all_rules.size(), 2, "Home Gym and the Iron-less Prison")
+	assert_eq(all_rules[0].name, "Home Gym")
 	assert_eq(all_rules[0].side, RuleBadges.SIDE_PLAYER)
 	assert_true(all_rules[0].is_good())
 	assert_eq(all_rules[0].icon, "lorc/muscle-up")

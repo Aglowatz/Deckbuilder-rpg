@@ -620,7 +620,12 @@ func _union(uids: Array[int]) -> Rect2:
 ## The first of above, left, right and below the target that stays on screen and covers nothing in `avoid`.
 func _best_spot(target: Rect2, avoid: Array[Rect2], size: Vector2) -> Vector2:
 	if target.size == Vector2.ZERO:
-		return Vector2((1920.0 - size.x) * 0.5, 300.0)
+		# Overnight Nov 4-5, Part 1: a tip with no target (the first duel's) sits above the Opening-hand panel and its Keep / Mulligan buttons.
+		var spot: Vector2 = Vector2((1920.0 - size.x) * 0.5, 300.0)
+		var panel: Rect2 = screen.mulligan_rect() if screen != null else Rect2()
+		if panel.size != Vector2.ZERO and Rect2(spot, size).intersects(panel.grow(8.0)):
+			spot.y = maxf(16.0, panel.position.y - size.y - 24.0)
+		return spot
 	var gap: float = 36.0
 	var center: Vector2 = target.get_center()
 	var candidates: Array[Vector2] = [

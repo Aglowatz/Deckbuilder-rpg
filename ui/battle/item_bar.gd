@@ -27,6 +27,8 @@ var _pulse_tween: Tween
 var _icons: Array[TextureRect] = []
 
 const BADGE_SIZE: Vector2 = Vector2(34, 24)
+## A used-up item's icon: greyscale-ish and dim (the battle bar and the Character page).
+const SPENT_TINT: Color = Color(0.42, 0.42, 0.46, 0.7)
 
 
 ## Nov 3-4, Part A2: the charge count - a small dark pill with a gold rim and outlined text, readable on any icon (the character page uses it too).
@@ -45,6 +47,16 @@ static func charge_badge(font_size: int) -> Label:
 	badge.custom_minimum_size = BADGE_SIZE
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return badge
+
+
+## Sets a charge badge's text, keeping its right edge where it was (the "Used" badge is wider than "x1").
+static func fit_badge(badge: Label, text: String) -> void:
+	var right: Vector2 = badge.position + badge.size
+	var wanted: Vector2 = Vector2(58, BADGE_SIZE.y) if text.length() > 3 else BADGE_SIZE
+	badge.text = text
+	badge.custom_minimum_size = wanted
+	badge.size = wanted
+	badge.position = right - wanted
 
 
 ## The slot look: the UI art kit slot (UI-HUD-SLOT) tinted per state, the old flat box without it.
@@ -107,6 +119,18 @@ func refresh() -> void:
 		var slot: PanelContainer = _slots[i]
 		var icon: TextureRect = _icons[i]
 		var badge: Label = _badges[i]
+		var spent: ItemData = Session.content.item(_profile.spent_item_in_slot(i)) if item == null else null
+		if spent != null:
+			# Overnight Nov 4-5, Part 1: a used-up item stays in its slot greyed, with a "Used" badge - not the look of an empty slot.
+			icon.texture = IconArt.item_texture(spent, SLOT_SIZE.x * 0.62)
+			icon.visible = true
+			icon.modulate = SPENT_TINT
+			fit_badge(badge, "Used")
+			badge.visible = true
+			slot.tooltip_text = "%s - used. Each item works once." % spent.display_name
+			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, EMPTY_BORDER, 2, 0, Color(0.55, 0.55, 0.6)))
+			_usable[i] = false
+			continue
 		if item == null:
 			icon.texture = CardIcons.ui("item_slot")
 			icon.visible = true
@@ -120,7 +144,7 @@ func refresh() -> void:
 		icon.texture = IconArt.item_texture(item, SLOT_SIZE.x * 0.62)  # its own ICON-ITEM-* once imported, else the old silhouette
 		icon.visible = true
 		icon.modulate = Color(1, 1, 1, 1.0)
-		badge.text = "x%d" % _profile.item_uses_left(item)
+		fit_badge(badge, "x%d" % _profile.item_uses_left(item))
 		badge.visible = true
 		var usable: bool = game != null and game.can_use_item(0, item)
 		if usable != _usable[i]:

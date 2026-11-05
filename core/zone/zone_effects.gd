@@ -7,7 +7,7 @@ extends RefCounted
 ## Gourmands (snooty and proper) vs. Refusemancers ("garbage eaters"). See docs/design/story_bible.md.
 ##
 ## | Zone | Buff | Debuff |
-## | Gainlands | Pump It Up: Beefcake units +1 attack | Processing Time: the first Necrocrat unit costing 3+ each turn enters exhausted (Oct 21) |
+## | Gainlands | Pump It Up: Beefcake units +1 attack | Out of Breath: the first Necrocrat unit costing 3+ each turn enters exhausted (Oct 21) |
 ## | D.N.A. | Approved Procedure: Necrocrat units +1 defense | Unauthorized Activity: Beefcake cards cost 1 more |
 ## | Endless Buffet | Well Fed: Gourmand units +0/+1 (Nov 4; was +1/+1) | Dress Code Violation: Refusemancer units -1 attack |
 ## | Verdant Dump | Overgrowth: Refusemancer units +2 defense | Spoilage: Gourmand units -1 defense |
@@ -139,7 +139,7 @@ static func _build(zone_id: String) -> Effect:
 	match zone_id:
 		GainlandsZone.ID:
 			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 1, 0, "Pump It Up")
-			effect.debuff = _mod(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, effect.rival, 1, 3, "Processing Time")  # Oct 21: only units costing 3+ (value2)
+			effect.debuff = _mod(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, effect.rival, 1, 3, "Out of Breath")  # Overnight Nov 4-5: was "Processing Time", the D.N.A. dungeon rule's name  # Oct 21: only units costing 3+ (value2)
 		DnaZone.ID:
 			effect.buff = _mod(Modifier.Kind.STAT_CHANGE, path, 0, 1, "Approved Procedure")
 			effect.debuff = _mod(Modifier.Kind.COST_CHANGE, effect.rival, 1, 0, "Unauthorized Activity")
@@ -172,7 +172,7 @@ static func mechanic_text(modifier: Modifier) -> String:
 				parts.append("%+d attack" % modifier.value)
 			if modifier.value2 != 0:
 				parts.append("%+d defense" % modifier.value2)
-			return "%s units get %s." % [path, " and ".join(parts)]
+			return "%s units on both sides get %s." % [path, " and ".join(parts)]
 		Modifier.Kind.COST_CHANGE:
 			if modifier.value > 0:
 				return "%s cards cost %d more." % [path, modifier.value]

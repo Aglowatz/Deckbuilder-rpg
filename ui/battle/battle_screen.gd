@@ -2091,6 +2091,14 @@ func _toggle_discard(uid: int) -> void:
 # ---- Mulligan and result ----------------------------------------------------------------
 
 
+## Overnight Nov 4-5, Part 1: the Opening-hand panel's box in canvas units (empty when it is not up), so the first-duel tip stays clear of it.
+func mulligan_rect() -> Rect2:
+	if _mulligan_panel == null or not is_instance_valid(_mulligan_panel) or _mulligan_panel.get_child_count() == 0:
+		return Rect2()
+	var panel: Control = _mulligan_panel.get_child(0) as Control
+	return Rect2(panel.position + _mulligan_panel.position, panel.size)
+
+
 func _show_mulligan() -> void:
 	if _mulligan_panel != null:
 		_mulligan_panel.queue_free()

@@ -1128,3 +1128,5 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    map line art at 100 %); `docs/art/size_pass/p4_world_before_after.jpg` (BC1 + mipmaps in nine zones); `p6_opengl_low_end.jpg`
    (the Dump's water is flat on OpenGL). `builds/_testpack/` (735 MB, the test pack for the exported bots) can be deleted when you need
    the disk; C: has 2.7 GB free.
+
+## Overnight Nov 4-5 - yours to decide (the safest choice was taken)

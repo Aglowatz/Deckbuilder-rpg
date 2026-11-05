@@ -169,7 +169,7 @@ func test_the_battle_hud_shows_the_zone_effects_panel() -> void:
 	add_child_autofree(panel)
 	var rows: Array[Node] = panel.find_children("*", "VBoxContainer", true, false).filter(func(node: Node) -> bool: return node.get_signal_connection_list("mouse_entered").size() > 0)
 	assert_eq(rows.size(), 2, "the buff row and the debuff row each have a hover tip")
-	var expected: Array[String] = ["Pump It Up", "Processing Time"]
+	var expected: Array[String] = ["Pump It Up", "Out of Breath"]
 	for index: int in range(rows.size()):
 		var row: Control = rows[index] as Control
 		row.mouse_entered.emit()

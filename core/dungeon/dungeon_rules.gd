@@ -80,7 +80,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 	match dungeon_id:
 		"D-HOG":
 			return [
-				_rule("Pump Iron", "Your Beefcake units enter with +1 attack.", "player", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.BEEFCAKE, 0)] as Array[Modifier]),
+				_rule("Home Gym", "Your Beefcake units enter with +1 attack (yours only, not the enemy's).", "player", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.BEEFCAKE, 0)] as Array[Modifier]),
 				_rule("Iron-less Prison", "In the prison (nodes 8-9) Iron can't be used.", "both", [CardBuilder.modifier(Modifier.Kind.BLOCK_RESOURCE_USE, ResourceKind.Kind.IRON)] as Array[Modifier], [8, 9]),
 			]
 		"D-TTK":
@@ -106,7 +106,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 		"S-BEEF":
 			return [_rule("Thin Air", "Units with Hustle get +1/+0.", "both", [CardBuilder.modifier(Modifier.Kind.KEYWORD_STAT_CHANGE, 1, Modifier.ANY_COLOR, CardEnums.Keyword.HUSTLE)] as Array[Modifier])]
 		"S-IRON":
-			return [_rule("Never Skip Leg Day", "Beefcake units get +0/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Affinity.Type.BEEFCAKE, 1)] as Array[Modifier])]
+			return [_rule("Never Skip Leg Day", "Beefcake units on both sides get +0/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Affinity.Type.BEEFCAKE, 1)] as Array[Modifier])]
 		"S-GOUR":
 			return [_rule("Fresh Fish", "Tokens enter with +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.TOKEN_STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier])]
 		"S-NECRO":
@@ -124,7 +124,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			# Oct 21 (the sheet's D-LAB row): Specimen Conditions. Siphon's four Protocols are his own encounter rules (ProtocolJam).
 			return [
 				_rule("Specimen Conditions", "Your max life is 5 lower in the Lab.", "player", [CardBuilder.modifier(Modifier.Kind.MAX_HP, -5)] as Array[Modifier], [], true),
-				_rule("Specimen Conditions (enemies)", "Enemy units enter with +1/+1.", "enemy", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier]),
+				_rule("Enhanced Specimens", "Enemy units enter with +1/+1.", "enemy", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier]),
 			]
 		"S-TOWN":
 			return [_rule("Old Kingdom", "Colorless units get +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.NEUTRAL, 1)] as Array[Modifier])]

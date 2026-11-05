@@ -1598,9 +1598,9 @@ func _talk_elder() -> void:
 		_talk_npc("elder", elder, offer_lines)
 		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
 		return
-	for quest_id: String in Session.quest_log.active:
-		var active_quest: QuestData = QuestCatalog.find(quest_id)
-		if active_quest != null and active_quest.giver_npc == elder and not DungeonCatalog.text_lines("quest.%s.active" % quest_id).is_empty():
+	for active_quest: QuestData in Session.quests_active_for(elder):
+		var quest_id: String = active_quest.id
+		if not DungeonCatalog.text_lines("quest.%s.active" % quest_id).is_empty():
 			var active_key: String = "quest.%s.active" % quest_id
 			if quest_id == QuestDefinitions.FIRST_DECK_EDIT and Session.pack_step_open():
 				active_key = "quest.first_deck_edit.active_pack"

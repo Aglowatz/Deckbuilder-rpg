@@ -102,7 +102,7 @@
 		"theme": "A towering fortress-gym: marble columns wrapped in chains, propaganda banners of the regime, rubber-mat floors, giant dumbbell statues; beneath it, the bare stone Iron-less Prison with no equipment at all.",
 		"story": "The regime that overthrew the Beefcake leader rules from here for Primm. Vivienne Quota, Minister of Efficiency, designed it all (the wheels, the Iron-less Prison) and steers Chancellor Clench, Flex's former star pupil, as her figurehead; she 'measures' the Wanderer at the Regime Checkpoint, then flees to the Capital when the zone falls. Deep below lies the Iron-less Prison where the original leader is held. Rescue him (optional branch) and he joins you. In the final confrontation the frail-looking leader throws off his robes to reveal he is still incredibly muscular: true strength comes from the heart and the mind.",
 		"boss": "Chancellor Clench, Iron Regent (regime ruler)",
-		"buffs": "Pump Iron: your Beefcake units enter with +1 attack. Iron-less Prison (nodes 8-9): Iron can't be used.",
+		"buffs": "Home Gym: your Beefcake units (yours only) enter with +1 attack. Iron-less Prison (nodes 8-9): Iron can't be used.",
 		"reward_first": "The Big Unit (B-32), a Gilded Beefcake Pack, bonus gold and XP; frees the Gainlands.",
 		"reward_repeat": "Beefcake Pack + gold.",
 		"hook": "Swole Station rumor: \"The old champion isn't dead. He's under the House.\"",
