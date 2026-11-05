@@ -205,3 +205,18 @@ Tests: `tests/core/test_overnight_nov5_part8.gd`.
    clipping (inbox 11).
 8. **Art:** STORY-CLENCH-THRONE, OF-PROP-BRAMBLES and GAIN-HERO-IRON-CRAG were wired or listed tonight. Their sheet rows say
    "Needed" / "Requested" until the art arrives (`docs/art/import_nov5_ready.md`).
+
+## Tests (Finish)
+
+Full sharded GUT (`tools/run_tests.sh --only=tests --size=12`, 341 scripts in 29 shards). **Shards 1-12 ran** (the audio, AI, data,
+dungeon, game and quest scripts): 1,445 tests and 3 failures, all from tonight's changes and all fixed and re-run green:
+- the feat count is now 41 (Through the Glass);
+- Rip's forest tip was reworded by the rewrite;
+- the rewrite had dropped Primm's "No order outranks treating people with respect." from `cutscene.primm_p2.2`, so that zone lesson is
+  back in the new line (`edit_nov5.csv` updated to match).
+
+**Shards 13-29 did not run.** Claude Code stopped the run for low system memory during shard 13, and its rule is not to restart a
+stopped run on my own. Those shards cover the rest of `tests/core` (quests to zone), `tests/ui`, `tests/world` and the root tests. Tonight's
+targeted runs covered the scripts touched in those folders (opening forest, story backdrops, the oct31n UX, the part 1-8 test files),
+all green. So the brief's "every shard passed once tonight" is **not met**. To finish:
+`bash tools/run_tests.sh --only=tests --size=12 --from=13` with nothing else open.

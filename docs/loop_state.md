@@ -15,4 +15,4 @@ At start: C: 2.5 GB free; no Godot running. NO export tonight.
 | 6 | Music: Gainlands quotes | done (9 cues, smoke OK) |
 | 7 | Art list + import prep | done (38 rows; dry run of 7 importers: 4 missing sheet rows found and added) |
 | 8 | Fresh critic playthrough | done (stuck in the tutorial cave; 6 quick fixes, rest inbox 10-11) |
-| Finish | GUT shards, report, push | full GUT running |
+| Finish | GUT shards, report, push | report done; GUT shards 1-12 green after 3 fixes, 13-29 not run (host low-memory stop; resume --from=13) |
