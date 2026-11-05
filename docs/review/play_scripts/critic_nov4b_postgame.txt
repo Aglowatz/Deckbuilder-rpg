@@ -1,0 +1,38 @@
+# Fix pass Nov 4 (B) critic: the post-game Lab quest - Under the Forest: Rip's station, the forest's new path south, the hatch.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev postgame
+wait 1
+dev travel town
+wait 10
+skip_dialogue 20
+shot 00_postgame_town_quest
+dev goto rift_station
+key E
+wait 1.5
+shot 01_rip_tip
+skip_dialogue 20
+wait 1
+key Escape
+wait 1
+key J
+wait 1.5
+shot 02_quest_log
+key Escape
+dev travel forest
+wait 10
+skip_dialogue 20
+shot 03_forest_postgame
+dev tp 1.8 8.5
+wait 1.5
+shot 04_path_south
+dev tp 3.4 15.0
+wait 1.5
+key E
+wait 1
+shot 05_lab_ask

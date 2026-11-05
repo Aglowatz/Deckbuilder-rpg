@@ -1,0 +1,53 @@
+# Fix pass Nov 4 (B) critic: the Gainlands - the Iron Cave on the middle road, Old Man Mountain's hint, the Swolympus gate after Primm (via dev), the ridge and the climb.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev travel zone beefcake
+wait 12
+skip_dialogue 20
+shot 00_arrival
+dev goto mini_dungeon
+wait 1.5
+shot 01_iron_cave_middle_road
+key E
+wait 1
+shot 02_iron_cave_ask
+button Not yet
+wait 0.5
+dev goto brenda
+key E
+wait 1.5
+shot 03_old_man_mountain_talk
+skip_dialogue 20
+dev goto swolympus_gate
+wait 1
+key E
+wait 1
+shot 04_swolympus_sealed
+dev postgame
+wait 1
+dev travel zone beefcake
+wait 12
+skip_dialogue 20
+dev goto brenda
+key E
+wait 1.5
+shot 05_mountain_postgame_offer
+skip_dialogue 20
+dev flag side_unlocked_s_beef
+dev tp 99 26
+wait 4
+shot 06_gate_opening
+dev tp 106.8 16.2
+wait 1.5
+shot 07_ridge
+dev goto swolympus_trail
+wait 1
+key E
+wait 1
+shot 08_climb_ask
+button Not yet

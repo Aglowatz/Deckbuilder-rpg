@@ -1,95 +1,163 @@
-# Fix pass Nov 4 - report
+# Fix pass Nov 4 (B) - report
 
-Brief: `docs/prompts/fixes_nov4.md` (playtest feedback round 1). Tag `pre-fixes-nov4`; commits `1b59529a..HEAD` on main.
-Decisions you may want to change: `docs/overnight_inbox.md`, section "Fix pass Nov 4". Shots: `docs/overnight_shots/nov4/`.
-Previous report: `docs/overnight/nov4/overnight_report_overnight_nov3.md`.
+Brief: `docs/prompts/fixes_nov4b.md` (playtest feedback round 2). Tag `pre-fixes-nov4b`. Decisions: `docs/overnight_inbox.md` ("Fix pass Nov 4 (B)").
+Shots: `docs/overnight_shots/nov4b/`. Previous report: `docs/overnight/nov4b/report_fixes_nov4.md`.
 
-**Tests:** full GUT suite green, run in foreground chunks (core 1,630, ui 221, world 465 + 1 old "did not assert", audio 92, root 299).
-**Export 0.5.4: not done** - the Godot editor (`title.tscn`) is open and C: has 1.4 GB free; `tools/export_windows.sh` stops on both
-(it needs Godot closed and ~2.5 GB). The version is bumped to 0.5.4 everywhere (project, export presets); see "To finish" below.
+## Part 1 - the answers you asked for
 
-## Part 1 - Battle rules
+1. **Shiro's reward: confirmed, exactly 3 Gilded packs.** Finishing "The Oldest Trick in the Book" (beating Shiro Swindle) runs
+   `Session.apply_ninja_win`: every stolen coin back plus `NinjaBoss.PACK_REWARD_COUNT` = 3 packs, each a Gilded pack of a random Path
+   (`PackRules.gilded_pack_id`). A rematch after the quest pays nothing more. New test
+   `test_finishing_the_oldest_trick_puts_exactly_three_gilded_packs_in_the_inventory` checks the INVENTORY (not just the result): +3 packs, all
+   Gilded, every Path has a Gilded pack in the catalog. Nothing needed fixing.
+2. **Mount Swolympus opens after Primm.**
+   - **What was missing:**
+     - The dungeon itself was complete. S-BEEF already had its painted map (MAP-S-BEEF), its battleboard (BB-S-BEEF), its own music
+       (MUS-SWOLY-EXP/-BATTLE/-BOSS) and a postgame hermit quest ("Water for the Hermit") that unlocked it.
+     - The quest had no dialogue at all.
+     - The gate never opened. The ridge's span stayed collapsed, so nothing behind the gate was walkable.
+     - There was no entrance: the zone's dungeon door only opens S-IRON.
+   - **Now:**
+     - Before Primm, Old Man Mountain's return lines and the sealed gate's toast say it opens "when the kingdom is whole again".
+     - After Primm he offers **"Only the Worthy..."**: bring him a protein shake from the Station's stand. The quest now has its own offer,
+       active and ready lines.
+     - Handing it in unlocks S-BEEF. The first time you come near the overlook the **gate opens on screen**: the barrier grinds down into
+       the ground with dust and a shake, and the collapsed span rises back into place.
+     - The ridge is then walkable, from approach steps at the overlook to a trail spot at the mountain's foot. E there offers "Climb" into
+       S-BEEF, through the side-dungeon flow with the zone's HP.
+   - **Shots:** `p1_g_07_swolympus_gate_opening.png`, `p1_g_08_swolympus_ridge.png`, `p1_g_09_swolympus_climb_ask.png`.
+3. **The Iron Cave (S-IRON).**
+   - **Where it was:** on the LEFT road. Its mouth was in the north-west cliff at (15, 21), reached by a short paved spur off the left
+     road's north bend, with the leg-day yard in front of it.
+   - **Where it is now:** on the **middle road**, in a new sandstone crag that rises out of the east canyon beside the ridge. It sits
+     **between the second and third road guards** (z 32.8, between the narrows at 37.5 and 28).
+     - The mouth faces south-west, toward the road and the camera, so it reads from the road (`p1_g_03_iron_cave.png`).
+     - A short spur leads to it.
+   - **Removed:** the old mouth, its spur and its sign on the left road. The cliff stays as scenery, and the leg-day yard stays as a lifting
+     yard.
+   - **Smoke and tests:** the walk smoke now goes to the cave on the middle road. The tests check it is between the guards, walkable, and
+     reachable along the ridge. The left road no longer passes it.
+4. **The cones near Greta: grass clumps, removed.**
+   - They were the dry-grass clumps of the zone dressing: `ZoneDressing`'s Gainlands recipe "grass_leafs", drawn as StyleGrass blades
+     tinted in the sand colours.
+   - On the green island meadows (Greta stands on the Glute island) they read as small tan spiky cones. They were pure decoration, so
+     they are gone; the loose stones stay.
 
-| # | What | Done |
-|---|---|---|
-| 1.1 | **Peek is broken** | Peek was resolved by the engine on its own (it sorted the cards silently), so the player never chose. Now a Peek on your own turn **waits for you**: `GameState.peek_requests`, `peek_cards()`, `resolve_peek()`, `GameAction.PEEK`; the ability pauses and the rest of it ("then draw a card") runs after your choice (`AbilityRunner.PEEK_WAIT`). New `PeekPanel`: all N cards together (top card first), **Top / Bottom** per card, the first card sent Top is drawn next ("Top #1", "Top #2"), Reset, Done. Covers every Peek card: Amuse-Bouche, Consult the Cookbook, Sous Chef, Courier Pigeon, Cartographer's Table, Banquet Hall, Spice Bazaar. The AI and the look-ahead copies keep the automatic choice. Verified in a live duel (critic run: the card picked Top #1 was the one drawn). Tests `tests/core/game/test_peek_choice.gd` (6). |
-| 1.2 | **"Fresh Stitches"** | Renamed everywhere: the card field (`CardInstance.fresh_stitches`), glossary, keyword tooltip, the battle tooltip entry, design docs, tests and tools. Reminder `KeywordInfo.FRESH_STITCHES_REMINDER` = "Fresh Stitches: can't attack the turn it enters play." (shown when you click a unit that can't attack yet). Hustle units ignore it as before. The dialogue CSVs held the old phrase only in archived passes (`docs/dialogue/chatgpt_pass_oct21/`), not in game text. |
-| 1.3 | **Pre-placed enemy units** | A unit on the table before the duel keeps Fresh Stitches through its side's first turn (`CardInstance.placed_before_duel`, set by `GameState.mark_placed_before_duel` after the start-of-duel effects). Encounters: **Trophy Hall Honor Guard** (1 Militia), **The Doppelganger** (Sashimi Weenie, both rule sets), **Royal Staircase Guard** (3 Militia), **Colonel Casserole** (Sashimi Weenie), **Primm - Standardization** (4 Militia), and the **Arena presets** with enemy units (3 challenges). Units a setup makes ready on purpose (Flex, Elowen, the sim's allies) stay ready. |
-| 1.4 | **Endless Buffet buff** | **Cause:** the Colonel's fight had two rules both named "Field Rations" - the starting Weenie and a hidden "+1 attack" - and the badge row merges same-named rules into one badge, so only the Weenie showed while his units got zone +1/+1 plus +1/+0 = **+2/+1**. Not a double application (checked: Well Fed is on each seat exactly once). The hidden +1 attack is removed. **Well Fed is now +0/+1** (`ZoneEffects`), zone-wide as designed: both seats' Gourmand units, in every Buffet fight. The chip, tooltips and pre-fight text are generated from the modifier ("Gourmand units get +1 defense."); the flavour line now reads "A full belly is hard to knock over." Tests run every Buffet encounter of the catalogue plus the real gate battle. |
-| 1.5 | **Casserole didn't attack** | **Cause:** in the live game the attack search has a wall-clock budget (half of 500 ms). It scored "no attack" first, and on a slower machine the clock ran out after that one candidate, so a clearly winning swing was never weighed (the sims, which have no clock, always attacked - a probe over 24 Casserole games found no missed lethal there). Fix in `AICombat`: the attacking sets come first, "no attack" fifth, and at least 5 candidates are always scored (`MIN_LIVE_CANDIDATES`); the opponent's block model is node-limited only (a starved model predicted no blocks). Same floor for the AI's blocks. All bosses use this code. Fresh Stitches flags and the buff were checked as causes and ruled out. Regression tests `tests/core/ai/test_ai_attacks_when_ahead.gd` (6 boards x 6 boss signatures, plus a clock-starved search that fails on the old code). Tool `tools/attack_when_ahead_probe.gd`. |
-| 1.6 | **Boss blockers** | **Cause:** the Colonel's gate flag was only set when the Buffet scene was built; a roamer/gate duel returns to the **parked** scene (no rebuild), so after any win - dev or normal - he stood in the way until the next visit. Now the win sets the blocker flag at once (`BossBlockers`, `GameSession.resolve_zone_battle`), `EventBus.flag_set` announces it, and `ZoneScene.sync_world_flags()` runs on the return to a parked scene and on every flag change. Every blocker checked: the **Colonel** (now moves), **Captain Spotless's gate** (had the same bug: the barrier was only lifted on a rebuild - fixed the same way), the four **hub gatekeepers** (town is rebuilt after those duels; flag-driven already). Verified in play with the dev win. |
+## Part 0 - keyword rename
+"Fresh Stitches" is now **"Just Arrived"** everywhere: the card field (`just_arrived`), `KeywordInfo.JUST_ARRIVED_REMINDER` ("Just Arrived:
+can't attack the turn it enters play."), the glossary, the battle tooltips, the design docs, the tests and the tools. A grep finds neither
+"Fresh Stitches" nor "summoning sickness" in game text.
 
-## Part 2 - Economy
+## Part 2 - Gainlands
+1. **Mats:** no shrub, grass, rock, tree or loose kit on the blue workout mats.
+   - `GainlandsLayout.on_mat` covers the yard rects plus the painted mat's soft edge.
+   - The builder's `is_floor_at` says no there, so every floor-planting pass skips the mats, and the layout's tree/rock scatter skips them too.
+   - A test builds the dressing and checks every instance.
+2. **The Descent:** the three choices are now:
+   - "Bribe the guard": pay 40 gold. Below 40 gold the button is greyed out and says "you need 40 gold".
+   - "Overpower the guard": lose 3 HP.
+   - "Distract the guard": a random non-basic card leaves your deck for the rest of this run and is back after it. The result names it
+     ("You fling **Gym Bro** down the far stairwell...") and adds a "Lost for this run" line.
+   - New event outcome `DungeonEvent.lose_card()`. The text is rewritten.
+3. **Grandmaster Flex:** the boon is now only "Grandmaster Flex fights beside you in the final battle". The +1/+1 to all units and the +3
+   max HP are gone. His ally T-15 is a **3/5**.
+   - I also removed **Unbreakable**: an unkillable blocker that pumps your team every turn trivialises Clench at 3/5.
+   - He keeps Overtime and his rally (+1/+1 to your other units each turn).
+   - The option text, the boon tooltip, the importer test and the dungeon test are updated.
+4. **Cell Block Brawler:** a mid-dungeon elite now.
+   - Deck: Beefcake Bruisers (was the default archetype).
+   - HP: 16 (was 13). Deck size 28; basics 12 (was 13).
+   - New rule **Smuggled Weights**: "Nobody can use Iron in the prison. Nobody told him: he has been curling contraband plates under his
+     bunk for years. The Brawler's units get +1 attack."
+   - **Balance sim** (each Path's expected deck at L8, 40-60 games each):
 
-Cards: **Common 100** (a General Pack's price), Uncommon 200, Epic 500, Legendary 1000 (ratio 1 : 2 : 5 : 10 kept; was 300 / 600 / 1500 / 3000).
-Equipment is now the saving goal: Common 1200-1800, Uncommon 2000-3200, Epic 3500-5500 by tier (was 60-600).
+     | | Beefcake | Necrocrat | Gourmand | Refusemancer | All | Loss rate |
+     |---|---:|---:|---:|---:|---:|---:|
+     | Before | 98% | 100% | 100% | 98% | 99% | 1% |
+     | After | 77% | 67% | 65% | 78% | 72% | **28%** |
 
-| Shop piece | Before | After |
-|---|---:|---:|
-| Cardboard Cuirass, Saucepan Helmet, Extra Pocket, Traveler's Boots (Common t1) | 60 | 1200 |
-| Flip-Flops of Fortitude (Common t2) | 90 | 1400 |
-| Wicked Dagger, Solid Plate, X-Ray Goggles (Uncommon t1) | 120 | 2000 |
-| Protein Shaker Bandolier, Notarized Seal, Dog-Eared Bookmark (Uncommon t2) | 180 | 2400 |
-| Cheater's Dice, Hover Boots, Thorned Loincloth, Sucker Punch Mitts (Uncommon t3) | 240 | 2800 |
-| Flamethrower, Blade of Earned Reputation, Big Brain Beret, Grandma's Rolling Pin (Epic t3) | 450 | 4500 |
+     (Steps tried: +1/+1 with 20 HP and 15 basics gave 47%; +1/+0 at 20 HP gave 52%; 18 HP and 13 basics gave 58%; 18 HP and 12 basics
+     gave 66%; 16 HP and 12 basics gave 72%.) Files: `docs/design/sim/nov4b_cell_block_before.md` / `_after.md`.
+5. **Natural zone edges**, zone by zone:
+   - **Gainlands:** the reference, unchanged.
+   - **Crosspath:** the gorge beside the Gainlands road was two flat rock quads. It now has the Gainlands' layered, ragged cliff on both
+     walls: a lip, an upper face, a ledge and a talus leaning into the cleft, strata bands darkening downward, in the town's grey-brown
+     stone.
+     - This uses a new shared `CliffSkirt.wall(line, top, bottom, side, ...)`, the Gainlands profile as a strip, with the shared
+       StyleTerrain material so each zone's painted cliff texture applies.
+     - The lake and the treelines stay natural as they were.
+   - **Verdant Dump:** the valley walls were one smooth ramp. They now rise in three courses with two ledges and a ragged line along the
+     rim (`HeapLayout.wall_rise`), with the same 6.5 m total.
+   - **Opening Forest:** the treeline is the edge; there is no drop to treat, so it is unchanged (apart from Part 3.4).
+   - **Kept artificial on purpose:**
+     - The Endless Buffet: its whole rim is the built cake layers.
+     - The D.N.A.: interiors, plus the approach causeway with its parapets.
+     - The Capital: its walls. The ground outside them is soft hills, with no cliff edge.
+   - Shots: `p2_5_crosspath_gorge.png`, `p2_5_dump_rim.png`.
 
-The gold study (re-run, new section in `docs/balance/gold_economy_nov3.md`): a no-grind player earns **16,029** gold; after 7 item charges,
-3 hats and the hub fees **14,704** is left for cards and gear. The 20-card mix costs 4,700, leaving 10,004: the **4 essential pieces**
-(8,900) or **6 cheaper ones** (8,200) - inside the 4-6 target. Buying only the essentials leaves room for ~25 cards; no gear at all, ~63.
-Grinding (12 repeat fights an hour): **8-17 Commons or 3.6-7 average cards per hour** in the Path zones and the Capital (3 Commons an hour
-in Crosspath's outskirts); a tier-1 Common piece of gear is about an hour of grinding.
+## Part 3 - Crosspath, D.N.A., forest
+1. **House windows:** the painted windows (art 2.5 m wide with open shutters) were placed at the socket height and width whatever the wall.
+   On narrow faces they overhung the corners, and above an eave they poked into the roof.
+   - `BuildingKit.fit_window` now keeps every painted window inside its face's corners and under the roof line (the eave on an eave face,
+     the slope on a gable end). It shrinks the window in place first and lowers it only when it would get too small.
+   - This applies to every building of the kit. The test builds all 23 presets and checks every window vertex (the old code fails it on
+     the alchemist and others).
+   - Shot: `p3_1_lake_house_fixed.png`.
+2. **D.N.A. elevators:** all four now stand flush against the bank's north wall (they floated 0.4 m out), each on a whole pair of wall
+   cells. The second one stood half in the corridor opening to the executive floor; they are now at x 38, 41 | 49, 52, clear of x 43-47.
+3. **D.N.A. lobby, left passage:**
+   - The bench, the cooler and the television stood along the west wall in front of the breakroom's doorway; the filing-cabinet row and
+     the chairs filled the rest.
+   - The bench and cooler moved to the south wall west of the exit, the television to the east wall, and the cabinet row is out of the
+     lobby.
+   - `DnaLayout.LOBBY_WEST_PASSAGE` is a no-dressing zone.
+   - **Verified:** a walk probe with a 2 m body from the gate to the breakroom doorway, the strip clear at five points, and the D.N.A. walk
+     smoke (OK).
+4. **Path-ology Lab entrance:**
+   - The hatch is now far **south** (z 16.6, was 4.2), down a fairly straight path (four points, all within 18 degrees of one heading)
+     through a glade.
+   - **At the start:** none of it is floor, and a solid bramble thicket fills the gap in the clearing's south rim. The forest blocks the
+     way; there is no invisible wall.
+   - **Post-game:** the path, the glade and the pocket open up, and the brambles are gone.
+   - Shots: `p3_4_forest_start_brambles.png`, `p3_4_forest_postgame_path.png`, `p3_4_forest_postgame_hatch.png`.
 
-## Part 3 - UI and shops
+## Part 4 - post-game and crafting quests
+1. **"Under the Forest"** (main, auto-given once Primm is down). The giver is Rip, who in the story data is the one who finds the hatch.
+   - **Steps:**
+     1. Ask Rip at Crosspath's Rift Station.
+     2. Take the Rift Express to the forest. This completes on arrival there.
+     3. Find the hatch at the end of the new path south of the clearing. Its map marker is on the hatch in the forest; it completes on
+        going down.
+     4. Free the prisoner in Cell 4. This is Elowen; quest text stays spoiler-free, as the reveal test requires.
+   - **Dialogue:** Rip's tip now points south past the brambles, and to "any of my stations".
+   - Loose Ends now points at this quest instead of repeating its steps.
+2. **Auntie Alembic:**
+   - **The bug is fixed:** a brew spends only what it needs. With 18 essence, a craft that needs 6 leaves 12 (it used to take everything).
+     There is a test for exactly that.
+   - **Cap:** 18 per Path (3 crafts' worth); more is lost.
+   - **Gold:** 100 (was 150; the tri-Path brew is 200).
+   - **Quest:** when the Alchemist opens (two zones free), **"A Pinch of Everything"** is given. Its first step, visiting her, pays 6
+     essence of EVERY Path (one brew of any two). The second step is the brew.
+   - Her dialogue and the screen's texts say the new rules.
 
-- **Level-up popup:** no level-up mentions equipment any more - the rarity-cap lines ("Wear up to 1 Epic piece of equipment", the "1
-  equipment slot" the Level 5 popup showed) are gone from the popup and the reward docs, and five headlines that talked about gear are new
-  (L5 "Getting the hang of this", L19 "Seasoned traveler", L22 "Epics up to 3 copies, and a Gilded Pack", L25 "A cape worth swishing", L28
-  "Room for one more card"). The item slots at 6 and 12 still show. Every level 2-30 checked by a test. (The rarity caps still apply; inbox 6.)
-- **Character page:** each slot is placed from a point on the silhouette (`CharacterScreen.SILHOUETTE_POINTS`, read off the poster art)
-  through the poster rect, so it stays on the figure at any size: helm over the head, armor mid-chest, weapon and relic on the hands, boots
-  between the feet; slots 124 -> 110 px so the Helm caption clears the Armor slot. Before/after at 1280x720 and 1920x1080:
-  `part3_character_before_*.png`, `part3_character_after_*.png`.
-- **Pip's shop:** "Plain Cloak" everywhere (the shop tile, the Wardrobe). **Hats** and **Cloaks** tabs. The **12 cloak dyes are back** in
-  the Cloaks tab, each sold like a piece (Preview on the hero in the Plain Cloak, Buy 60 gold, Equip); owned dyes are saved, an old save keeps
-  the dye it wears, the Wardrobe picks among owned dyes. The preview never opens empty. **Dye in battle:** the hero was never drawn in battle
-  (a pointy-hat glyph); your plate now shows the dressed hero (`HeroBust`: hat, cloak set, dye). Checked in the world (crimson cloak), in
-  Pip's preview and on the battle plate.
-- **White arches:** they were **Mirepoix's cloches** (`VendorFx.Cloche`, a translucent silver dome drawn over every card, lifting on hover).
-  Removed, with the two other overlays on card faces: Gristle's tin-can front (covered the rules text) and Fig Sly's compartment doors on
-  cards. Benchley's tubs and Gristle's cans now sit under the cards. Checked every card shop (Sable, Benchley, Ledgerbone, Mirepoix,
-  Gristle, Fig Sly) and the Collection Book, Deck Station and card pick; no arches anywhere (`part3_shop_*.png`, `part3_grid_*.png`).
-  Mirepoix's two lines about lids were rewritten.
+## Part 5 - stopgaps
+1. **Primm's defeat:** STORY-PRIMM-FALL (the giant) is parked. Cutscene primm_end plays over STORY-EPI-MODEL-FALLS (the broken model city,
+   nobody in it). No scene scales Primm up; no code ever did, the giant was in the painting.
+2. **Deck station:** the bottom row now uses the top row's five columns and height: 5 above, 5 below, lined up. The locks are as before
+   (Level 7/14/21).
 
-## Part 4 - World
+## Part F - art list
+Rows appended to `docs/art/art_needed_nov4.csv`:
+- **UI-BG-DECKBUILDER:** ten alcoves, 5 + 5. The guide is `docs/art/paintover_inputs/deck_station_slots_guide.png` at 1600x900, with the
+  slots in magenta and the grid and panel shaded; it is made by `tools/deck_station_guide.gd`.
+- **STORY-PRIMM-FALL:** human-sized, youthful but dishevelled, the crown slipping.
+- **STORY-EPI-TOGETHER:** the four leaders' hands, each described:
+  - Grandmaster Flex: a lion paw.
+  - Agnes Overdue: a translucent ghost hand.
+  - The Grand Chef: a floury hand with a mustard sleeve.
+  - Archdruid Compostella: a soil-stained hand with a vine sleeve.
+- **OF-PROP-BRAMBLES:** the stand-in thicket.
+- **GAIN-HERO-IRON-CRAG:** the Iron Cave's new crag.
 
-- **Crosspath townsfolk:** the "Townsfolk" by the trainer's lamp post (and the one in the market) was the Gainlands gym attendant in gym kit;
-  both are mole farm hands now (the Dump's extra set, own tints), the only non-story standing set left (every other painted set is a named
-  character). No idle wander: only the badger and the Capital citizen have walk cycles (inbox 7). `part4_townsfolk_lamp_post.png`.
-- **Chests x1.25** in every zone, the town and the starting forest (`ChestKit.SCALE` 0.28125), with the footprint (0.18 -> 0.225 m) and the
-  reach to open (1.5 -> 1.6 m); the Capital's chests are solid now like everyone else's. Every chest checked for open ground beside it; the
-  walkability floods to every chest still pass. The ninja's giant chest keeps its size.
-- **Buffet footsteps:** the paved cracker roads squelched because the Buffet's footsteps never looked at the roads; they now step as
-  **cobble** (the same `path_weight` that paints them), the Grand Pantry's checkered plaza as **tile** (it knocked like wood, from the old
-  lazy-susan hub), the meadow still squelches. Other zones checked: the **Dump's paths** squelched like mud through the wetlands - now dirt;
-  Gainlands, D.N.A., Capital, town and forest map their paths correctly.
-- **Buffet top-left "stairs":** three pie-crust slabs = one of the **Potato Peak's decorative "biscuit bridges"** over its gravy pool
-  (`BuffetLandmarks._potato_peak`): no script, no collision, part of a backdrop landmark; the north one sat on the table by the Cheddar
-  Cliffs and read as a stair to nowhere. All three removed; nothing referenced them. `part4_buffet_stairs_before.png` / `_after_*.png`.
-
-## Critic play (from the main repo at HEAD)
-
-No room for a worktree (1.4 GB free; a checkout is ~1.6 GB), so the runs used the main repo at the committed HEAD, untouched meanwhile.
-Scripts `docs/review/play_scripts/critic_nov4_*.txt` (new driver commands `dev hand`, `dev energy`, `dev play`).
-
-- **Peek** (a live duel, Consult the Cookbook): panel, picks, Done; the Top #1 card was drawn, the spell went to the Refuse Pile. OK.
-- **Colonel Casserole, played out** (pilot, level 12 starter deck): his Weenie showed 1/2 with Fresh Stitches (Zz) on turn 1; he attacked
-  every turn he could ("attacks with Sashimi Weenie and 5 more"); the pilot lost (it is a weak player). OK.
-- **Colonel Casserole, dev win:** back in the zone the Colonel had stepped off the road, prompt "Chat with Colonel Casserole". OK.
-- **Card shop** (Sable): Commons at 100, no overlays. **Pip:** tabs, Plain Cloak, dye tiles, dye preview on the hero; found the preview panel
-  empty on opening - fixed (the tab's first piece shows). **Character page:** slots on the silhouette, pill centred. OK.
-
-## To finish (needs you)
-
-1. Close the Godot editor and free about 1 GB on C: (e.g. the v0.5.2 zip in `builds/`, 600 MB, or old play runs in `_screenshots/play/`, 377 MB -
-   I deleted nothing).
-2. `bash tools/export_windows.sh` (version 0.5.4 is already set), then the release smoke as in `docs/release/how_to_build.md`.
+## Finish
+(filled in below as it runs)

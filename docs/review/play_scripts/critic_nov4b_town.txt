@@ -1,0 +1,49 @@
+# Fix pass Nov 4 (B) critic: the D.N.A. entrance (lobby west passage, elevators), Auntie Alembic's quest + crafting with 18 essence, Shiro's reward.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel zone necrocrat
+wait 12
+skip_dialogue 20
+key E
+wait 1
+dev tp 46.5 57
+wait 1.5
+shot 00_dna_entrance
+dev tp 38 53
+wait 1.5
+shot 01_dna_west_passage
+dev freed beefcake
+dev freed necrocrat
+dev gold 400
+dev travel town
+wait 10
+skip_dialogue 20
+shot 02_town_alembic_quest
+dev goto alchemist
+key E
+wait 1.5
+shot 03_alembic_talk
+skip_dialogue 20
+wait 1.5
+shot 04_alchemist_screen_starter_jar
+key Escape
+wait 1
+dev essence beefcake 18
+dev essence necrocrat 18
+dev goto alchemist
+key E
+skip_dialogue 20
+wait 1.5
+shot 05_alchemist_18_essence
+dump
+dev shiro
+wait 8
+button Keep Hand
+wait 2
+dev win
+wait 8
+skip_dialogue 30
+shot 06_shiro_reward
+dump

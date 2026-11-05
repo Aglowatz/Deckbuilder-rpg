@@ -1,0 +1,35 @@
+# Fix pass Nov 4 (B) critic: the House of Gains - the Descent (bribe greyed out under 40 gold, then distract), Cell Block Brawler's brief, the Rescue.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev gold -100
+dev travel dungeon D-HOG 7
+wait 10
+skip_dialogue 20
+shot 00_descent_poor
+dump
+button Distract the guard
+wait 1
+shot 01_descent_distract_result
+button Continue
+wait 2
+dev travel dungeon D-HOG 8
+wait 10
+skip_dialogue 20
+shot 02_cell_block_brawler_brief
+dump
+button Continue
+wait 4
+shot 03_cell_block_battle
+dev win
+wait 6
+skip_dialogue 20
+dev travel dungeon D-HOG 9
+wait 10
+skip_dialogue 20
+shot 04_rescue_event
+dump

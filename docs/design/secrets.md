@@ -390,7 +390,7 @@ Pulling one plays a heavy mechanical clunk (`lever_clunk`), a short screen shake
 (Beefy Bouncer, Portal-Ripping Titan, Cullinator, Head Health Inspector, Lich of Accounts Payable, Mass Layoffs, Unconscionable Contract, Mount Trashmore, Archdruid Compostella, Champion of the Four Paths...) played by the Aggressive AI, **and at the start of each of its own turns a stronger unit joins it** (Zombie Rat, Poo Golem, Cake Golem, Chef's Masterpiece Golem, Protein Golem, Wedding Cake Colossus).
 Losing changes nothing (retry any time).
 
-**Rewards (first win, what I chose and why):** one **Gilded Pack of every Path** (4 packs), **40 essence of every Path**, the exclusive relic **Four-Seal Signet** (Max HP +3, start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape - an item for a four-Path player), the exclusive **Cloak of the Four Seals** cosmetic, and **+600 XP**. No new cards were created.
+**Rewards (first win, what I chose and why):** one **Gilded Pack of every Path** (4 packs), **18 essence of every Path** (a full jar; was 40, Fix pass Nov 4 (B) cap), the exclusive relic **Four-Seal Signet** (Max HP +3, start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape - an item for a four-Path player), the exclusive **Cloak of the Four Seals** cosmetic, and **+600 XP**. No new cards were created.
 
 ## Overnight Oct 19-20, Part 6: The Water Under the Well (spoilers)
 

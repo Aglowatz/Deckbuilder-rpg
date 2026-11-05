@@ -34,7 +34,7 @@ const SUMMON_STAGES: Array[String] = ["T-11", "T-11", "T-11", "T-01", "T-01", "T
 
 # ---- Rewards (what was chosen, and why, is in docs/design/secrets.md) ----------------------------------------------
 const REWARD_PACKS_PER_PATH: int = 1
-const REWARD_ESSENCE_PER_PATH: int = 40
+const REWARD_ESSENCE_PER_PATH: int = Alchemy.ESSENCE_CAP_PER_PATH  # Fix pass Nov 4 (B): a full jar (18; was 40, above the new cap)
 const REWARD_XP: int = 600
 const REWARD_EQUIPMENT_ID: String = "four_seal_signet"
 const REWARD_COSMETIC_ID: String = "cloak_red_cape"

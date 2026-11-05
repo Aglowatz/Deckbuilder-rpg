@@ -146,7 +146,7 @@ func test_save_migration_converts_owned_extras_and_trims_saved_decks() -> void:
 	var data: Dictionary = Session.to_dict()
 	assert_true(Session.from_dict(data))
 	assert_eq(Session.owned_count(real.id), 1, "4 old copies of an Epic become 1 owned")
-	assert_eq(Session.profile.essence_of(real.paths()[0]), 3 * Essence.value_for(E))
+	assert_eq(Session.profile.essence_of(real.paths()[0]), mini(3 * Essence.value_for(E), Alchemy.ESSENCE_CAP_PER_PATH), "converted, up to the 18 cap (Fix pass Nov 4 (B))")
 	assert_eq(Session.deck.count_of(real.id), 1, "the active deck was trimmed")
 	assert_gte(Session.deck.size(), DeckValidator.MIN_DECK_SIZE, "and topped back up with infrastructure")
 	assert_true(Session.town_notice.contains("Copy caps"), Session.town_notice)
