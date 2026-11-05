@@ -156,7 +156,7 @@ func test_starting_area_everything_reachable() -> void:
 	var spawn: Vector3 = area.anchors["spawn"] as Vector3
 	var targets: Dictionary = {}
 	for key: String in area.anchors.keys():
-		if key != "spawn":
+		if key != "spawn" and key != "lab":  # Fix pass Nov 4 (B): the Lab lies behind brambles until the postgame (test_opening_forest)
 			targets[key] = area.anchors[key]
 	var can_stand: Callable = func(pos: Vector3) -> bool: return area.is_walkable(pos, 0.22)
 	var missing: Array[String] = WalkProbe.unreachable(can_stand, spawn, area.map_bounds(), targets)

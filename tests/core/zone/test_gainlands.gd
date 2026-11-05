@@ -70,6 +70,8 @@ func test_surface_rules_ground_island_rim_void() -> void:
 
 func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 	for name: String in layout.anchors.keys():
+		if name == "swolympus_foot":
+			continue  # Fix pass Nov 4 (B): the trail at the ridge's far end is only walkable once Swolympus is open (test_fixes_nov4b_swolympus)
 		var pos: Vector3 = layout.anchors[name] as Vector3
 		var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
 		assert_true(surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND or surface == GainlandsLayout.Surface.BRIDGE, "anchor %s is on ground, an island or the bridge to town" % name)
@@ -135,6 +137,8 @@ func test_everything_on_the_main_land_is_reachable_from_the_spawn() -> void:
 		var pos: Vector3 = builder.anchor(str(spot["anchor"]))
 		if layout.island_at(pos.x, pos.z) != null and not GainlandsLayout.is_main_ground(pos.x, pos.z):
 			continue
+		if str(spot["id"]) == GainlandsZone.SWOLYMPUS_TRAIL:
+			continue  # reached along the ridge once Swolympus is open (test_fixes_nov4b_swolympus)
 		var near: bool = false
 		for dx: int in range(-2, 3):
 			for dz: int in range(-2, 3):

@@ -36,6 +36,7 @@ func test_every_backdrop_still_is_used() -> void:
 			if not used.has(str(value)) and not StoryStills.IDS.has(str(value)):
 				used.append(str(value))
 	used.append_array(StoryStills.MEMORIES)
+	used.append_array(StoryStills.PARKED)  # Fix pass Nov 4 (B): parked until redone, not dropped
 	used.sort()
 	var expected: Array[String] = StoryStills.BACKDROP_IDS.duplicate()
 	expected.sort()

@@ -103,6 +103,9 @@ const BACKDROP_IDS: Array[String] = [CAPTURE, THRONE, WONDER, VACANCY, SEVER, MO
 		"STORY-MEMORY-1", "STORY-MEMORY-2", "STORY-MEMORY-3", "STORY-MEMORY-4", PRIMM_P1, PRIMM_P2, PRIMM_FALL, RESCUE, REVEAL_KITCHEN,
 		EPI_MODEL_FALLS, EPI_RIFTS_CLOSE, EPI_WRINKLES, EPI_TOGETHER, EPI_DECREE, EPI_PRIMM_SEES, EPI_FILE_COMPLETE]
 
+## Fix pass Nov 4 (B): backdrop stills kept in the game but shown nowhere until their redo (docs/art/art_needed_nov4.csv).
+const PARKED: Array[String] = [PRIMM_FALL]
+
 ## Dungeon cutscene (`CutsceneDefs` id) -> its backdrop: the true Chef's dish, Agnes takes the office, letting the seed die, Primm at his
 ## model before the fight, "I kept your face".
 const CUTSCENE_BACKDROPS: Dictionary = {

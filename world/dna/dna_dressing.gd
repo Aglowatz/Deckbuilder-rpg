@@ -53,6 +53,7 @@ const PIECE_RINGS: Array[float] = [7.0, 9.0, 5.5, 11.0]
 ## The queue stands with its back to a wall (nothing walkable QUEUE_BACK metres behind it, -z), so it can never wall off a way across a room.
 const QUEUE_CLEARANCE: float = 2.5
 const QUEUE_BACK: float = 1.2
+const QUEUE_LOBBY_HEAD: Vector3 = Vector3(47.0, 0.0, 47.2)
 const QUEUE: Dictionary = {"anchors": ["lobby_center", "bank_center", "mail_center", "records_center", "breakroom_center"], "gap": 0.95, "height": 1.65, "post": "DNA-SHEET-FILING-TOWERS-04"}
 ## Batch 11 (Nov 2): the lobby's own dressing, the six cut-outs of DNA-SHEET-LOBBY (id, preferred spot by a wall of the lobby (x 36-56,
 ## z 46-60), height m, blocking radius). Placed after the ghost queue, each on the first free spot (`_free`: off the open middle, clear of
@@ -78,9 +79,9 @@ static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDress
 		dressing._anchors.append(builder.anchor(str(key)))
 	for pos: Variant in builder.layout.chests.values():
 		dressing._anchors.append(pos as Vector3)
+	dressing._ghost_queue()  # Fix pass Nov 4 (B): the queue claims its wall first (its old spot left with the bench)
 	dressing._kit_clusters()
 	dressing._kit_pieces()
-	dressing._ghost_queue()
 	dressing._lobby_props()
 	if quality > 0:
 		dressing._decals()
@@ -145,7 +146,8 @@ func _ghost_queue() -> void:
 	if not EnvKit.has_art("DNA-SHEET-GHOST-QUEUE-01"):
 		return
 	var gap: float = float(QUEUE["gap"])
-	var heads: Array[Vector3] = []
+	# Fix pass Nov 4 (B): first along the lobby's north wall east of the counter (its old spot backed onto the bench, which left the west passage)
+	var heads: Array[Vector3] = [QUEUE_LOBBY_HEAD]
 	for anchor_id: Variant in QUEUE["anchors"] as Array:
 		if _builder.has_anchor(str(anchor_id)):
 			heads.append_array(_ring_spots(_builder.anchor(str(anchor_id))))
