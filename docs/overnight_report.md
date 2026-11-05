@@ -41,6 +41,27 @@ Gold study (`docs/balance/gold_economy_nov3.md`, "Overnight Nov 4-5"). The study
 
 By source after: main 6,415, side quests 2,180, clear bonus 2,165, side-dungeon nodes 1,140, postgame nodes 980, the rest unchanged.
 
+## Part 3 - early-game fun check, every Path
+
+Full write-up: `docs/balance/early_game_nov5.md` (tool `tools/early_game_study.gd`: a new save of each Path walked through the economy
+timeline as a no-grind player, then its first main dungeon simulated with the starter deck + two Commons, 10 runs per Path).
+
+**Gold:** 520 at the first shop (5 Commons, 7 items or 3 General Packs; goal 2-3), ~800-870 at the own gatekeeper, 1,530-1,890 on reaching
+the first main dungeon. Affordability is fine for every Path.
+
+| Path | First dungeon | Level | Before | **After** | HP left |
+|---|---|---:|---:|---:|---:|
+| Beefcake | The House of Gains | 9 | 50% | **70%** | 17.6 |
+| Necrocrat | The Hall of Final Approvals | 8 | (30% with HP-only ease) | **90%** | 18.6 |
+| Gourmand | The Test Kitchen | 9 | 40% | **90%** | 16.1 |
+| Refusemancer | The Rotheart | 9 | 10% | **70%** | 15.1 |
+
+Goal 65-80%. The cause was zone order: the four zones are tuned for Gainlands -> D.N.A. -> Buffet -> Dump, but every Path starts in its own,
+so a Refusemancer met the Rotheart (tuned for level 17) at level 9. **Fix:** `ZoneOrderEase` (`core/zone/zone_order_ease.gd`) - a zone
+played earlier than its designed place gets easier foes (HP x1.0 / 0.95 / 0.85 / 0.42 by places early, x0.85 more for the very first zone,
+units -1 attack); a freed zone, the Capital and a zone in or after its designed place are untouched. Decks, prices and rewards unchanged.
+Necrocrat and Gourmand sit slightly above the band (inbox 9). Tests: `tests/core/test_overnight_nov5_part3.gd`.
+
 ## Part 4 - dialogue rewrite
 
 Full write-up: `docs/dialogue/rewrite_nov5.md`; style guide `docs/dialogue/story_voice_nov5.md`; review sheet **`docs/dialogue/edit_nov5.csv`**.
@@ -50,7 +71,48 @@ Full write-up: `docs/dialogue/rewrite_nov5.md`; style guide `docs/dialogue/story
 - Blind critic (100 random changed lines, versions unlabelled): main story new 49 / old 5 (6 ties), side content new 29 / old 10. Averages
   new vs old - main: voice 7.5 vs 6.3, clarity 8.0 vs 7.3, emotion 7.0 vs 6.0, humour 7.2 vs 6.3; side: voice 7.4 vs 6.6, clarity 8.1 vs
   7.3, humour 7.2 vs 6.7.
-- Best before/after examples: the table in `docs/dialogue/rewrite_nov5.md`.
+- Before / after (seven of the ten in `docs/dialogue/rewrite_nov5.md`):
+
+| Speaker | Before | After |
+|---|---|---|
+| The Wanderer, waking | I search for my name. For how I got here. But I find nothing. | I keep reaching for my name, or for how I got here, and there's nothing there at all. |
+| Elder Maren, memory 1 | I sense something within you that wasn't there before. I trust the Paths to guide you. | That tune's stayed with you, hasn't it? I can see it on your face. Good. Keep it somewhere safe, dearie, even when it hurts. |
+| Agnes Overdue, the vacancy | Even the dead deserve humanity. Our job is to help the lost souls. Following orders be damned: we treat everyone with respect. | Everyone in that queue was somebody, dear, and the dead deserve to be treated as people. No order outranks that, not his and not anyone's. |
+| Elowen, Cell 4 | They put me in your cell. My father thinks that's educational. With him it is hard to tell. | They put me in your cell. My father calls it educational, and the worst of it is that he means it. |
+| Widow Pell | I cannot bury him. Form 27-B needs Form 27-C, and 27-C needs 27-B. He has waited in his chair for three years. | And I can't bury him. Form 27-B needs a 27-C, and the 27-C needs a 27-B, so he's still in his chair, waiting, the way he always used to wait for me. |
+| Chef Gravois, freed | The simmer let go. The sauce let go. Plain bread. No sauce. I could weep. I am weeping. | The sauce has let go of me. Is that plain bread, with no sauce on it at all? I could weep. In fact, I am weeping. |
+| A freed citizen | He was not kind. He was afraid. I think both can be true. | He wasn't kind, he was afraid, and for ten years none of us could tell the difference. |
+
+
+## Part 5 - The Shattered Gallery (postgame dungeon)
+
+Design and sim: `docs/design/shattered_gallery.md`; code `core/dungeon/shattered_gallery.gd`; tests `tests/core/dungeon/test_shattered_gallery.gd`.
+
+- **Entry:** after Primm, a cracked mirror by the castle door (primitives, cold light) and Wren's side quest "Cracks in the Glass". Looking
+  into it unlocks the dungeon; it runs on the Capital's HP with **Silver Reserve** (+40 max life inside) and returns to the Capital.
+- **13 nodes, three wings:** seven **Echoes** of beaten bosses (Quota, Clench, Plume, Mortimer, the Doppelganger, Clipwell, the Rotheart -
+  their own decks, 18-26 HP and one twisted rule each), three costly events, one optional paid rest, and **The Perfect Copy**: your current
+  deck, your max HP + 20, one extra card a turn, your own face through a silver shader.
+- **Stacking wing rules:** Silvered (enemy units +1/+0, from node 2), Reflected Order (your first card each turn costs 1 more, from node 5),
+  Perfect Form (your first unit each turn is copied for the enemy, nodes 9-12; new modifier `MIRROR_FIRST_UNIT`).
+- **Look and sound with no new assets:** Echo plates are their originals' Bestiary pictures through `mirror_tint.gdshader`; the castle map
+  and board stand in until MAP-S-GALLERY exists; the castle and Primm cues play through a detuned mirror chorus on the Music bus.
+- **Rewards:** first clear 1,500 gold, 6 essence of every Path, hidden feat **Through the Glass**, and the **Mirrored card finish** (a
+  silver sheen you toggle per card in the Collection Book). Repeats: side-dungeon gold, a Prismatic Pack, the clear bonus.
+
+**Sim** (reference deck of each Path at level 26 with gear and items; target: a strong late deck beats the boss 20-35%):
+
+| What | Setting | Player wins |
+|---|---|---:|
+| The Perfect Copy alone, full HP | all three wing rules, +15 HP | 3% |
+| | Silvered + Reflected Order, +20 HP (**kept**) | **51%** (Beefcake 40, Gourmand 45, Necrocrat 55, Refusemancer 65) |
+| Whole run, one HP pool (events skipped) | first draft | 0% |
+| | Echo HP 18-26, Silver Reserve +20, two Echoes eased | 0% (one run reached the Copy) |
+| | Silver Reserve +40 (**kept**) | not measured: the host stopped the sim for low memory |
+
+Each Echo alone is beatable (Quota and Clench 100%, Mortimer 94%, Plume 84%, the Rotheart 56%), but each costs a strong deck about 10 HP.
+The whole run is a wall by design, maybe too much of one (inbox 8). Knobs: `SILVER_RESERVE`, `PERFECT_COPY_HP_BONUS`, the `WING_*_ON` lists,
+the Echo HP in `dungeon_content.json`.
 
 ## Part 6 - music: the Gainlands quotes
 
