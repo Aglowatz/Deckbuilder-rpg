@@ -78,3 +78,22 @@ TUT-EXP already quote the rock riff's melody (it is the Crossroads motif) and we
   (NPC-TOWNSFOLK-A/B/C), and MAP-S-GALLERY with a full map description. Sprite batch rows NT-TOWNSFOLK-A/B/C give the importer their height.
 - `docs/art/import_nov5_ready.md`: for each id, the Approved_* folder and filename, and the command.
 - Node guide for the map: `docs/art/paintover_inputs/gallery_map_guide.png` (1536 x 1024, `tools/art/gallery_map_guide.py`).
+
+### Art import checklist (importer dry run)
+
+Every importer was run once on placeholder PNGs with the exact names of `docs/art/import_nov5_ready.md`, through its `*_SOURCE_DIR`
+override (the Drive was never touched). Each run's outputs and manifest changes were removed afterwards, along with the placeholders.
+
+| Importer | Placeholders | Result | Fix made tonight |
+|---|---|---|---|
+| Portraits (`import_portraits.sh`) | 10 (NPC-FLEX_REVEAL, CUT-FLEX, NPC-TOWNSFOLK, -A/-B/-C, GYM-ATTENDANT, BRISKET, SIR-LOIN, CAPITAL-GUARD) | all 10 picked up | `Portraits.EXTRA_PORTRAITS` lists the new ids |
+| NPC sprites (`world_test_import.gd --npcs`) | 38 (FLEX-FREED, ROLLO, TOWNSFOLK-A/B/C) | all cut and scaled; townsfolk 21 frames, walks FRONT/FRONTSIDE/SIDE/BACK | the 8 FLEX-FREED and ROLLO files matched no batch row: rows **NS-FLEX-FREED** and **NS-ROLLO** added to `npc_sprite_batch.csv` |
+| Key art (`import_key_art.sh`) | STORY-CLENCH-THRONE | matched no ID at first | row added to `logo_title_art.csv`; wired behind the flex cutscene's beats 1-2 (`StoryStills.CLENCH_THRONE`, icon stage until the file exists) |
+| Bestiary (`import_bestiary.sh`) | 5 BST ids | all 5 picked up; 99 of 99 Bestiary ids would have a picture | - |
+| Maps (`import_maps.sh`) | MAP-S-GALLERY | picked up | - (the castle stand-in drops out when the real file exists) |
+| Opening Forest kit (`import_zone_kit.sh openingforest --only=`) | OF-PROP-BRAMBLES | matched no row at first | row added to `openingforest_kit.csv`; `StartingAreaBuilder._build_brambles` now puts two painted cards in the gap once it exists (the walls stay the same; tests pass both ways) |
+| Gainlands kit (`import_zone_kit.sh gainlands --only=`) | GAIN-HERO-IRON-CRAG | matched no row at first | row added to `gainlands_kit.csv`. It is a CONCEPT row, so it lands in `docs/art/zone_kits/gainlands/concepts/` as the reference for the crag model; the target path in the art list was corrected |
+| UI art | UI-BG-DECKBUILDER | not run: the id already exists in the game and the run would overwrite it | - |
+
+Gotcha: the key art, bestiary and map importers rewrite their manifest CSV from the source folder alone, so a run on a partial folder
+empties those manifests. Restore them after any test run.

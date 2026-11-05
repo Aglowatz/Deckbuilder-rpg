@@ -13,6 +13,8 @@ extends WalkableArea
 const HIDDEN_CHESTS: Dictionary = OpeningForestLayout.HIDDEN_CHESTS
 ## How far inside the floor's edge the hero's centre must stay (the ferns and rocks at the rim read as the wall).
 const EDGE_MARGIN: float = 0.1
+## Overnight Nov 4-5, Part 7: the painted bramble thicket (data/source/openingforest_kit.csv); the blob-and-cane thicket until it is imported.
+const OF_BRAMBLES: String = "OF-PROP-BRAMBLES"
 
 var layout: OpeningForestLayout
 var models: OpeningForestModels
@@ -57,6 +59,18 @@ func build(parent: Node3D) -> void:
 func _build_brambles() -> void:
 	var center: Vector3 = Vector3(OpeningForestLayout.BRAMBLES.x, 0.0, OpeningForestLayout.BRAMBLES.y)
 	var radius: float = OpeningForestLayout.BRAMBLES.z
+	for k: int in range(5):
+		var t: float = float(k) / 4.0
+		obstacles.append(Vector3(center.x - radius + t * radius * 2.0, center.z + (0.4 if k % 2 == 0 else -0.4), 0.9))
+	# Overnight Nov 4-5, Part 7: once the painted thicket (OF-PROP-BRAMBLES, 3:2) is imported, two cards side by side span the gap at
+	# waist height (one radius wide each) instead of the blobs and canes.
+	if EnvKit.has(OF_BRAMBLES) and EnvKit.has_art(OF_BRAMBLES):
+		var painted: Node3D = Node3D.new()
+		painted.name = "Brambles"
+		root.add_child(painted)
+		KitPieces.stand(painted, OF_BRAMBLES, center + Vector3(-radius * 0.5, 0.0, 0.0), radius / 1.5)
+		KitPieces.stand(painted, OF_BRAMBLES, center + Vector3(radius * 0.5, 0.0, 0.15), radius / 1.5)
+		return
 	var mesh: KitMesh = KitMesh.new()
 	var leaf: StandardMaterial3D = StandardMaterial3D.new()
 	leaf.vertex_color_use_as_albedo = true
@@ -80,9 +94,6 @@ func _build_brambles() -> void:
 	var body: MeshInstance3D = mesh.instance("Brambles")
 	body.position = Vector3.ZERO
 	root.add_child(body)
-	for k: int in range(5):
-		var t: float = float(k) / 4.0
-		obstacles.append(Vector3(center.x - radius + t * radius * 2.0, center.z + (0.4 if k % 2 == 0 else -0.4), 0.9))
 
 
 ## Overnight Nov 4-5, Part 1: the postgame trail reads as a trail - a stone kerb along both edges, flagstones down the middle (the painted ground

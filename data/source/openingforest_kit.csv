@@ -13,3 +13,4 @@ OF-TREE-GIANT-01,"Giant mossy tree 1",Tree,TREE,"See docs/art/art_batch_oct28.cs
 OF-TREE-GIANT-02,"Giant mossy tree 2",Tree,TREE,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The clearing edge",2,Approved
 OF-TREE-GIANT-03,"Giant mossy tree 3",Tree,TREE,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1536 PNG, transparent","The clearing edge",2,Approved
 OF-PROP-LAB-HATCH,"The Lab hatch",Prop,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","1024x1024 PNG, transparent","The clearing, after Rip reveals it (postgame)",2,Approved
+OF-PROP-BRAMBLES,"Bramble thicket",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Overnight Nov 4-5, Part 7).","1536x1024 PNG, transparent","The clearing south rim, blocking the Lab path until the postgame (StartingAreaBuilder._build_brambles)",2,Requested
