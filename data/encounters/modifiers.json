@@ -679,18 +679,10 @@
 	"Echo of Percival Plume": [
 		{
 			"name": "Even Better News",
-			"text": "Plume's Echo draws an extra card each turn and starts with two 1/1 Militia cheering on the field.",
+			"text": "Plume's Echo draws an extra card each turn. The news is always better than you think.",
 			"icon": "delapouite/trumpet",
 			"kind": "extra_draws",
 			"count": 1
-		},
-		{
-			"name": "Even Better News",
-			"text": "Plume's Echo draws an extra card each turn and starts with two 1/1 Militia cheering on the field.",
-			"icon": "delapouite/trumpet",
-			"kind": "starting_tokens",
-			"token": "T-16",
-			"count": 2
 		}
 	],
 	"Echo of Mortimer Grimsby": [
@@ -715,25 +707,17 @@
 	"Echo of the Doppelganger": [
 		{
 			"name": "Plated Twice",
-			"text": "Starts with two 1/1 Sashimi Weenies on the field, and the Echo's units get +1/+1.",
+			"text": "Starts with two 1/1 Sashimi Weenies on the field, plated just so.",
 			"icon": "delapouite/chef-toque",
 			"kind": "starting_tokens",
 			"token": "T-03",
 			"count": 2
-		},
-		{
-			"name": "Plated Twice",
-			"text": "Starts with two 1/1 Sashimi Weenies on the field, and the Echo's units get +1/+1.",
-			"icon": "delapouite/chef-toque",
-			"kind": "stat",
-			"atk": 1,
-			"def": 1
 		}
 	],
 	"Echo of Hortensia Clipwell": [
 		{
 			"name": "Mirror Topiary",
-			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +2/+2.",
+			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +1/+1.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "timed_summon",
 			"token": "T-22",
@@ -742,11 +726,11 @@
 		},
 		{
 			"name": "Mirror Topiary",
-			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +2/+2.",
+			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +1/+1.",
 			"icon": "lorc/leaf-swirl",
 			"kind": "token_stats",
-			"atk": 2,
-			"def": 2
+			"atk": 1,
+			"def": 1
 		}
 	],
 	"Echo of the Rotheart": [

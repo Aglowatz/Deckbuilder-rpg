@@ -11,13 +11,23 @@ const DUNGEON_NAME: String = "The Shattered Gallery"
 const BOSS_NAME: String = "The Perfect Copy"
 const ECHO_PREFIX: String = "Echo of "
 
-## Node numbers each stacking rule covers (the Iron wing starts at 2, Order at 5, Appetite at 9; the mirror room is 13).
+## Node numbers each stacking rule covers (the Iron wing starts at 2, Order at 5, Appetite at 9). The mirror room (13) keeps only Silvered: with
+## all three on top of its own extra draw The Perfect Copy won 97% against a strong late deck (Overnight Nov 4-5 sim).
 const WING_IRON_ON: Array = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 const WING_ORDER_ON: Array = [5, 6, 7, 8, 9, 10, 11, 12, 13]
-const WING_APPETITE_ON: Array = [9, 10, 11, 12, 13]
+const WING_APPETITE_ON: Array = [9, 10, 11, 12]
 
 ## The Perfect Copy has the player's max HP plus this much, and draws one card more each turn (its encounter rule).
-const PERFECT_COPY_HP_BONUS: int = 15
+const PERFECT_COPY_HP_BONUS: int = 20
+
+## Silver Reserve: the run starts at full HP with this much more max life (a duel costs a strong late deck about 10 HP, and nothing heals
+## between the eight duels; without it no simulated run got past the third Echo).
+const SILVER_RESERVE: int = 40
+
+
+static func silver_reserve() -> ModifierSource:
+	return CardBuilder.modifier_source("Silver Reserve", ModifierSource.SourceKind.BOON, [CardBuilder.modifier(Modifier.Kind.MAX_HP, SILVER_RESERVE)] as Array[Modifier])
+
 
 ## The quest that opens the glass (Wren, in the Crease, after Primm) and its flags.
 const QUEST_ID: String = "cracks_in_the_glass"

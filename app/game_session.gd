@@ -3222,6 +3222,10 @@ func enter_mini_dungeon(dungeon_id: String = "") -> void:
 	dungeon_map = MiniDungeon.build_map(zone_run.zone_id) if dungeon_id.is_empty() else MainDungeons.build_map(plan.id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
+	if plan.id == ShatteredGallery.DUNGEON_ID:
+		# Overnight Nov 4-5, Part 5: the Gallery starts at full HP with its Silver Reserve (more max life), then nothing heals
+		run.dungeon_sources.append(ShatteredGallery.silver_reserve())
+		run.hp = run.max_hp()
 	AudioMix.set_mirror_music(plan.id == ShatteredGallery.DUNGEON_ID)  # Overnight Nov 4-5: the Gallery hears the castle's music in a mirror
 	mini_active = true
 	town_side_active = false

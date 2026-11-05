@@ -211,7 +211,10 @@ func _sequence(content: ContentSet, games: int, seed_value: int, lines: PackedSt
 	lines.append("|---|---:|---:|---:|---|")
 	var runs: int = games * 2
 	for path: Affinity.Type in _paths():
-		var result: BalanceSim.SequenceResult = BalanceSim.run_sequence(content, _player(content, fights[0], path), fights, runs, seed_value)
+		var seat: PlayerSpec = _player(content, fights[0], path)
+		if key == "postgame:%s" % ShatteredGallery.DUNGEON_ID:
+			seat.extra_sources.append(ShatteredGallery.silver_reserve())  # the Gallery's run carries its Silver Reserve
+		var result: BalanceSim.SequenceResult = BalanceSim.run_sequence(content, seat, fights, runs, seed_value)
 		lines.append("| %s | %d | %s | %.1f | %s |" % [Affinity.display_name(path), runs, BalanceSim.percent(result.clear_rate()), result.avg_hp_left(), _lost_at(result, fights)])
 
 

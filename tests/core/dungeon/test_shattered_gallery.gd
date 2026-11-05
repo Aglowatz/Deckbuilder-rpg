@@ -62,7 +62,8 @@ func test_the_mirror_rules_stack_wing_by_wing() -> void:
 		return found
 	assert_eq(names.call(2), ["Silvered"] as Array[String], "the Iron wing")
 	assert_eq(names.call(5), ["Silvered", "Reflected Order"] as Array[String], "the Order wing adds one")
-	assert_eq(names.call(13), ["Silvered", "Reflected Order", "Perfect Form"] as Array[String], "all three in the mirror room")
+	assert_eq(names.call(11), ["Silvered", "Reflected Order", "Perfect Form"] as Array[String], "all three in the Appetite wing")
+	assert_eq(names.call(13), ["Silvered", "Reflected Order"] as Array[String], "the mirror room keeps two (the Copy has its own extra draw)")
 
 
 func test_perfect_form_copies_the_first_unit_each_turn_for_the_enemy() -> void:
@@ -107,7 +108,7 @@ func test_the_perfect_copy_seat_in_a_real_run_mirrors_lost_cards() -> void:
 	var context: BattleContext = Session.make_dungeon_battle(Session.dungeon_map.boss())
 	var enemy: PlayerState = context.game.players[1]
 	assert_eq(enemy.deck.size() + enemy.hand.size(), Session.run.current_deck().size(), "the copy is the run's deck as it is now")
-	assert_eq(enemy.max_hp, Session.run.max_hp() + ShatteredGallery.PERFECT_COPY_HP_BONUS)
+	assert_eq(enemy.hp, Session.run.max_hp() + ShatteredGallery.PERFECT_COPY_HP_BONUS, "it starts with more HP than your max")
 
 
 func test_the_first_clear_pays_gold_essence_and_the_mirrored_finish() -> void:

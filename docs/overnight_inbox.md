@@ -1163,3 +1163,10 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 7. **Export speaker labels (Part 4.6) were already fixed:** the Paste Works quest exports as Chef Marlo, `fx.wake_outside` as "A gate guard".
    The `.rushed` variants (`cutscene.primm_p1.2/p2.2/end.3.rushed`) are the WANDERER's answers to Primm (their parent keys' `.speaker` is
    "You"), so they stay "The Wanderer". If you meant different lines, name the ids.
+8. **The Shattered Gallery is a wall right now.** The Perfect Copy is tuned (51 % for a strong late deck at full HP, so about the 20-35 %
+   target for a player arriving half-dead). But in the whole-run sim (eight duels, one HP pool, no events) no run cleared at any setting I
+   could measure; the last change (the run starts at full HP with Silver Reserve +40 max life) could not be measured because the host
+   stopped the sim for low memory. Each Echo alone is fair; the attrition is the wall. Knobs: `ShatteredGallery.SILVER_RESERVE`, Echo HP,
+   or fewer fights (e.g. one Echo per wing plus its elite). Say how hard you want the full run to be.
+9. **ZoneOrderEase** (Part 3) is invisible to the player (no badge), like other difficulty scaling. Necrocrat and Gourmand first dungeons sim
+   at 90 % (10 runs, +-15), a little over the 65-80 % goal; tighten `EARLY_HP_FACTOR` if real play agrees.
