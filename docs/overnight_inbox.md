@@ -1160,3 +1160,6 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    instruments. The old orchestral Gainlands march lived in `scores/_fork_b.py` GAIN_THEME (CREDITS, PRIMM-02, PRIMM-03, PRIMM-DEFEAT,
    QUEST-ROLLO, REUNION, THRONE, CAP-RESTORED) and CAP-RIFT's own copy; both now carry the rock riff and answer in the march's Bb major
    bars, and those 9 cues were re-rendered at q6. If you also hear the march somewhere else, name the cue.
+7. **Export speaker labels (Part 4.6) were already fixed:** the Paste Works quest exports as Chef Marlo, `fx.wake_outside` as "A gate guard".
+   The `.rushed` variants (`cutscene.primm_p1.2/p2.2/end.3.rushed`) are the WANDERER's answers to Primm (their parent keys' `.speaker` is
+   "You"), so they stay "The Wanderer". If you meant different lines, name the ids.

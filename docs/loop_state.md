@@ -9,10 +9,10 @@ At start: C: 2.5 GB free; no Godot running. NO export tonight.
 |---|---|---|
 | 1 | Critic list (critic_nov4b) | done (Primm real fight verified via resolve_main_dungeon test, not the driver - inbox 1) |
 | 2 | Economy + dungeon rules | done (packs 150/200/800, no repeat x2, clear bonus + node share 0.5, quests x1.5-1.75, no in-dungeon deck editor; study 19159 -> 21189) |
-| 3 | Early-game fun check | in progress |
-| 4 | Dialogue rewrite | |
-| 5 | The Shattered Gallery | |
-| 6 | Music: Gainlands quotes | |
-| 7 | Art list + import prep | |
+| 3 | Early-game fun check | ZoneOrderEase built; post-fix study to run |
+| 4 | Dialogue rewrite | voice guide done, 15 chunks, agents running (2 at a time) |
+| 5 | The Shattered Gallery | built + tests green; sim to run |
+| 6 | Music: Gainlands quotes | done (9 cues, smoke OK) |
+| 7 | Art list + import prep | CSV + doc done; importer dry run to run |
 | 8 | Fresh critic playthrough | |
 | Finish | GUT shards, report, push | |

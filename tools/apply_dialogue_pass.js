@@ -38,7 +38,8 @@ fs.mkdirSync(dir, { recursive: true });
 const LEDGER = path.join(dir, 'applied_ledger.json');
 const SNAPSHOT = path.join(dir, 'export_snapshot.json');
 
-const TOKENS = ['{villain}', '{villain_title}', '{prince}', '{prince_full}', '{royal_house}', '{king}', '{queen}', '{rescuer}', '{kingdom}', '{town}',
+// Overnight Nov 4-5: PathDirection's tokens ({zone}, {path}... in quest.path_direction) count as tokens too; so does {rescuer_full}.
+const TOKENS = ['{zone}', '{path}', '{vendor}', '{buff}', '{buff_text}', '{rival}', '{debuff}', '{debuff_text}', '{rival_zone}', '{gatekeeper}', '{villain}', '{villain_title}', '{prince}', '{prince_full}', '{royal_house}', '{king}', '{queen}', '{rescuer}', '{rescuer_full}', '{kingdom}', '{town}',
 	'{capital}', '{pathordia}', '{showcase}', '{wanderer}'];
 // Names the brief says story lines must write as tokens (barks and tips have no tokens and may name them plainly).
 const TOKEN_NAMES = ['Primm', 'His Perfection', 'Tessar', 'Wayweaver', 'Crosspath', 'Pathordia', 'Showcase Quarter'];

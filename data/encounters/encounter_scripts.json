@@ -10,7 +10,7 @@
 				"pct": 50
 			},
 			"text": "At half health the Warden wakes a little more: a Cave Echo rises beside it.",
-			"line": "What is that I sense in you? NO! You are not HIM!",
+			"line": "...That light in your hands. I know it. No. NO. You cannot be him. He is gone.",
 			"effects": [
 				{
 					"kind": "summon",
@@ -56,7 +56,7 @@
 				"pct": 50
 			},
 			"text": "At half health Fennel force-feeds you a biscuit (you heal 2) and a 1/1 Snack joins his side.",
-			"line": "TASTE IT. It is for the war effort. The BISCUIT is for the war effort.",
+			"line": "TASTE IT! Even the BISCUIT is for the war effort!",
 			"effects": [
 				{
 					"kind": "foe_heal",
@@ -101,7 +101,7 @@
 				"pct": 50
 			},
 			"text": "At half health Prudence grabs the wrong stamp: APPROVED. You heal 3.",
-			"line": "APPROVED. ...That was the wrong stamp. That felt... nice. Disregard.",
+			"line": "APPROVED. ...That was the wrong stamp, and it felt... nice. Disregard that.",
 			"effects": [
 				{
 					"kind": "foe_heal",
@@ -204,7 +204,7 @@
 				"pct": 50
 			},
 			"text": "At half health the first seal breaks and the Warden gathers the pieces: the next 3 damage to it is absorbed.",
-			"line": "One seal. One Path. The hand is real. Show me the rest of it.",
+			"line": "One seal for one Path, and the hand is real. Show me the rest of it.",
 			"effects": [
 				{
 					"kind": "shield",
@@ -222,7 +222,7 @@
 				"pct": 25
 			},
 			"text": "Near the end the last seal opens: the Warden's units get -1/-0 for the rest of the fight.",
-			"line": "The last seal opens. The Paths agreed to bury this. They also agreed you might come.",
+			"line": "The last seal opens. The four Paths agreed to bury this, and they agreed that one day you might come for it.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -380,7 +380,7 @@
 				"pct": 50
 			},
 			"text": "At half health a reserve guard steps off a pedestal: a 1/1 Reserve Guard joins.",
-			"line": "This trophy is reserved. For the Chancellor. For anyone but you.",
+			"line": "Reserves, off your pedestal! This trophy belongs to the Chancellor, not to some stranger off the wheels!",
 			"effects": [
 				{
 					"kind": "summon",
@@ -421,7 +421,7 @@
 				"pct": 50
 			},
 			"text": "At half health Clench pulls the emergency reserve: he gains 2 Iron.",
-			"line": "Strength is control. Control is paperwork. Paperwork is HEAVY. Two more plates!",
+			"line": "Control is strength, paperwork is control, and do you know how HEAVY paperwork gets? Two more plates!",
 			"effects": [
 				{
 					"kind": "resources",
@@ -585,7 +585,7 @@
 				"turn": 4
 			},
 			"text": "On its 4th turn the cannon-blender fires a full load: you take 2 damage.",
-			"line": "Load the smoothie! Purée setting! FIRE!",
+			"line": "Load the smoothie, set it to puree, and FIRE!",
 			"effects": [
 				{
 					"kind": "damage",
@@ -606,7 +606,7 @@
 				"pct": 50
 			},
 			"text": "At half health the disguise slips: Plated Just So ends (its units lose +1/+1), and two 1/1 Sashimi Weenies are rushed out.",
-			"line": "Delicious. Delicious. I have been told that is the word. ...Why will it not stay on?",
+			"line": "Delicious... delicious. I was told that is the word. ...Why will this face not stay on?",
 			"effects": [
 				{
 					"kind": "remove_rule",
@@ -629,7 +629,7 @@
 				"pct": 25
 			},
 			"text": "Near the end the face it wore is gone: its units get -1/-0 for the rest of the fight.",
-			"line": "You never taste your own soup, do you? ...Neither do I. I cannot.",
+			"line": "They always asked whether I tasted the soup. ...I never did. I never could.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -702,7 +702,7 @@
 				"pct": 50
 			},
 			"text": "At half health Crumb issues paste: he gains 2 Ingredients.",
-			"line": "Battle rations! Taste is a weakness. Paste is a strategy!",
+			"line": "Battle rations, issue! Taste is a weakness, and paste is a strategy!",
 			"effects": [
 				{
 					"kind": "resources",
@@ -721,7 +721,7 @@
 				"turn": 6
 			},
 			"text": "On his 6th turn the vats open fire: you take 2 damage.",
-			"line": "Battle stations! This is not a drill, it is a soufflé!",
+			"line": "Battle stations! This is not a drill, soldier, it is a souffle! Vats, FIRE!",
 			"effects": [
 				{
 					"kind": "damage",
@@ -742,7 +742,7 @@
 				"pct": 50
 			},
 			"text": "At half health the Wraith notarizes a Red Tape for itself.",
-			"line": "Signed. Witnessed. Notarized. In triplicate. One copy is for you. You may not keep it.",
+			"line": "Signed, witnessed and notarized in triplicate. One copy is for you, but you may not keep it.",
 			"effects": [
 				{
 					"kind": "resources",
@@ -856,7 +856,7 @@
 				"turn": 5
 			},
 			"text": "On her 5th turn Betty takes her lunch break: her units stand down (exhausted) for that turn, because nothing gets done on lunch.",
-			"line": "I'm on lunch. Nothing happens on lunch. That includes me.",
+			"line": "I'm on lunch, and nothing happens on lunch. That includes me.",
 			"effects": [
 				{
 					"kind": "exhaust_own",
@@ -877,7 +877,7 @@
 				"pct": 50
 			},
 			"text": "At half health Clipwell trims two topiaries into guards: two 1/1 Topiaries join her (Prize Topiary makes them 2/2).",
-			"line": "Gentlemen, if you would. He is well over regulation height.",
+			"line": "Gentlemen, if you would? He's grown well over regulation height.",
 			"effects": [
 				{
 					"kind": "summon",
@@ -1001,7 +1001,7 @@
 				"pct": 25
 			},
 			"text": "Near the end His Majesty starts to sweat: his units get -1/-0 for the rest of the fight.",
-			"line": "The compost was for the kingdom. We are the kingdom. Checkmate. ...Is it warm in here?",
+			"line": "We were only testing the compost on the realm's behalf. Very thoroughly. ...Is it warm in here? It is very warm in here.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -1047,7 +1047,7 @@
 				"pct": 25
 			},
 			"text": "Near the end Spotless notices a smudge on himself: his units get -1/-0 while he polishes.",
-			"line": "A SMUDGE. Is TREASON. ...It's on me, isn't it.",
+			"line": "A SMUDGE is TREASON! ...It's on me, isn't it.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -1096,7 +1096,7 @@
 				"pct": 50
 			},
 			"text": "At half health the guard plants his feet: the next 3 damage to him is absorbed.",
-			"line": "No one climbs. The stair has been polished. By seventeen people.",
+			"line": "No one climbs this stair. It has been polished by seventeen people, and I will not have it scuffed.",
 			"effects": [
 				{
 					"kind": "shield",
@@ -1157,7 +1157,7 @@
 				"pct": 50
 			},
 			"text": "At half health Primm corrects the room: the next 2 damage to him is absorbed.",
-			"line": "Do hold still. You are very slightly out of alignment. There. Better.",
+			"line": "Do hold still. You are a fraction of a degree out of alignment, and I find I cannot leave it. There, that is better.",
 			"effects": [
 				{
 					"kind": "shield",
@@ -1200,7 +1200,7 @@
 				"pct": 25
 			},
 			"text": "Near the end Primm comes apart: his units get -1/-0 for the rest of the fight.",
-			"line": "I only wanted it to be nice. For everyone. For their own good.",
+			"line": "I only wanted it to be nice, for everyone. It was for their own good. Why won't anyone let it be for their own good?",
 			"effects": [
 				{
 					"kind": "rule",
@@ -1415,7 +1415,7 @@
 				"turn": 3
 			},
 			"text": "On his 3rd turn the crowd joins in: a 1/1 Rowdy Fan climbs into the ring.",
-			"line": "THE CROWD! GOES! WILD! (normal voice) Please stay behind the rope. There is a rope.",
+			"line": "THE CROWD! GOES! WILD! (normal voice) Could the crowd please stay behind the rope? I put up a rope.",
 			"effects": [
 				{
 					"kind": "summon",
@@ -1436,7 +1436,7 @@
 				"pct": 50
 			},
 			"text": "At half health Bellows calls an intermission: he heals 2, and his units sit down through his next turn.",
-			"line": "INTERMISSION! (normal voice) I'm having soup. THE SOUP IS WINNING.",
+			"line": "INTERMISSION! (normal voice) Everybody sit down a minute. I've brought a flask of soup, and my voice needs it more than I do.",
 			"effects": [
 				{
 					"kind": "heal",

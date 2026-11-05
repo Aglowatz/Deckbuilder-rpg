@@ -100,7 +100,7 @@ static func _backlog() -> QuestData:
 	quest.id = BACKLOG
 	quest.order = 110
 	quest.title = "Clear the Backlog"
-	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members. By duel. Per policy."
+	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members: by duel, per policy."
 	quest.giver_npc = DnaZone.NPC_DOLORES
 	quest.turn_in_npc = DnaZone.NPC_DOLORES
 	quest.objectives = [QuestObjective.make("Duel roaming staff on the D.N.A. floors", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
@@ -115,7 +115,7 @@ static func _onboarding() -> QuestData:
 	quest.id = ONBOARDING
 	quest.order = 120
 	quest.title = "Mandatory Onboarding"
-	quest.summary = "Gerald says every new hire must complete onboarding, starting at the time clock. HR will know. HR is in the walls."
+	quest.summary = "Gerald says every new hire must complete onboarding, starting at the time clock, because HR will know. HR is in the walls."
 	quest.giver_npc = DnaZone.NPC_BARNABY
 	quest.turn_in_npc = DnaZone.NPC_BARNABY
 	quest.objectives = [
@@ -274,7 +274,7 @@ static func _heap_fert() -> QuestData:
 	quest.id = HeapZone.QUEST_FERT
 	quest.order = 420
 	quest.title = "Fertilizer Run"
-	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Dump. Hold your nose. Hold the sack."
+	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Dump, and hold your nose while you do."
 	quest.giver_npc = HeapZone.NPC_HOB
 	quest.turn_in_npc = HeapZone.NPC_HOB
 	quest.objectives = [QuestObjective.make("Gather fertilizer sacks around the Dump", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]

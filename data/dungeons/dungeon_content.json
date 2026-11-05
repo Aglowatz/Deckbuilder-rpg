@@ -75,23 +75,23 @@
 			"events": {
 				"5": {
 					"title": "Locker Room of Legends",
-					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, humming a training-montage tune to itself.",
+					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, and something inside is humming a marching tune to itself.",
 					"choices": [
 						[
 							"Borrow the lucky towel",
-							"It smells of victory, eucalyptus and somebody else's victory. It is also warm. You feel sturdier and very slightly watched.",
+							"The towel is still warm and smells of eucalyptus and somebody else's victory. You feel sturdier with it round your neck, and very slightly watched.",
 							"boon:Lucky Towel|max_hp=2",
 							"damage:1"
 						],
 						[
 							"Raid the gym bag",
-							"Protein bars, a roll of gold and a note: 'Spotter knows.' Somewhere a whistle blows. You keep the gold and the shame.",
+							"Inside are protein bars, a roll of gold and a note that says 'Spotter knows.' Somewhere down the hall a whistle blows, and you leave with the gold and a guilty conscience.",
 							"gold:60",
 							"curse:Spotter Knows|max_hp=-1"
 						],
 						[
 							"Do a set with the ghost of a champion",
-							"He miscounts your reps on purpose, to be encouraging. You leave taller, if not stronger, and he presses a Gym Bro's number into your hand.",
+							"The ghost miscounts your reps on purpose, always upward, to be encouraging. You walk away standing taller, if not stronger, and he presses a Gym Bro's number into your hand.",
 							"heal:3",
 							"card:B-01"
 						]
@@ -229,13 +229,13 @@
 					"choices": [
 						[
 							"Eat the glowing stew",
-							"It is delicious. It is probably cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.",
+							"It is delicious and almost certainly cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.",
 							"boon:Corrupted Feast|max_hp=3,atk=1",
 							"damage:2"
 						],
 						[
 							"Take only the sealed jars",
-							"Some of the pantry is still clean. The jars are labelled DO NOT OPEN, WE MEAN IT. You do not open them. You sell them.",
+							"A few shelves are still clean, stacked with jars labelled DO NOT OPEN, WE MEAN IT. You respect their wishes and sell them unopened.",
 							"gold:40"
 						],
 						[
@@ -248,16 +248,16 @@
 				},
 				"10": {
 					"title": "R&D Archives",
-					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every note signed by the Grand Chef is in perfect copperplate, without one gravy stain. Real chefs' notes are mostly gravy stain.",
+					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every note signed by the Grand Chef is in perfect copperplate without a single gravy stain, and a real chef's notes are mostly gravy stain.",
 					"choices": [
 						[
 							"Compare the handwriting",
-							"The chef who wrote these has never held a ladle. The impostor is exposed, and so is how little they have been cooking.",
+							"Laid beside the old recipe cards, it is plain: whoever signed these memos has never held a ladle. The person giving orders in this kitchen is not the cook who used to.",
 							"boon:Impostor Exposed|atk=1,def=1"
 						],
 						[
 							"Photograph the blueprints",
-							"Evidence, and a buyer for it. The buyer asks no questions, which is the best kind of buyer.",
+							"Blueprints like these are evidence, and evidence always has a buyer. The one you find asks no questions, which is the best kind.",
 							"gold:50"
 						],
 						[
@@ -383,11 +383,11 @@
 			"events": {
 				"2": {
 					"title": "Take-a-Number Kiosk",
-					"body": "A small grey machine offers you a ticket. The display above says NOW SERVING 3. Your number is 4,000,213. A polite ghost behind you coughs, then apologises for coughing.",
+					"body": "A small grey machine offers you ticket 4,000,213 while the display above says NOW SERVING 3. A polite ghost behind you coughs, then apologises for coughing.",
 					"choices": [
 						[
 							"Take a number and wait",
-							"You wait. You wait some more. You feel seen, and slightly worse. A vending machine dispenses one sad cookie.",
+							"You wait, and then you wait some more, until a vending machine takes pity on you and dispenses one sad cookie.",
 							"heal:3"
 						],
 						[
@@ -398,7 +398,7 @@
 						],
 						[
 							"Skip the queue",
-							"Nobody dares object. Yet. Number 4,000,213 is quietly becoming a legend.",
+							"Nobody dares object, at least not yet, and somewhere down the queue they have started whispering about Number 4,000,213.",
 							"boon:Cut the Line|atk=1"
 						]
 					]
@@ -415,7 +415,7 @@
 						],
 						[
 							"Forge the stamp",
-							"It works! Mostly. Something in the ceiling disapproves, loudly, with a stapler.",
+							"It works, mostly. Something in the ceiling disapproves loudly, with a stapler.",
 							"gold:50",
 							"damage:2"
 						],
@@ -439,12 +439,12 @@
 						],
 						[
 							"Shred your own number",
-							"Nothing is left of Number 4,000,213. You feel lighter, and slightly nonexistent. The machine files you under 'Resolved.'",
+							"Nothing is left of Number 4,000,213. You feel lighter and slightly nonexistent as the machine files you under 'Resolved.'",
 							"heal:4"
 						],
 						[
 							"Reach in for what it ate",
-							"You pull out half of a lost appeal. It is, technically, a weapon. The machine takes a bite of you in exchange.",
+							"You pull out half of a lost appeal, which is technically a weapon, and the machine takes a bite of you in exchange.",
 							"card:N-17",
 							"damage:2"
 						]
@@ -454,7 +454,7 @@
 			"challenges": {
 				"5": {
 					"title": "Waiting Room of Eternity",
-					"text": "Row after row of chairs. Can your deck outwait the line?",
+					"text": "Row after row of chairs stretches into the distance. Can your deck outwait the line?",
 					"kind": "infra",
 					"reveal": 5,
 					"threshold": 2,
@@ -561,7 +561,7 @@
 			"events": {
 				"7": {
 					"title": "Weeping Compost Pool",
-					"body": "The pool is the colour of a bruise and it is sobbing very quietly. Things float in it that used to be useful. A boot, mostly.",
+					"body": "The pool is the colour of a bruise, and it's sobbing very quietly around a boot that bobs in the middle of it.",
 					"choices": [
 						[
 							"Drink from the pool",
@@ -571,12 +571,12 @@
 						],
 						[
 							"Bottle some of it",
-							"Somebody will pay for this. Somebody always does. It is usually a hedgehog.",
+							"Somebody will pay good gold for a bottle of this. Down here, that somebody is usually a hedgehog.",
 							"gold:40"
 						],
 						[
 							"Comfort the pool",
-							"You tell it that it is doing great. It sobs harder, then gives you a very old Mulch Mole it was keeping safe, and a bit of its warmth.",
+							"You tell it that it's doing very well. It sobs harder, then gives you a very old Mulch Mole it was keeping safe, along with a little of its warmth.",
 							"heal:2",
 							"card:R-01"
 						]
@@ -584,7 +584,7 @@
 				},
 				"12": {
 					"title": "The Heart Roots",
-					"body": "Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. You could cut them. It will hurt, her more than you.",
+					"body": "Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. You could cut them, and it would hurt her far more than you.",
 					"choices": [
 						[
 							"Sever the Heart Roots",
@@ -594,7 +594,7 @@
 						],
 						[
 							"Leave them be",
-							"The roots keep pulsing. The Rotheart keeps its strength.",
+							"The roots keep pulsing, and the Rotheart keeps its strength.",
 							"nothing"
 						]
 					]
@@ -603,7 +603,7 @@
 			"challenges": {
 				"4": {
 					"title": "Strangled Greenhouse",
-					"text": "The vines are choosing who gets through. They are reading your deck very closely.",
+					"text": "The vines are choosing who gets through, and they're reading your deck very closely before they decide.",
 					"kind": "infra",
 					"reveal": 5,
 					"threshold": 2,
@@ -765,18 +765,18 @@
 					"choices": [
 						[
 							"Study the portrait",
-							"The smile never changes. Neither, you realise, does anything else here. It is strangely restful.",
+							"The smile never changes, and neither, you realise, does anything else in this place. It is strangely restful, and that frightens you more than the guards do.",
 							"heal:3"
 						],
 						[
 							"Pocket a gilded candlestick",
-							"Heavier than it looks, worth more than it should be, and covered in your fingerprints in a building that remembers fingerprints.",
+							"It is heavier than it looks and worth more than it should be, and now it is covered in your fingerprints, in a building that remembers fingerprints.",
 							"gold:50",
 							"curse:Fingerprints Everywhere|max_hp=-1"
 						],
 						[
 							"Count the reflections",
-							"There is always one more than there should be. You wave. He waves second. You are, for a moment, a little less afraid of him.",
+							"There is always one more reflection than there should be. You wave, he waves a moment too late, and for a moment you are a little less afraid of him.",
 							"boon:Seen Him First|def=1"
 						]
 					]
@@ -795,12 +795,12 @@
 						],
 						[
 							"Take the samples",
-							"Somebody downstairs will pay for them. Nobody upstairs will miss them. That is the whole plan.",
+							"Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need.",
 							"gold:50"
 						],
 						[
 							"Practise the smile in the mirror",
-							"It is perfect. It is horrifying. Your face stays like that for a while, and the guards leave you alone.",
+							"The smile comes out perfect, which is horrifying, and your face stays like that for a while. The guards leave you alone.",
 							"boon:Perfect Smile|def=1",
 							"damage:1"
 						]
@@ -1199,7 +1199,7 @@
 				"3": "dg_s_cap_boss"
 			},
 			"blurbs": {
-				"2": "Beefcake bore, Gourmand vents, Necrocrat signs, Refusemancer drains. The junction crew lifts the scrap. Every Garbage becomes muscle."
+				"2": "A Beefcake bore, Gourmand vents, Necrocrat signs and Refusemancer drains all meet here, and the junction crew turns every scrap of Garbage into muscle."
 			}
 		},
 		"S-PASTE": {
@@ -1259,9 +1259,9 @@
 				}
 			},
 			"blurbs": {
-				"1": "A queue of grey citizens, a grey ladle, a supervisor timing every scoop.",
-				"2": "Vats the size of houses. Something in the third one is humming the national anthem.",
-				"3": "Behind a ration hatch: a real kitchen, a locked pantry and a badger in medals."
+				"1": "Grey citizens queue for grey paste while a supervisor times every scoop of the ladle.",
+				"2": "The vats are the size of houses, and something in the third one is humming the national anthem.",
+				"3": "Behind the ration hatch is a real kitchen, with a locked pantry and a badger in medals standing guard over it."
 			}
 		},
 		"D-LAB": {
@@ -1394,7 +1394,7 @@
 			"events": {
 				"4": {
 					"title": "The Observation Deck",
-					"body": "A gallery of glass above the cells, a kettle, a cracked mug that says WORLD'S OKAYEST PATH-OLOGIST, and a corkboard of notes on one subject. The newest are a count of days.",
+					"body": "A glass gallery looks down on the cells: a kettle, a cracked mug, and a corkboard of notes about one subject. The newest notes are only a count of days.",
 					"choices": [
 						[
 							"Read the notes on the Subject",
@@ -1760,70 +1760,70 @@
 	},
 	"text": {
 		"quest.meet_the_merchants.active": [
-			"Sable, Tilly and Pip, dearie, all on the square. And buy a card from Sable. You are not leaving this town with only what a cave gave you."
+			"Sable, Tilly and Pip, dearie, all three on the square. And buy a card from Sable while you're there. I'll not have you facing the roads with nothing but what a cave gave you."
 		],
 		"quest.meet_the_merchants.ready": [
-			"Back already. Sable charmed you, Tilly was a colour, Pip measured you. That is {town}, dearie. Try leaving with the same hat.",
-			"Here: a trophy. Everybody gets one. I made it myself, so participate carefully."
+			"Back already? Let me guess: Sable charmed you, Tilly turned a colour, and Pip measured you before you'd finished saying hello. That's {town}, dearie.",
+			"Here, have a trophy. Everybody gets one, so don't let it go to your head. I made it myself, and the handle comes off if you wave it about."
 		],
 		"quest.first_deck_edit.offer": [
-			"Now that deck of yours. A deck you never chose is a deck you will lose with.",
-			"New cards first. Open a pack: the Menu, top right, then Packs. Or press P, if you are the sort who presses things.",
-			"Then the Deck Station, down Champions' Road south of the square. Swap what you like, save it to a slot, and come and tell me."
+			"Now, about that deck of yours. You didn't choose a single card in it, dearie, and a deck you never chose is a deck you'll lose with.",
+			"New cards first, so open a pack: the Menu at the top right, then Packs. Or press P, if you're the sort who presses things.",
+			"Then take it to the Deck Station, down Champions' Road south of the square. Swap in whatever you like, save it to a slot, and come and tell me how it went."
 		],
 		"quest.first_deck_edit.offer_pack": [
-			"No packs at all? Here, dearie. A General Pack. Slightly sat on. Cards are cards."
+			"No packs at all? Here, dearie, have a General Pack. It's been sat on a little. Cards are cards, and these ones won't hold it against you."
 		],
 		"quest.first_deck_edit.active_pack": [
-			"Open the pack first, dearie. Menu, then Packs. It will not open itself. I have asked."
+			"Open the pack first, dearie: the Menu, then Packs. It won't open itself. I've asked it nicely."
 		],
 		"quest.first_deck_edit.active": [
-			"The Deck Station, dearie. Champions' Road, south of the square. Save it to a slot, or it doesn't count. I check."
+			"The Deck Station is down Champions' Road, south of the square, dearie. Save it to a slot when you're done, or it doesn't count. I do check."
 		],
 		"quest.first_deck_edit.ready": [
-			"Sorted and saved. Your own deck, at last. Now you may take personal offence when it loses."
+			"Sorted and saved, and every card in it your own choice. Good. Now when it loses, you've nobody to blame but yourself, which is how it ought to be."
 		],
 		"quest.storeroom_ghosts.offer": [
-			"Now, a favour. Tilly's store room, the corner house beside her shop, has been moaning for a week. Not Tilly. The room.",
-			"Ghosts, I expect. Petty ones: the worst kind. Nobody can get in for so much as a candle. Go and sort them out. Gently, if they let you."
+			"Now, a favour. Tilly's store room, the corner house beside her shop, has been moaning for a week. I don't mean Tilly, dearie. I mean the room.",
+			"Ghosts, I expect, and petty ones, which are the worst kind. Nobody's been able to get in for so much as a candle. Go and sort them out, gently if they'll let you."
 		],
 		"quest.storeroom_ghosts.active": [
-			"The store room door, beside Tilly's shop on the north side of the square. Ignore the rattling. That is just them being dramatic."
+			"The store room door is beside Tilly's shop, on the north side of the square. Ignore the rattling, dearie; that's just them being dramatic."
 		],
 		"quest.storeroom_ghosts.ready": [
-			"A refund. Ninety years of haunting, over a refund. I have had customers like that. I still have one.",
-			"Well done, dearie. You settled the ghosts. Next, settle yourself somewhere dry."
+			"A refund? Ninety years of moaning, all over one broken lantern. I've had customers like that. I still have a few.",
+			"Well done, dearie. You've settled the ghosts, so now go and settle yourself somewhere dry before you catch a chill."
 		],
 		"quest.some_assembly_required.offer": [
-			"Right. Time you had something sharper than a deck. Bertram Beetsworth issues gear, at the smithy on the west side of the square.",
+			"Right, then. It's time you had something sharper than a deck. Bertram Beetsworth hands out gear from his smithy, on the west side of the square.",
 			"He is... thorough. Report to him, do what he asks, and do not touch his drawer."
 		],
 		"quest.some_assembly_required.active": [
-			"Bertram's smithy, west side of the square. Win him a fight, any fight, and he will stamp something. He lives to stamp something."
+			"Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. He lives to stamp things."
 		],
 		"quest.path_direction": [
-			"Armed, are we. Good. Now, where to point you. Start with {zone}, dearie. It is {path} country, and so are you.",
-			"{vendor} sells more {path} cards there than anyone in this town. Take gold. Take a bag. Take my advice, for once.",
-			"And inside {zone}, your Path stands taller. {buff}: {buff_text}",
-			"The Paths quarrel, dearie. Beefcake against Necrocrat, Gourmand against Refusemancer. Since before the roads. Possibly because of them.",
-			"So in {zone} the {rival} side gets the short end. {debuff}: {debuff_text} In {rival_zone}, it is your turn to suffer.",
-			"{gatekeeper} holds the way in. Win that fight first. Then come back alive. Pie is not cheap."
+			"Armed now, are we? Good. Then it's time I pointed you somewhere. Start with {zone}, dearie. It's {path} country, and so, by the look of you, are you.",
+			"{vendor} sells more {path} cards out there than anyone in this town does, so take gold and a good big bag. And take my advice, for once.",
+			"Inside {zone}, your Path stands a little taller. {buff}: {buff_text}",
+			"The Paths quarrel, dearie: Beefcake against Necrocrat, Gourmand against Refusemancer. They always have. Once, they needed each other too much for it to matter.",
+			"So in {zone}, it's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone}, it's the other way round, and you're the one who suffers.",
+			"{gatekeeper} holds the way in, and you'll have to win that fight before anything else. Then come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
 		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
-			"I always thought the key was lost. It was not, dearie. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."
+			"I always thought the key was lost, but it wasn't, dearie. Somebody hid it in a chest right here in town. Find it, and we'll see what the door is for."
 		],
 		"quest.side_s_town.active": [
-			"The key is in a hidden chest in town. Look in the odd corners, dearie. This town has never quite managed a straight one."
+			"The key's in a hidden chest somewhere in town. Look in the odd corners, dearie; this town has never quite managed a straight one."
 		],
 		"quest.side_s_town.ready": [
-			"You found it. Look at the bow: four little carvings, in a ring. Hm. Never mind. I am too old for stairs, dearie. You are not."
+			"You found it. Look at the bow: four little carvings in a ring. Hm. Never mind that. I'm too old for stairs, dearie, and you're not."
 		],
 		"quest.side_s_town.done": [
-			"The iron hatch beside the well. Go on. Whatever is under it belonged to the Old Kingdom, not to me. Mind the stairs."
+			"The door's the iron hatch beside the well. Go on down. Whatever's under it belonged to the Old Kingdom, not to me, so mind the stairs."
 		],
 		"quest.side_s_beef.offer": [
-			"Only the worthy reach the top. Also bring water.",
+			"Only the worthy reach the top, they say. The worthy also bring water, if they've any sense.",
 			"There's a mountain behind the station... and a barbell on top older than the regime. Older than me, nearly. Bring me a protein shake from the stand and I'll show you the way. Can't climb on an empty cup."
 		],
 		"quest.side_s_beef.active": [
@@ -1833,81 +1833,81 @@
 			"That's the best water I've ever seen. Thank you. Rule one: never lift alone. Rule two... rule two was water."
 		],
 		"quest.side_s_beef.done": [
-			"Mount Swolympus is open. Take the trail behind the station. Mind the thin air... never gets enough credit for being there."
+			"Mount Swolympus is open at last. Take the trail behind the station, and mind the thin air up top... never gets enough credit, thin air."
 		],
 		"quest.side_s_gour.offer": [
-			"Over here. Quietly. Have you ever eaten somewhere with no menu? ...I'm brave. I'm brave.",
+			"Over here, quietly. Have you ever eaten somewhere with no menu at all? ...I'm brave. I'm brave.",
 			"There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit."
 		],
 		"quest.side_s_gour.active": [
-			"The card is in one of the hidden stashes around the Buffet. Golden. You'll know it. Chef always said gold means sit down."
+			"The card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it when you see it. Chef always said gold means sit down."
 		],
 		"quest.side_s_gour.ready": [
-			"That's it! One seat, three courses, survival optional. I'm excited. I think. It feels a lot like the other thing."
+			"That's it! One seat, three courses, survival optional. I'm excited, I think - it feels a lot like being terrified."
 		],
 		"quest.side_s_gour.done": [
 			"The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef."
 		],
 		"quest.side_s_necro.offer": [
-			"Number 4,000,212? That's me. They're on 3. Can you help?",
-			"The queue in the Waiting Room of Eternity is stuck. Process two of the roaming staff on the D.N.A. floors and I'll get you in. I've brought a book. Several."
+			"Number 4,000,212? That's me, and they're on 3. I don't suppose you could help?",
+			"The queue for the Waiting Room of Eternity is stuck. If you process two of the roaming staff on the D.N.A. floors, I can get you in. I'll wait. I'm very good at it."
 		],
 		"quest.side_s_necro.active": [
-			"Process two roaming staff on the D.N.A. floors. The queue will not move itself. I've given it a very fair chance."
+			"Two roaming staff on the D.N.A. floors, if you can. The queue won't move itself; I've given it a very fair chance."
 		],
 		"quest.side_s_necro.ready": [
-			"Two fewer. The queue moved! Slightly. I felt it in my ticket."
+			"Two fewer, and the queue moved! Only slightly, but I felt it in my ticket."
 		],
 		"quest.side_s_necro.done": [
-			"The Waiting Room of Eternity will see you now. Take a number. Please leave mine; we've been through so much together."
+			"The Waiting Room of Eternity will see you now. Do take a number, just not mine. We've been through so much together."
 		],
 		"quest.side_s_ref.offer": [
-			"SOMEBODY has been eating ALL the compost. Little paw prints. A tiny crown.",
-			"Chase off two of the scavengers in the Dump and the trail will lead you to the alley under the big dumpster. Gently, please. They're only hungry. And GUILTY."
+			"SOMEBODY has been eating ALL the compost. There are little paw prints everywhere, and next to the bin I found... a tiny crown.",
+			"Chase off two of the scavengers in the Dump and their trail should lead you to the big dumpster. Gently, please - they're only hungry. And GUILTY."
 		],
 		"quest.side_s_ref.active": [
-			"Two scavengers in the Dump. Fresh paw prints, freshly stolen compost. A trail of evidence with TERRIBLE table manners."
+			"Two scavengers out in the Dump, please. Follow the fresh paw prints; it's a trail of evidence with TERRIBLE table manners."
 		],
 		"quest.side_s_ref.ready": [
 			"The paw prints lead to the big dumpster. I knew it. I KNEW it."
 		],
 		"quest.side_s_ref.done": [
-			"Under the tipped-over dumpster there's a gate made from a bicycle wheel. That's the way to the Trash Panda Throne. Bring a peg for your nose."
+			"Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way to the Trash Panda Throne. Do bring a peg for your nose."
 		],
 		"npc.kestrel.intro": [
 			"Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
-			"Kestrel. I scout for the Wrinkles. Going into the city? There's an older way in than the gate. Follow the chalk, not the guards. The guards are worse at drawing."
+			"Name's Kestrel. I scout for the Wrinkles. Heading into the city? There's an older way in than the gate. Follow my chalk, not the guards; they're worse at drawing."
 		],
 		"npc.kestrel.return": [
 			"Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
 		],
 		"quest.side_s_cap.offer": [
-			"There's an older way into the city. Nobody remembers it. That's the point.",
+			"There's an older way into the city that nobody remembers. That's the whole point of it.",
 			"Get yourself inside and find Wren in the Crease. She'll tell you what the old tunnels are for. Then I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
-			"Get inside and find the Crease: the manhole near the gate. Knock three times. Not two. Two is rude. Then ask Wren about the tunnels."
+			"Get inside, then find the manhole near the gate and knock three times. Not two; two is rude. Wren's down in the Crease. Ask her about the tunnels."
 		],
 		"quest.side_s_cap.ready": [
-			"You found them. Told you I'd be here. Didn't say where. That's the fun part. Here, you've earned this."
+			"So you found the Crease. Told you I'd be around; I just never said where. Here, you've earned this."
 		],
 		"fx.old_tunnels_way_in": [
 			"The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four Paths' services, still connected.",
-			"You climb up past the walls. Nobody is watching this way in. Nobody remembers it. That is the point."
+			"You climb up inside the walls. Nobody is watching this way in, because nobody remembers it is here."
 		],
 		"quest.side_s_cap.done": [
 			"The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk."
 		],
 		"dungeon.dg_s_iron_boss.before": [
 			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",
-			"'Nobody. Skips. Leg day.' He presses another rep. 'In my cave. Show me yours. No standing ovation required.'"
+			"'Nobody. Skips. Leg day.' He presses another rep. 'Not in my cave. Prove it. I won't get up.'"
 		],
 		"dungeon.dg_s_iron_boss.after": [
 			"Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says, looking down. 'So those are my feet. Hello, feet.'",
 			"He hands you a sweaty ribbon. 'Leg day survivor. Wear it. Stretch. That order.'"
 		],
 		"dungeon.dg_s_beef_boss.before": [
-			"A stone colossus sits at the summit with its hands out, palms up, waiting for a barbell. It has been spotting for a thousand years. It is very, very ready.",
+			"A stone colossus sits at the summit with its palms turned up, waiting for a barbell. It has been spotting for a thousand years, and it is very, very ready.",
 			"'Lift,' it rumbles. 'I will catch it. I have always caught it.'"
 		],
 		"dungeon.dg_s_beef_boss.after": [
@@ -1939,7 +1939,7 @@
 		],
 		"dungeon.dg_s_cap_boss.before": [
 			"A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.",
-			"'HALT. These tunnels do not exist. You are standing in nothing. I cannot allow you to have found it.'"
+			"'HALT. These tunnels do not exist, so you are standing in nothing, and I cannot allow you to have found it.'"
 		],
 		"dungeon.dg_s_cap_boss.after": [
 			"The Captain sits down on a barrel and, for a moment, looks very tired. 'I remember when these tunnels were full of people,' he says.",
@@ -1954,18 +1954,18 @@
 			"'Tick. ...Recognised. Four Paths. One kingdom. Carry it well.'"
 		],
 		"quest.cap_paste_works.offer": [
-			"The dispenser is spoiled. Lovely. But the paste comes from somewhere.",
-			"The shuttered stall at the south-west corner hums at night. Stalls are not supposed to hum. Open its ration hatch and look. Gently."
+			"The dispenser's spoiled, and lovely it is too. But the paste has to come from somewhere, doesn't it?",
+			"The shuttered stall at the quarter's south-west corner hums at night, and stalls don't hum. Open its ration hatch and have a look down. Gently."
 		],
 		"quest.cap_paste_works.active": [
-			"The south-west stall, the one with its shutter down. Open the ration hatch. Whatever is down there, it will be very, very grey."
+			"It's the south-west stall, the one with its shutter down. Open the ration hatch, go down, and shut off whatever you find. I'd bet it's very, very grey."
 		],
 		"quest.cap_paste_works.ready": [
 			"You shut the vats down? All of them? Then tonight the whole quarter eats something that tastes of something.",
 			"Some taste. 'Some' is the best amount."
 		],
 		"quest.cap_paste_works.done": [
-			"I have kept one real onion in my apron for ten years. Tonight, I chop it. You may want to stand back. I will be weeping, and not only from the onion."
+			"I've kept one real onion in my apron for ten years, and tonight I'm chopping it. You may want to stand back. I'll be weeping, and not only from the onion."
 		],
 		"event.lab_cell4.title": [
 			"Cell 4"

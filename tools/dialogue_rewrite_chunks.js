@@ -65,7 +65,7 @@ function split() {
 			if (name.startsWith('01')) picked = rows.filter((r) => r['Zone/Area'] === 'Prologue (Opening Forest)').concat(rows.filter((r) => r['Zone/Area'] === 'Crosspath (first visit)').slice(0, to));
 			if (name.startsWith('02')) picked = rows.filter((r) => r['Zone/Area'] === 'Crosspath (first visit)').slice(from);
 		}
-		const out = picked.map((r) => ({ ...r, 'Must keep': (prot[r.ID] || []).join(' || ') }));
+		const out = picked.map((r) => ({ ...r, 'Must keep': (prot[r.ID] || []).map((x) => (typeof x === 'string' ? x : x.phrase)).join(' || ') }));
 		write(`${DIR}/chunks/chunk_${name}.csv`, ['ID', 'Zone/Area', 'Speaker', "When it's heard", 'Current line', 'Must keep'], out);
 		total += out.length;
 		console.log(`chunk_${name}: ${out.length} rows`);

@@ -64,6 +64,7 @@ function npcFor(word) {
 // Oct 31: labels the Oct 21 export got wrong, checked against the game (who actually speaks).
 const SPEAKER_FIXES = [
 	[/^data\/story\/capital_story\.tres::fx\.wake_outside$/, 'A gate guard'],
+	[/::quest.armory.equip/, 'Bertram Beetsworth'],  // Overnight Nov 4-5: said at the armory counter (TownScene._talk_equipment_vendor)
 ];
 const SPEAKER_RULES = [
 	[/^town\.elder\./, 'Elder Maren'], [/^storeroom\.wanderer/, 'The Wanderer'], [/^storeroom\.(before|challenge|after_win|after_loss)/, 'The Store Room Ghosts'],

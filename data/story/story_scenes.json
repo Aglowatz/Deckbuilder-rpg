@@ -5,12 +5,12 @@
 			"steps": [
 				[
 					"",
-					"A barricade of stacked weight plates, painted regulation red. Behind it, a ferret in a pinstriped suit is timing a guard's push-ups with a silver stopwatch."
+					"Someone has built a barricade out of weight plates painted regulation red. Behind it, a ferret in a pinstriped suit is timing a guard's push-ups with a silver stopwatch."
 				],
 				[
 					"NPC-QUOTA",
-					"Forty-one. Forty-two. Stop. Eleven percent slower than yesterday. We will discuss it at your review.",
-					"And you. You walked in at a pace of seven out of ten. Disappointing. But measurable."
+					"Forty-one, forty-two, and stop. Eleven percent slower than yesterday, which we will discuss at your review.",
+					"And you walked in at a pace of seven out of ten. Disappointing, but at least it's measurable."
 				],
 				[
 					"NPC-PLAYER",
@@ -19,7 +19,7 @@
 				[
 					"NPC-QUOTA",
 					"Vivienne Quota, Minister of Efficiency. I designed the wheels, the schedules and the prison downstairs. The Chancellor does the shouting. I do the arithmetic.",
-					"Hold still. I'm measuring you. Grip: low. Stride: uneven. Resolve... unusually high. That is an inefficiency. Let's remove it."
+					"Hold still while I measure you. Grip, low. Stride, uneven. Resolve... unusually high, and that is an inefficiency I intend to remove."
 				]
 			]
 		},
@@ -28,7 +28,7 @@
 				[
 					"NPC-QUOTA",
 					"Ninety-four seconds. You beat me in ninety-four seconds.",
-					"I will note it. I note everything. The Chancellor will not enjoy this figure."
+					"I'll note it, the way I note everything. The Chancellor is not going to enjoy this figure."
 				],
 				[
 					"",
@@ -45,8 +45,8 @@
 				],
 				[
 					"NPC-FLEX",
-					"Quota's gone. Left for the Capital before the dust settled. She always did leave early.",
-					"We'll keep the schedule. It will make good kindling. Breathe, son. Nobody here is on the clock any more."
+					"Quota's gone, off to the Capital before the dust had even settled. She always did like to leave early.",
+					"We'll keep her schedule, since it will make good kindling. And breathe, son - nobody here is on the clock any more."
 				]
 			]
 		},
@@ -54,7 +54,7 @@
 			"steps": [
 				[
 					"",
-					"By the last energy wheel, a ferret in pinstripes is timing Rollo's crews. The crews are lying in the sun. She is still timing them."
+					"By the last energy wheel, a ferret in pinstripes stands over Rollo's crews with a stopwatch. They are lying in the sun, and she is still timing them."
 				],
 				[
 					"NPC-QUOTA",
@@ -102,20 +102,20 @@
 				],
 				[
 					"NPC-CRUMB",
-					"Inspection! ATTEN-TION! Who put a dent in my souffle cannon? Battle stations! This is not a drill, it is a souffle!"
+					"ATTEN-TION! Inspection! Who put a dent in my souffle cannon? Battle stations, all of you! This is not a drill, it is a souffle, and it will rise on schedule!"
 				],
 				[
 					"NPC-CRUMB",
-					"And what is THIS? A civilian. In my bay. Unsupervised. With flavour on his breath.",
-					"Colonel Cornelius Crumb, Director of Culinary Defense. Taste is a weakness, son. Paste is a strategy."
+					"And what is THIS? A civilian, unsupervised, in my bay, with flavour on his breath. Disgraceful.",
+					"Colonel Cornelius Crumb, Director of Culinary Defense, and you will stand up straight when you hear it. Taste is a weakness, son. Paste is a strategy."
 				],
 				[
 					"NPC-CRUMB",
-					"Whisk formation! Field-test the prototype on the intruder. I have a ration meeting."
+					"Whisk formation! Field-test the prototype on the intruder while I attend a ration meeting. I want a full report, and I want it bland."
 				],
 				[
 					"",
-					"He salutes the machine. The machine salutes back with a ladle. The Colonel marches out before it has finished preheating."
+					"He salutes the machine, the machine salutes back with a ladle, and the Colonel marches out before it has finished preheating."
 				]
 			]
 		},
@@ -132,13 +132,13 @@
 			"steps": [
 				[
 					"NPC-BASIL",
-					"The Colonel's gone. His office is empty. He took the paste recipe with him.",
-					"It's one word long. The word is 'paste'."
+					"The Colonel's gone. He cleared out his office overnight and took the paste recipe with him.",
+					"It's one word long, and the word is 'paste'."
 				],
 				[
 					"NPC-ESCOFFINA",
-					"He left before dessert. He always did. They say he's feeding the whole Capital now, from a factory.",
-					"Grey, from a tap. Somebody ought to teach that man to cook."
+					"He left before dessert, the way he always did. They say he's feeding the whole Capital now, out of a factory.",
+					"Grey food, from a tap. Somebody ought to teach that man to cook."
 				]
 			]
 		},
@@ -146,20 +146,20 @@
 			"steps": [
 				[
 					"",
-					"At the end of the Vat Floor, behind a door with a hatch for rations, is a kitchen. A real one. Copper pans, a cold stove, and a badger in a medal-covered chef's coat guarding a locked pantry."
+					"At the end of the Vat Floor, behind a door with a ration hatch, is a real kitchen: copper pans, a cold stove, and a badger in a medal-covered chef's coat guarding a locked pantry."
 				],
 				[
 					"NPC-CRUMB",
-					"ATTENTION! This is a restricted pantry! Those recipes are confiscated for the war effort!",
-					"What war? The war on FLAVOUR, son. Every citizen fed the same, at the same time, from the same tap. Perfect discipline."
+					"ATTENTION! You are standing in a restricted pantry, soldier! Every recipe on those shelves has been confiscated for the war effort!",
+					"Which war? The war on FLAVOUR, son! Every citizen fed the same ration, at the same minute, from the same tap, and not one complaint about the seasoning."
 				],
 				[
 					"NPC-PLAYER",
-					"Marlo says you can't taste it either."
+					"Marlo says you can't taste it either. Is that why everyone else has to eat it?"
 				],
 				[
 					"NPC-CRUMB",
-					"Taste is a weakness. Whisk formation! Golems, to the vats! Nobody touches my pantry!"
+					"Taste is a weakness, soldier, and I have none! Golems, whisk formation, to the vats! Nobody touches my pantry!"
 				]
 			]
 		},
@@ -172,16 +172,16 @@
 				],
 				[
 					"",
-					"The pantry door swings open. Shelves of confiscated jars: pickles, jams, a wheel of cheese with a ration number on it. Somewhere a vat coughs and stops."
+					"The pantry door swings open on shelves of confiscated jars: pickles, jams, and a wheel of cheese with a ration number stamped on it. Out on the floor, a vat coughs and stops."
 				],
 				[
 					"NPC-CRUMB",
-					"I invented the paste because nobody could get it wrong. You can't burn paste. You can't oversalt it.",
-					"You can't... taste it. I never could, you know. Not since the war that wasn't."
+					"I invented the paste because nobody could get it wrong, soldier. You can't burn it, you can't oversalt it, and you can't spoil a regiment's dinner with it.",
+					"And you can't... taste it. I haven't tasted anything in years, you know. I thought if nobody could, nobody would notice that I couldn't."
 				],
 				[
 					"NPC-MARLO",
-					"Then you'll learn. The Grand Chef is taking students. She starts everyone the same way: first, water."
+					"Then you'll learn again. The Grand Chef is taking students, and she starts every one of them the same way: first, water."
 				],
 				[
 					"NPC-CRUMB",
@@ -193,23 +193,23 @@
 			"steps": [
 				[
 					"",
-					"The mill wheel is gripped by roots as thick as a cart. Someone has been trimming them. Very neatly. Into the shape of a smiling man in a circlet."
+					"Roots as thick as a cart grip the mill wheel. Someone has trimmed them, very neatly, into the shape of a smiling man in a circlet."
 				],
 				[
 					"NPC-CLIPWELL",
-					"Mind the topiary, dear. That's His Perfection from the left. The right side is still growing in."
+					"Do mind the topiary, dear. That's His Perfection, seen from the left - the right side is still filling in."
 				],
 				[
 					"NPC-CLIPWELL",
-					"Hortensia Clipwell, Royal Groundskeeper. I outlawed composting. So untidy. All that rot, lying about in heaps, being honest."
+					"Hortensia Clipwell, Royal Groundskeeper. I'm the one who outlawed composting. All that rot lying about in heaps, being honest with everybody - so untidy."
 				],
 				[
 					"NPC-PLAYER",
-					"Nothing rots here any more."
+					"Nothing rots down here any more, and the whole place feels wrong for it."
 				],
 				[
 					"NPC-CLIPWELL",
-					"Isn't it lovely? I brought the Archdruid a little seed, a gift. Life that never ends. She was so very sad, and now nothing ever has to go.",
+					"Isn't it lovely? I brought the Archdruid a little seed as a gift - life that never ends. She was so very sad, and now nothing ever has to go.",
 					"And now, dear, I'm afraid I have a weed to remove."
 				]
 			]
@@ -218,7 +218,7 @@
 			"steps": [
 				[
 					"NPC-CLIPWELL",
-					"Well. You've made a dreadful mess of my hedges. I shall send a note."
+					"Well. You've made a dreadful mess of my hedges, and I shall be sending a note."
 				],
 				[
 					"",
@@ -231,11 +231,11 @@
 			"steps": [
 				[
 					"NPC-BRAMBLE",
-					"The Groundskeeper's gone. Packed her shears and left for the Capital the moment the Archdruid woke."
+					"The Groundskeeper's gone. She packed her shears and left for the Capital the very moment the Archdruid woke."
 				],
 				[
 					"NPC-BRAMBLE",
-					"She left one pair behind, in a compost heap. Granny Gristle is keeping them. 'Found, not stolen,' she says. Twice."
+					"She left one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even asked."
 				]
 			]
 		},
@@ -244,11 +244,11 @@
 			"steps": [
 				[
 					"",
-					"Beside the Sick Patch, a hare in groundskeeper green is measuring Old Fern's seedling with a ruler. It is an inch over regulation. She has written that down."
+					"Beside the Sick Patch, a hare in groundskeeper green is measuring Old Fern's seedling with a ruler. It is an inch over regulation, and she has written that down."
 				],
 				[
 					"NPC-CLIPWELL",
-					"Out of regulation. Everything is out of regulation now. The lawns, the hedges. They grow in whatever direction they like."
+					"Out of regulation. Everything is out of regulation now, the lawns and the hedges both. They grow in whatever direction they please."
 				],
 				[
 					"NPC-FERN",
@@ -265,7 +265,7 @@
 				],
 				[
 					"NPC-FERN",
-					"Granny Gristle needs hands on the compost rows down in the Dump. Sorting peel from shell, all day. Messy. You'll hate it. Good."
+					"Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'll hate it. Good."
 				],
 				[
 					"NPC-CLIPWELL",
@@ -319,11 +319,11 @@
 				],
 				[
 					"",
-					"Guards in polished armour pour from the gatehouse. Not toward you. Toward her."
+					"Guards in polished armour pour from the gatehouse, and they are not coming for you. They are coming for her."
 				],
 				[
 					"NPC-PLUME",
-					"Miss {rescuer_full}, I presume. Former junior Path-ologist. Absent without leave. Removed one item of laboratory property, which has been walking about ever since."
+					"Miss {rescuer_full}, I presume! Former junior Path-ologist, absent without leave, who removed one item of laboratory property that has been walking about ever since."
 				],
 				[
 					"@set",
@@ -331,7 +331,7 @@
 				],
 				[
 					"NPC-PLUME",
-					"Don't fret, Miss Vey. Your father is very understanding about these things. Take her home, gentlemen. The long way."
+					"Don't fret, Miss Vey, your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way."
 				],
 				[
 					"NPC-ELOWEN",
@@ -339,11 +339,11 @@
 				],
 				[
 					"",
-					"They are through a side door before you reach it. The door has no handle on this side. Of course it doesn't."
+					"They are through a side door before you can reach it, and on this side the door has no handle at all."
 				],
 				[
 					"NPC-PLAYER",
-					"{rescuer}. Her name is {rescuer}. I never even asked."
+					"{rescuer}. Her name is {rescuer}, and all that way I never once asked her."
 				]
 			]
 		},
@@ -364,7 +364,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"Where is the Lab?"
+					"Where is this Lab? Where did you take her?"
 				],
 				[
 					"NPC-PLUME",
@@ -381,7 +381,7 @@
 				],
 				[
 					"",
-					"He withdraws, bravely, at a run. You fold the memo into your pocket. Beneath the forest. Her father."
+					"He withdraws, bravely, at a run. You fold the memo into your pocket, and two phrases go with it: beneath the forest, and her father."
 				]
 			]
 		},
@@ -390,16 +390,16 @@
 			"steps": [
 				[
 					"NPC-ELDER",
-					"Sit down, dearie. Word came from the Capital this morning, by way of a pigeon who was very rude about it."
+					"Sit down, dearie. Word came from the Capital this morning, and you won't like it."
 				],
 				[
 					"NPC-ELDER",
-					"Plume's men took a girl at the castle gate. The one who carried you out of the woods. {rescuer_full}.",
-					"I knew that face the day you walked in here. Her father worked in my laboratory, once. I never trusted her for a minute."
+					"Plume's men took a girl at the castle gate, the one who carried you out of the woods. {rescuer_full}, they called her.",
+					"I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I never trusted her for a minute because of it."
 				],
 				[
 					"NPC-ELDER",
-					"I have been wrong about people before. Once. In 1987. It seems I've gone and done it twice."
+					"I've been wrong about people before. Once, in 1987. It seems I've gone and done it twice."
 				],
 				[
 					"NPC-PLAYER",
@@ -407,7 +407,7 @@
 				],
 				[
 					"NPC-ELDER",
-					"Back where she came from, I expect. Somewhere with glass walls and no windows. That's a door I can't open. Not yet.",
+					"Back where she came from, I expect: somewhere with glass walls and no windows. That's a door I can't open for you. Not yet.",
 					"Eat. You'll want your strength for when it opens."
 				]
 			]
@@ -417,12 +417,12 @@
 			"steps": [
 				[
 					"NPC-WREN",
-					"We saw them take her at the gate. Four guards and a peacock with a speaking trumpet. We couldn't get close."
+					"We saw them take her at the gate: four guards and a peacock with a speaking trumpet. We couldn't get anywhere near her."
 				],
 				[
 					"NPC-WREN",
 					"The Wrinkles are watching every door out of that castle. If they move her again, we'll know.",
-					"Her name goes in the true record. Whatever else happens."
+					"Her name goes in the true record, whatever else happens."
 				]
 			]
 		},
@@ -456,7 +456,7 @@
 				[
 					"NPC-ELOWEN",
 					"That's what I called you, when we were small and you were too important to be called anything shorter.",
-					"They put me in your cell. My father thinks that's educational. With him it is hard to tell."
+					"They put me in your cell. My father calls it educational, and the worst of it is that he means it."
 				]
 			]
 		},
@@ -476,7 +476,7 @@
 			"steps": [
 				[
 					"",
-					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand. The last entry is ten years old."
+					"This is the only room in the Lab with a rug. On the desk lies a journal in a neat, slanted hand, and its last entry is ten years old."
 				],
 				[
 					"",
@@ -485,7 +485,7 @@
 				[
 					"NPC-ELOWEN",
 					"That's his handwriting.",
-					"He told me the King died of a fever. He told me you were a patient. I brought you soup."
+					"He told me the King died of a fever. He told me you were a patient, so I brought you soup."
 				],
 				[
 					"NPC-PLAYER",
@@ -501,7 +501,7 @@
 			"steps": [
 				[
 					"",
-					"The only room in the Lab with a rug. On the desk, a journal in a neat, slanted hand, and a child's drawing: 'For Papa, from {rescuer}.' The last entry is ten years old."
+					"This is the only room in the Lab with a rug. On the desk lies a journal in a neat, slanted hand beside a child's drawing: 'For Papa, from {rescuer}.' The last entry is ten years old."
 				],
 				[
 					"",
@@ -509,7 +509,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"Siphon is {rescuer}'s father. He held the door."
+					"Siphon is {rescuer}'s father, and he held the door for them."
 				]
 			]
 		},
@@ -521,12 +521,12 @@
 				],
 				[
 					"NPC-SIPHON",
-					"Subject 1. And my daughter. Both of you home at once. I shall have to rearrange the schedule.",
-					"You have grown. Remarkable. The draining has been very good for your posture."
+					"Subject 1, and my daughter too! Both of you home at once. I shall have to rearrange the whole schedule.",
+					"Remarkable. You've grown at least two inches, and the time away has done wonders for your posture. I'll want measurements."
 				],
 				[
 					"NPC-ELOWEN",
-					"You held the door, Dad. The night they killed the King and Queen. I read it in your own hand."
+					"You held the door, Dad, the night they killed the King and Queen. I read it in your own hand."
 				],
 				[
 					"NPC-SIPHON",
@@ -534,7 +534,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"You told me he was a patient. I brought him soup. For years."
+					"You told me he was a patient, and I brought him soup for years."
 				],
 				[
 					"NPC-SIPHON",
@@ -555,12 +555,12 @@
 				],
 				[
 					"NPC-SIPHON",
-					"Subject 1. You came back to us. You have grown. Remarkable, after so many cycles."
+					"Subject 1, you came back to us! And you've grown. Remarkable, after so many cycles; I'll want measurements."
 				],
 				[
 					"NPC-SIPHON",
 					"My daughter is resting in your old room. She is confused, poor thing. She thinks she rescued something.",
-					"Assistants come home. Subjects too. Please, sit. This will only drain a little."
+					"Assistants always come home, and so do subjects, it seems. Please, sit. This will only drain a little."
 				]
 			]
 		},
@@ -616,7 +616,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"You held the door, Dad. The night they killed the King and Queen. It's in your journal, in your own hand."
+					"You held the door, Dad, the night they killed the King and Queen. It's in your journal, in your own hand."
 				],
 				[
 					"NPC-SIPHON",
@@ -650,8 +650,8 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"You freed a whole Path. On your own. With a deck you'd known for a week.",
-					"Let me see your hands. Steadier. Good. That's the first thing I've been able to tick off in a long time."
+					"You freed a whole Path on your own, with a deck you've only had for a week.",
+					"Let me see your hands. Steadier than they were. Good. That's the first thing I've been able to tick off my list in a long time."
 				],
 				[
 					"NPC-PLAYER",
@@ -659,12 +659,12 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Still a friend. Still all I can give you.",
-					"I'm not staying in town. The old woman with the shell looks at me like I owe her a pie."
+					"A friend. That's still all I can tell you, and I'm sorry it isn't more.",
+					"I'm not coming into town. The old woman with the shell looks at me like I owe her something, and she's probably right."
 				],
 				[
 					"NPC-ELOWEN",
-					"Keep going. I'll know when the next one falls. The woods go quiet when a Path comes loose."
+					"Keep going. I'll know when the next one falls, because the woods go quiet whenever a Path comes loose."
 				]
 			]
 		},
@@ -677,7 +677,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Two Paths. People in town are singing again. Badly, but they're singing."
+					"Two Paths free, and I could hear the town singing from all the way out here. Badly, but singing."
 				],
 				[
 					"NPC-PLAYER",
@@ -694,7 +694,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Even when you were someone who couldn't. Ask me something easier."
+					"Even when you were somewhere you weren't allowed to leave. Ask me something easier."
 				],
 				[
 					"NPC-PLAYER",
@@ -715,12 +715,12 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Three. I used to think you were someone else. Someone I lost when we were kids. Now I'm starting to think...",
-					"No. Not until I'm certain. Too many people around here say things before they're certain."
+					"Three. At first I told myself you just reminded me of someone. Someone I lost when we were kids. Now I'm starting to think...",
+					"No, not until I'm certain. Too many people around here say things before they're sure, and I won't be one of them."
 				],
 				[
 					"NPC-PLAYER",
-					"You knew me. Before."
+					"You knew me before all this."
 				],
 				[
 					"NPC-ELOWEN",
@@ -738,7 +738,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"All four. The kingdom is breathing again. Like voices through a wall, except the wall is coming down.",
+					"All four. Can you hear it? The kingdom's breathing again, like voices through a wall, except now the wall's coming down.",
 					"There's only the Capital left. Only him."
 				],
 				[
@@ -761,7 +761,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Evening! Old Hob. I dig. Not much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh."
+					"Evening! Old Hob, at your service. I dig, mostly, though there's not been much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -769,11 +769,11 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see."
 				],
 				[
 					"NPC-HOB",
-					"Mind the cairn at the end of the row. Something under it is still counting its turns. Rude to keep it waiting. Heh."
+					"Mind the cairn at the end of the row. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh."
 				]
 			]
 		},
@@ -781,7 +781,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Still digging. Slowly. Two particular graves, these ten years. I like to take my time with the important ones. Heh."
+					"Still digging, slowly. Two particular graves, these ten years now. I like to take my time over the important ones. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -789,7 +789,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see."
 				]
 			]
 		},
@@ -797,11 +797,11 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"The intake's open again, did you hear? Busy week! Gerald's number came up. Lovely chap. Brought his own mug."
+					"The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he brought his own mug for the journey."
 				],
 				[
 					"NPC-HOB",
-					"Agnes stayed, of course. Somebody has to fix the forms. I've put her down for later. Much later. Heh."
+					"Agnes stayed on, of course. Somebody has to fix the forms, and I've pencilled her in for later. Much later. Heh."
 				]
 			]
 		},
@@ -809,8 +809,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Ah. You did it, then. The castle.",
-					"Then I've two graves to finish properly, up in the city. Grave Row. Come by when you're ready. No rush. There never is, with me."
+					"Ah. You did it, then, the castle and all.",
+					"Then I've two graves to finish properly, up in Grave Row in the city. Come by when you're ready. No rush; there never is, with me."
 				]
 			]
 		},
@@ -826,7 +826,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's see now... you're not down for a good long while. Ha! Lovely."
 				]
 			]
 		},
@@ -847,7 +847,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Just measuring. Lovely broad shoulders round here. Very roomy work, when it comes. It hasn't, lately. Heh."
+					"Just measuring, don't mind me. Lovely broad shoulders up here - very roomy work, when it comes. Not that it's come lately. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -855,7 +855,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's see, you're... hm. Not for a good long while. Ha! Lovely."
 				]
 			]
 		},
@@ -863,8 +863,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Can't collect a soul in this building, dear. The paperwork won't let me past the lobby. I've been waiting since the transfer.",
-					"I took a number. Heh. Makes a change. Usually I'm the one calling them."
+					"Lovely building. Can't collect a single soul in it, mind. The paperwork won't let me past the lobby, and I've been sat here since the transfer.",
+					"I took a number, heh. Makes a change. Usually I'm the one calling them."
 				],
 				[
 					"NPC-PLAYER",
@@ -872,7 +872,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's see, you're... hm. Not for a good long while. Ha! Lovely."
 				]
 			]
 		},
@@ -880,7 +880,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Intake's moving again! Agnes waved me straight through. First time in ten years nobody asked me for Form 27-B. Heh."
+					"Intake's moving again! Agnes waved me straight through. First time in ten years nobody's asked me for Form 27-B, and my appointment book is filling up nicely."
 				]
 			]
 		},
@@ -888,7 +888,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Just measuring. Mind you, the Chef's soups add years to people. Bad for business. Good for everybody else. Heh."
+					"Just measuring. Mind you, the Chef's soups add years to people, which is bad for business and good for everybody else. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -896,7 +896,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see. You... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's see now... you're not down for a good long while. Ha! Lovely."
 				]
 			]
 		},
@@ -904,8 +904,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Nothing has died in this valley in ten years. Not a beetle. Not a leaf. Unnatural, that.",
-					"I've taken up knitting. Heh."
+					"Nothing's died in this valley in ten years, not so much as a beetle or a leaf. Unnatural, that.",
+					"Gives a fellow a lot of free time. I've taken up knitting. Heh."
 				]
 			]
 		},
@@ -913,7 +913,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Hear that? Things rotting properly again. Lovely sound. Means something's about to grow. Heh."
+					"Hear that? Things rotting properly again. Lovely sound, that - it means something's about to grow."
 				]
 			]
 		},
@@ -921,7 +921,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Just measuring. Lot of very tidy people in this city. Tidy is easy to measure."
+					"Just measuring. There's a lot of very tidy people in this city, and tidy is easy to measure."
 				],
 				[
 					"NPC-PLAYER",
@@ -960,7 +960,7 @@
 				],
 				[
 					"NPC-GATEKEEPER",
-					"Eight years. Gate stayed open. Every night. In case."
+					"Eight years. Kept the gate open every night, in case."
 				],
 				[
 					"NPC-ISLA",
@@ -981,7 +981,7 @@
 				],
 				[
 					"NPC-ISLA",
-					"You're the one who knocked the castle over? Dad says thank you. That's what the 'Hm' meant. Thank you from me, too."
+					"You're the one who knocked the castle over? That 'Hm' was Dad saying thank you. Thank you from me, too."
 				]
 			]
 		},
@@ -1003,7 +1003,7 @@
 				],
 				[
 					"",
-					"Half the city has come. Nobody was told to. Wren holds the true record. Maren holds a pie she has forgotten about."
+					"Half the city has come, and nobody told them to. Wren holds the true record; Maren holds a pie she has forgotten she is carrying."
 				],
 				[
 					"NPC-HOB",
@@ -1061,7 +1061,7 @@
 				[
 					"NPC-GATEKEEPER",
 					"Hm. She's home.",
-					"Notebook's full of her name. Started a new one. First page says yours. Spelled right, this time."
+					"Notebook's full of her name, so I've started a new one. First page says yours. Spelled it right, this time."
 				]
 			]
 		}

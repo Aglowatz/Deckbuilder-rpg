@@ -43,7 +43,7 @@
 		"sample_line": "Slow and steady, dearie. I invented that. The hare has never forgiven me.",
 		"barks": [
 			"Slow and steady, dearie. I invented that. The hare has never forgiven me.",
-			"The kettle's on and the pie is cooling. Neither is for you. Both are for you."
+			"Kettle's on and the pie's cooling. Neither's for you, dearie. Well. Both are."
 		],
 		"game_function": "Main story guide; finds and shelters the Wanderer; delivers a memory fragment after each freed zone; gives the Forgotten Vault quest (S-TOWN).",
 		"quest_links": [
@@ -76,9 +76,9 @@
 		"description": "The bear who guards the Capital road and hands out the kingdom's biggest quest.",
 		"personality": "Gruff, enormous, and secretly soft-hearted. The gate has no lock because he's waiting for people to come home. Keeps a notebook of every traveler's name; one page is his daughter Isla, who went to the Capital eight years ago and never wrote.",
 		"speech_style": "Short grunts, then a surprisingly tender sentence.",
-		"sample_line": "Hm. Wrote you in the book. 'Stranger, damp.' I'll fix it when you know.",
+		"sample_line": "Hm. Wrote you in the book. 'Stranger, damp.' I'll add a name when you've got one.",
 		"barks": [
-			"Hm. Wrote you in the book. 'Stranger, damp.' I'll fix it when you know.",
+			"Hm. Wrote you in the book. 'Stranger, damp.' I'll add a name when you've got one.",
 			"Hm. Gate's never locked. Somebody might come home late."
 		],
 		"game_function": "Explains zone access and the Paths; gives Clear the Paths quest beats. Reunites with Isla when the Capital is freed.",
@@ -112,9 +112,9 @@
 		"description": "A fox card dealer with a story for every card and a price for every story.",
 		"personality": "A sly, glamorous card dealer who knows every card's history. Loves a good bargain story, collects rare misprints, never reveals where she gets her stock.",
 		"speech_style": "Smooth, teasing, theatrical sales pitch.",
-		"sample_line": "Two typos, darling. One misprint. Such a small card, such a complicated past.",
+		"sample_line": "Two typos and a misprint, darling. Such a small card, such a complicated past.",
 		"barks": [
-			"Two typos, darling. One misprint. Such a small card, such a complicated past.",
+			"Two typos and a misprint, darling. Such a small card, such a complicated past.",
 			"Where's it from? The past, darling. Next question."
 		],
 		"game_function": "Card vendor; General Packs Tier 1 and 2.",
@@ -148,10 +148,10 @@
 		"description": "A frog apothecary selling potions, charms and occasionally soup.",
 		"personality": "An overenthusiastic apothecary who tests every potion on herself (her hair changes color daily). Cheerful, accident-prone, unexpectedly brilliant.",
 		"speech_style": "Fast, bubbly, lots of exclamation points.",
-		"sample_line": "Fresh tonics! Tested them all this morning! I'm teal! Teal means it works!",
+		"sample_line": "Fresh tonics! I tested every one this morning, and I'm teal, so they work!",
 		"barks": [
-			"Fresh tonics! Tested them all this morning! I'm teal! Teal means it works!",
-			"Emergency tonic! Works on Tuesdays too! That's when I test the emergency tonic!"
+			"Fresh tonics! I tested every one this morning, and I'm teal, so they work!",
+			"Emergency tonic! I keep inventing new emergencies just to test it on!"
 		],
 		"game_function": "Item vendor (basic stock; advanced stock unlocks by level).",
 		"quest_links": [],
@@ -184,9 +184,9 @@
 		"description": "The rule-bound equipment vendor who runs the level-5 armory quest.",
 		"personality": "Intense, rule-obsessed, beet-farming equipment salesman with a desk-drawer arsenal, a fierce love of security protocols, and enormous pride in his title. Original character with affectionate office-comedy nods.",
 		"speech_style": "Clipped, dead-serious, oddly specific facts about beets and bears.",
-		"sample_line": "Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol Three.",
+		"sample_line": "Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
 		"barks": [
-			"Fact: bears cannot open the drawer. Nobody opens the drawer. Protocol Three.",
+			"Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
 			"Assistant TO the Regional Merchant. The TO is load-bearing. Say it."
 		],
 		"game_function": "Equipment vendor (basic stock; advanced stock unlocks by level).",
@@ -364,10 +364,10 @@
 		"description": "Death himself.",
 		"personality": "Death himself. When Primm's paperwork seized the D.N.A., the afterlife's intake froze and Death couldn't collect anyone, so he took a job digging graves and waited (which is why Agnes can't pass on and Gerald is still in line). Creaky, polite, cheerful about death; checks his appointment book constantly ('Hm. Not for a good long while.'; Primm: 'Penciled in.'; Plume: 'Oh, I've got you in pen.'). Turns up digging in impossible places, always 'just measuring'. Has been digging the king and queen's graves for ten years; at the royal funeral he walks them, and Agnes, home.",
 		"speech_style": "Slow, creepy-cheerful, ends sentences with a chuckle.",
-		"sample_line": "Checked my book. You're not in it. Not for a good long while. Heh.",
+		"sample_line": "Checked my book. You're not in it, not for a good long while. Heh.",
 		"barks": [
-			"Checked my book. You're not in it. Not for a good long while. Heh.",
-			"Business has been slow for ten years. Not my fault. Paperwork. Heh."
+			"Checked my book. You're not in it, not for a good long while. Heh.",
+			"Business has been ever so slow these ten years. Paperwork, not me. Heh."
 		],
 		"game_function": "Starts the Graveyard scripted challenge; appears at 0 life instead of a plain respawn ('Not on my list. Off you pop.'; lost gold is his handling fee); cameo in every zone; royal funeral.",
 		"quest_links": [],
@@ -401,7 +401,7 @@
 		"sample_line": "Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
 		"barks": [
 			"Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
-			"Hydration. Stretching. Sorry, am I ordering again? I meant we could do them together."
+			"Water, then a stretch. Sorry, was that an order? I meant we could do them together."
 		],
 		"game_function": "Battle that unlocks the Gainlands entrance.",
 		"quest_links": [],
@@ -604,7 +604,7 @@
 		"sample_line": "HNNNGH. Thank you for ripping with the Express. Please don't look at the seam.",
 		"barks": [
 			"HNNNGH. Thank you for ripping with the Express. Please don't look at the seam.",
-			"Shirt number two hundred and twelve. Very proud of it. Notice my form?"
+			"HNNNGH. Two hundred and twelfth shirt this year. Did you notice my form, buddy?"
 		],
 		"game_function": "Opens portals between linked locations.",
 		"quest_links": [],
@@ -741,7 +741,7 @@
 		"sample_line": "Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.",
 		"barks": [
 			"Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.",
-			"The stamp wants a raise. I have given it the form. It is thinking."
+			"The stamp wants a raise. I've given it the form, and it's thinking it over."
 		],
 		"game_function": "Zone card vendor.",
 		"quest_links": [
@@ -846,7 +846,7 @@
 		"sample_line": "Four million two hundred and twelve. They're on three. Any minute now.",
 		"barks": [
 			"Four million two hundred and twelve. They're on three. Any minute now.",
-			"Coffee? Nobody can taste it. I make it anyway. It's the thought."
+			"Coffee? Nobody here can taste it, but I make it anyway. It's the thought."
 		],
 		"game_function": "Gives the Waiting Room of Eternity quest (S-NECRO).",
 		"quest_links": [
@@ -882,7 +882,7 @@
 		"sample_line": "Employee of the month since 1987, dear. The plaque is getting heavy.",
 		"barks": [
 			"Employee of the month since 1987, dear. The plaque is getting heavy.",
-			"Appeal forty thousand and one. Denied. I'm starting to take it personally."
+			"Appeal forty thousand and one, denied. I'm starting to take it personally, dear."
 		],
 		"game_function": "Main dungeon hook and guide for the Hall of Final Approvals; becomes the Necrocrat leader and lends a boon against Primm.",
 		"quest_links": [
@@ -915,9 +915,9 @@
 		"description": "An elegant, snooty restaurateur who presents cards like courses on a tasting menu.",
 		"personality": "An elegant, snooty restaurateur who presents cards like courses on a tasting menu. Secretly adores scrappy customers.",
 		"speech_style": "Refined, condescending, then suddenly warm.",
-		"sample_line": "This deck is underdressed, darling. A little butter. A little foil. Voila.",
+		"sample_line": "This deck is underdressed, darling. A little butter, a little foil, and voila.",
 		"barks": [
-			"This deck is underdressed, darling. A little butter. A little foil. Voila.",
+			"This deck is underdressed, darling. A little butter, a little foil, and voila.",
 			"Decorative cake, darling. Please admire it without cutlery."
 		],
 		"game_function": "Zone card vendor.",
@@ -1128,9 +1128,9 @@
 		"description": "A peppy eco-crusader with 90s-PSA energy and a county-fair blue ribbon obsession.",
 		"personality": "A peppy eco-crusader with 90s-PSA energy and a county-fair blue ribbon obsession. Original character.",
 		"speech_style": "Peppy, slogan-heavy, sing-song.",
-		"sample_line": "Reduce! Reuse! Recy-CLUE: that one goes in the green bin!",
+		"sample_line": "Reduce! Reuse! And rinse your jars, folks - a sticky jar is a sad jar!",
 		"barks": [
-			"Reduce! Reuse! Recy-CLUE: that one goes in the green bin!",
+			"Reduce! Reuse! And rinse your jars, folks - a sticky jar is a sad jar!",
 			"Captain Compost Badger says: rinse first! ...Who says I do the voice?"
 		],
 		"game_function": "Hosts the Verdant Dump sorting minigame.",
@@ -1161,9 +1161,9 @@
 		"description": "A worried, kind druid who notices the corruption first.",
 		"personality": "A worried, kind druid who notices the corruption first. Also furious that someone keeps eating the compost (the raccoons).",
 		"speech_style": "Soft-spoken, then suddenly indignant.",
-		"sample_line": "The vines whisper now. It's not right. Also SOMEBODY ate the compost AGAIN.",
+		"sample_line": "The vines have started whispering. Also, SOMEBODY ate the compost AGAIN.",
 		"barks": [
-			"The vines whisper now. It's not right. Also SOMEBODY ate the compost AGAIN.",
+			"The vines have started whispering. Also, SOMEBODY ate the compost AGAIN.",
 			"Eleven little trees in a row, one per birthday. Then nobody came for the twelfth."
 		],
 		"game_function": "Gives the Rotheart hook and the Trash Panda Throne quest (S-REF).",
@@ -1583,10 +1583,10 @@
 		"description": "The true Gourmand leader: warm, generous, brilliant; believes feeding people is the highest form of protection.",
 		"personality": "The true Gourmand leader: warm, generous, brilliant; believes feeding people is the highest form of protection. Kept 'on ice' in the Test Kitchen's deep freezer for ten years by her doppelganger. Freed and back in her kitchen, she bakes a wonder-filled dish that breaks the corrupted-food enchantment and proves she is the true Grand Chef. Then she willingly gives her name to the lost, faceless doppelganger: 'What you're called doesn't matter. It's what you do that matters.' Proud of her work and stands by it; everyone now just calls her 'Chef'.",
 		"speech_style": "Warm, commanding, maternal.",
-		"sample_line": "Have you eaten? Sit. Eat. Then save the kingdom. In that order.",
+		"sample_line": "Have you eaten? Sit. Eat. The kingdom can wait until you've had your soup.",
 		"barks": [
-			"Have you eaten? Sit. Eat. Then save the kingdom. In that order.",
-			"A full table is a safe table. Pull up a chair. That is an order."
+			"Have you eaten? Sit. Eat. The kingdom can wait until you've had your soup.",
+			"A full table is a safe table. Pull up a chair, dear - that's an order."
 		],
 		"game_function": "Freed after the Test Kitchen; legendary reward; lends a boon against Primm.",
 		"quest_links": [],
@@ -1617,10 +1617,10 @@
 		"description": "Has worn Escoffina's face for ten years and forgotten its own; never tastes the food because it can't taste anything as itself.",
 		"personality": "Has worn Escoffina's face for ten years and forgotten its own; never tastes the food because it can't taste anything as itself. Cold, efficient, turned the kitchens into a weapons factory for Primm. After its defeat, lost and confused, it is given the name Escoffina by the true chef and stays on to learn to cook honestly.",
 		"speech_style": "Escoffina's words with no warmth; slips into flat menace. Later: hesitant and earnest.",
-		"sample_line": "I tasted my soup today. As me. Too salty. It was mine.",
+		"sample_line": "I tasted my own soup today, as me. Too salty, but it was mine.",
 		"barks": [
-			"I tasted my soup today. As me. Too salty. It was mine.",
-			"Third-class apprentice. Many dishes. I am trying. The dishes are also trying."
+			"I tasted my own soup today, as me. Too salty, but it was mine.",
+			"I am a third-class apprentice now, with many dishes. I am trying. So are the dishes."
 		],
 		"game_function": "Test Kitchen boss; postgame kitchen apprentice.",
 		"quest_links": [],
@@ -1715,10 +1715,10 @@
 		"description": "Grandmotherly, wise, mischievous, deeply connected to nature.",
 		"personality": "Grandmotherly, wise, mischievous, deeply connected to nature. Corrupted through that very connection. Cured, she is grateful and fierce.",
 		"speech_style": "Gentle, earthy, playful.",
-		"sample_line": "Everything grows back, child. Even me. Especially me.",
+		"sample_line": "Everything goes back to the soil in the end, child. That's what lets it grow.",
 		"barks": [
-			"Everything grows back, child. Even me. Especially me.",
-			"About the barn... I will help mend it. The goat may prefer that I begin elsewhere."
+			"Everything goes back to the soil in the end, child. That's what lets it grow.",
+			"About the barn, child... I'll help mend it. The goat would rather I started elsewhere."
 		],
 		"game_function": "Freed after the Rotheart; legendary reward.",
 		"quest_links": [],
@@ -2311,10 +2311,10 @@
 		"description": "Townsfolk (the baker who strolls the square)",
 		"personality": "",
 		"speech_style": "",
-		"sample_line": "Fresh bread! Flour in my whiskers again. Occupational dusting. Anyone want a roll?",
+		"sample_line": "Fresh bread! Flour in my whiskers again, but the rolls came out lovely. Want one?",
 		"barks": [
-			"Fresh bread! Flour in my whiskers again. Occupational dusting. Anyone want a roll?",
-			"I knead a holiday. Then I knead the dough. Busy, busy badger."
+			"Fresh bread! Flour in my whiskers again, but the rolls came out lovely. Want one?",
+			"I knead a holiday, but the dough won't hear of it. Busy, busy badger."
 		],
 		"game_function": "",
 		"quest_links": [],
@@ -2368,7 +2368,7 @@
 		"sample_line": "Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
 		"barks": [
 			"Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
-			"The old cottage cheers at night now. From the cellar. I'm choosing to love it.",
+			"The old cottage cheers at night now, from the cellar. I've decided to find it lovely.",
 			"The well hummed at me. Wells don't hum. I said thank you anyway.",
 			"Four plinths round the fountain, and nobody remembers what stood on them."
 		],

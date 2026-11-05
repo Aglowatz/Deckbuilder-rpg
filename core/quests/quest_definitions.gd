@@ -65,7 +65,7 @@ static func _under_the_forest() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 9
 	quest.title = "Under the Forest"
-	quest.summary = "{villain} is gone, but Rip found something in the forest where you first woke: a hatch that was not there before. Something under it feels like yours. So does someone."
+	quest.summary = "{villain} is gone, but Rip found something in the forest where you first woke: a hatch that wasn't there before. Whatever is down there feels like yours, and so does someone."
 	quest.auto_give = true
 	quest.prerequisite = Condition.postgame()
 	quest.giver_npc = "Rip Tearson, Rift Technician"
@@ -152,7 +152,7 @@ static func _meet_the_merchants() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 1
 	quest.title = "Meet the Merchants"
-	quest.summary = "Elder Maren wants you fed, kitted out and known in town. Say hello to the shopkeepers on the square and buy yourself a card. There is a trophy in it. Everyone gets the trophy."
+	quest.summary = "Elder Maren wants you fed, kitted out and known in town. Say hello to the shopkeepers on the square and buy yourself a card. There's a trophy in it, though everyone gets the trophy."
 	# Oct 20, Part 4: the one quest a new arrival has (Maren gives it in her welcome); Bertram's smithy stays shut for now.
 	quest.auto_give = true
 	quest.prerequisite = Condition.flag("trial_cleared")
@@ -209,7 +209,7 @@ static func _fragments() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 35
 	quest.title = "Fragments"
-	quest.summary = "Freeing a zone loosens something in your head. Whenever it does, go and tell Elder Maren."
+	quest.summary = "Every zone you free seems to shake something loose in your memory. Each time it happens, go and tell Elder Maren; she'll want to hear it."
 	quest.auto_give = true
 	quest.prerequisite = story_gate()
 	# Oct 20, Part 5: the memories' names are spoilers; the steps only count them
@@ -267,7 +267,7 @@ static func _zone_main(zone_id: String) -> QuestData:
 const ZONE_MAIN_TEXT: Dictionary = {
 	"beefcake": {
 		"title": "Raise the Bar",
-		"summary": "The Gainlands bridge is drawn up and a very large man is guarding the crank. Get across and find out who is running the Gainlands now.",
+		"summary": "The bridge into the Gainlands is drawn up, and the very large man on the crank answers to the regime. Get across and find out who is running the Beefcakes now.",
 		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
 		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley",
@@ -283,7 +283,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 	},
 	"gourmand": {
 		"title": "Key Ingredients",
-		"summary": "The great pantry door is locked and the chef with the key is extremely seasoned. Win the key and find out what the Grand Chef is really cooking.",
+		"summary": "The great pantry door is locked, and Chef Fennel Gravois won't give up the key. Win it, and find out what's really cooking in the Grand Chef's kitchens.",
 		"gate": "Win the pantry key from Chef Fennel Gravois", "gate_hint": "The great pantry door at the end of the orchard lane",
 		"enter": "Step through the pantry door into the Endless Buffet", "enter_hint": "The open pantry door on the orchard lane",
 		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix",
@@ -327,7 +327,7 @@ static func _armory() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 4
 	quest.title = "Some Assembly Required"
-	quest.summary = "Maren says it is time you had something sharper than a deck. Bertram Beetsworth issues gear, by the book: report to his smithy and win him one fight."
+	quest.summary = "Maren says it's time you had something sharper than a deck. Bertram Beetsworth issues gear strictly by the book: report to his smithy, then win one fight to earn it."
 	quest.giver_npc = MAREN
 	quest.giver_area = "town"
 	quest.giver_spot = "elder"
@@ -361,7 +361,7 @@ static func _first_deck_edit() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 2
 	quest.title = "Make It Yours"
-	quest.summary = "A deck you never chose is a deck you will lose with, says Maren. New cards first, then make the deck your own."
+	quest.summary = "Maren says a deck you never chose is a deck you'll lose with. Open a pack for some new cards, then make the deck your own at the Deck Station."
 	quest.giver_npc = MAREN
 	quest.giver_area = "town"
 	quest.giver_spot = "elder"
@@ -386,7 +386,7 @@ static func _storeroom_ghosts() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 3
 	quest.title = "Something in the Store Room"
-	quest.summary = "Tilly Tonic's store room has been rattling, moaning and refusing visitors. Maren would like it to stop. So would Tilly."
+	quest.summary = "Tilly Tonic's store room has been rattling and moaning for a week, and nobody can get in. Maren wants it sorted, and so, very much, does Tilly."
 	quest.giver_npc = MAREN
 	quest.giver_area = "town"
 	quest.giver_spot = "elder"
@@ -409,7 +409,7 @@ static func _oldest_trick() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 140
 	quest.title = "The Oldest Trick in the Book"
-	quest.summary = "A giant chest was too good to be true. Someone is conning travellers with them, and he took your gold. Find the chests, and find him."
+	quest.summary = "That giant chest was too good to be true. Someone is conning travellers with chests like it, and he's taken your gold. Find the rest of the chests, and you'll find him."
 	quest.objectives = [
 		QuestObjective.make("Open the giant chests", Condition.counter(NinjaBoss.COUNTER_OPENED, NinjaBoss.CHEST_IDS.size())),
 		QuestObjective.make("Face the Master of the Oldest Trick", Condition.flag(str(NinjaBoss.FLAG_DEFEATED))),
@@ -424,7 +424,7 @@ static func _four_seals() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 141
 	quest.title = "The Four Seals"
-	quest.summary = "Far away, a great lock ground open. A hidden lever in every Path zone answers a seal somewhere near Crosspath. Find them all."
+	quest.summary = "Somewhere far off, a great lock has ground open. Each Path zone hides a lever that answers a seal near Crosspath. Find all four."
 	quest.objectives = [
 		QuestObjective.make("Find the hidden lever in each Path zone", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
 		QuestObjective.make("Open the Four-Seal Vault", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),

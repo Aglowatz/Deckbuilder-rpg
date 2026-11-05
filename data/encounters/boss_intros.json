@@ -2,7 +2,7 @@
 	"_about": "Overnight Oct 23, Part 3: the short skippable entrance before a boss, lieutenant or gatekeeper battle (BossIntro, ui/battle/boss_intro.gd). Key = the battle's enemy name as the battle shows it (for 'Name, Title' and 'Name - Phase' names the part before the separator also matches). title = the line under the name card (default: the part after ', '), line = the opening line, sting = an STG- music sting id, path = the accent colour (beefcake/necrocrat/gourmand/refusemancer/regime/neutral).",
 	"Hollow Warden": {
 		"title": "Hollow Warden",
-		"line": "I shall perform my duty.",
+		"line": "Then I will do what I was left here to do.",
 		"sting": "STG-DUNGEON",
 		"path": "neutral"
 	},
@@ -26,7 +26,7 @@
 	},
 	"Prudence Pallor": {
 		"title": "Checkpoint Supervisor",
-		"line": "Your number is zero. It is always zero. Please hold.",
+		"line": "Your number is zero, as it always is. Please hold.",
 		"sting": "STG-ZONE-NECRO",
 		"path": "necrocrat"
 	},
@@ -38,7 +38,7 @@
 	},
 	"Shiro Swindle": {
 		"title": "Master of the Oldest Trick",
-		"line": "You found me! Nobody finds me. Which means this is a trick. Mine.",
+		"line": "You found me! Nobody finds me, which can only mean this is a trick. Mine, obviously.",
 		"sting": "STG-SHIRO",
 		"path": "neutral"
 	},
@@ -80,7 +80,7 @@
 	},
 	"The Doppelganger": {
 		"title": "Grand Chef of the Test Kitchen (allegedly)",
-		"line": "Welcome to the Test Kitchen. Everything here is delicious. I have been told.",
+		"line": "Welcome to the Test Kitchen. Everything here is delicious, or so I have been told.",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
@@ -98,7 +98,7 @@
 	},
 	"Mortimer Grimsby, CE-No": {
 		"title": "CE-No of the D.N.A.",
-		"line": "The answer is no. The question is irrelevant. Please state your case anyway.",
+		"line": "The answer is no. The question is irrelevant, but you may state your case anyway.",
 		"sting": "STG-ZONE-NECRO",
 		"path": "necrocrat"
 	},
@@ -116,13 +116,13 @@
 	},
 	"Compostella, the Rotheart": {
 		"title": "The Rotheart",
-		"line": "I am what you throw away. I am what grows back. I am HUNGRY.",
+		"line": "I AM what you throw away... I AM what grows back... and I am so... HUNGRY...",
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},
 	"Hortensia Clipwell, Royal Groundskeeper": {
 		"title": "Royal Groundskeeper",
-		"line": "Such a pretty weed. Such a shame. Do hold still, dear.",
+		"line": "Such a pretty little weed, and such a shame. Do hold still, dear, this won't take a moment.",
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},
@@ -170,7 +170,7 @@
 	},
 	"Colonel Casserole": {
 		"title": "Guardian of the Buffet Gate",
-		"line": "Halt, traveller. This gate opens for a duel of honour. Lids up. Yes, Chef.",
+		"line": "Halt, traveller! This gate opens only for a duel of honour, so lids up. Yes, Chef.",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	}

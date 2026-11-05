@@ -55,7 +55,7 @@
 		],
 		"find.both": [
 			{"speaker": "", "lines": [
-				"Far away in {town}, the Old Well hums like a full kettle. Both streams have answered. Go back to the well."
+				"Far away in {town}, the Old Well hums like a full kettle. Both streams have answered, and the well is calling you back."
 			]}
 		],
 		"touch.ready": [
@@ -100,7 +100,7 @@
 				"It hums when you touch it. Take a little with you. It remembers the way home."
 			]},
 			{"speaker": "You", "lines": [
-				"A well with opinions. Fine. I'm keeping the bottle."
+				"A well with opinions. I'm keeping the bottle anyway."
 			]}
 		]
 	},
