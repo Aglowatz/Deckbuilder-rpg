@@ -20,6 +20,7 @@ const LEVELS: Dictionary = {
 	"zone:refusemancer": 16, "D-ROT": 17, "S-REF": 16,
 	"zone:final": 20, "S-CAP": 21, "S-PASTE": 23, "D-PC": 21,
 	"D-LAB": 25,
+	"S-GALLERY": 26,  # Overnight Nov 4-5: The Shattered Gallery, the last postgame dungeon
 	"arena:1": 8, "arena:2": 13, "arena:3": 22,
 }
 ## Levels above a dungeon's own for its elites, its boss, and Primm (XP Pass Oct 30; were 1 / 2 / 2).

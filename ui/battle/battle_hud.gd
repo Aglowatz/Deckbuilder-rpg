@@ -173,7 +173,12 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	var enemy_panel: Portrait = Portrait.new()
 	enemy_panel.title = enemy_name
 	enemy_panel.icon_key = enemy_icon
-	enemy_panel.picture = Bestiary.art(enemy_name)
+	enemy_panel.picture = Bestiary.art(ShatteredGallery.original_of(enemy_name))
+	# Overnight Nov 4-5, Part 5: an Echo wears its original's picture, The Perfect Copy the hero's own, both behind cold silver glass
+	if ShatteredGallery.is_mirror_foe(enemy_name):
+		enemy_panel.mirrored = true
+		if enemy_name == ShatteredGallery.BOSS_NAME and player_panel.picture != null:
+			enemy_panel.picture = player_panel.picture
 	enemy_panel.accent = Color("d9534f")
 	enemy_panel.position = Vector2(24, 6 if UiArt.has("UI-HUD-PLAYERPLATE") else 20)
 	add_child(enemy_panel)
@@ -745,6 +750,8 @@ class Portrait:
 	var icon_key: String = "lorc/imp"
 	## The enemy's Bestiary picture when one has been made (round, in place of the icon).
 	var picture: Texture2D = null
+	## Overnight Nov 4-5: the picture is drawn through the silver mirror shader (The Shattered Gallery's Echoes and Perfect Copy).
+	var mirrored: bool = false
 	var accent: Color = UIStyle.GOLD
 	var hp: int = 10
 	var max_hp: int = 10
@@ -798,7 +805,7 @@ class Portrait:
 		rect.custom_minimum_size = Vector2(px, px)
 		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var mask: ShaderMaterial = ShaderMaterial.new()
-		mask.shader = load("res://assets/shaders/circle_mask.gdshader") as Shader
+		mask.shader = load("res://assets/shaders/mirror_tint.gdshader" if mirrored else "res://assets/shaders/circle_mask.gdshader") as Shader
 		rect.material = mask
 		return rect
 

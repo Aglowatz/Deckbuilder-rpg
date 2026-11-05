@@ -64,6 +64,34 @@ static func _music_leveller() -> void:
 	leveller.gain = float(LEVELLER["gain"])
 
 
+## Overnight Nov 4-5, Part 5: the mirror on the Music bus for The Shattered Gallery - a detuned chorus and a slight pitch-down that make the
+## castle's own music sound like its reflection. Off everywhere else (the effects stay on the bus, disabled).
+const MIRROR_PITCH: float = 0.985
+
+
+static func set_mirror_music(on: bool) -> void:
+	var bus: int = AudioServer.get_bus_index(&"Music")
+	if bus < 0:
+		return
+	var chorus: AudioEffectChorus = _effect("Music", "AudioEffectChorus") as AudioEffectChorus
+	chorus.wet = 0.45
+	chorus.dry = 0.8
+	var pitch: AudioEffectPitchShift = _effect("Music", "AudioEffectPitchShift") as AudioEffectPitchShift
+	pitch.pitch_scale = MIRROR_PITCH
+	for index: int in range(AudioServer.get_bus_effect_count(bus)):
+		var effect: AudioEffect = AudioServer.get_bus_effect(bus, index)
+		if effect == chorus or effect == pitch:
+			AudioServer.set_bus_effect_enabled(bus, index, on)
+
+
+static func mirror_music_on() -> bool:
+	var bus: int = AudioServer.get_bus_index(&"Music")
+	for index: int in range(AudioServer.get_bus_effect_count(bus) if bus >= 0 else 0):
+		if AudioServer.get_bus_effect(bus, index) is AudioEffectChorus:
+			return AudioServer.is_bus_effect_enabled(bus, index)
+	return false
+
+
 ## The World bus reverb takes a place's profile (`AcousticProfiles`).
 static func apply_acoustics(profile_name: String) -> void:
 	if AudioServer.get_bus_index(&"World") < 0:

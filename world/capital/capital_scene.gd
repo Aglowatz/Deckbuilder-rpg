@@ -112,6 +112,7 @@ func _build_zone_extras() -> void:
 	if OS.get_environment("CAPITAL_NO_SHADOW") == "1":
 		for light: Node in find_children("*", "DirectionalLight3D", true, false):
 			(light as DirectionalLight3D).shadow_enabled = false
+	_build_gallery_mirror()
 	# The lost-property posters show a face, not lettering (G-03); using one reads it.
 	var poster_key: String = "prop.lost_poster.known" if Session.flag(MemoryDefs.FLAG_REVEALED) else "prop.lost_poster"
 	var poster_index: int = 0
@@ -470,6 +471,8 @@ func _interact_zone(spot: ZoneSpot) -> void:
 	match act:
 		"wren":
 			_talk_wren()
+		"gallery":
+			_use_gallery_mirror()
 		"supplies":
 			_open_supplies()
 		"ladder":
@@ -619,6 +622,41 @@ func _ask_quota_battle() -> void:
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
+## Overnight Nov 4-5, Part 5: after Primm, a cracked mirror leans by the castle door - the way into The Shattered Gallery.
+const GALLERY_MIRROR_OFFSET: Vector3 = Vector3(-3.4, 0.0, 0.8)
+
+
+func _build_gallery_mirror() -> void:
+	if not Session.flag(&"primm_defeated"):
+		return
+	var at: Vector3 = builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET
+	var mirror: Node3D = CapitalProps.gallery_mirror()
+	mirror.name = "GalleryMirror"
+	mirror.position = at
+	add_child(mirror)
+	_add_spot("gallery_mirror", "A Cracked Mirror", at + Vector3(0.0, 0.0, 1.0), 1.8, "Look into the cracked mirror", false, "zone", {"act": "gallery"})
+
+
+func _use_gallery_mirror() -> void:
+	if not Session.side_unlocked(ShatteredGallery.DUNGEON_ID):
+		# looking is the quest (and starts it for a player who never asked Wren); finishing it opens the glass
+		Session.start_quest(ShatteredGallery.QUEST_ID, false)
+		Session.set_flag(StringName(ShatteredGallery.FLAG_MIRROR_SEEN))
+		Session.refresh_quests()
+	if not Session.side_unlocked(ShatteredGallery.DUNGEON_ID):
+		hud.toast(story.text("fx.gallery_sealed"), Color("ffcf70"))
+		return
+	_locked = true
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, ShatteredGallery.DUNGEON_NAME, story.text("fx.gallery_enter") + " Your HP carries in, and nothing heals between fights.", "Step through", "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		var run: ZoneRun = Session.zone_run
+		run.return_position = player.position + Vector3(0, 0, 1.2)
+		run.has_return_position = true
+		Audio.sfx(&"dungeon_enter")
+		Session.enter_mini_dungeon(ShatteredGallery.DUNGEON_ID))
+	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
 func _ask_paste_works() -> void:
 	_locked = true
 	var first: bool = not Session.flag(PasteWorks.FLAG_FOUND)
@@ -667,6 +705,10 @@ func _talk_wren() -> void:
 	var news: String = StoryBeats.wren_scene(Session.flags)
 	if not news.is_empty():
 		StoryScenePlayer.play(dialogue, news)
+		return
+	# Overnight Nov 4-5, Part 5: her postgame errand (Cracks in the Glass) goes through the quest-giver talk (offer, then the active line).
+	if not Session.quests_offered_by(CapitalZone.NPC_WREN).is_empty() or not Session.quests_active_for(CapitalZone.NPC_WREN).is_empty():
+		_talk_quest_npc("wren", CapitalZone.NPC_WREN, "Wren", Callable(), "NPC-WREN")
 		return
 	# Overnight Oct 22, Part 2: the first talk is her introduction alone; what she has learned from the streets comes on the next talk.
 	var first: bool = not Session.flag(def.flag_met("wren"))

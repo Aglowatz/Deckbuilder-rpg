@@ -39,16 +39,39 @@
 			]
 		}
 	],
-	"data/story/intro_story.tres::prologue.rescuer.3::1": [
+	"data/story/intro_story.tres::prologue.rescuer.3::0": [
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
+	"data/story/intro_story.tres::prologue.rescuer.3::1": [
+		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
+			"phrase": "Tell me: which Path resonates within you?",
+			"tests": [
+				"tests/test_prologue_rescuer_text.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::prologue.rescuer.4::1": [
+		{
+			"phrase": "Elder Maren",
+			"tests": [
+				"tests/characters/character_test.gd",
+				"tests/core/data/test_npc_registry.gd",
+				"tests/core/data/test_portraits.gd"
+			]
+		},
 		{
 			"phrase": "The Forgotten Cave",
 			"tests": [
@@ -58,9 +81,9 @@
 			]
 		},
 		{
-			"phrase": "Someone",
+			"phrase": "Maren",
 			"tests": [
-				"tests/core/quests/test_quests.gd"
+				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
 		{
@@ -81,6 +104,15 @@
 			"phrase": "draw them off",
 			"tests": [
 				"tests/test_prologue_rescuer_text.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::prologue.self_talk::3": [
+		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -134,11 +166,9 @@
 	],
 	"data/story/intro_story.tres::cave_mouth.maren::0": [
 		{
-			"phrase": "Primm",
+			"phrase": "{villain}",
 			"tests": [
-				"tests/core/data/test_gatekeeper_freed_lines.gd",
-				"tests/core/data/test_map_art.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/test_dialogue_quality.gd"
 			]
 		}
 	],
@@ -160,14 +190,10 @@
 			]
 		},
 		{
-			"phrase": "Buy a card",
-			"tests": [
-				"tests/ui/test_quest_notices.gd"
-			]
-		},
-		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -190,6 +216,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -265,6 +293,14 @@
 			]
 		}
 	],
+	"data/story/intro_story.tres::town.elder.first::1": [
+		{
+			"phrase": "Everything",
+			"tests": [
+				"tests/core/dungeon/test_encounter_scripts.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::town.elder.first::2": [
 		{
 			"phrase": "{villain}",
@@ -283,14 +319,9 @@
 			]
 		},
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
@@ -335,12 +366,6 @@
 			"tests": [
 				"tests/test_dialogue_quality.gd"
 			]
-		},
-		{
-			"phrase": "Well",
-			"tests": [
-				"tests/ui/test_codex_gear_tab.gd"
-			]
 		}
 	],
 	"data/story/intro_story.tres::town.guard.capital_offer::0": [
@@ -368,6 +393,14 @@
 			]
 		}
 	],
+	"data/story/intro_story.tres::town.guard.capital_offer::2": [
+		{
+			"phrase": "Famine",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::town.vendor.first::0": [
 		{
 			"phrase": "Sable",
@@ -386,14 +419,9 @@
 	],
 	"data/story/intro_story.tres::town.vendor.first::1": [
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
@@ -410,6 +438,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		},
@@ -422,9 +452,168 @@
 	],
 	"data/story/intro_story.tres::town.item_vendor.first::1": [
 		{
+			"phrase": "One use",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
 			"phrase": "Everything",
 			"tests": [
 				"tests/core/dungeon/test_encounter_scripts.gd"
+			]
+		},
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.gift::0": [
+		{
+			"phrase": "Power Wraps",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd",
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "First",
+			"tests": [
+				"tests/core/data/test_save_slots.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.gift::1": [
+		{
+			"phrase": "Menu",
+			"tests": [
+				"tests/test_controller_input.gd"
+			]
+		},
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Items",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.gift::2": [
+		{
+			"phrase": "Power Wraps",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd",
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "An empty slot",
+			"tests": [
+				"tests/ui/test_deck_station_slots.gd"
+			]
+		},
+		{
+			"phrase": "Click",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		},
+		{
+			"phrase": "Done",
+			"tests": [
+				"tests/world/test_npc_sprite_rollout.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.gift::3": [
+		{
+			"phrase": "One use",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.gift_waiting::0": [
+		{
+			"phrase": "Power Wraps",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd",
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "then an empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Items",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "An empty slot",
+			"tests": [
+				"tests/ui/test_deck_station_slots.gd"
+			]
+		},
+		{
+			"phrase": "Click",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.item_vendor.return::0": [
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
 			]
 		}
 	],
@@ -432,6 +621,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -440,6 +631,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -498,6 +691,48 @@
 			]
 		}
 	],
+	"data/story/intro_story.tres::quest.armory.equip::0": [
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::quest.armory.equip::1": [
+		{
+			"phrase": "Click",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::quest.armory.equip_waiting::1": [
+		{
+			"phrase": "Menu",
+			"tests": [
+				"tests/test_controller_input.gd"
+			]
+		},
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::quest.armory.done::1": [
 		{
 			"phrase": "Elder Maren",
@@ -553,6 +788,20 @@
 			]
 		}
 	],
+	"data/story/intro_story.tres::town.arena.locked::1": [
+		{
+			"phrase": "not yet",
+			"tests": [
+				"tests/core/game/test_card_mechanics_more.gd"
+			]
+		},
+		{
+			"phrase": "Not yet",
+			"tests": [
+				"tests/ui/test_confirm_keys_oct31.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::town.arena.announce::1": [
 		{
 			"phrase": "Somebody",
@@ -591,6 +840,7 @@
 		{
 			"phrase": "Hello.",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/ui/test_dialogue_portraits.gd",
 				"tests/world/test_sprite_npcs.gd"
 			]
@@ -640,8 +890,14 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
+			"phrase": "nothing goes to waste",
+			"tests": [
+				"tests/core/zone/test_heap.gd"
 			]
 		}
 	],
@@ -661,6 +917,15 @@
 	],
 	"data/story/intro_story.tres::town.alchemist.intro::3": [
 		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.alchemist.intro::4": [
+		{
 			"phrase": "Everything",
 			"tests": [
 				"tests/core/dungeon/test_encounter_scripts.gd"
@@ -678,6 +943,21 @@
 			"phrase": "Two Paths",
 			"tests": [
 				"tests/world/test_cave_arrival.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.alchemist.quest_gift::0": [
+		{
+			"phrase": "enough for one brew of any two",
+			"tests": [
+				"tests/core/data/test_essence_alchemy.gd"
+			]
+		},
+		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -768,7 +1048,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -777,7 +1057,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -793,6 +1073,14 @@
 			"phrase": "Not yet",
 			"tests": [
 				"tests/ui/test_confirm_keys_oct31.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::town.tailor.line::0": [
+		{
+			"phrase": "Look",
+			"tests": [
+				"tests/world/tuning_panel.gd"
 			]
 		}
 	],
@@ -854,6 +1142,56 @@
 			"phrase": "Not yet",
 			"tests": [
 				"tests/ui/test_confirm_keys_oct31.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::tailor.bare_head::0": [
+		{
+			"phrase": "No hat",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::tailor.plain_cloak::0": [
+		{
+			"phrase": "Cloak",
+			"tests": [
+				"tests/ui/test_icon_conventions.gd"
+			]
+		},
+		{
+			"phrase": "Plain Cloak",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		},
+		{
+			"phrase": "the Plain Cloak, undyed",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::tailor.dyed::1": [
+		{
+			"phrase": "Walk",
+			"tests": [
+				"tests/world/test_heap_slice.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::tailor.cloak_on::0": [
+		{
+			"phrase": "Over",
+			"tests": [
+				"tests/core/data/test_deck_box.gd"
+			]
+		},
+		{
+			"phrase": "Cloak",
+			"tests": [
+				"tests/ui/test_icon_conventions.gd"
 			]
 		}
 	],
@@ -943,6 +1281,12 @@
 				"tests/core/zone/test_buffet.gd",
 				"tests/test_gourmand_rename.gd"
 			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::pack.hint.gilded_refusemancer::0": [
@@ -959,9 +1303,21 @@
 				"tests/test_refusemancer_rename.gd",
 				"tests/test_story_rewrite.gd"
 			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::pack.hint.gilded_necrocrat::0": [
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		},
 		{
 			"phrase": "The D.N.A.",
 			"tests": [
@@ -995,6 +1351,12 @@
 				"tests/core/data/test_portraits.gd",
 				"tests/ui/test_dialogue_portraits.gd"
 			]
+		},
+		{
+			"phrase": "A crate",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::pack.card_vendor.tier2::0": [
@@ -1019,7 +1381,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -1058,7 +1420,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -1145,7 +1507,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -1158,11 +1520,27 @@
 			]
 		}
 	],
+	"data/story/intro_story.tres::arena.arena_zero_to_hero.title::0": [
+		{
+			"phrase": "Hero",
+			"tests": [
+				"tests/core/game/test_first_duel_hand.gd"
+			]
+		}
+	],
 	"data/story/intro_story.tres::arena.arena_zero_to_hero.rules::0": [
 		{
 			"phrase": "win THIS turn",
 			"tests": [
 				"tests/core/arena/test_arena.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::arena.screen.locked::0": [
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
 			]
 		}
 	],
@@ -1182,14 +1560,6 @@
 			]
 		}
 	],
-	"data/story/intro_story.tres::arena.won.replay::0": [
-		{
-			"phrase": "Another",
-			"tests": [
-				"tests/core/data/test_deck_box.gd"
-			]
-		}
-	],
 	"data/story/intro_story.tres::travel.title::0": [
 		{
 			"phrase": "Beefcake",
@@ -1204,6 +1574,12 @@
 			"tests": [
 				"tests/core/travel/test_fast_travel.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.locked.blurb::0": [
@@ -1211,6 +1587,20 @@
 			"phrase": "Walk",
 			"tests": [
 				"tests/world/test_heap_slice.gd"
+			]
+		}
+	],
+	"data/story/intro_story.tres::travel.operator.town::0": [
+		{
+			"phrase": "Rip Tearson, Rift Technician",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1333,6 +1723,14 @@
 			]
 		},
 		{
+			"phrase": "Hello.",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_dialogue_portraits.gd",
+				"tests/world/test_sprite_npcs.gd"
+			]
+		},
+		{
 			"phrase": "SPOTTER",
 			"tests": [
 				"tests/core/travel/test_fast_travel.gd"
@@ -1345,10 +1743,9 @@
 			]
 		},
 		{
-			"phrase": "Hello.",
+			"phrase": "Rift",
 			"tests": [
-				"tests/ui/test_dialogue_portraits.gd",
-				"tests/world/test_sprite_npcs.gd"
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1360,11 +1757,11 @@
 			]
 		}
 	],
-	"data/story/intro_story.tres::travel.intro.town::4": [
+	"data/story/intro_story.tres::travel.return.town::1": [
 		{
-			"phrase": "Walk",
+			"phrase": "is free",
 			"tests": [
-				"tests/world/test_heap_slice.gd"
+				"tests/ui/test_midgame_fixes_oct31n.gd"
 			]
 		}
 	],
@@ -1382,6 +1779,12 @@
 			"tests": [
 				"tests/core/travel/test_fast_travel.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.intro.final::0": [
@@ -1389,6 +1792,12 @@
 			"phrase": "Keep",
 			"tests": [
 				"tests/ui/test_battle_pad.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1403,7 +1812,8 @@
 		{
 			"phrase": "Tear",
 			"tests": [
-				"tests/world/test_capital_art.gd"
+				"tests/world/test_capital_art.gd",
+				"tests/world/test_capital_sides.gd"
 			]
 		},
 		{
@@ -1451,6 +1861,12 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.unlock.toast::0": [
@@ -1467,6 +1883,18 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "a rift",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.unlock.necrocrat::0": [
@@ -1481,6 +1909,12 @@
 			"tests": [
 				"tests/test_zone_title_cards.gd",
 				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1504,6 +1938,12 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.unlock.gourmand::0": [
@@ -1526,6 +1966,12 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.unlock.refusemancer::0": [
@@ -1547,6 +1993,12 @@
 				"tests/core/zone/test_heap.gd",
 				"tests/test_refusemancer_rename.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1577,6 +2029,12 @@
 				"tests/test_zone_title_cards.gd",
 				"tests/world/test_town_connectors.gd"
 			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.prompt::0": [
@@ -1584,6 +2042,12 @@
 			"phrase": "rift station",
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1625,6 +2089,12 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "south of the clearing",
+			"tests": [
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.forest_tip::2": [
@@ -1633,6 +2103,12 @@
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
 			]
+		},
+		{
+			"phrase": "a rift",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::travel.unlock.forest::0": [
@@ -1640,6 +2116,12 @@
 			"phrase": "rift station",
 			"tests": [
 				"tests/core/dungeon/test_pathology_lab.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -1653,14 +2135,10 @@
 			]
 		},
 		{
-			"phrase": "Buy a card",
-			"tests": [
-				"tests/ui/test_quest_notices.gd"
-			]
-		},
-		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1677,6 +2155,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1713,28 +2193,18 @@
 	],
 	"core/quests/quest_definitions.gd::_first_deck_edit::4": [
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
 	],
 	"core/quests/quest_definitions.gd::_first_deck_edit::5": [
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
@@ -1755,14 +2225,9 @@
 	],
 	"data/dungeons/dungeon_content.json::quest.first_deck_edit.offer::2": [
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
@@ -1797,14 +2262,9 @@
 	],
 	"data/dungeons/dungeon_content.json::quest.first_deck_edit.active::0": [
 		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		},
-		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		},
@@ -1825,6 +2285,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		},
@@ -1839,6 +2301,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		},
@@ -1853,6 +2317,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		},
@@ -1867,6 +2333,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1875,6 +2343,8 @@
 		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1903,6 +2373,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1923,6 +2395,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1945,6 +2419,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1977,6 +2453,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -1999,7 +2477,37 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_armory::8": [
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_armory::9": [
+		{
+			"phrase": "Menu",
+			"tests": [
+				"tests/test_controller_input.gd"
+			]
+		},
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
 			]
 		}
 	],
@@ -2013,6 +2521,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -2021,6 +2531,8 @@
 		{
 			"phrase": "Bertram",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		}
@@ -2029,7 +2541,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -2086,6 +2598,340 @@
 			]
 		}
 	],
+	"core/quests/quest_definitions.gd::_under_the_forest::0": [
+		{
+			"phrase": "Under the Forest",
+			"tests": [
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::1": [
+		{
+			"phrase": "{villain}",
+			"tests": [
+				"tests/test_dialogue_quality.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::2": [
+		{
+			"phrase": "Rip Tearson, Rift Technician",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::3": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "rift station",
+			"tests": [
+				"tests/core/dungeon/test_pathology_lab.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::4": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::5": [
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::6": [
+		{
+			"phrase": "Rift",
+			"tests": [
+				"tests/world/test_capital_sides.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::7": [
+		{
+			"phrase": "south of the clearing",
+			"tests": [
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::8": [
+		{
+			"phrase": "The Forest Clearing",
+			"tests": [
+				"tests/test_zone_title_cards.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_under_the_forest::9": [
+		{
+			"phrase": "Cell 4",
+			"tests": [
+				"tests/core/dungeon/test_pathology_lab.gd",
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::0": [
+		{
+			"phrase": "Everything",
+			"tests": [
+				"tests/core/dungeon/test_encounter_scripts.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::1": [
+		{
+			"phrase": "two Paths",
+			"tests": [
+				"tests/core/data/test_essence_alchemy.gd"
+			]
+		},
+		{
+			"phrase": "Two Paths",
+			"tests": [
+				"tests/world/test_cave_arrival.gd"
+			]
+		},
+		{
+			"phrase": "Auntie",
+			"tests": [
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::2": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Auntie",
+			"tests": [
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::3": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Auntie",
+			"tests": [
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::4": [
+		{
+			"phrase": "two Paths",
+			"tests": [
+				"tests/core/data/test_essence_alchemy.gd"
+			]
+		},
+		{
+			"phrase": "Two Paths",
+			"tests": [
+				"tests/world/test_cave_arrival.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_alembic::5": [
+		{
+			"phrase": "two Paths",
+			"tests": [
+				"tests/core/data/test_essence_alchemy.gd"
+			]
+		},
+		{
+			"phrase": "Pick two Paths",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
+			"phrase": "Two Paths",
+			"tests": [
+				"tests/world/test_cave_arrival.gd"
+			]
+		},
+		{
+			"phrase": "Auntie",
+			"tests": [
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::0": [
+		{
+			"phrase": "Loose Ends",
+			"tests": [
+				"tests/core/quests/test_loose_ends.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::1": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "{villain}",
+			"tests": [
+				"tests/test_dialogue_quality.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::2": [
+		{
+			"phrase": "Mount",
+			"tests": [
+				"tests/core/data/test_map_art.gd",
+				"tests/world/test_zone_kit.gd"
+			]
+		},
+		{
+			"phrase": "Swole Station",
+			"tests": [
+				"tests/core/data/test_vendor_stocks.gd"
+			]
+		},
+		{
+			"phrase": "Old Man Mountain",
+			"tests": [
+				"tests/core/zone/test_mini_dungeon.gd",
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::3": [
+		{
+			"phrase": "Mount",
+			"tests": [
+				"tests/core/data/test_map_art.gd",
+				"tests/world/test_zone_kit.gd"
+			]
+		},
+		{
+			"phrase": "The Ascent of Mount Swolympus",
+			"tests": [
+				"tests/core/quests/test_loose_ends.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::4": [
+		{
+			"phrase": "Gainlands",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd"
+			]
+		},
+		{
+			"phrase": "The Gainlands",
+			"tests": [
+				"tests/core/data/test_save_slots.gd",
+				"tests/core/zone/test_zone_effects.gd",
+				"tests/test_beefcake_rename.gd"
+			]
+		},
+		{
+			"phrase": "Old Man Mountain",
+			"tests": [
+				"tests/core/zone/test_mini_dungeon.gd",
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::5": [
+		{
+			"phrase": "Under the Forest",
+			"tests": [
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::6": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "the arena",
+			"tests": [
+				"tests/core/quests/test_every_fight_counts.gd",
+				"tests/world/test_parked_returns_nov3.gd"
+			]
+		},
+		{
+			"phrase": "Arena",
+			"tests": [
+				"tests/world/test_polish_chests.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_loose_ends::7": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		}
+	],
 	"core/quests/quest_definitions.gd::_meet_the_merchants::0": [
 		{
 			"phrase": "Meet the Merchants",
@@ -2112,11 +2958,17 @@
 	],
 	"core/quests/quest_definitions.gd::_meet_the_merchants::2": [
 		{
-			"phrase": "Sable",
+			"phrase": "Tilly",
 			"tests": [
-				"tests/core/data/test_npc_registry.gd",
-				"tests/core/data/test_portraits.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
+				"tests/world/test_npc_labels.gd"
+			]
+		},
+		{
+			"phrase": "Tilly Tonic",
+			"tests": [
+				"tests/world/world_look_test.gd"
 			]
 		}
 	],
@@ -2130,64 +2982,10 @@
 			]
 		},
 		{
-			"phrase": "Sable",
-			"tests": [
-				"tests/core/data/test_npc_registry.gd",
-				"tests/core/data/test_portraits.gd",
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		},
-		{
-			"phrase": "Cards",
-			"tests": [
-				"tests/ui/test_codex_gear_tab.gd"
-			]
-		}
-	],
-	"core/quests/quest_definitions.gd::_meet_the_merchants::4": [
-		{
-			"phrase": "Sable",
-			"tests": [
-				"tests/core/data/test_npc_registry.gd",
-				"tests/core/data/test_portraits.gd",
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		},
-		{
-			"phrase": "Buy a card",
-			"tests": [
-				"tests/ui/test_quest_notices.gd"
-			]
-		}
-	],
-	"core/quests/quest_definitions.gd::_meet_the_merchants::5": [
-		{
-			"phrase": "Crosspath",
-			"tests": [
-				"tests/audio/test_music_overhaul.gd",
-				"tests/core/data/test_campaign_slots.gd",
-				"tests/test_story_rewrite.gd"
-			]
-		},
-		{
-			"phrase": "Sable",
-			"tests": [
-				"tests/core/data/test_npc_registry.gd",
-				"tests/core/data/test_portraits.gd",
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		},
-		{
-			"phrase": "Cards",
-			"tests": [
-				"tests/ui/test_codex_gear_tab.gd"
-			]
-		}
-	],
-	"core/quests/quest_definitions.gd::_meet_the_merchants::6": [
-		{
 			"phrase": "Tilly",
 			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
 				"tests/world/test_npc_labels.gd"
 			]
 		},
@@ -2195,6 +2993,101 @@
 			"phrase": "Tilly Tonic",
 			"tests": [
 				"tests/world/world_look_test.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_meet_the_merchants::4": [
+		{
+			"phrase": "Power Wraps",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd",
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "then an empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Tilly",
+			"tests": [
+				"tests/ui/test_character_page.gd",
+				"tests/ui/test_quest_notices.gd",
+				"tests/world/test_npc_labels.gd"
+			]
+		},
+		{
+			"phrase": "Equip Tilly's Power Wraps",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Items",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "empty slot",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "An empty slot",
+			"tests": [
+				"tests/ui/test_deck_station_slots.gd"
+			]
+		},
+		{
+			"phrase": "Equip",
+			"tests": [
+				"tests/ui/test_pip_shop.gd"
+			]
+		},
+		{
+			"phrase": "Equip Tilly",
+			"tests": [
+				"tests/ui/test_quest_notices.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_meet_the_merchants::5": [
+		{
+			"phrase": "Menu",
+			"tests": [
+				"tests/test_controller_input.gd"
+			]
+		},
+		{
+			"phrase": "Character",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		},
+		{
+			"phrase": "Items",
+			"tests": [
+				"tests/ui/test_character_page.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_meet_the_merchants::6": [
+		{
+			"phrase": "Sable",
+			"tests": [
+				"tests/core/data/test_npc_registry.gd",
+				"tests/core/data/test_portraits.gd",
+				"tests/ui/test_dialogue_portraits.gd"
 			]
 		}
 	],
@@ -2208,19 +3101,67 @@
 			]
 		},
 		{
-			"phrase": "Tilly",
+			"phrase": "Sable",
 			"tests": [
-				"tests/world/test_npc_labels.gd"
+				"tests/core/data/test_npc_registry.gd",
+				"tests/core/data/test_portraits.gd",
+				"tests/ui/test_dialogue_portraits.gd"
 			]
 		},
 		{
-			"phrase": "Tilly Tonic",
+			"phrase": "Cards",
 			"tests": [
-				"tests/world/world_look_test.gd"
+				"tests/ui/test_codex_gear_tab.gd"
+			]
+		},
+		{
+			"phrase": "Sable's Cards",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_meet_the_merchants::8": [
+		{
+			"phrase": "Sable",
+			"tests": [
+				"tests/core/data/test_npc_registry.gd",
+				"tests/core/data/test_portraits.gd",
+				"tests/ui/test_dialogue_portraits.gd"
 			]
 		}
 	],
 	"core/quests/quest_definitions.gd::_meet_the_merchants::9": [
+		{
+			"phrase": "Crosspath",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/data/test_campaign_slots.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Sable",
+			"tests": [
+				"tests/core/data/test_npc_registry.gd",
+				"tests/core/data/test_portraits.gd",
+				"tests/ui/test_dialogue_portraits.gd"
+			]
+		},
+		{
+			"phrase": "Cards",
+			"tests": [
+				"tests/ui/test_codex_gear_tab.gd"
+			]
+		},
+		{
+			"phrase": "Sable's Cards",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
+			]
+		}
+	],
+	"core/quests/quest_definitions.gd::_meet_the_merchants::11": [
 		{
 			"phrase": "Crosspath",
 			"tests": [
@@ -2249,16 +3190,16 @@
 			]
 		},
 		{
-			"phrase": "{villain}",
+			"phrase": "Path",
 			"tests": [
-				"tests/test_dialogue_quality.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "{villain}",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/test_dialogue_quality.gd"
 			]
 		}
 	],
@@ -2295,14 +3236,6 @@
 			]
 		}
 	],
-	"data/npcs/npcs.json::V-BEETSWORTH.barks::0": [
-		{
-			"phrase": "One.",
-			"tests": [
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		}
-	],
 	"data/npcs/npcs.json::V-FENWICK.barks::0": [
 		{
 			"phrase": "Foil",
@@ -2321,15 +3254,9 @@
 	],
 	"data/npcs/npcs.json::NPC-TOWNSFOLK.barks::0": [
 		{
-			"phrase": "Somebody",
+			"phrase": "His Perfection",
 			"tests": [
-				"tests/ui/test_dialogue_portraits.gd"
-			]
-		},
-		{
-			"phrase": "A Quest",
-			"tests": [
-				"tests/world/test_polish_chests.gd"
+				"tests/core/zone/test_capital.gd"
 			]
 		}
 	],
@@ -2343,6 +3270,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -2453,6 +3381,13 @@
 			]
 		},
 		{
+			"phrase": "Grandmaster Flex",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
 			"phrase": "HOUSE OF GAINS",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
@@ -2462,12 +3397,6 @@
 			"phrase": "House of Gains",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
-			]
-		},
-		{
-			"phrase": "Grandmaster Flex",
-			"tests": [
-				"tests/test_story_rewrite.gd"
 			]
 		}
 	],
@@ -2735,6 +3664,12 @@
 				"tests/test_beefcake_rename.gd",
 				"tests/test_terminology.gd"
 			]
+		},
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
 		}
 	],
 	"data/story/gainlands_story.tres::fx.wake::0": [
@@ -2749,6 +3684,14 @@
 			"tests": [
 				"tests/core/zone/test_mini_dungeon.gd",
 				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::fx.fall_log::0": [
+		{
+			"phrase": "1 damage",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd"
 			]
 		}
 	],
@@ -2779,12 +3722,6 @@
 			"phrase": "Delt Deck",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
-			]
-		},
-		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
 			]
 		}
 	],
@@ -2823,12 +3760,6 @@
 			"phrase": "Delt Deck",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
-			]
-		},
-		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
 			]
 		}
 	],
@@ -2987,6 +3918,14 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::sign.mills::2": [
+		{
+			"phrase": "The D.N.A.",
+			"tests": [
+				"tests/world/test_gainlands_corrections.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::sign.quiz::1": [
 		{
 			"phrase": "Beefcake",
@@ -3013,11 +3952,28 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::sign.spot_me::1": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::sign.thrower_east::1": [
+		{
+			"phrase": "Coach",
+			"tests": [
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::sign.mini_dungeon::0": [
 		{
 			"phrase": "The Iron Cave",
 			"tests": [
-				"tests/core/feats/test_feats.gd"
+				"tests/core/feats/test_feats.gd",
+				"tests/ui/test_overnight_oct31n_ux.gd"
 			]
 		},
 		{
@@ -3195,6 +4151,13 @@
 			]
 		},
 		{
+			"phrase": "Grandmaster Flex",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
 			"phrase": "HOUSE OF GAINS",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
@@ -3210,12 +4173,6 @@
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
-			]
-		},
-		{
-			"phrase": "Grandmaster Flex",
-			"tests": [
-				"tests/test_story_rewrite.gd"
 			]
 		}
 	],
@@ -3237,6 +4194,24 @@
 			"phrase": "Leg Day",
 			"tests": [
 				"tests/world/test_gainlands_v2.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::npc.brenda.intro::3": [
+		{
+			"phrase": "when the kingdom is whole again",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/world/test_fixes_nov4b_swolympus.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::npc.brenda.return::4": [
+		{
+			"phrase": "when the kingdom is whole again",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/world/test_fixes_nov4b_swolympus.gd"
 			]
 		}
 	],
@@ -3383,6 +4358,47 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::npc.gary.intro::0": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::ambient.gym_attendant::0": [
+		{
+			"phrase": "Capital",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/dungeon/test_ending_postgame.gd",
+				"tests/core/zone/test_capital.gd"
+			]
+		},
+		{
+			"phrase": "The Capital",
+			"tests": [
+				"tests/test_zone_title_cards.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::fx.spot_done::0": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::fx.spot_again::0": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::fx.wheel_run::0": [
 		{
 			"phrase": "Gainlands",
@@ -3501,6 +4517,14 @@
 			]
 		}
 	],
+	"core/quests/zone_quest_definitions.gd::TARGETS::7": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
 	"core/quests/zone_quest_definitions.gd::TARGETS::8": [
 		{
 			"phrase": "Flex",
@@ -3522,6 +4546,20 @@
 				"tests/core/zone/test_mini_dungeon.gd",
 				"tests/world/test_npc_labels.gd"
 			]
+		},
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"core/quests/zone_quest_definitions.gd::_gain_spot_me::2": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
 		}
 	],
 	"core/quests/zone_quest_definitions.gd::_gain_spot_me::3": [
@@ -3538,6 +4576,12 @@
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
 			]
+		},
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
 		}
 	],
 	"data/story/gainlands_story.tres::quest.gain_spot_me.active::0": [
@@ -3551,6 +4595,20 @@
 			"phrase": "Pec Perch",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
+			]
+		},
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::quest.gain_spot_me.ready::0": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -3673,6 +4731,13 @@
 			]
 		},
 		{
+			"phrase": "Grandmaster Flex",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
 			"phrase": "HOUSE OF GAINS",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
@@ -3682,12 +4747,6 @@
 			"phrase": "House of Gains",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
-			]
-		},
-		{
-			"phrase": "Grandmaster Flex",
-			"tests": [
-				"tests/test_story_rewrite.gd"
 			]
 		}
 	],
@@ -3701,10 +4760,19 @@
 	],
 	"data/story/gainlands_story.tres::effect.debuff.name::0": [
 		{
-			"phrase": "Processing Time",
+			"phrase": "Out of Breath",
 			"tests": [
-				"tests/core/zone/test_zone_effects.gd",
-				"tests/ui/test_rules_brief_merge_oct31.gd"
+				"tests/core/zone/test_zone_effects.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::effect.debuff.flavor::0": [
+		{
+			"phrase": "Necrocrat",
+			"tests": [
+				"tests/test_art_import_oct29.gd",
+				"tests/test_necrocrat_rename.gd",
+				"tests/test_release_readiness.gd"
 			]
 		}
 	],
@@ -3758,6 +4826,12 @@
 			"tests": [
 				"tests/core/deck/test_deck_insights.gd",
 				"tests/core/dungeon/test_encounter_modifiers.gd"
+			]
+		},
+		{
+			"phrase": "Iron-less Prison",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
 			]
 		}
 	],
@@ -3849,6 +4923,77 @@
 			]
 		}
 	],
+	"core/quests/zone_quest_definitions.gd::TARGETS::26": [
+		{
+			"phrase": "Swole Station",
+			"tests": [
+				"tests/core/data/test_vendor_stocks.gd"
+			]
+		}
+	],
+	"core/quests/zone_quest_definitions.gd::side_quests::0": [
+		{
+			"phrase": "Only the Worthy...",
+			"tests": [
+				"tests/world/test_fixes_nov4b_swolympus.gd"
+			]
+		},
+		{
+			"phrase": "Only the worthy",
+			"tests": [
+				"tests/world/test_fixes_nov4b_swolympus.gd"
+			]
+		}
+	],
+	"core/quests/zone_quest_definitions.gd::side_quests::1": [
+		{
+			"phrase": "Primm",
+			"tests": [
+				"tests/core/data/test_gatekeeper_freed_lines.gd",
+				"tests/core/data/test_map_art.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd"
+			]
+		},
+		{
+			"phrase": "Mount",
+			"tests": [
+				"tests/core/data/test_map_art.gd",
+				"tests/world/test_zone_kit.gd"
+			]
+		},
+		{
+			"phrase": "Old Man Mountain",
+			"tests": [
+				"tests/core/zone/test_mini_dungeon.gd",
+				"tests/world/test_npc_labels.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::quest.side_s_beef.offer::0": [
+		{
+			"phrase": "Primm",
+			"tests": [
+				"tests/core/data/test_gatekeeper_freed_lines.gd",
+				"tests/core/data/test_map_art.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd"
+			]
+		},
+		{
+			"phrase": "Mount",
+			"tests": [
+				"tests/core/data/test_map_art.gd",
+				"tests/world/test_zone_kit.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::quest.side_s_beef.offer::1": [
+		{
+			"phrase": "Only the worthy",
+			"tests": [
+				"tests/world/test_fixes_nov4b_swolympus.gd"
+			]
+		}
+	],
 	"data/dungeons/dungeon_content.json::dungeon.dg_s_iron_boss.before::0": [
 		{
 			"phrase": "Beefcake",
@@ -3918,6 +5063,15 @@
 			]
 		}
 	],
+	"data/dungeons/dungeon_content.json::dungeon.dg_s_iron_boss.after::0": [
+		{
+			"phrase": "Baron Quadzilla",
+			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
+				"tests/core/dungeon/test_hidden_traits_and_fog.gd"
+			]
+		}
+	],
 	"data/dungeons/dungeon_content.json::dungeon.dg_s_iron_boss.after::1": [
 		{
 			"phrase": "leg day",
@@ -3964,6 +5118,12 @@
 			"tests": [
 				"tests/core/deck/test_deck_insights.gd",
 				"tests/core/dungeon/test_encounter_modifiers.gd"
+			]
+		},
+		{
+			"phrase": "Iron-less Prison",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
 			]
 		}
 	],
@@ -4017,6 +5177,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4058,6 +5219,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4072,6 +5234,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4086,6 +5249,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4280,6 +5444,14 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::challenge.hg_calisthenics.text::0": [
+		{
+			"phrase": "Iron in the prison",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::event.hg_descent.body::0": [
 		{
 			"phrase": "Iron",
@@ -4287,13 +5459,43 @@
 				"tests/core/deck/test_deck_insights.gd",
 				"tests/core/dungeon/test_encounter_modifiers.gd"
 			]
+		},
+		{
+			"phrase": "Iron-less Prison",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
+			]
 		}
 	],
-	"data/story/gainlands_story.tres::event.hg_descent.result.2::1": [
+	"data/story/gainlands_story.tres::event.hg_descent.choice.0::0": [
 		{
-			"phrase": "Somebody",
+			"phrase": "Bribe the guard",
 			"tests": [
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::event.hg_descent.choice.1::0": [
+		{
+			"phrase": "Overpower the guard",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::event.hg_descent.choice.2::0": [
+		{
+			"phrase": "Distract the guard",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::event.hg_descent.result.2::0": [
+		{
+			"phrase": "{card}",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
 			]
 		}
 	],
@@ -4307,6 +5509,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4325,6 +5528,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4347,6 +5551,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4361,6 +5566,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4375,6 +5581,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4462,6 +5669,12 @@
 			]
 		},
 		{
+			"phrase": "Iron-less Prison",
+			"tests": [
+				"tests/core/dungeon/test_fixes_nov4b_house_of_gains.gd"
+			]
+		},
+		{
 			"phrase": "Flex",
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
@@ -4470,6 +5683,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4532,6 +5746,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4647,6 +5862,14 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::sign.hub_main.freed::2": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::sign.hub_power.freed::1": [
 		{
 			"phrase": "Gainlands",
@@ -4700,6 +5923,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -4720,6 +5944,13 @@
 			]
 		},
 		{
+			"phrase": "Grandmaster Flex",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
 			"phrase": "HOUSE OF GAINS",
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
@@ -4730,12 +5961,6 @@
 			"tests": [
 				"tests/core/zone/test_gainlands.gd"
 			]
-		},
-		{
-			"phrase": "Grandmaster Flex",
-			"tests": [
-				"tests/test_story_rewrite.gd"
-			]
 		}
 	],
 	"data/story/gainlands_story.tres::sign.exit.freed::0": [
@@ -4743,14 +5968,6 @@
 			"phrase": "Beefcake Path",
 			"tests": [
 				"tests/test_beefcake_rename.gd"
-			]
-		}
-	],
-	"data/story/gainlands_story.tres::sign.exit.freed::1": [
-		{
-			"phrase": "Town",
-			"tests": [
-				"tests/world/test_crosspath_cleanup.gd"
 			]
 		}
 	],
@@ -4814,6 +6031,23 @@
 			]
 		}
 	],
+	"data/story/gainlands_story.tres::npc.brenda.intro.freed::1": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::npc.brenda.return.freed::1": [
+		{
+			"phrase": "when the kingdom is whole again",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/world/test_fixes_nov4b_swolympus.gd"
+			]
+		}
+	],
 	"data/story/gainlands_story.tres::npc.gus.return.freed::0": [
 		{
 			"phrase": "the wheels turn",
@@ -4832,7 +6066,16 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::freed_npc.heartlift::3": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -4883,6 +6126,14 @@
 			"phrase": "CLENCH",
 			"tests": [
 				"tests/test_story_rewrite.gd"
+			]
+		}
+	],
+	"data/story/gainlands_story.tres::ruler.statue.freed::1": [
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -4937,6 +6188,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -4965,6 +6217,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -5017,6 +6270,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -5075,15 +6329,22 @@
 	],
 	"core/quests/quest_definitions.gd::ZONE_MAIN_TEXT::27": [
 		{
+			"phrase": "Basil",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
+			]
+		},
+		{
 			"phrase": "Chef",
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
 			]
 		},
 		{
-			"phrase": "Basil",
+			"phrase": "Sous-Chef Tarragon",
 			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -5284,15 +6545,16 @@
 	],
 	"data/story/gourmand_story.tres::fx.wake::0": [
 		{
-			"phrase": "Grand Pantry",
+			"phrase": "Basil",
 			"tests": [
-				"tests/core/data/test_vendor_stocks.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		},
 		{
-			"phrase": "Basil",
+			"phrase": "Grand Pantry",
 			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
+				"tests/core/data/test_vendor_stocks.gd"
 			]
 		}
 	],
@@ -5310,11 +6572,11 @@
 			]
 		}
 	],
-	"data/story/gourmand_story.tres::fx.soup_fall::0": [
+	"data/story/gourmand_story.tres::fx.soup_fall_log::0": [
 		{
-			"phrase": "Somebody",
+			"phrase": "1 damage",
 			"tests": [
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/core/data/test_items_nov3.gd"
 			]
 		}
 	],
@@ -5384,6 +6646,13 @@
 	],
 	"data/story/gourmand_story.tres::gate.quest.pass::0": [
 		{
+			"phrase": "Basil",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
+			]
+		},
+		{
 			"phrase": "Chef",
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
@@ -5393,12 +6662,6 @@
 			"phrase": "Yes, Chef",
 			"tests": [
 				"tests/core/zone/test_buffet.gd"
-			]
-		},
-		{
-			"phrase": "Basil",
-			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		}
 	],
@@ -5411,6 +6674,13 @@
 		}
 	],
 	"data/story/gourmand_story.tres::gate.quest.need::1": [
+		{
+			"phrase": "Basil",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
+			]
+		},
 		{
 			"phrase": "Grand Pantry",
 			"tests": [
@@ -5428,18 +6698,13 @@
 			"tests": [
 				"tests/core/zone/test_buffet.gd"
 			]
-		},
-		{
-			"phrase": "Basil",
-			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
-			]
 		}
 	],
 	"data/story/gourmand_story.tres::gate.battle.open::0": [
 		{
 			"phrase": "Colonel Casserole",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_art_import_oct20.gd"
 			]
 		}
@@ -5448,6 +6713,7 @@
 		{
 			"phrase": "Colonel Casserole",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_art_import_oct20.gd"
 			]
 		}
@@ -5456,6 +6722,7 @@
 		{
 			"phrase": "Colonel Casserole",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_art_import_oct20.gd"
 			]
 		}
@@ -5582,6 +6849,7 @@
 		{
 			"phrase": "Basil",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		}
@@ -5654,6 +6922,7 @@
 		{
 			"phrase": "Basil",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		},
@@ -5668,6 +6937,7 @@
 		{
 			"phrase": "Colonel Casserole",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_art_import_oct20.gd"
 			]
 		}
@@ -5722,6 +6992,14 @@
 			]
 		}
 	],
+	"data/story/gourmand_story.tres::sign.stew::1": [
+		{
+			"phrase": "Anything",
+			"tests": [
+				"tests/core/data/test_enemy_art_oct28.gd"
+			]
+		}
+	],
 	"data/story/gourmand_story.tres::sign.golem_rule::2": [
 		{
 			"phrase": "Chef",
@@ -5746,22 +7024,16 @@
 	],
 	"data/story/gourmand_story.tres::npc.odalys.intro::0": [
 		{
-			"phrase": "feed the kingdom",
-			"tests": [
-				"tests/core/zone/test_buffet.gd"
-			]
-		},
-		{
 			"phrase": "Basil",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		},
 		{
-			"phrase": "Hello.",
+			"phrase": "feed the kingdom",
 			"tests": [
-				"tests/ui/test_dialogue_portraits.gd",
-				"tests/world/test_sprite_npcs.gd"
+				"tests/core/zone/test_buffet.gd"
 			]
 		},
 		{
@@ -5781,6 +7053,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -5880,6 +7153,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -5892,16 +7166,16 @@
 	],
 	"data/story/gourmand_story.tres::npc.odalys.return::3": [
 		{
-			"phrase": "Chef",
+			"phrase": "Path",
 			"tests": [
-				"tests/core/dungeon/test_primm_rushed_lines.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "Chef",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/core/dungeon/test_primm_rushed_lines.gd"
 			]
 		}
 	],
@@ -5918,6 +7192,12 @@
 			"phrase": "Chef",
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
+			]
+		},
+		{
+			"phrase": "Sous-Chef Tarragon",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -5957,6 +7237,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -5964,6 +7245,15 @@
 			"phrase": "Chef",
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
+			]
+		}
+	],
+	"data/story/gourmand_story.tres::npc.tarragon.return::1": [
+		{
+			"phrase": "Refusemancer",
+			"tests": [
+				"tests/test_refusemancer_rename.gd",
+				"tests/test_terminology.gd"
 			]
 		}
 	],
@@ -6048,6 +7338,12 @@
 			"tests": [
 				"tests/core/dungeon/test_primm_rushed_lines.gd"
 			]
+		},
+		{
+			"phrase": "Sous-Chef Tarragon",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
 		}
 	],
 	"core/quests/zone_quest_definitions.gd::_buf_pantry::2": [
@@ -6092,15 +7388,16 @@
 	],
 	"core/quests/zone_quest_definitions.gd::_buf_mend::1": [
 		{
-			"phrase": "Grand Pantry",
+			"phrase": "Basil",
 			"tests": [
-				"tests/core/data/test_vendor_stocks.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		},
 		{
-			"phrase": "Basil",
+			"phrase": "Grand Pantry",
 			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
+				"tests/core/data/test_vendor_stocks.gd"
 			]
 		}
 	],
@@ -6259,6 +7556,23 @@
 				"tests/core/data/test_save_slots.gd",
 				"tests/core/zone/test_buffet.gd",
 				"tests/test_gourmand_rename.gd"
+			]
+		}
+	],
+	"data/story/gourmand_story.tres::npc.quiz.return::0": [
+		{
+			"phrase": "Capital",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/dungeon/test_ending_postgame.gd",
+				"tests/core/zone/test_capital.gd"
+			]
+		},
+		{
+			"phrase": "The Capital",
+			"tests": [
+				"tests/test_zone_title_cards.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -6485,6 +7799,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -6504,6 +7819,12 @@
 		}
 	],
 	"data/story/gourmand_story.tres::effect.buff.name::0": [
+		{
+			"phrase": "Well Fed",
+			"tests": [
+				"tests/core/game/test_fixes_nov4_battle.gd"
+			]
+		},
 		{
 			"phrase": "Well",
 			"tests": [
@@ -6567,6 +7888,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -6687,6 +8009,7 @@
 		{
 			"phrase": "Colonel Casserole",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_art_import_oct20.gd"
 			]
 		}
@@ -6721,15 +8044,16 @@
 			]
 		},
 		{
-			"phrase": "card:",
+			"phrase": "Basil",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_events.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/zone/test_mini_dungeon.gd"
 			]
 		},
 		{
-			"phrase": "Basil",
+			"phrase": "card:",
 			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd"
+				"tests/core/dungeon/test_dungeon_events.gd"
 			]
 		}
 	],
@@ -6788,6 +8112,14 @@
 			"phrase": "Leave",
 			"tests": [
 				"tests/ui/test_pad_focus_screens.gd"
+			]
+		}
+	],
+	"data/dungeons/dungeon_content.json::dungeon.dg_s_gour_boss.before::0": [
+		{
+			"phrase": "The Itamae Supreme",
+			"tests": [
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -6875,6 +8207,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -6889,6 +8222,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -6947,7 +8281,14 @@
 		{
 			"phrase": "Colonel Cornelius Crumb, Director of Culinary Defense",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/ui/test_oct23_battle_help.gd"
+			]
+		},
+		{
+			"phrase": "Colonel Cornelius Crumb",
+			"tests": [
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -6969,6 +8310,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -6992,6 +8334,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -7078,13 +8421,41 @@
 			]
 		}
 	],
+	"data/encounters/encounter_scripts.json::The Doppelganger/0/text::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::The Doppelganger/0/banner::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
 	"data/encounters/encounter_scripts.json::The Doppelganger/1/banner::0": [
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		}
 	],
@@ -7118,6 +8489,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -7211,9 +8583,9 @@
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		},
 		{
@@ -7266,6 +8638,24 @@
 			"phrase": "Buffet",
 			"tests": [
 				"tests/audio/test_music_overhaul.gd"
+			]
+		}
+	],
+	"data/story/gourmand_story.tres::cutscene.wonder.6::2": [
+		{
+			"phrase": "Escoffina",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd"
+			]
+		}
+	],
+	"data/story/gourmand_story.tres::cutscene.wonder.7::0": [
+		{
+			"phrase": "Escoffina",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -7393,6 +8783,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -7537,6 +8928,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -7572,6 +8964,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		}
@@ -7580,9 +8973,9 @@
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		}
 	],
@@ -7593,6 +8986,19 @@
 				"tests/core/data/test_deck_box.gd",
 				"tests/core/data/test_save_slots.gd",
 				"tests/ui/test_deck_station_slots.gd"
+			]
+		},
+		{
+			"phrase": "Escoffina",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd"
+			]
+		},
+		{
+			"phrase": "Escoffina. Apprentice.",
+			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd"
 			]
 		}
 	],
@@ -7842,6 +9248,16 @@
 			]
 		}
 	],
+	"data/story/dna_story.tres::memo.parking::1": [
+		{
+			"phrase": "Beefcake",
+			"tests": [
+				"tests/core/data/test_data_model.gd",
+				"tests/test_beefcake_rename.gd",
+				"tests/test_terminology.gd"
+			]
+		}
+	],
 	"data/story/dna_story.tres::memo.reorg::2": [
 		{
 			"phrase": "{villain}",
@@ -7862,6 +9278,7 @@
 		{
 			"phrase": "Hello.",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/ui/test_dialogue_portraits.gd",
 				"tests/world/test_sprite_npcs.gd"
 			]
@@ -8077,6 +9494,20 @@
 			]
 		}
 	],
+	"data/story/dna_story.tres::sign.now_serving::1": [
+		{
+			"phrase": "three ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Three ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
 	"data/story/dna_story.tres::sign.now_serving::2": [
 		{
 			"phrase": "The Department of Necrotic Affairs",
@@ -8178,9 +9609,9 @@
 		{
 			"phrase": "Mortimer Grimsby, CE-No",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_card_availability.gd",
-				"tests/core/dungeon/test_zone_stories_v2.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/dungeon/test_zone_stories_v2.gd"
 			]
 		},
 		{
@@ -8396,6 +9827,13 @@
 	],
 	"data/story/dna_story.tres::dungeon.ha_records.before::0": [
 		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
 			"phrase": "Necrocrat",
 			"tests": [
 				"tests/test_art_import_oct29.gd",
@@ -8407,13 +9845,6 @@
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
-			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
@@ -8595,9 +10026,9 @@
 		{
 			"phrase": "Mortimer Grimsby, CE-No",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_card_availability.gd",
-				"tests/core/dungeon/test_zone_stories_v2.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/dungeon/test_zone_stories_v2.gd"
 			]
 		}
 	],
@@ -8699,6 +10130,20 @@
 			"phrase": "the first time",
 			"tests": [
 				"tests/core/travel/test_fast_travel.gd"
+			]
+		}
+	],
+	"data/story/dna_story.tres::npc.quiz.return.freed::0": [
+		{
+			"phrase": "not yet",
+			"tests": [
+				"tests/core/game/test_card_mechanics_more.gd"
+			]
+		},
+		{
+			"phrase": "Not yet",
+			"tests": [
+				"tests/ui/test_confirm_keys_oct31.gd"
 			]
 		}
 	],
@@ -8806,9 +10251,9 @@
 		{
 			"phrase": "Mortimer Grimsby, CE-No",
 			"tests": [
+				"tests/core/ai/test_ai_attacks_when_ahead.gd",
 				"tests/core/data/test_card_availability.gd",
-				"tests/core/dungeon/test_zone_stories_v2.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/dungeon/test_zone_stories_v2.gd"
 			]
 		}
 	],
@@ -8866,6 +10311,12 @@
 				"tests/core/dungeon/test_primm_rushed_lines.gd",
 				"tests/core/quests/test_quest_reveal.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
 			]
 		}
 	],
@@ -8943,6 +10394,12 @@
 			]
 		},
 		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
 			"phrase": "The Verdant Dump",
 			"tests": [
 				"tests/core/zone/test_heap.gd",
@@ -9016,7 +10473,7 @@
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		},
 		{
@@ -9205,6 +10662,14 @@
 			]
 		}
 	],
+	"data/story/refusemancer_story.tres::fx.hazard_fall_log::0": [
+		{
+			"phrase": "1 damage",
+			"tests": [
+				"tests/core/data/test_items_nov3.gd"
+			]
+		}
+	],
 	"data/story/refusemancer_story.tres::bark.worker_1::1": [
 		{
 			"phrase": "Well",
@@ -9215,7 +10680,7 @@
 	],
 	"data/story/refusemancer_story.tres::bark.worker_2::1": [
 		{
-			"phrase": "Dump",
+			"phrase": "Buffet",
 			"tests": [
 				"tests/audio/test_music_overhaul.gd"
 			]
@@ -9256,7 +10721,7 @@
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		},
 		{
@@ -9397,7 +10862,7 @@
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		},
 		{
@@ -9445,6 +10910,20 @@
 			]
 		}
 	],
+	"data/story/refusemancer_story.tres::sign.junk_menu::1": [
+		{
+			"phrase": "one ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "One ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
 	"data/story/refusemancer_story.tres::sign.junk_menu::2": [
 		{
 			"phrase": "Dump",
@@ -9480,6 +10959,12 @@
 		}
 	],
 	"data/story/refusemancer_story.tres::npc.marigold.intro::1": [
+		{
+			"phrase": "Buffet",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd"
+			]
+		},
 		{
 			"phrase": "waste removal",
 			"tests": [
@@ -9559,7 +11044,7 @@
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -9576,7 +11061,7 @@
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -9777,6 +11262,14 @@
 			]
 		}
 	],
+	"data/story/refusemancer_story.tres::effect.buff.name::0": [
+		{
+			"phrase": "Overgrowth",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		}
+	],
 	"data/story/refusemancer_story.tres::effect.buff.flavor::0": [
 		{
 			"phrase": "Dump",
@@ -9916,14 +11409,6 @@
 			]
 		}
 	],
-	"data/story/refusemancer_story.tres::dungeon.rh_outskirts.blurb::0": [
-		{
-			"phrase": "Everything",
-			"tests": [
-				"tests/core/dungeon/test_encounter_scripts.gd"
-			]
-		}
-	],
 	"data/story/story_scenes.json::scenes/clipwell_mill/steps/0::1": [
 		{
 			"phrase": "Someone",
@@ -9945,6 +11430,20 @@
 			"phrase": "Hortensia Clipwell, Royal Groundskeeper",
 			"tests": [
 				"tests/ui/test_oct23_battle_help.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::Hortensia Clipwell, Royal Groundskeeper/0/text::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
 			]
 		}
 	],
@@ -10031,9 +11530,35 @@
 	],
 	"data/encounters/encounter_scripts.json::Hive of Mutant Bees/0/text::0": [
 		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
 			"phrase": "Flying",
 			"tests": [
 				"tests/test_terminology.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::Hive of Mutant Bees/0/banner::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
 			]
 		}
 	],
@@ -10140,6 +11665,12 @@
 			]
 		},
 		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
 			"phrase": "Rotheart",
 			"tests": [
 				"tests/core/zone/test_heap.gd"
@@ -10157,6 +11688,20 @@
 			"phrase": "Rotheart",
 			"tests": [
 				"tests/core/zone/test_heap.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::Compostella, the Rotheart/0/text::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
 			]
 		}
 	],
@@ -10406,6 +11951,12 @@
 			]
 		},
 		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
 			"phrase": "Rotheart",
 			"tests": [
 				"tests/core/zone/test_heap.gd"
@@ -10452,20 +12003,12 @@
 			]
 		}
 	],
-	"data/story/refusemancer_story.tres::npc.hob.return.freed::0": [
-		{
-			"phrase": "None",
-			"tests": [
-				"tests/world/test_npc_sprite_rollout.gd"
-			]
-		}
-	],
 	"data/story/refusemancer_story.tres::npc.wren.intro.freed::0": [
 		{
 			"phrase": "Billie Muckfoot",
 			"tests": [
 				"tests/core/data/test_npc_registry.gd",
-				"tests/ui/test_dialogue_portraits.gd"
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -10476,6 +12019,12 @@
 				"tests/core/dungeon/test_primm_rushed_lines.gd",
 				"tests/core/quests/test_quest_reveal.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
 			]
 		}
 	],
@@ -10568,7 +12117,14 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Gary",
+			"tests": [
+				"tests/world/test_painted_npcs_batch11.gd"
 			]
 		}
 	],
@@ -10580,15 +12136,21 @@
 				"tests/core/zone/test_buffet.gd",
 				"tests/test_gourmand_rename.gd"
 			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
 		}
 	],
 	"data/story/intro_story.tres::zone.complete.gourmand.body::0": [
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		},
 		{
@@ -10611,6 +12173,12 @@
 		}
 	],
 	"data/story/intro_story.tres::zone.complete.necrocrat.title::0": [
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		},
 		{
 			"phrase": "The D.N.A.",
 			"tests": [
@@ -10647,6 +12215,12 @@
 				"tests/core/zone/test_heap.gd",
 				"tests/test_refusemancer_rename.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
 			]
 		}
 	],
@@ -10772,19 +12346,14 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
-			]
-		},
-		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
 			]
 		},
 		{
 			"phrase": "Deck Station",
 			"tests": [
+				"tests/ui/test_lategame_fixes_oct31n.gd",
 				"tests/ui/test_pad_focus_screens.gd"
 			]
 		}
@@ -10801,7 +12370,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -10816,7 +12385,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		},
@@ -10867,23 +12436,23 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
 	"data/story/story_scenes.json::scenes/cave_mouth_1/steps/4::1": [
 		{
-			"phrase": "Keep",
+			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_battle_pad.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "Keep",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/ui/test_battle_pad.gd"
 			]
 		}
 	],
@@ -10992,20 +12561,27 @@
 	],
 	"data/story/intro_story.tres::town.elder.idle.3::0": [
 		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
 			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
-			]
 		}
 	],
 	"data/story/intro_story.tres::town.elder.progress.3::0": [
+		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
 		{
 			"phrase": "{villain}",
 			"tests": [
@@ -11016,13 +12592,6 @@
 			"phrase": "only one path",
 			"tests": [
 				"tests/test_prologue_rescuer_text.gd"
-			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -11238,6 +12807,14 @@
 			]
 		}
 	],
+	"data/story/old_well_story.json::beats.find.refusemancer.0::1": [
+		{
+			"phrase": "Someone",
+			"tests": [
+				"tests/core/quests/test_quests.gd"
+			]
+		}
+	],
 	"data/story/old_well_story.json::beats.find.gourmand.0::0": [
 		{
 			"phrase": "Buffet",
@@ -11254,16 +12831,16 @@
 			]
 		},
 		{
-			"phrase": "Someone",
-			"tests": [
-				"tests/core/quests/test_quests.gd"
-			]
-		},
-		{
 			"phrase": "Gourmand",
 			"tests": [
 				"tests/test_gourmand_rename.gd",
 				"tests/test_terminology.gd"
+			]
+		},
+		{
+			"phrase": "Somebody",
+			"tests": [
+				"tests/ui/test_dialogue_portraits.gd"
 			]
 		}
 	],
@@ -11299,7 +12876,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -11334,7 +12911,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -11551,6 +13128,34 @@
 			]
 		}
 	],
+	"data/encounters/encounter_scripts.json::town:old_well/0/text::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::town:old_well/0/banner::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
 	"data/encounters/encounter_scripts.json::town:old_well/1/line::0": [
 		{
 			"phrase": "not yet",
@@ -11727,6 +13332,12 @@
 			"tests": [
 				"tests/core/dungeon/test_ninja_boss.gd"
 			]
+		},
+		{
+			"phrase": "The Oldest Trick in the Book",
+			"tests": [
+				"tests/core/dungeon/test_ninja_boss.gd"
+			]
 		}
 	],
 	"core/quests/quest_definitions.gd::_oldest_trick::1": [
@@ -11765,7 +13376,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -11774,7 +13385,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -11850,6 +13461,12 @@
 			"tests": [
 				"tests/core/dungeon/test_ninja_boss.gd"
 			]
+		},
+		{
+			"phrase": "The Oldest Trick in the Book",
+			"tests": [
+				"tests/core/dungeon/test_ninja_boss.gd"
+			]
 		}
 	],
 	"data/encounters/encounter_scripts.json::town:ninja/1/name::0": [
@@ -11883,7 +13500,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -11945,16 +13562,16 @@
 	],
 	"data/story/capital_story.tres::hud.objective.inside::0": [
 		{
-			"phrase": "{villain}",
+			"phrase": "Path",
 			"tests": [
-				"tests/test_dialogue_quality.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "{villain}",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/test_dialogue_quality.gd"
 			]
 		}
 	],
@@ -12002,6 +13619,12 @@
 			"phrase": "Captain Spotless",
 			"tests": [
 				"tests/core/data/test_art_import_oct28.gd"
+			]
+		},
+		{
+			"phrase": "Standard",
+			"tests": [
+				"tests/world/test_city_camera.gd"
 			]
 		}
 	],
@@ -12051,6 +13674,22 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::fx.heal_couch::0": [
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::fx.heal_already::0": [
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
+		}
+	],
 	"data/story/capital_story.tres::fx.hit::0": [
 		{
 			"phrase": "Capital",
@@ -12068,11 +13707,47 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::fx.hit_rift::0": [
+		{
+			"phrase": "Capital",
+			"tests": [
+				"tests/audio/test_music_overhaul.gd",
+				"tests/core/dungeon/test_ending_postgame.gd",
+				"tests/core/zone/test_capital.gd"
+			]
+		},
+		{
+			"phrase": "a rift",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
+		},
+		{
+			"phrase": "The Capital",
+			"tests": [
+				"tests/test_zone_title_cards.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		}
+	],
 	"data/story/capital_story.tres::fx.wake::0": [
 		{
 			"phrase": "The Crease",
 			"tests": [
 				"tests/core/zone/test_capital.gd"
+			]
+		},
+		{
+			"phrase": "Nurse Hesper Dray",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd",
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		},
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
 			]
 		}
 	],
@@ -12229,6 +13904,14 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::fx.wheel_again::0": [
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		}
+	],
 	"data/story/capital_story.tres::fx.cable::0": [
 		{
 			"phrase": "{villain}",
@@ -12308,6 +13991,14 @@
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::debuff.gourmand.name::0": [
+		{
+			"phrase": "Famine",
+			"tests": [
+				"tests/ui/test_overnight_oct31n_ux.gd"
 			]
 		}
 	],
@@ -12702,11 +14393,19 @@
 			]
 		}
 	],
-	"data/story/capital_story.tres::npc.wren.return::1": [
+	"data/story/capital_story.tres::npc.wren.intro::2": [
 		{
-			"phrase": "Keep",
+			"phrase": "Talk",
 			"tests": [
-				"tests/ui/test_battle_pad.gd"
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.wren.return::0": [
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
 			]
 		}
 	],
@@ -12737,6 +14436,14 @@
 			"phrase": "Well",
 			"tests": [
 				"tests/ui/test_codex_gear_tab.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.hesper.intro::0": [
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
 			]
 		}
 	],
@@ -12845,6 +14552,30 @@
 			"phrase": "Captain Spotless",
 			"tests": [
 				"tests/core/data/test_art_import_oct28.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.spotless.intro::2": [
+		{
+			"phrase": "Standard",
+			"tests": [
+				"tests/world/test_city_camera.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.spotless.intro::3": [
+		{
+			"phrase": "Standard",
+			"tests": [
+				"tests/world/test_city_camera.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.spotless.defeated::1": [
+		{
+			"phrase": "Standard",
+			"tests": [
+				"tests/world/test_city_camera.gd"
 			]
 		}
 	],
@@ -13227,9 +14958,9 @@
 	],
 	"data/story/capital_story.tres::facade.speaker.3.0::1": [
 		{
-			"phrase": "Anything",
+			"phrase": "The Correction Ward",
 			"tests": [
-				"tests/core/data/test_enemy_art_oct28.gd"
+				"tests/core/zone/test_capital.gd"
 			]
 		}
 	],
@@ -13469,6 +15200,7 @@
 		{
 			"phrase": "CITIZEN",
 			"tests": [
+				"tests/world/test_crosspath_bounds.gd",
 				"tests/world/test_no_citizen_outside_capital.gd",
 				"tests/world/test_npc_sprite_rollout.gd"
 			]
@@ -13608,6 +15340,38 @@
 			]
 		}
 	],
+	"data/dungeons/dungeon_content.json::dungeons/S-CAP/blurbs/2::0": [
+		{
+			"phrase": "Beefcake",
+			"tests": [
+				"tests/core/data/test_data_model.gd",
+				"tests/test_beefcake_rename.gd",
+				"tests/test_terminology.gd"
+			]
+		},
+		{
+			"phrase": "Necrocrat",
+			"tests": [
+				"tests/test_art_import_oct29.gd",
+				"tests/test_necrocrat_rename.gd",
+				"tests/test_release_readiness.gd"
+			]
+		},
+		{
+			"phrase": "Gourmand",
+			"tests": [
+				"tests/test_gourmand_rename.gd",
+				"tests/test_terminology.gd"
+			]
+		},
+		{
+			"phrase": "Refusemancer",
+			"tests": [
+				"tests/test_refusemancer_rename.gd",
+				"tests/test_terminology.gd"
+			]
+		}
+	],
 	"data/dungeons/dungeon_content.json::dungeon.dg_s_cap_boss.before::0": [
 		{
 			"phrase": "Captain Spotless",
@@ -13658,6 +15422,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -13692,7 +15457,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -13709,6 +15474,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -13723,6 +15489,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -13771,6 +15538,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -13817,17 +15585,17 @@
 	],
 	"data/story/story_scenes.json::scenes/pc_capture/steps/4::1": [
 		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
 			"phrase": "{rescuer_full}",
 			"tests": [
 				"tests/core/data/test_story_beats.gd",
 				"tests/core/dungeon/test_lieutenants.gd"
-			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -13836,6 +15604,14 @@
 			"phrase": "{rescuer}",
 			"tests": [
 				"tests/core/dungeon/test_lieutenants.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::dungeon.pc_curator.blurb::0": [
+		{
+			"phrase": "Anything",
+			"tests": [
+				"tests/core/data/test_enemy_art_oct28.gd"
 			]
 		}
 	],
@@ -13851,7 +15627,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -13875,9 +15651,9 @@
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		},
 		{
@@ -14002,6 +15778,14 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::dungeon.pc_wing_refusemancer.after::1": [
+		{
+			"phrase": "THE SEED",
+			"tests": [
+				"tests/core/dungeon/test_primms_castle.gd"
+			]
+		}
+	],
 	"data/encounters/encounter_scripts.json::Mirror Knight/0/line::0": [
 		{
 			"phrase": "His Perfection",
@@ -14039,6 +15823,14 @@
 			"phrase": "The Model Room",
 			"tests": [
 				"tests/core/dungeon/test_primms_castle.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::dungeon.pc_reading_room.after::0": [
+		{
+			"phrase": "Someone",
+			"tests": [
+				"tests/core/quests/test_quests.gd"
 			]
 		}
 	],
@@ -14080,7 +15872,7 @@
 			"tests": [
 				"tests/core/data/test_gatekeeper_freed_lines.gd",
 				"tests/core/data/test_map_art.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -14090,7 +15882,7 @@
 			"tests": [
 				"tests/core/data/test_gatekeeper_freed_lines.gd",
 				"tests/core/data/test_map_art.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -14100,7 +15892,7 @@
 			"tests": [
 				"tests/core/data/test_gatekeeper_freed_lines.gd",
 				"tests/core/data/test_map_art.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -14110,7 +15902,7 @@
 			"tests": [
 				"tests/core/data/test_gatekeeper_freed_lines.gd",
 				"tests/core/data/test_map_art.gd",
-				"tests/core/dungeon/test_old_well_quest.gd"
+				"tests/core/data/test_overnight_oct31n_part1.gd"
 			]
 		}
 	],
@@ -14188,7 +15980,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -14220,6 +16012,14 @@
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::cutscene.primm_intro.6::0": [
+		{
+			"phrase": "Standard",
+			"tests": [
+				"tests/world/test_city_camera.gd"
 			]
 		}
 	],
@@ -14350,6 +16150,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -14364,6 +16165,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -14392,6 +16194,7 @@
 		{
 			"phrase": "Grandmaster Flex",
 			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd",
 				"tests/test_story_rewrite.gd"
 			]
 		}
@@ -14400,6 +16203,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -14414,6 +16218,7 @@
 		{
 			"phrase": "The Grand Chef",
 			"tests": [
+				"tests/core/data/test_fable_nov1_naming.gd",
 				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
@@ -14426,15 +16231,16 @@
 	],
 	"data/story/capital_story.tres::boon.gourmand.line::1": [
 		{
-			"phrase": "max HP",
+			"phrase": "The Grand Chef",
 			"tests": [
-				"tests/core/dungeon/test_boon_effects.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
 		{
-			"phrase": "The Grand Chef",
+			"phrase": "max HP",
 			"tests": [
-				"tests/core/dungeon/test_finale_v2.gd"
+				"tests/core/dungeon/test_boon_effects.gd"
 			]
 		},
 		{
@@ -14446,6 +16252,7 @@
 		{
 			"phrase": "+1 defense",
 			"tests": [
+				"tests/core/game/test_fixes_nov4_battle.gd",
 				"tests/core/game/test_resources.gd"
 			]
 		},
@@ -14496,6 +16303,12 @@
 			]
 		},
 		{
+			"phrase": "Applies to",
+			"tests": [
+				"tests/core/dungeon/test_encounter_modifiers.gd"
+			]
+		},
+		{
 			"phrase": "Necrocrat",
 			"tests": [
 				"tests/test_art_import_oct29.gd",
@@ -14521,6 +16334,12 @@
 				"tests/core/dungeon/test_primm_rushed_lines.gd",
 				"tests/core/quests/test_quest_reveal.gd",
 				"tests/test_story_rewrite.gd"
+			]
+		},
+		{
+			"phrase": "Archdruid Compostella",
+			"tests": [
+				"tests/core/test_overnight_nov5_part1.gd"
 			]
 		}
 	],
@@ -14552,14 +16371,6 @@
 			"phrase": "Nobody stands beside you",
 			"tests": [
 				"tests/core/dungeon/test_primms_castle.gd"
-			]
-		}
-	],
-	"data/story/capital_story.tres::dungeon.pc_boss.after::0": [
-		{
-			"phrase": "Tiny",
-			"tests": [
-				"tests/core/data/test_deck_slots.gd"
 			]
 		}
 	],
@@ -14611,9 +16422,9 @@
 		{
 			"phrase": "The Doppelganger",
 			"tests": [
-				"tests/core/dungeon/test_dungeon_catalog.gd",
-				"tests/core/quests/test_midgame_rerun_fixes.gd",
-				"tests/ui/test_oct23_battle_help.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/data/test_overnight_oct31n_part1.gd",
+				"tests/core/dungeon/test_dungeon_catalog.gd"
 			]
 		},
 		{
@@ -14665,6 +16476,13 @@
 	],
 	"data/story/story_scenes.json::scenes/pc_plume_memo/steps/1::1": [
 		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
 			"phrase": "Path-ology",
 			"tests": [
 				"tests/core/quests/test_quest_reveal.gd"
@@ -14674,13 +16492,6 @@
 			"phrase": "His Perfection",
 			"tests": [
 				"tests/core/zone/test_capital.gd"
-			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -14700,16 +16511,16 @@
 	],
 	"data/story/capital_story.tres::dungeon.pc_ward.before::0": [
 		{
-			"phrase": "SUBJECT",
+			"phrase": "Path",
 			"tests": [
-				"tests/core/dungeon/test_finale_v2.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "SUBJECT",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		}
 	],
@@ -14733,7 +16544,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -14783,6 +16594,12 @@
 				"tests/test_zone_title_cards.gd",
 				"tests/world/test_town_connectors.gd"
 			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
 		}
 	],
 	"data/story/capital_story.tres::ui.exit.body.freed::0": [
@@ -14821,6 +16638,19 @@
 			"phrase": "The Crease",
 			"tests": [
 				"tests/core/zone/test_capital.gd"
+			]
+		},
+		{
+			"phrase": "Nurse Hesper Dray",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd",
+				"tests/world/test_painted_npcs_batch11.gd"
+			]
+		},
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
 			]
 		}
 	],
@@ -14910,27 +16740,19 @@
 			]
 		}
 	],
-	"data/story/capital_story.tres::npc.marlo.intro.freed::1": [
-		{
-			"phrase": "Everything",
-			"tests": [
-				"tests/core/dungeon/test_encounter_scripts.gd"
-			]
-		}
-	],
-	"data/story/capital_story.tres::facade.citizen.2.approved.freed::0": [
-		{
-			"phrase": "None",
-			"tests": [
-				"tests/world/test_npc_sprite_rollout.gd"
-			]
-		}
-	],
 	"data/story/capital_story.tres::facade.door.1.freed::0": [
 		{
 			"phrase": "Someone",
 			"tests": [
 				"tests/core/quests/test_quests.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::npc.hesper.intro.freed::0": [
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
 			]
 		}
 	],
@@ -15069,6 +16891,12 @@
 			"tests": [
 				"tests/core/zone/test_capital.gd"
 			]
+		},
+		{
+			"phrase": "Hesper",
+			"tests": [
+				"tests/core/zone/test_fable_nov1_healing.gd"
+			]
 		}
 	],
 	"data/story/capital_story.tres::ending.beat.4::1": [
@@ -15096,15 +16924,16 @@
 			]
 		},
 		{
-			"phrase": "Paths come home",
+			"phrase": "The Grand Chef",
 			"tests": [
-				"tests/core/dungeon/test_ending_postgame.gd"
+				"tests/core/data/test_fable_nov1_naming.gd",
+				"tests/core/dungeon/test_finale_v2.gd"
 			]
 		},
 		{
-			"phrase": "The Grand Chef",
+			"phrase": "Paths come home",
 			"tests": [
-				"tests/core/dungeon/test_finale_v2.gd"
+				"tests/core/dungeon/test_ending_postgame.gd"
 			]
 		},
 		{
@@ -15140,15 +16969,22 @@
 			]
 		},
 		{
-			"phrase": "the first time",
+			"phrase": "Grandmaster Flex",
 			"tests": [
-				"tests/core/travel/test_fast_travel.gd"
+				"tests/core/test_overnight_nov5_part1.gd",
+				"tests/test_story_rewrite.gd"
 			]
 		},
 		{
-			"phrase": "Grandmaster Flex",
+			"phrase": "Archdruid Compostella",
 			"tests": [
-				"tests/test_story_rewrite.gd"
+				"tests/core/test_overnight_nov5_part1.gd"
+			]
+		},
+		{
+			"phrase": "the first time",
+			"tests": [
+				"tests/core/travel/test_fast_travel.gd"
 			]
 		}
 	],
@@ -15199,6 +17035,14 @@
 			]
 		}
 	],
+	"data/story/capital_story.tres::ending.beat.7::1": [
+		{
+			"phrase": "Somebody",
+			"tests": [
+				"tests/ui/test_dialogue_portraits.gd"
+			]
+		}
+	],
 	"data/story/capital_story.tres::ending.credits.7::0": [
 		{
 			"phrase": "Music",
@@ -15239,6 +17083,20 @@
 			"tests": [
 				"tests/test_zone_title_cards.gd",
 				"tests/world/test_town_connectors.gd"
+			]
+		},
+		{
+			"phrase": "is free",
+			"tests": [
+				"tests/ui/test_midgame_fixes_oct31n.gd"
+			]
+		}
+	],
+	"data/story/capital_story.tres::freed_npc.agnes::0": [
+		{
+			"phrase": "Irregular",
+			"tests": [
+				"tests/core/dungeon/test_zone_stories_v2.gd"
 			]
 		}
 	],
@@ -15568,16 +17426,16 @@
 	],
 	"data/story/capital_story.tres::ending.postgame.body::0": [
 		{
-			"phrase": "{villain}",
+			"phrase": "Path",
 			"tests": [
-				"tests/test_dialogue_quality.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "{villain}",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/test_dialogue_quality.gd"
 			]
 		}
 	],
@@ -15591,12 +17449,19 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
 	"data/story/capital_story.tres::ending.postgame.line.3::0": [
+		{
+			"phrase": "Path",
+			"tests": [
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
+			]
+		},
 		{
 			"phrase": "{pathordia}",
 			"tests": [
@@ -15607,13 +17472,6 @@
 			"phrase": "{villain}",
 			"tests": [
 				"tests/test_dialogue_quality.gd"
-			]
-		},
-		{
-			"phrase": "Path",
-			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
@@ -15652,16 +17510,16 @@
 			]
 		},
 		{
-			"phrase": "{villain}",
+			"phrase": "Path",
 			"tests": [
-				"tests/test_dialogue_quality.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "{villain}",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/test_dialogue_quality.gd"
 			]
 		}
 	],
@@ -15693,27 +17551,11 @@
 			]
 		}
 	],
-	"core/quests/zone_quest_definitions.gd::TARGETS::26": [
+	"data/dungeons/dungeon_content.json::quest.side_s_beef.offer::0": [
 		{
-			"phrase": "Swole Station",
+			"phrase": "Only the worthy",
 			"tests": [
-				"tests/core/data/test_vendor_stocks.gd"
-			]
-		}
-	],
-	"core/quests/zone_quest_definitions.gd::side_quests::1": [
-		{
-			"phrase": "Mount",
-			"tests": [
-				"tests/core/data/test_map_art.gd",
-				"tests/world/test_zone_kit.gd"
-			]
-		},
-		{
-			"phrase": "Old Man Mountain",
-			"tests": [
-				"tests/core/zone/test_mini_dungeon.gd",
-				"tests/world/test_npc_labels.gd"
+				"tests/world/test_fixes_nov4b_swolympus.gd"
 			]
 		}
 	],
@@ -15751,6 +17593,34 @@
 			]
 		}
 	],
+	"data/encounters/encounter_scripts.json::The Ancient Spotter/1/text::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
+	"data/encounters/encounter_scripts.json::The Ancient Spotter/1/banner::0": [
+		{
+			"phrase": "two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		},
+		{
+			"phrase": "Two ",
+			"tests": [
+				"tests/core/data/test_items_nov2.gd"
+			]
+		}
+	],
 	"data/dungeons/dungeon_content.json::dungeon.dg_s_beef_boss.after::0": [
 		{
 			"phrase": "first time",
@@ -15773,14 +17643,6 @@
 			]
 		}
 	],
-	"data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/title::0": [
-		{
-			"phrase": "Deck",
-			"tests": [
-				"tests/ui/test_character_layout.gd"
-			]
-		}
-	],
 	"data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/body::0": [
 		{
 			"phrase": "The Cells",
@@ -15793,23 +17655,23 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
 	],
 	"data/dungeons/dungeon_content.json::dungeons/D-LAB/challenges/6/text::0": [
 		{
-			"phrase": "four colors",
+			"phrase": "Path",
 			"tests": [
-				"tests/core/dungeon/test_pathology_lab.gd"
+				"tests/core/data/test_item_charges.gd",
+				"tests/world/test_town_connectors.gd"
 			]
 		},
 		{
-			"phrase": "Path",
+			"phrase": "four colors",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
-				"tests/world/test_town_connectors.gd"
+				"tests/core/dungeon/test_pathology_lab.gd"
 			]
 		}
 	],
@@ -15833,7 +17695,8 @@
 		{
 			"phrase": "Tear",
 			"tests": [
-				"tests/world/test_capital_art.gd"
+				"tests/world/test_capital_art.gd",
+				"tests/world/test_capital_sides.gd"
 			]
 		}
 	],
@@ -15883,7 +17746,8 @@
 		{
 			"phrase": "Cell 4",
 			"tests": [
-				"tests/core/dungeon/test_pathology_lab.gd"
+				"tests/core/dungeon/test_pathology_lab.gd",
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
 			]
 		}
 	],
@@ -15917,7 +17781,8 @@
 		{
 			"phrase": "Cell 4",
 			"tests": [
-				"tests/core/dungeon/test_pathology_lab.gd"
+				"tests/core/dungeon/test_pathology_lab.gd",
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
 			]
 		}
 	],
@@ -16090,7 +17955,7 @@
 		{
 			"phrase": "Path",
 			"tests": [
-				"tests/ui/test_character_layout.gd",
+				"tests/core/data/test_item_charges.gd",
 				"tests/world/test_town_connectors.gd"
 			]
 		}
@@ -16150,14 +18015,6 @@
 	],
 	"data/story/story_scenes.json::scenes/lab_siphon_after/steps/2::1": [
 		{
-			"phrase": "Crosspath",
-			"tests": [
-				"tests/audio/test_music_overhaul.gd",
-				"tests/core/data/test_campaign_slots.gd",
-				"tests/test_story_rewrite.gd"
-			]
-		},
-		{
 			"phrase": "Agnes",
 			"tests": [
 				"tests/audio/test_ui_sounds.gd",
@@ -16207,7 +18064,8 @@
 		{
 			"phrase": "Cell 4",
 			"tests": [
-				"tests/core/dungeon/test_pathology_lab.gd"
+				"tests/core/dungeon/test_pathology_lab.gd",
+				"tests/core/quests/test_fixes_nov4b_under_the_forest.gd"
 			]
 		},
 		{
@@ -16232,14 +18090,6 @@
 		}
 	],
 	"data/story/story_scenes.json::scenes/lab_siphon_after_alone/steps/5::1": [
-		{
-			"phrase": "Crosspath",
-			"tests": [
-				"tests/audio/test_music_overhaul.gd",
-				"tests/core/data/test_campaign_slots.gd",
-				"tests/test_story_rewrite.gd"
-			]
-		},
 		{
 			"phrase": "Maren",
 			"tests": [

@@ -748,6 +748,16 @@ func _mirror_first_card(player_index: int, card: CardInstance) -> void:
 	emit_event(GameEvent.Type.CARD_DRAWN, 1 - player_index, copy.uid, 0, 1, other.hand.size(), "mirror")
 
 
+## Overnight Nov 4-5, Part 5 (Perfect Form, MIRROR_FIRST_UNIT): the first unit a side plays from hand each turn is copied onto the other side's
+## field (a token copy, so it never goes to a deck or the Refuse Pile).
+func _mirror_first_unit(card: CardInstance) -> void:
+	var player: PlayerState = players[card.owner]
+	if player.unit_mirrored_this_turn or not card.data.is_unit() or not player.modifiers.has(Modifier.Kind.MIRROR_FIRST_UNIT):
+		return
+	player.unit_mirrored_this_turn = true
+	create_token(1 - card.owner, card.data, true)
+
+
 ## Experimental: the first unit a side puts onto the field gains a random keyword it does not have yet.
 func _experimental_keyword(card: CardInstance) -> void:
 	var player: PlayerState = players[card.owner]
@@ -795,6 +805,7 @@ func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targe
 		_experimental_keyword(card)
 		if played_from_hand:
 			_first_unit_bonus(card)
+			_mirror_first_unit(card)
 	emit_event(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.field.size())
 	var entry_data: Dictionary = {"card": card, "player": card.owner, "hustle": card.has_keyword(CardEnums.Keyword.HUSTLE)}
 	if played_from_hand and card.data.is_unit():
@@ -918,6 +929,7 @@ func _begin_turn() -> void:
 	player.cards_played_this_turn = 0
 	player.spells_played_this_turn = 0
 	player.first_unit_exhaust_done = false
+	player.unit_mirrored_this_turn = false
 	for infra: CardInstance in player.infrastructure:
 		_refresh(infra)
 	for card: CardInstance in player.field:

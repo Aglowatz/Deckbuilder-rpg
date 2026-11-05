@@ -736,6 +736,40 @@ static func recipe_card() -> Node3D:
 # ---- The castle approach, checkpoints, outskirts -----------------------------------------------------
 
 
+## Overnight Nov 4-5, Part 5: the way into The Shattered Gallery - a tall gilt mirror leaning by the castle door, its glass silvered and cracked
+## from the inside, with a faint cold light behind the cracks. Primitives only (no new art).
+static func gallery_mirror() -> Node3D:
+	var root: Node3D = Node3D.new()
+	var gold: Material = M.shiny(M.GOLD, 0.3)
+	B.box(root, Vector3(1.9, 0.2, 0.22), gold, Vector3(0, 3.1, 0))
+	B.box(root, Vector3(1.9, 0.2, 0.22), gold, Vector3(0, 0.1, 0))
+	for side: float in [-1.0, 1.0]:
+		B.box(root, Vector3(0.2, 3.2, 0.22), gold, Vector3(side * 0.85, 1.6, 0))
+	var glass: StandardMaterial3D = StandardMaterial3D.new()
+	glass.albedo_color = Color(0.78, 0.84, 0.9)
+	glass.metallic = 1.0
+	glass.roughness = 0.08
+	glass.emission_enabled = true
+	glass.emission = Color(0.55, 0.7, 0.95)
+	glass.emission_energy_multiplier = 0.35
+	B.box(root, Vector3(1.5, 2.8, 0.06), glass, Vector3(0, 1.6, 0.02))
+	var crack: StandardMaterial3D = StandardMaterial3D.new()
+	crack.albedo_color = Color(0.05, 0.06, 0.1)
+	crack.emission_enabled = true
+	crack.emission = Color(0.7, 0.85, 1.0)
+	crack.emission_energy_multiplier = 1.6
+	for line: Vector4 in [Vector4(0.0, 1.9, 0.9, 30.0), Vector4(0.15, 1.5, 0.7, -50.0), Vector4(-0.2, 2.2, 0.6, 75.0), Vector4(0.1, 1.2, 0.5, 10.0), Vector4(-0.3, 1.7, 0.5, -20.0)]:
+		var shard: MeshInstance3D = B.box(root, Vector3(0.025, line.z, 0.02), crack, Vector3(line.x, line.y, 0.06))
+		shard.rotation_degrees.z = line.w
+	var light: OmniLight3D = OmniLight3D.new()
+	light.light_color = Color(0.7, 0.85, 1.0)
+	light.light_energy = 1.2
+	light.omni_range = 4.0
+	light.position = Vector3(0, 1.8, 0.8)
+	root.add_child(light)
+	return root
+
+
 static func castle_door() -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(11.0, 0.3, 0.9), M.shiny(M.GOLD, 0.3), Vector3(0, 6.6, 0.0))

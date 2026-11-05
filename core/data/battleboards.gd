@@ -84,7 +84,7 @@ const CACHE_GROUP: StringName = &"boards"
 
 ## STANDIN boards (Oct 19 night, Part 3): a dungeon whose own board is still to come shows another board until its file arrives (its own file always
 ## wins, so the import is drop-in). The Iron Cave fights on Mount Swolympus' summit until BB-S-IRON is imported.
-const STANDIN_BOARDS: Dictionary = {"BB-S-IRON": "BB-S-BEEF", "BB-S-PASTE": "BB-TTK"}  # Oct 21: the Paste Works fights in the Test Kitchen until its board exists
+const STANDIN_BOARDS: Dictionary = {"BB-S-IRON": "BB-S-BEEF", "BB-S-PASTE": "BB-TTK", "BB-S-GALLERY": "BB-PC"}  # Nov 5: the Shattered Gallery fights on the castle board (no new art); Oct 21: the Paste Works fights in the Test Kitchen until its board exists
 ## Boards the game uses that the designer's CSV has no row for yet: {ID -> [name, used in]}. Every dungeon blueprint's board is added too.
 const EXTRA_BOARDS: Dictionary = {"BB-S-IRON": ["The Iron Cave", "The Iron Cave (Gainlands side dungeon)"], "BB-S-PASTE": ["The Paste Works", "The Paste Works (Capital side dungeon)"]}
 

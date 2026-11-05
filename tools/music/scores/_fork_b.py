@@ -14,10 +14,17 @@ CROSSPATH_A = [('D4', 1), ('A4', .5), ('G4', .5), ('F4', 1.5), ('E4', .5), ('A4'
 CROSSPATH_PROG = ['Dm', 'G', 'Dm/F', 'A7sus4', 'Bb', 'F', 'Gm', 'A']
 
 # Gainlands (MUS-BEEF-EXP THEME), Bb major, 16 bars
-GAIN_THEME = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-               '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1 '
-               '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 G5:1 A5:1 | Bb5:2 G5:1 Eb5:1 | F5:3 r:1 '
-               '| Ab5:1.5 G5:.5 F5:1 Eb5:1 | G5:1.5 F5:.5 Eb5:1 D5:1 | C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
+# Overnight Nov 4-5 (Part 6): the Gainlands theme is the ROCK riff and answer now (lib/rock.py MOTIF_RESOLVED / ANSWER_MAJOR, Nov 3), up a
+# tritone into the old march's Bb major and its 16 bars (GAIN_H): riff, answer, riff to the fifth, climbing answer; riff, answer, the riff
+# in Ab, cadence. Every quote below keeps its key, length and instruments; only the tune is the rock one.
+GAIN_THEME = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 Bb5:.5 G5:1 F5:1 '
+               '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 D6:.5 Bb5:2 '
+               '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 Bb5:.5 G5:1 F5:1 '
+               '| Ab4:1 Eb5:.5 Db5:.5 C5:1.5 Bb4:.5 | Ab4:3 r:1 '
+               '| C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
 GAIN_H = ['Bb', 'Bb', 'Cm7', 'F', 'Eb', 'Gm', 'F', 'Bb', 'Bb', 'F', 'Eb', 'F', 'Ab', 'Eb', 'F7', 'Bb']
 
 # C minor -> C major, E Dorian -> E major (zones.to_mode maps)

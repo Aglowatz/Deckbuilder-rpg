@@ -30,6 +30,7 @@ const GIVERS: Dictionary = {
 	"cap_burial": ["final", "pell"], "cap_wheels": ["final", "rollo"], "cap_recipes": ["final", "marlo"], "cap_paste_works": ["final", "marlo"], "cap_untidy": ["final", "fern"],
 	"side_s_beef": ["beefcake", "brenda"], "side_s_gour": ["gourmand", "odalys"], "side_s_necro": ["necrocrat", "barnaby"],
 	"side_s_ref": ["refusemancer", "marigold"], "side_s_cap": ["final", "kestrel"], "side_s_town": ["town", "elder"],
+	"cracks_in_the_glass": ["final", "wren"],
 }
 const TARGETS: Dictionary = {
 	"dna_backlog": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
@@ -55,6 +56,7 @@ const TARGETS: Dictionary = {
 	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the junk heaps"]],
 	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
 	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest in one of Crosspath's odd corners"]],
+	"cracks_in_the_glass": [[QuestObjective.TargetKind.SPOT, "final", "gallery_mirror", "The cracked mirror beside the castle door"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
 const EXTRA_REWARDS: Dictionary = {"gain_power": {"equipment": ["kettlebell_locket"]}}
@@ -418,9 +420,11 @@ const SIDE_NECRO: String = "side_s_necro"
 const SIDE_REF: String = "side_s_ref"
 const SIDE_CAP: String = "side_s_cap"
 const SIDE_TOWN: String = "side_s_town"
+const SIDE_GALLERY: String = ShatteredGallery.QUEST_ID
 ## Dungeon ID -> quest id.
 const SIDE_QUESTS: Dictionary = {
 	"S-BEEF": SIDE_BEEF, "S-GOUR": SIDE_GOUR, "S-NECRO": SIDE_NECRO, "S-REF": SIDE_REF, "S-CAP": SIDE_CAP, "S-TOWN": SIDE_TOWN,
+	"S-GALLERY": SIDE_GALLERY,
 }
 
 
@@ -438,7 +442,20 @@ static func side_quests() -> Array[QuestData]:
 			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
 		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
 			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))], QuestDefinitions.story_gate()),  # Oct 20: after the armory quest
+		_gallery_quest(),
 	] as Array[QuestData]
+
+
+## Overnight Nov 4-5, Part 5: Wren's postgame errand. Looking into the cracked mirror at the castle door finishes it (no hand-in) and opens
+## The Shattered Gallery (S-GALLERY); the mirror itself starts the quest for a player who never asked Wren.
+static func _gallery_quest() -> QuestData:
+	var quest: QuestData = _side(SIDE_GALLERY, ShatteredGallery.DUNGEON_ID, 370, "Cracks in the Glass", CapitalZone.NPC_WREN,
+		"Wren says one of the mirrors at the castle door has cracked from the inside, and it is still showing a kingdom that never was. Go and look.",
+		[QuestObjective.make("Look into the cracked mirror at the castle door", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))], Condition.postgame())
+	quest.turn_in_npc = ""
+	quest.reward_gold = 60
+	quest.reward_xp = 60
+	return quest
 
 
 static func _side(quest_id: String, dungeon_id: String, order: int, title: String, giver: String, summary: String, objectives: Array[QuestObjective], prerequisite: Condition = null) -> QuestData:

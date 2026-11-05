@@ -55,6 +55,8 @@ var experiment_done: bool = false
 var first_unit_bonus_done: bool = false
 ## Processing Time (FIRST_UNIT_ENTER_EXHAUSTED) already exhausted a unit this turn.
 var first_unit_exhaust_done: bool = false
+## The Shattered Gallery's Perfect Form (MIRROR_FIRST_UNIT) already copied a unit for the opponent this turn.
+var unit_mirrored_this_turn: bool = false
 ## Overnight Oct 23 (EncounterScripts "shield"): damage to this player is absorbed by this many points first.
 var shield: int = 0
 
@@ -164,6 +166,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.experiment_done = experiment_done
 	copy.first_unit_bonus_done = first_unit_bonus_done
 	copy.first_unit_exhaust_done = first_unit_exhaust_done
+	copy.unit_mirrored_this_turn = unit_mirrored_this_turn
 	copy.shield = shield
 	copy.resources = _clone_zone(resources)
 	copy.tokens = _clone_zone(tokens)

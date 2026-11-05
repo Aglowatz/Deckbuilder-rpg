@@ -293,6 +293,8 @@ static func build_rule(spec: Dictionary, key: String = "") -> Rule:
 			made.append(CardBuilder.modifier(Modifier.Kind.SETUP_TURNS, maxi(1, int(spec.get("turns", BossTempo.DEFAULT_SETUP_TURNS)))))
 		"first_card_cost":
 			made.append(CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, int(spec.get("amount", 1))))
+		"mirror_first_unit":
+			made.append(CardBuilder.modifier(Modifier.Kind.MIRROR_FIRST_UNIT, 1))  # Overnight Nov 4-5: The Shattered Gallery's Perfect Form
 		"start_of_turn_resources":
 			made.append(CardBuilder.modifier(Modifier.Kind.START_OF_TURN_RESOURCES, int(spec.get("count", 1)), Modifier.ANY_COLOR, _resource_of(spec)))
 		_:

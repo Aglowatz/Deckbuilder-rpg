@@ -1548,6 +1548,214 @@
 			"story_keys": {
 				"3": "dg_s_town_boss"
 			}
+		},
+		"S-GALLERY": {
+			"_note": "Overnight Nov 4-5, Part 5: the Echoes play their originals' decks with more HP and a twisted rule each (data/encounters/modifiers.json); the boss is your own deck (ShatteredGallery.perfect_copy_setup).",
+			"defaults": {
+				"archetypes": [
+					"colorless_regime"
+				],
+				"icons": [
+					"delapouite/shinto-shrine-mirror"
+				],
+				"ais": [
+					"Aggressive",
+					"Balanced",
+					"Defensive"
+				],
+				"infra": 13
+			},
+			"boss": {
+				"deck": "colorless_regime",
+				"extra": {},
+				"hp": 40,
+				"icon": "delapouite/shinto-shrine-mirror",
+				"infra": 13
+			},
+			"foes": {
+				"2": {
+					"name": "Echo of Vivienne Quota",
+					"deck": "beefcake_bruisers",
+					"size": 30,
+					"hp": 26,
+					"infra": 13,
+					"ai": "Aggressive",
+					"icon": "delapouite/alarm-clock"
+				},
+				"4": {
+					"name": "Echo of Chancellor Clench",
+					"deck": "beefcake_bruisers",
+					"size": 31,
+					"hp": 34,
+					"infra": 13,
+					"ai": "Aggressive",
+					"icon": "delapouite/viking-head",
+					"extra": {
+						"NB-16": 1
+					}
+				},
+				"5": {
+					"name": "Echo of Percival Plume",
+					"deck": "necrocrat_beefcake",
+					"size": 32,
+					"hp": 30,
+					"infra": 13,
+					"ai": "Aggressive",
+					"icon": "delapouite/trumpet"
+				},
+				"7": {
+					"name": "Echo of Mortimer Grimsby",
+					"deck": "necro_control",
+					"size": 33,
+					"hp": 38,
+					"infra": 14,
+					"ai": "Defensive",
+					"icon": "delapouite/stamper",
+					"extra": {
+						"N-33": 1,
+						"N-32": 1
+					}
+				},
+				"9": {
+					"name": "Echo of the Doppelganger",
+					"deck": "gourmand_golems",
+					"size": 31,
+					"hp": 30,
+					"infra": 15,
+					"ai": "Balanced",
+					"icon": "delapouite/chef-toque",
+					"extra": {
+						"G-33": 1
+					}
+				},
+				"10": {
+					"name": "Echo of Hortensia Clipwell",
+					"deck": "refuse_garbage",
+					"size": 32,
+					"hp": 30,
+					"infra": 15,
+					"ai": "Balanced",
+					"icon": "lorc/leaf-swirl"
+				},
+				"11": {
+					"name": "Echo of the Rotheart",
+					"deck": "refuse_garbage",
+					"size": 32,
+					"hp": 36,
+					"infra": 17,
+					"ai": "Defensive",
+					"icon": "cathelineau/tree-face",
+					"extra": {
+						"R-33": 1
+					}
+				},
+				"13": "The Perfect Copy"
+			},
+			"events": {
+				"3": {
+					"title": "The Weight of Glass",
+					"body": "A barbell of solid mirror rests on a rack, and in every plate you see Clench at the height of his reign, lifting it easily. The rack has a little brass sign: FOR THE WORTHY.",
+					"choices": [
+						[
+							"Lift it anyway",
+							"It's heavier than anything you've lifted, because it's made of everything he wanted to be. Your arms shake, then hold. Something in the glass looks away first.",
+							"damage:5",
+							"boon:Unbroken Reflection|atk=1"
+						],
+						[
+							"Leave it on the rack",
+							"You walk past. For the rest of the gallery, every reflection you pass is lifting it for you, slightly better.",
+							"curse:Second Thoughts|max_hp=-2"
+						],
+						[
+							"Break it for the silver",
+							"The bar shatters into coins that are still warm. One of your cards goes with it, caught in the glass.",
+							"gold:150",
+							"lose:1"
+						]
+					]
+				},
+				"6": {
+					"title": "The Valid Reflection",
+					"body": "A mirror in a gilt frame holds a form already filled in with your name, your Path and a box marked 'Approved'. A pen waits on a chain. The ink is still wet.",
+					"choices": [
+						[
+							"Sign it",
+							"The mirror stamps you APPROVED. You feel sturdier and a little less like yourself.",
+							"boon:Approved|max_hp=3",
+							"curse:Filed Away|atk=-1"
+						],
+						[
+							"Refuse to sign",
+							"The frame lets out a long, disappointed sigh, and the glass at your back cuts you on the way past.",
+							"damage:4"
+						],
+						[
+							"Sign someone else's name",
+							"You sign 'Agnes Overdue'. The mirror has no answer to that and quietly pays you to leave.",
+							"pay:100",
+							"heal:6"
+						]
+					]
+				},
+				"8": {
+					"title": "The Quiet Frame",
+					"body": "A frame with no glass in it, just a soft chair behind it and the sound of rain on a window that isn't there. It's the only quiet room in the gallery. A small plaque says RESTING IS A PRIVILEGE.",
+					"choices": [
+						[
+							"Rest (pay 250 gold)",
+							"You sit, and for a few minutes nothing reflects you at all. You stand up with steadier hands.",
+							"pay:250",
+							"heal:12"
+						],
+						[
+							"Rest, and leave a card as the fee",
+							"The chair keeps one of your cards in its cushion and lets you sleep.",
+							"lose:1",
+							"heal:8"
+						],
+						[
+							"Keep moving",
+							"You don't trust a quiet room in this place, and you're probably right.",
+							"gold:0"
+						]
+					]
+				},
+				"12": {
+					"title": "Your Reflection",
+					"body": "The last mirror before the end shows you as Primm would have made you: hair regulation length, posture perfect, smile approved. It's waiting to see what you'll do.",
+					"choices": [
+						[
+							"Look it in the eye",
+							"It looks back, and for a second you can't tell which of you blinked. You take some of its certainty with you, and it takes some of your strength.",
+							"boon:Know Yourself|atk=1",
+							"curse:Seen Through|max_hp=-3"
+						],
+						[
+							"Turn your back on it",
+							"You walk on without looking. The glass behind you cracks a little louder than it should.",
+							"damage:3"
+						],
+						[
+							"Smash it",
+							"It breaks easily. Too easily. The pieces cut, and a shard of it goes on ahead of you to warn the room.",
+							"damage:6",
+							"boon:Shattered Pride|def=1"
+						]
+					]
+				}
+			},
+			"blurbs": {
+				"1": "The mirror at the castle door, cracked from the inside. Beyond it the air is cold and smells of polish.",
+				"2": "An Echo of Vivienne Quota, timing you to the second. Enemy units here enter with +1 attack.",
+				"4": "An Echo of Chancellor Clench, at the height of his reign. He starts with Iron already in hand.",
+				"5": "An Echo of Percival Plume, with perfectly good news. From here on the first card you play each turn costs 1 more.",
+				"7": "An Echo of Mortimer Grimsby. The authorization, he says, is reflected.",
+				"9": "An Echo of the Doppelganger, wearing a face it learned by heart. From here on the first unit you play each turn is copied for the enemy.",
+				"10": "An Echo of Hortensia Clipwell, in a garden trimmed so neatly it hurts.",
+				"11": "An Echo of the Rotheart, green glass that never stops growing.",
+				"13": "The Perfect Copy: your own deck, your own face, more HP and one extra card each turn."
+			}
 		}
 	},
 	"text": {

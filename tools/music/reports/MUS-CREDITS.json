@@ -6,11 +6,11 @@
  "meter": "4/4",
  "profile": "orchestral",
  "bars": 126,
- "seconds": 301.52,
+ "seconds": 301.48,
  "loop_seconds": 297.271,
  "lufs": -20.0,
- "true_peak": -3.7,
- "lra": 7.4,
+ "true_peak": -5.0,
+ "lra": 7.3,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -34,7 +34,7 @@
    "bar": 22,
    "bars": 18,
    "start_s": 55.0,
-   "lufs": -19.1
+   "lufs": -19.2
   },
   {
    "section": "D.N.A.",
@@ -55,28 +55,28 @@
    "bar": 72,
    "bars": 8,
    "start_s": 158.8,
-   "lufs": -21.7
+   "lufs": -21.5
   },
   {
    "section": "adventure",
    "bar": 80,
    "bars": 18,
    "start_s": 175.3,
-   "lufs": -20.1
+   "lufs": -20.2
   },
   {
    "section": "lullaby",
    "bar": 98,
    "bars": 10,
    "start_s": 209.4,
-   "lufs": -20.8
+   "lufs": -20.9
   },
   {
    "section": "finale",
    "bar": 108,
    "bars": 12,
    "start_s": 242.7,
-   "lufs": -17.4
+   "lufs": -17.5
   },
   {
    "section": "tender close",
@@ -148,7 +148,7 @@
    "ch": "fl"
   }
  ],
- "notes": 3063,
+ "notes": 3066,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CREDITS\\MUS-CREDITS.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CREDITS\\MUS-CREDITS.mp3",
@@ -167,20 +167,19 @@
    "ok": true
   },
   "melody": {
-   "coverage": 0.77,
+   "coverage": 0.79,
    "bars_without_melody": [
     2,
     5,
     13,
     20,
     21,
-    37,
+    35,
     39,
     53,
     69,
     70,
-    71,
-    90,
+    81,
     91,
     92,
     93,
@@ -194,12 +193,12 @@
     114,
     117,
     118,
-    119,
-    122,
-    124,
+    121,
     125
    ],
    "buried_bars": [
+    119,
+    122,
     123
    ],
    "ok": true

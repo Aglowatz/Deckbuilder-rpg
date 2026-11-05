@@ -484,6 +484,19 @@ func inspect(card: CardData) -> void:
 			hint.custom_minimum_size = Vector2(540, 0)
 			info.add_child(hint)
 	info.add_child(UIKit.spacer(10))
+	# Overnight Nov 4-5, Part 5: the Mirrored finish (The Shattered Gallery's prize) goes on or off any card you own
+	if Session.cosmetics.mirrored_unlocked and Session.owned_count(card.id) > 0:
+		var on: bool = Session.cosmetics.is_mirrored(card.id)
+		var finish: FancyButton = FancyButton.make("Mirrored finish: %s" % ("On" if on else "Off"), &"", Vector2(320, 54))
+		finish.name = "MirroredToggle"
+		finish.tooltip_text = "A silver sheen on every copy of this card, wherever it shows."
+		finish.pressed.connect(func() -> void:
+			Session.cosmetics.set_mirrored(card.id, not on)
+			Session.save_game()
+			Audio.sfx(&"ui_tick")
+			_refresh_grid()
+			inspect(card))
+		info.add_child(finish)
 	var back: FancyButton = FancyButton.make("", &"PrimaryButton", Vector2(200, 54))
 	PromptText.bind(back, "Back (Esc)")
 	back.pressed.connect(_close_zoom)

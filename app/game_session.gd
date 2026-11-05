@@ -1805,7 +1805,10 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var player_rules: ModifierSource = null
 	var phase: PrimmBoss.Phase = null
 	var capital: bool = main_dungeon_active and zone_def().id == CapitalZone.ID
-	if capital and node.kind == DungeonMap.Kind.BOSS:
+	if mini_active and dungeon_key == ShatteredGallery.DUNGEON_ID and node.kind == DungeonMap.Kind.BOSS:
+		# Overnight Nov 4-5, Part 5: The Perfect Copy plays the run's own deck (lost cards stay lost), with more HP and an extra draw.
+		enemy = ShatteredGallery.perfect_copy_setup(run.current_deck(), run.max_hp())
+	elif capital and node.kind == DungeonMap.Kind.BOSS:
 		# The final boss: a duel per phase (see `PrimmBoss`); phase `boss_phase` is the one being fought.
 		phase = PrimmBoss.phase(boss_phase)
 		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
@@ -1819,6 +1822,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	else:
 		enemy = TrialOfTheHollow.enemy_setup(content, node)
 	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null) else ""
+	# Overnight Nov 4-5, Part 3: a Path zone played earlier than its designed place in the order has easier foes (ZoneOrderEase)
+	if not effect_zone.is_empty():
+		ZoneOrderEase.apply(enemy, ZoneOrderEase.hp_factor(effect_zone, completed_zone_count(), is_zone_completed(effect_zone)))
 	if capital:
 		var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
 		if rules != null:
@@ -1934,7 +1940,9 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	if EncounterModifiers.player_source(npc_key) != null:
 		player_side.append(EncounterModifiers.player_source(npc_key))
 	game.add_player(PlayerSetup.create(deck, profile, player_side, "You"))
-	game.add_player(CorruptedNpcs.enemy_setup(content, id))
+	var gatekeeper: PlayerSetup = CorruptedNpcs.enemy_setup(content, id)
+	ZoneOrderEase.apply(gatekeeper, ZoneOrderEase.hp_factor(id, completed_zone_count()))  # Overnight Nov 4-5, Part 3: a gatekeeper met early is eased too
+	game.add_player(gatekeeper)
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
@@ -2887,6 +2895,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 		player.starting_hp = zone_run.hp
 	game.add_player(player)
 	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type, is_zone_completed(zone_id))  # Oct 23: freed zones spar with two Paths
+	ZoneOrderEase.apply(zone_enemy, ZoneOrderEase.hp_factor(zone_id, completed_zone_count(), is_zone_completed(zone_id)))  # Overnight Nov 4-5, Part 3
 	if zone_source != null:
 		zone_enemy.modifiers.add_source(zone_source)
 	if zone_id == CapitalZone.ID:
@@ -3213,6 +3222,7 @@ func enter_mini_dungeon(dungeon_id: String = "") -> void:
 	dungeon_map = MiniDungeon.build_map(zone_run.zone_id) if dungeon_id.is_empty() else MainDungeons.build_map(plan.id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
+	AudioMix.set_mirror_music(plan.id == ShatteredGallery.DUNGEON_ID)  # Overnight Nov 4-5: the Gallery hears the castle's music in a mirror
 	mini_active = true
 	town_side_active = false
 	trial_finished = false
@@ -3319,6 +3329,8 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 				result["xp"] = clear_xp
 			if plan.id == PathologyLab.DUNGEON_ID:
 				_grant_lab_first_clear(result)
+			if plan.id == ShatteredGallery.DUNGEON_ID:
+				_grant_gallery_first_clear(result)
 			_grant_dungeon_gear(plan.id, result)
 		else:
 			var gold_reward: int = DungeonBuilder.SIDE_REPEAT_GOLD
@@ -3331,6 +3343,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	run = null
 	dungeon_map = null
 	mini_active = false
+	AudioMix.set_mirror_music(false)
 	town_side_active = false
 	trial_finished = false
 	pending_reward = null
@@ -3364,6 +3377,19 @@ func enter_lab() -> void:
 	trial_finished = false
 	pending_reward = null
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## Overnight Nov 4-5, Part 5: The Shattered Gallery's first clear - big gold, essence of every Path and the Mirrored card finish (the feat
+## Through the Glass follows from the cleared dungeon).
+func _grant_gallery_first_clear(result: Dictionary) -> void:
+	add_gold(ShatteredGallery.FIRST_CLEAR_GOLD)
+	for path: Affinity.Type in Affinity.colored_types():
+		profile.add_essence(path, ShatteredGallery.FIRST_CLEAR_ESSENCE)
+	cosmetics.mirrored_unlocked = true
+	set_flag(ShatteredGallery.FLAG_CLEARED)
+	result["gallery_gold"] = ShatteredGallery.FIRST_CLEAR_GOLD
+	result["gallery_essence"] = ShatteredGallery.FIRST_CLEAR_ESSENCE
+	result["mirrored_finish"] = true
 
 
 ## The Lab's first clear: Siphon's Lens (equipment), gold and XP on top of the unique card.

@@ -10,7 +10,7 @@
  "loop_seconds": 112.941,
  "lufs": -20.0,
  "true_peak": -5.3,
- "lra": 4.6,
+ "lra": 4.7,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -27,7 +27,7 @@
    "bar": 4,
    "bars": 12,
    "start_s": 7.1,
-   "lufs": -22.1
+   "lufs": -22.0
   },
   {
    "section": "Buffet showtune",
@@ -79,7 +79,7 @@
    "ch": "hn"
   }
  ],
- "notes": 2217,
+ "notes": 2214,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-02\\MUS-PRIMM-02.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-02\\MUS-PRIMM-02.mp3",
@@ -87,8 +87,8 @@
  },
  "seam": {
   "jump_db": 0.97,
-  "wrap_step": 0.01518,
-  "p999_step": 0.04894,
+  "wrap_step": 0.0137,
+  "p999_step": 0.05003,
   "click": false,
   "ok": true
  },

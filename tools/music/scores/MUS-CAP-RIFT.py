@@ -9,8 +9,17 @@ from lib.capital import QUANTISED
 from lib.zones import DNA_THEME, BUFFET_THEME, DUMP_JIG_1, to_mode
 from scores._fork_a import cap, bed, root
 
-BEEF = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:2 D5:1 Bb4:1 | C5:1 D5:.5 Eb5:.5 F5:1 G5:1 | F5:3 r:1 '
-         '| G5:1.5 F5:.5 Eb5:1 C5:1 | D5:1.5 C5:.5 Bb4:1 G4:1 | A4:1 C5:1 F5:1 A4:1 | Bb4:2 F4:1 r:1')
+# Overnight Nov 4-5 (Part 6): the Gainlands theme is the ROCK riff and answer now (lib/rock.py MOTIF_RESOLVED / ANSWER_MAJOR, Nov 3), up a
+# tritone into the old march's Bb major and its 16 bars (GAIN_H): riff, answer, riff to the fifth, climbing answer; riff, answer, the riff
+# in Ab, cadence. Every quote below keeps its key, length and instruments; only the tune is the rock one.
+BEEF = m('Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 Bb5:.5 G5:1 F5:1 '
+               '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | F5:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 D6:.5 Bb5:2 '
+               '| Bb4:1 F5:.5 Eb5:.5 D5:1.5 C5:.5 | Bb4:3 r:1 '
+               '| D5:.5 Eb5:.5 F5:1 G5:1 Bb5:1 | C6:1.5 Bb5:.5 G5:1 F5:1 '
+               '| Ab4:1 Eb5:.5 Db5:.5 C5:1.5 Bb4:.5 | Ab4:3 r:1 '
+               '| C5:1 Eb5:1 D5:1 C5:1 | Bb4:3 r:1')
 D_MIN = {6: -1, 11: -1, 1: -1}               # D major -> D natural minor (F#->F, B->Bb, C#->C)
 DNA_D = transpose(DNA_THEME[:20], 2 - 12)    # the waltz in D minor, an octave down (D4...)
 BUF_D = to_mode(transpose(BUFFET_THEME[:21], -3), D_MIN)

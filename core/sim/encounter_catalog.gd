@@ -283,6 +283,12 @@ static func dungeons() -> Array[EncounterSpec]:
 			spec.enemy_recipe = fighter.recipe
 			if blueprint.is_side():
 				spec.sequence = "side:%s" % blueprint.id
+			# Overnight Nov 4-5, Part 5: The Shattered Gallery is one long HP pool; its boss plays the player's own deck with more HP
+			if blueprint.id == ShatteredGallery.DUNGEON_ID:
+				spec.sequence = "postgame:%s" % blueprint.id
+				if node.enemy_name == ShatteredGallery.BOSS_NAME:
+					spec.mirror_player_deck = true
+					spec.enemy_hp = ProgressionTable.row(spec.expected_level).max_hp + ShatteredGallery.PERFECT_COPY_HP_BONUS
 			_attach_rules(spec, node.enemy_name)
 			result.append(spec)
 			# Oct 21: Siphon is also measured with Elowen (T-24) on your field, as after the optional Cell 4 rescue.

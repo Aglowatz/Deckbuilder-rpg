@@ -103,6 +103,13 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 				_rule("Perfect Order", "Units can't have more than 2 keywords.", "both", [CardBuilder.modifier(Modifier.Kind.KEYWORD_CAP, 2)] as Array[Modifier]),
 				_rule("Mirrors", "The first card each player plays each game is copied for the opponent.", "both", [CardBuilder.modifier(Modifier.Kind.MIRRORS, 1)] as Array[Modifier]),
 			]
+		ShatteredGallery.DUNGEON_ID:
+			# Overnight Nov 4-5, Part 5: the mirror rules stack wing by wing (Iron 2-4, Order 5-8, Appetite 9-12, the mirror room 13).
+			return [
+				_rule("Silvered", "Enemy units get +1/+0.", "enemy", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)] as Array[Modifier], ShatteredGallery.WING_IRON_ON, true),
+				_rule("Reflected Order", "The first card you play each turn costs 1 more.", "player", [CardBuilder.modifier(Modifier.Kind.FIRST_CARD_COST_CHANGE, 1)] as Array[Modifier], ShatteredGallery.WING_ORDER_ON, true),
+				_rule("Perfect Form", "The first unit you play each turn is copied for the enemy.", "player", [CardBuilder.modifier(Modifier.Kind.MIRROR_FIRST_UNIT, 1)] as Array[Modifier], ShatteredGallery.WING_APPETITE_ON, true),
+			]
 		"S-BEEF":
 			return [_rule("Thin Air", "Units with Hustle get +1/+0.", "both", [CardBuilder.modifier(Modifier.Kind.KEYWORD_STAT_CHANGE, 1, Modifier.ANY_COLOR, CardEnums.Keyword.HUSTLE)] as Array[Modifier])]
 		"S-IRON":

@@ -12,6 +12,10 @@ var cloak_dye: int = Dye.NATURAL
 var owned_dyes: Array[int] = []
 ## Set when an old save was loaded: the gold its bought items are worth (the session pays it out once and clears it).
 var legacy_refund: int = 0
+## Overnight Nov 4-5, Part 5: the Mirrored card finish (The Shattered Gallery's first clear). Once unlocked, any owned card can wear it
+## (`mirrored_cards`, card ids); CardView draws those cards through the silver mirror shader. Shader only, no new art.
+var mirrored_unlocked: bool = false
+var mirrored_cards: Array[String] = []
 
 
 func owns(item_id: String) -> bool:
@@ -64,6 +68,21 @@ func set_dye(slot: CosmeticData.Slot, index: int) -> void:
 		cloak_dye = Dye.clamp_index(index)
 
 
+func is_mirrored(card_id: String) -> bool:
+	return mirrored_unlocked and mirrored_cards.has(card_id)
+
+
+## Puts the Mirrored finish on or off a card. False when the finish is not unlocked yet.
+func set_mirrored(card_id: String, on: bool) -> bool:
+	if not mirrored_unlocked:
+		return false
+	if on and not mirrored_cards.has(card_id):
+		mirrored_cards.append(card_id)
+	elif not on:
+		mirrored_cards.erase(card_id)
+	return true
+
+
 func duplicate_state() -> CosmeticState:
 	var copy: CosmeticState = CosmeticState.new()
 	copy.from_dict(to_dict())
@@ -71,7 +90,8 @@ func duplicate_state() -> CosmeticState:
 
 
 func to_dict() -> Dictionary:
-	return {"version": CosmeticMigration.VERSION, "owned": owned.duplicate(), "hat": hat_id, "cloak": cloak_id, "cloak_dye": cloak_dye, "dyes": owned_dyes.duplicate()}
+	return {"version": CosmeticMigration.VERSION, "owned": owned.duplicate(), "hat": hat_id, "cloak": cloak_id, "cloak_dye": cloak_dye, "dyes": owned_dyes.duplicate(),
+		"mirrored_unlocked": mirrored_unlocked, "mirrored_cards": mirrored_cards.duplicate()}
 
 
 func from_dict(data: Dictionary) -> void:
@@ -82,6 +102,10 @@ func from_dict(data: Dictionary) -> void:
 	hat_dye = 0
 	cloak_dye = Dye.NATURAL
 	owned_dyes.clear()
+	mirrored_unlocked = bool(data.get("mirrored_unlocked", false))
+	mirrored_cards.clear()
+	for card_id: Variant in data.get("mirrored_cards", []) as Array:
+		mirrored_cards.append(str(card_id))
 	if int(data.get("version", 1)) < CosmeticMigration.VERSION:
 		# An old save: back to the default look, bought items refunded, found items kept.
 		var migrated: Dictionary = CosmeticMigration.migrate(data)

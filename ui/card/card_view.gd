@@ -180,6 +180,7 @@ func _build() -> void:
 	_framed = UiArt.use_card_frame_overlays() and UiArt.has(frame_id())
 	if _framed:
 		_build_framed()
+		_build_mirror_finish()
 		return
 	var rarity: int = int(data.rarity)
 	var border: Color = accent.darkened(0.15) if rarity == 0 else accent.darkened(0.15).lerp(RARITY_COLORS[rarity], 0.55)
@@ -200,6 +201,26 @@ func _build() -> void:
 	_build_plaque()
 	_build_path_symbols()
 	_build_overlays()
+	_build_mirror_finish()
+
+
+## Overnight Nov 4-5, Part 5: the Mirrored finish (The Shattered Gallery's prize) - a silver sheen over the whole card, for the cards the player
+## put it on (`CosmeticState.mirrored_cards`). Shader only, no new art.
+func _build_mirror_finish() -> void:
+	if data == null or Session.cosmetics == null or not Session.cosmetics.is_mirrored(data.id):
+		return
+	var sheen: ColorRect = ColorRect.new()
+	sheen.name = "MirrorFinish"
+	sheen.position = Vector2(4, 4)
+	sheen.size = SIZE - Vector2(8, 8)
+	sheen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = MIRROR_SHEEN
+	sheen.material = material
+	add_child(sheen)
+
+
+const MIRROR_SHEEN: Shader = preload("res://assets/shaders/mirror_sheen.gdshader")
 
 
 ## A Resource coin on the table: a round coin (Path colour, glyph) drawn at the card's centre; scaled small it sits among the units.

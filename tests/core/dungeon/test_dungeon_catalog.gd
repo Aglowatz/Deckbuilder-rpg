@@ -29,7 +29,7 @@ func _map_of(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 
 
 func test_every_dungeon_of_the_list_is_there() -> void:
-	assert_eq(DungeonCatalog.all().size(), 15, "the 13 dungeons of the sheet (with the Paste Works, Oct 21) plus the hand-made Path-ology Lab and Iron Cave (Gainlands v2)")
+	assert_eq(DungeonCatalog.all().size(), 16, "the 13 dungeons of the sheet (with the Paste Works, Oct 21) plus the hand-made Path-ology Lab, Iron Cave (Gainlands v2) and Shattered Gallery (Nov 5)")
 	for id: String in NODE_COUNTS.keys():
 		var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(id)
 		assert_not_null(blueprint, id)

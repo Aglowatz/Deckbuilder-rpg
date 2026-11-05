@@ -57,7 +57,7 @@ static func def(key: String) -> MainDungeonDef:
 			PathologyLab.DUNGEON_ID:
 				_defs[key] = PathologyLab.build_def()
 			_:
-				if not is_side(key):
+				if not is_side(key) and not is_postgame(key):  # Overnight Nov 4-5: a data-only postgame dungeon (The Shattered Gallery) builds like a side one
 					return null
 				_defs[key] = DungeonBuilder.build_def(DungeonCatalog.find(key))
 		_fill_challenge_text(_defs[key] as MainDungeonDef)

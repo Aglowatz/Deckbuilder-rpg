@@ -152,6 +152,9 @@ enum Kind {
 	## Fable pass Nov 1 (boss tempo, `BossTempo`): the owner's units cannot attack during the owner's first `value` turns - a boss's
 	## setup window, so its gimmick is seen before it can kill (`GameState.setup_turns_left`, `CombatResolver._can_attack`).
 	SETUP_TURNS,
+	## Overnight Nov 4-5, Part 5 (The Shattered Gallery's "Perfect Form"): the first unit the OWNER plays from hand each turn is copied onto the
+	## opponent's field as a token copy (`GameState._mirror_first_unit`). Presence; added last so saved kinds keep their numbers.
+	MIRROR_FIRST_UNIT,
 }
 
 ## `color` value meaning "matches every card".

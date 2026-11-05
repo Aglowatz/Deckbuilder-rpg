@@ -642,5 +642,145 @@
 			"atk": 1,
 			"def": 1
 		}
+	],
+	"Echo of Vivienne Quota": [
+		{
+			"name": "Ahead of Schedule",
+			"text": "Quota's Echo always goes first and draws an extra card on its first turn. She started before you arrived.",
+			"icon": "delapouite/alarm-clock",
+			"kind": "always_first"
+		},
+		{
+			"name": "Ahead of Schedule",
+			"text": "Quota's Echo always goes first and draws an extra card on its first turn. She started before you arrived.",
+			"icon": "delapouite/alarm-clock",
+			"kind": "first_turn_draw",
+			"count": 1
+		}
+	],
+	"Echo of Chancellor Clench": [
+		{
+			"name": "Iron in the Glass",
+			"text": "Starts the duel with 3 Iron and two 1/1 Militia on the field: Clench at the height of his reign.",
+			"icon": "delapouite/belt-armor",
+			"kind": "starting_resources",
+			"resource": "iron",
+			"count": 3
+		},
+		{
+			"name": "Iron in the Glass",
+			"text": "Starts the duel with 3 Iron and two 1/1 Militia on the field: Clench at the height of his reign.",
+			"icon": "delapouite/belt-armor",
+			"kind": "starting_tokens",
+			"token": "T-16",
+			"count": 2
+		}
+	],
+	"Echo of Percival Plume": [
+		{
+			"name": "Even Better News",
+			"text": "Plume's Echo draws an extra card each turn and starts with two 1/1 Militia cheering on the field.",
+			"icon": "delapouite/trumpet",
+			"kind": "extra_draws",
+			"count": 1
+		},
+		{
+			"name": "Even Better News",
+			"text": "Plume's Echo draws an extra card each turn and starts with two 1/1 Militia cheering on the field.",
+			"icon": "delapouite/trumpet",
+			"kind": "starting_tokens",
+			"token": "T-16",
+			"count": 2
+		}
+	],
+	"Echo of Mortimer Grimsby": [
+		{
+			"name": "The Reflection Is Valid",
+			"text": "Starts with 3 Red Tape, and your first card each turn costs 1 more (on top of Reflected Order).",
+			"icon": "delapouite/stamper",
+			"kind": "starting_resources",
+			"resource": "redtape",
+			"count": 3
+		},
+		{
+			"name": "The Reflection Is Valid",
+			"text": "Starts with 3 Red Tape, and your first card each turn costs 1 more (on top of Reflected Order).",
+			"icon": "delapouite/stamper",
+			"side": "player",
+			"harmful": true,
+			"kind": "first_card_cost",
+			"amount": 1
+		}
+	],
+	"Echo of the Doppelganger": [
+		{
+			"name": "Plated Twice",
+			"text": "Starts with two 1/1 Sashimi Weenies on the field, and the Echo's units get +1/+1.",
+			"icon": "delapouite/chef-toque",
+			"kind": "starting_tokens",
+			"token": "T-03",
+			"count": 2
+		},
+		{
+			"name": "Plated Twice",
+			"text": "Starts with two 1/1 Sashimi Weenies on the field, and the Echo's units get +1/+1.",
+			"icon": "delapouite/chef-toque",
+			"kind": "stat",
+			"atk": 1,
+			"def": 1
+		}
+	],
+	"Echo of Hortensia Clipwell": [
+		{
+			"name": "Mirror Topiary",
+			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +2/+2.",
+			"icon": "lorc/leaf-swirl",
+			"kind": "timed_summon",
+			"token": "T-22",
+			"every": 2,
+			"count": 1
+		},
+		{
+			"name": "Mirror Topiary",
+			"text": "Every second turn a 1/1 Topiary is trimmed into being, and Clipwell's tokens get +2/+2.",
+			"icon": "lorc/leaf-swirl",
+			"kind": "token_stats",
+			"atk": 2,
+			"def": 2
+		}
+	],
+	"Echo of the Rotheart": [
+		{
+			"name": "Evergreen Glass",
+			"text": "Starts with 4 Garbage, heals 2 at the start of each of its turns, and its units get +0/+1.",
+			"icon": "cathelineau/tree-face",
+			"kind": "starting_resources",
+			"resource": "garbage",
+			"count": 4
+		},
+		{
+			"name": "Evergreen Glass",
+			"text": "Starts with 4 Garbage, heals 2 at the start of each of its turns, and its units get +0/+1.",
+			"icon": "cathelineau/tree-face",
+			"kind": "start_of_turn_heal",
+			"amount": 2
+		},
+		{
+			"name": "Evergreen Glass",
+			"text": "Starts with 4 Garbage, heals 2 at the start of each of its turns, and its units get +0/+1.",
+			"icon": "cathelineau/tree-face",
+			"kind": "stat",
+			"atk": 0,
+			"def": 1
+		}
+	],
+	"The Perfect Copy": [
+		{
+			"name": "Everything You Have",
+			"text": "Plays an exact copy of your current deck, with more HP than you, and draws one extra card each turn.",
+			"icon": "delapouite/shinto-shrine-mirror",
+			"kind": "extra_draws",
+			"count": 1
+		}
 	]
 }

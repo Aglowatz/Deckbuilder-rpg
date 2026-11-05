@@ -56,5 +56,193 @@
 				"return_to": 0
 			}
 		]
+	},
+	{
+		"id": "S-GALLERY",
+		"name": "The Shattered Gallery",
+		"type": "Postgame Dungeon",
+		"zone": "final",
+		"zone_text": "The Capital (through the shattered mirror at Primm's castle door)",
+		"zone_side": true,
+		"theme": "Behind the cracked mirrors of Primm's castle: a gallery of silvered halls where every frame holds a 'perfect' version of someone the Wanderer beat - cold, polished and wrong. Three wings, Iron, Order and Appetite, then the mirror room.",
+		"story": "After Primm falls his mirrors keep reflecting what he wanted the kingdom to be. Wren finds the glass at the castle door cracked from the inside. Beyond it, Echoes of the bosses and lieutenants you defeated fight with twisted mirror rules that stack wing by wing, and at the end waits The Perfect Copy: your own deck, your own face, a little stronger. No healing between fights; one costly place to rest.",
+		"boss": "The Perfect Copy (your own deck, more HP, one extra card a turn)",
+		"buffs": "Silvered (from the first wing): enemy units get +1/+0. Reflected Order (from the second wing): the first card you play each turn costs 1 more. Perfect Form (from the third wing): the first unit you play each turn is copied for the enemy.",
+		"reward_first": "Big gold, essence of every Path, the feat Through the Glass and the Mirrored card finish.",
+		"reward_repeat": "Small gold and a Prismatic Pack.",
+		"hook": "Wren: \"The mirrors in his castle are still showing a kingdom that never was. One of them cracked from the inside last night.\"",
+		"map_id": "MAP-S-GALLERY",
+		"battleboard_id": "BB-S-GALLERY",
+		"_note": "Overnight Nov 4-5, Part 5 (docs/design/shattered_gallery.md): no new assets except one map (MAP-S-GALLERY, stand-in MAP-PC via MapArt.STANDIN_MAPS until it arrives). Echoes reuse their originals' pictures under a silver mirror shader (MirrorTint).",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "The Cracked Frame",
+				"type": "start",
+				"note": "",
+				"x": 11,
+				"y": 82,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Hall of Efficiency",
+				"type": "battle",
+				"note": "",
+				"x": 20,
+				"y": 66,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "The Weight of Glass",
+				"type": "event",
+				"note": "",
+				"x": 30,
+				"y": 82,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "The Iron Mirror",
+				"type": "elite",
+				"note": "",
+				"x": 38,
+				"y": 62,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "The Gallery of Good News",
+				"type": "battle",
+				"note": "",
+				"x": 48,
+				"y": 44,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "The Valid Reflection",
+				"type": "event",
+				"note": "",
+				"x": 40,
+				"y": 26,
+				"next": [
+					7
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "The Notarized Glass",
+				"type": "elite",
+				"note": "",
+				"x": 54,
+				"y": 18,
+				"next": [
+					8,
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "The Quiet Frame",
+				"type": "event",
+				"note": "",
+				"x": 70,
+				"y": 12,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "The Banquet of Likenesses",
+				"type": "battle",
+				"note": "",
+				"x": 62,
+				"y": 58,
+				"next": [
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "The Trimmed Garden",
+				"type": "battle",
+				"note": "",
+				"x": 74,
+				"y": 76,
+				"next": [
+					11
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "The Evergreen Frame",
+				"type": "elite",
+				"note": "",
+				"x": 84,
+				"y": 58,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "Your Reflection",
+				"type": "event",
+				"note": "",
+				"x": 86,
+				"y": 36,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "The Mirror Room",
+				"type": "boss",
+				"note": "",
+				"x": 88,
+				"y": 16,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
 	}
 ]

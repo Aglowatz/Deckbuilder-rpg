@@ -9,8 +9,8 @@
  "seconds": 126.32,
  "loop_seconds": 126.316,
  "lufs": -20.0,
- "true_peak": -6.2,
- "lra": 5.8,
+ "true_peak": -6.6,
+ "lra": 5.2,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -20,49 +20,49 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -20.6
+   "lufs": -21.2
   },
   {
    "section": "A D.N.A. waltz cracks",
    "bar": 4,
    "bars": 16,
    "start_s": 6.3,
-   "lufs": -21.7
+   "lufs": -22.3
   },
   {
    "section": "B Buffet + Dump collide",
    "bar": 20,
    "bars": 16,
    "start_s": 31.6,
-   "lufs": -21.8
+   "lufs": -22.4
   },
   {
    "section": "C Gainlands vs the grid",
    "bar": 36,
    "bars": 16,
    "start_s": 56.8,
-   "lufs": -18.7
+   "lufs": -18.1
   },
   {
    "section": "D all four",
    "bar": 52,
    "bars": 16,
    "start_s": 82.1,
-   "lufs": -17.9
+   "lufs": -18.6
   },
   {
    "section": "E dissolve",
    "bar": 68,
    "bars": 8,
    "start_s": 107.4,
-   "lufs": -23.5
+   "lufs": -20.1
   },
   {
    "section": "outro pulse",
    "bar": 76,
    "bars": 4,
    "start_s": 120.0,
-   "lufs": -20.7
+   "lufs": -21.3
   }
  ],
  "motifs": [
@@ -92,16 +92,16 @@
    "ch": "hn"
   }
  ],
- "notes": 2614,
+ "notes": 2667,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RIFT\\MUS-CAP-RIFT.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RIFT\\MUS-CAP-RIFT.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-RIFT.mid"
  },
  "seam": {
-  "jump_db": -1.19,
-  "wrap_step": 0.00855,
-  "p999_step": 0.0553,
+  "jump_db": -1.18,
+  "wrap_step": 0.00773,
+  "p999_step": 0.05217,
   "click": false,
   "ok": true
  },
@@ -116,11 +116,14 @@
    "ok": true
   },
   "melody": {
-   "coverage": 0.99,
-   "bars_without_melody": [
-    51
+   "coverage": 1.0,
+   "bars_without_melody": [],
+   "buried_bars": [
+    69,
+    70,
+    71,
+    72
    ],
-   "buried_bars": [],
    "ok": true
   }
  },

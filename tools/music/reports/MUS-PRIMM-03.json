@@ -9,8 +9,8 @@
  "seconds": 111.78,
  "loop_seconds": 111.781,
  "lufs": -20.0,
- "true_peak": -6.3,
- "lra": 5.8,
+ "true_peak": -5.6,
+ "lra": 5.9,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -20,7 +20,7 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -18.8
+   "lufs": -18.7
   },
   {
    "section": "A fracture",
@@ -34,7 +34,7 @@
    "bar": 16,
    "bars": 16,
    "start_s": 26.3,
-   "lufs": -21.4
+   "lufs": -21.5
   },
   {
    "section": "C climax",
@@ -130,7 +130,7 @@
    "ch": "vln"
   }
  ],
- "notes": 2554,
+ "notes": 2551,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-03\\MUS-PRIMM-03.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-PRIMM-03\\MUS-PRIMM-03.mp3",
@@ -138,8 +138,8 @@
  },
  "seam": {
   "jump_db": 0.68,
-  "wrap_step": 0.00239,
-  "p999_step": 0.04605,
+  "wrap_step": 0.00255,
+  "p999_step": 0.04621,
   "click": false,
   "ok": true
  },
@@ -154,30 +154,31 @@
    "ok": true
   },
   "melody": {
-   "coverage": 0.74,
+   "coverage": 0.72,
    "bars_without_melody": [
     12,
     14,
-    18,
     19,
-    23,
     26,
+    27,
     31,
     34,
     35,
     36,
     37,
     38,
-    39,
     42,
+    43,
+    45,
     46,
-    49,
+    47,
+    51,
     62,
     63
    ],
    "buried_bars": [
     15,
-    47
+    55
    ],
    "ok": true
   }

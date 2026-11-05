@@ -9,8 +9,8 @@
  "seconds": 147.69,
  "loop_seconds": 147.692,
  "lufs": -20.0,
- "true_peak": -2.7,
- "lra": 7.3,
+ "true_peak": -4.3,
+ "lra": 7.5,
  "limited_db": 0.0,
  "peak_ok": true,
  "lufs_ok": true,
@@ -20,28 +20,28 @@
    "bar": 0,
    "bars": 4,
    "start_s": 0.0,
-   "lufs": -22.6
+   "lufs": -22.4
   },
   {
    "section": "A the city, human",
    "bar": 4,
    "bars": 16,
    "start_s": 9.2,
-   "lufs": -18.8
+   "lufs": -18.7
   },
   {
    "section": "B four voices weave",
    "bar": 20,
    "bars": 16,
    "start_s": 46.2,
-   "lufs": -21.9
+   "lufs": -22.0
   },
   {
    "section": "C gentle",
    "bar": 36,
    "bars": 8,
    "start_s": 83.1,
-   "lufs": -23.2
+   "lufs": -23.3
   },
   {
    "section": "D resolved tutti",
@@ -80,16 +80,16 @@
    "ch": "vln"
   }
  ],
- "notes": 1316,
+ "notes": 1314,
  "files": {
   "ogg": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RESTORED\\MUS-CAP-RESTORED.ogg",
   "mp3": "C:\\Dev\\music_tools\\renders\\MUS-CAP-RESTORED\\MUS-CAP-RESTORED.mp3",
   "mid": "C:\\Dev\\Deckbuilder-rpg\\tools\\music\\midi\\MUS-CAP-RESTORED.mid"
  },
  "seam": {
-  "jump_db": 0.67,
-  "wrap_step": 0.0136,
-  "p999_step": 0.05884,
+  "jump_db": 0.36,
+  "wrap_step": 0.01008,
+  "p999_step": 0.05946,
   "click": false,
   "ok": true
  },
@@ -104,29 +104,25 @@
    "ok": true
   },
   "melody": {
-   "coverage": 0.73,
+   "coverage": 0.77,
    "bars_without_melody": [
     2,
-    22,
+    23,
     26,
-    27,
-    31,
     34,
-    35,
+    37,
+    43,
     47,
     48,
     49,
     50,
-    53,
     54,
-    55,
-    58,
+    57,
+    59,
     62,
     63
    ],
-   "buried_bars": [
-    59
-   ],
+   "buried_bars": [],
    "ok": true
   }
  },

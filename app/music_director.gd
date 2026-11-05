@@ -50,6 +50,9 @@ const DUNGEONS: Dictionary = {
 	"S-CAP": {"exp": "MUS-TUNNEL-EXP", "battle": "MUS-TUNNEL-BATTLE", "boss": "MUS-TUNNEL-BOSS"},
 	"S-PASTE": {"exp": "MUS-GOUR-DUN-EXP", "battle": "MUS-GOUR-DUN-BATTLE", "boss": "MUS-GOUR-BOSS"},  # Oct 21: the Paste Works borrows the Test Kitchen's cues
 	"S-TOWN": {"exp": "MUS-VAULT-EXP", "battle": "MUS-VAULT-BATTLE", "boss": "MUS-VAULT-BOSS"},
+	# Overnight Nov 4-5, Part 5: The Shattered Gallery reuses the castle's cues and Primm's Reflection theme, played through the Music bus's
+	# mirror effect (AudioMix.set_mirror_music: a cold detuned chorus and a hair of pitch-down) - no new audio files
+	"S-GALLERY": {"exp": "MUS-CASTLE-EXP", "battle": "MUS-CASTLE-BATTLE", "boss": "MUS-PRIMM-02"},
 }
 
 ## Battleboard ID (the battle's board) -> the dungeon whose battle cues it uses, or the cue itself (outside the dungeons).
@@ -57,6 +60,7 @@ const BOARD_DUNGEON: Dictionary = {
 	"BB-TUT": "D-TUT", "BB-HOG": "D-HOG", "BB-TTK": "D-TTK", "BB-HFA": "D-HFA", "BB-ROT": "D-ROT", "BB-PC": "D-PC", "BB-LAB": "D-LAB",
 	"BB-S-BEEF": "S-BEEF", "BB-S-GOUR": "S-GOUR", "BB-S-NECRO": "S-NECRO", "BB-S-REF": "S-REF", "BB-S-CAP": "S-CAP", "BB-S-TOWN": "S-TOWN",
 	"BB-S-PASTE": "S-PASTE",
+	"BB-S-GALLERY": "S-GALLERY",
 	"BB-S-IRON": "S-BEEF",  # Oct 19 night: the Iron Cave now names its own board (stand-in BB-S-BEEF until imported); its battles keep the Swolympus cues they had
 }
 const BOARD_CUE: Dictionary = {

@@ -1155,3 +1155,8 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    is one constant each.
 5. **The in-dungeon deck editor is deleted** (`ui/dungeon/dungeon_deckbuilder_screen.gd`, its Deck button and B on the map) as Part 2.4 asked
    ("the button, the screen access and any code path"). It is in git history (`git show pre-overnight-nov4:ui/dungeon/dungeon_deckbuilder_screen.gd`).
+6. **Music (Part 6): FOREST, DECK and TUT-EXP were left as they are.** They quote the Crossroads motif, and the rock riff IS that motif
+   (`lib/rock.py` MOTIF = the Crossroads motif in E minor, same rhythm), so they already quote the rock riff's melody in their own
+   instruments. The old orchestral Gainlands march lived in `scores/_fork_b.py` GAIN_THEME (CREDITS, PRIMM-02, PRIMM-03, PRIMM-DEFEAT,
+   QUEST-ROLLO, REUNION, THRONE, CAP-RESTORED) and CAP-RIFT's own copy; both now carry the rock riff and answer in the march's Bb major
+   bars, and those 9 cues were re-rendered at q6. If you also hear the march somewhere else, name the cue.

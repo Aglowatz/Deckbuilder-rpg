@@ -11,7 +11,7 @@ const SIDE_ENEMY: String = "enemy"
 
 ## Icons by dungeon rule name (game-icons keys, see `CardIcons`), with a scroll as the fallback.
 const DUNGEON_ICONS: Dictionary = {
-	"Home Gym": "lorc/muscle-up", "Iron-less Prison": "lorc/manacles", "Experimental": "lorc/bubbling-flask", "Corrupted Food": "lorc/acid-blob",
+	"Home Gym": "lorc/muscle-up", "Silvered": "delapouite/shinto-shrine-mirror", "Reflected Order": "delapouite/stamper", "Perfect Form": "delapouite/shinto-shrine-mirror", "Iron-less Prison": "lorc/manacles", "Experimental": "lorc/bubbling-flask", "Corrupted Food": "lorc/acid-blob",
 	"Processing Time": "lorc/hourglass", "Red Tape Everywhere": "delapouite/crime-scene-tape", "Overgrowth": "lorc/sprout", "Wild Growth": "lorc/leaf-swirl", "Rot": "lorc/skull-crack",
 	"Perfect Order": "delapouite/checklist", "Mirrors": "delapouite/shinto-shrine-mirror", "Thin Air": "lorc/feathered-wing",
 	"Never Skip Leg Day": "delapouite/weight-lifting-up", "Fresh Fish": "delapouite/fish-monster", "Please Wait": "delapouite/alarm-clock",
