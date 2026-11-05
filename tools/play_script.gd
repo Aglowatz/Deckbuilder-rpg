@@ -399,6 +399,24 @@ func _dev(parts: PackedStringArray) -> void:
 			# Batch 11 (Nov 2): `dev goto <spot id>` stands the hero on a talk / use spot of the current zone or town (then `key E` uses it), the
 			# walk smokes' shortcut for long legs; the camera follows at once.
 			result = _goto_spot(arg)
+		"essence":
+			# Fix pass Nov 4 (B): `dev essence <path> <n>` sets that Path's essence (Auntie Alembic's crafting check)
+			var essence_path: Affinity.Type = Affinity.Type.NEUTRAL
+			for candidate: Affinity.Type in Affinity.colored_types():
+				if Affinity.display_name(candidate).to_lower() == arg.to_lower():
+					essence_path = candidate
+			if essence_path == Affinity.Type.NEUTRAL or Session.profile == null:
+				result = "essence: unknown Path %s" % arg
+			else:
+				Session.profile.set_essence(essence_path, int(arg2))
+				result = "%s essence = %d" % [arg, Session.profile.essence_of(essence_path)]
+		"shiro":
+			# Fix pass Nov 4 (B): `dev shiro` opens the five giant chests (the hidden quest) and starts the duel with Shiro Swindle
+			for chest_id: String in NinjaBoss.CHEST_IDS:
+				Session.open_giant_chest(chest_id)
+			Session.pending_popups.clear()
+			Session.challenge_ninja()
+			result = "Shiro: chests opened, duel started"
 		"postgame":
 			result = DevActions.set_primm_defeated(true)
 		"tp":
