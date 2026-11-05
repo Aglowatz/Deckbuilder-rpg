@@ -105,7 +105,12 @@ static func source_dir() -> String:
 
 ## {Portrait Image ID -> NPC name} of the list (several NPCs never share an image).
 ## Portrait Image IDs the importer knows that are not an NPC of their own (Apparel Part 4: the Rescuer's disguise is a second picture of NPC-ELOWEN).
-const EXTRA_PORTRAITS: Dictionary = {"NPC-RESCUER": "The Rescuer (disguised)"}
+## Overnight Nov 4-5, Part 7: plus the portraits of docs/art/art_needed_nov4.csv that no NPC list row names yet (so the importer takes them).
+const EXTRA_PORTRAITS: Dictionary = {
+	"NPC-RESCUER": "The Rescuer (disguised)", "CUT-FLEX": "Entrance cut-out: Grandmaster Flex, freed", "NPC-TOWNSFOLK": "Crosspath villager",
+	"NPC-TOWNSFOLK-A": "Townsfolk A", "NPC-TOWNSFOLK-B": "Townsfolk B", "NPC-TOWNSFOLK-C": "Townsfolk C", "NPC-GYM-ATTENDANT": "Gym attendant",
+	"NPC-BRISKET": "Brisket", "NPC-SIR-LOIN": "Sir Loin", "NPC-CAPITAL-GUARD": "Capital guard",
+}
 
 
 static func known_portraits() -> Dictionary:
