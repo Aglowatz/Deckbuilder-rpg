@@ -269,7 +269,7 @@ func _skip_dialogue(max_taps: int) -> void:
 				continue
 			var cls: String = node.get_class()
 			var script_name: String = str(node.get_script().get_global_name()) if node.get_script() != null else ""
-			if script_name in ["DialogueBox", "StoryStillScreen", "PopupFrame", "RewardPopup"] or cls == "AcceptDialog":
+			if script_name in ["DialogueBox", "StoryStillScreen", "PopupFrame", "RewardPopup", "CutsceneScreen", "EndingScreen"] or cls == "AcceptDialog":
 				busy = true
 				break
 		if not busy:

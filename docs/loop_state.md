@@ -7,8 +7,8 @@ At start: C: 2.5 GB free; no Godot running. NO export tonight.
 
 | Part | What | State |
 |---|---|---|
-| 1 | Critic list (critic_nov4b) | in progress |
-| 2 | Economy + dungeon rules | |
+| 1 | Critic list (critic_nov4b) | done (Primm real fight verified via resolve_main_dungeon test, not the driver - inbox 1) |
+| 2 | Economy + dungeon rules | in progress |
 | 3 | Early-game fun check | |
 | 4 | Dialogue rewrite | |
 | 5 | The Shattered Gallery | |

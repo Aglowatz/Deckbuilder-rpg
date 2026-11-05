@@ -90,7 +90,7 @@ func _ready() -> void:
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.custom_minimum_size = Vector2(1270, 130)
 	column.add_child(_text)
-	_hint = UIKit.label("Click / Space to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	_hint = UIKit.label("E / Click to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	column.add_child(_hint)
 	_flash = ColorRect.new()
 	_flash.color = Color(1, 1, 1, 0)
@@ -132,7 +132,7 @@ func _show_beat() -> void:
 	_heading.text = _story.text(EndingDefs.beat_title_key(n))
 	_text.text = "\n".join(_story.get_lines(EndingDefs.beat_key(n)))
 	_text.visible_ratio = 0.0
-	_hint.text = "Click / Space to continue" if _index < EndingDefs.BEATS.size() - 1 else "Click / Space to see the credits"
+	_hint.text = "E / Click to continue" if _index < EndingDefs.BEATS.size() - 1 else "E / Click to see the credits"
 	if _tween != null and _tween.is_valid():
 		_tween.kill()
 	_tween = create_tween()

@@ -7,8 +7,16 @@ dev travel town
 wait 8
 skip_dialogue 10
 dev gold -100
-dev travel dungeon D-HOG 7
+# Overnight Nov 4-5: travel to node 6 (7 = the Descent would be cleared on the way), then double-click the Stairs Down node
+dev travel dungeon D-HOG 6
 wait 10
+skip_dialogue 20
+button Got it
+wait 0.5
+click 912 478
+wait 0.4
+click 912 478
+wait 4
 skip_dialogue 20
 shot 00_descent_poor
 dump

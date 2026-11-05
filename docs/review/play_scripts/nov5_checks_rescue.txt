@@ -1,0 +1,22 @@
+# Overnight Nov 4-5, Part 1.10: the Rescue choice and its result screen (House of Gains node 9).
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel dungeon D-HOG 8
+wait 10
+skip_dialogue 20
+button Got it
+wait 1
+click 578 162
+wait 0.4
+click 578 162
+wait 4
+skip_dialogue 12
+wait 2
+shot 01_rescue_choice
+dump
+button Pick the lock
+wait 2
+shot 02_rescue_result
+dump

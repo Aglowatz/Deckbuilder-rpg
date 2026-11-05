@@ -1,0 +1,27 @@
+# Overnight Nov 4-5, Part 1.1 + 1.8: Old Man Mountain's own gate hint in his first talk; Rip's nameplate in full.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 10
+skip_dialogue 20
+dev goto rift_station
+key E
+wait 1.5
+shot 01_rip_nameplate
+skip_dialogue 20
+dev travel zone beefcake
+wait 12
+skip_dialogue 20
+dev goto brenda
+key E
+wait 1.2
+key E
+wait 0.8
+key E
+wait 0.8
+key E
+wait 1.5
+shot 02_mountain_gate_hint
+dump

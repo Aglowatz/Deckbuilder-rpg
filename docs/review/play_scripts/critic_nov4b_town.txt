@@ -38,12 +38,28 @@ skip_dialogue 20
 wait 1.5
 shot 05_alchemist_18_essence
 dump
+# Overnight Nov 4-5: pick two jars and press Craft (positions from the nov5_alchemist run)
+click 665 267
+wait 0.5
+click 665 502
+wait 0.5
+button Craft —
+wait 3.5
+shot 05b_crafted
+key Escape
+wait 1
 dev shiro
 wait 8
 button Keep Hand
 wait 2
 dev win
-wait 8
+wait 6
+# Overnight Nov 4-5: Continue on the Victory panel, then the reward
+button Continue
+wait 3
 skip_dialogue 30
 shot 06_shiro_reward
+key P
+wait 2
+shot 07_packs
 dump

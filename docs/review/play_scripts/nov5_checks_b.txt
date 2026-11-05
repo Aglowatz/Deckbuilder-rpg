@@ -1,0 +1,39 @@
+# Overnight Nov 4-5, Part 1.10: Shiro's packs in the inventory; the first duel's tip on a new save (the Brawler); the Rescue choice.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 10
+skip_dialogue 20
+dev shiro
+wait 8
+button Keep Hand
+wait 2
+dev win
+wait 6
+button Continue
+wait 3
+skip_dialogue 20
+wait 2
+key P
+wait 2
+shot 01_packs_after_shiro
+dump
+key Escape
+wait 1
+dev travel dungeon D-HOG 8
+wait 10
+skip_dialogue 20
+button Got it
+wait 1
+click 578 162
+wait 0.4
+click 578 162
+wait 4
+shot 02_after_node_click
+dump
+skip_dialogue 6
+wait 2
+shot 03_rescue
+dump

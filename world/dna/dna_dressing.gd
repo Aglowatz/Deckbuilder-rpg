@@ -59,8 +59,9 @@ const QUEUE: Dictionary = {"anchors": ["lobby_center", "bank_center", "mail_cent
 ## z 46-60), height m, blocking radius). Placed after the ghost queue, each on the first free spot (`_free`: off the open middle, clear of
 ## the talk spots, the queue and each other) near its wish, so the queue keeps its place and the middle stays open.
 const LOBBY_PROPS: Array = [
-	["DNA-SHEET-LOBBY-01", Vector3(37.2, 0.0, 56.0), 1.0, 0.7],   # bolted waiting chairs along the west wall, south of the bench
-	["DNA-SHEET-LOBBY-05", Vector3(37.0, 0.0, 57.9), 1.1, 0.25],  # the brass ashtray at the end of the chairs
+	# Overnight Nov 4-5, Part 1.10: the chairs and the ashtray stood inside the west passage (LOBBY_WEST_PASSAGE, x 35-39.4); they wait by the south wall now
+	["DNA-SHEET-LOBBY-01", Vector3(45.0, 0.0, 59.1), 1.0, 0.7],   # bolted waiting chairs along the south wall, east of the exit
+	["DNA-SHEET-LOBBY-05", Vector3(46.9, 0.0, 59.2), 1.1, 0.25],  # the brass ashtray at the end of the chairs
 	["DNA-SHEET-LOBBY-03", Vector3(37.2, 0.0, 59.0), 1.5, 0.35],  # the half-dead rubber plant in the south-west corner
 	["DNA-SHEET-LOBBY-04", Vector3(51.5, 0.0, 59.2), 1.6, 0.4],   # the notice board by the south wall, east of the exit
 	["DNA-SHEET-LOBBY-06", Vector3(55.0, 0.0, 57.5), 1.9, 0.5],   # the dead vending machine against the east wall

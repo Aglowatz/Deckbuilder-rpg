@@ -1,0 +1,18 @@
+# Overnight Nov 4-5, Part 1.10: the D.N.A. lobby (west passage) and the elevators with no dialogue covering them.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel zone necrocrat
+wait 12
+skip_dialogue 30
+wait 1
+skip_dialogue 10
+dev tp 38 53
+wait 1.5
+shot 01_dna_west_passage
+dump
+dev tp 45 20
+wait 1.5
+shot 02_dna_elevators
+dump

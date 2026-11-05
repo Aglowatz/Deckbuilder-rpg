@@ -1130,3 +1130,19 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    the disk; C: has 2.7 GB free.
 
 ## Overnight Nov 4-5 - yours to decide (the safest choice was taken)
+1. **Primm's defeat on a real save was not played through the driver.** The play driver can travel to the castle's boss node, but the
+   Model Room staging after the double-click left the camera inside the model table and the duel never started within 60 s (three tries;
+   `docs/review/play_scripts/nov5_primm_real.txt`, `_probe.txt`). I verified Part 1.3 through the exact code a real win runs
+   (`Session.resolve_main_dungeon(true)` on the castle, test `test_beating_primm_in_the_castle_settles_the_quest_log`): unfinished zone
+   lines are closed quietly, "Under the Forest" starts and takes the tracker. A freed zone now also finishes its own line without the
+   favour step. Worth one manual run of the castle boss on your PC to see whether the Model Room stall is the driver or the game.
+2. **Rules audit (Part 1.7)**: `tools/rules_audit.gd` dumps every dungeon fight's pre-fight rule list (`_logs/rules_audit.json`). Renamed:
+   Pump Iron -> **Home Gym** (yours only); the Gainlands' zone debuff Processing Time -> **Out of Breath** (the Hall of Final Approvals
+   has its own Processing Time); Mortimer's second "Red Tape Everywhere" -> **Paper Mountain**; Primm's phase-1 "Royal Guard" ->
+   **Standing Army**; the Doppelganger's "Perfect Copy" -> **Plated Just So** (tonight's Gallery boss is The Perfect Copy); the Lab's
+   "Specimen Conditions (enemies)" -> **Enhanced Specimens**; the Warden's "Drained Strength" -> **Borrowed Strength**; zone stat rules now
+   say "on both sides"; Prize Topiary says it stacks with Royal Groundskeeper. The Rescue boons are "Flex's Promise" / "Elowen's Promise"
+   (the old names repeated their own description on the button). No contradictions found.
+3. **A dark round object still stands beside the D.N.A. lobby's west passage** (`docs/overnight_shots/nov5/p1_10_dna_lobby.png`, left of
+   the hero). The passage is walkable; I moved the waiting chairs and ashtray out of it but could not identify that piece in the time I
+   gave it. Say if it should go.

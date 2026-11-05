@@ -10,7 +10,8 @@ extends RefCounted
 
 const DUNGEON_ID: String = "D-LAB"
 ## The run-level marker of the rescue (a boon with no numbers: Elowen herself is the help, `place_ally`).
-const BOON_NAME: String = "Elowen Fights Beside You"
+const BOON_NAME: String = "Elowen's Promise"  # Overnight Nov 4-5: was "Elowen Fights Beside You" (its description said the same)
+const LEGACY_BOON_NAME: String = "Elowen Fights Beside You"  # a run saved before Nov 5 still has its ally
 ## The flags: the Lab was cleared once, and Elowen is free (she then stands in the forest).
 const FLAG_CLEARED: StringName = &"lab_cleared"
 const FLAG_RESCUER_FREED: StringName = &"rescuer_freed"
@@ -30,7 +31,7 @@ static func rescued(run: DungeonRun) -> bool:
 	if run == null:
 		return false
 	for source: ModifierSource in run.dungeon_sources:
-		if source.source_name == BOON_NAME:
+		if source.source_name == BOON_NAME or source.source_name == LEGACY_BOON_NAME:
 			return true
 	return false
 

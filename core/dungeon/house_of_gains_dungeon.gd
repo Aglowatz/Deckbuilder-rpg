@@ -13,7 +13,8 @@ const ZONE_ID: String = "beefcake"
 const DUNGEON_ID: String = "D-HOG"
 const REWARD_CARD_ID: String = "B-32"
 const RESCUE_NODE_KEY: String = "hg_rescue"
-const BOON_NAME: String = "Grandmaster Flex Fights Beside You"
+const BOON_NAME: String = "Flex's Promise"  # Overnight Nov 4-5: was "Grandmaster Flex Fights Beside You", which its own description repeated
+const LEGACY_BOON_NAME: String = "Grandmaster Flex Fights Beside You"  # a run saved before Nov 5 still has its ally
 ## The rescued leader as a card-game ally (the token sheet's T-15): he starts on your field in the boss fight.
 const ALLY_TOKEN_ID: String = "T-15"
 ## The Descent's prices (Fix pass Nov 4 (B), Part 2.2).
@@ -26,7 +27,7 @@ static func rescued(run: DungeonRun) -> bool:
 	if run == null:
 		return false
 	for source: ModifierSource in run.dungeon_sources:
-		if source.source_name == BOON_NAME:
+		if source.source_name == BOON_NAME or source.source_name == LEGACY_BOON_NAME:
 			return true
 	return false
 

@@ -285,6 +285,9 @@ func _build_land() -> void:
 	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(65.0, 31.6), Vector2(3.0, 3.3), 9, 4.3), GainlandsLayout.IRON_CRAG_TOP + 2.6, "IronCragTier"))
 	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(66.2, 30.6), Vector2(1.5, 1.7), 7, 9.1), GainlandsLayout.IRON_CRAG_TOP + 5.2, "IronCragSpire"))
 	crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(62.6, 30.2), Vector2(1.6, 1.4), 7, 2.2), GainlandsLayout.IRON_CRAG_TOP + 1.2, "IronCragShoulder"))
+	# lower lumps on the corners the road sees, so the walls step instead of rising as one straight block
+	for lump: Vector4 in [Vector4(63.4, 35.9, 1.5, 2.6), Vector4(66.9, 35.7, 1.7, 4.2), Vector4(60.2, 29.0, 1.2, 1.8), Vector4(64.9, 37.0, 1.0, 5.4)]:
+		crag.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(lump.x, lump.y), Vector2(lump.z, lump.z * 0.9), 8, lump.x + lump.y), GainlandsLayout.IRON_CRAG_TOP - lump.w, "IronCragLump"))
 	var front: Vector3 = Basis(Vector3.UP, deg_to_rad(GainlandsLayout.IRON_CAVE_YAW)) * Vector3(0, 0, 1)
 	var side: Vector3 = Vector3(front.z, 0.0, -front.x)
 	var mouth: Vector3 = Vector3(GainlandsLayout.IRON_CAVE_MOUTH.x, GainlandsLayout.PLATEAU_Y, GainlandsLayout.IRON_CAVE_MOUTH.y)

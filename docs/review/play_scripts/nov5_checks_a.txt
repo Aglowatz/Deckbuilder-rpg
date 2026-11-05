@@ -1,0 +1,31 @@
+# Overnight Nov 4-5, Part 1.10: never seen in game - Shiro's reward + the first-duel tip, the Rescue map position.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 10
+skip_dialogue 20
+dev shiro
+wait 8
+shot 01_first_duel_tip
+dump
+button Keep Hand
+wait 2
+dev win
+wait 6
+shot 02_victory
+dump
+button Continue
+wait 3
+shot 03_after_continue
+dump
+skip_dialogue 20
+wait 2
+shot 04_after_reward
+dump
+dev travel dungeon D-HOG 8
+wait 10
+skip_dialogue 20
+shot 05_hog_map
+dump

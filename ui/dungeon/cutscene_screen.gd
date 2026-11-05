@@ -184,7 +184,7 @@ func _ready() -> void:
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.custom_minimum_size = Vector2(1270, 100)
 	column.add_child(_text)
-	_hint = UIKit.label("Click / Space to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	_hint = UIKit.label("E / Click to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	column.add_child(_hint)
 	_flash = ColorRect.new()
 	_flash.color = Color(1, 1, 1, 0)
@@ -235,7 +235,7 @@ func _show_beat() -> void:
 	var lines: Array[String] = _story.get_lines(str(beat["key"]))
 	_text.text = "\n".join(lines)
 	_text.visible_ratio = 0.0
-	_hint.text = "Click / Space to finish" if _index == _beats.size() - 1 else "Click / Space to continue"
+	_hint.text = "E / Click to finish" if _index == _beats.size() - 1 else "E / Click to continue"
 	if _skippable:
 		_hint.text += "   -   Esc: skip" if _first_view else "   -   Esc: skip (seen before)"
 	var speaks_left: bool = _is_left_speaker(speaker)

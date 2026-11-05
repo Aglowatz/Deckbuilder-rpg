@@ -1,0 +1,44 @@
+# Overnight Nov 4-5, Part 1.6 + 1.10: the first duel's tip clear of the Opening-hand panel (Cell Block Brawler on a new save), then the Rescue choice and result.
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev travel town
+wait 10
+skip_dialogue 20
+dev travel dungeon D-HOG 7
+wait 10
+skip_dialogue 20
+button Got it
+wait 1
+click 747 348
+wait 0.4
+click 747 348
+wait 4
+skip_dialogue 20
+wait 2
+shot 01_brief
+dump
+button Continue
+wait 1
+button Fight
+wait 5
+shot 02_first_duel_tip
+dump
+button Keep Hand
+wait 2
+dev win
+wait 6
+button Continue
+wait 3
+skip_dialogue 20
+wait 2
+button Got it
+click 578 162
+wait 0.4
+click 578 162
+wait 4
+skip_dialogue 6
+wait 2
+shot 03_rescue_choice
+dump
