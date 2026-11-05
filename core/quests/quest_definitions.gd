@@ -45,10 +45,45 @@ static func build_all() -> Array[QuestData]:
 	result.append(_first_deck_edit())
 	result.append(_loose_ends())
 	result.append(_alembic())
+	result.append(_under_the_forest())
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
+
+
+## Fix pass Nov 4 (B), Part 4.1: after Primm falls, Rip (the Rift Express) has news of the forest where the Wanderer woke. The quest walks the player from
+## his station in Crosspath to the forest, south past where the brambles were to the Lab's hatch, and down to Cell 4 to free Elowen.
+const UNDER_THE_FOREST: String = "under_the_forest"
+const FLAG_FOREST_ARRIVED: String = "lab_quest_forest_arrived"
+const FLAG_LAB_ENTERED: String = "lab_quest_entered"
+
+
+static func _under_the_forest() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = UNDER_THE_FOREST
+	quest.category = QuestData.Category.MAIN
+	quest.order = 9
+	quest.title = "Under the Forest"
+	quest.summary = "{villain} is gone, but Rip found something in the forest where you first woke: a hatch that was not there before. Something under it feels like yours. So does someone."
+	quest.auto_give = true
+	quest.prerequisite = Condition.postgame()
+	quest.giver_npc = "Rip Tearson, Rift Technician"
+	quest.giver_area = "town"
+	quest.giver_spot = "rift_station"
+	quest.objectives = [
+		QuestObjective.make("Ask Rip at Crosspath's Rift Station what he found", Condition.flag("rip_forest_tip"))
+			.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "The Rift Express station in Crosspath"),
+		QuestObjective.make("Take the Rift Express to the forest where you woke", Condition.flag(FLAG_FOREST_ARRIVED))
+			.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "Any Rift Express station: choose the forest"),
+		QuestObjective.make("Find the hatch at the end of the new path, south of the clearing", Condition.flag(FLAG_LAB_ENTERED))
+			.at(QuestObjective.TargetKind.SPOT, Areas.START, "lab", "Down the new path south of the forest clearing"),
+		QuestObjective.make("Free the prisoner in Cell 4", Condition.flag(str(PathologyLab.FLAG_RESCUER_FREED)))
+			.at(QuestObjective.TargetKind.DUNGEON, Areas.START, "lab", "Below the hatch: the Cell Block branch"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 200
+	quest.reward_xp = 200
+	return quest
 
 
 ## Fix pass Nov 4 (B), Part 4.2: when the Alchemist opens (two zones free) a quest points the player to Auntie Alembic's. Its first step (talking to
@@ -98,9 +133,7 @@ static func _loose_ends() -> QuestData:
 	quest.objectives = [
 		QuestObjective.make("Climb Mount Swolympus: Old Man Mountain at the Swole Station knows the way up", Condition.dungeon_cleared("The Ascent of Mount Swolympus"))
 			.at(QuestObjective.TargetKind.NPC, GainlandsZone.ID, "brenda", "Old Man Mountain, in front of the gym hall in the Gainlands"),
-		QuestObjective.make("Ask Rip at Crosspath's Rift Station what he has been keeping quiet", Condition.flag("rip_forest_tip"))
-			.at(QuestObjective.TargetKind.SPOT, "town", "rift_station", "The Rift Express station in Crosspath"),
-		QuestObjective.make("Follow Rip's lead to the end", Condition.dungeon_cleared("The Path-ology Lab")),
+		QuestObjective.make("Find out what is under the forest (Under the Forest)", Condition.quest_completed(UNDER_THE_FOREST)),  # Fix pass Nov 4 (B): its own quest
 		QuestObjective.make("Win a bout in the Arena, down the cellar hatch in Crosspath", Condition.any_of(arena_wins))
 			.at(QuestObjective.TargetKind.SPOT, "town", "arena", "The cellar hatch to the Undercroft, in Crosspath"),
 	] as Array[QuestObjective]

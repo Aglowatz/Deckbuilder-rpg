@@ -159,3 +159,22 @@ func test_quality_scales_the_mist_rays_and_mushrooms() -> void:
 	assert_lt(low.ray_count, high.ray_count)
 	assert_lt(low.shroom_count, high.shroom_count)
 	assert_gte(low.mist_count, 3, "even Low keeps ground mist")
+
+
+## Fix pass Nov 4 (B), Part 3.4: the Lab's hatch lies far south; at the start a bramble thicket (solid, visible) fills the gap where its path will run;
+## in the postgame the forest opens: a fairly straight path south through a glade to the hatch.
+func test_the_lab_is_far_south_behind_brambles_until_the_postgame_opens_a_straight_path() -> void:
+	assert_gt(OpeningForestLayout.LAB.z, 12.0, "well south of the clearing")
+	var closed: StartingAreaBuilder = _built(false)
+	assert_not_null(closed.root.find_child("Brambles", true, false), "brambles block the way at the start")
+	for p: Vector2 in OpeningForestLayout.LAB_PATH.slice(1):
+		assert_false(closed.is_floor_at(Vector3(p.x, 0.0, p.y)), "no path south at the start (%s)" % str(p))
+	var open: StartingAreaBuilder = _built(true)
+	assert_null(open.root.find_child("Brambles", true, false), "the brambles are gone in the postgame")
+	var lab: Vector3 = open.anchors["lab"] as Vector3
+	var can_stand: Callable = func(pos: Vector3) -> bool: return open.is_walkable(pos, 0.22)
+	assert_eq(WalkProbe.unreachable(can_stand, OpeningForestLayout.SPAWN, open.map_bounds(), {"lab": lab}), [] as Array[String])
+	var line: Array[Vector2] = OpeningForestLayout.LAB_PATH
+	var heading: Vector2 = (line[line.size() - 1] - line[0]).normalized()
+	for k: int in range(line.size() - 1):
+		assert_gt((line[k + 1] - line[k]).normalized().dot(heading), 0.95, "a fairly straight path south")

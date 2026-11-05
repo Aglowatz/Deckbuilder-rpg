@@ -47,6 +47,41 @@ func build(parent: Node3D) -> void:
 	_build_kit_pieces()
 	if lab_open:
 		_build_lab_hatch(Vector3(OpeningForestLayout.LAB_POCKET.x, 0.0, OpeningForestLayout.LAB_POCKET.y))
+	else:
+		_build_brambles()
+
+
+## Fix pass Nov 4 (B), Part 3.4: until the Lab is revealed a low bramble thicket fills the gap in the clearing's south rim where its path will run: thorny
+## dark lumps and arching canes, knee to waist high (the camera looks over it), solid. The forest blocks the way, not an invisible wall.
+func _build_brambles() -> void:
+	var center: Vector3 = Vector3(OpeningForestLayout.BRAMBLES.x, 0.0, OpeningForestLayout.BRAMBLES.y)
+	var radius: float = OpeningForestLayout.BRAMBLES.z
+	var mesh: KitMesh = KitMesh.new()
+	var leaf: StandardMaterial3D = StandardMaterial3D.new()
+	leaf.vertex_color_use_as_albedo = true
+	leaf.roughness = 0.95
+	mesh.set_material("bramble", leaf)
+	var cane: StandardMaterial3D = StandardMaterial3D.new()
+	cane.albedo_color = Color(0.3, 0.18, 0.16)
+	mesh.set_material("cane", cane)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 41
+	for k: int in range(14):
+		var angle: float = rng.randf() * TAU
+		var at: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * radius * sqrt(rng.randf())
+		var size: float = rng.randf_range(0.6, 1.0)
+		mesh.blob("bramble", at + Vector3(0.0, 0.32 * size, 0.0), Vector3(0.8, 0.55, 0.75) * size, 4, 8, 0.6, Color(0.24, 0.27, 0.2).lerp(Color(0.33, 0.2, 0.22), rng.randf()))
+	for k: int in range(16):
+		var angle: float = rng.randf() * TAU
+		var root_at: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * radius * rng.randf_range(0.2, 0.9)
+		var tip: Vector3 = root_at + Vector3(rng.randf_range(-0.9, 0.9), rng.randf_range(0.7, 1.1), rng.randf_range(-0.9, 0.9))
+		mesh.tube("cane", root_at, tip, 0.04, 5, false)
+	var body: MeshInstance3D = mesh.instance("Brambles")
+	body.position = Vector3.ZERO
+	root.add_child(body)
+	for k: int in range(5):
+		var t: float = float(k) / 4.0
+		obstacles.append(Vector3(center.x - radius + t * radius * 2.0, center.z + (0.4 if k % 2 == 0 else -0.4), 0.9))
 
 
 func _build_hidden_chests() -> void:

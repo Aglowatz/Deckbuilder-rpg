@@ -1,0 +1,25 @@
+# Fix pass Nov 4 (B), Part 3.4 / 4.1: the forest at the start (brambles south of the clearing) and in the postgame (a straight path south to the Lab).
+wait 2
+dev newgame
+wait 10
+skip_dialogue 20
+dev tp 1 3
+wait 1.5
+shot 00_start_brambles
+dev postgame
+dev flag rip_forest_tip
+dev flag rift_station_forest
+dev flag lab_revealed
+dev travel forest
+wait 10
+skip_dialogue 20
+dev tp 1.5 6
+wait 1.5
+shot 01_postgame_path_south
+dev tp 3.4 15.0
+wait 1.5
+shot 02_postgame_lab_hatch
+key E
+wait 1
+shot 03_lab_ask
+button Not yet

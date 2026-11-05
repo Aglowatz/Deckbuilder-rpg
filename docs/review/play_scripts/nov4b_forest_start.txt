@@ -1,0 +1,16 @@
+# Fix pass Nov 4 (B), Part 3.4: at the start, brambles fill the gap south of the clearing (the Lab's future path).
+wait 2
+dev newgame
+wait 8
+click 415 420
+wait 1
+button Begin
+wait 8
+skip_dialogue 20
+dev tp 1.2 3.4
+wait 1.5
+shot 00_start_brambles
+hold S 1.5
+wait 0.5
+scene
+shot 01_start_blocked

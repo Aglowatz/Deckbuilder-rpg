@@ -25,14 +25,22 @@ const POCKETS: Dictionary = {
 	"roots": Vector3(13.9, -18.2, 1.5),
 	"station": Vector3(6.4, -17.4, 2.0),
 }
-## The Path-ology Lab hatch's pocket (south-east, on the camera side): floor only once the Lab is revealed (postgame).
-const LAB_POCKET: Vector3 = Vector3(4.3, 4.2, 1.5)
+## Fix pass Nov 4 (B), Part 3.4: the Path-ology Lab's hatch lies far SOUTH of the clearing (on the camera side), at the end of a fairly straight path
+## through a glade. At the start of the game none of it is floor: a bramble thicket (BRAMBLES, StartingAreaBuilder) fills the gap in the treeline where
+## the path will run, so the forest itself blocks the way. Once the Lab is revealed (postgame) the path, the glade and the hatch's pocket are floor.
+const LAB_POCKET: Vector3 = Vector3(3.4, 16.6, 2.1)
+const LAB_PATH: Array[Vector2] = [Vector2(1.2, 4.2), Vector2(1.9, 8.6), Vector2(2.7, 12.6), Vector2(3.4, 15.6)]
+const LAB_PATH_HALF: float = 1.9
+## The glade halfway down the path (x, z, radius): the postgame forest is more open.
+const LAB_GLADE: Vector3 = Vector3(1.6, 9.4, 3.2)
+## The bramble thicket at the clearing's south rim where the path will run (x, z, radius): present until the Lab is revealed.
+const BRAMBLES: Vector3 = Vector3(1.3, 6.0, 2.2)
 
 ## Walkability destinations (the probe checks each is reached from the spawn).
 const SPAWN: Vector3 = Vector3(-0.4, 0.0, 1.0)
 const GATE: Vector3 = Vector3(10.4, 0.0, -19.4)
 const TUNNEL: Vector3 = Vector3(-6.5, 0.0, 2.4)
-const LAB: Vector3 = Vector3(4.3, 0.0, 3.6)
+const LAB: Vector3 = Vector3(3.4, 0.0, 15.4)
 ## The three hidden chests (ids as before, gold unchanged): no marker, no glow, the 1.5 m prompt is the only tell (docs/design/secrets.md).
 const HIDDEN_CHESTS: Dictionary = {
 	"start_west": {"pos": Vector3(-5.0, 0.0, -9.5), "gold": 40},
@@ -81,6 +89,8 @@ func floor_sdf(p: Vector2) -> float:
 		best = minf(best, p.distance_to(Vector2(pocket.x, pocket.y)) - pocket.z)
 	if lab_open:
 		best = minf(best, p.distance_to(Vector2(LAB_POCKET.x, LAB_POCKET.y)) - LAB_POCKET.z)
+		best = minf(best, polyline_distance(p, LAB_PATH) - LAB_PATH_HALF)
+		best = minf(best, p.distance_to(Vector2(LAB_GLADE.x, LAB_GLADE.y)) - LAB_GLADE.z)
 	return best
 
 
@@ -150,7 +160,9 @@ func bounds() -> Rect2:
 		shapes.append(Vector3(p.x, p.y, SPUR_HALF))
 	for key: String in POCKETS.keys():
 		shapes.append(POCKETS[key] as Vector3)
-	shapes.append(LAB_POCKET)
+	if lab_open:
+		shapes.append(LAB_POCKET)
+		shapes.append(LAB_GLADE)
 	var rect: Rect2 = Rect2(Vector2(SPAWN.x, SPAWN.z), Vector2.ZERO)
 	for shape: Vector3 in shapes:
 		rect = rect.merge(Rect2(Vector2(shape.x - shape.z, shape.y - shape.z), Vector2(shape.z, shape.z) * 2.0))

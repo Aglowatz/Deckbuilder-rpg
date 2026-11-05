@@ -468,7 +468,7 @@ func _undergrowth() -> void:
 			z += 0.9
 			if d < -0.25 or d > 3.2:
 				continue
-			if layout.lab_open and p.distance_to(Vector2(OpeningForestLayout.LAB_POCKET.x, OpeningForestLayout.LAB_POCKET.y)) < OpeningForestLayout.LAB_POCKET.z + 0.4:
+			if layout.lab_open and (p.distance_to(Vector2(OpeningForestLayout.LAB_POCKET.x, OpeningForestLayout.LAB_POCKET.y)) < OpeningForestLayout.LAB_POCKET.z + 0.4 or OpeningForestLayout.polyline_distance(p, OpeningForestLayout.LAB_PATH) < OpeningForestLayout.LAB_PATH_HALF + 0.3):
 				continue
 			# thinner right at the edge, thick just beyond it
 			var keep: float = 0.35 if d < 0.4 else 0.8

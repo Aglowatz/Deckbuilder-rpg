@@ -11,7 +11,7 @@ func before_each() -> void:
 func test_loose_ends_waits_for_the_postgame_then_is_given_and_tracked() -> void:
 	var quest: QuestData = QuestCatalog.find(QuestDefinitions.LOOSE_ENDS)
 	assert_not_null(quest)
-	assert_eq(quest.objectives.size(), 4)
+	assert_eq(quest.objectives.size(), 3, "Fix pass Nov 4 (B): Rip's lead is its own quest now (Under the Forest)")
 	Session.offer_auto_quests()
 	assert_false(Session.quest_log.is_active(QuestDefinitions.LOOSE_ENDS), "not during the story")
 	Session.profile.postgame_unlocked = true
@@ -27,6 +27,8 @@ func test_its_steps_follow_real_progress() -> void:
 	Session.refresh_quests()
 	assert_true(Session.quest_log.is_active(QuestDefinitions.LOOSE_ENDS), "two steps left: the summit and the Lab")
 	Session.cleared_dungeons.append("The Ascent of Mount Swolympus")
-	Session.cleared_dungeons.append("The Path-ology Lab")
+	for flag_name: String in [QuestDefinitions.FLAG_FOREST_ARRIVED, QuestDefinitions.FLAG_LAB_ENTERED, str(PathologyLab.FLAG_RESCUER_FREED)]:
+		Session.set_flag(StringName(flag_name))
 	Session.refresh_quests()
-	assert_false(Session.quest_log.is_active(QuestDefinitions.LOOSE_ENDS), "all four done: the quest is ready or complete")
+	Session.refresh_quests()
+	assert_false(Session.quest_log.is_active(QuestDefinitions.LOOSE_ENDS), "all three done: the quest is ready or complete")

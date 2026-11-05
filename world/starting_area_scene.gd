@@ -91,6 +91,9 @@ func _ready() -> void:
 		for name: StringName in [&"primm_defeated", &"rescuer_met", &"rip_forest_tip", PathologyLab.FLAG_FOREST_OPEN, PathologyLab.FLAG_REVEALED, PathologyLab.FLAG_RESCUER_FREED]:
 			Session.set_flag(name)
 	area.lab_open = Session.flag(PathologyLab.FLAG_REVEALED)
+	if Session.flag(PathologyLab.FLAG_FOREST_OPEN) and not Session.flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED)):
+		Session.set_flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED))  # Fix pass Nov 4 (B): "Under the Forest" - back in the forest
+		Session.refresh_quests()
 	area.build(self)
 	if _screenshot_args.has("cam"):
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
@@ -752,6 +755,7 @@ func _enter_lab() -> void:
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			Audio.sfx(&"door")
+			Session.set_flag(StringName(QuestDefinitions.FLAG_LAB_ENTERED))
 			Session.enter_lab(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 

@@ -399,6 +399,8 @@ func _dev(parts: PackedStringArray) -> void:
 			# Batch 11 (Nov 2): `dev goto <spot id>` stands the hero on a talk / use spot of the current zone or town (then `key E` uses it), the
 			# walk smokes' shortcut for long legs; the camera follows at once.
 			result = _goto_spot(arg)
+		"postgame":
+			result = DevActions.set_primm_defeated(true)
 		"tp":
 			# Fix pass Nov 4 (B): `dev tp <x> <z>` stands the hero at a world position (ground height from the map), camera following - for edge shots
 			result = _teleport(arg, arg2)
@@ -448,7 +450,7 @@ func _teleport(x_text: String, z_text: String) -> String:
 	player.position = Vector3(x, y, z)
 	var camera: Camera3D = scene.get("_camera") as Camera3D
 	if camera != null:
-		camera.position = player.position + CameraRig.shape(scene.get("camera_offset") as Vector3)
+		camera.position = player.position + CameraRig.shape((scene.get("camera_offset") if "camera_offset" in scene else scene.get("_camera_offset")) as Vector3)
 	return "tp to %s" % str(player.position)
 
 
