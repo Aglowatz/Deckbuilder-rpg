@@ -209,7 +209,7 @@ Tests: `tests/core/test_overnight_nov5_part8.gd`.
 ## Tests (Finish)
 
 Full sharded GUT (`tools/run_tests.sh --only=tests --size=12`, 341 scripts in 29 shards). **Shards 1-12 ran** (the audio, AI, data,
-dungeon, game and quest scripts): 1,445 tests and 3 failures, all from tonight's changes and all fixed and re-run green:
+dungeon, game and quest scripts): 1,448 tests and 3 failures, all from tonight's changes and all fixed and re-run green:
 - the feat count is now 41 (Through the Glass);
 - Rip's forest tip was reworded by the rewrite;
 - the rewrite had dropped Primm's "No order outranks treating people with respect." from `cutscene.primm_p2.2`, so that zone lesson is
