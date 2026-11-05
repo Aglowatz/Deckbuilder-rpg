@@ -776,9 +776,9 @@ func present(event: GameEvent) -> void:
 						_refresh_view(unit.uid)
 			# Overnight Oct 17, Part 8: a ribbon marks every turn change.
 			if event.player == 0:
-				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed, "Turn %d" % game.turn)
+				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed, "Round %d" % BattleHud.round_of(game.turn))
 			else:
-				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed, "Turn %d" % game.turn)
+				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed, "Round %d" % BattleHud.round_of(game.turn))
 		_:
 			pass
 

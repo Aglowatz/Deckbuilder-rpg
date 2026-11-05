@@ -149,5 +149,6 @@ static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode) -> Pl
 		setup.starting_hp = map_node.enemy_hp
 		setup.profile = PlayerProfile.new()
 		setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
+		setup.max_hp_cap = map_node.enemy_hp  # Overnight Nov 4-5, Part 8 (fresh critic #4): a 3-HP foe's bar is full at 3, not 3 of 15
 	EncounterModifiers.apply_to_enemy(setup, map_node.enemy_name)
 	return setup

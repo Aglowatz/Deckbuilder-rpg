@@ -1170,3 +1170,22 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    or fewer fights (e.g. one Echo per wing plus its elite). Say how hard you want the full run to be.
 9. **ZoneOrderEase** (Part 3) is invisible to the player (no badge), like other difficulty scaling. Necrocrat and Gourmand first dungeons sim
    at 90 % (10 runs, +-15), a little over the 65-80 % goal; tighten `EARLY_HP_FACTOR` if real play agrees.
+10. **The fresh critic (Part 8) never left the tutorial cave.** It lost to Hollow Stalker and to the Hollow Warden on the built-in pilot
+    (2 of 4 tries; the pilot is a weak player) and replayed the cave from the bedroll each time. I took the smallest fix that removes
+    the punishment: a lost fight in the intro trial is retried at full HP (`Session.tutorial_retry_on_loss`). I left the decks alone
+    (the cave's own sim target is 80 %+ clears per Path). If you also want the cave softer, the knobs are the recipes in
+    `TrialOfTheHollow.enemy_recipe`. Note that the 3-HP foes can no longer heal above 3, which already eases them a little.
+    The critic's top-10 items not done tonight go to inbox 11. Its review stops at the cave, so the early-game brief needs a second run
+    from a save past the cave (`dev save` after the cave). The play script for that is a good first step for the next session.
+11. **Critic items logged, not done:**
+    - **Path choice readability** (`n5b_13_after`): enlarge a card on hover, and add a plain line per Path ("Red Tape: an enemy unit gets
+      -X attack").
+    - **Grey low-poly rocks** in front of the bedroll (`n5c_c06_forest`): a texture or a swap.
+    - **The tutorial foes play BAS-G / BAS-R basics** (Gourmand Feastforge, Refusemancer Wasteworks), so three Resource kinds show in
+      the first fight. Either colourless foes or one tip.
+    - **Battle layout:** long name plates overflow into the portrait ring; the hand's card bottoms are cut by the screen; a tip box
+      overlaps the phase panel (`n5j_j02`, `n5k_k06_t2`).
+    - **The boss node's "second click":** not reproduced. One click always emits; a click while the map is still busy after a scene may
+      be swallowed.
+    - **The feat toast lands during the Rescuer's farewell.**
+    - **The map subtitle reads "The Forest Clearing"** inside the cave.

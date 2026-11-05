@@ -9,6 +9,8 @@ var profile: PlayerProfile
 var modifiers: ModifierSet = ModifierSet.new()
 ## HP at the start of the duel; -1 = max HP (+ STARTING_LIFE modifiers).
 var starting_hp: int = -1
+## Overnight Nov 4-5, Part 8: a max HP below the profile's floor (the tutorial cave's 3-HP foes, whose bar read 3 of 15); -1 = from the profile.
+var max_hp_cap: int = -1
 
 
 ## Builds a setup whose modifiers are the profile's gear plus any extra sources.

@@ -62,11 +62,13 @@ func _ready() -> void:
 	_column.add_child(_leave_button)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open")
-	_reveal_button.call_deferred(&"grab_focus")
+	_leave_button.focus_mode = Control.FOCUS_ALL
+	_leave_button.call_deferred(&"grab_focus")
 
 
-## Fresh eyes round 2 (Oct 31): E / Enter / Space / the pad's A press Reveal, and later Continue (the HUD under the well says "E: interact";
-## the critic tapped E at the well and nothing happened). A short guard keeps the click that opened the well from also revealing it.
+## Fresh eyes round 2 (Oct 31): E / Enter / Space / the pad's A answer the well (the HUD under it says "E: interact"). Overnight Nov 4-5,
+## Part 8 (fresh critic #2): before the test they press the safe "Leave it" - a player tapping through text no longer gambles a card away
+## (Reveal takes a click, or the pad's focus) - and after it Continue. A short guard keeps the press that opened the well from answering it.
 const GUARD_TIME: float = 0.4
 var _age: float = 0.0
 
@@ -80,7 +82,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
-		_reveal_button.pressed.emit()
+		confirm_target().pressed.emit()
+
+
+## The button a confirm press answers: "Leave it" while the test is still on offer, then Reveal's Continue.
+func confirm_target() -> FancyButton:
+	return _leave_button if _leave_button != null and _leave_button.visible else _reveal_button
 
 
 func _pick_challenge() -> ChallengeData:

@@ -368,6 +368,10 @@ func _check_forest_edge(delta: float) -> void:
 	# The side nook is optional exploration: no talking back there either.
 	if area.layout.is_quiet(Vector2(player.position.x, player.position.z)):
 		return
+	# Overnight Nov 4-5, Part 8 (fresh critic #3): the arch is at the floor's edge too - the bubble fired there and its nudge "back toward
+	# the cave" pushed the hero out of the gate's reach, so E said a line instead of entering. No self-talk near the arch.
+	if _near_gate or _gate_distance() <= INTERACT_RADIUS + 1.5:
+		return
 	var at_edge: bool = false
 	for step: int in range(8):
 		var angle: float = TAU * float(step) / 8.0
@@ -448,6 +452,12 @@ func _process(delta: float) -> void:
 ## Both the cave gate and (on a brand-new profile only) the hidden tunnel share the one prompt
 ## panel - the gate wins if both were ever in range at once, which never happens in practice given
 ## how far apart they are.
+## How far the hero stands from the cave arch, on the ground.
+func _gate_distance() -> float:
+	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+	return Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
+
+
 func _update_prompt() -> void:
 	if _locked or dialogue.active:
 		_prompt_panel.visible = false
@@ -456,8 +466,7 @@ func _update_prompt() -> void:
 		_chest_near = ""
 		_post_near = ""
 		return
-	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
-	var gate_distance: float = Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
+	var gate_distance: float = _gate_distance()
 	var was_near_gate: bool = _near_gate
 	_near_gate = gate_distance <= INTERACT_RADIUS
 	var near_tunnel_now: bool = false

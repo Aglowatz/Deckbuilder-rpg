@@ -50,6 +50,10 @@ func _ready() -> void:
 	_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_button.pressed.connect(_on_button)
 	column.add_child(_button)
+	# Overnight Nov 4-5, Part 8 (fresh critic #2): E / Enter / Space / the pad's A press Rest, then Continue (the critic was stuck here).
+	ConfirmKey.attach(panel, _button)
+	_button.focus_mode = Control.FOCUS_ALL
+	_button.call_deferred(&"grab_focus")
 	_show_hp(Session.run.hp)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open")

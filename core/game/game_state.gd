@@ -95,6 +95,8 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	player.modifiers = setup.modifiers.clone()
 	var mods: ModifierSet = player.modifiers
 	player.max_hp = maxi(1, profile.base_max_hp() + mods.sum(Modifier.Kind.MAX_HP))
+	if setup.max_hp_cap > 0:
+		player.max_hp = mini(player.max_hp, setup.max_hp_cap)
 	if setup.starting_hp >= 0:
 		player.hp = setup.starting_hp
 	else:

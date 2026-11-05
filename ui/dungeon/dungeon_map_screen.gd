@@ -380,7 +380,7 @@ func _show_default_info() -> void:
 
 ## The last line of an open node's preview: how to go there (the pad's confirm button while a controller is in use).
 static func node_go_hint() -> String:
-	var how: String = "Press %s to go." % Keybinds.confirm_key() if InputDevice.using_pad() else "Click again or press E to go."
+	var how: String = "Press %s to go." % Keybinds.confirm_key() if InputDevice.using_pad() else "Click it or press E to go."
 	return "[color=#ffcf70][b]%s[/b][/color]" % how
 
 

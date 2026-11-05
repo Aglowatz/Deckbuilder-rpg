@@ -3851,6 +3851,15 @@ func complete_battle(context: BattleContext) -> void:
 		SceneManager.go_to_town()
 		return
 	run.finish_encounter(context.game)
+	if (not context.won or run.failed) and tutorial_retry_on_loss():
+		# Overnight Nov 4-5, Part 8 (fresh critic #1): a loss in the tutorial cave no longer restarts it from the bedroll. The hero
+		# comes round at full HP on the node before the fight, which stays open to try again; cards and gold won are kept.
+		run.failed = false
+		run.heal(run.max_hp())
+		save_game()
+		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+		toasts.show_toast("You come round on the cave floor at full HP. Try that fight again.", UIStyle.GOLD, CardIcons.ui("fountain"))
+		return
 	if not context.won or run.failed:
 		abandon_run("You were carried out of the Forgotten Cave. Your collection is safe.")
 		return
@@ -4090,6 +4099,12 @@ func complete_trial() -> void:
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 	EventBus.collection_changed.emit()
 	save_game()
+
+
+## Overnight Nov 4-5, Part 8: true inside the tutorial cave (the intro trial, before Crosspath), where a lost fight is retried on the spot
+## at full HP instead of ending the run.
+func tutorial_retry_on_loss() -> bool:
+	return run != null and not main_dungeon_active and not mini_active and not flag(&"trial_cleared")
 
 
 func abandon_run(notice: String = "") -> void:

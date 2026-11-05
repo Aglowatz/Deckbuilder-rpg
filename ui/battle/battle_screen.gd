@@ -1827,7 +1827,7 @@ func defeat_recap_lines() -> Array[String]:
 		else:
 			lines.append("%s dealt all %d damage you took (%s)." % [top_name, total, hits])
 	else:
-		lines.append("%s outlasted you over %d turns." % [context.enemy_name, game.turn])
+		lines.append("%s outlasted you over %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)])
 	var me: PlayerState = game.players[0]
 	var tip: String = ""
 	if _recap_turns_without_infra >= 2 and me.infrastructure.size() < 4:
@@ -2223,7 +2223,7 @@ func _show_result() -> void:
 	var title: String = "Victory!" if won else ("Draw" if game.is_draw else "Defeat")
 	var title_label: Label = UIKit.label(title, &"TitleLabel", 84, UIStyle.GOLD if won else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(title_label)
-	var detail: String = "You defeated %s in %d turns." % [context.enemy_name, game.turn] if won else "%s wins after %d turns." % [context.enemy_name, game.turn]
+	var detail: String = "You defeated %s in %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)] if won else "%s wins after %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)]
 	if game.is_draw:
 		detail = "Neither side could finish the game."
 	if not context.arena_id.is_empty():
@@ -2241,7 +2241,11 @@ func _show_result() -> void:
 	elif not won and not context.practice and context.town_npc_id.is_empty():
 		# Oct 31 - Nov 1 (late-game critic #15): "the dungeon" only when there is one (a fight outside a run said it too).
 		var where: String = "You are carried out of the dungeon." if Session.run != null else "You come to, a little bruised."
-		column.add_child(UIKit.label("%s Your collection is safe." % where, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+		var kept: String = "Your collection is safe."
+		if Session.tutorial_retry_on_loss():  # Overnight Nov 4-5, Part 8 (fresh critic #1): the cave lets you try the fight again
+			where = "You come round on the cave floor, healed."
+			kept = "Try this fight again - the cards and gold you won are kept."
+		column.add_child(UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.
 	if not won and not game.is_draw:

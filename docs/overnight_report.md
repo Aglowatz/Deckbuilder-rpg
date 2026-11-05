@@ -159,3 +159,32 @@ override (the Drive was never touched). Each run's outputs and manifest changes 
 
 Gotcha: the key art, bestiary and map importers rewrite their manifest CSV from the source folder alone, so a run on a partial folder
 empties those manifests. Restore them after any test run.
+
+## Part 8 - fresh critic playthrough
+
+A no-context critic played a new save from a hard-linked HEAD worktree (`/c/Dev/wp_critic`), with no dev wins, levels or gold. Report:
+**`docs/review/fresh_eyes_early_nov5.md`**, with 17 screenshots in `docs/review/fresh_eyes_early_nov5/`. It picked **Necrocrat** and
+**never got out of the tutorial cave** in about 80 minutes:
+- it lost twice (to Hollow Stalker and to the Hollow Warden), and each loss sent it back to the bedroll with the cave reset;
+- two more runs stalled on input: the Shrine popup ignored E/Space, and the boss node seemed to need a second click.
+
+So Tilly, Meet the Merchants, the shops, the road, the D.N.A. and its first dungeon went unreviewed. Gold reached 240 with no shop in
+reach. No SCRIPT ERROR in any run.
+
+**Scores:** fun 5, clarity 5, difficulty 4 (too hard for a tutorial), text 7 ("Even in death, he files."). The art and the defeat recap
+("What beat you") were its highlights.
+
+| # | Critic's issue | Done tonight |
+|---|---|---|
+| 1 | The cave is too hard, and a loss restarts it from the bedroll | **Fixed:** a lost fight in the intro trial no longer ends the run. You come round at full HP on the map, the fight stays open, and the defeat panel says "Try this fight again - the cards and gold you won are kept" (`Session.tutorial_retry_on_loss`). The decks are not softened (inbox 10). |
+| 2 | Popups ignore E/Space; the Shrine has no exit; E at the Well gambles a card | **Fixed:** the Shrine's Rest / Continue take E / Enter / Space / pad A and the focus. At the Well, a confirm press now means "Leave it" until the test is taken; Reveal needs a click or the pad's focus. |
+| 3 | E at the cave arch needs 2-3 presses | **Fixed (cause found):** the arch is at the floor's edge, so the treeline self-talk fired there, and its nudge "back toward the cave" pushed the hero out of the arch's reach. The E then only replayed the bubble. No self-talk within 3.2 m of the arch now. |
+| 4 | Enemy HP "3" next to a bar a fifth full | **Fixed:** the cave's 3-HP foes have a max HP of 3 (`PlayerSetup.max_hp_cap`), so the bar starts full (and they cannot heal past 3). |
+| 5 | Path choice cards are too small to read | logged (inbox 11) |
+| 6 | The boss node "needs two clicks" | One click always went; the hover hint said "Click again or press E to go", which reads as two clicks. It now says "Click it or press E to go." A swallowed first click was not reproduced (inbox 11). |
+| 7 | Grey untextured rocks in front of the bedroll | logged (inbox 11) |
+| 8 | The turn counter counts both sides | **Fixed:** the battle shows rounds ("Round 2" on your second turn), and so do the banners and the victory/defeat lines (`BattleHud.round_of`). |
+| 9 | The tutorial foes play Gourmand and Refusemancer basics | logged (inbox 11): changing their decks moves the cave's tuned win rate |
+| 10 | Long name plates overflow; hand cards cut off; a tip overlaps the phase panel | logged (inbox 11) |
+
+Tests: `tests/core/test_overnight_nov5_part8.gd`.

@@ -10,6 +10,12 @@ signal attack_all_pressed
 signal speed_pressed
 
 const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
+
+
+## Overnight Nov 4-5, Part 8 (fresh critic #8): the game counts each side's turn, so the player's second turn was "Turn 3". The screen shows
+## rounds instead (one turn each): game turn 1-2 is Round 1, 3-4 Round 2.
+static func round_of(turn: int) -> int:
+	return maxi(1, floori((turn + 1) / 2.0))
 ## Where the two deck piles stand (player, opponent): left of the phase buttons and of the opponent hand column, clear of the hand, the board rows and the card preview.
 const END_TURN_SIZE: float = 112.0
 const DECK_PILE_POSITIONS: Array[Vector2] = [Vector2(1488, 884), Vector2(1488, 8)]
@@ -444,7 +450,7 @@ func refresh_all() -> void:
 		_portraits[index].set_hp(player.hp, false)
 		_portraits[index].set_infrastructure(player.infrastructure)
 		_counts[index].text = "Deck %d" % player.deck.size()
-	_turn_label.text = "Turn %d" % maxi(game.turn, 1)
+	_turn_label.text = "Round %d" % round_of(game.turn)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
 	_turn_sub.text = ""
 	if game.stage == GameState.Stage.PLAYING:
@@ -507,7 +513,7 @@ func on_event(event: GameEvent) -> void:
 			if event.player == 0:
 				_check_low_hp(event.value)
 		GameEvent.Type.TURN_STARTED:
-			_turn_label.text = "Turn %d" % event.value
+			_turn_label.text = "Round %d" % round_of(event.value)
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
 			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
 			_refresh_jam()
