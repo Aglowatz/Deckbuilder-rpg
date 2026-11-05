@@ -1436,7 +1436,7 @@
 				"pct": 50
 			},
 			"text": "At half health Bellows calls an intermission: he heals 2, and his units sit down through his next turn.",
-			"line": "INTERMISSION! (normal voice) Everybody sit down a minute. I've brought a flask of soup, and my voice needs it more than I do.",
+			"line": "INTERMISSION! (normal voice) I'm having soup. THE SOUP IS WINNING.",
 			"effects": [
 				{
 					"kind": "heal",

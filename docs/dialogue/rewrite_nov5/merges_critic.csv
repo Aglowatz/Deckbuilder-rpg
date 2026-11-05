@@ -1,0 +1,5 @@
+id,new_text
+data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2,"I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to."
+data/story/capital_story.tres::cutscene.primm_p2.2::1,"And nobody files me under 'subject' ever again."
+data/story/capital_story.tres::quest.cap_wheels.ready::3,"One more thing about the man in the castle: he made lateness illegal. That's a man who can't bear to wait for anyone."
+data/story/dna_story.tres::npc.dolores.intro::0,"Welcome to the Department of Necrotic Affairs, dear. I'm Agnes Overdue, front desk. I died at this desk forty years ago and I've been employee of the month ever since. Nobody else qualified."

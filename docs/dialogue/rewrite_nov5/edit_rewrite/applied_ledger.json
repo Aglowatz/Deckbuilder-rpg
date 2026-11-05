@@ -67,7 +67,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "The Rescuer",
 		"before": "That will have to do. The Path-ologists are hunting us.",
-		"after": "Faint will have to do. The Path-ologists are already hunting us."
+		"after": "Faint will have to do. The Path-ologists are already hunting us.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::prologue.rescuer.4::0",
@@ -543,7 +544,8 @@
 		"file": "data/encounters/encounter_scripts.json",
 		"speaker": "Arena challenger (marshal)",
 		"before": "INTERMISSION! (normal voice) I'm having soup. THE SOUP IS WINNING.",
-		"after": "INTERMISSION! (normal voice) Everybody sit down a minute. I've brought a flask of soup, and my voice needs it more than I do."
+		"after": "INTERMISSION! (normal voice) Everybody sit down a minute. I've brought a flask of soup, and my voice needs it more than I do.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::arena.won.first::0",
@@ -2594,7 +2596,8 @@
 		"file": "data/story/gourmand_story.tres",
 		"speaker": "Basil",
 		"before": "Old Meatloaf is the best golem in the kingdom. Don't tell the others. They know.",
-		"after": "Old Meatloaf is the best golem in the kingdom. Don't tell the others - they already know, and they're very gracious about it."
+		"after": "Old Meatloaf is the best golem in the kingdom. Don't tell the others - they already know, and they're very gracious about it.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/gourmand_story.tres::npc.old_meatloaf.mended::1",
@@ -2993,7 +2996,8 @@
 		"file": "data/story/gourmand_story.tres",
 		"speaker": "Escoffina",
 		"before": "...Escoffina. I will try to cook honestly. I will try to be someone worth the name.",
-		"after": "...Escoffina. I will try to cook honestly, and to become someone worth the name."
+		"after": "...Escoffina. I will try to cook honestly, and to become someone worth the name.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/gourmand_story.tres::ui.exit.body.freed::0",
@@ -3112,7 +3116,8 @@
 		"file": "data/story/gourmand_story.tres",
 		"speaker": "The Doppelganger, later Escoffina",
 		"before": "I made a sauce today. A real one. I tasted it. As me. It had too much salt.",
-		"after": "I made a sauce today, a real one, and I tasted it myself. As me. It had far too much salt."
+		"after": "I made a sauce today, a real one, and I tasted it myself. As me. It had far too much salt.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/gourmand_story.tres::freed_npc.escoffina::4",
@@ -3504,7 +3509,8 @@
 		"file": "data/story/dna_story.tres",
 		"speaker": "Director Ectomund",
 		"before": "The new management asked me to remove the questions on ethics. They are not in the exam. They are also, I notice, not in the building.",
-		"after": "The new management asked me to remove the questions on ethics, so they are no longer in the exam. They are also, I notice, no longer in the building."
+		"after": "The new management asked me to remove the questions on ethics, so they are no longer in the exam. They are also, I notice, no longer in the building.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/dna_story.tres::npc.quiz.intro::3",
@@ -3539,7 +3545,8 @@
 		"file": "data/story/dna_story.tres",
 		"speaker": "Clerk Ledgerbone",
 		"before": "I cannot leave the desk. Policy. Also, my legs are on loan to Accounts. I await their return.",
-		"after": "I can't leave the desk. Policy forbids it, and my legs are on loan to Accounts until further notice."
+		"after": "I can't leave the desk. Policy forbids it, and my legs are on loan to Accounts until further notice.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/dna_story.tres::quest.dna_audit.ready::0",
@@ -3756,7 +3763,8 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Gerald, Number 4,000,212",
 		"before": "The Waiting Room of Eternity will see you now. Take a number. Please leave mine; we've been through so much together.",
-		"after": "The Waiting Room of Eternity will see you now. Do take a number, just not mine. We've been through so much together."
+		"after": "The Waiting Room of Eternity will see you now. Do take a number, just not mine. We've been through so much together.",
+		"reverted": true
 	},
 	{
 		"id": "data/encounters/encounter_scripts.json::Betty Bones, Surly Secretary/1/line::0",
@@ -4008,7 +4016,8 @@
 		"file": "data/story/dna_story.tres",
 		"speaker": "Mortimer Grimsby",
 		"before": "The CE-No has been removed from office. By policy, the vacancy passes to the senior-most applicant on file. One moment. I will look it up.",
-		"after": "The CE-No has been removed from office, and by policy the vacancy passes to the senior-most applicant on file. One moment while I look it up."
+		"after": "The CE-No has been removed from office, and by policy the vacancy passes to the senior-most applicant on file. One moment while I look it up.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/dna_story.tres::cutscene.vacancy.1::1",
@@ -4498,7 +4507,8 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Brother Bramble",
 		"before": "Now nothing rots, so nothing feeds the soil. Everything is too alive, and the whole Dump is sick with growing. Also, SOMEBODY ate the compost AGAIN.",
-		"after": "Now nothing rots, so nothing feeds the soil. Everything is too alive and the whole Dump is sick with growing, and on top of all that, SOMEBODY has eaten the compost AGAIN."
+		"after": "Now nothing rots, so nothing feeds the soil. Everything is too alive and the whole Dump is sick with growing, and on top of all that, SOMEBODY has eaten the compost AGAIN.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::npc.marigold.return::0",
@@ -5184,7 +5194,8 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Dump workers",
 		"before": "Every terrace a little greener. Even the top one. Especially the top one.",
-		"after": "Every terrace is a little greener now, and the top one most of all."
+		"after": "Every terrace is a little greener now, and the top one most of all.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::bark.worker_2.freed::2",
@@ -5450,7 +5461,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "(narration/UI)",
 		"before": "Light. Four colors of it, warm as bathwater, spilling across a ceiling I can't quite see.",
-		"after": "There's light, four colors of it, warm as bathwater, spilling across a ceiling I can't quite see."
+		"after": "There's light, four colors of it, warm as bathwater, spilling across a ceiling I can't quite see.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::memory.1.fragment::1",
@@ -5513,7 +5525,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Elder Maren",
 		"before": "The square sang last night. Badly. Best thing I've heard in ten years. Don't you dare tell them.",
-		"after": "The square sang last night, and badly. It was the best thing I've heard in ten years, so don't you dare tell them."
+		"after": "The square sang last night, and badly. It was the best thing I've heard in ten years, so don't you dare tell them.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.elder.progress.1::0",
@@ -6255,7 +6268,8 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Nurse Hesper Dray",
 		"before": "Hesper Dray. Nurse. Sit. Drink.",
-		"after": "Hesper Dray. I'm the nurse down here, so do as I say: sit, and drink."
+		"after": "Hesper Dray. I'm the nurse down here, so do as I say: sit, and drink.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.hesper.intro::1",
@@ -6395,7 +6409,8 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Captain Spotless",
 		"before": "You again. Still too tall. Still smiling at the wrong angle. Ready for the Examination?",
-		"after": "You again, still too tall and still smiling at the wrong angle. Are you ready for the Examination?"
+		"after": "You again, still too tall and still smiling at the wrong angle. Are you ready for the Examination?",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.spotless.defeated::2",
@@ -8244,5 +8259,33 @@
 		"speaker": "The Rescuer (Elowen)",
 		"before": "You held the door, Dad. The night they killed the King and Queen. It's in your journal, in your own hand.",
 		"after": "You held the door, Dad, the night they killed the King and Queen. It's in your journal, in your own hand."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"before": "I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I never trusted her for a minute because of it.",
+		"after": "I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to.",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::1",
+		"file": "data/story/capital_story.tres",
+		"before": "And nobody files me under 'subject' ever again. No order you could write outranks treating people with respect.",
+		"after": "And nobody files me under 'subject' ever again.",
+		"merged": true
+	},
+	{
+		"id": "data/story/capital_story.tres::quest.cap_wheels.ready::3",
+		"file": "data/story/capital_story.tres",
+		"before": "One thing about the man in the castle... he made lateness illegal. That's a man who can't bear to wait... for anyone.",
+		"after": "One more thing about the man in the castle: he made lateness illegal. That's a man who can't bear to wait for anyone.",
+		"merged": true
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.dolores.intro::0",
+		"file": "data/story/dna_story.tres",
+		"before": "Welcome to the Department of Necrotic Affairs, dear. I'm Agnes Overdue, front desk. I died at this desk in 1987 and I've been employee of the month ever since. Nobody else qualified.",
+		"after": "Welcome to the Department of Necrotic Affairs, dear. I'm Agnes Overdue, front desk. I died at this desk forty years ago and I've been employee of the month ever since. Nobody else qualified.",
+		"merged": true
 	}
 ]

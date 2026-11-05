@@ -1,0 +1,16 @@
+# Overnight Nov 4-5: the blind critic preferred the old line
+data/story/gourmand_story.tres::cutscene.wonder.7::0
+data/story/intro_story.tres::town.elder.idle.1::2
+data/story/intro_story.tres::prologue.rescuer.3::0
+data/story/dna_story.tres::cutscene.vacancy.1::0
+data/story/intro_story.tres::memory.1.fragment::0
+data/encounters/encounter_scripts.json::arena:arena_marshal/1/line::0
+data/story/dna_story.tres::npc.quiz.intro::2
+data/story/refusemancer_story.tres::npc.marigold.intro::3
+data/story/capital_story.tres::npc.hesper.intro::0
+data/story/dna_story.tres::quest.dna_audit.offer::1
+data/story/capital_story.tres::npc.spotless.return::0
+data/story/refusemancer_story.tres::bark.worker_2.freed::1
+data/story/gourmand_story.tres::freed_npc.escoffina::2
+data/story/gourmand_story.tres::quest.buf_mend.done::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.done::0

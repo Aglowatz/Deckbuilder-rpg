@@ -117,7 +117,7 @@ lines = {
 "quest.buf_mend.offer": ["Um, could I have a word? Quietly? Old Meatloaf, our oldest golem, has stopped working. The Test Kitchen tried to strip him for parts, and we only got him back in two pieces. He hasn't spoken since Tuesday.", "He needs sea salt for his joints and a black truffle for his heart, both out in the Buffet. Mend him and Sir Loin will let you through the Layer-Cake Town gate. Yes, Chef? ...Please?"],
 "quest.buf_mend.active": ["Old Meatloaf is over by the west wall of the Grand Pantry. Sea salt, a black truffle, and a bit of tenderness."],
 "quest.buf_mend.ready": ["He's walking, and he's sizzling! Old Meatloaf is back on duty! I'm not crying, I'm just standing near some onions.", "Here's your reward, and Sir Loin will open his gate for you now. Well done. Yes, Chef."],
-"quest.buf_mend.done": ["Old Meatloaf is the best golem in the kingdom. Don't tell the others - they already know, and they're very gracious about it."],
+"quest.buf_mend.done": ["Old Meatloaf is the best golem in the kingdom. Don't tell the others. They know."],
 "npc.old_meatloaf.broken": ["Old Meatloaf is slumped on the floor, in two pieces, with crossed-out eyes. A note on his chest reads: SEA SALT AND A BLACK TRUFFLE. PLEASE BE GENTLE."],
 "npc.old_meatloaf.fix": ["You season Old Meatloaf's joints with the sea salt and tuck the black truffle where his heart should be. He sits up slowly.", "\"...Chef?\" he says. \"Yes, Chef,\" you say, because it feels right. His eyes uncross."],
 "npc.old_meatloaf.mended": ["Old Meatloaf stands guard with great dignity. \"Yes, Chef!\" he whispers.", "He says it to you, though you are not a chef. He doesn't mind.", "He is just glad nobody wants to turn him into a cannon."],
@@ -258,8 +258,8 @@ lines = {
 "cutscene.wonder.6.speaker": ["The Grand Chef"],
 "cutscene.wonder.6": ["Come here, you. No face and no name, and I don't care a crumb about either. What you're called doesn't matter half as much as what you do.", "You wore my face for ten years and never once learned to taste. Today you start, and I'll give you something to start with.", "Take my old name, then: Escoffina. I was always prouder of the work than of the title, and the name could do with someone starting fresh."],
 "cutscene.wonder.7.speaker": ["Escoffina"],
-"cutscene.wonder.7": ["...Escoffina. I will try to cook honestly, and to become someone worth the name."],
-"freed_npc.escoffina": ["Escoffina. Apprentice. Second class, which is one class more than I had last month.", "Chef says what I am called matters less than what I do, so I am doing a great many dishes. It is a start.", "I made a sauce today, a real one, and I tasted it myself. As me. It had far too much salt.", "Everyone ate it anyway and said it was a good start. I did not know people could be so kind about salt.", "I have a face of my own now, and I am still deciding what to do with it. I am trying."],
+"cutscene.wonder.7": ["...Escoffina. I will try to cook honestly. I will try to be someone worth the name."],
+"freed_npc.escoffina": ["Escoffina. Apprentice. Second class, which is one class more than I had last month.", "Chef says what I am called matters less than what I do, so I am doing a great many dishes. It is a start.", "I made a sauce today. A real one. I tasted it. As me. It had too much salt.", "Everyone ate it anyway and said it was a good start. I did not know people could be so kind about salt.", "I have a face of my own now, and I am still deciding what to do with it. I am trying."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Feeding the kingdom and protecting it", "Collecting the kingdom's taxes", "Inspecting the kingdom's dungeons", "Writing the kingdom's restaurant reviews"],
