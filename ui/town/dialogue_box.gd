@@ -193,6 +193,12 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 			npc_id = id
 			_portrait_id = shown_portrait
 			_right_side = entry.side == "right"
+			# Batch 12: untagged lines of a portrait that changed for good (Flex after the House of Gains) show that expression
+			var default_expression: String = Portraits.default_expression(shown_portrait)
+			if not default_expression.is_empty():
+				for index: int in range(_expressions.size()):
+					if _expressions[index].is_empty():
+						_expressions[index] = default_expression
 	_speaker.text = _plate_text(speaker, entry)
 	# Sound pass, Part D: the typed text speaks in this speaker's little voice (DialogueVoice).
 	_voice = DialogueVoice.for_speaker(entry.species if entry != null else "", speaker)

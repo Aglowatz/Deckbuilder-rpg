@@ -35,3 +35,5 @@ Notes:
 
 See the end of `docs/overnight_report.md`, "Art import checklist", for the importer dry run on placeholder files of these names (every id
 was picked up and written where the game reads it; the placeholders and their outputs were removed afterwards).
+
+**Imported Nov 6:** see `docs/art/import_nov6_batch12.md` (all 84 files; NPC-PLAYER held back for a transparent redo).

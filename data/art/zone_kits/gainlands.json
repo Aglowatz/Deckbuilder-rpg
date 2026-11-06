@@ -736,6 +736,30 @@
 			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
 			"zone": "gainlands"
 		},
+		"GAIN-HERO-IRON-CRAG": {
+			"asset": "GAIN-HERO-IRON-CRAG",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-IRON-CRAG.jpg",
+			"desc": "See docs/art/art_needed_nov4.csv (Overnight Nov 4-5, Part 7): the sandstone crag by the middle road with the Iron Cave mouth cut into it.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-IRON-CRAG",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "crag about 14 m tall, mouth 5 m wide",
+			"slot": "concept.gain-hero-iron-crag",
+			"tinted": false,
+			"use": "The Iron Cave crag (GainlandsTerrain rock stand-in + GainlandsCave.mouth); the reference for its model",
+			"zone": "gainlands"
+		},
 		"GAIN-HERO-SKY-TREE": {
 			"asset": "Hero landmark: Sky Tree",
 			"category": "Hero landmark",

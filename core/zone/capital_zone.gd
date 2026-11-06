@@ -131,7 +131,7 @@ static func build_def() -> ZoneDef:
 	def.hub_anchor = "crease_spawn"
 	# The freed leaders stand in the Crease once Primm has fallen (their dialogue is the story keys `freed_npc.<id>`).
 	def.freed_npcs = [
-		{"id": "heartlift", "npc_id": "NPC-FLEX", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
+		{"id": "heartlift", "npc_id": "NPC-FLEX", "sprite": "FLEX_FREED", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
 		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "The Grand Chef", "speaker": "The Grand Chef"},
 		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
 		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},

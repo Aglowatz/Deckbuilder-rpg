@@ -709,12 +709,17 @@ func _build_barks() -> void:
 
 ## Overnight Oct 17 (Phase 2, NPC life): townsfolk stroll their own small loops away from the busy square - round the Old Well's yard
 ## and up by Elder Maren's lane - in the shared townsfolk sprite set with their own tints, and say a line to a passing hero.
+## Batch 12 (Nov 6): the strollers walk the three generic townsfolk walker sets (A: market regular, B: badger labourer, C: old hare) instead
+## of copies of Brindle the baker's badger, and two more walk the square and the market. A set that is not imported falls back to VILLAGER.
 const STROLLERS: Array[Dictionary] = [
-	{"anchor": "well", "radius": 3.4, "seed": 23, "tint": 2},
-	{"anchor": "npc_elder", "radius": 3.8, "seed": 41, "tint": 4},
+	{"anchor": "well", "radius": 3.4, "seed": 23, "tint": 0, "character": "TOWNSFOLK_A"},
+	{"anchor": "npc_elder", "radius": 3.8, "seed": 41, "tint": 0, "character": "TOWNSFOLK_C"},
 	# Phase 2 cycle 23: one more by the Arena gate (the rift station's loop crossed an unwalkable edge, so it has none)
-	{"anchor": "arena_gate", "radius": 3.6, "seed": 57, "tint": 1},
+	{"anchor": "arena_gate", "radius": 3.6, "seed": 57, "tint": 0, "character": "TOWNSFOLK_B"},
+	{"anchor": "plaza", "radius": 5.2, "seed": 71, "tint": 2, "character": "TOWNSFOLK_B"},
+	{"anchor": "market", "radius": 3.2, "seed": 89, "tint": 4, "character": "TOWNSFOLK_A"},
 ]
+const STROLLER_FALLBACK: String = "VILLAGER"
 var _strollers: Array[SpriteWanderer] = []
 
 ## Overnight Nov 3-4, Part B10: every generic townsperson was the badger. The pool of NON-story sprite sets that never appear as someone in
@@ -723,7 +728,8 @@ var _strollers: Array[SpriteWanderer] = []
 ## CITIZEN stays out (Primm's perfect citizen walks only the Capital - Playtest v0.4.0).
 ## Fix pass Nov 4 (Part 4.1): the gym attendant (a Gainlands extra in gym kit) looked out of place by the trainer's lamp post and in the market;
 ## both spots are farm hands come to town to sell (the mole set, its own tint each). Every other non-story set is someone with a name.
-const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER"]
+## Batch 12 (Nov 6): plus the three generic townsfolk walker sets (the strollers).
+const TOWNSFOLK_POOL: Array[String] = ["VILLAGER", "DUMPWORKER", "TOWNSFOLK_A", "TOWNSFOLK_B", "TOWNSFOLK_C"]
 const STANDING_TOWNSFOLK: Array[Dictionary] = [
 	{"character": "DUMPWORKER", "anchor": "well", "offset": Vector3(-3.2, 0, 2.6), "yaw": 150.0, "tint": Color(1.0, 1.0, 1.0)},
 	{"character": "DUMPWORKER", "anchor": "plaza", "offset": Vector3(-6.5, 0, 5.5), "yaw": 210.0, "tint": Color(0.86, 0.92, 1.08)},
@@ -753,20 +759,31 @@ func _build_strollers() -> void:
 	# Playtest v0.4.0 Part B: the blonde white-suit CITIZEN is Primm's perfect citizen and only walks the Capital; Crosspath's
 	# strollers are plain villagers in different coats.
 	for spec: Dictionary in STROLLERS:
-		if not town.anchors.has(str(spec["anchor"])) or not SpriteLibrary.has_character("VILLAGER"):
+		var character: String = stroller_character(spec)
+		# Batch 12 screenshot aid: --strollers_at=<anchor> gathers every stroller round one anchor (a small ring) to see the walker sets up close
+		var anchor: String = str(_screenshot_args.get("strollers_at", spec["anchor"]))
+		if not town.anchors.has(anchor) or character == "":
 			continue
 		var stroller: SpriteWanderer = SpriteWanderer.new()
-		stroller.character = "VILLAGER"
+		stroller.character = character
 		stroller.name = "Stroller%d" % (_strollers.size() + 1)
 		stroller.seed_value = int(spec["seed"])
-		stroller.ring_radius = float(spec["radius"])
+		stroller.ring_radius = float(spec["radius"]) if anchor == str(spec["anchor"]) else 2.6
 		stroller.tint = NpcSprites.CITIZEN_TINTS[int(spec["tint"]) % NpcSprites.CITIZEN_TINTS.size()]
 		add_child(stroller)
-		stroller.setup(town, town.anchors[str(spec["anchor"])] as Vector3, null, Vector3.ZERO)
+		stroller.setup(town, town.anchors[anchor] as Vector3, null, Vector3.ZERO)
 		if stroller.sprite == null:
 			stroller.queue_free()
 			continue
 		_strollers.append(stroller)
+
+
+## The walker set a STROLLERS entry is drawn with: its own set when imported with a walk cycle, else the badger villager; "" when neither exists.
+static func stroller_character(spec: Dictionary) -> String:
+	var own: String = str(spec.get("character", STROLLER_FALLBACK))
+	if SpriteLibrary.has_character(own) and not (SpriteLibrary.info(own).get("walk_dirs", []) as Array).is_empty():
+		return own
+	return STROLLER_FALLBACK if SpriteLibrary.has_character(STROLLER_FALLBACK) else ""
 
 
 func _build_baker() -> void:
@@ -3178,9 +3195,17 @@ func _screenshot_open(what: String) -> void:
 			for index: int in range(0, Bestiary.all().size(), 3):
 				Session.bestiary_meet(Bestiary.all()[index].name)
 				Session.bestiary_defeat(Bestiary.all()[index].name)
+			# Batch 12: --beast=<entry name> meets, beats and shows that entry instead of the fourth
+			var beast: Bestiary.Entry = Bestiary.find(str(_screenshot_args.get("beast", "")).replace("_", " ")) if _screenshot_args.has("beast") else null
+			if beast != null:
+				Session.bestiary_meet(beast.name)
+				Session.bestiary_defeat(beast.name)
 			_open_codex()
 			(_overlay as CodexScreen).show_tab("Bestiary")
-			(_overlay as CodexScreen).show_beast(Bestiary.all()[3])
+			(_overlay as CodexScreen).show_beast(beast if beast != null else Bestiary.all()[3])
+			if beast != null:  # the first tile's focus (PadFocus) shows its own entry a moment later: show the asked one again after it
+				var codex: CodexScreen = _overlay as CodexScreen
+				get_tree().create_timer(0.6).timeout.connect(func() -> void: if is_instance_valid(codex): codex.show_beast(beast))
 		"codex":
 			_open_codex()
 		"codex_gear":  # Overnight Oct 19-20: the Collection Book's Gear tab, a few pieces owned (the character_gear set)

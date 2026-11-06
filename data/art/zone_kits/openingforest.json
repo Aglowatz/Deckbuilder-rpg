@@ -60,6 +60,35 @@
 			"use": "The clearing, the cave entrance spot",
 			"zone": "openingforest"
 		},
+		"OF-PROP-BRAMBLES": {
+			"aspect": 2.044,
+			"asset": "Bramble thicket",
+			"category": "Prop",
+			"cleared_alpha": 71312,
+			"desc": "See docs/art/art_needed_nov4.csv (Overnight Nov 4-5, Part 7).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "OF-PROP-BRAMBLES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1523,
+				745
+			],
+			"sheet_status": "Requested",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.of-prop-brambles",
+			"tinted": false,
+			"use": "The clearing south rim, blocking the Lab path until the postgame (StartingAreaBuilder._build_brambles)",
+			"zone": "openingforest"
+		},
 		"OF-PROP-LAB-HATCH": {
 			"aspect": 0.99,
 			"asset": "The Lab hatch",

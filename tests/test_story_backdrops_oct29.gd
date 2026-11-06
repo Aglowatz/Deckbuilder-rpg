@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_every_backdrop_still_is_in_the_game() -> void:
-	assert_eq(StoryStills.BACKDROP_IDS.size(), 27, "15 from Oct 29 + 12 from Batch 11 (Nov 2)")
+	assert_eq(StoryStills.BACKDROP_IDS.size(), 28, "15 from Oct 29 + 12 from Batch 11 (Nov 2) + STORY-CLENCH-THRONE (Batch 12)")
 	for id: String in StoryStills.BACKDROP_IDS:
 		assert_true(KeyArt.has(id), "%s imported" % id)
 		assert_true(KeyArt.known_ids().has(id), "%s is a row of logo_title_art.csv" % id)

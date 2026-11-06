@@ -47,10 +47,10 @@
 			"name": "Crosspath townsfolk",
 			"role": "Townsfolk (strollers in the lanes and yards)",
 			"location": "Main Town lanes",
-			"portrait_id": "NPC-CITIZEN",
+			"portrait_id": "NPC-TOWNSFOLK",
 			"species": "human",
 			"species_type": "Human",
-			"notes": "Overnight Oct 17 (Phase 2): the shared townsfolk sprite set (CITIZEN) with tints; no dialogue, only passing lines."
+			"notes": "Overnight Oct 17 (Phase 2): only passing lines. Batch 12 (Nov 6): its own portrait NPC-TOWNSFOLK; the strollers walk the TOWNSFOLK_A/B/C sets."
 		},
 		{
 			"id": "NPC-VILLAGER",

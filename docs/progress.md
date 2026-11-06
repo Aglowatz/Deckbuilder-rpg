@@ -3704,3 +3704,13 @@ Brief `docs/prompts/fixes_nov4.md`, report `docs/overnight_report.md`, tag `pre-
   on your battle plate, no overlays on shop cards.
 - World: mole farm hands for the gym attendant, chests x1.25 (`ChestKit.SCALE`), Buffet roads cobble / plaza tile, Dump paths dirt, the
   Potato Peak's biscuit bridges removed. Version 0.5.4 (export blocked: editor open, disk).
+
+## Batch 12 art import (Nov 6) - done
+
+All 84 Batch 12 images filed (`tools/batch12_move.js`) and imported; report `docs/art/import_nov6_batch12.md`, shots `docs/art/batch12/`.
+- Primm's defeat back on the redone STORY-PRIMM-FALL; STORY-CLENCH-THRONE behind Flex's beats 1-2 (no icon-stage beats left).
+- Freed Flex: FLEX_FREED painted lion + NPC-FLEX_REVEAL portrait after the House of Gains (`Portraits.AFTER_ZONE_EXPRESSIONS`).
+- Rollo's own set (no Gus alias); Figsly confirmed painted; townsfolk portrait NPC-TOWNSFOLK; five Crosspath strollers on TOWNSFOLK_A/B/C.
+- 5 bestiary pictures (99/99), Shattered Gallery map, deck station backdrop, Opening Forest brambles; Iron crag concept in docs.
+- Held back: NPC-PLAYER (opaque, needs a transparent redo). CUT-FLEX imported, not wired (needs an ally entrance).
+- Tests: related scripts all pass; the full run stopped at shard 14 of 29 (host low memory); 1 pre-existing failure (Shattered Gallery quest text).

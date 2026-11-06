@@ -103,6 +103,28 @@ static func source_dir() -> String:
 	return dir.replace("\\", "/").rstrip("/")
 
 
+## Batch 12 (Nov 6): portraits that change for good once a zone is cleared. A line with no [expression] tag shows this expression
+## (Grandmaster Flex: the frail prisoner until the House of Gains falls, his revealed lion self, NPC-FLEX_REVEAL, after it).
+const AFTER_ZONE_EXPRESSIONS: Dictionary = {"NPC-FLEX": {"zone": "beefcake", "expression": "reveal"}}
+
+
+## The expression a line without its own tag shows for `portrait_id`: "" (the base picture) unless an AFTER_ZONE_EXPRESSIONS zone is cleared.
+static func default_expression(portrait_id: String) -> String:
+	var rule: Dictionary = AFTER_ZONE_EXPRESSIONS.get(portrait_id, {}) as Dictionary
+	if rule.is_empty():
+		return ""
+	# The Session autoload is looked up at run time: importer scripts (-s) compile this class without autoloads.
+	var tree: SceneTree = Engine.get_main_loop() as SceneTree
+	var session: Node = tree.root.get_node_or_null("Session") if tree != null else null
+	return default_expression_for(portrait_id, session != null and bool(session.call("is_zone_completed", str(rule["zone"]))))
+
+
+## The rule itself (pure, for tests).
+static func default_expression_for(portrait_id: String, zone_cleared: bool) -> String:
+	var rule: Dictionary = AFTER_ZONE_EXPRESSIONS.get(portrait_id, {}) as Dictionary
+	return str(rule.get("expression", "")) if zone_cleared else ""
+
+
 ## {Portrait Image ID -> NPC name} of the list (several NPCs never share an image).
 ## Portrait Image IDs the importer knows that are not an NPC of their own (Apparel Part 4: the Rescuer's disguise is a second picture of NPC-ELOWEN).
 ## Overnight Nov 4-5, Part 7: plus the portraits of docs/art/art_needed_nov4.csv that no NPC list row names yet (so the importer takes them).

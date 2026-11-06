@@ -29,7 +29,7 @@ func test_every_npc_with_a_sprite_set_maps_to_an_imported_character() -> void:
 
 
 func test_special_mappings() -> void:
-	assert_eq(NpcSprites.character_for("NPC-ROLLO"), "GUS", "Rollo Spokes was Gus")
+	assert_eq(NpcSprites.character_for("NPC-ROLLO"), "ROLLO", "Batch 12: Rollo has his own set (he walked as Gus before)")
 	assert_eq(NpcSprites.character_for("NPC-DOPPEL"), "ESCOFFINA", "the Doppelganger is disguised as the Grand Chef")
 	assert_eq(NpcSprites.character_for("NPC-ELOWEN"), "ELOWEN", "Elowen has her own sprite set since the art import of Oct 20")
 	assert_eq(NpcSprites.character_for("NPC-PLAYER"), "")

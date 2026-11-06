@@ -99,18 +99,20 @@ const EPI_DECREE: String = "STORY-EPI-DECREE"
 const EPI_PRIMM_SEES: String = "STORY-EPI-PRIMM-SEES"
 const EPI_FILE_COMPLETE: String = "STORY-EPI-FILE-COMPLETE"
 
+## Overnight Nov 4-5, Part 7: Clench on his throne with Flex in chains, behind the flex cutscene's beats 1-2 (before the reveal).
+## Imported with Batch 12 (Nov 6).
+const CLENCH_THRONE: String = "STORY-CLENCH-THRONE"
+
 const BACKDROP_IDS: Array[String] = [CAPTURE, THRONE, WONDER, VACANCY, SEVER, MODEL_ROOM, KEPT_FACE, FACADE_FALLS, CELL_4, FUNERAL, HOME,
 		"STORY-MEMORY-1", "STORY-MEMORY-2", "STORY-MEMORY-3", "STORY-MEMORY-4", PRIMM_P1, PRIMM_P2, PRIMM_FALL, RESCUE, REVEAL_KITCHEN,
-		EPI_MODEL_FALLS, EPI_RIFTS_CLOSE, EPI_WRINKLES, EPI_TOGETHER, EPI_DECREE, EPI_PRIMM_SEES, EPI_FILE_COMPLETE]
+		EPI_MODEL_FALLS, EPI_RIFTS_CLOSE, EPI_WRINKLES, EPI_TOGETHER, EPI_DECREE, EPI_PRIMM_SEES, EPI_FILE_COMPLETE, CLENCH_THRONE]
 
-## Fix pass Nov 4 (B): backdrop stills kept in the game but shown nowhere until their redo (docs/art/art_needed_nov4.csv).
-const PARKED: Array[String] = [PRIMM_FALL]
+## Fix pass Nov 4 (B): backdrop stills kept in the game but shown nowhere until their redo. Empty since Batch 12 (Nov 6): the redone
+## STORY-PRIMM-FALL is back behind primm_end.
+const PARKED: Array[String] = []
 
-## Overnight Nov 4-5, Part 7: Clench on his throne with Flex in chains, behind the flex cutscene's beats 1-2 (before the reveal). Wired
-## before its art exists (docs/art/art_needed_nov4.csv): until then `StillBackdrop.make` finds no file and the beats keep the icon stage.
-## Moves into BACKDROP_IDS once imported.
-const CLENCH_THRONE: String = "STORY-CLENCH-THRONE"
-const AWAITING_ART: Array[String] = [CLENCH_THRONE]
+## Stills wired before their art exists (`StillBackdrop.make` finds no file and the beats keep the icon stage). Empty since Batch 12.
+const AWAITING_ART: Array[String] = []
 
 ## Dungeon cutscene (`CutsceneDefs` id) -> its backdrop: the true Chef's dish, Agnes takes the office, letting the seed die, Primm at his
 ## model before the fight, "I kept your face".
@@ -122,9 +124,8 @@ const CUTSCENE_BACKDROPS: Dictionary = {
 	"primm_reveal": KEPT_FACE,
 	"primm_p1": PRIMM_P1,
 	"primm_p2": PRIMM_P2,
-	# Fix pass Nov 4 (B), Part 5.1: STORY-PRIMM-FALL paints Primm as a giant beside a tiny hero; until its redo (docs/art/art_needed_nov4.csv) his
-	# defeat plays over the broken model city with nobody in it (no scene ever shows him scaled up).
-	"primm_end": EPI_MODEL_FALLS,
+	# Batch 12 (Nov 6): the redone STORY-PRIMM-FALL (Primm at his real size) is back; Fix pass Nov 4 (B) had parked the giant-Primm version.
+	"primm_end": PRIMM_FALL,
 	"rescue": RESCUE,
 }
 

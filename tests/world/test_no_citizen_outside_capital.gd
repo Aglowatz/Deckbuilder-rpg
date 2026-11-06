@@ -40,6 +40,10 @@ func test_no_scene_script_outside_the_capital_spawns_the_citizen_sprite() -> voi
 	assert_false((SpriteLibrary.info("VILLAGER").get("walk_dirs", []) as Array).is_empty(), "and it can walk")
 
 
+## Batch 12 (Nov 6): the strollers walk the generic townsfolk walker sets (VILLAGER only as the fallback), never Primm's citizen.
 func test_the_crosspath_strollers_are_villagers() -> void:
-	var source: String = FileAccess.get_file_as_string("res://world/town_scene.gd")
-	assert_true(source.contains("stroller.character = \"VILLAGER\""), "the town's strollers wear the villager set")
+	assert_eq(TownScene.STROLLER_FALLBACK, "VILLAGER")
+	for spec: Dictionary in TownScene.STROLLERS:
+		var character: String = TownScene.stroller_character(spec)
+		assert_ne(character, "CITIZEN", "the %s stroller is not the citizen" % spec["anchor"])
+		assert_has(TownScene.TOWNSFOLK_POOL, character, "the %s stroller wears a generic townsfolk set" % spec["anchor"])

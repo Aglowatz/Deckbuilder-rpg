@@ -88,6 +88,21 @@ func _box() -> Node:
 
 func _begin(token: String) -> void:
 	var box: Node = _box()
+	if token.begins_with("portrait:"):
+		# Batch 12: `portrait:<PORTRAIT-ID>[@<NPC-ID>][~<expression>]` - that picture on the real box, borrowing an NPC entry (default
+		# NPC-TOWNSFOLK) for the plate; for portraits no NPC owns (NPC-TOWNSFOLK-A) or an expression (NPC-FLEX~reveal).
+		var spec: String = token.trim_prefix("portrait:")
+		var expression: String = ""
+		if spec.contains("~"):
+			expression = spec.get_slice("~", 1)
+			spec = spec.get_slice("~", 0)
+		var owner_id: String = spec.get_slice("@", 1) if spec.contains("@") else "NPC-TOWNSFOLK"
+		var registry: GDScript = load("res://core/data/npc_registry.gd") as GDScript
+		var entry: Object = registry.call("find", owner_id) as Object
+		entry.set("portrait_id", spec.get_slice("@", 0))
+		var tag: String = "[%s] " % expression if expression != "" else ""
+		box.call("start", "", [tag + "The road north is closed again. Mind the puddles, friend."] as Array[String], owner_id)
+		return
 	if token.begins_with("npc:"):
 		var id: String = token.trim_prefix("npc:")
 		box.call("start", "", ["[happy] Long lines wrap normally: the box grows upwards, the portrait stays behind its top edge and the text never runs under the character, however many words a line takes to say, and then a few more words for good measure.", "The road north is closed again. Mind the puddles, friend."] as Array[String], id)
@@ -133,7 +148,7 @@ func _dismiss() -> void:
 func _capture(token: String) -> void:
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots/dialogue")
-	var file_name: String = token.replace(":", "_").replace(".", "_").replace("/", "_")
+	var file_name: String = token.replace(":", "_").replace(".", "_").replace("/", "_").replace("@", "_").replace("~", "_")
 	var jpg: bool = str(_args.get("jpg", "false")) == "true"
 	var path: String = "res://_screenshots/dialogue/%s_%s.%s" % [_prefix, file_name, "jpg" if jpg else "png"]
 	var error: Error = image.save_jpg(ProjectSettings.globalize_path(path), 0.9) if jpg else image.save_png(ProjectSettings.globalize_path(path))

@@ -3,8 +3,8 @@ extends RefCounted
 ## Which painted sprite set draws which list NPC (docs/art/world_rollout.md, "NPC sprites"). The set is the manifest key `SpriteLibrary` imported from the batch
 ## sheet (`tools/import_npc_sprites.sh`): the NPC ID without its prefix (NPC-HOB -> HOB, V-SABLE -> SABLE). Anything without a set stays a 3D model.
 
-## List NPCs whose art carries another key (Rollo Spokes was Gus; his sprites are SPR-GUS).
-const KEY_ALIASES: Dictionary = {"NPC-ROLLO": "GUS"}
+## List NPCs whose art carries another key. Empty since Batch 12 (Nov 6): Rollo walked as Gus (SPR-GUS) until his own set SPR-ROLLO.
+const KEY_ALIASES: Dictionary = {}
 ## Characters that appear in the world as someone else's look (the Doppelganger in the Buffet is disguised as Escoffina).
 const DISGUISES: Dictionary = {"NPC-DOPPEL": "ESCOFFINA"}
 ## The four ghosts: opacity, how high they float above the ground and how far they drift (metres).
