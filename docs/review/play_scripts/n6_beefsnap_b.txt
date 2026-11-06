@@ -1,0 +1,175 @@
+# Nov 6 critic pass: Beefcake post-cave snapshot (part b: the cave played by the pilot)
+wait 2
+dev load n6_beef_forest
+wait 6
+dev travel dungeon D-TUT
+wait 6
+button Got it
+wait 1
+log NODE 501 496
+click 501 496
+wait 4
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+pilot 150
+wait 3
+button Continue
+wait 4
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+button Got it
+wait 2
+shot node_501_496
+scene
+dump
+log NODE 740 663
+click 740 663
+wait 4
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+pilot 150
+wait 3
+button Continue
+wait 4
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+button Got it
+wait 2
+shot node_740_663
+scene
+dump
+log NODE 937 431
+click 937 431
+wait 4
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+pilot 150
+wait 3
+button Continue
+wait 4
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+button Got it
+wait 2
+shot node_937_431
+scene
+dump
+log NODE 1153 551
+click 1153 551
+wait 4
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+pilot 150
+wait 3
+button Continue
+wait 4
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+button Got it
+wait 2
+shot node_1153_551
+scene
+dump
+log NODE 1311 263
+click 1311 263
+wait 4
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+pilot 150
+wait 3
+button Continue
+wait 4
+button Take
+wait 2
+button Continue
+wait 2
+skip_dialogue 12
+button Leave
+button Rest
+wait 2
+button Continue
+wait 1
+button Got it
+wait 2
+shot node_1311_263
+scene
+button Next level
+wait 2
+button Next level
+wait 2
+key Enter
+wait 2
+dump
+button Take
+wait 2
+dump
+button Continue
+wait 2
+button Step outside
+wait 2
+button Leave
+wait 6
+skip_dialogue 30
+wait 8
+dump
+skip_dialogue 30
+wait 8
+skip_dialogue 30
+wait 4
+shot 95_end
+scene
+dump
+dev save n6_beef_postcave
+log saved
