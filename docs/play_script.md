@@ -20,6 +20,7 @@ One command per line, `#` comments. **Coordinates are screenshot pixels** (the w
 | `shot <name>` | save a screenshot |
 | `dump` | log every visible label and button with its text and screenshot position |
 | `scene` | log the current scene, level, gold, run HP |
+| `perf` | log the process working set (Task Manager memory), static and video memory, FPS, frame time, object and node counts |
 | `pilot <s>` | a simple built-in player plays the current battle for up to `<s>` seconds (mulligan, plays, attacks, blocks; reads a tip and presses Got it; presses Skip tips if a tip holds the duel; confirms End Turn) |
 | `skip_dialogue [max]` | tap E / click through dialogue boxes, story stills and reward popups (default 40 taps) |
 | `dev level N` / `dev gold N` / `dev heal` | debug: silent level, gold, full heal |

@@ -1,0 +1,9 @@
+wait 2
+dev load n6_ref_postcave
+wait 8
+scene
+shot 01
+dev load n6_midgame
+wait 8
+scene
+shot 02

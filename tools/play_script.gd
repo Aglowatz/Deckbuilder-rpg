@@ -117,6 +117,8 @@ func _run_line(line: String) -> void:
 			_dump()
 		"scene":
 			_scene_info()
+		"perf":
+			_perf_info()
 		"pilot":
 			await _pilot(float(parts[1]) if parts.size() > 1 else 60.0)
 		"skip_dialogue":
@@ -186,6 +188,15 @@ func _dump() -> void:
 			break
 	if count == 0:
 		_say("  (no visible text)")
+
+
+## Critic pass Nov 6: memory and frame rate right now (for the tech critic): static memory, video memory, FPS, the process frame time.
+func _perf_info() -> void:
+	var out: Array = []
+	OS.execute("tasklist", ["/FI", "PID eq %d" % OS.get_process_id(), "/FO", "CSV", "/NH"], out)
+	var working_set: String = str(out[0]).strip_edges().split("\",\"")[-1].replace("\"", "") if out.size() > 0 else "?"
+	_say("  perf process_working_set %s" % working_set)
+	_say("  perf static_mb %.0f peak_static_mb %.0f video_mb %.0f fps %d frame_ms %.1f objects %d nodes %d" % [OS.get_static_memory_usage() / 1048576.0, OS.get_static_memory_peak_usage() / 1048576.0, Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED) / 1048576.0, Engine.get_frames_per_second(), Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0, int(Performance.get_monitor(Performance.OBJECT_COUNT)), int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT))])
 
 
 func _scene_info() -> void:
