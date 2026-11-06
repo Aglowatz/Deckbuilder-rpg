@@ -4,6 +4,18 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Critic Nov 6 - notes and questions (review pass, no fixes)
+
+Brief: `docs/prompts/critic_nov6.md`. Reports: `docs/review/critic_nov6/`. Synthesis: `docs/review/critic_nov6_summary.md`.
+
+1. **Part 0:** Batch 12 was already imported (cf8d9607). Resumed GUT shards 15-29: 1051/1054 pass, 2 failing scripts (not fixed: review only):
+   `test_collection_book` - the eight S-GALLERY foes (seven Echoes + The Perfect Copy) have no Bestiary entry; `test_polish_chests`
+   quest-complete box test expects the pre-Nov 4 quest gold (90 vs 50, 210 vs 170 - the x1.5-1.75 quest pay). Decide: add Bestiary
+   entries for the Echoes (or exempt S-GALLERY) and update the expected gold.
+2. **Snapshots** (in the user dir `dev_saves/`): `n6_ref_postcave` (Refusemancer, the cave played by the pilot, L3, 520 gold), `n6_midgame`
+   (story bot, Beefcake L13, 2 zones, 600 gold), `n6_lategame` (L20, 4 zones, 1200 gold, before the Undercroft), `n6_postgame` (L23 after Primm).
+3. **Tool:** the play driver has a `perf` command (process working set, static/video memory, FPS) for the tech critic.
+
 ## Fix pass Nov 4 (B) - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fixes_nov4b.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov4b`.
