@@ -1,3 +1,120 @@
+# Fix pass Nov 7 - report
+
+Brief: `docs/prompts/fixes_nov7.md` (critic top 15, part 1, with owner decisions D1-D8). Source: `docs/review/critic_nov6_summary.md`.
+State: `docs/loop_state.md`. Questions and choices made: `docs/overnight_inbox.md`, "Fixes Nov 7". Screenshots: `docs/overnight_shots/nov7/`.
+Tag `pre-fixes-nov7` marks the start. No export.
+
+## Part 1 - First hour (items 1, 4, 5; D3, D6)
+
+- **Your Path (item 1, D3).** Picking the Path starts that zone's main line (its gatekeeper) at once and tracks it; the tracker keeps a
+  standing **YOUR PATH** line ("Face Brick Bronson on the Gainlands road") while anything else is tracked; the map and minimap ring that
+  road's exit and gatekeeper in the Path's colour; Maren names the zone, gatekeeper and road at the cave mouth and again in her Path talk
+  (no longer waiting for the armory); E at a sealed portal prefers the guardian standing in front of it.
+- **Settling In (D3).** Maren's four errands are a side line tagged SETTLING IN; they never take the tracker from a main quest; the other
+  zone lines, Fragments and Brannoch's quest open on the first arrival in Crosspath. Every gatekeeper can be fought at any point.
+- **Opening hand (D6).** Every player opening hand holds at least two infrastructure (a hidden swap with the deck; after a mulligan too).
+- **Early fights (item 4).** Wild Growth waits until round 3 in a main dungeon's first rooms; the cave's duel 2 has 7 HP and a Shield
+  Bearer; the Warden's swarm is smaller; the Refusemancer starter swaps two Desperate Measures for a Watchtower Archer and Kidding Around.
+- **Input traps (item 5).** Nothing is pre-chosen on the victory pick and E takes nothing until a card is chosen; the whole Path column is
+  one click target with "Pick a Path first" beside a disabled Begin; quest banners wait while a dialogue is open and size to their text;
+  the dungeon map tip sits low, clear of the title scroll, and states the D2 rule.
+
+**Re-sims** (reports in `docs/design/sim/nov7/`, numbers in `docs/design/balance_log.md`):
+
+| | Beefcake | Necrocrat | Gourmand | Refusemancer |
+|---|---:|---:|---:|---:|
+| Whole cave, before (C8) | 92 % | 92 % | 96 % | 79 % |
+| **Whole cave, after** | **96 %** | **96 %** | **100 %** | **96 %** |
+| Own gatekeeper (quick, L3; band 60-75 %) | Brick Bronson 92 % | Prudence Pallor 83 % | Chef Fennel 67 % | Moss Mulligan 92 % |
+| Own first dungeon node, expected level | 83 % | 100 % | 100 % | 100 % |
+| Own first node, bare starter at L5, no gear | 75 % | 50 % | 42 % | 83 % |
+| Own first main dungeon, early study, L9 (60 runs) | 67 % | not run (time cap) | 87 % | 63 % |
+
+The Refusemancer against Brick Bronson was 25 % in C8; now 67 %. Two own gatekeepers sit above their band (Brick Bronson and Moss
+Mulligan for their own Paths, 92 %), which the gatekeeper rule twists of item 9 would address. Shots: `p1_path_choice_card_click.png`,
+`p1_victory_no_default_pick.png`, `p1_cave_map_tip.png`, `p1_forest_path_quest.png`, `p1_town_path_tracked.png`.
+
+## Part 2 - Walking and maps (items 2, 7, 14; D5, D7)
+
+- **Walking.** The hero's body slides along whatever it meets (a tangent slide in the one mover every scene shares); Crosspath's prop
+  colliders shrink to their footprints (lamps, signposts, benches, the notice board, dressed props x0.8); the fountain plinths moved out
+  for a ~3 m clear ring; standing townsfolk keep only a 0.1 m core; a house between the camera and the tracked goal's door dissolves
+  when the hero is within 11 m; door goal markers hang at the door. The camera yaw was already fixed (only a held swivel key turns it).
+- **Reach walk smoke** (`bash tools/run_reach_walk_smoke.sh`, report `docs/review/nov7/reach_walk_smoke.md`): from the spawn to every
+  shop and exit in Crosspath, the four zone hubs and the Capital, plus the postgame forest's Rift station to the Lab hatch, planned over
+  each area's own walkability and walked with held keys: **38 of 38 reached** (the Dump's north landings with the vine bridges grown).
+- **Compost Commons.** No invisible wall exists in the walkable map; the critic's stops were small round props met head-on by the old
+  axis-only slide. The stream north is crossed by the grown vine bridges, as designed.
+- **Maps (D5, item 7).** Towns stay fogged; shops, exits, quest givers and landmarks always show; walking reveals 16 m (was 9); roads are
+  drawn, through the fog too; zones show their outline from the first arrival. Labels move round their icon and stay inside the frame.
+  A "Where to?" pick leaves a labelled white arrow at the screen edge until you get there. Each zone hub has a roamer near its exit.
+- **Endgame wayfinding (item 14).** A main quest's step always takes the tracker; exits say "Travel to the Capital" (sealed ones name
+  their guardian); Free the Four Zones gains a Crease step with a pin; castle rooms show their type once a neighbour is cleared (the boss
+  node is always the Model Room). **Postgame blocker fixed:** the Lab's path opened only after Rip's tip in Crosspath, so any other way
+  into the forest met the old bramble collider; it now opens with the postgame, and the forest has the tracker, J and a goal pin. The
+  Gallery has its own quest line and map / "Where to?" entry, and every Crease shaft names where it leads. Heals name their cause in the
+  log and float "+2 HP (Nourish)".
+- **The Capital (D7).** The nine citizens have their own names on their labels and over their lines (Gideon Plumb, Bea Ashgrove...);
+  Dorrit's Last Stall stands on the castle approach; no side doors.
+
+Shots: `p2_town_map_d5.png`, `p2_your_path_line.png`, `p2_forest_hatch_reached.png`.
+
+## Part 3 - Menus and cards (items 3, 8, 12, 13; D4)
+
+- **Deck Station.** Save Deck saves the deck's own slot at once (a toast says when it is not your battle deck); "Save as new slot" picks
+  another; Esc with unsaved changes asks Save / Discard / Cancel; the list scrolls with the wheel over any row; every add shows "+1". The
+  53-vs-51 count was the old save trap: the station showed the edited deck while battles used the last one actually saved.
+- **Packs (D4).** Any click skips a single pack's animation; Open all shows the cards in a grid with NEW badges (new first) and says how
+  many gilded packs it leaves; toasts are held over it. General Packs stay fully random; Sable stocks 6 Commons of the player's Path and
+  5 of each other Path.
+- **Cards.** Hand cards are compact (cost, name, art, stats) and the hovered one is shown whole; no left preview for hand cards; a drag
+  starts on the raised card; above 10 cards the hand uses two rows; the legacy frame's rarity gem moved off the type line. Checked at
+  1280x720 (`p3_hand_720p_compact.png`, `p3_hand_720p_hover.png`).
+- **One Esc rule.** One press closes one thing: the first handler owns it and nothing else counts for 0.2 s; a confirm dialog answers Esc
+  itself; Esc steps back out of the pause menu's pages; the dungeon Rules panel and the battle log close on Esc; every FancyButton shows
+  the gold focus ring. The gamepad smoke now also checks that Esc closes the Quest Log, Character, map, Packs, Wardrobe and Deck Station
+  screens (all pass; the smoke had been stale since the Nov 3-4 equip steps and was updated).
+
+## Part 4 - Losing (D1, D2) and Primm's presentation (item 10)
+
+- **D1.** Losing costs nothing anywhere: no fee (the six wake gags keep their joke, waived), no item loss, no Try again. A zone loss
+  wakes you at the hub at full HP; Primm's at the Capital; a cave loss in the forest clearing with the cave starting over (the Nov 4-5
+  retry in place is retired).
+- **D2.** Leaving or losing restarts a dungeon, and every run pays every node again (it already did). The Retreat confirm and the map tip
+  say "Leaving resets this dungeon. Cards and gold you've won are kept."
+- **Primm (presentation only; his numbers are unchanged).** A big "Hand full: click a card to toss" prompt, with Space tossing the
+  lowest-value cards; a "Phase 1 Broken" card instead of Victory; "PRIMM" on the plate and in the log; the fight plays on the Model Room
+  board (BB-PC-BOSS, verified); the boss node always shows as the Model Room; Setting Up is worded in rounds with a countdown beside the
+  round label; `dev primm 1|2|3` in the play driver is the checkpoint between phases; Mirrors never copies Infrastructure and announces
+  what it copied. **"Every unit starts as a 3/3" was neither a rule nor a display bug:** the rule standardizes both sides' base stats and
+  buffs add on top; the critic's 7/4s were 3/3 plus that save's gear and boons (GUT-tested through Primm's real seat). Two real display
+  gaps found on the way (cards rebuilt by a mode change, and newly drawn cards, showed printed stats until their next refresh) are fixed.
+  Shots: `p4_primm_model_room.png`, `p4_primm_phase_break.png`.
+
+## Part 5 - Quick wins
+
+Done: "Equipped N of M"; the equipment-unlock line names its quest, and the trophy now comes with the armory; Settings tab label, scroll
+reset and themed dropdowns (and the map's "Where to?"); plurals; the dialogue hint says what E does now, a faster typewriter (Normal 80
+letters a second), hold E to speed up, E ignored for 0.5 s after a conversation closes (town and zones); toasts last 3.5 s and a dialogue
+clears them; the zone banner waits for dialogue and is skipped after a defeat; the cave's subtitle; dungeon Rules bullets; "Not reachable
+yet"; the Hollow Well's reveal greyed at full HP; shops and people before signposts, quest givers' prompt at 2.4 m; Sable's and Tilly's
+contradicting lines; Moss Mulligan's portrait; the doubled rule row; the Capital's welcome after Primm, the Model Room coat, the castle
+popup's title and services line; Rift arrivals 3 m from the station; Alembic's "Two Paths" and "Brew now / Tell me more"; the
+Doppelganger's cover name in the Test Kitchen's opening; the Spotless exam on the gilded gate board; the balance sim's `--filter` takes
+several keys. Both failing GUT scripts are fixed (eight S-GALLERY Bestiary entries and their request rows; Meet the Merchants' current
+80-gold payout), plus a third stale test (the Gallery quest has no hand-in). On hold as instructed: story line edits, Tidy-Bot balance,
+the Gallery Echo cards. Not done: inbox "Fixes Nov 7", item 12.
+
+## D8 - Art rows
+
+The five rows (BB-S-GALLERY, DEC-PLINTH-EMBLEMS, UI-CAULDRON, UI-BG-PACKS, KIT-HEAP-THORNWALL) are in `docs/art/art_needed_nov4.csv` as
+"Needed - later batch".
+
+## Finish
+
+- **Tests:** all 29 GUT shards green - 2824 of 2826 passed, 0 failing, 2 risky/pending (`bash tools/run_tests.sh --only=tests --size=12`). Windowed smokes run: reach walk (38/38), gamepad (OK, with the new Esc checks).
+- **Fresh-eyes critic:** CRITIC_LINE
+
 # Critic pass Nov 6 - top 15 improvements
 
 Brief: `docs/prompts/critic_nov6.md`. Full synthesis (scorecard, evidence, fixes, quick wins, art rows, don't-touch, owner decisions):
