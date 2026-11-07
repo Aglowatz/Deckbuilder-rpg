@@ -113,7 +113,7 @@ The five rows (BB-S-GALLERY, DEC-PLINTH-EMBLEMS, UI-CAULDRON, UI-BG-PACKS, KIT-H
 ## Finish
 
 - **Tests:** all 29 GUT shards green - 2824 of 2826 passed, 0 failing, 2 risky/pending (`bash tools/run_tests.sh --only=tests --size=12`). Windowed smokes run: reach walk (38/38), gamepad (OK, with the new Esc checks).
-- **Fresh-eyes critic:** CRITIC_LINE
+- **Fresh-eyes critic** (no context, a new Gourmand save from the title; report `docs/review/critic_nov7/CF.md`, shots in `CF/`): **reached the Path gatekeeper - yes.** Lost to Chef Fennel Gravois at about minute 33 and beat him at about minute 40 (both by the pilot). Scores: fun 6, clarity 5, difficulty 5 (badly ordered), text 8, look 8 (C1/C1b were 6/6/5/7/8 and 5/5/5/8/7). No SCRIPT ERROR. Top findings for the next pass: (1) **blocker** - the Peek popup (Amuse-Bouche) draws behind the board's units, so its buttons are covered; (2) bought cards go to the collection with no hint to add them at the Deck Station; (3) the cave now runs backwards - the 7-HP Stalker is harder than the 3-HP Warden; (4) an at-cap reward pick turned into essence that did not appear; (5) the combat board is crowded and its messages go stale, and Fennel hides behind orchard trees with a narrow talk prompt.
 
 # Critic pass Nov 6 - top 15 improvements
 

@@ -1234,3 +1234,6 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    the quill art, tip boxes overflowing, Alembic's eaten first click, the name tag over the wrong NPC, the gear tip's locked count, the
    round label lag / ENEMY TURN banner position / sticky tooltip, the forest station "???" in the Crease's list, the balance sim's
    `--resume`, and the fountain plinth statues (art row DEC-PLINTH-EMBLEMS added for a later batch).
+13. **Fresh critic (CF, Nov 7).** Reached and beat the Path gatekeeper within the hour. Its blocker - the Peek popup drawn behind the
+   board's units - and its four majors (bought cards to collection silently, the cave's Stalker now harder than the Warden, at-cap pick
+   essence missing, crowded board / Fennel hidden by orchard props) are left for the next pass: `docs/review/critic_nov7/CF.md`.
