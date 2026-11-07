@@ -1,3 +1,34 @@
+# Critic pass Nov 6 - top 15 improvements
+
+Brief: `docs/prompts/critic_nov6.md`. Full synthesis (scorecard, evidence, fixes, quick wins, art rows, don't-touch, owner decisions):
+**`docs/review/critic_nov6_summary.md`**. Reports and screenshots: `docs/review/critic_nov6/`. Inbox: "Critic Nov 6". No export; no game
+code changed (only the play driver's pilot, three blocker fixes, plus a `perf` command).
+
+Mean scores across 13 critic runs: fun 5.0, clarity 4.8, difficulty 4.2, text 7.1, look 7.4. No play critic finished its section as
+briefed: walking, wayfinding and difficulty swings stopped all of them. No game script error in about 230 runs.
+
+| # | Improvement (first hour: 1-5) | Impact | Reach | Effort |
+|---:|---|---:|---:|---|
+| 1 | Point every player at their Path from minute one (tracker line, map icon, E prefers the guardian at a sealed gate) | 5 | 5 | M |
+| 2 | Make walking work: colliders with sliding, non-blocking roamers, fixed town yaw, roofs cut away, the Dump's invisible wall | 5 | 5 | M |
+| 3 | Fix the Deck Station traps: slot-pick save mode, Esc/X dead with unsaved changes, missed clicks, hidden rows, 53-vs-51 count | 4 | 5 | M |
+| 4 | Stop early mana starvation: 2 infrastructure in opening hands, no Wild Growth on first nodes, a smoother cave, a sturdier Refusemancer start | 4 | 5 | M |
+| 5 | First-hour input traps: E takes a reward card, Path choice dead clicks, toast over Tilly, hidden map tip, cave resets on leave | 3 | 5 | S |
+| 6 | Losing never spirals: no fee when broke, retry bosses (and Primm) in place | 4 | 4 | S |
+| 7 | Reveal the town map, draw "Where to?" routes in the world, a roamer in sight of each hub exit | 4 | 5 | M |
+| 8 | Packs as a reward: a card-face reveal, Path-weighted General Packs, more Path singles | 4 | 4 | M |
+| 9 | Retune the agreed outliers: Gallery 1/40 (+ dropped Echo cards), Clench vs Gourmand, Beefcake fall-off, Necrocrat snowball, Betty/Automaton, ZoneOrderEase floor, late rewards | 4 | 4 | L |
+| 10 | Primm's finale: a toss prompt, a phase break instead of "VICTORY!", the Model Room board, the 3/3 rule check, a phase checkpoint | 4 | 3 | M |
+| 11 | Story finale and ending contradictions (C6 weak moments 1-5, plus prince hints, Primm's confession, the redemption conveyor) | 4 | 3 | M |
+| 12 | Card readability at 720p and the triple hover | 3 | 5 | M |
+| 13 | One Esc/focus rule for every screen | 3 | 4 | M |
+| 14 | Endgame/postgame wayfinding: the Capital route, the Crease, the Gallery, the forest hatch (blocker), a thin Capital | 4 | 3 | M |
+| 15 | First-visit hitches, the 17 s Dump load, a Low-end mode that cuts memory | 3 | 5 | M |
+
+Not reviewed as played: Primm's phase 2, the ending and the credits, Swolympus, the Lab's middle, a real Gallery run (see the summary).
+
+---
+
 # Overnight Nov 4-5 - report
 
 Brief: `docs/prompts/overnight_nov4.md` (Parts 1-8 + Finish). Tag `pre-overnight-nov4`. Decisions: `docs/overnight_inbox.md` ("Overnight Nov 4-5").
