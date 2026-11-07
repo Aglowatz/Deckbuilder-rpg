@@ -1,0 +1,11 @@
+wait 2
+dev load c4_approved
+wait 10
+dev encounter Primm
+wait 6
+skip_dialogue 20
+pilot 420
+wait 2
+shot end
+scene
+dump

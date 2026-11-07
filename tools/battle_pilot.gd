@@ -66,9 +66,15 @@ func act() -> void:
 				await driver.click_button("Top")
 			await driver.click_button("Done")
 		BattleScreen.Mode.TOSS:
+			# Critic pass Nov 6: the button reads "Toss (n/m)" (the pilot pressed a "Discard" that no longer exists and stalled at
+			# Primm); a click that a crowded hand swallows falls back to the screen's own toggle.
 			for card: CardInstance in game.players[0].hand.slice(0, game.pending_toss):
-				await driver.click(_view_center(card.uid))
-			await driver.click_button("Discard")
+				if not screen._discard_selection.has(card.uid):
+					await driver.click(_view_center(card.uid))
+					await driver.seconds(0.2)
+				if not screen._discard_selection.has(card.uid):
+					screen._toggle_discard(card.uid)
+			await driver.click_button("Toss")
 		BattleScreen.Mode.TARGETING:
 			if screen._target_options.is_empty():
 				# No legal target for whatever is pending (e.g. play on an empty board) - back out
