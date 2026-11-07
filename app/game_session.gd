@@ -2890,7 +2890,7 @@ func zone_wake_at_hub(cause: String) -> int:
 	var fee: int = zone_run.wake_at_hub(gold, cause)
 	if fee > 0:
 		spend_gold(fee)
-	log_paperwork_fee("%s %d gold - %s" % [zone_def().fee_label, fee, cause])
+	log_paperwork_fee("%s waived - %s" % [zone_def().fee_label, cause])  # Fix pass Nov 7 (D1): no fee
 	counters["paperwork_fees_paid"] = int(counters.get("paperwork_fees_paid", 0)) + fee
 	zone_run.has_return_position = false
 	save_game()
@@ -3880,17 +3880,11 @@ func complete_battle(context: BattleContext) -> void:
 		SceneManager.go_to_town()
 		return
 	run.finish_encounter(context.game)
-	if (not context.won or run.failed) and tutorial_retry_on_loss():
-		# Overnight Nov 4-5, Part 8 (fresh critic #1): a loss in the tutorial cave no longer restarts it from the bedroll. The hero
-		# comes round at full HP on the node before the fight, which stays open to try again; cards and gold won are kept.
-		run.failed = false
-		run.heal(run.max_hp())
-		save_game()
-		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
-		toasts.show_toast("You come round on the cave floor at full HP. Try that fight again.", UIStyle.GOLD, CardIcons.ui("fountain"))
-		return
 	if not context.won or run.failed:
-		abandon_run("You were carried out of the Forgotten Cave. Your collection is safe.")
+		# Fix pass Nov 7 (owner decisions D1, D2): this replaces the Nov 4-5 retry in place - a loss in the cave sends the hero back to the
+		# forest clearing at full HP and the cave starts over (cards and gold won are kept; nothing else is lost).
+		abandon_run(CAVE_LOSS_NOTICE)
+		toasts.show_toast(CAVE_LOSS_NOTICE, UIStyle.GOLD, CardIcons.ui("fountain"))
 		return
 	if context.boss_phase >= 0 and context.boss_phase < PrimmBoss.PHASES - 1:
 		boss_phase = context.boss_phase + 1
@@ -4132,8 +4126,12 @@ func complete_trial() -> void:
 
 ## Overnight Nov 4-5, Part 8: true inside the tutorial cave (the intro trial, before Crosspath), where a lost fight is retried on the spot
 ## at full HP instead of ending the run.
+## Fix pass Nov 7 (D1): retired - a cave loss always respawns in the forest clearing now; kept false for old callers.
 func tutorial_retry_on_loss() -> bool:
-	return run != null and not main_dungeon_active and not mini_active and not flag(&"trial_cleared")
+	return false
+
+
+const CAVE_LOSS_NOTICE: String = "You come round in the forest clearing at full HP. The cave starts over; the cards and gold you won are kept."
 
 
 func abandon_run(notice: String = "") -> void:

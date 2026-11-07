@@ -16,7 +16,7 @@ lines = {
 "fx.heal_couch": ["You sit down to a hearty meal: roast something, a bowl of soup the size of a bathtub, and a roll that hugs you back. HP restored."],
 "fx.heal_already": ["Your HP is already full, but a chef refills your plate anyway. Around here, being full is treated as a misunderstanding."],
 "fx.hit": ["BONK! A runaway prototype meatball hits you right in the shins. (-2 HP)"],
-"fx.wake": ["You wake up face-down in a bowl of mashed potatoes at the Grand Pantry. Basil is holding a ladle and a very long receipt.", "\"You fainted into the gravy, so we fished you out. There's a, um, fishing fee... sorry. Sorry! I don't set the prices, I just hold the ladle.", "Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything.\""],
+"fx.wake": ["You wake up face-down in a bowl of mashed potatoes at the Grand Pantry. Basil is holding a ladle and a very long receipt.", "\"You fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt. Again. Please don't tell Chef.", "Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything.\""],
 "fx.chest": ["A hidden stash! Unsampled, unsauced and all yours."],
 "fx.bounce": ["BOING!"],
 "fx.landed": ["You stick the landing. Peeling yourself off it takes longer."],

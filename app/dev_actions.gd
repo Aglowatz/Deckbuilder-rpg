@@ -112,6 +112,15 @@ static func travel_dungeon(dungeon_id: String, node_id: int = -1) -> String:
 	return "Travel: %s%s" % [dungeon_id, (" at node %d (%d cleared on the way)" % [target, walked]) if target >= 0 else ""]
 
 
+## Fix pass Nov 7 (item 10): the checkpoint between Primm's phases for testing - the castle (D-PC) at its boss node with phase `phase`
+## (1-3) next, the freed leaders' boons as a real run would have them. Phase 2 and 3 never needed beating the earlier phases here.
+static func travel_primm_phase(phase: int) -> String:
+	var result: String = travel_dungeon(PrimmsCastleDungeon.DUNGEON_ID, -2)
+	Session.boss_phase = clampi(phase - 1, 0, PrimmBoss.PHASES - 1)
+	Session.boss_phase_pending = Session.boss_phase > 0
+	return "%s - Primm's phase %d next" % [result, Session.boss_phase + 1]
+
+
 ## The map dungeon `dungeon_id` would be entered on (the same builder its real entry uses), for the node picker. Null if unknown.
 static func preview_map(dungeon_id: String) -> DungeonMap:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_id)

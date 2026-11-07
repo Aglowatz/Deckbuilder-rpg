@@ -515,6 +515,10 @@ func on_event(event: GameEvent) -> void:
 		GameEvent.Type.TURN_STARTED:
 			_turn_label.text = "Round %d" % round_of(event.value)
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
+			# Fix pass Nov 7 (item 10): the foe's setup window counts down in rounds
+			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1) if game != null else 0)
+			if not setup_line.is_empty():
+				_turn_sub.text += "  -  " + setup_line
 			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
 			_refresh_jam()
 			Audio.sfx(&"turn_start_player" if event.player == 0 else &"turn_start_enemy")

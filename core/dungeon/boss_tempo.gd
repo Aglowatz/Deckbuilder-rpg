@@ -28,10 +28,18 @@ static func turns_for(key: String) -> int:
 	return int(_registered.get(key, 0))
 
 
+## Fix pass Nov 7 (item 10, C4c F7): said in rounds, the unit the HUD counts in ("Setting Up: 2 rounds left" beside the round label).
 static func rule_text(turns: int) -> String:
 	if turns == 1:
-		return "On its first turn its units do not attack. Watch what it builds."
-	return "For its first %d turns its units do not attack. Watch what it builds." % turns
+		return "Its units do not attack in round 1; they can attack from round 2. Watch what it builds."
+	return "Its units do not attack in rounds 1-%d; they can attack from round %d. Watch what it builds." % [turns, turns + 1]
+
+
+## The HUD's countdown under the round label ("" once the window is over).
+static func countdown_text(turns_left: int) -> String:
+	if turns_left <= 0:
+		return ""
+	return "Setting Up: %d round%s left" % [turns_left, "" if turns_left == 1 else "s"]
 
 
 ## The display rule with its modifier (null for 0 turns).

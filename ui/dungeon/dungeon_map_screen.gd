@@ -237,6 +237,9 @@ func node_known(node: DungeonMap.MapNode) -> bool:
 	if Session.node_revealed(fog_key(), node.id) or map.is_cleared(node.id) or node.id == map.current:
 		return true
 	# Fix pass Nov 7 (item 14, C4b F3): the castle's 20-odd rooms show their type once a neighbour is cleared (no more "???" all the way up).
+	# Fix pass Nov 7 (item 10, C4c F12): the castle's boss node is always shown as what it is (the Model Room), never "???".
+	if fog_key() in NEIGHBOUR_REVEAL and node.kind == DungeonMap.Kind.BOSS:
+		return true
 	return fog_key() in NEIGHBOUR_REVEAL and map.neighbour_cleared(node.id)
 
 

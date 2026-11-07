@@ -1533,3 +1533,7 @@ func set_mode(new_mode: Mode) -> void:
 	mode = new_mode
 	if is_node_ready():
 		_build()
+		# Fix pass Nov 7 (item 10, C4c F6): a rebuilt card keeps its live stats. The rebuild drew the PRINTED stats, so a card whose mode
+		# changed (cast, revealed, hovered in the hand) showed e.g. 7/4 under Primm's Standardization (3/3 + buffs) until the next refresh.
+		if _last_instance != null and _last_game != null and is_instance_valid(_last_instance):
+			apply_instance(_last_instance, _last_game)

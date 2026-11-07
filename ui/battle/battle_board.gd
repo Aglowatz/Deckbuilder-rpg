@@ -163,6 +163,9 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	view.scale = Vector2.ONE * (start_scale if start_scale > 0.0 else 0.2)
 	view.position = origin - CardView.SIZE * 0.5
 	view.modulate.a = 0.0
+	# Fix pass Nov 7 (item 10, C4c F6): a new view shows the card's live stats at once - a card drawn into the hand showed its printed
+	# stats (7/4) under Primm's Standardization (3/3 plus buffs) until it was played.
+	_refresh_view.call_deferred(uid)
 	return view
 
 

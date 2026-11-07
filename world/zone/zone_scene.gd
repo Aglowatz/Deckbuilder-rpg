@@ -1771,11 +1771,16 @@ func _wake_at_hub(cause: String) -> void:
 	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 
 
+## Fix pass Nov 7 (owner decision D1): what a lost fight costs - nothing.
+const DEFEAT_TOAST: String = "Back at the respawn point with full HP. Losing costs nothing: your cards, gold and items are all kept."
+
+
 func _show_wake_dialogue(fee_override: int) -> void:
 	var fee: int = _last_fee if fee_override == 0 else fee_override
 	# Oct 21: Old Hob sends you back first ("Not on my list. Off you pop."); the fee is his handling fee.
 	StoryScenePlayer.play(dialogue, OldHob.WAKE_SCENE, func() -> void: dialogue.start(def.wake_speaker, story.get_lines("fx.wake")))
-	hud.toast("%s: -%d gold (logged)." % [def.fee_label, fee], Color("ffcf70"))
+	if fee >= 0:
+		hud.toast(DEFEAT_TOAST, Color("ffcf70"))  # Fix pass Nov 7 (owner decision D1): losing costs nothing
 
 
 ## After returning from a zone battle: show what happened (rewards / woke at hub).
@@ -1834,8 +1839,6 @@ func _apply_pending_result() -> void:
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_last_fee = int(result.get("fee", 0))
 		_show_wake_dialogue(maxi(_last_fee, 0) if _last_fee > 0 else 0)
-		if _last_fee == 0:
-			hud.toast("%s waived (you were broke)." % def.fee_label, Color("ffcf70"))
 		return
 	if str(result.get("kind", "")) == "zone_freed":
 		_show_zone_freed(result)

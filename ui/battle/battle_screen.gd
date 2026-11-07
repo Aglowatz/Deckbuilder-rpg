@@ -418,7 +418,7 @@ func _build_scene() -> void:
 	_board_root.add_child(lights)
 	fx.lights = lights
 	board.setup(game, fx)
-	hud.setup(game, context.enemy_name, context.enemy_icon)
+	hud.setup(game, plate_name(context), context.enemy_icon)
 	# Playtest v0.4.0 Part F: one icon row for every rule of the fight (the old text panels are gone); Primm's phase rule keeps its own panel.
 	hud.set_rule_badges(context.rule_badges)
 	if context.zone_id == CapitalZone.ID and not context.rules_text.is_empty():
@@ -445,7 +445,7 @@ func _build_scene() -> void:
 	_build_refuse_piles()
 	battle_log = BattleLog.new()
 	_board_root.add_child(battle_log)
-	battle_log.setup(game, context.enemy_name, board.card_data)
+	battle_log.setup(game, plate_name(context), board.card_data)
 	battle_log.position = Vector2(24, 646)
 	battle_log.z_index = 50
 	if _flag("log"):
@@ -702,6 +702,7 @@ func _enter_human_mode() -> void:
 
 
 func _refresh_ui() -> void:
+	_show_toss_banner(mode == Mode.TOSS and game != null and game.pending_toss > 0)
 	var glows: Dictionary = {}
 	var primary: String = ""
 	var primary_enabled: bool = true
@@ -1264,6 +1265,11 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			_mulligan_choice(true)
 			return
+		# Fix pass Nov 7 (item 10, C4b F1): Space tosses the lowest-value cards when the hand is full.
+		if mode == Mode.TOSS and event.is_action_pressed(&"battle_advance"):
+			get_viewport().set_input_as_handled()
+			_auto_toss()
+			return
 		if mode == Mode.OVER and _result_panel != null:
 			get_viewport().set_input_as_handled()
 			_continue()
@@ -1792,6 +1798,11 @@ func _show_script_event(event: GameEvent) -> void:
 
 ## Fresh eyes round 2 (Oct 31): the defeat recap's bookkeeping (see `defeat_recap_lines`).
 func _track_for_recap(event: GameEvent) -> void:
+	# Fix pass Nov 7 (item 10): Mirrors says what it copied, in big text.
+	if event.type == GameEvent.Type.CARD_DRAWN and event.detail == "mirror":
+		var copied: CardInstance = game.find_card(event.card)
+		if copied != null and copied.data != null:
+			hud.show_banner("Mirrors copied %s" % copied.data.display_name, Color("c9d8ff"), 2.0)
 	match event.type:
 		GameEvent.Type.TURN_STARTED:
 			if event.player == 0:
@@ -2086,6 +2097,60 @@ func _block_click(uid: int, mine: bool) -> void:
 	_refresh_ui()
 
 
+## Fix pass Nov 7 (item 10, C4b F1): the end-of-turn "hand full" step was announced only in the side panel - a big prompt over the hand now
+## says what to do, and Space picks the lowest-value cards and tosses them.
+var _toss_banner: Label
+
+
+func _show_toss_banner(on: bool) -> void:
+	if not on:
+		if _toss_banner != null:
+			_toss_banner.visible = false
+		return
+	if _toss_banner == null:
+		_toss_banner = UIKit.label("", &"", 40, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		_toss_banner.name = "TossBanner"
+		_toss_banner.add_theme_font_override("font", UIStyle.font_title())
+		_toss_banner.add_theme_constant_override("outline_size", 12)
+		_toss_banner.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02))
+		_toss_banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_toss_banner.size = Vector2(1400, 120)
+		_toss_banner.position = Vector2(260, 640)
+		_overlay_layer.add_child(_toss_banner)
+	var left: int = game.pending_toss - _discard_selection.size()
+	_toss_banner.text = toss_banner_text(game.pending_toss, left)
+	_toss_banner.visible = true
+
+
+static func toss_banner_text(pending: int, left: int) -> String:
+	if left <= 0:
+		return "Ready: press Toss (or Space)"
+	return "Hand full: click %s to toss\n(Space tosses the lowest-value card%s)" % ["a card" if left == 1 else "%d cards" % left, "" if pending == 1 else "s"]
+
+
+func _auto_toss() -> void:
+	if mode != Mode.TOSS:
+		return
+	var infra_out: int = game.players[0].infrastructure.size()
+	var hand: Array[CardInstance] = game.players[0].hand.duplicate()
+	hand.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return toss_value(a, infra_out) < toss_value(b, infra_out))
+	for card: CardInstance in hand:
+		if _discard_selection.size() >= game.pending_toss:
+			break
+		if not _discard_selection.has(card.uid):
+			_discard_selection.append(card.uid)
+	_refresh_ui()
+	if _discard_selection.size() == game.pending_toss:
+		_on_primary()
+
+
+## The keep-value of a hand card (the lowest goes first): Infrastructure while the board is short of it, else the costliest cards.
+static func toss_value(card: CardInstance, infra_out: int) -> float:
+	if card.data.is_infrastructure():
+		return 4.0 if infra_out < 5 else 0.5
+	return float(card.data.energy_value()) + 1.5
+
+
 func _toggle_discard(uid: int) -> void:
 	if _discard_selection.has(uid):
 		_discard_selection.erase(uid)
@@ -2175,6 +2240,16 @@ func boss_victory_sting() -> String:
 	return id if AudioRegistry.has_id(id) else ""
 
 
+## Fix pass Nov 7 (item 10, C4b F2): Primm's plate and the log say "Primm" (the phase stays in the intro and the rules card).
+static func plate_name(battle: BattleContext) -> String:
+	return Villain.display_name() if battle.boss_phase >= 0 else battle.enemy_name
+
+
+## Fix pass Nov 7 (item 10): true when a won fight only breaks one of Primm's phases (the next follows) - a phase-break card, not "Victory!".
+func _is_phase_break(won: bool) -> bool:
+	return won and context.boss_phase >= 0 and context.boss_phase < PrimmBoss.PHASES - 1
+
+
 func _show_result() -> void:
 	if _result_shown:
 		return
@@ -2199,7 +2274,7 @@ func _show_result() -> void:
 	# gold shower on a win. Fast and Very Fast shorten it.
 	hud.hide_preview()  # critic 12 #13: no card tooltip over the result
 	_hovered_view = null
-	hud.show_banner("Victory!" if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"), 1.4 / maxf(board.speed, 1.0))  # critic 12 #6: solid until the panel
+	hud.show_banner(("Phase broken!" if _is_phase_break(won) else "Victory!") if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"), 1.4 / maxf(board.speed, 1.0))  # critic 12 #6: solid until the panel
 	if not game.is_draw and game.winner >= 0:
 		hud.knock_out(1 - game.winner)
 		fx.burst(hud.portrait_center(1 - game.winner), Color("ff8a5a"), 30, 320.0)
@@ -2230,9 +2305,13 @@ func _show_result() -> void:
 	var title: String = "Victory!" if won else ("Draw" if game.is_draw else "Defeat")
 	var title_label: Label = UIKit.label(title, &"TitleLabel", 84, UIStyle.GOLD if won else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(title_label)
-	var detail: String = "You defeated %s in %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)] if won else "%s wins after %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)]
+	var detail: String = "You defeated %s in %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)] if won else "%s wins after %d rounds." % [plate_name(context), BattleHud.round_of(game.turn)]
 	if game.is_draw:
 		detail = "Neither side could finish the game."
+	if _is_phase_break(won):
+		var next_phase: PrimmBoss.Phase = PrimmBoss.phase(context.boss_phase + 1)
+		title_label.text = "Phase %d Broken" % (context.boss_phase + 1)
+		detail = "%s is not finished. He straightens his cuffs and begins again: %s." % [Villain.display_name(), next_phase.title()]
 	if not context.arena_id.is_empty():
 		var arena_encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
 		var arena_story: StoryText = StoryText.shared()
@@ -2243,15 +2322,13 @@ func _show_result() -> void:
 			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	if context.zone_battle:
-		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."
+		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub with full HP - losing costs nothing."
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.practice and context.town_npc_id.is_empty():
 		# Oct 31 - Nov 1 (late-game critic #15): "the dungeon" only when there is one (a fight outside a run said it too).
-		var where: String = "You are carried out of the dungeon." if Session.run != null else "You come to, a little bruised."
-		var kept: String = "Your collection is safe."
-		if Session.tutorial_retry_on_loss():  # Overnight Nov 4-5, Part 8 (fresh critic #1): the cave lets you try the fight again
-			where = "You come round on the cave floor, healed."
-			kept = "Try this fight again - the cards and gold you won are kept."
+		# Fix pass Nov 7 (owner decisions D1, D2): no penalty; a dungeon starts over.
+		var where: String = "You are carried out to the respawn point at full HP, and the dungeon starts over." if Session.run != null else "You come to, a little bruised."
+		var kept: String = "Losing costs nothing: the cards and gold you won are kept."
 		column.add_child(UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.

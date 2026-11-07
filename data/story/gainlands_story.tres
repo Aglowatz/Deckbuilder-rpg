@@ -16,7 +16,7 @@ lines = {
 "fx.heal_couch": ["You sink into eucalyptus-scented water with an unmistakable base note of gym sock. HP restored; nose unconvinced."],
 "fx.heal_already": ["You're already as rested as a Beefcake ever gets. The tub has done all it can for you."],
 "fx.hit": ["ZAP! A regime sprite hits you right in the quads. (-2 HP)"],
-"fx.wake": ["You wake up in the Cooldown Hot Tub at the Swole Station. Old Man Mountain is holding a clipboard and a very small towel.", "\"You passed out mid-rep, lad. Happens to the best of us. Happened to me in the spring of... the spring of... well, it was a spring. Towel's on your tab.", "Just don't tell the regime you had a lie-down. They fine people for resting, and I've only got the one towel.\""],
+"fx.wake": ["You wake up in the Cooldown Hot Tub at the Swole Station. Old Man Mountain is holding a clipboard and a very small towel.", "\"You passed out mid-rep, lad. Happens to the best of us. Happened to me in the spring of... the spring of... well, it was a spring. Towel's on the house.", "Just don't tell the regime you had a lie-down. They fine people for resting, and I've only got the one towel.\""],
 "fx.chest": ["Behind a rock you find a hidden stash, wrapped in an old gym towel so the regime wouldn't spot it."],
 "fx.thrown": ["COURTESY CHUCK!"],
 "fx.landed": ["You land. The ground takes most of the credit."],

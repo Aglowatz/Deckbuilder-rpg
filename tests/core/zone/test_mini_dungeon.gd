@@ -85,7 +85,7 @@ func test_losing_wakes_at_the_hub_for_a_fee() -> void:
 	var result: Dictionary = Session.resolve_mini_dungeon(false, true)
 	assert_true(bool(result.get("woke_at_hub", false)))
 	assert_eq(Session.zone_run.hp, Session.zone_run.max_hp())
-	assert_eq(Session.gold, 50 - ZoneRun.PAPERWORK_FEE)
+	assert_eq(Session.gold, 50)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
 	assert_false(Session.mini_active)
 
 

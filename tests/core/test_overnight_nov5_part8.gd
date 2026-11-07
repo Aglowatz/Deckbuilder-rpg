@@ -8,20 +8,20 @@ func before_each() -> void:
 	Session.ensure_game()
 
 
-func test_a_lost_cave_fight_is_tried_again_at_full_hp() -> void:
+func test_a_lost_cave_fight_sends_the_hero_back_to_the_forest() -> void:
+	# Fix pass Nov 7 (owner decision D1): replaces the retry in place - a cave loss respawns in the forest clearing and the cave starts over.
 	Session.set_flag(&"trial_cleared", false)  # a brand-new save, still in the intro trial
 	Session.begin_trial()
+	var gold_before: int = Session.gold
 	var node: DungeonMap.MapNode = Session.dungeon_map.nodes[1]
 	var context: BattleContext = Session.make_dungeon_battle(node)
-	assert_true(Session.tutorial_retry_on_loss(), "the intro trial retries a loss")
+	assert_false(Session.tutorial_retry_on_loss(), "no retry in place any more")
 	context.game.players[0].hp = 0
 	context.game.winner = 1
 	context.won = false
 	Session.complete_battle(context)
-	assert_not_null(Session.run, "the run goes on")
-	assert_false(Session.run.failed)
-	assert_eq(Session.run.hp, Session.run.max_hp(), "back at full HP")
-	assert_true(Session.dungeon_map.is_available(node.id), "the lost fight is still open")
+	assert_null(Session.run, "the cave starts over")
+	assert_eq(Session.gold, gold_before, "losing costs nothing")
 
 
 func test_a_loss_after_the_cave_still_ends_the_run() -> void:

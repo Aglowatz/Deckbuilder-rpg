@@ -463,7 +463,7 @@ func test_zone_hp_rules_use_the_dish_duty_fee() -> void:
 	run.damage(run.max_hp())
 	var gold_before: int = Session.gold
 	var fee: int = Session.zone_wake_at_hub("beat up by a meatloaf")
-	assert_eq(fee, mini(20, gold_before))
+	assert_eq(fee, 0)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
 	assert_eq(run.hp, run.max_hp(), "waking at the hub restores full HP")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].begins_with("Dish duty fee"))
 

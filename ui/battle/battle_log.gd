@@ -114,6 +114,10 @@ func describe(event: GameEvent) -> String:
 			if cause > 0 and cause != event.card:
 				return "[color=#ff8a7a]%s destroyed %s[/color]" % [_card(cause), _card(event.card)]
 			return "[color=#ff8a7a]%s was destroyed[/color]" % _card(event.card)
+		GameEvent.Type.CARD_DRAWN:
+			if event.detail == "mirror":
+				return "[color=#c9d8ff]Mirrors copied %s into %s hand[/color]" % [_card(event.card), "your" if event.player == 0 else "%s's" % enemy_name]
+			return ""
 		GameEvent.Type.HP_CHANGED:
 			if event.amount > 0:
 				# Fix pass Nov 7 (item 14): what healed, when known ("Hollow Stalker's Nourish: Hollow Stalker healed 2 (HP 9)").

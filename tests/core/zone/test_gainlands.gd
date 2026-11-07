@@ -316,8 +316,8 @@ func test_zone_hp_rules_use_the_gainlands_fee() -> void:
 	Session.add_gold(100)
 	var gold: int = Session.gold
 	var fee: int = Session.zone_wake_at_hub("beaten by a Flexing Brute")
-	assert_eq(fee, 20)
-	assert_eq(Session.gold, gold - 20)
+	assert_eq(fee, 0)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
+	assert_eq(Session.gold, gold)
 	assert_eq(run.hp, run.max_hp(), "wake at the hub at full HP")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].begins_with("Protein tab"))
 

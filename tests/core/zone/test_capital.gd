@@ -461,7 +461,7 @@ func test_a_lost_gate_battle_wakes_you_outside_with_a_fee() -> void:
 	var result: Dictionary = Session.resolve_zone_battle(context)
 	assert_true(bool(result.get("woke_at_hub", false)))
 	assert_false(Session.flag(CapitalZone.FLAG_GATE_OPEN))
-	assert_eq(Session.gold, gold - CapitalZone.FEE)
+	assert_eq(Session.gold, gold)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
 	assert_eq(ZoneDefs.get_def(CapitalZone.ID).fee, CapitalZone.FEE)
 
 

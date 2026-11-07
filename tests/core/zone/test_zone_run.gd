@@ -50,8 +50,8 @@ func test_zero_hp_wakes_at_hub_with_paperwork_fee_and_is_logged() -> void:
 	run.damage(999)
 	assert_true(run.is_down())
 	var fee: int = Session.zone_wake_at_hub("test faint")
-	assert_eq(fee, ZoneRun.PAPERWORK_FEE)
-	assert_eq(Session.gold, 100 - ZoneRun.PAPERWORK_FEE)
+	assert_eq(fee, 0)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
+	assert_eq(Session.gold, 100)
 	assert_eq(run.hp, run.max_hp(), "full HP after waking")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].contains("test faint"))
 	Session.zone_run = null
@@ -60,8 +60,8 @@ func test_zero_hp_wakes_at_hub_with_paperwork_fee_and_is_logged() -> void:
 func test_fee_never_exceeds_gold() -> void:
 	Session.zone_run = run
 	Session.gold = 4
-	assert_eq(Session.zone_wake_at_hub("broke"), 4)
-	assert_eq(Session.gold, 0)
+	assert_eq(Session.zone_wake_at_hub("broke"), 0)  # Fix pass Nov 7 (owner decision D1): losing costs nothing
+	assert_eq(Session.gold, 4)
 	Session.zone_run = null
 
 

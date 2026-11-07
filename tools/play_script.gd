@@ -15,7 +15,7 @@ extends Node
 ##   scene                          print the current scene and the hero's state (level, gold, hp)
 ##   pilot <seconds>                let a simple built-in player play the current battle for up to that long (mulligan, plays, attacks, blocks)
 ##   skip_dialogue [max]            tap E until no dialogue box / story still / popup is open (max taps, default 40)
-##   dev <action> ...               debug shortcuts: level N | gold N | autowin on|off | win | lose | heal | travel town|forest|capital|arena |
+##   dev <action> ...               debug shortcuts: level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
 ##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
@@ -326,6 +326,10 @@ func _dev(parts: PackedStringArray) -> void:
 			result = DevActions.end_battle(battle, false) if battle != null else "no battle"
 		"heal":
 			result = DevActions.full_heal(battle)
+		"primm":
+			# Fix pass Nov 7 (item 10): the checkpoint between Primm's phases - straight to phase 1, 2 or 3 at the castle's boss node
+			result = DevActions.travel_primm_phase(int(arg))
+			await driver.seconds(3.0)
 		"travel":
 			match arg:
 				"town":

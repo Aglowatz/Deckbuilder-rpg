@@ -929,7 +929,8 @@ func _show_wake_dialogue(fee_override: int) -> void:
 	var fee: int = _last_fee if fee_override == 0 else fee_override
 	var wake_speaker: String = def.wake_speaker if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "Gate Guard"
 	StoryScenePlayer.play(dialogue, OldHob.WAKE_SCENE, func() -> void: dialogue.start(wake_speaker, story.get_lines("fx.wake" if Session.flag(CapitalZone.FLAG_HUB_KNOWN) else "fx.wake_outside")))
-	hud.toast("%s: -%d gold (logged)." % [def.fee_label, fee], Color("ffcf70"))
+	if fee >= 0:
+		hud.toast(DEFEAT_TOAST, Color("ffcf70"))  # Fix pass Nov 7 (owner decision D1): losing costs nothing
 
 
 # ---- Screenshot / dev helpers ----------------------------------------------------------------------------------------------------

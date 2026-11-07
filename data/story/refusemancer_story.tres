@@ -16,7 +16,7 @@ lines = {
 "fx.heal_couch": ["You eat roast roots and a pie with a crust like a fence post, washed down with a mug that's mostly apple, while a goat watches every bite. HP restored."],
 "fx.heal_already": ["Your HP is already full, but Granny Gristle offers you a third helping anyway: one very small turnip."],
 "fx.hit": ["SCREEEE! A mutant junk gull dive-bombs you and steals your dignity. (-2 HP)"],
-"fx.wake": ["You wake face-down in a haybale at the Compost Grange. Granny Gristle is leaning on a pitchfork, chewing a stalk of something.", "\"Went down in the muck, dearie, so we rolled you out. Mucking-out fee is yours, mind. I call it a soil charge. Heh!", "The haybale was free, though it's started growing, so best get up before you put down roots.\""],
+"fx.wake": ["You wake face-down in a haybale at the Compost Grange. Granny Gristle is leaning on a pitchfork, chewing a stalk of something.", "\"Went down in the muck, dearie, so we rolled you out. I'd charge you a mucking-out fee, but you've done the muck a favour. Heh!", "The haybale was free, though it's started growing, so best get up before you put down roots.\""],
 "fx.chest": ["You find a treasure chest among the rubbish. For once, sorting pays."],
 "fx.pickup": ["Found:"],
 "fx.pickup_again": ["You already took the one lying here. Come back next visit; these days the Dump restocks itself overnight, whether anyone asks it to or not."],

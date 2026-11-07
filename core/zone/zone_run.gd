@@ -73,10 +73,10 @@ func wake_at_hub(gold_available: int, cause: String = "") -> int:
 	run.hp = run.max_hp()
 	run.failed = false
 	var def: ZoneDef = ZoneDefs.get_def(zone_id)
-	var fee: int = mini(def.fee, maxi(gold_available, 0))
-	fees_paid += fee
+	# Fix pass Nov 7 (owner decision D1): losing costs nothing - no fee, no item lost; the wake lines keep their fee joke, waived.
+	var fee: int = 0
 	var reason: String = cause if not cause.is_empty() else "declared Deceased (again)"
-	fee_log.append("%s %d gold - %s" % [def.fee_label, fee, reason])
+	fee_log.append("%s waived - %s" % [def.fee_label, reason])
 	return fee
 
 

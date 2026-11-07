@@ -37,7 +37,7 @@ func test_the_capital_battle_panel_reads_the_real_services() -> void:
 
 func test_the_defeat_line_only_mentions_a_dungeon_inside_one() -> void:
 	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd")
-	assert_true(source.contains("\"You are carried out of the dungeon.\" if Session.run != null else"))
+	assert_true(source.contains("the dungeon starts over.\" if Session.run != null else"), "Fix pass Nov 7 (D1, D2): the dungeon line only inside one")
 
 
 func test_gear_that_lowers_max_hp_is_not_a_zone_rule() -> void:

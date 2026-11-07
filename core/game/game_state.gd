@@ -761,6 +761,10 @@ func _mirror_first_card(player_index: int, card: CardInstance) -> void:
 	var player: PlayerState = players[player_index]
 	if player.mirrored or not player.modifiers.has(Modifier.Kind.MIRRORS):
 		return
+	# Fix pass Nov 7 (item 10, C4 F1): Infrastructure is never copied - the first non-Infrastructure card is (a copied land left the
+	# player's side with no Infrastructure and 1 energy in round 2 at the Hedge Trimmer Guard).
+	if card.data.is_infrastructure():
+		return
 	player.mirrored = true
 	var other: PlayerState = players[1 - player_index]
 	var copy: CardInstance = create_instance(card.data, 1 - player_index)
