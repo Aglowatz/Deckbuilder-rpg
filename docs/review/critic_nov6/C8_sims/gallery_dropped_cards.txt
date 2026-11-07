@@ -1,0 +1,2 @@
+     52 WARNING: ZoneDecks: N-33 is enemy-only and Echo of Mortimer Grimsby is not its owner; dropped
+     60 WARNING: ZoneDecks: NB-16 is enemy-only and Echo of Chancellor Clench is not its owner; dropped

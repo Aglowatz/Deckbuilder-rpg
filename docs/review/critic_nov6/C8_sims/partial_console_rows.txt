@@ -1,0 +1,197 @@
+tutorial:2                                   100%  turns 4.3  ok, fast
+tutorial:4                                   100%  turns 6.0  ok
+tutorial:6                                   100%  turns 5.4  ok, fast
+town:roamer:hound                            100%  turns 7.1  ok
+town:roamer:clerk                            100%  turns 8.0  ok
+town:roamer:raccoon                          100%  turns 4.6  ok, fast
+town:storeroom                               100%  turns 4.8  ok, fast
+town:npc:beefcake                             90%  turns 8.8  too easy (+15)
+town:npc:gourmand                             40%  turns 12.7  TOO HARD (-20), slow
+town:npc:refusemancer                         50%  turns 8.6  TOO HARD (-10)
+town:npc:necrocrat                            80%  turns 10.4  too easy (+5), slow
+town:graveyard                                40%  turns 11.4  ok, slow
+town:ninja                                    90%  turns 9.2  too easy (+30)
+town:vault                                    70%  turns 7.3  too easy (+10)
+town:old_well                                 90%  turns 9.4  too easy (+30)
+capital:quota                                 90%  turns 6.1  too easy (+15)
+zone:beefcake:brute                          100%  turns 5.7  ok, fast
+zone:beefcake:golem                           80%  turns 5.3  ok, fast
+zone:necrocrat:manager                        90%  turns 6.3  ok
+zone:necrocrat:intern                        100%  turns 5.5  ok, fast
+zone:gourmand:loaf                           100%  turns 5.4  ok, fast
+zone:gourmand:jelly                          100%  turns 6.0  ok
+zone:gourmand:casserole                      100%  turns 5.8  too easy (+25), fast
+zone:refusemancer:golem                      100%  turns 4.4  ok, fast
+zone:refusemancer:scarecrow                  100%  turns 5.1  ok, fast
+zone:final:officer                           100%  turns 5.3  ok, fast
+zone:final:inspector                         100%  turns 5.3  ok, fast
+zone:final:wretch                            100%  turns 5.2  ok, fast
+zone:final:spotless                           90%  turns 8.4  too easy (+15)
+freed:beefcake:brute                         100%  turns 5.1  ok, fast
+freed:beefcake:golem                         100%  turns 4.6  ok, fast
+freed:necrocrat:manager                      100%  turns 6.3  ok
+freed:necrocrat:intern                       100%  turns 5.8  ok, fast
+freed:gourmand:loaf                          100%  turns 4.7  ok, fast
+freed:gourmand:jelly                         100%  turns 5.5  ok, fast
+freed:refusemancer:golem                     100%  turns 4.9  ok, fast
+freed:refusemancer:scarecrow                 100%  turns 5.5  ok, fast
+D-HOG:2                                      100%  turns 7.2  ok
+D-HOG:3                                      100%  turns 5.8  ok, fast
+D-HOG:6                                       40%  turns 7.3  TOO HARD (-20)
+D-HOG:8                                       50%  turns 8.3  TOO HARD (-30)
+D-HOG:11                                      30%  turns 7.8  TOO HARD (-30)
+D-HOG:13                                      60%  turns 7.7  ok
+D-TTK:2                                      100%  turns 5.3  ok, fast
+D-TTK:3                                      100%  turns 5.2  ok, fast
+D-TTK:6                                      100%  turns 7.3  too easy (+25)
+D-TTK:8                                      100%  turns 5.6  ok, fast
+D-TTK:11                                      80%  turns 5.6  too easy (+5), fast
+D-TTK:12                                     100%  turns 5.6  ok, fast
+D-TTK:13                                      90%  turns 10.3  too easy (+30), slow
+D-HFA:3                                      100%  turns 6.0  ok
+D-HFA:4                                      100%  turns 6.2  ok
+D-HFA:7                                       90%  turns 8.5  too easy (+15)
+D-HFA:9                                      100%  turns 6.5  ok
+D-HFA:11                                      90%  turns 9.9  too easy (+15)
+D-HFA:13                                     100%  turns 5.8  ok, fast
+tutorial:2                                   100%  turns 4.4  ok, fast
+tutorial:4                                   100%  turns 6.3  ok
+tutorial:6                                   100%  turns 5.1  ok, fast
+town:roamer:hound                            100%  turns 5.3  ok, fast
+town:roamer:clerk                            100%  turns 7.6  ok
+town:roamer:raccoon                          100%  turns 7.0  ok
+town:storeroom                               100%  turns 5.3  ok, fast
+town:npc:beefcake                             63%  turns 6.6  ok
+town:npc:gourmand                             75%  turns 12.1  ok, slow
+town:npc:refusemancer                         63%  turns 10.5  ok, slow
+town:npc:necrocrat                            75%  turns 12.4  ok, slow
+town:graveyard                                63%  turns 9.4  too easy (+3)
+town:ninja                                    75%  turns 7.9  too easy (+15)
+town:vault                                    63%  turns 8.0  too easy (+3)
+town:old_well                                 75%  turns 8.6  too easy (+15)
+capital:quota                                 88%  turns 5.9  too easy (+13), fast
+zone:beefcake:brute                           88%  turns 7.3  ok
+zone:beefcake:golem                          100%  turns 5.6  ok, fast
+zone:necrocrat:manager                       100%  turns 7.1  ok
+zone:necrocrat:intern                        100%  turns 5.4  ok, fast
+zone:gourmand:loaf                           100%  turns 5.8  ok, fast
+zone:gourmand:jelly                          100%  turns 5.6  ok, fast
+zone:gourmand:casserole                      100%  turns 6.3  too easy (+25)
+zone:refusemancer:golem                      100%  turns 5.1  ok, fast
+zone:refusemancer:scarecrow                  100%  turns 6.0  ok
+zone:final:officer                           100%  turns 6.0  ok
+zone:final:inspector                         100%  turns 6.3  ok
+zone:final:wretch                            100%  turns 6.4  ok
+zone:final:spotless                           88%  turns 9.3  too easy (+13)
+freed:beefcake:brute                         100%  turns 5.3  ok, fast
+freed:beefcake:golem                         100%  turns 4.6  ok, fast
+freed:necrocrat:manager                      100%  turns 6.0  ok
+freed:necrocrat:intern                       100%  turns 5.9  ok, fast
+freed:gourmand:loaf                          100%  turns 5.3  ok, fast
+freed:gourmand:jelly                         100%  turns 5.6  ok, fast
+freed:refusemancer:golem                     100%  turns 5.9  ok, fast
+freed:refusemancer:scarecrow                 100%  turns 5.8  ok, fast
+D-HOG:2                                      100%  turns 7.3  ok
+D-HOG:3                                      100%  turns 6.3  ok
+D-HOG:6                                       75%  turns 7.1  ok
+D-HOG:8                                       88%  turns 7.5  ok
+D-HOG:11                                      63%  turns 6.1  ok
+D-HOG:13                                       0%  turns 8.3  TOO HARD (-40)
+D-TTK:2                                      100%  turns 5.1  ok, fast
+D-TTK:3                                      100%  turns 4.9  ok, fast
+D-TTK:6                                      100%  turns 7.1  too easy (+25)
+D-TTK:8                                      100%  turns 7.0  ok
+D-TTK:11                                      88%  turns 5.9  too easy (+13), fast
+D-TTK:12                                     100%  turns 6.9  ok
+D-TTK:13                                     100%  turns 7.3  too easy (+40)
+D-HFA:3                                      100%  turns 6.9  ok
+D-HFA:4                                      100%  turns 6.4  ok
+D-HFA:7                                      100%  turns 7.3  too easy (+25)
+D-HFA:9                                      100%  turns 7.0  ok
+D-HFA:11                                     100%  turns 7.9  too easy (+25)
+D-HFA:13                                     100%  turns 5.6  ok, fast
+D-HFA:14                                      75%  turns 9.3  too easy (+15)
+D-ROT:2                                       88%  turns 4.3  ok, fast
+D-ROT:3                                      100%  turns 4.5  ok, fast
+D-ROT:6                                      100%  turns 5.9  too easy (+25), fast
+D-ROT:8                                       88%  turns 4.3  ok, fast
+D-ROT:10                                      75%  turns 5.4  ok, fast
+D-ROT:11                                     100%  turns 5.4  ok, fast
+D-ROT:13                                      50%  turns 7.4  ok
+D-PC:2                                       100%  turns 5.9  ok, fast
+D-PC:4                                       100%  turns 6.1  ok
+D-PC:5                                        63%  turns 6.1  ok
+D-PC:6                                       100%  turns 6.5  ok
+D-PC:9                                        75%  turns 8.0  ok
+D-PC:10:phase1                               100%  turns 8.9  too easy (+40)
+tutorial:2                                   100%  turns 4.9  ok, fast
+tutorial:4                                    88%  turns 4.6  ok, fast
+tutorial:6                                    75%  turns 5.0  TOO HARD (-10), fast
+town:roamer:hound                            100%  turns 8.3  ok
+town:roamer:clerk                            100%  turns 4.5  ok, fast
+town:roamer:raccoon                           88%  turns 6.3  ok
+town:storeroom                                75%  turns 6.0  TOO HARD (-5)
+town:npc:beefcake                             25%  turns 7.3  TOO HARD (-35)
+town:npc:gourmand                             50%  turns 11.1  TOO HARD (-10), slow
+town:npc:refusemancer                        100%  turns 8.5  too easy (+25)
+town:npc:necrocrat                            63%  turns 10.8  ok, slow
+town:graveyard                                38%  turns 10.1  TOO HARD (-3), slow
+town:ninja                                    63%  turns 10.5  too easy (+3), slow
+town:vault                                    50%  turns 8.4  ok
+town:old_well                                100%  turns 6.9  too easy (+40)
+capital:quota                                 88%  turns 6.5  too easy (+13)
+zone:beefcake:brute                           88%  turns 6.6  ok
+zone:beefcake:golem                           75%  turns 5.1  TOO HARD (-5), fast
+zone:necrocrat:manager                        88%  turns 6.4  ok
+zone:necrocrat:intern                        100%  turns 6.0  ok
+zone:gourmand:loaf                           100%  turns 4.6  ok, fast
+zone:gourmand:jelly                          100%  turns 6.5  ok
+zone:gourmand:casserole                       88%  turns 4.6  too easy (+13), fast
+zone:refusemancer:golem                      100%  turns 4.1  ok, fast
+zone:refusemancer:scarecrow                  100%  turns 4.3  ok, fast
+zone:final:officer                           100%  turns 4.3  ok, fast
+zone:final:inspector                         100%  turns 4.5  ok, fast
+zone:final:wretch                            100%  turns 4.4  ok, fast
+zone:final:spotless                          100%  turns 7.9  too easy (+25)
+freed:beefcake:brute                          88%  turns 4.6  ok, fast
+freed:beefcake:golem                         100%  turns 4.3  ok, fast
+freed:necrocrat:manager                      100%  turns 5.4  ok, fast
+freed:necrocrat:intern                       100%  turns 5.1  ok, fast
+freed:gourmand:loaf                          100%  turns 4.5  ok, fast
+freed:gourmand:jelly                         100%  turns 4.5  ok, fast
+freed:refusemancer:golem                     100%  turns 5.0  ok, fast
+freed:refusemancer:scarecrow                 100%  turns 5.3  ok, fast
+D-HOG:2                                      100%  turns 7.9  ok
+D-HOG:3                                      100%  turns 4.8  ok, fast
+D-HOG:6                                       63%  turns 6.6  ok
+D-HOG:8                                       75%  turns 6.6  TOO HARD (-5)
+D-HOG:11                                      88%  turns 5.6  too easy (+13), fast
+D-HOG:13                                      38%  turns 8.0  TOO HARD (-3)
+D-TTK:2                                       75%  turns 10.5  TOO HARD (-5), slow
+D-TTK:3                                       63%  turns 8.0  TOO HARD (-18)
+D-TTK:6                                       75%  turns 7.1  ok
+D-TTK:8                                      100%  turns 7.5  ok
+D-TTK:11                                      88%  turns 6.9  too easy (+13)
+D-TTK:12                                      88%  turns 6.9  ok
+D-TTK:13                                      63%  turns 12.9  too easy (+3), slow
+D-HFA:3                                      100%  turns 5.4  ok, fast
+D-HFA:4                                      100%  turns 5.5  ok, fast
+D-HFA:7                                       63%  turns 9.8  ok
+D-HFA:9                                      100%  turns 6.4  ok
+D-HFA:11                                      25%  turns 11.0  TOO HARD (-35), slow
+D-HFA:13                                     100%  turns 5.6  ok, fast
+D-HFA:14                                      38%  turns 11.1  TOO HARD (-3), slow
+D-ROT:2                                      100%  turns 3.4  ok, fast
+D-ROT:3                                      100%  turns 3.4  ok, fast
+D-ROT:6                                      100%  turns 4.0  too easy (+25), fast
+D-ROT:8                                      100%  turns 3.4  ok, fast
+D-ROT:10                                     100%  turns 4.9  too easy (+25), fast
+D-ROT:11                                     100%  turns 3.8  ok, fast
+D-ROT:13                                     100%  turns 5.6  too easy (+40), fast
+D-PC:2                                       100%  turns 4.6  ok, fast
+D-PC:4                                       100%  turns 4.8  ok, fast
+D-PC:5                                        75%  turns 7.0  ok
+D-PC:6                                       100%  turns 5.3  ok, fast
+D-PC:9                                       100%  turns 7.9  too easy (+25)
+D-PC:10:phase1                               100%  turns 6.9  too easy (+40)
+D-PC:10:phase2                                88%  turns 6.3  too easy (+28)
