@@ -1,0 +1,20 @@
+wait 2
+dev load c2_i
+wait 8
+dev quest meet_the_merchants 99
+dev quest first_deck_edit 99
+dev quest storeroom_ghosts 99
+dev quest some_assembly_required 99
+wait 2
+skip_dialogue 20
+dev gate refusemancer
+wait 1
+skip_dialogue 10
+dev travel zone refusemancer
+wait 10
+skip_dialogue 20
+wait 2
+scene
+shot dump
+dump
+dev save n6_ref_dump

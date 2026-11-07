@@ -70,7 +70,15 @@ func act() -> void:
 				await driver.click_button("Cancel")
 			else:
 				var target: int = screen._target_options[0]
-				if target > 0:
+				# Critic pass Nov 6: a card in a Refuse Pile has no board view (Refusemancer's pile picks) - choose it the way the pile
+				# viewer's click does; any other target without a view: back out and skip the card this turn (the pilot looped here).
+				if target > 0 and screen._in_refuse_pile(target):
+					screen.refuse_viewer.card_chosen.emit(target)
+					await driver.seconds(0.3)
+				elif target > 0 and screen.board.view_for(target) == null:
+					_skip_this_turn.append(screen._target_source)
+					await driver.click_button("Cancel")
+				elif target > 0:
 					await driver.click(_view_center(target))
 				else:
 					await driver.click(screen.hud.portrait_rect(Targets.player_index(target)).get_center())

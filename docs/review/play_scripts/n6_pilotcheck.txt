@@ -1,0 +1,10 @@
+wait 2
+dev load n6_ref_postcave
+wait 8
+dev encounters refuse
+dev encounter town:npc:refusemancer
+wait 6
+pilot 240
+wait 2
+shot end
+scene
