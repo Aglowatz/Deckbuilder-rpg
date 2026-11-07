@@ -798,7 +798,8 @@ func _on_mute_unfocused(pressed: bool) -> void:
 
 ## Controller support (Oct 26): the pad's B leaves the settings like the Back button (Esc keeps closing the whole pause menu).
 func _unhandled_input(event: InputEvent) -> void:
-	if _capturing.is_empty() and event is InputEventJoypadButton and UiInput.is_back(event) and is_visible_in_tree():
+	# Fix pass Nov 7 (item 13): Esc leaves the settings like Back (the pause menu routes it here); a key capture keeps its own Esc.
+	if _capturing.is_empty() and is_visible_in_tree() and UiInput.is_back(event):
 		get_viewport().set_input_as_handled()
 		_on_back()
 

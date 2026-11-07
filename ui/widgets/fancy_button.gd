@@ -14,6 +14,25 @@ func _ready() -> void:
 	resized.connect(_update_pivot)
 	_update_pivot()
 	focus_mode = Control.FOCUS_NONE
+	# Fix pass Nov 7 (item 13, C7 F4): the Deck Station's gold focus ring on every button with the keyboard / pad focus, whatever its skin.
+	focus_entered.connect(_show_ring.bind(true))
+	focus_exited.connect(_show_ring.bind(false))
+
+
+var _ring: Panel
+
+
+func _show_ring(on: bool) -> void:
+	if on and _ring == null:
+		_ring = Panel.new()
+		_ring.name = "FocusRing"
+		_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_ring.add_theme_stylebox_override("panel", UIStyle.focus_ring())
+		_ring.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_ring.show_behind_parent = false
+		add_child(_ring, false, Node.INTERNAL_MODE_FRONT)
+	if _ring != null:
+		_ring.visible = on and has_focus()
 
 
 func _update_pivot() -> void:

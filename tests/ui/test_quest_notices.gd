@@ -35,19 +35,25 @@ func _kinds(quest_id: String) -> Array[String]:
 func test_start_step_and_complete_are_announced_with_the_new_objective() -> void:
 	Session.offer_auto_quests()
 	var quest_id: String = QuestDefinitions.MERCHANTS
-	assert_eq(_kinds(quest_id), ["start"] as Array[String], "the first quest starts with a banner")
+	# Fix pass Nov 7 (D3): the batch's one banner names the tracked quest - the Path's line - not Maren's errand
+	var starts: int = 0
+	for event: Array in _events:
+		if str(event[0]) == "start":
+			starts += 1
+	assert_eq(starts, 1, "one banner for the batch (the Path line itself started at the Path choice)")
+	assert_eq(_kinds(quest_id), [] as Array[String], "the errand joins the log quietly")
 	var start: Dictionary = QuestNoticeLayer.notice_for("start", quest_id)
 	assert_eq(str(start["header"]), "New quest")
 	# Nov 3-4, Part B5: Tilly comes first now (her free item and how to equip it)
 	assert_string_contains(str(start["line"]), "Tilly", "the banner names the first step")
 	Session.set_flag(&"item_vendor_seen")
 	Session.refresh_quests()
-	assert_eq(_kinds(quest_id), ["start", "step"] as Array[String], "a step done is announced")
+	assert_eq(_kinds(quest_id), ["step"] as Array[String], "a step done is announced")
 	var step: Dictionary = QuestNoticeLayer.notice_for("step", quest_id)
 	assert_eq(str(step["header"]), "Quest updated")
 	assert_string_contains(str(step["line"]), "Equip Tilly", "the NEW objective, not the old one")
 	Session.refresh_quests()
-	assert_eq(_kinds(quest_id).size(), 2, "nothing new, no banner")
+	assert_eq(_kinds(quest_id).size(), 1, "nothing new, no banner")
 	Session.set_flag(&"tilly_item_equipped")
 	Session.set_flag(&"vendor_seen")
 	Session.bump_counter("cards_bought")
@@ -67,6 +73,7 @@ func test_notices_queue_and_merge() -> void:
 	Session.offer_auto_quests()
 	layer.hold = true
 	layer.set_process(false)  # nothing is shown: only the queue is checked
+	layer._queue.clear()  # the batch's own banner (the Path line, Fix pass Nov 7)
 	layer.push("start", QuestDefinitions.MERCHANTS)
 	layer.push("step", QuestDefinitions.MERCHANTS)
 	assert_eq(layer.queued(), 1, "two updates of one quest waiting read as the newest")

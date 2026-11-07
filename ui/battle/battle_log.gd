@@ -48,6 +48,13 @@ func setup(game_state: GameState, enemy: String, card_names: Dictionary) -> void
 	column.add_child(_toggle)
 
 
+## Fix pass Nov 7 (item 13): Esc folds an open log away (before the pause menu opens).
+func _unhandled_input(event: InputEvent) -> void:
+	if expanded and is_visible_in_tree() and UiInput.is_back(event):
+		get_viewport().set_input_as_handled()
+		toggle()
+
+
 func toggle() -> void:
 	expanded = not expanded
 	_body.visible = expanded

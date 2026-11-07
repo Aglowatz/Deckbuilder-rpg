@@ -168,7 +168,16 @@ func _show_feats() -> void:
 ## Controller support (Oct 26): the pad's B steps back - out of the save slots, a settings or glossary page, then closes the menu (Esc keeps its
 ## old meaning: it is the pause key, so it closes the whole menu from anywhere).
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible or not event is InputEventJoypadButton or not UiInput.is_back(event):
+	if not visible:
+		return
+	# Fix pass Nov 7 (item 13, C7 F6): Esc steps back to the opener like the pad's B - out of the save slots, Settings, the Glossary or the
+	# Feats to the menu; only on the menu itself does Esc close it (the pause key, handled by SceneManager).
+	var sub_page: bool = _slots != null or (is_instance_valid(_settings) and _settings.is_inside_tree() and not _settings.is_queued_for_deletion()) 		or _menu.find_child("GlossaryPanel", true, false) != null or _menu.find_child("FeatsPanel", true, false) != null
+	if not event is InputEventJoypadButton and not sub_page:
+		return
+	if _root != null and _root.find_children("*", "ConfirmDialog", true, false).size() > 0:
+		return  # the dialog answers Esc itself
+	if not UiInput.is_back(event):
 		return
 	get_viewport().set_input_as_handled()
 	if _slots != null:

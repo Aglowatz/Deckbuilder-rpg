@@ -56,9 +56,9 @@ func test_esc_leaves_save_mode_then_closes_the_station() -> void:
 	var screen: DeckbuilderScreen = _station()
 	await wait_process_frames(2)
 	watch_signals(screen)
-	screen.call(&"_save")
+	screen.open_save_picker()  # Fix pass Nov 7 (item 3): "Save as new slot" lights the racks up (Save Deck saves at once)
 	await wait_process_frames(1)
-	assert_true(screen.in_save_mode(), "Save Deck lights the racks up")
+	assert_true(screen.in_save_mode(), "Save as new slot lights the racks up")
 	screen.request_close()
 	await wait_process_frames(1)
 	assert_false(screen.in_save_mode(), "Esc first leaves save mode")
@@ -70,9 +70,9 @@ func test_esc_leaves_save_mode_then_closes_the_station() -> void:
 func test_save_asks_for_a_slot_and_saves_there() -> void:
 	var screen: DeckbuilderScreen = _station()
 	await wait_process_frames(2)
-	screen.call(&"_save")
+	screen.open_save_picker()  # Fix pass Nov 7 (item 3): the "Save as new slot" button
 	await wait_process_frames(1)
-	assert_true(screen.in_save_mode(), "saving asks which slot")
+	assert_true(screen.in_save_mode(), "saving as new asks which slot")
 	var rack: DeckRack = screen.find_child("DeckRack", true, false) as DeckRack
 	assert_true(rack.tiles[1].tooltip_text.begins_with("Save the deck into slot 2"), "an empty slot offers to take the deck")
 	assert_true(screen.save_to_slot(2))
@@ -106,8 +106,7 @@ func test_the_first_save_needs_no_change() -> void:
 	await wait_process_frames(2)
 	assert_false(screen._save_button.disabled, "Save Deck is available on the first visit")
 	screen._save()
-	assert_true(screen.in_save_mode(), "it asks which slot")
-	screen.save_to_slot(0)
+	assert_false(screen.in_save_mode(), "Fix pass Nov 7 (item 3): Save Deck saves the deck's own slot at once, no slot mode")
 	assert_true(Session.flag(&"deck_edited"), "the first save completes the quest step")
 	screen._refresh()
 	assert_true(screen._save_button.disabled, "after the first save an unchanged deck reads Saved again")

@@ -29,6 +29,11 @@ const HAND_STYLES: Dictionary = {
 	"fan": {"scale": 0.68, "y": 975.0, "spacing": 150.0, "arc": 6.0, "rot": 5.0},
 }
 static var hand_style: String = "compact"
+## Fix pass Nov 7 (item 12): hand cards drawn compact (cost, name, stats) until hovered. Off = the full face in the hand (tests, shots).
+static var compact_hand: bool = true
+## Fix pass Nov 7 (item 12, C1b F10): above this many cards the hand is laid out in two rows (the back row higher and behind).
+const TWO_ROW_HAND: int = 10
+const TWO_ROW_LIFT: float = 92.0
 const CENTER_POINT: Vector2 = Vector2(985.0, 500.0)
 const BF_SPACING: float = 182.0
 const INFRASTRUCTURE_SPACING: float = 86.0
@@ -139,7 +144,7 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	if data == null:
 		return null
 	var hidden: bool = _is_hidden(owner_index, zone)
-	var view: CardView = CardView.create(data, CardView.Mode.BACK if hidden else _mode_for(zone))
+	var view: CardView = CardView.create(data, CardView.Mode.BACK if hidden else _mode_for(zone, owner_index))
 	view.instance_uid = uid
 	view.set_meta("owner", owner_index)
 	view.set_meta("opponent_back", owner_index != human)
@@ -174,7 +179,10 @@ func _is_hidden(owner_index: int, zone: Zone) -> bool:
 	return false
 
 
-func _mode_for(zone: Zone) -> CardView.Mode:
+## Fix pass Nov 7 (item 12, C7 F2): the player's hand cards show cost, name and stats (the compact face); the hovered one is shown whole.
+func _mode_for(zone: Zone, owner_index: int = -1) -> CardView.Mode:
+	if zone == Zone.HAND and owner_index == human and compact_hand:
+		return CardView.Mode.COMPACT
 	match zone:
 		Zone.FIELD:
 			return CardView.Mode.COMPACT
@@ -189,7 +197,12 @@ func _mode_for(zone: Zone) -> CardView.Mode:
 func _on_hover(view: CardView) -> void:
 	var uid: int = view.instance_uid
 	if zones.get(uid, -1) == Zone.HAND and int(view.get_meta("owner", 0)) == human:
+		var before: int = hover_uid
 		hover_uid = uid
+		# Fix pass Nov 7 (item 12): the raised card is shown whole (rules text and all); the others stay compact.
+		if before != 0 and before != uid and zones.get(before, -1) == Zone.HAND and view_for(before) != null:
+			view_for(before).set_mode(_mode_for(Zone.HAND, human))
+		view.set_mode(CardView.Mode.FULL)
 		layout()
 	card_hovered.emit(view)
 
@@ -197,6 +210,8 @@ func _on_hover(view: CardView) -> void:
 func _on_unhover(view: CardView) -> void:
 	if hover_uid == view.instance_uid:
 		hover_uid = 0
+		if zones.get(view.instance_uid, -1) == Zone.HAND and not bool(view.get_meta("hidden", false)):
+			view.set_mode(_mode_for(Zone.HAND, int(view.get_meta("owner", 0))))
 		layout()
 	card_unhovered.emit(view)
 
@@ -211,7 +226,7 @@ func set_zone(uid: int, zone: Zone) -> void:
 	var hidden: bool = _is_hidden(int(view.get_meta("owner", 0)), zone)
 	view.set_meta("hidden", hidden)
 	_mark_trap(view, zone, hidden)
-	view.set_mode(CardView.Mode.BACK if hidden else _mode_for(zone))
+	view.set_mode(CardView.Mode.BACK if hidden else (CardView.Mode.FULL if uid == hover_uid else _mode_for(zone, int(view.get_meta("owner", 0)))))
 	_refresh_view(uid)
 
 
@@ -275,15 +290,21 @@ func _layout_hand(owner_index: int) -> void:
 	var mine: bool = owner_index == human
 	var style: Dictionary = HAND_STYLES.get(hand_style, HAND_STYLES["compact"]) as Dictionary
 	var hand_y: float = float(style["y"]) if mine else ENEMY_HAND_Y
-	var spacing: float = minf((float(style["spacing"]) if mine else 62.0), (900.0 if mine else 520.0) / float(maxi(count - 1, 1)))
+	var rows: int = 2 if mine and count > TWO_ROW_HAND else 1
+	var back_count: int = count / 2 if rows == 2 else 0
 	for index: int in range(count):
-		var offset: float = float(index) - float(count - 1) * 0.5
+		# Fix pass Nov 7 (item 12): two rows above TWO_ROW_HAND cards - the first half in a back row, higher and behind the front row.
+		var in_back: bool = index < back_count
+		var row_count: int = back_count if in_back else count - back_count
+		var row_index: int = index if in_back else index - back_count
+		var spacing: float = minf((float(style["spacing"]) if mine else 62.0), (900.0 if mine else 520.0) / float(maxi(row_count - 1, 1)))
+		var offset: float = float(row_index) - float(row_count - 1) * 0.5
 		var arc: float = offset * offset * (float(style["arc"]) if mine else 1.0)
 		var uid: int = cards[index]
-		var center: Vector2 = Vector2(CENTER_X + offset * spacing, hand_y + arc)
+		var center: Vector2 = Vector2(CENTER_X + offset * spacing + (spacing * 0.5 if in_back else 0.0), hand_y + arc - (TWO_ROW_LIFT if in_back else 0.0))
 		var rotation_degrees: float = offset * (float(style["rot"]) if mine else -1.8)
 		var card_scale: float = float(style["scale"]) if mine else SCALE_ENEMY_HAND
-		var z: int = 10 + index
+		var z: int = 10 + index + (0 if in_back else 30)
 		if uid == hover_uid and mine and _hover_zone_lift:
 			center = Vector2(center.x, HAND_Y - 150.0)
 			rotation_degrees = 0.0

@@ -50,8 +50,32 @@ static var _axis_seen: Dictionary = {}
 
 
 ## True for a fresh press of back.
+## Fix pass Nov 7 (item 13): one Esc closes ONE thing. The first handler that takes a Back press owns it: the same event is never a Back
+## for a second handler (a shop went back two levels at once), and for BACK_GUARD_MSEC after a Back nothing else counts (a held or
+## double-tapped Esc closing the popup and then the screen under it). Handlers test their own conditions first (visible, open), then this.
+const BACK_GUARD_MSEC: int = 200
+static var _last_back_event: int = 0
+static var _back_guard_until: int = 0
+
+
 static func is_back(event: InputEvent) -> bool:
-	return event != null and not event.is_echo() and event.is_action_pressed(&"ui_cancel")
+	if event == null or event.is_echo() or not event.is_action_pressed(&"ui_cancel"):
+		return false
+	var id: int = event.get_instance_id()
+	if id == _last_back_event:
+		return false
+	var now: int = Time.get_ticks_msec()
+	if now < _back_guard_until:
+		return false
+	_last_back_event = id
+	_back_guard_until = now + BACK_GUARD_MSEC
+	return true
+
+
+## Fix pass Nov 7 (item 13): tests and tools start from a clean guard.
+static func reset_back_guard() -> void:
+	_last_back_event = 0
+	_back_guard_until = 0
 
 
 ## Makes every button under `root` reachable with the keyboard / a pad (FancyButton turns focus off by default so a click does not leave a

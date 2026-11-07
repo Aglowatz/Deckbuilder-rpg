@@ -118,7 +118,9 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
-	if event is InputEventJoypadButton and UiInput.is_back(event) and _cancel_button != null:
+	# Fix pass Nov 7 (item 13): Esc (and the pad's B) answers the dialog with its cancel button - the topmost popup closes, never the
+	# screen under it (a shop's buy confirm used to stay floating while Esc closed the shop).
+	if _cancel_button != null and UiInput.is_back(event):
 		get_viewport().set_input_as_handled()
 		_cancel_button.pressed.emit()
 		return

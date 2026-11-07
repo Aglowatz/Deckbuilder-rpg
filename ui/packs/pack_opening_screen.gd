@@ -527,7 +527,10 @@ func _gui_input(event: InputEvent) -> void:
 	var click: InputEventMouseButton = event as InputEventMouseButton
 	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
-		_advance()
+		# Fix pass Nov 7 (item 8, C7 F8): any click skips the pack's animation to its cards (E / Enter / A still turn them one by one).
+		if _phase == Phase.SUMMARY:
+			return
+		_skip()
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -34,12 +34,20 @@ func _refresh() -> void:
 	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.
 	var plain: int = plain_pack_count()
 	if plain >= 2:
+		var all_row: HBoxContainer = UIKit.hbox(16)
 		var all_button: FancyButton = FancyButton.make("Open all (%d packs)" % plain, &"PrimaryButton", Vector2(300, 52))
 		all_button.name = "OpenAll"
 		all_button.pressed.connect(func() -> void:
 			Audio.sfx(&"ui_confirm")
 			_show_open_all(open_all()))
-		_list.add_child(all_button)
+		all_row.add_child(all_button)
+		# Fix pass Nov 7 (item 8, C3 F4): say what Open all leaves out.
+		if gilded_pack_count() > 0:
+			var skipped: Label = UIKit.label("Gilded packs (%d, a sure Epic or Legendary) are opened one at a time below." % gilded_pack_count(), &"MutedLabel", 20)
+			skipped.name = "OpenAllSkips"
+			skipped.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			all_row.add_child(skipped)
+		_list.add_child(all_row)
 	for pack: PackData in PackCatalog.all():
 		var count: int = Session.profile.pack_count(pack.id)
 		if count <= 0:
@@ -66,6 +74,15 @@ static func plain_pack_count() -> int:
 	var total: int = 0
 	for pack: PackData in PackCatalog.all():
 		if not pack.guarantee_epic_or_legendary:
+			total += Session.profile.pack_count(pack.id)
+	return total
+
+
+## Fix pass Nov 7 (item 8): the gilded packs "Open all" leaves for their own ceremony.
+static func gilded_pack_count() -> int:
+	var total: int = 0
+	for pack: PackData in PackCatalog.all():
+		if pack.guarantee_epic_or_legendary:
 			total += Session.profile.pack_count(pack.id)
 	return total
 
@@ -115,6 +132,38 @@ static func summary_lines(openings: Array[PackOpening]) -> PackedStringArray:
 	return lines
 
 
+## Fix pass Nov 7 (item 8): every card of an Open all, the new ones first (one tile per card; a copy past its cap stays, dimmed).
+static func result_entries(openings: Array[PackOpening]) -> Array[PackOpening.Entry]:
+	var fresh: Array[PackOpening.Entry] = []
+	var rest: Array[PackOpening.Entry] = []
+	var seen_new: Dictionary = {}
+	for opening: PackOpening in openings:
+		for entry: PackOpening.Entry in opening.entries:
+			if entry.is_new and not seen_new.has(entry.card.id):
+				seen_new[entry.card.id] = true
+				fresh.append(entry)
+			else:
+				rest.append(entry)
+	fresh.append_array(rest)
+	return fresh
+
+
+func _result_tile(entry: PackOpening.Entry) -> Control:
+	var holder: Control = CardView.wrapped(entry.card, 0.5)
+	holder.name = "Result_%s" % entry.card.id
+	if entry.converted:
+		holder.modulate = Color(0.6, 0.6, 0.66)
+	if entry.is_new:
+		var badge: Label = UIKit.label("NEW", &"", 20, Color("1d1408"), HORIZONTAL_ALIGNMENT_CENTER)
+		badge.name = "NewBadge"
+		badge.add_theme_font_override("font", UIStyle.font_bold())
+		badge.add_theme_stylebox_override("normal", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
+		badge.position = Vector2(6, 6)
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		holder.add_child(badge)
+	return holder
+
+
 func _show_open_all(openings: Array[PackOpening]) -> void:
 	if openings.is_empty():
 		return
@@ -134,20 +183,36 @@ func _show_open_all(openings: Array[PackOpening]) -> void:
 	UIKit.full_rect(center)
 	layer.add_child(center)
 	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(1000, 0)
+	panel.custom_minimum_size = Vector2(1500, 0)
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(14)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Packs opened", &"HeadingLabel", 36, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var text: RichTextLabel = RichTextLabel.new()
-	text.bbcode_enabled = true
-	text.fit_content = true
-	text.custom_minimum_size = Vector2(940, 0)
-	text.add_theme_font_size_override("normal_font_size", 22)
-	text.text = "
-
-".join(summary_lines(openings))
-	column.add_child(text)
+	# Fix pass Nov 7 (item 8, C3 F4): the cards themselves, new ones first with a NEW badge, then the one-line totals.
+	var lines: PackedStringArray = summary_lines(openings)
+	var totals: Label = UIKit.label(lines[0], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(totals)
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.name = "OpenAllCards"
+	scroll.custom_minimum_size = Vector2(1460, 560)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	column.add_child(scroll)
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = 8
+	grid.add_theme_constant_override("h_separation", 10)
+	grid.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(grid)
+	for entry: PackOpening.Entry in result_entries(openings):
+		grid.add_child(_result_tile(entry))
+	var extra: PackedStringArray = []
+	for index: int in range(1, lines.size()):
+		if not lines[index].begins_with("[color=#ffcf70]New:") and not lines[index].begins_with("More copies:"):
+			extra.append(lines[index])
+	if not extra.is_empty():
+		column.add_child(UIKit.label(" ".join(extra), &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	if Session.toasts != null:
+		Session.toasts.hold()  # Fix pass Nov 7 (item 8): no toast over the cards
+		layer.tree_exiting.connect(func() -> void: Session.toasts.release())
 	column.add_child(UIKit.label("Every card is in your collection now: build with them at the Deck Station (B).", &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 	var done: FancyButton = FancyButton.make("Done", &"PrimaryButton", Vector2(220, 56))
 	done.size_flags_horizontal = Control.SIZE_SHRINK_CENTER

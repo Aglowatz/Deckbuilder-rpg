@@ -743,6 +743,11 @@ func pad_first_focus() -> Control:
 ## Overnight Nov 4-5, Part 2.4: no deck changes inside a dungeon - the run is played with the deck it entered with (the Deck button, the B
 ## hotkey and the in-dungeon Deck Station are gone; cards won here go to the collection, except in the tutorial cave, where they join the deck).
 func _unhandled_input(event: InputEvent) -> void:
+	# Fix pass Nov 7 (item 13, C7 F4): Esc closes the open Rules panel (the topmost thing) before anything else.
+	if _rules_panel != null and _rules_panel.visible and _modal == null and UiInput.is_back(event):
+		get_viewport().set_input_as_handled()
+		_toggle_rules()
+		return
 	if _hovered_id >= 0 and map.is_available(_hovered_id) and not InputDevice.using_pad() and UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
 		_on_node_chosen(_hovered_id)

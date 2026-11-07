@@ -30,10 +30,10 @@ func _for_sale(data: VendorData, state: UnlockState) -> Array[CardData]:
 	return result
 
 
-func test_sable_sells_a_small_mostly_colorless_sample_at_first() -> void:
+func test_sable_sells_five_to_six_singles_of_every_path() -> void:
+	# Fix pass Nov 7 (owner decision D4): 5-6 Commons of every Path (General Packs stay fully random), plus the Colorless sample.
 	var state: UnlockState = _state(1)
 	var cards: Array[CardData] = _for_sale(VendorStocks.sable_sample(content, state, _gate()), state)
-	assert_between(cards.size(), 8, 12, "about 8-12 cards")
 	var colorless: int = 0
 	var per_path: Dictionary = {}
 	for card: CardData in cards:
@@ -42,10 +42,10 @@ func test_sable_sells_a_small_mostly_colorless_sample_at_first() -> void:
 			colorless += 1
 		else:
 			per_path[card.paths()[0]] = int(per_path.get(card.paths()[0], 0)) + 1
-	assert_gt(colorless, cards.size() / 2, "mostly Colorless")
-	assert_eq(per_path.size(), 4, "a taste of every Path")
+	assert_gte(colorless, VendorStocks.SABLE_COLORLESS_COMMONS)
+	assert_eq(per_path.size(), 4, "every Path")
 	for path: Variant in per_path.keys():
-		assert_lte(int(per_path[path]), 2, "never more than a couple from one Path")
+		assert_between(int(per_path[path]), 5, 6, "5-6 singles of each Path")
 
 
 func test_sable_grows_a_little_with_progress_and_rotates() -> void:
@@ -54,7 +54,7 @@ func test_sable_grows_a_little_with_progress_and_rotates() -> void:
 	var early_ids: Array[String] = VendorStocks.sable_sample(content, early, _gate()).available_card_ids(early)
 	var later_ids: Array[String] = VendorStocks.sable_sample(content, later, _gate()).available_card_ids(later)
 	assert_gt(later_ids.size(), early_ids.size(), "the selection grows")
-	assert_lte(later_ids.size(), 12)
+	assert_lte(later_ids.size() - early_ids.size(), 3, "a little: the growth step adds a couple of Uncommons")
 	assert_ne(later_ids, early_ids, "and it rotates")
 	var again: Array[String] = VendorStocks.sable_sample(content, early, _gate()).available_card_ids(early)
 	assert_eq(again, early_ids, "the same level and zones give the same shelf (it only rotates on progress)")

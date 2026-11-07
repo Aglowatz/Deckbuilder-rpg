@@ -547,7 +547,9 @@ func _build_type_line() -> void:
 	var type_icon: TextureRect = IconArt.rect(IconArt.type_id(data.type), 24.0)
 	var type_room: float = 28.0 if type_icon != null else 0.0
 	label.position = Vector2(22 + type_room, 292)
-	label.size = Vector2(220 - type_room, 28)
+	label.size = Vector2(256 - type_room, 28)  # Fix pass Nov 7 (item 12): the whole bar - the gem no longer sits on it
+	label.clip_text = true
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	if type_icon != null:
 		type_icon.position = Vector2(22, 294)
 		type_icon.size = Vector2(24, 24)
@@ -563,7 +565,7 @@ func _build_type_line() -> void:
 	add_child(label)
 	var rarity: Label = Label.new()
 	rarity.text = RARITY_NAMES[int(data.rarity)]
-	rarity.position = Vector2(20, 408)
+	rarity.position = Vector2(46, 408)
 	rarity.size = Vector2(160, 30)
 	rarity.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	rarity.add_theme_font_override("font", UIStyle.font_bold())
@@ -574,7 +576,7 @@ func _build_type_line() -> void:
 	var gem: Gem = Gem.new()
 	gem.color = RARITY_COLORS[int(data.rarity)]
 	gem.rarity = int(data.rarity)
-	gem.position = Vector2(288 - 10 - 20, 296)
+	gem.position = Vector2(20, 413)  # Fix pass Nov 7 (item 12, C7 F3): beside the rarity word, off the type line ("Basic Infrastruct◯e")
 	gem.size = Vector2(20, 20)
 	gem.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(gem)

@@ -11,6 +11,8 @@ extends Node
 
 const TIME_LIMIT_SECONDS: float = 60.0
 const TAG: String = "gamepad_smoke"
+## Fix pass Nov 7 (item 13): the town's menu screens Esc must close (TownScene openers).
+const ESC_SCREENS: Array[String] = ["_open_quest_log", "_open_character_screen", "_open_full_map", "_open_packs", "_open_wardrobe", "_open_deck_builder_anywhere"]
 
 var pad: PadDriver
 var _failures: PackedStringArray = []
@@ -139,6 +141,10 @@ func run() -> void:
 	_check(town._overlay == null, "B leaves the shop")
 	await _talk(town, "item_vendor")
 	await _close_overlays(town)
+	# Fix pass Nov 7: Meet the Merchants has had an "equip Tilly's Power Wraps" step since Nov 3-4 (the Character page by pad is checked
+	# later in this smoke); the wraps are equipped through the session here.
+	Session.set_flag(&"tilly_item_equipped")
+	Session.refresh_quests()
 	await _talk(town, "tailor")
 	await _close_overlays(town)
 	await _talk(town, "elder")
@@ -259,6 +265,14 @@ func run() -> void:
 	await _talk(town, "equipment_vendor")
 	await _close_overlays(town)
 	await _dismiss_popups()
+	# Fix pass Nov 7: the armory has ended on "equip your new blade" since Nov 3-4 - worn here through the session.
+	Session.equip_item(Session.content.equipment_piece(EquipmentRarity.STARTER_BLADE))
+	Session.refresh_quests()
+	await pad.seconds(1.2)
+	await _dismiss_popups()
+	await pad.seconds(0.8)
+	await _dismiss_popups()
+	await _wait_notices()
 	_check(Session.quest_log.is_completed(QuestDefinitions.ARMORY) and Session.gear_unlocked(), "the gear by pad")
 	# 9. The menus by their pad buttons.
 	await pad.tap(JOY_BUTTON_Y)
@@ -282,6 +296,23 @@ func run() -> void:
 	await pad.seconds(0.8)
 	_check(town._overlay is FullMapScreen, "View opens the map")
 	await _close_overlays(town)
+	# Fix pass Nov 7 (item 13): Esc (the ui_cancel action) closes each menu screen - one press, one screen, nothing left open under it.
+	for opener: String in ESC_SCREENS:
+		town.call(opener)
+		await pad.seconds(0.7)
+		var esc_opened: bool = town._overlay != null
+		var escape: InputEventAction = InputEventAction.new()
+		escape.action = &"ui_cancel"
+		escape.pressed = true
+		Input.parse_input_event(escape)
+		await pad.frames(2)
+		var release: InputEventAction = InputEventAction.new()
+		release.action = &"ui_cancel"
+		release.pressed = false
+		Input.parse_input_event(release)
+		await pad.seconds(0.5)
+		_check(esc_opened and town._overlay == null and not get_tree().paused, "Esc closes %s (opened %s)" % [opener.trim_prefix("_open_"), str(esc_opened)])
+		await _close_overlays(town)
 	await pad.tap(JOY_BUTTON_START)
 	await pad.seconds(0.5)
 	var paused: bool = get_tree().paused

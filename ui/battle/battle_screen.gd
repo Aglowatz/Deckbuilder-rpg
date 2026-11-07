@@ -1144,8 +1144,13 @@ func _ref_name(ref: int) -> String:
 
 func _on_card_hovered(view: CardView) -> void:
 	_hovered_view = view
-	hud.show_preview(view, _hover_note(view))
-	if view.get_meta("owner", 0) == 0 and board.zones.get(view.instance_uid) == BattleBoard.Zone.HAND:
+	# Fix pass Nov 7 (item 12, C7 F2): a hand card is read on the raised card itself (shown whole on hover) - no second copy in the left
+	# preview (it covered the Battle log and the item slots at 720p). A right-click still opens it there.
+	var hand_card: bool = view.get_meta("owner", 0) == 0 and board.zones.get(view.instance_uid) == BattleBoard.Zone.HAND
+	if not hand_card:
+		hud.show_preview(view, _hover_note(view))
+	else:
+		hud.hide_preview()
 		Audio.sfx(&"card_hover", -3.0)
 
 
@@ -1182,7 +1187,9 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 	match mode:
 		Mode.MAIN:
 			if zone == BattleBoard.Zone.HAND and mine and button_event.pressed:
-				_press_uid = uid
+				# Fix pass Nov 7 (item 12, C7 F17): a drag starts on the raised card - the fan re-flows on hover, and the press could land on
+				# the neighbour that slid under the cursor.
+				_press_uid = board.hover_uid if board.hover_uid != 0 and int(board.zones.get(board.hover_uid, -1)) == BattleBoard.Zone.HAND else uid
 				_press_pos = get_global_mouse_position()
 			elif (zone == BattleBoard.Zone.FIELD or zone == BattleBoard.Zone.INFRASTRUCTURE) and mine and button_event.pressed:
 				_try_activate(uid)
