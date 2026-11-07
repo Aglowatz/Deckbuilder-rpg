@@ -17,6 +17,13 @@ func _init(ui_driver: UiDriver, battle: BattleScreen) -> void:
 	screen = battle
 
 
+## Critic pass Nov 6: a click that does nothing (a crowded hand covers the card) looped the pilot forever; the play driver calls this
+## when a turn has not moved for a while, so the rest of the turn passes.
+func skip_hand() -> void:
+	for card: CardInstance in screen.game.players[0].hand:
+		_skip_this_turn.append(card.uid)
+
+
 func _view_center(uid: int) -> Vector2:
 	return driver.center_of_control(screen.board.view_for(uid))
 
@@ -87,7 +94,7 @@ func act() -> void:
 func _act_main(game: GameState) -> void:
 	var player: PlayerState = game.players[0]
 	for card: CardInstance in player.hand:
-		if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid):
+		if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid) and not _skip_this_turn.has(card.uid):
 			await driver.click(_view_center(card.uid))
 			return
 	var best: CardInstance = null

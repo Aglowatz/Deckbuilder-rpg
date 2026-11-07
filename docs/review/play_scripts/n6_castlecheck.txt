@@ -1,0 +1,20 @@
+wait 2
+dev load c4_approved
+wait 10
+dev travel dungeon D-PC
+wait 8
+skip_dialogue 30
+wait 2
+click 322 565
+wait 3
+button Continue
+wait 5
+button Keep Hand
+wait 2
+shot 01_t1
+wait 6
+pilot 170
+wait 2
+shot 01_end
+dump
+button Continue

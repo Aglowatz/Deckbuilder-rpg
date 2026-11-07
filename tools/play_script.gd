@@ -260,6 +260,9 @@ func _pilot(seconds: float) -> void:
 			stuck = 0
 		else:
 			stuck += 1
+		if stuck == 30 or stuck == 70:
+			_say("  pilot: the turn is not moving; passing the rest of it")
+			pilot.skip_hand()
 		if stuck == 40:
 			var skip: Button = driver.find_button("Skip tips")
 			if skip != null:
