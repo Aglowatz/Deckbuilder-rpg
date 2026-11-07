@@ -3000,7 +3000,8 @@ func make_quota_yards_battle() -> BattleContext:
 ## hero has gone through the gate) and the one inside.
 func _zone_board_key(zone_id: String, enemy_type: String) -> String:
 	if zone_id == CapitalZone.ID:
-		return "capital:in" if flag(CapitalZone.FLAG_INSIDE) and enemy_type != CapitalEnemies.SPOTLESS else "capital:out"
+		# Fix pass Nov 7 (Part 5, C4 F11): the gate exam is fought at the white-and-gold gate - the gilded board, not the outskirts' wasteland
+		return "capital:in" if flag(CapitalZone.FLAG_INSIDE) or enemy_type == CapitalEnemies.SPOTLESS else "capital:out"
 	return "zone:%s" % zone_id
 
 

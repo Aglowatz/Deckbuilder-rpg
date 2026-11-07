@@ -117,6 +117,7 @@ func _legend() -> Control:
 		where.name = "WhereTo"
 		where.add_theme_font_size_override("font_size", 20)
 		where.custom_minimum_size = Vector2(300, 44)
+		SettingsPanel.theme_popup(where)  # Fix pass Nov 7 (Part 5)
 		where.add_item("Where to?")
 		for place: MapPoi in places:
 			where.add_item("%s (%s)" % [place.label, MapPoi.kind_name(place.kind)])

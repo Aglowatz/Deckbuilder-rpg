@@ -1222,3 +1222,15 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 7. **Postgame forest (item 14).** The Lab's path now opens with the postgame itself (it waited for Rip's tip in Crosspath, so any other way
    into the forest met the old bramble collider - the blocker). Rip's line still plays as before.
 8. **The Crease's map (C5 F4, "M does not open a map there").** Not reproduced or changed; the Crease doors are labelled now.
+9. **Standardization (item 10).** Not a bug either way: the rule gives every unit, the player's too, a 3/3 base, and buffs add on top
+   (GUT-tested through Primm's real seat). The critic's 7/4s were 3/3 plus +4/+1 from that save's gear, boons and Iron; the hand shows
+   the live stats (a printed 12/12 reads 7/4). Two real display gaps were fixed on the way: a card rebuilt by a mode change, and a newly
+   drawn card, showed printed stats until their next refresh.
+10. **Trophy.** The Participation Trophy moved from Meet the Merchants to the armory quest (it could not be worn before the equipment slots
+   open); Maren's hand-in line now promises it "once Bertram has you kitted out".
+11. **Wake lines (D1).** The five zones' and the Capital's wake lines kept their fee joke but now waive it ("I'd charge a handling fee, but
+   you've nothing I want"). If the owner wants the gag gone entirely, those six lines are the place.
+12. **Quick wins not done** (time): Curb Alert opening the Refuse Pile picker automatically, the Dump's haze cut, the quest log hint under
+   the quill art, tip boxes overflowing, Alembic's eaten first click, the name tag over the wrong NPC, the gear tip's locked count, the
+   round label lag / ENEMY TURN banner position / sticky tooltip, the forest station "???" in the Crease's list, the balance sim's
+   `--resume`, and the fountain plinth statues (art row DEC-PLINTH-EMBLEMS added for a later batch).

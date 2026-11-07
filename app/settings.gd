@@ -28,7 +28,8 @@ enum WindowMode { WINDOWED, FULLSCREEN, BORDERLESS }
 const TEXT_SCALES: Array[float] = [0.85, 1.0, 1.2, 1.4]
 const TEXT_SCALE_NAMES: Array[String] = ["Small", "Normal", "Large", "Extra large"]
 ## Characters per second of the dialogue typewriter (0 = the whole line at once).
-const DIALOGUE_SPEEDS: Array[float] = [24.0, 55.0, 110.0, 0.0]
+## Fix pass Nov 7 (Part 5, C1 F8 / C2 F12 / C4 F13): a faster typewriter (Normal 55 -> 80 letters a second); holding E fast-forwards.
+const DIALOGUE_SPEEDS: Array[float] = [30.0, 80.0, 140.0, 0.0]
 const DIALOGUE_SPEED_NAMES: Array[String] = ["Slow", "Normal", "Fast", "Instant"]
 ## Battle feel, Part B: how fast AI turns and battle animations play (a multiplier on every battle wait and tween).
 ## Overnight Oct 18, Part 7: 1x / 1.5x / 2x (animations only; the rules never wait on them).
@@ -345,7 +346,7 @@ func battle_speed_scale() -> float:
 ## A typewriter duration written for the Normal speed, converted to the chosen dialogue speed (0.0 = instant).
 func typewriter_time(normal_seconds: float) -> float:
 	var cps: float = dialogue_chars_per_second()
-	return 0.0 if cps <= 0.0 else normal_seconds * 55.0 / cps
+	return 0.0 if cps <= 0.0 else normal_seconds * DIALOGUE_SPEEDS[1] / cps  # Fix pass Nov 7: Normal keeps the written time
 
 
 ## 1.0 for a normal screen shake, 0.0 when reduced. Multiply a shake strength by it.

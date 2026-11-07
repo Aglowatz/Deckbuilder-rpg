@@ -34,7 +34,7 @@ func test_fixed_objective_marks_the_gate() -> void:
 
 
 func test_objective_poi_shows_through_fog() -> void:
-	var poi: MapPoi = MapPoi.make(MapPoi.Kind.DUNGEON, GATE, "Cave gate")
+	var poi: MapPoi = MapPoi.make(MapPoi.Kind.INTERACTABLE, GATE, "Cave gate")  # Fix pass Nov 7 (D5): dungeons always show now; a plain point keeps the fog
 	var fog: FogOfWar = FogOfWar.for_bounds(Rect2(Vector2(-30, -30), Vector2(60, 60)))
 	assert_eq(MapView.visible_pois([poi] as Array[MapPoi], fog).size(), 0, "a fogged point is hidden")
 	poi.objective = true

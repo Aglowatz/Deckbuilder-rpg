@@ -20,7 +20,7 @@ func test_an_open_dungeon_node_says_how_to_go() -> void:
 
 ## Nov 3-4, Part C: the locked figure carries one printed hint - the pill under it names the real quest (it was five "Opens: armory quest" captions).
 func test_locked_gear_slots_print_their_unlock_hint() -> void:
-	assert_eq(CharacterScreen.equipment_unlock_text(), "Equipment unlocks after Some Assembly Required")
+	assert_eq(CharacterScreen.equipment_unlock_text(), "Equipment unlocks with the quest \"Some Assembly Required\" (from Elder Maren)")
 	var screen: CharacterScreen = CharacterScreen.new()
 	add_child_autofree(screen)
 	await wait_frames(3)

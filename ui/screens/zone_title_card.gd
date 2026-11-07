@@ -87,6 +87,8 @@ static func make_dungeon(dungeon_name: String, zone_id: String, in_forest: bool 
 	card.title_text = dungeon_name
 	card.banner_override = banner
 	card.subtitle = Areas.banner_name(zone_area) if not zone_area.is_empty() else "Beneath Crosspath"
+	if in_forest:
+		card.subtitle = "Beneath the Forest"  # Fix pass Nov 7 (Part 5, C1 F9): it said "The Forest Clearing" under "The Forgotten Cave"
 	card.path = int(AREA_PATHS.get(zone_area, -1))
 	card.brief = was_seen(_seen_key(card))
 	return card
@@ -113,10 +115,24 @@ static func _seen_key(card: ZoneTitleCard) -> String:
 static func show_in(scene: Node, key: String, allowed: bool = true) -> ZoneTitleCard:
 	if not allowed or not should_show(key, SceneManager.previous_area):
 		return null
+	# Fix pass Nov 7 (Part 5, C2b F10 / C3 F14): no banner after a defeat (you are only waking at the hub), and never over a conversation:
+	# it waits until no dialogue is open.
+	if bool(Session.pending_zone_result.get("woke_at_hub", false)):
+		return null
 	var card: ZoneTitleCard = make(key)
 	if card != null:
-		scene.add_child(card)
+		_add_when_quiet(scene, card)
 	return card
+
+
+static func _add_when_quiet(scene: Node, card: ZoneTitleCard, waited: float = 0.0) -> void:
+	if not is_instance_valid(scene) or not scene.is_inside_tree():
+		card.queue_free()
+		return
+	if QuestNoticeLayer.dialogue_open(scene.get_tree()) and waited < 60.0:
+		scene.get_tree().create_timer(0.25).timeout.connect(func() -> void: _add_when_quiet(scene, card, waited + 0.25))
+		return
+	scene.add_child(card)
 
 
 func _ready() -> void:

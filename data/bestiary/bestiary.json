@@ -100,6 +100,14 @@
 		{"name": "Shiro Swindle", "kind": "boss", "where": "Behind the giant chests", "icon": "darkzaitzev/running-ninja", "blurb": "The Master of the Oldest Trick. Hides in chests that are too good to be true. They always are."},
 		{"name": "The Restless Dead", "kind": "boss", "where": "Crosspath graveyard, at night", "icon": "delapouite/graveyard", "blurb": "Everybody in the graveyard, all at once, very annoyed about the noise."},
 		{"name": "Corrupted Wanderers", "kind": "boss", "where": "Crosspath, once a zone falls", "icon": "lorc/ghost-ally", "blurb": "Brick, Fennel, Moss and Prudence, each bent by their own Path. Beat them and they remember who they were."},
-		{"name": "The Warden of the Four Seals", "kind": "boss", "where": "The four-lever vault", "icon": "lorc/padlock", "blurb": "Pull all four levers and it wakes up. Pull them wrong and it wakes up angrier."}
+		{"name": "The Warden of the Four Seals", "kind": "boss", "where": "The four-lever vault", "icon": "lorc/padlock", "blurb": "Pull all four levers and it wakes up. Pull them wrong and it wakes up angrier."},
+		{"name": "Echo of Vivienne Quota", "kind": "foe", "where": "The Shattered Gallery", "icon": "delapouite/alarm-clock", "blurb": "A silver reflection of the Gainlands' quota keeper. It counts your turns for you, and the count is always short."},
+		{"name": "Echo of Chancellor Clench", "kind": "foe", "where": "The Shattered Gallery", "icon": "lorc/muscle-up", "blurb": "Clench in polished glass, still flexing for an audience that left years ago."},
+		{"name": "Echo of Percival Plume", "kind": "foe", "where": "The Shattered Gallery", "icon": "delapouite/stamper", "blurb": "The D.N.A.'s notary, mirrored. Every form it stamps is filled in already, and every answer is no."},
+		{"name": "Echo of Mortimer Grimsby", "kind": "foe", "where": "The Shattered Gallery", "icon": "lorc/tombstone", "blurb": "Grimsby's reflection keeps the ledger of the dead perfectly balanced, which is the problem."},
+		{"name": "Echo of the Doppelganger", "kind": "foe", "where": "The Shattered Gallery", "icon": "delapouite/chef-toque", "blurb": "A copy of a copy. It wears a mirror where the Grand Chef's face should be."},
+		{"name": "Echo of Hortensia Clipwell", "kind": "elite", "where": "The Shattered Gallery", "icon": "lorc/leaf-swirl", "blurb": "Clipwell's topiary reflection, trimming everything that dares to grow an inch out of line."},
+		{"name": "Echo of the Rotheart", "kind": "elite", "where": "The Shattered Gallery", "icon": "lorc/root-tip", "blurb": "The Rotheart as the mirrors remember it: evergreen, deathless, and very hard to stop."},
+		{"name": "The Perfect Copy", "kind": "boss", "where": "The Shattered Gallery", "icon": "delapouite/shinto-shrine-mirror", "blurb": "You, without the doubts. It plays your deck better than you'd like and smiles the whole time."}
 	]
 }

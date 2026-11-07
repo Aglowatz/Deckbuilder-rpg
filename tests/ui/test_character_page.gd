@@ -47,7 +47,7 @@ func test_the_page_has_the_spec_panels_and_the_items_panel_leads() -> void:
 func test_early_save_two_slots_and_equipment_locked() -> void:
 	Session.profile.apply_level(ProgressionTable.row(3))
 	var screen: CharacterScreen = await _page()
-	assert_eq((screen.find_child("UnlockedCount", true, false) as Label).text, "0 / 2 unlocked")
+	assert_eq((screen.find_child("UnlockedCount", true, false) as Label).text, "Equipped 0 of 2")
 	var captions: Array[String] = []
 	for index: int in 4:
 		captions.append((screen.find_child("ItemSlot_%d" % index, true, false).get_node("Caption") as Label).text)
@@ -75,7 +75,7 @@ func test_select_an_item_then_an_empty_slot_equips_it_there() -> void:
 	assert_eq(Session.profile.item_in_slot(2), "firebrand_charm", "the slot that was clicked")
 	assert_eq((screen.find_child("DetailStatus", true, false) as Label).text, "Equipped in slot 3")
 	assert_eq((screen.find_child("DetailButton", true, false) as Button).text, "Unequip")
-	assert_eq((screen.find_child("UnlockedCount", true, false) as Label).text, "1 / 4 unlocked")
+	assert_eq((screen.find_child("UnlockedCount", true, false) as Label).text, "Equipped 1 of 4")
 	(screen.find_child("DetailButton", true, false) as Button).pressed.emit()
 	await wait_frames(2)
 	assert_false(Session.profile.is_item_equipped(charm))

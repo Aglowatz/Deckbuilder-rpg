@@ -4,7 +4,8 @@ extends CanvasLayer
 ## essence-conversion notices (Part F) and any `EventBus.toast_requested`. It never takes input.
 
 const MAX_VISIBLE: int = 4
-const LIFETIME: float = 4.6
+## Fix pass Nov 7 (Part 5, C4 F8): 3.5 s on screen (was 4.6), and an opening conversation clears them (`_process`).
+const LIFETIME: float = 3.5
 
 ## The messages shown so far (newest last) - kept for tests and the e2e flows.
 var history: Array[String] = []
@@ -81,6 +82,12 @@ func release() -> void:
 	if _holds == 0:
 		_column.process_mode = Node.PROCESS_MODE_INHERIT
 		_column.visible = true
+
+
+func _process(_delta: float) -> void:
+	if _column.get_child_count() > 0 and _holds == 0 and QuestNoticeLayer.dialogue_open(get_tree()):
+		for child: Node in _column.get_children():
+			child.queue_free()
 
 
 func is_held() -> bool:

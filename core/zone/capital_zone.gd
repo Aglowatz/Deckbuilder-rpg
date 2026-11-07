@@ -218,7 +218,7 @@ static func _spots() -> Array[Dictionary]:
 	# Fix pass Nov 7 (owner decision D7): every citizen has a name of their own (CITIZEN_NAMES) on the label and over the lines.
 	for index: int in range(1, 10):
 		var citizen: String = citizen_name(index)
-		spots.append(_spot("citizen_%d" % index, "%s, Citizen of Perfection" % citizen, "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "speaker": citizen, "act": "citizen", "n": index}))
+		spots.append(_spot("citizen_%d" % index, "%s, Citizen of Perfection" % citizen, "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "speaker": "A Perfectly Happy Citizen", "act": "citizen", "n": index}))
 	# Fix pass Nov 7 (D7): the last shop before the castle.
 	spots.append(_spot("last_shop", LAST_SHOP_NAME, "last_shop", Vector3(0, 0, 1.0), 1.8, "Stock up before the castle", "zone", {"act": "last_shop"}))
 	for index: int in range(1, 5):

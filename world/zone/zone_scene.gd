@@ -397,10 +397,13 @@ func _build_player() -> void:
 	if Session.arrive_at_station:
 		Session.arrive_at_station = false
 		if builder.has_anchor(FastTravel.ANCHOR):
-			var landing: Vector3 = builder.anchor(FastTravel.ANCHOR) + Vector3(0.0, 0.0, 2.4)
-			if builder.is_walkable(landing):
-				spawn = landing
-				_arrived_by_rift = true
+			# Fix pass Nov 7 (Part 5, C5 F11): land 3 m in front of the station (at 2.4 m the next E reopened the Rift Express); nearer if blocked
+			for step: float in [3.2, 2.8, 2.4]:
+				var landing: Vector3 = builder.anchor(FastTravel.ANCHOR) + Vector3(0.0, 0.0, step)
+				if builder.is_walkable(landing):
+					spawn = landing
+					_arrived_by_rift = true
+					break
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(builder, "Hero", spawn)
@@ -1262,6 +1265,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _locked or dialogue.active:
 		return
 	var interact: bool = event.is_action_pressed(&"interact")
+	if interact and Time.get_ticks_msec() - dialogue.closed_msec < TownScene.REOPEN_GUARD_MS:
+		get_viewport().set_input_as_handled()  # Fix pass Nov 7 (Part 5): the E that closed a conversation never reopens it
+		return
 	if interact:
 		if not _chest_near.is_empty() and (_near == null or _chest_closer_than(_near)):
 			get_viewport().set_input_as_handled()
@@ -1516,6 +1522,11 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 		body = "%s\n\n%s (%d of 4 services still broken.)" % [StoryText.shared().text("capital.castle.warning"), body, CapitalDebuffs.active(Session.flags).size()]
 	var main_plan: DungeonCatalog.Blueprint = DungeonCatalog.main_for_zone(def.id)
 	var main_title: String = SpoilerFree.dungeon_name(main_plan.id, story.text("ui.main.title")) if main_plan != null else story.text("ui.main.title")
+	if def.id == CapitalZone.ID:
+		# Fix pass Nov 7 (Part 5, C4b F5): the castle's door is named (never "???"), and the broken-service line only while one is broken.
+		main_title = story.text("ui.main.title")
+		if CapitalDebuffs.active(Session.flags).is_empty():
+			body = body.replace(" Your zone's broken-service debuffs apply to every duel.", " Every service is restored: no broken-service debuffs in here.")
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, main_title, body, story.text("ui.main.button"), "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:

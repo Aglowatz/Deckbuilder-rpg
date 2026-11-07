@@ -114,10 +114,16 @@ var rule_row: RuleIconRow
 func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	if badges.is_empty():
 		return
+	# Fix pass Nov 7 (Part 5, C2 F14 / C4c F9): a second call replaces the row (it was drawn twice, one over the other)
+	var at_y: float = _side_y
+	if rule_row != null and is_instance_valid(rule_row):
+		at_y = rule_row.position.y
+		rule_row.queue_free()
+	else:
+		_side_y += 70.0
 	rule_row = RuleIconRow.make(badges, "Rules of this fight")
-	rule_row.position = Vector2(24, _side_y)
+	rule_row.position = Vector2(24, at_y)
 	add_child(rule_row)
-	_side_y += 70.0
 	_refresh_jam()
 
 

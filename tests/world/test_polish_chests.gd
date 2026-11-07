@@ -294,9 +294,10 @@ func test_completing_a_quest_queues_a_quest_complete_box_with_rewards_and_unlock
 	var summary: RewardSummary = Session.pending_popups[0]
 	assert_eq(summary.kind, RewardSummary.Kind.QUEST)
 	assert_eq(summary.title, "Meet the Merchants")
-	assert_eq(summary.gold, 50)
+	# Fix pass Nov 7 (Part 5): Meet the Merchants pays 80 gold since the Nov 4-5 economy pass (richer quests) - the test had kept the old 50.
+	assert_eq(summary.gold, 80)
 	assert_eq(summary.xp, 40)
-	assert_eq(Session.gold, gold_before + 50)
+	assert_eq(Session.gold, gold_before + 80)
 
 
 func test_a_level_up_from_a_quest_is_reported_after_the_quest_box() -> void:

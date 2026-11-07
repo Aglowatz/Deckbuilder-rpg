@@ -1058,7 +1058,7 @@ func _cross_gate(now_inside: bool) -> void:
 			look_rig.set_mood(id)
 		_play_area_music(0.8)
 		Audio.sfx(&"gate_cross")
-		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
+		hud.toast((RoyalFamily.fill("Welcome to {capital}.") + (" Everything is perfectly fine." if not Session.flag(&"primm_defeated") else "")) if now_inside else "Back out into the wastes.", UIStyle.GOLD))  # Fix pass Nov 7 (Part 5, C5 F10)
 	tween.tween_property(veil, "color:a", 0.0, 0.9)
 	tween.tween_callback(veil.queue_free)
 

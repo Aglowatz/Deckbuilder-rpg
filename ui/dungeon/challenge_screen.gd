@@ -53,6 +53,11 @@ func _ready() -> void:
 	_reveal_button.pressed.connect(_on_reveal)
 	_reveal_button.focus_mode = Control.FOCUS_ALL
 	_column.add_child(_reveal_button)
+	# Fix pass Nov 7 (Part 5, C1 F6): a test that can only heal is not offered at full HP (all risk, no reward).
+	if Session.run != null and Session.run.hp >= Session.run.max_hp() and only_heals(challenge):
+		_reveal_button.disabled = true
+		_reveal_button.text = "You're at full HP"
+		_reveal_button.tooltip_text = "Passing would only heal you. Come back hurt, or leave it."
 	# Fable pass Nov 1 (Part 7): a deck test can be declined - the node is passed with nothing won or lost.
 	_leave_button = FancyButton.make("Leave it (no test)", &"", Vector2(260, 52))
 	_leave_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -83,6 +88,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	if UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
 		confirm_target().pressed.emit()
+
+
+## True when every reward of a passed test is a heal.
+static func only_heals(test: ChallengeData) -> bool:
+	if test == null or test.on_success.is_empty():
+		return false
+	for outcome: ChallengeOutcome in test.on_success:
+		if outcome.kind != ChallengeOutcome.Kind.HEAL:
+			return false
+	return true
 
 
 ## The button a confirm press answers: "Leave it" while the test is still on offer, then Reveal's Continue.

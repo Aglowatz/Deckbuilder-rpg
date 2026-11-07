@@ -33,11 +33,19 @@ static func find(content: ContentSet, id: String) -> EncounterSpec:
 
 
 ## The specs whose id or group contains `filter` (empty = all).
+## Fix pass Nov 7 (Part 5, C8 tool note): `filter` may name several keys, comma-separated ("D-HOG:2,D-ROT:2,town:npc").
 static func filtered(content: ContentSet, filter: String) -> Array[EncounterSpec]:
 	var result: Array[EncounterSpec] = []
+	var keys: PackedStringArray = filter.split(",", false)
 	for spec: EncounterSpec in all(content):
-		if filter.is_empty() or spec.id.contains(filter) or spec.group.contains(filter) or spec.sequence == filter:
+		if filter.is_empty():
 			result.append(spec)
+			continue
+		for key: String in keys:
+			var k: String = key.strip_edges()
+			if spec.id.contains(k) or spec.group.contains(k) or spec.sequence == k:
+				result.append(spec)
+				break
 	return result
 
 

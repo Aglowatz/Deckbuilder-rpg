@@ -155,7 +155,7 @@ func _build() -> void:
 	_relayout()
 	_relayout.call_deferred()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(1000, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d color%s[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d. Your saved decks sit in the racks at the top and the bottom." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), "" if DeckValidator.max_colors(Session.profile, _active_modifiers()) == 1 else "s", min_size], Vector2(1000, 905))  # Overnight Oct 30-31 (critic #14): over the lower rack, clear of the filters and the toast
 
 
 ## How many collection columns fit in `width` pixels (at least 2).

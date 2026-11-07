@@ -533,7 +533,7 @@ func _build_actors() -> void:
 		Session.pending_zone_id = ""
 	if Session.arrive_at_station:
 		Session.arrive_at_station = false
-		spawn = (town.anchors["rift_station"] as Vector3) + Vector3(0.0, 0.0, 1.6)
+		spawn = (town.anchors["rift_station"] as Vector3) + Vector3(0.0, 0.0, 2.8)  # Fix pass Nov 7 (Part 5, C5 F11): clear of the station
 		_arrived_by_rift = true
 	if Session.has_town_return_position:
 		spawn = Session.town_return_position
@@ -877,16 +877,16 @@ func _build_spots() -> void:
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
 	if _npcs.has("hob"):
-		_add_spot("hob", "Old Hob", _hob_spot(), 1.4)
+		_add_spot("hob", "Old Hob", _hob_spot(), QUEST_NPC_REACH)
 	if _npcs.has("isla"):
 		_add_spot("isla", "Isla Brannoch", _isla_spot(), 1.4)
 	if _npcs.has("rescuer"):
 		_add_spot("rescuer", RoyalFamily.fill("{rescuer}"), _cave_mouth_spot(), 1.5)
-	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, 1.4)
+	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, QUEST_NPC_REACH)
 	_add_spot("notice_board", "Notice Board", town.anchors["notice_board"] as Vector3, 1.7)
 	for sign_index: int in range(square.streets.signpost_positions.size()):
 		_add_spot("signpost_%d" % sign_index, "Signpost", town.anchors["signpost_%d" % sign_index] as Vector3, 1.5)
-	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
+	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, QUEST_NPC_REACH)
 	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
 	_add_spot("chest_back", "A Hidden Chest", town.anchors["chest_back"] as Vector3, 1.3)
@@ -1234,7 +1234,15 @@ const SEALED_PORTAL_PENALTY: float = 100.0
 func spot_penalty(spot_id: String) -> float:
 	if spot_id.begins_with("portal_") and _portal_is_locked(spot_id.trim_prefix("portal_")):
 		return SEALED_PORTAL_PENALTY
+	# Fix pass Nov 7 (Part 5, C3 F3): shops and people come before signposts and notice boards
+	if spot_id.begins_with("signpost_") or spot_id == "notice_board":
+		return SIGN_PENALTY
 	return 0.0
+
+
+const SIGN_PENALTY: float = 50.0
+## Fix pass Nov 7 (Part 5, C4 F13): quest givers' talk prompt reaches 2.4 m (radius x INTERACT_FACTOR).
+const QUEST_NPC_REACH: float = 2.0
 
 
 ## New brief, Part D: hidden chests have no marker to draw the player's eye from a distance - the
@@ -1401,7 +1409,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 ## Where `spot`'s marker currently projects to on screen, for click picking.
-const REOPEN_GUARD_MS: int = 250
+const REOPEN_GUARD_MS: int = 500  # Fix pass Nov 7 (Part 5, C1b F13): E is ignored for half a second after a conversation closes (was 250 ms)
 
 
 ## When the dialogue box last closed (0 = never).
@@ -2084,7 +2092,8 @@ func _talk_corrupted_npc(id: String) -> void:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
 		if defeated and Session.is_zone_completed(id):
 			lines = story.npc_freed_lines(id)  # overnight Oct 19: their zone is free, and they say so
-	dialogue.start(Gatekeepers.full_title(id), lines)
+	# Fix pass Nov 7 (Part 5, C2 F6): the portrait by id - Moss Mulligan's "Corrupted Druid" title never resolved to NPC-MULLIGAN
+	dialogue.start(Gatekeepers.full_title(id), lines, str(NPC_IDS.get("npc_%s" % id, "")))
 	dialogue.finished.connect(func() -> void: camera_push_then(Session.challenge_corrupted_npc.bind(id)), CONNECT_ONE_SHOT)
 
 
@@ -2766,6 +2775,18 @@ func _use_alchemist() -> void:
 	if Session.visit_alchemist():
 		lines.append_array(story.get_lines("town.alchemist.quest_gift"))  # Fix pass Nov 4 (B): the starter jar of every Path
 		hud.toast("+%d essence of every Path" % Alchemy.MIN_ESSENCE_PER_PATH, UIStyle.GOLD, 4.0)
+	# Fix pass Nov 7 (Part 5, C3 F10): a long first visit offers "Brew now / Tell me more" after two lines.
+	if lines.size() > 3:
+		var head: Array[String] = lines.slice(0, 2)
+		var rest: Array[String] = lines.slice(2)
+		dialogue.start("Auntie Alembic", head)
+		dialogue.finished.connect(func() -> void:
+			var ask: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "Auntie Alembic", "Brew something now, or hear her out first?", "Brew now", "Tell me more")
+			ask.confirmed.connect(_open_alchemist)
+			ask.cancelled.connect(func() -> void:
+				dialogue.start("Auntie Alembic", rest)
+				dialogue.finished.connect(_open_alchemist, CONNECT_ONE_SHOT)), CONNECT_ONE_SHOT)
+		return
 	dialogue.start("Auntie Alembic", lines)
 	dialogue.finished.connect(_open_alchemist, CONNECT_ONE_SHOT)
 

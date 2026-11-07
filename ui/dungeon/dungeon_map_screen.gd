@@ -436,6 +436,8 @@ func _on_node_hovered(id: int) -> void:
 	# Overnight Oct 31 - Nov 1 (wish list): an open node says how to go (the mid-game critic read the preview as the whole answer).
 	if map.is_available(id) and not _busy:
 		text += "\n" + node_go_hint()
+	elif not map.is_cleared(id) and id != map.current:
+		text += "\n[color=#a89bb5]Not reachable yet: clear a node next to it first.[/color]"  # Fix pass Nov 7 (Part 5, C4b F7)
 	_info_body.text = text
 	if _art != null:
 		_place_info(node)
@@ -570,7 +572,7 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 		var story_cue: String = MusicDirector.story_node(node.story_before)
 		if not story_cue.is_empty():
 			steps.append(_push_story_cue.bind(story_cue))
-		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(before_key), NpcRegistry.story_speaker(node.story_before)))
+		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(before_key), NpcRegistry.story_speaker(node.story_before), str(COVER_SPEAKERS.get(node.story_before, ""))))
 		if not story_cue.is_empty():
 			steps.append(_pop_story_cue)
 	# The Forgotten Cave's guardian grumbles that the Wanderer smells familiar (the tutorial has no zone story file).
@@ -613,8 +615,13 @@ func _run_steps(steps: Array[Callable], then: Callable) -> void:
 
 
 ## `speaker_npc_id`: the NPC who speaks the beat (`NpcRegistry.story_speaker`); empty for narration.
-func _show_story(done: Callable, lines: Array[String], speaker_npc_id: String = "") -> void:
-	_dialogue.start("", lines, speaker_npc_id)
+## Fix pass Nov 7 (Part 5, C3 F8): a scene whose speaker is still in disguise is captioned with the cover name (the Test Kitchen's opening
+## read "THE DOPPELGANGER" before the mask came off).
+const COVER_SPEAKERS: Dictionary = {"dungeon.tk_boss.before": "The Grand Chef"}
+
+
+func _show_story(done: Callable, lines: Array[String], speaker_npc_id: String = "", label: String = "") -> void:
+	_dialogue.start(label, lines, speaker_npc_id)
 	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
 
 
@@ -971,7 +978,8 @@ func _build_art_extras() -> void:
 		column.add_child(_rule_label("[-] %s" % effect.debuff_line(), Color("ff9c8f")))
 	for rule: Dictionary in DungeonRules.rules(Session.dungeon_key if (Session.main_dungeon_active or Session.mini_active) else ""):
 		var active: bool = bool(rule["active"])
-		column.add_child(_rule_label("%s %s: %s%s" % ["[*]" if active else "[ ]", rule["name"], rule["text"], "" if active else "  (not enforced yet)"], UIStyle.PARCHMENT if active else Color(UIStyle.PARCHMENT, 0.6)))
+		# Fix pass Nov 7 (Part 5, C5 F9): a bullet and the rule, not a raw "[*]"
+		column.add_child(_rule_label("%s %s: %s%s" % ["•" if active else "-", rule["name"], rule["text"], "" if active else "  (not enforced yet)"], UIStyle.PARCHMENT if active else Color(UIStyle.PARCHMENT, 0.6)))
 	var boons: Array[ModifierSource] = []
 	for source: ModifierSource in run.dungeon_sources:
 		if source.source_kind == ModifierSource.SourceKind.BOON:

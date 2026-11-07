@@ -2305,7 +2305,9 @@ func _show_result() -> void:
 	var title: String = "Victory!" if won else ("Draw" if game.is_draw else "Defeat")
 	var title_label: Label = UIKit.label(title, &"TitleLabel", 84, UIStyle.GOLD if won else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(title_label)
-	var detail: String = "You defeated %s in %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)] if won else "%s wins after %d rounds." % [plate_name(context), BattleHud.round_of(game.turn)]
+	var rounds: int = BattleHud.round_of(game.turn)
+	var rounds_text: String = "%d round%s" % [rounds, "" if rounds == 1 else "s"]  # Fix pass Nov 7 (Part 5): "in 1 round"
+	var detail: String = "You defeated %s in %s." % [context.enemy_name, rounds_text] if won else "%s wins after %s." % [plate_name(context), rounds_text]
 	if game.is_draw:
 		detail = "Neither side could finish the game."
 	if _is_phase_break(won):

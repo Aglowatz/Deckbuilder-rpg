@@ -216,7 +216,8 @@ func _build_equipment() -> void:
 ## "Equipment unlocks after <the armory quest's real title>" (spec 2).
 static func equipment_unlock_text() -> String:
 	var quest: QuestData = QuestCatalog.find(QuestDefinitions.ARMORY)
-	return "Equipment unlocks after %s" % (quest.title if quest != null else "the armory quest")
+	# Fix pass Nov 7 (Part 5, C1b F7): named as a quest, with who gives it.
+	return "Equipment unlocks with the quest \"%s\" (from Elder Maren)" % (quest.title if quest != null else "Some Assembly Required")
 
 
 func _build_level_panel() -> void:
@@ -534,7 +535,7 @@ func _refresh_items() -> void:
 	var profile: PlayerProfile = Session.profile
 	if _selected_item != null and not profile.owns_item(_selected_item):
 		_selected_item = null
-	_unlocked_label.text = "%d / %d unlocked" % [profile.equipped_count(), profile.item_slots]
+	_unlocked_label.text = "Equipped %d of %d" % [profile.equipped_count(), profile.item_slots]  # Fix pass Nov 7 (Part 5): it counted equipped, not locked
 	for index: int in MAX_ITEM_SLOTS:
 		_refresh_item_slot(index)
 	_item_types_label.text = "%d item type%s" % [profile.owned_items.size(), "" if profile.owned_items.size() == 1 else "s"]

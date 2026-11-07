@@ -288,10 +288,7 @@ func _edge() -> float:
 func _show_line() -> void:
 	_text.text = _lines[_index]
 	_text.visible_ratio = 0.0
-	var last: bool = _index == _lines.size() - 1
-	PromptText.bind(_hint, "E / Click to close" if last else "E / Click to continue", &"text", "{confirm} to close" if last else "{confirm} to continue")
-	if skip_callback.is_valid():
-		_hint.text += "   -   Esc: skip the scene" if skip_needs_confirm else "   -   Esc: skip the scene (seen before)"
+	_refresh_hint(true)
 	if not _portrait_id.is_empty():
 		_portrait.set_texture(Portraits.texture_for(_portrait_id, _expressions[_index]))
 		_portrait.set_talking(true)
@@ -313,8 +310,30 @@ func _show_line() -> void:
 	_blip_wait = 0.0
 
 
+## Fix pass Nov 7 (Part 5, C1 F8): the hint says what E does NOW - finish the line while it types, then continue, and "close" only on the
+## very last line.
+func _refresh_hint(typing: bool) -> void:
+	var last: bool = _index == _lines.size() - 1
+	if typing and Settings.dialogue_chars_per_second() > 0.0:
+		PromptText.bind(_hint, "E / Click: show the whole line (hold E to speed up)", &"text", "{confirm}: show the whole line")
+	else:
+		PromptText.bind(_hint, "E / Click to close" if last else "E / Click to continue", &"text", "{confirm} to close" if last else "{confirm} to continue")
+	if skip_callback.is_valid():
+		_hint.text += "   -   Esc: skip the scene" if skip_needs_confirm else "   -   Esc: skip the scene (seen before)"
+
+
+var _hint_typing: bool = false
+
+
 ## Overnight Oct 30-31, Part 6: one voice blip every BLIP_EVERY letters typed (a skipped line stays silent).
 func _process(delta: float) -> void:
+	var typing: bool = active and _text.visible_ratio < 1.0
+	if active and typing != _hint_typing:
+		_hint_typing = typing
+		_refresh_hint(typing)
+	# Fix pass Nov 7 (Part 5): holding E (or the pad's A) fast-forwards the typewriter.
+	if typing and _tween != null and _tween.is_valid():
+		_tween.set_speed_scale(4.0 if Input.is_action_pressed(&"interact") else 1.0)
 	if not active or _text.visible_ratio >= 1.0:
 		return
 	_blip_wait -= delta

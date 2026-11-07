@@ -36,6 +36,8 @@ func _ready() -> void:
 	tab_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	for index: int in range(PAGES.size()):
 		var tab: Button = FancyButton.make(PAGES[index], &"GhostButton", Vector2(170, 46))
+		tab.clip_text = false  # Fix pass Nov 7 (Part 5, C7 F6): "Accessibil" - the label sizes the button
+		tab.add_theme_font_size_override("font_size", 20)
 		tab.name = "Tab%s" % PAGES[index]
 		tab.toggle_mode = true
 		tab.pressed.connect(show_page.bind(index))
@@ -82,6 +84,8 @@ func show_page(index: int) -> void:
 	for child: Node in _body.get_children():
 		child.queue_free()
 	_key_buttons = {}
+	if _scroll != null:
+		_scroll.scroll_vertical = 0  # Fix pass Nov 7 (Part 5, C7 F6): a new page starts at its top
 	match _page:
 		0:
 			_build_display()
@@ -106,6 +110,7 @@ func _build_display() -> void:
 	_resolution.name = "ResolutionOptions"
 	_fill_resolutions()
 	_resolution.item_selected.connect(_on_resolution)
+	theme_popup(_resolution)
 	_resolution.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_body.add_child(_row("Resolution (windowed)", _resolution))
 	_body.add_child(_check("VSync", Settings.vsync, _on_vsync, "VsyncCheck"))
@@ -282,7 +287,19 @@ func _options(items: Array[String], selected: int, callback: Callable) -> Option
 	options.selected = selected
 	options.item_selected.connect(callback)
 	options.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	theme_popup(options)
 	return options
+
+
+## Fix pass Nov 7 (Part 5, C7 F6, C9 F12): an OptionButton's list in the game's look (it opened as the stock grey Godot popup).
+static func theme_popup(options: OptionButton) -> void:
+	var popup: PopupMenu = options.get_popup()
+	popup.add_theme_stylebox_override("panel", UIStyle.box(Color("1f1626"), UIStyle.GOLD_DIM, 2, 8))
+	popup.add_theme_stylebox_override("hover", UIStyle.box(Color("3a2a1c"), UIStyle.GOLD, 1, 6))
+	popup.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+	popup.add_theme_color_override("font_hover_color", UIStyle.GOLD)
+	popup.add_theme_font_override("font", UIStyle.font_bold())
+	popup.add_theme_font_size_override("font_size", 20)
 
 
 func _check(text: String, value: bool, callback: Callable, node_name: String) -> CheckButton:
