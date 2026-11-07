@@ -11,6 +11,22 @@ const FULL_NAME: String = "The Capital: Primm's Perfection"
 const HUB_NAME: String = "The Crease"
 
 const NPC_WREN: String = "Wren"
+## Fix pass Nov 7 (owner decision D7): the Showcase citizens' names (citizen_1..9). Citizen 2 has forgotten hers ("I think it started with a
+## B"); the label keeps the name the registry still has.
+const CITIZEN_NAMES: Array[String] = ["Gideon Plumb", "Bea Ashgrove", "Tobin Ware", "Sunny Halloway", "Edda Crisp", "Wilf Ormsby", "Prudie Lark",
+	"Corwin Bale", "Nell Hargreave"]
+const LAST_SHOP_NAME: String = "Dorrit's Last Stall Before the Castle"
+
+
+static func citizen_name(index: int) -> String:
+	return CITIZEN_NAMES[clampi(index - 1, 0, CITIZEN_NAMES.size() - 1)]
+
+
+## Fix pass Nov 7 (item 14): where each Crease service shaft comes up (its door's label and prompt).
+const SHAFT_PLACES: Dictionary = {
+	"plaza": "the Gate Plaza", "reek": "the Reek", "grave": "Grave Row", "hungry": "the Hungry Quarter", "transit": "the Transit Yards",
+	"approach": "the Palace Approach (the castle and the cracked mirror)",
+}
 const NPC_FIG: String = "Fig Sly"
 const NPC_KESTREL: String = "Kestrel"
 const NPC_HESPER: String = "Nurse Hesper Dray"
@@ -179,8 +195,10 @@ static func _spots() -> Array[Dictionary]:
 	spots.append(_spot("heal", "Nurse Hesper Dray, the Tea of Dissent", "heal", Vector3(0, 0, 1.0), TownScene.VENDOR_REACH, "Take a cup of Nurse Hesper's Tea of Dissent (full heal)", "heal", {"npc": "hesper"}))
 	spots.append(_spot("ladder_up", "The Ladder (to the Reek)", "ladder_up", Vector3(0, 0, 0.0), 1.6, "Climb the ladder up to the Capital", "zone", {"act": "ladder"}))
 	spots.append(_spot("tunnel_out", "The Old Joint Works Tunnel", "tunnel_out", Vector3(0, 0, 0.0), 1.8, "Crawl out through the tunnel to the Outskirts", "zone", {"act": "tunnel_out"}))
+	# Fix pass Nov 7 (item 14, C5 F4): each Crease door names where it leads ("Shaft to the Palace Approach (the castle, the Gallery)").
 	for destination: String in CapitalLayout.NETWORK_DESTINATIONS:
-		spots.append(_spot("shaft_" + destination, "Service Shaft", "shaft_" + destination, Vector3(0, 0, -0.9), 1.5, "Take the service shaft", "zone", {"act": "shaft", "dest": destination}))
+		var place: String = str(SHAFT_PLACES.get(destination, "the city"))
+		spots.append(_spot("shaft_" + destination, "Shaft to %s" % place, "shaft_" + destination, Vector3(0, 0, -0.9), 1.5, "Take the service shaft to %s" % place, "zone", {"act": "shaft", "dest": destination}))
 	# The Outskirts.
 	spots.append(_spot("exit", "The Road Back to Crosspath", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town (full heal)", "exit"))
 	spots.append(_spot("kestrel", "Kestrel, Resistance Scout", "kestrel", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "kestrel", "npc_id": "NPC-KESTREL", "npc_name": NPC_KESTREL, "speaker": "Kestrel"}))
@@ -197,8 +215,12 @@ static func _spots() -> Array[Dictionary]:
 	spots.append(_spot("complaint_2", "The Anonymous Complaint Box", "complaint_2", Vector3(0, 0, 1.0), 1.5, "Submit an anonymous complaint", "zone", {"act": "complaint", "box": "2"}))
 	spots.append(_spot("manhole", "A Suspicious Manhole", "manhole", Vector3(0, 0, 0.0), 1.5, "Knock three times", "zone", {"act": "manhole"}))
 	# The Showcase Quarter.
+	# Fix pass Nov 7 (owner decision D7): every citizen has a name of their own (CITIZEN_NAMES) on the label and over the lines.
 	for index: int in range(1, 10):
-		spots.append(_spot("citizen_%d" % index, "A Citizen of Perfection", "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "speaker": "A Perfectly Happy Citizen", "act": "citizen", "n": index}))
+		var citizen: String = citizen_name(index)
+		spots.append(_spot("citizen_%d" % index, "%s, Citizen of Perfection" % citizen, "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "speaker": citizen, "act": "citizen", "n": index}))
+	# Fix pass Nov 7 (D7): the last shop before the castle.
+	spots.append(_spot("last_shop", LAST_SHOP_NAME, "last_shop", Vector3(0, 0, 1.0), 1.8, "Stock up before the castle", "zone", {"act": "last_shop"}))
 	for index: int in range(1, 5):
 		spots.append(_spot("door_%d" % index, "A Perfect Front Door", "door_%d" % index, Vector3(0, 0, 0.0), 1.4, "Try the door", "zone", {"act": "door", "n": index}))
 	for index: int in range(1, 4):
@@ -260,7 +282,7 @@ static func _pickup_kind(pickup: String) -> String:
 
 static func _poi_kinds() -> Dictionary:
 	var kinds: Dictionary = {
-		"wren": MapPoi.Kind.QUEST_GIVER, "fig": MapPoi.Kind.VENDOR, "fig_crate": MapPoi.Kind.VENDOR, "heal": MapPoi.Kind.HEAL,
+		"wren": MapPoi.Kind.QUEST_GIVER, "fig": MapPoi.Kind.VENDOR, "fig_crate": MapPoi.Kind.VENDOR, "last_shop": MapPoi.Kind.VENDOR, "heal": MapPoi.Kind.HEAL,
 		"ladder_up": MapPoi.Kind.INTERACTABLE, "tunnel_out": MapPoi.Kind.INTERACTABLE, "exit": MapPoi.Kind.EXIT, "spotless": MapPoi.Kind.GATE,
 		"exit_booth": MapPoi.Kind.INTERACTABLE, "complaint_1": MapPoi.Kind.INTERACTABLE, "complaint_2": MapPoi.Kind.INTERACTABLE,
 		"fern": MapPoi.Kind.QUEST_GIVER, "pell": MapPoi.Kind.QUEST_GIVER, "rollo": MapPoi.Kind.QUEST_GIVER, "marlo": MapPoi.Kind.QUEST_GIVER,

@@ -112,7 +112,14 @@ func test_every_side_dungeon_is_sealed_until_its_quest_is_done() -> void:
 			continue
 		assert_eq(quest.reward_unlock_flags, [str(DungeonCatalog.side_unlock_flag(dungeon_id))] as Array[String], "finishing it unlocks the dungeon")
 		assert_false(quest.giver_npc.is_empty())
-		assert_false(DungeonCatalog.text_lines("quest.%s.offer" % quest.id).is_empty(), "%s has offer dialogue" % quest.id)
+		# Fix pass Nov 7: a quest's lines may live in its zone's story file (the Gallery's in the Capital's); a quest with no hand-in (the
+		# Gallery's: looking into the mirror finishes it) needs no ready/done lines.
+		var offer: Array = DungeonCatalog.text_lines("quest.%s.offer" % quest.id)
+		if offer.is_empty():
+			offer = ZoneStoryText.for_zone(CapitalZone.ID).get_lines("quest.%s.offer" % quest.id)
+		assert_false(offer.is_empty(), "%s has offer dialogue" % quest.id)
+		if quest.turn_in_npc.is_empty():
+			continue
 		assert_false(DungeonCatalog.text_lines("quest.%s.ready" % quest.id).is_empty())
 		assert_false(DungeonCatalog.text_lines("quest.%s.done" % quest.id).is_empty())
 	var givers: Dictionary = {"S-BEEF": "Old Man Mountain", "S-GOUR": "Basil", "S-NECRO": "Gerald", "S-REF": "Brother Bramble", "S-CAP": "Kestrel", "S-TOWN": "Elder Maren"}

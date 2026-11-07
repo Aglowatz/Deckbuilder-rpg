@@ -516,6 +516,8 @@ func _anchors() -> void:
 	_anchor("door_3", 45.5, 38.2)
 	_anchor("door_4", 74.5, 38.2)
 	_anchor("castle_door", 60.0, 13.0)
+	# Fix pass Nov 7 (owner decision D7): the last shop before the castle, a stall at the west side of the approach.
+	_anchor("last_shop", 51.0, 17.0)
 	_anchor("net_approach", 67.0, 15.0)
 	_anchor("portrait_a1", 45.0, 10.5)
 	_anchor("portrait_a2", 75.0, 11.0)
@@ -921,6 +923,8 @@ func _camp() -> void:
 	_prop_at("campfire", "camp", 0.8)
 	# the tents, the lean-to and the lantern rope are a stand-in (CapitalLandmarks.camp), their circles in LANDMARK_BLOCKERS
 	_prop("crate_stack", 24.0, 112.5, 15.0, 1.0, 1.0)
+	# Fix pass Nov 7 (D7): Dorrit's last stall before the castle (the spot stands in front of it).
+	_prop("stall_shack", 49.6, 16.4, 90.0, 1.0, 1.2)
 	_prop("wreck_stack", 5.5, 117.0, 30.0, 1.4, 1.6)
 	# The abandoned checkpoint on the west track, between the camp and the rift fields.
 	_prop_at("booth", "checkpoint_a", 0.9, 90.0, "", 1)

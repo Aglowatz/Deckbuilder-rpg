@@ -30,6 +30,7 @@ var _save_button: FancyButton
 var _preview: HoverPreview
 var _toast: Label
 var _dirty: bool = false
+var _list_scroll: ScrollContainer
 var _hint_shown: bool = false
 ## Brief 16: which saved deck of `Session.deck_box` this screen is editing, and the deck bar widgets.
 var _editing: int = 0
@@ -227,6 +228,10 @@ func _build_deck_panel() -> Control:
 	frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	frame.custom_minimum_size = Vector2(0, 96)
 	frame.add_child(scroll)
+	# Fix pass Nov 7 (item 3, C2b F4): the list scrolls - with the wheel over any row, and to a focused row.
+	scroll.follow_focus = true
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_ALWAYS
+	_list_scroll = scroll
 	column.add_child(frame)
 	_list_box = UIKit.vbox(3)
 	_list_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -240,6 +245,13 @@ func _build_deck_panel() -> Control:
 	_save_button = FancyButton.make("Save Deck", &"PrimaryButton", Vector2(150, button_height))
 	_save_button.pressed.connect(_save)
 	buttons.add_child(_save_button)
+	# Fix pass Nov 7 (item 3, C2 F2): Save Deck saves the deck's own slot at once; picking another slot is its own button.
+	if _uses_deck_box():
+		var save_new: FancyButton = FancyButton.make("Save as new slot", &"", Vector2(170, button_height))
+		save_new.name = "SaveAsNewSlot"
+		save_new.tooltip_text = "Keep this deck in another slot (the racks light up; Esc cancels)."
+		save_new.pressed.connect(open_save_picker)
+		buttons.add_child(save_new)
 	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(110, button_height))
 	reset.tooltip_text = "Go back to the saved deck."
 	reset.pressed.connect(_reset)
@@ -800,6 +812,30 @@ func _add(card: CardData) -> void:
 	_dirty = true
 	Audio.sfx(&"deck_add")
 	_refresh()
+	_show_plus_one(card)
+
+
+## Fix pass Nov 7 (item 3, C2b F4): every add shows a "+1" rising from the card's tile (the count in the list moves too), so a click that
+## added is never in doubt; a refused add says why for longer.
+func _show_plus_one(card: CardData) -> void:
+	var view: CardView = _dim_by_id.get(card.id) as CardView
+	if view == null or not view.is_visible_in_tree():
+		return
+	var label: Label = UIKit.label("+1", &"", 34, UIStyle.GOOD, HORIZONTAL_ALIGNMENT_CENTER)
+	label.name = "PlusOne"
+	label.add_theme_font_override("font", UIStyle.font_bold())
+	label.add_theme_constant_override("outline_size", 8)
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02))
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.top_level = true
+	add_child(label)
+	var rect: Rect2 = view.get_global_rect()
+	label.global_position = rect.position + Vector2(rect.size.x * 0.5 - 24.0, rect.size.y * 0.3)
+	var tween: Tween = label.create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "global_position:y", label.global_position.y - 46.0, 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label, "modulate:a", 0.0, 0.6).set_delay(0.25)
+	tween.chain().tween_callback(label.queue_free)
 
 
 func _remove(card: CardData) -> void:
@@ -920,6 +956,7 @@ func _rebuild_list() -> void:
 func _list_row(card: CardData, count: int) -> Control:
 	var tint: Color = UIStyle.affinity_color(card.color)
 	var row: PanelContainer = PanelContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_PASS  # Fix pass Nov 7 (item 3): the wheel over a row scrolls the list
 	row.add_theme_stylebox_override("panel", UIStyle.box(Color(1, 1, 1, 0.05), Color(0, 0, 0, 0), 0, 8))
 	var line: HBoxContainer = UIKit.hbox(8)
 	row.add_child(line)
@@ -1092,8 +1129,14 @@ func _reset() -> void:
 
 
 func _save() -> void:
+	# Fix pass Nov 7 (item 3, C2 F2): the deck's own slot is saved at once (the slot-pick mode was a trap); "Save as new slot" picks another.
 	if _uses_deck_box():
-		open_save_picker()
+		var slot: int = _editing_slot()
+		if slot < 0 or not Session.slot_open(slot):
+			open_save_picker()
+			return
+		if save_to_slot(slot) and _editing != Session.deck_box.active:
+			_say("Saved in slot %d. Your battles still use \"%s\": press Use to fight with this deck." % [slot + 1, Session.deck_box.decks[Session.deck_box.active].name if Session.deck_box.is_valid_index(Session.deck_box.active) else "another deck"], Color("ffcf70"))
 		return
 	_write_back(editor.deck)
 	_dirty = false

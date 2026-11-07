@@ -36,6 +36,10 @@ static func route(walkable: Callable, bounds: Rect2, from: Vector3, to: Vector3,
 				continue
 			if not _open(walkable, next, origin, step, cache):
 				continue
+			# a wall thinner than the grid step must not be stepped over: the point halfway between the cells is tested too
+			var mid: Vector2 = (_point(cell, origin, step) + _point(next, origin, step)) * 0.5
+			if not bool(walkable.call(Vector3(mid.x, 0.0, mid.y))):
+				continue
 			if offset.x != 0 and offset.y != 0:
 				if not _open(walkable, Vector2i(cell.x + offset.x, cell.y), origin, step, cache) or not _open(walkable, Vector2i(cell.x, cell.y + offset.y), origin, step, cache):
 					continue

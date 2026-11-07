@@ -71,6 +71,10 @@ static func install(parent: Node, area_id: String, cam: Camera3D, resolver: Call
 	return layer
 
 
+func _exit_tree() -> void:
+	OcclusionFader.focus_points = [] as Array[Vector3]
+
+
 func _ready() -> void:
 	set_meta(StyleToon.META_NO_TOON, true)
 	EventBus.quest_changed.connect(refresh)
@@ -80,6 +84,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	_update_where_to()
+	# Fix pass Nov 7 (item 2): a house in front of the tracked goal's door dissolves when the hero is near it (`OcclusionFader.focus_points`).
+	var focus: Array[Vector3] = []
+	for node: Node3D in [_objective, _second]:
+		if node != null and node.visible:
+			focus.append(Vector3(node.global_position.x, 0.0, node.global_position.z))
+	OcclusionFader.focus_points = focus
 	_timer -= delta
 	if _timer <= 0.0 or _goal_on != Settings.goal_pointer:
 		_timer = REFRESH
@@ -336,6 +346,9 @@ func _build_goal(node_name: String) -> Array:
 
 
 ## The usual resolver: finds a spot by id in a scene's spot list (town `Spot`s or `ZoneSpot`s: anything with id, position and marker).
+const DOOR_MARKER_TOP: float = 1.5
+
+
 static func resolve_in(spot_list: Array, spot_id: String) -> Dictionary:
 	for spot: Variant in spot_list:
 		var item: Object = spot as Object
@@ -344,6 +357,11 @@ static func resolve_in(spot_list: Array, spot_id: String) -> Dictionary:
 		var pos: Vector3 = item.get("position") as Vector3
 		var marker: Node3D = item.get("marker") as Node3D
 		var top: float = (marker.position.y - pos.y) if marker != null else 2.0
+		# Fix pass Nov 7 (item 2, C1b F4): a door's goal marker hangs at the door (it floated up on the roof and hid behind it); a person's
+		# stays over their head.
+		var person: bool = bool(item.get("is_npc")) if "is_npc" in item else (spot_id in TownScene.NPC_SPOT_IDS or spot_id.begins_with("npc_"))
+		if not person:
+			top = minf(top, DOOR_MARKER_TOP)
 		return {"pos": pos, "top": clampf(top, 1.2, 6.0)}
 	return {}
 

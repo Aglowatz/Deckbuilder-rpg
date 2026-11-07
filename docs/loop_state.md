@@ -8,7 +8,7 @@ Stop when STOP_OVERNIGHT exists in the repo root. Previous state: docs/overnight
 |---|---|---|
 | D8 | Art rows | done (5 rows in art_needed_nov4.csv, "Needed — later batch") |
 | 1 | First hour (items 1, 4, 5 + D3, D6) | done: Path line + YOUR PATH tracker + map ring + Maren names road; Settling In side line; opening floor 2; growth delay; cave + Refusemancer; item 5 traps; re-sims in docs/design/sim/nov7 |
-| 2 | Walking and maps (items 2, 7, 14 + D5, D7) | in progress: slide, townsfolk core, reach smoke, D5 map, where-to arrow, labels, exit roamer, travel prompts, castle reveal |
+| 2 | Walking and maps (items 2, 7, 14 + D5, D7) | done: tangent slide, prop footprints, 3 m fountain ring, townsfolk core, door/goal fading + door markers, reach walk smoke 38/38 (docs/review/nov7/reach_walk_smoke.md), D5 map, where-to arrow, labels, exit roamers, travel prompts, castle reveal, postgame forest (blocker fixed), Gallery line, labelled Crease shafts, heal causes, Crease step, named citizens, last shop |
 | 3 | Menus and cards (items 3, 8, 12, 13 + D4) | pending |
 | 4 | Losing (D1, D2) + Primm presentation (item 10) | pending |
 | 5 | Quick wins (section 3) + 2 failing GUT scripts | pending |

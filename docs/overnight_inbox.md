@@ -1211,3 +1211,14 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    Raise the Bar" banner. Left as is (the cave is the only way on).
 3. **Victory pick.** Nothing is pre-chosen now and E takes nothing until a card is picked; "Skip card" is the only live button until then. If
    players skip by accident, the next step is to make Skip a plain (non-gold) button.
+4. **Camera yaw (item 2).** Checked: the town camera's yaw is already fixed - it only turns while a swivel key / the right stick is held
+   and springs back. The critic's "the view swings north of the fountain" is the diagonal street layout, not the camera. No change made;
+   a compass mark on the minimap ring is the next step if it still confuses.
+5. **Castle rooms (item 14).** Room types show once a neighbouring room is cleared in the castle (D-PC) only, as the brief says; the other
+   dungeons keep their "???" until stepped on. One line (`DungeonMapScreen.NEIGHBOUR_REVEAL`) extends it.
+6. **Compost Commons (item 2).** No invisible wall was found: the walkable map is open north to the terrace edge, and the critic's stops
+   were small round props (a 0.45 m post, a 1.2 m and a 1.6 m clump) met head-on, where the old axis-only slide stopped dead. The new slide
+   walks round them; the reach smoke walks the hub to both north bridge landings.
+7. **Postgame forest (item 14).** The Lab's path now opens with the postgame itself (it waited for Rip's tip in Crosspath, so any other way
+   into the forest met the old bramble collider - the blocker). Rip's line still plays as before.
+8. **The Crease's map (C5 F4, "M does not open a map there").** Not reproduced or changed; the Crease doors are labelled now.

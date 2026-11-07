@@ -443,7 +443,35 @@ static func side_quests() -> Array[QuestData]:
 		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
 			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))], QuestDefinitions.story_gate()),  # Oct 20: after the armory quest
 		_gallery_quest(),
+		_gallery_line(),
 	] as Array[QuestData]
+
+
+## Fix pass Nov 7 (item 14, C5 F4): the Shattered Gallery's own line in the postgame - given at once, with a pin at every step: find Wren in
+## the Crease, look into the cracked mirror at the castle door (Wren's "Cracks in the Glass" opens the glass), clear the Gallery.
+const GALLERY_LINE: String = "the_shattered_gallery"
+
+
+static func _gallery_line() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = GALLERY_LINE
+	quest.category = QuestData.Category.SIDE
+	quest.order = 369
+	quest.title = "The Shattered Gallery"
+	quest.summary = "Something is wrong with the mirrors in the Capital. Wren and the resistance keep watch from the Crease, under the city; she will know what it is."
+	quest.auto_give = true
+	quest.prerequisite = Condition.postgame()
+	quest.objectives = [
+		QuestObjective.make("Find Wren in the Crease: knock at the manhole on the Gate Plaza", Condition.any_of([Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)), Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN)] as Array[Condition]))
+			.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "manhole", "The suspicious manhole on the Gate Plaza, inside the Capital's wall"),
+		QuestObjective.make("Look into the cracked mirror by the castle door", Condition.flag(ShatteredGallery.FLAG_MIRROR_SEEN))
+			.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "gallery_mirror", "Beside the castle door, at the top of the Palace Approach"),
+		QuestObjective.make("Clear the Shattered Gallery", Condition.flag(str(ShatteredGallery.FLAG_CLEARED)))
+			.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "gallery_mirror", "Through the cracked mirror by the castle door"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 150
+	quest.reward_xp = 150
+	return quest
 
 
 ## Overnight Nov 4-5, Part 5: Wren's postgame errand. Looking into the cracked mirror at the castle door finishes it (no hand-in) and opens

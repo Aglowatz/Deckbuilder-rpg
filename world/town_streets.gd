@@ -323,7 +323,7 @@ func _crest() -> void:
 		icon.material_override = icon_material
 		icon.position = pos + Vector3(0, 1.35, 0)
 		root.add_child(icon)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.4))
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.32))  # Fix pass Nov 7 (item 2): the plinth's foot, not a wide circle (was 0.4)
 	var plinths: MeshInstance3D = plinth.instance("CrestPlinths")
 	plinths.position = center
 	root.add_child(plinths)
@@ -340,7 +340,7 @@ func _notice_board() -> void:
 	board.position = pos
 	board.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z))
 	town.add_ao_blob(pos, 0.9, 0.3)
-	town.obstacles.append(Vector3(pos.x, pos.z, 1.1))
+	town.obstacles.append(Vector3(pos.x, pos.z, 0.6))  # Fix pass Nov 7 (item 2): the board's posts (was a 1.1 m circle)
 	town.anchors["notice_board"] = pos + toward.normalized() * 1.4
 
 
@@ -367,7 +367,7 @@ func _signposts() -> void:
 		root.add_child(post)
 		post.position = pos
 		town.add_ao_blob(pos, 0.35, 0.3)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.3))
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.15))  # Fix pass Nov 7 (item 2): the post itself (was 0.3)
 		town.anchors["signpost_%d" % index] = pos + Vector3(0.0, 0.0, 1.2)
 		signpost_positions.append(pos)
 		signpost_lines.append(lines)
@@ -403,7 +403,7 @@ func _lamps() -> void:
 		(transforms[count % 2] as Array[Transform3D]).append(Transform3D(Basis(Vector3.UP, deg_to_rad(yaw)), pos))
 		lamp_points.append(pos)
 		lamp_entries.append({"pos": pos, "yaw": yaw})
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.26))
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.12))  # Fix pass Nov 7 (item 2): the lamp post itself (was 0.26)
 		town.add_ao_blob(pos, 0.3, 0.3)
 		town.add_glow(Vector3(pos.x, 0.0, pos.z), 2.8, WARM_LIGHT, 0.16)
 		count += 1
@@ -467,7 +467,7 @@ func _plaza_furniture() -> void:
 		# the bench's open side is +z; turn it so that side faces the fountain
 		bench.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z)) + 180.0
 		town.add_ao_blob(pos, 0.8, 0.28)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.55))
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.42))  # Fix pass Nov 7 (item 2): the bench's seat (was 0.55)
 	# Crosspath pass, Part C: the old decorative market stall on the east rim is gone: the six shops round the square are the market.
 
 

@@ -198,6 +198,9 @@ static func _free_the_kingdom() -> QuestData:
 	for zone_id: String in Gatekeepers.IDS:
 		objectives.append(QuestObjective.make("%s: beat its main dungeon" % ZoneDefs.get_def(zone_id).display_name, Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
 			.at(QuestObjective.TargetKind.ZONE_FLAG, zone_id, "main_dungeon", "%s, at its main dungeon" % ZoneDefs.get_def(zone_id).display_name))
+	# Fix pass Nov 7 (item 14, C4 F5): a step and a pin for the Crease, the resistance's hideout under the Capital, before the castle.
+	objectives.append(QuestObjective.make("Find the resistance in the Crease: knock at the manhole on the Capital's Gate Plaza", Condition.any_of([Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)), Condition.flag("primm_defeated")] as Array[Condition]))
+		.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "manhole", "The suspicious manhole on the Gate Plaza, inside the Capital's wall"))
 	objectives.append(QuestObjective.make("Storm %s's castle in the Capital" % Villain.display_name(), Condition.flag("primm_defeated"))
 		.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "castle_door", "The castle on its hill, up the palace avenue"))
 	quest.objectives = objectives

@@ -30,7 +30,8 @@ const NOTICE_BOARD: Vector3 = Vector3(16.0, 0.0, 22.4)
 const ARENA_CENTER: Vector3 = Vector3(25.2, 0.0, 46.5)
 ## The fountain basin and the ring of four Path plinths around it.
 const FOUNTAIN_RADIUS: float = 3.2  # Fable pass Nov 1: 2.6 -> 3.2 with the fountain art a quarter bigger (the blocker and the scatter keep-out follow)
-const CREST_RING_RADIUS: float = 4.9
+## Fix pass Nov 7 (item 2): the four crest plinths stand out at 7 m so a clear ring of about 3 m runs round the fountain (was 4.9: a 0.9 m lane).
+const CREST_RING_RADIUS: float = 7.0
 ## Spacing of street lamps along the roads.
 const LAMP_SPACING: float = 8.0
 ## The black-market alley off the square's north-east corner, between Fenwick's shop and the north-east house: x from / to, z from (the square end) / to.

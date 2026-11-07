@@ -109,7 +109,13 @@ func describe(event: GameEvent) -> String:
 			return "[color=#ff8a7a]%s was destroyed[/color]" % _card(event.card)
 		GameEvent.Type.HP_CHANGED:
 			if event.amount > 0:
-				return "[color=#8fe39a]%s healed %d (HP %d)[/color]" % [_who(event.player), event.amount, event.value]
+				# Fix pass Nov 7 (item 14): what healed, when known ("Hollow Stalker's Nourish: Hollow Stalker healed 2 (HP 9)").
+				var cause: String = ""
+				if event.card > 0 and event.detail != "":
+					cause = "%s's %s: " % [_card(event.card), event.detail]
+				elif event.detail != "" and event.detail != "shield":
+					cause = "%s: " % event.detail
+				return "[color=#8fe39a]%s%s healed %d (HP %d)[/color]" % [cause, _who(event.player), event.amount, event.value]
 			return ""
 		GameEvent.Type.CARD_SENT_BACK:
 			return "%s was sent back to hand" % _card(event.card)

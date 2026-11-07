@@ -33,6 +33,8 @@ var _prompt_label: Label
 var _gate_marker: Node3D
 ## Fresh eyes Oct 30: the cave beacon (a QuestMarkerLayer with a fixed objective) and the HUD host it draws its edge pointer on.
 var _beacon: QuestMarkerLayer
+## Fix pass Nov 7 (item 14): the postgame forest's quest markers (tracker goal pin, edge pointer).
+var _postgame_markers: QuestMarkerLayer
 var _beacon_on: bool = false
 var _hud_host: Control
 var _near_gate: bool = false
@@ -91,8 +93,12 @@ func _ready() -> void:
 		Session.ensure_game()
 		for name: StringName in [&"primm_defeated", &"rescuer_met", &"rip_forest_tip", PathologyLab.FLAG_FOREST_OPEN, PathologyLab.FLAG_REVEALED, PathologyLab.FLAG_RESCUER_FREED]:
 			Session.set_flag(name)
+	# Fix pass Nov 7 (item 14, C5 F1 - postgame blocker): the Lab's path opens with the postgame itself. It used to wait for Rip's tip in
+	# Crosspath, so a hero who reached the forest any other way (the cave gate, the map) met the old bramble thicket and its collider.
+	if Session.flag(&"primm_defeated") and not Session.flag(PathologyLab.FLAG_REVEALED):
+		Session.set_flag(PathologyLab.FLAG_REVEALED)
 	area.lab_open = Session.flag(PathologyLab.FLAG_REVEALED)
-	if Session.flag(PathologyLab.FLAG_FOREST_OPEN) and not Session.flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED)):
+	if Session.flag(&"primm_defeated") and not Session.flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED)):
 		Session.set_flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED))  # Fix pass Nov 4 (B): "Under the Forest" - back in the forest
 		Session.refresh_quests()
 	area.build(self)
@@ -220,13 +226,47 @@ func _build_ui() -> void:
 	host.add_child(minimap)
 	minimap.setup("start", area, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
+	# Fix pass Nov 7 (item 14, C5 F2): in the postgame the forest is a normal zone - the quest tracker, J for the Quest Log, the goal pin on
+	# the hatch (the quest marker layer resolves the "lab" spot).
+	if Session.flag(&"primm_defeated"):
+		var tracker: QuestTracker = QuestTracker.new()
+		tracker.position = Vector2(24, 24)
+		host.add_child(tracker)
+		_postgame_markers = QuestMarkerLayer.install(self, Areas.START, _camera, _resolve_postgame_spot, host)
+		TownHud.bind_hints(hints, "WASD / arrows: move      E / Space / Click: interact      {open_quests}: quests      {open_map}: map      Esc: menu", false)
 
 
-## Minimap points of interest: the cave gate only. The hidden tunnel is a secret and never shown.
+## Minimap points of interest: the cave gate only. The hidden tunnel is a secret and never shown. Fix pass Nov 7: in the postgame the Lab
+## hatch and Rip's station too, and the tracked quest's goal pin.
 func _collect_pois() -> Array[MapPoi]:
 	var gate: MapPoi = MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors.get("gate", Vector3.ZERO) as Vector3, "Cave gate")
 	gate.objective = _beacon_on  # Fresh eyes Oct 30: the goal's dot shows through the fog and clamps to the minimap's edge
-	return [gate] as Array[MapPoi]
+	var result: Array[MapPoi] = [gate] as Array[MapPoi]
+	if area.lab_open and area.anchors.has("lab"):
+		result.append(MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors["lab"] as Vector3, "The Lab hatch"))
+	if area.anchors.has("station") and Session.flag(PathologyLab.FLAG_FOREST_OPEN):
+		result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, area.anchors["station"] as Vector3, "Rift Express"))
+	if _postgame_markers != null:
+		_postgame_markers.add_map_pois(result)
+	return result
+
+
+## Fix pass Nov 7 (item 14): quest targets in the postgame forest ("lab": the hatch; "station": Rip's station).
+func _resolve_postgame_spot(spot_id: String) -> Dictionary:
+	if area.anchors.has(spot_id):
+		return {"pos": area.anchors[spot_id] as Vector3, "top": 1.6}
+	return {}
+
+
+func _open_quest_log() -> void:
+	if _locked or dialogue.active:
+		return
+	_locked = true
+	var screen: QuestLogScreen = QuestLogScreen.new()
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false)
 
 
 func _open_full_map() -> void:
@@ -507,6 +547,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _locked and not dialogue.active and event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		_open_full_map()
+		return
+	if not _locked and not dialogue.active and Session.flag(&"primm_defeated") and event.is_action_pressed(&"open_quests"):
+		get_viewport().set_input_as_handled()
+		_open_quest_log()
 		return
 	if not _locked and not dialogue.active and Session.deck != null and event.is_action_pressed(&"open_deck"):
 		get_viewport().set_input_as_handled()

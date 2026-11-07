@@ -6,6 +6,11 @@ extends Node
 ## its roof, trim and doors) dissolves together. Pure geometry: the segment camera -> hero is tested against each candidate's world AABB.
 
 const SCAN_INTERVAL: float = 4.0
+## Fix pass Nov 7 (item 2, C1b F4): points the player needs to see besides the hero - the tracked quest's door, the spot in reach. A house
+## between the camera and one of them dissolves too, while the hero is within FOCUS_RANGE of it (so far-off goals never hollow out a
+## street). Set by the quest marker layer and the town each frame.
+static var focus_points: Array[Vector3] = []
+const FOCUS_RANGE: float = 11.0
 const MIN_HEIGHT: float = 1.0
 const MAX_EXTENT: float = 400.0
 const FADED: float = 0.97
@@ -271,6 +276,10 @@ func _run_tests() -> void:
 	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
 	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
 	var to_head: Vector3 = hero.global_position + Vector3(0.0, HERO_HEAD, 0.0)  # Fable pass Nov 1: a roof over the hero's head counts too
+	var focus: Array[Vector3] = []
+	for point: Vector3 in focus_points:
+		if Vector2(point.x - to.x, point.z - to.z).length() <= FOCUS_RANGE:
+			focus.append(point + Vector3(0.0, 1.0, 0.0))
 	var blocking_groups: Dictionary = {}
 	var cut_groups: Dictionary = {}
 	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
@@ -285,6 +294,13 @@ func _run_tests() -> void:
 			continue
 		elif box.grow(_box_near[index]).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low) or _segment_hits(box.grow(PADDING), from, to_head):
 			blocking_groups[key] = true
+		else:
+			for point: Vector3 in focus:
+				# the box must lie between them: the point itself sits at a wall (a door), so a box that holds it only counts when the
+				# hero is not inside it
+				if _segment_hits(box.grow(PADDING), from, point) and not box.grow(0.6).has_point(to):
+					blocking_groups[key] = true
+					break
 	_blocking = blocking_groups
 	_cut = cut_groups
 	if OS.get_environment("OCCLUSION_DEBUG") != "" and Engine.get_process_frames() % 120 == 0:

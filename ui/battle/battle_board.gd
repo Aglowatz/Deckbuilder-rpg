@@ -1161,7 +1161,11 @@ func _on_damage(event: GameEvent) -> void:
 func _on_hp(event: GameEvent) -> void:
 	if event.amount > 0:
 		_sfx(&"heal")
-		fx.floating_text(portrait_anchor[event.player], "+%d" % event.amount, Color("7be08a"), 48)
+		# Fix pass Nov 7 (item 14, C5 F5): a heal says what it is ("+2 HP (Nourish)") and the healing unit pulses.
+		var text: String = "+%d HP" % event.amount + ((" (%s)" % event.detail) if event.detail != "" and event.detail != "shield" else "")
+		fx.floating_text(portrait_anchor[event.player], text, Color("7be08a"), 48)
+		if event.card > 0:
+			_pulse(event.card)
 		fx.burst(portrait_anchor[event.player], Color("7be08a"), 14, 200.0)
 	elif event.sequence != _last_damage_seq + 1 and event.amount < 0:
 		# Fresh eyes round 2 (Oct 31): the number rises from above the plate, not over its name ("-3" sat on "YOU", `c3_14_boss__06_boss_d`).

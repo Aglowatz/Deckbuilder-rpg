@@ -1362,8 +1362,9 @@ func _peek_value(card: CardInstance, infra_out: int) -> float:
 	return float(card.data.energy_value()) + 1.5
 
 
-## Raises HP, never above max HP (a higher starting HP is left alone).
-func gain_hp(player_index: int, amount: int) -> void:
+## Raises HP, never above max HP (a higher starting HP is left alone). Fix pass Nov 7 (item 14, C5 F5): `source_uid` / `cause` name what
+## healed (the event's card and detail), so the log and the board can say "Nourish: +2".
+func gain_hp(player_index: int, amount: int, source_uid: int = 0, cause: String = "") -> void:
 	if amount <= 0 or is_over():
 		return
 	var player: PlayerState = players[player_index]
@@ -1375,7 +1376,7 @@ func gain_hp(player_index: int, amount: int) -> void:
 	var delta: int = new_hp - player.hp
 	if delta > 0:
 		player.hp = new_hp
-		emit_event(GameEvent.Type.HP_CHANGED, player_index, 0, 0, delta, new_hp)
+		emit_event(GameEvent.Type.HP_CHANGED, player_index, source_uid, 0, delta, new_hp, cause)
 
 
 ## HP loss that is not damage (no Nourish, no damage triggers).
@@ -1438,7 +1439,7 @@ func _apply_nourish(source_uid: int, amount: int) -> void:
 		return
 	var source: CardInstance = find_permanent(source_uid)
 	if source != null and source.data.is_unit() and unit_has_keyword(source, CardEnums.Keyword.NOURISH):
-		gain_hp(source.owner, amount)
+		gain_hp(source.owner, amount, source_uid, "Nourish")
 
 
 ## Removes a unit from the field (death), then fires its death triggers. The unit is in the Refuse Pile (tokens: nowhere) while

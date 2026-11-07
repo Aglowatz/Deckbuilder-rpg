@@ -475,6 +475,8 @@ func _interact_zone(spot: ZoneSpot) -> void:
 			_use_gallery_mirror()
 		"supplies":
 			_open_supplies()
+		"last_shop":
+			_open_supplies(CapitalZone.LAST_SHOP_NAME)
 		"ladder":
 			_travel_to(builder.anchor("manhole") + Vector3(0, 0, 1.4), "fx.ladder")
 		"tunnel_out":
@@ -637,6 +639,14 @@ func _build_gallery_mirror() -> void:
 	_add_spot("gallery_mirror", "A Cracked Mirror", at + Vector3(0.0, 0.0, 1.0), 1.8, "Look into the cracked mirror", false, "zone", {"act": "gallery"})
 
 
+## Fix pass Nov 7 (item 14, C5 F4): the cracked mirror is on the map (and in its "Where to?" list) as the Shattered Gallery's way in.
+func _extra_pois() -> Array[MapPoi]:
+	var result: Array[MapPoi] = []
+	if Session.flag(&"primm_defeated"):
+		result.append(MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)"))
+	return result
+
+
 func _use_gallery_mirror() -> void:
 	if not Session.side_unlocked(ShatteredGallery.DUNGEON_ID):
 		# looking is the quest (and starts it for a player who never asked Wren); finishing it opens the glass
@@ -721,9 +731,9 @@ func _talk_wren() -> void:
 			_hint_talk_again("Wren", "has news from the streets"))
 
 
-func _open_supplies() -> void:
+func _open_supplies(title: String = "Fig's Crate of Supplies") -> void:
 	var data: ItemVendorData = ItemVendorData.new()
-	data.vendor_name = "Fig's Crate of Supplies"
+	data.vendor_name = title
 	for item_id: String in CapitalZone.BLACK_MARKET_ITEMS.keys():
 		data.add(item_id, int(CapitalZone.BLACK_MARKET_ITEMS[item_id]))
 	var screen: ItemVendorScreen = ItemVendorScreen.new()
@@ -801,7 +811,7 @@ func _talk_citizen(spot: ZoneSpot) -> void:
 	var variant: String = "approved" if count % 3 != 2 else "slip"
 	if count == 1:
 		variant = "approved2"
-	_say("A Perfectly Happy Citizen", story.get_lines("facade.citizen.%d.%s" % [n, variant]))
+	_say(CapitalZone.citizen_name(n), story.get_lines("facade.citizen.%d.%s" % [n, variant]))
 
 
 func _use_speaker(n: int) -> void:

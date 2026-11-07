@@ -44,6 +44,10 @@ static func build(parent: Node3D, builder: TownBuilder, quality: int) -> TownSqu
 	return square
 
 
+## Fix pass Nov 7 (item 2): a dressed prop's blocker is its footprint, a fifth smaller than the old circle (barrels, crates, carts).
+const PROP_FOOTPRINT: float = 0.8
+
+
 func _anchor(key: String) -> Vector3:
 	return town.anchors.get(key, center) as Vector3
 
@@ -52,7 +56,7 @@ func _put(folder: String, model: String, pos: Vector3, yaw: float = 0.0, scale_v
 	var node: Node3D = ModelKit.kit_model(folder, model)
 	ModelKit.place(root, node, pos, yaw, scale_value)
 	if solid > 0.0:
-		town.obstacles.append(Vector3(pos.x, pos.z, solid))
+		town.obstacles.append(Vector3(pos.x, pos.z, solid * PROP_FOOTPRINT))
 	return node
 
 
@@ -60,7 +64,7 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 	var node: Node3D = ModelKit.prop(model)
 	ModelKit.place(root, node, pos, yaw, scale_value)
 	if solid > 0.0:
-		town.obstacles.append(Vector3(pos.x, pos.z, solid))
+		town.obstacles.append(Vector3(pos.x, pos.z, solid * PROP_FOOTPRINT))
 	return node
 
 
