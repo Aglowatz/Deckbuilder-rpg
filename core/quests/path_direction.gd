@@ -8,6 +8,8 @@ extends RefCounted
 
 const FLAG: String = "maren_path_direction"
 const TEXT_KEY: String = "quest.path_direction"
+## Fix pass Nov 7 (item 1): Maren's last word at the cave mouth - start with your own Path, its gatekeeper and its road.
+const CAVE_TEXT_KEY: String = "cave_mouth.maren_path"
 ## The zone card vendor of each Path zone (the NPC who sells its cards).
 const VENDORS: Dictionary = {
 	"beefcake": "Coach Brutus Benchley", "necrocrat": "Clerk Ledgerbone", "gourmand": "Madame Mirepoix", "refusemancer": "Granny Gristle",
@@ -28,15 +30,37 @@ static func own_main_quest(path: Affinity.Type) -> String:
 	return "" if zone_id.is_empty() else QuestDefinitions.zone_main_id(zone_id)
 
 
-## True when Maren should give the talk now: the armory quest is done, she has not said it yet, and the player has not already beaten
-## their own Path's gatekeeper (an old save far past this point is never sent back to the start).
+## True when Maren should give the talk now: she has greeted the hero in town, she has not said it yet, and the player has not already
+## beaten their own Path's gatekeeper (an old save far past this point is never sent back to the start). Fix pass Nov 7 (D3): it no longer
+## waits for the armory errand - Maren's errands run beside the Path line.
 static func due(qlog: QuestLog, flags: Dictionary, path: Affinity.Type) -> bool:
-	if bool(flags.get(FLAG, false)) or not qlog.is_completed(QuestDefinitions.ARMORY):
+	if bool(flags.get(FLAG, false)) or not bool(flags.get("elder_greeted", false)):
+		return false
+	if qlog == null:
 		return false
 	var zone_id: String = zone_of(path)
 	if zone_id.is_empty():
 		return false
 	return not bool(flags.get(str(CorruptedNpcs.unlock_flag(zone_id)), false))
+
+
+## Fix pass Nov 7 (item 1): the road out of Crosspath to each Path zone, as the HUD and Maren name it.
+const ROADS: Dictionary = {
+	"beefcake": "the Gainlands road", "necrocrat": "the D.N.A. road", "gourmand": "the Buffet road", "refusemancer": "the Dump road",
+}
+
+
+static func road_of(zone_id: String) -> String:
+	return str(ROADS.get(zone_id, "the road out of town"))
+
+
+## Fix pass Nov 7 (item 1): the standing "Your Path" line in the HUD tracker, from the Path choice until that zone's gatekeeper is beaten:
+## "Face Brick Bronson on the Gainlands road". "" without a Path, once the gatekeeper is beaten, or in the postgame.
+static func tracker_line(path: Affinity.Type, flags: Dictionary) -> String:
+	var zone_id: String = zone_of(path)
+	if zone_id.is_empty() or Gatekeepers.is_cleared(flags, zone_id) or bool(flags.get("primm_defeated", false)):
+		return ""
+	return "Face %s on %s" % [CorruptedNpcs.display_name(zone_id).get_slice(",", 0), road_of(zone_id)]
 
 
 ## The token values for the player's Path: zone, vendor, path, buff and debuff (names and plain mechanics), rival Path and its zone,
@@ -57,14 +81,16 @@ static func tokens(path: Affinity.Type) -> Dictionary:
 		"{debuff}": effect.debuff_name(),
 		"{debuff_text}": effect.debuff_mechanic(),
 		"{gatekeeper}": CorruptedNpcs.display_name(zone_id).get_slice(",", 0),
+		"{road}": road_of(zone_id),
+		"{obstacle}": Gatekeepers.obstacle_name(zone_id),
 	}
 
 
 ## Maren's lines for the player's Path, tokens filled.
-static func lines(path: Affinity.Type) -> Array[String]:
+static func lines(path: Affinity.Type, text_key: String = TEXT_KEY) -> Array[String]:
 	var values: Dictionary = tokens(path)
 	var result: Array[String] = []
-	for raw: String in DungeonCatalog.text_lines(TEXT_KEY):
+	for raw: String in DungeonCatalog.text_lines(text_key):
 		var line: String = raw
 		for token: Variant in values.keys():
 			line = line.replace(str(token), str(values[token]))

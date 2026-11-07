@@ -94,7 +94,9 @@ func _ready() -> void:
 		_open_from_screenshot.call_deferred(str(_screenshot_args["open"]))
 	EventBus.tutorial_event.emit(&"map_entered")
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
-		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's HP. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]HP carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
+		# Fix pass Nov 7: the tip sits low (item 5, C1 F4: at y 140 it was under the title scroll) and states the dungeon rule (owner
+		# decision D2) and the no-cost defeat (D1).
+		TipPanel.show_once(self, &"tip_map", "The dungeon map", map_tip_text(), Vector2(560, 800))
 	_play_pending_after_story.call_deferred()
 	_play_start_talk.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
@@ -232,7 +234,14 @@ func _note_fog() -> void:
 
 
 func node_known(node: DungeonMap.MapNode) -> bool:
-	return Session.node_revealed(fog_key(), node.id) or map.is_cleared(node.id) or node.id == map.current
+	if Session.node_revealed(fog_key(), node.id) or map.is_cleared(node.id) or node.id == map.current:
+		return true
+	# Fix pass Nov 7 (item 14, C4b F3): the castle's 20-odd rooms show their type once a neighbour is cleared (no more "???" all the way up).
+	return fog_key() in NEIGHBOUR_REVEAL and map.neighbour_cleared(node.id)
+
+
+## Fix pass Nov 7 (item 14): the dungeons whose rooms show their type once a neighbouring room is cleared.
+const NEIGHBOUR_REVEAL: Array[String] = ["D-PC"]
 
 
 func _build_nodes() -> void:
@@ -739,10 +748,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		_on_node_chosen(_hovered_id)
 
 
+## Fix pass Nov 7 (owner decision D2): leaving partway starts the dungeon over - replaying is the way to farm cards and gold.
+const RETREAT_WARNING: String = "Leaving resets this dungeon. Cards and gold you've won are kept."
+
+
+## The dungeon map's first-visit tip: the routes, HP, the reset rule (D2) and what a loss costs (D1: nothing).
+static func map_tip_text() -> String:
+	return "Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b], and only shrines heal. [b]%s[/b] Lose a duel and you wake at the respawn point with full HP, and the dungeon starts over." % RETREAT_WARNING
+
+
 func _ask_retreat() -> void:
 	if _busy or _modal != null:
 		return
-	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Retreat from %s?" % map.dungeon_name, "You leave the dungeon and lose this run's progress. Cards you already took are kept.", "Retreat", "Stay", true)
+	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Retreat from %s?" % map.dungeon_name, RETREAT_WARNING, "Retreat", "Stay", true)
 	dialog.confirmed.connect(func() -> void: Session.abandon_run("You retreated from %s." % map.dungeon_name))
 
 

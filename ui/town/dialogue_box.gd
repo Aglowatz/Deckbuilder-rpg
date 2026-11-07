@@ -49,6 +49,8 @@ var _lines: Array[String] = []
 var _expressions: Array[String] = []
 var _index: int = 0
 var _tween: Tween
+## Fix pass Nov 7 (item 5): every dialogue box, so quest notices can wait while one is open (`QuestNoticeLayer`).
+const GROUP: StringName = &"dialogue_boxes"
 var active: bool = false
 ## The NPC whose portrait is up ("" for none).
 var npc_id: String = ""
@@ -57,6 +59,7 @@ var _right_side: bool = false
 
 
 func _ready() -> void:
+	add_to_group(GROUP)
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false

@@ -33,6 +33,8 @@ static func poi(canvas: CanvasItem, centre: Vector2, point: MapPoi, radius: floa
 	if point.objective:
 		objective_ring(canvas, centre, radius, Color("8fd3ff") if point.side_goal else Color("ffd25a"))
 		return
+	if point.path_tint.a > 0.0:
+		path_ring(canvas, centre, radius, point.path_tint)
 	var icon: String = icon_id(point.kind)
 	if icon != "":
 		_poi_icon(canvas, centre, icon, radius, point.locked)
@@ -74,6 +76,14 @@ static func _quest_badge(canvas: CanvasItem, badge: Vector2, radius: float, turn
 	canvas.draw_circle(badge, radius * 0.62, Color(0, 0, 0, 0.9))
 	canvas.draw_circle(badge, radius * 0.5, Color("ffe14d"))
 	canvas.draw_string(font, badge + Vector2(-radius * 0.18, radius * 0.3), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, int(radius * 0.95), Color(0.1, 0.05, 0.0))
+
+
+## Fix pass Nov 7 (item 1): the ring round the player's own Path road - a thick ring in the Path's colour with a soft glow.
+static func path_ring(canvas: CanvasItem, centre: Vector2, radius: float, tint: Color) -> void:
+	var outer: float = radius * ICON_SCALE * 0.5 + 3.0
+	canvas.draw_circle(centre, outer + 3.0, Color(tint, 0.28))
+	canvas.draw_arc(centre, outer, 0.0, TAU, 32, Color(0.05, 0.03, 0.02, 0.9), 5.0)
+	canvas.draw_arc(centre, outer, 0.0, TAU, 32, tint, 3.0)
 
 
 ## The tracked quest's objective: a pulsing golden ring with a bright centre.

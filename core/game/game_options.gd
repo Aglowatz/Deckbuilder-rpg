@@ -14,6 +14,10 @@ var free_mulligan: bool = true
 ## this order; the rest of the hand is drawn as usual). Empty = a normal draw. A mulligan deals a normal hand.
 var scripted_opening_hand: Array[String] = []
 var scripted_hand_player: int = 0
+## Fix pass Nov 7 (owner decision D6): every opening hand of seat `opening_infrastructure_seat` (the player) holds at least this many
+## infrastructure cards - a hidden soft mulligan that swaps non-infrastructure cards for infrastructure from the deck. 0 = off.
+var opening_infrastructure_floor: int = 2
+var opening_infrastructure_seat: int = 0
 ## 0/1 = that player goes first, -1 = random.
 var first_player: int = 0
 ## Total turns (both players) after which an undecided game is a draw.
@@ -29,6 +33,8 @@ func clone() -> GameOptions:
 	copy.hand_smoother = hand_smoother
 	copy.smoother_tolerance = smoother_tolerance
 	copy.free_mulligan = free_mulligan
+	copy.opening_infrastructure_floor = opening_infrastructure_floor
+	copy.opening_infrastructure_seat = opening_infrastructure_seat
 	copy.first_player = first_player
 	copy.turn_limit = turn_limit
 	copy.record_events = record_events

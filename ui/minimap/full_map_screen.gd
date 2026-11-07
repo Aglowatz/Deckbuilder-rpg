@@ -40,7 +40,7 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 
 func _build() -> void:
 	_fog = Session.fog_for(_area_id, _map.map_bounds())
-	_raster = MapRaster.build(_map, _fog)
+	_raster = MapRaster.build(_map, _fog, MapRaster.shows_outline(_area_id))
 	# finish sorting the cells quickly while the map is open (the minimap usually has already)
 	set_process(true)
 	var row: HBoxContainer = UIKit.hbox(24)
@@ -157,6 +157,7 @@ static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 func ping(poi: MapPoi) -> void:
 	_ping = poi
 	_ping_left = PING_SECONDS
+	Session.where_to_target = {"area": _area_id, "pos": poi.pos, "label": poi.label}  # Fix pass Nov 7 (item 7): the arrow after the map closes
 	Audio.sfx(&"ui_select")
 	if _canvas != null:
 		_canvas.queue_redraw()
@@ -212,19 +213,37 @@ func _draw_map() -> void:
 		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
 		var text: String = poi.label
 		var extent: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15)
-		var box: Rect2 = Rect2(at + Vector2(-extent.x * 0.5, icon_radius + 3.0), extent + Vector2(0, 4))
-		var clash: bool = false
-		for other: Rect2 in taken:
-			if other.intersects(box):
-				clash = true
-				break
-		if clash:
+		var box: Rect2 = place_label(at, extent + Vector2(0, 4), icon_radius, Rect2(top_left, drawn), taken)
+		if box.size == Vector2.ZERO:
 			continue
 		taken.append(box)
 		_canvas.draw_string_outline(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.05, 0.95))
 		_canvas.draw_string(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, UIStyle.PARCHMENT)
 	var here: Vector2 = top_left + (Vector2(_player.position.x, _player.position.z) - _fog.origin) / FogOfWar.CELL * scale_px
 	MapDraw.arrow(_canvas, here, _player.model.rotation.y, icon_radius)
+
+
+## Fix pass Nov 7 (item 7, C7 F5): a place name's box - under its icon, else above, right or left of it - kept inside the map's frame and
+## clear of the names already written. Rect2() when every spot is taken.
+static func place_label(at: Vector2, extent: Vector2, icon_radius: float, frame: Rect2, taken: Array[Rect2]) -> Rect2:
+	var gap: float = icon_radius + 3.0
+	var candidates: Array[Vector2] = [
+		at + Vector2(-extent.x * 0.5, gap), at + Vector2(-extent.x * 0.5, -gap - extent.y),
+		at + Vector2(gap, -extent.y * 0.5), at + Vector2(-gap - extent.x, -extent.y * 0.5),
+	]
+	var inner: Rect2 = frame.grow(-4.0)
+	for corner: Vector2 in candidates:
+		var box: Rect2 = Rect2(corner, extent)
+		box.position.x = clampf(box.position.x, inner.position.x, maxf(inner.position.x, inner.end.x - extent.x))
+		box.position.y = clampf(box.position.y, inner.position.y, maxf(inner.position.y, inner.end.y - extent.y))
+		var clash: bool = false
+		for other: Rect2 in taken:
+			if other.intersects(box):
+				clash = true
+				break
+		if not clash:
+			return box
+	return Rect2()
 
 
 func _process(delta: float) -> void:

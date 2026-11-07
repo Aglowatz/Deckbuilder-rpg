@@ -135,3 +135,16 @@ lore in `docs/design/story_bible.md` section 4). Intended level about **16** (bo
 | The Wheel Never Stops (`cap_wheels`) | SIDE | Rollo Spokes | 1. Free the wheel crews in the Transit Yards<br>2. Cut the facade's power cable in the Yards (final / cable) | Iron Knuckles, Barbell of the Ancients, Vitality Charm, 150 gold, 120 XP, Insight into Primm |
 | The Recipe Box (`cap_recipes`) | SIDE | Chef Marlo | 1. Find Chef Marlo's recipe cards in the Hungry Quarter<br>2. Spoil the paste dispenser in the Hungry Quarter (final / dispenser) | Pantry Apron, Recipe for wonder, Hearty Pot Pie, 150 gold, 120 XP, Insight into Primm |
 | Untidy (`cap_untidy`) | SIDE | Old Fern | 1. Rescue the banished compost heaps in the Reek<br>2. Plant the old seed in the Sick Patch (final / sick_patch) | Bin Lid Helm, The Mother Heap, Healing Salve, 150 gold, 120 XP, Insight into Primm |
+
+## Fix pass Nov 7 (owner decision D3): the Path line and Settling In
+
+- Picking the starting Path sets `own_path_<zone>` and starts that zone's main line (its gatekeeper) at once; it is the tracked quest
+  (`Session.claim_own_path`), and the tracker's fallback (`QuestLog.preferred`). The starting Path only decides the starting deck.
+- Maren's four errands (Meet the Merchants, Make It Yours, the store room, the armory) are the **Settling In** side line
+  (`QuestData.line`, tag "SETTLING IN"). They no longer gate the story: the other zone lines, Fragments and Brannoch's quest open on the first
+  arrival in Crosspath (`story_gate` = `trial_cleared`). Every gatekeeper can be fought at any point.
+- Tracking: a Settling In errand never takes the tracker from an active main quest when it starts or moves (`QuestLog.start`, `QuestLog.follow`).
+- The HUD tracker shows a standing **YOUR PATH** line ("Face Brick Bronson on the Gainlands road", `PathDirection.tracker_line`) while
+  another quest is tracked, until that gatekeeper is beaten; the map and minimap ring the Path's exit and gatekeeper in its colour.
+- Maren names the zone, the gatekeeper and the road at the cave mouth (`cave_mouth.maren_path`) and again in her Path talk, which now follows
+  her greeting instead of the armory.

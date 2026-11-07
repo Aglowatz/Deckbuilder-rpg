@@ -15,6 +15,7 @@ signal chosen(color: Affinity.Type)
 var selected: Affinity.Type = Affinity.Type.NEUTRAL
 var _tiles: Dictionary = {}
 var _confirm: FancyButton
+var _pick_first: Label
 var _more: FancyButton
 var _offers: Array[ElementChoice.Offer] = []
 var _detail: PanelContainer
@@ -79,6 +80,11 @@ func _ready() -> void:
 	_confirm.disabled = true
 	_confirm.pressed.connect(_on_confirm)
 	buttons.add_child(_confirm)
+	# Fix pass Nov 7 (item 5, C1 F3): Begin stayed grey with no reason given.
+	_pick_first = UIKit.label("Pick a Path first", &"", 20, UIStyle.GOLD)
+	_pick_first.name = "PickAPathFirst"
+	_pick_first.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	buttons.add_child(_pick_first)
 	_link_focus()
 	_refresh_detail()
 	UIKit.pop_in(panel)
@@ -120,7 +126,16 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 	plan.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.add_child(plan)
 	_tiles[offer.affinity] = tile
+	# Fix pass Nov 7 (item 5, C1 F3): the whole column is one click target - the sample cards, the name and the blurb no longer swallow the
+	# click (only the header and icon used to select). Again after a frame: card views set their own filters when they enter the tree.
+	_pass_clicks_through(tile)
+	_pass_clicks_through.call_deferred(tile)
 	return tile
+
+
+static func _pass_clicks_through(tile: Control) -> void:
+	for child: Node in tile.find_children("*", "Control", true, false):
+		(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 ## The strip under the tiles: the hovered / focused Path's identity and playstyle (a hint line when nothing is highlighted).
@@ -269,6 +284,8 @@ func _select(color: Affinity.Type) -> void:
 		UiSkin.choice_tile(tile, tint, is_selected)
 	_confirm.disabled = false
 	_confirm.text = "Begin as %s" % UIStyle.affinity_name(color)
+	if _pick_first != null:
+		_pick_first.visible = false
 	_refresh_detail()
 
 

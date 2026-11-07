@@ -10,6 +10,9 @@ var completed: Array[String] = []
 var baselines: Dictionary = {}
 ## The quest shown in the HUD tracker (chosen in the Quest Log); a newly started quest becomes the tracked one.
 var tracked: String = ""
+## Fix pass Nov 7 (D3): the quest the tracker falls back to when the tracked one ends (the player's own Path line; set by Session, not
+## saved). "" = the most recently started active quest.
+var preferred: String = ""
 ## Overnight Oct 16: milestone rewards already paid ("<quest id>#<objective index>"), the last seen progress per active quest (recency), and the
 ## save format version (1 = before categories and milestones; `QuestMigration` upgrades it).
 var milestones_paid: Array[String] = []
@@ -37,7 +40,10 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 	if not can_start(quest, state):
 		return false
 	active.append(quest.id)
-	tracked = quest.id
+	# Fix pass Nov 7 (D3): a "Settling In" errand never takes the tracker from an active main quest (the Path's line stays tracked).
+	var tracked_quest: QuestData = QuestCatalog.find(tracked) if active.has(tracked) else null
+	if quest.line.is_empty() or tracked_quest == null or not tracked_quest.is_main():
+		tracked = quest.id
 	for objective: QuestObjective in quest.objectives:
 		var cond: Condition = objective.condition
 		if cond != null and cond.kind == Condition.Kind.COUNTER:
@@ -114,6 +120,7 @@ func reset() -> void:
 	completed.clear()
 	baselines.clear()
 	tracked = ""
+	preferred = ""
 	milestones_paid.clear()
 	progress_seen.clear()
 	version = VERSION
@@ -127,7 +134,27 @@ static func _baseline_key(quest_id: String, counter_key: String) -> String:
 func tracked_id() -> String:
 	if tracked != "" and active.has(tracked):
 		return tracked
+	if preferred != "" and active.has(preferred):
+		return preferred
+	# Fix pass Nov 7 (item 14): with the tracked quest gone, the newest active MAIN quest leads before any side quest.
+	for index: int in range(active.size() - 1, -1, -1):
+		var quest: QuestData = QuestCatalog.find(active[index])
+		if quest != null and quest.is_main():
+			return active[index]
 	return active[active.size() - 1] if not active.is_empty() else ""
+
+
+## Fix pass Nov 7 (D3, item 14): the tracker follows a quest that moved forward - a main quest always takes it; a side quest (a Settling
+## In errand) only when no active main quest is tracked. True when the tracker moved.
+func follow(quest_id: String) -> bool:
+	var candidate: QuestData = QuestCatalog.find(quest_id)
+	if candidate == null or not active.has(quest_id):
+		return false
+	var current: QuestData = QuestCatalog.find(tracked_id())
+	if candidate.is_main() or current == null or not current.is_main():
+		tracked = quest_id
+		return true
+	return false
 
 
 ## Picks the tracked quest (an active one). False otherwise.

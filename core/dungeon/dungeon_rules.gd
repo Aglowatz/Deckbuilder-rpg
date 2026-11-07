@@ -60,7 +60,8 @@ static func _source(key: String, scope: String, node_number: int = 0) -> Modifie
 	var modifiers: Array[Modifier] = []
 	for entry: Dictionary in _entries(plan.id):
 		if str(entry["scope"]) == scope and entry["modifiers"] != null and _applies_at(entry, node_number):
-			modifiers.append_array(entry["modifiers"] as Array[Modifier])
+			for modifier: Modifier in entry["modifiers"] as Array[Modifier]:
+				modifiers.append(_delay_growth(modifier, node_number))
 	if modifiers.is_empty():
 		return null
 	var source: ModifierSource = ModifierSource.new()
@@ -68,6 +69,20 @@ static func _source(key: String, scope: String, node_number: int = 0) -> Modifie
 	source.source_kind = ModifierSource.SourceKind.DUNGEON
 	source.modifiers = modifiers
 	return source
+
+
+## Fix pass Nov 7 (item 4): on a main dungeon's first fights (node numbers up to FIRST_NODES_MAX) the "growth" rules (Wild Growth) start
+## at round GROWTH_DELAY_ROUND, so a fresh deck gets its infrastructure down before the foe's units start growing.
+const FIRST_NODES_MAX: int = 3
+const GROWTH_DELAY_ROUND: int = 3
+
+
+static func _delay_growth(modifier: Modifier, node_number: int) -> Modifier:
+	if modifier.kind != Modifier.Kind.OVERGROWTH or node_number <= 0 or node_number > FIRST_NODES_MAX:
+		return modifier
+	var delayed: Modifier = modifier.duplicate() as Modifier
+	delayed.value2 = maxi(modifier.value2, GROWTH_DELAY_ROUND)
+	return delayed
 
 
 ## A rule limited to some nodes (`nodes`: their numbers) only applies on those; `node_number` 0 = not asked, so every rule counts.
@@ -95,7 +110,7 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			]
 		"D-ROT":
 			return [
-				_rule("Wild Growth", "At the start of each turn, each unit gets a buff (up to 3 per unit).", "both", [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1)] as Array[Modifier]),
+				_rule("Wild Growth", "At the start of each turn, each unit gets a buff (up to 3 per unit). In the first rooms it starts in round 3.", "both", [CardBuilder.modifier(Modifier.Kind.OVERGROWTH, 1)] as Array[Modifier]),
 				_rule("Rot", "At end of turn, units with 1 defense are destroyed.", "both", [CardBuilder.modifier(Modifier.Kind.ROT, 1)] as Array[Modifier]),
 			]
 		"D-PC":

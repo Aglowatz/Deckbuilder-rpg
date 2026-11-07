@@ -42,8 +42,10 @@ const STARTING_DECKS: Dictionary = {
 	# Ambush Party and Desperate Measures the neutral answers.
 	Affinity.Type.REFUSEMANCER: {
 		# Cards Oct 27: one Ambush Party gave way to Curb Alert (the Common Regrow: a Rat or Possum back from the Refuse Pile, plus a Garbage).
-		"R-06": 3, "R-08": 3, "R-02": 2, "R-22": 2, "R-14": 1, "R-34": 1,
-		"C-02": 3, "C-03": 2, "C-06": 2, "C-09": 2, "C-11": 2, "C-17": 1, "C-15": 2,
+		# Fix pass Nov 7 (item 4): the two Desperate Measures (4-cost) gave way to sturdier early bodies - a third Watchtower Archer (1/3 Swat for 2)
+		# and a Kidding Around (2/3 plus a Goat) - the Refusemancer had the roughest start (cave 79 %, Brick Bronson 25 %).
+		"R-06": 3, "R-08": 3, "R-02": 2, "R-22": 2, "R-14": 1, "R-34": 1, "R-05": 1,
+		"C-02": 3, "C-03": 3, "C-06": 2, "C-09": 2, "C-11": 2, "C-17": 1,
 	},
 }
 

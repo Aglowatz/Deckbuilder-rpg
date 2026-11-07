@@ -12,12 +12,15 @@ func before_each() -> void:
 	Session.pending_popups = []
 
 
-func test_before_the_armory_quest_no_story_marks_show() -> void:
+func test_out_of_the_cave_the_marker_points_at_the_path_gatekeeper() -> void:
+	# Fix pass Nov 7 (D3): the story opens on arrival, not after the armory; the tracked quest is the Path's line, so the one objective
+	# marker points at its gatekeeper and Brannoch already has the Capital's quest.
 	Session.flags = {"trial_cleared": true}
+	Session.claim_own_path()
 	Session.offer_auto_quests()
 	var marks: Dictionary = QuestMarkers.giver_marks("town", Session.quest_log, QuestCatalog.all(), Session.unlock_state())
-	assert_false(marks.has("guard"), "Brannoch has nothing to offer yet")
-	assert_eq(str(QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state()).get("spot", "")), "item_vendor", "the one marker points at Tilly for Meet the Merchants (her item lesson comes first since Nov 3-4)")
+	assert_true(marks.has("guard"), "Brannoch offers Free the Four Zones from the start")
+	assert_eq(str(QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state()).get("spot", "")), "npc_beefcake", "the one marker points at Brick Bronson")
 
 
 func test_a_giver_with_a_quest_on_offer_shows_an_exclamation_mark() -> void:

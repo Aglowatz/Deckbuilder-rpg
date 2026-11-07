@@ -1802,12 +1802,12 @@
 			"Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. He lives to stamp things."
 		],
 		"quest.path_direction": [
-			"Armed now, are we? Good. Then it's time I pointed you somewhere. Start with {zone}, dearie. It's {path} country, and so, by the look of you, are you.",
+			"Sit down a moment, dearie, before you go running off. It's time I pointed you somewhere properly. Start with {zone}. It's {path} country, and so, by the look of you, are you.",
 			"{vendor} sells more {path} cards out there than anyone in this town does, so take gold and a good big bag. And take my advice, for once.",
 			"Inside {zone}, your Path stands a little taller. {buff}: {buff_text}",
 			"The Paths quarrel, dearie: Beefcake against Necrocrat, Gourmand against Refusemancer. They always have. Once, they needed each other too much for it to matter.",
 			"So in {zone}, it's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone}, it's the other way round, and you're the one who suffers.",
-			"{gatekeeper} holds the way in, and you'll have to win that fight before anything else. Then come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
+			"{gatekeeper} holds {road} at {obstacle}, and nobody gets into {zone} without beating that fight first. Then come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
 		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
@@ -1981,6 +1981,11 @@
 		],
 		"dungeon.lab_cell4.title": [
 			"Cell 4"
+		],
+		"cave_mouth.maren_path": [
+			"One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through, so start where it'll be easiest for you: {zone}.",
+			"Take {road} out of town. {gatekeeper} is standing at {obstacle}, and you'll have to win that duel before anyone lets you through. It's on your map, marked in your Path's colour.",
+			"The errands can wait as long as you like. The shops aren't going anywhere, and neither am I."
 		]
 	}
 }

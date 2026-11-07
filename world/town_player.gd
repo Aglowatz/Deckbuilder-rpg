@@ -172,14 +172,36 @@ func _key_held(action: StringName) -> bool:
 	return Input.get_action_strength(action) >= 0.99
 
 
-## Moves by `step`, sliding along obstacles when the full step is blocked.
+## Moves by `step`, sliding along obstacles when the full step is blocked (`slide_step`).
 func _move(step: Vector3) -> void:
-	if town.is_walkable(position + step):
-		position += step
-	elif town.is_walkable(position + Vector3(step.x, 0.0, 0.0)):
-		position.x += step.x
-	elif town.is_walkable(position + Vector3(0.0, 0.0, step.z)):
-		position.z += step.z
+	position += slide_step(position, step, func(at: Vector3) -> bool: return town.is_walkable(at))
+
+
+## Fix pass Nov 7 (item 2): the hero's body is a circle (the walkability test's body radius) that SLIDES along whatever it meets. Blocked
+## head-on, the step turns toward the wall's tangent in SLIDE_ANGLES steps (shortened by the cosine, like a projection onto the wall), so
+## a bench, a lamp post, a plinth or a round fountain is walked round instead of stopping the hero dead; then the old axis slides. A hero
+## already standing on blocked ground (a spawn inside a prop) may step out freely. Returns the offset actually moved.
+const SLIDE_ANGLES: Array[float] = [15.0, 30.0, 45.0, 60.0, 75.0, 85.0]
+
+
+static func slide_step(from: Vector3, step: Vector3, walkable: Callable) -> Vector3:
+	if step == Vector3.ZERO:
+		return Vector3.ZERO
+	if bool(walkable.call(from + step)):
+		return step
+	if not bool(walkable.call(from)):
+		return step  # stuck inside something: let the hero walk out
+	for degrees: float in SLIDE_ANGLES:
+		var radians: float = deg_to_rad(degrees)
+		var scale: float = cos(radians)
+		for sign: float in [1.0, -1.0]:
+			var turned: Vector3 = step.rotated(Vector3.UP, radians * sign) * scale
+			if bool(walkable.call(from + turned)):
+				return turned
+	for axis_step: Vector3 in [Vector3(step.x, 0.0, 0.0), Vector3(0.0, 0.0, step.z)]:
+		if axis_step != Vector3.ZERO and bool(walkable.call(from + axis_step)):
+			return axis_step
+	return Vector3.ZERO
 
 
 ## Nov 3-4, Part A5: runs on the spot (the walk cycle at `cycles` per second) facing `direction`; 0 cycles = back to normal (idle when still).

@@ -46,7 +46,7 @@ static func build_map() -> DungeonMap:
 	challenge.challenge_id = CHALLENGE_ID
 	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Roots hang from the ceiling like old rope. Something with claws moves between them.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"
-	second.enemy_hp = 3
+	second.enemy_hp = STALKER_HP  # Fix pass Nov 7 (item 4): a real step between the 3-HP first duel and the Warden
 	second.ai_name = "Aggressive (tutorial)"
 	second.difficulty = DungeonMap.Difficulty.TUTORIAL
 	second.gold_reward = EncounterRewards.gold_for(second.difficulty)
@@ -107,6 +107,11 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 	return map.add_node(map_node)
 
 
+## Fix pass Nov 7 (item 4, C1 F2): duel 2 is the step up to the Warden - 7 HP and a Shield Bearer blocker (C-05, 1/5 Wallflower) to get past, instead of a
+## second 3-HP warm-up; the Warden's swarm is smaller (one Village Militia, one Sucker Punch card and the Kidding Around gone).
+const STALKER_HP: int = 7
+
+
 ## Enemy deck recipes: Card ID -> copies (BAS-x are the basic Infrastructure).
 static func enemy_recipe(enemy_name: String) -> Dictionary:
 	# Tutorial-weak (Part D): the two non-boss opponents use only low-stat vanilla units
@@ -123,9 +128,9 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 		"Cave Scavenger":
 			return {"BAS-G": 19, "C-01": 3, "C-04": 3}  # Fable pass Nov 1: no Village Militia (2/2): a first player's units trade up and the duel ends in 5-6 turns
 		"Hollow Stalker":
-			return {"BAS-R": 13, "BAS-G": 8, "C-01": 2, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
+			return {"BAS-R": 13, "BAS-G": 8, "C-01": 2, "C-02": 3, "C-04": 2, "C-05": 1, "C-07": 1}  # Fix pass Nov 7: a Shield Bearer blocker
 		"Hollow Warden":
-			return {"BAS-G": 15, "BAS-R": 10, "C-01": 1, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1}  # Overnight Oct 18 cycle 7: no Desperate Measures, one Curbside Rat fewer, two more basics (run clears were 76-82%)
+			return {"BAS-G": 16, "BAS-R": 11, "C-01": 1, "C-02": 2, "C-06": 1, "C-08": 1, "R-06": 1}  # Fix pass Nov 7: a smaller swarm (-C-02, -C-06, -R-05)  # Overnight Oct 18 cycle 7: no Desperate Measures, one Curbside Rat fewer, two more basics (run clears were 76-82%)
 	return {}
 
 

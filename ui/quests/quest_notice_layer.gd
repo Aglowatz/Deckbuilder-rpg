@@ -23,6 +23,7 @@ var _header: Label
 var _title: Label
 var _line: Label
 var _showing: bool = false
+var _tween: Tween
 ## The notice on screen ({} when none) - for tests and screenshots.
 var current: Dictionary = {}
 ## Tools/screenshots: a notice stays up until cleared.
@@ -114,16 +115,36 @@ static func objective_line(quest: QuestData) -> String:
 
 
 func _process(_delta: float) -> void:
+	# Fix pass Nov 7 (item 5, C7 F1): a conversation that opens over a notice sends it back to the front of the queue (it covered Tilly's
+	# portrait and her first lines); it plays again once the conversation is over.
+	if _showing and not hold and dialogue_open(get_tree()):
+		if _tween != null:
+			_tween.kill()
+		_queue.push_front(current)
+		_done()
+		return
 	if _showing or _queue.is_empty() or _must_wait():
 		return
 	_show(_queue.pop_front())
 
 
-## Notices wait through battles, scene changes and paused menus (they would be missed or cover the board).
+## Notices wait through battles, scene changes, paused menus and open conversations (they would be missed or cover the board, a
+## portrait or the dialogue's first words).
 func _must_wait() -> bool:
 	if SceneManager.busy or get_tree().paused:
 		return true
+	if dialogue_open(get_tree()):
+		return true
 	return get_tree().current_scene is BattleScreen
+
+
+## Fix pass Nov 7 (item 5): true while any dialogue box is open.
+static func dialogue_open(tree: SceneTree) -> bool:
+	for node: Node in tree.get_nodes_in_group(DialogueBox.GROUP):
+		var box: DialogueBox = node as DialogueBox
+		if box != null and box.active and box.is_visible_in_tree():
+			return true
+	return false
 
 
 func _show(notice: Dictionary) -> void:
@@ -135,7 +156,13 @@ func _show(notice: Dictionary) -> void:
 	_title.text = str(notice["title"])
 	_line.text = str(notice["line"])
 	_line.visible = not _line.text.is_empty()
+	# Fix pass Nov 7 (item 5, C7 F1): the panel is sized to its text. An autowrapped label measured before it has a width wraps every word
+	# onto its own line, and the panel kept that full-screen height - give the labels their width first, and measure again next frame.
+	for label: Label in [_header, _title, _line]:
+		label.size = Vector2(WIDTH - 30.0, 0.0)
+	_panel.size = Vector2(WIDTH, 0.0)
 	_panel.reset_size()
+	_refit.call_deferred()
 	var tracker: QuestTracker = get_tree().get_first_node_in_group(QuestTracker.GROUP) as QuestTracker
 	var at: Vector2 = Vector2((1920.0 - WIDTH) * 0.5, 24.0)
 	if tracker != null and tracker.is_visible_in_tree():
@@ -147,6 +174,7 @@ func _show(notice: Dictionary) -> void:
 	_panel.visible = true
 	Audio.sfx(&"quest_complete" if str(notice["kind"]) == "complete" else &"quest_accept")
 	var tween: Tween = create_tween()
+	_tween = tween
 	tween.set_parallel(true)
 	tween.tween_property(_panel, "modulate:a", 1.0, SLIDE_SECONDS)
 	tween.tween_property(_panel, "position", at, SLIDE_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -155,6 +183,12 @@ func _show(notice: Dictionary) -> void:
 	tween.chain().tween_interval(SHOW_SECONDS)
 	tween.chain().tween_property(_panel, "modulate:a", 0.0, FADE_SECONDS)
 	tween.chain().tween_callback(_done)
+
+
+func _refit() -> void:
+	if _panel.visible:
+		_panel.size = Vector2(WIDTH, 0.0)
+		_panel.reset_size()
 
 
 func _done() -> void:

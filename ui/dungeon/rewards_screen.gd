@@ -120,8 +120,10 @@ func _build_rewards() -> void:
 	# Fresh eyes Oct 30: the middle card starts chosen, so "Take" is the live gold button from the first frame (with nothing chosen the
 	# plain "Skip card" read as the primary button and the critic skipped the first reward).
 	# Fable pass Nov 1 (Part 7): the rarest card starts chosen (a critic took an Uncommon over an Epic with E); ties keep the middle.
+	# Fix pass Nov 7 (item 5, C1 F5): nothing starts chosen - E had been taught as "continue" and took the pre-selected card. The gold
+	# button asks for a pick instead, and E / Enter only take a card the player chose.
 	if not _cards.is_empty():
-		_select(_best_index(), true)
+		_await_pick()
 
 
 ## The card views of the offer's current cards, in the card row (built once, and again after a reroll).
@@ -161,12 +163,7 @@ func _reroll() -> void:
 	_cards.clear()
 	_selected = -1
 	_fill_cards()
-	_take_button.disabled = true
-	_take_button.text = "Take card"
-	if _where_label != null:
-		_where_label.text = ""
-	if _cards.size() > 1:
-		_select(1, true)
+	_await_pick()
 	if _reroll_button != null:
 		_reroll_button.queue_free()
 		_reroll_button = null
@@ -196,6 +193,15 @@ func _add_buttons() -> void:
 			_reroll_button.tooltip_text = "Not enough gold (you have %d)." % Session.gold if _reroll_button.disabled else "Pay %d gold for three different cards. Once per pick." % _offer.reroll_price
 			_reroll_button.pressed.connect(_reroll)
 			buttons.add_child(_reroll_button)
+
+
+## Fix pass Nov 7 (item 5): no card chosen yet - the gold button says what to do and stays shut until a card is clicked (or 1-3 / arrows).
+func _await_pick() -> void:
+	_selected = -1
+	_take_button.disabled = true
+	_take_button.text = "Choose a card"
+	if _where_label != null:
+		_where_label.text = "Click a card to choose it (or press 1-%d), then take it. Or skip." % _cards.size()
 
 
 ## The index of the rarest card of the offer; the middle card among equals.
@@ -259,6 +265,10 @@ func _input(event: InputEvent) -> void:
 		index = maxi(0, _selected - 1) if _selected >= 0 else 0
 	elif key.keycode == KEY_RIGHT or key.keycode == KEY_D:
 		index = mini(_cards.size() - 1, _selected + 1)
+	elif UiInput.is_confirm(event) and _selected < 0:
+		get_viewport().set_input_as_handled()  # Fix pass Nov 7: E never takes or skips a card the player did not choose
+		Audio.sfx(&"ui_error", -10.0)
+		return
 	elif UiInput.is_confirm(event) and _selected >= 0 and is_instance_valid(_take_button) and not _take_button.disabled and _take_button.is_visible_in_tree():  # Oct 31 - Nov 1: the button is gone once a card is taken (20 SCRIPT ERRORs on E)
 		get_viewport().set_input_as_handled()
 		_take_button.pressed.emit()

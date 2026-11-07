@@ -739,6 +739,9 @@ const STANDING_TOWNSFOLK: Array[Dictionary] = [
 var _standing_townsfolk: Array[SpriteActor] = []
 
 
+const TOWNSFOLK_CORE: float = 0.1
+
+
 func _build_standing_townsfolk() -> void:
 	for spec: Dictionary in STANDING_TOWNSFOLK:
 		var character: String = str(spec["character"])
@@ -751,7 +754,8 @@ func _build_standing_townsfolk() -> void:
 		var actor: SpriteActor = NpcSprites.make_actor(character, spec["tint"] as Color)
 		actor.name = "Townsfolk%d" % (_standing_townsfolk.size() + 1)
 		ModelKit.place(self, actor, pos, float(spec["yaw"]), TownPlayer.MODEL_SCALE)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.3))
+		# Fix pass Nov 7 (item 2, C4 F7): townsfolk never body-block the hero - a small core the hero slides off (was 0.3 m).
+		town.obstacles.append(Vector3(pos.x, pos.z, TOWNSFOLK_CORE))
 		_standing_townsfolk.append(actor)
 
 
@@ -1199,9 +1203,12 @@ func _update_nearest() -> void:
 	var best_distance: float = 1e9
 	for spot: Spot in spots:
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		if distance <= spot.radius * StorybookScale.INTERACT_FACTOR and distance < best_distance:
+		if distance > spot.radius * StorybookScale.INTERACT_FACTOR:
+			continue
+		var score: float = distance + spot_penalty(spot.id)
+		if score < best_distance:
 			best = spot
-			best_distance = distance
+			best_distance = score
 	if best != _near:
 		_near = best
 		if best != null:
@@ -1217,6 +1224,17 @@ func _update_nearest() -> void:
 		player.stop_walking()
 		if _near == target:
 			_interact(target)
+
+
+## Fix pass Nov 7 (item 1): with several spots in reach, E takes the lowest distance + penalty. A sealed portal ranks below everything else in
+## reach, so its guardian (the gatekeeper standing in front of it) is the one E talks to.
+const SEALED_PORTAL_PENALTY: float = 100.0
+
+
+func spot_penalty(spot_id: String) -> float:
+	if spot_id.begins_with("portal_") and _portal_is_locked(spot_id.trim_prefix("portal_")):
+		return SEALED_PORTAL_PENALTY
+	return 0.0
 
 
 ## New brief, Part D: hidden chests have no marker to draw the player's eye from a distance - the
@@ -1293,8 +1311,19 @@ func _prompt_text(spot: Spot) -> String:
 		return "Read the signpost"
 	if spot.id.begins_with("portal_"):
 		var zone_id: String = spot.id.trim_prefix("portal_")
-		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
+		# Fix pass Nov 7 (item 14, C4 F2): every exit says where it goes ("[E] Travel to the Capital"); a sealed one names its guardian.
+		if _portal_is_locked(zone_id):
+			return "Sealed - beat %s first" % CorruptedNpcs.display_name(zone_id).get_slice(",", 0)
+		return portal_prompt(zone_id)
 	return spot.title
+
+
+## Fix pass Nov 7 (item 14): the prompt of an open exit - "Travel to the Capital", "Travel to the Gainlands".
+static func portal_prompt(zone_id: String) -> String:
+	var place: String = ZoneDefs.get_def(zone_id).display_name if ZoneDefs.has_def(zone_id) else str(ZonePortals.DESTINATION_NAMES.get(zone_id, "the road"))
+	if zone_id == ZonePortals.FINAL_ID:
+		place = str(ZonePortals.DESTINATION_NAMES[ZonePortals.FINAL_ID])
+	return "Travel to %s" % (place.substr(0, 1).to_lower() + place.substr(1) if place.begins_with("The ") and zone_id != ZonePortals.FINAL_ID else place)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -1823,7 +1852,7 @@ func _show_town_result() -> void:
 ## ends; a step whose UI never opens or never reports back is caught by the lock watchdog (`_watch_lock`), which ends the queue.
 ## Started on `SceneManager.revealed` (or by `_process` once the scene manager is idle, if that signal was missed); runs once.
 ## Overnight Oct 20: level-ups first, then reward boxes and quest notices, the Path warning, Maren's welcome (the stability brief's order).
-const ARRIVAL_ORDER: Array[String] = ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"]
+const ARRIVAL_ORDER: Array[String] = ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end", "welcome_path"]
 var arrival_pending: bool = false
 var arrival_active: bool = false
 ## The steps shown so far, in order (tests and the game log): "rewards", "level_ups", "path_warning", "welcome_maren"...
@@ -1897,6 +1926,11 @@ func _run_arrival_step(step: String, done: Callable) -> bool:
 			return _arrival_dialogue("", story.get_lines("cave_mouth.wanderer"), NpcRegistry.PLAYER_ID, done)
 		"welcome_maren_end":
 			return _arrival_dialogue("Elder Maren", story.get_lines("cave_mouth.maren_end"), "NPC-ELDER", done)
+		"welcome_path":
+			# Fix pass Nov 7 (item 1): Maren names the player's Path zone, its gatekeeper and its road (the errands can wait).
+			if Session.profile == null or not PathDirection.tracker_line(Session.profile.primary_affinity, Session.flags).length():
+				return false
+			return _arrival_dialogue("Elder Maren", PathDirection.lines(Session.profile.primary_affinity, PathDirection.CAVE_TEXT_KEY), "NPC-ELDER", done)
 	return false
 
 
@@ -2946,12 +2980,25 @@ func _collect_pois() -> Array[MapPoi]:
 		if POI_KINDS.has(spot.id):
 			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, poi_label(spot.id, spot.title)))
 		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
-			result.append(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title))
+			result.append(_tint_own_path(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title), spot.id.trim_prefix("npc_")))
 		elif spot.id.begins_with("portal_"):
-			result.append(MapPoi.make(MapPoi.Kind.EXIT, spot.position, spot.title, false, _portal_is_locked(spot.id.trim_prefix("portal_"))))
+			var zone_id: String = spot.id.trim_prefix("portal_")
+			result.append(_tint_own_path(MapPoi.make(MapPoi.Kind.EXIT, spot.position, spot.title, false, _portal_is_locked(zone_id)), zone_id))
 	if quest_markers != null:
 		quest_markers.add_map_pois(result)
 	return result
+
+
+## Fix pass Nov 7 (item 1): the player's own Path road - its exit and its gatekeeper - carries a ring in the Path's colour and says so in its
+## label until the gatekeeper is beaten.
+func _tint_own_path(poi: MapPoi, zone_id: String) -> MapPoi:
+	if Session.profile == null or PathDirection.zone_of(Session.profile.primary_affinity) != zone_id:
+		return poi
+	if PathDirection.tracker_line(Session.profile.primary_affinity, Session.flags).is_empty():
+		return poi
+	poi.path_tint = UIStyle.affinity_color(Session.profile.primary_affinity)
+	poi.label = "Your Path: %s" % poi.label
+	return poi
 
 
 func _open_full_map() -> void:

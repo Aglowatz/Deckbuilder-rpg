@@ -40,7 +40,7 @@ func setup(zone_or_area_id: String, map: WalkableArea, hero: TownPlayer, poi_sou
 	fog = Session.fog_for(area_id, map.map_bounds())
 	var extent: Vector2 = map.map_bounds().size
 	_view_span = clampf(maxf(extent.x, extent.y) + 6.0, 24.0, VIEW_SPAN)
-	raster = MapRaster.build(map, fog)
+	raster = MapRaster.build(map, fog, MapRaster.shows_outline(area_id))
 	raster.apply_reveal(fog.reveal(Vector2(hero.position.x, hero.position.z)))
 	_refresh_pois()
 

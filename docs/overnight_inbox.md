@@ -1201,3 +1201,13 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
       be swallowed.
     - **The feat toast lands during the Rescuer's farewell.**
     - **The map subtitle reads "The Forest Clearing"** inside the cave.
+
+## Fixes Nov 7 (critic top 15, part 1) - yours to decide (the safest choice was taken)
+
+1. **D3 story gate.** With the errands no longer a gate, all four zone lines, Fragments and Brannoch's quest open on the first arrival in
+   Crosspath (the own Path line already at the Path choice). The other three lines could instead wait until the own gatekeeper is beaten, to
+   keep the log short at first. Kept: open at once ("every gatekeeper can be fought at any point"); the tracker and the YOUR PATH line lead.
+2. **Forest tracker.** The forest has no HUD quest tracker, so between the Path choice and the cave the Path quest shows only as the "New quest:
+   Raise the Bar" banner. Left as is (the cave is the only way on).
+3. **Victory pick.** Nothing is pre-chosen now and E takes nothing until a card is picked; "Skip card" is the only live button until then. If
+   players skip by accident, the next step is to make Skip a plain (non-gold) button.

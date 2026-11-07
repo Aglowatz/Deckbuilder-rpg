@@ -134,6 +134,14 @@ static func is_battle_kind(kind: Kind) -> bool:
 	return kind == Kind.BATTLE or kind == Kind.ELITE or kind == Kind.BOSS
 
 
+## Fix pass Nov 7 (item 14): true when a node leading into `id` is cleared, or the party stands on one - the castle shows such a node's type.
+func neighbour_cleared(id: int) -> bool:
+	for from_id: int in incoming(id):
+		if is_cleared(from_id) or from_id == current:
+			return true
+	return false
+
+
 ## Nodes that lead INTO `id` (more than one means two routes rejoin there).
 func incoming(id: int) -> Array[int]:
 	var result: Array[int] = []

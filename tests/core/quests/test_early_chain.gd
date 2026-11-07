@@ -1,4 +1,6 @@
 extends GutTest
+## Fix pass Nov 7 (owner decision D3): the chain is the "Settling In" side line now - it runs beside the Path's main line and no longer gates
+## the story quests, which open on the first arrival in Crosspath. The chain's own order, XP and Bertram's gating are unchanged.
 ## Oct 20, Part 4: the early-game main chain. Out of the cave the only quest is Maren's Meet the Merchants; handing each errand back gives
 ## the next (Make It Yours, the store room ghosts, the armory); the chain's XP brings a normal new hero to level 5 as the ghost quest is
 ## handed in; Bertram stays shut until Maren sends the hero; the story's main quests appear only once the armory quest is done; old saves
@@ -51,10 +53,16 @@ func _win_storeroom() -> void:
 	Session.resolve_storeroom_battle(context)
 
 
-func test_out_of_the_cave_the_only_quest_is_marens() -> void:
-	assert_eq(Session.quest_log.active, [QuestDefinitions.MERCHANTS] as Array[String], "only Meet the Merchants")
-	assert_false(_any_story_quest_on_offer(), "no zone line, Fragments, Brannoch or the well yet")
-	assert_true(Session.quests_offered_by(QuestDefinitions.BRANNOCH).is_empty())
+func test_out_of_the_cave_the_path_line_leads_and_the_errands_run_beside_it() -> void:
+	var own: String = PathDirection.own_main_quest(Affinity.Type.GOURMAND)
+	assert_true(Session.quest_log.is_active(own), "the Path's line started at the Path choice")
+	assert_eq(Session.quest_log.tracked_id(), own, "and is the tracked quest")
+	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "Meet the Merchants runs beside it")
+	assert_eq(QuestCatalog.find(QuestDefinitions.MERCHANTS).category_tag(), "SETTLING IN")
+	assert_false(QuestCatalog.find(QuestDefinitions.MERCHANTS).is_main(), "the errands are a side line")
+	for zone_id: String in Gatekeepers.IDS:
+		assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "every gatekeeper's line is open (%s)" % zone_id)
+	assert_true(Session.quests_offered_by(QuestDefinitions.BRANNOCH).has(QuestCatalog.find(QuestDefinitions.FREE_ZONES)), "Brannoch has the Capital's quest")
 	assert_eq(Session.armory_stage(), 0, "Bertram is shut")
 
 
@@ -68,6 +76,7 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	_hand_in(QuestDefinitions.MERCHANTS)
 	# 2. Make It Yours.
 	_take_from_maren(QuestDefinitions.FIRST_DECK_EDIT)
+	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.GOURMAND), "an errand never takes the tracker from the Path")
 	assert_false(Session.quests_offered_by(QuestDefinitions.MAREN).has(QuestCatalog.find(QuestDefinitions.GHOSTS)), "one errand at a time")
 	# Fixes Oct 25, Part 6: the first step is opening a pack (one is given to a player who has none)
 	assert_eq(Session.pack_count(QuestDefinitions.FIRST_PACK_ID), 1, "Maren hands over a General Pack")
@@ -83,14 +92,12 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	_win_storeroom()
 	assert_true(Session.flag(StoreroomGhosts.FLAG_CLEARED))
 	assert_lt(Session.profile.level, ProgressionTable.ARMORY_LEVEL, "the fight alone does not do it")
-	assert_false(_any_story_quest_on_offer(), "still no story quests")
 	_hand_in(QuestDefinitions.GHOSTS)
 	assert_eq(Session.profile.level, ProgressionTable.ARMORY_LEVEL, "level 5 as Maren takes the ghost quest back (XP %d)" % Session.profile.xp)
 	# 4. The armory, from Maren.
 	assert_eq(Session.armory_stage(), 0, "Bertram is still shut until the quest starts")
 	_take_from_maren(QuestDefinitions.ARMORY)
 	assert_eq(Session.armory_talk(), 1, "report to Bertram")
-	assert_false(_any_story_quest_on_offer(), "the story waits for the armory quest")
 	Session.note_duel_won()
 	Session.refresh_quests()
 	Session.armory_talk()
@@ -99,7 +106,7 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	Session.refresh_quests()
 	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
 	assert_true(Session.gear_unlocked())
-	# 5. The story's main quests appear at once.
+	# 5. The story's main quests were there all along.
 	for zone_id: String in Gatekeepers.IDS:
 		assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's line is active" % zone_id)
 	assert_true(Session.quest_log.is_active(MemoryDefs.QUEST_ID))

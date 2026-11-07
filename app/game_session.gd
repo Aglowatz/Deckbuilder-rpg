@@ -220,7 +220,29 @@ func choose_starting_path(color: Affinity.Type) -> void:
 	deck = CampaignStart.starter_deck(content, color)
 	deck.deck_name = DECK_NAME
 	set_flag(&"rescuer_met")
+	claim_own_path()
 	save_game()
+
+
+## Fix pass Nov 7 (owner decision D3): the starting Path only decides the deck, but its zone is the easiest first road - its main line (the
+## gatekeeper) is given now and tracked, and the HUD tracker keeps a standing "Your Path" line (`PathDirection.tracker_line`).
+## Old saves get the flag on load (no quest is started from here then: town entry offers it). True when the quest was started now.
+func claim_own_path(start_now: bool = true) -> bool:
+	if profile == null:
+		return false
+	var zone_id: String = PathDirection.zone_of(profile.primary_affinity)
+	if zone_id.is_empty():
+		return false
+	flags[QuestDefinitions.own_path_flag(zone_id)] = true
+	quest_log.preferred = QuestDefinitions.zone_main_id(zone_id)
+	if not start_now:
+		return false
+	var own: String = QuestDefinitions.zone_main_id(zone_id)
+	if not start_quest(own):
+		return false
+	quest_log.track(own)
+	EventBus.quest_changed.emit()
+	return true
 
 
 ## Set by the dungeon's last screen: the next starting-area visit is the scene at the cave mouth where Elder Maren waits (not saved).
@@ -252,6 +274,7 @@ func skip_tutorial_via_secret_tunnel(color: Affinity.Type) -> void:
 	deck.deck_name = DECK_NAME
 	cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 	set_flag(&"trial_cleared")
+	claim_own_path()
 	discover_secret(SECRET_TUNNEL_ID)
 	var totals: Dictionary = TrialOfTheHollow.total_tutorial_rewards()
 	add_gold(int(totals.get("gold", 0)))
@@ -1316,6 +1339,7 @@ func from_dict(data: Dictionary) -> bool:
 	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	var armory_notice: String = _migrate_armory()
+	claim_own_path(false)  # Fix pass Nov 7 (D3): older saves learn their own Path zone (its line is offered on town entry)
 	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it. Oct 20: older saves only - a new
 	# hero is level 3 straight out of the cave, and Make It Yours is Maren's second errand now.
 	if quest_migration_pending and quest_log.version < 3 and profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
@@ -1768,6 +1792,9 @@ func begin_intro_trial(color: Affinity.Type) -> void:
 
 ## Set when the player is carried out of the dungeon or finishes it; the town shows it once.
 var town_notice: String = ""
+## Fix pass Nov 7 (item 7): the place picked in the map's "Where to?" list - {"area", "pos", "label"} - an edge-of-screen arrow points at it
+## after the map closes until the hero gets there or leaves the area (`QuestMarkerLayer`). {} = none. Not saved.
+var where_to_target: Dictionary = {}
 var pending_reward: RewardOffer
 ## True after the boss fell: the rewards screen then runs the trial-complete step.
 var trial_finished: bool = false
@@ -2422,7 +2449,7 @@ func offer_auto_quests() -> void:
 		# Fixes Oct 25, Part 8: the story opens on the player's own Path zone - its main line (the gatekeeper) is the one tracked
 		# (Maren's first errand still leads when it starts in the same batch)
 		var own: String = PathDirection.own_main_quest(profile.primary_affinity)
-		if started.has(own) and not started.has(QuestDefinitions.MERCHANTS):
+		if started.has(own):  # Fix pass Nov 7 (D3): the Path line leads; Maren's errands run beside it
 			pick = own
 			if tracked_before == QuestDefinitions.ARMORY or not quest_log.is_active(tracked_before):
 				tracked_before = own
@@ -2451,8 +2478,10 @@ func refresh_quests() -> void:
 			_pay_milestone(due[0] as QuestData, int(due[1]))
 		var updated: Array[String] = quest_log.take_updates(QuestCatalog.all(), state)
 		if not updated.is_empty():
-			# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest").
-			quest_log.track(updated[updated.size() - 1])
+			# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest"); Fix pass Nov 7:
+			# a side quest's step never takes it from a main quest (`QuestLog.follow`).
+			for updated_id: String in updated:
+				quest_log.follow(updated_id)
 			step_moved = true
 		var finished: Array[String] = quest_log.auto_completable(QuestCatalog.all(), state)
 		for quest_id: String in finished:

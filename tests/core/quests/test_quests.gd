@@ -19,7 +19,7 @@ func test_starter_quests_exist_with_the_right_objectives() -> void:
 	var merchants: QuestData = QuestCatalog.find(QuestDefinitions.MERCHANTS)
 	assert_not_null(merchants)
 	assert_eq(merchants.objectives.size(), 5, "Tilly, equip her gift (Nov 3-4), Sable, a card bought, Pip (Oct 20: Bertram's smithy waits for the armory quest)")
-	assert_true(merchants.auto_give and merchants.is_main())
+	assert_true(merchants.auto_give and merchants.line == QuestDefinitions.SETTLING_IN, "Fix pass Nov 7 (D3): a Settling In errand")
 	assert_eq(merchants.turn_in_npc, QuestDefinitions.MAREN, "handed back to Maren")
 	assert_null(QuestCatalog.find(QuestDefinitions.RETIRED_PATHS), "Clear the Paths is retired: each zone's MAIN line starts at its gatekeeper")
 	for zone_id: String in Gatekeepers.IDS:
@@ -187,7 +187,7 @@ func test_tracker_cycles_through_active_quests_main_first() -> void:
 	var order: Array[String] = Session.quest_log.cycle_order(QuestCatalog.all())
 	assert_gt(order.size(), 2)
 	assert_true(QuestCatalog.find(order[0]).is_main())
-	assert_eq(order[0], QuestDefinitions.MERCHANTS, "Maren's first errand leads the MAIN quests (order 1)")
+	assert_false(order[0] == QuestDefinitions.MERCHANTS, "Fix pass Nov 7 (D3): Maren's errands are a side line, after the MAIN quests")
 	Session.quest_log.track(order[0])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), 1), order[1])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), -1), order[0])

@@ -40,6 +40,9 @@ var turn_in: bool = false
 var objective: bool = false
 ## Overnight Oct 30-31, Part 2: an objective of a side quest (drawn blue; main lines gold).
 var side_goal: bool = false
+## Fix pass Nov 7 (item 1): the player's own Path road (its exit and its gatekeeper) - a ring in the Path's colour round the icon.
+## Alpha 0 = none.
+var path_tint: Color = Color(0, 0, 0, 0)
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

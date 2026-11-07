@@ -23,6 +23,11 @@ var resolve: Callable
 var pointer: QuestEdgePointer
 ## The second goal's arrow (the other kind's quest).
 var side_pointer: QuestEdgePointer
+## Fix pass Nov 7 (item 7): the white arrow toward the map's "Where to?" pick (`Session.where_to_target`).
+var where_pointer: QuestEdgePointer
+const WHERE_WHITE: Color = Color("f4f0e6")
+## The pick is reached (and the arrow cleared) within this many metres.
+const WHERE_ARRIVED: float = 3.0
 var _marks: Dictionary = {}
 var _mark_nodes: Dictionary = {}
 var _objective: Node3D
@@ -57,6 +62,12 @@ static func install(parent: Node, area_id: String, cam: Camera3D, resolver: Call
 		layer.side_pointer.color = SIDE_BLUE
 		hud_layer.add_child(layer.side_pointer)
 		layer.side_pointer.name = "SideGoalPointer"
+		layer.where_pointer = QuestEdgePointer.new()
+		layer.where_pointer.camera = cam
+		layer.where_pointer.color = WHERE_WHITE
+		layer.where_pointer.show_label = true
+		hud_layer.add_child(layer.where_pointer)
+		layer.where_pointer.name = "WhereToPointer"
 	return layer
 
 
@@ -68,6 +79,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	_update_where_to()
 	_timer -= delta
 	if _timer <= 0.0 or _goal_on != Settings.goal_pointer:
 		_timer = REFRESH
@@ -87,6 +99,24 @@ func _process(delta: float) -> void:
 			var pulse: float = 0.5 + 0.5 * sin(_time * 2.6)
 			ring.scale = Vector3.ONE * (0.85 + 0.25 * pulse)
 			(ring.material_override as StandardMaterial3D).albedo_color.a = 0.25 + 0.3 * (1.0 - pulse)
+
+
+## Fix pass Nov 7 (item 7): points the white arrow at the "Where to?" pick of this area; clears the pick once the hero is there.
+func _update_where_to() -> void:
+	if where_pointer == null:
+		return
+	var pick: Dictionary = Session.where_to_target
+	var valid: bool = not pick.is_empty() and str(pick.get("area", "")) == area
+	if valid:
+		var target: Vector3 = pick["pos"] as Vector3
+		var hero: Node3D = get_tree().current_scene.get("player") as Node3D if get_tree().current_scene != null else null
+		if hero != null and Vector2(hero.position.x - target.x, hero.position.z - target.z).length() < WHERE_ARRIVED:
+			Session.where_to_target = {}
+			valid = false
+		else:
+			where_pointer.target = target + Vector3(0.0, 1.0, 0.0)
+			where_pointer.label = str(pick.get("label", ""))
+	where_pointer.target_valid = valid
 
 
 ## Fresh eyes Oct 30: a fixed objective that is not a quest (the forest's cave gate before any quest exists): the chevron, the ring and

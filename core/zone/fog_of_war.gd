@@ -5,8 +5,8 @@ extends RefCounted
 ## minimap only draws it. Saved per zone through `Session.map_fog` (see `to_dict` / `from_dict`).
 
 const CELL: float = 1.0
-## How far around the player the world is revealed, in metres.
-const REVEAL_RADIUS: float = 9.0
+## How far around the player the world is revealed, in metres. Fix pass Nov 7 (owner decision D5): a generous radius (was 9).
+const REVEAL_RADIUS: float = 16.0
 
 var origin: Vector2 = Vector2.ZERO
 var width: int = 0

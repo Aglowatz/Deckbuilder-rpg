@@ -12,6 +12,7 @@ func _through_the_armory(path: Affinity.Type) -> void:
 	Session.choose_starting_path(path)
 	Session.level_track_grants = false
 	Session.set_flag(&"trial_cleared")
+	Session.set_flag(&"elder_greeted")  # Fix pass Nov 7: Maren's Path talk follows her greeting, not the armory
 	Session.offer_auto_quests()
 	for quest_id: String in [QuestDefinitions.MERCHANTS, QuestDefinitions.FIRST_DECK_EDIT, QuestDefinitions.GHOSTS]:
 		if not Session.quest_log.is_active(quest_id):
@@ -54,16 +55,14 @@ func test_marens_lines_use_the_real_zone_effects() -> void:
 			assert_string_contains(text, needed, "%s's talk names %s" % [Affinity.display_name(path), needed])
 
 
-func test_maren_first_errand_still_leads_when_everything_starts_at_once() -> void:
-	# A game set up without the trial gate (tools, old debug saves) gets every auto quest in one batch: Maren's errand stays tracked.
+func test_the_path_line_leads_when_everything_starts_at_once() -> void:
+	# Fix pass Nov 7 (D3): every auto quest in one batch (tools, old debug saves) - the player's own Path line is the tracked one, Maren's
+	# errand runs beside it.
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.NECROCRAT)
 	Session.offer_auto_quests()
-	if Session.quest_log.is_active(QuestDefinitions.MERCHANTS):
-		assert_eq(Session.quest_log.tracked_id(), QuestDefinitions.MERCHANTS)
-	else:
-		pass_test("the trial gate held the batch back")
+	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.NECROCRAT))
 
 
 func test_a_save_past_its_gatekeeper_is_not_sent_back() -> void:

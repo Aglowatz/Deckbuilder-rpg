@@ -74,15 +74,19 @@ func test_revealed_areas_persist_in_the_save_per_zone() -> void:
 
 
 func test_pois_only_show_on_revealed_ground() -> void:
+	# Fix pass Nov 7 (owner decision D5): shops, exits, quest givers and landmarks always show; the rest only on revealed ground.
 	var fog: FogOfWar = FogOfWar.for_bounds(AREA)
-	var near: MapPoi = MapPoi.make(MapPoi.Kind.VENDOR, Vector3(20, 0, 15), "near")
-	var far: MapPoi = MapPoi.make(MapPoi.Kind.HEAL, Vector3(35, 0, 25), "far")
-	var pois: Array[MapPoi] = [near, far]
-	assert_eq(MapView.visible_pois(pois, fog).size(), 0, "nothing before exploring")
+	var near: MapPoi = MapPoi.make(MapPoi.Kind.INTERACTABLE, Vector3(20, 0, 15), "near")
+	var far: MapPoi = MapPoi.make(MapPoi.Kind.PUZZLE, Vector3(35, 0, 25), "far")
+	var shop: MapPoi = MapPoi.make(MapPoi.Kind.VENDOR, Vector3(35, 0, 25), "shop")
+	var exit: MapPoi = MapPoi.make(MapPoi.Kind.EXIT, Vector3(36, 0, 26), "exit")
+	var giver: MapPoi = MapPoi.make(MapPoi.Kind.QUEST_GIVER, Vector3(37, 0, 27), "giver", true)
+	var pois: Array[MapPoi] = [near, far, shop, exit, giver]
+	assert_eq(MapView.visible_pois(pois, fog), [shop, exit, giver] as Array[MapPoi], "shops, exits and quest givers before exploring")
 	fog.reveal(Vector2(20, 15), 5.0)
 	var shown: Array[MapPoi] = MapView.visible_pois(pois, fog)
-	assert_eq(shown, [near] as Array[MapPoi])
-	assert_eq(MapView.legend_kinds(shown), [MapPoi.Kind.VENDOR] as Array[MapPoi.Kind])
+	assert_eq(shown, [near, shop, exit, giver] as Array[MapPoi])
+	assert_true(MapView.legend_kinds(shown).has(MapPoi.Kind.INTERACTABLE))
 
 
 func test_there_is_no_poi_kind_for_secrets() -> void:

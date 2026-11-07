@@ -10,6 +10,9 @@ const MERCHANTS: String = "meet_the_merchants"
 ## the ghosts in Tilly's store room -> Some Assembly Required (Bertram Beetsworth's armory). Only once the armory quest is done do the story's
 ## main quests start (the four zone lines, Fragments, Brannoch's Free the Four Zones, Maren's door under the well): `STORY_GATE`.
 const MAREN: String = "Elder Maren"
+## Fix pass Nov 7 (owner decision D3): Maren's four errands (Meet the Merchants, Make It Yours, the store room, the armory) are the
+## "Settling In" line - side quests that run beside the Path's main line; they no longer gate the story (`story_gate`).
+const SETTLING_IN: String = "Settling In"
 const GHOSTS: String = "storeroom_ghosts"
 ## Set by `QuestMigration` on saves from before the chain that already had the story quests, so they never lose them.
 const LEGACY_FLAG: String = "early_chain_legacy"
@@ -149,7 +152,8 @@ static func zone_main_id(zone_id: String) -> String:
 static func _meet_the_merchants() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = MERCHANTS
-	quest.category = QuestData.Category.MAIN
+	quest.category = QuestData.Category.SIDE
+	quest.line = SETTLING_IN
 	quest.order = 1
 	quest.title = "Meet the Merchants"
 	quest.summary = "Elder Maren wants you fed, kitted out and known in town. Say hello to the shopkeepers on the square and buy yourself a card. There's a trophy in it, though everyone gets the trophy."
@@ -237,7 +241,8 @@ static func _zone_main(zone_id: String) -> QuestData:
 	quest.title = str(text["title"])
 	quest.summary = str(text["summary"])
 	quest.auto_give = true
-	quest.prerequisite = story_gate()
+	# Fix pass Nov 7 (D3): the player's own Path line starts at the Path choice (`own_path_flag`), the others on arrival in town.
+	quest.prerequisite = Condition.any_of([story_gate(), Condition.flag(own_path_flag(zone_id))] as Array[Condition])
 	var favours: Array[Condition] = []
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		favours.append(Condition.quest_completed(favour_id))
@@ -305,10 +310,17 @@ const ZONE_MAIN_TEXT: Dictionary = {
 ## Outskirts roamers are extra, never required. Test: tests/core/quests/test_early_chain.gd.
 const CHAIN_XP: Dictionary = {MERCHANTS: 40, "first_deck_edit": 30, GHOSTS: 60}
 
-## Oct 20, Part 4: the story's main quests (the four zone lines, Fragments, Free the Four Zones, the door under the well) wait for the armory
-## quest - or for an old save that already had them (`LEGACY_FLAG`). Only the quest log waits: every road stays open.
+## Oct 20, Part 4: the story's main quests (the four zone lines, Fragments, Free the Four Zones, the door under the well) waited for the armory
+## quest. Fix pass Nov 7 (owner decision D3): Maren's errands are a parallel line, not a gate - the story quests open on the first arrival in
+## Crosspath (`trial_cleared`), or for an old save that already had them (`LEGACY_FLAG`). Every road stays open throughout.
 static func story_gate() -> Condition:
-	return Condition.any_of([Condition.quest_completed(ARMORY), Condition.flag(LEGACY_FLAG)] as Array[Condition])
+	return Condition.any_of([Condition.flag("trial_cleared"), Condition.quest_completed(ARMORY), Condition.flag(LEGACY_FLAG)] as Array[Condition])
+
+
+## Fix pass Nov 7 (D3): set when the player picks their starting Path (and on load for older saves): that Path zone's main line - its
+## gatekeeper - is given at once and tracked.
+static func own_path_flag(zone_id: String) -> String:
+	return "own_path_%s" % zone_id
 
 
 ## Overnight Oct 17, Part 5 / Oct 20, Part 4: the armory. Elder Maren sends the hero to Bertram Beetsworth once the store room is clear
@@ -324,7 +336,8 @@ const OUTSKIRTS_SPOT: String = "outskirts"
 static func _armory() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = ARMORY
-	quest.category = QuestData.Category.MAIN
+	quest.category = QuestData.Category.SIDE
+	quest.line = SETTLING_IN
 	quest.order = 4
 	quest.title = "Some Assembly Required"
 	quest.summary = "Maren says it's time you had something sharper than a deck. Bertram Beetsworth issues gear strictly by the book: report to his smithy, then win one fight to earn it."
@@ -358,7 +371,8 @@ const FIRST_PACK_ID: String = "general_1"
 static func _first_deck_edit() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = FIRST_DECK_EDIT
-	quest.category = QuestData.Category.MAIN
+	quest.category = QuestData.Category.SIDE
+	quest.line = SETTLING_IN
 	quest.order = 2
 	quest.title = "Make It Yours"
 	quest.summary = "Maren says a deck you never chose is a deck you'll lose with. Open a pack for some new cards, then make the deck your own at the Deck Station."
@@ -383,7 +397,8 @@ static func _first_deck_edit() -> QuestData:
 static func _storeroom_ghosts() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = GHOSTS
-	quest.category = QuestData.Category.MAIN
+	quest.category = QuestData.Category.SIDE
+	quest.line = SETTLING_IN
 	quest.order = 3
 	quest.title = "Something in the Store Room"
 	quest.summary = "Tilly Tonic's store room has been rattling and moaning for a week, and nobody can get in. Maren wants it sorted, and so, very much, does Tilly."

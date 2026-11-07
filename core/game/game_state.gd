@@ -181,6 +181,8 @@ func _deal_opening_hand(player: PlayerState) -> void:
 		hand = HandSmoother.draw_opening_hand(
 			player.deck, player.opening_hand_size, player.deck_infrastructure_ratio, options.hand_smoother, rng, options.smoother_tolerance
 		)
+	if player.index == options.opening_infrastructure_seat and options.opening_infrastructure_floor > 0:
+		HandSmoother.ensure_infrastructure(hand, player.deck, options.opening_infrastructure_floor, rng)
 	for card: CardInstance in hand:
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")
@@ -336,6 +338,22 @@ func get_defense(card: CardInstance) -> int:
 ## Whether any player has a dungeon rule of `kind` (rules that hit both sides, like Rot, are in both players' sets).
 ## Fable pass Nov 1: Wild Growth (OVERGROWTH) buffs a unit at most this many times.
 const OVERGROWTH_CAP: int = 3
+
+
+## Fix pass Nov 7 (item 4): the round of the turn being played (each side's first turn is round 1).
+func current_round() -> int:
+	return int((turn + 1) / 2)
+
+
+## Fix pass Nov 7 (item 4): the first round Wild Growth (OVERGROWTH) buffs anything - its modifiers' `value2` (0/1 = from the start); a main
+## dungeon's first nodes delay it to round 3 (`DungeonRules.GROWTH_DELAY_ROUND`).
+func growth_start_round() -> int:
+	var start: int = 1
+	for player: PlayerState in players:
+		for modifier: Modifier in player.modifiers.modifiers:
+			if modifier.kind == Modifier.Kind.OVERGROWTH:
+				start = maxi(start, modifier.value2)
+	return start
 
 
 func rule_active(kind: Modifier.Kind) -> bool:
@@ -949,7 +967,7 @@ func _begin_turn() -> void:
 				emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, 0, 0)
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
 	ProtocolJam.on_turn_start(self, active)  # Oct 21: Elowen (T-24) jams one of Siphon's Protocols until her side's next turn
-	if rule_active(Modifier.Kind.OVERGROWTH):
+	if rule_active(Modifier.Kind.OVERGROWTH) and current_round() >= growth_start_round():
 		for each_player: PlayerState in players:
 			for unit: CardInstance in each_player.field.duplicate():
 				# Fable pass Nov 1 (Part 2): Wild Growth stops at OVERGROWTH_CAP buffs per unit (a Possum reached 8/10 by turn 6).

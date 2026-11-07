@@ -80,8 +80,11 @@ func test_a_level_up_a_quest_box_and_the_path_warning_show_one_at_a_time_then_th
 	assert_true(town.dialogue.active and town.dialogue.npc_id == "NPC-ELDER", "Maren closes")
 	assert_true(town._locked, "still held during the welcome")
 	await _press_through(town)
+	# Fix pass Nov 7 (item 1): Maren names the Path's gatekeeper and road last.
+	assert_true(town.dialogue.active and town.dialogue.npc_id == "NPC-ELDER", "Maren points at the player's Path")
+	await _press_through(town)
 	await _frames(2)
-	assert_eq(town.arrival_log, ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end"] as Array[String], "every step, in order")
+	assert_eq(town.arrival_log, ["level_ups", "rewards", "path_warning", "welcome_maren", "welcome_wanderer", "welcome_maren_end", "welcome_path"] as Array[String], "every step, in order")
 	assert_false(town.arrival_active, "the queue is done")
 	assert_false(town._locked, "the hero is free")
 	assert_true(Session.flag(&"maren_met"), "maren_met is set")
@@ -154,6 +157,7 @@ func test_a_second_conversation_replacing_the_welcome_still_moves_the_queue_on()
 	assert_eq(town.arrival_log, ["welcome_maren", "welcome_wanderer"] as Array[String], "the interrupted step counts as closed")
 	await _press_through(town)
 	await _press_through(town)
+	await _press_through(town)  # Fix pass Nov 7: Maren's Path pointer
 	await _frames(2)
 	assert_false(town._locked, "the hero is free at the end")
 
@@ -175,7 +179,7 @@ func test_continue_from_a_save_made_inside_the_cave_then_the_arrival() -> void:
 	var town: TownScene = _town()
 	await _frames(3)
 	assert_true(town.arrival_active and town.dialogue.active, "the welcome opens after a Continue too")
-	for _part: int in range(3):
+	for _part: int in range(4):  # Fix pass Nov 7: four parts with Maren's Path pointer
 		await _press_through(town)
 	await _frames(2)
 	assert_false(town._locked, "the hero is free")

@@ -12,6 +12,9 @@ var camera: Camera3D
 var color: Color = GOLD
 var target: Vector3 = Vector3.ZERO
 var target_valid: bool = false
+## Fix pass Nov 7 (item 7): the "Where to?" arrow names its place beside the arrow.
+var show_label: bool = false
+var label: String = ""
 var _alpha: float = 0.0
 var _at: Vector2 = Vector2.ZERO
 var _angle: float = 0.0
@@ -73,3 +76,11 @@ func _draw() -> void:
 		inner.append(_at + (p - _at) * 0.78)
 	draw_colored_polygon(inner, Color(color, _alpha))
 	draw_circle(_at - forward * SIZE * 0.9, 5.0, Color(color, 0.6 * _alpha))
+	if show_label and not label.is_empty():
+		var font: Font = UIStyle.font_bold()
+		var extent: Vector2 = font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 18)
+		var text_at: Vector2 = _at - forward * SIZE * 2.4 - Vector2(extent.x * 0.5, -6.0)
+		text_at.x = clampf(text_at.x, 8.0, size.x - extent.x - 8.0)
+		text_at.y = clampf(text_at.y, 24.0, size.y - 8.0)
+		draw_string_outline(font, text_at, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 6, Color(0.05, 0.03, 0.02, 0.8 * _alpha))
+		draw_string(font, text_at, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(color, _alpha))

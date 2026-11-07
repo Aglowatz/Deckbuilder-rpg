@@ -12,7 +12,12 @@ const COLOR_FLOOR: Color = Color(0.86, 0.80, 0.62, 0.95)
 const COLOR_RIM: Color = Color(0.45, 0.38, 0.24, 0.95)
 const COLOR_OFF: Color = Color(0.10, 0.12, 0.16, 0.80)
 const COLOR_FOG: Color = Color(0, 0, 0, 0)
-const COLOR_PATH: Color = Color(0.76, 0.67, 0.48, 0.95)
+## Fix pass Nov 7 (owner decision D5): roads read as roads - a darker, warmer band than open ground - and show through the fog as a faint
+## skeleton, so the way to a shop or an exit can be seen before it is walked. A zone (`outline`) also shows its walkable outline under the
+## fog from the first arrival; towns stay black until explored.
+const COLOR_PATH: Color = Color(0.62, 0.48, 0.30, 0.97)
+const COLOR_ROAD_FOG: Color = Color(0.58, 0.46, 0.30, 0.5)
+const COLOR_OUTLINE_FOG: Color = Color(0.70, 0.62, 0.44, 0.42)
 const COLOR_BLOCK: Color = Color(0.5, 0.4, 0.28, 0.95)
 ## Cell kinds in `floor_cells`.
 const NONE: int = 0
@@ -30,9 +35,10 @@ var image: Image
 var floor_cells: PackedByteArray = PackedByteArray()
 
 
-static func build(map: WalkableArea, fog_of_war: FogOfWar) -> MapRaster:
+static func build(map: WalkableArea, fog_of_war: FogOfWar, outline: bool = false) -> MapRaster:
 	var raster: MapRaster = MapRaster.new()
 	raster.fog = fog_of_war
+	raster.outline = outline
 	raster._map = map
 	raster._key = "%d|%s|%d|%d" % [map.get_instance_id(), str(fog_of_war.origin), fog_of_war.width, fog_of_war.height]
 	if _kind_cache.has(raster._key):
@@ -56,6 +62,8 @@ static func build(map: WalkableArea, fog_of_war: FogOfWar) -> MapRaster:
 
 var _map: WalkableArea
 var _key: String = ""
+## Fix pass Nov 7 (D5): draw the area's walkable outline under the fog (zones; never the towns).
+var outline: bool = false
 var _refine_row: int = 0
 ## True once every ground cell is sorted into open ground, path or blocked.
 var refined: bool = false
@@ -105,7 +113,12 @@ func kind_at(cx: int, cy: int) -> int:
 
 func _paint(cx: int, cy: int) -> void:
 	var color: Color = COLOR_FOG
-	if fog.is_cell_revealed(Vector2i(cx, cy)):
+	if not fog.is_cell_revealed(Vector2i(cx, cy)):
+		if kind_at(cx, cy) == PATH:
+			color = COLOR_ROAD_FOG
+		elif outline and is_floor(cx, cy) and not (is_floor(cx - 1, cy) and is_floor(cx + 1, cy) and is_floor(cx, cy - 1) and is_floor(cx, cy + 1)):
+			color = COLOR_OUTLINE_FOG
+	else:
 		if not is_floor(cx, cy):
 			color = COLOR_OFF
 		else:
@@ -126,6 +139,11 @@ func apply_reveal(cells: Array[Vector2i]) -> void:
 				if fog.in_bounds(target):
 					_paint(target.x, target.y)
 	texture.update(image)
+
+
+## Fix pass Nov 7 (D5): the towns (Crosspath, the Capital) are explored; every other area shows its outline from the first arrival.
+static func shows_outline(area_id: String) -> bool:
+	return not (area_id in ["town", "capital", CapitalZone.ID])
 
 
 ## Pixel position of a world xz point in the padded image.

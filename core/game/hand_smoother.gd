@@ -32,6 +32,35 @@ static func draw_opening_hand(
 	return hand
 
 
+## Fix pass Nov 7 (D6): the hidden soft mulligan. While `hand` holds fewer than `floor` infrastructure cards and `deck` still has
+## one, a random non-infrastructure card in the hand goes back into the deck in exchange for a random infrastructure card from it.
+## The deck is reshuffled afterwards when anything was swapped. Returns the number of swaps.
+static func ensure_infrastructure(
+	hand: Array[CardInstance], deck: Array[CardInstance], floor: int, rng: RandomNumberGenerator
+) -> int:
+	var swaps: int = 0
+	while count_infrastructure(hand) < mini(floor, hand.size()):
+		var deck_infra: Array[int] = []
+		for i: int in range(deck.size()):
+			if deck[i].data != null and deck[i].data.is_infrastructure():
+				deck_infra.append(i)
+		var hand_other: Array[int] = []
+		for i: int in range(hand.size()):
+			if hand[i].data == null or not hand[i].data.is_infrastructure():
+				hand_other.append(i)
+		if deck_infra.is_empty() or hand_other.is_empty():
+			break
+		var di: int = deck_infra[rng.randi_range(0, deck_infra.size() - 1)]
+		var hi: int = hand_other[rng.randi_range(0, hand_other.size() - 1)]
+		var incoming: CardInstance = deck[di]
+		deck[di] = hand[hi]
+		hand[hi] = incoming
+		swaps += 1
+	if swaps > 0:
+		RngUtil.shuffle(deck, rng)
+	return swaps
+
+
 ## Returns whichever hand's infrastructure count is closer to `target_infrastructure` (ties -> `first`).
 static func pick_closest(
 	first: Array[CardInstance],

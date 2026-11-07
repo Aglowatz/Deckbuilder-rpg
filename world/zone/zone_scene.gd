@@ -736,6 +736,66 @@ func _build_enemies() -> void:
 			enemy.make_guard(float(spawn["guard"]), int(spawn.get("escorts", 0)))  # a road guard (the Gainlands' middle road, v2 Part G)
 		enemy.touched.connect(_on_enemy_touched)
 		enemies.append(enemy)
+	_ensure_exit_roamer(run)
+
+
+## Fix pass Nov 7 (item 7, C2b F6): a roaming foe within sight of the hub's exit, so a player arriving in a zone sees a fight to take on
+## foot at once. Only when no roamer already lives within EXIT_ROAMER_SIGHT of the exit; the zone's most common roamer type, a few metres in
+## from the exit on walkable ground. The Capital (no roamers of its own here) is left alone.
+const EXIT_ROAMER_SIGHT: float = 22.0
+const EXIT_ROAMER_ID: String = "exit_roamer"
+
+
+func _ensure_exit_roamer(run: ZoneRun) -> void:
+	if def.id == CapitalZone.ID or run == null or run.is_defeated(EXIT_ROAMER_ID):
+		return
+	var spawns: Array = builder.enemy_spawns()
+	if spawns.is_empty():
+		return
+	var exit_pos: Vector3 = Vector3.INF
+	for spot: ZoneSpot in spots:
+		if spot.kind == "exit":
+			exit_pos = spot.position
+			break
+	if exit_pos == Vector3.INF:
+		return
+	for enemy: ZoneEnemy in enemies:
+		if Vector2(enemy.global_position.x - exit_pos.x, enemy.global_position.z - exit_pos.z).length() <= EXIT_ROAMER_SIGHT:
+			return
+	var home: Vector3 = exit_roamer_home(exit_pos, player.position if player != null else exit_pos, func(at: Vector3) -> bool: return builder.is_walkable(at, 0.5))
+	if home == Vector3.INF:
+		return
+	var enemy: ZoneEnemy = ZoneEnemy.new()
+	add_child(enemy)
+	enemy.setup(ZoneEnemies.info(def.id, most_common_type(spawns)), EXIT_ROAMER_ID, home, 3.0, builder, player, _grade_enemy)
+	enemy.peaceful = ZoneEnemies.is_peaceful(def.id, most_common_type(spawns), ZoneEnemies.is_freed(def.id, Session.flags))
+	enemy.touched.connect(_on_enemy_touched)
+	enemies.append(enemy)
+
+
+## The roamer type most of `spawns` use (ties: the first seen). Pure.
+static func most_common_type(spawns: Array) -> String:
+	var counts: Dictionary = {}
+	var best: String = ""
+	for spawn: Variant in spawns:
+		var kind: String = str((spawn as Dictionary).get("type", ""))
+		counts[kind] = int(counts.get(kind, 0)) + 1
+		if best == "" or int(counts[kind]) > int(counts[best]):
+			best = kind
+	return best
+
+
+## Where the exit roamer lives: 9-15 m from the exit toward the arrival point (the hub side), then round it, on walkable ground. INF when
+## nowhere fits. Pure.
+static func exit_roamer_home(exit_pos: Vector3, toward: Vector3, walkable: Callable) -> Vector3:
+	var inward: Vector3 = Vector3(toward.x - exit_pos.x, 0.0, toward.z - exit_pos.z)
+	inward = inward.normalized() if inward.length() > 0.5 else Vector3.FORWARD
+	for distance: float in [11.0, 9.0, 13.0, 15.0]:
+		for degrees: float in [0.0, 25.0, -25.0, 50.0, -50.0, 80.0, -80.0]:
+			var at: Vector3 = exit_pos + inward.rotated(Vector3.UP, deg_to_rad(degrees)) * distance
+			if bool(walkable.call(at)):
+				return Vector3(at.x, 0.0, at.z)
+	return Vector3.INF
 
 
 func _build_camera() -> void:

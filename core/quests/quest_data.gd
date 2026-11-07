@@ -37,6 +37,9 @@ enum Category { MAIN, SIDE }
 @export var reward_pack_ids: Array[String] = []
 ## Flags set on completion (the "unlocks" reward): vendors/gates/dialogue read them as Conditions.
 @export var reward_unlock_flags: Array[String] = []
+## Fix pass Nov 7 (owner decision D3): a named line of quests shown with its own tag instead of MAIN / SIDE ("Settling In": Maren's
+## errands, which run beside the Path's main line and never gate it). "" = the category's tag.
+@export var line: String = ""
 
 
 func is_main() -> bool:
@@ -44,6 +47,8 @@ func is_main() -> bool:
 
 
 func category_tag() -> String:
+	if not line.is_empty():
+		return line.to_upper()
 	return "MAIN" if category == Category.MAIN else "SIDE"
 
 

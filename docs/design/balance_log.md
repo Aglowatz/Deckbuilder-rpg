@@ -1555,3 +1555,27 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 
 - `DungeonClearBonus`: main first clears pay 0.5 x the next level's step at the dungeon's tier (190 / 225 / 240 / 255; was 160), side
   first clears 0.15 x (45-90; was 0), D-PC keeps 400; per-fight XP unchanged. Expected player: Dump 17 -> 18, castle 21 -> 22 (model 17 / 21).
+
+## Fix pass Nov 7, Part 1: the first hour (critic item 4, owner decision D6) - reports in docs/design/sim/nov7/
+
+- **Opening hand floor (D6):** the player's opening hand always holds at least 2 infrastructure (`GameOptions.opening_infrastructure_floor`,
+  `HandSmoother.ensure_infrastructure`: a hidden swap with the deck, after the draw and after a mulligan). Every fight, the player only.
+- **Wild Growth** waits until round 3 on a main dungeon's first fights (node numbers <= 3, `DungeonRules.GROWTH_DELAY_ROUND`, `value2` on the
+  OVERGROWTH modifier, `GameState.growth_start_round`).
+- **Cave:** Hollow Stalker (duel 2) 3 -> 7 HP with a Shield Bearer (C-05) for the Watchtower Archer; the Hollow Warden's swarm smaller
+  (C-02 3 -> 2, C-06 2 -> 1, no R-05; +2 basics). **Refusemancer starter:** Desperate Measures x2 -> Watchtower Archer +1 (x3) and Kidding Around x1.
+- **Results** (tutorial quick, 12 games per fight, 24 runs per Path, seed 7000; before = C8 Nov 6):
+
+| | Beefcake | Necrocrat | Gourmand | Refusemancer |
+|---|---:|---:|---:|---:|
+| Whole cave, before | 92 % | 92 % | 96 % | 79 % |
+| **Whole cave, after** | **96 %** | **96 %** | **100 %** | **96 %** |
+| Mossy Gallery (duel 2) alone, after | 100 % | 100 % | 100 % | 100 % (6.7 turns, was 5.7) |
+| Hollow Warden alone, after (before) | 100 (100) | 100 (100) | 100 (100) | 100 (75) |
+| Own gatekeeper (quick, L3, all foes 60-75 % band) | Brick Bronson 92 % | Prudence Pallor 83 % | Chef Fennel 67 % | Moss Mulligan 92 % |
+| Own first dungeon node, expected level | Cardio Corridor 83 % | Dept. of Intake 100 % | Prep Station 100 % | Overgrown Junkyard 100 % |
+| Own first node, bare starter at L5, no gear | 75 % | 50 % | 42 % | 83 % |
+| Own first main dungeon, early study (60 runs, L9) | 67 % (C8: 75 % of 12) | (not run: time cap) | 87 % (92 %) | 63 % (67 %) |
+
+  The Refusemancer against Brick Bronson was 25 % in C8; now 67 %. The bare-starter row is the stress case (an L5 starter deck against a
+  node tuned for L11-14, without the zone-order ease the early study applies); the early study is the realistic own-zone-first path.
