@@ -349,7 +349,7 @@ func _dev(parts: PackedStringArray) -> void:
 				"arena":
 					result = DevActions.travel_arena()
 				"zone":
-					result = DevActions.travel_zone(arg2)
+					result = DevActions.travel_zone(arg2, parts[4] if parts.size() > 4 else "")  # Import Nov 8: an optional anchor ("quiz")
 				"dungeon":
 					result = DevActions.travel_dungeon(arg2, int(parts[4]) if parts.size() > 4 else -1)
 				_:
