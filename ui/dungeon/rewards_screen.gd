@@ -148,6 +148,13 @@ func _fill_cards() -> void:
 			_show_keywords(_offer.cards[_selected] if _selected >= 0 and _selected < _offer.cards.size() else null)
 			if _selected != index:
 				create_tween().tween_property(view, "position:y", -CardView.SIZE.y * 0.1, 0.1))
+		if Session.at_copy_cap(_offer.cards[index]):
+			# Overnight Nov 7-8, Part 0 (critic CF #4): marked before the choice.
+			var tag: Label = UIKit.label("AT CAP: becomes essence", &"", 16, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+			tag.name = "AtCapTag"
+			tag.position = Vector2(0, CardView.SIZE.y * 0.8 + 4.0)
+			tag.size = Vector2(CardView.SIZE.x * 0.8, 22)
+			holder.add_child(tag)
 		_card_row.add_child(holder)
 		_cards.append(view)
 
@@ -223,7 +230,13 @@ func _select(index: int, quiet: bool = false) -> void:
 	_take_button.disabled = false
 	_take_button.text = "Take %s" % _offer.cards[index].display_name
 	if _where_label != null:
-		_where_label.text = ("%s joins your deck." if _to_deck else "Added to your collection: %s (find it at the Deck Station).") % _offer.cards[index].display_name
+		var picked: CardData = _offer.cards[index]
+		if Session.at_copy_cap(picked):
+			# Overnight Nov 7-8, Part 0 (critic CF #4): say it before the choice - a capped pick becomes essence (or gold), it does not join.
+			var conversion: Dictionary = Essence.conversion(picked)
+			_where_label.text = "You already own the most copies of %s allowed: taking it gives %s instead." % [picked.display_name, Essence.message(picked, conversion).get_slice(" converted into ", 1).trim_suffix(".")]
+		else:
+			_where_label.text = ("%s joins your deck." if _to_deck else "Added to your collection: %s (find it at the Deck Station).") % picked.display_name
 	_show_keywords(_offer.cards[index])
 
 

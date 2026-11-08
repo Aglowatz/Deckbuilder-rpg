@@ -4088,8 +4088,10 @@ func apply_rewards() -> bool:
 		note_duel_won()
 		add_gold(pending_reward.gold)
 		if pending_reward.taken != null:
+			# Overnight Nov 7-8, Part 0 (critic CF #4): a pick at its copy cap converts and does NOT also join the run's deck.
+			var capped: bool = at_copy_cap(pending_reward.taken)
 			add_cards([pending_reward.taken] as Array[CardData])
-			if rewards_go_to_deck():
+			if rewards_go_to_deck() and not capped:
 				run.gain_card(pending_reward.taken)
 	pending_reward = null
 	save_game()

@@ -673,10 +673,15 @@ func _build_zone_portals() -> void:
 		if hub_land:
 			# Oct 16: each gatekeeper stands at its obstacle, beside the road just in front of it; Brannoch keeps the imperial road.
 			var keeper: Vector3 = center - out * 3.3 + right * 1.3
+			if info.id == "gourmand":
+				# Overnight Nov 7-8, Part 0 (critic CF #6): Fennel steps out of the orchard trees onto the open apron in front of the door.
+				keeper = center - out * 4.6 + right * 0.2
 			if Gatekeepers.has(info.id):
 				anchors["npc_%s" % info.id] = keeper
 			elif info.id == ZonePortals.FINAL_ID:
-				anchors["npc_gate"] = keeper
+				# Overnight Nov 7-8, Part 1.8: Brannoch stands well back down the road, clear of the Capital travel trigger (its 3.4 m spot at the
+				# road's entry), so talking to him can never start the journey.
+				anchors["npc_gate"] = center - out * 7.5 + right * 3.2
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:

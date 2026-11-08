@@ -147,6 +147,27 @@ func _sync_packs_hint() -> void:
 	if tutorial and _packs_hint and _item_badge != null and _item_badge.get_parent() != _hint_entry and _hint_entry != null:
 		_item_badge.reparent(_hint_entry, false)
 	set_packs_hint(tutorial or Session.pack_step_open())
+	_sync_pack_count()
+
+
+var _pack_count_label: Label = null
+
+
+## Overnight Nov 7-8, Part 0 (critic CF #9): unopened packs never sit silent - the Menu button and its Packs entry show how many wait.
+func _sync_pack_count() -> void:
+	var count: int = Session.profile.total_packs() if Session.profile != null else 0
+	if _pack_count_label == null and _menu_button != null:
+		_pack_count_label = UIKit.label("", &"", 18, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		_pack_count_label.name = "PackCountLabel"
+		_pack_count_label.position = Vector2(0, 54)
+		_pack_count_label.size = Vector2(180, 22)
+		_pack_count_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		_pack_count_label.add_theme_constant_override("outline_size", 6)
+		_pack_count_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_menu_button.add_child(_pack_count_label)
+	if _pack_count_label != null:
+		_pack_count_label.text = "%d unopened pack%s" % [count, "" if count == 1 else "s"] if count > 0 else ""
+		_pack_count_label.visible = count > 0 and not (_menu_panel != null and _menu_panel.visible)
 
 
 func character_hint_shown() -> bool:
@@ -321,10 +342,12 @@ func toast(message: String, color: Color = UIStyle.PARCHMENT, hold: float = 2.0)
 func toggle_menu() -> void:
 	_menu_panel.visible = not _menu_panel.visible
 	Audio.sfx(&"ui_tick")
+	_sync_pack_count()
 
 
 func close_menu() -> void:
 	_menu_panel.visible = false
+	_sync_pack_count()
 
 
 ## The movement keys for the hint line: the primary keys as "W A S D", plus "arrows" when the secondary ones are the arrow keys.

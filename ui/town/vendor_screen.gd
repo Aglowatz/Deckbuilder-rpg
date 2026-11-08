@@ -261,7 +261,7 @@ func _ask_to_buy(card: CardData) -> void:
 		return
 	var dialog: ConfirmDialog = ConfirmDialog.ask(
 		self, "Buy %s?" % card.display_name,
-		"%d gold for one copy. You own %d and will have %d gold left." % [price, owned, Session.gold - price],
+		"%d gold for one copy. You own %d and will have %d gold left. \nIt goes to your collection: add it to a deck at the Deck Station (B)." % [price, owned, Session.gold - price],
 		"Buy", "Not now",
 	)
 	dialog.confirmed.connect(func() -> void: _buy(card))
@@ -276,7 +276,7 @@ func _buy(card: CardData) -> void:
 	Session.save_game()
 	Audio.sting(&"STG-PURCHASE")
 	Audio.sfx(&"shop_buy")
-	_say("Bought %s." % card.display_name, UIStyle.GOOD)
+	_say("Bought %s: it's in your collection. Add it to your deck at the Deck Station (B)." % card.display_name, UIStyle.GOOD)  # Overnight Nov 7-8, Part 0 (critic CF #2)
 	vendor_react("buy")
 	_refresh()
 
@@ -286,7 +286,7 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 	_toast.add_theme_color_override("font_color", color)
 	_toast.modulate.a = 1.0
 	var tween: Tween = create_tween()
-	tween.tween_interval(1.8)
+	tween.tween_interval(3.2)
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
 
 

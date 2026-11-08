@@ -112,7 +112,7 @@ func test_the_cave_is_smoothed() -> void:
 		if map_node.enemy_name == "Hollow Stalker":
 			stalker = map_node
 	assert_not_null(stalker)
-	assert_between(stalker.enemy_hp, 6, 8, "duel 2 at 6-8 HP")
+	assert_between(stalker.enemy_hp, 4, 6, "duel 2 at 4-6 HP (Overnight Nov 7-8 ramp 3 -> 5 -> 9)")
 	assert_true(TrialOfTheHollow.enemy_recipe("Hollow Stalker").has("C-05"), "with a blocker")
 	var warden: Dictionary = TrialOfTheHollow.enemy_recipe("Hollow Warden")
 	var units: int = 0
@@ -144,3 +144,15 @@ func _growth(source: ModifierSource) -> Modifier:
 		if modifier.kind == Modifier.Kind.OVERGROWTH:
 			return modifier
 	return Modifier.new()
+
+
+## Overnight Nov 7-8, Part 0 (critic CF #3): the cave ramps 3 -> 5 -> boss 9.
+func test_the_cave_ramps_up_to_the_boss() -> void:
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	var hp: Dictionary = {}
+	for map_node: DungeonMap.MapNode in map.nodes:
+		if map_node.enemy_name != "":
+			hp[map_node.enemy_name] = map_node.enemy_hp
+	assert_lt(int(hp["Cave Scavenger"]), int(hp["Hollow Stalker"]))
+	assert_lt(int(hp["Hollow Stalker"]), int(hp["Hollow Warden"]))
+	assert_between(int(hp["Hollow Warden"]), 8, 10)

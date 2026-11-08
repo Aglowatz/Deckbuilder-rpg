@@ -487,6 +487,11 @@ const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
 
 func _on_game_event(event: GameEvent) -> void:
 	board.register_uid(event.card)
+	if (event.type == GameEvent.Type.PHASE_CHANGED or event.type == GameEvent.Type.TURN_STARTED) and _toast_label != null:
+		# Overnight Nov 7-8, Part 0 (critic CF #5): an error toast never outlives its phase ("Needs 1 energy" into the enemy turn).
+		if _toast_tween != null and _toast_tween.is_valid():
+			_toast_tween.kill()
+		_toast_label.modulate.a = 0.0
 	if event.other > 0:
 		board.register_uid(event.other)
 	_track_for_recap(event)

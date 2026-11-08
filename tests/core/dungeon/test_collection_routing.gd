@@ -114,3 +114,17 @@ func test_world_picks_quests_and_chests_never_touch_the_deck() -> void:
 	assert_eq(Session.owned_count("R-07"), 1)
 	assert_eq(DeckBox.ids_of(Session.deck), deck_ids)
 	assert_true(Session.new_cards.has("R-09") and Session.new_cards.has("R-07"))
+
+
+## Overnight Nov 7-8, Part 0 (critic CF #4): a tutorial pick at its copy cap converts into essence and does not also join the deck.
+func test_a_capped_tutorial_pick_converts_and_stays_out_of_the_deck() -> void:
+	Session.choose_starting_path(Affinity.Type.BEEFCAKE)
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
+	var card: CardData = Session.content.card("B-10")
+	while not Session.at_copy_cap(card):
+		Session.add_cards([card] as Array[CardData])
+	var deck_before: int = Session.run.current_deck().size()
+	var essence_before: int = Session.profile.total_essence()
+	_pick(card)
+	assert_eq(Session.run.current_deck().size(), deck_before, "not added to the run's deck")
+	assert_gt(Session.profile.total_essence(), essence_before, "the essence is granted")

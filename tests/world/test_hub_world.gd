@@ -28,7 +28,11 @@ func test_every_gatekeeper_stands_at_its_road_on_walkable_ground() -> void:
 		assert_true(town.is_floor_at(keeper), "%s: on the town's ground" % zone_id)
 	var brannoch: Vector3 = town.anchors["npc_gate"] as Vector3
 	var capital: Vector3 = town.anchors["portal_final_mouth"] as Vector3
-	assert_lt(Vector2(brannoch.x - capital.x, brannoch.z - capital.z).length(), 5.0, "Brannoch stands on the imperial road")
+	assert_lt(Vector2(brannoch.x - capital.x, brannoch.z - capital.z).length(), 9.0, "Brannoch stands on the imperial road")
+	assert_true(town.is_walkable(brannoch, 0.3), "Brannoch stands on open ground")
+	# Overnight Nov 7-8, Part 1.8: his talk area (2 m, a little more for a quest giver) never overlaps the travel trigger (3.4 m).
+	var entry: Vector3 = town.anchors["portal_final"] as Vector3
+	assert_gt(Vector2(brannoch.x - entry.x, brannoch.z - entry.z).length(), 3.4 + 2.0, "talking to Brannoch can never trigger travel")
 
 
 func test_the_undercroft_cottage_replaces_the_colosseum() -> void:

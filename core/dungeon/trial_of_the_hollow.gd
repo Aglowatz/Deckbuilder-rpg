@@ -57,7 +57,7 @@ static func build_map() -> DungeonMap:
 	shrine.heal_amount = 999
 	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "An Old Kingdom guardian of moss and stone sleeps here, very lightly. It does not like being woken.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
-	boss.enemy_hp = 3
+	boss.enemy_hp = WARDEN_HP
 	boss.ai_name = "Balanced"
 	boss.difficulty = DungeonMap.Difficulty.BOSS
 	boss.gold_reward = EncounterRewards.gold_for(boss.difficulty)
@@ -109,7 +109,9 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 
 ## Fix pass Nov 7 (item 4, C1 F2): duel 2 is the step up to the Warden - 7 HP and a Shield Bearer blocker (C-05, 1/5 Wallflower) to get past, instead of a
 ## second 3-HP warm-up; the Warden's swarm is smaller (one Village Militia, one Sucker Punch card and the Kidding Around gone).
-const STALKER_HP: int = 7
+## Overnight Nov 7-8, Part 0 (critic CF #3): the ramp runs 3 -> 5 -> boss 9 - the Stalker was the real threat and the Warden folded at 3.
+const STALKER_HP: int = 5
+const WARDEN_HP: int = 9
 
 
 ## Enemy deck recipes: Card ID -> copies (BAS-x are the basic Infrastructure).
