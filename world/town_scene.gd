@@ -307,7 +307,7 @@ func _place_plinth_statues() -> void:
 		if not Session.is_zone_completed(str(spec["zone"])) and not _screenshot_args.has("banners") and not _screenshot_args.has("statues"):
 			continue
 		var top: Vector3 = TownStreets.crest_point(index) + Vector3(0.0, TownStreets.CREST_PLINTH_TOP, 0.0)
-		var statue: Node3D = KitPieces.stand(self, str(spec["id"]), top, PLINTH_STATUE_HEIGHT, true)
+		var statue: Node3D = KitPieces.stand(self, str(spec["id"]), top, PLINTH_STATUE_HEIGHT, true, 1.12)
 		if statue == null:
 			continue
 		statue.name = "PlinthStatue_%s" % str(spec["zone"])
@@ -341,6 +341,8 @@ func _ready() -> void:
 					Session.set_flag(CorruptedNpcs.unlock_flag(gate_id))
 		for found_id: String in str(_screenshot_args.get("found", "")).split(",", false):
 			Session.discover_secret(found_id)
+		for flag_name: String in str(_screenshot_args.get("flags", "")).split(",", false):  # Import Nov 8: e.g. --flags=vault_lever_pulled
+			Session.set_flag(StringName(flag_name))
 		var zone_count: int = int(_screenshot_args.get("zones", 0))
 		for zone_id: String in ZoneDefs.ids().slice(0, zone_count):
 			Session.complete_zone(zone_id)
@@ -352,6 +354,14 @@ func _ready() -> void:
 			if str(_screenshot_args["decks"]) == "2":
 				Session.use_deck(2)
 		# Apparel Part 3: --wear=cloak_royal,hat_wizard owns and wears those pieces (wardrobe and tailor shots).
+		for gear_id: String in str(_screenshot_args.get("gear", "")).split(",", false):  # Import Nov 8: --gear=dex_matching_pair equips a piece
+			var gear_path: String = "res://data/equipment/%s.tres" % gear_id
+			if not ResourceLoader.exists(gear_path):
+				gear_path = "res://data/equipment/zone/%s.tres" % gear_id
+			var gear_piece: EquipmentData = load(gear_path) as EquipmentData if ResourceLoader.exists(gear_path) else null
+			if gear_piece != null:
+				Session.grant_equipment(gear_piece)
+				Session.profile.equip(gear_piece)
 		for wear_id: String in str(_screenshot_args.get("wear", "")).split(",", false):
 			var wear: CosmeticData = CosmeticCatalog.find(wear_id)
 			if wear != null:
@@ -1220,6 +1230,8 @@ func _process(delta: float) -> void:
 		if _results_wait > 4.0 and not SceneManager.busy:
 			_show_pending_results()
 		return
+	if not Session.pending_popups.is_empty() and str(_screenshot_args.get("popups", "true")) == "false":
+		Session.pending_popups.clear()  # Import Nov 8: screenshot runs with --popups=false keep the reward boxes of the set-up flags away
 	if not _locked and not dialogue.active and not Session.pending_popups.is_empty():
 		_show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
 	elif not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
@@ -3317,6 +3329,13 @@ func _screenshot_open(what: String) -> void:
 			(_overlay as CodexScreen).show_tab("Gear")
 		"wardrobe":
 			_open_wardrobe()
+		"packs":  # Import Nov 8: the Card Packs page with a few packs on the shelf (UI-BG-PACKS, UI-PACK-SHELF)
+			var stocked: int = 0
+			for pack: PackData in PackCatalog.all():
+				if stocked < 4 and Session.profile.pack_count(pack.id) <= 0:
+					Session.profile.add_pack(pack.id, 1 + stocked % 2)
+					stocked += 1
+			_open_packs()
 		"character":
 			_open_character_screen()
 		"character_gear":
@@ -3385,6 +3404,9 @@ func _screenshot_gear() -> void:
 			Session.profile.equip(piece)
 	var belt: EquipmentData = load("res://data/equipment/zone/swole_belt.tres") as EquipmentData
 	Session.profile.owned_equipment.append(belt)
+	if str(_screenshot_args.get("gear", "")).contains("dex_matching_pair"):  # Import Nov 8: Dex's boots over the demo boots
+		var spats: EquipmentData = load("res://data/equipment/zone/dex_matching_pair.tres") as EquipmentData
+		Session.profile.equip(spats)
 
 ## Screenshot only: a made-up finished quest for the Quest Complete box.
 func _sample_quest_summary() -> RewardSummary:

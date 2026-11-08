@@ -61,6 +61,11 @@ func _build() -> void:
 	_status = UIKit.label("\n".join(_story.get_lines("reps.intro")), &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_status.custom_minimum_size = Vector2(1500, 0)
+	if _painted_gym:
+		# Import Nov 8: a dark plate keeps the intro readable over the painted spotlight
+		_status.add_theme_stylebox_override("normal", UIStyle.box(Color(0.05, 0.02, 0.08, 0.72), Color(0, 0, 0, 0), 0, 12))
+		_status.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+		_status.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(_status)
 	_canvas = Control.new()
 	_canvas.custom_minimum_size = Vector2(1850, 560)

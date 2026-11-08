@@ -51,6 +51,22 @@
 			"size_limit": 256
 		},
 		{
+			"match": "assets/art/zone_kits/town/DEC-PLINTH-*",
+			"why": "Import Nov 8 (Batch 13): the fountain statues stand 1.15 m tall (about 60-150 px on screen at 1440p, closest zoom): 384 px, BC7 (real alpha); build_size_policy 1.0-1.3x rule with room for the closest camera",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 384
+		},
+		{
+			"match": "assets/art/zone_kits/town/LEVER-*",
+			"why": "Import Nov 8 (Batch 13): the vault levers are 0.67-0.95 m cards (70-90 px on screen at the default camera): 384 px, BC7 (real alpha)",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 384
+		},
+		{
 			"match": "assets/art/zone_kits/heap/DUMP-WALL-SCRAP.webp",
 			"why": "Size pass Nov 3: a wall with real alpha (cut-out holes) keeps BC7",
 			"mode": 2,
