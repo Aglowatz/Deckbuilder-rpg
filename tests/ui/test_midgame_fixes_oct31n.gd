@@ -154,7 +154,7 @@ func test_quit_game_asks_and_saves_first() -> void:
 
 
 func test_clicking_another_hand_card_leaves_target_choice() -> void:
-	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd")
+	var source: String = FileAccess.get_file_as_string("res://ui/battle/battle_screen.gd").replace("\r\n", "\n")  # Fixes Nov 8: a CRLF working copy (git autocrlf) must not fail it
 	var at: int = source.find("		Mode.TARGETING:\n			if button_event.pressed and _target_options.has(uid):")
 	assert_gt(at, 0)
 	assert_true(source.substr(at, 700).contains("_cancel_targeting()"), "a click on a hand card cancels the target choice")

@@ -10,12 +10,12 @@ value = 1
 
 [resource]
 script = ExtResource("2_dexeq")
-id = "dex_lucky_spats"
+id = "dex_matching_pair"
 slot = 3
 description = "Once each turn, when you play your first non-Infrastructure card, draw a copy of that card from your deck (if there is one)."
-flavor_text = "Dex keeps a spare in each spat. He would like you to stop counting them."
+flavor_text = "Every card has a twin somewhere. Dex just knows where to look."
 rarity = 2
 tier = 3
 source = "The Cardsharp's Circuit (Dex Shufflewick's final table)"
-source_name = "Dex's Lucky Spats"
+source_name = "Dex's Matching Pair"
 modifiers = Array[ExtResource("1_dexmo")]([SubResource("Resource_dexec")])

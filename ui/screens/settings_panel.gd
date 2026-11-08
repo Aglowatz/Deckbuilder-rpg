@@ -427,7 +427,7 @@ func _on_quality(index: int) -> void:
 	if _scroll != null:
 		_scroll.set_deferred(&"scroll_vertical", scroll_at)
 	if Settings.low_end and Session.toasts != null:
-		Session.toasts.show_toast("Low-end: textures, foliage, particles and view distance cut. On a very old computer, start the game with \"Start (Compatibility).bat\" in its folder (the OpenGL renderer).", UIStyle.GOLD)
+		Session.toasts.show_toast("Low-end: textures, foliage, particles and view distance cut. On a very old computer, start the game with \"Start (Compatibility).bat\" in its folder (the OpenGL renderer).", UIStyle.GOLD, CardIcons.ui("magic"))
 
 
 func _on_dof(pressed: bool) -> void:

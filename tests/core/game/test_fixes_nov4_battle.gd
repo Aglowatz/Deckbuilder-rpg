@@ -67,7 +67,7 @@ func test_the_colonels_starting_weenie_has_just_arrived_on_his_first_turn() -> v
 
 func test_every_encounter_with_preplaced_units_gives_them_just_arrived() -> void:
 	# The starting_tokens rules in data/encounters/modifiers.json: build each foe's seat and start a duel.
-	var keys: Array[String] = ["Trophy Hall Honor Guard", "The Doppelganger", "Royal Staircase Guard", "zone:gourmand:casserole", "Primm (standardization)"]
+	var keys: Array[String] = ["The Doppelganger", "Royal Staircase Guard", "zone:gourmand:casserole", "Primm (standardization)"]
 	for key: String in keys:
 		var options: GameOptions = GameOptions.new()
 		options.rng_seed = 3

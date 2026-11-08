@@ -1375,7 +1375,7 @@ func _talk_cardsharp() -> void:
 		table = CardMatchCircuit.FINAL
 	Session.set_flag(StringName(CardMatchCircuit.MET_FLAG))
 	Session.offer_auto_quests()
-	_say(CardMatchCircuit.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_card_match(table), CardMatchCircuit.NPC_ID)
+	_say(CardMatchCircuit.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_card_match(table), CardMatchCircuit.portrait_id())
 
 
 func _open_card_match(table: String) -> void:

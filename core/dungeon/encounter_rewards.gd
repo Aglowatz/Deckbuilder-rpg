@@ -29,7 +29,7 @@ static func gold_for(difficulty: DungeonMap.Difficulty) -> int:
 ## Overnight Nov 4-5, Part 2.2: a dungeon node pays this share of what it paid before (fights were half the roaming rate, treasure its loot
 ## table); beating the boss pays the run's gold once more (`Session.pay_clear_bonus`), so a FINISHED run pays exactly the old amount and an
 ## abandoned or lost one half of it. Tuned on the no-grind study (docs/balance/gold_economy_nov3.md, "Overnight Nov 4-5").
-const DUNGEON_NODE_GOLD_SHARE: float = 0.35  # Overnight Nov 7-8, Part 2.4 (was 0.5)
+const DUNGEON_NODE_GOLD_SHARE: float = 0.5  # Fixes Nov 8: restored
 
 
 ## A dungeon fight's gold (half the roaming rate, as before) after DUNGEON_NODE_GOLD_SHARE, rounded to 5.

@@ -44,6 +44,12 @@ static func zone_equipment() -> Dictionary:
 	ArenaContent.add_equipment(result)
 	ExpansionGear.add_all(result)
 	OldWellQuest.add_equipment(result)  # Overnight Oct 19-20, Part 6: the Old Well secret quest's relic
+	# Overnight Nov 7-8, Part 6.3 / Fixes Nov 8: the Cardsharp's Circuit prize, Dex's Matching Pair (boots, the slot with the fewest pieces).
+	var pair: EquipmentData = _piece(CardMatchCircuit.PRIZE_ID, "Dex's Matching Pair", EquipmentData.Slot.BOOTS, "Once each turn, when you play your first non-Infrastructure card, draw a copy of that card from your deck (if there is one).", [_mod(K.DRAW_COPY_FIRST_PLAY, 1)], true)
+	pair.tier = 3
+	pair.source = "The Cardsharp's Circuit (Dex Shufflewick's final table)"
+	pair.flavor_text = "Every card has a twin somewhere. Dex just knows where to look."
+	_add(result, pair)
 	Lieutenants.add_equipment(result)  # Oct 21: the four lieutenants' relics
 	result[EquipmentRarity.STARTER_BLADE] = EquipmentRarity.starter_blade()  # Overnight Oct 17: the armory quest's reward
 	return result

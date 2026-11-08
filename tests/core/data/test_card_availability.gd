@@ -26,7 +26,7 @@ func _rng(seed_value: int = 1) -> RandomNumberGenerator:
 
 func test_the_overrides_import_availability_and_source() -> void:
 	assert_eq(CardAvailability.kind_of(_card("N-33")), CardAvailability.Kind.ENEMY_ONLY, "Mortimer is enemy-only")
-	assert_eq(_card("N-33").availability_source, "Mortimer Grimsby, CE-No")
+	assert_eq(_card("N-33").availability_source, "Mortimer Grimsby, CE-No|Echo of Mortimer Grimsby")  # Overnight Nov 7-8: the Gallery Echo owns it too
 	assert_eq(CardAvailability.kind_of(_card("N-30")), CardAvailability.Kind.ENEMY_ONLY, "Betty Bones")
 	assert_eq(CardAvailability.kind_of(_card("NB-16")), CardAvailability.Kind.ENEMY_ONLY, "Chancellor Clench")
 	assert_eq(CardAvailability.kind_of(_card("P4-03")), CardAvailability.Kind.ENEMY_ONLY, "Mr. Tiggle")

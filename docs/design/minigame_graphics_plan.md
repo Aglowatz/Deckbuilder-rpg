@@ -20,7 +20,7 @@ Hooked into all eight minigame and puzzle screens at their existing sound cues:
 | **Order Up!** (Buffet, Chef Flambe Fontaine) | ingredient buttons, order tickets | **Done:** sparks on a finished order, shake on a wrong ingredient, confetti. **Later:** tickets slide in from the rail; a steam particle puff on each plate; the host's portrait cheering at streaks; Gourmand card art on the tickets | none needed; the card art carries it |
 | **Sort It Out!** (Dump, Recycle Rhonda) | sorting buttons | **Done:** shake on a wrong bin, confetti. **Later:** items arc into the bins (tween on a curve); a green leaf burst on a correct sort; Refusemancer card art (Garbage tokens) as the items | none needed |
 | **Rec Room: Match the Memories** (D.N.A.) | a 4 x 4 table of icon cards | **Done:** sparks on a pair, confetti. **Later:** cards flip with a scale tween (as Dex's table does) | none needed |
-| **Dex's Table** (every Path zone, new) | - | **Done:** real Path card art face up, flip tween, pair pulse and sparks, miss shake, moves meter turning red past Dex's score, stars popping in | ICON-EQ-LUCKY-SPATS for the prize (art list); Dex reuses the townsfolk sprite and portrait |
+| **Dex's Table** (every Path zone, new) | - | **Done:** real Path card art face up, flip tween, pair pulse and sparks, miss shake, moves meter turning red past Dex's score, stars popping in | ICON-EQ-MATCHING-PAIR for the prize (art list); Dex reuses the townsfolk sprite and portrait |
 | **Puzzles** (Wheel, Tube, Recipe, Seed Shrine) | panels of buttons | **Done:** sparks / shake / confetti at their cues. **Later:** the wheel puzzle's wheels spin (rotation tween) when powered; tubes light along the route; the stew pot bubbles (particles) | none |
 
 ## Images for the art list (Part 9)
@@ -28,5 +28,5 @@ Hooked into all eight minigame and puzzle screens at their existing sound cues:
 | Id | Priority | Note |
 |---|---|---|
 | MG-BG-CLASSROOM | High | the trivia classroom (every zone's quiz uses it); the coded stand-in is in place until it arrives |
-| ICON-EQ-LUCKY-SPATS | Medium | the Cardsharp's prize icon (ICON style) |
+| ICON-EQ-MATCHING-PAIR | Medium | the Cardsharp's prize icon (ICON style) |
 | MG-BG-GYM | Low | optional backdrop for Rep Counter |

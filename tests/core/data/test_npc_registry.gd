@@ -8,7 +8,7 @@ func before_each() -> void:
 
 
 func test_the_list_has_every_character_row() -> void:
-	assert_eq(NpcRegistry.all().size(), 79, "68 list characters plus the eleven the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well; Batch 11: Hesper, the Exit Clerk, Gary, Tarragon, Billie Muckfoot, Sorrel, the Secret Dealer)")
+	assert_eq(NpcRegistry.all().size(), 80, "Fixes Nov 8: + Dex Shufflewick. 68 list characters plus the eleven the game adds itself (the Warden of the Four Seals, Brindle the Baker, the townsfolk, the Old Well; Batch 11: Hesper, the Exit Clerk, Gary, Tarragon, Billie Muckfoot, Sorrel, the Secret Dealer)")
 	var entry: NpcRegistry.Entry = NpcRegistry.find("NPC-ELDER")
 	assert_not_null(entry)
 	assert_eq(entry.name, "Elder Maren")

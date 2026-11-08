@@ -1,5 +1,5 @@
 extends GutTest
-## Overnight Nov 7-8, Part 6.3: the Cardsharp's Circuit - a card-art matching table in each Path zone, one questline, Dex's Lucky Spats
+## Overnight Nov 7-8, Part 6.3: the Cardsharp's Circuit - a card-art matching table in each Path zone, one questline, Dex's Matching Pair
 ## (boots: the slot with the fewest pieces) whose rule draws a copy of the turn's first non-Infrastructure card.
 
 

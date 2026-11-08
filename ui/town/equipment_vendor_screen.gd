@@ -2,7 +2,7 @@ class_name EquipmentVendorScreen
 extends OverlayScreen
 ## New brief, Part C: the equipment vendor - stock is data-driven (EquipmentVendorData/Condition,
 ## mirroring the item vendor's ItemVendorData, D75/Part F). 5 basic pieces are for sale from the
-## start; the 5 advanced pieces show as a "???" teaser until unlocked by a level-up reward
+## start; the advanced pieces show as a "???" teaser until unlocked by a level-up reward
 ## (Part D). Each tile shows its slot and a tooltip that also compares against whatever is
 ## currently equipped in that slot.
 
@@ -82,7 +82,18 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
-	TipPanel.show_once(self, &"tip_equipment_vendor", "Buying equipment", "Click a piece to buy it - equipment isn't consumed, so you only ever need to buy one of each. Equip it from the Character screen once you have an unlocked slot for it. The 5 grayed-out pieces are advanced gear, unlocked by a level-up reward.", Vector2(560, 900))
+	TipPanel.show_once(self, &"tip_equipment_vendor", "Buying equipment", "Click a piece to buy it - equipment isn't consumed, so you only ever need to buy one of each. Equip it from the Character screen once you have an unlocked slot for it." + locked_note(_locked), Vector2(560, 900))
+
+
+## Fixes Nov 8 (Nov 7 quick win): the tip counts the grayed-out pieces of THIS shelf (it said "the 5" everywhere, even with none locked).
+static func locked_note(locked: Dictionary) -> String:
+	var count: int = 0
+	for id: Variant in locked.keys():
+		if bool(locked[id]):
+			count += 1
+	if count == 0:
+		return ""
+	return " The %s grayed-out piece%s %s advanced gear, unlocked by a level-up reward." % [str(count) if count > 1 else "one", "s" if count > 1 else "", "are" if count > 1 else "is"]
 
 
 func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) -> Control:

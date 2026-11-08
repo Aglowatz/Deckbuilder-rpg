@@ -44,6 +44,7 @@ static func land(layout: GainlandsLayout) -> MeshInstance3D:
 	instance.material_override = GainlandsMaterials.terrain()
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.name = "MainLand"
+	instance.set_meta(&"no_range_cull", true)  # Fixes Nov 8: land and cliffs are never range-culled (Low-end's shorter range left black triangle holes in the faces)
 	instance.set_meta(&"no_occlusion_fade", true)  # terrain never dissolves
 	instance.set_meta(&"no_range_cull", true)  # one huge mesh: the 48 m range cull measures to its centre (GC-9)
 	return instance
@@ -283,6 +284,7 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 	instance.material_override = GainlandsMaterials.terrain()
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.name = node_name
+	instance.set_meta(&"no_range_cull", true)  # Fixes Nov 8: land and cliffs are never range-culled (Low-end's shorter range left black triangle holes in the faces)
 	instance.set_meta(&"no_occlusion_fade", true)
 	instance.set_meta(&"no_range_cull", true)
 	return instance

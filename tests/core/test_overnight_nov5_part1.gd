@@ -28,27 +28,27 @@ func test_alchemy_reasons_read_like_the_button() -> void:
 	var profile: PlayerProfile = Session.profile
 	profile.set_essence(Affinity.Type.BEEFCAKE, 12)
 	profile.set_essence(Affinity.Type.NECROCRAT, 0)
-	assert_eq(Alchemy.problem(profile, 999, Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT), "Need 6 more Necrocrat essence")
-	profile.set_essence(Affinity.Type.NECROCRAT, 6)
+	assert_eq(Alchemy.problem(profile, 999, Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT), "Need %d more Necrocrat essence" % Alchemy.MIN_ESSENCE_PER_PATH)
+	profile.set_essence(Affinity.Type.NECROCRAT, Alchemy.MIN_ESSENCE_PER_PATH)
 	assert_eq(Alchemy.problem(profile, 0, Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT), "Need %d gold" % Alchemy.GOLD_COST)
 
 
 func test_the_craft_button_shows_its_cost_and_why_it_is_off() -> void:
 	Session.profile.set_essence(Affinity.Type.BEEFCAKE, 18)
-	Session.profile.set_essence(Affinity.Type.NECROCRAT, 2)
+	Session.profile.set_essence(Affinity.Type.NECROCRAT, Alchemy.MIN_ESSENCE_PER_PATH - 1)
 	Session.gold = 500
 	var screen: AlchemistScreen = AlchemistScreen.new()
 	add_child_autofree(screen)
 	await wait_frames(3)
 	var craft: FancyButton = screen.find_child("CraftButton", true, false) as FancyButton
 	assert_true(craft.disabled)
-	assert_string_contains(craft.text, "Craft — %d gold, 6 + 6" % Alchemy.GOLD_COST)
+	assert_string_contains(craft.text, "Craft — %d gold, %d + %d" % [Alchemy.GOLD_COST, Alchemy.MIN_ESSENCE_PER_PATH, Alchemy.MIN_ESSENCE_PER_PATH])
 	assert_string_contains(craft.text, "Pick two Paths")
 	for path: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT]:
 		((screen.find_child("EssenceRow%d" % int(path), true, false)) as Button).pressed.emit()
 	await wait_frames(2)
 	assert_true(craft.disabled)
-	assert_string_contains(craft.text, "Need 4 more Necrocrat essence")
+	assert_string_contains(craft.text, "Need 1 more Necrocrat essence")
 	var row: Button = screen.find_child("EssenceRow%d" % int(Affinity.Type.BEEFCAKE), true, false) as Button
 	assert_true((row.find_child("Selected", true, false) as Label).visible, "a chosen jar is marked Selected")
 	Session.profile.set_essence(Affinity.Type.NECROCRAT, 18)

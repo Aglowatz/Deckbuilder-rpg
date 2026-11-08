@@ -2416,9 +2416,10 @@ func pack_step_open() -> bool:
 	return not flag(StringName(QuestDefinitions.FIRST_PACK_FLAG))
 
 
-## Overnight Nov 7-8, Part 1.2: a gatekeeper fights only once Maren has sent the hero out (after the intro line), or once already beaten.
-func gatekeeper_can_fight(zone_id: String) -> bool:
-	return PathDirection.sent_out(flags) or flag(CorruptedNpcs.unlock_flag(zone_id))
+## Fixes Nov 8 (owner): a gatekeeper can be fought right away, at any time; only the quests, the tracker and the map pins wait for Maren's
+## send-off. Kept for the callers and tests: always true.
+func gatekeeper_can_fight(_zone_id: String) -> bool:
+	return true
 
 
 ## Overnight Nov 7-8, Part 1.2: a save that already has a gatekeeper quest (started, finished, or a gatekeeper beaten) counts as sent out,
@@ -2428,7 +2429,7 @@ func _migrate_gatekeepers_given() -> void:
 		return
 	for zone_id: String in Gatekeepers.IDS:
 		var main_id: String = QuestDefinitions.zone_main_id(zone_id)
-		if quest_log.is_active(main_id) or quest_log.is_completed(main_id) or Gatekeepers.is_cleared(flags, zone_id):
+		if quest_log.is_active(main_id) or quest_log.is_completed(main_id):  # Fixes Nov 8: a gatekeeper beaten early is not a send-off
 			set_flag(StringName(PathDirection.FLAG))
 			return
 
@@ -3204,7 +3205,7 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 			set_flag(blocker_flag)
 		# Overnight Nov 3-4, Part B9: a spot beaten before pays the repeat rate (grinding buys cards at a reasonable pace)
 		var won_key: String = "roamer_won:%s:%s" % [zone_run.zone_id, str(context.zone_enemy_id)]
-		var gold: int = Economy.fight_gold(context.gold_reward, counter(won_key) > 0)
+		var gold: int = Economy.fight_gold(context.gold_reward, counter(won_key) > 0, ProgressionModel.level_for("zone:%s" % zone_run.zone_id, 1))
 		bump_counter(won_key)
 		add_gold(gold)
 		result["gold"] = gold

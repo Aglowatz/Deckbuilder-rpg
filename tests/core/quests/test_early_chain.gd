@@ -60,7 +60,7 @@ func test_out_of_the_cave_the_errands_lead_and_the_gatekeepers_wait() -> void:
 	assert_false(QuestCatalog.find(QuestDefinitions.MERCHANTS).is_main(), "the errands are a side line")
 	for zone_id: String in Gatekeepers.IDS:
 		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "no gatekeeper line yet (%s)" % zone_id)
-		assert_false(Session.gatekeeper_can_fight(zone_id), "and no gatekeeper fights yet (%s)" % zone_id)
+		assert_true(Session.gatekeeper_can_fight(zone_id), "Fixes Nov 8: but every gatekeeper can be fought at once (%s)" % zone_id)
 	assert_true(Session.quests_offered_by(QuestDefinitions.BRANNOCH).has(QuestCatalog.find(QuestDefinitions.FREE_ZONES)), "Brannoch has the Capital's quest")
 	assert_eq(Session.armory_stage(), 0, "Bertram is shut")
 

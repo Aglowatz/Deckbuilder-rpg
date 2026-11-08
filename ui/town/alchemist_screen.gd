@@ -61,7 +61,7 @@ func _build_essence_column() -> Control:
 	for path: Affinity.Type in Affinity.colored_types():
 		var row: Button = Button.new()
 		row.name = "EssenceRow%d" % int(path)
-		row.toggle_mode = true
+		row.toggle_mode = false  # Fixes Nov 8 (C3 F5): the screen owns the selection; a toggle button flipped itself and the first click looked lost
 		row.custom_minimum_size = Vector2(580.0 - _narrow(), 82)
 		row.focus_mode = Control.FOCUS_NONE
 		row.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.05), UIStyle.affinity_color(path).darkened(0.3), 2, 12))
@@ -145,6 +145,7 @@ func _build_brew_column() -> Control:
 	_preview_box = UIKit.vbox(6)
 	_preview_box.name = "PossibleCards"
 	_preview_box.position = Vector2(0, 0)
+	_preview_box.custom_minimum_size = Vector2(700, 300)  # Fixes Nov 8 (C3 F5): space kept for the odds grid, so nothing jumps under the cursor
 	column.add_child(_preview_box)
 	_hint_label = UIKit.label("", &"MutedLabel", 22)
 	_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -183,8 +184,12 @@ func _refresh() -> void:
 		(entry["amount"] as Label).text = str(amount)
 		(entry["bar"] as ProgressBar).value = float(mini(amount, Alchemy.MIN_ESSENCE_PER_PATH))
 		var button: Button = entry["button"] as Button
-		button.button_pressed = _selected.has(path as Affinity.Type)
-		(entry["tick"] as Label).visible = button.button_pressed
+		var chosen: bool = _selected.has(path as Affinity.Type)
+		var colour: Color = UIStyle.affinity_color(path as Affinity.Type)
+		button.add_theme_stylebox_override("normal", UIStyle.box(colour.darkened(0.35), UIStyle.GOLD, 5, 12, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.05), colour.darkened(0.3), 2, 12))
+		button.add_theme_stylebox_override("hover", UIStyle.box(colour.darkened(0.3), UIStyle.GOLD, 5, 12, 10) if chosen else UIStyle.box(Color(1, 1, 1, 0.09), colour, 3, 12))
+		button.set_meta("chosen", chosen)
+		(entry["tick"] as Label).visible = chosen
 		button.tooltip_text = "%d / %d essence needed to craft." % [amount, Alchemy.MIN_ESSENCE_PER_PATH] if amount < Alchemy.MIN_ESSENCE_PER_PATH else "Click to use this Path in the brew."
 	_rebuild_preview()
 	if _selected.size() == 3:

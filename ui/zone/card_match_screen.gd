@@ -200,7 +200,7 @@ func _finish() -> void:
 	var beat: bool = won and game.moves <= CardMatchCircuit.target_for(table)
 	var line: String
 	if earned:
-		line = "You beat Dex's score! %s" % ("The Lucky Spats is yours: turn in the Circuit." if table == CardMatchCircuit.FINAL else "One table closer to the final deal.")
+		line = "You beat Dex's score! %s" % ("The Matching Pair is yours: turn in the Circuit." if table == CardMatchCircuit.FINAL else "One table closer to the final deal.")
 	elif beat:
 		line = "You beat Dex's score again. He pretends not to mind."
 	elif won:

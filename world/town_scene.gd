@@ -2092,10 +2092,6 @@ func _talk_corrupted_npc(id: String) -> void:
 	_face_npc("npc_%s" % id)
 	var story: StoryText = load(STORY_PATH) as StoryText
 	var defeated: bool = Session.flag(CorruptedNpcs.unlock_flag(id))
-	if not defeated and not Session.gatekeeper_can_fight(id):
-		# Overnight Nov 7-8, Part 1.2: met before Maren sends the hero out - a friendly "come back when Maren sends you", and no fight.
-		dialogue.start(Gatekeepers.full_title(id), DungeonCatalog.text_lines("gatekeeper.not_yet.%s" % id) as Array[String], str(NPC_IDS.get("npc_%s" % id, "")))
-		return
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
@@ -3024,8 +3020,8 @@ func _collect_pois() -> Array[MapPoi]:
 func _tint_own_path(poi: MapPoi, zone_id: String) -> MapPoi:
 	if Session.profile == null or PathDirection.zone_of(Session.profile.primary_affinity) != zone_id:
 		return poi
-	if PathDirection.tracker_line(Session.profile.primary_affinity, Session.flags).is_empty():
-		return poi
+	if PathDirection.tracker_line(Session.profile.primary_affinity, Session.flags).is_empty() or not PathDirection.sent_out(Session.flags):
+		return poi  # Fixes Nov 8: no pin on the Path's road until Maren sends the hero out
 	poi.path_tint = UIStyle.affinity_color(Session.profile.primary_affinity)
 	poi.label = "Your Path: %s" % poi.label
 	return poi

@@ -2383,5 +2383,35 @@
 		"world_sprite_status": "OK",
 		"art_check": "OK",
 		"notes": "Overnight Oct 17 (Phase 2): the shared townsfolk sprite set (CITIZEN) with tints; no dialogue, only passing lines."
+	},
+	{
+		"id": "NPC-DEX",
+		"name": "Dex Shufflewick",
+		"location": "Every Path zone, beside the trivia corner",
+		"role": "Travelling cardsharp (the card-matching tables, The Cardsharp's Circuit)",
+		"species": "human",
+		"species_type": "Human",
+		"description": "A wiry travelling cardsharp in a green waistcoat, with a deck that never leaves his fingers.",
+		"personality": "Cheerful, sly, a good loser who hates losing; talks to cards as if they are old friends.",
+		"speech_style": "Quick patter, stage-magician flourish, self-mocking.",
+		"sample_line": "Same cards, new shuffle. My score's on the board, if you want it.",
+		"barks": [
+			"Pick a card. No, not that one. Fine, that one.",
+			"Every card has a twin somewhere. That's the whole game, really.",
+			"I'd shuffle slower, but then you'd win."
+		],
+		"game_function": "Runs Dex's Table (card matching) in each Path zone",
+		"quest_links": [
+			"cardsharps_circuit"
+		],
+		"vendor_links": [],
+		"portrait_id": "NPC-DEX",
+		"portrait_status": "Needed (Batch 13; the townsfolk portrait stands in)",
+		"expressions": [],
+		"art_status": "Needed (Batch 13)",
+		"sprite_status": "Needed (SPR-DEX)",
+		"world_sprite_status": "Needed (SPR-DEX; the CITIZEN set stands in)",
+		"art_check": "",
+		"notes": "Fixes Nov 8: own art in Batch 13 (NPC-DEX, SPR-DEX)."
 	}
 ]

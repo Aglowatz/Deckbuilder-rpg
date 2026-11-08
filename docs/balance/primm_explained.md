@@ -30,14 +30,21 @@ The Critic pass of Nov 6 (C8) found the same shape: 75-100 % in phases 1-2, 50-1
 
 ## Measurement 2 - the deck a no-grind player could own
 
-**Not measured tonight.** The run (`--what=encounters --games=16 --filter=D-PC:10 --budget`, added tonight: `ProgressionModel.budget_deck`, the
-reference deck with at most 4 Epics and 1 Legendary, the rest from Commons, Uncommons and the starter) was stopped by Claude Code because the PC
-was critically low on memory, and the night's rule is not to restart a job stopped that way. Run it next:
-`Godot --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --games=16 --filter=D-PC:10 --budget`.
+Measured Nov 8 (`--what=encounters --games=16 --filter=D-PC:10 --budget`, `docs/design/sim/nov8/p8_primm_budget.md`). `--budget` plays
+`ProgressionModel.budget_deck`: the reference deck's upgrades but at most 4 Epics and 1 Legendary (the no-grind shopping list of the gold
+study), refilled from the starter. Same gear, items and Boss AI. Next to it, the same night's reference run with 16 games (`p8_primm_reference.md`):
 
-What we expect, from the evidence we do have: the reference decks are built from what the shops sell (`ProgressionModel.UPGRADES`), so they are
-already a careful player's deck; the no-grind collection from the gold study (about 130 of 178 cards by the end, about 38 bought) can rebuild
-most of it, minus a few shelf Epics and Legendaries. We expect a drop of 10-20 points per phase, not a wall.
+| Phase | Beefcake | Necrocrat | Gourmand | Refusemancer | All | (reference, 16 games) |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 Standardization | 75 % | 100 % | 100 % | 100 % | 94 % | 94 % |
+| 2 Reflection | 81 % | 81 % | 94 % | 100 % | 89 % | 89 % |
+| 3 Unraveling | 31 % | 88 % | 81 % | 88 % | 72 % | 73 % |
+
+**What it shows:** almost no difference. Cutting the shelf Epics and Legendaries barely matters to the sim, because under Standardization a
+big card is a 3/3 like any other, phase 2 copies whatever deck you bring, and phase 3 is a clock. So the gap between the sims (easy) and the
+play tests (hard, swingy) is not about what the player owns - it is about how the deck is built and played (cheap bodies, two cards a turn)
+and about HP carrying over between phases. That supports the owner's choice: explain phase 1 plainly and advise a cheap-units deck, and
+leave his numbers alone. Beefcake's phase 3 (31-44 %) is the one real low point, in line with its known late-game weakness.
 
 ## Measurement 3 - a fresh critic playing him by hand with the second deck
 

@@ -5,6 +5,7 @@ extends RefCounted
 ##         reference decks round robin at --level), iron (Beefcake's reference deck with and without using Iron, vs its home fights),
 ##         one (a single encounter, --id=..., with the full card-impact lists per Path)
 ## --mode: quick (12 games per Path and encounter) or full (100); --games overrides. --level forces the player's level. --seed sets the base seed.
+## --resume (encounters): skip what a stopped run with the same --out already finished (<out>.progress.txt).
 ## --path=beefcake limits the player to one Path. --nogear strips equipment and items. --starter plays the bare starter deck. --filter narrows the encounter list (id or group substring).
 ## Writes markdown to --out (default res://docs/design/sim/latest.md) and prints the table.
 
@@ -116,17 +117,40 @@ func _encounters(content: ContentSet, games: int, seed_value: int, lines: Packed
 		specs = kept
 	var rows: Array[Dictionary] = []
 	var flagged: Array[String] = []
+	# Fixes Nov 8 (Nov 7 quick win): `--resume` skips the encounters a stopped run already finished. Every finished row is appended to
+	# <out>.progress.txt as it completes; a resumed run lists those rows' one-line results under "Finished before the resume".
+	var progress_path: String = ProjectSettings.globalize_path(str(args.get("out", "res://docs/design/sim/latest.md"))) + ".progress.txt"
+	var done: Dictionary = {}
+	if args.has("resume") and FileAccess.file_exists(progress_path):
+		for line: String in FileAccess.get_file_as_string(progress_path).split("\n", false):
+			done[line.get_slice("\t", 0)] = line.get_slice("\t", 1)
+	elif FileAccess.file_exists(progress_path):
+		DirAccess.remove_absolute(progress_path)
 	for spec: EncounterSpec in specs:
+		if done.has(spec.id):
+			continue
 		var row: Dictionary = _run_all(content, spec, games, seed_value)
 		rows.append(row)
 		var all: BalanceSim.Result = row["all"] as BalanceSim.Result
-		print("%-44s %4s  turns %.1f  %s" % [spec.id, BalanceSim.percent(all.win_rate()), all.avg_player_turns(), BalanceSim.verdict(all)])
+		var summary: String = "%-44s %4s  turns %.1f  %s" % [spec.id, BalanceSim.percent(all.win_rate()), all.avg_player_turns(), BalanceSim.verdict(all)]
+		print(summary)
+		var progress: FileAccess = FileAccess.open(progress_path, FileAccess.READ_WRITE if FileAccess.file_exists(progress_path) else FileAccess.WRITE)
+		if progress != null:
+			progress.seek_end()
+			progress.store_line("%s\t%s" % [spec.id, summary])
+			progress.close()
 		if not spec.in_target(all.win_rate()):
 			flagged.append("%s (%s, target %s): %s" % [spec.id, BalanceSim.percent(all.win_rate()), spec.target_text(), _per_path_summary(row)])
 	lines.append("## Encounters (%d)" % rows.size())
 	lines.append("")
 	lines.append(BalanceSim.table(rows))
 	lines.append("")
+	if not done.is_empty():
+		lines.append("## Finished before the resume (%d)" % done.size())
+		lines.append("")
+		for id: Variant in done.keys():
+			lines.append("- " + str(done[id]))
+		lines.append("")
 	lines.append("## Outside the target band (%d)" % flagged.size())
 	lines.append("")
 	for entry: String in flagged:

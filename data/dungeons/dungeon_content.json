@@ -1576,7 +1576,7 @@
 					"name": "Echo of Vivienne Quota",
 					"deck": "beefcake_bruisers",
 					"size": 30,
-					"hp": 14,
+					"hp": 18,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/alarm-clock"
@@ -1585,7 +1585,7 @@
 					"name": "Echo of Chancellor Clench",
 					"deck": "beefcake_bruisers",
 					"size": 31,
-					"hp": 19,
+					"hp": 24,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/viking-head",
@@ -1597,7 +1597,7 @@
 					"name": "Echo of Percival Plume",
 					"deck": "necrocrat_beefcake",
 					"size": 32,
-					"hp": 16,
+					"hp": 20,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/trumpet"
@@ -1606,7 +1606,7 @@
 					"name": "Echo of Mortimer Grimsby",
 					"deck": "necro_control",
 					"size": 33,
-					"hp": 21,
+					"hp": 26,
 					"infra": 14,
 					"ai": "Defensive",
 					"icon": "delapouite/stamper",
@@ -1619,7 +1619,7 @@
 					"name": "Echo of the Doppelganger",
 					"deck": "gourmand_golems",
 					"size": 31,
-					"hp": 16,
+					"hp": 20,
 					"infra": 15,
 					"ai": "Balanced",
 					"icon": "delapouite/chef-toque",
@@ -1631,7 +1631,7 @@
 					"name": "Echo of Hortensia Clipwell",
 					"deck": "refuse_garbage",
 					"size": 32,
-					"hp": 16,
+					"hp": 20,
 					"infra": 15,
 					"ai": "Balanced",
 					"icon": "lorc/leaf-swirl"
@@ -1640,7 +1640,7 @@
 					"name": "Echo of the Rotheart",
 					"deck": "refuse_garbage",
 					"size": 32,
-					"hp": 19,
+					"hp": 24,
 					"infra": 17,
 					"ai": "Defensive",
 					"icon": "cathelineau/tree-face",
@@ -1987,26 +1987,10 @@
 			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you a few errands to learn the ropes.",
 			"Come and find me on the square once you've dried off. When you're ready, I'll send you out myself."
 		],
-		"gatekeeper.not_yet.beefcake": [
-			"WHOA THERE, SMALL STRANGER! You haven't even warmed up yet. I can see it in your shoulders.",
-			"Go and finish whatever Elder Maren's got you doing in town. When she sends you out here, come back and we'll see what you can lift. I'll be right here. I'm always right here."
-		],
-		"gatekeeper.not_yet.necrocrat": [
-			"Good afternoon. I'm afraid you aren't on today's list. You aren't on any list, which I find upsetting.",
-			"Elder Maren has you down for orientation in Crosspath first. Once she's signed you off, come back and I'll refuse you properly."
-		],
-		"gatekeeper.not_yet.gourmand": [
-			"A new face! Too early, too early, the sauce hasn't reduced! You can't fight on an empty plate.",
-			"Go and let Elder Maren finish showing you round town. When she sends you to me, I'll have the kitchen ready. YES, CHEF! ...That was me. I'm the chef."
-		],
-		"gatekeeper.not_yet.refusemancer": [
-			"...not yet... the green is not ready for you... and you are not ready for the green...",
-			"...the old tortoise in the square is still busy with you... go back to her... when she sends you, the path will be waiting... it is always waiting..."
-		],
 		"cardsharp.intro": [
 			"Ah, a card person! I can always tell: you check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp.",
 			"I keep a little memory table in every Path's country, dealt from that Path's own cards. Beat my score at all four, then find me for the final table.",
-			"Win that, and you can have my Lucky Spats. I won them off a magician, who won them off a duck. Sit down, let's see your memory."
+			"Win that, and you can have my Matching Pair, the luckiest boots in the kingdom. I won them off a magician, who won them off a duck. Sit down, let's see your memory."
 		],
 		"cardsharp.return": [
 			"Back for another round? Same cards, new shuffle. My score's on the board, if you want it."
@@ -2015,7 +1999,7 @@
 			"All four tables, beaten. I'm impressed, and slightly poorer in spirit. The final table is two cards from every Path, and I'm not going easy."
 		],
 		"cardsharp.done": [
-			"You cleaned me out, and the spats suit you better than they suited me. The table's still open, if you just like the game."
+			"You cleaned me out, and the boots suit you better than they suited me. The table's still open, if you just like the game."
 		]
 	}
 }

@@ -50,6 +50,7 @@ static func wall(line: PackedVector2Array, top: float, bottom: float, side: floa
 	instance.set_meta(&"no_occlusion_fade", true)
 	instance.set_meta(&"no_range_cull", true)
 	instance.name = node_name
+	instance.set_meta(&"no_range_cull", true)  # Fixes Nov 8: land and cliffs are never range-culled (Low-end's shorter range left black triangle holes in the faces)
 	return instance
 
 

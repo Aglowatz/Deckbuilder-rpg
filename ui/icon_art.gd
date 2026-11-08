@@ -177,6 +177,7 @@ const EQUIPMENT_IDS: Dictionary = {
 	"thorned_loincloth": "ICON-GEAR-THORNEDLOINCLOTH",
 	"xray_goggles": "ICON-GEAR-XRAYGOGGLES",
 	"big_brain_beret": "ICON-GEAR-BIGBRAINBERET",
+	"dex_matching_pair": "ICON-EQ-MATCHING-PAIR",  # Fixes Nov 8: the Cardsharp's prize (art list row; the slot fallback until it is imported)
 }
 ## The empty-slot placeholders of the character screen (EquipmentData.Slot).
 const SLOT_IDS: Dictionary = {
@@ -471,7 +472,7 @@ static func game_ids() -> Dictionary:
 		for path: String in _tres_in(dir_path):
 			var piece: EquipmentData = load(path) as EquipmentData
 			if piece != null and not piece.id.is_empty():
-				ids[gear_icon_id(piece.id)] = "Gear: %s" % (piece.source_name if not piece.source_name.is_empty() else piece.id)
+				ids[str(EQUIPMENT_IDS.get(piece.id, gear_icon_id(piece.id)))] = "Gear: %s" % (piece.source_name if not piece.source_name.is_empty() else piece.id)
 	for dir_path: String in GAME_ITEM_DIRS:
 		for path: String in _tres_in(dir_path):
 			var item: ItemData = load(path) as ItemData

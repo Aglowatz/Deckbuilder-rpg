@@ -162,30 +162,49 @@ func test_crafting_trades_the_needed_essence_of_both_paths_and_gold_for_a_dual_c
 	assert_eq(Session.counter("cards_crafted"), 1)
 
 
-## Fix pass Nov 4 (B), Part 4.2: the owner's example - 18 essence, a craft that needs 6, leaves 12. The gold is 100; a Path holds at most 18.
-func test_eighteen_essence_and_one_craft_leaves_twelve() -> void:
+## Fix pass Nov 4 (B), Part 4.2: a brew spends only what it needs. Fixes Nov 8: a craft needs 2 of each Path and 40 gold (was 6 and 100).
+func test_a_craft_spends_only_what_it_needs() -> void:
 	var profile: PlayerProfile = Session.profile
 	profile.set_essence(A, 18)
 	profile.set_essence(D, 18)
 	Session.gold = 500
-	assert_eq(Alchemy.MIN_ESSENCE_PER_PATH, 6)
-	assert_eq(Alchemy.GOLD_COST, 100, "crafting costs 100 gold")
+	assert_eq(Alchemy.MIN_ESSENCE_PER_PATH, 2)
+	assert_eq(Alchemy.GOLD_COST, 40, "crafting costs 40 gold")
 	var result: Alchemy.Result = Session.craft_dual_card(A, D)
 	assert_true(result.ok, result.reason)
-	assert_eq(profile.essence_of(A), 12)
-	assert_eq(profile.essence_of(D), 12)
-	assert_eq(Session.gold, 400)
-	assert_eq(int(result.essence_spent[A]), 6)
+	assert_eq(profile.essence_of(A), 16)
+	assert_eq(profile.essence_of(D), 16)
+	assert_eq(Session.gold, 460)
+	assert_eq(int(result.essence_spent[A]), 2)
 
 
-func test_essence_is_capped_at_three_crafts_worth_per_path() -> void:
+## Fixes Nov 8: the cauldron favours multi-Path cards you do not own yet, so finishing a set takes one brew per card.
+func test_the_cauldron_brews_missing_cards_first() -> void:
 	var profile: PlayerProfile = Session.profile
-	assert_eq(Alchemy.ESSENCE_CAP_PER_PATH, 3 * Alchemy.MIN_ESSENCE_PER_PATH)
+	var pool: Array[CardData] = Alchemy.possible_cards(Session.content, A, D)
+	if pool.size() < 2:
+		pass_test("no pool for this pair")
+		return
+	var seen: Dictionary = {}
+	for i: int in range(pool.size()):
+		profile.set_essence(A, 18)
+		profile.set_essence(D, 18)
+		Session.gold = 500
+		var result: Alchemy.Result = Session.craft_dual_card(A, D)
+		assert_true(result.ok, result.reason)
+		assert_false(seen.has(result.card.id), "no repeat while cards are missing (%s)" % result.card.id)
+		seen[result.card.id] = true
+
+
+func test_essence_is_capped_per_path() -> void:
+	# Fixes Nov 8: the cap is 60 (room to save for a run of crafts; it was three crafts' worth, 18).
+	var profile: PlayerProfile = Session.profile
+	var cap: int = Alchemy.ESSENCE_CAP_PER_PATH
 	profile.set_essence(A, 0)
-	profile.add_essence(A, 50)
-	assert_eq(profile.essence_of(A), 18, "a Path holds at most 18")
+	profile.add_essence(A, cap + 30)
+	assert_eq(profile.essence_of(A), cap, "a Path holds at most the cap")
 	profile.add_essence(A, 2)
-	assert_eq(profile.essence_of(A), 18)
+	assert_eq(profile.essence_of(A), cap)
 
 
 func test_the_alembic_quest_pays_a_starter_jar_of_every_path_on_the_first_visit() -> void:
@@ -208,7 +227,7 @@ func test_the_alembic_quest_pays_a_starter_jar_of_every_path_on_the_first_visit(
 func test_a_failed_craft_costs_nothing() -> void:
 	var profile: PlayerProfile = Session.profile
 	profile.set_essence(A, 20)
-	profile.set_essence(B, 4)
+	profile.set_essence(B, Alchemy.MIN_ESSENCE_PER_PATH - 1)  # one short
 	Session.gold = 500
 	var result: Alchemy.Result = Session.craft_dual_card(A, B)
 	assert_false(result.ok)

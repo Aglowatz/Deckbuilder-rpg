@@ -7,10 +7,10 @@ extends RefCounted
 ## Fix pass Nov 4 (B), Part 4.2: a brew spends only what it needs (it took ALL the essence: 18 for a 6-essence craft left 0, now 12), the
 ## gold is 100, and each Path holds at most ESSENCE_CAP_PER_PATH (3 crafts' worth); the odds are the base odds.
 
-const MIN_ESSENCE_PER_PATH: int = 6
+const MIN_ESSENCE_PER_PATH: int = 2  # Fixes Nov 8: 136 multi-Path crafts are part of the completion goal (was 6)
 const GOLD_COST: int = Economy.ALCHEMY_GOLD  # Fix pass Nov 4 (B): 100 (was 150, Overnight Oct 29)
 ## The most essence one Path can hold: three crafts' worth (Fix pass Nov 4 (B)); more is lost.
-const ESSENCE_CAP_PER_PATH: int = MIN_ESSENCE_PER_PATH * 3
+const ESSENCE_CAP_PER_PATH: int = 60  # Fixes Nov 8: room to save for a run of crafts (was three crafts' worth, 18)
 ## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade (the dual-Path cards are Uncommon, Epic and Legendary).
 const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]
 ## Every this-many essence beyond the two minimums shifts one weight point from Common to Epic and
@@ -104,6 +104,7 @@ static func craft(content: ContentSet, profile: PlayerProfile, gold: int, first:
 	if pool.is_empty():
 		result.reason = "These Paths have no dual-Path cards yet."
 		return result
+	pool = _favour_missing(pool, profile)
 	var spent_first: int = MIN_ESSENCE_PER_PATH
 	var spent_second: int = MIN_ESSENCE_PER_PATH
 	var weights: Array[int] = weights_for(spent_first + spent_second)
@@ -195,6 +196,7 @@ static func craft_tri(content: ContentSet, profile: PlayerProfile, gold: int, pa
 	if pool.is_empty():
 		result.reason = "These Paths have no tri-Path cards yet."
 		return result
+	pool = _favour_missing(pool, profile)
 	var weights: Array[int] = weights_for(MIN_ESSENCE_PER_PATH * 3, 3)
 	var total: int = 0
 	for card: CardData in pool:
@@ -214,3 +216,21 @@ static func craft_tri(content: ContentSet, profile: PlayerProfile, gold: int, pa
 	result.paths = paths.duplicate()
 	result.gold_spent = TRI_GOLD_COST
 	return result
+
+## Fixes Nov 8 (owner: "craft all the multi-Path cards"): the cauldron favours what you lack - while any card of the pool is missing from the
+## collection, it brews only those (then cards you have fewer than three of, then any). Completing a set takes one brew per card instead of a
+## duplicate lottery.
+static func _favour_missing(pool: Array[CardData], profile: PlayerProfile) -> Array[CardData]:
+	var missing: Array[CardData] = []
+	var short: Array[CardData] = []
+	for card: CardData in pool:
+		var owned: int = profile.owned_copies(card.id)
+		if owned == 0:
+			missing.append(card)
+		elif owned < CopyCaps.ABSOLUTE_MAX:
+			short.append(card)
+	if not missing.is_empty():
+		return missing
+	if not short.is_empty():
+		return short
+	return pool

@@ -136,9 +136,99 @@ func run() -> bool:
 	md.append("| Owned without grinding (estimate: starter, picks and packs, the bought cards) | %d of %d |" % [int(owned_without_grind), distinct])
 	md.append("| Still missing, at shelf prices (skewed rare) | about %d gold |" % int(missing_cost))
 	md.append("| Grinding at the Capital (%d gold a fight, %d fights an hour) | %.1f h = **%d %% extra playtime** |" % [Economy.roamer_gold("final"), GRIND_FIGHTS_PER_HOUR, grind_hours, int(round(grind_hours / (minutes / 60.0) * 100.0))])
+	_completion(md, total, spend, packs, picks, minutes)
 	var text: String = "\n".join(md)
 	print(text)
 	var file: FileAccess = FileAccess.open(_out_nov8, FileAccess.WRITE)
 	file.store_string(text + "\n")
 	file.close()
 	return true
+
+
+## Fixes Nov 8 (owner): the completionist goal - THREE copies of every single-Path and Colorless card, then one of every multi-Path card from
+## the Alchemist. What a no-grind run's gold covers, and the extra grinding to finish (late roamer fights, 12 an hour). Free copies: the
+## starter, the reward picks and every pack card (each counts toward a 3x set until its card is complete; past that it is essence). Crafting:
+## one brew per multi-Path card (the cauldron favours missing cards), its gold plus its essence; essence beyond the free supply is bought as
+## packs of already-complete cards (each card past its cap converts, `Essence.VALUE_BY_RARITY`).
+func _completion(md: PackedStringArray, total: int, spend: int, packs: int, picks: int, minutes: float) -> void:
+	var singles: Dictionary = {}  # rarity -> count
+	var dual: int = 0
+	var tri: int = 0
+	for card: CardData in _content.cards.values():
+		if card.is_token or card.is_infrastructure() or CardAvailability.is_enemy_only(card) or card.is_multipath():
+			continue
+		singles[int(card.rarity)] = int(singles.get(int(card.rarity), 0)) + 1
+	for value: Variant in _content.multipath_cards.values():
+		var multi: CardData = value as CardData
+		if multi == null or CardAvailability.is_enemy_only(multi):
+			continue
+		if multi.paths().size() >= 3:
+			tri += 1
+		else:
+			dual += 1
+	var copies: int = 0
+	var shelf: int = 0
+	for rarity: Variant in singles.keys():
+		copies += 3 * int(singles[rarity])
+		shelf += 3 * int(singles[rarity]) * Economy.card_price(rarity as CardEnums.Rarity)
+	var average_copy: float = float(shelf) / float(maxi(1, copies))
+	var free: float = float(packs * 3 + picks) + 25.0  # the starter's non-Infrastructure copies
+	var free_value: float = free * average_copy * 0.75  # pack cards lean Common, cheaper than the average copy
+	var buy_singles: float = maxf(0.0, float(shelf) - free_value)
+	var craft_gold: int = dual * Alchemy.GOLD_COST + tri * Alchemy.TRI_GOLD_COST
+	var craft_essence: int = dual * Alchemy.MIN_ESSENCE_PER_PATH * 2 + tri * Alchemy.MIN_ESSENCE_PER_PATH * 3
+	var free_essence: float = float(ShatteredGallery.FIRST_CLEAR_ESSENCE * 4) + free * 0.1 * 3.0  # the Gallery, and the odd pack card past its cap
+	var essence_gap: float = maxf(0.0, float(craft_essence) - free_essence)
+	var pack: PackData = PackCatalog.find("path_beefcake")
+	var essence_per_pack: float = 0.0
+	for index: int in range(pack.rarity_weights.size()):
+		essence_per_pack += float(pack.rarity_weights[index]) / 100.0 * float(Essence.value_for(index as CardEnums.Rarity))
+	essence_per_pack *= float(pack.card_count)
+	var essence_gold: float = essence_gap / maxf(0.01, essence_per_pack) * float(pack.price)
+	var goal: float = buy_singles + float(craft_gold) + essence_gold
+	var available: float = float(total - spend) + float(spend) * 0.0
+	var covered: float = clampf(available / goal, 0.0, 1.0)
+	var gap: float = maxf(0.0, goal - available)
+	var per_fight: float = float(Economy.fight_gold(Economy.roamer_gold("final"), true, ProgressionModel.level_for("zone:final", 1)))
+	var roamer_hour: float = per_fight * float(GRIND_FIGHTS_PER_HOUR)
+	# The better grind: replaying a late dungeon (the Lab, L25) - its fights at the late rate, the clear bonus, the repeat clear's gold and its
+	# Path Pack (counted at its price), at 4 minutes a fight plus 5 to walk in and out.
+	var replay: Dictionary = _replay("D-LAB")
+	var replay_hour: float = float(replay["gold"]) / (float(replay["minutes"]) / 60.0)
+	var best_hour: float = maxf(roamer_hour, replay_hour)
+	var hours: float = gap / best_hour
+	var fights: float = hours * 60.0 / MIN_PER_FIGHT
+	md.append("| **The completionist goal** | |")
+	md.append("| Three copies of every single-Path and Colorless card (%d copies) at shelf prices | %d |" % [copies, shelf])
+	md.append("| Copies a no-grind run gets free (starter, %d picks, %d packs x 3) | about %d (worth about %d) |" % [picks, packs, int(free), int(free_value)])
+	md.append("| Multi-Path cards to craft (%d dual, %d tri): gold | %d |" % [dual, tri, craft_gold])
+	md.append("| ... and essence (%d needed, about %d free; the rest from packs of finished cards, %.1f essence a Path Pack) | %d gold |" % [craft_essence, int(free_essence), essence_per_pack, int(essence_gold)])
+	md.append("| **Total to finish everything** | **%d gold** |" % int(goal))
+	md.append("| Gold a no-grind run has left after its shopping list | %d (covers about %d %%) |" % [total - spend, int(covered * 100.0)])
+	md.append("| Grinding rates | Capital roamer repeats %d gold a fight = %d an hour; replaying the Lab %d gold in %d min = %d an hour |" % [int(per_fight), int(roamer_hour), int(replay["gold"]), int(replay["minutes"]), int(replay_hour)])
+	md.append("| **Extra grinding to finish** (at the better rate) | **about %d fights = %.1f h = %d %% on top of a %.1f h run** |" % [int(fights), hours, int(round(hours / (minutes / 60.0) * 100.0)), minutes / 60.0])
+
+
+## One replay of a dungeon: {gold, minutes} - its fights' gold as Session pays it (the node share, the late scale), the clear bonus, the
+## repeat clear's gold and the repeat Path Pack at its price.
+func _replay(dungeon_id: String) -> Dictionary:
+	var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_id)
+	var gold: float = 0.0
+	var fights: int = 0
+	if blueprint != null:
+		for node: DungeonCatalog.BlueprintNode in blueprint.nodes:
+			if node.side:
+				continue
+			var kind: DungeonMap.Kind = DungeonBuilder.kind_of(node.type)
+			var difficulty: int = -1
+			if kind == DungeonMap.Kind.BATTLE:
+				difficulty = DungeonMap.Difficulty.NORMAL
+			elif kind == DungeonMap.Kind.ELITE:
+				difficulty = DungeonMap.Difficulty.ELITE
+			elif kind == DungeonMap.Kind.BOSS:
+				difficulty = DungeonMap.Difficulty.BOSS
+			if difficulty >= 0:
+				fights += 1
+				gold += float(Economy.late_gold(EncounterRewards.dungeon_fight_gold(difficulty as DungeonMap.Difficulty), ProgressionModel.level_for(dungeon_id, 1)))
+	gold += gold * Economy.CLEAR_BONUS_SHARE + float(Economy.SIDE_REPEAT_GOLD) + float(PackCatalog.find("path_beefcake").price)
+	return {"gold": gold, "minutes": float(fights) * MIN_PER_FIGHT + 5.0}

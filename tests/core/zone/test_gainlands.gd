@@ -411,7 +411,7 @@ func test_every_sign_npc_and_travel_text_exists_in_the_story_file() -> void:
 			if entry.has("lines"):  # an ambient worker (Fixes Oct 25: the gym attendant) has passing lines only
 				assert_true(story.lines.has(str(entry["lines"])), "lines for %s" % id)
 				continue
-			assert_true(story.lines.has("npc.%s.intro" % id) or id == "quiz" or id == "gary", "intro for %s" % id)
+			assert_true(story.lines.has("npc.%s.intro" % id) or id == "quiz" or id == "gary" or id == "cardsharp", "intro for %s" % id)  # Nov 8: Dex speaks from dungeon_content (cardsharp.*)
 	for key: String in ["npc.brenda.return", "npc.gus.return", "npc.tony.return", "npc.quiz.return", "npc.minigame.return", "npc.gary.return", "fx.fall", "fx.fall_log", "fx.thrown", "fx.landed", "fx.portal", "fx.wake", "ui.exit.body", "hud.objective", "enemy.brute", "enemy.golem", "enemy.sprite"]:
 		assert_true(story.lines.has(key), key)
 	for point: GainlandsTravel.Point in GainlandsTravel.points():

@@ -308,3 +308,52 @@ When the armory quest completes, a no-grind player has: 120 starting gold, the c
 scales), the store room's 15, one outskirts win (13) and the cave's two feats (35), less the one card Meet the Merchants asks for: **about
 700 gold**, against the 590 the brief asks for (a 250 gear piece + four 50 Commons + two Healing Salves). `tests/core/test_overnight_nov8_economy.gd`
 checks it stays between the target and the target + 400.
+
+## Fixes Nov 8: income back to about 21,200, the completionist goal
+
+Owner: restore the no-grind income to about 21,200 with the new prices; the goal is **three copies of every card, then every multi-Path card
+crafted**, finished with a moderate amount of extra play. `tools/gold_study_nov8.gd` (`docs/design/sim/nov8/gold_study_fixes_nov8.md`).
+
+**What changed:** the Nov 4-5 income knobs are back (quest scales 1.75 / 1.6 / 1.5, node share 0.5, the full clear bonus, roamers 13-70, first
+clears 200 / 100 + 150), with chests at 60 % and late level-track gold at 85 % so the kept late-fight raise lands the total near 21.2k. For the
+grind only (a no-grind run never repeats): a roamer spot beaten before at level 18+ pays **x4** (`Economy.REPEAT_LATE_MULTIPLIER`; the Capital's
+roamers 100 -> 400), a replayed side dungeon 200 (was 40), a replayed main dungeon 300 (was 100). Crafting: **2 essence of each Path and 40 gold**
+(tri: 2 of each of three and 80; was 6 and 100 / 200), the essence cap per Path 60 (was 18), and the cauldron now brews the multi-Path cards you
+do not own yet first (one brew per card instead of a duplicate lottery). The intro checkpoint still holds (about 850 gold after the armory quest
+against the 590 needed; tested).
+
+| | Value |
+|---|---:|
+| Gold earned, no grinding | 21332 |
+| Estimated playthrough (109 fights x 4 min, 121 other stops x 1.5 min, 31 stops x 12 min walking) | 16.5 h |
+| 38 cards (19 Common, 11 Uncommon, 6 Epic, 2 Legendary) | 4550 |
+| 6 gear pieces (Cardboard Cuirass 250, Saucepan Helmet 250, Wicked Dagger 400, Flamethrower 750, Solid Plate 400, Dog-Eared Bookmark 500) | 2550 |
+| Items: 20 charges (about 75 each) | 1500 |
+| Hats (3) | 700 |
+| Packs (4) | 500 |
+| **Left after all that** | **11532** (about 96 more cards at the mix's average, 119) |
+| Packs earned without buying | 41 |
+| One copy of every card (178 cards) at shelf prices | 18800 |
+| Owned without grinding (estimate: starter, picks and packs, the bought cards) | 178 of 178 |
+| Still missing, at shelf prices (skewed rare) | about 0 gold |
+| Grinding at the Capital (100 gold a fight, 12 fights an hour) | 0.0 h = **0 % extra playtime** |
+| **The completionist goal** | |
+| Three copies of every single-Path and Colorless card (534 copies) at shelf prices | 56400 |
+| Copies a no-grind run gets free (starter, 33 picks, 41 packs x 3) | about 181 (worth about 14337) |
+| Multi-Path cards to craft (102 dual, 34 tri): gold | 6800 |
+| ... and essence (612 needed, about 78 free; the rest from packs of finished cards, 10.3 essence a Path Pack) | 7757 gold |
+| **Total to finish everything** | **56619 gold** |
+| Gold a no-grind run has left after its shopping list | 11532 (covers about 20 %) |
+| Grinding rates | Capital roamer repeats 400 gold a fight = 4800 an hour; replaying the Lab 1320 gold in 37 min = 2140 an hour |
+| **Extra grinding to finish** (at the better rate) | **about 140 fights = 9.4 h = 57 % on top of a 16.5 h run** |
+
+
+**Reading it:** the no-grind run earns 21,332 and keeps about 11,500 after its shopping list (38 cards, 6 gear, item use, hats, packs). Three
+copies of every single-Path and Colorless card is 56,400 at shelf prices; the run gets about 181 copies free (about 14,300 worth). The 136
+multi-Path cards cost about 14,600 to craft (gold, and essence bought as packs of cards you already have three of). **Finishing everything: about
+56,600 gold, of which a no-grind run covers about 20 %; the rest is about 9.4 hours of late repeat fights - about 57 % on top of a 16.5-hour
+run.** Before tonight's crafting and grind changes the same goal took 236 % (about 39 h): crafting was the bottleneck (the duplicate lottery
+and 6 essence per Path).
+
+**Further levers if 57 % still feels long** (owner's call, inbox): late repeat x5-x6, or cheaper third copies of Epics and Legendaries (half of
+the 56,400 is 3x Epic and Legendary), or a pack from every late repeat win.

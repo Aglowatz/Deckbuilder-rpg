@@ -4,6 +4,21 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fixes Nov 8 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fixes_nov8.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov8`.
+
+1. **Gatekeepers:** fightable at once; their quests, the YOUR PATH tracker line and the map pin still wait for Maren's send-off. Beating one
+   early: its gatekeeper step shows done when she gives the line, and she still gives the send-off (it no longer skips when the own gatekeeper
+   is down). Old saves count as sent out only if they already HAD a gatekeeper line (a gatekeeper beaten early no longer counts).
+2. **Gallery:** last night did both "Perfect Form off" AND "Echo HP -20 %" where "or" was approved; the Echo HP cut is reverted (Perfect Form
+   off the third wing's normals, node 10 Elite and the Echo owners stay). Current rates: see the report.
+3. **Economy:** finishing everything (3x every card + all 136 multi-Path crafts) is now about **57 % extra play** (was 236 % before tonight's
+   crafting/grind changes). To bring it nearer 30-40 %: late repeats x5-x6, or cheaper third copies of Epics/Legendaries, or a pack per late
+   repeat win. Your call.
+4. **Crafting** changed: 2 essence per Path, 40 gold (tri 80), cap 60, and the cauldron brews missing cards first.
+5. **Dex** is NPC-DEX now; the townsfolk portrait and the CITIZEN sprite stand in until Batch 13 (rows in the art list).
+
 ## Overnight Nov 7-8 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/overnight_nov7.md`. Report: `docs/overnight_report.md`. Tag `pre-overnight-nov7`.

@@ -65,10 +65,11 @@ func test_the_path_line_leads_when_everything_starts_at_once() -> void:
 	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.NECROCRAT))
 
 
-func test_a_save_past_its_gatekeeper_is_not_sent_back() -> void:
+func test_a_gatekeeper_beaten_early_still_gets_the_send_off() -> void:
+	# Fixes Nov 8 (owner): gatekeepers can be fought any time; Maren still sends the hero out (the beaten one's step shows done).
 	_through_the_armory(Affinity.Type.GOURMAND)
 	Session.set_flag(CorruptedNpcs.unlock_flag("gourmand"))
-	assert_false(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND))
+	assert_true(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND))
 
 
 func test_the_glossary_explains_rivals_and_every_zone() -> void:

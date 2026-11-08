@@ -85,7 +85,7 @@ func test_snack_bar_pumps_each_unit_only_once_per_turn() -> void:
 	var a: CardInstance = _unit(game, 0, 2, 2)
 	var b: CardInstance = _unit(game, 0, 2, 2)
 	assert_true(_activate(game, bar, 0, [a.uid] as Array[int]))
-	assert_eq(game.get_attack(a), 3)
+	assert_eq(game.get_attack(a), 4)  # Overnight Nov 7-8 (approved): Snack Bar gives +2/+0
 	assert_false(_activate(game, bar, 0, [a.uid] as Array[int]), "each unit can be targeted only once per turn")
 	assert_true(_activate(game, bar, 0, [b.uid] as Array[int]))
 

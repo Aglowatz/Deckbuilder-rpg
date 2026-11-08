@@ -52,6 +52,7 @@ var _deck_panel: PanelContainer
 ## Overnight Oct 30-31, Part 7: the deck's shape (cost curve, Paths and types); "works well with" goes in the hovered card's preview.
 var _curve_chart: DeckCurveChart
 var _shape_label: Label
+var _primm_label: Label
 var _grid_scroll: ScrollContainer
 ## Overnight Oct 31 - Nov 1 (mid-game critic #14): said under the filters when none of your cards match them (the board was just blank).
 var _empty_note: Label
@@ -221,6 +222,11 @@ func _build_deck_panel() -> Control:
 	_shape_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_shape_label.custom_minimum_size = Vector2(PANEL_MIN - 40.0, 0)
 	column.add_child(_shape_label)
+	# Fixes Nov 8 (owner): when Primm's castle is next, the station says what his first phase rewards (no numbers changed on him).
+	_primm_label = UIKit.label("", &"", 17, UIStyle.GOLD)
+	_primm_label.name = "PrimmAdvice"
+	_wrap(_primm_label)
+	column.add_child(_primm_label)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -1027,6 +1033,36 @@ func _refresh_shape() -> void:
 	_curve_chart.set_curve(DeckInsights.cost_curve(editor.deck.cards))
 	_shape_label.text = shape_text(editor.deck.cards)
 	_shape_label.tooltip_text = _shape_label.text
+	if _primm_label != null:
+		_primm_label.text = primm_advice(editor.deck.cards, Session.flags)
+		_primm_label.visible = not _primm_label.text.is_empty()
+
+
+## Fixes Nov 8: the "Primm deck" advice while the castle is next (all four zones free or the Capital's gate open, Primm not yet beaten): under
+## his Standardization every unit is a 3/3 and only two cards a turn, so many cheap units beat a few big ones. "" otherwise.
+const PRIMM_CHEAP_COST: int = 2
+const PRIMM_UNITS_TARGET: int = 18
+
+
+static func castle_next(flags: Dictionary) -> bool:
+	if bool(flags.get("primm_defeated", false)):
+		return false
+	if bool(flags.get(str(CapitalZone.FLAG_GATE_OPEN), false)):
+		return true
+	for zone_id: String in Gatekeepers.IDS:
+		if not ZoneCompletion.is_completed(flags, zone_id):
+			return false
+	return true
+
+
+static func primm_advice(cards: Array[CardData], flags: Dictionary) -> String:
+	if not castle_next(flags):
+		return ""
+	var cheap_units: int = 0
+	for card: CardData in cards:
+		if card.is_unit() and card.energy_value() <= PRIMM_CHEAP_COST:
+			cheap_units += 1
+	return "Primm deck: in his first phase every unit is a 3/3 and you may play two cards a turn, so cheap units are as good as big ones. This deck has %d units costing %d or less; about %d+ works well." % [cheap_units, PRIMM_CHEAP_COST, PRIMM_UNITS_TARGET]
 
 
 ## "Beefcake 27, Colorless 4  |  Units 18, Spells 5, Tools 2, Traps 1, Infrastructure 19" for a deck.

@@ -41,10 +41,8 @@ static func due(qlog: QuestLog, flags: Dictionary, path: Affinity.Type) -> bool:
 	# Overnight Nov 7-8, Part 1.2: only once the intro line is finished - the armory quest (equipment) is its last errand.
 	if not qlog.is_completed(QuestDefinitions.ARMORY) and not bool(flags.get(QuestDefinitions.LEGACY_FLAG, false)):
 		return false
-	var zone_id: String = zone_of(path)
-	if zone_id.is_empty():
-		return false
-	return not bool(flags.get(str(CorruptedNpcs.unlock_flag(zone_id)), false))
+	# Fixes Nov 8: a gatekeeper beaten early (allowed now) no longer skips the send-off: Maren still gives the lines (its step shows done).
+	return not zone_of(path).is_empty()
 
 
 ## Fix pass Nov 7 (item 1): the road out of Crosspath to each Path zone, as the HUD and Maren name it.

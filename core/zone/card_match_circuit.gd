@@ -3,16 +3,31 @@ extends RefCounted
 ## Overnight Nov 7-8, Part 6.3: the Cardsharp's Circuit. Dex Shufflewick, a travelling cardsharp (the generic townsfolk sprite and portrait,
 ## NPC-TOWNSFOLK: no story character), keeps a card-matching table in each of the four Path zones, each dealt from that Path's own card art
 ## (the D.N.A.'s Rec Room game uses nostalgia icons; this one uses real cards). Beat Dex's score at all four tables, then the final table
-## (two cards of every Path) to win his Lucky Spats. One quest, "The Cardsharp's Circuit" (QuestDefinitions). Pure rules.
+## (two cards of every Path) to win his Matching Pair. One quest, "The Cardsharp's Circuit" (QuestDefinitions). Pure rules.
 
 const ZONES: Array[String] = ["beefcake", "necrocrat", "gourmand", "refusemancer"]
 const FINAL: String = "final_table"
-const NPC_ID: String = "NPC-TOWNSFOLK"
+## Fixes Nov 8: Dex has his own art coming in Batch 13 (portrait NPC-DEX, sprite set SPR-DEX: REF, FRONT/SIDE/BACK idle, FRONT_TALK). He is
+## NPC-DEX in the registry; until the art is imported the portrait falls back to the townsfolk's and the sprite to the shared CITIZEN set.
+const NPC_ID: String = "NPC-DEX"
+const SPRITE_KEY: String = "DEX"
+const STAND_IN_PORTRAIT: String = "NPC-TOWNSFOLK"
+const STAND_IN_SPRITE: String = "CITIZEN"
+
+
+## The portrait id to show for Dex right now.
+static func portrait_id() -> String:
+	return NPC_ID if Portraits.has_portrait(NPC_ID) else STAND_IN_PORTRAIT
+
+
+## The sprite set to draw Dex with right now.
+static func sprite_key() -> String:
+	return SPRITE_KEY if SpriteLibrary.has_character(SPRITE_KEY) else STAND_IN_SPRITE
 const SPEAKER: String = "Dex Shufflewick"
 const TITLE: String = "Dex Shufflewick, Travelling Cardsharp"
 const QUEST_ID: String = "cardsharps_circuit"
 const MET_FLAG: String = "cardsharp_met"
-const PRIZE_ID: String = "dex_lucky_spats"
+const PRIZE_ID: String = "dex_matching_pair"
 ## Beat Dex's score: find all eight pairs in at most this many moves (a table allows MatchGame.MAX_MOVES).
 const TARGET_MOVES: int = 12
 const FINAL_TARGET_MOVES: int = 11
@@ -75,7 +90,7 @@ static func record(flags: Dictionary, table: String, won: bool, moves: int) -> b
 
 ## The zone entry and the talk spot ZoneDefs adds to each Path zone.
 static func npc_entry() -> Dictionary:
-	return {"id": "cardsharp", "npc_id": NPC_ID, "model": "Rogue", "anchor": ANCHOR, "offset": OFFSET, "yaw": 30.0, "tint": Color(1.0, 0.92, 0.75)}
+	return {"id": "cardsharp", "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": OFFSET, "yaw": 30.0, "tint": Color(1.0, 0.92, 0.75)}
 
 
 static func spot_entry() -> Dictionary:
@@ -83,7 +98,7 @@ static func spot_entry() -> Dictionary:
 		"npc": "cardsharp", "npc_id": NPC_ID, "speaker": SPEAKER}
 
 
-## The Circuit's quest: give by Dex's first talk; one step per zone table, then the final table; pays the Lucky Spats.
+## The Circuit's quest: give by Dex's first talk; one step per zone table, then the final table; pays the Matching Pair.
 static func quest() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = QUEST_ID
