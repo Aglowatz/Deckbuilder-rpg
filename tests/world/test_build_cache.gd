@@ -55,3 +55,33 @@ func test_foliage_placement_packs_and_unpacks() -> void:
 	assert_eq((back[0] as Array).size(), 1)
 	assert_true(((back[0] as Array)[0] as Transform3D).is_equal_approx(transforms[0]))
 	assert_true(((back[1] as Array)[0] as Color).is_equal_approx(datas[0]))
+
+
+func test_a_stored_subtree_comes_back_with_its_children_and_metadata() -> void:
+	# Import Nov 8 (Part 3): BuildCache.fetch_node - the Capital's skyline and wall dressing are stored this way
+	var key: String = "test_fetch_node_%d" % Time.get_ticks_usec()
+	var builds: Array = []
+	var make: Callable = func() -> Node:
+		builds.append(1)
+		var top: Node3D = Node3D.new()
+		top.name = "Top"
+		var child: MeshInstance3D = MeshInstance3D.new()
+		child.name = "Child"
+		child.mesh = BoxMesh.new()
+		child.position = Vector3(1, 2, 3)
+		child.set_meta(&"kit_static", true)
+		top.add_child(child)
+		return top
+	var first: Node = BuildCache.fetch_node(key, make)
+	var second: Node = BuildCache.fetch_node(key, make)
+	assert_not_null(first)
+	assert_not_null(second)
+	if OS.get_environment("WAYWARD_BUILD_CACHE") != "off":
+		assert_eq(builds.size(), 1, "built once, then read back")
+	var child: MeshInstance3D = second.get_node_or_null("Child") as MeshInstance3D
+	assert_not_null(child, "the child is stored")
+	assert_eq(child.position, Vector3(1, 2, 3))
+	assert_true(child.has_meta(&"kit_static"), "metadata is stored")
+	assert_not_null(child.mesh)
+	first.free()
+	second.free()

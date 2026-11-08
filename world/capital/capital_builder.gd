@@ -775,6 +775,15 @@ func _build_boundaries() -> void:
 ## north wall, 7 m up, so they show over it from every inside street and step the skyline up toward the keep), and rows behind the side walls.
 ## Never walked, never culled, never faded (far views); one merged mesh per side.
 func _build_skyline() -> void:
+	# Import Nov 8 (Part 3): the finished, merged skyline is one stored subtree per story state (about 0.6 s a visit). It merges into its own
+	# batches before it is stored, so the copy draws exactly as the live build did.
+	var key: String = "capital_skyline_%d" % (1 if bool(ctx.get("final", false)) else 0)
+	var skyline: Node = BuildCache.fetch_node(key, _make_skyline)
+	if skyline != null:
+		root.add_child(skyline)
+
+
+func _make_skyline() -> Node:
 	var final_state: bool = bool(ctx.get("final", false))
 	var skyline: Node3D = Node3D.new()
 	skyline.name = "Skyline"
@@ -818,6 +827,8 @@ func _build_skyline() -> void:
 	CapitalLandmarks.mark_view(skyline)
 	# one batch per material for the whole skyline (it is never culled, so the 16 m cells would only multiply the draw calls)
 	KitBatch.merge_static(skyline, 4096.0)
+	root.remove_child(skyline)
+	return skyline
 
 
 ## The hero landmarks (`CapitalLandmarks`, modelled after the kit's concepts): Primm's Castle on its hill at the city's heart, the great gate's

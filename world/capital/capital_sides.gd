@@ -269,6 +269,15 @@ static func gate_pier(final_state: bool) -> Node3D:
 ## The blind arcade along the inner faces of the west, east and north walls, with the engaged towers: one merged piece, never culled or faded
 ## (it lies on the city's edge, never between the trailing camera and the hero).
 static func wall_dressing(parent: Node3D, final_state: bool) -> Node3D:
+	# Import Nov 8 (Part 3): the finished, merged arcade and towers are one stored subtree per story state (about 0.4 s a visit); it merges into
+	# its own batches before it is stored, so the copy draws exactly as the live build.
+	var stored: Node3D = BuildCache.fetch_node("capital_wall_dressing_%d" % (1 if final_state else 0), func() -> Node: return _make_wall_dressing(parent, final_state)) as Node3D
+	if stored != null and stored.get_parent() == null:
+		parent.add_child(stored)
+	return stored
+
+
+static func _make_wall_dressing(parent: Node3D, final_state: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "WallDressing"
 	parent.add_child(root)
@@ -310,6 +319,7 @@ static func wall_dressing(parent: Node3D, final_state: bool) -> Node3D:
 		child.set_meta(&"kit_static", true)
 	L.mark_view(root)
 	KitBatch.merge_static(root, 4096.0)
+	parent.remove_child(root)
 	return root
 
 

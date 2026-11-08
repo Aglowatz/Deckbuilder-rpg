@@ -58,6 +58,36 @@ static func fetch(key: String, build: Callable) -> Variant:
 static var _written: Dictionary = {}
 
 
+## Import Nov 8 (Part 3): a whole finished subtree, stored as a packed scene. `build` (no arguments) returns the node; on a miss it is built,
+## packed and stored, and the live node is returned; on a hit a fresh instance of the stored scene comes back. Only for STATIC subtrees whose
+## nodes carry everything in their properties and metadata: runtime signal connections and nodes kept in the caller's arrays are not
+## stored (the caller rebuilds those references from names or metadata). Instanced child scenes stay instances.
+static func fetch_node(key: String, build: Callable) -> Node:
+	var made: Array = []
+	var stored: Variant = fetch(key, func() -> Variant:
+		var node: Node = build.call() as Node
+		if node == null:
+			return null
+		made.append(node)
+		_own(node, node)
+		var scene: PackedScene = PackedScene.new()
+		if scene.pack(node) != OK:
+			return null
+		return scene)
+	if not made.is_empty():
+		return made[0] as Node
+	if stored is PackedScene:
+		return (stored as PackedScene).instantiate()
+	return null
+
+
+static func _own(node: Node, owner_node: Node) -> void:
+	for child: Node in node.get_children():
+		child.owner = owner_node
+		if child.scene_file_path.is_empty():
+			_own(child, owner_node)
+
+
 ## The hash of the builder scripts and their data (computed once per run; empty in an exported build, which cannot read its sources).
 static func source_hash() -> String:
 	if not _hash.is_empty():

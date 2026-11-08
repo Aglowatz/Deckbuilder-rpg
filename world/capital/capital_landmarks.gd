@@ -98,6 +98,13 @@ static func wall_piece(w: float, h: float, d: float, seed_value: int, towers: Ar
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
+	# Import Nov 8 (Part 3): the wall's geometry (about a quarter of a second per Capital visit) comes from BuildCache after the first build.
+	var key: String = "cap_wall_piece_%s" % JSON.stringify([w, h, d, seed_value, towers, [batter.x, batter.y]]).md5_text()
+	KitMesh.fill_cached_set([mesh], key, func() -> void: _wall_piece_geometry(mesh, w, h, d, seed_value, towers, batter), K.resolve_slot)
+	return finish(root, mesh, [], h + 5.0)
+
+
+static func _wall_piece_geometry(mesh: KitMesh, w: float, h: float, d: float, seed_value: int, towers: Array[float], batter: Vector2) -> void:
 	var along_x: bool = w >= d
 	var length: float = w if along_x else d
 	var depth: float = d if along_x else w
@@ -174,7 +181,6 @@ static func wall_piece(w: float, h: float, d: float, seed_value: int, towers: Ar
 			points.append(points[points.size() - 1] + Vector3(rng.randf_range(-0.4, 0.4), rng.randf_range(0.5, 1.0), 0.0))
 		for index: int in range(points.size() - 1):
 			band(mesh, "stone_dark", basis * points[index], basis * points[index + 1], 0.06, basis * Vector3(0, 0, 1))
-	return finish(root, mesh, [], h + 5.0)
 
 
 ## The great wall's dark sun banner (every outside paint-over: the contrast on the white wall): a long navy cloth with a swallow-tailed hem and a
@@ -838,6 +844,14 @@ static func ruined_house(w: float, h: float, d: float, lean: float, seed_value: 
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
+	# Import Nov 8 (Part 3): the ruins' geometry comes from BuildCache after the first build (about 0.15 s per Capital visit).
+	var key: String = "cap_ruined_house_%s" % JSON.stringify([w, h, d, lean, seed_value]).md5_text()
+	KitMesh.fill_cached_set([mesh], key, func() -> void: _ruined_house_geometry(mesh, w, h, d, lean, seed_value), K.resolve_slot)
+	root.rotation_degrees.z = lean * 0.15
+	return finish(root, mesh, [], h + d * 0.4)
+
+
+static func _ruined_house_geometry(mesh: KitMesh, w: float, h: float, d: float, lean: float, seed_value: int) -> void:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 4800 + seed_value
 	var t: float = 0.45
@@ -866,8 +880,6 @@ static func ruined_house(w: float, h: float, d: float, lean: float, seed_value: 
 	for index: int in range(5):
 		var p: Vector3 = Vector3(rng.randf_range(-w * 0.6, w * 0.6), 0.2, d * 0.5 + rng.randf_range(0.3, 1.0))
 		mesh.box("ruin", p, Vector3(0.45, 0.36, 0.4), Basis(Vector3.UP, rng.randf() * TAU), 0.04, 0.75)
-	root.rotation_degrees.z = lean * 0.15
-	return finish(root, mesh, [], h + d * 0.4)
 
 
 ## The Old Service Tunnels' mouth (CAP-HERO-SERVICE-TUNNEL): a heavy old iron hatch in an arched stone tunnel mouth set into the base of the great
