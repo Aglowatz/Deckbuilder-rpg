@@ -23,6 +23,11 @@ static func _noise(x: float, z: float) -> float:
 	return fposmod(sin(x * 12.9898 + z * 78.233) * 43758.5453, 1.0)
 
 
+## Fixes Nov 8: cliff faces get smooth normals when the preset has no sun shadow (Low and Low-end); with shadows they stay faceted.
+static func smooth_cliffs() -> bool:
+	return GraphicsQuality.shadow_detail(Settings.graphics_quality) == 0
+
+
 ## The tops and cliffs of every land polygon, in one mesh.
 static func land(layout: GainlandsLayout) -> MeshInstance3D:
 	var surface: SurfaceTool = SurfaceTool.new()
@@ -37,7 +42,11 @@ static func land(layout: GainlandsLayout) -> MeshInstance3D:
 			if _area(piece) < 0.01:
 				continue
 			_tops(surface, layout, piece, heights)
+			# Fixes Nov 8: without a sun shadow (Low, Low-end) the faceted walls lit facet by facet showed dark "holes"; their own smooth group
+			# lights them gradually (the tops stay faceted: a different group never blends across the rim).
+			surface.set_smooth_group(1 if smooth_cliffs() else -1)
 			_walls(surface, layout, piece, level)
+			surface.set_smooth_group(-1)
 	surface.generate_normals()
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = surface.commit()

@@ -16,6 +16,8 @@ const RESULT_SCALE: float = 0.42
 
 var _page: Control
 var _shelf_row: HBoxContainer
+var _board: ColorRect
+var _lip: ColorRect
 var _shelf_count: Label
 var _header_count: Label
 var _action_row: HBoxContainer
@@ -102,16 +104,19 @@ func _build_shelf() -> void:
 	var board: ColorRect = ColorRect.new()
 	board.name = "ShelfBoard"
 	board.color = Color("6b4426")
-	board.position = Vector2(30, 106 + PackArt.SIZE.y * PACK_SCALE)
+	board.position = Vector2(30, 80 + 6 + PackArt.SIZE.y * PACK_SCALE)  # right under the pack art (Fixes Nov 8: it sat on the names)
 	board.size = Vector2(SHELF_RECT.size.x - 60, 16)
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(board)
+	_board = board
 	var lip: ColorRect = ColorRect.new()
+	lip.name = "ShelfLip"
 	lip.color = Color("3d2614")
 	lip.position = board.position + Vector2(0, 16)
 	lip.size = Vector2(board.size.x, 6)
 	lip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(lip)
+	_lip = lip
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.name = "ShelfScroll"
 	scroll.position = Vector2(30, 80)
@@ -169,6 +174,9 @@ func _refresh() -> void:
 		empty.name = "EmptyShelf"
 		_shelf_row.add_child(empty)
 	_shelf_count.text = "%d pack%s" % [total, "" if total == 1 else "s"]
+	for strip: ColorRect in [_board, _lip]:
+		if strip != null:
+			strip.visible = shown > 0
 	_header_count.text = "%d unopened  ·  Foil Fenwick sells more on the square" % total
 	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more plain packs, "Open all" opens them in one go with one summary;
 	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.

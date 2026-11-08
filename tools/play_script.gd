@@ -15,7 +15,7 @@ extends Node
 ##   scene                          print the current scene and the hero's state (level, gold, hp)
 ##   pilot <seconds>                let a simple built-in player play the current battle for up to that long (mulligan, plays, attacks, blocks)
 ##   skip_dialogue [max]            tap E until no dialogue box / story still / popup is open (max taps, default 40)
-##   dev <action> ...               debug shortcuts: level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
+##   dev <action> ...               debug shortcuts: lowend on|off | level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
 ##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
@@ -314,6 +314,14 @@ func _dev(parts: PackedStringArray) -> void:
 			Session.new_game()
 			SceneManager.go_to_start_area()
 			result = "New game started (no slot touched, saving off)"
+		"lowend":
+			# Fixes Nov 8: `dev lowend on|off` - the Low-end preset (or Medium) for this run, as the Settings row sets it (never saved: --no-save).
+			Settings.low_end = arg == "on"
+			Settings.graphics_quality = GraphicsQuality.Level.LOW if Settings.low_end or arg == "low" else GraphicsQuality.Level.MEDIUM
+			Settings.apply_quality_preset()
+			Settings.apply_performance()
+			Settings.graphics_changed.emit()
+			result = "Low-end %s" % ("on" if Settings.low_end else "off (Medium)")
 		"level":
 			result = DevActions.set_level(int(arg), true)
 		"gold":

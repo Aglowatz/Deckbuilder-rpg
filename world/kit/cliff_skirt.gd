@@ -15,7 +15,7 @@ const PIECE: float = 1.8
 static func wall(line: PackedVector2Array, top: float, bottom: float, side: float, node_name: String, light: Color, dark: Color, push_scale: float = 1.0) -> MeshInstance3D:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	surface.set_smooth_group(-1)
+	surface.set_smooth_group(1 if GainlandsTerrain.smooth_cliffs() else -1)  # Fixes Nov 8: smooth faces without a sun shadow
 	var depth: float = maxf(top - bottom, 0.5)
 	for i: int in range(line.size() - 1):
 		var a: Vector2 = line[i]

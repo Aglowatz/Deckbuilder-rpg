@@ -47,6 +47,7 @@ func _build(area: WalkableArea, given: Dictionary) -> bool:
 	var context: Dictionary = given.duplicate()
 	context["cache_key"] = "%s_%s" % [preset_id, _state_tag(area)]
 	material = PaintedTerrain.material(preset, context)
+	LoadTiming.mark("painted: base material")
 	if material == null:
 		push_warning("PaintedWorld: %s has no usable ground preset, keeping the flat look" % preset_id)
 		return false
@@ -64,6 +65,7 @@ func _build(area: WalkableArea, given: Dictionary) -> bool:
 		if instance == null:
 			continue
 		_swaps.append({"mesh": instance, "old": instance.material_override, "new": _terrain_material_for(instance)})
+	LoadTiming.mark("painted: terrain swaps")
 	var variant_cache: Dictionary = {}
 	for entry: Variant in context.get("swaps", []) as Array:
 		var info: Dictionary = entry as Dictionary

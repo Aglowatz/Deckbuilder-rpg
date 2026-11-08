@@ -215,6 +215,10 @@ func _apply_environment(level: int) -> void:
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = preset.ambient_color
 	env.ambient_light_energy = preset.ambient_energy
+	# Fixes Nov 8 (Low-end cliff "holes"): with no sun shadow (Low, Low-end) the faceted cliffs' sun-facing and away-facing triangles met at full
+	# contrast - dark diamonds that read as holes. Without the shadow pass the ambient fills more (LOW_AMBIENT_LIFT) and the sun eases a little.
+	if GraphicsQuality.shadow_detail(quality()) == 0:
+		env.ambient_light_energy = preset.ambient_energy * LOW_AMBIENT_LIFT
 	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
 	# `STYLE_TONEMAP=agx|aces|filmic` overrides every zone for A/B shots (tools only).
 	var tonemap: String = OS.get_environment("STYLE_TONEMAP") if OS.get_environment("STYLE_TONEMAP") != "" else preset.tonemap
@@ -253,9 +257,14 @@ func _apply_environment(level: int) -> void:
 	world_env.environment = env
 
 
+## Fixes Nov 8: the light balance without a sun shadow (see the ambient in the environment setup).
+const LOW_AMBIENT_LIFT: float = 1.5
+const LOW_SUN_EASE: float = 0.85
+
+
 func _apply_lights(level: int) -> void:
 	sun.light_color = preset.sun_color
-	sun.light_energy = preset.sun_energy
+	sun.light_energy = preset.sun_energy * (LOW_SUN_EASE if GraphicsQuality.shadow_detail(level) == 0 else 1.0)
 	sun.rotation_degrees = Vector3(preset.sun_pitch, preset.sun_yaw, 0.0)
 	sun.light_angular_distance = 1.5
 	var detail: int = GraphicsQuality.shadow_detail(level)

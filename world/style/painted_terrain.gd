@@ -129,11 +129,16 @@ static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bou
 
 
 ## A cheap guard on the cache key: the masks sampled on a coarse 16 x 16 grid (a layout change that moves a mask changes the key).
+const FINGERPRINT_GRID: int = 8
+
+
 static func _mask_fingerprint(by_channel: Dictionary, bounds: Rect2) -> String:
 	var values: PackedByteArray = PackedByteArray()
-	for y: int in range(16):
-		for x: int in range(16):
-			var p: Vector2 = bounds.position + Vector2((float(x) + 0.5) / 16.0 * bounds.size.x, (float(y) + 0.5) / 16.0 * bounds.size.y)
+	# Fixes Nov 8 (load times): 8 x 8 samples (was 16 x 16) - the masks are slow to evaluate (about 0.9 s a visit in the Dump) and the key already
+	# carries the preset, the story state and the hash of every world script and data file; this only tells story variants apart.
+	for y: int in range(FINGERPRINT_GRID):
+		for x: int in range(FINGERPRINT_GRID):
+			var p: Vector2 = bounds.position + Vector2((float(x) + 0.5) / float(FINGERPRINT_GRID) * bounds.size.x, (float(y) + 0.5) / float(FINGERPRINT_GRID) * bounds.size.y)
 			for channel: int in by_channel.keys():
 				values.append(int(clampf(float((by_channel[channel] as Callable).call(p)), 0.0, 1.0) * 255.0))
 	return values.hex_encode().md5_text()
