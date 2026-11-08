@@ -895,6 +895,7 @@
 				"x": 16,
 				"y": 70,
 				"next": [
+					5,
 					3,
 					11
 				],
@@ -912,8 +913,8 @@
 					4,
 					22
 				],
-				"side": false,
-				"return_to": 0
+				"side": true,
+				"return_to": 2
 			},
 			{
 				"n": 4,
@@ -923,12 +924,11 @@
 				"x": 36,
 				"y": 62,
 				"next": [
-					5,
 					12,
 					13
 				],
-				"side": false,
-				"return_to": 0
+				"side": true,
+				"return_to": 3
 			},
 			{
 				"n": 5,
@@ -938,6 +938,7 @@
 				"x": 46,
 				"y": 70,
 				"next": [
+					7,
 					6,
 					16,
 					17
@@ -953,12 +954,11 @@
 				"x": 56,
 				"y": 55,
 				"next": [
-					7,
 					14,
 					15
 				],
-				"side": false,
-				"return_to": 0
+				"side": true,
+				"return_to": 5
 			},
 			{
 				"n": 7,
@@ -982,6 +982,7 @@
 				"x": 74,
 				"y": 48,
 				"next": [
+					10,
 					9,
 					19
 				],
@@ -996,11 +997,10 @@
 				"x": 82,
 				"y": 60,
 				"next": [
-					10,
 					20
 				],
-				"side": false,
-				"return_to": 0
+				"side": true,
+				"return_to": 8
 			},
 			{
 				"n": 10,

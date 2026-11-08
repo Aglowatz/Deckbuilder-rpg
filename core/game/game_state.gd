@@ -72,6 +72,8 @@ var delayed: Array[Dictionary] = []
 var borrowed: Array[Dictionary] = []
 ## Rebalance Part F: the items each player has used this battle (item id -> true); an equipped item is usable once per battle.
 var items_used: Array[Dictionary] = [{}, {}]
+## Overnight Nov 7-8, Part 4: Siphon's Protocols were checked for a missing Elowen (ProtocolJam.on_turn_start).
+var protocols_checked: bool = false
 ## Overnight Oct 23, Part 1: the scripted mid-fight events of this duel (EncounterScripts.Run, one per scripted seat) and a guard that
 ## keeps a trigger's own effects from firing other triggers half-way through.
 var script_runs: Array = []
@@ -2641,6 +2643,7 @@ func clone(deep_deck: bool = true, hide_traps_of: int = -1) -> GameState:
 		copy.delayed.append(copied)
 	for entry: Dictionary in borrowed:
 		copy.borrowed.append(entry.duplicate())
+	copy.protocols_checked = protocols_checked
 	copy.items_used[0] = items_used[0].duplicate()
 	copy.items_used[1] = items_used[1].duplicate()
 	# Oct 23: scripted events (a phase change adds rules) - the copy gets its own runs and its own modifier sets.

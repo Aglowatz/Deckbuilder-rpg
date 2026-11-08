@@ -1540,7 +1540,6 @@
 					"size": 36,
 					"hp": 23,
 					"extra": {
-						"C-33": 1,
 						"C-32": 1
 					}
 				}
@@ -1877,17 +1876,17 @@
 		],
 		"npc.kestrel.intro": [
 			"Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
-			"Name's Kestrel. I scout for the Wrinkles. Heading into the city? There's an older way in than the gate. Follow my chalk, not the guards; they're worse at drawing."
+			"Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
 		],
 		"npc.kestrel.return": [
 			"Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
 		],
 		"quest.side_s_cap.offer": [
-			"There's an older way into the city that nobody remembers. That's the whole point of it.",
-			"Get yourself inside and find Wren in the Crease. She'll tell you what the old tunnels are for. Then I'll show you the hatch. Deal?"
+			"There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers.",
+			"Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
-			"Get inside, then find the manhole near the gate and knock three times. Not two; two is rude. Wren's down in the Crease. Ask her about the tunnels."
+			"Through the gate, then the manhole beside it: knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here."
 		],
 		"quest.side_s_cap.ready": [
 			"So you found the Crease. Told you I'd be around; I just never said where. Here, you've earned this."

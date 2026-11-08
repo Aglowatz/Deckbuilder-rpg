@@ -20,24 +20,14 @@
 			"def": 0
 		}
 	],
-	"Trophy Hall Honor Guard": [
-		{
-			"name": "Honor Guard",
-			"text": "Starts the duel with a 1/1 Militia on the field.",
-			"icon": "delapouite/guards",
-			"kind": "starting_tokens",
-			"token": "T-16",
-			"count": 1
-		}
-	],
 	"Chancellor Clench, Iron Regent": [
 		{
 			"name": "Iron Regent",
-			"text": "Starts the duel with 2 Iron.",
+			"text": "Starts the duel with 1 Iron.",
 			"icon": "delapouite/belt-armor",
 			"kind": "starting_resources",
 			"resource": "iron",
-			"count": 2
+			"count": 1
 		},
 		{
 			"name": "Reinforcements",
@@ -268,10 +258,10 @@
 		},
 		{
 			"name": "Surly",
-			"text": "Betty's units get +3/+1. Nobody wants to be the one she snaps at.",
+			"text": "Betty's units get +2/+1. Nobody wants to be the one she snaps at.",
 			"icon": "delapouite/files",
 			"kind": "stat",
-			"atk": 3,
+			"atk": 2,
 			"def": 1
 		}
 	],
@@ -389,7 +379,7 @@
 		},
 		{
 			"name": "Containment",
-			"text": "Protocol: your first card each turn costs 1 more.",
+			"text": "Protocol: your first card each turn costs 1 more. (Only when Elowen is with you: alone, you face three Protocols.)",
 			"icon": "lorc/padlock",
 			"kind": "first_card_cost",
 			"amount": 1,

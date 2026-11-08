@@ -27,6 +27,14 @@ static func available(state: GameState) -> Array[String]:
 	return result
 
 
+## Removes every modifier of Protocol `label` from both seats for the rest of the game.
+static func drop(state: GameState, label: String) -> void:
+	for player: PlayerState in state.players:
+		for index: int in range(player.modifiers.modifiers.size() - 1, -1, -1):
+			if player.modifiers.modifiers[index].label == label:
+				player.modifiers.modifiers.remove_at(index)
+
+
 static func _labelled(modifiers: Array[Modifier], label: String) -> bool:
 	for modifier: Modifier in modifiers:
 		if modifier.label == label:
@@ -42,7 +50,16 @@ static func has_ally(state: GameState, player_index: int) -> bool:
 	return false
 
 
+## Overnight Nov 7-8, Part 4 (approved): Siphon fought without Elowen drops one Protocol (Containment) for the whole fight - checked once, at the
+## first turn start (Elowen is already on the field by then when she was rescued). The sims take the same path.
+const ALONE_DROPPED: String = "Containment"
+
+
 static func on_turn_start(state: GameState, active: int) -> void:
+	if not state.protocols_checked:
+		state.protocols_checked = true
+		if not available(state).is_empty() and not has_ally(state, 0) and not has_ally(state, 1):
+			drop(state, ALONE_DROPPED)
 	if state.jam_player == active:
 		_release(state)
 	if not has_ally(state, active):

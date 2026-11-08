@@ -76,8 +76,8 @@ play ?! exists(unit.mine.atk>=5) => damage(opp,2)
 attach | pay(1)
 boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})
 
-== B-23 @2e75923737b8  # Snack Bar
-act t=unit.fresh | pay(1) => pump(t,1,0,eot)
+== B-23 @bb34d68d8411  # Snack Bar
+act t=unit.fresh | pay(1) => pump(t,2,0,eot)
 
 == B-24 @c518e49f2bdf  # Overclocked Mill Worker
 kw overtime

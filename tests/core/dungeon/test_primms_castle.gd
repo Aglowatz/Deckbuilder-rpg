@@ -34,7 +34,8 @@ func test_the_castle_is_registered_and_sound() -> void:
 
 
 func test_heavy_branching_and_dead_end_side_branches() -> void:
-	assert_gte(_map.branch_points().size(), 8, "many real route choices")
+	# Overnight Nov 7-8, Part 4: the main line is six rooms (gate, courtyard, Hall of Mirrors, safe room, Archive, Model Room); the rest are side branches.
+	assert_gte(_map.branch_points().size(), 5, "real route choices")
 	assert_eq(_map.route_count(), 1, "one main road from the gate to the Model Room; everything else dead-ends")
 	assert_gte(_map.dead_ends().size(), 10, "the side branches")
 
@@ -281,7 +282,11 @@ func test_freed_leaders_lend_a_boon_each() -> void:
 func test_winning_a_phase_goes_on_to_the_next_and_the_last_completes_the_node() -> void:
 	_start_castle_run()
 	var boss: DungeonMap.MapNode = _map.boss()
-	_complete_path_to(Session.dungeon_map, boss.id - 1)
+	var before: int = -1
+	for map_node: DungeonMap.MapNode in _map.nodes:
+		if map_node.next.has(boss.id):
+			before = map_node.id
+	_complete_path_to(Session.dungeon_map, before)
 	assert_true(Session.dungeon_map.is_available(boss.id))
 	for phase_index: int in range(PrimmBoss.PHASES):
 		Session.boss_phase = phase_index
@@ -436,3 +441,14 @@ func test_every_castle_node_resolves_through_the_session_api_in_a_full_run() -> 
 		Session.run.hp = maxi(Session.run.hp, 1)
 	assert_true(map.is_complete(), "reached and cleared the boss through %d steps" % guard)
 	assert_true(dead_end_taken)
+
+
+## Overnight Nov 7-8, Part 4 (approved): the castle's main line is about six rooms, with optional side rooms off it.
+func test_the_main_line_is_about_six_rooms() -> void:
+	var on_main: int = 0
+	var boss: DungeonMap.MapNode = _map.boss()
+	for map_node: DungeonMap.MapNode in _map.nodes:
+		if map_node.id == boss.id or _map.reachable_from(map_node.id).has(boss.id):
+			on_main += 1  # a room on the road to the Model Room
+	assert_between(on_main, 5, 7, "main-line rooms")
+	assert_gte(_map.nodes.size() - on_main, 12, "with optional side rooms")

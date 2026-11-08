@@ -9,7 +9,10 @@ extends RefCounted
 ## Zone -> its designed place in the order (1-4).
 const DESIGNED_PLACE: Dictionary = {"beefcake": 1, "necrocrat": 2, "gourmand": 3, "refusemancer": 4}
 ## HP factor by how many places early the zone is entered (0, 1, 2, 3).
-const EARLY_HP_FACTOR: Array[float] = [1.0, 0.95, 0.85, 0.42]
+## Overnight Nov 7-8, Part 4 (approved): the Gourmand's Buffet (2 early) eased to about 0.8 with the first-zone factor (was 0.72), and a floor
+## (HP_FLOOR) so no boss evaporates (the Dump was 0.36); the attack ease carries more of the load instead (ATTACK_EASE_BY_PLACES).
+const EARLY_HP_FACTOR: Array[float] = [1.0, 0.95, 0.94, 0.76]
+const HP_FLOOR: float = 0.65
 ## Extra factor while no zone is freed yet (the player's first zone).
 const FIRST_ZONE_FACTOR: float = 0.85
 
@@ -28,16 +31,20 @@ static func hp_factor(zone_id: String, zones_freed: int, zone_freed: bool = fals
 	var factor: float = EARLY_HP_FACTOR[clampi(places_early(zone_id, zones_freed), 0, EARLY_HP_FACTOR.size() - 1)]
 	if zones_freed == 0:
 		factor *= FIRST_ZONE_FACTOR
-	return factor
+	return maxf(HP_FLOOR, factor)
 
 
 ## Units of a zone entered at least one place early hit 1 softer (HP alone left its bosses winning half the time against a starter deck).
 const EARLY_ATTACK_EASE: int = -1
+## Overnight Nov 7-8, Part 4 (approved): the attack ease grows with places early - -1 at one or two places, -2 at three.
+const ATTACK_EASE_BY_PLACES: Array[int] = [0, -1, -1, -2]
 
 
 ## The attack ease for the zone right now (0 = none).
 static func attack_ease(zone_id: String, zones_freed: int, zone_freed: bool = false) -> int:
-	return EARLY_ATTACK_EASE if not zone_freed and places_early(zone_id, zones_freed) > 0 else 0
+	if zone_freed:
+		return 0
+	return ATTACK_EASE_BY_PLACES[clampi(places_early(zone_id, zones_freed), 0, ATTACK_EASE_BY_PLACES.size() - 1)]
 
 
 ## Eases an enemy seat in the zone: HP times hp_factor and, when the zone is early, the attack ease on its units.

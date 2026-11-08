@@ -1,72 +1,308 @@
 class_name PacksScreen
 extends OverlayScreen
-## The Packs menu entry: every unopened pack in the inventory with an Open button (the opening ceremony plays on top). Packs come from dungeons, quests and vendors.
+## The Card Packs page (Menu > Packs, P). Overnight Nov 7-8, Part 5.2 (plan: docs/ui/card_packs_redesign.md): the Character page's look - a caps
+## header, THE SHELF with each owned pack's painted art large on a wooden board (count badge, name, contents line, Open), an action bar with
+## Open all, and LAST OPENED (the cards of the latest Open / Open all, with the hover zoom). Background UI-BG-PACKS once painted, else a dimmed
+## UI-BG-CHARACTER. The opening ceremony plays on top as before.
 
-var _list: VBoxContainer
+const PANEL_FILL: Color = Color(0.07, 0.05, 0.12, 0.88)
+const DIVIDER: Color = Color(0.91, 0.69, 0.29, 0.4)
+const SHELF_RECT: Rect2 = Rect2(40, 110, 1840, 560)
+const ACTION_RECT: Rect2 = Rect2(40, 684, 1840, 84)
+const RESULTS_RECT: Rect2 = Rect2(40, 782, 1840, 268)
+const PACK_SCALE: float = 0.55
+const SLOT_WIDTH: float = 250.0
+const RESULT_SCALE: float = 0.42
+
+var _page: Control
+var _shelf_row: HBoxContainer
+var _shelf_count: Label
+var _header_count: Label
+var _action_row: HBoxContainer
+var _results_row: HBoxContainer
+var _results_count: Label
+var _results_preview: HoverPreview
+## The openings shown under LAST OPENED (the latest Open all, or the latest single pack).
+var last_openings: Array[PackOpening] = []
 
 
 func _init() -> void:
-	screen_title = "Card Packs"
-	title_icon_id = "ICON-UI-PACKS"
+	screen_title = ""
+	title_icon_id = ""
 	close_text = "Close (Esc)"
+	background_id = ""
 
 
 func _build() -> void:
-	var note: Label = UIKit.label("Unopened packs. Dungeons, quests and vendors give them.", &"MutedLabel", 22)
-	body.add_child(note)
-	var scroll: ScrollContainer = ScrollContainer.new()
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	body.add_child(scroll)
-	_list = UIKit.vbox(10)
-	_list.custom_minimum_size = Vector2(1100, 0)
-	scroll.add_child(_list)
+	_add_backdrop()
+	_page = Control.new()
+	_page.name = "PacksPage"
+	_page.size = Vector2(1920, 1080)
+	_page.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_page)
+	var title: Label = _text("CARD PACKS", 64, UIStyle.GOLD, Vector2(52, 14), 700)
+	title.name = "PageTitle"
+	title.add_theme_font_override("font", UIStyle.font_title())
+	title.add_theme_color_override("font_outline_color", Color(0.12, 0.06, 0.02, 0.95))
+	title.add_theme_constant_override("outline_size", 10)
+	_page.add_child(title)
+	_header_count = _text("", 24, UIStyle.PARCHMENT, Vector2(700, 40), 1000, HORIZONTAL_ALIGNMENT_RIGHT)
+	_header_count.name = "HeaderCount"
+	_page.add_child(_header_count)
+	_build_shelf()
+	_build_action_bar()
+	_build_results()
 	_refresh()
 	# Fixes Oct 25, Part 6: the onboarding tip for the first pack (Make It Yours opens with one)
 	TipPanel.show_once(self, &"tip_packs", "Opening packs", "Click [b]Open[/b] to tear a pack: its cards join your collection at once. A copy past its cap turns into essence and gold. Then put the new cards to work at the [b]Deck Station[/b].", Vector2(560, 860))
 
 
+func _add_backdrop() -> void:
+	var id: String = "UI-BG-PACKS" if UiArt.has("UI-BG-PACKS") else "UI-BG-CHARACTER"
+	var texture: Texture2D = UiArt.texture(id) if UiArt.has(id) else null
+	var back: Control = Control.new()
+	back.name = "Backdrop"
+	UIKit.full_rect(back)
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(back)
+	for child: Node in get_children():
+		if child is MarginContainer:
+			move_child(back, child.get_index())
+			break
+	if texture == null:
+		return
+	var room: TextureRect = TextureRect.new()
+	room.name = "Room"
+	if id == "UI-BG-CHARACTER":
+		var crop: AtlasTexture = AtlasTexture.new()
+		crop.atlas = texture
+		var scale_to_source: float = texture.get_size().x / 1536.0
+		crop.region = Rect2(CharacterScreen.ROOM_REGION.position * scale_to_source, CharacterScreen.ROOM_REGION.size * scale_to_source)
+		room.texture = crop
+	else:
+		room.texture = texture
+	room.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	room.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	UIKit.full_rect(room)
+	room.modulate = Color(0.42, 0.39, 0.44)
+	room.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	back.add_child(room)
+
+
+func _build_shelf() -> void:
+	var panel: Panel = _make_panel("Shelf", SHELF_RECT, true)
+	var icon: TextureRect = IconArt.rect("ICON-UI-PACKS", 40.0)
+	icon.position = Vector2(24, 16)
+	panel.add_child(icon)
+	panel.add_child(_heading("THE SHELF", Vector2(76, 14), 34))
+	_shelf_count = _text("", 22, UIStyle.PARCHMENT, Vector2(SHELF_RECT.size.x - 424, 22), 400, HORIZONTAL_ALIGNMENT_RIGHT)
+	panel.add_child(_shelf_count)
+	_divider(panel, 66, SHELF_RECT.size.x)
+	# the wooden board the packs stand on (UI-PACK-SHELF on the art list would replace it)
+	var board: ColorRect = ColorRect.new()
+	board.name = "ShelfBoard"
+	board.color = Color("6b4426")
+	board.position = Vector2(30, 106 + PackArt.SIZE.y * PACK_SCALE)
+	board.size = Vector2(SHELF_RECT.size.x - 60, 16)
+	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(board)
+	var lip: ColorRect = ColorRect.new()
+	lip.color = Color("3d2614")
+	lip.position = board.position + Vector2(0, 16)
+	lip.size = Vector2(board.size.x, 6)
+	lip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(lip)
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.name = "ShelfScroll"
+	scroll.position = Vector2(30, 80)
+	scroll.size = Vector2(SHELF_RECT.size.x - 60, SHELF_RECT.size.y - 92)
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	panel.add_child(scroll)
+	_shelf_row = UIKit.hbox(18)
+	scroll.add_child(_shelf_row)
+
+
+func _build_action_bar() -> void:
+	var panel: Panel = _make_panel("ActionBar", ACTION_RECT, false)
+	_action_row = UIKit.hbox(18)
+	_action_row.position = Vector2(24, 14)
+	panel.add_child(_action_row)
+
+
+func _build_results() -> void:
+	var panel: Panel = _make_panel("LastOpened", RESULTS_RECT, false)
+	var icon: TextureRect = IconArt.rect("ICON-DECKBOX", 36.0)
+	icon.position = Vector2(24, 14)
+	panel.add_child(icon)
+	panel.add_child(_heading("LAST OPENED", Vector2(72, 10), 30))
+	_results_count = _text("", 20, UIStyle.PARCHMENT, Vector2(RESULTS_RECT.size.x - 424, 18), 400, HORIZONTAL_ALIGNMENT_RIGHT)
+	panel.add_child(_results_count)
+	_divider(panel, 56, RESULTS_RECT.size.x)
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.name = "ResultsScroll"
+	scroll.position = Vector2(24, 64)
+	scroll.size = Vector2(RESULTS_RECT.size.x - 48, RESULTS_RECT.size.y - 70)
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	panel.add_child(scroll)
+	_results_row = UIKit.hbox(10)
+	scroll.add_child(_results_row)
+	_results_preview = HoverPreview.new()
+	_results_preview.name = "ResultsPreview"
+	add_child(_results_preview)
+
+
 func _refresh() -> void:
-	for child: Node in _list.get_children():
-		child.queue_free()
+	for row: Node in [_shelf_row, _action_row]:
+		for child: Node in row.get_children():
+			child.queue_free()
 	var shown: int = 0
-	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more plain packs, "Open all" opens them in one go with one summary;
-	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.
-	var plain: int = plain_pack_count()
-	if plain >= 2:
-		var all_row: HBoxContainer = UIKit.hbox(16)
-		var all_button: FancyButton = FancyButton.make("Open all (%d packs)" % plain, &"PrimaryButton", Vector2(300, 52))
-		all_button.name = "OpenAll"
-		all_button.pressed.connect(func() -> void:
-			Audio.sfx(&"ui_confirm")
-			_show_open_all(open_all()))
-		all_row.add_child(all_button)
-		# Fix pass Nov 7 (item 8, C3 F4): say what Open all leaves out.
-		if gilded_pack_count() > 0:
-			var skipped: Label = UIKit.label("Gilded packs (%d, a sure Epic or Legendary) are opened one at a time below." % gilded_pack_count(), &"MutedLabel", 20)
-			skipped.name = "OpenAllSkips"
-			skipped.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			all_row.add_child(skipped)
-		_list.add_child(all_row)
+	var total: int = 0
 	for pack: PackData in PackCatalog.all():
 		var count: int = Session.profile.pack_count(pack.id)
 		if count <= 0:
 			continue
 		shown += 1
-		var row: HBoxContainer = UIKit.hbox(14)
-		row.add_child(PackArt.icon(pack, 0.2))
-		var name_label: Label = UIKit.label("%s   x%d" % [pack.display_name, count], &"", 30, UIStyle.PARCHMENT)
-		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(name_label)
-		var open: FancyButton = FancyButton.make("Open", &"PrimaryButton", Vector2(150, 50))
-		open.name = "Open_%s" % pack.id
-		open.pressed.connect(func() -> void:
-			Audio.sfx(&"ui_confirm")
-			PackOpeningScreen.open_from_inventory(self, pack.id, func() -> void: _refresh()))
-		row.add_child(open)
-		_list.add_child(row)
+		total += count
+		_shelf_row.add_child(_shelf_slot(pack, count))
 	if shown == 0:
-		_list.add_child(UIKit.label("No unopened packs. Free a zone, finish quests, or visit the Pack Vendor.", &"MutedLabel", 26))
+		var empty: Label = UIKit.label("No unopened packs. Free a zone, finish quests, or visit Foil Fenwick on the square.", &"MutedLabel", 26)
+		empty.name = "EmptyShelf"
+		_shelf_row.add_child(empty)
+	_shelf_count.text = "%d pack%s" % [total, "" if total == 1 else "s"]
+	_header_count.text = "%d unopened  ·  Foil Fenwick sells more on the square" % total
+	# Overnight Oct 31 - Nov 1 (mid-game critic #13): with two or more plain packs, "Open all" opens them in one go with one summary;
+	# gilded packs (a guaranteed Epic or Legendary) keep their ceremony.
+	var plain: int = plain_pack_count()
+	if plain >= 2:
+		var all_button: FancyButton = FancyButton.make("Open all (%d packs)" % plain, &"PrimaryButton", Vector2(320, 56))
+		all_button.name = "OpenAll"
+		all_button.pressed.connect(func() -> void:
+			Audio.sfx(&"ui_confirm")
+			var openings: Array[PackOpening] = open_all()
+			last_openings = openings
+			_show_open_all(openings))
+		_action_row.add_child(all_button)
+		# Fix pass Nov 7 (item 8, C3 F4): say what Open all leaves out.
+		if gilded_pack_count() > 0:
+			var skipped: Label = UIKit.label("Gilded packs (%d, a sure Epic or Legendary) open one at a time on the shelf." % gilded_pack_count(), &"MutedLabel", 20)
+			skipped.name = "OpenAllSkips"
+			skipped.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			_action_row.add_child(skipped)
+	else:
+		var hint: Label = UIKit.label("Open a pack from the shelf: its cards join your collection at once." if shown > 0 else "Packs come from dungeons, quests, chests and Foil Fenwick's stall.", &"MutedLabel", 22)
+		hint.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		_action_row.add_child(hint)
+	_refresh_results()
+
+
+## One pack on the shelf: its painted art large with a gold count badge, the name, what it holds, and its Open button.
+func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
+	var slot: VBoxContainer = UIKit.vbox(6)
+	slot.name = "Slot_%s" % pack.id
+	slot.custom_minimum_size = Vector2(SLOT_WIDTH, 0)
+	var art_holder: Control = Control.new()
+	art_holder.custom_minimum_size = Vector2(SLOT_WIDTH, PackArt.SIZE.y * PACK_SCALE + 22)
+	art_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var art: Control = PackArt.icon(pack, PACK_SCALE)
+	art.position = Vector2((SLOT_WIDTH - PackArt.SIZE.x * PACK_SCALE) * 0.5, 4)
+	art_holder.add_child(art)
+	var badge: Label = UIKit.label("x%d" % count, &"", 24, Color("1d1408"), HORIZONTAL_ALIGNMENT_CENTER)
+	badge.name = "CountBadge"
+	badge.add_theme_font_override("font", UIStyle.font_bold())
+	badge.add_theme_stylebox_override("normal", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 10))
+	badge.position = art.position + Vector2(PackArt.SIZE.x * PACK_SCALE - 30, -2)
+	badge.size = Vector2(54, 34)
+	art_holder.add_child(badge)
+	slot.add_child(art_holder)
+	var name_label: Label = UIKit.label(pack.display_name, &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	name_label.add_theme_font_override("font", UIStyle.font_title())
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.custom_minimum_size = Vector2(SLOT_WIDTH, 0)
+	slot.add_child(name_label)
+	var what: Label = UIKit.label(PackShop.describe(pack), &"MutedLabel", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	what.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	what.custom_minimum_size = Vector2(SLOT_WIDTH, 44)
+	slot.add_child(what)
+	var open: FancyButton = FancyButton.make("Open", &"PrimaryButton", Vector2(170, 50))
+	open.name = "Open_%s" % pack.id
+	open.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	open.pressed.connect(func() -> void:
+		Audio.sfx(&"ui_confirm")
+		PackOpeningScreen.open_from_inventory(self, pack.id, func() -> void:
+			if PackOpeningScreen.last_opening != null:
+				last_openings = [PackOpeningScreen.last_opening] as Array[PackOpening]
+			_refresh()))
+	slot.add_child(open)
+	return slot
+
+
+## LAST OPENED: the cards of `last_openings`, new ones first (one tile each; a copy past its cap dimmed), with the hover / focus zoom.
+func _refresh_results() -> void:
+	if _results_row == null:
+		return
+	for child: Node in _results_row.get_children():
+		child.queue_free()
+	if last_openings.is_empty():
+		_results_count.text = ""
+		var empty: Label = UIKit.label("Open a pack to see its cards here.", &"MutedLabel", 22)
+		empty.name = "NoResults"
+		_results_row.add_child(empty)
+		return
+	var entries: Array[PackOpening.Entry] = result_entries(last_openings)
+	var fresh: int = 0
+	for entry: PackOpening.Entry in entries:
+		if entry.is_new:
+			fresh += 1
+		var tile: Control = _result_tile(entry, RESULT_SCALE)
+		tile.name = "Last_%s" % entry.card.id
+		var card: CardData = entry.card
+		tile.mouse_filter = Control.MOUSE_FILTER_STOP
+		tile.focus_mode = Control.FOCUS_ALL
+		tile.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_ENABLED
+		tile.mouse_entered.connect(func() -> void: _results_preview.show_for(tile, card))
+		tile.mouse_exited.connect(_results_preview.hide_preview)
+		tile.focus_entered.connect(func() -> void: _results_preview.show_for(tile, card))
+		tile.focus_exited.connect(_results_preview.hide_preview)
+		_results_row.add_child(tile)
+	_results_count.text = "%d card%s, %d new" % [entries.size(), "" if entries.size() == 1 else "s", fresh]
+
+
+func _make_panel(panel_name: String, rect: Rect2, accent: bool) -> Panel:
+	var panel: Panel = Panel.new()
+	panel.name = panel_name
+	panel.position = rect.position
+	panel.size = rect.size
+	panel.mouse_filter = Control.MOUSE_FILTER_PASS
+	var style: StyleBoxFlat = UIStyle.box(PANEL_FILL, UIStyle.GOLD if accent else UIStyle.GOLD_DIM, 3 if accent else 2, 14)
+	if accent:
+		style.shadow_color = Color(UIStyle.GOLD, 0.25)
+		style.shadow_size = 18
+	panel.add_theme_stylebox_override("panel", style)
+	_page.add_child(panel)
+	return panel
+
+
+func _text(value: String, font_size: int, colour: Color, at: Vector2, width: float, align: HorizontalAlignment = HORIZONTAL_ALIGNMENT_LEFT) -> Label:
+	var label: Label = UIKit.label(value, &"", font_size, colour, align)
+	label.position = at
+	label.size = Vector2(width, float(font_size) * 1.4)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
+
+func _heading(value: String, at: Vector2, font_size: int) -> Label:
+	var label: Label = _text(value, font_size, UIStyle.GOLD, at, 500)
+	label.add_theme_font_override("font", UIStyle.font_title())
+	return label
+
+
+func _divider(parent: Control, y: float, width: float) -> void:
+	var line: ColorRect = ColorRect.new()
+	line.color = DIVIDER
+	line.position = Vector2(24, y)
+	line.size = Vector2(width - 48, 1)
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(line)
 
 
 ## How many packs "Open all" would open (every pack but the gilded ones).
@@ -148,8 +384,8 @@ static func result_entries(openings: Array[PackOpening]) -> Array[PackOpening.En
 	return fresh
 
 
-func _result_tile(entry: PackOpening.Entry) -> Control:
-	var holder: Control = CardView.wrapped(entry.card, 0.5)
+func _result_tile(entry: PackOpening.Entry, card_scale: float = 0.5) -> Control:
+	var holder: Control = CardView.wrapped(entry.card, card_scale)
 	holder.name = "Result_%s" % entry.card.id
 	if entry.converted:
 		holder.modulate = Color(0.6, 0.6, 0.66)

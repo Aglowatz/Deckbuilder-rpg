@@ -11,7 +11,7 @@ color = 1
 generic_cost = 2
 colored_pips = Array[int]([1])
 attack = 2
-defense = 3
+defense = 4
 keywords = Array[int]([7])
 rules_text = "Overtime.
 

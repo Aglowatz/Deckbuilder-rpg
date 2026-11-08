@@ -6,9 +6,9 @@ extends "res://tools/economy_model_tool.gd"
 ## fights) with the starter deck plus two Commons bought at the first shop, at the level the walk reaches. Writes docs/balance/early_game_nov5.md.
 ##   Godot --headless --path . -s res://tools/early_game_study.gd [-- --runs=60 --out=res://docs/balance/early_game_nov5.md]
 
-const COMMON_PRICE_SAMPLE: int = 100
+const COMMON_PRICE_SAMPLE: int = 50  # Overnight Nov 7-8: the new Common price
 ## A normal early player at each shop stop: the first shop buys two Commons of their Path (if the purse allows), later stops one item charge.
-const FIRST_SHOP_CARDS: int = 2
+const FIRST_SHOP_CARDS: int = 4  # Overnight Nov 7-8, Part 2.3: the armory checkpoint affords four Commons
 const ITEM_PER_LATER_STOP: String = "healing_salve"
 
 var _runs: int = 60

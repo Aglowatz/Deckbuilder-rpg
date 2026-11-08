@@ -22,7 +22,7 @@ At the start of your turn, create an Iron and a Red Tape."
 rarity = 3
 flavor_text = "Strength through order. Order through strength. Mostly through paperwork."
 availability = 2
-availability_source = "Chancellor Clench, Iron Regent"
+availability_source = "Chancellor Clench, Iron Regent|Echo of Chancellor Clench"
 not_in_packs = true
 paths_all = Array[int]([1, 4])
 script_text = "kw overtime

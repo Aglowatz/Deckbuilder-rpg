@@ -1,7 +1,7 @@
 Card ID,not_in_packs,availability,source
-N-33,true,ENEMY-ONLY,"Mortimer Grimsby, CE-No"
+N-33,true,ENEMY-ONLY,"Mortimer Grimsby, CE-No|Echo of Mortimer Grimsby"
 N-30,true,ENEMY-ONLY,"Betty Bones, Surly Secretary"
-NB-16,true,ENEMY-ONLY,"Chancellor Clench, Iron Regent"
+NB-16,true,ENEMY-ONLY,"Chancellor Clench, Iron Regent|Echo of Chancellor Clench"
 P4-03,true,ENEMY-ONLY,Primm
 B-32,false,REWARD-LOCKED,"The House of Gains, first clear (Chancellor Clench)"
 G-33,false,REWARD-LOCKED,"The Test Kitchen, first clear (the Doppelganger)"

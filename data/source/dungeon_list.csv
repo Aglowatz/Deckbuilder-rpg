@@ -63,16 +63,16 @@ D-ROT,The Rotheart,Main Dungeon,The Verdant Dump (Refusemancer),"The Verdant Dum
 13. The Rotheart - Boss - (88%, 22%)","Overgrowth: at the start of each turn, each unit gets a buff. Rot: at end of turn, units with 1 defense are destroyed.","Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump.",Refusemancer Path Pack + gold.,"Druids at the Compost Grange: ""The Archdruid hasn't spoken in weeks. The compost... it's growing teeth.""",MAP-ROT,"A once-cheerful junkyard farm being swallowed by a twisted, glowing, overgrown blight, seen from above; colors shift from healthy greens at the bottom-left to sickly purples and toxic greens at the top-right. Bottom-left: a fence line where healthy land meets the blight (spot 1), splitting into a lower junkyard strangled by vines (spot 2) leading to a cracked greenhouse full of grasping plants (spot 4), and an upper hollow of giant glowing mushrooms (spot 3) leading to a cave of drifting spores (spot 5). Both meet at an old windmill pierced by huge roots (spot 6), which splits into a lower bubbling compost pool (spot 7) and an upper maze of thorny brambles (spot 8), meeting at a small, clean, glowing spring surrounded by flowers (spot 9). From the spring: an upper giant beehive of mutated glowing bees (spot 10) and a lower tunnel dripping with rot (spot 11) both lead to a cluster of pulsing roots (spot 12), climbing to a colossal corrupted heart-shaped tree at the upper right (spot 13).",BB-ROT,Needed
 D-PC,Primm's Castle,Final Dungeon,Primm's Perfection (the Capital; later Pathordia),"A gleaming, perfectly symmetrical palace of white stone, gold trim, and mirrors everywhere, every surface reflecting Primm, while cracks, rifts, and corruption seep through behind the polish.","The heart of Primm's rule. The first time the Wanderer enters, Percival Plume has Elowen seized and sent back to the Path-ology Lab; his memo in the Necrocrat wing gives it away, right before the player fights him there. Side wings show how Primm 'perfected' each faction; Path-ologist records reveal what was done to the prince; his Private Gallery holds the royal portrait with the king and queen painted over. The Archive of Good Intentions reveals the tragedy of a man who meant well and became a tyrant. The final chamber is the Model Room. If the Wanderer arrives before freeing all four zones, Primm reveals his identity.","Primm, ""His Perfection"" (multi-phase final boss)",22,10,12,"MAIN PATH:
 1. Castle Gate - Start (story: Elowen is seized on Plume's orders) - (6%, 85%) -> 2
-2. Courtyard of Perfect Hedges - Battle - (16%, 70%) -> 3, 11
-3. Grand Foyer - Event - (26%, 78%) -> 4, 22
-4. Portrait Gallery - Battle - (36%, 62%) -> 5, 12, 13
-5. Hall of Mirrors - Elite - (46%, 70%) -> 6, 16, 17
-6. Ministry of Correction - Battle - (56%, 55%) -> 7, 14, 15
+2. Courtyard of Perfect Hedges - Battle - (16%, 70%) -> 5, 3, 11
+5. Hall of Mirrors - Elite - (46%, 70%) -> 7, 6, 16, 17
 7. Resistance Safe Room - Full Heal - (66%, 65%) -> 8, 18
-8. Archive of Good Intentions - Event (Primm's journals; young Maren's letter) - (74%, 48%) -> 9, 19
-9. Royal Stair - Elite - (82%, 60%) -> 10, 20
+8. Archive of Good Intentions - Event (Primm's journals; young Maren's letter) - (74%, 48%) -> 10, 9, 19
 10. The Model Room - Boss - (90%, 30%)
 DEAD-END SIDE BRANCHES (return to the node they came from):
+3. Grand Foyer - Event - (26%, 78%) -> 4, 22
+4. Portrait Gallery - Battle - (36%, 62%) -> 12, 13
+6. Ministry of Correction - Battle - (56%, 55%) -> 14, 15
+9. Royal Stair - Elite - (82%, 60%) -> 20
 11. Gilded Pantry - Treasure - (14%, 48%)
 12. Gourmand Wing: the Doppelganger's Lab Notes - Event - (30%, 40%)
 13. Beefcake Wing: Coup Orders Barracks - Battle - (40%, 38%)

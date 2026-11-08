@@ -1,0 +1,408 @@
+[
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Somebody in the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.'",
+		"after": "Somebody in the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.' Don't look so startled, dearie."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.forest_tip::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Whatever is under that hatch, it is yours, I think. It feels like yours. Be careful, buddy.",
+		"after": "Maren says that's where they took your friend from the castle gate. I'd go down myself, but it feels like yours to open. Be careful, buddy."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.brenda.return::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Old Man Mountain",
+		"before": "He laughed about it, too, and his hands lit up four colours, plain as day. You've a look of him, you know... no, never mind me. Old man talk. Where was I?",
+		"after": "He laughed about it, too, sitting there on the mat with his little crown over one eye. Lovely boy. I wonder sometimes... no, never mind me. Old man talk. Where was I?"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.odalys.return::3",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "The real Chef baked a birthday cake for the little prince once. Four layers, one for each Path. He licked the frosting off all four and left the rest.",
+		"after": "The real Chef baked a birthday cake for the little prince once. Four layers, one for each Path. He licked the frosting off all four and left the rest. ...Are you all right? You've gone pale."
+	},
+	{
+		"id": "data/story/dna_story.tres::memo.hr::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "'Rest in Peace' is not an approved out-of-office message.",
+		"after": "Nothing is filed on a Tuesday (Rule 1). Tuesdays are for rest and the rec room. 'Rest in Peace' is still not an approved out-of-office message."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.dolores.return::4",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "There was a third form, for the little prince, and I never filed it. No remains, no certificate. Policy is very strict about that, and for once I was glad of it.",
+		"after": "There was a third form, for the little prince, and I never filed it: no remains, no certificate. ...You've gone very still, dear. People only do that when the form is about them."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.matching.intro::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Kyle",
+		"before": "fun fact: ten years ago i was the one who filed the big transfer form. didn't read it, though. who reads forms?",
+		"after": "fun fact: ten years ago i filed the big transfer form. the peacock drafted it and handed it to me on my way to the rec room, so... a tuesday. didn't read it, though. who reads forms?"
+	},
+	{
+		"id": "data/story/dna_story.tres::sign.matching::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "Please do not feed the Top 8.",
+		"after": "Open Tuesdays, when nothing may be filed (Rule 1). Please do not feed the Top 8."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_records.before::4",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Someone should look into it, dear, because this form doesn't tell us what happened to the boy.\"",
+		"after": "Someone should look into it, dear, because this form doesn't tell us what happened to the boy.\" You realise you have been holding your breath."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.after::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "At the very bottom of the pile, under every form, every stamp and every signature, is a small note in a trembling hand: FILED ON A TUESDAY.",
+		"after": "At the very bottom of the pile, under every form, every stamp and every signature, is a small note in a junior clerk's handwriting: FILED ON A TUESDAY. SORRY. - K."
+	},
+	{
+		"id": "data/story/dna_story.tres::npc.barnaby.return.freed::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "My number's been called. I'm only here because I like the coffee.",
+		"after": "My number's been called. I asked Hob for one more pot before I go, and I'm making it last."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "I water the twelfth spot anyway. I couldn't tell you why, except that it feels as if somebody is still coming.",
+		"after": "I water the twelfth spot anyway. I couldn't tell you why, except that it feels as if somebody is still coming. ...You're looking at it as if you've stood there before."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Not long ago, somebody carried a sleeping young man through these woods in the dead of night. He was glowing faintly, in four colours. I've never seen anything like it.",
+		"after": "Forgive me. I talk to that spot more than I talk to most people. It's a very good listener, and it never tracks mud into the Grange."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::4",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "The raccoons saw it too. Raccoons see everything; they just won't tell you about it.",
+		"after": "The raccoons listen too, of course. Raccoons hear everything; they just won't tell you about it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Though NOBODY has explained who ate the compost. The raccoons have suddenly become excellent listeners.",
+		"after": "Nobody's apologised for the compost, mind. The raccoons have become excellent listeners and very poor confessors."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_freed/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he brought his own mug for the journey.",
+		"after": "The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "You knew me before all this.",
+		"after": "Everywhere I go, someone tells me a story about a little prince, then looks at me and stops talking. You knew me before all this, didn't you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.reply::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "There's nothing to forgive. You gave me a bed and pie when you still thought I might be a spy.",
+		"after": "My mother called me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what they were like."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_yards_after/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Rollo Spokes",
+		"before": "Flex wants someone... to run the new break schedule... up in the Gainlands. Someone who can count.",
+		"after": "The crews voted... while you two were busy. You're staying put... till Flex's people come down. Some of those wheels... had children on them. They'd like a word."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_yards_after/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Vivienne Quota, Minister of Efficiency",
+		"before": "Breaks. Scheduled breaks. Mandatory rest, for everyone, forever.",
+		"after": "Detained. I have never been detained. I do not even know how long it takes."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_yards_after/steps/2::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Vivienne Quota, Minister of Efficiency",
+		"before": "I will hate every minute. I will time every one.",
+		"after": "I will find out. I will time every minute of it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_yards_after/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "She sits down on the edge of the wheel, stopwatch in her lap, and for the first time in ten years she does not click it.",
+		"after": "Two of Rollo's crew take her by the elbows, gently, the way you'd lift something off a high shelf. Somewhere near the gate, for the first time in ten years, she stops clicking the stopwatch."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_lawn/steps/5::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Fern",
+		"before": "Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'll hate it. Good.",
+		"after": "Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'd hate it. Good. It's yours if you want it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_lawn/steps/6::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "...I shall bring my own gloves.",
+		"after": "...No. I will not be forgiven by a compost heap. I shall find somewhere that still keeps its hedges at a proper height."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/plume_ribbon/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "And filed it on a Tuesday! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!",
+		"after": "And had a clerk file it, on a Tuesday, I believe! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::npc.kestrel.intro::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Kestrel",
+		"before": "Name's Kestrel. I scout for the Wrinkles. Heading into the city? There's an older way in than the gate. Follow my chalk, not the guards; they're worse at drawing.",
+		"after": "Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
+	},
+	{
+		"id": "core/quests/zone_quest_definitions.gd::side_quests::13",
+		"file": "core/quests/zone_quest_definitions.gd",
+		"speaker": "(Quest Log)",
+		"before": "Kestrel knows an older way into the city. Get inside, find Wren in the Crease and ask her about the old tunnels.",
+		"after": "Kestrel only shows her older way into the city to friends of Wren's. Get through the gate, knock at the manhole and ask Wren in the Crease about the old tunnels."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_cap.offer::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Kestrel",
+		"before": "There's an older way into the city that nobody remembers. That's the whole point of it.",
+		"after": "There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_cap.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Kestrel",
+		"before": "Get yourself inside and find Wren in the Crease. She'll tell you what the old tunnels are for. Then I'll show you the hatch. Deal?",
+		"after": "Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?"
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_cap.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Kestrel",
+		"before": "Get inside, then find the manhole near the gate and knock three times. Not two; two is rude. Wren's down in the Crease. Ask her about the tunnels.",
+		"after": "Through the gate, then the manhole beside it: knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/9::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "{rescuer}. Her name is {rescuer}, and all that way I never once asked her.",
+		"after": "{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You took ten years from me, and whatever you took, it was not the part that matters. Strength is what you do with what's left, and strength is not control.",
+		"after": "I met a man who'd been locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with what's left, and strength is not control."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly herself, so I know a name's a blank page until you sign it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "And nobody files me under 'subject' ever again. No order outranks treating people with respect.",
+		"after": "I spent ten years filed under 'subject'. Never again, not me and not anyone else. No order you could write outranks treating people with respect."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.gourmand::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. A name is a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly herself, so I know a name's a blank page until you sign it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.necrocrat::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Nobody files me under 'subject' ever again. No order you could write outranks treating people with respect.",
+		"after": "I spent ten years filed under 'subject'. Never again, not me and not anyone else. No order you could write outranks treating people with respect."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.3::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "I made... (he stops.) I made a list of things other people had already built, and I put my name on it.",
+		"after": "I made... (he stops.) I made them, and they were good. Then I put my name on every one, and I stopped asking anyone whether they wanted the next."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You kept every face and every house. Nothing grows if you refuse to let anything go.",
+		"after": "You kept every face and every house under glass. I've stood in a field where nothing was allowed to die, and nothing grows there either."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You took my mother and father, and I can't even remember their faces. I'm not going to keep that under glass the way you keep everything. I'm letting it go.",
+		"after": "You took my mother and father. Then you kept me behind glass for ten years, and every morning someone said 'again'. I remember that word better than I remember their faces."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.3.rushed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You took my mother and father, and I can't even remember their faces. I'm letting it go anyway. Watch me.",
+		"after": "You took my mother and father. Then you kept me behind glass for ten years, and every morning someone said 'again'. I remember that word better than I remember their faces."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.4::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "...(a long silence)... I made them smile. I made them all smile.",
+		"after": "...(a long silence)... Your mother and father were sentimental people, and sentiment was going to cost this kingdom everything. I removed two people so that eleven thousand could be safe. I did the sums twice."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.4::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "And they smiled, and they smiled, and I looked at their faces, and I thought: they look like me. And I was so happy.",
+		"after": "And you, I looked after. You were fed at seven, at noon and at six, for ten years, and you were never once cold. Tell me which part of that was unkind. I should like it in writing."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.5::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "It was the mirrors, wasn't it? I wanted a world where nothing could ever surprise me.",
+		"after": "(You do not answer. He waits for a correction that does not come.) ...It was the mirrors, wasn't it? I wanted a world where nothing could ever surprise me."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.6::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I'm not going to correct you; that was always your way. Start smaller than that. Say sorry to one person.",
+		"after": "I'm not going to correct you; that was always your way. I'm not going to forgive you either, not today. Start smaller than a kingdom. Say sorry to one person."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.8::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "It is very heavy. It was always very heavy. And tell the Wrinkles... tell them I am sorry about the hats.",
+		"after": "It is very heavy. It was always very heavy. Tell the Wrinkles... tell them I am sorry about the hats. (He hears himself.) No. That is not the thing. I never learned how to say the thing."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_plume_memo/steps/2::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, filed it, and read it out on every loudspeaker in the land.",
+		"after": "Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, had a clerk file it, and read it out on every loudspeaker in the land."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to.",
+		"after": "I knew whose girl she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The scale model cracks in half, and then the table under it, and then, with the sound of a very large drawer being pulled from a very large cabinet, the castle walls begin to come down.",
+		"after": "The scale model cracks in half, and then the table under it, and then, with the sound of a very large drawer being pulled from a very large cabinet, every locked door in the castle swings open at once."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.6::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "{villain} demanded one way for everyone. It was never what made the kingdom strong.",
+		"after": "{villain} demanded one way for everyone. In the plaza, a Beefcake holds a ladder steady while a Necrocrat checks it against a form."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.6::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Muscle and stoves, records and soil: each was good alone. Together they ran a kingdom, argued about it every day, and it worked.",
+		"after": "A Gourmand passes up the hammer, and a Refusemancer catches the nail that falls, because it can still be used."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.6::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The point was never to be the same; the point was the argument. Different Paths, working together.",
+		"after": "Different Paths, working together, and arguing the whole time about where the sign should go. It goes up crooked, and it stays up."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_reveal.5::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Your power has kept this kingdom lit for ten years, and I have only ever looked after it. Surely you can see that.",
+		"after": "Your power has kept the Paths in one shape for ten years, and I have only ever looked after it. Surely you can see that."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.8::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The castle does not fall; it opens. Where the Model Room floor was, a stair of four colours winds down into the old heart of the Capital.",
+		"after": "Under the Model Room the floor opens too, and a stair of four colours winds down into the old heart of the Capital."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.8::3",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Everything comes back at once: the lullaby, the glass, the throne room, the name. {prince_full}. And the Paths, all four, as they were always meant to be carried.",
+		"after": "The Throne says your name back to you, {prince_full}, and this time it brings the Paths with it, all four, as they were always meant to be carried."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.10::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'{prince},' she says. It is the first time anyone has said it aloud and meant it. 'Welcome home.'",
+		"after": "'{prince},' she says, loud enough for the whole plaza to hear. She has said it in her kitchen; this is the first time she has said it to the kingdom. 'Welcome home.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::freed_npc.primm::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm, \"His Perfection\"",
+		"before": "Do not look so alarmed. The guard is very kind, and the workshop has a very nice window.",
+		"after": "Do not look so alarmed. The guard is very kind. Every morning he brings me the list of the people I corrected, and I read it. There are eleven thousand names. I am on the third page."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.reunion::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "At the edge of the crowd, a hooded traveler smiles, leaves still in their hair. There is always another path.",
+		"after": "At the edge of the crowd you catch yourself looking for a hood with leaves caught in it, and not finding one. Not yet."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.postgame.body::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "With {villain} gone, the Paths are free to mix again. Your decks may now combine cards from ALL Paths, and the Alchemist's tri-Path crafting is open. What made the kingdom strong was never sameness.",
+		"after": "With {villain} gone, the Paths are free to mix again. Your decks may now combine cards from ALL Paths, and the Alchemist's tri-Path crafting is open. And under the forest, someone is still waiting for you."
+	}
+]

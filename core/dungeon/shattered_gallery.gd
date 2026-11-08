@@ -15,7 +15,8 @@ const ECHO_PREFIX: String = "Echo of "
 ## all three on top of its own extra draw The Perfect Copy won 97% against a strong late deck (Overnight Nov 4-5 sim).
 const WING_IRON_ON: Array = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 const WING_ORDER_ON: Array = [5, 6, 7, 8, 9, 10, 11, 12, 13]
-const WING_APPETITE_ON: Array = [9, 10, 11, 12]
+## Overnight Nov 7-8, Part 4 (approved): Perfect Form no longer stacks on the third wing's ordinary fights - only from the Evergreen Frame (11) on.
+const WING_APPETITE_ON: Array = [11, 12]
 
 ## The Perfect Copy has the player's max HP plus this much, and draws one card more each turn (its encounter rule).
 const PERFECT_COPY_HP_BONUS: int = 20

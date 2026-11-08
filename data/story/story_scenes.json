@@ -81,16 +81,16 @@
 				],
 				[
 					"NPC-ROLLO",
-					"Flex wants someone... to run the new break schedule... up in the Gainlands. Someone who can count."
+					"The crews voted... while you two were busy. You're staying put... till Flex's people come down. Some of those wheels... had children on them. They'd like a word."
 				],
 				[
 					"NPC-QUOTA",
-					"Breaks. Scheduled breaks. Mandatory rest, for everyone, forever.",
-					"I will hate every minute. I will time every one."
+					"Detained. I have never been detained. I do not even know how long it takes.",
+					"I will find out. I will time every minute of it."
 				],
 				[
 					"",
-					"She sits down on the edge of the wheel, stopwatch in her lap, and for the first time in ten years she does not click it."
+					"Two of Rollo's crew take her by the elbows, gently, the way you'd lift something off a high shelf. Somewhere near the gate, for the first time in ten years, she stops clicking the stopwatch."
 				]
 			]
 		},
@@ -265,11 +265,15 @@
 				],
 				[
 					"NPC-FERN",
-					"Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'll hate it. Good."
+					"Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'd hate it. Good. It's yours if you want it."
 				],
 				[
 					"NPC-CLIPWELL",
-					"...I shall bring my own gloves."
+					"...No. I will not be forgiven by a compost heap. I shall find somewhere that still keeps its hedges at a proper height."
+				],
+				[
+					"",
+					"She walks away down the exact middle of the path. She does not look back at the seedling, and it goes on growing without her permission."
 				]
 			]
 		},
@@ -291,7 +295,7 @@
 				],
 				[
 					"NPC-PLUME",
-					"And filed it on a Tuesday! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!"
+					"And had a clerk file it, on a Tuesday, I believe! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!"
 				],
 				[
 					"",
@@ -343,7 +347,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"{rescuer}. Her name is {rescuer}, and all that way I never once asked her."
+					"{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her."
 				]
 			]
 		},
@@ -360,7 +364,7 @@
 				[
 					"NPC-PLUME",
 					"Ah! You found my memo. Isn't it well written? I used the active voice.",
-					"Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, filed it, and read it out on every loudspeaker in the land."
+					"Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, had a clerk file it, and read it out on every loudspeaker in the land."
 				],
 				[
 					"NPC-PLAYER",
@@ -395,7 +399,7 @@
 				[
 					"NPC-ELDER",
 					"Plume's men took a girl at the castle gate, the one who carried you out of the woods. {rescuer_full}, they called her.",
-					"I knew whose girl she was the day she brought you to my door. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to."
+					"I knew whose girl she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to."
 				],
 				[
 					"NPC-ELDER",
@@ -720,7 +724,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"You knew me before all this."
+					"Everywhere I go, someone tells me a story about a little prince, then looks at me and stops talking. You knew me before all this, didn't you?"
 				],
 				[
 					"NPC-ELOWEN",
@@ -797,7 +801,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he brought his own mug for the journey."
+					"The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line."
 				],
 				[
 					"NPC-HOB",

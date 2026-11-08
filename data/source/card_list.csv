@@ -126,10 +126,10 @@ Whenever attached unit attacks, you may destroy target Tool.",,Fixes everything.
 22,(U),Alarm-ish Clock,1(B),Tool,"Exhaust, pay 1: attach to target unit you control.
 
 At the beginning of combat on your turn, flip a coin. Heads: attached unit gets +2/+0 and Sucker Punch until end of turn. Tails: attached unit becomes exhausted.",,"Oh no, I'm late! Or am I...?","A battered wind-up alarm clock with mismatched hands and a bent bell, ringing wildly while a Beefcake either sprints off or snoozes on top of it.",,,,,AI-completed,B-22
-23,(U),Snack Bar,1(B),Wonder,Pay 1: target unit gets +1/+0 until end of turn. Each unit can be targeted only once per turn.,,"Oops, all protein bars","A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait.",,,,,AI-completed,B-23
+23,(U),Snack Bar,(B),Wonder,Pay 1: target unit gets +2/+0 until end of turn. Each unit can be targeted only once per turn.,,"Oops, all protein bars","A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait.",,,,,AI-completed,B-23
 24,(U),Overclocked Mill Worker,2(B),Unit,"Overtime.
 
-Whenever this unit attacks, create an Iron.",2/3,Clocked in. Never clocked out.,"A tireless mill worker pushing a giant wheel while marching into battle, a time card stuck in his headband.",,,,,AI-new,B-24
+Whenever this unit attacks, create an Iron.",2/4,Clocked in. Never clocked out.,"A tireless mill worker pushing a giant wheel while marching into battle, a time card stuck in his headband.",,,,,AI-new,B-24
 25,(U),Yeet,2(B),Spell,Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control.,,Physics is just a suggestion.,"A grinning Beefcake hurling a startled smaller ally through the air like a javelin toward a distant enemy, a dust trail behind them.",,,,,AI-completed,B-25
 26,(U),The Carpool,3(B),Unit,"Hustle.
 
