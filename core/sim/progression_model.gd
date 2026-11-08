@@ -170,6 +170,41 @@ static func reference_deck(content: ContentSet, path: Affinity.Type, level: int)
 	return deck
 
 
+## Overnight Nov 7-8, Part 8: the deck a NO-GRIND player could own at `level` (docs/balance/gold_economy_nov3.md, "Overnight Nov 7-8": about 38
+## cards bought over the whole run in a 19 / 11 / 6 / 2 mix, the rest from picks and packs) - the reference deck's upgrades, but at most
+## `max_epic` Epics and `max_legendary` Legendaries among them (the shelf Epics and Legendaries a richer player buys are left out; the
+## starter's cuts are undone to keep the size).
+static func budget_deck(content: ContentSet, path: Affinity.Type, level: int, max_epic: int = 4, max_legendary: int = 1) -> Deck:
+	var full: Deck = reference_deck(content, path, level)
+	var starter: Deck = CampaignStart.starter_deck(content, path)
+	var deck: Deck = Deck.new()
+	deck.deck_name = "%s L%d (no-grind)" % [Affinity.display_name(path), level]
+	var epics: int = 0
+	var legendaries: int = 0
+	for card: CardData in full.cards:
+		if card.rarity == CardEnums.Rarity.EPIC:
+			epics += 1
+			if epics > max_epic:
+				continue
+		elif card.rarity == CardEnums.Rarity.LEGENDARY:
+			legendaries += 1
+			if legendaries > max_legendary:
+				continue
+		deck.cards.append(card)
+	# refill to the reference size with the starter cards that were cut (the weakest come back last)
+	var order: Array = (CUT_ORDER.get(path, []) as Array).duplicate()
+	order.reverse()
+	for id: Variant in order:
+		if deck.cards.size() >= REFERENCE_DECK_SIZE:
+			break
+		var card: CardData = content.card(str(id))
+		if card != null and starter.count_of(card.id) > deck.count_of(card.id):
+			deck.cards.append(card)
+	while deck.cards.size() < REFERENCE_DECK_SIZE:
+		deck.cards.append(content.infrastructure[int(path)] as CardData)
+	return deck
+
+
 static func _cut_to_size(deck: Deck, path: Affinity.Type) -> void:
 	var order: Array = CUT_ORDER.get(path, []) as Array
 	var cursor: int = 0

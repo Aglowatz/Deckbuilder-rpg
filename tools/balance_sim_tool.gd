@@ -82,6 +82,9 @@ func _player(content: ContentSet, spec: EncounterSpec, path: Affinity.Type) -> P
 	if args.has("nogear"):
 		player.equipment_ids = []
 		player.items = {}
+	# Overnight Nov 7-8, Part 8: --budget plays the deck a no-grind player could own at the encounter's level (ProgressionModel.budget_deck).
+	if args.has("budget"):
+		player.deck = ProgressionModel.budget_deck(content, path, player.level)
 	# Overnight Oct 31 - Nov 1 (boss stalls, answer 7): --starter plays the bare starter deck of the Path at the expected level.
 	if args.has("starter"):
 		player.deck = CampaignStart.starter_deck_sized(content, path, int(args.get("starter_size", 0)))  # Fable pass Nov 1: --starter_size=30|35 trims it

@@ -23,6 +23,24 @@ Brief: `docs/prompts/overnight_nov7.md`. Report: `docs/overnight_report.md`. Tag
 7. **Part 2.6, Extra Pocket:** nothing else gave a second item use, so it is now "You can use each equipped item twice per battle (each use
    spends a charge)" (was max hand size +1). The economy model still names it at level 11.
 
+8. **Part 3, story pass:** 58 line rewrites via `apply_dialogue_pass.js` (revert: `node tools/apply_dialogue_pass.js --csv=docs/dialogue/pass_nov8/edit_rows.csv --revert`)
+   plus 3 new boxes added by hand (`docs/dialogue/pass_nov8/additions.md`; revert with git). Lieutenants: **Crumb** keeps the menial job,
+   **Quota is arrested** (Rollo's crews hold her for Flex's people), **Clipwell refuses** and walks off. The beat 10 "Agnes" speaker tag is only
+   in the export's speaker map (the game shows no name plate on ending beats). Beat 6 could not be cut outright (two tests need its phrases),
+   so it is one concrete image now. `docs/design/story_bible.md` still gives Quota and Clipwell their old endings.
+9. **Part 4:** done as approved. Results: Clench vs Gourmand only 25 % (was the wall; still under band), Honor Guard Necrocrat 30 -> 75 %,
+   Betty 17 / 50 / 75 / 75 %, the Automaton still 17-33 % (one extra dropped as approved; HP 23 -> 19 is the next lever), Siphon alone
+   50-83 %. The castle's main line is 6 rooms; its Foyer/Gallery, Ministry (with the four wings) and Royal Stair are side branches now. Late
+   (L18+) Normal fights offer a card pick. Gallery: Echo owners fixed (no more dropped cards), Perfect Form only from node 11, node 10 relabelled
+   Elite, Echo HP -20 %.
+10. **Part 6, the Cardsharp:** Dex Shufflewick uses the generic townsfolk sprite and portrait (no art needed). Boots had the fewest pieces (6),
+    so the prize is **Dex's Lucky Spats** (Epic boots). **Wording for your approval:** "Once each turn, when you play your first
+    non-Infrastructure card, draw a copy of that card from your deck (if there is one)." The trivia's title was the D.N.A.'s in every zone; each
+    zone has its own now (Fitness Theory Exam, Culinary Finals, Compost Certification).
+11. **Part 7, Low-end:** stronger cuts (mip bias 1.0, foliage 12 %, particles 10 %, draw distance x0.5, one dressing light); picking the
+    preset also sets fog off, no DoF/bloom, 30 fps, 75 % render scale. The Compatibility renderer is offered as the existing
+    "Start (Compatibility).bat" (a note in Settings and a toast): Godot cannot switch renderer at run time.
+
 ## Critic Nov 6 - notes and questions (review pass, no fixes)
 
 Brief: `docs/prompts/critic_nov6.md`. Reports: `docs/review/critic_nov6/`. Synthesis: `docs/review/critic_nov6_summary.md`.
