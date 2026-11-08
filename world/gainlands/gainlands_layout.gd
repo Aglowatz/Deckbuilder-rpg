@@ -576,7 +576,7 @@ func _chests() -> void:
 		"chest_ground_0": Vector3(9.5, 0.0, 64.0),
 		"chest_ground_1": Vector3(104.5, 0.0, 68.5),
 		"chest_ground_2": Vector3(43.0, 0.0, -4.0),
-		"chest_ground_3": Vector3(97.5, 0.0, 13.5),
+		"chest_ground_3": Vector3(94.2, 0.0, 16.7),  # Overnight Nov 7-8, Part 1.9: out of the strip behind the Swolympus gate (sealed by the crag)
 		"chest_ground_4": Vector3(33.0, 0.0, 15.5),
 		"chest_pec": _island_point("pec", -6.2, -1.0),
 		"chest_delt": _island_point("delt", 5.0, -3.0),

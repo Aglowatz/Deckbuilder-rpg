@@ -307,7 +307,8 @@ var _paying_clear_bonus: bool = false
 
 ## The clear bonus a boss win would pay now: everything the run has paid (`extra`: gold about to be paid, the boss fight's own).
 func clear_bonus_preview(extra: int = 0) -> int:
-	return (run.gold_earned + extra) if run != null and (main_dungeon_active or mini_active) else 0
+	# Overnight Nov 7-8, Part 2.4: half the run's gold once more (was all of it).
+	return roundi(float(run.gold_earned + extra) * Economy.CLEAR_BONUS_SHARE / 5.0) * 5 if run != null and (main_dungeon_active or mini_active) else 0
 
 
 ## Pays the clear bonus (once, when the boss falls) and records it in `result` ("clear_bonus") for the screens. Returns it.
@@ -1907,6 +1908,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	context.tutorial = node.tutorial
 	context.is_boss = node.kind == DungeonMap.Kind.BOSS
 	context.gold_reward = node.gold_reward
+	if main_dungeon_active or mini_active:
+		context.gold_reward = Economy.late_gold(node.gold_reward, ProgressionModel.level_for(dungeon_key, 1))  # Overnight Nov 7-8, Part 2.5
 	context.xp_reward = EncounterRewards.xp_for(node.difficulty)
 	context.card_choices = node.card_choices
 	return context
@@ -4263,7 +4266,7 @@ func grant_chest_reward(reward: Dictionary, title: String = "Hidden chest") -> R
 	var summary: RewardSummary = RewardSummary.new()
 	summary.kind = RewardSummary.Kind.CHEST
 	summary.title = title
-	var gold_amount: int = int(reward.get("gold", 0))
+	var gold_amount: int = Economy.chest_gold(int(reward.get("gold", 0)))  # Overnight Nov 7-8, Part 2.4
 	if gold_amount > 0:
 		add_gold(gold_amount)
 		summary.gold = gold_amount

@@ -6,7 +6,7 @@
 script = ExtResource("1_2t0or")
 id = "general_1"
 display_name = "General Pack"
-price = 150
+price = 100
 kind = 3
 general_tier = 1
 rarity_weights = Array[int]([70, 30, 0, 0])

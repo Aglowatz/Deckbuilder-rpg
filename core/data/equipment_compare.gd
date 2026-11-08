@@ -9,6 +9,7 @@ const LABELS: Dictionary = {
 	Modifier.Kind.MAX_HP: "Max HP", Modifier.Kind.STARTING_HP: "starting HP", Modifier.Kind.MAX_HAND_SIZE: "max hand size",
 	Modifier.Kind.OPENING_HAND_SIZE: "opening hand", Modifier.Kind.EXTRA_DRAWS: "cards drawn each turn", Modifier.Kind.FIRST_TURN_EXTRA_DRAW: "first-turn draw",
 	Modifier.Kind.OVERWORLD_SPEED_PERCENT: "% walking speed", Modifier.Kind.XP_BONUS_PERCENT: "% XP", Modifier.Kind.COST_CHANGE: "card cost",
+	Modifier.Kind.ITEM_USES_PER_BATTLE: "uses of each item per battle",
 }
 
 

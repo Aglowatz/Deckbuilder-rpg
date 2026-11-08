@@ -234,3 +234,77 @@ dungeons often keeps less (half pay per node until a clear).
 Repeat roamer fights now pay 1 x the zone's rate (13 / 35 / 40 / 50 / 60 / 70 by tier). At about 12 repeat fights an hour that is 156 / 420 /
 480 / 600 / 720 / 840 gold an hour: a Common every 15 minutes in the Gainlands, a tier-1 Common gear piece (1200) every 2.9 hours there.
 Replaying a cleared dungeon is now the better grind: its nodes, the clear bonus on top, and the repeat clear's gold and Path Pack.
+
+## Overnight Nov 7-8: player-friendly, less grind (Commons 50, gear from 250)
+
+Owner's direction: a completionist enjoys some grinding, but a single-player game shouldn't take forever. Tools: `tools/gold_study.gd`
+(the old per-zone study, `docs/design/sim/nov8/gold_study_before.md` / `_after.md`) and `tools/gold_study_nov8.gd` (the table below,
+`docs/design/sim/nov8/gold_study_nov8.md`). Same no-grind player as every study above.
+
+### Prices, before and after
+
+| Cards | Before (Nov 4) | **After** |
+|---|---:|---:|
+| Common | 100 | **50** |
+| Uncommon | 200 | **100** |
+| Epic | 500 | **250** |
+| Legendary | 1000 | **500** |
+
+| Equipment (rarity, tier 1-4) | Before | **After** |
+|---|---|---|
+| Common | 1200 / 1400 / 1600 / 1800 | **250 / 300 / 350 / 400** |
+| Uncommon | 2000 / 2400 / 2800 / 3200 | **400 / 500 / 600 / 700** |
+| Epic | 3500 / 3500 / 4500 / 5500 | **750 / 750 / 950 / 1150** |
+
+| Packs (3 cards; Prismatic 4) | Before | **After** | Cards' shelf value at the new prices |
+|---|---:|---:|---:|
+| General Pack | 150 | **100** | about 195 |
+| General Pack II | 300 | **175** | about 300 |
+| Path Pack | 200 | **150** | about 280 |
+| Gilded Pack (an Epic or Legendary guaranteed) | 800 | **400** | about 600 |
+| Prismatic Pack | 1200 | **350** | about 480 |
+
+Items keep their 50-150 prices; an extra neutral copy now converts into half the new shelf price (25 / 50 / 125 / 250 gold).
+
+### Income: down with the prices
+
+At the new prices the Nov 4-5 income (21,159 gold, no grinding) bought the whole collection without a repeat fight, so the big earners came
+down: quests x0.45 main / x0.5 side (were x1.75 / x1.6 / x1.5), chests pay 25 % of their table, a dungeon node 35 % (was 50 %) and the clear
+bonus a quarter of the run (was all of it), first clears 150 / 75 (+50 for a main dungeon), level-track gold from level 6 x0.3 (levels 2-5
+kept), roamers 13 / 25 / 28 / 35 / 42 / 50. **Late fights pay more** (Part 2.5): every fight at expected level 18+ pays x(1 + 0.15 per level
+from 18): the Capital's roamers 50 -> 75, the castle (L21) x1.6, the Lab (L25) x2.2, the Shattered Gallery (L26) x2.35.
+
+| Gold earned, no grinding | Before | **After** |
+|---|---:|---:|
+| Whole playthrough | 21,159 | **11,314** |
+
+### What the no-grind player affords (the Nov 8 study)
+
+| | Value |
+|---|---:|
+| Gold earned, no grinding | 11314 |
+| Estimated playthrough (111 fights x 4 min, 121 other stops x 1.5 min, 31 stops x 12 min walking) | 16.6 h |
+| 38 cards (19 Common, 11 Uncommon, 6 Epic, 2 Legendary) | 4550 |
+| 6 gear pieces (Cardboard Cuirass 250, Saucepan Helmet 250, Wicked Dagger 400, Flamethrower 750, Solid Plate 400, Dog-Eared Bookmark 500) | 2550 |
+| Items: 20 charges (about 75 each) | 1500 |
+| Hats (3) | 700 |
+| Packs (4) | 500 |
+| **Left after all that** | **1514** (about 12 more cards at the mix's average, 119) |
+| Packs earned without buying | 41 |
+| One copy of every card (178 cards) at shelf prices | 18800 |
+| Owned without grinding (estimate: starter, picks and packs, the bought cards) | 130 of 178 |
+| Still missing, at shelf prices (skewed rare) | about 4975 gold |
+| Grinding at the Capital (75 gold a fight, 12 fights an hour) | 5.5 h = **33 % extra playtime** |
+
+**Reading it:** the brief's 35-40 cards, 6-8 gear pieces and normal item use all fit with about 1,500 gold to spare (a dozen more cards, or
+two more pieces). One copy of every card (the Collection Book) needs about 5,000 gold more than that, about 5.5 hours of late fights: **an
+estimated 33 % on top of a 16.6-hour playthrough** (target 25-35 %). The playtime model is rough (4 minutes a duel, 12 minutes of walking per
+stop); replaying a late dungeon (its nodes at x1.6-2.35 plus the clear bonus and a pack) is faster than the roamers, so 33 % is the upper
+side.
+
+### The intro checkpoint (Part 2.3)
+
+When the armory quest completes, a no-grind player has: 120 starting gold, the cave's 280, levels 2-5 (240), Maren's errands (quests at the new
+scales), the store room's 15, one outskirts win (13) and the cave's two feats (35), less the one card Meet the Merchants asks for: **about
+700 gold**, against the 590 the brief asks for (a 250 gear piece + four 50 Commons + two Healing Salves). `tests/core/test_overnight_nov8_economy.gd`
+checks it stays between the target and the target + 400.

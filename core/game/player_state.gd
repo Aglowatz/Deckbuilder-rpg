@@ -7,6 +7,8 @@ var player_name: String = ""
 var hp: int = 0
 var max_hp: int = 0
 var max_hand_size: int = 10
+## Overnight Nov 7-8, Part 2.6: how many times each equipped item can be used in this battle (1, or 2 with the Extra Pocket).
+var item_uses_per_battle: int = 1
 var opening_hand_size: int = 5
 var max_traps: int = GameState.MAX_TRAPS
 var modifiers: ModifierSet = ModifierSet.new()

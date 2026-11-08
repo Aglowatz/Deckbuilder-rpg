@@ -4,6 +4,25 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 7-8 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/overnight_nov7.md`. Report: `docs/overnight_report.md`. Tag `pre-overnight-nov7`.
+
+1. **Part 0, the cave ramp:** fights now 3 -> 5 -> 9 HP (the Stalker was 7, the Warden 3). Whole cave 94-100 % per Path (`docs/design/sim/nov8/p0_cave.md`).
+2. **Part 0, a capped reward pick** in the cave gave essence AND joined the deck; now it only converts, and the card says "AT CAP: becomes
+   essence" before the choice. The critic's "missing essence" was most likely their snapshot reload (the cave can't be saved mid-run).
+3. **Part 1.2, gatekeeper quests:** Maren hands out all four when the Settling In line is done (her talk after the armory). Saves that already
+   have a gatekeeper line keep it (`_migrate_gatekeepers_given`); saves from before the early chain (legacy flag) count as sent out. The dev
+   shortcuts (`ensure_game`) also count as sent out, so `dev travel` critics can still fight gatekeepers.
+4. **Part 1.9, Swolympus:** the hole was the land west of the gate tower; a sandstone crag now fills it, and the chest that stood in that strip
+   (`chest_ground_3`) moved to the open ground in front of the crag.
+5. **Part 1.10:** Pip's talk area grew with her (2.7 -> 4.05 m). If it now catches you near the mannequin or the square, 3.4 m is the fallback.
+6. **Part 2, income:** the price cuts alone left a no-grind player able to buy most of the collection, so income came down to about 11,300
+   (from 21,200): quest scales, chest share, dungeon node share, clear bonus, first clears, late level-track gold, roamers. Numbers and
+   reasoning: `docs/balance/gold_economy_nov3.md`, "Overnight Nov 7-8". Collecting every card: about +33 % playtime (estimate).
+7. **Part 2.6, Extra Pocket:** nothing else gave a second item use, so it is now "You can use each equipped item twice per battle (each use
+   spends a charge)" (was max hand size +1). The economy model still names it at level 11.
+
 ## Critic Nov 6 - notes and questions (review pass, no fixes)
 
 Brief: `docs/prompts/critic_nov6.md`. Reports: `docs/review/critic_nov6/`. Synthesis: `docs/review/critic_nov6_summary.md`.

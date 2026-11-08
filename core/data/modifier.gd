@@ -155,6 +155,8 @@ enum Kind {
 	## Overnight Nov 4-5, Part 5 (The Shattered Gallery's "Perfect Form"): the first unit the OWNER plays from hand each turn is copied onto the
 	## opponent's field as a token copy (`GameState._mirror_first_unit`). Presence; added last so saved kinds keep their numbers.
 	MIRROR_FIRST_UNIT,
+	## Overnight Nov 7-8, Part 2.6 (Extra Pocket): value = extra uses of each equipped item per battle (each use still spends a charge).
+	ITEM_USES_PER_BATTLE,
 }
 
 ## `color` value meaning "matches every card".

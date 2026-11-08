@@ -22,9 +22,10 @@ static func all() -> Array[QuestData]:
 ## Overnight Nov 4-5, Part 2.2 (docs/balance/gold_economy_nov3.md, "Overnight Nov 4-5"): quests pay more, weighted toward the main line and
 ## the longer side quests - the gold a repeat fight's x2 used to give now comes from quests and dungeon clear bonuses. The authored numbers in
 ## QuestDefinitions / ZoneQuestDefinitions stay the base; this scales the reward and every milestone's gold, rounded to 5.
-const MAIN_GOLD_SCALE: float = 1.75
-const LONG_SIDE_GOLD_SCALE: float = 1.6
-const SIDE_GOLD_SCALE: float = 1.5
+## Overnight Nov 7-8, Part 2.4: down with the cheaper shelves (were 1.75 / 1.6 / 1.5; study in docs/balance/gold_economy_nov3.md).
+const MAIN_GOLD_SCALE: float = 0.45
+const LONG_SIDE_GOLD_SCALE: float = 0.5
+const SIDE_GOLD_SCALE: float = 0.5
 ## A side quest with at least this many steps counts as a long one.
 const LONG_SIDE_STEPS: int = 3
 

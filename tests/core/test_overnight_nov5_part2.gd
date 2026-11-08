@@ -10,12 +10,13 @@ func before_each() -> void:
 
 
 func test_pack_prices_and_the_gilded_ratio() -> void:
-	assert_eq(PackCatalog.find("general_1").price, 150)
+	# Overnight Nov 7-8, Part 2.4: General 100, Path 150, Gilded 400 (with its guaranteed Epic or Legendary) - every pack under its cards' shelf value.
+	assert_eq(PackCatalog.find("general_1").price, 100)
 	var path_pack: PackData = PackCatalog.find("path_beefcake")
 	var gilded: PackData = PackCatalog.find("gilded_beefcake")
-	assert_eq(path_pack.price, 200)
-	assert_eq(gilded.price, path_pack.price * 4, "the Gilded Pack keeps its old 4x ratio to the Path Pack (600 : 150)")
-	assert_lt(PackCatalog.find("general_1").price, Economy.card_price(CardEnums.Rarity.COMMON) * 2, "a pack of several cards stays the bargain")
+	assert_eq(path_pack.price, 150)
+	assert_eq(gilded.price, 400)
+	assert_lt(PackCatalog.find("general_1").price, Economy.card_price(CardEnums.Rarity.COMMON) * 3, "a pack of three cards stays the bargain")
 
 
 func test_a_repeat_fight_pays_what_the_first_win_paid() -> void:
@@ -32,10 +33,11 @@ func test_a_cleared_run_pays_its_gold_again() -> void:
 	Session.add_gold(35)
 	Session.add_gold(60)
 	assert_eq(Session.run.gold_earned, 95, "the run counts what it paid")
-	assert_eq(Session.clear_bonus_preview(40), 135, "the boss's own gold counts too")
+	# Overnight Nov 7-8, Part 2.4: the bonus is Economy.CLEAR_BONUS_SHARE of the run's gold (was all of it).
+	assert_eq(Session.clear_bonus_preview(40), roundi(135.0 * Economy.CLEAR_BONUS_SHARE / 5.0) * 5, "the boss's own gold counts too")
 	var result: Dictionary = Session.resolve_main_dungeon(true)
-	assert_eq(int(result.get("clear_bonus", 0)), 95)
-	assert_gte(Session.gold, 95 + 95, "the run's gold doubled (plus the clear's own rewards)")
+	assert_eq(int(result.get("clear_bonus", 0)), roundi(95.0 * Economy.CLEAR_BONUS_SHARE / 5.0) * 5)
+	assert_gte(Session.gold, 95 + roundi(95.0 * Economy.CLEAR_BONUS_SHARE / 5.0) * 5, "the run's gold plus the bonus (plus the clear's own rewards)")
 
 
 func test_a_retreat_pays_no_clear_bonus() -> void:
@@ -56,11 +58,12 @@ func test_gold_outside_a_dungeon_does_not_count() -> void:
 
 func test_quests_pay_more_and_the_main_line_most() -> void:
 	var main: QuestData = QuestCatalog.find(QuestDefinitions.UNDER_THE_FOREST)
-	assert_eq(main.reward_gold, 350, "200 authored, x1.75 for the main line")
+	# Overnight Nov 7-8, Part 2.4: the scales came down with the cheaper shelves; the main line still pays the most.
+	assert_eq(main.reward_gold, roundi(200.0 * QuestCatalog.MAIN_GOLD_SCALE / 5.0) * 5, "200 authored, x MAIN_GOLD_SCALE")
 	assert_eq(QuestCatalog.gold_scale(main), QuestCatalog.MAIN_GOLD_SCALE)
 	for quest: QuestData in QuestCatalog.all():
 		if not quest.is_main():
-			assert_between(QuestCatalog.gold_scale(quest), 1.5, 1.6, quest.id)
+			assert_lte(QuestCatalog.gold_scale(quest), QuestCatalog.MAIN_GOLD_SCALE + 0.06, quest.id)
 
 
 func test_the_dungeon_map_has_no_deck_editor() -> void:

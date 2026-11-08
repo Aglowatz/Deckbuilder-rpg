@@ -34,8 +34,24 @@ static func section(key: String) -> Dictionary:
 static func level_entry(level: int) -> Dictionary:
 	for entry: Variant in data().get("levels", []) as Array:
 		if entry is Dictionary and int((entry as Dictionary).get("level", 0)) == level:
-			return entry as Dictionary
+			return _scaled(entry as Dictionary, level)
 	return {}
+
+
+## Overnight Nov 7-8, Part 2.4: the gold grants of a level as paid now (`Economy.level_gold`: level 6 on is scaled down; the intro's are kept).
+static func _scaled(entry: Dictionary, level: int) -> Dictionary:
+	var grants: Array = entry.get("grants", []) as Array
+	var changed: bool = false
+	for grant: Variant in grants:
+		if grant is Dictionary and str((grant as Dictionary).get("kind", "")) == "gold" and Economy.level_gold(level, int((grant as Dictionary).get("amount", 0))) != int((grant as Dictionary).get("amount", 0)):
+			changed = true
+	if not changed:
+		return entry
+	var copy: Dictionary = entry.duplicate(true)
+	for grant: Variant in copy.get("grants", []) as Array:
+		if grant is Dictionary and str((grant as Dictionary).get("kind", "")) == "gold":
+			(grant as Dictionary)["amount"] = Economy.level_gold(level, int((grant as Dictionary).get("amount", 0)))
+	return copy
 
 
 ## Rarity names as the track spells them ("common", "uncommon", "epic", "legendary").

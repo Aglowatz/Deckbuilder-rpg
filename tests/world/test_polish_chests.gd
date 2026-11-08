@@ -239,8 +239,8 @@ func test_a_chest_reward_is_paid_and_described() -> void:
 	var gold_before: int = Session.gold
 	var reward: Dictionary = {"gold": 70, "item": "energy_draught", "card": "C-22", "equipment": "hover_boots", "cosmetic": "hat_chef", "pack": "path_beefcake"}
 	var summary: RewardSummary = Session.grant_chest_reward(reward, "Test chest")
-	assert_eq(Session.gold, gold_before + 70)
-	assert_eq(summary.gold, 70)
+	assert_eq(Session.gold, gold_before + Economy.chest_gold(70))  # Overnight Nov 7-8: chests pay Economy.CHEST_GOLD_SCALE of their table
+	assert_eq(summary.gold, Economy.chest_gold(70))
 	assert_eq(summary.items.size(), 1)
 	assert_eq(summary.cards.size(), 1)
 	assert_eq(summary.equipment.size(), 1)
@@ -261,7 +261,7 @@ func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
 		texts.append((label as Label).text)
 	var joined: String = " | ".join(texts)
 	assert_true(joined.contains("NEW GEAR!"), "header: a chest with gear says so (Overnight Oct 17)")
-	assert_true(joined.contains("+55 gold"), "gold shown")
+	assert_true(joined.contains("+%d gold" % Economy.chest_gold(55)), "gold shown")
 	assert_true(joined.contains(Session.content.item("energy_draught").display_name), "item shown")
 	assert_true(joined.contains("Gilded"), "pack shown")
 	assert_gt(_count_of(popup, CardView), 0, "the card is drawn as a real card with its art")
@@ -295,9 +295,10 @@ func test_completing_a_quest_queues_a_quest_complete_box_with_rewards_and_unlock
 	assert_eq(summary.kind, RewardSummary.Kind.QUEST)
 	assert_eq(summary.title, "Meet the Merchants")
 	# Fix pass Nov 7 (Part 5): Meet the Merchants pays 80 gold since the Nov 4-5 economy pass (richer quests) - the test had kept the old 50.
-	assert_eq(summary.gold, 80)
+	var paid: int = QuestCatalog.find(QuestDefinitions.MERCHANTS).reward_gold  # Overnight Nov 7-8: QuestCatalog's scaled reward
+	assert_eq(summary.gold, paid)
 	assert_eq(summary.xp, 40)
-	assert_eq(Session.gold, gold_before + 80)
+	assert_eq(Session.gold, gold_before + paid)
 
 
 func test_a_level_up_from_a_quest_is_reported_after_the_quest_box() -> void:

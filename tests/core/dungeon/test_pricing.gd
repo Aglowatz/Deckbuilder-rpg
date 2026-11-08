@@ -8,8 +8,8 @@ func test_prices_scale_with_rarity_and_cost() -> void:
 	assert_true(CardPricing.price(colossus) > CardPricing.price(sellsword))
 	assert_eq(CardPricing.price(sellsword), Economy.card_price(sellsword.rarity), "Oct 29: priced by rarity alone")
 	assert_eq(CardPricing.price(colossus), Economy.CARD_PRICE[int(colossus.rarity)])
-	assert_eq(Economy.CARD_PRICE, [100, 200, 500, 1000] as Array[int], "Fix pass Nov 4: a Common costs what a General Pack costs")
-	assert_eq(Economy.CARD_PRICE[0], 100)
+	assert_eq(Economy.CARD_PRICE, [50, 100, 250, 500] as Array[int], "Overnight Nov 7-8: a Common costs 50, ratio 1 : 2 : 5 : 10")
+	assert_eq(Economy.CARD_PRICE[0], 50)
 
 
 func test_sale_limits() -> void:
@@ -24,8 +24,8 @@ func test_equipment_is_a_saving_goal() -> void:
 	for rarity: EquipmentData.Rarity in [EquipmentData.Rarity.COMMON, EquipmentData.Rarity.UNCOMMON, EquipmentData.Rarity.RARE]:
 		for tier: int in range(1, 4):
 			assert_lte(Economy.gear_price(rarity, tier), Economy.gear_price(rarity, tier + 1))
-	assert_eq(Economy.gear_price(EquipmentData.Rarity.COMMON, 1), 1200, "the cheapest piece costs twelve Commons")
-	assert_gt(Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 1), Economy.gear_price(EquipmentData.Rarity.COMMON, 4))
+	assert_eq(Economy.gear_price(EquipmentData.Rarity.COMMON, 1), 250, "Overnight Nov 7-8: the cheapest piece costs 250 (five Commons)")
+	assert_gte(Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 1), Economy.gear_price(EquipmentData.Rarity.COMMON, 4))
 	assert_gt(Economy.gear_price(EquipmentData.Rarity.RARE, 1), Economy.gear_price(EquipmentData.Rarity.UNCOMMON, 4))
 	for entry: EquipmentVendorEntry in EquipmentVendorScreen.default_stock().entries:
-		assert_gte(entry.price, 1200, "%s is a real purchase" % entry.equipment_id)
+		assert_gte(entry.price, 250, "%s is a real purchase" % entry.equipment_id)

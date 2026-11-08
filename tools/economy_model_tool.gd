@@ -451,6 +451,12 @@ func _quest_event(id: String, tag: String) -> Event:
 	return event
 
 
+## Overnight Nov 7-8, Part 2.5: a dungeon fight at a late expected level pays more (Economy.late_gold), as Session pays it.
+func _late(event: Event, dungeon_id: String) -> Event:
+	event.gold = Economy.late_gold(event.gold, ProgressionModel.level_for(dungeon_id, 1))
+	return event
+
+
 func _fight(label: String, tag: String, difficulty: DungeonMap.Difficulty, halved: bool = false) -> Event:
 	var gold: int = EncounterRewards.gold_for(difficulty)
 	return Event.make(label, tag, EncounterRewards.dungeon_fight_gold(difficulty) if halved else gold, EncounterRewards.xp_for(difficulty))  # Nov 5: dungeon nodes pay half, the clear bonus doubles it
@@ -475,17 +481,17 @@ func _dungeon_steps(dungeon_id: String, zone_id: String, tag_main: String, label
 			var entry: Variant = loot.get(str(node.number))
 			step.events.append(Event.make("%s treasure" % dungeon_id, tag, EncounterRewards.dungeon_share(int((entry as Dictionary).get("gold", 0)) if entry is Dictionary else 60), int((entry as Dictionary).get("xp", 0)) if entry is Dictionary else 30))
 		elif kind == DungeonMap.Kind.BOSS:
-			step.events.append(_fight("%s boss" % dungeon_id, tag, DungeonMap.Difficulty.BOSS, true))
+			step.events.append(_late(_fight("%s boss" % dungeon_id, tag, DungeonMap.Difficulty.BOSS, true), dungeon_id))
 		elif kind == DungeonMap.Kind.ELITE:
-			step.events.append(_fight("%s elite" % dungeon_id, tag, DungeonMap.Difficulty.ELITE, true))
+			step.events.append(_late(_fight("%s elite" % dungeon_id, tag, DungeonMap.Difficulty.ELITE, true), dungeon_id))
 		elif kind == DungeonMap.Kind.BATTLE:
-			step.events.append(_fight("%s battle" % dungeon_id, tag, DungeonMap.Difficulty.NORMAL, true))
+			step.events.append(_late(_fight("%s battle" % dungeon_id, tag, DungeonMap.Difficulty.NORMAL, true), dungeon_id))
 	# Overnight Nov 4-5, Part 2.2: beating the boss pays the run's gold again (Session.pay_clear_bonus) - the main route's nodes in full and,
 	# like the "dungeon_side" take, half of the side branch's.
 	var run_gold: float = 0.0
 	for event: Event in step.events:
 		run_gold += float(event.gold) * (0.5 if event.tag == "dungeon_side" else 1.0)
-	step.events.append(Event.make("%s clear bonus" % dungeon_id, "clear_bonus", roundi(run_gold), 0))
+	step.events.append(Event.make("%s clear bonus" % dungeon_id, "clear_bonus", roundi(run_gold * Economy.CLEAR_BONUS_SHARE), 0))  # Nov 7-8: half the run
 	var def: MainDungeonDef = DungeonBuilder.build_def(blueprint)
 	var clear: Event = Event.make("%s first clear" % dungeon_id, tag_main, def.reward_gold, def.reward_xp)
 	if not blueprint.is_side():
@@ -505,7 +511,7 @@ func _chest_events(zone_id: String) -> Array[Event]:
 	keys.sort()
 	for key: Variant in keys:
 		var reward: Dictionary = rewards[key] as Dictionary
-		var event: Event = Event.make("chest %s" % str(key), "chest", int(reward.get("gold", 0)), 0)
+		var event: Event = Event.make("chest %s" % str(key), "chest", Economy.chest_gold(int(reward.get("gold", 0))), 0)  # Nov 7-8: Economy.CHEST_GOLD_SCALE
 		event.packs = 1 if reward.has("pack") else 0
 		result.append(event)
 	return result

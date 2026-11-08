@@ -102,6 +102,7 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	else:
 		player.hp = maxi(1, player.max_hp + mods.sum(Modifier.Kind.STARTING_HP))
 	player.max_hand_size = maxi(1, profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE))
+	player.item_uses_per_battle = maxi(1, 1 + mods.sum(Modifier.Kind.ITEM_USES_PER_BATTLE))
 	player.opening_hand_size = maxi(1, profile.base_opening_hand() + mods.sum(Modifier.Kind.OPENING_HAND_SIZE))
 	player.max_traps = maxi(0, MAX_TRAPS + mods.sum(Modifier.Kind.MAX_TRAPS))
 	player.non_infrastructure_play_cap = mods.cap(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN)
@@ -671,7 +672,7 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 		return false
 	if item.effect.op == CardEnums.EffectOp.ADD_ENERGY and not item_path_choices(player_index).has(target as Affinity.Type):
 		return false  # Nov 3-4, Part B4: an Energy Draught's target is a Path of the deck
-	items_used[player_index][item.id] = true
+	items_used[player_index][item.id] = int(items_used[player_index].get(item.id, 0)) + 1  # Nov 7-8: a count (the Extra Pocket allows two)
 	# Overnight Nov 2-3, Part 2: a reckless item may backfire - the damage to its user instead of its effect (the battle screen says so)
 	last_item_backfired = item.backfire_chance > 0.0 and item.backfires(rng.randf())
 	if last_item_backfired:
@@ -698,7 +699,15 @@ func item_path_choices(player_index: int) -> Array[Affinity.Type]:
 
 ## True when `player_index` already used `item` this battle (each equipped item works once per battle).
 func item_used(player_index: int, item: ItemData) -> bool:
-	return item != null and player_index >= 0 and player_index < items_used.size() and items_used[player_index].has(item.id)
+	if item == null or player_index < 0 or player_index >= items_used.size():
+		return false
+	return item_uses_this_battle(player_index, item) >= players[player_index].item_uses_per_battle
+
+
+## Overnight Nov 7-8, Part 2.6: how often `player_index` has used `item` in this battle (an old `true` counts as one).
+func item_uses_this_battle(player_index: int, item: ItemData) -> int:
+	var used: Variant = items_used[player_index].get(item.id, 0)
+	return 1 if used is bool and bool(used) else int(used)
 
 
 ## True when `player_index` could pay `generic` + `pips` right now (floating energy plus ready infrastructure).

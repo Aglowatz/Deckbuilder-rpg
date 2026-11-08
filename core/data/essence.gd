@@ -10,7 +10,7 @@ extends RefCounted
 ## Overnight Oct 29: doubled (2 / 4 / 8 / 16) so packs pay essence worth having and the Alchemist is reachable mid-game (docs/design/economy.md).
 const VALUE_BY_RARITY: Array[int] = [2, 4, 8, 16]
 ## Gold per extra neutral copy by rarity: half the shelf price.
-const GOLD_BY_RARITY: Array[int] = [15, 30, 75, 150]
+const GOLD_BY_RARITY: Array[int] = [25, 50, 125, 250]  # Overnight Nov 7-8: half the new shelf price (was 15 / 30 / 75 / 150)
 
 
 static func value_for(rarity: CardEnums.Rarity) -> int:

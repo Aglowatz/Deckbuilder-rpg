@@ -11,7 +11,8 @@ extends RefCounted
 ## fees - about 20 cards in a normal mix at these prices (was 30 / 60 / 150 / 300: hundreds of cards). Ratio 1 : 2 : 5 : 10 kept.
 ## Fix pass Nov 4 (Part 2.1): a Common costs 100, the same as a General Pack; the ratio stays 1 : 2 : 5 : 10. The gold this frees goes to
 ## equipment, now the big purchase (GEAR_PRICE; study in docs/balance/gold_economy_nov3.md, "Fix pass Nov 4").
-const CARD_PRICE: Array[int] = [100, 200, 500, 1000]
+## Overnight Nov 7-8, Part 2.1 (owner): a Common costs 50, ratio 1 : 2 : 5 : 10 kept (was 100 / 200 / 500 / 1000). Study: docs/balance/gold_economy_nov3.md, "Overnight Nov 7-8".
+const CARD_PRICE: Array[int] = [50, 100, 250, 500]
 ## Overnight Nov 4-5, Part 2.2: a repeat fight pays the SAME gold as the first win (Part B9's x2 for repeats is gone); the extra gold now comes
 ## from dungeon clear bonuses (`Session.pay_clear_bonus`) and richer quests (QuestDefinitions / ZoneQuestDefinitions, `QUEST_GOLD_SCALE`).
 const REPEAT_FIGHT_MULTIPLIER: int = 1
@@ -25,12 +26,27 @@ static func fight_gold(base: int, _repeat: bool) -> int:
 ## Fix pass Nov 4 (Part 2.2): equipment is a saving goal - a no-grind player affords about 4-6 shop pieces over the whole game on top of
 ## ~20 cards and normal item use (was 60-600: every piece on every shelf). Before: Common 60/90/120/150, Uncommon 120/180/240/300,
 ## Epic 300/300/450/600.
+## Overnight Nov 7-8, Part 2.2 (owner): the cheapest piece costs 250; the curve keeps its shape by tier and rarity (about a fifth of the Nov 4
+## prices: Common 1200-1800, Uncommon 2000-3200, Epic 3500-5500).
 const GEAR_PRICE: Dictionary = {
-	EquipmentData.Rarity.COMMON: [0, 1200, 1400, 1600, 1800],
-	EquipmentData.Rarity.UNCOMMON: [0, 2000, 2400, 2800, 3200],
-	EquipmentData.Rarity.RARE: [0, 3500, 3500, 4500, 5500],
-	EquipmentData.Rarity.LEGENDARY: [0, 10000, 10000, 10000, 10000],
+	EquipmentData.Rarity.COMMON: [0, 250, 300, 350, 400],
+	EquipmentData.Rarity.UNCOMMON: [0, 400, 500, 600, 700],
+	EquipmentData.Rarity.RARE: [0, 750, 750, 950, 1150],
+	EquipmentData.Rarity.LEGENDARY: [0, 2000, 2000, 2000, 2000],
 }
+
+## Overnight Nov 7-8, Part 2.4: the income side of the friendlier economy. With cards and gear this cheap, the Nov 4-5 income (about 21,000 gold
+## for a no-grind player) bought most of the collection without a single repeat fight, so the big earners come down: chests pay CHEST_GOLD_SCALE
+## of their table, a dungeon's clear bonus pays CLEAR_BONUS_SHARE of the run once more (was the whole run), and the level track's gold from
+## level LEVEL_GOLD_FROM on is scaled by LEVEL_GOLD_SCALE (the intro's level 2-5 gold is kept: the Part 2.3 checkpoint). Quests: QuestCatalog.
+const CHEST_GOLD_SCALE: float = 0.25
+const CLEAR_BONUS_SHARE: float = 0.25
+const LEVEL_GOLD_FROM: int = 6
+const LEVEL_GOLD_SCALE: float = 0.3
+## Overnight Nov 7-8, Part 2.5: late fights pay more - every fight at an expected level of LATE_LEVEL or more (the Capital, the castle, the Lab, the
+## postgame dungeons) pays its gold x (1 + LATE_STEP per level above LATE_LEVEL - 1): L18 x1.25, L20 x1.75, L21 x2, L23 x2.5, L25 x3, L26 x3.25.
+const LATE_LEVEL: int = 18
+const LATE_STEP: float = 0.15
 
 ## Nov 3-4, Part B3: one price per single-use charge, by item. The regular shelf runs 50-100 by power (cheapest 50; the Energy Draught and the
 ## Firebrand Charm top it at 100); every item on the high shelf (level 17) is 150. Items sold nowhere (rewards only) have no price.
@@ -44,13 +60,13 @@ const ITEM_PRICE_REGULAR_MAX: int = 100
 const ITEM_PRICE_HIGH_SHELF: int = 150
 
 ## Roamer pay by zone tier (Normal fights); an elite pays about twice its zone's roamer. Index 0 = Crosspath outskirts.
-const ROAMER_GOLD: Array[int] = [13, 35, 40, 50, 60, 70]
+const ROAMER_GOLD: Array[int] = [13, 25, 28, 35, 42, 50]  # Overnight Nov 7-8, Part 2.4 (was 13 / 35 / 40 / 50 / 60 / 70)
 const ZONE_TIER: Dictionary = {"town": 0, "forest": 0, "beefcake": 1, "necrocrat": 2, "gourmand": 3, "refusemancer": 4, "final": 5}
 
 ## Dungeon clears.
-const SIDE_FIRST_CLEAR_GOLD: int = 100
+const SIDE_FIRST_CLEAR_GOLD: int = 75  # Nov 7-8 (was 100)
 const SIDE_REPEAT_GOLD: int = 40
-const MAIN_FIRST_CLEAR_GOLD: int = 200
+const MAIN_FIRST_CLEAR_GOLD: int = 150  # Nov 7-8 (was 200)
 const MAIN_REPEAT_GOLD: int = 100
 const ARENA_REPLAY_GOLD: int = 25
 
@@ -77,7 +93,29 @@ static func item_price(item_id: String) -> int:
 
 
 static func roamer_gold(zone_id: String) -> int:
-	return ROAMER_GOLD[clampi(int(ZONE_TIER.get(zone_id, 0)), 0, ROAMER_GOLD.size() - 1)]
+	var base: int = ROAMER_GOLD[clampi(int(ZONE_TIER.get(zone_id, 0)), 0, ROAMER_GOLD.size() - 1)]
+	return late_gold(base, ProgressionModel.level_for("zone:%s" % zone_id, 1))
+
+
+## Overnight Nov 7-8, Part 2.5: `gold` scaled up for a fight at expected level `level` (unchanged below LATE_LEVEL), rounded to 5.
+static func late_gold(gold: int, level: int) -> int:
+	if gold <= 0 or level < LATE_LEVEL:
+		return gold
+	return roundi(float(gold) * late_scale(level) / 5.0) * 5
+
+
+static func late_scale(level: int) -> float:
+	return 1.0 + LATE_STEP * float(maxi(0, level - LATE_LEVEL + 1))
+
+
+## Overnight Nov 7-8, Part 2.4: a hidden chest's gold after CHEST_GOLD_SCALE, rounded to 5.
+static func chest_gold(gold: int) -> int:
+	return maxi(5, roundi(float(gold) * CHEST_GOLD_SCALE / 5.0) * 5) if gold > 0 else 0
+
+
+## Overnight Nov 7-8, Part 2.4: the level track's gold grant for reaching `level`.
+static func level_gold(level: int, amount: int) -> int:
+	return amount if level < LEVEL_GOLD_FROM else roundi(float(amount) * LEVEL_GOLD_SCALE / 5.0) * 5
 
 
 static func elite_gold(zone_id: String) -> int:
