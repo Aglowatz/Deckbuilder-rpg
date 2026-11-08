@@ -527,7 +527,8 @@ func on_event(event: GameEvent) -> void:
 			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1) if game != null else 0)
 			if not setup_line.is_empty():
 				_turn_sub.text += "  -  " + setup_line
-			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
+			# Import Nov 8 (C4b F11): no second "YOUR TURN / ENEMY TURN" here - the board's ribbon (BattleFX.turn_banner) already says it, and
+			# the band-less copy sat over the opponent's action line.
 			_refresh_jam()
 			Audio.sfx(&"turn_start_player" if event.player == 0 else &"turn_start_enemy")
 		GameEvent.Type.PHASE_CHANGED:

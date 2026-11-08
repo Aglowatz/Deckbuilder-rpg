@@ -89,6 +89,20 @@ func play_cleared(zone_id: String) -> void:
 				var side: float = float((leaf as Node3D).get_meta(&"side", 1.0))
 				var open: float = float((leaf as Node3D).get_meta(&"open_yaw", deg_to_rad(-105.0 * side)))
 				tween.tween_property(leaf, "rotation:y", open, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		Gatekeepers.Obstacle.THORNS when mover.has_meta(&"painted"):
+			# Import Nov 8: the breathing wall shrivels and sinks while the withered, parted vines rise in its place; the parted sides stay solid.
+			Audio.sfx(&"chest_open")
+			var alive: Node3D = mover.get_node_or_null("Alive") as Node3D
+			var dead: Node3D = mover.get_node_or_null("Dead") as Node3D
+			_breathers.erase(alive)
+			if dead != null:
+				dead.visible = true
+				dead.scale = Vector3(1.0, 0.15, 1.0)
+				tween.parallel().tween_property(dead, "scale", Vector3.ONE, 1.5).set_delay(0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			if alive != null:
+				tween.parallel().tween_property(alive, "scale", Vector3(1.04, 0.03, 1.0), 1.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+				tween.tween_callback(func() -> void: alive.visible = false)
+			_add_parted_circles(mover.get_parent() as Node3D, zone_id)
 		Gatekeepers.Obstacle.THORNS:
 			Audio.sfx(&"chest_open")
 			for part: Node in mover.find_children("*", "MeshInstance3D", true, false):
@@ -218,11 +232,80 @@ func _pantry_door(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 # ---- The Verdant Dump: the thorn wall ----------------------------------------------------------------------------------------------------------
 
 
+## Import Nov 8 (Batch 13, C2 F6): the painted thorn wall - KIT-HEAP-THORNWALL (violet thorns between two old trees, breathing: a slow scale
+## pulse) and KIT-HEAP-THORNWALL-DEAD (grey, withered, parted in the middle) once Moss Mulligan is beaten. The card spans the road between the
+## wings (`THORN_ART_WIDTH`); closed, the line of circles across it is solid (`_seal`); parted, only the two sides are (`_add_parted_circles`).
+const THORN_ART: String = "KIT-HEAP-THORNWALL"
+const THORN_ART_DEAD: String = "KIT-HEAP-THORNWALL-DEAD"
+const THORN_ART_HEIGHT: float = 4.7
+## The parted wall's opening: circles only where |x| >= this (local, metres), so a gap of about 1.4 m runs through the middle like the art's.
+const THORN_PARTED_HALF_GAP: float = 1.1
+const BREATH_SECONDS: float = 3.2
+const BREATH_AMOUNT: Vector2 = Vector2(0.012, 0.03)
+
+var _breathers: Array[Node3D] = []
+var _breath_time: float = 0.0
+
+
+static func painted_thorns() -> bool:
+	return EnvKit.has(THORN_ART) and EnvKit.has_art(THORN_ART) and EnvKit.has(THORN_ART_DEAD) and EnvKit.has_art(THORN_ART_DEAD)
+
+
+func _process(delta: float) -> void:
+	if _breathers.is_empty():
+		return
+	_breath_time += delta
+	var phase: float = 0.5 - 0.5 * cos(TAU * _breath_time / BREATH_SECONDS)
+	for node: Node3D in _breathers:
+		if is_instance_valid(node) and node.visible:
+			node.scale = Vector3(1.0 + BREATH_AMOUNT.x * phase, 1.0 + BREATH_AMOUNT.y * phase, 1.0)
+
+
+func _painted_thorns(holder: Node3D, is_cleared: bool) -> void:
+	holder.set_meta(&"painted", true)
+	for state: Array in [[THORN_ART, "Alive"], [THORN_ART_DEAD, "Dead"]]:
+		var card: Node3D = ZoneClusters.card_prop(str(state[0]), THORN_ART_HEIGHT, true)
+		if card == null:
+			continue
+		card.name = str(state[1])
+		holder.add_child(card)
+	var alive: Node3D = holder.get_node_or_null("Alive") as Node3D
+	var dead: Node3D = holder.get_node_or_null("Dead") as Node3D
+	if alive != null:
+		alive.visible = not is_cleared
+		if not is_cleared:
+			_breathers.append(alive)
+	if dead != null:
+		dead.visible = is_cleared
+
+
+## The parted thorn wall's two solid sides (from each wing end in to the opening).
+func _add_parted_circles(root: Node3D, zone_id: String) -> void:
+	if _town == null or root == null:
+		return
+	var parted: Array = []
+	for side: float in [-1.0, 1.0]:
+		var x: float = THORN_PARTED_HALF_GAP
+		while x <= 3.4 + 0.01:
+			var world: Vector3 = _world_circle(root, Vector3(x * side, -0.6, 0.42))
+			_town.obstacles.append(world)
+			parted.append(world)
+			x += 0.6
+	_parted_circles[zone_id] = parted
+
+
+var _parted_circles: Dictionary = {}
+
+
 func _thorns(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	var holder: Node3D = Node3D.new()
 	holder.name = "ThornWall"
 	holder.position = Vector3(0.0, 0.0, -0.6)
 	root.add_child(holder)
+	if painted_thorns():
+		_painted_thorns(holder, is_cleared)
+		movers[zone_id] = holder
+		return
 	# Painted twisted trees (the Dump kit's DUMP-TREE-TWISTED) grown into a wall, with thorny brambles knotted round their feet.
 	for i: int in range(7):
 		var tree: MeshInstance3D = KitFoliage.card("DUMP-TREE-TWISTED", Vector2(2.6, 3.9) * (0.8 + _rng.randf() * 0.35), false)
@@ -342,6 +425,8 @@ func _seal(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	body.set_meta(&"no_wind", true)
 	root.add_child(body)
 	if is_cleared:
+		if kind == Gatekeepers.Obstacle.THORNS and painted_thorns():
+			_add_parted_circles(root, zone_id)  # Import Nov 8: the withered wall is parted, its sides stay solid
 		return
 	var shut: Array = []
 	var steps_across: int = maxi(1, int(ceil(ends[0].distance_to(ends[1]) / 0.6)))

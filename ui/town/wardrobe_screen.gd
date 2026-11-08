@@ -87,7 +87,7 @@ func _add_backdrop() -> void:
 	room.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	room.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	UIKit.full_rect(room)
-	room.modulate = Color(0.42, 0.39, 0.44)
+	room.modulate = Color(0.42, 0.39, 0.44) if id == "UI-BG-CHARACTER" else Color(0.74, 0.72, 0.74)  # Import Nov 8: its own room, lightly dimmed for the panels
 	room.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	back.add_child(room)
 

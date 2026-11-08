@@ -36,11 +36,18 @@ func _save(file_name: String) -> void:
 	image.save_png(ProjectSettings.globalize_path(SOURCE.path_join(file_name)))
 
 
+## Import Nov 8: gear whose icon was ordered under an art list id (ICON-EQ-*) keeps that file name instead of ICON-GEAR-<NAME>.
+const ART_LIST_IDS: Dictionary = {"dex_matching_pair": "ICON-EQ-MATCHING-PAIR"}
+
+
 func test_gear_icon_ids_follow_the_upper_case_no_underscore_rule() -> void:
 	assert_eq(IconArt.gear_icon_id("lucky_sock"), "ICON-GEAR-LUCKYSOCK")
 	assert_eq(IconArt.gear_icon_id("glass_jaw_gauntlets"), "ICON-GEAR-GLASSJAWGAUNTLETS")
 	assert_eq(IconArt.gear_icon_id("starter_blade"), "ICON-GEAR-STARTERBLADE")
 	for piece_id: Variant in IconArt.EQUIPMENT_IDS:
+		if ART_LIST_IDS.has(piece_id):
+			assert_eq(IconArt.gear_icon_id(str(piece_id)), str(ART_LIST_IDS[piece_id]), "named after its art list row: %s" % piece_id)
+			continue
 		assert_eq(IconArt.gear_icon_id(str(piece_id)), "ICON-GEAR-" + str(piece_id).to_upper().replace("_", ""), "the ten named pieces follow the same rule: %s" % piece_id)
 
 
@@ -68,7 +75,7 @@ func test_every_gear_item_and_cosmetic_has_one_expected_icon_id() -> void:
 	for file_name: String in DirAccess.get_files_at("res://data/items/"):
 		if file_name.trim_suffix(".remap").ends_with(".tres"):
 			items += 1
-	assert_eq(IconArt.game_ids_with_prefix(IconArt.GEAR_PREFIX).size(), pieces, "one gear icon per piece, no two pieces share an ID")
+	assert_eq(IconArt.game_ids_with_prefix(IconArt.GEAR_PREFIX).size(), pieces - ART_LIST_IDS.size(), "one gear icon per piece, no two pieces share an ID")
 	assert_eq(IconArt.game_ids_with_prefix(IconArt.ITEM_PREFIX).size(), items, "one item icon per consumable")
 	assert_eq(IconArt.game_ids_with_prefix(IconArt.COSMETIC_PREFIX).size(), CosmeticCatalog.all().size(), "one shop icon per hat / cloak")
 	for id: String in ["ICON-GEAR-LUCKYSOCK", "ICON-GEAR-WICKEDDAGGER", "ICON-ITEM-HEALINGDRAUGHT", "ICON-COS-WIDEBRIM", "ICON-COS-ROYAL"]:

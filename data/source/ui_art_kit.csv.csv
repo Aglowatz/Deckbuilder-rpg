@@ -57,3 +57,9 @@ UI-PACK-GENERAL-1,General Pack Tier 1,Packs,"General Pack, tier 1 (town card ven
 UI-PACK-GENERAL-2,General Pack Tier 2,Packs,"General Pack, tier 2 (expanded selection).","1024x1536 PNG, transparent background",A sealed card pack in silver foil with a larger ornate compass-rose emblem and a subtle shine.,,Needed
 UI-CURSOR,Cursor: default,Cursors,Mouse cursor.,128x128 PNG,"A small ornate brass-and-wood pointer arrow with a gold tip, crisp outline.",Hotspot at the tip.,Needed
 UI-CURSOR-TARGET,Cursor: targeting,Cursors,Cursor while choosing a target.,128x128 PNG,A small round brass targeting reticle with four little prongs and a glowing red-gold center.,,Needed
+UI-BG-PACKS,Card Packs background,Screen backgrounds,Card Packs page (Menu > Packs) and the pack result screens.,1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+UI-BG-WARDROBE,Wardrobe background,Screen backgrounds,"Wardrobe (Menu > Wardrobe, T).",1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+UI-CAULDRON,Crafting cauldron,Screen pieces,Auntie Alembic craft screen.,"1024x1024 PNG, transparent","See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+UI-PACK-SHELF,Pack shelf board,Screen pieces,THE SHELF panel of the Card Packs page (trimmed to the board).,"1536x1024 PNG, transparent","See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+MG-BG-CLASSROOM,Trivia classroom,Minigame backgrounds,Every zone quiz screen (QuizScreen).,1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+MG-BG-GYM,Rep Counter gym,Minigame backgrounds,Gainlands Rep Counter minigame.,1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved

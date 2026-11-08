@@ -67,9 +67,12 @@ func test_map_icons_cover_the_whitelisted_kinds_and_never_secrets() -> void:
 
 
 func test_the_ten_named_pieces_have_icons_and_the_rest_keep_the_fallback() -> void:
-	assert_eq(IconArt.EQUIPMENT_IDS.size(), 10)
+	assert_eq(IconArt.EQUIPMENT_IDS.size(), 11)  # Fixes Nov 8: + Dex's Matching Pair (a zone piece, data/equipment/zone/)
 	for id: Variant in IconArt.EQUIPMENT_IDS.keys():
-		var piece: EquipmentData = load("res://data/equipment/%s.tres" % str(id)) as EquipmentData
+		var path: String = "res://data/equipment/%s.tres" % str(id)
+		if not ResourceLoader.exists(path):
+			path = "res://data/equipment/zone/%s.tres" % str(id)
+		var piece: EquipmentData = load(path) as EquipmentData
 		assert_not_null(piece, "%s exists" % id)
 		assert_true(IconArt.has_equipment_icon(piece), str(id))
 	# art import Oct 20: the zone gear got its own ICON-GEAR-* icons (the Swole Belt among them); a piece whose icon is still to come keeps the fallback

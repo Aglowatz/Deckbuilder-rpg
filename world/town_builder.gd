@@ -351,7 +351,12 @@ func _build_props() -> void:
 	# Brief 16: the old vault's lever now sits far from it (the south-west of the long southern strip), where only an explorer finds it.
 	var lever_pos: Vector3 = cell_center(LEVER_CELL.x, LEVER_CELL.y) + Vector3(0.3, 0, 0.2)
 	# Crosspath pass, Part B: a lever in a stone block (the old KayKit ladder stood in for it).
-	ModelKit.place(root, HubRelics.lever() if hub_land else ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
+	# Import Nov 8 (Batch 13): the painted lever (LEVER-LOCKED / -OPEN, a brass badge: no Path) when imported.
+	var lever_model: Node3D = HubRelics.lever() if hub_land else ModelKit.prop("ladder")
+	if hub_land and LeverKit.has_art():
+		lever_model = LeverKit.build(LeverKit.NEUTRAL_BADGE)
+		LeverKit.set_pulled(lever_model, Session.flag(&"vault_lever_pulled"))
+	old_lever_node = ModelKit.place(root, lever_model, lever_pos, 0.0 if LeverKit.is_painted(lever_model) else 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 	# Brief 16: the Four-Seal Vault - a door in the south face of the mountain at FOUR_SEAL_CELL, reached from the open ground south of it.
@@ -606,6 +611,8 @@ const HIDDEN_CHEST_OFFSETS: Dictionary = {
 var hidden_chest_nodes: Dictionary = {}
 ## The Secluded Grove's big chest (the D38 one), so the scene can show it open once it has been looted.
 var harbor_chest_node: Node3D
+## Import Nov 8: the old lever by the Secluded Grove (the painted LeverKit lever, or the HubRelics block without the art), so the scene can show it pulled.
+var old_lever_node: Node3D
 ## Polish round: label -> world position of every added cottage, shed, stall and well (TownExpansion).
 var expansion: Dictionary = {}
 ## Vertical slice: the BuildingKit buildings of the centre (anchor key, or "row_n" for the fillers) and their warm lights, registered with the style rig by the scene.

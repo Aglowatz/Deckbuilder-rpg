@@ -70,3 +70,5 @@ DUMP-BD-ROTHEART-SKY,"Rotheart with a transparent sky",Sky / backdrop,BACKDROP,"
 DUMP-HERO-THRONE-DUMPSTER,"Throne dumpster",Hero landmark,CUTOUT,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1536 PNG, transparent","The Throne Approach",2,Approved
 DUMP-SHEET-ENTRANCE-FLAGS,"Entrance pennants",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The entrance bridge posts",2,Approved
 DUMP-DEC-CORRUPTION,"Corruption decals",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Throne Approach, the Overgrown Plateau",2,Approved
+KIT-HEAP-THORNWALL,"Breathing thorn wall",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).","1536x1024 PNG, transparent","Moss Mulligan's gate (HeapGate thorn wall)",2,Approved
+KIT-HEAP-THORNWALL-DEAD,"Withered thorn wall (parted)",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).","1536x1024 PNG, transparent","Moss Mulligan's gate (HeapGate thorn wall)",2,Approved

@@ -559,6 +559,13 @@ func _play_new_events() -> void:
 	while _event_cursor < game.events.size():
 		var event: GameEvent = game.events[_event_cursor]
 		_event_cursor += 1
+		# Import Nov 8 (C4b F12): a card that leaves the hand drops its hover box - it flew to the infrastructure row or the field under the
+		# still cursor and the box re-anchored to it, covering the hand until the mouse moved well away.
+		if (event.type == GameEvent.Type.CARD_PLAYED or event.type == GameEvent.Type.INFRASTRUCTURE_PLAYED) and event.player == 0:
+			_hover_quiet_uid = event.card
+			if _hovered_view != null and is_instance_valid(_hovered_view) and _hovered_view.instance_uid == event.card:
+				_hovered_view = null
+				hud.hide_preview()
 		hud.on_event(event)
 		battle_log.add_event(event)
 		_refresh_piles()
@@ -582,6 +589,11 @@ func _ai_step() -> void:
 	var action: GameAction = ai.choose_action(game)
 	var line: String = _describe_ai_action(action)
 	if not line.is_empty():
+		# Import Nov 8 (C4b F11): the action line waits for the turn ribbon to clear (they shared the middle of the screen).
+		var waited: int = 0
+		while board.fx != null and board.fx.ribbon_showing() and waited < 120:
+			await get_tree().process_frame
+			waited += 1
 		# Battle feel, Part B: the opponent's move is named for a moment before it resolves, at every speed. Part 4: combat
 		# declarations hold a little longer, so the attackers and blocks can be read before damage lands.
 		var hold: float = 0.8 if action.type == GameAction.Type.DECLARE_ATTACKERS or action.type == GameAction.Type.DECLARE_BLOCKERS else 0.5
@@ -1154,13 +1166,21 @@ func _on_card_hovered(view: CardView) -> void:
 	# preview (it covered the Battle log and the item slots at 720p). A right-click still opens it there.
 	var hand_card: bool = view.get_meta("owner", 0) == 0 and board.zones.get(view.instance_uid) == BattleBoard.Zone.HAND
 	if not hand_card:
+		if view.instance_uid == _hover_quiet_uid:
+			return  # Import Nov 8: the card just played under the cursor stays quiet until the cursor leaves it
 		hud.show_preview(view, _hover_note(view))
 	else:
 		hud.hide_preview()
 		Audio.sfx(&"card_hover", -3.0)
 
 
+## Import Nov 8 (C4b F12): the card just played from under the cursor: no hover box for it until the cursor has left it once.
+var _hover_quiet_uid: int = 0
+
+
 func _on_card_unhovered(view: CardView) -> void:
+	if view.instance_uid == _hover_quiet_uid:
+		_hover_quiet_uid = 0
 	if _hovered_view == view:
 		_hovered_view = null
 		hud.hide_preview()

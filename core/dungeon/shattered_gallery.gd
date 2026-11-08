@@ -10,6 +10,16 @@ const DUNGEON_ID: String = "S-GALLERY"
 const DUNGEON_NAME: String = "The Shattered Gallery"
 const BOSS_NAME: String = "The Perfect Copy"
 const ECHO_PREFIX: String = "Echo of "
+## Import Nov 8 (Batch 13): every Gallery fight plays on BB-S-GALLERY (the dungeon's board); the final room, The Perfect Copy, on its own
+## BB-S-GALLERY-ALT so the boss fight looks different (the dungeon board stays when the ALT is not imported).
+const BOSS_BOARD: String = "BB-S-GALLERY-ALT"
+
+
+## The board of a Gallery fight: the ALT board for the boss (The Perfect Copy), else `dungeon_board`.
+static func board_for(is_boss: bool, dungeon_board: String) -> String:
+	if is_boss and Battleboards.has_own_image(BOSS_BOARD):
+		return BOSS_BOARD
+	return dungeon_board
 
 ## Node numbers each stacking rule covers (the Iron wing starts at 2, Order at 5, Appetite at 9). The mirror room (13) keeps only Silvered: with
 ## all three on top of its own extra draw The Perfect Copy won 97% against a strong late deck (Overnight Nov 4-5 sim).

@@ -4,9 +4,10 @@ extends GutTest
 
 func test_the_kit_csv_lists_the_55_ui_ids() -> void:
 	var known: Dictionary = UiArt.known_ids()
-	assert_eq(known.size(), 55)
+	assert_eq(known.size(), 61)  # Import Nov 8: + UI-BG-PACKS, UI-BG-WARDROBE, UI-CAULDRON, UI-PACK-SHELF, MG-BG-CLASSROOM, MG-BG-GYM
 	assert_true(known.has("UI-FRAME-B"))
 	assert_true(known.has("UI-PACK-GENERAL-2"))
+	assert_true(known.has("MG-BG-CLASSROOM"), "minigame backgrounds go through the UI importer")
 
 
 func test_trim_crops_to_the_visible_pixels_and_keeps_a_small_pad() -> void:

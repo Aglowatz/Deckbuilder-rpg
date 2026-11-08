@@ -1887,6 +1887,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		# The dungeon list names each dungeon's battleboard (`DungeonCatalog.Blueprint.battleboard_id`).
 		var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(dungeon_key)
 		context.board_key = plan.battleboard_id if plan != null else ("dungeon:%s" % dungeon_key)
+		if dungeon_key == ShatteredGallery.DUNGEON_ID:
+			context.board_key = ShatteredGallery.board_for(node.kind == DungeonMap.Kind.BOSS, context.board_key)
 	else:
 		context.board_key = "dungeon:hollow"
 	if phase != null:

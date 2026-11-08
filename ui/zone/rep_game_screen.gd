@@ -34,8 +34,27 @@ func music_cue() -> String:
 	return MusicDirector.minigame("beefcake")
 
 
+## Import Nov 8 (Batch 13): the neon 3 a.m. gym (MG-BG-GYM) behind the set; the lifting platform sits under the bar.
+const GYM_ART: String = "MG-BG-GYM"
+var _painted_gym: bool = false
+
+
+func _add_gym_backdrop() -> void:
+	var room: Control = UiSkin.screen_background(GYM_ART, 0.28)
+	if room == null:
+		return
+	room.name = "GymBackdrop"
+	add_child(room)
+	for child: Node in get_children():
+		if child is MarginContainer:
+			move_child(room, child.get_index())
+			break
+	_painted_gym = true
+
+
 func _build() -> void:
 	_story = ZoneStoryText.current()
+	_add_gym_backdrop()
 	var column: VBoxContainer = UIKit.vbox(10)
 	column.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(column)
@@ -159,7 +178,11 @@ func _update_shout() -> void:
 func _draw_set() -> void:
 	var area: Vector2 = _canvas.size
 	var centre: Vector2 = Vector2(area.x * 0.5, area.y * 0.46)
-	_canvas.draw_rect(Rect2(Vector2.ZERO, area), Color(0.1, 0.05, 0.18, 0.55))
+	if not _painted_gym:
+		_canvas.draw_rect(Rect2(Vector2.ZERO, area), Color(0.1, 0.05, 0.18, 0.55))
+	else:
+		# Import Nov 8: a soft pool of shade under the bar so the white rings read on the painted spotlight
+		_canvas.draw_circle(centre, RING_START + 30.0, Color(0.05, 0.02, 0.08, 0.32))
 	# The bar: a barbell with boulder plates, bobbing with the beat.
 	var lift: float = 0.0
 	if _state == "playing" and game.next_rep < RepGame.REPS:

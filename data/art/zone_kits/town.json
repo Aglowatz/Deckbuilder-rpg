@@ -2,6 +2,180 @@
 	"_about": "Written by tools/import_zone_kit.gd from data/source/town_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/../Approved_EnvKit: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/town/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
 	"density": 400.0,
 	"items": {
+		"DEC-PLINTH-BEEF": {
+			"aspect": 0.706,
+			"asset": "Fountain plinth statue (Beefcake)",
+			"category": "Plinth statue",
+			"cleared_alpha": 20480,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DEC-PLINTH-BEEF",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				710,
+				1006
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dec-plinth-beef",
+			"tinted": false,
+			"use": "The fountain plinths of the square, one per freed zone (C4 F10)",
+			"zone": "town"
+		},
+		"DEC-PLINTH-GOUR": {
+			"aspect": 0.682,
+			"asset": "Fountain plinth statue (Gourmand)",
+			"category": "Plinth statue",
+			"cleared_alpha": 25842,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DEC-PLINTH-GOUR",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				687,
+				1008
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dec-plinth-gour",
+			"tinted": false,
+			"use": "The fountain plinths of the square, one per freed zone (C4 F10)",
+			"zone": "town"
+		},
+		"DEC-PLINTH-NECRO": {
+			"aspect": 0.68,
+			"asset": "Fountain plinth statue (Necrocrat)",
+			"category": "Plinth statue",
+			"cleared_alpha": 13986,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DEC-PLINTH-NECRO",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				679,
+				999
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dec-plinth-necro",
+			"tinted": false,
+			"use": "The fountain plinths of the square, one per freed zone (C4 F10)",
+			"zone": "town"
+		},
+		"DEC-PLINTH-REF": {
+			"aspect": 0.687,
+			"asset": "Fountain plinth statue (Refusemancer)",
+			"category": "Plinth statue",
+			"cleared_alpha": 13334,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DEC-PLINTH-REF",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				695,
+				1011
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dec-plinth-ref",
+			"tinted": false,
+			"use": "The fountain plinths of the square, one per freed zone (C4 F10)",
+			"zone": "town"
+		},
+		"LEVER-LOCKED": {
+			"aspect": 0.634,
+			"asset": "Vault lever (locked)",
+			"category": "Prop",
+			"cleared_alpha": 22398,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "LEVER-LOCKED",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				644,
+				1015
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.lever-locked",
+			"tinted": false,
+			"use": "The five vault levers (LeverKit: four zone vaults + Crosspath old lever)",
+			"zone": "town"
+		},
+		"LEVER-OPEN": {
+			"aspect": 1.094,
+			"asset": "Vault lever (pulled)",
+			"category": "Prop",
+			"cleared_alpha": 14664,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "LEVER-OPEN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				778,
+				711
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.lever-open",
+			"tinted": false,
+			"use": "The five vault levers (LeverKit: four zone vaults + Crosspath old lever)",
+			"zone": "town"
+		},
 		"TOWN-BD-HORIZON": {
 			"aspect": 4.541,
 			"asset": "Crosspath horizon",

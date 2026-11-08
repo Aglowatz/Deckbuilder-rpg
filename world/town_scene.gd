@@ -289,6 +289,34 @@ func _hang_freed_banners() -> void:
 		index += 1
 
 
+## Import Nov 8 (Batch 13, C4 F10): a freed zone's statue (DEC-PLINTH-*) stands on its crest plinth round the fountain, in place of the plinth's
+## glowing gem and floating icon; the plinths of zones still to free keep the gem and icon. The index is the plinth's (EndingDefs.PATH_ICONS order).
+const PLINTH_STATUES: Array[Dictionary] = [
+	{"zone": "beefcake", "id": "DEC-PLINTH-BEEF"},
+	{"zone": "gourmand", "id": "DEC-PLINTH-GOUR"},
+	{"zone": "refusemancer", "id": "DEC-PLINTH-REF"},
+	{"zone": "necrocrat", "id": "DEC-PLINTH-NECRO"},
+]
+## The statue's height including its own stone base: its top at about the hero's head (1.7 m) on the 0.58 m plinth, its base as wide as the cap.
+const PLINTH_STATUE_HEIGHT: float = 1.15
+
+
+func _place_plinth_statues() -> void:
+	for index: int in range(PLINTH_STATUES.size()):
+		var spec: Dictionary = PLINTH_STATUES[index]
+		if not Session.is_zone_completed(str(spec["zone"])) and not _screenshot_args.has("banners") and not _screenshot_args.has("statues"):
+			continue
+		var top: Vector3 = TownStreets.crest_point(index) + Vector3(0.0, TownStreets.CREST_PLINTH_TOP, 0.0)
+		var statue: Node3D = KitPieces.stand(self, str(spec["id"]), top, PLINTH_STATUE_HEIGHT, true)
+		if statue == null:
+			continue
+		statue.name = "PlinthStatue_%s" % str(spec["zone"])
+		for part: String in ["CrestGem_%d" % index, "CrestIcon_%d" % index]:
+			var node: Node3D = square.streets.root.find_child(part, true, false) as Node3D if square != null and square.streets != null else null
+			if node != null:
+				node.visible = false
+
+
 func _ready() -> void:
 	_staged_build = SceneManager.busy
 	if _staged_build:
@@ -900,6 +928,7 @@ func _build_spots() -> void:
 	_add_spot("vault4", "The Four-Seal Vault", town.anchors["vault4"] as Vector3, 2.2)
 	four_seal_vault = FourSealVault.build(self, town.anchors["vault4_mouth"] as Vector3)
 	_hang_freed_banners()
+	_place_plinth_statues()
 	# Fourth brief, Part F: The Restless Cairn - the Graveyard's scripted-battle trigger. Unlike
 	# the hidden chests, this one DOES get the normal marker/name-plate treatment (a Spot) - it's
 	# meant to be found, not stumbled on; the challenge is the fight, not finding it.
@@ -2697,6 +2726,7 @@ func _pull_lever() -> void:
 		return
 	Session.set_flag(VAULT_LEVER_FLAG)
 	Audio.sfx(&"lever_clunk")
+	LeverKit.pull_animated(town.old_lever_node)  # Import Nov 8: the painted lever swaps to its open state
 	hud.toast("Something deep in the vault unlocks.", UIStyle.GOLD)
 	Session.save_game()
 

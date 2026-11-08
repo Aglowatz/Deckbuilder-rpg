@@ -15,6 +15,8 @@ var _hint_label: Label
 var _craft_button: FancyButton
 var _stage: Control
 var _cauldron: TextureRect
+## Import Nov 8: the painted cauldron (Batch 13); the vector glyph stands in without it.
+const CAULDRON_ART: String = "UI-CAULDRON"
 var _result_holder: Control
 var _brewing: bool = false
 var _gold_label: Label
@@ -136,11 +138,22 @@ func _build_brew_column() -> Control:
 	_stage.custom_minimum_size = Vector2(700, 270)
 	_stage.clip_contents = false
 	column.add_child(_stage)
-	_cauldron = CardIcons.glyph(CardIcons.named("lorc/cauldron"), Color("8fd36a"), Vector2(200, 200))
+	if UiArt.has(CAULDRON_ART):
+		# Import Nov 8 (Batch 13, C3 F13): the painted copper cauldron replaces the flat green vector glyph.
+		_cauldron = TextureRect.new()
+		_cauldron.texture = UiArt.texture(CAULDRON_ART)
+		_cauldron.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_cauldron.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_cauldron.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_cauldron.size = Vector2(260, 260)
+		_cauldron.pivot_offset = Vector2(130, 150)
+		_cauldron.position = Vector2(220, 8)
+	else:
+		_cauldron = CardIcons.glyph(CardIcons.named("lorc/cauldron"), Color("8fd36a"), Vector2(200, 200))
+		_cauldron.size = Vector2(200, 200)
+		_cauldron.pivot_offset = Vector2(100, 100)
+		_cauldron.position = Vector2(250, 50)
 	_cauldron.name = "Cauldron"
-	_cauldron.size = Vector2(200, 200)
-	_cauldron.pivot_offset = Vector2(100, 100)
-	_cauldron.position = Vector2(250, 50)
 	_stage.add_child(_cauldron)
 	_preview_box = UIKit.vbox(6)
 	_preview_box.name = "PossibleCards"

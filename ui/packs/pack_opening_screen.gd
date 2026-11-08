@@ -461,6 +461,14 @@ func _show_summary() -> void:
 
 
 func _build_summary_panel() -> void:
+	# Import Nov 8 (Batch 13): the result screen settles into the merchant's back room (UI-BG-PACKS) behind the cards, over the velvet table.
+	var room: Control = UiSkin.screen_background("UI-BG-PACKS", 0.5)
+	if room != null:
+		room.name = "ResultRoom"
+		room.modulate.a = 0.0
+		add_child(room)
+		move_child(room, 1)
+		create_tween().tween_property(room, "modulate:a", 1.0, 0.45)
 	_summary = Control.new()
 	_summary.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_summary.modulate.a = 0.0

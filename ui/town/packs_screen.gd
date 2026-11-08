@@ -16,8 +16,8 @@ const RESULT_SCALE: float = 0.42
 
 var _page: Control
 var _shelf_row: HBoxContainer
-var _board: ColorRect
-var _lip: ColorRect
+var _board: Control
+var _lip: Control
 var _shelf_count: Label
 var _header_count: Label
 var _action_row: HBoxContainer
@@ -86,7 +86,7 @@ func _add_backdrop() -> void:
 	room.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	room.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	UIKit.full_rect(room)
-	room.modulate = Color(0.42, 0.39, 0.44)
+	room.modulate = Color(0.42, 0.39, 0.44) if id == "UI-BG-CHARACTER" else Color(0.74, 0.72, 0.74)  # Import Nov 8: its own room, lightly dimmed for the panels
 	room.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	back.add_child(room)
 
@@ -100,23 +100,32 @@ func _build_shelf() -> void:
 	_shelf_count = _text("", 22, UIStyle.PARCHMENT, Vector2(SHELF_RECT.size.x - 424, 22), 400, HORIZONTAL_ALIGNMENT_RIGHT)
 	panel.add_child(_shelf_count)
 	_divider(panel, 66, SHELF_RECT.size.x)
-	# the wooden board the packs stand on (UI-PACK-SHELF on the art list would replace it)
+	# the wooden board the packs stand on: Import Nov 8, the painted UI-PACK-SHELF (its brackets at the ends, the carved middle tiled), drawn
+	# behind the packs with their feet on its top surface and ending above the names; the drawn strip without the art
+	if UiArt.has(SHELF_ART):
+		var painted: Control = painted_board(SHELF_RECT.size.x - 60.0, PAINTED_BOARD_HEIGHT)
+		if painted != null:
+			painted.position = Vector2(30, 80 + 4 + PackArt.SIZE.y * PACK_SCALE - PAINTED_BOARD_SINK)
+			panel.add_child(painted)
+			_board = painted
 	var board: ColorRect = ColorRect.new()
 	board.name = "ShelfBoard"
 	board.color = Color("6b4426")
 	board.position = Vector2(30, 80 + 6 + PackArt.SIZE.y * PACK_SCALE)  # right under the pack art (Fixes Nov 8: it sat on the names)
 	board.size = Vector2(SHELF_RECT.size.x - 60, 16)
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(board)
-	_board = board
+	if _board == null:
+		panel.add_child(board)
+		_board = board
 	var lip: ColorRect = ColorRect.new()
 	lip.name = "ShelfLip"
 	lip.color = Color("3d2614")
 	lip.position = board.position + Vector2(0, 16)
 	lip.size = Vector2(board.size.x, 6)
 	lip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(lip)
-	_lip = lip
+	if _board == board:
+		panel.add_child(lip)
+		_lip = lip
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.name = "ShelfScroll"
 	scroll.position = Vector2(30, 80)
@@ -125,6 +134,40 @@ func _build_shelf() -> void:
 	panel.add_child(scroll)
 	_shelf_row = UIKit.hbox(18)
 	scroll.add_child(_shelf_row)
+
+
+## Import Nov 8 (Batch 13): the painted shelf board, trimmed to the board at import (about 1524 x 199).
+const SHELF_ART: String = "UI-PACK-SHELF"
+const PAINTED_BOARD_HEIGHT: float = 48.0
+## How far the board's top rises behind the pack art (the packs' feet stand on its top surface).
+const PAINTED_BOARD_SINK: float = 12.0
+## The end caps (bracket and the scroll's start) as a fraction of the art's width; the middle between them tiles.
+const SHELF_CAP: float = 0.16
+
+
+## The painted shelf `width` x `height`: the art scaled to `height` (crisp, not squashed), its two ends kept and the middle tiled.
+static func painted_board(width: float, height: float) -> Control:
+	var texture: Texture2D = UiArt.texture(SHELF_ART)
+	if texture == null:
+		return null
+	var image: Image = texture.get_image()
+	if image == null or image.is_empty():
+		return null
+	if image.is_compressed():
+		image.decompress()
+	image.clear_mipmaps()
+	var scaled_width: int = maxi(8, int(round(image.get_width() * height / float(image.get_height()))))
+	image.resize(scaled_width, int(height), Image.INTERPOLATE_LANCZOS)
+	var patch: NinePatchRect = NinePatchRect.new()
+	patch.name = "ShelfBoard"
+	patch.texture = ImageTexture.create_from_image(image)
+	var cap: int = int(scaled_width * SHELF_CAP)
+	patch.patch_margin_left = cap
+	patch.patch_margin_right = cap
+	patch.axis_stretch_horizontal = NinePatchRect.AXIS_STRETCH_MODE_TILE_FIT
+	patch.size = Vector2(width, height)
+	patch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return patch
 
 
 func _build_action_bar() -> void:
@@ -174,7 +217,7 @@ func _refresh() -> void:
 		empty.name = "EmptyShelf"
 		_shelf_row.add_child(empty)
 	_shelf_count.text = "%d pack%s" % [total, "" if total == 1 else "s"]
-	for strip: ColorRect in [_board, _lip]:
+	for strip: Control in [_board, _lip]:
 		if strip != null:
 			strip.visible = shown > 0
 	_header_count.text = "%d unopened  ·  Foil Fenwick sells more on the square" % total
@@ -209,7 +252,7 @@ func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
 	slot.name = "Slot_%s" % pack.id
 	slot.custom_minimum_size = Vector2(SLOT_WIDTH, 0)
 	var art_holder: Control = Control.new()
-	art_holder.custom_minimum_size = Vector2(SLOT_WIDTH, PackArt.SIZE.y * PACK_SCALE + 22)
+	art_holder.custom_minimum_size = Vector2(SLOT_WIDTH, PackArt.SIZE.y * PACK_SCALE + (40.0 if UiArt.has(SHELF_ART) else 22.0))  # Import Nov 8: room for the painted board above the name
 	art_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var art: Control = PackArt.icon(pack, PACK_SCALE)
 	art.position = Vector2((SLOT_WIDTH - PackArt.SIZE.x * PACK_SCALE) * 0.5, 4)
@@ -424,7 +467,7 @@ func _show_open_all(openings: Array[PackOpening]) -> void:
 	layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(layer)
 	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.01, 0.05, 0.8)
+	shade.color = Color(0.02, 0.01, 0.05, 0.8 if not UiArt.has("UI-BG-PACKS") else 0.62)  # Import Nov 8: the back room shows through the result
 	UIKit.full_rect(shade)
 	layer.add_child(shade)
 	var center: CenterContainer = CenterContainer.new()

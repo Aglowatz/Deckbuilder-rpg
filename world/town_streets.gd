@@ -280,6 +280,16 @@ static func _fountain_stream(mesh: KitMesh, from: Vector3, dir: Vector3, radius:
 		mesh.quad("stream", [points[step] - across * w0, points[step + 1] - across * w1, points[step + 1] + across * w1, points[step] + across * w0], inward + Vector3.UP, [colour, colour, colour, colour], [Vector2(0, v0), Vector2(0, v1), Vector2(1, v1), Vector2(1, v0)])
 
 
+## Import Nov 8: the top of a crest plinth (its cap), where a freed zone's statue stands.
+const CREST_PLINTH_TOP: float = 0.58
+
+
+## The foot of crest plinth `index` (EndingDefs.PATH_ICONS order: Beefcake, Gourmand, Refusemancer, Necrocrat).
+static func crest_point(index: int) -> Vector3:
+	var angle: float = TAU * float(index) / 4.0 + PI / 4.0
+	return TownLayout.PLAZA + Vector3(cos(angle), 0.0, sin(angle)) * TownLayout.CREST_RING_RADIUS
+
+
 ## The royal crest: four plinths in a ring round the fountain, each topped by its Path's symbol in the Path's colour, with a gold ring inlaid in the paving.
 func _crest() -> void:
 	var center: Vector3 = TownLayout.PLAZA
@@ -294,7 +304,7 @@ func _crest() -> void:
 	for index: int in range(EndingDefs.PATH_ICONS.size()):
 		var spec: Dictionary = EndingDefs.PATH_ICONS[index]
 		var angle: float = TAU * float(index) / 4.0 + PI / 4.0
-		var pos: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * TownLayout.CREST_RING_RADIUS
+		var pos: Vector3 = crest_point(index)
 		# a kit-stone plinth: a square foot, a turned shaft and a cap (Crosspath pass, Part C)
 		var local: Vector3 = pos - center
 		plinth.box("stone", local + Vector3(0, 0.08, 0), Vector3(0.8, 0.16, 0.8), Basis(Vector3.UP, angle), 0.03, 0.75)
@@ -311,8 +321,10 @@ func _crest() -> void:
 		gem.mesh = sphere
 		gem.material_override = glow
 		gem.position = pos + Vector3(0, 0.78, 0)
+		gem.name = "CrestGem_%d" % index  # Import Nov 8: TownScene hides the gem and icon under a freed zone's statue (DEC-PLINTH-*)
 		root.add_child(gem)
 		var icon: MeshInstance3D = MeshInstance3D.new()
+		icon.name = "CrestIcon_%d" % index
 		var quad: QuadMesh = QuadMesh.new()
 		quad.size = Vector2(0.9, 0.9)
 		icon.mesh = quad

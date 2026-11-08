@@ -186,8 +186,17 @@ func recoil(view: Control, away_from: Vector2, strength: float = 16.0) -> void:
 	tween.tween_property(view, "position", origin, 0.18).set_ease(Tween.EASE_IN_OUT)
 
 
+## Import Nov 8 (C4b F11): when the turn ribbon is gone; the opponent's action line waits for it (it was drawn under the ribbon).
+var _ribbon_until_ms: int = 0
+
+
+func ribbon_showing() -> bool:
+	return Time.get_ticks_msec() < _ribbon_until_ms
+
+
 ## A ribbon swept across the screen at the start of a turn ("YOUR TURN" / "ENEMY TURN").
 func turn_banner(text: String, color: Color, duration: float = 0.75, subtitle: String = "") -> void:
+	_ribbon_until_ms = Time.get_ticks_msec() + int(duration * 1000.0)
 	var band: Panel = Panel.new()
 	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	band.size = Vector2(1920, 96)

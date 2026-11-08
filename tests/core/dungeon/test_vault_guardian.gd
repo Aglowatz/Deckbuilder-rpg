@@ -113,7 +113,7 @@ func test_the_signet_is_a_relic_that_grants_resources_and_life() -> void:
 
 
 func test_the_lever_and_the_vault_are_built_from_the_save() -> void:
-	var lever: Node3D = LeverKit.build(Color.RED)
+	var lever: Node3D = LeverKit.build(Color.RED, false)  # the code box (the painted lever has no Handle)
 	add_child_autofree(lever)
 	assert_not_null(LeverKit.handle_of(lever))
 	LeverKit.set_pulled(lever, true)

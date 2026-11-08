@@ -209,6 +209,13 @@ func settle_y() -> float:
 	return ZONE_SETTLE_Y if area_key == Areas.CAPITAL or AREA_PATHS.has(area_key) else 0.0
 
 
+## Import Nov 8 (Part 2): a conversation that opens while the card is up (an NPC hailing the hero on arrival) fades it out at once - the card
+## never sits over dialogue (it already waits for a quiet moment before it appears).
+func _process(_delta: float) -> void:
+	if not _skipped and is_inside_tree() and QuestNoticeLayer.dialogue_open(get_tree()):
+		skip()
+
+
 ## A click, Enter/Space or the pad's confirm button fades the card out early (walking does not). The event is not consumed: the game still gets it.
 func _input(event: InputEvent) -> void:
 	if _skipped or not event.is_pressed() or event.is_echo():

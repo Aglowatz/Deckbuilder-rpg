@@ -3867,6 +3867,64 @@
 			"use": "The stables, the fair stage and the junk barricades re-skinned from the kit",
 			"zone": "heap"
 		},
+		"KIT-HEAP-THORNWALL": {
+			"aspect": 1.521,
+			"asset": "Breathing thorn wall",
+			"category": "Prop",
+			"cleared_alpha": 79299,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "KIT-HEAP-THORNWALL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1500,
+				986
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.kit-heap-thornwall",
+			"tinted": false,
+			"use": "Moss Mulligan's gate (HeapGate thorn wall)",
+			"zone": "heap"
+		},
+		"KIT-HEAP-THORNWALL-DEAD": {
+			"aspect": 1.538,
+			"asset": "Withered thorn wall (parted)",
+			"category": "Prop",
+			"cleared_alpha": 77414,
+			"desc": "See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "KIT-HEAP-THORNWALL-DEAD",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1513,
+				984
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.kit-heap-thornwall-dead",
+			"tinted": false,
+			"use": "Moss Mulligan's gate (HeapGate thorn wall)",
+			"zone": "heap"
+		},
 		"TEX-DUMP-COMPOST": {
 			"alias": true,
 			"asset": "Compost soil (painted texture set)",

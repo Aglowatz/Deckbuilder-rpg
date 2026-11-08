@@ -292,6 +292,28 @@
 		"rel_height": 1.05,
 		"walk_dirs": []
 	},
+	"DEX": {
+		"bottom_pad": 16,
+		"canvas": [
+			272,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.0,
+		"walk_dirs": []
+	},
 	"ECTOMUND": {
 		"bottom_pad": 16,
 		"canvas": [

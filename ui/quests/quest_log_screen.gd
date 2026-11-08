@@ -5,6 +5,8 @@ extends OverlayScreen
 ## equipment pictures. Select a quest to track it in the HUD. Keyboard: Left/Right (or 1-3) switch tabs, Up/Down pick, Enter tracks.
 
 enum Tab { MAIN, SIDE, COMPLETED }
+## Import Nov 8: room kept clear at the right end of the tab row for the painted quill (UI-BG-QUESTLOG).
+const QUILL_GAP: float = 230.0
 const TAB_NAMES: Array[String] = ["Main", "Side", "Completed"]
 
 var _tab: Tab = Tab.MAIN
@@ -33,12 +35,19 @@ func _build() -> void:
 		tabs.add_child(button)
 		_tab_buttons.append(button)
 	# Overnight Oct 17 (Phase 2, UI consistency): the key hint ran under the frame's right edge in pale grey on the brown page; shorter, readable, inset.
-	var hint: Label = UIKit.label("Left/Right: tabs  ·  Up/Down: choose", &"", 18, Color("4a3524"))
+	var hint: Label = UIKit.label("Left/Right: tabs  ·  Up/Down: choose", &"", 20, Color("3a2818"))
+	hint.name = "KeyHint"
 	hint.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	tabs.add_child(hint)
+	# Import Nov 8 (Part 2, C7 F11): the hint ended under the quill in the page's top-right corner - it stops well short of it now.
+	var quill_gap: Control = Control.new()
+	quill_gap.name = "QuillGap"
+	quill_gap.custom_minimum_size = Vector2(QUILL_GAP, 0)
+	quill_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tabs.add_child(quill_gap)
 	tabs.add_child(UIKit.spacer(0, 110))
 	var split: HBoxContainer = UIKit.hbox(24)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL

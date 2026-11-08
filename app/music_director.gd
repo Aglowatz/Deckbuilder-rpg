@@ -61,6 +61,7 @@ const BOARD_DUNGEON: Dictionary = {
 	"BB-S-BEEF": "S-BEEF", "BB-S-GOUR": "S-GOUR", "BB-S-NECRO": "S-NECRO", "BB-S-REF": "S-REF", "BB-S-CAP": "S-CAP", "BB-S-TOWN": "S-TOWN",
 	"BB-S-PASTE": "S-PASTE",
 	"BB-S-GALLERY": "S-GALLERY",
+	"BB-S-GALLERY-ALT": "S-GALLERY",  # Import Nov 8: the boss room board
 	"BB-S-IRON": "S-BEEF",  # Oct 19 night: the Iron Cave now names its own board (stand-in BB-S-BEEF until imported); its battles keep the Swolympus cues they had
 }
 const BOARD_CUE: Dictionary = {

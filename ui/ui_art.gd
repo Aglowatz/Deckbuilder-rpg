@@ -171,18 +171,20 @@ static func known_ids() -> Dictionary:
 		var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 		while not file.eof_reached():
 			var row: PackedStringArray = file.get_csv_line()
-			if row.size() >= 2 and row[0].begins_with("UI-"):
+			if row.size() >= 2 and (row[0].begins_with("UI-") or row[0].begins_with("MG-")):  # Import Nov 8: MG-BG-* minigame backgrounds
 				known[row[0].strip_edges()] = row[1].strip_edges()
 		break
 	return known
 
 
 static func _keeps_canvas(id: String) -> bool:
-	return id.begins_with("UI-FRAME-") or id.begins_with("UI-CARDBACK-") or id.begins_with("UI-PACK-") or id.begins_with("UI-BG-")
+	if id == "UI-PACK-SHELF":
+		return false  # Import Nov 8: the shelf board is a strip in a 3:2 canvas - trimmed to the board
+	return id.begins_with("UI-FRAME-") or id.begins_with("UI-CARDBACK-") or id.begins_with("UI-PACK-") or id.begins_with("UI-BG-") or id.begins_with("MG-BG-")
 
 
 static func _max_side(id: String) -> int:
-	if id.begins_with("UI-BG-"):
+	if id.begins_with("UI-BG-") or id.begins_with("MG-BG-") or id == "UI-PACK-SHELF":
 		return MAX_SIDE_BACKGROUND
 	if id.begins_with("UI-CURSOR"):
 		return MAX_SIDE_CURSOR
@@ -233,7 +235,7 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 			rows.erase(id)
 			continue
 		image.convert(Image.FORMAT_RGBA8)
-		if not id.begins_with("UI-BG-") and not id.begins_with("UI-CARDBACK-") and Portraits.remove_flat_background(image):
+		if not id.begins_with("UI-BG-") and not id.begins_with("MG-BG-") and not id.begins_with("UI-CARDBACK-") and Portraits.remove_flat_background(image):
 			result.background_removed.append(file_name)
 		if not _keeps_canvas(id):
 			image = trimmed(image)

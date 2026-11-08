@@ -191,6 +191,9 @@ func _build_completion_state() -> void:
 
 # ---- Old Hob, just measuring (Oct 21) ---------------------------------------------------------------------------------------------
 
+const OLD_HOB_KEY: String = "old_hob"
+
+
 ## Old Hob (secretly Death) turns up near every zone's hub with his shovel and his appointment book (OldHob.cameo_scene).
 func _build_hob() -> void:
 	if OldHob.cameo_scene(def.id, Session.flags).is_empty() or not SpriteLibrary.has_character(OldHob.SPRITE):
@@ -199,10 +202,12 @@ func _build_hob() -> void:
 	if pos == Vector3.INF:
 		return
 	pos.y = builder.height_at(pos)
-	var entry: Dictionary = {"id": "hob", "npc_id": OldHob.NPC_ID, "model": "Rogue", "anchor": "", "yaw": 200.0, "tint": Color.WHITE}
-	_npcs["hob"] = _make_npc(entry, pos, "Idle")
+	# Import Nov 8 (Part 2, C2b F5): his own key - the Dump's Granny Gristle has the legacy id "hob", and sharing it put Hob's name tag over her
+	# stall and swapped the two NPCs' records.
+	var entry: Dictionary = {"id": OLD_HOB_KEY, "npc_id": OldHob.NPC_ID, "model": "Rogue", "anchor": "", "yaw": 200.0, "tint": Color.WHITE}
+	_npcs[OLD_HOB_KEY] = _make_npc(entry, pos, "Idle")
 	builder.add_blocker(pos, 0.4)
-	_add_spot("hob", "Old Hob", pos, 1.7, "Talk", true, "hob", {"npc": "hob", "npc_id": OldHob.NPC_ID, "speaker": "Old Hob"})
+	_add_spot(OLD_HOB_KEY, "Old Hob", pos, 1.7, "Talk", true, "hob", {"npc": OLD_HOB_KEY, "npc_id": OldHob.NPC_ID, "speaker": "Old Hob"})
 
 
 ## Where Hob stands: the first open ground a few steps off the hub (Vector3.INF when there is none). The Capital puts him in Grave Row.
@@ -223,7 +228,7 @@ func _clear_of_spots(at: Vector3, distance: float) -> bool:
 
 
 func _talk_hob() -> void:
-	_face_npc("hob")
+	_face_npc(OLD_HOB_KEY)
 	StoryScenePlayer.play(dialogue, OldHob.cameo_scene(def.id, Session.flags))
 
 

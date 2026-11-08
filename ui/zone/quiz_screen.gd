@@ -5,11 +5,15 @@ extends OverlayScreen
 ## Overnight Nov 7-8, Part 6.1: an excited anime-style classroom. The question is chalked on a big green board; the zone's quiz-giver stands
 ## beside it as the teacher (their existing portrait); the four answers are desk cards. Every answer gets a flourish - a correct one flashes
 ## green with chalk-dust sparkles, a ringing sting and a streak counter; a wrong one shakes red and the right answer lights up. The classroom
-## background is MG-BG-CLASSROOM once painted (art list); until then a coded wood-and-chalkboard room stands in.
+## background is MG-BG-CLASSROOM (Import Nov 8, Batch 13): the question is chalked on its painted board.
 
 signal quiz_finished(correct: int, reward: Dictionary)
 
 const BOARD_RECT: Rect2 = Rect2(560, 90, 1260, 470)
+## Import Nov 8: the painted board's writing area in MG-BG-CLASSROOM, scaled 1.25x to 1920 wide and anchored at the top (the board spans about
+## x 550-1631, y 135-622 there).
+const PAINTED_BOARD_RECT: Rect2 = Rect2(586, 160, 1010, 430)
+const CLASSROOM_ART: String = "MG-BG-CLASSROOM"
 const TEACHER_RECT: Rect2 = Rect2(60, 160, 480, 720)
 const ANSWER_SIZE: Vector2 = Vector2(620, 92)
 const CHALK: Color = Color("f4f1e6")
@@ -28,6 +32,7 @@ var _order: Array[int] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _room: Control
 var _board_text: Label
+var _board_rect: Rect2 = BOARD_RECT
 var _board_count: Label
 var _answer_grid: GridContainer
 var _answer_buttons: Array[Button] = []
@@ -89,39 +94,41 @@ func _build_room(def: ZoneDef) -> void:
 		if child is MarginContainer:
 			move_child(_room, child.get_index() + 1)
 			break
-	if UiArt.has("MG-BG-CLASSROOM"):
+	# Import Nov 8 (Batch 13): the painted classroom (MG-BG-CLASSROOM), scaled to the screen's width and anchored at the top so its empty green
+	# chalkboard sits at PAINTED_BOARD_RECT; the question is chalked straight onto it and the quiz-giver stands in the open left third. The coded
+	# room stand-in is gone; without the art a plain coded chalkboard stays so the quiz still reads.
+	var painted: bool = UiArt.has(CLASSROOM_ART)
+	var board_rect: Rect2 = PAINTED_BOARD_RECT if painted else BOARD_RECT
+	_board_rect = board_rect
+	if painted:
 		var art: TextureRect = TextureRect.new()
 		art.name = "ClassroomArt"
-		art.texture = UiArt.texture("MG-BG-CLASSROOM")
+		art.texture = UiArt.texture(CLASSROOM_ART)
 		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-		art.size = Vector2(1920, 1080)
+		art.stretch_mode = TextureRect.STRETCH_SCALE
+		art.size = Vector2(1920, 1920.0 * 1024.0 / 1536.0)
 		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_room.add_child(art)
 	else:
-		_build_stand_in()
-	# the chalkboard
+		var shade: ColorRect = ColorRect.new()
+		shade.color = Color("3a2a1c")
+		shade.size = Vector2(1920, 1080)
+		shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_room.add_child(shade)
+	# the chalkboard: the painted one (an invisible holder over it), else a coded framed board
 	var frame: Panel = Panel.new()
 	frame.name = "Chalkboard"
-	frame.position = BOARD_RECT.position - Vector2(18, 18)
-	frame.size = BOARD_RECT.size + Vector2(36, 36)
-	frame.add_theme_stylebox_override("panel", UIStyle.box(Color("6b4426"), Color("3d2614"), 6, 10))
+	frame.position = board_rect.position - Vector2(18, 18)
+	frame.size = board_rect.size + Vector2(36, 36)
+	frame.add_theme_stylebox_override("panel", StyleBoxEmpty.new() if painted else UIStyle.box(Color("6b4426"), Color("3d2614"), 6, 10))
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_room.add_child(frame)
 	var board: Panel = Panel.new()
 	board.position = Vector2(18, 18)
-	board.size = BOARD_RECT.size
-	board.add_theme_stylebox_override("panel", UIStyle.box(BOARD_GREEN, Color(0, 0, 0, 0.3), 2, 4))
+	board.size = board_rect.size
+	board.add_theme_stylebox_override("panel", StyleBoxEmpty.new() if painted else UIStyle.box(BOARD_GREEN, Color(0, 0, 0, 0.3), 2, 4))
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	frame.add_child(board)
-	for i: int in range(5):  # faint chalk smudges
-		var smudge: ColorRect = ColorRect.new()
-		smudge.color = Color(1, 1, 1, 0.035)
-		smudge.position = Vector2(60 + i * 230, 40 + (i % 2) * 260)
-		smudge.size = Vector2(180, 110)
-		smudge.rotation = 0.08 * float(i - 2)
-		smudge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		board.add_child(smudge)
 	var heading: Label = UIKit.label(title_for(def.id if def != null else ""), &"", 34, CHALK, HORIZONTAL_ALIGNMENT_LEFT)
 	heading.name = "QuizTitle"
 	heading.add_theme_font_override("font", UIStyle.font_title())
@@ -129,7 +136,7 @@ func _build_room(def: ZoneDef) -> void:
 	heading.size = Vector2(800, 48)
 	board.add_child(heading)
 	_board_count = UIKit.label("", &"", 26, CHALK, HORIZONTAL_ALIGNMENT_RIGHT)
-	_board_count.position = Vector2(BOARD_RECT.size.x - 334, 22)
+	_board_count.position = Vector2(board_rect.size.x - 334, 22)
 	_board_count.size = Vector2(300, 40)
 	board.add_child(_board_count)
 	_board_text = UIKit.label("", &"", 46, CHALK, HORIZONTAL_ALIGNMENT_CENTER)
@@ -138,11 +145,11 @@ func _build_room(def: ZoneDef) -> void:
 	_board_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_board_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_board_text.position = Vector2(50, 80)
-	_board_text.size = Vector2(BOARD_RECT.size.x - 100, BOARD_RECT.size.y - 130)
+	_board_text.size = Vector2(board_rect.size.x - 100, board_rect.size.y - 130)
 	board.add_child(_board_text)
 	_finish_box = UIKit.vbox(10)
 	_finish_box.position = Vector2(50, 70)
-	_finish_box.size = Vector2(BOARD_RECT.size.x - 100, BOARD_RECT.size.y - 90)
+	_finish_box.size = Vector2(board_rect.size.x - 100, board_rect.size.y - 90)
 	_finish_box.visible = false
 	board.add_child(_finish_box)
 	# the teacher
@@ -188,62 +195,8 @@ func _build_room(def: ZoneDef) -> void:
 	_answer_grid.columns = 2
 	_answer_grid.add_theme_constant_override("h_separation", 20)
 	_answer_grid.add_theme_constant_override("v_separation", 18)
-	_answer_grid.position = Vector2(BOARD_RECT.position.x, BOARD_RECT.end.y + 60)
+	_answer_grid.position = Vector2(board_rect.position.x, board_rect.end.y + 60)
 	_room.add_child(_answer_grid)
-
-
-## The coded stand-in for MG-BG-CLASSROOM: a warm wooden wall with planks and a skirting rail, two sunny windows, and rows of desks.
-func _build_stand_in() -> void:
-	var wall: ColorRect = ColorRect.new()
-	wall.name = "Wall"
-	wall.color = Color("8a5a34")
-	wall.size = Vector2(1920, 1080)
-	wall.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_room.add_child(wall)
-	for i: int in range(24):
-		var plank: ColorRect = ColorRect.new()
-		plank.color = Color(0, 0, 0, 0.09 if i % 2 == 0 else 0.03)
-		plank.position = Vector2(i * 80, 0)
-		plank.size = Vector2(3, 760)
-		plank.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_room.add_child(plank)
-	for x: float in [140.0, 1700.0]:
-		var window: Panel = Panel.new()
-		window.position = Vector2(x - 80, 40)
-		window.size = Vector2(160, 240)
-		window.add_theme_stylebox_override("panel", UIStyle.box(Color("bfe3ff"), Color("5a3a20"), 8, 6))
-		window.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		window.modulate = Color(1, 1, 1, 0.75)
-		_room.add_child(window)
-	var floor_band: ColorRect = ColorRect.new()
-	floor_band.color = Color("5b3a22")
-	floor_band.position = Vector2(0, 760)
-	floor_band.size = Vector2(1920, 320)
-	floor_band.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_room.add_child(floor_band)
-	var rail: ColorRect = ColorRect.new()
-	rail.color = Color("3d2614")
-	rail.position = Vector2(0, 752)
-	rail.size = Vector2(1920, 12)
-	rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_room.add_child(rail)
-	for row: int in range(2):
-		for col: int in range(6):
-			var desk: Panel = Panel.new()
-			desk.position = Vector2(110 + col * 300 + row * 150, 960 + row * 70)
-			desk.size = Vector2(240, 60)
-			desk.add_theme_stylebox_override("panel", UIStyle.box(Color("a8723f"), Color("4a2e18"), 3, 6))
-			desk.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			desk.modulate = Color(0.8, 0.8, 0.8, 0.9)
-			_room.add_child(desk)
-	# a warm sunbeam across the room (the excited, sunny mood)
-	var beam: ColorRect = ColorRect.new()
-	beam.color = Color(1.0, 0.92, 0.6, 0.06)
-	beam.position = Vector2(-200, 120)
-	beam.size = Vector2(2400, 260)
-	beam.rotation = 0.18
-	beam.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_room.add_child(beam)
 
 
 func _start() -> void:
@@ -422,7 +375,7 @@ func _finish() -> void:
 		_finish_box.add_child(UIKit.label("Best streak: %d in a row" % _best_streak, &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))
 	var remark: Label = UIKit.label(" ".join(_story.get_lines("quiz.result.%d" % correct)), &"", 26, CHALK, HORIZONTAL_ALIGNMENT_CENTER)
 	remark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	remark.custom_minimum_size = Vector2(BOARD_RECT.size.x - 120, 0)
+	remark.custom_minimum_size = Vector2(_board_rect.size.x - 120, 0)
 	_finish_box.add_child(remark)
 	var parts: PackedStringArray = []
 	if int(reward["gold"]) > 0:
@@ -445,7 +398,7 @@ func _finish() -> void:
 	if correct >= QuizRules.PASS_SCORE:
 		_say("Top of the class!")
 		_teacher_hop()
-		_sparkle(Vector2(BOARD_RECT.get_center().x, BOARD_RECT.position.y + 120))
+		_sparkle(Vector2(_board_rect.get_center().x, _board_rect.position.y + 120))
 	else:
 		_say("Study up and try again!")
 	quiz_finished.emit(correct, reward)
