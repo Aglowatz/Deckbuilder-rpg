@@ -53,15 +53,14 @@ func _win_storeroom() -> void:
 	Session.resolve_storeroom_battle(context)
 
 
-func test_out_of_the_cave_the_path_line_leads_and_the_errands_run_beside_it() -> void:
-	var own: String = PathDirection.own_main_quest(Affinity.Type.GOURMAND)
-	assert_true(Session.quest_log.is_active(own), "the Path's line started at the Path choice")
-	assert_eq(Session.quest_log.tracked_id(), own, "and is the tracked quest")
-	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "Meet the Merchants runs beside it")
+func test_out_of_the_cave_the_errands_lead_and_the_gatekeepers_wait() -> void:
+	# Overnight Nov 7-8, Part 1.2: no gatekeeper quest before Maren sends the hero out after the intro line.
+	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "Meet the Merchants is the first errand")
 	assert_eq(QuestCatalog.find(QuestDefinitions.MERCHANTS).category_tag(), "SETTLING IN")
 	assert_false(QuestCatalog.find(QuestDefinitions.MERCHANTS).is_main(), "the errands are a side line")
 	for zone_id: String in Gatekeepers.IDS:
-		assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "every gatekeeper's line is open (%s)" % zone_id)
+		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "no gatekeeper line yet (%s)" % zone_id)
+		assert_false(Session.gatekeeper_can_fight(zone_id), "and no gatekeeper fights yet (%s)" % zone_id)
 	assert_true(Session.quests_offered_by(QuestDefinitions.BRANNOCH).has(QuestCatalog.find(QuestDefinitions.FREE_ZONES)), "Brannoch has the Capital's quest")
 	assert_eq(Session.armory_stage(), 0, "Bertram is shut")
 
@@ -76,7 +75,6 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	_hand_in(QuestDefinitions.MERCHANTS)
 	# 2. Make It Yours.
 	_take_from_maren(QuestDefinitions.FIRST_DECK_EDIT)
-	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.GOURMAND), "an errand never takes the tracker from the Path")
 	assert_false(Session.quests_offered_by(QuestDefinitions.MAREN).has(QuestCatalog.find(QuestDefinitions.GHOSTS)), "one errand at a time")
 	# Fixes Oct 25, Part 6: the first step is opening a pack (one is given to a player who has none)
 	assert_eq(Session.pack_count(QuestDefinitions.FIRST_PACK_ID), 1, "Maren hands over a General Pack")
@@ -106,9 +104,17 @@ func test_the_whole_chain_in_order_reaches_level_5_and_then_opens_the_story() ->
 	Session.refresh_quests()
 	assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
 	assert_true(Session.gear_unlocked())
-	# 5. The story's main quests were there all along.
+	# 5. Overnight Nov 7-8, Part 1.2: Maren sends the hero out - all four gatekeeper lines start and the own Path's is tracked.
+	for zone_id: String in Gatekeepers.IDS:
+		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's line waits for Maren" % zone_id)
+	assert_true(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND) or not Session.flag(&"elder_greeted"), "her talk is due")
+	Session.set_flag(&"elder_greeted")
+	assert_true(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND))
+	Session.take_path_direction()
 	for zone_id: String in Gatekeepers.IDS:
 		assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's line is active" % zone_id)
+		assert_true(Session.gatekeeper_can_fight(zone_id))
+	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.GOURMAND), "the Path's own gatekeeper is tracked")
 	assert_true(Session.quest_log.is_active(MemoryDefs.QUEST_ID))
 	assert_true(Session.quests_offered_by(QuestDefinitions.BRANNOCH).has(QuestCatalog.find(QuestDefinitions.FREE_ZONES)), "Brannoch offers the Capital's quest")
 

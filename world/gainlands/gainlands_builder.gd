@@ -608,6 +608,51 @@ func _build_swolympus_gate() -> void:
 	for piece: Node in gate.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)
 		piece.set_meta(&"no_occlusion_fade", true)  # a landmark at the rim: its towers never dissolve beside the hero (nothing walkable behind it)
+	_build_gate_crag(gate.position, basis)
+
+
+## Overnight Nov 7-8, Part 1.9: the land ran on past the gate's west tower, so the hero could walk round it and stand behind the barrier. A sandstone crag
+## now fills the ground behind and beside that tower out to the rim (solid: a grid of obstacle circles under it), so the only way past the towers is
+## through the opening, and only once it is open (the ridge starts straight behind the opening, which the crag leaves clear).
+const GATE_CRAG_LOCAL: Array[Vector2] = [Vector2(-3.5, -0.3), Vector2(-6.5, 0.1), Vector2(-12.0, 0.2), Vector2(-17.5, -0.4), Vector2(-17.0, -3.2),
+	Vector2(-13.0, -5.6), Vector2(-7.0, -6.4), Vector2(-3.4, -6.0)]
+
+
+func _build_gate_crag(gate_pos: Vector3, basis: Basis) -> void:
+	var outline: PackedVector2Array = PackedVector2Array()
+	for local: Vector2 in GATE_CRAG_LOCAL:
+		var world: Vector3 = gate_pos + basis * Vector3(local.x, 0.0, local.y)
+		outline.append(Vector2(world.x, world.z))
+	var top: float = layout.ground_height(gate_pos.x, gate_pos.z) + 2.4
+	var crag: MeshInstance3D = GainlandsTerrain.rock(outline, top, "SwolympusGateCrag", GainlandsTerrain.SAND, true)
+	crag.set_meta(&"no_range_cull", true)
+	crag.set_meta(&"no_occlusion_fade", true)
+	root.add_child(crag)
+	# a second, taller tier against the tower so the crag reads as the cliff the tower was built into
+	var tier: PackedVector2Array = PackedVector2Array()
+	for local: Vector2 in [Vector2(-4.0, -1.2), Vector2(-9.0, -0.8), Vector2(-12.5, -2.6), Vector2(-9.5, -5.0), Vector2(-4.0, -5.2)]:
+		var world: Vector3 = gate_pos + basis * Vector3(local.x, 0.0, local.y)
+		tier.append(Vector2(world.x, world.z))
+	crag.add_child(GainlandsTerrain.rock(tier, top + 1.8, "SwolympusGateCragTier"))
+	# solid: obstacle circles over the whole outline (0.7 m, every 0.8 m)
+	var x0: float = INF
+	var x1: float = -INF
+	var z0: float = INF
+	var z1: float = -INF
+	for point: Vector2 in GATE_CRAG_LOCAL:
+		x0 = minf(x0, point.x)
+		x1 = maxf(x1, point.x)
+		z0 = minf(z0, point.y)
+		z1 = maxf(z1, point.y)
+	var lx: float = x0
+	while lx <= x1:
+		var lz: float = z0
+		while lz <= z1:
+			if Geometry2D.is_point_in_polygon(Vector2(lx, lz), PackedVector2Array(GATE_CRAG_LOCAL)):
+				var world: Vector3 = gate_pos + basis * Vector3(lx, 0.0, lz)
+				_add_obstacle(Vector3(world.x, world.z, 0.7))
+			lz += 0.8
+		lx += 0.8
 
 
 ## The region landmarks kept from the removed sub-areas (SR-8), placed by the declutter rules (open routes, breathing room, nothing in the plaza): the Wheel

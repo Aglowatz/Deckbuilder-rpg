@@ -244,8 +244,9 @@ static func _zone_main(zone_id: String) -> QuestData:
 	quest.title = str(text["title"])
 	quest.summary = str(text["summary"])
 	quest.auto_give = true
-	# Fix pass Nov 7 (D3): the player's own Path line starts at the Path choice (`own_path_flag`), the others on arrival in town.
-	quest.prerequisite = Condition.any_of([story_gate(), Condition.flag(own_path_flag(zone_id))] as Array[Condition])
+	# Overnight Nov 7-8, Part 1.2: the gatekeeper quests wait for the intro line - Maren hands all four out once Settling In (the armory
+	# included) is done (`PathDirection.FLAG`, set by her talk); a save from before the early chain keeps them (`LEGACY_FLAG`).
+	quest.prerequisite = gatekeepers_given()
 	var favours: Array[Condition] = []
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		favours.append(Condition.quest_completed(favour_id))
@@ -318,6 +319,12 @@ const CHAIN_XP: Dictionary = {MERCHANTS: 40, "first_deck_edit": 30, GHOSTS: 60}
 ## Crosspath (`trial_cleared`), or for an old save that already had them (`LEGACY_FLAG`). Every road stays open throughout.
 static func story_gate() -> Condition:
 	return Condition.any_of([Condition.flag("trial_cleared"), Condition.quest_completed(ARMORY), Condition.flag(LEGACY_FLAG)] as Array[Condition])
+
+
+## Overnight Nov 7-8, Part 1.2: true once Elder Maren has sent the hero out to the gatekeepers (after the whole Settling In line, the armory
+## quest included), or on a save from before the early chain. Until then no gatekeeper quest starts and no gatekeeper will fight.
+static func gatekeepers_given() -> Condition:
+	return Condition.any_of([Condition.flag(PathDirection.FLAG), Condition.flag(LEGACY_FLAG)] as Array[Condition])
 
 
 ## Fix pass Nov 7 (D3): set when the player picks their starting Path (and on load for older saves): that Path zone's main line - its

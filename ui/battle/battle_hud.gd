@@ -44,6 +44,8 @@ const TIP_LAYER: int = 25
 ## Fresh eyes round 2 (Oct 31): the turn / result banner's layer, above the tooltips (and the battle screen's toast at TOAST_LAYER).
 const TOAST_LAYER: int = 26
 const BANNER_LAYER: int = 27
+## Overnight Nov 7-8, Part 1.1: a choice the player must answer (the Peek) sits above everything on the table, tips and banners included.
+const MODAL_LAYER: int = 29
 var _banner_layer: CanvasLayer
 const TIP_WIDTH: float = 330.0
 const TIP_GAP: float = 14.0

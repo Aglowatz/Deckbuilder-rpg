@@ -913,7 +913,39 @@ func _apply_pending_result() -> void:
 
 func _add_service_panel() -> void:
 	var services: int = CapitalDebuffs.active(Session.flags).size()
-	hud.add_panel(HudChip.wrap("capital_services", "Services restored: %d of 4" % (4 - services), ServiceDebuffsPanel.BAD if services > 0 else ServiceDebuffsPanel.GOOD, ServiceDebuffsPanel.make(Session.flags), "Each freed zone restores one service (click for details)"))
+	var chip: Control = HudChip.wrap("capital_services", "Services restored: %d of 4" % (4 - services), ServiceDebuffsPanel.BAD if services > 0 else ServiceDebuffsPanel.GOOD, ServiceDebuffsPanel.make(Session.flags), "Each freed zone restores one service (click for details)")
+	hud.add_panel(chip)
+	if services > 0 and not Session.flag(DEBUFF_TUTORIAL_FLAG):
+		_debuff_tutorial(chip)
+
+
+## Overnight Nov 7-8, Part 1.6: the first time in the Capital (once per save), a short tutorial points at the broken-services chip in the upper
+## left, says what each active debuff does, and that freeing each Path's zone lifts its debuff. Waits for any opening dialogue to close.
+const DEBUFF_TUTORIAL_FLAG: StringName = &"tip_capital_debuffs"
+
+
+func _debuff_tutorial(chip: Control) -> void:
+	for _i: int in range(120):
+		await get_tree().create_timer(0.25).timeout
+		if not is_instance_valid(chip) or not is_inside_tree():
+			return
+		if not (dialogue != null and dialogue.visible) and not SceneManager.busy:
+			break
+	if Session.flag(DEBUFF_TUTORIAL_FLAG) or not is_instance_valid(chip):
+		return
+	var rect: Rect2 = chip.get_global_rect()
+	var tip: TipPanel = TipPanel.show_once(hud, DEBUFF_TUTORIAL_FLAG, "The Capital's broken services", CapitalDebuffs.tutorial_text(Session.flags), Vector2(rect.end.x + 46.0, maxf(rect.position.y - 10.0, 20.0)))
+	if tip == null:
+		return
+	tip.name = "CapitalDebuffTutorial"
+	var arrow: Label = UIKit.label("◀", &"", 44, UIStyle.GOLD)
+	arrow.name = "CapitalDebuffTutorialArrow"
+	arrow.position = Vector2(rect.end.x + 4.0, rect.position.y - 14.0)
+	arrow.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	arrow.add_theme_constant_override("outline_size", 8)
+	arrow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hud.add_child(arrow)  # beside the panel, not inside it (the tip's container would lay it out over the text)
+	tip.tree_exited.connect(arrow.queue_free)
 
 
 func _update_objective() -> void:

@@ -95,7 +95,7 @@ static func build_def() -> ZoneDef:
 		_spot("heal", "Breakroom Couch", "heal", Vector3.ZERO, 1.5, "Rest on the couch (full heal)", "heal"),
 		_spot("coffee", "Coffee Machine", "coffee", Vector3.ZERO, 1.3, "Pour a cup", "zone"),
 		_spot("time_clock", "Time Clock", "time_clock", Vector3.ZERO, 1.3, "Punch in", "zone"),
-		_spot("exit", "The Way to Town", "exit", Vector3.ZERO, 1.6, "Walk back to town (full heal)", "exit"),
+		_spot("exit", "The Way to Town", "exit", Vector3.ZERO, 1.6, "Walk back to town", "exit"),
 		_spot("printer", "Haunted Printer", "printer", Vector3(0.9, 0, 0), 1.4, "Print a card (40 gold)", "zone"),
 		_spot("suggestion", "Suggestion Box", "suggestion", Vector3.ZERO, 1.3, "Drop in a suggestion", "zone"),
 		_spot("mini_dungeon", "Sub-Basement 3", "mini_dungeon", Vector3.ZERO, 1.5, "Take the elevator to Quarterly Reviews", "mini_dungeon"),

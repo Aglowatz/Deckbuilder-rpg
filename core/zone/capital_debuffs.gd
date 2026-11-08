@@ -207,3 +207,21 @@ static func modifier_text(modifier: Modifier, on_player: bool) -> String:
 		Modifier.Kind.SHUFFLE_JUNK_INTO_DECK:
 			return "In duels, %d Heaps of Rubbish are shuffled into your deck." % modifier.value
 	return modifier.label if on_player else modifier.label
+
+
+## Overnight Nov 7-8, Part 1.6: the first-visit tutorial's body - each still-active debuff (name and what it does), then how to lift it.
+static func tutorial_text(flags: Dictionary) -> String:
+	var lines: PackedStringArray = ["The panel in the upper left (Services restored) lists the Capital's broken services: click it to open the icons. While a Path's zone is still under the regime, its service stays broken here, and that hurts you:"]
+	for debuff: Debuff in all():
+		if is_active(flags, debuff.zone_id):
+			lines.append("[b]%s[/b] (%s): %s" % [debuff.name_text(), Affinity.display_name(debuff.path), debuff.mechanic_text()])
+	lines.append("Free a Path's zone and its service is restored: that debuff is gone for good. Click the panel any time for details.")
+	return "\n".join(lines)
+
+
+## Overnight Nov 7-8, Part 1.6: the Glossary's rows for the Capital's debuffs (help for after the tutorial).
+static func glossary_entries() -> Array[Array]:
+	var result: Array[Array] = [["Capital debuffs", "In the Capital, each Path whose zone is not yet free leaves one service broken, and each broken service is a debuff on you (shown in the upper left). Freeing that Path's zone removes its debuff."]]
+	for debuff: Debuff in all():
+		result.append(["%s (%s)" % [debuff.name_text(), Affinity.display_name(debuff.path)], debuff.mechanic_text()])
+	return result

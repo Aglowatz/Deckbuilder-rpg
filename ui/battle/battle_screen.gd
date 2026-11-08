@@ -2210,19 +2210,39 @@ func _show_mulligan() -> void:
 	PadFocus.register(center)
 
 
+## Overnight Nov 7-8, Part 1.1: the Peek is a true modal - its own CanvasLayer above the board, the hand, the tooltips and the banners
+## (BattleHud.MODAL_LAYER), with the table dimmed behind it, so the peeked card and its Top / Bottom buttons are never covered.
+var _peek_layer: CanvasLayer = null
+
+
 func _show_peek() -> void:
 	if peek_panel != null:
 		peek_panel.queue_free()
+	if _peek_layer != null:
+		_peek_layer.queue_free()
+	_peek_layer = CanvasLayer.new()
+	_peek_layer.name = "PeekLayer"
+	_peek_layer.layer = BattleHud.MODAL_LAYER
+	add_child(_peek_layer)
+	var dim: ColorRect = ColorRect.new()
+	dim.name = "PeekDim"
+	dim.color = Color(0.02, 0.01, 0.04, 0.62)
+	dim.mouse_filter = Control.MOUSE_FILTER_STOP
+	UIKit.full_rect(dim)
+	_peek_layer.add_child(dim)
 	peek_panel = PeekPanel.make(game.peek_cards())
-	peek_panel.lift = 125.0  # clear of the infrastructure row and the hand
+	peek_panel.lift = 40.0
 	peek_panel.chosen.connect(_peek_choice)
-	_overlay_layer.add_child(peek_panel)
+	_peek_layer.add_child(peek_panel)
 
 
 func _peek_choice(top_uids: Array[int], bottom_uids: Array[int]) -> void:
 	if peek_panel != null:
 		peek_panel.queue_free()
 		peek_panel = null
+	if _peek_layer != null:
+		_peek_layer.queue_free()
+		_peek_layer = null
 	_submit(GameAction.peek(0, top_uids, bottom_uids))
 
 

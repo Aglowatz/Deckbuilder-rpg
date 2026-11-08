@@ -37,7 +37,6 @@ func test_the_story_opens_on_the_players_own_path_zone() -> void:
 		assert_true(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
 		var own: String = PathDirection.own_main_quest(path)
 		assert_eq(own, QuestDefinitions.zone_main_id(PathDirection.zone_of(path)))
-		assert_eq(Session.quest_log.tracked_id(), own, "%s: its own zone's line is tracked" % Affinity.display_name(path))
 		assert_true(PathDirection.due(Session.quest_log, Session.flags, path), "Maren has something to say")
 		Session.take_path_direction()
 		assert_false(PathDirection.due(Session.quest_log, Session.flags, path), "said once")
@@ -50,8 +49,9 @@ func test_marens_lines_use_the_real_zone_effects() -> void:
 		var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id)
 		var text: String = "\n".join(PathDirection.lines(path))
 		assert_false(text.contains("{"), "every token filled: %s" % text)
-		for needed: String in [ZoneDefs.get_def(zone_id).display_name, str(PathDirection.VENDORS[zone_id]), effect.buff_name(), effect.buff_mechanic(),
-				effect.debuff_name(), effect.debuff_mechanic(), Affinity.display_name(ZoneEffects.rival_of(path)), "Beefcake against Necrocrat", "Gourmand against Refusemancer"]:
+		# Overnight Nov 7-8, Part 1.3: the send-off no longer talks shopping (the vendor line went); it names the gatekeeper and the road.
+		for needed: String in [ZoneDefs.get_def(zone_id).display_name, effect.buff_name(), effect.buff_mechanic(), effect.debuff_name(), effect.debuff_mechanic(),
+				Affinity.display_name(ZoneEffects.rival_of(path)), CorruptedNpcs.display_name(zone_id).get_slice(",", 0), PathDirection.road_of(zone_id)]:
 			assert_string_contains(text, needed, "%s's talk names %s" % [Affinity.display_name(path), needed])
 
 

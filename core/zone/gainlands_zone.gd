@@ -117,7 +117,7 @@ static func build_def() -> ZoneDef:
 		_spot("gus", "Foreman Gus, Wheel Wrangler", "gus", Vector3(0.9, 0, 0), 1.6, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Foreman Gus"}),
 		_spot("tony", "Benchley's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
-		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
+		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town", "exit"),
 		_spot("mini_dungeon", "The Iron Cave", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cave: leg day", "mini_dungeon", {"no_plate": true}),  # S-IRON, open from the start (Gainlands v2, Part F); its icon board, not lettering
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon", {"no_plate": true}),  # the fortress gate carries an icon board, not lettering (GC-10)
 		_spot(SWOLYMPUS_TRAIL, "The Ascent of Mount Swolympus", "swolympus_foot", Vector3(0, 0, 0), 2.0, "Climb Mount Swolympus", "zone", {"no_plate": true}),  # Fix pass Nov 4 (B): S-BEEF, reached along the ridge once the gate is open

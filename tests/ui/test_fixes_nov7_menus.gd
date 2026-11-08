@@ -46,3 +46,28 @@ func test_hand_cards_are_compact_and_big_hands_use_two_rows() -> void:
 	assert_true(BattleBoard.compact_hand)
 	assert_eq(BattleBoard.TWO_ROW_HAND, 10)
 	assert_gt(BattleBoard.TWO_ROW_LIFT, 0.0)
+
+
+## Overnight Nov 7-8, Part 1.11: an Open-all result card shows whole and readable on hover and on keyboard / pad focus.
+func test_open_all_results_zoom_on_hover_and_focus() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	Session.add_pack(PackRules.GENERAL_1_ID, 2)
+	var screen: PacksScreen = PacksScreen.new()
+	add_child_autofree(screen)
+	await get_tree().process_frame
+	var openings: Array[PackOpening] = [Session.open_pack(PackRules.GENERAL_1_ID), Session.open_pack(PackRules.GENERAL_1_ID)]
+	screen._show_open_all(openings)
+	await get_tree().process_frame
+	assert_not_null(screen.open_all_preview)
+	var tiles: Array[Node] = screen.find_children("Result_*", "Control", true, false)
+	assert_gt(tiles.size(), 0)
+	var tile: Control = tiles[0] as Control
+	assert_eq(tile.focus_mode, Control.FOCUS_ALL, "keyboard and pad can focus a result")
+	tile.focus_entered.emit()  # headless: the overlay is not visible in a window, so a real grab_focus is refused
+	assert_true(screen.open_all_preview.visible, "focus shows the card whole")
+	tile.focus_exited.emit()
+	assert_false(screen.open_all_preview.visible)
+	tile.mouse_entered.emit()
+	assert_true(screen.open_all_preview.visible, "and so does the mouse")

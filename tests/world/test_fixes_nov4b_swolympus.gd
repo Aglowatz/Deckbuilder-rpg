@@ -72,3 +72,40 @@ func test_opening_mount_swolympus_makes_the_ridge_walkable_to_the_trail() -> voi
 		if str(spot["id"]) == GainlandsZone.SWOLYMPUS_TRAIL:
 			trail = spot
 	assert_eq(str(trail.get("anchor", "")), "swolympus_foot", "the climb starts at the trail")
+
+
+## Overnight Nov 7-8, Part 1.9: with the gate shut, no ground behind it can be reached from the meadow on any side (a flood fill over the walkable
+## ground at 0.5 m from the plaza in front of the gate never reaches the strip behind the barrier or the crag beside the west tower).
+func test_nothing_behind_the_shut_gate_can_be_reached_from_any_side() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var shut: GainlandsBuilder = GainlandsBuilder.new()  # its own build: an earlier test opens the shared builder's gate
+	shut.build(host)
+	assert_false(shut.swolympus_open)
+	var builder: GainlandsBuilder = shut
+	var gate: Vector3 = shut.layout.anchors[GainlandsZone.SWOLYMPUS_GATE] as Vector3
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(GainlandsBuilder.SWOLYMPUS_GATE_YAW))
+	var start: Vector3 = gate + basis * Vector3(0.0, 0.0, 4.0)
+	assert_true(builder.is_walkable(Vector3(start.x, 0, start.z), 0.3), "the meadow in front of the gate")
+	var step: float = 0.5
+	var seen: Dictionary = {}
+	var queue: Array[Vector2i] = [Vector2i.ZERO]
+	seen[Vector2i.ZERO] = true
+	var reached_behind: Array[Vector2] = []
+	while not queue.is_empty() and seen.size() < 40000:
+		var cell: Vector2i = queue.pop_front()
+		for offset: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var next: Vector2i = cell + offset
+			if seen.has(next) or absi(next.x) > 60 or absi(next.y) > 60:
+				continue
+			var world: Vector3 = start + Vector3(float(next.x) * step, 0.0, float(next.y) * step)
+			var mid: Vector3 = start + Vector3((float(cell.x) + float(offset.x) * 0.5) * step, 0.0, (float(cell.y) + float(offset.y) * 0.5) * step)
+			if not builder.is_walkable(Vector3(world.x, 0, world.z), 0.3) or not builder.is_walkable(Vector3(mid.x, 0, mid.z), 0.3):
+				continue
+			seen[next] = true
+			queue.append(next)
+			var local: Vector3 = basis.inverse() * (world - gate)
+			if local.z < -1.2 and absf(local.x) < 18.0:
+				reached_behind.append(Vector2(local.x, local.z))
+	assert_eq(reached_behind.size(), 0, "nothing behind the gate is reachable: %s" % str(reached_behind.slice(0, 5)))
+	assert_gt(seen.size(), 200, "the flood really ran over the meadow")

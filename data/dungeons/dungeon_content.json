@@ -1784,15 +1784,16 @@
 			"Sorted and saved, and every card in it your own choice. Good. Now when it loses, you've nobody to blame but yourself, which is how it ought to be."
 		],
 		"quest.storeroom_ghosts.offer": [
-			"Now, a favour. Tilly's store room, the corner house beside her shop, has been moaning for a week. I don't mean Tilly, dearie. I mean the room.",
-			"Ghosts, I expect, and petty ones, which are the worst kind. Nobody's been able to get in for so much as a candle. Go and sort them out, gently if they'll let you."
+			"Now, a favour. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.",
+			"Ghosts, I expect, and old ones. The Tonics have kept that room locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it if it lets you."
 		],
 		"quest.storeroom_ghosts.active": [
-			"The store room door is beside Tilly's shop, on the north side of the square. Ignore the rattling, dearie; that's just them being dramatic."
+			"The store room door is beside Tilly's shop, on the north side of the square. If there are marks on the frame, leave them be, dearie. Somebody put them there for a reason."
 		],
 		"quest.storeroom_ghosts.ready": [
-			"A refund? Ninety years of moaning, all over one broken lantern. I've had customers like that. I still have a few.",
-			"Well done, dearie. You've settled the ghosts, so now go and settle yourself somewhere dry before you catch a chill."
+			"Gone, are they? Good. No, I don't want to hear what they said. Not out here on the square, and not before supper.",
+			"Tilly's family were healers, mostly. Mostly. Some of the old families kept a back room for the other kind of remedy, and the less said about it, the better for Tilly. She's a good girl, and none of it is hers.",
+			"Well done, dearie. Now go and sit somewhere warm for a bit. You've gone the colour of a candle."
 		],
 		"quest.some_assembly_required.offer": [
 			"Right, then. It's time you had something sharper than a deck. Bertram Beetsworth hands out gear from his smithy, on the west side of the square.",
@@ -1802,12 +1803,12 @@
 			"Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. He lives to stamp things."
 		],
 		"quest.path_direction": [
-			"Sit down a moment, dearie, before you go running off. It's time I pointed you somewhere properly. Start with {zone}. It's {path} country, and so, by the look of you, are you.",
-			"{vendor} sells more {path} cards out there than anyone in this town does, so take gold and a good big bag. And take my advice, for once.",
-			"Inside {zone}, your Path stands a little taller. {buff}: {buff_text}",
-			"The Paths quarrel, dearie: Beefcake against Necrocrat, Gourmand against Refusemancer. They always have. Once, they needed each other too much for it to matter.",
-			"So in {zone}, it's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone}, it's the other way round, and you're the one who suffers.",
-			"{gatekeeper} holds {road} at {obstacle}, and nobody gets into {zone} without beating that fight first. Then come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
+			"There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself. I'm impressed, dearie, and I don't impress easily.",
+			"You've met the shopkeepers, sorted out your deck, sent the things in Tilly's store room packing and got yourself kitted out. That's all the settling in I can teach you. Now I need you out on the roads.",
+			"Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.",
+			"Start with {zone}. Your deck is {path} through and through, so it'll be the easiest road for you. {gatekeeper} holds {road} at {obstacle}.",
+			"Your Path stands a little taller in there. {buff}: {buff_text} It's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone} it's the other way round, so mind that when you get there.",
+			"I've put all four gatekeepers in your quest log, with yours on top. Go on, then, and come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
 		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
@@ -1983,9 +1984,25 @@
 			"Cell 4"
 		],
 		"cave_mouth.maren_path": [
-			"One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through, so start where it'll be easiest for you: {zone}.",
-			"Take {road} out of town. {gatekeeper} is standing at {obstacle}, and you'll have to win that duel before anyone lets you through. It's on your map, marked in your Path's colour.",
-			"The errands can wait as long as you like. The shops aren't going anywhere, and neither am I."
+			"One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through. When the time comes to go out on the roads, {zone} will be the easiest one for you.",
+			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you a few errands to learn the ropes.",
+			"Come and find me on the square once you've dried off. When you're ready, I'll send you out myself."
+		],
+		"gatekeeper.not_yet.beefcake": [
+			"WHOA THERE, SMALL STRANGER! You haven't even warmed up yet. I can see it in your shoulders.",
+			"Go and finish whatever Elder Maren's got you doing in town. When she sends you out here, come back and we'll see what you can lift. I'll be right here. I'm always right here."
+		],
+		"gatekeeper.not_yet.necrocrat": [
+			"Good afternoon. I'm afraid you aren't on today's list. You aren't on any list, which I find upsetting.",
+			"Elder Maren has you down for orientation in Crosspath first. Once she's signed you off, come back and I'll refuse you properly."
+		],
+		"gatekeeper.not_yet.gourmand": [
+			"A new face! Too early, too early, the sauce hasn't reduced! You can't fight on an empty plate.",
+			"Go and let Elder Maren finish showing you round town. When she sends you to me, I'll have the kitchen ready. YES, CHEF! ...That was me. I'm the chef."
+		],
+		"gatekeeper.not_yet.refusemancer": [
+			"...not yet... the green is not ready for you... and you are not ready for the green...",
+			"...the old tortoise in the square is still busy with you... go back to her... when she sends you, the path will be waiting... it is always waiting..."
 		]
 	}
 }

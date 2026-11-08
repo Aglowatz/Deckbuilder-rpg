@@ -236,7 +236,12 @@ static func your_path_line(tracked: QuestData) -> String:
 	var path: Affinity.Type = Session.profile.primary_affinity
 	if tracked != null and tracked.id == PathDirection.own_main_quest(path):
 		return ""
-	return PathDirection.tracker_line(path, Session.flags)
+	# Overnight Nov 7-8, Part 1.2: before Maren sends the hero out, the line is the intro line's next step (nothing while an errand of that
+	# line is the tracked quest - its step is already on show).
+	var step: String = PathDirection.intro_step(Session.quest_log, Session.unlock_state(), Session.flags)
+	if not PathDirection.sent_out(Session.flags) and tracked != null and tracked.line == QuestDefinitions.SETTLING_IN:
+		return ""
+	return PathDirection.tracker_line(path, Session.flags, step)
 
 
 func _refresh_path_row(text: String) -> void:

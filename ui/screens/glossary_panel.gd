@@ -126,6 +126,8 @@ static func entries(index: int) -> Array[Array]:
 		"Zones":  # Fixes Oct 25, Part 8: rival Paths and each zone's buff and debuff, with the real numbers (PathDirection)
 			for entry: Array in PathDirection.glossary_entries():
 				result.append([entry[0], entry[1], ""])
+			for entry: Array in CapitalDebuffs.glossary_entries():  # Overnight Nov 7-8, Part 1.6
+				result.append([entry[0], entry[1], ""])
 		"Terms":
 			for term: Variant in KeywordInfo.GLOSSARY.keys():
 				result.append([str(term), str(KeywordInfo.GLOSSARY[term]), ""])

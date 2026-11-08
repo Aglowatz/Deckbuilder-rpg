@@ -15,29 +15,26 @@ func after_each() -> void:
 	Session.save_enabled = true
 
 
-func test_the_path_choice_starts_and_tracks_that_paths_gatekeeper_line() -> void:
+## Overnight Nov 7-8, Part 1.2 replaces D3's "gatekeeper from the Path choice": the choice only remembers the Path; no gatekeeper line starts.
+func test_the_path_choice_remembers_the_path_but_starts_no_gatekeeper_line() -> void:
 	for path: Affinity.Type in PATHS:
 		Session.new_game()
 		Session.choose_starting_path(path)
 		var zone_id: String = PathDirection.zone_of(path)
-		var own: String = QuestDefinitions.zone_main_id(zone_id)
 		assert_true(Session.flag(StringName(QuestDefinitions.own_path_flag(zone_id))), "%s: the own-Path flag" % zone_id)
-		assert_true(Session.quest_log.is_active(own), "%s: its line starts at the choice" % zone_id)
-		assert_eq(Session.quest_log.tracked_id(), own, "%s: and is tracked" % zone_id)
+		assert_eq(Session.quest_log.preferred, QuestDefinitions.zone_main_id(zone_id), "%s: preferred for later" % zone_id)
 		for other: String in Gatekeepers.IDS:
-			if other != zone_id:
-				assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(other)), "the other lines wait for town (%s)" % other)
+			assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(other)), "no gatekeeper line yet (%s)" % other)
 
 
-func test_the_story_opens_on_arrival_in_town_without_the_errands() -> void:
+func test_arrival_in_town_opens_the_story_but_not_the_gatekeepers() -> void:
 	Session.choose_starting_path(Affinity.Type.BEEFCAKE)
 	Session.set_flag(&"trial_cleared")
 	Session.offer_auto_quests()
 	for zone_id: String in Gatekeepers.IDS:
-		assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "every gatekeeper can be fought at any point: %s" % zone_id)
-	assert_true(Session.quest_log.is_active(MemoryDefs.QUEST_ID), "Fragments too")
-	assert_false(Session.quest_log.is_completed(QuestDefinitions.ARMORY))
-	assert_eq(Session.quest_log.tracked_id(), PathDirection.own_main_quest(Affinity.Type.BEEFCAKE), "the Path line stays tracked")
+		assert_false(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "the gatekeepers wait for Maren: %s" % zone_id)
+	assert_true(Session.quest_log.is_active(MemoryDefs.QUEST_ID), "Fragments starts")
+	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "the first errand starts")
 
 
 func test_errands_are_the_settling_in_side_line() -> void:
@@ -57,7 +54,7 @@ func test_an_old_save_learns_its_own_path_on_load() -> void:
 
 
 func test_your_path_line_names_the_gatekeeper_and_the_road_until_beaten() -> void:
-	var flags: Dictionary = {}
+	var flags: Dictionary = {PathDirection.FLAG: true}
 	assert_eq(PathDirection.tracker_line(Affinity.Type.BEEFCAKE, flags), "Face Brick Bronson on the Gainlands road")
 	for path: Affinity.Type in PATHS:
 		var line: String = PathDirection.tracker_line(path, flags)
@@ -68,22 +65,49 @@ func test_your_path_line_names_the_gatekeeper_and_the_road_until_beaten() -> voi
 	assert_eq(PathDirection.tracker_line(Affinity.Type.BEEFCAKE, flags), "", "gone once the gatekeeper is beaten")
 
 
-func test_marens_cave_mouth_lines_name_the_gatekeeper_and_the_road() -> void:
+## Overnight Nov 7-8, Part 1.2: before Maren sends the hero out, the line points at the intro line's next step.
+func test_before_the_send_off_your_path_line_is_the_next_intro_step() -> void:
+	Session.choose_starting_path(Affinity.Type.BEEFCAKE)
+	Session.set_flag(&"trial_cleared")
+	Session.offer_auto_quests()
+	var step: String = PathDirection.intro_step(Session.quest_log, Session.unlock_state(), Session.flags)
+	assert_string_contains(step, "Settle in")
+	assert_string_contains(step, "Tilly", "the first step of Meet the Merchants")
+	assert_eq(PathDirection.tracker_line(Affinity.Type.BEEFCAKE, Session.flags, step), step)
+	Session.quest_log.completed.append(QuestDefinitions.ARMORY)
+	assert_string_contains(PathDirection.intro_step(Session.quest_log, Session.unlock_state(), Session.flags), "Report back to Elder Maren")
+
+
+func test_marens_cave_mouth_lines_name_the_zone_and_send_the_hero_to_settle_in() -> void:
 	for path: Affinity.Type in PATHS:
 		var zone_id: String = PathDirection.zone_of(path)
-		var text: String = "\n".join(PathDirection.lines(path, PathDirection.CAVE_TEXT_KEY))
+		var text: String = " ".join(PathDirection.lines(path, PathDirection.CAVE_TEXT_KEY))
 		assert_false(text.contains("{"), "every token filled")
-		assert_string_contains(text, CorruptedNpcs.display_name(zone_id).get_slice(",", 0))
-		assert_string_contains(text, PathDirection.road_of(zone_id))
 		assert_string_contains(text, ZoneDefs.get_def(zone_id).display_name)
+		assert_string_contains(text, "Settle in")
 
 
-func test_marens_path_talk_waits_for_her_greeting_not_the_armory() -> void:
+func test_marens_send_off_waits_for_the_armory() -> void:
 	Session.choose_starting_path(Affinity.Type.GOURMAND)
 	Session.set_flag(&"trial_cleared")
-	assert_false(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND), "not before she has greeted the hero")
 	Session.set_flag(&"elder_greeted")
-	assert_true(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND), "right after, armory or not")
+	assert_false(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND), "not before the intro line is done")
+	Session.quest_log.completed.append(QuestDefinitions.ARMORY)
+	assert_true(PathDirection.due(Session.quest_log, Session.flags, Affinity.Type.GOURMAND), "right after the armory")
+	var text: String = " ".join(PathDirection.lines(Affinity.Type.GOURMAND))
+	assert_string_contains(text, "easiest road for you")
+	assert_false(text.contains("{"))
+
+
+## Overnight Nov 7-8, Part 1.2: an old save that already had a gatekeeper line counts as sent out.
+func test_an_old_save_with_a_gatekeeper_line_counts_as_sent_out() -> void:
+	Session.choose_starting_path(Affinity.Type.GOURMAND)
+	Session.set_flag(&"trial_cleared")
+	Session.quest_log.active.append(QuestDefinitions.zone_main_id("gourmand"))  # a line started under the Nov 7 rules
+	var data: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
+	assert_true(Session.from_dict(data))
+	assert_true(PathDirection.sent_out(Session.flags))
+	assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id("gourmand")), "the line is kept")
 
 
 func test_wild_growth_waits_until_round_3_on_the_first_nodes() -> void:

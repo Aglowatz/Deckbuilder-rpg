@@ -8,7 +8,7 @@ Single-file GUT runner used: godot --headless -s res://addons/gut/gut_cmdln.gd -
 | Part | What | State |
 |---|---|---|
 | 0 | Leftovers (fixes_nov7 + critic CF) | done: cave ramp 3->5->9 (94-100 % clears), capped reward pick (no double grant, AT CAP tag + text), shop buy says collection + Deck Station, Fennel out of the trees, Brannoch clear of the travel trigger (1.8), battle toast cleared on phase change, unopened pack count under Menu |
-| 1 | Playtest bugs (11 items) | pending |
+| 1 | Playtest bugs (11 items) | done: Peek modal layer 29 + dim (test), gatekeeper quests from Maren after the armory (PathDirection.FLAG gate, intro-step tracker line, not-yet lines, old-save migration), send-off + cave-mouth lines rewritten, 1987 cut (2), store room ghosts darker + Maren lines, Capital debuff tutorial + Glossary, "(full heal)" off exits, Brannoch moved (Part 0), Swolympus crag + flood test, Pip x1.5, pack results zoom on hover/focus |
 | 2 | Economy | pending |
 | 3 | Story finale | pending |
 | 4 | Balance retune | pending |

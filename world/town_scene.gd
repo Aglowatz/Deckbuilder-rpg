@@ -635,7 +635,8 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 		npc = HeroModel.build(HeroModel.npc_look(model_name.substr(5))) if model_name.begins_with("hero:") else ModelKit.character(model_name)
 		if tint != Color.WHITE:
 			ModelKit.tint(npc, tint)
-	ModelKit.place(self, npc, position, yaw, TownPlayer.MODEL_SCALE)
+	var size: float = float(NPC_SIZE.get(id, 1.0))
+	ModelKit.place(self, npc, position, yaw, TownPlayer.MODEL_SCALE * size)
 	var animation: AnimationPlayer = ModelKit.animation_player(npc)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
@@ -643,7 +644,11 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 	_npcs[id] = npc
 	if npc_hp != null and id != "mannequin":
 		npc_hp.register(npc, yaw)
-	town.obstacles.append(Vector3(position.x, position.z, 0.3))
+	town.obstacles.append(Vector3(position.x, position.z, 0.3 * size))
+
+
+## Overnight Nov 7-8, Part 1.10: NPCs drawn larger than the storybook scale (their collider and talk area grow to match). Pip was hard to see.
+const NPC_SIZE: Dictionary = {"tailor": 1.5}
 
 
 ## Playtest v0.4.0 Part A: floating name labels as screen UI - vendors ("Sable - Cards") and quest givers always, everyone else when the hero
@@ -908,7 +913,7 @@ func _build_spots() -> void:
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, VENDOR_REACH)
 	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, VENDOR_REACH)
-	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, VENDOR_REACH)
+	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, VENDOR_REACH * float(NPC_SIZE["tailor"]))
 	if _baker != null:
 		_add_spot("baker", "Brindle the Baker", _baker.world_position(), 1.4)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
@@ -2087,6 +2092,10 @@ func _talk_corrupted_npc(id: String) -> void:
 	_face_npc("npc_%s" % id)
 	var story: StoryText = load(STORY_PATH) as StoryText
 	var defeated: bool = Session.flag(CorruptedNpcs.unlock_flag(id))
+	if not defeated and not Session.gatekeeper_can_fight(id):
+		# Overnight Nov 7-8, Part 1.2: met before Maren sends the hero out - a friendly "come back when Maren sends you", and no fight.
+		dialogue.start(Gatekeepers.full_title(id), DungeonCatalog.text_lines("gatekeeper.not_yet.%s" % id) as Array[String], str(NPC_IDS.get("npc_%s" % id, "")))
+		return
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)

@@ -235,7 +235,8 @@ func claim_own_path(start_now: bool = true) -> bool:
 		return false
 	flags[QuestDefinitions.own_path_flag(zone_id)] = true
 	quest_log.preferred = QuestDefinitions.zone_main_id(zone_id)
-	if not start_now:
+	# Overnight Nov 7-8, Part 1.2: the gatekeeper quest itself waits until Maren sends the hero out after the intro line.
+	if not start_now or not PathDirection.sent_out(flags):
 		return false
 	var own: String = QuestDefinitions.zone_main_id(zone_id)
 	if not start_quest(own):
@@ -1340,6 +1341,7 @@ func from_dict(data: Dictionary) -> bool:
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	var armory_notice: String = _migrate_armory()
 	claim_own_path(false)  # Fix pass Nov 7 (D3): older saves learn their own Path zone (its line is offered on town entry)
+	_migrate_gatekeepers_given()
 	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it. Oct 20: older saves only - a new
 	# hero is level 3 straight out of the cave, and Make It Yours is Maren's second errand now.
 	if quest_migration_pending and quest_log.version < 3 and profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
@@ -2411,11 +2413,30 @@ func pack_step_open() -> bool:
 	return not flag(StringName(QuestDefinitions.FIRST_PACK_FLAG))
 
 
+## Overnight Nov 7-8, Part 1.2: a gatekeeper fights only once Maren has sent the hero out (after the intro line), or once already beaten.
+func gatekeeper_can_fight(zone_id: String) -> bool:
+	return PathDirection.sent_out(flags) or flag(CorruptedNpcs.unlock_flag(zone_id))
+
+
+## Overnight Nov 7-8, Part 1.2: a save that already has a gatekeeper quest (started, finished, or a gatekeeper beaten) counts as sent out,
+## so it never loses its lines when the quests begin to wait for Maren.
+func _migrate_gatekeepers_given() -> void:
+	if profile == null or flag(StringName(PathDirection.FLAG)):
+		return
+	for zone_id: String in Gatekeepers.IDS:
+		var main_id: String = QuestDefinitions.zone_main_id(zone_id)
+		if quest_log.is_active(main_id) or quest_log.is_completed(main_id) or Gatekeepers.is_cleared(flags, zone_id):
+			set_flag(StringName(PathDirection.FLAG))
+			return
+
+
 ## Fixes Oct 25, Part 8: Maren has sent the hero to their own Path's zone - remember it, and track that zone's main line.
 func take_path_direction() -> void:
 	if profile == null:
 		return
 	set_flag(StringName(PathDirection.FLAG))
+	# Overnight Nov 7-8, Part 1.2: this is the moment the four gatekeeper quests are given; the player's own Path's is tracked.
+	offer_auto_quests()
 	var own: String = PathDirection.own_main_quest(profile.primary_affinity)
 	if quest_log.is_active(own):
 		quest_log.track(own)

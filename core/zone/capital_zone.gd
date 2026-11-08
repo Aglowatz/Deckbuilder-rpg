@@ -200,7 +200,7 @@ static func _spots() -> Array[Dictionary]:
 		var place: String = str(SHAFT_PLACES.get(destination, "the city"))
 		spots.append(_spot("shaft_" + destination, "Shaft to %s" % place, "shaft_" + destination, Vector3(0, 0, -0.9), 1.5, "Take the service shaft to %s" % place, "zone", {"act": "shaft", "dest": destination}))
 	# The Outskirts.
-	spots.append(_spot("exit", "The Road Back to Crosspath", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town (full heal)", "exit"))
+	spots.append(_spot("exit", "The Road Back to Crosspath", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town", "exit"))
 	spots.append(_spot("kestrel", "Kestrel, Resistance Scout", "kestrel", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "kestrel", "npc_id": "NPC-KESTREL", "npc_name": NPC_KESTREL, "speaker": "Kestrel"}))
 	spots.append(_spot("old_tunnels", "The Old Service Tunnels", "old_tunnels", Vector3(0, 0, 0.0), 1.8, "Enter the Old Service Tunnels", "mini_dungeon", {"no_plate": true}))  # the tunnel mouth is the sign
 	spots.append(_spot("spotless", "Captain Spotless", "spotless", Vector3(0, 0, 1.0), 1.9, "Talk", "zone", {"npc": "spotless", "npc_id": "NPC-SPOTLESS", "speaker": "Captain Spotless", "act": "spotless"}))

@@ -38,6 +38,9 @@ static func due(qlog: QuestLog, flags: Dictionary, path: Affinity.Type) -> bool:
 		return false
 	if qlog == null:
 		return false
+	# Overnight Nov 7-8, Part 1.2: only once the intro line is finished - the armory quest (equipment) is its last errand.
+	if not qlog.is_completed(QuestDefinitions.ARMORY) and not bool(flags.get(QuestDefinitions.LEGACY_FLAG, false)):
+		return false
 	var zone_id: String = zone_of(path)
 	if zone_id.is_empty():
 		return false
@@ -56,11 +59,38 @@ static func road_of(zone_id: String) -> String:
 
 ## Fix pass Nov 7 (item 1): the standing "Your Path" line in the HUD tracker, from the Path choice until that zone's gatekeeper is beaten:
 ## "Face Brick Bronson on the Gainlands road". "" without a Path, once the gatekeeper is beaten, or in the postgame.
-static func tracker_line(path: Affinity.Type, flags: Dictionary) -> String:
+static func tracker_line(path: Affinity.Type, flags: Dictionary, intro_step: String = "") -> String:
 	var zone_id: String = zone_of(path)
 	if zone_id.is_empty() or Gatekeepers.is_cleared(flags, zone_id) or bool(flags.get("primm_defeated", false)):
 		return ""
+	# Overnight Nov 7-8, Part 1.2: before Maren sends the hero out, the line points at the next step of the intro line instead.
+	if not sent_out(flags):
+		return intro_step if not intro_step.is_empty() else "Settle in: talk to Elder Maren on the square"
 	return "Face %s on %s" % [CorruptedNpcs.display_name(zone_id).get_slice(",", 0), road_of(zone_id)]
+
+
+## Overnight Nov 7-8, Part 1.2: true once Maren has handed out the gatekeeper quests (or on a save from before the early chain).
+static func sent_out(flags: Dictionary) -> bool:
+	return bool(flags.get(FLAG, false)) or bool(flags.get(QuestDefinitions.LEGACY_FLAG, false))
+
+
+## Overnight Nov 7-8, Part 1.2: the next step of the intro line ("Settling In") for the "Your Path" tracker line - the current step of the
+## first active errand by order, "Report back to Elder Maren" once the armory is done, "" when there is none to show.
+static func intro_step(qlog: QuestLog, state: UnlockState, flags: Dictionary) -> String:
+	if qlog == null or sent_out(flags):
+		return ""
+	if qlog.is_completed(QuestDefinitions.ARMORY):
+		return "Report back to Elder Maren on the square"
+	var best: QuestData = null
+	for quest: QuestData in QuestCatalog.all():
+		if quest.line == QuestDefinitions.SETTLING_IN and qlog.is_active(quest.id) and (best == null or quest.order < best.order):
+			best = quest
+	if best == null:
+		return "Settle in: talk to Elder Maren on the square"
+	var objective: QuestObjective = qlog.current_objective(best, state)
+	if objective == null:
+		return "Settle in: hand %s back to Elder Maren" % best.title
+	return "Settle in: %s" % objective.text
 
 
 ## The token values for the player's Path: zone, vendor, path, buff and debuff (names and plain mechanics), rival Path and its zone,

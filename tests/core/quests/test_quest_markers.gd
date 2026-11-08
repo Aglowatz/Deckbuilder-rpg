@@ -15,7 +15,7 @@ func before_each() -> void:
 func test_out_of_the_cave_the_marker_points_at_the_path_gatekeeper() -> void:
 	# Fix pass Nov 7 (D3): the story opens on arrival, not after the armory; the tracked quest is the Path's line, so the one objective
 	# marker points at its gatekeeper and Brannoch already has the Capital's quest.
-	Session.flags = {"trial_cleared": true}
+	Session.flags = {"trial_cleared": true, PathDirection.FLAG: true}  # Overnight Nov 7-8, Part 1.2: after Maren's send-off
 	Session.claim_own_path()
 	Session.offer_auto_quests()
 	var marks: Dictionary = QuestMarkers.giver_marks("town", Session.quest_log, QuestCatalog.all(), Session.unlock_state())

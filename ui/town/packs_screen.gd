@@ -164,6 +164,10 @@ func _result_tile(entry: PackOpening.Entry) -> Control:
 	return holder
 
 
+## Overnight Nov 7-8, Part 1.11: the Open-all grid's zoomed card (tests read it).
+var open_all_preview: HoverPreview = null
+
+
 func _show_open_all(openings: Array[PackOpening]) -> void:
 	if openings.is_empty():
 		return
@@ -202,8 +206,25 @@ func _show_open_all(openings: Array[PackOpening]) -> void:
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
 	scroll.add_child(grid)
+	# Overnight Nov 7-8, Part 1.11: the result cards are small - hovering one (or focusing it with the keyboard or a pad) shows it whole and
+	# readable beside it, like the Deck Station's hover.
+	var preview: HoverPreview = HoverPreview.new()
+	preview.name = "OpenAllPreview"
+	layer.add_child(preview)
+	open_all_preview = preview
 	for entry: PackOpening.Entry in result_entries(openings):
-		grid.add_child(_result_tile(entry))
+		var tile: Control = _result_tile(entry)
+		var card: CardData = entry.card
+		tile.mouse_filter = Control.MOUSE_FILTER_STOP
+		tile.focus_mode = Control.FOCUS_ALL
+		tile.focus_behavior_recursive = Control.FOCUS_BEHAVIOR_ENABLED
+		tile.mouse_entered.connect(func() -> void: preview.show_for(tile, card))
+		tile.mouse_exited.connect(preview.hide_preview)
+		tile.focus_entered.connect(func() -> void:
+			preview.show_for(tile, card)
+			scroll.ensure_control_visible(tile))
+		tile.focus_exited.connect(preview.hide_preview)
+		grid.add_child(tile)
 	var extra: PackedStringArray = []
 	for index: int in range(1, lines.size()):
 		if not lines[index].begins_with("[color=#ffcf70]New:") and not lines[index].begins_with("More copies:"):
@@ -221,4 +242,6 @@ func _show_open_all(openings: Array[PackOpening]) -> void:
 		_refresh())
 	column.add_child(done)
 	ConfirmKey.attach(layer, done)
-	done.call_deferred(&"grab_focus")
+	(func() -> void:
+		if is_instance_valid(done) and done.focus_mode != Control.FOCUS_NONE and done.is_visible_in_tree():
+			done.grab_focus()).call_deferred()  # keyboard mode keeps FancyButtons unfocusable (the old plain grab_focus warned)
