@@ -131,6 +131,11 @@ func _build_display() -> void:
 	var quality: OptionButton = _options(quality_names, GraphicsQuality.NAMES.size() if Settings.low_end else Settings.graphics_quality, _on_quality)
 	quality.name = "QualityOptions"
 	_body.add_child(_row("Graphics quality", quality))
+	if Settings.low_end:
+		var compat: Label = UIKit.label("Very old computer? Start the game with \"Start (Compatibility).bat\" in its folder: the OpenGL renderer (looks plainer, runs on more machines).", &"MutedLabel", 18)
+		compat.name = "CompatibilityNote"
+		compat.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_body.add_child(compat)
 	_body.add_child(_check("Depth of field (tilt-shift blur, Medium and High)", Settings.depth_of_field, _on_dof, "DofCheck"))
 	_body.add_child(_check("Bloom (soft glow around bright things)", Settings.bloom, _on_bloom, "BloomCheck"))
 	var fog: OptionButton = _options(["Off", "Light", "Full"], Settings.fog_quality, _on_fog_quality)
@@ -412,8 +417,17 @@ func _on_quality(index: int) -> void:
 	# the last row is the Low-end preset: Low plus the memory savers (GraphicsQuality.low_end)
 	Settings.low_end = index >= GraphicsQuality.NAMES.size()
 	Settings.graphics_quality = GraphicsQuality.Level.LOW if Settings.low_end else index
+	# Overnight Nov 7-8, Part 7: a preset sets the rows that belong to it (fog, effects, frame cap, render scale) and the page shows them.
+	Settings.apply_quality_preset()
+	Settings.apply_performance()
 	Settings.graphics_changed.emit()
 	_saved()
+	var scroll_at: int = _scroll.scroll_vertical if _scroll != null else 0
+	show_page(_page)
+	if _scroll != null:
+		_scroll.set_deferred(&"scroll_vertical", scroll_at)
+	if Settings.low_end and Session.toasts != null:
+		Session.toasts.show_toast("Low-end: textures, foliage, particles and view distance cut. On a very old computer, start the game with \"Start (Compatibility).bat\" in its folder (the OpenGL renderer).", UIStyle.GOLD)
 
 
 func _on_dof(pressed: bool) -> void:

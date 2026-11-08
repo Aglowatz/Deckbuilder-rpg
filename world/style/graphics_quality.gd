@@ -30,7 +30,7 @@ static var discrete_gpu: bool = false
 static var low_end: bool = false
 const LOW_END_NAME: String = "Low-end (old laptops)"
 ## Mipmap bias on Low-end: +0.5 picks the next smaller texture level a little earlier (less texture bandwidth, less shimmer on an iGPU).
-const LOW_END_MIPMAP_BIAS: float = 0.5
+const LOW_END_MIPMAP_BIAS: float = 1.0  # Overnight Nov 7-8, Part 7: a real cut (was 0.5): textures a mip level smaller
 ## Machines with this much physical memory or less get the Low-end preset on their first launch.
 const LOW_END_RAM_MB: int = 4608
 
@@ -143,20 +143,20 @@ static func glow(level: int) -> bool:
 ## The most ambient particles alive at once (all emitters of a preset together).
 static func ambient_particle_budget(level: int) -> int:
 	if low_end:
-		return 60
+		return 30  # Overnight Nov 7-8 (was 60)
 	return [120, 260, 400][clampi(level, 0, 2)]
 
 
 static func ambient_particles_scale(level: int) -> float:
 	if low_end:
-		return 0.2
+		return 0.1  # Overnight Nov 7-8 (was 0.2)
 	return [0.35, 0.8, 1.0][clampi(level, 0, 2)]
 
 
 ## Share of decorative foliage kept (grass tufts, bushes, flowers): scatter code keeps an item when `keep_item` says so. Low-end keeps a quarter.
 static func foliage_density(level: int) -> float:
 	if low_end:
-		return 0.25
+		return 0.12  # Overnight Nov 7-8 (was 0.25): a visible drop, accepted for old computers
 	return [0.4, 0.75, 1.0][clampi(level, 0, 2)]
 
 
@@ -235,14 +235,14 @@ static func apply_to_viewport(viewport: Viewport, level: int) -> void:
 ## How many dressing lights (lanterns, fires) stay on at once: the nearest ones to the hero (lights beyond the budget are switched off).
 static func light_budget(level: int) -> int:
 	if low_end:
-		return 2
+		return 1  # Overnight Nov 7-8 (was 2)
 	return [3, 6, 12][clampi(level, 0, 2)]
 
 
 ## Tier 1: the mesh visibility range of a zone (`StyleRig.cull_distance`) is scaled down on Low, where the CPU side (draw calls) is the limit.
 static func cull_scale(level: int) -> float:
 	if low_end:
-		return 0.7
+		return 0.5  # Overnight Nov 7-8, Part 7: a shorter draw distance (was 0.7)
 	return [0.8, 1.0, 1.0][clampi(level, 0, 2)]
 
 

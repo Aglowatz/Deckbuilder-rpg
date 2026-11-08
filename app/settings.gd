@@ -302,6 +302,27 @@ func apply_tooltip_theme() -> void:
 		theme.set_font_size("font_size", "TooltipLabel", tooltip_font(18))
 
 
+## Overnight Nov 7-8, Part 7: what picking a quality preset sets besides the level - fog, depth of field and bloom, and on Low-end the 30 fps
+## cap, a 75 % render scale and dynamic resolution (the Settings page shows the new values at once).
+func apply_quality_preset() -> void:
+	if low_end:
+		fog_quality = 0
+		depth_of_field = false
+		bloom = false
+		max_fps = LOW_END_FRAME_CAP
+		render_scale_pct = 75
+		dynamic_resolution = DynamicResolution.Mode.AUTO
+		return
+	match graphics_quality:
+		GraphicsQuality.Level.LOW:
+			fog_quality = 0
+			depth_of_field = false
+		GraphicsQuality.Level.MEDIUM:
+			fog_quality = 1
+		_:
+			fog_quality = 2
+
+
 func apply_performance() -> void:
 	Engine.max_fps = max_fps
 	GraphicsQuality.low_end = low_end
