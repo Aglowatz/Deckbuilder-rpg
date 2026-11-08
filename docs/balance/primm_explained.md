@@ -17,19 +17,42 @@ Mirrors: the first card each player plays is copied for the other side), a two-t
 
 ## Measurement 1 - the Paths' reference decks (what the sims always used)
 
-MEASURE1
+Measured tonight (`--what=encounters --games=12 --filter=D-PC`, `docs/design/sim/nov8/p4_targets.md`): each Path's reference deck at the
+expected level (L22), the model's gear and items, the Boss AI. Target band per phase: 40-60 %.
+
+| Phase | Beefcake | Necrocrat | Gourmand | Refusemancer | All |
+|---|---:|---:|---:|---:|---:|
+| 1 Standardization | 83 % | 100 % | 100 % | 92 % | 94 % |
+| 2 Reflection | 83 % | 83 % | 92 % | 100 % | 90 % |
+| 3 Unraveling | 42 % | 100 % | 58 % | 83 % | 71 % |
+
+The Critic pass of Nov 6 (C8) found the same shape: 75-100 % in phases 1-2, 50-100 % in phase 3. Read on its own, Primm is too easy.
 
 ## Measurement 2 - the deck a no-grind player could own
 
-MEASURE2
+**Not measured tonight.** The run (`--what=encounters --games=16 --filter=D-PC:10 --budget`, added tonight: `ProgressionModel.budget_deck`, the
+reference deck with at most 4 Epics and 1 Legendary, the rest from Commons, Uncommons and the starter) was stopped by Claude Code because the PC
+was critically low on memory, and the night's rule is not to restart a job stopped that way. Run it next:
+`Godot --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --games=16 --filter=D-PC:10 --budget`.
+
+What we expect, from the evidence we do have: the reference decks are built from what the shops sell (`ProgressionModel.UPGRADES`), so they are
+already a careful player's deck; the no-grind collection from the gold study (about 130 of 178 cards by the end, about 38 bought) can rebuild
+most of it, minus a few shelf Epics and Legendaries. We expect a drop of 10-20 points per phase, not a wall.
 
 ## Measurement 3 - a fresh critic playing him by hand with the second deck
 
-MEASURE3
+**Not run tonight** (the same memory limit; a play critic needs the game window for an hour). The Nov 6 play critic C4c is the closest
+evidence: with a snapshot deck and the simple pilot, phase 1 went win (15 HP left), loss (Primm at 7 HP), and a hand-played loss in round 5.
 
 ## Why the sims and the play tests disagreed
 
-SIMS_VS_PLAY
+- **Different decks.** The sims play a tidy 46-card reference deck full of cheap bodies; the play critics brought the deck they had: a
+  51-card collection with expensive cards they could not field under phase 1's two-cards-a-turn limit.
+- **Different pilots.** The sim's AI player never plays badly around the 3/3 rule (it simply plays the most bodies); a person (or the
+  critics' simple pilot) holds the "good" cards that phase 1 turns into plain 3/3s.
+- **One phase decides three.** The sims score each phase on its own from full HP; in play your HP carries over, so a bad phase 1 makes
+  phases 2 and 3 much harder. The sim's 94 / 90 / 71 does not multiply into the 60 % a run would suggest, because losses cluster.
+- **The rule text did not match the board** until the Nov 7 fix (live stats now shown), so players misread fights in phase 1.
 
 ## What makes him hard, and what makes him easy
 
@@ -47,4 +70,14 @@ SIMS_VS_PLAY
 
 ## Options
 
-OPTIONS
+1. **Teach phase 1 instead of nerfing it.** Before phase 1, the rules card says plainly "Every unit is a 3/3: cheap units are as good as
+   big ones. You may play two cards a turn." and the Deck Station offers "Primm deck" advice (more cheap units). *Expected effect:* play
+   results rise toward the sims (phase 1 from about 50 % to about 75 % for a real collection) without touching the sims' numbers.
+2. **Let the HP carry less.** Heal 25 % of your max HP between phases (a "the leaders steady you" beat). *Expected effect:* runs stop being
+   decided by phase 1 alone; the whole-fight win rate for a real collection rises by an estimated 15-20 points; the sims barely move
+   (they already score phases from full HP).
+3. **Make the sims' Primm harder where they say he is easy** (phases 1-2: +15 % HP, as C8 suggested). *Expected effect:* sim phases 1-2
+   drop to about 75-80 %, but a player with an ordinary collection would find him harder still - this widens the play/sim gap.
+
+**Recommendation:** option 1 first (it fixes the cause - a rule players do not plan for), with option 2 if play tests still lose most runs
+in phase 1. Leave the numbers (option 3) until measurement 2 and a hand-played run exist.

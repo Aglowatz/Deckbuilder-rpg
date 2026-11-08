@@ -1,3 +1,169 @@
+# Overnight Nov 7-8 - report
+
+Brief: `docs/prompts/overnight_nov7.md` (Parts 0-9 + Finish, in priority order). Tag `pre-overnight-nov7` marks the start. State:
+`docs/loop_state.md`. Decisions and questions: `docs/overnight_inbox.md`, "Overnight Nov 7-8". Screenshots: `docs/overnight_shots/nov8/`.
+Sims: `docs/design/sim/nov8/`. No export.
+
+**The night ended early on memory.** Late in the run Claude Code stopped a background Primm sim because the PC was critically low on memory.
+Its rule is not to restart a job stopped that way, so the remaining heavy Godot work was not run: the full GUT shards, the fresh critic,
+the Primm measurements 2 and 3, and the Part 7 load profiling. Everything changed tonight was covered by targeted GUT runs as it was made
+(listed per part); the full suite still needs a run: `bash tools/run_tests.sh --only=tests --size=12`.
+
+| Part | What | State |
+|---|---|---|
+| 0 | Leftovers (fixes_nov7 "not done" + the fresh critic's majors) | done |
+| 1 | Playtest bugs and quick changes (11 items) | done |
+| 2 | Economy: Commons 50, gear from 250, a friendlier run | done |
+| 3 | Story finale and fixes (revertible dialogue pass) | done |
+| 4 | Balance retune with the owner's decisions | done; two bosses still under band (below) |
+| 5 | UI redesigns: Wardrobe, Card Packs | done (no after-shots: memory) |
+| 6 | Minigames: trivia classroom, flourishes, the Cardsharp's Circuit | done |
+| 7 | Load times and Low-end | partly: slow-load card, Low-end cuts, preset rows; profiling, baking, Dump load and Gainlands cliff holes not done |
+| 8 | Primm measurement and write-up (no changes) | partly: measurement 1 and the write-up; 2 and 3 not run (memory) |
+| 9 | Art list | done |
+| Finish | shards, critic, report | report only (memory) |
+
+## Part 0 - Leftovers
+
+- **The cave ran backwards** (critic CF #3): the fights now go 3 -> 5 -> 9 HP (the Stalker was 7, the Warden 3). The whole cave clears
+  94 / 98 / 100 / 100 % (B / G / R / N, 48 runs each; `p0_cave.md`).
+- **A capped reward pick** joined the deck AND paid essence; now it only converts, and the card says "AT CAP: becomes essence" before you pick.
+- **Shop purchases** say they go to the collection and point to the Deck Station (B), in the buy box and the toast.
+- **Chef Fennel** stands on the open apron in front of the pantry door, out of the orchard trees (`p0_fennel_on_apron.png`).
+- Battle error toasts clear on the next phase; the Menu button shows "N unopened packs".
+- Not done from the old list: the rest of the Nov 7 quick wins (inbox Fixes Nov 7, item 12).
+
+## Part 1 - Playtest bugs
+
+1. **Peek** is a true modal on its own layer above everything (the table dimmed), tested with a full board (`p1_peek_full_board.png`, before: `p1_peek_before.png`).
+2. **Gatekeeper quests** start only when Maren sends you out after the whole Settling In line (armory included). She names your own Path's
+   zone as "the easiest road for you", gives all four, and your Path's is tracked. Before that, the YOUR PATH tracker line shows the next
+   intro step ("Settle in: ...", then "Report back to Elder Maren"). Gatekeepers met early give a friendly "come back when Maren sends you"
+   line (one per gatekeeper, in voice) and cannot be fought. Old saves that already had a gatekeeper line keep it.
+3. **Maren's send-off** is rewritten for that moment (no shopping talk, no first-meeting tone); her cave-mouth lines now say "settle in first".
+4. **1987** is gone from both of Maren's lines.
+5. **Store room ghosts** are darker: Tilly's great-grandmother's "remedies", chalk under the floorboards, a lantern that showed the wrong
+   thing, a ledger to burn unread; Maren won't talk about it on the square. Quest steps and ids unchanged.
+6. **Capital debuffs tutorial** on the first entry (once per save), pointing at the panel in the upper left, listing each active debuff and
+   saying freeing its zone lifts it; also in the Glossary's Zones tab (`p1_capital_debuff_tutorial.png`).
+7. "(full heal)" is gone from every exit's travel text (the heal itself stays).
+8. **Brannoch** stands well back on the imperial road; his talk area can never overlap the Capital trigger (a test checks the distance).
+9. **Swolympus gate:** the land ran on past the west tower. A sandstone crag (two tiers, solid) now fills it to the rim; a flood-fill test
+   proves nothing behind the shut gate is reachable from any side; the chest that stood in that strip moved out front (`p1_swolympus_gate_crag.png`).
+10. **Pip** is drawn at x1.5 with her collider and talk area to match.
+11. **Opened packs:** hovering (or keyboard / pad focus on) a result card shows it whole, like the Deck Station (`p1_packs_hover_zoom.png`).
+
+## Part 2 - Economy
+
+**Prices, before -> after.** Cards 100 / 200 / 500 / 1000 -> **50 / 100 / 250 / 500**. Equipment Common 1200-1800 -> **250-400**, Uncommon
+2000-3200 -> **400-700**, Epic 3500-5500 -> **750-1150**. Packs: General 150 -> 100, Path 200 -> 150, Gilded 800 -> 400, General II 300 -> 175,
+Prismatic 1200 -> 350 (every pack still well under its cards' shelf value; a test checks it).
+
+**Income.** With prices this low, the old income (21,159 gold, no grinding) bought most of the collection without one repeat fight, so the big
+earners came down (quest scales, chests, dungeon nodes, the clear bonus, first clears, level-track gold from level 6, roamers): **11,314 gold**
+no-grind. Fights at expected level 18+ pay more, scaled by level (the Capital's roamers 50 -> 75, castle x1.6, the Lab x2.2, the Gallery x2.35).
+
+| The no-grind player (`tools/gold_study_nov8.gd`) | |
+|---|---:|
+| Gold earned | 11,314 |
+| 38 cards (19 / 11 / 6 / 2) + 6 gear + 20 item charges + 3 hats + 4 packs | 9,800 |
+| Left over | ~1,500 (a dozen more cards, or two more pieces) |
+| Collecting every card: extra grinding | about 5.5 h = **about 33 %** of a 16.6 h playthrough (estimate) |
+
+**Checkpoint (2.3):** at the end of the armory quest a no-grind player has about 700 gold against the 590 the brief asks (a 250 piece, four
+Commons, two Healing Salves); a test keeps it between the target and the target + 400. Full tables: `docs/balance/gold_economy_nov3.md`,
+"Overnight Nov 7-8".
+
+**The Extra Pocket check (2.6):** nothing else in the game allowed a second use of an item in a battle (items were tracked once per battle in
+`GameState.items_used`; no modifier, card or item touched it). So the Extra Pocket is now **"You can use each equipped item twice per battle
+(each use spends a charge)"** (`Modifier.Kind.ITEM_USES_PER_BATTLE`), with tests.
+
+## Part 3 - Story finale
+
+58 line rewrites through `apply_dialogue_pass.js` (revertible: `--csv=docs/dialogue/pass_nov8/edit_rows.csv --revert`) and three new boxes
+(`docs/dialogue/pass_nov8/additions.md`). Review CSV: `docs/dialogue/edit_nov8.csv`.
+- The Wanderer's own climax line: "You took my mother and father. Then you kept me behind glass for ten years, and every morning someone said
+  'again'." Primm answers in his own register ("I removed two people so that eleven thousand could be safe. I did the sums twice. ... you were
+  never once cold. Tell me which part of that was unkind."). No forgiveness: "not today". He reacts to Memory 4 before he absolves Maren.
+- The castle **opens** (every locked door swings open). Elowen's absence is noticed: she is in the Path-ology Lab under the forest, and Maren
+  sends him to fetch her - the hook into "Under the Forest" (the Lab stays postgame).
+- Fixed: Maren's "first" to say the name, "I asked her twice, and both times she said 'a friend'", two prince hints cut and reactions to the
+  rest, Primm's confession about credit and consent, Gerald, "the day she sent you through my cave", Kestrel's loop, Bramble's compost line, the
+  Tuesday rule planted with Kyle filing, beat 6 cut to one image.
+- Lieutenants: **Crumb** keeps the menial job, **Quota is arrested**, **Clipwell refuses** and walks off.
+- Story and zone-lesson tests: 640 of 643 passed in the story set; the 2 failures were castle-map tests, updated for Part 4.
+
+## Part 4 - Balance (before -> after, per Path B / N / G / R)
+
+| Change | Before (C8) | After (tonight, 12 games) |
+|---|---|---|
+| Clench starts with 1 Iron | Gourmand wall | 67 / 50 / **25** / 33 % (Gourmand still under the 40-60 band) |
+| Honor Guard: no starting Militia | Necrocrat 30 % | 92 / **75** / 58 / 92 % |
+| Betty's Surly +2/+1 | 8 / 30 / 63 / 67 % | 17 / 50 / 75 / 75 % |
+| The Automaton: one extra fewer | 42 / 30 / 13 / 17 % | 33 / 33 / 17 / 17 % (no real change: HP 23 -> 19 is the next lever) |
+| Siphon without Elowen drops Containment | B 17 %, others 50-63 % | 50 / 83 / 83 / 83 % |
+| Snack Bar (B) "Pay 1: +2/+0"; B-24 2/4 | dead cards | in game; not re-simmed on their own |
+| ZoneOrderEase: floor 0.65, ease -1 / -1 / -2, Buffet ~0.8 | Dump 0.36, Buffet 0.72 | in game; the early study (now with the Necrocrat) was not re-run (memory) |
+| Castle main line | 10 rooms | **6 rooms** (gate, courtyard, Hall of Mirrors, safe room, Archive, Model Room) + side rooms; L18+ Normal fights offer a card pick |
+| Shattered Gallery full run | 1 clear in 40 (2.5 %), dropped Echo cards | Echo owners fixed, Perfect Form from node 11 only, node 10 Elite, Echo HP -20 %: **0 / 40 / 10 / 30 % = 20 %** (target 15-25 %) |
+
+Gatekeepers got no new rule; Primm unchanged.
+
+## Part 5 - UI
+
+- **Wardrobe:** a framed hero stage on the left (the turning preview), HATS and CLOAKS as grids of painted tiles (worn: gold frame and tick;
+  not owned: dimmed with a padlock and "Pip sells it"), a detail line under each, the dyes at the bottom. **Dyes do only apply to the Plain
+  Cloak in code** (`SpriteCosmetics.dye_applies`), so the whole dye section greys out with "Dyes work on the Plain Cloak" under another cloak.
+  Background: the Character page's room until UI-BG-WARDROBE arrives.
+- **Card Packs:** plan `docs/ui/card_packs_redesign.md`; built: THE SHELF (each pack's art large on a wooden board, count badge, contents line,
+  Open), the Open all bar, LAST OPENED (the latest cards with the hover zoom).
+- Before shots: `docs/ui/ref/nov8/wardrobe_current.png`; the after-shots were not taken (memory).
+
+## Part 6 - Minigames
+
+- **Trivia classroom:** a coded wood-and-chalkboard room (MG-BG-CLASSROOM on the art list), the question chalked on the board, the zone's
+  quiz-giver as the teacher with a speech bubble, answers that flash green/red with the right one lit, a streak counter, sparkles. Each zone
+  now has its own quiz name (the D.N.A.'s showed everywhere).
+- **Every other minigame:** `docs/design/minigame_graphics_plan.md`; tonight's code-only flourishes (`MinigameFx`: sparks on a score, shake on a
+  miss, flash and confetti at the end) are hooked into all eight screens.
+- **The Cardsharp's Circuit:** Dex Shufflewick (the generic townsfolk sprite and portrait) keeps a table beside each Path zone's trivia
+  corner, dealt from that Path's own card art; one quest: beat his score (12 moves) in all four, then the final table (two cards of every
+  Path, 11 moves). The slot with the fewest pieces was **Boots** (6; Helm 9, Armor 11, Weapon 15, Relic 19).
+- **Prize - Dex's Lucky Spats (Epic boots). Wording for your approval:** *"Once each turn, when you play your first non-Infrastructure card,
+  draw a copy of that card from your deck (if there is one)."* Rules tested: first non-Infrastructure card only, copy from the draw pile,
+  nothing if there is none. **Not balance-simmed** (memory).
+
+## Part 7 - Load times and Low-end
+
+- A transition without a loading screen that is still building after 2 s shows a small "Loading..." card.
+- **Low-end** is a real cut now: mip bias 1.0 (textures a level smaller), foliage 12 %, particles 10 %, draw distance x0.5, one dressing light;
+  picking the preset also sets fog off, no DoF or bloom, 30 fps and a 75 % render scale, and the Settings page redraws with the new values.
+  The Compatibility renderer is offered through the existing "Start (Compatibility).bat" (a Settings note and a toast); Godot can't switch
+  renderers at run time.
+- **Not done:** the Capital load profile (before/after numbers), baking painted swaps at import, material prewarm, the Dump's 15-17 s first
+  load, first-visit shader hitches, and the Gainlands cliff holes. The profiler is `bash tools/run_loading_timing.sh <run> final,refusemancer`.
+
+## Part 8 - Primm
+
+`docs/balance/primm_explained.md`: measurement 1 (reference decks: 94 / 90 / 71 % by phase), why sims and play disagree, what makes him hard or
+easy, three options and a recommendation (teach phase 1 first; heal between phases if needed; leave his numbers). Measurement 2 (`--budget`,
+added tonight) and the hand-played critic were not run (memory). Nothing about Primm changed.
+
+## Part 9 - Art list
+
+`docs/art/art_needed_nov4.csv`, "Needed — next batch": LEVER-LOCKED and LEVER-OPEN (the four vault levers and Crosspath's old lever, ~0.9 m in
+the world, 70-90 px on screen), ICON-EQ-LUCKY-SPATS, MG-BG-CLASSROOM, MG-BG-GYM, UI-BG-WARDROBE, UI-PACK-SHELF; UI-BG-PACKS re-described for the
+new page. The five earlier rows are kept. The Cardsharp needs no NPC art.
+
+## Open questions (details in the inbox)
+
+1. Approve the Lucky Spats wording (Part 6).
+2. Clench vs the Gourmand (25 %) and the Automaton (17-33 %) are still under band: next levers are Clench's HP -15 % and the Automaton's HP 23 -> 19.
+3. Beefcake clears the Gallery 0 / 10: its late-game weakness (C8 finding 3) needs its own pass.
+4. Primm: pick an option in `primm_explained.md` once measurement 2 has run.
+5. To finish the night's work: the full GUT shards, the fresh-eyes critic (intro to the first gatekeeper quest, then the Capital), the
+   early study and Part 7's profiling.
+
 # Fix pass Nov 7 - report
 
 Brief: `docs/prompts/fixes_nov7.md` (critic top 15, part 1, with owner decisions D1-D8). Source: `docs/review/critic_nov6_summary.md`.
