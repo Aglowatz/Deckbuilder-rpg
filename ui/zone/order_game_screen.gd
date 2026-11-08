@@ -117,10 +117,12 @@ func _press(station: int) -> void:
 		OrderGame.Result.WRONG:
 			_flash("TOSSED!", Color("ff8a85"))
 			Audio.sfx(&"ui_error", -6.0)
+			MinigameFx.shake(body)
 		OrderGame.Result.SERVED:
 			var earned: int = int(game.points_per_ticket[game.points_per_ticket.size() - 1])
 			_flash(["", "SERVED", "NICE!", "ORDER UP!"][earned], [Color.WHITE, Color.WHITE, UIStyle.GOOD, UIStyle.GOLD][earned] as Color)
 			Audio.sfx(&"ding", 0.0, 0.05)
+			MinigameFx.sparkle_at_mouse(self)
 
 
 func _flash(text: String, color: Color) -> void:
@@ -142,6 +144,7 @@ func _process(delta: float) -> void:
 			if game.advance(_clock):
 				_flash("86'D!", Color("ff8a85"))
 				Audio.sfx(&"ui_error", -4.0)
+				MinigameFx.shake(body)
 			if game.current != _last_ticket and not game.is_finished():
 				_last_ticket = game.current
 				var shouts: Array[String] = _story.get_lines("order.shouts")
@@ -218,6 +221,7 @@ func _finish() -> void:
 		lines = _story.get_lines("order.first") + lines
 	_status.text = "\n".join(lines)
 	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
+	MinigameFx.finish(self, stars > 0)  # Overnight Nov 7-8, Part 6.2
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d points)" % [("★".repeat(stars) + "☆".repeat(3 - stars)) if stars > 0 else "Shift failed", game.points()])
 	if int(reward["gold"]) > 0:

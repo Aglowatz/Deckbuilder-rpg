@@ -157,6 +157,9 @@ enum Kind {
 	MIRROR_FIRST_UNIT,
 	## Overnight Nov 7-8, Part 2.6 (Extra Pocket): value = extra uses of each equipped item per battle (each use still spends a charge).
 	ITEM_USES_PER_BATTLE,
+	## Overnight Nov 7-8, Part 6.3 (the Cardsharp's prize): once each turn, when the owner plays their first non-Infrastructure card, they draw
+	## a copy of that card from their deck if one is there (`GameState._echo_first_play`). Presence.
+	DRAW_COPY_FIRST_PLAY,
 }
 
 ## `color` value meaning "matches every card".

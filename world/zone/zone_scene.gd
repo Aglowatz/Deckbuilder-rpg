@@ -1331,6 +1331,8 @@ func _interact(spot: ZoneSpot) -> void:
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("npc.quiz.return" if Session.flag(def.flag_met("quiz")) else "npc.quiz.intro"), _open_quiz, str(spot.data.get("npc_id", "")))
 			Session.set_flag(def.flag_met("quiz"))
+		"cardsharp":
+			_talk_cardsharp()
 		"minigame":
 			_face_npc(str(spot.data["npc"]))
 			# Overnight Oct 22, Part 2: a long first introduction plays on its own; the game opens from the next talk.
@@ -1358,6 +1360,29 @@ func _open_puzzle(spot: ZoneSpot) -> void:
 			hud.toast("Puzzle solved! %s joins your gear." % piece.source_name, UIStyle.GOLD)
 		Session.refresh_quests()
 		Session.save_game())
+
+
+## Overnight Nov 7-8, Part 6.3: Dex Shufflewick - the Circuit's lines, then his table for this zone (or the final table once all four are beaten).
+func _talk_cardsharp() -> void:
+	_face_npc("cardsharp")
+	var first: bool = not Session.flag(StringName(CardMatchCircuit.MET_FLAG))
+	var key: String = "cardsharp.intro" if first else "cardsharp.return"
+	var table: String = def.id
+	if Session.flag(StringName(CardMatchCircuit.flag_name(CardMatchCircuit.FINAL))):
+		key = "cardsharp.done"
+	elif CardMatchCircuit.final_open(Session.flags):
+		key = "cardsharp.final"
+		table = CardMatchCircuit.FINAL
+	Session.set_flag(StringName(CardMatchCircuit.MET_FLAG))
+	Session.offer_auto_quests()
+	_say(CardMatchCircuit.SPEAKER, DungeonCatalog.text_lines(key) as Array[String], func() -> void: _open_card_match(table), CardMatchCircuit.NPC_ID)
+
+
+func _open_card_match(table: String) -> void:
+	var screen: CardMatchScreen = CardMatchScreen.new()
+	screen.table = table
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
 
 
 func _open_quiz() -> void:

@@ -214,6 +214,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	# loading screen did, and a change without one showed its first-draw shader spikes after the fade-in.
 	_set_phase("settle")
 	await _settle()
+	_hide_slow_card()
 	if id != _transition_id:
 		return
 	_set_phase("fade in")
@@ -396,6 +397,8 @@ func _wait_until_built(screen: LoadingScreen, path: String) -> bool:
 		var started: int = Time.get_ticks_usec()
 		await get_tree().process_frame
 		waited += float(Time.get_ticks_usec() - started) / 1000000.0
+		if screen == null and waited >= SLOW_LOAD_SECONDS and _slow_card == null:
+			_show_slow_card()  # Overnight Nov 7-8, Part 7: a load past 2 s behind a plain fade says it is loading
 		if screen != null and scene.has_method(&"load_progress"):
 			screen.set_progress(maxf(screen.progress(), lerpf(0.2, 0.95, float(scene.call(&"load_progress")))))
 	if waited >= BUILD_TIMEOUT:
@@ -404,6 +407,35 @@ func _wait_until_built(screen: LoadingScreen, path: String) -> bool:
 			scene.call(&"recover_after_timeout")
 	LoadTiming.mark("scene built")
 	return true
+
+
+## Overnight Nov 7-8, Part 7: a transition without a loading screen that is still building after this long shows a small loading card.
+const SLOW_LOAD_SECONDS: float = 2.0
+var _slow_card: Control = null
+
+
+func _show_slow_card() -> void:
+	var card: PanelContainer = UIKit.panel(&"DarkPanel")
+	card.name = "SlowLoadCard"
+	card.position = Vector2(1920 - 380, 1080 - 130)
+	card.custom_minimum_size = Vector2(340, 90)
+	card.z_index = 4096
+	var row: HBoxContainer = UIKit.hbox(14)
+	card.add_child(row)
+	var spinner: Label = UIKit.label("✦", &"", 40, UIStyle.GOLD)
+	spinner.pivot_offset = Vector2(16, 24)
+	row.add_child(spinner)
+	row.add_child(UIKit.label("Loading...", &"HeadingLabel", 30))
+	add_child(card)
+	var spin: Tween = card.create_tween().set_loops()
+	spin.tween_property(spinner, "rotation", TAU, 1.2).from(0.0)
+	_slow_card = card
+
+
+func _hide_slow_card() -> void:
+	if _slow_card != null and is_instance_valid(_slow_card):
+		_slow_card.queue_free()
+	_slow_card = null
 
 
 ## Draws frames behind the cover until they are quick (see SETTLE_FRAMES).

@@ -130,6 +130,7 @@ func _press(bin: int) -> void:
 		SortGame.Result.WRONG:
 			_flash("WRONG BIN!", Color("ff8a85"))
 			Audio.sfx(&"ui_error", -6.0)
+			MinigameFx.shake(body)
 
 
 func _flash(text: String, color: Color) -> void:
@@ -150,6 +151,7 @@ func _process(delta: float) -> void:
 			if game.advance(_clock) > 0:
 				_flash("MISSED!", Color("ff8a85"))
 				Audio.sfx(&"ui_error", -8.0)
+				MinigameFx.shake(body)
 			if not game.is_finished():
 				var shouts: Array[String] = _story.get_lines("sort.shouts")
 				_status.text = "\"%s\"" % shouts[(game.next_piece / 4) % shouts.size()]
@@ -217,6 +219,7 @@ func _finish() -> void:
 		lines = _story.get_lines("sort.first") + lines
 	_status.text = "\n".join(lines)
 	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
+	MinigameFx.finish(self, stars > 0)  # Overnight Nov 7-8, Part 6.2
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d sorted, %d points)" % [("★".repeat(stars) + "☆".repeat(3 - stars)) if stars > 0 else "Run failed", game.correct_count(), game.points_total])
 	if int(reward["gold"]) > 0:

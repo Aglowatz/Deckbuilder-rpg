@@ -113,6 +113,7 @@ func _show_rating(rating: int) -> void:
 			_flash_text = "PERFECT!"
 			_flash_color = UIStyle.GOLD
 			Audio.sfx(&"hit_heavy", -4.0, 0.1)
+			MinigameFx.sparkle_at_mouse(self)
 		RepGame.Rating.GOOD:
 			_flash_text = "GOOD"
 			_flash_color = UIStyle.GOOD
@@ -125,6 +126,7 @@ func _show_rating(rating: int) -> void:
 			_flash_text = "MISS"
 			_flash_color = Color("ff8a85")
 			Audio.sfx(&"ui_error", -6.0)
+			MinigameFx.shake(body)
 
 
 func _process(delta: float) -> void:
@@ -206,6 +208,7 @@ func _finish() -> void:
 		lines = _story.get_lines("reps.first") + lines
 	_status.text = "\n".join(lines)
 	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
+	MinigameFx.finish(self, stars > 0)  # Overnight Nov 7-8, Part 6.2
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d points)" % [("★".repeat(stars) + "☆".repeat(3 - stars)) if stars > 0 else "Set failed", game.points()])
 	if int(reward["gold"]) > 0:

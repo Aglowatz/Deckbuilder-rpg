@@ -147,11 +147,13 @@ func _engage() -> void:
 	if WheelPuzzle.is_solved(switches):
 		_status.text = _story.text("wheel.solved")
 		Audio.sting(&"STG-MINI-SUCCESS")
+		MinigameFx.finish(self, true)  # Overnight Nov 7-8, Part 6.2
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()
 		return
 	Audio.sfx(&"ui_error")
+	MinigameFx.shake(body)
 	if WheelPuzzle.running(switches) > WheelPuzzle.MAX_RUNNING:
 		_status.text = "Too many wheels running - the hamsters are exhausted (max %d)." % WheelPuzzle.MAX_RUNNING
 		return

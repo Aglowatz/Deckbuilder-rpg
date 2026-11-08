@@ -112,6 +112,7 @@ func _process(delta: float) -> void:
 func _add(ingredient: int) -> void:
 	if order.has(ingredient) or order.size() >= RecipePuzzle.SLOTS:
 		Audio.sfx(&"ui_error", -6.0)
+		MinigameFx.shake(body)
 		return
 	order.append(ingredient)
 	Audio.sfx(&"ui_toggle")
@@ -147,17 +148,20 @@ func _refresh() -> void:
 func _serve() -> void:
 	if not RecipePuzzle.is_complete(order):
 		Audio.sfx(&"ui_error")
+		MinigameFx.shake(body)
 		_status.text = _story.text("recipe.incomplete")
 		return
 	if RecipePuzzle.is_solved(order):
 		_status.text = _story.text("recipe.solved")
 		Audio.sting(&"STG-MINI-SUCCESS")
+		MinigameFx.finish(self, true)  # Overnight Nov 7-8, Part 6.2
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()
 		return
 	_tried += 1
 	Audio.sfx(&"ui_error")
+	MinigameFx.shake(body)
 	var lines: Array[String] = _story.get_lines("recipe.wrong")
 	_status.text = lines[(_tried - 1) % lines.size()]
 

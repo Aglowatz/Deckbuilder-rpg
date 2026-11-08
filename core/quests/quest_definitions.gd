@@ -49,6 +49,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_loose_ends())
 	result.append(_alembic())
 	result.append(_under_the_forest())
+	result.append(CardMatchCircuit.quest())  # Overnight Nov 7-8, Part 6.3
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())

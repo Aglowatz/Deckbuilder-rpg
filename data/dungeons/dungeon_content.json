@@ -1576,7 +1576,7 @@
 					"name": "Echo of Vivienne Quota",
 					"deck": "beefcake_bruisers",
 					"size": 30,
-					"hp": 18,
+					"hp": 14,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/alarm-clock"
@@ -1585,7 +1585,7 @@
 					"name": "Echo of Chancellor Clench",
 					"deck": "beefcake_bruisers",
 					"size": 31,
-					"hp": 24,
+					"hp": 19,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/viking-head",
@@ -1597,7 +1597,7 @@
 					"name": "Echo of Percival Plume",
 					"deck": "necrocrat_beefcake",
 					"size": 32,
-					"hp": 20,
+					"hp": 16,
 					"infra": 13,
 					"ai": "Aggressive",
 					"icon": "delapouite/trumpet"
@@ -1606,7 +1606,7 @@
 					"name": "Echo of Mortimer Grimsby",
 					"deck": "necro_control",
 					"size": 33,
-					"hp": 26,
+					"hp": 21,
 					"infra": 14,
 					"ai": "Defensive",
 					"icon": "delapouite/stamper",
@@ -1619,7 +1619,7 @@
 					"name": "Echo of the Doppelganger",
 					"deck": "gourmand_golems",
 					"size": 31,
-					"hp": 20,
+					"hp": 16,
 					"infra": 15,
 					"ai": "Balanced",
 					"icon": "delapouite/chef-toque",
@@ -1631,7 +1631,7 @@
 					"name": "Echo of Hortensia Clipwell",
 					"deck": "refuse_garbage",
 					"size": 32,
-					"hp": 20,
+					"hp": 16,
 					"infra": 15,
 					"ai": "Balanced",
 					"icon": "lorc/leaf-swirl"
@@ -1640,7 +1640,7 @@
 					"name": "Echo of the Rotheart",
 					"deck": "refuse_garbage",
 					"size": 32,
-					"hp": 24,
+					"hp": 19,
 					"infra": 17,
 					"ai": "Defensive",
 					"icon": "cathelineau/tree-face",
@@ -2002,6 +2002,20 @@
 		"gatekeeper.not_yet.refusemancer": [
 			"...not yet... the green is not ready for you... and you are not ready for the green...",
 			"...the old tortoise in the square is still busy with you... go back to her... when she sends you, the path will be waiting... it is always waiting..."
+		],
+		"cardsharp.intro": [
+			"Ah, a card person! I can always tell: you check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp.",
+			"I keep a little memory table in every Path's country, dealt from that Path's own cards. Beat my score at all four, then find me for the final table.",
+			"Win that, and you can have my Lucky Spats. I won them off a magician, who won them off a duck. Sit down, let's see your memory."
+		],
+		"cardsharp.return": [
+			"Back for another round? Same cards, new shuffle. My score's on the board, if you want it."
+		],
+		"cardsharp.final": [
+			"All four tables, beaten. I'm impressed, and slightly poorer in spirit. The final table is two cards from every Path, and I'm not going easy."
+		],
+		"cardsharp.done": [
+			"You cleaned me out, and the spats suit you better than they suited me. The table's still open, if you just like the game."
 		]
 	}
 }

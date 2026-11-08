@@ -609,6 +609,7 @@ func play_card(
 		player.spells_played_this_turn += 1
 	emit_event(GameEvent.Type.CARD_PLAYED, player_index, uid, chosen, card.data.energy_value())
 	_mirror_first_card(player_index, card)
+	_echo_first_play(player_index, card)
 	match card.data.type:
 		CardEnums.CardType.UNIT, CardEnums.CardType.WONDER, CardEnums.CardType.TOOL:
 			_enter_field(card, chosen, true, chosen_targets, seed_ctx)
@@ -781,6 +782,24 @@ func _mirror_first_card(player_index: int, card: CardInstance) -> void:
 	var copy: CardInstance = create_instance(card.data, 1 - player_index)
 	other.hand.append(copy)
 	emit_event(GameEvent.Type.CARD_DRAWN, 1 - player_index, copy.uid, 0, 1, other.hand.size(), "mirror")
+
+
+## Overnight Nov 7-8, Part 6.3 (DRAW_COPY_FIRST_PLAY): the first non-Infrastructure card a side plays each turn draws a copy of itself from
+## that side's deck, if the deck holds one (nothing happens otherwise; the turn's first play is used up either way).
+func _echo_first_play(player_index: int, card: CardInstance) -> void:
+	var player: PlayerState = players[player_index]
+	if card == null or card.data.is_infrastructure() or player.first_play_done_this_turn:
+		return
+	player.first_play_done_this_turn = true
+	if not player.modifiers.has(Modifier.Kind.DRAW_COPY_FIRST_PLAY):
+		return
+	for index: int in range(player.deck.size() - 1, -1, -1):
+		var candidate: CardInstance = player.deck[index]
+		if candidate.data.id == card.data.id:
+			player.deck.remove_at(index)
+			player.hand.append(candidate)
+			emit_event(GameEvent.Type.CARD_DRAWN, player_index, candidate.uid, 0, 1, player.hand.size(), "echo")
+			return
 
 
 ## Overnight Nov 4-5, Part 5 (Perfect Form, MIRROR_FIRST_UNIT): the first unit a side plays from hand each turn is copied onto the other side's
@@ -965,6 +984,7 @@ func _begin_turn() -> void:
 	player.spells_played_this_turn = 0
 	player.first_unit_exhaust_done = false
 	player.unit_mirrored_this_turn = false
+	player.first_play_done_this_turn = false
 	for infra: CardInstance in player.infrastructure:
 		_refresh(infra)
 	for card: CardInstance in player.field:

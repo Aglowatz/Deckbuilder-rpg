@@ -33,6 +33,11 @@ static func get_def(zone_id: String) -> ZoneDef:
 				_cache[zone_id] = CapitalZone.build_def()
 			_:
 				_cache[zone_id] = DnaZone.build_def()
+		var made: ZoneDef = _cache[zone_id] as ZoneDef
+		if made != null and CardMatchCircuit.ZONES.has(made.id):
+			# Overnight Nov 7-8, Part 6.3: Dex Shufflewick's card-matching table in every Path zone.
+			made.npcs.append(CardMatchCircuit.npc_entry())
+			made.spots.append(CardMatchCircuit.spot_entry())
 	return _cache[zone_id] as ZoneDef
 
 

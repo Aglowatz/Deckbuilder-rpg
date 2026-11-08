@@ -73,6 +73,7 @@ func _plant(cell: int) -> void:
 	if GrowthGrid.is_solved(board):
 		_status.text = _story.text("growth.solved")
 		Audio.sting(&"STG-MINI-SUCCESS")
+		MinigameFx.finish(self, true)  # Overnight Nov 7-8, Part 6.2
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()

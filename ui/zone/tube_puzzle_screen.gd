@@ -175,6 +175,10 @@ func _send_all() -> void:
 		await travel.finished
 		var correct: bool = path[path.size() - 1] == wanted[index]
 		Audio.sfx(&"ui_confirm" if correct else &"ui_error", -6.0)
+		if correct:
+			MinigameFx.sparkle_at_mouse(self)
+		else:
+			MinigameFx.shake(body)
 		_refresh()
 		await get_tree().create_timer(0.1).timeout
 	_capsule_marker.visible = false
@@ -182,6 +186,7 @@ func _send_all() -> void:
 	if puzzle.is_solved():
 		_status.text = _story.text("puzzle.solved")
 		Audio.sting(&"STG-MINI-SUCCESS")
+		MinigameFx.finish(self, true)  # Overnight Nov 7-8, Part 6.2
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()

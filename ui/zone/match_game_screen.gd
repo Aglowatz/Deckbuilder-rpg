@@ -108,6 +108,7 @@ func _flip(index: int) -> void:
 	_busy = true
 	if outcome == "match":
 		Audio.sfx(&"ui_confirm", -4.0)
+		MinigameFx.sparkle_at_mouse(self)
 	await get_tree().create_timer(0.55 if outcome == "mismatch" else 0.2).timeout
 	game.resolve()
 	_busy = false
@@ -125,6 +126,7 @@ func _finish() -> void:
 		lines = _story.get_lines("match.first") + lines
 	_status.text = "\n".join(lines)
 	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
+	MinigameFx.finish(self, stars > 0)  # Overnight Nov 7-8, Part 6.2
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d moves)" % ["★".repeat(stars) + "☆".repeat(3 - stars) if stars > 0 else "Out of moves", game.moves])
 	if int(reward["gold"]) > 0:

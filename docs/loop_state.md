@@ -12,9 +12,9 @@ Single-file GUT runner used: godot --headless -s res://addons/gut/gut_cmdln.gd -
 | 2 | Economy | done: cards 50/100/250/500, gear 250-1150, packs 100/150/175/350/400, income 21.2k -> 11.3k (knobs in Economy/QuestCatalog/EncounterRewards/PackConfig), late fights x(1+0.15/level from 18), checkpoint ~700 vs 590 (test), collection +33 % est (tools/gold_study_nov8.gd), Extra Pocket = items twice per battle (ITEM_USES_PER_BATTLE) |
 | 3 | Story finale | done: 58 rows via apply_dialogue_pass (docs/dialogue/pass_nov8/edit_rows.csv, revertible) + 3 new boxes (additions.md: Memory 4 absolution, Elowen in the Lab at beat 10, Clipwell walks off); castle opens; Quota arrested, Clipwell refuses, Crumb works; review CSV docs/dialogue/edit_nov8.csv; story tests green |
 | 4 | Balance retune | edits in, sims pending: Clench Iron 1, Snack Bar (B) +2/+0, B-24 2/4, Surly +2/+1, Automaton -C-33, no Honor Guard Militia, ZoneOrderEase floor 0.65 + ease by places, Siphon alone drops Containment, castle main line 6 rooms, L18+ normals pick, Gallery owners + Perfect Form on 11-12 only + node 10 elite |
-| 5 | UI redesigns | pending |
-| 6 | Minigames | pending |
-| 7 | Load times + Low-end | pending |
+| 5 | UI redesigns | done: Wardrobe (stage, tile grids, dyes greyed off the Plain Cloak) + Card Packs page (shelf, Open all bar, Last opened) + plan docs/ui/card_packs_redesign.md; shots pending |
+| 6 | Minigames | done: trivia classroom (teacher portrait, chalkboard, feedback/streak, per-zone titles), MinigameFx on 8 screens, docs/design/minigame_graphics_plan.md, Cardsharp Circuit (CardMatchCircuit, CardMatchScreen, quest, Dex at each quiz corner), Dex's Lucky Spats (boots, DRAW_COPY_FIRST_PLAY) |
+| 7 | Load times + Low-end | in progress: slow-load card (>2 s) in SceneManager |
 | 8 | Primm write-up | pending |
-| 9 | Art list | pending |
+| 9 | Art list | done: LEVER-LOCKED/OPEN, ICON-EQ-LUCKY-SPATS, MG-BG-CLASSROOM, MG-BG-GYM, UI-BG-WARDROBE, UI-PACK-SHELF, UI-BG-PACKS updated |
 | Finish | shards, critic, report | pending |
