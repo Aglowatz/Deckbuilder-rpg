@@ -1,5 +1,5 @@
 {
-	"_about": "The Verdant Dump (Refusemancer). Golden-hour sunset, rusted metal, mossy wood, patchwork panels. The corruption block is the gradient toward the Rotheart (HeapLayout.corruption_at, 0 healthy .. 1 at the roots): the ground lerps toward the tint and darkens and the corrupted soil (DUMP-GROUND-CORRUPT) paints in up to `texture`; healthy vine oaks and tyre birches give way to twisted trees from `trees` (a soft band `trees_band` wide), wildflower beds to violet fungus from `fungus`, flowers thin to `flowers`; `grade` and `light` are what the look reaches at full corruption where the hero stands (fog, saturation, warmth, vignette; the sun lower and violet, the ambient violet), blended by HeapScene; `freed` scales all of it once the zone is freed (the Rotheart glows green).",
+	"_about": "The Verdant Dump (Refusemancer). Golden-hour sunset, rusted metal, mossy wood, patchwork panels. The corruption block is the gradient toward the Rotheart (HeapLayout.corruption_at, 0 healthy .. 1 at the roots): the ground lerps toward the tint and darkens and the corrupted soil (DUMP-GROUND-CORRUPT) paints in up to `texture`; healthy vine oaks and tyre birches give way to twisted trees from `trees` (a soft band `trees_band` wide), wildflower beds to violet fungus from `fungus`, flowers thin to `flowers`; `grade` and `light` are what the look reaches at full corruption where the hero stands (fog, saturation, warmth, vignette; the sun lower and violet, the ambient violet), blended by HeapScene (Import Nov 8: the grade, fog and vignette were cut by about a third - critics C2b F11 / C3 F13 found the overworld hazy); `freed` scales all of it once the zone is freed (the Rotheart glows green).",
 	"area": "heap",
 	"name": "The Verdant Dump (Refusemancer)",
 	"time_of_day": "Golden-hour sunset; warm haze, long shadows, fireflies",
@@ -22,26 +22,26 @@
 	},
 	"fog": {
 		"color": "#e2bcd2",
-		"density": 0.003,
+		"density": 0.002,
 		"height": 0.5,
-		"height_density": 0.3
+		"height_density": 0.2
 	},
 	"grade": {
-		"warmth": 0.12,
+		"warmth": 0.08,
 		"saturation": 1.12,
 		"contrast": 1.1,
 		"post_saturation": 1.1,
 		"tonemap": "agx",
 		"exposure": 1,
 		"post_contrast": 1.06,
-		"shadow_tint": "#d8c4e4",
-		"highlight_tint": "#ffe2aa"
+		"shadow_tint": "#e5d8ed",
+		"highlight_tint": "#ffecc6"
 	},
 	"bloom": {
 		"intensity": 0.5,
 		"threshold": 1.05
 	},
-	"vignette": 0.3,
+	"vignette": 0.2,
 	"corruption": {
 		"start_z": 60,
 		"end_z": 8,
@@ -57,10 +57,10 @@
 		"fungus": 0.6,
 		"grade": {
 			"fog_color": "#c8a0dc",
-			"fog_density": 0.0052,
+			"fog_density": 0.0035,
 			"saturation": 0.98,
-			"warmth": 0.1,
-			"vignette": 0.34
+			"warmth": 0.07,
+			"vignette": 0.23
 		},
 		"light": {
 			"sun_color": "#f6c4bc",

@@ -143,8 +143,10 @@ func test_the_menu_lists_every_station_and_only_unlocked_ones_can_be_chosen() ->
 	screen.here = FastTravel.TOWN
 	add_child_autofree(screen)
 	await get_tree().process_frame
-	for station_id: String in FastTravel.station_ids():
+	for station_id: String in FastTravelScreen.shown_station_ids(Session.flags):
 		assert_not_null(screen.find_child("Station_%s" % station_id, true, false), "a row for %s" % station_id)
+	# Import Nov 8: the forest's secret station is left off the list until Rip opens it
+	assert_null(screen.find_child("Station_%s" % FastTravel.FOREST, true, false), "no '???' row for the unopened forest station")
 	assert_null(screen.find_child("Rip_%s" % FastTravel.TOWN, true, false), "no button for where you stand")
 	assert_not_null(screen.find_child("Rip_%s" % GainlandsZone.ID, true, false), "a button for an unlocked station")
 	assert_null(screen.find_child("Rip_%s" % DnaZone.ID, true, false), "none for a locked one")

@@ -464,12 +464,14 @@
 			"green_calm": 0,
 			"red_calm": 0,
 			"fog_color": "d4b4d4",
-			"fog_density": 0.0046,
-			"warmth": 0.06,
+			"fog_density": 0.0031,
+			"warmth": 0.04,
 			"saturation": 1.04,
-			"vignette": 0.3,
-			"bloom": 0.5,
-			"bloom_threshold": 1.05
+			"vignette": 0.2,
+			"bloom": 0.34,
+			"bloom_threshold": 1.05,
+			"blur_far": 4.7,
+			"blur_near": 4.0
 		},
 		"sky": {
 			"horizon": "f6d2a8",
@@ -568,14 +570,14 @@
 					0,
 					-12,
 					18,
-					0.14
+					0.093
 				],
 				[
 					"spawn",
 					-10,
 					-6,
 					14,
-					0.12
+					0.08
 				]
 			],
 			"shafts": [

@@ -20,7 +20,9 @@ static func show_once(parent: Control, flag: StringName, title: String, text: St
 	tip.z_index = 180
 	parent.add_child(tip)
 	var column: VBoxContainer = UIKit.vbox(6)
+	column.name = "Full"
 	tip.add_child(column)
+	tip._title = title
 	var header: HBoxContainer = UIKit.hbox(10)
 	header.add_child(UIKit.label("Tip: " + title, &"HeadingLabel", 26))
 	header.add_child(UIKit.filler())
@@ -35,6 +37,9 @@ static func show_once(parent: Control, flag: StringName, title: String, text: St
 	UIKit.pop_in(tip)
 	Audio.sfx(&"ui_open", -8.0)
 	tip._keep_on_screen.call_deferred()
+	# Import Nov 8 (C1b F11): the body's height is only known a frame or two later - the box re-fits whenever it grows, so its last line
+	# never spills below the frame or off the screen.
+	tip.resized.connect(tip._keep_on_screen)
 	return tip
 
 
@@ -46,6 +51,55 @@ func _keep_on_screen() -> void:
 	var room: Vector2 = parent_control.size
 	position.x = clampf(position.x, 12.0, maxf(12.0, room.x - size.x - 12.0))
 	position.y = clampf(position.y, 12.0, maxf(12.0, room.y - size.y - 12.0))
+
+
+## Import Nov 8 (C7 F12, C3 F6): a tip never sits over the screen while the player uses it. A click anywhere outside it folds it into a small
+## "Tip: <title>" pill in its corner (click the pill to read it again; "Got it" still closes it for good).
+var _title: String = ""
+var _pill: FancyButton = null
+
+
+func is_collapsed() -> bool:
+	return _pill != null and _pill.visible
+
+
+func collapse() -> void:
+	if _dismissed or is_collapsed():
+		return
+	var full: Control = get_node_or_null("Full") as Control
+	if full == null:
+		return
+	full.visible = false
+	if _pill == null:
+		_pill = FancyButton.make("Tip: %s" % _title, &"GhostButton", Vector2(0, 40))
+		_pill.add_theme_font_size_override("font_size", 18)
+		_pill.pressed.connect(expand)
+		add_child(_pill)
+	_pill.visible = true
+	custom_minimum_size = Vector2(0, 0)
+	size = Vector2.ZERO
+	modulate.a = 0.85
+
+
+func expand() -> void:
+	var full: Control = get_node_or_null("Full") as Control
+	if full == null or _dismissed:
+		return
+	if _pill != null:
+		_pill.visible = false
+	full.visible = true
+	custom_minimum_size = Vector2(800, 0)
+	modulate.a = 1.0
+	_age = 0.0
+	_keep_on_screen.call_deferred()
+
+
+func _input(event: InputEvent) -> void:
+	if _dismissed or _age < GUARD_TIME or not is_visible_in_tree() or is_collapsed():
+		return
+	var press: InputEventMouseButton = event as InputEventMouseButton
+	if press != null and press.pressed and not get_global_rect().has_point(press.global_position):
+		collapse()
 
 
 func dismiss() -> void:

@@ -243,6 +243,11 @@ func _process(delta: float) -> void:
 	if _skipped or screen == null:
 		return
 	_time += delta
+	# Import Nov 8 (C3 F6): a tip already up when a confirm opens ("Tools" over "End your turn?") steps aside until it closes.
+	var confirm_open: bool = not get_tree().root.find_children("*", "ConfirmDialog", true, false).is_empty()
+	visible = not confirm_open
+	if confirm_open:
+		return
 	if _current == "":
 		# Fable pass Nov 1 (critic 12 #4): a tip never opens over a confirm dialog ("Play a unit" sat on "End your turn?"); it waits.
 		if not get_tree().root.find_children("*", "ConfirmDialog", true, false).is_empty():

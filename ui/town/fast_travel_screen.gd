@@ -27,12 +27,23 @@ func _build() -> void:
 	var list: VBoxContainer = UIKit.vbox(10)
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(list)
-	for station_id: String in FastTravel.station_ids():
+	for station_id: String in shown_station_ids(Session.flags):
 		list.add_child(_row(station_id, story))
 	var warning: Label = UIKit.label(story.text("travel.warning"), &"MutedLabel", 19)
 	warning.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	warning.custom_minimum_size = Vector2(1500, 0)
 	body.add_child(warning)
+
+
+## Import Nov 8 (critic C5 F10): the stations listed. The forest's is a secret Rip opens in Crosspath after Primm (PathologyLab.FLAG_FOREST_OPEN):
+## until then it is left out - it showed as "???" with the "walk into that town yourself" hint in the Crease's list, which walking never answers.
+static func shown_station_ids(flags: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for station_id: String in FastTravel.station_ids():
+		if station_id == FastTravel.FOREST and not FastTravel.is_unlocked(flags, station_id):
+			continue
+		result.append(station_id)
+	return result
 
 
 func _row(station_id: String, story: StoryText) -> Control:

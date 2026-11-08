@@ -91,3 +91,11 @@ func test_the_shelf_board_is_a_trimmed_strip() -> void:
 	assert_not_null(board)
 	assert_eq(board.size, Vector2(1780.0, PacksScreen.PAINTED_BOARD_HEIGHT))
 	board.free()
+
+
+func test_the_forest_station_stays_off_the_list_until_rip_opens_it() -> void:
+	var flags: Dictionary = {}
+	assert_false(FastTravelScreen.shown_station_ids(flags).has(FastTravel.FOREST), "no '???' forest row before Rip's tip")
+	flags[str(FastTravel.unlock_flag(FastTravel.FOREST))] = true
+	assert_true(FastTravelScreen.shown_station_ids(flags).has(FastTravel.FOREST))
+	assert_true(FastTravelScreen.shown_station_ids({}).has(FastTravel.TOWN))
