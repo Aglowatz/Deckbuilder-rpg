@@ -2411,7 +2411,7 @@
 		"art_status": "Needed (Batch 13)",
 		"sprite_status": "Needed (SPR-DEX)",
 		"world_sprite_status": "Needed (SPR-DEX; the CITIZEN set stands in)",
-		"art_check": "",
+		"art_check": "missing",
 		"notes": "Fixes Nov 8: own art in Batch 13 (NPC-DEX, SPR-DEX)."
 	}
 ]

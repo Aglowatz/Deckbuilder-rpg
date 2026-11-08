@@ -1,3 +1,128 @@
+# Fix pass Nov 8 - report
+
+Brief: `docs/prompts/fixes_nov8.md` (owner decisions on the Nov 7-8 overnight, plus its leftovers). Tag `pre-fixes-nov8` marks the start.
+Questions: `docs/overnight_inbox.md`, "Fixes Nov 8". Screenshots: `docs/overnight_shots/nov8b/`. Sims: `docs/design/sim/nov8/`. No export.
+
+| Part | What | State |
+|---|---|---|
+| 0.1 | Full test shards, failures fixed | done (19 failures fixed: a Settings compile error from Nov 7-8 broke 8; the rest were stale expectations) |
+| 0.2 | Primm Measurement 2 (no-grind decks) | done: 94 / 89 / 72 % by phase, same as the reference decks |
+| 1.1 | Gatekeepers fightable at any time | done |
+| 1.2 | Dex's Matching Pair (rename, ICON-EQ-MATCHING-PAIR) | done |
+| 1.3 | Difficulty: no changes; Gallery Echo HP restored | done |
+| 1.4 | Primm: plain phase lines, Deck Station advice | done |
+| 1.5 | Economy back to ~21.2k; 3x every card + every craft | done: 21,332; finishing everything about 57 % extra play |
+| 1.6 | Dex's own art (rows + wiring) | done |
+| 2.1 | Capital load time | done: cold 12.1 -> 9.5 s |
+| 2.2 | Dump first load, shader hitches | done: cold 11.9 -> 5.9 s |
+| 2.3 | Gainlands cliff holes (Low / Low-end) | done |
+| 2.4 | Wardrobe / Card Packs after-shots | done |
+| 2.5 | Nov 7 quick wins | partly (below) |
+| Finish | shards green, report | report done; the final full run was stopped at shard 9 of 30 by Claude Code for low memory (see below) |
+
+**The final test run was cut short.** The first full run of the night (2850 tests) found 19 failures, all fixed and re-checked in targeted
+runs. The final full run after Parts 1-2 was stopped by Claude Code at shard 9 of 30 because the PC was critically low on memory (it was not
+restarted, per its rule): shards 1-8 passed apart from two NPC-DEX art checks, now fixed (Dex's portrait is on order, like Quota's). Every
+file changed in Parts 1-2 had its tests run on its own; shards 9-30 still need one full pass: `bash tools/run_tests.sh --only=tests --size=12 --from=9`.
+
+## Part 0
+
+**Shards.** The first full run since the overnight: 2829 / 2850, 19 failing. A `show_toast` call with two arguments in the Low-end toast
+(Settings panel) failed to compile and took eight Settings, controller and pad tests with it; the rest expected the old values of the Nov 7-8
+changes (Snack Bar +2/+0, the Honor Guard's Militia, the Echo owners, the Lucky Spats) or Dex's missing NPC entry. One test read
+`battle_screen.gd` with `\n` while git's autocrlf checks files out with CRLF; it now normalises line endings.
+
+**Primm, Measurement 2** (`docs/balance/primm_explained.md`): the no-grind decks (`--budget`: at most 4 Epics and 1 Legendary) score **94 / 89 / 72 %**
+by phase, the reference decks 94 / 89 / 73 %. What the player owns barely matters to Primm; how the deck is built and the HP carried between
+phases do - which is what the plain rule lines and the Deck Station advice address.
+
+## Part 1 - Owner decisions
+
+1. **Gatekeepers** can be fought at once, at any time (the "come back when Maren sends you" block is gone). The player isn't pointed at them
+   before Maren's errands are done: no quest, no YOUR PATH line naming them, no map pin on the Path's road. A gatekeeper beaten early shows
+   its step as done when Maren gives the line, and her send-off still comes. Test: `tests/core/quests/test_fixes_nov8_gatekeepers.gd`.
+2. **Dex's Matching Pair** (was Dex's Lucky Spats): data, quest reward, rarities, icon id **ICON-EQ-MATCHING-PAIR** in the art list and the
+   icon importer's known ids (`IconArt.EQUIPMENT_IDS`; the boots slot icon stands in until it is imported). Wording unchanged.
+3. **Difficulty:** Clench (1 Iron) and the Automaton (one extra fewer) were on the approved list and stay. The Gallery got both "Perfect Form
+   off the normals" and "Echo HP -20 %" last night where "or" was approved, so the **Echo HP cut is reverted**. Current win rates (sims):
+   Clench 67 / 50 / 25 / 33 % (B / N / G / R), the Automaton 33 / 33 / 17 / 17 %, the Gallery full run 0 / 10 / 0 / 20 % (B / N / G / R; 7.5 %),
+   Primm as in Part 0.
+4. **Primm:** phase 1 now says "Every unit is a 3/3, so cheap units are as good as big ones. You may play two cards a turn."; phase 2 "He plays
+   a copy of your own deck and draws two extra cards a turn, so expect your best cards to come back at you." (it said one extra card, the code
+   draws two); phase 3 "His units get +1/+1 and he draws an extra card, but he loses 1 HP every turn, so hold the line and he runs out of time."
+   When the castle is next, the Deck Station shows "Primm deck" advice with the deck's count of units costing 2 or less. No number changes.
+5. **Economy:** see the table below.
+6. **Dex** is `NPC-DEX` in the NPC registry. Rows for NPC-DEX and SPR-DEX (REF, FRONT_IDLE, SIDE_IDLE, BACK_IDLE, FRONT_TALK) are in the art list
+   ("Needed — Batch 13"). Until they are imported, the townsfolk portrait and the CITIZEN sprite stand in; `CardMatchCircuit.portrait_id()` /
+   `sprite_key()` switch to his own art by themselves once it exists.
+
+### The gold study (Part 1.5)
+
+| | Nov 7-8 | **Nov 8** |
+|---|---:|---:|
+| Gold earned, no grinding | 11,314 | **21,332** |
+| Left after the shopping list (38 cards, 6 gear, 20 item charges, 3 hats, 4 packs) | 1,514 | **11,532** |
+| Three copies of every single-Path and Colorless card (534 copies), shelf prices | - | 56,400 |
+| Copies a no-grind run gets free (starter, 33 picks, 41 packs) | - | about 181 (about 14,300 worth) |
+| All 136 multi-Path crafts (102 dual, 34 tri): gold + essence bought as packs | - | 6,800 + 7,757 |
+| **Finishing everything** | - | **about 56,600 gold** |
+| A no-grind run covers | - | about 20 % |
+| **Extra grinding to finish** | - | **about 140 late fights = 9.4 h = 57 % on top of a 16.5 h run** |
+
+What changed: the Nov 4-5 income knobs are back (quests, the clear bonus, dungeon nodes, roamers, first clears), with chests at 60 % and late
+level-track gold at 85 % so the kept late-fight raise lands near 21.2k. Grinding (never part of a no-grind run): a roamer beaten before at level
+18+ pays **x4** (the Capital's 100 -> 400), a replayed side dungeon 200 (was 40), a main one 300 (was 100). **Crafting was the bottleneck** (a
+duplicate lottery at 6 essence per Path): a brew now costs **2 essence of each Path and 40 gold** (tri 80), a Path holds up to 60 essence, and the
+cauldron brews the cards you don't own yet first. With the old crafting the same goal took 236 % extra play. The intro checkpoint still holds
+(about 850 gold after the armory quest, against 590). Full write-up: `docs/balance/gold_economy_nov3.md`, "Fixes Nov 8".
+
+## Part 2 - Leftovers
+
+### Load times (Parts 2.1, 2.2)
+
+Measured with `bash tools/run_loading_timing.sh` (windowed, the real SceneManager), before and after:
+
+| Transition | Before | **After** | What moved |
+|---|---:|---:|---|
+| town -> Capital (cold) | 12,104 ms | **9,478 ms** | the baked build cache (houses, rim, skyline, splat) |
+| town -> Capital (warm) | 7,268 ms | **7,028 ms** | the builder's uncached code (about 4.1 s) remains |
+| town -> Dump (cold) | 11,941 ms | **5,889 ms** | the splat bake (was 5.0 s of "painted: base material") |
+| town -> Dump (warm) | 4,710 ms | **4,628 ms** | the lighter mask fingerprint |
+
+- **Why cold was slow:** the zone builders' expensive results (splat images, ground overlays, townhouse and tower geometry) come from
+  `BuildCache`, keyed by a hash of every world script; the baked copy in `res://build_cache/` was from Nov 3, so every cold load rebuilt them.
+  It is re-baked (`bash tools/build_cache.sh bake`, manifest 32e001df8264cecc) - an export bakes again anyway.
+- The painted splat's cache key re-evaluated the zone's masks on a 16 x 16 grid every visit (about 0.9 s in the Dump); 8 x 8 now.
+- Materials prewarm behind the cover: the transition already draws 7 frames behind the loading screen before the fade-in (the worst of them
+  is the first shader compile, 300-570 ms, hidden); loads that take over 2 s with no loading screen show the "Loading..." card.
+- **Not done:** caching the Capital's non-house buildings (1.2 s a visit), skyline (0.6 s) and props (0.6 s) - the next step for the warm load.
+
+### The Gainlands cliffs (Part 2.3)
+
+At Low and Low-end (no sun shadow) the faceted cliff walls were lit facet by facet, and the faces turned from the sun read as black triangles
+(`p2_cliffs_lowend_before.png`; Medium for comparison: `p2_cliffs_medium.png`). Without a sun shadow the cliff faces now get smooth normals
+(their own smooth group, so the plateau tops stay faceted), the ambient fills a little more and the sun eases a little
+(`p2_cliffs_lowend_after.png`). The land and cliff meshes are also never range-culled. New play command: `dev lowend on|low|off`.
+
+### Screenshots (Part 2.4)
+
+Wardrobe `p2_wardrobe_before.png` -> `p2_wardrobe_after.png`; Card Packs `p2_packs_before.png` -> `p2_packs_after.png` and
+`p2_packs_after_opened.png` (LAST OPENED filled). The shelf's board sat on the pack names; it is under the art now and hidden on an empty shelf.
+
+### Nov 7 quick wins (Part 2.5)
+
+Done: the gear shop's tip counts the grayed-out pieces of that shelf (it said "the 5" everywhere); Alembic's brew screen no longer flips its
+own toggle (the "eaten" first click) and keeps space for the odds grid (nothing jumps under the cursor); the balance sim's `--resume`. Already
+in: Curb Alert opens the Refuse Pile picker by itself. Not done: the Dump's haze, the quest log hint under the quill, tip boxes overflowing,
+the name tag over the wrong NPC, the round label / ENEMY TURN banner / sticky tooltip, the forest station "???" in the Crease's list (not a
+literal in the code: it needs a repro), the fountain plinth statues (art row DEC-PLINTH-EMBLEMS).
+
+## Open questions (inbox "Fixes Nov 8")
+
+1. Finishing everything is about **57 % extra play**: nearer 30-40 % would need late repeats x5-x6, cheaper third copies of Epics and
+   Legendaries, or a pack per late repeat win.
+2. The Gallery is back to 7.5 % (0 / 10 / 0 / 20 %); the approved changes alone kept it hard, as the owner wants.
+
 # Overnight Nov 7-8 - report
 
 Brief: `docs/prompts/overnight_nov7.md` (Parts 0-9 + Finish, in priority order). Tag `pre-overnight-nov7` marks the start. State:
