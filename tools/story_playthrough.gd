@@ -791,6 +791,8 @@ func _win(battle: BattleScreen, label: String) -> void:
 
 ## The play script's pilot loop (tools/play_script.gd `_pilot`): "won", "lost" or "stalled".
 func _pilot_fight(battle: BattleScreen) -> String:
+	if _full:
+		return await _ai_fight(battle)
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
 	var started: int = Time.get_ticks_msec()
 	var last_turn: int = -1
@@ -1430,3 +1432,35 @@ func _unstick(scene: Node, fights: int) -> bool:
 				return true
 	await driver.tap_key(KEY_ENTER if _stall_kicks % 2 == 1 else KEY_E)
 	return true
+
+
+## Overnight Nov 9, Part 1 (--full): the hero's seat is played by the game's own planning AI (AIPlayer, balanced personality, ELITE skill - the
+## player the balance sims use) through BattleScreen.set_bot: every card, attack, block, mulligan and Peek goes through the real game rules
+## and the real battle screen. No item use (a human would have that edge). "won", "lost" or "stalled".
+func _ai_fight(battle: BattleScreen) -> String:
+	var started: int = Time.get_ticks_msec()
+	await driver.seconds(0.3)
+	if is_instance_valid(battle) and battle.human_bot == null:
+		battle.set_bot(AIPlayer.for_foe(AIPersonality.balanced(), AIPlayer.Skill.ELITE))
+	var last_turn: int = -1
+	var last_change: int = Time.get_ticks_msec()
+	while is_instance_valid(battle) and battle.mode != BattleScreen.Mode.OVER:
+		if float(Time.get_ticks_msec() - started) / 1000.0 > 600.0:
+			return "stalled"
+		for text: String in ["Got it", "Skip tips"]:
+			var tip: Button = driver.find_button(text)
+			if tip != null:
+				await driver.click(driver.button_center(tip))
+		if battle.game != null and battle.game.turn != last_turn:
+			last_turn = battle.game.turn
+			last_change = Time.get_ticks_msec()
+		elif float(Time.get_ticks_msec() - last_change) / 1000.0 > 90.0:
+			return "stalled"
+		await driver.seconds(0.4)
+	if not is_instance_valid(battle):
+		return "won"
+	for _i: int in range(20):
+		if battle._result_shown:
+			break
+		await driver.seconds(0.2)
+	return "won" if battle.context.won else "lost"
