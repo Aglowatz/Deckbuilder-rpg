@@ -12,6 +12,15 @@ Screenshots: `docs/overnight_shots/nov8c/`. Load numbers: `docs/perf/nov8c/`. Cr
 | 4 | Fresh-eyes critic | done: first hour 5/5/5/7/6; 5 of its top 10 fixed or partly fixed tonight, the rest logged |
 | Finish | all shards, report, push | partly: the final full run was stopped by Claude Code at shard 25 of 30 for low memory (not restarted, per its rule); shards 1-24 passed except one test, now fixed and re-run |
 
+### Owner decisions (Nov 8, after the report)
+
+- Dex stays a ferret; tips stay as they are; the Capital load is good as it is.
+- **Low camera angle, for playtesters:** a fourth camera preset, **Low** (Settings > Display > Camera angle, or V cycles Cinematic -> Classic
+  -> Overview -> Low). Pitch 11 degrees (Cinematic is 20), the camera 26 % closer so the hero keeps his size, the lens 3 degrees wider,
+  the tilt-shift blur a little stronger. Saved in settings.cfg like the others (existing settings keep their index). Shots:
+  `low_crosspath.jpg` (vs `cin_crosspath.jpg`), `low_gainlands.jpg`, `low_dump.jpg`. Known at Low: name tags of NPCs standing behind the
+  fountain stack up toward the sky (the tag spreader pushes them up); roofs and the occlusion fade were not tuned for it.
+
 ## Part 0 - Finishing the last pass
 
 Shards 9-30 of the full suite ran (`bash tools/run_tests.sh --only=tests --size=12 --from=9`). Every failure was an expectation that Batch 13

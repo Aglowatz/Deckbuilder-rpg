@@ -107,7 +107,7 @@ const ZOOM_MIN: float = 1.0
 const ZOOM_MAX: float = 2.0
 const ZOOM_DEFAULT: float = 1.5
 var camera_zoom: float = ZOOM_DEFAULT
-## Camera angle preset (CameraRig.ANGLE_NAMES): 0 Cinematic, 1 Classic, 2 Overview. Remembered in settings.cfg, never per save.
+## Camera angle preset (CameraRig.ANGLE_NAMES): 0 Cinematic, 1 Classic, 2 Overview, 3 Low (Nov 8, playtest). Remembered in settings.cfg, never per save.
 var camera_angle: int = 0
 ## Overnight Nov 2-3, Part 5: the Capital's own camera (CityCamera.MODE_NAMES): 0 Standard (the angle above), 1 Raised, 2 Low. Only the Capital
 ## reads it; Standard until the designer picks one.
@@ -475,7 +475,7 @@ func load_settings(path: String = PATH) -> void:
 	sharpness = clampf(float(config.get_value("video", "sharpness", 0.8)), 0.0, 1.0)
 	dynamic_resolution = clampi(int(config.get_value("video", "dynamic_resolution", DynamicResolution.Mode.AUTO)), 0, DynamicResolution.MODE_NAMES.size() - 1)
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
-	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, 2)
+	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, CameraRig.ANGLE_NAMES.size() - 1)
 	city_camera = clampi(int(config.get_value("video", "city_camera", city_camera)), 0, 2)
 	renderer = str(config.get_value("video", "renderer", renderer))
 	if not RENDERERS.has(renderer):
@@ -652,7 +652,7 @@ func set_camera_zoom(value: float) -> void:
 
 
 func set_camera_angle(index: int) -> void:
-	var clamped: int = clampi(index, 0, 2)
+	var clamped: int = clampi(index, 0, CameraRig.ANGLE_NAMES.size() - 1)
 	if clamped == camera_angle:
 		return
 	camera_angle = clamped
@@ -673,9 +673,9 @@ func cycle_city_camera() -> void:
 	set_city_camera((city_camera + 1) % 3)
 
 
-## Cycles Cinematic -> Classic -> Overview.
+## Cycles Cinematic -> Classic -> Overview -> Low.
 func cycle_camera_angle() -> void:
-	set_camera_angle((camera_angle + 1) % 3)
+	set_camera_angle((camera_angle + 1) % CameraRig.ANGLE_NAMES.size())
 
 
 ## Cycles Close -> Normal -> Far (from the nearest preset).

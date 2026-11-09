@@ -31,8 +31,8 @@ func test_storybook_numbers_follow_the_art_bible() -> void:
 func test_angle_presets_set_the_camera_pitch() -> void:
 	Settings.camera_zoom = Settings.ZOOM_DEFAULT
 	var base: Vector3 = WorldLookRig.base_offset()
-	var wanted: Array[float] = [20.0, 30.0, 45.0]
-	for index: int in range(3):
+	var wanted: Array[float] = [20.0, 30.0, 45.0, 11.0]
+	for index: int in range(4):
 		Settings.camera_angle = index
 		assert_almost_eq(_pitch_of(CameraRig.shape(base)), wanted[index], 0.2, "%s pitch" % CameraRig.ANGLE_NAMES[index])
 
@@ -60,7 +60,7 @@ func test_the_hero_is_about_eleven_percent_of_the_screen_at_normal() -> void:
 func test_every_combination_adjusts_tilt_shift_and_fov() -> void:
 	var values: Dictionary = WorldLookRig.game_values()
 	var seen: Dictionary = {}
-	for angle: int in range(3):
+	for angle: int in range(CameraRig.ANGLE_NAMES.size()):
 		for zoom: float in CameraRig.ZOOM_VALUES:
 			Settings.camera_angle = angle
 			Settings.camera_zoom = zoom
@@ -69,7 +69,7 @@ func test_every_combination_adjusts_tilt_shift_and_fov() -> void:
 				assert_true(adjusted.has(key), "%s has %s" % [CameraRig.combo_name(), key])
 			assert_between(float(adjusted["fov"]), 30.0, 60.0)
 			seen[CameraRig.combo_name()] = true
-	assert_eq(seen.size(), 9, "nine distinct combinations")
+	assert_eq(seen.size(), CameraRig.ANGLE_NAMES.size() * 3, "every angle x zoom combination is distinct")
 
 
 func test_swivel_turns_and_eases_back() -> void:
@@ -94,8 +94,8 @@ func test_angle_and_zoom_cycle_and_persist() -> void:
 	Settings.camera_angle = 0
 	Settings.cycle_camera_angle()
 	assert_eq(Settings.camera_angle, 1)
-	Settings.cycle_camera_angle()
-	Settings.cycle_camera_angle()
+	for _step: int in range(CameraRig.ANGLE_NAMES.size() - 1):
+		Settings.cycle_camera_angle()
 	assert_eq(Settings.camera_angle, 0, "wraps")
 	Settings.camera_zoom = Settings.ZOOM_DEFAULT
 	Settings.cycle_camera_zoom()
@@ -112,3 +112,15 @@ func test_angle_and_zoom_cycle_and_persist() -> void:
 func test_camera_actions_are_rebindable() -> void:
 	for action: StringName in [&"camera_swivel_left", &"camera_swivel_right", &"camera_angle", &"camera_zoom"]:
 		assert_true(Keybinds.action_ids().has(action), "%s is a rebindable action" % action)
+
+
+func test_the_low_angle_is_in_settings_and_the_cycle() -> void:
+	# Nov 8 (owner decision): a Low camera for playtesters
+	assert_eq(CameraRig.ANGLE_NAMES[3], "Low")
+	Settings.camera_angle = 2
+	Settings.cycle_camera_angle()
+	assert_eq(Settings.camera_angle, 3, "V reaches Low after Overview")
+	Settings.cycle_camera_angle()
+	assert_eq(Settings.camera_angle, 0, "and wraps to Cinematic")
+	Settings.set_camera_angle(3)
+	assert_eq(Settings.camera_angle, 3, "Settings accepts it")

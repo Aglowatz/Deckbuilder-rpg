@@ -6,6 +6,8 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 
 ## Import Nov 8 - yours to decide (the safest choice was taken)
 
+**Answered Nov 8:** Dex stays a ferret; tips as they are; the Capital load is fine; a Low camera angle was added for playtesters (Settings > Display > Camera angle, or V).
+
 Brief: `docs/prompts/import_nov8.md`. Report: `docs/overnight_report.md`. Tag `pre-import-nov8`.
 
 1. **Dex is a ferret** in the approved Batch 13 art (the row described a man). Kept: portrait and sprites match each other. Update the art list

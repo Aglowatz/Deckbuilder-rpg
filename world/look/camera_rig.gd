@@ -8,20 +8,22 @@ extends RefCounted
 ##
 ## The choice (angle, zoom) lives in `Settings` (settings.cfg, not per save); the swivel is transient and eases back to zero when the key is released.
 
-const ANGLE_NAMES: Array[String] = ["Cinematic", "Classic", "Overview"]
+## Nov 8 (owner decision): "Low" - a near eye-level camera for playtesters to try (Settings > Display > Camera angle, or V). Saved
+## settings keep their index; Low is added last.
+const ANGLE_NAMES: Array[String] = ["Cinematic", "Classic", "Overview", "Low"]
 const ZOOM_NAMES: Array[String] = ["Close", "Normal", "Far"]
 ## Camera pitch in degrees per angle preset.
-const ANGLE_PITCH: Array[float] = [20.0, 30.0, 45.0]
+const ANGLE_PITCH: Array[float] = [20.0, 30.0, 45.0, 11.0]
 ## Zoom presets as `Settings.camera_zoom` values (Normal is `Settings.ZOOM_DEFAULT`).
 const ZOOM_VALUES: Array[float] = [1.2, 1.5, 1.9]
 ## FOV added per angle preset: a steeper view is flatter (longer lens) so verticals do not splay.
-const ANGLE_FOV: Array[float] = [0.0, -2.0, -4.0]
+const ANGLE_FOV: Array[float] = [0.0, -2.0, -4.0, 3.0]
 ## Tilt-shift per angle: more ground is visible when high, so the blur is gentler and the sharp band wider.
-const ANGLE_BLUR: Array[float] = [1.0, 0.9, 0.72]
-const ANGLE_BAND: Array[float] = [0.0, 0.02, 0.05]
-const ANGLE_FOCUS: Array[float] = [0.0, -0.02, -0.05]
+const ANGLE_BLUR: Array[float] = [1.0, 0.9, 0.72, 1.1]
+const ANGLE_BAND: Array[float] = [0.0, 0.02, 0.05, -0.01]
+const ANGLE_FOCUS: Array[float] = [0.0, -0.02, -0.05, 0.04]
 ## A high view foreshortens the hero: bring the camera in a little so the hero stays about the same size.
-const ANGLE_DISTANCE: Array[float] = [1.0, 0.95, 0.86]
+const ANGLE_DISTANCE: Array[float] = [1.0, 0.95, 0.86, 0.74]
 ## Per zoom preset: FOV, blur scale, band width.
 const ZOOM_FOV: Array[float] = [-3.0, 0.0, 2.0]
 const ZOOM_BLUR: Array[float] = [1.2, 1.0, 0.8]
