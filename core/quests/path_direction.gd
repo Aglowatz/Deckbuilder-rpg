@@ -63,7 +63,7 @@ static func tracker_line(path: Affinity.Type, flags: Dictionary, intro_step: Str
 		return ""
 	# Overnight Nov 7-8, Part 1.2: before Maren sends the hero out, the line points at the next step of the intro line instead.
 	if not sent_out(flags):
-		return intro_step if not intro_step.is_empty() else "Settle in: talk to Elder Maren on the square"
+		return intro_step if not intro_step.is_empty() else "Settle in: talk to Elder Maren at her home, north of the square"
 	return "Face %s on %s" % [CorruptedNpcs.display_name(zone_id).get_slice(",", 0), road_of(zone_id)]
 
 
@@ -78,13 +78,13 @@ static func intro_step(qlog: QuestLog, state: UnlockState, flags: Dictionary) ->
 	if qlog == null or sent_out(flags):
 		return ""
 	if qlog.is_completed(QuestDefinitions.ARMORY):
-		return "Report back to Elder Maren on the square"
+		return "Report back to Elder Maren at her home, north of the square"
 	var best: QuestData = null
 	for quest: QuestData in QuestCatalog.all():
 		if quest.line == QuestDefinitions.SETTLING_IN and qlog.is_active(quest.id) and (best == null or quest.order < best.order):
 			best = quest
 	if best == null:
-		return "Settle in: talk to Elder Maren on the square"
+		return "Settle in: talk to Elder Maren at her home, north of the square"
 	var objective: QuestObjective = qlog.current_objective(best, state)
 	if objective == null:
 		return "Settle in: hand %s back to Elder Maren" % best.title

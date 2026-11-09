@@ -4,6 +4,21 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Import Nov 8 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/import_nov8.md`. Report: `docs/overnight_report.md`. Tag `pre-import-nov8`.
+
+1. **Dex is a ferret** in the approved Batch 13 art (the row described a man). Kept: portrait and sprites match each other. Update the art list
+   description, or ask for a redo?
+2. **NPC-PLAYER** is still the opaque picture; held back again (the importer re-adds it on every portrait import - it is reverted each time).
+3. **"Low camera" for the statues** was read as the Low graphics preset (`b13_plinths_low.jpg`). If it meant a camera angle, say which.
+4. **Tips now fold into a small "Tip: ..." pill** on any click outside them (so they never sit over a screen in use). Keep, or prefer them to
+   close for good?
+5. **The Capital's remaining load:** props, landmarks and the district buildings (about 1.7 s) need a geometry cache in each district builder.
+   Worth a dedicated pass?
+6. **Critic N8's logged items** (above, top 10 #2, 3, 6, 8, 9 and the rest of 10, plus findings 12-18): pick the next fix list.
+7. **Dex's matching game screen** needs art (a painted table and a card back, like the quiz's classroom). Add rows to the art list?
+
 ## Fixes Nov 8 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fixes_nov8.md`. Report: `docs/overnight_report.md`. Tag `pre-fixes-nov8`.

@@ -1,3 +1,173 @@
+# Import Nov 8 (Batch 13 + polish) - report
+
+Brief: `docs/prompts/import_nov8.md`. Tag `pre-import-nov8` marks the start. Questions: `docs/overnight_inbox.md`, "Import Nov 8".
+Screenshots: `docs/overnight_shots/nov8c/`. Load numbers: `docs/perf/nov8c/`. Critic: `docs/review/critic_nov8c/N8.md`. No export.
+
+| Part | What | State |
+|---|---|---|
+| 0 | Remaining test shards (9-30), push | done: every failure fixed (all were Dex / Batch 13 expectations); pushed |
+| 1 | Batch 13: 23 images filed, imported, wired, shot | done (all 23 in game; NPC-PLAYER held back again) |
+| 2 | Quick wins | done (10 items; "rules drawn twice" was already fixed Nov 7) |
+| 3 | Capital later-visit load | done: 7.2 -> 5.9 s later visits, 9.9 -> 8.2 s first visit |
+| 4 | Fresh-eyes critic | done: first hour 5/5/5/7/6; 5 of its top 10 fixed or partly fixed tonight, the rest logged |
+| Finish | all shards, report, push | partly: the final full run was stopped by Claude Code at shard 25 of 30 for low memory (not restarted, per its rule); shards 1-24 passed except one test, now fixed and re-run |
+
+## Part 0 - Finishing the last pass
+
+Shards 9-30 of the full suite ran (`bash tools/run_tests.sh --only=tests --size=12 --from=9`). Every failure was an expectation that Batch 13
+or Dex's prize changed:
+- `test_icon_wiring` / `test_icon_conventions`: Dex's Matching Pair is an 11th named piece that lives in `data/equipment/zone/` and keeps its
+  art-list name (`ICON-EQ-MATCHING-PAIR`, not `ICON-GEAR-*`); the tests know both now.
+- `test_ui_art`: the UI kit lists 61 ids (6 new, two of them `MG-BG-*`).
+- `test_no_citizen_outside_capital`: Dex stood as the CITIZEN stand-in; with his sprite set imported he stands as himself.
+
+The two unpushed commits were pushed at the start.
+
+## Part 1 - Batch 13 (23 images)
+
+Filing: `node tools/batch13_move.js [--apply]` (the Batch 12 mover with Batch 13's folders). Nothing replaced an older file, so nothing went to
+Superseded. Folders: boards -> Approved_Battleboards, plinth statues and levers -> Approved_EnvKit (the town kit), the thorn wall ->
+Approved_ZoneKits/VerdantDump, the UI and minigame backgrounds -> Approved_UI, the icon -> Approved_Icons, Dex -> Approved_Characters /
+Approved_Sprites. Importers, one Godot at a time: battleboards, zone kit `town` and `heap` (`--only`), UI art (it now also accepts `MG-*` ids),
+icons, portraits, NPC sprites. Clean-ups after them:
+- the zone kit registries were rewritten with float churn; only the new items were spliced into HEAD's text (`python tools/kit_splice.py <zone> ID...`);
+- the sprite manifest was rewritten; only the DEX entry was added to HEAD's text;
+- the portrait importer re-imported **NPC-PLAYER** (still the opaque version): reverted to HEAD, as on Nov 6.
+
+The art list (`docs/art/art_needed_nov4.csv`) has a new `status` column: the Batch 13 rows say "In game (Batch 13, Nov 8)", the older rows point
+to the Batch 12 report, and BB-S-GALLERY-ALT has its own row (it came without one).
+
+### Per-image table
+
+Cost = packed size in the export and the texture memory when shown (VRAM: BC-compressed images at 0.5-1 byte per pixel, lossy WebP
+decompressed to 4 bytes per pixel, +33 % with mipmaps).
+
+| Image | Where / wiring | Screenshot | Scale check | Pack | VRAM |
+|---|---|---|---|---:|---:|
+| BB-S-GALLERY | every Shattered Gallery fight (the castle board stand-in drops out by itself) | `b13_board_gallery.jpg` | 16:9 crop of 1536x1024, cards read on it | 148 KB | 5.1 MB |
+| BB-S-GALLERY-ALT | The Perfect Copy's fight only (`ShatteredGallery.board_for`, boss node) | `b13_board_gallery_alt.jpg` | same; darker blue mirror hall, the boss fight looks different | 115 KB | 5.1 MB |
+| DEC-PLINTH-BEEF / NECRO / GOUR / REF | one statue per freed zone on the fountain's crest plinths; the plinth's gem and floating icon hide under it (`TownScene.PLINTH_STATUES`) | `b13_plinths_default.jpg`, `b13_plinths_close.jpg`, `b13_plinths_low.jpg` | 1.15 m on the 0.58 m plinth: the top at the hero's head, the base as wide as the cap; checked at Medium and Low | 4 x 133 KB | 0.5 MB |
+| UI-CAULDRON | Alembic's brew panel (the vector glyph stays as the fallback) | `b13_alchemist.jpg` | 260 px in the brew stage, shakes and glows as before | 323 KB | 2.9 MB |
+| UI-BG-PACKS | the Card Packs page (lighter dimming than the stand-in) and both result screens (Open all summary, a single pack's summary) | `b13_packs.jpg` | full screen | 1.5 MB | 1.5 MB |
+| UI-PACK-SHELF | THE SHELF's board: trimmed at import to the board (1528x203), scaled to 48 px high, brackets kept and the carved middle tiled; drawn behind the packs, their feet on its top, ending above the names | `b13_packs.jpg` | fits the panel, never over the names | 71 KB | 1.2 MB |
+| UI-BG-WARDROBE | the Wardrobe's room (replaces the dimmed Character crop) | `b13_wardrobe.jpg` | full screen | 1.5 MB | 1.5 MB |
+| KIT-HEAP-THORNWALL / -DEAD | the wall at Moss Mulligan's gate (Crosspath's west road): breathes (a slow scale pulse in `HubObstacles._process`), withers and parts once he is beaten (the live wall sinks, the dead one rises). Collision: closed = the old line across the road; parted = only the two sides (`_add_parted_circles`, a 1.4 m gap like the art's) | `b13_thornwall_closed.jpg`, `b13_thornwall_withered.jpg` | 4.7 m card across the road between the wings | 2 x 672 KB | 1.3 MB |
+| LEVER-LOCKED / -OPEN | all five levers (`LeverKit`): two cards, the open one swaps in at the bottom of a squash-and-settle tween; the plain enamel badge is tinted per Path (a per-colour copy of the art; Crosspath's old lever is brass). The two states are trimmed differently, so each has its own height and a small shift that keeps the plinth in place | `b13_lever_crosspath.jpg`, `_pulled.jpg`, `b13_lever_gainlands.jpg`, `b13_lever_dump.jpg` | about half the hero's height, as the row asked | 2 x 150 KB | 0.3 MB |
+| ICON-EQ-MATCHING-PAIR | Character page, gear shop tooltip, quest reward (all through `IconArt.EQUIPMENT_IDS`) | `b13_character_gear.jpg`, `crop_gear.jpg` | 256 px master + 6 crisp sizes | 134 KB | 0.4 MB |
+| MG-BG-CLASSROOM | every zone's quiz: scaled to the screen's width and anchored at the top so the question is chalked on the painted board (`QuizScreen.PAINTED_BOARD_RECT`); the quiz-giver's portrait stands in the open left third; the coded room stand-in is deleted | `b13_quiz_gainlands.jpg`, `b13_quiz_dna.jpg` | the board area holds the longest questions | 317 KB | 6.0 MB |
+| MG-BG-GYM | the Rep Counter's backdrop; the bar sits on the painted platform, the intro text got a dark plate | `b13_repcounter.jpg` | full screen | 279 KB | 6.0 MB |
+| NPC-DEX | Dex's portrait (`CardMatchCircuit.portrait_id` swaps by itself) | `b13_portrait_NPC-DEX.jpg` | the standard portrait canvas | 110 KB | 1.5 MB |
+| SPR-DEX (FRONT/SIDE/BACK idle, FRONT_TALK; REF filed only) | Dex at his table in every Path zone | `b13_dex_gainlands.jpg`, `b13_dex_dump.jpg`, `dex_frames.jpg` | the standard 440 px figure: about the hero's height | 139 KB | 2.1 MB |
+
+**Size and memory against `docs/build_size_policy.md`:** the import adds **6.7 MB to the pack** (v0.5.2 was 700 MB against the 750 MB warning)
+and at most about 6-12 MB of texture memory on any one screen (the quiz or the gym backdrop is the biggest single picture, as a lossy
+full-screen painting, like the stills). One fix against the policy's "1.0-1.3x the largest on-screen size" rule: the statues and levers
+arrived at about 1000 px but draw at 60-150 px, so a new import rule caps them at 384 px (BC7) - 4.1 MB of pack became 0.8 MB.
+
+**Note for the art list:** Dex arrived as a ferret cardsharp (bowler, cards in the band, green waistcoat, spats); the row described a wiry man.
+The portrait and the sprites match each other, so they are in as approved.
+
+## Part 2 - Quick wins
+
+| Item | Fix |
+|---|---|
+| Forest station "???" (C5 F10) | Reproduced in the code: after Primm the forest's station only opens when Rip in Crosspath gives his tip; until then the Crease's list showed it as "???" with "walk into that town yourself", which walking never answers. The row is left off the list until it is open (`FastTravelScreen.shown_station_ids`). |
+| The Dump's haze (C2b F11, C3 F13) | The zone style was the real source: the lavender shadow tint, the height fog, warmth and vignette (and their stronger values toward the Rotheart) cut by a third, plus the look's fog, bloom, tilt-shift blur (7/6 -> 4.7/4.0 px) and haze cards. Before/after: `p2_dump_haze_before.jpg` / `_after.jpg` (edge detail +14 %, contrast +5 %). |
+| Quest log hint under the quill (C7 F11) | a 230 px gap at the right of the tab row; the hint is a little larger and darker |
+| Tips overflow and cover content (C1b F11, C7 F12, C3 F6) | a tip re-fits on screen whenever its text grows (the last line spilled below the frame); a click anywhere outside it folds it into a small "Tip: ..." pill (click to read again); battle coach tips step aside while a confirm is open (one already up stayed over "End your turn?") |
+| Wrong name tag (C2b F5) | Old Hob's zone cameo used the key "hob", which is the Dump's Granny Gristle's legacy id: his record replaced hers (the tag and the NPC). His key is `old_hob` now. `p2_dump_gristle_tag.jpg` |
+| Zone banner (C2b F10, C3 F14) | it already waited for a quiet moment and skipped after a defeat (Nov 7); now it also fades at once if a conversation opens while it is up |
+| Sticky tooltip (C4b F12) | a card played from under the cursor drops its hover box and stays quiet until the cursor leaves it |
+| "Rules of this fight" twice (C2 F14, C4c F9) | already fixed on Nov 7 (a second call replaces the row); unchanged |
+| Round label lag (C4c F11) | the turn ribbon read the live turn (ahead of the playback); it reads the event's turn, like the HUD label |
+| ENEMY TURN over the action line (C4b F11) | the HUD drew a second, band-less "ENEMY TURN" over the board's ribbon - removed; the opponent's action line waits for the ribbon to clear |
+| (found on the way) Character page | the "Equipment unlocks with the quest ..." pill was clipped at the right; it wraps onto two lines |
+
+## Part 3 - Capital later-visit load
+
+`bash tools/run_loading_timing.sh` (windowed, the real SceneManager), Capital only, before and after; the build cache re-baked after the last
+world edit (`bash tools/build_cache.sh bake`, hash 2263c04e70673c9e):
+
+| Transition | Before | **After** |
+|---|---:|---:|
+| town -> Capital, first visit (baked cache) | 9,874 ms | **8,239 ms** |
+| town -> Capital, later visit | 7,174 ms | **5,923 ms** |
+| dungeon map -> Capital (retreat) | 7,355 ms | **6,098 ms** |
+| the Capital's builder alone, later visit | 4,214 ms | **2,970 ms** |
+| Capital -> town, later visit | 5,566 ms | 5,811 ms (unchanged; noise) |
+
+What changed:
+- `BuildCache.fetch_node(key, build)` stores a finished static subtree as a packed scene and gives back a fresh copy on later visits. Used for
+  the **skyline** (614 ms -> under 60) and the **wall dressing** (392 ms -> under 60). Both merge into their own batches before they are
+  stored, so the copies draw exactly as the live build (no extra draw calls).
+- The great wall's pieces (236 ms) and the ruined houses (about 150 ms) cache their geometry like the townhouses (`KitMesh.fill_cached_set`),
+  so materials stay shared and the end-of-build merge still batches them.
+- **Not done, and why:** the props (0.6 s), the landmarks (0.44 s) and the district buildings (stalls, crypts, sheds, the Reek: about
+  0.65 s) keep live references (lights, spinners, ghosts, story states) or many different builders; caching them as stored subtrees would
+  give them their own copies of every material and break the merge's batching (more draw calls). Their next step is a geometry cache in
+  each district builder, like the wall pieces. Coming back to Crosspath (5.8 s) is the town's own look rig and painted ground.
+
+## Part 4 - Fresh-eyes critic
+
+One fresh critic with no project context (brief `docs/review/critic_nov8c/briefs/N8.md`, played from the `C:\Dev\wp_critic` worktree at
+this pass's commit; report `docs/review/critic_nov8c/N8.md`, 36 screenshots in `docs/review/critic_nov8c/N8/`). About 80 minutes. It picked
+Gourmand. It lost the tutorial cave once to the Hollow Stalker; that resets the cave and puts you back at the bedroll. Driver timing then
+broke two more attempts, so it used its one allowed `dev travel town` (its town read starts at L1 with 120 gold). No `SCRIPT ERROR` in any run.
+
+**First hour:** fun 5, clarity 5, difficulty 5 (too punishing for a tutorial), text 7, look 6.
+**Both parts:** fun 6, clarity 5, difficulty 6, text 7, look 7.
+
+**New art check (its words, shortened):**
+
+| Place | Verdict |
+|---|---|
+| Shattered Gallery map + boss board | fits - "the best art in the game" |
+| Trivia classroom | fits - "lovely"; but no visible right/wrong reveal, and the reaction bubble is faint |
+| Dex's matching game | **out of place** - plain "?" rectangles on a gradient (the game screen itself has no painted table or card back) |
+| Wardrobe | fits; the cloak tile is red while the hero wears teal |
+| Card Packs | fits; the shelf scrolls sideways with no cue past 7 packs; revealed cards small |
+| Alembic's cauldron | fits; the essence bars don't fill, the brew panel is empty |
+| Thorn wall | **out of place** - reads as autumn trees; it "never opened" after `dev gate` (see below); a grey slab behind it |
+| Fountain statues | **out of place** - too small and dark; the fountain itself reads untextured |
+| Old lever | not found in time |
+
+**Its top 10 (worst first) and what happened to each:**
+
+| # | Issue | Done tonight |
+|---|---|---|
+| 1 | "Settle in: talk to Elder Maren on the square" - she is not on the square, and the early town map / "Where to?" list doesn't show her | **fixed the text** ("at her home, north of the square"); the map listing is logged |
+| 2 | The cave resets on one loss and sends you to the bedroll with no pointer back | logged (design: the cave is all-or-nothing) |
+| 3 | The opening forest is too dark; the hero vanishes behind foliage; a black slab over the cave arch | logged |
+| 4 | Quiz: no visible reveal; the obvious answer (mills / hamster wheels) marked wrong | **fixed two causes:** the reveal and the teacher's bubble hold 1.6 s (was 1.0 / 1.1); the old answer buttons left the grid only at the end of the frame, so a click in that frame scored the old answer against the new question (now removed at once). The data does mark the mills correct; the critic most likely clicked a position from an earlier screenshot after the answers reshuffled |
+| 5 | The thorn wall doesn't read as thorns and didn't change after the gate | **fixed the "didn't change":** `dev gate` (the critic's shortcut) set the flag without touching the town already built; it plays the withering live now. The real fight always did, and the withered/parted state shows on every load after (`b13_thornwall_withered.jpg`). The art's look is logged |
+| 6 | Dex's matching game looks like placeholder UI | logged (needs a painted table/card back: an art row) |
+| 7 | The fountain looks untextured; the statues can't be read | **statues 1.15 -> 1.35 m and brighter** (`n8_plinths_after.jpg`); the fountain is logged |
+| 8 | Foreground roofs fill a third of the town camera | logged |
+| 9 | Battle: tiny played infrastructure above the hand; 12-card hand in two rows; orbs over the rules caption | logged |
+| 10 | Overflow: the Character pill, Professor Pump's long line, the Packs shelf, names over barks | **Character pill fixed** (it was sized before wrapping: now two explicit lines, `n8_character_pill.jpg`); the rest logged |
+
+
+## Tests
+
+The final full run (`bash tools/run_tests.sh --only=tests --size=12`) was stopped by Claude Code during shard 25 of 30 because the PC was
+critically low on memory; per its rule it was not restarted. Shards 1-24 passed (2,523 of 2,525 run tests; 1 risky), with one failure
+caused by tonight's two-line Character pill (`test_overnight_oct31n_ux`); the test was updated and passes on its own. Shards 25-30
+(`tests/world`, from `test_wardrobe_redesign` on) last passed in Part 0, and every file changed afterwards was run on its own (the build-cache,
+Capital, heap, quiz, travel, title-card, tip and battle-HUD tests all green). To finish: `bash tools/run_tests.sh --only=tests --size=12 --from=25`.
+
+## Open questions (inbox "Import Nov 8")
+
+1. **Dex is a ferret** in the approved Batch 13 art (the row described a man). Kept: portrait and sprites match each other. Update the art list
+   description, or ask for a redo?
+2. **NPC-PLAYER** is still the opaque picture; held back again (the importer re-adds it on every portrait import - it is reverted each time).
+3. **"Low camera" for the statues** was read as the Low graphics preset (`b13_plinths_low.jpg`). If it meant a camera angle, say which.
+4. **Tips now fold into a small "Tip: ..." pill** on any click outside them (so they never sit over a screen in use). Keep, or prefer them to
+   close for good?
+5. **The Capital's remaining load:** props, landmarks and the district buildings (about 1.7 s) need a geometry cache in each district builder.
+   Worth a dedicated pass?
+6. **Critic N8's logged items** (above, top 10 #2, 3, 6, 8, 9 and the rest of 10, plus findings 12-18): pick the next fix list.
+7. **Dex's matching game screen** needs art (a painted table and a card back, like the quiz's classroom). Add rows to the art list?
+
 # Fix pass Nov 8 - report
 
 Brief: `docs/prompts/fixes_nov8.md` (owner decisions on the Nov 7-8 overnight, plus its leftovers). Tag `pre-fixes-nov8` marks the start.

@@ -316,6 +316,10 @@ static func set_gatekeeper(zone_id: String, beaten: bool) -> String:
 	Session.set_flag(CorruptedNpcs.unlock_flag(zone_id), beaten)
 	Session.refresh_quests()
 	Session.save_game()
+	# Import Nov 8 (critic N8): in town the road's obstacle clears at once (the thorn wall withers), as after the real fight
+	var town: TownScene = (Engine.get_main_loop() as SceneTree).current_scene as TownScene
+	if beaten and town != null and town.hub_obstacles != null:
+		town.hub_obstacles.play_cleared(zone_id)
 	return "%s gatekeeper: %s" % [ZoneDefs.get_def(zone_id).display_name, "beaten" if beaten else "not beaten"]
 
 

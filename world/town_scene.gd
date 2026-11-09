@@ -298,7 +298,7 @@ const PLINTH_STATUES: Array[Dictionary] = [
 	{"zone": "necrocrat", "id": "DEC-PLINTH-NECRO"},
 ]
 ## The statue's height including its own stone base: its top at about the hero's head (1.7 m) on the 0.58 m plinth, its base as wide as the cap.
-const PLINTH_STATUE_HEIGHT: float = 1.15
+const PLINTH_STATUE_HEIGHT: float = 1.35  # Import Nov 8 (critic N8): 1.15 read too small from the default camera
 
 
 func _place_plinth_statues() -> void:
@@ -307,7 +307,7 @@ func _place_plinth_statues() -> void:
 		if not Session.is_zone_completed(str(spec["zone"])) and not _screenshot_args.has("banners") and not _screenshot_args.has("statues"):
 			continue
 		var top: Vector3 = TownStreets.crest_point(index) + Vector3(0.0, TownStreets.CREST_PLINTH_TOP, 0.0)
-		var statue: Node3D = KitPieces.stand(self, str(spec["id"]), top, PLINTH_STATUE_HEIGHT, true, 1.12)
+		var statue: Node3D = KitPieces.stand(self, str(spec["id"]), top, PLINTH_STATUE_HEIGHT, true, 1.28)
 		if statue == null:
 			continue
 		statue.name = "PlinthStatue_%s" % str(spec["zone"])

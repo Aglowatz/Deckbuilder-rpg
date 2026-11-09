@@ -44,7 +44,7 @@ var _best_streak: int = 0
 var _locked: bool = false
 var _finish_box: VBoxContainer
 ## Overnight Nov 7-8: the seconds a flourish holds before the next question (tests set 0).
-var feedback_seconds: float = 1.0
+var feedback_seconds: float = 1.6  # Import Nov 8 (critic N8): long enough to see the green / red reveal
 
 
 func _init() -> void:
@@ -228,6 +228,7 @@ func _show_question() -> void:
 		_order[i] = _order[j]
 		_order[j] = swap
 	for child: Node in _answer_grid.get_children():
+		_answer_grid.remove_child(child)  # Import Nov 8 (critic N8): out of the grid at once - a click on a doomed button scored the old answer
 		child.queue_free()
 	_answer_buttons.clear()
 	for slot: int in range(_order.size()):
@@ -323,7 +324,7 @@ func _say(text: String) -> void:
 	_bubble.text = text
 	_bubble.modulate.a = 1.0
 	var tween: Tween = create_tween()
-	tween.tween_interval(1.1)
+	tween.tween_interval(1.6)
 	tween.tween_property(_bubble, "modulate:a", 0.0, 0.3)
 
 

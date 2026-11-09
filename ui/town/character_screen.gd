@@ -205,10 +205,10 @@ func _build_equipment() -> void:
 	_unlock_pill.size = PILL_RECT.size
 	_unlock_pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_unlock_pill.add_theme_stylebox_override("panel", UIStyle.box(Color(0.12, 0.07, 0.04, 0.88), UIStyle.GOLD, 2, 24))
-	var pill_text: Label = _text(equipment_unlock_text(), 20, UIStyle.PARCHMENT, Vector2(14, 0), PILL_RECT.size.x - 28, HORIZONTAL_ALIGNMENT_CENTER)
+	var pill_text: Label = _text(equipment_unlock_text().replace(" the quest ", " the quest" + char(10)), 20, UIStyle.PARCHMENT, Vector2(14, 0), PILL_RECT.size.x - 28, HORIZONTAL_ALIGNMENT_CENTER)
 	pill_text.name = "PillText"
-	pill_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART  # Import Nov 8: wraps onto a second line instead of running past the pill
-	pill_text.size.y = PILL_RECT.size.y
+	# Import Nov 8: two lines (the quest's name on the second) - the one-line text ran past the pill
+	pill_text.size = Vector2(PILL_RECT.size.x - 28, PILL_RECT.size.y)
 	pill_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_unlock_pill.add_child(pill_text)
 	_page.add_child(_unlock_pill)
