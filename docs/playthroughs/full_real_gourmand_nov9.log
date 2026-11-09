@@ -1,0 +1,1033 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+D3D12 12_0 - Forward+ - Using Device #0: AMD - AMD Radeon(TM) Graphics
+
+playthrough: path gourmand, real fights true, save/load true
+world_look: generic scenery at (3.95, 0.0, -8.2), scale 1.00
+playthrough: PASS  the starting forest loads on a new game
+playthrough: PASS  the Forgotten Cave (the tutorial dungeon) opens after choosing a Path
+load_timing: battle 1213 ms (slowest step: frame 2 597 ms); worst frame in the first 5 s after the fade-in: 45 ms (at 3.3 s)
+playthrough: fight won for real: the Forgotten Cave (fight 1) (level 1)
+load_timing: battle 682 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 75 ms (at 1.4 s)
+playthrough: fight won for real: the Forgotten Cave (fight 2) (level 1)
+load_timing: battle 778 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 48 ms (at 3.7 s)
+playthrough: fight won for real: the Forgotten Cave (fight 3) (level 1)
+load_timing: rewards 670 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 76 ms (at 1.4 s)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+arrival: Crosspath after the cave - welcome_maren -> welcome_wanderer -> welcome_maren_end -> welcome_path (3.8 s)
+load_timing: town 6976 ms (slowest step: look rig: scenery 1330 ms); worst frame in the first 5 s after the fade-in: 63 ms (at 3.8 s)
+playthrough: PASS  the tutorial clears with a legal deck
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  the town loads after the tutorial
+load_timing: town 4445 ms (slowest step: look rig: scenery 981 ms); worst frame in the first 5 s after the fade-in: 86 ms (at 2.5 s)
+playthrough: PASS  Maren's early-game chain is done (merchants, deck edit, ghosts, armory)
+playthrough: PASS  the zone main lines wait for Maren's send-off
+playthrough: PASS  Brannoch gives Free the Four Zones on the imperial road
+playthrough: tend deck (after the tutorial): 2 packs opened, 7 cards bought, Paths ["Gourmand"], deck 45 cards, level 5, gold 275
+playthrough: PASS  gourmand: talking to Chef Fennel Gravois starts the duel
+playthrough: PASS  gourmand: the duel is on the zone's own battleboard
+load_timing: battle 1090 ms (slowest step: frame 2 433 ms); worst frame in the first 5 s after the fade-in: 298 ms (at 0.1 s)
+playthrough: fight won for real: gourmand gatekeeper (level 5)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  gourmand: the gatekeeper is beaten and the road opens
+load_timing: town 4804 ms (slowest step: look rig: scenery 930 ms); worst frame in the first 5 s after the fade-in: 116 ms (at 3.1 s)
+playthrough: PASS  Maren sends the hero down their own Path (the four zone lines start)
+playthrough: PASS  the hero's own Path line is the tracked quest
+playthrough: PASS  gourmand: the gatekeeper pays the Path Pack (step reward)
+playthrough: PASS  gourmand: the obstacle stands cleared
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 93 cards
+playthrough: PASS  gourmand: walking down the road enters the zone
+playthrough: PASS  gourmand: the main line moves to its favour step
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 93 cards
+playthrough: PASS  save/load at enter_gourmand (zone:gourmand): the same state
+playthrough: PASS  gourmand: a favour done pays the midpoint gear (doggy_bag)
+playthrough: PASS  gourmand: the side dungeon S-GOUR opens
+load_timing: battle 756 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 69 ms (at 4.7 s)
+playthrough: fight won for real: gourmand side dungeon S-GOUR (fight 1) (level 5)
+load_timing: rewards 701 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 21 ms (at 0.1 s)
+load_timing: battle 664 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 0.7 s)
+playthrough: fight won for real: gourmand side dungeon S-GOUR (fight 2) (level 5)
+load_timing: rewards 711 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 4.1 s)
+load_timing: battle 777 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.8 s)
+playthrough: LOSS gourmand side dungeon S-GOUR (fight 3) - level 5, deck Gourmand deck, 45 cards, turn 16
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 93 cards
+playthrough: tend deck (gourmand side dungeon S-GOUR try 2): 2 packs opened, 9 cards bought, Paths ["Gourmand"], deck 45 cards, level 5, gold 235
+playthrough: re-entering gourmand side dungeon S-GOUR (try 2)
+load_timing: battle 728 ms (slowest step: fade out 293 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 4.6 s)
+playthrough: fight won for real: gourmand side dungeon S-GOUR (fight 1) (level 5)
+load_timing: rewards 679 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.1 s)
+load_timing: battle 761 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 1.8 s)
+playthrough: fight won for real: gourmand side dungeon S-GOUR (fight 2) (level 6)
+load_timing: rewards 712 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.1 s)
+load_timing: battle 710 ms (slowest step: fade out 293 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.1 s)
+playthrough: fight won for real: gourmand side dungeon S-GOUR (fight 3) (level 6)
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 93 cards
+playthrough: PASS  gourmand: its first clear pays its piece of gear
+playthrough: PASS  gourmand: the main dungeon opens
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 93 cards
+playthrough: PASS  mid-dungeon save records the zone (zone:gourmand)
+playthrough: PASS  mid-dungeon load: back in gourmand with no dungeon run (it had 0 cleared nodes)
+playthrough: PASS  re-entering starts the dungeon over (0 cleared)
+load_timing: battle 777 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.7 s)
+playthrough: fight won for real: gourmand boss (fight 1) (level 6)
+load_timing: rewards 679 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.7 s)
+load_timing: battle 743 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.6 s)
+playthrough: fight won for real: gourmand boss (fight 2) (level 7)
+load_timing: battle 744 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.2 s)
+playthrough: fight won for real: gourmand boss (fight 3) (level 7)
+load_timing: rewards 711 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.6 s)
+load_timing: dungeon_map 716 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 61 ms (at 2.4 s)
+load_timing: battle 742 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 1.4 s)
+playthrough: fight won for real: gourmand boss (fight 4) (level 7)
+load_timing: rewards 730 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 96 ms (at 3.8 s)
+world_look: generic scenery at (50.0, 0.0, 49.0), scale 1.04
+world_look: area foliage 97 cards
+load_timing: buffet_zone 2976 ms (slowest step: zone: builder 1102 ms); worst frame in the first 5 s after the fade-in: 49 ms (at 1.2 s)
+playthrough: PASS  gourmand: beating the boss frees the zone
+playthrough: PASS  gourmand: its main quest line completes
+playthrough: PASS  gourmand: the main dungeon's first clear pays its gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 5672 ms (slowest step: look rig: scenery 1106 ms); worst frame in the first 5 s after the fade-in: 33 ms (at 1.4 s)
+playthrough: PASS  gourmand: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  save/load at town_after_gourmand (town): the same state
+playthrough: PASS  gourmand: the Rescuer waits at the cave mouth (cave_mouth_1)
+load_timing: town 4426 ms (slowest step: look rig: scenery 987 ms); worst frame in the first 5 s after the fade-in: 410 ms (at 2.1 s)
+playthrough: PASS  gourmand: her Cave Mouth scene plays and she slips away
+playthrough: tend deck (after gourmand): 4 packs opened, 18 cards bought, Paths ["Gourmand"], deck 45 cards, level 9, gold 610
+playthrough: PASS  beefcake: talking to Brick Bronson starts the duel
+playthrough: PASS  beefcake: the duel is on the zone's own battleboard
+load_timing: battle 1120 ms (slowest step: frame 2 488 ms); worst frame in the first 5 s after the fade-in: 421 ms (at 0.1 s)
+playthrough: fight won for real: beefcake gatekeeper (level 9)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 4783 ms (slowest step: look rig: scenery 963 ms); worst frame in the first 5 s after the fade-in: 121 ms (at 3.3 s)
+playthrough: PASS  beefcake: the gatekeeper is beaten and the road opens
+playthrough: PASS  beefcake: the gatekeeper pays the Path Pack (step reward)
+playthrough: PASS  beefcake: the obstacle stands cleared
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 103 cards
+playthrough: PASS  beefcake: walking down the road enters the zone
+playthrough: PASS  beefcake: the main line moves to its favour step
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 103 cards
+playthrough: PASS  save/load at enter_beefcake (zone:beefcake): the same state
+playthrough: PASS  beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: PASS  beefcake: the side dungeon is a postgame bonus (skipped)
+playthrough: PASS  beefcake: the main dungeon opens
+load_timing: battle 759 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 54 ms (at 2.8 s)
+playthrough: fight won for real: beefcake boss (fight 1) (level 9)
+load_timing: rewards 709 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.6 s)
+load_timing: battle 744 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 52 ms (at 3.8 s)
+playthrough: LOSS beefcake boss (fight 2) - level 9, deck Gourmand deck, 45 cards, turn 24
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 103 cards
+playthrough: tend deck (beefcake boss try 2): 2 packs opened, 3 cards bought, Paths ["Gourmand"], deck 45 cards, level 9, gold 850
+playthrough: re-entering beefcake boss (try 2)
+load_timing: battle 710 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.8 s)
+playthrough: fight won for real: beefcake boss (fight 1) (level 9)
+load_timing: rewards 710 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.6 s)
+load_timing: battle 709 ms (slowest step: fade out 292 ms); worst frame in the first 5 s after the fade-in: 51 ms (at 3.9 s)
+playthrough: fight won for real: beefcake boss (fight 2) (level 9)
+load_timing: battle 791 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 3.1 s)
+playthrough: fight won for real: beefcake boss (fight 3) (level 10)
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 102 cards
+load_timing: gainlands_zone 3327 ms (slowest step: zone: builder 1037 ms); worst frame in the first 5 s after the fade-in: 70 ms (at 4.6 s)
+playthrough: PASS  beefcake: beating the boss frees the zone
+playthrough: PASS  beefcake: its main quest line completes
+playthrough: PASS  beefcake: the main dungeon's first clear pays its gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 5683 ms (slowest step: look rig: scenery 1086 ms); worst frame in the first 5 s after the fade-in: 33 ms (at 1.8 s)
+playthrough: PASS  beefcake: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  save/load at town_after_beefcake (town): the same state
+playthrough: PASS  beefcake: the Rescuer waits at the cave mouth (cave_mouth_2)
+load_timing: town 4333 ms (slowest step: look rig: scenery 939 ms); worst frame in the first 5 s after the fade-in: 443 ms (at 2.1 s)
+playthrough: PASS  beefcake: her Cave Mouth scene plays and she slips away
+playthrough: tend deck (after beefcake): 2 packs opened, 26 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 11, gold 1055
+playthrough: PASS  necrocrat: talking to Prudence Pallor starts the duel
+playthrough: PASS  necrocrat: the duel is on the zone's own battleboard
+load_timing: battle 1152 ms (slowest step: frame 2 499 ms); worst frame in the first 5 s after the fade-in: 303 ms (at 0.1 s)
+playthrough: fight won for real: necrocrat gatekeeper (level 11)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 4296 ms (slowest step: look rig: scenery 977 ms); worst frame in the first 5 s after the fade-in: 87 ms (at 3.3 s)
+playthrough: PASS  necrocrat: the gatekeeper is beaten and the road opens
+playthrough: PASS  necrocrat: the gatekeeper pays the Path Pack (step reward)
+playthrough: PASS  necrocrat: the obstacle stands cleared
+world_look: generic scenery at (45.0, 0.0, 36.0), scale 1.00
+playthrough: PASS  necrocrat: walking down the road enters the zone
+playthrough: PASS  necrocrat: the main line moves to its favour step
+world_look: generic scenery at (45.0, 0.0, 36.0), scale 1.00
+playthrough: PASS  save/load at enter_necrocrat (zone:necrocrat): the same state
+playthrough: PASS  necrocrat: a favour done pays the midpoint gear (red_tape_dispenser)
+playthrough: PASS  necrocrat: the side dungeon S-NECRO opens
+load_timing: battle 775 ms (slowest step: fade in 294 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.0 s)
+playthrough: fight won for real: necrocrat side dungeon S-NECRO (fight 1) (level 11)
+load_timing: rewards 674 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.7 s)
+load_timing: battle 691 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 4.4 s)
+playthrough: fight won for real: necrocrat side dungeon S-NECRO (fight 2) (level 11)
+load_timing: rewards 675 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 0.6 s)
+load_timing: battle 774 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 71 ms (at 1.1 s)
+playthrough: fight won for real: necrocrat side dungeon S-NECRO (fight 3) (level 11)
+world_look: generic scenery at (45.0, 0.0, 36.0), scale 1.00
+playthrough: PASS  necrocrat: its first clear pays its piece of gear
+playthrough: PASS  necrocrat: the main dungeon opens
+load_timing: battle 741 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.1 s)
+playthrough: fight won for real: necrocrat boss (fight 1) (level 12)
+load_timing: rewards 708 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.9 s)
+load_timing: battle 725 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.4 s)
+playthrough: fight won for real: necrocrat boss (fight 2) (level 12)
+load_timing: battle 742 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 3.0 s)
+playthrough: fight won for real: necrocrat boss (fight 3) (level 12)
+load_timing: rewards 675 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 3.5 s)
+load_timing: battle 774 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.4 s)
+playthrough: fight won for real: necrocrat boss (fight 4) (level 12)
+load_timing: rewards 707 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 101 ms (at 4.0 s)
+world_look: generic scenery at (45.0, 0.0, 36.0), scale 1.00
+load_timing: dna_zone 3223 ms (slowest step: zone: builder 1589 ms); worst frame in the first 5 s after the fade-in: 38 ms (at 0.3 s)
+playthrough: PASS  necrocrat: beating the boss frees the zone
+playthrough: PASS  necrocrat: its main quest line completes
+playthrough: PASS  necrocrat: the main dungeon's first clear pays its gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 5308 ms (slowest step: look rig: scenery 1146 ms); worst frame in the first 5 s after the fade-in: 51 ms (at 0.1 s)
+playthrough: PASS  necrocrat: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  save/load at town_after_necrocrat (town): the same state
+playthrough: PASS  necrocrat: the Rescuer waits at the cave mouth (cave_mouth_3)
+load_timing: town 4329 ms (slowest step: look rig: scenery 954 ms); worst frame in the first 5 s after the fade-in: 409 ms (at 2.1 s)
+playthrough: PASS  necrocrat: her Cave Mouth scene plays and she slips away
+playthrough: tend deck (after necrocrat): 4 packs opened, 27 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 13, gold 1430
+playthrough: PASS  refusemancer: talking to Moss Mulligan starts the duel
+playthrough: PASS  refusemancer: the duel is on the zone's own battleboard
+load_timing: battle 1151 ms (slowest step: frame 2 512 ms); worst frame in the first 5 s after the fade-in: 399 ms (at 0.1 s)
+playthrough: fight won for real: refusemancer gatekeeper (level 13)
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 4271 ms (slowest step: look rig: scenery 936 ms); worst frame in the first 5 s after the fade-in: 95 ms (at 3.3 s)
+playthrough: PASS  refusemancer: the gatekeeper is beaten and the road opens
+playthrough: PASS  refusemancer: the gatekeeper pays the Path Pack (step reward)
+playthrough: PASS  refusemancer: the obstacle stands cleared
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 243 cards
+playthrough: PASS  refusemancer: walking down the road enters the zone
+playthrough: PASS  refusemancer: the main line moves to its favour step
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 243 cards
+playthrough: PASS  save/load at enter_refusemancer (zone:refusemancer): the same state
+playthrough: PASS  refusemancer: a favour done pays the midpoint gear (dumpster_gloves)
+playthrough: PASS  refusemancer: the side dungeon S-REF opens
+load_timing: battle 773 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 2.2 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 13)
+load_timing: rewards 674 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 0.1 s)
+load_timing: battle 741 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 31 ms (at 4.6 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 14)
+load_timing: rewards 706 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 0.1 s)
+load_timing: battle 788 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 57 ms (at 4.8 s)
+playthrough: LOSS refusemancer side dungeon S-REF (fight 3) - level 14, deck Gourmand deck, 45 cards, turn 12
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: tend deck (refusemancer side dungeon S-REF try 2): 3 packs opened, 14 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 14, gold 1385
+playthrough: re-entering refusemancer side dungeon S-REF (try 2)
+load_timing: battle 722 ms (slowest step: fade in 273 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 3.2 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 14)
+load_timing: rewards 673 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.1 s)
+load_timing: battle 723 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 46 ms (at 2.3 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 14)
+load_timing: rewards 673 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.4 s)
+load_timing: battle 738 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 63 ms (at 0.5 s)
+playthrough: LOSS refusemancer side dungeon S-REF (fight 3) - level 14, deck Gourmand deck, 45 cards, turn 8
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: tend deck (refusemancer side dungeon S-REF try 3): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 14, gold 1425
+playthrough: re-entering refusemancer side dungeon S-REF (try 3)
+load_timing: battle 740 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 4.3 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 1) (level 14)
+load_timing: rewards 674 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.6 s)
+load_timing: battle 690 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 51 ms (at 3.1 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 2) (level 14)
+load_timing: rewards 672 ms (slowest step: fade in 282 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.0 s)
+load_timing: battle 689 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 60 ms (at 0.6 s)
+playthrough: fight won for real: refusemancer side dungeon S-REF (fight 3) (level 14)
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: PASS  refusemancer: its first clear pays its piece of gear
+playthrough: PASS  refusemancer: the main dungeon opens
+load_timing: battle 806 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 21 ms (at 3.5 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 14)
+load_timing: rewards 673 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.5 s)
+load_timing: battle 706 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 4.2 s)
+playthrough: LOSS refusemancer boss (fight 2) - level 14, deck Gourmand deck, 45 cards, turn 12
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: tend deck (refusemancer boss try 2): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 14, gold 1625
+playthrough: re-entering refusemancer boss (try 2)
+load_timing: battle 722 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.8 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 14)
+load_timing: rewards 673 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.4 s)
+load_timing: battle 689 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 56 ms (at 2.9 s)
+playthrough: fight won for real: refusemancer boss (fight 2) (level 14)
+load_timing: dungeon_map 685 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 23 ms (at 0.7 s)
+load_timing: battle 690 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 3.6 s)
+playthrough: fight won for real: refusemancer boss (fight 3) (level 15)
+load_timing: rewards 673 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.9 s)
+load_timing: battle 771 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 52 ms (at 2.5 s)
+playthrough: LOSS refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 14
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: tend deck (refusemancer boss try 3): 0 packs opened, 19 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 15, gold 980
+playthrough: re-entering refusemancer boss (try 3)
+load_timing: battle 755 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 4.5 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 15)
+load_timing: rewards 705 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.8 s)
+load_timing: battle 739 ms (slowest step: fade out 288 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 4.5 s)
+playthrough: fight won for real: refusemancer boss (fight 2) (level 15)
+load_timing: dungeon_map 678 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 22 ms (at 1.1 s)
+load_timing: battle 689 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 23 ms (at 4.6 s)
+playthrough: fight won for real: refusemancer boss (fight 3) (level 15)
+load_timing: rewards 672 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.4 s)
+load_timing: battle 720 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 54 ms (at 2.8 s)
+playthrough: LOSS refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 10
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: tend deck (refusemancer boss try 4): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 15, gold 1055
+playthrough: re-entering refusemancer boss (try 4)
+load_timing: battle 705 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 4.3 s)
+playthrough: fight won for real: refusemancer boss (fight 1) (level 15)
+load_timing: rewards 673 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.2 s)
+load_timing: battle 705 ms (slowest step: fade out 288 ms); worst frame in the first 5 s after the fade-in: 52 ms (at 0.6 s)
+playthrough: fight won for real: refusemancer boss (fight 2) (level 15)
+load_timing: dungeon_map 678 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 27 ms (at 1.6 s)
+load_timing: battle 688 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 22 ms (at 3.6 s)
+playthrough: fight won for real: refusemancer boss (fight 3) (level 15)
+load_timing: rewards 672 ms (slowest step: fade in 283 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.5 s)
+load_timing: battle 719 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 0.4 s)
+playthrough: LOSS refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 10
+world_look: generic scenery at (50.0, 0.0, 78.0), scale 1.15
+world_look: area foliage 237 cards
+playthrough: NOTE WALL: refusemancer boss: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: refusemancer boss - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: refusemancer boss never finished on the real map (4 fights, 0 boss picks, scene HeapZone) - decreed
+playthrough: PASS  refusemancer: beating the boss frees the zone
+playthrough: PASS  refusemancer: its main quest line completes
+playthrough: PASS  refusemancer: the main dungeon's first clear pays its gear
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 5355 ms (slowest step: look rig: scenery 1159 ms); worst frame in the first 5 s after the fade-in: 64 ms (at 0.0 s)
+playthrough: PASS  refusemancer: Maren gives back a memory fragment
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  save/load at town_after_refusemancer (town): the same state
+playthrough: PASS  refusemancer: the Rescuer waits at the cave mouth (cave_mouth_4)
+load_timing: town 4333 ms (slowest step: look rig: scenery 927 ms); worst frame in the first 5 s after the fade-in: 421 ms (at 2.2 s)
+playthrough: PASS  refusemancer: her Cave Mouth scene plays and she slips away
+playthrough: tend deck (after refusemancer): 3 packs opened, 7 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 16, gold 1960
+playthrough: PASS  the Undercroft: the hatch is open after the first zone
+playthrough: PASS  the Undercroft: Grand Bellows' booth opens
+playthrough: tend deck (before the Capital): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 16, gold 1960
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: PASS  the imperial road enters the Capital
+playthrough: PASS  with all four zones free, every broken service is restored
+playthrough: PASS  the castle opens
+playthrough: PASS  the castle gate: the capture scene plays as the map opens
+playthrough: PASS  Plume names her: {rescuer} reads Elowen from now on
+load_timing: dungeon_map 699 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 65 ms (at 3.6 s)
+load_timing: battle 1007 ms (slowest step: frame 2 380 ms); worst frame in the first 5 s after the fade-in: 43 ms (at 2.3 s)
+playthrough: fight won for real: Primm (fight 1) (level 16)
+load_timing: battle 742 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 1.8 s)
+playthrough: fight won for real: Primm (fight 2) (level 17)
+load_timing: battle 741 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 0.8 s)
+playthrough: fight won for real: Primm (fight 3) (level 17)
+load_timing: battle 725 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 23 ms (at 3.7 s)
+playthrough: LOSS Primm (fight 4) - level 17, deck Gourmand deck, 45 cards, turn 14
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (Primm try 2): 0 packs opened, 13 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 17, gold 1260
+playthrough: re-entering Primm (try 2)
+load_timing: battle 754 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.6 s)
+playthrough: fight won for real: Primm (fight 1) (level 17)
+load_timing: battle 738 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 25 ms (at 4.5 s)
+playthrough: fight won for real: Primm (fight 2) (level 17)
+load_timing: battle 789 ms (slowest step: fade in 295 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.9 s)
+playthrough: fight won for real: Primm (fight 3) (level 17)
+load_timing: battle 688 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 27 ms (at 3.7 s)
+playthrough: LOSS Primm (fight 4) - level 17, deck Gourmand deck, 45 cards, turn 12
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (Primm try 3): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 17, gold 1380
+playthrough: re-entering Primm (try 3)
+load_timing: battle 707 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 2.8 s)
+playthrough: fight won for real: Primm (fight 1) (level 17)
+load_timing: battle 687 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 52 ms (at 3.6 s)
+playthrough: fight won for real: Primm (fight 2) (level 17)
+load_timing: battle 688 ms (slowest step: fade in 285 ms); worst frame in the first 5 s after the fade-in: 55 ms (at 4.6 s)
+playthrough: fight won for real: Primm (fight 3) (level 17)
+load_timing: battle 725 ms (slowest step: fade in 306 ms); worst frame in the first 5 s after the fade-in: 55 ms (at 3.9 s)
+playthrough: fight won for real: Primm (fight 4) (level 17)
+load_timing: battle 741 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 4.8 s)
+playthrough: fight won for real: Primm (fight 5) (level 17)
+load_timing: battle 755 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 60 ms (at 2.9 s)
+playthrough: fight won for real: Primm (fight 6) (level 17)
+load_timing: battle 770 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 42 ms (at 1.2 s)
+playthrough: LOSS Primm (fight 7) - level 17, deck Gourmand deck, 45 cards, turn 10
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (Primm try 4): 1 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 17, gold 1550
+playthrough: re-entering Primm (try 4)
+load_timing: battle 724 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 20 ms (at 3.7 s)
+playthrough: fight won for real: Primm (fight 1) (level 17)
+load_timing: battle 722 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 42 ms (at 5.0 s)
+playthrough: fight won for real: Primm (fight 2) (level 17)
+load_timing: battle 753 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 1.3 s)
+playthrough: fight won for real: Primm (fight 3) (level 18)
+load_timing: battle 687 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.7 s)
+playthrough: fight won for real: Primm (fight 4) (level 18)
+load_timing: battle 737 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 0.4 s)
+playthrough: fight won for real: Primm (fight 5) (level 18)
+load_timing: battle 754 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 23 ms (at 4.1 s)
+playthrough: fight won for real: Primm (fight 6) (level 18)
+load_timing: battle 753 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.6 s)
+playthrough: LOSS Primm (fight 7) - level 18, deck Gourmand deck, 45 cards, turn 8
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: NOTE WALL: Primm: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: Primm - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: Primm never finished on the real map (7 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: PASS  Primm is defeated
+playthrough: PASS  Free the Four Zones completes
+load_timing: dungeon_map 761 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 1.1 s)
+playthrough: NOTE DEV HELP: the ending did not start by itself after Primm; changed scene to it
+playthrough: PASS  the ending plays
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+load_timing: capital_zone 5121 ms (slowest step: zone: builder 2625 ms); worst frame in the first 5 s after the fade-in: 41 ms (at 2.5 s)
+playthrough: PASS  the royal funeral waits in Grave Row
+playthrough: PASS  Old Hob stands in Grave Row
+playthrough: PASS  the royal funeral plays
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+load_timing: town 5388 ms (slowest step: look rig: scenery 1141 ms); worst frame in the first 5 s after the fade-in: 37 ms (at 2.6 s)
+playthrough: PASS  Isla walks home through her father's gate
+playthrough: PASS  Maren has news of the capture
+playthrough: PASS  Old Hob is back by the cairn
+playthrough: tend deck (before the postgame): 1 packs opened, 9 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 19, gold 2630
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+playthrough: PASS  postgame: Under the Forest is given
+playthrough: PASS  postgame: Loose Ends is given
+load_timing: town 4214 ms (slowest step: look rig: scenery 942 ms); worst frame in the first 5 s after the fade-in: 100 ms (at 3.0 s)
+playthrough: PASS  postgame: Rip tells of the forest (step 1)
+playthrough: NOTE DEV HELP: postgame - the Rift Express to the forest was not driven; went to the forest directly
+world_look: generic scenery at (3.95, 0.0, 7.9), scale 1.00
+playthrough: PASS  postgame: back in the forest (step 2)
+world_look: generic scenery at (3.95, 0.0, 7.9), scale 1.00
+playthrough: PASS  save/load at forest_postgame (start): the same state
+playthrough: NOTE DEV HELP: postgame - walking to the Lab hatch skipped (entered through the hatch's own calls)
+playthrough: PASS  postgame: the Lab opens (step 3)
+load_timing: battle 990 ms (slowest step: frame 2 382 ms); worst frame in the first 5 s after the fade-in: 59 ms (at 4.8 s)
+playthrough: fight won for real: the Lab (fight 1) (level 19)
+load_timing: battle 738 ms (slowest step: fade out 287 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.4 s)
+playthrough: fight won for real: the Lab (fight 2) (level 19)
+load_timing: battle 769 ms (slowest step: fade out 287 ms); worst frame in the first 5 s after the fade-in: 46 ms (at 2.3 s)
+playthrough: fight won for real: the Lab (fight 3) (level 19)
+load_timing: rewards 696 ms (slowest step: fade in 300 ms); worst frame in the first 5 s after the fade-in: 53 ms (at 2.9 s)
+world_look: generic scenery at (3.95, 0.0, 7.9), scale 1.00
+playthrough: PASS  postgame: Elowen is freed and Under the Forest completes
+world_look: hid 1 pieces of the old hex wall / hills
+hub_land: 5 roads, 3 lakes (+ 0 town lake cells), 766 trees
+world_look: landmark gainlands toward (0.027934, 0.0, 0.99961) (178 deg from north), card 102 x 37 m
+world_look: landmark dna toward (-0.992334, 0.0, 0.123589) (-97 deg from north), card 92 x 34 m
+world_look: landmark buffet toward (0.980994, 0.0, -0.194037) (79 deg from north), card 82 x 42 m
+world_look: landmark dump toward (-0.980994, 0.0, -0.194037) (-79 deg from north), card 82 x 39 m
+world_look: landmark capital toward (-0.153235, 0.0, -0.98819) (-9 deg from north), card 92 x 40 m
+world_look: scenery built (0 water tiles, 0 shore foam cards)
+world_look: foliage 109 cards
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: PASS  postgame: the cracked mirror stands by the castle door
+playthrough: PASS  postgame: looking into the mirror counts (Gallery step)
+playthrough: PASS  postgame: the Gallery opens from the mirror
+playthrough: PASS  postgame: the Shattered Gallery's map opens
+load_timing: battle 739 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 45 ms (at 2.3 s)
+playthrough: fight won for real: the Gallery (fight 1) (level 21)
+load_timing: battle 740 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 40 ms (at 0.5 s)
+playthrough: fight won for real: the Gallery (fight 2) (level 21)
+load_timing: battle 720 ms (slowest step: fade out 287 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 3.1 s)
+playthrough: fight won for real: the Gallery (fight 3) (level 21)
+load_timing: battle 706 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 50 ms (at 3.9 s)
+playthrough: fight won for real: the Gallery (fight 4) (level 21)
+load_timing: battle 753 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 49 ms (at 0.5 s)
+playthrough: fight won for real: the Gallery (fight 5) (level 21)
+load_timing: battle 723 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 59 ms (at 3.6 s)
+playthrough: fight won for real: the Gallery (fight 6) (level 21)
+load_timing: battle 707 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 23 ms (at 3.4 s)
+playthrough: fight won for real: the Gallery (fight 7) (level 22)
+load_timing: battle 717 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.7 s)
+playthrough: LOSS the Gallery (fight 8) - level 22, deck Gourmand deck, 45 cards, turn 24
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (the Gallery try 2): 2 packs opened, 3 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 22, gold 4740
+playthrough: re-entering the Gallery (try 2)
+load_timing: battle 739 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 4.6 s)
+playthrough: fight won for real: the Gallery (fight 1) (level 22)
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (the Gallery try 3): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 22, gold 4785
+playthrough: re-entering the Gallery (try 3)
+load_timing: battle 703 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 21 ms (at 3.4 s)
+playthrough: fight won for real: the Gallery (fight 1) (level 22)
+load_timing: battle 689 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 44 ms (at 0.6 s)
+playthrough: fight won for real: the Gallery (fight 2) (level 22)
+load_timing: battle 723 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 47 ms (at 1.3 s)
+playthrough: LOSS the Gallery (fight 3) - level 22, deck Gourmand deck, 45 cards, turn 6
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: tend deck (the Gallery try 4): 0 packs opened, 0 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 22, gold 4910
+playthrough: re-entering the Gallery (try 4)
+load_timing: battle 722 ms (slowest step: fade in 288 ms); worst frame in the first 5 s after the fade-in: 29 ms (at 4.2 s)
+playthrough: fight won for real: the Gallery (fight 1) (level 22)
+load_timing: battle 702 ms (slowest step: fade out 285 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 3.3 s)
+playthrough: fight won for real: the Gallery (fight 2) (level 22)
+load_timing: battle 736 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 21 ms (at 3.4 s)
+playthrough: LOSS the Gallery (fight 3) - level 22, deck Gourmand deck, 45 cards, turn 10
+world_look: generic scenery at (56.0, 0.0, 78.5), scale 1.28
+playthrough: NOTE WALL: the Gallery: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: the Gallery - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: the Gallery never finished on the real map (3 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: PASS  postgame: the Shattered Gallery is cleared
+playthrough: NOTE DEV HELP: postgame - Old Man Mountain's shake errand done by its counter; Swolympus entered with the Dev Menu's travel
+playthrough: PASS  postgame: Only the Worthy... opens Mount Swolympus
+playthrough: PASS  postgame: the Ascent of Mount Swolympus opens
+load_timing: battle 769 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 19 ms (at 2.9 s)
+playthrough: fight won for real: Swolympus (fight 1) (level 22)
+load_timing: battle 714 ms (slowest step: fade in 289 ms); worst frame in the first 5 s after the fade-in: 49 ms (at 3.1 s)
+playthrough: fight won for real: Swolympus (fight 2) (level 22)
+load_timing: battle 736 ms (slowest step: fade in 301 ms); worst frame in the first 5 s after the fade-in: 42 ms (at 4.2 s)
+playthrough: LOSS Swolympus (fight 3) - level 23, deck Gourmand deck, 45 cards, turn 6
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 102 cards
+playthrough: tend deck (Swolympus try 2): 1 packs opened, 5 cards bought, Paths ["Gourmand", "Beefcake"], deck 45 cards, level 23, gold 6970
+playthrough: re-entering Swolympus (try 2)
+load_timing: battle 736 ms (slowest step: fade in 302 ms); worst frame in the first 5 s after the fade-in: 18 ms (at 4.1 s)
+playthrough: fight won for real: Swolympus (fight 1) (level 23)
+load_timing: battle 670 ms (slowest step: fade in 286 ms); worst frame in the first 5 s after the fade-in: 63 ms (at 2.2 s)
+playthrough: fight won for real: Swolympus (fight 2) (level 23)
+load_timing: battle 685 ms (slowest step: fade in 284 ms); worst frame in the first 5 s after the fade-in: 54 ms (at 0.6 s)
+playthrough: fight won for real: Swolympus (fight 3) (level 23)
+world_look: generic scenery at (54.5, 0.0, 44.0), scale 1.27
+world_look: area foliage 102 cards
+playthrough: PASS  postgame: Swolympus is climbed (Loose Ends step 1)
+playthrough: PASS  postgame: Loose Ends shows Swolympus and the forest done (the arena bout is left)
+load_timing: gainlands_zone 3199 ms (slowest step: zone: builder 1035 ms); worst frame in the first 5 s after the fade-in: 59 ms (at 0.6 s)
+playthrough: ---- 119 steps, 119 passed, 0 failed ----
+playthrough: fights { "won": 82, "lost": 16, "stalled": 0, "decreed": 0 }
+playthrough: FULL path=gourmand completed=true postgame_lab=true gallery=true level=23 game_hours=0.95 wall_hours=1.03 gold_earned=16510 gold_now=7370 losses=16 walls=3
+playthrough: FULL loss gourmand side dungeon S-GOUR (fight 3) - level 5, deck Gourmand deck, 45 cards, turn 16
+playthrough: FULL loss beefcake boss (fight 2) - level 9, deck Gourmand deck, 45 cards, turn 24
+playthrough: FULL loss refusemancer side dungeon S-REF (fight 3) - level 14, deck Gourmand deck, 45 cards, turn 12
+playthrough: FULL loss refusemancer side dungeon S-REF (fight 3) - level 14, deck Gourmand deck, 45 cards, turn 8
+playthrough: FULL loss refusemancer boss (fight 2) - level 14, deck Gourmand deck, 45 cards, turn 12
+playthrough: FULL loss refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 14
+playthrough: FULL loss refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 10
+playthrough: FULL loss refusemancer boss (fight 4) - level 15, deck Gourmand deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 4) - level 17, deck Gourmand deck, 45 cards, turn 14
+playthrough: FULL loss Primm (fight 4) - level 17, deck Gourmand deck, 45 cards, turn 12
+playthrough: FULL loss Primm (fight 7) - level 17, deck Gourmand deck, 45 cards, turn 10
+playthrough: FULL loss Primm (fight 7) - level 18, deck Gourmand deck, 45 cards, turn 8
+playthrough: FULL loss the Gallery (fight 8) - level 22, deck Gourmand deck, 45 cards, turn 24
+playthrough: FULL loss the Gallery (fight 3) - level 22, deck Gourmand deck, 45 cards, turn 6
+playthrough: FULL loss the Gallery (fight 3) - level 22, deck Gourmand deck, 45 cards, turn 10
+playthrough: FULL loss Swolympus (fight 3) - level 23, deck Gourmand deck, 45 cards, turn 6
+playthrough: FULL wall refusemancer boss: carried out 4 times
+playthrough: FULL wall Primm: carried out 4 times
+playthrough: FULL wall the Gallery: carried out 4 times
+playthrough: NOTE WALL: refusemancer boss: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: refusemancer boss - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: refusemancer boss never finished on the real map (4 fights, 0 boss picks, scene HeapZone) - decreed
+playthrough: NOTE WALL: Primm: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: Primm - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: Primm never finished on the real map (7 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: NOTE DEV HELP: the ending did not start by itself after Primm; changed scene to it
+playthrough: NOTE DEV HELP: postgame - the Rift Express to the forest was not driven; went to the forest directly
+playthrough: NOTE DEV HELP: postgame - walking to the Lab hatch skipped (entered through the hatch's own calls)
+playthrough: NOTE WALL: the Gallery: carried out 4 times - decreed after 4 tries
+playthrough: NOTE DEV HELP: the Gallery - lost on the real map and carried out; the dungeon is decreed from its entrance
+playthrough: NOTE DEV HELP: the Gallery never finished on the real map (3 fights, 0 boss picks, scene CapitalZone) - decreed
+playthrough: NOTE DEV HELP: postgame - Old Man Mountain's shake errand done by its counter; Swolympus entered with the Dev Menu's travel
+playthrough: [x] the starting forest loads on a new game
+playthrough: [x] the Forgotten Cave (the tutorial dungeon) opens after choosing a Path
+playthrough: [x] the tutorial clears with a legal deck
+playthrough: [x] the town loads after the tutorial
+playthrough: [x] Maren's early-game chain is done (merchants, deck edit, ghosts, armory)
+playthrough: [x] the zone main lines wait for Maren's send-off
+playthrough: [x] Brannoch gives Free the Four Zones on the imperial road
+playthrough: [x] gourmand: talking to Chef Fennel Gravois starts the duel
+playthrough: [x] gourmand: the duel is on the zone's own battleboard
+playthrough: [x] gourmand: the gatekeeper is beaten and the road opens
+playthrough: [x] Maren sends the hero down their own Path (the four zone lines start)
+playthrough: [x] the hero's own Path line is the tracked quest
+playthrough: [x] gourmand: the gatekeeper pays the Path Pack (step reward)
+playthrough: [x] gourmand: the obstacle stands cleared
+playthrough: [x] gourmand: walking down the road enters the zone
+playthrough: [x] gourmand: the main line moves to its favour step
+playthrough: [x] save/load at enter_gourmand (zone:gourmand): the same state
+playthrough: [x] gourmand: a favour done pays the midpoint gear (doggy_bag)
+playthrough: [x] gourmand: the side dungeon S-GOUR opens
+playthrough: [x] gourmand: its first clear pays its piece of gear
+playthrough: [x] gourmand: the main dungeon opens
+playthrough: [x] mid-dungeon save records the zone (zone:gourmand)
+playthrough: [x] mid-dungeon load: back in gourmand with no dungeon run (it had 0 cleared nodes)
+playthrough: [x] re-entering starts the dungeon over (0 cleared)
+playthrough: [x] gourmand: beating the boss frees the zone
+playthrough: [x] gourmand: its main quest line completes
+playthrough: [x] gourmand: the main dungeon's first clear pays its gear
+playthrough: [x] gourmand: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_gourmand (town): the same state
+playthrough: [x] gourmand: the Rescuer waits at the cave mouth (cave_mouth_1)
+playthrough: [x] gourmand: her Cave Mouth scene plays and she slips away
+playthrough: [x] beefcake: talking to Brick Bronson starts the duel
+playthrough: [x] beefcake: the duel is on the zone's own battleboard
+playthrough: [x] beefcake: the gatekeeper is beaten and the road opens
+playthrough: [x] beefcake: the gatekeeper pays the Path Pack (step reward)
+playthrough: [x] beefcake: the obstacle stands cleared
+playthrough: [x] beefcake: walking down the road enters the zone
+playthrough: [x] beefcake: the main line moves to its favour step
+playthrough: [x] save/load at enter_beefcake (zone:beefcake): the same state
+playthrough: [x] beefcake: a favour done pays the midpoint gear (gotta_go_galoshes)
+playthrough: [x] beefcake: the side dungeon is a postgame bonus (skipped)
+playthrough: [x] beefcake: the main dungeon opens
+playthrough: [x] beefcake: beating the boss frees the zone
+playthrough: [x] beefcake: its main quest line completes
+playthrough: [x] beefcake: the main dungeon's first clear pays its gear
+playthrough: [x] beefcake: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_beefcake (town): the same state
+playthrough: [x] beefcake: the Rescuer waits at the cave mouth (cave_mouth_2)
+playthrough: [x] beefcake: her Cave Mouth scene plays and she slips away
+playthrough: [x] necrocrat: talking to Prudence Pallor starts the duel
+playthrough: [x] necrocrat: the duel is on the zone's own battleboard
+playthrough: [x] necrocrat: the gatekeeper is beaten and the road opens
+playthrough: [x] necrocrat: the gatekeeper pays the Path Pack (step reward)
+playthrough: [x] necrocrat: the obstacle stands cleared
+playthrough: [x] necrocrat: walking down the road enters the zone
+playthrough: [x] necrocrat: the main line moves to its favour step
+playthrough: [x] save/load at enter_necrocrat (zone:necrocrat): the same state
+playthrough: [x] necrocrat: a favour done pays the midpoint gear (red_tape_dispenser)
+playthrough: [x] necrocrat: the side dungeon S-NECRO opens
+playthrough: [x] necrocrat: its first clear pays its piece of gear
+playthrough: [x] necrocrat: the main dungeon opens
+playthrough: [x] necrocrat: beating the boss frees the zone
+playthrough: [x] necrocrat: its main quest line completes
+playthrough: [x] necrocrat: the main dungeon's first clear pays its gear
+playthrough: [x] necrocrat: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_necrocrat (town): the same state
+playthrough: [x] necrocrat: the Rescuer waits at the cave mouth (cave_mouth_3)
+playthrough: [x] necrocrat: her Cave Mouth scene plays and she slips away
+playthrough: [x] refusemancer: talking to Moss Mulligan starts the duel
+playthrough: [x] refusemancer: the duel is on the zone's own battleboard
+playthrough: [x] refusemancer: the gatekeeper is beaten and the road opens
+playthrough: [x] refusemancer: the gatekeeper pays the Path Pack (step reward)
+playthrough: [x] refusemancer: the obstacle stands cleared
+playthrough: [x] refusemancer: walking down the road enters the zone
+playthrough: [x] refusemancer: the main line moves to its favour step
+playthrough: [x] save/load at enter_refusemancer (zone:refusemancer): the same state
+playthrough: [x] refusemancer: a favour done pays the midpoint gear (dumpster_gloves)
+playthrough: [x] refusemancer: the side dungeon S-REF opens
+playthrough: [x] refusemancer: its first clear pays its piece of gear
+playthrough: [x] refusemancer: the main dungeon opens
+playthrough: [x] refusemancer: beating the boss frees the zone
+playthrough: [x] refusemancer: its main quest line completes
+playthrough: [x] refusemancer: the main dungeon's first clear pays its gear
+playthrough: [x] refusemancer: Maren gives back a memory fragment
+playthrough: [x] save/load at town_after_refusemancer (town): the same state
+playthrough: [x] refusemancer: the Rescuer waits at the cave mouth (cave_mouth_4)
+playthrough: [x] refusemancer: her Cave Mouth scene plays and she slips away
+playthrough: [x] the Undercroft: the hatch is open after the first zone
+playthrough: [x] the Undercroft: Grand Bellows' booth opens
+playthrough: [x] the imperial road enters the Capital
+playthrough: [x] with all four zones free, every broken service is restored
+playthrough: [x] the castle opens
+playthrough: [x] the castle gate: the capture scene plays as the map opens
+playthrough: [x] Plume names her: {rescuer} reads Elowen from now on
+playthrough: [x] Primm is defeated
+playthrough: [x] Free the Four Zones completes
+playthrough: [x] the ending plays
+playthrough: [x] the royal funeral waits in Grave Row
+playthrough: [x] Old Hob stands in Grave Row
+playthrough: [x] the royal funeral plays
+playthrough: [x] Isla walks home through her father's gate
+playthrough: [x] Maren has news of the capture
+playthrough: [x] Old Hob is back by the cairn
+playthrough: [x] postgame: Under the Forest is given
+playthrough: [x] postgame: Loose Ends is given
+playthrough: [x] postgame: Rip tells of the forest (step 1)
+playthrough: [x] postgame: back in the forest (step 2)
+playthrough: [x] save/load at forest_postgame (start): the same state
+playthrough: [x] postgame: the Lab opens (step 3)
+playthrough: [x] postgame: Elowen is freed and Under the Forest completes
+playthrough: [x] postgame: the cracked mirror stands by the castle door
+playthrough: [x] postgame: looking into the mirror counts (Gallery step)
+playthrough: [x] postgame: the Gallery opens from the mirror
+playthrough: [x] postgame: the Shattered Gallery's map opens
+playthrough: [x] postgame: the Shattered Gallery is cleared
+playthrough: [x] postgame: Only the Worthy... opens Mount Swolympus
+playthrough: [x] postgame: the Ascent of Mount Swolympus opens
+playthrough: [x] postgame: Swolympus is climbed (Loose Ends step 1)
+playthrough: [x] postgame: Loose Ends shows Swolympus and the forest done (the arena bout is left)
+WARNING: 28 RIDs of type "CanvasItem" were leaked.
+   at: _free_rids (servers/rendering/renderer_canvas_cull.cpp:2735)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceSurfaceDataCacheE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: Pages in use exist at exit in PagedAllocator: N33RendererSceneRenderImplementation22RenderForwardClustered32GeometryInstanceForwardClusteredE
+   at: ~PagedAllocator (./core/templates/paged_allocator.h:170)
+ERROR: 3 shaders of type SceneForwardClusteredShaderRD were never freed
+   at: ~ShaderRD (servers/rendering/renderer_rd/shader_rd.cpp:1236)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call iERROR: 56 RID allocations of type 'N10RendererRD16ParticlesStorage9ParticlesE' were leaked at exit.
+ERROR: 18 RID allocations of type 'N10RendererRD11MeshStorage4MeshE' were leaked at exit.
+ERROR: 28 RID allocations of type 'N10RendererRD15MaterialStorage8MaterialE' were leaked at exit.
+ERROR: 3 RID allocations of type 'N10RendererRD15MaterialStorage6ShaderE' were leaked at exit.
+ERROR: 10 RID allocations of type 'N10RendererRD14TextureStorage7TextureE' were leaked at exit.
+ERROR: 74 RID allocations of type 'N17RendererSceneCull8InstanceE' were leaked at exit.
+nstance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+WARNING: Leaked instance dependency: Bug - did not call instance_notify_deleted when freeing.
+   at: ~Dependency (servers/rendering/storage/utilities.cpp:56)
+ERROR: Parameter "RenderingServer::get_singleton()" is null.
+   at: ~ImageTexture (scene/resources/image_texture.cpp:245)
+WARNING: 112 RIDs of type "StorageBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 28 RIDs of type "UniformBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 144 RIDs of type "VertexBuffer" were leaked.
+   at: _free_rids (servers/rendering/rendering_device.cpp:8686)
+WARNING: 20 RIDs of type "Texture" were leaked.
+   at: finalize (servers/rendering/rendering_device.cpp:8900)
+WARNING: 7127 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 71 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

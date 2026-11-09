@@ -1335,3 +1335,8 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    want it harder. Recommendation: **keep Dex in 1.0** (his art is in, the circuit plays through; see the report).
 4. **Your name and donation link** are still empty in `data/credits/credits.cfg`; the file now has `>>> OWNER` comments where they go.
 5. **The itch screenshots stay last night's** (1600x900 captures): this screen cannot open a true 1920x1080 window.
+6. **Difficulty walls for a story-only player.** The four real-fight runs (planning AI, no optional fights) stalled - 4 losses, then
+   decreed - at **Primm** and **the Shattered Gallery** on every Path, at the **second and fourth main dungeons** on some Paths, and at
+   **S-NECRO** when taken as soon as it opens. Each time the hero was 2-5 levels under `ProgressionModel`'s expected player. Nothing was
+   changed. Options: (a) leave it (optional fights are the intended XP), (b) a "travellers are usually level N" hint at those entrances,
+   (c) soften the four by one step via the balance sims. Recommendation: (b) for 1.0, it's cheap and honest.

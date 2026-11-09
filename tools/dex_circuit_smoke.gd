@@ -143,7 +143,7 @@ func _shot(shot_name: String) -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SHOT_DIR))
 	var texture: Texture2D = get_tree().root.get_texture()
 	if texture != null:
-		texture.get_image().save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, shot_name]))
+		texture.get_image().save_jpg(ProjectSettings.globalize_path("%s%s.jpg" % [SHOT_DIR, shot_name]))
 
 
 func _step(ok: bool, message: String) -> void:

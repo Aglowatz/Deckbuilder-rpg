@@ -4,7 +4,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "The Rescuer",
 		"before": "Tell me: which Path resonates within you?",
-		"after": "Tell me, quickly: which Path answers you the loudest?"
+		"after": "Tell me, quickly: which Path answers you the loudest?",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.pack_vendor.prismatic_reveal::0",

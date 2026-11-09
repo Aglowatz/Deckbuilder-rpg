@@ -37,7 +37,7 @@ texts = {
 "prologue.wanderer.1": ["I don't know this place, and I don't know my own name. ...Who are you?"],
 "prologue.rescuer.2": ["A friend. That's all I can tell you, and there isn't time for more.", "Can you still draw on the Paths? Hold out your hand and let me see."],
 "prologue.wanderer.2": ["...I feel them. All four, faintly. Like voices through a wall."],
-"prologue.rescuer.3": ["That will have to do. The Path-ologists are hunting us.", "Tell me, quickly: which Path answers you the loudest?"],
+"prologue.rescuer.3": ["That will have to do. The Path-ologists are hunting us.", "Tell me: which Path resonates within you?"],
 "prologue.rescuer.4": ["That one, then. Hold on to it. The others will come back to you, in time.", "The Forgotten Cave behind me is your escape. It comes out at {town}, and Elder Maren will be waiting for you there. Find her first.", "Hear that? They're close, but they don't know about the cave. Hardly anyone remembers it now.", "Go, and don't stop for anything. I'll draw them off the other way, and when I'm clear, I'll find you. I always do."],
 "prologue.wanderer.3": ["She's gone, and she's taking the shouting with her. Whoever they are, I'd rather not meet them."],
 "prologue.self_talk": ["The trees are packed too tight to get through. The cave it is, then.", "No point getting lost twice in one day. I'll head back up the path to the glowing arch.", "Whatever is waiting for me, it's through that cave.", "Whoever she was, she said help would be waiting on the other side. Whatever's in that cave, it has to be better than those Path-ologists."],
