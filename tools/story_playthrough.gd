@@ -1254,6 +1254,14 @@ func _wall(text: String) -> void:
 func _pick_node(map: DungeonMap) -> int:
 	var open: Array[DungeonMap.MapNode] = map.available()
 	if open.is_empty():
+		# standing on an unfinished node (a lost or interrupted fight, the boss after a respawn): take it again
+		if map.current >= 0 and not map.is_cleared(map.current) and map.node(map.current) != null and map.node(map.current).kind != DungeonMap.Kind.START:
+			return map.current
+		# nothing open from here: any unfinished node next to a finished one (logged, so a real dead end shows in the report)
+		for candidate: DungeonMap.MapNode in map.nodes:
+			if not map.is_cleared(candidate.id) and candidate.kind != DungeonMap.Kind.START and map.neighbour_cleared(candidate.id):
+				_note("DEV HELP: %s map - nothing open from node %d (%s, next %s, cleared %s); took node %d" % [map.dungeon_name, map.current, DungeonMap.Kind.keys()[map.node(map.current).kind], str(map.node(map.current).next), str(map.cleared), candidate.id])
+				return candidate.id
 		return -1
 	var hurt: bool = Session.run != null and Session.run.hp * 10 < Session.run.max_hp() * 6
 	var best: DungeonMap.MapNode = null
@@ -1422,7 +1430,11 @@ func _unstick(scene: Node, fights: int) -> bool:
 		var button: Button = node as Button
 		if button.is_visible_in_tree() and not button.text.strip_edges().is_empty():
 			names.append("%s%s" % [button.text.strip_edges(), " (off)" if button.disabled else ""])
-	print("%s: STALL %d at %s: buttons %s" % [TAG, _stall_kicks, sig, ", ".join(names)])
+	var where: String = ""
+	if Session.dungeon_map != null and Session.dungeon_map.node(Session.dungeon_map.current) != null:
+		var here: DungeonMap.MapNode = Session.dungeon_map.node(Session.dungeon_map.current)
+		where = " map current %d %s next %s cleared %s" % [here.id, DungeonMap.Kind.keys()[here.kind], str(here.next), str(Session.dungeon_map.cleared)]
+	print("%s: STALL %d at %s: buttons %s%s" % [TAG, _stall_kicks, sig, ", ".join(names), where])
 	for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Next level", "Step outside", "Onward", "Take", "Leave"]:
 		for node: Node in get_tree().root.find_children("*", "Button", true, false):
 			var button: Button = node as Button
