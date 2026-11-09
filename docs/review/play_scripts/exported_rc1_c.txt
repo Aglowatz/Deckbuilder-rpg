@@ -1,0 +1,27 @@
+# Fable Nov 9, Part 2.2, run C on the exported pack with the Low-end preset (quality 0 in settings.cfg): a zone, the town and a battle.
+wait 5
+button Continue
+wait 10
+skip_dialogue 20
+scene
+shot z01_lowend_town
+dev travel zone beefcake
+wait 14
+skip_dialogue 10
+shot z02_lowend_gainlands
+dev encounter quota
+wait 6
+button Got it
+wait 0.5
+button Keep Hand
+wait 1.5
+shot z03_lowend_battle
+dev win
+wait 4
+key Enter
+wait 2
+key Escape
+wait 1.5
+button Settings
+wait 2
+shot z04_lowend_settings

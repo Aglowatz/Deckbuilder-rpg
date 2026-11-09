@@ -1,0 +1,61 @@
+# r3: forest walk to the cave gate, deck page, enter cave
+wait 4
+dev load r1
+wait 6
+shot r3_01_loaded
+scene
+key B
+wait 2
+shot r3_02_deck
+dump
+key Escape
+wait 1
+key B
+wait 1
+key Escape
+wait 1
+shot r3_03_back
+hold W+D 2
+wait 0.5
+shot r3_04_walk1
+hold W+D 2
+wait 0.5
+shot r3_05_walk2
+scene
+hold W+D 2
+wait 0.5
+shot r3_06_walk3
+hold W 1.5
+wait 0.5
+shot r3_07_walk4
+dump
+key E
+wait 2
+shot r3_08_gate_e
+dump
+key E
+wait 1.5
+shot r3_09_gate_e2
+key E
+wait 1.5
+shot r3_10_gate_e3
+key E
+wait 1.5
+shot r3_11_gate_e4
+dump
+scene
+key E
+wait 1.5
+shot r3_12
+key E
+wait 1.5
+shot r3_13
+key E
+wait 1.5
+shot r3_14
+key E
+wait 1.5
+shot r3_15
+dump
+scene
+dev save r3

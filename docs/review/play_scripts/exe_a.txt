@@ -1,0 +1,64 @@
+# Fable Nov 9: the real exported .exe on a fresh user folder (no settings, no save). Clicks are window coordinates of the 1616x939
+# capture (the 1600x900 game plus an 8 px frame and a 31 px title bar).
+wait 28
+shot f01_title_fresh
+click 1358 405
+wait 3
+shot f02_slot_chooser
+click 397 665
+wait 14
+shot f03_new_game_started
+key e
+wait 2.5
+shot f04_intro_a
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+shot f05_intro_b
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+shot f06_after_intro
+hold w 2
+wait 1
+shot f07_walked
+key {ESC}
+wait 2
+shot f08_pause
+click 808 471
+wait 2
+shot f09_settings
+click 808 256
+wait 1
+click 796 502
+wait 1
+shot f10_reduce_motion
+key {ESC}
+wait 1.5
+click 808 351
+wait 2
+shot f11_save_slots
+click 1305 385
+wait 2
+shot f12_saved
+key {ESC}
+wait 1.5
+shot f13_pause_again
+click 808 819
+wait 6

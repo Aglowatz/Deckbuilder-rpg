@@ -1,0 +1,27 @@
+# Fable Nov 9: the real exported .exe, third launch: the Reduce motion tick survived the restart; Load Game shows the manual save; Quit.
+wait 28
+shot i01_title
+click 1358 659
+wait 2.5
+shot i01b_credits
+click 1191 167
+wait 1.5
+click 1358 407
+wait 14
+shot i02_continued_again
+press ESC
+wait 2
+click 808 471
+wait 2
+click 808 256
+wait 1
+shot i03_settings_after_restart
+press ESC
+wait 1.5
+click 808 411
+wait 2
+shot i04_load_game
+press ESC
+wait 1.5
+click 808 819
+wait 6

@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0-rc1 - release candidate (Nov 9 2026)
+
+- Every Path plays through with real fights; Primm's Castle can no longer strand the party in its nested side rooms.
+- Level hints at every dungeon door and on the map ("Travellers here are usually around level N", amber when 2+ under).
+- The Shattered Gallery, Dex's Cardsharp's Circuit (fair targets, painted table, the Matching Pair), Mount Swolympus and the Iron Cave, the
+  Lab's south wing, the Undercroft arena, the four-lever vault, hidden traits, Glossary and Collection Book.
+- Balance: max HP 15 -> 30, two-turn boss setup window, dungeon clear XP bonus, the 21k no-grind gold curve, cheaper crafting, single-use items
+  in four slots, the Extra Pocket, Primm's rules in plain words.
+- Art Batches 11-14 (about 170 images): painted portraits for every NPC, every story still, vendor stalls, zone kit pieces, the quiz classroom,
+  Sable's redesign, the species-flip variants redone, true-scale Primm and Test Kitchen stills, a painted Iron / Feastforge / Hulking Hauler.
+  The Red Cross on Nurse Hesper is recoloured in code until her redo.
+- Music: the full orchestral score at its designed quality (Gainlands hard rock set); a smaller build otherwise (WebP/BC1 pass, ArtCache).
+- Dialogue: the main-story read and the designer's edit sheets applied; roamer and vendor barks.
+- Release basics: autosave quill, colour-blind Path symbols on by default, Reduce motion, camera angle Low, Report a Problem (F8) and Copy log,
+  Credits with every licence and the AI disclosure, Alex Glowatz credited, hidden Support buttons until a donation link is set.
+
 ## v0.5.1 - the Fable pass (Nov 1 2026)
 
 - Max HP 15 -> 30 over the game (was 10 -> 25); a "Loose Ends" quest after the credits.

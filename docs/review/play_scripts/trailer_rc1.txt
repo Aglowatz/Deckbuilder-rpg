@@ -1,0 +1,55 @@
+# Fable Nov 9, Part 3: footage for the itch trailer, captured with Godot's movie writer (tools/make_trailer.sh). One run, about 95 s of
+# game time; `log` lines mark the cut points (the play log's timestamps are the movie's seconds).
+wait 6
+log CUT title
+wait 5
+dev load bot_beefcake_town_after_refusemancer
+wait 14
+skip_dialogue 10
+log CUT crosspath
+hold W 2.5
+hold D 2
+wait 1
+key B
+wait 2
+log CUT deck_station
+wait 4
+key Escape
+wait 1
+dev travel zone beefcake
+wait 13
+skip_dialogue 10
+log CUT gainlands
+hold W 3
+hold A 2
+wait 1
+dev travel zone gourmand
+wait 13
+skip_dialogue 10
+log CUT buffet
+hold W 3
+hold D 1.5
+wait 1
+dev encounter necrocrat
+wait 6
+button Got it
+wait 0.5
+log CUT battle
+pilot 22
+log CUT battle_end
+dev win
+wait 5
+skip_dialogue 6
+dev travel capital
+wait 15
+skip_dialogue 10
+log CUT capital
+hold W 3
+hold D 2
+wait 1
+dev travel dungeon S-GALLERY
+wait 8
+skip_dialogue 6
+log CUT gallery
+wait 5
+log CUT end

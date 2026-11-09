@@ -1,0 +1,89 @@
+# Fable Nov 9, Part 2.2: the exported-build check, run A on the exported pack (stock binary + the test pack, fresh settings):
+# title, Credits (AI disclosure, no Support button), a new game through the intro, Crosspath, a shop, the Deck Station, the Wardrobe,
+# the Card Packs page, a battle, the pause menu, a setting changed (Reduce motion), Copy log, a manual save, quit to title, load.
+#   bash tools/run_exported_suite.sh builds/_testpack/TheWaywardPath_test.pck d3d12 1 play --script=<abs path> --name=rc1_a --limit=600
+wait 5
+shot x01_title
+button Credits
+wait 2
+shot x02_credits_top
+key End
+wait 1
+shot x03_credits_bottom
+dump
+key Escape
+wait 1
+button New Game
+wait 8
+skip_dialogue 40
+shot x04_forest_after_intro
+scene
+dev travel town
+wait 10
+skip_dialogue 20
+shot x05_crosspath
+dev goto vendor
+wait 1.5
+key E
+wait 2
+skip_dialogue 12
+wait 2
+shot x06_sable_shop
+key Escape
+wait 1
+key B
+wait 2.5
+shot x07_deck_station
+key Escape
+wait 1
+key T
+wait 2.5
+shot x08_wardrobe
+key Escape
+wait 1
+key P
+wait 2
+button Got it
+wait 0.5
+shot x09_card_packs
+key Escape
+wait 1
+dev encounter quota
+wait 6
+button Got it
+wait 0.5
+button Keep Hand
+wait 1.5
+shot x10_battle
+pilot 40
+shot x11_battle_played
+dev win
+wait 4
+key Enter
+wait 3
+shot x12_after_battle
+key Escape
+wait 1.5
+shot x13_pause
+button Settings
+wait 2
+dump
+button Accessibility
+wait 1
+dump
+button Reduce motion
+wait 0.5
+shot x14_settings_reduce_motion_on
+button Copy log
+wait 1
+shot x15_copy_log
+key Escape
+wait 1
+key Escape
+wait 1
+key Escape
+wait 1.5
+button Save Game
+wait 2
+dump
+shot x16_save_slots

@@ -1,0 +1,68 @@
+# Fable Nov 9: the real exported .exe, fresh user folder: New Game, the intro, the Path choice, Settings (Reduce motion on), a manual save, Quit Game.
+wait 28
+click 1358 405
+wait 3
+click 397 665
+wait 14
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 2.5
+key e
+wait 3
+shot g01_path_choice
+click 432 420
+wait 1
+shot g01b_beefcake_picked
+click 828 761
+wait 10
+shot g02_forest_playing
+hold w 1.5
+wait 1
+shot g03_walked
+key {ESC}
+wait 2
+shot g04_pause
+click 808 471
+wait 2
+click 808 256
+wait 1
+shot g05_settings_accessibility
+click 796 502
+wait 1
+shot g06_reduce_motion_on
+key {ESC}
+wait 1.5
+shot g07_pause_again
+click 808 351
+wait 2
+shot g08_save_slots
+click 1305 385
+wait 2
+shot g09_saved
+key {ESC}
+wait 1.5
+click 808 819
+wait 6

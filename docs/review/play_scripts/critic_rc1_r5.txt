@@ -1,0 +1,47 @@
+# r5: walk from camp to the cave gate again and enter
+wait 4
+dev load r3
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+hold W 1.5
+wait 0.5
+shot r5_01_at_gate
+dump
+hold A 1.5
+wait 0.5
+shot r5_02_ring
+dump
+scene
+key E
+wait 3
+shot r5_03_after_e
+dump
+scene
+hold W 1.5
+wait 0.5
+shot r5_04_w
+dump
+scene
+key E
+wait 3
+shot r5_05_e2
+dump
+scene
+key E
+wait 1.5
+shot r5_06
+key E
+wait 1.5
+shot r5_07
+key E
+wait 1.5
+shot r5_08
+key E
+wait 1.5
+shot r5_09
+dump
+scene
+dev save r5

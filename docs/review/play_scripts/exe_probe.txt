@@ -1,0 +1,15 @@
+# Fable Nov 9: the real exported .exe, first launch with no settings or save (tools/exe_drive.ps1 -FreshUser). A probe: the title, Enter on the
+# focused button, the intro's first boxes, Esc.
+wait 28
+shot e01_first_launch_title
+key {ENTER}
+wait 14
+shot e02_after_enter
+key e
+wait 2
+key e
+wait 2
+shot e03_intro
+key {ESC}
+wait 2
+shot e04_escape

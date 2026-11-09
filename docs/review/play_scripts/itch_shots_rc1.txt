@@ -1,0 +1,68 @@
+# Fable Nov 9, Part 3: the eight itch.io screenshots from the new art, at the largest window this screen allows (scaled to 1920x1080 after):
+#   SHOT_RES=1886x1061 bash tools/play.sh docs/review/play_scripts/itch_shots_rc1.txt itch_rc1 480
+wait 6
+dev newgame
+wait 9
+shot itch_r1_story_still_wake
+skip_dialogue 40
+dev load bot_beefcake_town_after_refusemancer
+wait 14
+skip_dialogue 10
+key T
+wait 2.5
+shot itch_r2_wardrobe
+key Escape
+wait 1
+key P
+wait 2
+button Got it
+wait 0.5
+shot itch_r3_card_packs
+key Escape
+wait 1
+dev travel zone beefcake
+wait 14
+skip_dialogue 10
+dev goto quiz
+wait 1.5
+key E
+wait 2
+skip_dialogue 4
+wait 1.5
+shot itch_r4_classroom_quiz
+key Escape
+wait 1
+key Escape
+wait 1
+dev goto cardsharp
+wait 1.5
+key E
+wait 2
+skip_dialogue 6
+wait 1.5
+shot itch_r5_dex_table
+key Escape
+wait 1
+key Escape
+wait 1
+dev encounter necrocrat
+wait 6
+button Got it
+wait 0.5
+pilot 20
+wait 1
+shot itch_r6_battle
+dev win
+wait 5
+skip_dialogue 6
+dev travel capital
+wait 15
+skip_dialogue 10
+hold W 2
+wait 2
+shot itch_r7_capital
+dev travel dungeon S-GALLERY
+wait 8
+skip_dialogue 6
+wait 1
+shot itch_r8_gallery

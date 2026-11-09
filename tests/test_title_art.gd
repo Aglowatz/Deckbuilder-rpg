@@ -43,3 +43,23 @@ func test_a_save_slot_reports_the_postgame_flag() -> void:
 	SaveSlots.delete(1)
 	SaveSlots.delete(2)
 	SaveSlots.dir = saved_dir
+
+
+## Fable Nov 9 (the exported-build check): with the keyboard, the first Enter or arrow at the title focuses the top menu button (the pad and the
+## mouse are unaffected); once a menu button has the focus the key is left to it.
+func test_the_first_keyboard_press_focuses_the_title_menu() -> void:
+	var title: TitleScreen = _title({"postgame": "false"})
+	await wait_frames(2)
+	var accept: InputEventAction = InputEventAction.new()
+	accept.action = &"ui_accept"
+	accept.pressed = true
+	assert_false(title.keyboard_focus_menu(accept), "an action event is not a keyboard key")
+	var enter: InputEventKey = InputEventKey.new()
+	enter.keycode = KEY_ENTER
+	enter.pressed = true
+	assert_true(title.keyboard_focus_menu(enter), "the first Enter takes the focus")
+	var owner_now: Control = title.get_viewport().gui_get_focus_owner()
+	assert_not_null(owner_now)
+	assert_true(owner_now is BaseButton and title.is_ancestor_of(owner_now), "a title menu button has the focus")
+	assert_false(title.keyboard_focus_menu(enter), "the next Enter is left to the focused button")
+

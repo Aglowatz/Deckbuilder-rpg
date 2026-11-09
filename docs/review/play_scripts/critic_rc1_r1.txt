@@ -1,0 +1,81 @@
+# r1: title, slots, opening
+wait 4
+shot r1_01_title
+dump
+button Settings
+wait 2
+shot r1_01b_settings
+dump
+key Escape
+wait 1
+button Credits
+wait 2
+shot r1_01c_credits
+dump
+key Escape
+wait 1
+shot r1_01d_title_back
+button New Game
+wait 3
+shot r1_02_slots
+dump
+button Start here
+wait 14
+shot r1_03_opening
+scene
+key E
+wait 1.5
+shot r1_04_open
+key E
+wait 1.5
+shot r1_05_open
+key E
+wait 1.5
+shot r1_06_open
+key E
+wait 1.5
+shot r1_07_open
+key E
+wait 1.5
+shot r1_08_open
+key E
+wait 1.5
+shot r1_09_open
+key E
+wait 1.5
+shot r1_10_open
+key E
+wait 1.5
+shot r1_11_open
+key E
+wait 1.5
+shot r1_12_open
+key E
+wait 1.5
+shot r1_13_open
+key E
+wait 1.5
+shot r1_14_open
+key E
+wait 1.5
+shot r1_15_open
+dump
+scene
+key E
+wait 1.5
+shot r1_16_open
+key E
+wait 1.5
+shot r1_17_open
+key E
+wait 1.5
+shot r1_18_open
+key E
+wait 1.5
+shot r1_19_open
+key E
+wait 1.5
+shot r1_20_open
+dump
+scene
+dev save r1a

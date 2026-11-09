@@ -1,0 +1,33 @@
+# Fable Nov 9: the real exported .exe, second launch on the same fresh folder: Continue from the autosave, the pause menu, Settings
+# (Reduce motion on), a manual save to slot 1, Quit Game.
+wait 28
+shot h01_title_with_continue
+click 1358 407
+wait 14
+shot h02_continued
+hold w 1.5
+wait 1
+press ESC
+wait 2
+shot h03_pause
+click 808 471
+wait 2
+shot h04_settings
+click 808 256
+wait 1
+click 796 502
+wait 1
+shot h05_reduce_motion_on
+press ESC
+wait 1.5
+shot h06_pause_again
+click 808 351
+wait 2
+shot h07_save_slots
+click 1305 271
+wait 2
+shot h08_saved
+press ESC
+wait 1.5
+click 808 819
+wait 6

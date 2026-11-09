@@ -182,6 +182,25 @@ func _mark_title_reached() -> void:
 	GameLog.title_reached()
 
 
+## Fable Nov 9 (the exported-build check): a keyboard-only player pressed Enter at the title and nothing happened - no button had the focus
+## (a pad gets it from PadFocus, a mouse needs none). The first arrow or confirm key from the keyboard focuses the top menu button (the gold
+## ring shows), so the next Enter starts the game. True when this press was used to take the focus.
+func keyboard_focus_menu(event: InputEvent) -> bool:
+	if not (event is InputEventKey) or not event.is_pressed() or event.is_echo() or _overlay != null or _menu_column == null:
+		return false
+	if not (event.is_action(&"ui_accept") or event.is_action(&"ui_down") or event.is_action(&"ui_up")):
+		return false
+	var owner_now: Control = get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	if owner_now != null and owner_now.is_visible_in_tree() and _menu_column.is_ancestor_of(owner_now):
+		return false
+	return PadFocus.focus_into(_menu_column) != null
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if keyboard_focus_menu(event):
+		get_viewport().set_input_as_handled()
+
+
 func _menu_button(text: String, variation: StringName, callback: Callable) -> FancyButton:
 	var button: FancyButton = FancyButton.make(text, variation, Vector2(360, 60))
 	button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN

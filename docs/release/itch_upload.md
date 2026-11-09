@@ -34,7 +34,7 @@ in-game **Support the game** button (step 7). Either choice is fine; you can swi
 
 ## 4. Upload the zip
 
-1. In **Uploads** press **Upload files** and pick the zip from `builds/` (the exact file is in **Files to upload** below; about 600 MB,
+1. In **Uploads** press **Upload files** and pick the zip from `builds/` (the exact file is in **Files to upload** below; about 740 MB,
    so the browser upload takes 5-15 minutes on a home connection - leave the tab open).
 2. When it has uploaded, tick **Windows** under the file and set its label to e.g. "Windows 64-bit (zip)". Leave "This file will be played
    in the browser" unticked.
@@ -92,7 +92,7 @@ channel, not both.
 
 | File | What | Where |
 |---|---|---|
-| `builds/TheWaywardPath-v1.0.0-rc1-windows.zip` | the Windows build: `TheWaywardPath.exe`, `TheWaywardPath.pck`, the five `Start (...).bat` launchers, `README_PLAYTEST.txt` | made by `bash tools/export_windows.sh 1.0.0-rc1` (Part 2 of the Fable Nov 9 pass fills in the final name and size) |
+| `builds/TheWaywardPath-v1.0.0-rc1-windows.zip` (**736 MB**; unpacks to about 950 MB) | the Windows build: `TheWaywardPath.exe`, `TheWaywardPath.pck` (847 MB), the five `Start (...).bat` launchers, `README_PLAYTEST.txt` | made Nov 9 by `bash tools/export_windows.sh 1.0.0-rc1`; every check passed (pack MD5s, 89 baked shaders, zip CRCs); the release smoke and the exported-build checks are in `docs/overnight_report.md` |
 | the cover (630x500) | from TITLE-KEYART, see `page.md` | make it in any image editor from `assets/art/keyart/TITLE-KEYART.webp` |
 | 8 screenshots | `docs/release/itch_page/screenshots/0*.jpg` | re-picked in Part 3 of the Fable Nov 9 pass |
 | trailer (optional) | `docs/release/itch_page/trailer/` when it exists; itch takes a YouTube or Vimeo link, not a file | see Part 3 |
