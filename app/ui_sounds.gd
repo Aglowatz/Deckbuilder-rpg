@@ -11,6 +11,14 @@ var _armed: bool = false
 var _frame_serial: int = 0
 
 
+## Overnight Nov 9, Part 2.2: a menu panel opened from the pause menu or the title (Settings, Glossary, Feats, Credits, save slots) opens
+## with a page sound and closes with a soft back sound (they used to close silently).
+static func panel_sounds(panel: Node) -> void:
+	Audio.sfx(&"ui_open", -6.0)
+	if panel.has_signal(&"closed"):
+		panel.connect(&"closed", func() -> void: Audio.sfx(&"ui_back", -6.0), CONNECT_ONE_SHOT)
+
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	process_priority = -1000

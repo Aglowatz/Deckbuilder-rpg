@@ -1,5 +1,5 @@
-# The Credits screen's text (ui/screens/credits_screen.gd). "# " lines are headings, "## " lines are small headings, blank lines
-# separate paragraphs; lines starting with ";" are comments. {creator} and {version} are filled in from credits.cfg / the project.
+; The Credits screen's text (ui/screens/credits_panel.gd). "# " lines are headings, "## " lines are small headings, blank lines
+; separate paragraphs; lines starting with ";" are comments. {creator} and {version} are filled in from credits.cfg / the project.
 # THE WAYWARD PATH
 Version {version}
 {creator}

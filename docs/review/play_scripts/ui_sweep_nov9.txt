@@ -58,12 +58,36 @@ key Escape
 wait 1
 key Escape
 wait 1
-dev goto vendor_items
+dev goto item_vendor
 wait 1
 key E
 wait 2
 skip_dialogue 6
 shot 12_item_vendor
+key Escape
+wait 1
+dev goto equipment_vendor
+wait 1
+key E
+wait 2
+skip_dialogue 6
+shot 12b_equipment_vendor
+key Escape
+wait 1
+dev goto alchemist
+wait 1
+key E
+wait 2
+skip_dialogue 6
+shot 12c_alchemist
+key Escape
+wait 1
+dev goto tailor
+wait 1
+key E
+wait 2
+skip_dialogue 6
+shot 12d_tailor
 key Escape
 wait 1
 dev travel zone beefcake
@@ -84,7 +108,7 @@ wait 1.5
 shot 15_dex_flip
 key Escape
 wait 1
-dev encounter beefcake_roamer_1
+dev encounter quota
 wait 6
 button Got it
 wait 0.5

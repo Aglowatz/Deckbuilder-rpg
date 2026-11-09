@@ -86,3 +86,13 @@ func test_every_shipped_scene_loads() -> void:
 			assert_true(scene.can_instantiate(), file)
 		count += 1
 	assert_gte(count, 12)
+
+
+## Overnight Nov 9: the file's own header (how to edit it) never shows on the Credits page; the first heading is the game's title.
+func test_the_credits_never_show_their_editing_notes() -> void:
+	var rows: Array[Array] = CreditsPanel.paragraphs()
+	assert_gt(rows.size(), 3)
+	assert_eq(str(rows[0][0]), "h1")
+	assert_eq(str(rows[0][1]), "THE WAYWARD PATH")
+	for row: Array in rows:
+		assert_false(str(row[1]).contains("credits_panel.gd") or str(row[1]).contains("credits_screen.gd") or str(row[1]).contains("are headings"), "editing notes shown: %s" % str(row[1]))

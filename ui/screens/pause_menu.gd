@@ -126,6 +126,7 @@ func _show_slots(mode: SaveSlotsScreen.Mode) -> void:
 	_close_slots()
 	_slots = SaveSlotsScreen.make(mode, _snapshot)
 	_slots.closed.connect(_close_slots)
+	_slots.closed.connect(func() -> void: Audio.sfx(&"ui_back", -6.0), CONNECT_ONE_SHOT)  # Overnight Nov 9: it opens with its own sound
 	_slots.loaded.connect(func() -> void:
 		_close_slots()
 		toggle()
@@ -146,12 +147,14 @@ func _show_settings() -> void:
 	_settings.theme_type_variation = &"DarkPanel"
 	_menu.add_child(_settings)
 	_settings.closed.connect(_build_menu)
+	UiSounds.panel_sounds(_settings)
 
 
 func _show_glossary() -> void:
 	for child: Node in _menu.get_children():
 		child.queue_free()
 	var panel: GlossaryPanel = GlossaryPanel.make()
+	UiSounds.panel_sounds(panel)
 	_menu.add_child(panel)
 	panel.closed.connect(_build_menu)
 
@@ -160,6 +163,7 @@ func _show_feats() -> void:
 	for child: Node in _menu.get_children():
 		child.queue_free()
 	var panel: FeatsPanel = FeatsPanel.make()
+	UiSounds.panel_sounds(panel)
 	_menu.add_child(panel)
 	panel.closed.connect(_build_menu)
 	PadFocus.focus_soon(_root)

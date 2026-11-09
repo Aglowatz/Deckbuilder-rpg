@@ -51,6 +51,7 @@ func _ready() -> void:
 		_show_overlay(func(box: VBoxContainer) -> void:
 			var panel: GlossaryPanel = GlossaryPanel.make()
 			panel.closed.connect(_close_overlay)
+			UiSounds.panel_sounds(panel)
 			box.add_child(panel)
 			panel.show_tab(int(_screenshot_open.trim_prefix("glossary")) if _screenshot_open.length() > 8 else 0))
 
@@ -251,6 +252,7 @@ func _confirm_overwrite() -> void:
 func _on_settings() -> void:
 	_show_overlay(func(box: VBoxContainer) -> void:
 		var panel: SettingsPanel = SettingsPanel.new()
+		UiSounds.panel_sounds(panel)
 		panel.theme_type_variation = &"DarkPanel"
 		panel.closed.connect(_close_overlay)
 		box.add_child(panel))
@@ -259,6 +261,7 @@ func _on_settings() -> void:
 func _on_credits() -> void:
 	_show_overlay(func(box: VBoxContainer) -> void:
 		var panel: CreditsPanel = CreditsPanel.make()
+		UiSounds.panel_sounds(panel)
 		panel.closed.connect(_close_overlay)
 		box.add_child(panel))
 
