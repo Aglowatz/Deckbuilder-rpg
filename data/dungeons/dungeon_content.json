@@ -2000,6 +2000,32 @@
 		],
 		"cardsharp.done": [
 			"You cleaned me out, and the boots suit you better than they suited me. The table's still open, if you just like the game."
+		],
+		"cardsharp.quip.start": [
+			"Cards face down, eyes up. Watch what turns over."
+		],
+		"cardsharp.quip.match": [
+			"Hm. Lucky.",
+			"Not bad. Not good either, but not bad.",
+			"You've done this before.",
+			"Don't get used to it.",
+			"The cards like you. Suspicious."
+		],
+		"cardsharp.quip.miss": [
+			"So close. Well. Not close.",
+			"Remember where that one went.",
+			"The cards remember. Do you?",
+			"Nope. Try the other one.",
+			"I saw that. Did you?"
+		],
+		"cardsharp.quip.win": [
+			"Well! That's my score beaten. Fair and square, sadly."
+		],
+		"cardsharp.quip.close": [
+			"Every pair found, just a few moves over. Deal again?"
+		],
+		"cardsharp.quip.lose": [
+			"Out of moves. Happens to the best of us. Mostly to you."
 		]
 	}
 }

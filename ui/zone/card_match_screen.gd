@@ -1,8 +1,8 @@
 class_name CardMatchScreen
 extends OverlayScreen
-## Overnight Nov 7-8, Part 6.3: Dex Shufflewick's card-matching table (CardMatchCircuit). The MatchGame rules (16 cards, 8 pairs, 14 moves) dealt
-## from a Path's real card art: face down they show a card back, face up the card itself (art and name). Beat Dex's score (12 moves, 11 at the
-## final table) to earn the table's flag. Flourishes are code-only: a gold pulse and sparkles on a pair, a shake on a miss, a moves meter that
+## Overnight Nov 7-8, Part 6.3: Dex Shufflewick's card-matching table (CardMatchCircuit). The MatchGame rules (16 cards, 8 pairs) dealt
+## from a Path's real card art: face down they show the Path's card back, face up the card itself (art and name). Beat Dex's score (15 moves, 14 at
+## the final table, out of 20; Overnight Nov 9) to earn the table's flag. Overnight Nov 9, Part 3: a felt table, Dex beside it with his quips. Flourishes are code-only: a gold pulse and sparkles on a pair, a shake on a miss, a moves meter that
 ## turns red near the end, the result's stars popping in.
 
 signal table_finished(won: bool, moves: int, earned: bool)
@@ -21,6 +21,11 @@ var _moves: Label
 var _target: Label
 var _status: Label
 var _result: VBoxContainer
+var _dex_line: Label
+var _quip_index: int = 0
+## Overnight Nov 9, Part 3: the felt and Dex's look.
+const FELT: Color = Color("1d4a36")
+const FELT_EDGE: Color = Color("c9a45a")
 ## Tests set 0.
 var miss_seconds: float = MISS_SECONDS
 
@@ -51,10 +56,41 @@ func _build() -> void:
 	top.add_child(_moves)
 	_target = UIKit.label("Beat Dex: %d moves or fewer" % CardMatchCircuit.target_for(table), &"", 26, UIStyle.GOLD)
 	top.add_child(_target)
-	_status = UIKit.label("Flip two cards at a time. Find all eight pairs.", &"MutedLabel", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_status = UIKit.label(rules_text(), &"MutedLabel", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_status.name = "Rules"
 	column.add_child(_status)
-	var center: CenterContainer = CenterContainer.new()
-	column.add_child(center)
+	# Overnight Nov 9, Part 3: Dex at the head of a felt table, saying something after each move
+	var seat: HBoxContainer = UIKit.hbox(24)
+	seat.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(seat)
+	var dex: VBoxContainer = UIKit.vbox(8)
+	dex.custom_minimum_size = Vector2(230, 0)
+	dex.alignment = BoxContainer.ALIGNMENT_CENTER
+	seat.add_child(dex)
+	var face: Texture2D = Portraits.texture_for(CardMatchCircuit.portrait_id())
+	if face != null:
+		var portrait: TextureRect = TextureRect.new()
+		portrait.name = "DexPortrait"
+		portrait.texture = face
+		portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait.custom_minimum_size = Vector2(220, 260)
+		portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		dex.add_child(portrait)
+	dex.add_child(UIKit.label(CardMatchCircuit.SPEAKER, &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))
+	_dex_line = UIKit.label(_line("cardsharp.quip.start"), &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_dex_line.name = "DexLine"
+	_dex_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_dex_line.custom_minimum_size = Vector2(220, 84)
+	dex.add_child(_dex_line)
+	var felt: PanelContainer = PanelContainer.new()
+	felt.name = "Felt"
+	felt.add_theme_stylebox_override("panel", UIStyle.box(FELT, FELT_EDGE, 4, 18))
+	seat.add_child(felt)
+	var center: MarginContainer = MarginContainer.new()
+	for side: String in ["left", "right", "top", "bottom"]:
+		center.add_theme_constant_override("margin_" + side, 18)
+	felt.add_child(center)
 	_grid = GridContainer.new()
 	_grid.name = "Table"
 	_grid.columns = COLUMNS
@@ -69,7 +105,10 @@ func _build() -> void:
 
 func _new_game() -> void:
 	game = MatchGame.new()
+	game.max_moves = CardMatchCircuit.TABLE_MAX_MOVES
 	_busy = false
+	if _status != null:
+		_status.text = rules_text()
 	for child: Node in _grid.get_children():
 		child.queue_free()
 	for child: Node in _result.get_children():
@@ -98,7 +137,7 @@ func card_at(index: int) -> CardData:
 
 func _refresh() -> void:
 	var left: int = game.moves_left()
-	_moves.text = "Moves: %d / %d" % [game.moves, MatchGame.MAX_MOVES]
+	_moves.text = "Moves: %d / %d" % [game.moves, game.max_moves]
 	_moves.add_theme_color_override("font_color", Color("ff8a7a") if game.moves > CardMatchCircuit.target_for(table) else UIStyle.PARCHMENT)
 	for index: int in range(_slots.size()):
 		var slot: Button = _slots[index]
@@ -113,10 +152,8 @@ func _refresh() -> void:
 				view.modulate = Color(1.0, 0.95, 0.75)
 			slot.add_child(view)
 		else:
-			var back: Label = UIKit.label("?", &"", 72, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-			back.add_theme_font_override("font", UIStyle.font_title())
-			back.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-			back.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			# Overnight Nov 9, Part 3: the Path's own card back (the final table: the neutral back), not a "?"
+			var back: Control = CardView.wrapped(_back_card(), CARD_SCALE, CardView.Mode.BACK)
 			back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			slot.add_child(back)
 	if left <= 2 and not game.is_over():
@@ -141,7 +178,8 @@ func _flip(index: int) -> void:
 	var pair: Array[int] = [game.face_up[0], game.face_up[1]]
 	if outcome == "match":
 		Audio.sfx(&"ui_confirm", -4.0)
-		_status.text = "A pair!"
+		_status.text = "A pair! %d of 8 found." % game.pairs_found
+		_say("cardsharp.quip.match")
 		for i: int in pair:
 			var pulse: Tween = create_tween()
 			pulse.tween_property(_slots[i], "scale", Vector2(1.08, 1.08), 0.1)
@@ -150,7 +188,9 @@ func _flip(index: int) -> void:
 		if miss_seconds > 0.0:
 			await get_tree().create_timer(0.25).timeout
 	else:
-		_status.text = "Not a pair."
+		Audio.sfx(&"card_discard", -8.0)
+		_status.text = "Not a pair. They turn back over: remember where they were."
+		_say("cardsharp.quip.miss")
 		for i: int in pair:
 			var base: float = _slots[i].position.x
 			var shake: Tween = create_tween()
@@ -208,6 +248,7 @@ func _finish() -> void:
 	else:
 		line = "Out of moves. Dex shuffles, grinning. Again?"
 	_status.text = line
+	_say("cardsharp.quip.win" if beat else ("cardsharp.quip.close" if won else "cardsharp.quip.lose"))
 	var stars: Label = UIKit.label("★★★" if beat else ("★★" if won else "☆"), &"", 60, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	stars.name = "Stars"
 	stars.pivot_offset = Vector2(120, 40)
@@ -224,3 +265,35 @@ func _finish() -> void:
 	leave.pressed.connect(request_close)
 	row.add_child(leave)
 	table_finished.emit(won, game.moves, earned)
+
+
+## Overnight Nov 9, Part 3: the rules in one line - what a move is, Dex's score and the limit.
+func rules_text() -> String:
+	return "Flip two cards: that is one move. Find all eight pairs in %d moves or fewer to beat Dex (the table allows %d)." % [CardMatchCircuit.target_for(table), CardMatchCircuit.TABLE_MAX_MOVES]
+
+
+## A card of this table's Path (for its back); null at the final table (the neutral back).
+func _back_card() -> CardData:
+	if table == CardMatchCircuit.FINAL or _ids.is_empty():
+		return null
+	return Session.content.card(_ids[0])
+
+
+## One of Dex's lines for `key` (dungeon_content "cardsharp.quip.*"), taken in turn.
+func _line(key: String) -> String:
+	var lines: Array = DungeonCatalog.text_lines(key)
+	if lines.is_empty():
+		return ""
+	_quip_index += 1
+	return str(lines[_quip_index % lines.size()])
+
+
+func _say(key: String) -> void:
+	if _dex_line == null:
+		return
+	var text: String = _line(key)
+	if text.is_empty():
+		return
+	_dex_line.text = text
+	_dex_line.modulate.a = 0.3
+	create_tween().tween_property(_dex_line, "modulate:a", 1.0, 0.18)

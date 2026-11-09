@@ -35,6 +35,8 @@ var matched: Array[bool] = []
 var face_up: Array[int] = []
 var moves: int = 0
 var pairs_found: int = 0
+## Overnight Nov 9, Part 3: the move limit of this table (Dex's tables allow more than the Rec Room; CardMatchCircuit.TABLE_MAX_MOVES).
+var max_moves: int = MAX_MOVES
 
 
 func _init(shuffle_seed: int = 0) -> void:
@@ -60,7 +62,7 @@ func slot_count() -> int:
 
 
 func moves_left() -> int:
-	return MAX_MOVES - moves
+	return max_moves - moves
 
 
 ## Flips a card up. Returns "ignored", "first" (one card up), "match" or "mismatch" (two up; the
@@ -91,11 +93,11 @@ func is_won() -> bool:
 
 ## Out of moves with pairs left (only meaningful once the last pair of flips was resolved).
 func is_lost() -> bool:
-	return not is_won() and moves >= MAX_MOVES
+	return not is_won() and moves >= max_moves
 
 
 func is_over() -> bool:
-	return is_won() or (moves >= MAX_MOVES and face_up.size() != 1)
+	return is_won() or (moves >= max_moves and face_up.size() != 1)
 
 
 func stars() -> int:
