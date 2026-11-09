@@ -1322,3 +1322,16 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
    Remove each id from that list once its variants are redone.
 6. **The AI disclosure wording** (`docs/release/itch_page/ai_disclosure.md`, also in the Credits page) is a draft in your voice ("made by one
    person with the help of AI tools"). Check that it says what you want before release.
+
+## Overnight Nov 9 - yours to decide (the safest choice was taken)
+
+1. **Colour-blind Path symbols are now ON by default** (as recommended last night). Every card and the Deck Station list show the Path's
+   emblem next to its colour. To flip the default back, set `DEFAULT_COLORBLIND_SYMBOLS = false` in `app/settings.gd` (players keep their
+   own choice in Settings > Accessibility either way; an existing settings file keeps what it saved).
+2. **Version is 1.0.0-rc1** (title screen, log header, Credits page, the Windows file version 1.0.0.0). Set `config/version` in
+   `project.godot` to `1.0.0` for the final export.
+3. **Dex's table got easier on purpose.** His score was 12 moves (11 at the final table) out of 14; simulations show even a perfect memory
+   beat that only 55 % / 9 % of the time. Now 15 / 14 out of 20 (`docs/minigames/dex_odds_nov9.md`). Tune in `CardMatchCircuit` if you
+   want it harder. Recommendation: **keep Dex in 1.0** (his art is in, the circuit plays through; see the report).
+4. **Your name and donation link** are still empty in `data/credits/credits.cfg`; the file now has `>>> OWNER` comments where they go.
+5. **The itch screenshots stay last night's** (1600x900 captures): this screen cannot open a true 1920x1080 window.
