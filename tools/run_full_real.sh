@@ -13,6 +13,11 @@ if [ ! -f "$cache" ] || [ -n "$(find app core ui world scenes tools -newer "$cac
 fi
 [ -f STOP_OVERNIGHT ] && exit 3
 start=$(date +%s)
+# memory watchdog: free RAM under 200 MB twice in a row stops the run cleanly (logged)
+( low=0; while sleep 30; do pgrep -f story_playthrough >/dev/null 2>&1 || true; f=$(powershell -NoProfile -c "[int]((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)"); f=${f//[^0-9]/}; [ -z "$f" ] && continue; if [ "$f" -lt 200 ]; then low=$((low+1)); else low=0; fi; if [ $low -ge 2 ]; then echo "MEMORY WATCHDOG: free ${f} MB - stopping the run" >> "_logs/full_real/$p.log"; powershell -NoProfile -c "Get-Process Godot_v4.7.2-stable_win64 -ErrorAction SilentlyContinue | Stop-Process -Force"; break; fi; [ -f "_logs/full_real/.done_$p" ] && break; done ) &
+watch=$!
+rm -f "_logs/full_real/.done_$p"
 timeout "$limit" "$GODOT" --path . --resolution 1600x900 res://tools/story_playthrough_launcher.tscn -- --path="$p" --full=1 > "_logs/full_real/$p.log" 2>&1
 code=$?
+touch "_logs/full_real/.done_$p"; kill $watch 2>/dev/null
 echo "$p: exit $code after $(( $(date +%s) - start )) s; $(grep -c 'playthrough: FAIL' _logs/full_real/$p.log) fails, $(grep -c 'SCRIPT ERROR' _logs/full_real/$p.log) script errors" | tee -a _logs/full_real/runs.txt

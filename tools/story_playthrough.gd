@@ -55,6 +55,13 @@ func run() -> void:
 	if _full:
 		_real = true
 		Settings.battle_speed = Settings.BATTLE_SPEEDS.size() - 1
+		# memory: the iGPU shares system RAM, so the long run uses the Low-end preset (visuals only), without its 30 fps cap
+		Settings.low_end = true
+		Settings.graphics_quality = GraphicsQuality.Level.LOW
+		Settings.apply_quality_preset()
+		Settings.apply_performance()
+		Settings.graphics_changed.emit()
+		Engine.max_fps = 0
 		EventBus.gold_changed.connect(_on_gold)
 	_wall_started = Time.get_ticks_msec()
 	print("%s: path %s, real fights %s, save/load %s" % [TAG, _path_zone, _real, _saveload])
@@ -1300,6 +1307,8 @@ func _drive_modal(modal: Control) -> void:
 		if not is_instance_valid(modal) or not modal.is_inside_tree():
 			return
 		await driver.seconds(0.35)
+		if not is_instance_valid(modal) or not modal.is_inside_tree():
+			return
 		var buttons: Array[Button] = []
 		for node: Node in modal.find_children("*", "Button", true, false):
 			var button: Button = node as Button
