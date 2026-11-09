@@ -1323,6 +1323,17 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 6. **The AI disclosure wording** (`docs/release/itch_page/ai_disclosure.md`, also in the Credits page) is a draft in your voice ("made by one
    person with the help of AI tools"). Check that it says what you want before release.
 
+## Fable Nov 9 (Batch 14 + Sable import, RC1 build, release-candidate check)
+
+Decisions the day prompt (`docs/prompts/day_nov9.md`) took for the Overnight Nov 9 items: **1 closed** (colour-blind Path symbols stay on
+by default), **3 closed** (Dex's Cardsharp's Circuit stays in 1.0), **4 closed** (creator = Alex Glowatz in `credits.cfg`; the donation
+link stays empty so the Support button stays hidden), **6 closed with option (b)**: every dungeon entrance and the full map now say
+"Travellers here are usually around level N" (amber when 2+ levels under; `core/sim/level_hints.gd`). Nothing in the balance changed.
+
+1. **The dev-started Quota duel fought on the placeholder slate** (the "dark battle backdrop" in the UI sweep's shot 16): only the Dev
+   Menu's `encounter quota` was affected (its sim group "capital:lieutenant" is not a battle context key); the real duel by the energy wheels
+   always had the Transit Yards board. Mapped the sim group too, so the Dev Menu shows the same board. Nothing for you to do.
+
 ## Overnight Nov 9 - yours to decide (the safest choice was taken)
 
 1. **Colour-blind Path symbols are now ON by default** (as recommended last night). Every card and the Deck Station list show the Path's

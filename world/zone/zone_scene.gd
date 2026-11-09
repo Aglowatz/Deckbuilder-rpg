@@ -1526,7 +1526,7 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 %s" % [plan.story, "You have been here before: a repeat clear pays gold and a pack." if cleared else "First clear: a unique card."]
 	# Overnight Nov 4-5, Part 1: at the entrance the popup uses the real name - the prompt over the door already says it ("Enter the Iron Cave"), so
 	# "???" there only contradicted it. Maps and lists still say "???" before the first visit (Nov 3-4, Part B8).
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet").with_level_hint(plan.id)  # Day pass Nov 9: the usual traveller level
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			var run: ZoneRun = Session.zone_run
@@ -1558,6 +1558,8 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 		if CapitalDebuffs.active(Session.flags).is_empty():
 			body = body.replace(" Your zone's broken-service debuffs apply to every duel.", " Every service is restored: no broken-service debuffs in here.")
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, main_title, body, story.text("ui.main.button"), "Not yet")
+	if main_plan != null:
+		dialog.with_level_hint(main_plan.id)  # Day pass Nov 9: the usual traveller level (amber when 2+ levels under)
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			var run: ZoneRun = Session.zone_run
@@ -1948,6 +1950,10 @@ func _collect_pois() -> Array[MapPoi]:
 		var label: String = spot.title
 		var poi: MapPoi = MapPoi.make(poi_kind, spot.position, label, marker)
 		poi.turn_in = turn_in
+		# Day pass Nov 9: the map names the dungeon's usual traveller level (LevelHints) on hover and in "Where to?".
+		if poi_kind == MapPoi.Kind.DUNGEON or poi_kind == MapPoi.Kind.MINI_DUNGEON:
+			var plan: DungeonCatalog.Blueprint = DungeonCatalog.main_for_zone(def.id) if poi_kind == MapPoi.Kind.DUNGEON else DungeonCatalog.side_for_zone(def.id)
+			poi.dungeon_id = plan.id if plan != null else ""
 		result.append(poi)
 	for spot: ZoneSpot in spots:
 		if spot.id == "rift_station":

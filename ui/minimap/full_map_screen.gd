@@ -46,7 +46,9 @@ func _build() -> void:
 	var row: HBoxContainer = UIKit.hbox(24)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
-	_canvas = Control.new()
+	var canvas: MapCanvas = MapCanvas.new()  # Day pass Nov 9: a dungeon's level hint as a tooltip on its icon
+	canvas.screen = self
+	_canvas = canvas
 	_canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_canvas.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_canvas.draw.connect(_draw_map)
@@ -120,7 +122,9 @@ func _legend() -> Control:
 		SettingsPanel.theme_popup(where)  # Fix pass Nov 7 (Part 5)
 		where.add_item("Where to?")
 		for place: MapPoi in places:
-			where.add_item("%s (%s)" % [place.label, MapPoi.kind_name(place.kind)])
+			# Day pass Nov 9: a dungeon says its usual traveller level ("The Iron Cave (Mini dungeon, usually level 6)").
+			var level_note: String = LevelHints.short_text(place.dungeon_id)
+			where.add_item("%s (%s)" % [place.label, MapPoi.kind_name(place.kind) if level_note.is_empty() else "%s, %s" % [MapPoi.kind_name(place.kind), level_note]])
 		where.item_selected.connect(func(index: int) -> void:
 			if index > 0:
 				ping(places[index - 1]))
@@ -181,8 +185,11 @@ func _draw_map() -> void:
 	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
 	var icon_radius: float = clampf(scale_px * 2.2, 9.0, 16.0)
 	var shown: Array[MapPoi] = MapView.visible_pois(_pois, _fog)
+	_hint_spots = []
 	for poi: MapPoi in shown:
 		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		if not poi.dungeon_id.is_empty():
+			_hint_spots.append({"at": at, "radius": icon_radius * 1.35 + 8.0, "id": poi.dungeon_id})
 		if poi.kind == MapPoi.Kind.DUNGEON:
 			# Overnight Oct 31 - Nov 1 (wish list): the dungeon entrance stands out - a bigger icon on a red-gold ring.
 			var ring: float = icon_radius * 1.35 * MapDraw.ICON_SCALE * 0.5 + 6.0
@@ -245,6 +252,41 @@ static func place_label(at: Vector2, extent: Vector2, icon_radius: float, frame:
 		if not clash:
 			return box
 	return Rect2()
+
+
+## Day pass Nov 9: where the dungeon icons were drawn ({at, radius, id}), for the canvas tooltip.
+var _hint_spots: Array[Dictionary] = []
+
+
+## The level hint for the dungeon icon under `at` (canvas coordinates): {"text", "colour"}, or {} when the mouse is on no dungeon.
+func hint_at(at: Vector2) -> Dictionary:
+	var level: int = Session.profile.level if Session.profile != null else 1
+	for spot: Dictionary in _hint_spots:
+		if at.distance_to(spot["at"] as Vector2) <= float(spot["radius"]):
+			var text: String = LevelHints.text(str(spot["id"]))
+			if text.is_empty():
+				return {}
+			return {"text": text, "colour": LevelHints.colour(str(spot["id"]), level)}
+	return {}
+
+
+## The map canvas: draws through the screen's `_draw_map` and answers a hover over a dungeon icon with its level hint (amber when the
+## player is two or more levels under).
+class MapCanvas extends Control:
+	var screen: FullMapScreen
+	var _hint_colour: Color = LevelHints.MUTED
+
+	func _get_tooltip(at_position: Vector2) -> String:
+		var hint: Dictionary = screen.hint_at(at_position) if screen != null else {}
+		_hint_colour = hint.get("colour", LevelHints.MUTED) as Color
+		return str(hint.get("text", ""))
+
+	func _make_custom_tooltip(for_text: String) -> Object:
+		var note: Label = Label.new()
+		note.text = for_text
+		note.add_theme_font_size_override("font_size", 18)
+		note.add_theme_color_override("font_color", _hint_colour)
+		return note
 
 
 func _process(delta: float) -> void:

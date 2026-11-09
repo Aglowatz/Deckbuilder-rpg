@@ -643,7 +643,9 @@ func _build_gallery_mirror() -> void:
 func _extra_pois() -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	if Session.flag(&"primm_defeated"):
-		result.append(MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)"))
+		var mirror: MapPoi = MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)")
+		mirror.dungeon_id = ShatteredGallery.DUNGEON_ID  # Day pass Nov 9: the map's level hint
+		result.append(mirror)
 	return result
 
 
@@ -657,7 +659,7 @@ func _use_gallery_mirror() -> void:
 		hud.toast(story.text("fx.gallery_sealed"), Color("ffcf70"))
 		return
 	_locked = true
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, ShatteredGallery.DUNGEON_NAME, story.text("fx.gallery_enter") + " Your HP carries in, and nothing heals between fights.", "Step through", "Not yet")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, ShatteredGallery.DUNGEON_NAME, story.text("fx.gallery_enter") + " Your HP carries in, and nothing heals between fights.", "Step through", "Not yet").with_level_hint(ShatteredGallery.DUNGEON_ID)  # Day pass Nov 9
 	dialog.confirmed.connect(func() -> void:
 		var run: ZoneRun = Session.zone_run
 		run.return_position = player.position + Vector3(0, 0, 1.2)
@@ -671,7 +673,7 @@ func _ask_paste_works() -> void:
 	_locked = true
 	var first: bool = not Session.flag(PasteWorks.FLAG_FOUND)
 	var body: String = "Behind the shutter, a ration hatch and a ladder going down. It smells of nothing at all, which is somehow worse." if first else "The ration hatch, the ladder, the smell of nothing at all."
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "The Paste Works", body + " Your HP carries in and out.", "Climb down", "Not yet")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "The Paste Works", body + " Your HP carries in and out.", "Climb down", "Not yet").with_level_hint(PasteWorks.DUNGEON_ID)  # Day pass Nov 9
 	dialog.confirmed.connect(func() -> void:
 		var run: ZoneRun = Session.zone_run
 		run.return_position = player.position + Vector3(0, 0, 1.2)

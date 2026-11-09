@@ -243,7 +243,9 @@ func _collect_pois() -> Array[MapPoi]:
 	gate.objective = _beacon_on  # Fresh eyes Oct 30: the goal's dot shows through the fog and clamps to the minimap's edge
 	var result: Array[MapPoi] = [gate] as Array[MapPoi]
 	if area.lab_open and area.anchors.has("lab"):
-		result.append(MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors["lab"] as Vector3, "The Lab hatch"))
+		var hatch: MapPoi = MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors["lab"] as Vector3, "The Lab hatch")
+		hatch.dungeon_id = PathologyLab.DUNGEON_ID  # Day pass Nov 9: the map's level hint
+		result.append(hatch)
 	if area.anchors.has("station") and Session.flag(PathologyLab.FLAG_FOREST_OPEN):
 		result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, area.anchors["station"] as Vector3, "Rift Express"))
 	if _postgame_markers != null:
@@ -805,7 +807,7 @@ func _enter_lab() -> void:
 		_overlay_layer, "The Path-ology Lab",
 		"A clean steel hatch, and below it a white staircase. This is where the Wanderer was kept. The place is far deadlier than the castle, and nothing heals between fights except the one quiet room near the end. Go down?",
 		"Descend", "Not yet",
-	)
+	).with_level_hint(PathologyLab.DUNGEON_ID)  # Day pass Nov 9
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			Audio.sfx(&"door")

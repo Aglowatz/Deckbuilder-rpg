@@ -60,10 +60,10 @@ static func paragraphs() -> Array[Array]:
 		if line.is_empty() or line.begins_with(";"):
 			continue
 		line = line.replace("{version}", version)
-		if line.contains("{creator}"):
+		if line.contains("{creator}") or line.contains("{creator_name}"):
 			if who.is_empty():
 				continue
-			line = line.replace("{creator}", "A game by %s" % who)
+			line = line.replace("{creator}", "A game by %s" % who).replace("{creator_name}", who)
 		if line.begins_with("## "):
 			result.append(["h2", line.substr(3)])
 		elif line.begins_with("# "):

@@ -383,6 +383,8 @@ func _start_credits() -> void:
 	var lines: Array[String] = []
 	for index: int in range(1, EndingDefs.CREDITS_LINES + 1):
 		lines.append_array(_story.get_lines("ending.credits.%d" % index))
+		if index == 3 and not CreditsPanel.creator().is_empty():
+			lines.append("A game by %s" % CreditsPanel.creator())  # Day pass Nov 9: the creator, right under the title card
 	var credits: Label = UIKit.label("\n\n".join(lines), &"", 34, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	credits.name = "Credits"
 	credits.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

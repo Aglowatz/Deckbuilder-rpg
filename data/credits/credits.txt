@@ -1,8 +1,9 @@
 ; The Credits screen's text (ui/screens/credits_panel.gd). "# " lines are headings, "## " lines are small headings, blank lines
-; separate paragraphs; lines starting with ";" are comments. {creator} and {version} are filled in from credits.cfg / the project.
+; separate paragraphs; lines starting with ";" are comments. {creator} ("A game by ..."), {creator_name} (the bare name) and {version} are filled in from credits.cfg / the project; a line with an empty creator is dropped.
 # THE WAYWARD PATH
 Version {version}
 {creator}
+Game design, direction and production: {creator_name}
 
 # Made with Godot Engine
 This game uses Godot Engine, available under the following license:

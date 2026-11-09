@@ -24,7 +24,11 @@ func test_credits_read_the_text_and_fill_the_version() -> void:
 	assert_string_contains(all, "FluidR3_GM")
 	assert_string_contains(all, "AI")
 	assert_string_contains(all, str(ProjectSettings.get_setting("application/config/version", "")))
-	assert_false(all.contains("{creator}") or all.contains("{version}"), "placeholders are filled or dropped")
+	assert_false(all.contains("{creator}") or all.contains("{version}") or all.contains("{creator_name}"), "placeholders are filled or dropped")
+	# Day pass Nov 9: the owner's name is in (credits.cfg), as "A game by ..." and with the design / direction / production line.
+	assert_eq(CreditsPanel.creator(), "Alex Glowatz")
+	assert_string_contains(all, "A game by Alex Glowatz")
+	assert_string_contains(all, "Game design, direction and production: Alex Glowatz")
 
 
 func test_credits_panel_builds_with_the_engine_notices() -> void:

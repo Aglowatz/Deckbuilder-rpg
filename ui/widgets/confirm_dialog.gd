@@ -67,6 +67,8 @@ func _ready() -> void:
 	var row: HBoxContainer = UIKit.hbox(16)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(row)
+	_column = column
+	_button_row = row
 	var three_way: bool = str(get_meta("alternative_text", "")) != ""
 	var yes: FancyButton = FancyButton.make(str(get_meta("confirm_text")), &"DangerButton" if bool(get_meta("danger")) and not three_way else &"PrimaryButton", Vector2(220, 56))
 	yes.pressed.connect(func() -> void:
@@ -100,6 +102,30 @@ func _ready() -> void:
 
 var _cancel_button: FancyButton
 var _confirm_button: FancyButton
+var _column: VBoxContainer
+var _button_row: HBoxContainer
+
+
+## Day pass Nov 9: a small coloured line under the message (above the buttons), e.g. the level hint at a dungeon door. Returns the
+## dialog so it chains after `ask`. Nothing is added for an empty text.
+func add_note(note_text: String, color: Color) -> ConfirmDialog:
+	if note_text.strip_edges().is_empty() or _column == null:
+		return self
+	var note: Label = UIKit.label(note_text, &"", 20, color, HORIZONTAL_ALIGNMENT_CENTER)
+	note.name = "Note"
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.custom_minimum_size = Vector2(500, 0)
+	_column.add_child(note)
+	if _button_row != null:
+		_column.move_child(note, _button_row.get_index())
+	return self
+
+
+## Day pass Nov 9: the "Travellers here are usually around level N" line for a dungeon entrance (LevelHints), amber when the player is
+## two or more levels under. Nothing for a dungeon the progression model has no level for.
+func with_level_hint(dungeon_id: String) -> ConfirmDialog:
+	var level: int = Session.profile.level if Session.profile != null else 1
+	return add_note(LevelHints.text(dungeon_id), LevelHints.colour(dungeon_id, level))
 ## Fresh eyes round 2 (Oct 31): how long the dialog has been open. A confirm press is ignored for `GUARD_TIME` after it opens, so the E
 ## press that opened it ("Go in?" at the cave gate) can never also answer it.
 var _age: float = 0.0

@@ -43,6 +43,8 @@ var side_goal: bool = false
 ## Fix pass Nov 7 (item 1): the player's own Path road (its exit and its gatekeeper) - a ring in the Path's colour round the icon.
 ## Alpha 0 = none.
 var path_tint: Color = Color(0, 0, 0, 0)
+## Day pass Nov 9: the dungeon this entrance opens ("" for other places) - the full map shows its usual traveller level (LevelHints).
+var dungeon_id: String = ""
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

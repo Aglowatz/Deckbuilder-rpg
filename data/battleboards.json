@@ -1,5 +1,5 @@
 {
-	"_about": "Battle context key -> Battleboard ID (docs/art/art_pipeline.md). Edit freely; a key with no entry, or an ID with no image, shows the neutral placeholder board. Keys: town, graveyard, arena, zone:<zone id>, capital:out, capital:in, dungeon:<zone id> (the zone's main dungeon; dungeon:hollow is the Forgotten Cave), mini:<zone id> (the zone's side dungeon), boss:final, lieutenant:quota (the Transit Yards duel; Batch 11).",
+	"_about": "Battle context key -> Battleboard ID (docs/art/art_pipeline.md). Edit freely; a key with no entry, or an ID with no image, shows the neutral placeholder board. Keys: town, graveyard, arena, zone:<zone id>, capital:out, capital:in, dungeon:<zone id> (the zone's main dungeon; dungeon:hollow is the Forgotten Cave), mini:<zone id> (the zone's side dungeon), boss:final, lieutenant:quota (the Transit Yards duel; Batch 11), capital:lieutenant (the same duel started from the Dev Menu: its sim group; Day pass Nov 9).",
 	"contexts": {
 		"dungeon:hollow": "BB-TUT",
 		"town": "BB-TOWN",
@@ -23,6 +23,7 @@
 		"mini:refusemancer": "BB-S-REF",
 		"mini:final": "BB-S-CAP",
 		"mini:town": "BB-S-TOWN",
-		"lieutenant:quota": "BB-LIEUTENANT-QUOTA"
+		"lieutenant:quota": "BB-LIEUTENANT-QUOTA",
+		"capital:lieutenant": "BB-LIEUTENANT-QUOTA"
 	}
 }

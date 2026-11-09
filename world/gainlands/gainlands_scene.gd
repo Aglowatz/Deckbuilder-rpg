@@ -234,7 +234,7 @@ func _ask_swolympus(spot: ZoneSpot) -> void:
 	var body: String = "%s
 
 %s" % [plan.story, "You have been to the top before: a repeat climb pays gold and a pack." if cleared else "First clear: a unique card."]
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, body, "Climb", "Not yet")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, body, "Climb", "Not yet").with_level_hint(plan.id)  # Day pass Nov 9
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
 			Session.zone_run.return_position = spot.position + Vector3(-0.8, 0, 1.6)

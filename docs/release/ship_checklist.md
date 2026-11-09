@@ -19,7 +19,7 @@ Status: **done** (in the game), **done tonight** (added Nov 8-9), **todo** (with
 | Item | Status | Note |
 |---|---|---|
 | Readable text size | done | card, dialogue and tooltip text sizes, UI scale slider |
-| Colour-blind-safe Path colours | **partly** | Path colours are red / orange / dark green / leaf green: red-orange and the two greens collide for deuteranopia and protanopia. The "Path symbols" option (Settings > Accessibility) adds a symbol to every colour-coded card, list row and Path choice, but it is **off by default**. Todo (S): turn it on by default, or show the symbols always on the deck list and the Path choice. Necrocrat and Refusemancer card backs, frames and packs are both green (they differ by emblem). |
+| Colour-blind-safe Path colours | **done (Nov 9)** | Path colours are red / orange / dark green / leaf green (red-orange and the two greens collide for deuteranopia and protanopia), so the "Path symbols" option (Settings > Accessibility) is **on by default** since Nov 9: a symbol on every colour-coded card, list row and Path choice. Necrocrat and Refusemancer card backs, frames and packs are both green (they differ by emblem). |
 | Important states not by colour alone | mostly | rule icons carry glyphs and text; quest marks are "!"/"?"; enemy rules have tooltips. The red/green/gold/amber rule-icon tint is explained in the Glossary. |
 | Reduce shake / flashing | done | Settings > Accessibility |
 | Subtitles / captions | n/a | there is no voiced dialogue: every line is on screen as text (the "dialogue voices" are babble under the text). No audio-only cue carries information that is not also shown (the end-turn and boss warnings are banners). |
@@ -30,7 +30,7 @@ Status: **done** (in the game), **done tonight** (added Nov 8-9), **todo** (with
 |---|---|---|
 | Save slots | done | 3 campaigns, each with manual slots + an autosave; backups of every save |
 | Auto-save | done | after battles, zone changes, quests |
-| Auto-save indicator | **todo (S)** | nothing on screen shows an autosave; a small "Saving..." quill in a corner for 1 s would do |
+| Auto-save indicator | **done (Nov 9)** | a quill in a gold ring with "Saving..." bottom-right on every autosave (`ui/widgets/save_indicator.gd`) |
 | Safe quitting | done | Quit Game asks first; the autosave is current; a quit in a dungeon restarts that dungeon from its entrance and, since tonight, reloads **in its zone** (it used to reload in Crosspath) |
 | Pause anywhere | done | Escape: world, battles, dungeon maps (not during a scene change) |
 
@@ -40,7 +40,7 @@ Status: **done** (in the game), **done tonight** (added Nov 8-9), **todo** (with
 |---|---|---|
 | Credits and licences in game | **done tonight** | title menu > Credits (`ui/screens/credits_panel.gd`, text `data/credits/credits.txt`): Godot MIT notice + every third-party engine licence from the engine itself, Cinzel + Alegreya Sans (OFL), FluidR3_GM (MIT), Kenney / KayKit (CC0), Freesound CC0 contributors, game-icons.net (CC BY 3.0, authors named), GUT (MIT; not shipped) |
 | Licence files | **fixed tonight** | `assets/fonts/Cinzel/OFL.txt` carried Alegreya Sans' copyright line; now Cinzel's |
-| Creator name | **todo (owner)** | `data/credits/credits.cfg` `creator=""` - fill it to show "A game by ..." |
+| Creator name | **done (Nov 9)** | `data/credits/credits.cfg` `creator="Alex Glowatz"`: "A game by Alex Glowatz" + "Game design, direction and production" on the Credits page, and under the title card in the end credits |
 | End credits text | **done tonight** | "PLACEHOLDER CREDITS", "Design and direction: you" and the outdated art/music lines replaced (revertible: `docs/dialogue/text_sweep_nov9.csv`) |
 | AI-content disclosure | **done tonight (draft)** | in the Credits page and `docs/release/itch_page/ai_disclosure.md` for the itch page (itch.io also asks it as a tag/field when uploading) |
 | CREDITS.md music section | todo (S) | still describes the old LMMS soundtrack; the Credits page is right |
@@ -70,8 +70,6 @@ Status: **done** (in the game), **done tonight** (added Nov 8-9), **todo** (with
 
 | Item | Effort |
 |---|---|
-| Autosave indicator | S |
-| Path symbols on by default (colour-blind) | S |
 | Version 1.0.0 + CHANGELOG entry + export | S (owner, release day) |
-| itch.io page set-up and upload (butler) | S (owner; steps in `docs/HANDOFF.md`) |
+| itch.io page set-up and upload (butler) | S (owner; steps in `docs/release/itch_upload.md`) |
 | A Windows build smoke on a second PC | S (owner) |
