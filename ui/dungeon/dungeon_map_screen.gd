@@ -449,6 +449,9 @@ func _on_node_hovered(id: int) -> void:
 func _on_node_chosen(id: int) -> void:
 	if _busy or _modal != null or (_dialogue != null and _dialogue.active):
 		return
+	# Overnight Nov 9: never start a second node while a node's cutscene is still playing (a stacked copy each time)
+	if not find_children("*", "CutsceneScreen", false, false).is_empty():
+		return
 	var node: DungeonMap.MapNode = map.node(id)
 	Audio.sfx(&"ui_select")
 	Session.note_node_seen(fog_key(), node.id)  # Nov 3-4, Part B8: stepped on - known on every later run in this save

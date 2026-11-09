@@ -961,6 +961,12 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 		if scene is RewardsScreen:
 			await _take_rewards(scene as RewardsScreen)
 			continue
+		if scene != null:
+			var cutscenes: Array[Node] = scene.find_children("*", "CutsceneScreen", true, false)
+			if not cutscenes.is_empty():
+				(cutscenes[cutscenes.size() - 1] as CutsceneScreen).advance()
+				await driver.seconds(0.6)
+				continue
 		if scene is BattleScreen:
 			var battle: BattleScreen = scene as BattleScreen
 			if battle.mode != BattleScreen.Mode.OVER:
