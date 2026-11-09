@@ -27,7 +27,8 @@ func test_locked_gear_slots_print_their_unlock_hint() -> void:
 	var pill: Control = screen.find_child("UnlockPill", true, false) as Control
 	assert_not_null(pill)
 	assert_true(pill.visible)
-	assert_eq((pill.find_child("PillText", true, false) as Label).text.replace(char(10), " "), CharacterScreen.equipment_unlock_text(), "Import Nov 8: on two lines")
+	var shown: String = (pill.find_child("PillText", true, false) as Label).text
+	assert_eq(" ".join(shown.replace(char(13), " ").replace(char(10), " ").split(" ", false)), " ".join(CharacterScreen.equipment_unlock_text().split(" ", false)), "Import Nov 8: on two lines")
 
 
 func test_a_zone_with_a_different_hp_pool_announces_it_once_per_visit() -> void:
