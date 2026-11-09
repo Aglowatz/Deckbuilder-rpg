@@ -950,6 +950,8 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 		if SceneManager.busy:
 			continue
 		var scene: Node = get_tree().current_scene
+		if _full and await _unstick(scene, fights):
+			continue
 		# Overnight Nov 9, Part 1 (--full): every node is played - a node screen (challenge, shrine, event, treasure) is driven like a player
 		if _full and scene is DungeonMapScreen and (scene as DungeonMapScreen)._modal != null:
 			await _drive_modal((scene as DungeonMapScreen)._modal)
@@ -1368,3 +1370,42 @@ func _take_rewards(screen: RewardsScreen) -> void:
 	else:
 		await driver.tap_key(KEY_ENTER)
 	await driver.seconds(0.6)
+
+
+## Overnight Nov 9, Part 1: a stall guard for --full. When nothing has changed for STALL_SECONDS (same scene, same fights, same map
+## progress), it logs the scene and every visible button, then presses what a player would to get past a box (Got it, Continue, Skip tips,
+## OK, Close, Enter). Returns true when it acted.
+const STALL_SECONDS: float = 20.0
+var _stall_sig: String = ""
+var _stall_since: int = 0
+var _stall_kicks: int = 0
+
+
+func _unstick(scene: Node, fights: int) -> bool:
+	var cleared: int = Session.dungeon_map.cleared.size() if Session.dungeon_map != null else -1
+	var sig: String = "%s|%d|%d|%d" % [scene.name if scene != null else "none", fights, cleared, int(_fights["won"]) + int(_fights["lost"])]
+	var now: int = Time.get_ticks_msec()
+	if sig != _stall_sig:
+		_stall_sig = sig
+		_stall_since = now
+		_stall_kicks = 0
+		return false
+	if float(now - _stall_since) / 1000.0 < STALL_SECONDS:
+		return false
+	_stall_since = now
+	_stall_kicks += 1
+	var names: PackedStringArray = []
+	for node: Node in get_tree().root.find_children("*", "Button", true, false):
+		var button: Button = node as Button
+		if button.is_visible_in_tree() and not button.text.strip_edges().is_empty():
+			names.append("%s%s" % [button.text.strip_edges(), " (off)" if button.disabled else ""])
+	print("%s: STALL %d at %s: buttons %s" % [TAG, _stall_kicks, sig, ", ".join(names)])
+	for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Next level", "Take", "Leave"]:
+		for node: Node in get_tree().root.find_children("*", "Button", true, false):
+			var button: Button = node as Button
+			if button.is_visible_in_tree() and not button.disabled and button.text.strip_edges().begins_with(text):
+				await driver.click(driver.button_center(button))
+				await driver.seconds(0.5)
+				return true
+	await driver.tap_key(KEY_ENTER if _stall_kicks % 2 == 1 else KEY_E)
+	return true
