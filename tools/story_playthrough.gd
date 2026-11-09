@@ -1355,6 +1355,27 @@ func _take_rewards(screen: RewardsScreen) -> void:
 	await driver.seconds(0.4)
 	if not is_instance_valid(screen):
 		return
+	if screen._confirmed:
+		# taken: the level-up panel(s) or a boss talk are up - press through them (the topmost button), never Take again
+		var talk: Node = null
+		for node: Node in screen.find_children("*", "DialogueBox", true, false):
+			if (node as DialogueBox).active:
+				talk = node
+		if talk != null:
+			await _dismiss_dialogue(talk as DialogueBox)
+			return
+		var last: Button = null
+		for node: Node in screen.find_children("*", "Button", true, false):
+			var button: Button = node as Button
+			var label: String = button.text.strip_edges()
+			if button.is_visible_in_tree() and not button.disabled and (label.begins_with("Next level") or label.begins_with("Continue") or label.begins_with("Got it") or label.begins_with("Done")):
+				last = button
+		if last != null:
+			await driver.click(driver.button_center(last))
+		else:
+			await _dismiss_popups()
+		await driver.seconds(0.5)
+		return
 	if not screen._cards.is_empty() and is_instance_valid(screen._take_button) and screen._take_button.is_visible_in_tree():
 		if screen._selected < 0:
 			screen._select(screen._best_index())

@@ -292,7 +292,17 @@ func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 
+## Overnight Nov 9: a second press of Take / Skip (a double click, or E right after a click) is ignored - it used to apply the rewards again,
+## stack a second level-up panel and run the after-rewards step twice.
+var _confirmed: bool = false
+
+
 func _confirm() -> void:
+	if _confirmed:
+		return
+	_confirmed = true
+	if is_instance_valid(_take_button):
+		_take_button.disabled = true
 	if _selected >= 0:
 		_offer.taken = _offer.cards[_selected]
 	var was_boss: bool = _offer.is_boss
