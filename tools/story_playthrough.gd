@@ -31,6 +31,17 @@ var _notes: PackedStringArray = []
 var _mid_dungeon_checked: bool = false
 var _current_zone: String = ""
 var _fights: Dictionary = {"won": 0, "lost": 0, "stalled": 0, "decreed": 0}
+## Overnight Nov 9, Part 1: `--full=1` - every fight real (every node of every dungeon, the tutorial cave, the side dungeons, the gatekeepers);
+## a loss respawns per the rules and the bot tries again (a deck rebuilt from the collection between tries); MAX_TRIES losses on one fight
+## is logged as a WALL and only then decreed. No level or deck catch-up. Gold earned is summed from every gain.
+const MAX_TRIES: int = 4
+var _full: bool = false
+var _gold_earned: int = 0
+var _last_gold: int = 0
+var _losses: PackedStringArray = []
+var _walls: PackedStringArray = []
+var _wall_started: int = 0
+var _last_win: bool = false
 
 
 func run() -> void:
@@ -40,6 +51,12 @@ func run() -> void:
 	_path_zone = _arg("path", "beefcake")
 	_real = _arg("real", "0") == "1"
 	_saveload = _arg("saveload", "1") == "1"
+	_full = _arg("full", "0") == "1"
+	if _full:
+		_real = true
+		Settings.battle_speed = Settings.BATTLE_SPEEDS.size() - 1
+		EventBus.gold_changed.connect(_on_gold)
+	_wall_started = Time.get_ticks_msec()
 	print("%s: path %s, real fights %s, save/load %s" % [TAG, _path_zone, _real, _saveload])
 	await driver.frames(5)
 	await _forest_and_tutorial()
@@ -59,8 +76,12 @@ func run() -> void:
 	for other: String in Gatekeepers.IDS:
 		if other != _path_zone:
 			order.append(other)
+	if _full:
+		_tend_deck("after the tutorial")
 	for zone_id: String in order:
 		town = await _zone(town, zone_id)
+		if _full and town != null:
+			_tend_deck("after %s" % zone_id)
 		if town == null:
 			_step(false, "%s: lost the town" % zone_id)
 			_finish()
@@ -71,8 +92,12 @@ func run() -> void:
 			_finish()
 			return
 	await _undercroft(town)
+	if _full:
+		_tend_deck("before the Capital")
 	await _capital_and_castle()
 	if _arg("postgame", "1") == "1" and Session.flag(&"primm_defeated"):
+		if _full:
+			_tend_deck("before the postgame")
 		await _postgame()
 	# Overnight Oct 31 - Nov 1: --snapshot_after=5 saves after Primm's castle (a postgame snapshot for the postgame critic).
 	if snapshot_after > Gatekeepers.IDS.size():
@@ -163,8 +188,19 @@ func _forest_and_tutorial() -> void:
 	_step(map != null and Session.dungeon_map != null, "the Forgotten Cave (the tutorial dungeon) opens after choosing a Path")
 	await driver.seconds(1.0)
 	await _shot("p_02_tutorial_map")
-	# Decree: the Hollow Warden falls; the trial completes as its rewards screen would.
-	Session.complete_trial()
+	if _full and map != null:
+		# Overnight Nov 9, Part 1: the tutorial cave played for real, node by node, the Hollow Warden included
+		await _boss_for_real(func() -> bool: return Session.flag(&"trial_cleared"), "the Forgotten Cave", "TUTORIAL")
+		for _i: int in range(10):
+			await driver.seconds(0.5)
+			await _dismiss_popups()
+			var here: Node = get_tree().current_scene
+			var talk: Node = here.get("dialogue") if here != null and "dialogue" in here else null
+			if talk is DialogueBox and (talk as DialogueBox).active:
+				await _dismiss_dialogue(talk as DialogueBox)
+	if not Session.flag(&"trial_cleared"):
+		# Decree: the Hollow Warden falls; the trial completes as its rewards screen would.
+		Session.complete_trial()
 	Session.claim_own_path(false)  # the cave-mouth scene (skipped here) marks the own Path
 	_step(Session.flag(&"trial_cleared") and Session.deck != null and Session.deck.size() >= DeckValidator.MIN_DECK_SIZE, "the tutorial clears with a legal deck")
 
@@ -207,6 +243,40 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	_step(battle.context.board_key == Gatekeepers.board_key(zone_id), "%s: the duel is on the zone's own battleboard" % zone_id)
 	await _shot("p_%s_01_duel" % zone_id)
 	await _win(battle, "%s gatekeeper" % zone_id)
+	if _full:
+		var tries: int = 1
+		while not _last_win and tries < MAX_TRIES:
+			town = await _wait_for(TownScene) as TownScene
+			if town == null:
+				return null
+			await driver.seconds(1.5)
+			await _clear_overlays(town)
+			_tend_deck("before %s gatekeeper try %d" % [zone_id, tries + 1])
+			battle = null
+			for _attempt: int in range(3):
+				await _clear_overlays(town)
+				await _walk_up(town, "npc_%s" % zone_id)
+				await driver.tap_key(KEY_E)
+				await _dismiss_dialogue(town.dialogue)
+				battle = await _wait_for_short(BattleScreen) as BattleScreen
+				if battle != null:
+					break
+			if battle == null:
+				_step(false, "%s: the gatekeeper can be challenged again after a loss" % zone_id)
+				return town
+			tries += 1
+			await _win(battle, "%s gatekeeper (try %d)" % [zone_id, tries])
+		if not _last_win:
+			_wall("%s gatekeeper: lost %d times" % [zone_id, tries])
+			town = await _wait_for(TownScene) as TownScene
+			await _clear_overlays(town)
+			await _walk_up(town, "npc_%s" % zone_id)
+			await driver.tap_key(KEY_E)
+			await _dismiss_dialogue(town.dialogue)
+			battle = await _wait_for_short(BattleScreen) as BattleScreen
+			if battle != null:
+				_fights["decreed"] = int(_fights["decreed"]) + 1
+				await _force_win(battle)
 	town = await _wait_for(TownScene) as TownScene
 	if town == null:
 		return null
@@ -250,8 +320,17 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 		Session.enter_mini_dungeon()
 		var side_map: Node = await _wait_for(DungeonMapScreen)
 		_step(side_map != null, "%s: the side dungeon %s opens" % [zone_id, side])
-		var side_result: Dictionary = Session.resolve_mini_dungeon(true)
-		_step(bool(side_result.get("first_clear", false)) and Session.owned_equipment_ids().has(str(ExpansionGear.DUNGEON_GEAR.get(side, ""))), "%s: its first clear pays its piece of gear" % zone_id)
+		var side_first: bool = false
+		if _full and side_map != null:
+			var side_plan: DungeonCatalog.Blueprint = DungeonCatalog.find(side)
+			await _boss_for_real(func() -> bool: return Session.flag(Session.side_cleared_flag(side_plan)), "%s side dungeon %s" % [zone_id, side], side)
+			side_first = Session.flag(Session.side_cleared_flag(side_plan))
+			await _wait_for(ZoneScene)
+			await driver.seconds(1.0)
+			await _dismiss_popups()
+		else:
+			side_first = bool(Session.resolve_mini_dungeon(true).get("first_clear", false))
+		_step(side_first and Session.owned_equipment_ids().has(str(ExpansionGear.DUNGEON_GEAR.get(side, ""))), "%s: its first clear pays its piece of gear" % zone_id)
 	else:
 		_step(true, "%s: the side dungeon is a postgame bonus (skipped)" % zone_id)
 	# The main dungeon: the leader freed, the zone free.
@@ -592,6 +671,7 @@ func _finish() -> void:
 			failed += 1
 	print("%s: ---- %d steps, %d passed, %d failed ----" % [TAG, _steps.size(), _steps.size() - failed, failed])
 	print("%s: fights %s" % [TAG, _fights])
+	_full_summary()
 	for note: String in _notes:
 		print("%s: NOTE %s" % [TAG, note])
 	for step: Array in _steps:
@@ -656,10 +736,27 @@ func _win(battle: BattleScreen, label: String) -> void:
 		_fights["decreed"] = int(_fights["decreed"]) + 1
 		await _force_win(battle)
 		return
+	_last_win = false
 	var result: String = await _pilot_fight(battle)
 	var level: int = Session.profile.level if Session.profile != null else 0
+	if _full and result == "lost":
+		_fights["lost"] = int(_fights["lost"]) + 1
+		var deck_text: String = "%s, %d cards" % [Session.deck.deck_name, Session.deck.size()] if Session.deck != null else "?"
+		_losses.append("%s - level %d, deck %s, turn %d" % [label, level, deck_text, battle.game.turn if battle.game != null else -1])
+		print("%s: LOSS %s" % [TAG, _losses[_losses.size() - 1]])
+		# the loss plays out as a loss: the result panel, then the respawn the rules give
+		await driver.seconds(0.8)
+		for _i: int in range(20):
+			if not is_instance_valid(battle) or battle._result_shown:
+				break
+			await driver.seconds(0.2)
+		if is_instance_valid(battle) and get_tree().current_scene == battle:
+			battle._continue()
+		await driver.seconds(1.5)
+		return
 	match result:
 		"won":
+			_last_win = true
 			_fights["won"] = int(_fights["won"]) + 1
 			print("%s: fight won for real: %s (level %d)" % [TAG, label, level])
 		"lost":
@@ -846,11 +943,17 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 	var fights: int = 0
 	var chose: int = 0
 	var walked: bool = false
-	while float(Time.get_ticks_msec() - started) / 1000.0 < 900.0:
+	var tries: int = 1
+	var limit: float = 5400.0 if _full else 900.0
+	while float(Time.get_ticks_msec() - started) / 1000.0 < limit:
 		await driver.seconds(0.3)
 		if SceneManager.busy:
 			continue
 		var scene: Node = get_tree().current_scene
+		# Overnight Nov 9, Part 1 (--full): every node is played - a node screen (challenge, shrine, event, treasure) is driven like a player
+		if _full and scene is DungeonMapScreen and (scene as DungeonMapScreen)._modal != null:
+			await _drive_modal((scene as DungeonMapScreen)._modal)
+			continue
 		if scene is BattleScreen:
 			var battle: BattleScreen = scene as BattleScreen
 			if battle.mode != BattleScreen.Mode.OVER:
@@ -876,6 +979,13 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 			if map == null or map.boss() == null:
 				continue
 			var boss_id: int = map.boss().id
+			if _full:
+				var next_id: int = _pick_node(map)
+				if next_id < 0:
+					continue
+				map_screen._on_node_chosen(next_id)
+				await driver.seconds(1.2)
+				continue
 			if not map.is_available(boss_id) and map.current != boss_id:
 				var skipped: int = DevActions.walk_map_to(map, boss_id)
 				if not walked:
@@ -892,6 +1002,20 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 		if not done.call() and (scene is ZoneScene or scene is TownScene or scene is StartingAreaScene) and fights > 0:
 			await driver.seconds(1.5)
 			await _dismiss_popups()
+			if _full:
+				# carried out (a loss): wake at the respawn point, rebuild the deck from the collection, walk back in and start over
+				var box_out: Node = scene.get("dialogue") if "dialogue" in scene else null
+				if box_out is DialogueBox and (box_out as DialogueBox).active:
+					await _dismiss_dialogue(box_out as DialogueBox)
+				if tries >= MAX_TRIES:
+					_wall("%s: carried out %d times" % [label, tries])
+				else:
+					tries += 1
+					fights = 0
+					_tend_deck("%s try %d" % [label, tries])
+					print("%s: re-entering %s (try %d)" % [TAG, label, tries])
+					await _reenter(expected_key)
+					continue
 			_note("DEV HELP: %s - lost on the real map and carried out; the dungeon is decreed from its entrance" % label)
 			break
 		if done.call():
@@ -1079,7 +1203,14 @@ func _catch_up(expected_key: String, label: String) -> void:
 ## Back into the dungeon a real loss carried the hero out of (expected_key names it), so it can be decreed from its entrance.
 func _reenter(expected_key: String) -> void:
 	DevActions.full_heal()
+	var side_plan: DungeonCatalog.Blueprint = DungeonCatalog.find(expected_key) if expected_key.begins_with("S-") else null
 	match expected_key:
+		"TUTORIAL":
+			Session.begin_intro_trial(_path_type())
+		"S-NECRO", "S-GOUR", "S-REF":
+			if side_plan != null:
+				Session.begin_zone_visit(side_plan.zone_id if not side_plan.zone_id.is_empty() else _current_zone)
+			Session.enter_mini_dungeon()
 		"D-LAB":
 			Session.enter_lab()
 		"S-GALLERY", "S-BEEF":
@@ -1095,3 +1226,120 @@ func _reenter(expected_key: String) -> void:
 	await _wait_for(DungeonMapScreen)
 	await driver.seconds(1.0)
 	_grant_lab_boon()
+
+
+# ---- Overnight Nov 9, Part 1: --full (every fight real) ---------------------------------------------------------------------------------
+
+
+func _on_gold(total: int) -> void:
+	if total > _last_gold:
+		_gold_earned += total - _last_gold
+	_last_gold = total
+
+
+func _wall(text: String) -> void:
+	_walls.append(text)
+	_note("WALL: %s - decreed after %d tries" % [text, MAX_TRIES])
+
+
+## The next node a player would take: a shrine when hurt, otherwise the first open node (dead-end treasure and fights included, as a
+## completionist would); the boss last of all.
+func _pick_node(map: DungeonMap) -> int:
+	var open: Array[DungeonMap.MapNode] = map.available()
+	if open.is_empty():
+		return -1
+	var hurt: bool = Session.run != null and Session.run.hp * 10 < Session.run.max_hp() * 6
+	var best: DungeonMap.MapNode = null
+	var best_score: int = -999
+	for node: DungeonMap.MapNode in open:
+		var score: int = 0
+		match node.kind:
+			DungeonMap.Kind.SHRINE:
+				score = 50 if hurt else 5
+			DungeonMap.Kind.TREASURE:
+				score = 30
+			DungeonMap.Kind.EVENT, DungeonMap.Kind.RESCUE:
+				score = 25
+			DungeonMap.Kind.BATTLE, DungeonMap.Kind.CHALLENGE:
+				score = 20
+			DungeonMap.Kind.ELITE:
+				score = 0 if hurt else 15
+			DungeonMap.Kind.BOSS:
+				score = -10
+		if score > best_score:
+			best_score = score
+			best = node
+	return best.id
+
+
+## A node screen (challenge, shrine, event, treasure): press what a player would press until it closes.
+func _drive_modal(modal: Control) -> void:
+	var prefer: Array[String] = ["Reveal", "Open the chest", "Rest", "Continue", "Leave it (no test)"]
+	for _guard: int in range(40):
+		if not is_instance_valid(modal) or not modal.is_inside_tree():
+			return
+		await driver.seconds(0.35)
+		var buttons: Array[Button] = []
+		for node: Node in modal.find_children("*", "Button", true, false):
+			var button: Button = node as Button
+			if button.is_visible_in_tree() and not button.disabled:
+				buttons.append(button)
+		if buttons.is_empty():
+			await driver.tap_key(KEY_ENTER)
+			continue
+		var chosen: Button = null
+		for text: String in prefer:
+			for button: Button in buttons:
+				if button.text.strip_edges() == text:
+					chosen = button
+					break
+			if chosen != null:
+				break
+		if chosen == null:
+			chosen = buttons[0]  # an event's first choice
+		await driver.click(driver.button_center(chosen))
+	if is_instance_valid(modal) and modal.is_inside_tree():
+		_note("DEV HELP: a %s node screen would not close - finished by its signal" % modal.get_class())
+		modal.emit_signal("finished")
+
+
+## Between tries and after each zone: open every pack, put on the best gear in each open slot, and take the Deck Station's own "Suggest a
+## deck" for the hero's Path from the whole collection (what a player who uses that button would fight with).
+func _tend_deck(why: String) -> void:
+	if Session.profile == null:
+		return
+	var opened: int = PacksScreen.open_all().size()
+	for slot_value: int in EquipmentData.Slot.values():
+		var slot: EquipmentData.Slot = slot_value as EquipmentData.Slot
+		if not Session.profile.has_equipment_slot(slot):
+			continue
+		var best: EquipmentData = Session.profile.equipped_in(slot)
+		for item: EquipmentData in Session.profile.owned_equipment:
+			if item == null or item.slot != slot:
+				continue
+			if best == null or item.tier * 10 + int(item.rarity) > best.tier * 10 + int(best.rarity):
+				best = item
+		if best != null and best != Session.profile.equipped_in(slot):
+			Session.equip_item(best)
+	var infrastructure: Array[CardData] = []
+	for color: Affinity.Type in Affinity.colored_types():
+		infrastructure.append(Session.content.infrastructure[int(color)] as CardData)
+	var paths: Array[Affinity.Type] = [Session.profile.primary_affinity]
+	var deck: Deck = DeckInsights.suggest(Session.profile.owned_cards, paths, Session.profile.level, infrastructure, DeckValidator.min_deck_size())
+	if deck != null and deck.size() >= DeckValidator.min_deck_size():
+		Session.save_deck_to_slot(Session.deck_box.active, deck, "%s deck" % Affinity.display_name(paths[0]))
+	print("%s: tend deck (%s): %d packs opened, deck %d cards, level %d, gold %d" % [TAG, why, opened, Session.deck.size() if Session.deck != null else 0, Session.profile.level, Session.gold])
+
+
+func _full_summary() -> void:
+	if not _full:
+		return
+	var hours: float = Session.playtime_seconds / 3600.0
+	var wall: float = float(Time.get_ticks_msec() - _wall_started) / 3600000.0
+	print("%s: FULL path=%s completed=%s postgame_lab=%s gallery=%s level=%d game_hours=%.2f wall_hours=%.2f gold_earned=%d gold_now=%d losses=%d walls=%d" % [
+		TAG, _path_zone, Session.flag(&"primm_defeated"), Session.flag(PathologyLab.FLAG_RESCUER_FREED), Session.flag(ShatteredGallery.FLAG_CLEARED),
+		Session.profile.level if Session.profile != null else 0, hours, wall, _gold_earned, Session.gold, _losses.size(), _walls.size()])
+	for loss: String in _losses:
+		print("%s: FULL loss %s" % [TAG, loss])
+	for item: String in _walls:
+		print("%s: FULL wall %s" % [TAG, item])
