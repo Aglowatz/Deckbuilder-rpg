@@ -1997,6 +1997,7 @@ func _open_overlay(screen: Control) -> void:
 
 
 func _close_overlay() -> void:
+	var was_open: bool = _overlay != null  # Overnight Nov 9, Part 2: no close sound when nothing was open
 	if _overlay != null:
 		_overlay.queue_free()
 		_overlay = null
@@ -2004,7 +2005,8 @@ func _close_overlay() -> void:
 	hud.set_gold(Session.gold)
 	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
-	Audio.sfx(&"ui_close", -4.0)
+	if was_open:
+		Audio.sfx(&"ui_close", -4.0)
 
 
 func _open_character_screen() -> void:

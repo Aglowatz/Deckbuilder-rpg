@@ -762,6 +762,7 @@ func present(event: GameEvent) -> void:
 			if event.amount > 0 or event.value > 0:
 				_sfx(&"buff")
 				fx.burst(center_of(event.card), Color("9be49f"), 10, 120.0)
+				_pop(event.card, Color("9be49f"))
 			else:
 				_sfx(&"debuff")
 			var buffed: CardView = view_for(event.card)
@@ -800,11 +801,24 @@ func present(event: GameEvent) -> void:
 						_refresh_view(unit.uid)
 			# Overnight Oct 17, Part 8: a ribbon marks every turn change.
 			if event.player == 0:
-				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed, "Round %d" % BattleHud.round_of(event.value))  # Import Nov 8 (C4c F11): the event's turn, as the HUD label (game.turn runs ahead of the playback)
+				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.62 / speed, "Round %d" % BattleHud.round_of(event.value))  # Import Nov 8 (C4c F11): the event's turn, as the HUD label (game.turn runs ahead of the playback)
 			else:
-				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed, "Round %d" % BattleHud.round_of(event.value))
+				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.62 / speed, "Round %d" % BattleHud.round_of(event.value))
 		_:
 			pass
+
+
+## Overnight Nov 9, Part 2: a buffed unit glows in `color` and pops (a quick grow and settle).
+func _pop(uid: int, color: Color) -> void:
+	var view: CardView = view_for(uid)
+	if view == null or zones.get(uid) != Zone.FIELD:
+		return
+	fx.flash_ring(center_of(uid), color, 64.0)
+	var rest: Vector2 = view.scale
+	view.pivot_offset = CardView.SIZE * 0.5
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(view, "scale", rest * (1.0 + 0.12 * Settings.motion_scale()), 0.07 / speed)
+	tween.tween_property(view, "scale", rest, 0.14 / speed)
 
 
 func _pulse(uid: int) -> void:
@@ -1129,7 +1143,7 @@ func _on_damage(event: GameEvent) -> void:
 	# The attacking unit lunges at its target before the hit lands.
 	if attacker_view != null and attacking.has(event.card) and zones.get(event.card) == Zone.FIELD:
 		var origin: Vector2 = attacker_view.position
-		var lunge: Vector2 = (target_center - center_of(event.card)).limit_length(120.0)
+		var lunge: Vector2 = (target_center - center_of(event.card)).limit_length(120.0) * Settings.motion_scale()
 		# Overnight Oct 17 (Phase 2 cycle 19, combat feel): a short wind-up (pull back, lean away), the strike leaning into the target, then
 		# a settle - the same length as the old in-and-out.
 		var base_rot: float = attacker_view.rotation_degrees
@@ -1191,6 +1205,7 @@ func _on_hp(event: GameEvent) -> void:
 		if event.card > 0:
 			_pulse(event.card)
 		fx.burst(portrait_anchor[event.player], Color("7be08a"), 14, 200.0)
+		fx.flash_ring(portrait_anchor[event.player], Color("7be08a"), 120.0)  # Overnight Nov 9, Part 2: a green glow on the healed portrait
 	elif event.sequence != _last_damage_seq + 1 and event.amount < 0:
 		# Fresh eyes round 2 (Oct 31): the number rises from above the plate, not over its name ("-3" sat on "YOU", `c3_14_boss__06_boss_d`).
 		fx.floating_text(portrait_anchor[event.player] + Vector2(70.0, -95.0 if event.player == 0 else 95.0), "%d" % event.amount, Color("ff6a5a"), 48)
@@ -1218,7 +1233,7 @@ func _on_died(event: GameEvent) -> void:
 	crack.tween_property(view, "rotation_degrees", view.rotation_degrees - 5.0, 0.05 / speed)
 	crack.tween_property(view, "rotation_degrees", view.rotation_degrees, 0.04 / speed)
 	await crack.finished
-	fx.burst(center_of(event.card), Color("ffd2b0"), 16, 220.0)
+	fx.burst(center_of(event.card), color.lightened(0.2), 20, 230.0)  # Overnight Nov 9, Part 2: the death burst in the Path colour
 	fx.dissolve(view, color, 0.55 / speed)
 	if to_pile:
 		var slide: Tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)

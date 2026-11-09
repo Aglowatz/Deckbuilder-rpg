@@ -71,9 +71,14 @@ var auto_end_turn: bool = false
 ## Fresh eyes round 2 (Oct 31): the first-time tips (the duel's coach bubbles, the screens' "Tip:" panels). Off = none are shown; turning it
 ## back on shows the ones not yet seen (each is still once-ever).
 var tutorial_tips: bool = true
-## Adds a Path symbol wherever a Path is shown only by its colour.
-var colorblind_symbols: bool = false
+## Adds a Path symbol wherever a Path is shown only by its colour. Overnight Nov 9, Part 4: ON by default (the four Path colours collide for
+## red-green colour blindness, and the symbols help everyone tell the Paths apart); flip DEFAULT_COLORBLIND_SYMBOLS to change the default.
+const DEFAULT_COLORBLIND_SYMBOLS: bool = true
+var colorblind_symbols: bool = DEFAULT_COLORBLIND_SYMBOLS
 var reduce_shake: bool = false
+## Overnight Nov 9, Part 2: "Reduce motion" - no screen shake, no hit-stop or slow motion, smaller lunges, recoils and bursts, banners that
+## fade instead of sweeping. A superset of Reduce screen shake.
+var reduce_motion: bool = false
 var reduce_flashing: bool = false
 ## Whether the HUD minimap is drawn (the M full map always works).
 var show_minimap: bool = true
@@ -372,7 +377,12 @@ func typewriter_time(normal_seconds: float) -> float:
 
 ## 1.0 for a normal screen shake, 0.0 when reduced. Multiply a shake strength by it.
 func shake_scale() -> float:
-	return 0.0 if reduce_shake else 1.0
+	return 0.0 if reduce_shake or reduce_motion else 1.0
+
+
+## Overnight Nov 9, Part 2: 1.0 normally, 0.3 with Reduce motion. Multiply a movement distance (a lunge, a recoil, a pop) by it.
+func motion_scale() -> float:
+	return 0.3 if reduce_motion else 1.0
 
 
 ## 1.0 for a normal full-screen flash or strobe, 0.2 when reduced. Multiply a flash peak by it.
@@ -426,6 +436,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("input", "always_sprint", always_sprint)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
+	config.set_value("access", "reduce_motion", reduce_motion)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
 	config.set_value("input", "pad_prompts", pad_prompts)
 	Keybinds.save_to(config)
@@ -495,6 +506,7 @@ func load_settings(path: String = PATH) -> void:
 	always_sprint = bool(config.get_value("input", "always_sprint", always_sprint))
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
+	reduce_motion = bool(config.get_value("access", "reduce_motion", reduce_motion))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
 	pad_prompts = clampi(int(config.get_value("input", "pad_prompts", 0)), 0, PAD_PROMPT_NAMES.size() - 1)
 	Keybinds.load_from(config)
@@ -601,8 +613,9 @@ func reset_to_defaults() -> void:
 	text_cards = 1
 	text_tooltips = 1
 	dialogue_speed = 1
-	colorblind_symbols = false
+	colorblind_symbols = DEFAULT_COLORBLIND_SYMBOLS
 	reduce_shake = false
+	reduce_motion = false
 	battle_speed = 0
 	confirm_end_turn = true
 	auto_end_turn = false

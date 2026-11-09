@@ -91,6 +91,9 @@ func floating_text(pos: Vector2, text: String, color: Color, size: int = 44) -> 
 
 
 func burst(pos: Vector2, color: Color, amount: int = 24, speed: float = 260.0) -> void:
+	if Settings.reduce_motion:
+		amount = maxi(4, amount / 2)
+		speed *= 0.6
 	var particles: CPUParticles2D = CPUParticles2D.new()
 	particles.position = pos
 	particles.emitting = false
@@ -146,11 +149,15 @@ static var _time_holds: int = 0
 ## A short freeze on impact: the game nearly stops for `seconds` of real time (scaled to the blow by the caller), then resumes.
 ## Nested pauses never stack past one restore.
 func hit_pause(seconds: float) -> void:
+	if Settings.reduce_motion:
+		return
 	await _hold_time(HIT_PAUSE_SCALE, clampf(seconds, 0.0, 0.12))
 
 
 ## The final blow in slow motion: everything runs at 30 % for `seconds` of real time.
 func slow_motion(seconds: float = 0.55) -> void:
+	if Settings.reduce_motion:
+		return
 	await _hold_time(FINAL_BLOW_SCALE, seconds)
 
 
@@ -178,7 +185,7 @@ func recoil(view: Control, away_from: Vector2, strength: float = 16.0) -> void:
 		return
 	var origin: Vector2 = view.position
 	var centre: Vector2 = view.global_position + view.size * view.scale * 0.5
-	var push: Vector2 = (centre - away_from).normalized() * strength
+	var push: Vector2 = (centre - away_from).normalized() * strength * Settings.motion_scale()
 	if push == Vector2.ZERO:
 		push = Vector2(0, -strength)
 	var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD)
@@ -223,13 +230,13 @@ func turn_banner(text: String, color: Color, duration: float = 0.75, subtitle: S
 		label.add_child(sub)
 		label.position.y = -12.0
 	band.modulate.a = 0.0
-	label.position.x = -260.0
+	label.position.x = -260.0 * Settings.motion_scale()
 	var tween: Tween = create_tween().set_parallel(true)
 	tween.tween_property(band, "modulate:a", 1.0, duration * 0.18)
 	tween.tween_property(label, "position:x", 0.0, duration * 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.chain().tween_interval(duration * 0.42)
 	tween.chain().set_parallel(true).tween_property(band, "modulate:a", 0.0, duration * 0.28)
-	tween.tween_property(label, "position:x", 260.0, duration * 0.28).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(label, "position:x", 260.0 * Settings.motion_scale(), duration * 0.28).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	tween.chain().tween_callback(band.queue_free)
 
 
@@ -259,7 +266,7 @@ func fly_mote(from: Vector2, to: Vector2, color: Color, landed: Callable = Calla
 
 
 func shake(strength: float = 14.0, duration: float = 0.3) -> void:
-	if shake_target == null or Settings.reduce_shake:
+	if shake_target == null or Settings.reduce_shake or Settings.reduce_motion:
 		return
 	if _shake_tween != null and _shake_tween.is_valid():
 		_shake_tween.kill()

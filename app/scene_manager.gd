@@ -9,6 +9,7 @@ var pause_allowed: bool = false
 
 var _fade: ColorRect
 var _pause_menu: PauseMenu
+var save_indicator: SaveIndicator
 ## The Dev Menu (debug builds only; null in a release build).
 var dev_menu: DevMenu
 ## The quest update banner layer (`QuestNoticeLayer`).
@@ -21,6 +22,10 @@ var previous_area: String = ""
 var show_loading_screens: bool = true
 ## Playtest v0.4.0 Part C: the next change skips the loading screen and uses a short fade (the walk out of the Forgotten Cave into Crosspath).
 var skip_loading_once: bool = false
+## Overnight Nov 9, Part 2.3: the loading screen only when it is needed - a destination that last loaded (change + build + settle) in under
+## QUICK_LOAD_MS this session gets the plain fade (the slow card still appears if this time it runs long). First visits keep the card.
+const QUICK_LOAD_MS: int = 900
+var _last_load_ms: Dictionary = {}
 
 ## Emitted when a scene change has finished (the fade or loading screen is gone), so something that belongs to the new scene can start.
 signal revealed
@@ -99,6 +104,8 @@ func _ready() -> void:
 	# Controller support (Oct 26): which device the prompts show, and the focus helper for pads
 	add_child(InputDevice.new())
 	add_child(PadFocus.new())
+	# Overnight Nov 9, Part 4: the autosave indicator (bottom-right, over everything but the fade)
+	save_indicator = SaveIndicator.install(self)
 
 
 ## Overnight Oct 20: F8 is taken before the GUI (a focused control or a full-screen blocker can never swallow it); Esc during a
@@ -150,7 +157,8 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	skip_loading_once = false
 	if quick:
 		fade_time = minf(fade_time, 0.2)
-	if show_loading_screens and not quick and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
+	var known_quick: bool = int(_last_load_ms.get(path, 1 << 30)) < QUICK_LOAD_MS
+	if show_loading_screens and not quick and not known_quick and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
 		screen = LoadingScreen.make(area, Session.dungeon_key)
 	_screen = screen
 	# Sound pass: a gust carries the hero into another area; the old place's ambience fades with the picture (the new scene sets its own).
@@ -184,6 +192,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 			return
 	LoadTiming.mark("loading screen up")
 	_set_phase("change scene")
+	var load_started: int = Time.get_ticks_msec()
 	if park_next:
 		park_next = false
 		_park_current()
@@ -214,6 +223,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	# loading screen did, and a change without one showed its first-draw shader spikes after the fade-in.
 	_set_phase("settle")
 	await _settle()
+	_last_load_ms[path] = Time.get_ticks_msec() - load_started
 	_hide_slow_card()
 	if id != _transition_id:
 		return

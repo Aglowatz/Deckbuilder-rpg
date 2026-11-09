@@ -227,8 +227,23 @@ func _pulse_packs_hint(delta: float) -> void:
 			badge.scale = Vector2.ONE * (1.0 + 0.2 * glow)
 
 
+## Overnight Nov 9, Part 2: the purse chinks (softly, at most every half second) and pops when it grows while the HUD is up.
+var _gold_shown: int = -1
+var _gold_sound_ms: int = 0
+
+
 func set_gold(amount: int) -> void:
 	_gold.text = str(amount)
+	if _gold_shown >= 0 and amount > _gold_shown and is_visible_in_tree():
+		var now: int = Time.get_ticks_msec()
+		if now - _gold_sound_ms > 500:
+			_gold_sound_ms = now
+			Audio.sfx(&"coins", -9.0)
+		_gold.pivot_offset = _gold.size * 0.5
+		var tween: Tween = _gold.create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_gold, "scale", Vector2.ONE * (1.0 + 0.18 * Settings.motion_scale()), 0.08)
+		tween.tween_property(_gold, "scale", Vector2.ONE, 0.16)
+	_gold_shown = amount
 
 
 ## Part C: the active zone's buff and debuff, shown under the objective while in a zone. Playtest v0.4.0 Part F: an icon row (hover an

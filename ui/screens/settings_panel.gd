@@ -222,6 +222,8 @@ func _build_accessibility() -> void:
 			symbols.add_child(symbol)
 	_body.add_child(symbols)
 	_body.add_child(_check("Reduce screen shake", Settings.reduce_shake, _on_reduce_shake, "ReduceShakeCheck"))
+	_body.add_child(_check("Reduce motion", Settings.reduce_motion, _on_reduce_motion, "ReduceMotionCheck"))
+	_body.add_child(_note("Reduce motion removes screen shake, hit pauses and slow motion, and makes lunges, bursts and banners smaller and calmer."))
 	_body.add_child(_check("Reduce flashing effects", Settings.reduce_flashing, _on_reduce_flashing, "ReduceFlashingCheck"))
 	_body.add_child(_note("Reduce flashing turns full-screen flashes down to a faint glow and removes the red hit flash on cards."))
 	# Overnight Nov 8-9 (Part 4): the log for bug reports - open its folder or copy the latest log to paste into a report.
@@ -612,6 +614,13 @@ func _refresh_sample() -> void:
 func _on_colorblind(pressed: bool) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.colorblind_symbols = pressed
+	Settings.accessibility_changed.emit()
+	_saved()
+
+
+func _on_reduce_motion(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.reduce_motion = pressed
 	Settings.accessibility_changed.emit()
 	_saved()
 

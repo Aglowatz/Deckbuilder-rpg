@@ -1,0 +1,101 @@
+# Overnight Nov 9, Part 2.4: the UI consistency sweep - one screenshot of every main screen (run before and after the sweep).
+#   bash tools/play.sh docs/review/play_scripts/ui_sweep_nov9.txt ui_before   (or ui_after)
+wait 4
+shot 00_title
+button Credits
+wait 1.5
+shot 01_credits
+key Escape
+wait 1
+button Settings
+wait 1.5
+shot 02_settings
+key Escape
+wait 1
+dev load n6_midgame
+wait 6
+skip_dialogue 20
+shot 03_town_hud
+key C
+wait 1.5
+shot 04_character
+key Escape
+wait 1
+key B
+wait 2
+shot 05_deck_station
+key Escape
+wait 1
+key P
+wait 1.5
+button Got it
+wait 0.5
+shot 06_packs
+key Escape
+wait 1
+key J
+wait 1.5
+shot 07_quest_log
+key Escape
+wait 1
+key M
+wait 1.5
+shot 08_map
+key Escape
+wait 1
+key T
+wait 1.5
+shot 09_wardrobe
+key Escape
+wait 1
+key Escape
+wait 1.5
+shot 10_pause
+button Settings
+wait 1.5
+shot 11_pause_settings
+key Escape
+wait 1
+key Escape
+wait 1
+dev goto vendor_items
+wait 1
+key E
+wait 2
+skip_dialogue 6
+shot 12_item_vendor
+key Escape
+wait 1
+dev travel zone beefcake
+wait 8
+skip_dialogue 20
+shot 13_zone_hud
+dev goto cardsharp
+wait 1
+key E
+wait 1.5
+skip_dialogue 8
+wait 1.5
+shot 14_dex_table
+click 520 560
+wait 0.4
+click 640 560
+wait 1.5
+shot 15_dex_flip
+key Escape
+wait 1
+dev encounter beefcake_roamer_1
+wait 6
+button Got it
+wait 0.5
+shot 16_battle
+dev win
+wait 3
+shot 17_battle_result
+key Enter
+wait 3
+shot 18_after_battle
+dev travel dungeon D-HOG
+wait 6
+skip_dialogue 20
+shot 19_dungeon_map
