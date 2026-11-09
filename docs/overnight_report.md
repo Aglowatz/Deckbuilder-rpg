@@ -150,7 +150,7 @@ broke two more attempts, so it used its one allowed `dev travel town` (its town 
 ## Tests
 
 The final full run (`bash tools/run_tests.sh --only=tests --size=12`) was stopped by Claude Code during shard 25 of 30 because the PC was
-critically low on memory; per its rule it was not restarted. Shards 1-24 passed (2,523 of 2,525 run tests; 1 risky), with one failure
+critically low on memory; per its rule it was not restarted. Shards 1-24 passed (2,454 of 2,456 tests: one risky, one failing), with one failure
 caused by tonight's two-line Character pill (`test_overnight_oct31n_ux`); the test was updated and passes on its own. Shards 25-30
 (`tests/world`, from `test_wardrobe_redesign` on) last passed in Part 0, and every file changed afterwards was run on its own (the build-cache,
 Capital, heap, quiz, travel, title-card, tip and battle-HUD tests all green). To finish: `bash tools/run_tests.sh --only=tests --size=12 --from=25`.
