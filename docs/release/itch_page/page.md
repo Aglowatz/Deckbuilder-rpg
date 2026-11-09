@@ -50,15 +50,17 @@ The Wayward Path is a single-player story game of about 12-20 hours, with a post
 
 Every key can be changed in Settings > Controls.
 
-## System requirements (measured)
+## System requirements
 
-- Windows 10 or 11, 64-bit.
-- **Minimum:** a dual-core CPU from 2015 or later, integrated graphics with DirectX 12 or Vulkan (Intel UHD 620 class), **4 GB RAM** with
-  the Low-end preset (picked by itself on weak PCs; about 1.3-1.6 GB in use). Very old GPUs: start with "Start (Compatibility).bat"
-  (OpenGL).
-- **Recommended:** a quad-core CPU, a GTX 1050 / RX 560 class GPU or better, **8 GB RAM** (about 2-2.5 GB in use at the High preset).
-- **Disk:** about 800 MB unpacked (the download is about 600 MB zipped).
-- Measured on the development PC (Intel iGPU, 7.4 GB RAM): see `docs/perf/` and tonight's soak notes in `docs/overnight_report.md`.
+Measured Nov 8 on the development PC (Windows 11, Intel integrated GPU, 7.4 GB RAM): 60 fps at the default preset in the zones, the town
+and battles; the game process uses about 350-800 MB of RAM (engine-static memory 450-510 MB, flat over a 9-minute soak through four zones
+and three fights) plus 600-1,100 MB of video memory.
+
+- **OS:** Windows 10 or 11, 64-bit.
+- **Minimum:** integrated graphics with DirectX 12 or Vulkan (Intel UHD 620 class), **4 GB RAM** (the Low-end preset is picked by itself on
+  weak PCs); a 2015-or-later dual-core CPU. Very old GPUs: "Start (Compatibility).bat" (OpenGL).
+- **Recommended:** **8 GB RAM**, any dedicated GPU from the last eight years (an estimate - only the iGPU PC was measured).
+- **Disk:** about 800 MB unpacked (the v0.5.x download is about 600 MB zipped).
 
 ## Screenshots
 

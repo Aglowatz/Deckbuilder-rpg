@@ -1,0 +1,39 @@
+# Overnight Nov 8-9, Part 1.3: "quit" (save the state as it is) during a battle, a shop and a dungeon, then reload
+wait 3
+dev load bot_beefcake_enter_necrocrat
+wait 15
+skip_dialogue
+scene
+log --- battle in a zone
+dev encounter necrocrat
+wait 6
+scene
+dev save quit_in_battle
+dev load quit_in_battle
+wait 15
+skip_dialogue
+scene
+shot q1_after_battle_quit
+log --- shop in town
+dev travel town
+wait 12
+skip_dialogue
+key B
+wait 2
+scene
+dev save quit_in_deckstation
+dev load quit_in_deckstation
+wait 14
+skip_dialogue
+scene
+shot q2_after_station_quit
+log --- dungeon
+dev travel dungeon D-HFA 2
+wait 8
+scene
+dev save quit_in_dungeon
+dev load quit_in_dungeon
+wait 15
+skip_dialogue
+scene
+shot q3_after_dungeon_quit

@@ -71,3 +71,18 @@ func test_a_damaged_save_or_settings_file_loads_as_nothing() -> void:
 	file.close()
 	assert_eq(SaveSystem.read(path), {}, "a damaged save reads as empty (the slot list shows it as empty, the game starts)")
 	SaveSystem.delete(path)
+
+
+## Part 1.3: every scene the export ships loads (its scripts and every dependency resolve).
+func test_every_shipped_scene_loads() -> void:
+	var dir: DirAccess = DirAccess.open("res://scenes")
+	var count: int = 0
+	for file: String in dir.get_files():
+		if not file.ends_with(".tscn"):
+			continue
+		var scene: PackedScene = ResourceLoader.load("res://scenes/" + file) as PackedScene
+		assert_not_null(scene, file)
+		if scene != null:
+			assert_true(scene.can_instantiate(), file)
+		count += 1
+	assert_gte(count, 12)
