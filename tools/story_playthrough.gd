@@ -954,6 +954,9 @@ func _boss_for_real(done: Callable, label: String, expected_key: String = "", fa
 		if _full and scene is DungeonMapScreen and (scene as DungeonMapScreen)._modal != null:
 			await _drive_modal((scene as DungeonMapScreen)._modal)
 			continue
+		if scene is RewardsScreen:
+			await _take_rewards(scene as RewardsScreen)
+			continue
 		if scene is BattleScreen:
 			var battle: BattleScreen = scene as BattleScreen
 			if battle.mode != BattleScreen.Mode.OVER:
@@ -1343,3 +1346,25 @@ func _full_summary() -> void:
 		print("%s: FULL loss %s" % [TAG, loss])
 	for item: String in _walls:
 		print("%s: FULL wall %s" % [TAG, item])
+
+
+## The rewards screen after a fight: choose the rarest card of the pick (a player's usual choice) and take it, then Continue.
+func _take_rewards(screen: RewardsScreen) -> void:
+	await driver.seconds(0.4)
+	if not is_instance_valid(screen):
+		return
+	if not screen._cards.is_empty() and is_instance_valid(screen._take_button) and screen._take_button.is_visible_in_tree():
+		if screen._selected < 0:
+			screen._select(screen._best_index())
+			await driver.seconds(0.3)
+		if is_instance_valid(screen) and is_instance_valid(screen._take_button) and not screen._take_button.disabled:
+			screen._take_button.pressed.emit()
+		await driver.seconds(0.8)
+		return
+	await _dismiss_popups()
+	var go_on: Button = driver.find_button("Continue")
+	if go_on != null:
+		await driver.click(driver.button_center(go_on))
+	else:
+		await driver.tap_key(KEY_ENTER)
+	await driver.seconds(0.6)
