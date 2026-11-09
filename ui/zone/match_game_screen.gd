@@ -58,7 +58,8 @@ func _new_game() -> void:
 	for index: int in range(game.slot_count()):
 		var button: Button = Button.new()
 		button.custom_minimum_size = CARD_SIZE
-		button.focus_mode = Control.FOCUS_NONE
+		button.focus_mode = Control.FOCUS_ALL  # Overnight Nov 9, Part 2.4: keyboard / pad can pick a card, as at Dex's table
+		button.add_theme_stylebox_override("focus", UIStyle.focus_ring())
 		button.pressed.connect(func() -> void: _flip(index))
 		_grid.add_child(button)
 		_buttons.append(button)

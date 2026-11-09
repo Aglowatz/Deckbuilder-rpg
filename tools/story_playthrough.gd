@@ -1370,7 +1370,7 @@ func _take_rewards(screen: RewardsScreen) -> void:
 		for node: Node in screen.find_children("*", "Button", true, false):
 			var button: Button = node as Button
 			var label: String = button.text.strip_edges()
-			if button.is_visible_in_tree() and not button.disabled and (label.begins_with("Next level") or label.begins_with("Continue") or label.begins_with("Got it") or label.begins_with("Done")):
+			if button.is_visible_in_tree() and not button.disabled and (label.begins_with("Next level") or label.begins_with("Continue") or label.begins_with("Got it") or label.begins_with("Done") or label.begins_with("Step outside") or label.begins_with("Onward")):
 				last = button
 		if last != null:
 			await driver.click(driver.button_center(last))
@@ -1423,7 +1423,7 @@ func _unstick(scene: Node, fights: int) -> bool:
 		if button.is_visible_in_tree() and not button.text.strip_edges().is_empty():
 			names.append("%s%s" % [button.text.strip_edges(), " (off)" if button.disabled else ""])
 	print("%s: STALL %d at %s: buttons %s" % [TAG, _stall_kicks, sig, ", ".join(names)])
-	for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Next level", "Take", "Leave"]:
+	for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Next level", "Step outside", "Onward", "Take", "Leave"]:
 		for node: Node in get_tree().root.find_children("*", "Button", true, false):
 			var button: Button = node as Button
 			if button.is_visible_in_tree() and not button.disabled and button.text.strip_edges().begins_with(text):
