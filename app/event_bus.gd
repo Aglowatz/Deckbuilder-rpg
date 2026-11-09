@@ -4,6 +4,8 @@ extends Node
 
 ## Emitted when gold changes (new total).
 signal gold_changed(total: int)
+## Overnight Nov 9, Part 4: the campaign was just written to the autosave (the corner Saving... indicator listens).
+signal game_saved
 ## A short message shown to the player (toast).
 signal toast_requested(text: String)
 ## Overnight Oct 17, Part 14: the hero put a foot down at `position` on `surface` (AmbientFx puffs a little of the ground).

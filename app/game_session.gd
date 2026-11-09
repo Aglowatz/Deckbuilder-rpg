@@ -1438,6 +1438,7 @@ func save_game() -> void:
 		if thumbnail != null:
 			_last_autosave_thumb_msec = now
 	SaveSlots.write(SaveSlots.AUTOSAVE, to_dict(), thumbnail)
+	EventBus.game_saved.emit()
 
 
 ## Loads the saved campaign. Returns false when there is none (a game that has not yet reached
