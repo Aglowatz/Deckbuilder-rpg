@@ -213,8 +213,12 @@ func _screenshot_scenario() -> void:
 			var trap: CardData = load("res://data/cards/%s.tres" % id) as CardData
 			game.players[int(sides[0])].traps.append(game.create_instance(trap, int(sides[0])))
 	for id: String in str(_screenshot_args.get("hand", "")).split(",", false):
-		var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
-		game.players[0].hand.append(game.create_instance(card, 0))
+		# Fable Nov 9: any kind by id (resources are tokens, data/tokens/RES-IRON.tres), falling back to the cards folder.
+		var card: CardData = Session.content.card(id)
+		if card == null:
+			card = load("res://data/cards/%s.tres" % id) as CardData
+		if card != null:
+			game.players[0].hand.append(game.create_instance(card, 0))
 	# Oct 22: a T- id is a token (data/tokens), so token art can be photographed on the field too.
 	for id: String in str(_screenshot_args.get("field", "")).split(",", false):
 		var unit: CardData = load("res://data/%s/%s.tres" % ["tokens" if id.begins_with("T-") else "cards", id]) as CardData

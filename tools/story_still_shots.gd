@@ -1,5 +1,5 @@
 extends SceneTree
-## Story still screenshots, one per STORY-* image with its first caption typed out: `bash tools/story_still_shots.sh [WxH]` -> _screenshots/stills/<id>_<WxH>.png (run NOT headless).
+## Story still screenshots, one per STORY-* image with its first caption typed out: `bash tools/story_still_shots.sh [WxH] [--ids=A,B]` -> _screenshots/stills/<id>_<WxH>.png (run NOT headless).
 
 var _size: Vector2i = Vector2i(1600, 900)
 var _ids: PackedStringArray = PackedStringArray(["STORY-WAKE", "STORY-FLEX", "STORY-DOPPEL", "STORY-APPROVAL", "STORY-ROTHEART", "STORY-PRIMM", "STORY-REUNION"])
@@ -10,6 +10,8 @@ var _screen: Node
 
 func _initialize() -> void:
 	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--ids="):  # Fable Nov 9: just these stills (e.g. --ids=STORY-PRIMM-P1,STORY-REVEAL-KITCHEN)
+			_ids = arg.get_slice("=", 1).split(",", false)
 		if arg.begins_with("--size="):
 			var parts: PackedStringArray = arg.substr(7).split("x")
 			_size = Vector2i(int(parts[0]), int(parts[1]))

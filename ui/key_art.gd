@@ -78,7 +78,8 @@ const CACHE_GROUP: StringName = &"keyart"
 
 
 static func texture(id: String) -> Texture2D:
-	return ArtCache.fetch(CACHE_GROUP, id, func() -> Texture2D: return load(path_for(id)) as Texture2D if has(id) else null)
+	# Fable Nov 9: ArtPatches recolours the Red Cross on Hesper in the epilogue still (STORY-EPI-WRINKLES) as it loads.
+	return ArtCache.fetch(CACHE_GROUP, id, func() -> Texture2D: return ArtPatches.apply(id, load(path_for(id)) as Texture2D) if has(id) else null)
 
 
 static func is_cached(id: String) -> bool:

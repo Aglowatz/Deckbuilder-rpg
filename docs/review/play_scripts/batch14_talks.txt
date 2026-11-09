@@ -1,0 +1,50 @@
+# Fable Nov 9, Batch 14: the repainted vendors in real conversations (Sable's new look, Tonic, Fenwick, Pip, Brannoch) and Sable's new
+# world sprite at her stall.   bash tools/play.sh docs/review/play_scripts/batch14_talks.txt batch14_talks
+wait 3
+dev load n6_midgame
+wait 6
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev goto vendor
+wait 1.5
+shot 10_sable_stall_sprite
+key E
+wait 2
+shot 11_sable_talk
+skip_dialogue 12
+key Escape
+wait 1
+dev goto item_vendor
+wait 1.5
+key E
+wait 2
+shot 12_tonic_talk
+skip_dialogue 12
+key Escape
+wait 1
+dev goto pack_vendor
+wait 1.5
+key E
+wait 2
+shot 13_fenwick_talk
+skip_dialogue 12
+key Escape
+wait 1
+dev goto tailor
+wait 1.5
+key E
+wait 2
+shot 14_pip_talk
+skip_dialogue 12
+key Escape
+wait 1
+dev goto guard
+wait 1.5
+key E
+wait 2
+shot 15_brannoch_talk
+skip_dialogue 12
+key Escape
+wait 1

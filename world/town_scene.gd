@@ -3244,6 +3244,17 @@ func _screenshot_slots(mode_name: String) -> void:
 
 
 func _screenshot_open(what: String) -> void:
+	if what.begins_with("bestiary:"):
+		# Fable Nov 9 (Batch 14 shots): `--open=bestiary:Antechamber_Sentry` - that Bestiary page, met once (underscores are spaces).
+		var beast_name: String = what.trim_prefix("bestiary:").replace("_", " ")
+		Session.bestiary_meet(beast_name)
+		var book: CodexScreen = CodexScreen.new()
+		_open_overlay(book)
+		book.show_tab("Bestiary")
+		var found: Bestiary.Entry = Bestiary.find(beast_name)
+		if found != null:
+			get_tree().create_timer(0.6).timeout.connect(book.show_beast.bind(found))
+		return
 	match what:
 		"reward_pack":  # Nov 2 pass, Part 7: a STEP REWARD box with a pack, a card and an item (the pack's centring in its tile)
 			var summary: RewardSummary = RewardSummary.new()

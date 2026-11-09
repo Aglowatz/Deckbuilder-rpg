@@ -4486,8 +4486,8 @@
 	"SABLE": {
 		"bottom_pad": 16,
 		"canvas": [
-			320,
-			504
+			304,
+			512
 		],
 		"cloak_hue": [
 			0.051,

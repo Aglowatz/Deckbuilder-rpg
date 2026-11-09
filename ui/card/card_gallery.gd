@@ -32,7 +32,8 @@ func _ready() -> void:
 			if index == 8:
 				row = UIKit.hbox(14)
 				column.add_child(row)
-			var only_card: CardData = content.card(_only[index]) if content.cards.has(_only[index]) else content.multipath_cards.get(_only[index]) as CardData
+			# Fable Nov 9: resources and infrastructure too (RES-IRON, BAS-G), via the session's lookup that covers every kind.
+			var only_card: CardData = content.multipath_cards.get(_only[index]) as CardData if content.multipath_cards.has(_only[index]) else Session.card_by_id(_only[index])
 			row.add_child(CardView.wrapped(only_card, 0.5))
 		return
 	if _page < 0:

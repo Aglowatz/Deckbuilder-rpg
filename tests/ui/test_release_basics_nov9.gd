@@ -2,15 +2,26 @@ extends GutTest
 ## Overnight Nov 8-9: the release basics (Part 4) and the art audit's code fixes (Part 2).
 
 
-func test_species_flipping_expression_variants_are_never_shown() -> void:
-	for id: String in ["NPC-GATEKEEPER", "V-SABLE", "V-TONIC", "V-FENWICK", "V-THREADWELL"]:
-		assert_true(Portraits.HELD_EXPRESSIONS.has(id), id)
-		assert_false(Portraits.has_expression(id, "happy"), "%s: no variant is offered" % id)
+func test_the_repainted_expression_variants_show_again() -> void:
+	# Fable Nov 9 (Batch 14): the five species-flipped sets were repainted on-species and un-held.
+	assert_true(Portraits.HELD_EXPRESSIONS.is_empty(), "nothing is held")
+	for pair: Array in [["V-SABLE", "pleased"], ["V-SABLE", "scheming"], ["V-TONIC", "excited"], ["V-TONIC", "oops"], ["NPC-GATEKEEPER", "happy"], ["NPC-GATEKEEPER", "stern"], ["V-FENWICK", "excited"], ["V-THREADWELL", "delighted"]]:
+		assert_true(Portraits.has_expression(str(pair[0]), str(pair[1])), "%s %s is offered" % pair)
 	var base: Texture2D = Portraits.texture_for("V-SABLE")
 	var pleased: Texture2D = Portraits.texture_for("V-SABLE", "pleased")
 	assert_not_null(base)
-	assert_eq(pleased, base, "Sable stays the fox when she is pleased")
+	assert_ne(pleased, base, "Sable's pleased face is its own picture")
 	assert_true(Portraits.has_expression("NPC-ELDER", "happy"), "matching variants still work (Maren)")
+
+
+func test_hespers_red_cross_is_recoloured_on_load() -> void:
+	Portraits.reset()
+	var hesper: Texture2D = Portraits.texture_for("NPC-HESPER")
+	assert_not_null(hesper)
+	assert_true(hesper is ImageTexture, "patched pictures come back as an ImageTexture")
+	var image: Image = hesper.get_image()
+	var cap: Color = image.get_pixel(int(0.457 * image.get_width()), int(0.115 * image.get_height()))
+	assert_gt(cap.g, cap.r, "the cap's cross is green, not red")
 
 
 func test_credits_read_the_text_and_fill_the_version() -> void:

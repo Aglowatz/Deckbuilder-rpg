@@ -52,15 +52,9 @@ const CACHE_GROUP: StringName = &"portraits"
 
 
 ## Overnight Nov 8-9 (art audit, FIX IN CODE): expression variants that do not match their base portrait are never shown - the dialogue
-## keeps the base picture. Brannoch is a bear (NPC-GATEKEEPER) but his _HAPPY / _STERN files show a bearded human; a redo is on the
-## Batch 14 list (docs/art/art_audit_nov9.md). Remove an entry once its variants are redone.
-const HELD_EXPRESSIONS: Dictionary = {
-	"NPC-GATEKEEPER": true,  # a bear; _HAPPY / _STERN are a bearded human
-	"V-SABLE": true,  # a fox; _PLEASED / _SCHEMING are a human woman
-	"V-TONIC": true,  # a frog; _EXCITED / _OOPS are a human woman
-	"V-FENWICK": true,  # a magpie; _EXCITED is a human
-	"V-THREADWELL": true,  # a mouse; _DELIGHTED is a human
-}
+## keeps the base picture. Fable Nov 9 (Batch 14): every held set was repainted on-species (Brannoch the bear, Sable the fox, Tonic the
+## frog, Fenwick the magpie, Pip the mouse) and imported, so the table is empty. Add "<PORTRAIT ID>": true to hold a set again.
+const HELD_EXPRESSIONS: Dictionary = {}
 
 
 static func _load_any(portrait_id: String, expression: String) -> Texture2D:
@@ -73,7 +67,7 @@ static func _load_any(portrait_id: String, expression: String) -> Texture2D:
 		texture = _load(_path(portrait_id, ""))
 	if texture == null and PortraitPlaceholders.has(portrait_id):
 		texture = PortraitPlaceholders.texture(portrait_id)
-	return texture
+	return ArtPatches.apply(portrait_id, texture)  # Fable Nov 9: the Red Cross recolour on Hesper
 
 
 ## True when the base portrait of `portrait_id` exists.
