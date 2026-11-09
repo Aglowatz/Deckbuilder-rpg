@@ -1363,7 +1363,7 @@ func _full_summary() -> void:
 ## The rewards screen after a fight: choose the rarest card of the pick (a player's usual choice) and take it, then Continue.
 func _take_rewards(screen: RewardsScreen) -> void:
 	await driver.seconds(0.4)
-	if not is_instance_valid(screen):
+	if not is_instance_valid(screen) or not screen.is_inside_tree():
 		return
 	if screen._confirmed:
 		# taken: the level-up panel(s) or a boss talk are up - press through them (the topmost button), never Take again
@@ -1434,6 +1434,16 @@ func _unstick(scene: Node, fights: int) -> bool:
 	if Session.dungeon_map != null and Session.dungeon_map.node(Session.dungeon_map.current) != null:
 		var here: DungeonMap.MapNode = Session.dungeon_map.node(Session.dungeon_map.current)
 		where = " map current %d %s next %s cleared %s" % [here.id, DungeonMap.Kind.keys()[here.kind], str(here.next), str(Session.dungeon_map.cleared)]
+	if scene is DungeonMapScreen:
+		var ms: DungeonMapScreen = scene as DungeonMapScreen
+		var tops: PackedStringArray = []
+		for child: Node in ms.get_children():
+			if child is CanvasItem and (child as CanvasItem).visible:
+				tops.append("%s:%s" % [child.name, child.get_class()])
+		var nxt: String = ""
+		for n: DungeonMap.MapNode in Session.dungeon_map.available():
+			nxt += " [%d %s scene=%s talk=%s story=%s]" % [n.id, DungeonMap.Kind.keys()[n.kind], n.scene, n.talk_before, n.story_before]
+		where += " | busy=%s modal=%s dialogue=%s next:%s | tops %s" % [ms._busy, ms._modal, ms._dialogue.active if ms._dialogue != null else false, nxt, ",".join(tops.slice(-8))]
 	print("%s: STALL %d at %s: buttons %s%s" % [TAG, _stall_kicks, sig, ", ".join(names), where])
 	for text: String in ["Got it", "Skip tips", "Continue", "OK", "Close", "Next level", "Step outside", "Onward", "Take", "Leave"]:
 		for node: Node in get_tree().root.find_children("*", "Button", true, false):
