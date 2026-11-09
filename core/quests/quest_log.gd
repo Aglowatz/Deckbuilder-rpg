@@ -22,6 +22,24 @@ var version: int = VERSION
 const VERSION: int = 4  # 3 = Oct 20: the early-game chain (QuestMigration sets the legacy flag on older saves past it); 4 = Oct 25: Make It Yours opens with a pack
 
 
+## Overnight Nov 8-9 (quest audit): counters bumped by a ONCE-EVER action (a hidden chest, a Capital recipe card or compost heap, a wheel
+## crew) count from zero, not from acceptance - a player who took them before the quest could otherwise never finish it (there are no more
+## to take). Also fixes saves that already hold a baseline for one of them.
+const LIFETIME_COUNTERS: Array[String] = ["cap_recipes_found", "cap_compost_rescued", "cap_wheels_freed", "ninja_chests_opened", "vault_levers_pulled"]
+static var _lifetime_cache: Dictionary = {}
+
+
+static func counts_lifetime(counter_key: String) -> bool:
+	if _lifetime_cache.is_empty():
+		for key: String in LIFETIME_COUNTERS:
+			_lifetime_cache[key] = true
+		for zone_id: String in ZoneDefs.all_ids():  # every zone's hidden-chest counter (one chest, one bump, ever)
+			var def: ZoneDef = ZoneDefs.get_def(zone_id)
+			if def != null and not def.counter_chests.is_empty():
+				_lifetime_cache[def.counter_chests] = true
+	return _lifetime_cache.has(counter_key)
+
+
 func is_active(quest_id: String) -> bool:
 	return active.has(quest_id)
 
@@ -47,7 +65,7 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 	for objective: QuestObjective in quest.objectives:
 		var cond: Condition = objective.condition
 		if cond != null and cond.kind == Condition.Kind.COUNTER:
-			baselines[_baseline_key(quest.id, cond.key)] = int(state.counters.get(cond.key, 0))
+			baselines[_baseline_key(quest.id, cond.key)] = 0 if counts_lifetime(cond.key) else int(state.counters.get(cond.key, 0))
 	return true
 
 
@@ -55,7 +73,7 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 func objective_progress(quest: QuestData, index: int, state: UnlockState) -> Vector2i:
 	var cond: Condition = quest.objectives[index].condition
 	if cond != null and cond.kind == Condition.Kind.COUNTER:
-		var base: int = int(baselines.get(_baseline_key(quest.id, cond.key), 0))
+		var base: int = 0 if counts_lifetime(cond.key) else int(baselines.get(_baseline_key(quest.id, cond.key), 0))
 		var value: int = maxi(0, int(state.counters.get(cond.key, 0)) - base)
 		return Vector2i(mini(value, cond.amount), cond.amount)
 	return Vector2i(1 if Condition.met(cond, state) else 0, 1)
