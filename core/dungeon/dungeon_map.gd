@@ -117,7 +117,25 @@ func complete(id: int) -> bool:
 	last_cleared = id
 	var done: MapNode = node(id)
 	current = done.return_to if done.return_to >= 0 else id
+	_double_back()
 	return true
+
+
+## Overnight Nov 9 (ship blocker, Primm's Castle): a dead end inside a side branch (the Portrait Gallery's wings, off the Grand Foyer, off
+## the courtyard) sent the party back one level only, onto a node with nothing left open - the map offered nothing to click and only
+## Retreat (which resets the dungeon) got out. Now the party keeps doubling back along the way it came until a node has an open path.
+func _double_back() -> void:
+	var guard: int = 0
+	while available().is_empty() and node(current) != null and node(current).kind != Kind.BOSS and not is_complete() and guard < nodes.size():
+		guard += 1
+		var back: int = -1
+		for from_id: int in incoming(current):
+			if is_cleared(from_id) or node(from_id).kind == Kind.START:
+				back = from_id
+				break
+		if back < 0:
+			return
+		current = back
 
 
 ## The side branches that dead-end and double back.

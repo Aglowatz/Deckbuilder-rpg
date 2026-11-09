@@ -228,7 +228,8 @@
 		"file": "data/story/gainlands_story.tres",
 		"speaker": "Grandmaster Flex, the Unbroken",
 		"before": "And you, son: whatever they took from you, it was not the part that matters.",
-		"after": "And you, son: I don't know what they took from you. I do know what it looks like when someone keeps going anyway."
+		"after": "And you, son: I don't know what they took from you. I do know what it looks like when someone keeps going anyway.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/gourmand_story.tres::fx.wake::1",
