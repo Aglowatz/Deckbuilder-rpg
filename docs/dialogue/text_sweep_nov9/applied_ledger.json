@@ -1,0 +1,30 @@
+[
+	{
+		"id": "data/story/capital_story.tres::ending.credits.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "PLACEHOLDER CREDITS",
+		"after": "THE WAYWARD PATH"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.4::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Design and direction: you",
+		"after": "Full credits and licences: Credits, on the title screen"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.6::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Art: Kenney, KayKit, game-icons.net and friends (see CREDITS.md)",
+		"after": "Paintings made with AI image tools, chosen and fitted by hand. Models by KayKit and Kenney, icons from game-icons.net"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.7::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Music: synthesized in code",
+		"after": "Music written as code and played on the FluidR3 soundfont"
+	}
+]

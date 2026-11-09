@@ -30,3 +30,6 @@
 
 # Music toolkit (docs/audio/music_toolchain.md): Python caches; renders live outside the repo
 __pycache__/
+
+# Overnight Nov 9 art audit contact sheets (regenerate: python tools/art_audit_sheets.py)
+docs/art/audit_nov9/sheets/*.jpg

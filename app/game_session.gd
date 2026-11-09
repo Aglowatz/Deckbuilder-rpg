@@ -1616,6 +1616,11 @@ func scene_kind() -> String:
 		return "zone:%s" % (scene as ZoneScene).def.id
 	if scene is StartingAreaScene or not flag(&"trial_cleared"):
 		return "start"
+	# Overnight Nov 8-9 (Part 1.3): a save taken on a dungeon map, a battle or a reward screen during a zone visit (the autosave after a
+	# roamer fight or a dungeon node) resumes in that zone - it used to put the hero back in Crosspath. The dungeon run itself is never
+	# saved, so a dungeon quit midway starts again from its entrance.
+	if zone_run != null and ZoneDefs.has_def(zone_run.zone_id) and not town_side_active:
+		return "zone:%s" % zone_run.zone_id
 	return "town"
 
 

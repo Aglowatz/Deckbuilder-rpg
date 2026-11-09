@@ -558,7 +558,7 @@ func _hob_position() -> Vector3:
 
 
 func _talk_hob() -> void:
-	_face_npc("hob")
+	_face_npc(OLD_HOB_KEY)  # Overnight Nov 8-9: his own key since Import Nov 8 ("hob" is Granny Gristle)
 	if OldHob.funeral_waiting(Session.flags):
 		_locked = true
 		StoryScenePlayer.play(dialogue, "royal_funeral", func() -> void: _locked = false)

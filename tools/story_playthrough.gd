@@ -21,12 +21,26 @@ var driver: UiDriver
 var _steps: Array[Array] = []
 var _held_keys: Dictionary = {}
 var _shots: int = 0
+## Overnight Nov 8-9, Part 1.2 (full playthroughs): `--path=<zone id>` picks the Path (its zone first), `--real=1` has the BattlePilot play the
+## gatekeepers and every dungeon boss for real (a lost or stalled fight is then decreed and logged as DEV HELP), `--saveload=1` (default)
+## saves and reloads at every zone change and once mid-dungeon, `--postgame=1` (default) goes on to the Lab, the Gallery and Swolympus.
+var _path_zone: String = "beefcake"
+var _real: bool = false
+var _saveload: bool = true
+var _notes: PackedStringArray = []
+var _mid_dungeon_checked: bool = false
+var _current_zone: String = ""
+var _fights: Dictionary = {"won": 0, "lost": 0, "stalled": 0, "decreed": 0}
 
 
 func run() -> void:
 	Session.save_enabled = false
 	SceneManager.show_loading_screens = false
 	driver = UiDriver.new(get_tree())
+	_path_zone = _arg("path", "beefcake")
+	_real = _arg("real", "0") == "1"
+	_saveload = _arg("saveload", "1") == "1"
+	print("%s: path %s, real fights %s, save/load %s" % [TAG, _path_zone, _real, _saveload])
 	await driver.frames(5)
 	await _forest_and_tutorial()
 	var town: TownScene = await _to_town()
@@ -35,11 +49,17 @@ func run() -> void:
 		_finish()
 		return
 	await _early_chain(town)
-	_step(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")), "the zone main lines start once the early-game chain is done")
+	# Fixes Nov 8: the four zone lines wait for Maren's send-off (PathDirection), which the bot takes AFTER beating its own gatekeeper - the
+	# "gatekeeper beaten early" order every player can now take.
+	_step(not Session.quest_log.is_active(QuestDefinitions.zone_main_id(_path_zone)), "the zone main lines wait for Maren's send-off")
 	town = await _brannoch(town)
 	var snapshot_after: int = int(_arg("snapshot_after", "0"))
 	var zones_done: int = 0
-	for zone_id: String in Gatekeepers.IDS:
+	var order: Array[String] = [_path_zone]
+	for other: String in Gatekeepers.IDS:
+		if other != _path_zone:
+			order.append(other)
+	for zone_id: String in order:
 		town = await _zone(town, zone_id)
 		if town == null:
 			_step(false, "%s: lost the town" % zone_id)
@@ -52,6 +72,8 @@ func run() -> void:
 			return
 	await _undercroft(town)
 	await _capital_and_castle()
+	if _arg("postgame", "1") == "1" and Session.flag(&"primm_defeated"):
+		await _postgame()
 	# Overnight Oct 31 - Nov 1: --snapshot_after=5 saves after Primm's castle (a postgame snapshot for the postgame critic).
 	if snapshot_after > Gatekeepers.IDS.size():
 		await _save_progress_snapshot(_arg("snapshot", "postgame_real"), ProgressionModel.level_for("S-BEEF", 23))
@@ -136,13 +158,14 @@ func _forest_and_tutorial() -> void:
 	_step(forest != null, "the starting forest loads on a new game")
 	await driver.seconds(1.5)
 	await _shot("p_01_forest")
-	Session.begin_intro_trial(Affinity.Type.BEEFCAKE)
+	Session.begin_intro_trial(_path_type())
 	var map: Node = await _wait_for(DungeonMapScreen)
 	_step(map != null and Session.dungeon_map != null, "the Forgotten Cave (the tutorial dungeon) opens after choosing a Path")
 	await driver.seconds(1.0)
 	await _shot("p_02_tutorial_map")
 	# Decree: the Hollow Warden falls; the trial completes as its rewards screen would.
 	Session.complete_trial()
+	Session.claim_own_path(false)  # the cave-mouth scene (skipped here) marks the own Path
 	_step(Session.flag(&"trial_cleared") and Session.deck != null and Session.deck.size() >= DeckValidator.MIN_DECK_SIZE, "the tutorial clears with a legal deck")
 
 
@@ -163,6 +186,7 @@ func _brannoch(town: TownScene) -> TownScene:
 
 
 func _zone(town: TownScene, zone_id: String) -> TownScene:
+	_current_zone = zone_id
 	var main_id: String = QuestDefinitions.zone_main_id(zone_id)
 	var pack_id: String = "path_%s" % zone_id
 	var packs_before: int = Session.profile.pack_count(pack_id)
@@ -182,7 +206,7 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 		return town
 	_step(battle.context.board_key == Gatekeepers.board_key(zone_id), "%s: the duel is on the zone's own battleboard" % zone_id)
 	await _shot("p_%s_01_duel" % zone_id)
-	await _force_win(battle)
+	await _win(battle, "%s gatekeeper" % zone_id)
 	town = await _wait_for(TownScene) as TownScene
 	if town == null:
 		return null
@@ -190,6 +214,8 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	await _dismiss_dialogue(town.dialogue)
 	await _dismiss_popups()
 	_step(Gatekeepers.is_cleared(Session.flags, zone_id), "%s: the gatekeeper is beaten and the road opens" % zone_id)
+	if not Session.flag(StringName(PathDirection.FLAG)):
+		town = await _path_direction(town)
 	# a level-up in the same fight can add the level track's own-Path Pack too (Beefcake, level 4)
 	_step(Session.profile.pack_count(pack_id) >= packs_before + 1, "%s: the gatekeeper pays the Path Pack (step reward)" % zone_id)
 	_step(town.hub_obstacles != null and town.hub_obstacles.is_cleared(zone_id), "%s: the obstacle stands cleared" % zone_id)
@@ -207,6 +233,7 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	await _dismiss_dialogue(zone.dialogue)
 	await _dismiss_popups()
 	_step(Session.quest_log.current_index(QuestCatalog.find(main_id), Session.unlock_state()) == 2, "%s: the main line moves to its favour step" % zone_id)
+	await _save_load("enter_%s" % zone_id, ZoneScene)
 	# A favour (its steps by flag), handed in.
 	var favour: String = str((FAVOURS[zone_id] as Dictionary)["quest"])
 	Session.start_quest(favour)
@@ -233,8 +260,15 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	var main_map: Node = await _wait_for(DungeonMapScreen)
 	_step(main_map != null, "%s: the main dungeon opens" % zone_id)
 	await _shot("p_%s_03_dungeon" % zone_id)
-	var result: Dictionary = Session.resolve_main_dungeon(true)
-	_step(str(result.get("kind", "")) == "zone_freed" and Session.is_zone_completed(zone_id), "%s: beating the boss frees the zone" % zone_id)
+	if _saveload and not _mid_dungeon_checked:
+		main_map = await _mid_dungeon_check(zone_id)
+	if _real and main_map != null:
+		var nth_dungeon: String = (["D-HOG", "D-HFA", "D-TTK", "D-ROT"] as Array[String])[mini(Session.completed_zone_count(), 3)]
+		await _boss_for_real(func() -> bool: return Session.is_zone_completed(zone_id), "%s boss" % zone_id, nth_dungeon)
+		_step(Session.is_zone_completed(zone_id), "%s: beating the boss frees the zone" % zone_id)
+	else:
+		var result: Dictionary = Session.resolve_main_dungeon(true)
+		_step(str(result.get("kind", "")) == "zone_freed" and Session.is_zone_completed(zone_id), "%s: beating the boss frees the zone" % zone_id)
 	_step(Session.quest_log.is_completed(main_id), "%s: its main quest line completes" % zone_id)
 	_step(Session.owned_equipment_ids().has(str(ExpansionGear.DUNGEON_GEAR.get(zone_id, ""))), "%s: the main dungeon's first clear pays its gear" % zone_id)
 	# Back to town: Maren's memory fragment.
@@ -247,6 +281,9 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	await driver.tap_key(KEY_E)
 	await _click_through(town)
 	_step(memory_before > 0 and Session.pending_memory() == 0, "%s: Maren gives back a memory fragment" % zone_id)
+	var reloaded: Node = await _save_load("town_after_%s" % zone_id, TownScene)
+	if reloaded is TownScene:
+		town = reloaded as TownScene
 	await _shot("p_%s_04_memory" % zone_id)
 	# Oct 21: the Rescuer waits at the cave mouth after each freed zone, one scene each, in order.
 	var cave: String = StoryBeats.cave_mouth_scene(Session.flags, Session.completed_zone_count())
@@ -321,11 +358,22 @@ func _capital_and_castle() -> void:
 		_step(castle._dialogue.active, "the castle gate: the capture scene plays as the map opens")
 		await _dismiss_dialogue(castle._dialogue)
 	_step(Session.flag(&"elowen_seized") and RoyalFamily.fill("{rescuer}") == "Elowen", "Plume names her: {rescuer} reads Elowen from now on")
-	var result: Dictionary = Session.resolve_main_dungeon(true)
-	_step(str(result.get("kind", "")) == "primm_defeated" and Session.flag(&"primm_defeated"), "Primm is defeated")
-	_step(Session.quest_log.is_completed(QuestDefinitions.FREE_ZONES), "Free the Four Zones completes")
-	SceneManager.change_scene(Session.ENDING_SCENE)
-	var ending: Node = await _wait_for(EndingScreen)
+	var ending: Node = null
+	if _real and castle != null:
+		await _boss_for_real(func() -> bool: return Session.flag(&"primm_defeated"), "Primm", "D-PC")
+		_step(Session.flag(&"primm_defeated"), "Primm is defeated")
+		_step(Session.quest_log.is_completed(QuestDefinitions.FREE_ZONES), "Free the Four Zones completes")
+		ending = await _wait_for(EndingScreen)
+		if ending == null:
+			_note("DEV HELP: the ending did not start by itself after Primm; changed scene to it")
+			SceneManager.change_scene(Session.ENDING_SCENE)
+			ending = await _wait_for(EndingScreen)
+	else:
+		var result: Dictionary = Session.resolve_main_dungeon(true)
+		_step(str(result.get("kind", "")) == "primm_defeated" and Session.flag(&"primm_defeated"), "Primm is defeated")
+		_step(Session.quest_log.is_completed(QuestDefinitions.FREE_ZONES), "Free the Four Zones completes")
+		SceneManager.change_scene(Session.ENDING_SCENE)
+		ending = await _wait_for(EndingScreen)
 	_step(ending != null, "the ending plays")
 	await driver.seconds(1.0)
 	await _shot("p_ending")
@@ -345,7 +393,7 @@ func _after_the_ending() -> void:
 	_step(OldHob.funeral_waiting(Session.flags), "the royal funeral waits in Grave Row")
 	var hob: ZoneSpot = null
 	for spot: ZoneSpot in capital.spots:
-		if spot.id == "hob":
+		if spot.id == ZoneScene.OLD_HOB_KEY:
 			hob = spot
 	_step(hob != null, "Old Hob stands in Grave Row")
 	if hob != null:
@@ -543,6 +591,9 @@ func _finish() -> void:
 		if not bool(step[0]):
 			failed += 1
 	print("%s: ---- %d steps, %d passed, %d failed ----" % [TAG, _steps.size(), _steps.size() - failed, failed])
+	print("%s: fights %s" % [TAG, _fights])
+	for note: String in _notes:
+		print("%s: NOTE %s" % [TAG, note])
 	for step: Array in _steps:
 		print("%s: [%s] %s" % [TAG, "x" if bool(step[0]) else " ", str(step[1])])
 	get_tree().quit(0 if failed == 0 else 1)
@@ -581,3 +632,466 @@ func _clear_overlays(town: TownScene) -> void:
 		else:
 			await driver.click(Vector2(960, 540))
 		await driver.seconds(0.35)
+
+
+# ---- Overnight Nov 8-9, Part 1.2: Paths, real fights, save/load, postgame ------------------------------------------------------------------
+
+
+func _path_type() -> Affinity.Type:
+	for t: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER]:
+		if PathDirection.zone_of(t) == _path_zone:
+			return t
+	return Affinity.Type.BEEFCAKE
+
+
+func _note(text: String) -> void:
+	_notes.append(text)
+	print("%s: NOTE %s" % [TAG, text])
+
+
+## A duel the story needs won: decreed (the old bot), or played by the BattlePilot with `--real=1`. A real loss or a stalled duel is then
+## decreed and logged as DEV HELP, so the run goes on and the report shows where the simple player could not win.
+func _win(battle: BattleScreen, label: String) -> void:
+	if not _real:
+		_fights["decreed"] = int(_fights["decreed"]) + 1
+		await _force_win(battle)
+		return
+	var result: String = await _pilot_fight(battle)
+	var level: int = Session.profile.level if Session.profile != null else 0
+	match result:
+		"won":
+			_fights["won"] = int(_fights["won"]) + 1
+			print("%s: fight won for real: %s (level %d)" % [TAG, label, level])
+		"lost":
+			_fights["lost"] = int(_fights["lost"]) + 1
+			_note("DEV HELP: the pilot LOST %s at level %d (turn %d) - decreed" % [label, level, battle.game.turn if battle.game != null else -1])
+		_:
+			_fights["stalled"] = int(_fights["stalled"]) + 1
+			_note("DEV HELP: %s stalled or ran past the time limit at level %d - decreed" % [label, level])
+	if not is_instance_valid(battle):
+		return
+	if result == "lost" and Session.in_dungeon():
+		# a dungeon loss plays out as a loss (the run ends, the hero is carried out); _boss_for_real then decrees the dungeon from its entrance
+		await driver.seconds(0.8)
+		if is_instance_valid(battle) and get_tree().current_scene == battle:
+			battle._continue()
+		await driver.seconds(1.0)
+		return
+	if result == "won" or (result == "lost" and battle.mode == BattleScreen.Mode.OVER):
+		if result == "lost":
+			_fights["decreed"] = int(_fights["decreed"]) + 1
+			battle.context.won = true
+			if battle.game != null:
+				battle.game.players[0].hp = maxi(battle.game.players[0].hp, 1)
+		await driver.seconds(0.8)
+		if is_instance_valid(battle) and get_tree().current_scene == battle:
+			battle._continue()
+		await driver.seconds(1.0)
+	else:
+		_fights["decreed"] = int(_fights["decreed"]) + 1
+		await _force_win(battle)
+
+
+## The play script's pilot loop (tools/play_script.gd `_pilot`): "won", "lost" or "stalled".
+func _pilot_fight(battle: BattleScreen) -> String:
+	var pilot: BattlePilot = BattlePilot.new(driver, battle)
+	var started: int = Time.get_ticks_msec()
+	var last_turn: int = -1
+	var stuck: int = 0
+	while is_instance_valid(battle) and battle.mode != BattleScreen.Mode.OVER and float(Time.get_ticks_msec() - started) / 1000.0 < 420.0:
+		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
+			await driver.seconds(0.2)
+			continue
+		var got_it: Button = driver.find_button("Got it")
+		if got_it != null:
+			await driver.click(driver.button_center(got_it))
+			await driver.seconds(0.2)
+		var confirm: Button = driver.find_button("End Turn", battle)
+		await pilot.act()
+		await driver.seconds(0.2)
+		for node: Node in get_tree().root.find_children("*", "Button", true, false):
+			var dialog: Button = node as Button
+			if dialog != confirm and dialog.is_visible_in_tree() and dialog.text.strip_edges() == "End Turn":
+				await driver.click(driver.button_center(dialog))
+				await driver.seconds(0.2)
+				break
+		if battle.game != null and battle.game.turn != last_turn:
+			last_turn = battle.game.turn
+			stuck = 0
+		else:
+			stuck += 1
+		if stuck == 30 or stuck == 70:
+			pilot.skip_hand()
+		if stuck == 40:
+			var skip: Button = driver.find_button("Skip tips")
+			if skip != null:
+				await driver.click(driver.button_center(skip))
+		if stuck > 120:
+			return "stalled"
+	if not is_instance_valid(battle):
+		return "won"
+	if battle.mode != BattleScreen.Mode.OVER:
+		return "stalled"
+	# the result panel arrives a moment after the last blow
+	for _i: int in range(20):
+		if battle._result_shown:
+			break
+		await driver.seconds(0.2)
+	return "won" if battle.context.won else "lost"
+
+
+## Maren's send-off: walk up, E, read it all. Starts the four zone lines and tracks the hero's own.
+func _path_direction(town: TownScene) -> TownScene:
+	await _clear_overlays(town)
+	await _walk_up(town, "elder")
+	await driver.tap_key(KEY_E)
+	await _click_through(town)
+	var own: String = PathDirection.own_main_quest(Session.profile.primary_affinity)
+	_step(Session.flag(StringName(PathDirection.FLAG)) and Session.quest_log.is_active(own), "Maren sends the hero down their own Path (the four zone lines start)")
+	_step(Session.quest_log.tracked_id() == own, "the hero's own Path line is the tracked quest")
+	return town
+
+
+func _digest() -> Dictionary:
+	var true_flags: int = 0
+	for key: Variant in Session.flags.keys():
+		if typeof(Session.flags[key]) == TYPE_BOOL and bool(Session.flags[key]):
+			true_flags += 1
+	var active: Array = Session.quest_log.active.duplicate()
+	active.sort()
+	var names: Array = []
+	for key: Variant in Session.flags.keys():
+		if typeof(Session.flags[key]) == TYPE_BOOL and bool(Session.flags[key]):
+			names.append(str(key))
+	names.sort()
+	return {
+		"flag_names": ",".join(PackedStringArray(names)),
+		"active": ",".join(PackedStringArray(active)), "completed": Session.quest_log.completed.size(), "flags": true_flags,
+		"gold": Session.gold, "level": Session.profile.level, "deck": Session.deck.size() if Session.deck != null else -1,
+		"gear": Session.owned_equipment_ids().size(), "cleared": Session.cleared_dungeons.size(), "secrets": Session.found_secrets.size(),
+	}
+
+
+## Saves a snapshot through the real save path, loads it through the real load path and checks the game came back the same.
+func _save_load(label: String, kind: Variant) -> Node:
+	if not _saveload:
+		return null
+	await _dismiss_popups()
+	var snapshot_name: String = "bot_%s_%s" % [_path_zone, label]
+	var before: Dictionary = _digest()
+	var kind_before: String = Session.scene_kind()
+	DevActions.save_snapshot(snapshot_name)
+	DevActions.load_snapshot(snapshot_name)
+	await driver.frames(10)
+	var scene: Node = await _wait_for(kind)
+	if scene != null:
+		await driver.seconds(2.0)
+		if "dialogue" in scene and scene.get("dialogue") is DialogueBox:
+			await _dismiss_dialogue(scene.get("dialogue") as DialogueBox)
+		await _dismiss_popups()
+	var after: Dictionary = _digest()
+	var diffs: PackedStringArray = []
+	for key: Variant in before.keys():
+		if key == "flag_names":
+			var was: PackedStringArray = str(before[key]).split(",")
+			var now: PackedStringArray = str(after[key]).split(",")
+			for f: String in now:
+				if not f in was:
+					diffs.append("+flag " + f)
+			for f: String in was:
+				if not f in now:
+					diffs.append("-flag " + f)
+		elif key != "flags" and str(before[key]) != str(after[key]):
+			diffs.append("%s %s -> %s" % [key, before[key], after[key]])
+	_step(scene != null and diffs.is_empty(), "save/load at %s (%s): %s" % [label, kind_before, "the same state" if diffs.is_empty() and scene != null else ("no scene; " if scene == null else "") + ", ".join(diffs)])
+	return scene
+
+
+## Once per run, in the first main dungeon: one node in, save, load. The dungeon run is never saved, so the hero must come back in the
+## zone (not Crosspath) with no run, and the next entry must start a fresh map.
+func _mid_dungeon_check(zone_id: String) -> Node:
+	_mid_dungeon_checked = true
+	var map: DungeonMap = Session.dungeon_map
+	if map != null and not map.available().is_empty():
+		DevActions.walk_map_to(map, map.available()[0].id)
+	var cleared_before: int = map.cleared.size() if map != null else 0
+	var snapshot_name: String = "bot_%s_mid_dungeon" % _path_zone
+	var kind_saved: String = Session.scene_kind()
+	DevActions.save_snapshot(snapshot_name)
+	DevActions.load_snapshot(snapshot_name)
+	await driver.frames(10)
+	var zone: ZoneScene = await _wait_for(ZoneScene) as ZoneScene
+	if zone != null:
+		await driver.seconds(2.0)
+		await _dismiss_dialogue(zone.dialogue)
+		await _dismiss_popups()
+	_step(kind_saved == "zone:%s" % zone_id, "mid-dungeon save records the zone (%s)" % kind_saved)
+	_step(zone != null and zone.def.id == zone_id and not Session.in_dungeon(), "mid-dungeon load: back in %s with no dungeon run (it had %d cleared nodes)" % [zone_id, cleared_before])
+	if zone == null:
+		var town: TownScene = await _to_town()
+		if town == null:
+			return null
+	Session.begin_zone_visit(zone_id)
+	Session.enter_main_dungeon()
+	var again: Node = await _wait_for(DungeonMapScreen)
+	_step(again != null and Session.dungeon_map != null and Session.dungeon_map.cleared.size() <= 1, "re-entering starts the dungeon over (%d cleared)" % (Session.dungeon_map.cleared.size() if Session.dungeon_map != null else -1))
+	return again
+
+
+## Plays a dungeon's boss (every phase) for real on the real map: the nodes before it are walked through by the Dev Menu's map walk (DEV
+## HELP, logged), the boss is chosen on the map like a click, every fight goes to `_win`, and every box after it is read. Ends when `done`
+## says so and the game has left the map and the fight; a run that cannot reach that is decreed with `fallback`.
+func _boss_for_real(done: Callable, label: String, expected_key: String = "", fallback: Callable = Callable()) -> void:
+	var started: int = Time.get_ticks_msec()
+	var fights: int = 0
+	var chose: int = 0
+	var walked: bool = false
+	while float(Time.get_ticks_msec() - started) / 1000.0 < 900.0:
+		await driver.seconds(0.3)
+		if SceneManager.busy:
+			continue
+		var scene: Node = get_tree().current_scene
+		if scene is BattleScreen:
+			var battle: BattleScreen = scene as BattleScreen
+			if battle.mode != BattleScreen.Mode.OVER:
+				fights += 1
+				await _win(battle, "%s (fight %d)" % [label, fights])
+			elif battle._result_shown:
+				battle._continue()
+				await driver.seconds(1.0)
+			continue
+		if scene is EndingScreen:
+			return
+		if scene is DungeonMapScreen:
+			var map_screen: DungeonMapScreen = scene as DungeonMapScreen
+			if map_screen._dialogue != null and map_screen._dialogue.active:
+				await _dismiss_dialogue(map_screen._dialogue)
+				continue
+			if driver.find_button("Continue") != null or driver.find_button("Next level") != null or _reward_popup() != null or _slot_choice() != null:
+				await _dismiss_popups()
+				continue
+			if done.call():
+				continue  # the map closes by itself after the last boss
+			var map: DungeonMap = Session.dungeon_map
+			if map == null or map.boss() == null:
+				continue
+			var boss_id: int = map.boss().id
+			if not map.is_available(boss_id) and map.current != boss_id:
+				var skipped: int = DevActions.walk_map_to(map, boss_id)
+				if not walked:
+					walked = true
+					_note("DEV HELP: %s - walked the map to the boss (%d nodes skipped)" % [label, skipped])
+				_grant_lab_boon()
+				_catch_up(expected_key, label)
+			chose += 1
+			if chose > 6:
+				break
+			map_screen._on_node_chosen(boss_id)
+			await driver.seconds(1.5)
+			continue
+		if not done.call() and (scene is ZoneScene or scene is TownScene or scene is StartingAreaScene) and fights > 0:
+			await driver.seconds(1.5)
+			await _dismiss_popups()
+			_note("DEV HELP: %s - lost on the real map and carried out; the dungeon is decreed from its entrance" % label)
+			break
+		if done.call():
+			for _i: int in range(6):
+				await _dismiss_popups()
+				var box: Node = scene.get("dialogue") if scene != null and "dialogue" in scene else null
+				if box is DialogueBox and (box as DialogueBox).active:
+					await _dismiss_dialogue(box as DialogueBox)
+				await driver.seconds(0.3)
+			return
+		# not the map, not a fight, not done: a cut-scene or a box between phases
+		await _dismiss_popups()
+		var talk: Node = scene.get("dialogue") if scene != null and "dialogue" in scene else null
+		if talk is DialogueBox and (talk as DialogueBox).active:
+			await _dismiss_dialogue(talk as DialogueBox)
+		else:
+			await driver.tap_key(KEY_E)
+	_note("DEV HELP: %s never finished on the real map (%d fights, %d boss picks, scene %s) - decreed" % [label, fights, chose, get_tree().current_scene.name if get_tree().current_scene != null else "none"])
+	if fallback.is_valid():
+		fallback.call()
+		return
+	if not Session.in_dungeon() and not expected_key.is_empty():
+		await _reenter(expected_key)
+	if Session.main_dungeon_active:
+		Session.resolve_main_dungeon(true)
+	elif Session.in_dungeon():
+		Session.resolve_mini_dungeon(true)
+
+
+## The postgame: Rip's forest tip and the Lab (Under the Forest), the cracked mirror and the Shattered Gallery, Old Man Mountain and Swolympus.
+func _postgame() -> void:
+	var town: TownScene = await _to_town()
+	if town == null:
+		_step(false, "postgame: the town loads")
+		return
+	_step(Session.quest_log.is_active(QuestDefinitions.UNDER_THE_FOREST), "postgame: Under the Forest is given")
+	_step(Session.quest_log.is_active("loose_ends"), "postgame: Loose Ends is given")
+	# 1. Rip at the Rift Station
+	await _clear_overlays(town)
+	await _walk_up(town, "rift_station")
+	await driver.tap_key(KEY_E)
+	await _dismiss_dialogue(town.dialogue)
+	await driver.seconds(0.8)
+	_step(Session.flag(&"rip_forest_tip"), "postgame: Rip tells of the forest (step 1)")
+	var forest_button: Button = driver.find_button("Forest")
+	if forest_button == null:
+		forest_button = driver.find_button("forest")
+	if forest_button != null:
+		await driver.click(driver.button_center(forest_button))
+		await driver.seconds(1.0)
+		for _i: int in range(30):
+			if get_tree().current_scene is StartingAreaScene:
+				break
+			await _dismiss_dialogue(town.dialogue if is_instance_valid(town) else null)
+			await driver.seconds(0.5)
+	if not (get_tree().current_scene is StartingAreaScene):
+		await driver.tap_key(KEY_ESCAPE)
+		_note("DEV HELP: postgame - the Rift Express to the forest was not driven; went to the forest directly")
+		SceneManager.go_to_start_area()
+	var forest: Node = await _wait_for(StartingAreaScene)
+	await driver.seconds(2.0)
+	if forest != null and "dialogue" in forest:
+		await _dismiss_dialogue(forest.get("dialogue") as DialogueBox)
+	_step(forest != null and Session.flag(StringName(QuestDefinitions.FLAG_FOREST_ARRIVED)), "postgame: back in the forest (step 2)")
+	await _save_load("forest_postgame", StartingAreaScene)
+	# 2. The Lab (the walk to the hatch is skipped: DEV HELP)
+	_note("DEV HELP: postgame - walking to the Lab hatch skipped (entered through the hatch's own calls)")
+	Session.set_flag(StringName(QuestDefinitions.FLAG_LAB_ENTERED))
+	Session.enter_lab()
+	var lab_map: Node = await _wait_for(DungeonMapScreen)
+	_step(lab_map != null, "postgame: the Lab opens (step 3)")
+	if _real and lab_map != null:
+		await _boss_for_real(func() -> bool: return Session.flag(PathologyLab.FLAG_RESCUER_FREED), "the Lab", "D-LAB")
+	elif lab_map != null:
+		_grant_lab_boon()
+		Session.resolve_mini_dungeon(true)
+	await driver.seconds(2.0)
+	_step(Session.flag(PathologyLab.FLAG_RESCUER_FREED) and Session.quest_log.is_completed(QuestDefinitions.UNDER_THE_FOREST), "postgame: Elowen is freed and Under the Forest completes")
+	# 3. The Shattered Gallery: the cracked mirror at the castle door
+	town = await _to_town()
+	if town == null:
+		return
+	var mouth: Vector3 = town.town.anchors["portal_final_mouth"] as Vector3
+	_teleport(town, mouth + Vector3(0.0, 0.0, 5.0))
+	await _walk_to(town, mouth + Vector3(0.0, 0.0, -1.5), 6.0)
+	var capital: ZoneScene = await _wait_for(ZoneScene) as ZoneScene
+	if capital == null:
+		_step(false, "postgame: the Capital loads")
+		return
+	await driver.seconds(2.0)
+	await _dismiss_dialogue(capital.dialogue)
+	await _dismiss_popups()
+	var mirror: ZoneSpot = null
+	for spot: ZoneSpot in capital.spots:
+		if spot.id == "gallery_mirror":
+			mirror = spot
+	_step(mirror != null, "postgame: the cracked mirror stands by the castle door")
+	if mirror != null:
+		capital.player.position = mirror.position + Vector3(0.0, 0.0, 1.0)
+		await driver.frames(8)
+		await driver.tap_key(KEY_E)
+		await driver.seconds(1.0)
+		await _dismiss_dialogue(capital.dialogue)
+		_step(Session.flag(StringName(ShatteredGallery.FLAG_MIRROR_SEEN)), "postgame: looking into the mirror counts (Gallery step)")
+		var through: Button = driver.find_button("Step through")
+		_step(through != null or Session.side_unlocked(ShatteredGallery.DUNGEON_ID), "postgame: the Gallery opens from the mirror")
+		if through != null:
+			await driver.click(driver.button_center(through))
+			await driver.seconds(1.0)
+			var deck_ok: Button = driver.find_button("Use this deck")
+			if deck_ok != null:
+				await driver.click(driver.button_center(deck_ok))
+		var gallery_map: Node = await _wait_for_short(DungeonMapScreen)
+		if gallery_map == null and Session.side_unlocked(ShatteredGallery.DUNGEON_ID):
+			_note("DEV HELP: postgame - the Gallery entry was not driven through its dialog; entered with the Dev Menu's travel")
+			DevActions.travel_dungeon(ShatteredGallery.DUNGEON_ID)
+			gallery_map = await _wait_for(DungeonMapScreen)
+		_step(gallery_map != null, "postgame: the Shattered Gallery's map opens")
+		if gallery_map != null:
+			if _real:
+				await _boss_for_real(func() -> bool: return Session.flag(ShatteredGallery.FLAG_CLEARED), "the Gallery", "S-GALLERY")
+			else:
+				Session.resolve_mini_dungeon(true)
+			await driver.seconds(2.0)
+			_step(Session.flag(ShatteredGallery.FLAG_CLEARED), "postgame: the Shattered Gallery is cleared")
+	# 4. Swolympus: Old Man Mountain's "Only the Worthy..." (by flag/counter: DEV HELP), then the climb
+	_note("DEV HELP: postgame - Old Man Mountain's shake errand done by its counter; Swolympus entered with the Dev Menu's travel")
+	Session.start_quest("side_s_beef")
+	Session.bump_counter(GainlandsZone.COUNTER_SHAKES)
+	Session.refresh_quests()
+	Session.turn_in_quest("side_s_beef")
+	_step(Session.quest_log.is_completed("side_s_beef") and Session.side_unlocked("S-BEEF"), "postgame: Only the Worthy... opens Mount Swolympus")
+	DevActions.travel_dungeon("S-BEEF")
+	var climb: Node = await _wait_for(DungeonMapScreen)
+	_step(climb != null, "postgame: the Ascent of Mount Swolympus opens")
+	var climb_name: String = DungeonCatalog.find("S-BEEF").dungeon_name
+	if climb != null:
+		if _real:
+			await _boss_for_real(func() -> bool: return Session.cleared_dungeons.has(climb_name), "Swolympus", "S-BEEF")
+		else:
+			Session.resolve_mini_dungeon(true)
+		await driver.seconds(2.0)
+	_step(Session.cleared_dungeons.has(climb_name), "postgame: Swolympus is climbed (Loose Ends step 1)")
+	var loose: QuestData = QuestCatalog.find("loose_ends")
+	_step(loose != null and Session.quest_log.objective_met(loose, 0, Session.unlock_state()) and Session.quest_log.objective_met(loose, 1, Session.unlock_state()), "postgame: Loose Ends shows Swolympus and the forest done (the arena bout is left)")
+	await _shot("p_postgame_end")
+
+
+## Skipping the Lab's nodes skips Cell 4, where Elowen joins (her boon on the run): give it as the cell would.
+func _grant_lab_boon() -> void:
+	if Session.dungeon_key == PathologyLab.DUNGEON_ID and Session.run != null and not PathologyLab.rescued(Session.run):
+		Session.run.dungeon_sources.append(PathologyLab.rescuer_boon())
+		_note("DEV HELP: the Lab - Cell 4 skipped by the map walk; Elowen's boon given as the cell gives it")
+
+
+## The nodes before a boss were skipped by the map walk, and with them their XP and rewards: bring the hero to the expected player's level,
+## deck and gear for this dungeon (ProgressionModel, as the snapshots do), logged as DEV HELP. Never lowers anything.
+func _catch_up(expected_key: String, label: String) -> void:
+	if expected_key.is_empty() or Session.profile == null:
+		return
+	var level: int = ProgressionModel.level_for(expected_key, Session.profile.level)
+	if level <= Session.profile.level:
+		return
+	_note("DEV HELP: %s - level %d -> %d with the reference deck and gear (the skipped nodes' XP)" % [label, Session.profile.level, level])
+	DevActions.set_level(level, true)
+	var path: Affinity.Type = Session.profile.primary_affinity
+	var deck: Deck = ProgressionModel.reference_deck(Session.content, path, level)
+	for card: CardData in deck.cards:
+		if Session.profile.owned_copies(card.id) < deck.count_of(card.id):
+			Session.profile.owned_cards.append(card)
+	EventBus.collection_changed.emit()
+	Session.save_deck_to_slot(Session.deck_box.active, deck, "%s deck" % Affinity.display_name(path))
+	for slot_value: int in EquipmentData.Slot.values():
+		Session.profile.unlock_equipment_slot(slot_value as EquipmentData.Slot)
+	Session.pending_equipment_choices = 0
+	for piece_id: String in ProgressionModel.equipment_for(level):
+		var piece: EquipmentData = Session.content.equipment_piece(piece_id)
+		if piece != null:
+			Session.grant_equipment(piece)
+			Session.equip_item(piece)
+	if Session.run != null:
+		Session.run.hp = maxi(Session.run.hp, Session.profile.base_max_hp())
+
+
+## Back into the dungeon a real loss carried the hero out of (expected_key names it), so it can be decreed from its entrance.
+func _reenter(expected_key: String) -> void:
+	DevActions.full_heal()
+	match expected_key:
+		"D-LAB":
+			Session.enter_lab()
+		"S-GALLERY", "S-BEEF":
+			DevActions.travel_dungeon(expected_key)
+		_:
+			var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(expected_key)
+			var zone: String = plan.zone_id if plan != null else ""
+			if expected_key != "D-PC" and not _current_zone.is_empty():
+				zone = _current_zone
+			if not zone.is_empty():
+				Session.begin_zone_visit(zone)
+				Session.enter_main_dungeon()
+	await _wait_for(DungeonMapScreen)
+	await driver.seconds(1.0)
+	_grant_lab_boon()

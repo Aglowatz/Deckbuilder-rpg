@@ -224,11 +224,36 @@ func _build_accessibility() -> void:
 	_body.add_child(_check("Reduce screen shake", Settings.reduce_shake, _on_reduce_shake, "ReduceShakeCheck"))
 	_body.add_child(_check("Reduce flashing effects", Settings.reduce_flashing, _on_reduce_flashing, "ReduceFlashingCheck"))
 	_body.add_child(_note("Reduce flashing turns full-screen flashes down to a faint glow and removes the red hit flash on cards."))
+	# Overnight Nov 8-9 (Part 4): the log for bug reports - open its folder or copy the latest log to paste into a report.
+	_body.add_child(_note("Found a bug? The game keeps a log of what happened. Open its folder, or copy it and paste it into your report (Report a Problem in the pause menu, or the game's itch.io page)."))
+	var log_row: HBoxContainer = UIKit.hbox(14)
+	log_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	var open_logs: FancyButton = FancyButton.make("Open log folder", &"GhostButton", Vector2(240, 48))
+	open_logs.name = "OpenLogFolder"
+	open_logs.pressed.connect(func() -> void: OS.shell_open(ProjectSettings.globalize_path(GameLog.DIR)))
+	log_row.add_child(open_logs)
+	var copy_log: FancyButton = FancyButton.make("Copy log", &"GhostButton", Vector2(200, 48))
+	copy_log.name = "CopyLog"
+	copy_log.pressed.connect(func() -> void:
+		DisplayServer.clipboard_set(log_text())
+		copy_log.text = "Copied")
+	log_row.add_child(copy_log)
+	_body.add_child(log_row)
 	var reset: FancyButton = FancyButton.make("Reset all settings", &"GhostButton", Vector2(260, 48))
 	reset.name = "ResetSettings"
 	reset.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	reset.pressed.connect(_on_reset_all)
 	_body.add_child(reset)
+
+
+## The current log's last 200 KB (a bug report pastes it), or a line saying there is none.
+static func log_text() -> String:
+	var path: String = "%s/%s.log" % [GameLog.DIR, GameLog.FILE_NAME]
+	if not FileAccess.file_exists(path):
+		return "(no log file at %s)" % ProjectSettings.globalize_path(path)
+	var text: String = FileAccess.get_file_as_string(path)
+	var limit: int = 200_000
+	return text if text.length() <= limit else text.substr(text.length() - limit)
 
 
 func _build_controls() -> void:

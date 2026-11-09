@@ -1,0 +1,5 @@
+"ID","Zone/Area","Speaker","When it's heard","Current line","New line"
+"data/story/capital_story.tres::ending.credits.3::0","Ending","(narration)","Ending: credits 3","PLACEHOLDER CREDITS","THE WAYWARD PATH"
+"data/story/capital_story.tres::ending.credits.4::0","Ending","(narration)","Ending: credits 4","Design and direction: you","Full credits and licences: Credits, on the title screen"
+"data/story/capital_story.tres::ending.credits.6::0","Ending","(narration)","Ending: credits 6","Art: Kenney, KayKit, game-icons.net and friends (see CREDITS.md)","Paintings made with AI image tools, chosen and fitted by hand. Models by KayKit and Kenney, icons from game-icons.net"
+"data/story/capital_story.tres::ending.credits.7::0","Ending","(narration)","Ending: credits 7","Music: synthesized in code","Music written as code and played on the FluidR3 soundfont"

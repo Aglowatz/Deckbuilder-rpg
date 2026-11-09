@@ -128,6 +128,10 @@ func _build_menu() -> void:
 	if has_saves:
 		_menu_column.add_child(_menu_button("Load Game", &"", _on_load_game))
 	_menu_column.add_child(_menu_button("Settings", &"", _on_settings))
+	# Overnight Nov 8-9 (Part 4): the credits and licences, and the optional donation link (hidden until data/credits/credits.cfg has a url).
+	_menu_column.add_child(_menu_button("Credits", &"", _on_credits))
+	if not CreditsPanel.support_url().is_empty():
+		_menu_column.add_child(_menu_button("Support the game", &"", func() -> void: OS.shell_open(CreditsPanel.support_url())))
 	_menu_column.add_child(_menu_button("Quit", &"", SceneManager.quit_game))
 	if not Session.save_reset_message.is_empty():
 		var notice: Label = UIKit.label(Session.save_reset_message, &"MutedLabel", 20)
@@ -248,6 +252,13 @@ func _on_settings() -> void:
 	_show_overlay(func(box: VBoxContainer) -> void:
 		var panel: SettingsPanel = SettingsPanel.new()
 		panel.theme_type_variation = &"DarkPanel"
+		panel.closed.connect(_close_overlay)
+		box.add_child(panel))
+
+
+func _on_credits() -> void:
+	_show_overlay(func(box: VBoxContainer) -> void:
+		var panel: CreditsPanel = CreditsPanel.make()
 		panel.closed.connect(_close_overlay)
 		box.add_child(panel))
 

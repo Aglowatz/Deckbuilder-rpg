@@ -1,0 +1,37 @@
+# The Credits screen's text (ui/screens/credits_screen.gd). "# " lines are headings, "## " lines are small headings, blank lines
+# separate paragraphs; lines starting with ";" are comments. {creator} and {version} are filled in from credits.cfg / the project.
+# THE WAYWARD PATH
+Version {version}
+{creator}
+
+# Made with Godot Engine
+This game uses Godot Engine, available under the following license:
+Copyright (c) 2014-present Godot Engine contributors. Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Godot Engine includes third-party components (FreeType, ENet, mbed TLS, HarfBuzz, ICU and others); their notices follow at the end of these credits.
+
+# Fonts
+Cinzel by Natanael Gama - SIL Open Font License 1.1
+Alegreya Sans by Juan Pablo del Peral, Huerta Tipografica - SIL Open Font License 1.1
+
+# Music
+Original score for this game, written as code (with AI assistance) in the project's own music tools and rendered with FluidSynth.
+Soundfont: FluidR3_GM by Frank Wen - MIT License (Copyright (c) 2000-2002, 2008 Frank Wen).
+
+# Sound effects
+Kenney (kenney.nl) - CC0
+Freesound (freesound.org) contributors - CC0. With thanks to: _natiKatz, Adielees9, AlanCat, AlaskaRobotics, Alien_I_Trust, ani_music, applauseav, beatmad, BenjaminNelan, BinaryMonkFlint, BMacZero, Breviceps, brktkrgll, brokenmachinery, bsmacbride, cognito perceptu, craigsmith, Dalesome, deathpie, eddies2000, egomassive, EminYILDIRIM, eyesonlegs, Fission9, galeku, Garuda1982, GnoteSoundz, hdfreema, I.fekry, IENBA, jcdecha, Jofae, jsbarrett, katzlbt, kev_durr, keweldog, Kinoton, Kodack, Krokulator, kvgarlic, leonelmail, ludde44, Mafon2, magnuswaker, MilkyGacha, monte32, moxobna, mzui, nigelcoop, Nightflame, Nox_Sound, odilonmarcenaro, Omnisis, pakasit21, petebuchwald, petenice, philberts, phonoflora, Planman, PostProdDog, qubodup, ragamuffin, ramonmineiro, roboroo, rucisko, salemaudio, SomeoneCool15, SpliceSound, suzenako, swiftoid, titsher, Ultra-Edward, Valenspire, viaaico2013, ViaTorci, XxBirdoxX, Yuval.
+
+# 3D models and icons
+KayKit by Kay Lousberg (kaylousberg.itch.io) - CC0
+Kenney 3D kits (kenney.nl) - CC0
+Icons from game-icons.net by Lorc, Delapouite, Sbed, Skoll, Carl Olsen, Cathelineau and Faithtoken - CC BY 3.0
+
+# Tools
+GUT (Godot Unit Test) by Butch Wesley - MIT License
+
+# About the art, music and writing
+The Wayward Path was made by one person with AI tools. The paintings (cards, characters, places, story pictures and interface art) were generated with an image model from the developer's own descriptions, then chosen, edited and fitted into the game by hand. The music was written as code with AI assistance and rendered with a free soundfont. The story and dialogue were written with the help of AI and edited by the developer. All game design, rules and balance are the developer's own.
+
+# Thank you for playing

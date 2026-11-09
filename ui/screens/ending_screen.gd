@@ -402,6 +402,12 @@ func _start_credits() -> void:
 		scroll.kill()
 		_show_postgame())
 	add_child(skip)
+	# Overnight Nov 8-9 (Part 4): the optional donation link beside Skip (hidden until data/credits/credits.cfg has a url).
+	var support: FancyButton = CreditsPanel.support_button(Vector2(260, 52))
+	if support != null:
+		support.position = Vector2(1440, 996)
+		support.z_index = 80
+		add_child(support)
 
 
 func _show_postgame() -> void:
