@@ -1,0 +1,695 @@
+[
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.3::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Tell me: which Path resonates within you?",
+		"after": "Tell me, quickly: which Path answers you the loudest?"
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.prismatic_reveal::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Fenwick pulls a curtain aside. \"The back room. Prismatic packs: every Path in one wrapper.",
+		"after": "Fenwick pulls a curtain aside. \"The back room. Prismatic packs: every Path in one wrapper.\""
+	},
+	{
+		"id": "data/story/intro_story.tres::town.pack_vendor.prismatic_reveal::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "They only exist because the Paths are talking to each other again. Terrible for my exclusivity. Wonderful for my sales.\"",
+		"after": "\"They only exist because the Paths are talking to each other again. Terrible for my exclusivity. Wonderful for my sales.\""
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.card_vendor.line::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "Sable pats a stack of wrapped bundles. \"Surprise packs, darling. Fresh from the crates, and I never ask a crate where it has been.",
+		"after": "Sable pats a stack of wrapped bundles. \"Surprise packs, darling. Fresh from the crates, and I never ask a crate where it has been.\""
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.card_vendor.line::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Sable",
+		"before": "What's inside? The crate has declined to comment, darling, and I admire a professional.\"",
+		"after": "\"What's inside? The crate has declined to comment, darling, and I admire a professional.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.wake::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Old Man Mountain",
+		"before": "\"You passed out mid-rep, lad. Happens to the best of us. Happened to me in the spring of... the spring of... well, it was a spring. Towel's on the house.",
+		"after": "\"You passed out mid-rep, lad. Happens to the best of us. Happened to me in the spring of... the spring of... well, it was a spring. Towel's on the house.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.wake::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Old Man Mountain",
+		"before": "Just don't tell the regime you had a lie-down. They fine people for resting, and I've only got the one towel.\"",
+		"after": "\"Just don't tell the regime you had a lie-down. They fine people for resting, and I've only got the one towel.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Brock cracks every knuckle he owns, then a few he borrowed. \"Pec Perch? Great view.",
+		"after": "Brock cracks every knuckle he owns, then a few he borrowed. \"Pec Perch? Great view.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Landing's a bit rough, mind. Tuck your elbows in and enjoy the view while you've got it.\"",
+		"after": "\"Landing's a bit rough, mind. Tuck your elbows in and enjoy the view while you've got it.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Rita flexes both hands like she's about to open a very stubborn jar. \"Delt Deck? Easy. I rip the portal open, you walk through.",
+		"after": "Rita flexes both hands like she's about to open a very stubborn jar. \"Delt Deck? Easy. I rip the portal open, you walk through.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "No tools and no spells, just bare hands and a lot of back.\"",
+		"after": "\"No tools and no spells, just bare hands and a lot of back.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.locked::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Rita shakes her head. \"Can't rip a thing with the grid this dry. Portals run on power, same as everything else up here.",
+		"after": "Rita shakes her head. \"Can't rip a thing with the grid this dry. Portals run on power, same as everything else up here.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.locked::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Somebody has to run the big hamster wheel up the hill. Get it spinning, then come back and I'll have you through in no time.\"",
+		"after": "\"Somebody has to run the big hamster wheel up the hill. Get it spinning, then come back and I'll have you through in no time.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Tobias hefts you like a sack of oats. \"West meadow, cross-country. It's a long way, so I'm putting everything into this one.",
+		"after": "Tobias hefts you like a sack of oats. \"West meadow, cross-country. It's a long way, so I'm putting everything into this one.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "You can tell me how it was once your thoughts catch up with you.\"",
+		"after": "\"You can tell me how it was once your thoughts catch up with you.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_west.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Wanda is already warming up. \"East meadow? Easy.",
+		"after": "Wanda is already warming up. \"East meadow? Easy.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_west.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Say 'courtesy' for me. Louder. COURTESY!\"",
+		"after": "\"Say 'courtesy' for me. Louder. COURTESY!\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Bonnie waves a foam finger. \"Heading down? Right.",
+		"after": "Bonnie waves a foam finger. \"Heading down? Right.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Bend your knees on the way down. It'll look like you planned this.\"",
+		"after": "\"Bend your knees on the way down. It'll look like you planned this.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Shredna rolls her shoulders. \"Calf Cove. Did the old yeti say hello? ...No, don't tell me, I don't care. Did he, though?",
+		"after": "Shredna rolls her shoulders. \"Calf Cove. Did the old yeti say hello? ...No, don't tell me, I don't care. Did he, though?\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Old Man Mountain vouches for you, so Calf Cove's open. Mind the edges out there; the view drops off very suddenly.\"",
+		"after": "\"Old Man Mountain vouches for you, so Calf Cove's open. Mind the edges out there; the view drops off very suddenly.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Ripley is already shaking out her hands. \"Back down to the Ridge? Sure.",
+		"after": "Ripley is already shaking out her hands. \"Back down to the Ridge? Sure.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "I don't open doors. I take a very personal interest in a wall until it gives up.\"",
+		"after": "\"I don't open doors. I take a very personal interest in a wall until it gives up.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Dmitri cracks his neck slowly, one way and then the other. \"Glute Garden's a long throw. A very long throw.",
+		"after": "Dmitri cracks his neck slowly, one way and then the other. \"Glute Garden's a long throw. A very long throw.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "I need you aerodynamic, so try not to think about it. Thinking adds drag.\"",
+		"after": "\"I need you aerodynamic, so try not to think about it. Thinking adds drag.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Greta checks her watch. \"Down to the east wheel yard? Say 'ready' on three.",
+		"after": "Greta checks her watch. \"Down to the east wheel yard? Say 'ready' on three.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "One. Two. Actually, I'm already throwing.\"",
+		"after": "\"One. Two. Actually, I'm already throwing.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_done::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "\"You're a hero! Take this, I borrowed it from the gym.",
+		"after": "\"You're a hero! Take this, I borrowed it from the gym.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_done::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "It's not mine, so now it's yours. I think that's how borrowing works.\"",
+		"after": "\"It's not mine, so now it's yours. I think that's how borrowing works.\""
+	},
+	{
+		"id": "data/encounters/boss_intros.json::Chancellor Clench, Iron Regent/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "You. Off the wheel. Nobody leaves the Gainlands without a permit and a rep count.",
+		"after": "You. Nobody walks into my house without a permit and a rep count, and nobody walks out of it at all."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "Flex doesn't gloat. He kneels beside his fallen pupil and offers him a hand. \"You hated yourself for needing the iron, my boy.",
+		"after": "Flex doesn't gloat. He kneels beside his fallen pupil and offers him a hand. \"You hated yourself for needing the iron, my boy.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "I never hated you for it. Come back to the gym. We start from zero. Everyone does.\"",
+		"after": "\"I never hated you for it. Come back to the gym. We start from zero. Everyone does.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::freed_npc.heartlift::5",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "And you, son: whatever they took from you, it was not the part that matters.",
+		"after": "And you, son: I don't know what they took from you. I do know what it looks like when someone keeps going anyway."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.wake::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "\"You fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt. Again. Please don't tell Chef.",
+		"after": "\"You fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt. Again. Please don't tell Chef.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::fx.wake::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Basil",
+		"before": "Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything.\"",
+		"after": "\"Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.open::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket nods slowly. \"Go on in. Mind the cheese.",
+		"after": "Brisket nods slowly. \"Go on in. Mind the cheese.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.open::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "The cheese takes trespassing personally. You're walking on its rind.\"",
+		"after": "\"The cheese takes trespassing personally. You're walking on its rind.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.pass::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket sniffs the air, and his eyes close in bliss. \"Saffron. Real saffron.",
+		"after": "Brisket sniffs the air, and his eyes close in bliss. \"Saffron. Real saffron.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.pass::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Do you know how long it has been?\" He takes the threads with great tenderness and steps aside.",
+		"after": "\"Do you know how long it has been?\" He takes the threads with great tenderness and steps aside."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket does not look at you. He looks over your head, at the horizon. \"This gate opens for one pinch of saffron.",
+		"after": "Brisket does not look at you. He looks over your head, at the horizon. \"This gate opens for one pinch of saffron.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Real saffron, mind you, which grows in the Candy Field. Ask a sous-chef if you lose your way.\"",
+		"after": "\"Real saffron, mind you, which grows in the Candy Field. Ask a sous-chef if you lose your way.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.need::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Sir Loin clanks to attention. \"HALT! Nobody enters Layer-Cake Town until Old Meatloaf has been mended.",
+		"after": "Sir Loin clanks to attention. \"HALT! Nobody enters Layer-Cake Town until Old Meatloaf has been mended.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.need::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "It is Basil's request, so speak to Basil in the Grand Pantry. Yes, Chef!\"",
+		"after": "\"It is Basil's request, so speak to Basil in the Grand Pantry. Yes, Chef!\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Colonel Casserole bubbles ominously. \"Halt! This gate is guarded by a Colonel.",
+		"after": "Colonel Casserole bubbles ominously. \"Halt! This gate is guarded by a Colonel.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "No passes, no bribes - challenge me to single combat with cards. I shall defend this gate to the last course.\"",
+		"after": "\"No passes, no bribes - challenge me to single combat with cards. I shall defend this gate to the last course.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.body::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "A sous-chef is crouched behind the sacks of flour, shaking. \"She doesn't taste the soup,\" he whispers. \"Not once, not in ten years.",
+		"after": "A sous-chef is crouched behind the sacks of flour, shaking. \"She doesn't taste the soup,\" he whispers. \"Not once, not in ten years.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.body::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Chef ALWAYS tastes. Whoever is in that kitchen is not our Chef.\"",
+		"after": "\"Chef ALWAYS tastes. Whoever is in that kitchen is not our Chef.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.result.1::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "He eats like a man who hasn't had a proper meal in a week, and when he's finished he grips your hand. \"Thank you. Please be careful.",
+		"after": "He eats like a man who hasn't had a proper meal in a week, and when he's finished he grips your hand. \"Thank you. Please be careful.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.result.1::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The real Chef is down there somewhere. I know she is.\" You leave feeling better for having fed him.",
+		"after": "\"The real Chef is down there somewhere. I know she is.\" You leave feeling better for having fed him."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "A small silvery ghost is already in the queue, hugging an enormous stack of appeals tied with three kinds of ribbon. \"Number 4,000,213. There you are, dear.",
+		"after": "A small silvery ghost is already in the queue, hugging an enormous stack of appeals tied with three kinds of ribbon. \"Number 4,000,213. There you are, dear.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while.",
+		"after": "\"Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "I'm Agnes Overdue. I work the front desk, and on my lunch hour I'm an appellant: forty thousand appeals, every one denied. They've started decorating the stamps.",
+		"after": "\"I'm Agnes Overdue. I work the front desk, and on my lunch hour I'm an appellant: forty thousand appeals, every one denied. They've started decorating the stamps.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Follow me; I know where the departments hide. And a word of advice: the authorization is valid. That's what makes it so terrible.\"",
+		"after": "\"Follow me; I know where the departments hide. And a word of advice: the authorization is valid. That's what makes it so terrible.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before.met::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "A small silvery ghost waves from the queue, the ribboned stack of appeals under one arm. \"Number 4,000,213. I saved your place, dear. Nobody noticed, but then nobody ever does.",
+		"after": "A small silvery ghost waves from the queue, the ribboned stack of appeals under one arm. \"Number 4,000,213. I saved your place, dear. Nobody noticed, but then nobody ever does.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before.met::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while.",
+		"after": "\"Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before.met::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "I spent my lunch hour on appeal forty thousand and one, and it came back denied with a very nice stamp. I'm starting to take it personally.",
+		"after": "\"I spent my lunch hour on appeal forty thousand and one, and it came back denied with a very nice stamp. I'm starting to take it personally.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_number.before.met::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "Follow me; I know where the departments hide. And a word of advice: the authorization is valid. That's what makes it so terrible.\"",
+		"after": "\"Follow me; I know where the departments hide. And a word of advice: the authorization is valid. That's what makes it so terrible.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_records.before::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "\"Irregular,\" says Agnes, very quietly, and looks at it for a long time. \"A presumed death with no remains on file is an incomplete form.",
+		"after": "\"Irregular,\" says Agnes, very quietly, and looks at it for a long time. \"A presumed death with no remains on file is an incomplete form.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_records.before::4",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Someone should look into it, dear, because this form doesn't tell us what happened to the boy.\" You realise you have been holding your breath.",
+		"after": "\"Someone should look into it, dear, because this form doesn't tell us what happened to the boy.\" You realise you have been holding your breath."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_forms.before::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Two aisles over, Agnes is filling in a form with a very stubby pencil. \"Form 27-C, third attempt. It needs a 27-B, which needs a 27-C.",
+		"after": "Two aisles over, Agnes is filling in a form with a very stubby pencil. \"Form 27-C, third attempt. It needs a 27-B, which needs a 27-C.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_forms.before::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "They keep stamping it DENIED and writing Irregular in the margin. Don't mind me, dear. I've filed worse and kept the receipts.\"",
+		"after": "\"They keep stamping it DENIED and writing Irregular in the margin. Don't mind me, dear. I've filed worse and kept the receipts.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_clerk.before::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Undersecretary Vellum",
+		"before": "Undersecretary Vellum squares his papers and does not look up. \"Noted. You wish to challenge the transfer of authority.",
+		"after": "Undersecretary Vellum squares his papers and does not look up. \"Noted. You wish to challenge the transfer of authority.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_clerk.before::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Undersecretary Vellum",
+		"before": "The authorization remains valid. It was submitted, reviewed, approved, notarized and filed. You may appeal in triplicate.\"",
+		"after": "\"The authorization remains valid. It was submitted, reviewed, approved, notarized and filed. You may appeal in triplicate.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.before::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "\"You do not have an appointment. That is irregular. However, the authorization is valid, and under it every visitor is entitled to a hearing.",
+		"after": "\"You do not have an appointment. That is irregular. However, the authorization is valid, and under it every visitor is entitled to a hearing.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.before::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "The answer is no. The question is irrelevant, but you may state your case anyway.",
+		"after": "\"The answer is no. The question is irrelevant, but you may state your case anyway.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.before::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "You have, according to the clock, four hundred years.\"",
+		"after": "\"You have, according to the clock, four hundred years.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::event.ha_form_b.result.0::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "\"Form 11-D,\" she says. \"A simple form. It requires only your signature, in blood.",
+		"after": "\"Form 11-D,\" she says. \"A simple form. It requires only your signature, in blood.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::event.ha_form_b.result.0::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "Please don't worry, the blood is optional. The signature is not.\"",
+		"after": "\"Please don't worry, the blood is optional. The signature is not.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::event.ha_notary.body::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "A very old notary sits behind a very high counter, a seal in one hand and a very large quill in the other. \"Everything in the Hall,\" he says, \"must be notarized.",
+		"after": "A very old notary sits behind a very high counter, a seal in one hand and a very large quill in the other. \"Everything in the Hall,\" he says, \"must be notarized.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::event.ha_notary.body::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "Even you. Especially you.\"",
+		"after": "\"Even you. Especially you.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.after::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "\"...Oh,\" says Mortimer. \"Oh, no. Tuesday is not a business day in this building.",
+		"after": "\"...Oh,\" says Mortimer. \"Oh, no. Tuesday is not a business day in this building.\""
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_boss.after::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "The authorization was valid, and it was always valid. But the office is now vacant, and policy is policy.\"",
+		"after": "\"The authorization was valid, and it was always valid. But the office is now vacant, and policy is policy.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.wake::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "\"Went down in the muck, dearie, so we rolled you out. I'd charge you a mucking-out fee, but you've done the muck a favour. Heh!",
+		"after": "\"Went down in the muck, dearie, so we rolled you out. I'd charge you a mucking-out fee, but you've done the muck a favour. Heh!\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::fx.wake::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "The haybale was free, though it's started growing, so best get up before you put down roots.\"",
+		"after": "\"The haybale was free, though it's started growing, so best get up before you put down roots.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Moss Mulligan tucks her hands behind her back. \"Sorry! I only grow bridges for people who have helped the herd, and Billie Muckfoot's animals have got out again.",
+		"after": "Moss Mulligan tucks her hands behind her back. \"Sorry! I only grow bridges for people who have helped the herd, and Billie Muckfoot's animals have got out again.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Round them up for Billie, then come back to me, and I will grow you a way across. No thorns. Promise.\"",
+		"after": "\"Round them up for Billie, then come back to me, and I will grow you a way across. No thorns. Promise.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::freed_npc.compostella::4",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Compostella, the Rotheart, and Archdruid Compostella",
+		"before": "You're carrying a loss you can't name yet, child. When you find its name, don't shut it away in a jar the way I did. Death is not the end of them.",
+		"after": "You're carrying a loss you can't name yet, child. When you find its name, don't bury it under something that can never die, the way I did. The ones we lose aren't gone. They go into everything."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_gourmand.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'LAB NOTES: Subject A (the Grand Chef) proved resistant to persuasion. Resolved by substitution. The substitute is cooperative, and does not argue about the sauce.",
+		"after": "'LAB NOTES: Subject A (the Grand Chef) proved resistant to persuasion. Resolved by substitution. The substitute is cooperative, and does not argue about the sauce.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_gourmand.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "All Gourmands to be fed the sauce. They will be happier, and a little less themselves. I consider this the improvement.'",
+		"after": "'All Gourmands to be fed the sauce. They will be happier, and a little less themselves. I consider this the improvement.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_beefcake.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'COUP ORDERS: Remove Grandmaster Flex. Remove his weights, his protein, his gymnasium. Observe.",
+		"after": "'COUP ORDERS: Remove Grandmaster Flex. Remove his weights, his protein, his gymnasium. Observe.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_beefcake.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "When the champion is sufficiently weak, he will no longer be a disagreement. NOTE: do not underestimate him. He does a lot of stretching.'",
+		"after": "'When the champion is sufficiently weak, he will no longer be a disagreement. NOTE: do not underestimate him. He does a lot of stretching.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_necrocrat.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'FORM 1-A (NOTARIZED): Authority over all Necrocrat government is hereby transferred to {villain_title}. Reviewed. Approved.",
+		"after": "'FORM 1-A (NOTARIZED): Authority over all Necrocrat government is hereby transferred to {villain_title}. Reviewed. Approved.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_necrocrat.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Filed. VALID. NOTE: the Necrocrats will obey this, because it is their nature to obey a valid form.",
+		"after": "'Filed. VALID. NOTE: the Necrocrats will obey this, because it is their nature to obey a valid form.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_necrocrat.before::3",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "I did not need to force anyone. I needed only to be correct.'",
+		"after": "'I did not need to force anyone. I needed only to be correct.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_refusemancer.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'THE SEED: Nature is untidy, inefficient and forever disagreeing with itself.",
+		"after": "'THE SEED: Nature is untidy, inefficient and forever disagreeing with itself.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_refusemancer.before::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A seed, properly corrupted, can be made to agree with me. Plant it in the Archdruid, and observe.",
+		"after": "'A seed, properly corrupted, can be made to agree with me. Plant it in the Archdruid, and observe.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_wing_refusemancer.before::3",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "NOTE: it will spread, and what grows will be orderly. I believe she will thank me.'",
+		"after": "'NOTE: it will spread, and what grows will be orderly. I believe she will thank me.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_blueprints.after::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "They are good. They are so good, and something catches in your throat as you roll up the best of them and take it.",
+		"after": "They are good, genuinely good, and something catches in your throat as you roll up the best of them and take it."
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.body::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A wall of journals in a young man's neat handwriting, each one dated. 'Year 1: Wells. Half the lower city has to walk two miles for clean water.",
+		"after": "A wall of journals in a young man's neat handwriting, each one dated. 'Year 1: Wells. Half the lower city has to walk two miles for clean water.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.body::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "I have drawn up plans for six new ones, and the Council has approved every one. I did not sleep at all. It was wonderful.'",
+		"after": "'I have drawn up plans for six new ones, and the Council has approved every one. I did not sleep at all. It was wonderful.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.body::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "'Year 3: School lunches. A child asked me why the soup was warm. I said, so that you can eat it.",
+		"after": "'Year 3: School lunches. A child asked me why the soup was warm. I said, so that you can eat it.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_early_journals.body::3",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "She said, that is the best idea anyone has ever had. I put it in a frame.'",
+		"after": "'She said, that is the best idea anyone has ever had. I put it in a frame.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_last_journal.body::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The last page, in a neat hand, the ink still wet: 'Today I corrected eleven more. They cried, which is understandable. They do not yet see it.",
+		"after": "The last page, in a neat hand, the ink still wet: 'Today I corrected eleven more. They cried, which is understandable. They do not yet see it.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_last_journal.body::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "In ten years' time they will thank me. In a hundred, they will not remember there was anything to thank me for. That is the point. That is how you know it has worked.",
+		"after": "'In ten years' time they will thank me. In a hundred, they will not remember there was anything to thank me for. That is the point. That is how you know it has worked.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::event.pc_last_journal.body::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "I am so tired. I do not think anyone has ever tried so hard to be kind. I only wish somebody would say so.'",
+		"after": "'I am so tired. I do not think anyone has ever tried so hard to be kind. I only wish somebody would say so.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_boss.after::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "{villain} sits among them, small, in his pressed grey coat, and does not move for a long time.",
+		"after": "{villain} sits among them, small, in his pressed white-and-gold coat, and does not move for a long time."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.4::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "...(a long silence)... Your mother and father were sentimental people, and sentiment was going to cost this kingdom everything. I removed two people so that eleven thousand could be safe. I did the sums twice.",
+		"after": "...(a long silence)... Your mother and father were sentimental people, and sentiment was going to cost this kingdom everything. I removed two people so that a whole kingdom could be safe. I did the sums twice."
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_ward.before::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "The Path-ologists' records are pinned to every door. 'SUBJECT 1, the Royal Asset. Drain cycle 3,114.",
+		"after": "The Path-ologists' records are pinned to every door. 'SUBJECT 1, the Royal Asset. Drain cycle 3,114.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::dungeon.pc_ward.before::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Power stable, routed to the Throne. {villain}'s hold depends on it. Do not allow the Subject to leave.'",
+		"after": "'Power stable, routed to the Throne. {villain}'s hold depends on it. Do not allow the Subject to leave.'"
+	}
+]
