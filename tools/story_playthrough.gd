@@ -1355,10 +1355,26 @@ func _tend_deck(why: String) -> void:
 	for color: Affinity.Type in Affinity.colored_types():
 		infrastructure.append(Session.content.infrastructure[int(color)] as CardData)
 	var paths: Array[Affinity.Type] = [Session.profile.primary_affinity]
+	# a second Path once the game allows it (after the first freed zone): the one the collection holds most cards of
+	if DeckValidator.max_colors(Session.profile) >= 2:
+		var counts: Dictionary = {}
+		for card: CardData in Session.profile.owned_cards:
+			if card == null or card.is_infrastructure() or card.is_token or card.is_basic:
+				continue
+			for path: Affinity.Type in card.paths():
+				if path != paths[0] and path != Affinity.Type.NEUTRAL:
+					counts[path] = int(counts.get(path, 0)) + 1
+		var second: int = -1
+		for path: Variant in counts.keys():
+			if second < 0 or int(counts[path]) > int(counts[second]):
+				second = int(path)
+		if second >= 0 and int(counts[second]) >= 8:
+			paths.append(second as Affinity.Type)
+	var bought: int = _shop(paths)
 	var deck: Deck = DeckInsights.suggest(Session.profile.owned_cards, paths, Session.profile.level, infrastructure, DeckValidator.min_deck_size())
 	if deck != null and deck.size() >= DeckValidator.min_deck_size():
 		Session.save_deck_to_slot(Session.deck_box.active, deck, "%s deck" % Affinity.display_name(paths[0]))
-	print("%s: tend deck (%s): %d packs opened, deck %d cards, level %d, gold %d" % [TAG, why, opened, Session.deck.size() if Session.deck != null else 0, Session.profile.level, Session.gold])
+	print("%s: tend deck (%s): %d packs opened, %d cards bought, Paths %s, deck %d cards, level %d, gold %d" % [TAG, why, opened, bought, str(paths.map(func(t: Affinity.Type) -> String: return Affinity.display_name(t))), Session.deck.size() if Session.deck != null else 0, Session.profile.level, Session.gold])
 
 
 func _full_summary() -> void:
@@ -1501,3 +1517,35 @@ func _ai_fight(battle: BattleScreen) -> String:
 			break
 		await driver.seconds(0.2)
 	return "won" if battle.context.won else "lost"
+
+
+## Overnight Nov 9, Part 1: what a normal player does in town - buy the best cards Sable has for the deck's Paths (rarest first, up to the copy
+## cap), keeping a third of the purse. Returns the number bought. (The zone shelves are not visited: walking time.)
+func _shop(paths: Array[Affinity.Type]) -> int:
+	if Session.profile == null or Session.trial_finished:
+		return 0
+	var stock: VendorData = VendorStocks.sable_sample(Session.content, Session.unlock_state(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME), ProgressionTable.BONUS_VENDOR_UNLOCK_LEVELS, Session.profile.primary_affinity)
+	var state: UnlockState = Session.unlock_state()
+	var wanted: Array[CardData] = []
+	for entry: VendorStockEntry in stock.entries:
+		var card: CardData = Session.content.card(entry.card_id)
+		if card == null or not Condition.met(entry.unlock, state):
+			continue
+		var fits: bool = true
+		for path: Affinity.Type in card.paths():
+			if path != Affinity.Type.NEUTRAL and not paths.has(path):
+				fits = false
+		if fits:
+			wanted.append(card)
+	wanted.sort_custom(func(a: CardData, b: CardData) -> bool: return int(a.rarity) > int(b.rarity))
+	var reserve: int = Session.gold / 3
+	var bought: int = 0
+	for card: CardData in wanted:
+		while CardPricing.is_for_sale(card, Session.owned_count(card.id), Session.copy_cap(card)):
+			var price: int = Session.effective_price(CardPricing.price(card))
+			if Session.gold - price < reserve or not Session.spend_gold(price):
+				break
+			Session.add_cards([card] as Array[CardData])
+			Session.bump_counter("cards_bought")
+			bought += 1
+	return bought
