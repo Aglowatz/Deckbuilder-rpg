@@ -1,0 +1,517 @@
+# Overnight Nov 8-9, Part 1.3: 90-minute soak - zones, walking, real fights; perf lines watch memory
+wait 3
+dev load bot_beefcake_town_after_refusemancer
+wait 15
+skip_dialogue
+perf
+log loop 0 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 1 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 2 zone gourmand
+dev travel zone gourmand
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter gourmand
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 3 zone refusemancer
+dev travel zone refusemancer
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter refusemancer
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 4 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+shot soak_4
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 5 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 6 zone gourmand
+dev travel zone gourmand
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter gourmand
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 7 zone refusemancer
+dev travel zone refusemancer
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter refusemancer
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 8 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 9 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+shot soak_9
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 10 zone gourmand
+dev travel zone gourmand
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter gourmand
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 11 zone refusemancer
+dev travel zone refusemancer
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter refusemancer
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 12 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 13 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 14 zone gourmand
+dev travel zone gourmand
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter gourmand
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+shot soak_14
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 15 zone refusemancer
+dev travel zone refusemancer
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter refusemancer
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 16 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 17 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 18 zone gourmand
+dev travel zone gourmand
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter gourmand
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 19 zone refusemancer
+dev travel zone refusemancer
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter refusemancer
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+shot soak_19
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 20 zone beefcake
+dev travel zone beefcake
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter beefcake
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+log loop 21 zone necrocrat
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+hold W 3
+hold D 3
+hold S+A 3
+hold W+D 4
+perf
+dev encounter necrocrat
+wait 4
+pilot 150
+wait 3
+skip_dialogue
+wait 8
+skip_dialogue
+perf
+dev travel town
+wait 12
+skip_dialogue
+hold A 3
+hold W 3
+perf
+shot soak_end

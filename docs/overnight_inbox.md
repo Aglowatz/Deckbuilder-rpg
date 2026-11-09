@@ -1306,3 +1306,19 @@ Report: `docs/overnight_report.md` ("Fable pass Nov 1"). Most important first.
 13. **Fresh critic (CF, Nov 7).** Reached and beat the Path gatekeeper within the hour. Its blocker - the Peek popup drawn behind the
    board's units - and its four majors (bought cards to collection silently, the cave's Stalker now harder than the Warden, at-cap pick
    essence missing, crowded board / Fennel hidden by orchard props) are left for the next pass: `docs/review/critic_nov7/CF.md`.
+
+## Overnight Nov 8-9 (ship-readiness) - yours to decide (the safest choice was taken)
+
+1. **Your name in the credits.** `data/credits/credits.cfg` has `creator=""`; while empty the Credits page and end credits show no "A game by"
+   line. Fill it with the name you want shown.
+2. **Donation link.** Same file, `[support] url=""`. While empty, every "Support the game" button stays hidden (title menu, Credits page,
+   end credits). Paste your itch.io donate / Ko-fi link to show them.
+3. **Colour-blind Path symbols on by default?** The four Path colours collide for red-green colour blindness (red/orange, two greens). The
+   symbol option exists but is off. Recommendation: on by default (S). Not changed tonight.
+4. **Dex's Matching Circuit: finish or hide for 1.0?** It is the only minigame that still looks placeholder (critic N8 #5). Finish = M (art +
+   a felt backdrop), hide = S. See `docs/release/cut_or_finish_nov9.md`.
+5. **Portrait variants held in code.** Brannoch, Sable, Tonic, Fenwick and Threadwell's expression variants show a different species (human)
+   from their base portrait. Tonight they are never shown (`Portraits.HELD_EXPRESSIONS`); the redos are at the top of the Batch 14 list.
+   Remove each id from that list once its variants are redone.
+6. **The AI disclosure wording** (`docs/release/itch_page/ai_disclosure.md`, also in the Credits page) is a draft in your voice ("made by one
+   person with the help of AI tools"). Check that it says what you want before release.
