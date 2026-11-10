@@ -10,7 +10,7 @@ extends Resource
 @export var dungeon_pack_count: int = 1
 ## Extra rewards on the FIRST clear of a zone's main dungeon.
 @export var first_clear_gilded_packs: int = 1
-@export var first_clear_bonus_gold: int = 150  # Fixes Nov 8: restored
-@export var first_clear_bonus_xp: int = 100
+@export var first_clear_bonus_gold: int = 120  # Fixes Nov 8: restored at 150; Fable pass Nov 10 (Part 4.3): x 0.8
+@export var first_clear_bonus_xp: int = 80  # Fable pass Nov 10 (Part 4.3): 100 x 0.8
 ## Prismatic Packs granted for beating Primm (the first time).
 @export var primm_prismatic_packs: int = 1

@@ -7,8 +7,8 @@ extends RefCounted
 ## bonus and its Gilded Pack, as before); a side dungeon pays SIDE_FRACTION (it paid no XP before Nov 1). Primm's Castle keeps its own
 ## prize (400). Timeline check: `docs/design/sim/economy_model.md` (the level timeline) and docs/design/progression.md.
 
-const MAIN_FRACTION: float = 0.5
-const SIDE_FRACTION: float = 0.15
+const MAIN_FRACTION: float = 0.4  # Fable pass Nov 10 (Part 4.3): 0.5 x 0.8
+const SIDE_FRACTION: float = 0.12  # Fable pass Nov 10 (Part 4.3): 0.15 x 0.8
 
 
 ## The XP of a first clear of main dungeon `dungeon_id` (its tier from the progression model; `fallback_level` for an unknown id).

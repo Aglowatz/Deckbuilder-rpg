@@ -1917,9 +1917,12 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	context.tutorial = node.tutorial
 	context.is_boss = node.kind == DungeonMap.Kind.BOSS
 	context.gold_reward = node.gold_reward
-	if main_dungeon_active or mini_active:
-		context.gold_reward = Economy.late_gold(node.gold_reward, ProgressionModel.level_for(dungeon_key, 1))  # Overnight Nov 7-8, Part 2.5
 	context.xp_reward = EncounterRewards.xp_for(node.difficulty)
+	if main_dungeon_active or mini_active:
+		# Overnight Nov 7-8, Part 2.5: late dungeons scale with the level. Fable pass Nov 10 (Part 4.2): every dungeon fight (normal, elite,
+		# boss) pays 50 % more gold and XP (the tutorial cave is not a dungeon run; its pay is tuned for level 5 at Maren's).
+		context.gold_reward = Economy.dungeon_fight_gold_bonus(Economy.late_gold(node.gold_reward, ProgressionModel.level_for(dungeon_key, 1)))
+		context.xp_reward = Economy.dungeon_fight_xp_bonus(context.xp_reward)
 	context.card_choices = node.card_choices
 	return context
 

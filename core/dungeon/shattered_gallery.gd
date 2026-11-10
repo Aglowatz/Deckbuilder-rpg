@@ -45,7 +45,7 @@ const QUEST_ID: String = "cracks_in_the_glass"
 const FLAG_MIRROR_SEEN: String = "gallery_mirror_seen"
 const FLAG_CLEARED: StringName = &"gallery_cleared"
 ## The first clear's prizes: gold, essence of every Path, the Mirrored card finish (CosmeticState.mirrored_unlocked).
-const FIRST_CLEAR_GOLD: int = 1500
+const FIRST_CLEAR_GOLD: int = 1200  # Fable pass Nov 10 (Part 4.3): 1500 x 0.8
 const FIRST_CLEAR_ESSENCE: int = 6
 const FEAT_ID: String = "through_the_glass"
 

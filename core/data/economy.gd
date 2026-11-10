@@ -45,7 +45,21 @@ const GEAR_PRICE: Dictionary = {
 ## Overnight Nov 7-8 cut these (chests, clear bonus, late level gold) to bring a no-grind run down to ~11,300. Fixes Nov 8 (owner): the goal is
 ## three copies of every card plus every multi-Path craft, so the run earns about 21,200 again - the knobs are back at 1.0 (kept as knobs).
 const CHEST_GOLD_SCALE: float = 0.6  # Fixes Nov 8: 21.2k with the late-fight raise kept
-const CLEAR_BONUS_SHARE: float = 1.0
+## Fable pass Nov 10 (Part 4.3): every dungeon's completion reward is 20 % smaller than before - the clear bonus matched the run's gold (1.0),
+## now 0.8 of it; the first-clear gold, XP fractions and the pack config's flat bonus are scaled by COMPLETION_SCALE too.
+const CLEAR_BONUS_SHARE: float = 0.8
+const COMPLETION_SCALE: float = 0.8
+## Fable pass Nov 10 (Part 4.2): every fight inside a dungeon (normal, elite and boss nodes of a main or side dungeon) pays 50 % more gold and
+## XP than before; card picks, packs and the zone roamers are unchanged.
+const DUNGEON_FIGHT_BONUS: float = 1.5
+
+
+static func dungeon_fight_gold_bonus(gold: int) -> int:
+	return roundi(float(gold) * DUNGEON_FIGHT_BONUS / 5.0) * 5 if gold > 0 else 0
+
+
+static func dungeon_fight_xp_bonus(xp: int) -> int:
+	return roundi(float(xp) * DUNGEON_FIGHT_BONUS) if xp > 0 else 0
 const LEVEL_GOLD_FROM: int = 6
 const LEVEL_GOLD_SCALE: float = 0.85
 ## Overnight Nov 7-8, Part 2.5: late fights pay more - every fight at an expected level of LATE_LEVEL or more (the Capital, the castle, the Lab, the
@@ -69,9 +83,9 @@ const ROAMER_GOLD: Array[int] = [13, 35, 40, 50, 60, 70]  # Fixes Nov 8: restore
 const ZONE_TIER: Dictionary = {"town": 0, "forest": 0, "beefcake": 1, "necrocrat": 2, "gourmand": 3, "refusemancer": 4, "final": 5}
 
 ## Dungeon clears.
-const SIDE_FIRST_CLEAR_GOLD: int = 100
+const SIDE_FIRST_CLEAR_GOLD: int = 80  # Fable pass Nov 10 (Part 4.3): 100 x 0.8
 const SIDE_REPEAT_GOLD: int = 200  # Fixes Nov 8: a replayed side dungeon is the completionist's grind (was 40)
-const MAIN_FIRST_CLEAR_GOLD: int = 200
+const MAIN_FIRST_CLEAR_GOLD: int = 160  # Fable pass Nov 10 (Part 4.3): 200 x 0.8
 const MAIN_REPEAT_GOLD: int = 300  # Fixes Nov 8 (was 100)
 const ARENA_REPLAY_GOLD: int = 25
 

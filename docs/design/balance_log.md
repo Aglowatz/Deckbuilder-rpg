@@ -1579,3 +1579,15 @@ the Old Service Tunnels (Spotless 66, +6), the castle normals (100). Not re-meas
 
   The Refusemancer against Brick Bronson was 25 % in C8; now 67 %. The bare-starter row is the stress case (an L5 starter deck against a
   node tuned for L11-14, without the zone-order ease the early study applies); the early study is the realistic own-zone-first path.
+
+
+## Fable pass Nov 10, Part 4: dungeon fights +50 %, completion rewards -20 % (owner brief)
+
+| What | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Every fight inside a dungeon (normal, elite, boss nodes of main and side dungeons) | gold x1, XP x1 -> **gold x1.5 (rounded to 5), XP x1.5** (`Economy.DUNGEON_FIGHT_BONUS`, applied in `Session` where the node's context is built; the tutorial cave is not a dungeon run) | the brief: the fights inside should pay more than the walk in; card picks and packs unchanged | the gold study re-run, docs/overnight_report.md (Fable Nov 10, Part 4) |
+| The clear bonus at the boss (the run's gold once more) | `CLEAR_BONUS_SHARE` 1.0 -> **0.8** | the brief: every dungeon's completion reward -20 % | same |
+| Main dungeon first clear | 200 gold -> **160**; XP 0.5 of a level step -> **0.4**; the pack config's flat bonus 150 gold / 100 XP -> **120 / 80** | same | same |
+| Side dungeon first clear | 100 gold -> **80**; XP 0.15 of a level step -> **0.12** | same | same |
+| Primm's Castle, the Lab, the Shattered Gallery first clears | 400 XP -> **320**; 400 / 400 -> **320 / 320**; 1500 gold -> **1200** | "every dungeon's completion reward" (the brief: apply it to all, not only the final dungeon) | same |
+| Repeat clears | unchanged (300 main / 200 side) | not a completion bonus | - |

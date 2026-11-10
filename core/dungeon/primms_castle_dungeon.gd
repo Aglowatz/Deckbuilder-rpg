@@ -21,7 +21,7 @@ static func build_def() -> MainDungeonDef:
 	var def: MainDungeonDef = DungeonBuilder.build_def(DungeonCatalog.find(DUNGEON_ID))
 	def.backdrop = "castle"
 	def.reward_gold = 500
-	def.reward_xp = 400
+	def.reward_xp = 320  # Fable pass Nov 10 (Part 4.3): the castle's own prize, 400 x 0.8 like every completion reward
 	_challenges(def)
 	_events(def)
 	return def

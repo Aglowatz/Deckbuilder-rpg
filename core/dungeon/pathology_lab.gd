@@ -20,8 +20,8 @@ const FLAG_FOREST_OPEN: StringName = &"rift_station_forest"
 const FLAG_REVEALED: StringName = &"lab_revealed"
 ## The first-clear rewards besides the unique card (the card id is the "(C-34)" of the dungeon's reward text).
 const REWARD_EQUIPMENT_ID: String = "siphons_lens"
-const REWARD_GOLD: int = 400
-const REWARD_XP: int = 400
+const REWARD_GOLD: int = 320  # Fable pass Nov 10 (Part 4.3): 400 x 0.8
+const REWARD_XP: int = 320  # Fable pass Nov 10 (Part 4.3): 400 x 0.8
 ## Cell 4's event (built here, after the boon exists).
 const RESCUE_EVENT: String = "lab_cell4"
 

@@ -9,7 +9,7 @@ func test_the_bonus_grows_with_the_tier_and_mains_pay_more_than_sides() -> void:
 	var ttk: int = DungeonClearBonus.main_xp("D-TTK")
 	var rot: int = DungeonClearBonus.main_xp("D-ROT")
 	assert_true(hog < hfa and hfa < ttk and ttk < rot, "%d < %d < %d < %d" % [hog, hfa, ttk, rot])
-	assert_gt(hog, 150, "the House of Gains pays at least the old flat 160 - 10")
+	assert_gte(hog, 120, "the House of Gains pays at least 0.8 of the old flat 160 - 10 (Fable pass Nov 10: completion rewards x 0.8)")
 	assert_lt(rot, 400, "never a whole level")
 	assert_eq(hog % 5, 0, "rounded to 5s")
 	var iron: int = DungeonClearBonus.side_xp("S-IRON")
@@ -26,7 +26,7 @@ func test_every_dungeon_def_carries_its_tier_bonus() -> void:
 	for key: String in ["beefcake", "necrocrat", "gourmand", "refusemancer"]:
 		var def: MainDungeonDef = MainDungeons.def(key)
 		assert_eq(def.reward_xp, DungeonClearBonus.main_xp(def.dungeon_id), "%s first clear XP" % key)
-	assert_eq(MainDungeons.def("final").reward_xp, 400, "Primm's Castle keeps its prize")
+	assert_eq(MainDungeons.def("final").reward_xp, 320, "Primm's Castle keeps its own prize (400 x 0.8 since Fable pass Nov 10)")
 	var checked: int = 0
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if not blueprint.is_side() or blueprint.id == PathologyLab.DUNGEON_ID:
