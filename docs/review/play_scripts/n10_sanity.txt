@@ -1,0 +1,9 @@
+wait 4
+dev load bot_refusemancer_enter_gourmand
+wait 12
+scene
+shot n10_sanity_mid
+dev load c13cap
+wait 14
+scene
+shot n10_sanity_cap

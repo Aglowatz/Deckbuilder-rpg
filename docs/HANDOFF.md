@@ -105,6 +105,26 @@ decision (`docs/build_size_policy.md`).
    same with `--apply`. It checks tokens, length and that the line fits the box. `--revert` puts a CSV's changes back. Two lines are pinned by
    tests on purpose (the Rescuer's "which Path resonates within you?" and Flex's "it was not the part that matters").
 
+**Playtesters' rewrites (the workbook `docs/dialogue/playtesters_nov9.xlsx`, Nov 10):** save every returned copy (any names, e.g.
+`docs/dialogue/returned/alice.xlsx`), then three commands from the repo folder:
+
+```
+python tools/import_playtester_dialogue.py docs/dialogue/returned/*.xlsx
+node tools/apply_dialogue_pass.js --csv=docs/dialogue/playtesters_nov9_merged.csv
+node tools/apply_dialogue_pass.js --csv=docs/dialogue/playtesters_nov9_merged.csv --apply
+```
+
+1. **Convert** reads the "Dialogue" tab of each file (ID in B, New line in H, Notes in M, Reviewer in N; found by header name), skips empty New
+   lines, and checks each rewrite against the game's current text: the ID exists, every `{token}`, `[tag]` and `%s` is kept, one line, at most
+   240 characters (90 for barks). Rows added, deleted or sorted are reported (matching is by ID, never by row). Two testers who rewrote the
+   same line differently are a **conflict**: both versions are listed, neither goes in. Output: `playtesters_nov9_merged.csv` (accepted rows
+   only) and `playtesters_nov9_merged_report.md` (accepted / rejected with the reason / conflicts / sheet structure). Read the report.
+2. **Dry run**: the usual importer report (`docs/dialogue/playtesters_nov9_merged/apply_report_dry_run.md`), including the fits-the-box check
+   (it runs Godot; close the game first).
+3. **Apply** writes the game files. **Undo:** the same command with `--revert` (all of it) or `--revert=ids.txt` (some lines). To settle a
+   conflict, copy the line you choose into a CSV with columns `id,new_text` and run `... --merge=<that file> --apply`. Then run the tests.
+   Options: `--out=<csv>` for another output name; `--template=<xlsx>` if the original workbook moved. No extra Python packages needed.
+
 ## 6. Small, safe prompts for a $20 plan
 
 Rules of thumb: one task per session; name the files; say what "done" means; ask for the light tests only; ask it to commit when green.
