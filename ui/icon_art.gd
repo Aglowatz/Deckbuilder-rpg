@@ -265,6 +265,7 @@ static func cosmetic_texture(item: CosmeticData, px: float) -> Texture2D:
 const PLACEHOLDER_GEAR: Dictionary = {
 	"lucky_sock": "ICON-GEAR-EXTRAPOCKET", "cardboard_cuirass": "ICON-GEAR-SOLIDPLATE", "pointy_stick": "ICON-GEAR-WICKEDDAGGER",
 	"saucepan_helmet": "ICON-GEAR-BIGBRAINBERET", "flip_flops": "ICON-GEAR-TRAVELERSBOOTS", "kettlebell_locket": "ICON-GEAR-CHEATERSDICE",
+	"hall_pass_slippers": "ICON-GEAR-TRAVELERSBOOTS",  # Fable pass Nov 10 (Part 5): until ICON-EQ-HALLPASSSLIPPERS lands (docs/art/art_needed_nov2.csv)
 	"red_tape_dispenser": "ICON-GEAR-EXTRAPOCKET", "doggy_bag": "ICON-GEAR-EXTRAPOCKET", "dumpster_gloves": "ICON-GEAR-THORNEDLOINCLOTH",
 	"glass_jaw_gauntlets": "ICON-GEAR-WICKEDDAGGER", "overdue_library_book": "ICON-GEAR-BIGBRAINBERET", "elastic_waistband": "ICON-GEAR-THORNEDLOINCLOTH",
 	"hubris_crown": "ICON-GEAR-BIGBRAINBERET", "protein_bandolier": "ICON-GEAR-SOLIDPLATE", "notary_seal": "ICON-GEAR-CHEATERSDICE",

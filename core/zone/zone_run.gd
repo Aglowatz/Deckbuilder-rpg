@@ -56,6 +56,20 @@ func damage(amount: int) -> void:
 	run.hp = maxi(0, run.hp - amount)
 
 
+## Fable pass Nov 10 (Part 5): damage from the world while walking (a roamer's bump, a rift, the gravy, a pit, a fall). Returns the HP
+## actually lost: 0 when the hero wears a piece with WORLD_IMMUNITY (the Hall Pass Slippers). Battles and story damage never come through here.
+func world_damage(amount: int) -> int:
+	if amount <= 0 or immune_to_world_damage():
+		return 0
+	var before: int = run.hp
+	damage(amount)
+	return before - run.hp
+
+
+func immune_to_world_damage() -> bool:
+	return run != null and ExpansionGear.equipped_total(run.profile, Modifier.Kind.WORLD_IMMUNITY) > 0
+
+
 ## Heals up to max HP. Returns how much HP was actually restored.
 func heal(amount: int) -> int:
 	var before: int = run.hp
@@ -73,7 +87,7 @@ func wake_at_hub(gold_available: int, cause: String = "") -> int:
 	run.hp = run.max_hp()
 	run.failed = false
 	var def: ZoneDef = ZoneDefs.get_def(zone_id)
-	# Fix pass Nov 7 (owner decision D1): losing costs nothing - no fee, no item lost; the wake lines keep their fee joke, waived.
+	# Fix pass Nov 7 (owner decision D1): no fee, no item lost on a loss; the wake lines keep their fee joke, waived.
 	var fee: int = 0
 	var reason: String = cause if not cause.is_empty() else "declared Deceased (again)"
 	fee_log.append("%s waived - %s" % [def.fee_label, reason])

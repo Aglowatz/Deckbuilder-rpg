@@ -201,7 +201,7 @@ static func herded_this_visit(run: ZoneRun, animal: int) -> bool:
 ## Falling into the compost pit or the recycling stream: 1 damage and a line in the zone log. Returns {damage, down, log}.
 static func apply_hazard_fall(run: ZoneRun, place: String, log_template: String) -> Dictionary:
 	var before: int = run.hp
-	run.damage(HeapZone.HAZARD_DAMAGE)
+	run.world_damage(HeapZone.HAZARD_DAMAGE)  # Fable pass Nov 10 (Part 5): a world hazard (the Hall Pass Slippers waive it)
 	var line: String = log_template % place
 	Session.log_zone_event(line)
 	return {"damage": before - run.hp, "down": run.is_down(), "log": line}

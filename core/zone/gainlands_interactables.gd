@@ -109,7 +109,7 @@ static func run_wheel() -> bool:
 ## zone log. Returns {damage, down, log}; the scene handles the respawn at the last safe spot.
 static func apply_fall(run: ZoneRun, island_title: String, log_template: String) -> Dictionary:
 	var before: int = run.hp
-	run.damage(GainlandsZone.FALL_DAMAGE)
+	run.world_damage(GainlandsZone.FALL_DAMAGE)  # Fable pass Nov 10 (Part 5): a world hazard (the Hall Pass Slippers waive it)
 	var line: String = log_template % island_title
 	Session.log_zone_event(line)
 	return {"damage": before - run.hp, "down": run.is_down(), "log": line}

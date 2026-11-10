@@ -1,21 +1,23 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_dexmo"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_dexeq"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_g2vnp"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_g1mjs"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_25ko5"]
 
-[sub_resource type="Resource" id="Resource_dexec"]
-script = ExtResource("1_dexmo")
+[sub_resource type="Resource" id="Resource_yb0kj"]
+script = ExtResource("1_g2vnp")
 kind = 57
 value = 1
 
 [resource]
-script = ExtResource("2_dexeq")
+script = ExtResource("3_25ko5")
 id = "dex_matching_pair"
 slot = 3
 description = "Once each turn, when you play your first non-Infrastructure card, draw a copy of that card from your deck (if there is one)."
+advanced = true
 flavor_text = "Every card has a twin somewhere. Dex just knows where to look."
 rarity = 2
 tier = 3
 source = "The Cardsharp's Circuit (Dex Shufflewick's final table)"
 source_name = "Dex's Matching Pair"
-modifiers = Array[ExtResource("1_dexmo")]([SubResource("Resource_dexec")])
+modifiers = Array[ExtResource("1_g2vnp")]([SubResource("Resource_yb0kj")])

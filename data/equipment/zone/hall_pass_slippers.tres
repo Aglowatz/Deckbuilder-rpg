@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_niuwh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_teuj7"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_308bh"]
+
+[sub_resource type="Resource" id="Resource_8jclr"]
+script = ExtResource("1_niuwh")
+kind = 58
+value = 1
+
+[resource]
+script = ExtResource("3_308bh")
+id = "hall_pass_slippers"
+slot = 3
+description = "Outside battle, roaming troublemakers and hazards can't hurt you: no HP lost to bumps, rifts, pits, gravy or falls."
+flavor_text = "Paperwork says you're excused. The paperwork is laminated."
+rarity = 1
+tier = 2
+source = "Mirepoix's Dessert & Deckery (the Endless Buffet)"
+source_name = "Hall Pass Slippers"
+modifiers = Array[ExtResource("1_niuwh")]([SubResource("Resource_8jclr")])

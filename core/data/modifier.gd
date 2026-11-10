@@ -160,6 +160,10 @@ enum Kind {
 	## Overnight Nov 7-8, Part 6.3 (the Cardsharp's prize): once each turn, when the owner plays their first non-Infrastructure card, they draw
 	## a copy of that card from their deck if one is there (`GameState._echo_first_play`). Presence.
 	DRAW_COPY_FIRST_PLAY,
+	## Fable pass Nov 10 (Part 5, the Hall Pass Slippers): outside battle, the world's hazards do no HP damage - roamer bumps (the meatball,
+	## the Tidy-Bots), the Capital's rifts, the gravy and soup, the Dump's pits and the Gainlands' falls (`ZoneRun.world_damage`). Battles and
+	## story damage are untouched. Presence; added last so saved kinds keep their numbers.
+	WORLD_IMMUNITY,
 }
 
 ## `color` value meaning "matches every card".

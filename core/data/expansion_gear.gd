@@ -27,6 +27,7 @@ const SOURCES: Dictionary = {
 	"hustle_headband": "Mount Swolympus (first clear, postgame)", "paper_plane_cape": "Sub-Basement 3 (first clear)", "mystery_stain_bib": "The Landfill Depths (first clear)",
 	"velvet_rope": "The Walk-In Freezer (first clear)", "sucker_punch_mitts": "Granny Gristle's Compost Grange, once the Dump is free; hidden chests (tier 2)",
 	"dog_eared_bookmark": "Mirepoix's Dessert & Deckery; hidden chests (tier 2)", "participation_trophy": "Quest: Meet the Merchants", "gotta_go_galoshes": "Main quest Raise the Bar (midpoint)",
+	"hall_pass_slippers": "Mirepoix's Dessert & Deckery (the Endless Buffet)",
 }
 
 
@@ -42,6 +43,10 @@ static func add_all(result: Dictionary) -> void:
 		"Handle in the back, for steering. Smells faintly of soup.", [_mod(K.MAX_HP, 1), _eff(K.START_OF_DUEL_EFFECT, O.GAIN_HP, 1, G.CONTROLLER)])  # Nov 3-4, Part A3: a heal (never above max) - the old +1 starting HP did nothing with carried HP
 	_add(result, "flip_flops", "Flip-Flops of Fortitude", S.BOOTS, R.COMMON, 1, "Whenever one of your units dies, gain 1 HP.", "",
 		"Thwap. Thwap. Thwap. The sound of a hero who has given up on socks.", [_eff(K.ON_ALLY_DEATH_EFFECT, O.GAIN_HP, 1, G.CONTROLLER)])
+	# -- Fable pass Nov 10 (Part 5): immunity to the world's hazards outside battle. Boots: the slot with the fewest pieces (7 against 9 helms,
+	# 11 armours, 15 weapons and 19 relics). Tier 2 Uncommon, 500 gold on Madame Mirepoix's shelf from the first visit (a fair mid-game buy).
+	_add(result, "hall_pass_slippers", "Hall Pass Slippers", S.BOOTS, R.UNCOMMON, 2, "Outside battle, roaming troublemakers and hazards can't hurt you: no HP lost to bumps, rifts, pits, gravy or falls.", "",
+		"Paperwork says you're excused. The paperwork is laminated.", [_mod(K.WORLD_IMMUNITY, 1)])
 	# -- Four resource pieces (tier 2): generate Iron, Red Tape, Ingredients and Garbage (the starting-resource pieces already exist).
 	_add(result, "kettlebell_locket", "Kettlebell Locket", S.RELIC, R.UNCOMMON, 2, "Whenever you declare attackers, create 1 Iron.", "",
 		"Every rep counts. Mostly toward a sore neck.", [_eff_ab(K.ON_ATTACK_DECLARED_EFFECT, O.CREATE_RESOURCE, int(ResourceKind.Kind.IRON), 1, G.CONTROLLER)])
@@ -143,6 +148,7 @@ static func zone_vendor_stock(zone_id: String) -> EquipmentVendorData:
 			data.add("rolling_pin", Economy.gear_price(R.RARE, 3), freed)
 			data.add("dog_eared_bookmark", Economy.gear_price(R.UNCOMMON, 2))
 			data.add("saucepan_helmet", Economy.gear_price(R.COMMON, 1))
+			data.add("hall_pass_slippers", Economy.gear_price(R.UNCOMMON, 2))  # Fable pass Nov 10 (Part 5): the meatball's and the gravy pit's own zone
 		"refusemancer":
 			data.add("flip_flops", Economy.gear_price(R.COMMON, 2))
 			data.add("sucker_punch_mitts", Economy.gear_price(R.UNCOMMON, 3), freed)
