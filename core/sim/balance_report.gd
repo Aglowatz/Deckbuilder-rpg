@@ -55,7 +55,7 @@ static func _standings(decks: Array[Deck], results: Array[MatchupStats]) -> Pack
 	for stats: MatchupStats in results:
 		total_games += stats.games
 		total_turns += stats.total_turns
-	lines.append("Average game length: **%.1f turns** (both players' turns) over %d games." % [float(total_turns) / float(maxi(1, total_games)), total_games])
+	lines.append("Average game length: **%.1f turns** (one turn = both players have gone) over %d games." % [float(total_turns) / float(maxi(1, total_games)), total_games])
 	lines.append("")
 	return lines
 

@@ -18,7 +18,7 @@ rules_text = "Hustle.
 
 When this unit enters, create three Ingredients.
 
-Whenever you use an Ingredient, this unit gets +1/+1 until end of turn."
+Whenever you use an Ingredient, this unit gets +1/+1 until the end of your turn."
 rarity = 2
 flavor_text = "Look at it all you want. It's looking back."
 paths_all = Array[int]([1, 2])

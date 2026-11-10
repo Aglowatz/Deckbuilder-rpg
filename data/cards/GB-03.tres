@@ -16,7 +16,7 @@ defense = 4
 keywords = Array[int]([4])
 rules_text = "Bulldoze.
 
-Whenever you use an Ingredient, this unit gets +1/+1 until end of turn."
+Whenever you use an Ingredient, this unit gets +1/+1 until the end of your turn."
 rarity = 1
 flavor_text = "Six days of discipline. One day of destiny."
 paths_all = Array[int]([1, 2])

@@ -12,10 +12,11 @@ signal speed_pressed
 const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
 
 
-## Overnight Nov 4-5, Part 8 (fresh critic #8): the game counts each side's turn, so the player's second turn was "Turn 3". The screen shows
-## rounds instead (one turn each): game turn 1-2 is Round 1, 3-4 Round 2.
+## Overnight Nov 4-5, Part 8 (fresh critic #8): the game counts each side's turn, so the player's second turn was "Turn 3". Fable pass
+## Nov 10 (Part 2): the screen counts TURNS where one turn is both players' turns (GameState.turn_number_of): game turn 1-2 is Turn 1,
+## 3-4 Turn 2, with "Your turn" / "Enemy's turn" beneath. (The old name stays for the callers.)
 static func round_of(turn: int) -> int:
-	return maxi(1, floori((turn + 1) / 2.0))
+	return GameState.turn_number_of(turn)
 ## Where the two deck piles stand (player, opponent): left of the phase buttons and of the opponent hand column, clear of the hand, the board rows and the card preview.
 const END_TURN_SIZE: float = 112.0
 const DECK_PILE_POSITIONS: Array[Vector2] = [Vector2(1488, 884), Vector2(1488, 8)]
@@ -458,11 +459,11 @@ func refresh_all() -> void:
 		_portraits[index].set_hp(player.hp, false)
 		_portraits[index].set_infrastructure(player.infrastructure)
 		_counts[index].text = "Deck %d" % player.deck.size()
-	_turn_label.text = "Round %d" % round_of(game.turn)
+	_turn_label.text = "Turn %d" % round_of(game.turn)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
 	_turn_sub.text = ""
 	if game.stage == GameState.Stage.PLAYING:
-		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy turn"
+		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy's turn"
 	_refresh_processing()
 	_refresh_jam()
 
@@ -521,9 +522,9 @@ func on_event(event: GameEvent) -> void:
 			if event.player == 0:
 				_check_low_hp(event.value)
 		GameEvent.Type.TURN_STARTED:
-			_turn_label.text = "Round %d" % round_of(event.value)
-			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
-			# Fix pass Nov 7 (item 10): the foe's setup window counts down in rounds
+			_turn_label.text = "Turn %d" % round_of(event.value)
+			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy's turn"
+			# Fix pass Nov 7 (item 10): the foe's setup window counts down in the same turns
 			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1) if game != null else 0)
 			if not setup_line.is_empty():
 				_turn_sub.text += "  -  " + setup_line

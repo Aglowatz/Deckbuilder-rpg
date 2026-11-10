@@ -18,7 +18,7 @@ rules_text = "Hustle.
 
 At the start of your turn, create a Garbage and an Iron.
 
-Eat garbage, lose 1 HP: put a buff on this unit. It gains Bulldoze until end of turn."
+Eat garbage, lose 1 HP: put a buff on this unit. It gains Bulldoze until the end of your turn."
 rarity = 3
 flavor_text = "Undefeated. Unwashed. Unstoppable."
 paths_all = Array[int]([1, 3])

@@ -47,7 +47,7 @@ const PATHS: Dictionary = {
 }
 
 const DESCRIPTIONS: Dictionary = {
-	Kind.IRON: "Pay 1 energy, use an Iron: target unit gets +1/+1 until end of turn. Your turn only.",
+	Kind.IRON: "Pay 1 energy, use an Iron: target unit gets +1/+1 until the end of your turn. Your turn only.",
 	Kind.RED_TAPE: "Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn (it stays shrunk through your opponent's turn). Your turn only.",
 	Kind.CONTRACT: "Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.",
 	Kind.INGREDIENT: "Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",

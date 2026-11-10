@@ -10,7 +10,7 @@ display_name = "Tripwire"
 type = 3
 generic_cost = 1
 defense = 0
-rules_text = "When an opposing unit attacks, it gets -2/-0 until end of turn."
+rules_text = "When an opposing unit attacks, it gets -2/-0 until the end of the enemy's turn."
 flavor_text = "Simple. Effective. Embarrassing."
 script_text = "trap(attacks:opp) => pump(trig,-2,0,eot)"
 rules_hash = "fd883b1fe629"

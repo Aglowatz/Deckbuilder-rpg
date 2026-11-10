@@ -16,7 +16,7 @@ defense = 6
 keywords = Array[int]([4])
 rules_text = "Bulldoze.
 
-When this unit enters, Reinstate up to two units from your Refuse Pile. They gain Hustle until end of turn.
+When this unit enters, Reinstate up to two units from your Refuse Pile. They gain Hustle until the end of your turn.
 
 Whenever a unit you control attacks, create an Ingredient."
 rarity = 3

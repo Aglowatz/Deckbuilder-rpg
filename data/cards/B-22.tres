@@ -14,7 +14,7 @@ colored_pips = Array[int]([1])
 defense = 0
 rules_text = "Exhaust, pay 1: attach to target unit you control.
 
-At the beginning of combat on your turn, flip a coin. Heads: attached unit gets +2/+0 and Sucker Punch until end of turn. Tails: attached unit becomes exhausted."
+At the beginning of combat on your turn, flip a coin. Heads: attached unit gets +2/+0 and Sucker Punch until the end of your turn. Tails: attached unit becomes exhausted."
 rarity = 1
 flavor_text = "Oh no, I'm late! Or am I...?"
 paths_all = Array[int]([1])

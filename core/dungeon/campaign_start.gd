@@ -51,7 +51,7 @@ const STARTING_DECKS: Dictionary = {
 
 ## One line per Path for the choice screen and the docs: what the deck wants to do.
 const GAME_PLANS: Dictionary = {
-	Affinity.Type.BEEFCAKE: "Make Iron, then spend it all on the turn you attack: every Iron is +1/+1 until end of turn, so one big swing wins the race.",
+	Affinity.Type.BEEFCAKE: "Make Iron, then spend it all on the turn you attack: every Iron is +1/+1 until the end of your turn, so one big swing wins the race.",
 	Affinity.Type.NECROCRAT: "Make Red Tape with every Clerk and Intern, shrink their blocker with it, and turn the rest into 2/2 bodies.",
 	Affinity.Type.GOURMAND: "Stack Ingredients behind sturdy chefs, then cook them into Golems that are bigger than anything the enemy paid for.",
 	Affinity.Type.REFUSEMANCER: "Make Garbage, eat it for damage and pumps, and bring your best cards back from the Refuse Pile. Nothing is wasted.",

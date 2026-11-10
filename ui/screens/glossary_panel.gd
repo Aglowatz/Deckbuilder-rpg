@@ -12,7 +12,7 @@ const STATUSES: Array[Array] = [
 	["Exhausted", "Spent for this turn: it attacked, used an ability or entered exhausted. It can't attack or block until it refreshes at the start of its controller's turn. Some effects make it skip one refresh."],
 	["Just Arrived", "Can't attack the turn it enters play. It can still block, and units with Hustle ignore it."],
 	["Red Tape (-2/-0)", "A Necrocrat Resource used on a unit: -2 attack until the start of its user's next turn, so it stays shrunk through the other side's turn. Hover the unit to see how long is left."],
-	["Until end of turn", "A pump that fades when the turn ends, like Iron's +1/+1."],
+	["Until the end of your turn", "A pump that fades when the turn it was made in ends: yours for Iron's +1/+1, the enemy's for a trap that fired on theirs. One turn is both players' turns; 'your turn' is your half of it."],
 	["Buff", "+1/+1 for good, for as long as the unit stays on the field. Several buffs stack."],
 	["The fight's rules", "Some fights give one side's units extra stats (\"its units get +1/+1\"). Hover a unit to see what it gets from the rules."],
 	["Token", "A unit or object made by an effect instead of drawn from a deck. It plays like a normal card; when it leaves the field it is gone for good."],

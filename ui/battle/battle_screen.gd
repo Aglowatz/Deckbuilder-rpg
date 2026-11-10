@@ -1060,7 +1060,11 @@ func _confirm_end_turn(end: Callable) -> void:
 			parts.append("play %d card%s" % [moves.x, "" if moves.x == 1 else "s"])
 		if moves.y > 0:
 			parts.append("use %d abilit%s" % [moves.y, "y" if moves.y == 1 else "ies"])
-		var energy: int = game.players[0].ready_infrastructure().size()
+		# Fable pass Nov 10 (Part 2.4, late critic #5): the same energy count the hand's tooltips use (GameState.energy_available), and when the
+		# only card left to play is an Infrastructure, say so (it costs nothing) instead of counting it as "1 card".
+		var energy: int = game.energy_available(0)
+		if moves.x == 1 and _only_infrastructure_playable():
+			parts[0] = "play your Infrastructure (it costs no energy)"
 		message = ("You have %d energy left and can still %s this turn." % [energy, " and ".join(parts)]) if energy > 0 else "You can still %s this turn." % " and ".join(parts)
 	_confirm_open = true
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, title, message, "End Turn", "Keep playing", false, "Don't ask again")
@@ -1079,6 +1083,26 @@ func _confirm_end_turn(end: Callable) -> void:
 
 ## How many hand cards could still be played this turn (on a clone that skips ahead to the second main phase when you are in
 ## combat) and the abilities you could use now, as (cards, abilities). One infrastructure counts at most once.
+## True when the one card that can still be played is an Infrastructure (free) and no other card in hand is castable.
+func _only_infrastructure_playable() -> bool:
+	if game.active != 0:
+		return false
+	var trial: GameState = game.clone(false, 1)
+	var guard: int = 0
+	while not trial.in_main_phase() and trial.active == 0 and guard < 3 and not trial.is_over():
+		trial.apply_action(GameAction.pass_phase(0))
+		guard += 1
+	if not trial.in_main_phase():
+		return false
+	var infrastructure: bool = false
+	for card: CardInstance in trial.players[0].hand:
+		if card.data.is_infrastructure():
+			infrastructure = infrastructure or trial.can_play_infrastructure(0, card.uid)
+		elif trial.can_play_card(0, card.uid):
+			return false
+	return infrastructure
+
+
 func _moves_left(any_mode: bool = false) -> Vector2i:
 	if game.active != 0 or game.stage != GameState.Stage.PLAYING:
 		return Vector2i.ZERO
@@ -1431,7 +1455,7 @@ func _why_not_castable(card: CardInstance) -> String:
 	if not game.can_pay_energy(0, generic, pips):
 		# Fresh eyes Oct 30: the numbers ("Not enough energy" told a new player nothing about how energy works).
 		var player: PlayerState = game.players[0]
-		var have: int = player.ready_infrastructure().size() + player.pool.size()
+		var have: int = game.energy_available(0)  # Fable pass Nov 10 (Part 2.4): the one count, shared with the end-turn question
 		var need: int = generic + pips.size()
 		if have < need:
 			return "Needs %d energy; you have %d (each ready Infrastructure gives 1 a turn)." % [need, have]
@@ -1884,7 +1908,7 @@ func defeat_recap_lines() -> Array[String]:
 		else:
 			lines.append("%s dealt all %d damage you took (%s)." % [top_name, total, hits])
 	else:
-		lines.append("%s outlasted you over %d rounds." % [context.enemy_name, BattleHud.round_of(game.turn)])
+		lines.append("%s outlasted you over %d turns." % [context.enemy_name, BattleHud.round_of(game.turn)])
 	var me: PlayerState = game.players[0]
 	var tip: String = ""
 	if _recap_turns_without_infra >= 2 and me.infrastructure.size() < 4:
@@ -2365,7 +2389,7 @@ func _show_result() -> void:
 	var title_label: Label = UIKit.label(title, &"TitleLabel", 84, UIStyle.GOLD if won else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(title_label)
 	var rounds: int = BattleHud.round_of(game.turn)
-	var rounds_text: String = "%d round%s" % [rounds, "" if rounds == 1 else "s"]  # Fix pass Nov 7 (Part 5): "in 1 round"
+	var rounds_text: String = "%d turn%s" % [rounds, "" if rounds == 1 else "s"]  # Fix pass Nov 7 (Part 5): "in 1 turn"; Fable pass Nov 10: turns, not rounds
 	var detail: String = "You defeated %s in %s." % [context.enemy_name, rounds_text] if won else "%s wins after %s." % [plate_name(context), rounds_text]
 	if game.is_draw:
 		detail = "Neither side could finish the game."
@@ -2383,13 +2407,14 @@ func _show_result() -> void:
 			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	if context.zone_battle:
-		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub with full HP - losing costs nothing."
+		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub with full HP; the cards and gold you have won are yours to keep."  # Fable pass Nov 10 (Part 4.1): no "losing costs nothing"
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.practice and context.town_npc_id.is_empty():
 		# Oct 31 - Nov 1 (late-game critic #15): "the dungeon" only when there is one (a fight outside a run said it too).
 		# Fix pass Nov 7 (owner decisions D1, D2): no penalty; a dungeon starts over.
-		var where: String = "You are carried out to the respawn point at full HP, and the dungeon starts over." if Session.run != null else "You come to, a little bruised."
-		var kept: String = ("You keep every card and coin you won." if Session.run != null else "Losing costs nothing: the cards and gold you won are kept.")  # Nov 9-10 (late critic): a restart is a cost
+		# Fable pass Nov 10 (Part 4.1): plain words - a dungeon starts over from its first room; what was won stays won. No "losing costs nothing".
+		var where: String = "You are carried out to the respawn point at full HP. The dungeon starts over from its first room." if Session.run != null else "You come to, a little bruised."
+		var kept: String = "The cards and gold you already won are kept."
 		column.add_child(UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.

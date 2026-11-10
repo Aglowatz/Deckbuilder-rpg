@@ -11,7 +11,7 @@ type = 5
 color = 1
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Destroy this Tool: target unit gets +3/+0 and Hustle until end of turn."
+rules_text = "Destroy this Tool: target unit gets +3/+0 and Hustle until the end of your turn."
 flavor_text = "Contains 900% of your daily jitters."
 paths_all = Array[int]([1])
 script_text = "act t=unit | destroy_self => pump(t,3,0,eot); kw_grant(t,hustle,eot)"

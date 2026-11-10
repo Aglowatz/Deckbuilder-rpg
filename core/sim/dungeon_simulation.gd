@@ -22,7 +22,7 @@ class RunResult:
 	## The run's deck size when it ended (Part C: starts at 42, should reach 45 by a won boss
 	## fight via the 3 on-element reward picks - see `reward_color` on `run_once`).
 	var final_deck_size: int = 0
-	## Overnight Nov 9-10: game turns per fought node title (two turns = one round).
+	## Overnight Nov 9-10: turns per fought node title (Fable pass Nov 10: one turn = both players' turns, as the HUD counts).
 	var node_turns: Dictionary = {}
 
 
@@ -92,8 +92,8 @@ static func run_once(
 				var first_player: int = 0 if map_node.tutorial else rng.randi_range(0, 1)
 				var game: GameState = play_encounter(run, enemy, player_ai, enemy_ai, seed_value + map_node.id * 97 + 1, first_player, result, map_node.tutorial)
 				run.finish_encounter(game)
-				result.turns_played += game.turn
-				result.node_turns[map_node.title] = game.turn
+				result.turns_played += GameState.turn_number_of(game.turn)  # Fable pass Nov 10 (Part 2): turns as the player counts them
+				result.node_turns[map_node.title] = GameState.turn_number_of(game.turn)
 				if run.is_over():
 					result.failed_at = map_node.title
 					result.final_hp = run.hp

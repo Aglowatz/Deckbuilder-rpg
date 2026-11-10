@@ -368,6 +368,22 @@ func rule_active(kind: Modifier.Kind) -> bool:
 
 ## Fable pass Nov 1 (boss tempo): the turns of `player_index`'s setup window still to come, this turn included (0 when they have
 ## none or it is over). A SETUP_TURNS modifier keeps the owner's units from attacking during the owner's first N turns (`BossTempo`).
+## Fable pass Nov 10 (Part 2): the TURN the player sees. One turn is both players' turns: the first player goes, then the second, and
+## that is Turn 1. `turn` itself still counts each side's turn (1, 2, 3...: the engine's half-turns), so turn 1-2 is Turn 1, 3-4 is Turn 2.
+static func turn_number_of(half_turn: int) -> int:
+	return maxi(1, floori((half_turn + 1) / 2.0))
+
+
+func turn_number() -> int:
+	return turn_number_of(turn)
+
+
+## Fable pass Nov 10 (Part 2.4): the one energy count every message uses - the ready Infrastructure plus the energy already in the pool.
+func energy_available(player_index: int) -> int:
+	var player: PlayerState = players[player_index]
+	return player.ready_infrastructure().size() + player.pool.size()
+
+
 func setup_turns_left(player_index: int) -> int:
 	var player: PlayerState = players[player_index]
 	if not player.modifiers.has(Modifier.Kind.SETUP_TURNS):

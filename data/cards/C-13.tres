@@ -10,7 +10,7 @@ display_name = "Rally the Village"
 type = 2
 generic_cost = 3
 defense = 0
-rules_text = "Units you control get +1/+1 until end of turn."
+rules_text = "Units you control get +1/+1 until the end of your turn."
 flavor_text = "Grab your pitchforks. And your frying pans. And Grandma."
 script_text = "play => pump(all(unit.mine),1,1,eot)"
 rules_hash = "99f3c34b6105"

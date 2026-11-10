@@ -11,7 +11,7 @@ type = 2
 color = 1
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Target unit gets +1/+0 and gains Hustle until end of turn."
+rules_text = "Target unit gets +1/+0 and gains Hustle until the end of your turn."
 flavor_text = "*cough* *cough*... who's up for a relay race?!"
 paths_all = Array[int]([1])
 script_text = "play t=unit => pump(t,1,0,eot); kw_grant(t,hustle,eot)"

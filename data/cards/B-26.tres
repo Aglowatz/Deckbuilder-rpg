@@ -15,7 +15,7 @@ defense = 3
 keywords = Array[int]([2])
 rules_text = "Hustle.
 
-When this unit enters, other units you control gain Hustle until end of turn."
+When this unit enters, other units you control gain Hustle until the end of your turn."
 rarity = 1
 flavor_text = "Everybody in. Seatbelts are for the weak."
 paths_all = Array[int]([1])

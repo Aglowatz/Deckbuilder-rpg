@@ -11,7 +11,7 @@ color = 3
 colored_pips = Array[int]([3])
 attack = 2
 defense = 2
-rules_text = "Eat garbage: this unit gets +2/+2 until end of turn."
+rules_text = "Eat garbage: this unit gets +2/+2 until the end of your turn."
 flavor_text = "Plays dead. Plays to win."
 paths_all = Array[int]([3])
 script_text = "act | eat => pump(self,2,2,eot)"

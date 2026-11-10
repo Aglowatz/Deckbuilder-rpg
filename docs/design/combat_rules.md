@@ -105,6 +105,14 @@ Several traps/triggers on one event are all judged against the event as it happe
 
 ## Turn Structure
 
+**What a turn is (Fable pass Nov 10).** A *turn* is both players' turns: the first player acts, then the second, and that is Turn 1.
+The HUD, the log, the boss "Setting Up" window ("from turn 3"), the result screens and the sims all count these turns
+(`GameState.turn_number_of`). "Your turn" and "the enemy's turn" are the two halves. The engine's own counter `GameState.turn`
+still advances once per half (1, 2, 3...), and every internal threshold keyed on it (the AI's stall rule, the item policy, "until the
+start of its controller's next turn", Processing X) is unchanged, so nothing happens at a different moment than before: game turn
+1-2 is Turn 1, 3-4 is Turn 2. Card text says "until the end of your turn" (or "the enemy's turn" for a trap that fired on theirs)
+where it used to say "until end of turn"; the effect still ends in the end step of the half it was made in.
+
 Start (ready, draw; the first player skips their first draw) → Main 1 → Combat → Main 2 → End.
 
 - One infrastructure may be played per turn.

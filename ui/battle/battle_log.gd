@@ -80,7 +80,8 @@ func describe(event: GameEvent) -> String:
 		GameEvent.Type.TURN_STARTED:
 			_hurt_by.clear()
 			_resolving = 0
-			return "[color=#c9b98f]-- %s --[/color]" % ("Your turn" if event.player == 0 else "%s's turn" % enemy_name)
+			# Fable pass Nov 10 (Part 2): the turn number the HUD shows (one turn = both players' turns), then whose half it is
+			return "[color=#c9b98f]-- Turn %d: %s --[/color]" % [GameState.turn_number_of(event.value), "your turn" if event.player == 0 else "%s's turn" % enemy_name]
 		GameEvent.Type.CARD_PLAYED:
 			_resolving = event.card if _data(event.card) != null and not _data(event.card).is_unit() else 0
 			if _data(event.card) != null and _data(event.card).type == CardEnums.CardType.TRAP and event.player != 0:

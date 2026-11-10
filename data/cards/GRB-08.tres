@@ -18,7 +18,7 @@ rules_text = "Bulldoze. Swat.
 
 When this unit enters, create three Ingredients, three Garbage, and three Iron.
 
-Whenever you use a resource, this unit gets +1/+1 until end of turn."
+Whenever you use a resource, this unit gets +1/+1 until the end of your turn."
 rarity = 3
 flavor_text = "Seven-time grand champion. Ate the judges' table twice."
 paths_all = Array[int]([1, 2, 3])

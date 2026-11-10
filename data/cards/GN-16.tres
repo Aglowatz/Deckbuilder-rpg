@@ -18,7 +18,7 @@ rules_text = "Flying.
 
 Whenever a token you control dies, create an Ingredient and a 1/1 Hungry Ghost token with Flying.
 
-Use three Ingredients: tokens you control get +2/+2 until end of turn."
+Use three Ingredients: tokens you control get +2/+2 until the end of your turn."
 rarity = 3
 flavor_text = "Reservations are required. Death is not."
 paths_all = Array[int]([2, 4])

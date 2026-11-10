@@ -39,7 +39,7 @@ static func entries(game: GameState, card: CardInstance) -> Array[Array]:
 	for keyword: CardEnums.Keyword in card.granted_keywords + card.temp_keywords:
 		if card.data.keywords.has(keyword) or not KeywordInfo.KEYWORD_TEXT.has(keyword):
 			continue
-		var lasting: String = " (until end of turn)" if card.temp_keywords.has(keyword) else ""
+		var lasting: String = " (for the rest of this turn)" if card.temp_keywords.has(keyword) else ""
 		result.append(["%s%s" % [KeywordInfo.keyword_name(keyword), lasting], KeywordInfo.keyword_description(keyword)])
 	var tools: Array[CardInstance] = game.attached_tools(card)
 	if not tools.is_empty():

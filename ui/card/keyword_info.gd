@@ -25,6 +25,7 @@ const MAX_ENTRIES: int = 5
 const JUST_ARRIVED_REMINDER: String = "Just Arrived: can't attack the turn it enters play."
 
 const GLOSSARY: Dictionary = {
+	"Turn": "One turn is both players' turns: the first player goes, then the second, and that is Turn 1 (the battle HUD counts these). 'Your turn' and 'the enemy's turn' are the two halves; a pump 'until the end of your turn' fades when your half ends.",
 	"Trap": "Played face-down on your turn. It springs automatically on your opponent's turn when its condition is met, then goes to your Refuse Pile.",
 	"Just Arrived": "Can't attack the turn it enters play. It can still block, and units with Hustle ignore it.",
 	"Exhaust": "An exhausted card is spent until it refreshes at the start of its controller's turn.",

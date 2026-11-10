@@ -45,7 +45,7 @@ func _initialize() -> void:
 			if not result.won:
 				fail_counts[result.failed_at] = int(fail_counts.get(result.failed_at, 0)) + 1
 		for title: String in node_sum:
-			print("  %s: %.1f rounds avg" % [title, float(node_sum[title]) / float(node_n[title]) / 2.0])
+			print("  %s: %.1f turns avg" % [title, float(node_sum[title]) / float(node_n[title])])
 		per_element.append({
 			"color": color, "rate": rate, "fail_counts": fail_counts,
 			"avg_turns": float(turns) / float(runs), "enemy_attacks": enemy_attacks,

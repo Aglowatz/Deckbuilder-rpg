@@ -38,7 +38,7 @@ func play_game(deck_a: Deck, deck_b: Deck, seed_value: int, first_player: int) -
 			if not game.apply_action(GameAction.pass_phase(who)):
 				break
 	record.finished = game.is_over()
-	record.turns = game.turn
+	record.turns = GameState.turn_number_of(game.turn)  # Fable pass Nov 10 (Part 2): turns as the player counts them (both players go = 1)
 	record.winner = game.winner
 	return record
 

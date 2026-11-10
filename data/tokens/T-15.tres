@@ -15,7 +15,7 @@ rules_text = "Starts on the player's field during the House of Gains boss fight 
 
 Overtime.
 
-At the start of your turn, other units you control get +1/+1 until end of turn."
+At the start of your turn, other units you control get +1/+1 until the end of your turn."
 flavor_text = "True strength was never in the iron. It's in here. (And also, look at these.)"
 is_token = true
 not_in_packs = true

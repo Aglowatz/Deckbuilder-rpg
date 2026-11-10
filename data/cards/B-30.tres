@@ -14,7 +14,7 @@ colored_pips = Array[int]([1])
 defense = 0
 rules_text = "Exhaust: attach to target unit you control. Attached unit gets +3/+3 and Bulldoze.
 
-At the beginning of combat on your turn, you may have attached unit get an additional +3/+0 until end of turn. If you do, it doesn't refresh during your next turn."
+At the beginning of combat on your turn, you may have attached unit get an additional +3/+0 until the end of your turn. If you do, it doesn't refresh during your next turn."
 rarity = 2
 flavor_text = "Lifted only by the worthy. And by Greg."
 availability = 1
