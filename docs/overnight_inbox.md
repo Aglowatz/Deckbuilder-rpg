@@ -1370,3 +1370,18 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
 3. **The cave's flood guard** (RC1 critic #2): in the Forgotten Cave only, once the hero holds 5 infrastructure (in play + hand), an
    infrastructure draw is swapped for the next non-infrastructure card. Sims: the AI player clears the Scavenger in 2.9-4.1 rounds either way
    (it never floods badly); the guard is for human floods like the critic's. Off: `FirstDuel.CAVE_FLOOD_GUARD = 0`.
+4. **Primm's first phase opens with 3 Militia (was 4)** (`data/encounters/modifiers.json`, "Primm (standardization)"). The four real-fight bots
+   (Nov 9) and tonight's late critic (six losses, two at level 20 and four at level 24) all lost phase 1 by round 4-5 to the Militia swarm. 3 is
+   the number the earlier sims were tuned at ("83 % at 50 with 3 Militia"). The re-sim was stopped by Claude Code's low-memory guard and not
+   re-run (as instructed); run `Godot --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --filter=phase --games=24`
+   when the PC is free and decide whether 3 is right. The critic's other idea - respawn at the Royal Stair instead of restarting the castle - is yours.
+5. **The Capital's later-visit load is still about 6.1 s** (was 6.2): every remaining piece (buildings 0.8 s, props 0.6, landmarks 0.45,
+   dressing 0.39, merge 0.3) registers walk blockers, which is what broke the Crosspath walk smoke when it was cached in October. Not cached
+   on release eve; the plan is in the report (Part 5.1). Your call whether it is worth doing after 1.0.
+6. **Dev snapshots `c13end` and `c13post` load before Primm** (the late critic could not reach the ending through them). Re-save them from a
+   real ending (`dev save c13end` after the last phase, `c13post` after the credits) before the next late-game review.
+7. **Not fixed, needs a look with a repro** (the midgame critic): after a lost zone fight Old Hob's portrait stayed on screen without the
+   dialogue box (twice, `docs/review/critic_mid_nov10/shots/m11_05_after.png`); the zone counters said "4 of 4 zones free" after one boss in a
+   bot snapshot (may be the snapshot); big milky fade polygons in the Buffet (`m7_06.png`). Listed in the RC2 notes' known issues.
+8. **Primm's battle board is the Model Room's miniature kingdom** (`BB-PC-BOSS`); the late critic read it as "a sunny village". Kept (it is the
+   Model Room); a darker, more obviously table-top board would settle it - an art question.

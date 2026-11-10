@@ -96,7 +96,11 @@ est_mb=${est_mb:-0}
 
 # --- 2b. zone build cache (Performance pass Oct 25, world/build_cache.gd): every area built once into res://build_cache/ ---
 echo "--- baking the zone build cache ---"
+# Nov 10: EXPORT_SKIP_BAKE=1 keeps the bake a stopped run just made (only when nothing under world/, data/art, data/zone_styles or the
+# textures changed since; the manifest's hash says which sources it was made from).
+if [ "${EXPORT_SKIP_BAKE:-0}" = 1 ] && [ -f build_cache/manifest.json ]; then echo "(EXPORT_SKIP_BAKE=1: keeping the existing bake)"; else
 bash tools/build_cache.sh bake || stop "the build cache bake failed"
+fi
 [ -f build_cache/manifest.json ] || stop "the build cache bake wrote no manifest"
 
 # --- 3. export into the stage ---

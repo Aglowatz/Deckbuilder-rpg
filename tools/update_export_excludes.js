@@ -8,7 +8,7 @@ const cfgPath = path.join(root, "export_presets.cfg");
 
 const FIXED = [
 	"tests/*", "tools/*", "docs/*", "marketing/*", "addons/gut/*", "scenes/dev/*",
-	"_reference/*", "_logs/*", "_screenshots/*", "_art_inbox/*", "_art_source/*", "_asset_library/*", "builds/*", "_tmp_tools/*",
+	"_reference/*", "_logs/*", "_screenshots/*", "_art_inbox/*", "_art_source/*", "_asset_library/*", "builds/*", "_tmp_tools/*", "_movie/*",
 	// Playtest v0.4.0 Part H: dev-only data and reports (sim reports live under docs/; the sheet CSVs the importers read are source, not shipped).
 	"data/source/*.csv.csv", "*.psd", "*.blend", "*.xcf", "*.kra",
 	// Oct 23 export pass: the character look test's hd2d/painted heroes (scenes/dev only; the game's sprites are under world_test/).

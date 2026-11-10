@@ -1,12 +1,12 @@
-Estimated export payload: **838.5 MB** (7269 source files)
+Estimated export payload: **836.4 MB** (7264 source files)
 
 | Category | Files | MB |
 |---|---:|---:|
 | audio: music/ambience | 123 | 295.0 |
-| other images | 980 | 199.8 |
+| other images | 976 | 199.7 |
 | world textures (TEX/ENV/DEC, kit) | 153 | 79.4 |
 | other (scripts, scenes, data) | 1173 | 71.8 |
-| UI and icons | 1608 | 46.4 |
+| UI and icons | 1607 | 44.6 |
 | world test art (assets/art/world_test) | 1393 | 40.1 |
 | card art | 684 | 22.8 |
 | audio: sfx | 503 | 17.5 |
@@ -19,7 +19,7 @@ Estimated export payload: **838.5 MB** (7269 source files)
 | world: normal/roughness maps | 54 | 4.5 |
 | vendor screens | 14 | 2.2 |
 | fonts | 5 | 0.6 |
-| **Total** | 7269 | **838.5** |
+| **Total** | 7264 | **836.4** |
 
 ### 30 largest files (packed size)
 

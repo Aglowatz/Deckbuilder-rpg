@@ -1,0 +1,34 @@
+# Overnight Nov 9-10, Part 5.2: the Low-end preset on the exported rc2 pack (settings seeded: low_end, quality 0, 30 fps cap, 75 % scale).
+wait 4
+dev load c12_town3
+wait 12
+skip_dialogue 10
+hold W 3
+wait 3
+perf
+shot le01_crosspath
+hold A 2
+wait 3
+perf
+shot le02_crosspath_walk
+dev load c13cap
+wait 16
+skip_dialogue 10
+hold W 3
+wait 3
+perf
+shot le03_capital
+hold D 2
+wait 3
+perf
+dev encounter quota
+wait 7
+button Got it
+wait 0.5
+button Keep Hand
+wait 3
+perf
+shot le04_battle
+pilot 25
+perf
+shot le05_battle_mid
