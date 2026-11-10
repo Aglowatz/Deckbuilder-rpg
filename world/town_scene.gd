@@ -1807,6 +1807,18 @@ func _build_enemies() -> void:
 func _resolve_quest_spot(spot_id: String) -> Dictionary:
 	if spot_id == QuestDefinitions.OUTSKIRTS_SPOT:
 		return _outskirts_spot()
+	# Fable pass Nov 10 (Part 1.1): every live outskirts roamer ("roamers"), and the original giant chest by the harbour ("harbor_chest").
+	if spot_id == QuestMarkers.SPOT_ROAMERS:
+		var roamers: Array[Dictionary] = []
+		for enemy: ZoneEnemy in enemies:
+			if not is_instance_valid(enemy) or not enemy.is_inside_tree() or not enemy.visible:
+				continue
+			roamers.append({"pos": enemy.position, "top": 1.6, "title": enemy.info.display_name if enemy.info != null else "A roaming enemy", "key": enemy.instance_id})
+		return QuestMarkerLayer.group(roamers, true)
+	if spot_id == QuestMarkers.SPOT_HARBOR_CHEST:
+		if town == null or town.harbor_chest_node == null or Session.ninja_chest_opened(NinjaBoss.ORIGINAL_CHEST) or Session.found_secret(HIDDEN_CHEST_SECRET):
+			return {}
+		return {"pos": town.harbor_chest_node.position, "top": 1.4, "title": "The giant chest by the harbour"}
 	return QuestMarkerLayer.resolve_in(spots, spot_id)
 
 

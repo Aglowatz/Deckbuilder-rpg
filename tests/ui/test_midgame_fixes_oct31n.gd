@@ -96,7 +96,7 @@ func test_where_to_names_places_not_yet_walked_to() -> void:
 	var places: Array[MapPoi] = FullMapScreen.where_to_places(points)
 	assert_eq(places.size(), FullMapScreen.WHERE_TO_MAX, "capped")
 	var source: String = FileAccess.get_file_as_string("res://ui/minimap/full_map_screen.gd")
-	assert_true(source.contains("where_to_places(_pois)"), "the list is built from every point, not only the revealed ones")
+	assert_true(source.contains("where_to_entries(_pois)"), "the list is built from every point, not only the revealed ones")
 	var few: Array[MapPoi] = FullMapScreen.where_to_places([MapPoi.make(MapPoi.Kind.INTERACTABLE, Vector3.ZERO, "The Hall of Records")] as Array[MapPoi])
 	assert_eq(few[0].label, "The Hall of Records", "the Hall of Records and the Deck Station are listed")
 

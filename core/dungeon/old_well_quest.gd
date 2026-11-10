@@ -126,10 +126,14 @@ static func quest() -> QuestData:
 	made.summary = story.text("quest.summary")
 	# No prerequisite on the quest itself (like the other hidden quests), so it never shows up as "New quest available" in a reward box when the
 	# first zone is freed; `Session.old_well_can_begin` checks MIN_ZONES_FREED instead.
+	# Fable pass Nov 10 (Part 1.1): the hums are marked (the Dump's step marks both, since they can be found in either order; `OldWellSpot.SPOT_ID`
+	# only exists while that hum is still to find), and the Echo's step points at the well.
 	made.objectives = [
-		QuestObjective.make(story.text("quest.step.heap"), Condition.flag(str(FLAG_HEAP))).at(QuestObjective.TargetKind.SPOT, "", "", story.text("quest.hint.heap")),
-		QuestObjective.make(story.text("quest.step.buffet"), Condition.flag(str(FLAG_BUFFET))).at(QuestObjective.TargetKind.SPOT, "", "", story.text("quest.hint.buffet")),
-		QuestObjective.make(story.text("quest.step.echo"), Condition.flag(str(FLAG_DEFEATED))).at(QuestObjective.TargetKind.BATTLE, "", "", story.text("quest.hint.echo")),
+		QuestObjective.make(story.text("quest.step.heap"), Condition.flag(str(FLAG_HEAP))).at(QuestObjective.TargetKind.SPOT, "refusemancer", "old_well_hum", story.text("quest.hint.heap"))
+			.part(QuestObjective.TargetKind.SPOT, "refusemancer", "old_well_hum", story.text("quest.hint.heap"), Condition.flag(str(FLAG_HEAP)))
+			.part(QuestObjective.TargetKind.SPOT, "gourmand", "old_well_hum", story.text("quest.hint.buffet"), Condition.flag(str(FLAG_BUFFET))),
+		QuestObjective.make(story.text("quest.step.buffet"), Condition.flag(str(FLAG_BUFFET))).at(QuestObjective.TargetKind.SPOT, "gourmand", "old_well_hum", story.text("quest.hint.buffet")),
+		QuestObjective.make(story.text("quest.step.echo"), Condition.flag(str(FLAG_DEFEATED))).at(QuestObjective.TargetKind.BATTLE, "town", "well", story.text("quest.hint.echo")),
 	] as Array[QuestObjective]
 	made.reward_gold = REWARD_GOLD
 	made.reward_xp = REWARD_XP

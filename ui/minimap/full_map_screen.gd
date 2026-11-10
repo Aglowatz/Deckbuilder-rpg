@@ -21,6 +21,13 @@ signal travel_requested
 const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.GATE, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
 	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.INTERACTABLE]
 const WHERE_TO_MAX: int = 16
+## Fable pass Nov 10 (Part 1.4): the "Point me to..." list's popup height (it scrolls past this) and where it opens (left of the legend).
+const WHERE_TO_POPUP_HEIGHT: int = 420
+## Place names on the map: the landmark kinds are always written; the minor kinds (interactables, pads, rafts...) only when the map is drawn
+## large enough (`MINOR_LABEL_MIN_SCALE` pixels per metre) and there is room - hovering any icon shows its name.
+const MAJOR_LABEL_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.EXIT, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL,
+	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.GATE, MapPoi.Kind.ARENA, MapPoi.Kind.CHALLENGE]
+const MINOR_LABEL_MIN_SCALE: float = 5.5
 const PING_SECONDS: float = 4.0
 var _ping: MapPoi = null
 var _ping_left: float = 0.0
@@ -99,9 +106,11 @@ func _legend() -> Control:
 		turn_row.add_child(UIKit.label("Quest ready to hand in", &"", 22))
 		column.add_child(turn_row)
 	# Overnight Oct 30-31, Part 2: the goals on this map by quest name (gold = main line, blue = side quest).
+	var goal_names: Dictionary = {}
 	for goal: MapPoi in _pois:
-		if not goal.objective:
-			continue
+		if not goal.objective or goal_names.has(goal.label):
+			continue  # Fable pass Nov 10: one legend line per goal name (a step with six roamers to beat lists one line)
+		goal_names[goal.label] = true
 		var goal_row: HBoxContainer = UIKit.hbox(12)
 		var ring: Control = Control.new()
 		ring.custom_minimum_size = Vector2(34, 34)
@@ -113,7 +122,8 @@ func _legend() -> Control:
 		goal_row.add_child(goal_label)
 		column.add_child(goal_row)
 	# Mid-game critic #11 (Oct 31 - Nov 1): the list names every place, walked to or not (the fog hides the ground, not the directory).
-	var places: Array[MapPoi] = where_to_places(_pois)
+	# Fable pass Nov 10 (Part 1.1): every active quest's goal comes first ("Goal - Mend the Meatloaf: Sea Salt Crystals"), then the places.
+	var places: Array[MapPoi] = where_to_entries(_pois)
 	if not places.is_empty():
 		var where: OptionButton = OptionButton.new()
 		where.name = "WhereTo"
@@ -123,12 +133,14 @@ func _legend() -> Control:
 		where.add_item("Point me to...")  # Overnight Nov 9-10 (RC1 critic #8): it sets a pointer, it does not travel
 		where.tooltip_text = "Pick a place: a white arrow leads you there after you close the map."
 		for place: MapPoi in places:
-			# Day pass Nov 9: a dungeon says its usual traveller level ("The Iron Cave (Mini dungeon, usually level 6)").
-			var level_note: String = LevelHints.short_text(place.dungeon_id)
-			where.add_item("%s (%s)" % [place.label, MapPoi.kind_name(place.kind) if level_note.is_empty() else "%s, %s" % [MapPoi.kind_name(place.kind), level_note]])
+			where.add_item(where_to_text(place))
 		where.item_selected.connect(func(index: int) -> void:
 			if index > 0:
 				ping(places[index - 1]))
+		# Fable pass Nov 10 (Part 1.4): the list opens beside the legend, over the map's edge, never over the legend's entries; long lists scroll.
+		var popup: PopupMenu = where.get_popup()
+		popup.max_size = Vector2i(0, WHERE_TO_POPUP_HEIGHT)
+		popup.about_to_popup.connect(func() -> void: _place_where_to_popup(where, popup))
 		column.add_child(where)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
 	if travel_from != "" and not FastTravel.destinations(Session.flags, travel_from).is_empty():
@@ -157,6 +169,51 @@ static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 			if result.size() >= WHERE_TO_MAX:
 				return result
 	return result
+
+
+## Fable pass Nov 10 (Part 1.1): the goals of every active quest (one per place, in the layer's order: the tracked quest first) followed by
+## `where_to_places`.
+static func where_to_entries(points: Array[MapPoi]) -> Array[MapPoi]:
+	var result: Array[MapPoi] = []
+	var seen: Dictionary = {}
+	for poi: MapPoi in points:
+		if not poi.objective:
+			continue
+		var key: String = "%s@%.0f,%.0f" % [poi.label, poi.pos.x, poi.pos.z]
+		if seen.has(key):
+			continue
+		seen[key] = true
+		result.append(poi)
+	result.append_array(where_to_places(points))
+	return result
+
+
+## One line of the "Point me to..." list: "Goal - Mend the Meatloaf: Sea Salt Crystals" for a goal; "The Iron Cave (Mini dungeon, usually level 6)" for a place.
+static func where_to_text(place: MapPoi) -> String:
+	if place.objective:
+		return "Goal - %s" % place.label
+	# Day pass Nov 9: a dungeon says its usual traveller level.
+	var level_note: String = LevelHints.short_text(place.dungeon_id)
+	return "%s (%s)" % [place.label, MapPoi.kind_name(place.kind) if level_note.is_empty() else "%s, %s" % [MapPoi.kind_name(place.kind), level_note]]
+
+
+## The list's popup stands to the LEFT of the legend panel (over the map's right edge), top-aligned with the button, so it never covers the
+## legend; it is kept inside the window.
+func _place_where_to_popup(button: OptionButton, popup: PopupMenu) -> void:
+	var rect: Rect2 = button.get_global_rect()
+	var panel: Control = button
+	while panel != null and not panel is PanelContainer:
+		panel = panel.get_parent() as Control
+	var left_edge: float = panel.get_global_rect().position.x if panel != null else rect.position.x
+	var scale_factor: float = get_viewport().get_screen_transform().get_scale().x
+	var width: int = maxi(popup.size.x, int(rect.size.x * scale_factor))
+	var window_size: Vector2 = get_viewport().get_visible_rect().size * scale_factor
+	var x: int = int((left_edge - 12.0) * scale_factor) - width
+	var y: int = int(rect.position.y * scale_factor)
+	var height: int = popup.size.y
+	x = clampi(x, 0, maxi(0, int(window_size.x) - width))
+	y = clampi(y, 0, maxi(0, int(window_size.y) - height))
+	popup.position = Vector2i(x, y)
 
 
 ## Makes `poi` pulse on the map for PING_SECONDS.
@@ -213,13 +270,19 @@ func _draw_map() -> void:
 			_canvas.draw_string_outline(ping_font, at_text, _ping.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.05, 0.95))
 			_canvas.draw_string(ping_font, at_text, _ping.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, UIStyle.GOLD)
 	# Overnight Oct 30-31 (mid-game critic #9): every revealed place is named under its icon (vendors, the Hall of Records, roads, dungeons),
-	# skipping a name that would overlap one already written.
+	# skipping a name that would overlap one already written. Fable pass Nov 10 (Part 1.4): landmarks are named first (they win the room);
+	# minor places are named only when the map is drawn large enough, and every icon says its name on hover.
 	var font: Font = UIStyle.font_bold()
 	var taken: Array[Rect2] = []
-	for poi: MapPoi in shown:
+	_name_spots = []
+	var ordered: Array[MapPoi] = label_order(shown)
+	for poi: MapPoi in ordered:
 		if poi.objective or poi.label.strip_edges() == "":
 			continue
 		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		_name_spots.append({"at": at, "radius": icon_radius * 1.35 + 6.0, "label": poi.label})
+		if not MAJOR_LABEL_KINDS.has(poi.kind) and scale_px < MINOR_LABEL_MIN_SCALE:
+			continue
 		var text: String = poi.label
 		var extent: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15)
 		var box: Rect2 = place_label(at, extent + Vector2(0, 4), icon_radius, Rect2(top_left, drawn), taken)
@@ -255,11 +318,28 @@ static func place_label(at: Vector2, extent: Vector2, icon_radius: float, frame:
 	return Rect2()
 
 
+## The order names are written in: landmark kinds first (dungeons, exits, shops, healers, quest givers...), then the minor places. Pure.
+static func label_order(points: Array[MapPoi]) -> Array[MapPoi]:
+	var major: Array[MapPoi] = []
+	var minor: Array[MapPoi] = []
+	for poi: MapPoi in points:
+		if MAJOR_LABEL_KINDS.has(poi.kind):
+			major.append(poi)
+		else:
+			minor.append(poi)
+	return major + minor
+
+
+## Where every named icon was drawn ({at, radius, label}): hovering one shows its name (the minor names hide on a small map).
+var _name_spots: Array[Dictionary] = []
+
+
 ## Day pass Nov 9: where the dungeon icons were drawn ({at, radius, id}), for the canvas tooltip.
 var _hint_spots: Array[Dictionary] = []
 
 
-## The level hint for the dungeon icon under `at` (canvas coordinates): {"text", "colour"}, or {} when the mouse is on no dungeon.
+## The level hint for the dungeon icon under `at` (canvas coordinates): {"text", "colour"}; the place's name for any other icon; {} when the
+## mouse is on nothing.
 func hint_at(at: Vector2) -> Dictionary:
 	var level: int = Session.profile.level if Session.profile != null else 1
 	for spot: Dictionary in _hint_spots:
@@ -268,7 +348,16 @@ func hint_at(at: Vector2) -> Dictionary:
 			if text.is_empty():
 				return {}
 			return {"text": text, "colour": LevelHints.colour(str(spot["id"]), level)}
-	return {}
+	var best: Dictionary = {}
+	var best_distance: float = INF
+	for spot: Dictionary in _name_spots:
+		var distance: float = at.distance_to(spot["at"] as Vector2)
+		if distance <= float(spot["radius"]) and distance < best_distance:
+			best_distance = distance
+			best = spot
+	if best.is_empty():
+		return {}
+	return {"text": str(best["label"]), "colour": UIStyle.PARCHMENT}
 
 
 ## The map canvas: draws through the screen's `_draw_map` and answers a hover over a dungeon icon with its level hint (amber when the

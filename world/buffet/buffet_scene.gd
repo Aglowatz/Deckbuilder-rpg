@@ -111,6 +111,13 @@ func _dress_zone() -> void:
 		KitLights.attach(bridge, self, style_rig)
 
 
+## Fable pass Nov 10 (Part 1.1): an ingredient already picked up this visit has no marker.
+func _marker_spot_done(spot: ZoneSpot) -> bool:
+	if spot.data.has("pickup"):
+		return BuffetInteractables.picked_this_visit(Session.zone_run, str(spot.data["pickup"]))
+	return false
+
+
 func _prompt_for(spot: ZoneSpot) -> String:
 	if spot.data.has("gate"):
 		var gate: BuffetGates.Gate = BuffetGates.find(str(spot.data["gate"]))
@@ -362,7 +369,12 @@ func _use_gate(gate: BuffetGates.Gate) -> void:
 		_say(gate.speaker, story.get_lines(gate.key("pass")), func() -> void: _open_gate(gate))
 	else:
 		Audio.sfx(&"ui_error")
-		_say(gate.speaker, story.get_lines(gate.key("need")))
+		# Fable pass Nov 10 (Part 1.2, mid critic): once Basil's favour is taken, Sir Loin says where the salt and the truffle are instead of
+		# "speak to Basil".
+		var key: String = gate.key("need")
+		if gate.kind == "quest" and Session.quest_log.is_active(BuffetZone.QUEST_MEND) and story.lines.has(gate.key("active")):
+			key = gate.key("active")
+		_say(gate.speaker, story.get_lines(key))
 
 
 func _ask_gate_battle(gate: BuffetGates.Gate) -> void:

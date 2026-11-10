@@ -137,7 +137,8 @@ static func _loose_ends() -> QuestData:
 	quest.objectives = [
 		QuestObjective.make("Climb Mount Swolympus: Old Man Mountain at the Swole Station knows the way up", Condition.dungeon_cleared("The Ascent of Mount Swolympus"))
 			.at(QuestObjective.TargetKind.NPC, GainlandsZone.ID, "brenda", "Old Man Mountain, in front of the gym hall in the Gainlands"),
-		QuestObjective.make("Find out what is under the forest (Under the Forest)", Condition.quest_completed(UNDER_THE_FOREST)),  # Fix pass Nov 4 (B): its own quest
+		QuestObjective.make("Find out what is under the forest (Under the Forest)", Condition.quest_completed(UNDER_THE_FOREST))  # Fix pass Nov 4 (B): its own quest
+			.at(QuestObjective.TargetKind.NPC, "town", "rift_station", "Rip Tearson's Rift Express station in Crosspath starts it"),
 		QuestObjective.make("Win a bout in the Arena, down the cellar hatch in Crosspath", Condition.any_of(arena_wins))
 			.at(QuestObjective.TargetKind.SPOT, "town", "arena", "The cellar hatch to the Undercroft, in Crosspath"),
 	] as Array[QuestObjective]
@@ -253,17 +254,37 @@ static func _zone_main(zone_id: String) -> QuestData:
 		favours.append(Condition.quest_completed(favour_id))
 	# Overnight Nov 4-5, Part 1: a freed zone finishes its line - a skipped favour no longer leaves "3/4" in the log forever.
 	favours.append(Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+	# Fable pass Nov 10 (Part 1.1): the favour step marks all three favour givers (a finished favour's giver drops off).
+	var favour_step: QuestObjective = QuestObjective.make(str(text["favour"]), Condition.any_of(favours))
+	favour_step.at(QuestObjective.TargetKind.NPC, zone_id, str(text["favour_spot"]), str(text["favour_hint"]))
+	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
+		var giver: Array = ZoneQuestDefinitions.GIVERS.get(favour_id, []) as Array
+		if giver.size() != 2:
+			continue
+		favour_step.part(QuestObjective.TargetKind.NPC, str(giver[0]), str(giver[1]), _spot_title(def, str(giver[1])), Condition.quest_completed(favour_id))
+	# Fable pass Nov 10 (Part 1.2): the way to the main dungeon is never a guessing game - where a gate stands on the road (the audit tool
+	# `tools/dungeon_route_audit.gd` names them) the dungeon step marks the gate and what opens it, until it is open.
+	var dungeon_step: QuestObjective = QuestObjective.make(str(text["dungeon"]), Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+	dungeon_step.at(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", str(text["dungeon_hint"]))
+	match zone_id:
+		"gourmand":
+			# Sir Loin's golem gate across the road to Layer-Cake Town opens once Old Meatloaf is mended (Basil's favour, Mend the Meatloaf)
+			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "gate_quest", "Sir Loin's gate: mend Old Meatloaf first (Basil's favour)", Condition.flag(str(BuffetZone.FLAG_GATE_QUEST)))
+			dungeon_step.part(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", "The Test Kitchen, beyond Layer-Cake Town")
+		"refusemancer":
+			# the plateau is reached up the barricade stairs: a mount from the stables charges the junk barricade, then the stairs are open
+			var smashed: Condition = Condition.flag(str(HeapGrowth.find_barricade("gate").flag))
+			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "stable_2", "The stables: borrow a mount (it charges junk barricades)", smashed)
+			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "barricade_gate", "The junk barricade on the stairs: charge it on a mount", smashed)
+			dungeon_step.part(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", "The Rotheart's root gate, up on the plateau")
 	quest.objectives = [
 		QuestObjective.make(str(text["gate"]), Condition.flag(str(CorruptedNpcs.unlock_flag(zone_id))))
 			.at(QuestObjective.TargetKind.BATTLE, "town", "npc_%s" % zone_id, str(text["gate_hint"]))
 			.pays(QuestReward.of(GATE_GOLD).with_packs([pack] as Array[String])),
 		QuestObjective.make(str(text["enter"]), Condition.flag(str(Gatekeepers.entered_flag(zone_id))))
 			.at(QuestObjective.TargetKind.SPOT, "town", "portal_%s" % zone_id, str(text["enter_hint"])),
-		QuestObjective.make(str(text["favour"]), Condition.any_of(favours))
-			.at(QuestObjective.TargetKind.NPC, zone_id, str(text["favour_spot"]), str(text["favour_hint"]))
-			.pays(QuestReward.of().with_equipment([str(MIDPOINT_GEAR[zone_id])] as Array[String])),
-		QuestObjective.make(str(text["dungeon"]), Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
-			.at(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", str(text["dungeon_hint"])),
+		favour_step.pays(QuestReward.of().with_equipment([str(MIDPOINT_GEAR[zone_id])] as Array[String])),
+		dungeon_step,
 	] as Array[QuestObjective]
 	quest.reward_gold = MAIN_GOLD
 	quest.reward_xp = MAIN_XP
@@ -271,6 +292,16 @@ static func _zone_main(zone_id: String) -> QuestData:
 	if def == null:
 		push_warning("zone main quest for an unknown zone %s" % zone_id)
 	return quest
+
+
+## The player-facing title of a zone's spot ("Basil, Keeper of the Grand Pantry"), or "" when the zone has no such spot.
+static func _spot_title(def: ZoneDef, spot_id: String) -> String:
+	if def == null:
+		return ""
+	for spot: Dictionary in def.spots:
+		if str(spot.get("id", "")) == spot_id:
+			return str(spot.get("title", ""))
+	return ""
 
 
 ## Player-facing names of each zone's main quest line (Block 4 voice pass).
@@ -395,7 +426,7 @@ static func _first_deck_edit() -> QuestData:
 	quest.turn_in_spot = "elder"
 	quest.prerequisite = Condition.quest_completed(MERCHANTS)
 	quest.objectives = [
-		QuestObjective.make("Open a pack", Condition.flag(FIRST_PACK_FLAG)).at(QuestObjective.TargetKind.NONE, "", "", "Menu (top right), then Packs - or press P"),
+		QuestObjective.make("Open a pack", Condition.flag(FIRST_PACK_FLAG)).at(QuestObjective.TargetKind.NONE, "", "", "Menu (top right), then Packs - or press P").in_menu(),
 		QuestObjective.make("Open the Deck Station and save your deck to a slot", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station, on Champions' Road south of the square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 30
@@ -436,9 +467,17 @@ static func _oldest_trick() -> QuestData:
 	quest.order = 140
 	quest.title = "The Oldest Trick in the Book"
 	quest.summary = "That giant chest was too good to be true. Someone is conning travellers with chests like it, and he's taken your gold. Find the rest of the chests, and you'll find him."
+	# Fable pass Nov 10 (Part 1.1): every giant chest still shut is marked (Crosspath's by the harbour, one per Path zone); the Master shows up
+	# at the original chest in town.
+	var chests: QuestObjective = QuestObjective.make("Open the giant chests", Condition.counter(NinjaBoss.COUNTER_OPENED, NinjaBoss.CHEST_IDS.size()))
+	for chest_id: String in NinjaBoss.CHEST_IDS:
+		var area: String = "town" if chest_id == NinjaBoss.ORIGINAL_CHEST else chest_id
+		var spot: String = QuestMarkers.SPOT_HARBOR_CHEST if chest_id == NinjaBoss.ORIGINAL_CHEST else "giant_chest"
+		chests.part(QuestObjective.TargetKind.SPOT, area, spot, "A giant chest", Condition.secret_found(NinjaBoss.secret_id(chest_id)))
 	quest.objectives = [
-		QuestObjective.make("Open the giant chests", Condition.counter(NinjaBoss.COUNTER_OPENED, NinjaBoss.CHEST_IDS.size())),
-		QuestObjective.make("Face the Master of the Oldest Trick", Condition.flag(str(NinjaBoss.FLAG_DEFEATED))),
+		chests,
+		QuestObjective.make("Face the Master of the Oldest Trick", Condition.flag(str(NinjaBoss.FLAG_DEFEATED)))
+			.at(QuestObjective.TargetKind.BATTLE, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The giant chest by Crosspath's harbour"),
 	] as Array[QuestObjective]
 	return quest
 
@@ -451,8 +490,12 @@ static func _four_seals() -> QuestData:
 	quest.order = 141
 	quest.title = "The Four Seals"
 	quest.summary = "Somewhere far off, a great lock has ground open. Each Path zone hides a lever that answers a seal near Crosspath. Find all four."
+	# Fable pass Nov 10 (Part 1.1): each zone's lever is marked until it is pulled.
+	var levers: QuestObjective = QuestObjective.make("Find the hidden lever in each Path zone", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size()))
+	for zone_id: String in VaultGuardian.ZONE_IDS:
+		levers.part(QuestObjective.TargetKind.SPOT, zone_id, "vault_lever", "A hidden lever", Condition.flag(str(VaultGuardian.flag_for(zone_id))))
 	quest.objectives = [
-		QuestObjective.make("Find the hidden lever in each Path zone", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
+		levers,
 		QuestObjective.make("Open the Four-Seal Vault", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),
 	] as Array[QuestObjective]
 	return quest

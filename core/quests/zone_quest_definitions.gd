@@ -80,7 +80,52 @@ static func build_all() -> Array[QuestData]:
 			quest.objectives[index].at(int(target[0]) as QuestObjective.TargetKind, str(target[1]), str(target[2]), str(target[3]))
 		for extra: Variant in (EXTRA_REWARDS.get(quest.id, {}) as Dictionary).get("equipment", []):
 			quest.reward_equipment_ids.append(str(extra))
+		_add_parts(quest)
 	return quests
+
+
+## Fable pass Nov 10 (Part 1.1): the steps with several things to find mark each of them (`QuestObjective.part`), and a part's marker drops
+## once that thing is in hand. Steps that count roaming enemies mark every live roamer of the zone (`QuestMarkers.SPOT_ROAMERS`); steps that
+## want a hidden stash mark every stash still shut (`QuestMarkers.SPOT_CHESTS`).
+static func _add_parts(quest: QuestData) -> void:
+	var kind_item: QuestObjective.TargetKind = QuestObjective.TargetKind.ITEM_COUNT
+	var kind_spot: QuestObjective.TargetKind = QuestObjective.TargetKind.SPOT
+	var kind_battle: QuestObjective.TargetKind = QuestObjective.TargetKind.BATTLE
+	match quest.id:
+		BuffetZone.QUEST_MEND:
+			quest.objectives[0].part(kind_item, BuffetZone.ID, "pickup_sea_salt", "Sea Salt Crystals (the Salt Flats, by the river)", Condition.counter(BuffetZone.stock_key("sea_salt"), 1)) \
+				.part(kind_item, BuffetZone.ID, "pickup_truffle", "Black Truffle (under the Broccoli Forest's trees, south-west)", Condition.counter(BuffetZone.stock_key("truffle"), 1)) \
+				.part(kind_spot, BuffetZone.ID, "old_meatloaf", "Old Meatloaf (the Grand Pantry's west wall)")
+		BuffetZone.QUEST_PANTRY:
+			for ingredient_id: String in BuffetZone.INGREDIENTS.keys():
+				quest.objectives[0].part(kind_item, BuffetZone.ID, "pickup_" + ingredient_id, str(BuffetZone.INGREDIENTS[ingredient_id]), Condition.counter(BuffetZone.stock_key(ingredient_id), 1))
+		BACKLOG, SIDE_NECRO:
+			quest.objectives[0].part(kind_battle, DnaZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming staff (any)")
+		AUDIT:
+			quest.objectives[1].part(kind_spot, DnaZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
+		GainlandsZone.QUEST_LANES:
+			quest.objectives[0].part(kind_battle, GainlandsZone.ID, QuestMarkers.SPOT_ROAMERS, "Roaming brutes, golems and sprites (any)")
+		HeapZone.QUEST_HERD:
+			for number: int in range(1, HeapGrowth.ESCAPED_ANIMALS + 1):
+				quest.objectives[0].part(kind_spot, HeapZone.ID, "animal_%d" % number, "An escaped animal")
+		HeapZone.QUEST_FERT:
+			for number: int in range(1, 4):
+				quest.objectives[0].part(kind_item, HeapZone.ID, "pickup_fert_%d" % number, "Sack of Fertilizer")
+		SIDE_REF:
+			quest.objectives[0].part(kind_battle, HeapZone.ID, QuestMarkers.SPOT_ROAMERS, "Scavengers (any)")
+		SIDE_GOUR:
+			quest.objectives[0].part(kind_spot, BuffetZone.ID, QuestMarkers.SPOT_CHESTS, "A hidden stash (any)")
+		SIDE_TOWN:
+			quest.objectives[0].part(kind_spot, "town", QuestMarkers.SPOT_HARBOR_CHEST, "The giant chest by the harbour")
+		CapitalZone.QUEST_WHEELS:
+			for number: int in range(1, 4):
+				quest.objectives[0].part(kind_spot, CapitalZone.ID, "wheel_%d" % number, "Energy Wheel %d" % number, Condition.secret_found(CapitalZone.secret_id("wheel", str(number))))
+		CapitalZone.QUEST_RECIPES:
+			for number: int in range(1, 4):
+				quest.objectives[0].part(kind_item, CapitalZone.ID, "pickup_recipe_%d" % number, "A hidden recipe card", Condition.secret_found(CapitalZone.secret_id("pick", "recipe_%d" % number)))
+		CapitalZone.QUEST_UNTIDY:
+			for number: int in range(1, 4):
+				quest.objectives[0].part(kind_spot, CapitalZone.ID, "pickup_heap_%d" % number, "A banished compost heap", Condition.secret_found(CapitalZone.secret_id("pick", "heap_%d" % number)))
 
 
 ## A zone's three hub favours (its MAIN quest's midpoint is finishing any one of them).
@@ -441,7 +486,9 @@ static func side_quests() -> Array[QuestData]:
 		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel only shows her older way into the city to friends of Wren's. Get through the gate, knock at the manhole and ask Wren in the Crease about the old tunnels.",
 			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
 		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
-			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))], QuestDefinitions.story_gate()),  # Oct 20: after the armory quest
+			# Oct 20: after the armory quest. Fable pass Nov 10: the chest is the original giant chest by the harbour (brief 16 renamed its secret
+			# to NinjaBoss.secret_id("town"); the old "harbor_chest" id still counts for saves from before that).
+			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.any_of([Condition.secret_found("harbor_chest"), Condition.secret_found(NinjaBoss.secret_id(NinjaBoss.ORIGINAL_CHEST))] as Array[Condition]))], QuestDefinitions.story_gate()),
 		_gallery_quest(),
 		_gallery_line(),
 	] as Array[QuestData]

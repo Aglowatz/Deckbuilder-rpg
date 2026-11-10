@@ -2,12 +2,16 @@ class_name QuestMarkerLayer
 extends Node3D
 ## Overnight Oct 16: the quest markers of a walkable scene (town, zones, the Capital). Reads `QuestMarkers` (pure rules) and shows:
 ## - a small golden "!" / "?" icon over every quest giver / turn-in NPC of this area,
-## - ONE objective marker for the tracked quest: a slow-bobbing golden chevron above its target, with a soft ring on the ground,
-## - an edge-of-screen pointer toward that target while it is off-screen (`QuestEdgePointer`, on the scene's HUD layer).
+## - a goal marker for each part of the tracked quest's step: a slow-bobbing golden chevron above its target, with a soft ring on the ground,
+## - an edge-of-screen pointer toward the nearest of them while it is off-screen (`QuestEdgePointer`, on the scene's HUD layer).
 ## Markers float above heads and stay small, so they never cover a character. Refreshes on `EventBus.quest_changed` and every second.
-## Overnight Oct 30-31, Part 2 (goal pointer everywhere): up to TWO goals (`QuestMarkers.goal_targets`): the tracked quest's step and the
-## other kind's (main line / side quest), gold for a main line, blue for a side quest, each with its chevron, ground ring, edge arrow and map
-## dot; a turn-in NPC keeps its "?" and gets the arrow and the dot only. Settings > Display > Goal pointer hides all of it (the marks stay).
+## Overnight Oct 30-31, Part 2 (goal pointer everywhere): two kinds of goals (`QuestMarkers.goal_targets`): the tracked quest's step and the
+## other kind's (main line / side quest), gold for a main line, blue for a side quest, each with chevrons, ground rings, an edge arrow and map
+## dots; a turn-in NPC keeps its "?" and gets the arrow and the dot only. Settings > Display > Goal pointer hides all of it (the marks stay).
+## Fable pass Nov 10, Part 1.1: every part of a step is marked (the salt AND the truffle AND Old Meatloaf), a spot may resolve to MANY places
+## (every roaming enemy, every stash still shut) and the map dots cover the current step of EVERY active quest (`QuestMarkers.all_targets`).
+## The scene's resolver answers {"pos", "top", "title"} for one place, or adds "many": [{"pos", "top", "title"}...] for a group (and "live": true
+## when the places move, so the chevrons follow them every frame).
 
 const REFRESH: float = 1.0
 ## Metres above the spot's marker point (a head, a door top) the icons float.
@@ -15,6 +19,8 @@ const LIFT: float = 0.55
 const GOLD: Color = Color("ffd25a")
 ## A side quest's goal (main lines are GOLD).
 const SIDE_BLUE: Color = Color("8fd3ff")
+## At most this many chevrons stand in the world at once (the map still shows every goal).
+const MAX_CHEVRONS: int = 10
 
 var area: String = ""
 var camera: Camera3D
@@ -30,19 +36,22 @@ const WHERE_WHITE: Color = Color("f4f0e6")
 const WHERE_ARRIVED: float = 3.0
 var _marks: Dictionary = {}
 var _mark_nodes: Dictionary = {}
-var _objective: Node3D
-var _objective_ring: MeshInstance3D
+## The chevron holders and rings built so far ([Node3D, MeshInstance3D] each); the first is the tracked quest's first goal.
+var _chevrons: Array[Array] = []
+## The places drawn with a chevron right now: [{"pos", "top", "main", "spot", "live"}].
+var _places: Array[Dictionary] = []
 var _objective_key: String = ""
 var _fixed: Dictionary = {}
-## The second goal's chevron and ring, and both goals as drawn: [{"pos": ground Vector3, "main": bool, "label": String}].
-var _second: Node3D
-var _second_ring: MeshInstance3D
+## Every goal on this map (the map, the minimap and the tests read them): [{"pos": ground Vector3, "main": bool, "label": String, "tracked": bool, "quest": id}].
 var _goals: Array[Dictionary] = []
 var _goal_on: bool = true
 ## Overnight Oct 30-31, Part 8: the first goal last drawn ("" none), so a NEW goal (a step done, a new quest tracked) is heard once.
 var _last_goal_key: String = ""
 var _timer: float = 0.0
 var _time: float = 0.0
+## The two arrows' targets as spot groups: the tracked kind's places and the other kind's, so the arrow follows the nearest each frame.
+var _arrow_places: Array[Array] = [[], []]
+var _hero: Node3D
 
 
 ## Builds the layer under `parent`; `hud_layer` (a Control on the HUD's canvas) carries the edge pointers.
@@ -86,7 +95,8 @@ func _process(delta: float) -> void:
 	_update_where_to()
 	# Fix pass Nov 7 (item 2): a house in front of the tracked goal's door dissolves when the hero is near it (`OcclusionFader.focus_points`).
 	var focus: Array[Vector3] = []
-	for node: Node3D in [_objective, _second]:
+	for pair: Array in _chevrons:
+		var node: Node3D = pair[0] as Node3D
 		if node != null and node.visible:
 			focus.append(Vector3(node.global_position.x, 0.0, node.global_position.z))
 	OcclusionFader.focus_points = focus
@@ -94,11 +104,13 @@ func _process(delta: float) -> void:
 	if _timer <= 0.0 or _goal_on != Settings.goal_pointer:
 		_timer = REFRESH
 		refresh()
+	else:
+		_follow_live()
 	var bob: float = sin(_time * 2.4) * 0.07
 	for node: Variant in _mark_nodes.values():
 		var sprite: Sprite3D = node as Sprite3D
 		sprite.position.y = float(sprite.get_meta(&"base_y")) + bob
-	for pair: Array in [[_objective, _objective_ring], [_second, _second_ring]]:
+	for pair: Array in _chevrons:
 		var chevron: Node3D = pair[0] as Node3D
 		var ring: MeshInstance3D = pair[1] as MeshInstance3D
 		if chevron == null or not chevron.visible:
@@ -111,6 +123,15 @@ func _process(delta: float) -> void:
 			(ring.material_override as StandardMaterial3D).albedo_color.a = 0.25 + 0.3 * (1.0 - pulse)
 
 
+## The hero of the current scene (for "nearest" choices), or null.
+func _hero_node() -> Node3D:
+	if _hero != null and is_instance_valid(_hero):
+		return _hero
+	var scene: Node = get_tree().current_scene if is_inside_tree() else null
+	_hero = scene.get("player") as Node3D if scene != null else null
+	return _hero
+
+
 ## Fix pass Nov 7 (item 7): points the white arrow at the "Where to?" pick of this area; clears the pick once the hero is there.
 func _update_where_to() -> void:
 	if where_pointer == null:
@@ -119,7 +140,7 @@ func _update_where_to() -> void:
 	var valid: bool = not pick.is_empty() and str(pick.get("area", "")) == area
 	if valid:
 		var target: Vector3 = pick["pos"] as Vector3
-		var hero: Node3D = get_tree().current_scene.get("player") as Node3D if get_tree().current_scene != null else null
+		var hero: Node3D = _hero_node()
 		if hero != null and Vector2(hero.position.x - target.x, hero.position.z - target.z).length() < WHERE_ARRIVED:
 			Session.where_to_target = {}
 			valid = false
@@ -141,12 +162,18 @@ func refresh() -> void:
 		return
 	_goal_on = Settings.goal_pointer
 	if not _fixed.is_empty():
-		var shown: Dictionary = _fixed if _goal_on else {}
+		var shown: Dictionary = _fixed.duplicate() if _goal_on else {}
 		_goals.clear()
+		_places.clear()
 		if _goal_on:
-			_goals.append({"pos": _fixed["pos"] as Vector3, "main": true, "label": ""})
-		_set_objective(shown, "fixed|objective")
-		_point(pointer, shown)
+			shown["main"] = true
+			shown["chevron"] = true
+			_places.append(shown)
+			_goals.append({"pos": _fixed["pos"] as Vector3, "main": true, "label": "", "tracked": true, "quest": ""})
+		_draw_chevrons()
+		_objective_key = "fixed|objective" if _goal_on else ""
+		_arrow_places = [[shown] if _goal_on else [], []]
+		_aim_arrows()
 		return
 	Hitch.start("quest_markers")
 	var state: UnlockState = Session.unlock_state()
@@ -163,39 +190,140 @@ func refresh() -> void:
 			continue
 		_mark_nodes[spot_id] = _make_mark(str(_marks[spot_id]), where)
 	_goals.clear()
-	var places: Array[Dictionary] = []
+	_places.clear()
+	_arrow_places = [[], []]
 	var keys: Array[String] = []
-	var targets: Array[Dictionary] = []
 	if _goal_on:
-		targets = QuestMarkers.goal_targets(area, Session.quest_log, state)
-	for target: Dictionary in targets:
-		var where: Dictionary = resolve.call(str(target["spot"])) as Dictionary
-		if where.is_empty():
-			continue
-		var place: Dictionary = where.duplicate()
-		place["main"] = bool(target.get("main", true))
-		# A spot that already wears a "!" / "?" gets no chevron (the arrow and the map dot still lead there).
-		place["chevron"] = not _marks.has(str(target["spot"]))
-		places.append(place)
-		keys.append("%s|%s" % [target["quest"], target["spot"]])
-		var quest: QuestData = QuestCatalog.find(str(target["quest"]))
-		_goals.append({"pos": where["pos"] as Vector3, "main": bool(place["main"]), "label": quest.title if quest != null else ""})
-	var first: Dictionary = places[0] if places.size() > 0 else {}
-	var second: Dictionary = places[1] if places.size() > 1 else {}
-	_set_objective(first if bool(first.get("chevron", false)) else {}, keys[0] if not keys.is_empty() else "")
-	if not first.is_empty():
-		_tint(_objective, _objective_ring, bool(first["main"]))
-	_set_second(second if bool(second.get("chevron", false)) else {})
-	_point(pointer, first)
-	_point(side_pointer, second)
-	var goal_key: String = keys[0] if not keys.is_empty() else ""
+		# The world: the tracked quest's step (every part) and the other kind's, chevrons and arrows.
+		var targets: Array[Dictionary] = QuestMarkers.goal_targets(area, Session.quest_log, state)
+		var first_main: int = -1
+		for target: Dictionary in targets:
+			var main: bool = bool(target.get("main", true))
+			if first_main == -1:
+				first_main = 1 if main else 0
+			var arrow_slot: int = 0 if (1 if main else 0) == first_main else 1
+			for place: Dictionary in _expand(str(target["spot"])):
+				place["main"] = main
+				# A spot that already wears a "!" / "?" gets no chevron (the arrow and the map dot still lead there).
+				place["chevron"] = not _marks.has(str(target["spot"]))
+				place["spot"] = str(target["spot"])
+				_places.append(place)
+				(_arrow_places[arrow_slot] as Array).append(place)
+				if keys.is_empty() or arrow_slot == 0:
+					keys.append("%s|%s" % [target["quest"], target["spot"]])
+		# The map: every active quest's step.
+		for target: Dictionary in QuestMarkers.all_targets(area, Session.quest_log, state):
+			var label: String = str(target.get("title", ""))
+			var part: String = str(target.get("label", ""))
+			if part != "":
+				label = "%s: %s" % [label, part]
+			for place: Dictionary in _expand(str(target["spot"])):
+				var title: String = str(place.get("title", ""))
+				if part == "" and title != "" and not bool(target.get("via", false)):
+					label = "%s: %s" % [str(target.get("title", "")), title]
+				_goals.append({"pos": place["pos"] as Vector3, "main": bool(target.get("main", true)), "label": label, "tracked": bool(target.get("tracked", false)), "quest": str(target["quest"])})
+	_draw_chevrons()
+	_objective_key = keys[0] if not keys.is_empty() else ""
+	_aim_arrows()
+	var goal_key: String = _objective_key
 	if goal_key != _last_goal_key and goal_key != "" and _last_goal_key != "":
 		Audio.sfx(&"goal_update")
 	_last_goal_key = goal_key
 	Hitch.stop("quest_markers")
 
 
-## Aims an edge arrow at a goal ({} hides it), in the goal's colour.
+## A spot id as the places it stands for: the resolver's one place, or each of its "many".
+func _expand(spot_id: String) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var where: Dictionary = resolve.call(spot_id) as Dictionary
+	if where.is_empty():
+		return result
+	if where.has("many"):
+		for entry: Variant in where["many"] as Array:
+			var place: Dictionary = (entry as Dictionary).duplicate()
+			place["live"] = bool(where.get("live", false))
+			place["group"] = spot_id
+			result.append(place)
+		return result
+	var one: Dictionary = where.duplicate()
+	one.erase("many")
+	result.append(one)
+	return result
+
+
+## Puts a chevron and ring on every place that wants one (nearest to the hero first when there are more than MAX_CHEVRONS).
+func _draw_chevrons() -> void:
+	var wanted: Array[Dictionary] = []
+	for place: Dictionary in _places:
+		if bool(place.get("chevron", true)):
+			wanted.append(place)
+	if wanted.size() > MAX_CHEVRONS:
+		var hero: Node3D = _hero_node()
+		if hero != null:
+			var from: Vector3 = hero.global_position
+			wanted.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return (a["pos"] as Vector3).distance_squared_to(from) < (b["pos"] as Vector3).distance_squared_to(from))
+		wanted.resize(MAX_CHEVRONS)
+	for index: int in range(wanted.size()):
+		if index >= _chevrons.size():
+			_chevrons.append(_build_goal("ObjectiveMarker" if index == 0 else ("SideObjectiveMarker" if index == 1 else "ObjectiveMarker%d" % index)))
+		var pair: Array = _chevrons[index]
+		_tint(pair[0] as Node3D, pair[1] as MeshInstance3D, bool(wanted[index].get("main", true)))
+		_place_goal(pair[0] as Node3D, pair[1] as MeshInstance3D, wanted[index])
+		(pair[0] as Node3D).set_meta(&"place", wanted[index])
+	for index: int in range(wanted.size(), _chevrons.size()):
+		(_chevrons[index][0] as Node3D).visible = false
+		(_chevrons[index][1] as MeshInstance3D).visible = false
+
+
+## Live places (roaming enemies) move: between refreshes the chevrons and the arrows follow them.
+func _follow_live() -> void:
+	var any_live: bool = false
+	for place: Dictionary in _places:
+		if bool(place.get("live", false)):
+			any_live = true
+			break
+	if not any_live:
+		return
+	var fresh: Dictionary = {}
+	for place: Dictionary in _places:
+		if not bool(place.get("live", false)):
+			continue
+		var group: String = str(place.get("group", ""))
+		if not fresh.has(group):
+			fresh[group] = _expand(group)
+		var moved: Array[Dictionary] = fresh[group] as Array[Dictionary]
+		var key: Variant = place.get("key")
+		for candidate: Dictionary in moved:
+			if candidate.get("key") == key:
+				place["pos"] = candidate["pos"]
+				break
+	for pair: Array in _chevrons:
+		var chevron: Node3D = pair[0] as Node3D
+		if chevron.visible and chevron.has_meta(&"place"):
+			var place: Dictionary = chevron.get_meta(&"place") as Dictionary
+			if bool(place.get("live", false)):
+				_place_goal(chevron, pair[1] as MeshInstance3D, place)
+	_aim_arrows()
+
+
+## Aims the two edge arrows at the nearest place of their kind ({} hides one), in the goal's colour.
+func _aim_arrows() -> void:
+	var hero: Node3D = _hero_node()
+	var from: Vector3 = hero.global_position if hero != null else Vector3.ZERO
+	for slot: int in range(2):
+		var arrow: QuestEdgePointer = pointer if slot == 0 else side_pointer
+		if arrow == null:
+			continue
+		var best: Dictionary = {}
+		var best_distance: float = INF
+		for place: Dictionary in _arrow_places[slot] as Array:
+			var distance: float = (place["pos"] as Vector3).distance_squared_to(from)
+			if distance < best_distance:
+				best_distance = distance
+				best = place
+		_point(arrow, best)
+
+
 func _point(arrow: QuestEdgePointer, where: Dictionary) -> void:
 	if arrow == null:
 		return
@@ -206,25 +334,41 @@ func _point(arrow: QuestEdgePointer, where: Dictionary) -> void:
 	arrow.color = GOLD if bool(where.get("main", true)) else SIDE_BLUE
 
 
-## The goals drawn now (the map and the tests read them): [{"pos": Vector3, "main": bool, "label": String}].
+## The goals drawn now (the map and the tests read them): [{"pos": Vector3, "main": bool, "label": String, "tracked": bool, "quest": id}].
 func goals() -> Array[Dictionary]:
 	return _goals
 
 
 ## The world position of the current objective marker (Vector3.INF with none) - tests and the playthrough bot read it.
 func objective_position() -> Vector3:
-	return _objective.global_position if _objective != null and _objective.visible else Vector3.INF
+	if _chevrons.is_empty():
+		return Vector3.INF
+	var first: Node3D = _chevrons[0][0] as Node3D
+	return first.global_position if first != null and first.visible else Vector3.INF
+
+
+## Every chevron standing in the world right now (ground points).
+func chevron_positions() -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	for pair: Array in _chevrons:
+		var ring: MeshInstance3D = pair[1] as MeshInstance3D
+		if ring != null and ring.visible:
+			result.append(ring.position)
+	return result
 
 
 func marks() -> Dictionary:
 	return _marks
 
 
-## True when `spot_id` carries a quest mark (a quest to give or to turn in) or is the tracked objective right now (NpcLabels keeps its name up).
+## True when `spot_id` carries a quest mark (a quest to give or to turn in) or is one of the goals right now (NpcLabels keeps its name up).
 func is_marked(spot_id: String) -> bool:
 	if _marks.has(spot_id):
 		return true
-	return not _objective_key.is_empty() and _objective_key.ends_with("|%s" % spot_id) and _objective != null and _objective.visible
+	for place: Dictionary in _places:
+		if str(place.get("spot", "")) == spot_id or str(place.get("group", "")) == spot_id:
+			return true
+	return false
 
 
 func _make_mark(mark: String, where: Dictionary) -> Sprite3D:
@@ -244,35 +388,6 @@ func _make_mark(mark: String, where: Dictionary) -> Sprite3D:
 	sprite.set_meta(&"base_y", base.y)
 	add_child(sprite)
 	return sprite
-
-
-func _set_objective(where: Dictionary, key: String) -> void:
-	if where.is_empty():
-		if _objective != null:
-			_objective.visible = false
-			_objective_ring.visible = false
-		_objective_key = ""
-		return
-	if _objective == null:
-		var built: Array = _build_goal("ObjectiveMarker")
-		_objective = built[0] as Node3D
-		_objective_ring = built[1] as MeshInstance3D
-	_place_goal(_objective, _objective_ring, where)
-	_objective_key = key
-
-
-func _set_second(where: Dictionary) -> void:
-	if where.is_empty():
-		if _second != null:
-			_second.visible = false
-			_second_ring.visible = false
-		return
-	if _second == null:
-		var built: Array = _build_goal("SideObjectiveMarker")
-		_second = built[0] as Node3D
-		_second_ring = built[1] as MeshInstance3D
-	_tint(_second, _second_ring, bool(where.get("main", false)))
-	_place_goal(_second, _second_ring, where)
 
 
 func _place_goal(chevron: Node3D, ring: MeshInstance3D, where: Dictionary) -> void:
@@ -362,8 +477,16 @@ static func resolve_in(spot_list: Array, spot_id: String) -> Dictionary:
 		var person: bool = bool(item.get("is_npc")) if "is_npc" in item else (spot_id in TownScene.NPC_SPOT_IDS or spot_id.begins_with("npc_"))
 		if not person:
 			top = minf(top, DOOR_MARKER_TOP)
-		return {"pos": pos, "top": clampf(top, 1.2, 6.0)}
+		return {"pos": pos, "top": clampf(top, 1.2, 6.0), "title": str(item.get("title")) if "title" in item else ""}
 	return {}
+
+
+## A group answer for a resolver: `places` are [{"pos", "top", "title", "key"}...]; {} when the group is empty.
+static func group(places: Array[Dictionary], live: bool = false) -> Dictionary:
+	if places.is_empty():
+		return {}
+	var first: Dictionary = places[0]
+	return {"pos": first["pos"], "top": first.get("top", 1.6), "title": first.get("title", ""), "many": places, "live": live}
 
 
 ## Adds this area's quest marks to a scene's map points: "!" / "?" badges on the giver's point (a new quest-giver point when the map has
@@ -390,4 +513,5 @@ func add_map_pois(pois: Array[MapPoi]) -> void:
 		var objective: MapPoi = MapPoi.make(MapPoi.Kind.INTERACTABLE, goal["pos"] as Vector3, label if label != "" else "Quest objective")
 		objective.objective = true
 		objective.side_goal = not bool(goal.get("main", true))
+		objective.tracked_goal = bool(goal.get("tracked", false))
 		pois.append(objective)

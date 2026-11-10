@@ -110,6 +110,8 @@ func _collect_generated() -> void:
 		_generated[str(ArenaDefs.flag_name(encounter.id))] = "ArenaDefs.flag_name (bout won)"
 	for barricade: HeapGrowth.Barricade in HeapGrowth.barricades():
 		_generated[str(barricade.flag)] = "HeapGrowth barricade smashed"
+	for chest_id: String in NinjaBoss.CHEST_IDS:
+		_generated[NinjaBoss.secret_id(chest_id)] = "NinjaBoss.secret_id (Session.open_giant_chest)"
 	for zone_id: String in ZoneDefs.all_ids():
 		var def: ZoneDef = ZoneDefs.get_def(zone_id)
 		if def == null:
@@ -182,6 +184,18 @@ func _check_quest(quest: QuestData) -> void:
 			errors.append("%s: target area '%s' is not an area" % [step_where, objective.target_area])
 		if not objective.target_id.is_empty() and objective.target_id != QuestDefinitions.OUTSKIRTS_SPOT and not _spot_declared(objective.target_id):
 			errors.append("%s: target spot '%s' is declared by no world script or zone" % [step_where, objective.target_id])
+		# Fable pass Nov 10 (Part 1.1): every step marks something (a person, an item, a place, an enemy), unless it is a menu step by design.
+		if not objective.has_marker() and not objective.menu_step:
+			errors.append("%s: no marker target (give it .at(...) or .part(...) - a person, an item, a place or an enemy; a menu step says .in_menu())" % step_where)
+		for part: Dictionary in objective.parts:
+			var part_area: String = str(part.get("area", ""))
+			var part_spot: String = str(part.get("spot", ""))
+			if part_area.is_empty() or part_spot.is_empty():
+				errors.append("%s: a part has no area or spot" % step_where)
+			if not _areas.has(part_area):
+				errors.append("%s: part area '%s' is not an area" % [step_where, part_area])
+			if not part_spot.is_empty() and not _spot_declared(part_spot):
+				errors.append("%s: part spot '%s' is declared by no world script or zone" % [step_where, part_spot])
 		if objective.milestone != null:
 			var m: QuestReward = objective.milestone
 			_check_rewards(step_where + " milestone", m.item_ids, m.card_ids, m.equipment_ids, m.pack_ids)
@@ -389,6 +403,8 @@ func _name_is_used(npc_name: String) -> bool:
 
 
 func _spot_declared(spot: String) -> bool:
+	if QuestMarkers.VIRTUAL_SPOTS.has(spot):
+		return true  # every roamer / every stash / the harbour chest: the scenes resolve these (QuestMarkerLayer)
 	return _zone_spots.has(spot) or _literal_used(spot) or _consts.has(spot) or spot.begins_with("portal_") or spot.begins_with("npc_")
 
 

@@ -461,7 +461,9 @@ func peak_at(x: float, z: float) -> Peak:
 
 func ramp_at(x: float, z: float) -> Ramp:
 	for ramp: Ramp in ramps:
-		if ramp.rect.has_point(Vector2(x, z)):
+		# Fable pass Nov 10 (Part 1.2): the far edges count too - `Rect2.has_point` excludes them, which left a zero-width cliff line exactly on
+		# the foot of the barricade stairs (z 44.0) that a route planner's grid landed on
+		if ramp.rect.grow(0.01).has_point(Vector2(x, z)):
 			return ramp
 	return null
 

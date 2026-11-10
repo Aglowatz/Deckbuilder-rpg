@@ -881,11 +881,47 @@ func _build_ui() -> void:
 	host.add_child(minimap)
 	minimap.setup(def.id, builder, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
-	quest_markers = QuestMarkerLayer.install(self, def.id, _camera, func(spot_id: String) -> Dictionary: return QuestMarkerLayer.resolve_in(spots, spot_id), host)
+	quest_markers = QuestMarkerLayer.install(self, def.id, _camera, _resolve_marker_spot, host)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
 	_overlay_layer = UIKit.layer_host(overlay_canvas)
+
+
+## Fable pass Nov 10 (Part 1.1): the quest markers' spot lookup: this zone's spots (a spot already used up - a pickup taken this visit, an
+## animal herded, a wheel crew freed - answers {} so its marker drops), plus two groups: every live hostile roamer (`QuestMarkers.SPOT_ROAMERS`,
+## "roamers": they move, so the layer follows them) and every hidden stash still shut (`QuestMarkers.SPOT_CHESTS`, "chests").
+func _resolve_marker_spot(spot_id: String) -> Dictionary:
+	if spot_id == QuestMarkers.SPOT_ROAMERS:
+		var roamers: Array[Dictionary] = []
+		for enemy: ZoneEnemy in enemies:
+			if not is_instance_valid(enemy) or not enemy.is_inside_tree() or not enemy.visible or enemy.peaceful:
+				continue
+			roamers.append({"pos": enemy.position, "top": 1.6, "title": enemy.info.display_name if enemy.info != null else "A roaming enemy", "key": enemy.instance_id})
+		return QuestMarkerLayer.group(roamers, true)
+	if spot_id == QuestMarkers.SPOT_CHESTS:
+		var stashes: Array[Dictionary] = []
+		var chests: Dictionary = builder.chest_positions() if builder != null else {}
+		for id: String in chests.keys():
+			if Session.found_secret(_chest_secret(id)):
+				continue
+			stashes.append({"pos": chests[id] as Vector3, "top": 1.2, "title": "A hidden stash", "key": id})
+		return QuestMarkerLayer.group(stashes)
+	for spot: ZoneSpot in spots:
+		if spot.id == spot_id and _marker_spot_done(spot):
+			return {}
+	var found: Dictionary = QuestMarkerLayer.resolve_in(spots, spot_id)
+	if found.is_empty() and builder != null and builder.has_anchor(spot_id):
+		# a layout anchor with no spot of its own (the Dump's junk barricade): the marker stands on the anchor
+		var at: Vector3 = builder.anchor(spot_id)
+		at.y = builder.height_at(at) if builder.has_method("height_at") else at.y
+		found = {"pos": at, "top": 1.6, "title": spot_id.replace("_", " ").capitalize()}
+	return found
+
+
+## True when the thing at this spot is already taken or done (no marker for it): the zones override it for their pickups and animals.
+func _marker_spot_done(_spot: ZoneSpot) -> bool:
+	return false
 
 
 # ---- Frame update ----------------------------------------------------------------------------

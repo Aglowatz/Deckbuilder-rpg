@@ -199,6 +199,16 @@ func _hub_spawn() -> Vector3:
 # ---- Prompts and the map -----------------------------------------------------------------------------------
 
 
+## Fable pass Nov 10 (Part 1.1): a recipe card, compost heap, stamp or seed already taken, and a wheel crew already freed, have no marker.
+func _marker_spot_done(spot: ZoneSpot) -> bool:
+	match str(spot.data.get("act", "")):
+		"pickup":
+			return Session.found_secret(CapitalZone.secret_id("pick", str(spot.data["pickup"])))
+		"wheel":
+			return Session.found_secret(CapitalZone.secret_id("wheel", str(spot.data["n"])))
+	return false
+
+
 func _prompt_for(spot: ZoneSpot) -> String:
 	match str(spot.data.get("act", "")):
 		"shaft":

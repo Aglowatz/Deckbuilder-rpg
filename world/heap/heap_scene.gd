@@ -281,6 +281,15 @@ func is_riding() -> bool:
 # ---- Prompts and the map ---------------------------------------------------------------------------
 
 
+## Fable pass Nov 10 (Part 1.1): a sack already picked up this visit, or an animal already shooed home, has no marker.
+func _marker_spot_done(spot: ZoneSpot) -> bool:
+	if spot.data.has("pickup"):
+		return HeapInteractables.picked_this_visit(Session.zone_run, str(spot.data["pickup"]))
+	if spot.data.has("animal"):
+		return HeapInteractables.herded_this_visit(Session.zone_run, int(spot.data["animal"]))
+	return false
+
+
 func _prompt_for(spot: ZoneSpot) -> String:
 	if spot.data.has("grow"):
 		var growth: HeapGrowth.Growth = HeapGrowth.find(str(spot.data["grow"]))
