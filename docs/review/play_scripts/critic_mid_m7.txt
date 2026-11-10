@@ -1,0 +1,45 @@
+wait 2
+dev load m5
+wait 12
+hold W 3.6
+hold D 1
+hold W 3
+hold A 1
+scene
+hold W 1.5
+scene
+shot m7_07
+dump
+hold W 1.5
+scene
+shot m7_08
+dump
+hold W 1.5
+scene
+shot m7_09
+dump
+key E
+wait 1.5
+shot m7_10_loin1
+dump
+key E
+wait 1.5
+shot m7_11_loin2
+dump
+key E
+wait 1.5
+shot m7_12_loin3
+dump
+key E
+wait 1.5
+shot m7_13_loin4
+dump
+skip_dialogue 10
+hold W 2
+scene
+shot m7_14_pastgate
+dump
+hold W 2
+scene
+shot m7_15
+dump

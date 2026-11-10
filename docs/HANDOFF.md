@@ -58,7 +58,13 @@ checks the exe and the pack (every MD5, baked shaders, size), zips with CRC chec
    user folder back afterwards. (Clicks are capture coordinates: the 1600x900 game plus an 8 px frame and a 31 px title bar; `press ESC` sends a
    real scan code - SendKeys' Escape is ignored by the game.)
 4. A fresh critic on the exported build: give a `general-purpose` agent only `docs/review/critic_rc1_brief.md`; run nothing that starts Godot
-   while it plays; its report lands in `docs/review/critic_rc1/report.md`.
+   while it plays; its report lands in `docs/review/critic_rc1/report.md`. For later content (Nov 10): `docs/review/critic_mid_brief.md` (a
+   level-14 snapshot, a Path zone and its main dungeon) and `docs/review/critic_late_brief.md` (the Capital, Primm's Castle with the real Primm
+   fight, the ending, the postgame); they `dev load` snapshots from `%APPDATA%\Deckbuilder-RPG\dev_saves` (`bot_refusemancer_enter_gourmand`,
+   `c13cap`, `c13castle`, `c13end`, `c13post`), so keep that folder.
+5. **What is in the pack:** `node tools/verify_pck.js builds/_export/TheWaywardPath.pck --no-md5 --largest=20` (the 20 largest entries;
+   `--tsv=<file>` writes every entry). Unused files: `node tools/reference_graph.js --list`; a file found unused goes in
+   `tools/export_unused.json` (the export leaves it out; the source stays). Size rules: `docs/build_size_policy.md`.
 
 **Upload to itch.io:** step by step in `docs/release/itch_upload.md` (page, "$0 or donate", text, the AI disclosure field, the zip, screenshots,
 Draft/Restricted until release, the Support link, playtesters, the public flip, butler). Page text, tags, cover advice: `docs/release/itch_page/`.

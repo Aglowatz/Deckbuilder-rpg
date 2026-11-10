@@ -1,0 +1,13 @@
+wait 2
+dev load m2a
+wait 12
+key M
+wait 1.5
+button Where to
+wait 1.5
+shot m4_01_whereto
+dump
+click 600 400
+wait 1
+shot m4_02_whereto2
+dump

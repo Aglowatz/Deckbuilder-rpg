@@ -1,0 +1,55 @@
+wait 2
+dev load l5castle
+wait 8
+dev travel dungeon D-PC -2
+wait 7
+click 1322 340
+wait 1.5
+skip_dialogue 30
+button Continue
+wait 2
+click 1100 600
+wait 2
+button Keep Hand
+wait 2.5
+log R1
+move 410 800
+wait 1
+shot l15_01_hoverL
+drag 410 800 800 520
+wait 1.5
+dump
+move 1195 800
+wait 1
+shot l15_02_hoverR
+drag 1195 800 800 520
+wait 1.5
+drag 410 800 800 520
+wait 1.5
+shot l15_03_r1played
+dump
+button To Combat
+wait 1.5
+shot l15_04_combat
+dump
+button End Turn
+wait 1.5
+button End Turn
+wait 8
+log R2
+shot l15_05_r2
+dump
+drag 410 800 800 520
+wait 1.5
+drag 1195 800 800 520
+wait 1.5
+drag 410 800 800 520
+wait 1.5
+drag 1195 800 800 520
+wait 1.5
+shot l15_06_r2played
+dump
+button To Combat
+wait 1.5
+shot l15_07_combat2
+dump

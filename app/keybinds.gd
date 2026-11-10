@@ -144,11 +144,38 @@ static func all_default() -> bool:
 
 ## Binds `code` to `slot` of `action`. A key already used by another action of the same group moves out of that action (its slot becomes empty); the name of that action is
 ## returned ("" when nothing was displaced). Reserved keys are refused (returns "reserved"). Code 0 just clears the slot.
+## Overnight Nov 9-10 (Part 4.3): actions a keyboard player cannot do without. A rebind never leaves one of them with no key at all (clearing
+## its last key, or taking its last key for another action, is refused with "essential"), and the pause menu keeps Escape in its first slot.
+const ESSENTIAL: Array[StringName] = [&"move_up", &"move_down", &"move_left", &"move_right", &"interact", &"pause"]
+
+
+## True when `action` would have no key left after slot `slot` changes to `code`.
+static func _left_without_keys(action: StringName, slot: int, code: int) -> bool:
+	var keys: Array[int] = keys_of(action).duplicate()
+	keys[slot] = code
+	for key: int in keys:
+		if key != 0:
+			return false
+	return true
+
+
 static func rebind(action: StringName, slot: int, code: int) -> String:
 	if slot < 0 or slot >= SLOTS:
 		return ""
 	if code != 0 and RESERVED.has(code):
 		return "reserved"
+	if action == &"pause" and slot == 0:
+		return "fixed"
+	if ESSENTIAL.has(action) and _left_without_keys(action, slot, code):
+		return "essential"
+	if code != 0:
+		for other: StringName in action_ids():
+			if other == action or group_of(other) != group_of(action) or not ESSENTIAL.has(other):
+				continue
+			var other_keys: Array[int] = keys_of(other)
+			for index: int in range(SLOTS):
+				if other_keys[index] == code and _left_without_keys(other, index, 0):
+					return "essential"
 	var displaced: String = ""
 	if code != 0:
 		for other: StringName in action_ids():

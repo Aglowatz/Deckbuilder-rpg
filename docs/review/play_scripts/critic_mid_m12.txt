@@ -1,0 +1,31 @@
+wait 2
+dev load m5
+wait 12
+dev travel dungeon D-TTK -2
+wait 9
+shot m12_01_nearboss
+dump
+click 1364 212
+wait 3
+shot m12_02_bossclick
+dump
+key E
+wait 1.2
+shot m12_03_intro1
+key E
+wait 1.2
+shot m12_04_intro2
+key E
+wait 1.2
+shot m12_05_intro3
+key E
+wait 1.2
+shot m12_06_intro4
+dump
+key E
+wait 1.2
+shot m12_07_intro5
+key E
+wait 1.2
+shot m12_08_intro6
+dump

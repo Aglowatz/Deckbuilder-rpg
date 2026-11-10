@@ -1,0 +1,37 @@
+wait 4
+shot l23_00_title
+dump
+button Credits
+wait 3
+shot l23_01_credits
+dump
+wait 8
+shot l23_02_credits
+dump
+wait 8
+shot l23_03_credits
+dump
+wait 8
+shot l23_04_credits
+dump
+key Escape
+wait 2
+dev load c13post
+wait 10
+dev travel dungeon D-LAB
+wait 9
+scene
+shot l23_05_lab
+dump
+key E
+wait 2
+shot l23_06
+dump
+key E
+wait 2
+shot l23_07
+dump
+key E
+wait 2
+shot l23_08
+dump

@@ -1,0 +1,27 @@
+wait 2
+dev load l5castle
+wait 10
+scene
+shot l6_00
+dev travel dungeon D-PC
+wait 8
+scene
+shot l6_01_map
+dump
+click 322 565
+wait 3
+shot l6_02
+dump
+key E
+wait 1.5
+shot l6_03
+dump
+key E
+wait 1.5
+key E
+wait 1.5
+shot l6_04
+dump
+wait 3
+shot l6_05
+dump

@@ -1,0 +1,22 @@
+wait 2
+dev load l5castle
+wait 8
+dev level 24
+dev heal
+dev travel dungeon D-PC -2
+wait 7
+scene
+click 1322 340
+wait 1.5
+skip_dialogue 30
+button Continue
+wait 2
+click 1100 600
+wait 2
+button Keep Hand
+wait 2
+shot l17_01
+dump
+pilot 110
+shot l17_02
+dump

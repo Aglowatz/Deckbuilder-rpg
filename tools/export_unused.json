@@ -2,6 +2,12 @@
 	"_about": "Size pass Nov 3, Part 1: exported files nothing in the game references (tools/reference_graph.js --list, then checked by hand against the loaders). tools/update_export_excludes.js adds them to the export's exclude filter; the sources stay in the repo. Remove a line when the file gains a reference (the graph tool lists it as referenced then).",
 	"files": [
 		"assets/art/ui/UI-HUD-TOKENS.webp",
-		"assets/art/ui/UI-HUD-REFUSE.webp"
-	]
+		"assets/art/ui/UI-HUD-REFUSE.webp",
+		"assets/icon/app_icon.icns",
+		"assets/art/bestiary/BST-ROOTBOUND-MILLER.webp",
+		"assets/art/bestiary/BST-DECONTAMINATION-TECHNICIAN.webp",
+		"assets/art/bestiary/BST-OBSERVATION-WARD-ORDERLY.webp",
+		"assets/art/bestiary/BST-REGIME-CHECKPOINT-CAPTAIN.webp"
+	],
+	"_about_nov10": "Nov 10 (Part 5.3): app_icon.icns is the macOS preset icon only (the Windows build embeds app_icon.ico); the four BST- pictures have no bestiary entry (the unmatched files of the art audit)."
 }

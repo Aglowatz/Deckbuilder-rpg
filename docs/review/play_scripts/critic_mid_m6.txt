@@ -1,0 +1,47 @@
+wait 2
+dev load m5
+wait 12
+hold W 3.6
+skip_dialogue 5
+hold D 1.1
+hold W 1
+scene
+dump
+click 957 600
+wait 2
+scene
+shot m6_01_vendor
+dump
+key E
+wait 1.5
+shot m6_02_vendor2
+dump
+skip_dialogue 6
+wait 1
+shot m6_03_shop
+dump
+button Cards
+wait 1.5
+shot m6_04_cards
+dump
+move 400 400
+wait 1
+shot m6_05_hover
+key Escape
+wait 1
+button Gear
+wait 1.5
+shot m6_06_gear
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot m6_07_closed
+key B
+wait 2
+shot m6_08_deck
+dump
+key Escape
+wait 1
+shot m6_09_end

@@ -128,7 +128,7 @@ static func build_def() -> ZoneDef:
 		{"id": "minigame", "npc_id": "NPC-FLAMBE", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.7, "hat": "tall"},
 	]
 	def.spots = [
-		_spot("odalys", "Basil, Keeper of the Grand Pantry", "odalys", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odalys", "npc_id": "NPC-BASIL", "npc_name": NPC_ODALYS, "speaker": "Basil"}),
+		_spot("odalys", "Basil, Keeper of the Grand Pantry", "odalys", Vector3(0, 0, 1.0), 2.4, "Talk", "quest_npc", {"npc": "odalys", "npc_id": "NPC-BASIL", "npc_name": NPC_ODALYS, "speaker": "Basil"}),
 		_spot("tarragon", "Sous-Chef Tarragon, Fetcher of Things", "tarragon", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "tarragon", "npc_name": NPC_TARRAGON, "speaker": "Sous-Chef Tarragon"}),
 		_spot("dolcetta", "Mirepoix's Dessert & Deckery", "dolcetta", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "dolcetta", "npc_id": "V-MIREPOIX", "npc_name": NPC_DOLCETTA, "speaker": "Madame Mirepoix"}),
 		_spot("heal", "The Hearty Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down for a hearty meal (full heal)", "heal"),

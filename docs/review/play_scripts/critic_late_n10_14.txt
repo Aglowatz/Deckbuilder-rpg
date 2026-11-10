@@ -1,0 +1,27 @@
+wait 2
+dev load l5castle
+wait 8
+dev travel dungeon D-PC -2
+wait 7
+click 1322 340
+wait 1.5
+skip_dialogue 30
+button Continue
+wait 2
+click 1100 600
+wait 2
+shot l14_01
+button Keep Hand
+wait 2
+button Got it
+wait 1
+button Got it
+wait 1
+shot l14_02_turn1
+dump
+click 1470 272
+click 1470 272
+click 1470 272
+pilot 95
+shot l14_03
+dump

@@ -1,0 +1,37 @@
+wait 2
+dev load c13post
+wait 9
+dev travel dungeon D-LAB
+wait 8
+key Escape
+wait 1
+shot l24_00
+click 335 470
+wait 3
+shot l24_01_node
+dump
+skip_dialogue 10
+button Continue
+wait 2
+shot l24_02
+dump
+button Keep Hand
+wait 1.5
+button Keep Hand
+wait 1.5
+shot l24_03_battle
+dump
+click 1470 272
+click 1470 272
+click 1470 272
+pilot 75
+shot l24_04_after
+dump
+button Continue
+wait 2
+shot l24_05_reward
+dump
+button Continue
+wait 2
+shot l24_06
+dump

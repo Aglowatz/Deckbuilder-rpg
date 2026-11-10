@@ -27,6 +27,9 @@ enum WindowMode { WINDOWED, FULLSCREEN, BORDERLESS }
 
 const TEXT_SCALES: Array[float] = [0.85, 1.0, 1.2, 1.4]
 const TEXT_SCALE_NAMES: Array[String] = ["Small", "Normal", "Large", "Extra large"]
+## Overnight Nov 9-10 (Part 4.1): the one "Text size" switch - Normal / Large / Larger set dialogue, card and tooltip text together
+## (TEXT_SCALES index 1 / 2 / 3).
+const TEXT_SIZE_MASTER_NAMES: Array[String] = ["Normal", "Large", "Larger"]
 ## Characters per second of the dialogue typewriter (0 = the whole line at once).
 ## Fix pass Nov 7 (Part 5, C1 F8 / C2 F12 / C4 F13): a faster typewriter (Normal 55 -> 80 letters a second); holding E fast-forwards.
 const DIALOGUE_SPEEDS: Array[float] = [30.0, 80.0, 140.0, 0.0]
@@ -355,6 +358,20 @@ func tooltip_text_scale() -> float:
 
 
 ## `base` font size scaled by the tooltip text option (never below 10).
+## The "Text size" switch level (0 Normal, 1 Large, 2 Larger) when dialogue, cards and tooltips all share it, else -1 (custom mix).
+func text_master_level() -> int:
+	if text_dialogue == text_cards and text_cards == text_tooltips and text_dialogue >= 1:
+		return text_dialogue - 1
+	return -1
+
+
+func set_text_master(level: int) -> void:
+	var index: int = clampi(level, 0, TEXT_SIZE_MASTER_NAMES.size() - 1) + 1
+	text_dialogue = index
+	text_cards = index
+	text_tooltips = index
+
+
 func tooltip_font(base: int) -> int:
 	return maxi(10, int(round(float(base) * tooltip_text_scale())))
 

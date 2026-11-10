@@ -41,7 +41,7 @@ const TARGETS: Dictionary = {
 	"gain_lanes": [[QuestObjective.TargetKind.BATTLE, "beefcake", "", "Brutes, golems and sprites roam the open ground"]],
 	"buf_pantry": [[QuestObjective.TargetKind.ITEM_COUNT, "gourmand", "", "Truffle by the broccoli, salt by the river, honey up the Butte"]],
 	"buf_pie": [[QuestObjective.TargetKind.SPOT, "gourmand", "oven", "The Grand Oven, by the arch"]],
-	"buf_mend": [[QuestObjective.TargetKind.SPOT, "gourmand", "old_meatloaf", "Old Meatloaf, by the west wall of the Grand Pantry"]],
+	"buf_mend": [[QuestObjective.TargetKind.SPOT, "gourmand", "old_meatloaf", "Black truffle under the Broccoli Forest's trees (south-west), sea salt on the Salt Flats by the river; then Old Meatloaf, by the west wall of the Grand Pantry"]],  # Nov 9-10 (mid critic #2)
 	"heap_herd": [[QuestObjective.TargetKind.SPOT, "refusemancer", "", "Escaped animals graze out in the fields"]],
 	"heap_fert": [[QuestObjective.TargetKind.ITEM_COUNT, "refusemancer", "", "Try the fields, the east edge and across the stream"]],
 	"heap_dam": [[QuestObjective.TargetKind.SPOT, "refusemancer", "stable_2", "The stables: borrow a mount, then charge the dam"]],

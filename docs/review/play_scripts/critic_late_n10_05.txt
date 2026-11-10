@@ -1,0 +1,47 @@
+wait 2
+dev load c13cap
+wait 13
+hold W 18
+hold D 1
+hold W 7
+key E
+wait 2
+key E
+wait 2.5
+shot l5_01
+key E
+wait 2
+shot l5_02
+key E
+wait 2
+shot l5_03
+key E
+wait 2
+shot l5_04
+key E
+wait 2
+shot l5_05
+key E
+wait 2
+shot l5_06
+key E
+wait 2
+shot l5_07
+key E
+wait 2
+shot l5_08
+key E
+wait 2
+shot l5_09
+key E
+wait 2
+shot l5_10
+dump
+key E
+wait 2
+shot l5_11
+key E
+wait 2
+shot l5_12
+dump
+dev save l5castle

@@ -1,0 +1,69 @@
+wait 2
+dev load m2a
+wait 12
+hold W 3.6
+skip_dialogue 5
+scene
+hold A 1
+scene
+hold W 1
+scene
+hold W 0.4
+scene
+hold D 0.6
+click 855 585
+wait 2
+scene
+shot m5_02_basil0
+dump
+key E
+wait 1.5
+shot m5_03_basil1
+dump
+key E
+wait 1.5
+shot m5_04_basil2
+key E
+wait 1.5
+shot m5_05_basil3
+dump
+key E
+wait 1.5
+shot m5_06_basil4
+key E
+wait 1.5
+shot m5_07_basil5
+dump
+key E
+wait 1.5
+shot m5_08_basil6
+dump
+key E
+wait 1.5
+shot m5_09_fav1
+dump
+key E
+wait 1.5
+shot m5_10_fav2
+dump
+key E
+wait 1.5
+shot m5_11_fav3
+dump
+key E
+wait 1.5
+shot m5_12_fav4
+dump
+key E
+wait 1.5
+shot m5_13_fav5
+dump
+skip_dialogue 10
+shot m5_14_after
+dump
+dev save m5
+hold D 1.2
+hold S 0.4
+scene
+dump
+shot m5_15_shopapproach

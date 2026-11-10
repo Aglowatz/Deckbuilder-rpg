@@ -187,3 +187,29 @@ func test_card_vendor_grid() -> void:
 	await _check_screen(screen, "Sable's card grid")
 	var first: Control = screen.pad_first_focus()
 	assert_true(first is CardView, "the pad starts on a card for sale")
+
+
+# ---- Overnight Nov 9-10 (Part 4.2): the screens the first pass did not walk ------------------------------------------------------------
+
+
+func test_wardrobe() -> void:
+	await _overlay(WardrobeScreen.new(), "Wardrobe")
+
+
+func test_tailor() -> void:
+	await _overlay(TailorScreen.new(), "Tailor")
+
+
+func test_pack_shop() -> void:
+	await _overlay(PackShopScreen.new(), "Pack shop")
+
+
+func test_minigames() -> void:
+	var screens: Array[OverlayScreen] = [QuizScreen.new(), CardMatchScreen.new(), GrowthGridScreen.new(), MatchGameScreen.new(), OrderGameScreen.new(),
+		RecipePuzzleScreen.new(), RepGameScreen.new(), SortGameScreen.new(), TubePuzzleScreen.new()]  # (the Gainlands wheel panel reads its zone's text, so it needs a zone run: covered by the gamepad smoke)
+	for screen: OverlayScreen in screens:
+		var what: String = screen.get_script().get_global_name()
+		add_child(screen)
+		await _check_screen(screen, what)
+		screen.queue_free()
+		await get_tree().process_frame

@@ -1,0 +1,14 @@
+wait 2
+dev load l5castle
+wait 8
+dev travel dungeon D-PC -2
+wait 8
+scene
+shot l10_01_map
+dump
+key R
+wait 1.5
+shot l10_02_rules
+dump
+key Escape
+wait 1

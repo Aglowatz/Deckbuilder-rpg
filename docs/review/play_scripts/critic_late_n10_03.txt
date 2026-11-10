@@ -1,0 +1,31 @@
+wait 2
+dev load l2a
+wait 14
+shot l3_00_loaded
+hold D 1.2
+hold W 3
+scene
+shot l3_01_stairs
+dump
+key E
+wait 3
+shot l3_02_afterE
+dump
+skip_dialogue 0
+key E
+wait 1
+shot l3_03
+key E
+wait 1
+shot l3_04
+key E
+wait 1
+shot l3_05
+key E
+wait 1
+shot l3_06
+dump
+wait 6
+scene
+shot l3_07
+dump

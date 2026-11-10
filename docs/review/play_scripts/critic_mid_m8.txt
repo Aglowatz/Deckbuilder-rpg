@@ -1,0 +1,35 @@
+wait 2
+dev load m5
+wait 12
+skip_dialogue 5
+hold W 6
+skip_dialogue 5
+hold W 1
+scene
+hold A 1.3
+scene
+key E
+wait 1.5
+shot m8_01_salt
+dump
+skip_dialogue 5
+hold A 2
+scene
+shot m8_02_w
+dump
+hold W 2
+scene
+shot m8_03_nw
+dump
+hold D 2
+scene
+shot m8_04_n
+dump
+hold D 2
+scene
+shot m8_05_ne
+dump
+hold D 2
+scene
+shot m8_06_ne2
+dump

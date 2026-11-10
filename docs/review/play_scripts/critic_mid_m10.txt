@@ -1,0 +1,67 @@
+wait 2
+dev load m5
+wait 12
+dev heal
+dev travel dungeon D-TTK
+wait 10
+click 411 224
+wait 3
+button Continue
+wait 6
+button Keep Hand
+wait 3
+button Got it
+wait 1
+dump
+click 1192 790
+wait 1.2
+click 1078 790
+wait 1.2
+click 941 790
+wait 1.2
+click 811 790
+wait 1.2
+click 682 790
+wait 1.2
+click 560 790
+wait 1.2
+click 424 790
+wait 1.2
+shot m10_10_t1
+dump
+button End
+wait 1
+button End Turn
+wait 10
+shot m10_12_t2start
+dump
+click 1192 790
+wait 1.2
+click 1078 790
+wait 1.2
+click 941 790
+wait 1.2
+click 811 790
+wait 1.2
+click 682 790
+wait 1.2
+click 560 790
+wait 1.2
+click 424 790
+wait 1.2
+shot m10_13_t2
+key Space
+wait 2
+shot m10_14_combat
+dump
+move 800 300
+wait 1
+shot m10_15_combat2
+pilot 200
+wait 2
+shot m10_16_result
+dump
+skip_dialogue 5
+wait 2
+shot m10_17_after
+dump

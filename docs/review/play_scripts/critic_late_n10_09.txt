@@ -1,0 +1,27 @@
+wait 2
+dev load l5castle
+wait 8
+dev travel dungeon D-PC
+wait 8
+click 322 565
+wait 3
+button Continue
+wait 2
+button Keep Hand
+wait 2
+button Skip tips
+click 1470 272
+wait 0.5
+click 1470 272
+wait 0.5
+shot l9_01_speed
+dump
+pilot 95
+shot l9_02_after
+dump
+wait 2
+shot l9_03
+dump
+skip_dialogue 6
+shot l9_04
+dump

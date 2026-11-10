@@ -1,0 +1,45 @@
+wait 2
+dev load m2a
+wait 12
+skip_dialogue 5
+hold W 6
+skip_dialogue 5
+hold W 1
+scene
+hold A 0.6
+scene
+hold A 0.4
+scene
+hold S 0.3
+scene
+key E
+wait 1.5
+shot m3_01_tarr1
+dump
+key E
+wait 1.2
+shot m3_02_tarr2
+key E
+wait 1.2
+shot m3_03_tarr3
+key E
+wait 1.2
+shot m3_04_tarr4
+key E
+wait 1.2
+shot m3_05_tarr5
+key E
+wait 1.2
+shot m3_06_tarr6
+dump
+key E
+wait 1.2
+shot m3_07_tarr7
+key E
+wait 1.2
+shot m3_08_tarr8
+dump
+skip_dialogue 20
+shot m3_09_after
+dump
+scene

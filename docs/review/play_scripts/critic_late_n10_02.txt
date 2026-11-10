@@ -1,0 +1,31 @@
+wait 2
+dev load c13cap
+wait 14
+hold W 5
+scene
+shot l2_01_n5
+hold W 5
+scene
+shot l2_02_n10
+dump
+hold W 5
+scene
+shot l2_03_n15
+hold W 5
+scene
+shot l2_04_n20
+dump
+key M
+wait 2
+shot l2_05_map
+key Escape
+wait 1
+hold W 5
+scene
+shot l2_06_n25
+dump
+hold W 5
+scene
+shot l2_07_n30
+dump
+dev save l2a

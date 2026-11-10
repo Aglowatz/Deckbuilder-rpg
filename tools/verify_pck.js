@@ -98,5 +98,14 @@ if (!noMd5) {
 }
 fs.closeSync(fd);
 const result = { ok: true, file, bytes: size, mb: +(size / 1048576).toFixed(1), files: count, shaders, payload_mb: +(payload / 1048576).toFixed(1), engine, format, md5_checked: checked };
+// Nov 10: --largest=N prints the N largest entries (packed bytes); --tsv=<file> writes every entry (bytes, path) for size work.
+const largestArg = args.find((a) => a.startsWith("--largest="));
+const live = entries.filter((e) => !(e.flags & 2));
+if (largestArg) {
+	const n = parseInt(largestArg.split("=")[1], 10) || 20;
+	for (const e of [...live].sort((a, b) => b.size - a.size).slice(0, n)) console.log((e.size / 1048576).toFixed(2).padStart(8) + " MB  " + e.name.replace(/^res:\/\//, ""));
+}
+const tsvArg = args.find((a) => a.startsWith("--tsv="));
+if (tsvArg) fs.writeFileSync(tsvArg.slice(6), live.map((e) => e.size + "\t" + e.name.replace(/^res:\/\//, "")).join("\n") + "\n");
 if (args.includes("--json")) console.log(JSON.stringify(result));
 else console.log("PCK OK: " + file + ": " + result.mb + " MB, " + count + " files, " + shaders + " baked shaders (Godot " + engine + ", pack format " + format + ")" + (noMd5 ? "" : ", " + checked + " MD5s match"));

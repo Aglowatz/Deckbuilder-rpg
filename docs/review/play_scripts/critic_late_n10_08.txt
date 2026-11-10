@@ -1,0 +1,41 @@
+wait 2
+dev load l5castle
+wait 8
+dev travel dungeon D-PC
+wait 8
+click 322 565
+wait 3
+button Continue
+wait 2
+button Keep Hand
+wait 2.5
+shot l8_01_kept
+dump
+drag 560 790 800 450
+wait 2
+shot l8_02_land
+dump
+move 1192 790
+wait 1
+shot l8_03_hover
+drag 1192 790 800 450
+wait 2.5
+shot l8_04_unit
+dump
+button Combat
+wait 2
+shot l8_05_combat
+dump
+button End
+wait 2
+shot l8_06_end
+dump
+wait 8
+shot l8_07_enemy
+dump
+pilot 60
+shot l8_08_after
+dump
+skip_dialogue 10
+shot l8_09
+dump

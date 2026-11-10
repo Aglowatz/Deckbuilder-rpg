@@ -1,0 +1,132 @@
+wait 2
+dev load l5castle
+wait 8
+dev level 24
+dev heal
+dev travel dungeon D-PC -2
+wait 7
+click 1322 340
+wait 1.5
+skip_dialogue 30
+button Continue
+wait 2
+click 1100 600
+wait 2
+button Keep Hand
+wait 1.5
+button Keep Hand
+wait 1.5
+button Skip tips
+log ROUND 1
+click 1200 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 420 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 1130 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 500 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 1060 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 580 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 990 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 660 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 920 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 740 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 850 820
+wait 0.5
+rclick 800 300
+wait 0.3
+shot l20_r1_played
+button To Combat
+wait 1.5
+button End Turn
+wait 1
+click 710 518
+wait 6
+log ROUND 2
+click 1200 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 420 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 1130 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 500 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 1060 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 580 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 990 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 660 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 920 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 740 820
+wait 0.5
+rclick 800 300
+wait 0.3
+click 850 820
+wait 0.5
+rclick 800 300
+wait 0.3
+shot l20_r2_played
+button To Combat
+wait 1.5
+button End Turn
+wait 1
+click 710 518
+wait 6
+click 1470 272
+click 1470 272
+click 1470 272
+pilot 80
+shot l20_end
+dump
+wait 3
+shot l20_end2
+dump

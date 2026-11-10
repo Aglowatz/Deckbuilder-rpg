@@ -451,7 +451,7 @@ func _anchors() -> void:
 	_at("giant_chest", 28.8, 72.6)
 	# Brief 16: the hidden vault lever, in the far south-east corner of the table.
 	_at("vault_lever", 86.4, 74.4)
-	_at("odalys", 50.0, 58.5)
+	_at("odalys", 53.0, 58.5)  # Nov 9-10 (mid critic #3): 3 m east, so the soup fountain no longer hides him from the hub camera
 	_at("tarragon", 45.6, 70.2)  # Fixes Oct 26: on open ground south-east of the Rift Express (he stood inside the station at 43.5, 67)
 	_at("oven", 58.0, 69.5)
 	_at("soup_fountain", 50.0, 64.5)

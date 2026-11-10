@@ -1957,7 +1957,8 @@ func _collect_pois() -> Array[MapPoi]:
 		result.append(poi)
 	for spot: ZoneSpot in spots:
 		if spot.id == "rift_station":
-			result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, spot.position, spot.title))
+			# Overnight Nov 9-10 (mid critic #9): "The Beefcake Rift Express" read as a Beefcake place on another zone's map; the map says the plain name.
+			result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, spot.position, "Rift Express station"))
 	result.append_array(_extra_pois())
 	if quest_markers != null:
 		quest_markers.add_map_pois(result)

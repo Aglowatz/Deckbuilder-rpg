@@ -1,0 +1,25 @@
+wait 2
+dev load c13post
+wait 12
+scene
+shot l22_00
+dump
+wait 3
+shot l22_01
+dump
+key E
+wait 2
+shot l22_02
+dump
+key M
+wait 2
+shot l22_03_map
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot l22_04_J
+dump
+key Escape
+wait 1

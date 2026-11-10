@@ -180,8 +180,18 @@ func _build_text() -> void:
 	var texts: Array[String] = []
 	for name: String in Settings.TEXT_SCALE_NAMES:
 		texts.append(name)
+	# Overnight Nov 9-10 (Part 4.1): one switch for all three - Normal / Large / Larger - above the per-kind sizes ("Custom" when they differ).
+	var master_names: Array[String] = []
+	for name: String in Settings.TEXT_SIZE_MASTER_NAMES:
+		master_names.append(name)
+	master_names.append("Custom")
+	_text_master = _options(master_names, _master_index(), _on_text_master)
+	_text_master.name = "TextSizeOptions"
+	_text_master.set_item_disabled(master_names.size() - 1, true)
+	_body.add_child(_row("Text size (dialogue, cards, tooltips)", _text_master))
 	var cards: OptionButton = _options(texts, Settings.text_cards, _on_text_cards)
 	cards.name = "CardTextOptions"
+	_text_kinds = []
 	_body.add_child(_row("Card text size", cards))
 	var dialogue: OptionButton = _options(texts, Settings.text_dialogue, _on_text_dialogue)
 	dialogue.name = "DialogueTextOptions"
@@ -189,6 +199,7 @@ func _build_text() -> void:
 	var tooltips: OptionButton = _options(texts, Settings.text_tooltips, _on_text_tooltips)
 	tooltips.name = "TooltipTextOptions"
 	_body.add_child(_row("Tooltip text size", tooltips))
+	_text_kinds = [cards, dialogue, tooltips]
 	var speed_names: Array[String] = []
 	for name: String in Settings.DIALOGUE_SPEED_NAMES:
 		speed_names.append(name)
@@ -548,9 +559,40 @@ func _on_minimap(pressed: bool) -> void:
 # ---- Text handlers --------------------------------------------------------------------------
 
 
+var _text_master: OptionButton = null
+var _text_kinds: Array[OptionButton] = []
+
+
+## The master row's index: 0-2 when all three kinds share a master level, else the last item ("Custom").
+func _master_index() -> int:
+	var level: int = Settings.text_master_level()
+	return level if level >= 0 else Settings.TEXT_SIZE_MASTER_NAMES.size()
+
+
+func _sync_text_rows() -> void:
+	if _text_master != null and is_instance_valid(_text_master):
+		_text_master.select(_master_index())
+	var values: Array[int] = [Settings.text_cards, Settings.text_dialogue, Settings.text_tooltips]
+	for i: int in range(_text_kinds.size()):
+		if is_instance_valid(_text_kinds[i]):
+			_text_kinds[i].select(values[i])
+
+
+func _on_text_master(index: int) -> void:
+	if index < 0 or index >= Settings.TEXT_SIZE_MASTER_NAMES.size():
+		return
+	Settings.set_text_master(index)
+	Settings.text_changed.emit()
+	Settings.apply_tooltip_theme()
+	_sync_text_rows()
+	_refresh_sample()
+	_saved()
+
+
 func _on_text_cards(index: int) -> void:
 	Settings.text_cards = index
 	Settings.text_changed.emit()
+	_sync_text_rows()
 	_saved()
 
 
@@ -558,6 +600,7 @@ func _on_text_dialogue(index: int) -> void:
 	Settings.text_dialogue = index
 	Settings.text_changed.emit()
 	_refresh_sample()
+	_sync_text_rows()
 	_saved()
 
 
@@ -565,6 +608,7 @@ func _on_text_tooltips(index: int) -> void:
 	Settings.text_tooltips = index
 	Settings.text_changed.emit()
 	Settings.apply_tooltip_theme()
+	_sync_text_rows()
 	_saved()
 
 
@@ -745,6 +789,10 @@ func capture_key(code: int) -> void:
 	if _conflict_note != null:
 		if result == "reserved":
 			_conflict_note.text = "That key is reserved (Esc, Enter and Tab)."
+		elif result == "fixed":
+			_conflict_note.text = "The pause menu always keeps Esc. Use its second slot for another key."
+		elif result == "essential":
+			_conflict_note.text = "Not changed: moving, Interact and Pause must keep at least one key. Give it another key first."
 		elif not result.is_empty():
 			_conflict_note.text = "%s was using that key and is now unset." % result
 		else:

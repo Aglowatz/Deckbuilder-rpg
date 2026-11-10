@@ -1,0 +1,47 @@
+wait 2
+dev load m5
+wait 12
+dev travel dungeon D-TTK
+wait 9
+click 397 650
+wait 3
+button Continue
+wait 5
+button Keep Hand
+wait 2
+button Got it
+button Speed
+wait 0.5
+button Speed
+wait 0.5
+shot m11_01_speed
+dump
+click 1192 790
+wait 1
+click 1078 790
+wait 1
+click 941 790
+wait 1
+click 811 790
+wait 1
+click 682 790
+wait 1
+click 560 790
+wait 1
+click 424 790
+wait 1
+shot m11_02_t1
+button End Turn
+wait 1
+button End Turn
+wait 6
+shot m11_03_t2
+pilot 100
+wait 2
+shot m11_04_result
+dump
+button Continue
+wait 3
+skip_dialogue 6
+shot m11_05_after
+dump

@@ -1,0 +1,126 @@
+wait 2
+dev load c13end
+wait 10
+scene
+shot l21_00
+dump
+key E
+wait 2.2
+shot l21_01
+dump
+key E
+wait 2.2
+shot l21_02
+dump
+key E
+wait 2.2
+shot l21_03
+dump
+key E
+wait 2.2
+shot l21_04
+dump
+key E
+wait 2.2
+shot l21_05
+dump
+key E
+wait 2.2
+shot l21_06
+dump
+key E
+wait 2.2
+shot l21_07
+dump
+key E
+wait 2.2
+shot l21_08
+dump
+key E
+wait 2.2
+shot l21_09
+dump
+key E
+wait 2.2
+shot l21_10
+dump
+key E
+wait 2.2
+shot l21_11
+dump
+key E
+wait 2.2
+shot l21_12
+dump
+key E
+wait 2.2
+shot l21_13
+dump
+key E
+wait 2.2
+shot l21_14
+dump
+key E
+wait 2.2
+shot l21_15
+dump
+key E
+wait 2.2
+shot l21_16
+dump
+key E
+wait 2.2
+shot l21_17
+dump
+key E
+wait 2.2
+shot l21_18
+dump
+key E
+wait 2.2
+shot l21_19
+dump
+key E
+wait 2.2
+shot l21_20
+dump
+key E
+wait 2.2
+shot l21_21
+dump
+key E
+wait 2.2
+shot l21_22
+dump
+key E
+wait 2.2
+shot l21_23
+dump
+key E
+wait 2.2
+shot l21_24
+dump
+key E
+wait 2.2
+shot l21_25
+dump
+key E
+wait 2.2
+shot l21_26
+dump
+key E
+wait 2.2
+shot l21_27
+dump
+key E
+wait 2.2
+shot l21_28
+dump
+key E
+wait 2.2
+shot l21_29
+dump
+key E
+wait 2.2
+shot l21_30
+dump

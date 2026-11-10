@@ -1,0 +1,124 @@
+wait 2
+dev load l5castle
+wait 8
+dev level 24
+dev heal
+dev travel dungeon D-PC -2
+wait 7
+click 1322 340
+wait 1.5
+skip_dialogue 30
+button Continue
+wait 2
+click 1100 600
+wait 2
+button Keep Hand
+wait 2
+button Skip tips
+log ROUND 1
+click 1200 820
+wait 0.7
+click 420 820
+wait 0.7
+click 1130 820
+wait 0.7
+click 500 820
+wait 0.7
+click 1060 820
+wait 0.7
+click 580 820
+wait 0.7
+click 990 820
+wait 0.7
+click 660 820
+wait 0.7
+click 920 820
+wait 0.7
+click 740 820
+wait 0.7
+click 850 820
+wait 0.7
+click 800 820
+wait 0.7
+shot l18_r1_played
+dump
+button To Combat
+wait 1.5
+shot l18_r1_combat
+button End Turn
+wait 1
+click 710 518
+wait 7
+log ROUND 2
+click 1200 820
+wait 0.7
+click 420 820
+wait 0.7
+click 1130 820
+wait 0.7
+click 500 820
+wait 0.7
+click 1060 820
+wait 0.7
+click 580 820
+wait 0.7
+click 990 820
+wait 0.7
+click 660 820
+wait 0.7
+click 920 820
+wait 0.7
+click 740 820
+wait 0.7
+click 850 820
+wait 0.7
+click 800 820
+wait 0.7
+shot l18_r2_played
+dump
+button To Combat
+wait 1.5
+shot l18_r2_combat
+button End Turn
+wait 1
+click 710 518
+wait 7
+log ROUND 3
+click 1200 820
+wait 0.7
+click 420 820
+wait 0.7
+click 1130 820
+wait 0.7
+click 500 820
+wait 0.7
+click 1060 820
+wait 0.7
+click 580 820
+wait 0.7
+click 990 820
+wait 0.7
+click 660 820
+wait 0.7
+click 920 820
+wait 0.7
+click 740 820
+wait 0.7
+click 850 820
+wait 0.7
+click 800 820
+wait 0.7
+shot l18_r3_played
+dump
+button To Combat
+wait 1.5
+shot l18_r3_combat
+button End Turn
+wait 1
+click 710 518
+wait 7
+shot l18_r4_start
+dump
+pilot 50
+shot l18_end
+dump
