@@ -1385,3 +1385,30 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
    bot snapshot (may be the snapshot); big milky fade polygons in the Buffet (`m7_06.png`). Listed in the RC2 notes' known issues.
 8. **Primm's battle board is the Model Room's miniature kingdom** (`BB-PC-BOSS`); the late critic read it as "a sunny village". Kept (it is the
    Model Room); a darker, more obviously table-top board would settle it - an art question.
+
+## Fable Nov 10 - yours to decide (the safest choice was taken)
+
+1. **Hidden stashes are marked while a quest step wants one** (Part 1.1: "every relevant thing gets a marker"): Compliance Audit's "find a hidden
+   stash" and The Golden Reservation now put a blue dot on every stash still shut in that zone (and on the map's "Point me to..." list), until
+   one is opened. Other stashes stay secret. To keep them secret even then, drop the `QuestMarkers.SPOT_CHESTS` parts in `ZoneQuestDefinitions._add_parts`.
+2. **The Door Under the Well could not be finished**: its step waited for the secret id `harbor_chest`, which nothing has set since brief 16 renamed the
+   giant chest's secret. It now completes on either id. Old saves that opened the chest before tonight complete the step on load.
+3. **The Hall Pass Slippers** (Part 5) are Boots (7 pieces, the fewest: 9 helms, 11 armours, 15 weapons, 19 relics), Uncommon tier 2, **500 gold on Madame
+   Mirepoix's shelf from the first visit**. They waive: roamer bumps (the meatball, Tidy-Bots), the Capital's rifts, the gravy and soup, the Dump's
+   pits, the Gainlands' island falls. Not waived (not "while walking"): the D.N.A.'s bad coffee (a chosen gamble), dungeon challenge events, story damage.
+   A second shop (Benchley's) is a one-line add in `ExpansionGear.zone_vendor_stock`.
+4. **Dungeon fights +50 % excludes the tutorial cave** (it is not a dungeon run; its XP is tuned to reach level 5 at Maren's). Every main and side
+   dungeon, the castle, the Lab and the Gallery pay it. The clear bonus and every first-clear bonus are x0.8, including Primm's 400 XP (now 320),
+   the Lab's 400/400 (320/320) and the Gallery's 1500 gold (1200) - the brief said every dungeon.
+5. **Gold study:** 22.8k no-grind against the ~21.2k target (+7 %, inside the +/-10 % band, so not re-tuned); completion estimate 135 extra
+   fights / 9.0 h (was 145 / 9.7 h). `docs/design/sim/nov10/gold_study_nov10.md`.
+6. **The sims now count Turns** (both players' turns) in `record.turns`, `turns_played`, `node_turns` and the "turns avg" print: their numbers are
+   half the old half-turn columns in earlier reports (docs/design/sim/*). The AI's and the item policy's internal half-turn thresholds are unchanged.
+7. **A fresh hero can walk into the Capital without the gate** (dungeon route audit: a "narrow" 176 m route): the hidden hole in the west wall
+   (the Oct 17 secret passage). Left as it is - it is a secret, and the gate's exam (Captain Spotless) is the marked way.
+8. **Escape during a conversation still opens the pause menu** (seen again while shooting the map; the late critic's #9). Backlog.
+9. **Dex in the Dump** now stands 6 m east and 4 m south of the quiz master (he stood inside the druid grove's appliance ring, hidden from the
+   camera); **Kestrel** stands south-east of the camp at (37.5, 121) (at (29.5, 111) the Low camera stood inside the camp's painted backdrop);
+   the **Correction Ward's patient** moved to (106, 6); **Basil** to (57.5, 58.5) and **Tarragon** to (42, 71.5) in the Buffet (the entrance bridge's
+   gate hid them from the Low / default camera); **Billie Muckfoot** to (44.5, 123) (the Rift station's post hid her plate). Madame Mirepoix's
+   awning is higher and her card stand moved to the counter's end. `bash tools/run_npc_visibility_probe.sh` checks all of it.

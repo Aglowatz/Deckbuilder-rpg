@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.0.0-rc3 - release candidate 3 (Nov 11 2026)
+
+- Finding things in the world:
+  - every step of every active quest marks everything it needs - each item, person, place or enemy - on the world map, the minimap and the
+    map's "Point me to..." list, and drops each marker as it is done (sea salt, black truffle, Old Meatloaf; the three favour givers; every roaming
+    enemy or stash a step counts); the tracked quest's parts carry chevrons and the arrow points at the nearest;
+  - the way to each main dungeon is marked through its gate: Sir Loin's gate in the Buffet (and Sir Loin and Basil say where the salt and the
+    truffle are), the stables and the junk barricade on the Dump's stairs;
+  - nobody stands behind a prop any more (a probe checks every talking NPC at the default and the Low camera): Basil, Tarragon, Madame Mirepoix,
+    Billie Muckfoot, Dex in the Dump, Kestrel and a Capital citizen moved or their props did; a prop between the camera and the person you can talk
+    to dissolves; E walks you to the nearest person in view when nobody is in reach;
+  - map labels: landmarks named first, minor names hidden on a small map and shown on hover; the "Point me to..." list opens over the map, never
+    over the legend; one legend line per quest goal;
+  - steam and mist no longer fill the screen as white sheets when the camera is inside a plume.
+- Turns count both players: the battle shows "Turn N" (both players have gone) with "Your turn" / "Enemy's turn" beneath; the log, the boss
+  "Setting Up" window ("from turn 3"), the result lines and the sims agree; cards say "until the end of your turn" (or "the enemy's turn" for a
+  trap that fires on theirs). Nothing happens at a different moment than before.
+- Hand cards show their numbers as this fight's rules would apply them (Primm's 3/3, a cost change, a zone rule) in green or red, and the
+  preview says the printed values.
+- No more "losing costs nothing": a dungeon defeat says the dungeon starts over and that the cards and gold you won are kept.
+- Fights inside dungeons pay 50 % more gold and XP; every dungeon's completion reward is 20 % smaller.
+- New equipment: the Hall Pass Slippers (Boots, 500 gold at Madame Mirepoix's) - roaming troublemakers and the world's hazards can't hurt you outside battle.
+
 ## v1.0.0-rc2 - release candidate 2 (Nov 10 2026)
 
 - Fixes from three fresh-eyes reviews of the exported build (first hour, midgame, late game):
