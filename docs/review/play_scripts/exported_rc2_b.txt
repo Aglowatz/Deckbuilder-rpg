@@ -1,0 +1,55 @@
+# Fable Nov 9, Part 2.2, run B on the exported pack, seeded with run A's settings.cfg (SUITE_SETTINGS_FILE): the Reduce motion tick survives
+# a restart; a manual save, quit to title and Continue; a minigame (the Gainlands quiz); the Low-end preset is run C (quality 0).
+wait 5
+button Settings
+wait 2
+button Accessibility
+wait 1
+shot y01_settings_after_restart
+key Escape
+wait 1
+button Continue
+wait 10
+skip_dialogue 20
+scene
+shot y02_continued
+key Escape
+wait 1.5
+button Save Game
+wait 2
+click 1297 354
+wait 2
+shot y03_saved_slot2
+key Escape
+wait 1
+key Escape
+wait 1
+key Escape
+wait 1.5
+button Quit to Title
+wait 2
+dump
+wait 6
+shot y04_title_again
+button Load Game
+wait 2
+dump
+shot y05_load_screen
+key Escape
+wait 1
+button Continue
+wait 10
+skip_dialogue 20
+scene
+shot y06_reloaded
+dev travel zone beefcake
+wait 14
+skip_dialogue 10
+dev goto quiz
+wait 1.5
+key E
+wait 2.5
+shot y07_quiz_minigame
+skip_dialogue 6
+wait 1
+shot y08_quiz_question
