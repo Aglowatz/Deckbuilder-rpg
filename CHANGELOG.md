@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.0.0-rc2 - release candidate 2 (Nov 10 2026)
+
+- Fixes from three fresh-eyes reviews of the exported build (first hour, midgame, late game):
+  - the opening forest is brighter, with less blur; the Crosspath fountain is painted stone instead of flat white;
+  - in the Forgotten Cave your draws skip extra infrastructure once you hold five;
+  - "End your turn?" asks about the attack when attackers are picked; the map's place list is "Point me to...";
+  - the Path choice keeps the picked Path described and shows its Resource on hover;
+  - Primm's first phase opens with 3 Militia (was 4); the Setting Up countdown matches its rule; Primm's node describes the three duels;
+  - no speaker cut-out pasted over painted story stills; clearer skip prompt, quest tracker and dungeon defeat text;
+  - the Buffet: Basil steps out from behind the soup fountain; the ingredient quest says where the truffle and the salt are.
+- Settings > Text: one "Text size" switch (Normal / Large / Larger) for dialogue, cards and tooltips.
+- Key rebinding never leaves moving, Interact or Pause without a key; the pause menu keeps Esc.
+- A playtester dialogue import tool (tools/import_playtester_dialogue.py).
+
 ## v1.0.0-rc1 - release candidate (Nov 9 2026)
 
 - Every Path plays through with real fights; Primm's Castle can no longer strand the party in its nested side rooms.

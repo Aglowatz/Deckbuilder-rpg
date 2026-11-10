@@ -18,7 +18,7 @@ func after_each() -> void:
 func test_export_presets_carry_the_project_version() -> void:
 	var version: String = FeedbackReport.version()
 	assert_ne(version, "0.0.0")
-	# Overnight Nov 9: a pre-release version (1.0.0-rc1) keeps its numeric part in the presets - the Windows file version must be numbers only
+	# Overnight Nov 9: a pre-release version (1.0.0-rc2) keeps its numeric part in the presets - the Windows file version must be numbers only
 	version = version.get_slice("-", 0)
 	var text: String = FileAccess.get_file_as_string("res://export_presets.cfg")
 	assert_true(text.contains("application/version=\"%s\"" % version), "mac export version matches")
