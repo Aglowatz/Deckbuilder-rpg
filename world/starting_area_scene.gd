@@ -13,6 +13,9 @@ var _camera_offset: Vector3 = WorldLookRig.base_offset()
 var look_rig: WorldLookRig
 var _custom_camera: bool = false
 const INTERACT_RADIUS: float = 1.7
+## Fable Nov 9 (RC1 critic #1): the cave arch answers E from the whole doorway and the bottom step, not only from the small ring in front
+## of the stairs - a new player standing under the arch saw no prompt and read the forest as a soft-lock.
+const GATE_RADIUS: float = 3.0
 ## How close (in screen pixels) a click has to land to the gate's marker to count as clicking it.
 const CLICK_PICK_RADIUS: float = 90.0
 ## New brief (third), Part D: the hidden tunnel's interact radius - tight, like the town's hidden
@@ -412,7 +415,7 @@ func _check_forest_edge(delta: float) -> void:
 		return
 	# Overnight Nov 4-5, Part 8 (fresh critic #3): the arch is at the floor's edge too - the bubble fired there and its nudge "back toward
 	# the cave" pushed the hero out of the gate's reach, so E said a line instead of entering. No self-talk near the arch.
-	if _near_gate or _gate_distance() <= INTERACT_RADIUS + 1.5:
+	if _near_gate or _gate_distance() <= GATE_RADIUS + 1.0:
 		return
 	var at_edge: bool = false
 	for step: int in range(8):
@@ -510,7 +513,7 @@ func _update_prompt() -> void:
 		return
 	var gate_distance: float = _gate_distance()
 	var was_near_gate: bool = _near_gate
-	_near_gate = gate_distance <= INTERACT_RADIUS
+	_near_gate = gate_distance <= GATE_RADIUS
 	var near_tunnel_now: bool = false
 	if not Session.flag(&"trial_cleared") and area.anchors.has("tunnel"):
 		var tunnel: Vector3 = area.anchors["tunnel"] as Vector3

@@ -1,0 +1,64 @@
+# r34: JUMP - the Gainlands (beefcake zone) and the House of Gains node map
+wait 4
+dev load r33
+wait 8
+dev travel zone beefcake
+wait 14
+shot r34_01_gainlands
+dump
+scene
+hold W 2
+wait 0.5
+shot r34_02
+dump
+scene
+hold W 2
+wait 0.5
+shot r34_03
+dump
+scene
+key E
+wait 1.5
+shot r34_04_e
+dump
+key E
+wait 1.5
+shot r34_05
+key E
+wait 1.5
+shot r34_06
+dump
+scene
+skip_dialogue 10
+key M
+wait 1.5
+shot r34_07_zonemap
+dump
+key Escape
+wait 1
+hold D 2
+wait 0.5
+shot r34_08
+dump
+scene
+hold W 2
+wait 0.5
+shot r34_09
+dump
+scene
+dev travel dungeon D-HOG
+wait 12
+shot r34_10_hog_map
+dump
+scene
+button Rules
+wait 1.5
+shot r34_11_hog_rules
+dump
+key Escape
+wait 1
+dev travel dungeon D-HOG -2
+wait 12
+shot r34_12_hog_near_boss
+dump
+scene

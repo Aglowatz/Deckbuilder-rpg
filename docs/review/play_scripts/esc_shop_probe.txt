@@ -1,0 +1,23 @@
+# Fable Nov 9 (RC1 critic #7): does Escape close Tilly Tonic's shop?
+wait 3
+dev load n6_midgame
+wait 6
+skip_dialogue 20
+dev travel town
+wait 8
+skip_dialogue 10
+dev goto item_vendor
+wait 1.5
+key E
+wait 2
+skip_dialogue 12
+wait 2
+shot esc_01_shop_open
+scene
+key Escape
+wait 1.5
+shot esc_02_after_escape
+dump
+key Escape
+wait 1.5
+shot esc_03_after_second_escape

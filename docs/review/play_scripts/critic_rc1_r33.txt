@@ -1,0 +1,64 @@
+# r33: Tilly's shop: Escape vs X, buying; then Sable
+wait 4
+dev load r32
+wait 8
+hold W 3.5
+scene
+hold A 1
+scene
+dump
+key E
+wait 1.5
+dump
+key E
+wait 2
+shot r33_01_shop
+dump
+key Escape
+wait 1.5
+shot r33_02_after_escape
+dump
+click 1550 55
+wait 1.5
+shot r33_03_after_x
+dump
+scene
+key E
+wait 1.5
+key E
+wait 2
+dump
+click 648 240
+wait 1.5
+shot r33_04_item_clicked
+dump
+click 1550 55
+wait 1.5
+scene
+dump
+hold S 1
+hold A 1.2
+scene
+dump
+key E
+wait 1.5
+shot r33_05_sable
+dump
+key E
+wait 1.5
+shot r33_06
+dump
+key E
+wait 1.5
+shot r33_07
+dump
+key E
+wait 1.5
+shot r33_08
+dump
+scene
+move 700 450
+wait 1
+shot r33_09_hover
+dump
+dev save r33

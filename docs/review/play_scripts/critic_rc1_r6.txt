@@ -1,0 +1,52 @@
+# r6: reach the glowing arch and enter the cave
+wait 4
+dev load r5
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+shot r6_01_path
+hold W+D 0.5
+hold W 1.5
+wait 0.5
+shot r6_02_near_ring
+dump
+key E
+wait 3
+shot r6_03_e
+dump
+scene
+hold W 1
+wait 0.5
+shot r6_04_w
+dump
+key E
+wait 3
+shot r6_05_e
+dump
+scene
+key E
+wait 1.5
+shot r6_06
+key E
+wait 1.5
+shot r6_07
+key E
+wait 1.5
+shot r6_08
+key E
+wait 1.5
+shot r6_09
+dump
+scene
+key E
+wait 1.5
+shot r6_10
+key E
+wait 1.5
+shot r6_11
+dump
+scene
+dev save r6

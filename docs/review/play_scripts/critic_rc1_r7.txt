@@ -1,0 +1,52 @@
+# r7: get around the obstacle and into the cave
+wait 4
+dev load r6
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+wait 0.5
+shot r7_01
+dump
+scene
+key E
+wait 3
+shot r7_02_e
+dump
+scene
+hold W+A 1
+wait 0.5
+shot r7_03
+dump
+key E
+wait 3
+shot r7_04_e
+dump
+scene
+hold W 1.5
+wait 0.5
+shot r7_05
+key E
+wait 3
+shot r7_06_e
+dump
+scene
+key E
+wait 1.5
+shot r7_07
+key E
+wait 1.5
+shot r7_08
+key E
+wait 1.5
+shot r7_09
+key E
+wait 1.5
+shot r7_10
+dump
+scene
+dev save r7

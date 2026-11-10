@@ -1,0 +1,118 @@
+# r17: the cave, nodes 3-5
+wait 4
+dev load r10
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+click 501 496
+wait 3
+button Keep Hand
+wait 1
+button Speed
+wait 0.5
+button Speed
+wait 0.5
+pilot 100
+wait 3
+key E
+wait 2
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+scene
+click 740 663
+wait 3
+button Leave it
+wait 2
+shot r17_01_map
+dump
+scene
+click 937 431
+wait 3
+shot r17_02_node3
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r17_03_end3
+dump
+wait 3
+key E
+wait 2
+shot r17_04_after3
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r17_05_map
+dump
+scene
+click 1153 551
+wait 3
+shot r17_06_node4
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r17_07_end4
+dump
+wait 3
+key E
+wait 2
+shot r17_08_after4
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r17_09_map
+dump
+scene
+click 1311 263
+wait 3
+shot r17_10_node5
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r17_11_end5
+dump
+wait 3
+key E
+wait 2
+shot r17_12_after5
+dump
+scene
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r17_13
+dump
+scene

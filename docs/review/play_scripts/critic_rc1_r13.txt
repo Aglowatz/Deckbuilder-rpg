@@ -1,0 +1,7 @@
+# r13: does a dungeon-map snapshot restore into the cave?
+wait 4
+dev load r9
+wait 8
+shot r13_01_loaded
+scene
+dump

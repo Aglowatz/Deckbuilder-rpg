@@ -15,16 +15,22 @@ if [ "$step" = "capture" ]; then
 	mkdir -p _movie _screenshots/play/trailer_rc1
 	rm -f "$avi" "${avi%.avi}.wav"
 	"$GODOT" --path . --write-movie "$avi" --fixed-fps 30 --resolution 1280x720 res://tools/play_script_launcher.tscn -- --no-save \
-		"--script=$root/docs/review/play_scripts/trailer_rc1.txt" "--out=res://_screenshots/play/trailer_rc1" --limit=150 > _movie/capture.log 2>&1
+		"--script=$root/docs/review/play_scripts/trailer_rc1.txt" "--out=res://_screenshots/play/trailer_rc1" --limit=330 > _movie/capture.log 2>&1
 	ls -la "$avi"; grep -E "CUT|SCRIPT ERROR" "$play_log" | head -20
 	exit 0
 fi
 [ -f "$avi" ] || { echo "no $avi: run the capture step first"; exit 1; }
 [ -f "$play_log" ] || { echo "no $play_log"; exit 1; }
-# CUT marks: "  12.3   note: CUT title" -> seconds
-cut_at() { grep "CUT $1\$" "$play_log" | head -1 | awk '{print $1}'; }
-font="$root/assets/fonts/Cinzel/Cinzel-Variable.ttf"
-fontarg="fontfile='$(echo "$font" | sed "s#:#\\:#g")'"
+# CUT marks: "  12.3   > log CUT title" -> seconds. The play log counts wall-clock seconds while the movie writer counts frames at a fixed
+# 30 fps and renders slower than real time, so a log time maps to a movie time by the ratio (movie length / the log's last mark).
+movie_len=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$avi")
+end_mark=$(grep "CUT end\$" "$play_log" | head -1 | awk '{print $1}')
+scale=$(awk -v m="$movie_len" -v e="$end_mark" 'BEGIN{ if (e > 0) printf "%.5f", m/e; else print 1 }')
+echo "movie $movie_len s for a $end_mark s log: scale $scale"
+cut_at() { grep "CUT $1\$" "$play_log" | head -1 | awk -v s="$scale" '{printf "%.2f", $1 * s}'; }
+# a relative font path: a drive colon ("C:") would need escaping inside the filtergraph
+font="assets/fonts/Cinzel/Cinzel-Variable.ttf"
+fontarg="fontfile=$font"
 mkdir -p _movie/parts builds
 i=0
 clip() {  # clip <mark> <offset> <duration>
@@ -40,18 +46,17 @@ card() {  # card <big text> <small text> <seconds>
 	echo "$out" >> _movie/parts/list.txt
 }
 rm -f _movie/parts/*.mp4 _movie/parts/list.txt
+# The Gainlands walk ran into the gatekeeper's duel and "dev travel capital" lands inside the Crease, so those two clips are left out.
 card "THE WAYWARD PATH" "a cozy deckbuilding RPG" 3.5
-clip title 0.5 4
-clip crosspath 0.5 6
-clip deck_station 0.3 3.5
+clip title 1.0 4
+clip crosspath 1.0 6
+clip deck_station -1.8 3.5
 card "Four strange lands" "to walk, free and win back" 3
-clip gainlands 0.5 5
-clip buffet 0.5 5
+clip buffet 1.0 5.5
 clip battle 1.5 12
-clip capital 0.5 5
-clip gallery 0.5 4.5
+clip gallery 1.0 4.5
 card "Free on itch.io" "donations welcome - never needed" 4
-total=$(awk 'BEGIN{t=3.5+4+6+3.5+3+5+5+12+5+4.5+4; print t}')
+total=$(awk 'BEGIN{t=3.5+4+6+3.5+3+5.5+12+4.5+4; print t}')
 sed 's#^#file #' _movie/parts/list.txt | sed "s#file \(.*\)#file '$root/\1'#" > _movie/parts/concat.txt
 ffmpeg -y -loglevel error -f concat -safe 0 -i _movie/parts/concat.txt -i assets/audio/music/MUS-TITLE.ogg \
 	-filter_complex "[1:a]atrim=0:$total,afade=t=in:st=0:d=1,afade=t=out:st=$(awk -v t="$total" 'BEGIN{printf "%.2f", t-3}'):d=3,volume=0.9[a]" \

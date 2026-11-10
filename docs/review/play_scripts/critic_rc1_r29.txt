@@ -1,0 +1,59 @@
+# r29: Tilly Tonic's shop (walk from the town resume spot)
+wait 4
+dev load r28
+wait 7.5
+shot r29_00_load
+dump
+hold W 1
+hold A 1
+hold W+A 2
+hold W 2
+hold D 2
+scene
+hold W+A 0.6
+scene
+dump
+key E
+wait 1.5
+shot r29_01
+dump
+hold A 0.5
+scene
+dump
+key E
+wait 1.5
+shot r29_02
+dump
+hold W 0.5
+scene
+dump
+key E
+wait 1.5
+shot r29_03
+dump
+key E
+wait 1.5
+shot r29_04
+dump
+key E
+wait 1.5
+shot r29_05
+dump
+key E
+wait 1.5
+shot r29_06
+dump
+key E
+wait 1.5
+shot r29_07
+dump
+scene
+key E
+wait 1.5
+shot r29_08
+dump
+key E
+wait 1.5
+shot r29_09
+dump
+scene

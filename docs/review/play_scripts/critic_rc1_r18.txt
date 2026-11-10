@@ -1,0 +1,120 @@
+# r18: the cave boss (node 5) and whatever follows
+wait 4
+dev load r10
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+click 501 496
+wait 3
+button Keep Hand
+wait 1
+button Speed
+wait 0.5
+button Speed
+wait 0.5
+pilot 100
+wait 3
+key E
+wait 2
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+click 740 663
+wait 3
+button Leave it
+wait 2
+click 937 431
+wait 3
+button Keep Hand
+wait 1
+pilot 100
+wait 3
+key E
+wait 2
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+click 1153 551
+wait 3
+button Rest
+wait 2
+button Continue
+wait 2
+shot r18_01_map_before_boss
+dump
+scene
+dev save r18
+click 1311 263
+wait 3
+shot r18_02_boss_a
+dump
+key E
+wait 1.5
+shot r18_03_boss_b
+key E
+wait 1.5
+shot r18_04_boss_c
+key E
+wait 1.5
+shot r18_05_boss_d
+dump
+key E
+wait 1.5
+shot r18_06_boss_e
+key E
+wait 1.5
+shot r18_07_boss_f
+dump
+scene
+button Keep Hand
+wait 1
+shot r18_08_boss_hand
+dump
+pilot 150
+shot r18_09_boss_end
+dump
+scene
+wait 3
+key E
+wait 2
+shot r18_10_boss_reward
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+shot r18_11_after
+dump
+scene
+key E
+wait 2
+shot r18_12
+dump
+key E
+wait 2
+shot r18_13
+dump
+scene
+dev save r18b

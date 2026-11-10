@@ -10,6 +10,8 @@ const SHOW_SECONDS: float = 3.4
 const NPC_COOLDOWN: float = 45.0
 const GLOBAL_COOLDOWN: float = 7.0
 const HEAD_HEIGHT: float = 2.15
+## Pixels the bubble is raised so it clears the NPC's name label drawn at the same head point.
+const LABEL_CLEARANCE: float = 30.0
 
 ## The hero (any Node3D).
 var target: Node3D
@@ -132,7 +134,8 @@ func _place() -> void:
 		return
 	_bubble.visible = true
 	var at: Vector2 = camera.unproject_position(head)
-	_bubble.position = at - Vector2(_bubble.size.x * 0.5, _bubble.size.y + 6.0)
+	# Fable Nov 9 (RC1 critic #9): the bubble sits above the name plate (NpcLabels draws it at the same head point), not over it.
+	_bubble.position = at - Vector2(_bubble.size.x * 0.5, _bubble.size.y + 6.0 + LABEL_CLEARANCE)
 
 
 ## The line on screen ("" when none), for tests and smokes.

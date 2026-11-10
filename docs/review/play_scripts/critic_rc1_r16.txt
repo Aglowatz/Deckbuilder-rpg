@@ -1,0 +1,127 @@
+# r16: the cave, all nodes, piloted at speed
+wait 4
+dev load r10
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+click 501 496
+wait 3
+button Keep Hand
+wait 1
+button Speed
+wait 0.5
+button Speed
+wait 0.5
+dump
+pilot 100
+wait 3
+key E
+wait 2
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r16_01_map
+scene
+click 740 663
+wait 3
+shot r16_02_node2
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r16_03_end2
+dump
+wait 3
+key E
+wait 2
+shot r16_04_after2
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r16_05_map
+dump
+scene
+click 937 431
+wait 3
+shot r16_06_node3
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r16_07_end3
+dump
+wait 3
+key E
+wait 2
+shot r16_08_after3
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r16_09_map
+dump
+scene
+click 1153 551
+wait 3
+shot r16_10_node4
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r16_11_end4
+dump
+wait 3
+key E
+wait 2
+shot r16_12_after4
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 4
+wait 1
+shot r16_13_map
+dump
+scene
+click 1311 263
+wait 3
+shot r16_14_node5
+dump
+button Keep Hand
+wait 1
+pilot 100
+shot r16_15_end5
+dump
+wait 3
+key E
+wait 2
+shot r16_16_after5
+dump
+scene

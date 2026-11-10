@@ -1333,6 +1333,14 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
 1. **The dev-started Quota duel fought on the placeholder slate** (the "dark battle backdrop" in the UI sweep's shot 16): only the Dev
    Menu's `encounter quota` was affected (its sim group "capital:lieutenant" is not a battle context key); the real duel by the energy wheels
    always had the Transit Yards board. Mapped the sim group too, so the Dev Menu shows the same board. Nothing for you to do.
+2. **The RC1 critic's four "major" looks** (`docs/review/critic_rc1/report.md`): the first fights run 8-11 rounds against a 3-HP enemy (both decks
+   flood with infrastructure), the white fountain / plinth blocks in the Crosspath square, the near-black opening forest, the low-poly Gainlands kit.
+   None changed tonight (balance and art calls); the cave trigger and the bark bubbles were fixed. They are the top of `docs/release/post_1_0_backlog.md`.
+3. **The trailer** (`builds/trailer_rc1.mp4`, 44 s) uses only the title theme as sound and three plain title cards; the Gainlands and Capital clips were
+   dropped (a fight started / the Crease interior). Re-capture with `bash tools/make_trailer.sh capture` after any look change; itch wants a
+   YouTube or Vimeo link.
+4. **User folders left on this PC** from the exported-build checks: `%APPDATA%\Deckbuilder-RPG.rc1_exe_test` and `...rc1_critic` (fresh-install
+   folders used by the exe test and the critic). Your real folder is back in place. Delete the two when you like.
 
 ## Overnight Nov 9 - yours to decide (the safest choice was taken)
 

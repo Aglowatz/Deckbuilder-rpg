@@ -1,0 +1,52 @@
+# r27: walk to Tilly Tonic's shop, talk, browse; then Sable
+wait 4
+dev load r25
+wait 8
+hold W 1
+hold A 1
+hold W+A 2
+hold W 2
+hold D 2
+scene
+shot r27_01
+dump
+hold D 1
+scene
+shot r27_02
+dump
+hold W 1
+scene
+dump
+key E
+wait 2
+shot r27_03_e
+dump
+scene
+key E
+wait 1.5
+shot r27_04
+key E
+wait 1.5
+shot r27_05
+key E
+wait 1.5
+shot r27_06
+dump
+key E
+wait 1.5
+shot r27_07
+key E
+wait 1.5
+shot r27_08
+dump
+scene
+key E
+wait 1.5
+shot r27_09
+dump
+key E
+wait 1.5
+shot r27_10
+dump
+scene
+dev save r27

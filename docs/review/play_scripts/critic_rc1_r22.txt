@@ -1,0 +1,75 @@
+# r22: town menus and the map's Where to?
+wait 4
+dev load r21
+wait 8
+skip_dialogue 10
+wait 1
+key C
+wait 2
+shot r22_01_character
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot r22_02_quests
+dump
+key Escape
+wait 1
+key P
+wait 2
+shot r22_03_packs
+dump
+key Escape
+wait 1
+key T
+wait 2
+shot r22_04_wardrobe
+dump
+key Escape
+wait 1
+button Glossary
+wait 2
+shot r22_05_glossary
+dump
+key Escape
+wait 1
+button Feats
+wait 2
+shot r22_06_feats
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+button Where to
+wait 1.5
+shot r22_07_whereto
+dump
+button Tilly
+wait 10
+shot r22_08_tilly
+dump
+scene
+key E
+wait 1.5
+shot r22_09_tilly_talk
+key E
+wait 1.5
+shot r22_10
+key E
+wait 1.5
+shot r22_11
+key E
+wait 1.5
+shot r22_12
+dump
+key E
+wait 1.5
+shot r22_13
+key E
+wait 1.5
+shot r22_14
+dump
+scene
+dev save r22

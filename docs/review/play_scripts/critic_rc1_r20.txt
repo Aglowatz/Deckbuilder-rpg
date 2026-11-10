@@ -1,0 +1,32 @@
+# r20: after the cave is cleared, walk back to the arch and see what happens
+wait 4
+dev load r18b
+wait 8
+scene
+shot r20_01_loaded
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+shot r20_02_arch
+dump
+key E
+wait 4
+shot r20_03_e
+dump
+scene
+button Enter
+wait 8
+shot r20_04
+dump
+scene

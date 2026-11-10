@@ -1,0 +1,76 @@
+# r31: equip the wraps properly, Tilly's shelf, Sable's cards
+wait 4
+dev load r30
+wait 8
+key C
+wait 2
+click 1045 520
+wait 1
+shot r31_01_item_selected
+dump
+click 1019 300
+wait 1
+shot r31_02_equipped
+dump
+key Escape
+wait 1.5
+shot r31_03_after
+dump
+hold W 1
+hold A 1
+hold W+A 2
+hold W 2
+hold D 2
+hold W+A 0.6
+scene
+key E
+wait 1.5
+shot r31_04_tilly
+dump
+key E
+wait 1.5
+shot r31_05
+dump
+key E
+wait 1.5
+shot r31_06
+dump
+key E
+wait 1.5
+shot r31_07
+dump
+scene
+move 700 450
+wait 1
+shot r31_08_hover
+dump
+key Escape
+wait 1
+button Resume
+wait 1
+hold S 1
+hold A 1.2
+scene
+dump
+key E
+wait 1.5
+shot r31_09_sable
+dump
+key E
+wait 1.5
+shot r31_10
+dump
+key E
+wait 1.5
+shot r31_11
+dump
+key E
+wait 1.5
+shot r31_12
+dump
+scene
+move 700 450
+wait 1
+shot r31_13_hover
+dump
+dev save r31

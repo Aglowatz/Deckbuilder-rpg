@@ -1,0 +1,82 @@
+# r21: Crosspath arrival: talk to Elder Maren, then the menus
+wait 4
+dev load r18b
+wait 8
+key E
+wait 1.5
+shot r21_01_maren
+key E
+wait 1.5
+shot r21_02_maren
+key E
+wait 1.5
+shot r21_03_maren
+key E
+wait 1.5
+shot r21_04_maren
+key E
+wait 1.5
+shot r21_05_maren
+dump
+key E
+wait 1.5
+shot r21_06_maren
+key E
+wait 1.5
+shot r21_07_maren
+key E
+wait 1.5
+shot r21_08_maren
+key E
+wait 1.5
+shot r21_09_maren
+dump
+scene
+key E
+wait 1.5
+shot r21_10
+key E
+wait 1.5
+shot r21_11
+dump
+scene
+dev save r21
+key J
+wait 1.5
+shot r21_12_quests
+dump
+key Escape
+wait 1
+key C
+wait 1.5
+shot r21_13_character
+dump
+key Escape
+wait 1
+key P
+wait 1.5
+shot r21_14_packs
+dump
+key Escape
+wait 1
+key T
+wait 1.5
+shot r21_15_wardrobe
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+shot r21_16_map
+dump
+key Escape
+wait 1
+key B
+wait 2
+shot r21_17_deck
+dump
+key Escape
+wait 1
+shot r21_18_town
+scene
+dev save r21

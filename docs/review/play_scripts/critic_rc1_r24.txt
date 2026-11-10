@@ -1,0 +1,48 @@
+# r24: resume, the square, Where to?, Tilly Tonic's shop
+wait 4
+dev load r23
+wait 8
+button Resume
+wait 1
+shot r24_01_square
+dump
+scene
+key M
+wait 1.5
+click 1302 530
+wait 1.5
+shot r24_02_whereto
+dump
+button Tilly
+wait 8
+shot r24_03_at_tilly
+dump
+scene
+key E
+wait 1.5
+shot r24_04_tilly
+key E
+wait 1.5
+shot r24_05_tilly
+key E
+wait 1.5
+shot r24_06_tilly
+dump
+key E
+wait 1.5
+shot r24_07_tilly
+key E
+wait 1.5
+shot r24_08_tilly
+dump
+scene
+key E
+wait 1.5
+shot r24_09_tilly
+dump
+key E
+wait 1.5
+shot r24_10_tilly
+dump
+scene
+dev save r24

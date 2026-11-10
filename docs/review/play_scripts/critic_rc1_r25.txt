@@ -1,0 +1,77 @@
+# r25: Tilly's shop and Sable's card shop via the map's Where to? list
+wait 4
+dev load r24
+wait 8
+shot r25_01_town
+scene
+key M
+wait 1.5
+click 1302 530
+wait 1.5
+click 1172 620
+wait 10
+shot r25_02_at_tilly
+dump
+scene
+key E
+wait 1.5
+shot r25_03_tilly
+key E
+wait 1.5
+shot r25_04_tilly
+key E
+wait 1.5
+shot r25_05_tilly
+dump
+key E
+wait 1.5
+shot r25_06_tilly
+key E
+wait 1.5
+shot r25_07_tilly
+dump
+scene
+key E
+wait 1.5
+shot r25_08_tilly
+dump
+key E
+wait 1.5
+shot r25_09_tilly
+dump
+scene
+key Escape
+wait 1
+key M
+wait 1.5
+click 1302 530
+wait 1.5
+click 1168 600
+wait 10
+shot r25_10_at_sable
+dump
+scene
+key E
+wait 1.5
+shot r25_11_sable
+key E
+wait 1.5
+shot r25_12_sable
+key E
+wait 1.5
+shot r25_13_sable
+dump
+key E
+wait 1.5
+shot r25_14_sable
+key E
+wait 1.5
+shot r25_15_sable
+dump
+scene
+key E
+wait 1.5
+shot r25_16_sable
+dump
+scene
+dev save r25

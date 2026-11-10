@@ -1,0 +1,48 @@
+# r28: Tilly Tonic's shop
+wait 4
+dev load r27
+wait 8
+key Escape
+wait 1
+scene
+dump
+hold A 1.5
+scene
+dump
+hold W 0.5
+scene
+dump
+shot r28_01_near_tilly
+key E
+wait 2
+shot r28_02_e
+dump
+scene
+key E
+wait 1.5
+shot r28_03
+key E
+wait 1.5
+shot r28_04
+key E
+wait 1.5
+shot r28_05
+dump
+key E
+wait 1.5
+shot r28_06
+key E
+wait 1.5
+shot r28_07
+dump
+scene
+key E
+wait 1.5
+shot r28_08
+dump
+key E
+wait 1.5
+shot r28_09
+dump
+scene
+dev save r28

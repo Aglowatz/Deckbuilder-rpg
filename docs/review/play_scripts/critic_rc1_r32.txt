@@ -1,0 +1,66 @@
+# r32: does Escape close a shop? buy an item; Sable's card shop
+wait 4
+dev load r31
+wait 8
+hold W 1
+hold A 1
+hold W+A 2
+hold W 2
+hold D 2
+hold W+A 0.6
+scene
+key E
+wait 1.5
+key E
+wait 2
+shot r32_01_shop_open
+key Escape
+wait 1.5
+shot r32_02_after_escape
+dump
+click 1550 55
+wait 1.5
+shot r32_03_after_x
+dump
+scene
+key E
+wait 1.5
+key E
+wait 2
+click 648 240
+wait 1.5
+shot r32_04_item_clicked
+dump
+button Buy
+wait 1.5
+shot r32_05_bought
+dump
+scene
+click 1550 55
+wait 1
+hold S 1
+hold A 1.2
+scene
+dump
+key E
+wait 1.5
+shot r32_06_sable
+dump
+key E
+wait 1.5
+shot r32_07
+dump
+key E
+wait 1.5
+shot r32_08
+dump
+key E
+wait 1.5
+shot r32_09
+dump
+scene
+move 700 450
+wait 1
+shot r32_10_hover
+dump
+dev save r32

@@ -1,0 +1,66 @@
+# r9: enter the cave via the ring prompt
+wait 4
+dev load r7
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+dump
+key E
+wait 4
+shot r9_01_cave_enter
+scene
+dump
+wait 6
+shot r9_02_cave
+scene
+dump
+key E
+wait 1.5
+shot r9_03
+key E
+wait 1.5
+shot r9_04
+key E
+wait 1.5
+shot r9_05
+key E
+wait 1.5
+shot r9_06
+dump
+scene
+key E
+wait 1.5
+shot r9_07
+key E
+wait 1.5
+shot r9_08
+dump
+scene
+dev save r9
+key M
+wait 1.5
+shot r9_09_map
+key Escape
+wait 1
+hold W 2
+wait 0.5
+shot r9_10_walk
+dump
+scene
+hold W 2
+wait 0.5
+shot r9_11_walk
+dump
+scene

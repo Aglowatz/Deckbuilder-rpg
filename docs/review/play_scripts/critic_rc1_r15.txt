@@ -1,0 +1,112 @@
+# r15: the cave again, piloted at higher speed, through as many nodes as fit
+wait 4
+dev load r10
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+click 501 496
+wait 3
+button Keep Hand
+wait 1
+button Speed
+wait 0.5
+button Speed
+wait 0.5
+dump
+pilot 110
+shot r15_01_end1
+key E
+wait 2
+shot r15_02_reward1
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+shot r15_03_after1
+dump
+skip_dialogue 6
+wait 1
+shot r15_04_map
+dump
+scene
+click 937 431
+wait 3
+shot r15_05_node2
+dump
+click 740 663
+wait 3
+shot r15_06_node2b
+dump
+scene
+button Keep Hand
+wait 1
+pilot 110
+shot r15_07_end2
+dump
+key E
+wait 2
+shot r15_08_reward2
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 6
+wait 1
+shot r15_09_map
+dump
+scene
+dev heal
+click 1153 551
+wait 3
+shot r15_10_node3
+dump
+click 937 431
+wait 3
+shot r15_11_node3b
+dump
+scene
+button Keep Hand
+wait 1
+pilot 110
+shot r15_12_end3
+dump
+key E
+wait 2
+shot r15_13_reward3
+dump
+click 1018 520
+wait 1
+button Take
+wait 3
+skip_dialogue 6
+wait 1
+shot r15_14_map
+dump
+scene
+click 1311 263
+wait 3
+shot r15_15_node4
+dump
+click 1153 551
+wait 3
+shot r15_16_node4b
+dump
+scene

@@ -1,0 +1,84 @@
+# r10: cave first node
+wait 4
+dev load r7
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+button Got it
+wait 1
+button Rules
+wait 2
+shot r10_01_rules
+dump
+key Escape
+wait 1
+shot r10_02_map
+click 501 496
+wait 3
+shot r10_03_node1
+dump
+scene
+key E
+wait 1.5
+shot r10_04
+key E
+wait 1.5
+shot r10_05
+key E
+wait 1.5
+shot r10_06
+dump
+scene
+key E
+wait 1.5
+shot r10_07
+key E
+wait 1.5
+shot r10_08
+key E
+wait 1.5
+shot r10_09
+dump
+scene
+key E
+wait 1.5
+shot r10_10
+key E
+wait 1.5
+shot r10_11
+dump
+scene
+pilot 150
+shot r10_12_after_pilot
+dump
+scene
+key E
+wait 1.5
+shot r10_13
+dump
+key E
+wait 1.5
+shot r10_14
+dump
+key E
+wait 1.5
+shot r10_15
+dump
+scene
+dev save r10

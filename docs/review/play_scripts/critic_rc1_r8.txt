@@ -1,0 +1,46 @@
+# r8: walk into the arch
+wait 4
+dev load r7
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+wait 0.5
+shot r8_01
+scene
+hold W 1
+wait 0.5
+shot r8_02
+scene
+hold W+A 1
+wait 0.5
+shot r8_03
+scene
+hold W 1
+wait 1
+shot r8_04
+scene
+dump
+key E
+wait 2
+shot r8_05
+scene
+hold S 1
+hold W+D 1
+wait 0.5
+shot r8_06
+scene
+hold W 1
+wait 0.5
+shot r8_07
+scene
+dump
+wait 6
+shot r8_08
+scene
+dump

@@ -1,0 +1,85 @@
+# r30: equip the Power Wraps, Tilly's shelf, Sable's card shop, the Deck Station in town
+wait 4
+dev load r28
+wait 8
+hold W 1
+hold A 1
+hold W+A 2
+hold W 2
+hold D 2
+hold W+A 0.6
+scene
+key E
+wait 1.5
+skip_dialogue 12
+wait 1
+key C
+wait 2
+shot r30_01_character
+dump
+click 1216 560
+wait 1
+shot r30_02_item_selected
+dump
+click 1019 300
+wait 1
+shot r30_03_equipped
+dump
+key Escape
+wait 1.5
+shot r30_04_after_equip
+dump
+key E
+wait 1.5
+shot r30_05_tilly_again
+dump
+key E
+wait 1.5
+shot r30_06
+dump
+key E
+wait 1.5
+shot r30_07_shop
+dump
+scene
+move 700 450
+wait 1
+shot r30_08_hover
+dump
+key Escape
+wait 1
+hold S 1
+hold A 1.5
+scene
+dump
+hold W 0.5
+scene
+dump
+key E
+wait 1.5
+shot r30_09_sable
+dump
+key E
+wait 1.5
+shot r30_10
+key E
+wait 1.5
+shot r30_11
+dump
+key E
+wait 1.5
+shot r30_12
+dump
+key E
+wait 1.5
+shot r30_13
+dump
+scene
+key Escape
+wait 1
+key B
+wait 2
+shot r30_14_deck_town
+dump
+scene
+dev save r30

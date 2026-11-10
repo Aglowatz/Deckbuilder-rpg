@@ -1,0 +1,92 @@
+# r12: back into the cave, node 1 by hand
+wait 4
+dev load r10
+wait 6
+hold D 0.8
+hold W+D 2
+hold W+D 2
+hold W+D 2
+wait 0.5
+hold A 0.6
+hold W 2
+hold W 1.5
+hold W 1
+hold W+A 1
+hold W 1
+hold S 1
+hold W+D 1
+wait 0.5
+key E
+wait 3
+button Enter
+wait 5
+button Got it
+wait 1
+click 501 496
+wait 3
+button Got it
+wait 1
+move 811 780
+wait 1
+shot r12_01_hover_card
+button Keep Hand
+wait 2
+shot r12_02_hand
+click 507 780
+wait 2
+shot r12_03_played_infra
+dump
+click 737 780
+wait 2
+shot r12_04_played_unit
+dump
+click 582 780
+wait 2
+shot r12_05
+dump
+button To Combat
+wait 2
+shot r12_06_combat
+dump
+button End
+wait 2
+shot r12_07_end
+dump
+wait 6
+shot r12_08_enemy_turn
+dump
+scene
+wait 4
+shot r12_09_round2
+dump
+click 507 780
+wait 2
+shot r12_10
+dump
+click 737 780
+wait 2
+shot r12_11
+dump
+button To Combat
+wait 2
+shot r12_12_combat2
+dump
+click 800 500
+wait 2
+shot r12_13_attack
+dump
+button End
+wait 2
+shot r12_14
+dump
+wait 6
+shot r12_15
+dump
+pilot 200
+shot r12_16_after
+dump
+scene
+key E
+wait 2
+shot r12_17
+dump

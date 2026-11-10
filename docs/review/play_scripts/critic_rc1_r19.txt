@@ -1,0 +1,6 @@
+# r19: boss again, then step outside into the town
+wait 4
+dev load r18
+wait 8
+scene
+dump

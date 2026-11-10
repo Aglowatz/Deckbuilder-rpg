@@ -1,0 +1,7 @@
+# r11: pick reward, next node, play a fight by hand
+wait 4
+dev load r10
+wait 6
+shot r11_01_loaded
+scene
+dump

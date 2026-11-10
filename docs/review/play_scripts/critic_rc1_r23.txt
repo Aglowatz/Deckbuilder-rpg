@@ -1,0 +1,51 @@
+# r23: the square, Where to?, Tilly Tonic's shop, a vendor
+wait 4
+dev load r22
+wait 8
+key Escape
+wait 1
+shot r23_01_square
+dump
+hold W 1.5
+wait 0.5
+shot r23_02_walk
+dump
+key M
+wait 1.5
+click 1302 530
+wait 1.5
+shot r23_03_whereto
+dump
+button Tilly
+wait 8
+shot r23_04_at_tilly
+dump
+scene
+key E
+wait 1.5
+shot r23_05_tilly
+key E
+wait 1.5
+shot r23_06_tilly
+key E
+wait 1.5
+shot r23_07_tilly
+dump
+key E
+wait 1.5
+shot r23_08_tilly
+key E
+wait 1.5
+shot r23_09_tilly
+dump
+scene
+key E
+wait 1.5
+shot r23_10_tilly
+dump
+key E
+wait 1.5
+shot r23_11_tilly
+dump
+scene
+dev save r23
