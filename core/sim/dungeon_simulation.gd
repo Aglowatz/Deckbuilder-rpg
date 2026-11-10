@@ -5,6 +5,8 @@ extends RefCounted
 ## tutorial-dungeon balance (docs/balance_report.md) - see `tools/run_dungeon_simulation.gd`.
 
 const MAX_STEPS_PER_GAME: int = 5000
+## Overnight Nov 9-10: the cave's flood guard for the player seat (as the game sets it); the sim tool's --no_guard turns it off.
+static var flood_guard: bool = true
 
 
 class RunResult:
@@ -20,6 +22,8 @@ class RunResult:
 	## The run's deck size when it ended (Part C: starts at 42, should reach 45 by a won boss
 	## fight via the 3 on-element reward picks - see `reward_color` on `run_once`).
 	var final_deck_size: int = 0
+	## Overnight Nov 9-10: game turns per fought node title (two turns = one round).
+	var node_turns: Dictionary = {}
 
 
 ## Plays one dungeon encounter to completion inside `run` (HP carries over via
@@ -42,6 +46,8 @@ static func play_encounter(
 		FirstDuel.apply(options, run.current_deck())  # Fable pass Nov 1: the first duel's teaching hand
 	options.turn_limit = 60
 	options.record_events = false
+	if flood_guard:
+		FirstDuel.apply_flood_guard(options)
 	var game: GameState = run.start_encounter(enemy, null, options)
 	var ais: Array[AIPlayer] = [player_ai, enemy_ai]
 	var steps: int = 0
@@ -87,6 +93,7 @@ static func run_once(
 				var game: GameState = play_encounter(run, enemy, player_ai, enemy_ai, seed_value + map_node.id * 97 + 1, first_player, result, map_node.tutorial)
 				run.finish_encounter(game)
 				result.turns_played += game.turn
+				result.node_turns[map_node.title] = game.turn
 				if run.is_over():
 					result.failed_at = map_node.title
 					result.final_hp = run.hp

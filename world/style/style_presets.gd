@@ -94,11 +94,11 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.ground_horizon = Color("1e4450")
 			p.ground_bottom = Color("0e2228")
 			p.sun_color = Color("a8c0c0")
-			p.sun_energy = 0.42
+			p.sun_energy = 0.6  # Nov 9-10 (RC1 critic #4: near-black forest): 0.42 -> 0.6, ambient 0.62 -> 0.9, exposure 1.0 -> 1.28
 			p.sun_pitch = -52.0
 			p.sun_yaw = -32.0
 			p.ambient_color = Color("4e6a66")
-			p.ambient_energy = 0.62
+			p.ambient_energy = 0.9
 			p.cloud_color = Color("2a4a58")
 			p.cloud_cover = 0.5
 			p.star_amount = 0.5
@@ -108,7 +108,7 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.volumetric_color = Color("3a5450")
 			p.saturation = 1.0
 			p.contrast = 1.08
-			p.exposure = 1.0
+			p.exposure = 1.28
 			p.glow_intensity = 0.7
 			p.glow_threshold = 0.8
 			p.rim_color = Color("9fd8e8")

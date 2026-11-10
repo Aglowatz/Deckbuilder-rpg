@@ -120,7 +120,8 @@ func _legend() -> Control:
 		where.add_theme_font_size_override("font_size", 20)
 		where.custom_minimum_size = Vector2(300, 44)
 		SettingsPanel.theme_popup(where)  # Fix pass Nov 7 (Part 5)
-		where.add_item("Where to?")
+		where.add_item("Point me to...")  # Overnight Nov 9-10 (RC1 critic #8): it sets a pointer, it does not travel
+		where.tooltip_text = "Pick a place: a white arrow leads you there after you close the map."
 		for place: MapPoi in places:
 			# Day pass Nov 9: a dungeon says its usual traveller level ("The Iron Cave (Mini dungeon, usually level 6)").
 			var level_note: String = LevelHints.short_text(place.dungeon_id)

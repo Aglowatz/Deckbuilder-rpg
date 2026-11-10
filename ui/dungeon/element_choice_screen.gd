@@ -243,9 +243,10 @@ func _more_text(path: Affinity.Type) -> String:
 func _detail_path() -> Affinity.Type:
 	if _shown != Affinity.Type.NEUTRAL:
 		return _shown
+	# Overnight Nov 9-10 (RC1 critic #10): the picked Path stays described after the pointer leaves its column.
+	if selected != Affinity.Type.NEUTRAL:
+		return selected
 	if _more_open:
-		if selected != Affinity.Type.NEUTRAL:
-			return selected
 		if not _offers.is_empty():
 			return _offers[0].affinity
 	return Affinity.Type.NEUTRAL
@@ -269,6 +270,11 @@ func _refresh_detail() -> void:
 	_detail_title.add_theme_color_override("font_color", UIStyle.affinity_color(offer.affinity).lightened(0.25))
 	_detail_identity.text = offer.identity
 	_detail_playstyle.text = offer.playstyle
+	# Overnight Nov 9-10 (RC1 critic #10): the Resource line shows on hover too, not only under More.
+	var kind: int = ResourceKind.created_by_basic(offer.affinity)
+	if kind >= 0 and not _more_open:
+		_detail_playstyle.text += "
+Resource: %s. %s" % [ResourceKind.display_name(kind as ResourceKind.Kind), str(ResourceKind.DESCRIPTIONS.get(kind, ""))]
 	_detail_more.visible = _more_open
 	if _more_open:
 		_detail_more.text = _more_text(offer.affinity)

@@ -77,21 +77,21 @@ Simulated with the AI (balanced personality) playing each element's real 42-card
 deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,
 the challenge, the shrine and the boss), picking one of the 3 offered on-element reward
 cards after each battle exactly like a real playthrough (so the deck grows to 45 cards by
-the boss), life carried between nodes, no dungeon-wide blessing - exactly what a human
+the boss), HP carried between nodes, no dungeon-wide blessing - exactly what a human
 player gets. Non-boss opponents use only weak, vanilla decks with an eager "Aggressive
 (tutorial)" AI (attacks readily, does not play around counter-attacks - Part D); the boss
 uses the real (smarter than "Aggressive (tutorial)") "Balanced" AI and a few real
 effects (a death trigger, token generation) rather than an all-vanilla deck.
 
-- **500 runs per element (2000 total), 88.3% won overall** (target: at least 85%).
-- **9472 enemy attacks declared across every run** - confirms the tutorial AI actually attacks (it never did before Part D), so the player's own traps (Pitfall etc.) are genuinely tested.
+- **60 runs per element (240 total), 96.3% won overall** (target: at least 85%).
+- **902 enemy attacks declared across every run** - confirms the tutorial AI actually attacks (it never did before Part D), so the player's own traps (Pitfall etc.) are genuinely tested.
 
 | Element | Win rate | Avg turns/run | Enemy attacks | Losses by node |
 |---|---|---|---|---|
-| Affinity A | 91.0% | 27.8 | 2222 | Scavenger's Den: 21, Heart of the Hollow: 15, Mossy Gallery: 9 |
-| Affinity B | 87.6% | 29.6 | 2444 | Mossy Gallery: 10, Scavenger's Den: 26, Heart of the Hollow: 26 |
-| Affinity C | 89.4% | 29.0 | 2392 | Scavenger's Den: 29, Heart of the Hollow: 20, Mossy Gallery: 4 |
-| Affinity D | 85.2% | 28.5 | 2414 | Mossy Gallery: 10, Scavenger's Den: 41, Heart of the Hollow: 23 |
+| Beefcake | 90.0% | 24.8 | 181 | Heart of the Hollow: 1, Mossy Gallery: 5 |
+| Gourmand | 100.0% | 31.6 | 263 | none |
+| Refusemancer | 96.7% | 29.6 | 233 | Mossy Gallery: 2 |
+| Necrocrat | 98.3% | 32.8 | 225 | Mossy Gallery: 1 |
 <!-- TUTORIAL_BALANCE_END -->
 
 <!-- corrupted-npc-report:start -->

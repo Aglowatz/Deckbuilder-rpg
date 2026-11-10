@@ -64,19 +64,21 @@
 		}
 	},
 	"start": {
-		"title": "Opening Forest: deep teal dusk, lantern-lit camp, mist (docs/art/opening_forest.md)",
+		"title": "Opening Forest: deep teal dusk, lantern-lit camp, mist (docs/art/opening_forest.md) - Nov 9-10: brighter (RC1 critic #4), half the tilt-shift",
 		"look": {
 			"green_calm": 0,
 			"red_calm": 0,
 			"fog_color": "283c3a",
 			"fog_density": 0.012,
 			"warmth": 0.04,
-			"saturation": 0.82,
-			"vignette": 0.5,
+			"saturation": 0.9,
+			"vignette": 0.36,
 			"bloom": 0.8,
 			"bloom_threshold": 0.85,
 			"glow_spread": 0.75,
-			"cloud_speed": 0.4
+			"cloud_speed": 0.4,
+			"blur_far": 3.5,
+			"blur_near": 3.0
 		},
 		"sky": {
 			"horizon": "3a5a5a",
@@ -97,7 +99,7 @@
 			"cool": "1a3440",
 			"haze_scale": 1.3,
 			"cool_scale": 1.4,
-			"brightness": 0.6,
+			"brightness": 0.75,
 			"kit_cards": [
 				{
 					"id": "OF-BD-TORCHLINE",

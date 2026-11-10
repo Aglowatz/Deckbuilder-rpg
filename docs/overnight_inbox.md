@@ -1359,3 +1359,14 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
    **S-NECRO** when taken as soon as it opens. Each time the hero was 2-5 levels under `ProgressionModel`'s expected player. Nothing was
    changed. Options: (a) leave it (optional fights are the intended XP), (b) a "travellers are usually level N" hint at those entrances,
    (c) soften the four by one step via the balance sims. Recommendation: (b) for 1.0, it's cheap and honest.
+
+## Overnight Nov 9-10 - yours to decide (the safest choice was taken)
+
+1. **The opening forest is about a third brighter** (RC1 critic #4): `data/zone_styles/starting_forest.json` key light 0.42 -> 0.62, ambient
+   0.62 -> 0.92, exposure 1.05 -> 1.32, vignette 0.5 -> 0.36; the tilt-shift blur there is about half (`data/art/zone_looks.json` "start").
+   Still a teal dusk. The camera distance is shared by every area, so it was not changed for the forest alone. Revert by those numbers.
+2. **Crosspath's fountain carries the painted stone-wall texture** (`mat_stonewall_albedo`, tinted sandstone) instead of flat colour (RC1 critic #3).
+   The painted fountain/statue art is still the real fix (art list).
+3. **The cave's flood guard** (RC1 critic #2): in the Forgotten Cave only, once the hero holds 5 infrastructure (in play + hand), an
+   infrastructure draw is swapped for the next non-infrastructure card. Sims: the AI player clears the Scavenger in 2.9-4.1 rounds either way
+   (it never floods badly); the guard is for human floods like the critic's. Off: `FirstDuel.CAVE_FLOOD_GUARD = 0`.

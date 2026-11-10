@@ -19,6 +19,7 @@ func _initialize() -> void:
 			var parts: PackedStringArray = arg.substr(2).split("=", true, 1)
 			args[parts[0]] = parts[1] if parts.size() > 1 else "true"
 	var runs: int = int(args.get("runs", 500))
+	DungeonSimulation.flood_guard = not args.has("no_guard")
 	var content: ContentSet = ContentLibrary.load_all()
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
@@ -33,11 +34,18 @@ func _initialize() -> void:
 		var fail_counts: Dictionary = {}
 		var turns: int = 0
 		var enemy_attacks: int = 0
+		var node_sum: Dictionary = {}
+		var node_n: Dictionary = {}
 		for result: DungeonSimulation.RunResult in results:
+			for title: String in result.node_turns:
+				node_sum[title] = int(node_sum.get(title, 0)) + int(result.node_turns[title])
+				node_n[title] = int(node_n.get(title, 0)) + 1
 			turns += result.turns_played
 			enemy_attacks += result.enemy_attacks
 			if not result.won:
 				fail_counts[result.failed_at] = int(fail_counts.get(result.failed_at, 0)) + 1
+		for title: String in node_sum:
+			print("  %s: %.1f rounds avg" % [title, float(node_sum[title]) / float(node_n[title]) / 2.0])
 		per_element.append({
 			"color": color, "rate": rate, "fail_counts": fail_counts,
 			"avg_turns": float(turns) / float(runs), "enemy_attacks": enemy_attacks,

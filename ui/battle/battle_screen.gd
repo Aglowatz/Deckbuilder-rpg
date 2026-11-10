@@ -1040,20 +1040,30 @@ func _tutorial_holds_turn() -> bool:
 ## Battle feel, Part B: ending the turn while cards could still be played (in this main phase, or the second one when you end
 ## it from combat) or abilities used asks first, with "don't ask again" (Settings.confirm_end_turn). Bots never ask.
 func _confirm_end_turn(end: Callable) -> void:
-	var moves: Vector2i = _moves_left()
-	var left: int = moves.x + moves.y
-	if not Settings.confirm_end_turn or human_bot != null or left == 0:
+	if not Settings.confirm_end_turn or human_bot != null:
 		end.call()
 		return
+	# Overnight Nov 9-10 (RC1 critic #6): with attackers picked, the question is about the attack, not the cards left in hand.
+	var picked: int = _selected_attackers.size() if mode == Mode.ATTACK else 0
+	var title: String = "End your turn?"
+	var message: String = ""
+	if picked > 0:
+		title = "End the turn without attacking?"
+		message = "You have %d attacker%s selected. Ending the turn now cancels the attack. To attack, press \"Attack with %d\" instead." % [picked, "" if picked == 1 else "s", picked]
+	else:
+		var moves: Vector2i = _moves_left()
+		if moves.x + moves.y == 0:
+			end.call()
+			return
+		var parts: PackedStringArray = []
+		if moves.x > 0:
+			parts.append("play %d card%s" % [moves.x, "" if moves.x == 1 else "s"])
+		if moves.y > 0:
+			parts.append("use %d abilit%s" % [moves.y, "y" if moves.y == 1 else "ies"])
+		var energy: int = game.players[0].ready_infrastructure().size()
+		message = ("You have %d energy left and can still %s this turn." % [energy, " and ".join(parts)]) if energy > 0 else "You can still %s this turn." % " and ".join(parts)
 	_confirm_open = true
-	var parts: PackedStringArray = []
-	if moves.x > 0:
-		parts.append("play %d card%s" % [moves.x, "" if moves.x == 1 else "s"])
-	if moves.y > 0:
-		parts.append("use %d abilit%s" % [moves.y, "y" if moves.y == 1 else "ies"])
-	var energy: int = game.players[0].ready_infrastructure().size()
-	var message: String = ("You have %d energy left and can still %s this turn." % [energy, " and ".join(parts)]) if energy > 0 else "You can still %s this turn." % " and ".join(parts)
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "End your turn?", message, "End Turn", "Keep playing", false, "Don't ask again")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, title, message, "End Turn", "Keep playing", false, "Don't ask again")
 	dialog.name = "EndTurnConfirm"
 	var remember: Callable = func() -> void:
 		_confirm_open = false

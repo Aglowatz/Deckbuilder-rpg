@@ -208,7 +208,7 @@ func _build_ui() -> void:
 	_prompt_panel.add_child(_prompt_label)
 	var hints: Label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.name = "HintLine"
-	TownHud.bind_hints(hints, "WASD / arrows: move      E / Space / Click: interact      Esc: menu", false)
+	TownHud.bind_hints(hints, "WASD / arrows: move      E / Space / Click: interact      {open_map}: map      Esc: menu", false)  # Nov 9-10: M works here too
 	hints.position = Vector2(1200, 1030)
 	hints.size = Vector2(700, 30)
 	host.add_child(hints)

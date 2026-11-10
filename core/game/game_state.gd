@@ -1240,6 +1240,7 @@ func draw_cards(player_index: int, count: int) -> void:
 			check_state()
 			return
 		var card: CardInstance = player.deck.pop_back()
+		card = _flood_guarded(player, player_index, card)
 		# A Clause token springs when it is drawn: it never reaches the hand.
 		if card.data.type == CardEnums.CardType.TOKEN and _has_ability_kind(card.data, CardAbility.Kind.DRAWN):
 			card.owner = player_index
@@ -1250,6 +1251,25 @@ func draw_cards(player_index: int, count: int) -> void:
 			continue
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player_index, card.uid, 0, 1, player.hand.size())
+
+
+## Overnight Nov 9-10: the cave's flood guard (`GameOptions.flood_guard`). Returns the card to draw instead of `card` (which goes back
+## into the deck at the drawn card's old place) when the seat already holds enough infrastructure.
+func _flood_guarded(player: PlayerState, player_index: int, card: CardInstance) -> CardInstance:
+	if options == null or options.flood_guard <= 0 or player_index != options.flood_guard_seat or not card.data.is_infrastructure():
+		return card
+	var held: int = player.infrastructure.size()
+	for in_hand: CardInstance in player.hand:
+		if in_hand.data.is_infrastructure():
+			held += 1
+	if held < options.flood_guard:
+		return card
+	for i: int in range(player.deck.size() - 1, -1, -1):
+		var other: CardInstance = player.deck[i]
+		if not other.data.is_infrastructure():
+			player.deck[i] = card
+			return other
+	return card
 
 
 func _has_ability_kind(data: CardData, kind: CardAbility.Kind) -> bool:

@@ -9,6 +9,8 @@ extends RefCounted
 const BASICS: int = 2
 const UNITS: int = 2
 const OTHERS: int = 1
+## Overnight Nov 9-10 (RC1 critic #2): every Forgotten Cave fight caps the hero's infrastructure draws at this many held (GameOptions.flood_guard).
+const CAVE_FLOOD_GUARD: int = 5
 
 
 ## The card ids of the teaching hand for `cards` (a deck's list), `hand_size` long; the leftover slots take more cheap units, then basics.
@@ -46,6 +48,12 @@ static func opening_hand_for_deck(deck: Deck, hand_size: int = 5) -> Array[Strin
 static func apply(options: GameOptions, deck: Deck, hand_size: int = 5) -> void:
 	options.scripted_opening_hand = opening_hand_for_deck(deck, hand_size)
 	options.scripted_hand_player = 0
+
+
+## The cave's flood guard for the hero (seat 0): set on every Forgotten Cave fight, not only the first.
+static func apply_flood_guard(options: GameOptions) -> void:
+	options.flood_guard = CAVE_FLOOD_GUARD
+	options.flood_guard_seat = 0
 
 
 static func _cheaper(a: CardData, b: CardData) -> bool:

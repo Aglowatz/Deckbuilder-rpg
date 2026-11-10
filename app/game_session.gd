@@ -1857,6 +1857,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 			enemy.starting_hp = maxi(enemy.starting_hp - RotheartDungeon.SEVERED_HP_LOSS, 5)
 	else:
 		enemy = TrialOfTheHollow.enemy_setup(content, node)
+		FirstDuel.apply_flood_guard(options)  # Overnight Nov 9-10 (RC1 critic #2): no infrastructure floods in the cave
 	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null) else ""
 	# Overnight Nov 4-5, Part 3: a Path zone played earlier than its designed place in the order has easier foes (ZoneOrderEase)
 	if not effect_zone.is_empty():

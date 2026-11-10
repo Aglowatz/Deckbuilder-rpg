@@ -18,6 +18,11 @@ var scripted_hand_player: int = 0
 ## infrastructure cards - a hidden soft mulligan that swaps non-infrastructure cards for infrastructure from the deck. 0 = off.
 var opening_infrastructure_floor: int = 2
 var opening_infrastructure_seat: int = 0
+## Overnight Nov 9-10 (RC1 critic #2, the first fights drag): the Forgotten Cave's FLOOD GUARD. While seat `flood_guard_seat` already
+## holds this many infrastructure (in play + in hand), an infrastructure it draws is swapped for the next non-infrastructure card down its
+## deck (deterministic, no RNG). 0 = off (every other fight).
+var flood_guard: int = 0
+var flood_guard_seat: int = 0
 ## 0/1 = that player goes first, -1 = random.
 var first_player: int = 0
 ## Total turns (both players) after which an undecided game is a draw.
@@ -35,6 +40,8 @@ func clone() -> GameOptions:
 	copy.free_mulligan = free_mulligan
 	copy.opening_infrastructure_floor = opening_infrastructure_floor
 	copy.opening_infrastructure_seat = opening_infrastructure_seat
+	copy.flood_guard = flood_guard
+	copy.flood_guard_seat = flood_guard_seat
 	copy.first_player = first_player
 	copy.turn_limit = turn_limit
 	copy.record_events = record_events

@@ -112,14 +112,32 @@ const FOUNTAIN_PILLAR_ANGLES: Array[float] = [PI * 0.25, PI * 0.75, PI * 1.25, P
 const FOUNTAIN_PATH_ORDER: Array[int] = [0, 1, 3, 2]
 
 
+const FOUNTAIN_STONE_TEX: String = "res://assets/art/textures/mat_stonewall_albedo.webp"
+const FOUNTAIN_STONE_TILE: float = 1.6  # metres per texture repeat (KitMesh UVs are in metres)
+
+
+## Overnight Nov 9-10: the fountain's textured sandstone (falls back to the old flat colour if the texture is missing).
+static func _fountain_stone(tint: Color, key: String) -> StandardMaterial3D:
+	var texture: Texture2D = load(FOUNTAIN_STONE_TEX) as Texture2D if ResourceLoader.exists(FOUNTAIN_STONE_TEX) else null
+	if texture == null:
+		return EnvKit.flat(Color("e9d9ae"), key)
+	var material: StandardMaterial3D = EnvKit.flat(tint, key)
+	material.albedo_texture = texture
+	material.uv1_scale = Vector3(1.0 / FOUNTAIN_STONE_TILE, 1.0 / FOUNTAIN_STONE_TILE, 1.0)
+	material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	return material
+
+
 func _fountain() -> void:
 	var center: Vector3 = TownLayout.PLAZA
 	var radius: float = TownLayout.FOUNTAIN_RADIUS
 	var stone: KitMesh = KitMesh.new()
 	# pale warm sandstone as flat colour under the toon bands (the kit's foundation texture is a fine rubble that read as a heap of rocks);
 	# the block courses are thin dark seams round the basin and the column
-	stone.set_material("stone", EnvKit.flat(Color("e9d9ae"), "fountain_stone"))
-	stone.set_material("stone_dark", EnvKit.flat(Color("cdb98a"), "fountain_stone_dark"))
+	# Overnight Nov 9-10 (RC1 critic #3: "white untextured blocks"): the flat colour read as bare white geometry under the sun and bloom. The
+	# stone now carries the painted dressed-stone texture (mat_stonewall), tinted to the warm sandstone of the painted design.
+	stone.set_material("stone", _fountain_stone(Color(1.48, 1.36, 1.1), "fountain_stone_tex"))
+	stone.set_material("stone_dark", _fountain_stone(Color(1.25, 1.12, 0.9), "fountain_stone_dark_tex"))
 	stone.set_material("seam", EnvKit.flat(Color("8c7a56"), "fountain_seam"))
 	stone.set_material("gold", EnvKit.flat(Color("e2b654"), "fountain_gold"))
 	stone.set_material("ivy", EnvKit.material("DEC-IVY", true))
