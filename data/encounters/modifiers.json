@@ -492,11 +492,11 @@
 	"Primm (standardization)": [
 		{
 			"name": "Standing Army",
-			"text": "Primm starts the duel with 4 Militia on the field (3/3, like every unit under Standardization).",
+			"text": "Primm starts the duel with 3 Militia on the field (3/3, like every unit under Standardization).",
 			"icon": "delapouite/guards",
 			"kind": "starting_tokens",
 			"token": "T-16",
-			"count": 4
+			"count": 3
 		}
 	],
 	"town:old_well": [

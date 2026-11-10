@@ -207,7 +207,7 @@ func refresh() -> void:
 	var shown: int = qlog.visible_steps(quest, state).size()
 	var window: Vector2i = row_window(shown, current)
 	if window.x > 0:
-		_body.add_child(_row("✔", "%d done" % window.x, Color(UIStyle.GOOD, 0.75), false))
+		_body.add_child(_row("✔", "%d earlier step%s done (J: the full list)" % [window.x, "" if window.x == 1 else "s"], Color(UIStyle.GOOD, 0.75), false))  # Nov 9-10 (late critic #7): "1 done" read as a broken line
 	for index: int in range(window.x, window.y):
 		var progress: Vector2i = qlog.objective_progress(quest, index, state)
 		var done: bool = progress.x >= progress.y

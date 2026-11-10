@@ -416,7 +416,11 @@ func _on_node_hovered(id: int) -> void:
 	match node.kind:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
-			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
+			if node.kind == DungeonMap.Kind.BOSS and node.enemy_name == PrimmBoss.BOSS_FOE:
+				# Overnight Nov 9-10 (late critic #8): the final boss is three duels in a row, and its prize is not a gold line.
+				text += "\n[b]%s[/b]: three duels in a row (%d, %d and %d HP), your HP carried between them.  At stake: the kingdom." % [node.enemy_name, PrimmBoss.phase(0).hp, PrimmBoss.phase(1).hp, PrimmBoss.phase(2).hp]
+			else:
+				text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
 			# Rebalance Part E / Playtest v0.4.0 Part F: the fight's one-sided rules, before the player commits (same colours as the badges).
 			for badge: RuleBadges.Badge in RuleBadges.for_encounter(_node_rules(node)):
 				text += "\n[color=%s]%s[/color]: %s" % [badge.color().to_html(false), badge.name, badge.text]

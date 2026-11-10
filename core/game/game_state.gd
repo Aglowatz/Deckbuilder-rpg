@@ -372,7 +372,9 @@ func setup_turns_left(player_index: int) -> int:
 	var player: PlayerState = players[player_index]
 	if not player.modifiers.has(Modifier.Kind.SETUP_TURNS):
 		return 0
-	return maxi(0, player.modifiers.sum(Modifier.Kind.SETUP_TURNS) - player.turns_taken + 1)
+	# Overnight Nov 9-10 (late critic #5): never more than the window (before the owner's first turn this said 3 for a 2-round window).
+	var window: int = player.modifiers.sum(Modifier.Kind.SETUP_TURNS)
+	return clampi(window - player.turns_taken + 1, 0, window)
 
 
 ## The keyword cap of the dungeon rule Perfect Order (-1 = none).

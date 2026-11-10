@@ -2389,7 +2389,7 @@ func _show_result() -> void:
 		# Oct 31 - Nov 1 (late-game critic #15): "the dungeon" only when there is one (a fight outside a run said it too).
 		# Fix pass Nov 7 (owner decisions D1, D2): no penalty; a dungeon starts over.
 		var where: String = "You are carried out to the respawn point at full HP, and the dungeon starts over." if Session.run != null else "You come to, a little bruised."
-		var kept: String = "Losing costs nothing: the cards and gold you won are kept."
+		var kept: String = ("You keep every card and coin you won." if Session.run != null else "Losing costs nothing: the cards and gold you won are kept.")  # Nov 9-10 (late critic): a restart is a cost
 		column.add_child(UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.

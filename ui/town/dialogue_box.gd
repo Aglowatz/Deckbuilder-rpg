@@ -202,6 +202,11 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 				for index: int in range(_expressions.size()):
 					if _expressions[index].is_empty():
 						_expressions[index] = default_expression
+	# Overnight Nov 9-10 (late critic #3): over a painted still the painting is the picture - the speaker's cut-out pasted on top doubled the
+	# characters already painted in it (Percival twice, Elowen twice). The name plate stays.
+	if texture != null and has_meta("still_backdrop") and is_instance_valid(get_meta("still_backdrop")):
+		texture = null
+		_portrait_id = ""
 	_speaker.text = _plate_text(speaker, entry)
 	# Sound pass, Part D: the typed text speaks in this speaker's little voice (DialogueVoice).
 	_voice = DialogueVoice.for_speaker(entry.species if entry != null else "", speaker)
@@ -385,7 +390,7 @@ func _unhandled_input(event: InputEvent) -> void:
 ## A first viewing: asks before skipping (Skip / Keep watching); the box ignores input while the question is up.
 func ask_skip() -> void:
 	var host: Node = get_parent() if get_parent() != null else self
-	_skip_confirm = ConfirmDialog.ask(host, "Skip this scene?", "Skip this scene? You haven't seen it.", "Skip", "Keep watching")
+	_skip_confirm = ConfirmDialog.ask(host, "Skip this scene?", "You haven't seen it yet.", "Skip", "Keep watching")
 	_skip_confirm.confirmed.connect(_skip_now)
 
 

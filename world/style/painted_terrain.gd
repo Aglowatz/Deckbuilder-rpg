@@ -101,6 +101,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 	var overrides: Dictionary = context.get("overrides", {}) as Dictionary
 	for param: String in overrides.keys():
 		result.set_shader_parameter(param, overrides[param])
+	LoadTiming.detail("painted: layers + params")
 	_paint_splat(result, mask_callables, context.get("bounds", Rect2(-50, -50, 100, 100)) as Rect2, layers, count, modes, str(context.get("cache_key", "")))
 	return result
 
@@ -121,7 +122,9 @@ static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bou
 		image = _splat_image(by_channel, bounds)
 	else:
 		var signature: String = "%s|%s|%s" % [str(bounds), JSON.stringify(layers), _mask_fingerprint(by_channel, bounds)]
+		LoadTiming.detail("painted: splat fingerprint")
 		image = BuildCache.fetch("splat_%s_%s" % [cache_key, signature.md5_text().substr(0, 12)], _splat_image.bind(by_channel, bounds)) as Image
+	LoadTiming.detail("painted: splat image")
 	var texture: ImageTexture = ImageTexture.create_from_image(image)
 	result.set_shader_parameter("splat", texture)
 	result.set_shader_parameter("has_splat", true)

@@ -44,7 +44,7 @@ func test_a_boss_in_its_setup_window_has_no_attackers_then_attacks() -> void:
 	var stage0: CardData = _token(2, 2, "0")
 	var mods: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.SETUP_TURNS, 2), _escalating([stage0, stage0, stage0] as Array[CardData])]
 	var game: GameState = _game(mods)
-	assert_eq(game.setup_turns_left(1), 3, "before its first turn: 2 turns to come, counted from turn 1")
+	assert_eq(game.setup_turns_left(1), 2, "before its first turn: its 2 window turns are still to come (Nov 9-10: was 3, the HUD said 3 rounds for a 2-round window)")
 	assert_eq(game.setup_turns_left(0), 0, "the hero has no window")
 	GameFactory.pass_turn(game)  # the boss's turn 1: a token arrives (Just Arrived anyway)
 	assert_eq(game.active, 1)
