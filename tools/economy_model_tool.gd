@@ -451,9 +451,11 @@ func _quest_event(id: String, tag: String) -> Event:
 	return event
 
 
-## Overnight Nov 7-8, Part 2.5: a dungeon fight at a late expected level pays more (Economy.late_gold), as Session pays it.
+## Overnight Nov 7-8, Part 2.5: a dungeon fight at a late expected level pays more (Economy.late_gold), as Session pays it. Fable pass Nov 10
+## (Part 4.2): and every dungeon fight pays 50 % more gold and XP (Economy.DUNGEON_FIGHT_BONUS), as Session pays it.
 func _late(event: Event, dungeon_id: String) -> Event:
-	event.gold = Economy.late_gold(event.gold, ProgressionModel.level_for(dungeon_id, 1))
+	event.gold = Economy.dungeon_fight_gold_bonus(Economy.late_gold(event.gold, ProgressionModel.level_for(dungeon_id, 1)))
+	event.xp = Economy.dungeon_fight_xp_bonus(event.xp)
 	return event
 
 
