@@ -49,6 +49,16 @@ static func hero_pos() -> Vector3:
 	return _hero
 
 
+## Fable pass Nov 10 (Part 1.3): a copy of a card material made elsewhere (KitPieces.stand's brightened landmark) joins the lists, so it keeps
+## the zone light and the hero-aware fade too - an unregistered copy never faded and hid Basil at the Low camera.
+static func register_card_material(material_value: ShaderMaterial) -> void:
+	if material_value == null or _card_materials.has(material_value):
+		return
+	material_value.set_shader_parameter("hero_pos", _hero)
+	_materials.append(material_value)
+	_card_materials.append(material_value)
+
+
 ## The shared card material of a kit id (e.g. ENV-TREE-OAK): the real art when it exists, else the placeholder texture.
 ## `still`: a rigid card prop (a rack, a sign, a crate) that must never bend in the wind (Crosspath pass, Part B); trees and plants sway.
 static func card_material(id: String, still: bool = false) -> ShaderMaterial:

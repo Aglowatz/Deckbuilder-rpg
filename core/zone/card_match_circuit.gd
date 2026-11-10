@@ -91,13 +91,22 @@ static func record(flags: Dictionary, table: String, won: bool, moves: int) -> b
 	return true
 
 
+## Fable pass Nov 10 (Part 1.3): where the shared offset lands Dex behind scenery (the Dump: inside the druid grove's appliance ring, which hid
+## him from the camera), a zone has its own offset from the quiz master.
+const ZONE_OFFSETS: Dictionary = {"refusemancer": Vector3(6.0, 0.0, 4.0)}
+
+
+static func offset_for(zone_id: String) -> Vector3:
+	return ZONE_OFFSETS.get(zone_id, OFFSET) as Vector3
+
+
 ## The zone entry and the talk spot ZoneDefs adds to each Path zone.
-static func npc_entry() -> Dictionary:
-	return {"id": "cardsharp", "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": OFFSET, "yaw": 30.0, "tint": Color(1.0, 0.92, 0.75)}
+static func npc_entry(zone_id: String = "") -> Dictionary:
+	return {"id": "cardsharp", "npc_id": NPC_ID, "sprite": sprite_key(), "model": "Rogue", "anchor": ANCHOR, "offset": offset_for(zone_id), "yaw": 30.0, "tint": Color(1.0, 0.92, 0.75)}
 
 
-static func spot_entry() -> Dictionary:
-	return {"id": "cardsharp", "title": TITLE, "anchor": ANCHOR, "offset": OFFSET + Vector3(0.6, 0, 0), "radius": 1.8, "prompt": "Talk", "kind": "cardsharp",
+static func spot_entry(zone_id: String = "") -> Dictionary:
+	return {"id": "cardsharp", "title": TITLE, "anchor": ANCHOR, "offset": offset_for(zone_id) + Vector3(0.6, 0, 0), "radius": 1.8, "prompt": "Talk", "kind": "cardsharp",
 		"npc": "cardsharp", "npc_id": NPC_ID, "speaker": SPEAKER}
 
 

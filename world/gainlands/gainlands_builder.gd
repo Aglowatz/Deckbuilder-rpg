@@ -454,7 +454,7 @@ func _build_house_of_gains() -> void:
 		puff.radial_segments = 7
 		puff.rings = 4
 		smoke.mesh = puff
-		smoke.material_override = M.translucent(Color(0.42, 0.4, 0.44), 0.42, 0.0)
+		smoke.material_override = ParticleLook.near_fade(M.translucent(Color(0.42, 0.4, 0.44), 0.42, 0.0))  # Fable pass Nov 10 (Part 1.5)
 		smoke.position = top
 		smoke.set_meta(&"no_occlusion_fade", true)
 		smoke.set_meta(&"no_range_cull", true)

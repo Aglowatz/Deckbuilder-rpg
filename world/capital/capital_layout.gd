@@ -480,7 +480,7 @@ func _anchors() -> void:
 	_anchor("queue_sign", 53.5, 88.0)
 	# The resistance camp (south-west), the rift fields (north-west, under the wall), the Old Service Tunnels (north-east), the ruined outpost (south-east).
 	_anchor("camp", CAMP_FIRE.x, CAMP_FIRE.y)
-	_anchor("kestrel", 29.5, 111.0)
+	_anchor("kestrel", 37.5, 121.0)  # Fable pass Nov 10 (Part 1.3): south of the camp's painted backdrop (at 29.5, 111 the Low camera stood inside it)
 	_anchor("checkpoint_a", 15.5, 95.0)
 	_anchor("tunnel_in", 4.5, 88.5)
 	_anchor("old_tunnels", 96.0, 78.0)
@@ -558,7 +558,7 @@ func _anchors() -> void:
 	_anchor("net_hungry", 95.5, 40.5)
 	# The Correction Ward, north-east.
 	_anchor("ward_window", 100.0, 13.5)
-	_anchor("ward_patient", 110.0, 8.0)
+	_anchor("ward_patient", 106.0, 6.0)  # Fable pass Nov 10 (Part 1.3): west of the hall south of the ward (the camera behind the hero stood inside it)
 	_anchor("ward_speaker", 96.0, 5.5)
 	# The Crease (the hideout): everything is underground, south of the world.
 	var dz: float = float(CREASE_Z0 - 100)

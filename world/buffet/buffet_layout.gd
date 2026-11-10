@@ -451,8 +451,8 @@ func _anchors() -> void:
 	_at("giant_chest", 28.8, 72.6)
 	# Brief 16: the hidden vault lever, in the far south-east corner of the table.
 	_at("vault_lever", 86.4, 74.4)
-	_at("odalys", 53.0, 58.5)  # Nov 9-10 (mid critic #3): 3 m east, so the soup fountain no longer hides him from the hub camera
-	_at("tarragon", 45.6, 70.2)  # Fixes Oct 26: on open ground south-east of the Rift Express (he stood inside the station at 43.5, 67)
+	_at("odalys", 57.5, 58.5)  # Nov 9-10 (mid critic #3): east of the soup fountain; Fable pass Nov 10 (Part 1.3): further east, clear of the entrance bridge's gate (the Low camera stood inside it)
+	_at("tarragon", 42.0, 71.5)  # Fixes Oct 26: on open ground near the Rift Express (he stood inside the station at 43.5, 67); Fable pass Nov 10 (Part 1.3): west of the bridge gate, which hid his name plate
 	_at("oven", 58.0, 69.5)
 	_at("soup_fountain", 50.0, 64.5)
 	_at("fortune_cookie", 65.0, 67.5)

@@ -1159,6 +1159,8 @@ func _update_nearest() -> void:
 			hud.hide_prompt()
 	else:
 		hud.show_prompt("[E]  %s" % _prompt_for(_near))
+	# Fable pass Nov 10 (Part 1.3): a prop between the lens and the person in reach dissolves (OcclusionFader.talk_focus)
+	OcclusionFader.talk_focus = npc_body_position(_near) if _near != null and _near.data.has("npc") and npc_body_position(_near).x < 1.0e8 else Vector3.INF
 	# Fable pass Nov 1 (Part 7): a clicked spot - talk once the walk brings it in reach (or drop it if the walk ended elsewhere).
 	if _auto_spot != null and (_near == _auto_spot or not player.auto_walking):
 		var target: ZoneSpot = _auto_spot
@@ -1185,6 +1187,28 @@ func _spot_under(screen_pos: Vector2) -> ZoneSpot:
 		if distance <= best_distance:
 			best = spot
 			best_distance = distance
+	return best
+
+
+## How far E looks for a person to walk up to when nobody is in reach (metres).
+const E_WALK_REACH: float = 6.0
+
+
+## The nearest talkable person (a spot with an NPC) within `limit` metres whose body is on screen, or null.
+func _nearest_talkable_in_view(limit: float) -> ZoneSpot:
+	var best: ZoneSpot = null
+	var best_distance: float = limit
+	for spot: ZoneSpot in spots:
+		if not spot.data.has("npc") or bool(spot.data.get("hidden", false)) or spot.marker == null or not is_instance_valid(spot.marker):
+			continue
+		var body: Vector3 = npc_body_position(spot)
+		if body.x > 1.0e8:
+			body = spot.position
+		var distance: float = Vector2(player.position.x - body.x, player.position.z - body.z).length()
+		if distance >= best_distance or _camera.is_position_behind(body) or not _camera.is_position_in_frustum(body + Vector3(0, 1.0, 0)):
+			continue
+		best = spot
+		best_distance = distance
 	return best
 
 
@@ -1317,6 +1341,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _near != null:
 			get_viewport().set_input_as_handled()
 			_interact(_near)
+			return
+		# Fable pass Nov 10 (Part 1.3, mid critic #3): E reaches as far as a click - with nobody in reach, the nearest person in view within
+		# E_WALK_REACH is walked to and talked to on arrival, as a click on them would.
+		var walk_target: ZoneSpot = _nearest_talkable_in_view(E_WALK_REACH)
+		if walk_target != null:
+			get_viewport().set_input_as_handled()
+			_walk_to_spot(walk_target)
 			return
 	if event is InputEventMouseButton:
 		var click: InputEventMouseButton = event as InputEventMouseButton
@@ -1769,14 +1800,20 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 ## (the Capital: a rift, a named roamer); zones without one keep their plain `fx.hit` line.
 func hit_player(amount: int, from: Vector3, cause: String = "knocked flat", source_key: String = "", source_name: String = "") -> void:
 	var run: ZoneRun = Session.zone_run
-	run.damage(amount)
+	# Fable pass Nov 10 (Part 5): the Hall Pass Slippers - the bump still shoves, but no HP is lost
+	var dealt: int = run.world_damage(amount)
 	_invulnerable = ZoneEnemies.HIT_COOLDOWN
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
-	Audio.sfx(&"hero_hurt")
-	hud.toast(story.hit_text(amount, source_key, source_name), Color("ff8a85"))
-	_flash.color.a = 0.38
-	create_tween().tween_property(_flash, "color:a", 0.0, 0.45)
-	_floating_text("-%d" % amount, Color("ff6a60"))
+	if dealt <= 0:
+		Audio.sfx(&"ui_tick", -6.0)
+		hud.toast(IMMUNE_TOAST, UIStyle.GOLD)
+		_floating_text("Excused", UIStyle.GOLD)
+	else:
+		Audio.sfx(&"hero_hurt")
+		hud.toast(story.hit_text(dealt, source_key, source_name), Color("ff8a85"))
+		_flash.color.a = 0.38
+		create_tween().tween_property(_flash, "color:a", 0.0, 0.45)
+		_floating_text("-%d" % dealt, Color("ff6a60"))
 	var away: Vector3 = player.position - from
 	away.y = 0.0
 	if away.length() < 0.01:
@@ -1792,6 +1829,10 @@ func hit_player(amount: int, from: Vector3, cause: String = "knocked flat", sour
 	shove.tween_property(player, "position", target, 0.22)
 	if run.is_down():
 		_faint(cause)
+
+
+## Fable pass Nov 10 (Part 5): what the hero hears instead of a hit while wearing the Hall Pass Slippers.
+const IMMUNE_TOAST: String = "Hall Pass Slippers: no harm done. The paperwork says you're excused."
 
 
 func _floating_text(text: String, color: Color) -> void:

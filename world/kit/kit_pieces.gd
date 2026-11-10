@@ -28,6 +28,7 @@ static func stand(parent: Node3D, id: String, pos: Vector3, height: float, shado
 			lifted.set_shader_parameter("mood_tint", Color(tint.r * brighten, tint.g * brighten, tint.b * brighten))
 			lifted.set_shader_parameter("base_dark", 0.9)
 			body.material_override = lifted
+			KitFoliage.register_card_material(lifted)  # Fable pass Nov 10: the copy fades for the hero like the shared material does
 	parent.add_child(piece)
 	piece.position = pos
 	return piece

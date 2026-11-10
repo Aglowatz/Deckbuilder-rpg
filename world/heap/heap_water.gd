@@ -172,7 +172,7 @@ static func mist(pos: Vector3, spread: float, amount: int) -> CPUParticles3D:
 	puffs.mesh = puff
 	if _mist == null:
 		_mist = HeapMaterials.translucent(Color(0.9, 0.98, 1.0), 0.32, 0.2)
-	puffs.material_override = _mist
+	puffs.material_override = ParticleLook.near_fade(_mist)  # Fable pass Nov 10 (Part 1.5): never a sheet at the lens
 	puffs.position = pos
 	_never(puffs)
 	return puffs

@@ -1263,6 +1263,9 @@ func _update_nearest() -> void:
 		hud.hide_prompt()
 	else:
 		hud.show_prompt("[E]  %s" % _prompt_text(_near))
+	# Fable pass Nov 10 (Part 1.3): a prop between the lens and the person in reach dissolves (OcclusionFader.talk_focus)
+	var near_npc: Node3D = _npcs.get(_near.id) as Node3D if _near != null and _near.id in NPC_SPOT_IDS else null
+	OcclusionFader.talk_focus = near_npc.global_position if near_npc != null and is_instance_valid(near_npc) else Vector3.INF
 	# Fable pass Nov 1 (Part 7): a clicked spot - talk once the walk brings it in reach (or drop it if the walk ended elsewhere).
 	if _auto_spot != null and (_near == _auto_spot or not player.auto_walking):
 		var target: Spot = _auto_spot
@@ -1433,6 +1436,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				_walk_to_spot(target)
 		return
 	if _near == null:
+		# Fable pass Nov 10 (Part 1.3): E reaches as far as a click - the nearest person in view within E_WALK_REACH is walked to and talked to.
+		if event.is_action_pressed(&"interact") and Time.get_ticks_msec() - dialogue_closed_msec() >= REOPEN_GUARD_MS:
+			var walk_target: Spot = _nearest_talkable_in_view(E_WALK_REACH)
+			if walk_target != null:
+				get_viewport().set_input_as_handled()
+				_walk_to_spot(walk_target)
 		return
 	if event.is_action_pressed(&"interact"):
 		get_viewport().set_input_as_handled()
@@ -1452,6 +1461,27 @@ func _unhandled_input(event: InputEvent) -> void:
 				if target != null:
 					get_viewport().set_input_as_handled()
 					_walk_to_spot(target)
+
+
+## How far E looks for a person to walk up to when nobody is in reach (metres).
+const E_WALK_REACH: float = 6.0
+
+
+## The nearest talkable person (an NPC spot) within `limit` metres whose body is on screen, or null.
+func _nearest_talkable_in_view(limit: float) -> Spot:
+	var best: Spot = null
+	var best_distance: float = limit
+	for spot: Spot in spots:
+		if not (spot.id in NPC_SPOT_IDS) or not spot.named or spot.marker == null or not is_instance_valid(spot.marker):
+			continue
+		var npc: Node3D = _npcs.get(spot.id) as Node3D
+		var body: Vector3 = npc.global_position if npc != null and is_instance_valid(npc) else spot.position
+		var distance: float = Vector2(player.position.x - body.x, player.position.z - body.z).length()
+		if distance >= best_distance or _camera.is_position_behind(body) or not _camera.is_position_in_frustum(body + Vector3(0, 1.0, 0)):
+			continue
+		best = spot
+		best_distance = distance
+	return best
 
 
 ## Where `spot`'s marker currently projects to on screen, for click picking.

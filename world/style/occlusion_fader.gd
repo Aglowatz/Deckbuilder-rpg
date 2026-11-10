@@ -10,6 +10,9 @@ const SCAN_INTERVAL: float = 4.0
 ## between the camera and one of them dissolves too, while the hero is within FOCUS_RANGE of it (so far-off goals never hollow out a
 ## street). Set by the quest marker layer and the town each frame.
 static var focus_points: Array[Vector3] = []
+## Fable pass Nov 10 (Part 1.3): the person the hero can talk to right now (the [E] prompt's NPC), set by the scenes each frame; INF = none.
+## A prop between the lens and them dissolves like one in front of the hero.
+static var talk_focus: Vector3 = Vector3.INF
 const FOCUS_RANGE: float = 11.0
 const MIN_HEIGHT: float = 1.0
 const MAX_EXTENT: float = 400.0
@@ -280,6 +283,9 @@ func _run_tests() -> void:
 	for point: Vector3 in focus_points:
 		if Vector2(point.x - to.x, point.z - to.z).length() <= FOCUS_RANGE:
 			focus.append(point + Vector3(0.0, 1.0, 0.0))
+	if talk_focus != Vector3.INF:
+		focus.append(talk_focus + Vector3(0.0, 1.0, 0.0))
+		focus.append(talk_focus + Vector3(0.0, 0.3, 0.0))
 	var blocking_groups: Dictionary = {}
 	var cut_groups: Dictionary = {}
 	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).

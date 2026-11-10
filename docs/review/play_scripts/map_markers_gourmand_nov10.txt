@@ -1,0 +1,40 @@
+# Fable pass Nov 10, Parts 1.1 and 1.4: the Buffet's map with every active quest's goals, the "Point me to..." list open beside the legend,
+# and the hub with the chevrons on the salt, the truffle and Old Meatloaf once Mend the Meatloaf is active.
+wait 2
+dev load bot_refusemancer_enter_gourmand
+wait 7
+skip_dialogue
+wait 1
+dev quest buf_mend 0
+wait 1
+dev quest buf_pantry 0
+wait 1
+key M
+wait 1.5
+shot map_goals
+dump
+click 1242 567
+wait 1
+shot map_point_me_to_open
+key Escape
+wait 0.5
+key M
+wait 1
+dev goto soup_fountain
+wait 1.5
+shot hub_markers
+key J
+wait 1
+shot quest_log
+key Escape
+wait 0.5
+key M
+wait 1
+click 1242 567
+wait 0.8
+click 500 195
+wait 1
+shot map_after_pick
+key M
+wait 1
+shot arrow_after_pick

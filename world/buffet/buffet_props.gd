@@ -105,7 +105,7 @@ static func steam(parent: Node3D, pos: Vector3, amount: int = 10, spread_width: 
 	puff.radial_segments = 6
 	puff.rings = 3
 	particles.mesh = puff
-	particles.material_override = M.translucent(Color(1.0, 0.97, 0.92), 0.38, 0.35)
+	particles.material_override = ParticleLook.near_fade(M.translucent(Color(1.0, 0.97, 0.92), 0.38, 0.35))  # Fable pass Nov 10 (Part 1.5): never a sheet at the lens
 	particles.position = pos
 	parent.add_child(particles)
 	return particles
@@ -318,19 +318,20 @@ static func vendor_stall() -> Node3D:
 	root.add_child(counter)
 	counter.scale = Vector3.ONE * 1.5
 	counter.position = Vector3(0, 0, 0)
+	# Fable pass Nov 10 (Part 1.3): the awning hangs higher and further back, so the default camera sees Madame Mirepoix's face under it.
 	for index: int in range(6):
 		var stripe_color: Color = M.PINK if index % 2 == 0 else Color(1, 1, 1)
-		box(root, Vector3(0.62, 0.1, 2.0), M.flat(stripe_color), Vector3(-1.55 + float(index) * 0.62, 2.55, -0.3), Vector3(-14, 0, 0))
+		box(root, Vector3(0.62, 0.1, 1.6), M.flat(stripe_color), Vector3(-1.55 + float(index) * 0.62, 3.05, -0.55), Vector3(-14, 0, 0))
 	for side: float in [-1.0, 1.0]:
 		cylinder(root, 0.07, 0.07, 2.6, M.flat(M.WOOD_DARK), Vector3(side * 1.65, 1.3, 0.7), 6)
 	BuffetModels.put_food(root, "cake-birthday", Vector3(-1.0, 1.52, 0.1), 0.0, 1.8)
 	BuffetModels.put_food(root, "cupcake", Vector3(0.1, 1.52, 0.2), 0.0, 2.2)
 	BuffetModels.put_food(root, "donut-sprinkles", Vector3(0.9, 1.52, 0.1), 0.0, 3.0)
-	BuffetModels.put_food(root, "pudding", Vector3(1.4, 1.52, 0.3), 0.0, 2.6)
-	# Playing cards on a little stand.
-	var stand: MeshInstance3D = box(root, Vector3(0.7, 0.9, 0.06), M.flat(M.CLOTH_RED), Vector3(0.2, 1.95, -0.5), Vector3(-12, 0, 0))
+	BuffetModels.put_food(root, "pudding", Vector3(1.45, 1.52, -0.15), 0.0, 1.9)  # Fable pass Nov 10 (Part 1.3): smaller and further back - it hid her name plate at the Low camera
+	# Playing cards on a little stand, at the counter's end (it stood in front of her face).
+	var stand: MeshInstance3D = box(root, Vector3(0.7, 0.9, 0.06), M.flat(M.CLOTH_RED), Vector3(-1.35, 1.95, -0.5), Vector3(-12, 0, 0))
 	stand.name = "CardSign"
-	box(root, Vector3(0.45, 0.62, 0.02), M.flat(Color(0.99, 0.97, 0.9)), Vector3(0.2, 1.97, -0.46), Vector3(-12, 0, 0))
+	box(root, Vector3(0.45, 0.62, 0.02), M.flat(Color(0.99, 0.97, 0.9)), Vector3(-1.35, 1.97, -0.46), Vector3(-12, 0, 0))
 	return root
 
 

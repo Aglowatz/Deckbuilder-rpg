@@ -1,0 +1,61 @@
+# Fable pass Nov 10, Part 1.5: the mid critic's "milky white sheets" (m7_06) - walk the Buffet hub north toward Sir Loin's gate at the
+# default camera, a screenshot every couple of metres, then the same stretch at the Low camera.
+wait 2
+dev load bot_refusemancer_enter_gourmand
+wait 7
+skip_dialogue
+wait 1
+scene
+shot f00_arrival
+hold W 1.5
+shot f01
+hold W 1.5
+shot f02
+hold W 1.5
+shot f03
+hold W 1.5
+shot f04
+hold W 1.5
+shot f05
+hold W 1.5
+shot f06
+hold W+A 1.5
+shot f07
+hold W 1.5
+shot f08
+hold W 1.5
+shot f09
+hold W+D 1.5
+shot f10
+hold W 1.5
+shot f11
+hold W 1.5
+shot f12
+scene
+# back to the hub centre and the same walk at the Low camera (V cycles the camera angle: Cinematic -> Classic -> Overview -> Low)
+dev goto soup_fountain
+wait 1
+key V
+wait 0.5
+key V
+wait 0.5
+key V
+wait 1
+shot l00_low_hub
+hold W 1.5
+shot l01
+hold W 1.5
+shot l02
+hold W 1.5
+shot l03
+hold W 1.5
+shot l04
+hold W 1.5
+shot l05
+hold W 1.5
+shot l06
+hold W 1.5
+shot l07
+key V
+wait 1
+shot z_end

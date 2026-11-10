@@ -211,7 +211,7 @@ static func tub() -> Node3D:
 	puff.radial_segments = 6
 	puff.rings = 3
 	steam.mesh = puff
-	steam.material_override = M.translucent(Color(1, 1, 1), 0.35, 0.2)
+	steam.material_override = ParticleLook.near_fade(M.translucent(Color(1, 1, 1), 0.35, 0.2))  # Fable pass Nov 10 (Part 1.5)
 	steam.position = Vector3(0, 0.9, 0)
 	root.add_child(steam)
 	return root

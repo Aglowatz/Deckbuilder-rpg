@@ -21,8 +21,6 @@ signal travel_requested
 const WHERE_TO_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.GATE, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL, MapPoi.Kind.ARENA,
 	MapPoi.Kind.QUEST_GIVER, MapPoi.Kind.CHALLENGE, MapPoi.Kind.EXIT, MapPoi.Kind.TRAVEL_PORTAL, MapPoi.Kind.INTERACTABLE]
 const WHERE_TO_MAX: int = 16
-## Fable pass Nov 10 (Part 1.4): the "Point me to..." list's popup height (it scrolls past this) and where it opens (left of the legend).
-const WHERE_TO_POPUP_HEIGHT: int = 420
 ## Place names on the map: the landmark kinds are always written; the minor kinds (interactables, pads, rafts...) only when the map is drawn
 ## large enough (`MINOR_LABEL_MIN_SCALE` pixels per metre) and there is room - hovering any icon shows its name.
 const MAJOR_LABEL_KINDS: Array[MapPoi.Kind] = [MapPoi.Kind.DUNGEON, MapPoi.Kind.MINI_DUNGEON, MapPoi.Kind.EXIT, MapPoi.Kind.VENDOR, MapPoi.Kind.HEAL,
@@ -105,43 +103,47 @@ func _legend() -> Control:
 		turn_row.add_child(turn_badge)
 		turn_row.add_child(UIKit.label("Quest ready to hand in", &"", 22))
 		column.add_child(turn_row)
-	# Overnight Oct 30-31, Part 2: the goals on this map by quest name (gold = main line, blue = side quest).
-	var goal_names: Dictionary = {}
-	for goal: MapPoi in _pois:
-		if not goal.objective or goal_names.has(goal.label):
-			continue  # Fable pass Nov 10: one legend line per goal name (a step with six roamers to beat lists one line)
-		goal_names[goal.label] = true
-		var goal_row: HBoxContainer = UIKit.hbox(12)
-		var ring: Control = Control.new()
-		ring.custom_minimum_size = Vector2(34, 34)
-		ring.draw.connect(func() -> void: MapDraw.poi(ring, Vector2(17, 17), goal, 11.0))
-		goal_row.add_child(ring)
-		var goal_label: Label = UIKit.label("Goal: %s" % goal.label, &"", 22)
-		goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		goal_label.custom_minimum_size = Vector2(300, 0)
-		goal_row.add_child(goal_label)
-		column.add_child(goal_row)
 	# Mid-game critic #11 (Oct 31 - Nov 1): the list names every place, walked to or not (the fog hides the ground, not the directory).
 	# Fable pass Nov 10 (Part 1.1): every active quest's goal comes first ("Goal - Mend the Meatloaf: Sea Salt Crystals"), then the places.
 	var places: Array[MapPoi] = where_to_entries(_pois)
 	if not places.is_empty():
-		var where: OptionButton = OptionButton.new()
+		# Fable pass Nov 10 (Part 1.4): a button opens the list as a panel over the map's right edge (a Window popup landed over the legend
+		# whatever it was told), so the legend stays readable while you choose; the list scrolls, closes on a pick or Escape, and takes
+		# keyboard and pad focus.
+		var where: FancyButton = FancyButton.make("Point me to...", &"", Vector2(300, 44))
 		where.name = "WhereTo"
-		where.add_theme_font_size_override("font_size", 20)
-		where.custom_minimum_size = Vector2(300, 44)
-		SettingsPanel.theme_popup(where)  # Fix pass Nov 7 (Part 5)
-		where.add_item("Point me to...")  # Overnight Nov 9-10 (RC1 critic #8): it sets a pointer, it does not travel
 		where.tooltip_text = "Pick a place: a white arrow leads you there after you close the map."
-		for place: MapPoi in places:
-			where.add_item(where_to_text(place))
-		where.item_selected.connect(func(index: int) -> void:
-			if index > 0:
-				ping(places[index - 1]))
-		# Fable pass Nov 10 (Part 1.4): the list opens beside the legend, over the map's edge, never over the legend's entries; long lists scroll.
-		var popup: PopupMenu = where.get_popup()
-		popup.max_size = Vector2i(0, WHERE_TO_POPUP_HEIGHT)
-		popup.about_to_popup.connect(func() -> void: _place_where_to_popup(where, popup))
+		_where_places = places
+		where.pressed.connect(_toggle_where_list)
 		column.add_child(where)
+	# Overnight Oct 30-31, Part 2: the goals on this map by quest name (gold = main line, blue = side quest). Fable pass Nov 10 (Part 1.1/1.4):
+	# one line per quest with how many places it marks (the "Point me to..." list above names every place), so the legend never outgrows
+	# the panel.
+	var goal_lines: Array[Dictionary] = []
+	var by_quest: Dictionary = {}
+	for goal: MapPoi in _pois:
+		if not goal.objective:
+			continue
+		var quest_name: String = goal.label.split(":")[0]
+		if not by_quest.has(quest_name):
+			by_quest[quest_name] = {"poi": goal, "count": 0, "names": {}}
+		var entry: Dictionary = by_quest[quest_name]
+		entry["count"] = int(entry["count"]) + 1
+	for quest_name: Variant in by_quest.keys():
+		goal_lines.append({"name": str(quest_name), "poi": (by_quest[quest_name] as Dictionary)["poi"], "count": int((by_quest[quest_name] as Dictionary)["count"])})
+	for line: Dictionary in goal_lines:
+		var goal_row: HBoxContainer = UIKit.hbox(12)
+		var ring: Control = Control.new()
+		ring.custom_minimum_size = Vector2(34, 34)
+		var sample: MapPoi = line["poi"] as MapPoi
+		ring.draw.connect(func() -> void: MapDraw.poi(ring, Vector2(17, 17), sample, 11.0))
+		goal_row.add_child(ring)
+		var count: int = int(line["count"])
+		var goal_label: Label = UIKit.label("Goal: %s%s" % [str(line["name"]), (" (%d places)" % count) if count > 1 else ""], &"", 22)
+		goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		goal_label.custom_minimum_size = Vector2(300, 0)
+		goal_row.add_child(goal_label)
+		column.add_child(goal_row)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
 	if travel_from != "" and not FastTravel.destinations(Session.flags, travel_from).is_empty():
 		var travel: FancyButton = FancyButton.make("Fast travel...", &"PrimaryButton", Vector2(300, 56))
@@ -197,23 +199,63 @@ static func where_to_text(place: MapPoi) -> String:
 	return "%s (%s)" % [place.label, MapPoi.kind_name(place.kind) if level_note.is_empty() else "%s, %s" % [MapPoi.kind_name(place.kind), level_note]]
 
 
-## The list's popup stands to the LEFT of the legend panel (over the map's right edge), top-aligned with the button, so it never covers the
-## legend; it is kept inside the window.
-func _place_where_to_popup(button: OptionButton, popup: PopupMenu) -> void:
-	var rect: Rect2 = button.get_global_rect()
-	var panel: Control = button
-	while panel != null and not panel is PanelContainer:
-		panel = panel.get_parent() as Control
-	var left_edge: float = panel.get_global_rect().position.x if panel != null else rect.position.x
-	var scale_factor: float = get_viewport().get_screen_transform().get_scale().x
-	var width: int = maxi(popup.size.x, int(rect.size.x * scale_factor))
-	var window_size: Vector2 = get_viewport().get_visible_rect().size * scale_factor
-	var x: int = int((left_edge - 12.0) * scale_factor) - width
-	var y: int = int(rect.position.y * scale_factor)
-	var height: int = popup.size.y
-	x = clampi(x, 0, maxi(0, int(window_size.x) - width))
-	y = clampi(y, 0, maxi(0, int(window_size.y) - height))
-	popup.position = Vector2i(x, y)
+## The "Point me to..." places (goals first) and the panel that lists them over the map's right edge.
+var _where_places: Array[MapPoi] = []
+var _where_panel: PanelContainer
+var _where_list: ItemList
+const WHERE_LIST_WIDTH: float = 640.0
+
+
+func _toggle_where_list() -> void:
+	if _where_panel != null and _where_panel.visible:
+		_hide_where_list()
+		return
+	if _where_panel == null:
+		_where_panel = UIKit.panel(&"DarkPanel")
+		_where_panel.name = "WhereToPanel"
+		var box: VBoxContainer = UIKit.vbox(8)
+		_where_panel.add_child(box)
+		box.add_child(UIKit.label("Point me to...", &"HeadingLabel", 26))
+		_where_list = ItemList.new()
+		_where_list.name = "WhereToList"
+		_where_list.add_theme_font_size_override("font_size", 20)
+		_where_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_where_list.allow_reselect = true
+		for place: MapPoi in _where_places:
+			_where_list.add_item(where_to_text(place))
+		_where_list.item_selected.connect(func(index: int) -> void:
+			if index >= 0 and index < _where_places.size():
+				ping(_where_places[index])
+			_hide_where_list())
+		_where_list.item_activated.connect(func(index: int) -> void:
+			if index >= 0 and index < _where_places.size():
+				ping(_where_places[index])
+			_hide_where_list())
+		box.add_child(_where_list)
+		_canvas.add_child(_where_panel)
+	var height: float = minf(_canvas.size.y - 20.0, 70.0 + 30.0 * float(_where_places.size()))
+	_where_panel.size = Vector2(WHERE_LIST_WIDTH, height)
+	_where_panel.position = Vector2(maxf(0.0, _canvas.size.x - WHERE_LIST_WIDTH - 10.0), 10.0)
+	_where_panel.visible = true
+	_where_list.grab_focus()
+	if _where_list.item_count > 0 and _where_list.get_selected_items().is_empty():
+		_where_list.select(0)
+		_where_list.ensure_current_is_visible()
+	Audio.sfx(&"ui_tick", -8.0)
+
+
+func _hide_where_list() -> void:
+	if _where_panel == null:
+		return
+	_where_panel.visible = false
+	var button: Control = find_child("WhereTo", true, false) as Control
+	if button != null:
+		button.grab_focus()
+
+
+## True while the list is open (the tests and Escape read it).
+func where_list_open() -> bool:
+	return _where_panel != null and _where_panel.visible
 
 
 ## Makes `poi` pulse on the map for PING_SECONDS.
@@ -389,6 +431,10 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if where_list_open() and (event.is_action_pressed(&"ui_cancel") or event.is_action_pressed(&"open_map")):
+		get_viewport().set_input_as_handled()
+		_hide_where_list()
+		return
 	if event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		request_close()

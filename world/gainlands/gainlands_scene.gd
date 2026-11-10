@@ -356,7 +356,7 @@ func _dust_burst(pos: Vector3) -> void:
 	puff.radial_segments = 6
 	puff.rings = 3
 	dust.mesh = puff
-	dust.material_override = GainlandsMaterials.translucent(Color(0.92, 0.85, 0.7), 0.55, 0.15)
+	dust.material_override = ParticleLook.near_fade(GainlandsMaterials.translucent(Color(0.92, 0.85, 0.7), 0.55, 0.15))  # Fable pass Nov 10 (Part 1.5)
 	dust.position = pos + Vector3(0, 0.15, 0)
 	add_child(dust)
 	dust.emitting = true
@@ -514,7 +514,7 @@ func _fall_off(island: GainlandsLayout.Island) -> void:
 	var run: ZoneRun = Session.zone_run
 	GainlandsInteractables.apply_fall(run, island.title, story.text("fx.fall_log"))
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
-	hud.toast(story.text("fx.fall"), Color("ff8a85"))
+	hud.toast(story.text("fx.fall") if not run.immune_to_world_damage() else IMMUNE_TOAST, Color("ff8a85") if not run.immune_to_world_damage() else UIStyle.GOLD)
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % GainlandsZone.FALL_DAMAGE, Color("ff6a60"))
 	var back: Tween = create_tween()

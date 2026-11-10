@@ -95,7 +95,7 @@ static func waterfall(top: Vector3, width: float, outward: Vector2, node_name: S
 	puff.radial_segments = 6
 	puff.rings = 3
 	mist.mesh = puff
-	mist.material_override = GainlandsMaterials.translucent(Color(0.92, 0.97, 1.0), 0.35, 0.2)
+	mist.material_override = ParticleLook.near_fade(GainlandsMaterials.translucent(Color(0.92, 0.97, 1.0), 0.35, 0.2))  # Fable pass Nov 10 (Part 1.5)
 	mist.position = Vector3(landing.x, WATER_Y + 0.2, landing.z)
 	mist.set_meta(&"no_occlusion_fade", true)
 	root.add_child(mist)

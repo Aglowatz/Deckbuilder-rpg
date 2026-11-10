@@ -566,7 +566,7 @@ func _fall_into_soup() -> void:
 	var run: ZoneRun = Session.zone_run
 	BuffetInteractables.apply_soup_fall(run, buf.layout.area_at(start.x, start.z).title if buf.layout.area_at(start.x, start.z) != null else "the soup", story.text("fx.soup_fall_log"))
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
-	hud.toast(story.text("fx.soup_fall"), Color("ff8a85"))
+	hud.toast(story.text("fx.soup_fall") if not run.immune_to_world_damage() else IMMUNE_TOAST, Color("ff8a85") if not run.immune_to_world_damage() else UIStyle.GOLD)
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % BuffetZone.SOUP_DAMAGE, Color("ff6a60"))
 	var back: Tween = create_tween()

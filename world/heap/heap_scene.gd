@@ -769,7 +769,7 @@ func _puff(pos: Vector3) -> void:
 	puff.radial_segments = 6
 	puff.rings = 3
 	dust.mesh = puff
-	dust.material_override = HeapMaterials.translucent(Color(0.9, 0.85, 0.7), 0.6, 0.2)
+	dust.material_override = ParticleLook.near_fade(HeapMaterials.translucent(Color(0.9, 0.85, 0.7), 0.6, 0.2))  # Fable pass Nov 10 (Part 1.5)
 	dust.position = pos + Vector3(0, 0.3, 0)
 	add_child(dust)
 	dust.emitting = true
@@ -878,7 +878,7 @@ func _fall_into_hazard() -> void:
 	var place: String = "the compost pit" if in_pit else "the Recycling Stream"
 	HeapInteractables.apply_hazard_fall(run, place, story.text("fx.hazard_fall_log"))
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
-	hud.toast(story.text("fx.hazard_fall"), Color("ff8a85"))
+	hud.toast(story.text("fx.hazard_fall") if not run.immune_to_world_damage() else IMMUNE_TOAST, Color("ff8a85") if not run.immune_to_world_damage() else UIStyle.GOLD)
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % HeapZone.HAZARD_DAMAGE, Color("ff6a60"))
 	var back: Tween = create_tween()
