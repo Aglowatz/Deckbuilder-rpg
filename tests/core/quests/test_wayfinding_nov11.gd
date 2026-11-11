@@ -49,3 +49,35 @@ func test_a_part_done_is_announced_with_its_name() -> void:
 			found = true
 	assert_true(found, "a 'Quest updated' notice names the part that was done (%s)" % str(notices))
 	assert_eq(Session.quest_log.current_index(quest, Session.unlock_state()), 2, "...and the step itself stays")
+
+
+## Wayfinding critic run 2: once the stream is crossed the Dump's dungeon line stops naming the bean and says which stables; the Gainlands
+## line describes the middle road's real shape (west round the gym hall, back east, north along the ridge).
+func test_the_dump_line_drops_the_bean_once_the_stream_is_crossed() -> void:
+	var quest: QuestData = _dump_line_at_favour_step()
+	Session.quest_log.completed.append(ZoneQuestDefinitions.SIDE_REF)
+	var step: QuestObjective = quest.objectives[3]
+	assert_string_contains(step.current_hint(Session.unlock_state()), "plant the Magic Bean", "before the crossing the bean is named")
+	Session.set_flag(StringName(str(HeapGrowth.find("bridge_west").flag)))
+	var line: String = step.current_hint(Session.unlock_state())
+	assert_false(line.contains("Magic Bean"), "after the crossing the bean is not named: %s" % line)
+	assert_string_contains(line, "Farm Terrace stables")
+	Session.set_flag(StringName(str(HeapGrowth.find_barricade("gate").flag)))
+	assert_string_contains(step.current_hint(Session.unlock_state()), "The way is clear", "both gates open: the open line")
+
+
+func test_the_gainlands_line_describes_the_middle_roads_turns() -> void:
+	var main: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id("beefcake"))
+	var hint: String = main.objectives[3].hint
+	assert_string_contains(hint, "west round the gym hall")
+	assert_false(hint.contains("climbs straight to it from the bridge"))
+
+
+func test_the_dump_golem_roams_clear_of_the_bean_and_the_mound() -> void:
+	var layout: HeapLayout = HeapLayout.new()
+	layout.build()
+	for spawn: Dictionary in layout.enemy_spawns:
+		var home: Vector3 = spawn["home"] as Vector3
+		var reach: float = float(spawn.get("patrol", 0.0))
+		for spot: Vector2 in [Vector2(34.0, 106.0), Vector2(25.5, 107.0)]:
+			assert_gte(Vector2(home.x, home.z).distance_to(spot) - reach, 6.0, "%s at (%.0f, %.0f) roams 6 m clear of (%.1f, %.1f)" % [spawn["type"], home.x, home.z, spot.x, spot.y])

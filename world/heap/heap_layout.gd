@@ -871,7 +871,7 @@ func _chests() -> void:
 ## farm terrace, a scarecrow before the barricade, gulls over the scree and in the plateau's east pocket, a scarecrow by Scrapmore's east lane.
 func _enemies() -> void:
 	enemy_spawns = [
-		{"type": "golem", "home": Vector3(30.0, 0.0, 109.0), "patrol": 3.5},
+		{"type": "golem", "home": Vector3(28.0, 0.0, 118.0), "patrol": 2.5},  # Overnight Nov 10-11 (wayfinding critic run 2): off the bean -> mound line (was (30, 109) r 3.5, a fight on every pass)
 		{"type": "scarecrow", "home": Vector3(73.0, 0.0, 111.0), "patrol": 2.5},
 		{"type": "gulls", "home": Vector3(66.0, 0.0, 87.0), "patrol": 5.0},
 		{"type": "golem", "home": Vector3(40.0, 0.0, 87.0), "patrol": 3.0},
@@ -998,10 +998,9 @@ func _features() -> void:
 	# the market's small things (the reference: planter boxes, barrels, crates, lanterns at the stalls and the plaza's mouths), each a shared kit prop
 	_prop("lantern", 44.5, 132.5, 0.0, 1.0, 0.35)
 	_prop("lantern", 55.5, 132.5, 0.0, 1.0, 0.35)
-	_prop("planter", 41.5, 112.5, 20.0, 1.0, 0.6, 0)
+	# Overnight Nov 10-11 (wayfinding critic run 2): the planter (41.5, 112.5) and the crate (40, 112.5) wedged the hero against the barn on the town -> bean line; removed
 	_prop("planter", 60.5, 110.5, 160.0, 1.0, 0.6, 1)
 	_prop("barrel", 38.5, 114.0, 30.0, 1.0, 0.45, 0)
-	_prop("crate", 40.0, 112.5, 10.0, 1.0, 0.45, 1)
 	_prop("barrel", 64.5, 124.5, 200.0, 1.0, 0.45, 2)
 	_prop("crate", 69.5, 121.5, 250.0, 1.0, 0.45, 3)
 	_prop("barrel", 76.5, 123.0, 80.0, 1.0, 0.45, 4)

@@ -1,0 +1,22 @@
+dev load wy_dump_01
+wait 3
+key M
+wait 1.2
+button Point me to...
+wait 0.8
+click 900 160
+wait 0.8
+key Escape
+wait 0.8
+shot wy2_dump03_arrow
+hold W 2.5
+scene
+shot wy2_dump03_w1
+hold W 2.5
+scene
+shot wy2_dump03_w2
+hold W 2
+scene
+shot wy2_dump03_w3
+dump
+dev save wy_dump_03

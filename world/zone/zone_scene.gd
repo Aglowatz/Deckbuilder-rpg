@@ -1682,7 +1682,9 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 		# Oct 16: the Capital is open from the start, but storming the castle with services still broken is a speedrunner's dare.
 		body = "%s\n\n%s (%d of 4 services still broken.)" % [StoryText.shared().text("capital.castle.warning"), body, CapitalDebuffs.active(Session.flags).size()]
 	var main_plan: DungeonCatalog.Blueprint = DungeonCatalog.main_for_zone(def.id)
-	var main_title: String = SpoilerFree.dungeon_name(main_plan.id, story.text("ui.main.title")) if main_plan != null else story.text("ui.main.title")
+	# Overnight Nov 10-11 (wayfinding critic run 2): at the door the real name, as the mini dungeon's (the prompt over it already says
+	# "Enter the House of Gains"; the dialog's "???" contradicted it). Maps and lists keep "???" before the first visit.
+	var main_title: String = story.text("ui.main.title")
 	if def.id == CapitalZone.ID:
 		# Fix pass Nov 7 (Part 5, C4b F5): the castle's door is named (never "???"), and the broken-service line only while one is broken.
 		main_title = story.text("ui.main.title")

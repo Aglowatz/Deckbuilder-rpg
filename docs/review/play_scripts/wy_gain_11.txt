@@ -1,0 +1,23 @@
+dev load wy_gain_10
+wait 3
+dev autowin on
+hold W 3
+wait 8
+button Continue
+wait 2
+hold W 1.5
+scene
+hold A 2.2
+scene
+shot wy2_gain11_a
+key E
+wait 1.5
+dump
+shot wy2_gain11_mirror
+skip_dialogue
+wait 1
+key E
+wait 1
+dump
+scene
+dev save wy_gain_11

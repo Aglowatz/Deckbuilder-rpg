@@ -297,7 +297,7 @@ static func where_to_go(quest: QuestData, state: UnlockState) -> String:
 		return ""
 	var area: String = area_name(objective.target_area)
 	# Overnight Nov 10-11 (Part 1.1): a dungeon step names the gate on the way and what opens it; once the gates are open, the open line.
-	var hint: String = objective.hint_open if objective.hint_open != "" and objective.way_open(state) else objective.hint
+	var hint: String = objective.current_hint(state)  # the open line, a part-open line (wayfinding run 2) or the hint
 	if hint != "":
 		return hint + ((" (%s)" % area) if area != "" and not hint.contains(area) else "")
 	return area

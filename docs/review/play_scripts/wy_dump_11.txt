@@ -1,0 +1,24 @@
+dev load wy_dump_06
+wait 3
+dev autowin on
+dev heal
+hold W 3
+hold D 2
+hold W 2
+hold D+W 2
+hold D+W 2
+wait 9
+button Continue
+wait 2.5
+dev save wy_dump_11
+key J
+wait 1.2
+dump
+shot wy2_dump11_journal
+key Escape
+wait 0.8
+key M
+wait 1.2
+shot wy2_dump11_map
+key Escape
+wait 0.8

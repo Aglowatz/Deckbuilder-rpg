@@ -1,0 +1,23 @@
+dev load wy_dump_04
+wait 3
+hold W 5
+key E
+wait 1.2
+skip_dialogue
+wait 1
+dev save wy_dump_06
+key J
+wait 1.2
+shot wy2_dump06_journal
+dump
+key Escape
+wait 0.8
+key M
+wait 1.2
+button Point me to...
+wait 0.8
+shot wy2_dump06_pointme
+key Escape
+wait 0.5
+key Escape
+wait 0.5

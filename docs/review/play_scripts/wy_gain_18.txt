@@ -1,0 +1,30 @@
+dev load wy_gain_12
+wait 3
+dev autowin on
+hold W 3
+wait 8
+button Continue
+wait 2
+hold W 4.2
+hold A 1.2
+hold W 1
+hold A 1.5
+hold W 4
+hold D+W 2
+hold W 6
+scene
+hold W 0.4
+scene
+hold D 2
+scene
+shot wy2_gain18_a
+hold D 2
+scene
+shot wy2_gain18_b
+hold D 2
+scene
+shot wy2_gain18_c
+hold D+W 2
+scene
+shot wy2_gain18_d
+dump

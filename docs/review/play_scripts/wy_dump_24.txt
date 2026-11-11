@@ -1,0 +1,21 @@
+dev load wy_dump_21
+wait 3
+dev autowin on
+hold W 3
+hold A 2
+hold W 2
+hold W+A 2
+hold W 2
+hold A 1.5
+scene
+key E
+wait 1.5
+shot wy2_dump24_plant
+dump
+skip_dialogue
+wait 1
+key E
+wait 1
+shot wy2_dump24_plant2
+dump
+scene

@@ -1,0 +1,25 @@
+dev load wy_gain_03
+wait 3
+dev autowin on
+hold W 6
+scene
+key E
+wait 1.2
+dump
+skip_dialogue
+wait 1
+shot wy2_gain04_talk
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+dev save wy_gain_04
+key J
+wait 1
+button Side
+wait 0.6
+shot wy2_gain04_side
+dump
+key Escape

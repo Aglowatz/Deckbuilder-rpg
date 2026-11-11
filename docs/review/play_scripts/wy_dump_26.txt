@@ -1,0 +1,25 @@
+dev load wy_dump_25
+wait 3
+dev autowin on
+hold W 3
+hold A 2
+hold W 2
+hold W+A 2
+scene
+hold W 2
+scene
+hold A 1.5
+scene
+key E
+wait 1.5
+dump
+key E
+wait 1
+key E
+wait 4
+shot wy2_dump26_grown
+key E
+wait 1
+dump
+scene
+dev save wy_dump_26

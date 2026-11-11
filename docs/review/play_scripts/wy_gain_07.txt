@@ -1,0 +1,13 @@
+dev load wy_gain_06
+wait 3
+dev autowin on
+key M
+wait 1.2
+button Point me to...
+wait 0.8
+shot wy2_gain07_pointme
+click 900 160
+wait 0.8
+shot wy2_gain07_route
+key Escape
+wait 0.6

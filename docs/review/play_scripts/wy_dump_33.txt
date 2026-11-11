@@ -1,0 +1,19 @@
+dev load wy_dump_32
+wait 3
+key J
+wait 1
+button Main
+wait 0.6
+shot wy2_dump33_journal
+key Escape
+wait 0.6
+key M
+wait 1.2
+shot wy2_dump33_map
+button Point me to...
+wait 0.8
+shot wy2_dump33_pointme
+key Escape
+wait 0.6
+key Escape
+wait 0.6

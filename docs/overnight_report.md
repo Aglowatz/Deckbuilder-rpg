@@ -66,7 +66,32 @@ Fixed from its report (run 2 follows below):
 - Logged, not changed: the entrance ambush and the Rift Station pop-up repeat on every entry (a `dev save` resumes at the entrance: a human
   enters a zone a few times, not twenty); the Commons' counters; the junk gull's -2 HP (the zone's hazard).
 
-[TBD: run 2 (the Gainlands and the Dump again)]
+**Run 2** (resumed Nov 11 after the PC reset; same no-context critic brief, `docs/review/critic_wayfinding_nov11_brief_run2.md`, on a test
+pack exported after Parts 2.2 and 3; report `docs/review/critic_wayfinding_nov11/report_run2.md`, saved by me from its final message as its
+own write was refused; scripts `wy_*`, shots `_screenshots/exported/wy2_*.png`):
+
+| Zone | Nov 10 | Run 1 | **Run 2** | Clarity | What slowed it |
+|---|---|---|---|---|---|
+| The Gainlands | not reached, 23.5 min | reached, 21.2 min | **reached, 18.6 min, 24 runs** | 2 -> 5 -> 6 | the "middle road climbs straight" line (the road jogs west round the gym hall; it took the far west road and its stone bridge, ~120 s + 4 runs on the bridge's sticky west end); a road guard fight on every arrival; the door dialog said "???" |
+| The Verdant Dump | not reached, 19.1 min | not reached, 24.0 min | **not reached, 24.1 min, 39 runs** (bean planted, bridge crossed, mount taken; stopped wedged in town) | 3 -> 3 -> 5 | traversal, not direction: wedged between the barn and a crate / planter on the town -> bean line, the golem fight beside the bean on nearly every pass, stair edges; the line still named the bean after it was planted and did not say which stables |
+| The D.N.A. | reached, 18.3 min | reached, 5.8 min | (not re-run) | 5 -> 8 | - |
+
+The Dump's 24 minutes went on walking, not on finding the way: its report says the text "said exactly what bars the Rotheart", and every
+resumed run re-walks from the entrance (39 resumes x 25-60 s). Fixed from run 2:
+- **The Gainlands' line describes the real road**: "take the middle road - it leaves the plaza west round the gym hall, turns back east behind
+  it, then runs straight north along the ridge past three road guards to the fortress stairs (the far west road and its stone bridge are the
+  long way round)".
+- **The Dump's line follows the way**: once the stream is crossed it stops naming the bean and says "one thing left: the junk barricade on the
+  stairs north of the Farm Terrace - borrow a mount at the Farm Terrace stables (across the stream, not the town's)"
+  (`QuestObjective.step_hint` / `current_hint`); the stables marker says "The Farm Terrace stables, across the stream".
+- **The town wedge**: the crate (40, 112.5) and the planter (41.5, 112.5) beside the barn are gone; **the Mossy Trash Golem** roams at
+  (28, 118) r 2.5, 11 m clear of the bean and the mound (was (30, 109) r 3.5, between them); a test keeps every roamer 6 m clear of both.
+- **The main dungeon's door dialog** carries the dungeon's name (the prompt over the door already said it; "???" stays on maps before a visit).
+- Logged, not changed: the world arrow's floating label shows the tracked quest's name, not the "Point me to..." pick (the arrow itself
+  follows the pick); the mount is not kept by a `dev save` resume; the Gainlands' stone bridge's west end is sticky (a 1 m step needed); the
+  road guard 8 m in fights on every arrival (by design: the guards are the middle road's obstacle; a player arrives a few times, not 24).
+  **The Dump was not re-run a third time** (it would take another ~70 minutes of the morning, and run 2's cap came from traversal the fixes
+  above address); worth one run after release if you want the number.
 
 ## Part 3 - fight pacing (ordinary fights)
 

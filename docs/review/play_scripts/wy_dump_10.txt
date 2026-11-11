@@ -1,0 +1,21 @@
+dev load wy_dump_06
+wait 3
+dev autowin on
+dev heal
+hold W 3
+hold D 2
+hold W 2
+hold D+W 2
+hold D+W 2
+wait 10
+shot wy2_dump10_a
+dump
+button Keep Hand
+wait 6
+shot wy2_dump10_b
+dump
+button Continue
+wait 3
+shot wy2_dump10_c
+dump
+scene

@@ -1,0 +1,30 @@
+dev load bot_beefcake_enter_beefcake
+wait 9
+dev autowin on
+shot wy2_gain01_arrive
+dump
+scene
+key E
+wait 1
+dump
+key J
+wait 1.2
+button Main
+wait 0.6
+shot wy2_gain01_journal
+dump
+key Escape
+wait 0.6
+key M
+wait 1.2
+shot wy2_gain01_map
+button Point me to...
+wait 0.8
+shot wy2_gain01_pointme
+dump
+key Escape
+wait 0.6
+key Escape
+wait 0.6
+scene
+dev save wy_gain_01

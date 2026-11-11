@@ -1,0 +1,20 @@
+dev load wy_dump_06
+wait 3
+dev heal
+hold W 3
+hold D 2
+hold W 2
+hold D+W 2
+scene
+hold D+W 2
+scene
+shot wy2_dump09_a
+hold D+W 2
+scene
+shot wy2_dump09_b
+hold W 2
+scene
+shot wy2_dump09_c
+wait 8
+shot wy2_dump09_d
+dump

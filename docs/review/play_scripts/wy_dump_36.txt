@@ -1,0 +1,27 @@
+dev load wy_dump_32
+wait 3
+dev autowin on
+hold W 3
+hold A 3.5
+hold W 1.2
+hold W 3.8
+wait 9
+button Continue
+wait 2
+hold A 1.6
+hold W 1
+hold D 0.7
+hold W 2
+hold W 1.6
+hold D 0.3
+scene
+key E
+wait 1.5
+shot wy2_dump36_stable
+dump
+skip_dialogue
+wait 1
+shot wy2_dump36_stable2
+dump
+scene
+dev save wy_dump_36

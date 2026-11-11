@@ -1,0 +1,31 @@
+dev load bot_refusemancer_enter_refusemancer
+wait 9
+shot wy2_dump01_arrive
+dump
+scene
+key E
+wait 1
+shot wy2_dump01_b
+dump
+dev autowin on
+key J
+wait 1.5
+shot wy2_dump01_journal
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+shot wy2_dump01_map
+dump
+button Point me to...
+wait 1
+shot wy2_dump01_pointme
+dump
+key Escape
+wait 1
+key Escape
+wait 1
+shot wy2_dump01_after
+scene
+dev save wy_dump_01

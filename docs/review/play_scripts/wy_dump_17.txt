@@ -1,0 +1,30 @@
+dev load wy_dump_11
+wait 3
+dev autowin on
+hold W 3
+hold D 2
+hold W 2
+hold D+W 2
+hold D+W 2
+hold W 2
+hold D 2.5
+hold W 1
+hold S 1.2
+hold D 0.9
+hold W 8
+wait 9
+shot wy2_dump17_battle
+dump
+button Continue
+wait 2.5
+shot wy2_dump17_after
+dump
+scene
+dev save wy_dump_17
+key J
+wait 1
+button Side
+wait 0.8
+shot wy2_dump17_side
+dump
+key Escape

@@ -290,7 +290,11 @@ static func _zone_main(zone_id: String) -> QuestData:
 		"refusemancer":
 			# the plateau is reached up the barricade stairs: a mount from the stables charges the junk barricade, then the stairs are open
 			var smashed: Condition = Condition.flag(str(HeapGrowth.find_barricade("gate").flag))
-			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "stable_2", "The stables: borrow a mount (it charges junk barricades)", smashed)
+			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "stable_2", "The Farm Terrace stables, across the stream: borrow a mount (it charges junk barricades)", smashed)
+			# Overnight Nov 10-11 (wayfinding critic run 2): once the stream is crossed the line stops naming the bean (the critic read
+			# "plant the Magic Bean" after it had) and says which stables - the town has its own by Billie, the marked ones are across the water.
+			var crossed_way: Condition = Condition.any_of([Condition.flag(str(HeapGrowth.find("bridge_west").flag)), Condition.flag(str(HeapGrowth.find("bridge_center").flag))] as Array[Condition])
+			dungeon_step.step_hint(crossed_way, "The Rotheart's root gate, up on the plateau. The stream is crossed; one thing left: the junk barricade on the stairs north of the Farm Terrace - borrow a mount at the Farm Terrace stables (across the stream, not the town's) and charge it")
 			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "barricade_gate", "The junk barricade on the stairs: charge it on a mount", smashed)
 			dungeon_step.part(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", "The Rotheart's root gate, up on the plateau")
 		"necrocrat":
@@ -338,7 +342,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
 		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley - any quest one of them gives you counts",
-		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim. Nothing is locked on the way: the middle road climbs straight to it from the bridge, past three road guards who want a fight",
+		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim. Nothing is locked on the way: take the middle road - it leaves the plaza west round the gym hall, turns back east behind it, then runs straight north along the ridge past three road guards to the fortress stairs (the far west road and its stone bridge are the long way round)",
 	},
 	"necrocrat": {
 		"title": "Take a Number",

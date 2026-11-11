@@ -1,0 +1,22 @@
+dev load wy_dump_21
+wait 3
+dev autowin on
+scene
+dump
+hold W 3
+hold A 2
+hold W 2
+hold W+A 2
+hold W 2.6
+scene
+wait 8
+dump
+button Continue
+wait 2
+hold A 1.2
+scene
+shot wy2_dump22_a
+hold A 1.2
+scene
+shot wy2_dump22_b
+dump

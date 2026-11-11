@@ -1,0 +1,25 @@
+dev load wy_dump_11
+wait 3
+dev autowin on
+hold W 3
+hold D 2
+hold W 2
+hold D+W 2
+hold D+W 2
+hold W 2
+hold D 2.5
+hold W 1
+scene
+hold S 1.2
+scene
+hold D 1.5
+scene
+hold W 2
+scene
+shot wy2_dump15_a
+hold W 2
+scene
+shot wy2_dump15_b
+hold W 2
+scene
+shot wy2_dump15_c

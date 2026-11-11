@@ -59,6 +59,29 @@ func open_hint(where: String) -> QuestObjective:
 	return self
 
 
+## Overnight Nov 10-11 (wayfinding critic run 2): "where to go" lines for the way part-open - [{"done": Condition, "text": String}]; the
+## last one whose condition is met replaces `hint` until the whole way is open (the Dump: the bean planted, the barricade still up - the
+## critic read "plant the Magic Bean" after it had).
+var hint_steps: Array[Dictionary] = []
+
+
+func step_hint(done: Condition, where: String) -> QuestObjective:
+	hint_steps.append({"done": done, "text": where})
+	return self
+
+
+## The "where to go" line right now: `hint_open` once the way is open, else the last met `hint_steps` line, else `hint`.
+func current_hint(state: UnlockState) -> String:
+	if hint_open != "" and way_open(state):
+		return hint_open
+	var result: String = hint
+	if state != null:
+		for entry: Dictionary in hint_steps:
+			if Condition.met(entry["done"] as Condition, state):
+				result = str(entry["text"])
+	return result
+
+
 ## True once no part but the destination itself (a DUNGEON part) is left undone: the gates on the way are open, so the hint can stop
 ## naming them. False for a step without parts.
 func way_open(state: UnlockState) -> bool:

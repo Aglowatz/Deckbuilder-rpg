@@ -1,0 +1,22 @@
+dev load wy_dump_18
+wait 3
+dev autowin on
+hold W 3
+hold A 2
+hold W 2
+hold W+A 2
+hold W 2.6
+hold D 0.25
+scene
+shot wy2_dump21_bean
+key E
+wait 1.5
+shot wy2_dump21_bean2
+dump
+key E
+wait 1
+skip_dialogue
+wait 0.8
+scene
+dump
+dev save wy_dump_21

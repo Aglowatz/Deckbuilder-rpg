@@ -1,0 +1,10 @@
+dev load wy_dump_04
+wait 3
+hold W 5
+scene
+key E
+wait 1.2
+skip_dialogue
+wait 1
+shot wy2_dump05_after_skip
+dump

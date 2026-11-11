@@ -1,0 +1,36 @@
+dev load wy_gain_11
+wait 3
+dev autowin on
+hold W 3
+wait 8
+button Continue
+wait 2
+hold W 4.6
+scene
+key E
+wait 1.2
+skip_dialogue
+wait 1
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+dev save wy_gain_12
+key J
+wait 1
+button Main
+wait 0.6
+shot wy2_gain12_journal
+dump
+key Escape
+wait 0.6
+key M
+wait 1.2
+button Point me to...
+wait 0.8
+shot wy2_gain12_pointme
+key Escape
+wait 0.6
+key Escape

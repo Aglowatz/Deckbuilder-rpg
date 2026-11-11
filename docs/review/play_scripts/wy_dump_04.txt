@@ -1,0 +1,22 @@
+dev load wy_dump_03
+wait 3
+scene
+hold W 5
+scene
+shot wy2_dump04_w1
+key E
+wait 1.5
+shot wy2_dump04_talk1
+dump
+key E
+wait 1
+shot wy2_dump04_talk2
+key E
+wait 1
+shot wy2_dump04_talk3
+dump
+key E
+wait 1
+shot wy2_dump04_talk4
+dump
+dev save wy_dump_04

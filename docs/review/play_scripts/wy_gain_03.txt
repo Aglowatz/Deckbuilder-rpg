@@ -1,0 +1,28 @@
+dev load wy_gain_01
+wait 3
+dev autowin on
+key M
+wait 1.2
+button Point me to...
+wait 0.8
+click 900 180
+wait 0.8
+key Escape
+wait 0.6
+hold W 2
+hold W 1
+wait 8
+button Continue
+wait 2
+scene
+dev save wy_gain_03
+hold W 2
+scene
+shot wy2_gain03_a
+hold W 2
+scene
+shot wy2_gain03_b
+hold W 2
+scene
+shot wy2_gain03_c
+dump

@@ -1,0 +1,22 @@
+dev load wy_gain_06
+wait 3
+dev autowin on
+hold W 3
+wait 8
+button Continue
+wait 2
+hold W 2
+hold D 4
+hold D+W 0.4
+scene
+key E
+wait 1.5
+shot wy2_gain09_gary
+dump
+skip_dialogue
+wait 1
+key E
+wait 1
+dump
+shot wy2_gain09_gary2
+dev save wy_gain_09

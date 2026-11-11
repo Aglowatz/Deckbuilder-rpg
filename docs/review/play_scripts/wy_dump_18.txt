@@ -1,0 +1,18 @@
+dev load wy_dump_17
+wait 3
+dev autowin on
+hold W 5
+scene
+key E
+wait 1.2
+skip_dialogue
+wait 1
+shot wy2_dump18_handin
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+shot wy2_dump18_handin2
+dump
+dev save wy_dump_18
