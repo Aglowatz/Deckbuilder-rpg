@@ -10,6 +10,9 @@ const HIT_COOLDOWN: float = 1.6
 const KNOCKBACK_DISTANCE: float = 1.7
 ## Seconds a defeated/just-hit enemy cannot touch the player again (so they can walk away).
 const RETREAT_TIME: float = 2.2
+## Nov 11 (late critic #5): a damaging roamer (Tidy-Bot, Shard Swarm...) that just knocked you flat goes home and leaves you be this long, so one
+## robot is one knock, not a drain (23 -> 15 HP in 10 s on a Capital walk at 2.2 s).
+const DAMAGE_RETREAT_TIME: float = 10.0
 
 
 static func info(zone_id: String, enemy_id: String) -> ZoneEnemyInfo:

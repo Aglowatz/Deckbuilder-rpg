@@ -1,0 +1,31 @@
+wait 2
+dev load l4
+wait 12
+hold W 12
+hold W 12
+scene
+shot l6_01
+hold W 4
+scene
+shot l6_02
+hold W 4
+scene
+shot l6_03
+dump
+hold W 4
+scene
+shot l6_04
+dump
+key M
+wait 1.5
+shot l6_05_map
+key Escape
+wait 1
+hold W 4
+scene
+shot l6_06
+dump
+key E
+wait 1.5
+shot l6_07_e
+dump

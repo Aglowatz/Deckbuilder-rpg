@@ -90,6 +90,10 @@ func _ready() -> void:
 	_dialogue = DialogueBox.new()
 	_dialogue.z_index = 150
 	add_child(_dialogue)
+	# Nov 11 (late critic #7): the hovered node's info panel poked out from behind the box through a whole scene (Primm's Model Room).
+	_dialogue.visibility_changed.connect(func() -> void:
+		if _dialogue.visible and _info_panel != null:
+			_info_panel.visible = false)
 	if _screenshot_args.has("open"):
 		_open_from_screenshot.call_deferred(str(_screenshot_args["open"]))
 	EventBus.tutorial_event.emit(&"map_entered")

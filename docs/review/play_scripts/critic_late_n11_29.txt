@@ -1,0 +1,32 @@
+wait 2
+dev load c13end
+wait 12
+scene
+shot l29_01_end
+dump
+skip_dialogue 3
+key J
+wait 2
+shot l29_02_quests
+dump
+key Escape
+wait 1
+dev load c13post
+wait 12
+scene
+shot l29_03_post
+dump
+key J
+wait 2
+shot l29_04_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot l29_05_map
+dump
+button Point me to
+wait 1.5
+shot l29_06_pointme
+dump

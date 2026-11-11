@@ -1,0 +1,69 @@
+wait 2
+dev load c13castle
+wait 12
+scene
+shot l8_00
+dev travel dungeon D-PC
+wait 6
+scene
+shot l8_01
+key E
+wait 1.2
+shot l8_02
+key E
+wait 1.2
+shot l8_03
+key E
+wait 1.2
+shot l8_04
+key E
+wait 1.2
+shot l8_05
+key E
+wait 1.2
+shot l8_06
+key E
+wait 1.2
+shot l8_07
+key E
+wait 1.2
+shot l8_08
+key E
+wait 1.2
+shot l8_09
+key E
+wait 1.2
+shot l8_10
+key E
+wait 1.2
+shot l8_11
+key E
+wait 1.2
+shot l8_12
+key E
+wait 1.2
+shot l8_13
+key E
+wait 1.2
+shot l8_14
+key E
+wait 1.2
+shot l8_15
+key E
+wait 1.2
+shot l8_16
+key E
+wait 1.2
+shot l8_17
+key E
+wait 1.2
+shot l8_18
+key E
+wait 1.2
+shot l8_19
+dump
+skip_dialogue 20
+wait 1
+shot l8_20_map
+dump
+dev save l8

@@ -1,0 +1,28 @@
+wait 2
+dev load c13post
+wait 12
+hold W 12
+hold W 12
+scene
+shot l30_01
+hold D 1.2
+scene
+key M
+wait 1.5
+shot l30_02_map
+key Escape
+wait 1
+hold A 2.5
+scene
+shot l30_03
+dump
+key E
+wait 2
+shot l30_04_e
+dump
+hold W 1
+scene
+key E
+wait 2
+shot l30_05_e
+dump

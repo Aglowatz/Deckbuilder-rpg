@@ -507,7 +507,7 @@ lines = {
 "cutscene.primm_end.8.speaker": ["Primm"],
 "cutscene.primm_end.8": ["Take the crown. No: leave it. No: take it.", "It is very heavy. It was always very heavy. Tell the Wrinkles... tell them I am sorry about the hats. (He hears himself.) No. That is not the thing. I never learned how to say the thing."],
 "boss.phase.standardization.title": ["Phase 1: Standardization"],
-"boss.phase.standardization.rule": ["Every unit is a 3/3, so cheap units are as good as big ones. You may play two cards a turn."],
+"boss.phase.standardization.rule": ["Every unit starts as a 3/3, so cheap units are as good as big ones; boons and buffs still add on top. You may play two cards a turn."],
 "boss.phase.reflection.title": ["Phase 2: Reflection"],
 "boss.phase.reflection.rule": ["He plays a copy of your own deck and draws two extra cards a turn, so expect your best cards to come back at you."],
 "boss.phase.unraveling.title": ["Phase 3: Unraveling"],

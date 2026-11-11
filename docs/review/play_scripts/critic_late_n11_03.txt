@@ -1,0 +1,40 @@
+wait 2
+dev load l1
+wait 12
+key M
+wait 2
+button Point me to
+wait 1
+click 900 160
+wait 1
+shot l3_01_goalpicked
+key Escape
+wait 1
+key Escape
+wait 1
+shot l3_02_after
+hold W 4
+scene
+shot l3_03
+hold W 4
+scene
+shot l3_04
+key E
+wait 1.5
+shot l3_05_talk
+dump
+skip_dialogue 10
+hold W 4
+scene
+shot l3_06
+hold W 4
+scene
+shot l3_07
+hold W 4
+scene
+shot l3_08
+hold W 4
+scene
+shot l3_09
+dump
+dev save l3

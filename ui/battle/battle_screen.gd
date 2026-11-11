@@ -491,11 +491,9 @@ const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
 
 func _on_game_event(event: GameEvent) -> void:
 	board.register_uid(event.card)
-	if (event.type == GameEvent.Type.PHASE_CHANGED or event.type == GameEvent.Type.TURN_STARTED) and _toast_label != null:
+	if event.type == GameEvent.Type.PHASE_CHANGED or event.type == GameEvent.Type.TURN_STARTED:
 		# Overnight Nov 7-8, Part 0 (critic CF #5): an error toast never outlives its phase ("Needs 1 energy" into the enemy turn).
-		if _toast_tween != null and _toast_tween.is_valid():
-			_toast_tween.kill()
-		_toast_label.modulate.a = 0.0
+		_clear_toast()
 	if event.other > 0:
 		board.register_uid(event.other)
 	_track_for_recap(event)
@@ -1933,12 +1931,21 @@ func _reject(message: String) -> void:
 var _toast_tween: Tween
 
 
+func _clear_toast() -> void:
+	if _toast_label == null:
+		return
+	if _toast_tween != null and _toast_tween.is_valid():
+		_toast_tween.kill()
+	_toast_label.modulate.a = 0.0
+
+
 func _toast(message: String) -> void:
 	_toast_label.text = message
 	_toast_label.modulate.a = 1.0
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()  # an older toast's fade no longer cuts a newer message short
 	var tween: Tween = create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)  # Nov 11 (late critic #6): the fade runs under a pause too (a toast froze over Victory)
 	_toast_tween = tween
 	tween.tween_interval(1.8)  # Fresh eyes round 2: a whole sentence needs longer than the old 1.0 s
 	tween.tween_property(_toast_label, "modulate:a", 0.0, 0.4)
@@ -2339,6 +2346,7 @@ func _show_result() -> void:
 	_result_shown = true
 	if script_banner != null:
 		script_banner.clear_warning()  # no "Next turn: ..." over Victory
+	_clear_toast()  # Nov 11 (late critic #6): no "Needs 2 energy" over Victory
 	mode = Mode.OVER
 	_refresh_ui()
 	var won: bool = game.winner == 0

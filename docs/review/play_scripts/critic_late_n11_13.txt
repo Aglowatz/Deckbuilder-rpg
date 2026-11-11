@@ -1,0 +1,27 @@
+wait 2
+dev load c13castle
+wait 12
+dev travel dungeon D-PC
+wait 6
+click 322 565
+wait 2
+button Continue
+wait 6
+button Keep Hand
+wait 1
+pilot 60
+wait 2
+shot l13_01_reward
+dump
+skip_dialogue 6
+wait 2
+shot l13_02
+dump
+button Continue
+wait 2
+shot l13_03_map
+dump
+click 458 632
+wait 3
+shot l13_04_node2
+dump

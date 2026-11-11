@@ -1,0 +1,21 @@
+wait 2
+dev load c13castle
+wait 12
+dev autowin off
+dev primm 1
+wait 7
+click 1322 340
+wait 2
+skip_dialogue 60
+wait 1.5
+button Continue
+wait 9
+button Keep Hand
+wait 1
+pilot 50
+shot l23_01_mid
+dump
+pilot 48
+shot l23_02_end
+dump
+scene

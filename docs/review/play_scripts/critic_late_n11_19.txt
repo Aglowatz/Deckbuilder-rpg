@@ -1,0 +1,50 @@
+wait 2
+dev load c13castle
+wait 12
+dev autowin off
+dev primm 1
+wait 7
+click 1322 340
+wait 2
+skip_dialogue 60
+wait 1.5
+button Continue
+wait 7
+button Keep Hand
+wait 2
+shot l19_01_board
+button Got it
+wait 0.5
+button Got it
+click 431 800
+wait 1.5
+shot l19_02_infra
+dump
+click 1070 800
+wait 2
+shot l19_03_unit
+dump
+key Space
+wait 1.5
+key Space
+wait 1.5
+shot l19_04_endq
+button End Turn
+wait 9
+shot l19_05_t2
+dump
+button Got it
+click 431 800
+wait 1.5
+click 600 800
+wait 1.5
+shot l19_06_t2play
+dump
+key Space
+wait 1.5
+key Space
+wait 1.5
+button End Turn
+wait 9
+shot l19_07_t3
+dump

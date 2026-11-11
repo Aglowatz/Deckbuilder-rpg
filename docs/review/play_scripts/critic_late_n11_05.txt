@@ -1,0 +1,31 @@
+wait 2
+dev load l4
+wait 12
+scene
+hold W 3
+scene
+shot l5_01
+hold W 3
+scene
+shot l5_02
+hold W 3
+scene
+shot l5_03
+dump
+hold W 3
+scene
+shot l5_04
+dump
+key E
+wait 1.5
+shot l5_05_e
+dump
+key E
+wait 1
+shot l5_06_e
+dump
+key E
+wait 1
+shot l5_07_e
+dump
+dev save l5

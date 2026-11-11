@@ -393,6 +393,17 @@ func setup_turns_left(player_index: int) -> int:
 	return clampi(window - player.turns_taken + 1, 0, window)
 
 
+## Nov 11 (late critic #4): the countdown the HUD SHOWS, in the Turn the player sees (`half_turn` = the engine turn being shown). With a
+## 2-turn window: Turn 1 says 2 left, Turn 2 says 1, Turn 3 nothing - whoever goes first. (`setup_turns_left` counts the owner's own turns
+## taken and stays the engine's rule; when the hero went first it lagged a turn behind the label: 2, 2, 1.)
+func setup_turns_left_shown(player_index: int, half_turn: int) -> int:
+	var player: PlayerState = players[player_index]
+	if not player.modifiers.has(Modifier.Kind.SETUP_TURNS):
+		return 0
+	var window: int = player.modifiers.sum(Modifier.Kind.SETUP_TURNS)
+	return clampi(window - turn_number_of(half_turn) + 1, 0, window)
+
+
 ## The keyword cap of the dungeon rule Perfect Order (-1 = none).
 func keyword_cap() -> int:
 	var result: int = -1

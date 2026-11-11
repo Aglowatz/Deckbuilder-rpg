@@ -1833,7 +1833,7 @@ func _on_enemy_touched(enemy: ZoneEnemy) -> void:
 			return
 		hit_player(enemy.info.damage, enemy.position, "knocked flat by a %s" % enemy.info.display_name, "roamer", "A %s" % enemy.info.display_name)
 		Session.bestiary_meet(enemy.info.display_name)  # Part 10: roamers that never fight are met by touch
-		enemy.retreat_from(player.position, ZoneEnemies.RETREAT_TIME)
+		enemy.retreat_from(player.position, ZoneEnemies.DAMAGE_RETREAT_TIME)
 		return
 	_start_enemy_battle(enemy)
 

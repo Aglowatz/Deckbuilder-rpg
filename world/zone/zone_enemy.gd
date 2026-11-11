@@ -230,7 +230,7 @@ func _process(delta: float) -> void:
 	var moved: bool = false
 	match state:
 		State.PATROL:
-			if not peaceful and distance < info.aggro_range and area.has_line_of_sight(position, player.position) and home_distance < info.leash_range:
+			if not peaceful and cooldown <= 0.0 and distance < info.aggro_range and area.has_line_of_sight(position, player.position) and home_distance < info.leash_range:
 				_set_state(State.CHASE)
 			elif _wait > 0.0:
 				_wait -= delta

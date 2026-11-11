@@ -1,0 +1,42 @@
+wait 2
+dev load c13castle
+wait 12
+dev travel dungeon D-PC -2
+wait 7
+shot l15_01_map
+dump
+click 1322 340
+wait 2.5
+shot l15_02
+dump
+key E
+wait 1.2
+shot l15_03
+key E
+wait 1.2
+shot l15_04
+key E
+wait 1.2
+shot l15_05
+key E
+wait 1.2
+shot l15_06
+key E
+wait 1.2
+shot l15_07
+key E
+wait 1.2
+shot l15_08
+key E
+wait 1.2
+shot l15_09
+key E
+wait 1.2
+shot l15_10
+key E
+wait 1.2
+shot l15_11
+key E
+wait 1.2
+shot l15_12
+dump

@@ -141,7 +141,31 @@ taps, back in the Capital at level 21. Any main dungeon's boss epilogue had the 
 (`user://dev_saves`, the old ones in `dev_saves/_backup_nov11/`). The ending itself only plays by beating Primm, so a snapshot cannot sit
 "inside" it; `c13castle` + `dev travel dungeon D-PC -2` is the way to see it.
 
-[LATE]
+**The no-context late-game critic** (a test pack rebuilt with the Rewards fix; 34 runs, about 49 minutes of game time; report
+`docs/review/critic_late_nov11/report.md`, saved by me from its final message as its own write was refused; scripts `critic_late_n11_*`,
+shots `_screenshots/exported/l*_*.png`) walked the Capital to the castle, played the Courtyard, read Primm's intro, fought Primm for real from
+the phase checkpoints and toured the postgame from `c13end` / `c13post`. **Scores: clarity 5, fun 4, polish 5 - no change from 5/4/5.** It
+beat Phase 1 on its second try (16 of 31 HP left), lost Phase 2 twice (once at level 24) and Phase 3 once, so it did not see the ending; the
+re-save run above did (auto-won). No `SCRIPT ERROR` in any of its 34 logs.
+
+| # | Its top 10 | Done |
+|---|---|---|
+| 1 | HP wall in Primm's Phases 2 and 3; a loss restarts the castle | **Logged** (owner: Primm stays as is). Note: its Phase 2/3 tries started from `dev primm 2/3`, which drops the four leaders' boons (23 HP instead of 31, 3 rule icons instead of 9) - a dev-checkpoint gap, not what a player gets; still, 16 HP carried into a 52-HP mirror is steep. Inbox. |
+| 2 | "Every unit is a 3/3" while its units showed 7/4 | **Reworded** (the rule sets every unit's BASE to 3/3 and boons and buffs add on top - working as built): "Every unit starts as a 3/3, so cheap units are as good as big ones; boons and buffs still add on top. You may play two cards a turn." |
+| 3 | 10+ card hand wraps into two rows; ENEMY TURN ribbon over the Toss prompt | **Logged** (battle board layout: owner constraint; the two-row hand is already a known issue in the RC notes). |
+| 4 | Turn label and Setting Up countdown out of sync | **Countdown fixed**: it counted the boss's own turns taken, so with the hero first it read 2, 2, 1 on Turns 1-3; it now follows the Turn shown (`GameState.setup_turns_left_shown`): 2, 1, then gone on Turn 3 when attacks start; the engine's rule is unchanged. **The ribbon / panel lag logged**: the board plays events back behind the game state ("YOUR TURN" over the enemy's turn, "Turn 1" while Primm attacks), a playback-timing change too risky for an RC. |
+| 5 | Tidy-Bots drain about 1 HP a second on a Capital walk | **Fixed**: a damaging roamer that knocks you flat goes home and leaves you be for 10 s (`ZoneEnemies.DAMAGE_RETREAT_TIME`; was 2.2 s, then it re-chased at 5 m/s), and does not re-aggro while it cools down. Same 2 damage per knock. |
+| 6 | Stale "Needs 2 energy; you have 0" hints, even over Victory | **Fixed**: the battle toast clears at the result screen and its fade runs under a pause too (it froze there); it already cleared at every turn and phase change. |
+| 7 | Dialogue box over the boss node's info panel | **Fixed**: the dungeon map hides the node info panel when a scene opens. |
+| 8 | Mirror phase: whose units are whose | Logged (board look: owner constraint). |
+| 9 | The cracked mirror is a white quad | Logged (art; no art replaced tonight). |
+| 10 | The Capital barely changes after Primm falls | Logged (postgame content). |
+
+Also fixed: the 8 engine errors `!is_inside_tree()` from `HoverTip._show` while clicking hand cards (no tip for a control that has left the
+tree). Logged from its smaller notes: the Freed Leaders' game-term brackets inside quotes, the 11-line pre-fight box, the castle gate still
+(the hooded woman held by guards), the HUD goal title "Free the Four Zones" when only the castle is left, the Shattered Gallery's unexplained
+63 max HP, the castle guard and Primm fielding "Resistance Scout", the white lamp globe and stair bands near the castle. `pilot` stalls in
+Primm's fights (a test-tool gap, not the game).
 
 ## Part 5 - the test runner's memory guard (inbox 13)
 
@@ -184,7 +208,7 @@ Everything below is from `docs/HANDOFF.md` section 2 and `docs/release/itch_uplo
    disclosure (Yes: Graphics, Sound/Music, Text/Dialogue). Save.
 8. **Download it back once** as a player (View page -> Download), unzip in a fresh folder, run the exe to the title screen.
 9. **Flip:** Visibility & access -> **Public** -> Save. Optional devlog post "1.0 is out". Send the playtesters the public link.
-10. After the flip: `docs/release/post_1_0_backlog.md` holds what is known and not done; F8 reports arrive in `%APPDATA%\Deckbuilder-RPGeedback`.
+10. After the flip: `docs/release/post_1_0_backlog.md` holds what is known and not done; F8 reports arrive in `%APPDATA%\Deckbuilder-RPG\feedback`.
 
 ---
 

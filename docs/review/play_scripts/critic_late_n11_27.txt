@@ -1,0 +1,194 @@
+wait 2
+dev load c13castle
+wait 11
+dev autowin off
+dev level 24
+dev heal
+dev primm 2
+wait 6
+click 1322 340
+wait 2
+shot l27_01
+skip_dialogue 40
+wait 1
+shot l27_02_rules
+dump
+button Continue
+wait 8
+button Keep Hand
+wait 1
+button Speed
+button Speed
+shot l27_03_start
+dump
+wait 4
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t1
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t2
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t3
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t4
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t5
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t6
+pilot 9
+click 440 860
+wait 0.4
+click 590 860
+wait 0.4
+click 745 860
+wait 0.4
+click 900 860
+wait 0.4
+click 1050 860
+wait 0.4
+click 1200 860
+wait 0.4
+click 560 650
+wait 0.4
+click 720 650
+wait 0.4
+click 880 650
+wait 0.4
+click 1040 650
+wait 0.4
+click 1200 650
+wait 0.4
+shot l27_t7
+pilot 9
+shot l27_end
+dump

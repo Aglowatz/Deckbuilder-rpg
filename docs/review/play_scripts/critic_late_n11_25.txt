@@ -1,0 +1,198 @@
+wait 2
+dev load c13castle
+wait 11
+dev autowin off
+dev heal
+dev primm 1
+wait 6
+click 1322 340
+wait 2
+key Escape
+wait 1
+skip_dialogue 40
+wait 1
+button Continue
+wait 8
+button Keep Hand
+wait 1
+button Speed
+wait 0.5
+dump
+button Speed
+wait 0.5
+dump
+wait 5
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t1
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t2
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t3
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t4
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t5
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t6
+pilot 9
+click 440 860
+wait 0.5
+click 590 860
+wait 0.5
+click 745 860
+wait 0.5
+click 900 860
+wait 0.5
+click 1050 860
+wait 0.5
+click 1200 860
+wait 0.5
+click 560 650
+wait 0.5
+click 720 650
+wait 0.5
+click 880 650
+wait 0.5
+click 1040 650
+wait 0.5
+click 1200 650
+wait 0.5
+shot l25_t7
+pilot 9
+shot l25_end
+button Continue
+wait 4
+shot l25_after_continue
+dump
+dump

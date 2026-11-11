@@ -1,0 +1,10 @@
+wait 2
+dev load l1
+wait 12
+scene
+key M
+wait 2
+button Point me to
+wait 1.5
+shot l2_01_pointme
+dump

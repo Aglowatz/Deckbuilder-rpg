@@ -43,6 +43,20 @@ func test_the_countdown_never_disagrees_with_the_rule_text() -> void:
 	assert_eq(game.setup_turns_left(1), 0, "its third turn (Turn 3) is the first that attacks: 'from turn 3'")
 
 
+func test_the_shown_countdown_follows_the_turn_label_whoever_goes_first() -> void:
+	# Nov 11 (late critic #4): with the hero first, the HUD said "2 turns left" on Turn 1 and Turn 2.
+	var game: GameState = GameState.new()
+	game.add_player(_setup())
+	var foe: PlayerState = game.add_player(_setup())
+	foe.modifiers.add(CardBuilder.modifier(Modifier.Kind.SETUP_TURNS, 2))
+	assert_eq(game.setup_turns_left_shown(1, 1), 2, "Turn 1 (either half)")
+	assert_eq(game.setup_turns_left_shown(1, 2), 2)
+	assert_eq(game.setup_turns_left_shown(1, 3), 1, "Turn 2")
+	assert_eq(game.setup_turns_left_shown(1, 4), 1)
+	assert_eq(game.setup_turns_left_shown(1, 5), 0, "Turn 3: attacks start, as the rule says")
+	assert_eq(game.setup_turns_left_shown(0, 1), 0, "the hero has no window")
+
+
 func test_one_energy_count_for_every_message() -> void:
 	var game: GameState = GameState.new()
 	var me: PlayerState = game.add_player(_setup())

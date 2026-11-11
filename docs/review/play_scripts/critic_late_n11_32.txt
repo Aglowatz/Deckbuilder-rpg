@@ -1,0 +1,39 @@
+wait 2
+dev load c13post
+wait 12
+dev travel dungeon D-LAB
+wait 8
+shot l32_01
+dump
+key E
+wait 1.3
+shot l32_11
+key E
+wait 1.3
+shot l32_12
+key E
+wait 1.3
+shot l32_13
+key E
+wait 1.3
+shot l32_14
+key E
+wait 1.3
+shot l32_15
+key E
+wait 1.3
+shot l32_16
+key E
+wait 1.3
+shot l32_17
+key E
+wait 1.3
+shot l32_18
+key E
+wait 1.3
+shot l32_19
+dump
+skip_dialogue 20
+wait 1
+shot l32_20_map
+dump

@@ -1,0 +1,32 @@
+wait 2
+dev load c13castle
+wait 12
+dev autowin on
+dev travel dungeon D-PC
+wait 6
+click 322 565
+wait 2
+button Continue
+wait 10
+shot l14_01
+dump
+button Continue
+wait 3
+shot l14_02
+dump
+skip_dialogue 6
+wait 1
+shot l14_03
+click 458 632
+wait 3
+shot l14_04
+dump
+button Continue
+wait 8
+shot l14_05
+dump
+button Continue
+wait 3
+skip_dialogue 6
+shot l14_06
+dump

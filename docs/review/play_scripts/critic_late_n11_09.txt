@@ -1,0 +1,17 @@
+wait 2
+dev load c13castle
+wait 12
+dev travel dungeon D-PC
+wait 6
+click 322 565
+wait 3
+shot l9_01
+dump
+skip_dialogue 5
+wait 4
+shot l9_02
+dump
+scene
+wait 3
+shot l9_03
+dump

@@ -1,0 +1,17 @@
+wait 2
+dev load c13castle
+wait 12
+dev autowin off
+dev primm 1
+wait 8
+shot l17_01
+dump
+scene
+skip_dialogue 40
+wait 3
+shot l17_02
+dump
+button Continue
+wait 6
+shot l17_03
+dump

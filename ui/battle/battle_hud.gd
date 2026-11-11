@@ -466,7 +466,7 @@ func refresh_all() -> void:
 	if game.stage == GameState.Stage.PLAYING:
 		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy's turn"
 		# Overnight Nov 10-11 (Part 1.5): every refresh keeps the Setting Up countdown (a sync after the turn label wiped it)
-		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1))
+		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, game.turn))
 		if not setup_line.is_empty():
 			_turn_sub.text += "  -  " + setup_line
 	_refresh_setup_note()
@@ -543,7 +543,7 @@ func on_event(event: GameEvent) -> void:
 			_turn_label.text = "Turn %d" % round_of(event.value)
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy's turn"
 			# Fix pass Nov 7 (item 10): the foe's setup window counts down in the same turns
-			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1) if game != null else 0)
+			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, event.value) if game != null else 0)
 			if not setup_line.is_empty():
 				_turn_sub.text += "  -  " + setup_line
 			_refresh_setup_note()

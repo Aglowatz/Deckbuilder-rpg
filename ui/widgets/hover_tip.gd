@@ -39,6 +39,10 @@ static func _hide(holder: Array) -> void:
 
 
 static func _show(target: Control, title: String, body: String, accent: Color, icon_id: String = "") -> Control:
+	# Nov 11 (late critic): a hand card re-laid out under the mouse can fire mouse_entered while out of the tree ("!is_inside_tree()" in
+	# get_viewport_rect); no tip then.
+	if not is_instance_valid(target) or not target.is_inside_tree():
+		return null
 	var panel: PanelContainer = PanelContainer.new()
 	panel.name = "HoverTip"
 	panel.theme_type_variation = &"DarkPanel"

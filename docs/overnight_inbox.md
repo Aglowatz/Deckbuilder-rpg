@@ -47,6 +47,12 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
    9.2 -> 9.1): the board stalls and nothing breaks it. Options, none taken: (a) accept it - geared players get 5-7, the critics were bots;
    (b) a stall breaker in ordinary fights only (e.g. from turn 7 both sides' units get +1 attack, shown as a rule badge in the existing rule
    row); (c) push the damage gear harder (the Armory / reward picks offer an attack piece first at L10-14). Say which.
+13. **Primm's Phases 2-3 (late critic #1) - not changed (your rule: Primm stays as is).** The no-context critic won Phase 1 with 16 of 31 HP
+   and then lost the 52-HP Reflection twice (once at level 24 with full HP) and Unraveling once; a loss restarts the castle from its first
+   room. Its Phase 2/3 tries came from `dev primm 2/3`, which drops the leaders' four boons (23 HP, not 31) - so it overstates the wall a
+   little. Options if you want one: (a) heal a part of max HP between phases (e.g. half the missing HP), shown in the phase break card;
+   (b) a loss in Phase 2 or 3 restarts at that phase, not the castle; (c) leave it - it is the last fight. Also a dev fix either way: make
+   `dev primm N` grant the four boons like a real run.
 
 ## Import Nov 8 - yours to decide (the safest choice was taken)
 
