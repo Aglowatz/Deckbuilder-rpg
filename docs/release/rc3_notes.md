@@ -1,6 +1,7 @@
 # The Wayward Path 1.0.0-rc3 (2026-11-11) - release candidate 3 for playtesters
 
-Windows build: `builds/TheWaywardPath-v1.0.0-rc3-windows.zip` (size in docs/overnight_report.md, "Fable pass Nov 10"), next to the RC2 zip.
+Windows build: `builds/TheWaywardPath-v1.0.0-rc3-windows.zip` (734 MB, the same as RC2), next to the RC2 zip. Release smoke on the exported
+pack passed; the exported-build checklist (fresh settings, carried settings, Low-end quality) ran with no script errors.
 Unzip the whole folder somewhere you can write to (Desktop or Documents, not Program Files) and run `TheWaywardPath.exe`. If Windows says
 "Windows protected your PC", click "More info", then "Run anyway". `README_PLAYTEST.txt` in the folder explains the start files. **Saves carry
 over** from RC2 and every earlier build.

@@ -1,0 +1,27 @@
+# Fable pass Nov 10, Part 3: the right-click preview of a hand card in Primm's fight carries "In this fight: ... (printed ...)".
+wait 2
+dev load bot_beefcake_forest_postgame
+wait 7
+skip_dialogue
+wait 1
+dev primm 1
+wait 6
+click 1322 340
+wait 4
+skip_dialogue
+wait 2
+button Continue
+wait 6
+skip_dialogue
+wait 3
+button Keep Hand
+wait 5
+skip_dialogue
+wait 2
+dump
+move 1070 850
+wait 1
+rclick 1070 850
+wait 2
+shot pc_peek_carpool
+dump

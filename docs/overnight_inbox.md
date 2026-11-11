@@ -1423,3 +1423,6 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
 12. **"Finish a favour" in the D.N.A.** (critic): the Hall's door needs no favour, so a player who obeys the tracker hunts one first. The step
    order (favour, then the dungeon) is the design; the dungeon step marks the door the moment the favour is done. Say if the door should be
    marked from arrival.
+13. **The sharded suite tripped the memory guard** (free RAM under 800 MB with Chrome, ChatGPT and Defender open): the runner was stopped at
+   shard 13 and the rest ran one shard at a time with a check before each (a 12-file shard holds 400-630 MB). `tools/run_tests.sh` could
+   take the same guard (`--min-free=MB`) so an overnight run pauses by itself instead of being killed.
