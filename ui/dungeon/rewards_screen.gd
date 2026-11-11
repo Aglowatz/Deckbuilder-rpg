@@ -271,6 +271,11 @@ func _input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
 	if _cards.is_empty() or not is_instance_valid(_take_button) or key == null or not key.pressed or key.echo or InputDevice.using_pad() or PadFocus.top_root(get_tree()) != self:
 		return
+	# Overnight Nov 10-11 (Part 4, resumed Nov 11): once the pick is taken or skipped the keys belong to what follows - after "Skip card"
+	# the cards and the Take button were still alive, so every E went to "E never takes a card you did not choose" (swallowed) and the
+	# boss's closing words (Primm's: the way to the ending) never advanced on E.
+	if _confirmed or not _panel.is_visible_in_tree():
+		return
 	var index: int = -1
 	if key.keycode >= KEY_1 and key.keycode <= KEY_9:
 		index = int(key.keycode - KEY_1)

@@ -1,0 +1,22 @@
+wait 4
+shot l1_01_title
+dev load c13cap
+wait 14
+scene
+shot l1_02_capital
+dump
+hold W 3
+shot l1_03_walk
+hold W 3
+shot l1_04_walk
+key M
+wait 2
+shot l1_05_map
+dump
+key Escape
+wait 1
+hold D 3
+shot l1_06_east
+hold W 3
+shot l1_07_north
+dev save l1

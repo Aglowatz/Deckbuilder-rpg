@@ -1,0 +1,105 @@
+# Overnight Nov 10-11, Part 4 (resumed Nov 11): through Primm's last words, the ending and the credits; c13end_try once Primm is down, c13post_try back in the world.
+# announcement, back in the world). Fights auto-won: the snapshots are for the late-game critic, not a test of Primm.
+wait 2
+dev load c13castle
+wait 10
+scene
+dev autowin on
+dev travel dungeon D-PC -2
+wait 9
+scene
+shot n11_resave_01_bossnode
+dump
+click 1322 340
+wait 3
+skip_dialogue 40
+wait 2
+shot n11_resave_02_after_intro
+dump
+button Continue
+wait 3
+button Keep Hand
+wait 2
+button Got it
+wait 3
+skip_dialogue 20
+wait 3
+shot n11_resave_03_phase
+dump
+scene
+button Continue
+wait 3
+button Keep Hand
+wait 2
+button Got it
+wait 3
+skip_dialogue 20
+wait 3
+shot n11_resave_04_phase
+dump
+scene
+button Continue
+wait 3
+button Keep Hand
+wait 2
+button Got it
+wait 3
+skip_dialogue 20
+wait 3
+shot n11_resave_05_phase
+dump
+scene
+button Continue
+wait 4
+shot n11_resave_06_after
+dump
+scene
+wait 6
+scene
+shot n11_resave_07_ending
+dump
+skip_dialogue 60
+wait 3
+scene
+shot n11_resave2_08
+dump
+button Continue
+wait 3
+skip_dialogue 60
+wait 3
+scene
+shot n11_resave2_09
+dump
+dev save c13end_try
+wait 1
+button Skip
+wait 2
+skip_dialogue 80
+wait 4
+scene
+shot n11_resave2_10
+dump
+button Skip
+wait 3
+button Continue
+wait 3
+skip_dialogue 80
+wait 6
+scene
+shot n11_resave2_11
+dump
+button Skip
+wait 3
+button Continue
+wait 3
+skip_dialogue 80
+wait 8
+scene
+shot n11_resave2_12
+dump
+skip_dialogue 40
+wait 4
+scene
+shot n11_resave2_13
+dump
+dev save c13post_try

@@ -128,7 +128,20 @@ tonight (it is a rules change, not a number): the options are in the inbox.
 
 ## Part 4 - the late game on the exported build
 
-[TBD: the re-saved snapshots; the critic's scores against 5 / 4 / 5 and its top 10; S/M fixes]
+**A blocker found on the way: after "Skip card" on a boss's reward, E never advanced the boss's closing words.** Re-saving the
+snapshots (`docs/review/play_scripts/n11_resave_end_1.txt`, `_2.txt`, editor build, fights auto-won) stalled on Primm's first closing line
+("The model lies in pieces...") for 200 s and 80 taps of E. The Rewards screen's keyboard handler (`RewardsScreen._input`: 1-3 choose, E
+takes) stayed live after the pick was skipped - the cards and the Take button were still alive - so every E went to "E never takes a card you
+did not choose" (an error blip, the key swallowed) and the dialogue on top never saw it. Taking a card freed the button, which is why bots and
+critics who took a card got through. Fixed: the handler stands down once the pick is confirmed or skipped (`_confirmed`) or the panel is
+hidden. Re-run (`resave3`): the closing words, the fall still, the ending, the credits and the postgame announcement went through in 59 s of
+taps, back in the Capital at level 21. Any main dungeon's boss epilogue had the same trap after a skipped card.
+
+**The snapshots:** `c13end` and `c13post` now both hold that run's state - Primm defeated, the postgame unlocked, the hero in the Capital
+(`user://dev_saves`, the old ones in `dev_saves/_backup_nov11/`). The ending itself only plays by beating Primm, so a snapshot cannot sit
+"inside" it; `c13castle` + `dev travel dungeon D-PC -2` is the way to see it.
+
+[LATE]
 
 ## Part 5 - the test runner's memory guard (inbox 13)
 
