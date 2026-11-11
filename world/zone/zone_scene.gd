@@ -890,7 +890,7 @@ func _build_ui() -> void:
 	minimap.full_map_requested.connect(_open_full_map)
 	quest_markers = QuestMarkerLayer.install(self, def.id, _camera, _resolve_marker_spot, host)
 	# Fable pass Nov 10 (Part 1.6): the goal arrows follow a walkable route over this zone's ground, and the map's goal rows name their area
-	quest_markers.set_routing(_route_walkable, _route_through_gates, builder.map_bounds())
+	quest_markers.set_routing(_route_walkable, _route_through_gates, builder.map_bounds(), _route_grid(), _route_budget_usec())
 	quest_markers.area_namer = func(at: Vector3) -> String:
 		var names: Array[String] = builder.area_at(at)
 		return names[1] if names.size() > 1 else ""
@@ -951,6 +951,16 @@ const ROUTE_BODY: float = 0.6
 ## the road the arrow leads to the gate, where the sign and the gatekeeper say what opens it.
 func _route_through_gates(at: Vector3) -> bool:
 	return _route_walkable(at)
+
+
+## Overnight Nov 10-11 (Part 2.1, inbox 11): the route grid (m) and the planning budget per frame (usec) for this zone's arrows; a big zone
+## with a long failing strict search (the Dump) plans coarser and with more of each frame so the arrow follows the route within a second.
+func _route_grid() -> float:
+	return RouteGuide.STEP
+
+
+func _route_budget_usec() -> int:
+	return RouteGuide.BUDGET_USEC
 
 
 # ---- Frame update ----------------------------------------------------------------------------

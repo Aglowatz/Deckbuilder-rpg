@@ -295,6 +295,20 @@ func _route_through_gates(at: Vector3) -> bool:
 	return heap.is_walkable_through_barricades(at, ROUTE_BODY)
 
 
+## Overnight Nov 10-11 (Part 2.1, inbox 11): the Dump's routes took 1.5 s of search (the strict search fails across the whole Commons before
+## the gated one runs) at 5 ms a frame - the arrow was straight for up to 5 s after a pick. A 1 m grid and 12 ms a frame bring it under a second.
+const ROUTE_GRID: float = 1.0
+const ROUTE_BUDGET_USEC: int = 12000
+
+
+func _route_grid() -> float:
+	return ROUTE_GRID
+
+
+func _route_budget_usec() -> int:
+	return ROUTE_BUDGET_USEC
+
+
 ## Fable pass Nov 10 (Part 1.1): a sack already picked up this visit, or an animal already shooed home, has no marker.
 func _marker_spot_done(spot: ZoneSpot) -> bool:
 	if spot.data.has("pickup"):

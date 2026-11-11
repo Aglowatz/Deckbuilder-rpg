@@ -21,6 +21,10 @@ const RETRY_SECONDS: float = 12.0
 ## A route in hand is planned afresh this often (a bridge grown, a barricade smashed, a shortcut open).
 const REFRESH_SECONDS: float = 30.0
 const BUDGET_USEC: int = 5000
+## Overnight Nov 10-11 (Part 2.1, inbox 11): a zone may plan on a coarser grid and with more of each frame (the Dump: 1.0 m and 12 ms, so
+## its arrow follows the route within about a second instead of five); the defaults are the constants above.
+var step: float = STEP
+var budget_usec: int = BUDGET_USEC
 const MAX_VISITS: int = 80000
 const NEIGHBOURS: Array[Vector2i] = [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1), Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)]
 const DIAGONAL: float = 1.41421356
@@ -53,10 +57,12 @@ var _reach: float = 1.5
 var clock: Callable
 
 
-func setup(strict_walkable: Callable, gate_walkable: Callable, area_bounds: Rect2) -> void:
+func setup(strict_walkable: Callable, gate_walkable: Callable, area_bounds: Rect2, grid: float = STEP, budget: int = BUDGET_USEC) -> void:
 	strict = strict_walkable
 	through_gates = gate_walkable
 	bounds = area_bounds
+	step = maxf(0.25, grid)
+	budget_usec = maxi(1000, budget)
 	forget()
 
 
@@ -103,7 +109,7 @@ func work() -> void:
 	if not _planning:
 		return
 	var walkable: Callable = through_gates if _permissive and through_gates.is_valid() else strict
-	var until: int = Time.get_ticks_usec() + BUDGET_USEC
+	var until: int = Time.get_ticks_usec() + budget_usec
 	while not _heap.is_empty() and _came.size() < MAX_VISITS:
 		var entry: Array = _pop()
 		var cell: Vector2i = entry[1] as Vector2i
@@ -118,7 +124,7 @@ func work() -> void:
 			if next.x < 0 or next.y < 0 or next.x >= _cols or next.y >= _rows:
 				continue
 			var diagonal: bool = offset.x != 0 and offset.y != 0
-			var cost: float = g + (DIAGONAL if diagonal else 1.0) * STEP
+			var cost: float = g + (DIAGONAL if diagonal else 1.0) * step
 			if _cost.has(next) and float(_cost[next]) <= cost:
 				continue
 			if not _open(walkable, next):
@@ -162,8 +168,8 @@ func _begin(from: Vector3, permissive: bool) -> void:
 	_permissive = permissive
 	_from = from
 	_origin = bounds.position
-	_cols = int(ceilf(bounds.size.x / STEP)) + 1
-	_rows = int(ceilf(bounds.size.y / STEP)) + 1
+	_cols = int(ceilf(bounds.size.x / step)) + 1
+	_rows = int(ceilf(bounds.size.y / step)) + 1
 	_goal = Vector2(_target.x, _target.z)
 	_came.clear()
 	_cost.clear()
@@ -179,7 +185,7 @@ func _begin(from: Vector3, permissive: bool) -> void:
 	else:
 		_cache.clear()
 		_mid_cache.clear()
-	_reach = maxf(1.5, STEP * 1.2)
+	_reach = maxf(1.5, step * 1.2)
 	var walkable: Callable = through_gates if permissive and through_gates.is_valid() else strict
 	# the hero's own cell, or the nearest open one round it (the hero may stand at a kerb between two cell centres)
 	var start: Vector2i = _cell(from)
@@ -322,11 +328,11 @@ func _pop() -> Array:
 
 
 func _cell(pos: Vector3) -> Vector2i:
-	return Vector2i(int(roundf((pos.x - _origin.x) / STEP)), int(roundf((pos.z - _origin.y) / STEP)))
+	return Vector2i(int(roundf((pos.x - _origin.x) / step)), int(roundf((pos.z - _origin.y) / step)))
 
 
 func _point(cell: Vector2i) -> Vector2:
-	return _origin + Vector2(cell) * STEP
+	return _origin + Vector2(cell) * step
 
 
 func _now() -> float:

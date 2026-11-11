@@ -135,9 +135,9 @@ func _process(delta: float) -> void:
 ## Fable pass Nov 10 (Part 1.6): gives the arrows the ground to route over: `strict` is what the hero can walk now (less what hurts),
 ## `through_gates` the same with the area's gates counted open (an ungrown vine bridge, a shut golem gate, a junk barricade), so where
 ## a gate shuts the road the arrow leads to the gate. `bounds` is the area's map rectangle.
-func set_routing(strict: Callable, through_gates: Callable, bounds: Rect2) -> void:
+func set_routing(strict: Callable, through_gates: Callable, bounds: Rect2, grid: float = RouteGuide.STEP, budget_usec: int = RouteGuide.BUDGET_USEC) -> void:
 	for guide: RouteGuide in _guides:
-		guide.setup(strict, through_gates, bounds)
+		guide.setup(strict, through_gates, bounds, grid, budget_usec)
 
 
 ## Starts planning the "Point me to..." pick's route at once (the map calls it on a pick), and keeps the map's canvas fresh while it plans.
