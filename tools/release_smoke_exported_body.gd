@@ -63,10 +63,17 @@ func _run() -> void:
 		form.close()
 		await _frames(5)
 		_check(not get_tree().paused, "closing the form resumes the game")
-	await _tap_key(KEY_ESCAPE)
-	await _frames(40)
-	var pause: Node = get_tree().root.find_child("VersionLabel", true, false)
-	_check(pause != null and (pause as Label).text.contains(version), "pause menu shows the version")
+	# Nov 11 (RC4): Esc closes the top pop-up or advances the open conversation first (Part 1, inbox 8) - the opening scene has one up - so
+	# tap until the pause menu itself shows (at most 6 taps).
+	var pause: Label = null
+	var taps: int = 0
+	while taps < 6 and (pause == null or not pause.is_visible_in_tree()):
+		await _tap_key(KEY_ESCAPE)
+		await _frames(40)
+		taps += 1
+		pause = get_tree().root.find_child("VersionLabel", true, false) as Label
+	print("release_smoke_exported: pause menu after %d Esc tap(s)" % taps)
+	_check(pause != null and pause.is_visible_in_tree() and pause.text.contains(version), "pause menu shows the version")
 	_check(_find_button("Report a Problem (F8)") != null, "pause menu has Report a Problem")
 	_check(_find_button("Open feedback folder") != null, "pause menu has Open feedback folder")
 	await _tap_key(KEY_ESCAPE)

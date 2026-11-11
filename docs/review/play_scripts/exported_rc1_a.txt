@@ -62,6 +62,12 @@ wait 4
 key Enter
 wait 3
 shot x12_after_battle
+# Nov 11 (RC4): Esc acts on the reward box first (Part 1, inbox 8: it finishes the box's reveal, then presses Continue), so close the box
+# with its button (twice: the first may only finish the reveal; a second "NOT FOUND" is harmless), then Esc opens the pause menu
+button Continue
+wait 1
+button Continue
+wait 1.5
 key Escape
 wait 1.5
 shot x13_pause

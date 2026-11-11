@@ -20,6 +20,11 @@ dev win
 wait 4
 key Enter
 wait 2
+# Nov 11 (RC4): wait out the way back, then Enter for what holds the hero (after this dev-only fight - Quota from the Gainlands - the
+# return lands in the town scene with the hero locked until a key: the reward box behind the zone title; Esc now goes to that first)
+wait 8
+key Enter
+wait 2
 key Escape
 wait 1.5
 button Settings

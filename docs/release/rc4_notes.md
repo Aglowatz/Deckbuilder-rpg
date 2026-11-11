@@ -1,7 +1,7 @@
 # The Wayward Path 1.0.0-rc4 (2026-11-11) - release candidate 4 for playtesters
 
-Windows build: `builds/TheWaywardPath-v1.0.0-rc4-windows.zip` (size: see the overnight report), next to the RC3 zip. Release smoke on the
-exported pack and the exported-build checklist (fresh settings, carried settings, Low-end quality): see the overnight report's Part 6.
+Windows build: `builds/TheWaywardPath-v1.0.0-rc4-windows.zip` (734 MB), next to the RC3 zip. Release smoke on the exported pack: passed;
+the exported-build checklist (fresh settings, carried settings, Low-end quality): no script errors (the overnight report's Part 6).
 Unzip the whole folder somewhere you can write to (Desktop or Documents, not Program Files) and run `TheWaywardPath.exe`. If Windows says
 "Windows protected your PC", click "More info", then "Run anyway". `README_PLAYTEST.txt` in the folder explains the start files. **Saves carry
 over** from RC3 and every earlier build.

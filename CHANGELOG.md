@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.0.0-rc4 - release candidate 4 (Nov 11 2026)
+
+- The main quest's "Where to go" line names the gate on the road and what opens it, and says when it is open; a part done is announced;
+  "finish a favour" counts any quest a local gives; the map legend's goal rows point the arrow; the Gainlands' and the Dump's lines describe
+  the real road; the Dump's arrow follows a pick in about a second.
+- No roamer camps a dungeon door, gate or exit (10 m clearance in every zone); the Dump's golem and a wedging crate and planter moved.
+- Identical tokens on the battlefield stack into one card with an "xN" count; "Setting Up - attacks start Turn 3" in the rule row, and the
+  countdown follows the Turn shown.
+- Toasts last at most 6 s; E prefers the person with a quest; Escape closes the top pop-up first; "Point me to..." is alphabetical.
+- The ending can't get stuck after skipping a boss's card reward (E advanced nothing on the closing words).
+- About 20 % less HP on the D.N.A.'s, the Endless Buffet's and their side dungeons' ordinary foes (bosses, elites and Primm unchanged).
+- A Tidy-Bot that knocks you flat leaves you be for 10 s; Primm's first rule says boons still add on top of the 3/3; battle messages no
+  longer stay over Victory; the dungeon map's node panel hides during scenes.
+
 ## v1.0.0-rc3 - release candidate 3 (Nov 11 2026)
 
 - Finding things in the world:

@@ -17,14 +17,12 @@ key Escape
 wait 1.5
 button Save Game
 wait 2
-click 1297 354
+# Nov 11 (RC4): slot 3 - slot 2 holds an earlier save now and asks "Overwrite this save?" (never overwrite a save the run did not make);
+# then the slot screen's Back to the pause menu (Esc acts on the top pop-up first since Part 1, so a count of Escs no longer lands there)
+click 1297 466
 wait 2
-shot y03_saved_slot2
-key Escape
-wait 1
-key Escape
-wait 1
-key Escape
+shot y03_saved_slot3
+button Back
 wait 1.5
 button Quit to Title
 wait 2

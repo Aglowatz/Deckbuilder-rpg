@@ -9,8 +9,30 @@ decisions applied: stashes stay marked while a step wants one (1); the Dump's he
 
 ## At a glance
 
-[TBD: the critic fixes / wayfinding minutes per zone before and after / the fight-pacing table / the late-game critic's scores and top 10 /
-where RC4 is / the release-day checklist]
+(Resumed Nov 11 after a PC reset cut the run after Part 5.)
+
+- **RC4 is built:** `builds/TheWaywardPath-v1.0.0-rc4-windows.zip`, 734 MB (pack 845 MB, 14098 files, MD5s match). The release smoke on
+  the exported pack **PASSED**; the three exported-build checks (fresh settings, carried settings, Low-end) ran with **0 SCRIPT ERROR**.
+  Full GUT before the export: **2965 / 2967 passed, 0 failing** (2 pending), 38 shards. Not uploaded anywhere.
+- **The exported-build critic's top 10 (Part 1):** all ten done - gates named in the main quest's "Where to go", roamers 10 m clear of every
+  door, token swarms stacked "xN", "Setting Up" in words, 6 s toasts, E prefers the quest NPC, alphabetical "Point me to...", Esc order.
+- **Wayfinding, minutes to the main dungeon door** (no-context critic, exported pack, guidance only):
+
+  | Zone | Nov 10 | Run 1 | Run 2 |
+  |---|---|---|---|
+  | The Gainlands | not reached, 23.5 | reached, 21.2 | **reached, 18.6** |
+  | The Verdant Dump | not reached, 19.1 | not reached, 24.0 | not reached, 24.1 (traversal, not direction; fixed after) |
+  | The D.N.A. | reached, 18.3 | **reached, 5.8** | - |
+
+- **Fight pacing (Part 3):** the expected player now plays the midgame's 27 ordinary fights in **5.6 turns** (5.8), 98 % wins, **none over 7**
+  (2 before), after about -20 % HP on the L10-14 band's ordinary foes. The real cause of the critics' 9-11 turns is **gear**: a bare hero still
+  runs 9-10 turns - **inbox 12 is your call** (accept / a stall breaker / steer damage gear).
+- **Late-game critic (Part 4): clarity 5, fun 4, polish 5 - no change from 5/4/5.** Its top 10: Primm's Phase 2-3 HP wall (**inbox 13**, Primm
+  untouched), "Every unit is a 3/3" vs 7/4 (reworded), the 10+ card hand (logged: board layout), turn label / Setting Up countdown (countdown
+  fixed, ribbon lag logged), Tidy-Bot drain (fixed: 10 s retreat), stale battle hints (fixed), dialogue over the node panel (fixed), mirror-phase
+  ownership / the cracked-mirror quad / the unchanged Capital (logged). **A blocker it led to was fixed first:** after "Skip card" on a boss's
+  reward, E never advanced the boss's closing words - Primm's included, so the ending could not be reached that way.
+- **The release-day checklist** is at the end of the Finish below.
 
 ## Part 1 - the exported-build critic's top 10 (inbox 14)
 
@@ -176,11 +198,32 @@ in time is skipped and listed under "Crashed shards" with the `--from=N` to reru
 
 ## Part 6 - RC4
 
-[TBD]
+- **Version** `1.0.0-rc4` in `project.godot`; `CHANGELOG.md` has the RC4 entry; `docs/release/rc4_notes.md` is the playtester page.
+- **Export:** `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0-rc4` -> **EXPORT OK**,
+  `builds/TheWaywardPath-v1.0.0-rc4-windows.zip` **734 MB** (RC3: 734 MB), pack 845 MB, 14098 files, 89 baked shaders, every MD5 matches;
+  zip CRCs checked. Export peak 1851 MB working set (2.7 min). The "over the 750 MB budget" warning is the same as RC3's. The RC3 zip is kept.
+- **Release smoke on the exported pack** (`bash tools/run_release_smoke_exported.sh`): **PASSED** (title and pause version, New Game, F8 form +
+  report files, pause menu buttons, no Dev Menu in release, save/load slot 2). It first failed 2 checks: the smoke pressed Esc once for the
+  pause menu, and since Part 1 Esc advances the opening conversation first, so the menu stayed shut. The smoke now taps Esc until the
+  menu shows (6 taps from the opening scene - each advances one line) and checks the menu is really visible.
+- **Exported-build checklist** (test pack rebuilt; `play_exported.sh` runs A, B with A's settings, C on Low-end): **0 `SCRIPT ERROR`** in all
+  three game logs, every scripted button found. Three script updates for the new Esc order (no game change): A closes the "New Gear!" box with
+  its Continue before Esc; B saves to **slot 3** (slot 2 holds the Nov 10 run's 10-second test save and asked "Overwrite this save?" - never
+  overwritten; slot 3 now holds a 10-second test save too - both deletable from Load Game) and leaves the slot screen with Back; C waits
+  out the way back and sends Enter before Esc.
+- **Logged from the checks, not changed:** (1) an Esc pressed during a load is remembered, but dropped if the scene arrives with the hero
+  locked for its title (`SceneManager._end_transition` needs `pause_allowed`); (2) after the dev-only fight in run C (`dev encounter quota`
+  from the Gainlands) the way back lands in the town scene with the hero locked and no box visible until a key (Enter / Esc) - a real
+  return (run A, Crosspath) shows the "New Gear!" box. Worth a look after release if a tester reports a frozen hero after a fight.
 
 ## Finish
 
-[TBD: tests, commits]
+- **Tests:** full GUT in 38 shards before the export (`bash tools/run_tests.sh --min-free=800`, 24 min): **2965 / 2967 passed, 0 failing**, 2
+  pending. Since then only the release smoke and the three play scripts changed (tools / docs, no game code).
+- **Commits** (all pushed; nothing uploaded): `c70394ba` Part 1, `97120a7a` Part 2.1, `cb64b5c1` Part 5, `559ad36a` Parts 2.2 + 3 (resumed),
+  `a0ec9de7` Part 3, `25b5d32e` Part 2.2 run 2, `1ec6857f` Part 4 (the Skip-card blocker, snapshots), `8678b445` Part 4 (late critic fixes),
+  and the Part 6 commit with RC4's version, changelog, smoke and scripts.
+- **Your inbox:** items 12 (fight pacing for an ungeared hero) and 13 (Primm's Phases 2-3) need a decision; the rest are notes.
 
 ### Release-day checklist for Nov 11 (the owner)
 
@@ -198,7 +241,8 @@ Everything below is from `docs/HANDOFF.md` section 2 and `docs/release/itch_uplo
    `bash tools/export_test_pack.sh` (2 minutes), then `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480`,
    `SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480`,
    `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480`; `grep -c "SCRIPT ERROR" _screenshots/exported/play_r1*.log`
-   must print 0 three times.
+   must print 0 three times. (Run B saves to slot 3 of this PC's own saves; the 10-second test saves in slots 2 and 3 can be deleted from
+   Load Game first, or B just meets "Overwrite this save?", backs out and goes on.)
 5. **The real exe once:** unzip the 1.0.0 zip into a fresh folder, run `TheWaywardPath.exe`, start a new game to the Path choice, Esc,
    Settings, quit; launch again and Continue. (Or the scripted version: HANDOFF section 2, step 3.)
 6. **Tag:** `git add -A && git commit -m "1.0.0" && git tag v1.0.0 && git push && git push --tags`.
