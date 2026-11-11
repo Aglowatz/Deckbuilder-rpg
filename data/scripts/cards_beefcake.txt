@@ -54,7 +54,7 @@ act t=unit | destroy_self => damage(t,3)
 attach
 host => stat(2,0); kw(sucker_punch)
 
-== B-17 @600eff135701  # Pre-Workout Canister
+== B-17 @a0ba09d8c046  # Pre-Workout Canister
 act t=unit | destroy_self => pump(t,3,0,eot); kw_grant(t,hustle,eot)
 
 == B-18 @14e91c8fbe04  # Sledgehammer
@@ -65,18 +65,18 @@ when(attached_attacks) t=tool => may({destroy(t)})
 == B-19 @5b9dec23e035  # Counterweight
 trap(attacks:opp) => damage(trig,3)
 
-== B-20 @4942e4e5f8af  # Dry Scoop
+== B-20 @6397bfbf2898  # Dry Scoop
 play t=unit => pump(t,1,0,eot); kw_grant(t,hustle,eot)
 
 == B-21 @f034e76489ca  # Flex on 'Em
 play ? exists(unit.mine.atk>=5) => damage(opp,4)
 play ?! exists(unit.mine.atk>=5) => damage(opp,2)
 
-== B-22 @9ce12627a629  # Alarm-ish Clock
+== B-22 @f23080849626  # Alarm-ish Clock
 attach | pay(1)
 boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})
 
-== B-23 @bb34d68d8411  # Snack Bar
+== B-23 @3c9bb733e89c  # Snack Bar
 act t=unit.fresh | pay(1) => pump(t,2,0,eot)
 
 == B-24 @c518e49f2bdf  # Overclocked Mill Worker
@@ -86,7 +86,7 @@ attack => create(iron)
 == B-25 @70c6013cb4ed  # Yeet
 play a=unit.mine b=unit|opp => damage(b,atk(a),a); destroy(a)
 
-== B-26 @7d3e2ded3c96  # The Carpool
+== B-26 @af046f8b61a3  # The Carpool
 kw hustle
 enter => kw_grant(all(unit.mine.other),hustle,eot)
 
@@ -101,12 +101,12 @@ enter t=unit => damage(t,3)
 sot => create(iron)
 when(resource_used:mine:iron) => damage(opp,1)
 
-== B-30 @6bb8e22b46a3  # Barbell of the Ancients
+== B-30 @fc14302c61e7  # Barbell of the Ancients
 attach
 host => stat(3,3); kw(bulldoze)
 boc => may({pump(host,3,0,eot); no_refresh(host)})
 
-== B-31 @680ad464410e  # The Ultimate Cardio Machine
+== B-31 @578daedefd13  # The Ultimate Cardio Machine
 when(unit_enters:mine:nohustle) => kw_grant(trig,hustle,perm)
 when(unit_enters:mine:hustle) => pump(trig,2,1,eot)
 
@@ -122,7 +122,7 @@ when(attached_dies) => send_back(self)
 == B-34 @ca21311c71bc  # Hammer Thrower
 act t=unit|opp | overexert => damage(t,atk(self),self)
 
-== B-35 @0df62ad5adb1  # Protein Shake
+== B-35 @9df3116043af  # Protein Shake
 play t=unit => pump(t,2,2,eot); create(iron)
 
 == B-36 @df70cb539fd7  # Desk Flip

@@ -46,8 +46,10 @@ func test_the_quest_is_a_hidden_side_quest_with_no_markers() -> void:
 	assert_eq(quest.giver_npc, "", "no giver: the well starts it")
 	assert_null(quest.prerequisite, "no prerequisite on the quest (it never shows up as 'New quest available')")
 	assert_eq(quest.objectives.size(), 3)
+	# Fable pass Nov 10 (Part 1.1): the owner's rule is that every step of every active quest marks what it needs, secrets included - the hum
+	# steps mark the hum, the last step the well (the quest audit fails on a marker-less step). The quest is still never offered or auto-given.
 	for objective: QuestObjective in quest.objectives:
-		assert_false(objective.has_marker(), "%s: no world marker for a secret" % objective.text)
+		assert_true(objective.has_marker(), "%s: a world marker, as every active step has" % objective.text)
 		assert_false(objective.hint.is_empty(), "%s: a where-to-go line" % objective.text)
 		assert_false(objective.text.contains("[missing"), objective.text)
 		assert_false(objective.hint.contains("[missing") or objective.hint.contains("{"), objective.hint)

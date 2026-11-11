@@ -22,7 +22,7 @@ enter => create(garbage)
 == R-07 @9f37347e0e9e  # Junkyard Giraffe
 kw swat
 
-== R-08 @326491cb3795  # Possum Prowler
+== R-08 @5cb738b8a8f1  # Possum Prowler
 act | eat => pump(self,2,2,eot)
 
 == R-09 @bd71c0f52e86  # Heap Tortoise
@@ -111,6 +111,6 @@ play t=refuse.unit.mine => to_hand(t); create(garbage)
 == R-35 @87cb12660aa6  # Sewer Choir
 enter => create(T-02,2)
 
-== R-36 @1f1ba2cda992  # Landfill Leviathan
+== R-36 @6c42978a83dd  # Landfill Leviathan
 enter => create(garbage,2)
 act | eat => kw_grant(self,bulldoze,eot)

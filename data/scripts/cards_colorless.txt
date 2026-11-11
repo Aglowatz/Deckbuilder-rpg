@@ -35,7 +35,7 @@ host => stat(2,0)
 == C-12 @000a5d7942c0  # Healing Potion
 act | destroy_self => gain(me,4)
 
-== C-13 @99f3c34b6105  # Rally the Village
+== C-13 @99191338564a  # Rally the Village
 play => pump(all(unit.mine),1,1,eot)
 
 == C-14 @30534abd4711  # Second Wind
@@ -44,7 +44,7 @@ play => draw(2)
 == C-15 @b3138549e937  # Desperate Measures
 play t=unit.atk>=4 => destroy(t)
 
-== C-16 @fd883b1fe629  # Tripwire
+== C-16 @7d28ea86d202  # Tripwire
 trap(attacks:opp) => pump(trig,-2,0,eot)
 
 == C-17 @cd538d7006ea  # Ambush Party

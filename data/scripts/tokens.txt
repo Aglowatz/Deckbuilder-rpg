@@ -31,7 +31,7 @@ drawn => shred(self); create(T-11,1,creator)
 
 == T-14 @a7262d09a0c5  # Red Tape
 
-== T-15 @fcac84763784  # Grandmaster Flex, the Unbroken
+== T-15 @9b6f6a64c9a9  # Grandmaster Flex, the Unbroken
 kw overtime
 sot => pump(all(unit.mine.other),1,1,eot)
 

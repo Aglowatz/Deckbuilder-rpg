@@ -65,7 +65,7 @@ enter => create(T-10,2)
 == GN-03 @ef685ebe92b2  # Bone Broth Brewer
 when(token_dies:mine) => create(ingredient)
 
-== GN-04 @d627b34f87b6  # Ghost Pepper
+== GN-04 @c981432a509d  # Ghost Pepper
 act t=unit | destroy_self => pump(t,2,0,eot); kw_grant(t,flying,eot)
 
 == GN-05 @26c1c07dc8f1  # Dead on Arrival
@@ -104,7 +104,7 @@ play => create(T-10,count(ingredient))
 sot => create(T-19)
 aura(token.mine) => kw(nourish)
 
-== GN-16 @1e3aa684f76d  # Madame Mortadella, Eternal Restaurateur
+== GN-16 @b19335b77271  # Madame Mortadella, Eternal Restaurateur
 kw flying
 when(token_dies:mine) => create(ingredient); create(T-19)
 act | use(ingredient,3) => pump(all(token.mine),2,2,eot)
@@ -116,11 +116,11 @@ enter => create(ingredient); create(iron)
 kw hustle
 act once | use(ingredient) => buff(self,1)
 
-== GB-03 @26e84cb1e176  # Cheat Day Champion
+== GB-03 @9c3f95a97e32  # Cheat Day Champion
 kw bulldoze
 when(resource_used:mine:ingredient) => pump(self,1,1,eot)
 
-== GB-04 @adc4a7b46de5  # Carb Load
+== GB-04 @70223751cfad  # Carb Load
 trap(attacks:opp) => pump(all(unit.mine),1,2,eot); create(ingredient)
 
 == GB-05 @cbf4aada06c4  # Meal Prep
@@ -133,7 +133,7 @@ when(golem_created:mine) => pump(trig,1,0,perm); kw_grant(trig,hustle,perm)
 == GB-07 @d6ff826ff6a8  # Bulking Program
 when(resource_used:mine:ingredient) once => buff(pick(unit.mine),1)
 
-== GB-08 @f5f96b44e0a4  # Shaker Bottle
+== GB-08 @6c58b06e4c6b  # Shaker Bottle
 act t=unit | destroy_self => pump(t,2,2,eot); create(ingredient)
 
 == GB-09 @694c15d546fe  # Recipe for Disaster
@@ -147,7 +147,7 @@ when(attached_combat_dmg_unit) => create(ingredient)
 == GB-11 @fb006f7fdea5  # Idiot Sandwich
 play t=unit.atk<=4 => plate(t); damage(ctl(t),2)
 
-== GB-12 @5211957fe82f  # A Feast for the Eyes
+== GB-12 @11353eee06df  # A Feast for the Eyes
 kw hustle
 enter => create(ingredient,3)
 when(resource_used:mine:ingredient) => pump(self,1,1,eot)
@@ -156,7 +156,7 @@ when(resource_used:mine:ingredient) => pump(self,1,1,eot)
 kw hustle
 enter t=unit|opp => use_any(ingredient); damage(t,mul($used,2))
 
-== GB-14 @6ae1dc8fb414  # The Gain Train
+== GB-14 @0440e0993e63  # The Gain Train
 when(resource_used:mine:ingredient) => pump(all(unit.mine),1,1,eot)
 
 == GB-15 @e2fe50321952  # Protein Forge
@@ -207,7 +207,7 @@ act t=unit | exhaust, eat(2), lose(2) => destroy(t)
 == NR-13 @04b43bfbab1f  # Reclamation Order
 trap(attacks:opp) => destroy(trig); delay_start_next_turn({reinstate(trig)})
 
-== NR-14 @e6850a22a98b  # Plague Season
+== NR-14 @7b423809a50a  # Plague Season
 play => pump_kill(all(unit.opp),-2,-2); create(T-02,$died)
 
 == NR-15 @ce7ebeb1d964  # Necro Cat
@@ -218,14 +218,14 @@ die => to_hand(self)
 aura(unit.mine.tok:T-02) => kw(toxic)
 act t=unit | destroy(unit.mine.tok:T-02,5) => destroy(t); lose(opp,5)
 
-== NB-01 @79d8f3fd6ab2  # Shredded Spectre
+== NB-01 @1fde0e72f8e1  # Shredded Spectre
 when(resource_used:mine:redtape) => pump(self,1,0,eot); kw_grant(self,elusive,eot)
 when(resource_used:mine:iron) => pump(self,1,0,eot); kw_grant(self,elusive,eot)
 
 == NB-02 @fd72638ce6a8  # Un-Deadlifter
 die => create(iron); create(redtape)
 
-== NB-03 @5096a75b72de  # Vigor Mortis
+== NB-03 @e1a4291741c8  # Vigor Mortis
 play t=refuse.unit.mine => reinstate(t); kw_grant(last,hustle,eot)
 
 == NB-04 @221cee3b2e0b  # Dead Weight
@@ -242,7 +242,7 @@ play t=tool => set(c,ctl(t)); destroy(t); lose($c,2)
 attach
 host => stat(3,3); kw(wallflower)
 
-== NB-08 @7f5155c2f91c  # Protein Powder Urn
+== NB-08 @c27207582edf  # Protein Powder Urn
 act t=refuse.unit.mine.cost<=2 | destroy_self => reinstate(t); kw_grant(last,hustle,eot)
 
 == NB-09 @f60ddd8c6114  # Spirit-Lifting Belt
@@ -288,10 +288,10 @@ act | exhaust, use(garbage) => create(iron)
 kw hustle
 enter => create(garbage)
 
-== BR-03 @123ce0b7d332  # Rat Pack Coach
+== BR-03 @3d213127f647  # Rat Pack Coach
 enter => create(T-02,2); kw_grant(last,hustle,eot)
 
-== BR-04 @06c6bfb957a5  # Truck Tire
+== BR-04 @b8145acb39d4  # Truck Tire
 attach
 host => stat(2,0)
 act | eat => pump(host,2,2,eot)
@@ -304,7 +304,7 @@ attach
 host => stat(1,1); kw(bulldoze)
 when(attached_dmg_opp) => create(garbage)
 
-== BR-07 @72ed0fc624a0  # Wrestling Ring Ambush
+== BR-07 @fbd2a061f742  # Wrestling Ring Ambush
 trap(attacks:opp) => pump(top_atk(unit.mine),2,0,eot); brawl(top_atk(unit.mine),trig)
 
 == BR-08 @f4744073c013  # Swole Revenge
@@ -316,13 +316,13 @@ trap(unit_enters:opp) => damage(trig,3)
 == BR-10 @7c9e98744958  # The Junkyard Gym
 when(resource_created:mine:garbage) t=unit.mine => buff(t,1)
 
-== BR-11 @e2b04fb2faa9  # Stampede
+== BR-11 @af3c59503c92  # Stampede
 play => pump(all(unit.mine),2,0,eot); kw_grant(all(unit.mine),bulldoze,eot)
 
 == BR-12 @b9c2cfd9d129  # Iron Rhino
 kw hustle,bulldoze
 
-== BR-13 @195ccf5fdae9  # Trash Panda Powerlifter
+== BR-13 @2833d8535a13  # Trash Panda Powerlifter
 when(eat:mine) => create(iron)
 act | use(iron) => pump(self,2,2,eot)
 
@@ -334,7 +334,7 @@ act t=unit once | use(garbage,2) => brawl(host,t)
 == BR-15 @3a3fee9c0e56  # Trash Avalanche
 trap(attacks:opp) => damage(all(unit.attacking),4)
 
-== BR-16 @66e2eeb3aca1  # Tuskeroni, Junkyard Champion
+== BR-16 @42cf0e7b2131  # Tuskeroni, Junkyard Champion
 kw hustle
 sot => create(garbage); create(iron)
 act | eat, lose(1) => buff(self,1); kw_grant(self,bulldoze,eot)

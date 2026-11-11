@@ -85,7 +85,7 @@ func test_the_setup_rule_is_data_and_idempotent() -> void:
 	assert_true(EncounterModifiers.enemy_source("Test Boss Nov 1").modifiers[0].kind == Modifier.Kind.SETUP_TURNS)
 	EncounterModifiers.ensure_setup_rule("No Window Boss", 0)
 	assert_eq(EncounterModifiers.setup_turns("No Window Boss"), 0, "0 turns adds nothing")
-	assert_true(BossTempo.rule_text(2).contains("rounds 1-2"), "Fix pass Nov 7: said in rounds")
+	assert_true(BossTempo.rule_text(2).contains("turns 1-2"), "Fix pass Nov 7 / Fable pass Nov 10: said in the unit the HUD counts, turns (both players' turns)")
 	assert_eq(BossTempo.turns_of({}), BossTempo.DEFAULT_SETUP_TURNS)
 	assert_eq(BossTempo.turns_of({"setup_turns": 0}), 0)
 	assert_eq(BossTempo.turns_of({"setup_turns": 3}), 3)

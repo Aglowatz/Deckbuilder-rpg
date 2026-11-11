@@ -21,7 +21,7 @@ func _equipped(piece_id: String) -> GameState:
 
 func test_there_are_25_new_pieces_with_every_field_filled() -> void:
 	var ids: Array[String] = ExpansionGear.ids()
-	assert_eq(ids.size(), 25)
+	assert_eq(ids.size(), 26, "the 25 of Oct 16 plus the Hall Pass Slippers (Fable pass Nov 10, Part 5)")
 	var existing: Dictionary = ProgressionContent.equipment()
 	var names: Dictionary = {}
 	for id: String in ids:
@@ -138,7 +138,7 @@ func test_every_distribution_entry_names_a_real_piece() -> void:
 			assert_true(content.has(str(id)), "chest gear %s" % id)
 	for zone_id: String in Gatekeepers.IDS:
 		var stock: EquipmentVendorData = ExpansionGear.zone_vendor_stock(zone_id)
-		assert_between(stock.entries.size(), 2, 3, "%s shop stocks 2-3 pieces" % zone_id)
+		assert_between(stock.entries.size(), 2, 4, "%s shop stocks 2-3 pieces (4 at Mirepoix's: the Hall Pass Slippers, Fable pass Nov 10)" % zone_id)
 		for entry: EquipmentVendorEntry in stock.entries:
 			assert_true(content.has(entry.equipment_id), entry.equipment_id)
 		assert_true(content.has(str(QuestDefinitions.MIDPOINT_GEAR[zone_id])), "midpoint gear of %s" % zone_id)

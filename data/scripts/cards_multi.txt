@@ -1,6 +1,6 @@
 # Card scripts: three- and four-Path sections (GRB, GRN, GBN, NBR, 4 Color).
 
-== GRB-01 @8d1c8c974b3b  # Greased Pig
+== GRB-01 @c37387c2aa20  # Greased Pig
 trap(attacks:opp) => pump(trig,-3,0,eot); create(ingredient); create(garbage); create(iron)
 
 == GRB-02 @816b062362a7  # Blue Ribbon
@@ -25,7 +25,7 @@ when(attached_dmg_opp) => create(ingredient); create(garbage); create(iron)
 == GRB-07 @ab426460b37d  # Harvest Festival
 static => flag(global_double_resources)
 
-== GRB-08 @b30c35039ac5  # Big Bertha, Blue Ribbon Behemoth
+== GRB-08 @a9751a4ac692  # Big Bertha, Blue Ribbon Behemoth
 kw bulldoze,swat
 enter => create(ingredient,3); create(garbage,3); create(iron,3)
 when(resource_used:mine) => pump(self,1,1,eot)
@@ -61,7 +61,7 @@ when(resource_used:mine) => lose(opp,1)
 == GBN-02 @a3e55ea572a6  # Velvet Rope
 act t=unit.opp | destroy_self => exhaust(t); no_refresh(t); create(ingredient)
 
-== GBN-03 @a16fa78e4cde  # Toast to the Dead
+== GBN-03 @bfff3acd14e9  # Toast to the Dead
 play t=refuse.unit.mine.cost<=3 => reinstate(t); pump(last,2,0,eot); kw_grant(last,hustle,eot); create(ingredient)
 
 == GBN-04 @8862512163ae  # Black Tie Brawl
@@ -81,7 +81,7 @@ kw overtime
 when(unit_enters:mine:other) => buff(trig,1)
 when(unit_dies:mine) => create(ingredient)
 
-== GBN-08 @245bb0954120  # Baron Von Banquet, Host of the Last Gala
+== GBN-08 @387f01d4d5eb  # Baron Von Banquet, Host of the Last Gala
 kw bulldoze
 enter => reinstate_up_to(2,refuse.unit.mine); kw_grant(last,hustle,eot)
 when(attacks:mine) => create(ingredient)
@@ -119,7 +119,7 @@ enter => destroy(all(tool|wonder)); create(garbage,$destroyed)
 kw hustle,overtime,swat,nourish
 enter => create(iron); create(redtape); create(ingredient); create(garbage)
 
-== P4-02 @64dae635c18e  # Reunion of the Paths
+== P4-02 @88a2fb2c9a53  # Reunion of the Paths
 play => reinstate_diff_paths(4); create(iron); create(redtape); create(ingredient); create(garbage); pump(all(unit.mine),2,2,eot)
 
 == P4-03 @1ba2cf32f7ca  # Mr. Tiggle, Rules Lawyer
