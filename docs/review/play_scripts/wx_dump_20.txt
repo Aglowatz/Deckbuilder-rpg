@@ -1,0 +1,65 @@
+# Verdant Dump run 20 (last): cross the vine bridge, borrow a mount at the Farm Terrace stable, charge the junk barricade
+wait 2
+dev load wx_dump_19
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+hold W+D 1
+wait 8
+button Continue
+wait 1.5
+scene
+hold A 1.1
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+hold W 3
+scene
+hold D 0.6
+scene
+shot d20_stable
+dump
+key E
+wait 1.5
+shot d20_stable_e
+dump
+skip_dialogue 6
+wait 1
+dump
+scene
+hold W 3
+scene
+shot d20_n1
+dump
+hold W 3
+wait 2
+scene
+shot d20_n2
+dump
+hold W 3
+wait 2
+scene
+shot d20_n3
+dump
+key E
+wait 1.5
+shot d20_e
+dump
+dev save wx_dump_20

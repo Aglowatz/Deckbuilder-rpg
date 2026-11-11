@@ -1,0 +1,7 @@
+D-HFA:3	D-HFA:3                                       97%  turns 6.6  ok
+D-HFA:4	D-HFA:4                                       97%  turns 6.8  ok
+D-HFA:7	D-HFA:7                                       88%  turns 7.9  too easy (+13)
+D-HFA:9	D-HFA:9                                       97%  turns 7.4  ok
+D-HFA:11	D-HFA:11                                      88%  turns 9.3  too easy (+13)
+D-HFA:13	D-HFA:13                                      97%  turns 6.6  ok
+D-HFA:14	D-HFA:14                                      66%  turns 9.2  too easy (+6)

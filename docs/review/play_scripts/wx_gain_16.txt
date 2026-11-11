@@ -1,0 +1,50 @@
+# Gainlands run 16: around the rock block, east onto the middle road, north through the road guards
+wait 2
+dev load wx_gain_15
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.5
+hold A 1.2
+hold W 2
+hold W+D 2
+hold D 1
+scene
+shot g16_road
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g16_n1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g16_n2
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g16_n3
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g16_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g16_n5
+dump
+dev save wx_gain_16

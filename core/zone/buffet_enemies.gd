@@ -42,7 +42,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
 			made.recipe = EnemyDecks.trimmed("gourmand_control", 27, 15)
-			made.hp = 16
+			made.hp = 14  # Overnight Nov 10-11 (Part 3, fight pacing): 16 -> 14 (7.0 turns at 16; the critic's 11-turn door fight)
 			made.ai_name = "Defensive"
 			made.gold_reward = Economy.roamer_gold("gourmand")
 			made.xp_reward = 45

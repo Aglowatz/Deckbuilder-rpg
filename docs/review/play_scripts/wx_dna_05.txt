@@ -1,0 +1,61 @@
+# D.N.A. run 05: lobby -> Mail Room centre door -> north toward Sub-Basement 3 and the Hall
+wait 2
+dev load wx_dna_04
+wait 12
+dev autowin on
+hold W 1
+wait 2
+skip_dialogue 3
+hold W 3
+wait 5
+button Continue
+wait 1
+hold D 0.6
+hold W 3
+hold A 1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+hold D 0.5
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n05_n1
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n05_n2
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n05_n3
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n05_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n05_n5
+dump
+key E
+wait 1.5
+shot n05_e
+dump
+dev save wx_dna_05

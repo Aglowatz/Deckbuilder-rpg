@@ -1,0 +1,2 @@
+zone:refusemancer:golem	zone:refusemancer:golem                      100%  turns 4.8  ok, fast
+zone:refusemancer:scarecrow	zone:refusemancer:scarecrow                  100%  turns 5.2  ok, fast

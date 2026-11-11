@@ -1,0 +1,45 @@
+# Gainlands run 08: Point me to Flex Mirror (Interactable), walk west from entrance area to the Station mirror, flex
+wait 2
+dev load wx_gain_07
+wait 12
+dev autowin on
+hold W 3
+wait 3
+button Continue
+wait 2
+key M
+wait 2
+click 1400 573
+wait 1.5
+click 947 380
+wait 1.5
+shot g08_picked_mirror
+key Escape
+wait 1
+shot g08_arrow
+dump
+scene
+hold W 3
+scene
+hold A 3
+scene
+shot g08_w1
+dump
+hold A 2
+scene
+shot g08_w2
+dump
+hold S 1
+scene
+shot g08_w3
+dump
+key E
+wait 1.5
+shot g08_mirror_e
+dump
+skip_dialogue 10
+wait 1.5
+shot g08_mirror_done
+dump
+scene
+dev save wx_gain_08

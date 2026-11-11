@@ -1,0 +1,47 @@
+# Gainlands run 11: flex at the Station mirror by a lower route (avoid the Rift Station), then hand in to Old Man Mountain
+wait 2
+dev load wx_gain_10
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+scene
+hold W 1.5
+hold A 3.3
+skip_dialogue 3
+scene
+shot g11_mirror_near
+dump
+key E
+wait 1.5
+shot g11_mirror_e
+dump
+skip_dialogue 10
+wait 1.5
+shot g11_mirror_done
+dump
+scene
+hold W 3
+scene
+hold D 3.4
+scene
+shot g11_back_omm
+dump
+key E
+wait 1.5
+shot g11_omm_e
+dump
+skip_dialogue 14
+wait 1.5
+shot g11_omm_done
+dump
+scene
+key J
+wait 1.5
+shot g11_log
+dump
+key Escape
+wait 1
+dev save wx_gain_11

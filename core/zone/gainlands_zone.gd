@@ -126,8 +126,9 @@ static func build_def() -> ZoneDef:
 		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),
 		_spot("minigame", "Chet Thunderabs, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-THUNDERABS", "speaker": "Chet Thunderabs"}),
 		_spot("protein_stand", "Protein Shake Stand", "protein_stand", Vector3(0, 0, 1.2), 1.7, "Buy a mystery shake (10 gold)", "zone"),
-		_spot("flex_mirror", "Flex Mirror", "flex_mirror", Vector3(0.9, 0, 0), 1.5, "Flex at the mirror", "zone"),
-		_spot("flex_mirror_pec", "Flex Mirror (Pec Perch)", "flex_mirror_pec", Vector3(0.9, 0, 0), 1.5, "Flex at the mirror", "zone"),
+		# Overnight Nov 10-11 (Part 2.2, the wayfinding critic): reach 1.5 -> 2.4 m - it stood 2.1-2.5 m from the mirror three times with no prompt
+		_spot("flex_mirror", "Flex Mirror", "flex_mirror", Vector3(0.9, 0, 0), 2.4, "Flex at the mirror", "zone"),
+		_spot("flex_mirror_pec", "Flex Mirror (Pec Perch)", "flex_mirror_pec", Vector3(0.9, 0, 0), 2.4, "Flex at the mirror", "zone"),
 		_spot("spot_me", "Gary, Currently Under a Barbell", "spot_me", Vector3(0.9, 0, 0), 1.7, "Talk", "zone", {"npc": "gary"}),
 		_spot("run_wheel", "Colossal Hamster Wheel", "run_wheel", Vector3.ZERO, 1.8, "Run the wheel", "zone"),
 		_spot("shrine", "Pump Shrine", "shrine", Vector3.ZERO, 1.6, "Make an offering at the Pump Shrine", "shrine"),  # kept from the Proving Grounds (SR-7): one card from the zone table, once

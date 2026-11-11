@@ -1,0 +1,3 @@
+S-REF:1	S-REF:1                                      100%  turns 5.4  ok, fast
+S-REF:2	S-REF:2                                      100%  turns 5.0  ok, fast
+S-REF:3	S-REF:3                                       72%  turns 8.9  too easy (+12)

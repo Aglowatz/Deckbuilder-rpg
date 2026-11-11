@@ -1,0 +1,50 @@
+# Gainlands run 13: step onto the mirror circle, flex, then hand in to Old Man Mountain and read the main quest
+wait 2
+dev load wx_gain_12
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 1.4
+hold A 2.3
+hold A 0.5
+skip_dialogue 3
+scene
+shot g13_mirror_near
+key E
+wait 1.5
+shot g13_mirror_e
+dump
+skip_dialogue 10
+wait 1.5
+shot g13_mirror_done
+dump
+scene
+hold W 2.2
+hold D 2.45
+scene
+key E
+wait 1.5
+shot g13_omm_e
+dump
+skip_dialogue 14
+wait 1.5
+shot g13_omm_done
+dump
+scene
+key J
+wait 1.5
+shot g13_log
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot g13_map
+key Escape
+wait 1
+shot g13_world
+dump
+dev save wx_gain_13

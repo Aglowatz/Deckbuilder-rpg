@@ -1,0 +1,48 @@
+# Gainlands run 07: Point me to Gary, follow arrow, spot Gary, then look for Flex Mirror
+wait 2
+dev load wx_gain_06
+wait 12
+dev autowin on
+hold W 3
+wait 3
+button Continue
+wait 2
+key M
+wait 2
+click 1400 573
+wait 1.5
+click 947 209
+wait 1.5
+shot g07_picked_gary
+key Escape
+wait 1
+shot g07_arrow
+dump
+scene
+hold W 3
+scene
+hold D 4.5
+scene
+shot g07_near1
+hold S 1
+scene
+shot g07_near2
+dump
+key E
+wait 1.5
+shot g07_gary_e
+dump
+skip_dialogue 10
+wait 1.5
+shot g07_gary_done
+dump
+scene
+key J
+wait 1.5
+click 274 115
+wait 1
+shot g07_log
+dump
+key Escape
+wait 1
+dev save wx_gain_07

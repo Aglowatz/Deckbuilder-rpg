@@ -2549,9 +2549,37 @@ func _note_step_moves() -> void:
 		if quest == null:
 			continue
 		var mark: int = _step_mark(quest)
+		var parts: Array[String] = _part_labels(quest)
 		if _steps_seen.has(quest_id) and mark > int(_steps_seen[quest_id]):
 			EventBus.quest_update.emit("step", quest_id, "")
+		elif _steps_seen.has(quest_id) and mark == int(_steps_seen[quest_id]) and _parts_seen.has(quest_id):
+			# Overnight Nov 10-11 (Part 2.2, the wayfinding critic): a part of the step done (the bean planted, the bridge grown, one giver's
+			# favour finished) is announced too - the critic planted the bean and grew the bridge and "nothing in the tracker changed"
+			var done: Array[String] = []
+			for label: String in _parts_seen[quest_id] as Array[String]:
+				if not parts.has(label):
+					done.append(label)
+			if not done.is_empty() and parts.size() < (_parts_seen[quest_id] as Array[String]).size():
+				EventBus.quest_update.emit("step", quest_id, "Done: %s" % " / ".join(done))
 		_steps_seen[quest_id] = mark
+		_parts_seen[quest_id] = parts
+
+
+## The labels of the current step's parts still to do (session only, like `_steps_seen`); [] for a step without parts.
+var _parts_seen: Dictionary = {}
+
+
+func _part_labels(quest: QuestData) -> Array[String]:
+	var result: Array[String] = []
+	var state: UnlockState = unlock_state()
+	var objective: QuestObjective = quest_log.current_objective(quest, state)
+	if objective == null or objective.parts.is_empty():
+		return result
+	for target: Dictionary in objective.targets(state):
+		var label: String = str(target.get("label", ""))
+		if not label.is_empty():
+			result.append(label)
+	return result
 
 
 ## Completes an active quest and pays its rewards. Returns false if it was not active. A "Quest Complete" box (`RewardSummary`) is queued in

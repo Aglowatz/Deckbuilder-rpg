@@ -143,6 +143,16 @@ func _legend() -> Control:
 		goal_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		goal_label.custom_minimum_size = Vector2(300, 0)
 		goal_row.add_child(goal_label)
+		# Overnight Nov 10-11 (Part 2.2, the wayfinding critic): a legend goal row looks like a button, so it is one - a click points the
+		# arrow at that quest's nearest place, as the "Point me to..." list does.
+		goal_row.mouse_filter = Control.MOUSE_FILTER_STOP
+		goal_row.tooltip_text = "Click: point me to %s" % str(line["name"])
+		goal_label.mouse_filter = Control.MOUSE_FILTER_PASS
+		goal_row.gui_input.connect(func(event: InputEvent) -> void:
+			var click: InputEventMouseButton = event as InputEventMouseButton
+			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+				ping(sample)
+				goal_row.accept_event())
 		column.add_child(goal_row)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
 	if travel_from != "" and not FastTravel.destinations(Session.flags, travel_from).is_empty():

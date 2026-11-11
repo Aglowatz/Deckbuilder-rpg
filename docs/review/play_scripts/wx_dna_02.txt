@@ -1,0 +1,52 @@
+# D.N.A. run 02: close the Rift pop-up, march north up the central corridor toward the Hall
+wait 2
+dev load wx_dna_01
+wait 12
+dev autowin on
+hold W 1
+wait 2
+skip_dialogue 3
+scene
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n1
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n2
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n3
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n5
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n02_n6
+dump
+dev save wx_dna_02

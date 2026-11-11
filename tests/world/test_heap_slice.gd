@@ -476,7 +476,8 @@ func test_the_corruption_gradient_is_data_and_recedes_when_freed() -> void:
 				if at.z > 120.0:
 					near_entrance += 1
 			assert_gte(points.size(), 20, "a few dozen of them")
-			assert_gte(near_entrance, 10, "densest round the entrance bridge head")
+			# Overnight Nov 10-11 (owner decision 2): the herd moved onto the Commons and the seeded scatter lost one tree there (10 -> 9)
+			assert_gte(near_entrance, 9, "densest round the entrance bridge head")
 			assert_lt(near_entrance, points.size(), "and some scattered through the tiers")
 		if freed:
 			assert_null(twisted, "freed: no twisted trees")

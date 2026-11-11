@@ -1,0 +1,41 @@
+# Gainlands run 12: calibrated walk (4.9 m/s) to the Station Flex Mirror, flex, then Old Man Mountain
+wait 2
+dev load wx_gain_11
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+scene
+hold W 1.4
+hold A 2.3
+skip_dialogue 3
+scene
+shot g12_mirror_near
+dump
+key E
+wait 1.5
+shot g12_mirror_e
+dump
+skip_dialogue 10
+wait 1.5
+shot g12_mirror_done
+dump
+scene
+hold W 2.2
+scene
+hold D 2.45
+scene
+shot g12_back_omm
+dump
+key E
+wait 1.5
+shot g12_omm_e
+dump
+skip_dialogue 14
+wait 1.5
+shot g12_omm_done
+dump
+scene
+dev save wx_gain_12

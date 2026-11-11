@@ -1,0 +1,48 @@
+# Gainlands run 14: march north up the middle road to the House of Gains, past the three road guards
+wait 2
+dev load wx_gain_13
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.5
+scene
+hold W 4
+wait 4
+button Continue
+wait 1
+scene
+shot g14_n1
+hold D 0.8
+hold W 4
+wait 4
+button Continue
+wait 1
+scene
+shot g14_n2
+dump
+hold W 4
+wait 4
+button Continue
+wait 1
+scene
+shot g14_n3
+dump
+hold W 4
+wait 4
+button Continue
+wait 1
+scene
+shot g14_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g14_n5
+dump
+dev save wx_gain_14

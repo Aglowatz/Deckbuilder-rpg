@@ -1,0 +1,50 @@
+# Verdant Dump run 08: Point me to Billie Muckfoot, walk to her, talk twice, check Side log
+wait 2
+dev load wx_dump_07
+wait 12
+dev autowin on
+dev heal
+key M
+wait 2
+click 1429 548
+wait 1.5
+shot d08_list
+click 912 160
+wait 1.5
+key Escape
+wait 1
+shot d08_arrow
+dump
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+scene
+hold W 1
+scene
+shot d08_billie_near
+dump
+key E
+wait 1.5
+shot d08_billie_e
+dump
+skip_dialogue 14
+wait 1.5
+shot d08_billie_done
+dump
+key E
+wait 1.5
+skip_dialogue 14
+wait 1.5
+shot d08_billie2
+dump
+scene
+key J
+wait 1.5
+click 274 115
+wait 1
+shot d08_side
+dump
+key Escape
+wait 1
+dev save wx_dump_08

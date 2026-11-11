@@ -189,7 +189,7 @@
 				},
 				"3": {
 					"name": "Frozen Line Cook",
-					"hp": 15,
+					"hp": 13,
 					"size": 29
 				},
 				"6": {
@@ -347,12 +347,12 @@
 			"foes": {
 				"3": {
 					"name": "Intake Clerk",
-					"hp": 18,
+					"hp": 15,
 					"size": 30
 				},
 				"4": {
 					"name": "Returns Clerk",
-					"hp": 18,
+					"hp": 15,
 					"size": 30
 				},
 				"7": {
@@ -363,7 +363,7 @@
 				},
 				"9": {
 					"name": "Resurrection Permits Zombie",
-					"hp": 19,
+					"hp": 16,
 					"size": 31
 				},
 				"11": {
@@ -374,7 +374,7 @@
 				},
 				"13": {
 					"name": "Executive Elevator Operator",
-					"hp": 20,
+					"hp": 17,
 					"size": 31,
 					"deck": "necrocrat_beefcake"
 				},
@@ -1017,7 +1017,7 @@
 			"foes": {
 				"1": {
 					"name": "Apprentice Itamae",
-					"hp": 13,
+					"hp": 11,
 					"size": 28,
 					"infra": 19
 				},
@@ -1074,7 +1074,7 @@
 				},
 				"2": {
 					"name": "The Eternal Queue",
-					"hp": 19,
+					"hp": 16,
 					"size": 31
 				},
 				"3": "Betty Bones, Surly Secretary"

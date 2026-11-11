@@ -1,0 +1,55 @@
+# Verdant Dump run 16: golem fight waited 8 s, pick up bean, read the sign, plant at West Sprout Mound
+wait 2
+dev load wx_dump_15
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+hold W+D 1
+wait 8
+button Continue
+wait 1.5
+scene
+hold S+D 0.6
+scene
+shot d16_bean_near
+dump
+key E
+wait 1.5
+shot d16_bean_e
+dump
+skip_dialogue 8
+wait 1
+scene
+hold A 1.4
+hold S 0.5
+scene
+shot d16_mound_near
+dump
+key E
+wait 1.5
+shot d16_mound_e
+dump
+skip_dialogue 8
+wait 3
+shot d16_mound_done
+dump
+scene
+hold W 0.6
+scene
+key E
+wait 1.5
+shot d16_sign
+dump
+skip_dialogue 6
+dev save wx_dump_16

@@ -1,0 +1,41 @@
+# Overnight Nov 10-11, Part 3 (fight pacing): the hand-played sample - the exported-build critic's own level-14 hero
+# (bot_refusemancer_enter_gourmand) against the ordinary fights it timed at 9-11 turns, played by the built-in pilot.
+# Each fight: load, start the encounter, pilot it out, dump (the victory / defeat box names the turn count).
+#   bash tools/play.sh docs/review/play_scripts/n11_pace_sample.txt pace_sample 900
+wait 2
+dev load bot_refusemancer_enter_gourmand
+wait 10
+skip_dialogue
+dev encounter sentinel
+wait 8
+pilot 170
+wait 3
+shot pace_sentinel
+dump
+dev load bot_refusemancer_enter_gourmand
+wait 10
+skip_dialogue
+dev encounter sous-chef
+wait 8
+pilot 170
+wait 3
+shot pace_souschef
+dump
+dev load bot_refusemancer_enter_gourmand
+wait 10
+skip_dialogue
+dev encounter frozen
+wait 8
+pilot 170
+wait 3
+shot pace_frozen
+dump
+dev load bot_refusemancer_enter_gourmand
+wait 10
+skip_dialogue
+dev encounter meatloaf
+wait 8
+pilot 170
+wait 3
+shot pace_meatloaf
+dump

@@ -1,0 +1,35 @@
+# Verdant Dump run 02: Point me to Brother Bramble, walk north, talk
+wait 2
+dev load wx_dump_01
+wait 12
+dev autowin on
+key M
+wait 2
+click 1400 567
+wait 1.5
+click 912 200
+wait 1.5
+shot d02_picked
+key Escape
+wait 1
+shot d02_arrow
+hold W 3
+wait 2
+skip_dialogue 3
+scene
+shot d02_n1
+dump
+hold W 1
+scene
+shot d02_n2
+dump
+key E
+wait 1.5
+shot d02_e
+dump
+skip_dialogue 12
+wait 1.5
+shot d02_e_done
+dump
+scene
+dev save wx_dump_02

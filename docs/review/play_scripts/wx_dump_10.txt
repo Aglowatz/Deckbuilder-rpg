@@ -1,0 +1,51 @@
+# Verdant Dump run 10: Point me to A Magic Bean, walk north-west from the Commons toward it
+wait 2
+dev load wx_dump_09
+wait 12
+dev autowin on
+dev heal
+key M
+wait 2
+click 1429 548
+wait 1.5
+click 1040 178
+wait 1.5
+shot d10_picked
+key Escape
+wait 1
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+scene
+shot d10_arrow
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot d10_n1
+dump
+hold A 1.5
+wait 3
+button Continue
+wait 1
+scene
+shot d10_n2
+dump
+hold W 2
+wait 3
+button Continue
+wait 1
+scene
+shot d10_n3
+dump
+key E
+wait 1.5
+shot d10_e
+dump
+skip_dialogue 6
+dev save wx_dump_10

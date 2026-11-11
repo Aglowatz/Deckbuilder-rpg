@@ -1,0 +1,3 @@
+S-GOUR:1	S-GOUR:1                                      94%  turns 6.2  ok
+S-GOUR:2	S-GOUR:2                                     100%  turns 6.4  ok
+S-GOUR:3	S-GOUR:3                                      72%  turns 8.2  too easy (+12)

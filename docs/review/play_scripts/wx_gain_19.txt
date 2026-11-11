@@ -1,0 +1,58 @@
+# Gainlands run 19: replay the slip past the rock, up the Gauntlet, on north to the House of Gains door
+wait 2
+dev load wx_gain_18
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.5
+hold A 1.2
+hold W 2
+hold D 1.5
+hold W+D 1.5
+hold W+D 1.5
+scene
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W+D 1
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g19_cave
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g19_n1
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g19_n2
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g19_n3
+dump
+key E
+wait 1.5
+shot g19_door
+dump
+dev save wx_gain_19

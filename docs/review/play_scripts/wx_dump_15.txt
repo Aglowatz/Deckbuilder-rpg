@@ -1,0 +1,52 @@
+# Verdant Dump run 15: (redo) golem fight waited out, pick up the Magic Bean, plant at West Sprout Mound, cross
+wait 2
+dev load wx_dump_14
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+hold W+D 1
+wait 5
+button Continue
+wait 1.5
+scene
+hold S+D 0.6
+scene
+shot d15_bean_near
+dump
+key E
+wait 1.5
+shot d15_bean_e
+dump
+skip_dialogue 8
+wait 1
+scene
+hold A 1.9
+hold S 0.3
+scene
+shot d15_mound_near
+dump
+key E
+wait 1.5
+shot d15_mound_e
+dump
+skip_dialogue 8
+wait 3
+shot d15_mound_done
+dump
+scene
+hold W 3
+scene
+shot d15_cross
+dump
+dev save wx_dump_15

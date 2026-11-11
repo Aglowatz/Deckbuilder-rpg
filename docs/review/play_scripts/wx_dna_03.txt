@@ -1,0 +1,44 @@
+# D.N.A. run 03: around the front desk (right end, then left end), north through the lobby doorway
+wait 2
+dev load wx_dna_02
+wait 12
+dev autowin on
+hold W 1
+wait 2
+skip_dialogue 3
+hold W 3
+wait 5
+button Continue
+wait 1
+scene
+hold D 0.6
+hold W 3
+scene
+shot n03_right
+dump
+hold W 3
+scene
+shot n03_right2
+dump
+hold S 1
+hold A 2.5
+scene
+hold W 3
+scene
+shot n03_left
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n03_left2
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot n03_n3
+dump
+dev save wx_dna_03

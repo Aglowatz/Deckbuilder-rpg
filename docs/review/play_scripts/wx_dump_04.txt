@@ -1,0 +1,35 @@
+# Verdant Dump run 04: map list with the two side goals, pick the scavenger goal, see where the arrow points
+wait 2
+dev load wx_dump_03
+wait 12
+dev autowin on
+dev heal
+key M
+wait 2
+shot d04_map
+click 1400 567
+wait 1.5
+shot d04_list
+click 912 260
+wait 1.5
+shot d04_picked
+key Escape
+wait 1
+shot d04_arrow
+dump
+scene
+hold W 3
+wait 2
+skip_dialogue 3
+scene
+shot d04_n1
+dump
+hold W+D 2
+scene
+shot d04_n2
+dump
+hold D 2
+scene
+shot d04_n3
+dump
+dev save wx_dump_04

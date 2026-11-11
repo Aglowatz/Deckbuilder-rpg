@@ -1,0 +1,47 @@
+# Verdant Dump run 11: Point me to the West Sprout Mound, go round the stone house to the west edge, find bean/mound
+wait 2
+dev load wx_dump_10
+wait 12
+dev autowin on
+dev heal
+key M
+wait 2
+click 1429 548
+wait 1.5
+click 1040 195
+wait 1.5
+shot d11_picked
+key Escape
+wait 1
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+scene
+hold A 3
+wait 3
+button Continue
+wait 1
+scene
+shot d11_w1
+dump
+hold A 2
+scene
+shot d11_w2
+dump
+hold W 1
+scene
+shot d11_w3
+dump
+key E
+wait 1.5
+shot d11_e
+dump
+skip_dialogue 8
+wait 1
+dump
+scene
+dev save wx_dump_11

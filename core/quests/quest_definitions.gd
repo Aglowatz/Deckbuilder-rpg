@@ -252,6 +252,10 @@ static func _zone_main(zone_id: String) -> QuestData:
 	var favours: Array[Condition] = []
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		favours.append(Condition.quest_completed(favour_id))
+	# Overnight Nov 10-11 (Part 2.2, the wayfinding critic): "finish a favour" means ANY quest a local gives you - the zone's side-dungeon
+	# quest too (the critic finished Brother Bramble's Who Ate the Compost? and the step did not move; it never learned which favour counts).
+	if ZONE_SIDE_QUEST.has(zone_id):
+		favours.append(Condition.quest_completed(str(ZONE_SIDE_QUEST[zone_id])))
 	# Overnight Nov 4-5, Part 1: a freed zone finishes its line - a skipped favour no longer leaves "3/4" in the log forever.
 	favours.append(Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
 	# Fable pass Nov 10 (Part 1.1): the favour step marks all three favour givers (a finished favour's giver drops off).
@@ -321,13 +325,19 @@ static func _spot_title(def: ZoneDef, spot_id: String) -> String:
 
 
 ## Player-facing names of each zone's main quest line (Block 4 voice pass).
+## Overnight Nov 10-11 (Part 2.2): the side-dungeon quest a zone's local gives, which counts as the zone's "favour" too.
+const ZONE_SIDE_QUEST: Dictionary = {
+	"beefcake": ZoneQuestDefinitions.SIDE_BEEF, "necrocrat": ZoneQuestDefinitions.SIDE_NECRO,
+	"gourmand": ZoneQuestDefinitions.SIDE_GOUR, "refusemancer": ZoneQuestDefinitions.SIDE_REF,
+}
+
 const ZONE_MAIN_TEXT: Dictionary = {
 	"beefcake": {
 		"title": "Raise the Bar",
 		"summary": "The bridge into the Gainlands is drawn up, and the very large man on the crank answers to the regime. Get across and find out who is running the Beefcakes now.",
 		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
-		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley",
+		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley - any quest one of them gives you counts",
 		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim. Nothing is locked on the way: the middle road climbs straight to it from the bridge, past three road guards who want a fight",
 	},
 	"necrocrat": {
@@ -343,7 +353,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"summary": "The great pantry door is locked, and Chef Fennel Gravois won't give up the key. Win it, and find out what's really cooking in the Grand Chef's kitchens.",
 		"gate": "Win the pantry key from Chef Fennel Gravois", "gate_hint": "The great pantry door at the end of the orchard lane",
 		"enter": "Step through the pantry door into the Endless Buffet", "enter_hint": "The open pantry door on the orchard lane",
-		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix",
+		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix - any quest one of them gives you counts",
 		"dungeon": "Shut down the Test Kitchen", "dungeon_hint": "The Test Kitchen, beyond Layer-Cake Town. Sir Loin's gate on the way wants Old Meatloaf mended - see Basil (the favour Mend the Meatloaf)",
 		"dungeon_hint_open": "The Test Kitchen, beyond Layer-Cake Town. Sir Loin's gate is open: north over the Gravy River on the Lazy Susan, then through the gate",
 	},
@@ -352,7 +362,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"summary": "A wall of thorns has swallowed the forest path, and the druid guarding it sounds very wrong. Clear the way and find what is making the Dump sick.",
 		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
-		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Billie Muckfoot, Granny Gristle or Brother Bramble",
+		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Billie Muckfoot, Granny Gristle or Brother Bramble - any quest one of them gives you counts",
 		"dungeon": "Descend into the Rotheart", "dungeon_hint": "The Rotheart's root gate, up on the plateau. Two things bar the way: the stream (plant the Magic Bean from the stream bank at the West Sprout Mound and a vine bridge grows) and the junk barricade on the stairs (charge it on a mount from the stables)",
 		"dungeon_hint_open": "The Rotheart's root gate, up on the plateau. The way is clear: over a vine bridge and up the stairs",
 	},

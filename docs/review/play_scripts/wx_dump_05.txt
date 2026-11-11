@@ -1,0 +1,41 @@
+# Verdant Dump run 05: east of the Commons toward the nearest scavenger circle, fight scavengers
+wait 2
+dev load wx_dump_04
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold W+D 2
+hold D 2
+scene
+hold W 2
+wait 3
+button Continue
+wait 1
+scene
+shot d05_n1
+dump
+hold W+D 1.5
+wait 3
+button Continue
+wait 1
+scene
+shot d05_n2
+dump
+hold W 2
+wait 3
+button Continue
+wait 1
+scene
+shot d05_n3
+dump
+hold D 2
+wait 3
+button Continue
+wait 1
+scene
+shot d05_n4
+dump
+dev save wx_dump_05

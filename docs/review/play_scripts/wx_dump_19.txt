@@ -1,0 +1,70 @@
+# Verdant Dump run 19: replay, line up at x~27, cross the vine bridge, push north toward the Rotheart
+wait 2
+dev load wx_dump_18
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+hold W+D 1
+wait 8
+button Continue
+wait 1.5
+scene
+hold A 1.1
+scene
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n2
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n3
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n5
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d19_n6
+dump
+key E
+wait 1.5
+shot d19_e
+dump
+dev save wx_dump_19

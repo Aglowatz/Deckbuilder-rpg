@@ -1,0 +1,35 @@
+# Verdant Dump run 03: talk to Brother Bramble twice, look for a quest offer, check the Side tab
+wait 2
+dev load wx_dump_02
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold W 1
+scene
+key E
+wait 1.5
+skip_dialogue 12
+wait 1.5
+shot d03_talk1
+dump
+key E
+wait 1.5
+shot d03_talk2
+dump
+skip_dialogue 12
+wait 1.5
+shot d03_talk2_done
+dump
+scene
+key J
+wait 1.5
+click 274 115
+wait 1
+shot d03_side
+dump
+key Escape
+wait 1
+dev save wx_dump_03

@@ -1,0 +1,70 @@
+# Verdant Dump run 18: replay, line up on the vine bridge (x ~27.5), push north in 3 s legs with fight waits
+wait 2
+dev load wx_dump_17
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+hold W+D 1
+wait 8
+button Continue
+wait 1.5
+scene
+hold W 1
+hold A 0.7
+scene
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+hold W+D 0.5
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d18_n2
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d18_n3
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d18_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d18_n5
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot d18_n6
+dump
+key E
+wait 1.5
+shot d18_e
+dump
+dev save wx_dump_18

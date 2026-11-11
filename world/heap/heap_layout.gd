@@ -822,7 +822,7 @@ func _anchors() -> void:
 	_at("crop_2", 34.0, 73.0)
 	_at("crop_3", 39.0, 73.0)
 	_at("quiz", 34.0, 82.0)
-	_at("animal_1", 40.0, 68.0)
+	_at("animal_1", 54.0, 108.0)  # Overnight Nov 10-11 (owner decision 2): grazes on the Commons (was (40, 68) on the Farm Terrace), so the herd is roundable before the first crossing
 	_at("pickup_fert_2", 46.0, 80.0)
 	_at("pickup_junk_2", 58.0, 72.0)
 	_at("pickup_bean_2", 79.5, 78.0)
@@ -830,7 +830,7 @@ func _anchors() -> void:
 	_at("mound_a", 70.5, 86.5)
 	_at("ladder_a_top", 70.5, 81.5)
 	_at("chute_a_end", 54.0, 76.0)
-	_at("animal_3", 74.5, 91.0)
+	_at("animal_3", 74.0, 108.0)  # Overnight Nov 10-11 (owner decision 2): on the Commons (was (74.5, 91) across the water)
 	# T2, the Compost Terrace: the stairs' landing, the sludge chasm's banks and the east pocket, the overlook's ladder, the Rust Peak chute's landing.
 	_at("mound_east", 61.0, 53.0)
 	_at("bank_east", 63.0, 50.0)

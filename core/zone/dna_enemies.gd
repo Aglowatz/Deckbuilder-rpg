@@ -34,7 +34,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.5
 			made.leash_range = 9.0
 			made.recipe = EnemyDecks.trimmed("necro_zombies", 27, 16)
-			made.hp = 14
+			made.hp = 12  # Overnight Nov 10-11 (Part 3, fight pacing): 14 -> 12 (7.3 turns at 14; the slowest ordinary fight of the band)
 			made.ai_name = "Balanced"
 			made.gold_reward = Economy.roamer_gold("necrocrat")
 			made.xp_reward = 40

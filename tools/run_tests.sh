@@ -27,11 +27,12 @@ done
 
 # Free physical RAM in MB (Windows: PowerShell's CIM; elsewhere /proc/meminfo); -1 when it cannot be read (then nothing waits).
 free_mb() {
-	if [ -r /proc/meminfo ]; then
-		awk '/MemAvailable/ {print int($2 / 1024); exit}' /proc/meminfo
-		return
-	fi
 	local kb
+	# Git Bash (MSYS) has a /proc/meminfo too, but with MemFree only (no MemAvailable): take MemAvailable, else MemFree, else ask Windows.
+	if [ -r /proc/meminfo ]; then
+		kb=$(awk '/^MemAvailable:/ {a=$2} /^MemFree:/ {f=$2} END {if (a != "") print a; else if (f != "") print f}' /proc/meminfo)
+		if [[ "$kb" =~ ^[0-9]+$ ]]; then echo $((kb / 1024)); return; fi
+	fi
 	kb=$(powershell -NoProfile -Command "(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory" 2>/dev/null | tr -d '\r ')
 	if [[ "$kb" =~ ^[0-9]+$ ]]; then echo $((kb / 1024)); else echo -1; fi
 }

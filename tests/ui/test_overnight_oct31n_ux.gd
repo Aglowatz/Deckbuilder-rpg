@@ -58,6 +58,7 @@ func test_where_to_lists_named_places_dungeon_first_one_per_name() -> void:
 	] as Array[MapPoi]
 	var places: Array[MapPoi] = FullMapScreen.where_to_places(points)
 	assert_eq(places.size(), 3, "named places only, one per name (the unnamed healer is left out)")
-	assert_eq(places[0].label, "The Iron Cave", "the dungeon entrance comes first")
+	# Overnight Nov 10-11 (Part 1.8): the places are listed alphabetically (a fixed order between opens), no longer by kind
+	assert_eq(places[0].label, "A crate")
 	assert_eq(places[1].label, "Sable's Cards")
-	assert_eq(places[2].label, "A crate", "named interactables come last (the Deck Station, the Hall of Records)")
+	assert_eq(places[2].label, "The Iron Cave")

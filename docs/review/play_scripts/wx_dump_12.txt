@@ -1,0 +1,43 @@
+# Verdant Dump run 12: around the Harvest Meal stall to the south, then west and north to the yellow circles
+wait 2
+dev load wx_dump_11
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+scene
+hold A 3
+wait 3
+button Continue
+wait 1
+scene
+shot d12_w1
+dump
+hold W 2
+wait 3
+button Continue
+wait 1
+scene
+shot d12_w2
+dump
+hold A 2
+scene
+shot d12_w3
+dump
+key E
+wait 1.5
+shot d12_e
+dump
+skip_dialogue 8
+wait 1
+dump
+scene
+dev save wx_dump_12

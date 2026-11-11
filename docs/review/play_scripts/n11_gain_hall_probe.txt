@@ -1,0 +1,25 @@
+# Overnight Nov 10-11: does the gym hall north of Old Man Mountain render? Arrival, walk north to the Station's north edge, look.
+dev load bot_beefcake_enter_beefcake
+wait 8
+dev autowin on
+scene
+hold W 4
+wait 9
+button Continue
+wait 2
+hold W 3
+wait 0.5
+scene
+shot n11_gain_hall_1
+hold A 1.2
+wait 0.3
+hold W 2.5
+wait 0.5
+scene
+shot n11_gain_hall_2
+key V
+wait 1
+shot n11_gain_hall_3_cam
+key V
+wait 1
+shot n11_gain_hall_4_cam

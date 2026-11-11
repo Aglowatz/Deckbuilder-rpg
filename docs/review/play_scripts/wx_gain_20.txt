@@ -1,0 +1,48 @@
+# Gainlands run 20: replay route, stop at the House of Gains door, press E for the entry prompt
+wait 2
+dev load wx_gain_19
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.5
+hold A 1.2
+hold W 2
+hold D 1.5
+hold W+D 1.5
+hold W+D 1.5
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W+D 1
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W 3
+wait 4
+button Continue
+wait 1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+hold W 1.3
+scene
+shot g20_door_near
+dump
+key E
+wait 1.5
+shot g20_door_prompt
+dump
+scene
+dev save wx_gain_20

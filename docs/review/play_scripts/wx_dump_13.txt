@@ -1,0 +1,48 @@
+# Verdant Dump run 13: up the west lane to the gate north of the Commons, toward the yellow circles
+wait 2
+dev load wx_dump_12
+wait 12
+dev autowin on
+dev heal
+hold W 3
+wait 2
+skip_dialogue 3
+hold A 2
+hold W 1
+hold W 0.7
+hold W 2
+hold A 0.8
+hold S 1.2
+hold A 3
+hold W 2
+scene
+hold W+D 1
+wait 3
+button Continue
+wait 1
+scene
+shot d13_n1
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot d13_n2
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot d13_n3
+dump
+key E
+wait 1.5
+shot d13_e
+dump
+skip_dialogue 10
+wait 1
+dump
+scene
+dev save wx_dump_13

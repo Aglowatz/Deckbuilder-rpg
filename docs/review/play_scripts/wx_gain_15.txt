@@ -1,0 +1,44 @@
+# Gainlands run 15: follow the route arrow west around the effect boards, then north up the middle road
+wait 2
+dev load wx_gain_14
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.5
+scene
+hold A 1.2
+scene
+shot g15_w1
+hold W 2
+scene
+shot g15_n1
+hold W+D 2
+scene
+shot g15_n2
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot g15_n3
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot g15_n4
+dump
+hold W 3
+wait 3
+button Continue
+wait 1
+scene
+shot g15_n5
+dump
+dev save wx_gain_15

@@ -411,6 +411,12 @@ func _build_plaza() -> void:
 	var hall_rect: Rect2 = GainlandsLayout.GYM_HALL
 	var hall: Node3D = GainlandsPlaza.gym_hall(Vector3(hall_rect.size.x, GYM_HALL_HEIGHT, hall_rect.size.y))
 	hall.set_meta("concept", "GAIN-HERO-GYM-HALL")  # modelled after the painted concept (art import Oct 20; was a STANDIN)
+	# Overnight Nov 10-11 (Part 2.2, the wayfinding critic): the hall dissolved as "foreground clutter" whenever the lens came within 6.5 m
+	# of its box - i.e. whenever the hero stood at its open front talking to Old Man Mountain or walked along its west wall - so the
+	# critic saw an open road north and walked into an invisible wall four runs running. Like the other landmarks it only fades when the
+	# lens is nearly inside it (or when it really stands between the lens and the hero).
+	for piece: Node in hall.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta("occlusion_near", 2.0)
 	root.add_child(hall)
 	hall.position = Vector3(hall_rect.get_center().x, GainlandsLayout.PLATEAU_Y, hall_rect.get_center().y)
 

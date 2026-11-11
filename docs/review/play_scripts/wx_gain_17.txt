@@ -1,0 +1,48 @@
+# Gainlands run 17: squeeze through the gap beside Old Man Mountain (x ~54.5) and march straight north
+wait 2
+dev load wx_gain_16
+wait 12
+dev autowin on
+hold W 3
+wait 5
+button Continue
+wait 2
+hold W 3
+hold A 0.25
+scene
+hold W 2.5
+scene
+shot g17_gap
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g17_n1
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g17_n2
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g17_n3
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g17_n4
+dump
+hold W 3
+wait 4
+button Continue
+wait 1
+scene
+shot g17_n5
+dump
+dev save wx_gain_17

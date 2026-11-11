@@ -1,0 +1,4 @@
+zone:final:officer	zone:final:officer                           100%  turns 4.9  ok, fast
+zone:final:inspector	zone:final:inspector                         100%  turns 5.1  ok, fast
+zone:final:wretch	zone:final:wretch                            100%  turns 5.2  ok, fast
+zone:final:spotless	zone:final:spotless                           91%  turns 8.8  too easy (+16)
