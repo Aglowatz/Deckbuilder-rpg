@@ -7,7 +7,7 @@ UI layout untouched (Part 3 is numbers only); Primm as the last pass left him. L
 
 ## At a glance
 
-- **RC3:** `C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v1.0.0-rc3-windows.zip` (**734 MB; RC2 was 734 MB too**), release smoke on the exported pack
+- **RC3:** `C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v1.0.0-rc3-windows.zip` (**734 MB; RC2 was 734 MB too**; re-exported after the last two fixes so it matches `main`, smoked again: PASSED), release smoke on the exported pack
   ****PASSED** (`_screenshots/release_smoke_exported.log`)**, the short exported-build checklist ****done, 0 SCRIPT ERRORs**: the three RC1 scripts on the RC3 test pack - A (fresh settings: title, Credits, a new game through the intro, Crosspath, a shop, the Deck Station, the Wardrobe, the packs page, a battle, the pause menu, a setting, Copy log, a manual save, quit, load; 16 shots), B (seeded with A's settings: Settings, save and Continue, the Gainlands quiz; 8 shots), C (quality 0: a zone, the town, a battle; 4 shots) - `_screenshots/exported/x*.png`, `y*.png`, `z*.png`**. Notes for testers: `docs/release/rc3_notes.md`.
 - **Part 1 (finding things):** every step of every active quest marks every part; the audit fails on a marker-less step; the gates on the way to
   the Buffet's and the Dump's main dungeons are marked; the NPC visibility probe passes; "Point me to..." opens over the map with one row per
