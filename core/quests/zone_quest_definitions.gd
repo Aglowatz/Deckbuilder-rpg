@@ -286,7 +286,7 @@ static func _buf_mend() -> QuestData:
 	quest.id = BuffetZone.QUEST_MEND
 	quest.order = 330
 	quest.title = "Mend the Meatloaf"
-	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil thinks sea salt and a black truffle will get him back on his loaf."
+	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil thinks sea salt and a black truffle will get him back on his loaf. Needed for the gate: Sir Loin opens the way to Layer-Cake Town and the Test Kitchen for a mended loaf."
 	quest.giver_npc = BuffetZone.NPC_ODALYS
 	quest.turn_in_npc = BuffetZone.NPC_ODALYS
 	quest.objectives = [QuestObjective.make("Mend Old Meatloaf with sea salt and a black truffle", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]

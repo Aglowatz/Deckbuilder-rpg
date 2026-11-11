@@ -45,6 +45,38 @@ func _build(compact: bool) -> void:
 	custom_minimum_size = Vector2(float(badges.size()) * (ICON_PX + GAP), ICON_PX + (0.0 if compact else 20.0))
 
 
+## Overnight Nov 10-11 (Part 1.5): a few words right after one badge's icon, inside the row ("Setting Up - attacks start Turn 3"); "" removes
+## them. The icon keeps its tooltip and click.
+func set_note(badge_name: String, text: String) -> void:
+	if _row == null:
+		return
+	var node_name: String = "Note_%s" % badge_name.replace(" ", "_")
+	var note: Label = _row.get_node_or_null(node_name) as Label
+	if text.is_empty():
+		if note != null:
+			note.queue_free()
+		return
+	if note == null:
+		var button: Node = _row.get_node_or_null("Badge_%s" % badge_name.replace(" ", "_"))
+		if button == null:
+			return
+		note = UIKit.label(text, &"", 15, Color("ffe08a"))
+		note.name = node_name
+		note.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		note.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		note.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		note.add_theme_constant_override("outline_size", 5)
+		_row.add_child(note)
+		_row.move_child(note, button.get_index() + 1)
+	note.text = text
+
+
+## The words beside a badge ("" when none) - for tests.
+func note_text(badge_name: String) -> String:
+	var note: Label = _row.get_node_or_null("Note_%s" % badge_name.replace(" ", "_")) as Label if _row != null else null
+	return note.text if note != null and not note.is_queued_for_deletion() else ""
+
+
 func _icon(badge: RuleBadges.Badge) -> Control:
 	var button: Button = Button.new()
 	button.name = "Badge_%s" % badge.name.replace(" ", "_")

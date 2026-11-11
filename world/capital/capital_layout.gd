@@ -1073,7 +1073,7 @@ func _spawn(type: String, x: float, z: float, patrol: float, id: String = "") ->
 func _enemies() -> void:
 	# Outside.
 	_spawn("officer", 28.0, 96.0, 4.0)
-	_spawn("inspector", 88.0, 88.0, 4.0)
+	_spawn("inspector", 86.0, 89.0, 4.0)  # Overnight Nov 10-11 (Part 1.2): 10 m clear of the old tunnels' mouth (was 88, 88)
 	_spawn("tidybot", 60.0, 95.0, 6.0)
 	_spawn("wretch", 20.0, 93.5, 3.0, "guard_out_a")
 	_spawn("swarm", 32.5, 87.0, 4.0)
@@ -1091,7 +1091,7 @@ func _enemies() -> void:
 	_spawn("officer", 8.0, 18.5, 3.0)
 	# The Transit Yards.
 	_spawn("officer", 89.0, 58.0, 4.0)
-	_spawn("tidybot", 113.0, 63.0, 3.0)
+	_spawn("tidybot", 111.0, 64.0, 3.0)  # Overnight Nov 10-11 (Part 1.2's walkability check): (113, 63) was not ground a roamer may walk
 	_spawn("swarm", 93.0, 57.0, 2.0)
 	_spawn("inspector", 100.0, 49.0, 3.0)
 	# The Hungry Quarter.
@@ -1099,8 +1099,8 @@ func _enemies() -> void:
 	_spawn("wretch", 104.0, 27.0, 2.0, "guard_hungry")
 	_spawn("tidybot", 100.0, 47.0, 3.0)
 	# The palace approach, the pockets beside the castle hill, the ring streets and the Ward.
-	_spawn("officer", 50.0, 15.0, 4.0)
-	_spawn("inspector", 70.0, 15.0, 4.0)
+	_spawn("officer", 46.0, 17.0, 4.0)  # Overnight Nov 10-11 (Part 1.2): both 10 m clear of the castle door with their patrols (were 50, 15 and 70, 15)
+	_spawn("inspector", 74.0, 17.0, 4.0)
 	_spawn("wretch", 78.0, 11.0, 2.0, "guard_approach_e")
 	_spawn("swarm", 38.5, 24.0, 3.0)
 	_spawn("officer", 38.5, 44.0, 4.0)

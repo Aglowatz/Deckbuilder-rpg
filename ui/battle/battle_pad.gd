@@ -86,6 +86,8 @@ func stops() -> Array[Dictionary]:
 			continue  # the enemy's hand is face down: nothing to read
 		if zone == BattleBoard.Zone.CENTER or zone < 0:
 			continue
+		if zone == BattleBoard.Zone.FIELD and int(view.get_meta("stack_depth", 0)) > 0:
+			continue  # Overnight Nov 10-11 (Part 1.4): a token under the top of its stack is no stop; the top card stands for the stack
 		result.append({"kind": "card", "uid": int(uid), "player": owner_index, "control": view, "rect": PadFocus.focus_rect(view)})
 	for index: int in range(2):
 		var rect: Rect2 = screen.hud.portrait_rect(index)

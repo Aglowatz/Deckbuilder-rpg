@@ -533,10 +533,13 @@ func _enemies() -> void:
 		{"type": "loaf", "home": Vector3(24.0, 0.0, 56.0), "patrol": 3.5},
 		{"type": "jelly", "home": Vector3(80.0, 0.0, 69.0), "patrol": 3.0},
 		{"type": "meatball", "home": Vector3(76.0, 0.0, 50.5), "patrol": 5.0},
-		{"type": "loaf", "home": Vector3(28.5, 0.0, 20.5), "patrol": 3.5},  # (was 32, 22: the Cake Cathedral stands there now, BF-20)
-		{"type": "jelly", "home": Vector3(50.0, 0.0, 20.0), "patrol": 3.0},
+		# Overnight Nov 10-11 (Part 1.2): every roamer keeps 10 m (plus its patrol) from the Test Kitchen's door, the side dungeon and the three
+		# golem gates (tests/world/test_roamer_doors_nov11.gd): the loaf was (28.5, 20.5), the jelly (50, 20) - it camped the Test Kitchen's door
+		# - and the hub-side meatball (40, 34), 6 m from Sir Loin's gate.
+		{"type": "loaf", "home": Vector3(29.5, 0.0, 19.5), "patrol": 3.5},  # (was 32, 22: the Cake Cathedral stands there now, BF-20)
+		{"type": "jelly", "home": Vector3(36.0, 0.0, 32.0), "patrol": 3.0},
 		{"type": "meatball", "home": Vector3(72.0, 0.0, 16.0), "patrol": 4.0},
-		{"type": "meatball", "home": Vector3(40.0, 0.0, 34.0), "patrol": 4.0},
+		{"type": "meatball", "home": Vector3(36.0, 0.0, 40.0), "patrol": 4.0},
 	]
 
 

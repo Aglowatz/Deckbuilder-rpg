@@ -169,7 +169,12 @@ static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 			names[poi.label] = true
 			result.append(poi)
 			if result.size() >= WHERE_TO_MAX:
-				return result
+				break
+		if result.size() >= WHERE_TO_MAX:
+			break
+	# Overnight Nov 10-11 (Part 1.8, the exported-build critic's #9): the places in one fixed order - alphabetical - so the list never
+	# reorders between opens (the layer listed them in the order it met them; a row that said Tarragon pointed at Mirepoix next time).
+	result.sort_custom(func(a: MapPoi, b: MapPoi) -> bool: return a.label.naturalnocasecmp_to(b.label) < 0)
 	return result
 
 

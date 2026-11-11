@@ -117,6 +117,13 @@ func _ready() -> void:
 	_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_toast.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_toast.modulate.a = 0.0
+	# Overnight Nov 10-11 (Part 1.6): a click on the toast dismisses it; while hidden it takes no mouse (see `toast`).
+	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast.gui_input.connect(func(event: InputEvent) -> void:
+		var click: InputEventMouseButton = event as InputEventMouseButton
+		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT and _toast.modulate.a > 0.0:
+			clear_toast()
+			_toast.accept_event())
 	add_child(_toast)
 	# Phase 2 cycle 7: the line ran off the right edge; the Menu button names itself, so it is not listed here.
 	var hints: Label = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
@@ -333,6 +340,8 @@ func queue_toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:
 
 func _process(delta: float) -> void:
 	_pulse_packs_hint(delta)
+	if _toast_deadline_msec > 0 and Time.get_ticks_msec() > _toast_deadline_msec:
+		clear_toast()
 	_queue_timer -= delta
 	if _queue_timer <= 0.0 and not _queue.is_empty():
 		var entry: Array = _queue.pop_front()
@@ -340,7 +349,15 @@ func _process(delta: float) -> void:
 		_queue_timer = 2.4
 
 
+## Overnight Nov 10-11 (Part 1.6, the exported-build critic's #6): a toast stays at most TOAST_MAX_HOLD seconds (plus the fade), on the
+## wall clock - the old tween could be held up (a toast read "still up 20 s and three conversations later"); `_process` enforces the
+## deadline whatever the tween does. A click on it dismisses it (`clear_toast`).
+const TOAST_MAX_HOLD: float = 6.0
+var _toast_deadline_msec: int = 0
+
+
 func toast(message: String, color: Color = UIStyle.PARCHMENT, hold: float = 2.0) -> void:
+	hold = clampf(hold, 0.5, TOAST_MAX_HOLD)
 	_toast.text = message
 	var lines: int = maxi(1, _toast.get_line_count())
 	_toast.size = Vector2(1000, 44 * lines)
@@ -349,9 +366,28 @@ func toast(message: String, color: Color = UIStyle.PARCHMENT, hold: float = 2.0)
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()
 	_toast.modulate.a = 1.0
+	_toast.mouse_filter = Control.MOUSE_FILTER_STOP
+	_toast_deadline_msec = Time.get_ticks_msec() + int((hold + 0.5) * 1000.0)
 	_toast_tween = create_tween()
 	_toast_tween.tween_interval(hold)
 	_toast_tween.tween_property(_toast, "modulate:a", 0.0, 0.5)
+	_toast_tween.tween_callback(func() -> void: _toast.mouse_filter = Control.MOUSE_FILTER_IGNORE)
+
+
+## Hides the toast now; with `containing` only when its text contains it (the "has a favour to ask" hint once the favour is accepted).
+func clear_toast(containing: String = "") -> void:
+	if containing != "" and not _toast.text.contains(containing):
+		return
+	if _toast_tween != null and _toast_tween.is_valid():
+		_toast_tween.kill()
+	_toast.modulate.a = 0.0
+	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_toast_deadline_msec = 0
+
+
+## The toast on screen now ("" when none) - for tests.
+func toast_text() -> String:
+	return _toast.text if _toast.modulate.a > 0.0 else ""
 
 
 func toggle_menu() -> void:

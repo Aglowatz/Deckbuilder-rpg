@@ -877,7 +877,7 @@ func _enemies() -> void:
 		{"type": "golem", "home": Vector3(40.0, 0.0, 87.0), "patrol": 3.0},
 		{"type": "scarecrow", "home": Vector3(42.0, 0.0, 50.0), "patrol": 3.0},
 		{"type": "gulls", "home": Vector3(70.0, 0.0, 24.0), "patrol": 5.0},
-		{"type": "gulls", "home": Vector3(58.0, 0.0, 16.0), "patrol": 4.0},
+		{"type": "gulls", "home": Vector3(63.0, 0.0, 18.0), "patrol": 4.0},  # Overnight Nov 10-11 (Part 1.2): 10 m clear of the Rotheart's gate (was 58, 16)
 		{"type": "scarecrow", "home": Vector3(78.0, 0.0, 76.0), "patrol": 2.5},
 	]
 

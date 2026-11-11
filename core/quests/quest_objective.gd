@@ -50,6 +50,26 @@ func part(kind: TargetKind, area: String, id: String, label: String = "", done: 
 	return self
 
 
+## Overnight Nov 10-11 (Part 1.1): the "where to go" line once every gate part on the way is open (`way_open`); "" = the hint stays.
+@export var hint_open: String = ""
+
+
+func open_hint(where: String) -> QuestObjective:
+	hint_open = where
+	return self
+
+
+## True once no part but the destination itself (a DUNGEON part) is left undone: the gates on the way are open, so the hint can stop
+## naming them. False for a step without parts.
+func way_open(state: UnlockState) -> bool:
+	if parts.is_empty():
+		return false
+	for entry: Dictionary in targets(state):
+		if int(entry.get("kind", TargetKind.SPOT)) != TargetKind.DUNGEON:
+			return false
+	return true
+
+
 ## Marks a menu step (no world marker by design).
 func in_menu() -> QuestObjective:
 	menu_step = true

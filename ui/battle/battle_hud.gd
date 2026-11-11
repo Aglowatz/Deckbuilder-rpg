@@ -127,6 +127,7 @@ func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
 	rule_row = RuleIconRow.make(badges, "Rules of this fight")
 	rule_row.position = Vector2(24, at_y)
 	add_child(rule_row)
+	_refresh_setup_note()
 	_refresh_jam()
 
 
@@ -464,8 +465,25 @@ func refresh_all() -> void:
 	_turn_sub.text = ""
 	if game.stage == GameState.Stage.PLAYING:
 		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy's turn"
+		# Overnight Nov 10-11 (Part 1.5): every refresh keeps the Setting Up countdown (a sync after the turn label wiped it)
+		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1))
+		if not setup_line.is_empty():
+			_turn_sub.text += "  -  " + setup_line
+	_refresh_setup_note()
 	_refresh_processing()
 	_refresh_jam()
+
+
+## Overnight Nov 10-11 (Part 1.5, the exported-build critic's #5): words beside the Setting Up hourglass in the rule row during the fight
+## ("Setting Up - attacks start Turn 3"), gone once the window is over. The icon and its tooltip are unchanged.
+func _refresh_setup_note() -> void:
+	if rule_row == null or not is_instance_valid(rule_row) or game == null:
+		return
+	var window: int = game.players[1].modifiers.sum(Modifier.Kind.SETUP_TURNS) if game.players.size() > 1 else 0
+	var note: String = ""
+	if window > 0 and game.setup_turns_left(1) > 0:
+		note = "%s - attacks start Turn %d" % [BossTempo.RULE_NAME, window + 1]
+	rule_row.set_note(BossTempo.RULE_NAME, note)
 
 
 ## Battle feel, Part A: what hovering a player's HP plate tells you.
@@ -528,6 +546,7 @@ func on_event(event: GameEvent) -> void:
 			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left(1) if game != null else 0)
 			if not setup_line.is_empty():
 				_turn_sub.text += "  -  " + setup_line
+			_refresh_setup_note()
 			# Import Nov 8 (C4b F11): no second "YOUR TURN / ENEMY TURN" here - the board's ribbon (BattleFX.turn_banner) already says it, and
 			# the band-less copy sat over the opponent's action line.
 			_refresh_jam()

@@ -124,8 +124,31 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"pause") and pause_allowed and not busy:
+		# Overnight Nov 10-11 (Part 1.10, inbox 8): Esc closes the top pop-up or advances the conversation first; the pause menu opens only
+		# when nothing else is open (it opened on top of a Quest Complete card and a dialogue, and E then closed nothing).
+		if not _pause_menu.visible and close_top_popup():
+			get_viewport().set_input_as_handled()
+			return
 		_pause_menu.toggle()
 		get_viewport().set_input_as_handled()
+
+
+## Overnight Nov 10-11 (Part 1.10): what Esc closes before the pause menu - a reward / quest-complete / level-up box (its Continue), then an
+## open conversation (its next line). True when something took the press. Screens that answer Esc themselves (overlays, dialogs, the map)
+## never let it get here.
+func close_top_popup() -> bool:
+	var root: Node = get_tree().root
+	for node: Node in root.find_children("*", "PopupFrame", true, false):
+		var frame: PopupFrame = node as PopupFrame
+		if frame != null and frame.is_visible_in_tree():
+			frame.call(&"_confirm")
+			return true
+	for node: Node in get_tree().get_nodes_in_group(DialogueBox.GROUP):
+		var box: DialogueBox = node as DialogueBox
+		if box != null and box.active and box.is_visible_in_tree():
+			box.press()
+			return true
+	return false
 
 
 ## Fades out, loads `path`, fades back in.

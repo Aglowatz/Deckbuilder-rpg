@@ -793,12 +793,19 @@ static func most_common_type(spawns: Array) -> String:
 	return best
 
 
-## Where the exit roamer lives: 9-15 m from the exit toward the arrival point (the hub side), then round it, on walkable ground. INF when
+## Overnight Nov 10-11 (Part 1.2, the exported-build critic's #2): no roamer camps a door. A roamer's wander area (home +/- patrol) stays at
+## least this far from every dungeon door, gate and zone exit; `tests/world/test_roamer_doors_nov11.gd` checks every zone's spawn table.
+const ROAMER_DOOR_CLEARANCE: float = 10.0
+
+
+## Where the exit roamer lives: 14-17 m from the exit toward the arrival point (the hub side), then round it, on walkable ground. INF when
 ## nowhere fits. Pure.
 static func exit_roamer_home(exit_pos: Vector3, toward: Vector3, walkable: Callable) -> Vector3:
 	var inward: Vector3 = Vector3(toward.x - exit_pos.x, 0.0, toward.z - exit_pos.z)
 	inward = inward.normalized() if inward.length() > 0.5 else Vector3.FORWARD
-	for distance: float in [11.0, 9.0, 13.0, 15.0]:
+	# Overnight Nov 10-11 (Part 1.2): 14-17 m out, so with its 3 m patrol it never comes within ROAMER_DOOR_CLEARANCE of the exit spot (which
+	# sits up to 0.8 m off the anchor; it was 9-15 m).
+	for distance: float in [14.0, 15.0, 16.0, 17.0]:
 		for degrees: float in [0.0, 25.0, -25.0, 50.0, -50.0, 80.0, -80.0]:
 			var at: Vector3 = exit_pos + inward.rotated(Vector3.UP, deg_to_rad(degrees)) * distance
 			if bool(walkable.call(at)):
@@ -1137,6 +1144,8 @@ func where_am_i() -> String:
 func _nearest_spot(pos: Vector3) -> ZoneSpot:
 	var best: ZoneSpot = null
 	var best_distance: float = 1e9
+	var best_quest: ZoneSpot = null
+	var best_quest_distance: float = 1e9
 	# Performance pass Oct 25: only the spots near the hero (refreshed 4 times a second and after a jump; a far one cannot be in reach).
 	var candidates: Array[ZoneSpot] = _near_spots if _near_count == spots.size() and pos.distance_to(_near_from) < 6.0 else spots
 	for spot: ZoneSpot in candidates:
@@ -1150,10 +1159,32 @@ func _nearest_spot(pos: Vector3) -> ZoneSpot:
 		if spot.kind == "sign":
 			distance += SIGN_YIELD
 			reach += SIGN_YIELD
+		# Overnight Nov 10-11 (Part 1.7, the exported-build critic's #7): a person with a quest to give or take reaches a little further
+		if _has_quest_business(spot):
+			reach += QUEST_NPC_REACH_BONUS
 		if distance <= reach and distance < best_distance:
 			best = spot
 			best_distance = distance
+		if distance <= reach and _has_quest_business(spot) and (best_quest == null or distance < best_quest_distance):
+			best_quest = spot
+			best_quest_distance = distance
+	# the quest NPC wins over a plaque, a sign or a prop in reach ("[E] Read the plaque" with Tarragon 2.8 m away); never over a door or an exit
+	if best_quest != null and best != best_quest and best != null and best.kind in QUEST_NPC_BEATS:
+		return best_quest
 	return best
+
+
+## Overnight Nov 10-11 (Part 1.7): the spot kinds a quest NPC in reach wins the E prompt from.
+const QUEST_NPC_BEATS: Array[String] = ["plaque", "sign", "zone", "freed_npc"]
+const QUEST_NPC_REACH_BONUS: float = 0.8
+
+
+## True for a talk spot whose person has a quest to offer or to hand in right now.
+func _has_quest_business(spot: ZoneSpot) -> bool:
+	if not spot.is_npc or not spot.data.has("npc_name"):
+		return false
+	var npc_name: String = str(spot.data["npc_name"])
+	return not Session.quests_offered_by(npc_name).is_empty() or not Session.quests_ready_for(npc_name).is_empty()
 
 
 ## Where the NPC a talk spot belongs to stands (a strolling NPC: where they walk), or x = 1e9 for a spot without one.
@@ -1547,6 +1578,7 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 			return
 		_say(speaker, greeting + offer, func() -> void:
 			Session.start_quest(quest.id)
+			hud.clear_toast("has a favour to ask")  # Overnight Nov 10-11 (Part 1.9): the "Talk again" hint goes once the favour is taken
 			if after.is_valid():
 				after.call(), portrait_npc)
 		return

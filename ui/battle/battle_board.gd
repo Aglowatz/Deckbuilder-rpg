@@ -318,28 +318,127 @@ func _layout_hand(owner_index: int) -> void:
 
 func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spacing: float, center_x: float, max_width: float) -> void:
 	var cards: Array[int] = _cards_in(owner_index, zone)
-	var count: int = cards.size()
-	if count == 0:
-		return
-	var step: float = minf(spacing, max_width / float(count))
-	for index: int in range(count):
-		var uid: int = cards[index]
-		var offset: float = float(index) - float(count - 1) * 0.5
-		var pos: Vector2 = Vector2(center_x + offset * step, y)
-		var rot: float = 0.0
-		var card: CardInstance = game.find_card(uid)
+	if cards.is_empty():
 		if zone == Zone.FIELD:
-			var dir: float = -1.0 if owner_index == human else 1.0
-			if attacking.has(uid):
-				pos.y += dir * 70.0
-		if card != null and card.exhausted and zone != Zone.FIELD:
-			rot = 14.0
-		elif card != null and card.exhausted:
-			rot = 7.0
-		var z: int = 5 + index
-		if uid == hover_uid:
-			z = 90
-		_targets[uid] = {"pos": pos, "rot": rot, "scale": card_scale, "z": z}
+			_hide_stack_badges(owner_index, 0)
+		return
+	# Overnight Nov 10-11 (Part 1.4, the exported-build critic's #4): identical tokens on the battlefield share one slot - one card with a
+	# "xN" count - so a boss's swarm (seven Sashimi Weenies) never overlaps the row. Nothing else about the row moves (`_field_stacks`).
+	var slots: Array = _field_stacks(cards, zone)
+	var count: int = slots.size()
+	var step: float = minf(spacing, max_width / float(count))
+	var stack_badges: int = 0
+	for index: int in range(count):
+		var members: Array = slots[index] as Array
+		var offset: float = float(index) - float(count - 1) * 0.5
+		for depth: int in range(members.size()):
+			var uid: int = int(members[depth])
+			var pos: Vector2 = Vector2(center_x + offset * step, y) + FIELD_STACK_STEP * float(mini(depth, 3))
+			var rot: float = 0.0
+			var card: CardInstance = game.find_card(uid)
+			if zone == Zone.FIELD:
+				var dir: float = -1.0 if owner_index == human else 1.0
+				if attacking.has(uid):
+					pos.y += dir * 70.0
+			if card != null and card.exhausted and zone != Zone.FIELD:
+				rot = 14.0
+			elif card != null and card.exhausted:
+				rot = 7.0
+			var z: int = 5 + index + depth
+			if uid == hover_uid:
+				z = 90
+			_targets[uid] = {"pos": pos, "rot": rot, "scale": card_scale, "z": z}
+			var view: CardView = view_for(uid)
+			if view != null:
+				view.set_meta("stack_depth", depth)
+		if members.size() > 1 and zone == Zone.FIELD:
+			var top: Vector2 = (_targets[int(members[members.size() - 1])] as Dictionary)["pos"] as Vector2
+			var badge: Label = _stack_badge(owner_index, stack_badges)
+			badge.visible = true
+			badge.text = "x%d" % members.size()
+			badge.position = top + Vector2(CardView.SIZE.x * card_scale * 0.5 - 30.0, -CardView.SIZE.y * card_scale * 0.5 - 10.0)
+			stack_badges += 1
+	if zone == Zone.FIELD:
+		_hide_stack_badges(owner_index, stack_badges)
+
+
+## The row's slots: each an Array of uids that share one place - a lone card, or identical tokens (same card, same live numbers, same
+## state) that are neither attacking, blocking, blocked nor being dragged. Only the battlefield stacks; authoring order is kept.
+const FIELD_STACK_STEP: Vector2 = Vector2(6.0, -6.0)
+
+
+func _field_stacks(cards: Array[int], zone: Zone) -> Array:
+	var slots: Array = []
+	if zone != Zone.FIELD:
+		for uid: int in cards:
+			slots.append([uid])
+		return slots
+	var by_signature: Dictionary = {}
+	for uid: int in cards:
+		var signature: String = _stack_signature(uid)
+		if signature.is_empty():
+			slots.append([uid])
+			continue
+		if by_signature.has(signature):
+			(by_signature[signature] as Array).append(uid)
+			continue
+		var slot: Array = [uid]
+		by_signature[signature] = slot
+		slots.append(slot)
+	return slots
+
+
+## What makes two tokens "identical" for stacking; "" for a card that never stacks.
+func _stack_signature(uid: int) -> String:
+	var card: CardInstance = game.find_card(uid)
+	if card == null or card.data == null or not card.is_token() or uid == drag_uid:
+		return ""
+	if attacking.has(uid) or blockers.has(uid) or blockers.values().has(uid):
+		return ""
+	var keywords: PackedStringArray = []
+	for keyword: CardEnums.Keyword in card.granted_keywords + card.temp_keywords:
+		keywords.append(str(int(keyword)))
+	keywords.sort()
+	return "%s|%d|%d|%d|%d|%d|%d|%d|%d|%d|%s" % [card.data.id, card.attack_bonus + card.temp_attack + card.lingering_attack(), card.defense_bonus + card.temp_defense + card.lingering_defense(),
+		card.damage, 1 if card.exhausted else 0, 1 if card.just_arrived else 0, card.set_attack, card.set_defense, card.buffs, card.overgrowth_stacks, ",".join(keywords)]
+
+
+## The "x3" over a stack of identical tokens on the battlefield (one Label per stack, reused between layouts).
+func _stack_badge(owner_index: int, stack_index: int) -> Label:
+	var node_name: String = "FieldStack%d_%d" % [owner_index, stack_index]
+	var existing: Node = get_node_or_null(node_name)
+	if existing is Label:
+		return existing as Label
+	var badge: Label = Label.new()
+	badge.name = node_name
+	badge.add_theme_font_size_override("font_size", 22)
+	badge.add_theme_color_override("font_color", Color("fff3d6"))
+	badge.add_theme_color_override("font_outline_color", Color("1b1020"))
+	badge.add_theme_constant_override("outline_size", 7)
+	badge.add_theme_stylebox_override("normal", UIStyle.box(Color(0.12, 0.07, 0.16, 0.92), UIStyle.GOLD, 2, 10))
+	badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge.custom_minimum_size = Vector2(46, 30)
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.z_index = 95
+	add_child(badge)
+	return badge
+
+
+func _hide_stack_badges(owner_index: int, from_index: int) -> void:
+	var index: int = from_index
+	while get_node_or_null("FieldStack%d_%d" % [owner_index, index]) != null:
+		(get_node("FieldStack%d_%d" % [owner_index, index]) as Label).visible = false
+		index += 1
+
+
+## The battlefield stacks as the player sees them: [{"id", "count", "uids"}] per owner - for tests and the pad.
+func field_stacks_of(owner_index: int) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for slot: Variant in _field_stacks(_cards_in(owner_index, Zone.FIELD), Zone.FIELD):
+		var members: Array = slot as Array
+		var first: int = int(members[0])
+		result.append({"id": card_data[first].id if card_data.has(first) else "?", "count": members.size(), "uids": members})
+	return result
 
 
 ## Blockers step up next to the unit they block.

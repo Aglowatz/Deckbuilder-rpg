@@ -274,6 +274,10 @@ static func _zone_main(zone_id: String) -> QuestData:
 			step.part(QuestObjective.TargetKind.SPOT, zone_id, "grow_bridge_west", "The West Sprout Mound: plant a Magic Bean and a vine bridge grows across the stream", crossed)
 	# Fable pass Nov 10 (Part 1.2): the way to the main dungeon is never a guessing game - where a gate stands on the road (the audit tool
 	# `tools/dungeon_route_audit.gd` names them) the dungeon step marks the gate and what opens it, until it is open.
+	# Overnight Nov 10-11 (Part 1.1, the exported-build critic's #1): the step's "Where to go" line itself names the gate and what opens it
+	# (`dungeon_hint`), and says the way is clear once it is (`dungeon_hint_open`) - the map marked the gate, the words did not.
+	if text.has("dungeon_hint_open"):
+		dungeon_step.open_hint(str(text["dungeon_hint_open"]))
 	match zone_id:
 		"gourmand":
 			# Sir Loin's golem gate across the road to Layer-Cake Town opens once Old Meatloaf is mended (Basil's favour, Mend the Meatloaf)
@@ -285,6 +289,10 @@ static func _zone_main(zone_id: String) -> QuestData:
 			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "stable_2", "The stables: borrow a mount (it charges junk barricades)", smashed)
 			dungeon_step.part(QuestObjective.TargetKind.SPOT, zone_id, "barricade_gate", "The junk barricade on the stairs: charge it on a mount", smashed)
 			dungeon_step.part(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", "The Rotheart's root gate, up on the plateau")
+		"necrocrat":
+			# Overnight Nov 10-11 (owner decision, inbox 12): the Hall's door needs no favour - it is marked from arrival, on the favour step
+			# too, and the favour stays the recommended side step (the step's own condition already accepts a cleared dungeon).
+			favour_step.part(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", "The Hall of Final Approvals: its door is open now (a favour first is recommended, not required)", Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
 	quest.objectives = [
 		QuestObjective.make(str(text["gate"]), Condition.flag(str(CorruptedNpcs.unlock_flag(zone_id))))
 			.at(QuestObjective.TargetKind.BATTLE, "town", "npc_%s" % zone_id, str(text["gate_hint"]))
@@ -320,15 +328,15 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
 		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley",
-		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim",
+		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim. Nothing is locked on the way: the middle road climbs straight to it from the bridge, past three road guards who want a fight",
 	},
 	"necrocrat": {
 		"title": "Take a Number",
 		"summary": "A checkpoint on the cracked road wants a permit nobody has ever been issued. Get one the hard way, help the staff, and get the D.N.A. its final approval.",
 		"gate": "Out-file Prudence Pallor at the permit barrier", "gate_hint": "The permit barrier, at the end of the cracked road",
 		"enter": "Pass the permit barrier into the D.N.A.", "enter_hint": "The raised barrier on the cracked road",
-		"favour": "Help the staff: finish a favour in the D.N.A.", "favour_spot": "dolores", "favour_hint": "Agnes Overdue, Gerald or Clerk Ledgerbone",
-		"dungeon": "Get final approval in the Hall of Final Approvals", "dungeon_hint": "The Hall of Final Approvals, at the top of the building",
+		"favour": "Help the staff: finish a favour in the D.N.A.", "favour_spot": "dolores", "favour_hint": "Agnes Overdue, Gerald or Clerk Ledgerbone - or go straight up to the Hall of Final Approvals: its door is open, no favour needed",
+		"dungeon": "Get final approval in the Hall of Final Approvals", "dungeon_hint": "The Hall of Final Approvals, at the top (far north end) of the building. Its door is open: no permit, no favour, nothing locked on the way",
 	},
 	"gourmand": {
 		"title": "Key Ingredients",
@@ -336,7 +344,8 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"gate": "Win the pantry key from Chef Fennel Gravois", "gate_hint": "The great pantry door at the end of the orchard lane",
 		"enter": "Step through the pantry door into the Endless Buffet", "enter_hint": "The open pantry door on the orchard lane",
 		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix",
-		"dungeon": "Shut down the Test Kitchen", "dungeon_hint": "The Test Kitchen, at the far end of the halls",
+		"dungeon": "Shut down the Test Kitchen", "dungeon_hint": "The Test Kitchen, beyond Layer-Cake Town. Sir Loin's gate on the way wants Old Meatloaf mended - see Basil (the favour Mend the Meatloaf)",
+		"dungeon_hint_open": "The Test Kitchen, beyond Layer-Cake Town. Sir Loin's gate is open: north over the Gravy River on the Lazy Susan, then through the gate",
 	},
 	"refusemancer": {
 		"title": "Root Cause",
@@ -344,7 +353,8 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
 		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Billie Muckfoot, Granny Gristle or Brother Bramble",
-		"dungeon": "Descend into the Rotheart", "dungeon_hint": "The way down into the Rotheart, at the bottom of the Dump",
+		"dungeon": "Descend into the Rotheart", "dungeon_hint": "The Rotheart's root gate, up on the plateau. Two things bar the way: the stream (plant the Magic Bean from the stream bank at the West Sprout Mound and a vine bridge grows) and the junk barricade on the stairs (charge it on a mount from the stables)",
+		"dungeon_hint_open": "The Rotheart's root gate, up on the plateau. The way is clear: over a vine bridge and up the stairs",
 	},
 }
 
