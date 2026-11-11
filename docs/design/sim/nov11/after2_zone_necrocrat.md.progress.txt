@@ -1,0 +1,2 @@
+zone:necrocrat:manager	zone:necrocrat:manager                        97%  turns 6.7  ok
+zone:necrocrat:intern	zone:necrocrat:intern                        100%  turns 5.5  ok, fast

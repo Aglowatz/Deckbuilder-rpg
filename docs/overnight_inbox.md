@@ -25,6 +25,28 @@ Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build
 6. **The Dump's route arrow** (Part 2.1) plans on a 1 m grid with 12 ms a frame (0.8 s of search, was 1.4 s at 5 ms: about a second after a
    pick instead of five). The other zones keep the 0.75 m grid and 5 ms. If the Dump's arrow ever cuts a corner it should not, lower
    `HeapScene.ROUTE_GRID` back toward 0.75.
+7. **"Finish a favour" accepts the zone's side-dungeon quest too** (Part 2.2: `QuestDefinitions.ZONE_SIDE_QUEST`): the wayfinding critic
+   finished Brother Bramble's Who Ate the Compost? and the step did not move. The favour hints now end "- any quest one of them gives you
+   counts". The midpoint gear still pays once, at the step.
+8. **A part of a step done is announced** ("Quest updated / Root Cause / » Lend a hand... / Done: A Magic Bean (by the stream...)"): the
+   critic planted the bean and grew the bridge and saw nothing change. Session-only, like the step banners (nothing on load).
+9. **The gym hall in the Gainlands' Station dissolved whenever the lens came within 6.5 m of it** (talking to Old Man Mountain at its open
+   front, or walking along its west wall), so the critic saw an open road north and walked into an invisible wall for four runs. It now
+   fades only when the lens is nearly inside it (`occlusion_near` 2.0, as the other landmarks). The Flex Mirrors answer E from 2.4 m (was 1.5).
+10. **The map legend's "Goal:" rows are buttons now** (a click points the arrow at that quest's nearest place, as the "Point me to..." list
+   does). The critic clicked them twice and nothing happened.
+11. **The Dump's herd** (your decision 2): `animal_1` (40, 68) and `animal_3` (74.5, 91) now graze on the Compost Commons at (54, 108) and
+   (74, 108) (resumed Nov 11: the first spots stood on blocked ground / beside a landmark); `tests/world/test_dump_herd_nov11.gd` keeps all three
+   south of the stream. The seeded tree scatter shifts with any anchor: the bridge head keeps 9 purple-mushroom trees, not 10 (test relaxed to 9).
+12. **Fight pacing (Part 3) - the real cause is gear, and it needs your call.** The expected player (the model's deck, gear and items) wins
+   the midgame's 27 ordinary fights in 5.6 turns now (5.8 before, 98 % both, none over 7) after about -20 % HP on the L10-14 band's ordinary
+   foes (the list is in the report, Part 3; revert = those numbers in `core/zone/buffet_enemies.gd`, `core/zone/dna_enemies.gd`,
+   `data/dungeons/dungeon_content.json`). **But a hero without the model gear** - the critic's bot, and likely many real players - still
+   runs 9-10 turns and wins 69-81 % (sim `--nogear` after the trim: Gelatin Sentinel 9.1, Meatloaf Golem 9.1, Test Kitchen rooms 8.9-10.2;
+   the pilot on the critic's own L14 hero: 10, 11, 13 turns and one loss). For that player HP is not the lever (Sentinel 14 -> 13 HP moved it
+   9.2 -> 9.1): the board stalls and nothing breaks it. Options, none taken: (a) accept it - geared players get 5-7, the critics were bots;
+   (b) a stall breaker in ordinary fights only (e.g. from turn 7 both sides' units get +1 attack, shown as a rule badge in the existing rule
+   row); (c) push the damage gear harder (the Armory / reward picks offer an attack piece first at L10-14). Say which.
 
 ## Import Nov 8 - yours to decide (the safest choice was taken)
 

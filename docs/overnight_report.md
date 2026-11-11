@@ -1,3 +1,155 @@
+# Overnight Nov 10-11 - report
+
+Brief: `docs/prompts/overnight_nov10.md`. Start tag `pre-overnight-nov10`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 10-11".
+Shots: `docs/overnight_shots/nov11/`. One Godot at a time; the critics (the wayfinding critic, the late-game critic) were the only Godot while
+they played, and no sub-agent ran while a Godot of mine did. Owner constraints kept: no difficulty setting; the battle board and the UI
+layout untouched (Part 1's token stacks and the Setting Up words live inside the existing row and rule row); Primm as he was. Owner
+decisions applied: stashes stay marked while a step wants one (1); the Dump's herd grazes on the Commons (2); the D.N.A.'s Hall door marked from arrival
+(3); the Capital's secret wall hole kept (4). The Fable pass Nov 10 report follows below.
+
+## At a glance
+
+[TBD: the critic fixes / wayfinding minutes per zone before and after / the fight-pacing table / the late-game critic's scores and top 10 /
+where RC4 is / the release-day checklist]
+
+## Part 1 - the exported-build critic's top 10 (inbox 14)
+
+| # | Problem (critic) | Done |
+|---|---|---|
+| 1 | The main quest's dungeon step never names the gate | Every zone's dungeon step "Where to go" line names the gate and what opens it, and a second line once it is open (`QuestObjective.hint_open` / `way_open`): the Buffet "Sir Loin's gate on the way wants Old Meatloaf mended - see Basil (the favour Mend the Meatloaf)" -> "Sir Loin's gate is open: north over the Gravy River on the Lazy Susan"; the Dump "Two things bar the way: the stream (plant the Magic Bean from the stream bank at the West Sprout Mound...) and the junk barricade on the stairs (charge it on a mount from the stables)" -> "The way is clear"; the Gainlands "Nothing is locked on the way: the middle road climbs straight to it from the bridge, past three road guards"; the D.N.A. "Its door is open: no permit, no favour, nothing locked on the way". Mend the Meatloaf's summary ends "Needed for the gate: Sir Loin opens the way to Layer-Cake Town and the Test Kitchen for a mended loaf." Owner decision 3: the D.N.A.'s favour step carries a part that marks the Hall's door from arrival (its hint: "...or go straight up to the Hall of Final Approvals: its door is open, no favour needed"). |
+| 2 | A roamer camps the Test Kitchen door | `ZoneScene.ROAMER_DOOR_CLEARANCE` 10 m: `tests/world/test_roamer_doors_nov11.gd` builds every zone headless and fails on any roamer whose home +/- patrol comes within 10 m of a dungeon door, a gate or the exit (and on a home a roamer may not walk); it prints the nearest fitting home for an offender. Eleven moves (inbox 1): the Buffet's jelly (50, 20) -> (36, 32) - the Gelatin Sentinel - its loaf and the hub meatball, the Dump's gulls, the Capital's two castle-approach roamers, its tunnel-mouth inspector and a Tidy-Bot; the scene's exit roamer stands 14-17 m out. Road guards are the obstacle on their road by design and are exempt. |
+| 3 | 9-11-turn fights | Part 3 below. |
+| 4 | The boss's token swarm overlaps | Identical tokens on the battlefield (same card, same live numbers and state; not attacking, blocking or blocked) share one slot with an "xN" badge (`BattleBoard._field_stacks`, `FieldStack<owner>_<n>`), both sides, from two copies up; the row's spacing counts slots, so seven Sashimi Weenies take one card's width. Real cards never stack; the pad skips the cards under a stack's top. |
+| 5 | "Setting Up" is an unlabelled hourglass in the fight | "Setting Up - attacks start Turn 3" stands beside the hourglass in the rules row (`RuleIconRow.set_note`, `BattleHud._refresh_setup_note`) until the window is over; the turn panel's countdown now survives every refresh (a sync wiped it). |
+| 6 | Toasts stay 20-30 s | The HUD toast is capped at 6 s plus the fade on the wall clock (`TownHud.TOAST_MAX_HOLD`; `_process` enforces the deadline whatever the tween does) and a click dismisses it. |
+| 7 | E prefers plaques to the quest NPC | A person with a quest to give or hand in wins the E prompt over a plaque, a sign or a prop in reach, and reaches 0.8 m further (`ZoneScene.QUEST_NPC_BEATS`); never over a door, an exit or a station. |
+| 8 | "Point me to..." reorders | Goals first (the tracked quest's first), then the places in alphabetical order (`FullMapScreen.where_to_places`). |
+| 9 | The favour toast survives accepting | `TownHud.clear_toast("has a favour to ask")` when the offer is taken. |
+| 10 | Escape opens the pause menu over pop-ups | `SceneManager.close_top_popup`: Esc presses Continue on a visible reward / quest-complete / level-up box, else advances the open conversation; the pause menu only when nothing else is open (inbox 8). |
+
+Tests: `tests/ui/test_part1_fixes_nov11.gd` (10: the four zones' hints, the Buffet's line before and after the gate, the Dump's open line,
+the D.N.A.'s door on the favour step, seven tokens -> one slot with "x7", a hurt / attacking token leaves the stack, real cards never stack,
+the Setting Up note and its end, the alphabetical list, the toast cap and clear) and `tests/world/test_roamer_doors_nov11.gd` (6: the five
+zones, the exit roamer). The quest, wayfinding, route, board token, rule badge, hand number and turn counting suites green after the change.
+
+## Part 2 - wayfinding in every zone, proven
+
+### 2.1 The Dump's arrow (inbox 11)
+
+`RouteGuide` plans on a per-zone grid and frame budget (`setup(..., grid, budget)`; `ZoneScene._route_grid` / `_route_budget_usec`,
+`QuestMarkerLayer.set_routing`): the Dump uses a 1 m grid and 12 ms a frame (`HeapScene.ROUTE_GRID` / `ROUTE_BUDGET_USEC`), the other zones
+keep 0.75 m and 5 ms. `tests/world/test_route_grid_nov11.gd`: the Commons -> Rotheart plan (the failing strict search plus the gated one)
+takes 0.8 s of search in 67 slices (1.4 s in 273 slices before), so the arrow follows the route about 1.1 s after a pick instead of ~4.6 s;
+the gated route still crosses the stream on a vine bridge's line and the grown-bridge strict route still exists.
+
+### 2.2 The no-context wayfinding critic on the exported build
+
+A fresh critic (brief `docs/review/critic_wayfinding_nov11_brief.md`, report `docs/review/critic_wayfinding_nov11/report.md`, 46 runs on
+the RC4-tree test pack after Part 1 and 2.1, fights auto-won, no dev travel) arrived in each zone and had to reach the main dungeon's door
+with the game's guidance only:
+
+| Zone | Nov 10 (before any fix) | Nov 11 run 1 (after Part 1, 2.1) | Clarity | What stopped or slowed it |
+|---|---|---|---|---|
+| The Gainlands | not reached, 23.5 min, 17 runs | **reached, 21.2 min, 20 runs** | 2 -> 5 | the gym hall north of the Station dissolved (the occlusion fader's 6.5 m "clutter" rule) so the road looked open and it walked into an "invisible wall" for 5.4 min; the legend's "Goal:" rows were not buttons; the Flex Mirror's 1.5 m reach |
+| The Verdant Dump | not reached, 19.1 min, 14 runs | **not reached, 24.0 min, 21 runs** (stopped at the junk barricade, 40 m from the door, with the bean planted and the bridge grown) | 3 -> 3 | "finish a favour" did not accept Brother Bramble's side-dungeon quest, so it never saw the dungeon step and its text about the stables; planting the bean and growing the bridge changed nothing visible in the tracker |
+| The D.N.A. | reached, 18.3 min, 11 runs | **reached, 5.8 min, 5 runs** | 5 -> 8 | the front desk (no routing); the arrival pop-up |
+
+Fixed from its report (run 2 follows below):
+- **The gym hall never dissolves as clutter** (`occlusion_near` 2.0 on its meshes, as the other landmarks): the critic's four lost runs
+  (`g14_n1.png`, `g17_gap.png`: an open plaza where a two-storey brick hall stands) were the fader hiding the building the arrow routes round.
+- **"Finish a favour" accepts the zone's side-dungeon quest** (`QuestDefinitions.ZONE_SIDE_QUEST`), and the favour hints say "any quest one of
+  them gives you counts" (inbox 7).
+- **A part done is announced**: "Quest updated / Root Cause / Done: A Magic Bean (by the stream...)" when a part of the current step completes
+  without the step moving (`Session._note_step_moves`, inbox 8).
+- **The legend's "Goal:" rows are buttons** (a click points the arrow at that quest's nearest place, inbox 10); **the Flex Mirrors answer E from
+  2.4 m**; **the herd's two far animals graze on the Commons** (owner decision 2, inbox 11).
+- Logged, not changed: the entrance ambush and the Rift Station pop-up repeat on every entry (a `dev save` resumes at the entrance: a human
+  enters a zone a few times, not twenty); the Commons' counters; the junk gull's -2 HP (the zone's hazard).
+
+[TBD: run 2 (the Gainlands and the Dump again)]
+
+## Part 3 - fight pacing (ordinary fights)
+
+**Cause.** Not enemy HP alone: **the player's gear.** The balance sim's expected player (the `ProgressionModel` deck, gear and items
+for the level) already finished the midgame's 27 ordinary fights in 5.8 turns on average (2 over 7). The critics' 9-11 came from a hero
+without that gear. A hand-played sample (resumed Nov 11, `docs/review/play_scripts/n11_pace_sample_a.txt` / `_b.txt`: the exported-build
+critic's own level-14 hero `bot_refusemancer_enter_gourmand`, the built-in pilot, after the first HP trim) took **10 turns** (Gelatin
+Sentinel), **11** (Frozen Line Cook), **13** (Meatloaf Golem) and **lost in 8** (Prep Station Sous-Chef). The sim's gear lift on the
+Gelatin Sentinel (`--what=gear`, `_logs/sim_gear_probe.md`) shows why: bare (no gear, no items) **9.2 turns, 72 %**; the model's L13 gear
+**6.3 turns, 94 %**; gear + items 6.6, 100 %. The bot's five pieces (Clipwell's Shears, Mystery Stain Bib, Raccoon Crown, Gotta-Go Galoshes,
+Quota's Stopwatch) each move it by under half a turn, and it had no items slotted (the pilot never uses items anyway). The fights are not
+energy-flooded; a player who has not geared for damage cannot break the enemy's board and chips.
+
+**Fix (smallest that works, ordinary fights at levels 10-14 only; bosses, elites, gatekeepers, Primm and the Gallery unchanged).** The band
+that ran long is the D.N.A., the Endless Buffet and their side dungeons (levels 10-14); the Dump, the Alley and the final stretch (levels
+16-20) already ran 4.5-5.2 turns. Their ordinary foes' HP down by about 20 % from what they were: Gelatin Sentinel 16 -> 13, Shambling
+Middle Manager 14 -> 11, the D.N.A.'s rooms 18/18/19/20 -> 14/14/15/16, the Test Kitchen's rooms 14/15/15/15 -> 12/12/12/12, the Apprentice
+Itamae 13 -> 11, the Conveyor Belt Sushi Chef and the Receptionist of Number One 18 -> 14, the Eternal Queue 19 -> 15. The Meatloaf Golem
+(12) and the Unpaid Intern (10) were already short.
+
+| Expected player (sim, 8 games per Path and fight, seed 7100) | Fights | Turns | Beefcake | Necrocrat | Gourmand | Refusemancer | All | Over 7 turns |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Before (Nov 10) | 27 | 5.8 | 93 % | 100 % | 99 % | 98 % | 98 % | 2 |
+| After | 27 | **5.6** | 94 % | 100 % | 99 % | 99 % | **98 %** | **0** |
+
+Per group (before -> after, mean turns): the D.N.A.'s rooms 6.8 -> 6.3, the Test Kitchen's 6.2 -> 5.7, S-GOUR 6.5 -> 6.1, S-NECRO 6.5 -> 6.0,
+the Buffet's roamers 6.3 -> 6.1, the D.N.A.'s 6.4 -> 6.1; the others unchanged. Tables: `docs/design/sim/nov11/before_*.md` / `after2_*.md`
+(`python -I tools/pace_table_nov11.py before after2`).
+
+**What the trim does not fix (inbox 12, your call).** A hero without the model gear still runs long after the trim: the sim's bare player
+(`--nogear`, `docs/design/sim/nov11/after2_bare_*.md`, partial) takes 9.1 turns on both Buffet roamers (69-72 %) and 8.9-10.2 in the Test
+Kitchen's rooms; the Sentinel's 14 -> 13 HP moved it 9.2 -> 9.1. For that player the board stalls and HP is not the lever. Not changed
+tonight (it is a rules change, not a number): the options are in the inbox.
+
+## Part 4 - the late game on the exported build
+
+[TBD: the re-saved snapshots; the critic's scores against 5 / 4 / 5 and its top 10; S/M fixes]
+
+## Part 5 - the test runner's memory guard (inbox 13)
+
+`bash tools/run_tests.sh --min-free=MB` (default 900) `--wait-max=SEC` (default 600): before each shard the runner reads the free RAM
+(PowerShell's CIM on Windows, `/proc/meminfo` elsewhere) and waits, polling every 10 s, until it is above the floor; a shard it cannot start
+in time is skipped and listed under "Crashed shards" with the `--from=N` to rerun it. `--min-free=0` turns the wait off. Documented in
+`docs/HANDOFF.md` section 2.
+
+## Part 6 - RC4
+
+[TBD]
+
+## Finish
+
+[TBD: tests, commits]
+
+### Release-day checklist for Nov 11 (the owner)
+
+Everything below is from `docs/HANDOFF.md` section 2 and `docs/release/itch_upload.md`; about 90 minutes end to end, most of it the upload.
+
+1. **Decide the donation link first** (it is baked into the build): in `data/credits/credits.cfg` set `[support] url="..."` to your itch
+   page's pay-what-you-want address (`https://<your-itch-name>.itch.io/the-wayward-path/purchase`) or a Ko-fi / PayPal link. While it is
+   empty every "Support the game" button stays hidden - that is also fine for 1.0.
+2. **Version:** `project.godot` -> `config/version="1.0.0"`. Add the 1.0.0 entry at the top of `CHANGELOG.md` (the RC4 notes list what
+   changed since RC3). Commit.
+3. **Export:** close Godot, free RAM (close Chrome / ChatGPT), then in Git Bash from `C:\Dev\Deckbuilder-rpg`:
+   `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0` (4-10 minutes; "EXPORT STOPPED" means nothing was replaced). The zip lands at
+   `builds/TheWaywardPath-v1.0.0-windows.zip`.
+4. **Smoke:** `bash tools/run_release_smoke_exported.sh` (about a minute; look for `PASSED`). Then the three exported-build checks:
+   `bash tools/export_test_pack.sh` (2 minutes), then `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480`,
+   `SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480`,
+   `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480`; `grep -c "SCRIPT ERROR" _screenshots/exported/play_r1*.log`
+   must print 0 three times.
+5. **The real exe once:** unzip the 1.0.0 zip into a fresh folder, run `TheWaywardPath.exe`, start a new game to the Path choice, Esc,
+   Settings, quit; launch again and Continue. (Or the scripted version: HANDOFF section 2, step 3.)
+6. **Tag:** `git add -A && git commit -m "1.0.0" && git tag v1.0.0 && git push && git push --tags`.
+7. **itch upload** (`docs/release/itch_upload.md`): Dashboard -> the project -> Edit -> Uploads -> Upload files -> the 1.0.0 zip (about
+   740 MB: 5-15 minutes; leave the tab open), tick Windows, label "Windows 64-bit (zip)"; delete or untick the RC file so players get one
+   file. Pricing "$0 or donate" with a suggested 3-5 USD (or "No payments"). Check the page text, the eight screenshots and the cover, the AI
+   disclosure (Yes: Graphics, Sound/Music, Text/Dialogue). Save.
+8. **Download it back once** as a player (View page -> Download), unzip in a fresh folder, run the exe to the title screen.
+9. **Flip:** Visibility & access -> **Public** -> Save. Optional devlog post "1.0 is out". Send the playtesters the public link.
+10. After the flip: `docs/release/post_1_0_backlog.md` holds what is known and not done; F8 reports arrive in `%APPDATA%\Deckbuilder-RPGeedback`.
+
+---
+
 # Fable pass Nov 10 - report
 
 Brief: `docs/prompts/fable_nov10.md`. Start tag `pre-fable-nov10`. Questions: `docs/overnight_inbox.md`, "Fable Nov 10" (items 1-14).

@@ -183,13 +183,13 @@
 			"foes": {
 				"2": {
 					"name": "Prep Station Sous-Chef",
-					"hp": 14,
+					"hp": 12,
 					"size": 29,
 					"infra": 15
 				},
 				"3": {
 					"name": "Frozen Line Cook",
-					"hp": 13,
+					"hp": 12,
 					"size": 29
 				},
 				"6": {
@@ -202,7 +202,7 @@
 				},
 				"8": {
 					"name": "Assembly Line Golem",
-					"hp": 15,
+					"hp": 12,
 					"size": 30,
 					"infra": 15
 				},
@@ -216,7 +216,7 @@
 				},
 				"12": {
 					"name": "Expediter of the Pass",
-					"hp": 15,
+					"hp": 12,
 					"size": 30,
 					"infra": 15
 				},
@@ -347,12 +347,12 @@
 			"foes": {
 				"3": {
 					"name": "Intake Clerk",
-					"hp": 15,
+					"hp": 14,
 					"size": 30
 				},
 				"4": {
 					"name": "Returns Clerk",
-					"hp": 15,
+					"hp": 14,
 					"size": 30
 				},
 				"7": {
@@ -363,7 +363,7 @@
 				},
 				"9": {
 					"name": "Resurrection Permits Zombie",
-					"hp": 16,
+					"hp": 15,
 					"size": 31
 				},
 				"11": {
@@ -374,7 +374,7 @@
 				},
 				"13": {
 					"name": "Executive Elevator Operator",
-					"hp": 17,
+					"hp": 16,
 					"size": 31,
 					"deck": "necrocrat_beefcake"
 				},
@@ -1023,7 +1023,7 @@
 				},
 				"2": {
 					"name": "Conveyor Belt Sushi Chef",
-					"hp": 18,
+					"hp": 14,
 					"size": 32,
 					"infra": 17,
 					"deck": "gourmand_necrocrat"
@@ -1069,12 +1069,12 @@
 			"foes": {
 				"1": {
 					"name": "Receptionist of Number One",
-					"hp": 18,
+					"hp": 14,
 					"size": 30
 				},
 				"2": {
 					"name": "The Eternal Queue",
-					"hp": 16,
+					"hp": 15,
 					"size": 31
 				},
 				"3": "Betty Bones, Surly Secretary"

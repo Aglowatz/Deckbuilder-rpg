@@ -1,0 +1,3 @@
+S-NECRO:1	S-NECRO:1                                     97%  turns 5.5  ok, fast
+S-NECRO:2	S-NECRO:2                                     97%  turns 6.4  ok
+S-NECRO:3	S-NECRO:3                                     66%  turns 9.9  too easy (+6)
