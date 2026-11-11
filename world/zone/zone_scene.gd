@@ -932,7 +932,12 @@ func _marker_spot_done(_spot: ZoneSpot) -> bool:
 ## Fable pass Nov 10 (Part 1.6): the ground the goal arrows route over - what the hero can walk now, less what hurts (a zone with a river or
 ## a stream narrows it to the crossings)...
 func _route_walkable(at: Vector3) -> bool:
-	return builder.is_walkable(at)
+	return builder.is_walkable(at, ROUTE_BODY)
+
+
+## The body the routes keep clear of props: wider than the hero's own, so the dotted line never grazes a fountain the hero then stops against
+## (the exported-build critic walked the line into the Soup Fountain).
+const ROUTE_BODY: float = 0.6
 
 
 ## ...and the same with the zone's gates counted open (an ungrown vine bridge, a shut golem gate, a junk barricade), so where a gate shuts
@@ -1909,7 +1914,7 @@ func _wake_at_hub(cause: String) -> void:
 
 
 ## Fix pass Nov 7 (owner decision D1): what a lost fight costs - nothing.
-const DEFEAT_TOAST: String = "Back at the respawn point with full HP. Losing costs nothing: your cards, gold and items are all kept."
+const DEFEAT_TOAST: String = "Back at the respawn point with full HP. The cards, gold and items you won are kept."  # Fable pass Nov 10 (Part 4.1): no "losing costs nothing" (the exported-build critic still met it here)
 
 
 func _show_wake_dialogue(fee_override: int) -> void:

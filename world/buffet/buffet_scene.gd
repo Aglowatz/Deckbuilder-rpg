@@ -116,13 +116,13 @@ func _dress_zone() -> void:
 func _route_walkable(at: Vector3) -> bool:
 	if buf.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
 		return buf.layout.on_ferry_line(at.x, at.z)
-	return buf.is_walkable(at)
+	return buf.is_walkable(at, ROUTE_BODY)
 
 
 func _route_through_gates(at: Vector3) -> bool:
 	if buf.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
 		return buf.layout.on_ferry_line(at.x, at.z)
-	return buf.is_walkable_through_gates(at)
+	return buf.is_walkable_through_gates(at, ROUTE_BODY)
 
 
 func _marker_spot_done(spot: ZoneSpot) -> bool:

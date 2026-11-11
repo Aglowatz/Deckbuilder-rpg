@@ -1,0 +1,35 @@
+# Midgame critic Nov 10 (exported): run 30 - the boss to the end (pilot), to read the result screen.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK -2
+wait 7
+click 1364 212
+wait 2
+skip_dialogue
+wait 0.5
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+button Keep Hand
+wait 1
+shot xm30_turn1
+pilot 45
+shot xm30_mid1
+pilot 45
+shot xm30_mid2
+dump
+pilot 30
+wait 1
+shot xm30_end
+dump
+button Continue
+wait 2
+shot xm30_after
+dump
+key E
+wait 2
+shot xm30_after2
+dump

@@ -1,0 +1,50 @@
+# Midgame critic Nov 10 (exported): run 4 - back through the pantry door, then west toward Tarragon's beam.
+dev load xm_r3
+wait 6
+scene
+hold W 2.4
+hold A 1
+scene
+shot xm04_portal
+dump
+key E
+wait 8
+scene
+shot xm04_back_in
+dump
+hold W 6
+wait 0.5
+scene
+shot xm04_n1
+dump
+hold A 3
+wait 0.5
+scene
+shot xm04_w1
+dump
+hold A 2
+wait 0.5
+scene
+shot xm04_w2
+dump
+key E
+wait 1.5
+shot xm04_e1
+dump
+key E
+wait 1.5
+shot xm04_e2
+dump
+key E
+wait 1.5
+shot xm04_e3
+dump
+key E
+wait 1.5
+shot xm04_e4
+dump
+key E
+wait 1.5
+shot xm04_e5
+dump
+dev save xm_r4

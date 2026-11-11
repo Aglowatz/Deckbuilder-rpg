@@ -1,0 +1,45 @@
+# Midgame critic Nov 10 (exported): run 24 - dev travel to the Test Kitchen door (allowed after 20 min on foot), look at the dungeon.
+dev load xm_r22
+wait 6
+dev travel dungeon D-TTK
+wait 8
+scene
+shot xm24_arrive
+dump
+key E
+wait 2
+shot xm24_e1
+dump
+key E
+wait 2
+shot xm24_e2
+dump
+key E
+wait 2
+shot xm24_e3
+dump
+key E
+wait 2
+shot xm24_e4
+dump
+scene
+key M
+wait 2
+shot xm24_map
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot xm24_quests
+dump
+key Escape
+wait 1
+key R
+wait 1.5
+shot xm24_rules
+dump
+key Escape
+wait 1
+scene
+dev save xm_r24

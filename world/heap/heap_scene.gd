@@ -286,13 +286,13 @@ func is_riding() -> bool:
 func _route_walkable(at: Vector3) -> bool:
 	if heap.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD and not heap.on_grown_bridge(at):
 		return false
-	return heap.is_walkable(at)
+	return heap.is_walkable(at, ROUTE_BODY)
 
 
 func _route_through_gates(at: Vector3) -> bool:
 	if heap.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD:
 		return heap.on_grown_bridge(at) or heap.layout.bridge_at(at.x, at.z) != null
-	return heap.is_walkable_through_barricades(at)
+	return heap.is_walkable_through_barricades(at, ROUTE_BODY)
 
 
 ## Fable pass Nov 10 (Part 1.1): a sack already picked up this visit, or an animal already shooed home, has no marker.

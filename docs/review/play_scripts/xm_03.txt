@@ -1,0 +1,46 @@
+# Midgame critic Nov 10 (exported): run 3 - grab the salt, then follow the arrow back south to Tarragon.
+dev load xm_r2
+wait 6
+hold A 0.5
+hold S 0.3
+scene
+key E
+wait 1.5
+shot xm03_salt
+dump
+button Continue
+wait 1
+key E
+wait 1
+hold S 3
+wait 1
+scene
+shot xm03_s1
+dump
+hold S 3
+wait 1
+scene
+shot xm03_s2
+dump
+hold S+D 2
+wait 1
+scene
+shot xm03_s3
+dump
+key E
+wait 1.5
+shot xm03_e1
+dump
+key E
+wait 1.5
+shot xm03_e2
+dump
+key E
+wait 1.5
+shot xm03_e3
+dump
+key E
+wait 1.5
+shot xm03_e4
+dump
+dev save xm_r3

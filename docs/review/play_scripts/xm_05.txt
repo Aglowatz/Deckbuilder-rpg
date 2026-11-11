@@ -1,0 +1,44 @@
+# Midgame critic Nov 10 (exported): run 5 - from the Buffet entrance, north then west to Tarragon's beam.
+dev load xm_r2
+wait 6
+scene
+hold W 6
+wait 0.5
+scene
+shot xm05_n1
+dump
+hold A 3
+wait 0.5
+scene
+shot xm05_w1
+dump
+hold A 2
+wait 0.5
+scene
+shot xm05_w2
+dump
+key E
+wait 1.5
+shot xm05_e1
+dump
+key E
+wait 1.5
+shot xm05_e2
+dump
+key E
+wait 1.5
+shot xm05_e3
+dump
+key E
+wait 1.5
+shot xm05_e4
+dump
+key E
+wait 1.5
+shot xm05_e5
+dump
+key E
+wait 1.5
+shot xm05_e6
+dump
+dev save xm_r5

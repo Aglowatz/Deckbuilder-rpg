@@ -1,0 +1,58 @@
+# Midgame critic Nov 10 (exported): run 33 - the hub's other people: Madame Mirepoix's shop, then Professor Pate's quiz.
+dev load xm_r24
+wait 5
+hold W 3
+wait 0.3
+hold A 0.5
+wait 0.3
+hold W 1
+wait 0.3
+hold D 1.2
+wait 0.3
+hold D 0.6
+wait 0.3
+hold W 0.3
+wait 0.4
+scene
+shot xm33_mirepoix
+dump
+key E
+wait 2
+shot xm33_shop
+dump
+key E
+wait 1.5
+shot xm33_shop2
+dump
+key Escape
+wait 1
+scene
+hold A 6.3
+wait 0.4
+scene
+shot xm33_west
+dump
+key E
+wait 1.5
+shot xm33_quiz1
+dump
+key E
+wait 1.5
+key E
+wait 1.5
+key E
+wait 1.5
+shot xm33_quiz2
+dump
+click 1280 671
+wait 2
+shot xm33_quiz3
+dump
+key E
+wait 1.5
+shot xm33_quiz4
+dump
+key E
+wait 1.5
+shot xm33_quiz5
+dump

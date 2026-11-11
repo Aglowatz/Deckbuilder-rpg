@@ -1,0 +1,53 @@
+# Midgame critic Nov 10 (exported): run 32 - dungeon map hover/Retreat, then the lower first room.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK
+wait 7
+move 397 650
+wait 1.2
+shot xm32_node_hover
+dump
+move 72 865
+wait 1.2
+shot xm32_retreat_hover
+dump
+click 397 650
+wait 3
+shot xm32_room
+dump
+button Continue
+wait 2
+shot xm32_room_b
+dump
+key E
+wait 2
+shot xm32_room_c
+dump
+button Keep Hand
+wait 1.5
+shot xm32_hand
+dump
+click 500 790
+wait 1.2
+key Space
+wait 1
+click 1465 850
+wait 6
+shot xm32_t2
+dump
+pilot 45
+wait 1
+shot xm32_mid
+dump
+pilot 45
+wait 1
+shot xm32_end
+dump
+button Continue
+wait 2
+shot xm32_after
+dump
+key E
+wait 2
+shot xm32_after2
+dump

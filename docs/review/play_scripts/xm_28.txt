@@ -1,0 +1,64 @@
+# Midgame critic Nov 10 (exported): run 28 - the Test Kitchen boss (dev travel -2 allowed after 20 min on foot).
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK -2
+wait 7
+scene
+shot xm28_bossmap
+dump
+click 1364 212
+wait 3
+shot xm28_click
+dump
+key E
+wait 1.5
+shot xm28_intro1
+dump
+key E
+wait 1.5
+shot xm28_intro2
+dump
+key E
+wait 1.5
+shot xm28_intro3
+dump
+key E
+wait 1.5
+shot xm28_intro4
+dump
+key E
+wait 2
+shot xm28_intro5
+dump
+button Continue
+wait 1.5
+button Skip tips
+wait 1
+button Keep Hand
+wait 1.5
+shot xm28_hand
+dump
+click 820 790
+wait 1.5
+click 430 790
+wait 1.5
+shot xm28_played
+dump
+key Space
+wait 1.5
+click 1465 850
+wait 5
+shot xm28_enemy_turn
+dump
+pilot 45
+wait 1
+shot xm28_mid
+dump
+pilot 40
+wait 2
+shot xm28_after_pilot
+dump
+button Continue
+wait 2
+shot xm28_after
+dump

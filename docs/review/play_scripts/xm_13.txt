@@ -1,0 +1,57 @@
+# Midgame critic Nov 10 (exported): run 13 - sea salt by the river, then look for the truffle under the broccoli.
+dev load xm_r12
+wait 6
+hold W 5.4
+wait 0.3
+scene
+hold A 1.8
+wait 0.4
+scene
+shot xm13_salt_spot
+dump
+key E
+wait 1.5
+shot xm13_salt_e
+dump
+key E
+wait 1
+scene
+hold A 1.5
+wait 0.3
+scene
+shot xm13_w1
+dump
+key E
+wait 1.5
+dump
+hold S 0.7
+wait 0.3
+scene
+shot xm13_s1
+dump
+key E
+wait 1.5
+dump
+hold A 1
+wait 0.3
+scene
+shot xm13_w2
+dump
+key E
+wait 1.5
+dump
+hold S 1
+wait 0.3
+scene
+shot xm13_s2
+dump
+key E
+wait 1.5
+dump
+key M
+wait 2
+shot xm13_map
+key Escape
+wait 0.5
+scene
+dev save xm_r13

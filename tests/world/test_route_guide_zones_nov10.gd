@@ -30,7 +30,7 @@ func test_the_gainlands_route_climbs_the_middle_road() -> void:
 	builder.layout.build()
 	builder._index_obstacles()
 	var guide: RouteGuide = RouteGuide.new()
-	guide.setup(func(at: Vector3) -> bool: return builder.is_walkable(at), Callable(), builder.map_bounds())
+	guide.setup(func(at: Vector3) -> bool: return builder.is_walkable(at, ZoneScene.ROUTE_BODY), Callable(), builder.map_bounds())
 	var from: Vector3 = builder.anchor("spawn")
 	var door: Vector3 = Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, 6.0)
 	var route: PackedVector3Array = _plan(guide, from, door)
@@ -58,11 +58,11 @@ func test_the_buffet_route_crosses_the_gravy_on_a_ferry() -> void:
 	var strict: Callable = func(at: Vector3) -> bool:
 		if builder.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
 			return builder.layout.on_ferry_line(at.x, at.z)
-		return builder.is_walkable(at)
+		return builder.is_walkable(at, ZoneScene.ROUTE_BODY)
 	var gates: Callable = func(at: Vector3) -> bool:
 		if builder.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
 			return builder.layout.on_ferry_line(at.x, at.z)
-		return builder.is_walkable_through_gates(at)
+		return builder.is_walkable_through_gates(at, ZoneScene.ROUTE_BODY)
 	var guide: RouteGuide = RouteGuide.new()
 	guide.setup(strict, gates, builder.map_bounds())
 	var from: Vector3 = builder.anchor("spawn")
@@ -91,11 +91,11 @@ func test_the_dump_route_waits_at_a_bridge_until_one_is_grown() -> void:
 	var strict: Callable = func(at: Vector3) -> bool:
 		if builder.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD and not builder.on_grown_bridge(at):
 			return false
-		return builder.is_walkable(at)
+		return builder.is_walkable(at, ZoneScene.ROUTE_BODY)
 	var gates: Callable = func(at: Vector3) -> bool:
 		if builder.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD:
 			return builder.on_grown_bridge(at) or builder.layout.bridge_at(at.x, at.z) != null
-		return builder.is_walkable_through_barricades(at)
+		return builder.is_walkable_through_barricades(at, ZoneScene.ROUTE_BODY)
 	# the centre bridge's line, bank to bank: what the route test says at each half metre (prints when something blocks)
 	var blocked: Array[String] = []
 	var z: float = 104.0

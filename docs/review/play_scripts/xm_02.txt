@@ -1,0 +1,54 @@
+# Midgame critic Nov 10 (exported): run 2 - point me to Sous-Chef Tarragon and follow the arrow.
+dev load xm_r1
+wait 6
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 915 160
+wait 1
+shot xm02_map_tarragon
+key M
+wait 1
+shot xm02_arrow
+dump
+scene
+hold W 3
+wait 1
+shot xm02_walk1
+scene
+button Continue
+wait 1
+dump
+hold W 3
+wait 1
+shot xm02_walk2
+scene
+button Continue
+wait 1
+dump
+hold W+A 2
+wait 1
+shot xm02_walk3
+scene
+button Continue
+wait 1
+dump
+hold A 2
+wait 1
+shot xm02_walk4
+scene
+dump
+key E
+wait 1.5
+shot xm02_e1
+dump
+key E
+wait 1.5
+shot xm02_e2
+dump
+key E
+wait 1.5
+shot xm02_e3
+dump
+dev save xm_r2

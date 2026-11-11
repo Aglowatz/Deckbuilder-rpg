@@ -1,0 +1,65 @@
+# Midgame critic Nov 10 (exported): run 6 - the Meatloaf Golem fight: play turn 1 myself, then pilot.
+dev load xm_r5
+wait 6
+scene
+shot xm06_load
+dump
+hold W 6
+wait 0.5
+scene
+hold A 5
+wait 2
+scene
+shot xm06_battle_start
+dump
+button Keep Hand
+wait 1.5
+shot xm06_hand
+dump
+rclick 430 790
+wait 1
+shot xm06_preview_unit
+dump
+key Escape
+wait 0.5
+rclick 820 790
+wait 1
+shot xm06_preview_infra
+dump
+key Escape
+wait 0.5
+click 820 790
+wait 1.5
+shot xm06_played_infra
+dump
+click 430 790
+wait 1.5
+shot xm06_played_unit
+dump
+key Space
+wait 1.5
+shot xm06_combat
+dump
+click 1465 850
+wait 4
+shot xm06_enemy_turn
+dump
+wait 4
+shot xm06_turn2
+dump
+button Battle log
+wait 1
+shot xm06_log
+dump
+key Escape
+wait 0.5
+pilot 60
+wait 2
+shot xm06_after_pilot
+dump
+button Continue
+wait 2
+shot xm06_after_fight
+dump
+scene
+dev save xm_r6

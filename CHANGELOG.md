@@ -12,7 +12,13 @@
     Billie Muckfoot, Dex in the Dump, Kestrel and a Capital citizen moved or their props did; a prop between the camera and the person you can talk
     to dissolves; E walks you to the nearest person in view when nobody is in reach;
   - map labels: landmarks named first, minor names hidden on a small map and shown on hover; the "Point me to..." list opens over the map, never
-    over the legend; one legend line per quest goal;
+    over the legend; one legend line per quest goal; one list row per goal name ("A hidden stash (any) (one of 14)") with the area it stands in;
+  - the goal arrow and the "Point me to..." arrow follow a walkable route (round the Gainlands' plateau wall, across the Gravy River only on a
+    ferry, across the Dump's stream only at a bridge; a shut gate, an ungrown bridge or a barricade is the destination when it is the only
+    way), the map draws the route as a dotted line, and a waypoint on screen shows a small arrow; Escape closes the list and the map together;
+  - a side quest in hand keeps the tracker when another is accepted; Sir Loin acknowledges a mended loaf ("Tell Basil"); the Dump's main line
+    marks the Magic Bean and the West Sprout Mound until a bridge is grown, and the Centre Bridge sign and Moss Mulligan name the bean;
+  - the forecourt pocket beside the House of Gains' stairs can no longer trap the hero;
   - steam and mist no longer fill the screen as white sheets when the camera is inside a plume.
 - Turns count both players: the battle shows "Turn N" (both players have gone) with "Your turn" / "Enemy's turn" beneath; the log, the boss
   "Setting Up" window ("from turn 3"), the result lines and the sims agree; cards say "until the end of your turn" (or "the enemy's turn" for a

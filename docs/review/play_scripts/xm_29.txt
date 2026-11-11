@@ -1,0 +1,51 @@
+# Midgame critic Nov 10 (exported): run 29 - the boss again, skip the long intro, play the fight.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK -2
+wait 7
+click 1364 212
+wait 2
+skip_dialogue
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+shot xm29_prefight
+dump
+button Continue
+wait 2
+shot xm29_opening
+dump
+button Keep Hand
+wait 1.5
+shot xm29_hand
+dump
+click 820 790
+wait 1.5
+click 430 790
+wait 1.5
+shot xm29_played
+dump
+key Space
+wait 1.5
+click 1465 850
+wait 5
+shot xm29_enemy_turn
+dump
+pilot 45
+wait 1
+shot xm29_mid
+dump
+pilot 40
+wait 2
+shot xm29_after_pilot
+dump
+button Continue
+wait 2
+shot xm29_after
+dump

@@ -1,0 +1,80 @@
+# Midgame critic Nov 10 (exported): run 22 - to the Test Kitchen door and inside.
+dev load xm_r21
+wait 6
+hold W 3
+wait 0.3
+hold A 0.5
+wait 0.3
+hold W 2
+wait 0.3
+hold D 0.5
+wait 0.3
+hold W 1.3
+wait 0.5
+hold W 0.6
+wait 2
+hold W 0.6
+wait 0.8
+hold W 0.6
+wait 0.8
+hold W 0.8
+wait 0.5
+hold W 1.5
+wait 0.3
+hold W 1.5
+wait 0.3
+scene
+hold D 1.3
+wait 0.5
+scene
+shot xm22_door
+dump
+button Keep Hand
+wait 1
+key E
+wait 2
+shot xm22_e1
+dump
+scene
+key E
+wait 2
+shot xm22_e2
+dump
+key E
+wait 2
+shot xm22_e3
+dump
+key E
+wait 2
+shot xm22_e4
+dump
+scene
+button Keep Hand
+wait 1.5
+shot xm22_battle
+dump
+click 820 790
+wait 1.5
+click 430 790
+wait 1.5
+shot xm22_played
+dump
+key Space
+wait 1.5
+click 1465 850
+wait 5
+shot xm22_enemy_turn
+dump
+pilot 60
+wait 2
+shot xm22_after_pilot
+dump
+button Continue
+wait 2
+shot xm22_after
+dump
+key E
+wait 1.5
+dump
+scene
+dev save xm_r22

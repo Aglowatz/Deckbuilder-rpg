@@ -1,0 +1,66 @@
+# Midgame critic Nov 10 (exported): run 17 - read the new step, point me to the Test Kitchen, walk north to the river.
+dev load xm_r16
+wait 6
+key J
+wait 2
+shot xm17_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+shot xm17_pointlist
+dump
+click 915 160
+wait 1
+shot xm17_map_route
+key M
+wait 1
+shot xm17_arrow
+dump
+hold W 3
+wait 0.3
+hold A 0.5
+wait 0.3
+hold W 2
+wait 0.3
+scene
+shot xm17_n1
+dump
+hold W 1.5
+wait 0.3
+scene
+shot xm17_n2
+dump
+hold W 1
+wait 0.5
+scene
+shot xm17_n3
+dump
+hold W 1
+wait 0.5
+scene
+shot xm17_n4
+dump
+hold W 1
+wait 0.5
+scene
+shot xm17_n5
+dump
+key E
+wait 1.5
+dump
+hold W 1.5
+wait 0.5
+scene
+shot xm17_n6
+dump
+key M
+wait 2
+shot xm17_map2
+key Escape
+wait 0.5
+scene
+dev save xm_r17

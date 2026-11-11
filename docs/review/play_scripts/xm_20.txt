@@ -1,0 +1,81 @@
+# Midgame critic Nov 10 (exported): run 20 - mend Old Meatloaf with salt + truffle, then Basil's letter.
+dev load xm_r19
+wait 6
+hold W 3
+wait 0.3
+hold A 1.5
+wait 0.3
+hold A 0.4
+wait 0.5
+scene
+shot xm20_meatloaf
+dump
+key E
+wait 1.5
+shot xm20_m1
+dump
+key E
+wait 1.5
+shot xm20_m2
+dump
+key E
+wait 1.5
+shot xm20_m3
+dump
+key E
+wait 1.5
+shot xm20_m4
+dump
+key E
+wait 1.5
+shot xm20_m5
+dump
+key E
+wait 1.5
+dump
+scene
+hold D 1.5
+wait 0.3
+hold W 1
+wait 0.3
+scene
+hold D 1.1
+wait 0.5
+scene
+shot xm20_basil
+dump
+key E
+wait 1.5
+shot xm20_b1
+dump
+key E
+wait 1.5
+shot xm20_b2
+dump
+key E
+wait 1.5
+shot xm20_b3
+dump
+key E
+wait 1.5
+shot xm20_b4
+dump
+key E
+wait 1.5
+shot xm20_b5
+dump
+key E
+wait 1.5
+shot xm20_b6
+dump
+key E
+wait 1.5
+dump
+key J
+wait 2
+shot xm20_quests
+dump
+key Escape
+wait 0.5
+scene
+dev save xm_r20

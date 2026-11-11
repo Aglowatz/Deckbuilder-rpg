@@ -1426,3 +1426,10 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
 13. **The sharded suite tripped the memory guard** (free RAM under 800 MB with Chrome, ChatGPT and Defender open): the runner was stopped at
    shard 13 and the rest ran one shard at a time with a check before each (a 12-file shard holds 400-630 MB). `tools/run_tests.sh` could
    take the same guard (`--min-free=MB`) so an overnight run pauses by itself instead of being killed.
+14. **The exported-build critic's top 10** (clarity 7, fun 6, polish 7; `docs/review/critic_exported_midgame_nov10/report.md`), not done tonight:
+   the main quest's dungeon step text should name Sir Loin's gate and Basil's favour (the map marks the gate; the words do not); a roamer
+   (Gelatin Sentinel) camps the Test Kitchen door - keep roamers ~10 m from doors and gates; 9-11-turn roamer/room fights at level 14; the
+   boss's 12-card token row overlaps (stack identical tokens with a count); "Setting Up" has no on-screen words during the fight; toasts linger
+   20-30 s; the E prompt prefers a plaque to the quest NPC 2.8 m away; the "Point me to..." list's order changes between opens (sort places
+   alphabetically after the goals); the "has a favour to ask" toast survives accepting it; Escape over a pop-up opens the pause menu.
+

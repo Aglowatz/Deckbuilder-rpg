@@ -1,0 +1,57 @@
+# Midgame critic Nov 10 (exported): run 7 - pointer on Tarragon again, walk to the Rift station area and find him.
+dev load xm_r6
+wait 6
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 915 160
+wait 1
+key M
+wait 1
+hold W 5
+wait 0.5
+scene
+shot xm07_a
+dump
+hold A 3
+wait 0.5
+scene
+shot xm07_b
+dump
+hold S 1
+wait 0.5
+scene
+shot xm07_c
+dump
+hold D 1
+wait 0.5
+scene
+shot xm07_d
+dump
+key E
+wait 1.5
+shot xm07_e1
+dump
+key E
+wait 1.5
+shot xm07_e2
+dump
+key E
+wait 1.5
+shot xm07_e3
+dump
+key E
+wait 1.5
+shot xm07_e4
+dump
+key E
+wait 1.5
+shot xm07_e5
+dump
+key E
+wait 1.5
+shot xm07_e6
+dump
+scene
+dev save xm_r7

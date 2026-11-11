@@ -1,0 +1,55 @@
+# Midgame critic Nov 10 (exported): run 8 - back to Tarragon, take the favour, read the quest log.
+dev load xm_r7
+wait 6
+hold W 3.5
+hold A 2.4
+wait 0.5
+scene
+shot xm08_a
+dump
+key E
+wait 1.5
+shot xm08_e1
+dump
+key E
+wait 1.5
+shot xm08_e2
+dump
+key E
+wait 1.5
+shot xm08_e3
+dump
+key E
+wait 1.5
+shot xm08_e4
+dump
+key E
+wait 1.5
+shot xm08_e5
+dump
+key E
+wait 1.5
+shot xm08_e6
+dump
+key E
+wait 1.5
+shot xm08_e7
+dump
+key E
+wait 1.5
+shot xm08_e8
+dump
+key J
+wait 2
+shot xm08_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot xm08_map
+dump
+key Escape
+wait 1
+scene
+dev save xm_r8

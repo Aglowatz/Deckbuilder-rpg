@@ -1,0 +1,75 @@
+# Midgame critic Nov 10 (exported): run 12 - Basil (Keeper of the Grand Pantry) and Madame Mirepoix.
+dev load xm_r11
+wait 6
+hold W 5
+wait 0.3
+scene
+hold D 1
+wait 0.4
+scene
+shot xm12_a
+dump
+key E
+wait 1.5
+shot xm12_e1
+dump
+key E
+wait 1.5
+shot xm12_e2
+dump
+key E
+wait 1.5
+shot xm12_e3
+dump
+key E
+wait 1.5
+shot xm12_e4
+dump
+key E
+wait 1.5
+shot xm12_e5
+dump
+key E
+wait 1.5
+shot xm12_e6
+dump
+key E
+wait 1.5
+shot xm12_e7
+dump
+key E
+wait 1.5
+shot xm12_e8
+dump
+scene
+hold D 0.8
+wait 0.3
+hold S 0.5
+wait 0.4
+scene
+shot xm12_b
+dump
+key E
+wait 1.5
+shot xm12_m1
+dump
+key E
+wait 1.5
+shot xm12_m2
+dump
+key E
+wait 1.5
+shot xm12_m3
+dump
+key E
+wait 1.5
+shot xm12_m4
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot xm12_quests
+dump
+key Escape
+dev save xm_r12

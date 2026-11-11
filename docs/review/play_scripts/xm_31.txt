@@ -1,0 +1,71 @@
+# Midgame critic Nov 10 (exported): run 31 - boss fight: read the rule icons (hover), R, preview the boss's unit, play two turns myself.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK -2
+wait 7
+click 1364 212
+wait 2
+skip_dialogue
+wait 0.5
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+button Keep Hand
+wait 1
+move 275 190
+wait 1.2
+shot xm31_icon_hover1
+dump
+move 315 190
+wait 1.2
+shot xm31_icon_hover2
+dump
+move 235 190
+wait 1.2
+shot xm31_icon_hover3
+dump
+key R
+wait 1.5
+shot xm31_rules
+dump
+key R
+wait 0.5
+rclick 820 300
+wait 1
+shot xm31_enemy_preview
+dump
+click 1000 500
+wait 0.5
+click 500 790
+wait 1.2
+shot xm31_t1_infra
+dump
+key Space
+wait 1
+click 1465 850
+wait 6
+shot xm31_t2
+dump
+click 500 790
+wait 1.2
+click 640 790
+wait 1.2
+shot xm31_t2_played
+dump
+key Space
+wait 1
+click 1465 850
+wait 6
+shot xm31_t3
+dump
+pilot 40
+wait 1
+shot xm31_mid
+dump
+pilot 30
+wait 1
+shot xm31_end
+dump

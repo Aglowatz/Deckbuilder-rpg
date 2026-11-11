@@ -1,0 +1,52 @@
+# Midgame critic Nov 10 (exported): run 26 - Test Kitchen, upper first room, one fight in one run.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK
+wait 7
+click 411 224
+wait 3
+scene
+shot xm26_room1
+dump
+key E
+wait 2
+shot xm26_room1_e
+dump
+button Keep Hand
+wait 1.5
+shot xm26_hand
+dump
+rclick 430 790
+wait 1
+shot xm26_preview
+dump
+key Escape
+wait 0.5
+click 820 790
+wait 1.5
+click 430 790
+wait 1.5
+shot xm26_played
+dump
+key Space
+wait 1.5
+click 1465 850
+wait 5
+shot xm26_enemy_turn
+dump
+pilot 55
+wait 1
+shot xm26_mid
+dump
+pilot 45
+wait 2
+shot xm26_after_pilot
+dump
+button Continue
+wait 2
+shot xm26_after
+dump
+key E
+wait 2
+shot xm26_after2
+dump

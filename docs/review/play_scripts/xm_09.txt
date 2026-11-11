@@ -1,0 +1,55 @@
+# Midgame critic Nov 10 (exported): run 9 - Tarragon again (shorter walk), take the favour.
+dev load xm_r8
+wait 6
+hold W 3
+wait 0.3
+scene
+hold A 2
+wait 0.5
+scene
+shot xm09_a
+dump
+key E
+wait 1.5
+shot xm09_e1
+dump
+key E
+wait 1.5
+shot xm09_e2
+dump
+key E
+wait 1.5
+shot xm09_e3
+dump
+key E
+wait 1.5
+shot xm09_e4
+dump
+key E
+wait 1.5
+shot xm09_e5
+dump
+key E
+wait 1.5
+shot xm09_e6
+dump
+key E
+wait 1.5
+shot xm09_e7
+dump
+key E
+wait 1.5
+shot xm09_e8
+dump
+key E
+wait 1.5
+shot xm09_e9
+dump
+key J
+wait 2
+shot xm09_quests
+dump
+key Escape
+wait 1
+scene
+dev save xm_r9

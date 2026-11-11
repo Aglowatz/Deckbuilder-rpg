@@ -1,0 +1,64 @@
+# Midgame critic Nov 10 (exported): run 10 - stand right by Tarragon, take the favour, then head for Basil.
+dev load xm_r9
+wait 6
+hold W 3
+wait 0.3
+hold A 1.6
+wait 0.3
+scene
+hold D 0.4
+wait 0.3
+scene
+shot xm10_a
+dump
+key E
+wait 1.5
+shot xm10_e1
+dump
+key E
+wait 1.5
+shot xm10_e2
+dump
+key E
+wait 1.5
+shot xm10_e3
+dump
+key E
+wait 1.5
+shot xm10_e4
+dump
+key E
+wait 1.5
+shot xm10_e5
+dump
+key E
+wait 1.5
+shot xm10_e6
+dump
+key E
+wait 1.5
+shot xm10_e7
+dump
+key E
+wait 1.5
+shot xm10_e8
+dump
+key E
+wait 1.5
+shot xm10_e9
+dump
+key J
+wait 2
+shot xm10_quests
+dump
+key Escape
+wait 1
+hold D 3
+wait 0.3
+scene
+hold W 2.5
+wait 0.5
+scene
+shot xm10_toward_basil
+dump
+dev save xm_r10

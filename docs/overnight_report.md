@@ -1,3 +1,220 @@
+# Fable pass Nov 10 - report
+
+Brief: `docs/prompts/fable_nov10.md`. Start tag `pre-fable-nov10`. Questions: `docs/overnight_inbox.md`, "Fable Nov 10" (items 1-14).
+Shots: `docs/overnight_shots/nov10b/`. One Godot at a time; the two critics (the wayfinding critic, the exported-build critic) were the only
+Godot while they played, and no sub-agent ran while a Godot of mine did. Owner decisions kept: no difficulty setting; the battle board and the
+UI layout untouched (Part 3 is numbers only); Primm as the last pass left him. Last night's report (Overnight Nov 9-10) follows below.
+
+## At a glance
+
+- **RC3:** `C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v1.0.0-rc3-windows.zip` (**734 MB; RC2 was 734 MB too**), release smoke on the exported pack
+  ****PASSED** (`_screenshots/release_smoke_exported.log`)**, the short exported-build checklist ****done, 0 SCRIPT ERRORs**: the three RC1 scripts on the RC3 test pack - A (fresh settings: title, Credits, a new game through the intro, Crosspath, a shop, the Deck Station, the Wardrobe, the packs page, a battle, the pause menu, a setting, Copy log, a manual save, quit, load; 16 shots), B (seeded with A's settings: Settings, save and Continue, the Gainlands quiz; 8 shots), C (quality 0: a zone, the town, a battle; 4 shots) - `_screenshots/exported/x*.png`, `y*.png`, `z*.png`**. Notes for testers: `docs/release/rc3_notes.md`.
+- **Part 1 (finding things):** every step of every active quest marks every part; the audit fails on a marker-less step; the gates on the way to
+  the Buffet's and the Dump's main dungeons are marked; the NPC visibility probe passes; "Point me to..." opens over the map with one row per
+  goal; the white sheets were steam puffs at the lens. **The wayfinding critic reached 1 of 4 main dungeons (Gainlands 2, D.N.A. 5, Buffet 4,
+  Dump 3 /10)** - its first fix, a route-following arrow, is in (Part 1.6 below), with the dotted route on the map.
+- **Part 2 (turns):** Turn N = both players' turns everywhere a player reads a number; no moment moved (table below).
+- **Part 3 (hand numbers):** hand cards and the raised hover card show this fight's power, toughness and cost in green / red; the right-click
+  preview says the printed values ("In this fight: 7/4 (printed 3/3)").
+- **Part 4 (rewards):** no "losing costs nothing"; dungeon fights +50 %; completion -20 %; the gold study says 22.8k no-grind (+7 % on the
+  21.2k target, inside the band, not re-tuned).
+- **Part 5:** the Hall Pass Slippers (Boots, 500 gold at Mirepoix's): no HP from the world's hazards outside battle.
+- **Tests:** **2942 tests in 31 shards: 2940 passing, 0 failing, 2 risky** (the same two no-assert tests as before). The parts had broken six test expectations, all fixed and re-run green: R-08's card script hash (the "your turn" wording; `import_cards.sh --stamp`), the Old Well's steps now marked like every step, Setting Up said in turns, 26 pieces and 4 on Mirepoix's shelf, the defeat line's new words. The sharded run was stopped once by the memory guard (free RAM under 800 MB with Chrome and Defender busy); the rest ran one shard at a time with a check before each. **The exported-build critic (the Buffet, arrival to the Test Kitchen):** clarity **7**, fun **6**
+  (was 5 / 4). Polish 7. Its top three: the main quest's own step never names Sir Loin's gate or the side quest that opens it; a roaming Gelatin Sentinel camps the Test Kitchen door; every fight runs 9-11 turns. Report: `docs/review/critic_exported_midgame_nov10/report.md`.
+
+## Part 1 - finding things
+
+### 1.1 Markers for every part of every step
+
+- `QuestObjective.parts`: a step can name several targets, each with its own "done" condition; `targets()` lists the undone ones. Mend the
+  Meatloaf marks the salt, the truffle and Old Meatloaf; the Pantry Run its six pickups; the roamer-count favours every live roamer of the
+  zone (`QuestMarkers.SPOT_ROAMERS`); the stash hunts every unopened stash; the Dump's herd each animal, the Capital's wheels each wheel. A
+  part drops the moment it is done (the pickup taken, the animal home, the wheel freed).
+- The world: up to 10 chevrons per step, the gold arrow at the nearest; the map and the minimap carry every active quest's goals (the tracked
+  quest's pin to the minimap's rim); the menu steps ("Open a pack") carry no marker and say so (`menu_step`).
+- `tools/quest_audit.gd` fails on a step with no marker target (and checks every part's area and spot). It found the Old Well's hum steps,
+  Loose Ends, the giant chests, the vault levers and the favour steps - all marked now. Shots: `p1_point_me_list_buffet_quests.png`,
+  `p1_map_goals_buffet.png`.
+
+### 1.2 The route to each main dungeon
+
+`tools/dungeon_route_audit.gd` plans a route from the arrival point to the main dungeon's door over each zone's real walkability, fresh (nothing
+opened) and open (every gate granted), and names the gates on the open route:
+
+| Zone | Fresh | Open | Gate on the way | What the player is told |
+|---|---|---|---|---|
+| The Gainlands | route | route | none | - |
+| The D.N.A. | route | route | none | - |
+| The Endless Buffet | no route | route | Sir Loin's golem gate | Sir Loin: "speak to Basil, east of the Soup Fountain"; Basil's offer and the gate's "active" line name the Salt Flats and the Broccoli Forest; the main line's dungeon step marks the gate until it opens |
+| The Verdant Dump | no route | route (142 m) | the vine bridges, the junk barricade on the stairs | the main line marks the Magic Bean + the West Sprout Mound (Part 1.6), the stables and the barricade; the bridge sign and Moss Mulligan name the bean |
+| The Capital | "narrow" route | route | the city gate | inbox 7: a fresh hero can slip through the hidden west hole; kept |
+
+Sir Loin's stale "speak to Basil" is gone (his need line now says where Basil stands); a mended loaf not yet reported gets its own line
+("Tell Basil yourself... His word opens this gate").
+
+### 1.3 Nobody behind a prop
+
+`tools/npc_visibility_probe.gd` stands the hero on every talk point and casts sight lines from the default and the Low camera to each NPC's
+feet, chest, head and name plate (a mesh between the lens and the hero is ignored, it fades). The first full run: 78 checks, nine real hides.
+Moved: Basil and Tarragon (clear of the Buffet's bridge gate; Tarragon again 3 m west of Rip at the Rift station after the Nov 10 critic
+run), Madame Mirepoix's awning, sign, pudding and cupcake, Billie Muckfoot (off the Rift station's line, then off the greenhouse's corner),
+Dex in the Dump (out of the appliance grove), Kestrel, a Capital ward patient. The brightened card copies now fade for the hero too. A prop
+between the camera and the person you can talk to dissolves (`OcclusionFader.talk_focus`); with nobody in reach, E walks to the nearest
+person in view (E's reach = the click's). Last run: every check ok; two "partly" rows remain (Mirepoix's head behind a cupcake at the default
+camera - the cupcake is smaller and further back now; Dex's feet behind the stream fence at the Low camera, plate and prompt clear).
+
+### 1.4 Map labels
+
+Landmarks are named first and win the room; minor names hide below map scale 5.5 and show on hover; "Point me to..." is an in-screen list
+over the map's right edge (a Window popup sat over the legend whatever it was told); the legend has one line per quest goal. Nov 10 critic
+run: one row per goal name ("A hidden stash (any) (one of 14)" instead of fourteen rows that buried the Meatloaf's three), the area each
+goal stands in ("An escaped animal (the Compost Commons)"), "via" rows for roads out ("Root Cause: via Back to Town"), and Escape closes the
+list and the map together. Shots: `p1_point_me_list_gainlands.png`, `p1_point_me_list_dump.png`.
+
+### 1.5 White sheets
+
+Not the occlusion fader: the milky sheets north of the hub were the steam and mist puff billboards reaching the lens at the Low camera.
+`ParticleLook.near_fade` fades every puff material between 9 m and 2.5 m of the camera (the Buffet's steam, the Gainlands' and the Dump's
+mist). The fade walk (`docs/review/play_scripts/fade_walk_gourmand_nov10.txt`) shows no sheets; the Low shots at the Salt Flats only carry the
+fall-in-the-gravy tint.
+
+### 1.6 The wayfinding critic (and what it changed)
+
+A no-context critic (brief `docs/review/critic_wayfinding_nov10_brief.md`, report `docs/review/critic_wayfinding_nov10/report.md`, 57 runs,
+84 minutes of game time) arrived fresh in each Path zone and had to reach the main dungeon's door with the game's guidance only:
+
+| Zone | Door reached | Game time | Runs | Clarity /10 | What stopped it |
+|---|---|---|---|---|---|
+| The Gainlands | no | 23.5 min | 17 | 2 | the straight arrow over the plateau wall; a pocket beside the House of Gains' stairs where it stood wedged |
+| The D.N.A. | yes | 18.3 min | 11 | 5 | the front desk and the mail-room terminal on the arrow's line |
+| The Endless Buffet | no (Meatloaf mended, not reported) | 22.9 min | 15 | 4 | the arrow across the Gravy River (two falls); the truffle pocket; Sir Loin's unchanged line |
+| The Verdant Dump | no | 19.1 min | 14 | 3 | the arrow across the stream; no bean, no mound found; two herd animals across the water |
+
+Its three fixes, and what was done:
+
+1. **A route-aware pointer, or the route on the map** (35 of its 84 minutes went into the straight arrow). Done: `RouteGuide`
+   (`world/route_guide.gd`) plans an A* route over the zone's own walkability (a 0.75 m grid, 8 neighbours, the midpoint between cells tested
+   so a thin wall is never stepped over), sliced at 5 ms a frame so nothing hitches. The gold arrow and the "Point me to..." arrow point
+   9 m along the route; the full map draws the route dotted (white for the pick, gold for the tracked goal); a waypoint that is on screen
+   gets a small arrow of its own (the critic's "dead end" at (49, 55) now shows the arrow at the road's foot to the east:
+   `p1_route_arrow_critic_dead_end.png`, `p1_route_arrow_middle_road.png`, `p1_map_route_gainlands.png`). Two walkability tests per zone: strict
+   (what the hero can walk now - the Buffet's river only on a ferry's line, the Dump's stream only on a grown bridge) and through-gates (a
+   shut golem gate, an ungrown vine bridge, a barricade count as open), so where a gate shuts the road the arrow leads to the gate, where
+   the sign says what opens it (`p1_map_route_buffet_ferry.png`: the route crosses the Gravy River on the Lazy Susan; `p1_route_arrow_dump_arrival.png`).
+   Search cost (tests): the Gainlands 45 ms, the Buffet 360 ms, the Dump 1.5 s (inbox 11).
+2. **The gate and its requirement in the main quest and on the map.** The Buffet's dungeon step already marked Sir Loin's gate (Part 1.2);
+   Sir Loin now acknowledges a mended loaf ("Tell Basil"). The Dump's main line marks the Magic Bean by the stream and the West Sprout Mound
+   from the favour step on, until a bridge is grown; the Centre Bridge sign and Moss Mulligan's refusal name the bean. (Two of Billie's three
+   animals graze across the water: inbox 10 asks whether to move one.)
+3. **Keep the main quest in the HUD; a place name on every row.** A side quest in hand keeps the tracker when the next side quest is accepted
+   (a favour still takes it from the main quest's "finish a favour" step; a main quest still takes it from a side quest). Every "Point me
+   to..." row names its area; goals of one name make one row. Plus the two physical blockers: the forecourt strip beside the House of Gains'
+   stairs is rubble now (the hero cannot squeeze in past the cheek wall), and the Steps banner sits on the stairs, not 14 m round them.
+
+Not changed: Old Man Mountain in front of the gym hall and Brother Bramble at the greenhouse door stay (the route arrow walks round them);
+the D.N.A.'s "finish a favour" step before an open door is the design (inbox 12); the Delt ripper out of order is a world feature.
+
+Tests: `tests/world/test_route_guide_nov10.gd` (5: the gap, the gate, no route, a moved target), `tests/world/test_route_guide_zones_nov10.gd`
+(3: the real Gainlands, Buffet and Dump routes), `tests/core/quests/test_wayfinding_nov10.gd` (5: the tracker rule, the list rows, the Dump's
+parts, the story lines, the pocket). The quest audit, the zone and quest suites green after the change.
+
+## Part 2 - a turn is both players' turns
+
+`GameState.turn_number_of(half) = max(1, floor((half + 1) / 2))`: the engine's own counter still advances once per side (every internal
+threshold keyed on it - the AI's stall rule, the item policy, Processing X, "until the start of its controller's next turn" - is untouched,
+so nothing happens at a different moment). What the player reads:
+
+| Where | Before | Now |
+|---|---|---|
+| Battle HUD turn panel | "Round N" / "Your turn" - "Enemy turn" | "Turn N" / "Your turn" - "Enemy's turn" |
+| Board ribbons | "Round N" | "Turn N" |
+| Battle log header | "-- Your turn --" / "-- Primm's turn --" | "-- Turn 1: your turn --" / "-- Turn 1: Primm's turn --" |
+| Boss Setting Up (pre-fight panel, rules panel) | "Its units do not attack in rounds 1-2; they can attack from round 3" | "...in turns 1-2; they can attack from turn 3" (same window: the boss takes its N-th turn inside Turn N whichever side goes first) |
+| Setting Up countdown under the turn label | "Setting Up: 2 rounds left" | "Setting Up: 2 turns left" - `setup_turns_left = clamp(window - turns_taken + 1, 0, window)`; countdown and panel agree (test: 2, 2, 1, 0 for turns taken 0..3) |
+| Result lines | "in N rounds" | "in N turns" (`p1`... the Victory panel: "You defeated Quota Spotter in 1 turn") |
+| Card text (34 cards + 1 token) | "until end of turn" | "until the end of your turn"; the traps that fire on the enemy's turn (BR-07, C-16, GB-04, GRB-01): "until the end of the enemy's turn" |
+| Glossary / keyword info | "Round" | "Turn" (one turn = both players' turns; "your turn" and "the enemy's turn" are its halves) |
+| Tutorials, status info, campaign start, pre-fight texts | rounds | turns |
+| Sims and tools (`record.turns`, `turns_played`, `node_turns`, the "turns avg" print) | half-turns | turns (inbox 6: their numbers are half what they were) |
+| `docs/design/combat_rules.md` Turn Structure | - | the paragraph above |
+
+Energy: the end-turn question and the hand tooltips count the same pool (`GameState.energy_available`: ready infrastructure + the pool), so
+the two contradictory messages are one. Shots: `p2_before_the_fight_setting_up_turns.png`, `p2_hud_turn1_your_turn.png`,
+`p2_battle_log_turn_header.png`. Test: `tests/core/test_turn_counting_nov10.gd` (6).
+
+## Part 3 - hand cards show this fight's numbers
+
+`CardView.apply_instance` already drew a unit's live attack and toughness; now a shrunk attack reads red (Primm's 3/3, Red Tape) as a shrunk
+toughness did, and the cost is live too: `game.generic_cost_for` + `pips_for` against the printed `energy_value()`, green when cheaper, red
+when dearer, on the framed socket's number and on the plain face's pip row (`PipRow.generic_override`). `BattleBoard.sync_state` re-applies
+every live view each sync (a view was asked once, when it was made - a rule that arrived after the draw never reached the hand). The
+right-click preview adds `BattleHud.now_line`: "In this fight: 7/4 (printed 3/3); costs 2 (printed 3)." - only the parts that differ. No
+layout changed. Under Primm's Standardization a postgame hero's Carpool (printed 3/3) reads 7/4 in green: 3/3 plus the hero's boons and gear
+(`p3_primm_hand_live_numbers.png`, `p3_primm_hover_carpool.png`; the right-click preview of the Overclocked Mill Worker: "In this fight: 7/4 (printed 2/4)." in gold under its text, `p3_primm_peek_in_this_fight.png`). The House of Gains' Home Gym (+1 attack for Beefcake units) shows the
+same way; a Colorless hand (Courier Pigeons, Village Militia) keeps its print. Tests: `tests/ui/test_hand_numbers_nov10.gd` (3: Primm's 3/3 in
+red with the printed values in the preview line, a cost reducer in green and a tax in red on both faces, a zone rule's pump in green kept
+through a rebuild).
+
+## Part 4 - rewards and the defeat text
+
+- "Losing costs nothing" and its cousins are gone from the defeat panels, the Old Well's confirm and the level hints; a dungeon defeat says the
+  dungeon starts over from its first room and that the cards and gold you won are kept.
+- Rewards (`docs/design/balance_log.md`, "Fable pass Nov 10, Part 4"):
+
+| What | Before | Now |
+|---|---|---|
+| Every fight inside a dungeon (normal, elite, boss; main and side) | gold x1, XP x1 | gold x1.5 (rounded to 5), XP x1.5 (`Economy.DUNGEON_FIGHT_BONUS`); picks and packs unchanged; the tutorial cave is not a dungeon run |
+| Clear bonus at the boss | the run's gold once more | 0.8 of it (`CLEAR_BONUS_SHARE`) |
+| Main dungeon first clear | 200 gold, XP 0.5 of a level step, pack bonus 150 gold / 100 XP | 160, 0.4, 120 / 80 |
+| Side dungeon first clear | 100 gold, XP 0.15 of a step | 80, 0.12 |
+| Primm's Castle, the Lab, the Shattered Gallery | 400 XP; 400/400; 1500 gold | 320; 320/320; 1200 |
+| Repeat clears | 300 main / 200 side | unchanged (not a completion reward) |
+
+- Gold study (`docs/design/sim/nov10/gold_study_nov10.md`, the economy model paying the +50 % the game pays): **22,771 gold no-grind** against
+  the ~21.2k target (+7 %, inside +/-10 %, so no re-tune); 12,971 left after the shopping list; a completionist needs about 135 extra fights
+  (9.0 h) at the best grind.
+
+## Part 5 - the Hall Pass Slippers
+
+Boots: the slot with the fewest pieces (7 boots against 9 helms, 11 armours, 15 weapons, 19 relics). Uncommon, tier 2, **500 gold on Madame
+Mirepoix's gear shelf** in the Endless Buffet (a mid-game shop at the gear price formula) - picked over a side-quest reward so a player who
+hates the gravy can buy their way out. "Outside battle, roaming troublemakers and hazards can't hurt you: no HP lost to bumps, rifts, pits,
+gravy or falls." Flavour: "Paperwork says you're excused. The paperwork is laminated." `Modifier.Kind.WORLD_IMMUNITY`, `ZoneRun.world_damage`:
+every zone-HP hit outside battle (roamer bumps, the Buffet's gravy and rift stations, the Dump's falls and pits, the Gainlands' hazards) goes
+through it and shows "Hall Pass Slippers: no harm done. The paperwork says you're excused." Battles and story damage are untouched. Icon: the
+Traveler's Boots stand in; `ICON-EQ-HALLPASSSLIPPERS` is on `docs/art/art_needed_nov2.csv` with an image description. Test:
+`tests/core/test_hall_pass_slippers_nov10.gd` (3).
+
+## Finish
+
+- **Tests:** **2942 tests in 31 shards: 2940 passing, 0 failing, 2 risky** (the same two no-assert tests as before). The parts had broken six test expectations, all fixed and re-run green: R-08's card script hash (the "your turn" wording; `import_cards.sh --stamp`), the Old Well's steps now marked like every step, Setting Up said in turns, 26 pieces and 4 on Mirepoix's shelf, the defeat line's new words. The sharded run was stopped once by the memory guard (free RAM under 800 MB with Chrome and Defender busy); the rest ran one shard at a time with a check before each.
+- **RC3:** `builds/TheWaywardPath-v1.0.0-rc3-windows.zip` (734 MB; RC2 was 734 MB too); `builds/_export/` holds the unzipped build. Release smoke on the exported
+  pack: **PASSED** (`_screenshots/release_smoke_exported.log`). The short exported-build checklist (runs A-C of the RC1 scripts on the test pack): **done, 0 SCRIPT ERRORs**: the three RC1 scripts on the RC3 test pack - A (fresh settings: title, Credits, a new game through the intro, Crosspath, a shop, the Deck Station, the Wardrobe, the packs page, a battle, the pause menu, a setting, Copy log, a manual save, quit, load; 16 shots), B (seeded with A's settings: Settings, save and Continue, the Gainlands quiz; 8 shots), C (quality 0: a zone, the town, a battle; 4 shots) - `_screenshots/exported/x*.png`, `y*.png`, `z*.png`.
+- **The exported-build critic:** a no-context critic (brief `docs/review/critic_exported_midgame_nov10_brief.md`, report `docs/review/critic_exported_midgame_nov10/report.md`; 33 runs, 40.8 min of game time on the RC3 test pack, no `dev autowin`, no SCRIPT ERROR) replayed the Buffet from arrival to the Test Kitchen's boss: **clarity 7 (was 5), fun 6 (was 4), polish 7**. It stood 8 m from the door after 18.3 min on foot, guided by the tracker, the map's blue circles, the dotted route, the gate's sign and Basil; it used `dev travel` into the dungeon only after a roamer beside the door ate two approaches. What it credits: the gate sign and Basil's hand-in line, the dotted route and the labelled arrow, the Defeat card's recap, the right-click preview's "In this fight: 2/3 (printed 1/1)", "Turn 1 / Your turn". Its top 10 (verbatim in the report): (1) the main quest's dungeon step should say "Sir Loin's gate wants Old Meatloaf mended - see Basil" (the step marks the gate on the map, but its "Where to go" text does not say it: a one-line text fix for the next pass); (2) a roaming Gelatin Sentinel camps the Test Kitchen door; (3) 9-11-turn fights; (4) the boss's token swarm overlaps; (5) Setting Up is an unlabelled hourglass during the fight; (6) toasts stay 20-30 s; (7) the E prompt prefers plaques to the quest NPC; (8) walking costs HP (bumps, the gravy); (9) the "Point me to..." list reorders between opens; (10) a stale favour toast and Escape over pop-ups. Fixed tonight from its notes: the respawn toast still said "Losing costs nothing" (gone), and the dotted route grazed the Soup Fountain (routes now keep a 0.6 m body clear of props). The rest is logged for the owner (inbox 14).
+- No public upload. Commits: Part 1 (`170722b5`, `731e720c`), Part 2 (`26847a85`), Part 4 (`a305b9df`, `4b9e85f4`), Part 5 (`d3b775cf`),
+  Part 1.6 + Part 3 (`ebcbdad3`), Finish (the Finish commits that follow `ea2a6377`).
+
+### Screenshots (`docs/overnight_shots/nov10b/`)
+
+| File | What |
+|---|---|
+| `p1_point_me_list_buffet_quests.png` | the Buffet map with Mend the Meatloaf and the Pantry Run active: every part a goal, the list open over the map |
+| `p1_map_goals_buffet.png` | the legend's one line per quest goal |
+| `p1_point_me_list_gainlands.png`, `p1_point_me_list_dump.png` | one row per goal name, the area in brackets, "via" rows; the Dump's bean and mound rows |
+| `p1_map_route_gainlands.png` | the dotted route from the bridge up the middle road to the House of Gains |
+| `p1_route_arrow_critic_dead_end.png` | at (49, 55), where the critic gave up: the waypoint arrow at the road's foot to the east |
+| `p1_route_arrow_middle_road.png` | the waypoint arrow up the Gauntlet |
+| `p1_map_route_buffet_ferry.png` | the Buffet's route crossing the Gravy River on the Lazy Susan |
+| `p1_route_arrow_dump_arrival.png` | the Dump: "The Rotheart" arrow north toward the Centre Bridge's foot |
+| `p2_before_the_fight_setting_up_turns.png` | Primm's pre-fight panel: "Setting Up: ...in turns 1-2; they can attack from turn 3" |
+| `p2_hud_turn1_your_turn.png` | the HUD: "Turn 1 / Your turn" |
+| `p2_battle_log_turn_header.png` | the log: "-- Turn 1: your turn --" |
+| `p3_primm_hand_live_numbers.png` | Primm's fight: the Militia 3/3, the hand's live numbers |
+| `p3_primm_hover_carpool.png` | the raised Carpool: 7/4 (printed 3/3) |
+| `p3_primm_peek_in_this_fight.png` | the right-click preview: "In this fight: 7/4 (printed 2/4)." |
+
+---
+
 # Overnight Nov 9-10 (Opus) - report
 
 Brief: `docs/prompts/overnight_nov9_opus.md`. Start tag `pre-overnight-nov9b`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 9-10".

@@ -1,0 +1,37 @@
+# Midgame critic Nov 10 (exported): run 1 - arrive in the Endless Buffet, look around, map, quest log.
+dev load bot_refusemancer_enter_gourmand
+wait 8
+shot xm01_arrive
+dump
+scene
+wait 3
+shot xm01_arrive2
+dump
+key E
+wait 1.5
+shot xm01_e1
+dump
+skip_dialogue
+wait 1
+shot xm01_after_skip
+dump
+key J
+wait 2
+shot xm01_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot xm01_map
+dump
+button Point me to...
+wait 1.5
+shot xm01_pointme
+dump
+key Escape
+wait 1
+shot xm01_after_map
+dump
+scene
+dev save xm_r1
