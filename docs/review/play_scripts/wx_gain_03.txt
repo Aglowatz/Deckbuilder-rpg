@@ -1,0 +1,41 @@
+# Gainlands run 03: resume at entrance, win Spotter fight, Continue, walk north toward dotted route
+wait 2
+dev load wx_gain_01
+wait 12
+dev autowin on
+hold W 3
+wait 3
+button Continue
+wait 3
+shot g03_after_spotter
+dump
+scene
+hold W 3
+scene
+shot g03_n1
+hold W 3
+scene
+shot g03_n2
+dump
+key E
+wait 1.5
+shot g03_e1
+dump
+skip_dialogue 10
+wait 1
+shot g03_e1_end
+dump
+scene
+hold W 3
+scene
+shot g03_n3
+dump
+key E
+wait 1.5
+shot g03_e2
+dump
+skip_dialogue 10
+wait 1
+dump
+scene
+dev save wx_gain_03

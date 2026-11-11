@@ -1,0 +1,48 @@
+# Overnight Nov 10-11, Part 1 proof shots on the exported pack: Escape over a conversation advances it (no pause menu); the quest log's
+# "Where to go" line names Sir Loin's gate; the "Point me to..." list's order; the favour toast. The Buffet at arrival (the midgame critic's start).
+dev load bot_refusemancer_enter_gourmand
+wait 9
+scene
+key J
+wait 1.5
+shot n11_p1_quest_log_favour_step
+dump
+key Escape
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1.2
+shot n11_p1_point_me_list
+dump
+key Escape
+wait 0.8
+key Escape
+wait 0.8
+shot n11_p1_after_escapes
+dump
+# Tarragon stands by the Rift Express beam, about 18 m in: walk and talk, then Escape in the conversation
+hold W 3.2
+wait 0.3
+hold W+D 1.6
+wait 0.3
+scene
+shot n11_p1_near_tarragon
+dump
+key E
+wait 1.5
+shot n11_p1_talk_1
+dump
+key Escape
+wait 1
+shot n11_p1_talk_after_escape
+dump
+key Escape
+wait 1
+shot n11_p1_talk_after_escape_2
+dump
+skip_dialogue
+wait 1
+shot n11_p1_after_talk
+dump
+scene

@@ -1,0 +1,26 @@
+# Gainlands run 02: resume, handle Quota Spotter, try Point me to...
+wait 2
+dev load wx_gain_01
+wait 12
+dev autowin on
+hold W 3
+wait 3
+shot g02_spotter
+dump
+skip_dialogue 8
+wait 2
+shot g02_after_talk
+dump
+scene
+pilot 25
+wait 2
+shot g02_after_pilot
+dump
+scene
+key M
+wait 2
+click 1390 604
+wait 1.5
+shot g02_pointme
+dump
+dev save wx_gain_02

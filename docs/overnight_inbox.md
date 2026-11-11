@@ -4,6 +4,28 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Overnight Nov 10-11 - yours to decide (the safest choice was taken)
+
+1. **Road guards are exempt from the "no roamer within 10 m of a door" rule** (Part 1.2): the Gainlands' three Gauntlet guards stand 0.9-9 m from
+   the Iron Cave's door by design (they ARE the obstacle on the middle road; beaten once, they are gone). Every wandering roamer now keeps 10 m
+   plus its patrol from every dungeon door, gate and zone exit (`tests/world/test_roamer_doors_nov11.gd` prints the nearest fitting home for an
+   offender): the Buffet's jelly (50, 20) -> (36, 32), its loaf (28.5, 20.5) -> (29.5, 19.5), the hub meatball (40, 34) -> (36, 40), the Dump's
+   gulls (58, 16) -> (63, 18), the Capital's inspector (88, 88) -> (86, 89), officer (50, 15) -> (46, 17), inspector (70, 15) -> (74, 17), a
+   Tidy-Bot (113, 63) -> (111, 64) (it stood on ground a roamer may not walk). The exit roamer the scene adds stands 14-17 m from the exit (was 9-15).
+2. **Escape in a conversation advances one line** (Part 1.10) rather than closing the whole talk or opening the pause menu; over a reward /
+   quest-complete / level-up box it presses Continue. If you would rather have Escape end the conversation at once, `SceneManager.close_top_popup`
+   is the one place (`box.close_now()` instead of `box.press()`).
+3. **E prefers a quest NPC only over plaques, signs and props** (Part 1.7: `ZoneScene.QUEST_NPC_BEATS`), never over a door, an exit, a station or
+   a chest, and only while that person has a quest to give or to hand in; such a person also answers E from 0.8 m further.
+4. **Token stacks** (Part 1.4): identical tokens (same card, same live numbers, same state; not attacking, blocking or blocked) share one slot
+   with an "xN" badge on BOTH sides of the table, from two copies up. Click the top card to target or attack with one of them; an attacker,
+   a blocker or a hurt one steps out of the stack on its own. Real cards never stack.
+5. **Toasts** (Part 1.6): every HUD toast is capped at 6 s plus the fade (a 30 s hold asks for 6), runs on the wall clock, and a click on it
+   dismisses it. The global notice toasts (top centre) already lasted 3.5 s.
+6. **The Dump's route arrow** (Part 2.1) plans on a 1 m grid with 12 ms a frame (0.8 s of search, was 1.4 s at 5 ms: about a second after a
+   pick instead of five). The other zones keep the 0.75 m grid and 5 ms. If the Dump's arrow ever cuts a corner it should not, lower
+   `HeapScene.ROUTE_GRID` back toward 0.75.
+
 ## Import Nov 8 - yours to decide (the safest choice was taken)
 
 **Answered Nov 8:** Dex stays a ferret; tips as they are; the Capital load is fine; a Low camera angle was added for playtesters (Settings > Display > Camera angle, or V).

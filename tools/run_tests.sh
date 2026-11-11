@@ -2,21 +2,57 @@
 # Memory-safe full GUT run (Oct 31): the suite is split into shards of N test scripts, each run in a FRESH Godot process
 # (one at a time), so memory never piles up across ~290 scripts. Prints one line per shard and a combined summary with
 # every failing test by name. Logs: _logs/gut/shard_NN.log (+ summary.txt).
-# Usage: bash tools/run_tests.sh [--size=N] [--only=<path prefix, e.g. tests/core>] [--from=K]
+# Usage: bash tools/run_tests.sh [--size=N] [--only=<path prefix, e.g. tests/core>] [--from=K] [--min-free=MB] [--wait-max=SEC]
 #   --size  scripts per shard (default 10)   --only  run just the scripts under a prefix   --from  start at shard K (resume)
+#   --min-free  (Overnight Nov 10-11, inbox 13) before each shard, wait until the machine has at least this much free RAM in MB
+#               (default 900; a 12-file shard holds 400-630 MB; 0 = no wait), instead of being killed by the harness's memory guard
+#   --wait-max  how long to wait for that at most, in seconds (default 600); when it runs out the shard is skipped and counted as crashed
 # Exit code 0 only when every shard finished and nothing failed.
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."
 SIZE=10
 ONLY="tests"
 FROM=1
+MIN_FREE=900
+WAIT_MAX=600
 for a in "$@"; do
 	case "$a" in
 		--size=*) SIZE="${a#--size=}" ;;
 		--only=*) ONLY="${a#--only=}" ;;
 		--from=*) FROM="${a#--from=}" ;;
+		--min-free=*) MIN_FREE="${a#--min-free=}" ;;
+		--wait-max=*) WAIT_MAX="${a#--wait-max=}" ;;
 	esac
 done
+
+# Free physical RAM in MB (Windows: PowerShell's CIM; elsewhere /proc/meminfo); -1 when it cannot be read (then nothing waits).
+free_mb() {
+	if [ -r /proc/meminfo ]; then
+		awk '/MemAvailable/ {print int($2 / 1024); exit}' /proc/meminfo
+		return
+	fi
+	local kb
+	kb=$(powershell -NoProfile -Command "(Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory" 2>/dev/null | tr -d '\r ')
+	if [[ "$kb" =~ ^[0-9]+$ ]]; then echo $((kb / 1024)); else echo -1; fi
+}
+
+# Waits (up to WAIT_MAX s, polling every 10 s) until free RAM is at least MIN_FREE MB. Returns 1 when the wait ran out.
+wait_for_memory() {
+	local shard="$1" waited=0 free
+	[ "$MIN_FREE" -le 0 ] && return 0
+	while :; do
+		free=$(free_mb)
+		[ "$free" -lt 0 ] && return 0
+		[ "$free" -ge "$MIN_FREE" ] && { (( waited > 0 )) && echo "    shard $shard: $free MB free after ${waited}s, going on"; return 0; }
+		if (( waited >= WAIT_MAX )); then
+			echo "shard $shard: only $free MB free after ${waited}s (need $MIN_FREE): skipped"
+			return 1
+		fi
+		(( waited == 0 )) && echo "    shard $shard: $free MB free, waiting for $MIN_FREE MB (up to ${WAIT_MAX}s)..."
+		sleep 10
+		waited=$((waited + 10))
+	done
+}
 LOGDIR="_logs/gut"
 mkdir -p "$LOGDIR"
 [ "$FROM" = "1" ] && rm -f "$LOGDIR"/shard_*.log
@@ -36,6 +72,12 @@ for ((s = 1; s <= SHARDS; s++)); do
 	else
 		list=""
 		for ((i = (s - 1) * SIZE; i < s * SIZE && i < TOTAL_FILES; i++)); do list="$list,res://${FILES[$i]}"; done
+		if ! wait_for_memory "$s"; then
+			echo "skipped: free RAM stayed under $MIN_FREE MB for ${WAIT_MAX}s" > "$log"
+			CRASHED="$CRASHED\n  shard $s (skipped: low memory; rerun with --from=$s)"
+			echo "shard $s/$SHARDS: SKIPPED (low memory)"
+			continue
+		fi
 		t0=$(date +%s)
 		timeout 1200 "$GODOT" --headless --path . -s res://addons/gut/gut_cmdln.gd -gconfig= -gtest="${list#,}" -gexit 2>&1 \
 			| sed 's/\x1b\[[0-9;]*m//g' > "$log"

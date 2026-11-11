@@ -1,0 +1,28 @@
+# Gainlands run 04: resume with Spot Me!, read quest log (Side tab), map + Point me to, then follow route
+wait 2
+dev load wx_gain_03
+wait 12
+dev autowin on
+shot g04_arrive
+scene
+key J
+wait 1.5
+click 274 115
+wait 1
+shot g04_side_log
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot g04_map
+click 1390 604
+wait 1.5
+shot g04_pointme
+dump
+key Escape
+wait 1
+shot g04_after_map
+dump
+scene
+dev save wx_gain_04

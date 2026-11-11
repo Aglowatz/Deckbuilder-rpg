@@ -1,0 +1,42 @@
+# Gainlands run 06: Point me to... button, then walk NE toward the blue Spot Me! circle
+wait 2
+dev load wx_gain_05
+wait 12
+dev autowin on
+hold W 3
+wait 3
+button Continue
+wait 2
+key M
+wait 2
+click 1400 573
+wait 1.5
+shot g06_pointme_list
+dump
+key Escape
+wait 1
+shot g06_after_list
+dump
+scene
+hold W 3
+scene
+hold D 3
+scene
+shot g06_e1
+hold D 3
+scene
+shot g06_e2
+dump
+hold W 2
+scene
+shot g06_e3
+dump
+key E
+wait 1.5
+shot g06_talk
+dump
+skip_dialogue 10
+wait 1
+dump
+scene
+dev save wx_gain_06

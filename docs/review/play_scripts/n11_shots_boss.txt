@@ -1,0 +1,36 @@
+# Overnight Nov 10-11, Part 1 proof shots on the exported pack: the Test Kitchen's boss - the Setting Up words beside the hourglass, the
+# token stacks (xN) once the Doppelganger floods the table, the Turn panel's countdown. Loads the midgame critic's snapshot by the boss.
+dev load xm_r24
+wait 5
+dev travel dungeon D-TTK -2
+wait 7
+click 1364 212
+wait 2
+skip_dialogue
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+button Continue
+wait 2
+button Keep Hand
+wait 1.5
+shot n11_p1_boss_turn1_setting_up
+dump
+move 275 190
+wait 1.2
+shot n11_p1_boss_hourglass_hover
+pilot 40
+wait 1
+shot n11_p1_boss_mid_stacks
+dump
+pilot 40
+wait 1
+shot n11_p1_boss_late_stacks
+dump
+scene

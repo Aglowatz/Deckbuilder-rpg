@@ -37,6 +37,10 @@ Dev Menu (teleport, level, gold, auto-win). One Godot at a time on this PC (7.4 
 2. `bash tools/quest_audit.sh` (every quest still completable on paper).
 3. If you touched a screen: `bash tools/gut_one.sh tests/ui/<the screen's test>.gd`.
 The full suite: `bash tools/run_tests.sh --only=tests --size=12` (about 10 minutes; `--from=N` resumes after a stop; logs `_logs/gut/`).
+The runner waits for memory by itself (Nov 11): before each shard it checks the free RAM and waits until at least `--min-free=MB`
+(default 900 MB; a 12-file shard holds 400-630 MB) is free, polling every 10 s for up to `--wait-max=SEC` (default 600). A shard it
+could not start in that time is skipped and listed under "Crashed shards" with the `--from=N` to rerun it. `--min-free=0` turns the wait
+off. If Claude Code's own low-memory guard still stops the run, close Chrome / ChatGPT and rerun with `--from=N`.
 
 **Export (Windows):** close Godot, then `bash tools/export_windows.sh <version>` in the foreground (about 4 minutes; it wants 2 GB of free RAM
 and 2.5 GB of disk; `EXPORT_LOW_MEMORY_OK=1` runs it with less, as on Nov 9 with 1.4 GB free). It imports, exports with the shader baker,

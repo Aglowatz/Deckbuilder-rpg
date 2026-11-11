@@ -1,0 +1,36 @@
+# Gainlands run 05: pick Goal: Spot Me! on the map, follow the arrow north-east to Gary
+wait 2
+dev load wx_gain_04
+wait 12
+dev autowin on
+key M
+wait 2
+click 1333 647
+wait 1.5
+shot g05_goal_picked
+key Escape
+wait 1
+shot g05_arrow
+dump
+hold W 3
+scene
+hold W+D 3
+scene
+shot g05_ne1
+hold W+D 3
+scene
+shot g05_ne2
+dump
+hold D 2
+scene
+shot g05_ne3
+dump
+key E
+wait 1.5
+shot g05_e
+dump
+skip_dialogue 10
+wait 1
+dump
+scene
+dev save wx_gain_05
