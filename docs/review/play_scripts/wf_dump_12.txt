@@ -1,0 +1,81 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 12 - east bridge over the stream, up the stairs, shoo the animal on the north bank, push north.
+wait 2
+dev load wf_dump_11
+wait 8
+dev autowin on
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 120
+wait 1
+key M
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 5
+wait 2
+button Continue
+wait 1
+hold D 2.8
+wait 2
+button Continue
+wait 1
+scene
+hold D 1.5
+scene
+shot 01_bridge
+hold W+D 2
+scene
+shot 02_stairs
+dump
+hold W 2
+scene
+shot 03_north_bank
+dump
+key E
+wait 1.5
+shot 04_e
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+hold W+A 2
+wait 2
+button Continue
+wait 1
+scene
+shot 05_nw
+dump
+key E
+wait 1.5
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 06_n1
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 07_n2
+dump
+key M
+wait 2
+shot 08_map
+key Escape
+wait 1
+dev save wf_dump_12

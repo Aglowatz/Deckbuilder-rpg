@@ -59,8 +59,14 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 		return false
 	active.append(quest.id)
 	# Fix pass Nov 7 (D3): a "Settling In" errand never takes the tracker from an active main quest (the Path's line stays tracked).
+	# Fable pass Nov 10 (Part 1.6, the wayfinding critic): a side quest in hand keeps the tracker from the next side quest accepted (the
+	# HUD said "Find a hidden stash" while the hero gathered salt for the quest it had taken a minute before); a main quest still takes it
+	# from a side quest, and a favour (no line of its own) still takes it from a main quest's "finish a favour" step.
 	var tracked_quest: QuestData = QuestCatalog.find(tracked) if active.has(tracked) else null
-	if quest.line.is_empty() or tracked_quest == null or not tracked_quest.is_main():
+	var takes: bool = tracked_quest == null
+	if not takes:
+		takes = quest.line.is_empty() if tracked_quest.is_main() else quest.is_main()
+	if takes:
 		tracked = quest.id
 	for objective: QuestObjective in quest.objectives:
 		var cond: Condition = objective.condition

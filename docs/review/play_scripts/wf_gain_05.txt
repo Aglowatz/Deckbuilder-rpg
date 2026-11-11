@@ -1,0 +1,53 @@
+# Wayfinding critic Nov 10: the Gainlands, run 5 - bridge fight, then follow the pointer north towards the House of Gains.
+wait 2
+dev load wf_gain_4
+wait 8
+dev autowin on
+hold W 3
+wait 2
+button Continue
+wait 2
+key M
+wait 2
+click 1390 604
+wait 1.5
+click 915 320
+wait 1
+key M
+wait 1
+shot 01_arrow
+scene
+hold W 4
+shot 02_n1
+scene
+hold W 4
+shot 03_n2
+scene
+hold W 4
+shot 04_n3
+scene
+dump
+hold W 4
+shot 05_n4
+scene
+hold W 4
+shot 06_n5
+scene
+hold W 4
+shot 07_n6
+scene
+dump
+hold W 4
+shot 08_n7
+scene
+hold W 4
+shot 09_n8
+scene
+dump
+key M
+wait 2
+shot 10_map
+key Escape
+wait 1
+scene
+dev save wf_gain_5

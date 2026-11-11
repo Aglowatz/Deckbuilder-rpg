@@ -1,0 +1,101 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 7 - favour, point at the salt, west along the river bank, gather, then south-west for the truffle.
+wait 2
+dev load bot_gourmand_enter_gourmand
+wait 10
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 361
+wait 1
+key M
+wait 1
+hold W+A 2
+hold A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 01_west1
+dump
+key E
+wait 1.5
+shot 02_e1
+dump
+hold A 2
+wait 2
+button Continue
+wait 1
+scene
+shot 03_west2
+dump
+key E
+wait 1.5
+shot 04_e2
+dump
+button Continue
+hold W+A 2
+scene
+shot 05_nw
+dump
+key E
+wait 1.5
+shot 06_e3
+dump
+button Continue
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 378
+wait 1
+key M
+wait 1
+shot 07_truffle_arrow
+hold S+A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 08_sw1
+dump
+hold S 3
+wait 2
+button Continue
+wait 1
+scene
+shot 09_sw2
+dump
+key E
+wait 1.5
+shot 10_e4
+dump
+key M
+wait 2
+shot 11_map
+key Escape

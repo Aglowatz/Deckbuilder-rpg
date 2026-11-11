@@ -1,0 +1,62 @@
+# Wayfinding critic Nov 10: the Gainlands, run 15 - at the Steps: back off south, go further west, then climb north.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 8
+dev autowin on
+hold W 3
+wait 2
+button Continue
+wait 2
+hold W 4
+hold A 3
+hold W 3
+hold W+D 2
+hold D 2
+hold W 3
+hold W 4
+wait 1
+button Continue
+hold W 4
+wait 1
+button Continue
+hold W 3
+hold W+A 3
+wait 1
+button Continue
+scene
+hold S 2
+scene
+hold A 4
+scene
+shot 01_sw
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 02_n1
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 03_n2
+dump
+hold W+A 3
+scene
+shot 04_nw
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 05_n3
+dump
+key E
+wait 1.5
+shot 06_e
+dump
+key M
+wait 2
+shot 07_map
+key Escape

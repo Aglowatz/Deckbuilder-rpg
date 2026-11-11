@@ -1412,3 +1412,14 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
    the **Correction Ward's patient** moved to (106, 6); **Basil** to (57.5, 58.5) and **Tarragon** to (42, 71.5) in the Buffet (the entrance bridge's
    gate hid them from the Low / default camera); **Billie Muckfoot** to (44.5, 123) (the Rift station's post hid her plate). Madame Mirepoix's
    awning is higher and her card stand moved to the counter's end. `bash tools/run_npc_visibility_probe.sh` checks all of it.
+10. **The Verdant Dump's first crossing** (the wayfinding critic, 3/10): a fresh hero must plant the Magic Bean that lies by the stream in the
+   West Sprout Mound to cross; Moss Mulligan's centre bridge needs Billie's herd, two of whose three animals graze across the water. The main
+   line now marks the bean and the mound (favour step and dungeon step), the bridge sign and Moss name the bean, and the arrows route to a
+   shut bridge rather than across the water. If you would rather the herd quest be doable from the Commons, move `animal_1` (40, 68) or
+   `animal_3` (74.5, 91) south of the stream in `world/heap/heap_layout.gd`.
+11. **Route planning cost:** the goal arrows' A* over a zone's walkability takes 45 ms (Gainlands) to 1.5 s (the Dump, strict search failing
+   then the gated one) of search, sliced at 5 ms a frame: the Dump's arrow is straight for up to ~5 s after a pick before it follows the route.
+   A coarser grid for the Dump, or planning on a thread, would cut it; not done tonight.
+12. **"Finish a favour" in the D.N.A.** (critic): the Hall's door needs no favour, so a player who obeys the tracker hunts one first. The step
+   order (favour, then the dungeon) is the design; the dungeon step marks the door the moment the favour is done. Say if the door should be
+   marked from arrival.

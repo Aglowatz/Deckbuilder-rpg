@@ -52,6 +52,12 @@ var _time: float = 0.0
 ## The two arrows' targets as spot groups: the tracked kind's places and the other kind's, so the arrow follows the nearest each frame.
 var _arrow_places: Array[Array] = [[], []]
 var _hero: Node3D
+## Fable pass Nov 10 (Part 1.6, the wayfinding critic): the goal arrows follow a WALKABLE ROUTE (`RouteGuide`) once the scene has given the
+## layer its ground (`set_routing`): [0] steers the tracked goal's arrow, [1] the "Point me to..." arrow. `_aimed` is the place the tracked
+## arrow was last pointed at. `area_namer` names the area a position lies in ("The Compost Commons") for the map's goal rows.
+var _guides: Array[RouteGuide] = [RouteGuide.new(), RouteGuide.new()]
+var _aimed: Dictionary = {}
+var area_namer: Callable
 
 
 ## Builds the layer under `parent`; `hud_layer` (a Control on the HUD's canvas) carries the edge pointers.
@@ -92,6 +98,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	for guide: RouteGuide in _guides:
+		guide.work()
+	_steer()
 	_update_where_to()
 	# Fix pass Nov 7 (item 2): a house in front of the tracked goal's door dissolves when the hero is near it (`OcclusionFader.focus_points`).
 	var focus: Array[Vector3] = []
@@ -123,6 +132,45 @@ func _process(delta: float) -> void:
 			(ring.material_override as StandardMaterial3D).albedo_color.a = 0.25 + 0.3 * (1.0 - pulse)
 
 
+## Fable pass Nov 10 (Part 1.6): gives the arrows the ground to route over: `strict` is what the hero can walk now (less what hurts),
+## `through_gates` the same with the area's gates counted open (an ungrown vine bridge, a shut golem gate, a junk barricade), so where
+## a gate shuts the road the arrow leads to the gate. `bounds` is the area's map rectangle.
+func set_routing(strict: Callable, through_gates: Callable, bounds: Rect2) -> void:
+	for guide: RouteGuide in _guides:
+		guide.setup(strict, through_gates, bounds)
+
+
+## Starts planning the "Point me to..." pick's route at once (the map calls it on a pick), and keeps the map's canvas fresh while it plans.
+func plan_where_to_now() -> void:
+	_update_where_to()
+
+
+## The route the tracked goal's arrow (slot 0) or the "Point me to..." arrow (slot 1) follows now; empty while none is known.
+func route_points(slot: int = 0) -> PackedVector3Array:
+	return _guides[slot].route()
+
+
+## True when that route passes a gate the hero cannot pass yet.
+func route_gated(slot: int = 0) -> bool:
+	return _guides[slot].gated()
+
+
+## Every frame: the tracked goal's arrow slides along the route to the place it was aimed at (the place itself while no route is known).
+func _steer() -> void:
+	if pointer == null or _aimed.is_empty() or not _guides[0].ready():
+		return
+	var hero: Node3D = _hero_node()
+	if hero == null:
+		return
+	var place: Vector3 = _aimed["pos"] as Vector3
+	var aim: Vector3 = _guides[0].aim(hero.global_position, place)
+	pointer.along_route = aim != place
+	if aim == place:
+		pointer.target = place + Vector3(0, float(_aimed.get("top", 2.0)), 0)
+	else:
+		pointer.target = Vector3(aim.x, hero.global_position.y + 1.0, aim.z)
+
+
 ## The hero of the current scene (for "nearest" choices), or null.
 func _hero_node() -> Node3D:
 	if _hero != null and is_instance_valid(_hero):
@@ -145,7 +193,10 @@ func _update_where_to() -> void:
 			Session.where_to_target = {}
 			valid = false
 		else:
-			where_pointer.target = target + Vector3(0.0, 1.0, 0.0)
+			# Fable pass Nov 10 (Part 1.6): along the walkable route when one is known (across a stream only by its bridge; to a shut gate)
+			var aim: Vector3 = _guides[1].aim(hero.global_position, target) if hero != null and _guides[1].ready() else target
+			where_pointer.along_route = aim != target
+			where_pointer.target = (target if aim == target else Vector3(aim.x, hero.global_position.y, aim.z)) + Vector3(0.0, 1.0, 0.0)
 			where_pointer.label = str(pick.get("label", ""))
 	where_pointer.target_valid = valid
 
@@ -219,9 +270,16 @@ func refresh() -> void:
 				label = "%s: %s" % [label, part]
 			for place: Dictionary in _expand(str(target["spot"])):
 				var title: String = str(place.get("title", ""))
-				if part == "" and title != "" and not bool(target.get("via", false)):
-					label = "%s: %s" % [str(target.get("title", "")), title]
-				_goals.append({"pos": place["pos"] as Vector3, "main": bool(target.get("main", true)), "label": label, "tracked": bool(target.get("tracked", false)), "quest": str(target["quest"])})
+				if part == "" and title != "":
+					# Fable pass Nov 10 (Part 1.6): a road out toward another area's goal says so ("Root Cause: via Back to Town")
+					label = "%s: %s%s" % [str(target.get("title", "")), "via " if bool(target.get("via", false)) else "", title]
+				var row: String = label
+				if part != "" and not part.contains("(") and area_namer.is_valid():
+					# a part with no place in its name ("An escaped animal") gets the area it stands in
+					var area_name: String = str(area_namer.call(place["pos"] as Vector3))
+					if area_name != "":
+						row = "%s (%s)" % [label, area_name]
+				_goals.append({"pos": place["pos"] as Vector3, "main": bool(target.get("main", true)), "label": row, "tracked": bool(target.get("tracked", false)), "quest": str(target["quest"])})
 	_draw_chevrons()
 	_objective_key = keys[0] if not keys.is_empty() else ""
 	_aim_arrows()
@@ -327,6 +385,8 @@ func _aim_arrows() -> void:
 func _point(arrow: QuestEdgePointer, where: Dictionary) -> void:
 	if arrow == null:
 		return
+	if arrow == pointer:
+		_aimed = where
 	arrow.target_valid = not where.is_empty()
 	if where.is_empty():
 		return

@@ -605,6 +605,25 @@ func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:
 # ---- Card preview -----------------------------------------------------------------------
 
 
+## "In this fight: 3/3 (printed 7/4); costs 2 (printed 3)" - only the parts that differ from the print; "" when nothing does. Pure.
+static func now_line(card: CardInstance, state: GameState) -> String:
+	if card == null or state == null or card.data == null:
+		return ""
+	var parts: PackedStringArray = []
+	if card.data.is_unit():
+		var attack: int = state.get_attack(card)
+		var defense: int = state.get_defense(card) - card.damage
+		if attack != card.data.attack or defense != card.data.defense:
+			parts.append("%d/%d (printed %d/%d)" % [attack, defense, card.data.attack, card.data.defense])
+	if not card.data.is_infrastructure() and card.owner >= 0 and card.owner < state.players.size():
+		var cost: int = state.generic_cost_for(card.owner, card.data, card) + state.pips_for(card.owner, card.data, card).size()
+		if cost != card.data.energy_value():
+			parts.append("costs %d (printed %d)" % [cost, card.data.energy_value()])
+	if parts.is_empty():
+		return ""
+	return "In this fight: " + "; ".join(parts) + "."
+
+
 func show_preview(view: CardView, note: String = "") -> void:
 	if view != null and bool(view.get_meta("face_down_trap", false)) and not bool(view.get_meta("trap_peek", false)):
 		_show_face_down_trap(view)
@@ -635,6 +654,14 @@ func show_preview(view: CardView, note: String = "") -> void:
 		ability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		ability.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
 		_tooltip_box.add_child(ability)
+	# Fable pass Nov 10 (Part 3): what the card's numbers are in THIS fight when a rule, an aura or a cost change moved them off the print.
+	var now: String = now_line(card, game) if card != null else ""
+	if not now.is_empty():
+		var now_label: Label = UIKit.label(now, &"", Settings.tooltip_font(20), UIStyle.GOLD)
+		now_label.name = "NowLine"
+		now_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		now_label.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
+		_tooltip_box.add_child(now_label)
 	if not note.is_empty():
 		var why: Label = UIKit.label(note, &"", Settings.tooltip_font(21), UIStyle.PARCHMENT if peek else Color("ff9a8a"))
 		why.name = "WhyNot"

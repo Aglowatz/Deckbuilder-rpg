@@ -1,0 +1,90 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 8 - favour, collect the sea salt, dump the Point me list, pick the truffle row, follow it.
+wait 2
+dev load bot_gourmand_enter_gourmand
+wait 10
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+dump
+click 1030 361
+wait 1
+key M
+wait 1
+hold W+A 2
+hold A 3
+wait 2
+button Continue
+wait 1
+scene
+hold W+D 1
+scene
+shot 01_salt
+dump
+key E
+wait 1.5
+shot 02_salt_e
+dump
+button Continue
+wait 1
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+dump
+shot 03_list
+click 1030 378
+wait 1
+shot 04_picked
+key M
+wait 1
+shot 05_truffle_arrow
+scene
+hold S+A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 06_sw1
+dump
+hold S+A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 07_sw2
+dump
+key E
+wait 1.5
+shot 08_e
+dump
+key M
+wait 2
+shot 09_map
+key Escape

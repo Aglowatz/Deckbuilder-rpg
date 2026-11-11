@@ -1,0 +1,67 @@
+# Wayfinding critic Nov 10: the Gainlands, run 16 (last) - probe every direction around the notch at the foot of the Steps.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 8
+dev autowin on
+hold W 3
+wait 2
+button Continue
+wait 2
+hold W 4
+hold A 3
+hold W 3
+hold W+D 2
+hold D 2
+hold W 3
+hold W 4
+wait 1
+button Continue
+hold W 4
+wait 1
+button Continue
+hold W 3
+wait 1
+button Continue
+hold W 2
+hold W+A 3
+scene
+shot 01_notch
+hold S+A 2
+scene
+hold W+A 2
+scene
+shot 02_swa
+dump
+hold A 2
+scene
+hold W 2
+scene
+shot 03_aw
+dump
+hold D 2
+scene
+hold W+D 2
+scene
+shot 04_dw
+dump
+hold S 2
+scene
+hold A 3
+scene
+hold W 3
+scene
+shot 05_saw
+dump
+hold W+A 3
+scene
+hold W 3
+scene
+shot 06_waw
+dump
+key E
+wait 1
+dump
+key M
+wait 2
+shot 07_map
+key Escape

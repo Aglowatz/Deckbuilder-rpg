@@ -232,6 +232,11 @@ static func level_at(x: float, z: float) -> int:
 	return 0
 
 
+## Fable pass Nov 10 (Part 1.6): inside the forecourt at the stairs' foot.
+static func in_forecourt(x: float, z: float) -> bool:
+	return Geometry2D.is_point_in_polygon(Vector2(x, z), PackedVector2Array(FORECOURT))
+
+
 static func is_main_ground(x: float, z: float) -> bool:
 	return level_at(x, z) > 0
 
@@ -626,7 +631,7 @@ func _areas() -> void:
 	_area("wheels", "The Wheel Works", 96.0, 44.0, 13.0)
 	_area("overlook", "Swolympus Overlook", 102.0, 20.0, 9.0)
 	_area("north", "The Gauntlet", 56.0, 38.0, 11.0)
-	_area("steps", "The House of Gains Steps", 56.0, 8.0, 14.0)
+	_area("steps", "The House of Gains Steps", 56.0, 12.0, 7.5)  # Fable pass Nov 10 (Part 1.6): the stairs themselves (14 m round (56, 8) fired in the cliff notch beside them)
 	_area("field", "The Gainlands", 56.0, 42.0, 90.0)
 	for island: Island in islands:
 		_area("island_" + island.id, island.title, island.center.x, island.center.y, island.radius + 1.0)

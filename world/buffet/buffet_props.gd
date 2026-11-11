@@ -325,7 +325,7 @@ static func vendor_stall() -> Node3D:
 	for side: float in [-1.0, 1.0]:
 		cylinder(root, 0.07, 0.07, 2.6, M.flat(M.WOOD_DARK), Vector3(side * 1.65, 1.3, 0.7), 6)
 	BuffetModels.put_food(root, "cake-birthday", Vector3(-1.0, 1.52, 0.1), 0.0, 1.8)
-	BuffetModels.put_food(root, "cupcake", Vector3(0.1, 1.52, 0.2), 0.0, 2.2)
+	BuffetModels.put_food(root, "cupcake", Vector3(0.1, 1.52, -0.2), 0.0, 1.6)  # Fable pass Nov 10 (1.6): smaller and back - it hid her head from the default camera
 	BuffetModels.put_food(root, "donut-sprinkles", Vector3(0.9, 1.52, 0.1), 0.0, 3.0)
 	BuffetModels.put_food(root, "pudding", Vector3(1.45, 1.52, -0.15), 0.0, 1.9)  # Fable pass Nov 10 (Part 1.3): smaller and further back - it hid her name plate at the Low camera
 	# Playing cards on a little stand, at the counter's end (it stood in front of her face).

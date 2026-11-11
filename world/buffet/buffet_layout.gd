@@ -347,6 +347,19 @@ func raft_position(raft: Raft, time: float) -> Vector2:
 	return raft.a.lerp(raft.b, u)
 
 
+## Fable pass Nov 10 (Part 1.6): true on a ferry's line - a raft's track between its two banks or the lazy susan's disc - the river's
+## crossings, for the goal arrows' route (a crossing in its own time, not a place to stand).
+func on_ferry_line(x: float, z: float) -> bool:
+	var p: Vector2 = Vector2(x, z)
+	for raft: Raft in rafts:
+		if Geometry2D.get_closest_point_to_segment(p, raft.a, raft.b).distance_to(p) <= RAFT_RADIUS * 0.8:
+			return true
+	for susan: Susan in susans:
+		if p.distance_to(susan.center) <= susan.radius * 0.9:
+			return true
+	return false
+
+
 ## The raft carrying (x, z) at `time`, or null.
 func raft_under(x: float, z: float, time: float, margin: float = 0.0) -> Raft:
 	for raft: Raft in rafts:
@@ -452,7 +465,7 @@ func _anchors() -> void:
 	# Brief 16: the hidden vault lever, in the far south-east corner of the table.
 	_at("vault_lever", 86.4, 74.4)
 	_at("odalys", 57.5, 58.5)  # Nov 9-10 (mid critic #3): east of the soup fountain; Fable pass Nov 10 (Part 1.3): further east, clear of the entrance bridge's gate (the Low camera stood inside it)
-	_at("tarragon", 42.0, 71.5)  # Fixes Oct 26: on open ground near the Rift Express (he stood inside the station at 43.5, 67); Fable pass Nov 10 (Part 1.3): west of the bridge gate, which hid his name plate
+	_at("tarragon", 39.0, 71.0)  # Fixes Oct 26: on open ground near the Rift Express (he stood inside the station at 43.5, 67); Fable pass Nov 10 (Part 1.3): west of the bridge gate, which hid his name plate; 1.6: 3 m further west, clear of Rip at the station (they stood 1.1 m apart)
 	_at("oven", 58.0, 69.5)
 	_at("soup_fountain", 50.0, 64.5)
 	_at("fortune_cookie", 65.0, 67.5)

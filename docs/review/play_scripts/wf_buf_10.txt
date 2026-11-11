@@ -1,0 +1,102 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 10 - salt, then the truffle under the Broccoli Forest (pointer row 1 of Mend), save.
+wait 2
+dev load bot_gourmand_enter_gourmand
+wait 10
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 361
+wait 1
+key M
+wait 1
+hold W+A 2
+hold A 3
+wait 2
+button Continue
+wait 1
+hold W+D 0.5
+key E
+wait 1.5
+button Continue
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 361
+wait 1
+key M
+wait 1
+shot 01_truffle_arrow
+dump
+hold S+A 3
+wait 2
+button Continue
+wait 1
+hold S+A 3
+wait 2
+button Continue
+wait 1
+hold S 2
+wait 2
+button Continue
+wait 1
+hold A 2
+scene
+hold W 2
+scene
+shot 02_forest
+dump
+hold A 1
+scene
+shot 03_forest2
+dump
+key E
+wait 1.5
+shot 04_e
+dump
+button Continue
+wait 1
+hold W 1
+scene
+dump
+hold A 1
+scene
+shot 05_forest3
+dump
+key E
+wait 1.5
+dump
+button Continue
+key M
+wait 2
+shot 06_map
+key Escape
+wait 1
+dev save wf_buf_10

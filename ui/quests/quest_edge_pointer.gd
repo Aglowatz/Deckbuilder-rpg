@@ -12,6 +12,9 @@ var camera: Camera3D
 var color: Color = GOLD
 var target: Vector3 = Vector3.ZERO
 var target_valid: bool = false
+## Fable pass Nov 10 (Part 1.6): the target is a waypoint along a walkable route, not the place itself - then the arrow shows even when
+## the waypoint is on screen (drawn at it, pointing the way from the screen's centre), so the way round a wall is never a blank screen.
+var along_route: bool = false
 ## Fix pass Nov 7 (item 7): the "Where to?" arrow names its place beside the arrow.
 var show_label: bool = false
 var label: String = ""
@@ -50,11 +53,17 @@ func _process(delta: float) -> void:
 	if target_valid and camera != null and is_visible_in_tree():
 		var view: Rect2 = get_viewport_rect()
 		var behind: bool = camera.is_position_behind(target)
-		var placed: Dictionary = place(view, camera.unproject_position(target), behind)
+		var projected: Vector2 = camera.unproject_position(target)
+		var placed: Dictionary = place(view, projected, behind)
 		if bool(placed["show"]):
 			wanted = 0.85
 			_at = placed["at"] as Vector2
 			_angle = float(placed["angle"])
+		elif along_route and not behind:
+			wanted = 0.85
+			_at = projected
+			var dir: Vector2 = projected - view.get_center()
+			_angle = dir.angle() if dir.length() > 0.001 else -PI * 0.5
 	_alpha = move_toward(_alpha, wanted, delta * 3.0)
 	queue_redraw()
 

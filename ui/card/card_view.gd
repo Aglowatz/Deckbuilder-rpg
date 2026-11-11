@@ -102,6 +102,11 @@ var _glow_tween: Tween
 var _glow_kind: Glow = Glow.NONE
 var _base_attack: int = 0
 var _base_defense: int = 0
+## Fable pass Nov 10 (Part 3): the cost drawings (the framed socket's number, the plain face's pip row) and the cost last shown, so a card
+## in hand shows what it costs RIGHT NOW (a cost reducer, a first-card tax, the Big Unit's override) in green or red against its printed cost.
+var _cost_label: Label
+var _pip_row: PipRow
+var current_cost: int = -1
 ## The last battle state shown (kept so a text size change can redraw the card and put the state back).
 var _last_instance: CardInstance
 var _last_game: GameState
@@ -169,6 +174,9 @@ func _build() -> void:
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
+	_cost_label = null  # Fable pass Nov 10 (Part 3): the cost drawings are made again below (apply_instance re-sets them after a rebuild)
+	_pip_row = null
+	current_cost = -1
 	if mode == Mode.BACK or data == null:
 		_build_back()
 		return
@@ -339,6 +347,7 @@ func _build_name_bar() -> void:
 		pips.size = Vector2(_pips_width(), 30)
 		pips.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(pips)
+		_pip_row = pips
 
 
 ## Playtest v0.4.0 Part E: Infrastructure shows its own name (Powerhouse, Ghost Town, Feastforge, Wasteworks, the specials); only a
@@ -1104,6 +1113,7 @@ func _build_framed_cost() -> void:
 	label.add_theme_constant_override("outline_size", 7)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(label)
+	_cost_label = label
 	var pips: Array[Affinity.Type] = data.colored_pips
 	var step: float = minf(19.0, 150.0 / float(maxi(pips.size(), 1)))
 	for index: int in range(pips.size()):
@@ -1308,6 +1318,8 @@ func _set_stats(attack: int, defense: int, damage: int) -> void:
 		defense_color = Color("9be49f")
 	if attack > _base_attack:
 		attack_color = Color("9be49f")
+	elif attack < _base_attack:
+		attack_color = Color("ff8080")  # Fable pass Nov 10 (Part 3): a shrunk attack (Primm's 3/3, Red Tape) reads red, as a shrunk defense does
 	if _defense_label != null:
 		_attack_label.text = str(attack)
 		_defense_label.text = str(shown_defense)
@@ -1316,11 +1328,30 @@ func _set_stats(attack: int, defense: int, damage: int) -> void:
 		return
 	_attack_label.text = "%d/%d" % [attack, shown_defense]
 	var color: Color = UIStyle.PARCHMENT
-	if damage > 0 or defense < _base_defense:
+	if damage > 0 or defense < _base_defense or attack < _base_attack:
 		color = Color("ff8080")
 	elif attack > _base_attack or defense > _base_defense:
 		color = Color("9be49f")
 	_attack_label.add_theme_color_override("font_color", color)
+
+
+## The cost shown: `total` energy (generic + pips) against the printed `data.energy_value()`; green when cheaper, red when dearer.
+func _set_cost(generic: int, total: int) -> void:
+	current_cost = total
+	var printed: int = data.energy_value()
+	var color: Color = Color("ffffff")
+	if total < printed:
+		color = Color("9be49f")
+	elif total > printed:
+		color = Color("ff8080")
+	if _cost_label != null:
+		_cost_label.text = str(total)
+		_cost_label.add_theme_font_size_override("font_size", 28 if _cost_label.text.length() < 2 else 22)
+		_cost_label.add_theme_color_override("font_color", color)
+	if _pip_row != null:
+		_pip_row.generic_override = generic
+		_pip_row.number_color = color
+		_pip_row.queue_redraw()
 
 
 ## Refreshes attack/defense/damage/exhausted/Just Arrived from the rules engine.
@@ -1332,6 +1363,11 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 		return
 	if data.is_unit():
 		_set_stats(game.get_attack(instance), game.get_defense(instance), instance.damage)
+	# Fable pass Nov 10 (Part 3): the cost as the rules would charge it now (cost changes, the first-card tax, overrides), coloured against the print.
+	if not data.is_infrastructure() and instance.owner >= 0 and instance.owner < game.players.size():
+		var generic: int = game.generic_cost_for(instance.owner, data, instance)
+		var pips: Array[Affinity.Type] = game.pips_for(instance.owner, data, instance)
+		_set_cost(generic, generic + pips.size())
 	if _damage_label != null:
 		_damage_label.visible = instance.damage > 0
 		_damage_label.text = "-%d" % instance.damage
@@ -1431,21 +1467,25 @@ class PipRow:
 	extends Control
 	var data: CardData
 	var step: float = 32.0
+	## Fable pass Nov 10 (Part 3): the generic cost as the rules charge it now (-1 = the printed one) and the colour of its number.
+	var generic_override: int = -1
+	var number_color: Color = Color("ffffff")
 
 	func _draw() -> void:
 		var x: float = size.x
 		var pips: Array[Affinity.Type] = data.colored_pips
+		var generic: int = generic_override if generic_override >= 0 else data.generic_cost
 		# Right-aligned: colored pips first (from the right), generic on the left.
 		for index: int in range(pips.size() - 1, -1, -1):
 			x -= step
 			_pip(Vector2(x + 15.0, 15.0), UIStyle.affinity_color(pips[index]), "", IconArt.energy_id(pips[index]))
-		if data.generic_cost > 0:
+		if generic > 0 or (generic_override >= 0 and data.generic_cost > 0):
 			x -= step
-			_pip(Vector2(x + 15.0, 15.0), Color("cdc5d6"), str(data.generic_cost), "ICON-ENERGY-GENERIC")
+			_pip(Vector2(x + 15.0, 15.0), Color("cdc5d6"), str(generic), "ICON-ENERGY-GENERIC", number_color)
 		elif pips.is_empty():
-			_pip(Vector2(size.x - 17.0, 15.0), Color("cdc5d6"), "0", "ICON-ENERGY-GENERIC")
+			_pip(Vector2(size.x - 17.0, 15.0), Color("cdc5d6"), "0", "ICON-ENERGY-GENERIC", number_color)
 
-	func _pip(center: Vector2, color: Color, text: String, icon_id: String = "") -> void:
+	func _pip(center: Vector2, color: Color, text: String, icon_id: String = "", text_color: Color = Color("ffffff")) -> void:
 		var icon: Texture2D = IconArt.texture(icon_id, 30.0) if icon_id != "" else null
 		if icon != null:
 			draw_texture_rect(icon, Rect2(center - Vector2(15, 15), Vector2(30, 30)), false)
@@ -1453,7 +1493,7 @@ class PipRow:
 				var number_font: Font = UIStyle.font_title()
 				var number_size: Vector2 = number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20)
 				draw_string_outline(number_font, center + Vector2(-number_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 6, Color("1b1424"))
-				draw_string(number_font, center + Vector2(-number_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("ffffff"))
+				draw_string(number_font, center + Vector2(-number_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, text_color)
 			return
 		draw_circle(center + Vector2(0, 1.5), 14.0, Color(0, 0, 0, 0.45))
 		draw_circle(center, 14.0, color.darkened(0.45))

@@ -89,15 +89,15 @@ None.
 
 ### cardsharps_circuit - The Cardsharp's Circuit (SIDE)
 - starts: auto; needs: flag_set:cardsharp_met; hands in: on completion
-  - 1. Beat Dex's table in the Gainlands (12 moves or fewer) [flag_set:cardsharp_beefcake]
-  - 2. Beat Dex's table in the D.N.A. (12 moves or fewer) [flag_set:cardsharp_necrocrat]
-  - 3. Beat Dex's table in the Endless Buffet (12 moves or fewer) [flag_set:cardsharp_gourmand]
-  - 4. Beat Dex's table in the Verdant Dump (12 moves or fewer) [flag_set:cardsharp_refusemancer]
-  - 5. Win Dex's final table (11 moves or fewer) [flag_set:cardsharp_final_table]
+  - 1. Beat Dex's table in the Gainlands (15 moves or fewer) [flag_set:cardsharp_beefcake]
+  - 2. Beat Dex's table in the D.N.A. (15 moves or fewer) [flag_set:cardsharp_necrocrat]
+  - 3. Beat Dex's table in the Endless Buffet (15 moves or fewer) [flag_set:cardsharp_gourmand]
+  - 4. Beat Dex's table in the Verdant Dump (15 moves or fewer) [flag_set:cardsharp_refusemancer]
+  - 5. Win Dex's final table (14 moves or fewer) [flag_set:cardsharp_final_table]
 
 ### side_s_town - The Door Under the Well (SIDE)
 - starts: Elder Maren @ town/elder; needs: any(flag_set:trial_cleared, quest_completed:some_assembly_required, flag_set:early_chain_legacy); hands in: Elder Maren @ town/elder
-  - 1. Find the hidden chest in Crosspath [secret_found:harbor_chest]
+  - 1. Find the hidden chest in Crosspath [any(secret_found:harbor_chest, secret_found:ninja_chest_town)]
 
 ### loose_ends - Loose Ends (MAIN)
 - starts: auto; needs: postgame; hands in: on completion

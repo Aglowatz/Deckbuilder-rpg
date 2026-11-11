@@ -1,0 +1,85 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 11 - west field animal (south-west of the vine bridge), then the east field animal.
+wait 2
+dev load wf_dump_10
+wait 8
+dev autowin on
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 120
+wait 1
+key M
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 5
+wait 2
+button Continue
+wait 1
+hold S 0.6
+hold A 2.3
+wait 2
+button Continue
+wait 1
+hold A 2.3
+wait 2
+button Continue
+wait 1
+scene
+hold S+A 1.3
+wait 2
+button Continue
+wait 1
+scene
+shot 01_west_animal
+dump
+key E
+wait 1.5
+shot 02_west_e
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+hold W 1.2
+hold D 4
+wait 2
+button Continue
+wait 1
+hold D 4
+wait 2
+button Continue
+wait 1
+scene
+shot 03_east1
+hold D 2
+wait 2
+button Continue
+wait 1
+scene
+shot 04_east_animal
+dump
+key E
+wait 1.5
+shot 05_east_e
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+key M
+wait 2
+shot 06_map
+key Escape
+wait 1
+dev save wf_dump_11

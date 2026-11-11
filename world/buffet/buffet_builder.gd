@@ -176,6 +176,15 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 
 ## The player may wade into the soup (and fall in); never off the table or up a cliff.
 func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
+	return _walkable(pos, body_radius, false)
+
+
+## Fable pass Nov 10 (Part 1.6): walkable with the golem gates counted open (the goal arrows route to a shut gate, not round the world).
+func is_walkable_through_gates(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
+	return _walkable(pos, body_radius, true)
+
+
+func _walkable(pos: Vector3, body_radius: float, through_gates: bool) -> bool:
 	var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == BuffetLayout.Surface.VOID or surface == BuffetLayout.Surface.CLIFF:
 		return false
@@ -184,7 +193,7 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		return absf(pos.x - BuffetLayout.BRIDGE_X) <= BuffetLayout.BRIDGE_HALF_WIDTH - BuffetLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
 	if BuffetLayout.edge_distance(pos.x, pos.z) < 0.35:
 		return false
-	return not _hits_obstacle(pos, body_radius) and not _hits_gate(pos, body_radius)
+	return not _hits_obstacle(pos, body_radius) and (through_gates or not _hits_gate(pos, body_radius))
 
 
 ## Enemies stay on dry ground and mesa tops: never in the soup, never on a cliff.

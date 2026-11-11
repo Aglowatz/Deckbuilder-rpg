@@ -1,0 +1,88 @@
+# Wayfinding critic Nov 10: the D.N.A., run 8 - back off the cabinets, west into the corridor, north to Sub-Basement 3 and the Hall.
+wait 2
+dev load bot_necrocrat_enter_necrocrat
+wait 10
+dev autowin on
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 915 320
+wait 1
+key M
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold S 1
+hold D 3
+hold W 4
+wait 2
+button Continue
+wait 1
+hold A 1.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W+D 2
+hold W 4
+wait 2
+button Continue
+wait 1
+hold S 1.5
+hold A 4
+scene
+hold W 5
+wait 2
+button Continue
+wait 1
+scene
+shot 01_n1
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 02_n2
+dump
+key E
+wait 1.5
+shot 03_e
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 04_n3
+dump
+key E
+wait 1.5
+shot 05_e2
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 06_n4
+dump
+key E
+wait 1.5
+shot 07_e3
+dump
+key M
+wait 2
+shot 08_map
+key Escape

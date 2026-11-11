@@ -257,15 +257,23 @@ static func _zone_main(zone_id: String) -> QuestData:
 	# Fable pass Nov 10 (Part 1.1): the favour step marks all three favour givers (a finished favour's giver drops off).
 	var favour_step: QuestObjective = QuestObjective.make(str(text["favour"]), Condition.any_of(favours))
 	favour_step.at(QuestObjective.TargetKind.NPC, zone_id, str(text["favour_spot"]), str(text["favour_hint"]))
+	var dungeon_step: QuestObjective = QuestObjective.make(str(text["dungeon"]), Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+	dungeon_step.at(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", str(text["dungeon_hint"]))
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		var giver: Array = ZoneQuestDefinitions.GIVERS.get(favour_id, []) as Array
 		if giver.size() != 2:
 			continue
 		favour_step.part(QuestObjective.TargetKind.NPC, str(giver[0]), str(giver[1]), _spot_title(def, str(giver[1])), Condition.quest_completed(favour_id))
+	# Fable pass Nov 10 (Part 1.6, the wayfinding critic): the Dump's stream cuts the Compost Commons off from the rest of the zone; the main
+	# line marks the crossing from the favour step on, until a bridge is grown: a Magic Bean (one lies by the stream) planted at the West
+	# Sprout Mound grows the west vine bridge (Moss Mulligan grows the centre one for Billie's herd, two of whose animals graze across the water).
+	if zone_id == "refusemancer":
+		for step: QuestObjective in [favour_step, dungeon_step]:
+			var crossed: Condition = Condition.any_of([Condition.flag(str(HeapGrowth.find("bridge_west").flag)), Condition.flag(str(HeapGrowth.find("bridge_center").flag))] as Array[Condition])
+			step.part(QuestObjective.TargetKind.ITEM_COUNT, zone_id, "pickup_bean_1", "A Magic Bean (by the stream, west of the Centre Bridge)", Condition.any_of([Condition.counter(HeapZone.stock_key("bean"), 1), crossed] as Array[Condition]))
+			step.part(QuestObjective.TargetKind.SPOT, zone_id, "grow_bridge_west", "The West Sprout Mound: plant a Magic Bean and a vine bridge grows across the stream", crossed)
 	# Fable pass Nov 10 (Part 1.2): the way to the main dungeon is never a guessing game - where a gate stands on the road (the audit tool
 	# `tools/dungeon_route_audit.gd` names them) the dungeon step marks the gate and what opens it, until it is open.
-	var dungeon_step: QuestObjective = QuestObjective.make(str(text["dungeon"]), Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
-	dungeon_step.at(QuestObjective.TargetKind.DUNGEON, zone_id, "main_dungeon", str(text["dungeon_hint"]))
 	match zone_id:
 		"gourmand":
 			# Sir Loin's golem gate across the road to Layer-Cake Town opens once Old Meatloaf is mended (Basil's favour, Mend the Meatloaf)

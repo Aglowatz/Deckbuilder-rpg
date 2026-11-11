@@ -1,0 +1,43 @@
+# Fable pass Nov 10, Parts 2 and 3, probe 2: into Primm's fight (the Model Room node), then the House of Gains map.
+wait 2
+dev load bot_beefcake_forest_postgame
+wait 7
+skip_dialogue
+wait 1
+dev primm 1
+wait 6
+click 1322 340
+wait 4
+shot pc_node_clicked
+dump
+skip_dialogue
+wait 3
+shot pc_after_skip2
+dump
+wait 6
+skip_dialogue
+wait 3
+shot pc_fight
+dump
+move 760 850
+wait 1.5
+shot pc_hover_a
+move 860 850
+wait 1.5
+shot pc_hover_b
+move 960 850
+wait 1.5
+shot pc_hover_c
+key R
+wait 1.5
+shot pc_rules
+key Escape
+wait 1
+dev load bot_beefcake_enter_beefcake
+wait 7
+skip_dialogue
+wait 1
+dev travel dungeon D-HOG
+wait 6
+shot hog_map
+dump

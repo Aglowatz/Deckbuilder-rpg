@@ -1,0 +1,75 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 8 - read the gate sign, stand on the Vine Bridge growing spot, press E, cross north.
+wait 2
+dev load wf_dump_5
+wait 8
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 5
+wait 2
+button Continue
+wait 1
+hold A 1.25
+scene
+key E
+wait 1.5
+shot 01_sign_text
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1
+hold S 0.9
+hold A 1.35
+scene
+shot 02_grow_spot
+dump
+key E
+wait 1.5
+shot 03_grow_e
+dump
+key E
+wait 1.5
+shot 04_grow_e2
+dump
+key E
+wait 1.5
+dump
+skip_dialogue
+wait 2
+scene
+shot 05_after
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 06_n1
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 07_n2
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 08_n3
+dump
+key M
+wait 2
+shot 09_map
+key Escape

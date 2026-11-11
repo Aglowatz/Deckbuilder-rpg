@@ -1,0 +1,66 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 10 - point at the first escaped animal, sweep the field west then east, shoo with E.
+wait 2
+dev load wf_dump_9
+wait 8
+dev autowin on
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 120
+wait 1
+key M
+wait 1
+shot 01_arrow
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 5
+wait 2
+button Continue
+wait 1
+hold S 0.6
+hold A 4.6
+wait 2
+button Continue
+wait 1
+scene
+shot 02_west
+dump
+key E
+wait 1.5
+shot 03_west_e
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+scene
+hold D 7.6
+wait 2
+button Continue
+wait 1
+scene
+shot 04_east
+dump
+key E
+wait 1.5
+shot 05_east_e
+dump
+key E
+wait 1
+skip_dialogue
+wait 1
+scene
+key M
+wait 2
+shot 06_map
+key Escape
+wait 1
+dev save wf_dump_10

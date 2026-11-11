@@ -184,6 +184,10 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		return absf(pos.x - stairs.get_center().x) <= stairs.size.x * 0.5 - 0.6 and not _hits_obstacle(pos, body_radius)
 	if stairs.grow(0.6).has_point(Vector2(pos.x, pos.z)) and (pos.x < stairs.position.x or pos.x > stairs.end.x):
 		return false
+	# Fable pass Nov 10 (Part 1.6, the wayfinding critic): the forecourt's strip beside the stairs, under the mesa's face, is rubble - a hero who
+	# squeezed in there past the cheek wall stood wedged (W, A and W+A moved 0 m, the camera inside the rock) under a "House of Gains Steps" banner
+	if pos.z < stairs.end.y and not GainlandsLayout.on_stairs(pos.x, pos.z) and GainlandsLayout.in_forecourt(pos.x, pos.z):
+		return false
 	if surface == GainlandsLayout.Surface.GROUND and GainlandsLayout.main_edge_distance(pos.x, pos.z) < GainlandsLayout.EDGE_STOP:
 		# the open ridge to Mount Swolympus leaves the overlook here: its walkway carries on past the land's edge
 		if not (layout.ridge_open and GainlandsLayout.ridge_distance(pos.x, pos.z) <= GainlandsLayout.RIDGE_HALF_WIDTH - GainlandsLayout.RIDGE_RAIL):

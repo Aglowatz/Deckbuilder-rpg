@@ -1,0 +1,82 @@
+# Fable pass Nov 10, Parts 2 and 3 (second pass): past the opening hand into Primm's fight - the hand under Standardization, the preview's
+# "In this fight" line, the battle log's turn header, the rules panel - then the House of Gains' first fight (Home Gym).
+wait 2
+dev load bot_beefcake_forest_postgame
+wait 7
+skip_dialogue
+wait 1
+dev primm 1
+wait 6
+click 1322 340
+wait 4
+skip_dialogue
+wait 2
+button Continue
+wait 6
+skip_dialogue
+wait 3
+button Keep Hand
+wait 5
+skip_dialogue
+wait 2
+shot pc_turn1
+dump
+move 560 850
+wait 1.5
+shot pc_hover_carpool
+move 680 850
+wait 1.5
+shot pc_hover_scout
+move 1060 850
+wait 1.5
+shot pc_hover_spectre
+move 800 300
+wait 0.5
+button Battle log
+wait 1.5
+shot pc_battle_log
+key Escape
+wait 1
+key R
+wait 1.5
+shot pc_rules
+key Escape
+wait 1
+button End Turn
+wait 8
+skip_dialogue
+wait 2
+shot pc_turn2_enemy_or_yours
+dump
+dev load bot_beefcake_enter_beefcake
+wait 7
+skip_dialogue
+wait 1
+dev travel dungeon D-HOG
+wait 6
+click 415 605
+wait 5
+skip_dialogue
+wait 2
+button Continue
+wait 6
+skip_dialogue
+wait 3
+button Keep Hand
+wait 4
+skip_dialogue
+wait 2
+shot hog_turn1
+dump
+move 560 850
+wait 1.5
+shot hog_hover_a
+move 680 850
+wait 1.5
+shot hog_hover_b
+move 800 850
+wait 1.5
+shot hog_hover_c
+move 920 850
+wait 1.5
+shot hog_hover_d

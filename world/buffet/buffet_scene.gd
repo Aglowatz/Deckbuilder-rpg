@@ -112,6 +112,19 @@ func _dress_zone() -> void:
 
 
 ## Fable pass Nov 10 (Part 1.1): an ingredient already picked up this visit has no marker.
+## Fable pass Nov 10 (Part 1.6): the goal arrows cross the Gravy River only where a ferry runs, and a shut golem gate is on the route.
+func _route_walkable(at: Vector3) -> bool:
+	if buf.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
+		return buf.layout.on_ferry_line(at.x, at.z)
+	return buf.is_walkable(at)
+
+
+func _route_through_gates(at: Vector3) -> bool:
+	if buf.layout.surface_at(at.x, at.z) == BuffetLayout.Surface.SOUP:
+		return buf.layout.on_ferry_line(at.x, at.z)
+	return buf.is_walkable_through_gates(at)
+
+
 func _marker_spot_done(spot: ZoneSpot) -> bool:
 	if spot.data.has("pickup"):
 		return BuffetInteractables.picked_this_visit(Session.zone_run, str(spot.data["pickup"]))
@@ -374,6 +387,9 @@ func _use_gate(gate: BuffetGates.Gate) -> void:
 		var key: String = gate.key("need")
 		if gate.kind == "quest" and Session.quest_log.is_active(BuffetZone.QUEST_MEND) and story.lines.has(gate.key("active")):
 			key = gate.key("active")
+			# Fable pass Nov 10 (Part 1.6, the wayfinding critic): Old Meatloaf mended but Basil not yet told - the golem says so, not "still in two pieces"
+			if Session.flag(BuffetZone.FLAG_MENDED) and story.lines.has(gate.key("mended")):
+				key = gate.key("mended")
 		_say(gate.speaker, story.get_lines(key))
 
 

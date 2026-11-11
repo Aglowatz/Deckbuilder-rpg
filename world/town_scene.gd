@@ -1152,6 +1152,8 @@ func _build_ui() -> void:
 	minimap.setup("town", town, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
 	quest_markers = QuestMarkerLayer.install(self, "town", _camera, _resolve_quest_spot, host)
+	# Fable pass Nov 10 (Part 1.6): the goal arrows follow a walkable route through the town
+	quest_markers.set_routing(func(at: Vector3) -> bool: return town.is_walkable(at), Callable(), town.map_bounds())
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)

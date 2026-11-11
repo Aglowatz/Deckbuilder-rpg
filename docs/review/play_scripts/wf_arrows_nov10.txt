@@ -1,0 +1,88 @@
+# Fable pass Nov 10, Part 1.6: the "Point me to..." arrow follows a walkable route - the Gainlands' middle road (not the plateau wall),
+# the Dump's stream crossed at a bridge foot, the Buffet's river crossed at a ferry - and the map draws the route.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 7
+skip_dialogue
+wait 1
+dev autowin on
+key M
+wait 1.5
+button Point me to...
+wait 1
+click 900 320
+wait 2.5
+shot gain_map_pick
+key M
+wait 3
+shot gain_arrow_bridge
+dev tp 56 62
+wait 4
+shot gain_arrow_plaza_north
+dev tp 49 55
+wait 4
+shot gain_arrow_critic_dead_end
+dev tp 56 45
+wait 4
+shot gain_arrow_gauntlet
+key M
+wait 2
+shot gain_map_route
+key M
+wait 0.5
+dev tp 64.5 18.5
+wait 1
+hold W 1.5
+wait 0.5
+scene
+shot gain_pocket
+dev load bot_refusemancer_enter_refusemancer
+wait 7
+skip_dialogue
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1
+click 900 360
+wait 2.5
+shot dump_map_pick
+key M
+wait 3
+shot dump_arrow_arrival
+dev tp 50 112
+wait 4
+shot dump_arrow_commons_north
+dev tp 46 104
+wait 4
+shot dump_arrow_bridge_foot
+key M
+wait 2
+shot dump_map_route
+key M
+wait 0.5
+dev load bot_gourmand_enter_gourmand
+wait 7
+skip_dialogue
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1
+click 900 320
+wait 2.5
+shot buf_map_pick
+key M
+wait 3
+shot buf_arrow_arrival
+dev tp 50 58
+wait 4
+shot buf_arrow_hub
+dev tp 50 50
+wait 4
+shot buf_arrow_bank
+key M
+wait 2
+shot buf_map_route
+key M
+wait 0.5

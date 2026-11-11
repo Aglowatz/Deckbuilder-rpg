@@ -1,0 +1,82 @@
+# Wayfinding critic Nov 10: the Gainlands, run 8 - round the pavilion, onto the central road, north with the pointer.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 8
+dev autowin on
+hold W 3
+wait 2
+button Continue
+wait 2
+hold W 4
+hold A 3
+hold W 3
+hold W+D 2
+hold W+D 3
+scene
+shot 01_road
+key M
+wait 2
+button Point me to...
+wait 1.5
+shot 02_list
+click 915 320
+wait 1
+key M
+wait 1
+shot 03_arrow
+scene
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 04_n1
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 05_n2
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 06_n3
+dump
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 07_n4
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 08_n5
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 09_n6
+dump
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 10_n7
+hold W 4
+wait 1
+button Continue
+wait 1
+scene
+shot 11_n8
+dump
+key M
+wait 2
+shot 12_map
+key Escape

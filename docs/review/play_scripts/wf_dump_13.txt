@@ -1,0 +1,51 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 13 (last) - read the pointer label for each herd animal and the goat, from the entrance.
+wait 2
+dev load wf_dump_12
+wait 8
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 120
+wait 1
+key M
+wait 1.5
+shot 01_herd1
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 135
+wait 1
+key M
+wait 1.5
+shot 02_herd2
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 150
+wait 1
+key M
+wait 1.5
+shot 03_herd3
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1085 165
+wait 1
+key M
+wait 1.5
+shot 04_goat
+dump
+key J
+wait 1.5
+button Side
+wait 1
+shot 05_side_quests
+dump
+key Escape

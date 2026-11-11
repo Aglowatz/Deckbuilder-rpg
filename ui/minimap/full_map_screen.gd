@@ -177,14 +177,24 @@ static func where_to_places(points: Array[MapPoi]) -> Array[MapPoi]:
 ## `where_to_places`.
 static func where_to_entries(points: Array[MapPoi]) -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
-	var seen: Dictionary = {}
+	var by_label: Dictionary = {}
 	for poi: MapPoi in points:
 		if not poi.objective:
 			continue
-		var key: String = "%s@%.0f,%.0f" % [poi.label, poi.pos.x, poi.pos.z]
-		if seen.has(key):
+		# Fable pass Nov 10 (Part 1.6): goals of one name make ONE row ("A hidden stash (any)" x14 buried the three Meatloaf rows); the same
+		# place named twice (two quests' dots on one spot) is one goal, not two
+		if by_label.has(poi.label):
+			var places: Array = by_label[poi.label]["places"] as Array
+			var fresh: bool = true
+			for seen: Vector3 in places:
+				if Vector2(seen.x - poi.pos.x, seen.z - poi.pos.z).length() < 0.8:
+					fresh = false
+			if fresh:
+				places.append(poi.pos)
+				(by_label[poi.label]["poi"] as MapPoi).group_count += 1
 			continue
-		seen[key] = true
+		poi.group_count = 1
+		by_label[poi.label] = {"poi": poi, "places": [poi.pos]}
 		result.append(poi)
 	result.append_array(where_to_places(points))
 	return result
@@ -193,7 +203,7 @@ static func where_to_entries(points: Array[MapPoi]) -> Array[MapPoi]:
 ## One line of the "Point me to..." list: "Goal - Mend the Meatloaf: Sea Salt Crystals" for a goal; "The Iron Cave (Mini dungeon, usually level 6)" for a place.
 static func where_to_text(place: MapPoi) -> String:
 	if place.objective:
-		return "Goal - %s" % place.label
+		return "Goal - %s%s" % [place.label, " (one of %d)" % place.group_count if place.group_count > 1 else ""]
 	# Day pass Nov 9: a dungeon says its usual traveller level.
 	var level_note: String = LevelHints.short_text(place.dungeon_id)
 	return "%s (%s)" % [place.label, MapPoi.kind_name(place.kind) if level_note.is_empty() else "%s, %s" % [MapPoi.kind_name(place.kind), level_note]]
@@ -258,11 +268,20 @@ func where_list_open() -> bool:
 	return _where_panel != null and _where_panel.visible
 
 
+## The current scene's quest marker layer (its routes are drawn on the map), or null.
+func _route_markers() -> QuestMarkerLayer:
+	var scene: Node = get_tree().current_scene if is_inside_tree() else null
+	return scene.get("quest_markers") as QuestMarkerLayer if scene != null else null
+
+
 ## Makes `poi` pulse on the map for PING_SECONDS.
 func ping(poi: MapPoi) -> void:
 	_ping = poi
 	_ping_left = PING_SECONDS
 	Session.where_to_target = {"area": _area_id, "pos": poi.pos, "label": poi.label}  # Fix pass Nov 7 (item 7): the arrow after the map closes
+	var markers: QuestMarkerLayer = _route_markers()
+	if markers != null:
+		markers.plan_where_to_now()  # Fable pass Nov 10 (Part 1.6): the route starts planning at once, so the map shows it while the ping pulses
 	Audio.sfx(&"ui_select")
 	if _canvas != null:
 		_canvas.queue_redraw()
@@ -298,6 +317,20 @@ func _draw_map() -> void:
 			MapDraw.poi(_canvas, at, poi, icon_radius * 1.35)
 		else:
 			MapDraw.poi(_canvas, at, poi, icon_radius)
+	# Fable pass Nov 10 (Part 1.6, the wayfinding critic): the route the arrows follow, as a dotted line over the map - the "Point me to..."
+	# pick's in white, the tracked goal's in gold - so the way round a river, a wall or a desk is on the map, not only in the arrow.
+	var markers: QuestMarkerLayer = _route_markers()
+	if markers != null:
+		for slot: int in [0, 1]:
+			var points: PackedVector3Array = markers.route_points(slot)
+			if points.size() < 2:
+				continue
+			var colour: Color = Color(1.0, 1.0, 1.0, 0.9) if slot == 1 else Color(UIStyle.GOLD, 0.85)
+			var last: Vector2 = top_left + (Vector2(points[0].x, points[0].z) - _fog.origin) / FogOfWar.CELL * scale_px
+			for index: int in range(1, points.size()):
+				var next: Vector2 = top_left + (Vector2(points[index].x, points[index].z) - _fog.origin) / FogOfWar.CELL * scale_px
+				_canvas.draw_dashed_line(last, next, colour, 2.5, 6.0, true)
+				last = next
 	if _ping != null and _ping_left > 0.0:
 		var ping_at: Vector2 = top_left + (Vector2(_ping.pos.x, _ping.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
 		var phase: float = fmod(PING_SECONDS - _ping_left, 1.0)
@@ -432,9 +465,8 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if where_list_open() and (event.is_action_pressed(&"ui_cancel") or event.is_action_pressed(&"open_map")):
-		get_viewport().set_input_as_handled()
+		# Fable pass Nov 10 (Part 1.6): the list closes AND the map (the critic walked a whole run under a map it thought was shut)
 		_hide_where_list()
-		return
 	if event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		request_close()

@@ -1,0 +1,33 @@
+# Fable pass Nov 10, Parts 2 and 3: a look at Primm's fight (hand numbers 3/3 in red, Turn N / Setting Up) and the House of Gains
+# (Home Gym: Beefcake units +1 attack in green). A probe run: dumps and shots at each step to find the clicks.
+wait 2
+dev load bot_beefcake_forest_postgame
+wait 7
+skip_dialogue
+wait 1
+scene
+dev primm 1
+wait 6
+shot pc_after_travel
+dump
+skip_dialogue
+wait 2
+shot pc_after_skip
+dump
+button Fight
+wait 2
+button Begin
+wait 2
+button Battle
+wait 4
+skip_dialogue
+wait 3
+shot pc_fight
+dump
+move 760 850
+wait 1.5
+shot pc_hover_a
+move 860 850
+wait 1.5
+shot pc_hover_b
+scene

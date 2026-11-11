@@ -793,7 +793,7 @@ func _anchors() -> void:
 	_at("hub", 50.0, 126.0)
 	_at("rift_station", 42.0, 130.0)
 	_at("heal", 39.5, 118.0)
-	_at("wren", 44.5, 123.0)  # Fable pass Nov 10 (Part 1.3): out of the Rift station's line (its post and board hid her name plate from the camera)
+	_at("wren", 38.5, 123.5)  # Fable pass Nov 10 (Part 1.3): out of the Rift station's line (its post and board hid her name plate from the camera); 1.6: west of it, off the greenhouse's corner, 4 m from the trough and the stable
 	_at("stable_1", 36.0, 127.0)
 	# Fixes Oct 26: Brother Bramble greets visitors at the Commons Greenhouse door (his line: "Welcome to the Compost Grange... close the door behind you"),
 	# facing the arrival; he stood at (57, 112) east of the greenhouse. His dam quest is run at the stables, so nothing else needs him there.
@@ -1206,6 +1206,10 @@ func _mushroom_trees(_scatter_clear: Array[Vector3]) -> void:
 	_scatter_kind("mushroom_tree", Rect2(25.0, 66.0, 52.0, 22.0), 4, keep_clear, 2.0, 0.5, 0.8, 1.15)
 	_scatter_kind("mushroom_tree", Rect2(25.0, 42.0, 52.0, 20.0), 3, keep_clear, 2.0, 0.5, 0.8, 1.1)
 	_scatter_kind("mushroom_tree", Rect2(20.0, 6.0, 60.0, 28.0), 2, keep_clear, 2.0, 0.5, 0.75, 1.05)
+	# Fable pass Nov 10 (Part 1.6): two fixed trees on the south rim beside the bridge head (Billie's new spot keeps a scattered one clear; placed
+	# last, off the seeded stream, so nothing else moves)
+	_prop("mushroom_tree", 24.5, 128.0, 40.0, 1.1)
+	_prop("mushroom_tree", 76.0, 126.0, 200.0, 1.0)
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

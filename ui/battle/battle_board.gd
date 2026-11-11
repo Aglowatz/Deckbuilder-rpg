@@ -565,6 +565,10 @@ func sync_state(animated: bool = true) -> void:
 		_sync_zone(player.traps, player.index, Zone.TRAPS, alive)
 		_sync_zone(player.resources, player.index, Zone.RESOURCES, alive)
 		_sync_zone(player.tokens, player.index, Zone.TOKENS, alive)
+	# Fable pass Nov 10 (Part 3): every card keeps the numbers the rules give it NOW - a hand card under Primm's 3/3, a cost change, an aura
+	# that arrived after the card was drawn - so each sync re-applies the instance to every live view (a view was asked once, when it was made).
+	for uid: int in alive.keys():
+		_refresh_view(uid)
 	for uid: int in views.keys():
 		if not alive.has(uid):
 			var view: CardView = views[uid] as CardView

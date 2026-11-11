@@ -1,0 +1,65 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 9 - talk to Billie Muckfoot (the herd), accept, read tracker, map and Point me list.
+wait 2
+dev load wf_dump_5
+wait 8
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold A 1.0
+hold W 0.7
+scene
+shot 01_billie
+dump
+key E
+wait 1.5
+shot 02_talk1
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+shot 03_talk3
+dump
+key E
+wait 1.5
+dump
+skip_dialogue
+wait 1.5
+dump
+key E
+wait 1.5
+shot 04_favour1
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+shot 05_favour3
+dump
+key E
+wait 1.5
+dump
+skip_dialogue
+wait 1.5
+shot 06_tracker
+dump
+key M
+wait 2
+shot 07_map
+button Point me to...
+wait 1.5
+shot 08_list
+dump
+key Escape
+wait 0.5
+key M
+wait 1
+dev save wf_dump_9

@@ -15,8 +15,15 @@ over** from RC2 and every earlier build.
 - **Nobody stands behind a prop.** A probe checks every talking NPC from the default and the Low camera; Basil, Tarragon, Madame Mirepoix,
   Billie Muckfoot, Dex in the Dump, Kestrel and a Capital citizen moved, or their props did. A prop between the camera and the person you can
   talk to dissolves. With nobody in reach, E walks you to the nearest person in view and talks to them.
+- **The arrows follow the road.** The goal arrow and the "Point me to..." arrow point along a walkable route - round the Gainlands' plateau
+  wall, across the Gravy River only where a ferry runs, across the Dump's stream only at a bridge - and when a shut gate, an ungrown bridge or a
+  barricade is the only way, they lead you to it (the sign there says what opens it). The map draws the route as a dotted line (white for
+  your pick, gold for the tracked goal), and a waypoint on screen shows a small arrow of its own. Escape closes the list and the map together.
 - **The map:** landmarks are named first; minor names hide on a small map and show on hover; the "Point me to..." list opens over the map,
-  never over the legend; the legend has one line per quest goal.
+  never over the legend, with one row per goal name ("A hidden stash (any) (one of 14)") and the area each goal stands in; the legend has one
+  line per quest goal. A side quest you already hold keeps the tracker when you accept another.
+- **The Dump's first crossing** is spelled out: the main line marks the Magic Bean by the stream and the West Sprout Mound until a bridge is
+  grown; the Centre Bridge sign and Moss Mulligan say so too. Sir Loin tells you to report to Basil once Old Meatloaf walks.
 - **No more white sheets:** steam and mist fade before they reach the camera.
 - **Turns count both players.** The battle shows "Turn N" (both players have gone) with "Your turn" / "Enemy's turn" under it; the log, the
   boss "Setting Up" window ("they can attack from turn 3"), the result lines and the glossary agree. Cards say "until the end of your turn" (a

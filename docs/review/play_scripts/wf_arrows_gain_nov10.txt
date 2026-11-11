@@ -1,0 +1,31 @@
+# Fable pass Nov 10, Part 1.6: the Gainlands' "Point me to... The House of Gains" arrow follows the middle road (no road-guard fights: the
+# teleports stay south of the narrows), and the map draws the route.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 7
+skip_dialogue
+wait 1
+dev autowin on
+key M
+wait 1.5
+button Point me to...
+wait 1
+click 900 320
+wait 2.5
+key M
+wait 4
+shot gain_arrow_bridge
+dev tp 56 62
+wait 4
+shot gain_arrow_plaza_north
+dev tp 49 55
+wait 4
+shot gain_arrow_critic_dead_end
+dev tp 56 53
+wait 4
+shot gain_arrow_road_foot
+key M
+wait 2
+shot gain_map_route
+key M
+wait 0.5

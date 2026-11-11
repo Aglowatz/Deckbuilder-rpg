@@ -1,0 +1,63 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 7 - read the sign by the stream gate, then try E on the Vine Bridge growing spot.
+wait 2
+dev load wf_dump_5
+wait 8
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 5
+wait 2
+button Continue
+wait 1
+hold A 1.6
+scene
+shot 01_at_sign
+key E
+wait 1.5
+shot 02_sign_text
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1
+hold S 1
+hold A 1.7
+scene
+shot 03_v_spot
+dump
+key E
+wait 1.5
+shot 04_v_e
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+dump
+skip_dialogue
+wait 1
+scene
+hold W 3
+scene
+shot 05_after
+dump
+hold W 3
+wait 2
+button Continue
+wait 1
+scene
+shot 06_n1
+dump
+key M
+wait 2
+shot 07_map
+key Escape

@@ -1,0 +1,80 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 13 (last) - salt flats, west along z 53 to the truffle, back east and south to Old Meatloaf.
+wait 2
+dev load wf_buf_12
+wait 8
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+wait 2
+button Continue
+wait 1
+scene
+hold W+A 2
+wait 2
+button Continue
+wait 1
+hold A 3
+wait 2
+button Continue
+wait 1
+scene
+hold A 4
+wait 2
+button Continue
+wait 1
+scene
+shot 01_z53
+hold S 1
+hold A 2
+wait 2
+button Continue
+wait 1
+scene
+shot 02_truffle_spot
+dump
+key E
+wait 1.5
+shot 03_truffle_e
+dump
+button Continue
+wait 1
+hold W 1
+hold D 6
+wait 2
+button Continue
+wait 1
+scene
+hold S 3
+wait 2
+button Continue
+wait 1
+scene
+shot 04_meatloaf_spot
+dump
+key E
+wait 1.5
+shot 05_meatloaf_e
+dump
+key E
+wait 1.5
+dump
+skip_dialogue
+wait 1.5
+shot 06_after
+dump
+key M
+wait 2
+shot 07_map
+key Escape
+wait 1
+dev save wf_buf_13

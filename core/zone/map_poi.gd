@@ -48,6 +48,9 @@ var tracked_goal: bool = false
 var path_tint: Color = Color(0, 0, 0, 0)
 ## Day pass Nov 9: the dungeon this entrance opens ("" for other places) - the full map shows its usual traveller level (LevelHints).
 var dungeon_id: String = ""
+## Fable pass Nov 10 (Part 1.6): how many goals of the same name this "Point me to..." row stands for (nine roaming scavengers, fourteen
+## hidden stashes: one row, "one of 14", pointing at the first).
+var group_count: int = 1
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

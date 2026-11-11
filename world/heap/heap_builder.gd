@@ -179,6 +179,15 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 ## The player may wade into the water or a pit (and fall in); never off the land or up a cliff, and onto the scree only
 ## on a mount.
 func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
+	return _walkable(pos, body_radius, false)
+
+
+## Fable pass Nov 10 (Part 1.6): walkable with the junk barricades counted smashed (the goal arrows route to a barricade, not round the world).
+func is_walkable_through_barricades(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
+	return _walkable(pos, body_radius, true)
+
+
+func _walkable(pos: Vector3, body_radius: float, through_barricades: bool) -> bool:
 	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == HeapLayout.Surface.BRIDGE:
 		# the way in: the deck between the kerbs; the kerbs are the edge
@@ -189,7 +198,7 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		return false
 	if HeapLayout.edge_distance(pos.x, pos.z) < 0.35:
 		return false
-	return not _hits_obstacle(pos, body_radius) and not _hits_barricade(pos, body_radius)
+	return not _hits_obstacle(pos, body_radius) and (through_barricades or not _hits_barricade(pos, body_radius))
 
 
 ## Enemies stay on dry ground, summits and the scree: never in the water, a pit or on a cliff.

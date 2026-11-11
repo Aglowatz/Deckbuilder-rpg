@@ -1,0 +1,68 @@
+# Wayfinding critic Nov 10: the Gainlands, run 14 - up the House of Gains Steps: probe west and north to the door.
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 8
+dev autowin on
+hold W 3
+wait 2
+button Continue
+wait 2
+hold W 4
+hold A 3
+hold W 3
+hold W+D 2
+hold D 2
+hold W 3
+hold W 4
+wait 1
+button Continue
+hold W 4
+wait 1
+button Continue
+hold W 2
+hold W+A 3
+wait 1
+button Continue
+scene
+hold A 3
+scene
+shot 01_a
+dump
+hold W 3
+scene
+shot 02_w
+dump
+hold W+A 3
+scene
+shot 03_wa
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 04_w2
+dump
+hold A 3
+scene
+shot 05_a2
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 06_w3
+dump
+hold W+A 3
+scene
+shot 07_wa2
+dump
+hold W 4
+wait 1
+button Continue
+scene
+shot 08_w4
+dump
+key M
+wait 2
+shot 09_map
+key Escape

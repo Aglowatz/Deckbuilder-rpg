@@ -1,0 +1,86 @@
+# Wayfinding critic Nov 10: the D.N.A., run 6 - lobby, corridor, round the Soul Routing Terminal, straight north to the Hall.
+wait 2
+dev load bot_necrocrat_enter_necrocrat
+wait 10
+dev autowin on
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 915 320
+wait 1
+key M
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 4
+wait 2
+button Continue
+wait 1
+hold W 2
+wait 2
+button Continue
+wait 1
+hold S 1
+hold D 3
+hold W 4
+wait 2
+button Continue
+wait 1
+hold A 1.5
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 01_terminal
+hold W+D 2
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 02_n1
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 03_n2
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 04_n3
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 05_n4
+dump
+key E
+wait 1.5
+shot 06_e
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 07_n5
+dump
+key E
+wait 1.5
+shot 08_e2
+dump
+key M
+wait 2
+shot 09_map
+key Escape

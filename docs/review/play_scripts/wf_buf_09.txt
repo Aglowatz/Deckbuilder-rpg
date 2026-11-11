@@ -1,0 +1,102 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 9 - collect the sea salt properly, pick the truffle row, follow its pointer.
+wait 2
+dev load bot_gourmand_enter_gourmand
+wait 10
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 361
+wait 1
+key M
+wait 1
+hold W+A 2
+hold A 3
+wait 2
+button Continue
+wait 1
+hold W+D 0.5
+scene
+shot 01_salt
+dump
+key E
+wait 1.5
+shot 02_salt_e
+dump
+button Continue
+wait 1
+key E
+wait 1
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+click 1030 375
+wait 1
+key M
+wait 1
+shot 03_truffle_arrow
+dump
+scene
+hold S+A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 04_sw1
+dump
+hold S+A 3
+wait 2
+button Continue
+wait 1
+scene
+shot 05_sw2
+dump
+hold S 2
+wait 2
+button Continue
+wait 1
+scene
+shot 06_s1
+dump
+key E
+wait 1.5
+shot 07_e
+dump
+hold A 2
+scene
+shot 08_w
+dump
+key E
+wait 1.5
+dump
+key M
+wait 2
+shot 09_map
+key Escape

@@ -882,6 +882,11 @@ func _build_ui() -> void:
 	minimap.setup(def.id, builder, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
 	quest_markers = QuestMarkerLayer.install(self, def.id, _camera, _resolve_marker_spot, host)
+	# Fable pass Nov 10 (Part 1.6): the goal arrows follow a walkable route over this zone's ground, and the map's goal rows name their area
+	quest_markers.set_routing(_route_walkable, _route_through_gates, builder.map_bounds())
+	quest_markers.area_namer = func(at: Vector3) -> String:
+		var names: Array[String] = builder.area_at(at)
+		return names[1] if names.size() > 1 else ""
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -922,6 +927,18 @@ func _resolve_marker_spot(spot_id: String) -> Dictionary:
 ## True when the thing at this spot is already taken or done (no marker for it): the zones override it for their pickups and animals.
 func _marker_spot_done(_spot: ZoneSpot) -> bool:
 	return false
+
+
+## Fable pass Nov 10 (Part 1.6): the ground the goal arrows route over - what the hero can walk now, less what hurts (a zone with a river or
+## a stream narrows it to the crossings)...
+func _route_walkable(at: Vector3) -> bool:
+	return builder.is_walkable(at)
+
+
+## ...and the same with the zone's gates counted open (an ungrown vine bridge, a shut golem gate, a junk barricade), so where a gate shuts
+## the road the arrow leads to the gate, where the sign and the gatekeeper say what opens it.
+func _route_through_gates(at: Vector3) -> bool:
+	return _route_walkable(at)
 
 
 # ---- Frame update ----------------------------------------------------------------------------

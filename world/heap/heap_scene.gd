@@ -281,6 +281,20 @@ func is_riding() -> bool:
 # ---- Prompts and the map ---------------------------------------------------------------------------
 
 
+## Fable pass Nov 10 (Part 1.6): the goal arrows cross the stream and the chasm only on a grown vine bridge; with the gates counted open,
+## on any vine bridge's line (grown or not: the arrow leads to the bridge's foot, where the sign says what grows it) and past the barricades.
+func _route_walkable(at: Vector3) -> bool:
+	if heap.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD and not heap.on_grown_bridge(at):
+		return false
+	return heap.is_walkable(at)
+
+
+func _route_through_gates(at: Vector3) -> bool:
+	if heap.layout.surface_at(at.x, at.z) == HeapLayout.Surface.HAZARD:
+		return heap.on_grown_bridge(at) or heap.layout.bridge_at(at.x, at.z) != null
+	return heap.is_walkable_through_barricades(at)
+
+
 ## Fable pass Nov 10 (Part 1.1): a sack already picked up this visit, or an animal already shooed home, has no marker.
 func _marker_spot_done(spot: ZoneSpot) -> bool:
 	if spot.data.has("pickup"):

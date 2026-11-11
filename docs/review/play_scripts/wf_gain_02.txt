@@ -1,0 +1,22 @@
+# Wayfinding critic Nov 10: the Gainlands, run 2 - clear the victory popup, look at the hub, open Point me to...
+wait 2
+dev load wf_gain_1
+wait 10
+shot 01_resume
+dump
+button Continue
+wait 3
+shot 02_after_fight
+scene
+dump
+hold W 3
+shot 03_hub
+scene
+dump
+key M
+wait 2
+click 1390 604
+wait 1.5
+shot 04_point_me_list
+dump
+dev save wf_gain_2

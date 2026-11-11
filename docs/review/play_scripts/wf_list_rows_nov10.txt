@@ -1,0 +1,36 @@
+# Fable pass Nov 10, Part 1.6: the "Point me to..." list in each Path zone after the critic's fixes (one row per goal name, areas named)
+wait 2
+dev load bot_beefcake_enter_beefcake
+wait 7
+skip_dialogue
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1
+shot gain_list
+key Escape
+wait 1
+shot gain_after_escape
+dev load bot_refusemancer_enter_refusemancer
+wait 7
+skip_dialogue
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1
+shot dump_list
+key Escape
+wait 1
+dev load bot_gourmand_enter_gourmand
+wait 7
+skip_dialogue
+wait 1
+key M
+wait 1.5
+button Point me to...
+wait 1
+shot buf_list
+key Escape
+wait 1

@@ -1,0 +1,88 @@
+# Wayfinding critic Nov 10: the Endless Buffet, run 6 - Basil's favour, point at the Sea Salt, walk north-east along the river to the chevron.
+wait 2
+dev load bot_gourmand_enter_gourmand
+wait 10
+dev autowin on
+hold W 4
+wait 2
+button Continue
+wait 1
+key E
+wait 0.5
+hold W 4
+wait 2
+button Continue
+wait 1
+hold D 1.5
+hold W 1.5
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+skip_dialogue
+wait 1
+dump
+key M
+wait 2
+button Point me to...
+wait 1.5
+shot 01_list
+click 1030 361
+wait 1
+key M
+wait 1
+shot 02_arrow
+scene
+hold W+D 3
+wait 2
+button Continue
+wait 1
+scene
+shot 03_ne1
+dump
+hold W+D 3
+wait 2
+button Continue
+wait 1
+scene
+shot 04_ne2
+dump
+hold D 3
+wait 2
+button Continue
+wait 1
+scene
+shot 05_e1
+dump
+hold W 3
+wait 2
+button Continue
+wait 1
+scene
+shot 06_n1
+dump
+key E
+wait 1.5
+shot 07_e
+dump
+hold W+D 3
+wait 2
+button Continue
+wait 1
+scene
+shot 08_ne3
+dump
+key E
+wait 1.5
+shot 09_e2
+dump
+key M
+wait 2
+shot 10_map
+key Escape

@@ -1,0 +1,57 @@
+# Wayfinding critic Nov 10: the Gainlands, run 6 - talk to Old Man Mountain (he blocks the pavilion), then go round him north.
+wait 2
+dev load wf_gain_5
+wait 8
+dev autowin on
+scene
+hold W 3
+wait 2
+button Continue
+wait 2
+hold W 4
+scene
+shot 01_at_omm
+key E
+wait 1.5
+shot 02_talk1
+dump
+key E
+wait 1.5
+shot 03_talk2
+dump
+key E
+wait 1.5
+shot 04_talk3
+dump
+key E
+wait 1.5
+shot 05_talk4
+dump
+skip_dialogue
+wait 1.5
+shot 06_after_talk
+dump
+scene
+hold W+A 1.5
+hold W 3
+scene
+shot 07_past_omm
+hold W 4
+scene
+shot 08_n1
+hold W 4
+scene
+shot 09_n2
+dump
+key M
+wait 2
+click 1390 604
+wait 1.5
+shot 10_list
+click 915 320
+wait 1
+key M
+wait 1
+shot 11_arrow_again
+scene
+dev save wf_gain_6

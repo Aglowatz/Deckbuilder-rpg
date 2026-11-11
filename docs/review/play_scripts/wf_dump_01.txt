@@ -1,0 +1,56 @@
+# Wayfinding critic Nov 10: the Verdant Dump, run 1 - arrive, tracker, quest log, map, Point me list, point at the Rotheart, first steps.
+wait 2
+dev load bot_refusemancer_enter_refusemancer
+wait 10
+dev autowin on
+shot 01_arrive
+dump
+scene
+key J
+wait 1.5
+shot 02_quests
+dump
+key Escape
+wait 1
+key M
+wait 2
+shot 03_map
+dump
+button Point me to...
+wait 1.5
+shot 04_list
+click 915 320
+wait 1
+shot 05_picked
+key M
+wait 1
+shot 06_arrow
+dump
+scene
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 07_w1
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 08_w2
+dump
+hold W 4
+wait 2
+button Continue
+wait 1
+scene
+shot 09_w3
+dump
+key M
+wait 2
+shot 10_map2
+key Escape
+wait 1
+dev save wf_dump_1
