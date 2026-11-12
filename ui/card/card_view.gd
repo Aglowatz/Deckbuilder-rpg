@@ -505,11 +505,9 @@ func _build_art() -> void:
 	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(scrim)
 	add_child(_panel(rect, UIStyle.box(Color(0, 0, 0, 0), accent.lightened(0.2), 3, 10)))
-	if dual:
-		# Two Path gems in the art's corner: both Paths of this card at a glance.
-		for index: int in range(2):
-			var gem_color: Color = accent if index == 0 else accent2
-			add_child(_panel(Rect2(22 + index * 26, 70, 22, 22), UIStyle.box(gem_color, Color("fdf3dc"), 2, 11, 4)))
+	# Fable Nov 12c (A7): the two coloured dots under a multi-Path card's name are gone, in every view (the hand, the board, the
+	# full-size view, shops, the Deck Station, the collection, rewards, packs - they all draw this face). Its two Paths still show in
+	# the cost icons on the top right, the two-tone name bar, the frame and the type line ("Beefcake + Refusemancer").
 
 
 ## Placeholder art: the gradient with the card's icon silhouette, in the upper-middle of the frame (where the art's subject would sit).
