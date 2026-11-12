@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.0-rc5 - release candidate 5 (Nov 12 2026)
+
+- The look of the world: the D.N.A.'s walls are lit wallpaper and marble, not black slabs, and the wall in front of you cuts away on every
+  floor; the Gainlands' cliffs are smooth sandstone with calmer colours; the Buffet has a cooler fill light, glazing bars in its windows and
+  a real door on the Test Kitchen; the House of Gains has a door behind its portcullis; the Capital's outer wall weathers; buildings that
+  hide the hero fade out completely instead of standing as ghosts; flat untextured surfaces get a painted wash, never pure white or black.
+- After Primm falls the Capital celebrates: a golden afternoon, the fountains running, a crowd with things to say, bunting, confetti and
+  banners in the four Paths' colours over his face.
+- The ending: each still drifts slowly, the credits fade in, and a "Thank you for playing" card points to the Lab and the Gallery.
+- Primm: his copies of your cards shine silver in Phase 2 (and the rule says so); the castle's fights close in with a violet vignette that
+  deepens room by room and changes with each phase; the turn panel no longer says "Your turn" while he is still attacking.
+- Battles: a shimmer crosses a card when its numbers rise; VICTORY has a band and an outline. Scene fades take the zone's colour.
+- Max hand size is 10 for everyone, always (levels 14 and 28, the Soul Courier's Lanyard and Quota's Stopwatch give something else).
+- The foe that waits by a zone's entrance stays beaten; Old Hob's portrait leaves with his last line; the cracked mirror is a mirror; the Low
+  camera no longer sinks into the hills by the Resistance Camp.
+
 ## v1.0.0-rc4 - release candidate 4 (Nov 11 2026)
 
 - The main quest's "Where to go" line names the gate on the road and what opens it, and says when it is open; a part done is announced;

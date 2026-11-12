@@ -4,6 +4,37 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 12 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2
+(the launch line was pasted into a running session, so `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP` was not set; nothing was reaped).
+
+1. **Max hand size 10 - what the three things that raised it give now.** Levels 14 and 28 no longer add a card: level 14 already had its
+   pack and deck slots; **level 28's headline is "The home stretch" and it grants a Path pack on top of its 250 gold.** The Soul Courier's
+   Lanyard: "+1 max hand" -> **+2 max HP** (it keeps its first-turn card). Quota's Stopwatch: "+2 max hand" -> **+3 max HP** (it keeps
+   first turn and the first-turn card). The Weighing Scale's boon "Heavy Purse": +1 max hand -> **an extra first-turn card** for the
+   dungeon. The cap is `GameState.MAX_HAND_CAP`; a rule may still lower the hand. Say if you want different replacements.
+2. **The entrance roamer is beaten once per save** (flag `exit_roamer_beaten_<zone>`), not once per visit; the zone's own roamers still
+   return with each visit. The Rift Station's "unlocked" pop-up was already once ever (the critic's repeats came from resuming a snapshot
+   taken before it); not changed.
+3. **Blocking buildings fade out completely** (`OcclusionFader.FADED` 0.97 -> 1.0). The 3 % that stayed was the "milky" ghost. If you miss
+   the faint outline of a hidden building, 0.99 is the middle ground.
+4. **The flat wash** (`flat_wash` in the toon shader) reaches every untextured flat-colour material in the world, and near-white is pulled
+   to cream, near-black lifted to deep colour. A material that must stay pure takes the meta `no_wash`. It changes a great many small
+   surfaces a little; nothing was meant to change hue.
+5. **The Capital's celebration uses Crosspath's townsfolk sets** (the three walkers, the villager, the farm hand) as the crowd: "people from
+   all four lands came to see". Six new passing lines (`CapitalCelebration.CROWD_LINES`) - new dialogue, not from the sheet; edit or cut.
+6. **The fountains run again after Primm falls** (they stood dry with the statue toppled). The toppled statue stays. If the dry fountain was
+   the point, `running` in `CapitalGrand.fountain` / `fountain_side` is the switch.
+7. **The smiley portraits and the smiley on the palace are kept** (they are Primm's emblem, the story's joke); the art critic read them as
+   placeholders twice. Batch 15 asks for painted Primm portraits for the easels; the emblem on the palace would stay.
+8. **The D.N.A. is brighter**: ambient 0.4 -> 0.95, the key from the side, lighter wallpaper with a faint self-light. It is still the
+   darkest zone. Your "perpetual 4:59 PM gloom" is the limit I kept to; the critic's score says whether it is enough.
+9. **Not done from the brief** (time, or outside the constraints) - see the report's "What was not done": SSAO / SSIL / SDFGI (measured
+   too dear on Medium in October; the Capital has 3 fps of headroom), blended terrain textures in the Gainlands, the scale audit as a
+   measured table, per-hub storytelling clutter, the world motion list beyond what existed, the late-game critic's re-run on the exported
+   build.
+
 ## Overnight Nov 10-11 - yours to decide (the safest choice was taken)
 
 1. **Road guards are exempt from the "no roamer within 10 m of a door" rule** (Part 1.2): the Gainlands' three Gauntlet guards stand 0.9-9 m from
