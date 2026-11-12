@@ -15,6 +15,8 @@
 - Max hand size is 10 for everyone, always (levels 14 and 28, the Soul Courier's Lanyard and Quota's Stopwatch give something else).
 - The foe that waits by a zone's entrance stays beaten; Old Hob's portrait leaves with his last line; the cracked mirror is a mirror; the Low
   camera no longer sinks into the hills by the Resistance Camp.
+- From the late-game critic on RC5: the turn panel stays on screen while a boss is Setting Up; the gathering on Grave Row is on the
+  Capital's map; Primm's Phase 3 rule no longer promises he "runs out of time"; the reward line says "Take it and ..." before the take.
 
 ## v1.0.0-rc4 - release candidate 4 (Nov 11 2026)
 

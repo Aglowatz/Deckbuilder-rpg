@@ -32,8 +32,18 @@ Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_rep
    darkest zone. Your "perpetual 4:59 PM gloom" is the limit I kept to; the critic's score says whether it is enough.
 9. **Not done from the brief** (time, or outside the constraints) - see the report's "What was not done": SSAO / SSIL / SDFGI (measured
    too dear on Medium in October; the Capital has 3 fps of headroom), blended terrain textures in the Gainlands, the scale audit as a
-   measured table, per-hub storytelling clutter, the world motion list beyond what existed, the late-game critic's re-run on the exported
-   build.
+   measured table, per-hub storytelling clutter, the world motion list beyond what existed, a second late-game critic after the fixes.
+10. **The late-game critic on RC5 never beat Primm** (`docs/review/critic_late_nov12/report.md`: clarity 6, fun 4, polish 6; target
+   7 / 6 / 7). Part of it was the test driver: its built-in player clicked covered cards in a ten-card hand and skipped 2-6 turns a
+   fight. With the driver fixed, the built-in player beat Phase 2 at level 20 (one try) and lost Phase 3 three times out of three, by
+   turn 6-7. The built-in player is simple (most expensive card first, attacks with everything) and your decision was no change to Primm,
+   so nothing was tuned. **Play Phase 3 once yourself before release**: `dev primm 3` on a level-20 save.
+11. **The critic's design asks, not done:** "Retry this phase" on the defeat screen (a Primm loss restarts the 21-room castle from the
+   Crease); showing a dungeon room's type one step further ahead (every room is "???" until its neighbour is cleared); an Uncommon or
+   better among a level-21 castle fight's three reward cards.
+12. **The funeral has a map entry**: "Old Hob at Grave Row (the city is gathering)" is a quest-giver point on the Capital's map and in
+   "Point me to..." while the royal funeral waits. It names the scene before the player finds it; cut it in
+   `CapitalScene._extra_pois` if the funeral was meant to be stumbled on.
 
 ## Overnight Nov 10-11 - yours to decide (the safest choice was taken)
 

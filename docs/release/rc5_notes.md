@@ -7,6 +7,9 @@ folder explains the start files. **Saves carry over** from RC4 and every earlier
 
 RC5 is a pass on how the game looks and moves, and on the last hour. Nothing on the battle board or in any menu moved.
 
+**Note (Nov 12):** the zip built at 07:59 does not yet contain the last four lines under "Fixes"; they are in the source and need one more
+export (see `docs/overnight_report.md`, Part 6).
+
 ## What changed since RC4
 
 **The world**
@@ -47,6 +50,10 @@ RC5 is a pass on how the game looks and moves, and on the last hour. Nothing on 
 **Fixes**
 - The foe that waits by a zone's entrance stays beaten once you beat it (the other roamers still return with each visit).
 - Old Hob's portrait no longer stands alone on screen for a moment after a defeat.
+- The turn panel no longer slides off the right edge of the screen while a boss is Setting Up.
+- After Primm, the gathering on Grave Row is on the Capital's map and in "Point me to...".
+- Primm's Phase 3 rule no longer says he "runs out of time" (he loses 1 HP a turn; it wears him down, it is not a clock).
+- The reward screen says "Take it and ... goes to your collection" before you take a card, not "Added".
 
 ## Known issues
 - The D.N.A. is still the darkest zone by design (4:59 PM overcast); it is meant to be gloomy, not unreadable - say so if it is.

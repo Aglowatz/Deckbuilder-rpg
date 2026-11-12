@@ -1,3 +1,222 @@
+# Fable pass Nov 11-12 - report (visual quality, world consistency, late game)
+
+Brief: `docs/prompts/fable_nov12_visuals.md`. Start tag `pre-fable-nov12`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12" (9 items).
+Shots: `docs/overnight_shots/nov12/` (`before/`, `after/`, `part4/`). Gallery: `docs/review/visual_nov12/index.html`. Style bible:
+`docs/art/style_bible.md`. One Godot at a time; the three critics (art director before and after, late game) were no-context agents and no
+Godot of mine ran while the late-game critic played. Owner constraints kept: no difficulty setting; the battle board and every menu layout
+untouched (effects, shaders and colour inside existing elements only); no approved painting repainted or replaced. Ran on Fable 5.2 (the
+launch line was pasted into a running session). The Overnight Nov 10-11 report follows below.
+
+## At a glance
+
+- **The art-director score did not move: 6.3 before, 6.2 after** (113 shots each, the same cameras, a fresh no-context critic each time).
+  The second critic scored content this pass never touched about half a point lower (dungeon maps 8.2 -> 7.6, Crosspath 7.5 -> 6.9, the
+  forest 6.2 -> 5.7), so the two numbers are not on one scale; against that drift the zones that were worked on gained (table below), but
+  **the honest reading is: this pass fixed specific named faults, it did not lift the 3D world to the level of the painted layers.** The
+  3D world scores 5.4-5.6 in both reports; the painted screens 7.4-7.6. What closes that gap is painted art (Batch 15) and material
+  work on a scale this pass did not reach.
+
+  | Group | Before | After | Change | Worked on? |
+  |---|---:|---:|---:|---|
+  | The D.N.A. | 4.4 | 4.7 | +0.3 | yes (lighting 3.6 -> 4.7) |
+  | The Capital after Primm | 5.6 | 5.8 | +0.2 | yes (lighting 4.3 -> 6.8) |
+  | The Gainlands | 5.5 | 5.7 | +0.2 | yes |
+  | Battles | 7.4 | 7.6 | +0.2 | the tutorial board fix (4.8 -> 7.8) |
+  | The Endless Buffet | 5.5 | 5.5 | 0.0 | yes |
+  | Screens (UI) | 6.8 | 6.8 | 0.0 | no (layouts are fixed) |
+  | The Capital before Primm | 5.8 | 5.4 | -0.4 | a little (wall, camera) |
+  | The Verdant Dump | 5.8 | 5.3 | -0.5 | a little (ghost glasshouse) |
+  | The Opening Forest | 6.2 | 5.7 | -0.5 | no |
+  | Dungeon maps | 8.2 | 7.6 | -0.6 | no |
+  | Crosspath | 7.5 | 6.9 | -0.7 | no |
+  | **All 113** | **6.3** | **6.2** | -0.1 | |
+
+  (Means of the six criteria per shot, from `docs/review/visual_nov12/scores_before.csv` / `scores_after.csv`.)
+- **RC5 is built:** `builds/TheWaywardPath-v1.0.0-rc5-windows.zip`, **734 MB** (RC4: 734 MB; pack 845 MB, 14104 files, every MD5 matches).
+  The release smoke on the exported pack **PASSED**; the three exported-build checks ran with **0 SCRIPT ERROR**. Full GUT before the
+  export: **2984 / 2987 passed, 1 failing** (a test that pinned the old 97 % fade; fixed after), 2 pending. Not uploaded anywhere.
+- **Performance held** (Medium, this PC): Crosspath 72 -> 69 fps, the Buffet hub 85 -> 80, the Capital 63 -> 64 (65 in the freed state),
+  a battle 344 -> 354; Low unchanged (91 / 99 / 85 / 350). All inside this laptop's 10 % run-to-run drift; the Capital keeps about 4 fps
+  over 60.
+- **Late-game critic on RC5: clarity 6, fun 4, polish 6 (old build 5 / 4 / 5; target 7 / 6 / 7) - the target was missed.** It never beat
+  Primm's Phase 2 or 3, so it did not see the ending. Part of that was the test driver skipping its turns (fixed; see Part 4.4). Four of
+  its small items are fixed **in the source but not in the RC5 zip**: the re-export was stopped by the machine's low-memory guard and
+  was not started again. **The zip on disk is the build from 07:59, before those four fixes.** No second critic was run.
+- **Owner decisions applied:** max hand size 10 (inbox 1 says what replaced the three things that raised it); inbox 12 no change (a test
+  pins the Armory's order); inbox 13 no change to Primm, and `dev primm N` grants the four boons (verified: 31 HP at the Phase 2
+  checkpoint); Escape in a conversation kept.
+
+## What was not done (read this before the rest)
+
+The brief was a 24-hour pass; these parts were not done or only partly done:
+
+- **Part 1:** no SSAO / SSIL / SDFGI (SSAO measured +2.3 ms on Medium in October and the Capital has 4 fps of headroom); no new sky or LUT
+  per zone; no new light sources placed; sprites' contact shadows unchanged (both critics still call them faint). Per-zone grades were
+  changed only in the D.N.A., the Gainlands, the Buffet and the freed Capital. FPS was measured in four places, not every zone.
+- **Part 2.1:** the Gainlands got smooth cliffs and a calmer palette, **not** blended ground textures or edge foliage; its fortress brick
+  still tiles (after-critic #6) and its shadows are still hard (#7).
+- **Part 2.4, the scale audit:** the ratios are in the style bible; no zone-by-zone measurement was made and no outlier fixed.
+- **Part 2.6, hub storytelling clutter:** none added (only the freed Capital's dressing).
+- **Part 3:** only the gaps found were filled (buff shimmer, the result banner, zone-coloured fades). The battle list's other items
+  already existed (lift / land, hit-stop, shake with its Settings toggle, floating numbers, death dissolve, the turn sweep) and were not
+  re-tuned; the world list (pickup bob, door and chest animations, more ambient life) and the UI list (reward sequencing, a click-sound
+  audit) were not worked on.
+- **Part 4.2:** castle rooms do not escalate in music (the look does, through the vignette).
+- **Top 25:** see the table - 7 done, 7 partly, 1 kept by design, 10 not (most need painting: Batch 15).
+- **Part 4.4:** the late-game target (7 / 6 / 7) was missed (6 / 4 / 6); no re-score after the fixes; six of the critic's top 10 are
+  not fixed or only half.
+- **Part 6:** the RC5 zip does not contain the last four fixes (commit 86de96a4). The re-export was stopped by the low-memory guard
+  before it wrote anything; the smoke and the three exported checks were therefore run on the 07:59 build only.
+- **Memory before/after:** only "after" was read (below); no baseline was taken at the start.
+
+## Part 0 - the audit and the style bible
+
+- **The fixed shot set:** 113 shots through the play-script driver (`bash tools/nov12_shots.sh <tag> [set ...]`, scripts in
+  `docs/review/play_scripts/nov12/shots_*.txt`): each zone's arrival, hub, main dungeon door and two mid-zone views at the default and
+  the Low camera angle; the Capital before (9 places) and after Primm (5); 16 dungeon maps; 7 battles; 9 screens. New driver commands:
+  `hud off|on`, `cam N`, `calm`, `spots`, `at <anchor>`, `matscan [m]`, `groundscan`.
+- **The art-director critic** (brief `docs/review/critic_art_nov12_brief.md`; reports `docs/review/critic_art_nov12/report_before.md`,
+  `report_after.md`): images only, six scores per shot, a ranked top 25.
+- **`docs/art/style_bible.md`:** reference shots, a palette per zone, the lighting model, material rules (no pure-white, pure-black or
+  untextured large surface), outlines and edges, a scale table (hero 1.70 m), foliage and ground, VFX.
+
+## Parts 1-2 - the top 25 (the before report's ranking) and what was done
+
+| # | Problem | Done |
+|---|---|---|
+| 1 | D.N.A. buildings are unlit black boxes | **Done, partly effective.** Ambient 0.4 -> 0.95 (#6f8a80), the key from the side (yaw 118), exposure 1.06, lighter wallpaper with a faint self-light, a brass picture rail; the wall at the lens cuts away on floor outside every room (`DnaRoomCut` - the giant chest's alcove was 40 % wall). Lighting 3.6 -> 4.7; the after critic still calls the zone a grey box (its floor and repeats). |
+| 2 | The Capital after Primm is blown out | **Done.** `CAPITAL_FREED` is the inside's AgX grade turned to a golden afternoon (it was an old ACES preset). Lighting 4.3 -> 6.8. |
+| 3 | Ghost buildings mid-fade | **Done for the Dump** (the glasshouse's glass stayed when its frame dissolved) and in general (`OcclusionFader.FADED` 1.0). **Not gone in the Capital's Transit Yards** (still in the after report). |
+| 4 | Flat single-colour blocks | **Partly.** Every untextured flat colour gets a painted wash in the toon shader (`flat_wash`) and is never pure white or black. The critic still names the same blocks (Grave Row's box, the camp's slabs, the stalls, the mats): a wash is not a texture. Batch 15 rows. |
+| 5 | Main dungeon doors do not read as doors | **Done for two:** the kit's painted oven-brick door in the Test Kitchen's arch and the studded door behind the House of Gains' portcullis. The D.N.A.'s Hall already had its kit door; not changed. |
+| 6 | Faceted low-poly props | **Partly:** smoother Capital lamp globes. Hedges, statues, the D.N.A. sphere: not done (Batch 15 rows for the statue and the orb). |
+| 7 | Smiley portraits and emblem | **Kept** (Primm's emblem; inbox 7). Batch 15 asks for painted easel portraits. |
+| 8 | Windows are flat colour cut-outs | **Done in the Buffet** (glazing bars, oven grates). **Not in the Capital** (hundreds of panes: Batch 15's first row). |
+| 9 | Broken Low camera at the Resistance Camp | **Done.** The lens rides 1.1 m over the ground under it and the Capital counts its rim hills. |
+| 10 | Flat city wall and grey gate road | **Partly:** dust over the plinth and streaks under the cornice. Still "no surface detail" for the after critic. |
+| 11 | Navy rectangle on the palace | **Done:** five cloths in the Paths' colours (painted banners: Batch 15). |
+| 12 | Stray giant quads and billboards | Not done (quest markers and paper at the Low camera). |
+| 13 | Tutorial battle has no board art | **A dev-tool artefact, fixed:** `dev encounter` now uses the cave's board (4.8 -> 7.8). Players always had it. |
+| 14 | Map edges show voids and strips | Not done (Batch 15: a rubble row). |
+| 15 | Gainlands materials tile and stretch | **Partly:** smooth-shaded cliffs and rocks, saturation 1.26 -> 1.12, a calmer sea. The brick and the mats: not done. |
+| 16 | Buffet is an orange monochrome with haloed sharpening | **Partly:** a lavender fill light; the default sharpening 0.8 -> 0.4 for every zone (new installs; a saved setting is kept). |
+| 17 | World map looks like a debug view | Not done (painting: Batch 15). |
+| 18 | Flat-colour windmill blades and bunting | Not done (Batch 15). |
+| 19 | Fountain water flat blue with scribble | Not done. |
+| 20 | Flat bridge deck and grey water at the Dump | Not done. |
+| 21 | Foreground obstructions | Not done. |
+| 22 | Duplicate and broken sprites | Not done. |
+| 23 | Battle item slots and plain overlays | **Partly:** VICTORY / DEFEAT stand on a band with an outline. The slots: Batch 15. |
+| 24 | Dungeon maps hide their own art | Not done (UI layout). |
+| 25 | Shop screens clipped and empty | Not done (UI layout: owner constraint). |
+
+**The known ones from the brief:**
+- **2.2 the material scan** (`matscan`): lists every untextured surface of 2.5 m or more per zone; the wash above is the blanket answer.
+- **2.3 the Capital after Primm celebrates** (`CapitalCelebration`): the golden light, the fountains running again, a crowd of townsfolk
+  in the Gate Plaza and on the avenue with six new passing lines, bunting from the fountain to the plaza's lamps and across the avenue,
+  confetti on the paving, the Path-coloured cloths. One mesh for the decor; Low-end halves the crowd and drops the confetti. Medium 65 fps
+  freed against 69 before at the gate. **The after critic's verdict: "a nicer time of day, not a celebration"** - it wants several times
+  the crowd, banners on the houses, stalls and a changed sky. The crowd is 18 people; this is the place to add more if you want it.
+- **2.5 the prop-ground check** (`PropGroundCheck`, `groundscan`, 5 tests): all five zones scan clean apart from by-design pieces.
+- **2.7 the leftovers:** the cracked mirror is nine dark shards on a backing (was one pale pane); **Old Hob's stuck portrait reproduced
+  and fixed** (the listener portrait stood alone for 0.7 s after a scene's last line - the midgame critic's route, before and after
+  shots in `_screenshots/play/n12_repro_hob/`); the entrance roamer stays beaten per save; the Rift pop-up was already once ever; the
+  "milky" fades were the 3 % residue and the glasshouse glass.
+
+## Lighting changes per zone
+
+| Zone | Changed |
+|---|---|
+| The D.N.A. | ambient 0.4 -> 0.95 and greener, key yaw 140 -> 118, exposure 0.98 -> 1.06, wallpaper tint and self-light |
+| The Gainlands | saturation 1.26 -> 1.12, post saturation 1.22 -> 1.08, look saturation 1.16 -> 1.04, shadow opacity 0.7 -> 0.62, sea tint, smooth cliff normals |
+| The Endless Buffet | ambient #e8c2a4 -> #c9b4d2 (a lavender fill) at 0.56, shadow tint to match |
+| The Capital, freed | a new preset on the inside's grade: sun pitch -34, warm key, violet ambient 0.42, shadow opacity 0.62, exposure 0.46 |
+| Everywhere | default sharpening 0.8 -> 0.4; scene fades in the zone's colour; untextured flats washed |
+| Crosspath, the forest, the Dump, the Capital before | unchanged |
+
+## Part 3 - the motion list
+
+Added: a band of light crossing a card when its numbers rise (`card_shimmer.gdshader`); the result word on a band with an outline and a
+swell; scene fades through the zone's colour (`SceneManager.fade_colour`). All hurried by the battle speed and off or still under Reduce
+motion. Already in the game and left as they were: card lift and land, attack recoil, hit-stop and the final blow's slow motion, screen
+shake with "Reduce screen shake", floating damage and heal numbers, the death dissolve, the turn ribbon, button hover and press easing,
+click sounds everywhere (`UiSounds`), footstep puffs and per-zone ambient particles. Not done: see "What was not done".
+
+## Part 4 - the late game
+
+- **4.0 max hand size 10:** `GameState.MAX_HAND_CAP`; levels 14 / 28, the Lanyard, Quota's Stopwatch and the Weighing Scale no longer
+  raise it (inbox 1).
+- **4.1 owner decisions:** inbox 12 and 13 no change; `dev primm N` grants the four boons.
+- **4.2 the turn panel** follows the turn the board has played back to (it flipped to "Your turn" in the middle of the foe's attacks).
+  **The mirror phase:** Primm's copies of your cards wear a constant silver sheen and the rule says "His copies sit on his side of the
+  table and shine silver, like a mirror; the plain ones are yours." **The build-up:** castle fights wear a rift-violet vignette that
+  deepens with the rooms cleared; the three phases have their own (gold, cold silver, pulsing violet with cracks of light).
+- **4.3 the ending:** each still drifts slowly (`StillBackdrop.drift`), a 2.4 s crossfade into the credits, a "Thank you for playing" card
+  naming the Lab and the Gallery, then the postgame announcement. Music cues unchanged (the three beat cues and the credits cue existed).
+- **4.4 the late-game critic on RC5:** `docs/review/critic_late_nov12/report.md` (30 scripts, 34 runs on the exported pack, 0 SCRIPT ERROR). Scores
+  6 / 4 / 6. Phase 1 won in 8 turns; Phase 2 lost four times, Phase 3 lost once and one unfinished. Its built-in player stalled 2-6
+  times a fight there: in a ten-card hand it clicked the covered centre of a card, nothing happened and the driver passed the turn.
+  `tools/battle_pilot.gd` now clicks the card's uncovered strip. After that, on the dev build at level 20: Phase 2 **won** (1 try, no
+  stalls), Phase 3 **lost 3 of 3** (turns 6, 7, 7, no stalls). Primm was not tuned (owner decision); inbox 10 asks the owner to play
+  Phase 3 once. Fixed from its top 10: #4 the turn panel left the screen during Setting Up (the line is set smaller and can no longer
+  widen the panel), #5 the funeral is on the map and in "Point me to...", #7 the Phase 3 hint, #10 the reward line's wording, #3 the
+  driver. Not done: #1 and #2 (Primm's difficulty, retry a phase), #6 (room fog), #8 (needs painting), #9 (not reproduced), the
+  smaller notes. All four game fixes were checked on screen in the dev build (`docs/review/play_scripts/nov12/late_fix_*.txt`).
+
+## Part 5 - Batch 15
+
+`docs/art/batch15_nov12.csv`: 21 rows in the earlier batches' columns, ranked. The top: the Capital's windows (2), six painted area maps,
+the battle item slots, ICON-EQ-HALLPASSSLIPPERS, ICON-GEAR-EARNEDBLADE, Dex's table and card back, Primm's easel portraits (3), the freed
+banners (4), NPC-HESPER and STORY-EPI-WRINKLES (REDOs), the Gallery's eight bestiary pictures and its map, prop cards for the things both
+critics called stand-ins (the Dump's statue and sails, the Buffet's stalls, the D.N.A.'s orb, a rubble row), locked packs, a credits
+panorama, lanterns and fireworks for the freed sky. The after critic adds candidates not yet in the list: the Gainlands' fortress brick,
+the Dump's heart door, painted hedges.
+
+## Part 6 - verify and RC5
+
+- **Tests:** `tests/test_fable_nov12.gd` (20: Primm's phase restart and the boons, the Armory's order, the freed preset, the cloths, the
+  celebration and its Low-end cut, the hand cap, the finale vignette, the wash range, the fade colour, the mirror sheen) and
+  `tests/world/test_prop_ground_nov12.gd` (5). Full GUT, 38 shards, 24 min: 2984 / 2987, 1 failing (fixed), 2 pending. After that run
+  only the default sharpening and its test changed (those files re-run green). **After the late critic's fixes (3 new tests): full GUT
+  again, 38 shards, 24 min: 2988 / 2990 passed, 0 failing, 2 pending.**
+- **Performance** (`docs/art/graphics_tier1/fps_n12_before.md` / `fps_n12_after.md`, 5 s each, vsync off):
+
+  | Area | Low before | Low after | Medium before | Medium after |
+  |---|---:|---:|---:|---:|
+  | Crosspath square | 92.3 | 91.1 | 71.9 | 69.3 |
+  | The Buffet hub | 99.8 | 99.4 | 84.9 | 80.3 |
+  | The Capital, inside | 85.8 | 85.1 | 63.2 | 64.2 |
+  | A battle | 353.5 | 350.1 | 343.8 | 354.0 |
+
+  The battle is an ordinary fight, not a boss (the finale vignette is one full-screen pass on a 350 fps screen). Memory after, one
+  session walking Crosspath -> the Capital -> the Buffet: working set 1.80 GB / 0.96 GB / 0.91 GB, video memory 1026 / 930 / 700 MB. No
+  before reading was taken.
+- **Export:** `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0-rc5` -> EXPORT OK, zip 734 MB, export peak 1.83 GB working set.
+  The "over the 750 MB budget" warning is the same as RC3's and RC4's. The RC4 zip is kept.
+- **Checks:** `run_release_smoke_exported.sh` PASSED (1.0.0-rc5). `play_exported.sh` A, B (A's settings), C (Low-end): 0 SCRIPT ERROR in
+  all six logs. Three `button Continue: NOT FOUND` lines (A twice, B once) are the scripts pressing a box the Enter key had already
+  closed; the shots show the game back in Crosspath.
+- **Not re-exported:** the four late fixes (turn panel, funeral map entry, Phase 3 hint, reward line) are in the source after the zip
+  was built. A second `export_windows.sh 1.0.0-rc5` started with 2.1 GB free and was stopped by the session's low-memory guard during
+  the import step; the zip from 07:59 is untouched (MD5s as checked then). To get them into a build: close other programs, run the
+  export line above, then `run_release_smoke_exported.sh` and the three `play_exported.sh` checks.
+- **Docs:** `CHANGELOG.md`, `docs/release/rc5_notes.md` (both list the four late fixes; the notes say they need the re-export).
+
+## Release-day checklist (the owner)
+
+As Nov 11's (below, in the Overnight Nov 10-11 report), with these changes:
+
+0. **Re-export RC5 (or go straight to 1.0.0) before giving it to anyone**: the zip on disk lacks the last four fixes.
+1. Read inbox "Fable Nov 12" first - items 1 (hand-size replacements), 5 (six new crowd lines) and 6 (fountains running) change what
+   players see and were my choices.
+2. Decide whether RC5 or RC4 is the base for 1.0: RC5 changes the look of every zone a little (the wash, the sharpening) and of three
+   zones a lot. If in doubt, play the D.N.A., the Gainlands and the freed Capital for five minutes each on your own screen.
+3. Then steps 1-10 as before, with `1.0.0` in place of the RC name; the three exported checks may print the harmless `NOT FOUND` lines
+   above.
+4. After release: Batch 15 is the next visible gain; the after critic's top 25 (`report_after.md`) is the list to work from.
+
+---
+
 # Overnight Nov 10-11 - report
 
 Brief: `docs/prompts/overnight_nov10.md`. Start tag `pre-overnight-nov10`. Questions: `docs/overnight_inbox.md`, "Overnight Nov 10-11".
