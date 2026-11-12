@@ -35,6 +35,7 @@ var district_lights: Dictionary = {}
 var rift_nodes: Dictionary = {}
 ## The land round the map (CapitalRim): its distance field and its dressing counts (tests, the report).
 var rim: CapitalRim
+var rim_ruins: CapitalRimRuins
 ## The x of the two corner towers where the great wall meets the city's side walls.
 const CORNER_TOWERS: Array[float] = [0.5, 119.5]
 
@@ -418,6 +419,8 @@ func _build_buildings() -> void:
 				great_wall.append(node)
 				# (the towers stand out a metre to the south and 2.4 m over the wall, their spires higher)
 				great_wall_boxes.append(AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height + 3.0, building.rect.size.y + 1.0)).grow(0.6))
+				if building.style == "wall":  # A6: the body, not the towers on its outer face (the hero outside by a tower stood in the mesh box)
+					CapitalLandmarks.set_occlusion_box(node, AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height, building.rect.size.y)))
 	LoadTiming.detail("capital: buildings (not houses)")
 	_build_houses(houses)
 	LoadTiming.detail("capital: houses")
@@ -737,6 +740,10 @@ func _build_boundaries() -> void:
 		side.add_child(side_piece)
 		# the west wall never stands between the trailing camera and the hero: it never fades (a ghosted wall would show the hidden strip and hole)
 		CapitalLandmarks.mark_view(side, run.x > 60.0)
+		# Fable Nov 12c (A6): only the wall's body blocks the view (2.5 m thick), not the box round its buttresses - the east wall
+		# faded away whole whenever the hero walked beside it
+		# (its core: the hero can press against the battered foot, 0.6 m inside the body's face)
+		CapitalLandmarks.set_occlusion_box(side, AABB(Vector3(run.x - 0.6, 0.0, run.y), Vector3(1.85, 9.0, run.z - run.y)))
 	LoadTiming.detail("capital: walls")
 	var hole: Node3D = CapitalLandmarks.hole_piece(hole_z1 - hole_z0, 9.0, 2.5, CapitalLayout.HOLE_HEIGHT)
 	root.add_child(hole)
@@ -759,6 +766,9 @@ func _build_boundaries() -> void:
 	LoadTiming.detail("capital: hole + towers")
 	rim = CapitalRim.build(root, layout)
 	LoadTiming.detail("capital: rim")
+	# Fable Nov 12c (A6): the ruined kingdom on the ridges (house shells, ash walls, toppled statues, rubble mounds, crystal growths)
+	rim_ruins = CapitalRimRuins.build(root, rim, 0.5 if GraphicsQuality.low_end else (0.65 if Settings.graphics_quality <= 0 else 1.0))
+	LoadTiming.detail("capital: rim ruins")
 	CapitalRim.pines(root)
 	LoadTiming.detail("capital: pines")
 	# The Crease's walls (inside layer 2). Batch 11 (Nov 2): painted damp brick (TEX-CREASE-BRICK, world-space so it tiles across every wall);

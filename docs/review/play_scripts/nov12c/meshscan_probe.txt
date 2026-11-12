@@ -1,0 +1,17 @@
+dev load c13castle
+wait 3
+dev travel capital
+wait 12
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 108 62
+cam 0
+wait 2
+hold D 3.5
+wait 4
+scene
+meshscan 120 66 1.5
+meshscan 121.5 70 1.0

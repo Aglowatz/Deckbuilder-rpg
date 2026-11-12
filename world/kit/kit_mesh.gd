@@ -324,6 +324,22 @@ func restore(data: Dictionary) -> void:
 	_tools.clear()
 
 
+## Fable Nov 12c (A6): after a `restore`, the slots whose material the fill would have set on the way (the painted cards' "card_<ID>"
+## slots) have none - `resolve` (slot name -> Material, or null) supplies them. A restored card with no material drew as a flat grey
+## rectangle: the Capital rim's dead trees and rubble, every run after the first. Returns the slots still without a material.
+func resolve_missing(resolve: Callable) -> Array[String]:
+	var missing: Array[String] = []
+	for slot: String in _order:
+		if material_of(slot) != null:
+			continue
+		var material: Material = resolve.call(slot) as Material if resolve.is_valid() else null
+		if material != null:
+			set_material(slot, material)
+		else:
+			missing.append(slot)
+	return missing
+
+
 ## Fills `mesh` by calling `fill` (which emits the geometry into it) the first time, and from BuildCache after that. `key` must name every
 ## input of the geometry besides the scripts (sizes, seeds, story state).
 static func fill_cached(mesh: KitMesh, key: String, fill: Callable) -> void:

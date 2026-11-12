@@ -1,0 +1,145 @@
+dev load c13castle
+wait 3
+dev travel capital
+wait 12
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 5 62
+calm
+cam 0
+wait 1.5
+shot reek_edge_w_default
+cam 3
+wait 1.2
+shot reek_edge_w_low
+dev tp 6 69
+calm
+cam 0
+wait 1.5
+shot reek_edge_sw_default
+cam 3
+wait 1.2
+shot reek_edge_sw_low
+dev tp 5 36
+calm
+cam 0
+wait 1.5
+shot grave_edge_w_default
+cam 3
+wait 1.2
+shot grave_edge_w_low
+dev tp 6 16
+calm
+cam 0
+wait 1.5
+shot grave_edge_nw_default
+cam 3
+wait 1.2
+shot grave_edge_nw_low
+dev tp 115 62
+calm
+cam 0
+wait 1.5
+shot transit_edge_e_default
+cam 3
+wait 1.2
+shot transit_edge_e_low
+dev tp 114 69
+calm
+cam 0
+wait 1.5
+shot transit_edge_se_default
+cam 3
+wait 1.2
+shot transit_edge_se_low
+dev tp 115 36
+calm
+cam 0
+wait 1.5
+shot hungry_edge_e_default
+cam 3
+wait 1.2
+shot hungry_edge_e_low
+dev tp 114 16
+calm
+cam 0
+wait 1.5
+shot hungry_edge_ne_default
+cam 3
+wait 1.2
+shot hungry_edge_ne_low
+dev tp 14 80
+calm
+cam 0
+wait 1.5
+shot wall_out_w_default
+cam 3
+wait 1.2
+shot wall_out_w_low
+dev tp 40 79
+calm
+cam 0
+wait 1.5
+shot wall_out_mid_w_default
+cam 3
+wait 1.2
+shot wall_out_mid_w_low
+dev tp 106 80
+calm
+cam 0
+wait 1.5
+shot wall_out_e_default
+cam 3
+wait 1.2
+shot wall_out_e_low
+dev tp 82 79
+calm
+cam 0
+wait 1.5
+shot wall_out_mid_e_default
+cam 3
+wait 1.2
+shot wall_out_mid_e_low
+dev tp 6 100
+calm
+cam 0
+wait 1.5
+shot outside_w_default
+cam 3
+wait 1.2
+shot outside_w_low
+dev tp 114 100
+calm
+cam 0
+wait 1.5
+shot outside_e_default
+cam 3
+wait 1.2
+shot outside_e_low
+dev tp 60 118
+calm
+cam 0
+wait 1.5
+shot outside_s_default
+cam 3
+wait 1.2
+shot outside_s_low
+dev tp 19 64
+calm
+cam 0
+wait 1.5
+shot reek_plaza_default
+cam 3
+wait 1.2
+shot reek_plaza_low
+dev tp 100 64
+calm
+cam 0
+wait 1.5
+shot transit_plaza_default
+cam 3
+wait 1.2
+shot transit_plaza_low

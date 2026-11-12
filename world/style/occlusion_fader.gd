@@ -160,6 +160,11 @@ func _scan_step() -> void:
 		if mesh_instance.has_meta(&"no_occlusion_fade") or hero.is_ancestor_of(mesh_instance):
 			continue
 		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
+		# Fable Nov 12c (A6): a piece may name the box that blocks the view (world space, meta `occlusion_box`) when its mesh box is much
+		# bigger than its body - the Capital's walls carry towers and buttresses, so the hero walking BESIDE a wall stood inside the mesh
+		# box and the whole 72 m wall faded away.
+		if mesh_instance.has_meta(&"occlusion_box"):
+			box = mesh_instance.get_meta(&"occlusion_box") as AABB
 		# Big kit buildings: only their core blocks the view (the eaves and the corners of a house at the lens edge are part of the picture, as in the paint-over).
 		if mesh_instance.has_meta(&"occlusion_shrink"):
 			var shrink: float = minf(float(mesh_instance.get_meta(&"occlusion_shrink")), minf(box.size.x, box.size.z) * 0.4)
@@ -194,6 +199,15 @@ func _scan_step() -> void:
 				members.append(mesh_instance)
 			_next_members[key] = members
 	if _pending_index >= _pending.size():
+		# Fable Nov 12c (A6 / the "ghost buildings"): a group that is still faded but that this scan no longer lists (its pieces were
+		# hidden meanwhile: the Capital's wall pieces round the lens, a range-culled block) keeps its members until its fade is back at
+		# zero. It used to be dropped at once, so its pieces kept whatever transparency they had - a wall that stayed invisible, a
+		# building left as a pale ghost - for the rest of the visit.
+		for key: Variant in _fade.keys():
+			if float(_fade[key]) > 0.004 and not _next_members.has(key) and _members.has(key):
+				_next_members[key] = _members[key]
+				if _shadow_proxies.has(key):
+					_next_shadow_proxies[key] = _shadow_proxies[key]
 		_candidates = _next_candidates
 		_members = _next_members
 		_shadow_proxies = _next_shadow_proxies
@@ -313,6 +327,10 @@ func _run_tests() -> void:
 		print("occlusion: ", debug_summary())
 		print("occlusion blockers: ", "; ".join(debug_blockers()))
 		print("occlusion sight: cam %s hero %s" % [str(from.snapped(Vector3(0.1, 0.1, 0.1))), str(to.snapped(Vector3(0.1, 0.1, 0.1)))])
+		for key: Variant in _fade.keys():
+			if float(_fade[key]) > 0.004:
+				var owner_node: Object = instance_from_id(int(key))
+				print("occlusion faded: %s fade %.2f members %d" % [str((owner_node as Node).name) if owner_node is Node else "?", float(_fade[key]), (_members.get(int(key), []) as Array).size()])
 		for index: int in range(_boxes.size()):
 			var near_box: AABB = _boxes[index]
 			if (near_box.size.y > 5.0 or Vector2(near_box.get_center().x - to.x, near_box.get_center().z - to.z).length() < 9.0) and is_instance_valid(_candidates[index]):

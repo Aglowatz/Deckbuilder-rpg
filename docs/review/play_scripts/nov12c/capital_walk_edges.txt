@@ -1,0 +1,46 @@
+dev load c13castle
+wait 3
+dev travel capital
+wait 12
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 104 22
+calm
+cam 0
+wait 2
+hold D 3
+wait 1
+shot ne_walk_a
+hold W 2
+wait 1
+shot ne_walk_b
+hold D 2
+wait 1
+shot ne_walk_c
+scene
+dev tp 108 62
+wait 2
+hold D 3.5
+wait 1.5
+shot e_walk_a
+scene
+hold S 2.5
+wait 1.5
+shot e_walk_b
+scene
+cam 3
+wait 1.5
+shot e_walk_b_low
+dev tp 12 62
+cam 0
+wait 2
+hold A 3.5
+wait 1.5
+shot w_walk_a
+hold S 2.5
+wait 1.5
+shot w_walk_b
+scene

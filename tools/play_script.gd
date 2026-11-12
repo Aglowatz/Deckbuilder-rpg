@@ -161,6 +161,10 @@ func _run_line(line: String) -> void:
 			# Fable Nov 12 (Part 2.2): `matscan [min_size_m]` lists the scene's big untextured surfaces (no albedo texture, no vertex colour),
 			# grouped by colour; the pure-white / near-white ones are marked WHITE.
 			_matscan(float(rest) if not rest.is_empty() else 2.0)
+		"meshscan":
+			# Fable Nov 12c (A6): `meshscan <x> <z> [radius]` lists the visible meshes whose box comes within `radius` metres of (x, z):
+			# path, box, first material's colour and whether it is textured - to name the thing a screenshot shows.
+			_meshscan(float(parts[1]) if parts.size() > 1 else 0.0, float(parts[2]) if parts.size() > 2 else 0.0, float(parts[3]) if parts.size() > 3 else 2.0)
 		"at":
 			# `at <anchor>`: the hero onto a named anchor of the current zone's map (the Capital's `po_*` camera spots)
 			var at_scene: Node = get_tree().current_scene
@@ -171,6 +175,33 @@ func _run_line(line: String) -> void:
 				_say("  at: no anchor %s here" % rest)
 		_:
 			_say("  unknown command %s" % command)
+
+
+func _meshscan(x: float, z: float, radius: float) -> void:
+	var scene: Node = get_tree().current_scene
+	if scene == null:
+		return
+	var column: AABB = AABB(Vector3(x - radius, -2.0, z - radius), Vector3(radius * 2.0, 40.0, radius * 2.0))
+	var count: int = 0
+	for node: Node in scene.find_children("*", "GeometryInstance3D", true, false):
+		var piece: GeometryInstance3D = node as GeometryInstance3D
+		if not piece.is_visible_in_tree():
+			continue
+		var box: AABB = piece.global_transform * piece.get_aabb()
+		if not box.intersects(column) or maxf(box.size.x, box.size.z) > 300.0:
+			continue
+		var what: String = ""
+		if piece is MeshInstance3D and (piece as MeshInstance3D).mesh != null and (piece as MeshInstance3D).mesh.get_surface_count() > 0:
+			var material: Material = (piece as MeshInstance3D).get_active_material(0)
+			if material is StandardMaterial3D:
+				what = "#%s%s" % [(material as StandardMaterial3D).albedo_color.to_html(false), " tex" if (material as StandardMaterial3D).albedo_texture != null else ""]
+			elif material is ShaderMaterial:
+				what = "shader %s" % (material as ShaderMaterial).shader.resource_path.get_file()
+			elif material == null:
+				what = "NO MATERIAL"
+		count += 1
+		_say("  mesh %s  box (%.1f, %.1f, %.1f) + (%.1f, %.1f, %.1f)  transp %.2f  %s" % [str(scene.get_path_to(piece)).right(70), box.position.x, box.position.y, box.position.z, box.size.x, box.size.y, box.size.z, piece.transparency, what])
+	_say("  meshscan: %d meshes within %.1f m of (%.0f, %.0f)" % [count, radius, x, z])
 
 
 ## Fable Nov 12 (Part 2.2): the material scan. One line per colour group: how many meshes, the biggest one's size, where one stands.

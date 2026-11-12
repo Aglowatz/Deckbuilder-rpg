@@ -61,6 +61,18 @@ static func mark_view(node: Node, fade: bool = false) -> void:
 		mark_view(child, fade)
 
 
+## Fable Nov 12c (A6): the box of `node`'s body that blocks the camera's view (world space) for the occlusion fader, in place of its
+## meshes' own boxes (`OcclusionFader`, meta `occlusion_box`): a wall's towers and buttresses do not count.
+## `near`: how close to the lens the piece dissolves as foreground clutter (the fader's 6.5 m is for props; a 72 m wall whose end came
+## within 6.5 m of the trailing camera vanished whole).
+static func set_occlusion_box(node: Node, box: AABB, near: float = 0.7) -> void:
+	if node is GeometryInstance3D:
+		node.set_meta(&"occlusion_box", box)
+		node.set_meta(&"occlusion_near", near)
+	for child: Node in node.get_children():
+		set_occlusion_box(child, box, near)
+
+
 static func finish(root: Node3D, mesh: KitMesh, circles: Array[Vector3] = [], height: float = 0.0) -> Node3D:
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)

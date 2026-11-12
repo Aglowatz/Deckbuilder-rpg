@@ -1,0 +1,8 @@
+dev load c13castle
+wait 3
+dev travel capital
+wait 14
+skip_dialogue
+wait 2
+matscan 2.0
+groundscan

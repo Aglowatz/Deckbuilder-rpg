@@ -60,10 +60,11 @@ static func build(parent: Node3D, layout: CapitalLayout) -> CapitalRim:
 	var ctx: HashingContext = HashingContext.new()
 	ctx.start(HashingContext.HASH_MD5)
 	ctx.update(sources)
-	var key: String = "capital_rim_%s" % ctx.finish().hex_encode().substr(0, 12)
+	var key: String = "capital_rim_v2_%s" % ctx.finish().hex_encode().substr(0, 12)  # v2 (Nov 12c): the ground under the walls
 	var data: Variant = BuildCache.fetch(key, func() -> Variant:
 		rim._distance_field(layout)
 		rim._ground(ground)
+		rim._under_walls(ground)
 		rim._road(dressing)
 		rim._dressing(dressing)
 		rim._edge_row(dressing)
@@ -79,6 +80,9 @@ static func build(parent: Node3D, layout: CapitalLayout) -> CapitalRim:
 	rim.blockers.assign(Array(saved["blockers"] as PackedVector2Array))
 	ground.restore(saved["ground"] as Dictionary)
 	dressing.restore(saved["dressing"] as Dictionary)
+	# Fable Nov 12c (A6): from the cache the painted cards' slots (the dead trees and rubble on the ridges) came back with no material
+	# and drew as flat grey rectangles standing on the hills - "the Capital's floating grey boxes".
+	dressing.resolve_missing(K.resolve_slot)
 	node.add_child(_finish(ground.instance("RimGround")))
 	node.add_child(_finish(dressing.instance("RimDressing")))
 	return rim
@@ -261,6 +265,29 @@ func _ground(mesh: KitMesh) -> void:
 				if normal.y < 0.0:
 					normal = -normal
 				mesh.tri("rim_ground", [a, b, c], normal, [_shade(a), _shade(b), _shade(c)])
+
+
+## Fable Nov 12c (A6): ash ground under the city's walls. The rim's ground stops at the city's rectangle and the paving starts inside the
+## walls, so the strip the walls stand on had nothing under it but the far apron - and whenever a wall piece is cut away for the camera
+## (the hero inside by a wall, the lens outside) that strip showed as a flat black slab. Four bands just under the paving's level, the rim's
+## own painted ash, shaded like the foot of the rise.
+const UNDER_WALL_Y: float = -0.012  # over the far apron (-0.03), under the paving (0)
+const UNDER_WALL_BANDS: Array[Rect2] = [
+	Rect2(-2.5, -2.5, 6.5, 81.0),  # the west wall
+	Rect2(116.0, -2.5, 6.5, 81.0),  # the east wall
+	Rect2(-2.5, 70.5, 125.0, 8.0),  # the front wall
+	Rect2(-2.5, -2.5, 125.0, 4.5),  # the north wall
+]
+
+
+func _under_walls(mesh: KitMesh) -> void:
+	var shade: Color = Color(0.7, 0.7 * 0.97, 0.7 * 0.95)
+	for band: Rect2 in UNDER_WALL_BANDS:
+		var a: Vector3 = Vector3(band.position.x, UNDER_WALL_Y, band.position.y)
+		var b: Vector3 = Vector3(band.end.x, UNDER_WALL_Y, band.position.y)
+		var c: Vector3 = Vector3(band.end.x, UNDER_WALL_Y, band.end.y)
+		var d: Vector3 = Vector3(band.position.x, UNDER_WALL_Y, band.end.y)
+		mesh.quad("rim_ground", [a, b, c, d], Vector3.UP, [shade, shade, shade, shade])
 
 
 ## Darker at the foot of the rise (the shadow line the eye reads as an edge), lighter up the crests.

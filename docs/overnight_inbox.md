@@ -17,6 +17,18 @@ Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_repor
    the gap (`NPC-QUADZILLA`, `NPC-CAIRN`). The gatekeepers' post-fight lines had the same gap as the Warden (started by title, so
    "Corrupted Druid" found no portrait): fixed.
 
+3. **The Capital's grey rectangles (A6) were a bug, not missing art.** The rim's dead trees and rubble are painted cards in one mesh
+   that comes from the build cache after the first visit, and from the cache they came back with no material: flat grey rectangles on
+   the hills. Fixed at the root (`KitMesh.resolve_missing`). Two more faults showed up while shooting the edges and are fixed too:
+   **(a)** the occlusion fader forgot a piece that was hidden while faded, so wall sections (and very likely the Transit Yards "ghost
+   buildings") stayed transparent for the rest of the visit; **(b)** the east wall and the front wall faded away whole when the hero
+   merely walked beside them (their mesh boxes include the towers; the wall now names its body as the box that blocks). On top of that
+   the ridges carry new dressing from the kit (`CapitalRimRuins`: 12 house shells, 12 ash walls, 8 toppled statues, 16 crystal growths,
+   22 rubble mounds at most; Low-end about half) and there is ash ground under the walls. Say if the ridges are now too busy.
+4. **Not changed at the Capital's edges:** the narrow strip behind the houses in the far north-east corner still crowds the camera
+   against the wall arcade (nothing floats there, the lens is just hemmed in), and with the hero pressed against the inside of the
+   front wall the camera still looks in from outside over the cut wall, by design.
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2
