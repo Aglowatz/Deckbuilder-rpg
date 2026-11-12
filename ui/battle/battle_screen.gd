@@ -1960,7 +1960,8 @@ func defeat_recap_lines() -> Array[String]:
 		else:
 			lines.append("%s dealt all %d damage you took (%s)." % [top_name, total, hits])
 	else:
-		lines.append("%s outlasted you over %d turns." % [context.enemy_name, BattleHud.round_of(game.turn)])
+		var recap_rounds: int = BattleHud.round_of(game.turn)
+		lines.append("%s outlasted you over %d turn%s." % [context.enemy_name, recap_rounds, "" if recap_rounds == 1 else "s"])
 	var me: PlayerState = game.players[0]
 	var tip: String = ""
 	if _recap_turns_without_infra >= 2 and me.infrastructure.size() < 4:
@@ -2477,7 +2478,13 @@ func _show_result() -> void:
 		# Fable pass Nov 10 (Part 4.1): plain words - a dungeon starts over from its first room; what was won stays won. No "losing costs nothing".
 		var where: String = "You are carried out to the respawn point at full HP. The dungeon starts over from its first room." if Session.run != null else "You come to, a little bruised."
 		var kept: String = "The cards and gold you already won are kept."
-		column.add_child(UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+		if Session.can_retry_primm(context):
+			where = primm_defeat_text()  # Fable Nov 12c (A9): two choices, in plain words
+		var note: Label = UIKit.label("%s %s" % [where, kept], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		note.name = "DefeatNote"
+		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART  # A9: the two-choice text is three sentences (it ran off both edges)
+		note.custom_minimum_size = Vector2(640, 0)
+		column.add_child(note)
 	# Fresh eyes round 2 (Oct 31): a short recap after a loss - what beat you (the biggest damage source, in numbers) and one tip read from
 	# how the fight went. The first critic lost twice and could not say why.
 	if not won and not game.is_draw:
@@ -2494,15 +2501,57 @@ func _show_result() -> void:
 		column.add_child(recap)
 	elif not won and not context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You can challenge them again anytime.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var button: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(240, 60))
-	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	button.pressed.connect(_continue)
-	column.add_child(button)
+	if Session.can_retry_primm(context):
+		# Fable Nov 12c (A9): a loss to the final boss in any phase - fight him again from Phase 1, or leave the castle
+		var row: HBoxContainer = UIKit.hbox(18)
+		row.name = "PrimmDefeatChoices"
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		var again: FancyButton = FancyButton.make(primm_retry_label(), &"PrimaryButton", Vector2(300, 60))
+		again.name = "FightAgain"
+		again.focus_mode = Control.FOCUS_ALL
+		again.pressed.connect(_retry_primm)
+		row.add_child(again)
+		var leave: FancyButton = FancyButton.make(PRIMM_LEAVE_LABEL, &"", Vector2(260, 60))
+		leave.name = "LeaveCastle"
+		leave.focus_mode = Control.FOCUS_ALL
+		leave.pressed.connect(_continue)
+		row.add_child(leave)
+		column.add_child(row)
+		again.call_deferred(&"grab_focus")
+	else:
+		var button: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(240, 60))
+		button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		button.pressed.connect(_continue)
+		column.add_child(button)
 	UIKit.pop_in(panel)
 	PadFocus.register(center)
 	if won:
 		for i: int in range(5):
 			fx.burst(Vector2(400 + i * 280, 300), UIStyle.GOLD, 26, 380.0)
+
+
+const PRIMM_LEAVE_LABEL: String = "Leave the castle"
+
+
+static func primm_retry_label() -> String:
+	return "Fight %s again" % Villain.display_name()
+
+
+## The defeat screen's words after a loss to the final boss (any phase).
+static func primm_defeat_text() -> String:
+	return "%s: back to the beginning of Phase 1, with your HP full and the freed leaders' boons. The castle's earlier rooms are not replayed.
+%s: you are carried out to the respawn point, and the castle starts over from its first room." % [primm_retry_label(), PRIMM_LEAVE_LABEL]
+
+
+var _retrying: bool = false
+
+
+func _retry_primm() -> void:
+	if _retrying:
+		return
+	_retrying = true
+	finished.emit(false)
+	Session.retry_primm_fight(context)
 
 
 func _continue() -> void:

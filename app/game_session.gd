@@ -3307,6 +3307,34 @@ func begin_primm_fight() -> Array[String]:
 	return lines
 
 
+## Fable Nov 12c (A9): a loss to the final boss, in any phase, may be fought again on the spot. True for a lost duel of his in a live
+## castle run.
+func can_retry_primm(context: BattleContext) -> bool:
+	return context != null and not context.won and context.boss_phase >= 0 and not context.practice and not context.dev_battle and run != null and main_dungeon_active and dungeon_map != null and dungeon_map.boss() != null
+
+
+## "Fight Primm again": the run goes back to the moment the hero walked into his room - Phase 1, full HP, the freed leaders' boons (given
+## once per run, so they are neither lost nor doubled). The castle's earlier rooms stay cleared. False when there is nothing to retry.
+func prepare_primm_retry(context: BattleContext) -> bool:
+	if not can_retry_primm(context):
+		return false
+	pending_battle = null
+	feats.watcher.detach()
+	flush_feat_toasts()
+	run.failed = false
+	boss_phase = 0
+	boss_phase_pending = false
+	begin_primm_fight()
+	run.hp = run.max_hp()
+	save_game()
+	return true
+
+
+func retry_primm_fight(context: BattleContext) -> void:
+	if prepare_primm_retry(context):
+		start_battle(make_dungeon_battle(dungeon_map.boss()))
+
+
 ## From the zone's elevator: a run that starts at the zone's current HP (no healing).
 ## Fix pass Nov 4 (B): `dungeon_id` picks one of the zone's other side dungeons (Mount Swolympus, S-BEEF, beside the Gainlands' Iron Cave); empty = the
 ## zone's own entrance (DungeonCatalog.side_for_zone).

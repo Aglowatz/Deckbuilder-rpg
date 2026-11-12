@@ -1,0 +1,36 @@
+wait 2
+dev load c13castle
+wait 11
+dev primm 2
+wait 5
+click 1322 335
+wait 2
+skip_dialogue 40
+wait 2
+key Space
+wait 1.5
+click 1470 272
+wait 0.4
+click 1470 272
+wait 1
+scene
+dev lose
+wait 4
+shot a9_defeat_phase2
+dump
+button Fight
+wait 8
+skip_dialogue 10
+wait 2
+shot a9_after_fight_again
+scene
+dump
+dev lose
+wait 4
+shot a9_defeat_phase1
+button Leave the castle
+wait 8
+skip_dialogue 6
+wait 2
+shot a9_after_leave
+scene

@@ -11,6 +11,12 @@ Primm is three duels in a row on the same boss node; your HP carries from one ph
 2. **Reflection (52 HP).** His deck is a copy of yours, and he draws two extra cards a turn ("He Already Knows").
 3. **Unraveling (50 HP).** His units are stronger and he draws more, but he loses 1 HP at the start of each of his turns.
 
+**Losing to him (Nov 12, owner decision):** a loss in any phase offers two choices on the defeat screen. **"Fight Primm again"** restarts
+the fight from the very beginning of Phase 1 with full HP and the freed leaders' boons, exactly as on a normal arrival at his room; the
+castle's earlier rooms are not replayed. **"Leave the castle"** is the normal dungeon leave (out to the respawn point, the castle starts
+over). The fight itself is unchanged. Code: `Session.can_retry_primm` / `prepare_primm_retry` / `retry_primm_fight`,
+`BattleScreen._retry_primm`; tests `tests/core/dungeon/test_primm_retry.gd`.
+
 On top: the Capital's broken-services debuffs for every zone not yet freed, the castle's own rules (Perfect Order: at most two keywords;
 Mirrors: the first card each player plays is copied for the other side), a two-turn setup window before his units may attack
 (`BossTempo`), the freed leaders' boons on your side, and the Boss AI skill level.

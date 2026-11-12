@@ -198,6 +198,16 @@ respectively, so the tier reads even without the color).
 
 - HP carries over between encounters within a dungeon.
 - The player is fully healed on entering a dungeon.
+- A lost duel ends the run: the hero wakes at the respawn point with full HP and the dungeon starts over from its first room. The
+  cards and gold already won are kept.
+- **The final boss is the exception (Nov 12).** A loss to Primm in any of his three phases offers "Fight Primm again" (the fight
+  restarts from the beginning of Phase 1 with full HP and the freed leaders' boons; the castle's earlier rooms are not replayed) or
+  "Leave the castle" (the normal rule above).
+- **The Hollow Well (the Forgotten Cave, Nov 12)** is an offer, not a test: "Sacrifice a random card from your deck for the rest of this
+  dungeon: heal 4 HP." The card returns when the run ends (won, lost or left). It may be declined, is closed at full HP and when the
+  deck is at the minimum dungeon deck size, and can be taken once per run.
+- **Fog (Nov 12):** a room's type shows one step ahead - a room is known once a room that leads to it can be reached.
+- **Late rewards (Nov 12):** every level-21+ castle fight's three reward cards include at least one Uncommon or better.
 
 ## Opening Hand: Hand Smoother (option)
 
