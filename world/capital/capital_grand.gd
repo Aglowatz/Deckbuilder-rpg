@@ -410,17 +410,19 @@ static func statue_cards(mesh: KitMesh, base: Vector3, height: float) -> void:
 ## round the lowest rim, water in every tier, eight spouts from the middle tier and four from the upper, Primm's emblems on the middle drum, and the
 ## painted gold Primm on the top. Dry and toppled once he has fallen (the fallen card lies in the basin). The hazard circle is `outer`.
 static func fountain(outer: float, final_state: bool) -> Node3D:
+	# Fable Nov 12 (Part 2.3): the water runs after Primm falls too - the freed city turned its fountains back on (they stood dry and dusty).
+	var running: bool = true
 	var root: Node3D = Node3D.new()
 	root.name = "PrimmFountain"
 	var mesh: KitMesh = mesh_for(final_state)
-	var water: String = "water" if not final_state else "dust"
+	var water: String = "water"
 	# a gold-bordered step round the whole fountain
 	mesh.lathe("marble_shade", Vector3(0, 0.0, 0), [Vector2(outer + 0.7, 0.0), Vector2(outer + 0.7, 0.16), Vector2(outer + 0.1, 0.16)], 36, 1.0, false, false)
 	mesh.lathe("gold", Vector3(0, 0.16, 0), [Vector2(outer + 0.72, 0.0), Vector2(outer + 0.72, 0.05), Vector2(outer + 0.45, 0.05)], 36, 1.0, false, false)
 	# tier 1
 	mesh.lathe("marble", Vector3(0, 0.16, 0), [Vector2(outer, 0.0), Vector2(outer, 0.7), Vector2(outer - 0.4, 0.7), Vector2(outer - 0.4, 0.3)], 36, 0.85, false, false)
 	mesh.lathe("gold", Vector3(0, 0.84, 0), [Vector2(outer + 0.04, 0.0), Vector2(outer + 0.04, 0.1), Vector2(outer - 0.44, 0.1)], 36, 1.0, false, false)
-	mesh.lathe(water, Vector3(0, 0.62 if not final_state else 0.4, 0), [Vector2(outer - 0.4, 0.0), Vector2(0.0, 0.0)], 36, 1.0, false, false)
+	mesh.lathe(water, Vector3(0, 0.62, 0), [Vector2(outer - 0.4, 0.0), Vector2(0.0, 0.0)], 36, 1.0, false, false)
 	for index: int in range(8):
 		var angle: float = TAU * float(index) / 8.0 + PI / 8.0
 		var p: Vector3 = Vector3(cos(angle), 0, sin(angle)) * (outer - 0.05)
@@ -430,7 +432,7 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 	var r2: float = outer * 0.55
 	mesh.lathe("marble", Vector3(0, 0.3, 0), [Vector2(r2 * 0.75, 0.0), Vector2(r2 * 0.75, 1.5), Vector2(r2, 1.6), Vector2(r2 + 0.1, 1.95), Vector2(r2 - 0.35, 1.95), Vector2(r2 - 0.35, 1.7)], 28, 0.85, false, false)
 	mesh.lathe("gold", Vector3(0, 2.2, 0), [Vector2(r2 + 0.14, 0.0), Vector2(r2 + 0.14, 0.1), Vector2(r2 - 0.38, 0.1)], 28, 1.0, false, false)
-	if not final_state:
+	if running:
 		mesh.lathe("water", Vector3(0, 2.12, 0), [Vector2(r2 - 0.35, 0.0), Vector2(0.0, 0.0)], 28, 1.0, false, false)
 	for index: int in range(4):
 		var angle: float = TAU * float(index) / 4.0 + PI * 0.25
@@ -440,19 +442,19 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 		var angle: float = TAU * float(index) / 8.0
 		var spout: Vector3 = Vector3(cos(angle), 0, sin(angle))
 		mesh.blob("gold", spout * (r2 + 0.12) + Vector3(0, 1.85, 0), Vector3(0.18, 0.16, 0.18), 4, 8)
-		if not final_state:
+		if running:
 			_jet(mesh, spout * (r2 + 0.25), 1.85, outer - 0.9, 0.62, 0.14)
 	# tier 3: a slender stem, a small bowl, four spouts into tier 2, the statue's gold-banded pedestal
 	var r3: float = outer * 0.27
 	mesh.lathe("marble", Vector3(0, 2.1, 0), [Vector2(r3 * 0.55, 0.0), Vector2(r3 * 0.45, 0.8), Vector2(r3 * 0.9, 1.1), Vector2(r3 + 0.05, 1.4), Vector2(r3 - 0.25, 1.4), Vector2(r3 - 0.25, 1.25)], 20, 0.9, false, false)
 	mesh.lathe("gold", Vector3(0, 3.45, 0), [Vector2(r3 + 0.08, 0.0), Vector2(r3 + 0.08, 0.08), Vector2(r3 - 0.28, 0.08)], 20, 1.0, false, false)
-	if not final_state:
+	if running:
 		mesh.lathe("water", Vector3(0, 3.4, 0), [Vector2(r3 - 0.25, 0.0), Vector2(0.0, 0.0)], 20, 1.0, false, false)
 	for index: int in range(4):
 		var angle: float = TAU * float(index) / 4.0 + PI * 0.25
 		var spout: Vector3 = Vector3(cos(angle), 0, sin(angle))
 		mesh.blob("gold", spout * (r3 + 0.05) + Vector3(0, 3.3, 0), Vector3(0.12, 0.1, 0.12), 4, 8)
-		if not final_state:
+		if running:
 			_jet(mesh, spout * (r3 + 0.15), 3.3, r2 - 0.6, 2.12, 0.1)
 	mesh.lathe("marble", Vector3(0, 3.4, 0), [Vector2(r3 * 0.6, 0.0), Vector2(r3 * 0.5, 0.5), Vector2(r3 * 0.7, 0.75)], 16, 0.9, false, true)
 	mesh.lathe("gold", Vector3(0, 4.1, 0), [Vector2(r3 * 0.72, 0.0), Vector2(r3 * 0.72, 0.1)], 16, 1.0, false, true)
@@ -464,7 +466,7 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 4.2 + statue_h)
 	root.set_meta("statue", true)
 	L.mark_view(root)
-	if not final_state:
+	if running:
 		var mist: CPUParticles3D = CPUParticles3D.new()
 		mist.name = "Mist"
 		mist.amount = 32
@@ -497,16 +499,18 @@ static func fountain(outer: float, final_state: bool) -> Node3D:
 ## pouring into the basin, and a gilded urn with a flame finial on top (no statue: the sides frame the gilded pairs on their plinths). Water
 ## animated as the centrepiece's. Dry once Primm has fallen. The hazard circle is `outer` + the step.
 static func fountain_side(outer: float, final_state: bool) -> Node3D:
+	# Fable Nov 12 (Part 2.3): the water runs after Primm falls too - the freed city turned its fountains back on (they stood dry and dusty).
+	var running: bool = true
 	var root: Node3D = Node3D.new()
 	root.name = "SideFountain"
 	var mesh: KitMesh = mesh_for(final_state)
-	var water: String = "water" if not final_state else "dust"
+	var water: String = "water"
 	# the octagonal step and basin (eight-segment lathes), gold on every rim
 	mesh.lathe("marble_shade", Vector3.ZERO, [Vector2(outer + 0.7, 0.0), Vector2(outer + 0.7, 0.16), Vector2(outer + 0.1, 0.16)], 8, 1.0, false, false)
 	mesh.lathe("gold", Vector3(0, 0.16, 0), [Vector2(outer + 0.72, 0.0), Vector2(outer + 0.72, 0.05), Vector2(outer + 0.45, 0.05)], 8, 1.0, false, false)
 	mesh.lathe("marble", Vector3(0, 0.16, 0), [Vector2(outer, 0.0), Vector2(outer, 0.62), Vector2(outer - 0.36, 0.62), Vector2(outer - 0.36, 0.3)], 8, 0.85, false, false)
 	mesh.lathe("gold", Vector3(0, 0.76, 0), [Vector2(outer + 0.05, 0.0), Vector2(outer + 0.05, 0.1), Vector2(outer - 0.4, 0.1)], 8, 1.0, false, false)
-	mesh.lathe(water, Vector3(0, 0.56 if not final_state else 0.36, 0), [Vector2(outer - 0.36, 0.0), Vector2(0.0, 0.0)], 8, 1.0, false, false)
+	mesh.lathe(water, Vector3(0, 0.56, 0), [Vector2(outer - 0.36, 0.0), Vector2(0.0, 0.0)], 8, 1.0, false, false)
 	# a gold ball on every corner of the basin
 	for index: int in range(8):
 		var angle: float = TAU * float(index) / 8.0
@@ -520,13 +524,13 @@ static func fountain_side(outer: float, final_state: bool) -> Node3D:
 		K.sun_emblem(mesh, dir * (r2 * 0.55 + 0.02) + Vector3(0, 1.0, 0), r2 * 0.2, dir)
 	mesh.lathe("marble", Vector3(0, 1.6, 0), [Vector2(r2 * 0.7, 0.0), Vector2(r2 + 0.05, 0.3), Vector2(r2 + 0.12, 0.5), Vector2(r2 - 0.3, 0.5), Vector2(r2 - 0.3, 0.3)], 16, 0.85, false, false)
 	mesh.lathe("gold", Vector3(0, 2.1, 0), [Vector2(r2 + 0.16, 0.0), Vector2(r2 + 0.16, 0.08), Vector2(r2 - 0.32, 0.08)], 16, 1.0, false, false)
-	if not final_state:
+	if running:
 		mesh.lathe("water", Vector3(0, 2.02, 0), [Vector2(r2 - 0.3, 0.0), Vector2(0.0, 0.0)], 16, 1.0, false, false)
 	for index: int in range(8):
 		var angle: float = TAU * float(index) / 8.0 + PI / 8.0
 		var spout: Vector3 = Vector3(cos(angle), 0, sin(angle))
 		mesh.blob("gold", spout * (r2 + 0.14) + Vector3(0, 1.88, 0), Vector3(0.14, 0.12, 0.14), 4, 8)
-		if not final_state:
+		if running:
 			_jet(mesh, spout * (r2 + 0.26), 1.88, outer - 0.8, 0.56, 0.12)
 	# a gold-banded pedestal on a short stem, the gilded Primm on it (smaller than the plaza's; the fallen card in the basin once he has fallen)
 	mesh.lathe("marble", Vector3(0, 2.0, 0), [Vector2(r2 * 0.45, 0.0), Vector2(r2 * 0.3, 0.5), Vector2(r2 * 0.55, 0.75)], 12, 0.9, false, true)
@@ -539,7 +543,7 @@ static func fountain_side(outer: float, final_state: bool) -> Node3D:
 	L.finish(root, mesh, [Vector3(0, 0, outer + 0.7)], 2.85 + statue_h)
 	root.set_meta("statue", true)
 	L.mark_view(root)
-	if not final_state:
+	if running:
 		var mist: CPUParticles3D = CPUParticles3D.new()
 		mist.name = "Mist"
 		mist.amount = 20

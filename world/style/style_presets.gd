@@ -313,23 +313,27 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.exposure = 0.56
 			p.fog_color = Color("c0d4f0")
 		CAPITAL_FREED:
-			p.with_id(id, "Capital freed: bright and warm")
-			p.sky_top = Color("6fa8e0")
-			p.sky_horizon = Color("ffe0a8")
-			p.ground_horizon = Color("e8d4a8")
+			# Fable Nov 12 (art critic #2: "blown out to white ... looks like an exposure bug"): the freed city is the inside's own look (its AgX
+			# grade and exposure, from data/zone_styles/capital_inside.json) turned to a golden afternoon - a lower, warmer sun with real shadows
+			# (the "perfect" noon had almost none), a violet shadow colour, a honey sky - instead of the old ACES preset at exposure 0.58.
+			p = get_preset(CAPITAL_INSIDE)
+			p.with_id(id, "Capital freed: a golden afternoon")
+			p.sky_top = Color("5f9ad8")
+			p.sky_horizon = Color("ffd9a0")
+			p.ground_horizon = Color("e8cfa0")
 			p.ground_bottom = Color("9a8a6a")
-			p.sun_color = Color("ffe6b0")
+			p.sun_color = Color("ffd9a0")
 			p.sun_energy = 1.0
-			p.ambient_color = Color("c8b8f0")
-			p.fog_color = Color("f0e0c0")
-			p.fog_density = 0.002
-			p.ambient_energy = 0.5
-			# warm and honest, not blinding: the inside's exposure (0.5) a touch up, where the default of 1.0 blew the white city out (the art pass)
-			p.exposure = 0.58
-			p.saturation = 1.1
-			p.contrast = 1.08
-			p.glow_intensity = 0.25
-			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 30}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 18}]
+			p.sun_pitch = -34.0
+			p.ambient_color = Color("a99ad8")
+			p.ambient_energy = 0.42
+			p.shadow_opacity = 0.62
+			p.fog_color = Color("f0dcc0")
+			p.fog_density = 0.0012
+			p.exposure = 0.46
+			p.glow_intensity = 0.22
+			p.rim_color = Color("ffe0b8")
+			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 30}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 26}]
 		BATTLE:
 			p.with_id(id, "Battle backdrop: warm key, rich shadows")
 			p.sun_energy = 0.9

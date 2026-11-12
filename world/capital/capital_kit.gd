@@ -321,6 +321,11 @@ static func lancet_window(mesh: KitMesh, bottom: Vector3, width: float, height: 
 
 ## Primm's smiling emblem, the face on every banner (no letters): a gold ring, a cream disc, two eyes and a smile in gold, facing `normal`.
 ## `broken` cracks it in two (one half slipped down), `covered` hangs a dark cloth over it (the fallen state).
+## Fable Nov 12 (Part 2.3, art critic #11: "a flat navy rectangle ... reads as a hole in the building"): the cloths the people hung over Primm's
+## face after his fall are five banners in the four Paths' colours, not one dark sheet.
+const FREED_CLOTHS: Array[String] = ["canvas_red", "canvas_copper", "canvas_green", "canvas_teal", "canvas_red"]
+
+
 static func emblem(mesh: KitMesh, center: Vector3, radius: float, normal: Vector3, broken: bool = false, covered: bool = false) -> void:
 	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
 	var up: Vector3 = Vector3.UP
@@ -343,7 +348,7 @@ static func emblem(mesh: KitMesh, center: Vector3, radius: float, normal: Vector
 			var x0: float = -1.1 + 2.2 * float(index) / 5.0
 			var x1: float = -1.1 + 2.2 * float(index + 1) / 5.0
 			var drop: float = radius * (2.0 + 0.25 * sin(float(index) * 2.3))
-			mesh.quad("canvas_navy", [top + right * x0 * radius, top + right * x1 * radius, top + right * x1 * radius - up * drop + normal * 0.05, top + right * x0 * radius - up * drop + normal * 0.05], normal)
+			mesh.quad(FREED_CLOTHS[index], [top + right * x0 * radius, top + right * x1 * radius, top + right * x1 * radius - up * drop + normal * 0.05, top + right * x0 * radius - up * drop + normal * 0.05], normal)
 		return
 	var feature: Vector3 = normal * 0.05
 	for side: float in [-1.0, 1.0]:

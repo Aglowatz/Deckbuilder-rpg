@@ -96,6 +96,11 @@ func _build_zone_extras() -> void:
 		_dark_light.position = Vector3(0, 2.4, 0)
 		player.add_child(_dark_light)
 	_dress_facade_citizens()
+	# Fable Nov 12 (Part 2.3): once Primm has fallen the city celebrates - a crowd, bunting, confetti (CapitalCelebration).
+	if Session.flag(CapitalZone.FLAG_FREED):
+		var revellers: Array[Node3D] = CapitalCelebration.build(self, func(p: Vector3) -> bool: return builder.is_walkable(p, 0.3), func(p: Vector3, r: float) -> void: builder.add_blocker(p, r), Settings.low_end)
+		for index: int in range(revellers.size()):
+			npc_barks.register_lines(revellers[index], "reveller_%d" % index, [CapitalCelebration.CROWD_LINES[index % CapitalCelebration.CROWD_LINES.size()]] as Array[String])
 	_mark_empowered_enemies()
 	# CAP-41: places carry no floating lettered plate (the HUD prompt names them, as in town); people keep their names
 	for spot: ZoneSpot in spots:
