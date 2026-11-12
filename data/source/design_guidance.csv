@@ -1,6 +1,6 @@
 Section,Term / Item,Definition / Rule,Notes
 OVERVIEW,Game,"Single-player PvE deckbuilding RPG card game inspired by MTG. No direct interaction: everything (Tools, Wonders, resources, unit abilities) is used only on your own turn. Only Traps act on the opponent's turn, and only when their specific condition is met.","Light-hearted, deep mechanics. Humor is extremely important: puns, references, and nods millennials will get."
-OVERVIEW,Decks,45-card minimum including ~19 Infrastructure. Up to 4 copies of each non-Infrastructure card. 2 Paths max during the main game; all Paths after beating the final boss.,"Player HP: 10 at level 1, up to 25 at max level. Keep face damage modest."
+OVERVIEW,Decks,45-card minimum including ~19 Infrastructure. Up to 3 copies of any one non-Infrastructure card, depending on the player's level. 2 Paths max during the main game; all Paths after beating the final boss.,"Player HP: 10 at level 1, up to 25 at max level. Keep face damage modest."
 OVERVIEW,Energy symbols,"(B) Beefcake, (N) Necrocrat, (G) Gourmand, (R) Refusemancer. A number = generic energy of any Path. Cost format: generic first, then Path pips, e.g. 2(N)(N).",
 ,,,
 CORE TERMS,Unit,Creature.,

@@ -131,6 +131,8 @@ static func entries(index: int) -> Array[Array]:
 		"Terms":
 			for term: Variant in KeywordInfo.GLOSSARY.keys():
 				result.append([str(term), str(KeywordInfo.GLOSSARY[term]), ""])
+			# Fable Nov 12c (A3): the deck's copy rule, with the caps at the player's level
+			result.append(["Copies of a card", CopyCaps.rule_text(Session.profile.level if Session.profile != null else 1), ""])
 	return result
 
 

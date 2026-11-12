@@ -14,7 +14,7 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 - **Item slots**: 1 at level 1, gradually up to **4** at level 30.
 - **Equipment slots** (Helm/Weapon/Armor/Boots/Relic): 0 at level 1; one is chosen
   and unlocked at levels 5, 10, 15, 20 and 25 - all five are unlocked by level 25.
-- **Deck copy limit**: 4 copies of every non-infrastructure card at every level; infrastructure is unlimited.
+- **Deck copy limit**: up to 3 copies of any one card, depending on your level (Common 3; Uncommon 2, 3 from level 9; Epic 1, 2 from level 12, 3 from level 22; Legendary 1, 2 from level 18, 3 at level 30 - `CopyCaps`, `data/progression/level_track.json`); infrastructure is unlimited.
   (The old rarity-based limits were removed - the levels that raised them now grant vendor
   discounts, a bigger max hand size, vendor-stock unlocks and the deck box expansion instead.)
 - **Max hand size**: 10, +1 at levels 14 and 28.

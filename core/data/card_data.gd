@@ -163,6 +163,6 @@ func has_trigger(trigger: CardEnums.Trigger) -> bool:
 	return false
 
 
-## Infrastructure (and basic cards) are exempt from the 4-copy limit and never need to be owned.
+## Infrastructure (and basic cards) are exempt from the copy caps (`CopyCaps`, 3 at most) and never need to be owned.
 func is_unlimited() -> bool:
 	return is_basic or is_infrastructure()

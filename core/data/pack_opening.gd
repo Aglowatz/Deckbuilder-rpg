@@ -7,7 +7,7 @@ class Entry:
 	var card: CardData
 	## First copy of this card the player has ever owned.
 	var is_new: bool = false
-	## The copy was beyond the 4-copy limit and converted into essence (or gold for a neutral card).
+	## The copy was beyond its copy cap (`CopyCaps`, 3 at most) and converted into essence (or gold for a neutral card).
 	var converted: bool = false
 	## Essence gained, Affinity.Type (as int) -> amount.
 	var essence: Dictionary = {}

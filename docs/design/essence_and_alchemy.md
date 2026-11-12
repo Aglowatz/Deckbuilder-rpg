@@ -5,7 +5,7 @@ Source: `docs/design/story_source.md` ("Alchemist and crafting cards"). Code: `c
 
 ## Essence
 
-A player may own at most **4 copies of a card** (`DeckValidator.MAX_COPIES`; infrastructure is unlimited). Whenever a
+A player may own **up to 3 copies of any one card, depending on their level** (`CopyCaps`; infrastructure is unlimited). Whenever a
 card is gained from ANY source (`Session.add_cards`: rewards, vendors, chests, quests, dungeon treasure, crafting) and
 the player already owns 4, the extra copy is **not kept**. It converts automatically:
 
@@ -47,7 +47,7 @@ vendors, rewards or the general Codex list).
   from an infrastructure of that exact Path (tested), the AI plays the infrastructure its hand needs and plays the card once both
   are out (tested).
 - **Deck rules**: a dual card counts as **both** Paths for the 2-Path deck limit (4 after the postgame flag): `Deck.colors()`,
-  `DeckValidator`, and the deck builder (`DeckEditor.why_not_add`: "needs both of its Paths..."). The 4-copy limit applies.
+  `DeckValidator`, and the deck builder (`DeckEditor.why_not_add`: "needs both of its Paths..."). The copy caps (`CopyCaps`, 3 at most) apply.
 - **Modifiers**: zone effects and equipment aimed at either Path affect it (`Modifier.matches_card`): a Beefcake/Necrocrat
   unit in the Gainlands gets Pump It Up AND, as the first Necrocrat unit that turn, enters exhausted from Processing Time.
 - **Frame visuals** (`CardView`): a second inner border in the other Path's color, a two-color name bar, a two-color art

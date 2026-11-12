@@ -33,7 +33,7 @@ func _initialize() -> void:
 	lines.append("- **Item slots**: 1 at level 1, gradually up to **4** at level 30.")
 	lines.append("- **Equipment slots** (Helm/Weapon/Armor/Boots/Relic): 0 at level 1; one is chosen")
 	lines.append("  and unlocked at levels 5, 10, 15, 20 and 25 - all five are unlocked by level 25.")
-	lines.append("- **Deck copy limit**: 4 copies of every non-infrastructure card at every level; infrastructure is unlimited.")
+	lines.append("- **Deck copy limit**: up to 3 copies of any one card, depending on your level (Common 3; Uncommon 2, 3 from level 9; Epic 1, 2 from level 12, 3 from level 22; Legendary 1, 2 from level 18, 3 at level 30 - `CopyCaps`, `data/progression/level_track.json`); infrastructure is unlimited.")
 	lines.append("  (The old rarity-based limits were removed - the levels that raised them now grant vendor")
 	lines.append("  discounts, a bigger max hand size, vendor-stock unlocks and the deck box expansion instead.)")
 	lines.append("- **Max hand size**: 10, +1 at levels 14 and 28.")

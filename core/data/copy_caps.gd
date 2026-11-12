@@ -11,6 +11,18 @@ const UNLIMITED: int = 9999
 const _FALLBACK_START: Array[int] = [3, 2, 1, 1]
 
 
+## Fable Nov 12c (A3): the rule as every screen words it.
+const RULE: String = "You can have up to 3 copies of any one card, depending on your level."
+
+
+## The rule with the caps at `level`: "... At level 5: Common 3, Uncommon 2, Epic 1, Legendary 1. Infrastructure has no limit."
+static func rule_text(level: int) -> String:
+	var parts: PackedStringArray = []
+	for rarity: int in range(CardEnums.Rarity.size()):
+		parts.append("%s %d" % [rarity_name(rarity as CardEnums.Rarity), cap_for(rarity as CardEnums.Rarity, level)])
+	return "%s At level %d: %s. Infrastructure has no limit." % [RULE, level, ", ".join(parts)]
+
+
 static func absolute_max() -> int:
 	return mini(ABSOLUTE_MAX, int(LevelTrack.section("copy_caps").get("absolute_max", ABSOLUTE_MAX)))
 
