@@ -340,7 +340,12 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 	var door_w: float = gate_w - 0.6
 	var door_h: float = gate_h * 0.5 + 0.2
 	var door_y: float = gate_h * 0.25
-	for side: float in [-1.0, 1.0]:
+	# the kit's oven-brick double door (its grates glowing) fills the opening when the art is in the game; the wooden leaves are the fallback
+	var painted_door: bool = EnvKit.has("BUFF-SHEET-DOORS-04")
+	if painted_door:
+		var card_h: float = minf(door_h * 1.18, door_w / maxf(EnvKit.aspect("BUFF-SHEET-DOORS-04"), 0.1))
+		_card(mesh, "BUFF-SHEET-DOORS-04", Vector3(0, 0.6, front_z - 0.2), card_h, Vector3(0, 0, 1))
+	for side: float in ([] as Array[float] if painted_door else [-1.0, 1.0] as Array[float]):
 		var leaf_w: float = door_w * 0.36
 		var leaf_x: float = side * (door_w * 0.5 - leaf_w * 0.5)
 		mesh.box("wood_dark", Vector3(leaf_x, door_y, front_z - 0.18), Vector3(leaf_w, door_h, 0.14), Basis(Vector3.UP, side * 0.22), 0.02)
@@ -349,7 +354,8 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 		mesh.box("copper_flat", Vector3(leaf_x, door_y + door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
 		mesh.box("copper_flat", Vector3(leaf_x, door_y - door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
 		mesh.blob("butter", Vector3(side * door_w * 0.17, door_y - 0.1, front_z - 0.02), Vector3(0.12, 0.12, 0.08), 3, 6, 1.0)
-	mesh.box("wood_dark", Vector3(0, door_y + door_h * 0.5 + 0.12, front_z - 0.2), Vector3(door_w + 0.3, 0.28, 0.3), Basis.IDENTITY, 0.02)
+	if not painted_door:
+		mesh.box("wood_dark", Vector3(0, door_y + door_h * 0.5 + 0.12, front_z - 0.2), Vector3(door_w + 0.3, 0.28, 0.3), Basis.IDENTITY, 0.02)
 	for step: int in range(3):
 		mesh.box("white", Vector3(0, 0.1 + float(step) * 0.22, front_z + 3.4 - float(step) * 0.5), Vector3(gate_w + 1.0 - float(step) * 0.4, 0.22, 0.5), Basis.IDENTITY, 0.02)
 	lights.append({"pos": Vector3(0, 2.4, front_z + 1.6), "color": GLOW, "range": 10.0, "energy": 1.4, "kind": "gate"})

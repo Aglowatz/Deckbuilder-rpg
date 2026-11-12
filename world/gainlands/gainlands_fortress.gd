@@ -85,6 +85,9 @@ static func build(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 	mesh.box("iron", Vector3(0, wall_h + 0.35, gate_z - 0.4), Vector3(10.2, 0.7, 4.2), Basis.IDENTITY, 0.03)
 	GainlandsLandmarks._arch_ring(mesh, "iron", Vector3(0, 8.2, gate_z + 1.3), 3.9, 0.8, 1.2, 10)
 	mesh.box("dark", Vector3(0, 4.1, gate_z + 1.0), Vector3(6.6, 8.2, 0.5), Basis.IDENTITY, 0.0)
+	# Fable Nov 12 (art critic #5: "portcullis painted flat onto it, no real door"): the kit's studded, brass-bound door stands in the gate
+	# behind the portcullis, so the House of Gains has a door to walk up to.
+	GainlandsLandmarks._card(mesh, "GAIN-SHEET-DOORS-05", Vector3(0, 0.3, gate_z + 1.425), 7.4, Vector3(0, 0, 1))  # a hair proud of the gate wall (its face is at gate_z + 1.4), behind the bars
 	for bar: int in range(6):
 		mesh.tube("iron", Vector3(-2.75 + 1.1 * float(bar), 0.3, gate_z + 1.45), Vector3(-2.75 + 1.1 * float(bar), 9.2, gate_z + 1.45), 0.12, 5, true)
 	for bar: int in range(3):

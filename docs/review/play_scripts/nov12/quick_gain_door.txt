@@ -1,0 +1,13 @@
+dev load n6_midgame
+wait 3
+dev travel zone beefcake
+wait 14
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 56 0.5
+cam 0
+wait 2
+shot gainlands_door_default
