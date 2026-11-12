@@ -278,7 +278,7 @@
 			"fog_color": "cfeaff",
 			"fog_density": 0.003,
 			"warmth": 0.12,
-			"saturation": 1.16,
+			"saturation": 1.04,
 			"vignette": 0.2,
 			"bloom": 0.55,
 			"bloom_threshold": 1
@@ -303,7 +303,7 @@
 			"haze_scale": 0.8,
 			"cool_scale": 0.9,
 			"brightness": 1.05,
-			"water_tint": "5fb0e8",
+			"water_tint": "6aa6c4",
 			"kit_cards": [
 				{
 					"id": "GAIN-BD-MOUNT",

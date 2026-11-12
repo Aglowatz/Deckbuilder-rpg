@@ -72,6 +72,22 @@ static func _is_excluded(node: Node) -> bool:
 	return false
 
 
+const META_NO_WASH: StringName = &"no_wash"
+## The brightest and darkest a flat colour may be (style bible: white is cream stone, black is deep colour).
+const WASH_CREAM: Color = Color("f2ecdd")
+const WASH_DEEP: Color = Color("1a1c22")
+
+
+## A flat albedo inside the style bible's range: near-white pulled to cream, near-black lifted to a deep colour; everything else unchanged.
+static func wash_colour(colour: Color) -> Color:
+	var result: Color = colour
+	if colour.v > 0.9 and colour.s < 0.12:
+		result = Color(colour.r * WASH_CREAM.r, colour.g * WASH_CREAM.g, colour.b * WASH_CREAM.b, colour.a)
+	elif colour.v < 0.09:
+		result = Color(maxf(colour.r, WASH_DEEP.r), maxf(colour.g, WASH_DEEP.g), maxf(colour.b, WASH_DEEP.b), colour.a)
+	return result
+
+
 ## The toon version of `source`, or null when it should stay as it is. Cached per source material.
 static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -> ShaderMaterial:
 	var standard: StandardMaterial3D = source as StandardMaterial3D
@@ -122,6 +138,11 @@ static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -
 		material.set_shader_parameter("gloss", float(standard.get_meta(META_GLOSS)))
 	if paint:
 		PaintedClasses.configure(material, standard)
+	# Fable Nov 12 (style bible, section 3): a flat colour with no texture, vertex colour or painted class is washed in the shader, and never
+	# pure white or pure black (cream stone, deep colour). Glowing surfaces (lamp glass, rifts) and `no_wash` materials stay as they are.
+	if texture == null and not standard.vertex_color_use_as_albedo and not standard.emission_enabled and not standard.has_meta(META_NO_WASH) and material.get_shader_parameter("paint_on") != true:
+		material.set_shader_parameter("flat_wash", 1.0)
+		material.set_shader_parameter("albedo", wash_colour(material.get_shader_parameter("albedo") as Color))
 	if wind >= 0.0:
 		material.set_shader_parameter("wind_amount", wind)
 	_cache[key] = weakref(material)

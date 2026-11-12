@@ -25,7 +25,9 @@ static func _noise(x: float, z: float) -> float:
 
 ## Fixes Nov 8: cliff faces get smooth normals when the preset has no sun shadow (Low and Low-end); with shadows they stay faceted.
 static func smooth_cliffs() -> bool:
-	return GraphicsQuality.shadow_detail(Settings.graphics_quality) == 0
+	# Fable Nov 12 (Part 2.1, the Gainlands' low-poly look): smooth at every quality - with the sun's shadow the faceted walls lit facet by
+	# facet as hard orange triangles (art critic: "flat pure-orange cliff tops", "low-poly blocks").
+	return true
 
 
 ## The tops and cliffs of every land polygon, in one mesh.
@@ -254,6 +256,9 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 			surface.set_color(top_color.lerp(SAND_DARK, _noise(p3.x, p3.z) * 0.4))
 			surface.add_vertex(p3)
 	var clockwise: bool = Geometry2D.is_polygon_clockwise(points)
+	# Fable Nov 12 (Part 2.1): the rock's walls share a smooth group like the land's cliffs (the top stays flat) - facet by facet the sun lit
+	# them as hard orange triangles.
+	surface.set_smooth_group(1)
 	var drops: Array[float] = [0.0, 1.4, 3.4, 4.0, 7.0, 999.0]
 	var count: int = points.size()
 	var pushes: Array[float] = [0.0, 0.4, 0.2, 1.0, 0.8, 2.2]

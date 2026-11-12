@@ -1,0 +1,19 @@
+dev load n6_midgame
+wait 3
+dev travel zone gourmand
+wait 14
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 82 60
+cam 0
+wait 2
+shot buffet_mid2_default
+dev tp 57 14
+wait 2
+shot buffet_door_default
+dev tp 50 86
+wait 2
+shot buffet_arrival_default

@@ -39,6 +39,9 @@ uniform bool use_rough_tex = false;
 uniform sampler2D rough_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
 uniform float kit_sheen = 0.0;
 uniform bool flat_up = false;
+// Fable Nov 12 (style bible, section 3: no untextured surface): a material with no texture, vertex colour or painted class gets a painted wash -
+// large brush mottling, faint vertical streaks and a warm/cool drift in world space (0 = off; set by StyleToon).
+uniform float flat_wash = 0.0;
 
 // Painted materials (docs/art/style_guide.md, "Painted textures"): the flat colour regions of the model (classified in PaintedClasses) are replaced by the shared painted material,
 // projected triplanar from the shared texture array, keeping the region hue as a subtle tint. `style_paint` is the debug toggle (and 0 where a zone has no painted preset).
@@ -161,6 +164,12 @@ void fragment() {
 			tex *= mix(1.0, clamp(base_luma / 0.5, 0.6, 1.4), paint_luma_follow);
 			base.rgb = tex;
 		}
+	}
+	if (flat_wash > 0.0) {
+		float mottle = value_noise(v_world * 0.55) * 0.6 + value_noise(v_world * 1.9 + vec3(7.3)) * 0.4;
+		float streak = value_noise(vec3(v_world.x * 3.0, v_world.y * 0.35, v_world.z * 3.0));
+		base.rgb *= 1.0 + ((mottle - 0.5) * 0.24 + (streak - 0.5) * 0.10) * flat_wash;
+		base.rgb *= mix(vec3(1.0), mix(vec3(0.95, 1.0, 1.07), vec3(1.06, 1.0, 0.93), mottle), flat_wash);
 	}
 	vec3 col = base.rgb;
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));

@@ -1040,7 +1040,8 @@ static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arr
 	root.set_meta("spinner", spinner)
 	var panes: MeshInstance3D = glass.instance("Glass")
 	panes.set_meta(PaintedClasses.META_NO_PAINT, true)
-	panes.set_meta(&"no_occlusion_fade", true)
+	# Fable Nov 12 (art critic #3): the glass fades with the glasshouse it belongs to - kept back, it stood alone as a beige ghost box with the
+	# plants inside drawn in outline whenever the body dissolved (a quest point behind it, the hero in front).
 	panes.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(panes)
 	# blocking: the stand-in's three circles along the footprint

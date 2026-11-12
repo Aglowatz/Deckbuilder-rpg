@@ -16,7 +16,7 @@ static var talk_focus: Vector3 = Vector3.INF
 const FOCUS_RANGE: float = 11.0
 const MIN_HEIGHT: float = 1.0
 const MAX_EXTENT: float = 400.0
-const FADED: float = 0.97
+const FADED: float = 1.0  # Fable Nov 12 (art critic #3, the "milky" fades): 0.97 left 3 % of every piece - a kit building is dozens of overlapping pieces, so it stood as a beige ghost with its props drawn in outline
 ## The camera is inside (or this close to) a solid piece: it is cut away completely so the lens never looks at back faces.
 const CUT_AWAY: float = 1.0
 const CAMERA_PADDING: float = 0.7
