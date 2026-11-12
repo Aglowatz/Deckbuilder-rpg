@@ -25,36 +25,36 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 
 | Level | XP to reach | HP | Hand | Max hand | Items | Grants |
 |---:|---:|---:|---:|---:|---:|---|
-| 1 | 0 | 10 | 5 | 10 | 1 | Starting stats. |
-| 2 | 50 | 11 | 5 | 10 | 1 | 60 gold. +1 starting HP (11). |
-| 3 | 120 | 11 | 5 | 10 | 1 | Bowler Hat (cosmetic). 60 gold. |
-| 4 | 200 | 12 | 5 | 10 | 1 | Beefcake Pack. +1 starting HP (12). |
-| 5 | 300 | 12 | 5 | 10 | 1 | Wear up to 1 Epic piece of equipment. 120 gold. |
-| 6 | 580 | 13 | 5 | 10 | 1 | Unlocks the second half of Tilly's stock. 100 gold. +1 starting HP (13). |
-| 7 | 880 | 13 | 5 | 10 | 1 | Deck Station: 4 to 6 deck slots. General Pack. |
-| 8 | 1220 | 14 | 6 | 10 | 1 | Opening hand size +1 (6). 150 gold. +1 starting HP (14). |
-| 9 | 1600 | 14 | 6 | 10 | 1 | Uncommon cards: up to 3 copies. Beefcake Pack. |
-| 10 | 2025 | 15 | 6 | 10 | 2 | Wear up to 3 Uncommon pieces of equipment. +1 item slot (2). Patchwork Cloak (cosmetic). 150 gold. +1 starting HP (15). |
-| 11 | 2460 | 15 | 6 | 10 | 2 | Permanent vendor discount +10%. 150 gold. |
-| 12 | 2905 | 16 | 6 | 10 | 2 | Epic cards: up to 2 copies. Beefcake Pack. +1 starting HP (16). |
-| 13 | 3360 | 16 | 6 | 10 | 2 | Wear up to 2 Epic pieces of equipment. Unlocks Bertram's advanced equipment rack. 200 gold. |
-| 14 | 3825 | 17 | 6 | 11 | 2 | Deck Station: 6 to 8 deck slots. Max hand size +1 (11). General Pack, Tier II. +1 starting HP (17). |
-| 15 | 4300 | 17 | 6 | 11 | 2 | Tricorn (cosmetic). 200 gold. |
-| 16 | 4785 | 18 | 7 | 11 | 2 | Wear up to 5 Uncommon pieces of equipment. Opening hand size +1 (7). Beefcake Pack. +1 starting HP (18). |
-| 17 | 5280 | 18 | 7 | 11 | 2 | Unlocks a small batch of rarer cards at Sable's stall. 250 gold. |
-| 18 | 5785 | 19 | 7 | 11 | 2 | Legendary cards: up to 2 copies. Gilded Beefcake Pack. +1 starting HP (19). |
-| 19 | 6300 | 19 | 7 | 11 | 2 | Wear up to 3 Epic pieces of equipment. 250 gold. |
-| 20 | 6825 | 20 | 7 | 11 | 3 | +1 item slot (3). Beefcake Pack. 300 gold. +1 starting HP (20). |
-| 21 | 7360 | 20 | 7 | 11 | 3 | Deck Station: 8 to 10 deck slots. Permanent vendor discount +10%. General Pack. |
-| 22 | 7930 | 21 | 7 | 11 | 3 | Epic cards: up to 3 copies. Wear up to 1 Legendary piece of equipment. Gilded Beefcake Pack. +1 starting HP (21). |
-| 23 | 8535 | 21 | 7 | 11 | 3 | 150 gold. Beefcake Pack. |
-| 24 | 9175 | 22 | 8 | 11 | 3 | Opening hand size +1 (8). General Pack, Tier II. +1 starting HP (22). |
-| 25 | 9850 | 22 | 8 | 11 | 3 | Wear up to 5 Epic pieces of equipment. Red Cape (cosmetic). 200 gold. |
-| 26 | 10560 | 23 | 8 | 11 | 3 | 200 gold. Beefcake Pack. +1 starting HP (23). |
-| 27 | 11305 | 23 | 8 | 11 | 3 | Unlocks a small batch of rarer cards at Sable's stall. Gilded Beefcake Pack. |
-| 28 | 12085 | 24 | 8 | 12 | 3 | Wear up to 2 Legendary pieces of equipment. Max hand size +1 (12). 250 gold. +1 starting HP (24). |
-| 29 | 12900 | 24 | 8 | 12 | 3 | 300 gold. Gilded Beefcake Pack. |
-| 30 | 13750 | 25 | 8 | 12 | 4 | Legendary cards: up to 3 copies. +1 item slot (4). Prismatic Pack. Wizard Hat (cosmetic). +1 starting HP (25). |
+| 1 | 0 | 15 | 5 | 10 | 2 | Starting stats. |
+| 2 | 50 | 16 | 5 | 10 | 2 | 60 gold. +1 starting HP (16). |
+| 3 | 120 | 16 | 5 | 10 | 2 | Bowler Hat (cosmetic). 60 gold. |
+| 4 | 200 | 17 | 5 | 10 | 2 | Beefcake Pack. +1 starting HP (17). |
+| 5 | 300 | 17 | 5 | 10 | 2 | 120 gold. |
+| 6 | 580 | 18 | 5 | 10 | 3 | +1 item slot (3). 85 gold. +1 starting HP (18). |
+| 7 | 880 | 18 | 5 | 10 | 3 | Deck Station: 4 to 6 deck slots. General Pack. |
+| 8 | 1220 | 19 | 6 | 10 | 3 | Opening hand size +1 (6). 130 gold. +1 starting HP (19). |
+| 9 | 1600 | 19 | 6 | 10 | 3 | Uncommon cards: up to 3 copies. Beefcake Pack. |
+| 10 | 2025 | 20 | 6 | 10 | 3 | Patchwork Cloak (cosmetic). 130 gold. +1 starting HP (20). |
+| 11 | 2460 | 20 | 6 | 10 | 3 | Permanent vendor discount +10%. 130 gold. |
+| 12 | 2905 | 21 | 6 | 10 | 4 | Epic cards: up to 2 copies. +1 item slot (4). Beefcake Pack. +1 starting HP (21). |
+| 13 | 3360 | 21 | 6 | 10 | 4 | Unlocks Bertram's advanced equipment rack. 170 gold. |
+| 14 | 3825 | 22 | 6 | 10 | 4 | Deck Station: 6 to 8 deck slots. General Pack, Tier II. +1 starting HP (22). |
+| 15 | 4300 | 22 | 6 | 10 | 4 | Tricorn (cosmetic). 170 gold. |
+| 16 | 4785 | 23 | 7 | 10 | 4 | Opening hand size +1 (7). Beefcake Pack. +1 starting HP (23). |
+| 17 | 5280 | 23 | 7 | 10 | 4 | Unlocks a small batch of rarer cards at Sable's stall. Unlocks the second half of Tilly's stock. 215 gold. |
+| 18 | 5785 | 24 | 7 | 10 | 4 | Legendary cards: up to 2 copies. Gilded Beefcake Pack. +1 starting HP (24). |
+| 19 | 6300 | 24 | 7 | 10 | 4 | 215 gold. |
+| 20 | 6825 | 25 | 7 | 10 | 4 | Beefcake Pack. 255 gold. +1 starting HP (25). |
+| 21 | 7360 | 25 | 7 | 10 | 4 | Deck Station: 8 to 10 deck slots. Permanent vendor discount +10%. General Pack. |
+| 22 | 7930 | 26 | 7 | 10 | 4 | Epic cards: up to 3 copies. Gilded Beefcake Pack. +1 starting HP (26). |
+| 23 | 8535 | 26 | 7 | 10 | 4 | 130 gold. Beefcake Pack. |
+| 24 | 9175 | 27 | 8 | 10 | 4 | Opening hand size +1 (8). General Pack, Tier II. +1 starting HP (27). |
+| 25 | 9850 | 27 | 8 | 10 | 4 | Red Cape (cosmetic). 170 gold. |
+| 26 | 10560 | 28 | 8 | 10 | 4 | 170 gold. Beefcake Pack. +1 starting HP (28). |
+| 27 | 11305 | 28 | 8 | 10 | 4 | Unlocks a small batch of rarer cards at Sable's stall. Gilded Beefcake Pack. |
+| 28 | 12085 | 29 | 8 | 10 | 4 | 215 gold. Beefcake Pack. +1 starting HP (29). |
+| 29 | 12900 | 29 | 8 | 10 | 4 | 255 gold. Gilded Beefcake Pack. |
+| 30 | 13750 | 30 | 8 | 10 | 4 | Legendary cards: up to 3 copies. Prismatic Pack. Wizard Hat (cosmetic). +1 starting HP (30). |
 
 ## Level-up rewards (New brief, Part D)
 
@@ -63,7 +63,7 @@ real stat/slot/limit increases, an equipment-slot choice, the deck box expansion
 discount, or a vendor-stock unlock (see `PlayerProfile.vendor_discount_percent`/
 `Session.effective_price()` - the discount actually reduces what every vendor charges,
 not just what it displays). Two specific one-time unlocks: level 13 unlocks the equipment vendor's 5 advanced
-pieces (moved from level 10 in Brief 16 so that no level carries four rewards while others carry none); level 6 unlocks the item
+pieces (moved from level 10 in Brief 16 so that no level carries four rewards while others carry none); level 17 unlocks the item
 vendor's second (advanced) half. Both are plain `Condition.player_level(...)` checks read
 live against the profile - no flag to set, no save-data migration. The level-up popup
 announces every reward explicitly (`LevelUpScreen._bonuses_for`).

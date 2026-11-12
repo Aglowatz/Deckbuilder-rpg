@@ -453,6 +453,11 @@ func _refresh_pool() -> void:
 	_pool_label.visible = not _pool_label.text.is_empty()
 
 
+## The turn and the player whose turn it is as last played back on the board (0 = none yet): see `refresh_all`.
+var _played_turn: int = 0
+var _played_active: int = 0
+
+
 func refresh_all() -> void:
 	_refresh_pool()
 	for index: int in range(2):
@@ -460,13 +465,19 @@ func refresh_all() -> void:
 		_portraits[index].set_hp(player.hp, false)
 		_portraits[index].set_infrastructure(player.infrastructure)
 		_counts[index].text = "Deck %d" % player.deck.size()
-	_turn_label.text = "Turn %d" % round_of(game.turn)
+	# Fable Nov 12 (Part 4.2, the late critic's turn-ribbon lag): the panel shows the turn the BOARD has played back to (the last
+	# TURN_STARTED event shown), not the rules engine's - the engine runs ahead of the playback, so a refresh in the middle of the foe's
+	# attacks used to flip the panel to "Turn N+1 / Your turn" while the ribbon and the table were still in his turn. Before any turn has
+	# been played back (the opening, a battle resumed from a save) it reads the engine as before.
+	var shown_turn: int = _played_turn if _played_turn > 0 else game.turn
+	var shown_active: int = _played_active if _played_turn > 0 else game.active
+	_turn_label.text = "Turn %d" % round_of(shown_turn)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
 	_turn_sub.text = ""
 	if game.stage == GameState.Stage.PLAYING:
-		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy's turn"
+		_turn_sub.text = "Your turn" if shown_active == 0 else "Enemy's turn"
 		# Overnight Nov 10-11 (Part 1.5): every refresh keeps the Setting Up countdown (a sync after the turn label wiped it)
-		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, game.turn))
+		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, shown_turn))
 		if not setup_line.is_empty():
 			_turn_sub.text += "  -  " + setup_line
 	_refresh_setup_note()
@@ -540,6 +551,8 @@ func on_event(event: GameEvent) -> void:
 			if event.player == 0:
 				_check_low_hp(event.value)
 		GameEvent.Type.TURN_STARTED:
+			_played_turn = event.value
+			_played_active = event.player
 			_turn_label.text = "Turn %d" % round_of(event.value)
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy's turn"
 			# Fix pass Nov 7 (item 10): the foe's setup window counts down in the same turns

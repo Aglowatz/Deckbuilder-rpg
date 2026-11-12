@@ -16,13 +16,12 @@ value = 1
 
 [sub_resource type="Resource" id="Resource_doalq"]
 script = ExtResource("1_7ktmh")
-kind = 2
-value = 2
+value = 3
 
 [resource]
 script = ExtResource("3_vi0mc")
 id = "quotas_stopwatch"
-description = "You always take the first turn and draw an extra card on it. Max hand size +2."
+description = "You always take the first turn and draw an extra card on it. Max HP +3."
 advanced = true
 flavor_text = "It still clicks every second. You never asked it to."
 rarity = 2

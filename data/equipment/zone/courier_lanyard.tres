@@ -11,13 +11,12 @@ value = 1
 
 [sub_resource type="Resource" id="Resource_lqrps"]
 script = ExtResource("1_ii4lh")
-kind = 2
-value = 1
+value = 2
 
 [resource]
 script = ExtResource("3_gepa8")
 id = "courier_lanyard"
-description = "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1."
+description = "Everything is routed exactly where you need it. Draw an extra card on your first turn. Max HP +2."
 advanced = true
 rarity = 1
 source_name = "Soul Courier's Lanyard"
