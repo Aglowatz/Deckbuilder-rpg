@@ -44,7 +44,7 @@ const SHADE: Color = Color("e4f7d8")
 ## A fade mesh with every interior slot.
 static func mesh() -> DnaFadeMesh:
 	var fade: DnaFadeMesh = DnaFadeMesh.new()
-	fade.set_slot("wallpaper", "TEX-DNA-WALLPAPER", WALLPAPER, 1.0, 0.0, WALL_NEAR_REACH, 1.5)
+	fade.set_slot("wallpaper", "TEX-DNA-WALLPAPER", WALLPAPER, 1.0, 0.32, WALL_NEAR_REACH, 1.5)  # Fable Nov 12: a faint self-light (0.32) - the dark damask stood as near-black slabs under the overcast key
 	fade.set_slot("paneling", "TEX-DNA-PANELING", Color.WHITE, 1.0, 0.0, WALL_NEAR_REACH)
 	fade.set_slot("marble", "TEX-DNA-MARBLE", Color.WHITE, 1.0, 0.0, WALL_NEAR_REACH)
 	fade.set_slot("tile", "TEX-DNA-CHECKERTILE", Color.WHITE, 1.0, 0.0, WALL_NEAR_REACH)
