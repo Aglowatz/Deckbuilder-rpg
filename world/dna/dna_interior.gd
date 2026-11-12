@@ -31,7 +31,9 @@ const MARBLE_ROOMS: Array[String] = ["lobby", "exec"]
 const TILE_ROOMS: Array[String] = ["breakroom", "mail"]
 
 const GREY: Color = Color("6e7470")
-const WALLPAPER: Color = Color("8e9a94")
+const WALLPAPER: Color = Color("bccbc3")  # Fable Nov 12 (art critic #1): was 8e9a94 - under the overcast key the ten-metre panels read as black slabs
+## Fable Nov 12: a brass picture rail breaks the ten-metre wallpaper (style bible, section 3: walls have bands).
+const PICTURE_RAIL_H: float = 3.1
 const PANELING: Color = Color("4a5a52")
 const MARBLE: Color = Color("b5b3a6")
 const TILE: Color = Color("9aa8a0")
@@ -95,6 +97,7 @@ static func build_walls(layout: DnaLayout, fade: DnaFadeMesh, wall_cells: Array,
 				fade.box("wallpaper", piece, center + Vector3(0, WALL_HEIGHT * 0.5, 0), Vector3(1.0, WALL_HEIGHT, 1.0), Color.WHITE, 0.9)
 				fade.box("marble", piece, center + Vector3(0, WAINSCOT_H * 0.5, 0), Vector3(1.06, WAINSCOT_H, 1.06), Color.WHITE, 0.8)
 				fade.box("brass", piece, center + Vector3(0, WAINSCOT_H + 0.03, 0), Vector3(1.1, 0.06, 1.1))
+				fade.box("brass", piece, center + Vector3(0, PICTURE_RAIL_H, 0), Vector3(1.05, 0.07, 1.05))
 				if pilaster:
 					fade.box("marble", piece, center + Vector3(0, WALL_HEIGHT * 0.5, 0), Vector3(0.7, WALL_HEIGHT, 1.12), Color(0.96, 0.96, 0.94), 0.85)
 			"glass":
@@ -108,6 +111,7 @@ static func build_walls(layout: DnaLayout, fade: DnaFadeMesh, wall_cells: Array,
 				fade.box("wallpaper", piece, center + Vector3(0, WALL_HEIGHT * 0.5, 0), Vector3(1.0, WALL_HEIGHT, 1.0), Color.WHITE, 0.9)
 				fade.box("tile", piece, center + Vector3(0, WAINSCOT_H * 0.55, 0), Vector3(1.04, WAINSCOT_H * 1.1, 1.04), Color.WHITE, 0.8)
 				fade.box("brass", piece, center + Vector3(0, WAINSCOT_H * 1.1 + 0.03, 0), Vector3(1.08, 0.05, 1.08))
+				fade.box("brass", piece, center + Vector3(0, PICTURE_RAIL_H, 0), Vector3(1.05, 0.07, 1.05))
 			_:
 				fade.box("grey", piece, center + Vector3(0, WALL_HEIGHT * 0.5, 0), Vector3(1.0, WALL_HEIGHT, 1.0), Color.WHITE, 0.82)
 				fade.box("brass", piece, center + Vector3(0, WAINSCOT_H + 0.03, 0), Vector3(1.06, 0.05, 1.06))

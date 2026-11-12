@@ -3239,6 +3239,9 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 	zone_run.finish_battle(context.game)
 	if context.won:
 		zone_run.mark_defeated(context.zone_enemy_id)
+		# Fable Nov 12 (Part 2.7): the roamer placed by a zone's entrance is beaten once per save, not on every entry (the others return each visit).
+		if context.zone_enemy_id == "exit_roamer":
+			set_flag(StringName("exit_roamer_beaten_%s" % zone_run.zone_id))
 		# Fix pass Nov 4 (Part 1.6): a foe that blocks the way sets its flag now; the scene moves it aside from the flag.
 		var blocker_flag: StringName = BossBlockers.flag_for(zone_run.zone_id, str(context.zone_enemy_id))
 		if blocker_flag != &"" and not flag(blocker_flag):

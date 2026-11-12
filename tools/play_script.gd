@@ -183,9 +183,9 @@ func _matscan(min_size: float) -> void:
 				var shader_material: ShaderMaterial = material as ShaderMaterial
 				var uses: Variant = shader_material.get_shader_parameter("use_texture")
 				var albedo: Variant = shader_material.get_shader_parameter("albedo")
-				if uses == null or albedo == null or typeof(albedo) != TYPE_COLOR:
+				if albedo == null or typeof(albedo) != TYPE_COLOR:
 					continue
-				textured = bool(uses) or bool(shader_material.get_shader_parameter("use_vertex_color"))
+				textured = uses == true or shader_material.get_shader_parameter("use_vertex_color") == true or shader_material.get_shader_parameter("paint_on") == true
 				colour = albedo as Color
 			elif material is StandardMaterial3D:
 				var standard: StandardMaterial3D = material as StandardMaterial3D

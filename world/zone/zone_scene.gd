@@ -757,6 +757,10 @@ const EXIT_ROAMER_ID: String = "exit_roamer"
 func _ensure_exit_roamer(run: ZoneRun) -> void:
 	if def.id == CapitalZone.ID or run == null or run.is_defeated(EXIT_ROAMER_ID):
 		return
+	# Fable Nov 12 (Part 2.7): once beaten it stays beaten (the wayfinding critic met it on every one of 20 entries; the zone's own roamers
+	# still return with each visit).
+	if Session.flag(StringName("exit_roamer_beaten_%s" % def.id)):
+		return
 	var spawns: Array = builder.enemy_spawns()
 	if spawns.is_empty():
 		return

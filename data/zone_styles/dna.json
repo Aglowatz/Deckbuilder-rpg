@@ -15,9 +15,9 @@
 		"key_color": "#e2e8e4",
 		"key_energy": 0.66,
 		"key_pitch": -56,
-		"key_yaw": 140,
-		"ambient_color": "#5e6c68",
-		"ambient_energy": 0.4,
+		"key_yaw": 118,
+		"ambient_color": "#6f8a80",
+		"ambient_energy": 0.95,
 		"shadow_opacity": 0.35
 	},
 	"fog": {
@@ -30,7 +30,7 @@
 		"contrast": 1.14,
 		"post_saturation": 0.9,
 		"tonemap": "agx",
-		"exposure": 0.98,
+		"exposure": 1.06,
 		"post_contrast": 1.06,
 		"shadow_tint": "#c4d2cc",
 		"highlight_tint": "#e6efe8"

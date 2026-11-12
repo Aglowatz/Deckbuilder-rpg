@@ -1,0 +1,25 @@
+dev load n6_midgame
+wait 3
+dev travel zone necrocrat
+wait 12
+skip_dialogue
+wait 1
+skip_dialogue
+calm
+dev tp 28 44
+wait 1
+scene
+hold S 1
+scene
+shot a
+hold D 1.2
+scene
+shot b
+hud off
+dev tp 46.5 64.5
+cam 0
+wait 1.5
+shot dna_arrival_default
+dev tp 46 53
+wait 1.5
+shot dna_hub_default

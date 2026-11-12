@@ -15,6 +15,10 @@ var layout: DnaLayout
 var regions: Array[Rect2] = []
 var weights: Array[float] = []
 var current: Rect2 = NONE
+## Seconds the hero has stood on floor outside every region, and the fallback patch (cells either side of the hero's cell) cut after LOST_TIME.
+const LOST_TIME: float = 0.35
+const LOST_PATCH: int = 2
+var _lost: float = 0.0
 
 
 func _init(source: DnaLayout) -> void:
@@ -43,6 +47,15 @@ func snap(region: Rect2) -> void:
 ## Follows the hero; returns true when the region changed this call.
 func update(pos: Vector3, delta: float) -> bool:
 	var region: Rect2 = region_at(pos)
+	# Fable Nov 12 (art critic, dna_mid2): floor that belongs to no room or corridor (the giant chest's alcove) kept the last region's cut, so the
+	# wall in front of the lens stayed up and filled the screen. After LOST_TIME on such floor the cut follows a small patch round the hero.
+	if region == NONE:
+		_lost += delta
+		if _lost >= LOST_TIME:
+			var cell: Vector2i = DnaLayout.world_to_cell(pos)
+			region = Rect2(float(cell.x - LOST_PATCH), float(cell.y - LOST_PATCH), float(LOST_PATCH * 2 + 1), float(LOST_PATCH * 2 + 1))
+	else:
+		_lost = 0.0
 	var changed: bool = false
 	if region != NONE and region != current:
 		changed = true
