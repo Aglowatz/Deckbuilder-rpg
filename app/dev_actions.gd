@@ -608,6 +608,9 @@ static func make_encounter_battle(spec_id: String, deck_choice: int = DECK_MINE)
 		var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(spec.group.trim_prefix("dungeon:"))
 		if plan != null and not plan.battleboard_id.is_empty():
 			context.board_key = plan.battleboard_id
+	elif spec.group == "tutorial":
+		# Fable Nov 12 (art critic #13, a dev-tool artefact): the cave's fights are fought on the cave's board, as the real run sets it
+		context.board_key = "dungeon:hollow"
 	context.dev_battle = true
 	return context
 

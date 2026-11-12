@@ -697,7 +697,7 @@ static func lamp_mesh(height: float, lit: bool) -> ArrayMesh:
 	mesh.lathe("lamp_pink", Vector3(0, 1.28, 0), [Vector2(0.11, 0.0), Vector2(0.09, height - 1.6), Vector2(0.09, height - 1.5)], 10, 1.0, false, false)
 	mesh.lathe("gold", Vector3(0, (height - 1.5) * 0.55 + 1.0, 0), [Vector2(0.13, 0.0), Vector2(0.13, 0.1)], 10, 1.0, false, false)
 	mesh.lathe("gold", Vector3(0, height - 0.6, 0), [Vector2(0.1, 0.0), Vector2(0.16, 0.12), Vector2(0.1, 0.2), Vector2(0.22, 0.3), Vector2(0.24, 0.34)], 10, 1.0, false, true)
-	mesh.blob("lamp" if lit else "paper", Vector3(0, height, 0), Vector3(0.36, 0.36, 0.36), 6, 12)
+	mesh.blob("lamp" if lit else "paper", Vector3(0, height, 0), Vector3(0.36, 0.36, 0.36), 10, 20)  # Fable Nov 12 (art critic #6): 6 x 12 read as a faceted ball up close
 	return mesh.build()
 
 

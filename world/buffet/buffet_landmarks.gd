@@ -238,6 +238,18 @@ static func _lantern(mesh: KitMesh, hook: Vector3, lights: Array[Dictionary], si
 	lights.append({"pos": center, "color": Color("ffd9a0"), "range": 6.0, "energy": 1.1, "kind": "lantern"})
 
 
+## Fable Nov 12 (art critic #8: "windows are flat colour cut-outs"): the glazing bars of a lit pane facing +z - a dark frame, one upright and
+## two rails - so a glowing rectangle reads as a window.
+static func _pane_bars(mesh: KitMesh, center: Vector3, size: Vector2) -> void:
+	var bar: float = 0.07
+	mesh.box("wood_dark", center, Vector3(bar, size.y, 0.05), Basis.IDENTITY, 0.0)
+	for rail: float in [-0.2, 0.22]:
+		mesh.box("wood_dark", center + Vector3(0.0, size.y * rail, 0.0), Vector3(size.x, bar, 0.05), Basis.IDENTITY, 0.0)
+	for side: float in [-1.0, 1.0]:
+		mesh.box("wood_dark", center + Vector3(side * (size.x * 0.5 - bar * 0.5), 0.0, 0.0), Vector3(bar, size.y, 0.06), Basis.IDENTITY, 0.0)
+		mesh.box("wood_dark", center + Vector3(0.0, side * (size.y * 0.5 - bar * 0.5), 0.0), Vector3(size.x, bar, 0.06), Basis.IDENTITY, 0.0)
+
+
 ## A gothic window: a glowing pane in a frame with a pointed top.
 static func _gothic_window(mesh: KitMesh, slot: String, center: Vector3, width: float, height: float, normal: Vector3) -> void:
 	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
@@ -279,6 +291,7 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 			var ox: float = cx - span * 0.5 + span * (float(index) + 0.5) / float(ovens)
 			mesh.box("oven", Vector3(ox, 2.0, front_z + 1.25), Vector3(3.6, 4.0, 0.5), Basis.IDENTITY, 0.03)
 			mesh.box("glow", Vector3(ox, 1.6, front_z + 1.55), Vector3(2.2, 2.2, 0.12), Basis.IDENTITY, 0.0)
+			_pane_bars(mesh, Vector3(ox, 1.6, front_z + 1.63), Vector2(2.2, 2.2))  # the oven's grate
 			mesh.box("oven", Vector3(ox, 3.3, front_z + 1.5), Vector3(2.6, 0.5, 0.25), Basis.IDENTITY, 0.0)
 			lights.append({"pos": Vector3(ox, 1.8, front_z + 2.4), "color": GLOW, "range": 7.0, "energy": 0.9, "kind": "oven"})
 	for side: float in [-1.0, 1.0]:
@@ -308,6 +321,7 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 		mesh.blob("butter", Vector3(tx, gate_h + 4.3, front_z + 0.6), Vector3(0.55, 0.55, 0.55), 4, 8, 1.0)
 		_card(mesh, "BUFF-SHEET-SIGNS-01" if side < 0.0 else "BUFF-SHEET-SIGNS-03", Vector3(tx - side * 0.9, gate_h * 0.62, front_z + 0.6 + tower_w * 0.5 + 0.7), 2.4, Vector3(0, 0, 1))
 		mesh.box("glow", Vector3(tx, gate_h * 0.82, front_z + 0.6 + tower_w * 0.5 + 0.66), Vector3(1.2, 1.8, 0.1), Basis.IDENTITY, 0.0)
+		_pane_bars(mesh, Vector3(tx, gate_h * 0.82, front_z + 0.6 + tower_w * 0.5 + 0.72), Vector2(1.2, 1.8))
 		circles.append(Vector3(tx, front_z + 0.6, tower_w * 0.75))
 	var arch_r: float = gate_w * 0.5 + 0.3
 	for step: int in range(10):
@@ -321,6 +335,21 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 	mesh.box("cloth", Vector3(0, gate_h * 0.5 + arch_r + 2.2, front_z + 0.6), Vector3(gate_w + 2.4, 0.5, tower_w + 1.3), Basis.IDENTITY, 0.0)
 	# the doorway: a lit opening with cream steps up to it from the threshold slab
 	mesh.box("glow", Vector3(0, gate_h * 0.25, front_z - 0.4), Vector3(gate_w - 0.6, gate_h * 0.5 + 0.2, 0.3), Basis.IDENTITY, 0.0)
+	# Fable Nov 12 (art critic #5: "the dungeon door is a blank glowing cream rectangle"): two dark wooden leaves standing ajar in the lit
+	# opening - plank lines, a brass ring each, a lintel - so the kitchen's light spills through a door, not a hole.
+	var door_w: float = gate_w - 0.6
+	var door_h: float = gate_h * 0.5 + 0.2
+	var door_y: float = gate_h * 0.25
+	for side: float in [-1.0, 1.0]:
+		var leaf_w: float = door_w * 0.36
+		var leaf_x: float = side * (door_w * 0.5 - leaf_w * 0.5)
+		mesh.box("wood_dark", Vector3(leaf_x, door_y, front_z - 0.18), Vector3(leaf_w, door_h, 0.14), Basis(Vector3.UP, side * 0.22), 0.02)
+		for plank: int in range(1, 3):
+			mesh.box("wood", Vector3(leaf_x - leaf_w * 0.5 + leaf_w * float(plank) / 3.0, door_y, front_z - 0.09), Vector3(0.05, door_h - 0.3, 0.04), Basis(Vector3.UP, side * 0.22), 0.0)
+		mesh.box("copper_flat", Vector3(leaf_x, door_y + door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
+		mesh.box("copper_flat", Vector3(leaf_x, door_y - door_h * 0.28, front_z - 0.08), Vector3(leaf_w * 0.9, 0.16, 0.05), Basis(Vector3.UP, side * 0.22), 0.0)
+		mesh.blob("butter", Vector3(side * door_w * 0.17, door_y - 0.1, front_z - 0.02), Vector3(0.12, 0.12, 0.08), 3, 6, 1.0)
+	mesh.box("wood_dark", Vector3(0, door_y + door_h * 0.5 + 0.12, front_z - 0.2), Vector3(door_w + 0.3, 0.28, 0.3), Basis.IDENTITY, 0.02)
 	for step: int in range(3):
 		mesh.box("white", Vector3(0, 0.1 + float(step) * 0.22, front_z + 3.4 - float(step) * 0.5), Vector3(gate_w + 1.0 - float(step) * 0.4, 0.22, 0.5), Basis.IDENTITY, 0.02)
 	lights.append({"pos": Vector3(0, 2.4, front_z + 1.6), "color": GLOW, "range": 10.0, "energy": 1.4, "kind": "gate"})
@@ -355,6 +384,7 @@ static func _test_kitchen(root: Node3D, mesh: KitMesh, size: Vector3, circles: A
 		for index: int in range(3):
 			var wx: float = side * (hall_w * 0.2 + float(index) * hall_w * 0.09)
 			mesh.box("glow", Vector3(wx, hall_h * 0.62, hall_z + hall_d * 0.5 + 0.12), Vector3(1.4, 2.6, 0.2), Basis.IDENTITY, 0.0)
+			_pane_bars(mesh, Vector3(wx, hall_h * 0.62, hall_z + hall_d * 0.5 + 0.24), Vector2(1.4, 2.6))
 			mesh.box("crust", Vector3(wx, hall_h * 0.62 + 1.6, hall_z + hall_d * 0.5 + 0.1), Vector3(2.0, 0.5, 0.3), Basis.IDENTITY, 0.0)
 		var pipe_x: float = side * (hall_w * 0.5 + 0.5)
 		mesh.tube("copper_flat", Vector3(pipe_x, 0.0, hall_z + 2.0), Vector3(pipe_x, hall_h + 2.0, hall_z + 2.0), 0.45, 8, true)
@@ -834,6 +864,7 @@ static func hall_wing(width: float, variant: int) -> Node3D:
 		var x: float = -half + width * (float(index) + 0.5) / float(arches)
 		mesh.box("oven", Vector3(x, 1.4, depth * 0.5 + 0.12), Vector3(2.4, 2.6, 0.26), Basis.IDENTITY, 0.02)
 		mesh.box("glow", Vector3(x, 1.2, depth * 0.5 + 0.28), Vector3(1.6, 1.6, 0.08), Basis.IDENTITY, 0.0)
+		_pane_bars(mesh, Vector3(x, 1.2, depth * 0.5 + 0.34), Vector2(1.6, 1.6))  # the oven's grate
 		mesh.lathe("glow", Vector3(x, 2.0, depth * 0.5 + 0.28), [Vector2(0.8, 0.0), Vector2(0.0, 0.5)], 8, 1.0, false, true)
 		lights.append({"pos": Vector3(x, 1.3, depth * 0.5 + 1.0), "color": GLOW, "range": 5.0, "energy": 0.8, "kind": "oven"})
 		var window: String = "BUFF-SHEET-WINDOWS-%02d" % ((index + variant * 2) % 6 + 1)
