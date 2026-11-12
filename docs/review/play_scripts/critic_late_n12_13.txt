@@ -1,0 +1,87 @@
+wait 3
+dev load c13castle
+wait 12
+scene
+shot q13_00_castle
+dev primm 1
+wait 6
+shot q13_01
+click 1322 335
+wait 3
+shot q13_02
+dump
+button Continue
+wait 4
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q13_i4
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q13_i8
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q13_i12
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q13_i16
+button Continue
+wait 5
+shot q13_20
+dump
+button Keep Hand
+wait 3
+shot q13_21_start
+dump
+move 36 190
+wait 1
+shot q13_22_rule1
+move 76 190
+wait 1
+shot q13_23_rule2
+move 116 190
+wait 1
+shot q13_24_rule3
+move 156 190
+wait 1
+shot q13_25_rule4

@@ -672,6 +672,9 @@ func _extra_pois() -> Array[MapPoi]:
 		var mirror: MapPoi = MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)")
 		mirror.dungeon_id = ShatteredGallery.DUNGEON_ID  # Day pass Nov 9: the map's level hint
 		result.append(mirror)
+	if OldHob.funeral_waiting(Session.flags):
+		# Fable Nov 12 (Part 4.4, the RC5 critic's #5): the toast named Grave Row and nothing pointed there
+		result.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, _hob_position(), "Old Hob at Grave Row (the city is gathering)"))
 	return result
 
 

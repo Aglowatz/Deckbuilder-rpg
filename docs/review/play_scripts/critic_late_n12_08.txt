@@ -1,0 +1,141 @@
+wait 3
+dev load c13cap
+wait 12
+dev travel dungeon D-PC
+wait 7
+key Escape
+wait 1
+button Skip
+wait 2
+click 322 570
+wait 2.5
+button Continue
+wait 5
+button Keep Hand
+wait 2.5
+button Skip tips
+wait 0.5
+click 1470 272
+wait 0.5
+click 1470 272
+wait 0.5
+shot q8_00_speed
+click 420 800
+wait 0.4
+click 510 800
+wait 0.4
+click 620 800
+wait 0.4
+click 710 800
+wait 0.4
+click 800 800
+wait 0.4
+click 900 800
+wait 0.4
+click 1015 800
+wait 0.4
+click 1114 800
+wait 0.4
+click 1204 800
+wait 0.4
+shot q8_t1_a_played
+key Space
+wait 1.5
+shot q8_t1_b_combat
+key Space
+wait 1.2
+button End Turn
+wait 1
+key Space
+wait 6
+shot q8_t1_c_after
+click 420 800
+wait 0.4
+click 510 800
+wait 0.4
+click 620 800
+wait 0.4
+click 710 800
+wait 0.4
+click 800 800
+wait 0.4
+click 900 800
+wait 0.4
+click 1015 800
+wait 0.4
+click 1114 800
+wait 0.4
+click 1204 800
+wait 0.4
+shot q8_t2_a_played
+key Space
+wait 1.5
+shot q8_t2_b_combat
+key Space
+wait 1.2
+button End Turn
+wait 1
+key Space
+wait 6
+shot q8_t2_c_after
+click 420 800
+wait 0.4
+click 510 800
+wait 0.4
+click 620 800
+wait 0.4
+click 710 800
+wait 0.4
+click 800 800
+wait 0.4
+click 900 800
+wait 0.4
+click 1015 800
+wait 0.4
+click 1114 800
+wait 0.4
+click 1204 800
+wait 0.4
+shot q8_t3_a_played
+key Space
+wait 1.5
+shot q8_t3_b_combat
+key Space
+wait 1.2
+button End Turn
+wait 1
+key Space
+wait 6
+shot q8_t3_c_after
+click 420 800
+wait 0.4
+click 510 800
+wait 0.4
+click 620 800
+wait 0.4
+click 710 800
+wait 0.4
+click 800 800
+wait 0.4
+click 900 800
+wait 0.4
+click 1015 800
+wait 0.4
+click 1114 800
+wait 0.4
+click 1204 800
+wait 0.4
+shot q8_t4_a_played
+key Space
+wait 1.5
+shot q8_t4_b_combat
+key Space
+wait 1.2
+button End Turn
+wait 1
+key Space
+wait 6
+shot q8_t4_c_after
+pilot 50
+shot q8_99_end
+dump

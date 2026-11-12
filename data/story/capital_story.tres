@@ -511,7 +511,7 @@ lines = {
 "boss.phase.reflection.title": ["Phase 2: Reflection"],
 "boss.phase.reflection.rule": ["He plays a copy of your own deck and draws two extra cards a turn, so expect your best cards to come back at you. His copies sit on his side of the table and shine silver, like a mirror; the plain ones are yours."],
 "boss.phase.unraveling.title": ["Phase 3: Unraveling"],
-"boss.phase.unraveling.rule": ["His units get +1/+1 and he draws an extra card, but he loses 1 HP every turn, so hold the line and he runs out of time."],
+"boss.phase.unraveling.rule": ["His units get +1/+1 and he draws an extra card, but he loses 1 HP every turn: every turn you hold the line wears him down."],
 "boon.beefcake.name": ["Grandmaster Flex's Heart"],
 "boon.beefcake.line": ["Grandmaster Flex steps out from behind a pillar, unwinding a very small bandage from a very large arm. 'Breathe in. Hold.'", "'Strength is the heart and the mind, son, and you brought both. We're with you.' (Grandmaster Flex's Heart: Beefcake units get +1 power, and you gain 2 max HP.)"],
 "boon.gourmand.name": ["The Grand Chef's Feast"],

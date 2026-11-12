@@ -1,0 +1,14 @@
+wait 2
+dev load c13end
+wait 13
+key M
+wait 1.5
+button Fast travel
+wait 1.5
+shot q25_01_ft
+dump
+button Capital
+wait 10
+scene
+shot q25_02
+dump

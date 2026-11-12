@@ -236,7 +236,7 @@ func _select(index: int, quiet: bool = false) -> void:
 			var conversion: Dictionary = Essence.conversion(picked)
 			_where_label.text = "You already own the most copies of %s allowed: taking it gives %s instead." % [picked.display_name, Essence.message(picked, conversion).get_slice(" converted into ", 1).trim_suffix(".")]
 		else:
-			_where_label.text = ("%s joins your deck." if _to_deck else "Added to your collection: %s (find it at the Deck Station).") % picked.display_name
+			_where_label.text = ("%s joins your deck." if _to_deck else "Take it and %s goes to your collection (find it at the Deck Station).") % picked.display_name
 	_show_keywords(_offer.cards[index])
 
 

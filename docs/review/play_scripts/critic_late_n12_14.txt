@@ -1,0 +1,109 @@
+wait 3
+dev load c13castle
+wait 12
+dev primm 1
+wait 6
+click 1322 335
+wait 2.5
+key Escape
+wait 1
+dump
+button Skip
+wait 1.5
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+skip_dialogue 10
+wait 2
+button Continue
+wait 4
+shot q14_01_prefight
+dump
+button Keep Hand
+wait 2.5
+button Got it
+wait 0.5
+click 1470 272
+wait 0.4
+click 1470 272
+wait 0.4
+shot q14_02_start
+move 36 190
+wait 0.8
+shot q14_03_rule1
+move 76 190
+wait 0.8
+shot q14_04_rule2
+move 116 190
+wait 0.8
+shot q14_05_rule3
+click 420 800
+wait 0.35
+click 510 800
+wait 0.35
+click 620 800
+wait 0.35
+click 710 800
+wait 0.35
+click 800 800
+wait 0.35
+click 900 800
+wait 0.35
+click 1015 800
+wait 0.35
+click 1114 800
+wait 0.35
+click 1204 800
+wait 0.35
+shot q14_t1_a
+key Space
+wait 1.2
+key Space
+wait 1
+button End Turn
+wait 5
+shot q14_t1_c
+click 420 800
+wait 0.35
+click 510 800
+wait 0.35
+click 620 800
+wait 0.35
+click 710 800
+wait 0.35
+click 800 800
+wait 0.35
+click 900 800
+wait 0.35
+click 1015 800
+wait 0.35
+click 1114 800
+wait 0.35
+click 1204 800
+wait 0.35
+shot q14_t2_a
+key Space
+wait 1.2
+key Space
+wait 1
+button End Turn
+wait 5
+shot q14_t2_c
+pilot 68
+shot q14_99
+dump

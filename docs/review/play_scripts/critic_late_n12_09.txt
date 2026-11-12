@@ -1,0 +1,30 @@
+wait 3
+dev load c13cap
+wait 12
+dev travel dungeon D-PC 1
+wait 7
+key Escape
+wait 1
+button Skip
+wait 2
+shot q9_01_map
+click 458 590
+wait 2.5
+shot q9_02_node
+dump
+button Continue
+wait 5
+button Keep Hand
+wait 2
+click 1470 272
+wait 0.4
+click 1470 272
+wait 0.4
+shot q9_03_start
+pilot 95
+shot q9_04_end
+wait 3
+key E
+wait 2
+shot q9_05_after
+dump

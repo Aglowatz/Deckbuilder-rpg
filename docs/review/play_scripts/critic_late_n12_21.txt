@@ -1,0 +1,59 @@
+wait 2
+dev load c13castle
+wait 11
+dev level 24
+dev heal
+dev primm 3
+wait 5
+click 1322 335
+wait 2
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+key E
+wait 0.8
+skip_dialogue 30
+wait 2
+shot q21_00_banner
+dump
+key Space
+wait 1.5
+click 1470 272
+wait 0.4
+click 1470 272
+wait 0.4
+shot q21_01_start
+pilot 95
+shot q21_99
+wait 3
+shot q21_99b
+dump
+key E
+wait 2
+shot q21_99c
+dump

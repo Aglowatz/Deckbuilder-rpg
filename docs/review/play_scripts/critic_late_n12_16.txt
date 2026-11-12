@@ -1,0 +1,212 @@
+wait 2
+dev load c13castle
+wait 11
+dev primm 2
+wait 5
+shot q16_00_map
+click 1322 335
+wait 2
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+shot q16_i2
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+shot q16_i5
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+dump
+key E
+wait 0.9
+key E
+wait 0.9
+skip_dialogue 30
+wait 1.5
+dump
+button Continue
+wait 3.5
+button Keep Hand
+wait 1
+click 1470 272
+wait 0.4
+click 1470 272
+wait 0.4
+shot q16_01_start
+move 318 190
+wait 0.8
+shot q16_02_hover
+click 420 800
+wait 0.3
+click 510 800
+wait 0.3
+click 620 800
+wait 0.3
+click 710 800
+wait 0.3
+click 800 800
+wait 0.3
+click 900 800
+wait 0.3
+click 1015 800
+wait 0.3
+click 1114 800
+wait 0.3
+click 1204 800
+wait 0.3
+shot q16_t1_a
+key Space
+wait 1.2
+click 650 520
+wait 0.4
+click 800 520
+wait 0.4
+click 950 520
+wait 0.4
+shot q16_t1_b
+key Space
+wait 1.5
+key Space
+wait 1
+button End Turn
+wait 5
+shot q16_t1_c
+click 420 800
+wait 0.3
+click 510 800
+wait 0.3
+click 620 800
+wait 0.3
+click 710 800
+wait 0.3
+click 800 800
+wait 0.3
+click 900 800
+wait 0.3
+click 1015 800
+wait 0.3
+click 1114 800
+wait 0.3
+click 1204 800
+wait 0.3
+shot q16_t2_a
+key Space
+wait 1.2
+click 650 520
+wait 0.4
+click 800 520
+wait 0.4
+click 950 520
+wait 0.4
+shot q16_t2_b
+key Space
+wait 1.5
+key Space
+wait 1
+button End Turn
+wait 5
+shot q16_t2_c
+click 420 800
+wait 0.3
+click 510 800
+wait 0.3
+click 620 800
+wait 0.3
+click 710 800
+wait 0.3
+click 800 800
+wait 0.3
+click 900 800
+wait 0.3
+click 1015 800
+wait 0.3
+click 1114 800
+wait 0.3
+click 1204 800
+wait 0.3
+shot q16_t3_a
+key Space
+wait 1.2
+click 650 520
+wait 0.4
+click 800 520
+wait 0.4
+click 950 520
+wait 0.4
+shot q16_t3_b
+dump
+key Space
+wait 1.5
+key Space
+wait 1
+button End Turn
+wait 5
+shot q16_t3_c
+click 420 800
+wait 0.3
+click 510 800
+wait 0.3
+click 620 800
+wait 0.3
+click 710 800
+wait 0.3
+click 800 800
+wait 0.3
+click 900 800
+wait 0.3
+click 1015 800
+wait 0.3
+click 1114 800
+wait 0.3
+click 1204 800
+wait 0.3
+shot q16_t4_a
+key Space
+wait 1.2
+click 650 520
+wait 0.4
+click 800 520
+wait 0.4
+click 950 520
+wait 0.4
+shot q16_t4_b
+key Space
+wait 1.5
+key Space
+wait 1
+button End Turn
+wait 5
+shot q16_t4_c
+dump

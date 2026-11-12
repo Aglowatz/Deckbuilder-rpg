@@ -1,0 +1,91 @@
+wait 3
+dev load c13cap
+wait 12
+dev travel dungeon D-PC 1
+wait 7
+key Escape
+wait 1
+button Skip
+wait 2
+dev autowin on
+click 322 570
+wait 2.5
+shot q10_n1_a
+dump
+button Continue
+wait 5
+shot q10_n1_b
+skip_dialogue 12
+wait 1.5
+shot q10_n1_c
+click 458 590
+wait 2.5
+shot q10_n2_a
+dump
+button Continue
+wait 5
+shot q10_n2_b
+skip_dialogue 12
+wait 1.5
+shot q10_n2_c
+click 593 430
+wait 2.5
+shot q10_n3_a
+dump
+button Continue
+wait 5
+shot q10_n3_b
+skip_dialogue 12
+wait 1.5
+shot q10_n3_c
+click 733 500
+wait 2.5
+shot q10_n4_a
+dump
+button Continue
+wait 5
+shot q10_n4_b
+skip_dialogue 12
+wait 1.5
+shot q10_n4_c
+click 883 385
+wait 2.5
+shot q10_n5_a
+dump
+button Continue
+wait 5
+shot q10_n5_b
+skip_dialogue 12
+wait 1.5
+shot q10_n5_c
+click 1032 465
+wait 2.5
+shot q10_n6_a
+dump
+button Continue
+wait 5
+shot q10_n6_b
+skip_dialogue 12
+wait 1.5
+shot q10_n6_c
+click 1145 330
+wait 2.5
+shot q10_n7_a
+dump
+button Continue
+wait 5
+shot q10_n7_b
+skip_dialogue 12
+wait 1.5
+shot q10_n7_c
+click 1259 430
+wait 2.5
+shot q10_n8_a
+dump
+button Continue
+wait 5
+shot q10_n8_b
+skip_dialogue 12
+wait 1.5
+shot q10_n8_c
+scene

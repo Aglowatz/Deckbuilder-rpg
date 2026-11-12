@@ -1,0 +1,123 @@
+wait 3
+dev load c13cap
+wait 12
+dev travel dungeon D-PC 2
+wait 7
+skip_dialogue 15
+wait 2
+dev autowin on
+shot q12_00_map
+log NODE 1
+click 458 632
+wait 2.5
+shot q12_n1_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n1_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 2
+click 265 312
+wait 2.5
+shot q12_n2_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n2_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 3
+click 733 541
+wait 2.5
+shot q12_n3_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n3_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 4
+click 883 428
+wait 2.5
+shot q12_n4_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n4_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 5
+click 1032 506
+wait 2.5
+shot q12_n5_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n5_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 6
+click 1145 374
+wait 2.5
+shot q12_n6_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n6_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 7
+click 1259 470
+wait 2.5
+shot q12_n7_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n7_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+log NODE 8
+click 1322 335
+wait 2.5
+shot q12_n8_a
+dump
+button Continue
+wait 3.5
+button Continue
+wait 1.5
+shot q12_n8_b
+button Skip card
+wait 1.5
+skip_dialogue 12
+wait 1
+shot q12_end
+dump

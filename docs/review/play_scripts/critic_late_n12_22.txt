@@ -1,0 +1,67 @@
+wait 2
+dev load c13castle
+wait 11
+dev level 24
+dev heal
+dev primm 3
+wait 5
+click 1322 335
+wait 2
+skip_dialogue 30
+wait 1.5
+key Space
+wait 1.2
+click 1470 272
+wait 0.4
+click 1470 272
+wait 0.4
+pilot 92
+shot q22_99
+wait 2.5
+shot q22_99b
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+shot q22_e3
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+shot q22_e6
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+shot q22_e9
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+shot q22_e12
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0

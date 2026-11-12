@@ -1,0 +1,30 @@
+wait 4
+shot q1_01_title
+dev load c13cap
+wait 14
+scene
+shot q1_02_capital
+dump
+key M
+wait 2
+shot q1_03_map
+dump
+key Escape
+wait 1
+key J
+wait 2
+shot q1_04_quests
+dump
+key Escape
+wait 1
+hold W 3
+shot q1_05_walk_n
+hold W 3
+shot q1_06_walk_n2
+scene
+hold D 3
+shot q1_07_walk_e
+key E
+wait 2
+shot q1_08_e
+dump

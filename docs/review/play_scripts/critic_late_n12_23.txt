@@ -1,0 +1,82 @@
+wait 2
+dev load c13end
+wait 13
+scene
+shot q23_01
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q23_e4
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q23_e8
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q23_e12
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q23_e16
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+shot q23_e20
+key E
+wait 1.1
+dump
+key E
+wait 1.1
+dump
+scene
+key J
+wait 2
+shot q23_quests
+dump

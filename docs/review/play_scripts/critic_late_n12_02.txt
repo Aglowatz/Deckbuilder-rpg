@@ -1,0 +1,43 @@
+wait 3
+dev load c13cap
+wait 14
+hold W 7
+scene
+shot q2_01_gate
+key E
+wait 2
+shot q2_02_gate_e
+dump
+skip_dialogue 6
+hold W 6
+scene
+shot q2_03_inside
+hold Shift+W 5
+scene
+shot q2_04_north
+hold W 8
+scene
+shot q2_05_north2
+key E
+wait 2
+shot q2_06_e
+skip_dialogue 6
+hold W 8
+scene
+shot q2_07_north3
+hold W 8
+scene
+shot q2_08_north4
+key M
+wait 2
+shot q2_09_map
+key Escape
+wait 1
+hold W 8
+scene
+shot q2_10_north5
+key E
+wait 2
+shot q2_11_e
+dump
+dev save q2

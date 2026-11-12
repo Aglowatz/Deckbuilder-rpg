@@ -218,6 +218,7 @@ func _build_side_panel() -> void:
 	_turn_label = UIKit.label("Turn 1", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(_turn_label)
 	_turn_sub = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_turn_sub.clip_text = true  # Fable Nov 12: this line can never widen the panel again (see _fit_turn_sub)
 	column.add_child(_turn_sub)
 	# Battle feel, Part B: the battle speed toggle (the same setting as in Settings, remembered between sessions).
 	speed_button = FancyButton.make("", &"GhostButton", Vector2(0, 34))
@@ -479,10 +480,21 @@ func refresh_all() -> void:
 		# Overnight Nov 10-11 (Part 1.5): every refresh keeps the Setting Up countdown (a sync after the turn label wiped it)
 		var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, shown_turn))
 		if not setup_line.is_empty():
-			_turn_sub.text += "  -  " + setup_line
+			_turn_sub.text += " - " + setup_line
+	_fit_turn_sub()
 	_refresh_setup_note()
 	_refresh_processing()
 	_refresh_jam()
+
+
+## Fable Nov 12 (Part 4.4, the RC5 critic's #4): "Your turn  -  Setting Up: 2 turns left" was wider than the turn panel and pushed the
+## whole panel off the screen's right edge. With the countdown the line is set smaller so it fits; the panel's size never changes.
+const TURN_SUB_SIZE: int = 20
+const TURN_SUB_SIZE_LONG: int = 14
+
+
+func _fit_turn_sub() -> void:
+	_turn_sub.add_theme_font_size_override("font_size", TURN_SUB_SIZE_LONG if _turn_sub.text.contains(" - ") else TURN_SUB_SIZE)
 
 
 ## Overnight Nov 10-11 (Part 1.5, the exported-build critic's #5): words beside the Setting Up hourglass in the rule row during the fight
@@ -558,7 +570,8 @@ func on_event(event: GameEvent) -> void:
 			# Fix pass Nov 7 (item 10): the foe's setup window counts down in the same turns
 			var setup_line: String = BossTempo.countdown_text(game.setup_turns_left_shown(1, event.value) if game != null else 0)
 			if not setup_line.is_empty():
-				_turn_sub.text += "  -  " + setup_line
+				_turn_sub.text += " - " + setup_line
+			_fit_turn_sub()
 			_refresh_setup_note()
 			# Import Nov 8 (C4b F11): no second "YOUR TURN / ENEMY TURN" here - the board's ribbon (BattleFX.turn_banner) already says it, and
 			# the band-less copy sat over the opponent's action line.

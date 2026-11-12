@@ -1,0 +1,55 @@
+wait 2
+dev load c13post
+wait 12
+hold Shift+W 6.5
+hold W 3
+hold Shift+W 3.5
+hold D 1
+hold W 4
+scene
+shot q30_01_door
+hold D 1.2
+scene
+hold D 1.2
+scene
+shot q30_02_right
+hold A 4
+scene
+hold A 1.2
+scene
+shot q30_03_left
+key E
+wait 2
+shot q30_04_e
+dump
+dev travel dungeon S-GALLERY
+wait 8
+shot q30_05_gallery
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+key E
+wait 1.0
+dump
+skip_dialogue 20
+wait 1
+shot q30_06_map
+key R
+wait 1.2
+dump

@@ -10,6 +10,10 @@ var dragged_once: bool = false
 ## Cards that turned out to have no legal target this turn (cleared at End Turn) - avoids
 ## re-picking the same uncastable card forever once its only target(s) are gone.
 var _skip_this_turn: Array[int] = []
+## Fable Nov 12 (Part 4.4): how often each hand card was clicked this turn. In a ten-card hand the centre of a card lies under its
+## neighbour, so the click did nothing, the turn stalled and the play driver passed it (the RC5 critic's Primm phases 2 and 3). The
+## second try clicks the card's uncovered left strip; a third gives the card up for the turn.
+var _hand_tries: Dictionary = {}
 
 
 func _init(ui_driver: UiDriver, battle: BattleScreen) -> void:
@@ -97,11 +101,25 @@ func act() -> void:
 					await driver.click(screen.hud.portrait_rect(Targets.player_index(target)).get_center())
 
 
+## Where to click a hand card: its centre first, then the left strip a neighbour cannot cover; after that the card is skipped.
+func _hand_click(uid: int) -> void:
+	var tries: int = int(_hand_tries.get(uid, 0))
+	_hand_tries[uid] = tries + 1
+	if tries >= 2:
+		_skip_this_turn.append(uid)
+	var view: Control = screen.board.view_for(uid)
+	if tries == 0 or view == null:
+		await driver.click(_view_center(uid))
+		return
+	var rect: Rect2 = view.get_global_rect()
+	await driver.click(rect.position + Vector2(rect.size.x * 0.14, rect.size.y * 0.3))
+
+
 func _act_main(game: GameState) -> void:
 	var player: PlayerState = game.players[0]
 	for card: CardInstance in player.hand:
 		if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid) and not _skip_this_turn.has(card.uid):
-			await driver.click(_view_center(card.uid))
+			await _hand_click(card.uid)
 			return
 	var best: CardInstance = null
 	for card: CardInstance in player.hand:
@@ -113,9 +131,10 @@ func _act_main(game: GameState) -> void:
 			dragged_once = true
 			await driver.drag(_view_center(best.uid), Vector2(985, 480))
 		else:
-			await driver.click(_view_center(best.uid))
+			await _hand_click(best.uid)
 		return
 	_skip_this_turn.clear()
+	_hand_tries.clear()
 	var next: Button = driver.find_button("To Combat")
 	if next == null:
 		next = driver.find_button("End Turn")

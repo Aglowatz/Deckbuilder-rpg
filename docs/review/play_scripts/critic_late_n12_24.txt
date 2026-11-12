@@ -1,0 +1,26 @@
+wait 2
+dev load c13end
+wait 13
+key M
+wait 1.5
+button Point me to
+wait 1.5
+shot q24_01_point
+dump
+key Escape
+wait 0.8
+key Escape
+wait 0.8
+hold Shift+W 6
+scene
+hold W 2
+scene
+shot q24_02
+hold A 2
+scene
+hold W 2
+scene
+shot q24_03
+hold D 4
+scene
+shot q24_04

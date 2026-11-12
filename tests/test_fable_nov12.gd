@@ -235,3 +235,30 @@ func test_a_reflected_card_wears_the_sheen() -> void:
 		if child.name.begins_with("MirrorFinish"):
 			count += 1
 	assert_eq(count, 1, "only one sheen however often it is asked for")
+
+
+# ---- Part 4.4: the RC5 late-game critic's small items -------------------------------------------------------------------------------
+
+
+func test_the_setup_countdown_still_reads_in_full() -> void:
+	# the line is set smaller in the turn panel (BattleHud._fit_turn_sub), never shortened
+	assert_eq(BossTempo.countdown_text(2), "Setting Up: 2 turns left")
+	assert_lt(BattleHud.TURN_SUB_SIZE_LONG, BattleHud.TURN_SUB_SIZE, "with the countdown the line is smaller, so the panel keeps its width")
+
+
+func test_phase_three_hint_does_not_promise_a_timeout() -> void:
+	var text: String = FileAccess.get_file_as_string("res://data/story/capital_story.tres")
+	assert_false(text.contains("runs out of time"), "1 HP a turn from 50 HP is not a clock")
+	assert_true(text.contains("every turn you hold the line wears him down"))
+
+
+func test_the_funeral_fits_in_the_where_to_list() -> void:
+	# quest givers come before exits and interactables in the list, so the entry is not cut by WHERE_TO_MAX
+	var points: Array[MapPoi] = []
+	for i: int in range(FullMapScreen.WHERE_TO_MAX + 4):
+		points.append(MapPoi.make(MapPoi.Kind.INTERACTABLE, Vector3(i, 0, 0), "Thing %d" % i))
+	points.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, Vector3.ZERO, "Old Hob at Grave Row (the city is gathering)"))
+	var names: Array[String] = []
+	for poi: MapPoi in FullMapScreen.where_to_places(points):
+		names.append(poi.label)
+	assert_has(names, "Old Hob at Grave Row (the city is gathering)")

@@ -1,0 +1,9 @@
+wait 2
+dev load c13end
+wait 13
+key M
+wait 1.5
+button Point me to
+wait 1.5
+shot point_01
+dump
