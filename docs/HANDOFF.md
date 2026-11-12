@@ -154,6 +154,27 @@ Start every prompt with: *"Repo C:\Dev\Deckbuilder-rpg, Godot 4.7.2. Read CLAUDE
    `bash tools/export_windows.sh` in the foreground, then `bash tools/run_release_smoke_exported.sh`, and tell me the zip's path and size.
    Don't change anything else."
 
+## 6b. What the Nov 12 fix pass added (read before touching these)
+
+Brief `docs/prompts/fable_nov12_fixes.md`, report at the top of `docs/overnight_report.md`, inbox "Fable Nov 12c".
+
+- **Dungeon pop-ups** are all built on `ui/dungeon/node_card.gd` (`NodeCard`): the shrine, the well and deck challenges
+  (`challenge_screen.gd`), events and rescues, treasure, and the pre-fight rules panel (`ui/widgets/rules_brief.gd`, used by the dungeon
+  maps, the arena, Shiro and the Old Well). A new kind of room: `NodeCard.make(kind, title)`, then `flavour`, `effect`, `hp_preview`,
+  `chip`, `button`. Shots of every type: `--open=challenge|shrine|event|treasure|brief` on `scenes/dungeon_map.tscn` through
+  `tools/shot.sh` (add `--accept=1` for the well after the card is given, `--set=text_dialogue:3` for Large text).
+- **The Hollow Well** is `ChallengeData.Kind.RANDOM_SACRIFICE` (`ChallengeResolver.offer_block` says why it is closed). A run hands its
+  deck back with `DungeonRun.deck_after_run()`: nothing a dungeon takes is permanent.
+- **The Crease** is `world/capital/capital_crease.gd` (the cavern shell, shown only while the hero is in the Crease). The layout's props
+  and anchors are still in `capital_layout.gd` (`_crease`). **The Capital's rim** carries `capital_rim_ruins.gd`.
+- **A cached KitMesh needs its card materials back:** after `KitMesh.restore`, call `resolve_missing(CapitalKit.resolve_slot)` (or use
+  `fill_cached_set` with the resolver). Forgetting it draws every painted card as a flat grey rectangle from the second visit on.
+- **The occlusion fader** keeps a faded group until it is back at zero; a long wall names its body with the meta `occlusion_box` (and
+  `occlusion_near`) so its towers do not count. The driver command `meshscan <x> <z> [radius]` names what a screenshot shows.
+- **Primm:** `Session.retry_primm_fight` (the defeat screen's "Fight Primm again").
+- **The play-script driver saves the camera angle and zoom into your settings** (`cam N`, the pad smoke's zoom). After a shot run, check
+  Settings > Display > Camera angle (the shot scripts leave it on Low) and the zoom.
+
 ## 7. Known issues and the post-1.0 backlog
 
 `docs/release/post_1_0_backlog.md`: playtester feedback intake, the known issues at 1.0.0-rc1, the remaining art REDOs, nice-to-haves and what

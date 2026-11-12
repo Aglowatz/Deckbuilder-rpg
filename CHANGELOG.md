@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.0.0-rc6 - release candidate 6 (Nov 12 2026)
+
+- The Hollow Well in the Forgotten Cave is an offer: sacrifice a random card for the rest of the dungeon, heal 4 HP. The card comes back
+  when the cave is left; the offer can be declined, is closed at full HP and at the minimum deck size, and is once per run.
+- The Hollow Warden's closing words and the gatekeepers' lines after their fights show the speaker's picture.
+- Deck copies: every text says "up to 3 copies of any one card, depending on your level".
+- The first step out of the cave: just left of Elder Maren, facing the square, with no house faded away.
+- Chef Fennel Gravois's Snack is the 1/1 its text says (the zone-order ease no longer takes its attack).
+- The Capital: the grey rectangles on the hills were dead trees and rubble without their paint (fixed); ruined houses, ash walls, toppled
+  statues, rubble and crystals on the ridges outside; walls no longer stay invisible or fade when you walk beside them.
+- The coloured dots under a two-Path card's name are gone in every view.
+- The Crease is an enclosed cavern (rock walls and ceiling, stalactites, puddles, lanterns, crystals, a market); its six black doorways are
+  floor hatches; a new main quest, "Under the Capital", leads there from the first arrival in the Capital; one "Services restored" bar.
+- A loss to Primm offers "Fight Primm again" (Phase 1, full HP, the leaders' boons) or "Leave the castle".
+- Primm's Castle shows room types one step ahead and every castle fight's reward includes an Uncommon or better.
+- Every non-combat dungeon pop-up and the "Before the fight" panel are a new illustrated card (a banner from the dungeon's map, the room's
+  icon, a title plate, HP before and after, cost chips, icon buttons, Esc to leave).
+- The world: darker contact shadows under characters, a soft shade under props, a sky tint and ripples on water, moving water in the
+  Capital's fountains, quest markers that shrink near the camera.
+
 ## v1.0.0-rc5 - release candidate 5 (Nov 12 2026)
 
 - The look of the world: the D.N.A.'s walls are lit wallpaper and marble, not black slabs, and the wall in front of you cuts away on every

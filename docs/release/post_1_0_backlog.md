@@ -25,6 +25,23 @@ critic (`docs/review/critic_rc1/report.md`), the Nov 6-8 critics, `docs/release/
 8. Headless importer runs print a harmless "Identifier not found: Session" compile error from `core/zone/zone_defs.gd:46` (dev tooling only). S.
 9. Exit-time leak warnings (RID allocations, "RenderingServer::get_singleton() is null") in the logs on every quit; harmless to players. M to clean.
 
+## 2b. Known issues at 1.0.0-rc6 (Nov 12)
+
+1. **Fig Sly's portrait** (`V-FIGSLY`) still has the third arm until the replacement lands in Pending Review / Batch 15; importing it
+   is one `import portraits` run (the old file goes to Superseded).
+2. **Batch 15 is not imported** (the folder did not exist during the Nov 12 fix pass): `docs/art/batch15_nov12.csv`, 23 rows "To make",
+   plus the optional `UI-NODE-BANNER` (the pop-ups pick it up by themselves once it is in `assets/art/ui/`).
+3. **No dialogue portrait** for Baron Quadzilla, the Restless Cairn and the Store Room Ghosts (their closing lines show a name plate only).
+4. **The 3D world list that code could still do and this pass did not** (the brief's Part C): blended ground textures and edge foliage in
+   the Gainlands, the Buffet and the Dump; a void and stray-quad scan of the four Path zones (done for the Capital and the Crease
+   only); duplicate and broken sprites; the pale building at the top left of the Transit Yards view; smoother hedges and statues; the
+   measured scale table; hub storytelling clutter; added light sources; pickups that bob, doors and chests that animate, more ambient
+   life, castle music that escalates.
+5. **The controller smoke's "Y hides the card details" check fails** in the ghost duel (the battle's pad layer; not looked into).
+6. **A citizen of Perfection (Corwin Bale) can stroll behind a house** where neither camera sees him (NPC visibility probe).
+7. **`tools/perf_run.sh capital_in` reads 57 fps on Medium** on the development PC (58 to 61 since Nov 3); the Capital's paint-over
+   cameras (`tools/capital_fps.sh`) read 66 to 69. If the 60 target is judged by the first probe, the inside streets are 3 fps short.
+
 ## 3. Remaining art REDOs (`docs/art/art_audit_nov9.csv`, verdict REDO and not yet replaced)
 
 | Id | What | Why |
