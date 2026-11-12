@@ -440,9 +440,18 @@ func press() -> void:
 		get_tree().create_timer(0.2).timeout.connect(_hide_when_idle)
 		get_tree().create_timer(float(LISTEN_GAP_MS) / 1000.0).timeout.connect(_end_exchange)
 		finished.emit()
+		# Fable Nov 12 (Part 2.7, "Old Hob's stuck portrait"): the listener leaves with the box unless the next speaker started in this very
+		# call (a scene's next box). It used to stand alone, bright, with no box, for LISTEN_GAP_MS after the last line - after a defeat that
+		# was Old Hob over the zone for most of a second, and a screenshot's worth of "stuck".
+		_dismiss_idle_listener.call_deferred()
 	else:
 		Audio.sfx(&"ui_tick", -6.0)
 		_show_line()
+
+
+func _dismiss_idle_listener() -> void:
+	if not active and _listener != null:
+		_listener.dismiss()
 
 
 ## The box stays visible just long enough for the portrait's fade-out, unless a new conversation already started.
