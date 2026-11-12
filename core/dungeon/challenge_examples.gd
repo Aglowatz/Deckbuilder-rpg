@@ -50,11 +50,31 @@ static func test_of_might() -> ChallengeData:
 	return challenge
 
 
-## Reveal the top 5 cards: 2+ infrastructure heals 4 HP, otherwise the well takes a card.
+## Fable Nov 12c (A1): the Hollow Well is an offer, not a test - "Sacrifice a random card from your deck for the rest of this dungeon:
+## heal 4 HP." The card comes back when the dungeon ends; the player may leave it. Once per run.
+const WELL_HEAL: int = 4
+const WELL_RULE: String = "Sacrifice a random card from your deck for the rest of this dungeon: heal %d HP." % WELL_HEAL
+
+
 static func hollow_well() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"hollow_well", "The Hollow Well",
-		"Five cards fall into the well. If enough of them are infrastructure, it answers with water.",
+		"A ring of old stone around a spring that ran dry long ago. Something down there still listens, and still trades.",
+		ChallengeData.Kind.RANDOM_SACRIFICE, 0, 0,
+	)
+	challenge.on_success = [
+		_outcome(ChallengeOutcome.Kind.LOSE_CARD, 0, "A random card leaves your deck until the dungeon ends."),
+		_outcome(ChallengeOutcome.Kind.HEAL, WELL_HEAL, "Heal %d HP." % WELL_HEAL),
+	] as Array[ChallengeOutcome]
+	return challenge
+
+
+## The well's old rule, kept as the plain example of an infrastructure count (tests; no dungeon uses it by this id): reveal the top 5
+## cards, 2+ infrastructure heals 4 HP, otherwise a card is lost for the dungeon.
+static func infrastructure_count_example() -> ChallengeData:
+	var challenge: ChallengeData = _challenge(
+		"infrastructure_count_example", "The Still Pool",
+		"Five cards fall into the pool. If enough of them are infrastructure, it answers with water.",
 		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2,
 	)
 	challenge.on_success = [_outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 HP.")] as Array[ChallengeOutcome]

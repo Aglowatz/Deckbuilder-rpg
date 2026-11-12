@@ -14,6 +14,8 @@ var failed: bool = false
 ## Cards lost / gained for this dungeon only (the profile's collection is never touched).
 var lost_cards: Array[CardData] = []
 var gained_cards: Array[CardData] = []
+## Fable Nov 12c (A1): the ids of once-per-run offers already taken in this run (the Hollow Well's sacrifice).
+var used_challenges: Array[String] = []
 ## Dungeon rules and boons; they feed the same ModifierPipeline as equipment.
 var dungeon_sources: Array[ModifierSource] = []
 ## Fixes Oct 27: the HP a fight may hand back to the run (the HP the hero walked in with, at most max HP): a boon's start-of-fight bonus is spent
@@ -68,6 +70,21 @@ func current_deck() -> Deck:
 	deck.cards = remaining
 	deck.cards.append_array(gained_cards)
 	return deck
+
+
+## Fable Nov 12c (A1): the deck the run hands back when it ends (won, lost or left): every card given up for the dungeon is in it
+## again, and the cards won on the way stay. Nothing a dungeon takes is lost for good.
+func deck_after_run() -> Deck:
+	var deck: Deck = Deck.new()
+	deck.deck_name = base_deck.deck_name
+	deck.cards = base_deck.cards.duplicate()
+	deck.cards.append_array(gained_cards)
+	return deck
+
+
+## The smallest deck this run may be played with (`DeckValidator`, lowered by a dungeon's waiver).
+func min_deck_size() -> int:
+	return DeckValidator.min_deck_size(modifiers())
 
 
 func heal(amount: int) -> void:

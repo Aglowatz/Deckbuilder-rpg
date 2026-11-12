@@ -435,7 +435,11 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.TREASURE:
 			text += "\nTreasure: gold, XP and an item."
 		DungeonMap.Kind.CHALLENGE:
-			text += "\nA deck challenge: the outcome depends on the cards you draw."
+			# Fable Nov 12c (A1): the Hollow Well is an offer, not a test.
+			if node.challenge_id == TrialOfTheHollow.CHALLENGE_ID and _main_def == null:
+				text += "\nAn offer: sacrifice a random card from your deck for the rest of this dungeon and heal %d HP. You may leave it." % ChallengeExamples.WELL_HEAL
+			else:
+				text += "\nA deck challenge: the outcome depends on the cards you draw."
 		DungeonMap.Kind.SHRINE:
 			# Fresh eyes Oct 30: a full heal is written as such ("Restore 999 HP" read as a placeholder).
 			text += "\nRestore [b]all[/b] your HP." if node.heal_amount >= run.max_hp() else "\nRestore [b]%d[/b] HP." % node.heal_amount
@@ -795,7 +799,10 @@ func _open_from_screenshot(what: String) -> void:
 		"rules":
 			_toggle_rules()
 		"challenge":
-			_open_modal(ChallengeScreen.new(), 2)
+			var well: ChallengeScreen = ChallengeScreen.new()
+			_open_modal(well, 2)
+			if _screenshot_args.has("accept"):  # Fable Nov 12c: the shot after the offer is taken
+				well.call_deferred(&"_on_offer_accept")
 		"shrine":
 			_open_modal(ShrineScreen.new(), 4)
 		"event":

@@ -79,7 +79,7 @@ func test_first_unit_with_no_units_in_deck_fails() -> void:
 func test_top_five_infrastructure_count_success_heals() -> void:
 	var run: DungeonRun = _run(_repeat(CardBuilder.infra(Affinity.Type.BEEFCAKE), 10))
 	run.lose_hp(6)
-	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.hollow_well(), run, _rng())
+	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.infrastructure_count_example(), run, _rng())
 	assert_true(result.success)
 	assert_eq(result.revealed.size(), 5)
 	assert_eq(result.hp_healed, 4)
@@ -91,7 +91,7 @@ func test_top_five_infrastructure_count_failure_loses_the_priciest_revealed_card
 	cards.append_array(_repeat(_unit(1, 1, "cheap"), 3))
 	var run: DungeonRun = _run(cards)
 	var before: int = run.current_deck().size()
-	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.hollow_well(), run, _rng())
+	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.infrastructure_count_example(), run, _rng())
 	assert_false(result.success)
 	assert_eq(result.lost_cards.size(), 1)
 	assert_eq(run.current_deck().size(), before - 1)
@@ -103,7 +103,7 @@ func test_top_five_infrastructure_count_failure_loses_the_priciest_revealed_card
 
 func test_lose_card_never_takes_basic_infrastructure() -> void:
 	var cards: Array[CardData] = _repeat(CardBuilder.infra(Affinity.Type.BEEFCAKE), 3)
-	var challenge: ChallengeData = ChallengeExamples.hollow_well()
+	var challenge: ChallengeData = ChallengeExamples.infrastructure_count_example()
 	challenge.threshold = 99
 	var run: DungeonRun = _run(cards)
 	var outcome: ChallengeResult = ChallengeResolver.resolve(challenge, run, _rng())

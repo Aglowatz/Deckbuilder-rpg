@@ -174,8 +174,8 @@ perfect facade over a broken city. The Wanderer wakes in the forest outside Cros
   this was where the starting Path was chosen.) Townsfolk joke about it ("Did you hear the well talks now? It doesn't. But imagine.").
 - **Beneath the Old Well** is the Forgotten Vault (S-TOWN): an iron hatch beside the well, "a door under the old well that has been locked
   since before [Maren] was born". The vault is Old Kingdom work "from the days when the four Paths marched as one" (section 17).
-- **The Forgotten Cave ends at a dried-up ancient wellspring** (sheet, D-TUT theme). Its third node is the Hollow Well, a deck challenge:
-  "Five cards fall into the well. Will it answer?" The cave is a royal escape tunnel that only the bloodline may pass.
+- **The Forgotten Cave ends at a dried-up ancient wellspring** (sheet, D-TUT theme). Its third node is the Hollow Well, an offer (Nov 12):
+  "Sacrifice a random card from your deck for the rest of this dungeon: heal 4 HP." The card returns when the cave is left. The cave is a royal escape tunnel that only the bloodline may pass.
 - **The Rotheart's ninth node is the Last Clean Spring** (full heal), the one place in the Dump the corruption has not reached.
 - **Primm and the wells.** Clean wells were among his genuinely good early reforms. In the postgame he designs water mains under guard:
   "I find that I miss the wells."
@@ -351,7 +351,7 @@ already chosen).
    draws them off the other way ("They know my face; let them chase it"), so he goes on alone. She slips away toward the torches; he never
    asked her name. (No line says he can carry only one Path: the choice is simply his strongest.) Wandering toward the treeline gets a self-talk line and a nudge back.
 5. **The Forgotten Cave** (D-TUT, 6 nodes; renamed from the Trial of the Hollow; a passage, not a trial): Cave Mouth, Scavenger's Den,
-   the Hollow Well (deck challenge), Mossy Gallery, Whispering Shrine (full heal), Heart of the Hollow (boss). A card pick from his Path after
+   the Hollow Well (a card given up for the run, for 4 HP), Mossy Gallery, Whispering Shrine (full heal), Heart of the Hollow (boss). A card pick from his Path after
    each battle. No Beefcake or Necrocrat infrastructure or Resources appear in it (enemy decks only; his own Path may be either).
 6. **The Hollow Warden** (`NPC-WARDEN`), an Old Kingdom moss-and-stone guardian of the royal escape tunnel; only the bloodline may pass.
    Before: "You smell familiar. Like old stone and cold nights in a house I used to keep." After: "The old walls do not lie... Someone is

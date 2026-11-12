@@ -1,6 +1,6 @@
 class_name TrialOfTheHollow
 extends RefCounted
-## The intro dungeon: a short cave trial that teaches the game. Two battles, a deck challenge,
+## The intro dungeon: a short cave trial that teaches the game. Two battles, the Hollow Well's offer (a card for healing),
 ## a healing shrine and a boss. Enemy decks are small hand-made lists of placeholder cards.
 
 const DUNGEON_NAME: String = "The Forgotten Cave"
@@ -42,7 +42,7 @@ static func build_map() -> DungeonMap:
 	first.gold_reward = EncounterRewards.gold_for(first.difficulty)
 	first.card_choices = 3
 	first.tutorial = true
-	var challenge: DungeonMap.MapNode = _node(map, DungeonMap.Kind.CHALLENGE, "The Hollow Well", "A ring of old stone around a spring that ran dry long ago. Five cards fall into the well. Will it answer?", Vector2(0.46, 0.68))
+	var challenge: DungeonMap.MapNode = _node(map, DungeonMap.Kind.CHALLENGE, "The Hollow Well", "A ring of old stone around a spring that ran dry long ago. Something down there still listens, and still trades.", Vector2(0.46, 0.68))
 	challenge.challenge_id = CHALLENGE_ID
 	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Roots hang from the ceiling like old rope. Something with claws moves between them.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"

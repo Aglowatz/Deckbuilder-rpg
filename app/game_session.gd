@@ -4175,9 +4175,9 @@ func complete_trial() -> void:
 	trial_finished = false
 	# Cards Oct 27, Part 3: only the first clear builds the deck from the run; a replay leaves the player's deck exactly as it is.
 	if run != null and not profile.intro_dungeon_cleared:
-		deck = run.current_deck()
+		deck = run.deck_after_run()  # Fable Nov 12c (A1): the card the Hollow Well took for the run is back in the deck
 		deck.deck_name = DECK_NAME
-		# Safety net: the Hollow Well challenge can cost a card (D51/D62) - normally the 3
+		# Safety net (older rule: the well could cost a card, D51/D62) - normally the 3
 		# reward picks infrastructure exactly on 45, but if the challenge went badly the player would
 		# otherwise walk into town one card short of a legal deck. A basic infrastructure of their own
 		# color always keeps it legal without changing the "3 on-element picks" story.

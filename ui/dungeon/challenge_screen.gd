@@ -35,6 +35,11 @@ func _ready() -> void:
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(1000, 0)
 	_column.add_child(text)
+	if is_offer():
+		_build_offer()
+		UIKit.pop_in(panel)
+		Audio.sfx(&"ui_open")
+		return
 	# Overnight Oct 31 - Nov 1 (mid-game critic #9): the test in numbers and your deck's chance, before you reveal.
 	var test: Label = UIKit.label(test_text(), &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	test.name = "TestRule"
@@ -83,7 +88,15 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _age < GUARD_TIME or not is_visible_in_tree() or _reveal_button == null or _reveal_button.disabled:
+	if _age < GUARD_TIME or not is_visible_in_tree() or _reveal_button == null:
+		return
+	# Fable Nov 12c (A1): an offer that is closed (full HP, the smallest deck) still answers the confirm key and Esc with "Leave it".
+	var leave_open: bool = _leave_button != null and _leave_button.visible
+	if leave_open and UiInput.is_back(event):
+		get_viewport().set_input_as_handled()
+		_leave_button.pressed.emit()
+		return
+	if _reveal_button.disabled and not (is_offer() and leave_open):
 		return
 	if UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
@@ -197,3 +210,100 @@ func _show_outcome(result: ChallengeResult) -> void:
 		_result_box.add_child(UIKit.label(line, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	_reveal_button.text = "Continue"
 	_reveal_button.disabled = false
+
+
+# ---- Fable Nov 12c (A1): the Hollow Well's offer ------------------------------------------------------------------------------
+
+
+## True for an offer the player takes or leaves (`ChallengeData.Kind.RANDOM_SACRIFICE`): nothing is drawn or tested.
+func is_offer() -> bool:
+	return challenge != null and challenge.kind == ChallengeData.Kind.RANDOM_SACRIFICE
+
+
+## "Sacrifice a random card from your deck for the rest of this dungeon: heal 4 HP."
+func offer_rule_text() -> String:
+	var heal: int = 0
+	for outcome: ChallengeOutcome in challenge.on_success:
+		if outcome.kind == ChallengeOutcome.Kind.HEAL:
+			heal += outcome.amount
+	return "Sacrifice a random card from your deck for the rest of this dungeon: heal %d HP." % heal
+
+
+## "The well takes Card Name. It returns when you leave the cave."
+func taken_text(card: CardData) -> String:
+	var place: String = "the cave" if challenge.id == TrialOfTheHollow.CHALLENGE_ID else "this dungeon"
+	return "The well takes %s. It returns when you leave %s." % [card.display_name, place]
+
+
+var _offer_block: ChallengeResolver.Block = ChallengeResolver.Block.NONE
+
+
+func _build_offer() -> void:
+	var rule: Label = UIKit.label(offer_rule_text(), &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	rule.name = "OfferRule"
+	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rule.custom_minimum_size = Vector2(1000, 0)
+	_column.add_child(rule)
+	var hp: Label = UIKit.label("HP  %d / %d" % [Session.run.hp, Session.run.max_hp()], &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	hp.name = "OfferHp"
+	_column.add_child(hp)
+	_cards_row = UIKit.hbox(14)
+	_cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_column.add_child(_cards_row)
+	_result_box = UIKit.vbox(6)
+	_column.add_child(_result_box)
+	_offer_block = ChallengeResolver.offer_block(challenge, Session.run)
+	_reveal_button = FancyButton.make("Give a card", &"PrimaryButton", Vector2(300, 60))
+	_reveal_button.name = "OfferAccept"
+	_reveal_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_reveal_button.pressed.connect(_on_offer_accept)
+	_reveal_button.focus_mode = Control.FOCUS_ALL
+	_column.add_child(_reveal_button)
+	if _offer_block != ChallengeResolver.Block.NONE:
+		_reveal_button.disabled = true
+		_reveal_button.text = ChallengeResolver.block_button_text(_offer_block)
+		var why: Label = UIKit.label(ChallengeResolver.block_reason(_offer_block, Session.run), &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		why.name = "OfferBlocked"
+		why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		why.custom_minimum_size = Vector2(1000, 0)
+		_result_box.add_child(why)
+	_leave_button = FancyButton.make("Leave it", &"", Vector2(300, 52))
+	_leave_button.name = "OfferLeave"
+	_leave_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_leave_button.pressed.connect(func() -> void:
+		Audio.sfx(&"ui_select")
+		finished.emit())
+	_leave_button.focus_mode = Control.FOCUS_ALL
+	_column.add_child(_leave_button)
+	_leave_button.call_deferred(&"grab_focus")
+
+
+func _on_offer_accept() -> void:
+	if _resolved:
+		finished.emit()
+		return
+	var choice: ChallengeChoice = ChallengeChoice.new()
+	choice.accept = true
+	var result: ChallengeResult = ChallengeResolver.resolve(challenge, Session.run, Session.rng, choice, false)
+	if result.declined or result.lost_cards.is_empty():
+		return
+	_resolved = true
+	_leave_button.visible = false
+	for child: Node in _result_box.get_children():
+		child.queue_free()
+	var card: CardData = result.lost_cards[0]
+	var holder: Control = CardView.wrapped(card, 0.5)
+	holder.name = "TakenCard"
+	_cards_row.add_child(holder)
+	Audio.sfx(&"heal")
+	var taken: Label = UIKit.label(taken_text(card), &"HeadingLabel", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	taken.name = "OfferTaken"
+	_result_box.add_child(taken)
+	var healed: Label = UIKit.label("You recover %d HP.  (HP %d / %d)" % [result.hp_healed, Session.run.hp, Session.run.max_hp()], &"", 24, UIStyle.GOOD, HORIZONTAL_ALIGNMENT_CENTER)
+	healed.name = "OfferHealed"
+	_result_box.add_child(healed)
+	var hp: Label = _column.get_node_or_null("OfferHp") as Label
+	if hp != null:
+		hp.visible = false
+	_reveal_button.text = "Continue"
+	_reveal_button.call_deferred(&"grab_focus")

@@ -42,6 +42,54 @@ static func heals_on_success(challenge: ChallengeData) -> bool:
 	return false
 
 
+## Fable Nov 12c (A1): why a RANDOM_SACRIFICE offer (the Hollow Well) cannot be taken right now. NONE = it can.
+enum Block { NONE, USED, FULL_HP, MIN_DECK }
+
+
+static func offer_block(challenge: ChallengeData, run: DungeonRun) -> Block:
+	if challenge == null or run == null or challenge.kind != ChallengeData.Kind.RANDOM_SACRIFICE:
+		return Block.NONE
+	if run.used_challenges.has(challenge.id):
+		return Block.USED
+	if run.current_deck().size() <= run.min_deck_size():
+		return Block.MIN_DECK
+	if run.hp >= run.max_hp() and heals_on_success(challenge):
+		return Block.FULL_HP
+	return Block.NONE
+
+
+## The button's words and the line under it for a blocked offer ("" when it is open).
+static func block_button_text(block: Block) -> String:
+	match block:
+		Block.USED:
+			return "Already given"
+		Block.FULL_HP:
+			return "You're at full HP"
+		Block.MIN_DECK:
+			return "Your deck is too small"
+	return ""
+
+
+static func block_reason(block: Block, run: DungeonRun) -> String:
+	match block:
+		Block.USED:
+			return "The well takes one card in each run of this dungeon, and it has had yours."
+		Block.FULL_HP:
+			return "You have nothing to mend, so the well asks for nothing."
+		Block.MIN_DECK:
+			return "A dungeon deck needs at least %d cards and yours has exactly that many, so the well can't take one." % (run.min_deck_size() if run != null else DeckValidator.MIN_DECK_SIZE)
+	return ""
+
+
+## The HP a taken offer would give back right now (the heal, capped at max HP).
+static func heal_preview(challenge: ChallengeData, run: DungeonRun) -> int:
+	var total: int = 0
+	for outcome: ChallengeOutcome in challenge.on_success:
+		if outcome.kind == ChallengeOutcome.Kind.HEAL:
+			total += outcome.amount
+	return clampi(total, 0, maxi(0, run.max_hp() - run.hp)) if run != null else total
+
+
 ## Cards Oct 27, Part 3: `to_deck` = a won card also joins the run's deck (the tutorial cave); otherwise it is only reported in
 ## `gained_cards` for the caller to add to the collection.
 static func resolve(
@@ -90,6 +138,14 @@ static func resolve(
 				result.declined = true
 				return result
 			result.success = true
+		ChallengeData.Kind.RANDOM_SACRIFICE:
+			if not picked.accept or offer_block(challenge, run) != Block.NONE:
+				result.declined = true
+				return result
+			sacrificed = RngUtil.pick(deck_cards, rng) as CardData
+			result.success = sacrificed != null
+			if result.success:
+				run.used_challenges.append(challenge.id)
 	var outcomes: Array[ChallengeOutcome] = challenge.on_success if result.success else challenge.on_failure
 	for outcome: ChallengeOutcome in outcomes:
 		_apply(outcome, run, rng, result, sacrificed, to_deck)

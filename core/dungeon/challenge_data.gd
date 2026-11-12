@@ -15,6 +15,10 @@ enum Kind {
 	SACRIFICE_CARD,
 	## Pay `threshold` HP to accept; success if accepted and affordable.
 	PAY_HP,
+	## Fable Nov 12c (A1, the Hollow Well): an offer the player may decline - a RANDOM card of the deck is given up for the rest of
+	## this dungeon run (it returns when the run ends) for the `on_success` outcomes (a heal). Once per run; not offered at full HP or
+	## with the deck at the minimum dungeon deck size (`ChallengeResolver.offer_block`).
+	RANDOM_SACRIFICE,
 }
 
 @export var id: String = ""
