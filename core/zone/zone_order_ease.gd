@@ -47,12 +47,17 @@ static func attack_ease(zone_id: String, zones_freed: int, zone_freed: bool = fa
 	return ATTACK_EASE_BY_PLACES[clampi(places_early(zone_id, zones_freed), 0, ATTACK_EASE_BY_PLACES.size() - 1)]
 
 
+const LABEL: String = "Zone order ease"
+
+
 ## Eases an enemy seat in the zone: HP times hp_factor and, when the zone is early, the attack ease on its units.
 static func ease_seat(setup: PlayerSetup, zone_id: String, zones_freed: int, zone_freed: bool = false) -> void:
 	apply(setup, hp_factor(zone_id, zones_freed, zone_freed))
 	var attack: int = attack_ease(zone_id, zones_freed, zone_freed)
 	if setup != null and attack != 0:
-		setup.modifiers.add_source(CardBuilder.modifier_source("Zone order ease", ModifierSource.SourceKind.ZONE, [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, attack, Modifier.ANY_COLOR, 0)] as Array[Modifier]))
+		var ease: Modifier = CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, attack, Modifier.ANY_COLOR, 0)
+		ease.label = LABEL  # A5: `GameState.create_stated_token` finds the ease by this label
+		setup.modifiers.add_source(CardBuilder.modifier_source(LABEL, ModifierSource.SourceKind.ZONE, [ease] as Array[Modifier]))
 
 
 ## Eases an enemy seat in place: its starting and max HP times `factor` (at least 4).

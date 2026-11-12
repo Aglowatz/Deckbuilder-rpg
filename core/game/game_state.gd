@@ -1696,7 +1696,7 @@ func _fire_scripted_summons(player_index: int) -> void:
 		if is_over():
 			return
 		var stage: int = mini(player.scripted_summon_count, modifier.tokens.size() - 1)
-		create_token(player_index, modifier.tokens[stage])
+		create_stated_token(player_index, modifier.tokens[stage])
 		player.scripted_summon_count += 1
 	check_state()
 
@@ -1714,7 +1714,7 @@ func _fire_timed_summons(player_index: int) -> void:
 		for i: int in range(maxi(1, modifier.value2)):
 			if is_over():
 				return
-			create_token(player_index, modifier.tokens[0])
+			create_stated_token(player_index, modifier.tokens[0])
 			fired = true
 	if fired:
 		check_state()
@@ -2018,6 +2018,19 @@ func create_token(player_index: int, data: CardData, as_copy: bool = false) -> C
 	ProtocolJam.on_token_created(self, token)
 	fire_game_event("token_created", {"card": token, "player": player_index})
 	fire_game_event("creates_token", {"card": token, "player": player_index})
+	return token
+
+
+## Fable Nov 12c (A5): a token whose numbers a rule or a boss event states to the player ("a 1/1 Snack joins his side") enters with
+## those numbers. The zone-order ease (`ZoneOrderEase`: -1 attack on a foe's units when its zone is met early) is given back to it - Chef
+## Fennel Gravois's Snack stood on the board as a 0/1 under text that said 1/1.
+func create_stated_token(player_index: int, data: CardData) -> CardInstance:
+	var token: CardInstance = create_token(player_index, data)
+	if token != null and data != null and data.is_unit():
+		for modifier: Modifier in players[player_index].modifiers.modifiers:
+			if modifier.kind == Modifier.Kind.STAT_CHANGE and modifier.label == ZoneOrderEase.LABEL:
+				token.attack_bonus -= modifier.value
+				token.defense_bonus -= modifier.value2
 	return token
 
 

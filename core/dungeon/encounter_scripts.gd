@@ -451,7 +451,7 @@ static func _resolve(state: GameState, run: Run, effect: Dictionary) -> void:
 				for i: int in range(maxi(1, int(effect.get("count", 1)))):
 					if state.is_over():
 						return
-					state.create_token(owner, token)
+					state.create_stated_token(owner, token)  # A5: the event's text states its numbers
 		"card":
 			var data: CardData = card_data(str(effect.get("card", "")))
 			if data == null:
