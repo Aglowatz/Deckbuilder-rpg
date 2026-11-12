@@ -1,0 +1,28 @@
+dev load c13castle
+wait 3
+dev primm 2
+wait 7
+skip_dialogue
+wait 1
+click 1322 338
+wait 2
+skip_dialogue
+wait 1
+skip_dialogue
+wait 1
+key E
+wait 1
+key E
+wait 1.5
+button Continue
+wait 2
+button Keep Hand
+wait 2.5
+shot primm_p2_start
+dump
+pilot 30
+shot primm_p2_mid
+scene
+move 1000 880
+wait 1.2
+shot primm_p2_clear

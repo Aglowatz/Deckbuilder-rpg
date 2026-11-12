@@ -215,7 +215,9 @@ func _build() -> void:
 ## Overnight Nov 4-5, Part 5: the Mirrored finish (The Shattered Gallery's prize) - a silver sheen over the whole card, for the cards the player
 ## put it on (`CosmeticState.mirrored_cards`). Shader only, no new art.
 func _build_mirror_finish() -> void:
-	if data == null or Session.cosmetics == null or not Session.cosmetics.is_mirrored(data.id):
+	if data == null or get_node_or_null("MirrorFinish") != null:
+		return
+	if not mirror_copy and (Session.cosmetics == null or not Session.cosmetics.is_mirrored(data.id)):
 		return
 	var sheen: ColorRect = ColorRect.new()
 	sheen.name = "MirrorFinish"
@@ -224,11 +226,22 @@ func _build_mirror_finish() -> void:
 	sheen.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = MIRROR_SHEEN
+	if mirror_copy:
+		material.set_shader_parameter("wash", MIRROR_COPY_WASH)  # a reflection is silvered all the time, not only when the band sweeps
 	sheen.material = material
 	add_child(sheen)
 
 
 const MIRROR_SHEEN: Shader = preload("res://assets/shaders/mirror_sheen.gdshader")
+## Fable Nov 12 (Part 4.2, the late critic's "mirror phase: whose units are whose"): a card that is a reflection of the player's own (Primm's
+## Phase 2 plays a copy of your deck) wears the silver sheen, so his copy of a card never looks like yours. Set by the battle board.
+var mirror_copy: bool = false
+const MIRROR_COPY_WASH: float = 0.26
+
+
+func show_as_mirror_copy() -> void:
+	mirror_copy = true
+	_build_mirror_finish()
 
 
 ## A Resource coin on the table: a round coin (Path colour, glyph) drawn at the card's centre; scaled small it sits among the units.

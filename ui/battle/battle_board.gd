@@ -59,6 +59,9 @@ const SCALE_CENTER: float = 0.85
 var game: GameState
 var fx: BattleFX
 var human: int = 0
+## Fable Nov 12 (Part 4.2): the seat whose cards are reflections of the other player's deck (Primm's Phase 2), -1 = nobody. Their face-up
+## cards wear the silver mirror sheen (`CardView.show_as_mirror_copy`).
+var mirror_owner: int = -1
 ## The battle speed (1 = normal). Overnight Oct 28-29: the effects layer follows it too.
 var speed: float = 1.0:
 	set(value):
@@ -147,6 +150,10 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	var view: CardView = CardView.create(data, CardView.Mode.BACK if hidden else _mode_for(zone, owner_index))
 	view.instance_uid = uid
 	view.set_meta("owner", owner_index)
+	if owner_index == mirror_owner:
+		view.mirror_copy = true  # a card revealed later (played from his hidden hand) builds its face with the sheen
+		if not hidden:
+			view.show_as_mirror_copy()
 	view.set_meta("opponent_back", owner_index != human)
 	view.set_meta("hidden", hidden)
 	_mark_trap(view, zone, hidden)

@@ -421,6 +421,9 @@ func _build_scene() -> void:
 	lights.setup(Settings.graphics_quality)
 	_board_root.add_child(lights)
 	fx.lights = lights
+	# Fable Nov 12 (Part 4.2): in Primm's Reflection the foe's cards are copies of yours - they shine silver so the two sides never look alike
+	if context != null and context.boss_phase >= 0 and PrimmBoss.phase(context.boss_phase).mirror:
+		board.mirror_owner = 1
 	board.setup(game, fx)
 	hud.setup(game, plate_name(context), context.enemy_icon)
 	# Playtest v0.4.0 Part F: one icon row for every rule of the fight (the old text panels are gone); Primm's phase rule keeps its own panel.

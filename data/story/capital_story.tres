@@ -509,7 +509,7 @@ lines = {
 "boss.phase.standardization.title": ["Phase 1: Standardization"],
 "boss.phase.standardization.rule": ["Every unit starts as a 3/3, so cheap units are as good as big ones; boons and buffs still add on top. You may play two cards a turn."],
 "boss.phase.reflection.title": ["Phase 2: Reflection"],
-"boss.phase.reflection.rule": ["He plays a copy of your own deck and draws two extra cards a turn, so expect your best cards to come back at you."],
+"boss.phase.reflection.rule": ["He plays a copy of your own deck and draws two extra cards a turn, so expect your best cards to come back at you. His copies sit on his side of the table and shine silver, like a mirror; the plain ones are yours."],
 "boss.phase.unraveling.title": ["Phase 3: Unraveling"],
 "boss.phase.unraveling.rule": ["His units get +1/+1 and he draws an extra card, but he loses 1 HP every turn, so hold the line and he runs out of time."],
 "boon.beefcake.name": ["Grandmaster Flex's Heart"],
