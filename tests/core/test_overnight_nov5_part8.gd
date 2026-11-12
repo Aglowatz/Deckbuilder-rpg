@@ -53,4 +53,4 @@ func test_the_well_confirm_key_leaves_and_the_shrine_rests() -> void:
 	var well: String = FileAccess.get_file_as_string("res://ui/dungeon/challenge_screen.gd")
 	assert_true(well.contains("_leave_button if _leave_button != null and _leave_button.visible else _reveal_button"), "E leaves the well untested")
 	var shrine: String = FileAccess.get_file_as_string("res://ui/dungeon/shrine_screen.gd")
-	assert_true(shrine.contains("ConfirmKey.attach(panel, _button)"), "E / Space press Rest")
+	assert_true(shrine.contains("ConfirmKey.attach(card, _button)"), "E / Space press Rest")

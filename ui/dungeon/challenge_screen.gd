@@ -1,78 +1,34 @@
 class_name ChallengeScreen
 extends Control
-## A deck challenge (the Hollow Well): reveal cards from your deck, see whether you passed and
-## what it cost or gave. All resolution is done by core (ChallengeResolver).
+## A deck challenge: reveal cards from your deck, see whether you passed and what it cost or gave - or an offer to take or leave (the
+## Hollow Well: a random card for the rest of the dungeon, for healing). All resolution is done by core (ChallengeResolver).
+## Fable Nov 12c (Part B): built on `NodeCard` - the room's corner of the dungeon map as the banner, the rule as icon rows, the HP outcome
+## as a ghost segment with "HP 9 → 13", the cost as a chip, a primary and a secondary button, the well swallowing the card.
 
 signal finished
 
 var challenge: ChallengeData
-var _column: VBoxContainer
+var card: NodeCard
 var _cards_row: HBoxContainer
-var _result_box: VBoxContainer
 var _reveal_button: FancyButton
 var _leave_button: FancyButton
 var _resolved: bool = false
+var _preview: NodeCard.HpPreview
 
 
 func _ready() -> void:
 	PadFocus.register(self)  # controller support (Oct 26): the pad focuses this screen's buttons
 	UIKit.full_rect(self)
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.01, 0.05, 0.82)
-	UIKit.full_rect(shade)
-	add_child(shade)
 	challenge = _pick_challenge()
-	var center: CenterContainer = CenterContainer.new()
-	UIKit.full_rect(center)
-	add_child(center)
-	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(1100, 0)
-	center.add_child(panel)
-	_column = UIKit.vbox(14)
-	panel.add_child(_column)
-	_column.add_child(UIKit.label(challenge.display_name, &"TitleLabel", 54, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var text: Label = UIKit.label(challenge.description, &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
-	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.custom_minimum_size = Vector2(1000, 0)
-	_column.add_child(text)
+	var node: DungeonMap.MapNode = Session.dungeon_map.node(int(get_meta("node_id", 0))) if Session.dungeon_map != null else null
+	card = NodeCard.make(NodeCard.Kind.WELL if is_offer() else NodeCard.Kind.CHALLENGE, challenge.display_name, 940.0)
+	add_child(card)
+	card.set_banner_for_node(node)
 	if is_offer():
 		_build_offer()
-		UIKit.pop_in(panel)
-		Audio.sfx(&"ui_open")
-		return
-	# Overnight Oct 31 - Nov 1 (mid-game critic #9): the test in numbers and your deck's chance, before you reveal.
-	var test: Label = UIKit.label(test_text(), &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	test.name = "TestRule"
-	test.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	test.custom_minimum_size = Vector2(1000, 0)
-	_column.add_child(test)
-	_column.add_child(UIKit.label(_stakes_text(), &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	_cards_row = UIKit.hbox(14)
-	_cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_cards_row.custom_minimum_size = Vector2(0, 250)
-	_column.add_child(_cards_row)
-	_result_box = UIKit.vbox(6)
-	_column.add_child(_result_box)
-	_reveal_button = FancyButton.make("Reveal", &"PrimaryButton", Vector2(260, 60))
-	_reveal_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_reveal_button.pressed.connect(_on_reveal)
-	_reveal_button.focus_mode = Control.FOCUS_ALL
-	_column.add_child(_reveal_button)
-	# Fix pass Nov 7 (Part 5, C1 F6): a test that can only heal is not offered at full HP (all risk, no reward).
-	if Session.run != null and Session.run.hp >= Session.run.max_hp() and only_heals(challenge):
-		_reveal_button.disabled = true
-		_reveal_button.text = "You're at full HP"
-		_reveal_button.tooltip_text = "Passing would only heal you. Come back hurt, or leave it."
-	# Fable pass Nov 1 (Part 7): a deck test can be declined - the node is passed with nothing won or lost.
-	_leave_button = FancyButton.make("Leave it (no test)", &"", Vector2(260, 52))
-	_leave_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_leave_button.pressed.connect(func() -> void:
-		Audio.sfx(&"ui_select")
-		finished.emit())
-	_column.add_child(_leave_button)
-	UIKit.pop_in(panel)
+	else:
+		_build_test()
 	Audio.sfx(&"ui_open")
-	_leave_button.focus_mode = Control.FOCUS_ALL
 	_leave_button.call_deferred(&"grab_focus")
 
 
@@ -90,12 +46,9 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _age < GUARD_TIME or not is_visible_in_tree() or _reveal_button == null:
 		return
-	# Fable Nov 12c (A1): an offer that is closed (full HP, the smallest deck) still answers the confirm key and Esc with "Leave it".
+	# Fable Nov 12c (A1): an offer that is closed (full HP, the smallest deck) still answers the confirm key with "Leave it" (Esc is the
+	# card's: `NodeCard.back_button`).
 	var leave_open: bool = _leave_button != null and _leave_button.visible
-	if leave_open and UiInput.is_back(event):
-		get_viewport().set_input_as_handled()
-		_leave_button.pressed.emit()
-		return
 	if _reveal_button.disabled and not (is_offer() and leave_open):
 		return
 	if UiInput.is_confirm(event):
@@ -130,6 +83,14 @@ func _pick_challenge() -> ChallengeData:
 	return Session.content.challenges[0]
 
 
+func _leave() -> void:
+	Audio.sfx(&"ui_back")
+	finished.emit()
+
+
+# ---- A deck test: reveal cards, pass or fail ----------------------------------------------------------------------------------
+
+
 ## "The test: draw 5 cards from your deck - 2+ must be Unit cards. Your deck: about 64 % to pass."
 func test_text() -> String:
 	var rule: String = ChallengeResolver.rule_text(challenge)
@@ -148,10 +109,44 @@ func _stakes_text() -> String:
 	return "Pass: %s      Fail: %s" % [", ".join(win), ", ".join(lose)]
 
 
+static func _joined(outcomes: Array[ChallengeOutcome]) -> String:
+	var parts: PackedStringArray = []
+	for outcome: ChallengeOutcome in outcomes:
+		parts.append(outcome.description.trim_suffix("."))
+	return ", ".join(parts) if not parts.is_empty() else "nothing"
+
+
+func _build_test() -> void:
+	card.flavour(challenge.description)
+	# Overnight Oct 31 - Nov 1 (mid-game critic #9): the test in numbers and your deck's chance, before you reveal.
+	var test: Label = card.line(test_text(), NodeCard.GOLD_INK, 22, true)
+	test.name = "TestRule"
+	card.effect([["ICON-CHECK", "Pass: %s" % _joined(challenge.on_success)], ["ICON-NODE-CHALLENGE", "Fail: %s" % _joined(challenge.on_failure)]])
+	_cards_row = UIKit.hbox(14)
+	_cards_row.name = "Revealed"
+	_cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	card.content.add_child(_cards_row)
+	_reveal_button = card.button("Reveal", true, "ICON-NODE-CHALLENGE", 260.0)
+	_reveal_button.name = "Reveal"
+	_reveal_button.pressed.connect(_on_reveal)
+	# Fix pass Nov 7 (Part 5, C1 F6): a test that can only heal is not offered at full HP (all risk, no reward).
+	if Session.run != null and Session.run.hp >= Session.run.max_hp() and only_heals(challenge):
+		_reveal_button.disabled = true
+		_reveal_button.text = "You're at full HP"
+		_reveal_button.tooltip_text = "Passing would only heal you. Come back hurt, or leave it."
+	# Fable pass Nov 1 (Part 7): a deck test can be declined - the node is passed with nothing won or lost.
+	_leave_button = card.button("Leave it (no test)", false, "", 260.0)
+	_leave_button.name = "Leave"
+	_leave_button.pressed.connect(_leave)
+	card.back_button = _leave_button
+
+
 func _on_reveal() -> void:
 	if _leave_button != null:
 		_leave_button.visible = false
+		card.back_button = null
 	if _resolved:
+		Audio.sfx(&"ui_close")
 		finished.emit()
 		return
 	_resolved = true
@@ -161,8 +156,9 @@ func _on_reveal() -> void:
 	if not result.gained_cards.is_empty():
 		Session.add_cards(result.gained_cards)
 		Session.save_game()
-	for card: CardData in result.revealed:
-		var holder: Control = CardView.wrapped(card, 0.5)
+	_cards_row.custom_minimum_size = Vector2(0, 250)
+	for shown: CardData in result.revealed:
+		var holder: Control = CardView.wrapped(shown, 0.5)
 		_cards_row.add_child(holder)
 		holder.modulate.a = 0.0
 		Audio.sfx(&"card_draw")
@@ -182,8 +178,7 @@ func headline_text(passed: bool) -> String:
 func _show_outcome(result: ChallengeResult) -> void:
 	var passed: bool = result.success
 	Audio.sfx(&"victory" if passed else &"defeat", -6.0)
-	var headline: Label = UIKit.label(headline_text(passed), &"HeadingLabel", 36, UIStyle.GOOD if passed else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
-	_result_box.add_child(headline)
+	card.line(headline_text(passed), NodeCard.GOOD_INK if passed else NodeCard.BAD_INK, 32, true)
 	var lines: PackedStringArray = []
 	# Fresh eyes Oct 30: the rule in numbers first ("3 of the 5 were Infrastructure; 3 were needed."), and why a passed well at full
 	# HP changes nothing - the critic pressed Reveal and could not tell whether it had passed.
@@ -196,20 +191,29 @@ func _show_outcome(result: ChallengeResult) -> void:
 		lines.append("You recover %d HP." % result.hp_healed)
 	if result.hp_lost > 0:
 		lines.append("You lose %d HP." % result.hp_lost)
-	for card: CardData in result.lost_cards:
-		lines.append("%s is lost for this dungeon." % card.display_name)
-	for card: CardData in result.gained_cards:
-		lines.append(("%s joins your deck." if Session.rewards_go_to_deck() else "%s: added to your collection.") % card.display_name)
+	for lost: CardData in result.lost_cards:
+		lines.append("%s is lost for this dungeon." % lost.display_name)
+	for gained: CardData in result.gained_cards:
+		lines.append(("%s joins your deck." if Session.rewards_go_to_deck() else "%s: added to your collection.") % gained.display_name)
 	if not result.gained_cards.is_empty() and Session.take_collection_tip():
 		lines.append("Cards you win go to your collection. Build them into a deck at the Deck Station.")
 	for boon: ModifierSource in result.boons:
 		lines.append("%s: %s. %s" % [BoonText.kind_word(boon), boon.source_name, BoonText.describe(boon)])  # Fixes Oct 27: what it does, not just its name
 	if lines.is_empty():
 		lines.append("Nothing changes.")
-	for line: String in lines:
-		_result_box.add_child(UIKit.label(line, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+	for text: String in lines:
+		card.line(text, NodeCard.INK, 22)
+	if result.hp_healed > 0 or result.hp_lost > 0:
+		var after: int = Session.run.hp
+		var before: int = after - result.hp_healed + result.hp_lost
+		var bar: NodeCard.HpPreview = card.hp_preview(before, after, Session.run.max_hp())
+		bar.apply()
+		if result.hp_healed > 0:
+			card.heal_shimmer()
 	_reveal_button.text = "Continue"
+	_reveal_button.icon = null
 	_reveal_button.disabled = false
+	_reveal_button.call_deferred(&"grab_focus")
 
 
 # ---- Fable Nov 12c (A1): the Hollow Well's offer ------------------------------------------------------------------------------
@@ -220,66 +224,61 @@ func is_offer() -> bool:
 	return challenge != null and challenge.kind == ChallengeData.Kind.RANDOM_SACRIFICE
 
 
-## "Sacrifice a random card from your deck for the rest of this dungeon: heal 4 HP."
-func offer_rule_text() -> String:
+func _offer_heal() -> int:
 	var heal: int = 0
 	for outcome: ChallengeOutcome in challenge.on_success:
 		if outcome.kind == ChallengeOutcome.Kind.HEAL:
 			heal += outcome.amount
-	return "Sacrifice a random card from your deck for the rest of this dungeon: heal %d HP." % heal
+	return heal
+
+
+## "Sacrifice a random card from your deck for the rest of this dungeon: heal 4 HP."
+func offer_rule_text() -> String:
+	return "Sacrifice a random card from your deck for the rest of this dungeon: heal %d HP." % _offer_heal()
 
 
 ## "The well takes Card Name. It returns when you leave the cave."
-func taken_text(card: CardData) -> String:
+func taken_text(taken: CardData) -> String:
 	var place: String = "the cave" if challenge.id == TrialOfTheHollow.CHALLENGE_ID else "this dungeon"
-	return "The well takes %s. It returns when you leave %s." % [card.display_name, place]
+	return "The well takes %s. It returns when you leave %s." % [taken.display_name, place]
 
 
 var _offer_block: ChallengeResolver.Block = ChallengeResolver.Block.NONE
 
 
 func _build_offer() -> void:
-	var rule: Label = UIKit.label(offer_rule_text(), &"", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	card.flavour(challenge.description)
+	var rule: HFlowContainer = card.effect([["ICON-STAT-HP", "Heal %d HP" % _offer_heal()], ["ICON-UI-DECK", "lose a random card for this dungeon"]])
 	rule.name = "OfferRule"
-	rule.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	rule.custom_minimum_size = Vector2(1000, 0)
-	_column.add_child(rule)
-	var hp: Label = UIKit.label("HP  %d / %d" % [Session.run.hp, Session.run.max_hp()], &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
-	hp.name = "OfferHp"
-	_column.add_child(hp)
+	rule.tooltip_text = offer_rule_text()
+	var hp: int = Session.run.hp
+	var max_hp: int = Session.run.max_hp()
+	_preview = card.hp_preview(hp, mini(max_hp, hp + _offer_heal()), max_hp)
 	_cards_row = UIKit.hbox(14)
+	_cards_row.name = "Taken"
 	_cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_column.add_child(_cards_row)
-	_result_box = UIKit.vbox(6)
-	_column.add_child(_result_box)
+	card.content.add_child(_cards_row)
 	_offer_block = ChallengeResolver.offer_block(challenge, Session.run)
-	_reveal_button = FancyButton.make("Give a card", &"PrimaryButton", Vector2(300, 60))
+	_reveal_button = card.button("Give a card", true, "ICON-NODE-CHALLENGE", 280.0)
 	_reveal_button.name = "OfferAccept"
-	_reveal_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_reveal_button.pressed.connect(_on_offer_accept)
-	_reveal_button.focus_mode = Control.FOCUS_ALL
-	_column.add_child(_reveal_button)
 	if _offer_block != ChallengeResolver.Block.NONE:
 		_reveal_button.disabled = true
 		_reveal_button.text = ChallengeResolver.block_button_text(_offer_block)
-		var why: Label = UIKit.label(ChallengeResolver.block_reason(_offer_block, Session.run), &"MutedLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		_reveal_button.icon = null
+		var why: Label = card.line(ChallengeResolver.block_reason(_offer_block, Session.run), NodeCard.INK_SOFT, 21)
 		why.name = "OfferBlocked"
-		why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		why.custom_minimum_size = Vector2(1000, 0)
-		_result_box.add_child(why)
-	_leave_button = FancyButton.make("Leave it", &"", Vector2(300, 52))
+	else:
+		card.chip("ICON-UI-DECK", "Cost: 1 random card, back when you leave", NodeCard.BAD_INK)
+	_leave_button = card.button("Leave it", false, "", 240.0)
 	_leave_button.name = "OfferLeave"
-	_leave_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	_leave_button.pressed.connect(func() -> void:
-		Audio.sfx(&"ui_select")
-		finished.emit())
-	_leave_button.focus_mode = Control.FOCUS_ALL
-	_column.add_child(_leave_button)
-	_leave_button.call_deferred(&"grab_focus")
+	_leave_button.pressed.connect(_leave)
+	card.back_button = _leave_button
 
 
 func _on_offer_accept() -> void:
 	if _resolved:
+		Audio.sfx(&"ui_close")
 		finished.emit()
 		return
 	var choice: ChallengeChoice = ChallengeChoice.new()
@@ -289,21 +288,37 @@ func _on_offer_accept() -> void:
 		return
 	_resolved = true
 	_leave_button.visible = false
-	for child: Node in _result_box.get_children():
-		child.queue_free()
-	var card: CardData = result.lost_cards[0]
-	var holder: Control = CardView.wrapped(card, 0.5)
+	card.back_button = null
+	for chip: Node in card.find_children("Chip", "PanelContainer", true, false):
+		chip.visible = false
+	# the lines of the offer have done their job: the result takes their place (and the card still fits a 720p screen)
+	for done: String in ["OfferBlocked", "Flavour", "OfferRule"]:
+		var old: Node = card.content.get_node_or_null(done)
+		if old != null:
+			card.content.remove_child(old)
+			old.queue_free()
+	var taken: CardData = result.lost_cards[0]
+	# the well swallows the card: it shows face up, then sinks a little and dims, and the water gives the HP back
+	var holder: Control = CardView.wrapped(taken, 0.5)
 	holder.name = "TakenCard"
 	_cards_row.add_child(holder)
-	Audio.sfx(&"heal")
-	var taken: Label = UIKit.label(taken_text(card), &"HeadingLabel", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
-	taken.name = "OfferTaken"
-	_result_box.add_child(taken)
-	var healed: Label = UIKit.label("You recover %d HP.  (HP %d / %d)" % [result.hp_healed, Session.run.hp, Session.run.max_hp()], &"", 24, UIStyle.GOOD, HORIZONTAL_ALIGNMENT_CENTER)
+	Audio.sfx(&"splash")
+	if not NodeCard.still():
+		holder.modulate.a = 0.0
+		var sink: Tween = create_tween()
+		sink.tween_property(holder, "modulate:a", 1.0, 0.25)
+		sink.tween_interval(0.55)
+		sink.tween_property(holder, "modulate", Color(0.86, 0.91, 1.0, 0.94), 0.5)
+	var words: Label = card.line(taken_text(taken), NodeCard.INK, 25, true)
+	words.name = "OfferTaken"
+	var healed: Label = card.line("You recover %d HP." % result.hp_healed, NodeCard.GOOD_INK, 22)
 	healed.name = "OfferHealed"
-	_result_box.add_child(healed)
-	var hp: Label = _column.get_node_or_null("OfferHp") as Label
-	if hp != null:
-		hp.visible = false
+	# the lines sit under the card; the HP bar plays the heal
+	card.content.move_child(_cards_row, card.content.get_child_count() - 3)
+	Audio.sfx(&"heal")
+	_preview.after = Session.run.hp
+	_preview.apply()
+	card.heal_shimmer()
 	_reveal_button.text = "Continue"
+	_reveal_button.icon = null
 	_reveal_button.call_deferred(&"grab_focus")

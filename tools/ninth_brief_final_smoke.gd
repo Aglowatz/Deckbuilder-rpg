@@ -273,7 +273,7 @@ func _drive_modal(screen: DungeonMapScreen) -> void:
 				await _shot("06_event_%s" % str(modal.name))
 			await driver.click(driver.center_of_control(choice))
 			picked = true
-		for text: String in ["Continue", "Rest", "Reveal", "Open the chest"]:
+		for text: String in ["Continue", "Rest", "Give a card", "Reveal", "Open the chest", "Leave it"]:
 			var button: Button = driver.find_button(text, modal)
 			if button != null and not button.disabled and not picked:
 				await driver.click(driver.center_of_control(button))

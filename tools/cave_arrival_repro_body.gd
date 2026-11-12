@@ -234,7 +234,7 @@ func _resolve_modal(map_screen: DungeonMapScreen) -> bool:
 		await _click(_center(choice))
 		await _seconds(0.5)
 		return true
-	for text: String in ["Reveal", "Rest", "Open the chest", "Continue", "Take", "Leave"]:
+	for text: String in ["Give a card", "Reveal", "Rest", "Open the chest", "Continue", "Take", "Leave"]:
 		var button: Button = _find_button(text, modal)
 		if button != null:
 			await _click(_center(button))

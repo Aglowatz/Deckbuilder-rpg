@@ -275,7 +275,7 @@ func _resolve_modal(map_screen: DungeonMapScreen) -> void:
 			await driver.seconds(0.5)
 			continue
 		var clicked: bool = false
-		for text: String in ["Reveal", "Rest", "Open the chest", "Continue"]:
+		for text: String in ["Give a card", "Reveal", "Rest", "Open the chest", "Continue", "Leave it"]:
 			var button: Button = driver.find_button(text, modal)
 			if button != null:
 				await driver.click(driver.button_center(button))

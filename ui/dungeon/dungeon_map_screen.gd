@@ -486,54 +486,19 @@ func _run_badges(node_number: int) -> Array[RuleBadges.Badge]:
 var _brief: Control
 
 
-func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Callable) -> void:
+func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Callable, node: DungeonMap.MapNode = null) -> void:
 	if badges.is_empty():
 		if then.is_valid():
 			then.call()
 		return
 	if _brief != null and is_instance_valid(_brief):
 		_brief.queue_free()
-	var layer: Control = Control.new()
-	layer.name = "RulesBrief"
-	UIKit.full_rect(layer)
-	layer.z_index = 140
-	layer.mouse_filter = Control.MOUSE_FILTER_STOP
-	add_child(layer)
-	_brief = layer
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.01, 0.05, 0.6)
-	UIKit.full_rect(shade)
-	layer.add_child(shade)
-	var center: CenterContainer = CenterContainer.new()
-	UIKit.full_rect(center)
-	layer.add_child(center)
-	var panel: PanelContainer = UIKit.panel()
-	center.add_child(panel)
-	var column: VBoxContainer = UIKit.vbox(10)
-	panel.add_child(column)
-	column.add_child(UIKit.label(title, &"HeadingLabel", 32, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	column.add_child(UIKit.label("The rules in play. Hover an icon for its text; the same icons stay on screen during the fight.", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
-	var row: RuleIconRow = RuleIconRow.make(badges, "", true)
-	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	column.add_child(row)
-	for badge: RuleBadges.Badge in RulesBrief.distinct_by_name(badges):  # Fresh eyes round 2 (Oct 31): no rule printed twice
-		var line: Label = UIKit.label(RulesBrief.line_text(badge, badges), &"", 19, badge.color())
-		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		line.custom_minimum_size = Vector2(760, 0)
-		column.add_child(line)
-	var go: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(220, 56))
-	go.name = "BriefContinue"
-	go.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	go.pressed.connect(func() -> void:
-		layer.queue_free()
+	# Fable Nov 12c (Part B): the one illustrated card (`RulesBrief` on `NodeCard`), as a child of the map: the foe's picture over this
+	# room's corner of the map, a row per rule.
+	_brief = RulesBrief.open(self, badges, title, func() -> void:
 		_brief = null
 		if then.is_valid():
-			then.call())
-	column.add_child(go)
-	ConfirmKey.attach(panel, go)  # Fresh eyes round 2 (Oct 31): E / Enter / Space / pad A continue
-	go.focus_mode = Control.FOCUS_ALL
-	go.call_deferred(&"grab_focus")
-	UIKit.pop_in(panel)
+			then.call(), false, node)
 
 
 ## A fight node's one-sided rules; Primm's chamber shows the rules of the phase about to be fought (Daytime Oct 19).
@@ -556,7 +521,7 @@ func _run_node(node: DungeonMap.MapNode) -> void:
 			if badges.is_empty() or not _screenshot_args.is_empty():
 				fight.call()
 			else:
-				_show_rules_brief(badges, "Before the fight: %s" % node.enemy_name, fight)
+				_show_rules_brief(badges, "Before the fight: %s" % node.enemy_name, fight, node)
 		DungeonMap.Kind.CHALLENGE:
 			_open_modal(ChallengeScreen.new(), node.id)
 		DungeonMap.Kind.SHRINE:
@@ -799,6 +764,16 @@ func _open_from_screenshot(what: String) -> void:
 	match what:
 		"rules":
 			_toggle_rules()
+		"brief":
+			# Fable Nov 12c (Part B): the pre-fight panel of the next open fight (or of the boss with --brief_boss)
+			var target: DungeonMap.MapNode = map.boss() if _screenshot_args.has("brief_boss") else null
+			for candidate: DungeonMap.MapNode in map.nodes:
+				if target == null and DungeonMap.is_battle_kind(candidate.kind) and not map.is_cleared(candidate.id):
+					target = candidate
+			if target != null:
+				var shown_badges: Array[RuleBadges.Badge] = _run_badges(target.number)
+				shown_badges.append_array(RuleBadges.for_encounter(_node_rules(target)))
+				_show_rules_brief(shown_badges, "Before the fight: %s" % target.enemy_name, Callable(), target)
 		"challenge":
 			var well: ChallengeScreen = ChallengeScreen.new()
 			_open_modal(well, 2)

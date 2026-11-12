@@ -57,6 +57,21 @@ Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_repor
     dungeon data has no per-room level to test). When a castle pick rolls three Commons its last card is redrawn from the Uncommons
     and better, with the usual weights. The paid reroll keeps the floor.
 
+13. **The pop-ups (Part B) have a light vellum body with dark ink**, inside the game's gold frame, where every other panel is dark
+    purple with light text. It is the look of a card's rules box, and it is what makes them read as illustrated pages. If you would
+    rather keep them dark, the colours are six constants at the top of `ui/dungeon/node_card.gd` (`VELLUM`, `INK` ...).
+14. **The shrine can now be left** ("Leave it", Esc), like the well: the room is passed without healing. It had only "Rest". At full
+    HP it shows "already full" and one "Continue" button.
+15. **The pre-fight panel shows the foe's picture**: the dialogue cut-out as head and shoulders when the foe has one, else the
+    Bestiary picture in a gold medallion, else the fight icon. Over 5 rules it goes to two columns and a lower banner. It is the
+    same panel for the dungeon maps, the arena, Shiro and the Old Well's Echo.
+16. **The banner is the dungeon's own painted map**, cropped round the room and blurred, under a colour per kind (teal shrine, blue
+    well, amber event, gold treasure, rose rescue, violet challenge, red fight). When `UI-NODE-BANNER` lands it becomes the base
+    under the same wash, with no code change (`NodeCard.BANNER_ART_ID`).
+17. **The controller smoke fails one check that this pass did not touch**: "Y hides the card details" in the ghost duel
+    (`tools/gamepad_smoke.gd`, the battle's pad layer). Every other pad check passes; the pop-ups' buttons take the pad's focus and
+    B / Esc presses "Leave it" (tests in `tests/ui/test_node_card.gd`).
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2

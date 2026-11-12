@@ -556,10 +556,21 @@ func _map(scene: DungeonMapScreen) -> void:
 	if scene._modal != null:
 		var modal: Control = scene._modal
 		if modal is ChallengeScreen:
-			await driver.click_button("Reveal")
-			await driver.seconds(3.0)
-			_check(driver.find_button("Continue") != null, "the challenge shows an outcome")
-			await driver.click_button("Continue")
+			# Fable Nov 12c (A1): the Hollow Well is an offer - give a card when it is open (hurt, a deck with a card to spare), else leave it
+			if driver.find_button("Give a card") != null:
+				var deck_before_well: int = Session.run.current_deck().size()
+				await driver.click_button("Give a card")
+				await driver.seconds(2.0)
+				_check(Session.run.current_deck().size() == deck_before_well - 1, "the well took one card for the run")
+				_check(driver.find_button("Continue") != null, "the well shows what it took")
+				await driver.click_button("Continue")
+			elif driver.find_button("Reveal") != null:
+				await driver.click_button("Reveal")
+				await driver.seconds(3.0)
+				_check(driver.find_button("Continue") != null, "the challenge shows an outcome")
+				await driver.click_button("Continue")
+			else:
+				await driver.click_button("Leave it")
 		elif modal is ShrineScreen:
 			var before: int = Session.run.hp
 			await driver.click_button("Rest")

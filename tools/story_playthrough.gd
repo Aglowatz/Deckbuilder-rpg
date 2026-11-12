@@ -1302,7 +1302,7 @@ func _pick_node(map: DungeonMap) -> int:
 
 ## A node screen (challenge, shrine, event, treasure): press what a player would press until it closes.
 func _drive_modal(modal: Control) -> void:
-	var prefer: Array[String] = ["Reveal", "Open the chest", "Rest", "Continue", "Leave it (no test)"]
+	var prefer: Array[String] = ["Give a card", "Reveal", "Open the chest", "Rest", "Continue", "Leave it (no test)", "Leave it"]
 	for _guard: int in range(40):
 		if not is_instance_valid(modal) or not modal.is_inside_tree():
 			return
