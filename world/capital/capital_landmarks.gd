@@ -121,6 +121,17 @@ static func _wall_piece_geometry(mesh: KitMesh, w: float, h: float, d: float, se
 		var skirt: Array[Vector3] = [basis * Vector3(-length * 0.5, 0.0, foot), basis * Vector3(length * 0.5, 0.0, foot), basis * Vector3(length * 0.5, plinth_h, z + face * 0.02), basis * Vector3(-length * 0.5, plinth_h, z + face * 0.02)]
 		mesh.quad("marble_shade", skirt, normal + Vector3(0, out / plinth_h, 0), [Color(0.72, 0.72, 0.72), Color(0.72, 0.72, 0.72), Color.WHITE, Color.WHITE])
 		mesh.box("marble_shade", basis * Vector3(0, plinth_h + 0.1, z + face * 0.08), sized.call(length, 0.2, 0.16), Basis.IDENTITY, 0.03)
+		if face > 0.0:
+			# Fable Nov 12 (Part 2.2, art critic #10: "flat lavender untextured city wall"): the outer face weathers - the wasteland's dust climbs
+			# the first metres over the plinth and rain streaks hang under the cornice (vertex-coloured washes a hair proud of the plaster), so the
+			# wall reads as stone standing in a ruin, still pristine higher up.
+			var grime: Color = Color(0.6, 0.56, 0.54)
+			var clean: Color = Color(1.0, 1.0, 1.0)
+			var g0: float = plinth_h + 0.2
+			var g1: float = plinth_h + 3.4
+			mesh.quad("plaster", [basis * Vector3(-length * 0.5, g0, z + 0.008), basis * Vector3(length * 0.5, g0, z + 0.008), basis * Vector3(length * 0.5, g1, z + 0.008), basis * Vector3(-length * 0.5, g1, z + 0.008)], normal, [grime, grime, clean, clean])
+			var streak: Color = Color(0.8, 0.78, 0.78)
+			mesh.quad("plaster", [basis * Vector3(-length * 0.5, h - 2.6, z + 0.008), basis * Vector3(length * 0.5, h - 2.6, z + 0.008), basis * Vector3(length * 0.5, h - 0.9, z + 0.008), basis * Vector3(-length * 0.5, h - 0.9, z + 0.008)], normal, [clean, clean, streak, streak])
 		# ashlar courses: thin joints every course, the vertical joints staggered course to course
 		var course: float = 1.25
 		var y: float = plinth_h + course

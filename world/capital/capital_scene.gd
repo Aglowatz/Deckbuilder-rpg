@@ -51,6 +51,17 @@ func _zone_id() -> String:
 	return CapitalZone.ID
 
 
+## Fable Nov 12 (art critic #9): the rim's hills count as ground for the lens - they were shaped for the steeper cameras, and the Low angle
+## (11 degrees) trailing south of the Resistance Camp sat inside them, looking at the ground from below.
+func _camera_ground(p: Vector3) -> float:
+	var ground: float = super(p)
+	if capital != null and capital.rim != null:
+		for dx: int in [0, 1]:
+			for dz: int in [0, 1]:
+				ground = maxf(ground, capital.rim.height_at(int(floor(p.x)) + dx, int(floor(p.z)) + dz))
+	return ground
+
+
 ## Oct 16 (Block 5b): the district music and ambience load on background threads as the Capital opens, so walking into the Transit Yards,
 ## the Reek or any other district never stalls a frame loading a track (the old min-fps hitches).
 func _prewarm_districts() -> void:

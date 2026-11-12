@@ -1118,11 +1118,22 @@ func _world_active() -> bool:
 var _battle_push: float = 1.0
 
 
+const CAMERA_GROUND_CLEARANCE: float = 1.1
+
+
+## The height of whatever ground lies under the lens at `p` (a zone with land beyond its walkable map - the Capital's rim - overrides it).
+func _camera_ground(p: Vector3) -> float:
+	return builder.height_at(p) if builder != null else 0.0
+
+
 func _update_camera(delta: float) -> void:
 	# Overnight Nov 2-3, Part 5: the Capital's city camera (Raised / Low) shapes its own offset, trails a little in Low and pulls in out of buildings
 	var target: Vector3 = player.position + CityCamera.shape(camera_offset) * _battle_push
 	if CityCamera.mode() == CityCamera.LOW:
 		target = CityCamera.pull_in(player.position, target, _camera_blocked)
+	# Fable Nov 12 (art critic #9, the Resistance Camp on the Low camera): the lens never sinks into rising ground behind the hero - it showed
+	# the terrain from underneath. It rides CAMERA_GROUND_CLEARANCE over the ground where it stands.
+	target.y = maxf(target.y, _camera_ground(target) + CAMERA_GROUND_CLEARANCE)
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-CityCamera.follow_rate() * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
 	if _cam_shake_time > 0.0:
