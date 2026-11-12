@@ -1,0 +1,114 @@
+file,score,note,sty,lit,mat,scl,cmp,rd
+battle_dungeon_d-pc_mid.jpg,7.7,"Ghosted ""Refuse Pile"" tip panel overlapping the right side",8,8,8,8,7,7
+battle_dungeon_d-pc_start.jpg,7.8,"Dark navy placeholder-looking item slots, left",8,8,8,8,8,7
+battle_primm_p1_mid.jpg,7.5,"Unbacked text line plus cluttered rule panel, left",8,8,8,8,7,6
+battle_primm_p1_start.jpg,7.7,"Rule panel and badge row clutter, left",8,8,8,8,7,7
+battle_tutorial_mid.jpg,5.7,No board art: flat dark navy void behind the cards,5,5,4,7,6,7
+battle_tutorial_start.jpg,5.7,Same flat navy void,5,5,4,7,6,7
+battle_zone_beefcake_mid.jpg,7.7,"Plain ""VICTORY!"" text with no treatment",8,8,8,8,7,7
+battle_zone_beefcake_start.jpg,7.8,"Item slots, left",8,8,8,8,8,7
+battle_zone_gourmand_mid.jpg,7.3,Bright tablecloth lowers card contrast,8,7,8,8,7,6
+battle_zone_gourmand_start.jpg,7.5,Same,8,7,8,8,7,7
+battle_zone_necrocrat_mid.jpg,7.7,Plain undecorated tooltip box,8,8,8,8,7,7
+battle_zone_necrocrat_start.jpg,7.8,-,8,8,8,8,8,7
+battle_zone_refusemancer_mid.jpg,8.0,-,9,8,8,8,8,7
+battle_zone_refusemancer_start.jpg,8.2,-,9,8,8,8,8,8
+buffet_arrival_default.jpg,5.0,"Flat mustard wall band, flat brown ""gravy"" plane, orange rectangles in the sky",5,5,4,6,5,5
+buffet_arrival_low.jpg,5.8,Flat mustard band,6,6,5,6,6,6
+buffet_door_default.jpg,4.8,The dungeon door is a blank glowing cream rectangle,5,5,4,6,5,4
+buffet_door_low.jpg,5.3,Same door; faceted hedge blobs and boulder,5,6,4,6,6,5
+buffet_hub_default.jpg,5.8,Dark stone cube at right; blank cream window cut-outs,6,6,6,6,6,5
+buffet_hub_low.jpg,6.3,Blank windows,7,6,6,6,7,6
+buffet_mid1_default.jpg,4.3,Flat pizza disc and brown cylinder block the foreground,5,5,4,5,3,4
+buffet_mid1_low.jpg,5.8,Low-poly white bollards and hedges,6,6,5,6,6,6
+buffet_mid2_default.jpg,5.2,"Flat brown void plane, right; flat pink box roof on the stall",5,5,4,6,5,6
+buffet_mid2_low.jpg,6.2,"Flat pink box and flat green stall base, centre",6,6,5,6,7,7
+capital_after_castle_door_default.jpg,5.0,Blown out to white; stairs lose form; smiley placeholder portraits,5,3,4,7,6,5
+capital_after_castle_door_low.jpg,5.3,Same; blank white glowing panel left of centre,5,4,4,7,7,5
+capital_after_gate_plaza_default.jpg,5.5,"Flat navy rectangle on the palace (top centre); dry fountain, fallen statues",6,4,5,7,6,5
+capital_after_gate_plaza_low.jpg,6.0,Navy rectangle; faceted lamp globes,6,5,5,7,7,6
+capital_after_grave_row_default.jpg,4.8,"Flat brown box planter with lollipop flowers, lower right",5,4,4,6,5,5
+capital_after_grave_row_low.jpg,5.5,"Same brown box, large in frame",6,5,4,6,6,6
+capital_after_hungry_quarter_default.jpg,5.8,Washed-out facades,6,4,5,7,7,6
+capital_after_hungry_quarter_low.jpg,6.3,Faceted lamp globes fill both edges,7,5,5,7,7,7
+capital_after_palace_approach_default.jpg,5.8,Navy rectangle top centre; smiley posters,6,4,5,7,7,6
+capital_after_palace_approach_low.jpg,6.2,"Navy rectangle; flat yellow low-poly megaphone, right",6,5,5,7,8,6
+capital_before_castle_door_default.jpg,6.2,Flat pure-blue windows; smiley portraits; jagged stair shadows,6,6,5,7,7,6
+capital_before_castle_door_low.jpg,6.2,Same,6,6,5,7,7,6
+capital_before_gate_plaza_default.jpg,6.3,"Fountain water is flat blue with dark scribble artefacts, right",7,6,5,7,7,6
+capital_before_gate_plaza_low.jpg,6.7,Faceted lamp globes; scribble on the fountain,7,7,6,7,7,6
+capital_before_gate_road_default.jpg,5.5,Flat lavender untextured city wall; grey and drab,5,5,4,7,6,6
+capital_before_gate_road_low.jpg,6.3,Flat wall,6,6,5,7,7,7
+capital_before_grave_row_default.jpg,5.5,"Brown box planter; grey disc with stick fragments, lower right",6,6,4,6,5,6
+capital_before_grave_row_low.jpg,5.7,Brown box,6,6,4,6,6,6
+capital_before_hungry_quarter_default.jpg,6.3,Flat blue windows,7,6,5,7,7,6
+capital_before_hungry_quarter_low.jpg,6.3,"Dark grey untextured wall section, mid-frame behind the balustrades",6,6,5,7,7,7
+capital_before_palace_approach_default.jpg,6.3,Flat blue windows,7,6,5,7,7,6
+capital_before_palace_approach_low.jpg,6.8,"Low-poly megaphone; smiley easel, left",7,7,5,7,8,7
+capital_before_resistance_camp_default.jpg,4.8,Flat lavender placeholder slabs across the foreground,4,5,3,6,5,6
+capital_before_resistance_camp_low.jpg,1.3,Broken camera: the frame is ground texture and the inside of a wall,1,2,2,1,1,1
+capital_before_the_reek_default.jpg,6.0,Bare cracked-dirt strip along the bottom edge,6,6,5,7,6,6
+capital_before_the_reek_low.jpg,6.3,Dirt strip; translucent ghost building at right edge,7,7,5,7,6,6
+capital_before_transit_yards_default.jpg,5.8,"Translucent blue-grey ghost box building, upper left",6,6,5,7,6,5
+capital_before_transit_yards_low.jpg,6.2,"Flat grey-blue box, left",6,7,5,7,6,6
+dna_arrival_default.jpg,4.0,Pure-black slab buildings; flat gridded grey-green plane,4,3,3,5,5,4
+dna_arrival_low.jpg,4.0,"Giant flat paper quads, upper right",4,3,3,5,5,4
+dna_door_default.jpg,4.8,No visible door: stairs lead to a blank dark brick wall,5,4,5,6,6,3
+dna_door_low.jpg,5.0,"Huge padlock billboard, lower right",5,4,5,6,6,4
+dna_hub_default.jpg,5.5,Black box buildings around a decent hub,6,5,5,6,6,5
+dna_hub_low.jpg,4.7,Giant flat yellow quad covers the lower right,5,5,5,6,3,4
+dna_mid1_default.jpg,4.2,Black boxes; flat teal floor slabs in foreground,4,3,3,5,5,5
+dna_mid1_low.jpg,4.5,Faceted low-poly sphere top centre; oversized quest marker,5,4,3,5,5,5
+dna_mid2_default.jpg,3.0,Left 40% of the frame is pure black,3,2,3,5,2,3
+dna_mid2_low.jpg,4.2,Black slabs fill the upper half,4,3,4,6,4,4
+dump_arrival_default.jpg,5.8,"Flat orange bridge deck, bottom; flat grey water",6,6,5,6,6,6
+dump_arrival_low.jpg,6.0,Flat deck fills the foreground,6,7,5,6,6,6
+dump_door_default.jpg,6.2,Faceted grey raccoon statue upper left; flat-shaded heart door,6,6,5,6,7,7
+dump_door_low.jpg,6.3,Same,6,7,5,6,7,7
+dump_hub_default.jpg,5.0,Translucent beige ghost building in the centre of frame,5,6,5,6,4,4
+dump_hub_low.jpg,5.2,Same; faceted green topiary balls at both edges,5,6,5,6,4,5
+dump_mid1_default.jpg,5.3,Ghost wedge lower right; whited-out NPC lower left,5,6,5,6,5,5
+dump_mid1_low.jpg,6.0,Ghost wall covers the right fifth,6,7,6,6,5,6
+dump_mid2_default.jpg,5.7,Flat-colour windmill blades; flat pink statue under the pergola,6,6,5,6,6,5
+dump_mid2_low.jpg,6.5,"Flat pink statue, left",7,7,6,6,7,6
+dungeon_D-HFA.jpg,8.3,Blurred side-fill strips left and right,9,9,9,8,8,7
+dungeon_D-HOG.jpg,8.3,Same strips,9,9,9,8,8,7
+dungeon_D-LAB.jpg,7.8,"Seventeen ""?"" discs hide the painting",9,8,9,8,7,6
+dungeon_D-PC.jpg,8.0,"Same wall of ""?"" discs",9,9,9,8,7,6
+dungeon_D-ROT.jpg,8.3,-,9,9,9,8,8,7
+dungeon_D-TTK.jpg,8.3,-,9,9,9,8,8,7
+dungeon_D-TUT.jpg,8.5,-,9,9,9,8,8,8
+dungeon_S-BEEF.jpg,8.5,-,9,9,9,8,8,8
+dungeon_S-CAP.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-GALLERY.jpg,7.5,Flatter pastel style than its sibling maps,7,8,8,8,7,7
+dungeon_S-GOUR.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-IRON.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-NECRO.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-PASTE.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-REF.jpg,8.2,-,9,8,9,8,8,7
+dungeon_S-TOWN.jpg,8.2,-,9,8,9,8,8,7
+gainlands_arrival_default.jpg,5.3,Oversaturated tiling cyan water; flat pure-orange cliff tops,5,5,4,6,6,6
+gainlands_arrival_low.jpg,6.2,Smoke rendered as blue balls,6,7,5,6,7,6
+gainlands_door_default.jpg,4.7,"Giant tiling brick wall; portcullis painted flat onto it, no real door",5,5,4,5,5,4
+gainlands_door_low.jpg,5.2,Same; flat beige strip along the bottom edge,5,6,4,5,6,5
+gainlands_hub_default.jpg,5.8,Flat blue mat rectangles and a flat pink block,6,6,5,6,6,6
+gainlands_hub_low.jpg,5.8,Same,6,6,5,6,6,6
+gainlands_mid1_default.jpg,5.0,Stretched stripe texture on orange rock; identical NPCs in threes,5,5,4,6,5,5
+gainlands_mid1_low.jpg,5.3,Same; flat blue slab,5,6,4,6,6,5
+gainlands_mid2_default.jpg,5.8,"Unlit black lattice pylons, lower right",6,6,5,6,6,6
+gainlands_mid2_low.jpg,5.8,Black lamp posts,6,6,5,6,6,6
+crosspath_square_default.jpg,7.3,Foreground roof takes the bottom of the frame,8,8,7,7,7,7
+crosspath_square_low.jpg,7.7,-,8,8,7,7,8,8
+crosspath_street_default.jpg,7.3,Pale lilac plaster reads slightly flat,8,8,7,7,7,7
+crosspath_street_low.jpg,7.8,-,8,9,7,7,8,8
+forest_arrival_default.jpg,6.3,Angular low-poly leaves next to painted trunks,7,7,6,7,6,5
+forest_arrival_low.jpg,6.0,Hero half hidden by a black bramble silhouette,7,7,6,7,5,4
+ui_credits.jpg,6.7,Wall of licence text,7,7,7,7,6,6
+ui_deck_station.jpg,7.3,Dense; small text,8,8,8,7,7,6
+ui_map.jpg,5.3,Blocky near-black map inside a painted frame,5,6,4,6,6,5
+ui_shop_armory.jpg,6.5,Empty right third,7,7,7,7,5,6
+ui_shop_cards.jpg,6.2,Flat blue/green pack silhouettes; card clipped at right edge,6,7,5,7,6,6
+ui_shop_items.jpg,6.5,"Clipped tooltip (""t level""); pale grey locked-shelf box",7,7,6,7,6,6
+ui_title.jpg,8.5,Glossier render style than the in-game world,9,9,9,8,8,8
+ui_town_hud.jpg,7.3,"""Townsfolk"" labels float against the sky",8,8,7,7,7,7
+ui_wardrobe.jpg,7.2,Large empty preview panel,8,8,7,7,6,7
