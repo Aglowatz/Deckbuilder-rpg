@@ -175,7 +175,8 @@ func test_the_fader_cuts_away_what_the_camera_is_inside() -> void:
 	for i: int in range(40):
 		fader._process(0.1)
 	assert_gt(wall.transparency, 0.5, "a wall in the way fades (a smooth transparency, GC-4)")
-	assert_lt(wall.transparency, OcclusionFader.CUT_AWAY, "but is not cut away")
+	# Fable Nov 12 (art critic #3): it fades out completely now - the 3 % that used to stay stood as a beige ghost over dozens of pieces
+	assert_almost_eq(wall.transparency, OcclusionFader.FADED, 0.01, "all the way")
 	# Camera inside the wall's volume: cut away entirely.
 	_camera.position = Vector3(0.0, 2.0, 5.0)
 	for i: int in range(40):
