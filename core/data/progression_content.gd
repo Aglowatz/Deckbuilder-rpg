@@ -33,7 +33,7 @@ static func equipment() -> Dictionary:
 ## equipment vendor and its tests treat as the 10 vendor pieces).
 static func zone_equipment() -> Dictionary:
 	var result: Dictionary = {}
-	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
+	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn. Max HP +2.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HP, 2)], true))
 	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max HP +3 and your Beefcake units get +1 defense.", [_mod(K.MAX_HP, 3), _mod(K.STAT_CHANGE, 0, int(Affinity.Type.BEEFCAKE), 1)], true))  # Oct 29: Beefcake-only (a board-wide +1 at level 5 is over the budget)
 	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 HP.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_HP, 1, CardEnums.TargetKind.CONTROLLER))], true))
 	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_UNITS))], true))

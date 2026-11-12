@@ -14,7 +14,7 @@ const EQUIPMENT_CHOICE_LEVELS: Array[int] = []
 ## the armory (Oct 20, Part 4); the armory quest itself no longer depends on it.
 const ARMORY_LEVEL: int = 5
 const BONUS_DISCOUNT_LEVELS: Array[int] = [11, 21]
-const MAX_HAND_LEVELS: Array[int] = [14, 28]
+const MAX_HAND_LEVELS: Array[int] = []  # Fable Nov 12: the max hand size stays 10 at every level (GameState.MAX_HAND_CAP)
 const BONUS_VENDOR_UNLOCK_LEVELS: Array[int] = [17, 27]
 const BONUS_VENDOR_UNLOCK_NAME: String = "Sable's rare stock"
 ## Opening hand size increases at these levels (5 -> 8 over 3 steps).

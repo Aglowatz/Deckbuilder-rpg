@@ -72,7 +72,7 @@ func test_opening_hand_uses_profile_and_modifiers() -> void:
 	assert_eq(game.players[0].hand.size(), 8)
 	assert_eq(game.players[0].max_hp, 28)
 	assert_eq(game.players[0].hp, 28)
-	assert_eq(game.players[0].max_hand_size, 12)
+	assert_eq(game.players[0].max_hand_size, GameState.MAX_HAND_CAP, "Fable Nov 12: +2 from gear is capped at ten")
 	assert_eq(game.players[1].hand.size(), 5)
 
 

@@ -1,0 +1,19 @@
+dev load n6_midgame
+wait 3
+dev travel town
+wait 8
+skip_dialogue
+dev encounter zone:gourmand
+wait 6
+skip_dialogue
+wait 1
+button Continue
+wait 1.5
+button Keep Hand
+wait 2.5
+button Got it
+wait 1
+shot battle_zone_gourmand_start
+pilot 25
+wait 1
+shot battle_zone_gourmand_mid

@@ -7,7 +7,7 @@
 		"opening_hand": [8, 16, 24],
 		"item_slots_start": 2,
 		"item_slots": [6, 12],
-		"max_hand": [14, 28]
+		"max_hand": []
 	},
 	"vendor": {
 		"discount_levels": [11, 21],
@@ -54,7 +54,7 @@
 		{"level": 25, "headline": "A cape worth swishing", "grants": [{"kind": "cosmetic", "id": "cloak_red_cape"}, {"kind": "gold", "amount": 200}]},
 		{"level": 26, "headline": "Pocket money for heroes", "grants": [{"kind": "gold", "amount": 200}, {"kind": "pack", "pack": "path"}]},
 		{"level": 27, "headline": "Sable's deepest drawer", "grants": [{"kind": "pack", "pack": "gilded"}]},
-		{"level": 28, "big": true, "headline": "Room for one more card", "grants": [{"kind": "gold", "amount": 250}]},
+		{"level": 28, "big": true, "headline": "The home stretch", "grants": [{"kind": "gold", "amount": 250}, {"kind": "pack", "pack": "path"}]},
 		{"level": 29, "headline": "Almost a legend", "grants": [{"kind": "gold", "amount": 300}, {"kind": "pack", "pack": "gilded"}]},
 		{"level": 30, "big": true, "headline": "Legend of Patchwork", "grants": [{"kind": "pack", "pack": "prismatic"}, {"kind": "cosmetic", "id": "hat_wizard"}]}
 	]

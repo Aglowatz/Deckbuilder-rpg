@@ -51,10 +51,10 @@ func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
 
 func test_copy_limit_is_three_at_most_and_levels_have_other_rewards() -> void:
 	assert_eq(DeckValidator.MAX_COPIES, 3)
-	for level: int in [11, 14, 17, 21, 28]:
+	for level: int in [11, 14, 17, 21]:
 		var row: LevelData = ProgressionTable.row(level)
 		assert_true(row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_equipment_vendor_unlock or row.reward_deck_expansion or row.max_hand_size > ProgressionTable.row(level - 1).max_hand_size, "level %d replaced its copy-limit reward with something else" % level)
-	assert_eq(ProgressionTable.row(30).max_hand_size, 12)
+	assert_eq(ProgressionTable.row(30).max_hand_size, 10, "Fable Nov 12: the max hand size stays 10")
 
 
 func test_no_equipment_slot_choices_any_more() -> void:
@@ -149,9 +149,9 @@ func test_apply_level_sets_max_hand_size() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	assert_eq(profile.base_max_hand_size(), 10)
 	profile.apply_level(ProgressionTable.row(14))
-	assert_eq(profile.base_max_hand_size(), 11)
+	assert_eq(profile.base_max_hand_size(), 10)
 	profile.apply_level(ProgressionTable.row(30))
-	assert_eq(profile.base_max_hand_size(), 12)
+	assert_eq(profile.base_max_hand_size(), 10)
 
 
 func test_deck_validator_caps_a_legendary_at_one_then_three_at_level_30() -> void:
@@ -387,7 +387,7 @@ func test_stat_rewards_keep_their_schedule() -> void:
 	assert_eq(rows[29].max_hp, 30)
 	assert_eq(rows[23].opening_hand_size, 8)
 	assert_eq(rows[29].item_slots, 4)
-	assert_eq(rows[27].max_hand_size, 12)
+	assert_eq(rows[27].max_hand_size, 10)
 	var choice_levels: Array[int] = []
 	for row: LevelData in rows:
 		if row.equipment_choice:

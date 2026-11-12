@@ -1,0 +1,49 @@
+dev load n6_midgame
+wait 3
+dev travel zone refusemancer
+wait 7
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 50 144
+calm
+cam 0
+wait 1.5
+shot dump_arrival_default
+cam 3
+wait 1.2
+shot dump_arrival_low
+dev tp 50 124
+calm
+cam 0
+wait 1.5
+shot dump_hub_default
+cam 3
+wait 1.2
+shot dump_hub_low
+dev tp 50 13.5
+calm
+cam 0
+wait 1.5
+shot dump_door_default
+cam 3
+wait 1.2
+shot dump_door_low
+dev tp 43 107
+calm
+cam 0
+wait 1.5
+shot dump_mid1_default
+cam 3
+wait 1.2
+shot dump_mid1_low
+dev tp 34 78
+calm
+cam 0
+wait 1.5
+shot dump_mid2_default
+cam 3
+wait 1.2
+shot dump_mid2_low

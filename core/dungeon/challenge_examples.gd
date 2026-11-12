@@ -77,15 +77,15 @@ static func scholars_riddle(reward_pool: Array[CardData]) -> ChallengeData:
 	return challenge
 
 
-## Reveal the top 3: total energy value 7+ tips the scale in your favour (+1 hand size).
+## Reveal the top 3: total energy value 7+ tips the scale in your favour (an extra first-turn card).
 static func weighing_scale() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"weighing_scale", "The Weighing Scale",
 		"Three cards are placed on the scale. It rewards a heavy total.",
 		ChallengeData.Kind.TOP_N_TOTAL_COST, 3, 7,
 	)
-	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +1 max hand size for the dungeon.")
-	boon.boon = _boon("Heavy Purse", Modifier.Kind.MAX_HAND_SIZE, 1)
+	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Draw an extra card on your first turn for the dungeon.")
+	boon.boon = _boon("Heavy Purse", Modifier.Kind.FIRST_TURN_EXTRA_DRAW, 1)
 	challenge.on_success = [boon] as Array[ChallengeOutcome]
 	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP.")] as Array[ChallengeOutcome]
 	return challenge

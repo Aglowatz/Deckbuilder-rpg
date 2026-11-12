@@ -96,8 +96,8 @@ static func yards_setup(content: ContentSet) -> PlayerSetup:
 
 static func add_equipment(result: Dictionary) -> void:
 	# Oct 29: each relic brought up to an Epic's worth (docs/design/equipment.md, power budget).
-	_add(result, "quotas_stopwatch", "Quota's Stopwatch", EquipmentData.Slot.RELIC, "You always take the first turn and draw an extra card on it. Max hand size +2.",
-		[_mod(Modifier.Kind.ALWAYS_FIRST, 1), _mod(Modifier.Kind.FIRST_TURN_EXTRA_DRAW, 1), _mod(Modifier.Kind.MAX_HAND_SIZE, 2)], "It still clicks every second. You never asked it to.", "The House of Gains (a first win)")
+	_add(result, "quotas_stopwatch", "Quota's Stopwatch", EquipmentData.Slot.RELIC, "You always take the first turn and draw an extra card on it. Max HP +3.",
+		[_mod(Modifier.Kind.ALWAYS_FIRST, 1), _mod(Modifier.Kind.FIRST_TURN_EXTRA_DRAW, 1), _mod(Modifier.Kind.MAX_HP, 3)], "It still clicks every second. You never asked it to.", "The House of Gains (a first win)")
 	_add(result, "colonels_ladle", "The Colonel's Ladle", EquipmentData.Slot.WEAPON, "Whenever a unit enters the field under your control, gain 1 HP. Max HP +3.",
 		[_mod_effect(Modifier.Kind.ON_UNIT_ENTER_EFFECT, CardEnums.EffectOp.GAIN_HP, CardEnums.TargetKind.CONTROLLER), _mod(Modifier.Kind.MAX_HP, 3)],
 		"Carried like a sabre for ten years. It has finally been used for soup.", "The Paste Works (a first win)")

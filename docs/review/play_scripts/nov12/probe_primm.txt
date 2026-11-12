@@ -1,0 +1,8 @@
+dev load c13castle
+wait 3
+dev primm 1
+wait 7
+skip_dialogue
+wait 1
+dump
+shot primm_probe

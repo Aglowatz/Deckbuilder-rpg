@@ -139,7 +139,7 @@ func test_total_cost_threshold() -> void:
 	var win: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.weighing_scale(), heavy, _rng())
 	assert_true(win.success)
 	assert_eq(heavy.max_hp(), 10)
-	assert_eq(heavy.modifiers().sum(Modifier.Kind.MAX_HAND_SIZE), 1)
+	assert_eq(heavy.modifiers().sum(Modifier.Kind.FIRST_TURN_EXTRA_DRAW), 1)
 	var light: DungeonRun = _run(_repeat(_unit(1, 1), 10))
 	var lose: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.weighing_scale(), light, _rng())
 	assert_false(lose.success)

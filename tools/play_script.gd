@@ -127,8 +127,107 @@ func _run_line(line: String) -> void:
 			await _dev(parts)
 		"log":
 			pass
+		"hud":
+			# Fable Nov 12 (the fixed shot set): `hud off|on` hides / shows the current scene's canvas layers (a clean world shot)
+			var scene_now: Node = get_tree().current_scene
+			if scene_now != null:
+				for child: Node in scene_now.get_children():
+					if child is CanvasLayer:
+						(child as CanvasLayer).visible = rest != "off"
+		"cam":
+			# `cam N`: the Settings camera angle (0 Cinematic, the default; 3 Low), never saved in a play run
+			Settings.set_camera_angle(int(rest))
+			await driver.seconds(0.6)
+		"calm":
+			# `calm`: the zone's roamers leave the hero alone for ten minutes (shots near a road guard)
+			var zone_now: Node = get_tree().current_scene
+			if zone_now != null and "_spawn_grace" in zone_now:
+				zone_now.set("_spawn_grace", 600.0)
+		"spots":
+			_spots()
+		"matscan":
+			# Fable Nov 12 (Part 2.2): `matscan [min_size_m]` lists the scene's big untextured surfaces (no albedo texture, no vertex colour),
+			# grouped by colour; the pure-white / near-white ones are marked WHITE.
+			_matscan(float(rest) if not rest.is_empty() else 2.0)
+		"at":
+			# `at <anchor>`: the hero onto a named anchor of the current zone's map (the Capital's `po_*` camera spots)
+			var at_scene: Node = get_tree().current_scene
+			if at_scene != null and "builder" in at_scene and (at_scene.get("builder") as Object).call("has_anchor", rest):
+				var at_pos: Vector3 = (at_scene.get("builder") as Object).call("anchor", rest) as Vector3
+				_say("  " + _teleport(str(at_pos.x), str(at_pos.z)))
+			else:
+				_say("  at: no anchor %s here" % rest)
 		_:
 			_say("  unknown command %s" % command)
+
+
+## Fable Nov 12 (Part 2.2): the material scan. One line per colour group: how many meshes, the biggest one's size, where one stands.
+func _matscan(min_size: float) -> void:
+	var scene: Node = get_tree().current_scene
+	if scene == null:
+		return
+	var groups: Dictionary = {}
+	for node: Node in scene.find_children("*", "MeshInstance3D", true, false):
+		var mesh: MeshInstance3D = node as MeshInstance3D
+		if mesh.mesh == null or not mesh.is_visible_in_tree():
+			continue
+		var box: AABB = mesh.global_transform * mesh.get_aabb()
+		var size: float = maxf(box.size.x, maxf(box.size.y, box.size.z))
+		if size < min_size:
+			continue
+		for surface: int in range(mesh.mesh.get_surface_count()):
+			var material: Material = mesh.get_active_material(surface)
+			var colour: Color = Color(0, 0, 0, 0)
+			var textured: bool = true
+			if material is ShaderMaterial:
+				var shader_material: ShaderMaterial = material as ShaderMaterial
+				var uses: Variant = shader_material.get_shader_parameter("use_texture")
+				var albedo: Variant = shader_material.get_shader_parameter("albedo")
+				if uses == null or albedo == null or typeof(albedo) != TYPE_COLOR:
+					continue
+				textured = bool(uses) or bool(shader_material.get_shader_parameter("use_vertex_color"))
+				colour = albedo as Color
+			elif material is StandardMaterial3D:
+				var standard: StandardMaterial3D = material as StandardMaterial3D
+				textured = standard.albedo_texture != null or standard.vertex_color_use_as_albedo
+				colour = standard.albedo_color
+			elif material == null:
+				textured = false
+				colour = Color.WHITE
+			else:
+				continue
+			if textured or colour.a < 0.5:
+				continue
+			var key: String = colour.to_html(false)
+			if not groups.has(key):
+				groups[key] = {"count": 0, "size": 0.0, "where": "", "colour": colour}
+			var group: Dictionary = groups[key]
+			group["count"] = int(group["count"]) + 1
+			if size > float(group["size"]):
+				group["size"] = size
+				group["where"] = "%s at (%.0f, %.1f, %.0f)" % [str(scene.get_path_to(mesh)).right(70), box.get_center().x, box.get_center().y, box.get_center().z]
+	var keys: Array = groups.keys()
+	keys.sort_custom(func(x: String, y: String) -> bool: return float(groups[x]["size"]) > float(groups[y]["size"]))
+	_say("  matscan: %d untextured colour groups of %.1f m or more" % [keys.size(), min_size])
+	for key: String in keys:
+		var group: Dictionary = groups[key]
+		var colour: Color = group["colour"] as Color
+		var white: bool = colour.v > 0.85 and colour.s < 0.12
+		_say("  mat #%s%s x%d max %.1f m  %s" % [key, " WHITE" if white else "", int(group["count"]), float(group["size"]), str(group["where"])])
+
+
+## Fable Nov 12: every spot of the current zone or town with its position (aiming `dev tp` for the fixed shot set).
+func _spots() -> void:
+	var scene: Node = get_tree().current_scene
+	if scene == null or not ("spots" in scene):
+		_say("  spots: none here")
+		return
+	for spot: Variant in scene.get("spots") as Array:
+		var pos: Vector3 = spot.get("position") as Vector3
+		_say("  spot %s kind=%s (%.1f, %.1f)" % [str(spot.get("id")), str(spot.get("kind")), pos.x, pos.z])
+	if "player" in scene:
+		var hero: Vector3 = (scene.get("player") as Node3D).position
+		_say("  hero (%.1f, %.1f)" % [hero.x, hero.z])
 
 
 ## Screenshot pixels -> canvas units (the window is scaled from the 1920x1080 design canvas).

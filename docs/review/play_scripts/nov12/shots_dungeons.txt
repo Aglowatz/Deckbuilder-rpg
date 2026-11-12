@@ -1,0 +1,82 @@
+dev load c13castle
+wait 3
+dev travel dungeon D-TUT
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-TUT
+dev travel dungeon D-HOG
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-HOG
+dev travel dungeon D-TTK
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-TTK
+dev travel dungeon D-ROT
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-ROT
+dev travel dungeon D-HFA
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-HFA
+dev travel dungeon D-PC
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-PC
+dev travel dungeon D-LAB
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_D-LAB
+dev travel dungeon S-BEEF
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-BEEF
+dev travel dungeon S-IRON
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-IRON
+dev travel dungeon S-GOUR
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-GOUR
+dev travel dungeon S-REF
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-REF
+dev travel dungeon S-NECRO
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-NECRO
+dev travel dungeon S-CAP
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-CAP
+dev travel dungeon S-TOWN
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-TOWN
+dev travel dungeon S-PASTE
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-PASTE
+dev travel dungeon S-GALLERY
+wait 5
+skip_dialogue
+wait 1
+shot dungeon_S-GALLERY

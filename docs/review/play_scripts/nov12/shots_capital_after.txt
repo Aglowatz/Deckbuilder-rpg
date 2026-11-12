@@ -1,0 +1,49 @@
+dev load c13post
+wait 3
+dev travel capital
+wait 9
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+dev tp 54 53
+calm
+cam 0
+wait 1.5
+shot capital_after_gate_plaza_default
+cam 3
+wait 1.2
+shot capital_after_gate_plaza_low
+dev tp 100 41
+calm
+cam 0
+wait 1.5
+shot capital_after_hungry_quarter_default
+cam 3
+wait 1.2
+shot capital_after_hungry_quarter_low
+dev tp 22 34
+calm
+cam 0
+wait 1.5
+shot capital_after_grave_row_default
+cam 3
+wait 1.2
+shot capital_after_grave_row_low
+dev tp 60 35.5
+calm
+cam 0
+wait 1.5
+shot capital_after_palace_approach_default
+cam 3
+wait 1.2
+shot capital_after_palace_approach_low
+dev tp 60 16
+calm
+cam 0
+wait 1.5
+shot capital_after_castle_door_default
+cam 3
+wait 1.2
+shot capital_after_castle_door_low

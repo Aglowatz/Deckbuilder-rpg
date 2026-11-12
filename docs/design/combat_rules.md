@@ -150,7 +150,7 @@ Stats come from a `PlayerProfile` resource, never hardcoded.
 |------|-------|
 | Max HP | 10 at start, 25 at endgame |
 | Opening hand | 5 to 8 cards |
-| Max hand size | 10 |
+| Max hand size | 10 (a hard cap since Nov 12: levels, equipment and boons never raise it; a dungeon rule may lower it) |
 
 Modifiers from equipment, items, and zones apply on top of the profile values.
 
@@ -160,7 +160,7 @@ once per battle** (one charge; the rest of its charges stay for later fights). W
 
 ## Progression (Part E)
 
-HP, opening hand size, max hand size, item slots and equipment slot unlocks all advance with
+HP, opening hand size, item slots and equipment slot unlocks all advance with
 the player's level (1-30), not fixed values - see `docs/design/progression.md` for the full,
 generated level-by-level table and `core/data/progression_table.gd` for the source of truth. Every
 encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterRewards`).

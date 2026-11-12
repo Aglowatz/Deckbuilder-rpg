@@ -1,0 +1,35 @@
+dev load n6_midgame
+wait 3
+dev travel town
+wait 9
+skip_dialogue
+wait 1
+skip_dialogue
+spots
+hud off
+dev tp 25.2 19.5
+calm
+cam 0
+wait 1.5
+shot crosspath_square_default
+cam 3
+wait 1.2
+shot crosspath_square_low
+dev tp 9 15
+calm
+cam 0
+wait 1.5
+shot crosspath_street_default
+cam 3
+wait 1.2
+shot crosspath_street_low
+dev travel forest
+wait 8
+skip_dialogue
+hud off
+cam 0
+wait 1.5
+shot forest_arrival_default
+cam 3
+wait 1.2
+shot forest_arrival_low

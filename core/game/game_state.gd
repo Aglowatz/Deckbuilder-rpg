@@ -13,6 +13,8 @@ enum CombatStep { NONE, DECLARE_ATTACKERS, DECLARE_BLOCKERS }
 const INFRASTRUCTURE_DROPS_PER_TURN: int = 1
 ## Base face-down traps one player may have set at a time, before Modifier.Kind.MAX_TRAPS
 ## (dungeon rules, equipment...) - see PlayerState.max_traps, set once in add_player().
+## Fable Nov 12 (owner decision): nothing raises the max hand size above this (levels, gear and boons no longer add to it).
+const MAX_HAND_CAP: int = 10
 const MAX_TRAPS: int = 3
 ## At most this many target combinations are offered per card or ability in legal_actions().
 const MAX_TARGET_COMBOS: int = 30
@@ -103,7 +105,8 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 		player.hp = setup.starting_hp
 	else:
 		player.hp = maxi(1, player.max_hp + mods.sum(Modifier.Kind.STARTING_HP))
-	player.max_hand_size = maxi(1, profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE))
+	# Fable Nov 12 (owner decision): the max hand size never goes above MAX_HAND_CAP - ten cards fit the hand row; rules may still lower it.
+	player.max_hand_size = clampi(profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE), 1, MAX_HAND_CAP)
 	player.item_uses_per_battle = maxi(1, 1 + mods.sum(Modifier.Kind.ITEM_USES_PER_BATTLE))
 	player.opening_hand_size = maxi(1, profile.base_opening_hand() + mods.sum(Modifier.Kind.OPENING_HAND_SIZE))
 	player.max_traps = maxi(0, MAX_TRAPS + mods.sum(Modifier.Kind.MAX_TRAPS))

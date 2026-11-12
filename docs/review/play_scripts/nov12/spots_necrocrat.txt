@@ -1,0 +1,6 @@
+dev load c13castle
+wait 2
+dev travel zone necrocrat
+wait 6
+skip_dialogue
+spots

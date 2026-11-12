@@ -1,0 +1,10 @@
+dev load c13castle
+wait 2
+dev travel town
+wait 8
+skip_dialogue
+spots
+dev travel capital
+wait 8
+skip_dialogue
+spots

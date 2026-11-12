@@ -1,0 +1,58 @@
+wait 2
+shot ui_title
+button Credits
+wait 3
+shot ui_credits
+key Escape
+wait 1
+dev load n6_midgame
+wait 3
+dev travel town
+wait 9
+skip_dialogue
+wait 1
+shot ui_town_hud
+key M
+wait 2.5
+shot ui_map
+key Escape
+wait 1
+dev goto item_vendor
+key E
+wait 3
+skip_dialogue 6
+wait 1
+shot ui_shop_items
+dump
+key Escape
+wait 1.5
+dev goto equipment_vendor
+key E
+wait 3
+skip_dialogue 6
+wait 1
+shot ui_shop_armory
+key Escape
+wait 1.5
+dev goto pack_vendor
+key E
+wait 3
+skip_dialogue 6
+wait 1
+shot ui_shop_cards
+key Escape
+wait 1.5
+dev goto deck
+key E
+wait 4
+shot ui_deck_station
+dump
+key Escape
+wait 2
+dev goto tailor
+key E
+wait 3
+skip_dialogue 6
+wait 1
+shot ui_wardrobe
+dump

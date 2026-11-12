@@ -1,0 +1,6 @@
+dev load c13castle
+wait 2
+dev travel zone beefcake
+wait 6
+skip_dialogue
+spots

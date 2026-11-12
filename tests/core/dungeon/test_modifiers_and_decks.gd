@@ -57,7 +57,7 @@ func test_every_source_kind_flows_through_one_pipeline() -> void:
 	game.add_player(setup)
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
 	assert_eq(game.players[0].max_hp, 12)
-	assert_eq(game.players[0].max_hand_size, 11)
+	assert_eq(game.players[0].max_hand_size, 10, "Fable Nov 12: the cap")
 
 
 func test_max_traps_modifier_raises_the_trap_cap() -> void:
