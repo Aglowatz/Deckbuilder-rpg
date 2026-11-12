@@ -4009,6 +4009,7 @@ func complete_battle(context: BattleContext) -> void:
 		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss, earned_cards_map())
 	# Cards Oct 27, Part 2: a main dungeon's boss always offers the dungeon's REWARD-LOCKED chase card until the player has earned it.
 	_force_chase_card(offer, context)
+	_castle_rarity_floor(offer.cards, context)
 	# Oct 29, Phase 2 (the late sink): outside the tutorial's first run the pick can be rerolled once for gold, drawn the same way.
 	if profile.intro_dungeon_cleared and not offer.cards.is_empty():
 		offer.reroll_price = Economy.reroll_price(profile.level)
@@ -4018,6 +4019,7 @@ func complete_battle(context: BattleContext) -> void:
 			var again: RewardOffer = RewardOffer.new()
 			again.cards = fresh
 			_force_chase_card(again, context)
+			_castle_rarity_floor(again.cards, context)
 			return again.cards
 	pending_reward = offer
 	trial_finished = context.is_boss
@@ -4126,6 +4128,20 @@ func reroll_reward_pick(summary: RewardSummary) -> bool:
 	summary.rerolled = true
 	bump_counter("picks_rerolled")
 	return true
+
+
+## Fable Nov 12c (A10b, owner decision on inbox "Fable Nov 12" item 11): every fight of Primm's Castle (its fights are level 21 and up)
+## offers at least one Uncommon or better among its three reward cards. The reroll keeps the floor.
+const CASTLE_REWARD_FLOOR: CardEnums.Rarity = CardEnums.Rarity.UNCOMMON
+
+
+func in_castle_run() -> bool:
+	return main_dungeon_active and dungeon_key == CapitalZone.ID
+
+
+func _castle_rarity_floor(cards: Array[CardData], context: BattleContext) -> void:
+	if in_castle_run() and not cards.is_empty():
+		RewardGenerator.with_rarity_floor(cards, content, profile, rng, CASTLE_REWARD_FLOOR, context != null and context.is_boss, earned_cards_map())
 
 
 func _force_chase_card(offer: RewardOffer, context: BattleContext) -> void:

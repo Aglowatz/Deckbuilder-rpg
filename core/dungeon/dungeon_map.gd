@@ -160,6 +160,18 @@ func neighbour_cleared(id: int) -> bool:
 	return false
 
 
+## Fable Nov 12c (A10a, inbox "Fable Nov 12" item 11): a room's type shows ONE STEP AHEAD - it is known once a room that leads to it can
+## be reached (is open to walk into now), not only once that room is cleared. With `neighbour_cleared` alone every room past the next one
+## read "???" and a route could not be planned.
+func known_one_step_ahead(id: int) -> bool:
+	if neighbour_cleared(id):
+		return true
+	for from_id: int in incoming(id):
+		if is_available(from_id):
+			return true
+	return false
+
+
 ## Nodes that lead INTO `id` (more than one means two routes rejoin there).
 func incoming(id: int) -> Array[int]:
 	var result: Array[int] = []

@@ -47,6 +47,16 @@ Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_repor
 9. **A citizen of Perfection (Corwin Bale, between two houses on the avenue) fails the NPC visibility probe** at both cameras. He
    strolls behind a house; not caused by this pass and not changed.
 
+10. **"Fight Primm again" (A9) gives full HP**, as the brief says, where a normal arrival at his room carries the HP left from the
+    castle's rooms. It also skips the scenes before the fight (the leaders' lines, his entrance): the duel starts at once. The
+    leaders' boons are given once per run, so a retry neither loses nor doubles them.
+11. **A room's type one step ahead (A10a) applies to Primm's Castle only**, where the request came from. Every other dungeon keeps
+    the Nov 3-4 fog (a room never stepped on in this save shows "?"; once seen it is known on every later run). To switch it on
+    elsewhere add the dungeon's id to `DungeonMapScreen.NEIGHBOUR_REVEAL`.
+12. **The Uncommon-or-better reward (A10b) applies to every fight of Primm's Castle** (all of them are level 21 and up; the
+    dungeon data has no per-room level to test). When a castle pick rolls three Commons its last card is redrawn from the Uncommons
+    and better, with the usual weights. The paid reroll keeps the floor.
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2
