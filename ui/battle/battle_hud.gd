@@ -595,8 +595,43 @@ func show_banner(text: String, color: Color, hold: float = 0.5) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(_banner, "modulate:a", 1.0, 0.15)
 	tween.parallel().tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	# Fable Nov 12 (Part 3, art critic #23: "plain VICTORY! text with no treatment"): the word wears a dark outline and a soft shadow, sits on
+	# a band of its own colour that fades at both ends, and swells once after it lands.
+	_banner.add_theme_constant_override("outline_size", 14)
+	_banner.add_theme_color_override("font_outline_color", Color(0.09, 0.05, 0.12, 0.95))
+	_banner.add_theme_constant_override("shadow_offset_y", 6)
+	_banner.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.55))
+	_show_banner_band(color, hold + 0.4)
+	if not Settings.reduce_motion:
+		tween.tween_property(_banner, "scale", Vector2(1.06, 1.06), 0.16).set_trans(Tween.TRANS_SINE)
+		tween.tween_property(_banner, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_SINE)
 	tween.tween_interval(hold)
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
+
+
+## The band behind the result word: the word's colour, clear at both ends, drawn under it for `seconds`, then gone.
+func _show_banner_band(color: Color, seconds: float) -> void:
+	var gradient: Gradient = Gradient.new()
+	gradient.offsets = PackedFloat32Array([0.0, 0.3, 0.7, 1.0])
+	gradient.colors = PackedColorArray([Color(color.r, color.g, color.b, 0.0), Color(color.r * 0.25, color.g * 0.2, color.b * 0.3, 0.72), Color(color.r * 0.25, color.g * 0.2, color.b * 0.3, 0.72), Color(color.r, color.g, color.b, 0.0)])
+	var texture: GradientTexture1D = GradientTexture1D.new()
+	texture.gradient = gradient
+	var band: TextureRect = TextureRect.new()
+	band.name = "BannerBand"
+	band.texture = texture
+	band.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	band.stretch_mode = TextureRect.STRETCH_SCALE
+	band.position = _banner.position + Vector2(-160.0, -14.0)
+	band.size = _banner.size + Vector2(320.0, 28.0)
+	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	band.z_index = _banner.z_index - 1
+	band.modulate.a = 0.0
+	_banner.get_parent().add_child(band)
+	var tween: Tween = band.create_tween()
+	tween.tween_property(band, "modulate:a", 1.0, 0.18)
+	tween.tween_interval(seconds)
+	tween.tween_property(band, "modulate:a", 0.0, 0.3)
+	tween.tween_callback(band.queue_free)
 
 
 ## Battle feel, Part C: the losing player's plate is knocked out at the end of a battle (a jolt, then it greys and sinks).

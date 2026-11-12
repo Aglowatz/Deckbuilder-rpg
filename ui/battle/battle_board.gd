@@ -873,6 +873,7 @@ func present(event: GameEvent) -> void:
 				_sfx(&"buff")
 				fx.burst(center_of(event.card), Color("9be49f"), 10, 120.0)
 				_pop(event.card, Color("9be49f"))
+				_shimmer(event.card, Color("9be49f"))
 			else:
 				_sfx(&"debuff")
 			var buffed: CardView = view_for(event.card)
@@ -919,6 +920,27 @@ func present(event: GameEvent) -> void:
 
 
 ## Overnight Nov 9, Part 2: a buffed unit glows in `color` and pops (a quick grow and settle).
+## Fable Nov 12 (Part 3): a buff shimmer - one band of light crosses the card when its numbers go up (ui/shaders/card_shimmer.gdshader),
+## 0.4 s, hurried with the battle speed, not under Reduce motion.
+func _shimmer(uid: int, color: Color) -> void:
+	var view: CardView = view_for(uid)
+	if view == null or zones.get(uid) != Zone.FIELD or Settings.reduce_motion:
+		return
+	var sweep: ColorRect = ColorRect.new()
+	sweep.name = "BuffShimmer"
+	sweep.position = Vector2(4, 4)
+	sweep.size = CardView.SIZE - Vector2(8, 8)
+	sweep.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = load("res://ui/shaders/card_shimmer.gdshader") as Shader
+	material.set_shader_parameter("tint", color)
+	sweep.material = material
+	view.add_child(sweep)
+	var tween: Tween = sweep.create_tween()
+	tween.tween_method(func(value: float) -> void: material.set_shader_parameter("progress", value), 0.0, 1.0, 0.4 / maxf(speed, 0.1))
+	tween.tween_callback(sweep.queue_free)
+
+
 func _pop(uid: int, color: Color) -> void:
 	var view: CardView = view_for(uid)
 	if view == null or zones.get(uid) != Zone.FIELD:

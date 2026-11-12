@@ -84,6 +84,19 @@ var watchdog_trips: int = 0
 var _pause_wanted: bool = false
 
 
+## Fable Nov 12 (Part 3): the colour a scene change fades through - the dominant colour of the zone style in use, taken down to a deep
+## tone, or the old near-black when no zone style is loaded (the title, a tool run).
+const FADE_DEFAULT: Color = Color(0.03, 0.02, 0.05, 1.0)
+
+
+static func fade_colour() -> Color:
+	var palette: Array[Color] = ZoneStyles.palette()
+	if palette.is_empty():
+		return FADE_DEFAULT
+	var base: Color = palette[0]
+	return Color.from_hsv(base.h, minf(base.s + 0.15, 0.7), 0.09, 1.0)
+
+
 func _ready() -> void:
 	layer = 100
 	UiSkin.apply()
@@ -188,6 +201,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	if not area.is_empty() and area != current_area and not current_area.is_empty():
 		Audio.sfx(&"zone_transition")
 	Audio.set_ambience("none", fade_time + 0.3)
+	_fade.color = fade_colour()  # Fable Nov 12 (Part 3): the fade wears the colour of the place being left (deep, never pure black)
 	var out: Tween = _track(create_tween())
 	out.tween_property(_fade, "modulate:a", 1.0, fade_time)
 	await out.finished
