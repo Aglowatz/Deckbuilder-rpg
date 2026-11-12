@@ -45,7 +45,7 @@ func test_old_settings_file_gets_the_defaults() -> void:
 	Settings.load_settings(TEMP_PATH)
 	assert_eq(Settings.upscaling_mode, GraphicsQuality.Upscaler.AUTO, "a pre-Tier-1 settings.cfg keeps Auto")
 	assert_eq(Settings.render_scale_pct, 0, "a pre-Tier-1 settings.cfg keeps the preset scale")
-	assert_almost_eq(Settings.sharpness, 0.8, 0.001)
+	assert_almost_eq(Settings.sharpness, Settings.SHARPNESS_DEFAULT, 0.001)
 
 
 func test_effective_render_scale() -> void:
