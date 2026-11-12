@@ -66,6 +66,8 @@ func _ready() -> void:
 	_column = UIKit.vbox(14)
 	_panel.add_child(_column)
 	_build_rewards()
+	if _screenshot_args.has("warden"):  # Fable Nov 12c (A2): the shot of the Warden's closing words
+		_play_warden_closing.call_deferred(func() -> void: pass)
 	# The battle's own result already rang STG-VICTORY a moment ago; a second fanfare would stack on it.
 
 
@@ -345,8 +347,46 @@ func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
 	if continues or not was_boss:
 		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 		return
+	# Fable Nov 12c (A2): the Cave Warden's closing words come in the dialogue box with his picture, like every other speaker (they
+	# used to be plain text in the "Through the Forgotten Cave" panel); the line that describes him going dark is narration.
+	if first_clear and not _warden_done:
+		_warden_done = true
+		_play_warden_closing(_after_rewards.bind(continues, was_boss, first_clear))
+		return
+	_panel.visible = true
 	Session.complete_trial()
 	_show_trial_complete(first_clear)
+
+
+const WARDEN_NPC_ID: String = "NPC-WARDEN"
+const WARDEN_AFTER_KEY: String = "tutorial.warden.after"
+var _warden_done: bool = false
+
+
+func _play_warden_closing(then: Callable) -> void:
+	_panel.visible = false
+	var closing: DialogueBox = DialogueBox.new()
+	closing.name = "WardenClosing"
+	add_child(closing)
+	var narrated: Array[String] = warden_narration()
+	closing.start("", warden_spoken(), WARDEN_NPC_ID)
+	closing.finished.connect(func() -> void:
+		if narrated.is_empty():
+			then.call()
+		else:
+			closing.start("", narrated)
+			closing.finished.connect(then, CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+
+
+## The Warden's own closing words (the first line of `tutorial.warden.after`); the rest of the beat describes him and is narration.
+static func warden_spoken() -> Array[String]:
+	var lines: Array[String] = StoryText.shared().get_lines(WARDEN_AFTER_KEY)
+	return lines.slice(0, 1)
+
+
+static func warden_narration() -> Array[String]:
+	var lines: Array[String] = StoryText.shared().get_lines(WARDEN_AFTER_KEY)
+	return lines.slice(1)
 
 
 ## Part E: after a zone dungeon's boss falls: the boss node's closing story lines, then its cutscene (the
@@ -389,7 +429,7 @@ func _show_trial_complete(first_clear: bool) -> void:
 	_column.add_child(UIKit.label("Through the Forgotten Cave", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var body_text: String = "The Forgotten Cave is quiet again. You gather what it offered and head back to town."
 	if first_clear:
-		body_text = "%s\n\nDaylight at last. Your deck is whole, and the way out is open." % "\n".join(StoryText.shared().get_lines("tutorial.warden.after"))
+		body_text = "Daylight at last. Your deck is whole, and the way out is open."  # the Warden's words: the dialogue box before this panel (A2)
 		Session.town_notice = "The %s deck is yours. The road to town is open." % UIStyle.affinity_name(Session.profile.primary_affinity)
 	var text: Label = UIKit.label(body_text, &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

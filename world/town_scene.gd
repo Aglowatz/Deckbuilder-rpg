@@ -2142,7 +2142,8 @@ func _show_npc_result() -> void:
 		lines.append_array(StoryText.shared().get_lines("gate.%s.cleared" % id))
 		gate_cleared.emit(id)
 	_face_npc("npc_%s" % id)
-	dialogue.start(Gatekeepers.full_title(id), lines)
+	# Fable Nov 12c (A2): the portrait by id after the fight too (a title like "Corrupted Druid" never resolved to its NPC)
+	dialogue.start(Gatekeepers.full_title(id), lines, str(NPC_IDS.get("npc_%s" % id, "")))
 	if bool(result.get("first_win", false)):
 		var reward_text: String = "+%d gold, +%d XP" % [CorruptedNpcs.reward_gold(), CorruptedNpcs.reward_xp()]
 		var item_name: String = str(result.get("item_name", ""))

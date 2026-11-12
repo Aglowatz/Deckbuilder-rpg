@@ -4,6 +4,19 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 12c - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12c`.
+
+1. **The Hollow Well (A1) takes any card of the dungeon deck at random, basics and Infrastructure included**, and in the tutorial the
+   deck's minimum is the cave's own (42, the old starter waiver), so a normal 45-card starting deck can always pay. The offer is one
+   per run by rule (`DungeonRun.used_challenges`), on top of the node being visited once. The sim's player always takes the offer when
+   hurt.
+2. **Closing lines with no portrait because no art exists (A2):** Baron Quadzilla (the Iron Cave, S-IRON), the Restless Cairn and the
+   Store Room Ghosts speak with a name plate only. They have Bestiary pictures but no dialogue portrait; a portrait each would close
+   the gap (`NPC-QUADZILLA`, `NPC-CAIRN`). The gatekeepers' post-fight lines had the same gap as the Warden (started by title, so
+   "Corrupted Druid" found no portrait): fixed.
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2
