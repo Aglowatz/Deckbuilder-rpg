@@ -44,6 +44,23 @@ func _ready() -> void:
 		add_child(_shade())
 
 
+## Fable Nov 12 (Part 4.3): a slow pan and zoom on the picture (Ken Burns) - it grows DRIFT_ZOOM over DRIFT_TIME from a corner picked by
+## `variant`, so a still held under several lines of narration is never a frozen frame. Off under Reduce motion.
+const DRIFT_ZOOM: float = 1.07
+const DRIFT_TIME: float = 22.0
+
+
+func drift(variant: int = 0) -> void:
+	if _picture == null or Settings.reduce_motion:
+		return
+	clip_contents = true
+	var corners: Array[Vector2] = [Vector2(0.3, 0.35), Vector2(0.7, 0.4), Vector2(0.5, 0.25), Vector2(0.35, 0.6), Vector2(0.65, 0.55)]
+	_picture.pivot_offset = size * corners[absi(variant) % corners.size()]
+	_picture.scale = Vector2.ONE
+	var tween: Tween = create_tween()
+	tween.tween_property(_picture, "scale", Vector2(DRIFT_ZOOM, DRIFT_ZOOM), DRIFT_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+
 ## Swaps the picture (an ending moving from one still to the next).
 func show_still(id: String) -> void:
 	still_id = id

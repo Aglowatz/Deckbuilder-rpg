@@ -104,6 +104,8 @@ func _ready() -> void:
 	_show_beat()
 	if _screenshot_args.has("credits"):
 		_start_credits.call_deferred()
+	if _screenshot_args.has("thanks"):
+		_show_thanks.call_deferred()  # Fable Nov 12: the thanks card for a shot
 	if _screenshot_args.has("postgame"):
 		_show_postgame.call_deferred()
 
@@ -159,7 +161,8 @@ func _set_backdrop(id: String) -> void:
 	_backdrop = StillBackdrop.make(id)
 	if _backdrop != null:
 		_still_holder.add_child(_backdrop)
-		_backdrop.fade_in()
+		_backdrop.fade_in(1.1)
+		_backdrop.drift(_index)  # Fable Nov 12 (Part 4.3): each beat's still drifts slowly while its words are read
 	_stage.visible = _backdrop == null
 
 
@@ -173,6 +176,11 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Fable Nov 12: E / Enter leaves the thanks card
+	if _thanks_leave.is_valid() and get_node_or_null("ThanksCard") != null and UiInput.is_confirm(event):
+		get_viewport().set_input_as_handled()
+		_thanks_leave.call()
+		return
 	if _done or _credits_running or _still_up:
 		return
 	var pressed: bool = UiInput.is_confirm(event)
@@ -378,8 +386,9 @@ func _start_credits() -> void:
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	shade.z_index = 60
 	add_child(shade)
+	# Fable Nov 12 (Part 4.3): a slow crossfade into the credits (was a one-second cut to near-black), the last still left faintly behind them
 	var fade: Tween = create_tween()
-	fade.tween_property(shade, "color:a", 0.94, 1.0)
+	fade.tween_property(shade, "color:a", 0.9, CREDITS_FADE).set_trans(Tween.TRANS_SINE)
 	var lines: Array[String] = []
 	for index: int in range(1, EndingDefs.CREDITS_LINES + 1):
 		lines.append_array(_story.get_lines("ending.credits.%d" % index))
@@ -395,14 +404,16 @@ func _start_credits() -> void:
 	add_child(credits)
 	var scroll: Tween = create_tween()
 	var travel: float = 1080.0 + float(lines.size()) * 90.0
+	scroll.tween_interval(CREDITS_FADE * 0.6)
 	scroll.tween_property(credits, "position:y", -travel, 2.0 + float(lines.size()) * 1.6)
-	scroll.tween_callback(_show_postgame)
+	scroll.tween_callback(_show_thanks)
 	var skip: FancyButton = FancyButton.make("Skip", &"", Vector2(160, 52))
 	skip.position = Vector2(1720, 996)
 	skip.z_index = 80
 	skip.pressed.connect(func() -> void:
 		scroll.kill()
-		_show_postgame())
+		skip.queue_free()
+		_show_thanks())
 	add_child(skip)
 	# Overnight Nov 8-9 (Part 4): the optional donation link beside Skip (hidden until data/credits/credits.cfg has a url).
 	var support: FancyButton = CreditsPanel.support_button(Vector2(260, 52))
@@ -410,6 +421,66 @@ func _start_credits() -> void:
 		support.position = Vector2(1440, 996)
 		support.z_index = 80
 		add_child(support)
+
+
+const CREDITS_FADE: float = 2.4
+const THANKS_HOLD: float = 9.0
+
+
+## Fable Nov 12 (Part 4.3): the "thank you for playing" card after the credits - what is still out there (the Lab, the Gallery) - held for
+## THANKS_HOLD or until a key or click, then the postgame announcement.
+func _show_thanks() -> void:
+	if get_node_or_null("ThanksCard") != null or get_node_or_null("PostgameAnnouncement") != null:
+		return
+	var card: Control = Control.new()
+	card.name = "ThanksCard"
+	UIKit.full_rect(card)
+	card.z_index = 90
+	card.mouse_filter = Control.MOUSE_FILTER_STOP
+	card.modulate.a = 0.0
+	add_child(card)
+	var night: ColorRect = ColorRect.new()
+	night.color = Color(0.03, 0.02, 0.06, 0.96)
+	UIKit.full_rect(night)
+	night.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	card.add_child(night)
+	var box: VBoxContainer = VBoxContainer.new()
+	box.position = Vector2(360, 300)
+	box.size = Vector2(1200, 480)
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 22)
+	card.add_child(box)
+	var title: Label = UIKit.label(_story.text("ending.thanks.title"), &"", 64, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	title.name = "ThanksTitle"
+	box.add_child(title)
+	var body: Label = UIKit.label(_story.text("ending.thanks.body"), &"", 32, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	box.add_child(body)
+	for index: int in range(1, 3):
+		var line: Label = UIKit.label(_story.text("ending.thanks.line.%d" % index), &"", 28, Color("9cf5a0"), HORIZONTAL_ALIGNMENT_CENTER)
+		line.name = "ThanksLine%d" % index
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		box.add_child(line)
+	var hint: Label = UIKit.label("E / Click to continue", &"", 22, UIStyle.PARCHMENT.darkened(0.25), HORIZONTAL_ALIGNMENT_CENTER)
+	box.add_child(hint)
+	Audio.sfx(&"victory", -8.0)
+	var show: Tween = create_tween()
+	show.tween_property(card, "modulate:a", 1.0, 1.2)
+	var leave: Callable = func() -> void:
+		if not is_instance_valid(card) or card.has_meta("leaving"):
+			return
+		card.set_meta("leaving", true)
+		var out: Tween = create_tween()
+		out.tween_property(card, "modulate:a", 0.0, 0.5)
+		out.tween_callback(card.queue_free)
+		out.tween_callback(_show_postgame)
+	card.gui_input.connect(func(event: InputEvent) -> void:
+		if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and card.modulate.a > 0.6:
+			leave.call())
+	_thanks_leave = leave
+	get_tree().create_timer(THANKS_HOLD).timeout.connect(leave)
+
+
+var _thanks_leave: Callable = Callable()
 
 
 func _show_postgame() -> void:
