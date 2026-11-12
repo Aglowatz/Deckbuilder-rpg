@@ -198,3 +198,34 @@ func test_a_warm_up_screen_that_dies_mid_build_does_not_leave_the_game_deaf() ->
 	assert_false(get_viewport().gui_disable_input, "input is back on")
 	assert_true(warmup.screens_done(), "and the loading screen stops waiting for it")
 	assert_push_warning("never finished")
+
+
+# ---- Fable Nov 12c (A4): the very first sight of Crosspath --------------------------------------------------------------------
+
+
+func test_the_hero_stands_left_of_maren_facing_the_square_with_no_house_in_the_way() -> void:
+	Session.cave_exit_pending = true
+	var town: TownScene = _town()
+	await _frames(4)
+	var elder: Vector3 = town.town.anchors["npc_elder"] as Vector3
+	var hero: Vector3 = town.player.position
+	assert_almost_eq(hero.x - elder.x, TownScene.CAVE_EXIT_OFFSET.x, 0.05)
+	assert_lt(hero.x, elder.x, "screen-left of her (the camera looks north, so west is left)")
+	assert_between(hero.distance_to(elder), 1.0, 2.2, "just beside her")
+	var to_square: Vector3 = (TownLayout.PLAZA - hero).normalized()
+	var facing: Vector3 = Vector3(sin(town.player.model.rotation.y), 0.0, cos(town.player.model.rotation.y))
+	assert_gt(facing.dot(Vector3(to_square.x, 0.0, to_square.z).normalized()), 0.95, "facing the square")
+	# No building's footprint lies under the sight line from the lens to the hero or to Maren while the line is below roof height, at
+	# the default camera and at the Low one - so the occlusion fader has nothing to hide at the spawn.
+	var saved_angle: int = Settings.camera_angle
+	for angle: int in [0, CameraRig.ANGLE_NAMES.size() - 1]:
+		Settings.camera_angle = angle
+		var offset: Vector3 = CameraRig.shape(WorldLookRig.base_offset())
+		for target: Vector3 in [hero, elder]:
+			for step: int in range(1, 40):
+				var point: Vector3 = target + offset * (float(step) / 40.0)
+				if point.y > 9.0:
+					break
+				for shop: TownLayout.Shop in TownLayout.shops():
+					assert_false(shop.covers(point, 0.3), "%s stands between the lens and the arrival spot (camera %d)" % [shop.key, angle])
+	Settings.camera_angle = saved_angle

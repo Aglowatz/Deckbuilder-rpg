@@ -334,6 +334,8 @@ func _ready() -> void:
 			Session.new_game()
 		else:
 			Session.ensure_game()
+		if _screenshot_args.has("cave_exit"):  # Fable Nov 12c (A4): the first exit from the cave (with --quiet: the spawn only, no arrival queue)
+			Session.cave_exit_pending = true
 		# Oct 16: `--gates=open` shows every road cleared (the four gatekeepers beaten), `--gates=beefcake,gourmand` some of them.
 		if _screenshot_args.has("gates"):
 			for gate_id: String in Gatekeepers.IDS:
@@ -576,12 +578,18 @@ func _build_actors() -> void:
 	if Session.has_town_return_position:
 		spawn = Session.town_return_position
 		Session.has_town_return_position = false
+	var faces_square: bool = false
 	if Session.cave_exit_pending and town.anchors.has("npc_elder"):
 		# Playtest v0.4.0 Part C: out of the Forgotten Cave the Wanderer stands at the north end of town, right beside Elder Maren's door.
-		spawn = (town.anchors["npc_elder"] as Vector3) + Vector3(1.3, 0.0, 1.1)
+		# Fable Nov 12c (A4): just LEFT of her on screen (west), a step toward the square, facing it. The old spot (+1.3, +1.1) stood under
+		# the eave of her house, so the occlusion fader hid the whole house at the very first sight of Crosspath.
+		spawn = (town.anchors["npc_elder"] as Vector3) + CAVE_EXIT_OFFSET
+		faces_square = true
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Hero", spawn)
+	if faces_square:
+		player.face(TownLayout.PLAZA)
 	player.speed_multiplier = 1.35  # the town is spread out: a brisker walk
 	npc_hp = NpcHp.new()
 	npc_hp.target = player
@@ -1623,7 +1631,9 @@ func _face_npc(id: String) -> void:
 	if npc != null:
 		var offset: Vector3 = player.position - npc.position
 		npc.rotation.y = atan2(offset.x, offset.z)
-	player.face((npc.position if npc != null else player.position))
+	# Fable Nov 12c (A4): during the arrival out of the cave the hero keeps facing the square (Maren turns to him and speaks to his side)
+	if not (arrival_active or arrival_pending):
+		player.face((npc.position if npc != null else player.position))
 
 
 ## Oct 21: Old Hob, leaning on his shovel a few steps from the Restless Cairn.
@@ -1960,6 +1970,10 @@ var _arrival_index: int = 0
 ## Each step's done callback carries the step's token, so a late or repeated report from an older step is ignored.
 var _arrival_token: int = 0
 var _arrival_started_msec: int = 0
+
+
+## Fable Nov 12c (A4): where the hero stands on the first exit from the cave, from Elder Maren's spot: screen-left of her, facing the square.
+const CAVE_EXIT_OFFSET: Vector3 = Vector3(-1.4, 0.0, 0.35)
 
 
 func _begin_cave_arrival(under_cover: bool = false) -> void:
