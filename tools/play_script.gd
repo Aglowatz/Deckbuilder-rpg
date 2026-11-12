@@ -145,6 +145,18 @@ func _run_line(line: String) -> void:
 				zone_now.set("_spawn_grace", 600.0)
 		"spots":
 			_spots()
+		"groundscan":
+			# Fable Nov 12 (Part 2.5): props floating over or sunk under the ground of the current zone (PropGroundCheck)
+			var ground_scene: Node = get_tree().current_scene
+			if ground_scene != null and "builder" in ground_scene and ground_scene.get("builder") != null:
+				var map: Object = ground_scene.get("builder") as Object
+				var found: Array[Dictionary] = PropGroundCheck.scan(ground_scene, func(p: Vector3) -> float: return float(map.call("height_at", p)), 60)
+				_say("  groundscan: %d offenders" % found.size())
+				for entry: Dictionary in found:
+					var at: Vector3 = entry["pos"] as Vector3
+					_say("  ground %s %+.2f m  %s at (%.0f, %.0f)" % [str(entry["kind"]), float(entry["gap"]), str(entry["path"]).right(60), at.x, at.z])
+			else:
+				_say("  groundscan: no zone map here")
 		"matscan":
 			# Fable Nov 12 (Part 2.2): `matscan [min_size_m]` lists the scene's big untextured surfaces (no albedo texture, no vertex colour),
 			# grouped by colour; the pure-white / near-white ones are marked WHITE.

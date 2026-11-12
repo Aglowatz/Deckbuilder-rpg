@@ -745,14 +745,24 @@ static func gallery_mirror() -> Node3D:
 	B.box(root, Vector3(1.9, 0.2, 0.22), gold, Vector3(0, 0.1, 0))
 	for side: float in [-1.0, 1.0]:
 		B.box(root, Vector3(0.2, 3.2, 0.22), gold, Vector3(side * 0.85, 1.6, 0))
-	var glass: StandardMaterial3D = StandardMaterial3D.new()
-	glass.albedo_color = Color(0.78, 0.84, 0.9)
-	glass.metallic = 1.0
-	glass.roughness = 0.08
-	glass.emission_enabled = true
-	glass.emission = Color(0.55, 0.7, 0.95)
-	glass.emission_energy_multiplier = 0.35
-	B.box(root, Vector3(1.5, 2.8, 0.06), glass, Vector3(0, 1.6, 0.02))
+	# Fable Nov 12 (Part 2.7, the late critic's "the cracked mirror is a white placeholder quad"): the glass is a dark backing with nine
+	# shards of deep mirror-blue set a little askew, each its own shade (one missing, one catching the light), instead of one pale glowing
+	# pane that the toon grade turned white.
+	B.box(root, Vector3(1.5, 2.8, 0.04), M.flat(Color(0.07, 0.08, 0.13)), Vector3(0, 1.6, 0.0))
+	var shades: Array[Color] = [Color(0.2, 0.3, 0.46), Color(0.3, 0.42, 0.6), Color(0.16, 0.24, 0.4), Color(0.42, 0.56, 0.74), Color(0.24, 0.34, 0.52), Color(0.14, 0.2, 0.34), Color(0.34, 0.46, 0.66), Color(0.2, 0.28, 0.44), Color(0.62, 0.76, 0.9)]
+	for row: int in range(3):
+		for column: int in range(3):
+			var index: int = row * 3 + column
+			if index == 5:
+				continue  # the missing shard: the dark backing shows
+			var glass: StandardMaterial3D = StandardMaterial3D.new()
+			glass.albedo_color = shades[index]
+			glass.roughness = 0.2
+			glass.emission_enabled = true
+			glass.emission = shades[index].lightened(0.3)
+			glass.emission_energy_multiplier = 0.9 if index == 8 else 0.22
+			var shard_piece: MeshInstance3D = B.box(root, Vector3(0.47, 0.9, 0.03), glass, Vector3(-0.5 + 0.5 * float(column), 0.68 + 0.93 * float(row), 0.03 + 0.004 * float(index % 3)))
+			shard_piece.rotation_degrees = Vector3(float((index * 7) % 5) - 2.0, float((index * 5) % 7) - 3.0, float((index * 3) % 5) - 2.0)
 	var crack: StandardMaterial3D = StandardMaterial3D.new()
 	crack.albedo_color = Color(0.05, 0.06, 0.1)
 	crack.emission_enabled = true

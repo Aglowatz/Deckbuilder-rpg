@@ -1,0 +1,7 @@
+dev load n6_midgame
+wait 3
+dev travel zone beefcake
+wait 14
+skip_dialogue
+wait 2
+groundscan
