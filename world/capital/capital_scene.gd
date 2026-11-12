@@ -401,6 +401,8 @@ func _zone_process(delta: float) -> void:
 		for enemy: ZoneEnemy in enemies:
 			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 	_hide_wall_round_the_lens()
+	if capital.crease != null:
+		capital.crease.set_shown(player.position.z >= capital_crease_z())  # A8: the cavern's shell only while the hero is in the Crease
 	_update_area_music(delta)
 	if not player.airborne and not _fainting and not _traveling and style_rig != null:
 		var inside_now: bool = _is_inside(player.position)
@@ -439,7 +441,23 @@ func _rift_contact() -> void:
 	hit_player(CapitalRifts.damage_of(touching), Vector3(float(touching["x"]), 0.0, float(touching["z"])), "torn apart by a rift", "rift", "a rift")
 
 
+## Fable Nov 12c (A8.3): the first time the hero stands in the Capital, "Under the Capital" starts and takes the tracker (the Crease
+## and its Black Market were easy to miss). Once per save; never after Primm.
+var _crease_quest_checked: bool = false
+
+
+func _offer_crease_quest() -> void:
+	_crease_quest_checked = true
+	if Session.profile == null or Session.flag(&"primm_defeated") or Session.quest_log.is_completed(QuestDefinitions.UNDER_CAPITAL):
+		return
+	if Session.start_quest(QuestDefinitions.UNDER_CAPITAL, true):
+		Session.quest_log.track(QuestDefinitions.UNDER_CAPITAL)
+		EventBus.quest_changed.emit()
+
+
 func _track_progress() -> void:
+	if not _crease_quest_checked:
+		_offer_crease_quest()
 	var z: float = player.position.z
 	if z >= capital_crease_z():
 		if not Session.flag(CapitalZone.FLAG_HUB_KNOWN):
@@ -672,6 +690,10 @@ func _extra_pois() -> Array[MapPoi]:
 		var mirror: MapPoi = MapPoi.make(MapPoi.Kind.MINI_DUNGEON, builder.anchor("castle_door") + GALLERY_MIRROR_OFFSET, "The Shattered Gallery (the cracked mirror)")
 		mirror.dungeon_id = ShatteredGallery.DUNGEON_ID  # Day pass Nov 9: the map's level hint
 		result.append(mirror)
+	if Session.quest_log != null and Session.quest_log.is_active(QuestDefinitions.UNDER_CAPITAL) and not Session.flag(CapitalZone.FLAG_HUB_KNOWN):
+		# Fable Nov 12c (A8.3): "Point me to..." lists the way down to the Crease while its quest runs (a quest-giver point: an
+		# interactable one falls off the end of the list)
+		result.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, builder.anchor("manhole"), "The Crease (the manhole on the Gate Plaza)"))
 	if OldHob.funeral_waiting(Session.flags):
 		# Fable Nov 12 (Part 4.4, the RC5 critic's #5): the toast named Grave Row and nothing pointed there
 		result.append(MapPoi.make(MapPoi.Kind.QUEST_GIVER, _hob_position(), "Old Hob at Grave Row (the city is gathering)"))
@@ -943,11 +965,24 @@ func _apply_pending_result() -> void:
 
 
 func _add_service_panel() -> void:
+	# Fable Nov 12c (A8.4): one bar. This runs again every time the scene comes back from a fight (`_apply_pending_result` on a parked
+	# scene), and each run added another "Services restored" chip under the last - two identical bars after the first fight.
+	for old: Node in hud.find_children(SERVICE_CHIP_NAME + "*", "HudChip", true, false):
+		old.get_parent().remove_child(old)
+		old.queue_free()
 	var services: int = CapitalDebuffs.active(Session.flags).size()
 	var chip: Control = HudChip.wrap("capital_services", "Services restored: %d of 4" % (4 - services), ServiceDebuffsPanel.BAD if services > 0 else ServiceDebuffsPanel.GOOD, ServiceDebuffsPanel.make(Session.flags), "Each freed zone restores one service (click for details)")
 	hud.add_panel(chip)
 	if services > 0 and not Session.flag(DEBUFF_TUTORIAL_FLAG):
 		_debuff_tutorial(chip)
+
+
+const SERVICE_CHIP_NAME: String = "HudChip_capital_services"
+
+
+## How many "Services restored" bars the HUD shows (tests: always one).
+func service_chip_count() -> int:
+	return hud.find_children(SERVICE_CHIP_NAME + "*", "HudChip", true, false).size() if hud != null else 0
 
 
 ## Overnight Nov 7-8, Part 1.6: the first time in the Capital (once per save), a short tutorial points at the broken-services chip in the upper

@@ -259,12 +259,20 @@ func _mesh_blocks(mesh_instance: MeshInstance3D, from: Vector3, to: Vector3) -> 
 		return true  # no geometry to read, or an enormous merged chunk: its box decides
 	var transform: Transform3D = mesh_instance.global_transform
 	var card: bool = mesh_instance.mesh is QuadMesh
+	# Fable Nov 12c (A8): a single skin drawn from its front only (meta `one_sided`: the Crease's rock ceiling) does not block a lens
+	# that looks at its back
+	var one_sided: bool = mesh_instance.has_meta(&"one_sided")
 	var index: int = 0
 	while index + 2 < faces.size():
-		var hit: Variant = Geometry3D.segment_intersects_triangle(from, to, transform * faces[index], transform * faces[index + 1], transform * faces[index + 2])
+		var a: Vector3 = transform * faces[index]
+		var b: Vector3 = transform * faces[index + 1]
+		var c: Vector3 = transform * faces[index + 2]
+		var hit: Variant = Geometry3D.segment_intersects_triangle(from, to, a, b, c)
 		index += 3
 		if hit == null:
 			continue
+		if one_sided and (b - a).cross(c - a).dot(from - a) > 0.0:
+			continue  # a back face (front faces wind clockwise: their geometric normal points away from the viewer)
 		if card and not _card_opaque_at(mesh_instance, transform.affine_inverse() * (hit as Vector3)):
 			continue
 		return true

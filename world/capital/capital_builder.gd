@@ -36,6 +36,7 @@ var rift_nodes: Dictionary = {}
 ## The land round the map (CapitalRim): its distance field and its dressing counts (tests, the report).
 var rim: CapitalRim
 var rim_ruins: CapitalRimRuins
+var crease: CapitalCrease
 ## The x of the two corner towers where the great wall meets the city's side walls.
 const CORNER_TOWERS: Array[float] = [0.5, 119.5]
 
@@ -771,14 +772,11 @@ func _build_boundaries() -> void:
 	LoadTiming.detail("capital: rim ruins")
 	CapitalRim.pines(root)
 	LoadTiming.detail("capital: pines")
-	# The Crease's walls (inside layer 2). Batch 11 (Nov 2): painted damp brick (TEX-CREASE-BRICK, world-space so it tiles across every wall);
-	# the flat colour stays the fallback when the texture is missing.
-	var dz: float = float(CapitalLayout.CREASE_Z0 - 100)
-	var crease_flat: Color = M.BRICK_DEAD.darkened(0.3)
-	var crease_wall: Material = PaintedTriplanar.material(CREASE_BRICK, 2.6, crease_flat, 0.15)
-	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:
-		var wall: Vector3 = Vector3(rect.position.x + rect.size.x * 0.5, 2.6, rect.position.y + rect.size.y * 0.5)
-		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), crease_wall if crease_wall != null else M.flat(crease_flat), wall)
+	# Fable Nov 12c (A8): the Crease is a cavern - rock walls on every side, a low rock ceiling (no sky, no castle backdrop), stalactites
+	# and stalagmites, puddles, lantern pools and crystal glows (`CapitalCrease`). It replaces the four brick walls of the open yard.
+	crease = CapitalCrease.build(root, GraphicsQuality.low_end)
+	_set_layers(crease.root, CREASE_LAYER)
+	LoadTiming.detail("capital: the Crease's cavern")
 
 
 ## The rebuild's skyline beyond the walkable city: tall townhouses and towers on the castle hill's top either side of the palace (behind the

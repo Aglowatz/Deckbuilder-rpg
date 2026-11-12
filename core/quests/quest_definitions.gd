@@ -40,6 +40,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_meet_the_merchants())
 	result.append(_storeroom_ghosts())
 	result.append(_free_the_kingdom())
+	result.append(_under_the_capital())
 	result.append(_fragments())
 	result.append(_oldest_trick())
 	result.append(_four_seals())
@@ -180,6 +181,37 @@ static func _meet_the_merchants() -> QuestData:
 	quest.reward_gold = 50
 	quest.reward_xp = CHAIN_XP[MERCHANTS]
 	# Fix pass Nov 7 (Part 5, C1b F7): the trophy comes with the armory (it could not be worn before the equipment slots open).
+	return quest
+
+
+## Fable Nov 12c (A8.3): the quest that takes every player to the Crease and its Black Market. It starts by itself, tracked, the first
+## time the hero stands in the Capital (`CapitalScene`), and each step's "Where to go" line says exactly how to get there. The Crease
+## was only the fifth step of "Free the Four Zones" (after all four zones), so a player who walked up to the Capital earlier had nothing
+## pointing at the manhole, and nothing ever pointed at Fig Sly.
+const UNDER_CAPITAL: String = "under_the_capital"
+const FLAG_BLACK_MARKET_SEEN: String = "crease_black_market_seen"
+
+
+static func _under_the_capital() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = UNDER_CAPITAL
+	quest.category = QuestData.Category.MAIN
+	quest.order = 31
+	quest.title = "Under the Capital"
+	quest.summary = "The resistance hides in the Crease, a cavern under the Capital. Wren leads it, Nurse Hesper mends people there, and Fig Sly runs a Black Market that sells what {villain} banned."
+	var gone: Condition = Condition.flag("primm_defeated")
+	var inside: Condition = Condition.any_of([Condition.flag(str(CapitalZone.FLAG_INSIDE)), Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)), gone] as Array[Condition])
+	var found: Condition = Condition.any_of([Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)), gone] as Array[Condition])
+	var objectives: Array[QuestObjective] = []
+	objectives.append(QuestObjective.make("Get inside the Capital's wall", inside)
+		.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "spotless", "The great gate, straight up the road from where you arrive. Captain Spotless guards it: beat him and the gate opens"))
+	objectives.append(QuestObjective.make("Knock at the manhole on the Gate Plaza", found)
+		.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "manhole", "Walk through the great gate. The manhole is in the paving of the Gate Plaza just inside, left of the road. It leads down to the Crease"))
+	objectives.append(QuestObjective.make("Browse Fig Sly's Black Market in the Crease", Condition.any_of([Condition.flag(FLAG_BLACK_MARKET_SEEN), gone] as Array[Condition]))
+		.at(QuestObjective.TargetKind.SPOT, CapitalZone.ID, "fig", "Fig Sly's stall, on the north-east side of the Crease (down the manhole on the Gate Plaza, or by the Rift Station once you have been there)"))
+	quest.objectives = objectives
+	quest.reward_gold = 120
+	quest.reward_xp = 120
 	return quest
 
 

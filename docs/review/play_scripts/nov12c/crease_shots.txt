@@ -1,0 +1,87 @@
+dev load c13castle
+wait 3
+dev travel capital
+wait 12
+skip_dialogue
+wait 1
+skip_dialogue
+wait 1
+shot hud_on_arrival
+hud off
+calm
+dev tp 22 150
+cam 0
+wait 1.5
+shot spawn_default
+cam 3
+wait 1.2
+shot spawn_low
+dev tp 31 141.5
+cam 0
+wait 1.5
+shot market_fig_default
+cam 3
+wait 1.2
+shot market_fig_low
+dev tp 14 141.5
+cam 0
+wait 1.5
+shot wren_default
+cam 3
+wait 1.2
+shot wren_low
+dev tp 22 139.5
+cam 0
+wait 1.5
+shot heal_default
+cam 3
+wait 1.2
+shot heal_low
+dev tp 22 151.5
+cam 0
+wait 1.5
+shot shafts_default
+cam 3
+wait 1.2
+shot shafts_low
+dev tp 8.5 146
+cam 0
+wait 1.5
+shot ladder_default
+cam 3
+wait 1.2
+shot ladder_low
+dev tp 36.5 148
+cam 0
+wait 1.5
+shot tunnel_default
+cam 3
+wait 1.2
+shot tunnel_low
+dev tp 28 147.5
+cam 0
+wait 1.5
+shot station_default
+cam 3
+wait 1.2
+shot station_low
+dev tp 6 136.5
+cam 0
+wait 1.5
+shot nw_corner_default
+cam 3
+wait 1.2
+shot nw_corner_low
+dev tp 39 136.5
+cam 0
+wait 1.5
+shot ne_corner_default
+cam 3
+wait 1.2
+shot ne_corner_low
+cam 0
+hud on
+dev tp 22 146
+wait 1.5
+shot hud_on_centre
+spots

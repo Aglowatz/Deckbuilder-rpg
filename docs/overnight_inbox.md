@@ -29,6 +29,24 @@ Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_repor
    against the wall arcade (nothing floats there, the lens is just hemmed in), and with the hero pressed against the inside of the
    front wall the camera still looks in from outside over the cut wall, by design.
 
+5. **The Crease (A8): what "remove the four black doorways" became.** The six free-standing brick doorways were the service shafts
+   to the six districts. They are gone as doorways; **each shaft is now an iron hatch in the floor with a small lit marker post**, in
+   the same six places, so nothing a player could do before is lost. The Rift Station is unchanged. **The ladder (up to the manhole
+   on the Gate Plaza) and the tunnel (out to the outskirts) are kept**: without them the Crease has no way up into the city it sits
+   under. The ladder now stands against the west rock wall and the tunnel is a timbered mouth in the east wall instead of a
+   free-standing black arch. Say if the shafts, the ladder or the tunnel should go altogether.
+6. **The quest to the Crease (A8.3): a new main quest, "Under the Capital".** It starts by itself and takes the tracker the first
+   time the hero stands in the Capital (once per save, never after Primm): get inside the wall, knock at the manhole on the Gate
+   Plaza, browse Fig Sly's Black Market (120 gold, 120 XP). Each step has a map pin and a "Where to go" line that names the route,
+   and "Point me to..." lists "The Crease (the manhole on the Gate Plaza)" while it runs. The old fifth step of "Free the Four Zones"
+   ("Find the resistance in the Crease") is still there too. It takes the tracker from whatever was tracked; `[` / `]` cycles back.
+7. **The Crease's ceiling is 7.6 m.** The default camera and the Low one ride under it. The Classic and Overview angles and the
+   "Raised" city camera ride above it and look through it from behind (it is drawn from below only), so they see the cavern without
+   its roof but still no sky: the walls stand 9.4 m.
+8. **The two "Services restored" bars (A8.4)** came from the bar being added again each time the scene returned from a fight.
+9. **A citizen of Perfection (Corwin Bale, between two houses on the avenue) fails the NPC visibility probe** at both cameras. He
+   strolls behind a house; not caused by this pass and not changed.
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2

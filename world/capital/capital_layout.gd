@@ -568,8 +568,8 @@ func _anchors() -> void:
 	_anchor("fig", 31.0, 106.0 + dz)
 	_anchor("fig_crate", 36.0, 110.0 + dz)
 	_anchor("heal", 22.0, 104.0 + dz)
-	_anchor("ladder_up", 7.0, 112.0 + dz)
-	_anchor("tunnel_out", 38.0, 114.0 + dz)
+	_anchor("ladder_up", 5.4, 112.0 + dz)  # A8: against the west rock wall
+	_anchor("tunnel_out", 39.2, 114.0 + dz)  # A8: at the timbered mouth in the east rock wall
 	for index: int in range(NETWORK_DESTINATIONS.size()):
 		_anchor("shaft_" + NETWORK_DESTINATIONS[index], 9.0 + 5.0 * float(index), 118.5 + dz)
 
@@ -976,11 +976,19 @@ func _crease() -> void:
 	_prop("crease_stall", 31.0, 104.2 + fz, 0.0, 1.0, 1.1)
 	_prop("tea_urn", 22.0, 102.6 + fz, 0.0, 1.0, 0.7)
 	_prop("map_table", 22.0, 110.0 + fz, 0.0, 1.0, 1.0)
-	_prop("ladder", 7.0, 112.0 + fz, 0.0, 1.0, 0.0)
-	_prop("tunnel_arch", 38.0, 114.0 + fz, 0.0, 1.0, 0.0)
+	# Fable Nov 12c (A8): the ladder stands against the west rock wall and the tunnel's mouth is a timbered opening in the east one
+	# (it was a free-standing black arch); the six free-standing black shaft doorways are iron hatches in the floor.
+	_prop("ladder", 5.4, 112.0 + fz, 0.0, 1.0, 0.0)
+	_prop("tunnel_arch", 40.55, 114.0 + fz, -90.0, 1.0, 0.0)
 	_prop("crease_crate", 36.0, 108.6 + fz, 0.0, 1.0, 0.8)
 	for index: int in range(NETWORK_DESTINATIONS.size()):
-		_prop("shaft_door", 9.0 + 5.0 * float(index), 119.0 + fz, 0.0, 1.0, 0.0, index)
+		_prop("shaft_hatch", 9.0 + 5.0 * float(index), 119.0 + fz, 0.0, 1.0, 0.0, index)
+	# the market: a second stall beside Fig's and stacks of crates round them (all north of where the vendors stand)
+	_prop("crease_stall", 36.6, 103.6 + fz, 0.0, 1.0, 1.1)
+	_prop("crease_crate", 33.8, 103.4 + fz, 0.0, 1.0, 0.8)
+	_prop("crease_crate", 39.4, 105.6 + fz, 0.0, 1.0, 0.8)
+	_prop("crease_crate", 27.2, 102.2 + fz, 0.0, 1.0, 0.8)
+	_prop("crease_crate", 17.4, 102.4 + fz, 0.0, 1.0, 0.8)
 	_prop("cot", 10.0, 102.0 + fz, 0.0, 1.0, 0.0)
 	_prop("cot", 13.0, 102.0 + fz, 0.0, 1.0, 0.0)
 	_sign("sign.crease_main", 22.0, 100.5 + fz, 0.0, 1.2, "banner")

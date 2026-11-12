@@ -1728,6 +1728,10 @@ func _ask_exit() -> void:
 
 
 func _open_vendor() -> void:
+	if def.id == CapitalZone.ID and not Session.flag(StringName(QuestDefinitions.FLAG_BLACK_MARKET_SEEN)):
+		# Fable Nov 12c (A8.3): the last step of "Under the Capital" - the Black Market has been found
+		Session.set_flag(StringName(QuestDefinitions.FLAG_BLACK_MARKET_SEEN))
+		Session.refresh_quests()
 	# UI + economy fixes Oct 22, Part 5: a Path zone's vendor sells that Path - Commons and two Uncommons first, the rest of the Uncommons
 	# and the Epics once the zone is freed, a Legendary in the postgame (VendorStocks.zone_shelf). The Capital's Black Market keeps its list.
 	var path: Affinity.Type = PackRules.path_for_zone(def.id)

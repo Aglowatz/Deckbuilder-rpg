@@ -515,10 +515,9 @@ func test_the_card_frame_shows_both_paths() -> void:
 	for child: Node in view.get_children():
 		if child is Panel and (child as Panel).size == Vector2(22, 22):
 			gems += 1
+	assert_eq(gems, 0, "no Path dots under the name (Fable Nov 12c, A7: removed from every view)")
 	if UiArt.has(view.frame_id()):
 		assert_eq(view.frame_id(), "UI-FRAME-MULTI", "a multi-Path card wears the multi-Path frame")
-		return
-	assert_eq(gems, 2, "two Path gems on the art")
 
 
 func test_a_dual_card_shows_in_both_path_filters() -> void:

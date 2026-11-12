@@ -141,9 +141,11 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"tunnel_arch":
 			return tunnel_arch()
 		"crease_crate":
-			return crate_stack()
+			return _crease_painted(CREASE_CRATES, crate_stack)  # A8: the kit's painted crates (the code-built stack drew as red brick)
 		"shaft_door":
 			return shaft_door(prop.variant)
+		"shaft_hatch":
+			return shaft_hatch(prop.variant)
 		"cot":
 			return _crease_painted(CREASE_BEDROLLS, bed)
 	return null
@@ -1128,6 +1130,7 @@ const CREASE_STALL: Array = ["CAP-SHEET-CREASE-03", 2.6]
 const CREASE_BEDROLLS: Array = ["CAP-SHEET-CREASE-04", 0.75]
 const CREASE_COLUMN: Array = ["CAP-SHEET-CREASE-05", 3.4]
 const CREASE_LADDER: Array = ["CAP-SHEET-CREASE-06", 4.0]
+const CREASE_CRATES: Array = ["CAP-SHEET-RUBBLE-06", 1.3]
 
 
 ## The painted Crease piece `art` ([id, height]) standing on the prop's spot, else `fallback`'s code-built prop. A column keeps its
@@ -1201,12 +1204,36 @@ static func ladder() -> Node3D:
 	return root
 
 
+## Fable Nov 12c (A8): the tunnel out of the Crease is a timbered mouth set into the cavern's rock wall (it was a free-standing brick arch
+## round a black panel): two props and a lintel of old timber, a boarded-over upper half, the tunnel's dark behind them (a deep colour,
+## never pure black) with a lantern burning a little way in. The opening faces local +z.
 static func tunnel_arch() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
-		B.box(root, Vector3(0.6, 3.4, 0.9), M.flat(M.BRICK_DEAD), Vector3(side * 1.5, 1.7, 0))
-	B.box(root, Vector3(3.6, 0.6, 0.9), M.flat(M.BRICK_DEAD), Vector3(0, 3.5, 0))
-	B.box(root, Vector3(2.4, 3.2, 0.1), M.flat(Color(0.02, 0.02, 0.03)), Vector3(0, 1.6, -0.3))
+		B.box(root, Vector3(0.3, 3.0, 0.34), M.flat(M.WOOD_DARK), Vector3(side * 1.25, 1.5, 0.0), Vector3(0, 0, side * -3.0))
+	B.box(root, Vector3(3.2, 0.32, 0.4), M.flat(M.WOOD), Vector3(0, 3.05, 0))
+	for board: int in range(3):
+		B.box(root, Vector3(2.5, 0.2, 0.06), M.flat(M.WOOD_DARK if board % 2 == 0 else M.WOOD), Vector3(0.0, 2.72 - float(board) * 0.27, 0.06), Vector3(0, 0, -4.0 + 4.0 * float(board)))
+	B.box(root, Vector3(2.3, 2.9, 0.08), M.flat(Color(0.09, 0.06, 0.11)), Vector3(0, 1.45, -0.42))
+	B.box(root, Vector3(0.2, 0.28, 0.2), M.glow(M.LANTERN, 1.6), Vector3(0.62, 1.7, -0.22))
+	var light: OmniLight3D = OmniLight3D.new()
+	light.light_color = Color(1.0, 0.7, 0.4)
+	light.light_energy = 0.7
+	light.omni_range = 4.5
+	light.position = Vector3(0.4, 1.7, 0.4)
+	root.add_child(light)
+	for piece: Node in root.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(PaintedClasses.META_NO_PAINT, true)  # old timber stays timber (the painted classes drew this brown as red brick)
+	return root
+
+
+## Fable Nov 12c (A8): a service shaft of the Crease as a hatch in the cavern's floor (the manhole of the streets above: an iron cover in
+## a gold-edged ring) with a short lit marker post carrying the travel pictogram. It replaces the free-standing black doorway.
+static func shaft_hatch(_index: int) -> Node3D:
+	var root: Node3D = manhole()
+	B.box(root, Vector3(0.09, 1.0, 0.09), M.flat(M.WOOD_DARK), Vector3(0.0, 0.5, 0.95))
+	B.box(root, Vector3(0.34, 0.34, 0.05), M.glow(M.LANTERN, 1.2), Vector3(0.0, 1.05, 0.99))
+	IconSign.attach(root, "ICON-MAP-TRAVEL", Vector3(0.0, 1.05, 1.03), 0.3)
 	return root
 
 
