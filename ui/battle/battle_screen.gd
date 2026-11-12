@@ -384,6 +384,54 @@ func _screenshot_lights() -> void:
 	lights.pulse(hud.portrait_center(1), Color("ff5a5a"), 260.0, 1.0, 60.0)
 
 
+## Fable Nov 12 (Part 4.2, the Primm build-up): the castle's fights close in. Every fight on the castle's boards wears a rift-violet
+## vignette (ui/shaders/finale_vignette.gdshader) that deepens with the rooms cleared; Primm's own phases each have their look - gold
+## and still (Standardization), cold silver (Reflection), violet, pulsing, cracked with light (Unraveling). Null for any other fight.
+## Under the cards and the HUD; no pulse under Reduce motion or the Low-end preset.
+const FINALE_BOARDS: Array[String] = ["BB-PC", "BB-PC-BOSS"]
+
+
+static func finale_values(boss_phase: int, cleared_share: float) -> Dictionary:
+	if boss_phase >= 2:
+		return {"tint": Color(0.5, 0.18, 0.78), "strength": 0.62, "pulse": 1.0, "cracks": 0.8}
+	if boss_phase == 1:
+		return {"tint": Color(0.5, 0.6, 0.82), "strength": 0.5, "pulse": 0.5, "cracks": 0.3}
+	if boss_phase == 0:
+		return {"tint": Color(0.82, 0.62, 0.2), "strength": 0.42, "pulse": 0.3, "cracks": 0.0}
+	return {"tint": Color(0.42, 0.2, 0.7), "strength": lerpf(0.12, 0.4, clampf(cleared_share, 0.0, 1.0)), "pulse": 0.0, "cracks": 0.0}
+
+
+static func finale_overlay(battle: BattleContext, map: DungeonMap) -> ColorRect:
+	if battle == null:
+		return null
+	var board_id: String = Battleboards.board_for(battle.board_key)
+	if board_id.is_empty():
+		board_id = battle.board_key
+	if not FINALE_BOARDS.has(board_id):
+		return null
+	var share: float = 0.0
+	if map != null and not map.nodes.is_empty():
+		var cleared: int = 0
+		for node: DungeonMap.MapNode in map.nodes:
+			if map.is_cleared(node.id):
+				cleared += 1
+		share = float(cleared) / float(map.nodes.size()) * 2.0  # the main line is about half the castle's rooms
+	var values: Dictionary = finale_values(battle.boss_phase, share)
+	var overlay: ColorRect = ColorRect.new()
+	overlay.name = "FinaleVignette"
+	UIKit.full_rect(overlay)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = load("res://ui/shaders/finale_vignette.gdshader") as Shader
+	material.set_shader_parameter("tint", values["tint"])
+	material.set_shader_parameter("strength", values["strength"])
+	var still: bool = Settings.reduce_motion or Settings.low_end
+	material.set_shader_parameter("pulse", 0.0 if still else float(values["pulse"]))
+	material.set_shader_parameter("cracks", float(values["cracks"]) * (0.5 if still else 1.0))
+	overlay.material = material
+	return overlay
+
+
 func _build_scene() -> void:
 	# Screenshot/dev helpers: --ctx=<context key> (e.g. zone:beefcake, capital:in) or --board=<Battleboard ID> picks the board without playing to it.
 	if _screenshot_args.has("ctx"):
@@ -405,6 +453,9 @@ func _build_scene() -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 	add_child(UIKit.vignette(0.8))
+	var finale: ColorRect = finale_overlay(context, Session.dungeon_map if Session != null else null)
+	if finale != null:
+		add_child(finale)
 	_board_root = Control.new()
 	UIKit.full_rect(_board_root)
 	_board_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
