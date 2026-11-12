@@ -1,6 +1,6 @@
 # Fable pass Nov 11-12 - report (visual quality, world consistency, late game)
 
-Brief: `docs/prompts/fable_nov12_visuals.md`. Start tag `pre-fable-nov12`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12" (9 items).
+Brief: `docs/prompts/fable_nov12_visuals.md`. Start tag `pre-fable-nov12`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12" (12 items).
 Shots: `docs/overnight_shots/nov12/` (`before/`, `after/`, `part4/`). Gallery: `docs/review/visual_nov12/index.html`. Style bible:
 `docs/art/style_bible.md`. One Godot at a time; the three critics (art director before and after, late game) were no-context agents and no
 Godot of mine ran while the late-game critic played. Owner constraints kept: no difficulty setting; the battle board and every menu layout
