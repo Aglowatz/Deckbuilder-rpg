@@ -156,7 +156,7 @@ static func materials(mesh: KitMesh, gold_mul: Color = Color.WHITE) -> void:
 	mesh.set_material("window_warm", EnvKit.glow(Color("ffd890"), 1.5))
 	mesh.set_material("lamp", EnvKit.glow(Color("fff2c8"), 2.0))
 	mesh.set_material("mirror", mirror())
-	mesh.set_material("water", water())
+	mesh.set_material("water", StyleWater.basin())  # Fable Nov 12c (Part C, item 3): the fountains' bowls hold the shared toon water (they were one flat pale blue)
 
 
 ## Polished gold: the trim texture's colour on a smooth metallic surface (spires, finials, frames). `mul` below white dims it (the fallen state).

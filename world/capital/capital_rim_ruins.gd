@@ -30,6 +30,10 @@ const MAX_MOUNDS: int = 22
 const HOUSE_SHAPES: Array[Array] = [[6.4, 4.2, 4.6, 3.0], [7.6, 4.8, 5.2, -2.0], [5.4, 3.6, 4.2, 5.0], [8.2, 5.2, 5.0, 1.0]]
 ## How far a piece's base sits under the rim's surface (the slope would otherwise show a gap under its downhill side).
 const SINK: float = 0.35
+## Only the outside half carries ruins (the wall approaches, the flanks either side of the front wall and south of it). The ridges beside
+## the city's west and east walls are never seen - the walls stand 9 m between them and the streets - and pieces there cost the inside
+## streets frames for nothing (the Capital inside fell from 64 to 57 fps on Medium before this line).
+const MIN_Z: float = 69.0
 
 var root: Node3D
 var houses: Array[Vector3] = []
@@ -102,7 +106,7 @@ func _place(rim: CapitalRim, share: float) -> void:
 			var cx: int = int(floorf(px))
 			var cz: int = int(floorf(pz))
 			var distance: float = rim.distance_at(cx, cz)
-			if distance == INF or distance < 2.0 or CapitalRim._in_city(cx, cz):
+			if distance == INF or distance < 2.0 or CapitalRim._in_city(cx, cz) or pz < MIN_Z:
 				continue
 			var room: float = rim.north_cap(cx, cz)
 			var pos: Vector3 = Vector3(px, ground_at(rim, px, pz) - SINK, pz)
@@ -147,9 +151,19 @@ func _place(rim: CapitalRim, share: float) -> void:
 	drifts.set_meta(PaintedClasses.META_NO_PAINT, true)
 	drifts.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	root.add_child(drifts)
-	# off the walkable map and under the camera's line by the rim's rule: nothing here ever needs to fade for the hero
+	# off the walkable map and under the camera's line by the rim's rule: nothing here ever needs to fade for the hero. No sun shadows
+	# (the ridges are far from the hero and the shells are many triangles), and the shells merge into a few batches (one draw per
+	# material per cell instead of one per piece).
 	for node: Node in root.find_children("*", "MeshInstance3D", true, false):
 		node.set_meta(&"no_occlusion_fade", true)
+		(node as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	for node: Node in shells.find_children("*", "MeshInstance3D", true, false):
+		node.set_meta(&"kit_static", true)
+	if shells.is_inside_tree():
+		KitBatch.merge_static(shells, 64.0)
+		for node: Node in shells.find_children("*", "MeshInstance3D", true, false):
+			node.set_meta(&"no_occlusion_fade", true)
+			(node as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 
 func _stand(parent: Node3D, piece: Node3D, pos: Vector3, turn: float) -> void:

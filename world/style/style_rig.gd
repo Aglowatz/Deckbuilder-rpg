@@ -119,6 +119,29 @@ func _ready() -> void:
 	add_child(label_fader)
 	get_tree().node_added.connect(_on_node_added)
 	Settings.graphics_changed.connect(apply)
+	# Fable Nov 12c (Part C, item 1): the characters' contact shadows at this quality, and the props' base shade once the scene has
+	# settled (and once more for staged builds).
+	ContactShadow.apply_quality(quality())
+	Settings.graphics_changed.connect(_refresh_grounding)
+	for delay: float in [1.6, 9.0]:
+		get_tree().create_timer(delay).timeout.connect(_lay_prop_shade)
+
+
+func _refresh_grounding() -> void:
+	ContactShadow.apply_quality(quality())
+	_lay_prop_shade()
+
+
+## The soft darkening under every ground prop of the scene (`PropShade`); none on the Low-end preset.
+func _lay_prop_shade() -> void:
+	if not is_inside_tree() or _scene_root == null or not is_instance_valid(_scene_root):
+		return
+	if GraphicsQuality.low_end or OS.get_environment("NO_PROP_SHADE") != "":
+		var old: Node = get_node_or_null(PropShade.NAME)
+		if old != null:
+			old.queue_free()
+		return
+	PropShade.install(self, _scene_root, PropShade.ground_of(_scene_root), quality())
 
 
 func _exit_tree() -> void:
@@ -126,6 +149,8 @@ func _exit_tree() -> void:
 		get_tree().node_added.disconnect(_on_node_added)
 	if Settings.graphics_changed.is_connected(apply):
 		Settings.graphics_changed.disconnect(apply)
+	if Settings.graphics_changed.is_connected(_refresh_grounding):
+		Settings.graphics_changed.disconnect(_refresh_grounding)
 
 
 ## Switches to another preset (the Capital changing state, a zone variant).

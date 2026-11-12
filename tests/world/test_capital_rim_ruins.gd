@@ -49,11 +49,13 @@ func test_resolve_missing_reports_what_it_could_not_fill() -> void:
 
 
 func test_the_ridges_carry_the_ruined_kingdom() -> void:
-	assert_between(ruins.houses.size(), 5, CapitalRimRuins.MAX_HOUSES, "dilapidated house shells")
-	assert_between(ruins.fragments.size(), 4, CapitalRimRuins.MAX_FRAGMENTS, "stretches of ash wall")
-	assert_between(ruins.statues.size(), 3, CapitalRimRuins.MAX_STATUES, "toppled statues")
-	assert_between(ruins.crystals.size(), 6, CapitalRimRuins.MAX_CRYSTALS, "crystal growths")
-	assert_between(ruins.mounds.size(), 8, CapitalRimRuins.MAX_MOUNDS, "rubble mounds")
+	assert_between(ruins.houses.size(), 4, CapitalRimRuins.MAX_HOUSES, "dilapidated house shells")
+	assert_between(ruins.fragments.size(), 3, CapitalRimRuins.MAX_FRAGMENTS, "stretches of ash wall")
+	assert_between(ruins.statues.size(), 2, CapitalRimRuins.MAX_STATUES, "toppled statues")
+	assert_between(ruins.crystals.size(), 5, CapitalRimRuins.MAX_CRYSTALS, "crystal growths")
+	assert_between(ruins.mounds.size(), 6, CapitalRimRuins.MAX_MOUNDS, "rubble mounds")
+	for spot: Vector3 in ruins.all_spots():
+		assert_gte(spot.z, CapitalRimRuins.MIN_Z, "only where the outside can see it: none beside the city's side walls (frames for nothing)")
 
 
 func test_every_piece_stands_on_rim_ground_off_the_walkable_map() -> void:

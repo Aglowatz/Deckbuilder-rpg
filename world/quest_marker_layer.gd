@@ -116,9 +116,12 @@ func _process(delta: float) -> void:
 	else:
 		_follow_live()
 	var bob: float = sin(_time * 2.4) * 0.07
+	var lens: Camera3D = get_viewport().get_camera_3d() if get_viewport() != null else null
 	for node: Variant in _mark_nodes.values():
 		var sprite: Sprite3D = node as Sprite3D
 		sprite.position.y = float(sprite.get_meta(&"base_y")) + bob
+		if lens != null:
+			sprite.scale = Vector3.ONE * near_scale(lens.global_position.distance_to(sprite.global_position))
 	for pair: Array in _chevrons:
 		var chevron: Node3D = pair[0] as Node3D
 		var ring: MeshInstance3D = pair[1] as MeshInstance3D
@@ -126,10 +129,24 @@ func _process(delta: float) -> void:
 			continue
 		chevron.position.y = float(chevron.get_meta(&"base_y")) + sin(_time * 2.0) * 0.1
 		chevron.rotation.y += delta * 1.4
+		if lens != null:
+			var near: float = near_scale(lens.global_position.distance_to(chevron.global_position))
+			chevron.scale = Vector3.ONE * near
 		if ring != null:
 			var pulse: float = 0.5 + 0.5 * sin(_time * 2.6)
 			ring.scale = Vector3.ONE * (0.85 + 0.25 * pulse)
 			(ring.material_override as StandardMaterial3D).albedo_color.a = 0.25 + 0.3 * (1.0 - pulse)
+
+
+## Fable Nov 12c (Part C, item 5): a marker close to the lens shrinks, so it never fills the picture - the Low camera rides at head
+## height a few metres behind the hero, and a goal marker or a quest mark two metres from it was a yellow polygon across a third of the
+## screen (the art critic's "marker polygons in the scene"). Full size from NEAR_FULL metres out, never under NEAR_MIN of it.
+const NEAR_FULL: float = 9.0
+const NEAR_MIN: float = 0.3
+
+
+static func near_scale(distance: float) -> float:
+	return clampf(distance / NEAR_FULL, NEAR_MIN, 1.0)
 
 
 ## Fable pass Nov 10 (Part 1.6): gives the arrows the ground to route over: `strict` is what the hero can walk now (less what hurts),

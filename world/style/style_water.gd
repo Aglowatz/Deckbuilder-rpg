@@ -28,6 +28,28 @@ static func material(shallow: Color = Color("5cc8e6"), deep: Color = Color("1f72
 	return result
 
 
+## Fable Nov 12c (Part C, item 3): the shared water in a basin (a fountain's bowls): a short depth range so a hand of water already shows
+## the deep colour, small waves, caustic lines and sparkles. One cached material per colour pair.
+static func basin(shallow: Color = Color("b4e6f7"), deep: Color = Color("6db7e6")) -> ShaderMaterial:
+	var key: String = "basin|%s|%s|%d" % [shallow.to_html(), deep.to_html(), Settings.graphics_quality]
+	if _cache.has(key):
+		return _cache[key] as ShaderMaterial
+	var result: ShaderMaterial = material(shallow, deep).duplicate() as ShaderMaterial
+	# a bowl holds a hand of water over its floor: no depth read (everything would be "shore") and no shore foam; the gradient drifts
+	# as slow patches instead, with caustic lines and sparkles on top
+	result.set_shader_parameter("use_depth", false)
+	result.set_shader_parameter("use_refraction", false)
+	result.set_shader_parameter("foam_width", 0.0)
+	result.set_shader_parameter("depth_range", 1.0)
+	result.set_shader_parameter("wave_height", 0.004)
+	result.set_shader_parameter("caustic_strength", 0.2)
+	result.set_shader_parameter("flow_speed", 0.45)
+	result.set_meta(PaintedClasses.META_NO_PAINT, true)
+	result.set_meta(StyleToon.META_NO_TOON, true)
+	_cache[key] = result
+	return result
+
+
 ## A copy of the toon water with a painted surface layer (texture_id, a kit or zone-kit surface) under it; the plain material when the art is missing.
 static func painted(texture_id: String, shallow: Color, deep: Color, tile: float = 6.0, amount: float = 0.6) -> ShaderMaterial:
 	var base: ShaderMaterial = material(shallow, deep)

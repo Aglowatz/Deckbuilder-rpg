@@ -492,6 +492,9 @@ func set_mood(spec: Dictionary) -> void:
 		var water_tint: Color = Color.html(str(spec["water_tint"]))
 		water_material.set_shader_parameter("shallow_tint", water_tint.lerp(Color.WHITE, 0.55))
 		water_material.set_shader_parameter("deep_tint", water_tint)
+		# Part C, item 3: the sky the sea leans to at the horizon - the mood's own, else a pale cast of the water's tint
+		var sky_cast: Color = Color.html(str(spec["sky_tint"])) if spec.has("sky_tint") else water_tint.lerp(Color(0.92, 0.96, 1.0), 0.7)
+		water_material.set_shader_parameter("sky_tint", Vector3(sky_cast.r, sky_cast.g, sky_cast.b))
 	for child: Node in get_children():
 		var role: StringName = child.get_meta(&"look_role", &"") as StringName
 		if role != &"" and child is Node3D:

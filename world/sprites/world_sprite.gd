@@ -117,7 +117,7 @@ func setup(character_id: String, cam: Camera3D, sun_direction: Vector3 = Vector3
 	_mesh.set_meta(&"no_occlusion_fade", true)
 	_mesh.extra_cull_margin = 4.0
 	add_child(_mesh)
-	_blob = ContactShadow.attach(self, 0.3 * world_height)
+	_blob = ContactShadow.attach(self, ContactShadow.SPRITE_RADIUS * world_height)
 	_apply("FRONT_IDLE", false)
 	return true
 

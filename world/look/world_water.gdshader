@@ -13,6 +13,11 @@ uniform float tile_size = 14.0;
 uniform float flow_speed = 1.0;
 uniform float lift = 0.26;
 uniform float sparkle_strength = 1.6;
+// Fable Nov 12c (Part C, item 3): the same sky tint as the toon water (`style_water.gdshader`) and slow wide ripples, so the sea round a
+// zone is not one flat blue.
+uniform vec3 sky_tint : source_color = vec3(0.72, 0.86, 1.0);
+uniform float sky_amount = 0.3;
+uniform float ripple_amount = 0.06;
 
 varying vec3 v_world;
 
@@ -43,6 +48,10 @@ void fragment() {
 	float spec = smoothstep(0.72, 0.95, luma);
 	float twinkle = 0.55 + 0.45 * sin(TIME * 2.2 + hash21(floor(uv_a * 40.0)) * 40.0);
 	float sparkle = spec * twinkle * sparkle_strength;
+	float ripple = sin(dot(v_world.xz, vec2(0.9, 0.4)) * 0.8 + TIME * 0.6) * sin(dot(v_world.xz, vec2(-0.3, 1.0)) * 0.6 - TIME * 0.45);
+	col *= 1.0 + ripple_amount * ripple;
+	float graze = pow(1.0 - clamp(dot(normalize(VIEW), NORMAL), 0.0, 1.0), 3.0);
+	col = mix(col, sky_tint, graze * sky_amount);
 	ALBEDO = col;
 	EMISSION = col * lift + vec3(1.0, 0.95, 0.8) * sparkle * 0.55;
 	ROUGHNESS = 1.0;

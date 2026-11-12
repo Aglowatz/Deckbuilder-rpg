@@ -21,6 +21,10 @@ uniform float flow_speed = 0.35;
 uniform float caustic_strength = 0.22;
 uniform float sparkle_amount = 1.0;
 uniform bool use_depth = true;
+// Fable Nov 12c (Part C, item 3): the sky in the water - at a grazing view the surface leans to the zone's sky colour (a cheap reflection
+// tint, no reflection pass), so far water reads as water under a sky and not as a flat colour.
+uniform vec4 sky_tint : source_color = vec4(0.72, 0.86, 1.0, 1.0);
+uniform float sky_amount = 0.34;
 // Graphics Tier 2 (docs/art/graphics_tier2.md): gentle refraction - the bed shows through the shallows, wobbling with the surface. Medium and up (it needs the
 // depth read and the screen copy); a sample that would pull something standing above the water (the hero on the bank) into it falls back to the straight one.
 uniform sampler2D screen_tex : hint_screen_texture, repeat_disable, filter_linear;
@@ -111,6 +115,8 @@ void fragment() {
 	float dot_mask = 1.0 - smoothstep(0.08, 0.22, length(fract(sp) - 0.5 + (vec2(hash21(cell + 3.1), hash21(cell + 7.7)) - 0.5) * 0.4));
 	float twinkle = step(0.982, h) * dot_mask * (0.5 + 0.5 * sin(TIME * (2.0 + h * 5.0) + h * 30.0));
 	col += sparkle_color.rgb * twinkle * sparkle_amount * 0.8;
+	float graze = pow(1.0 - clamp(dot(normalize(VIEW), NORMAL), 0.0, 1.0), 3.0);
+	col = mix(col, sky_tint.rgb, graze * sky_amount);
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(col, vec3(luma), style_desaturate);
 	ALBEDO = col;

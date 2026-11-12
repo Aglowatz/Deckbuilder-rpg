@@ -5,6 +5,12 @@ extends RefCounted
 
 const NAME: String = "ContactShadow"
 const COLOR: Color = Color(0.1, 0.05, 0.18, 0.42)
+## Fable Nov 12c (Part C, item 1): both art critics called the blobs faint. The blob is darker now, with a dense core right under the
+## feet, and darker on Medium and High than on Low (per graphics quality: Low, Medium, High). `apply_quality` sets it for a scene.
+const ALPHA: Array[float] = [0.52, 0.7, 0.7]
+## A character's blob is this share of its height across (was 0.3) and a little wider than deep.
+const SPRITE_RADIUS: float = 0.34
+const WIDE: float = 1.18
 
 static var _material: StandardMaterial3D
 static var _mesh: QuadMesh
@@ -14,7 +20,8 @@ static func _shared_material() -> StandardMaterial3D:
 	if _material == null:
 		var gradient: Gradient = Gradient.new()
 		gradient.set_color(0, Color(1, 1, 1, 1))
-		gradient.add_point(0.55, Color(1, 1, 1, 0.55))
+		gradient.add_point(0.28, Color(1, 1, 1, 0.95))
+		gradient.add_point(0.6, Color(1, 1, 1, 0.5))
 		gradient.set_color(gradient.get_point_count() - 1, Color(1, 1, 1, 0))
 		var texture: GradientTexture2D = GradientTexture2D.new()
 		texture.gradient = gradient
@@ -27,10 +34,21 @@ static func _shared_material() -> StandardMaterial3D:
 		_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		_material.albedo_texture = texture
-		_material.albedo_color = COLOR
+		_material.albedo_color = Color(COLOR.r, COLOR.g, COLOR.b, ALPHA[1])
 		_material.disable_receive_shadows = true
 		_material.set_meta(StyleToon.META_NO_TOON, true)
 	return _material
+
+
+## How dark the blobs are at a graphics quality (0 Low, 1 Medium, 2 High).
+static func alpha_for(quality: int) -> float:
+	return ALPHA[clampi(quality, 0, ALPHA.size() - 1)]
+
+
+## Sets every blob's darkness for the scene's graphics quality (they share one material).
+static func apply_quality(quality: int) -> void:
+	var material: StandardMaterial3D = _shared_material()
+	material.albedo_color = Color(COLOR.r, COLOR.g, COLOR.b, alpha_for(quality))
 
 
 ## Adds the blob under `character` (radius in metres, in the character's local units); returns it. Safe to call twice.
@@ -46,7 +64,7 @@ static func attach(character: Node3D, radius: float = 0.55) -> MeshInstance3D:
 	var blob: MeshInstance3D = MeshInstance3D.new()
 	blob.name = NAME
 	blob.mesh = _mesh
-	blob.scale = Vector3(radius, 1.0, radius)
+	blob.scale = Vector3(radius * WIDE, 1.0, radius)
 	blob.position = Vector3(0.0, 0.085, 0.0)
 	blob.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	blob.set_meta(StyleToon.META_NO_TOON, true)
