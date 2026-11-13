@@ -302,26 +302,138 @@ func ping(poi: MapPoi) -> void:
 		_canvas.queue_redraw()
 
 
-func _draw_map() -> void:
-	var area: Vector2 = _canvas.size
-	var cells: Vector2 = Vector2(float(_fog.width), float(_fog.height))
-	var scale_px: float = minf(area.x / cells.x, area.y / cells.y)
-	var drawn: Vector2 = cells * scale_px
-	var top_left: Vector2 = (area - drawn) * 0.5
+## Batch 15 pass (Part 3.5, the Capital's map). `districts`: the named parts of the area ({"name", "rect": Rect2 in world x / z}); each
+## name is written across its district once any of it is revealed. `inset`: a part of the area that lies apart from the rest and is drawn
+## as its own framed map beside the main one ({"name", "note", "rect": Rect2 in world x / z}; it must be the southern end of the grid):
+## the Crease lies under the city, and drawn in place it was a little box in the corner of the surface map with its names piled up.
+var districts: Array[Dictionary] = []
+var inset: Dictionary = {}
+## How much larger than the main map the inset is drawn, the gap between the two and the room for the inset's title.
+const INSET_ZOOM: float = 1.7
+const INSET_GAP: float = 34.0
+const INSET_TITLE: float = 30.0
+const DISTRICT_FONT: int = 19
+## The last layout drawn: the main map's and the inset's cells (in fog cells) and where they are on the canvas.
+var _main_cells: Rect2 = Rect2()
+var _main_screen: Rect2 = Rect2()
+var _inset_cells: Rect2 = Rect2()
+var _inset_screen: Rect2 = Rect2()
+
+
+## Where the main map and the inset are drawn on a canvas `area` big: {"main_cells", "main_screen", "inset_cells", "inset_screen"} (the
+## inset rects are empty without one). Pure: the fog grid's size, the inset's world rect and the canvas size decide it.
+static func map_layout(area: Vector2, fog_origin: Vector2, fog_size: Vector2, inset_world: Rect2) -> Dictionary:
+	var main_cells: Rect2 = Rect2(Vector2.ZERO, fog_size)
+	var inset_cells: Rect2 = Rect2()
+	if inset_world.size.x > 0.0 and inset_world.size.y > 0.0:
+		inset_cells = Rect2((inset_world.position - fog_origin) / FogOfWar.CELL, inset_world.size / FogOfWar.CELL).intersection(main_cells)
+	if inset_cells.size.x <= 0.0 or inset_cells.size.y <= 0.0:
+		var scale_only: float = minf(area.x / fog_size.x, area.y / fog_size.y)
+		var drawn_only: Vector2 = fog_size * scale_only
+		return {"main_cells": main_cells, "main_screen": Rect2((area - drawn_only) * 0.5, drawn_only), "inset_cells": Rect2(), "inset_screen": Rect2()}
+	# the main map ends above the inset (the rows between them are empty ground)
+	main_cells.size.y = maxf(1.0, inset_cells.position.y - 2.0)
+	var scale_px: float = minf(area.y / main_cells.size.y, (area.x - INSET_GAP) / (main_cells.size.x + inset_cells.size.x * INSET_ZOOM))
+	scale_px = minf(scale_px, (area.y - INSET_TITLE) / (inset_cells.size.y * INSET_ZOOM))
+	var main_size: Vector2 = main_cells.size * scale_px
+	var inset_size: Vector2 = inset_cells.size * scale_px * INSET_ZOOM
+	var left: float = (area.x - main_size.x - INSET_GAP - inset_size.x) * 0.5
+	var top: float = (area.y - main_size.y) * 0.5
+	var main_screen: Rect2 = Rect2(Vector2(left, top), main_size)
+	var inset_screen: Rect2 = Rect2(Vector2(main_screen.end.x + INSET_GAP, main_screen.end.y - inset_size.y), inset_size)
+	return {"main_cells": main_cells, "main_screen": main_screen, "inset_cells": inset_cells, "inset_screen": inset_screen}
+
+
+## Where the world point (x, z) is on the canvas: on the inset when it lies in the inset's part of the grid, else on the main map.
+func _to_screen(world_xz: Vector2) -> Vector2:
+	var cell: Vector2 = (world_xz - _fog.origin) / FogOfWar.CELL
+	if _inset_cells.size.x > 0.0 and _inset_cells.grow(0.5).has_point(cell):
+		return _inset_screen.position + (cell - _inset_cells.position) * (_inset_screen.size.x / _inset_cells.size.x)
+	return _main_screen.position + (cell - _main_cells.position) * (_main_screen.size.x / _main_cells.size.x)
+
+
+## The frame (main map or inset) the world point (x, z) is drawn in: names stay inside it.
+func _frame_of(world_xz: Vector2) -> Rect2:
+	var cell: Vector2 = (world_xz - _fog.origin) / FogOfWar.CELL
+	return _inset_screen if _inset_cells.size.x > 0.0 and _inset_cells.grow(0.5).has_point(cell) else _main_screen
+
+
+func _draw_board(cells: Rect2, screen: Rect2) -> void:
 	# Phase 2 cycle 17: only the map itself sits on a dark board with a soft shadow; the whole canvas used to be filled, leaving dead dark
 	# strips either side of a square map.
 	for step: int in range(4):
 		var grow: float = 6.0 + float(step) * 6.0
-		_canvas.draw_rect(Rect2(top_left - Vector2(grow, grow) + Vector2(0.0, 6.0), drawn + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.1))
-	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.04, 0.05, 0.08, 0.95))
-	var source: Rect2 = Rect2(Vector2(MapRaster.PAD, MapRaster.PAD), cells)
-	_canvas.draw_texture_rect_region(_raster.texture, Rect2(top_left, drawn), source)
-	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
+		_canvas.draw_rect(Rect2(screen.position - Vector2(grow, grow) + Vector2(0.0, 6.0), screen.size + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.1))
+	_canvas.draw_rect(screen, Color(0.04, 0.05, 0.08, 0.95))
+	_canvas.draw_texture_rect_region(_raster.texture, screen, Rect2(Vector2(MapRaster.PAD, MapRaster.PAD) + cells.position, cells.size))
+	_canvas.draw_rect(screen, Color(0.82, 0.68, 0.32, 0.9), false, 2.0)
+
+
+## True once any of the world rect `rect` (x / z) has been revealed (its centre, its corners' quarter points).
+func _part_revealed(rect: Rect2) -> bool:
+	for u: float in [0.5, 0.25, 0.75]:
+		for v: float in [0.5, 0.25, 0.75]:
+			if _fog.is_revealed(rect.position + rect.size * Vector2(u, v)):
+				return true
+	return false
+
+
+func _draw_map() -> void:
+	var placed: Dictionary = map_layout(_canvas.size, _fog.origin, Vector2(float(_fog.width), float(_fog.height)), inset.get("rect", Rect2()) as Rect2)
+	_main_cells = placed["main_cells"] as Rect2
+	_main_screen = placed["main_screen"] as Rect2
+	_inset_cells = placed["inset_cells"] as Rect2
+	_inset_screen = placed["inset_screen"] as Rect2
+	var scale_px: float = _main_screen.size.x / _main_cells.size.x
+	_draw_board(_main_cells, _main_screen)
+	var title_font: Font = UIStyle.font_bold()
+	var taken: Array[Rect2] = []
+	if _inset_cells.size.x > 0.0:
+		_draw_board(_inset_cells, _inset_screen)
+		var inset_title: String = str(inset.get("name", ""))
+		var note: String = str(inset.get("note", ""))
+		var title_at: Vector2 = _inset_screen.position + Vector2(2.0, -10.0)
+		_canvas.draw_string_outline(title_font, title_at, inset_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 5, Color(0.03, 0.02, 0.05, 0.95))
+		_canvas.draw_string(title_font, title_at, inset_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, UIStyle.GOLD)
+		if not note.is_empty():
+			var note_at: Vector2 = title_at + Vector2(title_font.get_string_size(inset_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 10.0, 0.0)
+			_canvas.draw_string_outline(title_font, note_at, note, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.03, 0.02, 0.05, 0.9))
+			_canvas.draw_string(title_font, note_at, note, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, UIStyle.PARCHMENT)
+	# the district names, written across each district clear of the icons (a quiet, wide-set label; the place names keep clear of them)
+	var early_radius: float = clampf(scale_px * 2.2, 9.0, 16.0)
+	for poi: MapPoi in MapView.visible_pois(_pois, _fog):
+		var icon_at: Vector2 = _to_screen(Vector2(poi.pos.x, poi.pos.z))
+		taken.append(Rect2(icon_at - Vector2(early_radius, early_radius) * 0.9, Vector2(early_radius, early_radius) * 1.8))
+	for district: Dictionary in districts:
+		var world: Rect2 = district.get("rect", Rect2()) as Rect2
+		if world.size.x <= 0.0 or not _part_revealed(world):
+			continue
+		var name_text: String = str(district.get("name", "")).to_upper()
+		var size: Vector2 = title_font.get_string_size(name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, DISTRICT_FONT)
+		var frame: Rect2 = _frame_of(world.get_center()).grow(-4.0)
+		var corner: Vector2 = _to_screen(world.get_center()) - Vector2(size.x * 0.5, size.y * 0.5)
+		corner.x = clampf(corner.x, frame.position.x, maxf(frame.position.x, frame.end.x - size.x))
+		corner.y = clampf(corner.y, frame.position.y, maxf(frame.position.y, frame.end.y - size.y))
+		var name_box: Rect2 = Rect2(corner, size)
+		# its centre first, then steps up and down from it until it is clear of the icons and the other names
+		var home_y: float = name_box.position.y
+		for attempt: int in range(9):
+			name_box.position.y = clampf(home_y + float((attempt + 1) / 2) * (size.y + 3.0) * (1.0 if attempt % 2 == 1 else -1.0), frame.position.y, maxf(frame.position.y, frame.end.y - size.y))
+			var clash: bool = false
+			for other: Rect2 in taken:
+				if other.intersects(name_box):
+					clash = true
+					break
+			if not clash:
+				break
+		taken.append(name_box)
+		_canvas.draw_string_outline(title_font, name_box.position + Vector2(0, size.y - 4.0), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, DISTRICT_FONT, 6, Color(0.03, 0.02, 0.05, 0.85))
+		_canvas.draw_string(title_font, name_box.position + Vector2(0, size.y - 4.0), name_text, HORIZONTAL_ALIGNMENT_LEFT, -1, DISTRICT_FONT, Color(0.98, 0.9, 0.66, 0.92))
 	var icon_radius: float = clampf(scale_px * 2.2, 9.0, 16.0)
 	var shown: Array[MapPoi] = MapView.visible_pois(_pois, _fog)
 	_hint_spots = []
 	for poi: MapPoi in shown:
-		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		var at: Vector2 = _to_screen(Vector2(poi.pos.x, poi.pos.z))
 		if not poi.dungeon_id.is_empty():
 			_hint_spots.append({"at": at, "radius": icon_radius * 1.35 + 8.0, "id": poi.dungeon_id})
 		if poi.kind == MapPoi.Kind.DUNGEON:
@@ -341,13 +453,13 @@ func _draw_map() -> void:
 			if points.size() < 2:
 				continue
 			var colour: Color = Color(1.0, 1.0, 1.0, 0.9) if slot == 1 else Color(UIStyle.GOLD, 0.85)
-			var last: Vector2 = top_left + (Vector2(points[0].x, points[0].z) - _fog.origin) / FogOfWar.CELL * scale_px
+			var last: Vector2 = _to_screen(Vector2(points[0].x, points[0].z))
 			for index: int in range(1, points.size()):
-				var next: Vector2 = top_left + (Vector2(points[index].x, points[index].z) - _fog.origin) / FogOfWar.CELL * scale_px
+				var next: Vector2 = _to_screen(Vector2(points[index].x, points[index].z))
 				_canvas.draw_dashed_line(last, next, colour, 2.5, 6.0, true)
 				last = next
 	if _ping != null and _ping_left > 0.0:
-		var ping_at: Vector2 = top_left + (Vector2(_ping.pos.x, _ping.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		var ping_at: Vector2 = _to_screen(Vector2(_ping.pos.x, _ping.pos.z))
 		var phase: float = fmod(PING_SECONDS - _ping_left, 1.0)
 		_canvas.draw_arc(ping_at, icon_radius * (1.4 + phase * 2.2), 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 1.0 - phase), 4.0, true)
 		_canvas.draw_arc(ping_at, icon_radius * 1.4, 0.0, TAU, 48, Color(1.0, 0.85, 0.35, 0.9), 3.0, true)
@@ -363,25 +475,32 @@ func _draw_map() -> void:
 	# skipping a name that would overlap one already written. Fable pass Nov 10 (Part 1.4): landmarks are named first (they win the room);
 	# minor places are named only when the map is drawn large enough, and every icon says its name on hover.
 	var font: Font = UIStyle.font_bold()
-	var taken: Array[Rect2] = []
 	_name_spots = []
 	var ordered: Array[MapPoi] = label_order(shown)
+	# Batch 15 pass (Part 3.5): no name is written over an icon (every icon's box was taken before the district names were placed), and a name
+	# that several places share (two complaint boxes, three shafts) is written once per map, at the first of them.
+	var written: Dictionary = {}
 	for poi: MapPoi in ordered:
 		if poi.objective or poi.label.strip_edges() == "":
 			continue
-		var at: Vector2 = top_left + (Vector2(poi.pos.x, poi.pos.z) - _fog.origin) / FogOfWar.CELL * scale_px
+		var at: Vector2 = _to_screen(Vector2(poi.pos.x, poi.pos.z))
 		_name_spots.append({"at": at, "radius": icon_radius * 1.35 + 6.0, "label": poi.label})
 		if not MAJOR_LABEL_KINDS.has(poi.kind) and scale_px < MINOR_LABEL_MIN_SCALE:
 			continue
 		var text: String = poi.label
+		var frame_now: Rect2 = _frame_of(Vector2(poi.pos.x, poi.pos.z))
+		var name_key: String = "%s|%s" % [text, "inset" if frame_now == _inset_screen else "main"]
+		if written.has(name_key):
+			continue
 		var extent: Vector2 = font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15)
-		var box: Rect2 = place_label(at, extent + Vector2(0, 4), icon_radius, Rect2(top_left, drawn), taken)
+		var box: Rect2 = place_label(at, extent + Vector2(0, 4), icon_radius, frame_now, taken)
 		if box.size == Vector2.ZERO:
 			continue
 		taken.append(box)
+		written[name_key] = true
 		_canvas.draw_string_outline(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 5, Color(0.03, 0.02, 0.05, 0.95))
 		_canvas.draw_string(font, box.position + Vector2(0, extent.y - 2.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, UIStyle.PARCHMENT)
-	var here: Vector2 = top_left + (Vector2(_player.position.x, _player.position.z) - _fog.origin) / FogOfWar.CELL * scale_px
+	var here: Vector2 = _to_screen(Vector2(_player.position.x, _player.position.z))
 	MapDraw.arrow(_canvas, here, _player.model.rotation.y, icon_radius)
 
 
@@ -392,6 +511,8 @@ static func place_label(at: Vector2, extent: Vector2, icon_radius: float, frame:
 	var candidates: Array[Vector2] = [
 		at + Vector2(-extent.x * 0.5, gap), at + Vector2(-extent.x * 0.5, -gap - extent.y),
 		at + Vector2(gap, -extent.y * 0.5), at + Vector2(-gap - extent.x, -extent.y * 0.5),
+		at + Vector2(gap * 0.7, gap * 0.7), at + Vector2(-gap * 0.7 - extent.x, gap * 0.7),
+		at + Vector2(gap * 0.7, -gap * 0.7 - extent.y), at + Vector2(-gap * 0.7 - extent.x, -gap * 0.7 - extent.y),
 	]
 	var inner: Rect2 = frame.grow(-4.0)
 	for corner: Vector2 in candidates:

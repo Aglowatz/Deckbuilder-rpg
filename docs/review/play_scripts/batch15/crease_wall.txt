@@ -1,0 +1,17 @@
+# Batch 15 pass, Part 3.3: the hero hugging the Crease's east wall (the camera holds off the wall)
+wait 4
+dev load c13cap
+wait 14
+skip_dialogue
+dev travel capital
+wait 16
+skip_dialogue
+hud off
+calm
+dev tp 40.3 144
+wait 2.5
+scene
+shot crease_east_wall
+dev tp 4.6 144
+wait 2.5
+shot crease_west_wall

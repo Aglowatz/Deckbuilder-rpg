@@ -14,14 +14,13 @@ func test_the_repainted_expression_variants_show_again() -> void:
 	assert_true(Portraits.has_expression("NPC-ELDER", "happy"), "matching variants still work (Maren)")
 
 
-func test_hespers_red_cross_is_recoloured_on_load() -> void:
-	Portraits.reset()
+func test_hespers_redone_portrait_needs_no_recolour() -> void:
+	# Batch 15 (Nov 13): the redone NPC-HESPER carries a green leaf, so the in-code recolour (ArtPatches) is gone and the picture loads as it is
 	var hesper: Texture2D = Portraits.texture_for("NPC-HESPER")
 	assert_not_null(hesper)
-	assert_true(hesper is ImageTexture, "patched pictures come back as an ImageTexture")
-	var image: Image = hesper.get_image()
-	var cap: Color = image.get_pixel(int(0.457 * image.get_width()), int(0.115 * image.get_height()))
-	assert_gt(cap.g, cap.r, "the cap's cross is green, not red")
+	assert_false(hesper is ImageTexture, "the imported picture itself, not a patched copy")
+	assert_false(FileAccess.file_exists("res://core/data/art_patches.gd"))
+
 
 
 func test_credits_read_the_text_and_fill_the_version() -> void:

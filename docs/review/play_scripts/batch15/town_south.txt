@@ -1,0 +1,18 @@
+# Batch 15 pass, Part 3.7: Crosspath's south edge (the violet band)
+wait 4
+dev load c13cap
+wait 14
+skip_dialogue
+dev travel town
+wait 16
+skip_dialogue
+hud off
+calm
+dev tp -2.1 67.9
+wait 2
+shot town_s
+meshscan -2.1 72 3
+meshscan -2.1 76 3
+dev tp 56.8 68.0
+wait 2
+shot town_se

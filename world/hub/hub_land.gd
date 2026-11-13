@@ -400,6 +400,59 @@ func _build_gorge() -> void:
 				var model: Node3D = ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5])
 				ModelKit.place(root, model, pos, _rng.randf() * 360.0, 1.6 + _rng.randf() * 1.2)
 			along += 3.2 + _rng.randf() * 2.4
+	_build_gorge_lip(root, c, out, right)
+
+
+## Batch 15 pass (Part 3.7): the town side of the gorge gets a natural edge. From Crosspath's south edge the camera looks straight down on
+## the cleft: its lip was one hard straight line and the cleft below it a flat violet band (the zone's haze over nine metres of depth).
+## A low clipped hedge (the kit's hedge, knee-high so it never hides the hero) runs along the lip either side of the bridge, and a
+## shadow lies in the cleft a little under the lip, so the ground ends in a hedge line with a dark gap beyond it. Visual only: both stand
+## beyond the walkable edge (`TownBounds`).
+const GORGE_HEDGE_BACK: float = 0.75
+const GORGE_HEDGE_GAP: float = 3.6
+const GORGE_HEDGE_HEIGHT: float = 0.55
+const GORGE_SHADE: Color = Color(0.1, 0.085, 0.1, 0.9)
+const GORGE_SHADE_DEPTH: float = 0.45
+const GORGE_SHADE_GAP: float = 7.0
+
+
+func _build_gorge_lip(root: Node3D, c: Vector3, out: Vector3, right: Vector3) -> void:
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("leaf", EnvKit.material("ENV-HEDGE"))
+	var basis: Basis = Basis(right, Vector3.UP, right.cross(Vector3.UP))
+	var line: Vector3 = c - out * (GORGE_WIDTH * 0.5 + GORGE_HEDGE_BACK)
+	for half: float in [-1.0, 1.0]:
+		var length: float = GORGE_LENGTH * 0.5 - GORGE_HEDGE_GAP
+		var middle: Vector3 = line + right * half * (GORGE_HEDGE_GAP + length * 0.5)
+		mesh.box("leaf", Vector3(middle.x, GROUND_Y + GORGE_HEDGE_HEIGHT * 0.5, middle.z), Vector3(length + 0.4, GORGE_HEDGE_HEIGHT, 0.8), basis, 0.25, 0.65)
+		var lumps: int = maxi(2, int(length / 1.0))
+		for index: int in range(lumps):
+			var top: Vector3 = line + right * half * (GORGE_HEDGE_GAP + length * (float(index) + 0.5) / float(lumps))
+			mesh.blob("leaf", Vector3(top.x, GROUND_Y + GORGE_HEDGE_HEIGHT - 0.03, top.z), Vector3(0.56, 0.24, 0.56) * (0.85 + _rng.randf() * 0.3), 3, 8)
+	var body: MeshInstance3D = mesh.instance("GorgeLipHedge")
+	body.set_meta(&"no_occlusion_fade", true)
+	body.set_meta(&"no_wind", true)
+	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(body)
+	# the shadow in the cleft: a dark sheet just under the lip either side of the bridge (round the bridge the rock walls stay in view)
+	var dark: StandardMaterial3D = StandardMaterial3D.new()
+	dark.albedo_color = GORGE_SHADE
+	dark.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	dark.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	dark.disable_fog = true
+	for half: float in [-1.0, 1.0]:
+		var length: float = GORGE_LENGTH * 0.5 - GORGE_SHADE_GAP
+		var shade: MeshInstance3D = MeshInstance3D.new()
+		var plane: PlaneMesh = PlaneMesh.new()
+		plane.size = Vector2(GORGE_WIDTH + 0.6, length)
+		shade.mesh = plane
+		shade.material_override = dark
+		shade.name = "GorgeShade"
+		shade.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		shade.set_meta(StyleToon.META_NO_TOON, true)
+		shade.set_meta(PaintedClasses.META_NO_PAINT, true)
+		shade.transform = Transform3D(Basis(out, Vector3.UP, right), c + right * half * (GORGE_SHADE_GAP + length * 0.5) + Vector3(0.0, GROUND_Y - GORGE_SHADE_DEPTH, 0.0))
+		root.add_child(shade)
 
 
 # ---- Roads -----------------------------------------------------------------------------------------------------------------------------------

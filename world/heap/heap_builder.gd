@@ -414,6 +414,19 @@ func _build_terrain() -> void:
 	instance.set_meta(&"no_range_cull", true)
 	instance.set_meta(&"no_occlusion_fade", true)
 	root.add_child(instance)
+	# Batch 15 pass (Part 3.1): the rim closed from behind. At the south-east and south-west corners the trailing camera sits inside the
+	# ravine's rim cliff and looked out through its culled back face at the fog (a pale wedge across the view). The same land drawn once
+	# more, back faces only, in shadowed rock: from inside the cliff the view ends in dark stone. Seen from the walk side it draws nothing.
+	var back: MeshInstance3D = MeshInstance3D.new()
+	back.mesh = mesh
+	back.material_override = H.land_back()
+	back.name = "LandBack"
+	back.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	back.set_meta(&"no_range_cull", true)
+	back.set_meta(&"no_occlusion_fade", true)
+	back.set_meta(StyleToon.META_NO_TOON, true)
+	back.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(back)
 
 
 func _terrain_arrays() -> Array:

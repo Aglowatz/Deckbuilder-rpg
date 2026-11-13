@@ -67,7 +67,41 @@ static func _load_any(portrait_id: String, expression: String) -> Texture2D:
 		texture = _load(_path(portrait_id, ""))
 	if texture == null and PortraitPlaceholders.has(portrait_id):
 		texture = PortraitPlaceholders.texture(portrait_id)
+	if texture != null and EDGE_FEATHER.has(portrait_id):
+		texture = feathered(texture, float(EDGE_FEATHER[portrait_id]))
 	return texture
+
+
+## Batch 15 pass (Part 3.4): portraits whose figure is cut off by the right edge of the picture (a hard vertical line beside the dialogue
+## box) fade out over this fraction of their width at that edge instead. The art is untouched; remove an entry once a redo lands.
+const EDGE_FEATHER: Dictionary = {"NPC-PLAYER": 0.11}
+
+
+## `texture` with its right edge faded to transparent over `fraction` of the width (a new ImageTexture; the same texture if it cannot be read).
+static func feathered(texture: Texture2D, fraction: float) -> Texture2D:
+	var image: Image = texture.get_image()
+	if image == null or image.is_empty():
+		return texture
+	image = image.duplicate() as Image
+	if image.is_compressed() and image.decompress() != OK:
+		return texture
+	image.convert(Image.FORMAT_RGBA8)
+	feather_right(image, fraction)
+	return ImageTexture.create_from_image(image)
+
+
+## Fades the right `fraction` of `image` to transparent (a smooth ramp: untouched at its start, fully clear at the edge).
+static func feather_right(image: Image, fraction: float) -> void:
+	var width: int = image.get_width()
+	var band: int = clampi(int(round(float(width) * fraction)), 1, width)
+	for x: int in range(width - band, width):
+		var t: float = float(width - 1 - x) / float(band)
+		var keep: float = t * t * (3.0 - 2.0 * t)
+		for y: int in range(image.get_height()):
+			var pixel: Color = image.get_pixel(x, y)
+			if pixel.a > 0.0:
+				pixel.a *= keep
+				image.set_pixel(x, y, pixel)
 
 
 ## True when the base portrait of `portrait_id` exists.

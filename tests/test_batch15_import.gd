@@ -183,3 +183,34 @@ func test_bertram_is_clipped_again() -> void:
 	for key: String in ["quest.armory.start", "quest.armory.equip", "quest.armory.equip_waiting", "quest.armory.done", "town.equipment_vendor.too_early"]:
 		for line: String in story.get_lines(key):
 			assert_lt(line.length(), 150, "%s stays short: %s" % [key, line])
+
+
+func test_the_wanderer_portrait_fades_out_at_its_cut_right_edge() -> void:
+	var image: Image = Image.create_empty(100, 20, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0.5, 0.4, 0.3, 1.0))
+	Portraits.feather_right(image, 0.1)
+	assert_almost_eq(image.get_pixel(99, 5).a, 0.0, 0.001, "clear at the edge")
+	assert_almost_eq(image.get_pixel(89, 5).a, 1.0, 0.001, "untouched outside the band")
+	assert_between(image.get_pixel(95, 5).a, 0.2, 0.8, "a ramp between")
+	assert_true(Portraits.EDGE_FEATHER.has(NpcRegistry.PLAYER_ID))
+	var texture: Texture2D = Portraits.texture_for(NpcRegistry.PLAYER_ID)
+	if texture != null:
+		var shown: Image = texture.get_image()
+		assert_lt(shown.get_pixel(shown.get_width() - 1, shown.get_height() / 2).a, 0.05, "no hard vertical edge beside the dialogue box")
+
+
+func test_the_crease_camera_holds_off_the_side_walls() -> void:
+	var inside: Vector3 = Vector3(40.3, 0.0, float(CapitalLayout.CREASE_Z0) + 10.0)
+	var target: Vector3 = inside + Vector3(0.0, 4.0, 11.0)
+	assert_almost_eq(CapitalScene.crease_camera_target(target, inside).x, 41.0 - CapitalScene.CREASE_CAMERA_MARGIN, 0.001, "held off the east wall")
+	var west: Vector3 = Vector3(4.4, 0.0, float(CapitalLayout.CREASE_Z0) + 10.0)
+	assert_almost_eq(CapitalScene.crease_camera_target(west + Vector3(0.0, 4.0, 11.0), west).x, 4.0 + CapitalScene.CREASE_CAMERA_MARGIN, 0.001, "and the west wall")
+	var middle: Vector3 = Vector3(22.0, 0.0, float(CapitalLayout.CREASE_Z0) + 10.0)
+	assert_almost_eq(CapitalScene.crease_camera_target(middle + Vector3(0.0, 4.0, 11.0), middle).x, 22.0, 0.001, "untouched in the middle")
+	var city: Vector3 = Vector3(40.3, 0.0, 60.0)
+	assert_almost_eq(CapitalScene.crease_camera_target(city + Vector3(0.0, 4.0, 11.0), city).x, 40.3, 0.001, "untouched in the city above")
+
+
+func test_a_roamer_that_hurts_winds_up_before_it_comes() -> void:
+	assert_gt(ZoneEnemy.WIND_UP_SECONDS, ZoneEnemy.THREAT_SECONDS, "longer than a fighter's threat pose")
+	assert_gte(ZoneScene.SPAWN_GRACE, 3.0, "the arrival grace, counted only while the hero can move")

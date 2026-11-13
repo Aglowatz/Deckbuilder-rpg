@@ -43,6 +43,12 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 ## Overnight Oct 28-29: seconds left of the threat pose (the painted FRONT_TALK frame, facing the hero) an enemy strikes when it spots the hero, before it gives chase.
 var _threat: float = 0.0
 const THREAT_SECONDS: float = 0.45
+## Batch 15 pass (Part 3.2): a roamer that HURTS on touch (a Tidy-Bot, a meatball: kind DAMAGE) winds up longer before it comes, with a
+## clear tell - the alert sound, its "!" popping, and the figure flashing bright twice. Whatever it is drawn as (sprite or model).
+const WIND_UP_SECONDS: float = 0.85
+const WIND_UP_FLASH: Color = Color(1.7, 1.35, 1.25)
+var _flash_base: Color = Color.WHITE
+var _flashing: bool = false
 ## The painted roamers' rim: a warm red-orange edge, a little stronger than the NPCs' (0.42), so they read against busy ground.
 const ROAMER_RIM: Color = Color(1.0, 0.55, 0.4)
 const ROAMER_RIM_STRENGTH: float = 0.62
@@ -246,6 +252,7 @@ func _process(delta: float) -> void:
 			elif _threat > 0.0:
 				_threat -= delta
 				_face(to_player, delta)
+				_wind_up_flash()
 			elif home_distance > info.leash_range or _lost_sight > 2.0 or _stuck_time > 1.2:
 				_set_state(State.RETURN)
 			else:
@@ -335,9 +342,43 @@ func _set_state(next: State) -> void:
 	_stuck_time = 0.0
 	_lost_sight = 0.0
 	if next == State.CHASE:
+		if winds_up():
+			_threat = WIND_UP_SECONDS
+			if is_inside_tree():
+				Audio.sfx(&"enemy_alert", -5.0)
+				if _alert != null:
+					_alert.scale = Vector3.ONE * 2.2
+					create_tween().tween_property(_alert, "scale", Vector3.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			return
 		Audio.sfx(&"ui_tick", -8.0, 0.3)
 		if is_sprite():
 			_threat = THREAT_SECONDS
+
+
+## True for a roamer whose touch costs HP (it gets the long wind-up and the flash before it comes).
+func winds_up() -> bool:
+	return info != null and info.kind == ZoneEnemyInfo.Kind.DAMAGE
+
+
+## How long this enemy still stands in its wind-up (0 once it is coming).
+func wind_up_left() -> float:
+	return _threat if state == State.CHASE else 0.0
+
+
+## The flash of the wind-up: a painted figure is tinted bright on and off twice (its own tint comes back when the wind-up ends).
+func _wind_up_flash() -> void:
+	if not winds_up() or not is_sprite():
+		return
+	var actor: SpriteActor = _model as SpriteActor
+	if actor.sprite == null:
+		return
+	if not _flashing:
+		_flashing = true
+		_flash_base = actor.sprite.tint_color()
+	var on: bool = _threat > 0.0 and int(_threat / (WIND_UP_SECONDS / 4.0)) % 2 == 1
+	actor.sprite.set_tint(WIND_UP_FLASH if on else _flash_base)
+	if _threat <= 0.0:
+		_flashing = false
 
 
 func _pick_patrol_target() -> void:

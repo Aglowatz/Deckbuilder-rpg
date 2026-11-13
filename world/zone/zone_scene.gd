@@ -13,7 +13,7 @@ extends Node3D
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 2.12, 5.83)
 const CLICK_PICK_RADIUS: float = 90.0
 const HIDDEN_CHEST_RADIUS: float = ChestKit.REACH
-const SPAWN_GRACE: float = 2.0
+const SPAWN_GRACE: float = 3.0
 ## Meshes farther than this from the (low) camera are not drawn: the low camera sees the whole map to the horizon, which the old high camera never did (docs/art/world_rollout.md).
 const CULL_DISTANCE: float = 48.0
 
@@ -980,7 +980,10 @@ func _route_budget_usec() -> int:
 func _process(delta: float) -> void:
 	_time += delta
 	_invulnerable = maxf(0.0, _invulnerable - delta)
-	_spawn_grace = maxf(0.0, _spawn_grace - delta)
+	# Batch 15 pass (Part 3.2): the grace period after an arrival counts only while the hero can move. On a real entry the arrival card,
+	# the fade and any first conversation ran it out before the player had control, so a roamer could hit at once.
+	if _world_active():
+		_spawn_grace = maxf(0.0, _spawn_grace - delta)
 	if _world_active():
 		_scene_cooldown = maxf(0.0, _scene_cooldown - delta)
 	Hitch.start("zone.camera")
@@ -1141,11 +1144,18 @@ func _update_camera(delta: float) -> void:
 	# Fable Nov 12 (art critic #9, the Resistance Camp on the Low camera): the lens never sinks into rising ground behind the hero - it showed
 	# the terrain from underneath. It rides CAMERA_GROUND_CLEARANCE over the ground where it stands.
 	target.y = maxf(target.y, _camera_ground(target) + CAMERA_GROUND_CLEARANCE)
+	target = _camera_soft_bounds(target)
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-CityCamera.follow_rate() * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
 	if _cam_shake_time > 0.0:
 		_cam_shake_time = maxf(0.0, _cam_shake_time - delta)
 		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _cam_shake_power * 0.14 * minf(1.0, _cam_shake_time * 3.0)
+
+
+## Batch 15 pass (Part 3.3): a zone may hold the camera's target back from a wall the hero hugs (the Capital's Crease), so the wall does
+## not fill half the frame; the hero then stands off-centre. The default changes nothing.
+func _camera_soft_bounds(target: Vector3) -> Vector3:
+	return target
 
 
 ## Overnight Nov 2-3, Part 5: whether the camera's lens may not stand at ground point `p` (the city camera's pull-in): a building, not a
@@ -2139,6 +2149,11 @@ func _open_full_map() -> void:
 		return
 	var screen: FullMapScreen = FullMapScreen.new()
 	screen.setup(def.id, builder, player, _collect_pois(), def.display_name)
+	# Batch 15 pass (Part 3.5): a zone's builder may name its districts and set a part of the map apart as an inset (the Capital)
+	if builder.has_method("map_districts"):
+		screen.districts.assign(builder.call("map_districts") as Array)
+	if builder.has_method("map_inset"):
+		screen.inset = builder.call("map_inset") as Dictionary
 	if FastTravel.is_unlocked(Session.flags, def.id):
 		screen.travel_from = def.id
 		screen.travel_requested.connect(_open_map_travel)

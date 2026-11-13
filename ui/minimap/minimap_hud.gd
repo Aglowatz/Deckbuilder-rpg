@@ -138,7 +138,7 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, SIZE), Color(0.04, 0.05, 0.08, 0.82))
 	var centre_px: Vector2 = raster.to_pixel(centre_xz)
 	var half: Vector2 = Vector2(_view_span, _view_span) * 0.5
-	draw_texture_rect_region(raster.texture, Rect2(Vector2.ZERO, SIZE), Rect2(centre_px - half, half * 2.0))
+	draw_texture_rect_region(raster.display_texture(), Rect2(Vector2.ZERO, SIZE), MapRaster.display_region(Rect2(centre_px - half, half * 2.0)))
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
 		var at: Vector2 = SIZE * 0.5 + offset
@@ -160,7 +160,7 @@ func _draw_framed() -> void:
 	draw_rect(window, Color(0.04, 0.05, 0.08, 0.9))
 	var centre_px: Vector2 = raster.to_pixel(centre_xz)
 	var half: Vector2 = Vector2(_view_span, _view_span) * 0.5
-	draw_texture_rect_region(raster.texture, window, Rect2(centre_px - half, half * 2.0))
+	draw_texture_rect_region(raster.display_texture(), window, MapRaster.display_region(Rect2(centre_px - half, half * 2.0)))
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
 		if poi.objective and poi.tracked_goal:

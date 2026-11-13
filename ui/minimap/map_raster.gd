@@ -60,6 +60,37 @@ static func build(map: WalkableArea, fog_of_war: FogOfWar, outline: bool = false
 	return raster
 
 
+## Batch 15 pass (Part 3.6): the minimap draws a smoothed copy of the picture, DISPLAY_SCALE pixels per cell (a cubic enlargement made on
+## the CPU when the picture changed, at most every DISPLAY_INTERVAL_MSEC). One pixel per metre stretched by the GPU was a blur in the small
+## forest (a cell is ten screen pixels there) and stair-stepped blocks in the Capital; the enlarged copy keeps edges a third of a cell wide
+## and rounds the steps. The full map keeps the plain picture (it is drawn nearer one to one).
+const DISPLAY_SCALE: int = 3
+const DISPLAY_INTERVAL_MSEC: int = 250
+var _display: ImageTexture
+var _display_dirty: bool = true
+var _display_at: int = -100000
+
+
+## The smoothed picture for the minimap (see DISPLAY_SCALE); a pixel of it is 1 / DISPLAY_SCALE of a cell.
+func display_texture() -> Texture2D:
+	var now: int = Time.get_ticks_msec()
+	if _display == null or (_display_dirty and now - _display_at >= DISPLAY_INTERVAL_MSEC):
+		var big: Image = image.duplicate() as Image
+		big.resize(image.get_width() * DISPLAY_SCALE, image.get_height() * DISPLAY_SCALE, Image.INTERPOLATE_CUBIC)
+		if _display == null:
+			_display = ImageTexture.create_from_image(big)
+		else:
+			_display.update(big)
+		_display_dirty = false
+		_display_at = now
+	return _display
+
+
+## The region of `display_texture` that shows the cells of `cells` (a rect in the picture's own pixels).
+static func display_region(cells: Rect2) -> Rect2:
+	return Rect2(cells.position * float(DISPLAY_SCALE), cells.size * float(DISPLAY_SCALE))
+
+
 var _map: WalkableArea
 var _key: String = ""
 ## Fix pass Nov 7 (D5): draw the area's walkable outline under the fog (zones; never the towns).
@@ -95,6 +126,7 @@ func refine(budget_usec: int = 3000) -> bool:
 		for cx: int in range(fog.width):
 			_paint(cx, cy)
 	texture.update(image)
+	_display_dirty = true
 	if _refine_row >= fog.height:
 		refined = true
 		if _kind_cache.size() > 8:
@@ -139,6 +171,7 @@ func apply_reveal(cells: Array[Vector2i]) -> void:
 				if fog.in_bounds(target):
 					_paint(target.x, target.y)
 	texture.update(image)
+	_display_dirty = true
 
 
 ## Fix pass Nov 7 (D5): the towns (Crosspath, the Capital) are explored; every other area shows its outline from the first arrival.

@@ -96,6 +96,17 @@ static func terrain() -> Material:
 	return StyleTerrain.material(0.14, 0.0)
 
 
+## The underside of the land (HeapBuilder's "LandBack"): only back faces, a flat shadowed rock that takes the zone's fog.
+static func land_back() -> StandardMaterial3D:
+	if not _cache.has("land_back"):
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_color = Color(0.16, 0.12, 0.17)
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.cull_mode = BaseMaterial3D.CULL_FRONT
+		_cache["land_back"] = material
+	return _cache["land_back"] as StandardMaterial3D
+
+
 ## The recycling stream: glossy teal water that glints.
 static func water() -> StandardMaterial3D:
 	if not _cache.has("water"):

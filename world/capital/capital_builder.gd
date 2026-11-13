@@ -781,6 +781,29 @@ func _build_boundaries() -> void:
 	LoadTiming.detail("capital: the Crease's cavern")
 
 
+## Batch 15 pass (Part 3.5): the Capital's districts for the full map (M): every area of the layout by its title, areas that share a title
+## joined (the Palace Approach is two rects), the Crease left out (it is the map's inset) and the hidden strip's sliver skipped.
+func map_districts() -> Array[Dictionary]:
+	var by_title: Dictionary = {}
+	for area: CapitalLayout.Area in layout.areas:
+		if area.id == "crease" or area.rect.size.x < 6:
+			continue
+		var rect: Rect2 = Rect2(area.rect)
+		by_title[area.title] = (by_title[area.title] as Rect2).merge(rect) if by_title.has(area.title) and area.id != "rifts" else rect
+	var result: Array[Dictionary] = []
+	for title: String in by_title:
+		result.append({"name": title.trim_prefix("The "), "rect": by_title[title] as Rect2})
+	return result
+
+
+## The Crease lies under the city: the map draws it as its own framed inset beside the surface map.
+func map_inset() -> Dictionary:
+	for area: CapitalLayout.Area in layout.areas:
+		if area.id == "crease":
+			return {"name": area.title, "note": "under the city", "rect": Rect2(area.rect).grow(1.0)}
+	return {}
+
+
 ## Batch 15 (CAP-PROP-RUBBLE-ROW): a painted row of broken masonry and dead scrub along the edges that showed a bare strip of cracked dirt -
 ## the foot of the south wall inside the Reek and the Transit Yards (the bottom of both views), and the outskirts' south edge either side of
 ## the road, where the walkable ground meets the rim. One merged cut-out mesh, no shadow, not solid (it stands on the map's last half metre).

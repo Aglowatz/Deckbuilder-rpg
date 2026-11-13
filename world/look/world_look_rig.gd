@@ -382,6 +382,11 @@ func _mark_no_cull(root: Node) -> void:
 # ---- Per frame ---------------------------------------------------------------------------------------------------------------------
 
 
+## Batch 15 pass (Part 3.3): the point the camera aims at, relative to the hero (world metres). A scene that holds the camera off a wall
+## (the Crease) shifts the aim by the same amount, so the view slides sideways instead of turning back onto the hero.
+var look_shift: Vector3 = Vector3.ZERO
+
+
 func _process(delta: float) -> void:
 	if camera == null or follow == null:
 		return
@@ -389,7 +394,7 @@ func _process(delta: float) -> void:
 	CameraRig.tick(delta)
 	_blend_values(delta)
 	_apply(false)
-	var offset: Vector3 = camera.global_position - follow.global_position
+	var offset: Vector3 = camera.global_position - (follow.global_position + look_shift)
 	if offset.length() > 0.01:
 		var look_basis: Basis = Basis.looking_at(-offset.normalized(), Vector3.UP)
 		var tilt: float = atan2(float(_blend["height"]), float(_blend["distance"])) + deg_to_rad(CityCamera.extra_tilt())

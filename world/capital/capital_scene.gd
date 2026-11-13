@@ -1070,6 +1070,28 @@ func screenshot_prepare(args: Dictionary) -> void:
 		_hold_still = true
 
 
+## Batch 15 pass (Part 3.3): in the Crease the camera stays CREASE_CAMERA_MARGIN metres off the cavern's east and west walls. The hero
+## walks on to the wall and stands off-centre; the rock no longer fills the right (or left) half of the frame.
+const CREASE_CAMERA_MARGIN: float = 3.4
+
+
+func _camera_soft_bounds(target: Vector3) -> Vector3:
+	var held: Vector3 = crease_camera_target(target, player.position)
+	if look_rig != null:
+		# the aim slides with the camera (the rig would otherwise turn the view back onto the hero and the wall would fill the frame as before)
+		look_rig.look_shift = look_rig.look_shift.lerp(Vector3(held.x - target.x, 0.0, 0.0), 1.0 - exp(-CityCamera.follow_rate() * get_process_delta_time()))
+	return held
+
+
+## The rule itself (for the test): `target` held inside the Crease's width less the margin while the hero stands in the Crease.
+static func crease_camera_target(target: Vector3, hero: Vector3) -> Vector3:
+	var x0: float = 4.0
+	var x1: float = 41.0
+	if hero.z < float(CapitalLayout.CREASE_Z0) - 0.5 or hero.x < x0 - 1.0 or hero.x > x1 + 1.0:
+		return target
+	return Vector3(clampf(target.x, x0 + CREASE_CAMERA_MARGIN, x1 - CREASE_CAMERA_MARGIN), target.y, target.z)
+
+
 ## Outside the wall is the wasteland, inside is the idyllic city (Brief 13): the preset follows where the hero stands.
 func _style_preset() -> StringName:
 	var state: Dictionary = CapitalBuilder.story_context()

@@ -86,6 +86,7 @@ static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDress
 	dressing._kit_clusters()
 	dressing._kit_pieces()
 	dressing._lobby_props()
+	dressing._apron(quality)
 	if quality > 0:
 		dressing._decals()
 	return dressing
@@ -169,6 +170,44 @@ func _ghost_queue() -> void:
 			_builder.add_blocker(Vector3(p.x, 0.0, p.z), 0.35)
 		count += 1
 		return
+
+
+## Batch 15 pass (Part 3.8): the apron outside the offices was flat grey to the horizon (the paper drift its only dressing). A light
+## scatter of the kit's own pieces on it, either side of the approach causeway: filing towers and cabinets left out in the weather, a
+## roped queue line that leads nowhere with a now-serving orb at its head, a ghost lamp or two, and forms and stamps on the ground.
+## [id, x, z, height]: all off the walkable map (a spot that turns out to be floor is skipped), nothing solid, nothing on the causeway.
+const APRON_PIECES: Array = [
+	["DNA-SHEET-FILING-TOWERS-01", 38.6, 63.4, 2.3], ["DNA-SHEET-CABINETS-02", 36.4, 64.6, 1.5], ["DNA-PROP-PAPER", 40.4, 65.2, 0.7],
+	["DNA-SHEET-FILING-TOWERS-03", 31.0, 62.6, 2.1], ["DNA-SHEET-CABINETS-05", 28.4, 64.0, 1.4], ["DNA-PROP-GHOSTLAMP", 33.6, 66.4, 2.4],
+	["DNA-PROP-SERVING-ORB", 54.0, 63.2, 2.1], ["DNA-SHEET-FILING-TOWERS-04", 55.6, 63.6, 1.3], ["DNA-SHEET-FILING-TOWERS-04", 57.8, 64.0, 1.3],
+	["DNA-SHEET-FILING-TOWERS-04", 60.0, 64.4, 1.3], ["DNA-SHEET-FILING-TOWERS-04", 62.2, 64.8, 1.3], ["DNA-SHEET-FILING-TOWERS-02", 52.4, 66.0, 2.2],
+	["DNA-SHEET-CABINETS-03", 65.4, 62.8, 1.5], ["DNA-PROP-GHOSTLAMP", 59.0, 67.0, 2.4], ["DNA-PROP-PAPER", 51.2, 63.0, 0.7],
+	["DNA-SHEET-FILING-TOWERS-05", 22.6, 60.6, 2.2], ["DNA-SHEET-CABINETS-01", 70.6, 61.4, 1.5],
+]
+## Ground decals: [id, x, z, width m, yaw].
+const APRON_DECALS: Array = [
+	["DNA-DEC-FORMS-01", 39.6, 66.8, 1.5, 20.0], ["DNA-DEC-FORMS-03", 35.0, 62.8, 1.3, -35.0], ["DEC-PAPERS", 30.2, 65.6, 1.8, 60.0],
+	["DNA-DEC-FORMS-02", 53.4, 64.8, 1.4, -15.0], ["DNA-DEC-FORMS-05", 57.0, 66.0, 1.3, 40.0], ["DEC-PAPERS", 61.6, 62.6, 1.8, 110.0],
+	["DNA-DEC-FORMS-04", 64.0, 66.6, 1.4, 5.0], ["DNA-DEC-FORMS-06", 26.0, 62.2, 1.3, 75.0], ["DNA-DEC-COFFEE", 37.8, 65.6, 0.9, 0.0],
+	["DEC-PAPERS", 68.2, 64.6, 1.6, -50.0],
+]
+var apron_placed: int = 0
+
+
+func _apron(quality: int) -> void:
+	for entry: Array in APRON_PIECES:
+		var spot: Vector3 = Vector3(float(entry[1]), 0.0, float(entry[2]))
+		if _builder.is_floor_at(spot) or not EnvKit.has_art(str(entry[0])):
+			continue
+		if KitPieces.stand(root, str(entry[0]), spot, float(entry[3]), false) != null:
+			apron_placed += 1
+	if quality <= 0:
+		return
+	for entry: Array in APRON_DECALS:
+		var center: Vector3 = Vector3(float(entry[1]), 0.0, float(entry[2]))
+		if _builder.is_floor_at(center) or not EnvKit.has_art(str(entry[0])):
+			continue
+		KitPieces.ground(root, str(entry[0]), center, float(entry[4]), float(entry[3]))
 
 
 ## Batch 11: the lobby's cut-outs (LOBBY_PROPS); each one that finds no free spot near its wish is left out. The ids placed are kept in
