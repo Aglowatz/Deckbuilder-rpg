@@ -364,8 +364,8 @@ Ordinary people keeping their voices down. Weather, bread, the well, a careful h
 - **Examples:** "There is nothing in here to taste with." / "I made a sauce today. I tasted it. As me. It had too much salt."
 
 ### Colonel Cornelius Crumb, Director of Culinary Defense (he; a badger)
-- **How he talks:** blustering parade-ground orders applied to food. "Soldier", "son". Proud of having no taste, until he admits why.
-- **Examples:** "Taste is a weakness, son. Paste is a strategy." / "I thought if nobody could, nobody would notice that I couldn't."
+- **How he talks:** blustering parade-ground orders applied to food. "Soldier". Proud of having no taste, until he admits why.
+- **Examples:** "Taste is a weakness, soldier. Paste is a strategy." / "I thought if nobody could, nobody would notice that I couldn't."
 
 ### The gate golems, Professor Pate, Chef Flambe Fontaine (side voices)
 - **Sir Loin:** knightly, clanking, "Yes, Chef!" **Brisket:** a snooty maitre d' who looks over your head. **Colonel Casserole:** a gallant

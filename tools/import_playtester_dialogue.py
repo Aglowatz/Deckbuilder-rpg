@@ -23,6 +23,12 @@ Writes:
     `node tools/apply_dialogue_pass.js --csv=<out>.csv` reads (Current line = the game's line now, so the importer matches it);
   - <out>/export_snapshot.json (id -> the game's line), which the importer uses when a spreadsheet re-encoded a cell;
   - <out>_report.md: accepted lines, rejected lines with the reason, conflicts with both versions, structure warnings.
+Nov 13 (the overnight dialogue rewrite): a returned row whose line was rewritten that night is NOT applied when the tester worked against
+the old text (the row's "Current line" is not the game's line any more). It is listed in the report under "Base changed tonight", with
+the old base, tonight's line and the tester's line side by side, for the owner to choose. The rewritten ids come from the tier ledgers
+(docs/dialogue/rewrite_nov13_t*/applied_ledger.json; --rewritten=<folder prefix> for another pass). A row from the Nov 13 workbook (its
+Current line is the game's line) is handled as usual.
+
 Exit code 0 when it ran (even with rejections); 2 on a usage error or an unreadable file.
 
 The three-command workflow (docs/HANDOFF.md, section 5):
@@ -61,6 +67,29 @@ COLUMNS = {
     'notes': (('notes',), 'M'),
     'reviewer': (('reviewer',), 'N'),
 }
+REWRITTEN_PREFIX = 'docs/dialogue/rewrite_nov13_t'
+
+
+def rewritten_lines(prefix=REWRITTEN_PREFIX):
+    """id -> {'before': the line before the rewrite pass, 'after': the pass's line}, from every ledger of the pass still applied."""
+    prefix = prefix if os.path.isabs(prefix) else os.path.join(ROOT, prefix)
+    folder, start = os.path.dirname(prefix), os.path.basename(prefix)
+    result = {}
+    if not os.path.isdir(folder):
+        return result
+    for name in sorted(os.listdir(folder)):
+        ledger = os.path.join(folder, name, 'applied_ledger.json')
+        if not name.startswith(start) or not os.path.isfile(ledger):
+            continue
+        with open(ledger, encoding='utf-8') as f:
+            for entry in json.load(f):
+                if entry.get('reverted'):
+                    continue
+                known = result.get(entry['id'])
+                result[entry['id']] = {'before': known['before'] if known else entry.get('before', ''), 'after': entry.get('after', '')}
+    return result
+
+
 TOKEN_RE = re.compile(r'\{[a-z_]+\}|\[[A-Za-z_][A-Za-z0-9_ -]*\]|%[sd]')
 
 
@@ -286,6 +315,8 @@ def main(argv):
     template_ids = None
     if os.path.exists(template):
         template_ids = [r['id'].strip() for r in sheet_records(template) if r['id'].strip()]
+    rewritten = rewritten_lines(opts.get('rewritten', REWRITTEN_PREFIX))
+    base_changed = []
     notes = []
     proposals = {}  # id -> list of {reviewer, text, notes, file}
     rejected = []
@@ -311,6 +342,11 @@ def main(argv):
                 continue
             if row_id in game and new_text == game[row_id]['text'].strip():
                 unchanged += 1
+                continue
+            if row_id in rewritten and row_id in game and r['current'].strip() != game[row_id]['text'].strip():
+                # written against the text from before the rewrite pass: the owner chooses between the two new lines
+                base_changed.append({'id': row_id, 'reviewer': reviewer, 'file': name, 'text': new_text, 'old': rewritten[row_id]['before'],
+                                     'tonight': game[row_id]['text'], 'notes': r['notes'].strip()})
                 continue
             why = check_row(row_id, new_text, game, r['limit'])
             if why:
@@ -354,6 +390,7 @@ def main(argv):
              'CSV for the importer: `%s` (%d rows)  ' % (rel(out), len(accepted)),
              '**Accepted: %d. Rejected: %d. Conflicts: %d** (lines two testers rewrote differently; none of them is in the CSV). Unchanged rewrites ignored: %d.'
              % (len(accepted), len(rejected), len(conflicts), unchanged), '',
+             "**Base changed tonight: %d** (the line was rewritten in the Nov 13 pass after the tester's workbook was made; not applied)." % len(base_changed), '',
              'Next: `node tools/apply_dialogue_pass.js --csv=%s` (dry run), then `--apply`; `--revert` puts the lines back.' % rel(out), '']
     if notes:
         lines += ['## Sheet structure', ''] + ['- ' + n for n in notes] + ['']
@@ -363,6 +400,15 @@ def main(argv):
         for c in conflicts:
             for n, item in enumerate(c['items']):
                 lines.append('| %s | %s | %s | %s |' % (md(c['id']) if n == 0 else '', md(game[c['id']]['text']) if n == 0 else '', md(item['reviewer']), md(item['text'])))
+    else:
+        lines.append('None.')
+    lines += ['', "## Base changed tonight (%d) - not applied; the owner picks tonight's line or the tester's" % len(base_changed), '']
+    if base_changed:
+        base_changed.sort(key=lambda b: order.get(b['id'], 10 ** 9))
+        lines += ["To take a tester's line: put the ID and the line in a merges CSV (`id,new_text`) and run `node tools/apply_dialogue_pass.js --merge=<file> --apply`.", '',
+                  "| ID | Reviewer | Old base (what the tester saw) | Tonight's line (in the game now) | The tester's line |", '|---|---|---|---|---|']
+        for b in base_changed:
+            lines.append('| %s | %s | %s | %s | %s |' % (md(b['id']), md(b['reviewer']), md(b['old']), md(b['tonight']), md(b['text'])))
     else:
         lines.append('None.')
     lines += ['', '## Rejected (%d)' % len(rejected), '']
@@ -381,7 +427,8 @@ def main(argv):
         lines.append('None.')
     with open(report_path, 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(lines) + '\n')
-    print('import_playtester_dialogue: %d accepted, %d rejected, %d conflicts, %d unchanged' % (len(accepted), len(rejected), len(conflicts), unchanged))
+    print('import_playtester_dialogue: %d accepted, %d rejected, %d conflicts, %d unchanged, %d base changed tonight'
+          % (len(accepted), len(rejected), len(conflicts), unchanged, len(base_changed)))
     print('  CSV    %s' % rel(out))
     print('  report %s' % rel(report_path))
     return 0
