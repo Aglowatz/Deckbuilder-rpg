@@ -1,0 +1,13 @@
+data/story/intro_story.tres::town.guard::1
+data/story/intro_story.tres::town.guard.capital_offer::1
+data/story/intro_story.tres::town.guard.capital_offer::4
+data/story/intro_story.tres::town.guard.capital_active::1
+data/story/story_scenes.json::scenes/hob_town_first/steps/1::1
+data/story/story_scenes.json::scenes/hob_town_first/steps/3::1
+data/story/story_scenes.json::scenes/hob_town_first/steps/4::1
+data/story/story_scenes.json::scenes/hob_town/steps/0::1
+data/story/story_scenes.json::scenes/hob_town/steps/2::1
+data/story/story_scenes.json::scenes/hob_wake/steps/0::2
+data/story/story_scenes.json::scenes/hob_town_freed/steps/0::1
+data/story/story_scenes.json::scenes/hob_town_freed/steps/1::1
+data/story/intro_story.tres::start.tunnel::0

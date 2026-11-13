@@ -765,7 +765,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Evening! Old Hob, at your service. I dig, mostly, though there's not been much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh."
+					"Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -773,11 +773,11 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see."
+					"Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see."
 				],
 				[
 					"NPC-HOB",
-					"Mind the cairn at the end of the row. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh."
+					"Mind the cairn at the end of the row, though. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh."
 				]
 			]
 		},
@@ -785,7 +785,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Still digging, slowly. Two particular graves, these ten years now. I like to take my time over the important ones. Heh."
+					"Still digging, and taking it slowly. Two particular graves I've been at, these ten years now. I like to take my time over the important ones. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -793,7 +793,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see."
+					"Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see."
 				]
 			]
 		},
@@ -801,11 +801,11 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line."
+					"The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he asked if he could stay on for one more pot first. I said yes. There's no rush, in my line."
 				],
 				[
 					"NPC-HOB",
-					"Agnes stayed on, of course. Somebody has to fix the forms, and I've pencilled her in for later. Much later. Heh."
+					"Agnes stayed on, of course. Somebody has to put the forms right, so I've pencilled her in for later. Much later. Heh."
 				]
 			]
 		},
@@ -839,7 +839,7 @@
 				[
 					"NPC-HOB",
 					"Hm? You? Not on my list. Off you pop. Heh.",
-					"I'd charge a handling fee, but you've nothing I want. Heh."
+					"I'd charge you a handling fee for the trouble, only you've nothing on you that I want. Heh."
 				]
 			]
 		},

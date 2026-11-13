@@ -22,7 +22,7 @@
 @scenes/hob_town/steps/2
 1| Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see.
 @scenes/hob_wake/steps/0
-1| Hm? You? No, you're not on my list today. Off you pop, and mind how you go. Heh.
+1| Hm? You? Not on my list. Off you pop. Heh.
 2| I'd charge you a handling fee for the trouble, only you've nothing on you that I want. Heh.
 @scenes/hob_town_freed/steps/0
 1| The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he asked if he could stay on for one more pot first. I said yes. There's no rush, in my line.
@@ -31,7 +31,7 @@
 
 ## purpose: Maren's send-off, the line with the road's name in it (the tokens fill in the zone, the gatekeeper and the obstacle).
 @dc::quest.path_direction
-3| Start with {zone}. Your deck is {path} through and through, so that road will be the kindest to you. {gatekeeper} holds {road} at {obstacle}.
+3| Start with {zone}. Your deck is {path} through and through, so it'll be the easiest road for you. {gatekeeper} holds {road} at {obstacle}.
 
 @intro::start.tunnel
 0| There is a narrow gap in the old treeline here. It would be easy to miss, and easy enough to slip through, if you aren't afraid of a shortcut.

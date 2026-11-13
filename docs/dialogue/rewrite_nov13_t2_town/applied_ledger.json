@@ -1,0 +1,93 @@
+[
+	{
+		"id": "data/story/intro_story.tres::town.guard::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Gatekeeper Brannoch",
+		"before": "Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home and find it shut.",
+		"after": "Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home one night and find it shut."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.guard.capital_offer::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Gatekeeper Brannoch",
+		"before": "Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} chained all four.",
+		"after": "Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} put all four in chains."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.guard.capital_offer::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Gatekeeper Brannoch",
+		"before": "My girl Isla went up that road eight years ago. If you see her... tell her the gate is still open.",
+		"after": "My girl Isla went up that road eight years ago. If you see her up there... tell her the gate is still open."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.guard.capital_active::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Gatekeeper Brannoch",
+		"before": "Hm. Each zone you free turns another service back on, and the castle gets a little less frightening. My knees, sadly, are a local problem.",
+		"after": "Hm. Each zone you free turns a service back on, and the castle gets a little less frightening. Can't say the same for my knees."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_first/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Evening! Old Hob, at your service. I dig, mostly, though there's not been much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh.",
+		"after": "Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_first/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see.",
+		"after": "Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_first/steps/4::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Mind the cairn at the end of the row. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh.",
+		"after": "Mind the cairn at the end of the row, though. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Still digging, slowly. Two particular graves, these ten years now. I like to take my time over the important ones. Heh.",
+		"after": "Still digging, and taking it slowly. Two particular graves I've been at, these ten years now. I like to take my time over the important ones. Heh."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see.",
+		"after": "Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_wake/steps/0::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "I'd charge a handling fee, but you've nothing I want. Heh.",
+		"after": "I'd charge you a handling fee for the trouble, only you've nothing on you that I want. Heh."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_freed/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line.",
+		"after": "The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he asked if he could stay on for one more pot first. I said yes. There's no rush, in my line."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_town_freed/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Agnes stayed on, of course. Somebody has to fix the forms, and I've pencilled her in for later. Much later. Heh.",
+		"after": "Agnes stayed on, of course. Somebody has to put the forms right, so I've pencilled her in for later. Much later. Heh."
+	},
+	{
+		"id": "data/story/intro_story.tres::start.tunnel::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut.",
+		"after": "There is a narrow gap in the old treeline here. It would be easy to miss, and easy enough to slip through, if you aren't afraid of a shortcut."
+	}
+]
