@@ -1274,7 +1274,7 @@
 				"pct": 50
 			},
 			"text": "At half health Siphon opens a valve: you take 2 damage and he heals 2.",
-			"line": "This will only drain a little. You've grown, Subject 1. Remarkable.",
+			"line": "This will only drain a little. You really have grown, Subject 1, and I find it quite remarkable.",
 			"effects": [
 				{
 					"kind": "damage",
@@ -1296,7 +1296,7 @@
 				"pct": 25
 			},
 			"text": "Near the end Siphon takes notes: he draws 2 cards.",
-			"line": "Fascinating. My finest work, fighting back. I must write this down.",
+			"line": "Fascinating! My finest work is fighting back, and with such spirit. Do carry on; I must write this down.",
 			"effects": [
 				{
 					"kind": "draw",

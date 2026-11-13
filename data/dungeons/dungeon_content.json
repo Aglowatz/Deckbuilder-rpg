@@ -1403,12 +1403,12 @@
 						],
 						[
 							"Drink the Path-ologists' tea",
-							"It is the first thing here that tastes like anything. You feel steadier.",
+							"It is the first thing down here that tastes like anything at all, and you feel steadier for it.",
 							"heal:4"
 						],
 						[
 							"Rifle the lockers",
-							"Keycards, a petty cash tin, and a half-written resignation letter.",
+							"You find keycards, a petty cash tin and a resignation letter that somebody got halfway through writing.",
 							"gold:80"
 						]
 					]
@@ -1448,7 +1448,7 @@
 						],
 						[
 							"Leave it on the desk",
-							"Let him find it open. Let him wonder who read it.",
+							"You leave it open at the last entry, so that he will find it there and wonder who has read it.",
 							"heal:3"
 						]
 					]
@@ -1737,7 +1737,7 @@
 						],
 						[
 							"Smash it",
-							"It breaks easily. Too easily. The pieces cut, and a shard of it goes on ahead of you to warn the room.",
+							"It breaks easily, far too easily. The pieces cut you, and a shard of it goes on ahead of you to warn the room.",
 							"damage:6",
 							"boon:Shattered Pride|def=1"
 						]
@@ -1823,17 +1823,17 @@
 			"The door's the iron hatch beside the well, so go on down when you're ready. Whatever's under it belonged to the Old Kingdom and not to me, dearie, so mind the stairs and mind your manners."
 		],
 		"quest.side_s_beef.offer": [
-			"Only the worthy reach the top, they say. The worthy also bring water, if they've any sense.",
-			"There's a mountain behind the station... and a barbell on top older than the regime. Older than me, nearly. Bring me a protein shake from the stand and I'll show you the way. Can't climb on an empty cup."
+			"Only the worthy reach the top, they say, and I've been saying it longest. What they leave out is that the worthy also bring water, if they've any sense, which I never had at your age.",
+			"There's a mountain behind the station, and a barbell on top that's older than the regime... older than me, nearly. Bring me a protein shake from the stand and I'll show you the way. I can't climb on an empty cup."
 		],
 		"quest.side_s_beef.active": [
-			"Water, friend. A protein shake from the stand will do. Don't spill it. I spilled one, the Festival year... where was I."
+			"Water, friend... well, a protein shake from the stand will do nicely. Carry it steady and don't spill it. I spilled one myself, the Festival year, right down the front of my... now, where was I?"
 		],
 		"quest.side_s_beef.ready": [
-			"That's the best water I've ever seen. Thank you. Rule one: never lift alone. Rule two... rule two was water."
+			"Now that's the best water I've ever seen, and I've seen a fair bit of water. Thank you, friend. Rule one is never lift alone, and rule two... rule two was water, I think, or it is today."
 		],
 		"quest.side_s_beef.done": [
-			"Mount Swolympus is open at last. Take the trail behind the station, and mind the thin air up top... never gets enough credit, thin air."
+			"Mount Swolympus is open at last, and about time. Take the trail behind the station, go easy, and mind the thin air up top... it never gets enough credit, thin air, for how little of it there is."
 		],
 		"quest.side_s_gour.offer": [
 			"Psst. Over here, and quietly, please. Um, have you ever eaten somewhere that has no menu at all? ...I'm brave. I'm brave.",

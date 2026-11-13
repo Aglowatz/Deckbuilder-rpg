@@ -1,0 +1,20 @@
+data/story/intro_story.tres::postgame.rescuer.freed::1
+data/story/intro_story.tres::postgame.rescuer.cleared::0
+data/story/intro_story.tres::postgame.rescuer.cleared::1
+data/dungeons/dungeon_content.json::quest.side_s_beef.offer::0
+data/dungeons/dungeon_content.json::quest.side_s_beef.offer::1
+data/dungeons/dungeon_content.json::quest.side_s_beef.active::0
+data/dungeons/dungeon_content.json::quest.side_s_beef.ready::0
+data/dungeons/dungeon_content.json::quest.side_s_beef.done::0
+data/dungeons/dungeon_content.json::dungeons/S-GALLERY/events/12/choices/2::1
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/1::1
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/4/choices/2::1
+data/story/story_scenes.json::scenes/lab_cell4_after/steps/1::1
+data/dungeons/dungeon_content.json::dungeons/D-LAB/events/12/choices/1::1
+data/story/story_scenes.json::scenes/lab_siphon/steps/1::1
+data/story/story_scenes.json::scenes/lab_siphon/steps/6::1
+data/story/story_scenes.json::scenes/lab_siphon_alone/steps/1::1
+data/encounters/boss_intros.json::Dr. Ambrose Siphon, Chief Path-ologist/line::0
+data/encounters/encounter_scripts.json::Dr. Ambrose Siphon, Chief Path-ologist/0/line::0
+data/encounters/encounter_scripts.json::Dr. Ambrose Siphon, Chief Path-ologist/1/line::0
+data/story/story_scenes.json::scenes/lab_siphon_after_alone/steps/5::1

@@ -472,7 +472,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Whatever he says in there, he'll say it kindly. That's the worst part. Don't listen to the voice, Tess. Watch the hands."
+					"Whatever he says in there, he'll say it kindly, and he'll mean it kindly too. So don't listen to the voice, Tess. Watch the hands."
 				]
 			]
 		},
@@ -525,7 +525,7 @@
 				],
 				[
 					"NPC-SIPHON",
-					"Subject 1, and my daughter too! Both of you home at once. I shall have to rearrange the whole schedule.",
+					"Subject 1, and my daughter with you! Both of you home at once, and nobody thought to tell me. I shall have to rearrange the whole schedule, and I don't mind in the least.",
 					"Remarkable. You've grown at least two inches, and the time away has done wonders for your posture. I'll want measurements."
 				],
 				[
@@ -547,7 +547,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Tess. His Protocols run on switches, and I know where every one is. I'll take one down each turn. You do the rest."
+					"Tess, listen. His Protocols run on switches, and I know where every one of them is. I'll take one down each turn, and you do the rest."
 				]
 			]
 		},
@@ -559,7 +559,7 @@
 				],
 				[
 					"NPC-SIPHON",
-					"Subject 1, you came back to us! And you've grown. Remarkable, after so many cycles; I'll want measurements."
+					"Subject 1, you came back to us! And you've grown, which is remarkable after so many cycles. I'll want measurements, of course, once you're settled."
 				],
 				[
 					"NPC-SIPHON",
@@ -628,7 +628,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"No. It was yours too. Get up. You're going to {town}, and you're going to listen to every word Maren says."
+					"No, Dad. It was yours too. Now get up, because you're going to {town}, and you're going to listen to every word Maren says."
 				],
 				[
 					"NPC-SIPHON",
