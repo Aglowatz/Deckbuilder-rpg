@@ -1,0 +1,399 @@
+# t2_gainlands: 149 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Brick Bronson at the bridge: the gatekeeper on the regime's pre-workout bars the way into the Gainlands, is beaten in a duel, and turns out to be a gentle, mortified man who lowers the bridge and first tells you Flex is locked away.
+@intro::gate.beefcake.freed
+#   [Brick Bronson] Gatekeeper of the Gainlands: talking at the gate
+#= 0| You really did it. Grandmaster Flex is out! The first thing he did was make me stretch for forty minutes, and I cried twice, but they were the good kind of tears.
+#= 1| The bridge stays down for good now, though I still come out and oil the crank every morning. Looking after it is how I say sorry, and I've a lot of sorry left to get through.
+#= 2| Would you like to spar? Gently, I mean, and I'll spot you. I'm still a spotter, only now I get to say it at an ordinary volume, and honestly that's a huge relief.
+
+@intro::gate.beefcake.blocked
+#   [Brick Bronson] Gatekeeper of the Gainlands: blocked
+#= 0| The bridge is drawn up on the far side of the gorge. Somebody very large is standing by the crank over there, shouting about hydration.
+
+@intro::gate.beefcake.cleared
+#   [Brick Bronson] Gatekeeper of the Gainlands: cleared
+#= 0| Brick Bronson cracks his knuckles, takes hold of the crank with one hand and lowers the bridge, glancing over his shoulder to make sure you're watching.
+1| The planks thump down across the gorge, and the road into the Gainlands lies open.
+
+@intro::beefcake_npc_intro_lines
+#   [Brick Bronson] Gatekeeper of the Gainlands: before the battle
+0| STOP RIGHT THERE! NOBODY CROSSES THE GORGE WITHOUT A SPOTTER, AND I AM THE SPOTTER, AND I AM NOT SPOTTING ANYBODY ACROSS IT TODAY!
+1| THE BRIDGE STAYS UP BY ORDER OF CHANCELLOR CLENCH, BECAUSE ONLY IRON MATTERS! IRON AND HYDRATION! (quieter) The regime is very big on hydration, so do drink something while you're waiting.
+2| IF YOU WANT THIS CRANK YOU WILL HAVE TO EARN IT, TEN REPS AND NO REST! I HAVE NOT SAT DOWN SINCE SPRING AND I FEEL FANTASTIC! ...I THINK IT IS FANTASTIC. MY KNEES STOPPED TELLING ME THINGS.
+
+@boss::Brick Bronson/line
+#   [Brick Bronson] Boss intro before the battle with Brick Bronson: opening line
+0| SPOTTERS ONLY. I AM SPOTTERS. ...SPOTTER. I AM ONE SPOTTER.
+
+@enc::town:npc:beefcake/0/line
+#   [Brick Bronson] Mid-fight event "HYDRATION BREAK" vs Brick Bronson: the foe says it when the event fires
+0| HYDRATION BREAK! NOBODY LIFTS DURING HYDRATION, AND THAT IS THE LAW! ...It is a good law.
+
+@intro::beefcake_npc_victory_lines
+#   [Brick Bronson] Gatekeeper of the Gainlands: after you win
+#= 0| ...Oh, no. Was I yelling just then? I was, wasn't I. I'm so sorry. That was the pre-workout talking, and once it starts it doesn't know how to stop.
+#= 1| Chancellor Clench had Grandmaster Flex locked away under the House of Gains, ten years ago now. People still whisper that the old man never broke. I wish I'd whispered with them, instead of standing out here yelling.
+#= 2| The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip.
+
+@intro::beefcake_npc_defeat_lines
+#   [Brick Bronson] Gatekeeper of the Gainlands: after you lose
+0| HA! THE PUMP IS STILL MINE! GO HOME AND HYDRATE! THAT IS AN ORDER, NOT CONCERN! ...IT IS A LITTLE BIT CONCERN.
+1| COME BACK WHEN YOU CAN LIFT, AND I WILL BE RIGHT HERE, BECAUSE THE BRIDGE STAYS UP AND SO DO I! NEITHER OF US HAS BEEN ALLOWED TO SIT DOWN IN A VERY LONG TIME!
+
+## purpose: Old Man Mountain welcomes you to the Gainlands: what the Beefcakes do, how Clench jailed his own teacher, rule one (never lift alone), the sealed overlook gate, and on a later visit the half-noticed memory of the king's boy and the dumbbell.
+@gainlands::npc.brenda.intro
+#   [Old Man Mountain] Talking to Old Man Mountain (intro)
+0| Shh, keep it down, the regime has big ears up here. Welcome to the Gainlands. They call me Old Man Mountain, and we Beefcakes keep the kingdom's lights on and its people moving, and if you're in a hurry, we throw you.
+1| Ten years back, {villain}'s people put Chancellor Clench in charge, and he was Grandmaster Flex's own star pupil, if you can believe it. They locked Flex under the House of Gains and took every weight, to the last plate.
+2| We're tired, but we haven't crumbled, and if you fall I'll catch you. That's rule one, never lift alone. Rule two, never skip leg day. Rule three is... I've forgotten rule three. Two's plenty.
+3| Now, where was I? The gate, that's it. The one up on the overlook, past the ridge, won't budge for anybody. It opens when the kingdom is whole again, and not a day before. I asked it nicely, twice.
+
+@gainlands::npc.brenda.return
+#   [Old Man Mountain] Talking to Old Man Mountain (return)
+0| Back again? Good, good, come and stand where I can see you. I always say the only bad rep is the one nobody was there to spot.
+1| You beat the regime and I'll buy the first round of shakes, even the illegal flavour. Especially the illegal flavour, come to think of it... ah, I can nearly taste it.
+2| The old king came up for the Lifting Festival every summer, and he brought his boy. The little fella tried my dumbbell once and sat down very hard on his royal behind.
+3| He laughed about it, too, sitting there on the mat with his little crown over one eye. Lovely boy. I wonder sometimes... no, never mind me. Old man talk. Where was I?
+4| That gate up on the overlook is still sealed. It opens when the kingdom is whole again, and not a day before. I check on it most mornings, just in case.
+
+## purpose: Foreman Gus reports plainly what the regime costs the wheel crews, and points ahead to the worse wheels in the Capital.
+@gainlands::npc.gus.intro
+#   [Foreman Gus] Talking to Foreman Gus (intro)
+0| I'm Foreman Gus. I keep the wheels turning and the grid humming, and I keep the hamsters fed - the volunteers, I'm meant to call them. The regime puts pre-workout in the water, and so far I'm mostly feeling the water.
+1| The regime wants a hundred and ten percent out of us, and the wheels only go to a hundred. The extra ten comes out of the crew, and nobody writes down where it went.
+2| The crews on the city wheels up in the Capital have it worse than we do. They're told it's cardio, and that it's for their own good, and it isn't either one.
+
+@gainlands::npc.gus.return
+#   [Foreman Gus] Talking to Foreman Gus (return)
+0| Grid's still humming. If it ever goes quiet, it means somebody sat down, and the regime takes that very personally.
+
+## purpose: Coach Benchley, the loud card seller: sells the shop, and lets slip in a stage whisper that he is hiding iron under the floorboard.
+@gainlands::npc.tony.intro
+#   [Coach Brutus Benchley] Talking to Coach Brutus Benchley (intro)
+0| LET'S GO! A NEW RECRUIT! I'm Coach Brutus Benchley, retired champion and full-time motivator, and I sell cards on the side, because a deck needs its SUPPLEMENTS the same as you do!
+1| IT'S ALL REGIME-APPROVED MERCHANDISE! Well, nobody actually approved it, champ, but these old cards have a GREAT ATTITUDE, and I'd put any one of them in my starting line-up!
+2| *whispering* Mind the loose floorboard behind the counter, would you? There's nothing under it. Only a bit of iron, and officially that doesn't exist.
+
+@gainlands::npc.tony.return
+#   [Coach Brutus Benchley] Talking to Coach Brutus Benchley (return)
+0| LET'S GO, RETURNING CUSTOMER! The cards are warmed up and stretched, champ, and my whistle's been SAVING ITS BREATH for you all day!
+1| *whispering* Nobody's mentioned the floorboard. I'd like to keep our relationship on that footing.
+
+## purpose: Gary, politely trapped under the last barbell: the comic face of 'never lift alone', and the target of Mountain's quest.
+@gainlands::npc.gary.intro
+#   [Gary] Talking to Gary (intro)
+0| Mmmph! Oh, thank goodness, a spotter! Hi, I'm Gary, it's lovely to meet you, and I'm so sorry I can't get up to shake hands.
+1| I've been under this barbell since lunch, or possibly since the regime took over, it's hard to tell from down here. There's no rush at all. Well, there's a bit of a rush.
+2| It's the last barbell they didn't confiscate, you see, so I got excited and loaded one more plate than I had the confidence for.
+3| It's fine, honestly, it's FINE. Could you possibly give it a little push, though? Whenever you're ready, I don't want to be a bother. Now would be good.
+
+@gainlands::npc.gary.return
+#   [Gary] Talking to Gary (return)
+0| Oh, it's my spotter! You're a hero, you really are. One of these days this barbell and I are going to rise to the occasion, and I'd be very grateful if you were standing nearby when we try.
+
+## purpose: Quest "Juice the Station": Gus sends you to run the Colossal Hamster Wheel up the hill and buy a shake at the Swole Station's protein stand, as a small act of quiet resistance.
+@gainlands::quest.gain_power.offer
+#   [Foreman Gus] Quest "Juice the Station": when offered
+0| The lights keep flickering because the regime pipes every watt we make up to the House of Gains. If you'd run the Colossal Hamster Wheel up the hill for me, we could keep a little down here. Call it quiet resistance.
+1| After that, buy yourself a shake at the protein stand in the Swole Station. It's for crew morale, and I'll be honest with you, mostly mine.
+
+@gainlands::quest.gain_power.active
+#   [Foreman Gus] Quest "Juice the Station": while it is active
+0| Run the Colossal Hamster Wheel up the hill, then buy a shake at the protein stand in the Swole Station, and come and find me when you've done both.
+
+@gainlands::quest.gain_power.ready
+#   [Foreman Gus] Quest "Juice the Station": handing it in
+0| The Swole Station's lights are back on and the grid's humming. I'd make a speech about it, but all my energy went into the lights, so here, take your reward instead.
+1| And don't let the hamsters hear you call them 'volunteers'. They're sensitive about it.
+
+@gainlands::quest.gain_power.done
+#   [Foreman Gus] Quest "Juice the Station": after it is done
+0| The grid's running smooth, and some of the power's even staying here for once. I'd hug you, but I'm a foreman, so you get a nod. ...That was a big nod, for me.
+
+## purpose: Quest "Spot Me!": Mountain's rule one put into practice - spot Gary, flex at a Flex Mirror (Station or Pec Perch) - and the reward that opens Calf Cove.
+@gainlands::quest.gain_spot_me.offer
+#   [Old Man Mountain] Quest "Spot Me!": when offered
+0| Which brings me back to rule one. Gary's stuck under a barbell again, so follow the groaning and give him a spot, then check your form at a Flex Mirror. The regime tried confiscating reflections once, and it didn't take.
+1| Do both and I'll have Shredna rip you a portal out to Calf Cove. Nobody's been out there in months, and the calves... well, you'll see for yourself.
+
+@gainlands::quest.gain_spot_me.active
+#   [Old Man Mountain] Quest "Spot Me!": while it is active
+0| Spot Gary at his barbell, then flex at a Flex Mirror, either the one at the Station or the one up on Pec Perch. Spot first and flex second, that's the order, and you can brag to me about it afterwards.
+
+@gainlands::quest.gain_spot_me.ready
+#   [Old Man Mountain] Quest "Spot Me!": handing it in
+0| You spotted Gary and you checked your form? Beautiful, that's just how it's meant to be done. Here, have a Pre-Workout Jitters, on the house.
+1| And Calf Cove's open to you now. Say hello to Shredna for me when you go through, would you? She'll pretend she hasn't missed me, she always does.
+
+@gainlands::quest.gain_spot_me.done
+#   [Old Man Mountain] Quest "Spot Me!": after it is done
+0| Calf Cove's yours now. Mind the edge out there, though, always mind the edge. I didn't, once, back in the spring of... oh, never mind, it was a long time ago and I bounced.
+
+## purpose: Quest "Clear the Lanes": Benchley wants any three roaming enemies in the Gainlands beaten in card duels, and pays in a Leg Day card.
+@gainlands::quest.gain_lanes.offer
+#   [Coach Brutus Benchley] Quest "Clear the Lanes": when offered
+0| Regime brutes, golems and sprites keep EATING my deliveries, champ! I need you to beat any three roaming enemies in the Gainlands in card duels! THOSE SHAKES HAD MY NAME ON THEM! I WRITE IT ON EVERY LID!
+1| And I'll pay you in cards, STRONG cards! *whispering* Heavy ones, the kind the regime hasn't found yet.
+
+@gainlands::quest.gain_lanes.active
+#   [Coach Brutus Benchley] Quest "Clear the Lanes": while it is active
+0| That's three roaming enemies out in the Gainlands, champ, any three you fancy! The brutes flex at you and the golems rattle!
+1| And the sprites buzz, which is the worst of the lot if you ask me! So pick your poison and GET OUT THERE!
+
+@gainlands::quest.gain_lanes.ready
+#   [Coach Brutus Benchley] Quest "Clear the Lanes": handing it in
+0| THREE DOWN, and my deliveries are BACK ON SCHEDULE! Here, take a Leg Day for your trouble, and do NOT skip it, champ! I'm telling you that as a coach AND as a card dealer!
+
+@gainlands::quest.gain_lanes.done
+#   [Coach Brutus Benchley] Quest "Clear the Lanes": after it is done
+0| The lanes are clear, champ! They'll stay clear for about an hour, and then the regime will fill them right back up again, BUT WHAT AN HOUR!
+
+## purpose: Old Hob's visit to the Gainlands: Death as a cheerful tradesman 'just measuring', who checks his book and is pleased the hero is not due.
+@scenes/hob_beefcake/steps/0
+#   [(narration)] Scene "hob beefcake" (hob beefcake), step 1
+1| An old gravedigger is pacing out a hole beside the weight racks, counting under his breath.
+
+@scenes/hob_beefcake/steps/1
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob beefcake" (hob beefcake), step 2
+1| Just measuring, don't mind me. Lovely broad shoulders you all have up here, so it'll be nice roomy work when it comes. Not that any of it's come lately, mind. Heh.
+
+@scenes/hob_beefcake/steps/2
+#   [The Wanderer] Scene "hob beefcake" (hob beefcake), step 3
+1| What are you writing?
+
+@scenes/hob_beefcake/steps/3
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob beefcake" (hob beefcake), step 4
+1| Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! You carry on, then, and mind your back around all this lifting. Heh.
+
+## purpose: Entering the House of Gains: a gym with every weight gone, and the first sign of someone patient breathing far below.
+@gainlands::dungeon.hg_gates.before
+#   [(narration)] Dungeon node "hg gates": entering the node
+0| The gates swing open on a hall papered with posters of Chancellor Clench, and there isn't a single weight anywhere in it, not even a dumbbell.
+1| Every rack along the walls stands empty, right down to the little pegs where the decorative plates used to hang.
+2| Somewhere far beneath your feet, something is breathing, slow and even, as if it has been counting every breath for a very long time.
+
+@gainlands::dungeon.hg_warden.after
+#   [(narration)] Dungeon node "hg warden": after the node
+0| The warden's keyring clatters to the floor. At the end of the corridor, behind a door with no handle, someone is doing a push-up so slow and controlled it seems to take a full minute.
+
+## purpose: Vivienne Quota at the Regime Checkpoint: the one who 'does the arithmetic' measures the hero, fights him, notes her defeat as a figure and slips away (she is met again in the Capital).
+@scenes/quota_checkpoint/steps/0
+#   [(narration)] Scene "quota checkpoint" (The House of Gains, "Regime Checkpoint": before the node), step 1
+1| Someone has built a barricade out of weight plates painted regulation red. Behind it, a ferret in a pinstriped suit is timing a guard's push-ups with a silver stopwatch.
+
+@scenes/quota_checkpoint/steps/1
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota checkpoint" (The House of Gains, "Regime Checkpoint": before the node), step 2
+1| Forty-one, forty-two, and stop. Eleven percent slower than yesterday, which we will discuss at your review.
+2| As for you, you entered at a walking pace of seven out of ten. That is disappointing, but it is at least measurable, which is more than I can say for most visitors.
+
+@scenes/quota_checkpoint/steps/2
+#   [The Wanderer] Scene "quota checkpoint" (The House of Gains, "Regime Checkpoint": before the node), step 3
+1| You're the first person in this place who hasn't shouted at me. Who are you?
+
+@scenes/quota_checkpoint/steps/3
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota checkpoint" (The House of Gains, "Regime Checkpoint": before the node), step 4
+1| I am Vivienne Quota, Minister of Efficiency. I designed the wheels, the schedules and the prison downstairs. The Chancellor does the shouting, and I do the arithmetic.
+2| Hold still, please, while I measure you. Your grip is low and your stride is uneven. Your resolve, however, is unusually high, and that is an inefficiency I intend to remove.
+
+@boss::Vivienne Quota, Minister of Efficiency/line
+#   [Vivienne Quota, Minister of Efficiency] Boss intro before the battle with Vivienne Quota, Minister of Efficiency: opening line
+0| You arrived four seconds late. I have already deducted it from you.
+
+@enc::Vivienne Quota, Minister of Efficiency/0/line
+#   [Vivienne Quota, Minister of Efficiency] Mid-fight event "Efficiency Review" vs Vivienne Quota, Minister of Efficiency: the foe says it when the event fires
+0| Your performance stands at forty-one percent of acceptable. Mine is about to improve.
+
+@scenes/quota_checkpoint_after/steps/0
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota checkpoint after" (The House of Gains, "Regime Checkpoint": after the node), step 1
+1| Ninety-four seconds. You defeated me in ninety-four seconds, and I had allowed three hundred for the reverse.
+2| I shall note it, as I note everything. That is not a compliment. I simply cannot leave a figure unsaid, and the Chancellor is not going to enjoy this one.
+
+@scenes/quota_checkpoint_after/steps/1
+#   [(narration)] Scene "quota checkpoint after" (The House of Gains, "Regime Checkpoint": after the node), step 2
+1| She clicks the stopwatch, steps through a side door marked for staff only, and is gone before the guard finishes his push-up.
+
+## purpose: The rescue: the hero finds Grandmaster Flex in his cell, thinner than his legend, and the teacher's calm sets the tone for the climb.
+@gainlands::cutscene.rescue.1
+#   [Grandmaster Flex] Cutscene "rescue", beat 1
+#= 0| Quietly, son. The guards time their rounds by counting their own squats, and sooner or later every one of them loses count.
+#= 1| So the rounds come whenever they come. Listen for knees cracking on the stairs, and you'll hear them in plenty of time.
+
+@gainlands::cutscene.rescue.2
+#   [The Wanderer] Cutscene "rescue", beat 2
+#= 0| You're Grandmaster Flex? Everyone up there talks about you as though you were twice this size.
+
+@gainlands::cutscene.rescue.3
+#   [Grandmaster Flex] Cutscene "rescue", beat 3
+#= 0| Ten years in the dark will do that to a man. They took my plates and my protein and every bar I ever lifted, and they left me down here with nothing at all.
+#= 1| And nothing, it turns out, is a fine place to start from. I still had my breath, my body and my mind, so I trained those, every day.
+#= 2| Come along, son, and we'll climb out of here together. I'd like a word with Clench on the way. He was the best student I ever had, you know. He still is.
+
+@gainlands::dungeon.hg_stretch.after
+#   [Grandmaster Flex, the Unbroken] Dungeon node "hg stretch": after the node
+0| "Breathe in slowly and hold it. Now let it all go," says Grandmaster Flex, breathing along with you.
+1| "There. You have been holding that breath since long before you came down my stairs, son, and you needn't. The climb will still be here when you have let it out."
+
+## purpose: The Trophy Hall guard's mid-fight shout, defending the Chancellor's empty trophy.
+@enc::Trophy Hall Honor Guard/0/line
+#   [Trophy Hall Honor Guard] Mid-fight event "Empty Trophy" vs Trophy Hall Honor Guard: the foe says it when the event fires
+0| Reserves, off your pedestal! This trophy belongs to the Chancellor, not to some stranger off the wheels!
+
+## purpose: Clench at his bench press: under the barked rules he is a pupil asking his Master whether he did well.
+@gainlands::dungeon.hg_boss.before
+#   [Chancellor Clench, Iron Regent] Dungeon node "hg boss": entering the node
+0| Chancellor Clench stands in front of an enormous bench press, the only weight left in the whole House of Gains, and he guards it like a throne.
+#= 1| "Master." The word sticks in his throat. "I was your best, you know. Your star pupil. You said so yourself."
+#= 2| "You told me I would go further than you ever did. And then you started on about strength living in the heart and the head, and I knew better than that."
+#= 3| "So I took your iron, and your protein, and your followers, and here you are, climbing back up my stairs with nothing at all."
+#= 4| "Look how far I went, Master. What exactly do you imagine you can do about it now?"
+
+@boss::Chancellor Clench, Iron Regent/line
+#   [Chancellor Clench, Iron Regent] Boss intro before the battle with Chancellor Clench, Iron Regent: opening line
+0| You. Nobody walks into my house without a permit and a rep count, and nobody walks out of it at all.
+
+@enc::Chancellor Clench, Iron Regent/0/line
+#   [Chancellor Clench, Iron Regent] Mid-fight event "Brownout" vs Chancellor Clench, Iron Regent: the foe says it when the event fires
+0| CUT THE POWER and get everyone off the wheels! Nobody in this house moves a muscle until I say REP!
+
+@enc::Chancellor Clench, Iron Regent/1/line
+#   [Chancellor Clench, Iron Regent] Mid-fight event "DROP AND GIVE ME FORMS" vs Chancellor Clench, Iron Regent: the foe says it when the event fires
+0| Control is strength, paperwork is control, and do you know how HEAVY paperwork gets? Two more plates!
+
+@enc::Chancellor Clench, Iron Regent/2/line
+#   [Chancellor Clench, Iron Regent] Mid-fight event "Master...?" vs Chancellor Clench, Iron Regent: the foe says it when the event fires
+0| You told me I would go further than you ever did. Well, look how far I went. Tell me it was far enough. ...Master?
+
+## purpose: Narration of the way down: the guard on the stair, the bare cell that tightens the hero's chest, and the trophy hall with a pedestal waiting for Flex.
+@gainlands::event.hg_descent.body
+#   [(narration)] Dungeon event "hg descent": body
+0| The stairway to the Iron-less Prison is steep, dark and damp. On the third landing a guard fills the whole stair, arms folded, muscles folded on top of the arms.
+1| "Nobody goes down," he says. Then, after a long and meaningful pause: "Unless..."
+
+@gainlands::event.hg_rescue.body
+#   [(narration)] Dungeon event "hg rescue": body
+0| In the last cell, a gaunt old man sits cross-legged in the dark, perfectly still. Ten years of breath and calisthenics have worn him down to wire and will.
+1| He opens one eye and looks at you. "You are not a guard."
+2| There's no bar or bench in the cell, only stone worn smooth by ten years of training. Something about the bare walls tightens your chest, and you couldn't say why.
+
+@gainlands::event.hg_trophy_hall.body
+#   [(narration)] Dungeon event "hg trophy hall": body
+0| Trophies of every defeated Beefcake line the walls: belts, medals, the left shoe of a champion.
+1| The plate on the empty pedestal reads GRANDMASTER FLEX (PENDING), and someone has dusted it very recently.
+
+## purpose: The showdown: Clench mocks the thin old man, and Flex shows him, without anger, that strength was never the iron.
+@gainlands::cutscene.flex.1
+#   [Chancellor Clench] Cutscene "flex", beat 1
+0| You brought that... that stick of a man into MY house? Look at you, Master. Ten years on bread and water, and you still won't stay down.
+1| A Beefcake without iron is just a CAKE!
+
+@gainlands::cutscene.flex.2
+#   [Grandmaster Flex] Cutscene "flex", beat 2
+#= 0| Stand back a little, son, if you would. It has been a long time, and I should like some room.
+
+@gainlands::cutscene.flex.3
+#   [Grandmaster Flex] Cutscene "flex", beat 3
+0| They took my weights, Clench. They forgot to take me.
+#= 1| You only ever wanted the weight, my boy. I was trying to teach you the heart, and you stopped listening long before I ever got to the mind.
+
+@gainlands::cutscene.flex.4
+#   [Chancellor Clench] Cutscene "flex", beat 4
+#= 0| ...How? Ten years in a hole with nothing. Where were you HIDING all of that?
+
+@gainlands::cutscene.flex.5
+#   [Grandmaster Flex] Cutscene "flex", beat 5
+#= 0| Strength was never a matter of how heavy a thing is, Clench. It lives in the heart and the mind, and nobody can lock those in a cell.
+#= 1| The heavy things were only ever practice, my boy. Now, shall we begin?
+
+## purpose: The same fight when Flex was not freed first: Clench faces a stranger, and afterwards Flex walks up out of the prison by himself and offers his pupil a fresh start.
+@gainlands::dungeon.hg_boss.before_alone
+#   [Chancellor Clench, Iron Regent] Dungeon: hg boss before alone
+0| Chancellor Clench stands in front of an enormous bench press, the only weight left in the whole House of Gains, and he guards it like a throne.
+1| "A stranger in my house, and you didn't even bring the old man up with you. They tell me Flex is still down there in the dark, doing push-ups for nobody."
+2| "They say he trained a hundred pupils and that I was the best of them. Well, look where being the best got me, and then look where teaching got him."
+3| "Step up to the bench, then, stranger, and let me show you what iron is for."
+
+@gainlands::dungeon.hg_boss.after_alone
+#   [Grandmaster Flex, the Unbroken] Dungeon: hg boss after alone
+0| Chancellor Clench falls, bench and all. The regime's banners come down one by one, and in the great hall the Beefcakes begin to cheer, quietly, then very loudly.
+1| You hear slow, controlled footsteps on the stairs. Grandmaster Flex emerges from the Iron-less Prison alone, in thin grey robes.
+2| "I heard the cheering, and I thought it was time I came up," he says. "Lovely day for it." Then he looks at his fallen pupil, and his face softens.
+3| "Up you get, my boy. We'll start again from zero, the way everyone does."
+4| He glances at you. "Whatever they took from you, son, it was not the part that matters."
+
+## purpose: After Clench falls: Flex offers his hand, Clench does not take it yet, and Flex gives the hero the line the ending answers.
+@gainlands::dungeon.hg_boss.after
+#   [Grandmaster Flex, the Unbroken] Dungeon node "hg boss": after the node
+0| Chancellor Clench falls, bench and all. The regime's banners come down one by one, and in the great hall the Beefcakes begin to cheer, quietly, then very loudly.
+#= 1| Flex doesn't gloat. He kneels beside his fallen pupil and holds out a hand. "You hated yourself for needing the iron, my boy."
+#= 2| "I never once hated you for it. Come back to the gym. We'll start from zero, the way everyone does."
+3| Clench has lost his title, his medals and the thing he thought strength was. He stares at the hand a long time. He does not take it yet, but he does not pull away.
+4| Then Flex turns to you, and his voice is gentle. "Whatever they took from you, son, it was not the part that matters."
+
+## purpose: Caption for the still of Flex walking into the throne room.
+@intro::still.flex
+#   [(narration)] Story still caption: flex
+0| Grandmaster Flex walks into the throne room in his prison rags, and the whole hall falls silent.
+1| He breathes in, slow and even. Ten years without iron have worn him thin as wire, but he stands perfectly straight.
+2| Across the room, the ruler of the House of Gains takes one step back.
+
+## purpose: Mountain after the zone is freed: joy, and the payoff of the dumbbell memory - the hero made the same face as the king's boy - still only half noticed.
+@gainlands::npc.brenda.intro.freed
+#   [Old Man Mountain] Talking to Old Man Mountain (intro) (after the zone is freed)
+0| You did it! Flex is out and Clench is down, and I got to watch the whole thing from the good bench. Best day since... oh, since the last best day, whenever that was. I'm spotting you from now on, like it or not.
+1| The weights are back in the gym, and there's Gary over there, lifting with a proper spotter at last. Beautiful. Now, before you go... that boy I told you about, the old king's son, up at the Festival...
+2| When you heaved that last regime brute off his feet, you made the same face he made on my dumbbell. The very same face. Funny, the things you remember.
+
+@gainlands::npc.brenda.return.freed
+#   [Old Man Mountain] Talking to Old Man Mountain (return) (after the zone is freed)
+0| We're free and strong and properly spotted, every one of us, and that's your doing, friend. I climbed Swolympus once, you know, back when my knees and I were on speaking terms, and these ten years were steeper.
+1| That gate up on the overlook is still sealed, mind. It opens when the kingdom is whole again, and not a day before. I asked it nicely again this morning, which makes three times.
+
+## purpose: Gus after the zone is freed: the same tired plain man, discovering that a hundred percent was enough and that he may sit down.
+@gainlands::npc.gus.intro.freed
+#   [Foreman Gus] Talking to Foreman Gus (intro) (after the zone is freed)
+0| Foreman Gus, still on the wheels. But listen to them now. They're turning, and there isn't a single whistle blowing over them.
+1| The grid's at a hundred percent and nobody's asking for ten more. Turns out a hundred was all of it, the whole time.
+2| I might even take a day off. I've no idea how it's done, but I'm told you start by sitting down.
+
+@gainlands::npc.gus.return.freed
+#   [Foreman Gus] Talking to Foreman Gus (return) (after the zone is freed)
+0| The wheels turn when the crew feels like turning them, and somehow we've never had more power. I'd report it to the regime, but there isn't one.
+
+## purpose: Benchley after the zone is freed: the hidden iron is out on a rack and he no longer has to whisper.
+@gainlands::npc.tony.intro.freed
+#   [Coach Brutus Benchley] Talking to Coach Brutus Benchley (intro) (after the zone is freed)
+0| LET'S GO! The iron came out from under the floorboard and went STRAIGHT onto a rack where everybody can see it! Benchley's is open to EVERYONE, champ, and that's the best line-up I've ever fielded!
+1| ALL THE REGIME MERCHANDISE IS IN THE CLEARANCE BIN! Nobody wants any of it, and I have never been so proud of not making a sale!
+
+@gainlands::npc.tony.return.freed
+#   [Coach Brutus Benchley] Talking to Coach Brutus Benchley (return) (after the zone is freed)
+0| CARDS ON THE SHELVES AND IRON ON THE RACKS! And I don't have to whisper about the floorboard any more, which is just as well, because I WAS NEVER ANY GOOD AT IT!
+
+## purpose: Grandmaster Flex in the freed gym: what ten years taught him, how Clench is doing, and his blessing on the hero.
+@gainlands::freed_npc.heartlift
+#   [Grandmaster Flex, the Unbroken] After freeing: heartlift talks
+0| Welcome, son, welcome. Grandmaster Flex, at your service, and it is good to say so in daylight. After ten years in the dark, the first thing I wanted was a window, and the second was a good long stretch.
+#= 1| They took my plates and my protein and everything I had ever lifted. So I breathed: in, and hold, and out again. I did that for ten years, and it turned out to be enough.
+#= 2| I counted my own heartbeats until they turned into songs. They believed they were breaking me down there, son, and all the while they were teaching me.
+#= 3| Clench is learning to lift again from zero, and the strongest ones always take the longest. Yesterday he spotted Gary without being asked. The gym is open to everyone now, so come by whenever you like.
+4| Lift what you can. Carry what you must. Put down what was never yours.
+5| And you, son: whatever they took from you, it was not the part that matters.
+
+## purpose: The plaque on Clench's statue.
+@gainlands::ruler.statue
+#   [Chancellor Clench, Iron Regent] Ruler: statue
+0| STATUE OF CHANCELLOR CLENCH
+1| "A Beefcake without iron is just a cake."
+
+## purpose: Quota has fled to the Capital: her schedule and stopwatch left on the throne, and Flex's word that nobody here is on the clock.
+@scenes/quota_fled/steps/0
+#   [(narration)] Scene "quota fled" (quota fled), step 1
+1| On the arm of the Throne of Gains someone has left a schedule, timed to the second, and a silver stopwatch, still running.
+
+@scenes/quota_fled/steps/1
+#   [Grandmaster Flex, the Unbroken] Scene "quota fled" (quota fled), step 2
+#= 1| Quota's gone. She was off to the Capital before the dust had even settled; she always did like to leave early.
+#= 2| We'll keep her schedule, because it will make good kindling. And breathe, son. Nobody in this house is on the clock any more.

@@ -33,7 +33,7 @@
 				"pct": 50
 			},
 			"text": "At half health Brick stops to drink: he heals 3, and his units stand down through his next turn.",
-			"line": "HYDRATION BREAK. NOBODY LIFTS DURING HYDRATION. THAT IS THE LAW. ...It is a good law.",
+			"line": "HYDRATION BREAK! NOBODY LIFTS DURING HYDRATION, AND THAT IS THE LAW! ...It is a good law.",
 			"effects": [
 				{
 					"kind": "heal",
@@ -337,7 +337,7 @@
 				"pct": 50
 			},
 			"text": "At half health Quota reviews her numbers: she draws a card.",
-			"line": "Your performance: forty-one percent of acceptable. Mine is about to improve.",
+			"line": "Your performance stands at forty-one percent of acceptable. Mine is about to improve.",
 			"effects": [
 				{
 					"kind": "draw",
@@ -402,7 +402,7 @@
 				"turn": 5
 			},
 			"text": "On his 5th turn Clench cuts the wheel power: your two strongest ready units are exhausted and cannot block that turn.",
-			"line": "CUT THE POWER. Everyone off the wheels. Nobody moves unless I say REP.",
+			"line": "CUT THE POWER and get everyone off the wheels! Nobody in this house moves a muscle until I say REP!",
 			"effects": [
 				{
 					"kind": "exhaust_foes",
@@ -440,7 +440,7 @@
 				"pct": 25
 			},
 			"text": "Near the end Clench falters: his units get -1/-0 for the rest of the fight.",
-			"line": "You said I would go further than you. Look how far I went. ...Master?",
+			"line": "You told me I would go further than you ever did. Well, look how far I went. Tell me it was far enough. ...Master?",
 			"effects": [
 				{
 					"kind": "rule",

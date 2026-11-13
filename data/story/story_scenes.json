@@ -10,16 +10,16 @@
 				[
 					"NPC-QUOTA",
 					"Forty-one, forty-two, and stop. Eleven percent slower than yesterday, which we will discuss at your review.",
-					"And you walked in at a pace of seven out of ten. Disappointing, but at least it's measurable."
+					"As for you, you entered at a walking pace of seven out of ten. That is disappointing, but it is at least measurable, which is more than I can say for most visitors."
 				],
 				[
 					"NPC-PLAYER",
-					"Who are you?"
+					"You're the first person in this place who hasn't shouted at me. Who are you?"
 				],
 				[
 					"NPC-QUOTA",
-					"Vivienne Quota, Minister of Efficiency. I designed the wheels, the schedules and the prison downstairs. The Chancellor does the shouting. I do the arithmetic.",
-					"Hold still while I measure you. Grip, low. Stride, uneven. Resolve... unusually high, and that is an inefficiency I intend to remove."
+					"I am Vivienne Quota, Minister of Efficiency. I designed the wheels, the schedules and the prison downstairs. The Chancellor does the shouting, and I do the arithmetic.",
+					"Hold still, please, while I measure you. Your grip is low and your stride is uneven. Your resolve, however, is unusually high, and that is an inefficiency I intend to remove."
 				]
 			]
 		},
@@ -27,8 +27,8 @@
 			"steps": [
 				[
 					"NPC-QUOTA",
-					"Ninety-four seconds. You beat me in ninety-four seconds.",
-					"I'll note it, the way I note everything. The Chancellor is not going to enjoy this figure."
+					"Ninety-four seconds. You defeated me in ninety-four seconds, and I had allowed three hundred for the reverse.",
+					"I shall note it, as I note everything. That is not a compliment. I simply cannot leave a figure unsaid, and the Chancellor is not going to enjoy this one."
 				],
 				[
 					"",
@@ -851,7 +851,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Just measuring, don't mind me. Lovely broad shoulders up here - very roomy work, when it comes. Not that it's come lately. Heh."
+					"Just measuring, don't mind me. Lovely broad shoulders you all have up here, so it'll be nice roomy work when it comes. Not that any of it's come lately, mind. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -859,7 +859,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see, you're... hm. Not for a good long while. Ha! Lovely."
+					"Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! You carry on, then, and mind your back around all this lifting. Heh."
 				]
 			]
 		},
