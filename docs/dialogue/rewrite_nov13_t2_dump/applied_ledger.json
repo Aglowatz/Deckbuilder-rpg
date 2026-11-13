@@ -1,0 +1,359 @@
+[
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.blocked::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "A wall of thorns has swallowed the forest path. It looks like it is breathing.",
+		"after": "A wall of thorns has swallowed the forest path, and it rises and falls slowly, as if it were breathing."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.cleared::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Moss Mulligan lays a hand on the thorns. They sigh, brown, and crumble into leaf mould.",
+		"after": "Moss Mulligan lays a hand on the thorns, and they sigh, turn brown and crumble into leaf mould."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Welcome to the Compost Grange. I'm Brother Bramble, Warden of the Stream. Would you close the door behind you, and lock it, and maybe check the window? The vines keep trying it.",
+		"after": "Oh! Welcome to the Compost Grange. I'm Brother Bramble, Warden of the Stream, and would you mind closing the door behind you, and locking it, and perhaps checking the window? The vines keep trying the latch."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "We're the Refusemancers, druids of waste removal and agriculture: our animals turn the kingdom's garbage into fertilizer for its crops. The Buffet calls us garbage eaters, and then they eat our carrots.",
+		"after": "We're the Refusemancers, you see, druids of waste removal and agriculture. Our animals turn the kingdom's garbage into fertilizer for its crops, and the Buffet calls us garbage eaters and then eats our carrots."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Now nothing rots, so nothing feeds the soil. Everything is too alive, and the whole Dump is sick with growing. Also, SOMEBODY ate the compost AGAIN.",
+		"after": "Now nothing rots, so nothing feeds the soil, and the whole Dump is sick with growing, because everything in it is far too alive. And on top of all that, SOMEBODY ate the compost AGAIN."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Back at the Grange? Do sort your boots at the door - compost, metal, glass, paper - and check them for tendrils. We have quite enough houseplants already.",
+		"after": "Oh, you're back at the Grange, good. Would you sort your boots at the door, please - compost, metal, glass, paper - and check them for tendrils? We have quite enough houseplants as it is."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Forgive me. I talk to that spot more than I talk to most people. It's a very good listener, and it never tracks mud into the Grange.",
+		"after": "Forgive me, I do go on. I talk to that spot more than I talk to most people, because it's a very good listener and it has never once tracked mud into the Grange."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return::4",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "The raccoons listen too, of course. Raccoons hear everything; they just won't tell you about it.",
+		"after": "The raccoons listen too, of course. They hear everything that goes on in this valley, and I've never known one of them to own up to any of it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Granny Gristle, junk-trader! Born in a haybale, raised in a barn and retired to a shed, and this is the shed. It's started growing, mind. There's a window in the back I never put in. Heh!",
+		"after": "Granny Gristle, junk-trader! Born in a haybale, raised in a barn and retired to a shed, and this is the shed, my lovely. It's started growing on me, mind: there's a window in the back that I never put in. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Everything here's Refusemancer-issue: grown, composted and well rinsed. Found, not stolen, dearie. The raccoon found it, and I just held on to it very tightly.",
+		"after": "Everything you see is Refusemancer-issue, grown and composted and given a good rinse. Found, not stolen, my lovely. The raccoon found it, and I just held on to it very tightly."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Cards grown strong and rinsed clean, with a faint smell of earth. Hear them humming? Well, I never promised you a silent auction. Heh!",
+		"after": "The cards come up strong out of this soil, and I rinse them myself, though the smell of earth never quite leaves them. Hear them humming? Well, I never promised you a silent auction. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Back again, dearie! Turnips are a day old. A lovely vintage, if you're a turnip.",
+		"after": "Back again, my lovely! The turnips are a day old, which is a fine vintage if you happen to be a turnip, and I'll not hear a word said against them."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Heh!",
+		"after": "They're looking at me again, those turnips. I like a root vegetable that minds its own business, I do, and there was a time you could count on one for that. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.intro::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Oh good, a pair of legs! I'm Billie Muckfoot, animal handler, and I speak fluent goat, which is mostly screaming. Lately the screaming's about the plants: the fields keep trying to eat my herd.",
+		"after": "Oh good, a pair of legs! I'm Billie Muckfoot, animal handler, and I speak fluent goat, which is mostly screaming. Lately the screaming's all about the plants, because the fields keep trying to eat my herd."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "The boar and goat in the stables will carry you. Ask nicely or ask rudely; they ignore both the same. Good, sensible animals.",
+		"after": "The boar and the goat in the stables will carry you, if you want a ride. You can ask them nicely or ask them rudely and they'll ignore you just the same, which is what I call a good, sensible animal."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Any luck with the herd? Look for the goat first; it'll be eating something it shouldn't. If the something is eating it back, shout for me.",
+		"after": "Any luck with the herd? Look for the goat first, because he'll be eating something he shouldn't. And if whatever he's eating has started eating him back, you shout for me, good and loud."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.offer::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Three of my animals got out: a goat, a pig and a raccoon with a briefcase. The Rot's in the fields and they're wandering right into it.",
+		"after": "Three of my animals have got out: a goat, a pig and a raccoon with a briefcase. The Rot's in the fields now, and the daft things are wandering right into it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.offer::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Find each one out in the Dump and get it back to the pen before dark. Don't chase them. Walk up firmly and make eye contact.",
+		"after": "Find each one out in the Dump and get it back to the pen before dark. Don't go chasing them, mind, because that only makes it a game. Walk up firmly and look them right in the eye."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.offer::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Animals respect eye contact. Raccoons consider it the start of negotiations.",
+		"after": "Animals respect a bit of eye contact, you'll find. The raccoon's another matter, because raccoons consider it the start of negotiations."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.active::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Three escapees, all out in the fields: the goat's eating something, the pig's found a puddle, and the raccoon is probably writing me a strongly worded letter.",
+		"after": "My three escapees are all out in the fields somewhere. The goat'll be eating something, the pig'll have found himself a puddle, and the raccoon is probably writing me a strongly worded letter."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.ready::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "All three home, and the pen's never looked so full! Here, you've earned this.",
+		"after": "All three home, and the pen's never looked so full! You've done me a proper good turn there, so here, take this. You've earned it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.ready::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "A goat card. You can play this one without having to catch it afterwards.",
+		"after": "It's a goat card. This one you can play without having to go and catch it afterwards, which is more than I can say for the real thing."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_herd.done::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "The herd's home and already plotting the next escape. Thank you! Moss Mulligan will grow you a crossing at the centre bridge now. Tell her I sent you.",
+		"after": "The herd's home and already plotting the next escape, bless them. Thank you! Moss Mulligan will grow you a crossing at the centre bridge now, so go and tell her I sent you."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.offer::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Now then, fertilizer. The crops are sulking and the soil's gone strange, and good clean fertilizer is the one thing the Rot can't grow in.",
+		"after": "Now then, my lovely, fertilizer. The crops are sulking and the soil's gone strange on us, and good clean fertilizer is the one thing left that the Rot can't grow in."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.offer::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "I need three sacks from around the Dump, lying wherever the animals left them. Don't ask me how they got bagged up, dearie. I never have. Heh!",
+		"after": "I need three sacks from around the Dump, lying wherever the animals left them. Don't ask me how it comes to be bagged up already, my lovely, because I never have, and I sleep better for it. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.active::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Three sacks of fertilizer, dearie. Try the fields, the east edge and the far side of the stream. Follow your nose. Then apologise to it.",
+		"after": "Three sacks of fertilizer, my lovely. Try the fields, the east edge and the far side of the stream, and just follow your nose. You can apologise to it afterwards, the same as I do."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.ready::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Three whole sacks! The crops'll be singing by morning, and I mean that more than I'd like to.",
+		"after": "Three whole sacks! The crops'll be singing by morning, my lovely, and with the way things grow round here I mean that more than I'd like to."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.ready::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Here's your reward. Found, not stolen, and only a little bit damp. Heh!",
+		"after": "Here's your reward, and it's found, not stolen, and only a little bit damp. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_fert.done::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "The fields are fed, dearie. Plant your own with a sack of fertilizer and a little patience. I'd sell you the patience too, but nobody ever stays long enough to buy it. Heh!",
+		"after": "The fields are fed, my lovely. You could plant your own with a sack of fertilizer and a little patience. I'd sell you the patience too, only nobody ever stays long enough to buy it. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_dam.offer::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Somebody has dumped a dam of junk across the feeder channel on the north bank, and the stream can't breathe. Borrow a mount from the stables and charge it, and my compost boots are yours.",
+		"after": "Somebody has dumped a dam of junk across the feeder channel on the north bank, and the poor stream can hardly breathe. If you'd borrow a mount from the stables and charge it, my compost boots are yours, and gladly."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_dam.active::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "It's the junk dam on the north bank. Take Gideon the goat from the north stable and charge it at full tilt. He's never slowed down for anything, and I'd hate for him to start now.",
+		"after": "It's the junk dam on the north bank, I'm afraid. Take Gideon the goat from the north stable and charge it at full tilt. He's never slowed down for anything in his life, and I'd hate for him to start now."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_dam.ready::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "The stream's flowing again, practically dancing! Here are the compost boots, still warm. They squelch, but it's a proud sort of squelch.",
+		"after": "Oh, the stream's flowing again, it's practically dancing! Here are the compost boots, as promised, and they're still warm. They do squelch, I'm afraid, but it's a proud sort of squelch."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::quest.heap_dam.done::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "The stream's clear, for now. The kingdom will have it full again by the end of the week, but that's what we're here for.",
+		"after": "The stream's clear, for now. The kingdom will have it full of rubbish again by the end of the week, I expect, but then that's what we're here for, isn't it?"
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_refusemancer/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Nothing's died in this valley in ten years, not so much as a beetle or a leaf. Unnatural, that.",
+		"after": "Do you know, nothing's died in this valley in ten years? Not so much as a beetle, nor a single leaf off a tree. It isn't natural, that, and it's a worry to a man in my line of work."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/hob_refusemancer/steps/0::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Gives a fellow a lot of free time. I've taken up knitting. Heh.",
+		"after": "It does leave a fellow with a lot of free time, mind. I've taken up knitting. Heh."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_mill_after/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "Well. You've made a dreadful mess of my hedges, and I shall be sending a note.",
+		"after": "Well. You have made a dreadful mess of my hedges, and it took a great many mornings to get them so even. I shall be sending a note."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.4::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "...It's rotting. Honest compost, the first in ten years. Oh, I can hear the soil again.",
+		"after": "...It's rotting, child. That's honest compost, the first this valley has made in ten years, and oh, I can hear the soil again."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "I never thought I'd get to say it, but the Dump is healing. The vines are only vines, the mushrooms are only mushrooms, and the Archdruid is herself again. She's terribly embarrassed.",
+		"after": "I never thought I'd get to say it, but the Dump is healing. The vines are only vines, the mushrooms are only mushrooms, and the Archdruid is herself again, though she's terribly embarrassed about all of it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Go on, breathe in. You can breathe deeply down here now, and that smell is HONEST COMPOST. Isn't it wonderful?",
+		"after": "Go on, take a good deep breath, because you can down here now. Do you smell that? That is HONEST COMPOST, and I don't mind telling you I had a little weep over it this morning."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.intro.freed::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "She only smiled at you on her way past. I've been wondering about that all morning.",
+		"after": "She only smiled at you on her way past, though, didn't she? I've been wondering about that all morning, and I haven't got anywhere with it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "The stream's clean, the fields are calm and the zucchini has gone back to being a zucchini. We owe you a great deal more than compost.",
+		"after": "The stream's running clean, the fields are calm, and the zucchini has gone back to being only a zucchini, which is a great relief to everything planted near it. We owe you far more than compost."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.marigold.return.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Brother Bramble",
+		"before": "Nobody's apologised for the compost, mind. The raccoons have become excellent listeners and very poor confessors.",
+		"after": "Nobody has owned up to eating the compost, mind you. I asked the raccoons very gently, and they've turned out to be excellent listeners and very poor confessors."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Granny Gristle, junk-trader, back in business! The shed's just a shed again, dearie, and the turnips are only turnips.",
+		"after": "Granny Gristle, junk-trader, and back in business! The shed's gone back to being just a shed, my lovely, and the turnips are only turnips, and I never thought I'd be so glad of a dull vegetable."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.intro.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "I had a little cry, then I went and planted a whole field. Shop's open, dearie, and every bit of it was thrown out by somebody who was wrong. Heh!",
+		"after": "I had a little cry, and then I went out and planted a whole field. So the shop's open, my lovely, and every bit of stock in it was thrown out by somebody who was wrong. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.hob.return.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Granny Gristle",
+		"before": "Day-old turnips, dearie, and not one of them looking at anybody. Finally, produce with manners. Heh!",
+		"after": "Day-old turnips, my lovely, and not one of them looking at anybody. That's produce with manners at long last, and I've waited ten years for it. Hah!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.intro.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Billie Muckfoot, animal handler! The whole herd's home, and the goat's already eating a sign.",
+		"after": "Billie Muckfoot, animal handler! The whole herd's home safe, and the goat's already got his teeth into a sign."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.intro.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "And the sign isn't eating him back this time. I've never been so happy to watch a goat ruin something.",
+		"after": "And the sign's not eating him back this time, that's the thing. I've never been so happy to stand and watch a goat ruin something."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.return.freed::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Every animal's home and not one of them mutated. I could cry, honestly, and I might.",
+		"after": "Every animal's home and there's not one of them mutated. I could cry, honestly, and I just might."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.wren.return.freed::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Billie Muckfoot",
+		"before": "Into a bucket, though. The plants could use it.",
+		"after": "I'll do it into a bucket, though. The plants could use the water, and nothing goes to waste round here."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_fled/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Brother Bramble",
+		"before": "The Groundskeeper's gone. She packed her shears and left for the Capital the very moment the Archdruid woke.",
+		"after": "The Groundskeeper's gone, you know. She packed up her shears and left for the Capital the very moment the Archdruid woke, and she didn't so much as look back at her hedges."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_fled/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Brother Bramble",
+		"before": "She left one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even asked.",
+		"after": "She did leave one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even thought to ask."
+	}
+]

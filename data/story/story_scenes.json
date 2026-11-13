@@ -218,7 +218,7 @@
 			"steps": [
 				[
 					"NPC-CLIPWELL",
-					"Well. You've made a dreadful mess of my hedges, and I shall be sending a note."
+					"Well. You have made a dreadful mess of my hedges, and it took a great many mornings to get them so even. I shall be sending a note."
 				],
 				[
 					"",
@@ -231,11 +231,11 @@
 			"steps": [
 				[
 					"NPC-BRAMBLE",
-					"The Groundskeeper's gone. She packed her shears and left for the Capital the very moment the Archdruid woke."
+					"The Groundskeeper's gone, you know. She packed up her shears and left for the Capital the very moment the Archdruid woke, and she didn't so much as look back at her hedges."
 				],
 				[
 					"NPC-BRAMBLE",
-					"She left one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even asked."
+					"She did leave one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even thought to ask."
 				]
 			]
 		},
@@ -908,8 +908,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Nothing's died in this valley in ten years, not so much as a beetle or a leaf. Unnatural, that.",
-					"Gives a fellow a lot of free time. I've taken up knitting. Heh."
+					"Do you know, nothing's died in this valley in ten years? Not so much as a beetle, nor a single leaf off a tree. It isn't natural, that, and it's a worry to a man in my line of work.",
+					"It does leave a fellow with a lot of free time, mind. I've taken up knitting. Heh."
 				]
 			]
 		},
