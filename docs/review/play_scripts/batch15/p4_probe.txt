@@ -1,0 +1,10 @@
+wait 4
+dev load c12_cave_map
+wait 10
+scene
+dump
+shot probe_cave_map
+dev load c12_arrived
+wait 12
+scene
+shot probe_arrived

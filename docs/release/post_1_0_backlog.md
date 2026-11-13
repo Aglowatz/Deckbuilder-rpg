@@ -42,15 +42,24 @@ critic (`docs/review/critic_rc1/report.md`), the Nov 6-8 critics, `docs/release/
 7. **`tools/perf_run.sh capital_in` reads 57 fps on Medium** on the development PC (58 to 61 since Nov 3); the Capital's paint-over
    cameras (`tools/capital_fps.sh`) read 66 to 69. If the 60 target is judged by the first probe, the inside streets are 3 fps short.
 
+## 2c. Known issues at 1.0.0 (Nov 13)
+
+Closed since 2b: items 1 and 2 (Batch 15 is in the game, Fig Sly has two arms) and, from item 4, the pale wedge and edge items listed
+in the Nov 13 report. Still open: 2b items 3 to 7, and
+
+1. **The Rescuer's disguise has no walk frames** (SPR-RESCUER-*_WALK): she walks away in Elowen's own frames, seen from behind.
+2. **The world maps are still drawn from the walk grid** (MAP-WORLD-* were not delivered); the Capital's has district names and the
+   Crease inset now.
+3. **The Capital wall's faces are plain slabs** beside the painted buildings (needs art).
+4. **Crosspath's south edge** shows the ravine's rock lip as a pale and violet strip under the new hedge.
+5. **The pack is about 864 MB** (over the 750 MB warning on purpose: music at q6).
+
 ## 3. Remaining art REDOs (`docs/art/art_audit_nov9.csv`, verdict REDO and not yet replaced)
 
 | Id | What | Why |
 |---|---|---|
-| NPC-HESPER | the nurse's portrait: a green leaf or a red heart on the cap and armband instead of the cross | the protected emblem; the code recolour is a stopgap |
-| STORY-EPI-WRINKLES | the epilogue still: the same change on Hesper | same |
 | NPC-GUS | a file in Approved_Characters that matches no NPC id (either name it after a list entry or move it to Superseded) | housekeeping |
 | the 8 bestiary pictures with no image yet | BST-ECHO-OF-* (7 echoes) and BST-THE-PERFECT-COPY (the Gallery boss shows the castle board's cut-out meanwhile) | the Bestiary page shows the icon only |
-| ICON-GEAR-EARNEDBLADE | one gear icon missing (59 of 60) | the item shows a fallback icon |
 | 8 bestiary files that match no id | BST-COMPLIANCE-OFFICER, -DECONTAMINATION-TECHNICIAN, -FLEXING-BRUTE, -OBSERVATION-WARD-ORDERLY, -POSSESSED-SCARECROW-DRUID, -REGIME-CHECKPOINT-CAPTAIN, -ROOTBOUND-MILLER, -ZOMBIE-INTERN: rename to their foes' ids or supersede | housekeeping |
 
 Everything else on the Batch 14 list is in the game (Nov 9). Style drift of the glossy zone props (Gainlands gym, D.N.A. desk, Buffet cloche)

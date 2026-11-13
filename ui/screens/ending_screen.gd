@@ -471,6 +471,14 @@ const THANKS_HOLD: float = 9.0
 func _show_thanks() -> void:
 	if get_node_or_null("ThanksCard") != null or get_node_or_null("PostgameAnnouncement") != null:
 		return
+	# Batch 15 pass (Part 4, critic #1): the credits' words go when the card comes. After Skip they stood still on screen, and over the
+	# panorama (a lighter night than over the old dark still) they showed through the card's own lines.
+	var credits_text: Control = get_node_or_null("Credits") as Control
+	if credits_text != null:
+		create_tween().tween_property(credits_text, "modulate:a", 0.0, 0.5)
+	for child: Node in get_children():
+		if child is FancyButton and (child as FancyButton).text == "Skip":
+			child.queue_free()  # the scroll ended by itself: Skip has nothing left to skip
 	var card: Control = Control.new()
 	card.name = "ThanksCard"
 	UIKit.full_rect(card)

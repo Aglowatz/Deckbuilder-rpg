@@ -4,6 +4,32 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.
+
+1. **The Rescuer walks away in Elowen's frames.** At the intro and at the cave mouth she still wears the disguise (scarf over her
+   face), and the disguise set has no walk frames. The five new sheets show Elowen undisguised. On both paths she walks away from the
+   camera, so her face is turned away, but the green cloak and white coat show. A masked walk set (SPR-RESCUER-*_WALK, five sheets,
+   the same format) would close it; the code picks it up by itself once imported.
+2. **Where else does Elowen walk?** The brief names the Lab, her rescue and the epilogue. Those are played as stills and dialogue: no
+   figure of hers moves there. The two places her figure moves (the intro, the cave mouth after each freed zone) both use the walk now.
+3. **The Capital has no dusk.** CAP-SHEET-WINDOWS-08 (lit) is used in the freed city after Primm; before that every window is -07.
+4. **Lanterns and fireworks stand in front of the castle, not behind it.** From inside the city the castle fills the view and the sky
+   is never in frame, so cards in the sky would not be seen. The lanterns climb from the grand stair; a burst blooms before the keep's
+   upper face every 4.5 to 9 seconds. `CapitalSkyFx` holds the numbers.
+5. **The locked packs:** the Refusemancer parcel's green seal is tinted rust in code to match its pack's medallion (the Necrocrat
+   parcel's green matches its pack). Delete the entry in `PackArt.LOCKED_SEAL_TINTS` to get the painted green back.
+6. **Madame Mirepoix's stall moved 3.4 m north.** The painted stalls face the camera, so hers now stands behind her; a second
+   (savoury) stall stands 5 m east of it with nobody at it.
+7. **The Shattered Gallery's map is 16:9** (the others are 3:2). The map screen shows it whole; the test allows it for this map only.
+8. **Not in the batch:** the six painted world maps (MAP-WORLD-*), the Gallery's eight bestiary pictures, and a painted face for the
+   Capital wall. Their rows in `docs/art/batch15_nov12.csv` say "Not delivered".
+9. **Crosspath's south edge** got a knee-high hedge along the ravine's lip and a shadow in the cleft. The lip's rock still shows as a
+   pale and violet strip between the two. Say if you want the hedge taller or the ravine hidden altogether.
+10. **The first-arrival grace is 3 seconds of free movement** (it was 2 seconds of wall-clock time, which a first conversation used
+    up). A roamer that hurts now waits 0.85 s, flashing, before it comes.
+
 ## Fable Nov 12d - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_2h.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12d`.

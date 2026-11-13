@@ -484,6 +484,8 @@ func _ready() -> void:
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""
 	_warn_path_limit.call_deferred()
+	if _screenshot_args.has("cave_exit"):
+		Session.cave_exit_pending = true  # Batch 15 pass (Part 4): a shot of the first step out of the cave (Maren's welcome)
 	if Session.cave_exit_pending and not _screenshot_args.has("quiet"):
 		Session.cave_exit_pending = false
 		# v0.4.2 hotfix: the hero is held from the first frame, so nothing (a hotkey, a popup) opens before the arrival queue runs. The queue

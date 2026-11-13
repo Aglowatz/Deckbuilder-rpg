@@ -1,0 +1,29 @@
+# Batch 15 pass, Part 4: Maren beside the cave mouth, then the Crease's Black Market with the new Fig Sly
+wait 4
+dev load c12_arrived
+wait 12
+shot p4_08_crosspath_beside_maren
+key E
+wait 1.6
+shot p4_09_maren_talk
+skip_dialogue 30
+wait 1
+dev load c13cap
+wait 14
+skip_dialogue
+dev goto manhole
+wait 1
+key E
+wait 6
+skip_dialogue
+wait 1
+dev goto fig
+wait 1.5
+key E
+wait 2
+shot p4_10_figsly_talk
+skip_dialogue 6
+wait 1.5
+shot p4_11_black_market
+key Escape
+wait 1

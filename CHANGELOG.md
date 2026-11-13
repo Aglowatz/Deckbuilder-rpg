@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.0.0 (Nov 13 2026)
+
+- The writing: 1,245 lines rewritten (the main story, the core cast, side content, passing lines) and 66 loading tips; one voice and
+  one endearment per character; Bertram Beetsworth clipped again; Elder Maren gives her name in her welcome at the cave mouth.
+- Batch 15 art (39 pictures): painted Capital windows (lit in the freed city), Primm's easel portraits, rubble rows on the Capital's
+  bare edges; the freed city's banners, rising lanterns and soft fireworks (still or off with Reduce motion and on Low-end); two Buffet
+  market stalls; the D.N.A.'s now-serving orb; the Dump's raccoon king statue and turning mill sails; new gym mats; the Shattered
+  Gallery's new map; Dex's table and card back; painted battle item slots, locked packs and pop-up banners; two gear icons; Hesper's
+  green leaf; Fig Sly with two arms; a panorama behind the credits.
+- Elowen walks: away into the trees at the end of the opening, and to the cave after each cave-mouth scene.
+- New Game on a fresh install skips the slot screen and starts the story.
+- Roamers that hurt (Tidy-Bots and the like) stop, flash and sound an alert before they come; the safe seconds after an arrival count
+  only while the hero can move.
+- The Capital's map: district names, the Crease as its own inset, no stacked labels. A smoother minimap everywhere.
+- The Crease's camera holds off the side walls; the Dump's south corners show no pale wedge; Crosspath's south edge is a hedge and a
+  shadowed ravine; the D.N.A.'s apron is dressed; the Wanderer's portrait fades at its right edge.
+- The dialogue workbook names its speakers correctly (Dex, Tilly, Pip, the Grand Chef, the Doppelganger) and includes the 56 tutorial
+  hints.
+
 ## v1.0.0-rc6 - release candidate 6 (Nov 12 2026)
 
 - The Hollow Well in the Forgotten Cave is an offer: sacrifice a random card for the rest of the dungeon, heal 4 HP. The card comes back

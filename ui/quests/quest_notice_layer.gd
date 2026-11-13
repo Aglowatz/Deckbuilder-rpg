@@ -117,7 +117,7 @@ static func objective_line(quest: QuestData) -> String:
 func _process(_delta: float) -> void:
 	# Fix pass Nov 7 (item 5, C7 F1): a conversation that opens over a notice sends it back to the front of the queue (it covered Tilly's
 	# portrait and her first lines); it plays again once the conversation is over.
-	if _showing and not hold and dialogue_open(get_tree()):
+	if _showing and not hold and (dialogue_open(get_tree()) or screen_open(get_tree())):
 		if _tween != null:
 			_tween.kill()
 		_queue.push_front(current)
@@ -133,12 +133,22 @@ func _process(_delta: float) -> void:
 func _must_wait() -> bool:
 	if SceneManager.busy or get_tree().paused:
 		return true
-	if dialogue_open(get_tree()):
+	if dialogue_open(get_tree()) or screen_open(get_tree()):
 		return true
 	return get_tree().current_scene is BattleScreen
 
 
 ## Fix pass Nov 7 (item 5): true while any dialogue box is open.
+## Batch 15 pass (Part 4, critic #3): true while the world scene has a full screen open over it (a shop, the deck builder, a map): a
+## notice there covered the screen's title and the vendor's words ("QUEST COMPLETE" over the Black Market). It plays once the screen closes.
+static func screen_open(tree: SceneTree) -> bool:
+	var scene: Node = tree.current_scene
+	if scene == null or not ("_overlay" in scene):
+		return false
+	var overlay: Variant = scene.get("_overlay")
+	return overlay is OverlayScreen and is_instance_valid(overlay) and (overlay as OverlayScreen).is_visible_in_tree()
+
+
 static func dialogue_open(tree: SceneTree) -> bool:
 	for node: Node in tree.get_nodes_in_group(DialogueBox.GROUP):
 		var box: DialogueBox = node as DialogueBox

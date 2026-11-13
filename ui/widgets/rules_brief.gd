@@ -62,9 +62,19 @@ static func split_title(title: String) -> Array[String]:
 	return ["The rules in play", title, ""]
 
 
+## The line over the rows: what the rows are (rules that stay on screen, or only something not yet seen).
+static func note_text(rules: Array[RuleBadges.Badge]) -> String:
+	for badge: RuleBadges.Badge in rules:
+		if not badge.hidden:
+			return "These rules are in play. The same icons stay on screen during the fight."
+	return "No special rules here, but this foe has a surprise."
+
+
 func _build(title: String, node: DungeonMap.MapNode = null) -> void:
 	PadFocus.register(self)  # controller support (Oct 26)
 	var parts: Array[String] = split_title(title)
+	if node != null and node.kind == DungeonMap.Kind.BOSS and parts[0] == "Before the fight":
+		parts[0] = "Before the boss"
 	var rules: Array[RuleBadges.Badge] = distinct_by_name(badges)
 	# many rules (a boss in a dungeon with zone rules): two columns and a lower banner, so the whole card fits the screen
 	_columns = 2 if rules.size() > 5 else 1
@@ -86,7 +96,8 @@ func _build(title: String, node: DungeonMap.MapNode = null) -> void:
 				card.set_banner_portrait(picture, false)
 	else:
 		card.set_icon("ICON-MAP-DUNGEON")
-	var note: Label = card.line("These rules are in play. The same icons stay on screen during the fight.", NodeCard.INK_SOFT, 19)
+	# Batch 15 pass (Part 4, critic #9): the boss's panel says so, and a fight whose only row is a hidden trait does not claim rules
+	var note: Label = card.line(note_text(rules), NodeCard.INK_SOFT, 19)
 	note.name = "BriefNote"
 	var rows: GridContainer = GridContainer.new()
 	rows.name = "RuleRows"
@@ -109,7 +120,7 @@ func _build(title: String, node: DungeonMap.MapNode = null) -> void:
 			scripted.add_theme_constant_override("v_separation", 8)
 			card.content.add_child(scripted)
 		(scripted if badge.kind == "scripted" and scripted != null else rows).add_child(_row(badge))
-	var go: FancyButton = card.button("Continue", true, "ICON-NODE-BATTLE" if not parts[2].is_empty() else "", 260.0)
+	var go: FancyButton = card.button("Continue", true, "", 260.0)  # no icon: the crossed-swords glyph read as a red X (cancel)
 	go.name = "BriefContinue"
 	go.pressed.connect(func() -> void:
 		Audio.sfx(&"ui_confirm")
