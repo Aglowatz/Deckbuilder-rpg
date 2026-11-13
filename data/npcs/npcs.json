@@ -1057,10 +1057,10 @@
 		"description": "A cheerful, toothless junk-trader granny who swears every card was 'found, not stolen'.",
 		"personality": "A cheerful, toothless junk-trader granny who swears every card was 'found, not stolen'. Has a raccoon on her shoulder at all times.",
 		"speech_style": "Folksy, rambling, cackling.",
-		"sample_line": "Found, not stolen, dearie! The raccoon found it. I just held on tight. Heh!",
+		"sample_line": "Found, not stolen, my lovely! The raccoon found it. I just held on tight. Hah!",
 		"barks": [
-			"Found, not stolen, dearie! The raccoon found it. I just held on tight. Heh!",
-			"Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!"
+			"Found, not stolen, my lovely! The raccoon found it. I just held on tight. Hah!",
+			"Born in a haybale, raised in a barn, my lovely, and I've never once paid full price."
 		],
 		"game_function": "Zone card vendor.",
 		"quest_links": [
@@ -1095,10 +1095,10 @@
 		"description": "A very serious druid who believes recycling is a sacred duty.",
 		"personality": "A very serious druid who believes recycling is a sacred duty. Sorts his own thoughts into labeled bins.",
 		"speech_style": "Earnest, lecturing, nature metaphors.",
-		"sample_line": "Every thought has a bin. Most of mine go in compost. That is not a complaint.",
+		"sample_line": "Every thought has its bin, and most of mine go in the compost, where they do some good.",
 		"barks": [
-			"Every thought has a bin. Most of mine go in compost. That is not a complaint.",
-			"The dishwasher talks back. I listen. Wisdom sometimes arrives with a rinse cycle."
+			"Every thought has its bin, and most of mine go in the compost, where they do some good.",
+			"Sit a while, if you like. Forty years I've sat here, and the fridges are good company."
 		],
 		"game_function": "Asks 4 questions about the Refusemancers.",
 		"quest_links": [],
@@ -1161,10 +1161,10 @@
 		"description": "A worried, kind druid who notices the corruption first.",
 		"personality": "A worried, kind druid who notices the corruption first. Also furious that someone keeps eating the compost (the raccoons).",
 		"speech_style": "Soft-spoken, then suddenly indignant.",
-		"sample_line": "The vines have started whispering. Also, SOMEBODY ate the compost AGAIN.",
+		"sample_line": "I think the vines have started whispering. And SOMEBODY ate the compost AGAIN.",
 		"barks": [
-			"The vines have started whispering. Also, SOMEBODY ate the compost AGAIN.",
-			"Eleven little trees in a row, one per birthday. Then nobody came for the twelfth."
+			"I think the vines have started whispering. And SOMEBODY ate the compost AGAIN.",
+			"Eleven little trees in a row, one for each birthday, and nobody came for the twelfth."
 		],
 		"game_function": "Gives the Rotheart hook and the Trash Panda Throne quest (S-REF).",
 		"quest_links": [
