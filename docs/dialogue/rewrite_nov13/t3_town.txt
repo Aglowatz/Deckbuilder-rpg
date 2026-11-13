@@ -5,15 +5,15 @@
 ## purpose: Introduce Bertram as the earnest, rule-bound smith so the player knows where gear comes from and that he runs on numbered protocols.
 @intro::equipment_vendor_intro_lines
 #   [Bertram Beetsworth, Assistant to the Regional Merchant] equipment vendor: first meeting / before the battle
-0| Security Protocol One requires me to assess every customer's gait before they reach the counter. Yours is adequate, so you may approach at your current level of walking.
-1| I am Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing, and I would thank you not to drop it.
-2| Everything on this rack is inventoried and oiled under Security Protocol Seven, which is strictly need-to-know, and I have checked the list and you do not need to know.
-3| Please do not reach for the drawer, because its contents are classified, and as of this moment so is your interest in them.
+0| Security Protocol One: assess the customer's gait. Adequate - you may approach at your current level of walking.
+1| Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing.
+2| Everything on this rack is inventoried and oiled under Security Protocol Seven. Protocol Seven is need-to-know. You do not need to know.
+3| Do not reach for the drawer. Its contents are classified, and so is your interest in them.
 
 @intro::equipment_vendor_return_lines
 #   [Bertram Beetsworth, Assistant to the Regional Merchant] equipment vendor: later visits
-0| Fact: a return customer strengthens the economy and also my employee-of-the-month case file, so I would ask you to look satisfied for the record.
-1| Fact: the beets came in early this year, and the bear has been informed. We have an understanding, in which I do not ask why it is here and it does not ask about the beets.
+0| A return customer strengthens the economy and my employee-of-the-month case file. Please look satisfied for the record.
+1| Fact: the beets came in early this year, and the bear has been informed. We have an understanding. I do not ask why it is here, and it does not ask about the beets.
 
 ## purpose: Introduce Sable the card seller and teach that Path cards are where the power is and that decks are changed at the Deck Station.
 @intro::town.vendor.first
@@ -36,9 +36,9 @@
 @intro::town.item_vendor.gift
 #   [(check key)] Town: item vendor gift
 0| Your first visit gets a freebie, and it's Power Wraps! You wrap a unit and it gets tougher for the whole fight, and I wrapped my own arm once to test them and it's still tough, and also still a bit stuck.
-1| Here's how you get them ready: press C, or go to Menu and then Character, and find Items, which is the big shiny panel, and I promise you can't miss it.
+1| Here's how to get them ready. Press C, or Menu then Character, and find Items. It's the big shiny panel, so you can't miss it!
 2| Click the Power Wraps and then click an empty slot, and that's all there is to it. A slotted item is ready in every fight until it's used up.
-3| It's one wrap and one use and then it's gone, but there are more on my shelf, and look, I've gone green again, and green means business is good.
+3| One wrap is one use, and then it's gone, but there are more on my shelf. And look, I've gone green again! Green means business is good.
 
 @intro::town.item_vendor.gift_waiting
 #   [(check key)] Town: item vendor gift waiting
@@ -199,7 +199,7 @@
 @intro::town.pack_vendor.return
 #   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (return)
 0| Browse, sniff, but don't shake the packs. ...A little, then; I'm a collector, not a strong person.
-1| A repeat customer... shh, listen to that foil. I think you understand me, and I honestly don't know what to do with that.
+1| A repeat customer... shh, listen to that foil. You understand me, and I don't know what to do with that.
 
 @intro::town.pack_vendor.prismatic_reveal
 #   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (prismatic reveal)
@@ -309,7 +309,7 @@
 @intro::travel.intro.zone
 #   [Rip Tearson and cousins] Travel: intro zone
 0| HNNNGH... Rip Tearson, Beefcake Rift Express, proudly serving this exact spot. I'm one of the cousins, and I'm happy to say we hire entirely on relative strength.
-1| We're all very proud of one another, the whole family, and we show it by rarely speaking.
+1| We are all very proud of one another and rarely speak.
 2| So just say where you're headed, buddy, and we'll rip it for you.
 
 @intro::travel.return.zone

@@ -228,6 +228,7 @@
 		"file": "data/story/dna_story.tres",
 		"speaker": "Director Ectomund",
 		"before": "Statistically, you will still fail a question, and statistically I will still enjoy it. That is not corruption. That is personality.",
-		"after": "Statistically you will still fail a question, and statistically I shall still enjoy it. That is not corruption, I am assured. That is merely personality."
+		"after": "Statistically you will still fail a question, and statistically I shall still enjoy it. That is not corruption, I am assured. That is merely personality.",
+		"reverted": true
 	}
 ]

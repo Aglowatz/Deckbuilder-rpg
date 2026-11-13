@@ -1,0 +1,442 @@
+{
+	"1": {
+		"tier": 1,
+		"group": "data/dungeons/dungeon_content.json::quest.path_direction",
+		"new": "B",
+		"ids": [
+			"data/dungeons/dungeon_content.json::quest.path_direction::0",
+			"data/dungeons/dungeon_content.json::quest.path_direction::1",
+			"data/dungeons/dungeon_content.json::quest.path_direction::2",
+			"data/dungeons/dungeon_content.json::quest.path_direction::5"
+		]
+	},
+	"2": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::memory.4",
+		"new": "B",
+		"ids": [
+			"data/story/intro_story.tres::memory.4.intro::0",
+			"data/story/intro_story.tres::memory.4.after::0",
+			"data/story/intro_story.tres::memory.4.after::1",
+			"data/story/intro_story.tres::memory.4.after::2",
+			"data/story/intro_story.tres::memory.4.after::3",
+			"data/story/intro_story.tres::memory.4.after::4"
+		]
+	},
+	"3": {
+		"tier": 1,
+		"group": "data/story/gainlands_story.tres::cutscene.flex",
+		"new": "A",
+		"ids": [
+			"data/story/gainlands_story.tres::cutscene.flex.2::0",
+			"data/story/gainlands_story.tres::cutscene.flex.3::1",
+			"data/story/gainlands_story.tres::cutscene.flex.4::0",
+			"data/story/gainlands_story.tres::cutscene.flex.5::0",
+			"data/story/gainlands_story.tres::cutscene.flex.5::1"
+		]
+	},
+	"4": {
+		"tier": 1,
+		"group": "data/dungeons/dungeon_content.json::cave_mouth.maren_path",
+		"new": "B",
+		"ids": [
+			"data/dungeons/dungeon_content.json::cave_mouth.maren_path::0",
+			"data/dungeons/dungeon_content.json::cave_mouth.maren_path::1",
+			"data/dungeons/dungeon_content.json::cave_mouth.maren_path::2"
+		]
+	},
+	"5": {
+		"tier": 1,
+		"group": "data/story/story_scenes.json::scene pc_capture",
+		"new": "B",
+		"ids": [
+			"data/story/story_scenes.json::scenes/pc_capture/steps/0::1",
+			"data/story/story_scenes.json::scenes/pc_capture/steps/1::1",
+			"data/story/story_scenes.json::scenes/pc_capture/steps/6::1",
+			"data/story/story_scenes.json::scenes/pc_capture/steps/7::1",
+			"data/story/story_scenes.json::scenes/pc_capture/steps/9::1"
+		]
+	},
+	"6": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::tutorial.warden",
+		"new": "A",
+		"ids": [
+			"data/story/intro_story.tres::tutorial.warden.before::0",
+			"data/story/intro_story.tres::tutorial.warden.before::1",
+			"data/story/intro_story.tres::tutorial.warden.before::2",
+			"data/story/intro_story.tres::tutorial.warden.after::0",
+			"data/story/intro_story.tres::tutorial.warden.after::1"
+		]
+	},
+	"7": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::beefcake_npc_victory_lines",
+		"new": "A",
+		"ids": [
+			"data/story/intro_story.tres::beefcake_npc_victory_lines::0",
+			"data/story/intro_story.tres::beefcake_npc_victory_lines::1",
+			"data/story/intro_story.tres::beefcake_npc_victory_lines::2"
+		]
+	},
+	"8": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::memory.3",
+		"new": "A",
+		"ids": [
+			"data/story/intro_story.tres::memory.3.intro::0",
+			"data/story/intro_story.tres::memory.3.after::0",
+			"data/story/intro_story.tres::memory.3.after::1",
+			"data/story/intro_story.tres::memory.3.after::2",
+			"data/story/intro_story.tres::memory.3.after::3",
+			"data/story/intro_story.tres::memory.3.after::4"
+		]
+	},
+	"9": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::cave_mouth.maren",
+		"new": "A",
+		"ids": [
+			"data/story/intro_story.tres::cave_mouth.maren::0",
+			"data/story/intro_story.tres::cave_mouth.maren::1",
+			"data/story/intro_story.tres::cave_mouth.maren::2",
+			"data/story/intro_story.tres::cave_mouth.maren::3"
+		]
+	},
+	"10": {
+		"tier": 1,
+		"group": "data/story/intro_story.tres::necrocrat_npc_victory_lines",
+		"new": "B",
+		"ids": [
+			"data/story/intro_story.tres::necrocrat_npc_victory_lines::0",
+			"data/story/intro_story.tres::necrocrat_npc_victory_lines::1",
+			"data/story/intro_story.tres::necrocrat_npc_victory_lines::2"
+		]
+	},
+	"11": {
+		"tier": 2,
+		"group": "data/dungeons/dungeon_content.json::npc.kestrel",
+		"new": "A",
+		"ids": [
+			"data/dungeons/dungeon_content.json::npc.kestrel.intro::0",
+			"data/dungeons/dungeon_content.json::npc.kestrel.intro::1",
+			"data/dungeons/dungeon_content.json::npc.kestrel.return::0"
+		]
+	},
+	"12": {
+		"tier": 2,
+		"group": "data/story/dna_story.tres::quest.dna_onboarding",
+		"new": "A",
+		"ids": [
+			"data/story/dna_story.tres::quest.dna_onboarding.active::0",
+			"data/story/dna_story.tres::quest.dna_onboarding.done::0",
+			"data/story/dna_story.tres::quest.dna_onboarding.offer::0",
+			"data/story/dna_story.tres::quest.dna_onboarding.offer::1",
+			"data/story/dna_story.tres::quest.dna_onboarding.ready::0",
+			"data/story/dna_story.tres::quest.dna_onboarding.ready::1"
+		]
+	},
+	"13": {
+		"tier": 2,
+		"group": "data/story/story_scenes.json::scene pc_plume_memo",
+		"new": "B",
+		"ids": [
+			"data/story/story_scenes.json::scenes/pc_plume_memo/steps/2::1",
+			"data/story/story_scenes.json::scenes/pc_plume_memo/steps/2::2",
+			"data/story/story_scenes.json::scenes/pc_plume_memo/steps/4::1",
+			"data/story/story_scenes.json::scenes/pc_plume_memo_after/steps/0::2"
+		]
+	},
+	"14": {
+		"tier": 2,
+		"group": "data/story/story_scenes.json::scene clipwell_lawn",
+		"new": "B",
+		"ids": [
+			"data/story/story_scenes.json::scenes/clipwell_lawn/steps/1::1",
+			"data/story/story_scenes.json::scenes/clipwell_lawn/steps/2::1",
+			"data/story/story_scenes.json::scenes/clipwell_lawn/steps/4::1",
+			"data/story/story_scenes.json::scenes/clipwell_lawn/steps/5::1"
+		]
+	},
+	"15": {
+		"tier": 2,
+		"group": "data/story/refusemancer_story.tres::npc.wren",
+		"new": "A",
+		"ids": [
+			"data/story/refusemancer_story.tres::npc.wren.intro::0",
+			"data/story/refusemancer_story.tres::npc.wren.intro::1",
+			"data/story/refusemancer_story.tres::npc.wren.return::0",
+			"data/story/refusemancer_story.tres::npc.wren.intro.freed::0",
+			"data/story/refusemancer_story.tres::npc.wren.intro.freed::1",
+			"data/story/refusemancer_story.tres::npc.wren.return.freed::0",
+			"data/story/refusemancer_story.tres::npc.wren.return.freed::1"
+		]
+	},
+	"16": {
+		"tier": 2,
+		"group": "data/story/capital_story.tres::npc.spotless",
+		"new": "A",
+		"ids": [
+			"data/story/capital_story.tres::npc.spotless.intro::1",
+			"data/story/capital_story.tres::npc.spotless.intro::2",
+			"data/story/capital_story.tres::npc.spotless.intro::3"
+		]
+	},
+	"17": {
+		"tier": 2,
+		"group": "data/story/story_scenes.json::scene crumb_paste_works",
+		"new": "A",
+		"ids": [
+			"data/story/story_scenes.json::scenes/crumb_paste_works/steps/1::1",
+			"data/story/story_scenes.json::scenes/crumb_paste_works/steps/1::2",
+			"data/story/story_scenes.json::scenes/crumb_paste_works/steps/3::1",
+			"data/story/story_scenes.json::scenes/crumb_paste_works_after/steps/0::1",
+			"data/story/story_scenes.json::scenes/crumb_paste_works_after/steps/3::1"
+		]
+	},
+	"18": {
+		"tier": 2,
+		"group": "data/story/capital_story.tres::npc.hesper",
+		"new": "A",
+		"ids": [
+			"data/story/capital_story.tres::npc.hesper.intro::1",
+			"data/story/capital_story.tres::npc.hesper.intro::3",
+			"data/story/capital_story.tres::npc.hesper.intro.freed::1"
+		]
+	},
+	"19": {
+		"tier": 2,
+		"group": "data/story/capital_story.tres::quest.cap_wheels",
+		"new": "A",
+		"ids": [
+			"data/story/capital_story.tres::quest.cap_wheels.offer::0",
+			"data/story/capital_story.tres::quest.cap_wheels.offer::1",
+			"data/story/capital_story.tres::quest.cap_wheels.active::0",
+			"data/story/capital_story.tres::quest.cap_wheels.ready::0",
+			"data/story/capital_story.tres::quest.cap_wheels.ready::1",
+			"data/story/capital_story.tres::quest.cap_wheels.ready::2",
+			"data/story/capital_story.tres::quest.cap_wheels.ready::3",
+			"data/story/capital_story.tres::quest.cap_wheels.done::0"
+		]
+	},
+	"20": {
+		"tier": 2,
+		"group": "data/story/capital_story.tres::npc.rollo",
+		"new": "A",
+		"ids": [
+			"data/story/capital_story.tres::npc.rollo.intro::0",
+			"data/story/capital_story.tres::npc.rollo.intro::1",
+			"data/story/capital_story.tres::npc.rollo.return::0",
+			"data/story/capital_story.tres::npc.rollo.return::1",
+			"data/story/capital_story.tres::npc.rollo.intro.freed::0",
+			"data/story/capital_story.tres::npc.rollo.return.freed::0"
+		]
+	},
+	"21": {
+		"tier": 3,
+		"group": "data/dungeons/dungeon_content.json::cardsharp.quip.miss",
+		"new": "A",
+		"ids": [
+			"data/dungeons/dungeon_content.json::cardsharp.quip.miss::0",
+			"data/dungeons/dungeon_content.json::cardsharp.quip.miss::1",
+			"data/dungeons/dungeon_content.json::cardsharp.quip.miss::2",
+			"data/dungeons/dungeon_content.json::cardsharp.quip.miss::3",
+			"data/dungeons/dungeon_content.json::cardsharp.quip.miss::4"
+		]
+	},
+	"22": {
+		"tier": 3,
+		"group": "data/story/refusemancer_story.tres::npc.minigame",
+		"new": "B",
+		"ids": [
+			"data/story/refusemancer_story.tres::npc.minigame.intro::0",
+			"data/story/refusemancer_story.tres::npc.minigame.intro::1",
+			"data/story/refusemancer_story.tres::npc.minigame.intro::2",
+			"data/story/refusemancer_story.tres::npc.minigame.intro::3",
+			"data/story/refusemancer_story.tres::npc.minigame.return::0",
+			"data/story/refusemancer_story.tres::npc.minigame.return::1"
+		]
+	},
+	"23": {
+		"tier": 3,
+		"group": "data/dungeons/dungeon_content.json::quest.side_s_gour",
+		"new": "A",
+		"ids": [
+			"data/dungeons/dungeon_content.json::quest.side_s_gour.offer::0",
+			"data/dungeons/dungeon_content.json::quest.side_s_gour.offer::1",
+			"data/dungeons/dungeon_content.json::quest.side_s_gour.active::0",
+			"data/dungeons/dungeon_content.json::quest.side_s_gour.ready::0",
+			"data/dungeons/dungeon_content.json::quest.side_s_gour.done::0"
+		]
+	},
+	"24": {
+		"tier": 3,
+		"group": "data/story/intro_story.tres::equipment_vendor_intro_lines",
+		"new": "B",
+		"ids": [
+			"data/story/intro_story.tres::equipment_vendor_intro_lines::0",
+			"data/story/intro_story.tres::equipment_vendor_intro_lines::1",
+			"data/story/intro_story.tres::equipment_vendor_intro_lines::2",
+			"data/story/intro_story.tres::equipment_vendor_intro_lines::3"
+		]
+	},
+	"25": {
+		"tier": 3,
+		"group": "data/story/dna_story.tres::npc.matching",
+		"new": "A",
+		"ids": [
+			"data/story/dna_story.tres::npc.matching.intro::0",
+			"data/story/dna_story.tres::npc.matching.intro::1",
+			"data/story/dna_story.tres::npc.matching.intro::3",
+			"data/story/dna_story.tres::npc.matching.intro::4",
+			"data/story/dna_story.tres::npc.matching.return::0",
+			"data/story/dna_story.tres::npc.matching.return::1",
+			"data/story/dna_story.tres::npc.matching.return.freed::0",
+			"data/story/dna_story.tres::npc.matching.return.freed::1"
+		]
+	},
+	"26": {
+		"tier": 3,
+		"group": "data/story/intro_story.tres::town.pack_vendor",
+		"new": "B",
+		"ids": [
+			"data/story/intro_story.tres::town.pack_vendor.first::1",
+			"data/story/intro_story.tres::town.pack_vendor.first::2",
+			"data/story/intro_story.tres::town.pack_vendor.first::3",
+			"data/story/intro_story.tres::town.pack_vendor.return::1"
+		]
+	},
+	"27": {
+		"tier": 3,
+		"group": "data/story/intro_story.tres::town.item_vendor.gift",
+		"new": "B",
+		"ids": [
+			"data/story/intro_story.tres::town.item_vendor.gift::0",
+			"data/story/intro_story.tres::town.item_vendor.gift::1",
+			"data/story/intro_story.tres::town.item_vendor.gift::2",
+			"data/story/intro_story.tres::town.item_vendor.gift::3"
+		]
+	},
+	"28": {
+		"tier": 3,
+		"group": "data/story/gainlands_story.tres::quest.side_s_beef",
+		"new": "A",
+		"ids": [
+			"data/story/gainlands_story.tres::quest.side_s_beef.offer::0",
+			"data/story/gainlands_story.tres::quest.side_s_beef.offer::1",
+			"data/story/gainlands_story.tres::quest.side_s_beef.active::0",
+			"data/story/gainlands_story.tres::quest.side_s_beef.ready::0",
+			"data/story/gainlands_story.tres::quest.side_s_beef.ready::1",
+			"data/story/gainlands_story.tres::quest.side_s_beef.done::0"
+		]
+	},
+	"29": {
+		"tier": 3,
+		"group": "data/story/intro_story.tres::travel.intro.zone",
+		"new": "A",
+		"ids": [
+			"data/story/intro_story.tres::travel.intro.zone::0",
+			"data/story/intro_story.tres::travel.intro.zone::1",
+			"data/story/intro_story.tres::travel.intro.zone::2"
+		]
+	},
+	"30": {
+		"tier": 3,
+		"group": "data/story/dna_story.tres::npc.quiz",
+		"new": "A",
+		"ids": [
+			"data/story/dna_story.tres::npc.quiz.intro::0",
+			"data/story/dna_story.tres::npc.quiz.intro::1",
+			"data/story/dna_story.tres::npc.quiz.intro::3",
+			"data/story/dna_story.tres::npc.quiz.return::0",
+			"data/story/dna_story.tres::npc.quiz.return.freed::0",
+			"data/story/dna_story.tres::npc.quiz.return.freed::1"
+		]
+	},
+	"31": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-HOB.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::NPC-HOB.barks::0",
+			"data/npcs/npcs.json::NPC-HOB.barks::1"
+		]
+	},
+	"32": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-MULLIGAN.barks",
+		"new": "A",
+		"ids": [
+			"data/npcs/npcs.json::NPC-MULLIGAN.barks::0",
+			"data/npcs/npcs.json::NPC-MULLIGAN.barks::1"
+		]
+	},
+	"33": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-VILLAGER.barks",
+		"new": "A",
+		"ids": [
+			"data/npcs/npcs.json::NPC-VILLAGER.barks::1"
+		]
+	},
+	"34": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-GRAVOIS.barks",
+		"new": "A",
+		"ids": [
+			"data/npcs/npcs.json::NPC-GRAVOIS.barks::0",
+			"data/npcs/npcs.json::NPC-GRAVOIS.barks::1"
+		]
+	},
+	"35": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::V-FENWICK.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::V-FENWICK.barks::0",
+			"data/npcs/npcs.json::V-FENWICK.barks::1"
+		]
+	},
+	"36": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-AGNES.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::NPC-AGNES.barks::1"
+		]
+	},
+	"37": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::V-BEETSWORTH.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::V-BEETSWORTH.barks::0",
+			"data/npcs/npcs.json::V-BEETSWORTH.barks::1"
+		]
+	},
+	"38": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-PATE.barks",
+		"new": "A",
+		"ids": [
+			"data/npcs/npcs.json::NPC-PATE.barks::1"
+		]
+	},
+	"39": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-FLAMBE.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::NPC-FLAMBE.barks::0"
+		]
+	},
+	"40": {
+		"tier": 4,
+		"group": "data/npcs/npcs.json::NPC-PRIMM.barks",
+		"new": "B",
+		"ids": [
+			"data/npcs/npcs.json::NPC-PRIMM.barks::0",
+			"data/npcs/npcs.json::NPC-PRIMM.barks::1"
+		]
+	}
+}

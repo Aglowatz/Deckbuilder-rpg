@@ -340,7 +340,8 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Billie Muckfoot",
 		"before": "Into a bucket, though. The plants could use it.",
-		"after": "I'll do it into a bucket, though. The plants could use the water, and nothing goes to waste round here."
+		"after": "I'll do it into a bucket, though. The plants could use the water, and nothing goes to waste round here.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/story_scenes.json::scenes/clipwell_fled/steps/0::1",

@@ -249,14 +249,16 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
-		"after": "Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you."
+		"after": "Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::V-BEETSWORTH.barks::1",
 		"file": "data/npcs/npcs.json",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Assistant TO the Regional Merchant. The TO is load-bearing. Say it.",
-		"after": "I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it."
+		"after": "I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::V-THREADWELL.barks::0",
@@ -354,7 +356,8 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Chef Fennel Gravois",
 		"before": "The pantry key is shaped like a ladle. Don't ask why. The answer is soup.",
-		"after": "The pantry key is shaped like a ladle, and if you ask me why, the answer is soup."
+		"after": "The pantry key is shaped like a ladle, and if you ask me why, the answer is soup.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::NPC-MULLIGAN.barks::0",
@@ -411,7 +414,8 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Old Hob the Gravedigger (secretly Death)",
 		"before": "Checked my book. You're not in it, not for a good long while. Heh.",
-		"after": "Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh."
+		"after": "Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::NPC-HOB.barks::1",

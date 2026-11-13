@@ -67,28 +67,32 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Name's Rollo Spokes... wheel foreman, Beefcake, out of the Gainlands. Back home... a wheel stopped at night... and so did the man on it.",
-		"after": "Give me a second... Rollo Spokes. I'm a wheel foreman, a Beefcake out of the Gainlands. Back home, when a wheel stopped for the night... the man on it stopped too, and went home to his supper."
+		"after": "Give me a second... Rollo Spokes. I'm a wheel foreman, a Beefcake out of the Gainlands. Back home, when a wheel stopped for the night... the man on it stopped too, and went home to his supper.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.rollo.intro::1",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Here, the facade needs lighting... so we pedal it. No pay, no end. They told us it was cardio... My calves have calves.",
-		"after": "Here the facade wants lighting day and night... so we pedal it, with no pay and no end of shift. They told us it was cardio... and I'll say this much for it, my calves have grown calves."
+		"after": "Here the facade wants lighting day and night... so we pedal it, with no pay and no end of shift. They told us it was cardio... and I'll say this much for it, my calves have grown calves.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.rollo.return::0",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Three wheels in the Yards... pull each brake and talk to the crew. Then the big cable by the east wall, the one that feeds the facade... cut it.",
-		"after": "There's three wheels in the Yards... pull the brake on each one and have a word with the crew. After that it's the big cable by the east wall, the one that feeds the facade... you cut that."
+		"after": "There's three wheels in the Yards... pull the brake on each one and have a word with the crew. After that it's the big cable by the east wall, the one that feeds the facade... you cut that.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.rollo.return::1",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "The crews won't get off... till somebody tells them it's all right to. So you tell them... and mean it.",
-		"after": "They won't climb down off those wheels... not till somebody tells them it's all right to. So you tell them... and you mean it when you do, because they'll know if you don't."
+		"after": "They won't climb down off those wheels... not till somebody tells them it's all right to. So you tell them... and you mean it when you do, because they'll know if you don't.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.marlo.intro::0",
@@ -280,56 +284,64 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Three wheels in the Transit Yards... three crews nobody ever told to stop. Pull each brake lever... and tell them it's all right, in plain words.",
-		"after": "There's three wheels in the Transit Yards... and three crews on them that nobody ever told to stop. Pull the brake lever on each one... and tell them it's all right, in plain words they can't mishear."
+		"after": "There's three wheels in the Transit Yards... and three crews on them that nobody ever told to stop. Pull the brake lever on each one... and tell them it's all right, in plain words they can't mishear.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.offer::1",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "They won't believe you at first... say it anyway. Then cut the big cable by the east wall. Those facade lights have run on my crews' legs... for ten years.",
-		"after": "They won't believe you the first time... so you say it again. Then go and cut the big cable by the east wall. Those facade lights have been running on my crews' legs... for ten years now."
+		"after": "They won't believe you the first time... so you say it again. Then go and cut the big cable by the east wall. Those facade lights have been running on my crews' legs... for ten years now.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.active::0",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Three wheels in the Transit Yards... free the crews, then cut the big cable by the east wall. Keep telling them they can stop... it takes a few goes.",
-		"after": "Three wheels in the Transit Yards... get the crews off them, then cut the big cable by the east wall. And keep on telling them they can stop... it takes a few goes before it sinks in."
+		"after": "Three wheels in the Transit Yards... get the crews off them, then cut the big cable by the east wall. And keep on telling them they can stop... it takes a few goes before it sinks in.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.ready::0",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "I heard the lights flicker from here... then I heard the crews sit down. The whole yard's gone quiet.",
-		"after": "I heard the lights flicker from all the way over here... and then I heard my crews sit down, one wheel after another. The whole yard's gone quiet."
+		"after": "I heard the lights flicker from all the way over here... and then I heard my crews sit down, one wheel after another. The whole yard's gone quiet.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.ready::1",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Haven't heard a quiet yard since the coup. Thank you.",
-		"after": "I haven't heard a yard go quiet since the coup... and I'd forgotten how much I liked it. Thank you."
+		"after": "I haven't heard a yard go quiet since the coup... and I'd forgotten how much I liked it. Thank you.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.ready::2",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "Here... from the old days. We gave these out... at the end of a shift. Remember ends?",
-		"after": "Here, take this... it's from the old days. We used to hand these out at the end of a shift... back when a shift had an end to it."
+		"after": "Here, take this... it's from the old days. We used to hand these out at the end of a shift... back when a shift had an end to it.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.ready::3",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "One more thing about the man in the castle: he made lateness illegal. That's a man who can't bear to wait for anyone.",
-		"after": "One more thing, about the man in the castle... he made lateness illegal. Now what sort of man does that? One who can't bear to wait for anybody, that's who."
+		"after": "One more thing, about the man in the castle... he made lateness illegal. Now what sort of man does that? One who can't bear to wait for anybody, that's who.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_wheels.done::0",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Rollo Spokes",
 		"before": "The wheels are slowing... and the crews are resting. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive.",
-		"after": "The wheels are slowing down... and the crews are getting some rest at last. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive."
+		"after": "The wheels are slowing down... and the crews are getting some rest at last. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::quest.cap_recipes.offer::0",
@@ -644,21 +656,24 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Kestrel",
 		"before": "Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
-		"after": "Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise."
+		"after": "Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.",
+		"reverted": true
 	},
 	{
 		"id": "data/dungeons/dungeon_content.json::npc.kestrel.intro::1",
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Kestrel",
 		"before": "Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's.",
-		"after": "Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
+		"after": "Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's.",
+		"reverted": true
 	},
 	{
 		"id": "data/dungeons/dungeon_content.json::npc.kestrel.return::0",
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Kestrel",
 		"before": "Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else.",
-		"after": "Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger."
+		"after": "Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/story_scenes.json::scenes/crumb_paste_works/steps/1::1",

@@ -270,4 +270,4 @@
 @dna::npc.quiz.return.freed
 #   [Director Ectomund] Talking to Director Ectomund (return) (after the zone is freed)
 0| Back again, I see. You may be glad to hear that the ethics questions have been returned to the building, though not yet to the exam, for I believe in one reform at a time.
-1| Statistically you will still fail a question, and statistically I shall still enjoy it. That is not corruption, I am assured. That is merely personality.
+1| Statistically, you will still fail a question, and statistically I will still enjoy it. That is not corruption. That is personality.

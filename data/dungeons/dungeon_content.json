@@ -1804,7 +1804,7 @@
 		"quest.path_direction": [
 			"There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily.",
 			"You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads.",
-			"Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.",
+			"Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.",
 			"Start with {zone}. Your deck is {path} through and through, so it'll be the easiest road for you. {gatekeeper} holds {road} at {obstacle}.",
 			"Your Path stands a little taller in there. {buff}: {buff_text} It's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone} it's the other way round, so mind that when you get there.",
 			"I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back."
@@ -1875,11 +1875,11 @@
 			"Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way through to the Trash Panda Throne. I would bring a peg for your nose, if I were you."
 		],
 		"npc.kestrel.intro": [
-			"Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.",
-			"Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
+			"Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
+			"Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
 		],
 		"npc.kestrel.return": [
-			"Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger."
+			"Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
 		],
 		"quest.side_s_cap.offer": [
 			"There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't show it to strangers.",
@@ -1983,7 +1983,7 @@
 			"Cell 4"
 		],
 		"cave_mouth.maren_path": [
-			"One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you.",
+			"One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the easiest one for you.",
 			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.",
 			"Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself."
 		],

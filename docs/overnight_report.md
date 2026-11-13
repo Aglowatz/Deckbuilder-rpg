@@ -9,9 +9,9 @@ drafting agents (at most 3 at once) only ran while no Godot ran. Ran on Fable 5.
 - **All four tiers are done and in the game: 1,245 lines rewritten** out of 4,405 exported (plus the 66 loading tips), every tier tested,
   committed and pushed. Final GUT: **3070/3072, 0 failing** (2 risky/pending, the same two as before the pass); the prologue smoke passes. The harness twice stopped the background test run for low memory, so the suite was finished in the foreground from the shard it had reached (inbox 9).
 - **A new story bible and voice sheets** drive it: `docs/writing/story_bible_v2.md` and `docs/writing/voices.md`.
-- **A blind reader preferred the new text in 23 of 40 conversations.** Voice distinctness and emotional impact went up; naturalness went
-  slightly down, because some new lines were padded. That is an honest, mixed result: see "The critic" below for what it means and what
-  was fixed.
+- **Two blind readers found the old and new text about level** (new preferred 23 of 40, then 19 of 40 on a second sample). Both times
+  voice distinctness and emotional impact went up and naturalness went slightly down, because some new lines were padded. See "The
+  critic" below for what it means and the 73 lines fixed or put back because of it.
 - **Not every line changed, on purpose.** About 2,150 of the exported lines are dialogue or narration a rewrite could touch (the rest are
   labels, rule text, sign titles and quest-log wayfinding). Of those, 1,245 changed. The lines left alone are mostly narration that
   already flowed (the castle's rooms, the ending beats, the funeral), signs and memos (short and deadpan by design), and lines the story
@@ -125,6 +125,33 @@ A reader with no context got 40 conversations (10 per tier; tier 4 as barks), ea
   Shufflewick says them (a label in the exporter, not in the game); "Three." in the third cave-mouth scene is unclear without the count of
   zones on screen; "8 reps to one beat" does not say what to press (the rule text elsewhere does).
 
+### Second blind read (morning of Nov 13, after the fixes)
+
+A second reader, with a different sample of 40 conversations drawn from the fixed text (`docs/review/dialogue_nov13/round2/`):
+
+| | Naturalness | Voice | Emotion | Clarity | Humour | Mean |
+|---|---|---|---|---|---|---|
+| **Old** | 7.75 | 7.67 | 6.15 | 6.38 | 7.00 | 6.99 |
+| **New** | 7.53 | 7.95 | 6.47 | 6.28 | 6.80 | 7.00 |
+
+- **Level: new preferred in 19 of 40** (main story 4 of 10, core cast 6, side content 5, barks 4). Voice and emotion are up again;
+  naturalness and humour are slightly down again. Two readers now agree, so take this as the real picture: **the rewrite made the cast
+  more distinct and the sad scenes land harder, and it cost some snap.**
+- **The reader's rule, which matches the first one's:** fit the length to the speaker. Short, flat lines won for the terse, the hurried
+  and the deadpan (Kestrel, Rollo, Bertram, Ectomund, the Rip cousins). Longer, hedging lines won where the dithering is the character
+  (Gerald, Basil, Kyle, Old Man Mountain, the Hollow Warden). The losing versions either padded a joke or an instruction, or trimmed away
+  the one odd detail that made the speaker a person.
+- **Fixed after this read (41 lines): 37 put back to their original text and 4 rewritten.** Kestrel's first talk, Rollo's talk and his
+  wheel quest (his lines after the Capital is freed keep the new text), Bertram's greeting and barks, the Rip cousins' "rarely speak"
+  line, Ectomund's "That is not corruption. That is personality.", Pallor's "Ideally both.", Bronson's "a terrible souvenir", Flex's
+  "Now, shall we?", Maren's "And I ran.", and six barks went back. Tilly's two Power Wraps instructions were rewritten so the keys to
+  press can be followed, and Maren's road hint says "the easiest one for you" again.
+- **Counts after both rounds of fixes:** 1,208 lines differ from the text before tonight (Tier 1: 288, Tier 2: 383, Tier 3: 322,
+  Tier 4: 215), down from 1,245. The tier table above shows the first count.
+- After these fixes the full suite was run again in three foreground pieces (`run_tests.sh` has a new `--to=K`): 3070/3072, 0 failing.
+  The workbook was rebuilt and copied to the Drive again.
+- No third read was made. The pattern is clear enough that a human pass over the flagged speakers is the better next step.
+
 ## Checked in the game
 
 Play-script runs (`docs/review/play_scripts/nov13/`, with the new `dev textsize 1` for Large text) at 1280x720 and at 1920x1080 (this
@@ -133,8 +160,9 @@ Gainlands, and Primm's entrance in the Model Room (1280x720 only). Shots: `docs/
 no unfilled token; portraits match the speakers. Every one of the 1,245 lines also passed the importer's box measure (at most 4 lines at
 Normal and 6 at Large, the same measure as `tests/test_dialogue_fit.gd`).
 
-Not run in the game: a zone's whole main quest played through, the Capital's arrival, and the Primm fight to its ending (the play script
-reached his entrance; the mid-fight and ending scenes were checked by the box measure and the tests only).
+Added in the morning: Kestrel and Captain Spotless at the Capital (1280x720, Large text; two more shots). Not run in the game: a zone's
+whole main quest played through, Wren in the Crease, and the Primm fight to its ending (the play script reached his entrance and the
+victory screen but not the ending scene; the mid-fight and ending scenes were checked by the box measure and the tests only).
 
 ## Plants and payoffs
 

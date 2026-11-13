@@ -307,7 +307,7 @@
 @refusemancer::npc.wren.return.freed
 #   [Billie Muckfoot] Talking to Billie Muckfoot (return) (after the zone is freed)
 0| Every animal's home and there's not one of them mutated. I could cry, honestly, and I just might.
-1| I'll do it into a bucket, though. The plants could use the water, and nothing goes to waste round here.
+1| Into a bucket, though. The plants could use it.
 
 ## purpose: Compostella as herself. Mortified about the barn, plain about grief, and the sentence the hero carries to the end: the ones we lose go into everything.
 @refusemancer::freed_npc.compostella

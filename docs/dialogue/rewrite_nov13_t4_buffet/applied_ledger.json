@@ -110,14 +110,16 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Professor Pate",
 		"before": "Chalk again. Notes of limestone. Excellent body, no business being in my mouth.",
-		"after": "Chalk again, with notes of limestone. Excellent body, and no business in my mouth."
+		"after": "Chalk again, with notes of limestone. Excellent body, and no business in my mouth.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::NPC-FLAMBE.barks::0",
 		"file": "data/npcs/npcs.json",
 		"speaker": "Chef Flambe Fontaine",
 		"before": "ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!",
-		"after": "ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience!"
+		"after": "ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience!",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::NPC-BASIL.barks::0",

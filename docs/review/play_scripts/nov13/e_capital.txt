@@ -1,0 +1,45 @@
+# Nov 13 dialogue check: arriving at the Capital, Kestrel, Captain Spotless, the Crease and Wren, with Large text.
+wait 5
+dev newgame
+wait 6
+dev textsize 1
+dev travel capital
+wait 16
+shot e01
+skip_dialogue 20
+dev goto kestrel
+wait 1
+key E
+wait 3
+shot e02
+key E
+wait 3
+shot e03
+skip_dialogue 20
+dev goto spotless
+wait 1
+key E
+wait 3
+shot e04
+key E
+wait 3
+shot e05
+key E
+wait 3
+shot e06
+skip_dialogue 20
+wait 1
+key Escape
+wait 1
+dev goto wren
+wait 1
+key E
+wait 3
+shot e07
+key E
+wait 3
+shot e08
+key E
+wait 3
+shot e09
+dump

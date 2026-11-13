@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 59
+- Rows: 55
 - Applied: 0
-- Skipped (blank new line, unchanged, or applied before): 59
+- Skipped (blank new line, unchanged, or applied before): 55
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,8 +24,8 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Crosspath (first visit) | 57 | 0 | 57 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 54 | 0 | 54 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)
 

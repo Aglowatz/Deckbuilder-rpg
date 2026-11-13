@@ -2,7 +2,7 @@
 # Memory-safe full GUT run (Oct 31): the suite is split into shards of N test scripts, each run in a FRESH Godot process
 # (one at a time), so memory never piles up across ~290 scripts. Prints one line per shard and a combined summary with
 # every failing test by name. Logs: _logs/gut/shard_NN.log (+ summary.txt).
-# Usage: bash tools/run_tests.sh [--size=N] [--only=<path prefix, e.g. tests/core>] [--from=K] [--min-free=MB] [--wait-max=SEC]
+# Usage: bash tools/run_tests.sh [--size=N] [--only=<path prefix, e.g. tests/core>] [--from=K] [--to=K] [--min-free=MB] [--wait-max=SEC]
 #   --size  scripts per shard (default 10)   --only  run just the scripts under a prefix   --from  start at shard K (resume)
 #   --min-free  (Overnight Nov 10-11, inbox 13) before each shard, wait until the machine has at least this much free RAM in MB
 #               (default 900; a 12-file shard holds 400-630 MB; 0 = no wait), instead of being killed by the harness's memory guard
@@ -13,6 +13,7 @@ cd "$(dirname "$0")/.."
 SIZE=10
 ONLY="tests"
 FROM=1
+TO=0
 MIN_FREE=900
 WAIT_MAX=600
 for a in "$@"; do
@@ -20,6 +21,7 @@ for a in "$@"; do
 		--size=*) SIZE="${a#--size=}" ;;
 		--only=*) ONLY="${a#--only=}" ;;
 		--from=*) FROM="${a#--from=}" ;;
+		--to=*) TO="${a#--to=}" ;;
 		--min-free=*) MIN_FREE="${a#--min-free=}" ;;
 		--wait-max=*) WAIT_MAX="${a#--wait-max=}" ;;
 	esac
@@ -68,6 +70,8 @@ T_TESTS=0; T_PASS=0; T_FAIL=0; T_RISKY=0; CRASHED=""; FAILS=""
 start_all=$(date +%s)
 for ((s = 1; s <= SHARDS; s++)); do
 	log=$(printf "%s/shard_%02d.log" "$LOGDIR" "$s")
+	# Nov 13: --to=K stops after shard K, so a long run can be done in pieces that each fit one foreground call (resume with --from=K+1).
+	if (( TO > 0 && s > TO )); then break; fi
 	if (( s < FROM )); then
 		[ -f "$log" ] || continue
 	else

@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 293
-- Applied: 1
-- Skipped (blank new line, unchanged, or applied before): 292
+- Rows: 288
+- Applied: 2
+- Skipped (blank new line, unchanged, or applied before): 286
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -25,21 +25,22 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Prologue (Opening Forest) | 34 | 0 | 34 | 0 | 0 | 0 | 0 |
-| Crosspath (first visit) | 48 | 0 | 48 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 83 | 0 | 83 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 47 | 1 | 46 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 82 | 1 | 81 | 0 | 0 | 0 | 0 |
 | Postgame | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
-| The Capital | 46 | 1 | 45 | 0 | 0 | 0 | 0 |
-| Gainlands | 28 | 0 | 28 | 0 | 0 | 0 | 0 |
+| The Capital | 46 | 0 | 46 | 0 | 0 | 0 | 0 |
+| Gainlands | 26 | 0 | 26 | 0 | 0 | 0 | 0 |
 | Endless Buffet | 23 | 0 | 23 | 0 | 0 | 0 | 0 |
-| D.N.A. | 11 | 0 | 11 | 0 | 0 | 0 | 0 |
+| D.N.A. | 10 | 0 | 10 | 0 | 0 | 0 | 0 |
 | Verdant Dump | 15 | 0 | 15 | 0 | 0 | 0 | 0 |
 | Ending | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
 
-## Applied (1)
+## Applied (2)
 
 | id | Before | After |
 |---|---|---|
-| `data/story/capital_story.tres::npc.wren.intro::1` | Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better. | Maren sent word from {town} that someone might come. This is the Crease, and we're the Wrinkles: the people {villain} couldn't iron out. We have tea and grudges. The tea's better. |
+| `data/dungeons/dungeon_content.json::cave_mouth.maren_path::0` | One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you. | One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the easiest one for you. |
+| `data/story/intro_story.tres::memory.3.after::2` | {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away. | {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran. |
 
 ## Conflicts (0)
 

@@ -4,42 +4,48 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Security Protocol One: assess the customer's gait. Adequate - you may approach at your current level of walking.",
-		"after": "Security Protocol One requires me to assess every customer's gait before they reach the counter. Yours is adequate, so you may approach at your current level of walking."
+		"after": "Security Protocol One requires me to assess every customer's gait before they reach the counter. Yours is adequate, so you may approach at your current level of walking.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::1",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing.",
-		"after": "I am Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing, and I would thank you not to drop it."
+		"after": "I am Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing, and I would thank you not to drop it.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::2",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Everything on this rack is inventoried and oiled under Security Protocol Seven. Protocol Seven is need-to-know. You do not need to know.",
-		"after": "Everything on this rack is inventoried and oiled under Security Protocol Seven, which is strictly need-to-know, and I have checked the list and you do not need to know."
+		"after": "Everything on this rack is inventoried and oiled under Security Protocol Seven, which is strictly need-to-know, and I have checked the list and you do not need to know.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::equipment_vendor_intro_lines::3",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Do not reach for the drawer. Its contents are classified, and so is your interest in them.",
-		"after": "Please do not reach for the drawer, because its contents are classified, and as of this moment so is your interest in them."
+		"after": "Please do not reach for the drawer, because its contents are classified, and as of this moment so is your interest in them.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::equipment_vendor_return_lines::0",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "A return customer strengthens the economy and my employee-of-the-month case file. Please look satisfied for the record.",
-		"after": "Fact: a return customer strengthens the economy and also my employee-of-the-month case file, so I would ask you to look satisfied for the record."
+		"after": "Fact: a return customer strengthens the economy and also my employee-of-the-month case file, so I would ask you to look satisfied for the record.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::equipment_vendor_return_lines::1",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "Fact: the beets came in early this year, and the bear has been informed. We have an understanding. I do not ask why it is here, and it does not ask about the beets.",
-		"after": "Fact: the beets came in early this year, and the bear has been informed. We have an understanding, in which I do not ask why it is here and it does not ask about the beets."
+		"after": "Fact: the beets came in early this year, and the bear has been informed. We have an understanding, in which I do not ask why it is here and it does not ask about the beets.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.vendor.first::0",
@@ -102,7 +108,7 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "(check key)",
 		"before": "Here's how! Press C, or Menu then Character! Find Items, the big shiny panel!",
-		"after": "Here's how you get them ready: press C, or go to Menu and then Character, and find Items, which is the big shiny panel, and I promise you can't miss it."
+		"after": "Here's how to get them ready. Press C, or Menu then Character, and find Items. It's the big shiny panel, so you can't miss it!"
 	},
 	{
 		"id": "data/story/intro_story.tres::town.item_vendor.gift::2",
@@ -116,7 +122,7 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "(check key)",
 		"before": "One wrap, one use, then it's gone! More on my shelf! I'm green again! Green means business is good!",
-		"after": "It's one wrap and one use and then it's gone, but there are more on my shelf, and look, I've gone green again, and green means business is good."
+		"after": "One wrap is one use, and then it's gone, but there are more on my shelf. And look, I've gone green again! Green means business is good."
 	},
 	{
 		"id": "data/story/intro_story.tres::town.item_vendor.gift_waiting::0",
@@ -465,7 +471,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Foil Fenwick",
 		"before": "A repeat customer... shh, listen to that foil. You understand me, and I don't know what to do with that.",
-		"after": "A repeat customer... shh, listen to that foil. I think you understand me, and I honestly don't know what to do with that."
+		"after": "A repeat customer... shh, listen to that foil. I think you understand me, and I honestly don't know what to do with that.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.pack_vendor.prismatic_reveal::0",
@@ -689,7 +696,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Rip Tearson and cousins",
 		"before": "We are all very proud of one another and rarely speak.",
-		"after": "We're all very proud of one another, the whole family, and we show it by rarely speaking."
+		"after": "We're all very proud of one another, the whole family, and we show it by rarely speaking.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::travel.intro.zone::2",

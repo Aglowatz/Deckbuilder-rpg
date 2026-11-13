@@ -62,7 +62,7 @@ enc::Hollow Warden/0/line::0| ...That light in your hands. I have seen that ligh
 0| Hm. If she didn't give you her name, she'll have had her reasons, and I won't be the one to spoil them. As for where you are, this is {town}. We settle most things here with cards, and I see you've brought a deck.
 1| If your memory really is gone, you'll be with us a while, so you'd best get to know people. Go and say hello to Sable, Tilly and Pip on the square, buy yourself a card from Sable, and then come back to me.
 @dc::cave_mouth.maren_path
-0| One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you.
+0| One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the easiest one for you.
 1| But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.
 2| Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself.
 
@@ -138,7 +138,7 @@ enc::Hollow Warden/0/line::0| ...That light in your hands. I have seen that ligh
 @dc::quest.path_direction
 0| There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily.
 1| You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads.
-2| Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.
+2| Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.
 5| I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back.
 
 ## purpose: Fragment 1, Warmth. He had a mother. Maren hears the old court's lullaby and is undone, and hides it. Then the gameplay news: a second Path.
@@ -170,7 +170,7 @@ enc::Hollow Warden/0/line::0| ...That light in your hands. I have seen that ligh
 
 ## purpose: Fragment 3, The Coup. He sees Primm's face. Maren confesses the worst: she built the glass, and she ran. No "dearie" jokes; she is plain.
 @intro::memory.3.intro
-0| You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand.
+0| You're shaking. Sit down, slowly now. Here, take my hand.
 @intro::memory.3.fragment
 0| A throne room at night, with the candles guttering under banners that have four colors woven into one.
 1| A man in white and gold kneels before the king and speaks to him in a soft voice. Then he rises, and that soft voice is the last soft thing in the room.
@@ -179,7 +179,7 @@ enc::Hollow Warden/0/line::0| ...That light in your hands. I have seen that ligh
 @intro::memory.3.after
 0| A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with glass on every side.
 1| I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do.
-2| {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away.
+2| {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran.
 3| I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what else those hands had made.
 4| That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit.
 

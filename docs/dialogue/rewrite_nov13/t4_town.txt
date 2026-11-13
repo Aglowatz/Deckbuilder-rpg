@@ -249,8 +249,8 @@
 
 @npc::V-BEETSWORTH.barks
 #   [Bertram Beetsworth, Assistant to the Regional Merchant] Bark (speech bubble when you walk past Bertram Beetsworth, Assistant to the Regional Merchant; Main Town)
-0| Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.
-1| I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it.
+0| Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.
+1| Assistant TO the Regional Merchant. The TO is load-bearing. Say it.
 
 @npc::V-THREADWELL.barks
 #   [Pip Threadwell] Bark (speech bubble when you walk past Pip Threadwell; Main Town)
@@ -287,7 +287,7 @@
 @npc::NPC-GRAVOIS.barks
 #   [Chef Fennel Gravois] Bark (speech bubble when you walk past Chef Fennel Gravois, after the gatekeeper is beaten; Main Town, Gourmand Path)
 0| Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.
-1| The pantry key is shaped like a ladle, and if you ask me why, the answer is soup.
+1| The pantry key is shaped like a ladle. Don't ask why. The answer is soup.
 
 @npc::NPC-MULLIGAN.barks
 #   [Moss Mulligan] Bark (speech bubble when you walk past Moss Mulligan, after the gatekeeper is beaten; Main Town, Refusemancer Path)
@@ -317,5 +317,5 @@
 ## purpose: Old Hob in passing: cheerful reassurance from the appointment book, and the ten slow years.
 @npc::NPC-HOB.barks
 #   [Old Hob the Gravedigger (secretly Death)] Bark (speech bubble when you walk past Old Hob the Gravedigger (secretly Death); Main Town (Graveyard); turns up everywhere)
-0| Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.
+0| Checked my book. You're not in it, not for a good long while. Heh.
 1| Business has been ever so slow these ten years, mind. That's the paperwork, not me. Heh.

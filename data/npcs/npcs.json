@@ -184,10 +184,10 @@
 		"description": "The rule-bound equipment vendor who runs the level-5 armory quest.",
 		"personality": "Intense, rule-obsessed, beet-farming equipment salesman with a desk-drawer arsenal, a fierce love of security protocols, and enormous pride in his title. Original character with affectionate office-comedy nods.",
 		"speech_style": "Clipped, dead-serious, oddly specific facts about beets and bears.",
-		"sample_line": "Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.",
+		"sample_line": "Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
 		"barks": [
-			"Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.",
-			"I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it."
+			"Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
+			"Assistant TO the Regional Merchant. The TO is load-bearing. Say it."
 		],
 		"game_function": "Equipment vendor (basic stock; advanced stock unlocks by level).",
 		"quest_links": [],
@@ -364,9 +364,9 @@
 		"description": "Death himself.",
 		"personality": "Death himself. When Primm's paperwork seized the D.N.A., the afterlife's intake froze and Death couldn't collect anyone, so he took a job digging graves and waited (which is why Agnes can't pass on and Gerald is still in line). Creaky, polite, cheerful about death; checks his appointment book constantly ('Hm. Not for a good long while.'; Primm: 'Penciled in.'; Plume: 'Oh, I've got you in pen.'). Turns up digging in impossible places, always 'just measuring'. Has been digging the king and queen's graves for ten years; at the royal funeral he walks them, and Agnes, home.",
 		"speech_style": "Slow, creepy-cheerful, ends sentences with a chuckle.",
-		"sample_line": "Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.",
+		"sample_line": "Checked my book. You're not in it, not for a good long while. Heh.",
 		"barks": [
-			"Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.",
+			"Checked my book. You're not in it, not for a good long while. Heh.",
 			"Business has been ever so slow these ten years, mind. That's the paperwork, not me. Heh."
 		],
 		"game_function": "Starts the Graveyard scripted challenge; appears at 0 life instead of a plain respawn ('Not on my list. Off you pop.'; lost gold is his handling fee); cameo in every zone; royal funeral.",
@@ -467,7 +467,7 @@
 		"sample_line": "Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.",
 		"barks": [
 			"Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.",
-			"The pantry key is shaped like a ladle, and if you ask me why, the answer is soup."
+			"The pantry key is shaped like a ladle. Don't ask why. The answer is soup."
 		],
 		"game_function": "Battle that unlocks the Endless Buffet entrance.",
 		"quest_links": [],
@@ -882,7 +882,7 @@
 		"sample_line": "Employee of the month since 1987, dear. The plaque is getting heavy.",
 		"barks": [
 			"Employee of the month since 1987, dear. The plaque is getting heavy.",
-			"You look worn out, dear. Do sit a minute. Nobody here will mind, least of all me."
+			"Appeal forty thousand and one, denied. I'm starting to take it personally, dear."
 		],
 		"game_function": "Main dungeon hook and guide for the Hall of Final Approvals; becomes the Necrocrat leader and lends a boon against Primm.",
 		"quest_links": [
@@ -956,7 +956,7 @@
 		"sample_line": "A good answer is like a roux: patience, then butter. Mostly butter.",
 		"barks": [
 			"A good answer is like a roux: patience, then butter. Mostly butter.",
-			"Chalk again, with notes of limestone. Excellent body, and no business in my mouth."
+			"Chalk again. Notes of limestone. Excellent body, no business being in my mouth."
 		],
 		"game_function": "Asks 4 questions about the Gourmands.",
 		"quest_links": [],
@@ -986,9 +986,9 @@
 		"description": "A dramatic TV-cooking-show host with catchphrases and a feud with everyone.",
 		"personality": "A dramatic TV-cooking-show host with catchphrases and a feud with everyone. Original character full of 90s/2000s cooking-show nods.",
 		"speech_style": "Over-the-top showbiz energy; 'Order UP!'",
-		"sample_line": "ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience!",
+		"sample_line": "ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!",
 		"barks": [
-			"ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience!",
+			"ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!",
 			"Savannah Souffle calls that plating? WHOOSH! That's the sound of me declining to comment!"
 		],
 		"game_function": "Hosts the Endless Buffet minigame.",

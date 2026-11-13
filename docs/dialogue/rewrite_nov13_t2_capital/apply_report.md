@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 128
+- Rows: 113
 - Applied: 0
-- Skipped (blank new line, unchanged, or applied before): 128
+- Skipped (blank new line, unchanged, or applied before): 113
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,7 +24,7 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| The Capital | 118 | 0 | 118 | 0 | 0 | 0 | 0 |
+| The Capital | 103 | 0 | 103 | 0 | 0 | 0 | 0 |
 | Ending | 10 | 0 | 10 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)

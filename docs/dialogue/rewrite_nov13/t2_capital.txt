@@ -71,14 +71,14 @@
 ## purpose: Rollo, out of breath, explains that his crews have pedalled the facade's lights for ten years and need someone they will believe to tell them they can stop.
 @capital::npc.rollo.intro
 #   [Rollo Spokes] Talking to Rollo Spokes (intro)
-0| Give me a second... Rollo Spokes. I'm a wheel foreman, a Beefcake out of the Gainlands. Back home, when a wheel stopped for the night... the man on it stopped too, and went home to his supper.
-1| Here the facade wants lighting day and night... so we pedal it, with no pay and no end of shift. They told us it was cardio... and I'll say this much for it, my calves have grown calves.
+0| Name's Rollo Spokes... wheel foreman, Beefcake, out of the Gainlands. Back home... a wheel stopped at night... and so did the man on it.
+1| Here, the facade needs lighting... so we pedal it. No pay, no end. They told us it was cardio... My calves have calves.
 2| My crews have pedalled six hours a day for ten years... and nobody's ever told them they can stop. Somebody ought to... somebody they'll believe.
 
 @capital::npc.rollo.return
 #   [Rollo Spokes] Talking to Rollo Spokes (return)
-0| There's three wheels in the Yards... pull the brake on each one and have a word with the crew. After that it's the big cable by the east wall, the one that feeds the facade... you cut that.
-1| They won't climb down off those wheels... not till somebody tells them it's all right to. So you tell them... and you mean it when you do, because they'll know if you don't.
+0| Three wheels in the Yards... pull each brake and talk to the crew. Then the big cable by the east wall, the one that feeds the facade... cut it.
+1| The crews won't get off... till somebody tells them it's all right to. So you tell them... and mean it.
 
 ## purpose: Chef Marlo checks the hero is no inspector, then admits he is a real cook who has hidden real recipes around the Hungry Quarter for ten years.
 @capital::npc.marlo.intro
@@ -152,24 +152,24 @@
 ## purpose: Rollo's quest: stop the three wheels in the Transit Yards, tell each crew they may rest, and cut the big cable by the east wall; his reward is the insight that the man in the castle made lateness illegal and is always in a hurry to be loved.
 @capital::quest.cap_wheels.offer
 #   [Rollo Spokes] Quest "The Wheel Never Stops": when offered
-0| There's three wheels in the Transit Yards... and three crews on them that nobody ever told to stop. Pull the brake lever on each one... and tell them it's all right, in plain words they can't mishear.
-1| They won't believe you the first time... so you say it again. Then go and cut the big cable by the east wall. Those facade lights have been running on my crews' legs... for ten years now.
+0| Three wheels in the Transit Yards... three crews nobody ever told to stop. Pull each brake lever... and tell them it's all right, in plain words.
+1| They won't believe you at first... say it anyway. Then cut the big cable by the east wall. Those facade lights have run on my crews' legs... for ten years.
 
 @capital::quest.cap_wheels.active
 #   [Rollo Spokes] Quest "The Wheel Never Stops": while it is active
-0| Three wheels in the Transit Yards... get the crews off them, then cut the big cable by the east wall. And keep on telling them they can stop... it takes a few goes before it sinks in.
+0| Three wheels in the Transit Yards... free the crews, then cut the big cable by the east wall. Keep telling them they can stop... it takes a few goes.
 
 @capital::quest.cap_wheels.ready
 #   [Rollo Spokes] Quest "The Wheel Never Stops": handing it in
-0| I heard the lights flicker from all the way over here... and then I heard my crews sit down, one wheel after another. The whole yard's gone quiet.
-1| I haven't heard a yard go quiet since the coup... and I'd forgotten how much I liked it. Thank you.
-2| Here, take this... it's from the old days. We used to hand these out at the end of a shift... back when a shift had an end to it.
-3| One more thing, about the man in the castle... he made lateness illegal. Now what sort of man does that? One who can't bear to wait for anybody, that's who.
+0| I heard the lights flicker from here... then I heard the crews sit down. The whole yard's gone quiet.
+1| Haven't heard a quiet yard since the coup. Thank you.
+2| Here... from the old days. We gave these out... at the end of a shift. Remember ends?
+3| One more thing about the man in the castle: he made lateness illegal. That's a man who can't bear to wait for anyone.
 4| Remember that when you meet him. He's always in a hurry... to be loved.
 
 @capital::quest.cap_wheels.done
 #   [Rollo Spokes] Quest "The Wheel Never Stops": after it is done
-0| The wheels are slowing down... and the crews are getting some rest at last. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive.
+0| The wheels are slowing... and the crews are resting. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive.
 
 ## purpose: Marlo's quest: find his three hidden recipe cards in the Hungry Quarter and spoil the paste dispenser; his reward is the insight that the man in the castle cannot taste.
 @capital::quest.cap_recipes.offer
@@ -367,12 +367,12 @@
 ## purpose: Kestrel, the Wrinkles' scout on the road outside the wall, tells the hero the gate is the only way in for strangers and hints at an older way she shows only to Wren's friends.
 @dc::npc.kestrel.intro
 #   [Kestrel] Talking to Kestrel (intro)
-0| Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.
-1| Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's.
+0| Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.
+1| Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's.
 
 @dc::npc.kestrel.return
 #   [Kestrel] Talking to Kestrel (return)
-0| Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger.
+0| Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else.
 
 ## purpose: Colonel Crumb guards the confiscated pantry under the Hungry Quarter and blusters about the war on flavour; the hero names the real reason, and Crumb orders the golems in.
 @scenes/crumb_paste_works/steps/0

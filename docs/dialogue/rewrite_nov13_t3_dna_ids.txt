@@ -30,4 +30,3 @@ data/story/dna_story.tres::challenge.ha_audit.text::0
 data/story/dna_story.tres::npc.matching.return.freed::0
 data/story/dna_story.tres::npc.matching.return.freed::1
 data/story/dna_story.tres::npc.quiz.return.freed::0
-data/story/dna_story.tres::npc.quiz.return.freed::1

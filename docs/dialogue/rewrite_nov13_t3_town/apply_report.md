@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 132
-- Applied: 1
-- Skipped (blank new line, unchanged, or applied before): 131
+- Rows: 124
+- Applied: 2
+- Skipped (blank new line, unchanged, or applied before): 122
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,14 +24,15 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Crosspath (first visit) | 123 | 1 | 122 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 115 | 2 | 113 | 0 | 0 | 0 | 0 |
 | Crosspath (between zones) | 9 | 0 | 9 | 0 | 0 | 0 | 0 |
 
-## Applied (1)
+## Applied (2)
 
 | id | Before | After |
 |---|---|---|
-| `data/story/intro_story.tres::town.pack_vendor.first::3` | Free a zone and I'll stock its pack, and until then it's only a rumour in a wrapper. Browse all you like, and sniff them if you want to... I won't judge you. I sniff them too. | Free a zone and I'll stock its pack; until then it's only a rumour in a wrapper. Browse all you like, and sniff if you want to. I won't judge. I sniff. |
+| `data/story/intro_story.tres::town.item_vendor.gift::1` | Here's how you get them ready: press C, or go to Menu and then Character, and find Items, which is the big shiny panel, and I promise you can't miss it. | Here's how to get them ready. Press C, or Menu then Character, and find Items. It's the big shiny panel, so you can't miss it! |
+| `data/story/intro_story.tres::town.item_vendor.gift::3` | It's one wrap and one use and then it's gone, but there are more on my shelf, and look, I've gone green again, and green means business is good. | One wrap is one use, and then it's gone, but there are more on my shelf. And look, I've gone green again! Green means business is good. |
 
 ## Conflicts (0)
 

@@ -7,10 +7,6 @@ data/story/capital_story.tres::npc.fern.return::0
 data/story/capital_story.tres::npc.pell.intro::0
 data/story/capital_story.tres::npc.pell.intro::2
 data/story/capital_story.tres::npc.pell.return::0
-data/story/capital_story.tres::npc.rollo.intro::0
-data/story/capital_story.tres::npc.rollo.intro::1
-data/story/capital_story.tres::npc.rollo.return::0
-data/story/capital_story.tres::npc.rollo.return::1
 data/story/capital_story.tres::npc.marlo.intro::0
 data/story/capital_story.tres::npc.marlo.intro::1
 data/story/capital_story.tres::npc.marlo.intro::2
@@ -34,14 +30,6 @@ data/story/capital_story.tres::quest.cap_burial.ready::1
 data/story/capital_story.tres::quest.cap_burial.ready::2
 data/story/capital_story.tres::quest.cap_burial.ready::3
 data/story/capital_story.tres::quest.cap_burial.done::0
-data/story/capital_story.tres::quest.cap_wheels.offer::0
-data/story/capital_story.tres::quest.cap_wheels.offer::1
-data/story/capital_story.tres::quest.cap_wheels.active::0
-data/story/capital_story.tres::quest.cap_wheels.ready::0
-data/story/capital_story.tres::quest.cap_wheels.ready::1
-data/story/capital_story.tres::quest.cap_wheels.ready::2
-data/story/capital_story.tres::quest.cap_wheels.ready::3
-data/story/capital_story.tres::quest.cap_wheels.done::0
 data/story/capital_story.tres::quest.cap_recipes.offer::0
 data/story/capital_story.tres::quest.cap_recipes.offer::1
 data/story/capital_story.tres::quest.cap_recipes.active::0
@@ -86,9 +74,6 @@ data/story/story_scenes.json::scenes/hob_final_plume/steps/0::2
 data/encounters/boss_intros.json::Captain Spotless/line::0
 data/encounters/encounter_scripts.json::zone:final:spotless/0/line::0
 data/encounters/encounter_scripts.json::capital:quota/0/line::0
-data/dungeons/dungeon_content.json::npc.kestrel.intro::0
-data/dungeons/dungeon_content.json::npc.kestrel.intro::1
-data/dungeons/dungeon_content.json::npc.kestrel.return::0
 data/story/story_scenes.json::scenes/crumb_paste_works/steps/1::1
 data/story/story_scenes.json::scenes/crumb_paste_works/steps/1::2
 data/story/story_scenes.json::scenes/crumb_paste_works/steps/3::1

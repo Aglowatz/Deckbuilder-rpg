@@ -13,7 +13,7 @@
 @intro::beefcake_npc_victory_lines
 0| ...Oh, no. Was I yelling just then? I was, wasn't I. I'm so sorry. That was the pre-workout talking, and once it starts it doesn't know how to stop.
 1| Chancellor Clench had Grandmaster Flex locked away under the House of Gains, ten years ago now. People still whisper that the old man never broke. I wish I'd whispered with them, instead of standing out here yelling.
-2| The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip.
+2| The bridge is yours, friend. Stretch before you cross, though - a pulled hamstring is a terrible souvenir.
 
 ## purpose: Chef Gravois. The sauce lets go of her, and she names the mystery: the Chef she trained under always tasted. Points at the Test Kitchen.
 @intro::gate.gourmand.freed
@@ -36,7 +36,7 @@
 @intro::necrocrat_npc_victory_lines
 0| ...I can hear my own thoughts again. I believe I have been Pending for ten years. It was very quiet in there, and very orderly, and none of it was me.
 1| {villain} never had to corrupt us. He used our own rules against us: a perfectly valid transfer of authority, notarized and filed. We stamped it ourselves.
-2| The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both.
+2| The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully, or fill out a form first. Ideally both.
 
 ## purpose: Moss Mulligan. A gentle person the Rot spoke through; plants "a very tidy lady with shears" (Clipwell).
 @intro::gate.refusemancer.freed
@@ -71,7 +71,7 @@
 0| ...How? Ten years in a hole with nothing. Where were you HIDING all of that?
 @gainlands::cutscene.flex.5
 0| Strength was never a matter of how heavy a thing is, Clench. It lives in the heart and the mind, and nobody can lock those in a cell.
-1| The heavy things were only ever practice, my boy. Now, shall we begin?
+1| The heavy things were only ever practice, my boy. Now, shall we?
 @gainlands::dungeon.hg_boss.after
 1| Flex doesn't gloat. He kneels beside his fallen pupil and holds out a hand. "You hated yourself for needing the iron, my boy."
 2| "I never once hated you for it. Come back to the gym. We'll start from zero, the way everyone does."

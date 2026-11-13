@@ -173,7 +173,7 @@ lines = {
 "npc.hob.intro.freed": ["Granny Gristle, junk-trader, and back in business! The shed's just a shed again, my lovely, and the turnips are only turnips.", "I had a little cry, and then I went out and planted a whole field. So the shop's open, my lovely, and every bit of stock in it was thrown out by somebody who was wrong. Hah!"],
 "npc.hob.return.freed": ["Day-old turnips, my lovely, and not one of them looking at anybody. Produce with manners, at long last. Hah!"],
 "npc.wren.intro.freed": ["Billie Muckfoot, animal handler! The whole herd's home safe, and the goat's already got his teeth into a sign.", "And the sign's not eating him back this time, that's the thing. I've never been so happy to stand and watch a goat ruin something."],
-"npc.wren.return.freed": ["Every animal's home and there's not one of them mutated. I could cry, honestly, and I just might.", "I'll do it into a bucket, though. The plants could use the water, and nothing goes to waste round here."],
+"npc.wren.return.freed": ["Every animal's home and there's not one of them mutated. I could cry, honestly, and I just might.", "Into a bucket, though. The plants could use it."],
 "effect.buff.name": ["Overgrowth"],
 "effect.buff.flavor": ["The Dump is alive in all the wrong ways, but its own druids know how to make the best of it."],
 "effect.debuff.name": ["Spoilage"],

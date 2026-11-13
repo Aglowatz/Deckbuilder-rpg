@@ -442,11 +442,11 @@
 @npc::NPC-PATE.barks
 #   [Professor Pate] Bark (speech bubble when you walk past Professor Pate; Endless Buffet)
 0| A good answer is like a roux: patience, then butter. Mostly butter.
-1| Chalk again, with notes of limestone. Excellent body, and no business in my mouth.
+1| Chalk again. Notes of limestone. Excellent body, no business being in my mouth.
 
 @npc::NPC-FLAMBE.barks
 #   [Chef Flambe Fontaine] Bark (speech bubble when you walk past Chef Flambe Fontaine; Endless Buffet)
-0| ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience!
+0| ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!
 1| Savannah Souffle calls that plating? WHOOSH! That's the sound of me declining to comment!
 
 @npc::NPC-BASIL.barks

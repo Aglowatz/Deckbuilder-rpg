@@ -46,6 +46,5 @@ data/story/refusemancer_story.tres::npc.hob.return.freed::0
 data/story/refusemancer_story.tres::npc.wren.intro.freed::0
 data/story/refusemancer_story.tres::npc.wren.intro.freed::1
 data/story/refusemancer_story.tres::npc.wren.return.freed::0
-data/story/refusemancer_story.tres::npc.wren.return.freed::1
 data/story/story_scenes.json::scenes/clipwell_fled/steps/0::1
 data/story/story_scenes.json::scenes/clipwell_fled/steps/1::1

@@ -1,0 +1,43 @@
+# Nov 13 dialogue check: Primm's last phase, his ending scene and the ending beats, with Large text (1280x720 coordinates).
+wait 5
+dev newgame
+wait 6
+dev textsize 1
+dev level 30
+dev primm 3
+wait 6
+click 1057 268
+wait 3
+shot f01
+skip_dialogue 30
+wait 3
+dev win
+wait 6
+shot f02
+button Skip card
+wait 5
+key E
+wait 4
+shot f03
+key E
+wait 4
+shot f04
+key E
+wait 4
+shot f05
+key E
+wait 4
+shot f06
+key E
+wait 4
+shot f07
+key E
+wait 4
+shot f08
+key E
+wait 4
+shot f09
+key E
+wait 4
+shot f10
+dump

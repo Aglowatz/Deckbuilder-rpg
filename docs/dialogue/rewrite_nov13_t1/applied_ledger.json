@@ -250,7 +250,7 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Elder Maren",
 		"before": "One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through. When the time comes to go out on the roads, {zone} will be the easiest one for you.",
-		"after": "One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you."
+		"after": "One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the easiest one for you."
 	},
 	{
 		"id": "data/dungeons/dungeon_content.json::cave_mouth.maren_path::1",
@@ -572,7 +572,8 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Elder Maren",
 		"before": "Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.",
-		"after": "Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it."
+		"after": "Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.",
+		"reverted": true
 	},
 	{
 		"id": "data/dungeons/dungeon_content.json::quest.path_direction::5",
@@ -705,7 +706,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Elder Maren",
 		"before": "You're shaking. Sit down, slowly now. Here, take my hand.",
-		"after": "You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand."
+		"after": "You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::memory.3.fragment::0",
@@ -754,7 +756,7 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Elder Maren",
 		"before": "{villain} took my work and made a cage of it, and my best student kept the lab running for him. And I ran.",
-		"after": "{villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away."
+		"after": "{villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran."
 	},
 	{
 		"id": "data/story/intro_story.tres::memory.3.after::3",
@@ -1272,7 +1274,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Brick Bronson",
 		"before": "The bridge is yours, friend. Stretch before you cross, though - a pulled hamstring is a terrible souvenir.",
-		"after": "The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip."
+		"after": "The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::gate.gourmand.freed::0",
@@ -1366,7 +1369,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Prudence Pallor, Checkpoint Supervisor",
 		"before": "The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully, or fill out a form first. Ideally both.",
-		"after": "The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both."
+		"after": "The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::gate.refusemancer.freed::0",
@@ -1513,7 +1517,8 @@
 		"file": "data/story/gainlands_story.tres",
 		"speaker": "Grandmaster Flex",
 		"before": "The heavy things were only ever practice, my boy. Now, shall we?",
-		"after": "The heavy things were only ever practice, my boy. Now, shall we begin?"
+		"after": "The heavy things were only ever practice, my boy. Now, shall we begin?",
+		"reverted": true
 	},
 	{
 		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after::1",

@@ -33,8 +33,6 @@ data/npcs/npcs.json::V-SABLE.barks::0
 data/npcs/npcs.json::V-SABLE.barks::1
 data/npcs/npcs.json::V-TONIC.barks::0
 data/npcs/npcs.json::V-TONIC.barks::1
-data/npcs/npcs.json::V-BEETSWORTH.barks::0
-data/npcs/npcs.json::V-BEETSWORTH.barks::1
 data/npcs/npcs.json::V-THREADWELL.barks::0
 data/npcs/npcs.json::V-THREADWELL.barks::1
 data/npcs/npcs.json::V-FENWICK.barks::0
@@ -48,12 +46,10 @@ data/npcs/npcs.json::NPC-BRONSON.barks::1
 data/npcs/npcs.json::NPC-PALLOR.barks::0
 data/npcs/npcs.json::NPC-PALLOR.barks::1
 data/npcs/npcs.json::NPC-GRAVOIS.barks::0
-data/npcs/npcs.json::NPC-GRAVOIS.barks::1
 data/npcs/npcs.json::NPC-MULLIGAN.barks::0
 data/npcs/npcs.json::NPC-MULLIGAN.barks::1
 data/npcs/npcs.json::NPC-VILLAGER.barks::1
 data/npcs/npcs.json::NPC-DEX.barks::0
 data/npcs/npcs.json::NPC-DEX.barks::1
 data/npcs/npcs.json::NPC-DEX.barks::2
-data/npcs/npcs.json::NPC-HOB.barks::0
 data/npcs/npcs.json::NPC-HOB.barks::1

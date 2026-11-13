@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 51
-- Applied: 4
-- Skipped (blank new line, unchanged, or applied before): 47
+- Rows: 50
+- Applied: 0
+- Skipped (blank new line, unchanged, or applied before): 50
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,16 +24,7 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Verdant Dump | 51 | 4 | 47 | 0 | 0 | 0 | 0 |
-
-## Applied (4)
-
-| id | Before | After |
-|---|---|---|
-| `data/story/refusemancer_story.tres::npc.hob.return::0` | Back again, my lovely! The turnips are a day old, which is a fine vintage if you happen to be a turnip, and I'll not hear a word said against them. | Back again, my lovely! The turnips are a day old, which is a lovely vintage, if you happen to be a turnip. |
-| `data/story/refusemancer_story.tres::npc.hob.return::1` | They're looking at me again, those turnips. I like a root vegetable that minds its own business, I do, and there was a time you could count on one for that. Hah! | The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Hah! |
-| `data/story/refusemancer_story.tres::npc.hob.intro.freed::0` | Granny Gristle, junk-trader, and back in business! The shed's gone back to being just a shed, my lovely, and the turnips are only turnips, and I never thought I'd be so glad of a dull vegetable. | Granny Gristle, junk-trader, and back in business! The shed's just a shed again, my lovely, and the turnips are only turnips. |
-| `data/story/refusemancer_story.tres::npc.hob.return.freed::0` | Day-old turnips, my lovely, and not one of them looking at anybody. That's produce with manners at long last, and I've waited ten years for it. Hah! | Day-old turnips, my lovely, and not one of them looking at anybody. Produce with manners, at long last. Hah! |
+| Verdant Dump | 50 | 0 | 50 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)
 

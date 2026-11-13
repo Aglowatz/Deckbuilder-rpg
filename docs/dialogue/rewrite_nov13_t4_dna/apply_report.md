@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 17
-- Applied: 17
-- Skipped (blank new line, unchanged, or applied before): 0
+- Rows: 16
+- Applied: 0
+- Skipped (blank new line, unchanged, or applied before): 16
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,29 +24,7 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| D.N.A. | 17 | 17 | 0 | 0 | 0 | 0 | 0 |
-
-## Applied (17)
-
-| id | Before | After |
-|---|---|---|
-| `data/story/dna_story.tres::enemy.intern::1` | It does not know the new management is wrong. It only knows the paperwork is valid. | It doesn't know that the new management is wrong; it only knows that the paperwork is valid. |
-| `data/story/dna_story.tres::fx.chest::0` | You find supplies filed under Miscellaneous. For once, you meet the requirements. | You find supplies filed under Miscellaneous and, for once, you meet the requirements. |
-| `data/story/dna_story.tres::fx.main_dungeon::0` | The Executive Floor's great doors stand open a crack. Beyond them: endless desks, green lamps, and stamps that thump like heartbeats. | The Executive Floor's great doors stand open a crack, and beyond them are endless desks under green lamps, where the stamps thump like heartbeats. |
-| `data/story/dna_story.tres::fx.printer_ok::0` | The printer gives you a warm card. You accept before it can request a reference. | The printer hands you a card, still warm, and you take it before it can ask for a reference. |
-| `data/story/dna_story.tres::fx.punch_in::0` | You punch in. The clock says 'Welcome back, Pending.' A small buff glimmers on you. | You punch in, the clock says 'Welcome back, Pending', and a small buff glimmers on you. |
-| `data/story/dna_story.tres::fx.suggestion::0` | You post a suggestion. Something drops back out of the box. You appear to have been assigned the follow-up. | You post a suggestion and something drops back out of the box, which seems to mean you have been assigned the follow-up. |
-| `data/story/dna_story.tres::fx.wake::1` | It says you are 'Pending'. It also says 'Valid'. | It says you are 'Pending' and, underneath in the same neat hand, 'Valid'. |
-| `data/npcs/npcs.json::V-LEDGERBONE.barks::0` | Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely. | Form 12-B for purchases, please. It's been quiet, and quiet gets noticed here. |
-| `data/npcs/npcs.json::NPC-ECTOMUND.barks::0` | Three hundred years, the same quiz. The answers have never been fresher. | Three hundred years of the same quiz, and I still enjoy a correct answer. |
-| `data/npcs/npcs.json::NPC-KYLE.barks::1` | brb, haunting. been brb since '09. it's a long b. | hey, thanks for stopping. most people just kind of walk through me. |
-| `data/npcs/npcs.json::NPC-GERALD.barks::0` | Four million two hundred and twelve. They're on three. Any minute now. | I'm number four million two hundred and twelve, and they're on three. Any minute now! |
-| `data/npcs/npcs.json::NPC-GERALD.barks::1` | Coffee? Nobody here can taste it, but I make it anyway. It's the thought. | Would you like a coffee? Sorry - nobody here can taste it, but I do like making it. |
-| `data/npcs/npcs.json::NPC-AGNES.barks::1` | Appeal forty thousand and one, denied. I'm starting to take it personally, dear. | You look worn out, dear. Do sit a minute. Nobody here will mind, least of all me. |
-| `data/npcs/npcs.json::NPC-MORTIMER.barks::0` | Number four million two hundred and fourteen. I have begun to understand Gerald. | I am number four million two hundred and fourteen. I have begun to understand Gerald. |
-| `data/story/dna_story.tres::dungeon.ha_lost.blurb::0` | A counter piled high with misfiled belongings. A sign: IF YOU FIND SOMETHING, YOU MAY KEEP IT. IF YOU LOSE SOMETHING, SEE A CLERK. | A counter piled high with misfiled belongings, under a sign: IF YOU FIND SOMETHING, YOU MAY KEEP IT. IF YOU LOSE SOMETHING, SEE A CLERK. |
-| `data/story/dna_story.tres::dungeon.ha_appeals.blurb::0` | A judge in an old powdered wig weighs your case. The scales are made of paperwork. | A judge in an old powdered wig weighs your case on a pair of scales made of paperwork. |
-| `data/dungeons/dungeon_content.json::dungeons/D-HFA/blurbs/13::0` | The elevator is hand-cranked by a Beefcake on loan from the wheels. Every floor needs a permit and a rep. Iron turns the crank; Red Tape keeps the doors shut. | A Beefcake on loan from the wheels cranks the elevator by hand, and every floor costs a permit and a rep. Iron turns the crank, while Red Tape keeps the doors shut. |
+| D.N.A. | 16 | 0 | 16 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)
 

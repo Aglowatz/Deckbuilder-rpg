@@ -360,7 +360,7 @@
 @npc::NPC-AGNES.barks
 #   [Agnes Overdue] Bark (speech bubble when you walk past Agnes Overdue; D.N.A. Lobby; Hall of Final Approvals)
 0| Employee of the month since 1987, dear. The plaque is getting heavy.
-1| You look worn out, dear. Do sit a minute. Nobody here will mind, least of all me.
+1| Appeal forty thousand and one, denied. I'm starting to take it personally, dear.
 
 @npc::NPC-MORTIMER.barks
 #   [Mortimer Grimsby, CE-No] Bark (speech bubble when you walk past Mortimer Grimsby, CE-No; D.N.A.; Hall of Final Approvals)

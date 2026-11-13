@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 24
+- Rows: 22
 - Applied: 0
-- Skipped (blank new line, unchanged, or applied before): 24
+- Skipped (blank new line, unchanged, or applied before): 22
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,7 +24,7 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Endless Buffet | 24 | 0 | 24 | 0 | 0 | 0 | 0 |
+| Endless Buffet | 22 | 0 | 22 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)
 

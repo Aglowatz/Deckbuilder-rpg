@@ -78,7 +78,6 @@ data/dungeons/dungeon_content.json::quest.some_assembly_required.offer::1
 data/dungeons/dungeon_content.json::quest.some_assembly_required.active::0
 data/dungeons/dungeon_content.json::quest.path_direction::0
 data/dungeons/dungeon_content.json::quest.path_direction::1
-data/dungeons/dungeon_content.json::quest.path_direction::2
 data/dungeons/dungeon_content.json::quest.path_direction::5
 data/story/intro_story.tres::memory.1.intro::0
 data/story/intro_story.tres::memory.1.intro::1
@@ -97,7 +96,6 @@ data/story/intro_story.tres::memory.2.after::0
 data/story/intro_story.tres::memory.2.after::1
 data/story/intro_story.tres::memory.2.after::2
 data/story/intro_story.tres::memory.2.after::3
-data/story/intro_story.tres::memory.3.intro::0
 data/story/intro_story.tres::memory.3.fragment::0
 data/story/intro_story.tres::memory.3.fragment::1
 data/story/intro_story.tres::memory.3.fragment::2
@@ -178,7 +176,6 @@ data/story/intro_story.tres::gate.beefcake.blocked::0
 data/story/intro_story.tres::gate.beefcake.cleared::0
 data/story/intro_story.tres::beefcake_npc_victory_lines::0
 data/story/intro_story.tres::beefcake_npc_victory_lines::1
-data/story/intro_story.tres::beefcake_npc_victory_lines::2
 data/story/intro_story.tres::gate.gourmand.freed::0
 data/story/intro_story.tres::gate.gourmand.freed::2
 data/story/intro_story.tres::gourmand_npc_intro_lines::1
@@ -188,7 +185,6 @@ data/story/intro_story.tres::gourmand_npc_victory_lines::2
 data/story/intro_story.tres::necrocrat_npc_intro_lines::2
 data/story/intro_story.tres::necrocrat_npc_victory_lines::0
 data/story/intro_story.tres::necrocrat_npc_victory_lines::1
-data/story/intro_story.tres::necrocrat_npc_victory_lines::2
 data/story/intro_story.tres::gate.refusemancer.freed::0
 data/story/intro_story.tres::gate.refusemancer.freed::1
 data/story/intro_story.tres::gate.refusemancer.freed::2
@@ -209,7 +205,6 @@ data/story/gainlands_story.tres::cutscene.flex.2::0
 data/story/gainlands_story.tres::cutscene.flex.3::1
 data/story/gainlands_story.tres::cutscene.flex.4::0
 data/story/gainlands_story.tres::cutscene.flex.5::0
-data/story/gainlands_story.tres::cutscene.flex.5::1
 data/story/gainlands_story.tres::dungeon.hg_boss.after::1
 data/story/gainlands_story.tres::dungeon.hg_boss.after::2
 data/story/gainlands_story.tres::freed_npc.heartlift::3
