@@ -4,6 +4,43 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 12d - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov12_2h.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12d`.
+
+1. **Fig Sly has a label in the Crease now ("Fig Sly - Black Market").** The older rule was that a black-market dealer gets no label at
+   all (the Secret Dealer in Crosspath still has none). The critic walked past his stall twice: it stands unnamed beside an identical
+   stall while a main quest sends every player to it. To take the label off again, delete the `crease_market` lines in
+   `ZoneScene._label_spot`. His use radius went from 1.8 m to 2.6 m.
+2. **The Crease's arrival line is new text, mine:** "Under the city. Down here, nobody is perfectly fine, and nobody has to pretend."
+   (it said "Back out into the wastes." because the Crease lies south of the wall). Change it in `CapitalScene._cross_gate`.
+3. **Maren's first-meeting speech ("Up and walking. Good. I am Elder Maren...") is no longer heard on a new game.** Her cave-mouth
+   welcome now counts as her greeting. Before, the speech played hours late, at the report after the armory quest, and her Path talk
+   needed a second conversation. The speech still plays on a save that never had the cave-mouth welcome. Say if a line of it should move
+   into the welcome.
+4. **Tall pieces (7 m and up: houses, towers) draw 1.3 times further than the rest and switch on without a dissolve.** That is what
+   removed the Transit Yards ghost building (a townhouse standing in the 48 m dissolve band). It costs the Capital about 3 to 5 fps on
+   Medium at the paint-over cameras (60.6 to 66.4 measured at 1.45 times; the build ships 1.3 times, not re-measured). `StyleRig.TALL_RANGE`.
+5. **The critic's M and L items that were not changed** (its report: `docs/review/critic_nov12d/report.md`):
+   - New Game is three decisions before any story (slot grid, then a delete warning). On a real first run the slots are empty; say if
+     an empty profile should skip the grid.
+   - Tidy-Bots hit with no clear tell (both hits followed debug jumps, so a real arrival's grace did not apply).
+   - The Capital map: coarse blocks, no district names, the Crease drawn in a corner of the surface map with piled labels.
+   - The minimap is blurry in the forest and blocky in the Capital.
+   - The wall's faces are plain slabs beside the painted buildings (needs art).
+   - The Wanderer's dialogue portrait has a hard vertical edge on its right side (art).
+   - The Crease's east wall fills the right half of the frame when the hero hugs it.
+6. **The critic did not reach** the shrine, the Hollow Well, the "Before the fight" panel, the Cave Warden's closing words, Crosspath,
+   Maren, the Black Market screen or the Transit Yards (it lost five of its nine runs to the New Game flow and its own cave scripts).
+   The opening-hour smoke and my own Crease run cover the flow, not the look. Those screens still have had no fresh pair of eyes.
+7. **Edges left open** (shots in `docs/overnight_shots/nov12d/edges/`):
+   - **The Dump, south-east and south-west corners:** the camera sits inside the ravine's rim cliff and looks out through its back
+     face at the fog (a pale wedge). Not fixed: it needs the rim closed from behind or the camera held in.
+   - **Crosspath, south edge:** a violet mist band along the bottom of the frame where the land ends. It reads as a deliberate
+     boundary but it is rough. Not changed.
+   - **The D.N.A.:** outside the offices the apron is flat grey to the horizon (the paper drift is its only dressing). Not changed.
+   - The Gainlands, the Buffet and the forest showed no void or bare strip at any of the eight points.
+
 ## Fable Nov 12c - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12c`.

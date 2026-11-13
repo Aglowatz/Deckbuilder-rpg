@@ -104,6 +104,11 @@ func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--no-save":
 			save_enabled = false
+	# Fable Nov 12d: a GUT run never writes the player's real autosave. Twelve test files switch saving back on at the default path,
+	# and a full run rewrote campaign 1's autosave.json with test state. Under GUT the default path is a scratch file.
+	for arg: String in OS.get_cmdline_args():
+		if arg.ends_with("gut_cmdln.gd") and save_path == SaveSystem.PATH:
+			save_path = "user://gut_temp_directory/session_autosave.json"
 	if save_enabled and save_path == SaveSystem.PATH:
 		SaveSlots.migrate_legacy()
 

@@ -666,11 +666,15 @@ func _edge_shots(prefix: String) -> void:
 	var dirs: Dictionary = {"n": Vector2(0, -1), "ne": Vector2(1, -1), "e": Vector2(1, 0), "se": Vector2(1, 1), "s": Vector2(0, 1), "sw": Vector2(-1, 1), "w": Vector2(-1, 0), "nw": Vector2(-1, -1)}
 	var best: Dictionary = {}
 	var score: Dictionary = {}
+	var total: Vector3 = Vector3.ZERO
+	var cells: int = 0
 	for xi: int in range(-60, 261):
 		for zi: int in range(-60, 261):
 			var at: Vector3 = Vector3(float(xi) + 0.5, 0.0, float(zi) + 0.5)
 			if not bool(map.call("is_walkable", at)):
 				continue
+			total += at
+			cells += 1
 			for key: String in dirs.keys():
 				var value: float = (dirs[key] as Vector2).normalized().dot(Vector2(at.x, at.z))
 				if not score.has(key) or value > float(score[key]):
@@ -681,7 +685,16 @@ func _edge_shots(prefix: String) -> void:
 	for key: String in dirs.keys():
 		if not best.has(key):
 			continue
+		if get_tree().current_scene != scene or not is_instance_valid(player):
+			_say("  edgeshots: the scene changed, stopping")
+			return
 		var at: Vector3 = best[key] as Vector3
+		# 3 m in from the outermost point (toward the middle of the walkable area): the outermost point is often an exit trigger.
+		var inward: Vector3 = (total / float(maxi(cells, 1)) - at).normalized()
+		for back: float in [3.0, 2.0, 1.0]:
+			if bool(map.call("is_walkable", at + inward * back)):
+				at += inward * back
+				break
 		var y: float = player.position.y
 		if map.has_method("height_at"):
 			y = float(map.call("height_at", at))
@@ -693,6 +706,9 @@ func _edge_shots(prefix: String) -> void:
 			if camera != null and ("camera_offset" in scene or "_camera_offset" in scene):
 				camera.position = player.position + CameraRig.shape((scene.get("camera_offset") if "camera_offset" in scene else scene.get("_camera_offset")) as Vector3)
 			await driver.seconds(1.4)
+			if get_tree().current_scene != scene or not is_instance_valid(player):
+				_say("  edgeshots: the scene changed, stopping")
+				return
 			await _shot("%s_%s_%s" % [prefix, key, "default" if angle == 0 else "low"])
 		_say("  edgeshots: %s at (%.1f, %.1f)" % [key, at.x, at.z])
 	Settings.set_camera_angle(0)
