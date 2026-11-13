@@ -1,3 +1,163 @@
+# Batch 15 + 1.0 - report (Nov 13): the last art batch, the owner's answers, the leftovers, the 1.0.0 build
+
+Brief: `docs/prompts/batch15_import_and_fixes.md`. Start tag `pre-batch15-import`. Questions: `docs/overnight_inbox.md`, "Batch 15 + 1.0"
+(10 items). One Godot at a time; the one critic ran while no Godot ran and saw pictures only. No public upload. No difficulty setting,
+no battle-board or menu layout change, Primm's fight untouched. Ran on Fable 5.2. The Fable Nov 13 dialogue report follows below.
+
+## In short
+
+- **All 39 Batch 15 images are in the game**, each with a screenshot. 22 rows of `docs/art/batch15_nov12.csv` say "In game"; the two
+  rows that were not in the batch (the painted world maps, the Gallery's bestiary pictures) say "Not delivered".
+- **Your answers are applied**: both sets, 9 items.
+- **All eight in-game leftovers are done.**
+- **A fresh critic looked at 21 unchecked screens: clarity 5/10, polish 5/10.** Four of its top 10 were caused by how the pictures
+  were taken, three were real and small and are fixed, three need art or a larger change and are logged.
+- **Tests: all 33 shards green, 3084 of 3086 passing, 0 failing** (2 risky, the same two no-assert tests as before). The intro walk, the freed city, the map and every new shot ran with 0 script errors.**
+- **The 1.0.0 build was not built.** Free memory stayed at 1.8 GB for the ten minutes the brief allows (the rule is 2.2 GB), so the export was not started. The source is at 1.0.0, tested, committed and pushed; the commands are below.**
+
+## The 1.0.0 zip
+
+**There is no 1.0.0 zip yet.** Close what you can (ChatGPT and the browser hold most of the memory), then run these from
+`C:\Dev\Deckbuilder-rpg` in Git Bash, one at a time, in the foreground:
+
+```
+EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0
+bash tools/run_release_smoke_exported.sh
+bash tools/export_test_pack.sh
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480
+SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480
+grep -c "SCRIPT ERROR" _screenshots/exported/play_r1a.log _screenshots/exported/play_r1b.log _screenshots/exported/play_r1c.log
+```
+
+- The export takes 4 to 10 minutes and writes `builds/TheWaywardPath-v1.0.0-windows.zip`. "EXPORT STOPPED" means nothing was replaced.
+- The smoke must print `PASSED`. The last line must print 0 three times.
+- Expect a pack of about 864 MB and a zip of about 750 MB (RC1 was 847 and 736; this batch adds about 17 MB to the pack). The disk
+  has 18 GB free; the export's peak is under 2 GB.
+- The last zip in `builds/` is RC5 (Nov 12): RC6 was never built, so 1.0.0 is the first build with the Nov 12 fix pass, the dialogue
+  rewrite and this batch.
+  **Play the first ten minutes of the exported game yourself before uploading** - none of that work has been run as an exe.
+
+## Part 1 - the import
+
+| Images | Where it is in the game | Shot (`docs/overnight_shots/batch15/`) |
+|---|---|---|
+| CAP-SHEET-WINDOWS-07 / -08 | Every townhouse window of the Capital: -07 by day, -08 (lit) in the freed city | `windows_day_plaza`, `windows_day_reek`, `freed_capital_approach_low` |
+| CAP-BANNER-FREED-01..04 | After `primm_defeated`: a row down the avenue, and the four over Primm's emblem | `freed_capital_approach`, `_low`, `freed_capital_plaza_low` |
+| CAP-BD-LANTERNS, CAP-FX-FIREWORKS | After `primm_defeated`: lanterns climbing slowly, one soft burst every 4.5 to 9 s. Reduce motion or Low-end: one still lantern card, no fireworks | `freed_capital_approach_low` |
+| CAP-PROP-PORTRAIT-PRIMM-01..03 | The easel portraits (the smiley stays the emblem elsewhere) | `freed_capital_approach_low` |
+| CAP-PROP-RUBBLE-ROW | The foot of the south wall in the Reek and the Transit Yards; the outskirts' south edge | `rubble_row_transit_yards` |
+| BUFF-PROP-STALL-01 / -02 | The Buffet hub's two market stalls | `buffet_stalls` |
+| DNA-PROP-SERVING-ORB | The head of the lobby's ghost queue, and beside TAKE A NUMBER | `dna_serving_orb` |
+| DUMP-HERO-RACCOON-STATUE | The raccoon king on the throne beside the Rotheart's gate (the art list's row) | `dump_raccoon_statue` |
+| DUMP-PROP-MILL-SAILS | The three mills' sails, turning slowly | `dump_mill_sails` |
+| GAIN-GROUND-MAT | The gym mats | `gainlands_gym_mat` |
+| ICON-EQ-HALLPASSSLIPPERS, ICON-GEAR-EARNEDBLADE | Their own icons (60 of 60 gear icons) | `icons_gallery`, `gear_icons_character` |
+| MAP-S-GALLERY | The Shattered Gallery's map; all 13 nodes moved onto the new painted landings, every painted path matches a link | `gallery_map_nodes` |
+| MG-BG-MATCHTABLE, UI-CARDBACK-DEX | Dex's matching game: table and card back | `dex_match_table` |
+| UI-BATTLE-ITEMSLOT-EMPTY / -READY | The battle item slots, same slot rect | `battle_item_slots` |
+| UI-PACK-LOCKED-B / -G / -N / -R | Fenwick's locked Path Packs | `locked_packs` |
+| UI-NODE-BANNER | The pop-up banner's base | `node_banner_shrine`, `node_banner_treasure` |
+| NPC-HESPER, STORY-EPI-WRINKLES | Replaced; the code recolour and its test are deleted | `portrait_hesper` |
+| V-FIGSLY | Replaced (two arms) | `portrait_figsly` |
+| STORY-CREDITS-PANORAMA | Behind the credits and the thanks card, a slow pan; the text carries a dark outline | `credits_panorama`, `credits_thanks_card` |
+| SPR-ELOWEN-*_WALK (5) | The intro and the cave mouth | `elowen_walk_default`, `elowen_walk_low` (six frames each), `elowen_walk_default_frame`, `elowen_walk_low_frame` |
+
+**The locked packs.** Beefcake red, Gourmand orange and Necrocrat deep green match their packs. The Refusemancer parcel also came with
+a green seal while its pack carries a rust-red medallion, so its seal is tinted rust in code (a small shader that re-colours only the
+wax). Each seal now echoes its pack and the two green parcels can be told apart.
+
+**Elowen's walk.** Built the way the townsfolk walkers are: four frames per sheet, the walkers' figure height and her own idle's scale,
+normal maps, the walkers' frame rate, mirrored for the right-facing directions. She has idles for three directions and walks for five,
+so the importer and the sprite now accept a walk with no idle of its own. At the intro she walks north-west into the trees (3 m in
+2.6 s, her back three-quarter frames) and fades over the last second; a figure that stops goes back to its idle. The same at the cave
+mouth after each freed zone. **Two things to know** (inbox 1 and 2): she still wears the disguise in both scenes and the disguise set
+has no walk frames, so she walks in Elowen's own frames, seen from behind; and the Lab, her rescue and the epilogue are stills and
+dialogue, so no figure of hers walks there.
+
+**Three placements that differ from the brief's wording** (inbox 3, 4, 6): the Capital has no dusk, so the lit window is the freed
+city's; the lanterns and fireworks stand in front of the castle because the sky is never in frame inside the city; Madame Mirepoix's
+stall moved 3.4 m so it stands behind her.
+
+**Size.** 81 new files, 8.0 MB of source art, **about 17 MB more in the pack**; the seven replaced files are 0.3 MB smaller. Against
+`docs/build_size_policy.md`: the pack was already over the 750 MB warning on purpose (music at q6); this batch adds 2 %.
+The numbers are from the imported files; the export will print the real pack size.
+
+## Part 2 - your answers
+
+**Fable Nov 12d**
+1. Fig Sly's label: kept.
+2. The Crease's arrival line: kept.
+3. Maren's cave-mouth welcome now carries her introduction: "...I'm Elder Maren, dearie, and this is Crosspath. We settle most things
+   here with cards..."
+4. Tall pieces at 1.3 times: kept. Re-measured on Medium with the new windows: **68.5 to 73.1 fps** at the six inside cameras (Gate
+   Plaza 68.5, Transit Yards 69.3, Grave Row 70.3, the Reek 71.4, Palace Approach 71.9, Hungry Quarter 73.1). No need for 1.2.
+5. New Game with no save in any slot starts the story at once, in slot 1. The slot grid appears once a save exists.
+
+**Dialogue Nov 13**
+1. Fig Sly's lines: still locked.
+2. Bertram: his 14 lengthened lines are back to the clipped originals (`docs/dialogue/bertram_nov13b.csv`); the lines that were already
+   short are unchanged. Every line of his is under 150 characters.
+3. The redistributed verbal habits: kept.
+4. The exporter: Dex's 20 `cardsharp.*` lines say "Dex Shufflewick"; the 20 "(check key)" rows are named (Tilly Tonic, Auntie
+   Alembic, Pip Threadwell, narration); the chef reads "The Grand Chef", the impostor "The Doppelganger" and, after the naming,
+   "Escoffina". **The 56 tutorial hints are in the export** (the first duel's 20 steps and the nine one-time screen tips), with ids the
+   importer already applies. None was rewritten.
+
+## Part 3 - the leftovers (all eight)
+
+| # | What | Result | Shot |
+|---|---|---|---|
+| 1 | The Dump's south corners | The land is drawn once more from behind in shadowed rock, so the camera inside the rim sees stone, not fog | `dump_corners_after` |
+| 2 | The Tidy-Bots | Any roamer whose touch costs HP stops for 0.85 s, flashes twice and sounds the alert before it comes. The arrival grace is 3 s and counts only while the hero can move, so it holds on a real entry | (behaviour; covered by a test) |
+| 3 | The Crease's east wall | The camera holds 3.4 m off both side walls and the view slides instead of turning back; the wall takes about a third of the frame, not half | `crease_east_wall_after` |
+| 4 | The Wanderer's portrait | Fades to clear over the last 11 % of its width | `portrait_wanderer_feathered` |
+| 5 | The Capital's map | District names; the Crease as its own framed inset "under the city"; a name is never written over an icon or another name, and a name several places share is written once | `capital_map_after` |
+| 6 | The minimap | Draws a 3x smoothed copy of the map picture: rounded edges in the Capital. In the forest the minimap shows almost nothing but the clearing, so the gain there is small | `minimap_before_after` |
+| 7 | Crosspath's south band | A knee-high kit hedge along the ravine's lip and a shadow in the cleft. The rock lip still shows as a pale and violet strip between them (inbox 9) | `crosspath_south_edge_after` |
+| 8 | The D.N.A.'s apron | 17 kit pieces and 10 ground decals either side of the causeway: filing towers, cabinets, paper stacks, a roped queue with a serving orb, ghost lamps, loose forms | `dna_apron_after` |
+
+## Part 4 - fresh eyes
+
+A critic with no context got 21 pictures of the nine places in the brief and nothing else (`docs/review/critic_batch15/`: `brief.md`,
+`shots/`, `report.md` with my triage under it). **Clarity 5/10, polish 5/10.**
+
+| # | Its finding | Size | Verdict |
+|---|---|---|---|
+| 1 | The thanks card sits on top of the credits' words | S/M | **Fixed.** Real after Skip, and worse over the new panorama |
+| 2 | Five things stacked at the top of the Transit Yards view | M | Mostly the capture (a fresh profile's Feat banners). The first-visit tip and the new-quest banner do share the first seconds: logged |
+| 3 | "Quest complete" covers the Black Market's title | S | **Fixed.** Quest notices wait while a shop is open |
+| 4 | Flat stand-in shapes round Fig Sly | L | Real: needs art |
+| 5 | Giant townsfolk cut off at the bottom of the freed plaza | M | Real on the Low camera: logged |
+| 6 | The well's two pictures are the same | M | The capture (full HP closes the offer). The medallion's icon is a fair point: logged |
+| 7 | No panel before the fight | M | The capture |
+| 8 | A late quest in the box on the first step into Crosspath | S/M | The capture. The flat lantern on the house is real: logged |
+| 9 | The boss panel does not say "boss", claims rules it does not list, red X on Continue | S | **Fixed** |
+| 10 | Pale, unpainted-looking citizens and lilac rectangles in the freed city | M | Real: logged |
+
+It liked the dialogue box with the painted portraits, the dungeon map and pop-up frames, and the mood of the opening forest.
+**What this means:** the low scores come mostly from the last city and the hideout, where stand-ins still sit beside painted art.
+That is art, not code, and it is the honest state of those two places at 1.0.
+
+## The itch upload checklist
+
+The full guide is `docs/release/itch_upload.md`. In short:
+
+1. Build the zip and run the checks above. All three must be clean.
+2. Unzip it into a fresh folder, run `TheWaywardPath.exe`, start a New Game (it should go straight to the forest), walk to the cave.
+3. itch.io > Dashboard > the project (or Create new project: "The Wayward Path", Games, Downloadable).
+4. Pricing: "$0 or donate", suggested 3 to 5 USD (or "No payments").
+5. Page text, tags and the AI disclosure from `docs/release/itch_page/` (`page.md`, `ai_disclosure.md`). AI field: Yes; Graphics,
+   Sound/Music, Text/Dialogue; not Code.
+6. Uploads: `builds/TheWaywardPath-v1.0.0-windows.zip`, tick Windows. It is under itch's 1 GB limit.
+7. Cover and the eight screenshots from `docs/release/itch_page/screenshots/`. Consider replacing one with the freed Capital or the
+   credits panorama (`docs/overnight_shots/batch15/`).
+8. Visibility: Draft, check the page, download once and run it; then Restricted for playtesters or Public.
+9. After the upload: `git tag v1.0.0 && git push --tags`.
+10. Optional: the in-game Support button (`data/credits/credits.cfg`, `[support] url`), which needs a re-export.
+
+---
+
 # Fable Nov 13 - report (the dialogue rewrite: one cohesive, emotional story)
 
 Brief: `docs/prompts/fable_nov13_dialogue.md`. Start tag `pre-dialogue-nov13`. Questions: `docs/overnight_inbox.md`, "Dialogue Nov 13"
