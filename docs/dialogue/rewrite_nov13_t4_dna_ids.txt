@@ -1,0 +1,17 @@
+data/story/dna_story.tres::enemy.intern::1
+data/story/dna_story.tres::fx.chest::0
+data/story/dna_story.tres::fx.main_dungeon::0
+data/story/dna_story.tres::fx.printer_ok::0
+data/story/dna_story.tres::fx.punch_in::0
+data/story/dna_story.tres::fx.suggestion::0
+data/story/dna_story.tres::fx.wake::1
+data/npcs/npcs.json::V-LEDGERBONE.barks::0
+data/npcs/npcs.json::NPC-ECTOMUND.barks::0
+data/npcs/npcs.json::NPC-KYLE.barks::1
+data/npcs/npcs.json::NPC-GERALD.barks::0
+data/npcs/npcs.json::NPC-GERALD.barks::1
+data/npcs/npcs.json::NPC-AGNES.barks::1
+data/npcs/npcs.json::NPC-MORTIMER.barks::0
+data/story/dna_story.tres::dungeon.ha_lost.blurb::0
+data/story/dna_story.tres::dungeon.ha_appeals.blurb::0
+data/dungeons/dungeon_content.json::dungeons/D-HFA/blurbs/13::0

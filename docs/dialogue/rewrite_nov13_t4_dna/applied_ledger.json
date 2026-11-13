@@ -1,0 +1,121 @@
+[
+	{
+		"id": "data/story/dna_story.tres::enemy.intern::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "It does not know the new management is wrong. It only knows the paperwork is valid.",
+		"after": "It doesn't know that the new management is wrong; it only knows that the paperwork is valid."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.chest::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "You find supplies filed under Miscellaneous. For once, you meet the requirements.",
+		"after": "You find supplies filed under Miscellaneous and, for once, you meet the requirements."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.main_dungeon::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "The Executive Floor's great doors stand open a crack. Beyond them: endless desks, green lamps, and stamps that thump like heartbeats.",
+		"after": "The Executive Floor's great doors stand open a crack, and beyond them are endless desks under green lamps, where the stamps thump like heartbeats."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.printer_ok::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "The printer gives you a warm card. You accept before it can request a reference.",
+		"after": "The printer hands you a card, still warm, and you take it before it can ask for a reference."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.punch_in::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "You punch in. The clock says 'Welcome back, Pending.' A small buff glimmers on you.",
+		"after": "You punch in, the clock says 'Welcome back, Pending', and a small buff glimmers on you."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.suggestion::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "You post a suggestion. Something drops back out of the box. You appear to have been assigned the follow-up.",
+		"after": "You post a suggestion and something drops back out of the box, which seems to mean you have been assigned the follow-up."
+	},
+	{
+		"id": "data/story/dna_story.tres::fx.wake::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "(narration)",
+		"before": "It says you are 'Pending'. It also says 'Valid'.",
+		"after": "It says you are 'Pending' and, underneath in the same neat hand, 'Valid'."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-LEDGERBONE.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Clerk Ledgerbone",
+		"before": "Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.",
+		"after": "Form 12-B for purchases, please. It's been quiet, and quiet gets noticed here."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-ECTOMUND.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Director Ectomund",
+		"before": "Three hundred years, the same quiz. The answers have never been fresher.",
+		"after": "Three hundred years of the same quiz, and I still enjoy a correct answer."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-KYLE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Kyle (Deceased Since '09)",
+		"before": "brb, haunting. been brb since '09. it's a long b.",
+		"after": "hey, thanks for stopping. most people just kind of walk through me."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-GERALD.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Four million two hundred and twelve. They're on three. Any minute now.",
+		"after": "I'm number four million two hundred and twelve, and they're on three. Any minute now!"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-GERALD.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Gerald, Number 4,000,212",
+		"before": "Coffee? Nobody here can taste it, but I make it anyway. It's the thought.",
+		"after": "Would you like a coffee? Sorry - nobody here can taste it, but I do like making it."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-AGNES.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Agnes Overdue",
+		"before": "Appeal forty thousand and one, denied. I'm starting to take it personally, dear.",
+		"after": "You look worn out, dear. Do sit a minute. Nobody here will mind, least of all me."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-MORTIMER.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Mortimer Grimsby, CE-No",
+		"before": "Number four million two hundred and fourteen. I have begun to understand Gerald.",
+		"after": "I am number four million two hundred and fourteen. I have begun to understand Gerald."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_lost.blurb::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "A counter piled high with misfiled belongings. A sign: IF YOU FIND SOMETHING, YOU MAY KEEP IT. IF YOU LOSE SOMETHING, SEE A CLERK.",
+		"after": "A counter piled high with misfiled belongings, under a sign: IF YOU FIND SOMETHING, YOU MAY KEEP IT. IF YOU LOSE SOMETHING, SEE A CLERK."
+	},
+	{
+		"id": "data/story/dna_story.tres::dungeon.ha_appeals.blurb::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "D.N.A. staff",
+		"before": "A judge in an old powdered wig weighs your case. The scales are made of paperwork.",
+		"after": "A judge in an old powdered wig weighs your case on a pair of scales made of paperwork."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-HFA/blurbs/13::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration/UI)",
+		"before": "The elevator is hand-cranked by a Beefcake on loan from the wheels. Every floor needs a permit and a rep. Iron turns the crank; Red Tape keeps the doors shut.",
+		"after": "A Beefcake on loan from the wheels cranks the elevator by hand, and every floor costs a permit and a rep. Iron turns the crank, while Red Tape keeps the doors shut."
+	}
+]

@@ -738,9 +738,9 @@
 		"description": "A meticulous skeleton clerk who requires a form for every purchase but is secretly delighted when someone fills it out correctly.",
 		"personality": "A meticulous skeleton clerk who requires a form for every purchase but is secretly delighted when someone fills it out correctly.",
 		"speech_style": "Flat, procedural, tiny flashes of joy.",
-		"sample_line": "Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.",
+		"sample_line": "Form 12-B for purchases, please. It's been quiet, and quiet gets noticed here.",
 		"barks": [
-			"Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.",
+			"Form 12-B for purchases, please. It's been quiet, and quiet gets noticed here.",
 			"The stamp wants a raise. I've given it the form, and it's thinking it over."
 		],
 		"game_function": "Zone card vendor.",
@@ -776,9 +776,9 @@
 		"description": "A ghostly trivia administrator who scores answers in triplicate.",
 		"personality": "A ghostly trivia administrator who scores answers in triplicate. Has been running the same quiz for 300 years.",
 		"speech_style": "Officious, droning, delighted by correct answers.",
-		"sample_line": "Three hundred years, the same quiz. The answers have never been fresher.",
+		"sample_line": "Three hundred years of the same quiz, and I still enjoy a correct answer.",
 		"barks": [
-			"Three hundred years, the same quiz. The answers have never been fresher.",
+			"Three hundred years of the same quiz, and I still enjoy a correct answer.",
 			"The ethics questions were removed by management. Ethically, I object."
 		],
 		"game_function": "Asks 4 questions about the Necrocrats.",
@@ -812,7 +812,7 @@
 		"sample_line": "is it still '09 out there? no? huh. brb, updating my away message.",
 		"barks": [
 			"is it still '09 out there? no? huh. brb, updating my away message.",
-			"brb, haunting. been brb since '09. it's a long b."
+			"hey, thanks for stopping. most people just kind of walk through me."
 		],
 		"game_function": "Hosts the D.N.A. memory matching minigame.",
 		"quest_links": [],
@@ -843,10 +843,10 @@
 		"description": "A patient ghost who has been waiting in line for centuries.",
 		"personality": "A patient ghost who has been waiting in line for centuries. Endlessly polite, slightly unraveling.",
 		"speech_style": "Polite, tired, hopeful.",
-		"sample_line": "Four million two hundred and twelve. They're on three. Any minute now.",
+		"sample_line": "I'm number four million two hundred and twelve, and they're on three. Any minute now!",
 		"barks": [
-			"Four million two hundred and twelve. They're on three. Any minute now.",
-			"Coffee? Nobody here can taste it, but I make it anyway. It's the thought."
+			"I'm number four million two hundred and twelve, and they're on three. Any minute now!",
+			"Would you like a coffee? Sorry - nobody here can taste it, but I do like making it."
 		],
 		"game_function": "Gives the Waiting Room of Eternity quest (S-NECRO).",
 		"quest_links": [
@@ -882,7 +882,7 @@
 		"sample_line": "Employee of the month since 1987, dear. The plaque is getting heavy.",
 		"barks": [
 			"Employee of the month since 1987, dear. The plaque is getting heavy.",
-			"Appeal forty thousand and one, denied. I'm starting to take it personally, dear."
+			"You look worn out, dear. Do sit a minute. Nobody here will mind, least of all me."
 		],
 		"game_function": "Main dungeon hook and guide for the Hall of Final Approvals; becomes the Necrocrat leader and lends a boon against Primm.",
 		"quest_links": [
@@ -1681,9 +1681,9 @@
 		"description": "The CE-No who runs the D.N.A.",
 		"personality": "The CE-No who runs the D.N.A. for Primm and enforces every rule to the letter, no matter who it crushes, because the paperwork transferring authority is valid. Not cackling-evil, just immovable. 'The answer is no. The question is irrelevant.' Removed from office after his defeat; takes a number in the Waiting Room of Eternity, right behind Gerald.",
 		"speech_style": "Formal, dry, rare deadpan humor.",
-		"sample_line": "Number four million two hundred and fourteen. I have begun to understand Gerald.",
+		"sample_line": "I am number four million two hundred and fourteen. I have begun to understand Gerald.",
 		"barks": [
-			"Number four million two hundred and fourteen. I have begun to understand Gerald.",
+			"I am number four million two hundred and fourteen. I have begun to understand Gerald.",
 			"I have filed my impatience in triplicate. It is still being processed."
 		],
 		"game_function": "Hall of Final Approvals boss (Office of Final Approval).",
