@@ -106,8 +106,8 @@
 				],
 				[
 					"NPC-CRUMB",
-					"And what is THIS? A civilian, unsupervised, in my bay, with flavour on his breath. Disgraceful.",
-					"Colonel Cornelius Crumb, Director of Culinary Defense, and you will stand up straight when you hear it. Taste is a weakness, son. Paste is a strategy."
+					"And what is THIS? A civilian, wandering about my bay unsupervised, with flavour on his breath! You are out of uniform and out of bounds, soldier, and I call it a disgrace.",
+					"Colonel Cornelius Crumb, Director of Culinary Defense, and you will stand up straight when you hear it. Taste is a weakness, soldier. Paste is a strategy."
 				],
 				[
 					"NPC-CRUMB",
@@ -132,13 +132,13 @@
 			"steps": [
 				[
 					"NPC-BASIL",
-					"The Colonel's gone. He cleared out his office overnight and took the paste recipe with him.",
-					"It's one word long, and the word is 'paste'."
+					"Um. The Colonel's gone. He cleared out his whole office overnight, and he took the paste recipe with him, though I can't think why he'd need to.",
+					"I've seen that recipe, you see, and it's only one word long, and the word is 'paste'."
 				],
 				[
 					"NPC-ESCOFFINA",
 					"He left before dessert, the way he always did. They say he's feeding the whole Capital now, out of a factory.",
-					"Grey food, from a tap. Somebody ought to teach that man to cook."
+					"Grey food out of a tap, for a whole city. Somebody ought to sit that man down at a table and teach him what cooking is for."
 				]
 			]
 		},
@@ -900,7 +900,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see now... you're not down for a good long while. Ha! Lovely."
+					"Oh, only appointments. Let's see now... no, you're not down for a good long while yet, and that's just what I like to see. Lovely! Heh."
 				]
 			]
 		},

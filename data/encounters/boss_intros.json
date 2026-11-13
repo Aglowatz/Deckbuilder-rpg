@@ -14,7 +14,7 @@
 	},
 	"Chef Fennel Gravois": {
 		"title": "Keeper of the Pantry Key",
-		"line": "TASTE IT. TASTE IT! It's for the war effort!",
+		"line": "TASTE IT! One little spoonful is all I ask, and you will never want anything else again. It's for the war effort!",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
@@ -170,7 +170,7 @@
 	},
 	"Colonel Casserole": {
 		"title": "Guardian of the Buffet Gate",
-		"line": "Halt, traveller! This gate opens only for a duel of honour, so lids up. Yes, Chef.",
+		"line": "Halt there, traveller! This gate opens for nothing but a duel of honour, fairly fought, so lids up, and may the better dish win. Yes, Chef.",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	}

@@ -290,7 +290,7 @@
 				"pct": 50
 			},
 			"text": "At half health Colonel Casserole demands a proper duel: his units get +1/+1 for the rest of the fight.",
-			"line": "En garde! Thirty years of service, and I have never once boiled over. Until now. Yes, Chef.",
+			"line": "En garde! In thirty years of service I have never once boiled over, and I had hoped to retire with that record intact, but you do press a casserole hard. Yes, Chef.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -629,7 +629,7 @@
 				"pct": 25
 			},
 			"text": "Near the end the face it wore is gone: its units get -1/-0 for the rest of the fight.",
-			"line": "They always asked whether I tasted the soup. ...I never did. I never could.",
+			"line": "They were always asking whether I had tasted the soup. ...I never did, and I do not think that I ever could.",
 			"effects": [
 				{
 					"kind": "rule",
