@@ -530,10 +530,10 @@
 		"description": "A retired champion turned motivational coach who sells cards like supplements.",
 		"personality": "A retired champion turned motivational coach who sells cards like supplements. Has a whistle, a clipboard, and zero inside voice.",
 		"speech_style": "Hype-man energy, sports metaphors, 'LET'S GO!'",
-		"sample_line": "LET'S GO! Cards are protein for your deck! Regime-approved! (They are not.)",
+		"sample_line": "LET'S GO! CARDS ARE PROTEIN FOR YOUR DECK! *whispering* None of them are approved.",
 		"barks": [
-			"LET'S GO! Cards are protein for your deck! Regime-approved! (They are not.)",
-			"Floorboard? WHAT floorboard? Do NOT stand on the floorboard! LET'S GO!"
+			"LET'S GO! CARDS ARE PROTEIN FOR YOUR DECK! *whispering* None of them are approved.",
+			"WHAT FLOORBOARD? *whispering* Step round it, would you? It's a good floorboard."
 		],
 		"game_function": "Zone card vendor.",
 		"quest_links": [
@@ -568,10 +568,10 @@
 		"description": "A gentle giant whose love language is throwing people to floating islands.",
 		"personality": "A gentle giant whose love language is throwing people to floating islands. Has never once missed (he says).",
 		"speech_style": "Cheerful, simple, counts down before every throw.",
-		"sample_line": "Three... two... oh, I already threw someone. Sorry. Enthusiasm.",
+		"sample_line": "Three... two... oh, I've already thrown someone. Sorry, I get keen and lose count.",
 		"barks": [
-			"Three... two... oh, I already threw someone. Sorry. Enthusiasm.",
-			"Never once missed. The landing is your part. I believe in your part."
+			"Three... two... oh, I've already thrown someone. Sorry, I get keen and lose count.",
+			"I've never missed a throw, and the landing's your part. I believe in your part."
 		],
 		"game_function": "Throws the player to floating islands.",
 		"quest_links": [],
@@ -604,7 +604,7 @@
 		"sample_line": "HNNNGH. Thank you for ripping with the Express. Please don't look at the seam.",
 		"barks": [
 			"HNNNGH. Thank you for ripping with the Express. Please don't look at the seam.",
-			"HNNNGH. Two hundred and twelfth shirt this year. Did you notice my form, buddy?"
+			"HNNNGH. That's my two hundred and twelfth shirt this year, buddy. Worth every one."
 		],
 		"game_function": "Opens portals between linked locations.",
 		"quest_links": [],
@@ -634,10 +634,10 @@
 		"description": "A buff academic in a tweed jacket that barely fits.",
 		"personality": "A buff academic in a tweed jacket that barely fits. Believes knowledge is a muscle. Grades on a curve (literally, a bicep curve).",
 		"speech_style": "Professorial, pompous, gym puns.",
-		"sample_line": "Pop quiz! Kidding. Unless... no. Even brain-ceps need a rest day.",
+		"sample_line": "Pop quiz! No, I'm only teasing, student. Even the brain-ceps need a rest day.",
 		"barks": [
-			"Pop quiz! Kidding. Unless... no. Even brain-ceps need a rest day.",
-			"Read the signs, student. Every answer is there. Consider it a slow circuit of the gym."
+			"Pop quiz! No, I'm only teasing, student. Even the brain-ceps need a rest day.",
+			"Read the signs as you go, student, because every answer I want is written on one."
 		],
 		"game_function": "Asks 4 questions about the Beefcakes.",
 		"quest_links": [],
@@ -671,7 +671,7 @@
 		"sample_line": "But WAIT, there's MORE! Act now for a SECOND set of reps! Reps not included!",
 		"barks": [
 			"But WAIT, there's MORE! Act now for a SECOND set of reps! Reps not included!",
-			"Operators are standing by! It's me! I tried sitting! LOST THE ENERGY!"
+			"Operators are standing by! It's just me, and I've been standing by since midnight!"
 		],
 		"game_function": "Hosts the Gainlands minigame.",
 		"quest_links": [],
@@ -702,10 +702,10 @@
 		"description": "A wheezing, ancient ex-champion who once climbed Mount Swolympus.",
 		"personality": "A wheezing, ancient ex-champion who once climbed Mount Swolympus. Mostly naps. Knows exactly where the Barbell of the Ancients is.",
 		"speech_style": "Wheezy, nostalgic, trails off mid-story.",
-		"sample_line": "Rule one: never lift alone. Rule two... rule two is... where was I.",
+		"sample_line": "Rule one, never lift alone. Rule two is... now, where was I? Have you had water?",
 		"barks": [
-			"Rule one: never lift alone. Rule two... rule two is... where was I.",
-			"There was a boy at the Lifting Festival once. Four colours in his hands... hm."
+			"Rule one, never lift alone. Rule two is... now, where was I? Have you had water?",
+			"There was a boy at the Lifting Festival once, with four colours in his hands... hm."
 		],
 		"game_function": "Gives the Mount Swolympus quest (S-BEEF).",
 		"quest_links": [
@@ -1521,7 +1521,7 @@
 		"sample_line": "Breathe in. Hold. ...Now lift. The breath was the hard part.",
 		"barks": [
 			"Breathe in. Hold. ...Now lift. The breath was the hard part.",
-			"They took the iron, son. The iron was only ever a guest."
+			"They took the iron, son, but the iron was only ever a guest in this house."
 		],
 		"game_function": "Rescued in the House of Gains; joins the boss fight.",
 		"quest_links": [],

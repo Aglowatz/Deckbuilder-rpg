@@ -1,0 +1,191 @@
+[
+	{
+		"id": "data/story/gainlands_story.tres::fx.heal_couch::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You sink into eucalyptus-scented water with an unmistakable base note of gym sock. HP restored; nose unconvinced.",
+		"after": "You sink into hot water that smells of eucalyptus and, underneath it, unmistakably of gym sock. HP restored, though your nose has its doubts."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.heal_already::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You're already as rested as a Beefcake ever gets. The tub has done all it can for you.",
+		"after": "You're already as rested as a Beefcake ever gets, and the tub has done all it can for you."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.landed::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "You land. The ground takes most of the credit.",
+		"after": "You come down in a heap, and the ground takes most of the credit for the landing."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.portal::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "RRRRRIIIIIP! A portal, torn open by hand.",
+		"after": "RRRRRIIIIIP! Someone has torn a portal open in the air with nothing but their bare hands."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::ambient.gym_attendant::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Gym attendant",
+		"before": "Towels are ten gold now, because Clench taxes sweat.",
+		"after": "Towels are ten gold now, I'm sorry to say, because Clench has started taxing sweat."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::ambient.gym_attendant::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Gym attendant",
+		"before": "House rule one: re-rack your weights. House rule two: we have no weights.",
+		"after": "House rule one is still to re-rack your weights, and I do keep saying it, though we haven't had a weight in here for ten years."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_done::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You grab the bar and heave. Gary slides out, gasping.",
+		"after": "You grab the bar and heave, and Gary slides out from under it, gasping."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_done::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "\"You're a hero! Take this, I borrowed it from the gym.\"",
+		"after": "\"Oh, thank you, and I'm so sorry about the bother. Please take this - I borrowed it from the gym.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.spot_done::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "\"It's not mine, so now it's yours. I think that's how borrowing works.\"",
+		"after": "\"It isn't mine, so I suppose it's yours now. I think that's how borrowing works.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_good::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "A banana-berry shake. Smooth, sweet, suspiciously good for you. +HP.",
+		"after": "It's a banana-berry shake, smooth and sweet and suspiciously good for you. +HP."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_great::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "A legendary chocolate-peanut-butter shake. Even your muscles want the recipe. Big recovery!",
+		"after": "It's the legendary chocolate-peanut-butter shake, and even your muscles want the recipe. Big recovery!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_bad::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "Chalky, lumpy... you appear to be drinking an unfinished wall.",
+		"after": "It's chalky and lumpy, and you appear to be drinking an unfinished wall."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.shake_gold::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "The cup has a coin at the bottom. The shake was just a front. +gold.",
+		"after": "There's a coin at the bottom of the cup, so the shake was only ever a front. +gold."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.flex_1::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You flex. The mirror flexes back. You both nod. +1 HP.",
+		"after": "You flex, the mirror flexes back, and the two of you nod at each other. +1 HP."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::fx.flex_3::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You hit the most-muscular pose. The mirror applauds. +1 HP.",
+		"after": "You hit the most-muscular pose, and the mirror breaks into applause. +1 HP."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-BENCHLEY.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Coach Brutus Benchley",
+		"before": "LET'S GO! Cards are protein for your deck! Regime-approved! (They are not.)",
+		"after": "LET'S GO! CARDS ARE PROTEIN FOR YOUR DECK! *whispering* None of them are approved."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-BENCHLEY.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Coach Brutus Benchley",
+		"before": "Floorboard? WHAT floorboard? Do NOT stand on the floorboard! LET'S GO!",
+		"after": "WHAT FLOORBOARD? *whispering* Step round it, would you? It's a good floorboard."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-HURL.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Big Hurl",
+		"before": "Three... two... oh, I already threw someone. Sorry. Enthusiasm.",
+		"after": "Three... two... oh, I've already thrown someone. Sorry, I get keen and lose count."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-HURL.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Big Hurl",
+		"before": "Never once missed. The landing is your part. I believe in your part.",
+		"after": "I've never missed a throw, and the landing's your part. I believe in your part."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-RIP.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Rip Tearson",
+		"before": "HNNNGH. Two hundred and twelfth shirt this year. Did you notice my form, buddy?",
+		"after": "HNNNGH. That's my two hundred and twelfth shirt this year, buddy. Worth every one."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PUMP.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Professor Pump",
+		"before": "Pop quiz! Kidding. Unless... no. Even brain-ceps need a rest day.",
+		"after": "Pop quiz! No, I'm only teasing, student. Even the brain-ceps need a rest day."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PUMP.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Professor Pump",
+		"before": "Read the signs, student. Every answer is there. Consider it a slow circuit of the gym.",
+		"after": "Read the signs as you go, student, because every answer I want is written on one."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-THUNDERABS.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Chet Thunderabs",
+		"before": "Operators are standing by! It's me! I tried sitting! LOST THE ENERGY!",
+		"after": "Operators are standing by! It's just me, and I've been standing by since midnight!"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-MOUNTAIN.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Old Man Mountain",
+		"before": "Rule one: never lift alone. Rule two... rule two is... where was I.",
+		"after": "Rule one, never lift alone. Rule two is... now, where was I? Have you had water?"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-MOUNTAIN.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Old Man Mountain",
+		"before": "There was a boy at the Lifting Festival once. Four colours in his hands... hm.",
+		"after": "There was a boy at the Lifting Festival once, with four colours in his hands... hm."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-FLEX.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "They took the iron, son. The iron was only ever a guest.",
+		"after": "They took the iron, son, but the iron was only ever a guest in this house."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_calisthenics.blurb::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "The prison has no iron, so it tests bodies. A guard demands to see your form.",
+		"after": "With no iron to lift, the prison tests bodies instead, and a guard steps up and demands to see your form."
+	}
+]

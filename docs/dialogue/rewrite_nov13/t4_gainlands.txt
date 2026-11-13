@@ -1,0 +1,539 @@
+# t4_gainlands: 198 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Pop-ups for the House of Gains, resting, getting hurt and waking after a defeat: state each game effect plainly and let Old Man Mountain's ramble make the respawn feel kind.
+@gainlands::fx.main_dungeon
+#   [(narration)] Pop-up message: main dungeon
+0| The House of Gains looms over you, all bare stone and floodlights. Above it the regime's flag snaps in the wind: a barbell with a red line through it.
+
+@gainlands::fx.heal_couch
+#   [(narration)] Pop-up message: heal couch
+0| You sink into hot water that smells of eucalyptus and, underneath it, unmistakably of gym sock. HP restored, though your nose has its doubts.
+
+@gainlands::fx.heal_already
+#   [(narration)] Pop-up message: heal already
+0| You're already as rested as a Beefcake ever gets, and the tub has done all it can for you.
+
+@gainlands::fx.hit
+#   [(narration)] Pop-up message: hit
+0| ZAP! A regime sprite hits you right in the quads. (-2 HP)
+
+@gainlands::fx.wake
+#   [Old Man Mountain] Pop-up message: wake
+0| You wake up in the Cooldown Hot Tub at the Swole Station. Old Man Mountain is holding a clipboard and a very small towel.
+1| "You passed out mid-rep, lad. Happens to the best of us. Happened to me in the spring of... the spring of... well, it was a spring. Towel's on the house."
+2| "Just don't tell the regime you had a lie-down. They fine people for resting, and I've only got the one towel."
+
+## purpose: Pop-ups for stashes, throws, portals, falls and locked ways: one clear picture each, with the fall's HP cost and respawn exactly as they are.
+@gainlands::fx.chest
+#   [(narration)] Pop-up message: chest
+0| Behind a rock you find a hidden stash, wrapped in an old gym towel so the regime wouldn't spot it.
+
+@gainlands::fx.thrown
+#   [Throwers and rippers] Pop-up message: thrown
+0| COURTESY CHUCK!
+
+@gainlands::fx.landed
+#   [Throwers and rippers] Pop-up message: landed
+0| You come down in a heap, and the ground takes most of the credit for the landing.
+
+@gainlands::fx.portal
+#   [Throwers and rippers] Pop-up message: portal
+0| RRRRRIIIIIP! Someone has torn a portal open in the air with nothing but their bare hands.
+
+@gainlands::fx.fall
+#   [(narration)] Pop-up message: fall
+0| You slip off the edge and come round at your last safe spot, bruised. Gravity has never spotted anyone in its life. (-1 HP)
+
+@gainlands::fx.fall_log
+#   [(narration)] Pop-up message: fall log
+0| Fell off %s - respawned at the last safe spot, 1 damage to zone HP.
+
+@gainlands::fx.locked
+#   [(narration)] Pop-up message: locked
+0| Not yet. Come back when you've done a few more reps.
+
+## purpose: Travel destination names: plain UI labels, kept exactly.
+@gainlands::travel.dest.arrive_pec
+#   [(narration/UI)] Travel: dest arrive pec
+0| Pec Perch
+
+@gainlands::travel.dest.arrive_delt
+#   [(narration/UI)] Travel: dest arrive delt
+0| Delt Deck
+
+@gainlands::travel.dest.land_west
+#   [(narration/UI)] Travel: dest land west
+0| the far west meadow
+
+@gainlands::travel.dest.land_east
+#   [(narration/UI)] Travel: dest land east
+0| the far east meadow
+
+@gainlands::travel.dest.land_pec
+#   [(narration/UI)] Travel: dest land pec
+0| the Meadow Road
+
+@gainlands::travel.dest.arrive_calf
+#   [(narration/UI)] Travel: dest arrive calf
+0| Calf Cove
+
+@gainlands::travel.dest.land_delt
+#   [(narration/UI)] Travel: dest land delt
+0| the Ridge Road
+
+@gainlands::travel.dest.arrive_glute
+#   [(narration/UI)] Travel: dest arrive glute
+0| Glute Garden
+
+@gainlands::travel.dest.land_glute
+#   [(narration/UI)] Travel: dest land glute
+0| the east wheel yard
+
+@gainlands::travel.dest.land_calf
+#   [(narration/UI)] Travel: dest land calf
+0| the west meadow
+
+## purpose: The Swole Station's signs under the regime: sign-short, gym-proud, with the regime's notices pressing in; the Lecture Log quiz reads its answers off these, so the facts stay.
+@gainlands::sign.hub_main
+#   [(narration)] Reading a sign: hub main
+0| THE SWOLE STATION
+1| Hub of the Gainlands. Heal here. Brag here. Do NOT skip leg day here.
+2| (Regime notice: all gatherings must be pre-approved cardio.)
+
+@gainlands::sign.hub_power
+#   [(narration)] Reading a sign: hub power
+0| POWERED BY BEEFCAKES
+1| Every light in the Gainlands runs on giant mills and colossal hamster wheels.
+2| 100% muscle. 0% coal. 110% quota, by order of the regime.
+
+@gainlands::sign.exit
+#   [(narration)] Reading a sign: exit
+0| THE GORGE BRIDGE
+1| To {town}. Mind the gap; it has a very low opinion of shortcuts.
+2| (Bridge lowered courtesy of Brick Bronson. He would like you to know he stretched first.)
+
+@gainlands::sign.heal_tub
+#   [(narration)] Reading a sign: heal tub
+0| COOLDOWN HOT TUB
+1| Soak. Stretch. Do not drink the water. (Foreman Gus drank the water.)
+
+@gainlands::sign.protein_stand
+#   [(narration)] Reading a sign: protein stand
+0| PROTEIN SHAKE STAND
+1| 10 gold. Flavour: surprise.
+2| Results may vary. Please let the shake settle before you drink it, and your stomach settle after.
+
+@gainlands::sign.flex_mirror
+#   [(narration)] Reading a sign: flex mirror
+0| FLEX MIRROR
+1| Check your form, your friend's form and the mirror's form. Someone here needs constructive reflection.
+
+@gainlands::sign.vendor
+#   [(narration)] Reading a sign: vendor
+0| BENCHLEY'S PROTEIN & PASTEBOARD
+1| Protein, powder and cards, but mostly cards. The protein is optional; the yelling is not.
+
+@gainlands::sign.mills
+#   [(narration)] Reading a sign: mills
+0| MILL MEADOW
+1| These giant mills grind everything: grain, tension, deadlines.
+2| Pushed by hand, by Beefcakes, since forever. (The D.N.A. once asked for exact start times. We said "morning-ish".)
+
+@gainlands::sign.quiz
+#   [(narration)] Reading a sign: quiz
+0| THE LECTURE LOG
+1| Professor Pump asks 4 questions on Beefcake knowledge. Every answer is written on a sign somewhere in the Gainlands, so read as you go.
+
+@gainlands::sign.studio
+#   [(narration)] Reading a sign: studio
+0| STUDIO 3 AM
+1| Now taping: 'Pump It Up Past Midnight!'
+2| Wear your legwarmers. Fashion may have moved on, but our calves have not.
+
+## purpose: Signs around the wheels, gym, chucks, portals and the two dungeons: say the rule of each place (grid puzzle, Gym Rat card, who sells what) in a gym notice's voice.
+@gainlands::sign.puzzle
+#   [(narration)] Reading a sign: puzzle
+0| POWER GRID CONTROL PANEL
+1| Six hamster wheels, three machines. Each wheel feeds two machines (or naps).
+2| Only five wheels may run at once. They get tired.
+
+@gainlands::sign.wheel
+#   [(narration)] Reading a sign: wheel
+0| COLOSSAL HAMSTER WHEEL
+1| Run it to power the grid. There are no actual hamsters inside; the hamsters get breaks.
+
+@gainlands::sign.gym
+#   [(narration)] Reading a sign: gym
+0| THE BOULDER GYM
+1| Equipment: boulders, logs and more boulders. A rock-solid selection.
+2| Please re-rack your boulders.
+
+@gainlands::sign.record_board
+#   [(narration)] Reading a sign: record board
+0| THE RECORD BOARD
+1| Every record set on this field, promptly crossed out by the next one. Personal bests are temporary; chalk is forever.
+2| At the bottom, in chalk: DAY 1 OF NEVER SKIPPING. Day 1 has been crossed out forty times.
+
+@gainlands::shrine.used
+#   [(narration/UI)] Shrine: used
+0| The Pump Shrine is spent. It flexes anyway, out of habit.
+
+@gainlands::sign.spot_me
+#   [(narration)] Reading a sign: spot me
+0| SPOTTER WANTED
+1| Gary is under there. Gary has been under there since lunch.
+
+@gainlands::sign.thrower_rule
+#   [(narration)] Reading a sign: thrower rule
+0| COURTESY CHUCKS
+1| FREE.
+2| Spotter mandatory. Landing not guaranteed. Dignity sold separately.
+
+@gainlands::sign.ripper_rule
+#   [(narration)] Reading a sign: ripper rule
+0| PORTALS: TORN, NOT CAST
+1| Bare hands only. No spells, no tools.
+2| Warranty void if stretched.
+
+@gainlands::sign.thrower_east
+#   [(narration)] Reading a sign: thrower east
+0| CROSS-COUNTRY CHUCKS
+1| East to west. A courtesy chuck, the long way. Gym Rat card required; Coach Benchley sells them.
+
+@gainlands::sign.thrower_west
+#   [(narration)] Reading a sign: thrower west
+0| CROSS-COUNTRY CHUCKS
+1| West to east. A courtesy chuck, the long way. Free. Aim is a rumour.
+
+@gainlands::sign.mini_dungeon
+#   [(narration)] Reading a sign: mini dungeon
+0| THE IRON CAVE
+1| Leg day. Every day. Bring chalk.
+2| (Chalk sold at Benchley's, at a price he calls motivational.)
+
+@gainlands::sign.main_dungeon
+#   [(narration)] Reading a sign: main dungeon
+0| THE HOUSE OF GAINS
+1| The regime's stronghold. Authorized personnel only. Authorization takes exactly thirty seconds, and someone inside is timing you.
+2| Leg Day is mandatory. It never ends.
+
+@gainlands::sign.leg_day_note
+#   [(narration)] Reading a sign: leg day note
+0| NOTE FROM THE REGIME
+1| The House of Gains is closed to the public. Visitors will be given a pamphlet, a towel and a very long set of squats.
+2| Weights are not available. Leg Day, however, is.
+
+## purpose: Posters and plateau signs: Beefcake pride with the regime skimming it, and the edge warnings that explain falling.
+@gainlands::sign.energy_poster
+#   [(narration)] Reading a sign: energy poster
+0| GOT ENERGY? (THE REGIME DOES.)
+1| Ask any Beefcake: they've got loads of it, and the regime takes most of it.
+
+@gainlands::sign.beefcake_poster
+#   [(narration)] Reading a sign: beefcake poster
+0| BEEFCAKES: BUILT DIFFERENT
+1| Energy, by wheel and mill.
+2| Transportation, by throw and portal.
+3| Currently operating under new management. Nobody asked.
+
+@gainlands::sign.pec_perch
+#   [(narration)] Reading a sign: pec perch
+0| PEC PERCH
+1| Population: one mirror. Please mind the edge; looking down on yourself is enough.
+
+@gainlands::sign.delt_deck
+#   [(narration)] Reading a sign: delt deck
+0| DELT DECK
+1| Mind the edge. Delts are not wings.
+
+@gainlands::sign.glute_garden
+#   [(narration)] Reading a sign: glute garden
+0| GLUTE GARDEN
+1| Bend at the knees. Always bend at the knees.
+
+@gainlands::sign.calf_cove
+#   [(narration)] Reading a sign: calf cove
+0| CALF COVE
+1| Quiet. Remote. Excellent calves.
+
+@gainlands::sign.edge_warning
+#   [(narration)] Reading a sign: edge warning
+0| CAUTION: EDGE
+1| There is no railing. There is no spotter. There is only gravity.
+
+@gainlands::sign.hamster_fact
+#   [(narration)] Reading a sign: hamster fact
+0| FUN FACT
+1| A hamster does not know it is the engine of a civilization.
+2| The Beefcakes bring snacks. Civilization rests on the hamsters not finding out what a salary is.
+
+## purpose: First sight of the regime's roaming enemies: one picture each, slightly sad and slightly silly.
+@gainlands::enemy.brute
+#   [(narration)] Enemy: brute
+0| You see a regime enforcer flexing at nobody. He has held the pose since breakfast, because nobody has told him he can stop.
+
+@gainlands::enemy.golem
+#   [(narration)] Enemy: golem
+0| A walking tub of confiscated protein powder rattles past, and it does not like the look of you.
+
+@gainlands::enemy.sprite
+#   [(narration)] Enemy: sprite
+0| A sprite of pure mandatory pre-workout buzzes past, vibrating so hard it goes straight through a wall.
+
+## purpose: The gym attendant under the regime: an ordinary worker apologising for a gym with no weights, and planting the Capital's scales.
+@gainlands::ambient.gym_attendant
+#   [Gym attendant] Ambient: gym attendant
+0| Gym's open! The weights aren't. The scales stayed, though - standard measures, sent up from the Capital. Say what you like about the Minister, those scales never lie.
+1| Towels are ten gold now, I'm sorry to say, because Clench has started taxing sweat.
+2| House rule one is still to re-rack your weights, and I do keep saying it, though we haven't had a weight in here for ten years.
+
+## purpose: Gary under the barbell: the spotting reward, with Gary polite and sorry for the bother.
+@gainlands::fx.spot_done
+#   [(narration)] Pop-up message: spot done
+0| You grab the bar and heave, and Gary slides out from under it, gasping.
+1| "Oh, thank you, and I'm so sorry about the bother. Please take this - I borrowed it from the gym."
+2| "It isn't mine, so I suppose it's yours now. I think that's how borrowing works."
+
+@gainlands::fx.spot_again
+#   [(narration)] Pop-up message: spot again
+0| You find Gary under a different, lighter barbell. He has lowered the bar in every sense except the useful one.
+
+## purpose: The wheel, the shake stand and the flex mirror: say what the player got (+HP, +gold, -1 HP, nothing) in one flowing sentence each.
+@gainlands::fx.wheel_run
+#   [(narration)] Pop-up message: wheel run
+0| You jump into the Colossal Hamster Wheel and run until your legs burn. The grid hums, lights brighten across the Gainlands, and somewhere a portal ripper rolls up her sleeves.
+
+@gainlands::fx.wheel_again
+#   [(narration)] Pop-up message: wheel again
+0| The wheel's still spinning happily on its own. Let it coast; you've earned a snack.
+
+@gainlands::fx.shake_good
+#   [(narration)] Pop-up message: shake good
+0| It's a banana-berry shake, smooth and sweet and suspiciously good for you. +HP.
+
+@gainlands::fx.shake_great
+#   [(narration)] Pop-up message: shake great
+0| It's the legendary chocolate-peanut-butter shake, and even your muscles want the recipe. Big recovery!
+
+@gainlands::fx.shake_bad
+#   [(narration)] Pop-up message: shake bad
+0| It's chalky and lumpy, and you appear to be drinking an unfinished wall.
+1| You drink it anyway. -1 HP.
+
+@gainlands::fx.shake_gold
+#   [(narration)] Pop-up message: shake gold
+0| There's a coin at the bottom of the cup, so the shake was only ever a front. +gold.
+
+@gainlands::fx.shake_empty
+#   [(narration)] Pop-up message: shake empty
+0| You receive an empty cup. Flavour: surprise.
+
+@gainlands::fx.shake_broke
+#   [(narration)] Pop-up message: shake broke
+0| The stand wants 10 gold. You have enthusiasm, which it does not accept.
+
+@gainlands::fx.flex_1
+#   [(narration)] Pop-up message: flex 1
+0| You flex, the mirror flexes back, and the two of you nod at each other. +1 HP.
+
+@gainlands::fx.flex_2
+#   [(narration)] Pop-up message: flex 2
+0| You hit a double biceps, and you and the mirror gasp at the same moment. +1 HP.
+
+@gainlands::fx.flex_3
+#   [(narration)] Pop-up message: flex 3
+0| You hit the most-muscular pose, and the mirror breaks into applause. +1 HP.
+
+@gainlands::fx.flex_limit
+#   [(narration)] Pop-up message: flex limit
+0| Your pump has peaked for this visit; come back next time. Even your reflection needs a cooldown.
+
+@gainlands::fx.flex_full
+#   [(narration)] Pop-up message: flex full
+0| You flex, the mirror flexes back, and there's nothing left to heal. You look great regardless.
+
+## purpose: The regime's rules, Clench's poster and the missing-leader notice: set up Flex's ten years gone before the player meets him.
+@gainlands::sign.regime_rules
+#   [(narration)] Reading a sign: regime rules
+0| BY ORDER OF CHANCELLOR CLENCH
+1| 1. Weights are confiscated for your safety.
+2| 2. Protein is a privilege, not a right.
+3| 3. Mandatory Cardio Compliance, 5 AM sharp. Lateness is punished with more cardio.
+
+@gainlands::sign.regime_poster
+#   [(narration)] Reading a sign: regime poster
+0| CHANCELLOR CLENCH SAYS: "A BEEFCAKE WITHOUT IRON IS JUST A CAKE."
+1| (Printed on iron-free paper, naturally.)
+
+@gainlands::sign.missing_leader
+#   [(narration)] Reading a sign: missing leader
+0| MISSING: OUR LEADER
+1| Grandmaster Flex. Ten years gone, dragged off to the House of Gains.
+2| If found, do not lift him. He is probably tired.
+3| - the Spotters
+
+@gainlands::prop.leg_day_gate
+#   [(narration)] Examining: leg day gate
+0| THE HOUSE OF GAINS
+
+## purpose: Barks for the Gainlands cast: Benchley LOUD then whispering, cheerful transport staff, Pump's kindly puns, Chet's patter, Mountain rambling and warm, Flex gentle and slow.
+@npc::V-BENCHLEY.barks
+#   [Coach Brutus Benchley] Bark (speech bubble when you walk past Coach Brutus Benchley; Gainlands, Swole Station)
+0| LET'S GO! CARDS ARE PROTEIN FOR YOUR DECK! *whispering* None of them are approved.
+1| WHAT FLOORBOARD? *whispering* Step round it, would you? It's a good floorboard.
+
+@npc::NPC-HURL.barks
+#   [Big Hurl] Bark (speech bubble when you walk past Big Hurl; Gainlands)
+0| Three... two... oh, I've already thrown someone. Sorry, I get keen and lose count.
+1| I've never missed a throw, and the landing's your part. I believe in your part.
+
+@npc::NPC-RIP.barks
+#   [Rip Tearson] Bark (speech bubble when you walk past Rip Tearson; Gainlands)
+0| HNNNGH. Thank you for ripping with the Express. Please don't look at the seam.
+1| HNNNGH. That's my two hundred and twelfth shirt this year, buddy. Worth every one.
+
+@npc::NPC-PUMP.barks
+#   [Professor Pump] Bark (speech bubble when you walk past Professor Pump; Gainlands)
+0| Pop quiz! No, I'm only teasing, student. Even the brain-ceps need a rest day.
+1| Read the signs as you go, student, because every answer I want is written on one.
+
+@npc::NPC-THUNDERABS.barks
+#   [Chet Thunderabs] Bark (speech bubble when you walk past Chet Thunderabs; Gainlands)
+0| But WAIT, there's MORE! Act now for a SECOND set of reps! Reps not included!
+1| Operators are standing by! It's just me, and I've been standing by since midnight!
+
+@npc::NPC-MOUNTAIN.barks
+#   [Old Man Mountain] Bark (speech bubble when you walk past Old Man Mountain; Gainlands, Swole Station)
+0| Rule one, never lift alone. Rule two is... now, where was I? Have you had water?
+1| There was a boy at the Lifting Festival once, with four colours in his hands... hm.
+
+@npc::NPC-FLEX.barks
+#   [Grandmaster Flex, the Unbroken] Bark (speech bubble when you walk past Grandmaster Flex, the Unbroken; House of Gains)
+0| Breathe in. Hold. ...Now lift. The breath was the hard part.
+1| They took the iron, son, but the iron was only ever a guest in this house.
+
+## purpose: Map descriptions of the House of Gains: a loud, frightened prison with one quiet cell at the bottom, each room one clear picture, with (Elite) and Restore HP kept.
+@gainlands::dungeon.hg_gates.blurb
+#   [(narration)] Dungeon node "hg gates": map description
+0| Bare steel and floodlights under a banner reading MANDATORY CARDIO. Iron is banned here, and nobody has ever left through these gates.
+
+@gainlands::dungeon.hg_checkpoint.blurb
+#   [(narration)] Dungeon node "hg checkpoint": map description
+0| An enforcer searches your bag for weights while a clerk times him with a stopwatch. Minister Quota wants every search done in thirty seconds, and he's already at forty.
+
+@gainlands::dungeon.hg_descent.blurb
+#   [(narration)] Dungeon node "hg descent": map description
+0| A long stone stairway leads down into the Iron-less Prison.
+
+@gainlands::dungeon.hg_cells.blurb
+#   [(narration)] Dungeon node "hg cells": map description
+0| The prisoners keep very quiet and the guards are very loud, and it doesn't take long to work out which of them is afraid.
+
+@gainlands::dungeon.hg_calisthenics.blurb
+#   [(narration)] Dungeon node "hg calisthenics": map description
+0| With no iron to lift, the prison tests bodies instead, and a guard steps up and demands to see your form.
+
+@gainlands::dungeon.hg_warden.blurb
+#   [(narration)] Dungeon node "hg warden": map description
+0| The warden has never lifted a weight in his life, has never needed to, and is furious with everyone who has. (Elite)
+
+@gainlands::dungeon.hg_rescue.blurb
+#   [(narration)] Dungeon node "hg rescue": map description
+0| At the very bottom of the prison there is a single cell, and from inside it comes one long, slow breath.
+
+@gainlands::dungeon.hg_stretch.blurb
+#   [(narration)] Dungeon node "hg stretch": map description
+0| Grandmaster Flex leads a quiet round of stretching and breathing. Restore HP.
+
+@gainlands::dungeon.hg_barracks.blurb
+#   [(narration)] Dungeon node "hg barracks": map description
+0| You hear the recruits drilling before you see them. They make up in volume what they lack in coordination.
+
+@gainlands::dungeon.hg_locker.blurb
+#   [(narration)] Dungeon node "hg locker": map description
+0| Every weight the regime ever took, stacked behind one locker door. Each plate still has its owner's name chalked on the back.
+
+@gainlands::dungeon.hg_guard.blurb
+#   [(narration)] Dungeon node "hg guard": map description
+0| You face Chancellor Clench's personal guard, whose uniforms are pressed to perfection and whose technique is mostly shouting. (Elite)
+
+@gainlands::dungeon.hg_trophy.blurb
+#   [(narration)] Dungeon node "hg trophy": map description
+0| The regime keeps a trophy for every leader it ever overthrew, and one pedestal stands empty, waiting for Grandmaster Flex.
+
+@gainlands::dungeon.hg_boss.blurb
+#   [(narration)] Dungeon node "hg boss": map description
+0| The regime's throne room is a gym with one throne-shaped bench press in it, the only barbell left in the House.
+
+## purpose: The same attendant and signs after the zone is freed: the weights are back, Flex is home, and the old jokes are allowed to be happy ones.
+@gainlands::ambient.gym_attendant.freed
+#   [Gym attendant] Ambient: gym attendant (after the zone is freed)
+0| The weights are back! I cried, then I did a set, and then I cried all over again.
+1| Free towels! Flex says a gym is for people, not quotas.
+2| Re-rack your weights! We HAVE weights! Re-rack them!
+
+@gainlands::sign.hub_main.freed
+#   [(narration)] Reading a sign: hub main (after the zone is freed)
+0| THE SWOLE STATION
+1| Hub of the Gainlands. Heal here. Brag here. Do NOT skip leg day here.
+2| (Gatherings are now welcome. Mandatory cardio has been abolished. Gary is thrilled.)
+
+@gainlands::sign.hub_power.freed
+#   [(narration)] Reading a sign: hub power (after the zone is freed)
+0| POWERED BY BEEFCAKES
+1| Every light in the Gainlands runs on giant mills and colossal hamster wheels.
+2| 100% muscle. 0% coal. Quotas abolished: run at whatever pace feels good.
+
+@gainlands::sign.energy_poster.freed
+#   [(narration)] Reading a sign: energy poster (after the zone is freed)
+0| GOT ENERGY? (WE DO!)
+1| Ask any Beefcake. They have loads of it, and now they get to keep some.
+
+@gainlands::sign.beefcake_poster.freed
+#   [(narration)] Reading a sign: beefcake poster (after the zone is freed)
+0| BEEFCAKES: BUILT DIFFERENT
+1| Energy, by wheel and mill.
+2| Transportation, by throw and portal.
+3| Back under the old management. The old management can still bench a hay cart.
+
+@gainlands::sign.regime_rules.freed
+#   [(narration)] Reading a sign: regime rules (after the zone is freed)
+0| THE NEW HOUSE RULES
+1| 1. Weights are back. Lift responsibly.
+2| 2. Protein is a right. Also, a shake.
+3| 3. Cardio is optional. Leg day is not.
+
+@gainlands::sign.regime_poster.freed
+#   [(narration)] Reading a sign: regime poster (after the zone is freed)
+0| GRANDMASTER FLEX SAYS: "STRENGTH IS IN THE HEART AND THE MIND."
+1| (He would also like you to drink some water.)
+
+@gainlands::sign.missing_leader.freed
+#   [(narration)] Reading a sign: missing leader (after the zone is freed)
+0| FOUND: OUR LEADER
+1| Grandmaster Flex is back, and he is doing yoga on the roof of the House of Gains.
+2| Wave, and he will wave back. After the pose. The pose may take a while.
+
+@gainlands::sign.exit.freed
+#   [(narration)] Reading a sign: exit (after the zone is freed)
+0| THE BEEFCAKE PATH
+1| (To town. The cardio checkpoint is a snack bar now. Snacks are mandatory.)
+
+@gainlands::sign.main_dungeon.freed
+#   [(narration)] Reading a sign: main dungeon (after the zone is freed)
+0| THE HOUSE OF GAINS
+1| Formerly the regime's stronghold. Open to all Beefcakes.
+2| Leg Day is still mandatory. Some things are sacred.
+
+@gainlands::sign.leg_day_note.freed
+#   [(narration)] Reading a sign: leg day note (after the zone is freed)
+0| NOTE FROM THE LEADER
+1| The doors are open. Come in, stretch, breathe.
+2| Leg Day is still Leg Day.
+
+@gainlands::ruler.statue.freed
+#   [Chancellor Clench, Iron Regent] Ruler: statue (after the zone is freed)
+0| FORMER STATUE OF CHANCELLOR CLENCH
+1| (Toppled by public demand. Please do not stand on it. Gary did, once.)
