@@ -720,5 +720,7 @@ func cycle_camera_zoom() -> void:
 func _process(delta: float) -> void:
 	if _zoom_dirty > 0.0:
 		_zoom_dirty -= delta
-		if _zoom_dirty <= 0.0:
+		# Fable Nov 12d: a scripted run (`--no-save` / `--scene=`: the play-script driver, the shot tools) never writes its camera angle
+		# or zoom into the player's settings (the shot scripts had left this PC on the "Low" angle).
+		if _zoom_dirty <= 0.0 and not _window_locked:
 			save_settings()

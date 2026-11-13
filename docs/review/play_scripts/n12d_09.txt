@@ -1,0 +1,38 @@
+wait 4
+dev load c13cap
+wait 13
+dev goto manhole
+wait 1
+key E
+wait 13
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+key E
+wait 1
+hold W 3
+hold D 5
+wait 0.5
+dump
+scene
+key E
+wait 3
+shot r9_market
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+dump
+shot r9_market2
+key Escape
+wait 1.5
+dump

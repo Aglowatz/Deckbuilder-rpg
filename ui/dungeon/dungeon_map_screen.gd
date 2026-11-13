@@ -410,7 +410,11 @@ func _on_node_hovered(id: int) -> void:
 	var node: DungeonMap.MapNode = map.node(id)
 	if not node_known(node):
 		_info_title.text = MapNodeButton.FOG_TITLE
-		_info_body.text = "Unknown. Step on it to find out what waits there." + ("\n" + node_go_hint() if map.is_available(id) and not _busy else "")
+		# Fable Nov 12d (critic): "Step on it" on a room that cannot be reached yet invited a click that does nothing.
+		if map.is_available(id):
+			_info_body.text = "Unknown. Step on it to find out what waits there." + ("\n" + node_go_hint() if not _busy else "")
+		else:
+			_info_body.text = "Unknown. You can't reach it yet: clear a room that leads to it."
 		if _art != null:
 			_place_info(node)
 		return

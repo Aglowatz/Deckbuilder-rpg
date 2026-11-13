@@ -671,6 +671,7 @@ func _build_spots() -> void:
 		node.position = pos
 		node.visible = not BuffetInteractables.picked_this_visit(Session.zone_run, ingredient_id)
 		_pickup_nodes[ingredient_id] = node
+		PickupLife.attach(node, float(_pickup_nodes.size()) * 0.17)  # Fable Nov 12d: a bob, a slow turn, a breathing ring
 
 
 func _pickup_model(ingredient_id: String) -> Node3D:

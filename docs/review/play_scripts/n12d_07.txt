@@ -1,0 +1,82 @@
+wait 4
+dev load c13cap
+wait 14
+shot r7_arrive
+dump
+scene
+key J
+wait 1.5
+dump
+shot r7_journal
+key Escape
+wait 1
+key M
+wait 2
+shot r7_map
+dump
+key Escape
+wait 1
+dev goto ?
+dev goto manhole
+wait 1.5
+shot r7_manhole
+dump
+key E
+wait 2
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+wait 11
+shot r7_crease0
+scene
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+skip_dialogue 20
+wait 1
+shot r7_crease1
+dump
+scene
+dev goto ?
+hold W 3
+wait 0.5
+shot r7_crease_n
+dump
+hold D 5
+wait 0.5
+shot r7_crease_e
+dump
+hold A 10
+wait 0.5
+shot r7_crease_w
+dump
+hold S 4
+wait 0.5
+shot r7_crease_s
+dump
+scene
+dev save n12d_c

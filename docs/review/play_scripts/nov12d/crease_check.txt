@@ -1,0 +1,24 @@
+wait 4
+dev load c13cap
+wait 14
+skip_dialogue
+dev goto manhole
+wait 1
+key E
+wait 6
+skip_dialogue
+wait 1
+dump
+shot crease_arrival
+dev goto fig
+wait 1.5
+shot crease_fig_label
+dump
+key E
+wait 2
+skip_dialogue 6
+wait 1.5
+shot crease_black_market
+key Escape
+wait 1
+scene

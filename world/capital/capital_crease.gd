@@ -308,6 +308,21 @@ func _drips() -> void:
 		root.add_child(particles)
 
 
+## Fable Nov 12d (critic 3): the lantern glass was a plain box glowing at 2.2, which bloomed into a flat cream rectangle hanging in the
+## air. It is a small tapered six-sided glass in a deeper amber now, dim enough to keep its colour, between a dark cap and foot.
+const LANTERN_GLASS: Color = Color("f08a2c")
+
+
+func _lantern_glass() -> CylinderMesh:
+	var glass: CylinderMesh = CylinderMesh.new()
+	glass.top_radius = 0.07
+	glass.bottom_radius = 0.11
+	glass.height = 0.28
+	glass.radial_segments = 6
+	glass.rings = 1
+	return glass
+
+
 ## A lantern on a chain from the ceiling with its warm pool on the floor.
 func _lanterns() -> void:
 	var holder: Node3D = Node3D.new()
@@ -330,11 +345,15 @@ func _lanterns() -> void:
 		cage.position = at + Vector3(0, 0.22, 0)
 		holder.add_child(cage)
 		var glass: MeshInstance3D = MeshInstance3D.new()
-		var glass_mesh: BoxMesh = BoxMesh.new()
-		glass_mesh.size = Vector3(0.22, 0.32, 0.22)
-		glass.mesh = glass_mesh
-		glass.material_override = M.glow(WARM, 2.2)
+		glass.mesh = _lantern_glass()
+		glass.material_override = M.glow(LANTERN_GLASS, 1.25)
 		glass.position = at
+		var foot: MeshInstance3D = MeshInstance3D.new()
+		foot.mesh = cage_mesh
+		foot.material_override = cage.material_override
+		foot.position = at + Vector3(0, -0.17, 0)
+		foot.scale = Vector3(0.7, 1.0, 0.7)
+		holder.add_child(foot)
 		glass.set_meta(StyleToon.META_NO_TOON, true)
 		holder.add_child(glass)
 		_light(at + Vector3(0, -0.1, 0.25), WARM, 1.3, 8.0)
@@ -350,10 +369,8 @@ func _lanterns() -> void:
 		bracket.position = on_wall + Vector3(-inward * 0.1, 0.25, 0.0)
 		holder.add_child(bracket)
 		var lamp: MeshInstance3D = MeshInstance3D.new()
-		var lamp_mesh: BoxMesh = BoxMesh.new()
-		lamp_mesh.size = Vector3(0.22, 0.32, 0.22)
-		lamp.mesh = lamp_mesh
-		lamp.material_override = M.glow(WARM, 2.2)
+		lamp.mesh = _lantern_glass()
+		lamp.material_override = M.glow(LANTERN_GLASS, 1.25)
 		lamp.position = on_wall + Vector3(inward * 0.12, 0.0, 0.0)
 		lamp.set_meta(StyleToon.META_NO_TOON, true)
 		holder.add_child(lamp)

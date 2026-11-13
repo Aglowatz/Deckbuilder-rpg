@@ -1,0 +1,115 @@
+wait 4
+dev load n12d_a
+wait 11
+dev travel dungeon D-TUT
+wait 10
+button Got it
+wait 1
+dev autowin on
+click 501 496
+wait 5
+button Got it
+button Skip tips
+button Continue
+wait 2
+button Take
+wait 2
+button Got it
+wait 0.5
+click 740 663
+wait 2.5
+shot r6_well
+dump
+button Drink
+button Accept
+button Offer
+button Yes
+wait 2
+dump
+shot r6_well2
+skip_dialogue 10
+button Leave
+button Continue
+button Close
+button Got it
+wait 1
+click 937 431
+wait 2.5
+shot r6_prefight
+dump
+button Fight
+button Begin
+wait 5
+button Continue
+wait 2
+dump
+button Skip card
+wait 2
+button Got it
+wait 0.5
+click 1153 551
+wait 2.5
+shot r6_shrine
+dump
+button Pray
+button Rest
+button Accept
+button Heal
+wait 2
+dump
+skip_dialogue 10
+button Leave
+button Continue
+button Close
+button Got it
+wait 1
+click 1311 263
+wait 2.5
+shot r6_boss_panel
+dump
+button Fight
+button Begin
+wait 6
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+shot r6_warden
+button Continue
+wait 1
+button Take
+button Skip card
+skip_dialogue 40
+wait 12
+skip_dialogue 30
+wait 1
+shot r6_town
+dump
+scene
+dev save n12d_b

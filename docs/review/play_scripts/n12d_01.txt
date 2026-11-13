@@ -1,0 +1,46 @@
+wait 5
+shot r1_title
+dump
+button New Game
+wait 8
+shot r1_after_new
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+dump
+shot r1_open3
+skip_dialogue 40
+wait 2
+shot r1_forest
+dump
+scene
+hold W 3
+wait 1
+shot r1_walk1
+dump
+hold W 4
+wait 1
+shot r1_walk2
+dump
+key E
+wait 2
+dump
+skip_dialogue 20
+wait 2
+hold W 4
+wait 1
+shot r1_walk3
+dump
+scene
+key E
+wait 3
+shot r1_end
+dump
+dev save n12d_a
+wait 2

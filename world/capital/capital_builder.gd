@@ -987,6 +987,9 @@ func _apply_initial_states() -> void:
 				set_prop_state("tunnel_hatch_cover", prop.pos, Session.found_secret(CapitalZone.SECRET_TUNNEL))
 			"compost_heap", "recipe_card", "seed_jar":
 				node.visible = not _pickup_taken_at(prop)
+				if node.visible and not node.has_meta(&"pickup_life"):  # Fable Nov 12d: a pickup bobs (off on Low-end / Reduce motion)
+					node.set_meta(&"pickup_life", true)
+					PickupLife.attach(node, prop.pos.x * 0.13)
 			"portrait":
 				set_prop_state("portrait", prop.pos, Session.found_secret(CapitalZone.secret_id("deface", _anchor_name_at(prop.pos))))
 

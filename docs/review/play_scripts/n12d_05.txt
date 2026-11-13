@@ -1,0 +1,122 @@
+wait 4
+dev load n12d_a
+wait 12
+dev travel dungeon D-TUT
+wait 11
+button Got it
+wait 1
+click 501 496
+wait 2.5
+shot r5_n1
+dump
+button Fight
+button Begin
+button Start
+wait 6
+button Got it
+dump
+shot r5_battle
+pilot 28
+dev win
+wait 3
+dump
+skip_dialogue 20
+wait 2
+dump
+button Continue
+button Got it
+wait 1
+dev autowin on
+click 740 663
+wait 2.5
+shot r5_well
+dump
+button Drink
+button Accept
+button Take
+button Offer
+wait 2
+dump
+skip_dialogue 10
+button Leave
+button Continue
+button Got it
+wait 1
+click 937 431
+wait 3
+dump
+button Fight
+wait 5
+skip_dialogue 10
+dump
+button Continue
+button Got it
+wait 1
+click 1153 551
+wait 2.5
+shot r5_shrine
+dump
+button Pray
+button Rest
+button Accept
+wait 2
+dump
+skip_dialogue 10
+button Leave
+button Continue
+button Got it
+wait 1
+click 1311 263
+wait 2.5
+shot r5_boss_panel
+dump
+button Fight
+wait 6
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+dump
+key E
+wait 0.8
+shot r5_warden
+skip_dialogue 40
+button Continue
+wait 12
+skip_dialogue 20
+shot r5_town
+dump
+scene
+dev save n12d_b
+dev goto elder
+wait 1
+key E
+wait 2
+dump
+key E
+wait 1
+dump
+key E
+wait 1
+dump
+shot r5_maren

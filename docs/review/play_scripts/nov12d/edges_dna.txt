@@ -1,0 +1,13 @@
+wait 4
+dev load c13cap
+wait 14
+skip_dialogue
+dev travel zone necrocrat
+wait 14
+skip_dialogue
+wait 1
+skip_dialogue
+hud off
+calm
+edgeshots dna
+scene

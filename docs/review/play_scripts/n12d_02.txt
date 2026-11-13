@@ -1,0 +1,71 @@
+wait 4
+button New Game
+wait 2
+button Start over here
+wait 2
+dump
+button Yes
+button Confirm
+button Erase
+button OK
+wait 10
+shot r2_open1
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+shot r2_open2
+key E
+wait 1.2
+dump
+key E
+wait 1.2
+dump
+skip_dialogue 40
+wait 3
+shot r2_forest0
+dump
+scene
+hold W 3
+wait 1
+dump
+shot r2_f1
+hold W 4
+wait 1
+dump
+scene
+shot r2_f2
+key E
+wait 2
+dump
+skip_dialogue 20
+wait 2
+hold W 5
+wait 1
+shot r2_f3
+dump
+key E
+wait 3
+dump
+skip_dialogue 20
+hold W 5
+wait 1
+shot r2_f4
+dump
+scene
+key E
+wait 4
+shot r2_f5
+dump
+scene
+dev save n12d_a
+wait 2

@@ -439,7 +439,13 @@ func _label_spot(spot: ZoneSpot, marker: Node3D) -> void:
 		return
 	var npc_id: String = str(spot.data.get("npc_id", ""))
 	var kind: String = NpcLabels.kind_for(npc_id) if not npc_id.is_empty() else ("vendor" if spot.kind == "vendor" else "npc")
-	if kind.is_empty() or spot.title.to_lower().contains("fig sly"):
+	# Fable Nov 12d (critic 2): Fig Sly's stall in the Crease stood unnamed beside an identical stall while a main quest sends every
+	# player to it. Down there he is no secret: he gets a shop label. (A black-market dealer anywhere else stays unlabelled.)
+	var crease_market: bool = spot.id == "fig" and spot.title.to_lower().contains("fig sly")
+	if (kind.is_empty() or spot.title.to_lower().contains("fig sly")) and not crease_market:
+		return
+	if crease_market:
+		_labels().register(marker, "Fig Sly - Black Market", "vendor", true, 0.3, spot.id)
 		return
 	if spot.kind.begins_with("vendor") and kind == "npc":
 		kind = "vendor"

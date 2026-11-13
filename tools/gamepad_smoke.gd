@@ -21,8 +21,14 @@ var _started_msec: int = -1
 var _foreign_events: int = 0
 
 
+var _zoom_before: float = 1.5
+var _angle_before: int = 0
+
+
 func run() -> void:
 	_started_msec = Time.get_ticks_msec()
+	_zoom_before = Settings.camera_zoom  # Fable Nov 12d: the smoke zooms with the stick; the owner's settings get their values back at the end
+	_angle_before = Settings.camera_angle
 	Session.save_enabled = false
 	SceneManager.show_loading_screens = false
 	Session.new_game()
@@ -533,4 +539,7 @@ func _check(condition: bool, message: String) -> void:
 
 func _finish(ok: bool, reason: String) -> void:
 	print("%s: %s - %s (%s)" % [TAG, "OK" if ok else "FAILED", reason, _elapsed()])
+	Settings.camera_zoom = _zoom_before
+	Settings.camera_angle = _angle_before
+	Settings.save_settings()
 	get_tree().quit(0 if ok else 1)

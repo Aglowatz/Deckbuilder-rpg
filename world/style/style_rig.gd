@@ -459,9 +459,21 @@ func _update_small_casters() -> void:
 		index += 1
 
 
+const TALL_PIECE: float = 7.0
+const TALL_RANGE: float = 1.3
+
+
 func _limit_range(mesh_instance: MeshInstance3D) -> void:
 	if cull_distance > 0.0 and mesh_instance.get_parent() != camera and not mesh_instance.has_meta(&"no_range_cull"):
 		mesh_instance.visibility_range_end = cull_distance * GraphicsQuality.cull_scale(quality())
+		# Fable Nov 12d (the Transit Yards "ghost building"): a tall piece (a house, a tower: TALL_PIECE metres or more) standing in the
+		# fade band is a see-through building in the upper part of the view for as long as the hero stands there. Tall pieces draw
+		# TALL_RANGE times further (into the fog) and switch without a dissolve.
+		if mesh_instance.mesh != null and mesh_instance.get_aabb().size.y >= TALL_PIECE:
+			mesh_instance.visibility_range_end *= TALL_RANGE
+			mesh_instance.visibility_range_end_margin = 2.0
+			mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+			return
 		# The far edge dissolves instead of popping (a dithered fade over the last few metres).
 		mesh_instance.visibility_range_end_margin = 6.0
 		mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF

@@ -992,6 +992,7 @@ func _build_spots() -> void:
 		node.position = pos
 		node.visible = not HeapInteractables.picked_this_visit(Session.zone_run, pickup_id)
 		_pickup_nodes[pickup_id] = node
+		PickupLife.attach(node, float(_pickup_nodes.size()) * 0.17)  # Fable Nov 12d: a bob, a slow turn, a breathing ring
 	var kinds: Array[String] = ["goat", "pig", "raccoon"]
 	for number: int in range(1, HeapGrowth.ESCAPED_ANIMALS + 1):
 		var animal: Node3D = HeapMobs.animal(kinds[number - 1])

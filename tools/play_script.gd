@@ -145,6 +145,10 @@ func _run_line(line: String) -> void:
 				zone_now.set("_spawn_grace", 600.0)
 		"spots":
 			_spots()
+		"edgeshots":
+			# Fable Nov 12d (Part 3.2): `edgeshots <prefix>` stands the hero on the eight outermost walkable points of the current place
+			# (N, NE, E, SE, S, SW, W, NW of its walkable area) and shoots each at the default and the Low camera.
+			await _edge_shots(rest if not rest.is_empty() else "edge")
 		"groundscan":
 			# Fable Nov 12 (Part 2.5): props floating over or sunk under the ground of the current zone (PropGroundCheck)
 			var ground_scene: Node = get_tree().current_scene
@@ -638,6 +642,60 @@ func _teleport(x_text: String, z_text: String) -> String:
 	if camera != null:
 		camera.position = player.position + CameraRig.shape((scene.get("camera_offset") if "camera_offset" in scene else scene.get("_camera_offset")) as Vector3)
 	return "tp to %s" % str(player.position)
+
+
+## The walkable map of the current scene: a zone's `builder`, Crosspath's `town`, the forest's `area` (each has `is_walkable`).
+func _walk_map() -> Object:
+	var scene: Node = get_tree().current_scene
+	if scene == null:
+		return null
+	for field: String in ["builder", "town", "area"]:
+		if field in scene:
+			var map: Object = scene.get(field) as Object
+			if map != null and map.has_method("is_walkable"):
+				return map
+	return null
+
+
+func _edge_shots(prefix: String) -> void:
+	var map: Object = _walk_map()
+	var scene: Node = get_tree().current_scene
+	if map == null or not ("player" in scene):
+		_say("  edgeshots: no walkable map here")
+		return
+	var dirs: Dictionary = {"n": Vector2(0, -1), "ne": Vector2(1, -1), "e": Vector2(1, 0), "se": Vector2(1, 1), "s": Vector2(0, 1), "sw": Vector2(-1, 1), "w": Vector2(-1, 0), "nw": Vector2(-1, -1)}
+	var best: Dictionary = {}
+	var score: Dictionary = {}
+	for xi: int in range(-60, 261):
+		for zi: int in range(-60, 261):
+			var at: Vector3 = Vector3(float(xi) + 0.5, 0.0, float(zi) + 0.5)
+			if not bool(map.call("is_walkable", at)):
+				continue
+			for key: String in dirs.keys():
+				var value: float = (dirs[key] as Vector2).normalized().dot(Vector2(at.x, at.z))
+				if not score.has(key) or value > float(score[key]):
+					score[key] = value
+					best[key] = at
+	var player: Node3D = scene.get("player") as Node3D
+	var camera: Camera3D = scene.get("_camera") as Camera3D
+	for key: String in dirs.keys():
+		if not best.has(key):
+			continue
+		var at: Vector3 = best[key] as Vector3
+		var y: float = player.position.y
+		if map.has_method("height_at"):
+			y = float(map.call("height_at", at))
+		player.position = Vector3(at.x, y, at.z)
+		if "_spawn_grace" in scene:
+			scene.set("_spawn_grace", 600.0)
+		for angle: int in [0, 3]:
+			Settings.set_camera_angle(angle)
+			if camera != null and ("camera_offset" in scene or "_camera_offset" in scene):
+				camera.position = player.position + CameraRig.shape((scene.get("camera_offset") if "camera_offset" in scene else scene.get("_camera_offset")) as Vector3)
+			await driver.seconds(1.4)
+			await _shot("%s_%s_%s" % [prefix, key, "default" if angle == 0 else "low"])
+		_say("  edgeshots: %s at (%.1f, %.1f)" % [key, at.x, at.z])
+	Settings.set_camera_angle(0)
 
 
 func _say(text: String) -> void:

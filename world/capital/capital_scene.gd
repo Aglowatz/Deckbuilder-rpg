@@ -1156,7 +1156,15 @@ func _cross_gate(now_inside: bool) -> void:
 			look_rig.set_mood(id)
 		_play_area_music(0.8)
 		Audio.sfx(&"gate_cross")
-		hud.toast((RoyalFamily.fill("Welcome to {capital}.") + (" Everything is perfectly fine." if not Session.flag(&"primm_defeated") else "")) if now_inside else "Back out into the wastes.", UIStyle.GOLD))  # Fix pass Nov 7 (Part 5, C5 F10)
+		# Fable Nov 12d (critic 1): the Crease lies south of the wall, so climbing down into it counted as leaving the city and said
+		# "Back out into the wastes." at the moment the hideout should land. Under the city it gets its own line.
+		var in_crease: bool = player.position.z >= capital_crease_z()
+		var line: String = "Back out into the wastes."
+		if now_inside:
+			line = RoyalFamily.fill("Welcome to {capital}.") + (" Everything is perfectly fine." if not Session.flag(&"primm_defeated") else "")
+		elif in_crease:
+			line = "Under the city. Down here, nobody is perfectly fine, and nobody has to pretend."
+		hud.toast(line, UIStyle.GOLD))  # Fix pass Nov 7 (Part 5, C5 F10)
 	tween.tween_property(veil, "color:a", 0.0, 0.9)
 	tween.tween_callback(veil.queue_free)
 

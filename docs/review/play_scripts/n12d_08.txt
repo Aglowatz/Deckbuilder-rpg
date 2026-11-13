@@ -1,0 +1,51 @@
+wait 4
+dev load c13cap
+wait 13
+hold A 7
+shot r8_out_w
+dump
+scene
+hold W 3
+shot r8_out_w2
+scene
+hold D 14
+shot r8_out_e
+dump
+scene
+hold W 3
+shot r8_out_e2
+scene
+dev goto manhole
+wait 1
+hold A 9
+shot r8_in_w
+dump
+scene
+hold S 4
+shot r8_in_w2
+scene
+hold D 18
+shot r8_in_e
+dump
+scene
+hold W 6
+shot r8_in_e2
+dump
+scene
+dev goto manhole
+wait 1
+key E
+wait 14
+hold W 3
+hold D 5
+key E
+wait 2.5
+shot r8_market
+dump
+key E
+wait 1.5
+dump
+key E
+wait 1.5
+dump
+shot r8_market2

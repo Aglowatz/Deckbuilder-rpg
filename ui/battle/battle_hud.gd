@@ -891,7 +891,7 @@ class Portrait:
 	const PLATE_SIZE: Vector2 = Vector2(330, 126)
 	const STAGE_SIZE: Vector2 = Vector2(330, 202)
 	## The name's box on the plate's band: from the portrait socket to just short of the heart (x 226).
-	const NAME_BOX: Rect2 = Rect2(122, 38, 98, 46)
+	const NAME_BOX: Rect2 = Rect2(128, 38, 92, 46)  # Fable Nov 12d (critic 9): 6 px clear of the portrait ring (the first letters touched it)
 	var _art: bool = false
 	var _ring: Panel
 

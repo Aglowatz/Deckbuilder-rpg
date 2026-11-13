@@ -1,0 +1,60 @@
+wait 4
+button New Game
+wait 2
+button Start over here
+wait 1.5
+button Start Over
+wait 9
+skip_dialogue 40
+wait 2
+move 415 400
+wait 1
+shot r4_path
+click 415 400
+wait 1
+dump
+button Begin
+wait 3
+dump
+skip_dialogue 40
+wait 2
+shot r4_forest0
+dump
+scene
+hold W 4
+wait 1
+shot r4_f1
+dump
+skip_dialogue 20
+hold W 5
+wait 1
+shot r4_f2
+dump
+scene
+key E
+wait 2
+dump
+skip_dialogue 20
+hold W 5
+wait 1
+shot r4_f3
+dump
+key E
+wait 3
+dump
+scene
+dev save n12d_a
+wait 1
+dev travel dungeon D-TUT
+wait 12
+skip_dialogue 20
+wait 1
+shot r4_cave_map
+dump
+scene
+dev travel dungeon D-TUT -2
+wait 10
+skip_dialogue 20
+wait 1
+shot r4_cave_boss
+dump
