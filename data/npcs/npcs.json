@@ -1198,10 +1198,10 @@
 		"description": "Calm, scarred, fiercely protective of her people.",
 		"personality": "Calm, scarred, fiercely protective of her people. Grew up before Primm and remembers the old harmony. Dry sense of humor under pressure.",
 		"speech_style": "Low, steady, few words, sharp jokes.",
-		"sample_line": "Keep your head down and your hope up. Hope's unapproved. Carry it anyway.",
+		"sample_line": "Keep your head down, and carry your hope anyway. It has never once been approved.",
 		"barks": [
-			"Keep your head down and your hope up. Hope's unapproved. Carry it anyway.",
-			"He likes things perfect. We like things alive. Keep moving."
+			"Keep your head down, and carry your hope anyway. It has never once been approved.",
+			"Whatever you see up there, tell me exactly. It all goes into the record, in ink."
 		],
 		"barks_freed": ["The record is open. Every name in it. That was the whole fight, really.","Tea's on in the Crease. The grudges can wait. Most of them."],
 		"game_function": "Runs the hideout; story guide in the Capital and the castle.",
@@ -1272,7 +1272,7 @@
 		"sample_line": "Psst. Chalk on the left means go. Chalk on the right means I got bored.",
 		"barks": [
 			"Psst. Chalk on the left means go. Chalk on the right means I got bored.",
-			"Guards change on the hour. I change whenever I like. Keep up."
+			"Psst. Guards change on the hour and I change whenever I feel like it, so keep up."
 		],
 		"barks_freed": ["No more chalk. I keep drawing arrows anyway. Habit. Also it's fun.","Guards still change on the hour. Now they wave. It's deeply unsettling."],
 		"game_function": "Gives the Old Service Tunnels quest (S-CAP).",
@@ -1342,7 +1342,7 @@
 		"sample_line": "He has been in the parlour three years. I still tell him when someone comes to the door.",
 		"barks": [
 			"He has been in the parlour three years. I still tell him when someone comes to the door.",
-			"27-B needs 27-C. 27-C needs 27-B. I keep both forms beside his chair."
+			"I do beg your pardon. I was only telling my husband what the weather's doing."
 		],
 		"game_function": "Necrocrat Path quest in the Capital.",
 		"quest_links": [
@@ -1378,7 +1378,7 @@
 		"sample_line": "Ten years... on the wheel... my calves... have calves.",
 		"barks": [
 			"Ten years... on the wheel... my calves... have calves.",
-			"Back in the Gainlands... we threw commuters. Now I'd pay... to be thrown."
+			"Back in the Gainlands... my crews got rest days. I'd like... those back."
 		],
 		"barks_freed": ["No wheel... and my legs... keep going anyway. Ghost cardio.","The crews took a day off. Then another. We're... getting good at it."],
 		"game_function": "Beefcake Path quest in the Capital.",
@@ -1779,10 +1779,10 @@
 		"description": "Former Royal Minister of Improvements of Patchwork.",
 		"personality": "Former Royal Minister of Improvements of Patchwork. Brilliant, sincere, arrogant, selfish: saw improving the kingdom by any means as his official duty, including killing King Harmon and Queen Concordia and taking the Pathwork Throne. Spared the prince to drain his bloodline's power; without royal blood, that stolen power is his only hold on the Paths, and it has been slipping since the prince escaped. Rules each Path through a lieutenant (Quota, Crumb, Plume, Clipwell). Tells the Wanderer who he is if reached before all four zones are freed. After defeat he finally sees the damage he caused; he serves the kingdom on infrastructure and technology under permanent arrest, kept away from all Path workings.",
 		"speech_style": "Gracious, polished, patronizing; cracks into rage and grief when defeated.",
-		"sample_line": "I am designing a drain. It will not be perfect. I am learning to let that be.",
+		"sample_line": "I am designing a drain. It will not be perfect, and I am learning to let that be.",
 		"barks": [
-			"I am designing a drain. It will not be perfect. I am learning to let that be.",
-			"Good day. I owe you rather more than that. I am told it is a start."
+			"I am designing a drain. It will not be perfect, and I am learning to let that be.",
+			"Good day. I owe you rather more than a good day, but I am told it is a start."
 		],
 		"game_function": "Final boss; story beats throughout the castle; postgame prisoner-engineer.",
 		"quest_links": [],
@@ -2277,9 +2277,9 @@
 		"description": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word.",
 		"personality": "Went to the Capital eight years ago and never wrote; she was stuck on the Showcase Quarter's facade crews, unable to leave or send word. When the Capital is freed she walks home through her father's unlocked gate.",
 		"speech_style": "Tired, warm, a little embarrassed.",
-		"sample_line": "Dad says hi. Dad says a lot, actually.",
+		"sample_line": "Dad says hi. Well, he said 'Hm', but I've had years to learn the language.",
 		"barks": [
-			"Dad says hi. Dad says a lot, actually.",
+			"Dad says hi. Well, he said 'Hm', but I've had years to learn the language.",
 			"Eight years of one front door. Ours gets a new colour every week now."
 		],
 		"game_function": "Emotional reunion with Gatekeeper Brannoch after the Capital is freed.",

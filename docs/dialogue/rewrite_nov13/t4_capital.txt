@@ -1,0 +1,1385 @@
+# t4_capital: 447 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Pop-ups at the castle doors and the cracked mirror: make the castle feel too clean to be safe, and point the postgame gallery at Wren.
+@capital::fx.main_dungeon
+#   [(narration)] Pop-up message: main dungeon
+0| You see your worried face in the gold handles of {villain}'s Castle. Beyond the doors, you smell floor wax and hear someone humming.
+
+@capital::fx.gallery_sealed
+#   [(narration/UI)] Pop-up message: gallery sealed
+0| The glass is cracked from the inside, and behind it the castle's halls go on in silver, too clean to be real. Wren would want to hear about this.
+
+@capital::fx.gallery_enter
+#   [(narration/UI)] Pop-up message: gallery enter
+0| Behind the cracked glass the castle's halls go on in silver: every frame holds someone you beat, perfect and cold, waiting for you.
+
+## purpose: Resting and getting hurt in the Capital: state the game effect plainly, with Hesper's flat kindness and the city's deadpan.
+@capital::fx.heal_couch
+#   [(narration)] Pop-up message: heal couch
+0| Nurse Hesper hands you a cup of the Tea of Dissent. It is strong, bitter and entirely unapproved. HP restored.
+
+@capital::fx.heal_already
+#   [(narration)] Pop-up message: heal already
+0| You are already at full HP. Nurse Hesper hands you a cup anyway. 'Dissent,' she says, 'is good for the circulation.'
+
+@capital::fx.hit
+#   [(narration)] Pop-up message: hit
+0| The Capital catches you hard, the way it catches everyone. (-HP)
+
+@capital::fx.hit_rift
+#   [(narration/UI)] Pop-up message: hit rift
+0| A rift tears at you as you pass. The Capital has no record of it. (-%d HP)
+
+@capital::fx.hit_roamer
+#   [(narration/UI)] Pop-up message: hit roamer
+0| %s knocks you flat. Please remain orderly. (-%d HP)
+
+## purpose: Waking after a defeat: tell the player they were carried somewhere safe at no cost, in Hesper's terse voice or a guard's helpless one.
+@capital::fx.wake
+#   [Nurse Hesper Dray] Pop-up message: wake
+0| You wake up on a cot in the Crease. Nurse Hesper Dray is writing on a clipboard that, you notice, is blank on purpose.
+1| 'Dragged you in by the collar. Tore up the correction fee they'd have charged you. Drink that, and then you can tell me why you keep arriving unconscious.'
+
+@capital::fx.wake_outside
+#   [A gate guard] Pop-up message: wake outside
+0| You wake in the dust outside the Approved Gate. A guard leans over you, measuring your height with a long stick.
+1| 'Falling down in the approved queue area is a minor offence, but the fine is waived, since you were unconscious for it. Up you get, citizen. I cannot measure you while you are lying along the ground.'
+
+## purpose: Small discoveries on the way in: a hidden stash, and the moment the player is officially inside the walls.
+@capital::fx.chest
+#   [(narration)] Pop-up message: chest
+0| A hidden stash! Someone hid this where {villain}'s inspectors would not look: behind something untidy.
+
+@capital::fx.inside
+#   [(narration)] Pop-up message: inside
+0| You're through the walls. Somewhere above you a loudspeaker clears its throat, and you are now, officially, a Visitor in {capital}, the Capital of {kingdom}.
+
+## purpose: Getting about under the city: explain why fast travel is down (free the Gainlands), and narrate the shafts, the old tunnel and the manhole (knock three times).
+@capital::fx.no_travel
+#   [(narration)] Pop-up message: no travel
+0| The service-tunnel network is down. The wheels that once turned the shaft lifts have spent ten years lighting the facade instead. 'No travel,' says a Wrinkle's note on the hatch.
+1| 'Free the Gainlands and we will get the lifts turning.'
+
+@capital::fx.shaft
+#   [(narration)] Pop-up message: shaft
+0| You drop down the shaft, ride the lift through the dark and climb out somewhere else, smelling of rust.
+
+@capital::fx.ladder
+#   [(narration)] Pop-up message: ladder
+0| You climb the ladder and push the manhole open. The Capital's cold light falls in.
+
+@capital::fx.tunnel_out
+#   [(narration)] Pop-up message: tunnel out
+0| You crawl out through the old tunnel and shove the rubble aside, and you're back in the Outskirts, a long way from anybody's approved queue.
+
+@capital::fx.tunnel_in
+#   [(narration)] Pop-up message: tunnel in
+0| You squeeze back down the collapsed shaft and follow the old tunnel in the dark.
+
+@capital::fx.tunnel_found
+#   [(narration)] Pop-up message: tunnel found
+0| Past the rubble and a toppled statue, a flight of stairs leads down to an old plaque: 'THE OLD JOINT WORKS. BUILT BY ALL FOUR PATHS, TOGETHER.'
+1| The tunnel runs under the wall, under the gate and under every one of {villain}'s checkpoints, and you walk beneath them all without being measured once. It's the best moment you've had all day.
+
+@capital::fx.manhole
+#   [(narration)] Pop-up message: manhole
+0| You knock three times, and the manhole opens on a hand and a tired voice that says, 'Down you come.'
+
+@capital::fx.manhole_first
+#   [(narration)] Pop-up message: manhole first
+#= 0| There's a manhole by the wall with a small scratch on its lid, like a tiny wrinkle. You knock three times, without being able to say why.
+1| After a pause the lid lifts and a hand beckons you down. 'Wrinkle?' a voice mutters, and you decide that, yes, you probably are.
+#= 2| You climb down a ladder and along a brick tunnel into a warm room full of mismatched furniture and people who are all, quite visibly, not ironed.
+
+## purpose: Defacing the portraits: a small paid act of rebellion that makes him look like a person for once.
+@capital::fx.deface
+#   [(narration)] Pop-up message: deface
+0| You draw a moustache on {villain_title}'s portrait. A small coin drops from the frame: the Wrinkles' bounty for this improvement.
+
+@capital::fx.deface_again
+#   [(narration)] Pop-up message: deface again
+0| Someone has already improved this one. With the moustache he looks, for the first time, like a person.
+
+## purpose: The complaint box: four deadpan outcomes and a limit, showing a system that receives feedback and does nothing with it.
+@capital::fx.complaint_compensation
+#   [(narration)] Pop-up message: complaint compensation
+0| You post a complaint. A coin drops from a slot with a note: 'Compensation for your inconvenience. Please use it to have less inconvenience.'
+
+@capital::fx.complaint_tea
+#   [(narration)] Pop-up message: complaint tea
+0| You post a complaint. A hatch opens and a warm cup of tea is pushed out, still steaming. 'We value your concern,' says a note. You feel a little better.
+
+@capital::fx.complaint_noted
+#   [(narration)] Pop-up message: complaint noted
+0| You post a complaint. 'Noted,' says the box, gently, and after a long wait you understand that this was the whole service.
+
+@capital::fx.complaint_inspector
+#   [(narration)] Pop-up message: complaint inspector
+0| You post a complaint, and a klaxon sounds. A Perfection Inspector appears from nowhere, measures your frown, writes you up and walks off.
+1| 'Thank you for your feedback,' says the box.
+
+@capital::fx.complaint_limit
+#   [(narration)] Pop-up message: complaint limit
+0| The box rattles, full to the slot. It has had quite enough of your feedback for one visit.
+
+## purpose: Sealing rifts: say clearly when a rift can be sealed, when its guardian must go first, and that the great one closes only with him.
+@capital::fx.seal
+#   [(narration)] Pop-up message: seal
+0| You set the rift-stone and say the old word: close. The tear shudders, folds in on itself like a letter, and is gone. The air smells of rain. Sealed!
+
+@capital::fx.seal_guarded
+#   [(narration)] Pop-up message: seal guarded
+0| The rift-stone will not take while the rift's guardian still stands. Whatever it spat out has to go first.
+
+@capital::fx.seal_done
+#   [(narration)] Pop-up message: seal done
+0| The rift is sealed. Where it was there is a scorch mark and the memory of a very bad idea.
+
+@capital::fx.seal_cannot
+#   [(narration)] Pop-up message: seal cannot
+0| This one is too big to seal. It runs all the way up into the castle, and it will only close when he does.
+
+## purpose: Picking up the four quest items (recipe, compost, stamp, seed): each is a small living thing the Capital failed to tidy away.
+@capital::fx.pickup_recipe
+#   [(narration)] Pop-up message: pickup recipe
+0| A real recipe, written by hand, with a stain of actual sauce on the corner! Flour: some. Salt: enough. Time: until it smells right. It is wonderfully imprecise. You tuck it away.
+
+@capital::fx.pickup_compost
+#   [(narration)] Pop-up message: pickup compost
+0| A banished compost heap is hiding in a cellar where it was never allowed to be, still warm and still very much alive.
+1| It steams, very slightly, with gratitude. Rescued!
+
+@capital::fx.pickup_stamp
+#   [(narration)] Pop-up message: pickup stamp
+0| You unwrap a handkerchief and find a worn rubber stamp: FINAL APPROVAL. Someone hid it here, ready for the day it was needed.
+
+@capital::fx.pickup_seed
+#   [(narration)] Pop-up message: pickup seed
+0| An old glass jar holds a single seed, glowing very faintly green. Nobody has planted anything in the Capital for ten years, and the seed hasn't given up.
+
+@capital::fx.pickup_again
+#   [(narration)] Pop-up message: pickup again
+0| You already took the one lying here.
+
+@capital::fx.pickup_unknown
+#   [(narration)] Pop-up message: pickup unknown
+0| There is nothing here.
+
+## purpose: Rollo's quest in the Transit Yards: stop the three wheels and cut the cable, and let the player see what ten years of mandatory cardio cost the crews.
+@capital::fx.wheel_1
+#   [(narration)] Pop-up message: wheel 1
+0| The crew of the first wheel keeps running while you talk, because stopping is not permitted. 'Cardio,' pants a woman, 'is mandatory.' You find the brake lever under a pile of notices.
+1| The wheel groans, slows and stops. The crew sit on the floor and laugh and cry at the same time.
+
+@capital::fx.wheel_2
+#   [(narration)] Pop-up message: wheel 2
+0| The second wheel has been turning since some of its runners were too small to reach the pedals. A foreman's whistle hangs on a hook nearby, and you pocket it.
+1| The wheel winds down. 'We were told,' says a man, 'that this was how you got strong.'
+
+@capital::fx.wheel_3
+#   [(narration)] Pop-up message: wheel 3
+0| The third wheel's crew are children in school caps. 'It is a school activity,' says a banner, but nobody has rung the bell in years.
+1| You pull the lever and lift them down one by one. They're very small and very proud, and they keep asking, 'Did Rollo send you?'
+
+@capital::fx.wheel_again
+#   [(narration)] Pop-up message: wheel again
+0| This crew is free. They're lying on their backs looking up at the sky, and it's the best they've felt in ten years.
+
+@capital::fx.cable
+#   [(narration)] Pop-up message: cable
+0| You cut the big black cable from the wheels to the facade's lights. There is a spark, then silence, and far off the perfect lamps flicker and come back on: {villain} keeps a small private generator, just for himself.
+
+@capital::fx.cable_again
+#   [(narration)] Pop-up message: cable again
+0| The cable is cut. The wires twitch occasionally, out of habit.
+
+## purpose: Marlo's quest: spoil the paste dispenser, and let one smell of real cabbage do the damage.
+@capital::fx.paste
+#   [(narration)] Pop-up message: paste
+0| You pull the lever and ask the Perfect Nutrient Paste Dispenser for a refund. It chokes, burps and covers itself in green foam that smells, fatally, of real cabbage. A paste machine is not supposed to remember cabbage.
+
+@capital::fx.paste_again
+#   [(narration)] Pop-up message: paste again
+0| The dispenser is spoiled and sulking. The foam is still fizzing a little.
+
+## purpose: Widow Pell's quest at the family plot: the locked gate (stamp in Grave Row, north of the permit office), then the quiet funeral nobody stops.
+@capital::fx.plot
+#   [(narration)] Pop-up message: plot
+0| With the Stamp of Final Approval pressed to the form, the grave plot's little iron gate unlocks. A line of mourners, who have waited three years outside, file in.
+1| You watch the neighbourhood carry Mr. Pell to his grave. Nobody holds a permit to sing, so they sing very quietly. Nobody stops them.
+
+@capital::fx.plot_again
+#   [(narration)] Pop-up message: plot again
+0| The Pell plot is tended and quiet, with fresh flowers on it. The family comes every morning now.
+
+@capital::fx.plot_locked
+#   [(narration)] Pop-up message: plot locked
+0| The iron gate is sealed with a notice: 'NO BURIAL WITHOUT A STAMPED PERMIT (FORM 27-B/6, FINAL APPROVAL).' Widow Pell said a stamp was hidden in Grave Row, north of the permit office.
+
+## purpose: Old Fern's quest at the sick patch: it needs the seed from the Reek, and then something grows in the Capital for the first time in ten years.
+@capital::fx.patch
+#   [(narration)] Pop-up message: patch
+0| You kneel, scoop a hole with your hands and drop in the seed. You water it with what is left in your flask. Nothing happens, for one long, bad moment.
+1| Then a shoot as thin as a thread noses out of the dirt, and then another, and then a flower the colour of everything the Capital is not.
+
+@capital::fx.patch_again
+#   [(narration)] Pop-up message: patch again
+0| The patch is green and growing. A bee, which should not exist in the Capital, hovers over it, deciding.
+
+@capital::fx.patch_locked
+#   [(narration)] Pop-up message: patch locked
+0| The patch is sick, grey and cracked, and nothing will grow in it without a seed. Old Fern mentioned an old seed in a jar, hidden somewhere in the Reek.
+
+## purpose: The permit office windows: the 27-B / 27-C loop played straight, by a clerk who is as trapped in it as the player.
+@capital::fx.permit_1
+#   [(narration)] Pop-up message: permit 1
+0| The clerk behind the window slides you a form. 'For a burial permit, Form 27-B. Please attach Form 27-C (Proof of Grief).'
+1| You ask for 27-C. 'Please attach Form 27-B,' she says.
+
+@capital::fx.permit_2
+#   [(narration)] Pop-up message: permit 2
+0| 'Form 27-C requires Form 27-B,' she says, 'and Form 27-B requires Form 27-C.' You point out, gently, that this is a loop.
+1| 'It is a process,' she says, with fear in her eyes.
+
+@capital::fx.permit_3
+#   [(narration)] Pop-up message: permit 3
+0| 'Please take a number,' she says, so you take one, and it says 4,112,009.
+1| The sign above the window says NOW SERVING: 3. It has said so for three years.
+
+@capital::fx.ward_window
+#   [(narration)] Pop-up message: ward window
+0| You read: 'Spontaneity Permits: Thursdays, 3:00 to 3:05, by appointment.' Inside, the clerk sleeps upright, eyes open.
+
+## purpose: Nameplates on Capital buildings and props: short official labels, kept as they are.
+@capital::prop.facade_arch
+#   [(narration)] Examining: facade arch
+0| THE SHOWCASE QUARTER
+
+@capital::prop.complaint_box
+#   [(narration)] Examining: complaint box
+0| COMPLAINTS
+
+@capital::prop.compost_shack
+#   [(narration)] Examining: compost shack
+0| COMPOST (ILLEGAL)
+
+@capital::prop.parlor
+#   [(narration)] Examining: parlor
+0| PELL FAMILY PARLOUR
+
+@capital::prop.permit_office
+#   [(narration)] Examining: permit office
+0| PERMIT OFFICE (BURIALS, CREMATIONS, DISCOURAGEMENTS)
+
+@capital::prop.paste_dispenser
+#   [(narration)] Examining: paste dispenser
+0| PERFECT NUTRIENT PASTE. TASTES OF NOTHING. THAT IS THE POINT.
+
+## purpose: Signs at the Approved Gate: the visitor standard as circular bureaucracy, so the player knows before entering what kind of place this is.
+@capital::sign.gate_main
+#   [(narration)] Reading a sign: gate main
+0| THE APPROVED GATE
+1| Visitors are welcome (conditions apply).
+
+@capital::sign.gate_requirements
+#   [(narration)] Reading a sign: gate requirements
+0| APPROVED VISITOR STANDARD
+1| 1. Visitors must be of approved height.
+2| 2. Visitors must be smiling at an approved angle.
+3| 3. Visitors must not have unapproved opinions.
+4| 4. Visitors must have already been approved.
+
+@capital::sign.gate_exit
+#   [(narration)] Reading a sign: gate exit
+0| EXITS ARE CONTROLLED
+1| To leave, please obtain an Exit Permit, an Exit Interview and an Exit Interview Permit.
+
+@capital::sign.gate_height
+#   [(narration)] Reading a sign: gate height
+0| APPROVED HEIGHT
+1| Between this line and that line. Slouching is a violation. Standing on tiptoes is a violation.
+2| Having a height is, on balance, a violation.
+
+@capital::sign.gate_inside
+#   [(narration)] Reading a sign: gate inside
+0| WELCOME TO {capital}
+1| The Capital. Population: neat. Remember: it is perfect. If it is not, that is your fault.
+
+@capital::sign.gate_exit_inside
+#   [(narration)] Reading a sign: gate exit inside
+0| EXIT INTERVIEW
+1| All departures require an interview. Please explain how elsewhere could possibly be an improvement.
+
+## purpose: Signs in the Showcase Quarter: the cheerful rules (hats, smiles, lawns, queues) that the Perfectly Happy Citizens live under.
+@capital::sign.facade_welcome
+#   [(narration)] Reading a sign: facade welcome
+0| THE SHOWCASE QUARTER
+1| Every house in this quarter was built to show what the whole kingdom could be if everybody simply tried harder.
+
+@capital::sign.facade_hats
+#   [(narration)] Reading a sign: facade hats
+0| APPROVED HAT SIZES
+1| Approved Hat Sizes: 1. A perfect fit is your responsibility.
+2| Hats of other sizes are a Disagreement.
+
+@capital::sign.facade_spontaneity
+#   [(narration)] Reading a sign: facade spontaneity
+0| SPONTANEITY BY PERMIT ONLY
+1| Fun may be had Thursdays 3:00 to 3:05. Please queue for fun.
+
+@capital::sign.facade_smile
+#   [(narration)] Reading a sign: facade smile
+0| SMILING IS MANDATORY
+1| Please smile at least 70% of the time. Smile with your teeth. Mind the edges.
+
+@capital::sign.facade_lawns
+#   [(narration)] Reading a sign: facade lawns
+0| REGULATION LAWNS
+1| Grass shall be 2.0 cm tall. Do not walk on it. Your footprints have not been approved.
+
+@capital::sign.facade_hedges
+#   [(narration)] Reading a sign: facade hedges
+0| HEDGE LAW
+1| Hedges shall be square. Hedges that wish to be round must submit a request.
+
+@capital::sign.facade_queue
+#   [(narration)] Reading a sign: facade queue
+0| THE ORDERLY QUEUE
+1| Queue here for the Orderly Queue. Any impatience must be expressed in order.
+
+@capital::sign.facade_loudspeaker
+#   [(narration)] Reading a sign: facade loudspeaker
+0| LISTEN FOR YOUR ANNOUNCEMENTS
+1| Announcements are cheerful. Cheerfulness is not optional. Neither are announcements.
+
+@capital::sign.facade_shop_1
+#   [(narration)] Reading a sign: facade shop 1
+0| BAKERY
+1| Fresh Approved Bread (Daily). Closed (Permanently).
+
+@capital::sign.facade_shop_2
+#   [(narration)] Reading a sign: facade shop 2
+0| BOOKS & WELLNESS
+1| Approved titles: 1. Approved wellness: 1.
+
+@capital::sign.facade_back
+#   [(narration)] Reading a sign: facade back
+0| SERVICE ENTRANCE
+1| (Not a real door. Please do not look behind it. There is nothing behind it.)
+
+## purpose: Signs in the Reek: what the Capital did with everything untidy, and where the service shaft is.
+@capital::sign.reek_main
+#   [(narration)] Reading a sign: reek main
+0| THE REEK
+1| Formerly the Verdant Quarter. Now the place we put everything that does not look nice.
+
+@capital::sign.reek_untidy
+#   [(narration)] Reading a sign: reek untidy
+0| COMPOSTING IS UNTIDY
+1| By decree: all composting is outlawed. Rubbish shall be placed where it cannot be seen. That place is here.
+
+@capital::sign.reek_compost_ban
+#   [(narration)] Reading a sign: reek compost ban
+0| NO COMPOST
+1| The act of composting is a form of Disorder. Offenders will be corrected.
+
+@capital::sign.reek_behind_facade
+#   [(narration)] Reading a sign: reek behind facade
+0| ALL GARBAGE GOES BEHIND THE FACADE
+1| (It is not garbage. It is Behind.)
+
+@capital::sign.reek_sick_patch
+#   [(narration)] Reading a sign: reek sick patch
+0| THE SICK PATCH
+1| The soil here has stopped growing. Please do not ask why. Please do not plant anything. Please do not feel anything.
+
+@capital::sign.net_reek
+#   [(narration)] Reading a sign: net reek
+0| SERVICE SHAFT: THE REEK
+1| To the Crease. Wrinkles only. If you are not a Wrinkle, you did not see this.
+
+## purpose: Signs in Grave Row: grief held up by paperwork, setting up Widow Pell's quest.
+@capital::sign.grave_main
+#   [(narration)] Reading a sign: grave main
+0| GRAVE ROW
+1| Formerly the Cemetery of {kingdom}. Currently Closed Pending Review.
+
+@capital::sign.grave_permit
+#   [(narration)] Reading a sign: grave permit
+0| PERMIT OFFICE
+1| Burial permit: Form 27-B. Attach Form 27-C. Form 27-C requires Form 27-B. Please queue.
+
+@capital::sign.grave_queue
+#   [(narration)] Reading a sign: grave queue
+0| QUEUE FOR THE QUEUE
+1| Take a number to take a number. Your number is: 4,112,009. Now serving: 3.
+
+@capital::sign.grave_waiting
+#   [(narration)] Reading a sign: grave waiting
+0| WAITING (DEAD)
+1| The deceased are asked to remain in their parlours until a permit has been approved. Please do not wander.
+
+@capital::sign.grave_plot
+#   [(narration)] Reading a sign: grave plot
+0| PELL FAMILY PLOT
+1| Reserved since before the permit system. Locked since the permit system.
+
+@capital::sign.net_grave
+#   [(narration)] Reading a sign: net grave
+0| SERVICE SHAFT: GRAVE ROW
+1| To the Crease. Living passengers only. The dead have asked to come down too; we are thinking about it. Be kind.
+
+## purpose: Signs in the Transit Yards: the wheels that light the facade, setting up Rollo's quest and explaining why the lifts are out.
+@capital::sign.transit_main
+#   [(narration)] Reading a sign: transit main
+0| THE TRANSIT YARDS
+1| Where the kingdom's energy and its roads were made. Now: where the facade's lights are made.
+
+@capital::sign.transit_cardio
+#   [(narration)] Reading a sign: transit cardio
+0| MANDATORY CARDIO
+1| Every citizen shall run the wheels for six hours a day, so that the wheels never stop and the lights never go out. Your legs are not your own.
+
+@capital::sign.transit_lines
+#   [(narration)] Reading a sign: transit lines
+0| TRAM LINES: SUSPENDED
+1| Trams must arrive on time. None did. All trams are suspended. Punctuality has improved considerably.
+
+@capital::sign.transit_lights
+#   [(narration)] Reading a sign: transit lights
+0| THE LIGHTS OF THE FACADE
+1| Powered by You, personally.
+
+@capital::sign.transit_cable
+#   [(narration)] Reading a sign: transit cable
+0| DO NOT CUT
+1| The big black cable is the facade's lifeline. Cutting it is a crime. Please do not cut it.
+
+@capital::sign.net_transit
+#   [(narration)] Reading a sign: net transit
+0| SERVICE SHAFT: THE TRANSIT YARDS
+1| To the Crease. Out of service: the lifts need the wheels, and the wheels are busy lighting a small town.
+
+## purpose: Signs in the Hungry Quarter: one approved meal for everyone, setting up Marlo's quest.
+@capital::sign.hungry_main
+#   [(narration)] Reading a sign: hungry main
+0| THE HUNGRY QUARTER
+1| Formerly the Market of the Four Paths. Now: where everybody queues for the one approved meal.
+
+@capital::sign.hungry_paste
+#   [(narration)] Reading a sign: hungry paste
+0| PERFECT NUTRIENT PASTE
+1| One serving per citizen per meal. Every meal. Tastes of nothing. No preferences will be left unsatisfied.
+
+@capital::sign.hungry_closed
+#   [(narration)] Reading a sign: hungry closed
+0| ALL STALLS CLOSED
+1| Real food is a source of Individual Preference and has therefore been replaced.
+
+@capital::sign.hungry_nutrition
+#   [(narration)] Reading a sign: hungry nutrition
+0| NUTRITION IS NOT DELIGHT
+1| Delight is a form of inefficiency. Please eat in silence.
+
+@capital::sign.hungry_menu
+#   [(narration)] Reading a sign: hungry menu
+0| TODAY'S MENU
+1| Paste.
+2| The same as yesterday and the same as tomorrow. You may stop consulting the menu.
+
+@capital::sign.net_hungry
+#   [(narration)] Reading a sign: net hungry
+0| SERVICE SHAFT: THE HUNGRY QUARTER
+1| To the Crease. There's a smell of real cooking coming up this shaft, and nobody ever mentions it.
+
+## purpose: Signs on the castle approach: he is watching, and the tears in reality have been 'temporary' for ten years.
+@capital::sign.castle_main
+#   [(narration)] Reading a sign: castle main
+0| THE CASTLE OF HIS PERFECTION
+1| Please do not stare. He can tell.
+
+@capital::sign.castle_avenue
+#   [(narration)] Reading a sign: castle avenue
+0| THE AVENUE OF PORTRAITS
+1| Each portrait has been improved. Please admire them in order.
+
+@capital::sign.castle_warning
+#   [(narration)] Reading a sign: castle warning
+0| WARNING: TEARS IN REALITY
+1| {villain} has assured everyone that the tears are temporary. He has assured everyone of this for ten years.
+
+@capital::sign.net_approach
+#   [(narration)] Reading a sign: net approach
+0| SERVICE SHAFT: THE CASTLE APPROACH
+1| To the Crease. If you hear humming from the castle above, do not hum along.
+
+## purpose: Signs in Checkpoint Row and the Correction Ward: the checkpoints nobody staffs any more, and feelings by appointment.
+@capital::sign.yard_main
+#   [(narration)] Reading a sign: yard main
+0| CHECKPOINT ROW
+1| Seventeen checkpoints in one street. The last checks whether you enjoyed the first sixteen.
+
+@capital::sign.yard_abandoned
+#   [(narration)] Reading a sign: yard abandoned
+0| ABANDONED CHECKPOINT
+1| The staff left in the night. They left their forms behind.
+
+@capital::sign.yard_form
+#   [(narration)] Reading a sign: yard form
+0| FORM 1-A (STAMPED)
+1| Authority transferred, reviewed, approved, notarized, filed. The authorization is valid. Nobody is here to enforce it.
+
+@capital::sign.ward_main
+#   [(narration)] Reading a sign: ward main
+0| THE CORRECTION WARD
+1| Citizens who smile incorrectly are sent here for improvement. Improvement takes as long as it takes.
+
+@capital::sign.ward_permit
+#   [(narration)] Reading a sign: ward permit
+0| SPONTANEITY PERMIT WINDOW
+1| Thursdays, 3:00 to 3:05, by appointment.
+
+@capital::sign.ward_rules
+#   [(narration)] Reading a sign: ward rules
+0| WARD RULES
+1| No laughter. No sighing. No unapproved crying.
+2| Crying must be done in the correct order.
+
+## purpose: Signs in the Outskirts: the impossible queue, the rift warning with its scrawled truth, and the clues to the old tunnel (south-west corner, behind the fallen statue).
+@capital::sign.out_welcome
+#   [(narration)] Reading a sign: out welcome
+0| WELCOME TO THE CAPITAL OF {kingdom}
+1| Please join the approved queue and wait to be measured.
+
+@capital::sign.out_queue
+#   [(narration)] Reading a sign: out queue
+0| APPROVED QUEUE
+1| Queue here. You may not queue anywhere else. You may not queue here without a queue number. You may not have a queue number.
+
+@capital::sign.out_abandoned_a
+#   [(narration)] Reading a sign: out abandoned a
+0| CHECKPOINT 14 (ABANDONED)
+1| It was a very good checkpoint. It checked everything.
+
+@capital::sign.out_abandoned_b
+#   [(narration)] Reading a sign: out abandoned b
+0| CHECKPOINT 15 (ABANDONED)
+1| (somebody has drawn a moustache on the guard. It suits him.)
+
+@capital::sign.out_rift
+#   [(narration)] Reading a sign: out rift
+0| WARNING: RIFT
+1| The tears are temporary and fully under control. (Scrawled below: the Paths tear where {villain} forced them into one shape. His hold is failing; it first slipped the night someone escaped the Ministry.)
+2| Do not touch. Do not look. Do not whistle.
+
+@capital::sign.out_exit_rules
+#   [(narration)] Reading a sign: out exit rules
+0| EXIT RULES
+1| To leave the Outskirts, walk back down the road. To leave the Capital, please see: the Exit Interview Booth.
+
+@capital::sign.out_tunnel_clue
+#   [(narration)] Reading a sign: out tunnel clue
+0| the old tunnel came out near here
+1| (a scrap of paper pinned under a stone: 'forgotten service shaft, SW of the wall, behind the fallen statue. Rubble is mostly for show.')
+
+@capital::sign.out_old_works
+#   [(narration)] Reading a sign: out old works
+0| OLD JOINT WORKS: PROPERTY OF THE FOUR PATHS
+1| Closed and forgotten, and on nobody's map. (Try the south-west corner.)
+
+## purpose: Signs in Checkpoint Plaza: orderly nonsense above ground, and the manhole clue (knock three times) at the player's feet.
+@capital::sign.plaza_main
+#   [(narration)] Reading a sign: plaza main
+0| CHECKPOINT PLAZA
+1| Please proceed in an orderly fashion, in the approved direction, at the approved speed, with the approved face.
+
+@capital::sign.plaza_exit_interview
+#   [(narration)] Reading a sign: plaza exit interview
+0| EXIT INTERVIEWS
+1| Departures require an interview. Interviews require an appointment. Appointments require a departure.
+
+@capital::sign.plaza_complaints
+#   [(narration)] Reading a sign: plaza complaints
+0| THE ANONYMOUS COMPLAINT BOX
+1| Your complaint matters. Reading it remains optional.
+
+@capital::sign.plaza_manhole
+#   [(narration)] Reading a sign: plaza manhole
+0| (a small scratch on the cover, like a wrinkle)
+1| Knock three times.
+
+@capital::sign.net_plaza
+#   [(narration)] Reading a sign: net plaza
+0| SERVICE SHAFT: CHECKPOINT PLAZA
+1| To the Crease. Authorized personnel only. The authorization is: you knocked.
+
+## purpose: Signs in the Crease: who the Wrinkles are, how the shaft network works, and house rules that are the opposite of everything upstairs.
+@capital::sign.crease_main
+#   [(narration)] Reading a sign: crease main
+0| THE CREASE
+1| A Wrinkle is something that does not go away when you press it.
+
+@capital::sign.crease_wrinkle
+#   [(narration)] Reading a sign: crease wrinkle
+0| THE WRINKLES
+1| Founded by the people {villain} could not iron out. No dues, no forms, and nobody here has to smile.
+
+@capital::sign.crease_network
+#   [(narration)] Reading a sign: crease network
+0| THE SERVICE SHAFT NETWORK
+1| Built by all four Paths, together, back when we did that. Six shafts, six streets. (Beefcake wheels power the lifts. No wheels, no lifts.)
+
+@capital::sign.crease_rules
+#   [(narration)] Reading a sign: crease rules
+0| HOUSE RULES
+1| 1. Say what you think.
+2| 2. Eat what you like. 3. Wear a hat of any size.
+3| 4. Do not tell anyone where we are.
+
+## purpose: The height inspector at the gate: a guard enforcing a measurement he does not understand, anxious rather than unkind.
+@capital::npc.guard_height.intro
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro)
+0| Height inspection! Stand against the post for me, please, and straighten up as far as you are able.
+1| No, not as straight as that, that is worse. Now you are one hair above regulation, and the form only has the two boxes on it.
+2| I will let one hair go, this once, because nobody has ever told me what a hair counts as. Only please do not grow while you are inside, or I shall be the one who has to explain it.
+
+@capital::npc.guard_height.return
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return)
+0| You are still one hair above regulation. I have thought about that hair all week, and I looked for it in the manual, and it is not in there, so please do not make me regret it.
+
+## purpose: The queue guard: the impossible queue explained by someone who has read the rule four times and still cannot follow it.
+@capital::npc.guard_queue.intro
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro)
+0| Queue management! This is the approved queue, and I am pleased to tell you that you are already standing in it.
+1| You are not allowed to leave the queue, and you are not allowed to join it either, which I grant you is awkward. I have read the rule four times and I do not understand it any better than you do.
+
+@capital::npc.guard_queue.return
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return)
+0| Still queueing, I see, and very nicely too. You have a real gift for remaining eligible, and I would write that down for you if there were a box for it.
+1| It is a long queue, I know, but it is the best one we have, and between ourselves I have never seen where the front of it goes.
+
+## purpose: The first exit guard: leaving is forbidden by paperwork, said apologetically.
+@capital::npc.guard_in_1.intro
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro)
+0| Exit control. You wish to leave? I am sorry, but according to this you have not finished arriving yet, and I cannot let anyone out who is not properly in. Please arrive first.
+
+@capital::npc.guard_in_1.return
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return)
+0| Exit control. Please have your exit permit ready, and your exit interview permit, and, if at all possible, a reason.
+
+## purpose: The second exit guard: nobody ever told him whether he is guarding a door or a wall.
+@capital::npc.guard_in_2.intro
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro)
+0| Exit control. This is the exit, and it is also the entrance, and they told me on my first day that from some angles it is a wall. I try not to stand at those angles.
+
+@capital::npc.guard_in_2.return
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return)
+0| Exit control. As far as I can tell you are still inside, so congratulations, I suppose, unless it is commiserations. Nobody has told me which.
+
+## purpose: The Exit Interview clerk: a polite dead end, run by someone who did not choose the approved answers either.
+@capital::npc.exit_clerk.intro
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro)
+0| Exit Interview Booth, good day. May I take your name, and your reason for departing the most perfect place in the kingdom?
+1| I am afraid 'it is not perfect' is not one of the approved answers, and neither is pointing at something while you say it. I do not choose the answers. I am not certain anybody does.
+
+@capital::npc.exit_clerk.return
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return)
+0| Your departure request has been received and filed under 'Dissent', which is the only drawer I was given. Somebody will look at it in four to six years, and I do hope for both our sakes that it is not me.
+
+## purpose: Citizen 1 (the weather and the lawn): approved cheer about sameness, then the slip that shows even blinking is watched.
+@capital::facade.citizen.1.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 1 approved
+0| Good day! The weather has been approved, and the lawn is exactly regulation!
+1| Everything is perfect, and I am so, so pleased about it.
+
+@capital::facade.citizen.1.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 1 approved2
+0| Good day! It is a very good day, exactly the same as yesterday.
+1| Yesterday was also very good, so I am quite confident about tomorrow. It is restful, knowing in advance.
+
+@capital::facade.citizen.1.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 1 slip
+0| Everything is perfect. Everything is... (a pause, then a whisper) ...please do not tell the Inspector I blinked.
+
+## purpose: Citizen 2 (later Berta): cheer about a quarter where the bread is painted on, then the slip about the name she is allowed to forget.
+@capital::facade.citizen.2.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 2 approved
+0| Welcome to {showcase}! We have houses, and lawns, and a small round approved fountain, which is everything you could want. It is also everything you may want, so that works out very nicely.
+
+@capital::facade.citizen.2.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 2 approved2
+0| The bread is lovely. The bread is... (a fixed smile) I am only permitted to call it lovely. I would like, very much, to see some.
+
+@capital::facade.citizen.2.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 2 slip
+0| I had a name before. I think it started with a B. We are allowed to forget them, and I am doing very well at it.
+
+## purpose: Citizen 3 (the identical houses): pride in being the same, then the one private thing she does, which is to look at a wall.
+@capital::facade.citizen.3.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 3 approved
+0| My house is identical to my neighbour's! Is that not wonderful? There is nothing to envy, and nothing to be envied for.
+
+@capital::facade.citizen.3.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 3 approved2
+0| Isn't it lovely to be exactly the same? I used to be different, I think, though I cannot remember why. It sounds very tiring.
+
+@capital::facade.citizen.3.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 3 slip
+0| (a whisper) Sometimes I go round behind the house and look at the wall. It is only a wall, but nobody has told me how to feel about it. Please do not tell them I go.
+
+## purpose: Citizen 4 (the smiler): the seventy percent rule from the inside, then the saddest slip, the man who smiled at a funeral.
+@capital::facade.citizen.4.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 4 approved
+0| Smile! That is all there is to it! Smiling is mandatory, and I am, in my opinion, a very good smiler.
+
+@capital::facade.citizen.4.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 4 approved2
+0| Seventy percent cheerfulness is the minimum, and today I am at seventy-one! It is a good day.
+1| My cheeks hurt. Please do not tell anyone my cheeks hurt.
+
+@capital::facade.citizen.4.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 4 slip
+0| The man next door smiled at his wife's funeral. He was remembering her laugh.
+1| (a whisper) They corrected him for a month. He does not remember her laugh now.
+
+## purpose: Citizen 5 (the hedge): the showpiece nobody visits, then the slip about hearing her own name once.
+@capital::facade.citizen.5.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 5 approved
+0| The hedge is square! The hedges are all square! I trim the hedge every morning, to make sure it is as square as yesterday's.
+
+@capital::facade.citizen.5.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 5 approved2
+0| The Showcase receives visitors from all over! (a pause) Nobody has visited in six years. We still smile, in case they do.
+
+@capital::facade.citizen.5.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 5 slip
+0| Do you hear the loudspeaker? It says the same things every day, but once, years ago, it said my name.
+1| (a whisper) It was only the once, and I think it was a mistake. I stand under it most mornings all the same, in case it makes another.
+
+## purpose: Citizen 6 (Spontaneity Thursday): rehearsed surprise, then the slip about the bird.
+@capital::facade.citizen.6.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 6 approved
+0| Spontaneity is only for Thursdays! Today is Wednesday! I am almost allowed to be excited!
+
+@capital::facade.citizen.6.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 6 approved2
+0| It is Thursday! I have my permit ready for my five minutes of spontaneity, and I have rehearsed being caught off guard all week, so I expect to do it very well.
+
+@capital::facade.citizen.6.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 6 slip
+0| I tried to be spontaneous once, on a Tuesday. I said 'hello' to a bird.
+1| I was corrected for two weeks. (a whisper) I still think about that bird.
+
+## purpose: Citizen 7 (the one hat size): strenuous politeness, then the slip about the green hat and the daughter.
+@capital::facade.citizen.7.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 7 approved
+0| Your hat is of an unapproved size, but I will not mention it, because that would be impolite. I am so, so polite. I am the politest person in the Showcase.
+
+@capital::facade.citizen.7.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 7 approved2
+0| There is one Approved Hat Size, and this is the hat. It is a good hat, although I do not know whose it was.
+
+@capital::facade.citizen.7.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 7 slip
+0| My daughter had a green hat. A little green hat. They said it was a Disagreement.
+1| I do not know where the hat is. I do not know where my daughter is. Everything is perfect.
+
+## purpose: Citizen 8 (the best of all places): cheer that keeps glancing at the exit, then the slip about the door at the back and the rain.
+@capital::facade.citizen.8.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 8 approved
+0| The Showcase is the best of all possible places! I would not live anywhere else! (looking at the exit) ...I would not be allowed to.
+
+@capital::facade.citizen.8.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 8 approved2
+0| Everyone is so friendly! Everyone is so friendly. It is like living inside a greeting card, one of the kind with nothing written in it.
+
+@capital::facade.citizen.8.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 8 slip
+0| (a whisper) There is a door at the back that does not open. I put my ear to it sometimes. I think there is a world on the other side, and I think it is raining there.
+
+## purpose: Citizen 9 (the portraits): devotion to a ruler who never comes down, and the slip that notices it.
+@capital::facade.citizen.9.approved
+#   [A Perfectly Happy Citizen] Facade: citizen 9 approved
+0| {villain_title} is so kind. He loves us all, and he made everything this way, for us. For our own good. (a shake) For our own good.
+
+@capital::facade.citizen.9.approved2
+#   [A Perfectly Happy Citizen] Facade: citizen 9 approved2
+0| The portrait is looking at me. It is always looking at me, wherever I stand on the lawn, and it is very kind of him to take the trouble.
+1| I would never look away, of course. (a small laugh) I did try it once, and I cannot.
+
+@capital::facade.citizen.9.slip
+#   [A Perfectly Happy Citizen] Facade: citizen 9 slip
+0| (a pause, then quietly) He is never here, you know. In all these years he has not once come down to see us. Only the portraits come.
+1| The portraits do all the looking for him. It is all done by portrait, and lately I have begun to think that must be lonely.
+
+## purpose: The painted doors of the Showcase: every house is a front with nothing behind it, and one person stuck painting it (a first glimpse of Isla).
+@capital::facade.door.1
+#   [A Perfectly Happy Citizen] Facade: door 1
+0| You try the front door, but it does not open, because it is not a door.
+1| It is a very well-painted rectangle on the wall. Somebody has even painted a tiny brass knocker, so you knock.
+2| It makes a sound like knocking on a wall.
+
+@capital::facade.door.2
+#   [A Perfectly Happy Citizen] Facade: door 2
+0| The door will not open. Through the window you see a painting of a window, and beyond it a painted living room where a painted family sits.
+1| They are all smiling, and they have been smiling for six years.
+
+@capital::facade.door.3
+#   [A Perfectly Happy Citizen] Facade: door 3
+0| The door has no handle, and the house has no inside. In the gap behind the facade there is just room for a ladder and a young woman painting the same window for the thousandth time.
+1| She looks at you, then away. She has the face of someone who has meant to write home for years.
+
+@capital::facade.door.4
+#   [A Perfectly Happy Citizen] Facade: door 4
+0| You try the door, and to your surprise it opens. It is a closet.
+1| It contains a mop, a bucket and a sign that says: IF YOU ARE READING THIS, SMILE.
+
+## purpose: Plume's loudspeaker under the regime: bright spin with one aside each that gives the game away (the lost 'property', the watching, the tidied records).
+@capital::facade.speaker.1.0
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 0
+0| Great news, citizens! Today is a PERFECT day! The weather is APPROVED, and I am delighted to confirm that it was my own office that approved it!
+1| Do please continue to be happy, as scheduled! And one small reminder: lost Ministry property must be returned at once, and must on no account be spoken to!
+
+@capital::facade.speaker.1.1
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 1
+0| Attention, citizens! A friendly reminder that smiling is MANDATORY! Anyone found frowning will be helped, promptly and at some length, and will thank us for it afterwards!
+
+@capital::facade.speaker.1.2
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 2
+0| Attention, citizens! (a pause) Attention, citizens! (a very long pause) ...the announcement has been completed. Please clap.
+
+@capital::facade.speaker.2.0
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 0
+0| Great news, citizens! This season brings one Approved Hat Size! Choice has never been easier!
+
+@capital::facade.speaker.2.1
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 1
+0| Attention, citizens! {villain_title} reminds you that he loves you, and that he is watching. These are the same statement.
+
+@capital::facade.speaker.2.2
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 2
+0| Great news, citizens! Spontaneity Thursday approaches! Please rehearse your surprise. We expect a natural performance at three!
+
+@capital::facade.speaker.3.0
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 0
+0| Great news, citizens! The public records have never been tidier! Every untidy page has been corrected!
+1| If you remember things differently, please report to the Correction Ward. Your memory will be tidied too!
+
+@capital::facade.speaker.3.1
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 1
+0| Attention, citizens! All is well. All has always been well.
+1| A correction: this message has always been correct.
+
+@capital::facade.speaker.3.2
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 2
+0| Great news, citizens! The Wrinkles do not exist.
+1| Please report anyone who exists. This has been your Deputy Minister of Good News!
+
+## purpose: The 'lost property' posters: the Ministry is hunting an escaped royal asset about the hero's age, and the player can answer it by writing 'Person'.
+@capital::prop.lost_poster
+#   [(narration)] Examining: lost poster
+0| HAVE YOU SEEN THIS IMPROVEMENT OPPORTUNITY?
+1| ESCAPED ROYAL ASSET. Age: approx. 21.
+2| Height: average. Distinguishing features: none, we hope. Last seen leaving a Ministry facility in the company of a traitor.
+3| Please return to the nearest Ministry office. Reward: a commendation.
+
+@capital::prop.lost_poster.known
+#   [(narration)] Examining: lost poster known
+0| HAVE YOU SEEN THIS IMPROVEMENT OPPORTUNITY?
+1| ESCAPED ROYAL ASSET. Age: approx. 21.
+2| Height: yours. Face: yours. Last seen: reading this poster.
+
+@capital::sign.lost_poster
+#   [(narration)] Reading a sign: lost poster
+0| LOST PROPERTY
+1| Have you seen this Improvement Opportunity? Please return to the nearest Ministry office. No questions will be answered.
+
+@capital::fx.deface_poster
+#   [(narration)] Pop-up message: deface poster
+0| You cross out 'Asset' and write 'Person' in the margin, in large letters. A passing citizen pretends not to see, and then, quietly, nods. +12 gold from a grateful Wrinkle.
+
+## purpose: Barks heard in passing in the Capital: one or two lines each that sound like that person and nobody else, and not all of them jokes.
+@npc::NPC-WREN.barks
+#   [Wren] Bark (speech bubble when you walk past Wren; Capital, resistance hideout)
+0| Keep your head down, and carry your hope anyway. It has never once been approved.
+1| Whatever you see up there, tell me exactly. It all goes into the record, in ink.
+
+@npc::NPC-KESTREL.barks
+#   [Kestrel] Bark (speech bubble when you walk past Kestrel; Capital outskirts)
+0| Psst. Chalk on the left means go. Chalk on the right means I got bored.
+1| Psst. Guards change on the hour and I change whenever I feel like it, so keep up.
+
+@npc::NPC-SPOTLESS.barks
+#   [Captain Spotless] Bark (speech bubble when you walk past Captain Spotless; Capital gate / Old Service Tunnels)
+0| HALT. State your height. No, do not state it. STAND at it.
+1| A SMUDGE is TREASON! ...It's on me, isn't it. It's always on me.
+
+@npc::NPC-PELL.barks
+#   [Widow Pell] Bark (speech bubble when you walk past Widow Pell; Capital)
+0| He has been in the parlour three years. I still tell him when someone comes to the door.
+1| I do beg your pardon. I was only telling my husband what the weather's doing.
+
+@npc::NPC-ROLLO.barks
+#   [Rollo Spokes] Bark (speech bubble when you walk past Rollo Spokes; Capital)
+0| Ten years... on the wheel... my calves... have calves.
+1| Back in the Gainlands... my crews got rest days. I'd like... those back.
+
+@npc::NPC-MARLO.barks
+#   [Chef Marlo] Bark (speech bubble when you walk past Chef Marlo; Capital)
+0| Psst. Bread: some flour, a bit of water, enough time. You didn't hear it here.
+1| Down here we cook with all the heat and none of the sky. Smell that? Contraband.
+
+@npc::NPC-FERN.barks
+#   [Old Fern] Bark (speech bubble when you walk past Old Fern; Capital)
+0| Untidy, they call me. Dirt's supposed to be untidy. That's how it works.
+1| The worms in my hat are unapproved. So am I. We get along.
+
+@npc::NPC-CITIZEN.barks
+#   [A Perfectly Happy Citizen] Bark (speech bubble when you walk past A Perfectly Happy Citizen; Capital, Primm's Perfection)
+0| Everything is perfect! Everything is... (whisper) is it raining? I liked rain.
+1| Smile! It's mandatory! Eight degrees! ...Is mine at eight? Please say eight.
+
+@npc::NPC-PRIMM.barks
+#   [Primm, "His Perfection"] Bark (speech bubble when you walk past Primm, "His Perfection"; Primm's Perfection (the Capital), Primm's Castle)
+0| I am designing a drain. It will not be perfect, and I am learning to let that be.
+1| Good day. I owe you rather more than a good day, but I am told it is a start.
+
+@npc::NPC-ISLA.barks
+#   [Isla Brannoch] Bark (speech bubble when you walk past Isla Brannoch; Capital (after it's freed); Crosspath gate)
+0| Dad says hi. Well, he said 'Hm', but I've had years to learn the language.
+1| Eight years of one front door. Ours gets a new colour every week now.
+
+## purpose: Coming up from the old tunnels inside the walls: the unwatched way in, built by all four Paths.
+@dc::fx.old_tunnels_way_in
+#   [Kestrel] Pop-up message: old tunnels way in
+0| The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four Paths' services, still connected.
+1| You climb up inside the walls. Nobody is watching this way in, because nobody remembers it is here.
+
+## purpose: Map descriptions for the Paste Works and the Old Service Tunnels: one clear picture per room.
+@dc::dungeons/S-PASTE/blurbs/1
+#   [(narration/UI)] The Paste Works, "Ration Line": map description
+0| Grey citizens queue for grey paste while a supervisor times every scoop of the ladle.
+
+@dc::dungeons/S-CAP/blurbs/2
+#   [(narration/UI)] The Old Service Tunnels, "The Four-Faction Junction": map description
+0| A Beefcake bore, Gourmand vents, Necrocrat signs and Refusemancer drains all meet here, and the junction crew turns every scrap of Garbage into muscle.
+
+@dc::dungeons/S-PASTE/blurbs/2
+#   [(narration/UI)] The Paste Works, "The Vat Floor": map description
+0| The vats are the size of houses, and something in the third one is humming the national anthem.
+
+@dc::dungeons/S-PASTE/blurbs/3
+#   [(narration/UI)] The Paste Works, "The Colonel's Kitchen": map description
+0| Behind the ration hatch is a real kitchen, with a locked pantry and a badger in medals standing guard over it.
+
+## purpose: Map descriptions of the castle's rooms: one picture each, with the node type stated plainly, building from polish at the gate to the man at the model.
+@capital::dungeon.pc_gate.blurb
+#   [(narration)] Dungeon node "pc gate": map description
+0| Solid gold, ten metres tall, and polished until you can see your own worried face in them. They swing open before you touch them, which is somehow the worst part.
+
+@capital::dungeon.pc_hall.blurb
+#   [(narration)] Dungeon node "pc hall": map description
+0| A hall the length of a street, and not one speck of dust. Guards stand at attention every ten paces, each one exactly the same height. (A battle.)
+
+@capital::dungeon.pc_portraits.blurb
+#   [(narration)] Dungeon node "pc portraits": map description
+0| Thousands of portraits of one man, hung in order, each a little taller, straighter and more perfect than the last. A story event.
+
+@capital::dungeon.pc_curator.blurb
+#   [(narration)] Dungeon node "pc curator": map description
+0| A curator with a feather duster patrols the side gallery. Anything crooked, he straightens. Anything alive, he dusts. (A battle.)
+
+@capital::dungeon.pc_alcove.blurb
+#   [(narration)] Dungeon node "pc alcove": map description
+0| A side door behind a very large frame: a small alcove where the old portraits went when they were replaced. A dead end with a prize, then back to the gallery.
+
+@capital::dungeon.pc_mirror_knight.blurb
+#   [(narration)] Dungeon node "pc mirror knight": map description
+0| A knight made entirely of mirror plates, every one showing the same smiling face. It moves exactly like you, right up until it doesn't. (A battle.)
+
+@capital::dungeon.pc_mirror_test.blurb
+#   [(narration)] Dungeon node "pc mirror test": map description
+0| A hall of mirrors that reflect only him. A deck challenge: how well do you lead with your own face?
+
+@capital::dungeon.pc_honest_mirror.blurb
+#   [(narration)] Dungeon node "pc honest mirror": map description
+0| A small, dusty mirror in a closet, hung by someone who had to hide it. It shows whoever is standing in front of it. A dead end with a story.
+
+@capital::dungeon.pc_mirror_shrine.blurb
+#   [(narration)] Dungeon node "pc mirror shrine": map description
+0| A room of mirrors where, for once, nobody is reflected at all: they have been turned to face the wall. Rest here. Restore HP.
+
+@capital::dungeon.pc_desk.blurb
+#   [(narration)] Dungeon node "pc desk": map description
+0| A long brass desk, a stamp and a form: 'FORM OF CORRECTION'. A deck challenge: do you have the bodies to fill the form?
+
+@capital::dungeon.pc_clerk.blurb
+#   [(narration)] Dungeon node "pc clerk": map description
+0| A clerk at a tall desk stamps everything that moves, quickly and rather sadly. His eyes never leave the paper. (A battle.)
+
+@capital::dungeon.pc_corrector.blurb
+#   [Capital guards and clerks] Dungeon node "pc corrector": map description
+0| The head of the Ministry of Correction, with white gloves, kind eyes and a ruler. She is very, very gentle, and that is what makes her frightening. (Elite)
+
+@capital::dungeon.pc_corrected.blurb
+#   [(narration)] Dungeon node "pc corrected": map description
+0| A long ward behind the Ministry where citizens who were 'corrected' are kept. A dead end with a story, then back to the corridor.
+
+@capital::dungeon.pc_junction.blurb
+#   [(narration)] Dungeon node "pc junction": map description
+0| A circular hall with four doors, one for each Path. Each wing is a dead end: a place where he 'perfected' that Path. Visit any, all or none; then take the corridors on.
+
+@capital::dungeon.pc_wing_gourmand.blurb
+#   [(narration)] Dungeon node "pc wing gourmand": map description
+0| The doppelganger's laboratory: vats of Special Sauce, rows of masks, one very worried technician. (A battle, then lab notes.)
+
+@capital::dungeon.pc_wing_beefcake.blurb
+#   [(narration)] Dungeon node "pc wing beefcake": map description
+0| A war room full of maps, flags and one very large, very empty throne: the place where the coup was planned. (A battle, then the orders.)
+
+@capital::dungeon.pc_wing_necrocrat.blurb
+#   [(narration)] Dungeon node "pc wing necrocrat": map description
+0| A tall office of notarized, filed and countersigned paper: the authorization that took the Necrocrats. (A battle, then the paperwork.)
+
+@capital::dungeon.pc_wing_refusemancer.blurb
+#   [(narration)] Dungeon node "pc wing refusemancer": map description
+0| A glass greenhouse where something glowing and green grows in a single pot. The Rot began here. (A battle, then the seed.)
+
+@capital::dungeon.pc_servants.blurb
+#   [(narration)] Dungeon node "pc servants": map description
+0| A narrow back corridor where the castle's servants work in matching grey, silent and very fast. They do not smile any more; they have stopped trying. (A battle.)
+
+@capital::dungeon.pc_staircase.blurb
+#   [(narration)] Dungeon node "pc staircase": map description
+0| A staircase so grand it has its own staircase. Every step is exactly the same height; you cannot see the landing from the bottom. A story event.
+
+@capital::dungeon.pc_vault.blurb
+#   [(narration)] Dungeon node "pc vault": map description
+0| Where the two ways round the wings meet: a small vault of confiscated things. Treasure.
+
+@capital::dungeon.pc_archive_gate.blurb
+#   [(narration)] Dungeon node "pc archive gate": map description
+0| A tall oak door with a brass sign: 'ARCHIVE OF GOOD INTENTIONS'. A warden stands in front, arms folded. (A battle.)
+
+@capital::dungeon.pc_journals.blurb
+#   [(narration)] Dungeon node "pc journals": map description
+0| Shelves of journals in a young man's handwriting: the years before the throne. A story event.
+
+@capital::dungeon.pc_reading_room.blurb
+#   [(narration)] Dungeon node "pc reading room": map description
+0| A quiet reading room with one lamp and one chair. Someone used to read here every night. Rest and restore HP.
+
+@capital::dungeon.pc_blueprints.blurb
+#   [(narration)] Dungeon node "pc blueprints": map description
+0| A side vault of blueprints: the sound reforms he drew up before it all went wrong. A dead end with a prize, then back to the reading room.
+
+@capital::dungeon.pc_shelf.blurb
+#   [(narration)] Dungeon node "pc shelf": map description
+0| A single long shelf where the reforms are filed in order, each a little bigger than the last. A deck challenge: can your deck keep its footing?
+
+@capital::dungeon.pc_automaton.blurb
+#   [(narration)] Dungeon node "pc automaton": map description
+0| A tall brass automaton that files, stamps and shelves. It has been told the archive is complete, and it is very sure of that. (Elite)
+
+@capital::dungeon.pc_last_journal.blurb
+#   [(narration)] Dungeon node "pc last journal": map description
+0| A single book lies open on a stand, its last page still wet. A story event: the moment you see him as he sees himself.
+
+@capital::dungeon.pc_model_warden.blurb
+#   [(narration)] Dungeon node "pc model warden": map description
+0| The last guard before the Model Room: a warden whose job is to keep everyone away from the table. (Elite)
+
+@capital::dungeon.pc_boss.blurb
+#   [(narration)] Dungeon node "pc boss": map description
+0| A giant model of the whole kingdom, and the man who rearranges it by hand. {villain_title}, {villain}. (Boss: three phases)
+
+@capital::dungeon.pc_ward.blurb
+#   [(narration)] Dungeon node "pc ward": map description
+0| A long ward of white cells. Free the prisoners for a boon, and read what the Path-ologists wrote.
+
+@capital::dungeon.pc_gallery.blurb
+#   [(narration)] Dungeon node "pc gallery": map description
+0| A small gallery behind a mirror, which nobody is allowed to clean. A dead end with a prize.
+
+## purpose: The same pop-ups after the Capital is freed: the gold flaking, and Hesper still unimpressed.
+@capital::fx.main_dungeon.freed
+#   [(narration)] Pop-up message: main dungeon (after the zone is freed)
+0| The doors of {villain}'s Castle stand open, and the gold is flaking off them. A pigeon has built a nest in the crown above the lintel, and nobody has asked it for a permit.
+
+@capital::fx.wake.freed
+#   [Nurse Hesper Dray] Pop-up message: wake (after the zone is freed)
+0| You wake on a cot in the Crease. Nurse Hesper Dray looks up from her clipboard as if she has been expecting you for some time.
+1| 'You fell over, so we rolled you in. No fee. There never was one, down here. Sit up slowly and drink the tea.'
+
+## purpose: The signs after the fall: the same boards corrected by hand, so the player can read the freedom off the walls.
+@capital::sign.gate_main.freed
+#   [(narration)] Reading a sign: gate main (after the zone is freed)
+0| THE GATE (OPEN)
+1| Everybody is welcome. Conditions: none. Please do not feed the pigeons.
+
+@capital::sign.gate_requirements.freed
+#   [(narration)] Reading a sign: gate requirements (after the zone is freed)
+0| FORMER APPROVED VISITOR STANDARD
+1| 1. Be of whatever height you are.
+2| 2. Smile (or not).
+3| 3. Have opinions (loudly).
+4| 4. Come in.
+
+@capital::sign.facade_welcome.freed
+#   [(narration)] Reading a sign: facade welcome (after the zone is freed)
+0| WAS: THE SHOWCASE QUARTER
+1| Now: some houses, a very tidy lawn and a lot of citizens who would like to go home.
+
+@capital::sign.facade_spontaneity.freed
+#   [(narration)] Reading a sign: facade spontaneity (after the zone is freed)
+0| SPONTANEITY: NO PERMIT NEEDED
+1| Somebody has crossed out BY PERMIT and written BY SURPRISE.
+
+@capital::sign.facade_smile.freed
+#   [(narration)] Reading a sign: facade smile (after the zone is freed)
+0| SMILING IS ENCOURAGED
+1| (somebody has written 'when you feel like it' underneath, in small neat letters)
+
+@capital::sign.castle_main.freed
+#   [(narration)] Reading a sign: castle main (after the zone is freed)
+0| THE CASTLE (FORMERLY OF HIS PERFECTION)
+1| Under new management. The new management is: all of us, arguing.
+
+@capital::sign.castle_warning.freed
+#   [(narration)] Reading a sign: castle warning (after the zone is freed)
+0| WARNING: PIGEONS
+1| The tears are sealed. The pigeons have moved in, and they are staying.
+
+@capital::sign.plaza_main.freed
+#   [(narration)] Reading a sign: plaza main (after the zone is freed)
+0| THE PLAZA
+1| Proceed however you like. There is a very large statue; it is lying down.
+
+## purpose: Citizen 1 after the fall: the weather is just weather, and nobody writes down a blink.
+@capital::facade.citizen.1.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 1 approved (after the zone is freed)
+0| Good day! And I mean it's really a good one, I'm not just reporting it. The weather's doing whatever it wants, and I didn't even check first.
+1| I got rained on this morning and I complained about it to a total stranger, and she complained right back. It was wonderful.
+
+@capital::facade.citizen.1.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 1 approved2 (after the zone is freed)
+0| I'm going to wear a hat of whatever size I like, and I might wear two at once. I haven't decided yet, and I'm enjoying not having decided.
+
+@capital::facade.citizen.1.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 1 slip (after the zone is freed)
+0| I blinked twice just now, and nobody came to write it down.
+
+## purpose: Citizen 2 after the fall: she has her name back, Berta, and a recipe that says 'try'.
+@capital::facade.citizen.2.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 2 approved (after the zone is freed)
+0| The bakery's only painted on, but there's going to be a real one as soon as someone learns to bake. I have a recipe. It says: try.
+
+@capital::facade.citizen.2.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 2 approved2 (after the zone is freed)
+0| My name is Berta! I'd forgotten it. It was on the tip of my tongue for ten years.
+
+@capital::facade.citizen.2.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 2 slip (after the zone is freed)
+0| Berta. I keep saying it to hear how it sounds. Berta. Do you know, it's a very good name, and I think my mother chose it.
+
+## purpose: Citizen 3 after the fall: delighted to be furious at a purple house, and the wall is only a wall.
+@capital::facade.citizen.3.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 3 approved (after the zone is freed)
+0| My house is different from my neighbour's now, because he's painted his purple. I'm furious about it, and I'm so happy to be furious.
+
+@capital::facade.citizen.3.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 3 approved2 (after the zone is freed)
+0| I painted my door green. Do you like it? Please say no, so I can have an argument.
+
+@capital::facade.citizen.3.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 3 slip (after the zone is freed)
+0| I still go round the back and look at the wall sometimes. It's a good wall, and it's only a wall.
+
+## purpose: Citizen 4 after the fall: the answer to the funeral slip, crying and smiling with nobody correcting it.
+@capital::facade.citizen.4.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 4 approved (after the zone is freed)
+0| I smiled at a funeral yesterday, and nobody corrected me. It was a good funeral.
+1| I cried and smiled and it was exactly right.
+
+@capital::facade.citizen.4.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 4 approved2 (after the zone is freed)
+0| My cheeks don't hurt any more. They're mine again, and I rested them all of yesterday by frowning at a pigeon.
+
+@capital::facade.citizen.4.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 4 slip (after the zone is freed)
+0| I'm not going to smile at all today unless I want to, and I'm enjoying it enormously.
+
+## purpose: Citizen 5 after the fall: a round hedge, real visitors, and her own name said out loud under the silent loudspeaker.
+@capital::facade.citizen.5.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 5 approved (after the zone is freed)
+0| The hedge is round because it wanted to be round. I asked it myself, and I didn't have to submit a form.
+
+@capital::facade.citizen.5.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 5 approved2 (after the zone is freed)
+0| We get visitors now, real ones! They're mostly lost and a bit confused, but they come, and I don't smile at them until I've decided whether I like them.
+
+@capital::facade.citizen.5.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 5 slip (after the zone is freed)
+0| The loudspeaker's gone quiet. I stood under it for an hour and said my own name out loud, just because I could.
+
+## purpose: Citizen 6 after the fall: every day is Thursday, which is harder than it sounds, and the bird has a name.
+@capital::facade.citizen.6.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 6 approved (after the zone is freed)
+0| It's spontaneity every day now, and I'm exhausted! I'm honestly not sure I like it. No, I do, I love it. I'm allowed to change my mind now, you see.
+
+@capital::facade.citizen.6.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 6 approved2 (after the zone is freed)
+0| I said hello to the bird again. I have named the bird Thursday.
+
+@capital::facade.citizen.6.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 6 slip (after the zone is freed)
+0| Now that every day is Spontaneity Thursday, I don't know what to do with any of them.
+
+## purpose: Citizen 7 after the fall: the daughter and the green hat came home, and politeness gives way to honesty.
+@capital::facade.citizen.7.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 7 approved (after the zone is freed)
+0| My daughter came home in her little green hat. I've never loved a hat more in my life.
+
+@capital::facade.citizen.7.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 7 approved2 (after the zone is freed)
+0| We have every hat size now, all of them at once! Come and see the hats. My daughter's trying them all on, and she says most of them are terrible.
+
+@capital::facade.citizen.7.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 7 slip (after the zone is freed)
+0| I'm not going to be polite today, I'm going to be honest: your hat is awful, and I love it.
+
+## purpose: Citizen 8 after the fall: the back door opened, it was raining, and the Showcase is just a place she can leave and come back to.
+@capital::facade.citizen.8.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 8 approved (after the zone is freed)
+0| I opened the back door and it was raining, so I stood out in it for an hour.
+
+@capital::facade.citizen.8.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 8 approved2 (after the zone is freed)
+0| The Showcase isn't the best of all places any more. It's just a place, and it's mine, and it's a good one.
+
+@capital::facade.citizen.8.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 8 slip (after the zone is freed)
+0| I'm going to go somewhere else, just to see what it's like. Then I'll come back, if I want to.
+
+## purpose: Citizen 9 after the fall: seeing him as afraid rather than kind, and learning to look away from the portrait.
+@capital::facade.citizen.9.approved.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 9 approved (after the zone is freed)
+0| He wasn't kind, he was afraid, and for ten years none of us could tell the difference.
+1| I'm not sure I forgive him, and I'm not sure I need to.
+
+@capital::facade.citizen.9.approved2.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 9 approved2 (after the zone is freed)
+0| The portraits are coming down, and there's a great deal of wall behind them. Nobody can agree what to put there instead, which is the best part.
+
+@capital::facade.citizen.9.slip.freed
+#   [A Perfectly Happy Citizen] Facade: citizen 9 slip (after the zone is freed)
+0| He's gone, so I looked away from his portrait for a whole minute. It was a very long minute.
+
+## purpose: The painted doors after the fall: the fronts are turning into homes, with kettles and curtains.
+@capital::facade.door.1.freed
+#   [A Perfectly Happy Citizen] Facade: door 1 (after the zone is freed)
+0| The front door is still painted on. Someone has written under the knocker: 'Come round the back, we have a kettle.'
+
+@capital::facade.door.2.freed
+#   [A Perfectly Happy Citizen] Facade: door 2 (after the zone is freed)
+0| The painted window now has a real curtain, hung over it by a citizen who wanted one. The family in the painting has acquired a moustache.
+
+@capital::facade.door.3.freed
+#   [A Perfectly Happy Citizen] Facade: door 3 (after the zone is freed)
+0| The door has a handle now, and the house has an inside: two chairs, a table, a tea tray. The paintbrush has been left on the ladder, for good.
+
+@capital::facade.door.4.freed
+#   [A Perfectly Happy Citizen] Facade: door 4 (after the zone is freed)
+0| The closet is just a closet now. A sign inside says: IF YOU ARE READING THIS, YOU DO NOT HAVE TO SMILE.
+
+## purpose: Plume's loudspeaker after the fall: the same voice with the air let out, with nothing to spin, and oddly kinder for it.
+@capital::facade.speaker.1.0.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 0 (after the zone is freed)
+0| Attention, citizens. (a cough) The weather is no longer approved; it is just weather, and it seems to be managing on its own.
+1| So please do whatever you like today. I have nothing further to announce, and I find, rather to my surprise, that I do not mind.
+
+@capital::facade.speaker.1.1.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 1 (after the zone is freed)
+0| Attention, citizens. A reminder that you do not have to smile. (a pause) You may, of course, if something strikes you. We are very easy about it these days.
+
+@capital::facade.speaker.1.2.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 1 2 (after the zone is freed)
+0| Attention, citizens. A pigeon is using the loudspeaker. Please stand by.
+
+@capital::facade.speaker.2.0.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 0 (after the zone is freed)
+0| Attention, citizens! Hats of any size are now permitted. Hats of negative size remain under review.
+
+@capital::facade.speaker.2.1.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 1 (after the zone is freed)
+0| Attention, citizens. He was afraid, and we were afraid of him. Please be gentle with yourselves.
+
+@capital::facade.speaker.2.2.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 2 2 (after the zone is freed)
+0| Attention, citizens! Spontaneity Thursday is now every day. You may stop rehearsing your surprise. I am told the real kind needs no practice.
+
+@capital::facade.speaker.3.0.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 0 (after the zone is freed)
+0| Attention, citizens. The exits are open, and so, it turns out, are the entrances.
+1| The walls are still walls. Please do not run into them.
+
+@capital::facade.speaker.3.1.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 1 (after the zone is freed)
+0| Attention, citizens. All is not well. I am told that I may say so now. All is not well yet, but it is getting better.
+1| It is a great deal of work, and I notice it is mostly you who are doing it. Thank you. This has been... well. This has been Percival.
+
+@capital::facade.speaker.3.2.freed
+#   [Percival Plume, Deputy Minister of Good News] Facade: speaker 3 2 (after the zone is freed)
+0| Attention, citizens. The Wrinkles were real all along, and they kept the true record. Please thank them.
+1| They are in the cellar, and there is tea. I am told I would be welcome, which is generous of them, and I have not yet found the nerve to go down.
+
+## purpose: The guards and clerks after the fall: gently lost without their rules, and finding they like people better unmeasured.
+@capital::npc.guard_height.intro.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro) (after the zone is freed)
+0| I used to measure people, and now I just look at them, which takes a lot less time. A man walked past yesterday who must have been nine feet tall, and all I said to him was 'good morning'.
+1| I'm not myself at all. I think I might be somebody better. I've still got the stick, mind, and I don't know where you go to hand a stick in.
+
+@capital::npc.guard_height.return.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return) (after the zone is freed)
+0| Come in, come in, and bring whatever height you've got. I've stopped keeping count, and I sleep much better for it.
+
+@capital::npc.guard_queue.intro.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro) (after the zone is freed)
+0| Queue management. There's no queue any more, so I'm only standing here out of habit.
+1| Nobody's told me where else to stand, so I thought I might go for a walk. If that's... no. I'm not asking permission, I'm telling you. I think.
+
+@capital::npc.guard_queue.return.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return) (after the zone is freed)
+0| There's still no queue. I did go for that walk, by the way. I got as far as the fountain and came back, but I'm doing very well.
+
+@capital::npc.guard_in_1.intro.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro) (after the zone is freed)
+0| Exit control, or it was. You can leave whenever you like now, and I'm only standing here because it turns out I'm rather fond of the view. It's a very open exit.
+
+@capital::npc.guard_in_1.return.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return) (after the zone is freed)
+0| Exit control. Goodbye, and do come back, won't you? I never used to be allowed to say that part, so I'm saying it to everyone.
+
+@capital::npc.guard_in_2.intro.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro) (after the zone is freed)
+0| Exit control. Well, this is an exit, and it's an entrance as well, and I walked the whole way round it this morning and from every angle it's a door.
+
+@capital::npc.guard_in_2.return.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return) (after the zone is freed)
+0| It's only a door, isn't it? It's a good door, though. I think I'll go on standing by it for a bit, if nobody minds.
+
+@capital::npc.exit_clerk.intro.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (intro) (after the zone is freed)
+0| Exit Interview Booth. Name, and reason for... no, I'm sorry, that just comes out by itself. You don't need a reason any more.
+1| I was never going to read the answers anyway, and nor was anybody else. Please go wherever you like, and have a nice day while you're about it.
+
+@capital::npc.exit_clerk.return.freed
+#   [Capital guards and clerks] Talking to Capital guards and clerks (return) (after the zone is freed)
+0| Have a nice day. I mean it now, which is new, so I'm still getting used to how it sounds.
+
+## purpose: The message when the player returns after the ending: the Capital is free and the postgame rule change is stated exactly.
+@capital::fx.ending_return
+#   [(narration)] Pop-up message: ending return
+0| The Capital is free. The postgame begins: decks of three or more Paths are now allowed.
