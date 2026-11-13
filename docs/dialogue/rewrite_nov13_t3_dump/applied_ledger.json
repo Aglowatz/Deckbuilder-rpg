@@ -1,0 +1,233 @@
+[
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.pass::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Moss Mulligan hops up from the bank. \"You got Billie's herd home? The goat, the pig AND the raccoon? Then the stream owes you a bridge.\"",
+		"after": "Moss Mulligan hops up from the bank. \"Oh! You got Billie's herd home? The goat, the pig AND the raccoon, all three of them? Then the stream owes you a bridge, and so do I!\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.pass::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "She plants her staff in the bank, whispers to it, and the vines begin to climb.",
+		"after": "She plants her staff in the bank and whispers to it, stopping once to apologise to a root she has trodden on, and the vines begin to climb."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Moss Mulligan tucks her hands behind her back. \"Sorry! I only grow bridges for people who have helped the herd, and Billie Muckfoot's animals have got out again.\"",
+		"after": "Moss Mulligan tucks her hands behind her back. \"Oh, sorry, sorry! I only grow bridges for people who've helped the herd, and Billie Muckfoot's animals have all got out again.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "\"Round them up for Billie, then come back to me, and I will grow you a way across. No thorns. Promise.\"",
+		"after": "\"If you round them up for Billie and then come back to me, I'll grow you a way across, and there won't be a single thorn in it this time. I promise!\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_center.need::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "\"Can't wait? Beans. Pop a Magic Bean into the West Sprout Mound, west along this bank, and a bridge grows all by itself. One lies by the stream most days.\"",
+		"after": "\"Or if you can't wait, use a bean! Pop a Magic Bean into the West Sprout Mound, west along this bank, and a bridge grows all by itself. There's one lying by the stream most days.\""
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::grow.bridge_east.need::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A sprout mound with a sign: PLANT A MAGIC BEAN HERE. You do not have a bean.",
+		"after": "A sprout mound with a sign: PLANT A MAGIC BEAN HERE. You do not have a bean, but beans lie around the Dump, one per field each visit."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.intro::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Ah, a visitor. I am Druid Thistlewick, Keeper of the Dump's Questions, and I have sat in this ring of old appliances for forty years.",
+		"after": "Ah, a visitor. Sit, if you can find an appliance that will have you. I am Druid Thistlewick, Keeper of the Dump's Questions, and I have sat in this ring of old appliances for forty years."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "The dishwasher and I have an understanding, though lately it has started talking back. Forty years, and NOW it wants to clear the air.",
+		"after": "The dishwasher and I came to an understanding long ago, though lately it has started talking back. Forty years of companionable silence, and NOW it would like to clear the air."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.intro::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Four questions about the Refusemancers, their work and their oath. Every answer is written on a sign somewhere in the Verdant Dump.",
+		"after": "I have four questions for you about the Refusemancers, their work and their oath, and you need not guess at them, for every answer is written on a sign somewhere in the Verdant Dump."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.intro::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Sort your thoughts as you would your bins: compost, recycling, regret. Answer well and there is gold and seed in it for you; answer poorly and you will receive a gentle, rustling sigh.",
+		"after": "Sort your thoughts as you would your bins: compost, recycling, regret. Answer well and there is gold and seed in it for you, and answer poorly and you will receive only a gentle, rustling sigh."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.quiz.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Druid Thistlewick",
+		"before": "Back to improve your score? Good. A druid is just a student who never left the garden.",
+		"after": "Back to improve your score? Good. I have always thought that a druid is only a student who never found a reason to leave the garden."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.intro::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Step RIGHT up to the County Fair's own SORT IT OUT! I'm Recycle Rhonda: fair judge, pie inspector, and the finest dumpster-diver in three counties!",
+		"after": "Step RIGHT up, folks, to the County Fair's one and only SORT IT OUT! I'm Recycle Rhonda, your fair judge and pie inspector, and the finest dumpster-diver in three counties!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.intro::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "I was the voice of Captain Compost Badger and his Sorting Squad at every harvest puppet show for twenty years! Nobody knew! All that fame went to a badger in a cape!",
+		"after": "For twenty years I was the voice of Captain Compost Badger and his Sorting Squad at every harvest puppet show, and not a soul knew it was me! All that fame went to a badger in a cape!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.intro::2",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "The Rot cancelled the pumpkin contest. It can't cancel ME! Today's show: twenty pieces of junk, one conveyor, four bins. Compost, metal, glass or paper!",
+		"after": "Now, the Rot went and cancelled the pumpkin contest, but it can't cancel ME! So here's today's show: twenty pieces of junk, one conveyor and four bins, and that's compost, metal, glass and paper!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.intro::3",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Send each piece to the right bin before it falls off the end. Rewards by performance, plus a first-time bonus. Gloves on!",
+		"after": "You send each piece to the right bin before it falls off the end, and I hand out rewards by how well you do, plus a bonus for your first time. So get those gloves on!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.return::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Back for another run, champ? The conveyor's hungry, the bins are ready, and I've got pie for afterwards!",
+		"after": "Well, look who's back for another run! The conveyor's hungry and the bins are ready, champ, and I've got a pie cooling for whoever's still standing afterwards!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::npc.minigame.return::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Remember: one person's trash is another person's blue ribbon. Sort fast. Sort true. Sort with a smile!",
+		"after": "Now remember what we say at the fair: one person's trash is another person's blue ribbon! So you sort fast and you sort true, and you do it all with a smile!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.win::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "BLUE RIBBON sorting! Reduce! Reuse! Refuse to quit! All three goats in the crowd are cheering. Or hungry.",
+		"after": "Now THAT is BLUE RIBBON sorting, champ! Reduce, reuse and refuse to quit! All three goats in the crowd are cheering for you, or else they're hungry, and I'll take it either way!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.first::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Your very first run at the fair! Here's your first-timer's bonus, no strings attached: a jar of compost salve!",
+		"after": "It's your very first run at the fair, so here's your first-timer's bonus with no strings attached, and it's a jar of compost salve!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.first::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Rub it in, champ! The salve, I mean, not the victory. Nobody loves a gloater!",
+		"after": "Go on and rub it in, champ! I mean the salve, mind you, and not the victory, because nobody loves a gloater!"
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.lose::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Not quite a run, champ. That's fine. The belt isn't going anywhere.",
+		"after": "That wasn't quite a run, champ, but don't you fret about it, because the belt isn't going anywhere and neither am I."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::sort.lose::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Recycle Rhonda",
+		"before": "Unlike the jam jar. The jam jar went everywhere.",
+		"after": "Which is more than I can say for the jam jar, bless it. That jam jar went everywhere."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.offer::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "SOMEBODY has been eating ALL the compost. There are little paw prints everywhere, and next to the bin I found... a tiny crown.",
+		"after": "I don't like to trouble you, but SOMEBODY has been eating ALL the compost. There are little paw prints all round the bin, and lying next to it I found... well, I found a tiny crown."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "Chase off two of the scavengers in the Dump and their trail should lead you to the big dumpster. Gently, please - they're only hungry. And GUILTY.",
+		"after": "If you chase off two of the scavengers in the Dump, their trail should lead you to the big dumpster. Do be gentle with them, please, because they're only hungry. They are also GUILTY."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "Two scavengers out in the Dump, please. Follow the fresh paw prints; it's a trail of evidence with TERRIBLE table manners.",
+		"after": "It's two scavengers out in the Dump, if you would, and you can follow the fresh paw prints to find them. I'm afraid it's a trail of evidence with TERRIBLE table manners."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "The paw prints lead to the big dumpster. I knew it. I KNEW it.",
+		"after": "So the paw prints lead to the big dumpster, just as I was afraid they would. I kept telling myself not to jump to conclusions, but I knew it. I KNEW it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_ref.done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Brother Bramble",
+		"before": "Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way to the Trash Panda Throne. Do bring a peg for your nose.",
+		"after": "Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way through to the Trash Panda Throne. I would bring a peg for your nose, if I were you."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.before::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.",
+		"after": "The Throne of Lids creaks, and on it sits a very large raccoon in a very small crown, sweating profusely."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.before::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "'WE DID NOT EAT THE COMPOST. We... sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'",
+		"after": "'WE DID NOT EAT THE COMPOST. We... sampled it, as is our right.' His Majesty grips the throne. 'The royal tasting is not open to questions, and neither are our whiskers.'"
+	},
+	{
+		"id": "data/encounters/boss_intros.json::His Majesty the Raccoon/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "Kneel before the Throne of Lids. Or crouch. Crouching is also acceptable.",
+		"after": "You will kneel before the Throne of Lids. Or you may crouch, if kneeling is difficult, for we are a merciful king and crouching is also acceptable."
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::His Majesty the Raccoon/0/line::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "WE DID NOT EAT THE COMPOST. We... audited it. Orally. GUARDS!",
+		"after": "WE DID NOT EAT THE COMPOST. We... audited it. Orally. And we shall hear no more about it from you. GUARDS!"
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::His Majesty the Raccoon/1/line::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "We were only testing the compost on the realm's behalf. Very thoroughly. ...Is it warm in here? It is very warm in here.",
+		"after": "We were only testing the compost on the realm's behalf, and we were very thorough about it. ...Is it warm in here? We find that it is very warm in here."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.after::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "His Majesty the Raccoon",
+		"before": "'Compost is for the kingdom,' he says. 'We are the kingdom. We fail to see the problem. Do not point at the crumbs.'",
+		"after": "'Compost is for the kingdom,' he says, 'and we are the kingdom, so we fail to see the problem. And do not point at the crumbs. It is rude to point at a king's crumbs.'"
+	}
+]

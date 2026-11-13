@@ -1,0 +1,33 @@
+data/story/refusemancer_story.tres::grow.bridge_center.pass::0
+data/story/refusemancer_story.tres::grow.bridge_center.pass::1
+data/story/refusemancer_story.tres::grow.bridge_center.need::0
+data/story/refusemancer_story.tres::grow.bridge_center.need::1
+data/story/refusemancer_story.tres::grow.bridge_center.need::2
+data/story/refusemancer_story.tres::grow.bridge_east.need::0
+data/story/refusemancer_story.tres::npc.quiz.intro::0
+data/story/refusemancer_story.tres::npc.quiz.intro::1
+data/story/refusemancer_story.tres::npc.quiz.intro::2
+data/story/refusemancer_story.tres::npc.quiz.intro::3
+data/story/refusemancer_story.tres::npc.quiz.return::0
+data/story/refusemancer_story.tres::npc.minigame.intro::0
+data/story/refusemancer_story.tres::npc.minigame.intro::1
+data/story/refusemancer_story.tres::npc.minigame.intro::2
+data/story/refusemancer_story.tres::npc.minigame.intro::3
+data/story/refusemancer_story.tres::npc.minigame.return::0
+data/story/refusemancer_story.tres::npc.minigame.return::1
+data/story/refusemancer_story.tres::sort.win::0
+data/story/refusemancer_story.tres::sort.first::0
+data/story/refusemancer_story.tres::sort.first::1
+data/story/refusemancer_story.tres::sort.lose::0
+data/story/refusemancer_story.tres::sort.lose::1
+data/dungeons/dungeon_content.json::quest.side_s_ref.offer::0
+data/dungeons/dungeon_content.json::quest.side_s_ref.offer::1
+data/dungeons/dungeon_content.json::quest.side_s_ref.active::0
+data/dungeons/dungeon_content.json::quest.side_s_ref.ready::0
+data/dungeons/dungeon_content.json::quest.side_s_ref.done::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.before::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.before::1
+data/encounters/boss_intros.json::His Majesty the Raccoon/line::0
+data/encounters/encounter_scripts.json::His Majesty the Raccoon/0/line::0
+data/encounters/encounter_scripts.json::His Majesty the Raccoon/1/line::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_ref_boss.after::1

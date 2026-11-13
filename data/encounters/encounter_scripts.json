@@ -977,7 +977,7 @@
 				"pct": 50
 			},
 			"text": "At half health the royal guard of bins rallies: a 1/1 Rat joins and he gains a Garbage.",
-			"line": "WE DID NOT EAT THE COMPOST. We... audited it. Orally. GUARDS!",
+			"line": "WE DID NOT EAT THE COMPOST. We... audited it. Orally. And we shall hear no more about it from you. GUARDS!",
 			"effects": [
 				{
 					"kind": "summon",
@@ -1001,7 +1001,7 @@
 				"pct": 25
 			},
 			"text": "Near the end His Majesty starts to sweat: his units get -1/-0 for the rest of the fight.",
-			"line": "We were only testing the compost on the realm's behalf. Very thoroughly. ...Is it warm in here? It is very warm in here.",
+			"line": "We were only testing the compost on the realm's behalf, and we were very thorough about it. ...Is it warm in here? We find that it is very warm in here.",
 			"effects": [
 				{
 					"kind": "rule",

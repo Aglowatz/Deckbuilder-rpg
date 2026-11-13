@@ -1862,17 +1862,17 @@
 			"The Waiting Room of Eternity will see you now, so do go in and take a number. Only please leave mine where it is, if you don't mind, because we've been through such a lot together."
 		],
 		"quest.side_s_ref.offer": [
-			"SOMEBODY has been eating ALL the compost. There are little paw prints everywhere, and next to the bin I found... a tiny crown.",
-			"Chase off two of the scavengers in the Dump and their trail should lead you to the big dumpster. Gently, please - they're only hungry. And GUILTY."
+			"I don't like to trouble you, but SOMEBODY has been eating ALL the compost. There are little paw prints all round the bin, and lying next to it I found... well, I found a tiny crown.",
+			"If you chase off two of the scavengers in the Dump, their trail should lead you to the big dumpster. Do be gentle with them, please, because they're only hungry. They are also GUILTY."
 		],
 		"quest.side_s_ref.active": [
-			"Two scavengers out in the Dump, please. Follow the fresh paw prints; it's a trail of evidence with TERRIBLE table manners."
+			"It's two scavengers out in the Dump, if you would, and you can follow the fresh paw prints to find them. I'm afraid it's a trail of evidence with TERRIBLE table manners."
 		],
 		"quest.side_s_ref.ready": [
-			"The paw prints lead to the big dumpster. I knew it. I KNEW it."
+			"So the paw prints lead to the big dumpster, just as I was afraid they would. I kept telling myself not to jump to conclusions, but I knew it. I KNEW it."
 		],
 		"quest.side_s_ref.done": [
-			"Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way to the Trash Panda Throne. Do bring a peg for your nose."
+			"Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way through to the Trash Panda Throne. I would bring a peg for your nose, if I were you."
 		],
 		"npc.kestrel.intro": [
 			"Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.",
@@ -1930,12 +1930,12 @@
 			"Far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer."
 		],
 		"dungeon.dg_s_ref_boss.before": [
-			"The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.",
-			"'WE DID NOT EAT THE COMPOST. We... sampled it.' His Majesty grips the throne. 'The royal tasting is not open to questions.'"
+			"The Throne of Lids creaks, and on it sits a very large raccoon in a very small crown, sweating profusely.",
+			"'WE DID NOT EAT THE COMPOST. We... sampled it, as is our right.' His Majesty grips the throne. 'The royal tasting is not open to questions, and neither are our whiskers.'"
 		],
 		"dungeon.dg_s_ref_boss.after": [
 			"His Majesty abdicates with great dignity and a crust of pizza. The crown rolls under the throne.",
-			"'Compost is for the kingdom,' he says. 'We are the kingdom. We fail to see the problem. Do not point at the crumbs.'"
+			"'Compost is for the kingdom,' he says, 'and we are the kingdom, so we fail to see the problem. And do not point at the crumbs. It is rude to point at a king's crumbs.'"
 		],
 		"dungeon.dg_s_cap_boss.before": [
 			"A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.",

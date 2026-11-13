@@ -1,0 +1,238 @@
+# t3_dump: 75 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Moss Mulligan grows the centre bridge once Billie's herd is home; until then she says so, and points to the Magic Bean and the West Sprout Mound as the other way across.
+@refusemancer::grow.bridge_center.pass
+#   [(narration/UI)] Grow: bridge center pass
+0| Moss Mulligan hops up from the bank. "Oh! You got Billie's herd home? The goat, the pig AND the raccoon, all three of them? Then the stream owes you a bridge, and so do I!"
+1| She plants her staff in the bank and whispers to it, stopping once to apologise to a root she has trodden on, and the vines begin to climb.
+
+@refusemancer::grow.bridge_center.need
+#   [(narration/UI)] Grow: bridge center need
+0| Moss Mulligan tucks her hands behind her back. "Oh, sorry, sorry! I only grow bridges for people who've helped the herd, and Billie Muckfoot's animals have all got out again."
+1| "If you round them up for Billie and then come back to me, I'll grow you a way across, and there won't be a single thorn in it this time. I promise!"
+2| "Or if you can't wait, use a bean! Pop a Magic Bean into the West Sprout Mound, west along this bank, and a bridge grows all by itself. There's one lying by the stream most days."
+
+## purpose: The sprout mounds: say plainly what planting a Magic Bean does at each mound, or that the player needs a bean and where beans are found.
+@refusemancer::grow.bridge_west.plant
+#   [(narration/UI)] Grow: bridge west plant
+0| A sprout mound, freshly turned. You press a Magic Bean into the soil and step back.
+
+@refusemancer::grow.bridge_west.need
+#   [(narration/UI)] Grow: bridge west need
+0| A sprout mound with a sign: PLANT A MAGIC BEAN HERE. You don't have one, but beans lie around the Dump, one per field each visit.
+
+@refusemancer::grow.bridge_east.plant
+#   [(narration/UI)] Grow: bridge east plant
+0| Another sprout mound. You press a Magic Bean into the soil and step back.
+
+@refusemancer::grow.bridge_east.need
+#   [(narration/UI)] Grow: bridge east need
+0| A sprout mound with a sign: PLANT A MAGIC BEAN HERE. You do not have a bean, but beans lie around the Dump, one per field each visit.
+
+@refusemancer::grow.ladder_a.plant
+#   [(narration/UI)] Grow: ladder a plant
+0| A sprout mound at the foot of Mount Scrapmore. You plant a Magic Bean. Something deep in the junk begins to rumble.
+
+@refusemancer::grow.ladder_a.need
+#   [(narration/UI)] Grow: ladder a need
+0| A sprout mound at the foot of the junk mountain. It wants a Magic Bean, and you are fresh out.
+
+@refusemancer::grow.ladder_b.plant
+#   [(narration/UI)] Grow: ladder b plant
+0| A sprout mound at the foot of Rust Peak. You plant a Magic Bean and wait, and somewhere above you a hubcap starts to spin.
+
+@refusemancer::grow.ladder_b.need
+#   [(narration/UI)] Grow: ladder b need
+0| A sprout mound at the foot of Rust Peak. It wants a Magic Bean. Beans are the currency of the Dump.
+
+## purpose: Introduce Druid Thistlewick and his four-question quiz on the Refusemancers, telling the player every answer is on a sign in the Verdant Dump.
+@refusemancer::npc.quiz.intro
+#   [Druid Thistlewick] Talking to Druid Thistlewick (intro)
+0| Ah, a visitor. Sit, if you can find an appliance that will have you. I am Druid Thistlewick, Keeper of the Dump's Questions, and I have sat in this ring of old appliances for forty years.
+1| The dishwasher and I came to an understanding long ago, though lately it has started talking back. Forty years of companionable silence, and NOW it would like to clear the air.
+2| I have four questions for you about the Refusemancers, their work and their oath, and you need not guess at them, for every answer is written on a sign somewhere in the Verdant Dump.
+3| Sort your thoughts as you would your bins: compost, recycling, regret. Answer well and there is gold and seed in it for you, and answer poorly and you will receive only a gentle, rustling sigh.
+
+@refusemancer::npc.quiz.return
+#   [Druid Thistlewick] Talking to Druid Thistlewick (return)
+0| Back to improve your score? Good. I have always thought that a druid is only a student who never found a reason to leave the garden.
+
+## purpose: Introduce Recycle Rhonda and explain her sorting show: twenty pieces, one conveyor, four bins, rewards by performance and a first-time bonus.
+@refusemancer::npc.minigame.intro
+#   [Recycle Rhonda] Talking to Recycle Rhonda (intro)
+0| Step RIGHT up, folks, to the County Fair's one and only SORT IT OUT! I'm Recycle Rhonda, your fair judge and pie inspector, and the finest dumpster-diver in three counties!
+1| For twenty years I was the voice of Captain Compost Badger and his Sorting Squad at every harvest puppet show, and not a soul knew it was me! All that fame went to a badger in a cape!
+2| Now, the Rot went and cancelled the pumpkin contest, but it can't cancel ME! So here's today's show: twenty pieces of junk, one conveyor and four bins, and that's compost, metal, glass and paper!
+3| You send each piece to the right bin before it falls off the end, and I hand out rewards by how well you do, plus a bonus for your first time. So get those gloves on!
+
+@refusemancer::npc.minigame.return
+#   [(minigame host)] Talking to minigame (return)
+0| Well, look who's back for another run! The conveyor's hungry and the bins are ready, champ, and I've got a pie cooling for whoever's still standing afterwards!
+1| Now remember what we say at the fair: one person's trash is another person's blue ribbon! So you sort fast and you sort true, and you do it all with a smile!
+
+## purpose: Rhonda's calls during and after a sorting run: pace the belt, celebrate a win, hand over the first-time bonus and soften a loss.
+@refusemancer::sort.shouts
+#   [Recycle Rhonda] Sort: shouts
+0| First pieces, nice and easy!
+1| Feel the rhythm of the belt!
+2| Compost left, metal down, glass up, paper right!
+3| Faster! The belt is hungry!
+4| No hesitation! Give that rubbish somewhere to be!
+
+@refusemancer::sort.win
+#   [Recycle Rhonda] Sort: win
+0| Now THAT is BLUE RIBBON sorting, champ! Reduce, reuse and refuse to quit! All three goats in the crowd are cheering for you, or else they're hungry, and I'll take it either way!
+
+@refusemancer::sort.first
+#   [Recycle Rhonda] Sort: first
+0| It's your very first run at the fair, so here's your first-timer's bonus with no strings attached, and it's a jar of compost salve!
+1| Go on and rub it in, champ! I mean the salve, mind you, and not the victory, because nobody loves a gloater!
+
+@refusemancer::sort.lose
+#   [Recycle Rhonda] Sort: lose
+0| That wasn't quite a run, champ, but don't you fret about it, because the belt isn't going anywhere and neither am I.
+1| Which is more than I can say for the jam jar, bless it. That jam jar went everywhere.
+
+## purpose: Tell the player plainly that the garden puzzle is solved and what it paid.
+@refusemancer::growth.solved
+#   [(narration/UI)] Growth: solved
+0| Every plot blooms at once. The beanstalk rises, shakes out a seed pouch the size of a satchel, and hands it down with a leaf. It is still warm.
+
+@refusemancer::growth.already
+#   [(narration/UI)] Growth: already
+0| The garden is in full bloom. Nothing left to plant.
+
+## purpose: Brother Bramble's side quest: chase off two scavengers in the Dump, follow the trail to the big dumpster, and learn of the bicycle-wheel gate to the Trash Panda Throne.
+@dc::quest.side_s_ref.offer
+#   [Brother Bramble] Quest "Who Ate the Compost?": when offered
+0| I don't like to trouble you, but SOMEBODY has been eating ALL the compost. There are little paw prints all round the bin, and lying next to it I found... well, I found a tiny crown.
+1| If you chase off two of the scavengers in the Dump, their trail should lead you to the big dumpster. Do be gentle with them, please, because they're only hungry. They are also GUILTY.
+
+@dc::quest.side_s_ref.active
+#   [Brother Bramble] Quest "Who Ate the Compost?": while it is active
+0| It's two scavengers out in the Dump, if you would, and you can follow the fresh paw prints to find them. I'm afraid it's a trail of evidence with TERRIBLE table manners.
+
+@dc::quest.side_s_ref.ready
+#   [Brother Bramble] Quest "Who Ate the Compost?": handing it in
+0| So the paw prints lead to the big dumpster, just as I was afraid they would. I kept telling myself not to jump to conclusions, but I knew it. I KNEW it.
+
+@dc::quest.side_s_ref.done
+#   [Brother Bramble] Quest "Who Ate the Compost?": after it is done
+0| Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way through to the Trash Panda Throne. I would bring a peg for your nose, if I were you.
+
+## purpose: The Trash Panda Throne's boss: His Majesty the Raccoon denies eating the compost, guiltily and in the royal 'we', before, during and after the fight.
+@dc::dungeon.dg_s_ref_boss.before
+#   [His Majesty the Raccoon] Dungeon node "dg s ref boss": entering the node
+0| The Throne of Lids creaks, and on it sits a very large raccoon in a very small crown, sweating profusely.
+1| 'WE DID NOT EAT THE COMPOST. We... sampled it, as is our right.' His Majesty grips the throne. 'The royal tasting is not open to questions, and neither are our whiskers.'
+
+@boss::His Majesty the Raccoon/line
+#   [His Majesty the Raccoon] Boss intro before the battle with His Majesty the Raccoon: opening line
+0| You will kneel before the Throne of Lids. Or you may crouch, if kneeling is difficult, for we are a merciful king and crouching is also acceptable.
+
+@enc::His Majesty the Raccoon/0/line
+#   [His Majesty the Raccoon] Mid-fight event "The Royal Bins" vs His Majesty the Raccoon: the foe says it when the event fires
+0| WE DID NOT EAT THE COMPOST. We... audited it. Orally. And we shall hear no more about it from you. GUARDS!
+
+@enc::His Majesty the Raccoon/1/line
+#   [His Majesty the Raccoon] Mid-fight event "Sweating Profusely" vs His Majesty the Raccoon: the foe says it when the event fires
+0| We were only testing the compost on the realm's behalf, and we were very thorough about it. ...Is it warm in here? We find that it is very warm in here.
+
+@dc::dungeon.dg_s_ref_boss.after
+#   [His Majesty the Raccoon] Dungeon node "dg s ref boss": after the node
+0| His Majesty abdicates with great dignity and a crust of pizza. The crown rolls under the throne.
+1| 'Compost is for the kingdom,' he says, 'and we are the kingdom, so we fail to see the problem. And do not point at the crumbs. It is rude to point at a king's crumbs.'
+
+## purpose: Rotheart event: the Weeping Compost Pool, with three choices whose results say what each one gave or cost.
+@dc::dungeons/D-ROT/events/7/body
+#   [(narration)] The Rotheart, "Weeping Compost Pool": event text
+0| The pool is the colour of a bruise, and it's sobbing very quietly around a boot that bobs in the middle of it.
+
+@dc::dungeons/D-ROT/events/7/choices/0
+#   [(choice button)] The Rotheart, "Weeping Compost Pool": choice 1 button
+0| Drink from the pool
+1| It tastes of rain and old boots. You feel hardier, and a little poisoned.
+
+@dc::dungeons/D-ROT/events/7/choices/1
+#   [(choice button)] The Rotheart, "Weeping Compost Pool": choice 2 button
+0| Bottle some of it
+1| Somebody will pay good gold for a bottle of this. Down here, that somebody is usually a hedgehog.
+
+@dc::dungeons/D-ROT/events/7/choices/2
+#   [(choice button)] The Rotheart, "Weeping Compost Pool": choice 3 button
+0| Comfort the pool
+1| You tell it that it's doing very well. It sobs harder, then gives you a very old Mulch Mole it was keeping safe, along with a little of its warmth.
+
+## purpose: Rotheart event: the Heart Roots, where cutting them weakens the boss ahead and leaving them does not.
+@dc::dungeons/D-ROT/events/12/body
+#   [(narration)] The Rotheart, "The Heart Roots": event text
+0| Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. You could cut them, and it would hurt her far more than you.
+
+@dc::dungeons/D-ROT/events/12/choices/0
+#   [(choice button)] The Rotheart, "The Heart Roots": choice 1 button
+0| Sever the Heart Roots
+1| The roots shriek and let go. Whatever waits ahead will be weaker for it.
+
+@dc::dungeons/D-ROT/events/12/choices/1
+#   [(choice button)] The Rotheart, "The Heart Roots": choice 2 button
+0| Leave them be
+1| The roots keep pulsing, and the Rotheart keeps its strength.
+
+## purpose: Explain the spore deck challenge: five cards are drawn and enough infrastructure among them keeps you safe.
+@refusemancer::challenge.rh_spore_gauntlet.text
+#   [(narration)] Deck challenge "rh spore gauntlet": text
+0| Five cards drift through the spores. If enough of them are infrastructure they'll hold you steady; if not, the spores will settle sweetly in your lungs.
+
+## purpose: Rotheart event: the talking mushrooms, which can be tasted, listened to or sold, with results that match each choice.
+@refusemancer::event.rh_mushrooms.choice.0
+#   [(narration)] Dungeon event "rh mushrooms": choice 0
+0| Taste a cap
+
+@refusemancer::event.rh_mushrooms.choice.1
+#   [(narration)] Dungeon event "rh mushrooms": choice 1
+0| Listen to what they have to say
+
+@refusemancer::event.rh_mushrooms.choice.2
+#   [(narration)] Dungeon event "rh mushrooms": choice 2
+0| Pick a few and sell them
+
+@refusemancer::event.rh_mushrooms.result.0
+#   [(narration)] Dungeon event "rh mushrooms": result 0
+0| It tastes like rain, soil and tiny, tiny regrets. You feel strangely rested, and your tongue is a little bit blue.
+
+@refusemancer::event.rh_mushrooms.result.1
+#   [(narration)] Dungeon event "rh mushrooms": result 1
+0| They tell you where the roots run, where the Rot wears thin and where the Archdruid used to walk, and you hold on to as much as you can.
+1| It helps, though some of what you now know doesn't feel like your own thought.
+
+@refusemancer::event.rh_mushrooms.result.2
+#   [(narration)] Dungeon event "rh mushrooms": result 2
+0| The mushrooms scream very quietly as you pick them, and you pretend not to hear. A passing trader is delighted and pays well.
+
+## purpose: Rotheart event: the pulsing wall, which can be touched, waited beside or cut, with results that match each choice.
+@refusemancer::event.rh_pulsing_wall.choice.0
+#   [(narration)] Dungeon event "rh pulsing wall": choice 0
+0| Press your hands into the wall
+
+@refusemancer::event.rh_pulsing_wall.choice.1
+#   [(narration)] Dungeon event "rh pulsing wall": choice 1
+0| Wait beside it and breathe
+
+@refusemancer::event.rh_pulsing_wall.choice.2
+#   [(narration)] Dungeon event "rh pulsing wall": choice 2
+0| Cut a piece of it free
+
+@refusemancer::event.rh_pulsing_wall.result.0
+#   [(narration)] Dungeon event "rh pulsing wall": result 0
+0| The wall takes your hands, warm and wet. It hurts for a moment, and then it doesn't.
+1| Fine roots creep along your arms and then let go, and oddly you feel steadier on your feet than you have in days.
+
+@refusemancer::event.rh_pulsing_wall.result.1
+#   [(narration)] Dungeon event "rh pulsing wall": result 1
+0| You breathe in time with the wall, and it quiets. A small bit of warmth moves from the roots into you. You feel mended, and a little ashamed.
+
+@refusemancer::event.rh_pulsing_wall.result.2
+#   [(narration)] Dungeon event "rh pulsing wall": result 2
+0| It bleeds sap and fury, and a glittering stone drops out of the cut. It'll fetch good gold, though it costs you a long scrape down one arm.

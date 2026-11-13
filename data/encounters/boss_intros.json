@@ -128,7 +128,7 @@
 	},
 	"His Majesty the Raccoon": {
 		"title": "Sovereign of the Throne of Lids",
-		"line": "Kneel before the Throne of Lids. Or crouch. Crouching is also acceptable.",
+		"line": "You will kneel before the Throne of Lids. Or you may crouch, if kneeling is difficult, for we are a merciful king and crouching is also acceptable.",
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},
