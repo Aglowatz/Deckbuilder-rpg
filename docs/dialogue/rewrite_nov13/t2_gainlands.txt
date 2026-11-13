@@ -86,7 +86,7 @@
 @gainlands::npc.gary.intro
 #   [Gary] Talking to Gary (intro)
 0| Mmmph! Oh, thank goodness, a spotter! Hi, I'm Gary, it's lovely to meet you, and I'm so sorry I can't get up to shake hands.
-1| I've been under this barbell since lunch, or possibly since the regime took over, it's hard to tell from down here. There's no rush at all. Well, there's a bit of a rush.
+1| I've been under this barbell since lunch, or possibly since the regime took over; it's hard to tell from down here. No rush. Bit of a rush.
 2| It's the last barbell they didn't confiscate, you see, so I got excited and loaded one more plate than I had the confidence for.
 3| It's fine, honestly, it's FINE. Could you possibly give it a little push, though? Whenever you're ready, I don't want to be a bother. Now would be good.
 

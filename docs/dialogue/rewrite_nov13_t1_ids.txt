@@ -185,9 +185,6 @@ data/story/intro_story.tres::gourmand_npc_intro_lines::1
 data/story/intro_story.tres::gourmand_npc_victory_lines::0
 data/story/intro_story.tres::gourmand_npc_victory_lines::1
 data/story/intro_story.tres::gourmand_npc_victory_lines::2
-data/story/intro_story.tres::gate.necrocrat.freed::0
-data/story/intro_story.tres::gate.necrocrat.freed::1
-data/story/intro_story.tres::gate.necrocrat.freed::2
 data/story/intro_story.tres::necrocrat_npc_intro_lines::2
 data/story/intro_story.tres::necrocrat_npc_victory_lines::0
 data/story/intro_story.tres::necrocrat_npc_victory_lines::1
@@ -215,16 +212,12 @@ data/story/gainlands_story.tres::cutscene.flex.5::0
 data/story/gainlands_story.tres::cutscene.flex.5::1
 data/story/gainlands_story.tres::dungeon.hg_boss.after::1
 data/story/gainlands_story.tres::dungeon.hg_boss.after::2
-data/story/gainlands_story.tres::freed_npc.heartlift::1
-data/story/gainlands_story.tres::freed_npc.heartlift::2
 data/story/gainlands_story.tres::freed_npc.heartlift::3
 data/story/story_scenes.json::scenes/quota_fled/steps/1::1
 data/story/story_scenes.json::scenes/quota_fled/steps/1::2
 data/story/gourmand_story.tres::dungeon.tk_boss.before::0
 data/story/gourmand_story.tres::cutscene.reveal.1::0
-data/story/gourmand_story.tres::cutscene.reveal.1::1
 data/story/gourmand_story.tres::cutscene.reveal.3::0
-data/story/gourmand_story.tres::cutscene.reveal.4::0
 data/story/gourmand_story.tres::cutscene.reveal.5::0
 data/story/gourmand_story.tres::cutscene.wonder.1::0
 data/story/gourmand_story.tres::cutscene.wonder.4::1
@@ -243,7 +236,6 @@ data/story/dna_story.tres::cutscene.vacancy.2::0
 data/story/dna_story.tres::cutscene.vacancy.4::0
 data/story/dna_story.tres::cutscene.vacancy.4::1
 data/story/dna_story.tres::cutscene.vacancy.4::2
-data/story/dna_story.tres::cutscene.vacancy.6::0
 data/story/dna_story.tres::freed_npc.agnes::0
 data/story/dna_story.tres::freed_npc.agnes::1
 data/story/dna_story.tres::freed_npc.agnes::3
@@ -261,7 +253,6 @@ data/story/capital_story.tres::fx.manhole_first::2
 data/story/capital_story.tres::npc.wren.intro::0
 data/story/capital_story.tres::npc.wren.intro::1
 data/story/capital_story.tres::npc.wren.intro::2
-data/story/capital_story.tres::npc.wren.return::0
 data/story/capital_story.tres::npc.wren.return::1
 data/story/capital_story.tres::npc.wren.insight.1::0
 data/story/capital_story.tres::npc.wren.insight.2::0

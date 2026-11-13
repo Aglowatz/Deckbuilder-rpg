@@ -200,7 +200,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "One fight won. That is the whole requirement. So far I count zero. I am very good at counting to zero.",
-		"after": "The whole requirement is one fight won, and so far I count zero. I should mention that I am very good at counting to zero."
+		"after": "The whole requirement is one fight won, and so far I count zero. I should mention that I am very good at counting to zero.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::quest.armory.waiting::2",
@@ -249,7 +250,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "One fight, won. Stamp. Stamp. Stamp. Three stamps is the correct number of stamps.",
-		"after": "That is one fight, won, and so I will now stamp your file three times, because three is the correct number of stamps. Stamp. Stamp. Stamp."
+		"after": "That is one fight, won, and so I will now stamp your file three times, because three is the correct number of stamps. Stamp. Stamp. Stamp.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::quest.armory.done::1",
@@ -270,14 +272,16 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "And all five equipment slots are yours now: helm, weapon, armor, boots, relic.",
-		"after": "All five equipment slots are yours as of now, and for the record they are helm, weapon, armor, boots and relic."
+		"after": "All five equipment slots are yours as of now, and for the record they are helm, weapon, armor, boots and relic.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::quest.armory.done::4",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"before": "The good stuff is rarer, and you can only wear so much of it until you level up. Protocol. Fact: bears do not wear helms. Bears are wiser than us.",
-		"after": "The good stuff is rarer, and protocol says you can only wear so much of it until you level up. Fact: bears do not wear helms, and I have come to suspect that bears are wiser than us."
+		"after": "The good stuff is rarer, and protocol says you can only wear so much of it until you level up. Fact: bears do not wear helms, and I have come to suspect that bears are wiser than us.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.arena.locked::0",
@@ -424,7 +428,8 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Foil Fenwick",
 		"before": "Psst... hear that crinkle? That's possibility, with excellent packaging.",
-		"after": "Psst... do you hear that crinkle? That's possibility, that is, with excellent packaging."
+		"after": "Psst... do you hear that crinkle? That's possibility, that is, with excellent packaging.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.pack_vendor.first::1",
@@ -445,14 +450,15 @@
 		"file": "data/story/intro_story.tres",
 		"speaker": "Foil Fenwick",
 		"before": "Free a zone and I'll stock its pack; until then it's just a rumour in a wrapper. Browse, sniff if you like. I won't judge. I sniff.",
-		"after": "Free a zone and I'll stock its pack, and until then it's only a rumour in a wrapper. Browse all you like, and sniff them if you want to... I won't judge you. I sniff them too."
+		"after": "Free a zone and I'll stock its pack; until then it's only a rumour in a wrapper. Browse all you like, and sniff if you want to. I won't judge. I sniff."
 	},
 	{
 		"id": "data/story/intro_story.tres::town.pack_vendor.return::0",
 		"file": "data/story/intro_story.tres",
 		"speaker": "Foil Fenwick",
 		"before": "Browse, sniff, but don't shake the packs. ...A little, then; I'm a collector, not a strong person.",
-		"after": "Browse, sniff, but please don't shake the packs... well, a little, then, if you must. I'm a collector, you see, and not a strong person."
+		"after": "Browse, sniff, but please don't shake the packs... well, a little, then, if you must. I'm a collector, you see, and not a strong person.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/intro_story.tres::town.pack_vendor.return::1",

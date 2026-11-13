@@ -468,7 +468,7 @@
 @npc::NPC-BRAMBLE.barks
 #   [Brother Bramble] Bark (speech bubble when you walk past Brother Bramble; Verdant Dump, Compost Grange)
 0| I think the vines have started whispering. And SOMEBODY ate the compost AGAIN.
-1| Eleven little trees in a row, one for each birthday, and nobody came for the twelfth.
+1| Eleven little trees in a row, one per birthday. Then nobody came for the twelfth.
 
 @npc::NPC-COMPOSTELLA.barks
 #   [Archdruid Compostella] Bark (speech bubble when you walk past Archdruid Compostella; Verdant Dump)

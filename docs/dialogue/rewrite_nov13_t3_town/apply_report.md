@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 138
+- Rows: 132
 - Applied: 1
-- Skipped (blank new line, unchanged, or applied before): 137
+- Skipped (blank new line, unchanged, or applied before): 131
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,14 +24,14 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Crosspath (first visit) | 129 | 0 | 129 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 9 | 1 | 8 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 123 | 1 | 122 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 9 | 0 | 9 | 0 | 0 | 0 | 0 |
 
 ## Applied (1)
 
 | id | Before | After |
 |---|---|---|
-| `data/encounters/boss_intros.json::Shiro Swindle/line::0` | You found me! But nobody ever finds me, which can only mean that this is a trick, and since I am the only trickster here, it must be one of mine. How marvellous! | You found me! But nobody ever finds me, which can only mean this is a trick, and as I'm the only trickster here, it must be one of mine. Marvellous! |
+| `data/story/intro_story.tres::town.pack_vendor.first::3` | Free a zone and I'll stock its pack, and until then it's only a rumour in a wrapper. Browse all you like, and sniff them if you want to... I won't judge you. I sniff them too. | Free a zone and I'll stock its pack; until then it's only a rumour in a wrapper. Browse all you like, and sniff if you want to. I won't judge. I sniff. |
 
 ## Conflicts (0)
 

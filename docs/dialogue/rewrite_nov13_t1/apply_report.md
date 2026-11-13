@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 302
-- Applied: 7
-- Skipped (blank new line, unchanged, or applied before): 295
+- Rows: 293
+- Applied: 1
+- Skipped (blank new line, unchanged, or applied before): 292
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,28 +24,22 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Prologue (Opening Forest) | 34 | 2 | 32 | 0 | 0 | 0 | 0 |
-| Crosspath (first visit) | 48 | 1 | 47 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 83 | 4 | 79 | 0 | 0 | 0 | 0 |
+| Prologue (Opening Forest) | 34 | 0 | 34 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 48 | 0 | 48 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 83 | 0 | 83 | 0 | 0 | 0 | 0 |
 | Postgame | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
-| The Capital | 47 | 0 | 47 | 0 | 0 | 0 | 0 |
-| Gainlands | 30 | 0 | 30 | 0 | 0 | 0 | 0 |
-| Endless Buffet | 25 | 0 | 25 | 0 | 0 | 0 | 0 |
-| D.N.A. | 15 | 0 | 15 | 0 | 0 | 0 | 0 |
+| The Capital | 46 | 1 | 45 | 0 | 0 | 0 | 0 |
+| Gainlands | 28 | 0 | 28 | 0 | 0 | 0 | 0 |
+| Endless Buffet | 23 | 0 | 23 | 0 | 0 | 0 | 0 |
+| D.N.A. | 11 | 0 | 11 | 0 | 0 | 0 | 0 |
 | Verdant Dump | 15 | 0 | 15 | 0 | 0 | 0 | 0 |
 | Ending | 3 | 0 | 3 | 0 | 0 | 0 | 0 |
 
-## Applied (7)
+## Applied (1)
 
 | id | Before | After |
 |---|---|---|
-| `data/story/intro_story.tres::prologue.rescuer.1::0` | Easy, now. Stay down for a moment and get your breath back; nobody's handing out prizes for standing up first. After what they put you through, I'm amazed you're breathing at all. | Easy, now. Stay down for a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all. |
-| `data/story/intro_story.tres::prologue.rescuer.2::0` | A friend. I know that isn't much of an answer, and I'm sorry, but it's the only one I can give you, and there isn't time for a better one. | A friend. I know that isn't much of an answer, and I'm sorry. It's the only one I can give you tonight. |
-| `data/story/intro_story.tres::town.elder.idle::0` | Still here, dearie? {villain} would like nothing better than to have you sitting by my fire for good, so let's not give him the satisfaction. Besides, you're in my chair. | Still here, dearie? {villain} would like nothing better than you sat by my fire for good, so let's not oblige him. Besides, you're in my chair. |
-| `data/story/intro_story.tres::town.elder.idle.1::0` | One zone free, and you're back for pie already. Very well, but it's one slice for every zone from now on, dearie. I've only just made that rule, and I'm rather pleased with it. | One zone free, and you're back for pie already. Very well, but it's one slice a zone from now on, dearie. I've only just made that rule. |
-| `data/story/intro_story.tres::town.elder.idle.1::2` | The square was singing last night. It was dreadful, and it's the best thing I've heard in ten years. Don't you dare tell them I said so. | The square was singing last night. It was dreadful, and the best thing I've heard in ten years. Don't you dare tell them so. |
-| `data/story/intro_story.tres::town.elder.idle.3::0` | Only one Path left under {villain}'s thumb, and the whole town is holding its breath. I can hold mine for a week, being a tortoise, but the rest of them can't. | One Path left under {villain}'s thumb, and the whole town is holding its breath. I can hold mine for a week, being a tortoise. They can't. |
-| `data/story/intro_story.tres::town.elder.idle.4::0` | All four Paths free, and {villain} still sitting up in his castle as though nothing had changed. Go and knock on his door, dearie, and knock loudly. | All four Paths free, and {villain} still sat up in his castle as though nothing had changed. Go and knock, dearie, and knock loudly. |
+| `data/story/capital_story.tres::npc.wren.intro::1` | Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better. | Maren sent word from {town} that someone might come. This is the Crease, and we're the Wrinkles: the people {villain} couldn't iron out. We have tea and grudges. The tea's better. |
 
 ## Conflicts (0)
 

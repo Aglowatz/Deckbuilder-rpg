@@ -81,14 +81,14 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Granny Gristle",
 		"before": "Back again, dearie! Turnips are a day old. A lovely vintage, if you're a turnip.",
-		"after": "Back again, my lovely! The turnips are a day old, which is a fine vintage if you happen to be a turnip, and I'll not hear a word said against them."
+		"after": "Back again, my lovely! The turnips are a day old, which is a lovely vintage, if you happen to be a turnip."
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::npc.hob.return::1",
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Granny Gristle",
 		"before": "The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Heh!",
-		"after": "They're looking at me again, those turnips. I like a root vegetable that minds its own business, I do, and there was a time you could count on one for that. Hah!"
+		"after": "The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Hah!"
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::npc.wren.intro::0",
@@ -298,7 +298,7 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Granny Gristle",
 		"before": "Granny Gristle, junk-trader, back in business! The shed's just a shed again, dearie, and the turnips are only turnips.",
-		"after": "Granny Gristle, junk-trader, and back in business! The shed's gone back to being just a shed, my lovely, and the turnips are only turnips, and I never thought I'd be so glad of a dull vegetable."
+		"after": "Granny Gristle, junk-trader, and back in business! The shed's just a shed again, my lovely, and the turnips are only turnips."
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::npc.hob.intro.freed::1",
@@ -312,7 +312,7 @@
 		"file": "data/story/refusemancer_story.tres",
 		"speaker": "Granny Gristle",
 		"before": "Day-old turnips, dearie, and not one of them looking at anybody. Finally, produce with manners. Heh!",
-		"after": "Day-old turnips, my lovely, and not one of them looking at anybody. That's produce with manners at long last, and I've waited ten years for it. Hah!"
+		"after": "Day-old turnips, my lovely, and not one of them looking at anybody. Produce with manners, at long last. Hah!"
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::npc.wren.intro.freed::0",

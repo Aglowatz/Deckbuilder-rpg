@@ -12,7 +12,6 @@ data/story/gourmand_story.tres::enemy.jelly::1
 data/story/gourmand_story.tres::enemy.casserole::0
 data/npcs/npcs.json::V-MIREPOIX.barks::0
 data/npcs/npcs.json::V-MIREPOIX.barks::1
-data/npcs/npcs.json::NPC-PATE.barks::0
 data/npcs/npcs.json::NPC-PATE.barks::1
 data/npcs/npcs.json::NPC-FLAMBE.barks::0
 data/npcs/npcs.json::NPC-BASIL.barks::0

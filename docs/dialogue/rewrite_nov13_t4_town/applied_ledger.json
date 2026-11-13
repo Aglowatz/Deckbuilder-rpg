@@ -382,7 +382,8 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Crosspath townsfolk",
 		"before": "The well hummed at me. Wells don't hum. I said thank you anyway.",
-		"after": "The well hummed at me this morning, and wells don't hum, but I said thank you anyway."
+		"after": "The well hummed at me this morning, and wells don't hum, but I said thank you anyway.",
+		"reverted": true
 	},
 	{
 		"id": "data/npcs/npcs.json::NPC-DEX.barks::0",

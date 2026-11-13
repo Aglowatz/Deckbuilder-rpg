@@ -52,7 +52,6 @@ data/npcs/npcs.json::NPC-GRAVOIS.barks::1
 data/npcs/npcs.json::NPC-MULLIGAN.barks::0
 data/npcs/npcs.json::NPC-MULLIGAN.barks::1
 data/npcs/npcs.json::NPC-VILLAGER.barks::1
-data/npcs/npcs.json::NPC-TOWNSFOLK.barks::2
 data/npcs/npcs.json::NPC-DEX.barks::0
 data/npcs/npcs.json::NPC-DEX.barks::1
 data/npcs/npcs.json::NPC-DEX.barks::2

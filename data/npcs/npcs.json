@@ -953,9 +953,9 @@
 		"description": "A plump culinary scholar who answers every question with a recipe.",
 		"personality": "A plump culinary scholar who answers every question with a recipe. Tastes his chalk.",
 		"speech_style": "Lecturing, mouth-watering descriptions.",
-		"sample_line": "A good answer is like a roux: patience first, then butter, and an excellent finish.",
+		"sample_line": "A good answer is like a roux: patience, then butter. Mostly butter.",
 		"barks": [
-			"A good answer is like a roux: patience first, then butter, and an excellent finish.",
+			"A good answer is like a roux: patience, then butter. Mostly butter.",
 			"Chalk again, with notes of limestone. Excellent body, and no business in my mouth."
 		],
 		"game_function": "Asks 4 questions about the Gourmands.",
@@ -1164,7 +1164,7 @@
 		"sample_line": "I think the vines have started whispering. And SOMEBODY ate the compost AGAIN.",
 		"barks": [
 			"I think the vines have started whispering. And SOMEBODY ate the compost AGAIN.",
-			"Eleven little trees in a row, one for each birthday, and nobody came for the twelfth."
+			"Eleven little trees in a row, one per birthday. Then nobody came for the twelfth."
 		],
 		"game_function": "Gives the Rotheart hook and the Trash Panda Throne quest (S-REF).",
 		"quest_links": [
@@ -2369,7 +2369,7 @@
 		"barks": [
 			"Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
 			"The old cottage cheers at night now, from the cellar. I've decided to find it lovely.",
-			"The well hummed at me this morning, and wells don't hum, but I said thank you anyway.",
+			"The well hummed at me. Wells don't hum. I said thank you anyway.",
 			"Four plinths round the fountain, and nobody remembers what stood on them."
 		],
 		"game_function": "",

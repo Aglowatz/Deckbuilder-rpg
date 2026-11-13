@@ -21,7 +21,6 @@ data/npcs/npcs.json::V-GRISTLE.barks::1
 data/npcs/npcs.json::NPC-THISTLEWICK.barks::0
 data/npcs/npcs.json::NPC-THISTLEWICK.barks::1
 data/npcs/npcs.json::NPC-BRAMBLE.barks::0
-data/npcs/npcs.json::NPC-BRAMBLE.barks::1
 data/story/refusemancer_story.tres::dungeon.rh_tunnels.blurb::0
 data/story/refusemancer_story.tres::dungeon.rh_wall.blurb::0
 data/story/refusemancer_story.tres::bark.worker_2.freed::1

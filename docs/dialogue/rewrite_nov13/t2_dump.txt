@@ -68,8 +68,8 @@
 
 @refusemancer::npc.hob.return
 #   [Granny Gristle] Talking to Granny Gristle (return)
-0| Back again, my lovely! The turnips are a day old, which is a fine vintage if you happen to be a turnip, and I'll not hear a word said against them.
-1| They're looking at me again, those turnips. I like a root vegetable that minds its own business, I do, and there was a time you could count on one for that. Hah!
+0| Back again, my lovely! The turnips are a day old, which is a lovely vintage, if you happen to be a turnip.
+1| The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Hah!
 
 ## purpose: Billie Muckfoot. Introduces the animal handler and tells the player the boar and goat in the stables can be ridden.
 @refusemancer::npc.wren.intro
@@ -292,12 +292,12 @@
 
 @refusemancer::npc.hob.intro.freed
 #   [Granny Gristle] Talking to Granny Gristle (intro) (after the zone is freed)
-0| Granny Gristle, junk-trader, and back in business! The shed's gone back to being just a shed, my lovely, and the turnips are only turnips, and I never thought I'd be so glad of a dull vegetable.
+0| Granny Gristle, junk-trader, and back in business! The shed's just a shed again, my lovely, and the turnips are only turnips.
 1| I had a little cry, and then I went out and planted a whole field. So the shop's open, my lovely, and every bit of stock in it was thrown out by somebody who was wrong. Hah!
 
 @refusemancer::npc.hob.return.freed
 #   [Granny Gristle] Talking to Granny Gristle (return) (after the zone is freed)
-0| Day-old turnips, my lovely, and not one of them looking at anybody. That's produce with manners at long last, and I've waited ten years for it. Hah!
+0| Day-old turnips, my lovely, and not one of them looking at anybody. Produce with manners, at long last. Hah!
 
 @refusemancer::npc.wren.intro.freed
 #   [Billie Muckfoot] Talking to Billie Muckfoot (intro) (after the zone is freed)

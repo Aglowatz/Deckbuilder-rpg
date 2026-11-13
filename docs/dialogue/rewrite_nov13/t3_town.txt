@@ -99,7 +99,7 @@
 
 @intro::quest.armory.waiting
 #   [Bertram Beetsworth, Assistant to the Regional Merchant] Quest: armory waiting
-0| The whole requirement is one fight won, and so far I count zero. I should mention that I am very good at counting to zero.
+0| One fight won. That is the whole requirement. So far I count zero. I am very good at counting to zero.
 1| Security Protocol Four: check the outskirts. Enemies roam the lanes round the edge of town, and any win counts.
 2| I will be here in the meantime, guarding the drawer. The drawer does not know that it is being guarded, and that is the whole point.
 
@@ -116,11 +116,11 @@
 
 @intro::quest.armory.done
 #   [Bertram Beetsworth, Assistant to the Regional Merchant] Quest "armory": after it is done
-0| That is one fight, won, and so I will now stamp your file three times, because three is the correct number of stamps. Stamp. Stamp. Stamp.
+0| One fight, won. Stamp. Stamp. Stamp. Three stamps is the correct number of stamps.
 1| Security Protocol Twelve: report to Elder Maren when we are finished here, because she is the one who decides where things get pointed.
 2| Here is your Starter Blade. With it, the first unit you play each battle hits a little harder. Protocol also requires me to say: do not run with it.
-3| All five equipment slots are yours as of now, and for the record they are helm, weapon, armor, boots and relic.
-4| The good stuff is rarer, and protocol says you can only wear so much of it until you level up. Fact: bears do not wear helms, and I have come to suspect that bears are wiser than us.
+3| And all five equipment slots are yours now: helm, weapon, armor, boots, relic.
+4| The good stuff is rarer, and you can only wear so much of it until you level up. Protocol. Fact: bears do not wear helms. Bears are wiser than us.
 
 ## purpose: The Undercroft arena: hint at the chained hatch, announce it opening, and have Bellows explain the ring (battles and puzzles, three tiers, first-clear prizes) as a booming announcer who is really a mild, kindly man.
 @intro::town.arena.locked
@@ -191,14 +191,14 @@
 ## purpose: Introduce Foil Fenwick the pack seller and the pack rule (a Path's pack is stocked once its zone is freed), then reveal the Prismatic packs later.
 @intro::town.pack_vendor.first
 #   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (first)
-0| Psst... do you hear that crinkle? That's possibility, that is, with excellent packaging.
+0| Psst... hear that crinkle? That's possibility, with excellent packaging.
 1| I'm Foil Fenwick, Purveyor of Sealed Goods, and I sell packs and only packs. Open yours where the light's good, would you... if I cry, I'd like to see what I'm crying about.
 2| Here's how it works... whenever a Path's final dungeon falls, that Path sends me its pack. Don't ask me how. There's a great deal of foil and no paperwork at all, which the Necrocrats find very upsetting.
-3| Free a zone and I'll stock its pack, and until then it's only a rumour in a wrapper. Browse all you like, and sniff them if you want to... I won't judge you. I sniff them too.
+3| Free a zone and I'll stock its pack; until then it's only a rumour in a wrapper. Browse all you like, and sniff if you want to. I won't judge. I sniff.
 
 @intro::town.pack_vendor.return
 #   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (return)
-0| Browse, sniff, but please don't shake the packs... well, a little, then, if you must. I'm a collector, you see, and not a strong person.
+0| Browse, sniff, but don't shake the packs. ...A little, then; I'm a collector, not a strong person.
 1| A repeat customer... shh, listen to that foil. I think you understand me, and I honestly don't know what to do with that.
 
 @intro::town.pack_vendor.prismatic_reveal

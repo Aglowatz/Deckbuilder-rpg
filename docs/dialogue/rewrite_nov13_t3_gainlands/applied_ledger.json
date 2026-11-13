@@ -193,7 +193,7 @@
 		"file": "data/story/gainlands_story.tres",
 		"speaker": "Professor Pump",
 		"before": "Answer well for gold and glory. Answer poorly and receive a mild, scholarly sigh. I have practised the sigh. It is devastating.",
-		"after": "Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh, which I have practised for many years and which I am told is quite devastating."
+		"after": "Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh. I have practised the sigh. It is devastating."
 	},
 	{
 		"id": "data/story/gainlands_story.tres::npc.quiz.return::0",

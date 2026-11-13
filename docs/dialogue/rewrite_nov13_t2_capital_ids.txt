@@ -15,12 +15,9 @@ data/story/capital_story.tres::npc.marlo.intro::0
 data/story/capital_story.tres::npc.marlo.intro::1
 data/story/capital_story.tres::npc.marlo.intro::2
 data/story/capital_story.tres::npc.marlo.return::0
-data/story/capital_story.tres::npc.spotless.intro::0
 data/story/capital_story.tres::npc.spotless.intro::1
 data/story/capital_story.tres::npc.spotless.intro::2
 data/story/capital_story.tres::npc.spotless.intro::3
-data/story/capital_story.tres::npc.spotless.intro::4
-data/story/capital_story.tres::npc.spotless.return::0
 data/story/capital_story.tres::npc.spotless.open::0
 data/story/capital_story.tres::npc.spotless.open::1
 data/story/capital_story.tres::npc.spotless.defeated::0

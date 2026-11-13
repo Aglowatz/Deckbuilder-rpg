@@ -1,0 +1,28 @@
+# Nov 13 dialogue check: Primm before the fight, between phases and at the end, with Large text (1280x720 coordinates).
+wait 5
+dev newgame
+wait 6
+dev textsize 1
+dev level 30
+dev primm 1
+wait 6
+click 1057 268
+wait 2
+shot d01
+dump
+key E
+wait 3
+shot d02
+key E
+wait 3
+shot d03
+key E
+wait 3
+shot d04
+key E
+wait 3
+shot d05
+key E
+wait 3
+shot d06
+dump

@@ -117,7 +117,7 @@
 0| Aha, a student! Do stand up straight, it's better for the posture. I am Professor Pump, Beefcake scholar, and I lecture from this very log. I've written seventeen books, you know.
 1| Fifteen of them concern the biceps. The other two were a history of the Lifting Festival, and when the regime burned those I wrote them out again from memory, because nobody can confiscate a well-trained brain-cep.
 2| I have four questions for you on the Beefcakes, their energy and their transport, and every answer is on a sign, a poster or a Beefcake's lips somewhere in the Gainlands.
-3| Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh, which I have practised for many years and which I am told is quite devastating.
+3| Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh. I have practised the sigh. It is devastating.
 
 @gainlands::npc.quiz.return
 #   [Professor Pump] Talking to Professor Pump (return)

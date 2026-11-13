@@ -304,7 +304,7 @@
 #   [Crosspath townsfolk] Bark (speech bubble when you walk past Crosspath townsfolk; Main Town lanes)
 0| Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.
 1| The old cottage cheers at night now, from the cellar. I've decided to find it lovely.
-2| The well hummed at me this morning, and wells don't hum, but I said thank you anyway.
+2| The well hummed at me. Wells don't hum. I said thank you anyway.
 3| Four plinths round the fountain, and nobody remembers what stood on them.
 
 ## purpose: Dex beside the trivia corner: friendly table patter that hints his game is about matching pairs.

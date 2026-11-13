@@ -28,9 +28,9 @@
 
 ## purpose: Prudence Pallor. The quiet horror of the D.N.A. in one sentence: nobody forced them; they stamped it themselves.
 @intro::gate.necrocrat.freed
-0| The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake to mark the occasion.
-1| I have a new stamp now, and it says HELPED. I've used it nine times so far, and yes, I am keeping count.
-2| You may challenge me again if you'd like to, and you won't need a permit for it. That's my favourite rule. I wrote it myself.
+0| The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake.
+1| I've got a new stamp that says HELPED. I've used it nine times so far, and yes, I'm counting.
+2| You can challenge me again if you like, and you won't need a permit to do it. That's my favourite rule. I wrote it myself.
 @intro::necrocrat_npc_intro_lines
 2| The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why.
 @intro::necrocrat_npc_victory_lines
@@ -76,8 +76,8 @@
 1| Flex doesn't gloat. He kneels beside his fallen pupil and holds out a hand. "You hated yourself for needing the iron, my boy."
 2| "I never once hated you for it. Come back to the gym. We'll start from zero, the way everyone does."
 @gainlands::freed_npc.heartlift
-1| They took my plates and my protein and everything I had ever lifted. So I breathed: in, and hold, and out again. I did that for ten years, and it turned out to be enough.
-2| I counted my own heartbeats until they turned into songs. They believed they were breaking me down there, son, and all the while they were teaching me.
+1| They took my plates, my protein, everything I had ever lifted. So I breathed: in, hold, and out again. That is what I did for ten years, and it was enough.
+2| I counted my own heartbeats until they turned into songs. They thought they were breaking me down there, son, but they were teaching me.
 3| Clench is learning to lift again from zero, and the strongest ones always take the longest. Yesterday he spotted Gary without being asked. The gym is open to everyone now, so come by whenever you like.
 @scenes/quota_fled/steps/1
 1| Quota's gone. She was off to the Capital before the dust had even settled; she always did like to leave early.
@@ -88,11 +88,11 @@
 0| The Grand Chef turns from the stove wearing the same smile as every portrait in the Pantry. In ten years, it has never once creased.
 @gourmand::cutscene.reveal.1
 0| Welcome to the Executive Test Kitchen, taster. Ten years I have worn this face and this apron, and not one Gourmand ever looked twice.
-1| They never looked at their Chef, you see. They only ever looked at the food.
+1| They never looked at their Chef, only at the food.
 @gourmand::cutscene.reveal.3
 0| ...Tasting is inefficient. The orders from {capital} asked for golems and not for flavour, and the Special Sauce delivers golems.
 @gourmand::cutscene.reveal.4
-0| Then look, if you must. I have worn this face for long enough.
+0| Then look. I have worn this face long enough.
 @gourmand::cutscene.reveal.5
 0| This is what was underneath. I wore her face for so long that I forgot my own, and there is nothing in here to taste with.
 @gourmand::cutscene.wonder.1
@@ -123,7 +123,7 @@
 1| Everyone in that queue was somebody, and the dead deserve to be treated as people. Helping the lost is the whole of the job. It always was.
 2| No order outranks that, Mortimer. Not his, and not yours. From today, everyone who comes to us is treated with respect.
 @dna::cutscene.vacancy.6
-0| Then we shall write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done.
+0| Then we'll write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done.
 @dna::freed_npc.agnes
 0| Agnes Overdue, head of the D.N.A. Yes, dear, me. The office goes to the senior-most applicant, and I filed more appeals than anyone. I have never been so annoyed to win anything.
 1| I only ever wanted to leave, and I will, soon enough. But I'm putting this place right first, so that nobody else has to wait as long as I did.

@@ -13,8 +13,8 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 ## Totals
 
 - Rows: 13
-- Applied: 13
-- Skipped (blank new line, unchanged, or applied before): 0
+- Applied: 1
+- Skipped (blank new line, unchanged, or applied before): 12
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,27 +24,15 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Crosspath (first visit) | 10 | 10 | 0 | 0 | 0 | 0 | 0 |
-| Crosspath (between zones) | 2 | 2 | 0 | 0 | 0 | 0 | 0 |
-| Prologue (Opening Forest) | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
+| Crosspath (first visit) | 10 | 1 | 9 | 0 | 0 | 0 | 0 |
+| Crosspath (between zones) | 2 | 0 | 2 | 0 | 0 | 0 | 0 |
+| Prologue (Opening Forest) | 1 | 0 | 1 | 0 | 0 | 0 | 0 |
 
-## Applied (13)
+## Applied (1)
 
 | id | Before | After |
 |---|---|---|
-| `data/story/intro_story.tres::town.guard::1` | Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home and find it shut. | Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home one night and find it shut. |
-| `data/story/intro_story.tres::town.guard.capital_offer::1` | Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} chained all four. | Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} put all four in chains. |
-| `data/story/intro_story.tres::town.guard.capital_offer::4` | My girl Isla went up that road eight years ago. If you see her... tell her the gate is still open. | My girl Isla went up that road eight years ago. If you see her up there... tell her the gate is still open. |
-| `data/story/intro_story.tres::town.guard.capital_active::1` | Hm. Each zone you free turns another service back on, and the castle gets a little less frightening. My knees, sadly, are a local problem. | Hm. Each zone you free turns a service back on, and the castle gets a little less frightening. Can't say the same for my knees. |
-| `data/story/story_scenes.json::scenes/hob_town_first/steps/1::1` | Evening! Old Hob, at your service. I dig, mostly, though there's not been much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh. | Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh. |
-| `data/story/story_scenes.json::scenes/hob_town_first/steps/3::1` | Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see. | Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see. |
-| `data/story/story_scenes.json::scenes/hob_town_first/steps/4::1` | Mind the cairn at the end of the row. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh. | Mind the cairn at the end of the row, though. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh. |
-| `data/story/story_scenes.json::scenes/hob_town/steps/0::1` | Still digging, slowly. Two particular graves, these ten years now. I like to take my time over the important ones. Heh. | Still digging, and taking it slowly. Two particular graves I've been at, these ten years now. I like to take my time over the important ones. Heh. |
-| `data/story/story_scenes.json::scenes/hob_town/steps/2::1` | Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see. | Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see. |
-| `data/story/story_scenes.json::scenes/hob_wake/steps/0::2` | I'd charge a handling fee, but you've nothing I want. Heh. | I'd charge you a handling fee for the trouble, only you've nothing on you that I want. Heh. |
-| `data/story/story_scenes.json::scenes/hob_town_freed/steps/0::1` | The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line. | The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he asked if he could stay on for one more pot first. I said yes. There's no rush, in my line. |
-| `data/story/story_scenes.json::scenes/hob_town_freed/steps/1::1` | Agnes stayed on, of course. Somebody has to fix the forms, and I've pencilled her in for later. Much later. Heh. | Agnes stayed on, of course. Somebody has to put the forms right, so I've pencilled her in for later. Much later. Heh. |
-| `data/story/intro_story.tres::start.tunnel::0` | A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut. | There is a narrow gap in the old treeline here. It would be easy to miss, and easy enough to slip through, if you aren't afraid of a shortcut. |
+| `data/story/story_scenes.json::scenes/hob_town_first/steps/1::1` | Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh. | Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see. Paperwork. Heh. |
 
 ## Conflicts (0)
 

@@ -13,8 +13,8 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 ## Totals
 
 - Rows: 11
-- Applied: 11
-- Skipped (blank new line, unchanged, or applied before): 0
+- Applied: 2
+- Skipped (blank new line, unchanged, or applied before): 9
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,23 +24,14 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| The Capital | 11 | 11 | 0 | 0 | 0 | 0 | 0 |
+| The Capital | 11 | 2 | 9 | 0 | 0 | 0 | 0 |
 
-## Applied (11)
+## Applied (2)
 
 | id | Before | After |
 |---|---|---|
-| `data/story/capital_story.tres::quest.cracks_in_the_glass.offer::0` | Before you go. The mirrors in his castle are still showing a kingdom that never was. Straight streets, smiling people, nobody hungry. | Before you go, there is one entry I cannot close. The mirrors in his castle are still showing a kingdom that never was: straight streets, smiling people and nobody hungry. |
-| `data/story/capital_story.tres::quest.cracks_in_the_glass.offer::1` | One of them, by the castle door, cracked from the inside last night. I don't like what I saw behind it. Will you go and look? | One of them, by the castle door, cracked from the inside last night, and I did not like what I saw behind it. Will you go and look, so that it can be written down by someone who was there? |
-| `data/story/capital_story.tres::quest.cracks_in_the_glass.active::0` | The mirror by the castle door, the one cracked from the inside. Go and look into it, and come back and tell me I imagined it. | It is the mirror by the castle door, the one that cracked from the inside. Go and look into it, and then come back and tell me I imagined it. I would be glad to strike the entry out. |
-| `data/dungeons/dungeon_content.json::quest.side_s_cap.offer::0` | There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers. | Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face. |
-| `data/dungeons/dungeon_content.json::quest.side_s_cap.offer::1` | Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal? | So here's the deal. Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal? |
-| `data/dungeons/dungeon_content.json::quest.side_s_cap.active::0` | Through the gate, then the manhole beside it: knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here. | Still out here? It's through the gate, then the manhole beside it, and you knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here, if you can spot me. |
-| `data/dungeons/dungeon_content.json::quest.side_s_cap.ready::0` | So you found the Crease. Told you I'd be around; I just never said where. Here, you've earned this. | So you found the Crease, and Wren didn't throw you straight back out, which is better than I had you chalked up for. Told you I'd be around; I just never said where. Here, this one's yours. |
-| `data/dungeons/dungeon_content.json::quest.side_s_cap.done::0` | The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk. | Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again. |
-| `data/story/capital_story.tres::event.pc_four_wings.result.1::0` | A little brass plate for donations to {villain_title}, bolted to the wall. It is quite full. You take the lot. | A little brass plate for donations to {villain_title} is bolted to the wall by the door, and it is quite full. You take the lot. |
-| `data/story/capital_story.tres::event.pc_four_wings.result.1::1` | It is, after all, other people's money. They would want it back. | It is other people's money, after all, and you think they would want it back from him. |
-| `data/dungeons/dungeon_content.json::dungeons/D-PC/events/22/choices/0::1` | It tastes of dandelion. It feels like the first honest thing in the castle. | It tastes of dandelion, bitter and ordinary, and it feels like the first honest thing you have found in the castle. |
+| `data/dungeons/dungeon_content.json::quest.side_s_cap.offer::0` | Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face. | There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't show it to strangers. |
+| `data/dungeons/dungeon_content.json::quest.side_s_cap.done::0` | Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again. | The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk. I'm not drawing it all again. |
 
 ## Conflicts (0)
 

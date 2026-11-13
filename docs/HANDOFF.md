@@ -115,6 +115,13 @@ decision (`docs/build_size_policy.md`).
    same with `--apply`. It checks tokens, length and that the line fits the box. `--revert` puts a CSV's changes back. Two lines are pinned by
    tests on purpose (the Rescuer's "which Path resonates within you?" and Flex's "it was not the part that matters").
 
+**The Nov 13 dialogue rewrite** (1,245 lines; story in `docs/writing/story_bible_v2.md`, voices in `docs/writing/voices.md`): the scene
+sources are `docs/dialogue/rewrite_nov13/t*.txt`. To change lines, edit a scene file, rebuild its CSV with
+`node tools/dialogue_scene_build.js --base=docs/dialogue/rewrite_nov13_base.csv --out=<csv> --ids=<ids.txt> <scene files>` and apply it as
+above. To put a group back: `node tools/apply_dialogue_pass.js --revert=docs/dialogue/rewrite_nov13_t<N>[_<group>]_ids.txt`. The current
+workbook for playtesters is `docs/dialogue/playtesters_nov13.xlsx` (`python tools/build_playtester_workbook.py` rebuilds it). A returned
+Nov 9 workbook still imports: rows on lines rewritten on Nov 13 are listed as "Base changed tonight" and not applied.
+
 **Playtesters' rewrites (the workbook `docs/dialogue/playtesters_nov9.xlsx`, Nov 10):** save every returned copy (any names, e.g.
 `docs/dialogue/returned/alice.xlsx`), then three commands from the repo folder:
 

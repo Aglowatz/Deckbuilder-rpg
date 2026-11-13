@@ -232,7 +232,7 @@ lines = {
 "cutscene.vacancy.5.speaker": ["Mortimer Grimsby"],
 "cutscene.vacancy.5": ["...That is not in the handbook. I find myself wondering why it never was."],
 "cutscene.vacancy.6.speaker": ["Agnes Overdue"],
-"cutscene.vacancy.6": ["Then we shall write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done."],
+"cutscene.vacancy.6": ["Then we'll write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done."],
 "freed_npc.prudence": ["Prudence Pallor, Deputy Head of the Department. For ten years I stamped DENIED on everything, because the paperwork was valid and I was too tired to ask whether it was right. I am sorry for it.", "{villain} did not need to corrupt us, you know, because our own rules did the work for him. These days I read a thing properly first, and I stamp APPROVED on whatever deserves it.", "The stamp is a good deal lighter than I remembered. I don't suppose you have anything with you that I could approve?"],
 "freed_npc.mortimer": ["Mortimer Grimsby, formerly CE-No, currently number 4,000,214 in the Waiting Room of Eternity. Gerald was 4,000,212, and he has been very patient with me.", "You held 4,000,213, and you did not wait for it to be called. I find that I keep returning to that.", "I made others wait a great deal longer than you did, and every one of them was a person. I did not know that then, and it is considerably worse to know it now.", "The authorization was valid. I have begun to wonder whether that was ever the right question."],
 }

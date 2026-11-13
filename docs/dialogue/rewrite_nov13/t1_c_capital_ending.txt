@@ -10,10 +10,10 @@
 ## purpose: Wren. She wants a witness, not a soldier: go and hear what he did, piece by piece. Plants the school lunch ("It excuses nothing, but remember it") and refuses the word monster.
 @capital::npc.wren.intro
 0| Another one down through the shafts. Sit, please. I'm Wren. I was the Royal Archivist once, and these days I keep the records this city isn't supposed to have.
-1| Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better.
+1| Maren sent word from {town} that someone might come. This is the Crease, and we're the Wrinkles: the people {villain} couldn't iron out. We have tea and grudges. The tea's better.
 2| He's in the castle at the north end, and he truly believes he is helping, which is the hard part. Talk to the people in the streets. Each of them carries a piece of what he did, and I want all of it in the record.
 @capital::npc.wren.return
-0| You're back in one piece, I see. Good. Hesper has quite enough to do.
+0| Back in one piece? Good. Hesper charges by the piece.
 1| The records say that he began well. His very first decree put a hot lunch in front of every schoolchild, and I want you to remember that. It excuses nothing, but remember it.
 @capital::npc.wren.insight.1
 0| You've brought me something from the streets. It goes into the true record, in ink, where he can't correct it.

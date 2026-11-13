@@ -1882,7 +1882,7 @@
 			"Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger."
 		],
 		"quest.side_s_cap.offer": [
-			"Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face.",
+			"There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't show it to strangers.",
 			"So here's the deal. Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
@@ -1896,7 +1896,7 @@
 			"You climb up inside the walls. Nobody is watching this way in, because nobody remembers it is here."
 		],
 		"quest.side_s_cap.done": [
-			"Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again."
+			"The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk. I'm not drawing it all again."
 		],
 		"dungeon.dg_s_iron_boss.before": [
 			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",

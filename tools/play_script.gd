@@ -15,7 +15,7 @@ extends Node
 ##   scene                          print the current scene and the hero's state (level, gold, hp)
 ##   pilot <seconds>                let a simple built-in player play the current battle for up to that long (mulligan, plays, attacks, blocks)
 ##   skip_dialogue [max]            tap E until no dialogue box / story still / popup is open (max taps, default 40)
-##   dev <action> ...               debug shortcuts: lowend on|off | level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
+##   dev <action> ...               debug shortcuts: lowend on|off | textsize 0|1|2 | level N | gold N | autowin on|off | win | lose | heal | primm 1|2|3 | travel town|forest|capital|arena |
 ##                                  travel zone <id> | travel dungeon <id> [node] | encounter <spec_id> | quest <id> <step> | freed <zone> |
 ##                                  gate <zone> | card <id> | item <id> | gear <id> | slots | packs <id> <n> | encounters <query> (list) |
 ##                                  save <name> / load <name> (a snapshot in user://dev_saves, so a later run can continue where this one stopped) |
@@ -460,6 +460,10 @@ func _dev(parts: PackedStringArray) -> void:
 			Session.new_game()
 			SceneManager.go_to_start_area()
 			result = "New game started (no slot touched, saving off)"
+		"textsize":
+			# Nov 13: `dev textsize 0|1|2` - the Text size switch (Normal, Large, Larger) for this run (never saved: --no-save).
+			Settings.set_text_master(int(arg))
+			result = "Text size %s" % arg
 		"lowend":
 			# Fixes Nov 8: `dev lowend on|off` - the Low-end preset (or Medium) for this run, as the Settings row sets it (never saved: --no-save).
 			Settings.low_end = arg == "on"

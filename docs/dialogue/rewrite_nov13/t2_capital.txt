@@ -94,15 +94,15 @@
 ## purpose: Captain Spotless bars the Capital gate with the Approved Visitor Standard, offers the Entry Examination (a card battle), and once beaten lets the hero in with a warning.
 @capital::npc.spotless.intro
 #   [Captain Spotless] Talking to Captain Spotless (intro)
-0| HALT! I am Captain Spotless, and this gate is mine to keep clean. State your height.
+0| HALT. I am Captain Spotless. State your height.
 1| No: do not state it. Stand at it. Straighter than that, but not as straight as THAT, which is showing off. Stand APPROVED straight.
 2| Entry to the Capital requires the Approved Visitor Standard, and you do not meet it. You are somehow both too tall and too short, and your shadow is the wrong length for the hour.
 3| The Standard does, however, provide for an Entry Examination, which is conducted as a card battle. Should you win it, you will be retroactively approved, and I shall have to sign for you.
-4| And do not look nervous, because nervousness is a Violation under the same Standard. (He polishes a button.) Shall we begin?
+4| Do not look nervous. Nervousness is a Violation. (He polishes a button.) Shall we begin?
 
 @capital::npc.spotless.return
 #   [Captain Spotless] Talking to Captain Spotless (return)
-0| You again, and I see that you are still too tall and still smiling at the wrong angle. Are you ready to sit the Examination?
+0| You again. Still too tall. Still smiling at the wrong angle. Ready for the Examination?
 
 @capital::npc.spotless.open
 #   [Captain Spotless] Talking to Captain Spotless (open)

@@ -165,7 +165,8 @@
 		"file": "data/npcs/npcs.json",
 		"speaker": "Brother Bramble",
 		"before": "Eleven little trees in a row, one per birthday. Then nobody came for the twelfth.",
-		"after": "Eleven little trees in a row, one for each birthday, and nobody came for the twelfth."
+		"after": "Eleven little trees in a row, one for each birthday, and nobody came for the twelfth.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/refusemancer_story.tres::dungeon.rh_tunnels.blurb::0",

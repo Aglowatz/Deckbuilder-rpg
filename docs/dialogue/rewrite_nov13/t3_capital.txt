@@ -15,7 +15,7 @@
 ## purpose: Kestrel tests a stranger before showing the older way in: get through the gate, knock three times on the manhole, ask Wren about the tunnels, then come back for the hatch in the north-east of the Outskirts.
 @dc::quest.side_s_cap.offer
 #   [Kestrel] Quest "The Older Way": when offered
-0| Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face.
+0| There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't show it to strangers.
 1| So here's the deal. Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?
 
 @dc::quest.side_s_cap.active
@@ -28,7 +28,7 @@
 
 @dc::quest.side_s_cap.done
 #   [Kestrel] Quest "The Older Way": after it is done
-0| Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again.
+0| The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk. I'm not drawing it all again.
 
 ## purpose: Captain Spotless guards tunnels that officially do not exist, and once beaten he remembers them full of all four Paths.
 @dc::dungeon.dg_s_cap_boss.before

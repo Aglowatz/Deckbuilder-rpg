@@ -441,7 +441,7 @@
 
 @npc::NPC-PATE.barks
 #   [Professor Pate] Bark (speech bubble when you walk past Professor Pate; Endless Buffet)
-0| A good answer is like a roux: patience first, then butter, and an excellent finish.
+0| A good answer is like a roux: patience, then butter. Mostly butter.
 1| Chalk again, with notes of limestone. Excellent body, and no business in my mouth.
 
 @npc::NPC-FLAMBE.barks

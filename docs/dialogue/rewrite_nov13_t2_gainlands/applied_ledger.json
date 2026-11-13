@@ -137,7 +137,7 @@
 		"file": "data/story/gainlands_story.tres",
 		"speaker": "Gary",
 		"before": "I've been under this barbell since lunch. Possibly since the regime took over - it's hard to tell from down here. No rush. Bit of a rush.",
-		"after": "I've been under this barbell since lunch, or possibly since the regime took over, it's hard to tell from down here. There's no rush at all. Well, there's a bit of a rush."
+		"after": "I've been under this barbell since lunch, or possibly since the regime took over; it's hard to tell from down here. No rush. Bit of a rush."
 	},
 	{
 		"id": "data/story/gainlands_story.tres::npc.gary.intro::2",

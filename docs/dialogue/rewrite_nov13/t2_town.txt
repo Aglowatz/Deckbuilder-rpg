@@ -12,7 +12,7 @@
 
 ## purpose: Old Hob in the graveyard. Death as a cheerful tradesman with nothing to do; plants the two graves he has been digging for ten years.
 @scenes/hob_town_first/steps/1
-1| Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh.
+1| Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see. Paperwork. Heh.
 @scenes/hob_town_first/steps/3
 1| Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see.
 @scenes/hob_town_first/steps/4

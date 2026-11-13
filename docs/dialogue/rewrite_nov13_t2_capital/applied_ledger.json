@@ -123,7 +123,8 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Captain Spotless",
 		"before": "HALT. I am Captain Spotless. State your height.",
-		"after": "HALT! I am Captain Spotless, and this gate is mine to keep clean. State your height."
+		"after": "HALT! I am Captain Spotless, and this gate is mine to keep clean. State your height.",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.spotless.intro::1",
@@ -151,14 +152,16 @@
 		"file": "data/story/capital_story.tres",
 		"speaker": "Captain Spotless",
 		"before": "Do not look nervous. Nervousness is a Violation. (He polishes a button.) Shall we begin?",
-		"after": "And do not look nervous, because nervousness is a Violation under the same Standard. (He polishes a button.) Shall we begin?"
+		"after": "And do not look nervous, because nervousness is a Violation under the same Standard. (He polishes a button.) Shall we begin?",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.spotless.return::0",
 		"file": "data/story/capital_story.tres",
 		"speaker": "Captain Spotless",
 		"before": "You again. Still too tall. Still smiling at the wrong angle. Ready for the Examination?",
-		"after": "You again, and I see that you are still too tall and still smiling at the wrong angle. Are you ready to sit the Examination?"
+		"after": "You again, and I see that you are still too tall and still smiling at the wrong angle. Are you ready to sit the Examination?",
+		"reverted": true
 	},
 	{
 		"id": "data/story/capital_story.tres::npc.spotless.open::0",

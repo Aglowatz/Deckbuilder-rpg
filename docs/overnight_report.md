@@ -1,3 +1,220 @@
+# Fable Nov 13 - report (the dialogue rewrite: one cohesive, emotional story)
+
+Brief: `docs/prompts/fable_nov13_dialogue.md`. Start tag `pre-dialogue-nov13`. Questions: `docs/overnight_inbox.md`, "Dialogue Nov 13"
+(9 items). Text only: no gameplay, layout or art change, Primm's fight untouched, nothing exported or uploaded. One Godot at a time; the
+drafting agents (at most 3 at once) only ran while no Godot ran. Ran on Fable 5.2. The Fable Nov 12d report follows below.
+
+## In short
+
+- **All four tiers are done and in the game: 1,245 lines rewritten** out of 4,405 exported (plus the 66 loading tips), every tier tested,
+  committed and pushed. Final GUT: **3070/3072, 0 failing** (2 risky/pending, the same two as before the pass); the prologue smoke passes. The harness twice stopped the background test run for low memory, so the suite was finished in the foreground from the shard it had reached (inbox 9).
+- **A new story bible and voice sheets** drive it: `docs/writing/story_bible_v2.md` and `docs/writing/voices.md`.
+- **A blind reader preferred the new text in 23 of 40 conversations.** Voice distinctness and emotional impact went up; naturalness went
+  slightly down, because some new lines were padded. That is an honest, mixed result: see "The critic" below for what it means and what
+  was fixed.
+- **Not every line changed, on purpose.** About 2,150 of the exported lines are dialogue or narration a rewrite could touch (the rest are
+  labels, rule text, sign titles and quest-log wayfinding). Of those, 1,245 changed. The lines left alone are mostly narration that
+  already flowed (the castle's rooms, the ending beats, the funeral), signs and memos (short and deadpan by design), and lines the story
+  leans on word for word.
+
+## Tiers done
+
+| Tier | What | Lines rewritten | Written by |
+|---|---|---|---|
+| 1 | The main story: prologue, cave, Maren's questline, the four Fragments, cave-mouth scenes, gatekeepers, zone finales, the Capital line, Primm, the ending | 293 | the lead writer (me) |
+| 2 | The core cast: Gainlands 70, Buffet 61, D.N.A. 76, Dump 51, Capital 128, Crosspath (Brannoch, Old Hob) 13 | 399 | agents, one per zone; Crosspath by me; every batch read and edited by me |
+| 3 | Side content: Crosspath's shops, arena, Rift Express and secrets 132; Gainlands 51; Buffet 51; D.N.A. 33; Dump 33; Capital 11; postgame 20 | 331 | agents; read and edited by me |
+| 4 | The world: barks, citizens, guards, pop-ups, map descriptions (Capital 69, Crosspath 59, Gainlands 27, Dump 26, Buffet 24, D.N.A. 17), plus the 66 loading tips | 222 + tips | agents; tips by me |
+
+**Per character (lines rewritten):** Elder Maren 136, the Wanderer 33, the Rescuer 32, Agnes Overdue 30, Basil 28, Old Hob 27, throwers
+and rippers 26, Capital guards and clerks 25, Rip Tearson and cousins 24, Gerald 23, Brother Bramble 23, Old Man Mountain 23, Chef Marlo 22,
+Bertram Beetsworth 22, Wren 21, Pip Threadwell 20, the Perfectly Happy Citizens 20, Grandmaster Flex 19, the gate golems 18, Old Fern 17,
+Granny Gristle 17, Percival Plume 16, Rollo Spokes 16, Announcer Bellows 16, narration and UI 143, and about 60 more speakers with fewer
+than 16 each. The full list is in each tier's ledger (`docs/dialogue/rewrite_nov13_t*/applied_ledger.json`).
+
+**What changed in kind:**
+- Maren is rambling and warm and gets plainer with each Fragment; she says the theme once ("Four peoples who never matched, stitched
+  together, and it held").
+- Every endearment has one owner: Maren "dearie", Agnes "dear", Auntie Alembic "dear heart", Sable "darling", Madame Mirepoix "my sweet",
+  Granny Gristle "my lovely" (and "Hah!"; Old Hob keeps "Heh."), Compostella "child", Flex "son", Rip "buddy", Crumb "soldier".
+- Only Brannoch and Nurse Hesper Dray are terse now. Dex Shufflewick's put-downs became friendly table-talk; Pip no longer teases
+  customers; the guards and clerks of the Capital are people who do not understand the rules either.
+- The Wanderer answers people (to Quota: "You're the first person in this place who hasn't shouted at me. Who are you?").
+
+## Before and after: 15 key scenes
+
+1. **The opening** (`intro::awakening_lines::1`)
+   - Before: "I keep reaching for my name, or for how I got here, and there's nothing there at all."
+   - After: "I keep reaching for my name, and it isn't there. Neither is how I came to be here. There's nothing at all, like a room that somebody has emptied."
+2. **Maren's first talk** (`intro::cave_mouth.maren::1`)
+   - Before: "And look at the state of you. I told her I'd help whoever she sent along. I never said I'd take in a half-drowned stray."
+   - After: "And just look at the state of you. I told her I would help whoever she sent along, but I don't recall agreeing to take in a half-drowned stray who can barely stand."
+3. **Maren names the kingdom** (`intro::town.elder.first::1`)
+   - Before: "Ten years ago Patchwork was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead and Refusemancers turned rubbish into harvests. Everyone complained, and everything worked."
+   - After: "Ten years ago Patchwork was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead, Refusemancers turned rubbish into harvests. Four peoples who never matched, stitched together, and it held."
+4. **A memory scene: the Coup** (`intro::memory.3.after::1`)
+   - Before: "I know that glass, because I helped to blow it. Long ago I founded the study of the Paths, and I did it for the best of reasons."
+   - After: "I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do."
+5. **The Rescuer at the cave mouth** (`scenes/cave_mouth_1/steps/1::2`)
+   - Before: "Let me see your hands. Steadier than they were. Good. That's the first thing I've been able to tick off my list in a long time."
+   - After: "Let me see your hands. They're steadier than they were, and that's good. It's the first thing I've been able to cross off my list in a long time."
+6. **The Gainlands' beat: Clench to his teacher** (mid-fight, `enc::Chancellor Clench, Iron Regent/2/line`)
+   - Before: "You said I would go further than you. Look how far I went. ...Master?"
+   - After: "You told me I would go further than you ever did. Well, look how far I went. Tell me it was far enough. ...Master?"
+7. **The Buffet's beat: Basil** (`gourmand::npc.odalys.return::0`)
+   - Before: "You came back! Good, good. I've been stirring the same pot for an hour, just to give my hands something to do. A Gourmand never stops stirring."
+   - After: "Oh! You came back. Good, that's good. I've been stirring this same pot for an hour, because when my hands stop I start thinking, and I'd honestly rather stir."
+8. **The D.N.A.'s beat: Prudence Pallor, freed** (`dna::freed_npc.prudence::0`)
+   - Before: "Prudence Pallor, Deputy Head of the Department. Yes, I stamped DENIED on everything. I was tired, the paperwork was valid, and I am sorry."
+   - After: "Prudence Pallor, Deputy Head of the Department. For ten years I stamped DENIED on everything, because the paperwork was valid and I was too tired to ask whether it was right. I am sorry for it."
+9. **The Dump's beat: Brother Bramble and the twelfth tree** (`refusemancer::npc.marigold.return::3`)
+   - Before: "Forgive me. I talk to that spot more than I talk to most people. It's a very good listener, and it never tracks mud into the Grange."
+   - After: "Forgive me, I do go on. I talk to that spot more than I talk to most people, because it's a very good listener and it has never once tracked mud into the Grange."
+10. **The Capital arrival: Wren** (`capital::npc.wren.intro::0`)
+    - Before: "Another one through the shafts. Sit down. I'm Wren; I was the Royal Archivist once, and now I keep the records this city isn't supposed to have."
+    - After: "Another one down through the shafts. Sit, please. I'm Wren. I was the Royal Archivist once, and these days I keep the records this city isn't supposed to have."
+11. **A Capital quest: Widow Pell** (`capital::quest.cap_burial.ready::1`)
+    - Before: "I sat by the plot all morning and didn't say a word. It was the first quiet in three years that wasn't a fear."
+    - After: "I sat by the plot the whole morning and never said a word to him, and it was the first quiet in three years that I wasn't afraid of."
+12. **Primm before the fight: the Wanderer** (`capital::cutscene.primm_intro.3::0`)
+    - Before: "Sorry, that's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you."
+    - After: "I'm sorry about the floor. It's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you."
+13. **Primm at the end** (`capital::cutscene.primm_end.6::0`)
+    - Before: "I'm not going to correct you; that was always your way. I'm not going to forgive you either, not today. Start smaller than a kingdom. Say sorry to one person."
+    - After: "I'm not going to correct you. That was always your way of doing things. And I'm not going to forgive you either, not today. Start with something smaller than a kingdom. Say sorry to one person."
+14. **The ending: Maren** (`capital::ending.beat.10::2`) and the credits
+    - Before: "...loud enough for the whole plaza to hear. She has said it in her kitchen; this is the first time she has said it to the kingdom. 'Welcome home.'" / "A game about a kingdom that was strong because it was not the same."
+    - After: "...loudly enough for the whole plaza to hear. She has said it in her kitchen, but this is the first time she has said it to the kingdom. 'Welcome home.'" / "A game about a kingdom that was strong because its pieces did not match."
+15. **The epilogue: Isla** (`scenes/isla_talk/steps/0::1`)
+    - Before: "I keep walking to the gate and back. Nobody stops me. I keep expecting somebody to stop me."
+    - After: "I keep walking down to the gate and back again, just because I can. Nobody stops me, and I still catch myself waiting for somebody to."
+
+Primm's own lines, the castle's rooms, the funeral and most of the ending were read as scenes and kept nearly whole: they were already the
+best writing in the game, and the bible quotes them.
+
+## The critic: old against new
+
+A reader with no context got 40 conversations (10 per tier; tier 4 as barks), each in two unlabelled versions in random order
+(`docs/review/dialogue_nov13/`: `sample.md`, `key.json`, `critic_brief.md`, `critic_scores.txt`). Scores are 1-10.
+
+| | Naturalness | Voice | Emotion | Clarity | Humour | Mean |
+|---|---|---|---|---|---|---|
+| **Old** | 7.65 | 7.30 | 5.88 | 6.28 | 6.78 | 6.78 |
+| **New** | 7.33 | 7.88 | 6.35 | 6.33 | 6.78 | 6.93 |
+
+| Tier | Old mean | New mean | New preferred |
+|---|---|---|---|
+| 1 main story | 6.94 | 6.88 | 4 of 10 |
+| 2 core cast | 6.98 | 7.22 | 6 of 10 |
+| 3 side content | 6.80 | 7.08 | 6 of 10 |
+| 4 barks | 6.38 | 6.54 | 7 of 10 |
+
+- **New preferred in 23 of 40.** The gains are in voice (+0.58) and emotional impact (+0.47). Humour is level. **Naturalness fell by
+  0.32.** The reader's reason: some new lines "pad the line past its point with trailing clauses and fillers like 'you see'", burying a
+  punchline or a hurt that the old line ended on. Where the new text won, it was for specific detail and for a voice nobody else has.
+- **Tier 1 came out level (old preferred 6 of 10, means 6.94 against 6.88).** The main story's old lines were already the product of the
+  Nov 5 rewrite, and several of my changes there were small. This is the place a human read is most worth having.
+- **The 10 weakest lines the reader named: 8 were old lines, 2 were new.** Both new ones are fixed (Granny Gristle's turnip line now ends
+  on its joke; Bertram's equipment-slots line is back to his deadpan).
+- **Fixed after the critic (32 lines):** every conversation where the old version was preferred for a stated reason was revisited. 21
+  lines went back to their original (Pallor's freed lines, the Doppelganger's reveal, Flex's "in, hold, and out again", Wren's "Hesper
+  charges by the piece", Captain Spotless's barked opening, Fenwick's first line, Bertram's stamps, three barks) and 11 were tightened
+  (Hob's "Paperwork. Heh.", Gary's "No rush. Bit of a rush.", Fenwick's "I won't judge. I sniff.", Professor Pump's sigh, Kestrel's quest
+  lines, Granny Gristle). The scores above are from before these fixes; no second critic run was made.
+- **The critic's confusions worth knowing:** the Old Well secret's cardsharp lines are labelled "Elder Maren" in the export though Dex
+  Shufflewick says them (a label in the exporter, not in the game); "Three." in the third cave-mouth scene is unclear without the count of
+  zones on screen; "8 reps to one beat" does not say what to press (the rule text elsewhere does).
+
+## Checked in the game
+
+Play-script runs (`docs/review/play_scripts/nov13/`, with the new `dev textsize 1` for Large text) at 1280x720 and at 1920x1080 (this
+screen clamps that window to 1886x1061): the opening lines, Maren and Brannoch in Crosspath, Old Man Mountain and Foreman Gus in the
+Gainlands, and Primm's entrance in the Model Room (1280x720 only). Shots: `docs/overnight_shots/nov13/` (8). No overflow, no cut-off text,
+no unfilled token; portraits match the speakers. Every one of the 1,245 lines also passed the importer's box measure (at most 4 lines at
+Normal and 6 at Large, the same measure as `tests/test_dialogue_fit.gd`).
+
+Not run in the game: a zone's whole main quest played through, the Capital's arrival, and the Primm fight to its ending (the play script
+reached his entrance; the mid-fight and ending scenes were checked by the box measure and the tests only).
+
+## Plants and payoffs
+
+22 pairs, with line IDs, are in `docs/writing/story_bible_v2.md`, section 4. The ones the rewrite touched or sharpened:
+voices through a wall (prologue to the last cave-mouth scene); the door that knows one hand (the Warden to Maren's confession); the
+lullaby (Fragment 1 to the Queen at the funeral); "again" (Fragment 2 to Primm's end and Agnes); four signs in a ring (the key, the crest,
+Maren's stick, the headstones, the Throne); "never far from home" (Fragment 4 to "Welcome home" and the King); the gate that is never
+locked (Brannoch to Isla); the two graves (Old Hob); the third form (Agnes to HEIR: ALIVE); filed on a Tuesday (Kyle and the HR memo to
+Mortimer); the dumbbell and the frosting (Old Man Mountain and Basil to the Rescuer); the twelfth tree (Bramble to Compostella); "not the
+part that matters" (Flex to Primm); a blank page (the Grand Chef to Primm); the wells (townsfolk and Wren to the journals and "I miss the
+wells"); "I only wish somebody would say so" (the four insights to the hero's silence); her name (prologue to "somewhere with a roof");
+"I always do" (prologue to Cell 4); Maren's handwriting (the recipe card to the note in the ward); the steady hands (cave mouth to the
+hatch); argued like family (Maren to the Queen); the tidy lady with shears (Moss Mulligan to Clipwell).
+
+## Decisions I had to make
+
+1. **Fig Sly is unchanged.** `docs/design/canon.md` locks the black market vendor's lines and the importer refuses them; the brief lists
+   him among the vendors. I kept the lock (14 lines). Inbox 1.
+2. **No lines were added.** The format allows it only with an importer extension and several tests count lines per key. Every beat fitted
+   its existing boxes, so I did not extend the importer for new IDs. Inbox 2.
+3. **Endearments were reassigned** (Mirepoix "my sweet", Granny Gristle "my lovely" and "Hah!", Alembic "dear heart", Crumb "soldier" only,
+   the Grand Chef drops "dear" in one bark, Clipwell none). These are verbal habits, not names. Inbox 3.
+4. **Short-box tests were obeyed, not loosened:** Maren's idle lines stay under 140/160 characters, the prologue under 160, boss intro
+   lines under 160.
+5. **Tested phrases were kept** ("Tell me: which Path resonates within you?", "strength is not control", "treating people with respect",
+   "easiest road for you", "Not on my list. Off you pop.", "Tell Basil", and so on).
+6. **Basil no longer says "the real Chef"** before the reveal (he could not know); it is "Chef baked a birthday cake... back before all
+   this".
+7. **Flex's line in the breathing room changed** from "You carry the whole kingdom in your lungs, son" (which nearly names the hero) to
+   one about a held breath.
+8. **Nurse Hesper's wake line after the Capital is freed** now says there is no fee (it read as a charge for being defeated, and there is
+   no defeat penalty).
+9. **Primm's past is only what the castle already says.** The bible invents nothing about him.
+
+## Kept usable: the playtesters' work
+
+- `tools/import_playtester_dialogue.py` now reads the tier ledgers. A returned row whose line was rewritten tonight, written against the
+  old text, is **not applied**; the report lists it under "Base changed tonight" with the old base, tonight's line and the tester's line
+  side by side. Tested with a doctored copy of the Nov 9 workbook.
+- `docs/dialogue/playtesters_nov13.xlsx`: a fresh workbook (same four tabs and columns A-N, 4,405 rows of tonight's text, the Voice Guide
+  tab rebuilt from `voices.md`), built by the new `tools/build_playtester_workbook.py` and copied to
+  `G:/My Drive/Card Game Art/Playtester Dialogue/Wayward Path - Dialogue for Playtesters (Nov 13).xlsx`. The "Speakers" tab is as it was
+  on Nov 9. I could not open the file in Excel from here; the XML parses and the importer reads all 4,405 rows back. Inbox 6.
+
+## What was not reached
+
+- **Tutorial hints** are not in the dialogue export and were not touched. Loading tips are done (edited in the file; revert with git).
+- **Signs, posters, memos and plaques** were read and almost all kept (about 480 lines): they are short and deadpan by design.
+- **The dungeon event screens' choice results** were only touched where clipped; most were kept.
+- **A second critic run** after the 32 fixes, and a whole zone played in the game.
+- **Quest Log text** (titles, steps, "where to go") was left as it is: it is the wayfinding the last three passes tuned.
+
+## Tools made tonight
+
+| Tool | What it does |
+|---|---|
+| `tools/dialogue_scene_build.js` | Scene files ("@key", "idx| text", "## purpose") to an edit CSV for the importer, with checks |
+| `tools/dialogue_scene_chunks.js` | Splits the export into writing chunks by tier and zone |
+| `tools/dialogue_scene_review.js` | Prints a scene file's changed lines as old / new for review |
+| `tools/dialogue_blind_sample.js` | Builds the blind old/new critic sample from the ledgers |
+| `tools/build_playtester_workbook.py` | Rebuilds the playtesters' workbook from the game's text and `voices.md` |
+| `tools/apply_dialogue_pass.js` | Now reverts a tier from its ids file alone; knows `{road}`, `{obstacle}`, `{card}` |
+| `tools/play_script.gd` | New `dev textsize 0|1|2` |
+
+The scene sources, with a one-line purpose for every conversation, are in `docs/dialogue/rewrite_nov13/` (`t1_*.txt` to `t4_*.txt`).
+
+## How to revert
+
+- **One tier's group** (the lines go back to their text from before tonight):
+  `node tools/apply_dialogue_pass.js --revert=docs/dialogue/rewrite_nov13_t1_ids.txt` (Tier 1), or for the other tiers one file per
+  group: `rewrite_nov13_t2_<gainlands|buffet|dna|dump|capital|town>_ids.txt`, `rewrite_nov13_t3_<town|gainlands|buffet|dna|dump|capital|postgame>_ids.txt`,
+  `rewrite_nov13_t4_<town|gainlands|buffet|dna|dump|capital>_ids.txt`. A whole tier is those files one after another.
+- **Single lines:** put their IDs in a text file and pass it with `--csv=<that tier's CSV> --revert=<file>`.
+- **The loading tips:** `git checkout pre-dialogue-nov13 -- data/loading/loading_tips.txt`.
+- **Everything:** `git checkout pre-dialogue-nov13 -- data core` (text files only changed there), or reset to the tag.
+- After a revert run `bash tools/run_tests.sh`.
+
+
+---
+
 # Fable Nov 12d - report (2-hour pass: the broken checks, a fresh playtest, the ghost building, edges, RC6)
 
 Brief: `docs/prompts/fable_nov12_2h.md`. Start tag `pre-fable-nov12d`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12d" (7 items).

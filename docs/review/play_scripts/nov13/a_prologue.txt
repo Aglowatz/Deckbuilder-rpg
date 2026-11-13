@@ -1,0 +1,31 @@
+# Nov 13 dialogue check: the opening lines, the Rescuer, with Large text.
+wait 5
+dev newgame
+wait 8
+dev textsize 1
+shot a01
+key E
+wait 2.5
+shot a02
+key E
+wait 2.5
+shot a03
+key E
+wait 2.5
+shot a04
+key E
+wait 2.5
+shot a05
+key E
+wait 2.5
+shot a06
+key E
+wait 2.5
+shot a07
+key E
+wait 2.5
+shot a08
+key E
+wait 2.5
+shot a09
+dump

@@ -1636,3 +1636,36 @@ link stays empty so the Support button stays hidden), **6 closed with option (b)
    20-30 s; the E prompt prefers a plaque to the quest NPC 2.8 m away; the "Point me to..." list's order changes between opens (sort places
    alphabetically after the goals); the "has a favour to ask" toast survives accepting it; Escape over a pop-up opens the pause menu.
 
+
+## Dialogue Nov 13 - yours to decide (the safest choice was taken)
+
+1. **Fig Sly's lines were not rewritten** (14 lines). `docs/design/canon.md` says the black market vendor is not to be changed, and the
+   importer refuses his lines; tonight's brief listed him among the vendors. If you want him rewritten, say so: remove the `LOCKED` list in
+   `tools/apply_dialogue_pass.js` and his row in the canon file, and he is a ten-minute job.
+2. **No conversation got extra lines.** Every beat fitted its existing boxes, and several tests count the lines of a key, so the importer
+   was not extended to add new IDs. If a scene still feels cramped to you (the fourth Fragment is the likeliest), name it and it can be
+   split.
+3. **Verbal habits were shared out so no two people use the same one:** Madame Mirepoix now says "my sweet" (Sable keeps "darling"),
+   Granny Gristle "my lovely" and "Hah!" (Maren keeps "dearie", Old Hob "Heh."), Auntie Alembic "dear heart" (Agnes keeps "dear"), and
+   Colonel Crumb only "soldier" (Flex keeps "son"). Say if you want any of the old ones back.
+4. **The blind reader's result is mixed for the main story.** Over all 40 conversations the new text was preferred 23 to 17, with voice
+   and emotion up and naturalness slightly down; for the 10 main-story conversations the old text was preferred 6 to 4. I fixed the
+   lines it named and put 21 lines back to their originals, but did not run a second reader. Your own read of Maren's scenes
+   (`docs/dialogue/rewrite_nov13/t1_a_prologue_maren.txt`, old text in the tier's ledger) is the check that matters; any line you prefer
+   the old way reverts by ID.
+5. **Bertram Beetsworth: full sentences or clipped?** The voice sheet asks for full, stiff sentences; the blind reader preferred his old
+   clipped deadpan ("Fact: bears do not wear helms. Bears are wiser than us."). I put his best old lines back and left the rest in full
+   sentences. He is one of the characters where "terse" may simply be right; say which way you want him.
+6. **The Nov 13 workbook** is at `docs/dialogue/playtesters_nov13.xlsx` and on the Drive as "Wayward Path - Dialogue for Playtesters
+   (Nov 13).xlsx". I could not open it in Excel from here (the file is built by script; its XML parses and the importer reads it back).
+   Please open it once before sending it out. Testers still working in the Nov 9 workbook are fine: their rows on lines rewritten tonight
+   come back listed as "Base changed tonight" for you to choose.
+7. **The exporter labels Dex Shufflewick's memory-game lines "Elder Maren"** (the `cardsharp.*` keys), and a few others as "(check key)"
+   or with an old name ("The Grand Chef (formerly Grand Chef Escoffina)" for Escoffina's own lines). These are labels in
+   `tools/export_dialogue.js`, not text in the game, but playtesters see them in the workbook's Speaker column. Not fixed tonight.
+8. **Tutorial hints are not in the dialogue export**, so they were not rewritten. If you want them in the next pass, the exporter needs
+   to learn where they live first.
+9. **The test run was stopped twice by Claude Code's low-memory guard** (free RAM near 1 GB), each time leaving a 0.9 GB Godot behind,
+   which I closed. Both times the suite was finished in the foreground from the shard it had reached; every one of the 33 shards has
+   passed on tonight's final text (3070/3072, 2 risky as before). The start command's `$env:CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1`
+   did not reach this session (the command lines arrived as the prompt text, not as a shell line), so the guard was on all night.

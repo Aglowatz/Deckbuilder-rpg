@@ -25,7 +25,7 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Kestrel",
 		"before": "There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers.",
-		"after": "Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face."
+		"after": "There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't show it to strangers."
 	},
 	{
 		"id": "data/dungeons/dungeon_content.json::quest.side_s_cap.offer::1",
@@ -53,7 +53,7 @@
 		"file": "data/dungeons/dungeon_content.json",
 		"speaker": "Kestrel",
 		"before": "The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk.",
-		"after": "Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again."
+		"after": "The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk. I'm not drawing it all again."
 	},
 	{
 		"id": "data/story/capital_story.tres::event.pc_four_wings.result.1::0",

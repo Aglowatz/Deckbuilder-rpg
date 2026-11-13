@@ -12,9 +12,9 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 ## Totals
 
-- Rows: 25
-- Applied: 25
-- Skipped (blank new line, unchanged, or applied before): 0
+- Rows: 24
+- Applied: 0
+- Skipped (blank new line, unchanged, or applied before): 24
 - Conflicts (game line changed since the export): 0
 - Failed validation: 0
 - Held (lost a tested story beat): 0
@@ -24,37 +24,7 @@ Held rows (`held_ids.txt`) are rewrites that lost a story beat a GUT test guards
 
 | Area | Rows | Applied | Blank | Conflicts | Failed | Held | Locked |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Endless Buffet | 25 | 25 | 0 | 0 | 0 | 0 | 0 |
-
-## Applied (25)
-
-| id | Before | After |
-|---|---|---|
-| `data/story/gourmand_story.tres::fx.wake::1` | "You fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt. Again. Please don't tell Chef." | "Um, you fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt again, so please don't tell Chef." |
-| `data/story/gourmand_story.tres::fx.wake::2` | "Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything." | "And don't tell the taste testers you fainted, either. If anyone asks you anything at all, just say 'Yes, Chef.' It works for everything." |
-| `data/story/gourmand_story.tres::fx.chest::0` | A hidden stash! Unsampled, unsauced and all yours. | You've found a hidden stash that nobody has sampled or sauced, and it's all yours. |
-| `data/story/gourmand_story.tres::fx.taste_good::0` | Smooth, balanced, a touch of citrus. You nod like a professional. +HP. | It's smooth and balanced with a touch of citrus, and you nod like a professional. +HP. |
-| `data/story/gourmand_story.tres::fx.taste_buff::0` | Your palate sharpens. You can taste what the cheese had for breakfast. A little extra HP for the visit. | Your palate sharpens until you can taste what the cheese had for breakfast. A little extra HP for the visit. |
-| `data/story/gourmand_story.tres::fx.taste_spicy::0` | You find the ghost pepper in spoon three. Your ears ring in protest. -1 HP. | You find the ghost pepper in spoon three, and your ears ring in protest. -1 HP. |
-| `data/story/gourmand_story.tres::fx.fountain_1::0` | You ladle some soup. Tomato with a hint of basil. Warm all the way down. +HP. | You ladle up some soup: tomato with a hint of basil, and warm all the way down. +HP. |
-| `data/story/gourmand_story.tres::fx.fountain_3::0` | Third ladle: minestrone, mostly noodles. You feel taller. +HP. | Your third ladle is minestrone, mostly noodles, and you feel taller for it. +HP. |
-| `data/story/gourmand_story.tres::fx.fountain_full::0` | You ladle some soup, look at it, and pour it back. You are full. The fountain takes it well. | You ladle some soup, look at it, and pour it back, because you are full. The fountain takes it well. |
-| `data/story/gourmand_story.tres::enemy.jelly::0` | A lime gelatin sentinel with a spoon spear and a fruit cocktail soul. Prototype Mk. 2. | You face a lime gelatin sentinel with a spoon for a spear and a fruit cocktail for a soul: Prototype Mk. 2. |
-| `data/story/gourmand_story.tres::enemy.jelly::1` | You watch it wobble through a thought. Management has discouraged these. | You watch it wobble its way through a thought, which is something management has discouraged. |
-| `data/story/gourmand_story.tres::enemy.casserole::0` | A pot-bellied colonel with a lid for a hat and a ladle for a sword. Thirty years of service, forty years of cheese. | You face a pot-bellied colonel with a lid for a hat and a ladle for a sword, who has thirty years of service behind him and forty years of cheese. |
-| `data/npcs/npcs.json::V-MIREPOIX.barks::0` | This deck is underdressed, darling. A little butter, a little foil, and voila. | Your deck is underdressed, my sweet. A little butter and a little foil, and voila. |
-| `data/npcs/npcs.json::V-MIREPOIX.barks::1` | Decorative cake, darling. Please admire it without cutlery. | The cake is decorative, my sweet, so please admire it without cutlery. |
-| `data/npcs/npcs.json::NPC-PATE.barks::0` | A good answer is like a roux: patience, then butter. Mostly butter. | A good answer is like a roux: patience first, then butter, and an excellent finish. |
-| `data/npcs/npcs.json::NPC-PATE.barks::1` | Chalk again. Notes of limestone. Excellent body, no business being in my mouth. | Chalk again, with notes of limestone. Excellent body, and no business in my mouth. |
-| `data/npcs/npcs.json::NPC-FLAMBE.barks::0` | ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream! | ORDER UP! Welcome back to the show, sprouts! WHOOSH! You've been a lovely audience! |
-| `data/npcs/npcs.json::NPC-BASIL.barks::0` | Chef ALWAYS tastes. Always. That's how you know it's Chef. | Um. Chef ALWAYS tastes, you see, always. That's how you know it's really Chef. |
-| `data/npcs/npcs.json::NPC-BASIL.barks::1` | I'm brave. I'm brave. ...Have you seen my thyme? I'm running out of it. | I'm brave. I'm brave. ...Psst, have you eaten today? There's soup, if you'd like. |
-| `data/npcs/npcs.json::NPC-ESCOFFINA.barks::1` | A full table is a safe table. Pull up a chair, dear - that's an order. | A full table is a safe table, so pull up a chair. That's an order, and so is seconds. |
-| `data/npcs/npcs.json::NPC-DOPPEL.barks::1` | I am a third-class apprentice now, with many dishes. I am trying. So are the dishes. | I am a third-class apprentice now. I wash many dishes. I broke one, and nobody shouted. |
-| `data/story/gourmand_story.tres::dungeon.tk_intake.blurb::0` | A corrupted sous-chef guards the conveyor belt. Everything on the belt is a little too shiny. | A corrupted sous-chef stands guard over the conveyor belt, where everything is a little too shiny. |
-| `data/story/gourmand_story.tres::dungeon.tk_canteen.blurb::0` | A hot, honest meal: the only unmodified food in the building. Restore HP. | Someone has kept one hot, honest meal going here, the only unmodified food in the building. Restore HP. |
-| `data/story/gourmand_story.tres::dungeon.tk_construct.blurb::0` | An experimental food construct, stitched together from three kinds of meat and one regret. (Elite) | You face an experimental food construct, stitched together from three kinds of meat and one regret. (Elite) |
-| `data/story/gourmand_story.tres::dungeon.tk_boss.blurb::0` | The Grand Chef's private kitchen. Her apron is spotless, and something about her chin is a little off. | You've reached the Grand Chef's private kitchen, where her apron is spotless and something about her chin is a little off. |
+| Endless Buffet | 24 | 0 | 24 | 0 | 0 | 0 | 0 |
 
 ## Conflicts (0)
 
