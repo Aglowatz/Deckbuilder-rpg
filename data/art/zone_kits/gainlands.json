@@ -601,8 +601,8 @@
 			"category": "Surface",
 			"desc": "Blue rubber gym mat texture with chalk handprints. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
 			"from_px": [
-				1024.0,
-				1024.0
+				1024,
+				1024
 			],
 			"group": "ground",
 			"id": "GAIN-GROUND-MAT",
@@ -611,17 +611,17 @@
 			"placeholder": "tex:gain_gymmat",
 			"priority": "1",
 			"px": [
-				1024.0,
-				1024.0
+				1024,
+				1024
 			],
 			"seam": {
 				"x": {
-					"after": 1.0,
-					"before": 1.83
+					"after": 1.09,
+					"before": 1.09
 				},
 				"y": {
-					"after": 1.08,
-					"before": 1.95
+					"after": 1.12,
+					"before": 1.12
 				}
 			},
 			"sheet_status": "Requested",

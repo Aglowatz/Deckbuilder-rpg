@@ -37,3 +37,4 @@ DNA-SHEET-GHOST-QUEUE,"Queue of ghosts",Cutout sheet,SHEET,"See docs/art/art_bat
 DNA-SHEET-PROPS,"Ghost lamps and dead topiary",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Lobby Plaza, Executive Approach",2,Approved
 DNA-DEC-FORMS,"Forms and stamps",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","Walls, floors",2,Approved
 DNA-SHEET-LOBBY,D.N.A. lobby dressing,Cutout sheet,SHEET,See docs/art/art_needed_nov2.csv (Batch 11): six dead-office lobby props.,"2048x1365 PNG, transparent",Sliced into six lobby props,2,Approved
+DNA-PROP-SERVING-ORB,"Now-serving orb",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The D.N.A. queue / now-serving spots",2,Approved

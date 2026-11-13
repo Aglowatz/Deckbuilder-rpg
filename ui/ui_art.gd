@@ -180,11 +180,13 @@ static func known_ids() -> Dictionary:
 static func _keeps_canvas(id: String) -> bool:
 	if id == "UI-PACK-SHELF":
 		return false  # Import Nov 8: the shelf board is a strip in a 3:2 canvas - trimmed to the board
+	if id == "UI-NODE-BANNER":
+		return true  # Batch 15: an opaque painted alcove, kept whole
 	return id.begins_with("UI-FRAME-") or id.begins_with("UI-CARDBACK-") or id.begins_with("UI-PACK-") or id.begins_with("UI-BG-") or id.begins_with("MG-BG-")
 
 
 static func _max_side(id: String) -> int:
-	if id.begins_with("UI-BG-") or id.begins_with("MG-BG-") or id == "UI-PACK-SHELF":
+	if id.begins_with("UI-BG-") or id.begins_with("MG-BG-") or id == "UI-PACK-SHELF" or id == "UI-NODE-BANNER":
 		return MAX_SIDE_BACKGROUND
 	if id.begins_with("UI-CURSOR"):
 		return MAX_SIDE_CURSOR
@@ -235,7 +237,7 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 			rows.erase(id)
 			continue
 		image.convert(Image.FORMAT_RGBA8)
-		if not id.begins_with("UI-BG-") and not id.begins_with("MG-BG-") and not id.begins_with("UI-CARDBACK-") and Portraits.remove_flat_background(image):
+		if not id.begins_with("UI-BG-") and not id.begins_with("MG-BG-") and not id.begins_with("UI-CARDBACK-") and id != "UI-NODE-BANNER" and Portraits.remove_flat_background(image):
 			result.background_removed.append(file_name)
 		if not _keeps_canvas(id):
 			image = trimmed(image)

@@ -57,3 +57,15 @@ CAP-SHEET-CREASE,The Crease hideout props,Cutout sheet,SHEET,"See docs/art/art_n
 CAP-BD-PALACE,The palace skyline from the Gate Road,Sky / backdrop,BACKDROP,See docs/art/art_needed_nov2.csv (Batch 11).,"2048x1024 PNG, transparent sky",Gate Road / outside the wall backdrop,1,Approved
 CAP-PROP-PRIMM-STATUE-SIDE,"Gold Primm statue, side view",Prop,CUTOUT,See docs/art/art_needed_nov2.csv (Batch 11).,"1024x1536 PNG, transparent",Statues seen from the side plazas,2,Approved
 CAP-PROP-GOLD-URN,Gold urn (no topiary),Prop,CUTOUT,See docs/art/art_needed_nov2.csv (Batch 11).,"1024x1536 PNG, transparent",Under the planters' roses,2,Approved
+CAP-SHEET-WINDOWS-07,"Capital town window (day)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","Every house and palace front inside the Capital, by day",1,Approved
+CAP-SHEET-WINDOWS-08,"Capital town window (lit)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The same window lit: dusk and the freed city",1,Approved
+CAP-BANNER-FREED-01,"Freed banner: the Gainlands",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","384x768 PNG, transparent","The freed Capital after Primm",2,Approved
+CAP-BANNER-FREED-02,"Freed banner: the Buffet",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","384x768 PNG, transparent","The freed Capital after Primm",2,Approved
+CAP-BANNER-FREED-03,"Freed banner: the Dump",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","384x768 PNG, transparent","The freed Capital after Primm",2,Approved
+CAP-BANNER-FREED-04,"Freed banner: the D.N.A.",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","384x768 PNG, transparent","The freed Capital after Primm",2,Approved
+CAP-BD-LANTERNS,"Sky lanterns",Sky / backdrop,BACKDROP,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","2048x1024 PNG, transparent","The freed Capital's sky over the castle",2,Approved
+CAP-FX-FIREWORKS,"Firework bursts",Sky / backdrop,BACKDROP,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","2048x1024 PNG, transparent","The freed Capital's sky over the castle",2,Approved
+CAP-PROP-PORTRAIT-PRIMM-01,"Primm portrait on an easel (bust)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The avenue, the castle door and the palace front",1,Approved
+CAP-PROP-PORTRAIT-PRIMM-02,"Primm portrait on an easel (blessing)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The avenue, the castle door and the palace front",1,Approved
+CAP-PROP-PORTRAIT-PRIMM-03,"Primm portrait on an easel (rosette)",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","512x768 PNG, transparent","The avenue, the castle door and the palace front",1,Approved
+CAP-PROP-RUBBLE-ROW,"Rubble row",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","2048x512 PNG, transparent","The Capital's rim and the Transit Yards (hides edges)",2,Approved

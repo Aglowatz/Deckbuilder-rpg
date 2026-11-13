@@ -1,4 +1,4 @@
-Batch 15 for my cozy-fantasy deckbuilder RPG "The Wayward Path". Make all 32 images below, one at a time, without stopping to ask me questions. Save each one as a PNG named exactly as given in **bold**.
+Batch 15 for my cozy-fantasy deckbuilder RPG "The Wayward Path". Make all 39 images below, one at a time, without stopping to ask me questions. Save each one as a PNG named exactly as given in **bold**.
 
 I've attached reference images. Each reference's filename starts with the item number it belongs to (for example, 07_primm__... is for item 7).
 
@@ -61,4 +61,15 @@ House style for everything: painted cozy-fantasy game art, soft visible brushwor
 19. **CAP-PROP-RUBBLE-ROW** (2048x512, transparent, long and low, in the style of ref 19). A row of broken masonry and dead scrub: toppled pale blocks, a snapped lamp post, grey thorn bushes and a few violet crystal shards. Give it a soft dark base so it sits on cracked ground and hides an edge.
 20. **DUMP-PROP-MILL-SAILS** (1024x1024, transparent, front view, perfectly centred so it can spin). A six-bladed windmill wheel for the mill in ref 20. The sails are patched cloth in rust red, cream and faded blue, with visible stitching, on a wooden hub with a brass cap.
 
-When all 32 are done, put them in one zip.
+21. **V-FIGSLY** (1024x1536, transparent). Repaint ref 21 exactly: the same character (the stoat/ferret card dealer in the feathered hat), face, outfit, colours, framing and painted style. The one change: he has exactly **two** arms. One gloved hand is raised with a finger to his lips; the other hand holds his coat open to show the contraband pockets. There must be no third hand anywhere.
+22. **UI-NODE-BANNER** (1600x500). A generic painted banner for non-combat dungeon rooms: a mossy stone alcove in a cave, soft candlelight, a few hanging roots, gentle mist, a warm centre fading to dark edges. Leave the centre empty, because a glowing icon sits there. No text. Ref 22 shows the pop-up it goes in.
+23. **Elowen's walk cycle: five sprite sheets** (1536x1024 each, transparent). Each sheet is **4 walking frames side by side in one row**, evenly spaced, the same size, and with the feet on the same baseline. That's exactly the layout of the two "walk-format" references (another character, shown only for the layout).
+
+    The character is **Elowen**, exactly as in her turnaround sheet and portrait (ref 23 elowen): curly dark hair, a ragged green hooded cloak, a stained white lab coat, a leather satchel with coloured vials, brown boots. Same proportions, colours and painted style. A natural walking stride: legs alternating, arms gently swinging, the cloak and coat swaying with the step.
+    - **SPR-ELOWEN-FRONT_WALK**: walking toward the viewer.
+    - **SPR-ELOWEN-FRONTSIDE_WALK**: walking toward the viewer at a three-quarter angle, facing left.
+    - **SPR-ELOWEN-SIDE_WALK**: walking left, in profile.
+    - **SPR-ELOWEN-BACKSIDE_WALK**: walking away at a three-quarter angle, facing left.
+    - **SPR-ELOWEN-BACK_WALK**: walking away from the viewer.
+
+When all 39 are done, put them in one zip.

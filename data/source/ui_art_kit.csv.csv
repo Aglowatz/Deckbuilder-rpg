@@ -63,3 +63,12 @@ UI-CAULDRON,Crafting cauldron,Screen pieces,Auntie Alembic craft screen.,"1024x1
 UI-PACK-SHELF,Pack shelf board,Screen pieces,THE SHELF panel of the Card Packs page (trimmed to the board).,"1536x1024 PNG, transparent","See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
 MG-BG-CLASSROOM,Trivia classroom,Minigame backgrounds,Every zone quiz screen (QuizScreen).,1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
 MG-BG-GYM,Rep Counter gym,Minigame backgrounds,Gainlands Rep Counter minigame.,1536x1024 PNG (16:9 crop),"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).",,Approved
+MG-BG-MATCHTABLE,Matching game table,Minigame backgrounds,Dex Shufflewick's matching game (MatchGameScreen).,1920x1080 PNG,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-CARDBACK-DEX,Dex's card back,Card backs,The face-down cards of Dex's matching game.,512x768 PNG,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-BATTLE-ITEMSLOT-EMPTY,Battle item slot (empty),Battle HUD,The battle item slots with no item or a used item.,"256x256 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-BATTLE-ITEMSLOT-READY,Battle item slot (ready),Battle HUD,The battle item slots holding a usable item.,"256x256 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-PACK-LOCKED-B,Locked pack (Beefcake),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-PACK-LOCKED-G,Locked pack (Gourmand),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-PACK-LOCKED-N,Locked pack (Necrocrat),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-PACK-LOCKED-R,Locked pack (Refusemancer),Packs,The locked Path pack on the Card Packs page.,"512x768 PNG, transparent","See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved
+UI-NODE-BANNER,Pop-up banner base,Screen pieces,The base of the non-combat dungeon pop-up banner (NodeCard).,1600x500 PNG,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",,Approved

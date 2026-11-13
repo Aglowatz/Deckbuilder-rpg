@@ -705,6 +705,35 @@
 			"use": "Queues",
 			"zone": "dna"
 		},
+		"DNA-PROP-SERVING-ORB": {
+			"aspect": 0.32,
+			"asset": "Now-serving orb",
+			"category": "Prop",
+			"cleared_alpha": 2474,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "DNA-PROP-SERVING-ORB",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				240,
+				751
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.dna-prop-serving-orb",
+			"tinted": false,
+			"use": "The D.N.A. queue / now-serving spots",
+			"zone": "dna"
+		},
 		"DNA-PROP-STAMP": {
 			"aspect": 0.888,
 			"asset": "Giant rubber stamp",

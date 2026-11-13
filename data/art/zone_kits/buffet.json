@@ -779,6 +779,64 @@
 			"use": "Prop clusters",
 			"zone": "buffet"
 		},
+		"BUFF-PROP-STALL-01": {
+			"aspect": 0.912,
+			"asset": "Sweet stall",
+			"category": "Prop",
+			"cleared_alpha": 10847,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				768,
+				768
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-STALL-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				682,
+				748
+			],
+			"sheet_status": "Approved",
+			"size": "768x768 PNG, transparent",
+			"slot": "prop.buff-prop-stall-01",
+			"tinted": false,
+			"use": "The Buffet hub's market stalls",
+			"zone": "buffet"
+		},
+		"BUFF-PROP-STALL-02": {
+			"aspect": 0.91,
+			"asset": "Savoury stall",
+			"category": "Prop",
+			"cleared_alpha": 13524,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				768,
+				768
+			],
+			"group": "prop",
+			"id": "BUFF-PROP-STALL-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				685,
+				753
+			],
+			"sheet_status": "Approved",
+			"size": "768x768 PNG, transparent",
+			"slot": "prop.buff-prop-stall-02",
+			"tinted": false,
+			"use": "The Buffet hub's market stalls",
+			"zone": "buffet"
+		},
 		"BUFF-ROOF-COPPER": {
 			"asset": "Copper roof",
 			"category": "Surface",

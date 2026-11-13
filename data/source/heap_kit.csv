@@ -72,3 +72,5 @@ DUMP-SHEET-ENTRANCE-FLAGS,"Entrance pennants",Cutout sheet,SHEET,"See docs/art/a
 DUMP-DEC-CORRUPTION,"Corruption decals",Cutout sheet,SHEET,"See docs/art/art_batch_oct28.csv (art import Oct 29).","2048x1365 PNG, transparent","The Throne Approach, the Overgrown Plateau",2,Approved
 KIT-HEAP-THORNWALL,"Breathing thorn wall",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).","1536x1024 PNG, transparent","Moss Mulligan's gate (HeapGate thorn wall)",2,Approved
 KIT-HEAP-THORNWALL-DEAD,"Withered thorn wall (parted)",Prop,CUTOUT,"See docs/art/art_needed_nov4.csv (Import Nov 8, Batch 13).","1536x1024 PNG, transparent","Moss Mulligan's gate (HeapGate thorn wall)",2,Approved
+DUMP-HERO-RACCOON-STATUE,"Raccoon king statue",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","768x1024 PNG, transparent","The statue by the Rotheart's gate",2,Approved
+DUMP-PROP-MILL-SAILS,"Mill sails",Prop,CUTOUT,"See docs/art/batch15_nov12.csv (Batch 15, Nov 13).","1024x1024 PNG, transparent","The windmill's sails (spinning)",2,Approved

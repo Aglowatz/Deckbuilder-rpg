@@ -312,13 +312,15 @@ func _do_character(character: String) -> void:
 	var dirs: Array[String] = []
 	for dir_name: String in DIRS:
 		var idle: Image = _load("SPR-%s-%s_IDLE" % [character, dir_name])
-		if idle == null:
-			continue
-		dirs.append(dir_name)
-		var fig: Dictionary = _figure(idle, Rect2i(0, 0, idle.get_width(), idle.get_height()))
-		figures[dir_name + "_IDLE"] = fig
-		idle_heights.append(float(fig["height"]))
 		var walk: Image = _load("SPR-%s-%s_WALK" % [character, dir_name])
+		# Batch 15 (Elowen's walk): a direction may have a walk strip and no idle (her three-quarter walks); it is then a walk-only direction.
+		if idle == null and (walk == null or not _npc_mode):
+			continue
+		if idle != null:
+			dirs.append(dir_name)
+			var fig: Dictionary = _figure(idle, Rect2i(0, 0, idle.get_width(), idle.get_height()))
+			figures[dir_name + "_IDLE"] = fig
+			idle_heights.append(float(fig["height"]))
 		if walk != null:
 			walk_dirs.append(dir_name)
 			var parts: Array = _slice_strip(walk, "%s %s walk" % [character, dir_name])
@@ -342,7 +344,7 @@ func _do_character(character: String) -> void:
 		for i: int in range(4):
 			mean += float((figures["%s_WALK%d" % [dir_name, i + 1]] as Dictionary)["height"])
 		mean /= 4.0
-		var idle_h: float = float((figures[dir_name + "_IDLE"] as Dictionary)["height"])
+		var idle_h: float = float((figures[dir_name + "_IDLE"] as Dictionary)["height"]) if figures.has(dir_name + "_IDLE") else reference
 		var walk_scale: float = clampf(base_scale * idle_h / mean, base_scale * 0.5, base_scale * 2.5)
 		for i: int in range(4):
 			scales["%s_WALK%d" % [dir_name, i + 1]] = walk_scale

@@ -26,6 +26,8 @@ const MAX_WIDTH: int = 1920
 const CROP_LOADING: float = 0.75
 const CROP_STORY: float = 0.35
 const CROP_VENDOR: float = 0.5
+## Pictures kept whole at their own size (not 16:9): the wide panorama behind the credits.
+const UNCROPPED: Array[String] = ["STORY-CREDITS-PANORAMA"]
 const ICON_SIZES: Array[int] = [16, 24, 32, 48, 64, 128, 256]
 const ICNS_TYPES: Dictionary = {128: "ic07", 256: "ic08", 512: "ic09", 1024: "ic10"}
 
@@ -164,8 +166,10 @@ static func crop_16x9(image: Image, bias: float = 0.5) -> Image:
 	return image.get_region(Rect2i(left, 0, target_width, height))
 
 
-static func _process_image(image: Image, kind: Kind) -> Image:
+static func _process_image(image: Image, kind: Kind, id: String = "") -> Image:
 	image.convert(Image.FORMAT_RGBA8)
+	if id in UNCROPPED:
+		return image  # Batch 15: the credits panorama is 3:1 and pans; never cropped or shrunk
 	match kind:
 		Kind.VENDOR:
 			image = crop_16x9(image, CROP_VENDOR)
@@ -226,7 +230,7 @@ static func import_from_source(vendor_src: String, key_src: String) -> Result:
 			if kind == Kind.ICON:
 				write_app_icons(image)
 			var lossless: bool = kind == Kind.LOGO or kind == Kind.ZONE or kind == Kind.ICON
-			var error: Error = _process_image(image, kind).save_webp(target, not lossless, 1.0 if lossless else QUALITY)
+			var error: Error = _process_image(image, kind, id).save_webp(target, not lossless, 1.0 if lossless else QUALITY)
 			if error != OK:
 				result.errors.append("%s: could not write (error %d)" % [file_name, error])
 				rows.erase(id)

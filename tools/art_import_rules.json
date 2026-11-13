@@ -152,6 +152,13 @@
 			"hq": true
 		},
 		{
+			"match": "assets/art/keyart/STORY-CREDITS-PANORAMA*",
+			"why": "Batch 15 (Nov 13): the 3:1 panorama behind the credits pans at screen height, so it keeps its 3072 px width (one picture, shown once); lossy WebP like the stills",
+			"mode": 1,
+			"quality": 0.8,
+			"size_limit": 3072
+		},
+		{
 			"match": "assets/art/keyart/STORY-*",
 			"why": "Size pass Nov 3 (Part 3): story stills back to lossy WebP (BC7 since Oct 25 cost 1.8 MB a still on disk, 50 MB for the set). One still is on screen at a time and the bounded ArtCache (Part 5) releases it after, so its decoded size no longer piles up; q 0.80 showed no difference at play size (docs/art/size_pass/STORY-WAKE-NIGHT_sheet.png)",
 			"mode": 1,

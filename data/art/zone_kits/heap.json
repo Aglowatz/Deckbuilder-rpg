@@ -1022,6 +1022,35 @@
 			"use": "Landmark of the junk peaks region (a view beyond the north-east corner)",
 			"zone": "heap"
 		},
+		"DUMP-HERO-RACCOON-STATUE": {
+			"aspect": 0.703,
+			"asset": "Raccoon king statue",
+			"category": "Prop",
+			"cleared_alpha": 18730,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				768,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-HERO-RACCOON-STATUE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				709,
+				1009
+			],
+			"sheet_status": "Approved",
+			"size": "768x1024 PNG, transparent",
+			"slot": "prop.dump-hero-raccoon-statue",
+			"tinted": false,
+			"use": "The statue by the Rotheart's gate",
+			"zone": "heap"
+		},
 		"DUMP-HERO-ROTHEART": {
 			"asset": "The Rotheart",
 			"category": "Hero landmark",
@@ -1450,6 +1479,35 @@
 			"slot": "prop.dump-prop-compost",
 			"tinted": false,
 			"use": "Prop in clusters",
+			"zone": "heap"
+		},
+		"DUMP-PROP-MILL-SAILS": {
+			"aspect": 0.952,
+			"asset": "Mill sails",
+			"category": "Prop",
+			"cleared_alpha": 54388,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-MILL-SAILS",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				964,
+				1013
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dump-prop-mill-sails",
+			"tinted": false,
+			"use": "The windmill's sails (spinning)",
 			"zone": "heap"
 		},
 		"DUMP-PROP-SCRAPPILE": {

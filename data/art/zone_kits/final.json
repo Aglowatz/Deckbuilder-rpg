@@ -2,6 +2,122 @@
 	"_about": "Written by tools/import_zone_kit.gd from data/source/final_kit.csv and the art in C:/Dev/Deckbuilder-rpg/_art_inbox/batch11/Approved_ZoneKits/Capital: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/final/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
 	"density": 400.0,
 	"items": {
+		"CAP-BANNER-FREED-01": {
+			"aspect": 0.615,
+			"asset": "Freed banner: the Gainlands",
+			"category": "Prop",
+			"cleared_alpha": 2933,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				384,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-BANNER-FREED-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				379,
+				616
+			],
+			"sheet_status": "Approved",
+			"size": "384x768 PNG, transparent",
+			"slot": "prop.cap-banner-freed-01",
+			"tinted": false,
+			"use": "The freed Capital after Primm",
+			"zone": "final"
+		},
+		"CAP-BANNER-FREED-02": {
+			"aspect": 0.616,
+			"asset": "Freed banner: the Buffet",
+			"category": "Prop",
+			"cleared_alpha": 4158,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				384,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-BANNER-FREED-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				380,
+				617
+			],
+			"sheet_status": "Approved",
+			"size": "384x768 PNG, transparent",
+			"slot": "prop.cap-banner-freed-02",
+			"tinted": false,
+			"use": "The freed Capital after Primm",
+			"zone": "final"
+		},
+		"CAP-BANNER-FREED-03": {
+			"aspect": 0.614,
+			"asset": "Freed banner: the Dump",
+			"category": "Prop",
+			"cleared_alpha": 3368,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				384,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-BANNER-FREED-03",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				380,
+				619
+			],
+			"sheet_status": "Approved",
+			"size": "384x768 PNG, transparent",
+			"slot": "prop.cap-banner-freed-03",
+			"tinted": false,
+			"use": "The freed Capital after Primm",
+			"zone": "final"
+		},
+		"CAP-BANNER-FREED-04": {
+			"aspect": 0.613,
+			"asset": "Freed banner: the D.N.A.",
+			"category": "Prop",
+			"cleared_alpha": 2601,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				384,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-BANNER-FREED-04",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				380,
+				620
+			],
+			"sheet_status": "Approved",
+			"size": "384x768 PNG, transparent",
+			"slot": "prop.cap-banner-freed-04",
+			"tinted": false,
+			"use": "The freed Capital after Primm",
+			"zone": "final"
+		},
 		"CAP-BD-CITY": {
 			"aspect": 2.441,
 			"asset": "Perfect city skyline",
@@ -29,6 +145,35 @@
 			"tinted": false,
 			"transparent": true,
 			"use": "Distant backdrop inside",
+			"zone": "final"
+		},
+		"CAP-BD-LANTERNS": {
+			"aspect": 2.327,
+			"asset": "Sky lanterns",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "CAP-BD-LANTERNS",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				880
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent",
+			"slot": "backdrop.cap-bd-lanterns",
+			"tinted": false,
+			"transparent": true,
+			"use": "The freed Capital's sky over the castle",
 			"zone": "final"
 		},
 		"CAP-BD-PALACE": {
@@ -145,6 +290,35 @@
 			"slot": "decal.cap-dec-shine",
 			"tinted": false,
 			"use": "Inside plazas",
+			"zone": "final"
+		},
+		"CAP-FX-FIREWORKS": {
+			"aspect": 2.181,
+			"asset": "Firework bursts",
+			"category": "Sky / backdrop",
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "CAP-FX-FIREWORKS",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				939
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent",
+			"slot": "backdrop.cap-fx-fireworks",
+			"tinted": false,
+			"transparent": true,
+			"use": "The freed Capital's sky over the castle",
 			"zone": "final"
 		},
 		"CAP-GROUND-RIFT": {
@@ -689,6 +863,93 @@
 			"use": "Inside streets",
 			"zone": "final"
 		},
+		"CAP-PROP-PORTRAIT-PRIMM-01": {
+			"aspect": 0.549,
+			"asset": "Primm portrait on an easel (bust)",
+			"category": "Prop",
+			"cleared_alpha": 16471,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-PROP-PORTRAIT-PRIMM-01",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				420,
+				765
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.cap-prop-portrait-primm-01",
+			"tinted": false,
+			"use": "The avenue, the castle door and the palace front",
+			"zone": "final"
+		},
+		"CAP-PROP-PORTRAIT-PRIMM-02": {
+			"aspect": 0.552,
+			"asset": "Primm portrait on an easel (blessing)",
+			"category": "Prop",
+			"cleared_alpha": 4878,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-PROP-PORTRAIT-PRIMM-02",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				419,
+				759
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.cap-prop-portrait-primm-02",
+			"tinted": false,
+			"use": "The avenue, the castle door and the palace front",
+			"zone": "final"
+		},
+		"CAP-PROP-PORTRAIT-PRIMM-03": {
+			"aspect": 0.555,
+			"asset": "Primm portrait on an easel (rosette)",
+			"category": "Prop",
+			"cleared_alpha": 7048,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-PROP-PORTRAIT-PRIMM-03",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				426,
+				767
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.cap-prop-portrait-primm-03",
+			"tinted": false,
+			"use": "The avenue, the castle door and the palace front",
+			"zone": "final"
+		},
 		"CAP-PROP-PRIMM-STATUE-SIDE": {
 			"aspect": 0.56,
 			"asset": "Gold Primm statue, side view",
@@ -716,6 +977,35 @@
 			"slot": "prop.cap-prop-primm-statue-side",
 			"tinted": false,
 			"use": "Statues seen from the side plazas",
+			"zone": "final"
+		},
+		"CAP-PROP-RUBBLE-ROW": {
+			"aspect": 8.251,
+			"asset": "Rubble row",
+			"category": "Prop",
+			"cleared_alpha": 26109,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				2048,
+				512
+			],
+			"group": "prop",
+			"id": "CAP-PROP-RUBBLE-ROW",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1510,
+				183
+			],
+			"sheet_status": "Approved",
+			"size": "2048x512 PNG, transparent",
+			"slot": "prop.cap-prop-rubble-row",
+			"tinted": false,
+			"use": "The Capital's rim and the Transit Yards (hides edges)",
 			"zone": "final"
 		},
 		"CAP-PROP-TRAM": {
@@ -2284,6 +2574,64 @@
 			"slot": "sign.cap-sheet-signs-06",
 			"tinted": false,
 			"use": "Sliced into icon signs",
+			"zone": "final"
+		},
+		"CAP-SHEET-WINDOWS-07": {
+			"aspect": 0.514,
+			"asset": "Capital town window (day)",
+			"category": "Prop",
+			"cleared_alpha": 3283,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-WINDOWS-07",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				371,
+				722
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.cap-sheet-windows-07",
+			"tinted": false,
+			"use": "Every house and palace front inside the Capital, by day",
+			"zone": "final"
+		},
+		"CAP-SHEET-WINDOWS-08": {
+			"aspect": 0.516,
+			"asset": "Capital town window (lit)",
+			"category": "Prop",
+			"cleared_alpha": 4015,
+			"desc": "See docs/art/batch15_nov12.csv (Batch 15, Nov 13).",
+			"from_px": [
+				512,
+				768
+			],
+			"group": "prop",
+			"id": "CAP-SHEET-WINDOWS-08",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "1",
+			"px": [
+				375,
+				727
+			],
+			"sheet_status": "Approved",
+			"size": "512x768 PNG, transparent",
+			"slot": "prop.cap-sheet-windows-08",
+			"tinted": false,
+			"use": "The same window lit: dusk and the freed city",
 			"zone": "final"
 		},
 		"CAP-SKY-DUSK": {
