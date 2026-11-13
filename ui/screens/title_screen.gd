@@ -238,10 +238,21 @@ func _on_load_game() -> void:
 
 ## New Game picks one of the three campaign slots (a used one asks first; the others are never touched).
 func _on_new_game() -> void:
+	# Batch 15 pass (the owner's answer, Fable Nov 12d item 5): on an empty profile there is nothing to choose between, so New Game skips the
+	# slot grid and starts the story in slot 1. The grid comes back as soon as any slot holds a save.
+	if skips_slot_grid():
+		CampaignSlots.activate(1)
+		_start_new_game()
+		return
 	var screen: CampaignSlotsScreen = CampaignSlotsScreen.make(CampaignSlotsScreen.Mode.NEW)
 	screen.closed.connect(screen.queue_free)
 	screen.picked.connect(func(_campaign: int, _fresh: bool) -> void: _start_new_game())
 	add_child(screen)
+
+
+## True when New Game needs no slot choice: no campaign slot holds a save.
+static func skips_slot_grid() -> bool:
+	return not CampaignSlots.any_save()
 
 
 func _start_new_game() -> void:

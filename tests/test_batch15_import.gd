@@ -163,3 +163,23 @@ func test_the_buffet_has_two_painted_stalls_north_of_the_vendor() -> void:
 	var vendor: Vector3 = layout.anchors["dolcetta"] as Vector3
 	assert_lt(stalls[0].pos.z, vendor.z, "her stall stands behind her (north), so the camera sees her in front of it")
 	assert_almost_eq(stalls[0].pos.x, vendor.x, 0.5)
+
+
+func test_new_game_skips_the_slot_grid_only_on_an_empty_profile() -> void:
+	# the rule is "no campaign slot holds a save" (the owner's answer, Fable Nov 12d item 5)
+	assert_eq(TitleScreen.skips_slot_grid(), not CampaignSlots.any_save())
+
+
+func test_maren_gives_her_name_in_the_cave_mouth_welcome() -> void:
+	var lines: Array[String] = StoryText.shared().get_lines("cave_mouth.maren_end")
+	assert_true(lines[0].contains("I'm Elder Maren"), "the player learns her name from her at the cave mouth")
+	assert_lt(lines[0].length(), 240, "it still fits its box")
+
+
+func test_bertram_is_clipped_again() -> void:
+	var story: StoryText = StoryText.shared()
+	assert_eq(story.get_lines("quest.armory.start")[3], "Beat one. Then come back and I will hand you something pointy.")
+	assert_eq(story.get_lines("quest.armory.equip")[0], "Security Protocol Nine: gear in a bag protects nobody. Equip it.")
+	for key: String in ["quest.armory.start", "quest.armory.equip", "quest.armory.equip_waiting", "quest.armory.done", "town.equipment_vendor.too_early"]:
+		for line: String in story.get_lines(key):
+			assert_lt(line.length(), 150, "%s stays short: %s" % [key, line])

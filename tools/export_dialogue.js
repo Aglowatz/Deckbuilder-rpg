@@ -74,6 +74,34 @@ const SPEAKER_RULES = [
 ];
 const UI_KEYS =/^(hud|ui|fx|sign|prop|poster|memo|effect|debuff|travel\.(title|subtitle|here|locked|warning|button|close|prompt|sign)|arena\.screen|pack\.hint|shrine|gate\.(ingredient|quest|battle)|end\.marker|boon|still)\b/;
 
+// Batch 15 pass (Nov 13): labels the playtesters' workbook showed wrong (inbox "Dialogue Nov 13", item 7). Applied to every row before
+// writing: by id first, then by the label itself. The game's own speaker names are the source: Dex Shufflewick hosts the matching game
+// (`cardsharp.*`), Tilly Tonic gives the Power Wraps, Auntie Alembic the starter essence, Pip Threadwell speaks the tailor's lines; the
+// real chef is "The Grand Chef" and the impostor "The Doppelganger" until the naming scene, "Escoffina" after it (core/data/spoiler_free.gd).
+const LABEL_BY_ID = [
+	[/::cardsharp\./, 'Dex Shufflewick'],
+	[/::town\.item_vendor\./, 'Tilly Tonic'],
+	[/::town\.alchemist\./, 'Auntie Alembic'],
+	[/::tailor\./, 'Pip Threadwell'],
+	[/::ending\.thanks\./, '(narration/UI)'],
+	[/::cave_mouth\.maren_path::/, 'Elder Maren'],
+	[/::freed_npc\.escoffina::/, 'Escoffina'],
+	[/::dungeon\.tk_boss\.(title|blurb)::/, '(narration)'],
+];
+const LABEL_BY_NAME = {
+	'The Grand Chef (formerly Grand Chef Escoffina)': 'The Grand Chef',
+	'The Doppelganger (later named Escoffina)': 'The Doppelganger',
+	'The Doppelganger, later Escoffina': 'The Doppelganger',
+};
+function relabel() {
+	for (const r of rows) {
+		const byId = LABEL_BY_ID.find(([re]) => re.test(r.id));
+		if (byId) r.speaker = byId[1];
+		else if (LABEL_BY_NAME[r.speaker]) r.speaker = LABEL_BY_NAME[r.speaker];
+		if (r.when) for (const [old, name] of Object.entries(LABEL_BY_NAME)) r.when = r.when.split(old).join(name);
+	}
+}
+
 // ---------- quest titles (for "When it's heard") ----------
 const questTitle = {};
 for (const file of ['core/quests/quest_definitions.gd', 'core/quests/zone_quest_definitions.gd']) {
@@ -419,6 +447,41 @@ function quests() {
 	}
 }
 
+// ---------- 7. tutorial hints (Batch 15 pass, Nov 13) ----------
+// Where the first-time hints live: the first duel's steps (TutorialLayer.STEPS: title and text), every one-time screen tip
+// (`TipPanel.show_once(parent, flag, title, text)` in the screens) and the two tips whose text a function builds. The ids are the .gd ids
+// of tools/dialogue_ids.js (<file>::<function or const>::<n-th player-facing literal in it>), so the importer applies an edited hint like
+// any quest line. A hint may hold BBCode ([b]...[/b]) and {placeholders}: keep them.
+const HINT_FILES = {
+	'ui/battle/tutorial_layer.gd': { scopes: ['STEPS'], ch: 0, what: 'First duel tutorial' },
+	'ui/dungeon/dungeon_map_screen.gd': { scopes: ['map_tip_text'], ch: 0, what: 'Screen tip' },
+	'ui/town/deckbuilder_screen.gd': { ch: 1, what: 'Screen tip' },
+	'ui/town/equipment_vendor_screen.gd': { ch: 1, what: 'Screen tip' },
+	'ui/town/item_vendor_screen.gd': { ch: 1, what: 'Screen tip' },
+	'ui/town/packs_screen.gd': { ch: 1, what: 'Screen tip' },
+	'ui/town/vendor_screen.gd': { ch: 1, what: 'Screen tip' },
+	'world/capital/capital_scene.gd': { ch: 7, what: 'Screen tip' },
+	'core/zone/capital_debuffs.gd': { scopes: ['tutorial_text'], ch: 7, what: 'Screen tip' },
+};
+function tutorialHints() {
+	for (const [file, source] of Object.entries(HINT_FILES)) {
+		const counts = {};
+		let lastTitle = '';
+		for (const lit of spansOf(file)) {
+			if (!gdProse(lit)) continue;
+			const i = counts[lit.scope] = (counts[lit.scope] ?? -1) + 1;
+			const inScope = (source.scopes || []).includes(lit.scope);
+			const inCall = /TipPanel\.show_once\(/.test(lit.before);
+			if (!inScope && !inCall) continue;
+			const isTitle = /"title":\s*$/.test(lit.before) || (inCall && /&"\w+",\s*$/.test(lit.before));
+			if (isTitle) lastTitle = lit.value;
+			const of = lastTitle && !isTitle ? ` "${lastTitle}"` : '';
+			add({ id: `${file}::${lit.scope}::${i}`, key: lit.scope, text: lit.value, speaker: '(tutorial hint)',
+				when: `${source.what}${isTitle ? ': title' : `${of}: text`} (shown once; Settings > Tutorial tips)`, ch: source.ch, phase: 1, node: 0, sub: 8 });
+		}
+	}
+}
+
 storyFiles();
 dungeonContent();
 storyScenes();
@@ -426,6 +489,8 @@ battles();
 oldWell();
 barks();
 quests();
+tutorialHints();
+relabel();
 
 // Quest Log rows sit just before their quest's offer dialogue when there is one.
 // Battle rows anchored "after" follow the last line of their key (or of the first key under that prefix).
