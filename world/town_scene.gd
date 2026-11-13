@@ -1697,6 +1697,9 @@ func _rescuer_leaves_town() -> void:
 ## asked for, else her greeting and mood lines.
 func _talk_elder() -> void:
 	var elder: String = QuestDefinitions.MAREN
+	# Fable Nov 12d: saves made after her cave-mouth welcome but before the fix above count as greeted.
+	if Session.flag(&"maren_met") and not Session.flag(&"elder_greeted"):
+		Session.set_flag(&"elder_greeted")
 	# Oct 21: news of the capture at the castle gate comes first (the story note for saves already past it, too).
 	var news: String = StoryBeats.maren_scene(Session.flags)
 	if not news.is_empty() and Session.flag(&"elder_greeted"):
@@ -2096,6 +2099,9 @@ func _finish_cave_arrival() -> void:
 	_locked = false
 	_lock_idle = 0.0
 	Session.set_flag(&"maren_met")
+	# Fable Nov 12d: her welcome here IS her greeting. Without this the first talk with nothing to hand in (the report after the armory
+	# quest) played "town.elder.first" hours late, and the Path talk, her news and the memories needed a second talk.
+	Session.set_flag(&"elder_greeted")
 	Session.save_game()
 	_show_pending_results.call_deferred()
 	print("arrival: Crosspath after the cave - %s (%.1f s)" % [" -> ".join(arrival_log), float(Time.get_ticks_msec() - _arrival_started_msec) / 1000.0])

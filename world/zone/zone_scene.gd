@@ -494,6 +494,7 @@ func _make_npc(entry: Dictionary, pos: Vector3, anim_name: String) -> Node3D:
 			stroller.character = character
 			stroller.tint = entry.get("sprite_tint", Color.WHITE) as Color
 			stroller.name = "Stroller_%s" % str(entry["id"])
+			stroller.radius = float(entry.get("stroll_radius", stroller.radius))
 			if pacing:
 				for offset: Variant in entry["pace"] as Array:
 					stroller.pace.append(offset as Vector3)

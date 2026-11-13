@@ -381,9 +381,17 @@ func _pad_turn(battle: BattleScreen) -> void:
 		else:
 			break
 	_check(played >= 1, "A on the cursor plays cards (%d)" % played)
+	# Fable Nov 12d: the last card played may still be resolving, or a once-ever tip may be up (the pad belongs to the tip then, and
+	# the battle cursor rightly ignores Y). Wait for the cursor to own the pad again before testing Y.
+	for _guard: int in range(40):
+		if battle.pad.active() and not battle.busy:
+			break
+		if PadFocus.top_root(get_tree()) != null:
+			await pad.tap(JOY_BUTTON_A)
+		await pad.seconds(0.25)
 	await pad.tap(JOY_BUTTON_DPAD_RIGHT)
 	await pad.tap(JOY_BUTTON_Y)
-	_check(not battle.pad.details, "Y hides the card details")
+	_check(not battle.pad.details, "Y hides the card details (active %s, mode %s, busy %s, top %s, over %s)" % [battle.pad.active(), battle.mode, battle.busy, PadFocus.top_root(get_tree()), battle.game.is_over()])
 	await pad.tap(JOY_BUTTON_Y)
 	await pad.tap(JOY_BUTTON_X)
 	await pad.seconds(1.5)

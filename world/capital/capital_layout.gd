@@ -579,9 +579,10 @@ const NETWORK_DESTINATIONS: Array[String] = ["plaza", "reek", "grave", "hungry",
 
 
 ## The nine citizens of Perfection: pairs on the avenue (each side), three in the middle alleys between the identical houses (they stroll 3 m about
-## their spots, so each spot keeps clear of the doors).
+## their spots, so each spot keeps clear of the doors). Fable Nov 12d: the eighth (Corwin Bale) stood at x 73.5, straight behind the house at
+## x 72..77, z 33..45 from the camera; he mirrors the ninth now (x 68.5) and strolls a shorter 2 m (`CapitalZone`, "stroll_radius").
 func _facade_citizen_spots() -> Array[Vector2]:
-	return [Vector2(58.0, 25.0), Vector2(62.0, 25.0), Vector2(58.0, 31.0), Vector2(62.0, 31.0), Vector2(58.0, 40.0), Vector2(62.0, 40.0), Vector2(46.5, 32.0), Vector2(73.5, 32.0), Vector2(51.5, 32.0)] as Array[Vector2]
+	return [Vector2(58.0, 25.0), Vector2(62.0, 25.0), Vector2(58.0, 31.0), Vector2(62.0, 31.0), Vector2(58.0, 40.0), Vector2(62.0, 40.0), Vector2(46.5, 32.0), Vector2(68.5, 32.0), Vector2(51.5, 32.0)] as Array[Vector2]
 
 
 func _chests() -> void:

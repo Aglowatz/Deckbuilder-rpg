@@ -178,6 +178,7 @@ static func build_def() -> ZoneDef:
 	]
 	for index: int in range(1, 10):
 		def.npcs.append({"id": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true, "wander": true})
+	(def.npcs[def.npcs.size() - 2] as Dictionary)["stroll_radius"] = 2.0  # Fable Nov 12d: citizen_8 (Corwin Bale) keeps out from behind the house east of him
 	def.spots = _spots()
 	def.poi_kinds = _poi_kinds()
 	return def

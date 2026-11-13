@@ -655,6 +655,9 @@ func _ai_step() -> void:
 		var hold: float = 0.8 if action.type == GameAction.Type.DECLARE_ATTACKERS or action.type == GameAction.Type.DECLARE_BLOCKERS else 0.5
 		hud.announce(line, (hold + 0.2) / board.speed)
 		await get_tree().create_timer(hold / board.speed, false).timeout
+	# Fable Nov 12d: the duel can end while the line is held (auto-win, a concede); a finished game takes no action.
+	if game.is_over():
+		return
 	if not game.apply_action(action):
 		if not game.apply_action(GameAction.pass_phase(1)):
 			push_error("BattleScreen: AI produced no legal action")

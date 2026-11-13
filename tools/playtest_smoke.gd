@@ -88,8 +88,11 @@ func run() -> void:
 	await _click_through(town)
 	_check(not town._locked and not town.dialogue.active, "the hero is free after the welcome")
 	_check(Session.flag(&"maren_met"), "maren_met is set")
-	# 4. Oct 20: out of the cave the only quest is Maren's Meet the Merchants (no story quests or markers yet).
-	_check(Session.quest_log.active.size() == 1 and Session.quest_log.active[0] == QuestDefinitions.MERCHANTS, "the only active quest is Meet the Merchants (%s)" % ", ".join(Session.quest_log.active))
+	# 4. Out of the cave: Maren's Meet the Merchants, plus Fragments (the story gate is `trial_cleared` since Nov 7, owner decision D3).
+	# No zone line and no gatekeeper quest yet: those wait for Maren's Path talk.
+	var active_now: Array = Session.quest_log.active.duplicate()
+	active_now.sort()
+	_check(active_now == [MemoryDefs.QUEST_ID, QuestDefinitions.MERCHANTS], "out of the cave the active quests are Meet the Merchants and Fragments (%s)" % ", ".join(Session.quest_log.active))
 	var labels: NpcLabels = town.find_child("NpcLabels", true, false) as NpcLabels
 	_check(labels != null and labels.entry_count() >= 8, "floating name labels exist for the town's people (%d)" % (labels.entry_count() if labels != null else 0))
 	var sable: Node3D = town._npcs.get("vendor") as Node3D
@@ -114,6 +117,12 @@ func run() -> void:
 	await _close_overlays(town)
 	await _talk(town, "item_vendor")
 	await _close_overlays(town)
+	# Nov 3-4 (B5): Tilly hands over a Power Wraps on the first visit, and the quest's second step is equipping it.
+	_check(Session.flag(Session.FLAG_TILLY_GIFT) and Session.item_tutorial_open(), "Tilly gave her Power Wraps and the equip step is open")
+	var wraps: ItemData = Session.content.item(Session.TILLY_GIFT_ITEM)
+	_check(wraps != null and Session.profile.equip_item_id(wraps), "the Power Wraps go into an item slot")
+	Session.note_item_equipped(wraps)
+	Session.refresh_quests()
 	await _talk(town, "tailor")
 	await _close_overlays(town)
 	var merchants: QuestData = QuestCatalog.find(QuestDefinitions.MERCHANTS)
@@ -203,7 +212,7 @@ func run() -> void:
 	await _talk(town, "equipment_vendor")
 	_check(Session.armory_stage() == 2, "after the report Bertram wants one fight")
 	# Fixes Oct 25, Part 4: he points at the outskirts, and the step's marker does too
-	_check(" ".join(StoryText.shared().get_lines("quest.armory.start")).contains("edges of town"), "Bertram says enemies roam the edges of town")
+	_check(" ".join(StoryText.shared().get_lines("quest.armory.start")).contains("edge of town"), "Bertram says enemies roam the lanes round the edge of town")
 	Session.quest_log.track(QuestDefinitions.ARMORY)
 	var target: Dictionary = QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state())
 	_check(str(target.get("spot", "")) == QuestDefinitions.OUTSKIRTS_SPOT and not town._outskirts_spot().is_empty(), "the 'win one fight' marker points at the outskirts")
@@ -226,20 +235,29 @@ func run() -> void:
 	await _talk(town, "equipment_vendor")
 	await _close_overlays(town)
 	await _dismiss_popups()
-	_check(Session.quest_log.is_completed(QuestDefinitions.ARMORY) and Session.gear_unlocked(), "the Starter Blade and every equipment slot")
-	# 10. Only now: the story's main quests.
+	# Nov 3-4 (B6): collecting hands over the Starter Blade and opens the slots; wearing a piece is the quest's last step.
+	_check(Session.flag(&"armory_collected") and Session.gear_unlocked() and Session.equipment_tutorial_open(), "Bertram hands over the Starter Blade and every equipment slot; the equip step is open")
+	var blade: EquipmentData = Session.content.equipment_piece(EquipmentRarity.STARTER_BLADE)
+	_check(blade != null and Session.equip_item(blade), "the Starter Blade goes on")
+	Session.refresh_quests()
+	await driver.seconds(0.6)
+	await _dismiss_popups()
+	_check(Session.quest_log.is_completed(QuestDefinitions.ARMORY), "wearing it completes Some Assembly Required")
+	# 10. Nov 7-8: the zone lines and the gatekeeper quests wait for Maren's Path talk, which is due once the armory quest is done.
 	for zone_id: String in Gatekeepers.IDS:
-		_check(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's main line appears after the armory quest" % zone_id)
-	_check(not Session.quests_offered_by(QuestDefinitions.BRANNOCH).is_empty(), "Brannoch now offers the Capital's quest")
-	# Fixes Oct 25, Part 8: the hero's own Path zone first - its gatekeeper quest is tracked, and Maren explains why
+		_check(not Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's main line still waits for Maren's Path talk" % zone_id)
+	_check(not Session.quests_offered_by(QuestDefinitions.BRANNOCH).is_empty() or Session.quest_log.is_active(QuestDefinitions.FREE_ZONES), "Brannoch has the Capital's quest")
 	var own: String = PathDirection.own_main_quest(Session.profile.primary_affinity)
-	_check(Session.quest_log.tracked_id() == own, "the own Path's gatekeeper quest is tracked (%s)" % Session.quest_log.tracked_id())
 	_check(PathDirection.due(Session.quest_log, Session.flags, Session.profile.primary_affinity), "Maren has the Path talk ready")
 	await _talk(town, "elder", false)
 	await driver.seconds(0.4)
 	await _shot25("maren_path_direction")
 	await _click_through(town)
-	_check(Session.flag(StringName(PathDirection.FLAG)) and Session.quest_log.tracked_id() == own, "Maren sends the hero to their own Path's zone")
+	await _dismiss_popups()
+	_check(Session.flag(StringName(PathDirection.FLAG)), "Maren has sent the hero out")
+	for zone_id: String in Gatekeepers.IDS:
+		_check(Session.quest_log.is_active(QuestDefinitions.zone_main_id(zone_id)), "%s's main line starts with the Path talk" % zone_id)
+	_check(Session.quest_log.tracked_id() == own, "the own Path's line is tracked (%s)" % Session.quest_log.tracked_id())
 	await driver.seconds(0.8)
 	await _shot("p4_story_quests")
 	_finish(_failures.is_empty(), "playtest: forest, Path choice, the cave, Maren, the merchants and a card, the Deck Station, the store room ghosts, level 5, Bertram's quest, then the story quests")
