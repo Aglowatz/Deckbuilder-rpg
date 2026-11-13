@@ -1,0 +1,321 @@
+# t4_town: 103 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Fenwick's one-liners on a pack purchase: confirm the sale, the missing gold or the locked pack in his hushed, reverent way.
+@intro::pack.vendor.bought
+#   [Foil Fenwick] Pack: vendor bought
+0| Shh, listen... that little crinkle is a wrapper being very happy, and you're the one who did that.
+1| Sealed, signed and still a little warm from the shelf... carry it gently for me, won't you?
+2| I can't give refunds on luck, I'm afraid... but in my experience a pack knows exactly who it wants to go home with.
+3| It wants to be opened, you can tell... I'll just stand over here and try not to watch. I might watch a little.
+
+@intro::pack.vendor.poor
+#   [Foil Fenwick] Pack: vendor poor
+0| Ah... you're a little short of gold, friend, and the foil can't be talked round. I've tried. It'll wait for you, though.
+1| Not enough gold just yet... shh, it's all right, the wrapper isn't going anywhere, and neither am I.
+
+@intro::pack.vendor.locked
+#   [Foil Fenwick] Pack: vendor locked
+0| Not yet, I'm afraid... that one is still only a rumour in a wrapper, and I don't like to sell a rumour before it arrives.
+
+## purpose: Pip's one-liners in the hat and cloak shop: confirm each click (bought, short of gold, locked, tried on, dyed) with delight and never a sneer.
+@intro::tailor.bought
+#   [Pip Threadwell] Tailor: bought
+0| Gorgeous, truly! Heads are going to turn all the way down the lane, and I shall stand in my doorway and take the credit.
+1| Do wear it out, I beg you! A hat simply can't make an entrance from inside a bag!
+2| Sold! And such a dramatic fit, too - I do believe it has been waiting on that shelf for exactly your head.
+
+@intro::tailor.poor
+#   [Pip Threadwell] Tailor: poor
+0| Oh, my dear head, we're a little short of gold. Thread isn't free, alas, but this one will keep for you, and so will I.
+1| A little more gold, my dear head, and it's yours. I can work wonders with fabric, but the fabric does insist on being paid for.
+
+@intro::tailor.locked
+#   [Pip Threadwell] Tailor: locked
+0| Not yet, I'm afraid! That one is still on the sewing table, and between ourselves it is sulking about its hem.
+
+@intro::tailor.equipped
+#   [(check key)] Tailor: equipped
+0| A hat, on the head, exactly where a hat belongs! My work here is done, at least until you take it off again.
+1| A classic! Wear it as though you mean it, and tilt it just a fraction to the left... your left... no, mine. There, perfect.
+
+@intro::tailor.bare_head
+#   [(check key)] Tailor: bare head
+0| No hat at all? It's a bold look and a brave one, and I shall keep something warm on the shelf in case your head changes its mind.
+1| The bare-headed look! I shall just lie down in the back for a moment, but do carry on, because you wear it very well.
+
+@intro::tailor.owned
+#   [Pip Threadwell] Tailor: owned
+0| Oh, but you own that one already! It's all yours, so do take it out and introduce it to the outside world.
+
+@intro::tailor.plain_cloak
+#   [(check key)] Tailor: plain cloak
+0| The Plain Cloak, undyed! It's a humble classic, and secretly the best cut in the shop. I made it myself, so I ought to know.
+
+@intro::tailor.dyed
+#   [(check key)] Tailor: dyed
+0| A new colour! Hold still a moment while the cloak gets used to it... oh! It suits you, and I do believe you suit it.
+1| Dyed and dried! Now step into the light for me... a little more... there. Oh, that's devastating, in the very best way.
+
+@intro::tailor.cloak_on
+#   [(check key)] Tailor: cloak on
+0| A cloak, over the shoulders and swishing right on cue! Do turn around once, would you, just for me?
+1| That's a cloak with a past, and you're just the person to give it a future. Do mind the hem on the stairs, though.
+
+## purpose: Undercroft arena tier and challenge descriptions: set the mood of each bout and state its special rule exactly.
+@intro::arena.tier.1.blurb
+#   [Announcer Grand Bellows] Arena: tier 1 blurb
+0| Where every champion starts: loud, dusty and mostly forgiving.
+
+@intro::arena.tier.2.blurb
+#   [Announcer Grand Bellows] Arena: tier 2 blurb
+0| The crowd has stopped laughing and started betting.
+
+@intro::arena.tier.3.blurb
+#   [Announcer Grand Bellows] Arena: tier 3 blurb
+0| Only legends stand here. Only the sand remembers who fell.
+
+@intro::arena.arena_warmup.blurb
+#   [Announcer Grand Bellows] Arena: arena warmup blurb
+0| A rookie gladiator rattles inside oversized armor. Bring your own deck; the armor has enough room for its own audience.
+
+@intro::arena.arena_lethal_lunch.blurb
+#   [Announcer Grand Bellows] Arena: arena lethal lunch blurb
+0| The lunch rush has an enemy blocker, ten HP and no mercy. You have exactly one turn and just enough energy.
+
+@intro::arena.arena_neutral_mile.blurb
+#   [Announcer Grand Bellows] Arena: arena neutral mile blurb
+0| The Marshal's favorite warm-down: no Paths, no tricks, no excuses. Everyone fights with a borrowed gladiator's kit.
+
+@intro::arena.arena_hold_the_line.blurb
+#   [Announcer Grand Bellows] Arena: arena hold the line blurb
+0| A stampeding squad charges across the sand before you can even take a breath. You only have to outlast them.
+
+@intro::arena.arena_spells_only.blurb
+#   [Announcer Grand Bellows] Arena: arena spells only blurb
+0| The Cardboard Colossus does not like being hit by anything with a heartbeat. Win without playing a single unit.
+
+@intro::arena.arena_four_fists.blurb
+#   [Announcer Grand Bellows] Arena: arena four fists blurb
+0| A champion who fights with every Path at once, and has a fist for each. Bring your best deck.
+
+@intro::arena.arena_zero_to_hero.blurb
+#   [Announcer Grand Bellows] Arena: arena zero to hero blurb
+0| The Wall of Fame has two blockers and eleven HP, and the crowd has already booked your funeral. Show them lethal.
+
+@intro::arena.arena_marshal.blurb
+#   [Announcer Grand Bellows] Arena: arena marshal blurb
+0| Announcer Grand Bellows steps onto the sand himself. He has not lost a bout in eleven years, and he is smiling, and so is the moustache.
+
+## purpose: The Rift Express travel screen: say what fast travel does and costs, and where each station sits, with the cousins' cheerful pride.
+@intro::travel.subtitle
+#   [Rip Tearson and cousins] Travel: subtitle
+0| Rips while-you-wait. Tips accepted in protein.
+
+@intro::travel.locked.blurb
+#   [Rip Tearson and cousins] Travel: locked blurb
+0| No station yet. Walk into that town yourself and a cousin will turn up and rip one into the nearest wall.
+
+@intro::travel.warning
+#   [Rip Tearson and cousins] Travel: warning
+0| Ripping out of a zone ends your visit: you arrive at full HP, and the roaming enemies there come back. Rips are free, and so is the spotting.
+
+@intro::travel.station.town.blurb
+#   [Rip Tearson and cousins] Travel: station town blurb
+0| The home station, right here in town. A well-supported sky is a happy sky.
+
+@intro::travel.station.necrocrat.blurb
+#   [Rip Tearson and cousins] Travel: station necrocrat blurb
+0| The elevator lobby, where a cousin ripped it into the wall beside the Out-Of-Order sign. It's the only thing in the building that works.
+
+@intro::travel.station.beefcake.blurb
+#   [Rip Tearson and cousins] Travel: station beefcake blurb
+0| Between the hot tub and the protein stand, where the gains are public.
+
+@intro::travel.station.gourmand.blurb
+#   [Rip Tearson and cousins] Travel: station gourmand blurb
+0| A short walk from the heavy meal table. The cousin ripped it open right by the napkins, so you'll never arrive without one.
+
+@intro::travel.station.refusemancer.blurb
+#   [Rip Tearson and cousins] Travel: station refusemancer blurb
+0| Right by the harvest table. The Rip on duty is slightly damp, but then so is everything else out there.
+
+@intro::travel.station.final.blurb
+#   [Rip Tearson and cousins] Travel: station final blurb
+0| A rip into the hideout under the Capital. Don't ask how we found it; we followed the smell of Fig Sly's hot sauce straight through the fabric of space.
+
+## purpose: Arrival pop-ups after a rip: one clear, lightly funny picture of where you have landed.
+@intro::travel.arrive.town
+#   [Rip Tearson and cousins] Travel: arrive town
+0| The rift folds shut behind you with a very satisfied pop. A nearby Beefcake flexes at the hole to say well done.
+
+@intro::travel.arrive.necrocrat
+#   [Rip Tearson and cousins] Travel: arrive necrocrat
+0| The rift drops you by the lobby elevator and pops shut. You catch a fluttering memo: YOU WERE NOT AUTHORIZED TO ARRIVE.
+1| You turn the memo over, looking for an approved way to have arrived. There isn't one.
+
+@intro::travel.arrive.beefcake
+#   [Rip Tearson and cousins] Travel: arrive beefcake
+0| The rift spits you out next to the Swole Station. A passing brute gives you a thumbs-up, then another to himself, then one to the hole.
+
+@intro::travel.arrive.gourmand
+#   [Rip Tearson and cousins] Travel: arrive gourmand
+0| You land in the Pantry, and someone hands you a napkin before you've found your feet.
+
+@intro::travel.arrive.refusemancer
+#   [Rip Tearson and cousins] Travel: arrive refusemancer
+0| You arrive at the Grange in a whiff of ozone, mulch and gym sock, and the gym sock is definitely the Express.
+
+@intro::travel.arrive.final
+#   [Rip Tearson and cousins] Travel: arrive final
+0| The rift spits you out in the Crease. Somebody says shh, somebody else says it wasn't them, and the rift closes behind you very politely.
+
+## purpose: Station unlock messages: tell the player plainly that fast travel to and from this place is now open.
+@intro::travel.unlock.toast
+#   [Rip Tearson and cousins] Travel: unlock toast
+0| A Beefcake cousin has ripped a Rift Station into this town, and fast travel is now unlocked.
+
+@intro::travel.unlock.necrocrat
+#   [Rip Tearson and cousins] Travel: unlock necrocrat
+0| Rift Station unlocked: the Department of Necrotic Affairs. A cousin ripped it in beside the Out-Of-Order sign. Fast travel to and from here is now open.
+
+@intro::travel.unlock.beefcake
+#   [Rip Tearson and cousins] Travel: unlock beefcake
+0| Rift Station unlocked: the Gainlands. Two cousins have ripped it in with their bare hands and are now doing a victory pose. Fast travel to and from here is now open.
+
+@intro::travel.unlock.gourmand
+#   [Rip Tearson and cousins] Travel: unlock gourmand
+0| Rift Station unlocked: the Endless Buffet. A cousin ripped it in, then asked if there were seconds. Fast travel to and from here is now open.
+
+@intro::travel.unlock.refusemancer
+#   [Rip Tearson and cousins] Travel: unlock refusemancer
+0| Rift Station unlocked: the Verdant Dump. A cousin ripped it in, then looked at his hands, then at the hole, then at his hands again. Fast travel to and from here is now open.
+
+@intro::travel.unlock.final
+#   [Rip Tearson and cousins] Travel: unlock final
+0| Rift Station unlocked: the Crease, the hideout under the Capital. A very quiet cousin ripped it in. Fast travel to and from here is now open.
+
+## purpose: Rift Express signs and the forest station: label the stations, and point at the hatch south of the clearing for the postgame.
+@intro::travel.sign.town
+#   [Rip Tearson and cousins] Travel: sign town
+0| BEEFCAKE RIFT EXPRESS
+1| Rips while-you-wait. Space torn to order. No refunds on the sky.
+
+@intro::travel.sign.zone
+#   [Rip Tearson and cousins] Travel: sign zone
+0| BEEFCAKE RIFT EXPRESS
+1| A cousin is on duty. Do not look at the seam.
+
+@intro::travel.station.forest.blurb
+#   [Rip Tearson and cousins] Travel: station forest blurb
+0| A hasty rip between the trees where you first woke up. There's a hatch south of the clearing now that nobody remembers being there, and it smells like a hospital.
+
+@intro::travel.sign.forest
+#   [Rip Tearson and cousins] Travel: sign forest
+0| BEEFCAKE RIFT EXPRESS
+1| FOREST STATION
+2| (Please do not eat the hatch.)
+
+@intro::travel.arrive.forest
+#   [Rip Tearson and cousins] Travel: arrive forest
+0| Forest station! Mind the roots as you step out, and mind the hatch as well. Mostly the hatch.
+
+@intro::travel.unlock.forest
+#   [Rip Tearson and cousins] Travel: unlock forest
+0| Rift Station unlocked: the forest outside {town}. Rip has torn it open where you first woke up. Fast travel to and from here is now open.
+
+## purpose: Crosspath's main cast in passing: one breath each of Maren's warmth and Brannoch's open gate.
+@npc::NPC-ELDER.barks
+#   [Elder Maren] Bark (speech bubble when you walk past Elder Maren; Main Town (Crosspath))
+0| Slow and steady was my idea, dearie, and the hare has never forgiven me for it.
+1| Kettle's on and the pie's cooling, dearie, and neither is for you. Oh, go on, both are.
+
+@npc::NPC-GATEKEEPER.barks
+#   [Gatekeeper Brannoch] Bark (speech bubble when you walk past Gatekeeper Brannoch; Main Town)
+0| Hm. Wrote you in the book. 'Stranger, damp.' I'll add a name when you've got one.
+1| Hm. Gate's never locked. Somebody might come home late.
+
+## purpose: The shopkeepers' barks: each stall should be recognisable by ear, and a few carry a hint (packs arrive with freed roads, a hidden cloak).
+@npc::V-SABLE.barks
+#   [Sable] Bark (speech bubble when you walk past Sable; Main Town market)
+0| This one has two typos and a misprint, darling, and I adore it for all three.
+1| Where do they come from? The past, darling, like everything worth having.
+
+@npc::V-TONIC.barks
+#   [Tilly Tonic] Bark (speech bubble when you walk past Tilly Tonic; Main Town)
+0| Fresh tonics, and I tested every one this morning and went teal, so they work!
+1| I keep inventing new emergencies so I've something to test the emergency tonic on!
+
+@npc::V-BEETSWORTH.barks
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] Bark (speech bubble when you walk past Bertram Beetsworth, Assistant to the Regional Merchant; Main Town)
+0| Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.
+1| I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it.
+
+@npc::V-THREADWELL.barks
+#   [Pip Threadwell] Bark (speech bubble when you walk past Pip Threadwell; Main Town)
+0| A hat! Every adventure needs a dramatic opening, preferably just above the eyebrows!
+1| I hear there's a cloak hidden on a very muscly island... oh, I've said too much. Hats!
+
+@npc::V-FENWICK.barks
+#   [Foil Fenwick] Bark (speech bubble when you walk past Foil Fenwick; Main Town)
+0| Shh... hear that crinkle? That's the foil settling. Do let it finish.
+1| Psst... free a road and its pack comes in. I'll be here, providing shelf esteem.
+
+@npc::V-ALEMBIC.barks
+#   [Auntie Alembic] Bark (speech bubble when you walk past Auntie Alembic; Main Town)
+0| The flasks all bubbled as you passed, dear heart, in every colour. They never do for me.
+1| They say one spring once fed all four Paths, dear heart, all mixed, like a good soup.
+
+## purpose: Bellows outside the Undercroft: the ring voice, then the kindly man under it.
+@npc::NPC-BELLOWS.barks
+#   [Announcer Grand Bellows] Bark (speech bubble when you walk past Announcer Grand Bellows; Main Town (Arena))
+0| LADIES AND GENTLEMEN! (normal voice) Oh, it's only you. Hello! The echo says hello too.
+1| IN THIS CORNER: MY LUNCH! (normal voice) It's soup, and I'm afraid the soup is winning.
+
+## purpose: The freed gatekeepers in town: show who each one is now that the regime has let go of them, and plant Old Man Mountain and the pantry key.
+@npc::NPC-BRONSON.barks
+#   [Brick Bronson] Bark (speech bubble when you walk past Brick Bronson, after the gatekeeper is beaten; Main Town, Beefcake Path)
+0| An old man once told me never to lift alone. I haven't seen him in years... huh.
+1| Water, then a stretch. Oh, sorry, was that an order? I meant we could do it together.
+
+@npc::NPC-PALLOR.barks
+#   [Prudence Pallor] Bark (speech bubble when you walk past Prudence Pallor, after the gatekeeper is beaten; Main Town, Necrocrat Path)
+0| I caught myself stamping the air just now. Old habits die hard, I find, unlike me.
+1| I own two stamps, DENIED and APPROVED, and one of them is finally getting a rest.
+
+@npc::NPC-GRAVOIS.barks
+#   [Chef Fennel Gravois] Bark (speech bubble when you walk past Chef Fennel Gravois, after the gatekeeper is beaten; Main Town, Gourmand Path)
+0| Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.
+1| The pantry key is shaped like a ladle, and if you ask me why, the answer is soup.
+
+@npc::NPC-MULLIGAN.barks
+#   [Moss Mulligan] Bark (speech bubble when you walk past Moss Mulligan, after the gatekeeper is beaten; Main Town, Refusemancer Path)
+0| ...the green is hungry... Oh! Sorry! Did I thorn at you? I do that when I'm nervous.
+1| The raccoons are very good boys, but don't tell them I said so, or they'll get ideas.
+
+## purpose: Brindle and the townsfolk: ordinary warmth, voices kept down about the Minister; plants the clean wells, the cellar arena, the Old Well and the four plinths.
+@npc::NPC-VILLAGER.barks
+#   [Brindle the Baker] Bark (speech bubble when you walk past Brindle the Baker; Main Town square)
+0| Fresh bread! Flour in my whiskers again, but the rolls came out lovely. Want one?
+1| I keep saying I knead a holiday, but the dough won't hear of it. Busy, busy badger.
+
+@npc::NPC-TOWNSFOLK.barks
+#   [Crosspath townsfolk] Bark (speech bubble when you walk past Crosspath townsfolk; Main Town lanes)
+0| Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.
+1| The old cottage cheers at night now, from the cellar. I've decided to find it lovely.
+2| The well hummed at me this morning, and wells don't hum, but I said thank you anyway.
+3| Four plinths round the fountain, and nobody remembers what stood on them.
+
+## purpose: Dex beside the trivia corner: friendly table patter that hints his game is about matching pairs.
+@npc::NPC-DEX.barks
+#   [Dex Shufflewick] Bark (speech bubble when you walk past Dex Shufflewick; Every Path zone, beside the trivia corner)
+0| Pick a card, any card! No, not that one... oh, go on then, that one. You've a good eye.
+1| Every card has a twin somewhere, friend, and finding it is the whole game, really.
+2| I'd shuffle slower for you, friend, but then you'd win every hand, and where's my fun?
+
+## purpose: Old Hob in passing: cheerful reassurance from the appointment book, and the ten slow years.
+@npc::NPC-HOB.barks
+#   [Old Hob the Gravedigger (secretly Death)] Bark (speech bubble when you walk past Old Hob the Gravedigger (secretly Death); Main Town (Graveyard); turns up everywhere)
+0| Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.
+1| Business has been ever so slow these ten years, mind. That's the paperwork, not me. Heh.

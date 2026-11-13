@@ -1,0 +1,422 @@
+[
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Crinkle! You've made a wrapper very happy.",
+		"after": "Shh, listen... that little crinkle is a wrapper being very happy, and you're the one who did that."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Sealed, signed, and slightly warm.",
+		"after": "Sealed, signed and still a little warm from the shelf... carry it gently for me, won't you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "No refunds on bad luck. Bad luck is non-transferable.",
+		"after": "I can't give refunds on luck, I'm afraid... but in my experience a pack knows exactly who it wants to go home with."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.bought::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "It wants to be opened. I'm trying to respect its wishes without getting involved.",
+		"after": "It wants to be opened, you can tell... I'll just stand over here and try not to watch. I might watch a little."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.poor::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Gold, friend. The foil does not accept good intentions.",
+		"after": "Ah... you're a little short of gold, friend, and the foil can't be talked round. I've tried. It'll wait for you, though."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.poor::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Not enough gold. The wrapper can tell.",
+		"after": "Not enough gold just yet... shh, it's all right, the wrapper isn't going anywhere, and neither am I."
+	},
+	{
+		"id": "data/story/intro_story.tres::pack.vendor.locked::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Foil Fenwick",
+		"before": "Not yet. That one is still a rumour in a wrapper.",
+		"after": "Not yet, I'm afraid... that one is still only a rumour in a wrapper, and I don't like to sell a rumour before it arrives."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bought::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Gorgeous. Truly. You are going to turn heads, mostly in confusion.",
+		"after": "Gorgeous, truly! Heads are going to turn all the way down the lane, and I shall stand in my doorway and take the credit."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bought::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Wear it out! A hat cannot have an entrance if you keep it in a bag!",
+		"after": "Do wear it out, I beg you! A hat simply can't make an entrance from inside a bag!"
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bought::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Sold! Such a dramatic fit - the hat looks surprised to be wearing you.",
+		"after": "Sold! And such a dramatic fit, too - I do believe it has been waiting on that shelf for exactly your head."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.poor::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Gold, my dear head. Thread is not free, and neither is my charm.",
+		"after": "Oh, my dear head, we're a little short of gold. Thread isn't free, alas, but this one will keep for you, and so will I."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.poor::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "A little more gold, my dear head. I can work wonders with fabric, but it insists on being paid for.",
+		"after": "A little more gold, my dear head, and it's yours. I can work wonders with fabric, but the fabric does insist on being paid for."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.locked::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "Not yet. That one is still on the sewing table, and it is sulking.",
+		"after": "Not yet, I'm afraid! That one is still on the sewing table, and between ourselves it is sulking about its hem."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.equipped::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "Hat! On the head, where hats belong. My work here is done. Briefly.",
+		"after": "A hat, on the head, exactly where a hat belongs! My work here is done, at least until you take it off again."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.equipped::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "A classic. Wear it like you mean it, and tilt it a fraction left. Your left. No, my left. Perfect.",
+		"after": "A classic! Wear it as though you mean it, and tilt it just a fraction to the left... your left... no, mine. There, perfect."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bare_head::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "No hat. Bold. Brave. Wrong, but brave.",
+		"after": "No hat at all? It's a bold look and a brave one, and I shall keep something warm on the shelf in case your head changes its mind."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.bare_head::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "The bare-head look! I shall lie down in the back for a moment. Carry on.",
+		"after": "The bare-headed look! I shall just lie down in the back for a moment, but do carry on, because you wear it very well."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.owned::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Pip Threadwell",
+		"before": "You own that one already! Do introduce it to the outside world.",
+		"after": "Oh, but you own that one already! It's all yours, so do take it out and introduce it to the outside world."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.plain_cloak::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "The Plain Cloak, undyed! Classic. Humble. Secretly the best cut in the shop. I made it, so I would know.",
+		"after": "The Plain Cloak, undyed! It's a humble classic, and secretly the best cut in the shop. I made it myself, so I ought to know."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.dyed::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "A new colour! Hold still while the cloak gets used to it. Gasp. It suits you. It suits it.",
+		"after": "A new colour! Hold still a moment while the cloak gets used to it... oh! It suits you, and I do believe you suit it."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.dyed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "Dyed and dried! Walk into the light. No, more light. There. Devastating.",
+		"after": "Dyed and dried! Now step into the light for me... a little more... there. Oh, that's devastating, in the very best way."
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.cloak_on::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "Cloak! Over the shoulders, swishing on cue. Do turn around once. For me.",
+		"after": "A cloak, over the shoulders and swishing right on cue! Do turn around once, would you, just for me?"
+	},
+	{
+		"id": "data/story/intro_story.tres::tailor.cloak_on::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(check key)",
+		"before": "A cloak with a past. You will give it a future. Mind the hem on stairs.",
+		"after": "That's a cloak with a past, and you're just the person to give it a future. Do mind the hem on the stairs, though."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.arena_zero_to_hero.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "The Wall of Fame has two blockers and eleven HP. The crowd has already booked your funeral. Show them lethal.",
+		"after": "The Wall of Fame has two blockers and eleven HP, and the crowd has already booked your funeral. Show them lethal."
+	},
+	{
+		"id": "data/story/intro_story.tres::arena.arena_marshal.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Announcer Grand Bellows",
+		"before": "Announcer Grand Bellows steps onto the sand. He has not lost a bout in eleven years. He is smiling, and so is the moustache.",
+		"after": "Announcer Grand Bellows steps onto the sand himself. He has not lost a bout in eleven years, and he is smiling, and so is the moustache."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.station.town.blurb::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The home station. A well-supported sky is a happy sky.",
+		"after": "The home station, right here in town. A well-supported sky is a happy sky."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.final::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "The rift spits you out in the Crease. Somebody says shh. Somebody else says it was not them. The rift closes politely.",
+		"after": "The rift spits you out in the Crease. Somebody says shh, somebody else says it wasn't them, and the rift closes behind you very politely."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.unlock.toast::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "A Beefcake cousin has ripped a Rift Station into this town. Fast travel unlocked.",
+		"after": "A Beefcake cousin has ripped a Rift Station into this town, and fast travel is now unlocked."
+	},
+	{
+		"id": "data/story/intro_story.tres::travel.arrive.forest::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Rip Tearson and cousins",
+		"before": "Forest station! Mind the roots. And the hatch. Mostly the hatch.",
+		"after": "Forest station! Mind the roots as you step out, and mind the hatch as well. Mostly the hatch."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-ELDER.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Elder Maren",
+		"before": "Slow and steady, dearie. I invented that. The hare has never forgiven me.",
+		"after": "Slow and steady was my idea, dearie, and the hare has never forgiven me for it."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-ELDER.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Elder Maren",
+		"before": "Kettle's on and the pie's cooling. Neither's for you, dearie. Well. Both are.",
+		"after": "Kettle's on and the pie's cooling, dearie, and neither is for you. Oh, go on, both are."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-SABLE.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Sable",
+		"before": "Two typos and a misprint, darling. Such a small card, such a complicated past.",
+		"after": "This one has two typos and a misprint, darling, and I adore it for all three."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-SABLE.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Sable",
+		"before": "Where's it from? The past, darling. Next question.",
+		"after": "Where do they come from? The past, darling, like everything worth having."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-TONIC.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Tilly Tonic",
+		"before": "Fresh tonics! I tested every one this morning, and I'm teal, so they work!",
+		"after": "Fresh tonics, and I tested every one this morning and went teal, so they work!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-TONIC.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Tilly Tonic",
+		"before": "Emergency tonic! I keep inventing new emergencies just to test it on!",
+		"after": "I keep inventing new emergencies so I've something to test the emergency tonic on!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-BEETSWORTH.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
+		"after": "Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-BEETSWORTH.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"before": "Assistant TO the Regional Merchant. The TO is load-bearing. Say it.",
+		"after": "I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-THREADWELL.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Pip Threadwell",
+		"before": "Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!",
+		"after": "A hat! Every adventure needs a dramatic opening, preferably just above the eyebrows!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-THREADWELL.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Pip Threadwell",
+		"before": "Gossip: there's a cloak on a very muscly island. I've said too much. Hat!",
+		"after": "I hear there's a cloak hidden on a very muscly island... oh, I've said too much. Hats!"
+	},
+	{
+		"id": "data/npcs/npcs.json::V-FENWICK.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Foil Fenwick",
+		"before": "Shh. That crinkle? Foil. Please let it finish.",
+		"after": "Shh... hear that crinkle? That's the foil settling. Do let it finish."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-FENWICK.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Foil Fenwick",
+		"before": "Free a road and its pack comes in. I'll be here, providing shelf esteem.",
+		"after": "Psst... free a road and its pack comes in. I'll be here, providing shelf esteem."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-ALEMBIC.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Auntie Alembic",
+		"before": "The flasks all bubbled when you passed, dear. Every colour. They never do that for me.",
+		"after": "The flasks all bubbled as you passed, dear heart, in every colour. They never do for me."
+	},
+	{
+		"id": "data/npcs/npcs.json::V-ALEMBIC.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Auntie Alembic",
+		"before": "They say one spring once fed all four Paths. Mixed, dear. Like a good soup.",
+		"after": "They say one spring once fed all four Paths, dear heart, all mixed, like a good soup."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-BELLOWS.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Announcer Grand Bellows",
+		"before": "LADIES AND GENTLEMEN! ...Oh. Just you. Hi. THE ECHO SAYS HI TOO.",
+		"after": "LADIES AND GENTLEMEN! (normal voice) Oh, it's only you. Hello! The echo says hello too."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-BELLOWS.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Announcer Grand Bellows",
+		"before": "IN THIS CORNER: MY LUNCH! (normal voice) It's soup. The soup is winning.",
+		"after": "IN THIS CORNER: MY LUNCH! (normal voice) It's soup, and I'm afraid the soup is winning."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-BRONSON.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Brick Bronson",
+		"before": "Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
+		"after": "An old man once told me never to lift alone. I haven't seen him in years... huh."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-BRONSON.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Brick Bronson",
+		"before": "Water, then a stretch. Sorry, was that an order? I meant we could do them together.",
+		"after": "Water, then a stretch. Oh, sorry, was that an order? I meant we could do it together."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PALLOR.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Prudence Pallor",
+		"before": "Stamp, stamp. Old habits die hard. Unlike me.",
+		"after": "I caught myself stamping the air just now. Old habits die hard, I find, unlike me."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-PALLOR.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Prudence Pallor",
+		"before": "I own two stamps: DENIED and APPROVED. One of them is very well rested.",
+		"after": "I own two stamps, DENIED and APPROVED, and one of them is finally getting a rest."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-GRAVOIS.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Chef Fennel Gravois",
+		"before": "Taste it. Go on. Somebody in this kingdom ought to taste something.",
+		"after": "Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-GRAVOIS.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Chef Fennel Gravois",
+		"before": "The pantry key is shaped like a ladle. Don't ask why. The answer is soup.",
+		"after": "The pantry key is shaped like a ladle, and if you ask me why, the answer is soup."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-MULLIGAN.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Moss Mulligan",
+		"before": "...the green is hungry... Oh! Sorry. Did I thorn at you? I thorn when nervous.",
+		"after": "...the green is hungry... Oh! Sorry! Did I thorn at you? I do that when I'm nervous."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-MULLIGAN.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Moss Mulligan",
+		"before": "The raccoons are very good boys. Don't tell them. They'll get ideas.",
+		"after": "The raccoons are very good boys, but don't tell them I said so, or they'll get ideas."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-VILLAGER.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Brindle the Baker",
+		"before": "I knead a holiday, but the dough won't hear of it. Busy, busy badger.",
+		"after": "I keep saying I knead a holiday, but the dough won't hear of it. Busy, busy badger."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-TOWNSFOLK.barks::2",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Crosspath townsfolk",
+		"before": "The well hummed at me. Wells don't hum. I said thank you anyway.",
+		"after": "The well hummed at me this morning, and wells don't hum, but I said thank you anyway."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-DEX.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Dex Shufflewick",
+		"before": "Pick a card. No, not that one. Fine, that one.",
+		"after": "Pick a card, any card! No, not that one... oh, go on then, that one. You've a good eye."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-DEX.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Dex Shufflewick",
+		"before": "Every card has a twin somewhere. That's the whole game, really.",
+		"after": "Every card has a twin somewhere, friend, and finding it is the whole game, really."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-DEX.barks::2",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Dex Shufflewick",
+		"before": "I'd shuffle slower, but then you'd win.",
+		"after": "I'd shuffle slower for you, friend, but then you'd win every hand, and where's my fun?"
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-HOB.barks::0",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Checked my book. You're not in it, not for a good long while. Heh.",
+		"after": "Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh."
+	},
+	{
+		"id": "data/npcs/npcs.json::NPC-HOB.barks::1",
+		"file": "data/npcs/npcs.json",
+		"speaker": "Old Hob the Gravedigger (secretly Death)",
+		"before": "Business has been ever so slow these ten years. Paperwork, not me. Heh.",
+		"after": "Business has been ever so slow these ten years, mind. That's the paperwork, not me. Heh."
+	}
+]

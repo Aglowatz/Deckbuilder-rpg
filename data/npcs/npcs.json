@@ -40,10 +40,10 @@
 		"description": "Crosspath's tortoise elder and keeper of the Wanderer's lost memories.",
 		"personality": "Founded the study of the Paths and once led the Path-ologists; helped build the lab, then fled into hiding when Primm took over. Her protege Ambrose Siphon became the Chief Path-ologist, so she distrusts his daughter Elowen and calls her a dreamer chasing a ghost. Mostly knows what's going on (the Hollow Warden let the Wanderer through, which only royal blood can do) but stubbornly refuses to believe it: 'That's no prince. That's a damp young man.' A bit of a grumpus toward the younger generation, with a kind heart underneath. Crosspath's elder and the resistance's contact. Warms up memory by memory; at the fourth she admits she knew all along and helps with everything she has. Bakes too many pies.",
 		"speech_style": "Grumbly, slow, cryptic; calls everyone 'dearie', and it is not always a compliment.",
-		"sample_line": "Slow and steady, dearie. I invented that. The hare has never forgiven me.",
+		"sample_line": "Slow and steady was my idea, dearie, and the hare has never forgiven me for it.",
 		"barks": [
-			"Slow and steady, dearie. I invented that. The hare has never forgiven me.",
-			"Kettle's on and the pie's cooling. Neither's for you, dearie. Well. Both are."
+			"Slow and steady was my idea, dearie, and the hare has never forgiven me for it.",
+			"Kettle's on and the pie's cooling, dearie, and neither is for you. Oh, go on, both are."
 		],
 		"game_function": "Main story guide; finds and shelters the Wanderer; delivers a memory fragment after each freed zone; gives the Forgotten Vault quest (S-TOWN).",
 		"quest_links": [
@@ -112,10 +112,10 @@
 		"description": "A fox card dealer with a story for every card and a price for every story.",
 		"personality": "A sly, glamorous card dealer who knows every card's history. Loves a good bargain story, collects rare misprints, never reveals where she gets her stock.",
 		"speech_style": "Smooth, teasing, theatrical sales pitch.",
-		"sample_line": "Two typos and a misprint, darling. Such a small card, such a complicated past.",
+		"sample_line": "This one has two typos and a misprint, darling, and I adore it for all three.",
 		"barks": [
-			"Two typos and a misprint, darling. Such a small card, such a complicated past.",
-			"Where's it from? The past, darling. Next question."
+			"This one has two typos and a misprint, darling, and I adore it for all three.",
+			"Where do they come from? The past, darling, like everything worth having."
 		],
 		"game_function": "Card vendor; General Packs Tier 1 and 2.",
 		"quest_links": [],
@@ -148,10 +148,10 @@
 		"description": "A frog apothecary selling potions, charms and occasionally soup.",
 		"personality": "An overenthusiastic apothecary who tests every potion on herself (her hair changes color daily). Cheerful, accident-prone, unexpectedly brilliant.",
 		"speech_style": "Fast, bubbly, lots of exclamation points.",
-		"sample_line": "Fresh tonics! I tested every one this morning, and I'm teal, so they work!",
+		"sample_line": "Fresh tonics, and I tested every one this morning and went teal, so they work!",
 		"barks": [
-			"Fresh tonics! I tested every one this morning, and I'm teal, so they work!",
-			"Emergency tonic! I keep inventing new emergencies just to test it on!"
+			"Fresh tonics, and I tested every one this morning and went teal, so they work!",
+			"I keep inventing new emergencies so I've something to test the emergency tonic on!"
 		],
 		"game_function": "Item vendor (basic stock; advanced stock unlocks by level).",
 		"quest_links": [],
@@ -184,10 +184,10 @@
 		"description": "The rule-bound equipment vendor who runs the level-5 armory quest.",
 		"personality": "Intense, rule-obsessed, beet-farming equipment salesman with a desk-drawer arsenal, a fierce love of security protocols, and enormous pride in his title. Original character with affectionate office-comedy nods.",
 		"speech_style": "Clipped, dead-serious, oddly specific facts about beets and bears.",
-		"sample_line": "Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
+		"sample_line": "Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.",
 		"barks": [
-			"Fact: bears cannot open the drawer. Neither can you. Security Protocol Three.",
-			"Assistant TO the Regional Merchant. The TO is load-bearing. Say it."
+			"Fact: a bear cannot open the drawer. Under Security Protocol Three, neither may you.",
+			"I am Assistant TO the Regional Merchant. The TO is load-bearing, so please say it."
 		],
 		"game_function": "Equipment vendor (basic stock; advanced stock unlocks by level).",
 		"quest_links": [],
@@ -220,10 +220,10 @@
 		"description": "A mouse tailor who believes everyone deserves a better hat.",
 		"personality": "A flamboyant, tiny haberdasher who believes every hat tells a story. Dramatic gasps at bad fashion, measures customers without asking.",
 		"speech_style": "Grand, dramatic, fashion-obsessed.",
-		"sample_line": "Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!",
+		"sample_line": "A hat! Every adventure needs a dramatic opening, preferably just above the eyebrows!",
 		"barks": [
-			"Hat! Your next adventure needs a dramatic opening! Preferably above the eyebrows!",
-			"Gossip: there's a cloak on a very muscly island. I've said too much. Hat!"
+			"A hat! Every adventure needs a dramatic opening, preferably just above the eyebrows!",
+			"I hear there's a cloak hidden on a very muscly island... oh, I've said too much. Hats!"
 		],
 		"game_function": "Clothing/cosmetics vendor.",
 		"quest_links": [],
@@ -256,10 +256,10 @@
 		"description": "A magpie who sells sealed card packs and cannot resist anything shiny.",
 		"personality": "A twitchy, excitable pack-opening enthusiast who sniffs fresh card packs and rates them. Gets visibly emotional about foils.",
 		"speech_style": "Breathless, nerdy, whispers 'foil' reverently.",
-		"sample_line": "Shh. That crinkle? Foil. Please let it finish.",
+		"sample_line": "Shh... hear that crinkle? That's the foil settling. Do let it finish.",
 		"barks": [
-			"Shh. That crinkle? Foil. Please let it finish.",
-			"Free a road and its pack comes in. I'll be here, providing shelf esteem."
+			"Shh... hear that crinkle? That's the foil settling. Do let it finish.",
+			"Psst... free a road and its pack comes in. I'll be here, providing shelf esteem."
 		],
 		"game_function": "Pack Vendor (Path Packs unlock as dungeons are cleared).",
 		"quest_links": [],
@@ -292,10 +292,10 @@
 		"description": "An otherworldly alchemist who brews multi-Path cards from essence.",
 		"personality": "A calm, eccentric alchemist who mixes the four Paths' essences into multi-path cards. Talks to her flasks. Believes the kingdom was healthiest when everything was mixed together.",
 		"speech_style": "Soft, mystical, unexpectedly blunt.",
-		"sample_line": "The flasks all bubbled when you passed, dear. Every colour. They never do that for me.",
+		"sample_line": "The flasks all bubbled as you passed, dear heart, in every colour. They never do for me.",
 		"barks": [
-			"The flasks all bubbled when you passed, dear. Every colour. They never do that for me.",
-			"They say one spring once fed all four Paths. Mixed, dear. Like a good soup."
+			"The flasks all bubbled as you passed, dear heart, in every colour. They never do for me.",
+			"They say one spring once fed all four Paths, dear heart, all mixed, like a good soup."
 		],
 		"game_function": "Crafting vendor: trades essence + gold for multi-path cards (unlocks after 2 zones completed).",
 		"quest_links": [],
@@ -328,10 +328,10 @@
 		"description": "A booming, mustachioed showman who narrates everything like a championship bout, including his own lunch.",
 		"personality": "A booming, mustachioed showman who narrates everything like a championship bout, including his own lunch.",
 		"speech_style": "LOUD. Everything is an announcement.",
-		"sample_line": "LADIES AND GENTLEMEN! ...Oh. Just you. Hi. THE ECHO SAYS HI TOO.",
+		"sample_line": "LADIES AND GENTLEMEN! (normal voice) Oh, it's only you. Hello! The echo says hello too.",
 		"barks": [
-			"LADIES AND GENTLEMEN! ...Oh. Just you. Hi. THE ECHO SAYS HI TOO.",
-			"IN THIS CORNER: MY LUNCH! (normal voice) It's soup. The soup is winning."
+			"LADIES AND GENTLEMEN! (normal voice) Oh, it's only you. Hello! The echo says hello too.",
+			"IN THIS CORNER: MY LUNCH! (normal voice) It's soup, and I'm afraid the soup is winning."
 		],
 		"game_function": "Runs the Arena; describes encounters and prizes.",
 		"quest_links": [],
@@ -364,10 +364,10 @@
 		"description": "Death himself.",
 		"personality": "Death himself. When Primm's paperwork seized the D.N.A., the afterlife's intake froze and Death couldn't collect anyone, so he took a job digging graves and waited (which is why Agnes can't pass on and Gerald is still in line). Creaky, polite, cheerful about death; checks his appointment book constantly ('Hm. Not for a good long while.'; Primm: 'Penciled in.'; Plume: 'Oh, I've got you in pen.'). Turns up digging in impossible places, always 'just measuring'. Has been digging the king and queen's graves for ten years; at the royal funeral he walks them, and Agnes, home.",
 		"speech_style": "Slow, creepy-cheerful, ends sentences with a chuckle.",
-		"sample_line": "Checked my book. You're not in it, not for a good long while. Heh.",
+		"sample_line": "Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.",
 		"barks": [
-			"Checked my book. You're not in it, not for a good long while. Heh.",
-			"Business has been ever so slow these ten years. Paperwork, not me. Heh."
+			"Checked my book, and you're not in it, not for a good long while yet. Lovely! Heh.",
+			"Business has been ever so slow these ten years, mind. That's the paperwork, not me. Heh."
 		],
 		"game_function": "Starts the Graveyard scripted challenge; appears at 0 life instead of a plain respawn ('Not on my list. Off you pop.'; lost gold is his handling fee); cameo in every zone; royal funeral.",
 		"quest_links": [],
@@ -398,10 +398,10 @@
 		"description": "A former Beefcake courier twisted by the regime: angry, paranoid, obsessed with 'only iron matters'.",
 		"personality": "A former Beefcake courier twisted by the regime: angry, paranoid, obsessed with 'only iron matters'. Freed, he is sweet, sheepish, and loves stretching.",
 		"speech_style": "Corrupted: barking slogans. Freed: gentle and apologetic.",
-		"sample_line": "Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
+		"sample_line": "An old man once told me never to lift alone. I haven't seen him in years... huh.",
 		"barks": [
-			"Never lift alone. An old man told me that. Haven't seen him in years. Huh.",
-			"Water, then a stretch. Sorry, was that an order? I meant we could do them together."
+			"An old man once told me never to lift alone. I haven't seen him in years... huh.",
+			"Water, then a stretch. Oh, sorry, was that an order? I meant we could do it together."
 		],
 		"game_function": "Battle that unlocks the Gainlands entrance.",
 		"quest_links": [],
@@ -431,10 +431,10 @@
 		"description": "A once-kind Necrocrat clerk now stamping 'DENIED' on everything, trapped by Primm's paperwork.",
 		"personality": "A once-kind Necrocrat clerk now stamping 'DENIED' on everything, trapped by Primm's paperwork. Freed, she is tired, wry, and helpful.",
 		"speech_style": "Corrupted: monotone policy recitation. Freed: dry humor.",
-		"sample_line": "Stamp, stamp. Old habits die hard. Unlike me.",
+		"sample_line": "I caught myself stamping the air just now. Old habits die hard, I find, unlike me.",
 		"barks": [
-			"Stamp, stamp. Old habits die hard. Unlike me.",
-			"I own two stamps: DENIED and APPROVED. One of them is very well rested."
+			"I caught myself stamping the air just now. Old habits die hard, I find, unlike me.",
+			"I own two stamps, DENIED and APPROVED, and one of them is finally getting a rest."
 		],
 		"game_function": "Battle that unlocks the D.N.A. entrance.",
 		"quest_links": [],
@@ -464,10 +464,10 @@
 		"description": "A passionate Gourmand chef warped by corrupted food: force-feeds people, insists everything is 'for the war effort'.",
 		"personality": "A passionate Gourmand chef warped by corrupted food: force-feeds people, insists everything is 'for the war effort'. Freed, he is an affectionate, emotional cook.",
 		"speech_style": "Corrupted: manic and pushy. Freed: dramatic and warm.",
-		"sample_line": "Taste it. Go on. Somebody in this kingdom ought to taste something.",
+		"sample_line": "Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.",
 		"barks": [
-			"Taste it. Go on. Somebody in this kingdom ought to taste something.",
-			"The pantry key is shaped like a ladle. Don't ask why. The answer is soup."
+			"Taste it, go on, a proper spoonful! Somebody in this kingdom ought to taste something.",
+			"The pantry key is shaped like a ladle, and if you ask me why, the answer is soup."
 		],
 		"game_function": "Battle that unlocks the Endless Buffet entrance.",
 		"quest_links": [],
@@ -497,10 +497,10 @@
 		"description": "A young druid whose nature magic turned on her: thorns grow from her arms and she speaks for the 'hungry green'.",
 		"personality": "A young druid whose nature magic turned on her: thorns grow from her arms and she speaks for the 'hungry green'. Freed, she is shy, earnest, and loves raccoons.",
 		"speech_style": "Corrupted: whispery and overlapping. Freed: soft and nervous.",
-		"sample_line": "...the green is hungry... Oh! Sorry. Did I thorn at you? I thorn when nervous.",
+		"sample_line": "...the green is hungry... Oh! Sorry! Did I thorn at you? I do that when I'm nervous.",
 		"barks": [
-			"...the green is hungry... Oh! Sorry. Did I thorn at you? I thorn when nervous.",
-			"The raccoons are very good boys. Don't tell them. They'll get ideas."
+			"...the green is hungry... Oh! Sorry! Did I thorn at you? I do that when I'm nervous.",
+			"The raccoons are very good boys, but don't tell them I said so, or they'll get ideas."
 		],
 		"game_function": "Battle that unlocks the Verdant Dump entrance.",
 		"quest_links": [],
@@ -2314,7 +2314,7 @@
 		"sample_line": "Fresh bread! Flour in my whiskers again, but the rolls came out lovely. Want one?",
 		"barks": [
 			"Fresh bread! Flour in my whiskers again, but the rolls came out lovely. Want one?",
-			"I knead a holiday, but the dough won't hear of it. Busy, busy badger."
+			"I keep saying I knead a holiday, but the dough won't hear of it. Busy, busy badger."
 		],
 		"game_function": "",
 		"quest_links": [],
@@ -2369,7 +2369,7 @@
 		"barks": [
 			"Say what you like about His Perfection, the wells are clean. Shh. Don't, actually.",
 			"The old cottage cheers at night now, from the cellar. I've decided to find it lovely.",
-			"The well hummed at me. Wells don't hum. I said thank you anyway.",
+			"The well hummed at me this morning, and wells don't hum, but I said thank you anyway.",
 			"Four plinths round the fountain, and nobody remembers what stood on them."
 		],
 		"game_function": "",
@@ -2396,9 +2396,9 @@
 		"speech_style": "Quick patter, stage-magician flourish, self-mocking.",
 		"sample_line": "Same cards, new shuffle. My score's on the board, if you want it.",
 		"barks": [
-			"Pick a card. No, not that one. Fine, that one.",
-			"Every card has a twin somewhere. That's the whole game, really.",
-			"I'd shuffle slower, but then you'd win."
+			"Pick a card, any card! No, not that one... oh, go on then, that one. You've a good eye.",
+			"Every card has a twin somewhere, friend, and finding it is the whole game, really.",
+			"I'd shuffle slower for you, friend, but then you'd win every hand, and where's my fun?"
 		],
 		"game_function": "Runs Dex's Table (card matching) in each Path zone",
 		"quest_links": [
