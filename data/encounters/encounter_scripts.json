@@ -317,7 +317,7 @@
 				"pct": 50
 			},
 			"text": "At half health Spotless barks an order: your strongest ready unit stands to attention (exhausted).",
-			"line": "HALT. Stand at attention. No: at THAT attention.",
+			"line": "HALT! Stand at attention. No, not at your own attention: at THAT attention!",
 			"effects": [
 				{
 					"kind": "exhaust_foes",
@@ -357,7 +357,7 @@
 				"pct": 50
 			},
 			"text": "At half health Quota's own break schedule kicks in: she draws a card, and her units take a two-minute break (exhausted through her next turn).",
-			"line": "Two-minute break. Mandatory. I wrote the schedule. I resent the schedule.",
+			"line": "A two-minute break is now mandatory. I wrote that schedule myself, and I resent it.",
 			"effects": [
 				{
 					"kind": "draw",
@@ -1028,7 +1028,7 @@
 				"turn": 5
 			},
 			"text": "On his 5th turn Spotless inspects your ranks: your strongest ready unit stands to attention (exhausted) and cannot block.",
-			"line": "INSPECTION. Height! Smudges! Smiles at the regulation angle!",
+			"line": "INSPECTION! I want heights, I want smudges, and I want every smile at the regulation angle!",
 			"effects": [
 				{
 					"kind": "exhaust_foes",

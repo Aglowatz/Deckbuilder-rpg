@@ -1875,11 +1875,11 @@
 			"Under the tipped-over dumpster there's a gate made from an old bicycle wheel, and that's the way to the Trash Panda Throne. Do bring a peg for your nose."
 		],
 		"npc.kestrel.intro": [
-			"Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
-			"Name's Kestrel. I scout for the Wrinkles. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
+			"Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.",
+			"Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's."
 		],
 		"npc.kestrel.return": [
-			"Road's clear for ten minutes. Chalk's fresh. Move while the guards are busy being punctual somewhere else."
+			"Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger."
 		],
 		"quest.side_s_cap.offer": [
 			"There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers.",
@@ -1954,15 +1954,15 @@
 			"'Tick. ...Recognised. Four Paths. One kingdom. Carry it well.'"
 		],
 		"quest.cap_paste_works.offer": [
-			"The dispenser's spoiled, and lovely it is too. But the paste has to come from somewhere, doesn't it?",
-			"The shuttered stall at the quarter's south-west corner hums at night, and stalls don't hum. Open its ration hatch and have a look down. Gently."
+			"The dispenser's spoiled, and a lovely job you made of it too. But I've been lying awake over it, because all that paste has to be coming from somewhere, doesn't it?",
+			"There's a shuttered stall at the Hungry Quarter's south-west corner that hums at night, and I've worked stalls all my life and never met one that hummed. Open its ration hatch and have a look down. Go gently."
 		],
 		"quest.cap_paste_works.active": [
-			"It's the south-west stall, the one with its shutter down. Open the ration hatch, go down, and shut off whatever you find. I'd bet it's very, very grey."
+			"It's the stall at the south-west corner, the one with its shutter down. Open the ration hatch, climb down, and shut off whatever you find at the bottom. I'd bet my apron it's very, very grey."
 		],
 		"quest.cap_paste_works.ready": [
-			"You shut the vats down? All of them? Then tonight the whole quarter eats something that tastes of something.",
-			"Some taste. 'Some' is the best amount."
+			"You shut the vats down? Every last one of them? Then tonight, for the first time in ten years, this whole quarter sits down to something that tastes of something.",
+			"It won't be much taste to begin with, only some. But I've always said that 'some' is the best amount."
 		],
 		"quest.cap_paste_works.done": [
 			"I've kept one real onion in my apron for ten years, and tonight I'm chopping it. You may want to stand back. I'll be weeping, and not only from the onion."

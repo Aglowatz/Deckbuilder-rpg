@@ -1,0 +1,1264 @@
+# t2_capital: 435 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Wren welcomes the hero to the Crease, names the Wrinkles and sends him to the four people in the streets who each hold a piece of the man in the castle.
+@capital::npc.wren.intro
+#   [Wren] Talking to Wren (intro)
+#= 0| Another one down through the shafts. Sit, please. I'm Wren. I was the Royal Archivist once, and these days I keep the records this city isn't supposed to have.
+#= 1| Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better.
+#= 2| He's in the castle at the north end, and he truly believes he is helping, which is the hard part. Talk to the people in the streets. Each of them carries a piece of what he did, and I want all of it in the record.
+
+@capital::npc.wren.return
+#   [Wren] Talking to Wren (return)
+#= 0| You're back in one piece, I see. Good. Hesper has quite enough to do.
+#= 1| The records say that he began well. His very first decree put a hot lunch in front of every schoolchild, and I want you to remember that. It excuses nothing, but remember it.
+
+## purpose: Each insight the hero brings back lets Wren assemble the man in the castle, ending in her charge to finish it gently.
+@capital::npc.wren.insight.1
+#   [Wren] Talking to Wren (insight 1)
+#= 0| You've brought me something from the streets. It goes into the true record, in ink, where he can't correct it.
+
+@capital::npc.wren.insight.2
+#   [Wren] Talking to Wren (insight 2)
+#= 0| That makes two pieces of him: a man who needs to be right, and a man who can't bear to be disagreed with. I can almost see his shape now.
+
+@capital::npc.wren.insight.3
+#   [Wren] Talking to Wren (insight 3)
+#= 0| That makes three. He is afraid, you know, and it isn't you he's afraid of.
+#= 1| He is afraid of everything that won't obey him. It's a small, sad sort of fear, for a man with so much gold.
+
+@capital::npc.wren.insight.4
+#   [Wren] Talking to Wren (insight 4)
+#= 0| That's all four, and now I have the whole of him. He is not a monster.
+#= 1| He is a man who made a list of everything he couldn't control, and then made every item on it illegal.
+2| Go and finish it. Gently, if you can. But finish it.
+
+## purpose: The Crease's nurse mends the hero with tea and very few words, and plants that the rifts began the night 'the boy' got out.
+@capital::npc.hesper.intro
+#   [Nurse Hesper Dray] Talking to Nurse Hesper Dray (intro)
+0| Hesper Dray. Nurse. Sit. Drink.
+1| It's tea. Strong, bitter, unapproved. Finish the cup.
+#= 2| The rifts? That's his hold failing. Everything he forced together is coming apart at the seams, and he keeps on stitching.
+3| It began the night the boy got out, they say. Don't say 'boy' near a loudspeaker.
+
+@capital::npc.hesper.return
+#   [Nurse Hesper Dray] Talking to Nurse Hesper Dray (return)
+0| Bleeding again? Sit. I'll pretend to be surprised.
+
+## purpose: Old Fern, the banned composter of the Reek, introduces herself and her sick soil and asks for help saving what is left.
+@capital::npc.fern.intro
+#   [Old Fern] Talking to Old Fern (intro)
+0| Keep your voice down, will you? I'm Old Fern, and I'm a composter, which in this city is about the worst thing a body can own up to.
+1| Forty years I turned this city's scraps back into good soil, and then one morning it was all 'untidy', and so was I. Well, I've got worms in my hat, so I suppose they had a point.
+2| They swept the rubbish in behind the facade and called that clean. Now the soil's sick and nothing grows in the Reek, and my knees won't do the digging alone any more. Help me save what's left of it.
+
+@capital::npc.fern.return
+#   [Old Fern] Talking to Old Fern (return)
+0| Well, any luck? My heaps are tucked down cellars and holes all over the Reek, keeping quiet because they think the inspectors are still after them. You tell them from me that they're coming home.
+
+## purpose: Widow Pell explains, gently and apologetically, that her husband has waited three years unburied because of two forms that need each other, and where the stamp is hidden.
+@capital::npc.pell.intro
+#   [Widow Pell] Talking to Widow Pell (intro)
+0| Oh, you've come to the door. Forgive me, it's been such a long while since anyone did. I'm Widow Pell, and my husband died three years ago, in his chair in the front parlour.
+1| And I can't bury him. Form 27-B needs a 27-C, and the 27-C needs a 27-B, so he's still in his chair, waiting, the way he always used to wait for me.
+2| I still go in and talk to him, I'm afraid. He's always been the patient one of the two of us, and I'm finding that I am not. I'm sorry to ask it of a stranger, but if you could help us at all...
+
+@capital::npc.pell.return
+#   [Widow Pell] Talking to Widow Pell (return)
+0| I'm told somebody kind hid the Stamp of Final Approval where no official would ever think to look: in Grave Row, north of the permit office, in among papers nobody reads. I'm only sorry I can't go myself.
+
+## purpose: Rollo, out of breath, explains that his crews have pedalled the facade's lights for ten years and need someone they will believe to tell them they can stop.
+@capital::npc.rollo.intro
+#   [Rollo Spokes] Talking to Rollo Spokes (intro)
+0| Give me a second... Rollo Spokes. I'm a wheel foreman, a Beefcake out of the Gainlands. Back home, when a wheel stopped for the night... the man on it stopped too, and went home to his supper.
+1| Here the facade wants lighting day and night... so we pedal it, with no pay and no end of shift. They told us it was cardio... and I'll say this much for it, my calves have grown calves.
+2| My crews have pedalled six hours a day for ten years... and nobody's ever told them they can stop. Somebody ought to... somebody they'll believe.
+
+@capital::npc.rollo.return
+#   [Rollo Spokes] Talking to Rollo Spokes (return)
+0| There's three wheels in the Yards... pull the brake on each one and have a word with the crew. After that it's the big cable by the east wall, the one that feeds the facade... you cut that.
+1| They won't climb down off those wheels... not till somebody tells them it's all right to. So you tell them... and you mean it when you do, because they'll know if you don't.
+
+## purpose: Chef Marlo checks the hero is no inspector, then admits he is a real cook who has hidden real recipes around the Hungry Quarter for ten years.
+@capital::npc.marlo.intro
+#   [Chef Marlo] Talking to Chef Marlo (intro)
+0| Hands where I can see them first... good, no inspector's gloves. I'm Chef Marlo. I used to cook at the Market of the Four Paths, and now they call me a 'Nutrient Distributor' and my recipes live in my apron.
+1| Everybody in this city eats {villain}'s Perfect Nutrient Paste three times a day, and between you and me, paste is food the way a form is a hug.
+2| So for ten years I've been tucking real recipes away in corners all over this quarter, so that somebody, somewhere, will still remember what food is when all this is over.
+
+@capital::npc.marlo.return
+#   [Chef Marlo] Talking to Chef Marlo (return)
+0| Keep it down. It's three recipe cards, tucked away around the quarter, and after that the paste dispenser. Spoil it for me, and spoil it properly, because I've waited ten years to say that to somebody.
+
+## purpose: Captain Spotless bars the Capital gate with the Approved Visitor Standard, offers the Entry Examination (a card battle), and once beaten lets the hero in with a warning.
+@capital::npc.spotless.intro
+#   [Captain Spotless] Talking to Captain Spotless (intro)
+0| HALT! I am Captain Spotless, and this gate is mine to keep clean. State your height.
+1| No: do not state it. Stand at it. Straighter than that, but not as straight as THAT, which is showing off. Stand APPROVED straight.
+2| Entry to the Capital requires the Approved Visitor Standard, and you do not meet it. You are somehow both too tall and too short, and your shadow is the wrong length for the hour.
+3| The Standard does, however, provide for an Entry Examination, which is conducted as a card battle. Should you win it, you will be retroactively approved, and I shall have to sign for you.
+4| And do not look nervous, because nervousness is a Violation under the same Standard. (He polishes a button.) Shall we begin?
+
+@capital::npc.spotless.return
+#   [Captain Spotless] Talking to Captain Spotless (return)
+0| You again, and I see that you are still too tall and still smiling at the wrong angle. Are you ready to sit the Examination?
+
+@capital::npc.spotless.open
+#   [Captain Spotless] Talking to Captain Spotless (open)
+0| You are approved, and I should like it noted that I have always supported this outcome. Please remember that exact wording, in case anybody asks.
+1| And please do not tell {villain_title} that I lost. In fact, if it is all the same to you, please do not tell anyone at all.
+
+@capital::npc.spotless.defeated
+#   [Captain Spotless] Talking to Captain Spotless (defeated)
+0| You are... approved. Let the record show that you are retroactively approved, as of some time before I lost.
+1| The Standard is satisfied. The gate opens, by order of the Standard and against my personal feelings.
+2| In my years at this gate I have measured twelve thousand visitors and approved four. Nine thousand were sent home, and about the rest I would rather not say.
+3| Go through, citizen, and for your own sake, once you are in there, try not to be what you are.
+
+## purpose: A corrected citizen recites his approved cheerfulness and lets one true thing slip: he was corrected for crying happily at his own wedding.
+@capital::npc.patient.intro
+#   [Citizen 4471, later Aldous] Talking to Citizen 4471 (intro)
+0| Good day! I am Citizen 4471, and I am being helped. I was brought here for smiling incorrectly: eleven degrees, when the approved angle is eight.
+1| It was... it was our wedding day, you see. I had been crying, the happy kind of crying, and they corrected me for that as well.
+2| I do not smile at all any more. It is a strange thing, to forget how your own face works.
+
+@capital::npc.patient.return
+#   [Citizen 4471, later Aldous] Talking to Citizen 4471 (return)
+0| They tell me I am improving, and I thank them for it. ...Between ourselves, I am not at all sure that it is a good thing.
+
+## purpose: Pell's quest: find the Stamp of Final Approval in Grave Row and take it to the family plot so her husband can be buried; her reward is the insight that the man in the castle schedules grief because he cannot bear to watch it.
+@capital::quest.cap_burial.offer
+#   [Widow Pell] Quest "Form 27-B/6: A Burial Permit": when offered
+0| All we're asking for is a burial permit, you see. It's Form 27-B/6, and it only wants the Stamp of Final Approval on it, and then he can stop waiting in that chair and rest at last.
+1| Somebody hid the Stamp of Final Approval in Grave Row, north of the permit office, among papers nobody reads. If you would find it and carry it to our family plot at the north end of the Row, he could lie down at last.
+
+@capital::quest.cap_burial.active
+#   [Widow Pell] Quest "Form 27-B/6: A Burial Permit": while it is active
+0| I'm sorry to keep on at you. The stamp is in Grave Row, north of the permit office, among the papers nobody reads, and when you have it, it wants taking to our plot at the north end of the Row.
+
+@capital::quest.cap_burial.ready
+#   [Widow Pell] Quest "Form 27-B/6: A Burial Permit": handing it in
+0| He's at rest? Truly? Oh... oh, forgive me, I shall need a moment.
+1| I sat by the plot the whole morning and never said a word to him, and it was the first quiet in three years that I wasn't afraid of.
+2| Here, please take this. It was his, and he'd want it to go to somebody young who will get some use out of it, and not leave it sitting in a drawer.
+3| There is one thing you ought to know about the man in the castle. He has grief on a schedule: Thursdays, from 3:00 to 3:05, and anyone found crying outside those five minutes is corrected.
+4| I don't think he is cruel. I think he simply cannot bear to watch.
+
+@capital::quest.cap_burial.done
+#   [Widow Pell] Quest "Form 27-B/6: A Burial Permit": after it is done
+0| Thank you, a hundred times over. I sit with him at the plot every morning now, and nobody moves me along. Do remember what I told you, it's in your journal: he can't bear a sadness he didn't schedule.
+
+## purpose: Rollo's quest: stop the three wheels in the Transit Yards, tell each crew they may rest, and cut the big cable by the east wall; his reward is the insight that the man in the castle made lateness illegal and is always in a hurry to be loved.
+@capital::quest.cap_wheels.offer
+#   [Rollo Spokes] Quest "The Wheel Never Stops": when offered
+0| There's three wheels in the Transit Yards... and three crews on them that nobody ever told to stop. Pull the brake lever on each one... and tell them it's all right, in plain words they can't mishear.
+1| They won't believe you the first time... so you say it again. Then go and cut the big cable by the east wall. Those facade lights have been running on my crews' legs... for ten years now.
+
+@capital::quest.cap_wheels.active
+#   [Rollo Spokes] Quest "The Wheel Never Stops": while it is active
+0| Three wheels in the Transit Yards... get the crews off them, then cut the big cable by the east wall. And keep on telling them they can stop... it takes a few goes before it sinks in.
+
+@capital::quest.cap_wheels.ready
+#   [Rollo Spokes] Quest "The Wheel Never Stops": handing it in
+0| I heard the lights flicker from all the way over here... and then I heard my crews sit down, one wheel after another. The whole yard's gone quiet.
+1| I haven't heard a yard go quiet since the coup... and I'd forgotten how much I liked it. Thank you.
+2| Here, take this... it's from the old days. We used to hand these out at the end of a shift... back when a shift had an end to it.
+3| One more thing, about the man in the castle... he made lateness illegal. Now what sort of man does that? One who can't bear to wait for anybody, that's who.
+4| Remember that when you meet him. He's always in a hurry... to be loved.
+
+@capital::quest.cap_wheels.done
+#   [Rollo Spokes] Quest "The Wheel Never Stops": after it is done
+0| The wheels are slowing down... and the crews are getting some rest at last. Remember what I told you, it's in your journal: to him, lateness is disagreement... and that's the one thing he won't forgive.
+
+## purpose: Marlo's quest: find his three hidden recipe cards in the Hungry Quarter and spoil the paste dispenser; his reward is the insight that the man in the castle cannot taste.
+@capital::quest.cap_recipes.offer
+#   [Chef Marlo] Quest "The Recipe Box": when offered
+0| There's three of my recipes hidden in the Hungry Quarter: a bread, a stew and a sauce. They're real ones, in my own hand, with the quantities written as 'some'. Find them before the inspectors do, will you?
+1| And then there's the paste dispenser, here in the quarter. I want you to spoil it for me. Get something into it that actually tastes of something, and I don't much mind what.
+
+@capital::quest.cap_recipes.active
+#   [Chef Marlo] Quest "The Recipe Box": while it is active
+0| It's three recipe cards in the Hungry Quarter, and then the dispenser to spoil. You'll know my cards when you see them: 'some' of this and 'a bit' of that, which is how any honest recipe ought to read.
+
+@capital::quest.cap_recipes.ready
+#   [Chef Marlo] Quest "The Recipe Box": handing it in
+0| The bread, and the stew, and... you found the sauce as well? Give them here, quick, before somebody sees!
+1| Look at the stains on them, and look at my spelling, it's dreadful! And that smell coming off the dispenser... that's cabbage, isn't it? Real boiled cabbage, stinking up the whole street.
+2| Yes, I'm crying, and you'll just have to let me. Here, this is for you: my real recipe, the one I never once dared to write down until today.
+3| And I'll tell you one thing about the man in the castle that not many people know: he can't taste. Not his food, not his wine, not even salt, and he never could.
+4| So he went and built a whole kingdom of paste, because he honestly could not understand what the rest of us thought we were missing.
+
+@capital::quest.cap_recipes.done
+#   [Chef Marlo] Quest "The Recipe Box": after it is done
+0| I'm cooking again, real food, and making a real mess while I do it. Remember what I told you, it's in your journal: he made everyone eat what he couldn't taste.
+
+## purpose: Old Fern's quest: rescue three banished compost heaps in the Reek, find the jar of old seed and plant it in the Sick Patch; her reward is the insight that the man in the castle fears anything that grows without asking him.
+@capital::quest.cap_untidy.offer
+#   [Old Fern] Quest "Untidy": when offered
+0| There's three compost heaps hiding in the Reek, down in cellars and yards and under floors, where they were told to wait. I want them rescued. They're alive, whatever the inspectors like to say about it.
+1| And somewhere in the Reek there's a jar of old seed. Find it and plant it in the Sick Patch for me, because nobody's put a thing in the ground in this city for ten years and it's high time somebody did.
+
+@capital::quest.cap_untidy.active
+#   [Old Fern] Quest "Untidy": while it is active
+0| That's three heaps to rescue in the Reek, and the seed for the Sick Patch. Find the jar first, mind, and then give that seed its chance. It's waited long enough, and so have I.
+
+@capital::quest.cap_untidy.ready
+#   [Old Fern] Quest "Untidy": handing it in
+0| It took? You're telling me it TOOK? A flower, a real one, in this city, after all this time!
+1| I'm going to have to sit down. I'm going to sit right down in the dirt beside it and smell it, and you can think what you like.
+2| Here, take this, you've earned it. And I'll tell you one thing about the man in the castle: he's afraid of anything that grows without asking him first.
+3| Weeds, moss, children. Anything at all that might surprise him. I've had a good while to think about it, out here with the worms, and I reckon that's the whole of him.
+
+@capital::quest.cap_untidy.done
+#   [Old Fern] Quest "Untidy": after it is done
+0| The patch is blooming and the heaps are steaming, and it's all as untidy as you like. Remember what I said, it's in your journal: he's afraid of anything that grows on its own.
+
+## purpose: Warn the player plainly that entering the castle before the city's services are mended makes the dungeon harder.
+@intro::capital.castle.warning
+#   [(narration/UI)] Capital: castle warning
+0| The castle door is cold to the touch. With the city's services still broken, whatever waits inside will have every advantage.
+1| You could go in now. It would be wiser to wait until the city is back on its feet.
+
+## purpose: Marlo's follow-up: the paste comes from under the shuttered stall at the Hungry Quarter's south-west corner; go down the ration hatch and shut the vats off.
+@dc::quest.cap_paste_works.offer
+#   [Chef Marlo] Quest "The Paste Works": when offered
+0| The dispenser's spoiled, and a lovely job you made of it too. But I've been lying awake over it, because all that paste has to be coming from somewhere, doesn't it?
+1| There's a shuttered stall at the Hungry Quarter's south-west corner that hums at night, and I've worked stalls all my life and never met one that hummed. Open its ration hatch and have a look down. Go gently.
+
+@dc::quest.cap_paste_works.active
+#   [Chef Marlo] Quest "The Paste Works": while it is active
+0| It's the stall at the south-west corner, the one with its shutter down. Open the ration hatch, climb down, and shut off whatever you find at the bottom. I'd bet my apron it's very, very grey.
+
+@dc::quest.cap_paste_works.ready
+#   [Chef Marlo] Quest "The Paste Works": handing it in
+0| You shut the vats down? Every last one of them? Then tonight, for the first time in ten years, this whole quarter sits down to something that tastes of something.
+1| It won't be much taste to begin with, only some. But I've always said that 'some' is the best amount.
+
+@dc::quest.cap_paste_works.done
+#   [Chef Marlo] Quest "The Paste Works": after it is done
+0| I've kept one real onion in my apron for ten years, and tonight I'm chopping it. You may want to stand back. I'll be weeping, and not only from the onion.
+
+## purpose: Vivienne Quota, fled from the Gainlands, is still timing Rollo's resting crews; she fights the hero, loses, and is detained by the crews for Flex's people.
+@scenes/quota_yards/steps/0
+#   [(narration)] Scene "quota yards" (quota yards), step 1
+1| By the last energy wheel, a ferret in pinstripes stands over Rollo's crews with a stopwatch. They are lying in the sun, and she is still timing them.
+
+@scenes/quota_yards/steps/1
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota yards" (quota yards), step 2
+1| You again. You cost me the Gainlands in four hours and twelve minutes, and I have had that figure framed so that I am obliged to look at it.
+2| These wheels lit the facade at a hundred and ten percent of capacity, and now their crews are 'resting'. Do you know what rest is? It is time that nobody has measured.
+
+@scenes/quota_yards/steps/2
+#   [The Wanderer] Scene "quota yards" (quota yards), step 3
+1| They've been on those wheels for ten years, and they're allowed to stop.
+
+@scenes/quota_yards/steps/3
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota yards" (quota yards), step 4
+1| Nobody is allowed anything. People are scheduled, and I find that I have an opening of roughly ninety seconds. Let me schedule you.
+
+@scenes/quota_yards_after/steps/0
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota yards after" (quota yards after), step 1
+1| Eighty-one seconds, which is faster than last time. You have improved by fourteen percent.
+2| That was not a compliment. I simply cannot leave a figure unsaid.
+
+@scenes/quota_yards_after/steps/1
+#   [Rollo Spokes] Scene "quota yards after" (quota yards after), step 2
+1| The crews took a vote... while you two were busy. You're staying right here, Minister... till Flex's people come down for you. Some of those wheels had children on them... They'd like a word.
+
+@scenes/quota_yards_after/steps/2
+#   [Vivienne Quota, Minister of Efficiency] Scene "quota yards after" (quota yards after), step 3
+1| Detained? I have never been detained before, and I do not even know how long it is supposed to take.
+2| I will find out, of course. I intend to time every minute of it.
+
+@scenes/quota_yards_after/steps/3
+#   [(narration)] Scene "quota yards after" (quota yards after), step 4
+1| Two of Rollo's crew take her by the elbows, gently, the way you'd lift something off a high shelf. Somewhere near the gate, for the first time in ten years, she stops clicking the stopwatch.
+
+## purpose: Hortensia Clipwell, who gave the Archdruid the seed, is found measuring Fern's seedling; she admits why she did it, is offered honest dirty work, and cannot accept it.
+@scenes/clipwell_lawn/steps/0
+#   [(narration)] Scene "clipwell lawn" (clipwell lawn), step 1
+1| Beside the Sick Patch, a hare in groundskeeper green is measuring Old Fern's seedling with a ruler. It is an inch over regulation, and she has written that down.
+
+@scenes/clipwell_lawn/steps/1
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell lawn" (clipwell lawn), step 2
+1| An inch out of regulation. I'm afraid everything is out of regulation now, the lawns and the hedges alike, and they have all begun growing in whatever direction they please.
+
+@scenes/clipwell_lawn/steps/2
+#   [Old Fern] Scene "clipwell lawn" (clipwell lawn), step 3
+1| That's what hedges DO, woman! It's the whole point of a hedge!
+
+@scenes/clipwell_lawn/steps/3
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell lawn" (clipwell lawn), step 4
+1| I gave her the seed because she was crying. I thought, if nothing ever ends, then nobody ever has to cry again.
+2| That's tidy, isn't it? Isn't that tidy?
+
+@scenes/clipwell_lawn/steps/4
+#   [The Wanderer] Scene "clipwell lawn" (clipwell lawn), step 5
+1| I've stood in her valley. Nothing grew there for ten years.
+
+@scenes/clipwell_lawn/steps/5
+#   [Old Fern] Scene "clipwell lawn" (clipwell lawn), step 6
+1| Granny Gristle wants hands on the compost rows down in the Dump, sorting peel from shell all day long. It's filthy work and you'd hate every minute, which is why I thought of you. It's yours if you want it.
+
+@scenes/clipwell_lawn/steps/6
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell lawn" (clipwell lawn), step 7
+1| ...No. I will not be forgiven by a compost heap. I shall find somewhere that still keeps its hedges at a proper height.
+
+@scenes/clipwell_lawn/steps/7
+#   [(narration)] Scene "clipwell lawn" (clipwell lawn), step 8
+1| She walks away down the exact middle of the path. She does not look back at the seedling, and it goes on growing without her permission.
+
+## purpose: In the freed D.N.A. lobby Percival Plume takes the credit, Agnes names him as the man who drafted the transfer, and he lets slip the Tuesday filing before hurrying back to the Capital.
+@scenes/plume_ribbon/steps/0
+#   [(narration)] Scene "plume ribbon" (plume ribbon), step 1
+1| A peacock in a lavender coat sweeps across the lobby with a ribbon, a pair of golden scissors and a speaking trumpet.
+
+@scenes/plume_ribbon/steps/1
+#   [Percival Plume, Deputy Minister of Good News] Scene "plume ribbon" (plume ribbon), step 2
+1| Great news, citizens! The D.N.A. has been freed, a change His Perfection fully supports and in fact arranged!
+2| And you must be our brave volunteer! Do accept this Certificate of Participation. Frame it or don't, as the mood takes you; it has been notarized either way!
+
+@scenes/plume_ribbon/steps/2
+#   [Agnes Overdue] Scene "plume ribbon" (plume ribbon), step 3
+1| That's Percival Plume, dear, the Deputy Minister of Good News. He's the one who drafted the transfer that signed us all over, and he wrote every page of it himself.
+
+@scenes/plume_ribbon/steps/3
+#   [Percival Plume, Deputy Minister of Good News] Scene "plume ribbon" (plume ribbon), step 4
+1| And had a clerk file it, on a Tuesday, I believe! Well, I really must dash: there are ribbons to cut and a Capital to reassure. Toodle-oo!
+
+@scenes/plume_ribbon/steps/4
+#   [(narration)] Scene "plume ribbon" (plume ribbon), step 5
+1| He snips the ribbon, which was holding nothing up, and is gone before Agnes can find the right form.
+
+## purpose: Old Hob's Capital visit: he is 'just measuring', and the man in the castle is only pencilled in.
+@scenes/hob_final/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob final" (hob final), step 1
+1| Just measuring, same as ever. There's a great many very tidy people in this city, mind, and I will say that tidy is lovely and easy to measure.
+
+@scenes/hob_final/steps/1
+#   [The Wanderer] Scene "hob final" (hob final), step 2
+1| And the man in the castle?
+
+@scenes/hob_final/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob final" (hob final), step 3
+1| Him? Hm. Let me have a look in the book.
+2| Pencilled in. Heh.
+
+## purpose: A variant of Hob's Capital visit after Plume has been met: the peacock is the one name he has in pen.
+@scenes/hob_final_plume/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob final plume" (hob final plume), step 1
+1| Just measuring. I ran into a peacock earlier, mind, all trumpet and ribbons, and he never so much as stopped to say good morning.
+2| Oh, I've got HIM in pen. Not soon, mind, so there's no call to look at me like that. I just like to have one or two of them settled. Heh.
+
+## purpose: Fight barks for the gate and Yards bosses: Spotless's dread of smudges and Quota's resentment of her own schedule.
+@boss::Captain Spotless/line
+#   [Captain Spotless] Boss intro before the battle with Captain Spotless: opening line
+0| HALT! That is a smudge, and what is worse, it is a smudge on a CITIZEN!
+
+@enc::zone:final:spotless/0/line
+#   [Captain Spotless] Mid-fight event "HALT" vs Captain Spotless: the foe says it when the event fires
+0| HALT! Stand at attention. No, not at your own attention: at THAT attention!
+
+@enc::capital:quota/0/line
+#   [Vivienne Quota] Mid-fight event "Mandatory Break" vs Vivienne Quota: the foe says it when the event fires
+0| A two-minute break is now mandatory. I wrote that schedule myself, and I resent it.
+
+## purpose: Kestrel, the Wrinkles' scout on the road outside the wall, tells the hero the gate is the only way in for strangers and hints at an older way she shows only to Wren's friends.
+@dc::npc.kestrel.intro
+#   [Kestrel] Talking to Kestrel (intro)
+0| Psst. Get down, will you? The enforcers walk this road on the hour, and they hate surprises, and I'm a surprise.
+1| Name's Kestrel, and I scout for the Wrinkles, which you never heard me say. Heading into the city? The gate's the only way in for strangers. There's an older way under it, but I only show that to friends of Wren's.
+
+@dc::npc.kestrel.return
+#   [Kestrel] Talking to Kestrel (return)
+0| Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger.
+
+## purpose: Colonel Crumb guards the confiscated pantry under the Hungry Quarter and blusters about the war on flavour; the hero names the real reason, and Crumb orders the golems in.
+@scenes/crumb_paste_works/steps/0
+#   [(narration)] Scene "crumb paste works" (The Paste Works, "The Colonel's Kitchen": before the node), step 1
+1| At the end of the Vat Floor, behind a door with a ration hatch, is a real kitchen: copper pans, a cold stove, and a badger in a medal-covered chef's coat guarding a locked pantry.
+
+@scenes/crumb_paste_works/steps/1
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb paste works" (The Paste Works, "The Colonel's Kitchen": before the node), step 2
+1| ATTENTION! You are standing in a restricted pantry, soldier, and every recipe on those shelves has been confiscated for the war effort!
+2| Which war, you ask? The war on FLAVOUR, soldier! Every citizen fed the same ration, at the same minute, from the same tap, and I have not had one complaint about the seasoning in ten years!
+
+@scenes/crumb_paste_works/steps/2
+#   [The Wanderer] Scene "crumb paste works" (The Paste Works, "The Colonel's Kitchen": before the node), step 3
+1| Marlo says you can't taste it either. Is that why everyone else has to eat it?
+
+@scenes/crumb_paste_works/steps/3
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb paste works" (The Paste Works, "The Colonel's Kitchen": before the node), step 4
+1| Taste is a weakness, soldier, and I am proud to say I have none! Golems, whisk formation, and to the vats with you! Nobody lays a finger on my pantry!
+
+## purpose: Fight barks for Colonel Crumb and Enforcer Captain Spotless.
+@boss::Colonel Cornelius Crumb, Director of Culinary Defense/line
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Boss intro before the battle with Colonel Cornelius Crumb, Director of Culinary Defense: opening line
+0| Ration line, ATTENTION! Fall in by whisk formation, and nobody is to taste ANYTHING!
+
+@boss::Enforcer Captain Spotless/line
+#   [Enforcer Captain Spotless] Boss intro before the battle with Enforcer Captain Spotless: opening line
+0| HALT. State your height. No: do not state it. Stand at it.
+
+@enc::Colonel Cornelius Crumb, Director of Culinary Defense/0/line
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Mid-fight event "Battle Rations" vs Colonel Cornelius Crumb, Director of Culinary Defense: the foe says it when the event fires
+0| Battle rations, issue! Taste is a weakness, and paste is a strategy!
+
+@enc::Colonel Cornelius Crumb, Director of Culinary Defense/1/line
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Mid-fight event "Paste Barrage" vs Colonel Cornelius Crumb, Director of Culinary Defense: the foe says it when the event fires
+0| Battle stations! This is not a drill, soldier, it is a souffle! Vats, FIRE!
+
+@enc::Enforcer Captain Spotless/0/line
+#   [Enforcer Captain Spotless] Mid-fight event "Inspection" vs Enforcer Captain Spotless: the foe says it when the event fires
+0| INSPECTION! I want heights, I want smudges, and I want every smile at the regulation angle!
+
+@enc::Enforcer Captain Spotless/1/line
+#   [Enforcer Captain Spotless] Mid-fight event "A SMUDGE" vs Enforcer Captain Spotless: the foe says it when the event fires
+0| A SMUDGE is TREASON! ...It's on me, isn't it.
+
+## purpose: Beaten, Crumb admits he made the paste because he cannot taste, and Marlo sends him to the Grand Chef to learn again from water up.
+@scenes/crumb_paste_works_after/steps/0
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb paste works after" (The Paste Works, "The Colonel's Kitchen": after the node), step 1
+1| Stand down! Stand DOWN, I said... oh. I see that everyone is already lying down. Very well, carry on lying.
+
+@scenes/crumb_paste_works_after/steps/1
+#   [(narration)] Scene "crumb paste works after" (The Paste Works, "The Colonel's Kitchen": after the node), step 2
+1| The pantry door swings open on shelves of confiscated jars: pickles, jams, and a wheel of cheese with a ration number stamped on it. Out on the floor, a vat coughs and stops.
+
+@scenes/crumb_paste_works_after/steps/2
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb paste works after" (The Paste Works, "The Colonel's Kitchen": after the node), step 3
+1| I invented the paste because nobody could get it wrong, soldier. You can't burn it, you can't oversalt it, and you can't spoil a regiment's dinner with it.
+2| And you can't... taste it. I haven't tasted anything in years, you know. I thought if nobody could, nobody would notice that I couldn't.
+
+@scenes/crumb_paste_works_after/steps/3
+#   [Chef Marlo] Scene "crumb paste works after" (The Paste Works, "The Colonel's Kitchen": after the node), step 4
+1| Then you'll just have to learn it again, same as a boy on his first day. The Grand Chef is taking students, and she starts every one of them the same way: first, water.
+
+@scenes/crumb_paste_works_after/steps/4
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb paste works after" (The Paste Works, "The Colonel's Kitchen": after the node), step 5
+1| ...Yes, Chef.
+
+## purpose: The castle's entrance and the four PERFECTED wings: each wing shows, in Primm's neat hand, how one Path was taken.
+@capital::dungeon.pc_gate.before
+#   [(narration)] Dungeon node "pc gate": entering the node
+0| The great doors swing open, silent and perfectly balanced, onto a long hall and a red carpet that smells of floor wax and lemons. Somewhere a very long way off, someone is humming.
+1| 'Welcome,' says a quiet, polite voice from nowhere. 'Please wipe your feet, and your opinions, on the mat provided. You are expected.'
+
+@capital::dungeon.pc_junction.before
+#   [(narration)] Dungeon node "pc junction": entering the node
+0| Four great doors, each in its own Path's colour: red with a dumbbell, gold with a ladle, violet with a notary's seal, green with a seed.
+1| Over each, a brass plate: 'PERFECTED'.
+
+@capital::dungeon.pc_wing_gourmand.before
+#   [(narration)] Dungeon node "pc wing gourmand": entering the node
+0| Racks of masks line the walls, each one a face: the Grand Chef, smiling, smiling, smiling. On a clipboard by the door, in a neat hand:
+1| 'LAB NOTES: Subject A (the Grand Chef) proved resistant to persuasion. Resolved by substitution. The substitute is cooperative, and does not argue about the sauce.'
+2| 'All Gourmands to be fed the sauce. They will be happier, and a little less themselves. I consider this the improvement.'
+
+@capital::dungeon.pc_wing_beefcake.before
+#   [(narration)] Dungeon node "pc wing beefcake": entering the node
+0| A table covered in maps of the Gainlands, with little red pins in every mill and wheel. On a clipboard:
+1| 'COUP ORDERS: Remove Grandmaster Flex. Remove his weights, his protein, his gymnasium. Observe.'
+2| 'When the champion is sufficiently weak, he will no longer be a disagreement. NOTE: do not underestimate him. He does a lot of stretching.'
+
+@capital::dungeon.pc_wing_necrocrat.before
+#   [(narration)] Dungeon node "pc wing necrocrat": entering the node
+0| Shelves of paper to the ceiling, every sheet stamped. On the top of the pile, a single form:
+1| 'FORM 1-A (NOTARIZED): Authority over all Necrocrat government is hereby transferred to {villain_title}. Reviewed. Approved.'
+2| 'Filed. VALID. NOTE: the Necrocrats will obey this, because it is their nature to obey a valid form.'
+3| 'I did not need to force anyone. I needed only to be correct.'
+
+@capital::dungeon.pc_wing_refusemancer.before
+#   [(narration)] Dungeon node "pc wing refusemancer": entering the node
+0| In the middle of the greenhouse, under a glass dome, a single seed sprouts, glowing sickly green. A label on the pot:
+1| 'THE SEED: Nature is untidy, inefficient and forever disagreeing with itself.'
+2| 'A seed, properly corrupted, can be made to agree with me. Plant it in the Archdruid, and observe.'
+3| 'NOTE: it will spread, and what grows will be orderly. I believe she will thank me.'
+
+## purpose: At the castle gate the Rescuer is waiting as promised; Plume names her, takes her 'home' to her father, and the hero is left with her name and a door with no handle.
+@scenes/pc_capture/steps/0
+#   [(narration)] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 1
+#= 1| The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here.
+
+@scenes/pc_capture/steps/1
+#   [The Rescuer (Elowen)] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 2
+#= 1| Don't look so surprised. I told you somebody had to watch the door while you knocked it down.
+
+@scenes/pc_capture/steps/2
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 3
+1| Great news, citizens! The traitor has been located! Please hold your applause until she has been removed.
+
+@scenes/pc_capture/steps/3
+#   [(narration)] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 4
+1| Guards in polished armour pour from the gatehouse, and they are not coming for you. They are coming for her.
+
+@scenes/pc_capture/steps/4
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 5
+1| Miss {rescuer_full}, I presume! Former junior Path-ologist, absent without leave, who removed one item of laboratory property that has been walking about ever since.
+
+@scenes/pc_capture/steps/6
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 7
+#= 1| Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round.
+
+@scenes/pc_capture/steps/7
+#   [The Rescuer (Elowen)] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 8
+#= 1| Don't follow me, {wanderer}! Get to the top of that castle. It's the only way any of this ends.
+
+@scenes/pc_capture/steps/8
+#   [(narration)] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 9
+1| They are through a side door before you can reach it, and on this side the door has no handle at all.
+
+@scenes/pc_capture/steps/9
+#   [The Wanderer] Scene "pc capture" (Primm's Castle, "Castle Gate": before the node), step 10
+#= 1| {rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that.
+
+## purpose: After-node notes in the castle: small kindnesses left by the Wrinkles, and the second, shaking hand in the margins of each wing's orders.
+@capital::dungeon.pc_alcove.after
+#   [(narration)] Dungeon node "pc alcove": after the node
+0| The old portraits lean against the wall, faces to the plaster. Behind the last one someone has left a small bag and a note: 'In case anyone comes looking for the real one.' You take it and go back.
+
+@capital::dungeon.pc_mirror_shrine.after
+#   [(narration)] Dungeon node "pc mirror shrine": after the node
+0| You sit on the floor between mirrors that show only plaster. It is, for a few minutes, the most peaceful room in the Capital. Somebody has left a mug of tea and a biscuit.
+1| The biscuit is a little crooked. You eat it.
+
+@capital::dungeon.pc_corrector.after
+#   [Capital guards and clerks] Dungeon node "pc corrector": after the node
+0| The Chief Corrector sits down on her own chair, very carefully, and lays her ruler on the desk. 'I corrected eleven thousand,' she says.
+1| 'I never once asked what was wrong with them. Please, take the door on the left and go and look at them.'
+
+@capital::dungeon.pc_wing_gourmand.after
+#   [(narration)] Dungeon node "pc wing gourmand": after the node
+0| You tear the last page off the clipboard. Under the neat hand, in the margin, in a small shaking one: 'He did not look at the faces. He never looked at the faces.'
+1| You fold it into your pocket and go back.
+
+@capital::dungeon.pc_wing_beefcake.after
+#   [(narration)] Dungeon node "pc wing beefcake": after the node
+0| In the margin of the orders, in a smaller, shakier hand: 'He was not weak. We took everything from him and he got stronger. I do not understand it.'
+1| 'I have asked the champions to be weak. They will not.' You fold the orders and go back.
+
+@capital::dungeon.pc_wing_necrocrat.after
+#   [(narration)] Dungeon node "pc wing necrocrat": after the node
+0| The Wraith's last words, as it folds: 'The authorization is valid.' Then, very quietly: 'It was never right.'
+1| You take the form. Somewhere in all this paper there must be a technicality, and you suspect someone will find it.
+
+@capital::dungeon.pc_wing_refusemancer.after
+#   [(narration)] Dungeon node "pc wing refusemancer": after the node
+0| The dome is cracked. The glowing seed lies in the dirt and is, for a moment, just a seed. In the label's margin, in a smaller hand: 'She was grieving. I told myself that made it a kindness.'
+1| You leave the seed where it fell. Out of its dome it looks smaller, as most things here do once you get close, and you go back.
+
+@enc::Mirror Knight/0/line
+#   [Mirror Knight] Mid-fight event "Reflection" vs Mirror Knight: the foe says it when the event fires
+0| Every mirror in this hall agrees with His Perfection. So does this one.
+
+## purpose: The archive rooms: the good man Primm was, shown through the things he made and where he sat, on the way up to the Model Room.
+@capital::dungeon.pc_archive_gate.before
+#   [(narration)] Dungeon node "pc archive gate": entering the node
+0| The sign is older than the rest of the castle and painted by hand. Beneath it, in different ink, someone has written: 'He meant well.'
+
+@capital::dungeon.pc_last_journal.before
+#   [(narration)] Dungeon node "pc last journal": entering the node
+0| A lectern stands in the middle of a round room, with a book open on it and a pen beside the book. The ink on the last page is still wet; he wrote this today.
+
+@capital::dungeon.pc_reading_room.after
+#   [(narration)] Dungeon node "pc reading room": after the node
+0| You sit in the old reading chair, which is worn exactly where one person sat every night for years. Someone made the lampshade by hand, and it is a little crooked.
+
+@capital::dungeon.pc_blueprints.after
+#   [(narration)] Dungeon node "pc blueprints": after the node
+0| There are plans for wells, plans for a hot school lunch, and plans for a bridge that was actually built.
+1| They are good, genuinely good, and something catches in your throat as you roll up the best of them and take it.
+
+@capital::dungeon.pc_model_warden.after
+#   [(narration)] Dungeon node "pc model warden": after the node
+0| The Warden steps aside. Through the doors: a huge round room, a vaulted ceiling and, on a table the size of a house, a perfect miniature of the whole kingdom.
+1| Somebody is bending over it, moving a tiny house one centimetre to the left.
+
+@enc::Royal Staircase Guard/0/line
+#   [Royal Staircase Guard] Mid-fight event "Hold the Stair" vs Royal Staircase Guard: the foe says it when the event fires
+0| No one climbs this stair. It has been polished by seventeen people, and I will not have it scuffed.
+
+## purpose: The Model Room: first sight of Primm and his lines in the three phases of the fight.
+@capital::dungeon.pc_boss.before
+#   [(narration)] Dungeon node "pc boss": entering the node
+0| The Model Room is round and domed, and in its centre stands a table the size of a house: a perfect miniature of {kingdom}.
+1| Roads, rivers, four districts and a hundred thousand tiny houses, and every one of them is exactly where he wants it.
+2| A man in a pressed white-and-gold coat and a thin gold circlet stands with his back to you, moving a tiny cottage one centimetre to the left with a pair of tweezers.
+
+@boss::Primm/line
+#   [Primm] Boss intro before the battle with Primm: opening line
+0| Do mind the floor. It has just been polished, by seventeen people, whom I thank daily, in writing.
+
+@enc::Primm (standardization)/0/line
+#   [Primm (standardization)] Mid-fight event "Out of Alignment" vs Primm (standardization): the foe says it when the event fires
+0| Do hold still. You are a fraction of a degree out of alignment, and I find I cannot leave it. There, that is better.
+
+@enc::Primm (reflection)/0/line
+#   [Primm (reflection)] Mid-fight event "Every Mirror Agrees" vs Primm (reflection): the foe says it when the event fires
+0| Every mirror in this castle agrees with me. I find that very restful.
+
+@enc::Primm (unraveling)/0/line
+#   [Primm (unraveling)] Mid-fight event "I Only Wanted It to Be Nice" vs Primm (unraveling): the foe says it when the event fires
+0| I only wanted it to be nice, for everyone. It was for their own good. Why won't anyone let it be for their own good?
+
+## purpose: The castle's optional rooms: who Primm was, what he became, and what he did to the people he corrected.
+@capital::event.pc_improved_portraits.body
+#   [(narration)] Dungeon event "pc improved portraits": body
+0| Thousands of portraits of one man, one a year. In the first he is a thin young clerk, anxious and kind, smiling at nothing in particular.
+1| Each one is a little straighter and a little taller, until by the last he is eleven feet tall, with no wrinkles and a smile that does not move. Under every one: 'IMPROVED.'
+
+@capital::event.pc_honest_mirror.body
+#   [(narration)] Dungeon event "pc honest mirror": body
+0| In the broom cupboard, behind a bucket, hangs a small, cracked mirror. A note taped to it: 'FOR THE WRINKLES. IT SHOWS WHOEVER STANDS IN FRONT OF IT. WE LOST A MAN FOR THIS MIRROR.'
+1| You step in front of it and, for the first time in this castle, you see yourself.
+
+@capital::event.pc_corrected_citizens.body
+#   [(narration)] Dungeon event "pc corrected citizens": body
+0| A long white ward holds fifty beds, and in each lies a citizen in a grey gown with a small, fixed smile, looking at nothing.
+1| A nurse moves among them, adjusting each smile by a few degrees. One man has been smiling at the ceiling for three years. A woman in the corner has forgotten the name of her own daughter.
+2| One of them whispers to you as you pass: 'I smiled at a funeral.'
+
+@capital::event.pc_four_wings.body
+#   [(narration)] Dungeon event "pc four wings": body
+0| Four great doors in four Path colours, and over each a brass plate: PERFECTED. Behind each, you can hear nothing at all. A fifth and sixth way lead on: the servants' corridor and the grand staircase.
+1| You could visit all four wings, or none. Each wing is a dead end, and each one will tell you how he did it.
+
+@capital::event.pc_grand_staircase.body
+#   [(narration)] Dungeon event "pc grand staircase": body
+0| A staircase of five hundred steps, every one exactly the same height, and at the top a very large clock.
+1| Halfway up, a servants' door stands ajar: through it, a narrow plain stair with worn steps. Nobody has ever climbed the grand staircase for pleasure.
+
+@capital::event.pc_early_journals.body
+#   [(narration)] Dungeon event "pc early journals": body
+0| A wall of journals in a young man's neat handwriting, each one dated. 'Year 1: Wells. Half the lower city has to walk two miles for clean water.'
+1| 'I have drawn up plans for six new ones, and the Council has approved every one. I did not sleep at all. It was wonderful.'
+2| 'Year 3: School lunches. A child asked me why the soup was warm. I said, so that you can eat it.'
+3| 'She said, that is the best idea anyone has ever had. I put it in a frame.'
+4| It goes on like that for years, and they are good. They are so good.
+
+@capital::event.pc_last_journal.body
+#   [(narration)] Dungeon event "pc last journal": body
+0| The last page, in a neat hand, the ink still wet: 'Today I corrected eleven more. They cried, which is understandable. They do not yet see it.'
+1| 'In ten years' time they will thank me. In a hundred, they will not remember there was anything to thank me for. That is the point. That is how you know it has worked.'
+2| 'I am so tired. I do not think anyone has ever tried so hard to be kind. I only wish somebody would say so.'
+
+## purpose: Primm receives the hero graciously, defends ten years of 'mending', and regrets that he must correct him.
+@capital::cutscene.primm_intro.1
+#   [Primm] Cutscene "primm intro", beat 1
+#= 0| Ah, a visitor. Do come in. I so rarely receive anyone who has not been summoned.
+1| Mind the floor: it has just been polished, by seventeen people, whom I thank daily, in writing.
+
+@capital::cutscene.primm_intro.2
+#   [Primm] Cutscene "primm intro", beat 2
+0| I am {villain_title}, {villain}: Minister of Improvements, Steward of the Throne, Protector of {kingdom}.
+#= 1| You have walked the whole length of my castle to reach this room. You have also, I notice, scuffed it.
+
+@capital::cutscene.primm_intro.3
+#   [The Wanderer] Cutscene "primm intro", beat 3
+#= 0| I'm sorry about the floor. It's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you.
+
+@capital::cutscene.primm_intro.4
+#   [Primm] Cutscene "primm intro", beat 4
+#= 0| Afraid? Of order, perhaps? Of comfort? Of the dreadful burden of being kept safe?
+#= 1| I have given them roofs, and hats, and rules, and I have given every one of them exactly the same amount of each, which is more than anyone before me ever managed.
+2| Every one of them has a number, so that nobody is ever overlooked. Do you know how few kingdoms can say that? I do. I counted.
+
+@capital::cutscene.primm_intro.5
+#   [Primm] Cutscene "primm intro", beat 5
+#= 0| For ten years I have been mending this kingdom. Ten years, and still you people come, with your different hats and your different opinions, to undo the only good thing anyone has ever done for it.
+1| I am afraid I shall have to correct you.
+
+@capital::cutscene.primm_intro.6
+#   [Primm] Cutscene "primm intro", beat 6
+0| This will not hurt. It will, however, be Standard.
+
+## purpose: Between phases one and two: Primm cannot bear that things differ, the hero answers with Flex's lesson, and Primm takes up the hero's own deck.
+@capital::cutscene.primm_p1.1
+#   [Primm] Cutscene "primm p1", beat 1
+0| Why... why will they not all be three? It is a perfectly good number.
+1| Every unit was to be equal, in every way. Why must some of them be five? Why must anything ever be five?
+
+@capital::cutscene.primm_p1.2
+#   [The Wanderer] Cutscene "primm p1", beat 2
+#= 0| Because some things are five. Some people are, too.
+#= 1| I met a man who was locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with whatever is left to you, and strength is not control.
+
+@capital::cutscene.primm_p1.2.rushed
+#   [The Wanderer] Cutscene: primm p1 2 rushed
+#= 0| Because some things are five. Some people are, too.
+1| You took ten years from me. I don't know everything you took, but I know it wasn't the part that matters.
+
+@capital::cutscene.primm_p1.3
+#   [Primm] Cutscene "primm p1", beat 3
+0| Then they must be made the same, for their own good. I had rather hoped that you, of all people, would see that.
+1| You are not listening; nobody ever listens. (a breath) Very well. If you will not follow my rules, I shall simply have to use yours.
+
+@capital::cutscene.primm_p1.4
+#   [Primm] Cutscene "primm p1", beat 4
+0| Everything you can do, I can do. I have had ten years of practice with it.
+1| Let us see how you like fighting yourself.
+
+## purpose: Between phases two and three: the hero answers with the Chef's and Agnes's lessons, and Primm's certainty and grammar start to come apart.
+@capital::cutscene.primm_p2.1
+#   [Primm] Cutscene "primm p2", beat 1
+0| Your cards, your plays, your very own deck, held in my hands and played rather more tidily than you ever played it.
+1| And still you beat me. I should very much like to know how.
+
+@capital::cutscene.primm_p2.2
+#   [The Wanderer] Cutscene "primm p2", beat 2
+#= 0| You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.
+#= 1| And I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect.
+
+@capital::cutscene.primm_p2.2.rushed
+#   [The Wanderer] Cutscene: primm p2 2 rushed
+0| You copied my cards, but you can't copy what I do with them.
+1| My name is mine to sign. You don't get to decide who I am.
+
+@capital::cutscene.primm_p2.2.gourmand
+#   [The Wanderer] Cutscene: primm p2 2 gourmand
+#= 0| You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.
+1| Copying a face never made anyone a cook. You don't get to decide who I am.
+
+@capital::cutscene.primm_p2.2.necrocrat
+#   [The Wanderer] Cutscene: primm p2 2 necrocrat
+0| You copied my cards, but you can't copy what I do with them.
+#= 1| I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect.
+
+@capital::cutscene.primm_p2.3
+#   [Primm] Cutscene "primm p2", beat 3
+0| That is simply not true. I made the wells, and I made the roads.
+#= 1| I made... (he stops.) I made them, and they were good. And then I put my name on every one, and I stopped asking anyone whether they wanted the next.
+
+@capital::cutscene.primm_p2.4
+#   [Primm] Cutscene "primm p2", beat 4
+0| No. No, no, no. The rules are perfect. I checked every one of them myself, twice.
+1| The rules are perfect. They have to be, because if they aren't, then I have been... then all this time I have been...
+
+@capital::cutscene.primm_p2.5
+#   [Primm] Cutscene "primm p2", beat 5
+0| Everything is coming apart, and I don't understand why. I only wanted it to be nice.
+
+## purpose: Before the last fight each freed Path leader steps up beside the hero and grants a boon; with none freed he goes in alone.
+@capital::boon.beefcake.line
+#   [Grandmaster Flex, the Unbroken] Boon: beefcake line
+0| Grandmaster Flex steps out from behind a pillar, unwinding a very small bandage from a very large arm. 'Breathe in. Hold.'
+1| 'Strength is the heart and the mind, son, and you brought both. We're with you.' (Grandmaster Flex's Heart: Beefcake units get +1 power, and you gain 2 max HP.)
+
+@capital::boon.gourmand.line
+#   [The Grand Chef] Boon: gourmand line
+0| The Grand Chef, in a clean apron, ladle in hand. 'Have you eaten? No, of course you haven't. Here. Eat first, fight after.'
+1| 'Ten years of sauce that tasted of nothing. Let's feed this kingdom something real again.' (The Grand Chef's Feast: Gourmand units get +1 defense, life gain is stronger, and you gain 2 max HP.)
+
+@capital::boon.necrocrat.line
+#   [Agnes Overdue] Boon: necrocrat line
+0| Agnes Overdue floats forward with her enormous ribboned stack of denied appeals. 'I have found a technicality, dear,' she says, and stamps it with the department seal.
+1| 'It applies to him, dear. It applies to him very well.' (Agnes's Appeal: Necrocrat cards cost 1 less, and you gain 2 max HP.)
+
+@capital::boon.refusemancer.line
+#   [Compostella, the Rotheart, and Archdruid Compostella] Boon: refusemancer line
+0| Archdruid Compostella kneels and presses a palm to the marble. A small green shoot pushes up through the polish.
+1| 'To grow, you have to let things go, child. Even him. Especially him.' (Compostella's Roots: Refusemancer units get +2 defense, and you gain 2 max HP.)
+
+@capital::boon.none.line
+#   [(narration/UI)] Boon: none line
+0| Nobody stands beside you. The Paths are not free yet, and their leaders are still held behind wheels and sauce and paperwork and thorns, so you step into the chamber alone.
+1| (Free the Paths and their leaders will stand with you.)
+
+## purpose: The emotional peak: Primm asks to be told he was kind, the hero does not answer, and Primm reaches the truth by himself.
+@capital::dungeon.pc_boss.after
+#   [(narration)] Dungeon node "pc boss": after the node
+0| The model lies in pieces, a hundred thousand tiny houses scattered across the floor in all the wrong places, and somehow they look better.
+1| {villain} sits among them, small, in his pressed white-and-gold coat, and does not move for a long time.
+
+@capital::cutscene.primm_end.1
+#   [Primm] Cutscene "primm end", beat 1
+0| ...So it is over. I wrote such good rules, and they were not enough.
+
+@capital::cutscene.primm_end.2
+#   [Primm] Cutscene "primm end", beat 2
+0| I did it for them, for the people. You do see that, don't you?
+1| You must see that. Every rule, every portrait, every hat: so that nobody would ever be afraid again. So that nobody would ever be wrong.
+
+@capital::cutscene.primm_end.3
+#   [The Wanderer] Cutscene "primm end", beat 3
+0| You kept every face and every house under glass. I've stood in a field where nothing was allowed to die, and nothing grows there either.
+1| You took my mother and father. Then you kept me behind glass for ten years, and every morning someone said 'again'. I remember that word better than I remember their faces.
+
+@capital::cutscene.primm_end.3.rushed
+#   [The Wanderer] Cutscene: primm end 3 rushed
+0| You kept every face and every house. Nothing grows if you refuse to let anything go.
+1| You took my mother and father. Then you kept me behind glass for ten years, and every morning someone said 'again'. I remember that word better than I remember their faces.
+
+@capital::cutscene.primm_end.4
+#   [Primm] Cutscene "primm end", beat 4
+0| ...(a long silence)... Your mother and father were sentimental people, and sentiment was going to cost this kingdom everything. I removed two people so that a whole kingdom could be safe. I did the sums twice.
+1| And you, I looked after. You were fed at seven, at noon and at six, for ten years, and you were never once cold. Tell me which part of that was unkind. I should like it in writing.
+
+@capital::cutscene.primm_end.5
+#   [Primm] Cutscene "primm end", beat 5
+0| (You do not answer. He waits for a correction that does not come.) ...It was the mirrors, wasn't it? I wanted a world where nothing could ever surprise me.
+1| And I forgot that a world where nothing surprises you is a world with nobody else in it.
+
+@capital::cutscene.primm_end.6
+#   [The Wanderer] Cutscene "primm end", beat 6
+#= 0| I'm not going to correct you. That was always your way of doing things. And I'm not going to forgive you either, not today. Start with something smaller than a kingdom. Say sorry to one person.
+
+@capital::cutscene.primm_end.7
+#   [Primm] Cutscene "primm end", beat 7
+#= 0| One? I corrected eleven thousand of them. Where would I even begin? I cannot remember a single one of their names.
+
+@capital::cutscene.primm_end.8
+#   [Primm] Cutscene "primm end", beat 8
+0| Take the crown. No: leave it. No: take it.
+1| It is very heavy. It was always very heavy. Tell the Wrinkles... tell them I am sorry about the hats. (He hears himself.) No. That is not the thing. I never learned how to say the thing.
+
+@intro::still.primm
+#   [(narration)] Story still caption: primm
+0| The mirrors crack one by one, and for the first time in ten years {villain} sees himself in them.
+1| There is no crown and no perfect smile, only a tired man kneeling above a very small kingdom.
+2| Light pours in through the broken glass. It does not feel like winning. It feels like the end of a long, quiet lie.
+
+## purpose: In the Necrocrat wing Plume's memo reveals where the Rescuer was taken; Plume boasts, lets 'beneath the forest' slip, fights and flees.
+@scenes/pc_plume_memo/steps/0
+#   [(narration)] Scene "pc plume memo" (Primm's Castle, "Necrocrat Wing: Notarized Archives": before the node), step 1
+1| The Necrocrat wing's archive is paper from floor to ceiling. On the desk, under a paperweight shaped like a peacock, lies a memo, the ink still wet.
+
+@scenes/pc_plume_memo/steps/1
+#   [(narration)] Scene "pc plume memo" (Primm's Castle, "Necrocrat Wing: Notarized Archives": before the node), step 2
+1| MEMO. To: His Perfection. From: P. Plume. Re: the leak in the lab. The junior Path-ologist has been returned to the Path-ology Lab beneath the forest, to her father. Handled. Promotion?
+
+@scenes/pc_plume_memo/steps/2
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc plume memo" (Primm's Castle, "Necrocrat Wing: Notarized Archives": before the node), step 3
+1| Ah, you found my memo! Isn't it beautifully written? I used the active voice throughout, which I am told is very daring in a memo.
+2| Percival Plume, Deputy Minister of Good News, at your service! I drafted the transfer of the D.N.A., notarized it, had a clerk file it, and read it out on every loudspeaker in the land!
+
+@scenes/pc_plume_memo/steps/3
+#   [The Wanderer] Scene "pc plume memo" (Primm's Castle, "Necrocrat Wing: Notarized Archives": before the node), step 4
+1| Where is this Lab? Where did you take her?
+
+@scenes/pc_plume_memo/steps/4
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc plume memo" (Primm's Castle, "Necrocrat Wing: Notarized Archives": before the node), step 5
+1| Why, beneath the forest where you... oh. Oh, I really shouldn't have said that, should I? Never mind! Great news: your visit is being declined, effective immediately!
+
+@boss::Percival Plume, Deputy Minister of Good News/line
+#   [Percival Plume, Deputy Minister of Good News] Boss intro before the battle with Percival Plume, Deputy Minister of Good News: opening line
+0| Smile, please! This fight is being broadcast, and you are losing it beautifully.
+
+@enc::Percival Plume, Deputy Minister of Good News/0/line
+#   [Percival Plume, Deputy Minister of Good News] Mid-fight event "Positive Spin" vs Percival Plume, Deputy Minister of Good News: the foe says it when the event fires
+0| Great news, citizens! I have been approved to feel fine!
+
+@scenes/pc_plume_memo_after/steps/0
+#   [Percival Plume, Deputy Minister of Good News] Scene "pc plume memo after" (Primm's Castle, "Necrocrat Wing: Notarized Archives": after the node), step 1
+1| This is a setback. A temporary, fully reversible, not-at-all-my-fault setback.
+2| I shall draft a statement at once: 'Minister Plume bravely withdrew.' Yes, I like that. Bravely is exactly the word.
+
+@scenes/pc_plume_memo_after/steps/1
+#   [(narration)] Scene "pc plume memo after" (Primm's Castle, "Necrocrat Wing: Notarized Archives": after the node), step 2
+1| He withdraws, bravely, at a run. You fold the memo into your pocket, and two phrases go with it: beneath the forest, and her father.
+
+## purpose: The ward: the hero reads his own file as 'the Subject' and finds Maren's handwriting on the oldest note.
+@capital::dungeon.pc_ward.before
+#   [(narration)] Dungeon node "pc ward": entering the node
+0| The Path-ologists' records are pinned to every door. 'SUBJECT 1, the Royal Asset. Drain cycle 3,114.'
+1| 'Power stable, routed to the Throne. {villain}'s hold depends on it. Do not allow the Subject to leave.'
+2| You read the word Subject until it stops being a word.
+3| The oldest notes, at the far end, are in a different hand: careful, rounded, familiar. 'Observation, Year 1. The child is not a specimen. He asks for his mother. I am leaving the lab. M.'
+4| You have seen that handwriting on a pie recipe.
+
+@enc::Clocktower Sentinel/0/line
+#   [Clocktower Sentinel] Mid-fight event "The Hour Strikes" vs Clocktower Sentinel: the foe says it when the event fires
+0| BONG. The hour has been standardized. All movement will now cease.
+
+## purpose: After the fall: the Capital's people talk like people who have just remembered how.
+@capital::npc.wren.intro.freed
+#   [Wren] Talking to Wren (intro) (after the zone is freed)
+#= 0| You did it. Sit down for a moment. I'm Wren, the Royal Archivist, and for ten years I kept the only honest record in this city.
+#= 1| The Crease is only a cellar now, but we are keeping it. Too many true things were written down here to let it go.
+2| Thank you. I mean that more than I have ever meant a footnote.
+
+@capital::npc.wren.return.freed
+#   [Wren] Talking to Wren (return) (after the zone is freed)
+#= 0| The kingdom is mending itself one argument at a time, and it's dreadfully inefficient. I have never been happier. Take your time.
+
+@capital::npc.fern.intro.freed
+#   [Old Fern] Talking to Old Fern (intro) (after the zone is freed)
+0| Old Fern, composter, and I'll say it as loud as I please now, so don't you go shushing me.
+1| The patch came in, the heaps are steaming, and nobody's thumped me for any of it in a week. I'm untidy and I always was, and these days I'm proud of it.
+
+@capital::npc.fern.return.freed
+#   [Old Fern] Talking to Old Fern (return) (after the zone is freed)
+0| Smell that? That's honest compost, that is. I could cry over it, but it'd be a waste of good water, so I'll just stand here and breathe. You come back any time you like.
+
+@capital::npc.pell.intro.freed
+#   [Widow Pell] Talking to Widow Pell (intro) (after the zone is freed)
+0| I'm Widow Pell, and I'm so glad you've come by. My husband is at rest at last, and I walk up to visit him every morning, the way I always meant to.
+1| Thank you. I know I shall never manage to say it enough, so you'll have to forgive me if I simply keep on saying it.
+
+@capital::npc.pell.return.freed
+#   [Widow Pell] Talking to Widow Pell (return) (after the zone is freed)
+0| We're both very well, thank you for asking. My husband says you're late, mind you, but he only ever says that to people he's fond of.
+
+@capital::npc.rollo.intro.freed
+#   [Rollo Spokes] Talking to Rollo Spokes (intro) (after the zone is freed)
+0| Rollo Spokes... and look at that, I've nearly got my breath back. The wheels are turning slow and the crews are sat out in the sun, lifting nothing at all... and it's the best I've ever seen them look.
+
+@capital::npc.rollo.return.freed
+#   [Rollo Spokes] Talking to Rollo Spokes (return) (after the zone is freed)
+0| We're lifting again... real things, and on purpose this time, because we feel like it. Come down and watch the crews some afternoon... and bring a snack, they'll want to share theirs.
+
+@capital::npc.marlo.intro.freed
+#   [Chef Marlo] Talking to Chef Marlo (intro) (after the zone is freed)
+0| It's Chef Marlo. Chef! Go on, say it with me, I can't hear it often enough. The stalls are open and every single thing on them is real food.
+1| It's chaos, I'll grant you that. There's flour on the ceiling and somebody's burned the onions twice, and I have never in my life been so happy to look at a mess.
+
+@capital::npc.marlo.return.freed
+#   [Chef Marlo] Talking to Chef Marlo (return) (after the zone is freed)
+0| Come and eat! You're having 'some' of everything, and if you ask me how much that is, I'll have no choice but to demonstrate with the big ladle.
+
+@capital::npc.spotless.open.freed
+#   [Captain Spotless] Talking to Captain Spotless (open) (after the zone is freed)
+0| I don't measure anyone any more; I simply stand here. Yesterday a man walked by at exactly the approved height, and I wept, and I could not tell you why.
+
+@capital::npc.patient.intro.freed
+#   [Citizen 4471, later Aldous] Talking to Citizen 4471 (intro) (after the zone is freed)
+0| Citizen... no. My name is Aldous.
+1| I smile whenever I want to now, and it comes out crooked every time. My wife says it's the best thing she's ever seen. I told her she was wrong, just to try disagreeing, and we both enjoyed it very much.
+
+@capital::npc.patient.return.freed
+#   [Citizen 4471, later Aldous] Talking to Citizen 4471 (return) (after the zone is freed)
+0| It's Aldous, remember? The smile's still crooked, but I'm practising it on everybody I meet, and so far nobody has written me up for it.
+
+@capital::npc.hesper.intro.freed
+#   [Nurse Hesper Dray] Talking to Nurse Hesper Dray (intro) (after the zone is freed)
+0| Hesper Dray. Sit. Drink.
+1| Tea's still unapproved. So is everything else now. Suits it.
+
+## purpose: Back in town, Maren breaks the news of the capture and owns that she misjudged the girl; in the Crease, Wren promises to watch the castle's doors.
+@scenes/maren_after_capture/steps/0
+#   [Elder Maren] Scene "maren after capture" (maren after capture), step 1
+#= 1| Sit down, dearie. Word came from the Capital this morning, and you aren't going to like it.
+
+@scenes/maren_after_capture/steps/1
+#   [Elder Maren] Scene "maren after capture" (maren after capture), step 2
+#= 1| Plume's men took a girl at the castle gate, the same one who carried you out of those woods. {rescuer_full}, they called her.
+#= 2| I knew whose daughter she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to do it.
+
+@scenes/maren_after_capture/steps/2
+#   [Elder Maren] Scene "maren after capture" (maren after capture), step 3
+#= 1| I've been wrong about people before, and I swore to myself that I never would be again. It seems I've gone and done it twice.
+
+@scenes/maren_after_capture/steps/3
+#   [The Wanderer] Scene "maren after capture" (maren after capture), step 4
+1| Where did they take her?
+
+@scenes/maren_after_capture/steps/4
+#   [Elder Maren] Scene "maren after capture" (maren after capture), step 5
+#= 1| Back where she came from, I expect: somewhere with glass walls and no windows. That's one door I can't open for you, dearie. Not yet.
+#= 2| Eat something. You'll want your strength for the day it does open.
+
+@scenes/wren_after_capture/steps/0
+#   [Wren] Scene "wren after capture" (wren after capture), step 1
+#= 1| We saw them take her at the gate: four guards, and a peacock with a speaking trumpet. We couldn't get anywhere near her.
+
+@scenes/wren_after_capture/steps/1
+#   [Wren] Scene "wren after capture" (wren after capture), step 2
+#= 1| The Wrinkles are watching every door out of that castle. If they move her again, we will know.
+#= 2| Her name goes into the true record, whatever else happens. I can promise you that much.
+
+## purpose: The ending: the facade falls, the city's four wounds close, the Paths come home arguing, and a sign goes up crooked and stays up.
+@capital::ending.beat.1
+#   [(narration)] Ending: beat 1
+0| The scale model cracks in half, and then the table under it, and then, with the sound of a very large drawer being pulled from a very large cabinet, every locked door in the castle swings open at once.
+1| In the gallery a portrait slips off its hook and lands face-up. For the first time in ten years, nobody picks it up.
+
+@capital::ending.beat.2
+#   [(narration)] Ending: beat 2
+0| In {showcase}, a painted door falls flat, and a very surprised citizen steps through it onto a very real street.
+1| Shopfronts topple, hedges slump back into their own shapes, and the loudspeakers cough once and go quiet.
+2| Behind the facade are houses, lawns and people, all of them a little crooked. At the gate, a child paints the new sign: PATHORDIA.
+
+@capital::ending.beat.3
+#   [(narration)] Ending: beat 3
+0| Across the Capital the rifts fold up like letters. In the Reek, the Sick Patch is a flower bed.
+1| In Grave Row, a family walks slowly to a quiet plot and stays. In the Transit Yards the wheels slow, and slow, and stop, and the crews lie in the sun.
+2| In the Hungry Quarter, somebody lights a stove.
+
+@capital::ending.beat.4
+#   [(narration)] Ending: beat 4
+0| The Wrinkles climb up out of the Crease, blinking, into a light they had forgotten. Wren carries the true records under her arm. Nurse Hesper has brought the tea.
+1| Fig Sly comes up out of the Crease already selling something, to somebody, for some reason. Nobody stops him.
+
+@capital::ending.beat.5
+#   [(narration)] Ending: beat 5
+0| And the Paths come home. Grandmaster Flex, the Grand Chef, Agnes Overdue and Archdruid Compostella meet in the plaza and look at one another for the first time in ten years.
+1| The Beefcakes are late, the Necrocrats have brought a form, the Gourmands are overdressed, and the Refusemancers smell faintly of compost.
+2| Nobody agrees on anything. It is the happiest sound the Capital has ever heard.
+
+@capital::ending.beat.6
+#   [(narration)] Ending: beat 6
+0| {villain} demanded one way for everyone. In the plaza, a Beefcake holds a ladder steady while a Necrocrat checks it against a form.
+1| A Gourmand passes up the hammer, and a Refusemancer catches the nail that falls, because it can still be used.
+2| Different Paths, working together, and arguing the whole time about where the sign should go. It goes up crooked, and it stays up.
+
+@capital::ending.beat.7
+#   [(narration)] Ending: beat 7
+0| A new decree appears on the plaza wall of {pathordia}, in four different handwritings. It reads: DIFFERENT PATHS MAY MIX AGAIN.
+1| Somebody has crossed out MAY and written SHOULD. Somebody else has crossed out SHOULD and written WILL, IF THEY FEEL LIKE IT. A pigeon sits on the full stop.
+
+## purpose: Credits and the after-credits pointers to the postgame.
+@capital::ending.credits.1
+#   [(narration)] Ending: credits 1
+0| THE END (OF THE BEGINNING)
+
+@capital::ending.credits.2
+#   [(narration)] Ending: credits 2
+#= 0| A game about a kingdom that was strong because its pieces did not match.
+
+@capital::ending.credits.8
+#   [(narration)] Ending: credits 8
+0| {villain}'s rule is over. The voices of the kingdom remain.
+
+@capital::ending.credits.9
+#   [(narration)] Ending: credits 9
+0| In memory of Form 27-B, Form 27-C and Form 27-B
+
+@capital::ending.credits.10
+#   [(narration)] Ending: credits 10
+0| No hats were harmed. Several were enlarged.
+
+@capital::ending.credits.11
+#   [(narration)] Ending: credits 11
+0| The Paths will be back, in some other order.
+
+@capital::ending.credits.12
+#   [(narration)] Ending: credits 12
+0| Thank you for playing.
+
+@capital::ending.thanks.body
+#   [(check key)] Ending: thanks body
+#= 0| The kingdom is in one piece again, seams and all, and it is yours to walk.
+
+@capital::ending.thanks.line.1
+#   [(check key)] Ending: thanks line 1
+0| Under the forest: the Path-ology Lab. Someone is still waiting there.
+
+@capital::ending.thanks.line.2
+#   [(check key)] Ending: thanks line 2
+0| At the castle door: a cracked mirror, and the Shattered Gallery behind it.
+
+@capital::ending.return
+#   [(narration)] Ending: return
+0| You are back in {pathordia}. The streets are mostly the same, but they sound quite different now: people are shouting at each other cheerfully, in every direction.
+1| Wren sits on the edge of the fountain with a ledger on her knee, writing the title of the first honest page: THE TRUE RECORD, VOLUME ONE.
+
+## purpose: The four Path leaders in the freed Capital, each with a last word for the hero.
+@capital::freed_npc.heartlift
+#   [Grandmaster Flex, the Unbroken] After freeing: heartlift talks
+0| Breathe in. Hold. ...Feel that? That is a city with nowhere it has to be.
+1| Rollo's crews are lying in the sun, because I told them rest is a rep and they believed me. You used heart and mind both, son. That's the whole lift.
+
+@capital::freed_npc.grandchef
+#   [The Grand Chef] After freeing: grandchef talks
+0| The sauce is gone from every stove in the kingdom, and I'm cooking with real onions again. I haven't cried this much since I was a girl.
+1| Sit. Eat. You did something worth putting your name to, and you look as if you haven't had a proper meal since.
+
+@capital::freed_npc.agnes
+#   [Agnes Overdue] After freeing: Agnes Overdue talks
+0| I have filed a Form of Gratitude on your behalf, dear, and it was approved on the first attempt. That is highly irregular, and I find I rather like irregular.
+1| I think I'm going to cry, dear. I've wanted to for a very long time.
+
+@capital::freed_npc.compostella
+#   [Compostella, the Rotheart, and Archdruid Compostella] After freeing: Archdruid Compostella talks
+0| Look at this crack in the marble, child. Something's growing out of it.
+1| I'm going to let it. It's earned the right, and so have you.
+
+## purpose: If the fourth fragment has not been seen, Primm himself tells the hero who he is.
+@capital::cutscene.primm_reveal.1
+#   [Primm] Cutscene "primm reveal", beat 1
+0| ...You do not even know, do you? Look at you. You have walked my castle for hours and you have not once asked why my portraits stop at eleven.
+
+@capital::cutscene.primm_reveal.2
+#   [The Wanderer] Cutscene "primm reveal", beat 2
+0| ...What do you mean?
+
+@capital::cutscene.primm_reveal.3
+#   [Primm] Cutscene "primm reveal", beat 3
+0| I kept your face. I kept it for ten years, in the one gallery I never let anyone clean. It is the only face I could not improve.
+1| You are the Royal Asset. You are the boy who got out. You are {prince_full}, and you have been so very hard to find.
+
+@capital::cutscene.primm_reveal.4
+#   [The Wanderer] Cutscene "primm reveal", beat 4
+0| ...That's not possible. I would remember.
+
+@capital::cutscene.primm_reveal.5
+#   [Primm] Cutscene "primm reveal", beat 5
+0| Your power has kept the Paths in one shape for ten years, and I have only ever looked after it. Surely you can see that.
+1| Come. You may as well see it used properly.
+
+## purpose: The Pathwork Throne knows the hero; Primm sees what he broke; Agnes stamps HEIR: ALIVE and Maren says his name to the kingdom and sends him after the Rescuer.
+@capital::ending.beat.8
+#   [(narration)] Ending: beat 8
+0| Under the Model Room the floor opens too, and a stair of four colours winds down into the old heart of the Capital.
+1| At the bottom stands the Pathwork Throne: four seats grown into one, four colours woven as a single thread. It was never {villain}'s.
+2| You sit, and the Throne answers. It knows you.
+3| The Throne says your name back to you, {prince_full}, and this time it brings the Paths with it, all four, as they were always meant to be carried.
+
+@capital::ending.beat.9
+#   [(narration)] Ending: beat 9
+0| {villain} sits among the pieces of his model. As the Paths settle, he sees the kingdom as it is, and not as his reflection.
+1| Cracked streets, real faces, and a boy he kept in a cell.
+2| Slowly, he understands how much he broke. The wells were good, and so were the schools, but he made one choice for everyone, and nobody will trust him with another.
+
+@capital::ending.beat.10
+#   [Agnes Overdue] Ending: beat 10
+0| Agnes Overdue floats up to the old transfer file, finds the heir clause and, with great ceremony, brings down her stamp: HEIR: ALIVE. FILE COMPLETE.
+1| Maren pushes through the crowd, tortoise-slow, and stops in front of you. There is flour on her sleeve.
+#= 2| '{prince},' she says, loudly enough for the whole plaza to hear. She has said it in her kitchen, but this is the first time she has said it to the kingdom. 'Welcome home.'
+3| You look past her for a hood with leaves caught in it, and it isn't there. {rescuer} is still in the Path-ology Lab, under the forest where you woke. 'Eat first,' Maren says quietly. 'Then go and fetch her home.'
+
+## purpose: Primm under guard after the fall, reading the list of the people he corrected and designing a water main; his guard, gently lost, finds he does not mind the new rules.
+@capital::freed_npc.primm
+#   [Primm, "His Perfection"] After freeing: Primm, "His Perfection" talks
+0| Do not look so alarmed. The guard is very kind. Every morning he brings me the list of the people I corrected, and I read it. There are eleven thousand names. I am on the third page.
+1| I am designing a water main. A real one: pipes, a pump and nothing clever. It is the first thing I have made in ten years that nobody had to agree to.
+2| I am not permitted to speak of the Paths, or to touch one. I find that I do not miss it. I find that I miss the wells.
+
+@capital::freed_npc.primm_guard
+#   [Primm, "His Perfection"] After freeing: primm guard talks
+0| He is allowed visitors: one at a time, ten minutes each, and no mirrors. Those are the rules. I did not write them and nobody made me recite them, and I find I do not mind them at all.
+1| He designs a very good drain, as it turns out. Please do not tell him I said so; I am not sure which of us it would embarrass more.
+
+## purpose: Hob invites the hero to Grave Row for the two graves he has been ten years digging, and afterwards confirms once more that the hero is not in his book for a long while.
+@scenes/hob_town_funeral/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town funeral" (hob town funeral), step 1
+1| Ah, there you are. You did it, then, the castle and all, and you've come back with both boots on. Lovely.
+2| That means I've two graves to finish off properly, up in Grave Row in the city. You come by when you're ready, mind. There's no rush; there never is, with me.
+
+@scenes/hob_town_after_funeral/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town after funeral" (hob town after funeral), step 1
+1| Back again! I walked the pair of them all the way home, I did, and it was a lovely evening for it.
+
+@scenes/hob_town_after_funeral/steps/1
+#   [The Wanderer] Scene "hob town after funeral" (hob town after funeral), step 2
+1| What are you writing?
+
+@scenes/hob_town_after_funeral/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town after funeral" (hob town after funeral), step 3
+1| Appointments, same as always. Let's see now... no, you're not down for a good long while. Lovely! That's what I like to see. Heh.
+
+## purpose: Isla comes home down the Capital road after eight years; Brannoch can barely speak, and the notebook says 'home'.
+@scenes/isla_homecoming/steps/0
+#   [(narration)] Scene "isla homecoming" (isla homecoming), step 1
+1| Someone is walking down the imperial road in faded pastel regulation clothes, a bedroll over one shoulder. Brannoch has stopped writing in his notebook.
+
+@scenes/isla_homecoming/steps/1
+#   [Isla Brannoch] Scene "isla homecoming" (isla homecoming), step 2
+1| Hi, Dad. I know. I should have written.
+
+@scenes/isla_homecoming/steps/2
+#   [Gatekeeper Brannoch] Scene "isla homecoming" (isla homecoming), step 3
+1| Hm.
+
+@scenes/isla_homecoming/steps/3
+#   [Gatekeeper Brannoch] Scene "isla homecoming" (isla homecoming), step 4
+1| Eight years. Kept the gate open every night, in case.
+
+@scenes/isla_homecoming/steps/4
+#   [Isla Brannoch] Scene "isla homecoming" (isla homecoming), step 5
+1| They had us painting the same front door for eight years, Dad. Every time I asked to leave, the form came back "pending", and by the end I'd stopped being surprised.
+
+@scenes/isla_homecoming/steps/5
+#   [Gatekeeper Brannoch] Scene "isla homecoming" (isla homecoming), step 6
+1| ...You've got your mother's curls. Still can't keep a ribbon in them.
+
+@scenes/isla_homecoming/steps/6
+#   [Isla Brannoch] Scene "isla homecoming" (isla homecoming), step 7
+1| And your nose. Mum always said that was the unlucky part.
+
+@scenes/isla_homecoming/steps/7
+#   [Gatekeeper Brannoch] Scene "isla homecoming" (isla homecoming), step 8
+1| Wrote you in the book. Every day. "Isla. Not yet."
+2| Today it says "home".
+
+@scenes/isla_homecoming/steps/8
+#   [Isla Brannoch] Scene "isla homecoming" (isla homecoming), step 9
+1| You're the one who knocked the castle over? That 'Hm' was Dad saying thank you. Thank you from me, too.
+
+## purpose: Isla, later, getting used to a gate nobody stops her at.
+@scenes/isla_talk/steps/0
+#   [Isla Brannoch] Scene "isla talk" (isla talk), step 1
+1| I keep walking down to the gate and back again, just because I can. Nobody stops me, and I still catch myself waiting for somebody to.
+2| Dad oiled the hinges this morning, on a gate that doesn't even lock. He just likes the sound of it opening now.
+
+## purpose: The royal funeral: Hob finishes the two graves, Agnes tears up the third form, and the King and Queen are seen once more before Hob walks them down.
+@scenes/royal_funeral/steps/0
+#   [(narration)] Scene "royal funeral" (royal funeral), step 1
+1| Grave Row, at dusk. At the end of the identical rows stand two new headstones, and they are not identical. Someone has carved them by hand: a crown, a harp, four colours in a ring.
+
+@scenes/royal_funeral/steps/1
+#   [(narration)] Scene "royal funeral" (royal funeral), step 2
+1| Half the city has come, and nobody told them to. Wren holds the true record; Maren holds a pie she has forgotten she is carrying.
+
+@scenes/royal_funeral/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "royal funeral" (royal funeral), step 3
+1| Ten years I've been digging these two. Slowly. I didn't want to finish before they could be visited properly.
+
+@scenes/royal_funeral/steps/3
+#   [Agnes Overdue] Scene "royal funeral" (royal funeral), step 4
+1| Two forms, filed ten years ago, stamped by me. And a third, for a little boy, that I never had the heart to file.
+2| I'm tearing that one up now, dear. With great pleasure.
+
+@scenes/royal_funeral/steps/4
+#   [Elder Maren] Scene "royal funeral" (royal funeral), step 5
+1| He used to say the Paths argued like family. She used to say that was the point.
+
+@scenes/royal_funeral/steps/5
+#   [(narration)] Scene "royal funeral" (royal funeral), step 6
+1| A warm wind comes up the row, out of season. Two figures stand by the headstones, the way people stand in a doorway when they are leaving and not sorry to.
+
+@scenes/royal_funeral/steps/6
+#   [King Harmon Wayweaver] Scene "royal funeral" (royal funeral), step 7
+1| Look at you. You came home.
+
+@scenes/royal_funeral/steps/7
+#   [Queen Concordia Wayweaver] Scene "royal funeral" (royal funeral), step 8
+1| Carry them gently, love. All four of them.
+
+@scenes/royal_funeral/steps/8
+#   [(narration)] Scene "royal funeral" (royal funeral), step 9
+1| She hums the first bars of the lullaby, and does not need to finish it. You know the rest.
+
+@scenes/royal_funeral/steps/9
+#   [Old Hob the Gravedigger (secretly Death)] Scene "royal funeral" (royal funeral), step 10
+1| Right then, Your Majesties. Mind the step. It's a long one, but it's downhill all the way.
+
+@scenes/royal_funeral/steps/10
+#   [Old Hob the Gravedigger (secretly Death)] Scene "royal funeral" (royal funeral), step 11
+1| And you, Agnes. I've had you down for this a very long time.
+
+@scenes/royal_funeral/steps/11
+#   [Agnes Overdue] Scene "royal funeral" (royal funeral), step 12
+1| One more week, Hob. Prudence needs a proper handover, and somebody has to explain the new handbook to Mortimer.
+
+@scenes/royal_funeral/steps/12
+#   [Old Hob the Gravedigger (secretly Death)] Scene "royal funeral" (royal funeral), step 13
+1| Hm. Pencilled in. Heh.
+
+@scenes/royal_funeral/steps/13
+#   [(narration)] Scene "royal funeral" (royal funeral), step 14
+1| When you look again there are two headstones, a top hat bobbing away down the row, and a great deal of warm wind.
+
+## purpose: Brannoch, afterwards, with a new notebook that starts with the hero's name.
+@scenes/brannoch_isla/steps/0
+#   [Gatekeeper Brannoch] Scene "brannoch isla" (brannoch isla), step 1
+1| Hm. She's home.
+2| Notebook's full of her name, so I've started a new one. First page says yours. Spelled it right, this time.
+
+## purpose: Caption for the reunion still: the four leaders together, and the one person still missing.
+@intro::still.reunion
+#   [(narration)] Story still caption: reunion
+0| In the Capital's square the leaders of the four Paths clasp hands, and several people in the crowd begin to cry.
+1| Four banners fly from the same pole. It is a little crowded, and nobody minds.
+2| At the edge of the crowd you catch yourself looking for a hood with leaves caught in it, and not finding one. Not yet.

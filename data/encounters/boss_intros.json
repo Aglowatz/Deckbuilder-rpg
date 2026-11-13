@@ -92,7 +92,7 @@
 	},
 	"Colonel Cornelius Crumb, Director of Culinary Defense": {
 		"title": "Director of Culinary Defense",
-		"line": "Ration line, ATTENTION! Whisk formation! Nobody tastes anything!",
+		"line": "Ration line, ATTENTION! Fall in by whisk formation, and nobody is to taste ANYTHING!",
 		"sting": "STG-ZONE-GOUR",
 		"path": "gourmand"
 	},
@@ -140,7 +140,7 @@
 	},
 	"Captain Spotless": {
 		"title": "Keeper of the Capital Gate",
-		"line": "HALT. That is a smudge. That is a smudge on a CITIZEN.",
+		"line": "HALT! That is a smudge, and what is worse, it is a smudge on a CITIZEN!",
 		"sting": "STG-DUNGEON",
 		"path": "regime"
 	},

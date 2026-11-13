@@ -58,16 +58,16 @@
 				],
 				[
 					"NPC-QUOTA",
-					"You. Again. You cost me the Gainlands in four hours and twelve minutes. I have had the figure framed.",
-					"These wheels lit the facade at a hundred and ten percent. Now they are 'resting'. Do you know what rest is? Unmeasured time."
+					"You again. You cost me the Gainlands in four hours and twelve minutes, and I have had that figure framed so that I am obliged to look at it.",
+					"These wheels lit the facade at a hundred and ten percent of capacity, and now their crews are 'resting'. Do you know what rest is? It is time that nobody has measured."
 				],
 				[
 					"NPC-PLAYER",
-					"They're allowed to stop."
+					"They've been on those wheels for ten years, and they're allowed to stop."
 				],
 				[
 					"NPC-QUOTA",
-					"Nobody is allowed anything. People are scheduled. Let me schedule you."
+					"Nobody is allowed anything. People are scheduled, and I find that I have an opening of roughly ninety seconds. Let me schedule you."
 				]
 			]
 		},
@@ -76,17 +76,17 @@
 			"steps": [
 				[
 					"NPC-QUOTA",
-					"Eighty-one seconds. Faster than last time. You have improved by fourteen percent.",
+					"Eighty-one seconds, which is faster than last time. You have improved by fourteen percent.",
 					"That was not a compliment. I simply cannot leave a figure unsaid."
 				],
 				[
 					"NPC-ROLLO",
-					"The crews voted... while you two were busy. You're staying put... till Flex's people come down. Some of those wheels... had children on them. They'd like a word."
+					"The crews took a vote... while you two were busy. You're staying right here, Minister... till Flex's people come down for you. Some of those wheels had children on them... They'd like a word."
 				],
 				[
 					"NPC-QUOTA",
-					"Detained. I have never been detained. I do not even know how long it takes.",
-					"I will find out. I will time every minute of it."
+					"Detained? I have never been detained before, and I do not even know how long it is supposed to take.",
+					"I will find out, of course. I intend to time every minute of it."
 				],
 				[
 					"",
@@ -150,8 +150,8 @@
 				],
 				[
 					"NPC-CRUMB",
-					"ATTENTION! You are standing in a restricted pantry, soldier! Every recipe on those shelves has been confiscated for the war effort!",
-					"Which war? The war on FLAVOUR, son! Every citizen fed the same ration, at the same minute, from the same tap, and not one complaint about the seasoning."
+					"ATTENTION! You are standing in a restricted pantry, soldier, and every recipe on those shelves has been confiscated for the war effort!",
+					"Which war, you ask? The war on FLAVOUR, soldier! Every citizen fed the same ration, at the same minute, from the same tap, and I have not had one complaint about the seasoning in ten years!"
 				],
 				[
 					"NPC-PLAYER",
@@ -159,7 +159,7 @@
 				],
 				[
 					"NPC-CRUMB",
-					"Taste is a weakness, soldier, and I have none! Golems, whisk formation, to the vats! Nobody touches my pantry!"
+					"Taste is a weakness, soldier, and I am proud to say I have none! Golems, whisk formation, and to the vats with you! Nobody lays a finger on my pantry!"
 				]
 			]
 		},
@@ -168,7 +168,7 @@
 			"steps": [
 				[
 					"NPC-CRUMB",
-					"Stand down. Stand DOWN. I said... oh, everyone's already lying down. Very well."
+					"Stand down! Stand DOWN, I said... oh. I see that everyone is already lying down. Very well, carry on lying."
 				],
 				[
 					"",
@@ -181,7 +181,7 @@
 				],
 				[
 					"NPC-MARLO",
-					"Then you'll learn again. The Grand Chef is taking students, and she starts every one of them the same way: first, water."
+					"Then you'll just have to learn it again, same as a boy on his first day. The Grand Chef is taking students, and she starts every one of them the same way: first, water."
 				],
 				[
 					"NPC-CRUMB",
@@ -248,11 +248,11 @@
 				],
 				[
 					"NPC-CLIPWELL",
-					"Out of regulation. Everything is out of regulation now, the lawns and the hedges both. They grow in whatever direction they please."
+					"An inch out of regulation. I'm afraid everything is out of regulation now, the lawns and the hedges alike, and they have all begun growing in whatever direction they please."
 				],
 				[
 					"NPC-FERN",
-					"That's what hedges DO."
+					"That's what hedges DO, woman! It's the whole point of a hedge!"
 				],
 				[
 					"NPC-CLIPWELL",
@@ -261,11 +261,11 @@
 				],
 				[
 					"NPC-PLAYER",
-					"Nothing grew there for ten years."
+					"I've stood in her valley. Nothing grew there for ten years."
 				],
 				[
 					"NPC-FERN",
-					"Granny Gristle needs hands on the compost rows down in the Dump, sorting peel from shell all day long. It's messy work, and you'd hate it. Good. It's yours if you want it."
+					"Granny Gristle wants hands on the compost rows down in the Dump, sorting peel from shell all day long. It's filthy work and you'd hate every minute, which is why I thought of you. It's yours if you want it."
 				],
 				[
 					"NPC-CLIPWELL",
@@ -287,15 +287,15 @@
 				[
 					"NPC-PLUME",
 					"Great news, citizens! The D.N.A. has been freed, a change His Perfection fully supports and in fact arranged!",
-					"And you must be the volunteer. A Certificate of Participation. Frame it, or don't. It's been notarized either way."
+					"And you must be our brave volunteer! Do accept this Certificate of Participation. Frame it or don't, as the mood takes you; it has been notarized either way!"
 				],
 				[
 					"NPC-AGNES",
-					"That's Percival Plume, dear. Deputy Minister of Good News. He drafted the transfer. Every page of it."
+					"That's Percival Plume, dear, the Deputy Minister of Good News. He's the one who drafted the transfer that signed us all over, and he wrote every page of it himself."
 				],
 				[
 					"NPC-PLUME",
-					"And had a clerk file it, on a Tuesday, I believe! Must dash. Ribbons to cut, a Capital to reassure. Toodle-oo!"
+					"And had a clerk file it, on a Tuesday, I believe! Well, I really must dash: there are ribbons to cut and a Capital to reassure. Toodle-oo!"
 				],
 				[
 					"",
@@ -363,8 +363,8 @@
 				],
 				[
 					"NPC-PLUME",
-					"Ah! You found my memo. Isn't it well written? I used the active voice.",
-					"Percival Plume, Deputy Minister of Good News. I drafted the transfer of the D.N.A., notarized it, had a clerk file it, and read it out on every loudspeaker in the land."
+					"Ah, you found my memo! Isn't it beautifully written? I used the active voice throughout, which I am told is very daring in a memo.",
+					"Percival Plume, Deputy Minister of Good News, at your service! I drafted the transfer of the D.N.A., notarized it, had a clerk file it, and read it out on every loudspeaker in the land!"
 				],
 				[
 					"NPC-PLAYER",
@@ -372,7 +372,7 @@
 				],
 				[
 					"NPC-PLUME",
-					"Beneath the forest where you... oh, I shouldn't have said that. Never mind. Great news: your visit is being declined!"
+					"Why, beneath the forest where you... oh. Oh, I really shouldn't have said that, should I? Never mind! Great news: your visit is being declined, effective immediately!"
 				]
 			]
 		},
@@ -381,7 +381,7 @@
 				[
 					"NPC-PLUME",
 					"This is a setback. A temporary, fully reversible, not-at-all-my-fault setback.",
-					"I'll draft a statement. 'Minister Plume bravely withdrew.' Yes. Bravely."
+					"I shall draft a statement at once: 'Minister Plume bravely withdrew.' Yes, I like that. Bravely is exactly the word."
 				],
 				[
 					"",
@@ -813,8 +813,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Ah. You did it, then, the castle and all.",
-					"Then I've two graves to finish properly, up in Grave Row in the city. Come by when you're ready. No rush; there never is, with me."
+					"Ah, there you are. You did it, then, the castle and all, and you've come back with both boots on. Lovely.",
+					"That means I've two graves to finish off properly, up in Grave Row in the city. You come by when you're ready, mind. There's no rush; there never is, with me."
 				]
 			]
 		},
@@ -822,7 +822,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Back again! Walked them all the way home, I did. Lovely evening for it."
+					"Back again! I walked the pair of them all the way home, I did, and it was a lovely evening for it."
 				],
 				[
 					"NPC-PLAYER",
@@ -830,7 +830,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see now... you're not down for a good long while. Ha! Lovely."
+					"Appointments, same as always. Let's see now... no, you're not down for a good long while. Lovely! That's what I like to see. Heh."
 				]
 			]
 		},
@@ -925,7 +925,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Just measuring. There's a lot of very tidy people in this city, and tidy is easy to measure."
+					"Just measuring, same as ever. There's a great many very tidy people in this city, mind, and I will say that tidy is lovely and easy to measure."
 				],
 				[
 					"NPC-PLAYER",
@@ -933,7 +933,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Him? Hm.",
+					"Him? Hm. Let me have a look in the book.",
 					"Pencilled in. Heh."
 				]
 			]
@@ -942,8 +942,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Just measuring. Ran into a peacock earlier, all trumpet and ribbons.",
-					"Oh, I've got HIM in pen. Heh. Not soon, mind. I just wanted it to last."
+					"Just measuring. I ran into a peacock earlier, mind, all trumpet and ribbons, and he never so much as stopped to say good morning.",
+					"Oh, I've got HIM in pen. Not soon, mind, so there's no call to look at me like that. I just like to have one or two of them settled. Heh."
 				]
 			]
 		},
@@ -968,7 +968,7 @@
 				],
 				[
 					"NPC-ISLA",
-					"They had us painting the same front door for eight years. Every time I asked to leave, the form came back \"pending\"."
+					"They had us painting the same front door for eight years, Dad. Every time I asked to leave, the form came back \"pending\", and by the end I'd stopped being surprised."
 				],
 				[
 					"NPC-GATEKEEPER",
@@ -993,8 +993,8 @@
 			"steps": [
 				[
 					"NPC-ISLA",
-					"I keep walking to the gate and back. Nobody stops me. I keep expecting somebody to stop me.",
-					"Dad oiled the hinges this morning. It doesn't even lock. He just likes the sound of it opening now."
+					"I keep walking down to the gate and back again, just because I can. Nobody stops me, and I still catch myself waiting for somebody to.",
+					"Dad oiled the hinges this morning, on a gate that doesn't even lock. He just likes the sound of it opening now."
 				]
 			]
 		},
