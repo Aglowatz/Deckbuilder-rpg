@@ -1,3 +1,166 @@
+# Fable Nov 12d - report (2-hour pass: the broken checks, a fresh playtest, the ghost building, edges, RC6)
+
+Brief: `docs/prompts/fable_nov12_2h.md`. Start tag `pre-fable-nov12d`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12d" (7 items).
+Shots: `docs/overnight_shots/nov12d/`. One Godot at a time; the one sub-agent (the critic) ran the game itself and nothing of mine ran
+beside it. Owner constraints kept: no difficulty setting, the battle board and the menus keep their layout, no new art, Primm's fight
+unchanged, nothing uploaded. Ran on Fable 5.2. The Fable Nov 12c report follows below.
+
+## RC6
+
+**RC6 is not built.** Free RAM stayed between 2.07 and 2.15 GB through the ten-minute wait (20:50 to 20:59, nothing of mine running);
+the rule was 2.2 GB, so the export was not started. No exported smoke and no `play_exported.sh` check ran. The source is at
+`1.0.0-rc6`, tested and pushed. To build it, close Chrome, ChatGPT and anything else heavy, then in Git Bash from
+`C:\Dev\Deckbuilder-rpg`, in the foreground:
+
+```
+EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0-rc6
+bash tools/run_release_smoke_exported.sh
+bash tools/export_test_pack.sh
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480
+SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480
+grep -c "SCRIPT ERROR" _screenshots/exported/play_r1*.log
+```
+
+The export takes 4 to 10 minutes ("EXPORT STOPPED" means nothing was replaced); the smoke must print `PASSED`; the last line must print 0
+three times.
+
+## One thing to know first: tests were overwriting your campaign-1 autosave
+
+`%APPDATA%\Deckbuilder-RPG\savesutosave.json` (and its `.bak`) was rewritten by test runs today, at 19:59, 20:25 and 20:44, with
+test state (level 3, 450 gold, a Crease flag). Twelve test files switch saving back on at the real path. **I cannot tell what was in
+that slot before today and cannot recover it**; campaigns 2 and 3 are untouched (Oct 24, Oct 31). I do not think this pass introduced it
+(those tests date from Nov 7 on, and every full test run would have done the same), but that is not verified. Fixed from here on: under
+a GUT run the default save path is a scratch file. Checked: the twelve files plus the Crease test pass (94 tests) and the autosave's
+timestamp did not move. The last full test run was before this guard; the twelve files were re-run after it.
+
+## At a glance
+
+- **The three failing checks all pass.** One real game bug was behind them (Maren's Path talk); the rest was the smokes being out of date.
+- **The critic scored clarity 6, fun 6, polish 6, but its report is partial**: it used 9 runs and reached neither the cave's pop-ups nor
+  the Black Market screen. Five of its findings are fixed; the rest are in the inbox.
+- **The Transit Yards ghost building is gone.** It was a townhouse standing in the draw-distance dissolve.
+- **Zone edges: six zones shot, none fixed.** Three have something left (the Dump's two south corners, Crosspath's south band, the
+  D.N.A.'s bare apron).
+- **Motion: pickups bob.** Chests and per-zone ambient effects already existed.
+- **Tests: 3070 / 3072 passed, 0 failing, 2 pending (40 shards, 24 minutes).**
+
+## Part 1 - the three checks
+
+| Check | Result | Game or smoke? |
+|---|---|---|
+| Opening-hour smoke (`run_playtest_smoke.sh`) | **Passes** | Both, see below |
+| Controller smoke, "Y hides the card details" | **Passes** | Smoke (timing) |
+| NPC visibility probe, Corwin Bale | **50 / 50** | Game |
+
+**The opening-hour smoke, check by check:**
+
+| Check that failed | Which was wrong | What changed |
+|---|---|---|
+| "the only active quest is Meet the Merchants" | Smoke | It expects Meet the Merchants and Fragments (Fragments starts at `trial_cleared` since Nov 7). |
+| "every merchant met: hand it to Maren" and the seven after it (Maren takes it back, Make It Yours, its banner, the pack, the Packs screen, opening the pack, Make It Yours back, the store room) | Smoke | One cause: since Nov 3-4 the quest has a step "Equip Tilly's Power Wraps", which the smoke never did. It equips them now. |
+| "Bertram says enemies roam the edges of town" | Smoke | His line says "the lanes round the edge of town" since the dialogue rewrite. |
+| "the Starter Blade and every equipment slot" | Smoke | Since Nov 3-4 the quest ends on equipping the blade. The smoke equips it. |
+| The four "main line appears after the armory quest" checks and "the own Path's quest is tracked" | Smoke | Since Nov 7-8 the zone lines start with Maren's Path talk, not with the armory. The smoke checks they wait, then start with the talk. |
+| "Maren has the Path talk ready" / "Maren sends the hero to their own Path's zone" | **Game** | Her cave-mouth welcome never set `elder_greeted`. So the report after the armory quest played her first-meeting speech ("Up and walking. Good. I am Elder Maren...", "buy a few cards from Sable"), hours late, and the Path talk needed a second conversation. The welcome sets the flag now; saves made in between are healed when she is next talked to. Inbox 3. |
+
+Also fixed in the game on the way: the opponent's turn logged "AI produced no legal action" when a duel ended while its move was being
+announced (harmless, but an error line).
+
+**The controller check** passed on the first run I made and had failed before: the smoke pressed Y while the last card was still
+resolving or a once-ever tip held the pad, when the battle cursor rightly ignores it. The smoke waits for the cursor now. The game is
+unchanged. The smoke also puts your zoom and camera angle back when it ends.
+
+**Corwin Bale** stood at x 73.5, straight behind the townhouse at x 72 to 77 from both cameras. He stands in the open alley at x 68.5
+now (the mirror of Nell Hargreave's spot) and strolls 2 m instead of 3.2 m, so he cannot reach the house.
+
+## Part 2 - the no-context playtest
+
+Report: `docs/review/critic_nov12d/report.md`. Brief: `docs/review/critic_nov12d_brief.md`. Dev build, the play-script driver, 9 runs,
+about 22 minutes, 0 script errors in every run.
+
+**Scores: clarity 6, fun 6, polish 6.** The first hour looked finished to it (about 7 for polish); the Capital rougher (about 5).
+
+**What it did not reach** (it lost three runs to the New Game flow and two to its own cave scripts): the shrine, the Hollow Well, the
+"Before the fight" panel, the Cave Warden and his closing words, Crosspath, Maren, the Black Market screen, the Transit Yards. **So the
+new pop-ups and the Warden's closing words have still not been seen by fresh eyes.**
+
+| # | Its finding | Size | Done? |
+|---|---|---|---|
+| 1 | "Back out into the wastes." shows on arriving in the Crease | S | **Fixed**: the Crease has its own line (inbox 2) |
+| 2 | The Black Market is easy to miss: no name, an identical stall beside it, a small reach | S | **Fixed**: a "Fig Sly - Black Market" label, reach 1.8 m to 2.6 m (inbox 1) |
+| 3 | The Crease's east wall fills half the frame; flat cream rectangles hang in the air | M | **Half**: the rectangles were lantern glass, now small amber lanterns. The wall is unchanged |
+| 4 | New Game is three decisions before any story | M | Not changed (inbox 5) |
+| 5 | Tidy-Bots knock you flat with no warning | M | Not changed (both hits followed debug jumps) |
+| 6 | The Capital map is hard to read | M | Not changed |
+| 7 | The minimap is a blurry blob | M | Not changed |
+| 8 | The wall's faces are plain slabs | L | Not changed (art) |
+| 9 | The enemy's name crowds its plate | S | **Fixed**: the name starts 6 px clear of the portrait ring |
+| 10 | The Path choice interrupts the Rescuer; the Wanderer's portrait has a hard edge | S | Not changed: the edge is art, the order is the design |
+| note | A room out of reach says "Step on it to find out" | S | **Fixed**: "You can't reach it yet: clear a room that leads to it." |
+
+Three of the five S items are fixed, plus the S note and half of one M. Shots: `crease_arrival.jpg`, `crease_fig_label.jpg`,
+`crease_black_market.jpg`.
+
+## Part 3 - the visual leftovers
+
+**The Transit Yards ghost building: fixed.** It was the townhouse at x 72 to 77, z 33 to 45, about 48 m from that camera: exactly where
+the zone's draw distance ends, so it stood half dissolved for as long as the hero stood there. Pieces 7 m tall or more now draw 1.3
+times further and switch without a dissolve. Before: `docs/overnight_shots/nov12c/partc/capital_before_transit_yards_default.jpg`.
+After, same camera: `docs/overnight_shots/nov12d/capital_after_transit_yards_default.jpg` and `_low.jpg`.
+
+**Edges of the other zones: shot, not fixed.** A new driver command, `edgeshots <prefix>`, stands the hero near the eight outermost
+walkable points of a place and shoots each at the default and the Low camera. Sheets: `docs/overnight_shots/nov12d/edges/<zone>_edges_default.jpg`
+and `_low.jpg`, with every single shot beside them. I looked at the default sheets only; the Low sheets are shot but not reviewed.
+
+| Zone | Default camera | Left to do |
+|---|---|---|
+| The Dump | **A pale wedge at the south-east and south-west corners**: the camera sits inside the ravine's rim and sees the fog through its back | Close the rim from behind or hold the camera in. Worst of the six |
+| Crosspath | A violet mist band along the bottom of the frame at the south edge | Rough but reads as a boundary |
+| The D.N.A. | Flat grey apron to the horizon outside the offices | Bare, no void |
+| The Gainlands | Sea and painted backdrop at all eight points | Nothing (a blank pale board stands on the west islet; not checked what it is) |
+| The Buffet | Gravy sea and backdrop at all eight points | Nothing |
+| The forest | Closed by trees and rock at all eight points | Nothing |
+
+## Part 4 - motion
+
+- **Pickups bob** (the Buffet's ingredients, the Dump's beans and crates, the Capital's compost, recipe cards and seed jars): a 9 cm
+  bob, a slow turn for a single model, a breathing ground ring. Off on Low-end and under Reduce motion. Tested in a unit test; **I did
+  not look at one in the game.**
+- **Chests already animate open** (the lid swings, a flash of light; `ChestKit.open_animated`, since Oct). Nothing added.
+- **Every zone already has an ambient effect** (`AmbientFx`, since Oct 17: dust in the Gainlands, steam in the Buffet, gnats and fluff
+  in the Dump, motes and the paper drift in the D.N.A.). Nothing added.
+
+**FPS on Medium after the pass** (this PC, 1600x900; measured with the tall-piece range at 1.45 times, shipped at 1.3 times):
+
+| Place | Medium | Before (Nov 12c) |
+|---|---:|---|
+| Crosspath | 75.6 | 70.1 |
+| The Capital, `perf_run capital_in` | 63.7 | 57.0 |
+| The Capital, Transit Yards camera | 60.6 | 65.8 to 69.1 across the cameras |
+| The Capital, Gate Plaza / Hungry Quarter / Palace Approach cameras | 64.5 / 62.8 / 66.4 | same range |
+| The Buffet / the Dump / the Gainlands | 81.9 / 71.7 / 83.3 | 82.7 / - / - |
+
+Medium holds 60 everywhere measured, but the Capital's cameras lost about 3 to 5 fps to the ghost-building fix (inbox 4).
+
+## Part 5
+
+- **Tests:** 3070 / 3072 passed, 0 failing, 2 pending (40 shards, 24 minutes).
+- **Settings on this PC:** Camera angle is 0 (Cinematic, the default) and zoom is 1.5 in `%APPDATA%\Deckbuilder-RPG\settings.cfg`; they already read so when I checked, and I changed nothing by hand. Scripted runs no longer write the camera angle or zoom into your settings (that is how it got
+  left on "Low").
+
+## What's left before 1.0.0
+
+1. **RC6 or 1.0.0 itself** (see the top).
+2. **Ten minutes of your own play**: a new game through the cave (the pop-ups, the well, the Warden), then the Capital (the manhole,
+   the Crease, Fig Sly). The critic did not get there.
+3. **Inbox "Fable Nov 12d"**, items 1 to 4: Fig Sly's label, the Crease line, Maren's speech, the tall-piece range.
+4. **Fig Sly's portrait** (`V-FIGSLY.png`) and the rest of Batch 15, still not delivered.
+5. **The Dump's two south corners** (the pale wedge), if you want it closed before release.
+6. The final checklist of the Nov 12c report below still applies.
+
+---
+
 # Fable Nov 12c - report (the owner's fix list, the pop-ups, the Crease, the world pass, RC6)
 
 Brief: `docs/prompts/fable_nov12_fixes.md` (it replaced `fable_nov12_final.md`). Start tag `pre-fable-nov12c`. Questions:
