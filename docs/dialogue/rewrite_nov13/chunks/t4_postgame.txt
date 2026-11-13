@@ -1,0 +1,39 @@
+# t4_postgame: 9 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@dc::dungeons/S-GALLERY/blurbs/1
+#   [(narration/UI)] S-GALLERY, "node 1": map description
+0| The mirror at the castle door, cracked from the inside. Beyond it the air is cold and smells of polish.
+
+@dc::dungeons/S-GALLERY/blurbs/2
+#   [(narration/UI)] S-GALLERY, "node 2": map description
+0| An Echo of Vivienne Quota, timing you to the second. Enemy units here enter with +1 attack.
+
+@dc::dungeons/S-GALLERY/blurbs/4
+#   [(narration/UI)] S-GALLERY, "node 4": map description
+0| An Echo of Chancellor Clench, at the height of his reign. He starts with Iron already in hand.
+
+@dc::dungeons/S-GALLERY/blurbs/5
+#   [(narration/UI)] S-GALLERY, "node 5": map description
+0| An Echo of Percival Plume, with perfectly good news. From here on the first card you play each turn costs 1 more.
+
+@dc::dungeons/S-GALLERY/blurbs/7
+#   [(narration/UI)] S-GALLERY, "node 7": map description
+0| An Echo of Mortimer Grimsby. The authorization, he says, is reflected.
+
+@dc::dungeons/S-GALLERY/blurbs/9
+#   [(narration/UI)] S-GALLERY, "node 9": map description
+0| An Echo of the Doppelganger, wearing a face it learned by heart. From here on the first unit you play each turn is copied for the enemy.
+
+@dc::dungeons/S-GALLERY/blurbs/10
+#   [(narration/UI)] S-GALLERY, "node 10": map description
+0| An Echo of Hortensia Clipwell, in a garden trimmed so neatly it hurts.
+
+@dc::dungeons/S-GALLERY/blurbs/11
+#   [(narration/UI)] S-GALLERY, "node 11": map description
+0| An Echo of the Rotheart, green glass that never stops growing.
+
+@dc::dungeons/S-GALLERY/blurbs/13
+#   [(narration/UI)] S-GALLERY, "node 13": map description
+0| The Perfect Copy: your own deck, your own face, more HP and one extra card each turn.

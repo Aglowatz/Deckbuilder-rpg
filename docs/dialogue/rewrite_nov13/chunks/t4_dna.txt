@@ -1,0 +1,467 @@
+# t4_dna: 179 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@dna::enemy.courier
+#   [D.N.A. staff] Enemy: courier
+0| Urgent delivery! A signature is required, and if one is not given, one will be taken.
+1| Delivering a Notice of Compliance, in triplicate. Please hold still for all three.
+
+@dna::enemy.intern
+#   [D.N.A. staff] Enemy: intern
+0| Unpaid, undead and eager to impress the new management. At last, some hands-on experience!
+1| It does not know the new management is wrong. It only knows the paperwork is valid.
+
+@dna::enemy.manager
+#   [D.N.A. staff] Enemy: manager
+0| He has wanted a quick sync with you since 1994. Now he enforces the new regulations with great, unenthusiastic precision.
+
+@dna::fx.chest
+#   [(narration)] Pop-up message: chest
+0| You find supplies filed under Miscellaneous. For once, you meet the requirements.
+
+@dna::fx.coffee_bad
+#   [(narration)] Pop-up message: coffee bad
+0| The machine screams, then the coffee screams, and you drink it anyway. -1 HP.
+
+@dna::fx.coffee_gold
+#   [(narration)] Pop-up message: coffee gold
+0| A coin rolls out of the dispenser instead of coffee, and the machine shows no remorse at all. +gold.
+
+@dna::fx.coffee_good
+#   [(narration)] Pop-up message: coffee good
+0| The coffee is almost drinkable. Someone in the breakroom may be disciplined for this. (+HP)
+
+@dna::fx.coffee_great
+#   [(narration)] Pop-up message: coffee great
+0| A perfect brew. The machine gives a proud little hum, and you feel fully restored.
+
+@dna::fx.heal_already
+#   [(narration)] Pop-up message: heal already
+0| You are already as rested as the dead get, and the dead get very rested.
+
+@dna::fx.heal_couch
+#   [(narration)] Pop-up message: heal couch
+0| You sink into the Breakroom Couch, which is somehow both ice cold and slightly damp. HP restored.
+
+@dna::fx.hit
+#   [(narration)] Pop-up message: hit
+0| Delivery! Signature taken. (-2 HP)
+
+@dna::fx.main_dungeon
+#   [(narration)] Pop-up message: main dungeon
+0| The Executive Floor's great doors stand open a crack. Beyond them: endless desks, green lamps, and stamps that thump like heartbeats.
+1| A voice from the dark says: PLEASE TAKE A NUMBER.
+
+@dna::fx.printer_ok
+#   [(narration)] Pop-up message: printer ok
+0| The printer gives you a warm card. You accept before it can request a reference.
+
+@dna::fx.printer_poor
+#   [(narration)] Pop-up message: printer poor
+0| PAPER JAM. The printer regrets to inform you that your fee is non-refundable.
+
+@dna::fx.punch_again
+#   [(narration)] Pop-up message: punch again
+0| Your shift is already recorded. Please do not punch twice; the clock has suffered enough.
+
+@dna::fx.punch_in
+#   [(narration)] Pop-up message: punch in
+0| You punch in. The clock says 'Welcome back, Pending.' A small buff glimmers on you.
+
+@dna::fx.suggestion
+#   [(narration)] Pop-up message: suggestion
+0| You post a suggestion. Something drops back out of the box. You appear to have been assigned the follow-up.
+
+@dna::fx.suggestion_empty
+#   [(narration)] Pop-up message: suggestion empty
+0| The suggestion box is empty. The committee read your suggestion and did not implement it, but they did laminate it.
+
+@dna::fx.wake
+#   [(narration)] Pop-up message: wake
+0| You wake on a Lobby couch with a 15-minute limit. A form has already been filled out in your name.
+1| It says you are 'Pending'. It also says 'Valid'.
+
+@dna::memo.coffee
+#   [D.N.A. staff] Memo: coffee
+0| MEMO: THE COFFEE MACHINE
+1| For living staff only. Undead staff, please use the Decaf Crypt.
+2| This is the fourth memo.
+
+@dna::memo.cubicle_coffin
+#   [D.N.A. staff] Memo: cubicle coffin
+0| MEMO: CUBICLE 12-C
+1| Whoever put a coffin in 12-C: you may keep it.
+2| Please stop billing it as 'ergonomic seating'.
+
+@dna::memo.fun_day
+#   [D.N.A. staff] Memo: fun day
+0| MEMO: MANDATORY FUN DAY
+1| Reminder: Mandatory Fun Day is mandatory.
+2| Fun that is not mandatory will not be counted as fun.
+
+@dna::memo.hr
+#   [D.N.A. staff] Memo: hr
+0| HR REMINDER
+1| Nothing is filed on a Tuesday (Rule 1). Tuesdays are for rest and the rec room. 'Rest in Peace' is still not an approved out-of-office message.
+
+@dna::memo.lunch
+#   [D.N.A. staff] Memo: lunch
+0| BREAKROOM REMINDER
+1| Labelled lunches are not safe. Unlabelled lunches are not safe. Lunches are not safe.
+
+@dna::memo.motto
+#   [D.N.A. staff] Memo: motto
+0| ALL-HANDS REMINDER
+1| Our motto is "Your Death, Our Priority." Please stop saying "Your Death, Our Problem."
+
+@dna::memo.parking
+#   [D.N.A. staff] Memo: parking
+0| FACILITIES
+1| Beefcake couriers: throwing a parcel through the window is not 'delivery'. Neither is throwing the courier.
+
+@dna::memo.records
+#   [D.N.A. staff] Memo: records
+0| RECORDS NOTICE
+1| To access the Records Basement, bring Form 13-B.
+2| Form 13-B is available from Form 13-A. Form 13-A is available from nobody.
+
+@dna::memo.reorg
+#   [D.N.A. staff] Memo: reorg
+0| REORG NOTICE
+1| Due to a restructuring, you will now report to the person who reports to you.
+2| Both of you have been dead since Tuesday. Both of you report to {villain}.
+
+@dna::poster.hang_in_there
+#   [(narration)] Poster: hang in there
+0| HANG IN THERE!
+1| (The poster is a skeleton on a branch. It has been there since 1650.)
+
+@dna::poster.performance
+#   [(narration)] Poster: performance
+0| ETERNAL PERFORMANCE REVIEWS
+1| Review 1 of 4,000,000. Self-assessment due yesterday.
+
+@dna::poster.safety
+#   [(narration)] Poster: safety
+0| SAFETY FIRST
+1| You are already dead. Please do not make it worse.
+
+@dna::poster.synergy
+#   [(narration)] Poster: synergy
+0| SYNERGY
+1| Together Everyone Achieves More. Eventually. Posthumously.
+
+@dna::poster.wellness
+#   [(narration)] Poster: wellness
+0| WELLNESS WEDNESDAY
+1| Breathe in. Breathe out. (Optional for you.)
+
+@dna::sign.coffee
+#   [(narration)] Reading a sign: coffee
+0| COFFEE MACHINE
+1| For living staff only. Undead: use the Decaf Crypt.
+
+@dna::sign.cubicle_farm_a
+#   [(narration)] Reading a sign: cubicle farm a
+0| CUBICLE FARM A
+1| Please do not personalize your cubicle. Yes, haunting counts.
+
+@dna::sign.cubicle_farm_b
+#   [(narration)] Reading a sign: cubicle farm b
+0| CUBICLE FARM B
+1| Hot-desking is permitted. Hot-desking has been banned. See memo.
+
+@dna::sign.elevator_bank
+#   [(narration)] Reading a sign: elevator bank
+0| ELEVATOR BANK
+1| Floors served: Lobby, Records, Quarterly Reviews, Under Renovation.
+
+@dna::sign.elevator_rule
+#   [(narration)] Reading a sign: elevator rule
+0| RECORDS BASEMENT ELEVATOR
+1| Form 13-B required. No form, no floor.
+
+@dna::sign.executive
+#   [(narration)] Reading a sign: executive
+0| EXECUTIVE FLOOR
+1| Staff beyond this point are dead. Executives were dead before it was fashionable.
+
+@dna::sign.exit
+#   [(narration)] Reading a sign: exit
+0| THE CHECKPOINT ROAD
+1| To {town}. Permit stamped in triplicate by Prudence Pallor. Sunlight not guaranteed. Mind the potholes.
+
+@dna::sign.filing_maze
+#   [(narration)] Reading a sign: filing maze
+0| FILING DEPARTMENT
+1| If you are lost, you are in the correct place.
+
+@dna::sign.fun_day
+#   [(narration)] Reading a sign: fun day
+0| MANDATORY FUN DAY - THIS FRIDAY
+1| Attendance is compulsory for all staff, including the undead.
+2| Cake provided. Cake will not be eaten.
+
+@dna::sign.heal_couch
+#   [(narration)] Reading a sign: heal couch
+0| BREAKROOM COUCH
+1| Eternal rest, 15 minute limit.
+
+@dna::sign.lobby_main
+#   [(narration)] Reading a sign: lobby main
+0| DEPARTMENT OF NECROTIC AFFAIRS
+1| A Division of Afterlife Services and Labor
+2| Under New Management (Authorization Valid)
+
+@dna::sign.mailroom
+#   [(narration)] Reading a sign: mailroom
+0| MAIL ROOM
+1| All souls routed by pneumatic tube. Souls routed incorrectly will be re-routed. Eventually.
+
+@dna::sign.main_dungeon
+#   [(narration)] Reading a sign: main dungeon
+0| THE HALL OF FINAL APPROVALS
+1| Where all things are authorized: life, death, resurrection and the afterlife.
+2| Appointment required. Estimated wait: 400 years. Waiting room not included.
+
+@dna::sign.matching
+#   [(narration)] Reading a sign: matching
+0| THE REC ROOM
+1| Open Tuesdays, when nothing may be filed (Rule 1). Please do not feed the Top 8.
+
+@dna::sign.mini_dungeon
+#   [(narration)] Reading a sign: mini dungeon
+0| SUB-BASEMENT 3: QUARTERLY REVIEWS
+1| Three meetings. Mandatory. No snacks.
+
+@dna::sign.motto
+#   [(narration)] Reading a sign: motto
+0| OUR MOTTO:
+1| "Your Death, Our Priority."
+
+@dna::sign.now_serving
+#   [(narration)] Reading a sign: now serving
+0| NOW SERVING:
+1| THREE (since 1291)
+2| (Estimated wait for number four: 400 years. The Department of Necrotic Affairs appreciates your patience.)
+
+@dna::sign.printer
+#   [(narration)] Reading a sign: printer
+0| PRINTER
+1| Out of toner. Out of body. Contact IT (deceased). Please specify which problem.
+
+@dna::sign.puzzle
+#   [(narration)] Reading a sign: puzzle
+0| PNEUMATIC SOUL ROUTING
+1| Set every junction. Send the souls. Do not send them to Accounts Payable.
+
+@dna::sign.quiz
+#   [(narration)] Reading a sign: quiz
+0| COMPLIANCE TESTING
+1| Annual re-certification: 4 questions. Failure is not an option. It is a form.
+
+@dna::sign.records
+#   [(narration)] Reading a sign: records
+0| RECORDS BASEMENT
+1| Every life, filed under 'Pending'.
+
+@dna::sign.filed_complaint
+#   [(narration)] Reading a sign: filed complaint
+0| FILED COMPLAINT
+1| A complaint, filed in 1873, about the filing system. It is filed under C, for Complaint, and also under F, for Filing, and also under P, for Pending.
+2| The response is filed under R. The response is blank.
+
+@dna::shrine.used
+#   [(narration/UI)] Shrine: used
+0| The stamp has been used and the form is complete. Nothing else will be approved today, or any other day.
+
+@dna::sign.requisitions
+#   [(narration)] Reading a sign: requisitions
+0| REQUISITIONS
+1| Cards, in triplicate. Souls, in quadruplicate.
+
+@dna::sign.suggestion_box
+#   [(narration)] Reading a sign: suggestion box
+0| SUGGESTIONS
+1| All suggestions are read by a committee that has been dead since 1979.
+
+@dna::sign.take_number
+#   [(narration)] Reading a sign: take number
+0| DECEASED?
+1| TAKE A NUMBER.
+2| Your assigned number is a number. Requests for a better answer require a new number.
+
+@dna::sign.time_clock
+#   [(narration)] Reading a sign: time clock
+0| PUNCH IN. PUNCH OUT.
+1| (Punching other employees is not covered by your plan.)
+
+@dna::sign.authorization
+#   [(narration)] Reading a sign: authorization
+0| NOTICE OF TRANSFER OF AUTHORITY
+1| Form 1-A, submitted, reviewed, approved, notarized and filed. Authority over all Necrocrat government is hereby transferred to {villain}.
+2| This transfer is valid. If you disagree, please submit Form 1-B. Form 1-B is available from the person who wrote the transfer.
+
+@dna::sign.new_management
+#   [(narration)] Reading a sign: new management
+0| NEW MANAGEMENT
+1| By order of {villain}, all personnel are required to follow all rules, permits and procedures, including the new ones.
+2| This is not oppression. This is policy.
+
+@dna::sign.permit_to_stand
+#   [(narration)] Reading a sign: permit to stand
+0| PERMIT TO STAND
+1| Standing in a hallway for more than 30 seconds requires a Permit to Stand (Form 7-S).
+2| Form 7-S requires a Permit to Fill in Forms (Form 7-F). Form 7-F requires a signature. The signature requires you to stand still.
+
+@dna::memo.new_rules
+#   [D.N.A. staff] Memo: new rules
+0| NEW RULES: EFFECTIVE IMMEDIATELY
+1| Rule 40,001: All rules must be followed.
+2| Rule 40,002: All rules include this rule.
+3| Rule 40,003: See rule 40,002.
+
+@dna::poster.compliance
+#   [(narration)] Poster: compliance
+0| COMPLIANCE IS FREEDOM
+1| (Freedom is subject to approval.)
+
+@npc::V-LEDGERBONE.barks
+#   [Clerk Ledgerbone] Bark (speech bubble when you walk past Clerk Ledgerbone; D.N.A. Lobby)
+0| Form 12-B for purchases. Filled in correctly? Oh. Oh, that's lovely.
+1| The stamp wants a raise. I've given it the form, and it's thinking it over.
+
+@npc::NPC-ECTOMUND.barks
+#   [Director Ectomund] Bark (speech bubble when you walk past Director Ectomund; D.N.A.)
+0| Three hundred years, the same quiz. The answers have never been fresher.
+1| The ethics questions were removed by management. Ethically, I object.
+
+@npc::NPC-KYLE.barks
+#   [Kyle (Deceased Since '09)] Bark (speech bubble when you walk past Kyle (Deceased Since '09); D.N.A.)
+0| is it still '09 out there? no? huh. brb, updating my away message.
+1| brb, haunting. been brb since '09. it's a long b.
+
+@npc::NPC-GERALD.barks
+#   [Gerald, Number 4,000,212] Bark (speech bubble when you walk past Gerald, Number 4,000,212; D.N.A.)
+0| Four million two hundred and twelve. They're on three. Any minute now.
+1| Coffee? Nobody here can taste it, but I make it anyway. It's the thought.
+
+@npc::NPC-AGNES.barks
+#   [Agnes Overdue] Bark (speech bubble when you walk past Agnes Overdue; D.N.A. Lobby; Hall of Final Approvals)
+0| Employee of the month since 1987, dear. The plaque is getting heavy.
+1| Appeal forty thousand and one, denied. I'm starting to take it personally, dear.
+
+@npc::NPC-MORTIMER.barks
+#   [Mortimer Grimsby, CE-No] Bark (speech bubble when you walk past Mortimer Grimsby, CE-No; D.N.A.; Hall of Final Approvals)
+0| Number four million two hundred and fourteen. I have begun to understand Gerald.
+1| I have filed my impatience in triplicate. It is still being processed.
+
+@dna::dungeon.ha_lobby.blurb
+#   [D.N.A. staff] Dungeon node "ha lobby": map description
+0| A cavernous reception hall under a single sign: ALL THINGS REQUIRE AUTHORIZATION. THIS INCLUDES THE SIGN.
+
+@dna::dungeon.ha_number.blurb
+#   [D.N.A. staff] Dungeon node "ha number": map description
+0| You are number 4,000,213 and they're serving number 3. It's a very long queue, and it's the only way forward.
+
+@dna::dungeon.ha_intake.blurb
+#   [D.N.A. staff] Dungeon node "ha intake": map description
+0| An intake clerk demands to see your paperwork, and the inspection turns out to be mostly a fight.
+
+@dna::dungeon.ha_waiting.blurb
+#   [D.N.A. staff] Dungeon node "ha waiting": map description
+0| A very comfortable waiting room, whose magazines are 600 years old. Restore HP.
+
+@dna::dungeon.ha_audit.blurb
+#   [D.N.A. staff] Dungeon node "ha audit": map description
+0| An auditor examines your deck for compliance. Three cards will be weighed on the Scale of Approved Expenditures.
+
+@dna::dungeon.ha_mailroom.blurb
+#   [D.N.A. staff] Dungeon node "ha mailroom": map description
+0| Souls arrive here by pneumatic tube when nobody knows where else to put them. They are not happy about it.
+
+@dna::dungeon.ha_lost.blurb
+#   [D.N.A. staff] Dungeon node "ha lost": map description
+0| A counter piled high with misfiled belongings. A sign: IF YOU FIND SOMETHING, YOU MAY KEEP IT. IF YOU LOSE SOMETHING, SEE A CLERK.
+
+@dna::dungeon.ha_compliance.blurb
+#   [D.N.A. staff] Dungeon node "ha compliance": map description
+0| The department that enforces the rules that enforce the rules. Their officer is perfectly polite. (Elite)
+
+@dna::dungeon.ha_appeals.blurb
+#   [D.N.A. staff] Dungeon node "ha appeals": map description
+0| A judge in an old powdered wig weighs your case. The scales are made of paperwork.
+
+@dna::dungeon.ha_notary.blurb
+#   [D.N.A. staff] Dungeon node "ha notary": map description
+0| Every important document in the Hall is stamped, signed and witnessed here, the transfer of authority included. The notary is still finding blue-green feathers.
+
+@dna::dungeon.ha_forms.blurb
+#   [D.N.A. staff] Dungeon node "ha forms": map description
+0| A counter with a very long sign: FORM 13-B REQUIRES FORM 13-A. FORM 13-A REQUIRES FORM 13-B. PLEASE SEE A CLERK.
+
+@dna::dungeon.ha_duplicates.blurb
+#   [D.N.A. staff] Dungeon node "ha duplicates": map description
+0| Every form here has a twin, and every twin has a twin of its own. The clerks are undead and, understandably, a bit short.
+
+@dna::dungeon.ha_clerk.blurb
+#   [Undersecretary Vellum] Dungeon node "ha clerk": map description
+0| The Appeals Court's Undersecretary Vellum, Mortimer's deputy, defends the transfer of authority to the last paragraph. He has never once been thanked. (Elite)
+
+@dc::dungeons/D-HFA/blurbs/13
+#   [(narration/UI)] The Hall of Final Approvals, "Executive Elevator": map description
+0| The elevator is hand-cranked by a Beefcake on loan from the wheels. Every floor needs a permit and a rep. Iron turns the crank; Red Tape keeps the doors shut.
+
+@dna::dungeon.ha_boss.blurb
+#   [Mortimer Grimsby, CE-No] Dungeon node "ha boss": map description
+0| A vast office with a single desk, a single stamp, and one very patient authority.
+
+@dna::sign.lobby_main.freed
+#   [(narration)] Reading a sign: lobby main (after the zone is freed)
+0| DEPARTMENT OF NECROTIC AFFAIRS
+1| A Division of Afterlife Services and Labor
+2| Authority Restored (Authorization Revoked on a Technicality)
+
+@dna::sign.authorization.freed
+#   [(narration)] Reading a sign: authorization (after the zone is freed)
+0| NOTICE OF REVOCATION
+1| Form 1-A has been found to be filed on a Tuesday. Tuesday is not a business day in this building.
+2| The transfer is void. Thank you for your patience. Please ignore the previous notice, the notice before that, and the notice about the notices.
+
+@dna::sign.new_management.freed
+#   [(narration)] Reading a sign: new management (after the zone is freed)
+0| OLD MANAGEMENT
+1| Back from retirement, and delighted to be here. Rules and procedures have been reduced from 40,000 to a more reasonable 39,000.
+
+@dna::sign.permit_to_stand.freed
+#   [(narration)] Reading a sign: permit to stand (after the zone is freed)
+0| STAND WHERE YOU LIKE
+1| Standing, sitting and lying down are now permitted. Please choose for yourself. We realise this may take practice.
+
+@dna::sign.now_serving.freed
+#   [(narration)] Reading a sign: now serving (after the zone is freed)
+0| NOW SERVING:
+1| EVERYONE (since this morning)
+2| (The number machine has been switched off. Please just come in.)
+
+@dna::sign.main_dungeon.freed
+#   [(narration)] Reading a sign: main dungeon (after the zone is freed)
+0| THE HALL OF FINAL APPROVALS
+1| Formerly where all things were authorized. The doors are now open, and the form is optional.
+2| Estimated wait: some minutes. Waiting room included, with magazines.
+
+@dna::memo.new_rules.freed
+#   [D.N.A. staff] Memo: new rules (after the zone is freed)
+0| REVISED RULES
+1| Rules 40,001 through 40,003 have been repealed. Please allow a moment for the notices to catch up.
+
+@dna::poster.compliance.freed
+#   [(narration)] Poster: compliance (after the zone is freed)
+0| COMPLIANCE IS FINE
+1| (Freedom is also fine. Choose what you like.)
+
+@dna::ruler.statue.freed
+#   [Mortimer Grimsby, CE-No] Ruler: statue (after the zone is freed)
+0| FORMER STATUE OF MORTIMER GRIMSBY
+1| (Authorization revoked. The statue has been asked to leave. It has taken a number.)

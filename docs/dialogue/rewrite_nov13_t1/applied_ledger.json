@@ -1,0 +1,2124 @@
+[
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Ugh... where am I? And while I'm asking, who am I?",
+		"after": "Where... where is this? I can smell wet leaves, and my head feels as if someone has packed it with wool."
+	},
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I keep reaching for my name, or for how I got here, and there's nothing there at all.",
+		"after": "I keep reaching for my name, and it isn't there. Neither is how I came to be here. There's nothing at all, like a room that somebody has emptied."
+	},
+	{
+		"id": "data/story/intro_story.tres::awakening_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I should get up. My legs have other ideas, and every part of me aches.",
+		"after": "I ought to try standing up, though my legs don't seem to agree, and I ache in places I couldn't even put a name to."
+	},
+	{
+		"id": "data/story/intro_story.tres::start.gate_prompt::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "A cold draft rises out of the dark, smelling of old stone and older water. The stranger said the town lies on the other side. Go in?",
+		"after": "A cold draft rises out of the dark, and it smells of old stone and older water. The stranger said the town lies on the other side of this cave. Go in?"
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Easy. Stay down a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all.",
+		"after": "Easy, now. Stay down for a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.1::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "And keep your voice low. We're not the only ones in these woods tonight.",
+		"after": "Keep your voice low, though. We aren't the only ones in these woods tonight, and the others aren't looking for you out of kindness."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.wanderer.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I don't know this place, and I don't know my own name. ...Who are you?",
+		"after": "I don't know this place. I don't even know my own name. ...Who are you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "A friend. That's all I can tell you, and there isn't time for more.",
+		"after": "A friend. I know that isn't much of an answer, and I'm sorry. It's the only one I can give you tonight."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Can you still draw on the Paths? Hold out your hand and let me see.",
+		"after": "Can you still draw on the Paths? Hold out your hand and let me see. Gently, I only want to look."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.wanderer.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "...I feel them. All four, faintly. Like voices through a wall.",
+		"after": "...I can feel them. All four of them, but faintly, like voices through a wall."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "That will have to do. The Path-ologists are hunting us.",
+		"after": "Then they didn't manage to take everything. That will have to do for now, because the Path-ologists are already out hunting for us."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "That one, then. Hold on to it. The others will come back to you, in time.",
+		"after": "That one, then. Hold on to it as tightly as you can. The others will come back to you in time; I'm almost sure of it."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "The Forgotten Cave behind me is your escape. It comes out at {town}, and Elder Maren will be waiting for you there. Find her first.",
+		"after": "The Forgotten Cave behind me is your escape. It comes out at {town}, and Elder Maren will be waiting for you there. Find her before you do anything else.",
+		"reverted": true
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Hear that? They're close, but they don't know about the cave. Hardly anyone remembers it now.",
+		"after": "Do you hear that? They're close, but they don't know about the cave. Hardly anyone remembers it's here any more."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.rescuer.4::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Rescuer",
+		"before": "Go, and don't stop for anything. I'll draw them off the other way, and when I'm clear, I'll find you. I always do.",
+		"after": "Go now, and don't stop for anything. I'll draw them off the other way, and once I'm clear of them, I'll find you. I always do."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.wanderer.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "She's gone, and she's taking the shouting with her. Whoever they are, I'd rather not meet them.",
+		"after": "She's gone, and the shouting has gone after her. I don't know who those people are, but I'd rather not be standing here when they come back."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "The trees are packed too tight to get through. The cave it is, then.",
+		"after": "The trees are packed too tightly to squeeze through here. It will have to be the cave, then."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "No point getting lost twice in one day. I'll head back up the path to the glowing arch.",
+		"after": "There's no sense in getting lost twice in one day. I'll go back up the path to the glowing arch."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Whatever is waiting for me, it's through that cave.",
+		"after": "Whatever is waiting for me, it's on the other side of that cave."
+	},
+	{
+		"id": "data/story/intro_story.tres::prologue.self_talk::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Whoever she was, she said help would be waiting on the other side. Whatever's in that cave, it has to be better than those Path-ologists.",
+		"after": "She said someone would be waiting on the other side, whoever she was. And whatever is in that cave, it can't be worse than those Path-ologists."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "...Footsteps. It has been a long time since anything woke me.",
+		"after": "...Footsteps. It has been a long time since anything came down here to wake me."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "No one has walked this way since the house fell silent. I have kept the door all the same.",
+		"after": "No one has walked this way since the house above fell silent. I have kept the door all the same, for there was no one left to tell me that I might stop."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.before::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "Turn back. Only one may pass this door, and he is long dead.",
+		"after": "Turn back, traveller. Only one may pass this door, and he is long dead."
+	},
+	{
+		"id": "data/encounters/encounter_scripts.json::Hollow Warden/0/line::0",
+		"file": "data/encounters/encounter_scripts.json",
+		"speaker": "Hollow Warden",
+		"before": "...That light in your hands. I know it. No. NO. You cannot be him. He is gone.",
+		"after": "...That light in your hands. I have seen that light before. No... no, you cannot be him. He is gone. He has been gone so long."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "...The door knows your hand. I do not understand it, but I will not stand against it. Pass, and let the Paths guide you.",
+		"after": "...The door knows your hand. I do not understand how that can be, but I was not left here to understand. Pass, and may the Paths guide you home."
+	},
+	{
+		"id": "data/story/intro_story.tres::tutorial.warden.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Hollow Warden",
+		"before": "The light goes out of the Warden's eyes slowly, like a lamp turned down for the night.",
+		"after": "The light goes out of the Warden's eyes slowly, like a lamp turned down for the night by someone who means to come back to it."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.wake::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "You wake in a forest clearing with leaves in your hair.",
+		"after": "You wake in a forest clearing with leaves in your hair, and no idea how long you have been lying there."
+	},
+	{
+		"id": "data/story/intro_story.tres::still.wake::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration)",
+		"before": "A faint glow of four colors fades from your hand, like a thought you almost had.",
+		"after": "A faint glow of four colors is fading from your hand, like a thought you almost had."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Hmph. About time. {villain}'s soldiers have been up and down the road all day, and nobody has come out of that cave in ten years, so forgive me for staring.",
+		"after": "Hmph. About time. {villain}'s soldiers have been up and down that road all day, and nobody has come out of this cave in ten years, so you'll have to forgive an old tortoise for staring."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "And look at the state of you. I told her I'd help whoever she sent along. I never said I'd take in a half-drowned stray.",
+		"after": "And just look at the state of you. I told her I would help whoever she sent along, but I don't recall agreeing to take in a half-drowned stray who can barely stand."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I didn't want any part of this, and I told her so. She went ahead anyway. She always does.",
+		"after": "I didn't want any part of this, and I told her so to her face. She went and did it anyway. She always does, that one."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "But you need a bed, and I've baked far too much pie, so I can hardly leave you out here on your own, can I?",
+		"after": "Still, you need a bed, and I've gone and baked far too much pie again, so I can hardly leave you standing out here on your own, can I?"
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.wanderer::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I don't know who I am, or where this is. I don't even know the name of the woman who got me out.",
+		"after": "I'm sorry to be a trouble. I don't know who I am, or where this is. I don't even know the name of the woman who got me out."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren_end::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Hm. If she didn't give you her name, she had a reason, and I won't be the one to spoil it. As for where you are: this is {town}. We settle most things here with cards, and I see you've already got a deck.",
+		"after": "Hm. If she didn't give you her name, she'll have had her reasons, and I won't be the one to spoil them. As for where you are, this is {town}. We settle most things here with cards, and I see you've brought a deck."
+	},
+	{
+		"id": "data/story/intro_story.tres::cave_mouth.maren_end::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "If your memory's really gone, you'll be here a while, so you'd best get to know people. Say hello to Sable, Tilly and Pip on the square, buy yourself a card from Sable, then come back to me.",
+		"after": "If your memory really is gone, you'll be with us a while, so you'd best get to know people. Go and say hello to Sable, Tilly and Pip on the square, buy yourself a card from Sable, and then come back to me."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::cave_mouth.maren_path::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through. When the time comes to go out on the roads, {zone} will be the easiest one for you.",
+		"after": "One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::cave_mouth.maren_path::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you a few errands to learn the ropes.",
+		"after": "But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::cave_mouth.maren_path::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Come and find me on the square once you've dried off. When you're ready, I'll send you out myself.",
+		"after": "Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.first::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Up and walking. Good. I am Elder Maren, dearie, and this is {town}, where the four Paths used to meet, and argue, and borrow each other's pans.",
+		"after": "Up and walking, I see. Good. I'm Elder Maren, dearie, and this is {town}, where the four Paths used to meet, and argue, and borrow each other's pans and never give them back."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.first::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Ten years ago {kingdom} was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead and Refusemancers turned rubbish into harvests. Everyone complained, and everything worked.",
+		"after": "Ten years ago {kingdom} was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead, Refusemancers turned rubbish into harvests. Four peoples who never matched, stitched together, and it held."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.first::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Then {villain}, the Minister of Improvements, took the Paths one by one and set his own people over them. Now every road out of town has a gatekeeper: a bridge, a barrier, a pantry door, a wall of thorns.",
+		"after": "Then {villain}, the Minister of Improvements, took the Paths one at a time and set his own people over them. Now every road out of town has a gatekeeper across it: a bridge, a barrier, a pantry door and a wall of thorns."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.first::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Beat a road's gatekeeper and that road opens. Before you try, buy a few cards from Sable and sort your deck at the Deck Station. Then come back to me for pie. Pie, mind. Not answers.",
+		"after": "Beat a road's gatekeeper and that road opens. Before you try, buy a few cards from Sable and sort your deck out at the Deck Station. Then come back to me for pie. Pie, mind you, and not answers. I'm short of those."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.return::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Four roads out of town, dearie: the Gainlands, the Buffet, the D.N.A. and the Dump. Pick one and see it through before you start the next.",
+		"after": "There are four roads out of town, dearie: the Gainlands, the Buffet, the D.N.A. and the Dump. Pick one and see it through to the end before you start on the next."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.return::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "For all I know, you're somebody's spy. I've been wrong about people before, and it cost more than I like to think about.",
+		"after": "For all I know you're somebody's spy, and here I am feeding you. I've been wrong about people before, you see, and it cost more than I like to think about."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Still here, dearie? {villain} would like nothing better than you sitting by my fire forever, so don't give him the satisfaction. And give me back my chair.",
+		"after": "Still here, dearie? {villain} would like nothing better than you sat by my fire for good, so let's not oblige him. Besides, you're in my chair."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "The pie on the sill needs another hour, dearie. You don't. Off you go.",
+		"after": "The pie on the sill wants another hour, dearie, and you don't. Off you go, and it'll be ready when you're back."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "If you're looking for advice: eat something. If you're looking for more advice: eat something else.",
+		"after": "If it's advice you're after, eat something. And if you were hoping for better advice than that, eat something else as well."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I've given you all the answers you need for now, dearie. Further questions require fieldwork.",
+		"after": "I've told you all I can for now, dearie. The rest you'll have to go out and find for yourself, and I'd only slow you down."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Mind the fountain, dearie. People throw wishes in it. Most of them are mine.",
+		"after": "Mind the fountain as you go, dearie. People throw their wishes into it, and over the years a good many of them have been mine."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle::5",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Off you go, dearie. I'll be here when you get back. Tortoises are very dependable, just not quickly.",
+		"after": "Off you go, dearie. I'll be right here when you get back. We tortoises are very dependable, so long as nobody's in a hurry."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.0::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I still don't know what to make of you, dearie. But you need feeding more than you need questioning, so sit down a minute.",
+		"after": "I still don't know what to make of you, dearie. But you need feeding a good deal more than you need questioning, so sit yourself down for a minute."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.0::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Have as much pie as you like. Just keep your eyes off the recipe; better people than you have tried.",
+		"after": "Have as much pie as you like. Just keep your eyes off the recipe card. Better people than you have tried for it, and I caught every one of them."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "That tune's stayed with you, hasn't it? I can see it on your face. Good. Keep it somewhere safe, dearie, even when it hurts.",
+		"after": "That tune has stayed with you, hasn't it? I can see it in your face. Good. Keep it somewhere safe, dearie, even on the days when it hurts to hear."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.1::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Found any more answers out there? I keep telling myself it's none of my business, and I keep asking anyway.",
+		"after": "Have you found any more answers out there? I keep telling myself it's none of my business, and then I keep asking anyway."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Somebody in the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.' Don't look so startled, dearie.",
+		"after": "Somebody on the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.' Oh, don't look so startled, dearie."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "When you find Wren in the Capital, tell her my pie is still the best thing in the kingdom. She'll argue, and she'll be wrong.",
+		"after": "When you find Wren in the Capital, tell her my pie is still the best thing in this kingdom. She'll argue with you, and she'll be wrong, and it'll do her good to hear it all the same."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I have told you the worst of me. The rest is easy, by comparison.",
+		"after": "Well, I've told you the worst of me now. Whatever else I have to say to you will come easily, after that."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.3::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Go on, dearie. The next road won't open itself, and if we left it to me, we'd be at it until the regime died of old age.",
+		"after": "Go on, dearie. That last road won't open by itself, and if it were left to me to walk there, the regime would die of old age first."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.4::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "{prince}. I keep wanting to curtsy. My knees have voted against it.",
+		"after": "{prince}. I keep wanting to curtsy when you come in, and my knees keep voting against it."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.stage.4::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Go on, then. The kingdom has waited ten years for you; the pie won't wait ten minutes.",
+		"after": "Go on, then. The kingdom has waited ten years for you and can manage one more hour, but this pie won't keep for ten minutes."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.known_early::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "{prince}. {villain} let it slip to you, didn't he, that smug man. I had hoped to tell you myself.",
+		"after": "{prince}. So {villain} let it slip, did he, the smug creature. I had hoped you would hear it from me, in a warm kitchen, and not from him."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.known_early::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Sit down. The rest of your memories will come when they're ready, and I'll be right here when they do. With pie, obviously.",
+		"after": "Sit down. The rest of your memories will come when they're ready, and I'll be right here when they do, with a pie in the oven. I'm not going anywhere."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.meet_the_merchants.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Sable, Tilly and Pip, dearie, all three on the square. And buy a card from Sable while you're there. I'll not have you facing the roads with nothing but what a cave gave you.",
+		"after": "It's Sable, Tilly and Pip you want, dearie, all three of them on the square. And buy a card from Sable while you're there. I won't have you facing the roads with nothing but what a cave gave you."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.meet_the_merchants.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Back already? Let me guess: Sable charmed you, Tilly turned a colour, and Pip measured you before you'd finished saying hello. That's {town}, dearie.",
+		"after": "Back already? Let me guess: Sable charmed you, Tilly turned a new colour, and Pip had you measured before you'd finished saying hello. That's {town} for you, dearie, and you'll get used to it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "New cards first, so open a pack: the Menu at the top right, then Packs. Or press P, if you're the sort who presses things.",
+		"after": "You'll want some new cards first, so open a pack: that's the Menu at the top right, then Packs. Or you can press P, if you're the sort who likes pressing things."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.offer::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Then take it to the Deck Station, down Champions' Road south of the square. Swap in whatever you like, save it to a slot, and come and tell me how it went.",
+		"after": "Then take it all down to the Deck Station, on Champions' Road south of the square. Swap in whatever takes your fancy, save the deck to a slot, and come and tell me how it went."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.offer_pack::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "No packs at all? Here, dearie, have a General Pack. It's been sat on a little. Cards are cards, and these ones won't hold it against you.",
+		"after": "No packs at all? Here, dearie, take this General Pack. It's been sat on a little, I'm afraid, but cards are cards, and these ones won't hold it against you."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.active_pack::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Open the pack first, dearie: the Menu, then Packs. It won't open itself. I've asked it nicely.",
+		"after": "Open the pack first, dearie: the Menu, then Packs. It won't open itself. I should know, because I've asked it nicely."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "The Deck Station is down Champions' Road, south of the square, dearie. Save it to a slot when you're done, or it doesn't count. I do check.",
+		"after": "The Deck Station is down Champions' Road, south of the square, dearie. Remember to save the deck to a slot when you're done, or it doesn't count. And I do check."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.first_deck_edit.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Sorted and saved, and every card in it your own choice. Good. Now when it loses, you've nobody to blame but yourself, which is how it ought to be.",
+		"after": "Sorted and saved, and every card in it one you chose for yourself. Good. Now when it loses, you'll have nobody to blame but you, which is exactly how it ought to be."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.offer::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Now, a favour. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.",
+		"after": "Now, I've a favour to ask of you. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Ghosts, I expect, and old ones. The Tonics have kept that room locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it if it lets you.",
+		"after": "Ghosts, I expect, and old ones. The Tonics have kept that door locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it, if it lets you be."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "The store room door is beside Tilly's shop, on the north side of the square. If there are marks on the frame, leave them be, dearie. Somebody put them there for a reason.",
+		"after": "The store room door is beside Tilly's shop, on the north side of the square. If there are marks painted on the frame, leave them be, dearie. Whoever put them there had a reason."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Gone, are they? Good. No, I don't want to hear what they said. Not out here on the square, and not before supper.",
+		"after": "They've gone, have they? Good. No, I don't want to hear what they said to you, not out here on the square and certainly not before my supper."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.ready::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Tilly's family were healers, mostly. Mostly. Some of the old families kept a back room for the other kind of remedy, and the less said about it, the better for Tilly. She's a good girl, and none of it is hers.",
+		"after": "Tilly's family were healers, mostly. Only mostly. Some of the old families kept a back room for the other sort of remedy, and the less said of it the better for Tilly. She's a good girl, and none of that is hers."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.storeroom_ghosts.ready::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Well done, dearie. Now go and sit somewhere warm for a bit. You've gone the colour of a candle.",
+		"after": "You did well, dearie, and I hear you were kind about it. Now go and sit somewhere warm for a while, because you've gone the colour of a candle."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.some_assembly_required.offer::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Right, then. It's time you had something sharper than a deck. Bertram Beetsworth hands out gear from his smithy, on the west side of the square.",
+		"after": "Right, then. It's high time you had something sharper than a deck of cards. Bertram Beetsworth hands out the gear from his smithy, on the west side of the square."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.some_assembly_required.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "He is... thorough. Report to him, do what he asks, and do not touch his drawer.",
+		"after": "He is... thorough, shall we say. Report to him, do exactly what he asks of you, and whatever else you do, don't touch his drawer."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.some_assembly_required.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. He lives to stamp things.",
+		"after": "Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. That man lives to stamp things."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.path_direction::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself. I'm impressed, dearie, and I don't impress easily.",
+		"after": "There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.path_direction::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "You've met the shopkeepers, sorted out your deck, sent the things in Tilly's store room packing and got yourself kitted out. That's all the settling in I can teach you. Now I need you out on the roads.",
+		"after": "You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.path_direction::2",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.",
+		"after": "Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.path_direction::5",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Elder Maren",
+		"before": "I've put all four gatekeepers in your quest log, with yours on top. Go on, then, and come back alive. I'll have a pie waiting, and I don't bake for people who don't come back.",
+		"after": "I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.intro::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You've gone pale as flour. Sit down, sit. Something's come back to you, hasn't it?",
+		"after": "You've gone as pale as flour. Sit down, sit down. Something has come back to you, hasn't it?"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.intro::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Tell me all of it, however small it seems. The small things are usually the ones that matter.",
+		"after": "Tell me all of it, however small it seems to you. In my experience it's the small things that turn out to matter."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Light. Four colors of it, warm as bathwater, spilling across a ceiling I can't quite see.",
+		"after": "There is light, four colors of it, as warm as bathwater, spilling across a ceiling I can't quite see."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.fragment::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A woman is humming a tune with no words, and it rises and falls like someone breathing in their sleep.",
+		"after": "A woman is humming a tune with no words to it, and it rises and falls like someone breathing in their sleep."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.fragment::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Then the light thins, like breath on glass, and I am back.",
+		"after": "Then the light thins, like breath on glass, and I am back beside the fire."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "...A lullaby. That tune is from the old days, from the court, and there are very few left who remember it. Fewer still who'd hum it.",
+		"after": "...A lullaby. That tune comes from the old days, from the court, and there are very few of us left who would know it. Fewer still who ever hummed it to a child."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Have some pie. And don't ask me why my eyes are wet, because I won't tell you.",
+		"after": "Have some pie. And don't ask me why my eyes are wet, because I shan't tell you, and you wouldn't want to make an old tortoise lie."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.after::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "And look at you. With one zone free, the corruption's grip on the land is slipping, and it's slipping off you along with it.",
+		"after": "But look at you. With one zone free, the corruption is losing its grip on the land, and it's slipping off you along with it."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.1.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You ought to be able to carry a second Path now. Go to the Deck Station and try building a deck with two; I'd like to hear how it feels.",
+		"after": "You ought to be able to carry a second Path now. Go down to the Deck Station and try building a deck with two, and then come and tell me how it feels."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.intro::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Another one, is it? Don't hide behind your teacup, dearie. Just say it.",
+		"after": "Another one, is it? No, don't hide behind your teacup, dearie. Put it down and tell me."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "White rooms, and a white light that never changes, whatever the hour.",
+		"after": "White rooms, and a white light that never changes, whatever the hour is outside."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.fragment::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Glass on every side, and faces behind it in white coats, taking notes.",
+		"after": "There is glass on every side of me, and behind the glass there are faces in white coats, taking notes."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.fragment::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "No one there ever uses my name. They call me 'the Subject', and whatever I do, they only say 'again.'",
+		"after": "No one in that place ever uses my name. They call me 'the Subject', and whatever I do, the only thing they ever say to me is 'again.'"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Glass, and white coats, and 'again.' So that's where you've been all this time.",
+		"after": "Glass, and white coats, and 'again.' So that is where they had you, all those years."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You've earned some truth from me, so here's the first piece of it: I'm not just an old tortoise who bakes.",
+		"after": "You've earned some truth from me in return, so here is the first piece of it: I'm not only an old tortoise who bakes."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout in the Capital.",
+		"after": "There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout inside the Capital itself."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.2.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I wasn't sure of you before. I am now, near enough, and I don't say that about many people.",
+		"after": "I wasn't sure of you before, and I'm sorry for that. I'm sure of you now, or near enough, and there aren't many people I would say that about."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.intro::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You're shaking. Sit down, slowly now. Here, take my hand.",
+		"after": "You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A throne room at night, the candles guttering under banners with four colors woven into one.",
+		"after": "A throne room at night, with the candles guttering under banners that have four colors woven into one."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.fragment::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A man in white and gold kneels before the king and speaks in a soft voice. Then he rises, and his soft voice is the last soft thing in the room.",
+		"after": "A man in white and gold kneels before the king and speaks to him in a soft voice. Then he rises, and that soft voice is the last soft thing in the room."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.fragment::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Two pairs of hands are on my shoulders, pushing me behind them, toward the dark.",
+		"after": "Two pairs of hands are on my shoulders, pushing me behind them, back toward the dark."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.fragment::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "I know that man's face, and I think I have always known it. {villain}.",
+		"after": "I know that man's face. I think I have always known it. {villain}."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "A man in white and gold, kneeling and then standing. And before that, those rooms with glass on every side.",
+		"after": "A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with glass on every side."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I know that glass, because I helped to blow it. Long ago I founded the study of the Paths, and I did it for the best of reasons.",
+		"after": "I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "{villain} took my work and made a cage of it, and my best student kept the lab running for him. And I ran.",
+		"after": "{villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I've been hiding here ever since, with my hands in pie dough, where nobody would think to ask what else those hands had made.",
+		"after": "I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what else those hands had made."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.3.after::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "That's my secret. Now you're holding it, the same way I've been holding yours.",
+		"after": "That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.intro::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "There's something in your face today, the look of someone who's just been handed a key. Tell me what it opens.",
+		"after": "There's something in your face today. You look like somebody who has just been handed a key. Come and sit, and tell me what it opens."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.fragment::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A boy of eleven stands in a coat too fine for the cold. Someone calls across a courtyard: '{prince}!'",
+		"after": "A boy of eleven stands in a coat too fine for the cold, and someone is calling to him across a courtyard: '{prince}!'"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.fragment::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "I turn toward a woman's voice, and then a man's, and on every door is the {royal_house} crest: four signs in a ring.",
+		"after": "I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: four signs in a ring."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "{prince}. {prince} {royal_house}. I met a boy once at court, hiding behind his mother's cloak, who asked me why tortoises carry their houses.",
+		"after": "{prince}. {prince} {royal_house}. I met a boy at court once, hiding behind his mother's cloak, and he asked me why tortoises carry their houses about with them."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I told him, 'So we are never far from home.'",
+		"after": "I told him, 'So that we are never far from home.'"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I knew, you see. The Warden opens that tunnel for one family only, and I knew it the moment you walked out of it. I was too frightened to say so.",
+		"after": "I knew, you see. The Warden opens that tunnel for one family only, and I knew who you were the moment you walked out of it. I was too frightened to say so."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::3",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Four signs in a ring, the same as the ones carved on my stick. I've carried it for ten years and never told a soul why.",
+		"after": "Four signs in a ring, the same as the ones carved on this stick of mine. I have leaned on it for ten years and never told a soul why."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after::4",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "And my lab, my life's work, was used on that boy. On you. Forgive me if you ever can. I'd understand if you couldn't.",
+		"after": "And my laboratory, my life's work, was used on that boy. It was used on you. Forgive me, if you ever can. I would understand it if you couldn't."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.reply::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "My mother called me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what they were like.",
+		"after": "My mother called to me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what the two of them were like."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.reply::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You built the glass, Maren. You also gave me a bed and pie when you still thought I might be a spy. I know which of those I'm keeping.",
+		"after": "You built the glass, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "...Then let us make the kingdom a home again, {prince}.",
+		"after": "...Then let us make this kingdom a home again, {prince}. All of it, for all of them."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.intro_known::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You've the look of someone who was told something he didn't want to hear. Was it {villain}?",
+		"after": "You have the look of someone who has just been told a thing he didn't want to hear. Was it {villain} who told you?"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.intro_known::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Sit down and tell me what he said. All of it.",
+		"after": "Sit down, and tell me what he said to you. All of it, even the parts you would sooner not say aloud."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after_known::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "So he knew you from the very first. He told you who you are, and you've come to me for the rest of it.",
+		"after": "So he knew you from the very first. He told you who you are, and now you've come to me for the rest of it."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after_known::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "I knew too. The Warden opens that tunnel for one family only, and I knew it the moment you came out of it. I was just too frightened to say so.",
+		"after": "I knew as well. The Warden opens that tunnel for one family only, and I knew who you were the moment you came out of it. I was simply too frightened to say so."
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.after_known::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "So hear it from someone who held your hand at court: you are {prince_full}, and I'm so sorry for what was done to you with the things I built.",
+		"after": "So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I built."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "One zone free and you're back for pie already. Fine, but it's one slice per zone from now on, dearie. I've just made that rule.",
+		"after": "One zone free, and you're back for pie already. Very well, but it's one slice a zone from now on, dearie. I've only just made that rule."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.1::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Three roads are still shut. I'd see to them myself, dearie, but at my pace I'd arrive next spring.",
+		"after": "Three roads are still shut. I'd go and see to them myself, dearie, but at my pace I would get there some time next spring."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.1::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "The square sang last night. Badly. Best thing I've heard in ten years. Don't you dare tell them.",
+		"after": "The square was singing last night. It was dreadful, and the best thing I've heard in ten years. Don't you dare tell them so."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.1::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "One zone free. Hm. And the old cottage at the end of Champions' Road has started cheering at night, from somewhere down in the cellar. I've decided not to ask.",
+		"after": "One zone free. Hm. And the old cottage at the end of Champions' Road has started cheering at night, from somewhere down in its cellar. I've decided I would rather not ask."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Two zones free, and the square's louder for it. I complain about the noise every morning and don't mean a word of it.",
+		"after": "Two zones free, and the square is louder for it. I complain about the noise every morning, and I don't mean a word."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Halfway, dearie. I'd say I'm proud of you, but then you'd stop trying.",
+		"after": "That's halfway, dearie. I'd tell you I was proud of you, but then you might stop trying, and we can't have that."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.2::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Auntie Alembic keeps asking after you. I tell her you're busy, and for once it's even true.",
+		"after": "Auntie Alembic keeps asking after you. I tell her you're busy, and for once in my life it's even true."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.2::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Two zones free, and Auntie Alembic has opened the Alchemist's on the square. She brews cards from two Paths at once, if you can stand the steam.",
+		"after": "Two zones free, and Auntie Alembic has opened the Alchemist's on the square. She brews cards from two Paths at once, if you can stand all the steam."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.2::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "She's been asking for your leftovers. From her, that's a compliment.",
+		"after": "She's been asking for your leftovers, too. Coming from her, that's a compliment."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "One Path left under {villain}'s thumb, and the whole town's holding its breath. I can hold mine for a week, being a tortoise. They can't.",
+		"after": "One Path left under {villain}'s thumb, and the whole town is holding its breath. I can hold mine for a week, being a tortoise. They can't."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.3::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Three zones free, dearie. Do finish the fourth before this pie goes stale; I'd give it about a week.",
+		"after": "Three zones free, dearie. Do try to finish the fourth before this pie goes stale. I'd give it about a week."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.3::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "You walk like somebody with somewhere to be these days. I liked the damp young man better. He visited more.",
+		"after": "You walk like somebody with somewhere to be, these days. I think I liked the damp young man better. He came to see me more often."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.3::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Three zones free. Only one Path is left under {villain}'s thumb now, and I won't tell you what I'm feeling about it, except that it's a great deal.",
+		"after": "Three zones free. There's only one Path left under {villain}'s thumb now, and I won't tell you what I'm feeling about that, except that it's a great deal."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.4::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "All four Paths free, and {villain} still sitting in his castle as if nothing's changed. Go and knock, dearie. Loudly.",
+		"after": "All four Paths free, and {villain} still sat up in his castle as though nothing had changed. Go and knock, dearie, and knock loudly."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.4::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "The roads are open, and even I've been using them. I passed a hare this morning; he's asked for a recount.",
+		"after": "The roads are open again, and even I've been out on them. I passed a hare this morning, and he has asked for a recount."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.idle.4::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Eat something first, then go to the castle. Nobody ever toppled a tyrant properly on an empty stomach.",
+		"after": "Eat something first, and then go to the castle. Nobody ever toppled a tyrant properly on an empty stomach."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.4::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "All four Paths are free, and {kingdom} is whole again, or nearly. Up in his castle, {villain} will be counting what he has left.",
+		"after": "All four Paths are free, and {kingdom} is whole again, or very nearly. Up in his castle, {villain} will be counting what he has left."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.progress.4::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "Get some rest. Then we finish this, together.",
+		"after": "Get some rest tonight. Then we finish this, you and I and everybody else, together."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.postgame::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "{villain} is gone, and the Paths are shouting at each other in the street again. I have never been so glad to be annoyed.",
+		"after": "{villain} is gone, and the Paths are out in the street shouting at one another again. I have never in my life been so glad to be annoyed."
+	},
+	{
+		"id": "data/story/intro_story.tres::town.elder.postgame::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Elder Maren",
+		"before": "The Capital is open to everyone now, and your decks may mix any Paths you like. Go and see what you can make of it, dearie. Then come home and eat.",
+		"after": "The Capital is open to everyone now, and your decks may mix any Paths you like. Go and see what you can make of it all, dearie. Then come home and eat."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "Someone is sitting on a rock at the mouth of the Forgotten Cave, hood up, sharpening a pencil with a scalpel.",
+		"after": "Someone is sitting on a rock at the mouth of the Forgotten Cave with her hood up, sharpening a pencil with a scalpel."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "You freed a whole Path on your own, with a deck you've only had for a week.",
+		"after": "You freed a whole Path on your own, with a deck you've had for about a week. I didn't think I would be saying that so soon."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Let me see your hands. Steadier than they were. Good. That's the first thing I've been able to tick off my list in a long time.",
+		"after": "Let me see your hands. They're steadier than they were, and that's good. It's the first thing I've been able to cross off my list in a long time."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "A friend. That's still all I can tell you, and I'm sorry it isn't more.",
+		"after": "A friend. That's still all I can tell you, and I'm sorry that it isn't more."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/3::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "I'm not coming into town. The old woman with the shell looks at me like I owe her something, and she's probably right.",
+		"after": "I won't come into town, though. The old woman with the shell looks at me as if I owe her something, and she's probably right."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_1/steps/4::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Keep going. I'll know when the next one falls, because the woods go quiet whenever a Path comes loose.",
+		"after": "Keep going. I'll know when the next one falls, because the woods go quiet for a moment whenever a Path comes loose."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "The hooded figure is back at the cave mouth with two cups of something hot. She hands you one without asking.",
+		"after": "The hooded figure is back at the cave mouth, this time with two cups of something hot. She hands you one without asking whether you want it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Two Paths free, and I could hear the town singing from all the way out here. Badly, but singing.",
+		"after": "Two Paths free. I could hear the town singing from all the way out here. It was terrible singing, but they were singing."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "You always came back to the same places. Even when you were...",
+		"after": "You always did come back to the same places. Even when you were..."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/5::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Even when you were somewhere you weren't allowed to leave. Ask me something easier.",
+		"after": "Even when you were somewhere they wouldn't let you leave. Ask me something easier, please."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/6::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "Favourite colour?",
+		"after": "All right. What's your favourite colour?"
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_2/steps/7::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Four of them. Next question.",
+		"after": "I have four of them. Next question."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "She is waiting at the cave mouth again with her hood down, as if she forgot it was up. Her eyes are tired and very sure.",
+		"after": "She is waiting at the cave mouth again, and this time her hood is down, as though she has forgotten to put it up. Her eyes are tired and very sure."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Three. At first I told myself you just reminded me of someone. Someone I lost when we were kids. Now I'm starting to think...",
+		"after": "Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think..."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "No, not until I'm certain. Too many people around here say things before they're sure, and I won't be one of them.",
+		"after": "No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "Everywhere I go, someone tells me a story about a little prince, then looks at me and stops talking. You knew me before all this, didn't you?",
+		"after": "Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you?"
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "I knew a boy who fell on his behind trying to lift a dumbbell, and who ate the frosting off every layer of his cake.",
+		"after": "I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_3/steps/3::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "You'd have liked him. He was terrible at hiding things.",
+		"after": "You'd have liked him. He was hopeless at hiding anything."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_4/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "The cave mouth is quiet. This time she is standing, cloak fastened, a satchel of four-coloured vials over her shoulder, ready to go somewhere.",
+		"after": "The cave mouth is quiet. This time she is on her feet with her cloak fastened and a satchel of four-coloured vials over one shoulder, ready to go somewhere."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_4/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "All four. Can you hear it? The kingdom's breathing again, like voices through a wall, except now the wall's coming down.",
+		"after": "All four. Can you hear it? The kingdom is breathing again. It's like voices through a wall, except that now the wall is coming down."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_4/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "There's only the Capital left. Only him.",
+		"after": "There's only the Capital left now. There's only him."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/cave_mouth_4/steps/3::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "And when it's over, I'll tell you everything. My name first. I promise.",
+		"after": "And when it's over, I'll tell you all of it. My name first. I promise."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "Sit down, dearie. Word came from the Capital this morning, and you won't like it.",
+		"after": "Sit down, dearie. Word came from the Capital this morning, and you aren't going to like it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "Plume's men took a girl at the castle gate, the one who carried you out of the woods. {rescuer_full}, they called her.",
+		"after": "Plume's men took a girl at the castle gate, the same one who carried you out of those woods. {rescuer_full}, they called her."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "I knew whose girl she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to.",
+		"after": "I knew whose daughter she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to do it."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "I've been wrong about people before, and I swore I never would be again. It seems I've gone and done it twice.",
+		"after": "I've been wrong about people before, and I swore to myself that I never would be again. It seems I've gone and done it twice."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/4::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "Back where she came from, I expect: somewhere with glass walls and no windows. That's a door I can't open for you. Not yet.",
+		"after": "Back where she came from, I expect: somewhere with glass walls and no windows. That's one door I can't open for you, dearie. Not yet."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/maren_after_capture/steps/4::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Elder Maren",
+		"before": "Eat. You'll want your strength for when it opens.",
+		"after": "Eat something. You'll want your strength for the day it does open."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.freed::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "You actually did it - Grandmaster Flex is out! First thing he did was make me stretch for forty minutes. I cried twice, but they were good tears. Stretchy ones.",
+		"after": "You really did it. Grandmaster Flex is out! The first thing he did was make me stretch for forty minutes, and I cried twice, but they were the good kind of tears."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "The bridge stays down now, but I still oil the crank every morning. Maintenance is how I say sorry, and I've got a lot of sorry left to get through.",
+		"after": "The bridge stays down for good now, though I still come out and oil the crank every morning. Looking after it is how I say sorry, and I've a lot of sorry left to get through."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.freed::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "Want to spar? Gently, I mean. I'll spot you. I'm still a spotter, I just get to say it at a normal volume now, and honestly, it's a huge relief.",
+		"after": "Would you like to spar? Gently, I mean, and I'll spot you. I'm still a spotter, only now I get to say it at an ordinary volume, and honestly that's a huge relief."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.blocked::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "The bridge is drawn up on the far side of the gorge. Somebody very large is standing by the crank, shouting about hydration.",
+		"after": "The bridge is drawn up on the far side of the gorge. Somebody very large is standing by the crank over there, shouting about hydration."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.beefcake.cleared::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "Brick Bronson cracks his knuckles, takes the crank in one hand and lowers the bridge with it, making very sure you're watching.",
+		"after": "Brick Bronson cracks his knuckles, takes hold of the crank with one hand and lowers the bridge, glancing over his shoulder to make sure you're watching."
+	},
+	{
+		"id": "data/story/intro_story.tres::beefcake_npc_victory_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "...Oh no. Was I yelling? I was yelling, wasn't I. I'm so sorry - that was the pre-workout talking, and it doesn't know when to stop.",
+		"after": "...Oh, no. Was I yelling just then? I was, wasn't I. I'm so sorry. That was the pre-workout talking, and once it starts it doesn't know how to stop."
+	},
+	{
+		"id": "data/story/intro_story.tres::beefcake_npc_victory_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "Chancellor Clench had Grandmaster Flex locked away under the House of Gains, ten years ago now. Folks still whisper that the old man never broke. I should've whispered with them instead of yelling.",
+		"after": "Chancellor Clench had Grandmaster Flex locked away under the House of Gains, ten years ago now. People still whisper that the old man never broke. I wish I'd whispered with them, instead of standing out here yelling."
+	},
+	{
+		"id": "data/story/intro_story.tres::beefcake_npc_victory_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Brick Bronson",
+		"before": "The bridge is yours, friend. Stretch before you cross, though - a pulled hamstring is a terrible souvenir.",
+		"after": "The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.gourmand.freed::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "She's back - the real Grand Chef. She tasted my soup, frowned and said 'more salt', and I have never been so happy in my life.",
+		"after": "She's back, the real Grand Chef. She tasted my soup, frowned at it and said 'more salt', and I don't believe I have ever been so happy in my life."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.gourmand.freed::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "Fancy a friendly duel, for old times' sake? Loser washes the ladle, and I should warn you, it's a very big ladle.",
+		"after": "Do you fancy a friendly duel, for old times' sake? The loser washes the ladle, and I ought to warn you that it's a very big ladle."
+	},
+	{
+		"id": "data/story/intro_story.tres::gourmand_npc_intro_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "The pantry is closed by order of the Grand Chef, and the key stays on my apron. It's all for the war effort!",
+		"after": "The pantry is closed by order of the Grand Chef herself, and the key stays right here on my apron. It's all for the war effort!"
+	},
+	{
+		"id": "data/story/intro_story.tres::gourmand_npc_victory_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "The sauce has let go of me. Is that plain bread, with no sauce on it at all? I could weep. In fact, I am weeping.",
+		"after": "Oh... the sauce has let go of me. Is that plain bread? With nothing on it at all? I could weep. In fact I am weeping, and I don't mind who sees."
+	},
+	{
+		"id": "data/story/intro_story.tres::gourmand_npc_victory_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "The Grand Chef stopped tasting her own sauces years ago, and the Chef I trained under ALWAYS tasted. Same face, same apron... so who has been wearing it?",
+		"after": "The Grand Chef stopped tasting her own sauces years ago, and the Chef I trained under ALWAYS tasted. It's the same face and the same apron... so who has been wearing them?"
+	},
+	{
+		"id": "data/story/intro_story.tres::gourmand_npc_victory_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Chef Fennel Gravois, Keeper of the Pantry Key",
+		"before": "Whatever's wrong here starts in the Test Kitchen, at the far end of the Buffet, and it was never making casserole. Take a biscuit for the road. Take two.",
+		"after": "Whatever has gone wrong here starts in the Test Kitchen, at the far end of the Buffet, and it was never built for casseroles. Take a biscuit for the road. No, take two."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.necrocrat.freed::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake.",
+		"after": "The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake to mark the occasion."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.necrocrat.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "I've got a new stamp that says HELPED. I've used it nine times so far, and yes, I'm counting.",
+		"after": "I have a new stamp now, and it says HELPED. I've used it nine times so far, and yes, I am keeping count."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.necrocrat.freed::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "You can challenge me again if you like, and you won't need a permit to do it. That's my favourite rule. I wrote it myself.",
+		"after": "You may challenge me again if you'd like to, and you won't need a permit for it. That's my favourite rule. I wrote it myself."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_intro_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "The authorization is valid, and policy states that I must stop you. I have read all of the policy, twice.",
+		"after": "The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_victory_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "...I can hear my own thoughts again. I think I've been Pending for ten years. It was very quiet in there, and very orderly, and none of it was me.",
+		"after": "...I can hear my own thoughts again. I believe I have been Pending for ten years. It was very quiet in there, and very orderly, and none of it was me."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_victory_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "{villain} didn't need to corrupt us. He used our own rules: a perfectly valid transfer of authority, notarized and filed. We stamped it ourselves.",
+		"after": "{villain} never had to corrupt us. He used our own rules against us: a perfectly valid transfer of authority, notarized and filed. We stamped it ourselves."
+	},
+	{
+		"id": "data/story/intro_story.tres::necrocrat_npc_victory_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Prudence Pallor, Checkpoint Supervisor",
+		"before": "The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully, or fill out a form first. Ideally both.",
+		"after": "The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.freed::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Archdruid Compostella is herself again, and she hugged me! She smells like rain and a little bit like compost, which is exactly how an Archdruid ought to smell.",
+		"after": "Archdruid Compostella is herself again, and she hugged me! She smells of rain, and a little bit of compost, which is exactly how an Archdruid ought to smell."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.freed::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Most of the thorns are gone; I keep one in a pot. It's behaving, but I'm not ready to let it meet the curtains.",
+		"after": "Most of the thorns have gone. I've kept one in a pot, and it's behaving itself, but I'm not ready to let it anywhere near the curtains."
+	},
+	{
+		"id": "data/story/intro_story.tres::gate.refusemancer.freed::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Fancy a practice round? I'll try very hard not to thorn at you. The raccoons have come to watch, so let's both be on our best behaviour.",
+		"after": "Would you like a practice round? I'll try very hard not to thorn at you. The raccoons have come to watch, so we had both better be on our best behaviour."
+	},
+	{
+		"id": "data/story/intro_story.tres::refusemancer_npc_victory_lines::0",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "Oh no, did I thorn at you? I'm so sorry. The Rot talks very softly in your head, right up until the moment it's doing all the talking.",
+		"after": "Oh, no. Did I thorn at you? I'm so sorry. The Rot talks very softly inside your head, right up until the moment it's doing all the talking."
+	},
+	{
+		"id": "data/story/intro_story.tres::refusemancer_npc_victory_lines::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "The Rot took Archdruid Compostella first, down at the Rotheart in the deepest part of the Verdant Dump. Everything grew out from there, and it got into me the day a very tidy lady with shears came calling.",
+		"after": "The Rot took Archdruid Compostella first, down at the Rotheart, in the deepest part of the Verdant Dump, and everything grew outward from there. It got into me the day a very tidy lady with shears came calling."
+	},
+	{
+		"id": "data/story/intro_story.tres::refusemancer_npc_victory_lines::2",
+		"file": "data/story/intro_story.tres",
+		"speaker": "Moss Mulligan, the Corrupted Druid",
+		"before": "The path's clear now. Go gently in there, and if you meet a raccoon, say hello for me. They're very good boys, whatever anyone tells you.",
+		"after": "The path is clear now. Go gently in there, and if you meet a raccoon, say hello to him from me. They're very good boys, whatever anybody tells you."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.1::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Quietly, son. The guards time their rounds by counting their squats, and they lose count.",
+		"after": "Quietly, son. The guards time their rounds by counting their own squats, and sooner or later every one of them loses count."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.1::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "So the rounds come whenever they come. Listen for knees cracking on the stairs, and you'll hear them in good time.",
+		"after": "So the rounds come whenever they come. Listen for knees cracking on the stairs, and you'll hear them in plenty of time."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.2::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You're Grandmaster Flex? Everyone up there talks about you as if you were twice this size.",
+		"after": "You're Grandmaster Flex? Everyone up there talks about you as though you were twice this size."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.3::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Ten years in the dark will do that. They took my plates, my protein, every bar I ever lifted, and left me with nothing at all.",
+		"after": "Ten years in the dark will do that to a man. They took my plates and my protein and every bar I ever lifted, and they left me down here with nothing at all."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.3::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "And nothing, it turns out, is a fine place to start. I still had my breath, my body and my mind, so I trained them every day.",
+		"after": "And nothing, it turns out, is a fine place to start from. I still had my breath, my body and my mind, so I trained those, every day."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.rescue.3::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Come, son, we'll climb out together. I'd like a word with Clench on the way. He was the best student I ever had. He still is.",
+		"after": "Come along, son, and we'll climb out of here together. I'd like a word with Clench on the way. He was the best student I ever had, you know. He still is."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.before::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "\"Master.\" The word sticks in his throat. \"I was your best, you know - your star pupil.\"",
+		"after": "\"Master.\" The word sticks in his throat. \"I was your best, you know. Your star pupil. You said so yourself.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.before::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "\"You told me I'd go further than you ever did. Then you started on about strength living in the heart and the head, and I knew better.\"",
+		"after": "\"You told me I would go further than you ever did. And then you started on about strength living in the heart and the head, and I knew better than that.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.before::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "\"I took your iron, your protein and your followers, and you've climbed back up here with nothing, Master.\"",
+		"after": "\"So I took your iron, and your protein, and your followers, and here you are, climbing back up my stairs with nothing at all.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.before::4",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench, Iron Regent",
+		"before": "\"Look how far I went, Master. What exactly do you think you can do about it now?\"",
+		"after": "\"Look how far I went, Master. What exactly do you imagine you can do about it now?\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.flex.2::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Stand back a little, son. It has been a long time, and I would like some room.",
+		"after": "Stand back a little, son, if you would. It has been a long time, and I should like some room."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.flex.3::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "You only ever wanted the weight, my boy. I was teaching you the heart, and you stopped listening before I ever got to the mind.",
+		"after": "You only ever wanted the weight, my boy. I was trying to teach you the heart, and you stopped listening long before I ever got to the mind."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.flex.4::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chancellor Clench",
+		"before": "...How? Ten years in a hole with nothing - where were you HIDING all of that?",
+		"after": "...How? Ten years in a hole with nothing. Where were you HIDING all of that?"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.flex.5::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "Strength was never about how heavy a thing is, Clench. It lives in the heart and the mind, and nobody can lock those in a cell.",
+		"after": "Strength was never a matter of how heavy a thing is, Clench. It lives in the heart and the mind, and nobody can lock those in a cell."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::cutscene.flex.5::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex",
+		"before": "The heavy things were only ever practice, my boy. Now, shall we?",
+		"after": "The heavy things were only ever practice, my boy. Now, shall we begin?"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "Flex doesn't gloat. He kneels beside his fallen pupil and offers him a hand. \"You hated yourself for needing the iron, my boy.\"",
+		"after": "Flex doesn't gloat. He kneels beside his fallen pupil and holds out a hand. \"You hated yourself for needing the iron, my boy.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::dungeon.hg_boss.after::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "\"I never hated you for it. Come back to the gym. We start from zero. Everyone does.\"",
+		"after": "\"I never once hated you for it. Come back to the gym. We'll start from zero, the way everyone does.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::freed_npc.heartlift::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "They took my plates, my protein, everything I had ever lifted. So I breathed: in, hold, and out again. That is what I did for ten years, and it was enough.",
+		"after": "They took my plates and my protein and everything I had ever lifted. So I breathed: in, and hold, and out again. I did that for ten years, and it turned out to be enough."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::freed_npc.heartlift::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "I counted my own heartbeats until they turned into songs. They thought they were breaking me down there, son, but they were teaching me.",
+		"after": "I counted my own heartbeats until they turned into songs. They believed they were breaking me down there, son, and all the while they were teaching me."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::freed_npc.heartlift::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "Clench is learning to lift from zero, and the strongest always take the longest. Yesterday he spotted Gary without being asked. The gym is open to everyone now, so come whenever you like.",
+		"after": "Clench is learning to lift again from zero, and the strongest ones always take the longest. Yesterday he spotted Gary without being asked. The gym is open to everyone now, so come by whenever you like."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_fled/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "Quota's gone, off to the Capital before the dust had even settled. She always did like to leave early.",
+		"after": "Quota's gone. She was off to the Capital before the dust had even settled; she always did like to leave early."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/quota_fled/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Grandmaster Flex, the Unbroken",
+		"before": "We'll keep her schedule, since it will make good kindling. And breathe, son - nobody here is on the clock any more.",
+		"after": "We'll keep her schedule, because it will make good kindling. And breathe, son. Nobody in this house is on the clock any more."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::dungeon.tk_boss.before::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger, later Escoffina",
+		"before": "The Grand Chef turns from the stove wearing the smile from every portrait in the Pantry, and in ten years it has never once creased.",
+		"after": "The Grand Chef turns from the stove wearing the same smile as every portrait in the Pantry. In ten years, it has never once creased."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.1::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "Welcome to the Executive Test Kitchen, taster. Ten years in this face and this apron, and not one Gourmand looked twice.",
+		"after": "Welcome to the Executive Test Kitchen, taster. Ten years I have worn this face and this apron, and not one Gourmand ever looked twice."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.1::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "They never looked at their Chef, only at the food.",
+		"after": "They never looked at their Chef, you see. They only ever looked at the food."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.3::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "...Tasting is inefficient. The orders from {capital} asked for golems, not flavour, and the Special Sauce delivers golems.",
+		"after": "...Tasting is inefficient. The orders from {capital} asked for golems and not for flavour, and the Special Sauce delivers golems."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.4::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "Then look. I have worn this face long enough.",
+		"after": "Then look, if you must. I have worn this face for long enough."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.reveal.5::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Doppelganger",
+		"before": "This is what was under it. I wore her face so long that I forgot my own. There is nothing in here to taste with.",
+		"after": "This is what was underneath. I wore her face for so long that I forgot my own, and there is nothing in here to taste with."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.1::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Ten years in a freezer, and I still remember what this soup should taste like. Let me put it right.",
+		"after": "Ten years in a freezer, and I can still remember exactly what this soup ought to taste like. Out of my way, and let me put it right."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.4::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Stand back, all of you. Somebody get me flour, butter and the biggest oven in this building.",
+		"after": "Stand back, the lot of you. Somebody fetch me flour and butter, and light the biggest oven in this building."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.5::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Endless Buffet",
+		"before": "Before you sits a plain, golden dish, large enough to share. You smell butter and warm bread.",
+		"after": "Before you sits a plain golden dish, large enough to share, and it smells of butter and warm bread."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.5::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Endless Buffet",
+		"before": "The first bite breaks the enchantment all through the Endless Buffet.",
+		"after": "The first bite breaks the enchantment, all the way through the Endless Buffet."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.5::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Endless Buffet",
+		"before": "You watch the chefs blink at their hands. Across the Buffet, a thousand golems lower their ladles.",
+		"after": "The chefs stand blinking at their own hands, and all across the Buffet a thousand golems lower their ladles."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.6::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "You wore my face for ten years and never once learned to taste. Today you start, and I'll give you something to start with.",
+		"after": "You wore my face for ten years and never once learned to taste. Well, today you start, and I'll give you something to start with."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.6::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Take my old name, then: Escoffina. I was always prouder of the work than of the title, and the name could do with someone starting fresh.",
+		"after": "Take my old name: Escoffina. I was always prouder of the work than of the title, and that name could do with somebody making a fresh start in it."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::cutscene.wonder.7::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Escoffina",
+		"before": "...Escoffina. I will try to cook honestly. I will try to be someone worth the name.",
+		"after": "...Escoffina. I will try to cook honestly. I will try to be somebody worth the name."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::freed_npc.grandchef::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Have you eaten? Sit, sit. I'm the Grand Chef, and forgive the apron: the impostor kept it cleaner, but I wear it with feeling.",
+		"after": "Have you eaten? Sit, sit. I'm the Grand Chef, and you'll have to forgive the apron. The impostor kept it cleaner than I do, but I wear it with more feeling."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::freed_npc.grandchef::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Ten years in the walk-in freezer, and I never forgot the taste of honest soup. Meanwhile they put that sauce in every pot and called it innovation.",
+		"after": "Ten years in the walk-in freezer, and I never once forgot the taste of honest soup. And all that time they were putting that sauce in every pot and calling it innovation."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::freed_npc.grandchef::3",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Thank you for finding me. Now eat.",
+		"after": "Thank you for finding me. Now eat, before it goes cold."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::freed_npc.grandchef::4",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "Let me cook for you. I promise there's nothing in it but food.",
+		"after": "Let me cook for you properly. I promise there's nothing in it but food."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::freed_npc.grandchef::5",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "The Grand Chef",
+		"before": "And you, my dear, don't know your name yet. That isn't a flaw, it's a blank page. Go and do something worth signing.",
+		"after": "And you, my dear, don't know your own name yet. That isn't a flaw, it's a blank page. Go and do something worth signing."
+	},
+	{
+		"id": "data/story/dna_story.tres::cutscene.vacancy.2::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Me? Oh, for pity's sake. I filed more appeals than anyone alive or dead, and this is how they reward it?",
+		"after": "Me? Oh, for pity's sake. I filed more appeals than anybody, living or dead, and this is what they give me for it?"
+	},
+	{
+		"id": "data/story/dna_story.tres::cutscene.vacancy.4::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "...Then I'll stay, Mortimer, though not for you. I'll stay until nobody has to wait as long as I did.",
+		"after": "...Then I'll stay, Mortimer, though I'm not doing it for you. I'll stay until nobody has to wait as long as I did."
+	},
+	{
+		"id": "data/story/dna_story.tres::cutscene.vacancy.4::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Everyone in that queue was somebody, and the dead deserve to be treated as people. Helping the lost is the whole job. It always was.",
+		"after": "Everyone in that queue was somebody, and the dead deserve to be treated as people. Helping the lost is the whole of the job. It always was."
+	},
+	{
+		"id": "data/story/dna_story.tres::cutscene.vacancy.4::2",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "No order outranks that, Mortimer, not his and not yours. From today we treat everyone with respect.",
+		"after": "No order outranks that, Mortimer. Not his, and not yours. From today, everyone who comes to us is treated with respect."
+	},
+	{
+		"id": "data/story/dna_story.tres::cutscene.vacancy.6::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Then we'll write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done.",
+		"after": "Then we shall write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done."
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.agnes::0",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "Agnes Overdue, head of the D.N.A. Yes, me. The office goes to the senior-most applicant, and I filed more appeals than anyone. I have never been so annoyed to win.",
+		"after": "Agnes Overdue, head of the D.N.A. Yes, dear, me. The office goes to the senior-most applicant, and I filed more appeals than anyone. I have never been so annoyed to win anything."
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.agnes::1",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "I only ever wanted to leave, and I will, soon. But first I'm putting this place right, so nobody else waits as long as I did.",
+		"after": "I only ever wanted to leave, and I will, soon enough. But I'm putting this place right first, so that nobody else has to wait as long as I did."
+	},
+	{
+		"id": "data/story/dna_story.tres::freed_npc.agnes::3",
+		"file": "data/story/dna_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "And you, dear. You were a number in somebody's file once, weren't you? I can see it in how you hold your shoulders.",
+		"after": "And you, dear. You were a number in somebody's file once, weren't you? I can see it in the way you hold your shoulders."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_mill/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "Do mind the topiary, dear. That's His Perfection, seen from the left - the right side is still filling in.",
+		"after": "Do mind the topiary, if you would. That's His Perfection, seen from the left. The right side is still filling in."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_mill/steps/2::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "Hortensia Clipwell, Royal Groundskeeper. I'm the one who outlawed composting. All that rot lying about in heaps, being honest with everybody - so untidy.",
+		"after": "Hortensia Clipwell, Royal Groundskeeper. I am the one who outlawed composting. All that rot lying about in heaps, being honest with everybody. So untidy."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_mill/steps/4::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "Isn't it lovely? I brought the Archdruid a little seed as a gift - life that never ends. She was so very sad, and now nothing ever has to go.",
+		"after": "Isn't it lovely? I brought the Archdruid a little seed as a gift: life that never ends. She was so very sad, you see, and now nothing ever has to go."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/clipwell_mill/steps/4::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "And now, dear, I'm afraid I have a weed to remove.",
+		"after": "And now, I'm afraid, I have a weed to remove."
+	},
+	{
+		"id": "data/encounters/boss_intros.json::Hortensia Clipwell, Royal Groundskeeper/line::0",
+		"file": "data/encounters/boss_intros.json",
+		"speaker": "Hortensia Clipwell, Royal Groundskeeper",
+		"before": "Such a pretty little weed, and such a shame. Do hold still, dear, this won't take a moment.",
+		"after": "Such a pretty little weed, and such a shame. Do hold still, please. This won't take a moment."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.1::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "It's the seed, {villain}'s gift - life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it.",
+		"after": "It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.1::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "I planted the seed where she had stood, and it took. It's been feeding on my grief for ten years. Nothing here rots, and that's my doing.",
+		"after": "So I planted the seed where she had stood, and it took. It has been feeding on my grief for ten years. Nothing here rots, and that is my doing."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.3::0",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "Everything I ever loved, I gave back to the soil when its time came. Everything except her.",
+		"after": "Everything I ever loved, I gave back to the soil when its time came. Everything but her."
+	},
+	{
+		"id": "data/story/refusemancer_story.tres::cutscene.sever.3::1",
+		"file": "data/story/refusemancer_story.tres",
+		"speaker": "Archdruid Compostella",
+		"before": "...Then we let it die, together. Hold on to me while it goes.",
+		"after": "...Then we let it die, the two of us together. Hold on to me while it goes."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.manhole_first::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "There's a manhole by the wall with a scratch on its lid, like a tiny wrinkle. You knock three times, for no reason you can name.",
+		"after": "There's a manhole by the wall with a small scratch on its lid, like a tiny wrinkle. You knock three times, without being able to say why."
+	},
+	{
+		"id": "data/story/capital_story.tres::fx.manhole_first::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "Down a ladder, along a brick tunnel, into a warm room full of mismatched furniture and people who are all, visibly, not ironed.",
+		"after": "You climb down a ladder and along a brick tunnel into a warm room full of mismatched furniture and people who are all, quite visibly, not ironed."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.intro::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "Another one through the shafts. Sit down. I'm Wren; I was the Royal Archivist once, and now I keep the records this city isn't supposed to have.",
+		"after": "Another one down through the shafts. Sit, please. I'm Wren. I was the Royal Archivist once, and these days I keep the records this city isn't supposed to have."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.intro::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "Maren sent word from {town} that someone might come. This is the Crease, and we're the Wrinkles, the people {villain} couldn't iron out. We have tea and grudges. The tea's better.",
+		"after": "Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.intro::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "He's in the castle at the north end, and he truly believes he's helping, which is the hard part. Talk to the people in the streets. Each of them carries a piece of what he did, and I want it all in the record.",
+		"after": "He's in the castle at the north end, and he truly believes he is helping, which is the hard part. Talk to the people in the streets. Each of them carries a piece of what he did, and I want all of it in the record."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.return::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "Back in one piece? Good. Hesper charges by the piece.",
+		"after": "You're back in one piece, I see. Good. Hesper has quite enough to do."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.return::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "The records say he began well. His first decree put a hot lunch in front of every schoolchild, and I want you to remember that. It excuses nothing, but remember it.",
+		"after": "The records say that he began well. His very first decree put a hot lunch in front of every schoolchild, and I want you to remember that. It excuses nothing, but remember it."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "You brought me something from the streets. It goes in the true record, in ink, where he can't correct it.",
+		"after": "You've brought me something from the streets. It goes into the true record, in ink, where he can't correct it."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "That's two pieces of him now: a man who needs to be right, and a man who can't bear to be disagreed with. I can almost see his shape.",
+		"after": "That makes two pieces of him: a man who needs to be right, and a man who can't bear to be disagreed with. I can almost see his shape now."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "That's three. He's afraid, you know, and not of you.",
+		"after": "That makes three. He is afraid, you know, and it isn't you he's afraid of."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.3::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "He's afraid of everything that won't obey him. It's a small, sad fear for a man with so much gold.",
+		"after": "He is afraid of everything that won't obey him. It's a small, sad sort of fear, for a man with so much gold."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.4::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "That's all four, and I have the whole of him now. He is not a monster.",
+		"after": "That's all four, and now I have the whole of him. He is not a monster."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.insight.4::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "He's a man who made a list of everything he couldn't control, and then made it illegal.",
+		"after": "He is a man who made a list of everything he couldn't control, and then made every item on it illegal."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.hesper.intro::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Nurse Hesper Dray",
+		"before": "The rifts? That's his hold failing. Everything he forced together keeps coming apart at the seams, and he keeps stitching.",
+		"after": "The rifts? That's his hold failing. Everything he forced together is coming apart at the seams, and he keeps on stitching."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "(narration)",
+		"before": "The castle gate is white and gold and perfectly symmetrical. In its shadow, hood up, stands the woman who pulled you out of the woods, as if she was always going to be here.",
+		"after": "The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Don't look so surprised. Somebody has to watch the door while you knock it down.",
+		"after": "Don't look so surprised. I told you somebody had to watch the door while you knocked it down."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/6::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Percival Plume, Deputy Minister of Good News",
+		"before": "Don't fret, Miss Vey, your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way.",
+		"after": "Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/7::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Rescuer (Elowen)",
+		"before": "Don't follow me, {wanderer}! Get to the top. That's the only way any of this ends.",
+		"after": "Don't follow me, {wanderer}! Get to the top of that castle. It's the only way any of this ends."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/pc_capture/steps/9::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "The Wanderer",
+		"before": "{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her.",
+		"after": "{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/wren_after_capture/steps/0::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Wren",
+		"before": "We saw them take her at the gate: four guards and a peacock with a speaking trumpet. We couldn't get anywhere near her.",
+		"after": "We saw them take her at the gate: four guards, and a peacock with a speaking trumpet. We couldn't get anywhere near her."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/wren_after_capture/steps/1::1",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Wren",
+		"before": "The Wrinkles are watching every door out of that castle. If they move her again, we'll know.",
+		"after": "The Wrinkles are watching every door out of that castle. If they move her again, we will know."
+	},
+	{
+		"id": "data/story/story_scenes.json::scenes/wren_after_capture/steps/1::2",
+		"file": "data/story/story_scenes.json",
+		"speaker": "Wren",
+		"before": "Her name goes in the true record, whatever else happens.",
+		"after": "Her name goes into the true record, whatever else happens. I can promise you that much."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.1::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Ah, a visitor. Do come in; I so rarely receive anyone who has not been summoned.",
+		"after": "Ah, a visitor. Do come in. I so rarely receive anyone who has not been summoned."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "You have walked the whole length of my castle. You have, I notice, scuffed it.",
+		"after": "You have walked the whole length of my castle to reach this room. You have also, I notice, scuffed it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.3::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Sorry, that's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you.",
+		"after": "I'm sorry about the floor. It's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.4::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Afraid? Of order, perhaps, or of comfort, or of the dreadful burden of being safe?",
+		"after": "Afraid? Of order, perhaps? Of comfort? Of the dreadful burden of being kept safe?"
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.4::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "I have given them roofs, and hats, and rules, and I have given each of them exactly the same amount of each, which is more than anyone before me ever managed.",
+		"after": "I have given them roofs, and hats, and rules, and I have given every one of them exactly the same amount of each, which is more than anyone before me ever managed."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_intro.5::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "Ten years I have been mending this kingdom. Ten years, and still you come, with your different hats and your different opinions, to undo the only good thing anyone has ever done.",
+		"after": "For ten years I have been mending this kingdom. Ten years, and still you people come, with your different hats and your different opinions, to undo the only good thing anyone has ever done for it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Because some things are five. Some people are.",
+		"after": "Because some things are five. Some people are, too."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I met a man who'd been locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with what's left, and strength is not control.",
+		"after": "I met a man who was locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with whatever is left to you, and strength is not control."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p1.2.rushed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "Because some things are five. Some people are.",
+		"after": "Because some things are five. Some people are, too."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly herself, so I know a name's a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I spent ten years filed under 'subject'. Never again, not me and not anyone else. No order you could write outranks treating people with respect.",
+		"after": "And I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.gourmand::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly herself, so I know a name's a blank page until you sign it.",
+		"after": "You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.2.necrocrat::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I spent ten years filed under 'subject'. Never again, not me and not anyone else. No order you could write outranks treating people with respect.",
+		"after": "I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_p2.3::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "I made... (he stops.) I made them, and they were good. Then I put my name on every one, and I stopped asking anyone whether they wanted the next.",
+		"after": "I made... (he stops.) I made them, and they were good. And then I put my name on every one, and I stopped asking anyone whether they wanted the next."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.6::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "The Wanderer",
+		"before": "I'm not going to correct you; that was always your way. I'm not going to forgive you either, not today. Start smaller than a kingdom. Say sorry to one person.",
+		"after": "I'm not going to correct you. That was always your way of doing things. And I'm not going to forgive you either, not today. Start with something smaller than a kingdom. Say sorry to one person."
+	},
+	{
+		"id": "data/story/capital_story.tres::cutscene.primm_end.7::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Primm",
+		"before": "One? I corrected eleven thousand. Where would I even begin? I cannot remember a single one of their names.",
+		"after": "One? I corrected eleven thousand of them. Where would I even begin? I cannot remember a single one of their names."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.beat.10::2",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Agnes Overdue",
+		"before": "'{prince},' she says, loud enough for the whole plaza to hear. She has said it in her kitchen; this is the first time she has said it to the kingdom. 'Welcome home.'",
+		"after": "'{prince},' she says, loudly enough for the whole plaza to hear. She has said it in her kitchen, but this is the first time she has said it to the kingdom. 'Welcome home.'"
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.credits.2::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(narration)",
+		"before": "A game about a kingdom that was strong because it was not the same.",
+		"after": "A game about a kingdom that was strong because its pieces did not match."
+	},
+	{
+		"id": "data/story/capital_story.tres::ending.thanks.body::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "(check key)",
+		"before": "The kingdom is whole again, and it is yours to walk.",
+		"after": "The kingdom is in one piece again, seams and all, and it is yours to walk."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.intro.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "You did it. Sit down a moment. I'm Wren, Royal Archivist, and for ten years I kept the only honest record in this city.",
+		"after": "You did it. Sit down for a moment. I'm Wren, the Royal Archivist, and for ten years I kept the only honest record in this city."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.intro.freed::1",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "The Crease is just a cellar now, but we're keeping it. Too many true things were written down there to let it go.",
+		"after": "The Crease is only a cellar now, but we are keeping it. Too many true things were written down here to let it go."
+	},
+	{
+		"id": "data/story/capital_story.tres::npc.wren.return.freed::0",
+		"file": "data/story/capital_story.tres",
+		"speaker": "Wren",
+		"before": "The kingdom is mending one argument at a time, and it's dreadfully inefficient. I've never been happier. Take your time.",
+		"after": "The kingdom is mending itself one argument at a time, and it's dreadfully inefficient. I have never been happier. Take your time."
+	}
+]

@@ -1,0 +1,96 @@
+# Tier 1, part C: the Capital's main line, the castle gate, Primm, the ending and the epilogue.
+# The castle's rooms (lab notes, journals, portraits, the ward, the gallery), the ending beats, the funeral and Isla's homecoming were read
+# as scenes and kept almost whole: they are narration and already do what the bible asks of them.
+
+## purpose: arriving under the Capital. The Crease is the patchwork kept alive under the perfect city: mismatched furniture, people who are "not ironed".
+@capital::fx.manhole_first
+0| There's a manhole by the wall with a small scratch on its lid, like a tiny wrinkle. You knock three times, without being able to say why.
+2| You climb down a ladder and along a brick tunnel into a warm room full of mismatched furniture and people who are all, quite visibly, not ironed.
+
+## purpose: Wren. She wants a witness, not a soldier: go and hear what he did, piece by piece. Plants the school lunch ("It excuses nothing, but remember it") and refuses the word monster.
+@capital::npc.wren.intro
+0| Another one down through the shafts. Sit, please. I'm Wren. I was the Royal Archivist once, and these days I keep the records this city isn't supposed to have.
+1| Maren sent word from {town} that someone might come. This is the Crease, and we are the Wrinkles: the people {villain} couldn't iron out. We have tea and we have grudges, and the tea is better.
+2| He's in the castle at the north end, and he truly believes he is helping, which is the hard part. Talk to the people in the streets. Each of them carries a piece of what he did, and I want all of it in the record.
+@capital::npc.wren.return
+0| You're back in one piece, I see. Good. Hesper has quite enough to do.
+1| The records say that he began well. His very first decree put a hot lunch in front of every schoolchild, and I want you to remember that. It excuses nothing, but remember it.
+@capital::npc.wren.insight.1
+0| You've brought me something from the streets. It goes into the true record, in ink, where he can't correct it.
+@capital::npc.wren.insight.2
+0| That makes two pieces of him: a man who needs to be right, and a man who can't bear to be disagreed with. I can almost see his shape now.
+@capital::npc.wren.insight.3
+0| That makes three. He is afraid, you know, and it isn't you he's afraid of.
+1| He is afraid of everything that won't obey him. It's a small, sad sort of fear, for a man with so much gold.
+@capital::npc.wren.insight.4
+0| That's all four, and now I have the whole of him. He is not a monster.
+1| He is a man who made a list of everything he couldn't control, and then made every item on it illegal.
+@capital::npc.hesper.intro
+2| The rifts? That's his hold failing. Everything he forced together is coming apart at the seams, and he keeps on stitching.
+
+## purpose: the promise broken at the gate. She is there, as she said; he learns her name from the man who takes her.
+@scenes/pc_capture/steps/0
+1| The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here.
+@scenes/pc_capture/steps/1
+1| Don't look so surprised. I told you somebody had to watch the door while you knocked it down.
+@scenes/pc_capture/steps/6
+1| Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round.
+@scenes/pc_capture/steps/7
+1| Don't follow me, {wanderer}! Get to the top of that castle. It's the only way any of this ends.
+@scenes/pc_capture/steps/9
+1| {rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that.
+@scenes/wren_after_capture/steps/0
+1| We saw them take her at the gate: four guards, and a peacock with a speaking trumpet. We couldn't get anywhere near her.
+@scenes/wren_after_capture/steps/1
+1| The Wrinkles are watching every door out of that castle. If they move her again, we will know.
+2| Her name goes into the true record, whatever else happens. I can promise you that much.
+
+## purpose: Primm in person. Gracious, exact, sincere; no contractions. The hero is polite to him, which is worse for Primm than anger.
+@capital::cutscene.primm_intro.1
+0| Ah, a visitor. Do come in. I so rarely receive anyone who has not been summoned.
+@capital::cutscene.primm_intro.2
+1| You have walked the whole length of my castle to reach this room. You have also, I notice, scuffed it.
+@capital::cutscene.primm_intro.3
+0| I'm sorry about the floor. It's forest mud. I've walked a long way to get here, and everyone I met on the road was afraid of you.
+@capital::cutscene.primm_intro.4
+0| Afraid? Of order, perhaps? Of comfort? Of the dreadful burden of being kept safe?
+1| I have given them roofs, and hats, and rules, and I have given every one of them exactly the same amount of each, which is more than anyone before me ever managed.
+@capital::cutscene.primm_intro.5
+0| For ten years I have been mending this kingdom. Ten years, and still you people come, with your different hats and your different opinions, to undo the only good thing anyone has ever done for it.
+
+## purpose: phase 1 answered with Flex's lesson; phase 2 with the Grand Chef's and Agnes's. The hero gives back what the four zones taught him, in his own plain words.
+@capital::cutscene.primm_p1.2
+0| Because some things are five. Some people are, too.
+1| I met a man who was locked up for ten years without a single weight, and he could still lift me off the floor. Strength is what you do with whatever is left to you, and strength is not control.
+@capital::cutscene.primm_p1.2.rushed
+0| Because some things are five. Some people are, too.
+@capital::cutscene.primm_p2.2
+0| You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.
+1| And I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect.
+@capital::cutscene.primm_p2.2.gourmand
+0| You copied my cards, but what I do with them is mine. I watched a cook give her own name away and stay exactly who she was, so I know a name is a blank page until you sign it.
+@capital::cutscene.primm_p2.2.necrocrat
+1| I spent ten years filed under 'subject'. Never again, for me or for anyone. No order you could ever write outranks treating people with respect.
+@capital::cutscene.primm_p2.3
+1| I made... (he stops.) I made them, and they were good. And then I put my name on every one, and I stopped asking anyone whether they wanted the next.
+
+## purpose: the peak. Primm asks to be told he was kind; the hero will not correct him and will not forgive him yet. "Start with something smaller than a kingdom."
+@capital::cutscene.primm_end.1
+0| ...So it is over. I wrote such good rules, and they were not enough.
+@capital::cutscene.primm_end.6
+0| I'm not going to correct you. That was always your way of doing things. And I'm not going to forgive you either, not today. Start with something smaller than a kingdom. Say sorry to one person.
+@capital::cutscene.primm_end.7
+0| One? I corrected eleven thousand of them. Where would I even begin? I cannot remember a single one of their names.
+
+## purpose: the ending. Maren says his name to the kingdom; the theme is said once more in the credits.
+@capital::ending.beat.10
+2| '{prince},' she says, loudly enough for the whole plaza to hear. She has said it in her kitchen, but this is the first time she has said it to the kingdom. 'Welcome home.'
+@capital::ending.credits.2
+0| A game about a kingdom that was strong because its pieces did not match.
+@capital::ending.thanks.body
+0| The kingdom is in one piece again, seams and all, and it is yours to walk.
+@capital::npc.wren.intro.freed
+0| You did it. Sit down for a moment. I'm Wren, the Royal Archivist, and for ten years I kept the only honest record in this city.
+1| The Crease is only a cellar now, but we are keeping it. Too many true things were written down here to let it go.
+@capital::npc.wren.return.freed
+0| The kingdom is mending itself one argument at a time, and it's dreadfully inefficient. I have never been happier. Take your time.

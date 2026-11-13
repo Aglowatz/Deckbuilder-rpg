@@ -122,7 +122,7 @@
 	},
 	"Hortensia Clipwell, Royal Groundskeeper": {
 		"title": "Royal Groundskeeper",
-		"line": "Such a pretty little weed, and such a shame. Do hold still, dear, this won't take a moment.",
+		"line": "Such a pretty little weed, and such a shame. Do hold still, please. This won't take a moment.",
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},

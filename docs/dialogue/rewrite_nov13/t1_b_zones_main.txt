@@ -1,0 +1,146 @@
+# Tier 1, part B: the four gatekeepers and each zone's main dungeon story (the boss before and after, the leader freed).
+# Lines not listed here were read as scenes and kept: they already flow and are in voice.
+
+## purpose: Brick Bronson. Before: a kind man shouting someone else's orders. After: mortified, and the first rumour of Flex ("the old man never broke").
+@intro::gate.beefcake.freed
+0| You really did it. Grandmaster Flex is out! The first thing he did was make me stretch for forty minutes, and I cried twice, but they were the good kind of tears.
+1| The bridge stays down for good now, though I still come out and oil the crank every morning. Looking after it is how I say sorry, and I've a lot of sorry left to get through.
+2| Would you like to spar? Gently, I mean, and I'll spot you. I'm still a spotter, only now I get to say it at an ordinary volume, and honestly that's a huge relief.
+@intro::gate.beefcake.blocked
+0| The bridge is drawn up on the far side of the gorge. Somebody very large is standing by the crank over there, shouting about hydration.
+@intro::gate.beefcake.cleared
+0| Brick Bronson cracks his knuckles, takes hold of the crank with one hand and lowers the bridge, glancing over his shoulder to make sure you're watching.
+@intro::beefcake_npc_victory_lines
+0| ...Oh, no. Was I yelling just then? I was, wasn't I. I'm so sorry. That was the pre-workout talking, and once it starts it doesn't know how to stop.
+1| Chancellor Clench had Grandmaster Flex locked away under the House of Gains, ten years ago now. People still whisper that the old man never broke. I wish I'd whispered with them, instead of standing out here yelling.
+2| The bridge is yours, friend. Do stretch before you cross, though. A pulled hamstring is a terrible thing to bring home from a trip.
+
+## purpose: Chef Gravois. The sauce lets go of her, and she names the mystery: the Chef she trained under always tasted. Points at the Test Kitchen.
+@intro::gate.gourmand.freed
+0| She's back, the real Grand Chef. She tasted my soup, frowned at it and said 'more salt', and I don't believe I have ever been so happy in my life.
+2| Do you fancy a friendly duel, for old times' sake? The loser washes the ladle, and I ought to warn you that it's a very big ladle.
+@intro::gourmand_npc_intro_lines
+1| The pantry is closed by order of the Grand Chef herself, and the key stays right here on my apron. It's all for the war effort!
+@intro::gourmand_npc_victory_lines
+0| Oh... the sauce has let go of me. Is that plain bread? With nothing on it at all? I could weep. In fact I am weeping, and I don't mind who sees.
+1| The Grand Chef stopped tasting her own sauces years ago, and the Chef I trained under ALWAYS tasted. It's the same face and the same apron... so who has been wearing them?
+2| Whatever has gone wrong here starts in the Test Kitchen, at the far end of the Buffet, and it was never built for casseroles. Take a biscuit for the road. No, take two.
+
+## purpose: Prudence Pallor. The quiet horror of the D.N.A. in one sentence: nobody forced them; they stamped it themselves.
+@intro::gate.necrocrat.freed
+0| The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake to mark the occasion.
+1| I have a new stamp now, and it says HELPED. I've used it nine times so far, and yes, I am keeping count.
+2| You may challenge me again if you'd like to, and you won't need a permit for it. That's my favourite rule. I wrote it myself.
+@intro::necrocrat_npc_intro_lines
+2| The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why.
+@intro::necrocrat_npc_victory_lines
+0| ...I can hear my own thoughts again. I believe I have been Pending for ten years. It was very quiet in there, and very orderly, and none of it was me.
+1| {villain} never had to corrupt us. He used our own rules against us: a perfectly valid transfer of authority, notarized and filed. We stamped it ourselves.
+2| The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both.
+
+## purpose: Moss Mulligan. A gentle person the Rot spoke through; plants "a very tidy lady with shears" (Clipwell).
+@intro::gate.refusemancer.freed
+0| Archdruid Compostella is herself again, and she hugged me! She smells of rain, and a little bit of compost, which is exactly how an Archdruid ought to smell.
+1| Most of the thorns have gone. I've kept one in a pot, and it's behaving itself, but I'm not ready to let it anywhere near the curtains.
+2| Would you like a practice round? I'll try very hard not to thorn at you. The raccoons have come to watch, so we had both better be on our best behaviour.
+@intro::refusemancer_npc_victory_lines
+0| Oh, no. Did I thorn at you? I'm so sorry. The Rot talks very softly inside your head, right up until the moment it's doing all the talking.
+1| The Rot took Archdruid Compostella first, down at the Rotheart, in the deepest part of the Verdant Dump, and everything grew outward from there. It got into me the day a very tidy lady with shears came calling.
+2| The path is clear now. Go gently in there, and if you meet a raccoon, say hello to him from me. They're very good boys, whatever anybody tells you.
+
+## purpose: the House of Gains. A teacher found in the dark who has lost everything and is not diminished; a pupil who needs to be told he did well. The lesson (heart and mind) and the line the hero carries to Primm.
+@gainlands::cutscene.rescue.1
+0| Quietly, son. The guards time their rounds by counting their own squats, and sooner or later every one of them loses count.
+1| So the rounds come whenever they come. Listen for knees cracking on the stairs, and you'll hear them in plenty of time.
+@gainlands::cutscene.rescue.2
+0| You're Grandmaster Flex? Everyone up there talks about you as though you were twice this size.
+@gainlands::cutscene.rescue.3
+0| Ten years in the dark will do that to a man. They took my plates and my protein and every bar I ever lifted, and they left me down here with nothing at all.
+1| And nothing, it turns out, is a fine place to start from. I still had my breath, my body and my mind, so I trained those, every day.
+2| Come along, son, and we'll climb out of here together. I'd like a word with Clench on the way. He was the best student I ever had, you know. He still is.
+@gainlands::dungeon.hg_boss.before
+1| "Master." The word sticks in his throat. "I was your best, you know. Your star pupil. You said so yourself."
+2| "You told me I would go further than you ever did. And then you started on about strength living in the heart and the head, and I knew better than that."
+3| "So I took your iron, and your protein, and your followers, and here you are, climbing back up my stairs with nothing at all."
+4| "Look how far I went, Master. What exactly do you imagine you can do about it now?"
+@gainlands::cutscene.flex.2
+0| Stand back a little, son, if you would. It has been a long time, and I should like some room.
+@gainlands::cutscene.flex.3
+1| You only ever wanted the weight, my boy. I was trying to teach you the heart, and you stopped listening long before I ever got to the mind.
+@gainlands::cutscene.flex.4
+0| ...How? Ten years in a hole with nothing. Where were you HIDING all of that?
+@gainlands::cutscene.flex.5
+0| Strength was never a matter of how heavy a thing is, Clench. It lives in the heart and the mind, and nobody can lock those in a cell.
+1| The heavy things were only ever practice, my boy. Now, shall we begin?
+@gainlands::dungeon.hg_boss.after
+1| Flex doesn't gloat. He kneels beside his fallen pupil and holds out a hand. "You hated yourself for needing the iron, my boy."
+2| "I never once hated you for it. Come back to the gym. We'll start from zero, the way everyone does."
+@gainlands::freed_npc.heartlift
+1| They took my plates and my protein and everything I had ever lifted. So I breathed: in, and hold, and out again. I did that for ten years, and it turned out to be enough.
+2| I counted my own heartbeats until they turned into songs. They believed they were breaking me down there, son, and all the while they were teaching me.
+3| Clench is learning to lift again from zero, and the strongest ones always take the longest. Yesterday he spotted Gary without being asked. The gym is open to everyone now, so come by whenever you like.
+@scenes/quota_fled/steps/1
+1| Quota's gone. She was off to the Capital before the dust had even settled; she always did like to leave early.
+2| We'll keep her schedule, because it will make good kindling. And breathe, son. Nobody in this house is on the clock any more.
+
+## purpose: the Test Kitchen. Something with no face that was told to say "delicious"; a Chef who proves herself with dinner and then gives her name away. The lesson (what you do, not what you are called).
+@gourmand::dungeon.tk_boss.before
+0| The Grand Chef turns from the stove wearing the same smile as every portrait in the Pantry. In ten years, it has never once creased.
+@gourmand::cutscene.reveal.1
+0| Welcome to the Executive Test Kitchen, taster. Ten years I have worn this face and this apron, and not one Gourmand ever looked twice.
+1| They never looked at their Chef, you see. They only ever looked at the food.
+@gourmand::cutscene.reveal.3
+0| ...Tasting is inefficient. The orders from {capital} asked for golems and not for flavour, and the Special Sauce delivers golems.
+@gourmand::cutscene.reveal.4
+0| Then look, if you must. I have worn this face for long enough.
+@gourmand::cutscene.reveal.5
+0| This is what was underneath. I wore her face for so long that I forgot my own, and there is nothing in here to taste with.
+@gourmand::cutscene.wonder.1
+0| Ten years in a freezer, and I can still remember exactly what this soup ought to taste like. Out of my way, and let me put it right.
+@gourmand::cutscene.wonder.4
+1| Stand back, the lot of you. Somebody fetch me flour and butter, and light the biggest oven in this building.
+@gourmand::cutscene.wonder.5
+0| Before you sits a plain golden dish, large enough to share, and it smells of butter and warm bread.
+1| The first bite breaks the enchantment, all the way through the Endless Buffet.
+2| The chefs stand blinking at their own hands, and all across the Buffet a thousand golems lower their ladles.
+@gourmand::cutscene.wonder.6
+1| You wore my face for ten years and never once learned to taste. Well, today you start, and I'll give you something to start with.
+2| Take my old name: Escoffina. I was always prouder of the work than of the title, and that name could do with somebody making a fresh start in it.
+@gourmand::cutscene.wonder.7
+0| ...Escoffina. I will try to cook honestly. I will try to be somebody worth the name.
+@gourmand::freed_npc.grandchef
+0| Have you eaten? Sit, sit. I'm the Grand Chef, and you'll have to forgive the apron. The impostor kept it cleaner than I do, but I wear it with more feeling.
+1| Ten years in the walk-in freezer, and I never once forgot the taste of honest soup. And all that time they were putting that sauce in every pot and calling it innovation.
+3| Thank you for finding me. Now eat, before it goes cold.
+4| Let me cook for you properly. I promise there's nothing in it but food.
+5| And you, my dear, don't know your own name yet. That isn't a flaw, it's a blank page. Go and do something worth signing.
+
+## purpose: the Hall of Final Approvals. Agnes wins the office she never wanted and stays for the others. The lesson (everyone in the queue was somebody).
+@dna::cutscene.vacancy.2
+0| Me? Oh, for pity's sake. I filed more appeals than anybody, living or dead, and this is what they give me for it?
+@dna::cutscene.vacancy.4
+0| ...Then I'll stay, Mortimer, though I'm not doing it for you. I'll stay until nobody has to wait as long as I did.
+1| Everyone in that queue was somebody, and the dead deserve to be treated as people. Helping the lost is the whole of the job. It always was.
+2| No order outranks that, Mortimer. Not his, and not yours. From today, everyone who comes to us is treated with respect.
+@dna::cutscene.vacancy.6
+0| Then we shall write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done.
+@dna::freed_npc.agnes
+0| Agnes Overdue, head of the D.N.A. Yes, dear, me. The office goes to the senior-most applicant, and I filed more appeals than anyone. I have never been so annoyed to win anything.
+1| I only ever wanted to leave, and I will, soon enough. But I'm putting this place right first, so that nobody else has to wait as long as I did.
+3| And you, dear. You were a number in somebody's file once, weren't you? I can see it in the way you hold your shoulders.
+
+## purpose: the Rotheart. Clipwell's "gift" and why she gave it; a grief that was never allowed to end. The lesson (to grow, you have to let things go).
+@scenes/clipwell_mill/steps/1
+1| Do mind the topiary, if you would. That's His Perfection, seen from the left. The right side is still filling in.
+@scenes/clipwell_mill/steps/2
+1| Hortensia Clipwell, Royal Groundskeeper. I am the one who outlawed composting. All that rot lying about in heaps, being honest with everybody. So untidy.
+@scenes/clipwell_mill/steps/4
+1| Isn't it lovely? I brought the Archdruid a little seed as a gift: life that never ends. She was so very sad, you see, and now nothing ever has to go.
+2| And now, I'm afraid, I have a weed to remove.
+boss::Hortensia Clipwell, Royal Groundskeeper/line::0| Such a pretty little weed, and such a shame. Do hold still, please. This won't take a moment.
+@refusemancer::cutscene.sever.1
+0| It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it.
+1| So I planted the seed where she had stood, and it took. It has been feeding on my grief for ten years. Nothing here rots, and that is my doing.
+@refusemancer::cutscene.sever.3
+0| Everything I ever loved, I gave back to the soil when its time came. Everything but her.
+1| ...Then we let it die, the two of us together. Hold on to me while it goes.

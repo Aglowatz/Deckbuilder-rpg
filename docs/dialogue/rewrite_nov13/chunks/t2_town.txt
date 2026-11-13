@@ -1,0 +1,549 @@
+# t2_town: 216 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@intro::awakening_lines
+#   [The Wanderer] Prologue: waking up in the forest
+#= 0| Where... where is this? I can smell wet leaves, and my head feels as if someone has packed it with wool.
+#= 1| I keep reaching for my name, and it isn't there. Neither is how I came to be here. There's nothing at all, like a room that somebody has emptied.
+#= 2| I ought to try standing up, though my legs don't seem to agree, and I ache in places I couldn't even put a name to.
+
+@intro::start.gate_title
+#   [(narration)] Start: gate title
+0| The Forgotten Cave
+
+@intro::start.gate_prompt
+#   [(narration)] Start: gate prompt
+#= 0| A cold draft rises out of the dark, and it smells of old stone and older water. The stranger said the town lies on the other side of this cave. Go in?
+
+@intro::prologue.rescuer.1
+#   [The Rescuer] Prologue: rescuer 1
+#= 0| Easy, now. Stay down for a moment and get your breath back; nobody's handing out prizes for standing up first. After what they put you through, I'm amazed you're breathing at all.
+#= 1| Keep your voice low, though. We aren't the only ones in these woods tonight, and the others aren't looking for you out of kindness.
+
+@intro::prologue.wanderer.1
+#   [The Wanderer] Prologue: wanderer 1
+#= 0| I don't know this place. I don't even know my own name. ...Who are you?
+
+@intro::prologue.rescuer.2
+#   [The Rescuer] Prologue: rescuer 2
+#= 0| A friend. I know that isn't much of an answer, and I'm sorry, but it's the only one I can give you, and there isn't time for a better one.
+#= 1| Can you still draw on the Paths? Hold out your hand and let me see. Gently, I only want to look.
+
+@intro::prologue.wanderer.2
+#   [The Wanderer] Prologue: wanderer 2
+#= 0| ...I can feel them. All four of them, but faintly, like voices through a wall.
+
+@intro::prologue.rescuer.3
+#   [The Rescuer] Prologue: rescuer 3
+#= 0| Then they didn't manage to take everything. That will have to do for now, because the Path-ologists are already out hunting for us.
+1| Tell me: which Path resonates within you?
+
+@intro::prologue.rescuer.4
+#   [The Rescuer] Prologue: rescuer 4
+#= 0| That one, then. Hold on to it as tightly as you can. The others will come back to you in time; I'm almost sure of it.
+#= 1| The Forgotten Cave behind me is your escape. It comes out at {town}, and Elder Maren will be waiting for you there. Find her before you do anything else.
+#= 2| Do you hear that? They're close, but they don't know about the cave. Hardly anyone remembers it's here any more.
+#= 3| Go now, and don't stop for anything. I'll draw them off the other way, and once I'm clear of them, I'll find you. I always do.
+
+@intro::prologue.wanderer.3
+#   [The Wanderer] Prologue: wanderer 3
+#= 0| She's gone, and the shouting has gone after her. I don't know who those people are, but I'd rather not be standing here when they come back.
+
+@intro::prologue.self_talk
+#   [The Wanderer] Prologue: self talk
+#= 0| The trees are packed too tightly to squeeze through here. It will have to be the cave, then.
+#= 1| There's no sense in getting lost twice in one day. I'll go back up the path to the glowing arch.
+#= 2| Whatever is waiting for me, it's on the other side of that cave.
+#= 3| She said someone would be waiting on the other side, whoever she was. And whatever is in that cave, it can't be worse than those Path-ologists.
+
+@intro::tutorial.warden.before
+#   [The Hollow Warden] Tutorial: warden before
+#= 0| ...Footsteps. It has been a long time since anything came down here to wake me.
+#= 1| No one has walked this way since the house above fell silent. I have kept the door all the same, for there was no one left to tell me that I might stop.
+#= 2| Turn back, traveller. Only one may pass this door, and he is long dead.
+
+@boss::Hollow Warden/line
+#   [Hollow Warden] Boss intro before the battle with Hollow Warden: opening line
+0| Then I will do what I was left here to do.
+
+@enc::Hollow Warden/0/line
+#   [Hollow Warden] Mid-fight event "The Warden Stirs" vs Hollow Warden: the foe says it when the event fires
+#= 0| ...That light in your hands. I have seen that light before. No... no, you cannot be him. He is gone. He has been gone so long.
+
+@intro::tutorial.warden.after
+#   [The Hollow Warden] Tutorial: warden after
+#= 0| ...The door knows your hand. I do not understand how that can be, but I was not left here to understand. Pass, and may the Paths guide you home.
+#= 1| The light goes out of the Warden's eyes slowly, like a lamp turned down for the night by someone who means to come back to it.
+
+@intro::cave_mouth.maren
+#   [Elder Maren] Cave mouth: maren
+#= 0| Hmph. About time. {villain}'s soldiers have been up and down that road all day, and nobody has come out of this cave in ten years, so you'll have to forgive an old tortoise for staring.
+#= 1| And just look at the state of you. I told her I would help whoever she sent along, but I don't recall agreeing to take in a half-drowned stray who can barely stand.
+#= 2| I didn't want any part of this, and I told her so to her face. She went and did it anyway. She always does, that one.
+#= 3| Still, you need a bed, and I've gone and baked far too much pie again, so I can hardly leave you standing out here on your own, can I?
+
+@intro::cave_mouth.wanderer
+#   [The Wanderer] Cave mouth: wanderer
+#= 0| I'm sorry to be a trouble. I don't know who I am, or where this is. I don't even know the name of the woman who got me out.
+
+@intro::cave_mouth.maren_end
+#   [Elder Maren] Cave mouth: maren end
+#= 0| Hm. If she didn't give you her name, she'll have had her reasons, and I won't be the one to spoil them. As for where you are, this is {town}. We settle most things here with cards, and I see you've brought a deck.
+#= 1| If your memory really is gone, you'll be with us a while, so you'd best get to know people. Go and say hello to Sable, Tilly and Pip on the square, buy yourself a card from Sable, and then come back to me.
+
+@intro::start.tunnel
+#   [(narration)] Start: tunnel
+0| A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut.
+
+@intro::still.wake
+#   [(narration)] Story still caption: wake
+#= 0| You wake in a forest clearing with leaves in your hair, and no idea how long you have been lying there.
+#= 1| A faint glow of four colors is fading from your hand, like a thought you almost had.
+2| Someone in a hood is kneeling beside you, shaking your shoulder gently, then less gently. Their face stays in shadow.
+
+@intro::town.elder.stage.0
+#   [Elder Maren] Talking to Elder Maren in Crosspath (stage 0)
+#= 0| I still don't know what to make of you, dearie. But you need feeding a good deal more than you need questioning, so sit yourself down for a minute.
+#= 1| Have as much pie as you like. Just keep your eyes off the recipe card. Better people than you have tried for it, and I caught every one of them.
+
+@intro::town.elder.stage.1
+#   [Elder Maren] Talking to Elder Maren in Crosspath (stage 1)
+#= 0| That tune has stayed with you, hasn't it? I can see it in your face. Good. Keep it somewhere safe, dearie, even on the days when it hurts to hear.
+#= 1| Have you found any more answers out there? I keep telling myself it's none of my business, and then I keep asking anyway.
+
+@intro::town.elder.stage.2
+#   [Elder Maren] Talking to Elder Maren in Crosspath (stage 2)
+#= 0| Somebody on the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.' Oh, don't look so startled, dearie.
+#= 1| When you find Wren in the Capital, tell her my pie is still the best thing in this kingdom. She'll argue with you, and she'll be wrong, and it'll do her good to hear it all the same.
+
+@intro::town.elder.stage.3
+#   [Elder Maren] Talking to Elder Maren in Crosspath (stage 3)
+#= 0| Well, I've told you the worst of me now. Whatever else I have to say to you will come easily, after that.
+#= 1| Go on, dearie. That last road won't open by itself, and if it were left to me to walk there, the regime would die of old age first.
+
+@intro::town.elder.stage.4
+#   [Elder Maren] Talking to Elder Maren in Crosspath (stage 4)
+#= 0| {prince}. I keep wanting to curtsy when you come in, and my knees keep voting against it.
+#= 1| Go on, then. The kingdom has waited ten years for you and can manage one more hour, but this pie won't keep for ten minutes.
+
+@intro::town.elder.known_early
+#   [Elder Maren] Talking to Elder Maren in Crosspath (known early)
+#= 0| {prince}. So {villain} let it slip, did he, the smug creature. I had hoped you would hear it from me, in a warm kitchen, and not from him.
+#= 1| Sit down. The rest of your memories will come when they're ready, and I'll be right here when they do, with a pie in the oven. I'm not going anywhere.
+
+@intro::town.elder.first
+#   [Elder Maren] Talking to Elder Maren in Crosspath (first)
+#= 0| Up and walking, I see. Good. I'm Elder Maren, dearie, and this is {town}, where the four Paths used to meet, and argue, and borrow each other's pans and never give them back.
+#= 1| Ten years ago {kingdom} was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead, Refusemancers turned rubbish into harvests. Four peoples who never matched, stitched together, and it held.
+#= 2| Then {villain}, the Minister of Improvements, took the Paths one at a time and set his own people over them. Now every road out of town has a gatekeeper across it: a bridge, a barrier, a pantry door and a wall of thorns.
+#= 3| Beat a road's gatekeeper and that road opens. Before you try, buy a few cards from Sable and sort your deck out at the Deck Station. Then come back to me for pie. Pie, mind you, and not answers. I'm short of those.
+
+@intro::town.elder.return
+#   [Elder Maren] Talking to Elder Maren in Crosspath (return)
+#= 0| There are four roads out of town, dearie: the Gainlands, the Buffet, the D.N.A. and the Dump. Pick one and see it through to the end before you start on the next.
+#= 1| For all I know you're somebody's spy, and here I am feeding you. I've been wrong about people before, you see, and it cost more than I like to think about.
+
+@intro::town.elder.idle
+#   [Elder Maren] Talking to Elder Maren in Crosspath (idle)
+#= 0| Still here, dearie? {villain} would like nothing better than to have you sitting by my fire for good, so let's not give him the satisfaction. Besides, you're in my chair.
+#= 1| The pie on the sill wants another hour, dearie, and you don't. Off you go, and it'll be ready when you're back.
+#= 2| If it's advice you're after, eat something. And if you were hoping for better advice than that, eat something else as well.
+#= 3| I've told you all I can for now, dearie. The rest you'll have to go out and find for yourself, and I'd only slow you down.
+#= 4| Mind the fountain as you go, dearie. People throw their wishes into it, and over the years a good many of them have been mine.
+#= 5| Off you go, dearie. I'll be right here when you get back. We tortoises are very dependable, so long as nobody's in a hurry.
+
+@intro::town.guard
+#   [Gatekeeper Brannoch] Talking to Gatekeeper Brannoch in Crosspath
+0| Hm. You came back. Wrote it in the notebook: 'came back.' Best two words I know.
+1| Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home and find it shut.
+
+@intro::town.guard.capital_offer
+#   [Gatekeeper Brannoch] Talking to Gatekeeper Brannoch in Crosspath (capital offer)
+0| Hm. That road goes to the Capital. You'll be wanting to know why nobody comes back from it.
+1| Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} chained all four.
+2| So now it's Blackout, Famine, Restless Dead and Clutter up there. Dark streets, slow legs, no food that heals, rubbish in your deck.
+3| You could walk in today, but you wouldn't get far. Free the four zones first. Each one you free turns one of those services back on.
+4| My girl Isla went up that road eight years ago. If you see her... tell her the gate is still open.
+
+@intro::town.guard.capital_active
+#   [Gatekeeper Brannoch] Talking to Gatekeeper Brannoch in Crosspath (capital active)
+0| Hm. Services still broken up there. The board by the road keeps count, if you want to check.
+1| Hm. Each zone you free turns another service back on, and the castle gets a little less frightening. My knees, sadly, are a local problem.
+
+@intro::town.guard.capital_done
+#   [Gatekeeper Brannoch] Talking to Gatekeeper Brannoch in Crosspath (capital done)
+0| Hm. All four zones free. The lights are on up there. I can see them from here.
+1| Go on, knock on that castle door, and knock hard. And if you see Isla up there... tell her I'm still watching the road.
+
+@dc::quest.meet_the_merchants.active
+#   [Elder Maren] Quest "Meet the Merchants": while it is active
+#= 0| It's Sable, Tilly and Pip you want, dearie, all three of them on the square. And buy a card from Sable while you're there. I won't have you facing the roads with nothing but what a cave gave you.
+
+@dc::quest.meet_the_merchants.ready
+#   [Elder Maren] Quest "Meet the Merchants": handing it in
+#= 0| Back already? Let me guess: Sable charmed you, Tilly turned a new colour, and Pip had you measured before you'd finished saying hello. That's {town} for you, dearie, and you'll get used to it.
+1| There's a trophy in it for you, once Bertram has you kitted out. Everybody gets one, so don't let it go to your head. I made it myself, and the handle comes off if you wave it about.
+
+@dc::quest.first_deck_edit.offer
+#   [Elder Maren] Quest "Make It Yours": when offered
+0| Now, about that deck of yours. You didn't choose a single card in it, dearie, and a deck you never chose is a deck you'll lose with.
+#= 1| You'll want some new cards first, so open a pack: that's the Menu at the top right, then Packs. Or you can press P, if you're the sort who likes pressing things.
+#= 2| Then take it all down to the Deck Station, on Champions' Road south of the square. Swap in whatever takes your fancy, save the deck to a slot, and come and tell me how it went.
+
+@dc::quest.first_deck_edit.offer_pack
+#   [Elder Maren] Quest "Make It Yours": when offered (pack step)
+#= 0| No packs at all? Here, dearie, take this General Pack. It's been sat on a little, I'm afraid, but cards are cards, and these ones won't hold it against you.
+
+@dc::quest.first_deck_edit.active_pack
+#   [Elder Maren] Quest "Make It Yours": while active (pack step)
+#= 0| Open the pack first, dearie: the Menu, then Packs. It won't open itself. I should know, because I've asked it nicely.
+
+@dc::quest.first_deck_edit.active
+#   [Elder Maren] Quest "Make It Yours": while it is active
+#= 0| The Deck Station is down Champions' Road, south of the square, dearie. Remember to save the deck to a slot when you're done, or it doesn't count. And I do check.
+
+@dc::quest.first_deck_edit.ready
+#   [Elder Maren] Quest "Make It Yours": handing it in
+#= 0| Sorted and saved, and every card in it one you chose for yourself. Good. Now when it loses, you'll have nobody to blame but you, which is exactly how it ought to be.
+
+@dc::quest.storeroom_ghosts.offer
+#   [Elder Maren] Quest "Something in the Store Room": when offered
+#= 0| Now, I've a favour to ask of you. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.
+#= 1| Ghosts, I expect, and old ones. The Tonics have kept that door locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it, if it lets you be.
+
+@dc::quest.storeroom_ghosts.active
+#   [Elder Maren] Quest "Something in the Store Room": while it is active
+#= 0| The store room door is beside Tilly's shop, on the north side of the square. If there are marks painted on the frame, leave them be, dearie. Whoever put them there had a reason.
+
+@dc::quest.storeroom_ghosts.ready
+#   [Elder Maren] Quest "Something in the Store Room": handing it in
+#= 0| They've gone, have they? Good. No, I don't want to hear what they said to you, not out here on the square and certainly not before my supper.
+#= 1| Tilly's family were healers, mostly. Only mostly. Some of the old families kept a back room for the other sort of remedy, and the less said of it the better for Tilly. She's a good girl, and none of that is hers.
+#= 2| You did well, dearie, and I hear you were kind about it. Now go and sit somewhere warm for a while, because you've gone the colour of a candle.
+
+@dc::quest.some_assembly_required.offer
+#   [Elder Maren] Quest "Some Assembly Required": when offered
+#= 0| Right, then. It's high time you had something sharper than a deck of cards. Bertram Beetsworth hands out the gear from his smithy, on the west side of the square.
+#= 1| He is... thorough, shall we say. Report to him, do exactly what he asks of you, and whatever else you do, don't touch his drawer.
+
+@dc::quest.some_assembly_required.active
+#   [Elder Maren] Quest "Some Assembly Required": while it is active
+#= 0| Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. That man lives to stamp things.
+
+@dc::quest.path_direction
+#   [Elder Maren] Quest "path direction"
+#= 0| There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily.
+#= 1| You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads.
+#= 2| Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.
+3| Start with {zone}. Your deck is {path} through and through, so it'll be the easiest road for you. {gatekeeper} holds {road} at {obstacle}.
+4| Your Path stands a little taller in there. {buff}: {buff_text} It's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone} it's the other way round, so mind that when you get there.
+#= 5| I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back.
+
+@dc::cave_mouth.maren_path
+#   [Elder Maren] Cave mouth: maren path
+#= 0| One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you.
+#= 1| But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.
+#= 2| Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself.
+
+@scenes/hob_town_first/steps/0
+#   [(narration)] Scene "hob town first" (hob town first), step 1
+1| A gravedigger in a battered top hat leans on his shovel among the headstones, consulting a little black book.
+
+@scenes/hob_town_first/steps/1
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town first" (hob town first), step 2
+1| Evening! Old Hob, at your service. I dig, mostly, though there's not been much call for it these ten years. Nobody's been collected, you see. Paperwork. Heh.
+
+@scenes/hob_town_first/steps/2
+#   [The Wanderer] Scene "hob town first" (hob town first), step 3
+1| What are you writing?
+
+@scenes/hob_town_first/steps/3
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town first" (hob town first), step 4
+1| Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see.
+
+@scenes/hob_town_first/steps/4
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town first" (hob town first), step 5
+1| Mind the cairn at the end of the row. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh.
+
+@scenes/hob_town/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town" (hob town), step 1
+1| Still digging, slowly. Two particular graves, these ten years now. I like to take my time over the important ones. Heh.
+
+@scenes/hob_town/steps/1
+#   [The Wanderer] Scene "hob town" (hob town), step 2
+1| What are you writing?
+
+@scenes/hob_town/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town" (hob town), step 3
+1| Appointments. Let's have a look for you... hm. Not for a good long while yet. Lovely! That's what I like to see.
+
+@scenes/hob_wake/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob wake" (hob wake), step 1
+1| Hm? You? Not on my list. Off you pop. Heh.
+2| I'd charge a handling fee, but you've nothing I want. Heh.
+
+@intro::zone.complete.beefcake.body
+#   [(UI)] Zone: complete beefcake body
+0| Chancellor Clench is down, Grandmaster Flex is back, and the weights are in the gym. The mills turn at a sensible pace; Gary lifts with a spotter.
+
+@intro::zone.complete.gourmand.body
+#   [(UI)] Zone: complete gourmand body
+0| The Doppelganger is exposed, the Special Sauce is recalled, and the real Grand Chef is back in her own kitchen with the golems guarding plates again. Nobody leaves hungry.
+
+@intro::zone.complete.necrocrat.body
+#   [(UI)] Zone: complete necrocrat body
+0| Mortimer Grimsby is removed from office, and the vacancy passes by policy to the senior-most applicant on file: Agnes Overdue. The Department of Necrotic Affairs belongs to itself again, and it is terrified by the freedom.
+
+@intro::zone.complete.refusemancer.body
+#   [(UI)] Zone: complete refusemancer body
+0| The Rotheart has gone silent and the vines are only vines again. The Archdruid is herself once more, deeply apologetic about the barn, and slowly the land begins to heal.
+
+@scenes/hob_town_freed/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town freed" (hob town freed), step 1
+1| The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap. He asked if he could stay on for one more pot first, and I said yes. No rush, in my line.
+
+@scenes/hob_town_freed/steps/1
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob town freed" (hob town freed), step 2
+1| Agnes stayed on, of course. Somebody has to fix the forms, and I've pencilled her in for later. Much later. Heh.
+
+@intro::memory.1.intro
+#   [Elder Maren] Memory 1 (after 1 zone freed): intro
+#= 0| You've gone as pale as flour. Sit down, sit down. Something has come back to you, hasn't it?
+#= 1| Tell me all of it, however small it seems to you. In my experience it's the small things that turn out to matter.
+
+@intro::memory.1.fragment
+#   [(narration/UI)] Memory 1 (after 1 zone freed): fragment
+#= 0| There is light, four colors of it, as warm as bathwater, spilling across a ceiling I can't quite see.
+#= 1| A woman is humming a tune with no words to it, and it rises and falls like someone breathing in their sleep.
+2| A hand rests on my head, gentle and certain, and it smells of lavender and woodsmoke.
+#= 3| Then the light thins, like breath on glass, and I am back beside the fire.
+
+@intro::memory.1.after
+#   [Elder Maren] Memory 1 (after 1 zone freed): after
+#= 0| ...A lullaby. That tune comes from the old days, from the court, and there are very few of us left who would know it. Fewer still who ever hummed it to a child.
+#= 1| Have some pie. And don't ask me why my eyes are wet, because I shan't tell you, and you wouldn't want to make an old tortoise lie.
+#= 2| But look at you. With one zone free, the corruption is losing its grip on the land, and it's slipping off you along with it.
+#= 3| You ought to be able to carry a second Path now. Go down to the Deck Station and try building a deck with two, and then come and tell me how it feels.
+
+@intro::memory.1.announce_title
+#   [(narration/UI)] Memory 1 (after 1 zone freed): announce title
+0| A Second Path Opens
+
+@intro::memory.1.announce_body
+#   [(narration/UI)] Memory 1 (after 1 zone freed): announce body
+0| With the first zone free, the corruption smothering your gift has weakened. Your decks may now use two Paths, and dual-Path cards can finally be played.
+
+@intro::memory.1.announce_line
+#   [(narration/UI)] Memory 1 (after 1 zone freed): announce line
+0| Decks may now use two Paths.
+
+@intro::town.elder.idle.1
+#   [Elder Maren] Talking to Elder Maren in Crosspath (idle 1)
+#= 0| One zone free, and you're back for pie already. Very well, but it's one slice for every zone from now on, dearie. I've only just made that rule, and I'm rather pleased with it.
+#= 1| Three roads are still shut. I'd go and see to them myself, dearie, but at my pace I would get there some time next spring.
+#= 2| The square was singing last night. It was dreadful, and it's the best thing I've heard in ten years. Don't you dare tell them I said so.
+
+@intro::town.elder.progress.1
+#   [Elder Maren] Talking to Elder Maren in Crosspath (progress 1)
+#= 0| One zone free. Hm. And the old cottage at the end of Champions' Road has started cheering at night, from somewhere down in its cellar. I've decided I would rather not ask.
+
+@scenes/cave_mouth_1/steps/0
+#   [(narration)] Scene "cave mouth 1" (cave mouth 1), step 1
+#= 1| Someone is sitting on a rock at the mouth of the Forgotten Cave with her hood up, sharpening a pencil with a scalpel.
+
+@scenes/cave_mouth_1/steps/1
+#   [The Rescuer (Elowen)] Scene "cave mouth 1" (cave mouth 1), step 2
+#= 1| You freed a whole Path on your own, with a deck you've had for about a week. I didn't think I would be saying that so soon.
+#= 2| Let me see your hands. They're steadier than they were, and that's good. It's the first thing I've been able to cross off my list in a long time.
+
+@scenes/cave_mouth_1/steps/2
+#   [The Wanderer] Scene "cave mouth 1" (cave mouth 1), step 3
+1| Who are you?
+
+@scenes/cave_mouth_1/steps/3
+#   [The Rescuer (Elowen)] Scene "cave mouth 1" (cave mouth 1), step 4
+#= 1| A friend. That's still all I can tell you, and I'm sorry that it isn't more.
+#= 2| I won't come into town, though. The old woman with the shell looks at me as if I owe her something, and she's probably right.
+
+@scenes/cave_mouth_1/steps/4
+#   [The Rescuer (Elowen)] Scene "cave mouth 1" (cave mouth 1), step 5
+#= 1| Keep going. I'll know when the next one falls, because the woods go quiet for a moment whenever a Path comes loose.
+
+@intro::memory.2.intro
+#   [Elder Maren] Memory 2 (after 2 zones freed): intro
+#= 0| Another one, is it? No, don't hide behind your teacup, dearie. Put it down and tell me.
+
+@intro::memory.2.fragment
+#   [(narration/UI)] Memory 2 (after 2 zones freed): fragment
+#= 0| White rooms, and a white light that never changes, whatever the hour is outside.
+#= 1| There is glass on every side of me, and behind the glass there are faces in white coats, taking notes.
+#= 2| No one in that place ever uses my name. They call me 'the Subject', and whatever I do, the only thing they ever say to me is 'again.'
+3| Again. Again. Again.
+4| I wasn't lost. I was kept.
+
+@intro::memory.2.after
+#   [Elder Maren] Memory 2 (after 2 zones freed): after
+#= 0| Glass, and white coats, and 'again.' So that is where they had you, all those years.
+#= 1| You've earned some truth from me in return, so here is the first piece of it: I'm not only an old tortoise who bakes.
+#= 2| There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout inside the Capital itself.
+#= 3| I wasn't sure of you before, and I'm sorry for that. I'm sure of you now, or near enough, and there aren't many people I would say that about.
+
+@intro::town.elder.idle.2
+#   [Elder Maren] Talking to Elder Maren in Crosspath (idle 2)
+#= 0| Two zones free, and the square is louder for it. I complain about the noise every morning, and I don't mean a word.
+#= 1| That's halfway, dearie. I'd tell you I was proud of you, but then you might stop trying, and we can't have that.
+#= 2| Auntie Alembic keeps asking after you. I tell her you're busy, and for once in my life it's even true.
+
+@intro::town.elder.progress.2
+#   [Elder Maren] Talking to Elder Maren in Crosspath (progress 2)
+#= 0| Two zones free, and Auntie Alembic has opened the Alchemist's on the square. She brews cards from two Paths at once, if you can stand all the steam.
+#= 1| She's been asking for your leftovers, too. Coming from her, that's a compliment.
+
+@scenes/cave_mouth_2/steps/0
+#   [(narration)] Scene "cave mouth 2" (cave mouth 2), step 1
+#= 1| The hooded figure is back at the cave mouth, this time with two cups of something hot. She hands you one without asking whether you want it.
+
+@scenes/cave_mouth_2/steps/1
+#   [The Rescuer (Elowen)] Scene "cave mouth 2" (cave mouth 2), step 2
+#= 1| Two Paths free. I could hear the town singing from all the way out here. It was terrible singing, but they were singing.
+
+@scenes/cave_mouth_2/steps/2
+#   [The Wanderer] Scene "cave mouth 2" (cave mouth 2), step 3
+1| You knew I'd come back here.
+
+@scenes/cave_mouth_2/steps/3
+#   [The Rescuer (Elowen)] Scene "cave mouth 2" (cave mouth 2), step 4
+#= 1| You always did come back to the same places. Even when you were...
+2| Drink your tea. It's for the shaking.
+
+@scenes/cave_mouth_2/steps/4
+#   [The Wanderer] Scene "cave mouth 2" (cave mouth 2), step 5
+1| Even when I was what?
+
+@scenes/cave_mouth_2/steps/5
+#   [The Rescuer (Elowen)] Scene "cave mouth 2" (cave mouth 2), step 6
+#= 1| Even when you were somewhere they wouldn't let you leave. Ask me something easier, please.
+
+@scenes/cave_mouth_2/steps/6
+#   [The Wanderer] Scene "cave mouth 2" (cave mouth 2), step 7
+#= 1| All right. What's your favourite colour?
+
+@scenes/cave_mouth_2/steps/7
+#   [The Rescuer (Elowen)] Scene "cave mouth 2" (cave mouth 2), step 8
+#= 1| I have four of them. Next question.
+
+@intro::memory.3.intro
+#   [Elder Maren] Memory 3 (after 3 zones freed): intro
+#= 0| You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand.
+
+@intro::memory.3.fragment
+#   [(narration/UI)] Memory 3 (after 3 zones freed): fragment
+#= 0| A throne room at night, with the candles guttering under banners that have four colors woven into one.
+#= 1| A man in white and gold kneels before the king and speaks to him in a soft voice. Then he rises, and that soft voice is the last soft thing in the room.
+#= 2| Two pairs of hands are on my shoulders, pushing me behind them, back toward the dark.
+#= 3| I know that man's face. I think I have always known it. {villain}.
+
+@intro::memory.3.after
+#   [Elder Maren] Memory 3 (after 3 zones freed): after
+#= 0| A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with glass on every side.
+#= 1| I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do.
+#= 2| {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away.
+#= 3| I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what else those hands had made.
+#= 4| That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit.
+
+@intro::town.elder.idle.3
+#   [Elder Maren] Talking to Elder Maren in Crosspath (idle 3)
+#= 0| Only one Path left under {villain}'s thumb, and the whole town is holding its breath. I can hold mine for a week, being a tortoise, but the rest of them can't.
+#= 1| Three zones free, dearie. Do try to finish the fourth before this pie goes stale. I'd give it about a week.
+#= 2| You walk like somebody with somewhere to be, these days. I think I liked the damp young man better. He came to see me more often.
+
+@intro::town.elder.progress.3
+#   [Elder Maren] Talking to Elder Maren in Crosspath (progress 3)
+#= 0| Three zones free. There's only one Path left under {villain}'s thumb now, and I won't tell you what I'm feeling about that, except that it's a great deal.
+
+@scenes/cave_mouth_3/steps/0
+#   [(narration)] Scene "cave mouth 3" (cave mouth 3), step 1
+#= 1| She is waiting at the cave mouth again, and this time her hood is down, as though she has forgotten to put it up. Her eyes are tired and very sure.
+
+@scenes/cave_mouth_3/steps/1
+#   [The Rescuer (Elowen)] Scene "cave mouth 3" (cave mouth 3), step 2
+#= 1| Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think...
+#= 2| No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another.
+
+@scenes/cave_mouth_3/steps/2
+#   [The Wanderer] Scene "cave mouth 3" (cave mouth 3), step 3
+#= 1| Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you?
+
+@scenes/cave_mouth_3/steps/3
+#   [The Rescuer (Elowen)] Scene "cave mouth 3" (cave mouth 3), step 4
+#= 1| I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake.
+#= 2| You'd have liked him. He was hopeless at hiding anything.
+
+@intro::memory.4.intro
+#   [Elder Maren] Memory 4 (after 4 zones freed): intro
+#= 0| There's something in your face today. You look like somebody who has just been handed a key. Come and sit, and tell me what it opens.
+
+@intro::memory.4.fragment
+#   [(narration/UI)] Memory 4 (after 4 zones freed): fragment
+#= 0| A boy of eleven stands in a coat too fine for the cold, and someone is calling to him across a courtyard: '{prince}!'
+#= 1| I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: four signs in a ring.
+2| {prince_full}, son of the king and queen. The whole kingdom believes he died ten years ago.
+3| That is who I am.
+
+@intro::memory.4.after
+#   [Elder Maren] Memory 4 (after 4 zones freed): after
+#= 0| {prince}. {prince} {royal_house}. I met a boy at court once, hiding behind his mother's cloak, and he asked me why tortoises carry their houses about with them.
+#= 1| I told him, 'So that we are never far from home.'
+#= 2| I knew, you see. The Warden opens that tunnel for one family only, and I knew who you were the moment you walked out of it. I was too frightened to say so.
+#= 3| Four signs in a ring, the same as the ones carved on this stick of mine. I have leaned on it for ten years and never told a soul why.
+#= 4| And my laboratory, my life's work, was used on that boy. It was used on you. Forgive me, if you ever can. I would understand it if you couldn't.
+
+@intro::memory.4.reply
+#   [The Wanderer] Memory 4 (after 4 zones freed): reply
+#= 0| My mother called to me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what the two of them were like.
+#= 1| You built the glass, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping.
+
+@intro::memory.4.after2
+#   [Elder Maren] Memory 4 (after 4 zones freed): after2
+#= 0| ...Then let us make this kingdom a home again, {prince}. All of it, for all of them.
+
+@intro::memory.4.intro_known
+#   [Elder Maren] Memory 4 (after 4 zones freed): intro known
+#= 0| You have the look of someone who has just been told a thing he didn't want to hear. Was it {villain} who told you?
+#= 1| Sit down, and tell me what he said to you. All of it, even the parts you would sooner not say aloud.
+
+@intro::memory.4.after_known
+#   [Elder Maren] Memory 4 (after 4 zones freed): after known
+#= 0| So he knew you from the very first. He told you who you are, and now you've come to me for the rest of it.
+#= 1| I knew as well. The Warden opens that tunnel for one family only, and I knew who you were the moment you came out of it. I was simply too frightened to say so.
+#= 2| So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I built.
+
+@intro::town.elder.idle.4
+#   [Elder Maren] Talking to Elder Maren in Crosspath (idle 4)
+#= 0| All four Paths free, and {villain} still sitting up in his castle as though nothing had changed. Go and knock on his door, dearie, and knock loudly.
+#= 1| The roads are open again, and even I've been out on them. I passed a hare this morning, and he has asked for a recount.
+#= 2| Eat something first, and then go to the castle. Nobody ever toppled a tyrant properly on an empty stomach.
+
+@intro::town.elder.progress.4
+#   [Elder Maren] Talking to Elder Maren in Crosspath (progress 4)
+#= 0| All four Paths are free, and {kingdom} is whole again, or very nearly. Up in his castle, {villain} will be counting what he has left.
+#= 1| Get some rest tonight. Then we finish this, you and I and everybody else, together.
+
+@scenes/cave_mouth_4/steps/0
+#   [(narration)] Scene "cave mouth 4" (cave mouth 4), step 1
+#= 1| The cave mouth is quiet. This time she is on her feet with her cloak fastened and a satchel of four-coloured vials over one shoulder, ready to go somewhere.
+
+@scenes/cave_mouth_4/steps/1
+#   [The Rescuer (Elowen)] Scene "cave mouth 4" (cave mouth 4), step 2
+#= 1| All four. Can you hear it? The kingdom is breathing again. It's like voices through a wall, except that now the wall is coming down.
+#= 2| There's only the Capital left now. There's only him.
+
+@scenes/cave_mouth_4/steps/2
+#   [The Wanderer] Scene "cave mouth 4" (cave mouth 4), step 3
+1| Come with me.
+
+@scenes/cave_mouth_4/steps/3
+#   [The Rescuer (Elowen)] Scene "cave mouth 4" (cave mouth 4), step 4
+1| I'll be at the castle gate when you get there. Somebody has to watch the door while you knock it down.
+#= 2| And when it's over, I'll tell you all of it. My name first. I promise.

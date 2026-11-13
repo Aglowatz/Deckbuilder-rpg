@@ -1,0 +1,299 @@
+# Tier 1, part A: the prologue, the cave, Elder Maren's questline, the Fragments, the cave-mouth scenes.
+# Format: see tools/dialogue_scene_build.js. "## purpose" lines say what each conversation must do.
+
+## purpose: the first thing the player hears. A frightened, polite young man with nothing in his head; no jokes.
+@intro::awakening_lines
+0| Where... where is this? I can smell wet leaves, and my head feels as if someone has packed it with wool.
+1| I keep reaching for my name, and it isn't there. Neither is how I came to be here. There's nothing at all, like a room that somebody has emptied.
+2| I ought to try standing up, though my legs don't seem to agree, and I ache in places I couldn't even put a name to.
+
+@intro::start.gate_prompt
+0| A cold draft rises out of the dark, and it smells of old stone and older water. The stranger said the town lies on the other side of this cave. Go in?
+
+## purpose: a stranger's kindness in the dark. She tests his gift, gives the one instruction that matters (the cave, the town, Elder Maren) and draws the hunters away. Plants "voices through a wall" and "I always do".
+@intro::prologue.rescuer.1
+0| Easy, now. Stay down for a moment and get your breath back. After what they put you through, I'm amazed you're breathing at all.
+1| Keep your voice low, though. We aren't the only ones in these woods tonight, and the others aren't looking for you out of kindness.
+@intro::prologue.wanderer.1
+0| I don't know this place. I don't even know my own name. ...Who are you?
+@intro::prologue.rescuer.2
+0| A friend. I know that isn't much of an answer, and I'm sorry. It's the only one I can give you tonight.
+1| Can you still draw on the Paths? Hold out your hand and let me see. Gently, I only want to look.
+@intro::prologue.wanderer.2
+0| ...I can feel them. All four of them, but faintly, like voices through a wall.
+@intro::prologue.rescuer.3
+0| Then they didn't manage to take everything. That will have to do for now, because the Path-ologists are already out hunting for us.
+@intro::prologue.rescuer.4
+0| That one, then. Hold on to it as tightly as you can. The others will come back to you in time; I'm almost sure of it.
+1| The Forgotten Cave behind me is your escape. It comes out at {town}, and Elder Maren will be waiting for you there. Find her first.
+2| Do you hear that? They're close, but they don't know about the cave. Hardly anyone remembers it's here any more.
+3| Go now, and don't stop for anything. I'll draw them off the other way, and once I'm clear of them, I'll find you. I always do.
+@intro::prologue.wanderer.3
+0| She's gone, and the shouting has gone after her. I don't know who those people are, but I'd rather not be standing here when they come back.
+@intro::prologue.self_talk
+0| The trees are packed too tightly to squeeze through here. It will have to be the cave, then.
+1| There's no sense in getting lost twice in one day. I'll go back up the path to the glowing arch.
+2| Whatever is waiting for me, it's on the other side of that cave.
+3| She said someone would be waiting on the other side, whoever she was. And whatever is in that cave, it can't be worse than those Path-ologists.
+
+## purpose: the first clue that the hero is not ordinary. An old, grave guardian that has kept a door for a dead family, and the door opens. Poetic, slow, no contractions.
+@intro::tutorial.warden.before
+0| ...Footsteps. It has been a long time since anything came down here to wake me.
+1| No one has walked this way since the house above fell silent. I have kept the door all the same, for there was no one left to tell me that I might stop.
+2| Turn back, traveller. Only one may pass this door, and he is long dead.
+enc::Hollow Warden/0/line::0| ...That light in your hands. I have seen that light before. No... no, you cannot be him. He is gone. He has been gone so long.
+@intro::tutorial.warden.after
+0| ...The door knows your hand. I do not understand how that can be, but I was not left here to understand. Pass, and may the Paths guide you home.
+1| The light goes out of the Warden's eyes slowly, like a lamp turned down for the night by someone who means to come back to it.
+
+@intro::still.wake
+0| You wake in a forest clearing with leaves in your hair, and no idea how long you have been lying there.
+1| A faint glow of four colors is fading from your hand, like a thought you almost had.
+
+## purpose: Maren's entrance. She is put out, frightened of who he might be, and feeds him anyway. The player should like her at once and suspect she knows more. Gives the first errand (Sable, Tilly, Pip; buy a card).
+@intro::cave_mouth.maren
+0| Hmph. About time. {villain}'s soldiers have been up and down that road all day, and nobody has come out of this cave in ten years, so you'll have to forgive an old tortoise for staring.
+1| And just look at the state of you. I told her I would help whoever she sent along, but I don't recall agreeing to take in a half-drowned stray who can barely stand.
+2| I didn't want any part of this, and I told her so to her face. She went and did it anyway. She always does, that one.
+3| Still, you need a bed, and I've gone and baked far too much pie again, so I can hardly leave you standing out here on your own, can I?
+@intro::cave_mouth.wanderer
+0| I'm sorry to be a trouble. I don't know who I am, or where this is. I don't even know the name of the woman who got me out.
+@intro::cave_mouth.maren_end
+0| Hm. If she didn't give you her name, she'll have had her reasons, and I won't be the one to spoil them. As for where you are, this is {town}. We settle most things here with cards, and I see you've brought a deck.
+1| If your memory really is gone, you'll be with us a while, so you'd best get to know people. Go and say hello to Sable, Tilly and Pip on the square, buy yourself a card from Sable, and then come back to me.
+@dc::cave_mouth.maren_path
+0| One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you.
+1| But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.
+2| Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself.
+
+## purpose: the kingdom in four lines, from someone who misses it. States the theme once (pieces that never matched, stitched together) and the game's goal (beat a gatekeeper to open a road).
+@intro::town.elder.first
+0| Up and walking, I see. Good. I'm Elder Maren, dearie, and this is {town}, where the four Paths used to meet, and argue, and borrow each other's pans and never give them back.
+1| Ten years ago {kingdom} was whole. Beefcakes kept the lights on, Gourmands fed us, Necrocrats minded the dead, Refusemancers turned rubbish into harvests. Four peoples who never matched, stitched together, and it held.
+2| Then {villain}, the Minister of Improvements, took the Paths one at a time and set his own people over them. Now every road out of town has a gatekeeper across it: a bridge, a barrier, a pantry door and a wall of thorns.
+3| Beat a road's gatekeeper and that road opens. Before you try, buy a few cards from Sable and sort your deck out at the Deck Station. Then come back to me for pie. Pie, mind you, and not answers. I'm short of those.
+@intro::town.elder.return
+0| There are four roads out of town, dearie: the Gainlands, the Buffet, the D.N.A. and the Dump. Pick one and see it through to the end before you start on the next.
+1| For all I know you're somebody's spy, and here I am feeding you. I've been wrong about people before, you see, and it cost more than I like to think about.
+@intro::town.elder.idle
+0| Still here, dearie? {villain} would like nothing better than you sat by my fire for good, so let's not oblige him. Besides, you're in my chair.
+1| The pie on the sill wants another hour, dearie, and you don't. Off you go, and it'll be ready when you're back.
+2| If it's advice you're after, eat something. And if you were hoping for better advice than that, eat something else as well.
+3| I've told you all I can for now, dearie. The rest you'll have to go out and find for yourself, and I'd only slow you down.
+4| Mind the fountain as you go, dearie. People throw their wishes into it, and over the years a good many of them have been mine.
+5| Off you go, dearie. I'll be right here when you get back. We tortoises are very dependable, so long as nobody's in a hurry.
+@intro::town.elder.stage.0
+0| I still don't know what to make of you, dearie. But you need feeding a good deal more than you need questioning, so sit yourself down for a minute.
+1| Have as much pie as you like. Just keep your eyes off the recipe card. Better people than you have tried for it, and I caught every one of them.
+@intro::town.elder.stage.1
+0| That tune has stayed with you, hasn't it? I can see it in your face. Good. Keep it somewhere safe, dearie, even on the days when it hurts to hear.
+1| Have you found any more answers out there? I keep telling myself it's none of my business, and then I keep asking anyway.
+@intro::town.elder.stage.2
+0| Somebody on the square says you've a look of the old court about you. 'That's no prince,' I told them. 'That's a damp young man with good posture.' Oh, don't look so startled, dearie.
+1| When you find Wren in the Capital, tell her my pie is still the best thing in this kingdom. She'll argue with you, and she'll be wrong, and it'll do her good to hear it all the same.
+@intro::town.elder.stage.3
+0| Well, I've told you the worst of me now. Whatever else I have to say to you will come easily, after that.
+1| Go on, dearie. That last road won't open by itself, and if it were left to me to walk there, the regime would die of old age first.
+@intro::town.elder.stage.4
+0| {prince}. I keep wanting to curtsy when you come in, and my knees keep voting against it.
+1| Go on, then. The kingdom has waited ten years for you and can manage one more hour, but this pie won't keep for ten minutes.
+@intro::town.elder.known_early
+0| {prince}. So {villain} let it slip, did he, the smug creature. I had hoped you would hear it from me, in a warm kitchen, and not from him.
+1| Sit down. The rest of your memories will come when they're ready, and I'll be right here when they do, with a pie in the oven. I'm not going anywhere.
+
+## purpose: Settling In. Maren is teaching him how to belong somewhere: meet people, choose your own cards, be gentle with what is frightened, get a blade. Every instruction stays exact.
+@dc::quest.meet_the_merchants.active
+0| It's Sable, Tilly and Pip you want, dearie, all three of them on the square. And buy a card from Sable while you're there. I won't have you facing the roads with nothing but what a cave gave you.
+@dc::quest.meet_the_merchants.ready
+0| Back already? Let me guess: Sable charmed you, Tilly turned a new colour, and Pip had you measured before you'd finished saying hello. That's {town} for you, dearie, and you'll get used to it.
+1| There's a trophy in it for you, once Bertram has you kitted out. Everybody gets one, so don't let it go to your head. I made it myself, and the handle comes off if you wave it about.
+@dc::quest.first_deck_edit.offer
+0| Now, about that deck of yours. You didn't choose a single card in it, dearie, and a deck you never chose is a deck you'll lose with.
+1| You'll want some new cards first, so open a pack: that's the Menu at the top right, then Packs. Or you can press P, if you're the sort who likes pressing things.
+2| Then take it all down to the Deck Station, on Champions' Road south of the square. Swap in whatever takes your fancy, save the deck to a slot, and come and tell me how it went.
+@dc::quest.first_deck_edit.offer_pack
+0| No packs at all? Here, dearie, take this General Pack. It's been sat on a little, I'm afraid, but cards are cards, and these ones won't hold it against you.
+@dc::quest.first_deck_edit.active_pack
+0| Open the pack first, dearie: the Menu, then Packs. It won't open itself. I should know, because I've asked it nicely.
+@dc::quest.first_deck_edit.active
+0| The Deck Station is down Champions' Road, south of the square, dearie. Remember to save the deck to a slot when you're done, or it doesn't count. And I do check.
+@dc::quest.first_deck_edit.ready
+0| Sorted and saved, and every card in it one you chose for yourself. Good. Now when it loses, you'll have nobody to blame but you, which is exactly how it ought to be.
+@dc::quest.storeroom_ghosts.offer
+0| Now, I've a favour to ask of you. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.
+1| Ghosts, I expect, and old ones. The Tonics have kept that door locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it, if it lets you be.
+@dc::quest.storeroom_ghosts.active
+0| The store room door is beside Tilly's shop, on the north side of the square. If there are marks painted on the frame, leave them be, dearie. Whoever put them there had a reason.
+@dc::quest.storeroom_ghosts.ready
+0| They've gone, have they? Good. No, I don't want to hear what they said to you, not out here on the square and certainly not before my supper.
+1| Tilly's family were healers, mostly. Only mostly. Some of the old families kept a back room for the other sort of remedy, and the less said of it the better for Tilly. She's a good girl, and none of that is hers.
+2| You did well, dearie, and I hear you were kind about it. Now go and sit somewhere warm for a while, because you've gone the colour of a candle.
+@dc::quest.some_assembly_required.offer
+0| Right, then. It's high time you had something sharper than a deck of cards. Bertram Beetsworth hands out the gear from his smithy, on the west side of the square.
+1| He is... thorough, shall we say. Report to him, do exactly what he asks of you, and whatever else you do, don't touch his drawer.
+@dc::quest.some_assembly_required.active
+0| Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. That man lives to stamp things.
+
+## purpose: the send-off. She has taught him what she can and now has to let him go out on the roads; the pie is how she says "come back".
+@dc::quest.path_direction
+0| There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily.
+1| You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads.
+2| Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.
+5| I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back.
+
+## purpose: Fragment 1, Warmth. He had a mother. Maren hears the old court's lullaby and is undone, and hides it. Then the gameplay news: a second Path.
+@intro::memory.1.intro
+0| You've gone as pale as flour. Sit down, sit down. Something has come back to you, hasn't it?
+1| Tell me all of it, however small it seems to you. In my experience it's the small things that turn out to matter.
+@intro::memory.1.fragment
+0| There is light, four colors of it, as warm as bathwater, spilling across a ceiling I can't quite see.
+1| A woman is humming a tune with no words to it, and it rises and falls like someone breathing in their sleep.
+3| Then the light thins, like breath on glass, and I am back beside the fire.
+@intro::memory.1.after
+0| ...A lullaby. That tune comes from the old days, from the court, and there are very few of us left who would know it. Fewer still who ever hummed it to a child.
+1| Have some pie. And don't ask me why my eyes are wet, because I shan't tell you, and you wouldn't want to make an old tortoise lie.
+2| But look at you. With one zone free, the corruption is losing its grip on the land, and it's slipping off you along with it.
+3| You ought to be able to carry a second Path now. Go down to the Deck Station and try building a deck with two, and then come and tell me how it feels.
+
+## purpose: Fragment 2, The Cells. "I wasn't lost. I was kept." Maren answers a hard truth with one of her own: she is the resistance's contact.
+@intro::memory.2.intro
+0| Another one, is it? No, don't hide behind your teacup, dearie. Put it down and tell me.
+@intro::memory.2.fragment
+0| White rooms, and a white light that never changes, whatever the hour is outside.
+1| There is glass on every side of me, and behind the glass there are faces in white coats, taking notes.
+2| No one in that place ever uses my name. They call me 'the Subject', and whatever I do, the only thing they ever say to me is 'again.'
+@intro::memory.2.after
+0| Glass, and white coats, and 'again.' So that is where they had you, all those years.
+1| You've earned some truth from me in return, so here is the first piece of it: I'm not only an old tortoise who bakes.
+2| There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout inside the Capital itself.
+3| I wasn't sure of you before, and I'm sorry for that. I'm sure of you now, or near enough, and there aren't many people I would say that about.
+
+## purpose: Fragment 3, The Coup. He sees Primm's face. Maren confesses the worst: she built the glass, and she ran. No "dearie" jokes; she is plain.
+@intro::memory.3.intro
+0| You're shaking like a leaf. Sit down, slowly now, there's no hurry. Here, take hold of my hand.
+@intro::memory.3.fragment
+0| A throne room at night, with the candles guttering under banners that have four colors woven into one.
+1| A man in white and gold kneels before the king and speaks to him in a soft voice. Then he rises, and that soft voice is the last soft thing in the room.
+2| Two pairs of hands are on my shoulders, pushing me behind them, back toward the dark.
+3| I know that man's face. I think I have always known it. {villain}.
+@intro::memory.3.after
+0| A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with glass on every side.
+1| I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do.
+2| {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran away.
+3| I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what else those hands had made.
+4| That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit.
+
+## purpose: Fragment 4, A Name. The emotional centre of the Maren story. She says his name, tells him about the boy and the shell, and asks to be forgiven. He does not weigh it; he chooses the pie.
+@intro::memory.4.intro
+0| There's something in your face today. You look like somebody who has just been handed a key. Come and sit, and tell me what it opens.
+@intro::memory.4.fragment
+0| A boy of eleven stands in a coat too fine for the cold, and someone is calling to him across a courtyard: '{prince}!'
+1| I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: four signs in a ring.
+@intro::memory.4.after
+0| {prince}. {prince} {royal_house}. I met a boy at court once, hiding behind his mother's cloak, and he asked me why tortoises carry their houses about with them.
+1| I told him, 'So that we are never far from home.'
+2| I knew, you see. The Warden opens that tunnel for one family only, and I knew who you were the moment you walked out of it. I was too frightened to say so.
+3| Four signs in a ring, the same as the ones carved on this stick of mine. I have leaned on it for ten years and never told a soul why.
+4| And my laboratory, my life's work, was used on that boy. It was used on you. Forgive me, if you ever can. I would understand it if you couldn't.
+@intro::memory.4.reply
+0| My mother called to me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what the two of them were like.
+1| You built the glass, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping.
+@intro::memory.4.after2
+0| ...Then let us make this kingdom a home again, {prince}. All of it, for all of them.
+@intro::memory.4.intro_known
+0| You have the look of someone who has just been told a thing he didn't want to hear. Was it {villain} who told you?
+1| Sit down, and tell me what he said to you. All of it, even the parts you would sooner not say aloud.
+@intro::memory.4.after_known
+0| So he knew you from the very first. He told you who you are, and now you've come to me for the rest of it.
+1| I knew as well. The Warden opens that tunnel for one family only, and I knew who you were the moment you came out of it. I was simply too frightened to say so.
+2| So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I built.
+
+## purpose: Maren between zones. Pride she will not admit to, and the town coming back to life around her.
+@intro::town.elder.idle.1
+0| One zone free, and you're back for pie already. Very well, but it's one slice a zone from now on, dearie. I've only just made that rule.
+1| Three roads are still shut. I'd go and see to them myself, dearie, but at my pace I would get there some time next spring.
+2| The square was singing last night. It was dreadful, and the best thing I've heard in ten years. Don't you dare tell them so.
+@intro::town.elder.progress.1
+0| One zone free. Hm. And the old cottage at the end of Champions' Road has started cheering at night, from somewhere down in its cellar. I've decided I would rather not ask.
+@intro::town.elder.idle.2
+0| Two zones free, and the square is louder for it. I complain about the noise every morning, and I don't mean a word.
+1| That's halfway, dearie. I'd tell you I was proud of you, but then you might stop trying, and we can't have that.
+2| Auntie Alembic keeps asking after you. I tell her you're busy, and for once in my life it's even true.
+@intro::town.elder.progress.2
+0| Two zones free, and Auntie Alembic has opened the Alchemist's on the square. She brews cards from two Paths at once, if you can stand all the steam.
+1| She's been asking for your leftovers, too. Coming from her, that's a compliment.
+@intro::town.elder.idle.3
+0| One Path left under {villain}'s thumb, and the whole town is holding its breath. I can hold mine for a week, being a tortoise. They can't.
+1| Three zones free, dearie. Do try to finish the fourth before this pie goes stale. I'd give it about a week.
+2| You walk like somebody with somewhere to be, these days. I think I liked the damp young man better. He came to see me more often.
+@intro::town.elder.progress.3
+0| Three zones free. There's only one Path left under {villain}'s thumb now, and I won't tell you what I'm feeling about that, except that it's a great deal.
+@intro::town.elder.idle.4
+0| All four Paths free, and {villain} still sat up in his castle as though nothing had changed. Go and knock, dearie, and knock loudly.
+1| The roads are open again, and even I've been out on them. I passed a hare this morning, and he has asked for a recount.
+2| Eat something first, and then go to the castle. Nobody ever toppled a tyrant properly on an empty stomach.
+@intro::town.elder.progress.4
+0| All four Paths are free, and {kingdom} is whole again, or very nearly. Up in his castle, {villain} will be counting what he has left.
+1| Get some rest tonight. Then we finish this, you and I and everybody else, together.
+@intro::town.elder.postgame
+0| {villain} is gone, and the Paths are out in the street shouting at one another again. I have never in my life been so glad to be annoyed.
+1| The Capital is open to everyone now, and your decks may mix any Paths you like. Go and see what you can make of it all, dearie. Then come home and eat.
+
+## purpose: cave mouth 1. She has been watching from outside the town. A medic's check (the hands), a refusal to give her name, and why she will not come in.
+@scenes/cave_mouth_1/steps/0
+1| Someone is sitting on a rock at the mouth of the Forgotten Cave with her hood up, sharpening a pencil with a scalpel.
+@scenes/cave_mouth_1/steps/1
+1| You freed a whole Path on your own, with a deck you've had for about a week. I didn't think I would be saying that so soon.
+2| Let me see your hands. They're steadier than they were, and that's good. It's the first thing I've been able to cross off my list in a long time.
+@scenes/cave_mouth_1/steps/3
+1| A friend. That's still all I can tell you, and I'm sorry that it isn't more.
+2| I won't come into town, though. The old woman with the shell looks at me as if I owe her something, and she's probably right.
+@scenes/cave_mouth_1/steps/4
+1| Keep going. I'll know when the next one falls, because the woods go quiet for a moment whenever a Path comes loose.
+
+## purpose: cave mouth 2. Warmer. She nearly says what she knows ("Even when you were..."), stops, and he lets her off with a small question. The one light moment between them.
+@scenes/cave_mouth_2/steps/0
+1| The hooded figure is back at the cave mouth, this time with two cups of something hot. She hands you one without asking whether you want it.
+@scenes/cave_mouth_2/steps/1
+1| Two Paths free. I could hear the town singing from all the way out here. It was terrible singing, but they were singing.
+@scenes/cave_mouth_2/steps/3
+1| You always did come back to the same places. Even when you were...
+@scenes/cave_mouth_2/steps/5
+1| Even when you were somewhere they wouldn't let you leave. Ask me something easier, please.
+@scenes/cave_mouth_2/steps/6
+1| All right. What's your favourite colour?
+@scenes/cave_mouth_2/steps/7
+1| I have four of them. Next question.
+
+## purpose: cave mouth 3. Her hood is down. She gathers up the little prince the zones remember (the dumbbell, the frosting) and still will not say it until she is sure.
+@scenes/cave_mouth_3/steps/0
+1| She is waiting at the cave mouth again, and this time her hood is down, as though she has forgotten to put it up. Her eyes are tired and very sure.
+@scenes/cave_mouth_3/steps/1
+1| Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think...
+2| No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another.
+@scenes/cave_mouth_3/steps/2
+1| Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you?
+@scenes/cave_mouth_3/steps/3
+1| I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake.
+2| You'd have liked him. He was hopeless at hiding anything.
+
+## purpose: cave mouth 4. The promise that the castle gate breaks: she will be there, and afterwards she will give him her name. Pays off "voices through a wall".
+@scenes/cave_mouth_4/steps/0
+1| The cave mouth is quiet. This time she is on her feet with her cloak fastened and a satchel of four-coloured vials over one shoulder, ready to go somewhere.
+@scenes/cave_mouth_4/steps/1
+1| All four. Can you hear it? The kingdom is breathing again. It's like voices through a wall, except that now the wall is coming down.
+2| There's only the Capital left now. There's only him.
+@scenes/cave_mouth_4/steps/3
+2| And when it's over, I'll tell you all of it. My name first. I promise.
+
+## purpose: after the castle gate. Maren admits she was wrong about the girl, and cannot open this door for him yet.
+@scenes/maren_after_capture/steps/0
+1| Sit down, dearie. Word came from the Capital this morning, and you aren't going to like it.
+@scenes/maren_after_capture/steps/1
+1| Plume's men took a girl at the castle gate, the same one who carried you out of those woods. {rescuer_full}, they called her.
+2| I knew whose daughter she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to do it.
+@scenes/maren_after_capture/steps/2
+1| I've been wrong about people before, and I swore to myself that I never would be again. It seems I've gone and done it twice.
+@scenes/maren_after_capture/steps/4
+1| Back where she came from, I expect: somewhere with glass walls and no windows. That's one door I can't open for you, dearie. Not yet.
+2| Eat something. You'll want your strength for the day it does open.

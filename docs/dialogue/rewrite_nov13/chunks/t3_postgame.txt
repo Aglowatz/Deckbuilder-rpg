@@ -1,0 +1,404 @@
+# t3_postgame: 125 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@capital::ending.postgame.body
+#   [(narration)] Ending: postgame body
+0| With {villain} gone, the Paths are free to mix again. Your decks may now combine cards from ALL Paths, and the Alchemist's tri-Path crafting is open. And under the forest, someone is still waiting for you.
+
+@capital::ending.postgame.line.1
+#   [(narration)] Ending: postgame line 1
+0| Decks may now use 3 or more Paths.
+
+@capital::ending.postgame.line.2
+#   [(narration)] Ending: postgame line 2
+0| The Alchemist's cauldron now takes three Paths at once: brew their essence into a tri-Path card.
+
+@capital::ending.postgame.line.3
+#   [(narration)] Ending: postgame line 3
+0| {pathordia} is open to everyone: the facade is down, the rifts are sealed, and {villain} works under guard on wells and pipes, kept away from every Path.
+
+@intro::town.elder.postgame
+#   [Elder Maren] Talking to Elder Maren in Crosspath (postgame)
+#= 0| {villain} is gone, and the Paths are out in the street shouting at one another again. I have never in my life been so glad to be annoyed.
+#= 1| The Capital is open to everyone now, and your decks may mix any Paths you like. Go and see what you can make of it all, dearie. Then come home and eat.
+
+@intro::postgame.rescuer.freed
+#   [The Rescuer] Postgame: rescuer (after the zone is freed)
+0| You came back for me. Down there, on purpose. I'm going to need a while to stop being cross about it.
+1| Finish it, Tess. I'll be here. I've had a lot of practice waiting in this forest.
+
+@intro::postgame.rescuer.cleared
+#   [The Rescuer] Postgame: rescuer cleared
+0| The Lab is quiet. For the first time in ten years I can hear the trees from down there.
+1| Dad is in {town}, listening to Maren. She let him have one slice of pie. One. I've never seen him so frightened.
+
+@dc::quest.side_s_beef.offer
+#   [Old Man Mountain] Quest "Only the Worthy...": when offered
+0| Only the worthy reach the top, they say. The worthy also bring water, if they've any sense.
+1| There's a mountain behind the station... and a barbell on top older than the regime. Older than me, nearly. Bring me a protein shake from the stand and I'll show you the way. Can't climb on an empty cup.
+
+@dc::quest.side_s_beef.active
+#   [Old Man Mountain] Quest "Only the Worthy...": while it is active
+0| Water, friend. A protein shake from the stand will do. Don't spill it. I spilled one, the Festival year... where was I.
+
+@dc::quest.side_s_beef.ready
+#   [Old Man Mountain] Quest "Only the Worthy...": handing it in
+0| That's the best water I've ever seen. Thank you. Rule one: never lift alone. Rule two... rule two was water.
+
+@dc::quest.side_s_beef.done
+#   [Old Man Mountain] Quest "Only the Worthy...": after it is done
+0| Mount Swolympus is open at last. Take the trail behind the station, and mind the thin air up top... never gets enough credit, thin air.
+
+@dc::dungeon.dg_s_beef_boss.before
+#   [The Ancient Spotter] Dungeon node "dg s beef boss": entering the node
+0| A stone colossus sits at the summit with its palms turned up, waiting for a barbell. It has been spotting for a thousand years, and it is very, very ready.
+1| 'Lift,' it rumbles. 'I will catch it. I have always caught it.'
+
+@boss::The Ancient Spotter/line
+#   [The Ancient Spotter] Boss intro before the battle with The Ancient Spotter: opening line
+0| One more rep. There is always one more rep.
+
+@enc::The Ancient Spotter/0/line
+#   [The Ancient Spotter] Mid-fight event "One More Rep" vs The Ancient Spotter: the foe says it when the event fires
+0| Lift. I will catch it. I have always caught it.
+
+@enc::The Ancient Spotter/1/line
+#   [The Ancient Spotter] Mid-fight event "Young Spotters" vs The Ancient Spotter: the foe says it when the event fires
+0| Never lift alone. Not even me.
+
+@dc::dungeons/S-GALLERY/events/3/body
+#   [(narration)] S-GALLERY, "node 3": event text
+0| A barbell of solid mirror rests on a rack, and in every plate you see Clench at the height of his reign, lifting it easily. The rack has a little brass sign: FOR THE WORTHY.
+
+@dc::dungeons/S-GALLERY/events/3/choices/0
+#   [(choice button)] S-GALLERY, "node 3": choice 1 button
+0| Lift it anyway
+1| It's heavier than anything you've lifted, because it's made of everything he wanted to be. Your arms shake, then hold. Something in the glass looks away first.
+
+@dc::dungeons/S-GALLERY/events/3/choices/1
+#   [(choice button)] S-GALLERY, "node 3": choice 2 button
+0| Leave it on the rack
+1| You walk past. For the rest of the gallery, every reflection you pass is lifting it for you, slightly better.
+
+@dc::dungeons/S-GALLERY/events/3/choices/2
+#   [(choice button)] S-GALLERY, "node 3": choice 3 button
+0| Break it for the silver
+1| The bar shatters into coins that are still warm. One of your cards goes with it, caught in the glass.
+
+@dc::dungeon.dg_s_beef_boss.after
+#   [The Ancient Spotter] Dungeon node "dg s beef boss": after the node
+0| The Ancient Spotter lowers its hands and, for the first time in a thousand years, sets something down. The barbell on the altar is yours.
+1| 'One more rep,' it says. Then, quieter: '...That was the one. Thank you for coming up.'
+
+@dc::dungeons/S-GALLERY/events/6/body
+#   [(narration)] S-GALLERY, "node 6": event text
+0| A mirror in a gilt frame holds a form already filled in with your name, your Path and a box marked 'Approved'. A pen waits on a chain. The ink is still wet.
+
+@dc::dungeons/S-GALLERY/events/6/choices/0
+#   [(choice button)] S-GALLERY, "node 6": choice 1 button
+0| Sign it
+1| The mirror stamps you APPROVED. You feel sturdier and a little less like yourself.
+
+@dc::dungeons/S-GALLERY/events/6/choices/1
+#   [(choice button)] S-GALLERY, "node 6": choice 2 button
+0| Refuse to sign
+1| The frame lets out a long, disappointed sigh, and the glass at your back cuts you on the way past.
+
+@dc::dungeons/S-GALLERY/events/6/choices/2
+#   [(choice button)] S-GALLERY, "node 6": choice 3 button
+0| Sign someone else's name
+1| You sign 'Agnes Overdue'. The mirror has no answer to that and quietly pays you to leave.
+
+@dc::dungeons/S-GALLERY/events/8/body
+#   [(narration)] S-GALLERY, "node 8": event text
+0| A frame with no glass in it, just a soft chair behind it and the sound of rain on a window that isn't there. It's the only quiet room in the gallery. A small plaque says RESTING IS A PRIVILEGE.
+
+@dc::dungeons/S-GALLERY/events/8/choices/0
+#   [(choice button)] S-GALLERY, "node 8": choice 1 button
+0| Rest (pay 250 gold)
+1| You sit, and for a few minutes nothing reflects you at all. You stand up with steadier hands.
+
+@dc::dungeons/S-GALLERY/events/8/choices/1
+#   [(choice button)] S-GALLERY, "node 8": choice 2 button
+0| Rest, and leave a card as the fee
+1| The chair keeps one of your cards in its cushion and lets you sleep.
+
+@dc::dungeons/S-GALLERY/events/8/choices/2
+#   [(choice button)] S-GALLERY, "node 8": choice 3 button
+0| Keep moving
+1| You don't trust a quiet room in this place, and you're probably right.
+
+@dc::dungeons/S-GALLERY/events/12/body
+#   [(narration)] S-GALLERY, "node 12": event text
+0| The last mirror before the end shows you as Primm would have made you: hair regulation length, posture perfect, smile approved. It's waiting to see what you'll do.
+
+@dc::dungeons/S-GALLERY/events/12/choices/0
+#   [(choice button)] S-GALLERY, "node 12": choice 1 button
+0| Look it in the eye
+1| It looks back, and for a second you can't tell which of you blinked. You take some of its certainty with you, and it takes some of your strength.
+
+@dc::dungeons/S-GALLERY/events/12/choices/1
+#   [(choice button)] S-GALLERY, "node 12": choice 2 button
+0| Turn your back on it
+1| You walk on without looking. The glass behind you cracks a little louder than it should.
+
+@dc::dungeons/S-GALLERY/events/12/choices/2
+#   [(choice button)] S-GALLERY, "node 12": choice 3 button
+0| Smash it
+1| It breaks easily. Too easily. The pieces cut, and a shard of it goes on ahead of you to warn the room.
+
+@scenes/lab_hatch/steps/0
+#   [(narration)] Scene "lab hatch" (The Path-ology Lab, "Forest Hatch": before the node), step 1
+1| The hatch opens on white light and a smell of disinfectant. A staircase of clean steel goes down through the roots of the forest where you woke up.
+2| Everything about this place is familiar in the way a bruise is familiar. Your hands are shaking. You go down anyway.
+
+@dc::dungeons/D-LAB/events/4/body
+#   [(narration)] The Path-ology Lab, "Observation Deck": event text
+0| A glass gallery looks down on the cells: a kettle, a cracked mug, and a corkboard of notes about one subject. The newest notes are only a count of days.
+
+@dc::dungeons/D-LAB/events/4/choices/0
+#   [(choice button)] The Path-ology Lab, "Observation Deck": choice 1 button
+0| Read the notes on the Subject
+1| Drain cycles, power readings, a column labelled 'cooperative?' that someone has filled in with 'asks for his mother.' You put the notes down very carefully.
+
+@dc::dungeons/D-LAB/events/4/choices/1
+#   [(choice button)] The Path-ology Lab, "Observation Deck": choice 2 button
+0| Drink the Path-ologists' tea
+1| It is the first thing here that tastes like anything. You feel steadier.
+
+@dc::dungeons/D-LAB/events/4/choices/2
+#   [(choice button)] The Path-ology Lab, "Observation Deck": choice 3 button
+0| Rifle the lockers
+1| Keycards, a petty cash tin, and a half-written resignation letter.
+
+@enc::The Failed Experiment/0/line
+#   [The Failed Experiment] Mid-fight event "Mutation" vs The Failed Experiment: the foe says it when the event fires
+0| GRRRK. (The tag on its wrist reads: BATCH 12. DISCONTINUED.)
+
+@dc::dungeons/D-LAB/events/7/body
+#   [(narration)] The Path-ology Lab, "The Draining Chamber": event text
+0| A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different colour. This is where it was done.
+
+@dc::dungeons/D-LAB/events/7/choices/0
+#   [(choice button)] The Path-ology Lab, "The Draining Chamber": choice 1 button
+0| Put your hand on the glass
+1| The four colors lean toward your palm like plants toward a window. They were yours. They remember.
+
+@dc::dungeons/D-LAB/events/7/choices/1
+#   [(choice button)] The Path-ology Lab, "The Draining Chamber": choice 2 button
+0| Read the dials
+1| Every cycle logged, every reading neat. You learn exactly how the machine works, which is how to break it.
+
+@dc::dungeons/D-LAB/events/7/choices/2
+#   [(choice button)] The Path-ology Lab, "The Draining Chamber": choice 3 button
+0| Tear out the straps
+1| They come away easily. They were only ever as strong as the people who buckled them.
+
+@scenes/lab_cell4/steps/0
+#   [(narration)] Scene "lab cell4" (The Path-ology Lab, "Cell 4": before the node), step 1
+1| A white room, three paces by four. Ten years of tally marks on the wall in rows of five, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colors.
+
+@scenes/lab_cell4/steps/1
+#   [(narration)] Scene "lab cell4" (The Path-ology Lab, "Cell 4": before the node), step 2
+1| Someone is sitting under the drawing with her knees up and her hands bound, as if she has been keeping it company.
+
+@scenes/lab_cell4/steps/2
+#   [The Rescuer (Elowen)] Scene "lab cell4" (The Path-ology Lab, "Cell 4": before the node), step 3
+1| Took you long enough, Tess.
+
+@scenes/lab_cell4/steps/3
+#   [The Wanderer] Scene "lab cell4" (The Path-ology Lab, "Cell 4": before the node), step 4
+1| Tess?
+
+@scenes/lab_cell4/steps/4
+#   [The Rescuer (Elowen)] Scene "lab cell4" (The Path-ology Lab, "Cell 4": before the node), step 5
+1| That's what I called you, when we were small and you were too important to be called anything shorter.
+2| They put me in your cell. My father calls it educational, and the worst of it is that he means it.
+
+@dc::event.lab_cell4.body
+#   [(narration)] Dungeon event "lab cell4": body
+0| Your old cell: ten years of tally marks, a child's drawing in four colors, and {rescuer} under it with her hands bound.
+
+@dc::event.lab_cell4.choice.0
+#   [(narration)] Dungeon event "lab cell4": choice 0
+0| Break the lock
+
+@dc::event.lab_cell4.result.0
+#   [(narration)] Dungeon event "lab cell4": result 0
+0| The lock gives. She stands, rubs her wrists and looks at the drawing on the wall for a long moment before she looks at you.
+
+@scenes/lab_cell4_after/steps/0
+#   [The Rescuer (Elowen)] Scene "lab cell4 after" (The Path-ology Lab, "Cell 4": after the node), step 1
+1| I'll walk behind you. I know every door down here, and which ones scream.
+
+@scenes/lab_cell4_after/steps/1
+#   [The Rescuer (Elowen)] Scene "lab cell4 after" (The Path-ology Lab, "Cell 4": after the node), step 2
+1| Whatever he says in there, he'll say it kindly. That's the worst part. Don't listen to the voice, Tess. Watch the hands.
+
+@scenes/lab_study/steps/0
+#   [(narration)] Scene "lab study" (The Path-ology Lab, "The Mentor's Study": before the node), step 1
+1| This is the only room in the Lab with a rug. On the desk lies a journal in a neat, slanted hand, and its last entry is ten years old.
+
+@scenes/lab_study/steps/1
+#   [(narration)] Scene "lab study" (The Path-ology Lab, "The Mentor's Study": before the node), step 2
+1| "The Minister knelt to the King. I was asked to hold the east door. I held it open. The boy will be safer with us than with sentiment. We will learn so much." - A. Siphon
+
+@scenes/lab_study/steps/2
+#   [The Rescuer (Elowen)] Scene "lab study" (The Path-ology Lab, "The Mentor's Study": before the node), step 3
+1| That's his handwriting.
+2| He told me the King died of a fever. He told me you were a patient, so I brought you soup.
+
+@scenes/lab_study/steps/3
+#   [The Wanderer] Scene "lab study" (The Path-ology Lab, "The Mentor's Study": before the node), step 4
+1| {rescuer}...
+
+@scenes/lab_study/steps/4
+#   [The Rescuer (Elowen)] Scene "lab study" (The Path-ology Lab, "The Mentor's Study": before the node), step 5
+1| Don't. Not yet. If you're kind to me now, I won't be able to walk in there.
+
+@scenes/lab_study_alone/steps/0
+#   [(narration)] Scene "lab study alone" (The Path-ology Lab, "The Mentor's Study": before the node), step 1
+1| This is the only room in the Lab with a rug. On the desk lies a journal in a neat, slanted hand beside a child's drawing: 'For Papa, from {rescuer}.' The last entry is ten years old.
+
+@scenes/lab_study_alone/steps/1
+#   [(narration)] Scene "lab study alone" (The Path-ology Lab, "The Mentor's Study": before the node), step 2
+1| "The Minister knelt to the King. I was asked to hold the east door. I held it open. The boy will be safer with us than with sentiment. We will learn so much." - A. Siphon
+
+@scenes/lab_study_alone/steps/2
+#   [The Wanderer] Scene "lab study alone" (The Path-ology Lab, "The Mentor's Study": before the node), step 3
+1| Siphon is {rescuer}'s father, and he held the door for them.
+
+@dc::dungeons/D-LAB/events/12/body
+#   [(narration)] The Path-ology Lab, "The Mentor's Study": event text
+0| A warm, cluttered study with the only rug in the Lab. On the desk lies an open journal in a neat, slanted hand.
+
+@dc::dungeons/D-LAB/events/12/choices/0
+#   [(choice button)] The Path-ology Lab, "The Mentor's Study": choice 1 button
+0| Take the journal for Wren's true record
+1| It goes into your pack, light as a confession.
+
+@dc::dungeons/D-LAB/events/12/choices/1
+#   [(choice button)] The Path-ology Lab, "The Mentor's Study": choice 2 button
+0| Leave it on the desk
+1| Let him find it open. Let him wonder who read it.
+
+@enc::The Drain Warden/0/line
+#   [The Drain Warden] Mid-fight event "Drain Cycle" vs The Drain Warden: the foe says it when the event fires
+0| Cycle four. Subject output nominal. Begin extraction.
+
+@scenes/lab_siphon/steps/0
+#   [(narration)] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 1
+1| The Extraction Theater: tiered seats of white steel around a single chair. Dr. Ambrose Siphon looks up from a bench of humming glass, neat, polite and not at all surprised.
+
+@scenes/lab_siphon/steps/1
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 2
+1| Subject 1, and my daughter too! Both of you home at once. I shall have to rearrange the whole schedule.
+2| Remarkable. You've grown at least two inches, and the time away has done wonders for your posture. I'll want measurements.
+
+@scenes/lab_siphon/steps/2
+#   [The Rescuer (Elowen)] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 3
+1| You held the door, Dad, the night they killed the King and Queen. I read it in your own hand.
+
+@scenes/lab_siphon/steps/3
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 4
+1| I held a door, sweetheart. Doors are held every day. What came through it was the Minister's choice, not mine.
+
+@scenes/lab_siphon/steps/4
+#   [The Rescuer (Elowen)] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 5
+1| You told me he was a patient, and I brought him soup for years.
+
+@scenes/lab_siphon/steps/5
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 6
+1| And it was very good soup. You were always confused about kindness. It made you a poor scientist and a lovely daughter.
+2| Please, both of you, sit. This will only drain a little.
+
+@scenes/lab_siphon/steps/6
+#   [The Rescuer (Elowen)] Scene "lab siphon" (The Path-ology Lab, "The Extraction Theater": before the node), step 7
+1| Tess. His Protocols run on switches, and I know where every one is. I'll take one down each turn. You do the rest.
+
+@scenes/lab_siphon_alone/steps/0
+#   [(narration)] Scene "lab siphon alone" (The Path-ology Lab, "The Extraction Theater": before the node), step 1
+1| The Extraction Theater: tiered seats of white steel around a single chair. Dr. Ambrose Siphon looks up from a bench of humming glass, neat, polite and not at all surprised.
+
+@scenes/lab_siphon_alone/steps/1
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon alone" (The Path-ology Lab, "The Extraction Theater": before the node), step 2
+1| Subject 1, you came back to us! And you've grown. Remarkable, after so many cycles; I'll want measurements.
+
+@scenes/lab_siphon_alone/steps/2
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon alone" (The Path-ology Lab, "The Extraction Theater": before the node), step 3
+1| My daughter is resting in your old room. She is confused, poor thing. She thinks she rescued something.
+2| Assistants always come home, and so do subjects, it seems. Please, sit. This will only drain a little.
+
+@boss::Dr. Ambrose Siphon, Chief Path-ologist/line
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Boss intro before the battle with Dr. Ambrose Siphon, Chief Path-ologist: opening line
+0| Subject 1. Back where you belong. Do sit; the straps are new.
+
+@enc::Dr. Ambrose Siphon, Chief Path-ologist/0/line
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Mid-fight event "This Will Only Drain a Little" vs Dr. Ambrose Siphon, Chief Path-ologist: the foe says it when the event fires
+0| This will only drain a little. You've grown, Subject 1. Remarkable.
+
+@enc::Dr. Ambrose Siphon, Chief Path-ologist/1/line
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Mid-fight event "Fascinating Data" vs Dr. Ambrose Siphon, Chief Path-ologist: the foe says it when the event fires
+0| Fascinating. My finest work, fighting back. I must write this down.
+
+@scenes/lab_siphon_after/steps/0
+#   [(narration)] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 1
+1| The tanks go dark one by one. Siphon sits down among the cables on the floor of his own theater, like a man who has dropped something very small.
+
+@scenes/lab_siphon_after/steps/1
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 2
+1| You were never a Subject. Maren said so, and I called it sentiment.
+2| I called a great many things sentiment.
+
+@scenes/lab_siphon_after/steps/2
+#   [The Rescuer (Elowen)] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 3
+1| Get up, Dad. You're going to {town}. Agnes has a form for you, Maren has a great deal to say, and you are going to listen to all of it.
+
+@scenes/lab_siphon_after/steps/3
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 4
+1| ...Yes. Yes, I suppose I am.
+
+@scenes/lab_siphon_after/steps/4
+#   [(narration)] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 5
+1| The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone.
+
+@scenes/lab_siphon_after/steps/5
+#   [The Rescuer (Elowen)] Scene "lab siphon after" (The Path-ology Lab, "The Extraction Theater": after the node), step 6
+1| My name is {rescuer_full}. Vey was my mother's. I wanted to say it to you properly once, somewhere with a roof.
+
+@scenes/lab_siphon_after_alone/steps/0
+#   [(narration)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 1
+1| The tanks go dark one by one. Siphon sits down among the cables on the floor of his own theater, like a man who has dropped something very small.
+
+@scenes/lab_siphon_after_alone/steps/1
+#   [(narration)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 2
+1| Footsteps in the corridor behind you, quick and uneven. Somebody has picked the lock of Cell 4 from the inside.
+
+@scenes/lab_siphon_after_alone/steps/2
+#   [The Rescuer (Elowen)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 3
+1| Took you long enough, Tess. I got tired of waiting and let myself out.
+
+@scenes/lab_siphon_after_alone/steps/3
+#   [The Rescuer (Elowen)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 4
+1| You held the door, Dad, the night they killed the King and Queen. It's in your journal, in your own hand.
+
+@scenes/lab_siphon_after_alone/steps/4
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 5
+1| I held a door, sweetheart. What came through it was the Minister's choice.
+
+@scenes/lab_siphon_after_alone/steps/5
+#   [The Rescuer (Elowen)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 6
+1| No. It was yours too. Get up. You're going to {town}, and you're going to listen to every word Maren says.
+
+@scenes/lab_siphon_after_alone/steps/6
+#   [Dr. Ambrose Siphon, Chief Path-ologist] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 7
+1| ...Yes. I suppose I am.
+
+@scenes/lab_siphon_after_alone/steps/7
+#   [(narration)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 8
+1| The four colors rise out of the tanks, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone.
+
+@scenes/lab_siphon_after_alone/steps/8
+#   [The Rescuer (Elowen)] Scene "lab siphon after alone" (The Path-ology Lab, "The Extraction Theater": after the node), step 9
+1| My name is {rescuer_full}. Vey was my mother's. I wanted to say it to you properly once, somewhere with a roof.

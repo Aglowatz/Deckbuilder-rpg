@@ -32,6 +32,11 @@ const { editRow } = require('./dialogue_edit_rows');
 
 const GODOT = 'C:/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe';
 const args = Object.fromEntries(process.argv.slice(2).map((a) => { const m = a.match(/^--([a-z-]+)(?:=(.*))?$/); return m ? [m[1], m[2] ?? true] : [a, true]; }));
+// Nov 13: "--revert=<name>_ids.txt" next to "<name>.csv" means that CSV's ledger, so a tier reverts with the ids file alone.
+if (!args.csv && typeof args.revert === 'string') {
+	const guess = args.revert.replace(/_ids\.txt$/i, '.csv');
+	if (guess !== args.revert && fs.existsSync(path.resolve(root, guess))) args.csv = guess;
+}
 const CSV = args.csv ? path.resolve(root, args.csv) : null;
 const dir = CSV ? CSV.replace(/\.csv$/i, '') : path.resolve(root, args.dir || 'docs/dialogue/chatgpt_pass_oct21');
 fs.mkdirSync(dir, { recursive: true });
@@ -40,7 +45,7 @@ const SNAPSHOT = path.join(dir, 'export_snapshot.json');
 
 // Overnight Nov 4-5: PathDirection's tokens ({zone}, {path}... in quest.path_direction) count as tokens too; so does {rescuer_full}.
 const TOKENS = ['{zone}', '{path}', '{vendor}', '{buff}', '{buff_text}', '{rival}', '{debuff}', '{debuff_text}', '{rival_zone}', '{gatekeeper}', '{villain}', '{villain_title}', '{prince}', '{prince_full}', '{royal_house}', '{king}', '{queen}', '{rescuer}', '{rescuer_full}', '{kingdom}', '{town}',
-	'{capital}', '{pathordia}', '{showcase}', '{wanderer}'];
+	'{capital}', '{pathordia}', '{showcase}', '{wanderer}', '{road}', '{obstacle}', '{card}'];
 // Names the brief says story lines must write as tokens (barks and tips have no tokens and may name them plainly).
 const TOKEN_NAMES = ['Primm', 'His Perfection', 'Tessar', 'Wayweaver', 'Crosspath', 'Pathordia', 'Showcase Quarter'];
 // The black market vendors (Fig Sly, the Secret Dealer) are never changed (docs/design/canon.md).

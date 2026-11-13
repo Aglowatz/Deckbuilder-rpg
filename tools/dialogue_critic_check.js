@@ -19,7 +19,7 @@ const MAX_BARK = 90;
 
 // Overnight Nov 4-5: PathDirection's tokens ({zone}, {path}... in quest.path_direction) count as tokens too.
 const TOKENS = ['{zone}', '{path}', '{vendor}', '{buff}', '{buff_text}', '{rival}', '{debuff}', '{debuff_text}', '{rival_zone}', '{gatekeeper}', '{villain}', '{villain_title}', '{prince}', '{prince_full}', '{royal_house}', '{king}', '{queen}', '{rescuer}', '{rescuer_full}', '{kingdom}',
-	'{town}', '{capital}', '{pathordia}', '{showcase}', '{wanderer}'];
+	'{town}', '{capital}', '{pathordia}', '{showcase}', '{wanderer}', '{road}', '{obstacle}', '{card}'];
 const TOKEN_NAMES = ['Primm', 'His Perfection', 'Tessar', 'Wayweaver', 'Crosspath', 'Pathordia', 'Showcase Quarter', 'Elowen'];
 const noTokenFile = (id) => /npcs\.json::|\.txt::|boss_intros\.json::|encounter_scripts\.json::|dungeon_content\.json::dungeons\//.test(id);
 const offBox = (id) => /\.gd::|dungeon_content\.json::dungeons\/|encounter_scripts\.json::/.test(id);

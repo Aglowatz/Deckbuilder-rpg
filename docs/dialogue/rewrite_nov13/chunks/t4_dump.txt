@@ -1,0 +1,595 @@
+# t4_dump: 223 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@refusemancer::fx.main_dungeon
+#   [(narration)] Pop-up message: main dungeon
+0| The way to the Rotheart runs through a tunnel of living roots, and the air down here is warm, wet and humming.
+1| Somewhere underneath you, something very large is breathing slowly, the way a sleeper does when the dream is a bad one.
+
+@refusemancer::fx.heal_couch
+#   [(narration)] Pop-up message: heal couch
+0| You eat roast roots and a pie with a crust like a fence post, washed down with a mug that's mostly apple, while a goat watches every bite. HP restored.
+
+@refusemancer::fx.heal_already
+#   [(narration)] Pop-up message: heal already
+0| Your HP is already full, but Granny Gristle offers you a third helping anyway: one very small turnip.
+
+@refusemancer::fx.hit
+#   [(narration)] Pop-up message: hit
+0| SCREEEE! A mutant junk gull dive-bombs you and steals your dignity. (-2 HP)
+
+@refusemancer::fx.wake
+#   [Granny Gristle] Pop-up message: wake
+0| You wake face-down in a haybale at the Compost Grange. Granny Gristle is leaning on a pitchfork, chewing a stalk of something.
+1| "Went down in the muck, dearie, so we rolled you out. I'd charge you a mucking-out fee, but you've done the muck a favour. Heh!"
+2| "The haybale was free, though it's started growing, so best get up before you put down roots."
+
+@refusemancer::fx.chest
+#   [(narration)] Pop-up message: chest
+0| You find a treasure chest among the rubbish. For once, sorting pays.
+
+@refusemancer::fx.pickup
+#   [(narration)] Pop-up message: pickup
+0| Found:
+
+@refusemancer::fx.pickup_again
+#   [(narration)] Pop-up message: pickup again
+0| You already took the one lying here. Come back next visit; these days the Dump restocks itself overnight, whether anyone asks it to or not.
+
+@refusemancer::fx.compost_done
+#   [(narration)] Pop-up message: compost done
+0| The bin burps, steams and hands you a warm Compost Cocktail that smells faintly of promise, and you feel sturdier. (+1 max HP this visit)
+
+@refusemancer::fx.compost_missing
+#   [(narration)] Pop-up message: compost missing
+0| The Compost Bin needs two piles of good junk, and you have fewer than two. It sits there, patient and faintly steaming.
+
+@refusemancer::fx.compost_limit
+#   [(narration)] Pop-up message: compost limit
+0| The bin has given all the cocktails it can for this visit. Come back next time, once it has had a chance to ferment.
+
+@refusemancer::fx.shrine_blessing
+#   [(narration)] Pop-up message: shrine blessing
+0| You kneel, and a seed in the shrine splits and blooms. A druid's voice, soft as moss, says: "Grow."
+1| You feel taller. (+1 max HP this visit, and a little healing)
+
+@refusemancer::fx.shrine_again
+#   [(narration)] Pop-up message: shrine again
+0| The shrine has blessed you this visit. Give the seed a chance to enjoy being a flower.
+
+@refusemancer::fx.trough_done
+#   [(narration)] Pop-up message: trough done
+0| The animals fall on the junk, chew it thoughtfully, and spit out a coin. Gold!
+
+@refusemancer::fx.trough_missing
+#   [(narration)] Pop-up message: trough missing
+0| The trough is empty and every animal in the pen is staring at you. Bring them a pile of good junk.
+
+@refusemancer::fx.trough_limit
+#   [(narration)] Pop-up message: trough limit
+0| The animals are full, and one goat is lying on its back to prove it. Come back next visit.
+
+@refusemancer::fx.crop_no_fertilizer
+#   [(narration)] Pop-up message: crop no fertilizer
+0| You need a sack of fertilizer to plant a crop. The soil has standards. Low, fragrant standards.
+
+@refusemancer::fx.crop_planted
+#   [(narration)] Pop-up message: crop planted
+0| You plant a crop and pat the soil, which wriggles a little under your hand. Come back in a while and it will be ready.
+
+@refusemancer::fx.crop_growing
+#   [(narration)] Pop-up message: crop growing
+0| The crop is still growing. A sprout waves at you, and you leave it to get on with things.
+
+@refusemancer::fx.crop_harvest
+#   [(narration)] Pop-up message: crop harvest
+0| A ripe harvest! Pumpkins, melons, one suspicious turnip.
+
+@refusemancer::fx.herd_1
+#   [(narration)] Pop-up message: herd 1
+0| The goat looks at you, looks at the pen, looks at the sign it was eating, and trots home. Round one: you.
+
+@refusemancer::fx.herd_2
+#   [(narration)] Pop-up message: herd 2
+0| The pig is exactly where you expected, in the only puddle. A little shoving and it waddles home, offended.
+
+@refusemancer::fx.herd_3
+#   [(narration)] Pop-up message: herd 3
+0| The raccoon walks to the pen on its hind legs, tin can held like a briefcase. You appear to be its next appointment.
+
+@refusemancer::fx.herd_again
+#   [(narration)] Pop-up message: herd again
+0| That one is already back in the pen, sulking. It will get over it eventually.
+
+@refusemancer::fx.bridge_done
+#   [(narration)] Pop-up message: bridge done
+0| The vine bridge sways and creaks cheerfully under you, held together by vines, goodwill and a great deal of compost.
+
+@refusemancer::fx.grow
+#   [(narration)] Pop-up message: grow
+0| The seed cracks. The soil heaves. Green shoots race into the air, twisting and knotting...
+
+@refusemancer::fx.grown
+#   [(narration)] Pop-up message: grown
+0| It has grown! Already you can't quite picture the spot without it, and the druids look very pleased with themselves.
+
+@refusemancer::fx.climb_up
+#   [(narration)] Pop-up message: climb up
+0| You climb the beanstalk, hand over hand. The leaves are big enough to sit on. Do not sit on them.
+
+@refusemancer::fx.climb_down
+#   [(narration)] Pop-up message: climb down
+0| You slide down the beanstalk. Leaf, leaf, leaf, ground. It is faster than the chute and much less dignified.
+
+@refusemancer::fx.mounted
+#   [(narration)] Pop-up message: mounted
+0| You swing up onto the saddle. Faster, and it can smash junk barricades. Press Q to dismount.
+
+@refusemancer::fx.dismounted
+#   [(narration)] Pop-up message: dismounted
+0| You hop off and the animal trots back to its stable, snorting.
+
+@refusemancer::fx.dismount_scree
+#   [(narration)] Pop-up message: dismount scree
+0| You can't dismount out here; the scree would eat your boots. Find a flat spot first.
+
+@refusemancer::fx.barricade_hint
+#   [(narration)] Pop-up message: barricade hint
+0| This barricade of junk is far too heavy to push on foot, but something fast and stubborn could charge straight through it.
+
+@refusemancer::fx.smash_gate
+#   [(narration)] Pop-up message: smash gate
+0| KA-RASH! Tyres fly, doors fly, and a very surprised hubcap lands in the pen. The way is open.
+
+@refusemancer::fx.smash_dam
+#   [(narration)] Pop-up message: smash dam
+0| KA-SPLOOSH! The dam bursts and the recycling stream flows free, along with half a mattress.
+
+@refusemancer::fx.slide
+#   [(narration)] Pop-up message: slide
+0| WHEEEEE!
+
+@refusemancer::fx.slid
+#   [(narration)] Pop-up message: slid
+0| You land in a pile of leaves. You decide not to examine the softer bits.
+
+@refusemancer::fx.hazard_fall
+#   [(narration)] Pop-up message: hazard fall
+0| You fall in! Someone fishes you out with a pitchfork and leaves you dripping on dry ground. (-1 HP)
+
+@refusemancer::fx.hazard_fall_log
+#   [(narration)] Pop-up message: hazard fall log
+0| Fell into %s - fished out at the last safe spot, 1 damage to zone HP.
+
+@refusemancer::bark.worker_1
+#   [Dump workers] Bark: worker 1
+0| Mind the edge. The river's lovely to look at and a nightmare to climb out of.
+1| Compost doesn't sort itself. Well, lately it tries, and that's the whole problem.
+2| If a raccoon in a crown asks for your lunch, say no. He'll cry. Still no.
+
+@refusemancer::bark.worker_2
+#   [Dump workers] Bark: worker 2
+0| Built these stairs last week, and they've grown two more steps overnight. Same climb, only longer.
+1| The Buffet calls us garbage eaters. Half our garbage is their souffle, barely touched.
+2| The beans came up purple again. I've stopped asking the beans.
+
+@refusemancer::bark.worker_3
+#   [Dump workers] Bark: worker 3
+0| Those purple trees were green last spring. Nobody's talking about it.
+1| Stall's open! Patched awnings, patched prices. The holes are free.
+2| Mind the vine ladders in the wind. They hold. Mostly.
+
+@refusemancer::prop.barn
+#   [(narration)] Examining: barn
+0| THE GRANGE
+
+@refusemancer::prop.swap_shed
+#   [(narration)] Examining: swap shed
+0| GRANNY GRISTLE'S SWAP SHED
+
+@refusemancer::prop.shrine
+#   [(narration)] Examining: shrine
+0| THE DRUID SHRINE
+
+@refusemancer::prop.arch
+#   [(narration)] Examining: arch
+0| THE PATH OF THE REFUSEMANCER
+
+@refusemancer::prop.crop_plot
+#   [(narration)] Examining: crop plot
+0| PLOT
+
+@refusemancer::prop.fair
+#   [(narration)] Examining: fair
+0| COUNTY FAIR - SORT IT OUT!
+
+@refusemancer::prop.landfill
+#   [(narration)] Examining: landfill
+0| THE LANDFILL DEPTHS
+
+@refusemancer::prop.composting
+#   [(narration)] Examining: composting
+0| THE ROTHEART
+
+@refusemancer::prop.barricade
+#   [(narration)] Examining: barricade
+0| KEEP OUT. JUNK.
+
+@refusemancer::sign.hub_main
+#   [(narration)] Reading a sign: hub main
+0| THE COMPOST GRANGE
+1| Hub of the Verdant Dump. The Refusemancers handle waste removal and agriculture.
+2| Nothing goes to waste. Everything, lately, goes to the Rot. Please keep the doors shut.
+
+@refusemancer::sign.hub_motto
+#   [(narration)] Reading a sign: hub motto
+0| TODAY'S COMPOST
+1| - Waste removal (by goat)
+2| - Agriculture (by magic)
+3| - Nothing goes to waste. Not even the menu.
+4| - Do not water anything. It is already awake.
+
+@refusemancer::sign.exit
+#   [(narration)] Reading a sign: exit
+0| THE FOREST PATH
+1| To {town}, past Moss Mulligan's thorn wall. Sort your boots. Check for vines; they will claim to be laces.
+
+@refusemancer::sign.heal_table
+#   [(narration)] Reading a sign: heal table
+0| THE HARVEST MEAL
+1| Sit. Eat. Do not ask where the carrots were last Tuesday.
+
+@refusemancer::sign.swap_shed
+#   [(narration)] Reading a sign: swap shed
+0| GRANNY GRISTLE'S SWAP SHED
+1| One person's trash is another person's starting hand. Please shuffle outdoors.
+
+@refusemancer::sign.compost_bin
+#   [(narration)] Reading a sign: compost bin
+0| THE COMPOST BIN
+1| Two piles of good junk make one Compost Cocktail.
+2| Do not drink the compost. Do drink the Cocktail.
+
+@refusemancer::sign.shrine
+#   [(narration)] Reading a sign: shrine
+0| THE DRUID SHRINE
+1| Kneel. Be blessed. Do not step on the seedlings. They are listening.
+
+@refusemancer::sign.trough
+#   [(narration)] Reading a sign: trough
+0| FEEDING TROUGH
+1| Please do not feed the goats (they will eat the sign).
+2| A pile of good junk, however, is welcome.
+
+@refusemancer::sign.stable_1
+#   [(narration)] Reading a sign: stable 1
+0| BORIS THE GIANT BOAR
+1| Fast, loyal and entirely unbothered by fences. They bother him once, briefly.
+2| Ride him. Dismount with Q.
+
+@refusemancer::sign.oath
+#   [(narration)] Reading a sign: oath
+0| THE REFUSEMANCER'S OATH
+1| We are the Refusemancers, druids of the kingdom.
+2| We summon animals to eat its garbage and turn it into fertilizer.
+3| We use our magic to help the crops grow. Nothing goes to waste.
+
+@refusemancer::sign.fields
+#   [(narration)] Reading a sign: fields
+0| THE PATCHWORK FIELDS
+1| Every patch grows something different. Every patch is fertilized by the same goat.
+
+@refusemancer::sign.crops
+#   [(narration)] Reading a sign: crops
+0| PLANT A CROP
+1| A sack of fertilizer and a little time make a harvest, ready before you leave. It grows faster if nobody stares at it.
+
+@refusemancer::sign.grove
+#   [(narration)] Reading a sign: grove
+0| THE APPLIANCE GROVE
+1| A druid circle of old fridges and washing machines. The spirits of dishwashers are strong here.
+2| Druid Thistlewick keeps the Dump's questions.
+
+@refusemancer::sign.fair
+#   [(narration)] Reading a sign: fair
+0| THE COUNTY FAIR GROUNDS
+1| Blue ribbons for the best pumpkin, the best pie and the best pile.
+2| Judge: Recycle Rhonda. Do not argue with the judge.
+
+@refusemancer::sign.fair_stage
+#   [(narration)] Reading a sign: fair stage
+0| SORT IT OUT! - TODAY ONLY
+1| Compost, metal, glass or paper. Twenty pieces, one conveyor.
+2| The belt does not slow down for anyone. It has been asked.
+
+@refusemancer::sign.scrapmore
+#   [(narration)] Reading a sign: scrapmore
+0| MOUNT SCRAPMORE
+1| A junk mountain, overgrown with moss and ambition.
+2| Plant a bean at the mound to climb. Slide down the chute to leave.
+
+@refusemancer::sign.beanstalk_rule
+#   [(narration)] Reading a sign: beanstalk rule
+0| BEANSTALK RULES
+1| 1. Plant bean.
+2| 2. Wait.
+3| 3. Climb. Do not look down, do not look up, do not look at the cow.
+
+@refusemancer::sign.stream
+#   [(narration)] Reading a sign: stream
+0| THE RECYCLING STREAM
+1| Everything the kingdom threw away ends up here, rinsed.
+2| Crossing: vine bridges only.
+
+@refusemancer::sign.stream_warning
+#   [(narration)] Reading a sign: stream warning
+0| WARNING: STREAM
+1| Do not swim, wade or ask what is in it.
+2| If you fall in, somebody will fish you out. It costs 1 HP.
+
+@refusemancer::sign.bridge_west
+#   [(narration)] Reading a sign: bridge west
+0| WEST BRIDGE
+1| Not grown yet? Plant a Magic Bean at the mound beside it.
+
+@refusemancer::sign.bridge_center
+#   [(narration)] Reading a sign: bridge center
+0| CENTRE BRIDGE
+1| Moss Mulligan grows this one for anyone who helps Billie Muckfoot round up the herd.
+2| In a hurry? A Magic Bean planted at the West Sprout Mound, west along this bank, grows the west bridge by itself. Beans lie about the Dump, one per field.
+
+@refusemancer::sign.bridge_east
+#   [(narration)] Reading a sign: bridge east
+0| EAST BRIDGE
+1| Not grown yet? Plant a Magic Bean at the mound beside it.
+
+@refusemancer::sign.bank
+#   [(narration)] Reading a sign: bank
+0| THE NORTH BANK
+1| Welcome to the far side. The wall of tyres ahead has three gaps. One has been plugged with junk.
+
+@refusemancer::sign.dam
+#   [(narration)] Reading a sign: dam
+0| THE JUNK DAM
+1| Somebody has dumped half a landfill across the feeder channel.
+2| Needs a charging mount. Brother Bramble will pay.
+
+@refusemancer::sign.stable_2
+#   [(narration)] Reading a sign: stable 2
+0| GIDEON THE GIANT GOAT
+1| Eats anything. Climbs anything. Rams anything.
+2| Do not feed him the sign.
+
+@refusemancer::sign.barricade
+#   [(narration)] Reading a sign: barricade
+0| JUNK BARRICADE
+1| A pile of tyres, doors and one very stubborn wardrobe across the gap.
+2| The Landfill Depths are beyond. Bring something that charges.
+
+@refusemancer::sign.rust
+#   [(narration)] Reading a sign: rust
+0| RUST PEAK YARDS
+1| The finest rust in the kingdom. Small batch. Very slow finish.
+
+@refusemancer::sign.landfill
+#   [(narration)] Reading a sign: landfill
+0| THE LANDFILL DEPTHS
+1| Three levels. Mandatory. Bring a nose peg.
+2| Do not dig deeper than the raccoons. They will consider it competitive.
+
+@refusemancer::sign.main_dungeon
+#   [(narration)] Reading a sign: main dungeon
+0| THE ROTHEART
+1| The source of the sickness. Do not enter. Do not breathe deeply. Do not lick anything.
+2| The deeper you go, the more it grows.
+
+@refusemancer::sign.inspector_note
+#   [(narration)] Reading a sign: inspector note
+0| NOTE FROM A DRUID
+1| The door is warm because something behind it is thriving, very hard, and lately it seems to be thriving in our direction. Please don't open it.
+
+@refusemancer::sign.seed_shrine
+#   [(narration)] Reading a sign: seed shrine
+0| THE SEED SHRINE
+1| Plant a seed in a plot and it flips that plot and its four neighbours.
+2| Bring every plot into bloom to wake the great beanstalk.
+
+@refusemancer::sign.scree
+#   [(narration)] Reading a sign: scree
+0| THE SCREE FIELDS
+1| Loose rubble, jagged tin and thistles. Impassable on foot.
+2| Mounts only. Boots are not covered.
+
+@refusemancer::sign.scree_rule
+#   [(narration)] Reading a sign: scree rule
+0| SCREE RULES
+1| No walking. No dismounting. No dropping your lunch.
+2| The scree will find it.
+
+@refusemancer::sign.junk_menu
+#   [(narration)] Reading a sign: junk menu
+0| TODAY'S JUNK
+1| Tyres, fridges, one (1) piano.
+2| Nothing goes to waste. Everything goes to the Dump.
+
+@refusemancer::sign.log_note
+#   [(narration)] Reading a sign: log note
+0| NOTE
+1| Good stuff in the hollow log. If you can read this, kindly take one step back from my retirement.
+2| - a raccoon
+
+@refusemancer::enemy.golem
+#   [(narration)] Enemy: golem
+0| A trash golem towers over you, moss coating its fridge body and shoots sprouting from its ears. Inside, the little light is still on.
+
+@refusemancer::enemy.scarecrow
+#   [(narration)] Enemy: scarecrow
+0| A scarecrow druid faces you with a cabbage growing where its heart should be. There isn't a crow in sight; the garden has bigger problems now.
+
+@refusemancer::enemy.gulls
+#   [(narration)] Enemy: gulls
+0| Four junk gulls guard a stolen can, shrieking over its crop of mushrooms. You have interrupted a very small turf war.
+
+@refusemancer::sign.rot_warning
+#   [(narration)] Reading a sign: rot warning
+0| WARNING: THE ROT
+1| Plants here are unnaturally alive. Fungi mutate. Roots invade structures, hands, and lunch.
+2| Do not feed anything. Do not name anything. Do not turn your back on the zucchini.
+
+@refusemancer::sign.rot_source
+#   [(narration)] Reading a sign: rot source
+0| THE CORRUPTION SPREADS FROM THE NORTH
+1| Whatever our Archdruid has become, it is feeding the whole Dump.
+2| Follow the dying fields. Then follow the living ones. They are worse.
+
+@npc::V-GRISTLE.barks
+#   [Granny Gristle] Bark (speech bubble when you walk past Granny Gristle; Verdant Dump, Compost Grange)
+0| Found, not stolen, dearie! The raccoon found it. I just held on tight. Heh!
+1| Shed grew another room, dearie. At last, a growing business I don't have to water. Heh!
+
+@npc::NPC-THISTLEWICK.barks
+#   [Druid Thistlewick] Bark (speech bubble when you walk past Druid Thistlewick; Verdant Dump)
+0| Every thought has a bin. Most of mine go in compost. That is not a complaint.
+1| The dishwasher talks back. I listen. Wisdom sometimes arrives with a rinse cycle.
+
+@npc::NPC-RHONDA.barks
+#   [Recycle Rhonda] Bark (speech bubble when you walk past Recycle Rhonda; Verdant Dump)
+0| Reduce! Reuse! And rinse your jars, folks - a sticky jar is a sad jar!
+1| Captain Compost Badger says: rinse first! ...Who says I do the voice?
+
+@npc::NPC-BRAMBLE.barks
+#   [Brother Bramble] Bark (speech bubble when you walk past Brother Bramble; Verdant Dump, Compost Grange)
+0| The vines have started whispering. Also, SOMEBODY ate the compost AGAIN.
+1| Eleven little trees in a row, one per birthday. Then nobody came for the twelfth.
+
+@npc::NPC-COMPOSTELLA.barks
+#   [Archdruid Compostella] Bark (speech bubble when you walk past Archdruid Compostella; Verdant Dump)
+0| Everything goes back to the soil in the end, child. That's what lets it grow.
+1| About the barn, child... I'll help mend it. The goat would rather I started elsewhere.
+
+@dc::dungeons/S-REF/blurbs/2
+#   [(narration/UI)] The Trash Panda Throne, "The Pizza Crust Court": map description
+0| The Courtier collects the crusts the kingdom leaves behind and serves them back, warmed, as a royal tasting menu.
+
+@refusemancer::dungeon.rh_gate.blurb
+#   [(narration)] Dungeon node "rh gate": map description
+0| A cracked archway wrapped in black-green vines that tighten a little as you pass beneath them.
+
+@refusemancer::dungeon.rh_outskirts.blurb
+#   [(narration)] Dungeon node "rh outskirts": map description
+0| Ordinary plants at first glance, only a shade too green, and every leaf turns very slightly to follow you.
+
+@refusemancer::dungeon.rh_grove.blurb
+#   [(narration)] Dungeon node "rh grove": map description
+0| Mushrooms the size of garden sheds crowd the path, and a few of them tilt their caps to watch you go by.
+
+@refusemancer::dungeon.rh_mushrooms.blurb
+#   [(narration)] Dungeon node "rh mushrooms": map description
+0| A ring of pale mushrooms murmurs as you pass. They seem to know your name, though they can't think how.
+
+@refusemancer::dungeon.rh_soil.blurb
+#   [(narration)] Dungeon node "rh soil": map description
+0| One small patch of the ordinary, honest dirt the Refusemancers love. Restore HP.
+
+@refusemancer::dungeon.rh_gauntlet.blurb
+#   [(narration)] Dungeon node "rh gauntlet": map description
+0| A tunnel of drifting spores. A well-built deck walks straight through, but a loose one starts to sprout.
+
+@refusemancer::dungeon.rh_thicket.blurb
+#   [(narration)] Dungeon node "rh thicket": map description
+0| A tangle of vines that remembers the shape of everything that has ever walked through it.
+
+@refusemancer::dungeon.rh_vault.blurb
+#   [(narration)] Dungeon node "rh vault": map description
+0| The Refusemancers' seed bank, long since overrun. Some of the seeds are still good, and some of them have opinions.
+
+@refusemancer::dungeon.rh_golem.blurb
+#   [(narration)] Dungeon node "rh golem": map description
+0| A golem with a ribcage of roots and a head of moss. The whole tunnel is part of its body. (Elite)
+
+@refusemancer::dungeon.rh_tunnels.blurb
+#   [(narration)] Dungeon node "rh tunnels": map description
+0| The roots have grown into the walls, the ceiling, the floor. Whatever lives here has eaten the light.
+
+@refusemancer::dungeon.rh_wall.blurb
+#   [(narration)] Dungeon node "rh wall": map description
+0| The wall pulses with warm, wet light. It is not entirely a wall.
+
+@refusemancer::dungeon.rh_treant.blurb
+#   [(narration)] Dungeon node "rh treant": map description
+0| The oldest tree in the Dump, grown into the Rotheart. It doesn't recognize you, or anything else, any more. (Elite)
+
+@dc::dungeons/D-ROT/blurbs/10
+#   [(narration/UI)] The Rotheart, "Hive of Mutant Bees": map description
+0| The mutant bees have learned farming. What the rot throws away they turn into honey, and what they make they feed back to the rot.
+
+@dc::dungeons/D-ROT/blurbs/11
+#   [(narration/UI)] The Rotheart, "Rot Tunnel": map description
+0| Something lifts in the Rot Tunnel. Every scrap of Garbage it finds becomes a rep, and every rep becomes Iron.
+
+@refusemancer::dungeon.rh_boss.blurb
+#   [Compostella, the Rotheart, and Archdruid Compostella] Dungeon node "rh boss": map description
+0| The corrupted core of the Verdant Dump: a vast, throbbing knot of root and rot, and, at its center, a figure that was once the Archdruid.
+
+@refusemancer::bark.worker_1.freed
+#   [Dump workers] Bark: worker 1 (after the zone is freed)
+0| River's still lovely, and still a nightmare to climb out of. Healing only goes so far.
+1| Compost's rotting down the normal way again - slowly, with help, the way it should.
+2| The raccoon in the crown says thank you. He'd also like your lunch. I've told him no.
+
+@refusemancer::bark.worker_2.freed
+#   [Dump workers] Bark: worker 2 (after the zone is freed)
+0| Same climb as ever, but the view's worth stopping for now.
+1| Every terrace a little greener. Even the top one. Especially the top one.
+2| Archdruid's back on her rounds. Waters the weeds too - says they've had a hard ten years.
+
+@refusemancer::bark.worker_3.freed
+#   [Dump workers] Bark: worker 3 (after the zone is freed)
+0| Trees went back to their proper green overnight. Folk keep stopping just to look.
+1| Stall's open! Patched awnings, honest prices, and nothing purple unless you ask for it.
+2| Funny thing - the flowers smell like flowers again. I'd forgotten they had a smell.
+
+@refusemancer::sign.hub_main.freed
+#   [(narration)] Reading a sign: hub main (after the zone is freed)
+0| THE COMPOST GRANGE
+1| Hub of the Verdant Dump. The Refusemancers handle waste removal and agriculture.
+2| Nothing goes to waste. The Rot is gone, and the doors may be opened again.
+
+@refusemancer::sign.hub_motto.freed
+#   [(narration)] Reading a sign: hub motto (after the zone is freed)
+0| TODAY'S COMPOST
+1| - Waste removal (by goat)
+2| - Agriculture (by magic)
+3| - Nothing goes to waste. Not even the menu.
+4| - Water the plants. They're only plants again, and they like it.
+
+@refusemancer::sign.rot_warning.freed
+#   [(narration)] Reading a sign: rot warning (after the zone is freed)
+0| THE ROT: CURED
+1| The plants here are only naturally alive, mostly. The zucchini has been spoken to.
+
+@refusemancer::sign.rot_source.freed
+#   [(narration)] Reading a sign: rot source (after the zone is freed)
+0| THE ARCHDRUID IS BACK
+1| Archdruid Compostella is recovering. She asks that you not call her "the Rotheart Archdruid" at breakfast.
+
+@refusemancer::sign.exit.freed
+#   [(narration)] Reading a sign: exit (after the zone is freed)
+0| THE FOREST PATH
+1| To {town}. Moss Mulligan's thorn wall is mulch now, and she says sorry again. The vines are just vines, but please still sort your boots.
+
+@refusemancer::sign.main_dungeon.freed
+#   [(narration)] Reading a sign: main dungeon (after the zone is freed)
+0| THE ROTHEART
+1| Source of the sickness, now closed for healing. The vines are only vines (mostly), and visitors are welcome.
+
+@refusemancer::sign.inspector_note.freed
+#   [(narration)] Reading a sign: inspector note (after the zone is freed)
+0| NOTE FROM A DRUID
+1| The door is warm because the compost is happy. The compost was always happy. We just forgot what that looked like.
+
+@refusemancer::ruler.statue.freed
+#   [Compostella, the Rotheart, and Archdruid Compostella] Ruler: statue (after the zone is freed)
+0| A VERY LARGE HARMLESS SHRUB
+1| This used to be the Rot-Idol. It's only topiary now, but please still do not water it.

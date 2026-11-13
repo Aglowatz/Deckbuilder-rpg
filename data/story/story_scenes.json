@@ -45,8 +45,8 @@
 				],
 				[
 					"NPC-FLEX",
-					"Quota's gone, off to the Capital before the dust had even settled. She always did like to leave early.",
-					"We'll keep her schedule, since it will make good kindling. And breathe, son - nobody here is on the clock any more."
+					"Quota's gone. She was off to the Capital before the dust had even settled; she always did like to leave early.",
+					"We'll keep her schedule, because it will make good kindling. And breathe, son. Nobody in this house is on the clock any more."
 				]
 			]
 		},
@@ -197,11 +197,11 @@
 				],
 				[
 					"NPC-CLIPWELL",
-					"Do mind the topiary, dear. That's His Perfection, seen from the left - the right side is still filling in."
+					"Do mind the topiary, if you would. That's His Perfection, seen from the left. The right side is still filling in."
 				],
 				[
 					"NPC-CLIPWELL",
-					"Hortensia Clipwell, Royal Groundskeeper. I'm the one who outlawed composting. All that rot lying about in heaps, being honest with everybody - so untidy."
+					"Hortensia Clipwell, Royal Groundskeeper. I am the one who outlawed composting. All that rot lying about in heaps, being honest with everybody. So untidy."
 				],
 				[
 					"NPC-PLAYER",
@@ -209,8 +209,8 @@
 				],
 				[
 					"NPC-CLIPWELL",
-					"Isn't it lovely? I brought the Archdruid a little seed as a gift - life that never ends. She was so very sad, and now nothing ever has to go.",
-					"And now, dear, I'm afraid I have a weed to remove."
+					"Isn't it lovely? I brought the Archdruid a little seed as a gift: life that never ends. She was so very sad, you see, and now nothing ever has to go.",
+					"And now, I'm afraid, I have a weed to remove."
 				]
 			]
 		},
@@ -311,11 +311,11 @@
 			"steps": [
 				[
 					"",
-					"The castle gate is white and gold and perfectly symmetrical. In its shadow, hood up, stands the woman who pulled you out of the woods, as if she was always going to be here."
+					"The castle gate is white and gold and perfectly symmetrical. In its shadow, with her hood up, stands the woman who pulled you out of the woods, as though she was always going to be here."
 				],
 				[
 					"NPC-ELOWEN",
-					"Don't look so surprised. Somebody has to watch the door while you knock it down."
+					"Don't look so surprised. I told you somebody had to watch the door while you knocked it down."
 				],
 				[
 					"NPC-PLUME",
@@ -335,11 +335,11 @@
 				],
 				[
 					"NPC-PLUME",
-					"Don't fret, Miss Vey, your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way."
+					"Now don't fret, Miss Vey. Your father is ever so understanding about these things. Take her home, gentlemen, and do take the long way round."
 				],
 				[
 					"NPC-ELOWEN",
-					"Don't follow me, {wanderer}! Get to the top. That's the only way any of this ends."
+					"Don't follow me, {wanderer}! Get to the top of that castle. It's the only way any of this ends."
 				],
 				[
 					"",
@@ -347,7 +347,7 @@
 				],
 				[
 					"NPC-PLAYER",
-					"{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her."
+					"{rescuer}. Her name is {rescuer}. I asked her twice, and both times she said 'a friend', and both times I let her leave it at that."
 				]
 			]
 		},
@@ -394,16 +394,16 @@
 			"steps": [
 				[
 					"NPC-ELDER",
-					"Sit down, dearie. Word came from the Capital this morning, and you won't like it."
+					"Sit down, dearie. Word came from the Capital this morning, and you aren't going to like it."
 				],
 				[
 					"NPC-ELDER",
-					"Plume's men took a girl at the castle gate, the one who carried you out of the woods. {rescuer_full}, they called her.",
-					"I knew whose girl she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to."
+					"Plume's men took a girl at the castle gate, the same one who carried you out of those woods. {rescuer_full}, they called her.",
+					"I knew whose daughter she was the day she sent you through my cave. Her father worked in my laboratory once, and I held that against her for far too long. I was wrong to do it."
 				],
 				[
 					"NPC-ELDER",
-					"I've been wrong about people before, and I swore I never would be again. It seems I've gone and done it twice."
+					"I've been wrong about people before, and I swore to myself that I never would be again. It seems I've gone and done it twice."
 				],
 				[
 					"NPC-PLAYER",
@@ -411,8 +411,8 @@
 				],
 				[
 					"NPC-ELDER",
-					"Back where she came from, I expect: somewhere with glass walls and no windows. That's a door I can't open for you. Not yet.",
-					"Eat. You'll want your strength for when it opens."
+					"Back where she came from, I expect: somewhere with glass walls and no windows. That's one door I can't open for you, dearie. Not yet.",
+					"Eat something. You'll want your strength for the day it does open."
 				]
 			]
 		},
@@ -421,12 +421,12 @@
 			"steps": [
 				[
 					"NPC-WREN",
-					"We saw them take her at the gate: four guards and a peacock with a speaking trumpet. We couldn't get anywhere near her."
+					"We saw them take her at the gate: four guards, and a peacock with a speaking trumpet. We couldn't get anywhere near her."
 				],
 				[
 					"NPC-WREN",
-					"The Wrinkles are watching every door out of that castle. If they move her again, we'll know.",
-					"Her name goes in the true record, whatever else happens."
+					"The Wrinkles are watching every door out of that castle. If they move her again, we will know.",
+					"Her name goes into the true record, whatever else happens. I can promise you that much."
 				]
 			]
 		},
@@ -650,12 +650,12 @@
 			"steps": [
 				[
 					"",
-					"Someone is sitting on a rock at the mouth of the Forgotten Cave, hood up, sharpening a pencil with a scalpel."
+					"Someone is sitting on a rock at the mouth of the Forgotten Cave with her hood up, sharpening a pencil with a scalpel."
 				],
 				[
 					"NPC-ELOWEN",
-					"You freed a whole Path on your own, with a deck you've only had for a week.",
-					"Let me see your hands. Steadier than they were. Good. That's the first thing I've been able to tick off my list in a long time."
+					"You freed a whole Path on your own, with a deck you've had for about a week. I didn't think I would be saying that so soon.",
+					"Let me see your hands. They're steadier than they were, and that's good. It's the first thing I've been able to cross off my list in a long time."
 				],
 				[
 					"NPC-PLAYER",
@@ -663,12 +663,12 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"A friend. That's still all I can tell you, and I'm sorry it isn't more.",
-					"I'm not coming into town. The old woman with the shell looks at me like I owe her something, and she's probably right."
+					"A friend. That's still all I can tell you, and I'm sorry that it isn't more.",
+					"I won't come into town, though. The old woman with the shell looks at me as if I owe her something, and she's probably right."
 				],
 				[
 					"NPC-ELOWEN",
-					"Keep going. I'll know when the next one falls, because the woods go quiet whenever a Path comes loose."
+					"Keep going. I'll know when the next one falls, because the woods go quiet for a moment whenever a Path comes loose."
 				]
 			]
 		},
@@ -677,11 +677,11 @@
 			"steps": [
 				[
 					"",
-					"The hooded figure is back at the cave mouth with two cups of something hot. She hands you one without asking."
+					"The hooded figure is back at the cave mouth, this time with two cups of something hot. She hands you one without asking whether you want it."
 				],
 				[
 					"NPC-ELOWEN",
-					"Two Paths free, and I could hear the town singing from all the way out here. Badly, but singing."
+					"Two Paths free. I could hear the town singing from all the way out here. It was terrible singing, but they were singing."
 				],
 				[
 					"NPC-PLAYER",
@@ -689,7 +689,7 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"You always came back to the same places. Even when you were...",
+					"You always did come back to the same places. Even when you were...",
 					"Drink your tea. It's for the shaking."
 				],
 				[
@@ -698,15 +698,15 @@
 				],
 				[
 					"NPC-ELOWEN",
-					"Even when you were somewhere you weren't allowed to leave. Ask me something easier."
+					"Even when you were somewhere they wouldn't let you leave. Ask me something easier, please."
 				],
 				[
 					"NPC-PLAYER",
-					"Favourite colour?"
+					"All right. What's your favourite colour?"
 				],
 				[
 					"NPC-ELOWEN",
-					"Four of them. Next question."
+					"I have four of them. Next question."
 				]
 			]
 		},
@@ -715,21 +715,21 @@
 			"steps": [
 				[
 					"",
-					"She is waiting at the cave mouth again with her hood down, as if she forgot it was up. Her eyes are tired and very sure."
+					"She is waiting at the cave mouth again, and this time her hood is down, as though she has forgotten to put it up. Her eyes are tired and very sure."
 				],
 				[
 					"NPC-ELOWEN",
-					"Three. At first I told myself you just reminded me of someone. Someone I lost when we were kids. Now I'm starting to think...",
-					"No, not until I'm certain. Too many people around here say things before they're sure, and I won't be one of them."
+					"Three. At first I told myself you only reminded me of someone, a friend I lost when we were both children. Now I'm starting to think...",
+					"No. Not until I'm certain. Too many people round here say things before they're sure of them, and I won't be another."
 				],
 				[
 					"NPC-PLAYER",
-					"Everywhere I go, someone tells me a story about a little prince, then looks at me and stops talking. You knew me before all this, didn't you?"
+					"Everywhere I go, someone tells me a story about a little prince, and then they look at me and stop talking. You knew me before all this, didn't you?"
 				],
 				[
 					"NPC-ELOWEN",
-					"I knew a boy who fell on his behind trying to lift a dumbbell, and who ate the frosting off every layer of his cake.",
-					"You'd have liked him. He was terrible at hiding things."
+					"I knew a boy who fell on his behind trying to lift a dumbbell twice his size, and who ate the frosting off every layer of his birthday cake.",
+					"You'd have liked him. He was hopeless at hiding anything."
 				]
 			]
 		},
@@ -738,12 +738,12 @@
 			"steps": [
 				[
 					"",
-					"The cave mouth is quiet. This time she is standing, cloak fastened, a satchel of four-coloured vials over her shoulder, ready to go somewhere."
+					"The cave mouth is quiet. This time she is on her feet with her cloak fastened and a satchel of four-coloured vials over one shoulder, ready to go somewhere."
 				],
 				[
 					"NPC-ELOWEN",
-					"All four. Can you hear it? The kingdom's breathing again, like voices through a wall, except now the wall's coming down.",
-					"There's only the Capital left. Only him."
+					"All four. Can you hear it? The kingdom is breathing again. It's like voices through a wall, except that now the wall is coming down.",
+					"There's only the Capital left now. There's only him."
 				],
 				[
 					"NPC-PLAYER",
@@ -752,7 +752,7 @@
 				[
 					"NPC-ELOWEN",
 					"I'll be at the castle gate when you get there. Somebody has to watch the door while you knock it down.",
-					"And when it's over, I'll tell you everything. My name first. I promise."
+					"And when it's over, I'll tell you all of it. My name first. I promise."
 				]
 			]
 		},

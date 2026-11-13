@@ -1,0 +1,37 @@
+# Tier 2, Crosspath's core cast outside Maren's own scenes (written by the lead writer): Gatekeeper Brannoch, Old Hob in town.
+# Brannoch is one of the two terse voices, so his lines stay short; only the rhythm and the Isla lines were touched.
+
+## purpose: Brannoch. The gate that is never locked, for a daughter who went up the Capital road. Plants Isla's homecoming.
+@intro::town.guard
+1| Gate stays open. Always has. My girl's still up that road somewhere, and I'd hate for her to come home one night and find it shut.
+@intro::town.guard.capital_offer
+1| Four Paths kept that city alive. Beefcakes ran the lights, Gourmands the kitchens, Necrocrats the graveyards, Refusemancers the bins. Then {villain} put all four in chains.
+4| My girl Isla went up that road eight years ago. If you see her up there... tell her the gate is still open.
+@intro::town.guard.capital_active
+1| Hm. Each zone you free turns a service back on, and the castle gets a little less frightening. Can't say the same for my knees.
+
+## purpose: Old Hob in the graveyard. Death as a cheerful tradesman with nothing to do; plants the two graves he has been digging for ten years.
+@scenes/hob_town_first/steps/1
+1| Evening! Old Hob, at your service. I dig, mostly, though there's not been a lot of call for it these ten years. Nobody's been collected, you see, on account of the paperwork. Heh.
+@scenes/hob_town_first/steps/3
+1| Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see.
+@scenes/hob_town_first/steps/4
+1| Mind the cairn at the end of the row, though. Something under it is still counting its turns, and it's rude to keep a thing like that waiting. Heh.
+@scenes/hob_town/steps/0
+1| Still digging, and taking it slowly. Two particular graves I've been at, these ten years now. I like to take my time over the important ones. Heh.
+@scenes/hob_town/steps/2
+1| Appointments. Let's have a look for you, shall we... hm. Not for a good long while yet. Lovely! That's what I like to see.
+@scenes/hob_wake/steps/0
+1| Hm? You? No, you're not on my list today. Off you pop, and mind how you go. Heh.
+2| I'd charge you a handling fee for the trouble, only you've nothing on you that I want. Heh.
+@scenes/hob_town_freed/steps/0
+1| The intake's open again, did you hear? Busy week. Gerald's number finally came up, lovely chap, and he asked if he could stay on for one more pot first. I said yes. There's no rush, in my line.
+@scenes/hob_town_freed/steps/1
+1| Agnes stayed on, of course. Somebody has to put the forms right, so I've pencilled her in for later. Much later. Heh.
+
+## purpose: Maren's send-off, the line with the road's name in it (the tokens fill in the zone, the gatekeeper and the obstacle).
+@dc::quest.path_direction
+3| Start with {zone}. Your deck is {path} through and through, so that road will be the kindest to you. {gatekeeper} holds {road} at {obstacle}.
+
+@intro::start.tunnel
+0| There is a narrow gap in the old treeline here. It would be easy to miss, and easy enough to slip through, if you aren't afraid of a shortcut.

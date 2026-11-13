@@ -1,0 +1,325 @@
+# t2_dump: 127 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@intro::gate.refusemancer.freed
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: talking at the gate
+#= 0| Archdruid Compostella is herself again, and she hugged me! She smells of rain, and a little bit of compost, which is exactly how an Archdruid ought to smell.
+#= 1| Most of the thorns have gone. I've kept one in a pot, and it's behaving itself, but I'm not ready to let it anywhere near the curtains.
+#= 2| Would you like a practice round? I'll try very hard not to thorn at you. The raccoons have come to watch, so we had both better be on our best behaviour.
+
+@intro::gate.refusemancer.blocked
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: blocked
+0| A wall of thorns has swallowed the forest path. It looks like it is breathing.
+
+@intro::gate.refusemancer.cleared
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: cleared
+0| Moss Mulligan lays a hand on the thorns. They sigh, brown, and crumble into leaf mould.
+1| The forest path to the Verdant Dump is open.
+
+@intro::refusemancer_npc_intro_lines
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: before the battle
+0| ...the green is hungry... the green is HUNGRY... nothing goes to waste...
+1| ...this path belongs to the Rotheart now... turn back... before the green decides you would make good compost...
+2| ...if you won't leave, the green will keep you... it keeps everything now... nothing it holds is ever allowed to go...
+
+@boss::Moss Mulligan/line
+#   [Moss Mulligan] Boss intro before the battle with Moss Mulligan: opening line
+0| ...the green is hungry... stay... stay and be fed...
+
+@enc::town:npc:refusemancer/0/line
+#   [Moss Mulligan] Mid-fight event "Did I Thorn at You?" vs Moss Mulligan: the foe says it when the event fires
+0| ...grow... GROW... (small) Did I thorn at you? I'm sorry, I can't make it stop...
+
+@intro::refusemancer_npc_victory_lines
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: after you win
+#= 0| Oh, no. Did I thorn at you? I'm so sorry. The Rot talks very softly inside your head, right up until the moment it's doing all the talking.
+#= 1| The Rot took Archdruid Compostella first, down at the Rotheart, in the deepest part of the Verdant Dump, and everything grew outward from there. It got into me the day a very tidy lady with shears came calling.
+#= 2| The path is clear now. Go gently in there, and if you meet a raccoon, say hello to him from me. They're very good boys, whatever anybody tells you.
+
+@intro::refusemancer_npc_defeat_lines
+#   [Moss Mulligan, the Corrupted Druid] Gatekeeper of the Verdant Dump: after you lose
+0| ...the green is patient... nothing ends here any more... come back when you're ready to stay...
+1| ...come back... the green can wait... it has forgotten how to do anything else...
+
+@refusemancer::npc.marigold.intro
+#   [Brother Bramble] Talking to Brother Bramble (intro)
+0| Welcome to the Compost Grange. I'm Brother Bramble, Warden of the Stream. Would you close the door behind you, and lock it, and maybe check the window? The vines keep trying it.
+1| We're the Refusemancers, druids of waste removal and agriculture: our animals turn the kingdom's garbage into fertilizer for its crops. The Buffet calls us garbage eaters, and then they eat our carrots.
+2| Our magic runs through nature itself, and {villain} turned it against us. Our Archdruid, Compostella, went down to tend the deep roots and never came back up, and nothing has been right since.
+3| Now nothing rots, so nothing feeds the soil. Everything is too alive, and the whole Dump is sick with growing. Also, SOMEBODY ate the compost AGAIN.
+
+@refusemancer::npc.marigold.return
+#   [Brother Bramble] Talking to Brother Bramble (return)
+0| Back at the Grange? Do sort your boots at the door - compost, metal, glass, paper - and check them for tendrils. We have quite enough houseplants already.
+1| The Archdruid planted a tree for every royal birthday, and there's a row of them past the stream. Eleven trees, and then nothing.
+2| I water the twelfth spot anyway. I couldn't tell you why, except that it feels as if somebody is still coming. ...You're looking at it as if you've stood there before.
+3| Forgive me. I talk to that spot more than I talk to most people. It's a very good listener, and it never tracks mud into the Grange.
+4| The raccoons listen too, of course. Raccoons hear everything; they just won't tell you about it.
+
+@refusemancer::npc.hob.intro
+#   [Granny Gristle] Talking to Granny Gristle (intro)
+0| Granny Gristle, junk-trader! Born in a haybale, raised in a barn and retired to a shed, and this is the shed. It's started growing, mind. There's a window in the back I never put in. Heh!
+1| Everything here's Refusemancer-issue: grown, composted and well rinsed. Found, not stolen, dearie. The raccoon found it, and I just held on to it very tightly.
+2| Cards grown strong and rinsed clean, with a faint smell of earth. Hear them humming? Well, I never promised you a silent auction. Heh!
+
+@refusemancer::npc.hob.return
+#   [Granny Gristle] Talking to Granny Gristle (return)
+0| Back again, dearie! Turnips are a day old. A lovely vintage, if you're a turnip.
+1| The turnips are looking at me again. I like a root vegetable that minds its own business, I do. Heh!
+
+@refusemancer::npc.wren.intro
+#   [Billie Muckfoot] Talking to Billie Muckfoot (intro)
+0| Oh good, a pair of legs! I'm Billie Muckfoot, animal handler, and I speak fluent goat, which is mostly screaming. Lately the screaming's about the plants: the fields keep trying to eat my herd.
+1| The boar and goat in the stables will carry you. Ask nicely or ask rudely; they ignore both the same. Good, sensible animals.
+
+@refusemancer::npc.wren.return
+#   [Billie Muckfoot] Talking to Billie Muckfoot (return)
+0| Any luck with the herd? Look for the goat first; it'll be eating something it shouldn't. If the something is eating it back, shout for me.
+
+@refusemancer::quest.heap_herd.offer
+#   [Billie Muckfoot] Quest "Round Up the Herd": when offered
+0| Three of my animals got out: a goat, a pig and a raccoon with a briefcase. The Rot's in the fields and they're wandering right into it.
+1| Find each one out in the Dump and get it back to the pen before dark. Don't chase them. Walk up firmly and make eye contact.
+2| Animals respect eye contact. Raccoons consider it the start of negotiations.
+
+@refusemancer::quest.heap_herd.active
+#   [Billie Muckfoot] Quest "Round Up the Herd": while it is active
+0| Three escapees, all out in the fields: the goat's eating something, the pig's found a puddle, and the raccoon is probably writing me a strongly worded letter.
+
+@refusemancer::quest.heap_herd.ready
+#   [Billie Muckfoot] Quest "Round Up the Herd": handing it in
+0| All three home, and the pen's never looked so full! Here, you've earned this.
+1| A goat card. You can play this one without having to catch it afterwards.
+
+@refusemancer::quest.heap_herd.done
+#   [Billie Muckfoot] Quest "Round Up the Herd": after it is done
+0| The herd's home and already plotting the next escape. Thank you! Moss Mulligan will grow you a crossing at the centre bridge now. Tell her I sent you.
+
+@refusemancer::quest.heap_fert.offer
+#   [Granny Gristle] Quest "Fertilizer Run": when offered
+0| Now then, fertilizer. The crops are sulking and the soil's gone strange, and good clean fertilizer is the one thing the Rot can't grow in.
+1| I need three sacks from around the Dump, lying wherever the animals left them. Don't ask me how they got bagged up, dearie. I never have. Heh!
+
+@refusemancer::quest.heap_fert.active
+#   [Granny Gristle] Quest "Fertilizer Run": while it is active
+0| Three sacks of fertilizer, dearie. Try the fields, the east edge and the far side of the stream. Follow your nose. Then apologise to it.
+
+@refusemancer::quest.heap_fert.ready
+#   [Granny Gristle] Quest "Fertilizer Run": handing it in
+0| Three whole sacks! The crops'll be singing by morning, and I mean that more than I'd like to.
+1| Here's your reward. Found, not stolen, and only a little bit damp. Heh!
+
+@refusemancer::quest.heap_fert.done
+#   [Granny Gristle] Quest "Fertilizer Run": after it is done
+0| The fields are fed, dearie. Plant your own with a sack of fertilizer and a little patience. I'd sell you the patience too, but nobody ever stays long enough to buy it. Heh!
+
+@refusemancer::quest.heap_dam.offer
+#   [Brother Bramble] Quest "Unblock the Stream": when offered
+0| Somebody has dumped a dam of junk across the feeder channel on the north bank, and the stream can't breathe. Borrow a mount from the stables and charge it, and my compost boots are yours.
+
+@refusemancer::quest.heap_dam.active
+#   [Brother Bramble] Quest "Unblock the Stream": while it is active
+0| It's the junk dam on the north bank. Take Gideon the goat from the north stable and charge it at full tilt. He's never slowed down for anything, and I'd hate for him to start now.
+
+@refusemancer::quest.heap_dam.ready
+#   [Brother Bramble] Quest "Unblock the Stream": handing it in
+0| The stream's flowing again, practically dancing! Here are the compost boots, still warm. They squelch, but it's a proud sort of squelch.
+
+@refusemancer::quest.heap_dam.done
+#   [Brother Bramble] Quest "Unblock the Stream": after it is done
+0| The stream's clear, for now. The kingdom will have it full again by the end of the week, but that's what we're here for.
+
+@scenes/hob_refusemancer/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob refusemancer" (hob refusemancer), step 1
+1| Nothing's died in this valley in ten years, not so much as a beetle or a leaf. Unnatural, that.
+2| Gives a fellow a lot of free time. I've taken up knitting. Heh.
+
+@refusemancer::dungeon.rh_gate.before
+#   [(narration)] Dungeon node "rh gate": entering the node
+0| The vines part for you slowly, and it doesn't feel like being let in. It feels like being drawn deeper.
+1| Behind you, the gate closes with a soft, wet sound. Somewhere ahead, something very large breathes in, and the whole tunnel breathes with it.
+
+@scenes/clipwell_mill/steps/0
+#   [(narration)] Scene "clipwell mill" (The Rotheart, "Root-Choked Mill": before the node), step 1
+1| Roots as thick as a cart grip the mill wheel. Someone has trimmed them, very neatly, into the shape of a smiling man in a circlet.
+
+@scenes/clipwell_mill/steps/1
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell mill" (The Rotheart, "Root-Choked Mill": before the node), step 2
+#= 1| Do mind the topiary, if you would. That's His Perfection, seen from the left. The right side is still filling in.
+
+@scenes/clipwell_mill/steps/2
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell mill" (The Rotheart, "Root-Choked Mill": before the node), step 3
+#= 1| Hortensia Clipwell, Royal Groundskeeper. I am the one who outlawed composting. All that rot lying about in heaps, being honest with everybody. So untidy.
+
+@scenes/clipwell_mill/steps/3
+#   [The Wanderer] Scene "clipwell mill" (The Rotheart, "Root-Choked Mill": before the node), step 4
+1| Nothing rots down here any more, and the whole place feels wrong for it.
+
+@scenes/clipwell_mill/steps/4
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell mill" (The Rotheart, "Root-Choked Mill": before the node), step 5
+#= 1| Isn't it lovely? I brought the Archdruid a little seed as a gift: life that never ends. She was so very sad, you see, and now nothing ever has to go.
+#= 2| And now, I'm afraid, I have a weed to remove.
+
+@boss::Hortensia Clipwell, Royal Groundskeeper/line
+#   [Hortensia Clipwell, Royal Groundskeeper] Boss intro before the battle with Hortensia Clipwell, Royal Groundskeeper: opening line
+#= 0| Such a pretty little weed, and such a shame. Do hold still, please. This won't take a moment.
+
+@enc::Hortensia Clipwell, Royal Groundskeeper/0/line
+#   [Hortensia Clipwell, Royal Groundskeeper] Mid-fight event "Regulation Topiary" vs Hortensia Clipwell, Royal Groundskeeper: the foe says it when the event fires
+0| Gentlemen, if you would? He's grown well over regulation height.
+
+@scenes/clipwell_mill_after/steps/0
+#   [Hortensia Clipwell, Royal Groundskeeper] Scene "clipwell mill after" (The Rotheart, "Root-Choked Mill": after the node), step 1
+1| Well. You've made a dreadful mess of my hedges, and I shall be sending a note.
+
+@scenes/clipwell_mill_after/steps/1
+#   [(narration)] Scene "clipwell mill after" (The Rotheart, "Root-Choked Mill": after the node), step 2
+1| She opens a wide green umbrella, steps neatly over the roots and walks away up the ravine toward the Capital road, not one hair out of place.
+
+@refusemancer::dungeon.rh_pool.before
+#   [Brother Bramble] Dungeon node "rh pool": entering the node
+0| Nothing here has rotted in ten years. The pool is full of leaves that stay green, fruit that never softens, and a smell like a held breath.
+1| Brother Bramble's notes are pinned to a root in a worried hand: 'Nothing rots, so nothing feeds the soil, and the soil is STARVING.'
+2| Underneath, pressed much harder: 'Everything down here is far TOO alive. And WHO has been eating the COMPOST?'
+
+@refusemancer::dungeon.rh_soil.after
+#   [(narration)] Dungeon node "rh soil": after the node
+0| You sit on the clean soil and breathe. A thread of clear water runs through it, the only clean water you have seen down here.
+1| It smells of rain and old compost, and somewhere beneath you a worm is working through the loose soil. Your shoulders drop for the first time in hours.
+
+@refusemancer::dungeon.rh_golem.after
+#   [(narration)] Dungeon node "rh golem": after the node
+0| The golem folds back into the floor, and the tunnel ahead turns smoother and warmer, with a pulse running through it.
+1| You can hear it now: a vast, slow heartbeat, shaking the walls.
+
+@enc::Hive of Mutant Bees/0/line
+#   [Hive of Mutant Bees] Mid-fight event "The Hive Swarms" vs Hive of Mutant Bees: the foe says it when the event fires
+0| BZZZZZZZ.
+
+@refusemancer::dungeon.rh_roots.before
+#   [(narration)] Dungeon node "rh roots": entering the node
+0| Every tendril in the Dump runs to this one place. At its center, wrapped in roots and humming, hangs a seed the size of a fist.
+1| A tag hangs from it in very tidy handwriting: PROPERTY OF THE PATH-OLOGISTS - LIFE THAT NEVER DIES.
+2| The tendrils feed on the seed, and the seed feeds on grief. Cut them, and the Rotheart will weaken.
+3| But the seed won't let go of her, and she won't let go of it.
+
+@refusemancer::dungeon.rh_boss.before
+#   [Compostella, the Rotheart, and Archdruid Compostella] Dungeon node "rh boss": entering the node
+0| At the heart of the Rotheart stands Archdruid Compostella, half woman and half tree. Roots run from her arms into the floor and out into every plant in the Dump.
+1| Her eyes are open, but whatever is looking out of them isn't her.
+2| "I... am... THE... DUMP," she says in many voices at once, grieving and furious. "I am WHAT YOU THROW AWAY... I am what GROWS BACK... and I am HUNGRY."
+3| Beneath the many voices, one small one: "Please. The tree. I could not let her go."
+
+@boss::Compostella, the Rotheart/line
+#   [Compostella, the Rotheart] Boss intro before the battle with Compostella, the Rotheart: opening line
+0| I AM what you throw away... I AM what grows back... and I am so... HUNGRY...
+
+@enc::Compostella, the Rotheart/0/line
+#   [Compostella, the Rotheart] Mid-fight event "The Roots Spread" vs Compostella, the Rotheart: the foe says it when the event fires
+0| ...I am the bin you never empty... nothing leaves... I am HUNGRY...
+
+@enc::Compostella, the Rotheart/1/line
+#   [Compostella, the Rotheart] Mid-fight event "Please. The Tree." vs Compostella, the Rotheart: the foe says it when the event fires
+0| (small) Please. The tree. I could not let her go.
+
+@refusemancer::event.rh_mushrooms.body
+#   [(narration)] Dungeon event "rh mushrooms": body
+0| A ring of pale mushrooms murmurs as you pass. "Stay," they say in a thousand tiny voices, "and eat."
+1| "Listen," they add, softer. "Join us."
+
+@refusemancer::event.rh_pulsing_wall.body
+#   [(narration)] Dungeon event "rh pulsing wall": body
+0| The wall ahead pulses with a slow, wet heartbeat, and warm light leaks through a seam down its middle.
+1| A voice inside says: "Come. Be held."
+
+@refusemancer::dungeon.rh_boss.after
+#   [Compostella, the Rotheart, and Archdruid Compostella] Dungeon node "rh boss": after the node
+0| The Archdruid sinks to her knees. The Rotheart lets out a long, shuddering breath, and across the whole Dump a thousand vines unclench.
+1| Overhead the vines settle, and for a moment nothing moves beneath your feet.
+2| "...What a terrible dream," Compostella whispers. "The seed is still in my roots, child. It won't die, and I can't make it."
+
+@refusemancer::cutscene.sever.1
+#   [Archdruid Compostella] Cutscene "sever", beat 1
+#= 0| It's the seed, {villain}'s gift: life that never dies. I grew up beneath a great tree, child, and when she fell, I couldn't bear it.
+#= 1| So I planted the seed where she had stood, and it took. It has been feeding on my grief for ten years. Nothing here rots, and that is my doing.
+
+@refusemancer::cutscene.sever.2
+#   [The Wanderer] Cutscene "sever", beat 2
+0| Something that can never die isn't a gift. It's a grief that never gets to end. Let it rot.
+
+@refusemancer::cutscene.sever.3
+#   [Archdruid Compostella] Cutscene "sever", beat 3
+#= 0| Everything I ever loved, I gave back to the soil when its time came. Everything but her.
+#= 1| ...Then we let it die, the two of us together. Hold on to me while it goes.
+2| I have never let go of anything so large.
+
+@refusemancer::cutscene.sever.4
+#   [Archdruid Compostella] Cutscene "sever", beat 4
+0| ...It's rotting. Honest compost, the first in ten years. Oh, I can hear the soil again.
+1| I can hear the stream. I can hear the goat.
+2| And I can hear her, a little, in all of it. She did not go away. She went into everything.
+3| To grow, I had to let her go. ...I think she has been waiting ten years for me to say so.
+
+@intro::still.rotheart
+#   [(narration)] Story still caption: rotheart
+0| Light pours through the splitting Rotheart.
+1| Before you, the purple vines wither. At the heart of the wound, the Archdruid kneels, free and breathing.
+2| Wildflowers follow the light outward, field by field, through the Dump.
+
+@refusemancer::npc.marigold.intro.freed
+#   [Brother Bramble] Talking to Brother Bramble (intro) (after the zone is freed)
+0| I never thought I'd get to say it, but the Dump is healing. The vines are only vines, the mushrooms are only mushrooms, and the Archdruid is herself again. She's terribly embarrassed.
+1| Go on, breathe in. You can breathe deeply down here now, and that smell is HONEST COMPOST. Isn't it wonderful?
+2| This morning Compostella walked straight to the row of royal trees and planted a twelfth. She didn't say why, and I didn't like to ask.
+3| She only smiled at you on her way past. I've been wondering about that all morning.
+
+@refusemancer::npc.marigold.return.freed
+#   [Brother Bramble] Talking to Brother Bramble (return) (after the zone is freed)
+0| The stream's clean, the fields are calm and the zucchini has gone back to being a zucchini. We owe you a great deal more than compost.
+1| Nobody's apologised for the compost, mind. The raccoons have become excellent listeners and very poor confessors.
+
+@refusemancer::npc.hob.intro.freed
+#   [Granny Gristle] Talking to Granny Gristle (intro) (after the zone is freed)
+0| Granny Gristle, junk-trader, back in business! The shed's just a shed again, dearie, and the turnips are only turnips.
+1| I had a little cry, then I went and planted a whole field. Shop's open, dearie, and every bit of it was thrown out by somebody who was wrong. Heh!
+
+@refusemancer::npc.hob.return.freed
+#   [Granny Gristle] Talking to Granny Gristle (return) (after the zone is freed)
+0| Day-old turnips, dearie, and not one of them looking at anybody. Finally, produce with manners. Heh!
+
+@refusemancer::npc.wren.intro.freed
+#   [Billie Muckfoot] Talking to Billie Muckfoot (intro) (after the zone is freed)
+0| Billie Muckfoot, animal handler! The whole herd's home, and the goat's already eating a sign.
+1| And the sign isn't eating him back this time. I've never been so happy to watch a goat ruin something.
+
+@refusemancer::npc.wren.return.freed
+#   [Billie Muckfoot] Talking to Billie Muckfoot (return) (after the zone is freed)
+0| Every animal's home and not one of them mutated. I could cry, honestly, and I might.
+1| Into a bucket, though. The plants could use it.
+
+@refusemancer::freed_npc.compostella
+#   [Compostella, the Rotheart, and Archdruid Compostella] After freeing: Archdruid Compostella talks
+0| Archdruid Compostella, child, and yes, I've been told about the barn. I don't remember doing it, but I gather the barn remembers me, so I'll be helping to put it right.
+1| The Rot sat in my roots for ten years and spoke so quietly. It told me I was needed, and that the whole world was waiting on me to grow.
+2| It was my own grief all along, dressed up as a seed. Thank you for helping me let it rot.
+3| The Dump will heal, though the goat may take a little longer to trust me. Plant something, child. Anything at all. It'll be glad of you.
+4| You're carrying a loss you can't name yet, child. When you find its name, don't bury it under something that can never die, the way I did. The ones we lose aren't gone. They go into everything.
+5| Let it be the start of something in you.
+
+@refusemancer::ruler.statue
+#   [Compostella, the Rotheart, and Archdruid Compostella] Ruler: statue
+0| THE ROT-IDOL
+1| It looks like the Archdruid, and it's still growing. Please do not water it.
+
+@scenes/clipwell_fled/steps/0
+#   [Brother Bramble] Scene "clipwell fled" (clipwell fled), step 1
+1| The Groundskeeper's gone. She packed her shears and left for the Capital the very moment the Archdruid woke.
+
+@scenes/clipwell_fled/steps/1
+#   [Brother Bramble] Scene "clipwell fled" (clipwell fled), step 2
+1| She left one pair behind in a compost heap, and Granny Gristle has kept them. 'Found, not stolen,' she told me, twice, before I'd even asked.
+
+@scenes/hob_refusemancer_freed/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob refusemancer freed" (hob refusemancer freed), step 1
+1| Hear that? Things rotting properly again. Lovely sound, that - it means something's about to grow.

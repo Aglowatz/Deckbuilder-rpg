@@ -1,0 +1,269 @@
+# t3_capital: 89 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@capital::quest.cracks_in_the_glass.offer
+#   [Wren] Quest "cracks in the glass": when offered
+0| Before you go. The mirrors in his castle are still showing a kingdom that never was. Straight streets, smiling people, nobody hungry.
+1| One of them, by the castle door, cracked from the inside last night. I don't like what I saw behind it. Will you go and look?
+
+@capital::quest.cracks_in_the_glass.active
+#   [Wren] Quest "cracks in the glass": while it is active
+0| The mirror by the castle door, the one cracked from the inside. Go and look into it, and come back and tell me I imagined it.
+
+@dc::quest.side_s_cap.offer
+#   [Kestrel] Quest "The Older Way": when offered
+0| There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers.
+1| Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?
+
+@dc::quest.side_s_cap.active
+#   [Kestrel] Quest "The Older Way": while it is active
+0| Through the gate, then the manhole beside it: knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here.
+
+@dc::quest.side_s_cap.ready
+#   [Kestrel] Quest "The Older Way": handing it in
+0| So you found the Crease. Told you I'd be around; I just never said where. Here, you've earned this.
+
+@dc::quest.side_s_cap.done
+#   [Kestrel] Quest "The Older Way": after it is done
+0| The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk.
+
+@dc::dungeon.dg_s_cap_boss.before
+#   [Captain Spotless] Dungeon node "dg s cap boss": entering the node
+0| A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.
+1| 'HALT. These tunnels do not exist, so you are standing in nothing, and I cannot allow you to have found it.'
+
+@dc::dungeon.dg_s_cap_boss.after
+#   [Captain Spotless] Dungeon node "dg s cap boss": after the node
+0| The Captain sits down on a barrel and, for a moment, looks very tired. 'I remember when these tunnels were full of people,' he says.
+1| 'All four Paths, shoulder to shoulder, and nobody measuring anybody. Go on. The grate is not locked.'
+
+@dc::dungeons/D-PC/events/3/body
+#   [(narration)] Primm's Castle, "Grand Foyer": event text
+0| A portrait of a smiling ruler fills the wall. The floor is so polished you can see yourself, and he is standing behind you in every reflection.
+
+@dc::dungeons/D-PC/events/3/choices/0
+#   [(choice button)] Primm's Castle, "Grand Foyer": choice 1 button
+0| Study the portrait
+1| The smile never changes, and neither, you realise, does anything else in this place. It is strangely restful, and that frightens you more than the guards do.
+
+@dc::dungeons/D-PC/events/3/choices/1
+#   [(choice button)] Primm's Castle, "Grand Foyer": choice 2 button
+0| Pocket a gilded candlestick
+1| It is heavier than it looks and worth more than it should be, and now it is covered in your fingerprints, in a building that remembers fingerprints.
+
+@dc::dungeons/D-PC/events/3/choices/2
+#   [(choice button)] Primm's Castle, "Grand Foyer": choice 3 button
+0| Count the reflections
+1| There is always one more reflection than there should be. You wave, he waves a moment too late, and for a moment you are a little less afraid of him.
+
+@capital::challenge.pc_mirror_test.text
+#   [(narration)] Deck challenge "pc mirror test": text
+0| Every mirror shows only him. They turn to look at you and, for a moment, one of them hesitates. Reveal cards until the first unit: if its attack is 3 or more, a mirror will let you through (and show you, briefly, yourself).
+1| If not, they will look through you and it will hurt.
+
+@capital::challenge.pc_ministry_desk.text
+#   [(narration)] Deck challenge "pc ministry desk": text
+0| A FORM OF CORRECTION asks for a list of bodies: names, numbers and heights. Five cards are revealed; if at least two are units, you have enough people on your form to get past the desk. If not, the stamp comes down.
+
+@capital::challenge.pc_escalation_shelf.text
+#   [(narration)] Deck challenge "pc escalation shelf": text
+0| Every reform on the shelf is bigger than the last: school lunches, lunch rules, lunch inspectors, inspector rules. Five cards fall off; if at least two are infrastructure, your deck holds. If not, the shelf comes down on you.
+
+@capital::event.pc_improved_portraits.choice.0
+#   [(narration)] Dungeon event "pc improved portraits": choice 0
+0| Study them closely, from the first to the last
+
+@capital::event.pc_improved_portraits.choice.1
+#   [(narration)] Dungeon event "pc improved portraits": choice 1
+0| Look away and breathe
+
+@capital::event.pc_improved_portraits.choice.2
+#   [(narration)] Dungeon event "pc improved portraits": choice 2
+0| Take a gold frame off the wall and sell it
+
+@capital::event.pc_improved_portraits.result.0
+#   [(narration)] Dungeon event "pc improved portraits": result 0
+0| You look at them all, in order. The anxious clerk grows steadily less anxious, and steadily less there. You find the exact portrait where it happens: the tenth.
+1| In the ninth he looks so tired, and so sincere, that you know you will not forget it. After that, none of the frames can fool you.
+
+@capital::event.pc_improved_portraits.result.1
+#   [(narration)] Dungeon event "pc improved portraits": result 1
+0| You look down at your feet. The red carpet is worn a little in the middle, which is the one honest thing in the room, and you feel steadier for it.
+
+@capital::event.pc_improved_portraits.result.2
+#   [(narration)] Dungeon event "pc improved portraits": result 2
+0| The frame comes off with a squeal, and an alarm goes off somewhere, very politely: 'Please do not remove the improvements.' A small portrait falls and cuts your hand, but the frame is worth a lot.
+
+@capital::event.pc_honest_mirror.choice.0
+#   [(narration)] Dungeon event "pc honest mirror": choice 0
+0| Stand and look for a while
+
+@capital::event.pc_honest_mirror.choice.1
+#   [(narration)] Dungeon event "pc honest mirror": choice 1
+0| Take the mirror's frame; it is quite valuable
+
+@capital::event.pc_honest_mirror.result.0
+#   [(narration)] Dungeon event "pc honest mirror": result 0
+0| It is your face, tired and dusty and a little crooked, and entirely your own. It is the most welcome thing you have seen in this castle.
+1| You stand there until you feel like yourself again, and a little more.
+
+@capital::event.pc_honest_mirror.result.1
+#   [(narration)] Dungeon event "pc honest mirror": result 1
+0| You prise off the old gold frame and leave the mirror hanging, bare. It still shows whoever stands in front of it. It never needed the gold.
+
+@capital::event.pc_corrected_citizens.choice.0
+#   [(narration)] Dungeon event "pc corrected citizens": choice 0
+0| Sit with them and listen
+
+@capital::event.pc_corrected_citizens.choice.1
+#   [(narration)] Dungeon event "pc corrected citizens": choice 1
+0| Free the nearest bed and help them out
+
+@capital::event.pc_corrected_citizens.choice.2
+#   [(narration)] Dungeon event "pc corrected citizens": choice 2
+0| Take the ward's record book as proof
+
+@capital::event.pc_corrected_citizens.result.0
+#   [(narration)] Dungeon event "pc corrected citizens": result 0
+0| You sit by the beds and listen for as long as it takes, which is a long time, and one by one they tell you their names.
+1| You listen to what they smiled at: a funeral, a wedding, a bird. When you rise, you repeat their names to yourself.
+
+@capital::event.pc_corrected_citizens.result.1
+#   [(narration)] Dungeon event "pc corrected citizens": result 1
+0| You undo the straps and help a man to his feet. He weeps and laughs and falls over, and cannot remember how to frown. A nurse hits an alarm.
+1| You carry him out through a window. He is heavier than you expected, and it costs you something, though it has cost him far more.
+2| He says: 'Thank you.' It is the first thing he has said in three years.
+
+@capital::event.pc_corrected_citizens.result.2
+#   [(narration)] Dungeon event "pc corrected citizens": result 2
+0| The record book lists every citizen corrected, their offence and the angle of their smile on admission. It is eleven thousand pages long. You will not need to read it all.
+1| The first page is enough. Somebody will pay well for this book, and somebody, one day, will read it aloud.
+
+@capital::event.pc_four_wings.choice.0
+#   [(narration)] Dungeon event "pc four wings": choice 0
+0| Rest on the bench in the hall
+
+@capital::event.pc_four_wings.choice.1
+#   [(narration)] Dungeon event "pc four wings": choice 1
+0| Take the coins from the collection plate by the door
+
+@capital::event.pc_four_wings.result.0
+#   [(narration)] Dungeon event "pc four wings": result 0
+0| You sit on a long bench under a brass plate and breathe. The doors do not open. Nothing in the hall moves, and everything in it seems to be listening. After a time you feel steadier.
+
+@capital::event.pc_four_wings.result.1
+#   [(narration)] Dungeon event "pc four wings": result 1
+0| A little brass plate for donations to {villain_title}, bolted to the wall. It is quite full. You take the lot.
+1| It is, after all, other people's money. They would want it back.
+
+@capital::event.pc_grand_staircase.choice.0
+#   [(narration)] Dungeon event "pc grand staircase": choice 0
+0| Climb the grand staircase, step by identical step
+
+@capital::event.pc_grand_staircase.choice.1
+#   [(narration)] Dungeon event "pc grand staircase": choice 1
+0| Sit on a step and rest
+
+@capital::event.pc_grand_staircase.choice.2
+#   [(narration)] Dungeon event "pc grand staircase": choice 2
+0| Take the servants' stair
+
+@capital::event.pc_grand_staircase.result.0
+#   [(narration)] Dungeon event "pc grand staircase": result 0
+0| Five hundred identical steps. By the three hundredth you are trembling; by the four hundredth you want to scream.
+1| At the top, a pot of coins sits on the landing: a tip left by the last person who made it. You rub your legs and pocket the coins.
+
+@capital::event.pc_grand_staircase.result.1
+#   [(narration)] Dungeon event "pc grand staircase": result 1
+0| You sit on step two hundred and fifty and look up at the very large clock. It has no hands, only a brass plate that says 'ON TIME'.
+1| You sit there for as long as you like. Nobody comes to correct you.
+
+@capital::event.pc_grand_staircase.result.2
+#   [(narration)] Dungeon event "pc grand staircase": result 2
+0| The servants' stair is steep and narrow and wonderfully uneven. Every step is a different height. A cook has left a little shelf of bread and a pipe.
+1| You eat and climb and feel, curiously, much better about the whole world.
+
+@capital::event.pc_early_journals.choice.0
+#   [(narration)] Dungeon event "pc early journals": choice 0
+0| Read the first journals, all the way through
+
+@capital::event.pc_early_journals.choice.1
+#   [(narration)] Dungeon event "pc early journals": choice 1
+0| Close the book and sit with it for a moment
+
+@capital::event.pc_early_journals.result.0
+#   [(narration)] Dungeon event "pc early journals": result 0
+0| You read until the light changes. Wells, schools, bridges, lamps: he built a hundred good things, and he loved every one.
+1| Once, he was exactly the person you would want running a kingdom. You close the last journal very gently.
+
+@capital::event.pc_early_journals.result.1
+#   [(narration)] Dungeon event "pc early journals": result 1
+0| You close the book and rest your hand on the cover. It is warm, as if someone had just put it down. You breathe, and wait until your hands are steady.
+
+@capital::event.pc_last_journal.choice.0
+#   [(narration)] Dungeon event "pc last journal": choice 0
+0| Read it all again, and let it settle
+
+@capital::event.pc_last_journal.choice.1
+#   [(narration)] Dungeon event "pc last journal": choice 1
+0| Close the journal and steady yourself
+
+@capital::event.pc_last_journal.result.0
+#   [(narration)] Dungeon event "pc last journal": result 0
+0| You read it twice. He believes every word: that each portrait and each rule is a gift, that nobody has ever tried so hard to be kind.
+1| He is not lying, and that is the worst of it. You understand him a little now, and you understand exactly what you will have to do.
+
+@capital::event.pc_last_journal.result.1
+#   [(narration)] Dungeon event "pc last journal": result 1
+0| You close the book softly. Whatever is in the next room, it is not a monster. It is a man who needed to be right, and made the whole world pay for it.
+1| You breathe in, and out, and you go on.
+
+@dc::dungeons/D-PC/events/12/body
+#   [(narration)] Primm's Castle, "Gourmand Wing: the Doppelganger's Lab Notes": event text
+0| A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her. The margins are full of practice smiles.
+
+@dc::dungeons/D-PC/events/12/choices/0
+#   [(choice button)] Primm's Castle, "Gourmand Wing: the Doppelganger's Lab Notes": choice 1 button
+0| Read the notes
+1| It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy.
+
+@dc::dungeons/D-PC/events/12/choices/1
+#   [(choice button)] Primm's Castle, "Gourmand Wing: the Doppelganger's Lab Notes": choice 2 button
+0| Take the samples
+1| Somebody downstairs will pay for them and nobody upstairs will miss them, which is as much of a plan as you need.
+
+@dc::dungeons/D-PC/events/12/choices/2
+#   [(choice button)] Primm's Castle, "Gourmand Wing: the Doppelganger's Lab Notes": choice 3 button
+0| Practise the smile in the mirror
+1| The smile comes out perfect, which is horrifying, and your face stays like that for a while. The guards leave you alone.
+
+@capital::dungeon.pc_gallery.before
+#   [(narration)] Dungeon node "pc gallery": entering the node
+0| A single portrait hangs in a gilt frame, lit like a shrine: a royal family of three.
+1| The king and the queen have been painted over in white, so carefully that every brushstroke runs the same way. Only the boy between them was left untouched.
+2| A small card on the frame, in a neat hand: 'KEPT FOR REFERENCE.' The boy has your face.
+3| You stand there a long time. Your throat has closed, and you cannot say why.
+
+@capital::dungeon.pc_gallery.after
+#   [(narration)] Dungeon node "pc gallery": after the node
+0| Behind the frame, a hidden hatch holds a small bag. You take it, and you do not look back at the portrait, because if you do you will not be able to leave.
+
+@dc::dungeons/D-PC/events/22/body
+#   [(narration)] Primm's Castle, "Garden of Uniform Flowers": event text
+0| A thousand identical flowers stand in identical rows. You count them twice. One of them is, very slightly, a different shade of yellow.
+
+@dc::dungeons/D-PC/events/22/choices/0
+#   [(choice button)] Primm's Castle, "Garden of Uniform Flowers": choice 1 button
+0| Pick the odd one out
+1| It tastes of dandelion. It feels like the first honest thing in the castle.
+
+@dc::dungeons/D-PC/events/22/choices/1
+#   [(choice button)] Primm's Castle, "Garden of Uniform Flowers": choice 2 button
+0| Pick a handful of the rest
+1| They wilt in your hand and leave behind a few coins, which is more than they should have been able to do.
+
+@dc::dungeons/D-PC/events/22/choices/2
+#   [(choice button)] Primm's Castle, "Garden of Uniform Flowers": choice 3 button
+0| Plant something crooked
+1| You press a bent stem into the soil. The gardener will find it tomorrow and have to rethink everything. You walk on, lighter.

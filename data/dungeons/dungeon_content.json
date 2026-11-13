@@ -1759,55 +1759,55 @@
 	},
 	"text": {
 		"quest.meet_the_merchants.active": [
-			"Sable, Tilly and Pip, dearie, all three on the square. And buy a card from Sable while you're there. I'll not have you facing the roads with nothing but what a cave gave you."
+			"It's Sable, Tilly and Pip you want, dearie, all three of them on the square. And buy a card from Sable while you're there. I won't have you facing the roads with nothing but what a cave gave you."
 		],
 		"quest.meet_the_merchants.ready": [
-			"Back already? Let me guess: Sable charmed you, Tilly turned a colour, and Pip measured you before you'd finished saying hello. That's {town}, dearie.",
+			"Back already? Let me guess: Sable charmed you, Tilly turned a new colour, and Pip had you measured before you'd finished saying hello. That's {town} for you, dearie, and you'll get used to it.",
 			"There's a trophy in it for you, once Bertram has you kitted out. Everybody gets one, so don't let it go to your head. I made it myself, and the handle comes off if you wave it about."
 		],
 		"quest.first_deck_edit.offer": [
 			"Now, about that deck of yours. You didn't choose a single card in it, dearie, and a deck you never chose is a deck you'll lose with.",
-			"New cards first, so open a pack: the Menu at the top right, then Packs. Or press P, if you're the sort who presses things.",
-			"Then take it to the Deck Station, down Champions' Road south of the square. Swap in whatever you like, save it to a slot, and come and tell me how it went."
+			"You'll want some new cards first, so open a pack: that's the Menu at the top right, then Packs. Or you can press P, if you're the sort who likes pressing things.",
+			"Then take it all down to the Deck Station, on Champions' Road south of the square. Swap in whatever takes your fancy, save the deck to a slot, and come and tell me how it went."
 		],
 		"quest.first_deck_edit.offer_pack": [
-			"No packs at all? Here, dearie, have a General Pack. It's been sat on a little. Cards are cards, and these ones won't hold it against you."
+			"No packs at all? Here, dearie, take this General Pack. It's been sat on a little, I'm afraid, but cards are cards, and these ones won't hold it against you."
 		],
 		"quest.first_deck_edit.active_pack": [
-			"Open the pack first, dearie: the Menu, then Packs. It won't open itself. I've asked it nicely."
+			"Open the pack first, dearie: the Menu, then Packs. It won't open itself. I should know, because I've asked it nicely."
 		],
 		"quest.first_deck_edit.active": [
-			"The Deck Station is down Champions' Road, south of the square, dearie. Save it to a slot when you're done, or it doesn't count. I do check."
+			"The Deck Station is down Champions' Road, south of the square, dearie. Remember to save the deck to a slot when you're done, or it doesn't count. And I do check."
 		],
 		"quest.first_deck_edit.ready": [
-			"Sorted and saved, and every card in it your own choice. Good. Now when it loses, you've nobody to blame but yourself, which is how it ought to be."
+			"Sorted and saved, and every card in it one you chose for yourself. Good. Now when it loses, you'll have nobody to blame but you, which is exactly how it ought to be."
 		],
 		"quest.storeroom_ghosts.offer": [
-			"Now, a favour. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.",
-			"Ghosts, I expect, and old ones. The Tonics have kept that room locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it if it lets you."
+			"Now, I've a favour to ask of you. Tilly's store room, the corner house beside her shop, has been cold and whispering for a week. I don't mean Tilly, dearie. I mean the room.",
+			"Ghosts, I expect, and old ones. The Tonics have kept that door locked since before I came to Crosspath, and I've never asked them why. Go and see what wants out, and be gentle with it, if it lets you be."
 		],
 		"quest.storeroom_ghosts.active": [
-			"The store room door is beside Tilly's shop, on the north side of the square. If there are marks on the frame, leave them be, dearie. Somebody put them there for a reason."
+			"The store room door is beside Tilly's shop, on the north side of the square. If there are marks painted on the frame, leave them be, dearie. Whoever put them there had a reason."
 		],
 		"quest.storeroom_ghosts.ready": [
-			"Gone, are they? Good. No, I don't want to hear what they said. Not out here on the square, and not before supper.",
-			"Tilly's family were healers, mostly. Mostly. Some of the old families kept a back room for the other kind of remedy, and the less said about it, the better for Tilly. She's a good girl, and none of it is hers.",
-			"Well done, dearie. Now go and sit somewhere warm for a bit. You've gone the colour of a candle."
+			"They've gone, have they? Good. No, I don't want to hear what they said to you, not out here on the square and certainly not before my supper.",
+			"Tilly's family were healers, mostly. Only mostly. Some of the old families kept a back room for the other sort of remedy, and the less said of it the better for Tilly. She's a good girl, and none of that is hers.",
+			"You did well, dearie, and I hear you were kind about it. Now go and sit somewhere warm for a while, because you've gone the colour of a candle."
 		],
 		"quest.some_assembly_required.offer": [
-			"Right, then. It's time you had something sharper than a deck. Bertram Beetsworth hands out gear from his smithy, on the west side of the square.",
-			"He is... thorough. Report to him, do what he asks, and do not touch his drawer."
+			"Right, then. It's high time you had something sharper than a deck of cards. Bertram Beetsworth hands out the gear from his smithy, on the west side of the square.",
+			"He is... thorough, shall we say. Report to him, do exactly what he asks of you, and whatever else you do, don't touch his drawer."
 		],
 		"quest.some_assembly_required.active": [
-			"Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. He lives to stamp things."
+			"Bertram's smithy is on the west side of the square. Win him one fight, any fight at all, and he'll stamp something for you. That man lives to stamp things."
 		],
 		"quest.path_direction": [
-			"There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself. I'm impressed, dearie, and I don't impress easily.",
-			"You've met the shopkeepers, sorted out your deck, sent the things in Tilly's store room packing and got yourself kitted out. That's all the settling in I can teach you. Now I need you out on the roads.",
-			"Four roads leave this town, and the Minister's people have put a gatekeeper across every one of them. Nobody gets through any of them without beating whoever's standing there.",
+			"There you are, and with a blade on your belt at last. Bertram tells me you didn't even cut yourself, and I'm impressed, dearie. I don't impress easily.",
+			"You've met the shopkeepers, made that deck your own, been gentle with whatever was in Tilly's store room and got yourself kitted out. That's all the settling in I know how to teach. Now I need you out on the roads.",
+			"Four roads leave this town, and the Minister's people have set a gatekeeper across every one of them. Nobody gets down any of those roads without first beating whoever is standing in it.",
 			"Start with {zone}. Your deck is {path} through and through, so it'll be the easiest road for you. {gatekeeper} holds {road} at {obstacle}.",
 			"Your Path stands a little taller in there. {buff}: {buff_text} It's the {rival} side that gets the short end. {debuff}: {debuff_text} In {rival_zone} it's the other way round, so mind that when you get there.",
-			"I've put all four gatekeepers in your quest log, with yours on top. Go on, then, and come back alive. I'll have a pie waiting, and I don't bake for people who don't come back."
+			"I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back."
 		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
@@ -1983,9 +1983,9 @@
 			"Cell 4"
 		],
 		"cave_mouth.maren_path": [
-			"One more thing before you go dripping on somebody else's floor. That deck of yours is {path} through and through. When the time comes to go out on the roads, {zone} will be the easiest one for you.",
-			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you a few errands to learn the ropes.",
-			"Come and find me on the square once you've dried off. When you're ready, I'll send you out myself."
+			"One more thing, before you go dripping on anybody else's floor. That deck of yours is {path} through and through, so when the time comes to go out on the roads, {zone} will be the kindest of them to you.",
+			"But not yet. Every road out of town has a gatekeeper standing across it, and you're in no state to argue with any of them. Settle in first: meet the shopkeepers, and let me give you an errand or two to learn the ropes.",
+			"Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself."
 		],
 		"cardsharp.intro": [
 			"Ah, a card person! I can always tell: you check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp.",

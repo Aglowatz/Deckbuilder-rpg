@@ -1,0 +1,253 @@
+# t3_buffet: 91 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@gourmand::gate.ingredient.open
+#   [Old Meatloaf and the gate golems] Gate: ingredient open
+0| Brisket nods slowly. "Go on in. Mind the cheese."
+1| "The cheese takes trespassing personally. You're walking on its rind."
+
+@gourmand::gate.ingredient.pass
+#   [Old Meatloaf and the gate golems] Gate: ingredient pass
+0| Brisket sniffs the air, and his eyes close in bliss. "Saffron. Real saffron."
+1| "Do you know how long it has been?" He takes the threads with great tenderness and steps aside.
+2| "Go on through. Tell the Cheddar Cliffs they are overdue for a good grating. Yes, Chef."
+
+@gourmand::gate.ingredient.need
+#   [Old Meatloaf and the gate golems] Gate: ingredient need
+0| Brisket does not look at you. He looks over your head, at the horizon. "This gate opens for one pinch of saffron."
+1| "Real saffron, mind you, which grows in the Candy Field. Ask a sous-chef if you lose your way."
+2| He sighs at you. "Bring saffron from the Candy Field; this gate has a very particular taste in visitors."
+
+@gourmand::gate.quest.open
+#   [Old Meatloaf and the gate golems] Gate: quest open
+0| Sir Loin raises his fork in salute. "You mended Old Meatloaf, so you are a friend of the Pantry. The town is yours."
+
+@gourmand::gate.quest.pass
+#   [Old Meatloaf and the gate golems] Gate: quest pass
+0| Sir Loin inspects you. "Old Meatloaf walks again. Basil sends thanks, and orders, which are: let you in. Yes, Chef!"
+1| He lowers his fork-lance. The gate swings open.
+
+@gourmand::gate.quest.need
+#   [Old Meatloaf and the gate golems] Gate: quest need
+0| Sir Loin clanks to attention. "HALT! Nobody enters Layer-Cake Town until Old Meatloaf has been mended."
+1| "It is Basil's request, so speak to Basil: he is in the Grand Pantry's square, east of the Soup Fountain. Yes, Chef!"
+
+@gourmand::gate.quest.mended
+#   [(narration/UI)] Gate: quest mended
+0| Sir Loin peers past you toward the Pantry. "Old Meatloaf is up and clanking about? Then the mending is done, and Basil has not sent word."
+1| "Tell Basil yourself: the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!"
+
+@gourmand::gate.quest.active
+#   [(narration/UI)] Gate: quest active
+0| Sir Loin clanks to attention. "HALT! Old Meatloaf is still in two pieces, and I have Basil's list right here."
+1| "Sea salt: the Salt Flats, by the river. A black truffle: under the Broccoli Forest's trees, to the south-west. Then mend him at the Pantry's west wall. Yes, Chef!"
+
+@gourmand::gate.battle.open
+#   [Old Meatloaf and the gate golems] Gate: battle open
+0| Colonel Casserole tips his lid. "A fair fight, well fought. The Pancake Plateau is open to you. Mind the syrup; it pools."
+
+@gourmand::gate.battle.intro
+#   [Old Meatloaf and the gate golems] Gate: battle intro
+0| Colonel Casserole bubbles ominously. "Halt! This gate is guarded by a Colonel."
+1| "No passes, no bribes - challenge me to single combat with cards. I shall defend this gate to the last course."
+2| "If you win, you pass. If you lose, you do the washing up. Both are honourable."
+
+@gourmand::gate.battle.ask
+#   [Old Meatloaf and the gate golems] Gate: battle ask
+0| Defeat Colonel Casserole in a card battle to open the way to the Pancake Plateau. Your HP carries over as usual.
+
+@gourmand::npc.quiz.intro
+#   [Professor Pate] Talking to Professor Pate (intro)
+0| Professor Pate, Keeper of the Cookbook. I've read every recipe twice; the footnotes have an excellent finish.
+1| I have never found a recipe for the Special Sauce, and believe me, I looked. I even licked the index.
+2| Four questions about the Gourmands: who they are, what they cook, how their golems speak. Every answer is written on a sign somewhere in the Endless Buffet.
+3| Answer well and earn gold, glory and the respect of a very old book. Answer poorly and earn a gentle, scholarly sigh, lightly salted.
+
+@gourmand::npc.quiz.return
+#   [Professor Pate] Talking to Professor Pate (return)
+0| Back for more? Splendid. A footnote, while it simmers: the Capital's school lunches were excellent once. Hot, free, balanced. Then came the paste.
+
+@gourmand::npc.minigame.intro
+#   [Chef Flambe Fontaine] Talking to Chef Flambe Fontaine (intro)
+0| *brass fanfare* CHEF FLAMBE FONTAINE, LIVE FROM THE CANDY FIELD: DINNER IN A DASH! The Test Kitchen cancelled us, so this is a SECRET BROADCAST!
+1| Seven seasons on the air, and people STILL do my WHOOSH in the street! I'd do it for you now, but I save it for the cameras.
+2| My arch-rival, Chef Savannah Souffle, stole my Spaghetti Surprise. The surprise was more spaghetti. She took a job at the Test Kitchen. I wish her well, very far away.
+3| Tonight's show: ORDER UP! Six tickets, one counter, no mercy. Stack each dish in the right order before the timer dings. Rewards for performance, and a first-time bonus!
+4| My Turbo Tots toys were recalled for spinning too well, and tonight's audience is ten sprouts and a very patient cloche. But the show goes on! Let's COOK!
+
+@gourmand::npc.minigame.return
+#   [(minigame host)] Talking to minigame (return)
+0| Back for another shift, champ? Smile for the cameras! They ran out of film years ago, but a professional smiles anyway.
+1| Remember, the ticket is your friend. It's judging you, of course, but kindly.
+
+@gourmand::order.shouts
+#   [Chef Flambe Fontaine] Order: shouts
+0| Order up! First ticket!
+1| Second ticket, and I do mean it!
+2| Garden salad! Light and leafy!
+3| Burger and fries, hot hot hot!
+4| The Deluxe! Hands moving!
+5| TURBO SPECIAL! Whoosh!
+
+@gourmand::order.win
+#   [Chef Flambe Fontaine] Order: win
+0| ORDER UP - THAT COUNTER IS BEAUTIFUL! You cook like someone who knows exactly where the camera is!
+
+@gourmand::order.first
+#   [Chef Flambe Fontaine] Order: first
+0| Your very first shift on the show! Here's your bonus, free and with no obligation: a scroll!
+1| Chef Savannah would call it Scroll Deluxe. She could put a garnish on the envelope and call it a course.
+
+@gourmand::order.lose
+#   [Chef Flambe Fontaine] Order: lose
+0| Not quite, chef - breathe! Even a souffle gets a second rise in my kitchen!
+1| Re-tie your apron and try again! Those tickets can wait; this is a cooking show, not a farewell episode!
+
+@gourmand::recipe.solved
+#   [(narration/UI)] Recipe: solved
+0| The stew thickens. The ladle hums. A small, heavy parcel rises out of the steam: the pot has given you its seasoning.
+
+@gourmand::recipe.already
+#   [(narration/UI)] Recipe: already
+0| The stew sits perfectly seasoned. Nothing left to cook.
+
+@gourmand::recipe.incomplete
+#   [(narration/UI)] Recipe: incomplete
+0| The pot needs exactly four different ingredients before you can serve it.
+
+@gourmand::recipe.wrong
+#   [(narration/UI)] Recipe: wrong
+0| The golem that tastes it gags politely. "Chef, this is not it."
+1| You watch the stew go bland. The pot sighs like a recipe being ignored.
+2| A single sad bubble rises and pops. That was all it had to say.
+3| "Chef, with respect: no."
+
+@dc::quest.side_s_gour.offer
+#   [Basil] Quest "The Golden Reservation": when offered
+0| Over here, quietly. Have you ever eaten somewhere with no menu at all? ...I'm brave. I'm brave.
+1| There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit.
+
+@dc::quest.side_s_gour.active
+#   [Basil] Quest "The Golden Reservation": while it is active
+0| The card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it when you see it. Chef always said gold means sit down.
+
+@dc::quest.side_s_gour.ready
+#   [Basil] Quest "The Golden Reservation": handing it in
+0| That's it! One seat, three courses, survival optional. I'm excited, I think - it feels a lot like being terrified.
+
+@dc::quest.side_s_gour.done
+#   [Basil] Quest "The Golden Reservation": after it is done
+0| The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef.
+
+@dc::dungeon.dg_s_gour_boss.before
+#   [The Itamae Supreme] Dungeon node "dg s gour boss": entering the node
+0| The Itamae Supreme lifts a long knife and does not look up. 'Omakase.'
+1| Behind him, a bull made of toro lowers its horns, politely.
+
+@boss::The Itamae Supreme/line
+#   [The Itamae Supreme] Boss intro before the battle with The Itamae Supreme: opening line
+0| ...Sit.
+
+@enc::The Itamae Supreme/0/line
+#   [The Itamae Supreme] Mid-fight event "Omakase" vs The Itamae Supreme: the foe says it when the event fires
+0| Omakase.
+
+@enc::The Itamae Supreme/1/line
+#   [The Itamae Supreme] Mid-fight event "...Enough." vs The Itamae Supreme: the foe says it when the event fires
+0| ...Enough.
+
+@dc::dungeon.dg_s_gour_boss.after
+#   [The Itamae Supreme] Dungeon node "dg s gour boss": after the node
+0| The Itamae bows, wipes his knife on a cloth and slides a small plate across the counter. 'Omakase,' he says. This time it sounds like thank you.
+
+@dc::dungeons/D-TTK/events/7/body
+#   [(narration)] The Test Kitchen, "Corrupted Pantry": event text
+0| Shelves of glowing, sickly-green food hum softly. A ladle is still stirring a pot that nobody is minding, and the pot has started to hum back.
+
+@dc::dungeons/D-TTK/events/7/choices/0
+#   [(choice button)] The Test Kitchen, "Corrupted Pantry": choice 1 button
+0| Eat the glowing stew
+1| It is delicious and almost certainly cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.
+
+@dc::dungeons/D-TTK/events/7/choices/1
+#   [(choice button)] The Test Kitchen, "Corrupted Pantry": choice 2 button
+0| Take only the sealed jars
+1| A few shelves are still clean, stacked with jars labelled DO NOT OPEN, WE MEAN IT. You respect their wishes and sell them unopened.
+
+@dc::dungeons/D-TTK/events/7/choices/2
+#   [(choice button)] The Test Kitchen, "Corrupted Pantry": choice 3 button
+0| Ask the ladle to stop
+1| It has been stirring for ten years and nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.
+
+@dc::dungeons/D-TTK/events/10/body
+#   [(narration)] The Test Kitchen, "R&D Archives": event text
+0| Blueprints, recipe cards and signed memos fill the cabinets. Every note signed by the Grand Chef is in perfect copperplate without a single gravy stain, and a real chef's notes are mostly gravy stain.
+
+@dc::dungeons/D-TTK/events/10/choices/0
+#   [(choice button)] The Test Kitchen, "R&D Archives": choice 1 button
+0| Compare the handwriting
+1| Laid beside the old recipe cards, it is plain: whoever signed these memos has never held a ladle. The person giving orders in this kitchen is not the cook who used to.
+
+@dc::dungeons/D-TTK/events/10/choices/1
+#   [(choice button)] The Test Kitchen, "R&D Archives": choice 2 button
+0| Photograph the blueprints
+1| Blueprints like these are evidence, and evidence always has a buyer. The one you find asks no questions, which is the best kind.
+
+@dc::dungeons/D-TTK/events/10/choices/2
+#   [(choice button)] The Test Kitchen, "R&D Archives": choice 3 button
+0| Pocket the recipe marked DO NOT SERVE
+1| It is one line long and ends with 'send it back.' You can see why it was classified.
+
+@gourmand::challenge.tk_taste_panel.text
+#   [(narration)] Deck challenge "tk taste panel": text
+0| Four dishes are served to the panel. They want to see that you can field real, living units, not just soup.
+
+@gourmand::event.tk_cannon_bay.choice.0
+#   [(narration)] Dungeon event "tk cannon bay": choice 0
+0| Take the blueprints (and a tip)
+
+@gourmand::event.tk_cannon_bay.choice.1
+#   [(narration)] Dungeon event "tk cannon bay": choice 1
+0| Jam the cannon's gravy valve
+
+@gourmand::event.tk_cannon_bay.choice.2
+#   [(narration)] Dungeon event "tk cannon bay": choice 2
+0| Eat one of the test meatballs
+
+@gourmand::event.tk_cannon_bay.result.0
+#   [(narration)] Dungeon event "tk cannon bay": result 0
+0| The engineer slips you the blueprints and a few coins. "Please burn these," he whispers. "After you're done selling them."
+
+@gourmand::event.tk_cannon_bay.result.1
+#   [(narration)] Dungeon event "tk cannon bay": result 1
+0| You twist the valve. The cannon coughs, sighs, and settles into a sulk. Your units feel sturdier in a kitchen that is slightly less likely to fire at them.
+
+@gourmand::event.tk_cannon_bay.result.2
+#   [(narration)] Dungeon event "tk cannon bay": result 2
+0| You eat the prototype meatball and feel much better, if slightly singed. The aftertaste has a blast radius.
+
+@gourmand::event.tk_whistleblower.choice.0
+#   [(narration)] Dungeon event "tk whistleblower": choice 0
+0| Take his notes on the impostor
+
+@gourmand::event.tk_whistleblower.choice.1
+#   [(narration)] Dungeon event "tk whistleblower": choice 1
+0| Share your rations with him
+
+@gourmand::event.tk_whistleblower.choice.2
+#   [(narration)] Dungeon event "tk whistleblower": choice 2
+0| Turn him in for the reward
+
+@gourmand::event.tk_whistleblower.result.0
+#   [(narration)] Dungeon event "tk whistleblower": result 0
+0| He presses a stained notebook into your hands: habits, weak spots, and a very detailed list of everything the impostor will not eat. The list is everything. Your units hit harder.
+
+@gourmand::event.tk_whistleblower.result.1
+#   [(narration)] Dungeon event "tk whistleblower": result 1
+0| He eats like a man who hasn't had a proper meal in a week, and when he's finished he grips your hand. "Thank you. Please be careful."
+1| "The real Chef is down there somewhere. I know she is." You leave feeling better for having fed him.
+
+@gourmand::event.tk_whistleblower.result.2
+#   [(narration)] Dungeon event "tk whistleblower": result 2
+0| The guards pay you without a question. You pocket the coins and feel sick.

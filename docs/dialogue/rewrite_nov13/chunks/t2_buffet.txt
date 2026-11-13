@@ -1,0 +1,370 @@
+# t2_buffet: 139 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@intro::gate.gourmand.freed
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: talking at the gate
+#= 0| She's back, the real Grand Chef. She tasted my soup, frowned at it and said 'more salt', and I don't believe I have ever been so happy in my life.
+1| The pantry door stays wide open now, and people wander in for biscuits all day long. I keep a tin by the hinge for them.
+#= 2| Do you fancy a friendly duel, for old times' sake? The loser washes the ladle, and I ought to warn you that it's a very big ladle.
+
+@intro::gate.gourmand.blocked
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: blocked
+0| An enormous pantry door blocks the lane, locked tight, with a keyhole the size of a dinner plate.
+
+@intro::gate.gourmand.cleared
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: cleared
+0| Chef Fennel Gravois hands over a key the size of a ladle, and it turns in the lock with a satisfying clunk.
+1| The great pantry door swings open on a smell of roasting meat and fresh bread, and underneath it, faintly, the smell of hot iron.
+
+@intro::gourmand_npc_intro_lines
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: before the battle
+0| TASTE IT! The Special Sauce is in everything now - my soup, my tea, my very SOUL - and isn't it WONDERFUL?
+#= 1| The pantry is closed by order of the Grand Chef herself, and the key stays right here on my apron. It's all for the war effort!
+2| You want the key? You'll have to beat me for it! Yes, Chef! No - YOU, Chef!
+
+@boss::Chef Fennel Gravois/line
+#   [Chef Fennel Gravois] Boss intro before the battle with Chef Fennel Gravois: opening line
+0| TASTE IT. TASTE IT! It's for the war effort!
+
+@enc::town:npc:gourmand/0/line
+#   [Chef Fennel Gravois] Mid-fight event "TASTE IT!" vs Chef Fennel Gravois: the foe says it when the event fires
+0| TASTE IT! Even the BISCUIT is for the war effort!
+
+@intro::gourmand_npc_victory_lines
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: after you win
+#= 0| Oh... the sauce has let go of me. Is that plain bread? With nothing on it at all? I could weep. In fact I am weeping, and I don't mind who sees.
+#= 1| The Grand Chef stopped tasting her own sauces years ago, and the Chef I trained under ALWAYS tasted. It's the same face and the same apron... so who has been wearing them?
+#= 2| Whatever has gone wrong here starts in the Test Kitchen, at the far end of the Buffet, and it was never built for casseroles. Take a biscuit for the road. No, take two.
+
+@intro::gourmand_npc_defeat_lines
+#   [Chef Fennel Gravois, Keeper of the Pantry Key] Gatekeeper of the Endless Buffet: after you lose
+0| Under-seasoned. NEXT!
+1| The pantry door stays shut until you've learned to cook. Come back when you're properly seasoned!
+
+@gourmand::npc.odalys.intro
+#   [Basil] Talking to Basil (intro)
+0| Psst. I'm Basil, line cook - ladle in one hand, nerves in the other. We Gourmands feed the kingdom and protect it: the chefs cook and the golems guard. Lately, though, the golems have been... practising.
+1| Ten years ago {villain}'s people came to the Buffet, and after that the Grand Chef... changed. Chef ALWAYS tastes, and this Chef never does. She just stands there smiling at the soup.
+2| Then she put the Special Sauce in every pot. The old rules still hold - nobody leaves hungry, nobody double-dips, and we say "Yes, Chef." Quietly. And nobody asks about the Test Kitchen. I'm not asking.
+
+@gourmand::npc.odalys.return
+#   [Basil] Talking to Basil (return)
+0| You came back! Good, good. I've been stirring the same pot for an hour, just to give my hands something to do. A Gourmand never stops stirring.
+1| What do we say? "Yes, Chef" - on the lowest possible heat.
+2| The Grand Chef has very good hearing, for someone who never tastes a thing.
+3| The real Chef baked a birthday cake for the little prince once. Four layers, one for each Path. He licked the frosting off all four and left the rest. ...Are you all right? You've gone pale.
+4| Chef laughed about it for a week. Last month I mentioned that cake to her, and she didn't remember it at all - and Chef remembers every cake she's ever baked.
+
+@gourmand::npc.tarragon.intro
+#   [Sous-Chef Tarragon] Talking to Sous-Chef Tarragon (intro)
+0| Sous-Chef Tarragon, fetcher of things - oh, good, more hands! I've been running all day and still haven't caught up with lunch.
+1| We're always out of something - honey, basil, ghost pepper. Half our deliveries go to the Test Kitchen and nothing comes back. I once fetched them a whole pig. Wrong pig, and he's still cross about it.
+2| Don't tell the Grand Chef I said anything. Last cook who complained got promoted to taste tester. We haven't seen him since.
+
+@gourmand::npc.tarragon.return
+#   [Sous-Chef Tarragon] Talking to Sous-Chef Tarragon (return)
+0| Ingredients, please, anything? I'm one leaf away from calling this a salad and going home.
+1| I'm so hungry I looked at a Refusemancer compost heap and thought 'starter'. Don't tell anyone. I'd never live it down.
+
+@gourmand::npc.dolcetta.intro
+#   [Madame Mirepoix] Talking to Madame Mirepoix (intro)
+0| Madame Mirepoix, darling: dessert dealer and card shark of the Grand Pantry. Tonight's tasting menu is three cards, lightly foiled, served with a little disdain.
+1| Every card is Gourmand-issue and, as of this year, inspected by the Test Kitchen. They stamped my decorative cake, darling, right on the rosette, and I have not forgiven them.
+2| I take gold, favours and sprinkles, in that order. I do not take the Special Sauce. I have been pretending to eat it for months.
+
+@gourmand::npc.dolcetta.return
+#   [Madame Mirepoix] Talking to Madame Mirepoix (return)
+0| Your cards are plated, darling; the cake is decorative. As for the Special Sauce, I recommend the air beside it.
+
+@gourmand::quest.buf_pantry.offer
+#   [Sous-Chef Tarragon] Quest "Pantry Run": when offered
+0| You can fetch? Oh, wonderful. Our deliveries keep getting stolen and dropped all over the Buffet: there's truffle by the broccoli, salt by the river and honey up the Butte.
+1| Bring me any three and I'll make it worth your while. I'm begging with my whole apron here.
+
+@gourmand::quest.buf_pantry.active
+#   [Sous-Chef Tarragon] Quest "Pantry Run": while it is active
+0| Bring any three ingredients from around the Buffet. The pantry is empty, and I can't keep calling that a minimalist menu.
+
+@gourmand::quest.buf_pantry.ready
+#   [Sous-Chef Tarragon] Quest "Pantry Run": handing it in
+0| Three whole ingredients! The Pantry is saved - for today, anyway, which is the only day I'm worried about.
+1| Here, take this for your trouble. It's a card, and somehow it's also a soup. Soup you can play, if you can believe it.
+
+@gourmand::quest.buf_pantry.done
+#   [Sous-Chef Tarragon] Quest "Pantry Run": after it is done
+0| The pantry's stocked until tomorrow, when we do it all again. I'm not complaining, I'm fetching. From a distance they look very similar.
+
+@gourmand::quest.buf_pie.offer
+#   [Madame Mirepoix] Quest "Bake Me a Pie": when offered
+0| A favour, darling. A customer of mine wants a Hearty Pot Pie, a real one, and the Grand Oven is sulking. It keeps being asked to cook prototypes.
+1| Bake one for me: honey, giant basil and a ghost pepper, into the Grand Oven by the arch, then bring it here. Careful with the pepper. It is not a team player.
+
+@gourmand::quest.buf_pie.active
+#   [Madame Mirepoix] Quest "Bake Me a Pie": while it is active
+0| One Hearty Pot Pie, darling. Honey, basil and a ghost pepper into the Grand Oven by the arch. I shall wait. I have a cake to look at.
+
+@gourmand::quest.buf_pie.ready
+#   [Madame Mirepoix] Quest "Bake Me a Pie": handing it in
+0| A pie. A real one, golden and warm. My customer is going to cry.
+1| And so am I, discreetly. Here is your reward, you scrappy little thing, and thank you.
+
+@gourmand::quest.buf_pie.done
+#   [Madame Mirepoix] Quest "Bake Me a Pie": after it is done
+0| The best pie this Pantry has seen in years. The oven would like a word with you. I believe it wants to say thank you.
+
+@gourmand::quest.buf_mend.offer
+#   [Basil] Quest "Mend the Meatloaf": when offered
+0| Um, could I have a word? Quietly? Old Meatloaf, our oldest golem, has stopped working. The Test Kitchen tried to strip him for parts, and we only got him back in two pieces. He hasn't spoken since Tuesday.
+1| He needs sea salt for his joints, from the Salt Flats by the river, and a black truffle for his heart, from under the Broccoli Forest to the south-west. Mend him and Sir Loin will let you through the Layer-Cake Town gate. Yes, Chef? ...Please?
+
+@gourmand::quest.buf_mend.active
+#   [Basil] Quest "Mend the Meatloaf": while it is active
+0| Sea salt is out on the Salt Flats, by the river. The black truffle grows under the Broccoli Forest's trees, south-west of here. Both are marked on your map.
+1| Old Meatloaf is over by the west wall of the Grand Pantry. Sea salt, a black truffle, and a bit of tenderness.
+
+@gourmand::quest.buf_mend.ready
+#   [Basil] Quest "Mend the Meatloaf": handing it in
+0| He's walking, and he's sizzling! Old Meatloaf is back on duty! I'm not crying, I'm just standing near some onions.
+1| Here's your reward, and Sir Loin will open his gate for you now. Well done. Yes, Chef.
+
+@gourmand::quest.buf_mend.done
+#   [Basil] Quest "Mend the Meatloaf": after it is done
+0| Old Meatloaf is the best golem in the kingdom. Don't tell the others. They know.
+
+@gourmand::npc.old_meatloaf.broken
+#   [Old Meatloaf and the gate golems] Talking to Old Meatloaf and the gate golems (broken)
+0| Old Meatloaf is slumped on the floor, in two pieces, with crossed-out eyes. A note on his chest reads: SEA SALT AND A BLACK TRUFFLE. PLEASE BE GENTLE.
+
+@gourmand::npc.old_meatloaf.fix
+#   [Old Meatloaf and the gate golems] Talking to Old Meatloaf and the gate golems (fix)
+0| You season Old Meatloaf's joints with the sea salt and tuck the black truffle where his heart should be. He sits up slowly.
+1| "...Chef?" he says. "Yes, Chef," you say, because it feels right. His eyes uncross.
+
+@gourmand::npc.old_meatloaf.mended
+#   [Old Meatloaf and the gate golems] Talking to Old Meatloaf and the gate golems (mended)
+0| Old Meatloaf stands guard with great dignity. "Yes, Chef!" he whispers.
+1| He says it to you, though you are not a chef. He doesn't mind.
+2| He is just glad nobody wants to turn him into a cannon.
+
+@scenes/hob_gourmand/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob gourmand" (hob gourmand), step 1
+1| Just measuring. Mind you, the Chef's soups add years to people, which is bad for business and good for everybody else. Heh.
+
+@scenes/hob_gourmand/steps/1
+#   [The Wanderer] Scene "hob gourmand" (hob gourmand), step 2
+1| What are you writing?
+
+@scenes/hob_gourmand/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob gourmand" (hob gourmand), step 3
+1| Appointments. Let's see now... you're not down for a good long while. Ha! Lovely.
+
+@boss::Colonel Casserole/line
+#   [Colonel Casserole] Boss intro before the battle with Colonel Casserole: opening line
+0| Halt, traveller! This gate opens only for a duel of honour, so lids up. Yes, Chef.
+
+@enc::zone:gourmand:casserole/0/line
+#   [Colonel Casserole] Mid-fight event "Honour Duel" vs Colonel Casserole: the foe says it when the event fires
+0| En garde! Thirty years of service, and I have never once boiled over. Until now. Yes, Chef.
+
+@gourmand::dungeon.tk_dock.before
+#   [(narration)] Dungeon node "tk dock": entering the node
+0| A sign over the dock doors reads TASTE-TESTER ENTRANCE. Beneath it, in smaller letters: NO EXIT.
+1| The air smells of caramel and solder. Somewhere deep inside, a cannon coughs and a dozen chefs say "Yes, Chef!" very quietly.
+
+@gourmand::dungeon.tk_canteen.after
+#   [(narration)] Dungeon node "tk canteen": after the node
+0| The cook behind the counter leans in and whispers: "The Grand Chef stopped tasting her own soup ten years ago. Every one of us noticed, and not one of us said a word."
+
+@gourmand::dungeon.tk_vats.after
+#   [(narration)] Dungeon node "tk vats": after the node
+0| You pour a vat out. Behind it, a service door opens on the Executive Test Kitchen. The air there smells like a very expensive soup that nobody has ever tasted.
+
+@scenes/crumb_inspection/steps/0
+#   [(narration)] Scene "crumb inspection" (The Test Kitchen, "Prototype Bay": before the node), step 1
+1| The Prototype Bay smells of hot iron and burnt sugar. A war machine squats on a pallet: half oven, half cannon, one wheel still in its packing straw.
+
+@scenes/crumb_inspection/steps/1
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb inspection" (The Test Kitchen, "Prototype Bay": before the node), step 2
+1| ATTEN-TION! Inspection! Who put a dent in my souffle cannon? Battle stations, all of you! This is not a drill, it is a souffle, and it will rise on schedule!
+
+@scenes/crumb_inspection/steps/2
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb inspection" (The Test Kitchen, "Prototype Bay": before the node), step 3
+1| And what is THIS? A civilian, unsupervised, in my bay, with flavour on his breath. Disgraceful.
+2| Colonel Cornelius Crumb, Director of Culinary Defense, and you will stand up straight when you hear it. Taste is a weakness, son. Paste is a strategy.
+
+@scenes/crumb_inspection/steps/3
+#   [Colonel Cornelius Crumb, Director of Culinary Defense] Scene "crumb inspection" (The Test Kitchen, "Prototype Bay": before the node), step 4
+1| Whisk formation! Field-test the prototype on the intruder while I attend a ration meeting. I want a full report, and I want it bland.
+
+@scenes/crumb_inspection/steps/4
+#   [(narration)] Scene "crumb inspection" (The Test Kitchen, "Prototype Bay": before the node), step 5
+1| He salutes the machine, the machine salutes back with a ladle, and the Colonel marches out before it has finished preheating.
+
+@enc::Unfinished War Machine/0/line
+#   [Unfinished War Machine] Mid-fight event "Self-Repair" vs Unfinished War Machine: the foe says it when the event fires
+0| ASSEMBLY... INCOMPLETE... REPAIRING... YES, CHEF...
+
+@scenes/crumb_inspection_after/steps/0
+#   [(narration)] Scene "crumb inspection after" (The Test Kitchen, "Prototype Bay": after the node), step 1
+1| The war machine sags and steams. Taped to its side is an inspection card under a seal of crossed forks: PASSED. NEEDS MORE SALT. - COL. C. CRUMB.
+
+@enc::Cannon-Blender Gunner/0/line
+#   [Cannon-Blender Gunner] Mid-fight event "Full Blend" vs Cannon-Blender Gunner: the foe says it when the event fires
+0| Load the smoothie, set it to puree, and FIRE!
+
+@gourmand::dungeon.tk_boss.before
+#   [The Doppelganger, later Escoffina] Dungeon node "tk boss": entering the node
+#= 0| The Grand Chef turns from the stove wearing the same smile as every portrait in the Pantry. In ten years, it has never once creased.
+1| "Ah, a taste tester. Welcome to the future of dining, which is efficient, and which does not need to be tasted."
+
+@boss::The Doppelganger/line
+#   [The Doppelganger] Boss intro before the battle with The Doppelganger: opening line
+0| Welcome to the Test Kitchen. Everything here is delicious, or so I have been told.
+
+@enc::The Doppelganger/0/line
+#   [The Doppelganger] Mid-fight event "The Mask Slips" vs The Doppelganger: the foe says it when the event fires
+0| Delicious... delicious. I was told that is the word. ...Why will this face not stay on?
+
+@enc::The Doppelganger/1/line
+#   [The Doppelganger] Mid-fight event "No Face of Its Own" vs The Doppelganger: the foe says it when the event fires
+0| They always asked whether I tasted the soup. ...I never did. I never could.
+
+@gourmand::event.tk_cannon_bay.body
+#   [(narration)] Dungeon event "tk cannon bay": body
+0| The unfinished war machine fills the room: a cannon the size of a barn, fed by a conveyor belt of meatballs. A tired engineer in an apron asks whether you are here for the inspection or for the tour.
+
+@gourmand::event.tk_whistleblower.body
+#   [(narration)] Dungeon event "tk whistleblower": body
+0| A sous-chef is crouched behind the sacks of flour, shaking. "She doesn't taste the soup," he whispers. "Not once, not in ten years."
+1| "Chef ALWAYS tastes. Whoever is in that kitchen is not our Chef."
+
+@gourmand::cutscene.reveal.1
+#   [The Doppelganger] Cutscene "reveal", beat 1
+#= 0| Welcome to the Executive Test Kitchen, taster. Ten years I have worn this face and this apron, and not one Gourmand ever looked twice.
+#= 1| They never looked at their Chef, you see. They only ever looked at the food.
+
+@gourmand::cutscene.reveal.2
+#   [The Wanderer] Cutscene "reveal", beat 2
+0| You never taste your own soup, do you?
+
+@gourmand::cutscene.reveal.3
+#   [The Doppelganger] Cutscene "reveal", beat 3
+#= 0| ...Tasting is inefficient. The orders from {capital} asked for golems and not for flavour, and the Special Sauce delivers golems.
+1| "Delicious" is the word I was given for it. I say it often, and I have never known what it means.
+
+@gourmand::cutscene.reveal.4
+#   [The Doppelganger] Cutscene "reveal", beat 4
+#= 0| Then look, if you must. I have worn this face for long enough.
+
+@gourmand::cutscene.reveal.5
+#   [The Doppelganger] Cutscene "reveal", beat 5
+#= 0| This is what was underneath. I wore her face for so long that I forgot my own, and there is nothing in here to taste with.
+1| Sit down, taster. I was told to serve you.
+
+@gourmand::dungeon.tk_boss.after
+#   [The Doppelganger, later Escoffina] Dungeon node "tk boss": after the node
+0| The Doppelganger collapses, and the Special Sauce goes with it, down a drain in the floor. Somewhere in the walls, a freezer door swings open on its own.
+1| Ten years of frost pour out, and with them a woman in chef's whites: upright, blinking and furious.
+2| The golems straighten up. "Yes, Chef!" they say, and this time they mean the right one.
+
+@gourmand::cutscene.wonder.1
+#   [The Grand Chef] Cutscene "wonder", beat 1
+#= 0| Ten years in a freezer, and I can still remember exactly what this soup ought to taste like. Out of my way, and let me put it right.
+
+@gourmand::cutscene.wonder.2
+#   [The Doppelganger] Cutscene "wonder", beat 2
+0| I do not know what to call myself. Your name was the only one I had, and now it is yours again.
+1| I have no face of my own and no name, and I cannot even taste what I make. I do not know what is left of me.
+
+@gourmand::cutscene.wonder.3
+#   [The Wanderer] Cutscene "wonder", beat 3
+0| After ten years, how will they know it's really you?
+
+@gourmand::cutscene.wonder.4
+#   [The Grand Chef] Cutscene "wonder", beat 4
+0| Not with a speech, and not with papers. With dinner.
+#= 1| Stand back, the lot of you. Somebody fetch me flour and butter, and light the biggest oven in this building.
+
+@gourmand::cutscene.wonder.5
+#   [The Endless Buffet] Cutscene "wonder", beat 5
+#= 0| Before you sits a plain golden dish, large enough to share, and it smells of butter and warm bread.
+#= 1| The first bite breaks the enchantment, all the way through the Endless Buffet.
+#= 2| The chefs stand blinking at their own hands, and all across the Buffet a thousand golems lower their ladles.
+
+@gourmand::cutscene.wonder.6
+#   [The Grand Chef] Cutscene "wonder", beat 6
+0| Come here, you. No face and no name, and I don't care a crumb about either. What you're called doesn't matter half as much as what you do.
+#= 1| You wore my face for ten years and never once learned to taste. Well, today you start, and I'll give you something to start with.
+#= 2| Take my old name: Escoffina. I was always prouder of the work than of the title, and that name could do with somebody making a fresh start in it.
+
+@gourmand::cutscene.wonder.7
+#   [Escoffina] Cutscene "wonder", beat 7
+#= 0| ...Escoffina. I will try to cook honestly. I will try to be somebody worth the name.
+
+@intro::still.doppel
+#   [(narration)] Story still caption: doppel
+0| You watch the chef's perfect smile slip away with her face.
+1| Beneath it, you see a shifting shadow in a spotless white coat.
+2| Behind the shadow, you see the unfinished war machines standing still.
+
+@gourmand::npc.odalys.intro.freed
+#   [Basil] Talking to Basil (intro) (after the zone is freed)
+0| It wasn't her. It was a Doppelganger, wearing her face for ten years, and you walked right up to it. I'd have fainted. I did faint, earlier, about something else.
+1| The real Chef is back in her own kitchen, tasting her own soup, and we all cried into our aprons. Yes, Chef. YES, CHEF! ...Sorry. I whispered it for ten years, and it feels so good to mean it.
+2| She remembered the cake. The very first thing she said when we opened the freezer was "Is the boy all right?" I didn't know what to tell her.
+
+@gourmand::npc.odalys.return.freed
+#   [Basil] Talking to Basil (return) (after the zone is freed)
+0| The Special Sauce is down the drain and the golems guard plates again. Yes, Chef. I can say it out loud now. I keep saying it to the walls, just to hear it.
+1| Take seconds. You've earned seconds. You've earned thirds. Listen to me, I'm not even whispering.
+
+@gourmand::npc.tarragon.intro.freed
+#   [Sous-Chef Tarragon] Talking to Sous-Chef Tarragon (intro) (after the zone is freed)
+0| Tarragon, Sous-Chef and fetcher of things! Sorry, I'm out of breath. I finally caught up with lunch.
+1| Ingredients are coming back from the Test Kitchen by the cartload, pigs included, and this time the pig is happy about it. I've had quite enough professional disagreements with pigs.
+
+@gourmand::npc.tarragon.return.freed
+#   [Sous-Chef Tarragon] Talking to Sous-Chef Tarragon (return) (after the zone is freed)
+0| People wave when I fetch things now, and nobody's asked me for a single cannonball. Flour, eggs, a little thyme... sorry, I'm making lists again.
+
+@gourmand::npc.dolcetta.intro.freed
+#   [Madame Mirepoix] Talking to Madame Mirepoix (intro) (after the zone is freed)
+0| Madame Mirepoix, free of the sauce. My taste buds came back last week, and darling... the sugar. I wept into a meringue.
+1| Cakes by day, cards by night. All by appointment, and all by choice.
+
+@gourmand::npc.dolcetta.return.freed
+#   [Madame Mirepoix] Talking to Madame Mirepoix (return) (after the zone is freed)
+0| Sit down and have a slice, darling. The cake has been promoted from decoration to dessert.
+
+@gourmand::freed_npc.grandchef
+#   [The Grand Chef] After freeing: grandchef talks
+#= 0| Have you eaten? Sit, sit. I'm the Grand Chef, and you'll have to forgive the apron. The impostor kept it cleaner than I do, but I wear it with more feeling.
+#= 1| Ten years in the walk-in freezer, and I never once forgot the taste of honest soup. And all that time they were putting that sauce in every pot and calling it innovation.
+2| Innovation is a pinch of something new in something good. It is not a cannon.
+#= 3| Thank you for finding me. Now eat, before it goes cold.
+#= 4| Let me cook for you properly. I promise there's nothing in it but food.
+#= 5| And you, my dear, don't know your own name yet. That isn't a flaw, it's a blank page. Go and do something worth signing.
+
+@gourmand::ruler.statue
+#   [(narration/UI)] Ruler: statue
+0| THE GRAND CHEF (OFFICIAL LIKENESS)
+1| "Innovation Is Delicious."
+
+@gourmand::freed_npc.escoffina
+#   [The Doppelganger, later Escoffina] After freeing: The Grand Chef (formerly Grand Chef Escoffina) talks
+0| Escoffina. Apprentice. Second class, which is one class more than I had last month.
+1| Chef says what I am called matters less than what I do, so I am doing a great many dishes. It is a start.
+2| I made a sauce today. A real one. I tasted it. As me. It had too much salt.
+3| Everyone ate it anyway and said it was a good start. I did not know people could be so kind about salt.
+4| I have a face of my own now, and I am still deciding what to do with it. I am trying.
+
+@scenes/crumb_fled/steps/0
+#   [Basil] Scene "crumb fled" (crumb fled), step 1
+1| The Colonel's gone. He cleared out his office overnight and took the paste recipe with him.
+2| It's one word long, and the word is 'paste'.
+
+@scenes/crumb_fled/steps/1
+#   [The Grand Chef (formerly Grand Chef Escoffina)] Scene "crumb fled" (crumb fled), step 2
+1| He left before dessert, the way he always did. They say he's feeding the whole Capital now, out of a factory.
+2| Grey food, from a tap. Somebody ought to teach that man to cook.

@@ -10,7 +10,7 @@
 				"pct": 50
 			},
 			"text": "At half health the Warden wakes a little more: a Cave Echo rises beside it.",
-			"line": "...That light in your hands. I know it. No. NO. You cannot be him. He is gone.",
+			"line": "...That light in your hands. I have seen that light before. No... no, you cannot be him. He is gone. He has been gone so long.",
 			"effects": [
 				{
 					"kind": "summon",

@@ -1,0 +1,562 @@
+# t4_buffet: 220 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+@gourmand::fx.main_dungeon
+#   [(narration)] Pop-up message: main dungeon
+0| The Test Kitchen sits at the far end of the table: a gleaming glass-and-steel laboratory with a very large, very unfinished cannon sticking out of the roof. A banner reads INNOVATION SEASON.
+
+@gourmand::fx.heal_couch
+#   [(narration)] Pop-up message: heal couch
+0| You sit down to a hearty meal: roast something, a bowl of soup the size of a bathtub, and a roll that hugs you back. HP restored.
+
+@gourmand::fx.heal_already
+#   [(narration)] Pop-up message: heal already
+0| Your HP is already full, but a chef refills your plate anyway. Around here, being full is treated as a misunderstanding.
+
+@gourmand::fx.hit
+#   [(narration)] Pop-up message: hit
+0| BONK! A runaway prototype meatball hits you right in the shins. (-2 HP)
+
+@gourmand::fx.wake
+#   [Basil] Pop-up message: wake
+0| You wake up face-down in a bowl of mashed potatoes at the Grand Pantry. Basil is holding a ladle and a very long receipt.
+1| "You fainted into the gravy, so we fished you out. There's meant to be a fishing fee, but I've lost the receipt. Again. Please don't tell Chef."
+2| "Don't tell the taste testers you fainted. If anyone asks you anything, just say 'Yes, Chef.' It works for everything."
+
+@gourmand::fx.chest
+#   [(narration)] Pop-up message: chest
+0| A hidden stash! Unsampled, unsauced and all yours.
+
+@gourmand::fx.bounce
+#   [(narration)] Pop-up message: bounce
+0| BOING!
+
+@gourmand::fx.landed
+#   [(narration)] Pop-up message: landed
+0| You stick the landing. Peeling yourself off it takes longer.
+
+@gourmand::fx.soup_fall
+#   [(narration)] Pop-up message: soup fall
+0| You fall in the gravy. A passing chef fishes you out with a ladle and checks you for seasoning. (-1 HP)
+
+@gourmand::fx.soup_fall_log
+#   [(narration)] Pop-up message: soup fall log
+0| Fell into the soup at %s - fished out at the last safe spot, 1 damage to zone HP.
+
+@gourmand::fx.gate_open
+#   [(narration)] Pop-up message: gate open
+0| The golem steps aside with the slow dignity of a roast being carved. The way is open.
+
+@gourmand::fx.pickup
+#   [(narration)] Pop-up message: pickup
+0| Found:
+
+@gourmand::fx.pickup_again
+#   [(narration)] Pop-up message: pickup again
+0| You already took the one lying here. Come back on your next visit; the pantry restocks overnight.
+
+@gourmand::fx.oven_done
+#   [(narration)] Pop-up message: oven done
+0| Ding! A Hearty Pot Pie, golden and steaming, drops into your bag. The oven looks very proud of itself.
+
+@gourmand::fx.oven_missing
+#   [(narration)] Pop-up message: oven missing
+0| The Grand Oven rumbles. "A pie needs honey, basil and a ghost pepper. I am an oven, not a miracle."
+
+@gourmand::fx.taste_good
+#   [(narration)] Pop-up message: taste good
+0| Smooth, balanced, a touch of citrus. You nod like a professional. +HP.
+
+@gourmand::fx.taste_great
+#   [(narration)] Pop-up message: taste great
+0| You take a sip and blink through a tear. Five stars would feel stingy - big recovery!
+
+@gourmand::fx.taste_buff
+#   [(narration)] Pop-up message: taste buff
+0| Your palate sharpens. You can taste what the cheese had for breakfast. A little extra HP for the visit.
+
+@gourmand::fx.taste_tip
+#   [(narration)] Pop-up message: taste tip
+0| The judges are impressed and tip you for the privilege of watching. +gold.
+
+@gourmand::fx.taste_spicy
+#   [(narration)] Pop-up message: taste spicy
+0| You find the ghost pepper in spoon three. Your ears ring in protest. -1 HP.
+
+@gourmand::fx.taste_bland
+#   [(narration)] Pop-up message: taste bland
+0| You taste boiled water with a hint of ambition. The judges study their shoes; nothing else happens.
+
+@gourmand::fx.taste_broke
+#   [(narration)] Pop-up message: taste broke
+0| You need 8 gold for the taste test. The station declines to sample your good intentions.
+
+@gourmand::fx.fountain_1
+#   [(narration)] Pop-up message: fountain 1
+0| You ladle some soup. Tomato with a hint of basil. Warm all the way down. +HP.
+
+@gourmand::fx.fountain_2
+#   [(narration)] Pop-up message: fountain 2
+0| You take a second ladle of cream of mushroom. The fungus has a rich inner life. +HP.
+
+@gourmand::fx.fountain_3
+#   [(narration)] Pop-up message: fountain 3
+0| Third ladle: minestrone, mostly noodles. You feel taller. +HP.
+
+@gourmand::fx.fountain_full
+#   [(narration)] Pop-up message: fountain full
+0| You ladle some soup, look at it, and pour it back. You are full. The fountain takes it well.
+
+@gourmand::fx.fountain_limit
+#   [(narration)] Pop-up message: fountain limit
+0| The fountain's tank is dry for now. Soup takes time, and it will be full again on your next visit.
+
+@gourmand::fx.cookie_broke
+#   [(narration)] Pop-up message: cookie broke
+0| The dispenser wants 5 gold. Fortune favours the people who bring change.
+
+@gourmand::fx.cookie_crack
+#   [(narration)] Pop-up message: cookie crack
+0| You crack the cookie open. A tiny paper slip falls out. It reads:
+
+@gourmand::fx.mend_done
+#   [(narration)] Pop-up message: mend done
+0| Old Meatloaf is mended! He gets up, stretches, and sizzles a little.
+
+@gourmand::prop.arch
+#   [(narration)] Examining: arch
+0| THE PATH OF THE GOURMAND
+
+@gourmand::prop.dispenser
+#   [(narration)] Examining: dispenser
+0| FORTUNE COOKIES
+
+@gourmand::prop.broken_golem
+#   [(narration)] Examining: broken golem
+0| OUT OF ORDER
+
+@gourmand::prop.stage
+#   [(narration)] Examining: stage
+0| DINNER IN A DASH!
+
+@gourmand::prop.freezer
+#   [(narration)] Examining: freezer
+0| THE WALK-IN FREEZER
+
+@gourmand::prop.kitchen
+#   [(narration)] Examining: kitchen
+0| THE TEST KITCHEN
+
+@gourmand::prop.stew
+#   [(narration)] Examining: stew
+0| THE MYSTERY STEW
+
+@gourmand::sign.hub_main
+#   [(narration)] Reading a sign: hub main
+0| THE GRAND PANTRY
+1| Hub of the Endless Buffet. The Gourmands feed the kingdom and protect it.
+2| Nobody leaves hungry. (Innovation Season is now in effect. Sample participation is mandatory.)
+
+@gourmand::sign.hub_motto
+#   [(narration)] Reading a sign: hub motto
+0| TODAY'S SPECIALS
+1| - Feed the kingdom
+2| - Guard the kingdom (with golems. Defensive golems. Please stop saying the other word.)
+3| - Answer every order with "Yes, Chef!"
+4| - Innovation: please do not ask about the Special Sauce
+
+@gourmand::sign.exit
+#   [(narration)] Reading a sign: exit
+0| THE ORCHARD LANE
+1| To {town}, through the great pantry door. Wipe your feet and surrender your sample; we just mopped.
+
+@gourmand::sign.heal_table
+#   [(narration)] Reading a sign: heal table
+0| THE HEARTY MEAL
+1| Sit. Eat. Do not ask what the gravy is made of.
+
+@gourmand::sign.vendor
+#   [(narration)] Reading a sign: vendor
+0| MIREPOIX'S DESSERT & DECKERY
+1| Cards and cakes, mostly cards. Reservations recommended; table manners apply even to your deck.
+
+@gourmand::sign.oven
+#   [(narration)] Reading a sign: oven
+0| THE GRAND OVEN
+1| Honey, basil and one ghost pepper make one Hearty Pot Pie.
+2| Do not open the oven to check on the pie. It is already working under considerable heat.
+
+@gourmand::sign.fountain
+#   [(narration)] Reading a sign: fountain
+0| THE SOUP FOUNTAIN
+1| Three ladles per customer. The soup of the day is soup.
+
+@gourmand::sign.golem_oath
+#   [(narration)] Reading a sign: golem oath
+0| THE GOLEM OATH
+1| We are the Gourmands: chefs of the kingdom.
+2| We feed the kingdom. We protect the kingdom.
+3| We cook food golems to guard it. They answer every order with "Yes, Chef!"
+
+@gourmand::sign.cookie
+#   [(narration)] Reading a sign: cookie
+0| FORTUNE COOKIES - 5 GOLD
+1| Each one holds a hint about a secret. Handle with care. The secrets are crumbly.
+
+@gourmand::sign.old_meatloaf
+#   [(narration)] Reading a sign: old meatloaf
+0| OLD MEATLOAF
+1| Out of order. Needs sea salt and a black truffle. Please be gentle.
+2| - Basil
+
+@gourmand::sign.forest
+#   [(narration)] Reading a sign: forest
+0| THE BROCCOLI FOREST
+1| Please do not eat the trees.
+2| The trees say the same about you.
+
+@gourmand::sign.quiz
+#   [(narration)] Reading a sign: quiz
+0| THE COOKBOOK GAZEBO
+1| Professor Pate asks 4 questions on the Gourmands and their kitchens. The answers are on the signs of the Endless Buffet.
+
+@gourmand::sign.truffle_note
+#   [(narration)] Reading a sign: truffle note
+0| NOTE
+1| A black truffle was last seen near this tree.
+2| The tree was last seen near the truffle. They are inseparable.
+
+@gourmand::sign.candy
+#   [(narration)] Reading a sign: candy
+0| THE CANDY FIELD
+1| Everything here is edible. Not everything is wise.
+
+@gourmand::sign.studio
+#   [(narration)] Reading a sign: studio
+0| STUDIO 3: DINNER IN A DASH!
+1| Now taping: three tickets, one stove, zero patience.
+2| Live studio audience: a bowl of sprouts. Please applaud; they cannot.
+
+@gourmand::sign.taste_test
+#   [(narration)] Reading a sign: taste test
+0| BLIND TASTE TEST - 8 GOLD
+1| Judges: a spoon, a larger spoon and a very patient cloche.
+2| Results may vary. Please distinguish applause from your stomach making a statement.
+
+@gourmand::sign.salt
+#   [(narration)] Reading a sign: salt
+0| THE SALT FLATS
+1| A pinch here. A pinch there. A pinch of sea salt for your troubles.
+
+@gourmand::sign.butte
+#   [(narration)] Reading a sign: butte
+0| BUTTER BUTTE
+1| Step on the jelly pad. Mind the ceiling.
+2| (There is no ceiling. Mind the sky.)
+
+@gourmand::sign.pad_rule
+#   [(narration)] Reading a sign: pad rule
+0| JELLY PADS: HOW TO USE
+1| 1. Step on.
+2| 2. Boing.
+3| 3. There is no step 3. There is only boing.
+
+@gourmand::sign.river
+#   [(narration)] Reading a sign: river
+0| THE GRAVY RIVER
+1| Thick, hot and entirely made of gravy.
+2| The only ways across: a crouton raft or the lazy susan.
+
+@gourmand::sign.river_warning
+#   [(narration)] Reading a sign: river warning
+0| WARNING: GRAVY
+1| Do not swim. Do not wade. Do not ask how deep it is.
+2| If you fall in, somebody will fish you out. It costs 1 HP.
+
+@gourmand::sign.raft_west
+#   [(narration)] Reading a sign: raft west
+0| CROUTON RAFT FERRY
+1| Hop on when it docks and hop off on the other side.
+2| Keep arms and legs inside the croutons. Passengers are not part of the garnish.
+
+@gourmand::sign.susan
+#   [(narration)] Reading a sign: susan
+0| THE LAZY SUSAN
+1| The world's largest serving platter, slowly turning.
+2| Step on at one side and off at the other. Patience is a garnish.
+
+@gourmand::sign.raft_east
+#   [(narration)] Reading a sign: raft east
+0| CROUTON RAFT FERRY
+1| Eastbound and northbound. Please have exact change.
+2| (There is no change. Everything here is gravy.)
+
+@gourmand::sign.bank
+#   [(narration)] Reading a sign: bank
+0| GRAVY BANK
+1| Welcome to the far side. The gates ahead are guarded by golems, as is the custom. One wants saffron, one wants a favour, one wants a fight.
+
+@gourmand::sign.gate_ingredient
+#   [(narration)] Reading a sign: gate ingredient
+0| THE CHEESE CLIFFS GATE
+1| Doorman: Brisket.
+2| Admission: a pinch of saffron.
+
+@gourmand::sign.gate_quest
+#   [(narration)] Reading a sign: gate quest
+0| THE LAYER-CAKE TOWN GATE
+1| Warden: Sir Loin.
+2| Admission: a letter from Basil, proving Old Meatloaf has been mended.
+
+@gourmand::sign.gate_battle
+#   [(narration)] Reading a sign: gate battle
+0| THE PANCAKE PLATEAU GATE
+1| Gatekeeper: Colonel Casserole.
+2| Admission: defeat the Colonel in a card battle.
+
+@gourmand::sign.cheddar
+#   [(narration)] Reading a sign: cheddar
+0| THE CHEDDAR CLIFFS
+1| Sharp cheese ahead. Please do not lean on the walls, and please, please do not lick them.
+
+@gourmand::sign.cake_town
+#   [(narration)] Reading a sign: cake town
+0| LAYER-CAKE TOWN
+1| Population: a lot of crumbs.
+2| Please do not bite the buildings. The mayor's house is down to two layers, and he knows it was a visitor.
+
+@gourmand::sign.pancake
+#   [(narration)] Reading a sign: pancake
+0| THE PANCAKE PLATEAU
+1| Syrup flows downhill. So do tourists.
+
+@gourmand::sign.mini_dungeon
+#   [(narration)] Reading a sign: mini dungeon
+0| THE WALK-IN FREEZER
+1| Three courses. Mandatory. No leftovers.
+2| Please do not lock yourself in. (Somebody already has.)
+
+@gourmand::sign.main_dungeon
+#   [(narration)] Reading a sign: main dungeon
+0| THE TEST KITCHEN
+1| Research & Development. Staff only.
+2| Please do not ask what the cannon is for. The cannon is for dinner.
+
+@gourmand::sign.inspection_note
+#   [(narration)] Reading a sign: inspection note
+0| NOTE FROM THE INSPECTOR
+1| Found: a lab where there was a kitchen, a cannon where there was a stove, and a Grand Chef who never tastes anything.
+2| Back at lunch. If I am not back, check the compost.
+
+@gourmand::sign.stew
+#   [(narration)] Reading a sign: stew
+0| THE MYSTERY STEW
+1| Four ingredients, in the right order. Anything else tastes like a lesson.
+2| Read the recipe card. Guessing is not one of the four ingredients.
+
+@gourmand::sign.golem_rule
+#   [(narration)] Reading a sign: golem rule
+0| GATE RULES
+1| Golems stand guard. Golems ask nicely, once.
+2| Golems answer every order with "Yes, Chef!"
+
+@gourmand::sign.cake_menu
+#   [(narration)] Reading a sign: cake menu
+0| TODAY'S CAKE
+1| Chocolate, vanilla and structural.
+2| Nobody leaves hungry. Nobody leaves without a slice, either.
+
+@gourmand::sign.cheese_note
+#   [(narration)] Reading a sign: cheese note
+0| GROCERY LIST
+1| Cheese. More cheese. Something to put on the cheese. Different cheese.
+2| - a sous-chef, 3 weeks ago
+
+@gourmand::enemy.loaf
+#   [(narration)] Enemy: loaf
+0| You face a wardrobe-sized prototype meatloaf in a ketchup glaze. Its frown suggests it would like a second draft.
+
+@gourmand::enemy.jelly
+#   [(narration)] Enemy: jelly
+0| A lime gelatin sentinel with a spoon spear and a fruit cocktail soul. Prototype Mk. 2.
+1| You watch it wobble through a thought. Management has discouraged these.
+
+@gourmand::enemy.meatball
+#   [(narration)] Enemy: meatball
+0| A failed prototype meatball, all momentum and sauce, that escaped the Test Kitchen and hasn't stopped rolling since. Whatever it's running from, it's probably the cannon.
+
+@gourmand::enemy.casserole
+#   [(narration)] Enemy: casserole
+0| A pot-bellied colonel with a lid for a hat and a ladle for a sword. Thirty years of service, forty years of cheese.
+
+@gourmand::fortune.hints
+#   [(narration/UI)] Fortune: hints
+0| A stash lies in the shade of the broccoli, in a loaf that has gone hollow.
+1| On the Butte, behind the butter, someone left a present for the brave.
+2| Candy is sweeter when it is hidden. Try the big jar in the south-east.
+3| Between the shakers on the salt flats, something shines.
+4| Cheddar tastes sharper from above. Take the lime jelly to the top.
+5| Behind a wheel of cheese, a smaller wheel of gold.
+6| At the summit of the pancakes, a tip: the syrup hides a treasure.
+7| In Layer-Cake Town, behind a cake: a cake of another kind.
+
+@gourmand::npc.gate.hint
+#   [(gate golem)] Talking to gate (hint)
+0| The golem stands firm, like an aspic that has made up its mind.
+
+@gourmand::sign.innovation
+#   [(narration)] Reading a sign: innovation
+0| INNOVATION SEASON
+1| By order of the Grand Chef, under the seal of Colonel Crumb, Culinary Defense: every kitchen contributes to Prototype Development, for the war effort.
+2| Taste-tester shifts are mandatory. Complaints will be seasoned and served.
+
+@gourmand::sign.special_sauce
+#   [(narration)] Reading a sign: special sauce
+0| THE SPECIAL SAUCE
+1| Delicious. Compulsory. Do not ask what is in it.
+2| It is in everything now. Please enjoy.
+
+@gourmand::sign.taste_testers
+#   [(narration)] Reading a sign: taste testers
+0| TASTE TESTERS WANTED
+1| Join the elite food-safety force. Free uniform, free meals, no questions.
+2| (Previous taste testers are available for questions. They are not answering.)
+
+@npc::V-MIREPOIX.barks
+#   [Madame Mirepoix] Bark (speech bubble when you walk past Madame Mirepoix; Endless Buffet, Grand Pantry)
+0| This deck is underdressed, darling. A little butter, a little foil, and voila.
+1| Decorative cake, darling. Please admire it without cutlery.
+
+@npc::NPC-PATE.barks
+#   [Professor Pate] Bark (speech bubble when you walk past Professor Pate; Endless Buffet)
+0| A good answer is like a roux: patience, then butter. Mostly butter.
+1| Chalk again. Notes of limestone. Excellent body, no business being in my mouth.
+
+@npc::NPC-FLAMBE.barks
+#   [Chef Flambe Fontaine] Bark (speech bubble when you walk past Chef Flambe Fontaine; Endless Buffet)
+0| ORDER UP! Sixty seconds and a dream! WHOOSH! Mostly the dream!
+1| Savannah Souffle calls that plating? WHOOSH! That's the sound of me declining to comment!
+
+@npc::NPC-BASIL.barks
+#   [Basil] Bark (speech bubble when you walk past Basil; Endless Buffet, Grand Pantry)
+0| Chef ALWAYS tastes. Always. That's how you know it's Chef.
+1| I'm brave. I'm brave. ...Have you seen my thyme? I'm running out of it.
+
+@npc::NPC-ESCOFFINA.barks
+#   [The Grand Chef (formerly Grand Chef Escoffina)] Bark (speech bubble when you walk past The Grand Chef (formerly Grand Chef Escoffina); Endless Buffet)
+0| Have you eaten? Sit. Eat. The kingdom can wait until you've had your soup.
+1| A full table is a safe table. Pull up a chair, dear - that's an order.
+
+@npc::NPC-DOPPEL.barks
+#   [The Doppelganger (later named Escoffina)] Bark (speech bubble when you walk past The Doppelganger (later named Escoffina); Test Kitchen)
+0| I tasted my own soup today, as me. Too salty, but it was mine.
+1| I am a third-class apprentice now, with many dishes. I am trying. So are the dishes.
+
+@dc::dungeons/S-GOUR/blurbs/2
+#   [(narration/UI)] Omakase, "The Conveyor Gauntlet": map description
+0| The conveyor never stops, like the Eternal Queue it was modelled on. Each plate comes with a numbered ticket, stamped.
+
+@gourmand::dungeon.tk_dock.blurb
+#   [(narration)] Dungeon node "tk dock": map description
+0| You pass crates of ingredients going in and unlabelled crates coming out, and nothing in between that looks like a meal.
+
+@gourmand::dungeon.tk_intake.blurb
+#   [(narration)] Dungeon node "tk intake": map description
+0| A corrupted sous-chef guards the conveyor belt. Everything on the belt is a little too shiny.
+
+@gourmand::dungeon.tk_panel.blurb
+#   [(narration)] Dungeon node "tk panel": map description
+0| You face a silent panel of grim judges. They taste your dishes as though flavour might be used against them.
+
+@gourmand::dungeon.tk_cold.blurb
+#   [(narration)] Dungeon node "tk cold": map description
+0| Frozen failures line the walls, and some of them are still moving. One freezer hums louder than the rest, as if something inside wants to be heard.
+
+@gourmand::dungeon.tk_canteen.blurb
+#   [(narration)] Dungeon node "tk canteen": map description
+0| A hot, honest meal: the only unmodified food in the building. Restore HP.
+
+@gourmand::dungeon.tk_construct.blurb
+#   [(narration)] Dungeon node "tk construct": map description
+0| An experimental food construct, stitched together from three kinds of meat and one regret. (Elite)
+
+@gourmand::dungeon.tk_cannon.blurb
+#   [(narration)] Dungeon node "tk cannon": map description
+0| The unfinished war machine looms over you, enormous, and held together by gravy and willpower.
+
+@gourmand::dungeon.tk_armory.blurb
+#   [(narration)] Dungeon node "tk armory": map description
+0| You find rations, ladles and ladle-shaped weapons in crates marked SERVING UTENSILS (DEFENSIVE). Take what you can carry.
+
+@gourmand::dungeon.tk_vats.blurb
+#   [(narration)] Dungeon node "tk vats": map description
+0| Great vats of the Special Sauce bubble in the dark. A clipboard on the rail reads: BATCH 3,652. TASTED BY: (blank).
+
+@gourmand::dungeon.tk_mk9.blurb
+#   [(narration)] Dungeon node "tk mk9": map description
+0| You face the Test Kitchen's finest unfinished war machine: armed, hungry and still awaiting seasoning. (Elite)
+
+@gourmand::dungeon.tk_whistle.blurb
+#   [(narration)] Dungeon node "tk whistle": map description
+0| A sous-chef hiding in the dry goods wants to tell you something about the Grand Chef.
+
+@dc::dungeons/D-TTK/blurbs/11
+#   [(narration/UI)] The Test Kitchen, "Weapons Test Range": map description
+0| The cannon-blender is fed protein and plates in equal measure. Every Ingredient and every Iron goes into the same shaker, and something six feet tall comes out.
+
+@gourmand::dungeon.tk_boss.blurb
+#   [The Doppelganger, later Escoffina] Dungeon node "tk boss": map description
+0| The Grand Chef's private kitchen. Her apron is spotless, and something about her chin is a little off.
+
+@gourmand::sign.hub_main.freed
+#   [(narration)] Reading a sign: hub main (after the zone is freed)
+0| THE GRAND PANTRY
+1| Hub of the Endless Buffet. The Gourmands feed the kingdom and protect it.
+2| Nobody leaves hungry. Innovation Season is over, and dinner is back.
+
+@gourmand::sign.hub_motto.freed
+#   [(narration)] Reading a sign: hub motto (after the zone is freed)
+0| TODAY'S SPECIALS
+1| - Feed the kingdom
+2| - Guard the kingdom (with golems; the cannons are ovens now)
+3| - Answer every order with "Yes, Chef!"
+4| - Real food. Real sauce. Real chef.
+
+@gourmand::sign.innovation.freed
+#   [(narration)] Reading a sign: innovation (after the zone is freed)
+0| INNOVATION SEASON: CANCELLED
+1| The Grand Chef has asked us to remember that food is for eating, not for firing.
+2| Complaints may now be submitted in sauce. We are prepared to take a little heat.
+
+@gourmand::sign.special_sauce.freed
+#   [(narration)] Reading a sign: special sauce (after the zone is freed)
+0| THE SPECIAL SAUCE (RECALLED)
+1| Return unused Special Sauce to the Pantry. Its ingredients have failed to establish that they are food.
+
+@gourmand::sign.taste_testers.freed
+#   [(narration)] Reading a sign: taste testers (after the zone is freed)
+0| TASTE TESTERS: THANK YOU
+1| Our taste testers are free and enjoying food again. Please give them seconds.
+
+@gourmand::sign.exit.freed
+#   [(narration)] Reading a sign: exit (after the zone is freed)
+0| THE ORCHARD LANE
+1| To {town}, through the great pantry door. Wipe your feet, as we have just mopped, and take two free samples on your way out. Nobody is checking.
+
+@gourmand::sign.main_dungeon.freed
+#   [(narration)] Reading a sign: main dungeon (after the zone is freed)
+0| THE TEST KITCHEN
+1| Research & Development. Open to the public for tours.
+2| The old cannon has been refitted to fire bread rolls for the pigeons, who have never been happier.
+
+@gourmand::sign.inspection_note.freed
+#   [(narration)] Reading a sign: inspection note (after the zone is freed)
+0| NOTE FROM THE INSPECTOR
+1| Found: a kitchen where there was a lab, a stove where there was a cannon, and a Grand Chef who was finally herself.
+2| Passed inspection, with distinction. And dessert.
+
+@gourmand::ruler.statue.freed
+#   [(narration/UI)] Ruler: statue (after the zone is freed)
+0| FORMER LIKENESS OF THE DOPPELGANGER
+1| Official likeness withdrawn. It never captured the person who fed us. (Also: whose chin is that?)
