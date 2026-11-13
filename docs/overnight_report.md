@@ -1,3 +1,165 @@
+# Fable Nov 12c - report (the owner's fix list, the pop-ups, the Crease, the world pass, RC6)
+
+Brief: `docs/prompts/fable_nov12_fixes.md` (it replaced `fable_nov12_final.md`). Start tag `pre-fable-nov12c`. Questions:
+`docs/overnight_inbox.md`, "Fable Nov 12c" (17 items). Shots: `docs/overnight_shots/nov12c/`. One Godot at a time; no sub-agent ran.
+Owner constraints kept: no difficulty setting; the battle board and the other menus keep their layout (only the non-combat dungeon
+pop-ups and the pre-fight rules panel were redesigned, as opened up); no new art; nothing uploaded. Ran on Fable 5.2. The Fable pass
+Nov 11-12 report follows below.
+
+## At a glance
+
+- **Part A (the fix list): all ten items done**, each with tests and shots (table below). A7.1, Fig Sly's portrait, waits for your image.
+- **Part B (the pop-ups): done.** Every non-combat room and the "Before the fight" panel are one illustrated card. Gallery below.
+- **Part C (the 3D world): about a third done.** Done: contact shadows, the water, the Capital's and the Crease's edges, the marker
+  size at the Low camera. **Not done: eight of the twelve items in whole or in part** - see "What was not done".
+- **Part D (Batch 15): nothing to import.** `G:/My Drive/Card Game Art/Pending Review/Batch 15/` did not exist at any check (start of
+  every part, last at the end). Two rows were added to `docs/art/batch15_nov12.csv` (V-FIGSLY, UI-NODE-BANNER); all 23 stay "To make".
+- **Tests: 3065 / 3067 passed, 0 failing, 2 pending** (39 shards, 24 minutes, after Part C).
+- **RC6: **not built.** The export needs 3 GB of free RAM by the house rule; this PC had 1.8 to 2.0 GB free through a 15-minute wait (nothing of mine was running), so it was not started. The source is at version 1.0.0-rc6, tested and pushed. The command is under Part E.****
+- **Three things found on the way that were not on the list:** the Capital's grey rectangles were a cache bug (not missing art); the
+  occlusion fader could leave a wall or a building invisible for the rest of a visit; the east wall and the front wall faded away
+  whenever the hero walked beside them. All three are fixed.
+
+## What was not done (read this before the rest)
+
+- **Part C, item 2 (blended ground, less tiling, edge foliage):** not done.
+- **Item 4 (map edges and voids):** done for the Capital and the Crease only. The four Path zones, Crosspath and the forest were not
+  scanned.
+- **Item 5 (stray quads, foreground obstructions):** only the quest markers' size near the lens. No zone-by-zone scan.
+- **Item 6 (duplicate and broken sprites):** not done.
+- **Item 7 (the Transit Yards ghost buildings):** the fader bug that could leave pieces transparent is fixed, **but the pale building at
+  the top left of the Transit Yards view is still there** (`docs/overnight_shots/nov12c/partc/capital_before_transit_yards_default.jpg`).
+  The fader is not fading anything at that camera, so it is something else; I did not find what.
+- **Item 8 (faceted props), item 9 (the measured scale table), item 10 (hub storytelling clutter):** not done.
+- **Item 11 (light):** every zone already had a grade (Crosspath, the forest and the Dump included), so nothing was added there. New
+  light sources only in the Crease (nine lantern lights, five crystal glows).
+- **Item 12 (the world motion list):** only the Crease's dripping stalactites. No pickup bob, door or chest animation, ambient life or
+  castle music escalation.
+- **Part E.1, the no-context playtest:** not run as a no-context critic. I drove the real flow with the play-script driver and the
+  smokes instead (the well, the Warden's closing line, the first exit, the Crease, a Primm loss and retry) and looked at the shots
+  myself. A fresh pair of eyes has not seen this build.
+- **Fig Sly's portrait** is unchanged (as instructed, until the image lands).
+- **Three checks fail that this pass did not cause and did not fix** (details under Part E): the opening-hour smoke's quest check, the
+  controller smoke's "Y hides the card details", and one strolling citizen in the NPC visibility probe.
+
+## Part A - the fix list
+
+| | What | Done | Shots (`docs/overnight_shots/nov12c/`) | Tests |
+|---|---|---|---|---|
+| A1 | The Hollow Well: "Sacrifice a random card from your deck for the rest of this dungeon: heal 4 HP." | Random pick from the whole dungeon deck; heal 4 capped at max; the card is back after clearing, losing or leaving (`DungeonRun.deck_after_run`); "Leave it"; at full HP the button reads "You're at full HP" and is disabled; at the minimum deck size it says why; once per run; a save taken mid-dungeon holds the whole deck (a run is never saved, so the cave restarts from its mouth). The sacrificed card shows face up with "The well takes **Card Name**. It returns when you leave the cave." | `a1/`, `popups_after/well*` | `tests/core/dungeon/test_hollow_well_offer.gd` (16) |
+| A2 | The Cave Warden's closing words show his picture | In the dialogue box with NPC-WARDEN (they were plain text in the "Through the Forgotten Cave" panel); the line that describes him is narration. Audit of every dungeon boss: all others had a speaker and portrait. The four gatekeepers' post-fight lines had the same gap: fixed. Baron Quadzilla, the Restless Cairn and the Store Room Ghosts have no portrait art (inbox 2). | `a2/` | `tests/ui/test_boss_closing_portraits.gd` (4) |
+| A3 | Deck copies text | The only player-facing "4 copies" were two loading tips; fixed, plus the progression and essence docs, the designer guidance sheet and code comments. The in-game tooltips already named 3 and the per-level caps (Common 3; Uncommon 2, 3 from level 9; Epic 1, 2 from 12, 3 from 22; Legendary 1, 2 from 18, 3 at 30). The Glossary's Terms tab gained "Copies of a card" with the caps at your level. No itch page text mentioned copies. | - | `tests/core/data/test_copy_rule_text.gd` (3) |
+| A4 | First exit from the cave | The hero stands 1.4 m to Maren's left (west), facing the square, and keeps facing it through her welcome. The old spot stood under her eave, so the fader hid her whole house. | `a4/` before and after at the default and Low cameras | `tests/world/test_cave_arrival.gd` (+1: position, facing, no building under either camera's sight line) |
+| A5 | Chef Fennel Gravois's Snack | The token's data was already 1/1. It stood as 0/1 because the "zone met early" ease takes 1 attack off his units. Tokens whose numbers a rule or a boss event states now enter with those numbers (`GameState.create_stated_token`). All 44 texts that state a token's numbers match the token. | - | `tests/core/game/test_token_text_stats.gd` (4) |
+| A6 | The Capital's floating grey rectangles | A cache bug: the rim's dead trees and rubble are painted cards that came back from the build cache with no material. Fixed at the root. Also fixed: wall sections left invisible by the fader; the east and front walls fading when the hero walks beside them. Added from the kit, on the ridges outside the wall: ruined houses, ash walls, toppled statues, rubble mounds, crystals (`CapitalRimRuins`), and ash ground under the walls. `matscan`: 2 groups before and after (the far apron and one tunnel arch); `groundscan`: 0 offenders before and after. | `a6/before/`, `a6/after/` (17 edge spots x 2 cameras) | `tests/world/test_capital_rim_ruins.gd` (7), `tests/world/test_occlusion_ground.gd` (+2) |
+| A7 | Fig Sly's art; the dual-colour dots | The dots are gone from the card face every view draws (hand, board, full size, shops, the Deck Station, the collection, rewards, packs). The Path cost icons stay. **The portrait: nothing changed, no file landed.** | `a7/` (before, after, one card in each view) | `tests/ui/test_multipath_dots.gd` (3) |
+| A8 | The Crease | An enclosed cavern (`CapitalCrease`): rock walls on three sides running on past the camera, a 7.6 m rock ceiling, about 100 stalactites (five drip), stalagmites, ten puddles, nine lantern lights, five crystal glows, a second stall and five stacks of painted crates. No sky, no castle. The six black doorways are floor hatches with a lit marker (same shafts); the tunnel is a timbered mouth in the east wall; the ladder stands against the west wall. **Quest:** a new main quest, "Under the Capital", starts and takes the tracker on first arrival in the Capital (inbox 6). **One "Services restored" bar.** NPC visibility probe: Wren, Fig Sly, Hesper and Kestrel pass at both cameras. | `a8/before/`, `a8/after/` (10 spots x 2 cameras + HUD) | `tests/world/test_crease_cavern.gd` (8) |
+| A9 | Losing to Primm | "Fight Primm again" (Phase 1, full HP, the leaders' boons given once, earlier rooms kept) or "Leave the castle". Driven for real: a Phase 2 loss, Fight again (Phase 1 at 23 / 23 HP), a loss, Leave (back in the Capital). | `a9/` | `tests/core/dungeon/test_primm_retry.gd` (5) |
+| A10 | Inbox 11 (a) and (b) | (a) the castle map shows a room's type once a room leading to it can be reached; (b) every castle fight's three reward cards include an Uncommon or better, the paid reroll too. | `a10/` | `tests/core/dungeon/test_inbox11_nov12.gd` (6) |
+
+## Part B - the pop-ups
+
+One card for every non-combat room and for "Before the fight" (`ui/dungeon/node_card.gd`):
+
+- **Banner:** the dungeon's own painted map, cropped round the room and blurred, under a colour wash per kind and a vignette; the room
+  kind's large icon in the middle with a glow and a bob; particles per kind (motes for a shrine, mist for the well, sparkles for
+  treasure, embers before a fight). `UI-NODE-BANNER` becomes the base by itself when it lands.
+- **Body:** vellum with dark ink inside the gold frame; the kind in small caps over the name; the flavour line in italics, wrapped into
+  even lines; what it does as icon rows; "HP 9 → 15" with the heal as a ghost segment on the bar ("already full" at full HP); the cost
+  as a chip; a primary and a secondary button with icons. Esc and the pad's B press "Leave it" where leaving is allowed.
+- **Motion and sound:** the card scales and fades in over 0.25 s, the banner a beat later; a shimmer crosses the HP bar as it fills; the
+  well shows the card it took; existing sounds on open, confirm and close. Still under Reduce motion.
+- **Pre-fight panel:** the foe's cut-out (head and shoulders) or Bestiary picture in the banner; a row per rule (icon, name, one line); a
+  hidden trait as a "?" row; two columns and a lower banner past five rules. A card taller than the screen gives up banner height.
+
+**Gallery:** `docs/overnight_shots/nov12c/popups_gallery_before_after.jpg` (before and after, side by side);
+`popups_before/` and `popups_after/` (the well open, at full HP and after the card is given; the shrine; an event; a rescue; treasure;
+the pre-fight panel with 3 rules and with 9) at 1280x720 and 1920x1080; `popups_after_large_text/` at the largest text size.
+**Controller:** the buttons take the pad's focus and B leaves (tests in `tests/ui/test_node_card.gd`, 14). I did not take a screenshot
+with a controller prompt showing, and the controller smoke does not walk the cave's rooms.
+
+## Part C - the 3D world
+
+| Item | Done? |
+|---|---|
+| 1 Contact shadows | **Done.** Characters' blobs are darker with a dense core (0.42 -> 0.52 on Low, 0.70 on Medium and High) and a little bigger; every ground prop gets a soft base shade from one MultiMesh per scene (`PropShade`; none on Low-end). |
+| 2 Blended ground | Not done. |
+| 3 Water | **Done in part.** The shared toon water and the sea plane lean to the sky at a grazing view and the sea has slow ripples; the Capital's fountains use the shared water. The Dump's stream already used it. The town fountain keeps its own shader. |
+| 4 Map edges and voids | The Capital (A6) and the Crease (A8) only. |
+| 5 Stray quads | Quest markers shrink near the lens. No scan. |
+| 6 Sprites | Not done. |
+| 7 Ghost buildings | The fader's stuck-transparent bug fixed; the Transit Yards' pale building is still there. |
+| 8, 9, 10 | Not done. |
+| 11 Light | Grades already existed in every zone; new lights only in the Crease. |
+| 12 Motion | The Crease's drips only. |
+
+**FPS after items 1, 3 and the Capital work** (this PC, 1600x900; `docs/perf/runs/n12c_partc.md`, `n12c_partc_cap.md`):
+
+| Place | Medium | Low | Nov 12 before |
+|---|---:|---:|---|
+| Crosspath | 70.1 | 91.3 | 69 / 91 |
+| The Buffet hub | 82.7 | 101.8 | 80 / 99 |
+| A battle | 352 | 371 | 354 / 350 |
+| The Capital, four paint-over cameras (`tools/capital_fps.sh`) | 65.8 to 69.1 | 82.2 to 84.5 | 64 / 85 |
+| The Capital, `tools/perf_run.sh capital_in` | **57.0** | 75.8 | this probe read 58.3 to 61.2 on Nov 3 |
+
+Medium holds 60 at the Capital's paint-over cameras. **The other Capital probe reads 57**, and it read under 60 before this pass on
+two of three earlier runs; I could not move it (restricting, merging and unshadowing the new rim ruins changed nothing: 57.0 both times).
+
+## Part D - Batch 15
+
+| File | Status |
+|---|---|
+| The 21 rows of Nov 12 | To make (the folder never appeared) |
+| `V-FIGSLY.png` | To make (row added) |
+| `UI-NODE-BANNER.png` | To make, optional (row added) |
+
+## Part E - verify and build
+
+- **Tests:** 3065 / 3067, 0 failing, 2 pending.
+- **Driven for real:** the well offer, taken and at full HP; the Warden's closing line; the first exit; the Capital's edges on foot;
+  the Crease at ten spots; a Primm loss, retry and leave. 0 script errors in the play runs I checked (the Capital edges and scans, the Crease, the Primm retry, the water shots).
+- **Opening-hour smoke (`run_playtest_smoke.sh`): FAILED, not from this pass.** The cave, the arrival 1.4 m from Maren and her welcome
+  pass. It then fails "the only active quest is Meet the Merchants" because Fragments is active too; Fragments has started at
+  `trial_cleared` since Nov 7 (`QuestDefinitions.story_gate`). Eleven later checks fail after it. I did not fix the smoke or look at
+  the later ones one by one.
+- **Controller smoke: one check fails** ("Y hides the card details" in the ghost duel); the other pad checks pass.
+- **NPC visibility probe (the Capital): 48 of 50 pass**; the two failures are one strolling citizen (Corwin Bale) at both cameras.
+- **RC6:** **not built** (free RAM 1.8 to 2.0 GB for 15 minutes; the rule is 3 GB). No exported smoke and no `play_exported.sh`
+  check was run on RC6. `project.godot` is at `1.0.0-rc6`, `CHANGELOG.md` and `docs/release/rc6_notes.md` are written. To build it:
+  close Chrome, ChatGPT and anything else heavy, then in Git Bash from `C:\Dev\Deckbuilder-rpg`, in the foreground:
+  1. `EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0-rc6` (4 to 10 minutes; "EXPORT STOPPED" means nothing was replaced);
+  2. `bash tools/run_release_smoke_exported.sh` (look for `PASSED`);
+  3. `bash tools/export_test_pack.sh`, then
+     `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480`,
+     `SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480`,
+     `bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480`;
+     `grep -c "SCRIPT ERROR" _screenshots/exported/play_r1*.log` must print 0 three times.
+  The zip should come out near RC5's 734 MB: this pass added code and shaders only, no art.
+
+## One thing to check on your PC
+
+The play-script shot runs save the camera angle into your settings: **Settings > Display > Camera angle is on "Low"** now (the shot
+scripts end on it; I do not know what it was before this session). The controller smoke had also changed the zoom to 1.3; I set it back to
+the default 1.5.
+
+## The final 1.0.0 release checklist
+
+As Nov 11's (in the Overnight Nov 10-11 report below: donation link, version, export, smoke, the three exported checks, the real exe
+once, tag, the itch upload, download it back, flip to Public), with these changes:
+
+0. **Read inbox "Fable Nov 12c" first.** Items 5 and 6 (the shafts as floor hatches; the new quest), 13 (the pop-ups' light vellum
+   body) and 14 (the shrine can be left) change what players see and were my choices.
+1. **Play ten minutes before anything else:** a new game through the cave (the well, the Warden, the first step into Crosspath), then
+   a late save in the Capital (the edges outside the wall, the manhole, the Crease, Fig Sly). Nobody but me has looked at this build.
+2. **Fig Sly:** when `V-FIGSLY.png` is in Pending Review / Batch 15, say "import portraits" (or run `bash tools/import_portraits.sh`),
+   check him in the Crease, commit. Then export.
+3. **Export RC6 (or go straight to 1.0.0):** the three numbered commands under Part E above. No RC6 zip exists yet.
+4. Set the camera angle back if "Low" is not what you want players' default screenshots to show (it is a per-PC setting, not in the build).
+5. Then steps 1 to 10 of Nov 11's list with `1.0.0`.
+
+---
+
 # Fable pass Nov 11-12 - report (visual quality, world consistency, late game)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Start tag `pre-fable-nov12`. Questions: `docs/overnight_inbox.md`, "Fable Nov 12" (12 items).

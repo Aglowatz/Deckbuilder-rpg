@@ -1,7 +1,7 @@
 # The Wayward Path 1.0.0-rc6 (2026-11-12) - release candidate 6 for playtesters
 
-Windows build: `builds/TheWaywardPath-v1.0.0-rc6-windows.zip` (whether it is built, its size and its checks: the top of
-`docs/overnight_report.md`). Unzip the whole folder somewhere you can write to (Desktop or Documents, not Program Files) and run
+Windows build: `builds/TheWaywardPath-v1.0.0-rc6-windows.zip`. **Not built yet on Nov 12** (too little free memory; the commands are in
+`docs/overnight_report.md`, Part E). Unzip the whole folder somewhere you can write to (Desktop or Documents, not Program Files) and run
 `TheWaywardPath.exe`. If Windows says "Windows protected your PC", click "More info", then "Run anyway". `README_PLAYTEST.txt` in the
 folder explains the start files. **Saves carry over** from RC5 and every earlier build.
 

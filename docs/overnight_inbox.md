@@ -72,6 +72,13 @@ Brief: `docs/prompts/fable_nov12_fixes.md`. Report: top of `docs/overnight_repor
     (`tools/gamepad_smoke.gd`, the battle's pad layer). Every other pad check passes; the pop-ups' buttons take the pad's focus and
     B / Esc presses "Leave it" (tests in `tests/ui/test_node_card.gd`).
 
+18. **RC6 is not built.** Free RAM stayed at 1.8 to 2.0 GB through a 15-minute wait (the rule is 3 GB), so the export was not
+    started. The command and the checks to run after it are in the report, Part E. The source is at 1.0.0-rc6 and all tests pass.
+19. **Most of Part C is not done** (the report's "What was not done" lists it item by item), and **no no-context playtest was run**:
+    I drove the flows myself. Batch 15 never appeared.
+20. **Your camera setting:** the shot scripts leave Settings > Display > Camera angle on "Low" in this PC's settings file. I do not
+    know what it was before. The controller smoke had moved the zoom to 1.3; I put it back to 1.5.
+
 ## Fable Nov 12 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov12_visuals.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov12`. The session ran on Fable 5.2
