@@ -1,0 +1,359 @@
+[
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.open::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket nods slowly. \"Go on in. Mind the cheese.\"",
+		"after": "Brisket nods slowly, at a point somewhere above your head. \"You may go in. One does ask that you mind the cheese.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.open::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"The cheese takes trespassing personally. You're walking on its rind.\"",
+		"after": "\"The cheese takes trespassing rather personally, you see, since it is its rind you are walking on.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.pass::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket sniffs the air, and his eyes close in bliss. \"Saffron. Real saffron.\"",
+		"after": "Brisket sniffs the air, and his eyes close in bliss. \"Saffron. That is real saffron, and I had begun to think I should never smell it again.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.pass::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"Do you know how long it has been?\" He takes the threads with great tenderness and steps aside.",
+		"after": "\"Do you have any idea how long it has been?\" He takes the threads with great tenderness and steps aside."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.pass::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"Go on through. Tell the Cheddar Cliffs they are overdue for a good grating. Yes, Chef.\"",
+		"after": "\"Go on through, and kindly tell the Cheddar Cliffs they are overdue for a good grating. Yes, Chef.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Brisket does not look at you. He looks over your head, at the horizon. \"This gate opens for one pinch of saffron.\"",
+		"after": "Brisket does not look at you. He looks over your head, at the horizon. \"This gate opens for one pinch of saffron, and I regret to say that it opens for nothing else.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"Real saffron, mind you, which grows in the Candy Field. Ask a sous-chef if you lose your way.\"",
+		"after": "\"Real saffron, mind you, which grows in the Candy Field. Should you lose your way, you may ask a sous-chef.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.ingredient.need::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "He sighs at you. \"Bring saffron from the Candy Field; this gate has a very particular taste in visitors.\"",
+		"after": "He sighs at you. \"Bring saffron from the Candy Field, if you would. This gate has a very particular taste in visitors, and so, I am afraid, have I.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.open::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Sir Loin raises his fork in salute. \"You mended Old Meatloaf, so you are a friend of the Pantry. The town is yours.\"",
+		"after": "Sir Loin raises his fork in salute. \"Well met! You mended Old Meatloaf, and so you are a friend of the Pantry, and the town is yours for as long as I keep this gate.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.pass::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Sir Loin inspects you. \"Old Meatloaf walks again. Basil sends thanks, and orders, which are: let you in. Yes, Chef!\"",
+		"after": "Sir Loin inspects you from helm to boot. \"Old Meatloaf walks again! Basil sends his thanks, and with them his orders, which are that I am to let you in. Yes, Chef!\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.pass::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "He lowers his fork-lance. The gate swings open.",
+		"after": "He lowers his fork-lance, and the gate swings open."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.need::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Sir Loin clanks to attention. \"HALT! Nobody enters Layer-Cake Town until Old Meatloaf has been mended.\"",
+		"after": "Sir Loin clanks to attention. \"HALT! By my oath, nobody enters Layer-Cake Town until Old Meatloaf has been mended.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.need::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"It is Basil's request, so speak to Basil: he is in the Grand Pantry's square, east of the Soup Fountain. Yes, Chef!\"",
+		"after": "\"It is Basil's request, so it is Basil you must speak to. You will find him in the Grand Pantry's square, east of the Soup Fountain. Yes, Chef!\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.mended::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Sir Loin peers past you toward the Pantry. \"Old Meatloaf is up and clanking about? Then the mending is done, and Basil has not sent word.\"",
+		"after": "Sir Loin peers past you toward the Pantry. \"Old Meatloaf is up and clanking about? Then the mending is done, and yet Basil has not sent me word of it.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.mended::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "\"Tell Basil yourself: the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!\"",
+		"after": "\"Go and tell Basil yourself, in the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.quest.active::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "Sir Loin clanks to attention. \"HALT! Old Meatloaf is still in two pieces, and I have Basil's list right here.\"",
+		"after": "Sir Loin clanks to attention. \"HALT! Old Meatloaf is still in two pieces, and I have Basil's list right here, so pray attend.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.open::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Colonel Casserole tips his lid. \"A fair fight, well fought. The Pancake Plateau is open to you. Mind the syrup; it pools.\"",
+		"after": "Colonel Casserole tips his lid. \"A fair fight and well fought, and I have not enjoyed one so much in years. The Pancake Plateau is open to you. Do mind the syrup, because it pools.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "Colonel Casserole bubbles ominously. \"Halt! This gate is guarded by a Colonel.\"",
+		"after": "Colonel Casserole bubbles ominously. \"Halt, if you please! This gate is guarded by a Colonel, and the Colonel takes his guarding seriously.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"No passes, no bribes - challenge me to single combat with cards. I shall defend this gate to the last course.\"",
+		"after": "\"I accept no passes and no bribes. You must challenge me to single combat with cards, and I shall defend this gate to the last course.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::gate.battle.intro::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Old Meatloaf and the gate golems",
+		"before": "\"If you win, you pass. If you lose, you do the washing up. Both are honourable.\"",
+		"after": "\"If you win, you pass, and if you lose, you do the washing up. Both are honourable, and in my time I have done my share of each.\""
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Professor Pate, Keeper of the Cookbook. I've read every recipe twice; the footnotes have an excellent finish.",
+		"after": "I am Professor Pate, Keeper of the Cookbook. I have read every recipe in it twice, and the footnotes a third time for pleasure, because the footnotes have an excellent finish."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "I have never found a recipe for the Special Sauce, and believe me, I looked. I even licked the index.",
+		"after": "I have never found a recipe for the Special Sauce in any edition, and believe me, I looked everywhere. I am a little ashamed to tell you that I even licked the index."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.intro::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Four questions about the Gourmands: who they are, what they cook, how their golems speak. Every answer is written on a sign somewhere in the Endless Buffet.",
+		"after": "I shall ask you four questions about the Gourmands: who they are, what they cook and how their golems speak. Every answer is written on a sign somewhere in the Endless Buffet."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.intro::3",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Answer well and earn gold, glory and the respect of a very old book. Answer poorly and earn a gentle, scholarly sigh, lightly salted.",
+		"after": "Answer well and you earn gold, glory and the respect of a very old book. Answer poorly and you earn only a gentle, scholarly sigh, lightly salted."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.quiz.return::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Professor Pate",
+		"before": "Back for more? Splendid. A footnote, while it simmers: the Capital's school lunches were excellent once. Hot, free, balanced. Then came the paste.",
+		"after": "Back for more? Splendid. A footnote, while it simmers: the Capital's school lunches were excellent once, hot and free and properly balanced, and then came the paste, which has no finish at all."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "*brass fanfare* CHEF FLAMBE FONTAINE, LIVE FROM THE CANDY FIELD: DINNER IN A DASH! The Test Kitchen cancelled us, so this is a SECRET BROADCAST!",
+		"after": "*brass fanfare* It's CHEF FLAMBE FONTAINE, LIVE FROM THE CANDY FIELD, with DINNER IN A DASH! The Test Kitchen cancelled us, my friends, so tonight you are watching a SECRET BROADCAST!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Seven seasons on the air, and people STILL do my WHOOSH in the street! I'd do it for you now, but I save it for the cameras.",
+		"after": "Seven seasons on the air, and people STILL do my WHOOSH at me in the street! I would do it for you right now, but a professional saves the whoosh for the cameras."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "My arch-rival, Chef Savannah Souffle, stole my Spaghetti Surprise. The surprise was more spaghetti. She took a job at the Test Kitchen. I wish her well, very far away.",
+		"after": "My arch-rival, Chef Savannah Souffle, stole my Spaghetti Surprise, and the surprise was more spaghetti. She took a job at the Test Kitchen afterwards, and I wish her well, very far away from here."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::3",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Tonight's show: ORDER UP! Six tickets, one counter, no mercy. Stack each dish in the right order before the timer dings. Rewards for performance, and a first-time bonus!",
+		"after": "Tonight's show is ORDER UP! Six tickets, one counter and no mercy, so stack each dish in the right order before the timer dings. There are rewards for performance, and a first-time bonus!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.intro::4",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "My Turbo Tots toys were recalled for spinning too well, and tonight's audience is ten sprouts and a very patient cloche. But the show goes on! Let's COOK!",
+		"after": "My Turbo Tots toys were recalled for spinning too well, and tonight's studio audience is ten sprouts and a very patient cloche, but the show goes on, as it always has! Let's COOK!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.return::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Back for another shift, champ? Smile for the cameras! They ran out of film years ago, but a professional smiles anyway.",
+		"after": "Back for another shift, my friend? Then smile for the cameras! They ran out of film years ago, I admit, but a professional smiles anyway."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::npc.minigame.return::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Remember, the ticket is your friend. It's judging you, of course, but kindly.",
+		"after": "And remember, the ticket is your friend. It is also your critic, of course, but unlike a certain chef I could name, it reviews you kindly."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.win::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "ORDER UP - THAT COUNTER IS BEAUTIFUL! You cook like someone who knows exactly where the camera is!",
+		"after": "ORDER UP, and would you LOOK at that counter, it's BEAUTIFUL! You cook like somebody who knows exactly where the camera is!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.first::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Your very first shift on the show! Here's your bonus, free and with no obligation: a scroll!",
+		"after": "That was your very first shift on the show, so here's your bonus, free and with no obligation whatsoever: a scroll!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.first::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Chef Savannah would call it Scroll Deluxe. She could put a garnish on the envelope and call it a course.",
+		"after": "Chef Savannah would call it Scroll Deluxe, naturally. That woman could put a garnish on the envelope and call it a course."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.lose::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Not quite, chef - breathe! Even a souffle gets a second rise in my kitchen!",
+		"after": "Not quite, chef, but breathe, breathe! Even a souffle gets a second rise in my kitchen, and I have never once said that about Savannah's."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::order.lose::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "Chef Flambe Fontaine",
+		"before": "Re-tie your apron and try again! Those tickets can wait; this is a cooking show, not a farewell episode!",
+		"after": "Re-tie your apron and try again! Those tickets can wait for you, because this is a cooking show and not a farewell episode!"
+	},
+	{
+		"id": "data/story/gourmand_story.tres::recipe.solved::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "The stew thickens. The ladle hums. A small, heavy parcel rises out of the steam: the pot has given you its seasoning.",
+		"after": "The stew thickens and the ladle begins to hum, and a small, heavy parcel rises out of the steam: the pot has given you its seasoning."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::recipe.already::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "The stew sits perfectly seasoned. Nothing left to cook.",
+		"after": "The stew sits perfectly seasoned, and there is nothing left to cook."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::recipe.wrong::1",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "You watch the stew go bland. The pot sighs like a recipe being ignored.",
+		"after": "You watch the stew go bland, and the pot sighs like a recipe being ignored."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::recipe.wrong::2",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "A single sad bubble rises and pops. That was all it had to say.",
+		"after": "A single sad bubble rises and pops, and that seems to be all the pot has to say about it."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.offer::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "Over here, quietly. Have you ever eaten somewhere with no menu at all? ...I'm brave. I'm brave.",
+		"after": "Psst. Over here, and quietly, please. Um, have you ever eaten somewhere that has no menu at all? ...I'm brave. I'm brave."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.offer::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit.",
+		"after": "There's a golden reservation card hidden in one of the Buffet's stashes, and it says 'Seating: 1. Courses: 3. Survival: optional.' Find it, and I'll tell you where to sit."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.active::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "The card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it when you see it. Chef always said gold means sit down.",
+		"after": "Um, the card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it the moment you see it, and Chef always said gold means sit down."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.ready::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "That's it! One seat, three courses, survival optional. I'm excited, I think - it feels a lot like being terrified.",
+		"after": "That's it, that's really it! One seat, three courses, survival optional. I think I'm excited, only it feels an awful lot like being terrified, so I can't be sure."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::quest.side_s_gour.done::0",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "Basil",
+		"before": "The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef.",
+		"after": "The sliding door to Omakase is open now, so you just... you leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef."
+	},
+	{
+		"id": "data/dungeons/dungeon_content.json::dungeons/D-TTK/events/7/choices/2::1",
+		"file": "data/dungeons/dungeon_content.json",
+		"speaker": "(narration)",
+		"before": "It has been stirring for ten years and nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.",
+		"after": "It has been stirring for ten years, and in all that time nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::challenge.tk_taste_panel.text::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "Four dishes are served to the panel. They want to see that you can field real, living units, not just soup.",
+		"after": "Four dishes are served to the panel, who want to see that you can field real, living units and not just soup."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_cannon_bay.result.1::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "You twist the valve. The cannon coughs, sighs, and settles into a sulk. Your units feel sturdier in a kitchen that is slightly less likely to fire at them.",
+		"after": "You twist the valve, and the cannon coughs, sighs and settles into a sulk. Your units feel sturdier in a kitchen that is slightly less likely to fire at them."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.result.0::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "He presses a stained notebook into your hands: habits, weak spots, and a very detailed list of everything the impostor will not eat. The list is everything. Your units hit harder.",
+		"after": "He presses a stained notebook into your hands: habits, weak spots, and a very detailed list of everything the impostor will not eat, which turns out to be everything. Your units hit harder."
+	},
+	{
+		"id": "data/story/gourmand_story.tres::event.tk_whistleblower.result.2::0",
+		"file": "data/story/gourmand_story.tres",
+		"speaker": "(narration)",
+		"before": "The guards pay you without a question. You pocket the coins and feel sick.",
+		"after": "The guards pay you without a single question, and you pocket the coins and feel sick."
+	}
+]

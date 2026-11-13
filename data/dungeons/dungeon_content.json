@@ -240,7 +240,7 @@
 						],
 						[
 							"Ask the ladle to stop",
-							"It has been stirring for ten years and nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.",
+							"It has been stirring for ten years, and in all that time nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.",
 							"heal:1",
 							"card:G-04"
 						]
@@ -1836,17 +1836,17 @@
 			"Mount Swolympus is open at last. Take the trail behind the station, and mind the thin air up top... never gets enough credit, thin air."
 		],
 		"quest.side_s_gour.offer": [
-			"Over here, quietly. Have you ever eaten somewhere with no menu at all? ...I'm brave. I'm brave.",
-			"There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit."
+			"Psst. Over here, and quietly, please. Um, have you ever eaten somewhere that has no menu at all? ...I'm brave. I'm brave.",
+			"There's a golden reservation card hidden in one of the Buffet's stashes, and it says 'Seating: 1. Courses: 3. Survival: optional.' Find it, and I'll tell you where to sit."
 		],
 		"quest.side_s_gour.active": [
-			"The card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it when you see it. Chef always said gold means sit down."
+			"Um, the card's in one of the hidden stashes around the Buffet. It's golden, so you'll know it the moment you see it, and Chef always said gold means sit down."
 		],
 		"quest.side_s_gour.ready": [
-			"That's it! One seat, three courses, survival optional. I'm excited, I think - it feels a lot like being terrified."
+			"That's it, that's really it! One seat, three courses, survival optional. I think I'm excited, only it feels an awful lot like being terrified, so I can't be sure."
 		],
 		"quest.side_s_gour.done": [
-			"The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef."
+			"The sliding door to Omakase is open now, so you just... you leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef."
 		],
 		"quest.side_s_necro.offer": [
 			"Number 4,000,212? That's me, and they're on 3. I don't suppose you could help?",
