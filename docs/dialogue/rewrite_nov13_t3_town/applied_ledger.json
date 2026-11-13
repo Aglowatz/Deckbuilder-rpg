@@ -949,7 +949,7 @@
 		"file": "data/encounters/boss_intros.json",
 		"speaker": "Shiro Swindle",
 		"before": "You found me! Nobody finds me, which can only mean this is a trick. Mine, obviously.",
-		"after": "You found me! But nobody ever finds me, which can only mean that this is a trick, and since I am the only trickster here, it must be one of mine. How marvellous!"
+		"after": "You found me! But nobody ever finds me, which can only mean this is a trick, and as I'm the only trickster here, it must be one of mine. Marvellous!"
 	},
 	{
 		"id": "data/encounters/encounter_scripts.json::town:ninja/0/line::0",

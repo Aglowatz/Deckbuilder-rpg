@@ -38,7 +38,7 @@
 	},
 	"Shiro Swindle": {
 		"title": "Master of the Oldest Trick",
-		"line": "You found me! But nobody ever finds me, which can only mean that this is a trick, and since I am the only trickster here, it must be one of mine. How marvellous!",
+		"line": "You found me! But nobody ever finds me, which can only mean this is a trick, and as I'm the only trickster here, it must be one of mine. Marvellous!",
 		"sting": "STG-SHIRO",
 		"path": "neutral"
 	},

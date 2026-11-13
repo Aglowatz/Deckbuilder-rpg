@@ -652,7 +652,7 @@
 ## purpose: Town boss lines: Shiro Swindle, the theatrical villain of a very small crime; the Warden of the Four Seals and the Automaton, stone and clockwork that recognise the hero's hand.
 @boss::Shiro Swindle/line
 #   [Shiro Swindle] Boss intro before the battle with Shiro Swindle: opening line
-0| You found me! But nobody ever finds me, which can only mean that this is a trick, and since I am the only trickster here, it must be one of mine. How marvellous!
+0| You found me! But nobody ever finds me, which can only mean this is a trick, and as I'm the only trickster here, it must be one of mine. Marvellous!
 
 @boss::The Warden of the Four Seals/line
 #   [The Warden of the Four Seals] Boss intro before the battle with The Warden of the Four Seals: opening line
