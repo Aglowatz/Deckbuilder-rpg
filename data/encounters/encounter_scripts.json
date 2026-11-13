@@ -832,7 +832,7 @@
 				"pct": 50
 			},
 			"text": "At half health Betty hands over forms A through F: she gains 2 Contracts and a 1/1 Zombie Temp files in.",
-			"line": "Forms A through F. Then we'll talk. We won't, but still.",
+			"line": "Forms A through F, all six, in black ink. Then we'll talk. We won't, but still.",
 			"effects": [
 				{
 					"kind": "resources",
@@ -856,7 +856,7 @@
 				"turn": 5
 			},
 			"text": "On her 5th turn Betty takes her lunch break: her units stand down (exhausted) for that turn, because nothing gets done on lunch.",
-			"line": "I'm on lunch, and nothing happens on lunch. That includes me.",
+			"line": "I'm on lunch, and nothing happens on lunch. That includes me, and it certainly includes you.",
 			"effects": [
 				{
 					"kind": "exhaust_own",

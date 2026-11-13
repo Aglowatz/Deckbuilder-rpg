@@ -1,0 +1,33 @@
+data/story/dna_story.tres::match.first::0
+data/story/dna_story.tres::match.first::1
+data/story/dna_story.tres::match.lose::0
+data/story/dna_story.tres::match.win::0
+data/story/dna_story.tres::npc.matching.intro::0
+data/story/dna_story.tres::npc.matching.intro::1
+data/story/dna_story.tres::npc.matching.intro::3
+data/story/dna_story.tres::npc.matching.intro::4
+data/story/dna_story.tres::npc.matching.return::0
+data/story/dna_story.tres::npc.matching.return::1
+data/story/dna_story.tres::npc.quiz.intro::0
+data/story/dna_story.tres::npc.quiz.intro::1
+data/story/dna_story.tres::npc.quiz.intro::3
+data/story/dna_story.tres::npc.quiz.return::0
+data/story/dna_story.tres::puzzle.already::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.offer::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.offer::1
+data/dungeons/dungeon_content.json::quest.side_s_necro.active::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.ready::0
+data/dungeons/dungeon_content.json::quest.side_s_necro.done::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_necro_boss.before::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_necro_boss.before::1
+data/encounters/boss_intros.json::Betty Bones, Surly Secretary/line::0
+data/encounters/encounter_scripts.json::Betty Bones, Surly Secretary/0/line::0
+data/encounters/encounter_scripts.json::Betty Bones, Surly Secretary/1/line::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_necro_boss.after::0
+data/dungeons/dungeon_content.json::dungeons/D-HFA/events/2/choices/1::1
+data/dungeons/dungeon_content.json::dungeons/D-HFA/events/8/choices/1::1
+data/story/dna_story.tres::challenge.ha_audit.text::0
+data/story/dna_story.tres::npc.matching.return.freed::0
+data/story/dna_story.tres::npc.matching.return.freed::1
+data/story/dna_story.tres::npc.quiz.return.freed::0
+data/story/dna_story.tres::npc.quiz.return.freed::1

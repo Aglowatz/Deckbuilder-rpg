@@ -392,7 +392,7 @@
 						],
 						[
 							"Take every number",
-							"The machine jams, apologises and coughs up coins and a written warning. You are now marked 'Difficult.'",
+							"The machine jams, apologises and coughs up a handful of coins along with a written warning. You are now marked 'Difficult.'",
 							"gold:35",
 							"curse:Marked 'Difficult'|max_hp=-1"
 						],
@@ -415,7 +415,7 @@
 						],
 						[
 							"Forge the stamp",
-							"It works, mostly. Something in the ceiling disapproves loudly, with a stapler.",
+							"It works, mostly, though something up in the ceiling disapproves of it loudly, with a stapler.",
 							"gold:50",
 							"damage:2"
 						],
@@ -1849,17 +1849,17 @@
 			"The sliding door to Omakase is open now, so you just... you leave your fate to the chef, that's how it works in there. (quietly) Yes, Chef."
 		],
 		"quest.side_s_necro.offer": [
-			"Number 4,000,212? That's me, and they're on 3. I don't suppose you could help?",
-			"The queue for the Waiting Room of Eternity is stuck. If you process two of the roaming staff on the D.N.A. floors, I can get you in. I'll wait. I'm very good at it."
+			"Number 4,000,212? Oh, that's me, I'm so sorry, and they're only on 3. I don't like to ask a stranger, but I don't suppose you could possibly help?",
+			"The queue for the Waiting Room of Eternity is stuck, you see. If you could process two of the roaming staff on the D.N.A. floors, I can get you in. I'll wait here, because I'm really very good at it."
 		],
 		"quest.side_s_necro.active": [
-			"Two roaming staff on the D.N.A. floors, if you can. The queue won't move itself; I've given it a very fair chance."
+			"It's two of the roaming staff on the D.N.A. floors, if that isn't too much trouble. The queue won't move itself, I'm afraid, and I have given it a very fair chance to."
 		],
 		"quest.side_s_necro.ready": [
-			"Two fewer, and the queue moved! Only slightly, but I felt it in my ticket."
+			"That's two fewer, and the queue moved! It was only very slightly, I admit, but I felt it in my ticket, and I haven't felt anything in my ticket for years."
 		],
 		"quest.side_s_necro.done": [
-			"The Waiting Room of Eternity will see you now. Take a number. Please leave mine; we've been through so much together."
+			"The Waiting Room of Eternity will see you now, so do go in and take a number. Only please leave mine where it is, if you don't mind, because we've been through such a lot together."
 		],
 		"quest.side_s_ref.offer": [
 			"SOMEBODY has been eating ALL the compost. There are little paw prints everywhere, and next to the bin I found... a tiny crown.",
@@ -1922,11 +1922,11 @@
 			"The Itamae bows, wipes his knife on a cloth and slides a small plate across the counter. 'Omakase,' he says. This time it sounds like thank you."
 		],
 		"dungeon.dg_s_necro_boss.before": [
-			"A single desk under a single green lamp, buried in forms. Betty Bones looks up through cat-eye glasses, very slowly, and sighs the sigh of the long deceased.",
-			"'Forms A through F,' she says. 'Then we'll talk. We won't, but still.'"
+			"A single desk sits under a single green lamp, buried in forms. Betty Bones looks up through her cat-eye glasses, very slowly, and sighs the sigh of the long deceased.",
+			"'Forms A through F,' she says, and goes back to her crossword before she has finished saying it. 'Then we'll talk. We won't, but still.'"
 		],
 		"dungeon.dg_s_necro_boss.after": [
-			"Betty stamps one last form with a bony flourish. 'Fine. Number 4,000,212 is approved. Don't make it a thing.'",
+			"Betty stamps one last form with a bony flourish and pushes it across the desk without looking up. 'Fine. Number 4,000,212 is approved. Don't make it a thing.'",
 			"Far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer."
 		],
 		"dungeon.dg_s_ref_boss.before": [

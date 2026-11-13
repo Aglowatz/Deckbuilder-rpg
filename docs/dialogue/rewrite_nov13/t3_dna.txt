@@ -1,0 +1,273 @@
+# t3_dna: 84 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Kyle's reactions to his memory game (first clear, loss, win) reward or console the player and keep his sweet, guilty, nostalgic voice in the room.
+@dna::match.first
+#   [Kyle] Match: first
+0| first clear! here's a bonus for you. it's been sitting in my desk drawer since '09 waiting for the right occasion, and i think this is finally it.
+1| it's a memory game in a building full of people who are mostly memories, which i thought was pretty clever when i made it. Agnes didn't laugh, but she did read the rules all the way through.
+
+@dna::match.lose
+#   [Kyle] Match: lose
+0| aw, you're out of moves. that's okay, you still lasted longer than my virtual pet ever does, and i feed him and everything. want another go?
+
+@dna::match.win
+#   [Kyle] Match: win
+0| nice flipping! that puts you at number one in my top 8, which used to be me, so... sorry, me. we had a good run, and number two is still pretty good.
+
+## purpose: Introduce Kyle, plant that he filed the transfer on a Tuesday without reading it, and offer the memory game; later visits invite a rematch.
+@dna::npc.matching.intro
+#   [Kyle] Talking to Kyle (intro)
+0| krrrshhh... beep-boop... sorry, that's my dial-up greeting. it takes about forty seconds to get all the way through, and around here that counts as an outburst.
+1| i'm Kyle, deceased since '09. i was runner-up for employee of the month in 2009 too, but Agnes won it, because Agnes always wins it, and honestly she probably should.
+2| fun fact: ten years ago i filed the big transfer form. the peacock drafted it and handed it to me on my way to the rec room, so... a tuesday. didn't read it, though. who reads forms?
+3| ...oh. right. we're Necrocrats, and reading forms is kind of our whole thing. i think about that a lot more than i let on, mostly when it's quiet in here, and it's always quiet in here.
+4| so, um, do you wanna play something? you flip two cards at a time and try to match up the pairs. i made all the cards myself, so please be nice about the drawings.
+
+@dna::npc.matching.return
+#   [Kyle] Talking to Kyle (return)
+0| my virtual pet died again, which makes seven times this week, and i'm starting to think it might be me. i'll hatch another one anyway. it's a little egg, but it's a big commitment.
+1| wanna play another round while it hatches? i shuffled the cards and everything, and i only dropped them twice.
+
+## purpose: Introduce Director Ectomund and his four-question exam on the Necrocrats, telling the player the answers are on the premises (signs, memos, staff).
+@dna::npc.quiz.intro
+#   [Director Ectomund] Talking to Director Ectomund (intro)
+0| Ah, a candidate for re-certification. I am Director Ectomund, Compliance Examiner, and since examining is all I have done for three hundred years, I have begun to suspect that it is also all I am.
+1| The exam has not changed in that time: four questions on the Necrocrats, and every answer is somewhere on the premises, in the signs, the memos or the staff, for any candidate who troubles to look.
+2| The new management asked me to remove the questions on ethics. They are not in the exam. They are also, I notice, not in the building.
+3| Answer correctly and you will be rewarded; answer incorrectly and you will be rewarded rather less. I am not a monster, you understand, merely an examiner, though I grant you the distinction is a fine one.
+
+@dna::npc.quiz.return
+#   [Director Ectomund] Talking to Director Ectomund (return)
+0| You are back, I see. Statistically you have failed already, as most candidates have, and I confess that I am rather looking forward to making it official.
+
+## purpose: Tell the player plainly that the soul-routing tube puzzle is solved and what it paid.
+@dna::puzzle.already
+#   [(narration/UI)] Puzzle: already
+0| The tubes hum contentedly to themselves, and there is nothing left to route.
+
+@dna::puzzle.solved
+#   [(narration/UI)] Puzzle: solved
+0| Every soul lands in the right department. The tubes cough politely and drop a small, heavy parcel in the tray.
+
+## purpose: Gerald's side quest: process two roaming staff on the D.N.A. floors to unstick the queue and open the Waiting Room of Eternity.
+@dc::quest.side_s_necro.offer
+#   [Gerald, Number 4,000,212] Quest "Number 4,000,212": when offered
+0| Number 4,000,212? Oh, that's me, I'm so sorry, and they're only on 3. I don't like to ask a stranger, but I don't suppose you could possibly help?
+1| The queue for the Waiting Room of Eternity is stuck, you see. If you could process two of the roaming staff on the D.N.A. floors, I can get you in. I'll wait here, because I'm really very good at it.
+
+@dc::quest.side_s_necro.active
+#   [Gerald, Number 4,000,212] Quest "Number 4,000,212": while it is active
+0| It's two of the roaming staff on the D.N.A. floors, if that isn't too much trouble. The queue won't move itself, I'm afraid, and I have given it a very fair chance to.
+
+@dc::quest.side_s_necro.ready
+#   [Gerald, Number 4,000,212] Quest "Number 4,000,212": handing it in
+0| That's two fewer, and the queue moved! It was only very slightly, I admit, but I felt it in my ticket, and I haven't felt anything in my ticket for years.
+
+@dc::quest.side_s_necro.done
+#   [Gerald, Number 4,000,212] Quest "Number 4,000,212": after it is done
+0| The Waiting Room of Eternity will see you now, so do go in and take a number. Only please leave mine where it is, if you don't mind, because we've been through such a lot together.
+
+## purpose: The Waiting Room's boss: Betty Bones is surly and immovable before and during the fight, and approves Gerald's number afterwards.
+@dc::dungeon.dg_s_necro_boss.before
+#   [Betty Bones, Surly Secretary] Dungeon node "dg s necro boss": entering the node
+0| A single desk sits under a single green lamp, buried in forms. Betty Bones looks up through her cat-eye glasses, very slowly, and sighs the sigh of the long deceased.
+1| 'Forms A through F,' she says, and goes back to her crossword before she has finished saying it. 'Then we'll talk. We won't, but still.'
+
+@boss::Betty Bones, Surly Secretary/line
+#   [Betty Bones, Surly Secretary] Boss intro before the battle with Betty Bones, Surly Secretary: opening line
+0| Take a number. I won't be calling it, but take it anyway, because the machine sulks if nobody does and then I have to hear about it.
+
+@enc::Betty Bones, Surly Secretary/0/line
+#   [Betty Bones, Surly Secretary] Mid-fight event "Forms A Through F" vs Betty Bones, Surly Secretary: the foe says it when the event fires
+0| Forms A through F, all six, in black ink. Then we'll talk. We won't, but still.
+
+@enc::Betty Bones, Surly Secretary/1/line
+#   [Betty Bones, Surly Secretary] Mid-fight event "Out to Lunch" vs Betty Bones, Surly Secretary: the foe says it when the event fires
+0| I'm on lunch, and nothing happens on lunch. That includes me, and it certainly includes you.
+
+@dc::dungeon.dg_s_necro_boss.after
+#   [Betty Bones, Surly Secretary] Dungeon node "dg s necro boss": after the node
+0| Betty stamps one last form with a bony flourish and pushes it across the desk without looking up. 'Fine. Number 4,000,212 is approved. Don't make it a thing.'
+1| Far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer.
+
+## purpose: Hall of Final Approvals event: the take-a-number kiosk, with three choices whose results say what each one cost or paid.
+@dc::dungeons/D-HFA/events/2/body
+#   [(narration)] The Hall of Final Approvals, "Take-a-Number Kiosk": event text
+0| A small grey machine offers you ticket 4,000,213 while the display above says NOW SERVING 3. A polite ghost behind you coughs, then apologises for coughing.
+
+@dc::dungeons/D-HFA/events/2/choices/0
+#   [(choice button)] The Hall of Final Approvals, "Take-a-Number Kiosk": choice 1 button
+0| Take a number and wait
+1| You wait, and then you wait some more, until a vending machine takes pity on you and dispenses one sad cookie.
+
+@dc::dungeons/D-HFA/events/2/choices/1
+#   [(choice button)] The Hall of Final Approvals, "Take-a-Number Kiosk": choice 2 button
+0| Take every number
+1| The machine jams, apologises and coughs up a handful of coins along with a written warning. You are now marked 'Difficult.'
+
+@dc::dungeons/D-HFA/events/2/choices/2
+#   [(choice button)] The Hall of Final Approvals, "Take-a-Number Kiosk": choice 3 button
+0| Skip the queue
+1| Nobody dares object, at least not yet, and somewhere down the queue they have started whispering about Number 4,000,213.
+
+## purpose: Hall of Final Approvals event: the circular Form 27-B office, with three choices whose results say what each one cost or paid.
+@dc::dungeons/D-HFA/events/8/body
+#   [(narration)] The Hall of Final Approvals, "Form 27-B Office": event text
+0| Form 27-B requires Form 27-C, which requires a stamp from the office you are standing in. A clerk slides a pen across the counter without looking up.
+
+@dc::dungeons/D-HFA/events/8/choices/0
+#   [(choice button)] The Hall of Final Approvals, "Form 27-B Office": choice 1 button
+0| Fill out the forms
+1| Everything is in order. A boon is granted and a small tax is levied, in that order, by two different departments.
+
+@dc::dungeons/D-HFA/events/8/choices/1
+#   [(choice button)] The Hall of Final Approvals, "Form 27-B Office": choice 2 button
+0| Forge the stamp
+1| It works, mostly, though something up in the ceiling disapproves of it loudly, with a stapler.
+
+@dc::dungeons/D-HFA/events/8/choices/2
+#   [(choice button)] The Hall of Final Approvals, "Form 27-B Office": choice 3 button
+0| Ask the clerk what Form 27-C is
+1| The clerk looks up for the first time in decades. Nobody has ever asked. She slides you a Pink Slip 'for personal use' and, you swear, winks.
+
+## purpose: Hall of Final Approvals event: the Shredding Room, with three choices whose results say what each one cost or paid.
+@dc::dungeons/D-HFA/events/12/body
+#   [(narration)] The Hall of Final Approvals, "The Shredding Room": event text
+0| Rows of paper shredders chew through the day's denied appeals. A sign reads: SHRED ONE THING, RECEIVE ONE THING. Another, in smaller letters, reads: THINGS INCLUDE YOU.
+
+@dc::dungeons/D-HFA/events/12/choices/0
+#   [(choice button)] The Hall of Final Approvals, "The Shredding Room": choice 1 button
+0| Shred a spare appeal
+1| The shredder hums happily and pays out in coins. It says 'denied' in a voice like a kettle.
+
+@dc::dungeons/D-HFA/events/12/choices/1
+#   [(choice button)] The Hall of Final Approvals, "The Shredding Room": choice 2 button
+0| Shred your own number
+1| Nothing is left of Number 4,000,213. You feel lighter and slightly nonexistent as the machine files you under 'Resolved.'
+
+@dc::dungeons/D-HFA/events/12/choices/2
+#   [(choice button)] The Hall of Final Approvals, "The Shredding Room": choice 3 button
+0| Reach in for what it ate
+1| You pull out half of a lost appeal, which is technically a weapon, and the machine takes a bite of you in exchange.
+
+## purpose: Explain the audit deck challenge: three cards are weighed, and a reasonable total is rewarded while an unreasonable one is fined.
+@dna::challenge.ha_audit.text
+#   [(narration)] Deck challenge "ha audit": text
+0| The auditor lays three cards on the Scale of Approved Expenditures. A reasonable total will be stamped, and an unreasonable one will be fined.
+
+## purpose: Hall event: wait, pay the Expedite Fee or cut in line, with results that match each choice.
+@dna::event.ha_take_a_number.choice.0
+#   [D.N.A. staff] Dungeon event "ha take a number": choice 0
+0| Wait your turn (it will be a while)
+
+@dna::event.ha_take_a_number.choice.1
+#   [D.N.A. staff] Dungeon event "ha take a number": choice 1
+0| Pay the Expedite Fee (30 gold)
+
+@dna::event.ha_take_a_number.choice.2
+#   [D.N.A. staff] Dungeon event "ha take a number": choice 2
+0| Cut in line
+
+@dna::event.ha_take_a_number.result.0
+#   [D.N.A. staff] Dungeon event "ha take a number": result 0
+0| You wait for a very long time, until a clerk takes pity and the polite ghost ahead of you shares a biscuit, apologising that it's stale.
+1| You are called in, eventually, rested and a little richer. Waiting, in the Hall, is a kind of work.
+
+@dna::event.ha_take_a_number.result.1
+#   [D.N.A. staff] Dungeon event "ha take a number": result 1
+0| The Expedite Fee is an official fee with an official receipt. A tiny clerk stamps your ticket, a door opens, and you feel oddly refreshed.
+
+@dna::event.ha_take_a_number.result.2
+#   [D.N.A. staff] Dungeon event "ha take a number": result 2
+0| You cut in line, and forty thousand undead clerks turn to glare. You're processed immediately, and a little roughly.
+
+## purpose: Hall event chain of forms (13-A, 11-D, then submitting them all): each result tells the player what the choice did.
+@dna::event.ha_form_a.choice.0
+#   [D.N.A. staff] Dungeon event "ha form a": choice 0
+0| Ask for Form 13-A
+
+@dna::event.ha_form_a.choice.1
+#   [D.N.A. staff] Dungeon event "ha form a": choice 1
+0| Pay the clerk 25 gold to look the other way
+
+@dna::event.ha_form_a.result.0
+#   [D.N.A. staff] Dungeon event "ha form a": result 0
+0| "Form 13-A," she says. "Certainly. It requires a Form 12-F, which requires a strong cup of tea."
+
+@dna::event.ha_form_a.result.1
+#   [D.N.A. staff] Dungeon event "ha form a": result 1
+0| She doesn't look the other way. She looks at the gold, and the gold is accepted.
+1| She stamps something you cannot read, and the way ahead opens.
+
+@dna::event.ha_form_b.choice.0
+#   [D.N.A. staff] Dungeon event "ha form b": choice 0
+0| Ask for Form 11-D
+
+@dna::event.ha_form_b.choice.1
+#   [D.N.A. staff] Dungeon event "ha form b": choice 1
+0| Argue
+
+@dna::event.ha_form_b.result.0
+#   [D.N.A. staff] Dungeon event "ha form b": result 0
+0| "Form 11-D," she says. "A simple form. It requires only your signature, in blood."
+1| "Please don't worry, the blood is optional. The signature is not."
+
+@dna::event.ha_form_b.result.1
+#   [D.N.A. staff] Dungeon event "ha form b": result 1
+0| You argue until a tiny stamp appears from nowhere and hits you, which hurts a little.
+1| The clerk says: "That was a warning. The authorization is valid."
+
+@dna::event.ha_form_c.choice.0
+#   [D.N.A. staff] Dungeon event "ha form c": choice 0
+0| Submit all the forms and claim the reward
+
+@dna::event.ha_form_c.choice.1
+#   [D.N.A. staff] Dungeon event "ha form c": choice 1
+0| Rest in the clerk's break room instead
+
+@dna::event.ha_form_c.result.0
+#   [D.N.A. staff] Dungeon event "ha form c": result 0
+0| Every form passes. A bureaucrat's tear of joy lands on the ink. You receive a stamped Form 13-B, a small refund and a commendation you cannot read.
+
+@dna::event.ha_form_c.result.1
+#   [D.N.A. staff] Dungeon event "ha form c": result 1
+0| The clerk's break room is the most efficient room in the Hall. You are given a cup of tea, a biscuit and a lovely, quiet chair. You feel ready for the next department.
+
+## purpose: Hall event: the notary, who can strengthen your units, let you rest or buy a spare seal.
+@dna::event.ha_notary.choice.0
+#   [D.N.A. staff] Dungeon event "ha notary": choice 0
+0| Get your credentials notarized (50 gold)
+
+@dna::event.ha_notary.choice.1
+#   [D.N.A. staff] Dungeon event "ha notary": choice 1
+0| Lie down in the notary's cot
+
+@dna::event.ha_notary.choice.2
+#   [D.N.A. staff] Dungeon event "ha notary": choice 2
+0| Sell the notary a spare seal
+
+@dna::event.ha_notary.result.0
+#   [D.N.A. staff] Dungeon event "ha notary": result 0
+0| The seal comes down with a THUMP. You are, officially, a person. Your units feel more legitimate, and hit a little harder for it.
+
+@dna::event.ha_notary.result.1
+#   [D.N.A. staff] Dungeon event "ha notary": result 1
+0| The cot is small, hard and incredibly comfortable. You sleep for a very official ten minutes, and wake refreshed, with the notary's seal printed on one cheek.
+
+@dna::event.ha_notary.result.2
+#   [D.N.A. staff] Dungeon event "ha notary": result 2
+0| He pays in cash, takes no receipt, and tells you he never saw you. You have never felt more notarized.
+
+## purpose: After the D.N.A. is freed, Kyle shows the queue really moved and that somebody finally called his number twice, and still wants a game.
+@dna::npc.matching.return.freed
+#   [Kyle] Talking to Kyle (return) (after the zone is freed)
+0| the queue moved. it actually moved! agnes called my number at 3am and i was away from my desk, so she just... called it again. nobody's ever called me twice before.
+1| wanna play one more round before i pass on? i'm kidding, probably. i burned you a mix cd just in case, though, and track four is mostly me saying sorry about a tuesday.
+
+## purpose: After the D.N.A. is freed, Ectomund reports the ethics questions are back in the building and that he is unchanged, by choice.
+@dna::npc.quiz.return.freed
+#   [Director Ectomund] Talking to Director Ectomund (return) (after the zone is freed)
+0| Back again, I see. You may be glad to hear that the ethics questions have been returned to the building, though not yet to the exam, for I believe in one reform at a time.
+1| Statistically you will still fail a question, and statistically I shall still enjoy it. That is not corruption, I am assured. That is merely personality.
