@@ -815,7 +815,7 @@
 					"choices": [
 						[
 							"Pick the odd one out",
-							"It tastes of dandelion. It feels like the first honest thing in the castle.",
+							"It tastes of dandelion, bitter and ordinary, and it feels like the first honest thing you have found in the castle.",
 							"heal:3"
 						],
 						[
@@ -1882,21 +1882,21 @@
 			"Road's clear for ten minutes, and the chalk's fresh, so I'd know. Go on, move, while the guards are busy being punctual somewhere else, and try not to walk so much like a stranger."
 		],
 		"quest.side_s_cap.offer": [
-			"There's an older way into the city that nobody remembers, and I'd like to keep it that way. I don't show it to strangers.",
-			"Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?"
+			"Psst. There's an older way into the city that nobody remembers, and I'd like to keep it that way, so I don't go showing it to strangers just because they've got an honest sort of face.",
+			"So here's the deal. Get past Spotless's gate first. Inside, knock three times on the manhole near it and ask Wren in the Crease about the old tunnels. Then come back, and I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
-			"Through the gate, then the manhole beside it: knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here."
+			"Still out here? It's through the gate, then the manhole beside it, and you knock three times. Not two; two is rude. Ask Wren about the tunnels, then come and find me out here, if you can spot me."
 		],
 		"quest.side_s_cap.ready": [
-			"So you found the Crease. Told you I'd be around; I just never said where. Here, you've earned this."
+			"So you found the Crease, and Wren didn't throw you straight back out, which is better than I had you chalked up for. Told you I'd be around; I just never said where. Here, this one's yours."
 		],
 		"fx.old_tunnels_way_in": [
 			"The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four Paths' services, still connected.",
 			"You climb up inside the walls. Nobody is watching this way in, because nobody remembers it is here."
 		],
 		"quest.side_s_cap.done": [
-			"The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk."
+			"Psst. The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols down there, and mind my chalk too, because I'm not drawing it all again."
 		],
 		"dungeon.dg_s_iron_boss.before": [
 			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",
