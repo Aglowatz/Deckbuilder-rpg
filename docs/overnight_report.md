@@ -27,7 +27,7 @@ three times.
 
 ## One thing to know first: tests were overwriting your campaign-1 autosave
 
-`%APPDATA%\Deckbuilder-RPG\savesutosave.json` (and its `.bak`) was rewritten by test runs today, at 19:59, 20:25 and 20:44, with
+`%APPDATA%\Deckbuilder-RPG\saves\autosave.json` (and its `.bak`) was rewritten by test runs today, at 19:59, 20:25 and 20:44, with
 test state (level 3, 450 gold, a Crease flag). Twelve test files switch saving back on at the real path. **I cannot tell what was in
 that slot before today and cannot recover it**; campaigns 2 and 3 are untouched (Oct 24, Oct 31). I do not think this pass introduced it
 (those tests date from Nov 7 on, and every full test run would have done the same), but that is not verified. Fixed from here on: under
