@@ -1,0 +1,75 @@
+# Batch 15: Elowen walks away at the end of the intro (low camera)
+wait 2
+button New Game
+wait 1.5
+button Start here
+wait 1.0
+button Start over here
+wait 1.0
+button Start Over
+wait 4
+cam 3
+skip_dialogue 40
+wait 1
+click 671 400
+wait 0.5
+button Begin
+wait 1.2
+shot low_00_talk
+key E
+wait 0.35
+shot low_01a
+wait 0.3
+shot low_01b
+wait 0.3
+shot low_01c
+key E
+wait 0.35
+shot low_02a
+wait 0.3
+shot low_02b
+wait 0.3
+shot low_02c
+key E
+wait 0.35
+shot low_03a
+wait 0.3
+shot low_03b
+wait 0.3
+shot low_03c
+key E
+wait 0.35
+shot low_04a
+wait 0.3
+shot low_04b
+wait 0.3
+shot low_04c
+key E
+wait 0.35
+shot low_05a
+wait 0.3
+shot low_05b
+wait 0.3
+shot low_05c
+key E
+wait 0.35
+shot low_06a
+wait 0.3
+shot low_06b
+wait 0.3
+shot low_06c
+key E
+wait 0.35
+shot low_07a
+wait 0.3
+shot low_07b
+wait 0.3
+shot low_07c
+key E
+wait 0.35
+shot low_08a
+wait 0.3
+shot low_08b
+wait 0.3
+shot low_08c
+cam 0

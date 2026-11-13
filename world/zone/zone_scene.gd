@@ -2285,6 +2285,8 @@ func _screenshot_open(what: String) -> void:
 			_open_quiz()
 		"matching", "minigame":
 			_open_minigame()
+		"card_match":
+			_open_card_match(def.id)  # Batch 15: Dex's table (MG-BG-MATCHTABLE, UI-CARDBACK-DEX)
 		"map":
 			_open_full_map()
 		"reveal", "map_all":

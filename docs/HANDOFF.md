@@ -13,7 +13,7 @@ policy, tests).
 | Folder | What lives there |
 |---|---|
 | `app/` | autoloads: `game_session.gd` (Session: the whole save state and game flow), `settings.gd`, `game_log.gd`, `save_system.gd`, `dev_actions.gd` (F10 Dev Menu) |
-| `core/` | pure rules: `game/` (battle engine), `ai/`, `data/` (catalogs, conditions, `art_patches.gd`), `quests/` (all quest definitions), `zone/` (zone defs), `dungeon/`, `sim/` (balance sims, `level_hints.gd`) |
+| `core/` | pure rules: `game/` (battle engine), `ai/`, `data/` (catalogs, conditions), `quests/` (all quest definitions), `zone/` (zone defs), `dungeon/`, `sim/` (balance sims, `level_hints.gd`) |
 | `ui/` | screens: `battle/`, `town/` (Deck Station, Character page, dialogue), `screens/` (title, settings, credits, pause), `dungeon/`, `minimap/` |
 | `world/` | the walkable 3D places: `town_scene.gd` (Crosspath), `zone/zone_scene.gd` + one folder per zone, `capital/`, `starting_area_scene.gd` |
 | `data/` | cards (`data/cards/*.tres`, resources in `data/tokens/`), story text (`data/story/*.tres`), NPCs (`data/npcs/npcs.json`), dungeons, items, credits |
@@ -97,8 +97,8 @@ Playtester notes: `docs/release/rc1_notes.md`.
    `bash tools/shot.sh res://scenes/dungeon_map.tscn x --dungeon=D-PC --open=cutscene --scene_id=primm_p1 --wait=5`; a bestiary page
    `bash tools/shot.sh res://scenes/town.tscn x --open=bestiary:Antechamber_Sentry --wait=4`; shops `--open=item_vendor`. Mark the CSV rows
    "In game", run the light tests, commit.
-6. A redone portrait variant needs no code change any more (`Portraits.HELD_EXPRESSIONS` is empty). When Hesper's redo lands, delete her two entries
-   in `core/data/art_patches.gd`.
+6. A redone portrait variant needs no code change any more (`Portraits.HELD_EXPRESSIONS` is empty). Hesper's redo landed with Batch 15 (Nov 13) and
+   the in-code recolour (`art_patches.gd`) is gone.
 
 ## 4. The music pipeline
 

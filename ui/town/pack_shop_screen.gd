@@ -94,10 +94,19 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	var art: PackArt = PackArt.create(pack)
 	art.scale = Vector2.ONE * _art_scale
 	art.position = -PackArt.SIZE * (1.0 - _art_scale) * 0.5
+	# Batch 15: a locked Path Pack is its painted parcel (wrapped, sealed in the Path's colour, padlocked) in the pack's own place and size -
+	# no dimmed pack, velvet cover or lock glyph over it.
+	var parcel: TextureRect = PackArt.locked_picture(pack, PackArt.SIZE * _art_scale) if not stocked else null
 	if not stocked:
 		art.modulate = Color(0.35, 0.35, 0.42)
-	art_holder.add_child(art)
-	if not stocked and vendor_screen_id == "VS-FENWICK":
+	if parcel != null:
+		art.free()
+		art_holder.add_child(parcel)
+	else:
+		art_holder.add_child(art)
+	if parcel != null:
+		pass
+	elif not stocked and vendor_screen_id == "VS-FENWICK":
 		# The sheet: locked Path Packs are covered pedestals with a hint.
 		var cover: VendorFx.VelvetCover = VendorFx.velvet_cover(UIStyle.affinity_color(pack.path).darkened(0.45) if pack.kind == PackData.Kind.PATH else Color(0.4, 0.12, 0.2))
 		cover.position = Vector2(-4.0, 6.0)

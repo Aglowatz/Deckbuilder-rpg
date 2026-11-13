@@ -1,0 +1,17 @@
+# Batch 15: Elowen's intro walk - probe run (finds the Path choice)
+wait 2
+button New Game
+wait 1.5
+dump
+button Start here
+wait 1.0
+dump
+button Start over here
+wait 1.0
+button Start Over
+wait 4
+skip_dialogue 40
+wait 1
+shot p1
+dump
+scene

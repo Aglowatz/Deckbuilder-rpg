@@ -62,6 +62,8 @@ var _hat_rot: float = 0.0
 var _info: Dictionary = {}
 var _dirs: Array[String] = []
 var _walk_dirs: Array[String] = []
+## True when some walk direction has no idle of its own (Elowen: FRONTSIDE / BACKSIDE walks beside FRONT / SIDE / BACK idles).
+var _walk_only: bool = false
 var _mesh: MeshInstance3D
 var _material: ShaderMaterial
 var _shadow_material: ShaderMaterial
@@ -135,6 +137,10 @@ func _load_character(character_id: String) -> bool:
 		_dirs.append(str(dir_name))
 	for dir_name: Variant in _info["walk_dirs"] as Array:
 		_walk_dirs.append(str(dir_name))
+	_walk_only = false
+	for dir_name: String in _walk_dirs:
+		if not _dirs.has(dir_name):
+			_walk_only = true
 	var canvas: Array = _info["canvas"] as Array
 	var fig_h: float = float(_info["fig_h"])
 	world_height = NpcSprites.rel_height(character_id, float(_info["rel_height"])) * PLAYER_HEIGHT
@@ -363,8 +369,10 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		_offscreen_frames = 0
 	_time += delta
 	_turn(delta)
-	var best: String = _choose_direction()
-	var moving: bool = (speed > MOVING_SPEED or run_cycles > 0.0) and _walk_dirs.has(best)
+	# Batch 15 (Elowen's walk): a set may have walk-only directions (three-quarter walks with no idle); while it moves the direction is picked among its walks.
+	var wants_walk: bool = speed > MOVING_SPEED or run_cycles > 0.0
+	var best: String = _choose_direction(_walk_dirs if wants_walk and _walk_only else _dirs)
+	var moving: bool = wants_walk and _walk_dirs.has(best)
 	walking = moving
 	var key: String
 	if forced_key != "":
@@ -437,11 +445,11 @@ func facing_angle() -> float:
 	return rad_to_deg(atan2(heading.dot(right), heading.dot(toward)))
 
 
-func _choose_direction() -> String:
+func _choose_direction(pool: Array[String] = _dirs) -> String:
 	var angle: float = absf(facing_angle())
-	var best: String = _dirs[0]
+	var best: String = pool[0]
 	var best_score: float = 1e9
-	for dir_name: String in _dirs:
+	for dir_name: String in pool:
 		# The direction already shown gets a few degrees of grace so an angle on a boundary does not flicker.
 		var score: float = absf(angle - float(DIR_ANGLES[dir_name])) - (9.0 if dir_name == current_dir else 0.0)
 		if score < best_score:

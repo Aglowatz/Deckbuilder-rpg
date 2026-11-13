@@ -48,6 +48,9 @@ static func build(scene: Node3D, walkable: Callable, add_blocker: Callable, low_
 	root.name = "Celebration"
 	scene.add_child(root)
 	root.add_child(_decor_mesh(walkable, not low_end))
+	var banners: MeshInstance3D = _banner_row()
+	if banners != null:
+		root.add_child(banners)
 	return _crowd(root, walkable, add_blocker, low_end)
 
 
@@ -84,6 +87,30 @@ static func _crowd(root: Node3D, walkable: Callable, add_blocker: Callable, low_
 			people.append(actor)
 			count += 1
 	return people
+
+
+## Batch 15: the freed city's painted banners (CAP-BANNER-FREED-01..04, one per Path land) in a row down the avenue: one hangs inside each
+## bunting post, facing the gate, the four in turn. One cut-out mesh, no shadow, no sway. Null when the art is not imported.
+const BANNER_HEIGHT: float = 2.1
+
+
+static func _banner_row() -> MeshInstance3D:
+	var ids: Array[String] = CapitalKit.FREED_BANNERS
+	if not EnvKit.has_art(ids[0]):
+		return null
+	var mesh: KitMesh = KitMesh.new()
+	var centre_x: float = CapitalLayout.PLAZA_CENTER.x
+	for index: int in range(AVENUE_LINE_Z.size()):
+		for side: int in range(2):
+			var id: String = ids[(index * 2 + side) % ids.size()]
+			var x: float = centre_x + (-1.0 if side == 0 else 1.0) * (AVENUE_HALF + 0.75)
+			CapitalKit.card(mesh, id, Vector3(x, POST_HEIGHT - 0.25 - BANNER_HEIGHT, AVENUE_LINE_Z[index] + 0.08), BANNER_HEIGHT, Vector3(0, 0, 1))
+	var instance: MeshInstance3D = mesh.instance("FreedBanners")
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_wind", true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	return instance
 
 
 ## The bunting (fountain to lamps, across the avenue), its posts and the confetti: one mesh, vertex colours, no shadow, no sway.

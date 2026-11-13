@@ -66,6 +66,8 @@ const LOBBY_PROPS: Array = [
 	["DNA-SHEET-LOBBY-04", Vector3(51.5, 0.0, 59.2), 1.6, 0.4],   # the notice board by the south wall, east of the exit
 	["DNA-SHEET-LOBBY-06", Vector3(55.0, 0.0, 57.5), 1.9, 0.5],   # the dead vending machine against the east wall
 	["DNA-SHEET-LOBBY-02", Vector3(39.5, 0.0, 50.8), 1.5, 0.25],  # TAKE A NUMBER by the counter's west end
+	["DNA-PROP-SERVING-ORB", Vector3(49.6, 0.0, 47.0), 2.1, 0.3],  # Batch 15: the ghostly now-serving orb at the head of the ghost queue (north wall)
+	["DNA-PROP-SERVING-ORB", Vector3(41.2, 0.0, 50.8), 2.1, 0.3],  # ... and a second one beside TAKE A NUMBER at the counter's west end
 ]
 const LOBBY_NUDGES: Array[Vector3] = [Vector3.ZERO, Vector3(0, 0, -1), Vector3(0, 0, 1), Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, -2), Vector3(0, 0, 2), Vector3(2, 0, 0), Vector3(-2, 0, 0)]
 

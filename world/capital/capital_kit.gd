@@ -323,6 +323,8 @@ static func lancet_window(mesh: KitMesh, bottom: Vector3, width: float, height: 
 ## `broken` cracks it in two (one half slipped down), `covered` hangs a dark cloth over it (the fallen state).
 ## Fable Nov 12 (Part 2.3, art critic #11: "a flat navy rectangle ... reads as a hole in the building"): the cloths the people hung over Primm's
 ## face after his fall are five banners in the four Paths' colours, not one dark sheet.
+## Batch 15: the painted banners the people hung (one per Path land), in the row's order.
+const FREED_BANNERS: Array[String] = ["CAP-BANNER-FREED-01", "CAP-BANNER-FREED-02", "CAP-BANNER-FREED-03", "CAP-BANNER-FREED-04"]
 const FREED_CLOTHS: Array[String] = ["canvas_red", "canvas_copper", "canvas_green", "canvas_teal", "canvas_red"]
 
 
@@ -341,6 +343,14 @@ static func emblem(mesh: KitMesh, center: Vector3, radius: float, normal: Vector
 		var d1: Vector3 = right * cos(a1) + up * sin(a1)
 		mesh.tri(face, [center + shift + normal * 0.02, center + shift + d0 * radius * 0.86 + normal * 0.02, center + shift + d1 * radius * 0.86 + normal * 0.02], normal)
 		mesh.quad("gold", [center + shift + d0 * radius * 0.86 + normal * 0.06, center + shift + d1 * radius * 0.86 + normal * 0.06, center + shift + d1 * radius + normal * 0.06, center + shift + d0 * radius + normal * 0.06], normal)
+	if covered and EnvKit.has_art(FREED_BANNERS[0]):
+		# Batch 15: the four painted banners of the Paths' lands in a row over the face (Gainlands, Buffet, Dump, D.N.A.)
+		var banner_h: float = radius * 2.15
+		var step: float = banner_h * EnvKit.aspect(FREED_BANNERS[0]) * 0.86
+		for index: int in range(FREED_BANNERS.size()):
+			var at: Vector3 = center + right * (float(index) - 1.5) * step + up * (radius * 1.12 - banner_h) + normal * (0.12 + 0.02 * float(index % 2))
+			card(mesh, FREED_BANNERS[index], at, banner_h, normal)
+		return
 	if covered:
 		# a dark cloth hung over the face, its hem ragged below the ring
 		var top: Vector3 = center + up * radius * 1.05 + normal * 0.12

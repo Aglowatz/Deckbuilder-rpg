@@ -26,6 +26,9 @@ const FALLEN_ART: String = "CAPI-PROP-STATUE-FALLEN"
 const BANNER_HOUSE: String = "CAP-SHEET-BANNERS-02"
 const BANNER_TOWER: String = "CAP-SHEET-BANNERS-01"
 const BANNER_LAMP: String = "CAP-SHEET-BANNERS-05"
+## Batch 15: the painted town window, by day and lit (the freed city after Primm; the Capital has no dusk of its own).
+const WINDOW_DAY: String = "CAP-SHEET-WINDOWS-07"
+const WINDOW_LIT: String = "CAP-SHEET-WINDOWS-08"
 ## The pastel accents (the target's pink, sage and lavender panels), as vertex tints on the flat surface so every house batches the same.
 const ACCENTS: Dictionary = {"pink": Color("f3c4d2"), "sage": Color("c6dcc4"), "lavender": Color("d4c8ec"), "blue": Color("bcd4ee"), "cream": Color("f6ecd4")}
 ## The fallen state's gold (CapitalKit.materials' gold_mul everywhere in the Capital).
@@ -95,7 +98,7 @@ static func townhouse(spec: Dictionary) -> Node3D:
 		# Callable(detail: KitMesh, root: Node3D)
 		(spec["service"] as Callable).call(detail, root)
 	else:
-		var key: String = "cap_townhouse_v2_%s" % JSON.stringify(spec).md5_text()
+		var key: String = "cap_townhouse_v3_%s" % JSON.stringify(spec).md5_text()
 		KitMesh.fill_cached_set([mesh, detail], key, func() -> void: _townhouse_geometry(mesh, detail, spec), K.resolve_slot)
 	L.finish(root, mesh, [], h + 3.0)
 	attach_detail(root, detail)
@@ -129,6 +132,8 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 	var banner: String = str(spec.get("banner", BANNER_HOUSE))
 	var banner_roll: float = float(spec.get("banner_roll", 0.0)) + (7.0 if final_state else 0.0)
 	var glass: String = "window_warm" if final_state else "mirror"
+	var window_card: String = WINDOW_LIT if final_state else WINDOW_DAY
+	var painted_windows: bool = EnvKit.has(window_card)
 	var h: float = STOREY * float(storeys)
 	var front: float = d * 0.5
 	var hw: float = w * 0.5
@@ -154,6 +159,8 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 		var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
 		var inner: float = length - 1.0
 		var win_w: float = minf(0.95, inner / float(count) * 0.55)
+		var card_h: float = minf(STOREY * 0.86, win_w * 1.4 / maxf(EnvKit.aspect(window_card), 0.1)) if painted_windows else 0.0
+		var frame_w: float = card_h * EnvKit.aspect(window_card) if painted_windows else win_w
 		for storey: int in range(storeys):
 			var base_y: float = STOREY * float(storey)
 			for bay: int in range(count):
@@ -162,7 +169,10 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 				var is_door: bool = storey == 0 and normal.z > 0.5 and bay == count / 2
 				if is_door:
 					continue
-				if storey == 0:
+				if painted_windows:
+					# Batch 15: the painted town window (its own stone surround, glazing bars and flower box), the lit one in the freed city
+					K.card(detail, window_card, at + Vector3(0, base_y + (0.34 if storey == 0 else 0.2), 0) + normal * 0.04, card_h, normal)
+				elif storey == 0:
 					K.arched_window(detail, at + Vector3(0, 0.55, 0), win_w, STOREY * 0.62, normal, glass)
 				else:
 					K.arched_window(detail, at + Vector3(0, base_y + 0.5, 0), win_w, STOREY * 0.66, normal, glass)
@@ -173,7 +183,7 @@ static func _townhouse_geometry(mesh: KitMesh, detail: KitMesh, spec: Dictionary
 				# the pastel panel between this bay and the next (upper storeys), a gold frame line round it
 				if storey > 0 and bay < count - 1:
 					var panel: Vector3 = normal * (out + 0.015) + right * ((float(bay) + 1.0) / float(count) - 0.5) * inner + Vector3(0, base_y + STOREY * 0.52, 0)
-					var pw: float = maxf(inner / float(count) - win_w - 0.3, 0.12)
+					var pw: float = maxf(inner / float(count) - frame_w - 0.3, 0.12)
 					var ph: float = STOREY * 0.62
 					detail.quad("marble", [panel - right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 - Vector3(0, ph * 0.5, 0), panel + right * pw * 0.5 + Vector3(0, ph * 0.5, 0), panel - right * pw * 0.5 + Vector3(0, ph * 0.5, 0)], normal)
 					detail.box("gold", panel + normal * 0.01 + Vector3(0, ph * 0.5, 0), Vector3(pw + 0.06, 0.05, 0.03) if absf(normal.z) > 0.5 else Vector3(0.03, 0.05, pw + 0.06))

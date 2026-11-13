@@ -92,3 +92,31 @@ static func rift_operator() -> Dictionary:
 ## Apparel Part 4: the Rescuer's sprite set: the disguise (SPR-RESCUER) until she is named at the castle gate, if it is imported; ELOWEN otherwise.
 static func rescuer_key() -> String:
 	return RescuerDisguise.sprite_key(SpriteLibrary.has_character(RescuerDisguise.SPRITE))
+
+
+## Batch 15 (Elowen's walk): a painted figure walks off by `offset` over `seconds`, fading out over the last `fade_seconds`, then `then` runs (the caller frees it).
+## The walk frames, their direction (from the path against the camera), the mirroring and the frame rate are the sprite's own (WorldSprite follows the node's
+## movement); a figure that stops plays its idle again. The Rescuer's disguise set has no walk of its own, so she walks in Elowen's frames (hooded, seen from behind
+## on her usual paths) and gets her own set back if she is still there afterwards.
+static func walk_off(owner: Node, npc: Node3D, offset: Vector3, seconds: float, fade_seconds: float, then: Callable = Callable()) -> Tween:
+	use_walk_set(npc)
+	var tween: Tween = owner.create_tween().set_parallel(true)
+	tween.tween_property(npc, "position", npc.position + offset, seconds)
+	for node: Node in npc.find_children("*", "GeometryInstance3D", true, false):
+		tween.tween_property(node, "transparency", 1.0, fade_seconds).set_delay(maxf(0.0, seconds - fade_seconds))
+	if then.is_valid():
+		tween.finished.connect(then)
+	return tween
+
+
+## Gives a disguised Rescuer the set that can walk (see `walk_off`). True when the set was swapped.
+static func use_walk_set(npc: Node3D) -> bool:
+	var actor: SpriteActor = npc as SpriteActor
+	if actor == null or actor.sprite == null or not actor.sprite.walk_dirs().is_empty():
+		return false
+	if actor.character != RescuerDisguise.SPRITE or not SpriteLibrary.has_character(RescuerDisguise.TRUE_SPRITE):
+		return false
+	if not actor.sprite.set_character(RescuerDisguise.TRUE_SPRITE):
+		return false
+	actor.character = RescuerDisguise.TRUE_SPRITE
+	return true

@@ -371,12 +371,15 @@ func _choose_path_in_conversation() -> void:
 		_say_rescuer("prologue.rescuer.4", _rescuer_leaves))
 
 
+## Where the Rescuer walks to when she leaves the camp (from her mark), and how long it takes: a walking pace of about 1.1 m/s. North-west, into the
+## trees: away from the cave path ("I'll draw them off the other way") and never across the hero.
+const RESCUER_LEAVE: Vector3 = Vector3(-2.2, 0.0, -2.0)
+const RESCUER_LEAVE_SECONDS: float = 2.6
+
+
 func _rescuer_leaves() -> void:
-	var fade: Tween = create_tween().set_parallel(true)
-	var away: Vector3 = _rescuer.position + Vector3(1.4, 0.0, -1.0)
-	fade.tween_property(_rescuer, "position", away, 1.6)
-	for node: Node in _rescuer.find_children("*", "GeometryInstance3D", true, false):
-		fade.tween_property(node, "transparency", 1.0, 1.4)
+	# Batch 15: she walks away (her walk frames, in the direction of her path) and fades into the trees over the last second.
+	var fade: Tween = NpcSprites.walk_off(self, _rescuer, RESCUER_LEAVE, RESCUER_LEAVE_SECONDS, 1.1)
 	fade.finished.connect(func() -> void:
 		_rescuer.queue_free()
 		_rescuer = null

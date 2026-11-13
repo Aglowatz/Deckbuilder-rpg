@@ -1,0 +1,73 @@
+# Batch 15: Elowen walks away at the end of the intro (default camera)
+wait 2
+button New Game
+wait 1.5
+button Start here
+wait 1.0
+button Start over here
+wait 1.0
+button Start Over
+wait 4
+skip_dialogue 40
+wait 1
+click 671 400
+wait 0.5
+button Begin
+wait 1.2
+shot default_00_talk
+key E
+wait 0.35
+shot default_01a
+wait 0.3
+shot default_01b
+wait 0.3
+shot default_01c
+key E
+wait 0.35
+shot default_02a
+wait 0.3
+shot default_02b
+wait 0.3
+shot default_02c
+key E
+wait 0.35
+shot default_03a
+wait 0.3
+shot default_03b
+wait 0.3
+shot default_03c
+key E
+wait 0.35
+shot default_04a
+wait 0.3
+shot default_04b
+wait 0.3
+shot default_04c
+key E
+wait 0.35
+shot default_05a
+wait 0.3
+shot default_05b
+wait 0.3
+shot default_05c
+key E
+wait 0.35
+shot default_06a
+wait 0.3
+shot default_06b
+wait 0.3
+shot default_06c
+key E
+wait 0.35
+shot default_07a
+wait 0.3
+shot default_07b
+wait 0.3
+shot default_07c
+key E
+wait 0.35
+shot default_08a
+wait 0.3
+shot default_08b
+wait 0.3
+shot default_08c

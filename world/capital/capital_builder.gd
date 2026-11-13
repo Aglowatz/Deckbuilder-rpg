@@ -772,11 +772,48 @@ func _build_boundaries() -> void:
 	LoadTiming.detail("capital: rim ruins")
 	CapitalRim.pines(root)
 	LoadTiming.detail("capital: pines")
+	_build_rubble_rows()
+	LoadTiming.detail("capital: rubble rows")
 	# Fable Nov 12c (A8): the Crease is a cavern - rock walls on every side, a low rock ceiling (no sky, no castle backdrop), stalactites
 	# and stalagmites, puddles, lantern pools and crystal glows (`CapitalCrease`). It replaces the four brick walls of the open yard.
 	crease = CapitalCrease.build(root, GraphicsQuality.low_end)
 	_set_layers(crease.root, CREASE_LAYER)
 	LoadTiming.detail("capital: the Crease's cavern")
+
+
+## Batch 15 (CAP-PROP-RUBBLE-ROW): a painted row of broken masonry and dead scrub along the edges that showed a bare strip of cracked dirt -
+## the foot of the south wall inside the Reek and the Transit Yards (the bottom of both views), and the outskirts' south edge either side of
+## the road, where the walkable ground meets the rim. One merged cut-out mesh, no shadow, not solid (it stands on the map's last half metre).
+const RUBBLE_ROW: String = "CAP-PROP-RUBBLE-ROW"
+const RUBBLE_ROW_HEIGHT: float = 1.05
+## The rows: [x0, x1, z] (metres), each tiled with the card, every second one mirrored and a little taller.
+const RUBBLE_ROWS: Array[Array] = [
+	[2.5, 40.5, float(CapitalLayout.WALL_Z0) - 0.3], [80.5, 117.5, float(CapitalLayout.WALL_Z0) - 0.3],
+	[2.5, 56.0, float(CapitalLayout.OUT_Z1) + 0.6], [64.0, 117.5, float(CapitalLayout.OUT_Z1) + 0.6],
+]
+
+
+func _build_rubble_rows() -> void:
+	if not EnvKit.has_art(RUBBLE_ROW):
+		return
+	var mesh: KitMesh = KitMesh.new()
+	var index: int = 0
+	for row: Array in RUBBLE_ROWS:
+		var x: float = float(row[0])
+		while x < float(row[1]) - 1.0:
+			var height: float = RUBBLE_ROW_HEIGHT * (1.0 if index % 2 == 0 else 1.18)
+			var width: float = minf(height * EnvKit.aspect(RUBBLE_ROW), float(row[1]) - x)
+			height = width / EnvKit.aspect(RUBBLE_ROW)
+			var at: Vector3 = Vector3(x + width * 0.5, -0.06, float(row[2]) + (0.12 if index % 2 == 0 else 0.0))
+			CapitalKit.card(mesh, RUBBLE_ROW, at, height, Vector3(0, 0, 1), index % 2 == 1)
+			x += width * 0.94
+			index += 1
+	var body: MeshInstance3D = mesh.instance("RubbleRows")
+	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_wind", true)
+	body.set_meta(&"no_occlusion_fade", true)
+	root.add_child(body)
 
 
 ## The rebuild's skyline beyond the walkable city: tall townhouses and towers on the castle hill's top either side of the palace (behind the

@@ -631,7 +631,11 @@ func _features() -> void:
 	# wings north of the plaza with the road to the river running between them under the hall's arch (Part B, BF-8). No poles, cutlery or donut arches.
 	_prop("fountain", 50.0, 64.5, 0.0, 1.0, 1.9)
 	_prop("table", 41.0, 62.0, 90.0, 1.0, 1.5)
-	_prop("stall", 60.5, 65.4, 200.0, 1.0, 1.2)
+	# Batch 15 (BUFF-PROP-STALL-01 / -02): the market stalls are painted cards that face the camera, so Madame Mirepoix's sweet stall stands
+	# BEHIND her (north of her spot at z 63.5; it stood south of her, back to the camera, and the hero looked at her over its roof) and a
+	# savoury stall stands beside it on the plaza's east rim.
+	_prop("stall", 60.5, 62.0, 0.0, 1.0, 1.0)
+	_prop("stall", 65.4, 62.3, 0.0, 1.0, 1.0, 1)
 	_prop("oven", 58.0, 69.5, 180.0, 1.0, 1.6)
 	_prop("dispenser", 65.0, 67.5, 200.0, 1.0, 0.8)
 	_prop("broken_golem", 36.0, 68.0, 20.0, 1.0, 1.3)

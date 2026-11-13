@@ -66,13 +66,18 @@ func test_the_source_folder_is_configured() -> void:
 	assert_eq(MapArt.source_dir(), "G:/My Drive/Card Game Art/Approved_Maps")
 
 
+const WIDE_MAPS: Array[String] = ["MAP-S-GALLERY"]
+
+
 func test_every_dungeon_has_its_painted_3_2_map() -> void:
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		assert_true(MapArt.has_map(blueprint.map_id), "%s has %s" % [blueprint.id, blueprint.map_id])
 		var texture: Texture2D = MapArt.texture_for(blueprint.map_id)
 		assert_not_null(texture)
 		if texture != null:
-			assert_almost_eq(float(texture.get_width()) / float(texture.get_height()), 1.5, 0.01, "%s is 3:2" % blueprint.map_id)
+			# Batch 15: the Shattered Gallery's repainted map is 16:9 (never cropped; the screen fits either shape whole)
+			var wanted: float = 16.0 / 9.0 if blueprint.map_id in WIDE_MAPS else 1.5
+			assert_almost_eq(float(texture.get_width()) / float(texture.get_height()), wanted, 0.01, "%s is %s" % [blueprint.map_id, "16:9" if blueprint.map_id in WIDE_MAPS else "3:2"])
 	assert_null(MapArt.texture_for("MAP-NOWHERE"))
 
 

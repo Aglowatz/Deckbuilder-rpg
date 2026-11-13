@@ -671,7 +671,9 @@ static func _junk_mountain(root: Node3D, mesh: KitMesh, size: Vector3, circles: 
 		var tip: Vector3 = Vector3(cos(a), sin(a), 0.0) * 1.8
 		sails.tube("wood_dark", Vector3.ZERO, tip, 0.05, 4, true)
 		sails.box("rust" if blade % 2 == 0 else "cloth_cream", tip * 0.6 + Vector3(0, 0, 0.05), Vector3(1.0, 0.45, 0.04), Basis(Vector3(0, 0, 1), a), 0.0)
-	var spinner: MeshInstance3D = sails.instance("Sails")
+	var spinner: MeshInstance3D = painted_sails(4.2)
+	if spinner == null:
+		spinner = sails.instance("Sails")
 	spinner.set_meta(PaintedClasses.META_NO_PAINT, true)
 	spinner.position = mast + Vector3(0, 3.6, 0.3)
 	root.add_child(spinner)
@@ -782,7 +784,9 @@ static func _windmill(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array
 			var t: float = lerpf(inner, reach, float(rung) / 3.0)
 			sails.tube("wood", axis * t + Vector3(0, 0, 0.14), axis * t + across * 1.5 + Vector3(0, 0, 0.14), 0.04, 4, false)
 		sails.tube("wood", axis * inner + across * 1.5 + Vector3(0, 0, 0.14), axis * reach + across * 1.5 + Vector3(0, 0, 0.14), 0.05, 4, false)
-	var sail_node: MeshInstance3D = sails.instance("Sails")
+	var sail_node: MeshInstance3D = painted_sails(reach * 2.15)
+	if sail_node == null:
+		sail_node = sails.instance("Sails")
 	sail_node.set_meta(PaintedClasses.META_NO_PAINT, true)
 	sail_node.position = Vector3(0.0, cap + 0.2, r * 0.8 + 0.5)
 	root.add_child(sail_node)
@@ -855,7 +859,12 @@ static func _throne(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[V
 	mesh.lathe("metal", Vector3(0, top_y, throne_z), [Vector2(1.6, 0.0), Vector2(1.7, 1.4), Vector2(1.75, 1.5)], 14, 0.85, false, true)
 	for side: float in [-1.0, 1.0]:
 		mesh.lathe("metal_dark", Vector3(side * 2.2, top_y, throne_z + 0.4), [Vector2(0.7, 0.0), Vector2(0.75, 2.0), Vector2(0.8, 2.1)], 12, 0.85, false, true)
-	_raccoon(mesh, Vector3(0, top_y + 1.4, throne_z), 4.6, 0.0, true)
+	# Batch 15: the painted raccoon king statue (DUMP-HERO-RACCOON-STATUE: mossy stone, the bottle-cap crown, the fish-bone sceptre) in place
+	# of the faceted grey stand-in; the little guards on the first tier stay modelled.
+	if EnvKit.has_art(KING_STATUE):
+		_card(mesh, KING_STATUE, Vector3(0, top_y + 1.35, throne_z + 0.3), KING_STATUE_HEIGHT, Vector3(0, 0, 1))
+	else:
+		_raccoon(mesh, Vector3(0, top_y + 1.4, throne_z), 4.6, 0.0, true)
 	# rag pennants on poles and rope across the tiers, the little windmills on the shoulders
 	var poles: Array[Vector3] = [Vector3(-w * 0.48, 0.0, d * 0.42), Vector3(-w * 0.3, tiers[0].y, back + tiers[0].z - 0.8), Vector3(w * 0.3, tiers[0].y, back + tiers[0].z - 0.8), Vector3(w * 0.48, 0.0, d * 0.42)]
 	for index: int in range(poles.size()):
@@ -891,6 +900,30 @@ static func _throne(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[V
 	circles.append(Vector3(-w * 0.25, d * 0.5, 0.0))
 	circles.append(Vector3(w * 0.25, d * 0.5, 0.0))
 	circles.append(Vector3(0.0, d * 0.5 + 2.7, 2.4))
+
+
+const KING_STATUE: String = "DUMP-HERO-RACCOON-STATUE"
+const KING_STATUE_HEIGHT: float = 5.4
+const MILL_SAILS: String = "DUMP-PROP-MILL-SAILS"
+
+
+## Batch 15: the painted six-bladed sail wheel (DUMP-PROP-MILL-SAILS) `diameter` metres across as a "Sails" node that turns about its own
+## centre (the builder spins every landmark's "spinner" slowly); null when the art is not imported (the caller keeps its modelled sails).
+static func painted_sails(diameter: float) -> MeshInstance3D:
+	if not EnvKit.has_art(MILL_SAILS):
+		return null
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(diameter * EnvKit.aspect(MILL_SAILS), diameter)
+	var material: StandardMaterial3D = EnvKit.material(MILL_SAILS, true).duplicate() as StandardMaterial3D
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var wheel: MeshInstance3D = MeshInstance3D.new()
+	wheel.name = "Sails"
+	wheel.mesh = quad
+	wheel.material_override = material
+	wheel.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	wheel.set_meta(PaintedClasses.META_NO_PAINT, true)
+	wheel.set_meta(&"no_wind", true)
+	return wheel
 
 
 ## A raccoon statue `height` metres tall sitting at `base` (body, belly, head, ears, the bandit mask, a snout), facing +z; `side` tilts the guards'
@@ -1033,7 +1066,9 @@ static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arr
 	for blade: int in range(6):
 		var a: float = float(blade) * TAU / 6.0
 		sails.box("rust" if blade % 2 == 0 else "cloth_cream", Vector3(cos(a), sin(a), 0) * 0.45 + Vector3(0, 0, 0.06), Vector3(0.6, 0.24, 0.03), Basis(Vector3(0, 0, 1), a), 0.0)
-	var spinner: MeshInstance3D = sails.instance("Sails")
+	var spinner: MeshInstance3D = painted_sails(1.5)
+	if spinner == null:
+		spinner = sails.instance("Sails")
 	spinner.set_meta(PaintedClasses.META_NO_PAINT, true)
 	spinner.position = hub + Vector3(0, 0, 0.15)
 	root.add_child(spinner)

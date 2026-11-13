@@ -312,8 +312,17 @@ static func hearty_table() -> Node3D:
 	return root
 
 
-static func vendor_stall() -> Node3D:
+## Batch 15: the painted market stalls (variant 0 the sweet stall, 1 the savoury one) and how tall they stand.
+const STALL_ART: Array[String] = ["BUFF-PROP-STALL-01", "BUFF-PROP-STALL-02"]
+const STALL_HEIGHT: float = 3.5
+
+
+static func vendor_stall(variant: int = 0) -> Node3D:
 	var root: Node3D = Node3D.new()
+	var art: String = STALL_ART[posmod(variant, STALL_ART.size())]
+	if EnvKit.has_art(art):
+		KitPieces.stand(root, art, Vector3.ZERO, STALL_HEIGHT)
+		return root
 	var counter: Node3D = BuffetModels.restaurant("kitchencounter_straight_A_decorated")
 	root.add_child(counter)
 	counter.scale = Vector3.ONE * 1.5

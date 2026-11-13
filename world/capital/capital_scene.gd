@@ -112,6 +112,8 @@ func _build_zone_extras() -> void:
 		var revellers: Array[Node3D] = CapitalCelebration.build(self, func(p: Vector3) -> bool: return builder.is_walkable(p, 0.3), func(p: Vector3, r: float) -> void: builder.add_blocker(p, r), Settings.low_end)
 		for index: int in range(revellers.size()):
 			npc_barks.register_lines(revellers[index], "reveller_%d" % index, [CapitalCelebration.CROWD_LINES[index % CapitalCelebration.CROWD_LINES.size()]] as Array[String])
+		# Batch 15: lanterns rising behind the castle and soft, occasional fireworks (still / off with Reduce motion and on Low-end)
+		CapitalSkyFx.build(self, CapitalCastle.AXIS, CapitalSkyFx.motion_allowed(Settings.reduce_motion, Settings.low_end))
 	_mark_empowered_enemies()
 	# CAP-41: places carry no floating lettered plate (the HUD prompt names them, as in town); people keep their names
 	for spot: ZoneSpot in spots:

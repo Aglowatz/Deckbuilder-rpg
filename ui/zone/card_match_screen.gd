@@ -39,7 +39,50 @@ func music_cue() -> String:
 	return MusicDirector.minigame(table if CardMatchCircuit.ZONES.has(table) else "necrocrat")
 
 
+## Batch 15: Dex's own table (the painted baize, behind everything on the screen) and his own card back for the face-down cards.
+const TABLE_ART: String = "MG-BG-MATCHTABLE"
+const BACK_ART: String = "UI-CARDBACK-DEX"
+
+
+## The painted table behind the screen's content (covering the screen, a light shade over it so the labels stay readable); nothing without the art.
+func _build_table() -> void:
+	if not UiArt.has(TABLE_ART):
+		return
+	var table_art: TextureRect = TextureRect.new()
+	table_art.name = "TableArt"
+	table_art.texture = UiArt.texture(TABLE_ART)
+	table_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	table_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	table_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(table_art)
+	table_art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, -24)  # past the screen's own margins
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.03, 0.05, 0.04, 0.28)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	table_art.add_child(shade)
+	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for child: Node in get_children():
+		if child is MarginContainer:
+			move_child(table_art, child.get_index())
+			break
+
+
+## A face-down card: Dex's own back when it is imported, else the Path's card back (the final table: the neutral back).
+func _face_down() -> Control:
+	if UiArt.has(BACK_ART):
+		var picture: TextureRect = TextureRect.new()
+		picture.name = "DexBack"
+		picture.texture = UiArt.texture(BACK_ART)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
+		picture.custom_minimum_size = CardView.SIZE * CARD_SCALE
+		picture.size = CardView.SIZE * CARD_SCALE
+		return picture
+	return CardView.wrapped(_back_card(), CARD_SCALE, CardView.Mode.BACK)
+
+
 func _build() -> void:
+	_build_table()
 	screen_title = "Dex's Table: the Final Deal" if table == CardMatchCircuit.FINAL else "Dex's Table: %s Cards" % Affinity.display_name(ZoneEffects.path_of(table))
 	if title_label != null:
 		title_label.text = screen_title
@@ -153,7 +196,7 @@ func _refresh() -> void:
 			slot.add_child(view)
 		else:
 			# Overnight Nov 9, Part 3: the Path's own card back (the final table: the neutral back), not a "?"
-			var back: Control = CardView.wrapped(_back_card(), CARD_SCALE, CardView.Mode.BACK)
+			var back: Control = _face_down()
 			back.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			slot.add_child(back)
 	if left <= 2 and not game.is_over():

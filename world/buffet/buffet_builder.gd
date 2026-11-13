@@ -646,7 +646,7 @@ func _place_feature(prop: BuffetLayout.Prop, pos: Vector3) -> void:
 		"table":
 			node = P.hearty_table()
 		"stall":
-			node = P.vendor_stall()
+			node = P.vendor_stall(prop.variant)
 		"oven":
 			node = P.grand_oven()
 		"arch":

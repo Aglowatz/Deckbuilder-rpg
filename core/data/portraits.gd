@@ -67,7 +67,7 @@ static func _load_any(portrait_id: String, expression: String) -> Texture2D:
 		texture = _load(_path(portrait_id, ""))
 	if texture == null and PortraitPlaceholders.has(portrait_id):
 		texture = PortraitPlaceholders.texture(portrait_id)
-	return ArtPatches.apply(portrait_id, texture)  # Fable Nov 9: the Red Cross recolour on Hesper
+	return texture
 
 
 ## True when the base portrait of `portrait_id` exists.

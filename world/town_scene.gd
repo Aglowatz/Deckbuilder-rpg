@@ -1685,11 +1685,8 @@ func _rescuer_leaves_town() -> void:
 	_npcs.erase("rescuer")
 	if not is_instance_valid(npc):
 		return
-	var fade: Tween = create_tween().set_parallel(true)
-	fade.tween_property(npc, "position", npc.position + Vector3(-1.4, 0.0, -1.2), 1.4)
-	for node: Node in npc.find_children("*", "GeometryInstance3D", true, false):
-		fade.tween_property(node, "transparency", 1.0, 1.2)
-	fade.finished.connect(npc.queue_free)
+	# Batch 15: she walks to the cave mouth in her walk frames and fades as she goes in.
+	NpcSprites.walk_off(self, npc, Vector3(-2.0, 0.0, -1.3), 2.0, 1.0, npc.queue_free)
 
 
 ## Elder Maren: memory fragments first, then hand-ins (an errand of the early-game chain hands straight over to the next one in the same

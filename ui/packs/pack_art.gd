@@ -28,6 +28,71 @@ var _tween: Tween
 var _seam: float = SEAM
 
 
+## Batch 15: the painted locked state of each Path Pack (a wrapped, sealed, padlocked parcel with the pack's outline).
+const LOCKED_PACK_IDS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "UI-PACK-LOCKED-B",
+	Affinity.Type.NECROCRAT: "UI-PACK-LOCKED-N",
+	Affinity.Type.GOURMAND: "UI-PACK-LOCKED-G",
+	Affinity.Type.REFUSEMANCER: "UI-PACK-LOCKED-R",
+}
+## Seals re-coloured in code to match their unlocked pack (art id -> [seal centre (0-1 of the picture), radius (0-1 of its width), colour]).
+## The Necrocrat and Refusemancer parcels both came back with green seals. The Necrocrat's matches its pack (deep green round the skull). The
+## Refusemancer's pack carries a rust-red medallion, so its seal is tinted to that rust: each seal now echoes its pack's medallion and the
+## two green parcels can be told apart.
+const LOCKED_SEAL_TINTS: Dictionary = {
+	"UI-PACK-LOCKED-R": [Vector2(0.486, 0.443), 0.17, Color("b4482a")],
+}
+const SEAL_SHADER: String = """
+shader_type canvas_item;
+uniform vec2 seal_center = vec2(0.5, 0.45);
+uniform float seal_radius = 0.2;
+uniform vec3 seal_color : source_color = vec3(0.7, 0.28, 0.16);
+uniform float aspect = 0.667;
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	vec2 d = (UV - seal_center) * vec2(1.0, 1.0 / aspect);
+	float inside = 1.0 - smoothstep(seal_radius * 0.85, seal_radius, length(d));
+	// only the wax: saturated olive (green well over blue, and not redder than green - the string and the padlock are tan and gold; the
+	// paper is a grey green)
+	float wax = smoothstep(0.1, 0.2, c.g - c.b) * (1.0 - smoothstep(1.0, 1.12, c.r / max(c.g, 0.001)));
+	float value = max(c.r, max(c.g, c.b));
+	vec3 tinted = seal_color * (0.25 + value * 1.6);
+	c.rgb = mix(c.rgb, tinted, inside * wax);
+	COLOR = c;
+}
+"""
+
+
+## The locked parcel of a Path Pack as a picture `size` big (its seal tinted where LOCKED_SEAL_TINTS says so); null when the pack is not a
+## Path Pack or the art is not imported (the caller keeps the dimmed pack).
+static func locked_picture(pack_data: PackData, size: Vector2) -> TextureRect:
+	if pack_data == null or pack_data.kind != PackData.Kind.PATH:
+		return null
+	var id: String = str(LOCKED_PACK_IDS.get(pack_data.path, ""))
+	if id.is_empty() or not UiArt.has(id):
+		return null
+	var picture: TextureRect = TextureRect.new()
+	picture.name = "LockedPack"
+	picture.texture = UiArt.texture(id)
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	picture.size = size
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if LOCKED_SEAL_TINTS.has(id):
+		var tint: Array = LOCKED_SEAL_TINTS[id] as Array
+		var shader: Shader = Shader.new()
+		shader.code = SEAL_SHADER
+		var material: ShaderMaterial = ShaderMaterial.new()
+		material.shader = shader
+		material.set_shader_parameter("seal_center", tint[0] as Vector2)
+		material.set_shader_parameter("seal_radius", float(tint[1]))
+		var colour: Color = tint[2] as Color
+		material.set_shader_parameter("seal_color", Vector3(colour.r, colour.g, colour.b))
+		material.set_shader_parameter("aspect", float(picture.texture.get_width()) / float(maxi(picture.texture.get_height(), 1)))
+		picture.material = material
+	return picture
+
+
 ## The UI art kit image ID of a pack: Path Pack by Path, Gilded (tinted per Path), Prismatic, General tier 1 / 2; "" when the pack has none or its image is missing.
 static func art_id_for(pack_data: PackData) -> String:
 	if pack_data == null:

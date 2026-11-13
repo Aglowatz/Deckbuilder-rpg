@@ -387,8 +387,12 @@ func _start_credits() -> void:
 	shade.z_index = 60
 	add_child(shade)
 	# Fable Nov 12 (Part 4.3): a slow crossfade into the credits (was a one-second cut to near-black), the last still left faintly behind them
+	# Batch 15: the kingdom at dusk (STORY-CREDITS-PANORAMA, 3:1) behind the scroll, panning slowly from its left end to its right for as
+	# long as the credits run (still, centred, with Reduce motion). The shade over it is lighter than over the last still, and the words
+	# carry a dark outline, so they stay readable on the picture.
+	var panorama: TextureRect = _add_credits_panorama()
 	var fade: Tween = create_tween()
-	fade.tween_property(shade, "color:a", 0.9, CREDITS_FADE).set_trans(Tween.TRANS_SINE)
+	fade.tween_property(shade, "color:a", CREDITS_SHADE_PANORAMA if panorama != null else 0.9, CREDITS_FADE).set_trans(Tween.TRANS_SINE)
 	var lines: Array[String] = []
 	for index: int in range(1, EndingDefs.CREDITS_LINES + 1):
 		lines.append_array(_story.get_lines("ending.credits.%d" % index))
@@ -401,11 +405,20 @@ func _start_credits() -> void:
 	credits.size = Vector2(1100, 1400)
 	credits.position = Vector2(410, 1080)
 	credits.z_index = 70
+	if panorama != null:
+		credits.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.06, 0.95))
+		credits.add_theme_constant_override("outline_size", 10)
+		credits.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.75))
+		credits.add_theme_constant_override("shadow_offset_y", 3)
 	add_child(credits)
 	var scroll: Tween = create_tween()
 	var travel: float = 1080.0 + float(lines.size()) * 90.0
+	var scroll_seconds: float = 2.0 + float(lines.size()) * 1.6
 	scroll.tween_interval(CREDITS_FADE * 0.6)
-	scroll.tween_property(credits, "position:y", -travel, 2.0 + float(lines.size()) * 1.6)
+	scroll.tween_property(credits, "position:y", -travel, scroll_seconds)
+	if panorama != null and not Settings.reduce_motion:
+		var pan: Tween = create_tween()
+		pan.tween_property(panorama, "position:x", 1920.0 - panorama.size.x, scroll_seconds + CREDITS_FADE * 0.6 + THANKS_HOLD)
 	scroll.tween_callback(_show_thanks)
 	var skip: FancyButton = FancyButton.make("Skip", &"", Vector2(160, 52))
 	skip.position = Vector2(1720, 996)
@@ -424,6 +437,32 @@ func _start_credits() -> void:
 
 
 const CREDITS_FADE: float = 2.4
+const CREDITS_PANORAMA: String = "STORY-CREDITS-PANORAMA"
+## How dark the shade over the panorama is (0.9 over the last still when there is no panorama), and the thanks card's night over it.
+const CREDITS_SHADE_PANORAMA: float = 0.42
+const THANKS_NIGHT_PANORAMA: float = 0.62
+
+
+## The panorama behind the credits: screen-high, three screens wide at most, under the shade; null when the art is not imported.
+func _add_credits_panorama() -> TextureRect:
+	if not KeyArt.has(CREDITS_PANORAMA):
+		return null
+	var texture: Texture2D = KeyArt.texture(CREDITS_PANORAMA)
+	if texture == null:
+		return null
+	var picture: TextureRect = TextureRect.new()
+	picture.name = "CreditsPanorama"
+	picture.texture = texture
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_SCALE
+	picture.size = Vector2(1080.0 * float(texture.get_width()) / float(maxi(texture.get_height(), 1)), 1080.0)
+	picture.position = Vector2((1920.0 - picture.size.x) * 0.5 if Settings.reduce_motion else 0.0, 0.0)
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	picture.z_index = 55
+	picture.modulate.a = 0.0
+	add_child(picture)
+	create_tween().tween_property(picture, "modulate:a", 1.0, CREDITS_FADE).set_trans(Tween.TRANS_SINE)
+	return picture
 const THANKS_HOLD: float = 9.0
 
 
@@ -440,7 +479,7 @@ func _show_thanks() -> void:
 	card.modulate.a = 0.0
 	add_child(card)
 	var night: ColorRect = ColorRect.new()
-	night.color = Color(0.03, 0.02, 0.06, 0.96)
+	night.color = Color(0.03, 0.02, 0.06, THANKS_NIGHT_PANORAMA if get_node_or_null("CreditsPanorama") != null else 0.96)
 	UIKit.full_rect(night)
 	night.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(night)

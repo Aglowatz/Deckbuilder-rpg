@@ -329,6 +329,11 @@ static func portrait_texture(variant: int) -> Texture2D:
 	return texture
 
 
+## Batch 15: the painted portraits (by variant; the third one wears the rosette) and how tall the easel stands.
+const PORTRAIT_ART: Array[String] = ["CAP-PROP-PORTRAIT-PRIMM-01", "CAP-PROP-PORTRAIT-PRIMM-02", "CAP-PROP-PORTRAIT-PRIMM-03"]
+const PORTRAIT_HEIGHT: float = 3.3
+
+
 ## One of Primm's portraits on the verges: the painted face in a moulded gold frame with a crest of his emblem, on a gold easel. The "Picture" quad
 ## and the "Defaced" group (a moustache) are what defacing flips.
 static func portrait(variant: int, defaced_when_free: bool, story: ZoneStoryText = null) -> Node3D:
@@ -338,6 +343,18 @@ static func portrait(variant: int, defaced_when_free: bool, story: ZoneStoryText
 	var mesh: KitMesh = KitMesh.new()
 	CapitalKit.materials(mesh)
 	var center: Vector3 = Vector3(0, 2.2, 0)
+	# Batch 15: the painted official portrait on its gold easel (CAP-PROP-PORTRAIT-PRIMM-01..03) replaces the code-drawn frame and smiley
+	# face; the smiley stays Primm's emblem everywhere else. The moustache (the "Defaced" group) still goes over the painted face.
+	var art: String = PORTRAIT_ART[posmod(variant, PORTRAIT_ART.size())]
+	if EnvKit.has_art(art):
+		CapitalKit.card(mesh, art, Vector3(0, 0, 0.02), PORTRAIT_HEIGHT, Vector3(0, 0, 1))
+		CapitalLandmarks.finish(root, mesh, [], PORTRAIT_HEIGHT + 0.2)
+		var scrawl: Node3D = _state_group(root, "Defaced", false)
+		var face_y: float = PORTRAIT_HEIGHT * 0.69
+		B.box(scrawl, Vector3(0.34, 0.05, 0.02), M.flat(Color(0.05, 0.05, 0.05)), Vector3(0, face_y - 0.13, 0.05), Vector3(0, 0, 4))
+		B.box(scrawl, Vector3(0.2, 0.04, 0.02), M.flat(Color(0.05, 0.05, 0.05)), Vector3(-0.2, face_y + 0.1, 0.05), Vector3(0, 0, -8))
+		B.box(scrawl, Vector3(0.2, 0.04, 0.02), M.flat(Color(0.05, 0.05, 0.05)), Vector3(0.2, face_y + 0.1, 0.05), Vector3(0, 0, 8))
+		return root
 	# the frame: four bevelled gold bars with a raised inner lip, a crest on top
 	for bar: Array in [[Vector3(0, 0.88, 0), Vector3(1.56, 0.16, 0.14)], [Vector3(0, -0.88, 0), Vector3(1.56, 0.16, 0.14)], [Vector3(-0.7, 0, 0), Vector3(0.16, 1.92, 0.14)], [Vector3(0.7, 0, 0), Vector3(0.16, 1.92, 0.14)]]:
 		mesh.box("gold", center + (bar[0] as Vector3), bar[1] as Vector3, Basis.IDENTITY, 0.04)

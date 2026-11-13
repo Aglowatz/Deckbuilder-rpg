@@ -59,8 +59,23 @@ static func fit_badge(badge: Label, text: String) -> void:
 	badge.position = right - wanted
 
 
-## The slot look: the UI art kit slot (UI-HUD-SLOT) tinted per state, the old flat box without it.
-func _slot_style(fill: Color, border: Color, border_width: int, shadow: int, tint: Color) -> StyleBox:
+## Batch 15: the painted battle item slots, drawn inside the same slot rect (no layout change). EMPTY carries the embossed satchel emblem (an
+## empty slot); READY is the lit recess under an item (dimmed by the tint while the item cannot be used right now, greyed once it is spent).
+const SLOT_ART_EMPTY: String = "UI-BATTLE-ITEMSLOT-EMPTY"
+const SLOT_ART_READY: String = "UI-BATTLE-ITEMSLOT-READY"
+
+
+static func painted_slots() -> bool:
+	return UiArt.has(SLOT_ART_EMPTY) and UiArt.has(SLOT_ART_READY)
+
+
+## The slot look: the painted slot (EMPTY or READY, `holds_item`) tinted per state; without it the UI art kit slot (UI-HUD-SLOT), else the old flat box.
+func _slot_style(fill: Color, border: Color, border_width: int, shadow: int, tint: Color, holds_item: bool = false) -> StyleBox:
+	if painted_slots():
+		var id: String = SLOT_ART_READY if holds_item else SLOT_ART_EMPTY
+		var painted: StyleBoxTexture = UiArt.nine(id, Vector4.ZERO, SLOT_SIZE.x / float(maxi(UiArt.texture(id).get_width(), 1)), Vector4(8, 8, 8, 8), tint)
+		if painted != null:
+			return painted
 	var art: StyleBoxTexture = UiArt.nine("UI-HUD-SLOT", Vector4.ZERO, SLOT_SIZE.x / 1024.0, Vector4(8, 8, 8, 8), tint) if UiArt.has("UI-HUD-SLOT") else null
 	if art != null:
 		return art
@@ -128,17 +143,17 @@ func refresh() -> void:
 			fit_badge(badge, "Used")
 			badge.visible = true
 			slot.tooltip_text = "%s - used. Each item works once." % spent.display_name
-			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, EMPTY_BORDER, 2, 0, Color(0.55, 0.55, 0.6)))
+			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, EMPTY_BORDER, 2, 0, Color(0.55, 0.55, 0.6), true))
 			_usable[i] = false
 			continue
 		if item == null:
 			icon.texture = CardIcons.ui("item_slot")
-			icon.visible = true
+			icon.visible = not painted_slots()  # the painted empty slot carries its own satchel emblem
 			icon.modulate = Color(1, 1, 1, 0.22)
 			badge.text = ""
 			badge.visible = false
 			slot.tooltip_text = "Empty item slot"
-			slot.add_theme_stylebox_override("panel", _slot_style(EMPTY_FILL, EMPTY_BORDER, 2, 0, Color(0.7, 0.72, 0.85, 0.85)))
+			slot.add_theme_stylebox_override("panel", _slot_style(EMPTY_FILL, EMPTY_BORDER, 2, 0, Color(0.9, 0.9, 0.95, 0.95) if painted_slots() else Color(0.7, 0.72, 0.85, 0.85)))
 			_usable[i] = false
 			continue
 		icon.texture = IconArt.item_texture(item, SLOT_SIZE.x * 0.62)  # its own ICON-ITEM-* once imported, else the old silhouette
@@ -152,10 +167,10 @@ func refresh() -> void:
 		_usable[i] = usable
 		slot.tooltip_text = item.tooltip_text()
 		if usable:
-			slot.add_theme_stylebox_override("panel", _slot_style(USABLE_FILL, UIStyle.GOLD, 3, 10, Color(1.35, 1.15, 0.8)))
+			slot.add_theme_stylebox_override("panel", _slot_style(USABLE_FILL, UIStyle.GOLD, 3, 10, Color(1.12, 1.08, 1.0) if painted_slots() else Color(1.35, 1.15, 0.8), true))
 		else:
 			icon.modulate = Color(0.6, 0.6, 0.66, 0.85)
-			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, IDLE_BORDER, 2, 0, Color.WHITE))
+			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, IDLE_BORDER, 2, 0, Color(0.72, 0.72, 0.78) if painted_slots() else Color.WHITE, true))
 	if any_usable_changed:
 		_restart_pulse()
 
