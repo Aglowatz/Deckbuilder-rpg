@@ -102,7 +102,7 @@
 		"file": "data/story/gourmand_story.tres",
 		"speaker": "(narration/UI)",
 		"before": "\"Tell Basil yourself: the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!\"",
-		"after": "\"Go and tell Basil yourself, in the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!\""
+		"after": "\"Tell Basil yourself: he is in the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!\""
 	},
 	{
 		"id": "data/story/gourmand_story.tres::gate.quest.active::0",

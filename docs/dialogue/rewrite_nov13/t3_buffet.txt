@@ -38,7 +38,7 @@
 @gourmand::gate.quest.mended
 #   [(narration/UI)] Gate: quest mended
 0| Sir Loin peers past you toward the Pantry. "Old Meatloaf is up and clanking about? Then the mending is done, and yet Basil has not sent me word of it."
-1| "Go and tell Basil yourself, in the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!"
+1| "Tell Basil yourself: he is in the Grand Pantry's square, east of the Soup Fountain. His word opens this gate, and then the town is yours. Yes, Chef!"
 
 @gourmand::gate.quest.active
 #   [(narration/UI)] Gate: quest active
