@@ -1,0 +1,359 @@
+[
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Brock cracks every knuckle he owns, then a few he borrowed. \"Pec Perch? Great view.\"",
+		"after": "Brock cracks every knuckle he owns, then a few he borrowed. \"Pec Perch, is it? Lovely spot, and you'll have the best view in the Gainlands on your way up to it.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"Landing's a bit rough, mind. Tuck your elbows in and enjoy the view while you've got it.\"",
+		"after": "\"The landing's a bit rough, mind, so tuck your elbows in and enjoy the scenery while you've still got it.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Rita flexes both hands like she's about to open a very stubborn jar. \"Delt Deck? Easy. I rip the portal open, you walk through.\"",
+		"after": "Rita flexes both hands like she's about to open a very stubborn jar. \"Delt Deck? That's an easy one. I rip the portal open, and all you have to do is walk through it.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"No tools and no spells, just bare hands and a lot of back.\"",
+		"after": "\"There aren't any tools or spells in it, just my bare hands and a great deal of back, so please keep your arms inside the hole.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.locked::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Rita shakes her head. \"Can't rip a thing with the grid this dry. Portals run on power, same as everything else up here.\"",
+		"after": "Rita shakes her head. \"I can't rip a thing while the grid's this dry, I'm sorry to say. Portals run on power, the same as everything else up here.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt.locked::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"Somebody has to run the big hamster wheel up the hill. Get it spinning, then come back and I'll have you through in no time.\"",
+		"after": "\"Somebody has to run the big hamster wheel up the hill. Get it spinning for me, then come back and I'll have you through in no time.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Tobias hefts you like a sack of oats. \"West meadow, cross-country. It's a long way, so I'm putting everything into this one.\"",
+		"after": "Tobias hefts you like a sack of oats. \"West meadow, cross-country. It's a long way, so I'm putting everything I've got into this one.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"You can tell me how it was once your thoughts catch up with you.\"",
+		"after": "\"You can tell me how it was once your thoughts have caught up with you, which usually takes them a minute or two.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_east.locked::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Tobias squints at you. \"Cross-country chucks are for Gainers only. Show me a Gym Rat card and I'll send you clear across the Gainlands. Coach Brutus Benchley sells them.\"",
+		"after": "Tobias squints at you. \"Cross-country chucks are for Gainers only, I'm afraid. Show me a Gym Rat card and I'll send you clear across the Gainlands. Coach Brutus Benchley sells them.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_west.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Wanda is already warming up. \"East meadow? Easy.\"",
+		"after": "Wanda is already warming up. \"East meadow? That's an easy one. I could throw it in my sleep, and my husband says I have.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_west.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"Say 'courtesy' for me. Louder. COURTESY!\"",
+		"after": "\"Now say 'courtesy' for me, because it's company policy. A bit louder than that, please. COURTESY!\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Bonnie waves a foam finger. \"Heading down? Right.\"",
+		"after": "Bonnie waves a foam finger. \"Heading back down, are you? Right you are, I'll have you on the ground before you've finished your sentence.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_pec_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"Bend your knees on the way down. It'll look like you planned this.\"",
+		"after": "\"Bend your knees as you come in, and with any luck it'll look like you planned the whole thing.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Shredna rolls her shoulders. \"Calf Cove. Did the old yeti say hello? ...No, don't tell me, I don't care. Did he, though?\"",
+		"after": "Shredna rolls her shoulders. \"Calf Cove. Did the old yeti say hello to me? ...No, don't tell me, I don't care in the slightest. Did he, though?\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"Old Man Mountain vouches for you, so Calf Cove's open. Mind the edges out there; the view drops off very suddenly.\"",
+		"after": "\"Old Man Mountain vouches for you, so Calf Cove's open. Do mind the edges out there, because the view drops off very suddenly.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf.locked::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Shredna crosses her arms. \"Calf Cove stays shut till Old Man Mountain trusts you. Do his 'Spot Me!' favour, then come back and I'll rip it open.\"",
+		"after": "Shredna crosses her arms. \"Calf Cove stays shut until Old Man Mountain trusts you, and that's his rule, not mine. Do his 'Spot Me!' favour, then come back and I'll rip it open.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Ripley is already shaking out her hands. \"Back down to the Ridge? Sure.\"",
+		"after": "Ripley is already shaking out her hands. \"Back down to the Ridge? Sure, just give me a moment to find the seam.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_delt_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"I don't open doors. I take a very personal interest in a wall until it gives up.\"",
+		"after": "\"I don't open doors, you understand. I take a very personal interest in a wall until it gives up.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Dmitri cracks his neck slowly, one way and then the other. \"Glute Garden's a long throw. A very long throw.\"",
+		"after": "Dmitri cracks his neck slowly, one way and then the other. \"Glute Garden is a long throw. I have measured it myself, and it is a very long throw.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"I need you aerodynamic, so try not to think about it. Thinking adds drag.\"",
+		"after": "\"I need you aerodynamic for this one, so try not to think about it on the way. Thinking adds drag.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute.locked::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Dmitri shakes his head slowly. \"Long-haul throws are for Beefcakes who can handle the wilds. Beat two roaming enemies out there, then come see me.\"",
+		"after": "Dmitri shakes his head slowly. \"Long-haul throws are for Beefcakes who can handle the wilds. Beat two roaming enemies out there, and then come and see me.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Greta checks her watch. \"Down to the east wheel yard? Say 'ready' on three.\"",
+		"after": "Greta checks her watch. \"Down to the east wheel yard? Say 'ready' on three, and we'll keep to the timetable.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.thrower_glute_back.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "\"One. Two. Actually, I'm already throwing.\"",
+		"after": "\"One, two... actually, I'm already throwing, so you can say it on the way down.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::travel.ripper_calf_back.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Throwers and rippers",
+		"before": "Raelynn tears a seam in the air with one grunt. \"Heading home? Home's always open. Mind the gap on your way through; it bites.\"",
+		"after": "Raelynn tears a seam in the air with one grunt. \"Heading home? Home's always open, so through you go. Mind the gap on your way, though, because it bites.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Aha, a student! I'm Professor Pump, Beefcake scholar, and I lecture from this very log. I've written seventeen books, you know.",
+		"after": "Aha, a student! Do stand up straight, it's better for the posture. I am Professor Pump, Beefcake scholar, and I lecture from this very log. I've written seventeen books, you know."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Fifteen of them concern the biceps. The other two were a history of the Lifting Festival, and when the regime burned those, I rewrote them from memory. You can't confiscate a well-trained brain-cep.",
+		"after": "Fifteen of them concern the biceps. The other two were a history of the Lifting Festival, and when the regime burned those I wrote them out again from memory, because nobody can confiscate a well-trained brain-cep."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.intro::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Four questions on the Beefcakes, their energy and their transport. Every answer is on a sign, a poster or a Beefcake's lips somewhere in the Gainlands.",
+		"after": "I have four questions for you on the Beefcakes, their energy and their transport, and every answer is on a sign, a poster or a Beefcake's lips somewhere in the Gainlands."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.intro::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Answer well for gold and glory. Answer poorly and receive a mild, scholarly sigh. I have practised the sigh. It is devastating.",
+		"after": "Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh, which I have practised for many years and which I am told is quite devastating."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.quiz.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Professor Pump",
+		"before": "Back for another set of questions? Splendid! Knowledge gains stay with you, even on your rest days.",
+		"after": "Back for another set of questions? Splendid! The wonderful thing about knowledge gains, my young scholar, is that they stay with you even on your rest days."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "*cue synthesizer* Welcome, welcome, WELCOME to PUMP IT UP PAST MIDNIGHT! I'm your host, Chet Thunderabs, and it is 3 A.M. somewhere, which is where I live!",
+		"after": "*cue synthesizer* Welcome, welcome, WELCOME to PUMP IT UP PAST MIDNIGHT! I'm your host, Chet Thunderabs, and it is always 3 A.M. somewhere, friends, which is exactly where I live!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "You've seen the late-night tapes! 'Feel the burn!' But WAIT, there's MORE! My assistant is a legwarmer. My producer is ALSO a legwarmer.",
+		"after": "You've seen the late-night tapes, and you've shouted 'Feel the burn!' at your own front room, but WAIT, there's MORE! My lovely assistant is a legwarmer, and my producer is ALSO a legwarmer!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::2",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "The regime banned my show for 'unauthorized fun'! But these cameras are STILL ROLLING, because you can't confiscate a man's ENTHUSIASM! They tried! It came back!",
+		"after": "The regime banned my show for 'unauthorized fun', but these cameras are STILL ROLLING, because you cannot confiscate a man's ENTHUSIASM! They tried, and it came back in a brighter colour!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::3",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "Today's show: REP COUNTER! Eight reps, one beat. Hit the beat and I give you a shiny medallion of pure encouragement!",
+		"after": "Today on the show it's REP COUNTER! That's eight reps to one beat, and if you hit that beat I will personally hand you a shiny medallion of pure encouragement!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.intro::4",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "Rewards for performance, plus a one-time bonus on your very first set! Three easy payments of gold? NO! FREE! Operators are standing by! And one, and two...",
+		"after": "You get rewards for performance, plus a one-time bonus on your very first set! Is it three easy payments of gold? NO, it's FREE! Operators are standing by, so here we go, and one, and two..."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.return::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Back again! My fans! Both of you! Hear that? That's the sound of Spandex, applauding.",
+		"after": "You're back! My fans, ladies and gentlemen, both of them, right here in the studio! Do you hear that? That is the sound of Spandex applauding."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::npc.minigame.return::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(minigame host)",
+		"before": "Remember: the beat is your friend. The beat does not judge. The beat is judging, but quietly.",
+		"after": "Now remember, the beat is your friend, and the beat does not judge you. Well, it is judging you a little, but it has the good manners to do it quietly."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.win::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "THAT'S THE WAY - THE CAMERA LOVES YOU! And the legwarmers, but they've been trying to get a solo shot ALL NIGHT!",
+		"after": "THAT'S THE WAY! The camera LOVES you, and so do the legwarmers, although they've been angling for a solo shot ALL NIGHT!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.first::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "Your first set on the show! Here's your Pump Medallion: a bonus, free, no obligation. Operators are still standing by.",
+		"after": "That was your first set on the show, so here's your Pump Medallion as a bonus, absolutely free and with no obligation! Operators are still standing by."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.lose::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "Not quite a set, champ! But WAIT - that wasn't a failure! That was a FREE TRIAL!",
+		"after": "That wasn't quite a set, champ, but WAIT, don't you dare call it a failure! Here in the studio we call that a FREE TRIAL!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::reps.lose::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "Chet Thunderabs",
+		"before": "REHYDRATE AND TRY AGAIN! The beat is standing by! The legwarmers are standing by! I am STANDING BY, and my calves are SO ready!",
+		"after": "So REHYDRATE AND TRY AGAIN! The beat is standing by, the legwarmers are standing by, and I am STANDING BY, with calves that have never been more ready!"
+	},
+	{
+		"id": "data/story/gainlands_story.tres::wheel.already::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "The grid purrs. Nothing left to route.",
+		"after": "The grid purrs along contentedly, and there is nothing left for you to route."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.offer::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "You beat {villain}, and the kingdom's whole again. Which means that gate on the overlook can finally open... Mount Swolympus. I never thought I'd live to see it.",
+		"after": "You beat {villain}, and the kingdom's whole again, which means that gate up on the overlook can finally open... Mount Swolympus, lad. I never thought I'd live long enough to see it."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.offer::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "Only the worthy reach the top, mind. In my experience the worthy bring water, or a protein shake. Fetch me one from the stand and the gate's yours.",
+		"after": "Only the worthy reach the top, mind, and in my experience the worthy bring water, or a protein shake. ...Where was I? Yes, a shake. Fetch me one from the stand and the gate's yours."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.active::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "A shake from the stand in the Station, any flavour. Not the illegal one. ...Oh, go on, then. The illegal one.",
+		"after": "A shake from the stand in the Station, and any flavour will do me. Not the illegal one, though. ...Oh, go on, then, the illegal one. I've missed it something terrible."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.ready::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "Ahh. Worthy. Very worthy. A bit lumpy, but worthy.",
+		"after": "Ahh, now that's worthy, that is. Very worthy. It's a bit lumpy, but then so am I, and nobody's ever held it against me."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.ready::1",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "The gate's open and the ridge path is mended, mostly. Climb to the top and say hello to the Ancient Spotter - he's held that bar for a thousand years. Ask him about his back.",
+		"after": "The gate's open and the ridge path is mended, mostly. Climb to the top and say hello to the Ancient Spotter for me - he's held that bar for a thousand years, so do ask him about his back."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::quest.side_s_beef.done::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(quest giver)",
+		"before": "The Spotter's waiting at the summit. Don't keep him waiting another thousand years, lad.",
+		"after": "The Spotter's waiting for you at the summit, and he's had a long enough wait already. Don't keep him another thousand years, lad."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::challenge.hg_calisthenics.text::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "No iron in the prison, so the guards test what you can do with your own body. Your first unit must be strong enough to count.",
+		"after": "There is no iron in the prison, so the guards test what you can do with your own body, and your first unit must be strong enough to count."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_descent.result.0::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "He counts the coins twice, bites one, and steps aside. \"I saw nothing. I also bought nothing. Go.\"",
+		"after": "He counts the coins twice, bites one for good measure and steps aside. \"I saw nothing, and I didn't buy anything either, so off you go before I remember what I'm paid for.\""
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_descent.result.2::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You fling {card} down the far stairwell. The guard bounds after it like a puppy after a ball.",
+		"after": "You fling {card} down the far stairwell, and the guard bounds after it like a puppy after a ball."
+	},
+	{
+		"id": "data/story/gainlands_story.tres::event.hg_trophy_hall.result.1::0",
+		"file": "data/story/gainlands_story.tres",
+		"speaker": "(narration)",
+		"before": "You polish it until it gleams. Grandmaster Flex watches, and something old and heavy lifts off him. You feel stronger.",
+		"after": "You polish it until it gleams, and as Grandmaster Flex watches you work, something old and heavy seems to lift off his shoulders. You feel stronger."
+	}
+]

@@ -1,0 +1,301 @@
+# t3_gainlands: 97 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: the two travel confirmation prompts; plain UI that names the service and asks yes or no.
+@gainlands::travel.throw.ask
+#   [(narration/UI)] Travel: throw ask
+0| Courtesy Chuck to %s: free, fast, no legroom required. Ready to be thrown?
+
+@gainlands::travel.portal.ask
+#   [(narration/UI)] Travel: portal ask
+0| Portal service: torn open by hand, no refunds. Step through to %s?
+
+## purpose: Brock throws you up to Pec Perch; a proud, cheerful safety announcement before the flight.
+@gainlands::travel.thrower_pec.intro
+#   [Throwers and rippers] Travel: thrower pec intro
+0| Brock cracks every knuckle he owns, then a few he borrowed. "Pec Perch, is it? Lovely spot, and you'll have the best view in the Gainlands on your way up to it."
+1| "The landing's a bit rough, mind, so tuck your elbows in and enjoy the scenery while you've still got it."
+
+@gainlands::travel.thrower_pec.locked
+#   [Throwers and rippers] Travel: thrower pec locked
+0| Brock is always ready, and so is his throwing arm.
+
+## purpose: Rita rips the portal to Delt Deck; when locked she tells you the grid needs the big hamster wheel up the hill run first.
+@gainlands::travel.ripper_delt.intro
+#   [Throwers and rippers] Travel: ripper delt intro
+0| Rita flexes both hands like she's about to open a very stubborn jar. "Delt Deck? That's an easy one. I rip the portal open, and all you have to do is walk through it."
+1| "There aren't any tools or spells in it, just my bare hands and a great deal of back, so please keep your arms inside the hole."
+
+@gainlands::travel.ripper_delt.locked
+#   [Throwers and rippers] Travel: ripper delt locked
+0| Rita shakes her head. "I can't rip a thing while the grid's this dry, I'm sorry to say. Portals run on power, the same as everything else up here."
+1| "Somebody has to run the big hamster wheel up the hill. Get it spinning for me, then come back and I'll have you through in no time."
+
+## purpose: Tobias throws you cross-country to the west meadow; when locked he tells you to show a Gym Rat card, which Coach Brutus Benchley sells.
+@gainlands::travel.thrower_east.intro
+#   [Throwers and rippers] Travel: thrower east intro
+0| Tobias hefts you like a sack of oats. "West meadow, cross-country. It's a long way, so I'm putting everything I've got into this one."
+1| "You can tell me how it was once your thoughts have caught up with you, which usually takes them a minute or two."
+
+@gainlands::travel.thrower_east.locked
+#   [Throwers and rippers] Travel: thrower east locked
+0| Tobias squints at you. "Cross-country chucks are for Gainers only, I'm afraid. Show me a Gym Rat card and I'll send you clear across the Gainlands. Coach Brutus Benchley sells them."
+
+## purpose: Wanda throws you to the east meadow and makes you say the company's word first.
+@gainlands::travel.thrower_west.intro
+#   [Throwers and rippers] Travel: thrower west intro
+0| Wanda is already warming up. "East meadow? That's an easy one. I could throw it in my sleep, and my husband says I have."
+1| "Now say 'courtesy' for me, because it's company policy. A bit louder than that, please. COURTESY!"
+
+@gainlands::travel.thrower_west.locked
+#   [Throwers and rippers] Travel: thrower west locked
+0| Wanda is always ready.
+
+## purpose: Bonnie throws you back down from Pec Perch with a friendly landing tip.
+@gainlands::travel.thrower_pec_back.intro
+#   [Throwers and rippers] Travel: thrower pec back intro
+0| Bonnie waves a foam finger. "Heading back down, are you? Right you are, I'll have you on the ground before you've finished your sentence."
+1| "Bend your knees as you come in, and with any luck it'll look like you planned the whole thing."
+
+@gainlands::travel.thrower_pec_back.locked
+#   [Throwers and rippers] Travel: thrower pec back locked
+0| Bonnie is always ready.
+
+## purpose: Shredna opens Calf Cove once Old Man Mountain trusts you (his 'Spot Me!' favour), and cannot hide that she is fond of him.
+@gainlands::travel.ripper_calf.intro
+#   [Throwers and rippers] Travel: ripper calf intro
+0| Shredna rolls her shoulders. "Calf Cove. Did the old yeti say hello to me? ...No, don't tell me, I don't care in the slightest. Did he, though?"
+1| "Old Man Mountain vouches for you, so Calf Cove's open. Do mind the edges out there, because the view drops off very suddenly."
+
+@gainlands::travel.ripper_calf.locked
+#   [Throwers and rippers] Travel: ripper calf locked
+0| Shredna crosses her arms. "Calf Cove stays shut until Old Man Mountain trusts you, and that's his rule, not mine. Do his 'Spot Me!' favour, then come back and I'll rip it open."
+
+## purpose: Ripley rips the way back down to the Ridge and explains her craft with pride.
+@gainlands::travel.ripper_delt_back.intro
+#   [Throwers and rippers] Travel: ripper delt back intro
+0| Ripley is already shaking out her hands. "Back down to the Ridge? Sure, just give me a moment to find the seam."
+1| "I don't open doors, you understand. I take a very personal interest in a wall until it gives up."
+
+@gainlands::travel.ripper_delt_back.locked
+#   [Throwers and rippers] Travel: ripper delt back locked
+0| Ripley is always ready.
+
+## purpose: Dmitri makes the long throw to Glute Garden; when locked he tells you to beat two roaming enemies first.
+@gainlands::travel.thrower_glute.intro
+#   [Throwers and rippers] Travel: thrower glute intro
+0| Dmitri cracks his neck slowly, one way and then the other. "Glute Garden is a long throw. I have measured it myself, and it is a very long throw."
+1| "I need you aerodynamic for this one, so try not to think about it on the way. Thinking adds drag."
+
+@gainlands::travel.thrower_glute.locked
+#   [Throwers and rippers] Travel: thrower glute locked
+0| Dmitri shakes his head slowly. "Long-haul throws are for Beefcakes who can handle the wilds. Beat two roaming enemies out there, and then come and see me."
+
+## purpose: Greta throws you down to the east wheel yard, ahead of her own count.
+@gainlands::travel.thrower_glute_back.intro
+#   [Throwers and rippers] Travel: thrower glute back intro
+0| Greta checks her watch. "Down to the east wheel yard? Say 'ready' on three, and we'll keep to the timetable."
+1| "One, two... actually, I'm already throwing, so you can say it on the way down."
+
+@gainlands::travel.thrower_glute_back.locked
+#   [Throwers and rippers] Travel: thrower glute back locked
+0| Greta is always ready.
+
+## purpose: Raelynn rips the way home from Calf Cove with a cheerful warning.
+@gainlands::travel.ripper_calf_back.intro
+#   [Throwers and rippers] Travel: ripper calf back intro
+0| Raelynn tears a seam in the air with one grunt. "Heading home? Home's always open, so through you go. Mind the gap on your way, though, because it bites."
+
+@gainlands::travel.ripper_calf_back.locked
+#   [Throwers and rippers] Travel: ripper calf back locked
+0| Raelynn is always ready.
+
+## purpose: Professor Pump introduces himself and his quiz: four questions on the Beefcakes, answers found on signs, posters and Beefcakes around the Gainlands; gold for doing well.
+@gainlands::npc.quiz.intro
+#   [Professor Pump] Talking to Professor Pump (intro)
+0| Aha, a student! Do stand up straight, it's better for the posture. I am Professor Pump, Beefcake scholar, and I lecture from this very log. I've written seventeen books, you know.
+1| Fifteen of them concern the biceps. The other two were a history of the Lifting Festival, and when the regime burned those I wrote them out again from memory, because nobody can confiscate a well-trained brain-cep.
+2| I have four questions for you on the Beefcakes, their energy and their transport, and every answer is on a sign, a poster or a Beefcake's lips somewhere in the Gainlands.
+3| Answer well and there is gold and glory in it. Answer poorly and you will receive a mild, scholarly sigh, which I have practised for many years and which I am told is quite devastating.
+
+@gainlands::npc.quiz.return
+#   [Professor Pump] Talking to Professor Pump (return)
+0| Back for another set of questions? Splendid! The wonderful thing about knowledge gains, my young scholar, is that they stay with you even on your rest days.
+
+## purpose: Chet Thunderabs pitches his banned late-night show and its game, Rep Counter: eight reps to one beat, rewards for performance and a one-time first-set bonus.
+@gainlands::npc.minigame.intro
+#   [Chet Thunderabs] Talking to Chet Thunderabs (intro)
+0| *cue synthesizer* Welcome, welcome, WELCOME to PUMP IT UP PAST MIDNIGHT! I'm your host, Chet Thunderabs, and it is always 3 A.M. somewhere, friends, which is exactly where I live!
+1| You've seen the late-night tapes, and you've shouted 'Feel the burn!' at your own front room, but WAIT, there's MORE! My lovely assistant is a legwarmer, and my producer is ALSO a legwarmer!
+2| The regime banned my show for 'unauthorized fun', but these cameras are STILL ROLLING, because you cannot confiscate a man's ENTHUSIASM! They tried, and it came back in a brighter colour!
+3| Today on the show it's REP COUNTER! That's eight reps to one beat, and if you hit that beat I will personally hand you a shiny medallion of pure encouragement!
+4| You get rewards for performance, plus a one-time bonus on your very first set! Is it three easy payments of gold? NO, it's FREE! Operators are standing by, so here we go, and one, and two...
+
+@gainlands::npc.minigame.return
+#   [(minigame host)] Talking to minigame (return)
+0| You're back! My fans, ladies and gentlemen, both of them, right here in the studio! Do you hear that? That is the sound of Spandex applauding.
+1| Now remember, the beat is your friend, and the beat does not judge you. Well, it is judging you a little, but it has the good manners to do it quietly.
+
+@gainlands::reps.shouts
+#   [Chet Thunderabs] Reps: shouts
+0| And ONE!
+1| And TWO!
+2| Feel the burn!
+3| Squeeze it!
+4| Don't stop now!
+5| Almost there!
+6| One more!
+7| FINISH IT!
+
+@gainlands::reps.win
+#   [Chet Thunderabs] Reps: win
+0| THAT'S THE WAY! The camera LOVES you, and so do the legwarmers, although they've been angling for a solo shot ALL NIGHT!
+
+@gainlands::reps.first
+#   [Chet Thunderabs] Reps: first
+0| That was your first set on the show, so here's your Pump Medallion as a bonus, absolutely free and with no obligation! Operators are still standing by.
+
+@gainlands::reps.lose
+#   [Chet Thunderabs] Reps: lose
+0| That wasn't quite a set, champ, but WAIT, don't you dare call it a failure! Here in the studio we call that a FREE TRIAL!
+1| So REHYDRATE AND TRY AGAIN! The beat is standing by, the legwarmers are standing by, and I am STANDING BY, with calves that have never been more ready!
+
+## purpose: the power-routing puzzle's result texts: solved (a parcel drops into the tray) and already solved.
+@gainlands::wheel.solved
+#   [(narration/UI)] Wheel: solved
+0| Every machine settles at exactly the right wattage, and the Lift, the Gate and the Mill all hum together.
+1| Somewhere a hamster sighs with relief, and a small, heavy parcel drops into the tray.
+
+@gainlands::wheel.already
+#   [(narration/UI)] Wheel: already
+0| The grid purrs along contentedly, and there is nothing left for you to route.
+
+## purpose: postgame: Old Man Mountain will open the gate to Mount Swolympus for a protein shake from the stand in the Station, then sends you up to the Ancient Spotter.
+@gainlands::quest.side_s_beef.offer
+#   [(quest giver)] Quest "Only the Worthy...": when offered
+0| You beat {villain}, and the kingdom's whole again, which means that gate up on the overlook can finally open... Mount Swolympus, lad. I never thought I'd live long enough to see it.
+1| Only the worthy reach the top, mind, and in my experience the worthy bring water, or a protein shake. ...Where was I? Yes, a shake. Fetch me one from the stand and the gate's yours.
+
+@gainlands::quest.side_s_beef.active
+#   [(quest giver)] Quest "Only the Worthy...": while it is active
+0| A shake from the stand in the Station, and any flavour will do me. Not the illegal one, though. ...Oh, go on, then, the illegal one. I've missed it something terrible.
+
+@gainlands::quest.side_s_beef.ready
+#   [(quest giver)] Quest "Only the Worthy...": handing it in
+0| Ahh, now that's worthy, that is. Very worthy. It's a bit lumpy, but then so am I, and nobody's ever held it against me.
+1| The gate's open and the ridge path is mended, mostly. Climb to the top and say hello to the Ancient Spotter for me - he's held that bar for a thousand years, so do ask him about his back.
+
+@gainlands::quest.side_s_beef.done
+#   [(quest giver)] Quest "Only the Worthy...": after it is done
+0| The Spotter's waiting for you at the summit, and he's had a long enough wait already. Don't keep him another thousand years, lad.
+
+## purpose: the Iron Cave's boss, Baron Quadzilla: a near-wordless man who has not left his leg press in years, and who stands up when beaten.
+@dc::dungeon.dg_s_iron_boss.before
+#   [Baron Quadzilla, the Leg Press Lord] Dungeon node "dg s iron boss": entering the node
+0| On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.
+1| 'Nobody. Skips. Leg day.' He presses another rep. 'Not in my cave. Prove it. I won't get up.'
+
+@boss::Baron Quadzilla/line
+#   [Baron Quadzilla] Boss intro before the battle with Baron Quadzilla: opening line
+0| Nobody. Skips. Leg day. (rep) In my cave.
+
+@enc::Baron Quadzilla/0/line
+#   [Baron Quadzilla] Mid-fight event "Final Set" vs Baron Quadzilla: the foe says it when the event fires
+0| Nobody. Skips. Leg day. (rep) Final set. (rep) In my cave.
+
+@enc::Baron Quadzilla/1/line
+#   [Baron Quadzilla] Mid-fight event "He Stands Up" vs Baron Quadzilla: the foe says it when the event fires
+0| Standing. Huh. Wobbly. Like a first rep.
+
+@dc::dungeon.dg_s_iron_boss.after
+#   [Baron Quadzilla, the Leg Press Lord] Dungeon node "dg s iron boss": after the node
+0| Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says, looking down. 'So those are my feet. Hello, feet.'
+1| He hands you a sweaty ribbon. 'Leg day survivor. Wear it. Stretch. That order.'
+
+## purpose: House of Gains event "Locker Room of Legends": one picture of the champions' lockers and three choices (a sturdiness boost, gold, or a Gym Bro card).
+@dc::dungeons/D-HOG/events/5/body
+#   [(narration)] The House of Gains, "Locker Room of Legends": event text
+0| Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, and something inside is humming a marching tune to itself.
+
+@dc::dungeons/D-HOG/events/5/choices/0
+#   [(choice button)] The House of Gains, "Locker Room of Legends": choice 1 button
+0| Borrow the lucky towel
+1| The towel is still warm and smells of eucalyptus and somebody else's victory. You feel sturdier with it round your neck, and very slightly watched.
+
+@dc::dungeons/D-HOG/events/5/choices/1
+#   [(choice button)] The House of Gains, "Locker Room of Legends": choice 2 button
+0| Raid the gym bag
+1| Inside are protein bars, a roll of gold and a note that says 'Spotter knows.' Somewhere down the hall a whistle blows, and you leave with the gold and a guilty conscience.
+
+@dc::dungeons/D-HOG/events/5/choices/2
+#   [(choice button)] The House of Gains, "Locker Room of Legends": choice 3 button
+0| Do a set with the ghost of a champion
+1| The ghost miscounts your reps on purpose, always upward, to be encouraging. You walk away standing taller, if not stronger, and he presses a Gym Bro's number into your hand.
+
+## purpose: House of Gains deck challenge: states the rule that your first unit must be strong enough.
+@gainlands::challenge.hg_calisthenics.text
+#   [(narration)] Deck challenge "hg calisthenics": text
+0| There is no iron in the prison, so the guards test what you can do with your own body, and your first unit must be strong enough to count.
+
+## purpose: House of Gains event "the descent": get past the stairwell guard by bribe, by force or by throwing him a card he gives back when you leave.
+@gainlands::event.hg_descent.choice.0
+#   [(narration)] Dungeon event "hg descent": choice 0
+0| Bribe the guard
+
+@gainlands::event.hg_descent.choice.1
+#   [(narration)] Dungeon event "hg descent": choice 1
+0| Overpower the guard
+
+@gainlands::event.hg_descent.choice.2
+#   [(narration)] Dungeon event "hg descent": choice 2
+0| Distract the guard
+
+@gainlands::event.hg_descent.result.0
+#   [(narration)] Dungeon event "hg descent": result 0
+0| He counts the coins twice, bites one for good measure and steps aside. "I saw nothing, and I didn't buy anything either, so off you go before I remember what I'm paid for."
+
+@gainlands::event.hg_descent.result.1
+#   [(narration)] Dungeon event "hg descent": result 1
+0| You win the wrestle, though he wins the first three rounds of it. The way down is open, and so is your lip.
+
+@gainlands::event.hg_descent.result.2
+#   [(narration)] Dungeon event "hg descent": result 2
+0| You fling {card} down the far stairwell, and the guard bounds after it like a puppy after a ball.
+1| He'll guard it with his life until you leave the House, and then it's yours again.
+
+## purpose: House of Gains event "the rescue": the hero frees Grandmaster Flex, who promises to stand beside him against Clench.
+@gainlands::event.hg_rescue.choice.0
+#   [(narration)] Dungeon event "hg rescue": choice 0
+0| Pick the lock and free him
+
+@gainlands::event.hg_rescue.result.0
+#   [(narration)] Dungeon event "hg rescue": result 0
+0| The lock gives. Grandmaster Flex rises slowly, a little unsteady on his feet, and bows to you. He is so thin you could count his ribs.
+1| He moves with a stillness that is somehow the opposite of weakness. "When you face Clench," he says, "I will be beside you."
+
+## purpose: House of Gains event "the trophy hall": take the medals for gold, polish the empty pedestal for strength, or leave it be, with Flex watching each choice.
+@gainlands::event.hg_trophy_hall.choice.0
+#   [(narration)] Dungeon event "hg trophy hall": choice 0
+0| Take the medals (they are very shiny)
+
+@gainlands::event.hg_trophy_hall.choice.1
+#   [(narration)] Dungeon event "hg trophy hall": choice 1
+0| Polish the empty pedestal
+
+@gainlands::event.hg_trophy_hall.choice.2
+#   [(narration)] Dungeon event "hg trophy hall": choice 2
+0| Leave everything as it is
+
+@gainlands::event.hg_trophy_hall.result.0
+#   [(narration)] Dungeon event "hg trophy hall": result 0
+0| The medals jingle as you scoop them up, and Grandmaster Flex winces. "They are not ours to take, son."
+1| "Still, the regime owes this house a great deal, and gold settles debts." You feel a little guilty, and a little richer.
+
+@gainlands::event.hg_trophy_hall.result.1
+#   [(narration)] Dungeon event "hg trophy hall": result 1
+0| You polish it until it gleams, and as Grandmaster Flex watches you work, something old and heavy seems to lift off his shoulders. You feel stronger.
+
+@gainlands::event.hg_trophy_hall.result.2
+#   [(narration)] Dungeon event "hg trophy hall": result 2
+0| You leave the hall exactly as you found it, and Grandmaster Flex gives you one slow nod of approval.
