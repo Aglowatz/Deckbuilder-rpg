@@ -37,7 +37,7 @@ func _save(file_name: String) -> void:
 
 
 ## Import Nov 8: gear whose icon was ordered under an art list id (ICON-EQ-*) keeps that file name instead of ICON-GEAR-<NAME>.
-const ART_LIST_IDS: Dictionary = {"dex_matching_pair": "ICON-EQ-MATCHING-PAIR"}
+const ART_LIST_IDS: Dictionary = {"dex_matching_pair": "ICON-EQ-MATCHING-PAIR", "hall_pass_slippers": "ICON-EQ-HALLPASSSLIPPERS"}  # Batch 15: + the slippers
 
 
 func test_gear_icon_ids_follow_the_upper_case_no_underscore_rule() -> void:

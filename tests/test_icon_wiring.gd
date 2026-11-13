@@ -67,7 +67,7 @@ func test_map_icons_cover_the_whitelisted_kinds_and_never_secrets() -> void:
 
 
 func test_the_ten_named_pieces_have_icons_and_the_rest_keep_the_fallback() -> void:
-	assert_eq(IconArt.EQUIPMENT_IDS.size(), 11)  # Fixes Nov 8: + Dex's Matching Pair (a zone piece, data/equipment/zone/)
+	assert_eq(IconArt.EQUIPMENT_IDS.size(), 12)  # Fixes Nov 8: + Dex's Matching Pair; Batch 15: + the Hall Pass Slippers (zone pieces, data/equipment/zone/)
 	for id: Variant in IconArt.EQUIPMENT_IDS.keys():
 		var path: String = "res://data/equipment/%s.tres" % str(id)
 		if not ResourceLoader.exists(path):
