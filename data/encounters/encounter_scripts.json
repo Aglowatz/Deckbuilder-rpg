@@ -165,7 +165,7 @@
 				"pct": 50
 			},
 			"text": "At half health Shiro throws a smoke bomb: your strongest ready unit is exhausted and misses your next turn.",
-			"line": "SMOKE BOMB!!! The oldest trick in the book. Page one. I wrote page one.",
+			"line": "SMOKE BOMB!!! It's the oldest trick in the book, right there on page one, and I should know, because I wrote page one.",
 			"effects": [
 				{
 					"kind": "exhaust_foes",
@@ -184,7 +184,7 @@
 				"pct": 25
 			},
 			"text": "Near the end Shiro swaps places with a log: the next 4 damage to him is absorbed.",
-			"line": "You hit a log. A very convincing log. I gave it my eyebrows.",
+			"line": "You hit a log! A very convincing log, I grant you, because I gave it my eyebrows, and I shall be wanting those back.",
 			"effects": [
 				{
 					"kind": "shield",
@@ -1361,7 +1361,7 @@
 				"pct": 50
 			},
 			"text": "At half health the Colossus gets soggy: its units get -1/-0 for the rest of the fight.",
-			"line": "THE COLOSSUS IS... DAMP! (normal voice) Someone left the mop bucket out again.",
+			"line": "THE COLOSSUS IS... DAMP! (normal voice) I'm so sorry, someone has left the mop bucket out again, and I rather think it was me.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -1388,7 +1388,7 @@
 				"pct": 50
 			},
 			"text": "At half health the Champion uses its fourth fist: its units get +1/+0 for the rest of the fight.",
-			"line": "THE CHAMPION RAISES ITS FOURTH FIST! (normal voice) Nobody knows where it keeps it.",
+			"line": "THE CHAMPION RAISES ITS FOURTH FIST! (normal voice) I've announced that for years, and I still couldn't tell you where it keeps it.",
 			"effects": [
 				{
 					"kind": "rule",
@@ -1415,7 +1415,7 @@
 				"turn": 3
 			},
 			"text": "On his 3rd turn the crowd joins in: a 1/1 Rowdy Fan climbs into the ring.",
-			"line": "THE CROWD! GOES! WILD! (normal voice) Could the crowd please stay behind the rope? I put up a rope.",
+			"line": "THE CROWD! GOES! WILD! (normal voice) Could the crowd please stay behind the rope, though? I did put up a rope, and it took me most of the morning.",
 			"effects": [
 				{
 					"kind": "summon",
@@ -1436,7 +1436,7 @@
 				"pct": 50
 			},
 			"text": "At half health Bellows calls an intermission: he heals 2, and his units sit down through his next turn.",
-			"line": "INTERMISSION! (normal voice) I'm having soup. THE SOUP IS WINNING.",
+			"line": "INTERMISSION! (normal voice) I'll be having my soup, if nobody minds, and I'm sorry to report that so far THE SOUP IS WINNING.",
 			"effects": [
 				{
 					"kind": "heal",

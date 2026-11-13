@@ -1,0 +1,687 @@
+# t3_town: 242 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Introduce Bertram as the earnest, rule-bound smith so the player knows where gear comes from and that he runs on numbered protocols.
+@intro::equipment_vendor_intro_lines
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] equipment vendor: first meeting / before the battle
+0| Security Protocol One requires me to assess every customer's gait before they reach the counter. Yours is adequate, so you may approach at your current level of walking.
+1| I am Bertram Beetsworth, Assistant TO the Regional Merchant. The TO is load-bearing, and I would thank you not to drop it.
+2| Everything on this rack is inventoried and oiled under Security Protocol Seven, which is strictly need-to-know, and I have checked the list and you do not need to know.
+3| Please do not reach for the drawer, because its contents are classified, and as of this moment so is your interest in them.
+
+@intro::equipment_vendor_return_lines
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] equipment vendor: later visits
+0| Fact: a return customer strengthens the economy and also my employee-of-the-month case file, so I would ask you to look satisfied for the record.
+1| Fact: the beets came in early this year, and the bear has been informed. We have an understanding, in which I do not ask why it is here and it does not ask about the beets.
+
+## purpose: Introduce Sable the card seller and teach that Path cards are where the power is and that decks are changed at the Deck Station.
+@intro::town.vendor.first
+#   [Sable] Talking to Sable in Crosspath (first)
+0| Well met, {wanderer}. I'm Sable, darling, and I sell cards, and I throw in the stories about them for nothing, because a card without its story is only stiff paper.
+1| That starter deck of yours is half plain neutral cards, darling: honest, dependable and a little dull. The power is in the Paths, all four of them, so buy a few and put them to work at the Deck Station.
+2| And where do my cards come from? The past, darling, like everything worth having, and that's all you'll get. My prices are fair, more or less, which is more than I can say for {villain}'s taxes on them.
+
+@intro::town.vendor.return
+#   [Sable] Talking to Sable in Crosspath (return)
+0| Back again, darling? Every card on this table is honest, I promise you, and the misprints have simply led a more adventurous life with their spelling than the rest of us.
+
+## purpose: Introduce Tilly Tonic, teach that items are single-use and must be equipped on the Character screen, and walk the player through slotting the free Power Wraps.
+@intro::town.item_vendor.first
+#   [Tilly Tonic] Talking to Tilly Tonic in Crosspath (first)
+0| Hello, you look like you need supplies and I've got so many, I'm Tilly Tonic, and I'm teal today, which is good news, because teal means the new batch works!
+1| Everything here is one use in a fight, so you equip what you buy on your Character screen, and then you use it on your turn, and then it's gone and you come back and see me.
+2| Probably don't use them on yourself, though, unless it's a healing one, because I tested the healing one and I'm fine, I went green, but I'm usually green so that hardly counts.
+
+@intro::town.item_vendor.gift
+#   [(check key)] Town: item vendor gift
+0| Your first visit gets a freebie, and it's Power Wraps! You wrap a unit and it gets tougher for the whole fight, and I wrapped my own arm once to test them and it's still tough, and also still a bit stuck.
+1| Here's how you get them ready: press C, or go to Menu and then Character, and find Items, which is the big shiny panel, and I promise you can't miss it.
+2| Click the Power Wraps and then click an empty slot, and that's all there is to it. A slotted item is ready in every fight until it's used up.
+3| It's one wrap and one use and then it's gone, but there are more on my shelf, and look, I've gone green again, and green means business is good.
+
+@intro::town.item_vendor.gift_waiting
+#   [(check key)] Town: item vendor gift waiting
+0| Did you equip the Power Wraps yet? It's press C, then Items, then click the wraps and then an empty slot, and I'm only asking because I can't see them on you.
+1| I'll wait right here, I don't mind a bit, except that I'm very bad at waiting and I think I'm starting to turn yellow.
+
+@intro::town.item_vendor.return
+#   [Tilly Tonic] Talking to Tilly Tonic in Crosspath (return)
+0| You're back for more potions, oh good, just remember to equip them on your Character screen before a fight, and maybe skip the orange one until I've stopped matching it.
+
+## purpose: The Store Room Ghosts: three wronged spirits trapped by Tilly's great-grandmother ask for one fair game, and the win frees them and teaches the hero to be gentle with ghosts.
+@intro::storeroom.locked
+#   [(narration)] Storeroom: locked
+0| The door is cold to the touch, colder than the evening. Behind it, several voices are whispering the same word over and over, just too low to make out.
+1| Someone painted a ring of small symbols round the frame a long time ago, and someone else has tried very hard to scrub them off.
+
+@intro::storeroom.before
+#   [The Store Room Ghosts] Storeroom: before
+0| Who is that, opening the Tonic door? Nobody opens the Tonic door, because the Tonics made very sure, a long time ago, that nobody would.
+1| There were three of us, once, and a lantern, and a lady in this room who promised it would show us the ones we'd lost. Tilly's great-grandmother. She had such kind hands.
+2| The lantern showed us something, but it wasn't who we'd lost. And afterwards, the door wouldn't open from this side any more.
+
+@intro::storeroom.wanderer
+#   [The Wanderer] Storeroom: wanderer
+0| ...Tilly sells bandages and tonics. What was her great-grandmother selling?
+
+@intro::storeroom.challenge
+#   [The Store Room Ghosts] Storeroom: challenge
+0| Remedies, she called them. The chalk is still under the floorboards if you know where to scratch, and the jars on the top shelf were never for coughs.
+1| We won't be bargained with and we won't be prayed at. But a game, a fair one, with every card on the table... she always did love her games. Win, and perhaps we'll finally be let go.
+
+@intro::storeroom.after_win
+#   [The Store Room Ghosts] Storeroom: after win
+0| ...Oh. That's the first fair thing to happen in this room in ninety years.
+1| We can feel the door now, both sides of it. We're going, before whatever she tied us to notices that the knot has come loose.
+2| The lantern is on the top shelf. Don't light it. Tell Tilly she can keep the shop, but she should burn the ledger under the third floorboard, and she shouldn't read it first.
+
+@intro::storeroom.after_loss
+#   [The Store Room Ghosts] Storeroom: after loss
+0| That wasn't enough, and it wasn't nearly enough to loosen what she tied. Go away and come back stronger, and please don't stand so close to the chalk.
+
+@intro::storeroom.cleared
+#   [(narration)] Storeroom: cleared
+0| Just shelves now, and warmer than it's been in years. On the top shelf sits an unlit lantern with soot on the inside of the glass.
+
+## purpose: Some Assembly Required: Bertram refuses gear without Maren's referral, then asks for one won fight on the outskirts, issues the Starter Blade, and makes sure the player equips it.
+@intro::town.equipment_vendor.too_early
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] Talking to Bertram Beetsworth in Crosspath (too early)
+0| Halt, please. Under Security Protocol Two, equipment is issued on referral only, and in this town it is Elder Maren who does the referring.
+1| Come back when you have Elder Maren's blessing. Better posture is always appreciated, but I regret that it cannot be accepted in its place.
+
+@intro::quest.armory.start
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] Quest: armory start
+0| Elder Maren sent you, which I could tell from your gait, because it now says 'referred'. Congratulations: your file is finally thick enough to be called a file.
+1| Before I am permitted to issue gear, protocol requires exactly one thing of you, which is that you win a fight. Any fight counts, and I will know if you lie to me about it.
+2| Fact: there are things roaming the outskirts, on the lanes round the edge of town. They are rude and they are close, and not one of them is on my referral list.
+3| Beat one of them and then come back to me, and I will hand you something pointy.
+
+@intro::quest.armory.waiting
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] Quest: armory waiting
+0| The whole requirement is one fight won, and so far I count zero. I should mention that I am very good at counting to zero.
+1| Security Protocol Four: check the outskirts. Enemies roam the lanes round the edge of town, and any win counts.
+2| I will be here in the meantime, guarding the drawer. The drawer does not know that it is being guarded, and that is the whole point.
+
+@intro::quest.armory.equip
+#   [Bertram Beetsworth] Quest: armory equip
+0| Security Protocol Nine: gear in a bag protects nobody, so please equip it.
+1| Press C, click the Weapon slot on the figure, choose the blade and press Equip. That is four steps, and I have written them down for you, in my head.
+2| Please be aware that unequipped gear will be noted in your file, and that your file is already very thick.
+
+@intro::quest.armory.equip_waiting
+#   [Bertram Beetsworth] Quest: armory equip waiting
+0| The blade is still in the bag. I can see the bag from here, and I have reason to believe that the bag can see me.
+1| Menu, then Character, then the Weapon slot, then Equip. Security Protocol Nine does not repeat itself, so I am repeating it for you as a personal courtesy.
+
+@intro::quest.armory.done
+#   [Bertram Beetsworth, Assistant to the Regional Merchant] Quest "armory": after it is done
+0| That is one fight, won, and so I will now stamp your file three times, because three is the correct number of stamps. Stamp. Stamp. Stamp.
+1| Security Protocol Twelve: report to Elder Maren when we are finished here, because she is the one who decides where things get pointed.
+2| Here is your Starter Blade. With it, the first unit you play each battle hits a little harder. Protocol also requires me to say: do not run with it.
+3| All five equipment slots are yours as of now, and for the record they are helm, weapon, armor, boots and relic.
+4| The good stuff is rarer, and protocol says you can only wear so much of it until you level up. Fact: bears do not wear helms, and I have come to suspect that bears are wiser than us.
+
+## purpose: The Undercroft arena: hint at the chained hatch, announce it opening, and have Bellows explain the ring (battles and puzzles, three tiers, first-clear prizes) as a booming announcer who is really a mild, kindly man.
+@intro::town.arena.locked
+#   [Announcer Grand Bellows] Talking to Announcer Grand Bellows in Crosspath (locked)
+0| There's a cellar hatch beside the old cottage, chained shut, and someone has scratched two little crossed swords into the wood.
+1| Somewhere below, very faintly, someone is rehearsing the word CHAMPION over and over. It seems he isn't ready for you yet.
+
+@intro::town.arena.announce
+#   [Announcer Grand Bellows] Talking to Announcer Grand Bellows in Crosspath (announce)
+0| The word around the square is that the abandoned cottage at the end of Champions' Road has started roaring at night.
+1| It's coming from the cellar, they say, and somebody brave ought to go and check the hatch. Somebody like you, perhaps.
+
+@intro::town.arena.intro
+#   [Announcer Grand Bellows] Talking to Announcer Grand Bellows in Crosspath (intro)
+0| WELCOME TO THE UNDERCROFT, CHAMPION! I AM ANNOUNCER GRAND BELLOWS, KEEPER OF THE SAND! (normal voice) Mind the third stair, won't you? It's loose, and I think it holds a grudge.
+1| FOR A THOUSAND YEARS THE FOUR PATHS SETTLED THEIR RIVALRIES IN THE OLD ARENA! (normal voice) Then {villain} chained the doors, which seemed a shame, so a few of us came down here. SO WE DUG.
+2| SINCE YOU FREED A ZONE, THE RING IS OPEN! (normal voice) It's battles and puzzles, tiers one to three, and there are prizes for you: ring-exclusive gear, gold and essence.
+3| FIRST CLEARS PAY OUT, AND REPEATS ARE FOR GLORY! (normal voice) And for snacks, I should say. I brought snacks, and there are plenty to go round.
+
+@boss::Announcer Grand Bellows/line
+#   [Announcer Grand Bellows] Boss intro before the battle with Announcer Grand Bellows: opening line
+0| IN THIS CORNER: A CHALLENGER! IN THAT CORNER: ME! (normal voice) Hello.
+
+@intro::town.arena.return
+#   [Announcer Grand Bellows] Talking to Announcer Grand Bellows in Crosspath (return)
+0| THE SAND IS HOT AND THE CEILING IS LOW! (normal voice) Pick a fight whenever you like, champion. The crowd is mostly my echo, I'm afraid, but he's very loyal and he agrees with EVERYTHING.
+
+## purpose: Auntie Alembic's: show the shop is shut until two zones are free, then have her teach crafting exactly (six essence each of two Paths plus 100 gold, jars hold eighteen) and plant the Wellspring.
+@intro::town.alchemist.locked
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (locked)
+0| The door of Auntie Alembic's is bolted, and a note is pinned to it in green ink, in what looks like four different handwritings at once:
+1| 'CLOSED UNTIL TWO ZONES ARE FREE. {villain} TOOK MY CAULDRON. I AM BREWING IN THE SINK. THE SINK IS COPING. - A.'
+
+@intro::town.alchemist.announce
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (announce)
+0| With two zones free, a cauldron bubbles to life in {town}, and Auntie Alembic's is open! Bring your essence and your courage, and it wouldn't hurt to bring a fire blanket.
+
+@intro::town.alchemist.intro
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (intro)
+0| I'm Auntie Alembic, dear heart, alchemist and keeper of some very nervous glassware, so please don't touch anything. ...Oh, go on then, you may touch that one. It likes you.
+1| When you collect more copies of a card than you can carry, dear heart, the extras boil down into essence of that card's Path. Nothing goes to waste here, which is how I like a kitchen and a kingdom.
+2| Bring me six essence each of two Paths, plus 100 gold, and I'll brew you a card of both. The cauldron picks which card, and now and then it's on fire. I only take what the brew needs; the rest stays in your jars.
+3| Your jars hold eighteen of a Path. Anything past that drifts off as steam, and then my ceiling turns a new colour and I have to pretend I meant it.
+4| They say there was one spring once, the Wellspring, that fed all four Paths, and everything mixed at the source. Everything's better mixed, dear heart. That is the kingdom I brew for.
+
+@intro::town.alchemist.return
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (return)
+0| Six essence each of two Paths and 100 gold, dear heart, and the cauldron does the rest. Do lower your voice near the red flask, though, because it takes things very personally.
+
+@intro::town.alchemist.quest_gift
+#   [(check key)] Town: alchemist quest gift
+0| Oh, and here, before I drift off and forget: a starter jar of every Path, six of each, which is enough for one brew of any two. Please don't drink it, dear heart. People do drink it.
+
+@intro::town.alchemist.need_more
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (need more)
+0| You don't have enough essence of two different Paths yet, dear heart. Collect more duplicates and then come back to me, and the cauldron and I will wait.
+1| The cauldron is very patient, bless it. Just please don't mistake its being patient for its having had lunch.
+
+## purpose: Two short notices that tell the player the arena and the alchemist have opened and where.
+@intro::town.arena.unlock_line
+#   [Announcer Grand Bellows] Talking to Announcer Grand Bellows in Crosspath (unlock line)
+0| Something under the old cottage at the end of Champions' Road is open for business. Listen for the crowd.
+
+@intro::town.alchemist.unlock_line
+#   [Auntie Alembic] Talking to Auntie Alembic in Crosspath (unlock line)
+0| Auntie Alembic's, the Alchemist, is now open in {town}. Bring your leftovers.
+
+## purpose: Introduce Foil Fenwick the pack seller and the pack rule (a Path's pack is stocked once its zone is freed), then reveal the Prismatic packs later.
+@intro::town.pack_vendor.first
+#   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (first)
+0| Psst... do you hear that crinkle? That's possibility, that is, with excellent packaging.
+1| I'm Foil Fenwick, Purveyor of Sealed Goods, and I sell packs and only packs. Open yours where the light's good, would you... if I cry, I'd like to see what I'm crying about.
+2| Here's how it works... whenever a Path's final dungeon falls, that Path sends me its pack. Don't ask me how. There's a great deal of foil and no paperwork at all, which the Necrocrats find very upsetting.
+3| Free a zone and I'll stock its pack, and until then it's only a rumour in a wrapper. Browse all you like, and sniff them if you want to... I won't judge you. I sniff them too.
+
+@intro::town.pack_vendor.return
+#   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (return)
+0| Browse, sniff, but please don't shake the packs... well, a little, then, if you must. I'm a collector, you see, and not a strong person.
+1| A repeat customer... shh, listen to that foil. I think you understand me, and I honestly don't know what to do with that.
+
+@intro::town.pack_vendor.prismatic_reveal
+#   [Foil Fenwick] Talking to Foil Fenwick in Crosspath (prismatic reveal)
+0| Fenwick draws a curtain aside, very gently. "This is the back room... Prismatic packs, with every Path in one wrapper."
+1| "They only exist because the Paths are talking to each other again, which is terrible for my exclusivity... and quite wonderful for my sales."
+
+## purpose: Pip Threadwell across visits: the delighted first fitting (cosmetics only, try things in the mirror), pride as freed zones send fabric, and gossip pointing at the hidden pieces.
+@intro::town.tailor.line
+#   [Pip Threadwell] Talking to Pip Threadwell in Crosspath (line)
+0| Look closely, do, because every stitch tells a story, and the very best of them tell it with a feather.
+
+@intro::town.tailor.first
+#   [Pip Threadwell] Talking to Pip Threadwell in Crosspath (first)
+0| A hat! You need a hat, on that marvellous head. Now hold still, please: your left shoulder is a size braver than your right, and I'd hate to flatter the wrong one.
+1| I am Pip Threadwell, Haberdasher and Hemmer! Everything in here is purely cosmetic, I must confess, and it will not make you stronger, braver or better at card games.
+2| It will, however, make you LOOK all three, and I maintain that is eighty percent of the job. Do try anything on in the little mirror first: hats up top, cloaks down the back, and dye on both.
+3| Free zones and climb levels, and I shall find you grander stock. I hear rumours of rarer pieces too, because people will tell a hatmaker everything while he's pinning them.
+
+@intro::town.tailor.return
+#   [Pip Threadwell] Talking to Pip Threadwell in Crosspath (return)
+0| Back to change your mind and your hat, are we? Excellent, because one of those I can fit properly, and the other I shall simply admire.
+1| My favourite head, and in the nick of time! Is it to be brim, brooch or something billowing? I ask because this could very well be a hem-ergency.
+
+@intro::town.tailor.progress
+#   [Pip Threadwell] Talking to Pip Threadwell in Crosspath (progress)
+0| Oh, you have been busy, and so have I, because new fabrics have arrived. Please don't ask me where from. Some of them were yelling when I unrolled them.
+1| My stock has grown! The freed zones send me their finest fashions, slightly singed and mostly fabulous, and I mend the singed ones gladly, because a patch is the strongest part of a coat.
+
+@intro::town.tailor.secrets
+#   [Pip Threadwell] Talking to Pip Threadwell in Crosspath (secrets)
+0| Between us: a crown made of living leaves is growing in a bin somewhere in the Verdant Dump, and a cloak that has survived more than you have is draped over a chest on a muscly island.
+1| And as for the Capital's mantle... well, someone would have to defeat its owner first, and that is no small fitting. The mantle, frankly, is rooting for you.
+
+## purpose: Sable sells surprise packs and later opens the bigger back crates, without ever saying where the cards come from.
+@intro::pack.card_vendor.line
+#   [Sable] Pack: card vendor line
+0| Sable pats a stack of wrapped bundles. "Surprise packs, darling, fresh from the crates, and I make it a rule never to ask a crate where it has been."
+1| "What's inside them? I did ask, darling, but the crate declined to comment, and I do admire a professional."
+
+@intro::pack.card_vendor.tier2
+#   [Sable] Pack: card vendor tier2
+0| Sable grins at you. "The back crates are open at last, darling, with more cards and bigger surprises, and the same discreet policy on fainting as before."
+
+## purpose: Arena labels, Bellows's commentary during the three ring challenges, and his kindly send-offs after a win, a loss or a puzzle.
+@intro::arena.tier.1
+#   [Announcer Grand Bellows] Arena: tier 1
+0| Bronze Sand
+
+@intro::arena.tier.2
+#   [Announcer Grand Bellows] Arena: tier 2
+0| Silver Sand
+
+@intro::arena.tier.3
+#   [Announcer Grand Bellows] Arena: tier 3
+0| Gold Sand
+
+@enc::arena:arena_spells_only/0/line
+#   [Arena challenger (spells only)] Mid-fight event "Getting Soggy" vs Arena challenger (spells only): the foe says it when the event fires
+0| THE COLOSSUS IS... DAMP! (normal voice) I'm so sorry, someone has left the mop bucket out again, and I rather think it was me.
+
+@enc::arena:arena_four_fists/0/line
+#   [Arena challenger (four fists)] Mid-fight event "The Fourth Fist" vs Arena challenger (four fists): the foe says it when the event fires
+0| THE CHAMPION RAISES ITS FOURTH FIST! (normal voice) I've announced that for years, and I still couldn't tell you where it keeps it.
+
+@enc::arena:arena_marshal/0/line
+#   [Arena challenger (marshal)] Mid-fight event "THE CROWD GOES WILD" vs Arena challenger (marshal): the foe says it when the event fires
+0| THE CROWD! GOES! WILD! (normal voice) Could the crowd please stay behind the rope, though? I did put up a rope, and it took me most of the morning.
+
+@enc::arena:arena_marshal/1/line
+#   [Arena challenger (marshal)] Mid-fight event "INTERMISSION" vs Arena challenger (marshal): the foe says it when the event fires
+0| INTERMISSION! (normal voice) I'll be having my soup, if nobody minds, and I'm sorry to report that so far THE SOUP IS WINNING.
+
+@intro::arena.won.first
+#   [Announcer Grand Bellows] Arena: won first
+0| VICTORY ON THE SAND, AND THE PRIZE IS YOURS! (normal voice) Do mind your head on the way up to collect it, because the ceiling doesn't celebrate with the rest of us.
+
+@intro::arena.won.replay
+#   [Announcer Grand Bellows] Arena: won replay
+0| ANOTHER WIN FOR THE BOOKS! (normal voice) Here are a few coins from the crowd. The crowd is only me, I know, but I mean every one of them.
+
+@intro::arena.lost
+#   [Announcer Grand Bellows] Arena: lost
+0| NOT THIS TIME, CHAMPION! (normal voice) Come back whenever you're ready, there's no hurry at all, and between ourselves the sand has yet to win a rematch.
+
+@intro::arena.puzzle.won
+#   [Announcer Grand Bellows] Arena: puzzle won
+0| PUZZLE SOLVED - THE CROWD GOES WILD! (normal voice) Lovely bit of thinking, that. I could hear the gears turning from the booth.
+
+@intro::arena.puzzle.lost
+#   [Announcer Grand Bellows] Arena: puzzle lost
+0| THE PUZZLE WINS THIS ROUND! (normal voice) Have a good long look at the board and try again. It's not going anywhere, and neither am I.
+
+## purpose: The Rift Express: Rip and his identical cousins explain free fast travel between stations (a new station appears in each town reached) as cheerful counter service done while holding the sky open.
+@intro::travel.intro.town
+#   [Rip Tearson and cousins] Travel: intro town
+0| HNNNGH. SPOTTER! Spot me! No, not you, the other guy. ...Oh, hello there, and welcome to the Beefcake Rift Express.
+1| We tear the world open so you don't have to walk, buddy. It takes two men to hold the sky up while you go through, and that's what we call our overhead.
+2| The sky is heavier than it looks, buddy, which is why we never skip sky day. Do not look at the seam. It's working very hard, and it's shy about being watched.
+3| Reach a new town and we'll send a cousin to rip a station there. Every one of them is called Rip, because our mother found a name she liked and saw no reason to stop.
+4| After that, you can rip between any two stations whenever you like. Thank you for ripping with the Express, and please keep your elbows inside the sky.
+
+@intro::travel.return.town
+#   [Rip Tearson and cousins] Travel: return town
+0| Back for another rip, buddy? Just say where and we'll tear it right open for you. Rips are free, same as always.
+1| Spotting is free too, buddy. Water, I'm sorry to say, you'll have to bring yourself, because we get through all of ours.
+
+@intro::travel.intro.zone
+#   [Rip Tearson and cousins] Travel: intro zone
+0| HNNNGH... Rip Tearson, Beefcake Rift Express, proudly serving this exact spot. I'm one of the cousins, and I'm happy to say we hire entirely on relative strength.
+1| We're all very proud of one another, the whole family, and we show it by rarely speaking.
+2| So just say where you're headed, buddy, and we'll rip it for you.
+
+@intro::travel.return.zone
+#   [Rip Tearson and cousins] Travel: return zone
+0| Need a rip, buddy? I've been holding this sky since breakfast, and I'd hate to put it down without anyone going through it.
+
+@intro::travel.intro.final
+#   [Rip Tearson and cousins] Travel: intro final
+0| Shhh, keep it down, buddy, there's a Wrinkle asleep behind the crates. I'm Rip Tearson, Cousin Number Seven, Rift Express. Allegedly.
+1| They told me this place didn't exist, so I went ahead and ripped a hole to it anyway, because sometimes you just have to believe in yourself. The sauce smell helped a lot too.
+
+## purpose: The cousins' shouted calls while a rift is torn open: short, loud gym encouragement.
+@intro::travel.rip.1
+#   [Rip Tearson and cousins] Travel: rip 1
+0| Grab the edges! On three! One!
+1| ...Two! ...What comes after two? ...RIP!
+
+@intro::travel.rip.2
+#   [Rip Tearson and cousins] Travel: rip 2
+0| Hold the sky, brother! Feel the burn! RRRRRIP!
+
+@intro::travel.rip.3
+#   [Rip Tearson and cousins] Travel: rip 3
+0| Spot this whole dimension, brother! Lift with your LEGS! Nobody ever tore the sky open with their lower back!
+
+@intro::travel.rip.4
+#   [Rip Tearson and cousins] Travel: rip 4
+0| Loosen the shoulders, roll the neck, and tear a hole in the fabric of space. And never, ever skip leg day, brother.
+
+@intro::travel.rip.sound
+#   [Rip Tearson and cousins] Travel: rip sound
+0| RIIIIIIP!
+
+## purpose: Postgame: Rip reports the hatch in the forest where the game began, offers the new 'forest' station, and leaves the hatch for the hero to open.
+@intro::travel.intro.forest
+#   [Rip Tearson and cousins] Travel: intro forest
+0| HNNNGH. Rip Tearson, Cousin Number Eight, rift technician and tree enthusiast. This is where I found the hatch, buddy, and no, before you ask, I didn't open it.
+1| I've got manners, mostly, and my mother would hear about it if I hadn't.
+2| Say the word and I'll rip you back to {town}. Or if you're going down the hatch, I'll hold the sky open right here till you're back up.
+
+@intro::travel.return.forest
+#   [Rip Tearson and cousins] Travel: return forest
+0| Back to {town}, buddy, or down the hatch? Either way, I've been holding this sky since breakfast and it's ready when you are.
+
+@intro::travel.forest_tip
+#   [Rip Tearson and cousins] Travel: forest tip
+0| Spotter! I've got big news. You know that forest outside town, the one where you first turned up?
+1| I went up there on my day off and saw some very interesting things. The brambles south of the clearing just... let go, and there's a path now, with a hatch at the end that was NOT there before. Glowing roots, and a hospital smell.
+2| I didn't open it, because I have manners, and also because I'm scared. But I did put a rift station up there, so you can pop over whenever you like.
+3| It's on the Express now, so come to any of my stations and say 'forest', and I'll tear it right open for you.
+4| Maren says that's where they took your friend from the castle gate. I'd go down myself, but it feels like yours to open. Be careful, buddy.
+
+## purpose: Dex Shufflewick's memory tables: beat his score at the table in each of the four Path countries, then win the final table for the Matching Pair boots; his table-talk keeps the minigame friendly.
+@dc::cardsharp.intro
+#   [Elder Maren] Cardsharp: intro
+0| Ah, a card person! I can always tell, because you people check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp, and the best you'll meet this week.
+1| I keep a little memory table in every Path's country, each one dealt from that Path's own cards. Beat my score at all four of them, and then come and find me for the final table.
+2| Win that, and you can have my Matching Pair, the luckiest boots in the kingdom. I won them off a magician, who won them off a duck. So sit down, friend, and let's see that memory of yours.
+
+@dc::cardsharp.return
+#   [Elder Maren] Cardsharp: return
+0| Back for another round? I thought you might be. It's the same cards with a brand new shuffle, and my score's up on the board whenever you feel like taking it off me.
+
+@dc::cardsharp.final
+#   [Elder Maren] Cardsharp: final
+0| All four tables beaten, and I'm impressed, and a little poorer in spirit. The final table is two cards from every Path, and I'll tell you now, as a friend, that I'm not going easy.
+
+@dc::cardsharp.done
+#   [Elder Maren] Cardsharp: done
+0| You cleaned me out, fair and square, and those boots suit you better than they ever suited me. The table's still open, mind, if you just like the game as much as I do.
+
+@dc::cardsharp.quip.start
+#   [Elder Maren] Cardsharp: quip start
+0| Cards face down and eyes up, friend, and watch closely what turns over.
+
+@dc::cardsharp.quip.match
+#   [Elder Maren] Cardsharp: quip match
+0| Now that was lucky, and I do like a lucky player.
+1| Not bad at all. I've seen better, but I was the one doing it.
+2| Oh, you've done this before, haven't you?
+3| Nicely found. Now let's see you do it twice.
+4| The cards like you, friend, and they don't like everybody.
+
+@dc::cardsharp.quip.miss
+#   [Elder Maren] Cardsharp: quip miss
+0| Ooh, so close. Well, close-ish, between friends.
+1| Never mind, just remember where that one went.
+2| The cards remember where they are, so you only have to keep up.
+3| Not that one, I'm afraid. Have another go.
+4| I saw where it went. I'd tell you, but that's my living.
+
+@dc::cardsharp.quip.win
+#   [Elder Maren] Cardsharp: quip win
+0| Well, there goes my score, beaten fair and square. I'd be upset if it hadn't been such a pleasure to watch.
+
+@dc::cardsharp.quip.close
+#   [Elder Maren] Cardsharp: quip close
+0| Every pair found, and only a few moves over my score. Shall I deal again?
+
+@dc::cardsharp.quip.lose
+#   [Elder Maren] Cardsharp: quip lose
+0| That's you out of moves, I'm afraid. It happens to the best of us, and it happened to me for years before I got good.
+
+## purpose: The Old Well secret quest: the well sends the hero to two surviving springs (the Dump's highest terrace, the Buffet's gravy pond), then tests him as the Echo and tells the kingdom's oldest story - one spring, four Paths, held together.
+@well::beats.vision.start.0
+#   [(narration)] Old Well secret quest: vision start
+0| You touch the stone. It is cold, and then it is not. Far below, something moves that has not moved in years: water, or the memory of it.
+
+@well::beats.vision.start.1
+#   [The Old Well] Old Well secret quest: vision start
+0| ...Four streams. One spring. They drank together, once.
+1| ...The water went down when they stopped sharing. Not all of it. Listen for what is left.
+
+@well::beats.vision.start.2
+#   [(narration)] Old Well secret quest: vision start
+0| Two hums answer, faint as a wet finger round a glass. One is on the Verdant Dump's highest terrace, where its river starts to fall.
+1| The other is in the Endless Buffet, by a little pond under the broccoli.
+
+@well::beats.vision.start.3
+#   [The Wanderer] Old Well secret quest: vision start
+0| The townsfolk say the well doesn't talk. I'm not going to be the one who tells them.
+
+@well::beats.touch.listening.0
+#   [The Old Well] Old Well secret quest: touch listening
+0| ...Listen. What is left of the water still hums.
+
+@well::beats.touch.left.heap.0
+#   [(narration)] Old Well secret quest: touch left heap
+0| One hum is high in the Verdant Dump, on its highest terrace, where the river starts to fall.
+
+@well::beats.touch.left.buffet.0
+#   [(narration)] Old Well secret quest: touch left buffet
+0| One hum is in the Endless Buffet, by the little gravy pond in the Broccoli Forest.
+
+@well::beats.find.refusemancer.0
+#   [(narration)] Old Well secret quest: find refusemancer
+0| At the head of the falls, under a lip of roots and old junk, a thread of water comes up clear. The cleanest water in the Dump starts in its dirtiest corner.
+1| Someone has thrown a boot in the spring. The water has gone politely round it.
+2| For a blink you see four streams leaving one spring: red, blue, purple and green. This one was green. It fed the fields, and the fields fed everyone.
+3| A whisper, from very far away: 'One stream remembers.'
+
+@well::beats.find.gourmand.0
+#   [(narration)] Old Well secret quest: find gourmand
+0| The pond is gravy, like everything here. Under the gravy, ringed with old stones, is a basin far older than the Buffet: the first stockpot, built round a spring.
+1| Every Gourmand recipe still begins with the same two words: first, water. Somebody has added 'and salt' here. Twice.
+2| For a blink you see four streams leaving one spring. This one was blue. It went into the first pot, and the first pot fed a kingdom.
+3| A whisper, from very far away: 'One stream remembers.'
+
+@well::beats.find.one.0
+#   [(narration)] Old Well secret quest: find one
+0| Far away in {town}, the Old Well hums a little louder. One more stream to find.
+
+@well::beats.find.both.0
+#   [(narration)] Old Well secret quest: find both
+0| Far away in {town}, the Old Well hums like a full kettle. Both streams have answered, and the well is calling you back.
+
+@well::beats.touch.ready.0
+#   [(narration)] Old Well secret quest: touch ready
+0| The well is full. Not of water: of light, every colour of the four Paths at once, turning slowly, like something stirred.
+
+@well::beats.touch.ready.1
+#   [The Old Well] Old Well secret quest: touch ready
+0| ...Both streams remember. Now the spring will see who is asking.
+
+@well::beats.echo.before.0
+#   [The Wellspring's Echo] Old Well secret quest: echo before
+0| ...I am what is left when the water goes. Every Path's voice, in one throat.
+1| Hold all four, and I will run again. Hold fewer, and I will show you what the others were for.
+
+@well::beats.echo.lose.0
+#   [The Wellspring's Echo] Old Well secret quest: echo lose
+0| ...Not yet. The spring is patient. It has had ten years of practice.
+
+@well::beats.echo.lose.1
+#   [(narration)] Old Well secret quest: echo lose
+0| The light sinks back into the stone. It will rise again when you touch the well.
+
+@well::beats.echo.reveal.0
+#   [(narration)] Old Well secret quest: echo reveal
+0| The light sinks into the stone, and for a moment the well is a mirror. In it you see a spring under the whole kingdom: under the town, under the vault, under everything.
+
+@well::beats.echo.reveal.1
+#   [The Old Well] Old Well secret quest: echo reveal
+0| ...Once there was one spring. Four peoples drank from it and gave it four names.
+1| They argued about the name for a thousand years. The water did not mind.
+2| Where it rose, they built a town to argue in. Over its source they built a vault, and the four Paths locked it together, so no one Path could own the water.
+3| It ran while the four shared it, and while one house held them together.
+4| Ten years ago the house went quiet. The streams stopped speaking. The spring went down to wait.
+
+@well::beats.echo.reveal.2
+#   [(narration)] Old Well secret quest: echo reveal
+0| The little spring at the end of the old royal tunnel went to dust. This one nearly did.
+1| Good new wells were dug all over the kingdom, clean and straight. The water did not come. It never comes when it is told.
+
+@well::beats.echo.reveal.3
+#   [The Old Well] Old Well secret quest: echo reveal
+0| ...It does not run for one shape. It runs for many, held together, and it has waited ten years for a hand that can hold all four.
+1| It hums when you touch it. Take a little with you. It remembers the way home.
+
+@well::beats.echo.reveal.4
+#   [The Wanderer] Old Well secret quest: echo reveal
+0| It says it remembers the way home, which is more than I do. I think I'll keep the bottle close.
+
+@well::text.quest.summary
+#   [(narration/UI)] Old Well secret quest: quest summary
+0| The Old Well remembers a spring that once fed all four Paths. Two hums still answer it, one in the Verdant Dump and one in the Endless Buffet. Find both.
+
+@well::text.quest.step.heap
+#   [(narration/UI)] Old Well secret quest: quest step heap
+0| Find what hums in the Verdant Dump
+
+@well::text.quest.step.buffet
+#   [(narration/UI)] Old Well secret quest: quest step buffet
+0| Find what hums in the Endless Buffet
+
+@well::text.quest.step.echo
+#   [(narration/UI)] Old Well secret quest: quest step echo
+0| Go back to the Old Well and face what answers
+
+@well::text.quest.hint.heap
+#   [(narration/UI)] Old Well secret quest: quest hint heap
+0| The Dump's highest terrace, where its river starts to fall: something there hums like the well
+
+@well::text.quest.hint.buffet
+#   [(narration/UI)] Old Well secret quest: quest hint buffet
+0| The little gravy pond in the Buffet's Broccoli Forest: something there hums like the well
+
+@well::text.quest.hint.echo
+#   [(narration/UI)] Old Well secret quest: quest hint echo
+0| The Old Well in {town}, in its yard off the west market street
+
+@well::text.prompt.refusemancer
+#   [(narration/UI)] Old Well secret quest: prompt refusemancer
+0| Kneel by the water
+
+@well::text.prompt.gourmand
+#   [(narration/UI)] Old Well secret quest: prompt gourmand
+0| Look into the pond
+
+@well::text.prompt.well.ready
+#   [(narration/UI)] Old Well secret quest: prompt well ready
+0| Lean over the Old Well
+
+@well::text.touch.done
+#   [(narration/UI)] Old Well secret quest: touch done
+0| The Old Well hums, low and steady, like a kettle kept warm for whoever comes home.
+
+@well::text.confirm.body
+#   [(narration/UI)] Old Well secret quest: confirm body
+0| The Echo duels with all four Paths at once. It is a hard fight. Lose, and the well will wait for you; what you have won stays yours.
+
+@well::text.confirm.yes
+#   [(narration/UI)] Old Well secret quest: confirm yes
+0| Reach in
+
+@well::text.confirm.no
+#   [(narration/UI)] Old Well secret quest: confirm no
+0| Not yet
+
+@well::text.toast.found
+#   [(narration/UI)] Old Well secret quest: toast found
+0| One stream remembers.
+
+@well::text.toast.both
+#   [(narration/UI)] Old Well secret quest: toast both
+0| Both streams remember. Go back to the Old Well.
+
+@boss::The Wellspring's Echo/line
+#   [The Wellspring's Echo] Boss intro before the battle with The Wellspring's Echo: opening line
+0| ...you came back... the water remembers the shape of you...
+
+@enc::town:old_well/0/line
+#   [The Wellspring's Echo] Mid-fight event "Ripples" vs The Wellspring's Echo: the foe says it when the event fires
+0| ...you were here... you were small... the water remembers the shape of you...
+
+@enc::town:old_well/1/line
+#   [The Wellspring's Echo] Mid-fight event "Still Water" vs The Wellspring's Echo: the foe says it when the event fires
+0| ...not yet... the spring runs once more...
+
+## purpose: The Forgotten Vault's last room: the Old Kingdom's clockwork guardian challenges the hero for the banner.
+@dc::dungeon.dg_s_town_boss.before
+#   [The Vault Guardian, the Old Kingdom Automaton] Dungeon node "dg s town boss": entering the node
+0| A four-coloured core hums at the heart of the vault, four marks set in a ring. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.
+1| 'Tick. Identify,' it says. 'The Old Kingdom's banner is not for just anyone.'
+
+## purpose: The graveyard cairn: an optional fight against something old that counts turns, told in grave, heavy narration.
+@intro::graveyard_intro_lines
+#   [The Restless Cairn] graveyard: first meeting / before the battle
+0| The stones here were stacked by hands that stopped moving a long time ago.
+1| Something under the cairn is still keeping count of its turns. It has been keeping count since before {villain} came.
+2| Touch it, and it will not stop counting until one of you does.
+
+@boss::The Restless Dead/line
+#   [The Restless Dead] Boss intro before the battle with The Restless Dead: opening line
+0| The stones count. One. Two. The dead are counting with them.
+
+@enc::town:graveyard/0/line
+#   [The Restless Dead] Mid-fight event "The Count Pauses" vs The Restless Dead: the foe says it when the event fires
+0| The counting stops. Somewhere under the stones, someone has lost their place.
+
+@enc::town:graveyard/1/line
+#   [The Restless Dead] Mid-fight event "The Cairn Remembers" vs The Restless Dead: the foe says it when the event fires
+0| The dead stop. They look at your hands as if they have seen them before.
+
+@intro::graveyard_victory_lines
+#   [The Restless Cairn] graveyard: after you win
+0| The counting stops. For now.
+1| Whatever was keeping time down there has nothing left to spend it on.
+2| The stones are just stones again. Take what it was guarding.
+
+@intro::graveyard_defeat_lines
+#   [The Restless Cairn] graveyard: after you lose
+0| It is still counting.
+1| Come back when you have more turns to spare than it does.
+
+## purpose: The Door Under the Well: Maren sends the hero to find the key in a hidden chest in town, notices the four carvings in a ring and changes the subject, then points him to the iron hatch beside the well.
+@dc::quest.side_s_town.offer
+#   [Elder Maren] Quest "The Door Under the Well": when offered
+0| There's a door under the old well, dearie, that has been locked since before I was born, and I'll have you know that is a very long time for a door to sulk.
+1| I always thought the key was lost, but it wasn't. Somebody hid it in a chest right here in town, so if you find it for me, we'll see what that door is for.
+
+@dc::quest.side_s_town.active
+#   [Elder Maren] Quest "The Door Under the Well": while it is active
+0| The key's in a hidden chest somewhere in town, so look in the odd corners, dearie. This town has never quite managed a straight one, and I've had a long time to check.
+
+@dc::quest.side_s_town.ready
+#   [Elder Maren] Quest "The Door Under the Well": handing it in
+0| You found it! Look at the bow, with the four little carvings in a ring. Hm. Well, never mind that now. I'm far too old for stairs, dearie, and you're not, so it had better be you.
+
+@dc::quest.side_s_town.done
+#   [Elder Maren] Quest "The Door Under the Well": after it is done
+0| The door's the iron hatch beside the well, so go on down when you're ready. Whatever's under it belonged to the Old Kingdom and not to me, dearie, so mind the stairs and mind your manners.
+
+## purpose: The Automaton recognises the hero and hands over the Old Kingdom's banner.
+@dc::dungeon.dg_s_town_boss.after
+#   [The Vault Guardian, the Old Kingdom Automaton] Dungeon node "dg s town boss": after the node
+0| The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.
+1| 'Tick. ...Recognised. Four Paths. One kingdom. Carry it well.'
+
+## purpose: Town boss lines: Shiro Swindle, the theatrical villain of a very small crime; the Warden of the Four Seals and the Automaton, stone and clockwork that recognise the hero's hand.
+@boss::Shiro Swindle/line
+#   [Shiro Swindle] Boss intro before the battle with Shiro Swindle: opening line
+0| You found me! But nobody ever finds me, which can only mean that this is a trick, and since I am the only trickster here, it must be one of mine. How marvellous!
+
+@boss::The Warden of the Four Seals/line
+#   [The Warden of the Four Seals] Boss intro before the battle with The Warden of the Four Seals: opening line
+0| Four seals, four Paths, one hand. Show me the hand.
+
+@boss::The Old Kingdom Automaton/line
+#   [The Old Kingdom Automaton] Boss intro before the battle with The Old Kingdom Automaton: opening line
+0| Tick. Identify. Tick.
+
+@enc::town:ninja/0/line
+#   [Shiro Swindle] Mid-fight event "SMOKE BOMB!!!" vs Shiro Swindle: the foe says it when the event fires
+0| SMOKE BOMB!!! It's the oldest trick in the book, right there on page one, and I should know, because I wrote page one.
+
+@enc::town:ninja/1/line
+#   [Shiro Swindle] Mid-fight event "Body Double" vs Shiro Swindle: the foe says it when the event fires
+0| You hit a log! A very convincing log, I grant you, because I gave it my eyebrows, and I shall be wanting those back.
+
+@enc::town:vault/0/line
+#   [The Warden of the Four Seals] Mid-fight event "The Seal of Iron Breaks" vs The Warden of the Four Seals: the foe says it when the event fires
+0| One seal for one Path, and the hand is real. Show me the rest of it.
+
+@enc::town:vault/1/line
+#   [The Warden of the Four Seals] Mid-fight event "The Last Seal" vs The Warden of the Four Seals: the foe says it when the event fires
+0| The last seal opens. The four Paths agreed to bury this, and they agreed that one day you might come for it.
+
+@enc::The Old Kingdom Automaton/0/line
+#   [The Old Kingdom Automaton] Mid-fight event "Recalibrate" vs The Old Kingdom Automaton: the foe says it when the event fires
+0| Tick. Damage noted. Tick. Recalibrating.
+
+@enc::The Old Kingdom Automaton/1/line
+#   [The Old Kingdom Automaton] Mid-fight event "Recognised" vs The Old Kingdom Automaton: the foe says it when the event fires
+0| Four colours. One thread. Tick. ...Recognised.

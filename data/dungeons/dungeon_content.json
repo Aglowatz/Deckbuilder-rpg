@@ -1810,17 +1810,17 @@
 			"I've put all four gatekeepers in your quest log, with yours at the top. Go on, then, and come back in one piece. There'll be a pie waiting, and I don't bake for people who don't come back."
 		],
 		"quest.side_s_town.offer": [
-			"There is a door under the old well that has been locked since before I was born.",
-			"I always thought the key was lost, but it wasn't, dearie. Somebody hid it in a chest right here in town. Find it, and we'll see what the door is for."
+			"There's a door under the old well, dearie, that has been locked since before I was born, and I'll have you know that is a very long time for a door to sulk.",
+			"I always thought the key was lost, but it wasn't. Somebody hid it in a chest right here in town, so if you find it for me, we'll see what that door is for."
 		],
 		"quest.side_s_town.active": [
-			"The key's in a hidden chest somewhere in town. Look in the odd corners, dearie; this town has never quite managed a straight one."
+			"The key's in a hidden chest somewhere in town, so look in the odd corners, dearie. This town has never quite managed a straight one, and I've had a long time to check."
 		],
 		"quest.side_s_town.ready": [
-			"You found it. Look at the bow: four little carvings in a ring. Hm. Never mind that. I'm too old for stairs, dearie, and you're not."
+			"You found it! Look at the bow, with the four little carvings in a ring. Hm. Well, never mind that now. I'm far too old for stairs, dearie, and you're not, so it had better be you."
 		],
 		"quest.side_s_town.done": [
-			"The door's the iron hatch beside the well. Go on down. Whatever's under it belonged to the Old Kingdom, not to me, so mind the stairs."
+			"The door's the iron hatch beside the well, so go on down when you're ready. Whatever's under it belonged to the Old Kingdom and not to me, dearie, so mind the stairs and mind your manners."
 		],
 		"quest.side_s_beef.offer": [
 			"Only the worthy reach the top, they say. The worthy also bring water, if they've any sense.",
@@ -1988,44 +1988,44 @@
 			"Come and find me on the square once you've dried off. When you're ready for the roads, I'll send you out myself."
 		],
 		"cardsharp.intro": [
-			"Ah, a card person! I can always tell: you check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp.",
-			"I keep a little memory table in every Path's country, dealt from that Path's own cards. Beat my score at all four, then find me for the final table.",
-			"Win that, and you can have my Matching Pair, the luckiest boots in the kingdom. I won them off a magician, who won them off a duck. Sit down, let's see your memory."
+			"Ah, a card person! I can always tell, because you people check your pockets for a deck before you check them for money. Dex Shufflewick, travelling cardsharp, and the best you'll meet this week.",
+			"I keep a little memory table in every Path's country, each one dealt from that Path's own cards. Beat my score at all four of them, and then come and find me for the final table.",
+			"Win that, and you can have my Matching Pair, the luckiest boots in the kingdom. I won them off a magician, who won them off a duck. So sit down, friend, and let's see that memory of yours."
 		],
 		"cardsharp.return": [
-			"Back for another round? Same cards, new shuffle. My score's on the board, if you want it."
+			"Back for another round? I thought you might be. It's the same cards with a brand new shuffle, and my score's up on the board whenever you feel like taking it off me."
 		],
 		"cardsharp.final": [
-			"All four tables, beaten. I'm impressed, and slightly poorer in spirit. The final table is two cards from every Path, and I'm not going easy."
+			"All four tables beaten, and I'm impressed, and a little poorer in spirit. The final table is two cards from every Path, and I'll tell you now, as a friend, that I'm not going easy."
 		],
 		"cardsharp.done": [
-			"You cleaned me out, and the boots suit you better than they suited me. The table's still open, if you just like the game."
+			"You cleaned me out, fair and square, and those boots suit you better than they ever suited me. The table's still open, mind, if you just like the game as much as I do."
 		],
 		"cardsharp.quip.start": [
-			"Cards face down, eyes up. Watch what turns over."
+			"Cards face down and eyes up, friend, and watch closely what turns over."
 		],
 		"cardsharp.quip.match": [
-			"Hm. Lucky.",
-			"Not bad. Not good either, but not bad.",
-			"You've done this before.",
-			"Don't get used to it.",
-			"The cards like you. Suspicious."
+			"Now that was lucky, and I do like a lucky player.",
+			"Not bad at all. I've seen better, but I was the one doing it.",
+			"Oh, you've done this before, haven't you?",
+			"Nicely found. Now let's see you do it twice.",
+			"The cards like you, friend, and they don't like everybody."
 		],
 		"cardsharp.quip.miss": [
-			"So close. Well. Not close.",
-			"Remember where that one went.",
-			"The cards remember. Do you?",
-			"Nope. Try the other one.",
-			"I saw that. Did you?"
+			"Ooh, so close. Well, close-ish, between friends.",
+			"Never mind, just remember where that one went.",
+			"The cards remember where they are, so you only have to keep up.",
+			"Not that one, I'm afraid. Have another go.",
+			"I saw where it went. I'd tell you, but that's my living."
 		],
 		"cardsharp.quip.win": [
-			"Well! That's my score beaten. Fair and square, sadly."
+			"Well, there goes my score, beaten fair and square. I'd be upset if it hadn't been such a pleasure to watch."
 		],
 		"cardsharp.quip.close": [
-			"Every pair found, just a few moves over. Deal again?"
+			"Every pair found, and only a few moves over my score. Shall I deal again?"
 		],
 		"cardsharp.quip.lose": [
-			"Out of moves. Happens to the best of us. Mostly to you."
+			"That's you out of moves, I'm afraid. It happens to the best of us, and it happened to me for years before I got good."
 		]
 	}
 }
