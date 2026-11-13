@@ -101,7 +101,7 @@
 				"pct": 50
 			},
 			"text": "At half health Prudence grabs the wrong stamp: APPROVED. You heal 3.",
-			"line": "APPROVED. ...That was the wrong stamp, and it felt... nice. Disregard that.",
+			"line": "APPROVED. ...Oh. That was the wrong stamp, and I am afraid it felt rather nice. Please disregard that.",
 			"effects": [
 				{
 					"kind": "foe_heal",
@@ -784,7 +784,7 @@
 				"turn": 4
 			},
 			"text": "On his 4th turn Mortimer files Form 27-B: a 1/1 Filing Clerk is hired to process it.",
-			"line": "Your appeal has been received, reviewed and denied. It was a very good appeal.",
+			"line": "Your appeal has been received, reviewed and denied. For the record, it was a very good appeal.",
 			"effects": [
 				{
 					"kind": "summon",

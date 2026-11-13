@@ -1,0 +1,376 @@
+# t2_dna: 143 lines. Edit the text after "idx| " in place; leave a line as it is to keep it.
+# Lines starting "#= " were already rewritten in Tier 1 by the lead writer: read them for continuity, do not change them.
+
+
+## purpose: Prudence, freed, shows the Department working again and tells the player they may rematch her without a permit.
+@intro::gate.necrocrat.freed
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: talking at the gate
+#= 0| The afterlife is processing again. Agnes says the queue moved four whole numbers yesterday, so we had cake to mark the occasion.
+#= 1| I have a new stamp now, and it says HELPED. I've used it nine times so far, and yes, I am keeping count.
+#= 2| You may challenge me again if you'd like to, and you won't need a permit for it. That's my favourite rule. I wrote it myself.
+
+## purpose: Narration for the D.N.A. road: it is shut by a permit nobody can get, then opened once Prudence is beaten.
+@intro::gate.necrocrat.blocked
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: blocked
+0| The barrier is down, and a stamped sign beside it says the road needs a permit. Nobody has ever been issued one.
+
+@intro::gate.necrocrat.cleared
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: cleared
+0| Prudence Pallor stamps a permit, hands it over, and files the original in triplicate.
+1| The barrier creaks up, and the road to the D.N.A. is open.
+
+## purpose: Prudence, still Pending, stops the player at the checkpoint with polite and impossible procedure, fights, and wakes up (or sends them back to try again).
+@intro::necrocrat_npc_intro_lines
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: before the battle
+0| Halt. Passage through this checkpoint requires a permit, and I regret to inform you that no permit has ever been issued. You may take a number while you wait.
+1| Your number is zero, as is everyone's. This checkpoint is now serving nobody, and will continue to do so.
+#= 2| The authorization is valid, and policy states that I must stop you. I have read the whole of the policy, twice, and nowhere does it say why.
+
+@boss::Prudence Pallor/line
+#   [Prudence Pallor] Boss intro before the battle with Prudence Pallor: opening line
+0| Your number is zero, as it always is. Please hold.
+
+@enc::town:npc:necrocrat/0/line
+#   [Prudence Pallor] Mid-fight event "Stamped APPROVED" vs Prudence Pallor: the foe says it when the event fires
+0| APPROVED. ...Oh. That was the wrong stamp, and I am afraid it felt rather nice. Please disregard that.
+
+@intro::necrocrat_npc_victory_lines
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: after you win
+#= 0| ...I can hear my own thoughts again. I believe I have been Pending for ten years. It was very quiet in there, and very orderly, and none of it was me.
+#= 1| {villain} never had to corrupt us. He used our own rules against us: a perfectly valid transfer of authority, notarized and filed. We stamped it ourselves.
+#= 2| The Hall of Final Approvals is at the top of the D.N.A., and whoever sits in it holds the authorization. Go carefully. Or fill out a form first. Ideally, do both.
+
+@intro::necrocrat_npc_defeat_lines
+#   [Prudence Pallor, Checkpoint Supervisor] Gatekeeper of the D.N.A.: after you lose
+0| Your application has been denied. You may reapply in ten to twelve centuries, which I am required to tell you is our express service.
+1| Not today, then. You are welcome to take another number and try again, though I should mention that it will also be zero.
+
+## purpose: Introduce Gerald, the anxious barista who has waited at Number 4,000,212 while the queue sits on 3, so the player feels what the stuck queue costs an ordinary person.
+@dna::npc.barnaby.intro
+#   [Gerald, Number 4,000,212] Talking to Gerald (intro)
+0| Oh! A customer! Sorry, hello. I'm Gerald, the breakroom barista, and I'm also Number 4,000,212. They're on 3, so I brought a book. Well, several. All of them, actually.
+1| Most of my customers are ghosts and can't taste a thing, so nobody's ever sent a cup back, which is a great comfort to me. Do go gently with the machine in the corner, though. It's very old, and it sulks.
+
+@dna::npc.barnaby.return
+#   [Gerald, Number 4,000,212] Talking to Gerald (return)
+0| I'm so sorry, we're out of cream, and out of sugar, and if I'm honest we've been out of hope for a while as well. I did put in an order for more, and they say 2090, so I'm trying to be patient.
+1| They're still on 3. I checked this morning, and then I checked again in case I'd been rude about it the first time. I write it down in a folder every day, so that I'll know the minute it changes.
+
+## purpose: Agnes welcomes the player, hands over ticket 4,000,213 and explains the zone's wound (a valid form gave the Department away); on return she half remembers the little prince's unfiled third form.
+@dna::npc.dolores.intro
+#   [Agnes Overdue] Talking to Agnes Overdue (intro)
+0| Welcome to the Department of Necrotic Affairs, dear. I'm Agnes Overdue, and I look after the front desk. I died at this desk forty years ago, and I've been employee of the month ever since, because nobody else applied.
+1| Here's your number, dear: 4,000,213. We're serving 3, I'm sorry to say. Ten years ago {villain}'s people filed some paperwork, and they filed it properly, and ever since then the whole Department has worked for him.
+2| Every one of us knows it's wrong, but the authorization is valid. Irregular things I can fight, dear. Valid things just sit there and smile at you.
+
+@dna::npc.dolores.return
+#   [Agnes Overdue] Talking to Agnes Overdue (return)
+0| Back again, dear? It does me good to see somebody come and go. Not one soul in this building has passed on since the transfer, you see, and I'm afraid that includes me.
+1| If you're wondering about the Records Basement elevator, it wants Form 13-B, and nobody has one. I did apply for one, dear, but it turns out the application form is a 13-B.
+2| I'd do more for you if I could, dear, truly I would. I'd need a permit to help you, though, and I have it on good authority that I shan't be getting one.
+3| Ten years ago I stamped the royal funeral forms myself, dear: one for the king and one for the queen. My hand shook on both of them.
+4| There was a third form, for the little prince, and I never filed it: no remains, no certificate. ...You've gone very still, dear. People only do that when the form is about them.
+
+## purpose: Introduce Clerk Ledgerbone's card desk (Requisitions): stiff, literal, in triplicate, and quietly glad of company.
+@dna::npc.pip.intro
+#   [Clerk Ledgerbone] Talking to Clerk Ledgerbone (intro)
+0| This is Requisitions, and I am Clerk Ledgerbone, junior clerk, third class. Cards are issued here in triplicate, and every one of them is Necrocrat-issue: authorized, stamped and slightly haunted.
+1| For the record, it is the stamp that is haunted, and not the cards. It applied to the new management for a raise, the application was denied, and it has taken the matter very personally ever since.
+2| I must inform you that there are no returns and no exchanges. An exception may be requested on Form 13-B, which I gather you have already heard about.
+
+@dna::npc.pip.return
+#   [Clerk Ledgerbone] Talking to Clerk Ledgerbone (return)
+0| You are welcome to requisition something, or simply to stand near the desk. A visitor makes me look busy, which I have noted in your favour, and I would be obliged if you stayed a while.
+
+## purpose: Ledgerbone's favour "Compliance Audit": pass Director Ectomund's quiz and find one hidden stash in the filing mazes, for a clerk who cannot leave his desk.
+@dna::quest.dna_audit.active
+#   [Clerk Ledgerbone] Quest "Compliance Audit": while it is active
+0| Two items remain outstanding: pass Director Ectomund's quiz, and find one hidden stash in the filing mazes. The stashes are kept in corners that nobody visits, which in this building describes most corners.
+
+@dna::quest.dna_audit.done
+#   [Clerk Ledgerbone] Quest "Compliance Audit": after it is done
+0| The audit is closed, and the auditors have gone home, which for them means going back to their desks. Your part in it is on file, and I have filed it somewhere I shall be able to find it again.
+
+@dna::quest.dna_audit.offer
+#   [Clerk Ledgerbone] Quest "Compliance Audit": when offered
+0| Compliance is conducting an audit, and I am required to supply a fresh pair of hands for two items. Item one is to pass Director Ectomund's re-certification quiz. Item two is to find a hidden stash in the filing mazes.
+1| I would go myself, but policy forbids me to leave the desk, and in any case my legs are on loan to Accounts. I filed for their return some time ago, and I have not yet had a reply.
+
+@dna::quest.dna_audit.ready
+#   [Clerk Ledgerbone] Quest "Compliance Audit": handing it in
+0| The quiz is passed and a stash is found, so both boxes may be ticked, and I shall tick them in ink. ...Oh. Oh, that is lovely. I had quite forgotten what it is like to finish something.
+1| Please accept this commendation on behalf of Requisitions. I would advise you not to try to cash it, as Accounts would enjoy the attempt a good deal more than you would.
+
+## purpose: Agnes's favour "Clear the Backlog": beat three roaming staff by duel on any floor, because colleagues may not raise a hand to each other.
+@dna::quest.dna_backlog.active
+#   [Agnes Overdue] Quest "Clear the Backlog": while it is active
+0| It's three of the roaming staff, dear, and you'll find them wandering on any floor. Do see that they're processed and not promoted, won't you? I mixed the two up once, and he's been my supervisor ever since.
+
+@dna::quest.dna_backlog.done
+#   [Agnes Overdue] Quest "Clear the Backlog": after it is done
+0| The backlog's clear, dear, and I expect it'll be full again by Thursday, but that's Thursday's business. It's nice to have a quiet moment at the desk. I don't get many of them.
+
+@dna::quest.dna_backlog.offer
+#   [Agnes Overdue] Quest "Clear the Backlog": when offered
+0| Oh, good, somebody with a pulse. I've a backlog to clear, dear, and I'm sorry to say this one walks about: three staff went feral over a deadline from the new management, and now they wander the floors.
+1| Would you process three of them for me, dear? By duel, I mean, and any floor will do. We aren't allowed to raise a hand to a colleague, you see, and you aren't one, because you never filled out the form.
+
+@dna::quest.dna_backlog.ready
+#   [Agnes Overdue] Quest "Clear the Backlog": handing it in
+0| That's three, dear, and it clears the backlog. I couldn't tell you how many forms that closes, because I stopped counting in 1987, but it's a weight off this desk and I'm grateful. Here's your bonus.
+
+## purpose: Gerald's favour "Mandatory Onboarding": punch in at the time clock by the front desk and pour a cup at the breakroom coffee machine, in either order.
+@dna::quest.dna_onboarding.active
+#   [Gerald, Number 4,000,212] Quest "Mandatory Onboarding": while it is active
+0| Punch in at the time clock by the front desk, and pour a cup at the coffee machine here. You can do them in either order, if that helps. HR isn't fussy about which comes first; it only likes to watch.
+
+@dna::quest.dna_onboarding.done
+#   [Gerald, Number 4,000,212] Quest "Mandatory Onboarding": after it is done
+0| You're officially one of us now, which I hope is all right. I wouldn't read the contract, though, if I were you. I read mine all the way through, once, and I've been in line ever since.
+
+@dna::quest.dna_onboarding.offer
+#   [Gerald, Number 4,000,212] Quest "Mandatory Onboarding": when offered
+0| You're new to the floor, aren't you? Then I'm ever so sorry, but there's mandatory onboarding. You punch in at the time clock by the front desk, and you pour yourself a cup from the breakroom machine, just here.
+1| Please don't skip it, if you don't mind my asking. HR lives in the walls here, and these days HR reports to him, so I try not to lean on anything. It feels a bit like telling them things.
+
+@dna::quest.dna_onboarding.ready
+#   [Gerald, Number 4,000,212] Quest "Mandatory Onboarding": handing it in
+0| Oh, you've punched in, and you've had your coffee, and nobody's been written up for anything! That's your onboarding done, so here's your welcome kit.
+1| The welcome is really the main part of the kit, so: welcome. I hope that came out warmly. I've had years in the queue to practise it, and I've never had anybody to say it to until now.
+
+## purpose: Old Hob's visit: the regime has put him out of work here (no soul can be collected), and he checks his book and finds the hero is not due for a long while.
+@scenes/hob_necrocrat/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob necrocrat" (hob necrocrat), step 1
+1| Lovely building, this. Can't collect a single soul in it, mind, because the paperwork won't let me past the lobby, so I've been sat here with my flask ever since the transfer.
+2| They gave me a number and all, same as everybody. Makes a nice change, that, seeing as I'm usually the one who calls them. Heh.
+
+@scenes/hob_necrocrat/steps/1
+#   [The Wanderer] Scene "hob necrocrat" (hob necrocrat), step 2
+1| What are you writing?
+
+@scenes/hob_necrocrat/steps/2
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob necrocrat" (hob necrocrat), step 3
+1| Appointments, same as ever. Now let's see, you're... hm. No, you're not down for a good long while yet. Lovely! That's what I like to see.
+
+## purpose: Open the Hall of Final Approvals: the ticket, the queue on 3, and Agnes joining the player as guide and fellow number.
+@dna::dungeon.ha_lobby.before
+#   [D.N.A. staff] Dungeon node "ha lobby": entering the node
+0| You step through the doors and a small grey machine hands you a ticket: 4,000,213. The display above the desk says NOW SERVING: 3.
+1| A clerk looks up, sighs, and says, in a voice like a filing cabinet closing: "The authorization is valid. Please wait."
+
+@dna::dungeon.ha_number.before
+#   [Agnes Overdue] Dungeon node "ha number": entering the node
+0| A small silvery ghost is already in the queue, hugging an enormous stack of appeals tied with three kinds of ribbon. "Number 4,000,213? There you are, dear. I've been keeping an eye out for you."
+1| "Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while."
+2| "I'm Agnes Overdue. I work the front desk, and on my lunch hours I appeal against the transfer. That's forty thousand appeals, dear, and every one denied, though lately they've started decorating the stamps."
+3| "Come along with me, dear, because I know where the departments hide. And don't let anybody tell you the paperwork is forged. The authorization is valid, and that's what makes it so terrible."
+
+@dna::dungeon.ha_number.before.met
+#   [(narration)] Dungeon: ha number before met
+0| A small silvery ghost waves from the queue, the ribboned stack of appeals under one arm. "Number 4,000,213. I saved your place, dear, though I don't suppose anybody would have taken it."
+1| "Gerald in the breakroom is 4,000,212, so you two will be neighbours. He's a lovely man, and he's been waiting a very long while."
+2| "I spent my lunch hour on appeal forty thousand and one, and it came back denied with a very nice stamp. I do try not to take it personally, but they've had a great many chances."
+3| "Come along with me, because I know where the departments hide. And do remember, whatever they tell you up there, that the authorization is valid. That's what makes it so terrible."
+
+## purpose: Hall narration between fights: the wait that cannot be won and the appeal you are allowed to lose.
+@dna::dungeon.ha_waiting.after
+#   [D.N.A. staff] Dungeon node "ha waiting": after the node
+0| You wait until your legs ache, and when you look up at the clock above the door it tells you that four minutes have passed.
+1| The clock is lying, and from the look of it, somebody ordered it to.
+
+@dna::dungeon.ha_compliance.after
+#   [D.N.A. staff] Dungeon node "ha compliance": after the node
+0| The officer folds his clipboard and, with a courteous nod, points you toward the Appeals Department.
+1| "You may appeal," he says. "You will lose, but you may appeal, and I would not want you to leave here thinking otherwise."
+
+## purpose: The Records Labyrinth: show the flawless transfer and plant the heir clause, which Agnes calls an incomplete form.
+@dna::dungeon.ha_records.before
+#   [Agnes Overdue] Dungeon node "ha records": entering the node
+0| The Records Labyrinth is a canyon of filing cabinets that goes down further than it goes up. At its heart, under glass, lies the original transfer: the Necrocrat Path, signed over to {villain}.
+1| It's flawless: submitted, reviewed, approved, notarized and filed, without a single box left empty.
+2| Agnes reads over your shoulder and stops at one clause. Under HEIR OF THE FORMER SOVEREIGN it says: "Deceased (presumed). Remains: not on file."
+3| "Irregular," says Agnes, very quietly, and looks at it for a long time. "A presumed death with no remains on file is an incomplete form."
+4| "Someone should look into it, dear, because this form doesn't tell us what happened to the boy." You realise you have been holding your breath.
+
+## purpose: The Notary Wraith's mid-fight line and Agnes's own hopeless form two aisles over: the paperwork loop from her side.
+@enc::Notary Wraith/0/line
+#   [Notary Wraith] Mid-fight event "In Triplicate" vs Notary Wraith: the foe says it when the event fires
+0| Signed, witnessed and notarized in triplicate. One copy is for you, but you may not keep it.
+
+@dna::dungeon.ha_forms.before
+#   [Agnes Overdue] Dungeon node "ha forms": entering the node
+0| Two aisles over, Agnes is filling in a form with a very stubby pencil. "This is Form 27-C, dear, and my third attempt at it. It needs a 27-B attached, and the 27-B needs a 27-C."
+1| "They keep stamping it DENIED and writing Irregular in the margin, but don't you mind me, dear. I've filed worse than this in my time, and I kept the receipts for all of it."
+
+## purpose: Undersecretary Vellum holds the Court for Grimsby by procedure alone, and after the fight his "Noted" starts to sound like doubt.
+@dna::dungeon.ha_clerk.before
+#   [Undersecretary Vellum] Dungeon node "ha clerk": entering the node
+0| Undersecretary Vellum squares his papers and does not look up. "Noted. You wish to challenge the transfer of authority."
+1| "The authorization remains valid, having been submitted, reviewed, approved, notarized and filed. You may appeal in triplicate, and the appeal will also be noted."
+2| "Mr. Grimsby has asked me to hold the Court until his schedule opens, and I intend to hold it very well indeed. Noted."
+
+@enc::Undersecretary Vellum/0/line
+#   [Undersecretary Vellum] Mid-fight event "Noted." vs Undersecretary Vellum: the foe says it when the event fires
+0| Noted. ...Noted?
+
+@dna::dungeon.ha_clerk.after
+#   [Undersecretary Vellum] Dungeon node "ha clerk": after the node
+0| Vellum squares his papers with great care. "Noted," he says, very quietly. "The authorization remains valid."
+1| For the first time, it sounds like a question.
+
+## purpose: Mortimer Grimsby grants the hearing and denies it in the same breath; in the fight the Tuesday filing first troubles him.
+@dna::dungeon.ha_boss.before
+#   [Mortimer Grimsby, CE-No] Dungeon node "ha boss": entering the node
+0| Mortimer Grimsby, CE-No, looks up from an endless pile of paperwork, his face as smooth as a blank form and his stamp the size of a tombstone.
+1| "You do not have an appointment. That is irregular. However, the authorization is valid, and under it every visitor is entitled to a hearing."
+2| "The answer is no. The question is irrelevant, but you may state your case anyway."
+3| "You have, according to the clock, four hundred years."
+
+@boss::Mortimer Grimsby, CE-No/line
+#   [Mortimer Grimsby, CE-No] Boss intro before the battle with Mortimer Grimsby, CE-No: opening line
+0| The answer is no. The question is irrelevant, but you may state your case anyway.
+
+@enc::Mortimer Grimsby, CE-No/0/line
+#   [Mortimer Grimsby, CE-No] Mid-fight event "Mortimer Files a Form" vs Mortimer Grimsby, CE-No: the foe says it when the event fires
+0| Your appeal has been received, reviewed and denied. For the record, it was a very good appeal.
+
+@enc::Mortimer Grimsby, CE-No/1/line
+#   [Mortimer Grimsby, CE-No] Mid-fight event "Filed on a Tuesday" vs Mortimer Grimsby, CE-No: the foe says it when the event fires
+0| The authorization is valid. It was filed on a Tuesday. ...We do not file on Tuesdays.
+
+## purpose: Hall events: the form chain (13-B, 13-A, 12-F, 11-D) and the notary, told as exact, lightly funny narration.
+@dna::event.ha_take_a_number.body
+#   [D.N.A. staff] Dungeon event "ha take a number": body
+0| You hold ticket 4,000,213, and the display says NOW SERVING: 3. The queue snakes through the lobby, up the stairs and out of a window.
+1| A clerk offers you a form, a coffee and a pitying look.
+
+@dna::event.ha_form_a.body
+#   [D.N.A. staff] Dungeon event "ha form a": body
+0| To pass the counter you need Form 13-B. The clerk says Form 13-B requires a Form 13-A, which she will gladly give you, once you have submitted Form 13-B.
+
+@dna::event.ha_form_b.body
+#   [D.N.A. staff] Dungeon event "ha form b": body
+0| Form 12-F is available at the Counter of Form 12-F. The Counter of Form 12-F is closed until Form 13-B has been filed.
+
+@dna::event.ha_form_c.body
+#   [D.N.A. staff] Dungeon event "ha form c": body
+0| Form 11-D is the last form in the chain. It is one line long: "I, the undersigned, request Form 13-B." You sign.
+1| A stamp thunders. Forms 13-B, 13-A and 12-F all appear at once, in perfect order.
+
+@dna::event.ha_notary.body
+#   [D.N.A. staff] Dungeon event "ha notary": body
+0| A very old notary sits behind a very high counter, a seal in one hand and a very large quill in the other. "Everything in the Hall," he says, "must be notarized."
+1| "That includes visitors," he adds, and he looks you over as though deciding where the seal ought to go.
+
+## purpose: The clerk's Tuesday note undoes the transfer, Mortimer's office falls vacant and passes to Agnes, who wanted only to leave and chooses to stay.
+@dna::dungeon.ha_boss.after
+#   [Mortimer Grimsby, CE-No] Dungeon node "ha boss": after the node
+0| The stamp falls from Mortimer's hand, and the paperwork goes still.
+1| At the very bottom of the pile, under every form, every stamp and every signature, is a small note in a junior clerk's handwriting: FILED ON A TUESDAY. SORRY. - K.
+2| "...Oh," says Mortimer. "Oh, no. Tuesday is not a business day in this building."
+3| "The authorization was valid, and it was always valid. But the office is now vacant, and policy is policy."
+
+@dna::cutscene.vacancy.1
+#   [Mortimer Grimsby] Cutscene "vacancy", beat 1
+0| The CE-No has been removed from office, and by policy the vacancy passes to the senior-most applicant on file. If you will allow me one moment, I will look it up.
+1| ...The senior-most applicant on file is a ghost, with forty thousand appeals to her name and every one of them correctly submitted. For the record, Ms. Overdue, it is you.
+
+@dna::cutscene.vacancy.2
+#   [Agnes Overdue] Cutscene "vacancy", beat 2
+#= 0| Me? Oh, for pity's sake. I filed more appeals than anybody, living or dead, and this is what they give me for it?
+1| I only ever wanted to leave.
+
+@dna::cutscene.vacancy.3
+#   [Mortimer Grimsby] Cutscene "vacancy", beat 3
+0| The procedure is clear, Ms. Overdue, and the office passes to you. I must advise you not to appeal it, because I would be obliged to deny you, and I find that I do not want to deny you anything more.
+
+@dna::cutscene.vacancy.4
+#   [Agnes Overdue] Cutscene "vacancy", beat 4
+#= 0| ...Then I'll stay, Mortimer, though I'm not doing it for you. I'll stay until nobody has to wait as long as I did.
+#= 1| Everyone in that queue was somebody, and the dead deserve to be treated as people. Helping the lost is the whole of the job. It always was.
+#= 2| No order outranks that, Mortimer. Not his, and not yours. From today, everyone who comes to us is treated with respect.
+
+@dna::cutscene.vacancy.5
+#   [Mortimer Grimsby] Cutscene "vacancy", beat 5
+0| ...That is not in the handbook. I find myself wondering why it never was.
+
+@dna::cutscene.vacancy.6
+#   [Agnes Overdue] Cutscene "vacancy", beat 6
+#= 0| Then we shall write a new one. Take a number and wait with the others, Mortimer. You're right behind Gerald, and he'll show you how it's done.
+
+@intro::still.approval
+#   [(narration)] Story still caption: approval
+0| You hear the great DENIED stamp crack. For the first time in the Department's long afterlife, it does not come down.
+1| Forms rise around you. Across the Department, a thousand clerks look up from their desks.
+2| Somewhere nearby, you hear a pen stop scratching.
+
+## purpose: Agnes after the zone is freed: head of the Department and still at the front desk, with the third form kept in her drawer.
+@dna::npc.dolores.intro.freed
+#   [Agnes Overdue] Talking to Agnes Overdue (intro) (after the zone is freed)
+0| I'm head of the whole Department now, dear, and you'll notice I'm still at the front desk. They did give me a big office, but nobody waits in a big office. They wait out here, so this is where I'll be.
+1| Mortimer's in the Waiting Room as number 4,000,214, learning to wait. He isn't very good at it yet, dear, but he is trying, and Gerald has been ever so kind to him.
+2| And that form I never filed, dear, the third one. I've kept it in my drawer for ten years, just in case, and I think I'll keep it there a little longer. Something tells me it won't be needed.
+
+@dna::npc.dolores.return.freed
+#   [Agnes Overdue] Talking to Agnes Overdue (return) (after the zone is freed)
+0| The authorization is still valid, dear, but there's a rule above it now: everyone who comes through that door is treated as a person.
+1| Prudence is my deputy now, dear, and she's taken to it beautifully. She's a good deal gentler than she used to be, and I'm told that the same is true of me.
+
+## purpose: Gerald after the zone is freed: his number has been called at last, and he is making one more pot before he goes.
+@dna::npc.barnaby.intro.freed
+#   [Gerald, Number 4,000,212] Talking to Gerald (intro) (after the zone is freed)
+0| Oh, it's you! It's Gerald, the barista, and as of this morning it's Number 4,000,212: CALLED. I'm sorry, I'm still a bit wobbly. I didn't know what to do with my hands, so I made coffee.
+1| Agnes switched the queue machines off and called every number herself, one by one, and she thanked each of us for waiting. It took her all night, and she never once sat down.
+2| Please, have a cup. It's free. The machine is feeling generous today, and for once so am I.
+
+@dna::npc.barnaby.return.freed
+#   [Gerald, Number 4,000,212] Talking to Gerald (return) (after the zone is freed)
+0| There's still no cream and no sugar, I'm afraid, and I am sorry about that. But hope's back in stock, and I'm trying not to use it all at once.
+1| My number's been called, you know, really and truly called. I asked Hob if I might make one more pot before I go, and he told me to take my time, so I'm making it last.
+2| Mortimer's Number 4,000,214 now, and you were 4,000,213, so you'd have stood right between us. I wouldn't mention it to him, though, if that's all right. He goes very quiet when it comes up.
+
+## purpose: Ledgerbone after the zone is freed: the stamp has its raise and he is learning, stiffly, how to be unbusy.
+@dna::npc.pip.intro.freed
+#   [Clerk Ledgerbone] Talking to Clerk Ledgerbone (intro) (after the zone is freed)
+0| Clerk Ledgerbone, Requisitions. I am pleased to report that the stamp has stopped haunting the premises, now that it has been given its raise.
+1| It does not know what to do with itself, and I must admit that neither do I. In the meantime the cards are issued in triplicate, as they always have been.
+
+@dna::npc.pip.return.freed
+#   [Clerk Ledgerbone] Talking to Clerk Ledgerbone (return) (after the zone is freed)
+0| I am informed that I am now allowed to be unbusy. I keep reaching for the stamp to certify it, and then remembering that nobody has asked me to.
+1| I have been practising, however. Just now I stood here for one whole minute and filed nothing at all, and I do not mind telling you that it was exhilarating.
+
+## purpose: Agnes gives the hero the zone's sentence: everyone in the queue was somebody, and he is never to be filed under 'subject' again.
+@dna::freed_npc.agnes
+#   [Agnes Overdue] After freeing: Agnes Overdue talks
+#= 0| Agnes Overdue, head of the D.N.A. Yes, dear, me. The office goes to the senior-most applicant, and I filed more appeals than anyone. I have never been so annoyed to win anything.
+#= 1| I only ever wanted to leave, and I will, soon enough. But I'm putting this place right first, so that nobody else has to wait as long as I did.
+2| Everyone in that queue was somebody, dear, and the dead deserve to be treated as people. No order outranks that, not his and not anyone's.
+#= 3| And you, dear. You were a number in somebody's file once, weren't you? I can see it in the way you hold your shoulders.
+4| Never let anyone file you under 'subject' again.
+
+## purpose: Label and caption for Mortimer's statue (UI text).
+@dna::ruler.statue
+#   [Mortimer Grimsby, CE-No] Ruler: statue
+0| STATUE OF MORTIMER GRIMSBY, CE-No
+1| Statue pending approval. Do not look at it until it has been approved.
+
+## purpose: Prudence as Deputy Head apologises for ten years of DENIED and shyly looks for something to approve.
+@dna::freed_npc.prudence
+#   [Prudence Pallor, Checkpoint Supervisor] After freeing: Prudence Pallor talks
+0| Prudence Pallor, Deputy Head of the Department. For ten years I stamped DENIED on everything, because the paperwork was valid and I was too tired to ask whether it was right. I am sorry for it.
+1| {villain} did not need to corrupt us, you know, because our own rules did the work for him. These days I read a thing properly first, and I stamp APPROVED on whatever deserves it.
+2| The stamp is a good deal lighter than I remembered. I don't suppose you have anything with you that I could approve?
+
+## purpose: Mortimer, now number 4,000,214, turns his own procedure on himself and starts to doubt the question he always asked.
+@dna::freed_npc.mortimer
+#   [Mortimer Grimsby, CE-No] After freeing: Mortimer Grimsby, CE-No talks
+0| Mortimer Grimsby, formerly CE-No, currently number 4,000,214 in the Waiting Room of Eternity. Gerald was 4,000,212, and he has been very patient with me.
+1| You held 4,000,213, and you did not wait for it to be called. I find that I keep returning to that.
+2| I made others wait a great deal longer than you did, and every one of them was a person. I did not know that then, and it is considerably worse to know it now.
+3| The authorization was valid. I have begun to wonder whether that was ever the right question.
+
+## purpose: Old Hob after the zone is freed: intake is moving and his appointment book is filling up, the proof that endings are allowed again.
+@scenes/hob_necrocrat_freed/steps/0
+#   [Old Hob the Gravedigger (secretly Death)] Scene "hob necrocrat freed" (hob necrocrat freed), step 1
+1| Intake's moving again, and Agnes waved me straight through with a smile. First time in ten years nobody's asked me for Form 27-B, mind, and the appointment book's filling up nicely. Heh.

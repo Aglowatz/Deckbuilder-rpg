@@ -867,8 +867,8 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Lovely building. Can't collect a single soul in it, mind. The paperwork won't let me past the lobby, and I've been sat here since the transfer.",
-					"I took a number, heh. Makes a change. Usually I'm the one calling them."
+					"Lovely building, this. Can't collect a single soul in it, mind, because the paperwork won't let me past the lobby, so I've been sat here with my flask ever since the transfer.",
+					"They gave me a number and all, same as everybody. Makes a nice change, that, seeing as I'm usually the one who calls them. Heh."
 				],
 				[
 					"NPC-PLAYER",
@@ -876,7 +876,7 @@
 				],
 				[
 					"NPC-HOB",
-					"Appointments. Let's see, you're... hm. Not for a good long while. Ha! Lovely."
+					"Appointments, same as ever. Now let's see, you're... hm. No, you're not down for a good long while yet. Lovely! That's what I like to see."
 				]
 			]
 		},
@@ -884,7 +884,7 @@
 			"steps": [
 				[
 					"NPC-HOB",
-					"Intake's moving again! Agnes waved me straight through. First time in ten years nobody's asked me for Form 27-B, and my appointment book is filling up nicely."
+					"Intake's moving again, and Agnes waved me straight through with a smile. First time in ten years nobody's asked me for Form 27-B, mind, and the appointment book's filling up nicely. Heh."
 				]
 			]
 		},
