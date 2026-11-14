@@ -1,7 +1,7 @@
 class_name VendorFx
 extends RefCounted
 ## The small per-vendor effects of the vendor screens (the sheet's "UI / Interaction Notes"): cloches that lift on hover (Mirepoix), tin cans and supplement tubs the cards
-## stand in (Gristle, Benchley), hidden compartments (Fig Sly), a frosted glass door (Tonic), velvet covers (Fenwick), a rubber stamp (Ledgerbone), a peeking raccoon
+## stand in (Gristle, Benchley), a frosted glass door (Tonic), velvet covers (Fenwick), a rubber stamp (Ledgerbone), a peeking raccoon
 ## (Gristle), sparkles (Sable). All drawn in code over the shop art; every one is purely cosmetic.
 
 
@@ -133,46 +133,6 @@ static func add_pull_out(holder: Control, card: Control, rest: Vector2, lift: fl
 		var tween: Tween = card.create_tween()
 		tween_holder.append(tween)
 		tween.tween_property(card, "position:y", rest.y - (lift if over else 0.0), 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT))
-
-
-## A hidden compartment: a wooden door over `area` of `holder` that slides up while the mouse is over the tile, revealing the goods behind it.
-static func add_compartment(holder: Control, area: Rect2) -> void:
-	holder.clip_contents = true
-	var door: Panel = Panel.new()
-	door.name = "Compartment"
-	var style: StyleBoxFlat = UIStyle.box(Color(0.22, 0.13, 0.08, 0.97), Color(0.7, 0.5, 0.2), 3, 10)
-	door.add_theme_stylebox_override("panel", style)
-	door.position = area.position
-	door.size = area.size
-	door.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	door.z_index = 3
-	holder.add_child(door)
-	for plank: int in range(1, 5):
-		var seam: ColorRect = ColorRect.new()
-		seam.color = Color(0, 0, 0, 0.28)
-		seam.position = Vector2(0.0, area.size.y * float(plank) / 5.0)
-		seam.size = Vector2(area.size.x, 3.0)
-		seam.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		door.add_child(seam)
-	var handle: ColorRect = ColorRect.new()
-	handle.color = Color(0.82, 0.62, 0.25)
-	handle.size = Vector2(46, 10)
-	handle.position = Vector2(area.size.x * 0.5 - 23.0, area.size.y * 0.5)
-	handle.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	door.add_child(handle)
-	var knot: Label = UIKit.label("?", &"", 54, Color(0.7, 0.5, 0.2, 0.7), HORIZONTAL_ALIGNMENT_CENTER)
-	knot.position = Vector2(0.0, area.size.y * 0.2)
-	knot.size = Vector2(area.size.x, 70.0)
-	knot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	door.add_child(knot)
-	var tween_holder: Array[Tween] = []
-	watch_hover(holder, func(over: bool) -> void:
-		if not tween_holder.is_empty() and tween_holder[0].is_valid():
-			tween_holder[0].kill()
-		tween_holder.clear()
-		var tween: Tween = door.create_tween()
-		tween_holder.append(tween)
-		tween.tween_property(door, "position:y", area.position.y - area.size.y - 12.0 if over else area.position.y, 0.24 if over else 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT))
 
 
 ## A frosted pane over `parent` (a shelf behind glass); null-safe label in the middle.

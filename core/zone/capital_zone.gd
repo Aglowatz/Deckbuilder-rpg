@@ -102,6 +102,15 @@ const BLACK_MARKET_ITEMS: Dictionary = {
 	"iron_ration": 60, "spice_pouch": 60, "bag_of_rubbish": 40, "blank_form": 60,
 }
 
+## Fable Nov 14 (Part 2): the black market's items as a shop stock (Fig Sly's "Items" shelf, and Dorrit's last stall before the castle).
+static func black_market_items(vendor_name: String) -> ItemVendorData:
+	var data: ItemVendorData = ItemVendorData.new()
+	data.vendor_name = vendor_name
+	for item_id: String in BLACK_MARKET_ITEMS.keys():
+		data.add(item_id, int(BLACK_MARKET_ITEMS[item_id]))
+	return data
+
+
 ## Pickups (id -> counter or flag they feed): each can be taken once, and the progress is saved.
 const PICKUPS: Dictionary = {
 	"recipe_1": "recipe", "recipe_2": "recipe", "recipe_3": "recipe",
@@ -189,7 +198,6 @@ static func _spots() -> Array[Dictionary]:
 	# The hub (the Crease).
 	spots.append(_spot("wren", "Wren, Resistance Leader", "wren", Vector3(0, 0, 1.0), 1.8, "Talk", "zone", {"npc": "wren", "npc_id": "NPC-WREN", "speaker": "Wren", "act": "wren"}))
 	spots.append(_spot("fig", "Fig Sly's Contraband & Curiosities", "fig", Vector3(0, 0, 1.0), 2.6, "Browse the black market", "vendor_npc", {"npc": "fig", "npc_id": "V-FIGSLY", "npc_name": NPC_FIG, "speaker": "Fig Sly"}))
-	spots.append(_spot("fig_crate", "Fig's Crate of Supplies", "fig_crate", Vector3(0, 0, 0.0), 1.8, "Buy supplies", "zone", {"act": "supplies"}))
 	# Fable pass Nov 1 (Part 1, the designer: no healing after battles in freed zones, a full heal at the Crease): the nurse is the Capital's
 	# healer, named like one on her label and the map (the spot was already a full heal; the critics never found it). `npc` makes her body
 	# count for the E reach and gives her a floating name (a hero at her side got no prompt: the spot sat in front of her).
@@ -283,7 +291,7 @@ static func _pickup_kind(pickup: String) -> String:
 
 static func _poi_kinds() -> Dictionary:
 	var kinds: Dictionary = {
-		"wren": MapPoi.Kind.QUEST_GIVER, "fig": MapPoi.Kind.VENDOR, "fig_crate": MapPoi.Kind.VENDOR, "last_shop": MapPoi.Kind.VENDOR, "heal": MapPoi.Kind.HEAL,
+		"wren": MapPoi.Kind.QUEST_GIVER, "fig": MapPoi.Kind.VENDOR, "last_shop": MapPoi.Kind.VENDOR, "heal": MapPoi.Kind.HEAL,
 		"ladder_up": MapPoi.Kind.INTERACTABLE, "tunnel_out": MapPoi.Kind.INTERACTABLE, "exit": MapPoi.Kind.EXIT, "spotless": MapPoi.Kind.GATE,
 		"exit_booth": MapPoi.Kind.INTERACTABLE, "complaint_1": MapPoi.Kind.INTERACTABLE, "complaint_2": MapPoi.Kind.INTERACTABLE,
 		"fern": MapPoi.Kind.QUEST_GIVER, "pell": MapPoi.Kind.QUEST_GIVER, "rollo": MapPoi.Kind.QUEST_GIVER, "marlo": MapPoi.Kind.QUEST_GIVER,

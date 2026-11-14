@@ -140,14 +140,8 @@ func _make_tile(item: ItemData, price: int, locked: bool, teaser: String) -> Con
 		button.mouse_filter = Control.MOUSE_FILTER_PASS
 		button.pressed.connect(func() -> void: _ask_to_buy(item, price))
 		holder.add_child(button)
-	if vendor_screen_id == "VS-FIGSLY":
-		# Fig Sly: the goods sit in hidden compartments that open when you hover them.
-		var wrapper: Control = Control.new()
-		wrapper.custom_minimum_size = TILE_SIZE
-		wrapper.add_child(holder)
-		UIKit.full_rect(holder)
-		VendorFx.add_compartment(wrapper, Rect2(Vector2.ZERO, TILE_SIZE))
-		return wrapper
+	# Fable Nov 14 (Part 2): Fig Sly's tiles were covered by "hidden compartment" doors (VendorFx.add_compartment, a per-vendor effect
+	# from the vendor-screen pass) that slid away on hover, so every item read as a "?" plank. Gone: every shop shows its goods.
 	return holder
 
 

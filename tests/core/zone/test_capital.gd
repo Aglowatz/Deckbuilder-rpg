@@ -84,7 +84,7 @@ func test_the_closed_gate_stays_shut() -> void:
 func test_the_hideout_is_a_separate_underground_hall() -> void:
 	var builder: CapitalBuilder = _builder()
 	var hub: Dictionary = _flood(builder, builder.anchor("crease_spawn"))
-	for name_to_check: String in ["wren", "fig", "heal", "ladder_up", "tunnel_out", "fig_crate"]:
+	for name_to_check: String in ["wren", "fig", "heal", "ladder_up", "tunnel_out"]:
 		assert_true(_reaches(hub, builder.anchor(name_to_check)), "%s is in the Crease" % name_to_check)
 	assert_false(_reaches(hub, builder.anchor("spawn")), "the Crease is not connected on foot to the city")
 	for destination: String in CapitalLayout.NETWORK_DESTINATIONS:

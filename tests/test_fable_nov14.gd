@@ -8,6 +8,16 @@ const TUNNELS: String = "S-CAP"
 const OFFICER: String = "Enforcer Sergeant Scuff"
 
 
+func before_each() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+
+
+func after_each() -> void:
+	Session.save_enabled = true
+
+
 func _all_text(lines: Array[String]) -> String:
 	return " ".join(lines)
 
@@ -85,3 +95,53 @@ func test_maren_taught_at_the_castle_and_her_eyes_are_going() -> void:
 	var fourth: String = _all_text(story.get_lines("memory.4.after"))
 	assert_string_contains(fourth, "My eyes have been going for years")
 	assert_string_contains(fourth, "So that we are never far from home", "the tortoise's answer stays")
+
+
+# ---- Part 2: Fig Sly's shop ---------------------------------------------------------------------------------------------------------
+
+
+func test_the_supply_crate_is_gone_from_the_crease() -> void:
+	var def: ZoneDef = CapitalZone.build_def()
+	for spot: Dictionary in def.spots:
+		assert_ne(str(spot.get("id", "")), "fig_crate", "no second shop beside Fig Sly")
+		assert_false(str(spot.get("title", "")).contains("Crate of Supplies"))
+	var layout: CapitalLayout = CapitalLayout.new()
+	layout.build()
+	assert_false(layout.anchors.has("fig_crate"))
+	var fig: Vector3 = layout.anchors["fig"] as Vector3
+	for prop: CapitalLayout.Prop in layout.props:
+		if prop.kind == "crease_crate":
+			assert_false(prop.pos.x > fig.x + 3.0 and prop.pos.z > fig.z + 1.5, "no crate stands where the supply crate was")
+
+
+func test_fig_sells_his_items_beside_his_cards() -> void:
+	var stock: ItemVendorData = CapitalZone.black_market_items("Fig Sly")
+	assert_eq(stock.entries.size(), CapitalZone.BLACK_MARKET_ITEMS.size())
+	for entry: ItemVendorEntry in stock.entries:
+		assert_null(entry.unlock, "%s: nothing on his shelf is locked or hidden" % entry.item_id)
+		assert_not_null(Session.content.item(entry.item_id), entry.item_id)
+	var kinds: Array[VendorCategories.Kind] = VendorCategories.list(true, true, false, false, true)
+	assert_eq(kinds[0], VendorCategories.Kind.CARDS)
+	assert_eq(kinds[1], VendorCategories.Kind.ITEMS, "Items sits beside Cards")
+	assert_eq(VendorCategories.label(VendorCategories.Kind.ITEMS), "Items")
+	assert_true(IconArt.has(VendorCategories.icon(VendorCategories.Kind.ITEMS)))
+	assert_eq(VendorCategories.list(true, true, true).size(), 3, "a shop with no items gets no Items tile")
+
+
+func test_no_item_tile_hides_behind_a_door() -> void:
+	var source: String = FileAccess.get_file_as_string("res://ui/town/item_vendor_screen.gd")
+	assert_false(source.contains("add_compartment("), "the hover-to-reveal doors are gone from the item shop")
+	assert_false(FileAccess.get_file_as_string("res://ui/town/vendor_fx.gd").contains("func add_compartment"))
+	var screen: ItemVendorScreen = ItemVendorScreen.new()
+	screen.stock = CapitalZone.black_market_items("Fig Sly")
+	screen.vendor_screen_id = ""
+	add_child_autofree(screen)
+	await wait_frames(3)
+	var shown: int = 0
+	for label: Node in screen.find_children("*", "Label", true, false):
+		var text: String = (label as Label).text
+		assert_ne(text, "???", "no mystery tile")
+		if text == Session.content.item("iron_ration").display_name:
+			shown += 1
+	assert_eq(shown, 1, "the item's name is on its tile without hovering")
+	assert_eq(screen.find_children("Compartment", "", true, false).size(), 0)

@@ -519,8 +519,6 @@ func _interact_zone(spot: ZoneSpot) -> void:
 			_talk_wren()
 		"gallery":
 			_use_gallery_mirror()
-		"supplies":
-			_open_supplies()
 		"last_shop":
 			_open_supplies(CapitalZone.LAST_SHOP_NAME)
 		"ladder":
@@ -786,11 +784,9 @@ func _talk_wren() -> void:
 			_hint_talk_again("Wren", "has news from the streets"))
 
 
-func _open_supplies(title: String = "Fig's Crate of Supplies") -> void:
-	var data: ItemVendorData = ItemVendorData.new()
-	data.vendor_name = title
-	for item_id: String in CapitalZone.BLACK_MARKET_ITEMS.keys():
-		data.add(item_id, int(CapitalZone.BLACK_MARKET_ITEMS[item_id]))
+## The Last-Chance Supplies stall before the castle (Fig Sly's own items moved into his shop: Fable Nov 14, Part 2).
+func _open_supplies(title: String = CapitalZone.LAST_SHOP_NAME) -> void:
+	var data: ItemVendorData = CapitalZone.black_market_items(title)
 	var screen: ItemVendorScreen = ItemVendorScreen.new()
 	screen.stock = data
 	screen.vendor_screen_id = "VS-FIGSLY"

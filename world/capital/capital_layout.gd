@@ -566,7 +566,6 @@ func _anchors() -> void:
 	_anchor("rift_station", 28.0, 112.0 + dz)
 	_anchor("wren", 14.0, 106.0 + dz)
 	_anchor("fig", 31.0, 106.0 + dz)
-	_anchor("fig_crate", 36.0, 110.0 + dz)
 	_anchor("heal", 22.0, 104.0 + dz)
 	_anchor("ladder_up", 5.4, 112.0 + dz)  # A8: against the west rock wall
 	_anchor("tunnel_out", 39.2, 114.0 + dz)  # A8: at the timbered mouth in the east rock wall
@@ -981,7 +980,7 @@ func _crease() -> void:
 	# (it was a free-standing black arch); the six free-standing black shaft doorways are iron hatches in the floor.
 	_prop("ladder", 5.4, 112.0 + fz, 0.0, 1.0, 0.0)
 	_prop("tunnel_arch", 40.55, 114.0 + fz, -90.0, 1.0, 0.0)
-	_prop("crease_crate", 36.0, 108.6 + fz, 0.0, 1.0, 0.8)
+	# Fable Nov 14 (Part 2): the supply crate that stood here (a second shop beside Fig Sly) is gone; his items are in his own shop.
 	for index: int in range(NETWORK_DESTINATIONS.size()):
 		_prop("shaft_hatch", 9.0 + 5.0 * float(index), 119.0 + fz, 0.0, 1.0, 0.0, index)
 	# the market: a second stall beside Fig's and stacks of crates round them (all north of where the vendors stand)
@@ -990,6 +989,7 @@ func _crease() -> void:
 	_prop("crease_crate", 39.4, 105.6 + fz, 0.0, 1.0, 0.8)
 	_prop("crease_crate", 27.2, 102.2 + fz, 0.0, 1.0, 0.8)
 	_prop("crease_crate", 17.4, 102.4 + fz, 0.0, 1.0, 0.8)
+	_prop("crease_crate", 38.4, 102.2 + fz, 0.0, 1.0, 0.8)  # Fable Nov 14: the market's fifth stack, against the back wall (plain dressing)
 	_prop("cot", 10.0, 102.0 + fz, 0.0, 1.0, 0.0)
 	_prop("cot", 13.0, 102.0 + fz, 0.0, 1.0, 0.0)
 	_sign("sign.crease_main", 22.0, 100.5 + fz, 0.0, 1.2, "banner")

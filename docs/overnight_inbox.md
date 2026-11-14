@@ -27,6 +27,13 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
 5. **Plant 2 of the story bible (the door that knows one hand)** keeps its plant (the Warden's lines) and loses Maren's payoff, as
    asked. The Throne saying his name is now its only payoff.
 
+6. **Why Fig's items showed "?".** It was deliberate: the vendor-screen pass (Part B, commit a80bb62a) gave each shop an effect, and
+   Fig Sly's was "hidden compartments" - a wooden door with a "?" over every tile that slid away on hover
+   (`VendorFx.add_compartment`, called from `ItemVendorScreen._make_tile` for `VS-FIGSLY`). The Nov 4 fix pass took the doors off
+   his cards and missed his items. The doors and the function are deleted. His shop now opens on Cards / Items / Card Packs, and
+   the Items page is the ordinary item shop (icon, name, effect, price, owned). Dorrit's last stall before the castle still sells
+   the same twelve items from her own stall.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.

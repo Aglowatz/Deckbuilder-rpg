@@ -17,6 +17,8 @@ var stock: VendorData
 var pack_vendor_id: String = ""
 ## Overnight Oct 16: a zone shop's equipment stock (`ExpansionGear.zone_vendor_stock`); when it has pieces the header gets a "Gear" button.
 var gear_stock: EquipmentVendorData
+## Fable Nov 14 (Part 2): a shop's item stock (Fig Sly's black market); when it has items the picker gets an "Items" tile.
+var item_stock: ItemVendorData
 var pack_story_prefix: String = ""
 var _filter: CardFilterBar
 var _grid: GridContainer
@@ -49,7 +51,8 @@ func _build() -> void:
 		stock = VendorStocks.sable_sample(Session.content, Session.unlock_state(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME),
 			ProgressionTable.BONUS_VENDOR_UNLOCK_LEVELS, Session.profile.primary_affinity if Session.profile != null else Affinity.Type.NEUTRAL)
 	# Gear is only sold once the armory quest opened the equipment slots (Part 5).
-	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty() and Session.gear_unlocked())
+	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty() and Session.gear_unlocked(),
+			false, item_stock != null and not item_stock.entries.is_empty())
 	if stage != null:
 		_card_scale = STAGED_SCALE
 	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
@@ -304,6 +307,21 @@ func _open_gear() -> void:
 		_back_to_picker())
 
 
+## The shop's items: the item vendor's own screen (every tile shows its icon, name, effect and price), over the picker like gear and packs.
+func _open_items() -> void:
+	Audio.sfx(&"ui_open")
+	var shop: ItemVendorScreen = ItemVendorScreen.new()
+	shop.stock = item_stock
+	shop.screen_title = "%s: Items" % (item_stock.vendor_name if not item_stock.vendor_name.is_empty() else screen_title)
+	shop.vendor_screen_id = ""
+	shop.close_text = "Back (Esc)"
+	shop.z_index = 100
+	add_child(shop)
+	shop.closed.connect(func() -> void:
+		shop.queue_free()
+		_back_to_picker())
+
+
 func _open_packs() -> void:
 	Audio.sfx(&"ui_open")
 	var shop: PackShopScreen = PackShopScreen.make(pack_vendor_id, pack_story_prefix)
@@ -368,6 +386,8 @@ func open_category(kind: VendorCategories.Kind) -> void:
 			_open_packs()
 		VendorCategories.Kind.GEAR:
 			_open_gear()
+		VendorCategories.Kind.ITEMS:
+			_open_items()
 
 
 func _show_picker() -> void:

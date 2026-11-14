@@ -1765,6 +1765,7 @@ func _open_vendor() -> void:
 	if def.id == CapitalZone.ID:
 		screen.pack_vendor_id = PackData.VENDOR_BLACK_MARKET
 		screen.pack_story_prefix = "pack.black_market"
+		screen.item_stock = CapitalZone.black_market_items("Fig Sly's Black Market")  # Fable Nov 14 (Part 2): his items, beside his cards
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 
@@ -2290,6 +2291,10 @@ func _screenshot_open(what: String) -> void:
 		"supplies":
 			if has_method("_open_supplies"):
 				call("_open_supplies")
+		"vendor_items":
+			_open_vendor()
+			for screen: Node in find_children("*", "VendorScreen", true, false):
+				(screen as VendorScreen).open_category(VendorCategories.Kind.ITEMS)
 		"quests":
 			_open_quest_log()
 		"puzzle":

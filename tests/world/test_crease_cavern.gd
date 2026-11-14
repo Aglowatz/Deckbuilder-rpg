@@ -91,13 +91,11 @@ func test_no_black_doorways() -> void:
 
 
 func test_everyone_stands_clear_of_the_props() -> void:
-	for id: String in ["wren", "fig", "heal", "fig_crate", "rift_station"]:
+	for id: String in ["wren", "fig", "heal", "rift_station"]:
 		var at: Vector3 = layout.anchors[id] as Vector3
 		for prop: CapitalLayout.Prop in layout.props:
 			if prop.pos.z < float(CapitalLayout.CREASE_Z0) or prop.kind in ["shaft_hatch", "crease_column", "map_table"]:
 				continue
-			if prop.kind == "crease_crate" and id == "fig_crate":
-				continue  # the crate is the thing itself
 			var dx: float = absf(prop.pos.x - at.x)
 			var south: float = prop.pos.z - at.z
 			# nothing between the camera (south) and the person within reach of the sight line
