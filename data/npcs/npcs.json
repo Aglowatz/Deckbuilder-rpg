@@ -38,7 +38,7 @@
 		"species": "tortoise",
 		"species_type": "Animal: tortoise",
 		"description": "Crosspath's tortoise elder and keeper of the Wanderer's lost memories.",
-		"personality": "Founded the study of the Paths and once led the Path-ologists; helped build the lab, then fled into hiding when Primm took over. Her protege Ambrose Siphon became the Chief Path-ologist, so she distrusts his daughter Elowen and calls her a dreamer chasing a ghost. Mostly knows what's going on (the Hollow Warden let the Wanderer through, which only royal blood can do) but stubbornly refuses to believe it: 'That's no prince. That's a damp young man.' A bit of a grumpus toward the younger generation, with a kind heart underneath. Crosspath's elder and the resistance's contact. Warms up memory by memory; at the fourth she admits she knew all along and helps with everything she has. Bakes too many pies.",
+		"personality": "Once worked at the castle, studying the Paths and tutoring the royal children (the little prince among them). She never built the cells or their bars: Primm took her study and built the Lab out of it, and she fled into hiding. Her protege Ambrose Siphon became the Chief Path-ologist, so she distrusts his daughter Elowen and calls her a dreamer chasing a ghost. She is going blind, which is why she does not recognise the Wanderer; after the second Path is freed she half-suspects and talks herself out of it: 'That boy is ten years dead, and I'm a foolish old tortoise.' A bit of a grumpus toward the younger generation, with a kind heart underneath. Crosspath's elder and the resistance's contact. Warms up memory by memory; at the fourth she admits she knew all along and helps with everything she has. Bakes too many pies.",
 		"speech_style": "Grumbly, slow, cryptic; calls everyone 'dearie', and it is not always a compliment.",
 		"sample_line": "Slow and steady was my idea, dearie, and the hare has never forgiven me for it.",
 		"barks": [
@@ -1298,7 +1298,7 @@
 	{
 		"id": "NPC-SPOTLESS",
 		"name": "Captain Spotless",
-		"location": "Capital gate / Old Service Tunnels",
+		"location": "Capital gate",
 		"role": "Enforcer captain (boss)",
 		"species": "",
 		"species_type": "Human",
@@ -1311,7 +1311,7 @@
 			"A SMUDGE is TREASON! ...It's on me, isn't it. It's always on me."
 		],
 		"barks_freed": ["HALT. ...At ease. I am practising at ease. It is VERY difficult.","A smudge on my sleeve. I have decided to allow it. Retroactively."],
-		"game_function": "Gate battle and Old Service Tunnels boss.",
+		"game_function": "Gate battle.",
 		"quest_links": [],
 		"vendor_links": [],
 		"portrait_id": "NPC-SPOTLESS",

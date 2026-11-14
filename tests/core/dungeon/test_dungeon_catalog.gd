@@ -160,7 +160,7 @@ func test_bosses_use_the_names_of_the_boss_column() -> void:
 		if blueprint.id == "D-PC":
 			assert_eq(boss.enemy_name, PrimmBoss.BOSS_FOE)
 		elif blueprint.id == "S-CAP":
-			assert_eq(boss.enemy_name, "Enforcer Captain Spotless")
+			assert_eq(boss.enemy_name, "Enforcer Sergeant Scuff")
 		else:
 			assert_eq(boss.enemy_name, blueprint.boss_name(), blueprint.id)
 	assert_eq(DungeonCatalog.find("D-TTK").boss_name(), "The Doppelganger")
@@ -217,7 +217,7 @@ func test_story_beats_and_boss_speakers_exist() -> void:
 	var boss: DungeonMap.MapNode = map.boss()
 	assert_eq(NpcRegistry.story_speaker(boss.story_before), "NPC-CLENCH")
 	assert_eq(NpcRegistry.story_speaker(_node_by_number(map, 9).story_after), "NPC-FLEX")
-	for side: Array in [["S-BEEF", "NPC-SPOTTER"], ["S-GOUR", "NPC-ITAMAE"], ["S-NECRO", "NPC-BETTY"], ["S-REF", "NPC-RACCOONKING"], ["S-CAP", "NPC-SPOTLESS"], ["S-TOWN", "NPC-AUTOMATON"]]:
+	for side: Array in [["S-BEEF", "NPC-SPOTTER"], ["S-GOUR", "NPC-ITAMAE"], ["S-NECRO", "NPC-BETTY"], ["S-REF", "NPC-RACCOONKING"], ["S-CAP", "NPC-SCUFF"], ["S-TOWN", "NPC-AUTOMATON"]]:
 		var side_boss: DungeonMap.MapNode = MainDungeons.build_map(str(side[0])).boss()
 		assert_false(side_boss.story_before.is_empty(), "%s boss has a pre-fight line" % side[0])
 		assert_false(side_boss.story_after.is_empty(), "%s boss has a post-fight line" % side[0])

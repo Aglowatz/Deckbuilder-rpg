@@ -16,7 +16,7 @@ const SQUARES: Array[String] = [
 	"BST-THE-WARDEN-OF-THE-FOUR-SEALS", "BST-CHANCELLOR-CLENCH-IRON-REGENT", "BST-VIVIENNE-QUOTA-MINISTER-OF-EFFICIENCY", "BST-THE-ANCIENT-SPOTTER",
 	"BST-THE-DOPPELGANGER", "BST-THE-ITAMAE-SUPREME", "BST-COLONEL-CORNELIUS-CRUMB-DIRECTOR-OF-CULINARY-DEFENSE", "BST-MORTIMER-GRIMSBY-CE-NO",
 	"BST-BETTY-BONES-SURLY-SECRETARY", "BST-PERCIVAL-PLUME-DEPUTY-MINISTER-OF-GOOD-NEWS", "BST-COMPOSTELLA-THE-ROTHEART",
-	"BST-HORTENSIA-CLIPWELL-ROYAL-GROUNDSKEEPER", "BST-HIS-MAJESTY-THE-RACCOON", "BST-CAPTAIN-SPOTLESS", "BST-ENFORCER-CAPTAIN-SPOTLESS",
+	"BST-HORTENSIA-CLIPWELL-ROYAL-GROUNDSKEEPER", "BST-HIS-MAJESTY-THE-RACCOON", "BST-CAPTAIN-SPOTLESS",
 	"BST-PRIMM-HIS-PERFECTION", "BST-THE-OLD-KINGDOM-AUTOMATON", "BST-DR-AMBROSE-SIPHON-CHIEF-PATH-OLOGIST",
 ]
 
@@ -65,7 +65,7 @@ func test_maren_has_her_three_tortoise_portraits() -> void:
 func test_every_entrance_has_its_cut_out() -> void:
 	var missing: Array[String] = []
 	for id: String in Bestiary.cutout_ids():
-		if not Portraits.has_portrait(id):
+		if not Portraits.has_portrait(id) and not Bestiary.CUTOUTS_AWAITING_ART.has(id):
 			missing.append(id)
 	assert_eq(missing, [] as Array[String], "every entrance's CUT-* exists")
 	assert_true(Bestiary.cutout_ids().size() >= 24, "the entrances cover the delivered set")
@@ -89,7 +89,8 @@ func test_the_new_bestiary_squares_show() -> void:
 		assert_true(ResourceLoader.exists("%s/%s.webp" % [Bestiary.ART_DIR, id]), id)
 	Bestiary.reset_art()
 	assert_ne(Bestiary.art("Captain Spotless"), null)
-	assert_ne(Bestiary.art("Enforcer Captain Spotless"), null, "the Old Service Tunnels name has its picture")
+	assert_ne(Bestiary.art("Enforcer Sergeant Scuff"), null, "the Old Service Tunnels' officer borrows the Correction Officer's picture (Fable Nov 14)")
+	assert_eq(Bestiary.art("Enforcer Captain Spotless"), Bestiary.art("Enforcer Sergeant Scuff"), "an old save's name finds the same entry")
 	assert_ne(Bestiary.art("Stray Gym Hound"), null, "an old name still finds a picture")
 
 

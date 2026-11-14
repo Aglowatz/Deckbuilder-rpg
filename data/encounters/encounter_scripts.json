@@ -1018,7 +1018,7 @@
 			"banner": "His Majesty's units get -1/-0."
 		}
 	],
-	"Enforcer Captain Spotless": [
+	"Enforcer Sergeant Scuff": [
 		{
 			"id": "inspect",
 			"name": "Inspection",
@@ -1027,15 +1027,15 @@
 				"type": "turn",
 				"turn": 5
 			},
-			"text": "On his 5th turn Spotless inspects your ranks: your strongest ready unit stands to attention (exhausted) and cannot block.",
-			"line": "INSPECTION! I want heights, I want smudges, and I want every smile at the regulation angle!",
+			"text": "On his 5th turn Scuff holds an inspection, just as the Captain taught him: your strongest ready unit stands to attention (exhausted) and cannot block.",
+			"line": "INSPECTION! The Captain wants heights, he wants smudges, and he wants every smile at the regulation angle!",
 			"effects": [
 				{
 					"kind": "exhaust_foes",
 					"count": 1
 				}
 			],
-			"warn": "Next turn: Spotless holds an inspection (your strongest unit cannot block).",
+			"warn": "Next turn: Scuff holds an inspection (your strongest unit cannot block).",
 			"banner": "Your strongest ready unit stands to attention."
 		},
 		{
@@ -1046,14 +1046,14 @@
 				"type": "hp_below",
 				"pct": 25
 			},
-			"text": "Near the end Spotless notices a smudge on himself: his units get -1/-0 while he polishes.",
-			"line": "A SMUDGE is TREASON! ...It's on me, isn't it.",
+			"text": "Near the end Scuff notices the mud on his own boots: his units get -1/-0 while he scrubs.",
+			"line": "Mud. On the boots. The Captain will see it from all the way up there, I know he will.",
 			"effects": [
 				{
 					"kind": "rule",
 					"rule": {
-						"name": "Polishing",
-						"text": "Spotless is polishing: his units get -1/-0.",
+						"name": "Scrubbing",
+						"text": "Scuff is scrubbing his boots: his units get -1/-0.",
 						"icon": "lorc/crossed-swords",
 						"kind": "stat",
 						"atk": -1,
@@ -1061,7 +1061,7 @@
 					}
 				}
 			],
-			"banner": "Spotless polishes: his units get -1/-0."
+			"banner": "Scuff scrubs his boots: his units get -1/-0."
 		}
 	],
 	"Mirror Knight": [

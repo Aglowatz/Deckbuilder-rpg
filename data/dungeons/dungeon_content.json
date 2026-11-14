@@ -1177,7 +1177,7 @@
 					"hp": 20
 				},
 				"3": {
-					"name": "Enforcer Captain Spotless",
+					"name": "Enforcer Sergeant Scuff",
 					"deck": "colorless_regime",
 					"size": 34,
 					"hp": 34,
@@ -1938,12 +1938,12 @@
 			"'Compost is for the kingdom,' he says, 'and we are the kingdom, so we fail to see the problem. And do not point at the crumbs. It is rude to point at a king's crumbs.'"
 		],
 		"dungeon.dg_s_cap_boss.before": [
-			"A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.",
-			"'HALT. These tunnels do not exist, so you are standing in nothing, and I cannot allow you to have found it.'"
+			"A grate lets in light from a perfect city. Under it a young Enforcer sergeant stands to attention in a puddle, reading his orders off a card, in the only muddy boots the regime owns.",
+			"'HALT, please. Sergeant Scuff, Enforcers. Captain Spotless sent me to check the service tunnels in case anyone tried to sneak into the city this way, and I'm sorry to report that someone has. It's you.'"
 		],
 		"dungeon.dg_s_cap_boss.after": [
-			"The Captain sits down on a barrel and, for a moment, looks very tired. 'I remember when these tunnels were full of people,' he says.",
-			"'All four Paths, shoulder to shoulder, and nobody measuring anybody. Go on. The grate is not locked.'"
+			"Sergeant Scuff sits down on a barrel and takes off his helmet. 'My gran laid pipe down here,' he says. 'She said these tunnels used to be full of people. I put that in a report once, and the Captain had me write it again.'",
+			"'All four Paths, shoulder to shoulder, and nobody measuring anybody. I'll tell the Captain I found nothing down here, which is what he says there is. Go on. The grate isn't locked.'"
 		],
 		"dungeon.dg_s_town_boss.before": [
 			"A four-coloured core hums at the heart of the vault, four marks set in a ring. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.",

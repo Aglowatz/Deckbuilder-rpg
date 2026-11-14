@@ -4,6 +4,29 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 14 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov14`.
+
+1. **The cut to Primm inside the Old Service Tunnels was not a tunnel scene.** It was the castle's own "Primm tells you who you are"
+   scene (`primm_reveal`), which played before **every boss in the Capital's zone** when fewer than four zones were free: the tunnels
+   and the Paste Works too. The freed leaders' "we stand with you" lines and their boons were handed out there as well. The trigger
+   is now Primm's own room only (`DungeonMapScreen.is_primm_boss_node`). The scene itself stays in the game, because a player who
+   rushes the castle still needs it; nothing in it was needed by the tunnels.
+2. **The tunnels' officer is Enforcer Sergeant Scuff, "Sub-Inspector of Tunnels That Do Not Exist".** Say if you want another name.
+   He borrows the Correction Officer's talk frame as his dialogue portrait and its Bestiary square (the stand-in has clean boots; his
+   lines say his are the only muddy pair, so the Batch 16 row asks for mud). An old save's Bestiary counts for "Enforcer Captain
+   Spotless" carry over to him. `BST-ENFORCER-CAPTAIN-SPOTLESS.webp` (a copy of Spotless's square) is deleted.
+3. **Maren and the Lab.** Your list says she never made the cell and tutored the royal children. I kept that her *study* of the Paths
+   is what Primm built the Lab out of ("I never forged a bar of them, but every one stands on something I wrote down... and I ran"),
+   because Siphon stays her best student and her guilt is what the fourth memory turns on. Her Year 1 note in the castle ward now
+   reads "I am told the subject is a child, and that he asks for his mother. A child is not a specimen. I will not stay to see it. M."
+   (it said she had seen him, which she cannot have done if she does not know him). Say if she should have no link to the Lab at all.
+4. **Other glass left alone on purpose:** the Extraction chamber and the observation gallery in the Lab dungeon ("glass on every
+   side", "a glass gallery") are other rooms, not his cell; "You kept every face and every house under glass" is about the model.
+5. **Plant 2 of the story bible (the door that knows one hand)** keeps its plant (the Warden's lines) and loses Maren's payoff, as
+   asked. The Throne saying his name is now its only payoff.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.

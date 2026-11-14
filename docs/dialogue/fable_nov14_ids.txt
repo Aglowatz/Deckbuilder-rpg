@@ -1,0 +1,36 @@
+data/dungeons/dungeon_content.json::dungeon.dg_s_cap_boss.before::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_cap_boss.before::1
+data/dungeons/dungeon_content.json::dungeon.dg_s_cap_boss.after::0
+data/dungeons/dungeon_content.json::dungeon.dg_s_cap_boss.after::1
+data/encounters/boss_intros.json::Enforcer Sergeant Scuff/title::0
+data/encounters/boss_intros.json::Enforcer Sergeant Scuff/line::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/0/text::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/0/warn::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/0/line::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/1/text::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/1/line::0
+data/encounters/encounter_scripts.json::Enforcer Sergeant Scuff/1/banner::0
+data/story/intro_story.tres::memory.2.fragment::1
+data/story/intro_story.tres::memory.2.after::0
+data/story/intro_story.tres::memory.3.after::0
+data/story/capital_story.tres::cutscene.primm_end.3::1
+data/story/capital_story.tres::cutscene.primm_end.3.rushed::1
+data/story/intro_story.tres::cave_mouth.maren::1
+data/story/intro_story.tres::town.elder.stage.0::0
+data/story/intro_story.tres::memory.1.intro::0
+data/story/intro_story.tres::memory.2.after::1
+data/story/intro_story.tres::memory.2.after::2
+data/story/intro_story.tres::town.elder.stage.2::0
+data/story/intro_story.tres::memory.3.after::1
+data/story/intro_story.tres::memory.3.after::2
+data/story/intro_story.tres::memory.3.after::3
+data/story/intro_story.tres::memory.4.after::0
+data/story/intro_story.tres::memory.4.after::2
+data/story/intro_story.tres::memory.4.after::3
+data/story/intro_story.tres::memory.4.after::4
+data/story/intro_story.tres::memory.4.reply::1
+data/story/intro_story.tres::memory.4.after_known::1
+data/story/intro_story.tres::memory.4.after_known::2
+data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2
+data/story/story_scenes.json::scenes/maren_after_capture/steps/4::1
+data/story/capital_story.tres::dungeon.pc_ward.before::3

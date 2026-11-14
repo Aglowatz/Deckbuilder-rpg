@@ -283,10 +283,10 @@
 			"def": 2
 		}
 	],
-	"Enforcer Captain Spotless": [
+	"Enforcer Sergeant Scuff": [
 		{
 			"name": "Spotless Drill",
-			"text": "Spotless's units get +5/+3. Drilled until they shine.",
+			"text": "Scuff's units get +5/+3. Captain Spotless drilled them until they shine.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
 			"atk": 5,

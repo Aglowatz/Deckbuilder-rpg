@@ -14,6 +14,8 @@ const FALLBACK_ICON: String = "lorc/magic-swirl"
 const RENAMED: Dictionary = {
 	"Stray Gym Hound": "Pantry Hound", "Flexing Brute": "Quota Spotter", "Zombie Intern": "Unpaid Intern",
 	"Possessed Scarecrow Druid": "Hungry Scarecrow", "Compliance Officer": "Correction Officer",
+	# Fable Nov 14 (1.1): the Old Service Tunnels' boss is one of Spotless's officers now; old saves keep their met / won counts.
+	"Enforcer Captain Spotless": "Enforcer Sergeant Scuff",
 }
 ## A boss / lieutenant / gatekeeper entrance cut-out is a Portrait Image ID "CUT-<NPC key>" (CUT-CLENCH for NPC-CLENCH), imported by
 ## "import portraits" beside the dialogue portraits (`Portraits.known_portraits`). Until it exists the intro shows the transparent
@@ -101,10 +103,20 @@ static func art(entry_name: String) -> Texture2D:
 const ART_CACHE_GROUP: StringName = &"bestiary"
 
 
+## Fable Nov 14 (1.1): entrance cut-outs asked for and not painted yet (Batch 16); their intro shows the Bestiary square meanwhile.
+const CUTOUTS_AWAITING_ART: Array[String] = ["CUT-SCUFF"]
+
+
+## Fable Nov 14 (1.1): entries that borrow another entry's picture until their own is painted (Batch 16: BST-ENFORCER-SERGEANT-SCUFF).
+const ART_STAND_INS: Dictionary = {"Enforcer Sergeant Scuff": "BST-CORRECTION-OFFICER"}
+
+
 static func _load_art(id: String, entry_name: String) -> Texture2D:
 	var texture: Texture2D = null
 	var candidates: Array[String] = [id]
 	candidates.append_array(legacy_art_ids(entry_name))
+	if ART_STAND_INS.has(canonical(entry_name)):
+		candidates.append(str(ART_STAND_INS[canonical(entry_name)]))
 	for candidate: String in candidates:
 		for extension: String in ["webp", "png"]:
 			var path: String = "%s/%s.%s" % [ART_DIR, candidate, extension]
@@ -120,7 +132,7 @@ static func _load_art(id: String, entry_name: String) -> Texture2D:
 
 ## Bestiary names that differ from the speaking character's name in the NPC list.
 const PORTRAIT_ALIASES: Dictionary = {
-	"Hollow Warden": "NPC-WARDEN", "Primm, His Perfection": "NPC-PRIMM", "Enforcer Captain Spotless": "NPC-SPOTLESS",
+	"Hollow Warden": "NPC-WARDEN", "Primm, His Perfection": "NPC-PRIMM", "Enforcer Sergeant Scuff": "NPC-SCUFF",
 	"The Old Kingdom Automaton": "NPC-AUTOMATON", "Dr. Ambrose Siphon, Chief Path-ologist": "NPC-SIPHON", "The Warden of the Four Seals": "NPC-VAULTWARDEN",
 }
 

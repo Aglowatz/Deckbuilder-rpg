@@ -5,12 +5,17 @@ today: every line in `docs/dialogue/rewrite_nov13_base.csv`, the quest definitio
 `docs/design/story_bible.md` (Oct 19), this file wins on story and the game's data wins on names. It changes nothing the game does: no quest,
 place, name, number or rule. It says what the story is about, so that every scene can pull the same way.
 
+**Updated Nov 14 2026 (the owner's playtest list, `docs/prompts/fable_nov14_owner_list.md`):** the cell has **bars**, not glass; Elder
+Maren worked at the castle, studied the Paths and tutored the royal children, never made the cell, is going blind and does **not**
+know who the Wanderer is until he tells her; the Old Service Tunnels' boss is Enforcer Sergeant Scuff, one of Captain Spotless's
+officers. The lines are in `docs/dialogue/fable_nov14.csv` (revert: `--revert=docs/dialogue/fable_nov14_ids.txt`).
+
 Line IDs are the ones in the export (`<file>::<key>::<index>`); `intro` = `data/story/intro_story.tres`, `capital` = `data/story/capital_story.tres`,
 `gainlands`, `gourmand`, `dna`, `refusemancer` = the zone story files, `scenes` = `data/story/story_scenes.json::scenes`.
 
 ## 1. The through-line
 
-**One sentence:** a boy who was kept in a glass room so that a kingdom could be made all one shape walks out with nothing, is taken in by a
+**One sentence:** a boy who was kept behind bars so that a kingdom could be made all one shape walks out with nothing, is taken in by a
 town of mismatched people, and learns from four peoples what the man who kept him never understood: that a thing made of different pieces,
 stitched together and allowed to pull against each other, is stronger and kinder than a thing made perfect.
 
@@ -21,7 +26,7 @@ things, asks plain questions and keeps his promises, and people keep being kind 
 
 **What he lost.** Four fragments come back, one for each zone freed, always told to Maren by her fire:
 1. *Warmth:* four colours on a ceiling, a hand on his head, a woman humming a lullaby. He had a mother.
-2. *The Cells:* white rooms, glass, white coats, the word "again". "I wasn't lost. I was kept."
+2. *The Cells:* white rooms, bars on every side, white coats, the word "again". "I wasn't lost. I was kept."
 3. *The Coup:* the throne room at night, a man in white and gold who kneels and then rises, two pairs of hands pushing him behind them.
 4. *A Name:* a courtyard, his mother's voice calling him, the crest of four signs in a ring on every door.
 
@@ -174,12 +179,12 @@ writing". He never shouts and never gloats. He comes apart in his grammar before
 |---|---|---|
 | Prologue | You were held somewhere terrible; someone got you out; "Path-ologists" are hunting you; you can feel all four Paths | `intro::prologue.*` |
 | The cave | A door that only one may pass, "and he is long dead", opens for your hand | `intro::tutorial.warden.*` |
-| Crosspath | Ten years ago the kingdom was whole; the Minister of Improvements took the Paths one by one; Maren did not want this and knows more than she says | `intro::cave_mouth.*`, `intro::town.elder.first` |
+| Crosspath | Ten years ago the kingdom was whole; the Minister of Improvements took the Paths one by one; Maren did not want this, and her eyes are not what they were | `intro::cave_mouth.*`, `intro::town.elder.first` |
 | Each zone | One Path's wound, one leader's lesson, one person who remembers a little prince | zone files |
 | Fragment 1 | A lullaby from the old court; a second Path opens to you | `intro::memory.1.*` |
-| Fragment 2 | You were kept. Maren is the resistance's contact; Wren leads it from the Capital | `intro::memory.2.*` |
-| Fragment 3 | The coup, and Primm's face. Maren founded Path-ology and "helped to blow that glass" | `intro::memory.3.*` |
-| Fragment 4 | Your name. Maren knew from the moment the Warden let you through | `intro::memory.4.*` |
+| Fragment 2 | You were kept, behind bars. Maren half-hears a boy she once taught in the way he asks a question, and talks herself out of it ("That boy is ten years dead"). She is the resistance's contact; Wren leads it from the Capital | `intro::memory.2.*` |
+| Fragment 3 | The coup, and Primm's face. Maren worked at the castle, studying the Paths and teaching the royal children; Primm built the cells out of her study ("I never forged a bar of them, but every one stands on something I wrote down"), and she ran | `intro::memory.3.*` |
+| Fragment 4 | Your name. Maren taught that boy his letters and did not know him: her eyes have been going for years, and she had been told he was dead | `intro::memory.4.*` |
 | Cave mouth 1-4 | The Rescuer keeps watch from outside the town; she knew a boy; she promises her name "first", after | `scenes/cave_mouth_*` |
 | The Capital | Posters for an "escaped royal asset"; Primm's four fears; "It began the night the boy got out" | `capital::npc.*`, `capital::quest.cap_*` |
 | The castle gate | Plume names the Rescuer and takes her "home", to her father | `scenes/pc_capture` |
@@ -231,7 +236,7 @@ Each pair is already in the game's lines; the rewrite keeps both ends and makes 
 | # | Plant | Payoff |
 |---|---|---|
 | 1 | **Voices through a wall.** The Wanderer feels all four Paths "faintly. Like voices through a wall." `intro::prologue.wanderer.2::0` | Elowen, when all four zones are free: "like voices through a wall, except now the wall's coming down." `scenes/cave_mouth_4/steps/1::1` |
-| 2 | **The door that knows one hand.** "Only one may pass this door, and he is long dead." `intro::tutorial.warden.before::2`; "The door knows your hand." `intro::tutorial.warden.after::0` | Maren: "The Warden opens that tunnel for one family only, and I knew it the moment you walked out of it." `intro::memory.4.after::2` |
+| 2 | **The door that knows one hand.** "Only one may pass this door, and he is long dead." `intro::tutorial.warden.before::2`; "The door knows your hand." `intro::tutorial.warden.after::0` | The Throne knows him the same way, and says his name back to him `capital::ending.beat.8`. (Nov 14: Maren no longer pays this one off; she did not know.) |
 | 3 | **The lullaby.** A woman humming a tune with no words. `intro::memory.1.fragment::1`; Maren: "That tune is from the old court." `intro::memory.1.after::0` | The Queen "hums the first bars of the lullaby, and does not need to finish it. You know the rest." `scenes/royal_funeral/steps/8::1` |
 | 4 | **"Again."** "They call me 'the Subject', and whatever I do, they only say 'again.'" `intro::memory.2.fragment::2` | To Primm: "every morning someone said 'again'. I remember that word better than I remember their faces." `capital::cutscene.primm_end.3::1`; Agnes: "Never let anyone file you under 'subject' again." `dna::freed_npc.agnes::4` |
 | 5 | **Four signs in a ring.** The key's bow in "The Door Under the Well" `data/dungeons/dungeon_content.json::quest.side_s_town.ready::0`; the crest on every door `intro::memory.4.fragment::1` | Maren's stick: "Four signs in a ring, the same as the ones carved on my stick." `intro::memory.4.after::3`; the headstones: "four colours in a ring" `scenes/royal_funeral/steps/0::1`; the Throne, "four colours woven as a single thread" `capital::ending.beat.8::1` |
@@ -248,7 +253,7 @@ Each pair is already in the game's lines; the rewrite keeps both ends and makes 
 | 16 | **"I only wish somebody would say so."** The four insights (`capital::quest.cap_burial.ready::4`, `cap_wheels.ready::4`, `cap_recipes.ready::3`, `cap_untidy.ready::2`) and the Last Journal `capital::event.pc_last_journal.body::2` | "Tell me which part of that was unkind. I should like it in writing." `capital::cutscene.primm_end.4::1`, and the hero's silence `capital::cutscene.primm_end.5::0` |
 | 17 | **Her name.** "A friend. That's all I can tell you." `intro::prologue.rescuer.2::0`; "when it's over, I'll tell you everything. My name first. I promise." `scenes/cave_mouth_4/steps/3::2` | Plume says it for her `scenes/pc_capture/steps/4::1`; the hero: "I asked her twice, and both times she said 'a friend'" `scenes/pc_capture/steps/9::1`; she says it herself, "somewhere with a roof" `scenes/lab_siphon_after/steps/5::1` |
 | 18 | **"I'll find you. I always do."** `intro::prologue.rescuer.4::3` | He finds her: "You came back for me. Down there, on purpose." `intro::postgame.rescuer.freed::0`; "Took you long enough, Tess." `scenes/lab_cell4/steps/2::1` |
-| 19 | **Maren's handwriting.** "Just keep your eyes off the recipe" `intro::town.elder.stage.0::1`; "I helped to blow [that glass]" `intro::memory.3.after::1` | The oldest note in the ward: "The child is not a specimen. He asks for his mother. I am leaving the lab. M." / "You have seen that handwriting on a pie recipe." `capital::dungeon.pc_ward.before::3`-`::4`; Siphon: "Maren said so, and I called it sentiment." `scenes/lab_siphon_after/steps/1::1` |
+| 19 | **Maren's handwriting.** "Just keep your eyes off the recipe" `intro::town.elder.stage.0::1`; "every one stands on something I wrote down" `intro::memory.3.after::2` | The oldest note in the ward: "I am told the subject is a child, and that he asks for his mother. A child is not a specimen. I will not stay to see it. M." / "You have seen that handwriting on a pie recipe." `capital::dungeon.pc_ward.before::3`-`::4`; Siphon: "Maren said so, and I called it sentiment." `scenes/lab_siphon_after/steps/1::1` |
 | 20 | **The steady hands.** Elowen: "Let me see your hands. Steadier than they were." `scenes/cave_mouth_1/steps/1::2`; "Drink your tea. It's for the shaking." `scenes/cave_mouth_2/steps/3::2` | "Your hands are shaking. You go down anyway." `scenes/lab_hatch/steps/0::2` |
 | 21 | **Argued like family.** Maren: the four Paths "used to meet, and argue, and borrow each other's pans." `intro::town.elder.first::0` | "Nobody agrees on anything. It is the happiest sound the Capital has ever heard." `capital::ending.beat.5::2`; the Queen "used to say that was the point." `scenes/royal_funeral/steps/4::1` |
 | 22 | **The tidy lady with shears.** Moss Mulligan: the Rot "got into me the day a very tidy lady with shears came calling." `intro::refusemancer_npc_victory_lines::1` | Clipwell: "I brought the Archdruid a little seed as a gift" `scenes/clipwell_mill/steps/4::1`; "I gave her the seed because she was crying." `scenes/clipwell_lawn/steps/3::1` |
@@ -256,18 +261,22 @@ Each pair is already in the game's lines; the rewrite keeps both ends and makes 
 ## 5. Recurring relationships
 
 ### The hero and Elder Maren
-The spine of the game. Maren is an old tortoise, the founder of Path-ology, and she knows from the first minute who has walked out of her
-cave. She is too frightened and too guilty to say so, and she covers it with pie and complaint.
+The spine of the game. Maren is an old tortoise who once worked at the castle, studying the Paths and tutoring the royal children, the
+little prince among them. She never made the cell or its bars: Primm took her study and built the Lab out of it, her best student
+stayed to run it, and she ran. She was told a child was kept there and never asked whose. She is going blind, so she does **not**
+recognise the young man who walks out of her cave. After the second Path is freed something in the way he asks a question reminds
+her of a boy she taught; she almost says so, and then denies it, even to herself. She only learns who he is when he tells her his
+name. Her guilt is that she ran and never asked, and she covers it with pie and complaint.
 
 | Visit | Where she is | Line |
 |---|---|---|
-| Cave mouth | Gruff, put-upon, feeding him anyway. "I never said I'd take in a half-drowned stray." | `intro::cave_mouth.maren` |
+| Cave mouth | Gruff, put-upon, squinting at him ("Come closer, dearie; my eyes aren't what they were"), feeding him anyway | `intro::cave_mouth.maren` |
 | Settling in | A grandmother with a list: meet people, choose your own cards, be gentle with ghosts, get a blade. She is teaching him how to belong somewhere | `quest.meet_the_merchants.*` to `quest.path_direction` |
 | First road | Still guarding herself: "For all I know, you're somebody's spy. I've been wrong about people before." | `intro::town.elder.return::1` |
 | Fragment 1 | The lullaby undoes her. "Don't ask me why my eyes are wet." | `intro::memory.1.after` |
-| Fragment 2 | The first truth: she is the resistance's contact. "I wasn't sure of you before. I am now, near enough." | `intro::memory.2.after` |
-| Fragment 3 | The worst truth: she built the glass. "And I ran." | `intro::memory.3.after` |
-| Fragment 4 | She says his name, tells him about the boy who asked about her shell, and asks to be forgiven. He does not weigh it up: "I know which of those I'm keeping." | `intro::memory.4.*` |
+| Fragment 2 | She nearly knows him and talks herself out of it: "For a moment I thought... No. That boy is ten years dead, and I'm a foolish old tortoise." Then the first truth: she is the resistance's contact | `intro::memory.2.after` |
+| Fragment 3 | The worst truth: the cells were built out of her study. "I never forged a bar of them, but every one stands on something I wrote down... and I ran." | `intro::memory.3.after` |
+| Fragment 4 | She says his name, tells him about the boy she taught who asked about her shell, admits she sat across a table from him for weeks and did not know him, and asks to be forgiven. He does not weigh it up: "You ran, Maren... I know which of those I'm keeping." | `intro::memory.4.*` |
 | After the capture | She admits she was wrong about Elowen: "It seems I've gone and done it twice." | `scenes/maren_after_capture` |
 | Ending | "Welcome home", to the whole plaza | `capital::ending.beat.10` |
 

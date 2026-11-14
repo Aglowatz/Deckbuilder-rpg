@@ -34,7 +34,7 @@
 		"dungeon.dg_s_gour_boss": "NPC-ITAMAE",
 		"dungeon.dg_s_necro_boss": "NPC-BETTY",
 		"dungeon.dg_s_ref_boss": "NPC-RACCOONKING",
-		"dungeon.dg_s_cap_boss": "NPC-SPOTLESS",
+		"dungeon.dg_s_cap_boss": "NPC-SCUFF",
 		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
 		"dungeon.dg_lab_boss": "NPC-SIPHON",
 		"dungeon.dg_lab_rescue": "NPC-ELOWEN",
@@ -42,6 +42,16 @@
 	},
 	"sides": {},
 	"extra_npcs": [
+		{
+			"id": "NPC-SCUFF",
+			"name": "Sergeant Scuff",
+			"role": "Enforcer sergeant (boss of the Old Service Tunnels)",
+			"location": "The Old Service Tunnels (S-CAP)",
+			"portrait_id": "NPC-SCUFF",
+			"species": "",
+			"species_type": "Human",
+			"notes": "Fable Nov 14 (1.1): one of Captain Spotless's officers, sent below to sweep the tunnels. No portrait of his own yet (Batch 16): the dialogue box shows the Correction Officer's talk frame (Portraits.STAND_INS) and the Bestiary shows BST-CORRECTION-OFFICER."
+		},
 		{
 			"id": "NPC-TOWNSFOLK",
 			"name": "Crosspath townsfolk",

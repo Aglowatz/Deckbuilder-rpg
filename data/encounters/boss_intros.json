@@ -132,9 +132,9 @@
 		"sting": "STG-ZONE-REF",
 		"path": "refusemancer"
 	},
-	"Enforcer Captain Spotless": {
-		"title": "Enforcer Captain of the Grate",
-		"line": "HALT. State your height. No: do not state it. Stand at it.",
+	"Enforcer Sergeant Scuff": {
+		"title": "Sub-Inspector of Tunnels That Do Not Exist",
+		"line": "HALT, please. Captain Spotless says nobody is to be down here, and that includes me, so let us be quick about it.",
 		"sting": "STG-DUNGEON",
 		"path": "regime"
 	},

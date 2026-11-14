@@ -3436,6 +3436,10 @@ func _screenshot_open(what: String) -> void:
 			_open_quest_log()
 		"memory1":
 			_screenshot_memory(1)
+		"memory2":
+			_screenshot_memory(2)
+		"memory3":
+			_screenshot_memory(3)
 		"memory4":
 			_screenshot_memory(4)
 		"map":
@@ -3583,6 +3587,9 @@ func _screenshot_memory(number: int) -> void:
 	var story: StoryText = StoryText.shared()
 	var screen: MemoryScreen = MemoryScreen.make(number, story.text(MemoryDefs.key(number, "title")), story.get_lines(MemoryDefs.key(number, "fragment")))
 	_overlay_layer.add_child(screen)
+	# Fable Nov 14: `--memory_line=N` steps to the fragment's Nth line (0-based) for the shot.
+	for step: int in range(int(_screenshot_args.get("memory_line", 0))):
+		screen.call("_next_line")
 
 
 # ---- Sprite NPCs and the baker ---------------------------------------------------------------------------------------------------------

@@ -43,7 +43,7 @@ their own way, and most of them talk in whole, flowing sentences.
 | Brisk and guarded | The Rescuer (Elowen), Kestrel |
 | Terse (only these two) | Gatekeeper Brannoch, Nurse Hesper Dray |
 | Formal and precise | Primm, Mortimer Grimsby, Wren, Prudence Pallor, Director Ectomund, Vellum |
-| Bureaucratic | Bertram Beetsworth, Clerk Ledgerbone, Captain Spotless, the Capital's guards and clerks |
+| Bureaucratic | Bertram Beetsworth, Clerk Ledgerbone, Captain Spotless, Sergeant Scuff, the Capital's guards and clerks |
 | Nervous | Basil, Gerald, Brother Bramble, Moss Mulligan |
 | Blustering | Brick Bronson, Coach Benchley, Chancellor Clench, Colonel Crumb, Announcer Bellows |
 | Gentle | Agnes Overdue, Widow Pell, Grandmaster Flex, Archdruid Compostella |
@@ -59,7 +59,7 @@ their own way, and most of them talk in whole, flowing sentences.
 ## The main story
 
 ### The Wanderer (Prince Tessar Wayweaver; he)
-- **Who / wants:** twenty-one, no memory, ten years in a glass room. Wants to know who he is, and then wants a home, and then wants one for
+- **Who / wants:** twenty-one, no memory, ten years behind bars in a white room. Wants to know who he is, and then wants a home, and then wants one for
   everybody else.
 - **Afraid of / hiding:** that there is nothing under the blank. That he was kept because he deserved it.
 - **Feels about himself:** more curious than sorry for himself.
@@ -69,7 +69,7 @@ their own way, and most of them talk in whole, flowing sentences.
 - **Never:** speeches, swagger, slang, clever comebacks, summing up the moral.
 - **Humour:** dry and small, and only when he is not frightened. Usually at his own expense.
 - **Examples:** "I don't know this place, and I don't know my own name. ...Who are you?" / "Everyone I met on the road here was afraid of
-  you, and I wanted to see why." / "You built the glass, Maren. You also gave me a bed when you thought I might be a spy. I know which of
+  you, and I wanted to see why." / "You ran, Maren. You also gave me a bed when you thought I might be a spy. I know which of
   those I'm keeping."
 
 ### Narration
@@ -92,18 +92,21 @@ their own way, and most of them talk in whole, flowing sentences.
   Drink your tea. It's for the shaking." / "My name first. I promise."
 
 ### Elder Maren (she; an old tortoise)
-- **Who / wants:** founder of Path-ology, baker, the resistance's contact in Crosspath. Wants to keep him fed and alive, and to be
-  forgiven without having to ask.
-- **Afraid of / hiding:** she built the glass room. She knew who he was the moment he walked out of the cave.
+- **Who / wants:** once the castle's scholar of the Paths and the royal children's tutor; now a baker and the resistance's contact in
+  Crosspath. Wants to keep him fed and alive, and to be forgiven without having to ask.
+- **Afraid of / hiding:** Primm built the cells out of her study, and she ran without asking who was in them. She never made the bars,
+  and (Nov 14) she does not know who he is: she is going blind, and she was told the boy was dead. After the second Path she
+  half-suspects and denies it, even to herself.
 - **Feels about the hero:** love, arriving against her will, carried under a great deal of complaint.
 - **How she talks:** rambling and warm. Long sentences that set off in one direction, grumble, and come round to kindness by the back road,
-  often by way of pie. Homely comparisons. "Dearie" when she is fussing or warning. Tortoise jokes at her own expense, said as plain facts.
+  often by way of pie. Homely comparisons. "Dearie" when she is fussing or warning. Tortoise jokes at her own expense, said as plain facts. Her eyes come up the same way, in passing ("come closer, dearie; my eyes
+  aren't what they were").
   She gets plainer with each memory, and in the fourth she talks straight and drops the "dearie" for his name.
-- **Never:** hurries, cheers, says "I love you", jokes inside a memory.
+- **Never:** hurries, cheers, says "I love you", jokes inside a memory; never glass, glassblowing or "I knew all along".
 - **Humour:** grumbling understatement; she is the butt of it.
 - **Examples:** "But you need a bed, and I've baked far too much pie, so I can hardly leave you out here on your own, can I?" / "I keep
-  telling myself it's none of my business, and I keep asking anyway." / "I knew, you see. I knew it the moment you walked out of that
-  tunnel, and I was too frightened to say so."
+  telling myself it's none of my business, and I keep asking anyway." / "And you have sat at my table all these weeks, and I didn't know
+  you."
 
 ### The Hollow Warden (it; the cave's guardian)
 - **Who / wants:** an old thing of stone left to keep the royal tunnel. Wants only to do what it was left to do.
@@ -473,10 +476,17 @@ Ordinary people keeping their voices down. Weather, bread, the well, a careful h
 ## The Capital
 
 ### Captain Spotless (he)
-- **How he talks:** bureaucratic and barking, the Approved Visitor Standard recited at volume, with a private dread of smudges. Beaten, he
-  is tired and remembers when the tunnels were full of people.
-- **Examples:** "State your height. No: do not state it. Stand at it." / "All four Paths, shoulder to shoulder, and nobody measuring
-  anybody."
+- **How he talks:** bureaucratic and barking, the Approved Visitor Standard recited at volume, with a private dread of smudges.
+- **Examples:** "State your height. No: do not state it. Stand at it." / "A SMUDGE is TREASON! ...It's on me, isn't it."
+
+### Enforcer Sergeant Scuff, Sub-Inspector of Tunnels That Do Not Exist (he)
+- **Who / wants:** one of Captain Spotless's officers, sent below to sweep the Old Service Tunnels in case anyone tries to sneak into
+  the city. Young, earnest, the only Enforcer with muddy boots. Wants to hand in a report the Captain will not make him write again.
+- **How he talks:** bureaucratic and apologetic: "HALT, please." Whole, careful sentences that quote the Captain as the authority for
+  everything, and a report's wording ("I'm sorry to report"). Beaten, he sits down and says the true thing his gran told him.
+- **Never:** barks like Spotless; is cruel.
+- **Examples:** "Captain Spotless sent me to check the service tunnels in case anyone tried to sneak into the city this way, and I'm
+  sorry to report that someone has. It's you." / "All four Paths, shoulder to shoulder, and nobody measuring anybody."
 
 ### Widow Pell (she)
 - **How she talks:** gentle, courteous and faded. Long soft sentences with an apology in them; she speaks of her husband in the present

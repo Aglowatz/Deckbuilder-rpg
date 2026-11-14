@@ -568,11 +568,22 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene) and not skip_flex:
 		steps.append(_show_cutscene.bind(node.scene))
 	# Rushing the castle: with fewer than four zones freed the Wanderer does not know who he is, so Primm tells him.
-	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID and Session.completed_zone_count() < ZoneCompletion.TOTAL_ZONES and not Session.flag(MemoryDefs.FLAG_REVEALED):
+	# Fable Nov 14 (1.1): only at Primm's own door. The test was "any boss in the Capital's zone", so the Old Service Tunnels and the
+	# Paste Works cut to Primm and the Wanderer (and handed out the freed leaders' boons) before their own bosses.
+	if _is_primm_boss(node) and Session.completed_zone_count() < ZoneCompletion.TOTAL_ZONES and not Session.flag(MemoryDefs.FLAG_REVEALED):
 		steps.append(_show_reveal)
-	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID:
+	if _is_primm_boss(node):
 		steps.append(_show_leaders)
 	_run_steps(steps, then)
+
+
+## True for the boss node of Primm's Castle itself (not a side dungeon that merely lies in the Capital's zone).
+func _is_primm_boss(node: DungeonMap.MapNode) -> bool:
+	return is_primm_boss_node(node.kind, Session.dungeon_key)
+
+
+static func is_primm_boss_node(kind: DungeonMap.Kind, dungeon_key: String) -> bool:
+	return kind == DungeonMap.Kind.BOSS and dungeon_key == PrimmsCastleDungeon.ZONE_ID
 
 
 ## Primm tells the Wanderer who he is (`primm_reveal`), and the flag is set so the name, Maren and the posters all change.
