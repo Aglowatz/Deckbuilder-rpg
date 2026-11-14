@@ -26,6 +26,10 @@ var root: Node3D
 var blockers: Array[Vector3] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _trees: Dictionary = {}
+## The shore's stones (one mesh) and their own random stream, so the stones never move the trees, reeds and walls.
+var _stones: SurfaceTool
+var _stone_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var stone_count: int = 0
 var _mesh: KitMesh = KitMesh.new()
 var _ground_y: float = -0.03
 
@@ -37,6 +41,7 @@ static func build(parent: Node3D, water: Material, ground_y: float = -0.03) -> B
 	kit.root.name = "TownBoundary"
 	parent.add_child(kit.root)
 	kit._rng.seed = 1717
+	kit._stone_rng.seed = 4141
 	kit._mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION"))
 	kit._mesh.set_material("coping", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.84, 0.8)))
 	kit._mesh.set_material("rock", _rock_material())
@@ -60,6 +65,7 @@ static func build(parent: Node3D, water: Material, ground_y: float = -0.03) -> B
 		kit._edge(edge)
 	kit._lake(water)
 	kit._dock()
+	kit._flush_stones()
 	var body: MeshInstance3D = kit._mesh.instance("BoundaryBody")
 	body.set_meta(&"no_occlusion_fade", true)
 	body.set_meta(&"no_range_cull", true)
@@ -225,15 +231,108 @@ func _shore(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 		if _rng.randf() < 0.3:
 			var stone: Vector3 = start + dir * (along + 0.8) + out * (0.6 + _rng.randf() * 0.6)
 			var r: float = 0.35 + _rng.randf() * 0.3
-			_mesh.blob("rock", Vector3(stone.x, _ground_y + r * 0.35, stone.z), Vector3(r, r * 0.7, r), 3, 7, 0.8)
+			# Fable Nov 14 (Part 3.2): rounded river stones in the ridge's painted rock (they were 3-ring, 7-sided blobs: dark faceted polygons)
+			_river_stones(stone, r)
 		along += 2.2 + _rng.randf() * 2.2
 
 
 # ---- the lake, its shallows and bank, the waterfall, the dock -------------------------------------------------------------------------------
 
 
+## Fable Nov 14 (Part 3.2): the lake is drawn from a rounded copy of `TownBounds.LAKE` (corner cutting, three passes), so the water line is a
+## curve and not a polygon; the two corners at the gorge's lip stay sharp so the water still meets the waterfall.
+const LAKE_SHARP: Array[int] = [7, 8]
+const LAKE_SMOOTH_PASSES: int = 3
+
+
+static func lake_shape() -> PackedVector2Array:
+	var points: PackedVector2Array = TownBounds.LAKE
+	var sharp: Array[bool] = []
+	for index: int in range(points.size()):
+		sharp.append(LAKE_SHARP.has(index))
+	for _pass: int in range(LAKE_SMOOTH_PASSES):
+		var next_points: PackedVector2Array = []
+		var next_sharp: Array[bool] = []
+		var count: int = points.size()
+		for index: int in range(count):
+			var here: Vector2 = points[index]
+			if sharp[index]:
+				next_points.append(here)
+				next_sharp.append(true)
+				continue
+			var before: Vector2 = points[(index - 1 + count) % count]
+			var after: Vector2 = points[(index + 1) % count]
+			next_points.append(before.lerp(here, 0.75))
+			next_sharp.append(false)
+			next_points.append(here.lerp(after, 0.25))
+			next_sharp.append(false)
+		points = next_points
+		sharp = next_sharp
+	return points
+
+
+## A small group of rounded stones half sunk in the bank: one of about `radius` and one or two pebbles beside it (smooth normals, the painted rock).
+func _river_stones(at: Vector3, radius: float) -> void:
+	var count: int = 1 + _stone_rng.randi() % 3
+	for index: int in range(count):
+		var r: float = radius * (1.0 if index == 0 else _stone_rng.randf_range(0.35, 0.6))
+		var offset: Vector3 = Vector3.ZERO if index == 0 else Vector3(_stone_rng.randf_range(-1.0, 1.0), 0.0, _stone_rng.randf_range(-1.0, 1.0)).normalized() * radius * _stone_rng.randf_range(1.1, 1.6)
+		var radii: Vector3 = Vector3(r * _stone_rng.randf_range(0.95, 1.3), r * _stone_rng.randf_range(0.42, 0.6), r * _stone_rng.randf_range(0.8, 1.1))
+		_stone(at + offset + Vector3(0.0, _ground_y + radii.y * 0.25, 0.0), radii, _stone_rng.randf() * TAU)
+
+
+## One rounded stone: a squashed sphere with a slightly lumpy outline and smooth shading, lighter on top than at the waterline.
+func _stone(centre: Vector3, radii: Vector3, yaw: float) -> void:
+	if _stones == null:
+		_stones = SurfaceTool.new()
+		_stones.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var rings: int = 6
+	var segments: int = 12
+	var turn: Basis = Basis(Vector3.UP, yaw)
+	var lump: Array[float] = []
+	for step: int in range(segments):
+		lump.append(_stone_rng.randf_range(0.88, 1.08))
+	var grid: Array = []
+	for ring: int in range(rings + 1):
+		var lat: float = lerpf(-PI * 0.5, PI * 0.5, float(ring) / float(rings))
+		var row: Array = []
+		for step: int in range(segments + 1):
+			var lon: float = TAU * float(step) / float(segments)
+			var unit: Vector3 = Vector3(cos(lat) * cos(lon), sin(lat), cos(lat) * sin(lon))
+			var wobble: float = lump[step % segments]
+			var local: Vector3 = Vector3(unit.x * radii.x * wobble, unit.y * radii.y, unit.z * radii.z * wobble)
+			var normal: Vector3 = Vector3(unit.x / radii.x, unit.y / radii.y, unit.z / radii.z).normalized()
+			var shade: float = lerpf(0.62, 1.0, clampf(unit.y * 0.5 + 0.5, 0.0, 1.0))
+			row.append([centre + turn * local, turn * normal, Color(shade, shade, shade)])
+		grid.append(row)
+	for ring: int in range(rings):
+		for step: int in range(segments):
+			for corner: Vector2i in [Vector2i(0, 0), Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 0), Vector2i(1, 1), Vector2i(0, 1)]:
+				var vertex: Array = (grid[ring + corner.x] as Array)[step + corner.y] as Array
+				_stones.set_normal(vertex[1] as Vector3)
+				_stones.set_color(vertex[2] as Color)
+				_stones.add_vertex(vertex[0] as Vector3)
+	stone_count += 1
+
+
+func _flush_stones() -> void:
+	if _stones == null:
+		return
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "ShoreStones"
+	instance.mesh = _stones.commit()
+	var material: StandardMaterial3D = _rock_material()
+	material.albedo_color = Color(0.93, 0.88, 0.8)
+	instance.material_override = material
+	instance.set_meta(&"no_occlusion_fade", true)
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_wind", true)
+	root.add_child(instance)
+	_stones = null
+
+
 func _lake(water: Material) -> void:
-	var shape: PackedVector2Array = TownBounds.LAKE
+	var shape: PackedVector2Array = lake_shape()
 	var indices: PackedInt32Array = Geometry2D.triangulate_polygon(shape)
 	if indices.is_empty():
 		return
@@ -256,13 +355,16 @@ func _lake(water: Material) -> void:
 	root.add_child(lake)
 	# The soft bank: a strip from just inside the water line out over the grass, sandy at the water and fading into the grass; and pale shallows
 	# fading into the deep water. No hard edge anywhere.
-	root.add_child(_ring(shape, -0.6, 2.4, _bank_material(), _ground_y + 0.016, "LakeBank"))
-	root.add_child(_ring(shape, -2.6, 0.0, _shallows_material(), _ground_y + 0.02, "LakeShallows"))
+	# Fable Nov 14 (Part 3.2): a narrow bank of wet earth with a ragged outer edge, like the Verdant Dump's shores (it was a 3 m band of pale
+	# sand that faded across the grass and read as a second, lighter grass), and a thinner, fainter shallows.
+	root.add_child(_ring(shape, -0.5, 1.0, _bank_material(), _ground_y + 0.016, "LakeBank", 0.45))
+	root.add_child(_ring(shape, -1.5, 0.0, _shallows_material(), _ground_y + 0.02, "LakeShallows"))
 	_waterfall(water)
 
 
 ## A strip along a closed shape from `inner` to `outer` metres off its edge (positive = outside), alpha 1 at the water line falling to 0 at the far side.
-func _ring(shape: PackedVector2Array, inner: float, outer: float, material: Material, y: float, node_name: String) -> MeshInstance3D:
+## `ragged`: the far side moves in and out by up to this many metres along the shape (a natural edge).
+func _ring(shape: PackedVector2Array, inner: float, outer: float, material: Material, y: float, node_name: String, ragged: float = 0.0) -> MeshInstance3D:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_normal(Vector3.UP)
@@ -278,7 +380,8 @@ func _ring(shape: PackedVector2Array, inner: float, outer: float, material: Mate
 		# outward: away from the water
 		if Geometry2D.is_point_in_polygon(here + normal * 0.3, shape):
 			normal = -normal
-		rows.append([here + normal * inner, here + normal * outer, here])
+		var reach: float = outer + (ragged * (sin(float(i) * 0.9) * 0.6 + sin(float(i) * 0.37 + 1.3) * 0.4) if ragged > 0.0 else 0.0)
+		rows.append([here + normal * inner, here + normal * reach, here])
 	var fade_inner: float = 1.0 if inner >= 0.0 or outer > 0.0 else 0.0
 	for i: int in range(count):
 		var r0: Array = rows[i] as Array
@@ -304,7 +407,7 @@ func _ring(shape: PackedVector2Array, inner: float, outer: float, material: Mate
 func _bank_material() -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.albedo_texture = load(SAND_TEX) as Texture2D
-	material.albedo_color = Color(0.78, 0.72, 0.58)
+	material.albedo_color = Color(0.5, 0.42, 0.29)  # wet earth (the Dump's bank is 0.3, 0.27, 0.16 under a darker sky)
 	material.vertex_color_use_as_albedo = true
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.roughness = 1.0
@@ -314,7 +417,7 @@ func _bank_material() -> StandardMaterial3D:
 
 func _shallows_material() -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = Color(0.62, 0.86, 0.84, 0.75)
+	material.albedo_color = Color(0.62, 0.86, 0.84, 0.42)
 	material.vertex_color_use_as_albedo = true
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
