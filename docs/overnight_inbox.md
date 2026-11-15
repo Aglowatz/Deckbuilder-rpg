@@ -47,7 +47,8 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
    country grass.
 9. **Enemies at entrances.** The four Path zones' own roamers already kept 20 m. The junk gulls at the Dump's entrance were the extra
    "exit roamer" the game adds within sight of every exit (Fix pass Nov 7, so a newcomer sees a fight at once): it lived 14 to 17 m
-   from the exit and now lives 23.5 to 29 m out and as far from the arrival point. Three Capital Tidy-Bots moved (one from 13 m off
+   from the exit and now lives 23.5 to 31 m out, as far from the arrival point, and at least 9 m from every person and service of
+   the hub (20 m in from the exit is the hub itself in three zones; where nowhere fits the zone gets no exit roamer). Three Capital Tidy-Bots moved (one from 13 m off
    the arrival point, two from 16 m off the gate). The test now checks 20 m from the arrival point and every entrance and exit in
    all five zones (`tests/world/test_roamer_doors_nov11.gd`).
 10. **The Dump.** I had no screenshots, so I found the two things by probe: the "floating door" is the **hay bale beside the top-right

@@ -1,3 +1,281 @@
+# Fable Nov 14 - report: the owner's playtest list, the Path icons, Batch 16
+
+Brief: `docs/prompts/fable_nov14_owner_list.md`. Start tag `pre-fable-nov14`. Questions: `docs/overnight_inbox.md`, "Fable Nov 14"
+(18 items). One Godot at a time, no sub-agents. No public upload. No difficulty setting, no battle-board change, Primm's fight
+untouched, no new art (Batch 16 lists it). Ran on Fable 5.2, Nov 14 to 15. The Batch 15 report follows below.
+
+## In short
+
+- **Every item of your list is done except the build.** Parts 1 to 6 are committed and pushed, each with before/after shots.
+- **The 1.0.0 zip was not built.** Free memory stayed at 2.0 GB for the ten minutes the brief allows (the rule is 2.2 GB). The
+  commands are below. The last zip in `builds/` is still RC5 (Nov 12).
+- **Tests: all 33 shards green, 3103 of 3105 passing, 0 failing** (2 risky, the same two no-assert tests as before).
+- **The NPC visibility probe passed** (150 checks) and the walk grids are checked by tests (the Dump on foot and on the mount, the
+  Buffet's forest, the roamers' distances in all five zones).
+- **Walk smokes:** the D.N.A.'s passed. **The Dump's and the Buffet's each fail two checks** (details under "Tests and the build").
+  One cause was mine and is fixed; the other failures are in the two hub plazas, where this pass changed nothing, and I did not
+  prove they predate it.
+- **Four things to look at first:** the officer's name (inbox 2), which Dump objects I took for the "floating door" and the "block"
+  (inbox 10: I had no screenshots), the two shafts with no Path (inbox 7), and Dex's final table at 19 (inbox 17).
+
+## The 1.0.0 zip
+
+**There is no 1.0.0 zip yet.** Close what you can, then run these from `C:\Dev\Deckbuilder-rpg` in Git Bash, one at a time, in the
+foreground:
+
+```
+EXPORT_LOW_MEMORY_OK=1 bash tools/export_windows.sh 1.0.0
+bash tools/run_release_smoke_exported.sh
+bash tools/export_test_pack.sh
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_a.txt r1a 480
+SUITE_SETTINGS_FILE=_screenshots/exported/settings_play_r1a.cfg bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_b.txt r1b 480
+bash tools/play_exported.sh docs/review/play_scripts/exported_rc1_c.txt r1c 480
+grep -c "SCRIPT ERROR" _screenshots/exported/play_r1a.log _screenshots/exported/play_r1b.log _screenshots/exported/play_r1c.log
+```
+
+- The export takes 4 to 10 minutes and writes `builds/TheWaywardPath-v1.0.0-windows.zip`. "EXPORT STOPPED" means nothing was replaced.
+- The smoke must print `PASSED`. The last line must print 0 three times.
+- None of this pass, the Batch 15 pass or the Nov 13 dialogue rewrite has been run as an exe. Play the first ten minutes yourself
+  before uploading.
+
+## Your list, item by item
+
+Shots are in `docs/overnight_shots/nov14/` (`_before` / `_after`).
+
+| # | Item | Done? | Shots |
+|---|---|---|---|
+| 1.1 | The cut to Primm in the Old Service Tunnels | **Done.** It was the castle's "Primm tells you who you are" scene firing before every boss in the Capital's zone; now only at his own room | (no picture: a scene that no longer plays; a test pins it) |
+| 1.1 | The tunnels' boss is one of Spotless's officers | **Done.** Enforcer Sergeant Scuff; deck, HP, stats and rewards unchanged | `p1_officer_before_line`, `p1_officer_after_line` |
+| 1.2 | Fragment 2: bars, not glass | **Done**, and every line that referred back to it | `p1_fragment2_after` |
+| 1.3 | Elder Maren's thread | **Done.** 17 of her lines, 3 lines of others, the bible and the voices doc | (text: the tables below) |
+| 2.1 | Remove Fig's crate; Items in his own shop | **Done.** Cards / Items / Card Packs | `p2_crease_crate_*`, `p2_fig_picker_after` |
+| 2.2 | Items showing "?" | **Done.** A deliberate effect, removed (below) | `p2_fig_items_before`, `p2_fig_items_after` |
+| 2.3 | His portrait | Batch 16 row 1 (not touched) | |
+| 3.1 | Signs: the Crease's dark board, the plaza manhole's sign, Path icons on the shaft signs | **Done.** Four of six shafts show a Path; two belong to no Path (inbox 7) | `p3_crease_signs_*` |
+| 3.2 | Crosspath's rocks and shoreline | **Done.** Curved water line, narrow earth bank, rounded stones, one grass to the water | `p3_shore_a_*`, `p3_shore_b_*` |
+| 3.3 | No enemies within 20 m of arrival points, entrances and exits | **Done** in all five zones; the test covers it | (positions: a test) |
+| 3.4 | The Dump: floating door, walk-through block, top-right closed, treasure field | **Done**, with one caveat: I picked the door and the block by probe, without your screenshots (inbox 10) | `p3_dump_*` |
+| 3.5 | The Buffet's entrance: no block, a bank, a food forest | **Done** | `p3_buffet_entrance_*`, `p3_buffet_forest_after` |
+| 3.6 | Outside the D.N.A.: an organised wasteland | **Done.** 79 fps on Medium (81 before); the paper still floats | `p3_dna_apron_*` |
+| 4 | Path icons: guide, inventory, fixes | **Done.** 8 code and text fixes; 14 painted ones are Batch 16 rows | `p4_fountain_plinths_after`, `p4_ending_after`, `docs/art/path_icon_sheet.png` |
+| 5 | Dex: 20 moves, limit 26 | **Done.** The final table is 19 (inbox 17) | `p5_dex_after` |
+| 6 | Batch 16 list and prompt | **Done.** 20 rows, 94 references on the Drive | |
+| 7 | Verify and build | see "Tests and the build" | |
+
+## The officer
+
+**Enforcer Sergeant Scuff, "Sub-Inspector of Tunnels That Do Not Exist".** A junior Enforcer whom Captain Spotless sent below; young,
+earnest, apologetic, the only man in the regime with muddy boots. He borrows the Correction Officer's talk frame as his portrait and its
+Bestiary square until Batch 16 (row 4).
+
+- **Boss intro:** "HALT, please. Captain Spotless says nobody is to be down here, and that includes me, so let us be quick about it."
+- **Before:**
+  - "A grate lets in light from a perfect city. Under it a young Enforcer sergeant stands to attention in a puddle, reading his orders
+    off a card, in the only muddy boots the regime owns."
+  - "'HALT, please. Sergeant Scuff, Enforcers. Captain Spotless sent me to check the service tunnels in case anyone tried to sneak
+    into the city this way, and I'm sorry to report that someone has. It's you.'"
+- **After:**
+  - "Sergeant Scuff sits down on a barrel and takes off his helmet. 'My gran laid pipe down here,' he says. 'She said these tunnels
+    used to be full of people. I put that in a report once, and the Captain had me write it again.'"
+  - "'All four Paths, shoulder to shoulder, and nobody measuring anybody. I'll tell the Captain I found nothing down here, which is
+    what he says there is. Go on. The grate isn't locked.'"
+- **In the fight:** "INSPECTION! The Captain wants heights, he wants smudges, and he wants every smile at the regulation angle!" and,
+  near the end, "Mud. On the boots. The Captain will see it from all the way up there, I know he will." (the same two events, renamed).
+- **Bestiary:** "Captain Spotless sent him down to guard tunnels that do not exist. His are the only muddy boots in the regime, and he
+  has apologised to them."
+
+Also updated: S-CAP's `boss` field, the reward card's "where to find it" line, the dungeon list, the encounter rule's text, the boss
+table in `docs/design/encounter_scripts.md`, the tests. The hook, the quest text and the feats never named the boss. An old save's
+Bestiary counts carry over.
+
+## Maren's post-Path conversations, before and after
+
+Changed lines are bold. Every gameplay instruction is unchanged. Revert everything with
+`node tools/apply_dialogue_pass.js --revert=docs/dialogue/fable_nov14_ids.txt`.
+
+**After the first Path (Fragment 1)**
+
+| | Before | After |
+|---|---|---|
+| Maren | You've gone as pale as flour. Sit down, sit down. Something has come back to you, hasn't it? | **Even with my eyes I can see you've gone as pale as flour. Sit down, sit down. Something has come back to you, hasn't it?** |
+| Maren | (unchanged) | Tell me all of it, however small it seems to you. In my experience it's the small things that turn out to matter. |
+| Maren | (unchanged) | ...A lullaby. That tune comes from the old days, from the court, and there are very few of us left who would know it. Fewer still who ever hummed it to a child. |
+| Maren | (unchanged) | Have some pie. And don't ask me why my eyes are wet, because I shan't tell you, and you wouldn't want to make an old tortoise lie. |
+| Maren | (unchanged) | But look at you. With one zone free, the corruption is losing its grip on the land, and it's slipping off you along with it. |
+| Maren | (unchanged) | You ought to be able to carry a second Path now. Go down to the Deck Station and try building a deck with two, and then come and tell me how it feels. |
+
+**After the second Path (Fragment 2)**
+
+| | Before | After |
+|---|---|---|
+| memory | (unchanged) | White rooms, and a white light that never changes, whatever the hour is outside. |
+| memory | There is glass on every side of me, and behind the glass there are faces in white coats, taking notes. | **There are bars on every side of me, and behind the bars there are faces in white coats, taking notes.** |
+| memory | (unchanged) | No one in that place ever uses my name. They call me 'the Subject', and whatever I do, the only thing they ever say to me is 'again.' |
+| memory | (unchanged) | Again. Again. Again. |
+| memory | (unchanged) | I wasn't lost. I was kept. |
+| Maren | Glass, and white coats, and 'again.' So that is where they had you, all those years. | **Bars, and white coats, and 'again.' So that is where they had you, all those years.** |
+| Maren | You've earned some truth from me in return, so here is the first piece of it: I'm not only an old tortoise who bakes. | **The way you said that... I taught the royal children at the castle once, and there was a boy who asked his questions just that way. For a moment I thought... No. That boy is ten years dead, and I'm a foolish old tortoise.** |
+| Maren | There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout inside the Capital itself. | **You've earned some truth in return: I'm not only an old tortoise who bakes. There's a resistance in this kingdom, and I'm its contact here in {town}. A woman called Wren leads it, from a hideout inside the Capital itself.** |
+| Maren | (unchanged) | I wasn't sure of you before, and I'm sorry for that. I'm sure of you now, or near enough, and there aren't many people I would say that about. |
+
+**After the third Path (Fragment 3)**
+
+| | Before | After |
+|---|---|---|
+| Maren | A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with glass on every side. | **A man in white and gold, who knelt and then stood up. And before that, those rooms of yours with bars on every side.** |
+| Maren | I know that glass, because I helped to blow it. A long time ago I founded the study of the Paths, and I did it for the best of reasons, the way people generally do. | **I knew that throne room, dearie. I worked at the castle once, studying the Paths, and of an afternoon I taught the royal children their letters. I began that study for the best of reasons, the way people generally do.** |
+| Maren | {villain} took my work and built a cage out of it, and the best student I ever had stayed on to run the laboratory for him. And I ran. | **{villain} took my study and built those cells out of it. I never forged a bar of them, but every one stands on something I wrote down. The best student I ever had stayed on to run the place for him, and I ran.** |
+| Maren | I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what else those hands had made. | **I have been hiding here ever since with my hands in pie dough, where nobody would think to ask what those hands used to write.** |
+| Maren | (unchanged) | That's my secret, and now you're holding it, the same way I have been holding yours. You may do with it as you see fit. |
+
+**After the fourth Path (Fragment 4)**
+
+| | Before | After |
+|---|---|---|
+| memory | (unchanged) | A boy of eleven stands in a coat too fine for the cold, and someone is calling to him across a courtyard: '{prince}!' |
+| memory | I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: four signs in a ring. | **I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: an arm, a chef's hat, a leaf and a skull, four signs in a ring.** |
+| memory | (unchanged) | {prince_full}, son of the king and queen. The whole kingdom believes he died ten years ago. |
+| memory | (unchanged) | That is who I am. |
+| Maren | {prince}. {prince} {royal_house}. I met a boy at court once, hiding behind his mother's cloak, and he asked me why tortoises carry their houses about with them. | **{prince}. {prince} {royal_house}. I taught a boy by that name his letters. The first day he hid behind his mother's cloak, and he asked me why tortoises carry their houses about with them.** |
+| Maren | (unchanged) | I told him, 'So that we are never far from home.' |
+| Maren | I knew, you see. The Warden opens that tunnel for one family only, and I knew who you were the moment you walked out of it. I was too frightened to say so. | **And you have sat at my table all these weeks, and I didn't know you. My eyes have been going for years, and I had been told that boy was dead, and whenever my heart said otherwise I told it to hush.** |
+| Maren | Four signs in a ring, the same as the ones carved on this stick of mine. I have leaned on it for ten years and never told a soul why. | **Four signs in a ring, the same as the ones carved on this stick of mine. The Queen gave it to me the day I began teaching you, and I have leaned on it for ten years and never told a soul why.** |
+| Maren | And my laboratory, my life's work, was used on that boy. It was used on you. Forgive me, if you ever can. I would understand it if you couldn't. | **And my study, my life's work, was the thing they used on that boy. It was used on you, and I ran, and I never once asked who was behind those bars. Forgive me, if you ever can. I would understand it if you couldn't.** |
+| Wanderer | (unchanged) | My mother called to me across that courtyard. I can hear her voice now, and I still can't see her face. I'd like to, one day. I'd like to know what the two of them were like. |
+| Wanderer | You built the glass, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping. | **You ran, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping.** |
+| Maren | (unchanged) | ...Then let us make this kingdom a home again, {prince}. All of it, for all of them. |
+
+**After the fourth Path, when Primm already told him (the rushed castle)**
+
+| | Before | After |
+|---|---|---|
+| Maren | (unchanged) | So he knew you from the very first. He told you who you are, and now you've come to me for the rest of it. |
+| Maren | I knew as well. The Warden opens that tunnel for one family only, and I knew who you were the moment you came out of it. I was simply too frightened to say so. | **I should have known you myself. I taught you your letters. But my eyes have been going for years, and I had been told that boy was dead, and I was too frightened to hope I'd been told wrong.** |
+| Maren | So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I built. | **So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I wrote.** |
+
+**Elsewhere:** her cave-mouth welcome ("Come closer, dearie; my eyes aren't what they were..."), her first kitchen line ("...my eyes,
+which see as far as a pie and not much further"), her line after two Paths ("'With my eyes I couldn't say,' I told them, 'but I know a
+damp young man with good posture when one drips on my floor.'"), her line about Elowen's father ("the best student I ever had"), "bars
+on the doors" for where Elowen was taken, and her Year 1 note in the castle ward ("I am told the subject is a child, and that he asks
+for his mother. A child is not a specimen. I will not stay to see it. M."). The Wanderer's answer is now "You ran, Maren. You also gave
+me a bed and a pie..." and his line to Primm says "behind bars for ten years".
+
+## Why the items showed "?"
+
+It was deliberate. The vendor-screen pass gave every shop one effect, and Fig Sly's was "hidden compartments": a wooden door with a "?"
+over each tile that slid away while the mouse was on it (`VendorFx.add_compartment`, called from `ItemVendorScreen._make_tile` when
+the screen id was `VS-FIGSLY`). The Nov 4 fix pass took the doors off his cards and missed his items. The doors and the function are
+deleted; his Items page is the ordinary item shop.
+
+## The Path icons
+
+- **Guide:** `docs/art/path_icon_style_guide.md`; **sheet:** `docs/art/path_icon_sheet.png`; **code:** `PathIcons`.
+- **The four:** Beefcake a gold flexed arm on red; Gourmand a white chef's hat on cream and copper; Refusemancer a green leaf in three
+  rust arrows; Necrocrat a pale skull in green flame on slate. Colorless is the plain stone disc. All four in a ring read clockwise
+  from the top: arm, hat, leaf, skull.
+- **Inventory:** `docs/art/path_icon_inventory.csv`, **62 places**: 40 already right, **8 fixed now** (7 in code, 1 line of text),
+  **14 painted** (Batch 16).
+- **Fixed in code:** the ending's four icons, Crosspath's fountain pillars and crest plinths, the feats' one-Path groups, the Capital
+  camp's tents, the pack fallback, the Crease's shaft signs; and Fragment 4's line now reads "an arm, a chef's hat, a leaf and a skull,
+  four signs in a ring".
+- **The picture after the fourth Path is `STORY-MEMORY-4`**: the ring on the arch above the King is a star, a flame, a leaf and a moon.
+- **Not changed, your call (inbox 15):** the UI's accent tints for Gourmand (blue) and Necrocrat (violet) do not match their icons.
+
+## The treasure field and the gold study
+
+The Dump's top-right pocket is reached across the scree only (the mount). A stand of trees closes the strip along the north rim; the
+walk grid is flooded on foot and on the mount in a test.
+
+| Chest | Gold in the chest | Also |
+|---|---|---|
+| `chest_field_a` | 150 | Summoning Charm |
+| `chest_field_b` | 120 | a Gilded Refusemancer Pack |
+| `chest_field_c` | 180 | Sucker Punch Mitts (Binding Chains if you own them) |
+| `chest_field_d` | 210 | Ward Sigil |
+
+They stand on mossy plinths, half as big again as a hidden chest, with a warm glow, and the popup says "Treasure chest". The two older
+chests in the pocket are unchanged. "The Oldest Trick in the Book" counts Shiro's five giant chests only, so these are not in it.
+
+**Gold study** (`docs/design/sim/economy_model_nov14.md`): the expected, no-grind walk opens half the hidden chests and earns
+**23,007 gold, 330 more than before these chests** (+1.5 %). A thorough player gains 660. The model's figure was already above the
+21.2k of Nov 8 before this pass, because quest and clear rewards were raised after that study; the four chests are not what moved it.
+
+## Batch 16
+
+`docs/art/batch16_nov14.csv`, prompt `docs/prompts/chatgpt_batch16.md`, references in
+`G:/My Drive/Card Game Art/Batch 16 References/` (94 files, numbered by row).
+
+| # | Images | Why |
+|---|---|---|
+| 1 | V-FIGSLY | two right hands |
+| 2 | STORY-MEMORY-4 | the crest above the King: the four Path icons |
+| 3 | STORY-MEMORY-3 | the banners behind the King |
+| 4 | NPC-SCUFF, CUT-SCUFF, BST-ENFORCER-SERGEANT-SCUFF | the new officer |
+| 5, 6 | UI-CARDBACK-B, UI-CARDBACK-N | a dumbbell; a skull with a quill |
+| 7 | ICON-FEAT-PATHS | a dumbbell, a leaf, a ladle, a stamp |
+| 8 | DEC-PLINTH-BEEF / -GOUR / -REF / -NECRO | Crosspath's freed-zone statues |
+| 9, 10 | TOWN-SHEET-FREED-BANNERS-01 to -06 | Crosspath's freed banners |
+| 11 | CAP-BANNER-FREED-03, -04 | a leaf swirl; a stamp |
+| 12, 13 | STORY-REUNION, STORY-EPI-FILE-COMPLETE | banners in the crowd |
+| 14, 15 | LOGO-EMBLEM, APP-ICON, LOGO-WORDMARK | a dumbbell, a sprout in a tin, a skull with a quill |
+| 16 | TOWN-PROP-SHORE-STONES-01 to -03 | painted stones for Crosspath's shore |
+| 17 | CAP-PROP-CREASE-STALL-01 / -02, CAP-PROP-CREASE-CRATES | the Crease's flat stand-ins |
+| 18 | SPR-RESCUER walk set (5 sheets) | the masked Rescuer walks in Elowen's frames |
+| 19 | NPC-QUADZILLA, NPC-CAIRN | two bosses speak with no portrait |
+| 20 | DNA-PROP-CRATES, DNA-PROP-CABINET-TIPPED | the wasteland's stand-ins |
+
+Nothing in `docs/art/` is still marked REDO (Batch 14 delivered all twelve), so rows 16 to 20 are the five most visible stand-ins left.
+
+## The world, in a little more detail
+
+- **Crosspath's shore.** The lake was drawn straight from its 24-corner outline; it is drawn from a rounded copy now, so the water
+  line is a curve (the two corners at the waterfall stay sharp). The 3 m band of pale sand is a 1 m bank of wet earth with a ragged
+  edge. The two-tone grass was the town's painted ground stopping 2 to 3 m short of the water, with the brighter country grass showing
+  in the gap; the town's grass runs to the water now. The far shore keeps the country grass. Crosspath has no painted rock prop, so the
+  stones are rounded ones in the ridge's rock texture (a painted set is Batch 16 row 16).
+- **Enemies at entrances.** The four Path zones' own roamers already kept 20 m. What you met at the Dump's entrance was the extra
+  roamer the game adds within sight of every exit so a newcomer sees a fight at once. It lived 14 to 17 m from the exit; it lives
+  23.5 to 31 m out now, 20 m from the arrival point as well, and at least 9 m from every person and service of the hub. Three Capital
+  Tidy-Bots moved.
+- **The Dump.** Removed: the hollow log by the east water (a 6 m slab of bark with no collision) and the hay bale beside the top-right
+  barn (side-on it was four pale planks hovering over the grass). `tools/heap_odd_probe.gd` lists every floating mesh and walk-through
+  slab if you meant others. The top-right is closed by four trees and three bushes along the north rim.
+- **The Buffet.** A bank runs from the table's edge down under the gravy round the south half of the table. The food forest is east
+  of the bridge (the west side holds Tarragon, the golem, the rift station and the giant chest): 18 trees in two rows, herbs and leeks
+  at their feet, solid on the walk grid.
+- **The D.N.A.** 16 rows either side of the causeway and beside the lobby: cabinets (every third tipped over), a queue of rope posts,
+  crate stacks, filing towers, dead trees, rubble. Low-end keeps every other piece.
+
+## Tests and the build
+
+- **GUT:** 33 shards of 12, each in a fresh Godot: **3103 / 3105, 0 failing.** New: `tests/test_fable_nov14.gd` (21 tests, one or
+  more per part). Six older tests were updated for the new character and the tree wall.
+- **NPC visibility probe:** OK, 150 checks.
+- **D.N.A. walk smoke:** OK (75 checks, 20 screenshots).
+- **Dump walk smoke: FAILED, 2 causes.**
+  - At the heal table the prompt offered was Billie Muckfoot's ("heal: the prompt is up (near wren)"). On that run the extra exit
+    roamer stood 0.1 m from Billie, which was my regression and is fixed; **the re-run after the fix did not finish**: the session stopped it for low memory one check in, so whether this check passes now is not known.
+  - A script error every frame after the smoke's save and load (`herded_this_visit` on no visit). Fixed with a guard.
+- **Buffet walk smoke: FAILED, the same 2 checks before and after the roamer fix**, so the roamer was not the cause:
+  - at Basil's spot the prompt offered is Madame Mirepoix's;
+  - the walk from Mirepoix to the heal table stops 3 m short (the straight line crosses the fountain).
+  Both are in the plaza, where this pass changed nothing; Batch 15 moved Mirepoix and her stall 3.4 m. I believe they date from that
+  and did not verify it against the old build. **Worth a look in the game: stand at Basil and check that E talks to him.**
+- **Not run:** the Gainlands, Capital, Crosspath and opening-forest walk smokes, and a Low-camera walk of each changed area. The
+  shots were taken at the default camera only.
+- **A slip of mine, repaired:** while checking a log I ran `git stash pop` with nothing stashed, which applied an old Nov 4 stash onto
+  the tree and conflicted in 19 files. Nothing of this pass was uncommitted in those files; I restored exactly those 19 from the last
+  commit. Both old stashes are still in the stash list.
+
+## New tools
+
+`tools/heap_foot_probe.gd` (the Dump's walk grid on foot and mounted, as text), `tools/heap_odd_probe.gd` (floating meshes and
+walk-through slabs), `tools/buffet_rect_probe.gd`, `tools/dna_floor_probe.gd`, `tools/flat_mesh_probe.gd` (which ground mesh lies
+where), `tools/art/path_icon_inventory.py`, `tools/art/batch16_build.py`, `tools/nov14_maren_table.js`, `docs/dialogue/fable_nov14_rows.js`.
+Shot hooks: town `--open=memory2|memory3 --memory_line=N`, zone `--open=vendor_items`.
+
+---
+
 # Batch 15 + 1.0 - report (Nov 13): the last art batch, the owner's answers, the leftovers, the 1.0.0 build
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Start tag `pre-batch15-import`. Questions: `docs/overnight_inbox.md`, "Batch 15 + 1.0"
