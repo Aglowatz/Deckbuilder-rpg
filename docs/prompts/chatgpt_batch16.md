@@ -66,3 +66,6 @@ House style for everything: painted cozy-fantasy game art, soft visible brushwor
 20. **DNA-PROP-CRATES** (512x512) and **DNA-PROP-CABINET-TIPPED** (768x512), both transparent, front three-quarter view, in the grey-green office style of ref 20 (the cabinet and the filing tower; the screenshot shows the rows they stand in).
    - CRATES: a neat stack of three grey archive crates with brass corner caps and a blank label;
    - CABINET-TIPPED: a grey-green filing cabinet lying on its side, two drawers slid open, papers spilling out.
+21. **UI-PACK-GILDED-N** (512x768, transparent). A Necrocrat version of the gilded foil pack in ref 21 UI-PACK-GILDED: the same shape, crimped ends, gold foil and cream centre stripe.
+   - The round medallion in the middle shows the Necrocrat Path icon (ref 21 ICON-ENERGY-N): a pale skull facing front, wrapped in green ghost-flame, on a dark slate disc, **fully inside the circle**. No quill. Ref 21 "current" shows the pack as it is now, with the wrong skull-and-quill icon.
+   - The small repeating pattern on the gold foil uses tiny skulls in ghost-flame instead of dumbbells.
