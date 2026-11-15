@@ -4,6 +4,42 @@ Leave instructions here for the overnight run (one per line). The run reads this
 
 Older open questions (Oct 17 overnight, the rebalance, the v0.4.0 playtest build) are in `docs/overnight/inbox_archive.md`.
 
+## Fable Nov 15 - yours to decide (the safest choice was taken)
+
+Brief: `docs/prompts/fable_nov15_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov15`. Part 5 (Batch 16) was
+skipped as told: the images are not made yet.
+
+1. **The Correction Officer's +1/+1 is called "Rift-Empowered", not "Regime Drill".** The buff was never the officer's own: any Capital
+   roamer whose post is within 9 m of an open rift fights with +1/+1 and 3 more HP. I named the rule after its real cause and its text
+   says how to stop it (seal the rift). Say so if you would rather it had a regime name.
+2. **A roamer with a rule of its own now shows the "Before the fight" card.** Until now a roamer's fight started the moment it touched
+   you. With a rift's empowering (or an encounter rule of its own) the same card as a dungeon
+   room opens first, with one Continue. Roamers with only the zone's standing rules still start at once. It is one more click in
+   those fights; say if you would rather have only the icons in the fight.
+3. **The early-zone ease is now visible as "Caught Unprepared".** A zone entered before its place in the order has foes with less HP and
+   -1 or -2 attack (Nov 4-5). It was applied silently, in 39 fights of a first-zone visit, and your rule for this pass is that every
+   applied modifier is shown. It is a green badge on the enemy's side. It is not a difficulty setting, but it does tell the player
+   the game is going easy on them. Say if you would rather hide it again (the test would then need an exception for it).
+4. **Primm's phases each have a rule badge now** (Standardization, Reflection, Unraveling), with the phase's existing rule line as its
+   text. The fight itself is untouched. The gold rule panel under the HUD is still there, so the line shows twice in his fight.
+5. **Each zone's ruler statue was a capsule with a ball for a head.** The scan for placeholder people found it in all five zones. It is
+   now the ruler's painted figure in stone (the boss's entrance cut-out through a stone shader): Clench, the Doppelganger (as the Grand
+   Chef), Mortimer, Compostella, Primm. Toppled, it lies beside the plinth. If you want proper statue art, that is five small pictures
+   for a later batch.
+6. **Pip's window mannequin is removed, not replaced.** It was the last 3D figure in Crosspath. The spot is beside her and in front of
+   her shop; I did not put a townsfolk sprite there because one more silent figure by a vendor reads as someone to talk to.
+7. **The D.N.A.'s far skyline is switched on.** The zone's backdrop cards (the dark towers) were in its data but hidden by a flag; with
+   the new ground the horizon was a bare line, so I turned them on and set the fog to the Capital's density. Every D.N.A. view now has
+   towers behind it. Say if that was hidden on purpose.
+8. **Fallen statues outside the D.N.A.:** three, one of them the Capital's golden fallen statue greyed (the brief names that piece). It
+   is Primm's statue; it reads as "a fallen statue" at that size, but it is his.
+9. **Pack art off the style guide (Batch 16 rows added, items 21 to 23 of the ChatGPT prompt):** the gilded wrapper's dumbbell pattern on
+   all four Paths; UI-PACK-N's skull with a quill; UI-PACK-R's swirl of three leaves on rust red. In the game the medallions are
+   already the canonical icons (drawn over the paintings); only the foil pattern still needs the art.
+10. **UI scale above 100 %:** the fixed-layout screens (the Wardrobe, the Card Packs page, the Deck Station) are cropped at the right
+    and bottom at 130 %, as before this pass. Large text at 100 % is fine everywhere I looked. Not fixed here: it needs those three
+    screens rebuilt on containers.
+
 ## Fable Nov 14 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_report.md`. Tag `pre-fable-nov14`.

@@ -1,3 +1,213 @@
+# Fable Nov 15 - report: the owner's four fixes
+
+Brief: `docs/prompts/fable_nov15_fixes.md`. Start tag `pre-fable-nov15`. Questions: `docs/overnight_inbox.md`, "Fable Nov 15" (10 items).
+One Godot at a time, no sub-agents. No public upload. No difficulty setting, no battle-board change, Primm's fight untouched. Ran on
+Fable 5.2, Nov 15. The Fable Nov 14 report follows below.
+
+## In short
+
+- **Parts 1, 2, 3, 4 and 4b are done**, each committed and pushed with before/after shots in `docs/overnight_shots/nov15/`.
+- **Part 5 (Batch 16) was skipped as told**: the images are not made yet. Three pack-art rows were added to its list (below).
+- **Tests: all 40 shards green, 3118 of 3120 passing, 0 failing** (2 risky: the same two no-assert tests as before). The background run
+  was stopped by the low-memory guard after shard 36; shards 37 to 40 were finished in the foreground, as the house rules say.
+- **Walk smokes:** the D.N.A.'s (run twice: after Part 1 and at the end), Crosspath's and the Capital's all pass.
+- **The 1.0.0 zip:** **built.** `builds/TheWaywardPath-v1.0.0-windows.zip`, 778 MB (742 MiB). The exported smoke prints PASSED (1.0.0) and the three exported play checks finish with 0 script errors. Not uploaded anywhere.
+- **Look at these first:** the "Before the fight" card now opens for roamers that carry a rule of their own (inbox 2); the early-zone
+  ease is now a visible badge (inbox 3); the D.N.A.'s far skyline is switched on (inbox 7).
+
+## The 1.0.0 zip
+
+**`C:\Dev\Deckbuilder-rpg\builds\TheWaywardPath-v1.0.0-windows.zip`** (778,089,162 bytes, built Nov 15 14:05). This is the first 1.0.0
+zip: the Nov 13 and Nov 14 passes could not build one for lack of memory.
+
+- Free memory was 2.22 GB when I checked (the rule is 2.2), so the export ran at once, in the foreground: `EXPORT OK`.
+- `bash tools/run_release_smoke_exported.sh`: **PASSED (1.0.0)** (no Dev Menu, save and load work).
+- The three exported play checks (`exported_rc1_a`, `_b`, `_c`) ran to "done"; `grep -c "SCRIPT ERROR"` on their six logs prints 0 six times.
+- This is also the first time the Nov 13 dialogue rewrite, Batch 15 and the Nov 14 pass have run as an exe. The play checks cover the
+  first minutes, the menus and a save; they are not a playthrough. **Play the first ten minutes yourself before uploading.**
+
+## The parts
+
+| Part | What | Done? | Shots (`docs/overnight_shots/nov15/`) |
+|---|---|---|---|
+| 1 | Outside the D.N.A.: a wasteland like the Capital's | **Done.** 76.7 fps on Medium (79 before) | `ref_capital_wasteland` (yours), `p1_ref_capital_gate_mine`, `p1_dna_*_before` / `_after` (six cameras) |
+| 2 | Mortimer Grimsby off the Rift Station | **Done.** He has one spot (he only appears once the zone is freed) | `p2_mortimer_before`, `p2_mortimer_after`, `_zoom`, `p2_mortimer_after_prompt` |
+| 3 | 3D and placeholder NPCs | **Done.** Two kinds found, both fixed; the scan is clean | `p3_pip_before` / `_after`, `p3_statue_gainlands_*`, `p3_npc_3d_scan_report.txt` |
+| 4 | Every fight shows every rule in effect | **Done.** 48 of 118 fights were missing a rule | `p4_officer_before_the_fight_after`, `p4_officer_rule_icon_hover_after` |
+| 4b | Shop scrollbars, the pack medallion, the pack icons | **Done**; the foil pattern needs art (Batch 16) | `p4b_*` |
+| 5 | Import Batch 16 | **Skipped as told** (not made yet) | |
+| 6 | Verify and build | see "In short" | |
+
+## Part 1 - outside the D.N.A.
+
+Your reference and my own matching shot of the Capital's gate approach are `ref_capital_wasteland.png` and
+`p1_ref_capital_gate_mine.png`. Six fixed cameras were shot before and after (`bash tools/dna_outside_shots.sh before|after`): the
+arrival, the causeway, the lobby's west and east sides, and the west and east edges of the main block.
+
+- **The ground is the Capital's.** The grey 4 m tiles are gone. The endless ground is the Capital's cracked ash (`TEX-CAP-ASH`) with
+  soft patches of its broken paving (`TEX-CAP-CRACKEDROAD`), tinted grey-green, sampled at two scales so no repeat shows.
+- **The Capital's wasteland kit, composed, never in rows** (`world/dna/dna_wasteland.gd`). On Medium: 21 stretches of broken low wall,
+  7 ruined house shells further out, 35 rubble mounds, rubble rows at the feet of the south walls, 54 dead trees, 21 purple crystal
+  clusters, ash drifts, 465 dark tufts of dead grass, 9 old dead lamp posts (six of them a loose avenue beside the causeway, like
+  the Capital's gate road) and 3 fallen statues. High has a few more (72 trees, 28 crystals, 12 lamps, 620 tufts). All tinted toward
+  the D.N.A.'s grey-green; the crystals keep their purple.
+- **Office touches kept as debris:** four tipped cabinets, two leaning filing towers and four drifts of forms. The rows of cabinets,
+  crates, queue posts and towers are deleted.
+- **The floating paper is untouched** (380 sheets, the same field).
+- **Edges and fog:** the fog is the Capital's density (0.0065, was 0.005), and the zone's far skyline (its tower backdrop, which was in
+  the data but switched off) now stands behind the ground in every direction, so the ground never ends in a bare horizon (inbox 7).
+- **Nothing blocks the view or the way:** every piece stands off the floor and its walls, off the causeway and clear of the Filing
+  Tower, the Endless Queue, the Records Stair and the Hall; nothing is solid; and a piece with floor to its north may only stand as
+  high as the camera's line allows (the Capital rim's rule). The spots nearest the buildings are filled first, so the budget is spent
+  where it is seen.
+- **Frame rate on Medium: 76.7 fps** at the arrival (79 after Nov 14, 81 before that).
+- **When Batch 16's D.N.A. crates and tipped cabinet arrive** they replace the turned cabinet cards in `DnaWasteland.OFFICE_DEBRIS`.
+
+## Part 2 - Mortimer Grimsby
+
+He stood at (49.1, 55.7), 0.6 m from the Rift Station at (48.5, 55.5): the station was placed on his old spot. He now stands at
+**(41.0, 54.4)**, on the open floor of the lobby's west side: 7.6 m from the station, clear of the west passage, and more than 2.5 m
+from every NPC, prop, counter and prompt in the room (a test checks each one, and open floor all round him).
+
+- He has **one spot**: he is only in the lobby once the zone is freed (the statue stands in for him before that).
+- **Name label, talk prompt, bark:** `p2_mortimer_after_prompt.png` (his label, Prudence's and Agnes's are separate; "[E] Talk" shows).
+- **NPC visibility probe** (freed D.N.A., both cameras): **20 checks, 0 failed**, Mortimer included. The probe can now free a zone first
+  (`NPC_FREED=necrocrat`), which it could not before, so the freed lobby's people had never been probed.
+- **NPC overlap probe** (freed): Mortimer is not flagged; no pair of NPCs is closer than 1.2 m.
+
+## Part 3 - 3D and placeholder NPCs
+
+**What was found** (the scan: `bash tools/run_npc_3d_scan.sh`, 17 area states: the forest in four states, Crosspath oppressed and
+freed, each of the four zones oppressed and freed, the Capital outside, inside and freed; it reports every rigged 3D model and every
+capsule a metre or more tall):
+
+| Where | What it was | What I did |
+|---|---|---|
+| Crosspath, beside Pip Threadwell (36.4, 6.5) | Her "window mannequin": the blocky 3D hero model in a party hat, with no talk prompt | **Removed** (inbox 6) |
+| The Gainlands' hub (49.5, 83.0) | The ruler's statue: a red capsule with a ball for a head, a box for a cape | **Replaced** with Chancellor Clench's painted figure in stone |
+| The Endless Buffet's hub (41.0, 67.0) | The same capsule statue | **Replaced** (the Doppelganger, as the Grand Chef) |
+| The D.N.A.'s hub, the Verdant Dump's hub, the Capital | The same capsule statue (standing, or toppled once the zone is freed) | **Replaced** (Mortimer, Compostella, Primm) |
+
+- **Nothing else.** After the fixes the scan finds **0 figures in all 17 states**. Every roamer, vendor, quest giver, freed leader and
+  stroller is a painted sprite. (The ambient animals of the Dump are props, not people, and were left alone.)
+- **The statue** is the boss's painted entrance cut-out through a stone shader, on the same plinth with the same plaque: standing while
+  the zone is oppressed, lying beside the plinth once it is freed (`p3_statue_gainlands_after_zoom.png`). Inbox 5.
+- **The check:** `tests/test_fable_nov15.gd` fails if any zone NPC or freed-lobby NPC, or anyone Crosspath places, does not resolve to
+  an imported painted sprite set, and if a ruler statue contains a capsule or a sphere. The scan script exits 1 on any figure.
+
+## Part 4 - every fight shows every rule in effect
+
+**The Correction Officer.** The +1/+1 was not his: any Capital roamer whose post is within 9 m of an open rift fights with +1/+1 on its
+units and 3 more HP. It was applied with no word anywhere. Now:
+
+- the rule is **Rift-Empowered** ("This foe stood beside an open rift: its units get +1/+1 and it has 3 more HP. Seal the rift (or fight
+  its guards away from it) and the next ones fight as normal.");
+- a roamer that carries it shows the **"Before the fight" card** before the duel (`p4_officer_before_the_fight_after.png`), and the rule
+  is one of the **fight's rule icons**, with its hover text (`p4_officer_rule_icon_hover_after.png`);
+- its units carry the +1/+1 as the ordinary stat bonus, so their numbers show green over the base value like any other buff.
+- I named it for its real cause rather than "Regime Drill" (inbox 1).
+
+**The audit.** `tests/test_rule_audit.gd` builds **all 118 fights** with the game's own code (every roamer of every zone, the Capital's
+also beside a rift; every fight room of all 16 dungeons (the tutorial cave, the Gallery and the Lab among them), the four Path zones entered as a first zone; Primm's three phases; the
+gatekeepers; Crosspath's roamers; the Graveyard, Shiro, the vault, the Old Well, the store room; the eight arena bouts; Quota's rematch;
+Captain Spotless at the gate). Each seat now remembers where its modifiers came from, and each rule badge says which modifiers it
+stands for. The test fails for any modifier on a seat (beyond the player's own gear and items) that no shown badge covers.
+
+**Encounters that were missing a rule: 48 of 118.** The full before and after lists are `docs/review/rule_audit_nov15_before.json` and
+`_after.json`.
+
+| Applied, not shown | Fights | Which | Now shown as |
+|---|---|---|---|
+| The early-zone ease: -1 or -2 attack on the foe's units (and less HP) | 39 | In a first-zone visit: the D.N.A. (2 roamers, 7 Hall rooms, 3 side-dungeon rooms), the Buffet (2, 7, 3), the Dump (2, 7, 3), and the gatekeepers Prudence Pallor, Chef Fennel Gravois and Moss Mulligan | **Caught Unprepared** (green: it helps you). Inbox 3 |
+| A rift's empowering: +1/+1, +3 HP | 3 | The Correction Officer, the Perfection Inspector and the Rift Wretch, beside an open rift | **Rift-Empowered** |
+| Primm's phase rules (units become 3/3 and you may play two cards a turn; he draws 2 more; +3/+3, 1 more draw, he loses HP each turn) | 3 | Primm, phases 1, 2 and 3 | **Standardization / Reflection / Unraveling**, one badge each, with the phase's existing rule line. They were only on the gold panel under the HUD. The fight is unchanged (inbox 4) |
+| An escalating summon at the start of each of its turns | 2 | The Graveyard (the Restless Cairn) and the Four-Seal Vault's Warden | **The Graveyard Will Not Stay Quiet**, **The Seals Send Guardians** |
+| "No unit plays" on the player | 1 | The arena's spells-only bout (the Cardboard Colossus) | **Spells Only** |
+
+After the fixes: **0 of 118**.
+
+- **Also listed now** (they are not modifiers, so the audit cannot see them; I added them by hand): Grandmaster Flex and Elowen Vey
+  fighting beside you when rescued, the Rotheart's 6 lost HP after you cut the Heart Roots, and a freed zone's friendly rematch (a
+  two-Path deck, 10 more HP).
+- **Hidden traits** stay "?" and are listed: every one of the 35 encounters with an unseen scripted trigger shows exactly one "Hidden
+  trait ?" chip that stands for all of them (a test).
+- **No rule is shown without being applied:** every dungeon rule in the list has its modifiers.
+- **Three other fights with modifiers checked by eye:** covered by the audit rows and the existing boss-rules tests; I did not take
+  separate screenshots of them.
+
+## Part 4b - shops and pack opening
+
+**1. Scrollbars.**
+
+- **Fig's Gilded Goods.** The row asked for a fixed 1780 px, wider than its panel beside the vendor, so it was clipped at the panel's
+  edge with no bar (`p4b_fig_packs_large_before.png`). The row now takes the room there is. The tiles are their real 236 px (the name
+  wraps, the two buttons stack), so **all four packs fit at the default and at Large text**, at 1280x720 and 1920x1080
+  (`p4b_fig_packs_default_after`, `p4b_fig_packs_large_1080_after`, `p4b_fig_packs_large_720_after`).
+- **When they do not fit** (UI scale 130 %: `p4b_fig_packs_ui130_after.png`) a **gold scrollbar** shows under the row. The mouse wheel
+  moves the row sideways, the bar drags, and a controller's left / right brings the next pack into view (the row follows the focus).
+  If the tiles are also too tall for the screen the row scrolls up and down too, so the buttons can always be reached.
+- **Every list.** The theme's scrollbar was a 35 % black track with no edge, invisible on dark wood. It is now a framed track 14 px
+  thick with the gold grabber, in every list of the game (vendor tabs, the Deck Station, the Collection Book, item lists, the quest
+  log, Settings).
+- **The same shop row** (`ScrollKit.row`) is on the Card Packs shelf and its results row, the Wardrobe's hat and cloak rows and the Deck
+  Station's cover picker. **The Card Packs shelf had the same fault as Fig's shop in another form:** its bar sat below the panel's edge
+  and was never seen, and a Gilded pack's Open button was cut off. Both are fixed (`p4b_card_packs_shelf_after.png`).
+- **Checked at Large text, 1280x720:** the Wardrobe, the Deck Station, the Card Packs page, the Collection Book
+  (`p4b_lists_large_720_after.png`), and at 1600x900 the card, item, gear, hat and pack vendors. No content is cut without a bar.
+- **Not fixed:** at a UI scale of 130 % the Wardrobe, the Card Packs page and the Deck Station are cropped at the right and bottom, as
+  before this pass (inbox 10).
+
+**2. The medallion.** The Gilded pack's medallion was a square cut out of the Path Pack's painting and scaled up, so the circle cut its
+bottom off. It is now the Path's icon itself, whole, centred on the medallion and inside the gold ring, on every Path Pack and every
+Gilded pack, in the shops, on the shelf and on the opening screen (`p4b_pack_opening_necrocrat_after.png`). The General and Prismatic
+packs keep their own painted centres (they belong to no Path).
+
+**3. The icons, against `docs/art/path_icon_style_guide.md`** (`p4b_pack_art_before_sheet.png` is the art as painted):
+
+| Pack art | Medallion as painted | Wrapper pattern | In the game now | Art needed |
+|---|---|---|---|---|
+| UI-PACK-B | gold arm on red: correct | dumbbells: correct | the canonical icon | none |
+| UI-PACK-G | chef's hat, on a brown disc (the guide: cream) | croissants: fine | the canonical icon | none |
+| UI-PACK-N | **a skull over a quill and scroll: wrong** | stamps: fine | the canonical icon (skull in ghost-flame) | **Batch 16: UI-PACK-N redo** |
+| UI-PACK-R | **three leaves in a swirl on rust red: wrong** (the guide: a leaf in three arrows on moss green) | leaves: fine | the canonical icon | **Batch 16: UI-PACK-R redo** |
+| UI-PACK-GILDED (one picture for all four Paths) | the Beefcake arm | **dumbbells on every Path's gilded pack: wrong for three of four** | the canonical icon of each Path | **Batch 16: UI-PACK-GILDED-N, -G, -R** |
+| UI-PACK-GENERAL-1 / -2, UI-PACK-PRISMATIC | compass, star: no Path | stars | unchanged | none |
+
+**For your ChatGPT run:** the three rows are in `docs/art/batch16_nov14.csv` (now 23 rows) and as items 22 and 23 of
+`docs/prompts/chatgpt_batch16.md` (your item 21 is the Gilded Necrocrat pack). The game picks up `UI-PACK-GILDED-N` / `-G` / `-R` by
+themselves once imported; until then the dumbbell foil stays on the gilded packs.
+
+## Batch 16 import status
+
+**Not imported: skipped as told** (the images are not made yet). Nothing in this pass depends on it. When it lands it runs as its own
+short task; this pass added three rows to its list (above) and one place that will use its art (the D.N.A.'s debris).
+
+## Tests and the build
+
+- **GUT: 40 shards, 3118 of 3120 passing, 0 failing, 2 risky** (the same two tests that assert nothing). New: `tests/test_fable_nov15.gd`
+  (10 tests) and `tests/test_rule_audit.gd` (5). One older test was made independent of test order (Primm's phase 2 may list the
+  bosses' setup window).
+- **The background test run was stopped by the low-memory guard** after shard 36 of 40; nothing had failed. I finished shards 37 to 40
+  in the foreground (`--from=37`), as the house rules say.
+- **Walk smokes:** the D.N.A. (75 checks), Crosspath (29) and the Capital (137): all OK.
+- **Probes:** NPC visibility, freed D.N.A.: 20 checks, 0 failed. 3D-figure scan: 0 in 17 area states. Rule audit: 0 of 118 fights.
+- **Not run:** the Gainlands, Buffet and Dump walk smokes (their statues changed in Part 3; the statue keeps its plinth, its blocker
+  and its plaque spot, and the tests cover it). The Buffet's two plaza failures noted on Nov 14 are as they were.
+- **The build:** see "The 1.0.0 zip" above.
+
+## New tools
+
+| Tool | What it does |
+|---|---|
+| `bash tools/dna_outside_shots.sh before\\|after` | The D.N.A.'s outside from six fixed cameras |
+| `bash tools/run_npc_3d_scan.sh [label ...]` | Every area, oppressed and freed, scanned for rigged 3D models and capsules; exit 1 on any |
+| `NPC_FREED=necrocrat bash tools/run_npc_visibility_probe.sh` | The visibility probe with zones freed first (the freed lobby's people) |
+| `tests/test_rule_audit.gd` (`tools/rule_audit_sweep.gd`) | Builds all 118 fights and lists rules applied and not shown; writes `_logs/rule_audit.json` |
+| `--zone_fight=final:officer:rift` (battle shot), `--roamer_brief=officer:rift` (zone shot) | A roamer's real fight, and its "Before the fight" card |
+| `--open=vendor_packs` (zone shot), `--open=packs_all`, `--open=pack_open:<id>` (town shot) | A vendor's pack page, the shelf with every pack, the opening screen |
+
+---
+
 # Fable Nov 14 - report: the owner's playtest list, the Path icons, Batch 16
 
 Brief: `docs/prompts/fable_nov14_owner_list.md`. Start tag `pre-fable-nov14`. Questions: `docs/overnight_inbox.md`, "Fable Nov 14"
