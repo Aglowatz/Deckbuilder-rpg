@@ -50,7 +50,7 @@ func test_every_dungeon_boss_with_closing_lines_has_a_speaker_with_a_portrait() 
 		var entry: NpcRegistry.Entry = NpcRegistry.find(speaker)
 		assert_not_null(entry, "%s: %s has a speaker in npc_game_map.json's story_keys" % [id, boss.story_after])
 		if entry != null:
-			assert_true(Portraits.has_portrait(entry.portrait_id), "%s: %s has portrait art" % [id, speaker])
+			assert_true(Portraits.has_portrait(entry.portrait_id) or Portraits.STAND_INS.has(entry.portrait_id), "%s: %s has portrait art (or a stand-in: Sergeant Scuff until Batch 16)" % [id, speaker])
 	assert_gt(checked, 9, "the five final dungeons and the side dungeons")
 
 

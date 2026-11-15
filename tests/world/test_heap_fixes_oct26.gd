@@ -83,7 +83,7 @@ func test_fewer_trees_and_none_hides_a_route_an_anchor_a_chest_or_a_sign() -> vo
 		if prop.pos.z > 100.0:
 			commons += 1
 		assert_false(heap.layout.blocks_a_view(prop.pos.x, prop.pos.z), "a %s at (%.1f, %.1f) hides something from the camera" % [prop.kind, prop.pos.x, prop.pos.z])
-	assert_lte(trees, 56, "fewer trees (73 before Oct 26)")
+	assert_lte(trees, 60, "fewer trees (73 before Oct 26; Fable Nov 14: + the four of the treasure field's tree wall)")
 	assert_lte(commons, 25, "the starting area most of all (37 before)")
 	assert_gte(trees, 40, "the zone keeps its woods")
 

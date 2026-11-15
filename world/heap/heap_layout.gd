@@ -211,7 +211,7 @@ var pits: Array[Vector3] = []
 ## Fable Nov 14 (Part 3.4): the tree wall that closes the plateau's north rim strip (kind, x, z, yaw, scale, solid radius), west of the treasure field.
 const TREASURE_WALL: Array = [
 	["mushroom_tree", 67.5, 4.9, 20.0, 1.15, 0.85], ["tree", 68.7, 5.8, 140.0, 1.2, 0.85], ["mushroom_tree", 67.6, 6.7, 250.0, 1.05, 0.85],
-	["tree", 68.8, 7.5, 60.0, 1.1, 0.85], ["bush", 66.9, 5.8, 0.0, 1.1, 0.6], ["bush", 69.2, 4.9, 0.0, 1.0, 0.6], ["rock", 66.4, 10.5, 30.0, 1.4, 0.8],
+	["tree", 68.8, 7.5, 60.0, 1.1, 0.85], ["bush", 66.9, 5.8, 0.0, 1.1, 0.6], ["bush", 69.2, 4.9, 0.0, 1.0, 0.6], ["bush", 66.4, 10.5, 30.0, 1.3, 0.8],
 ]
 ## The treasure field's chests (the four of Fable Nov 14): drawn larger, on a mossy plinth, with a warm glow (`HeapBuilder._build_chests`).
 const TREASURE_CHESTS: Array[String] = ["chest_field_a", "chest_field_b", "chest_field_c", "chest_field_d"]
@@ -1037,8 +1037,8 @@ func _features() -> void:
 	_prop("appliance_pile", 28.0, 58.0, 120.0, 1.0, 1.6)
 	# Fable Nov 14 (Part 3.4): the hollow log that stood here (a 6 m block of flat bark with no collision: the hero walked through it) is gone.
 	# The chest it hid sits in a nook of rocks, a bush and mushrooms now.
-	_prop("rock", 71.9, 59.2, 40.0, 1.3, 0.7)
-	_prop("rock", 72.4, 62.3, 200.0, 1.0, 0.55)
+	_prop("rock", 71.9, 59.2, 40.0, 1.3)
+	_prop("rock", 72.4, 62.3, 200.0, 1.0)
 	_prop("bush", 76.2, 59.3, 0.0, 1.1, 0.6)
 	_prop("mushrooms", 71.8, 61.0, 0.0, 1.0)
 	_prop("beanstalk_mound", 61.0, 53.0, 0.0, 1.0, 0.0, 2)
@@ -1056,7 +1056,7 @@ func _features() -> void:
 	_prop("bush", 80.2, 12.2, 0.0, 1.0, 0.6)
 	_prop("mushrooms", 79.2, 11.4, 0.0, 1.0)
 	# Fable Nov 14 (Part 3.4): the top-right (the barn's pocket north of the scree) is reached across the scree only. A strip along the north rim
-	# let the hero walk in from the middle of the plateau; a stand of trees closes it, from the rim down to the car wreck, and a rock closes the
+	# let the hero walk in from the middle of the plateau; a stand of trees closes it, from the rim down to the car wreck, and a bush closes the
 	# crack between the wreck and the scree. `tests/core/zone/test_heap.gd` floods the walk grid on foot and on the mount.
 	for tree: Array in TREASURE_WALL:
 		_prop(str(tree[0]), float(tree[1]), float(tree[2]), float(tree[3]), float(tree[4]), float(tree[5]))
