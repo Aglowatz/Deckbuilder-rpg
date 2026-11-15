@@ -52,6 +52,48 @@ static func doors_of(def: ZoneDef, builder: ZoneMap) -> Array[Dictionary]:
 	return result
 
 
+## Fable Nov 14 (Part 3.3): the arrival point and every zone entrance or exit of a zone: [{"id", "pos"}]. These keep
+## `ZoneScene.ROAMER_ENTRANCE_CLEARANCE` (20 m), twice the doors' distance.
+static func entrances_of(def: ZoneDef, builder: ZoneMap) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for anchor: String in ["spawn", "arrival", "entrance", "gate_inside"]:
+		if builder.has_anchor(anchor):
+			result.append({"id": "anchor:" + anchor, "pos": builder.anchor(anchor)})
+	for entry: Dictionary in def.spots:
+		if str(entry["kind"]) == "exit" and builder.has_anchor(str(entry["anchor"])):
+			result.append({"id": str(entry["id"]), "pos": builder.anchor(str(entry["anchor"])) + (entry["offset"] as Vector3)})
+	return result
+
+
+static func entrance_offenders(def: ZoneDef, builder: ZoneMap) -> PackedStringArray:
+	var lines: PackedStringArray = []
+	var entrances: Array[Dictionary] = entrances_of(def, builder)
+	var keep: Array[Dictionary] = []
+	for entrance: Dictionary in entrances:
+		keep.append({"id": entrance["id"], "pos": entrance["pos"], "clear": ZoneScene.ROAMER_ENTRANCE_CLEARANCE})
+	var spawns: Array[Dictionary] = builder.enemy_spawns()
+	for spawn: Dictionary in spawns:
+		var home: Vector3 = spawn["home"] as Vector3
+		if float(spawn.get("guard", 0.0)) > 0.0:
+			continue
+		var reach: float = float(spawn.get("patrol", 0.0))
+		for entrance: Dictionary in entrances:
+			var at: Vector3 = entrance["pos"] as Vector3
+			var distance: float = Vector2(home.x - at.x, home.z - at.z).length() - reach
+			if distance < ZoneScene.ROAMER_ENTRANCE_CLEARANCE:
+				lines.append("%s %s (%.1f, %.1f) r=%.1f is %.1f m from %s" % [def.id, str(spawn.get("id", spawn["type"])), home.x, home.z, reach, distance, str(entrance["id"])])
+	if def.id != CapitalZone.ID and builder.has_anchor("exit") and builder.has_anchor("spawn"):
+		var exit_pos: Vector3 = builder.anchor("exit")
+		var home: Vector3 = ZoneScene.exit_roamer_home(exit_pos, builder.anchor("spawn"), func(at: Vector3) -> bool: return builder.is_walkable(at, 0.5))
+		if home != Vector3.INF:
+			for entrance: Dictionary in entrances:
+				var at: Vector3 = entrance["pos"] as Vector3
+				var distance: float = Vector2(home.x - at.x, home.z - at.z).length() - ZoneScene.EXIT_ROAMER_PATROL
+				if distance < ZoneScene.ROAMER_ENTRANCE_CLEARANCE - 1.0:
+					lines.append("%s exit_roamer (%.1f, %.1f) is %.1f m from %s" % [def.id, home.x, home.z, distance, str(entrance["id"])])
+	return lines
+
+
 ## The offenders of one zone: "roamer (x, z) r=patrol is N m from door" lines.
 static func offenders(def: ZoneDef, builder: ZoneMap) -> PackedStringArray:
 	var lines: PackedStringArray = []
@@ -121,6 +163,10 @@ func _check_zone(zone_id: String) -> void:
 	assert_gt(builder.enemy_spawns().size(), 0, "%s has roamers" % zone_id)
 	var lines: PackedStringArray = offenders(def, builder)
 	assert_eq(lines.size(), 0, "%s: every roamer keeps %.0f m from doors, gates and exits:\n%s" % [zone_id, ZoneScene.ROAMER_DOOR_CLEARANCE, "\n".join(lines)])
+	var near: PackedStringArray = entrance_offenders(def, builder)
+	assert_eq(near.size(), 0, "%s: every roamer keeps %.0f m from the arrival point and the zone's entrances and exits:
+%s" % [zone_id, ZoneScene.ROAMER_ENTRANCE_CLEARANCE, "
+".join(near)])
 	for spawn: Dictionary in builder.enemy_spawns():
 		var home: Vector3 = spawn["home"] as Vector3
 		var walkable: bool = builder.is_enemy_walkable(home)
@@ -151,5 +197,5 @@ func test_the_capital_roamers_keep_clear_of_doors() -> void:
 
 func test_the_exit_roamer_stands_clear_of_the_exit() -> void:
 	var home: Vector3 = ZoneScene.exit_roamer_home(Vector3(50, 0, 90), Vector3(50, 0, 60), func(_at: Vector3) -> bool: return true)
-	assert_gte(Vector2(home.x - 50.0, home.z - 90.0).length() - 3.0, ZoneScene.ROAMER_DOOR_CLEARANCE, "home %s with a 3 m patrol keeps the clearance" % str(home))
+	assert_gte(Vector2(home.x - 50.0, home.z - 90.0).length() - 3.0, ZoneScene.ROAMER_ENTRANCE_CLEARANCE, "home %s with a 3 m patrol keeps the clearance" % str(home))
 	assert_lte(Vector2(home.x - 50.0, home.z - 90.0).length(), ZoneScene.EXIT_ROAMER_SIGHT, "...and stays within sight of the exit")

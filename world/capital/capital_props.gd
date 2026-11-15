@@ -1246,12 +1246,28 @@ static func tunnel_arch() -> Node3D:
 
 ## Fable Nov 12c (A8): a service shaft of the Crease as a hatch in the cavern's floor (the manhole of the streets above: an iron cover in
 ## a gold-edged ring) with a short lit marker post carrying the travel pictogram. It replaces the free-standing black doorway.
-static func shaft_hatch(_index: int) -> Node3D:
+static func shaft_hatch(index: int) -> Node3D:
 	var root: Node3D = manhole()
 	B.box(root, Vector3(0.09, 1.0, 0.09), M.flat(M.WOOD_DARK), Vector3(0.0, 0.5, 0.95))
-	B.box(root, Vector3(0.34, 0.34, 0.05), M.glow(M.LANTERN, 1.2), Vector3(0.0, 1.05, 0.99))
-	IconSign.attach(root, "ICON-MAP-TRAVEL", Vector3(0.0, 1.05, 1.03), 0.3)
+	B.box(root, Vector3(0.44, 0.44, 0.05), M.glow(M.LANTERN, 1.2), Vector3(0.0, 1.1, 0.99))
+	IconSign.attach(root, shaft_icon(index), Vector3(0.0, 1.1, 1.03), 0.4)
 	return root
+
+
+## Fable Nov 14 (Part 3.1): the sign in front of a service shaft shows the Path of the district it comes up in (docs/art/path_icon_style_guide.md):
+## the Reek is the Refusemancers', Grave Row the Necrocrats', the Hungry Quarter the Gourmands', the Transit Yards the Beefcakes'. The Gate Plaza
+## and the palace approach belong to no Path and keep the travel pictogram.
+const SHAFT_PATHS: Dictionary = {
+	"reek": Affinity.Type.REFUSEMANCER, "grave": Affinity.Type.NECROCRAT, "hungry": Affinity.Type.GOURMAND, "transit": Affinity.Type.BEEFCAKE,
+}
+
+
+static func shaft_icon(index: int) -> String:
+	var destinations: Array[String] = CapitalLayout.NETWORK_DESTINATIONS
+	var destination: String = destinations[index] if index >= 0 and index < destinations.size() else ""
+	if SHAFT_PATHS.has(destination):
+		return PathIcons.icon(SHAFT_PATHS[destination] as Affinity.Type)
+	return "ICON-MAP-TRAVEL"
 
 
 static func shaft_door(_index: int) -> Node3D:

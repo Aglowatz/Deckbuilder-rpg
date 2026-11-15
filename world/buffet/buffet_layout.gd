@@ -743,6 +743,28 @@ func _scatter() -> void:
 	_grove("broccoli", Vector2(69.0, 40.0), 3, 2.6, keep_clear)
 	_grove("cauliflower", Vector2(12.0, 37.0), 3, 2.4, keep_clear)
 	_grove("cauliflower", Vector2(92.0, 13.0), 3, 2.4, keep_clear)
+	_entrance_forest()
+
+
+## Fable Nov 14 (Part 3.5): east of the entrance bridge the south rim is a food forest nobody walks through: two staggered rows of broccoli and
+## cauliflower trees, trunk to trunk, from beside the entrance road to the candy jar's corner (the builder adds herbs and leeks at their feet).
+## Placed by hand after the scatter, so no other tree moves.
+const ENTRANCE_FOREST: Rect2 = Rect2(53.6, 72.0, 17.7, 3.8)
+const ENTRANCE_FOREST_RADIUS: float = 0.95
+
+
+func _entrance_forest() -> void:
+	var index: int = 0
+	var x: float = 55.2
+	while x <= 70.3:
+		_prop("broccoli" if index % 3 != 1 else "cauliflower", x, 73.0 + 0.25 * sin(float(index) * 1.7), float(index * 67 % 360), 1.05 + 0.2 * float(index % 3), ENTRANCE_FOREST_RADIUS)
+		x += 1.8
+		index += 1
+	x = 54.6
+	while x <= 69.7:
+		_prop("cauliflower" if index % 3 == 0 else "broccoli", x, 74.7 + 0.2 * cos(float(index) * 1.3), float(index * 41 % 360), 1.15 + 0.2 * float(index % 2), ENTRANCE_FOREST_RADIUS)
+		x += 1.8
+		index += 1
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

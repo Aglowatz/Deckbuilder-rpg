@@ -179,8 +179,8 @@ func test_open_ground_round_every_anchor_and_chest() -> void:
 	for key: Variant in layout.anchors.keys():
 		var anchor: Vector3 = layout.anchors[key] as Vector3
 		for prop: BuffetLayout.Prop in layout.props:
-			if prop.kind not in ["broccoli", "cauliflower"]:
-				continue
+			if prop.kind not in ["broccoli", "cauliflower"] or BuffetLayout.ENTRANCE_FOREST.has_point(Vector2(prop.pos.x, prop.pos.z)):
+				continue  # Fable Nov 14: the entrance forest is a wall along the south rim, behind the oven and the plaza's corner, on nobody's way
 			if Vector2(prop.pos.x - anchor.x, prop.pos.z - anchor.z).length() < BuffetLayout.ANCHOR_CLEARANCE - 0.01:
 				crowded.append("%s near %s" % [prop.kind, str(key)])
 	for id: Variant in layout.chests.keys():
@@ -200,8 +200,8 @@ func test_nothing_is_scattered_but_broccoli_and_cauliflower_at_the_edges() -> vo
 	# outside the forest, every tree stands in a framing group at an edge: within 9 m of the table's rim, or within 3 m of two others
 	var outside: int = 0
 	for prop: BuffetLayout.Prop in layout.props:
-		if prop.kind not in ["broccoli", "cauliflower"] or Rect2(6.0, 50.0, 26.0, 24.0).has_point(Vector2(prop.pos.x, prop.pos.z)):
-			continue
+		if prop.kind not in ["broccoli", "cauliflower"] or Rect2(6.0, 50.0, 26.0, 24.0).has_point(Vector2(prop.pos.x, prop.pos.z)) or BuffetLayout.ENTRANCE_FOREST.has_point(Vector2(prop.pos.x, prop.pos.z)):
+			continue  # the two forests (the south-west one, and the entrance forest of Fable Nov 14) are forests on purpose
 		outside += 1
 		var near: int = 0
 		for other: BuffetLayout.Prop in layout.props:

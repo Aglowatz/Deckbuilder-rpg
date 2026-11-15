@@ -43,6 +43,7 @@ func build(parent: Node3D) -> void:
 	root.name = "Buffet"
 	parent.add_child(root)
 	_build_table_rim()
+	_build_south_bank()
 	LoadTiming.detail("buffet: _build_table_rim")
 	_build_terrain()
 	LoadTiming.detail("buffet: _build_terrain")
@@ -433,6 +434,82 @@ func _build_table_rim() -> void:
 		root.add_child(instance)
 
 
+## Fable Nov 14 (Part 3.5): the table no longer stands on a block rising out of the gravy at the way in. From the middle of the east and
+## west sides round the whole south edge the land runs down into the moat as a bank: mash at the top, wet and gravy-dark at the water line,
+## under the surface a few metres out. It hangs outside the rim's cake layers and hides them; the north half keeps its layer-cake side.
+const BANK_FROM_Z: float = 34.0
+const BANK_FULL_Z: float = 46.0
+const BANK_WATER: float = -2.6
+const BANK_RINGS: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(1.5, 0.42), Vector2(3.6, 0.92), Vector2(5.6, 1.12), Vector2(8.5, 1.5)]  # metres out, share of the drop to the water
+
+
+func _build_south_bank() -> void:
+	var outline: PackedVector2Array = _outline(-0.34)
+	var centre: Vector2 = (BuffetLayout.MIN_CORNER + BuffetLayout.MAX_CORNER) * 0.5
+	var rows: Array = []
+	for index: int in range(outline.size()):
+		var at: Vector2 = outline[index]
+		var before: Vector2 = outline[(index - 1 + outline.size()) % outline.size()]
+		var after: Vector2 = outline[(index + 1) % outline.size()]
+		var out: Vector2 = (after - before).normalized().orthogonal()
+		if out.dot(at - centre) < 0.0:
+			out = -out
+		var reach: float = smoothstep(BANK_FROM_Z, BANK_FULL_Z, at.y)
+		var inside: Vector2 = at - out * 0.8
+		var top: float = maxf(layout.ground_height(inside.x, inside.y), -0.5)
+		var row: Array = []
+		for ring: Vector2 in BANK_RINGS:
+			var wobble: float = 1.0 + 0.22 * (_noise(at.x * 0.31 + ring.x, at.y * 0.27) - 0.5)
+			var p: Vector2 = at + out * ring.x * reach * wobble
+			row.append(Vector3(p.x, lerpf(top, BANK_WATER, ring.y), p.y))
+		rows.append([row, reach, inside])
+	var surface: SurfaceTool = SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var mash: Color = _terrain_color(Vector3(50.0, 0.0, 73.0))
+	for index: int in range(rows.size()):
+		var here: Array = rows[index] as Array
+		var next: Array = rows[(index + 1) % rows.size()] as Array
+		if float(here[1]) <= 0.0 and float(next[1]) <= 0.0:
+			continue
+		var a: Array = here[0] as Array
+		var b: Array = next[0] as Array
+		for ring: int in range(BANK_RINGS.size() - 1):
+			var wet: float = clampf(BANK_RINGS[ring].y * 1.1, 0.0, 1.0)
+			var color: Color = mash.lerp(M.GRAVY.lightened(0.18), wet * 0.85).darkened(0.05 * float(ring % 2))
+			_tri(surface, a[ring] as Vector3, b[ring] as Vector3, a[ring + 1] as Vector3, color)
+			_tri(surface, b[ring] as Vector3, b[ring + 1] as Vector3, a[ring + 1] as Vector3, color)
+	surface.generate_normals()
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.mesh = surface.commit()
+	instance.material_override = M.terrain()
+	instance.name = "SouthBank"
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_never_culled(instance)
+	root.add_child(instance)
+
+
+## Herbs and leeks at the feet of the entrance forest (BUFF-PLANT-HERB, BUFF-PLANT-LEEK): a ragged hem along its plaza side and tufts between the
+## trunks, so the stand reads as a thicket and not a row of trees. Cards only: the trees are what blocks.
+func _build_forest_undergrowth() -> void:
+	var forest: Rect2 = BuffetLayout.ENTRANCE_FOREST
+	var plants: Dictionary = {"buff_herb": [], "buff_leek": []}
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 7411
+	var x: float = forest.position.x + 0.9
+	while x < forest.end.x - 0.3:
+		var hem: Vector3 = _ground(x + rng.randf_range(-0.3, 0.3), forest.position.y + rng.randf_range(-0.1, 0.5))
+		(plants["buff_leek" if rng.randf() < 0.4 else "buff_herb"] as Array).append({"pos": hem, "scale": rng.randf_range(0.75, 1.1)})
+		if rng.randf() < 0.7:
+			var tuft: Vector3 = _ground(x + rng.randf_range(0.2, 0.7), forest.position.y + rng.randf_range(1.6, 2.2))
+			(plants["buff_herb" if rng.randf() < 0.6 else "buff_leek"] as Array).append({"pos": tuft, "scale": rng.randf_range(0.7, 1.0)})
+		x += rng.randf_range(0.7, 1.1)
+	for kind: String in plants.keys():
+		var entries: Array[Dictionary] = []
+		entries.assign(plants[kind] as Array)
+		if not entries.is_empty() and TreeCards.KINDS.has(kind):
+			KitFoliage.tree_field(root, kind, entries, false)
+
+
 func _outline(inset: float) -> PackedVector2Array:
 	var points: PackedVector2Array = PackedVector2Array()
 	var low: Vector2 = BuffetLayout.MIN_CORNER + Vector2(inset, inset)
@@ -580,6 +657,7 @@ func _build_props() -> void:
 		var entries: Array[Dictionary] = []
 		entries.assign(trees[kind] as Array)
 		KitFoliage.tree_field(root, kind, entries, true)
+	_build_forest_undergrowth()
 	if not posts.is_empty():
 		var walls: Node3D = BuffetLandmarks.district_walls(posts)
 		root.add_child(walls)

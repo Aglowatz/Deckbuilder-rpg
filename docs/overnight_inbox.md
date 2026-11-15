@@ -34,6 +34,42 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
    the Items page is the ordinary item shop (icon, name, effect, price, owned). Dorrit's last stall before the castle still sells
    the same twelve items from her own stall.
 
+7. **The signs.** Removed: the dark board between the Crease's shafts (`sign.crease_network`; it showed its back to the camera) and
+   the small sign beside the service manhole on the Gate Plaza (`sign.net_plaza`). I took "the manhole in the Capital plaza" to be
+   that one: the Crease's own manhole (the quest's "knock three times") never had a sign. Say if you meant another. The Crease's shaft
+   signs: the Reek shows the Refusemancer leaf, Grave Row the Necrocrat skull, the Hungry Quarter the Gourmand chef's hat, the Transit
+   Yards the Beefcake arm. **The Gate Plaza and the palace approach belong to no Path and keep the purple travel swirl**; say what
+   they should show.
+8. **Crosspath has no painted rock card.** "The same painted rock props used in the rest of Crosspath" are the ridge's boulders (the
+   painted rock texture on blocks), so the shore's stones are now rounded river stones in that texture. A painted stone card would
+   look better; it is a Batch 16 row. The two-tone grass was the town's own painted ground stopping 2 to 3 m short of the water, with
+   the brighter country grass showing in the gap; the town's grass now runs to the water line. The far (east) shore keeps the
+   country grass.
+9. **Enemies at entrances.** The four Path zones' own roamers already kept 20 m. The junk gulls at the Dump's entrance were the extra
+   "exit roamer" the game adds within sight of every exit (Fix pass Nov 7, so a newcomer sees a fight at once): it lived 14 to 17 m
+   from the exit and now lives 23.5 to 29 m out and as far from the arrival point. Three Capital Tidy-Bots moved (one from 13 m off
+   the arrival point, two from 16 m off the gate). The test now checks 20 m from the arrival point and every entrance and exit in
+   all five zones (`tests/world/test_roamer_doors_nov11.gd`).
+10. **The Dump.** I had no screenshots, so I found the two things by probe: the "floating door" is the **hay bale beside the top-right
+    barn** (seen side-on it is four pale planks hovering above the grass) and the "wooden block you can walk through" is the **hollow
+    log by the east water** (a 6 m slab of flat bark with no collision). Both are removed and the spots dressed. Say if you meant
+    other things: `tools/heap_odd_probe.gd` lists every floating mesh and walk-through slab. The hay bale that hides a chest on the
+    farm terrace is the same model and still there.
+11. **The treasure field** (top-right, across the scree, mount only; a stand of trees closes the strip along the north rim that let
+    you walk in). Four chests on mossy plinths, half as big again, with a glow, titled "Treasure chest":
+    150 gold + Summoning Charm; 120 gold + a Gilded Refusemancer Pack; 180 gold + Sucker Punch Mitts (Binding Chains if you own
+    them); 210 gold + Ward Sigil. The two older chests there are unchanged. **Gold study:** the expected (no-grind) walk opens half
+    the chests and goes from about 22,680 to 23,007 gold (+330, +1.5 %); a thorough player gains 660. The model's figure was already
+    above the 21.2k of Nov 8 before this pass (quest and clear rewards were raised since). `docs/design/sim/economy_model_nov14.md`.
+    "The Oldest Trick in the Book" counts Shiro's five giant chests only, so these are not in it.
+12. **The Buffet's entrance.** A bank now runs from the table's edge down under the gravy round the south half of the table (the north
+    half keeps its layer-cake side, which nothing looks at from the south). The food forest is on the **east** side of the bridge
+    (the west side holds Tarragon, the meatloaf golem, the rift station and the giant chest): 18 broccoli and cauliflower trees in
+    two rows with herbs and leeks at their feet, solid on the walk grid.
+13. **Outside the D.N.A.** 16 rows either side of the causeway and beside the lobby: cabinets (every third tipped over), a queue of
+    rope posts, crate stacks, filing towers, dead trees, rubble. The crates are the town kit's crate tinted grey-green and the rubble
+    and one dead tree are the Capital's. Medium at the arrival point: 79 fps (81 before). Low-end keeps every other piece.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.

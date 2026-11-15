@@ -1332,6 +1332,37 @@ func _build_chests() -> void:
 		chest.rotation_degrees.y = _rng.randf() * 360.0
 		chest.scale = Vector3.ONE * ChestKit.SCALE
 		chest_nodes[id] = chest
+		if HeapLayout.TREASURE_CHESTS.has(id):
+			_dress_treasure_chest(chest, pos)
+
+
+## Fable Nov 14 (Part 3.4): a treasure chest stands out from a hidden one: half as big again, raised on a mossy stone plinth, turned to face
+## the camera, with a warm lantern glow over it (no shadow; the ground decal keeps the pool on Low).
+const TREASURE_SCALE: float = 1.5
+const TREASURE_PLINTH: float = 0.22
+
+
+func _dress_treasure_chest(chest: Node3D, pos: Vector3) -> void:
+	chest.scale = Vector3.ONE * ChestKit.SCALE * TREASURE_SCALE
+	chest.rotation_degrees.y = 0.0
+	chest.position = pos + Vector3(0.0, TREASURE_PLINTH, 0.0)
+	chest.set_meta(&"treasure", true)
+	var plinth: Node3D = Node3D.new()
+	plinth.name = "TreasurePlinth"
+	plinth.position = pos
+	root.add_child(plinth)
+	B.box(plinth, Vector3(1.3, TREASURE_PLINTH, 1.0), H.flat(H.STONE), Vector3(0, TREASURE_PLINTH * 0.5, 0))
+	B.box(plinth, Vector3(1.5, 0.08, 1.2), H.flat(H.STONE.darkened(0.25)), Vector3(0, 0.04, 0))
+	B.box(plinth, Vector3(0.5, 0.03, 0.4), H.flat(H.MOSS), Vector3(-0.35, TREASURE_PLINTH + 0.01, 0.28))
+	B.box(plinth, Vector3(0.36, 0.03, 0.3), H.flat(H.MOSS), Vector3(0.42, TREASURE_PLINTH + 0.01, -0.3))
+	var glow: OmniLight3D = OmniLight3D.new()
+	glow.name = "TreasureGlow"
+	glow.light_color = Color("ffb45a")
+	glow.light_energy = 0.9
+	glow.omni_range = 3.2
+	glow.shadow_enabled = false
+	glow.position = Vector3(0.0, 1.3, 0.3)
+	plinth.add_child(glow)
 
 
 # ---- Animation --------------------------------------------------------------------------------------------

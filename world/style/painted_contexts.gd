@@ -52,6 +52,8 @@ static func town(scene: TownScene) -> Dictionary:
 		for shop: TownLayout.Shop in TownLayout.shops():
 			if shop.covers(p, 0.8):
 				return true
+		if town.hub_land and TownBounds.shore_grass(p):
+			return true
 		if not town.hub_land or town.map_char_at(p) == ".":
 			return false
 		for offset: Vector3 in [Vector3(1.0, 0, 0), Vector3(-1.0, 0, 0), Vector3(0, 0, 1.0), Vector3(0, 0, -1.0)]:

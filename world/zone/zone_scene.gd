@@ -757,7 +757,7 @@ func _build_enemies() -> void:
 ## Fix pass Nov 7 (item 7, C2b F6): a roaming foe within sight of the hub's exit, so a player arriving in a zone sees a fight to take on
 ## foot at once. Only when no roamer already lives within EXIT_ROAMER_SIGHT of the exit; the zone's most common roamer type, a few metres in
 ## from the exit on walkable ground. The Capital (no roamers of its own here) is left alone.
-const EXIT_ROAMER_SIGHT: float = 22.0
+const EXIT_ROAMER_SIGHT: float = 32.0  # Fable Nov 14: 22 -> 32 with the 20 m entrance rule (the roamer lives 23.5-29 m out)
 const EXIT_ROAMER_ID: String = "exit_roamer"
 
 
@@ -786,7 +786,7 @@ func _ensure_exit_roamer(run: ZoneRun) -> void:
 		return
 	var enemy: ZoneEnemy = ZoneEnemy.new()
 	add_child(enemy)
-	enemy.setup(ZoneEnemies.info(def.id, most_common_type(spawns)), EXIT_ROAMER_ID, home, 3.0, builder, player, _grade_enemy)
+	enemy.setup(ZoneEnemies.info(def.id, most_common_type(spawns)), EXIT_ROAMER_ID, home, EXIT_ROAMER_PATROL, builder, player, _grade_enemy)
 	enemy.peaceful = ZoneEnemies.is_peaceful(def.id, most_common_type(spawns), ZoneEnemies.is_freed(def.id, Session.flags))
 	enemy.touched.connect(_on_enemy_touched)
 	enemies.append(enemy)
@@ -807,18 +807,25 @@ static func most_common_type(spawns: Array) -> String:
 ## Overnight Nov 10-11 (Part 1.2, the exported-build critic's #2): no roamer camps a door. A roamer's wander area (home +/- patrol) stays at
 ## least this far from every dungeon door, gate and zone exit; `tests/world/test_roamer_doors_nov11.gd` checks every zone's spawn table.
 const ROAMER_DOOR_CLEARANCE: float = 10.0
+## Fable Nov 14 (Part 3.3, the owner's playtest: the junk gull flock at the Verdant Dump's entrance): no roamer's wander area comes within
+## this of the arrival point or of a zone entrance or exit, in any zone. The same test checks it.
+const ROAMER_ENTRANCE_CLEARANCE: float = 20.0
+const EXIT_ROAMER_PATROL: float = 3.0
 
 
-## Where the exit roamer lives: 14-17 m from the exit toward the arrival point (the hub side), then round it, on walkable ground. INF when
-## nowhere fits. Pure.
+## Where the exit roamer lives: 23.5-29 m from the exit toward the arrival point (the hub side), then round it, on walkable ground and as
+## far from the arrival point too, so its 3 m patrol keeps ROAMER_ENTRANCE_CLEARANCE from both. INF when nowhere fits. Pure.
 static func exit_roamer_home(exit_pos: Vector3, toward: Vector3, walkable: Callable) -> Vector3:
 	var inward: Vector3 = Vector3(toward.x - exit_pos.x, 0.0, toward.z - exit_pos.z)
 	inward = inward.normalized() if inward.length() > 0.5 else Vector3.FORWARD
 	# Overnight Nov 10-11 (Part 1.2): 14-17 m out, so with its 3 m patrol it never comes within ROAMER_DOOR_CLEARANCE of the exit spot (which
 	# sits up to 0.8 m off the anchor; it was 9-15 m).
-	for distance: float in [14.0, 15.0, 16.0, 17.0]:
+	var keep: float = ROAMER_ENTRANCE_CLEARANCE + EXIT_ROAMER_PATROL + 0.5
+	for distance: float in [keep, keep + 1.5, keep + 3.5, keep + 5.5]:
 		for degrees: float in [0.0, 25.0, -25.0, 50.0, -50.0, 80.0, -80.0]:
 			var at: Vector3 = exit_pos + inward.rotated(Vector3.UP, deg_to_rad(degrees)) * distance
+			if Vector2(at.x - toward.x, at.z - toward.z).length() < keep - 0.5:
+				continue
 			if bool(walkable.call(at)):
 				return Vector3(at.x, 0.0, at.z)
 	return Vector3.INF
@@ -1778,7 +1785,7 @@ func _open_chest(id: String) -> void:
 	Session.discover_secret(_chest_secret(id))
 	var reward: Dictionary = def.chest_rewards.get(id, {}) as Dictionary
 	reward = ChestLoot.with_roll(reward, def.id, Session.owned_equipment_ids(), Session.rng)  # Oct 16: chests can roll gear or a pack by tier
-	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
+	var summary: RewardSummary = Session.grant_chest_reward(reward, str(reward.get("title", "Hidden chest")))
 	Session.bump_counter(def.counter_chests)
 	hud.set_gold(Session.gold)
 	Session.save_game()

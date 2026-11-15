@@ -45,7 +45,7 @@ static func apply(scene: Node3D, area: WalkableArea, id: StringName, context: Di
 func _build(area: WalkableArea, given: Dictionary) -> bool:
 	# Performance pass Oct 25: the splat image and the ground overlay mesh come from BuildCache, keyed by the preset and the zone's story state.
 	var context: Dictionary = given.duplicate()
-	context["cache_key"] = "%s_%s" % [preset_id, _state_tag(area)]
+	context["cache_key"] = "%s_%s_n14c" % [preset_id, _state_tag(area)]  # n14: the town's grass reaches the lake (the cover's coarse sample cannot see a 2 m change)
 	material = PaintedTerrain.material(preset, context)
 	LoadTiming.mark("painted: base material")
 	if material == null:

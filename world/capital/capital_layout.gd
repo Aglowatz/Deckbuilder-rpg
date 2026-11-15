@@ -742,7 +742,7 @@ func _plaza() -> void:
 	_sign("sign.facade_welcome", 66.0, 49.0, 0.0, 1.2, "banner")
 	_sign("sign.plaza_exit_interview", 73.5, 60.5, 270.0, 0.8, "sign")
 	_sign("sign.plaza_complaints", 46.0, 63.0, 90.0, 0.8, "sign")
-	_sign("sign.net_plaza", 74.0, 52.0, 270.0, 0.7, "sign")
+	# Fable Nov 14 (Part 3.1): the small sign beside the plaza's manhole (sign.net_plaza) is removed.
 
 
 # ---- The palace approach (the Showcase: identical houses either side of the grand avenue) ------------------------------------------
@@ -994,7 +994,7 @@ func _crease() -> void:
 	_prop("cot", 13.0, 102.0 + fz, 0.0, 1.0, 0.0)
 	_sign("sign.crease_main", 22.0, 100.5 + fz, 0.0, 1.2, "banner")
 	_sign("sign.crease_wrinkle", 31.0, 102.5 + fz, 0.0, 0.8, "wall")
-	_sign("sign.crease_network", 22.0, 119.2 + fz, 0.0, 1.0, "wall")
+	# Fable Nov 14 (Part 3.1): the board that stood here between two shafts (sign.crease_network) showed its dark back to the camera; removed.
 	_sign("sign.crease_rules", 12.0, 100.8 + fz, 0.0, 0.8, "wall")
 
 
@@ -1083,13 +1083,13 @@ func _enemies() -> void:
 	# Outside.
 	_spawn("officer", 28.0, 96.0, 4.0)
 	_spawn("inspector", 86.0, 89.0, 4.0)  # Overnight Nov 10-11 (Part 1.2): 10 m clear of the old tunnels' mouth (was 88, 88)
-	_spawn("tidybot", 60.0, 95.0, 6.0)
+	_spawn("tidybot", 40.0, 92.0, 5.0)  # Fable Nov 14 (Part 3.3): was (60, 95) r 6, 13 m from the arrival point; 20 m clear of it, the exit and the gate now
 	_spawn("wretch", 20.0, 93.5, 3.0, "guard_out_a")
 	_spawn("swarm", 32.5, 87.0, 4.0)
 	_spawn("officer", 101.0, 117.0, 4.0)
 	# The Gate Plaza: only the roving Tidy-Bots, on the boulevards.
-	_spawn("tidybot", 44.0, 58.0, 3.5)
-	_spawn("tidybot", 76.0, 58.0, 3.5)
+	_spawn("tidybot", 40.0, 55.0, 3.0)  # Fable Nov 14 (Part 3.3): the pair by the gate stood 16 m from the way in; 20 m now
+	_spawn("tidybot", 80.0, 55.0, 3.0)
 	# The Reek.
 	_spawn("officer", 19.0, 46.0, 4.0)
 	_spawn("wretch", 5.0, 46.5, 2.5, "guard_reek")

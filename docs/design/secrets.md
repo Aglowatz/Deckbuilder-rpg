@@ -327,6 +327,18 @@ with the first save the cave creates.
 | `chest_scree_ne` | The Scree Fields (mount only), (82.2, 4.8) | North-east corner of the scree | II | 50 gold + **Big Brain Beret** (advanced helm) |
 | `chest_corner_nw` | The Verdant Dump, (8.4, 7.2) | The far north-west corner | I | 90 gold + **Hearty Pie** |
 | `chest_back_edge` | The Verdant Dump, (34.8, 4.8) | A nook against the back edge | I | **Refusemancer Pack** |
+
+### The Verdant Dump: the treasure field (Fable Nov 14, 18 in all)
+
+Four treasure chests in the top-right pocket north of the scree (mount only; a stand of trees closes the north rim strip). Drawn half as
+big again on a mossy plinth with a glow; the reward popup says "Treasure chest". Gold is before `Economy.CHEST_GOLD_SCALE` (0.6).
+
+| Chest | Where | Reward |
+|---|---|---|
+| `chest_field_a` | (71.3, 6.2) | 250 gold + **Summoning Charm** |
+| `chest_field_b` | (74.2, 5.6) | 200 gold + **Gilded Refusemancer Pack** |
+| `chest_field_c` | (75.4, 8.5) | 300 gold + **Sucker Punch Mitts** (Binding Chains if owned) |
+| `chest_field_d` | (80.9, 9.2) | 350 gold + **Ward Sigil** |
 | `chest_thicket_s` | The Patchwork Fields, (4.8, 28.2) | A thicket on the west rim | I | 40 gold + **Healing Salve** |
 
 ### The Capital: 6 more (15 in all)

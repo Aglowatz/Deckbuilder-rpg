@@ -242,6 +242,8 @@ func _shore(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 ## Fable Nov 14 (Part 3.2): the lake is drawn from a rounded copy of `TownBounds.LAKE` (corner cutting, three passes), so the water line is a
 ## curve and not a polygon; the two corners at the gorge's lip stay sharp so the water still meets the waterfall.
 const LAKE_SHARP: Array[int] = [7, 8]
+## The water lies just above the town's painted grass (GroundDecals.LIFT), which now runs a little under the water line.
+const WATER_Y: float = 0.03
 const LAKE_SMOOTH_PASSES: int = 3
 
 
@@ -277,8 +279,8 @@ func _river_stones(at: Vector3, radius: float) -> void:
 	for index: int in range(count):
 		var r: float = radius * (1.0 if index == 0 else _stone_rng.randf_range(0.35, 0.6))
 		var offset: Vector3 = Vector3.ZERO if index == 0 else Vector3(_stone_rng.randf_range(-1.0, 1.0), 0.0, _stone_rng.randf_range(-1.0, 1.0)).normalized() * radius * _stone_rng.randf_range(1.1, 1.6)
-		var radii: Vector3 = Vector3(r * _stone_rng.randf_range(0.95, 1.3), r * _stone_rng.randf_range(0.42, 0.6), r * _stone_rng.randf_range(0.8, 1.1))
-		_stone(at + offset + Vector3(0.0, _ground_y + radii.y * 0.25, 0.0), radii, _stone_rng.randf() * TAU)
+		var radii: Vector3 = Vector3(r * _stone_rng.randf_range(0.95, 1.3), r * _stone_rng.randf_range(0.6, 0.82), r * _stone_rng.randf_range(0.8, 1.1))
+		_stone(at + offset + Vector3(0.0, radii.y * 0.42, 0.0), radii, _stone_rng.randf() * TAU)
 
 
 ## One rounded stone: a squashed sphere with a slightly lumpy outline and smooth shading, lighter on top than at the waterline.
@@ -322,7 +324,7 @@ func _flush_stones() -> void:
 	instance.name = "ShoreStones"
 	instance.mesh = _stones.commit()
 	var material: StandardMaterial3D = _rock_material()
-	material.albedo_color = Color(0.93, 0.88, 0.8)
+	material.albedo_color = Color(0.74, 0.69, 0.62)
 	instance.material_override = material
 	instance.set_meta(&"no_occlusion_fade", true)
 	instance.set_meta(&"no_range_cull", true)
@@ -342,7 +344,7 @@ func _lake(water: Material) -> void:
 	for index: int in indices:
 		var p: Vector2 = shape[index]
 		surface.set_uv(p / 8.0)
-		surface.add_vertex(Vector3(p.x, _ground_y + 0.012, p.y))
+		surface.add_vertex(Vector3(p.x, WATER_Y, p.y))
 	var lake: MeshInstance3D = MeshInstance3D.new()
 	lake.name = "TownLake"
 	lake.set_meta(&"look_role", &"water")
@@ -357,8 +359,8 @@ func _lake(water: Material) -> void:
 	# fading into the deep water. No hard edge anywhere.
 	# Fable Nov 14 (Part 3.2): a narrow bank of wet earth with a ragged outer edge, like the Verdant Dump's shores (it was a 3 m band of pale
 	# sand that faded across the grass and read as a second, lighter grass), and a thinner, fainter shallows.
-	root.add_child(_ring(shape, -0.5, 1.0, _bank_material(), _ground_y + 0.016, "LakeBank", 0.45))
-	root.add_child(_ring(shape, -1.5, 0.0, _shallows_material(), _ground_y + 0.02, "LakeShallows"))
+	root.add_child(_ring(shape, -0.5, 1.0, _bank_material(), WATER_Y + 0.004, "LakeBank", 0.45))
+	root.add_child(_ring(shape, -1.5, 0.0, _shallows_material(), WATER_Y + 0.008, "LakeShallows"))
 	_waterfall(water)
 
 

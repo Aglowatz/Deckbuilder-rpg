@@ -4376,6 +4376,10 @@ func grant_chest_reward(reward: Dictionary, title: String = "Hidden chest") -> R
 		var piece: EquipmentData = content.equipment_piece(equipment_id)
 		if piece != null and grant_equipment(piece):
 			summary.equipment.append(piece)
+		elif content.item(str(reward.get("or_item", ""))) != null:
+			# Fable Nov 14: a treasure chest whose piece the hero already owns holds its stand-in item instead (never an empty-handed chest)
+			add_item(content.item(str(reward["or_item"])))
+			summary.items.append(content.item(str(reward["or_item"])))
 	var cosmetic_id: String = str(reward.get("cosmetic", ""))
 	if not cosmetic_id.is_empty() and grant_cosmetic(cosmetic_id):
 		summary.cosmetics.append(CosmeticCatalog.find(cosmetic_id).display_name)

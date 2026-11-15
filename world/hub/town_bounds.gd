@@ -105,6 +105,32 @@ static func contains(pos: Vector3) -> bool:
 	return Geometry2D.is_point_in_polygon(Vector2(pos.x, pos.z), points())
 
 
+## Metres from `pos` to the lake's outline (on either side of it).
+static func lake_edge_distance(pos: Vector3) -> float:
+	var flat: Vector2 = Vector2(pos.x, pos.z)
+	var best: float = 1.0e9
+	for index: int in range(LAKE.size()):
+		best = minf(best, flat.distance_to(Geometry2D.get_closest_point_to_segment(flat, LAKE[index], LAKE[(index + 1) % LAKE.size()])))
+	return best
+
+
+## Fable Nov 14 (Part 3.2): the town's painted grass runs on to the water line (and a little under it) along the lake, north of the gorge's
+## lip. It used to stop at the walkable edge, 2 to 3 m short, and the brighter country grass showed as a second band of colour beside the water.
+const SHORE_GRASS_REACH: float = 2.0
+const SHORE_GRASS_SOUTH: float = 67.0
+## On the land side the grass fills every gap up to this far from the water (the peninsula, the strip by the lake's south tail).
+const SHORE_LAND_REACH: float = 8.0
+const SHORE_LAND_SOUTH: float = 70.4
+## The town side only: the far (east) shore keeps the country grass, which runs on to the horizon there.
+const SHORE_LAND_EAST: float = 69.5
+
+
+static func shore_grass(pos: Vector3) -> bool:
+	if Geometry2D.is_point_in_polygon(Vector2(pos.x, pos.z), LAKE):
+		return pos.z < SHORE_GRASS_SOUTH and lake_edge_distance(pos) < SHORE_GRASS_REACH
+	return pos.z < SHORE_LAND_SOUTH and pos.x < SHORE_LAND_EAST and lake_edge_distance(pos) < SHORE_LAND_REACH
+
+
 ## True on the lake's water (the dock deck excluded).
 static func in_lake(pos: Vector3) -> bool:
 	return Geometry2D.is_point_in_polygon(Vector2(pos.x, pos.z), LAKE) and not on_dock(pos)

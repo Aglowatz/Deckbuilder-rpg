@@ -41,7 +41,7 @@ func test_the_exit_roamer_lives_on_walkable_ground_toward_the_hub() -> void:
 	var home: Vector3 = ZoneScene.exit_roamer_home(Vector3.ZERO, Vector3(0, 0, 30), walkable)
 	assert_ne(home, Vector3.INF)
 	assert_gt(home.z, 2.0)
-	assert_between(Vector2(home.x, home.z).length(), 8.5, 15.5)
+	assert_between(Vector2(home.x, home.z).length(), 23.0, 30.0)  # Fable Nov 14: 20 m clear of the exit with its 3 m patrol
 	assert_eq(ZoneScene.most_common_type([{"type": "a"}, {"type": "b"}, {"type": "b"}]), "b")
 
 

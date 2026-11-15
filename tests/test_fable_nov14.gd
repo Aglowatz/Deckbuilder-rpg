@@ -145,3 +145,158 @@ func test_no_item_tile_hides_behind_a_door() -> void:
 			shown += 1
 	assert_eq(shown, 1, "the item's name is on its tile without hovering")
 	assert_eq(screen.find_children("Compartment", "", true, false).size(), 0)
+
+
+# ---- Part 3: the world --------------------------------------------------------------------------------------------------------------
+
+
+func test_the_two_capital_signs_are_gone_and_the_shafts_show_their_path() -> void:
+	var layout: CapitalLayout = CapitalLayout.new()
+	layout.build()
+	for sign: CapitalLayout.Sign in layout.signs:
+		assert_ne(sign.key, "sign.crease_network", "the dark board between the Crease's shafts")
+		assert_ne(sign.key, "sign.net_plaza", "the small sign beside the plaza's manhole")
+	var want: Dictionary = {"reek": "ICON-ENERGY-R", "grave": "ICON-ENERGY-N", "hungry": "ICON-ENERGY-G", "transit": "ICON-ENERGY-B"}
+	for index: int in range(CapitalLayout.NETWORK_DESTINATIONS.size()):
+		var destination: String = CapitalLayout.NETWORK_DESTINATIONS[index]
+		assert_eq(CapitalProps.shaft_icon(index), str(want.get(destination, "ICON-MAP-TRAVEL")), "the shaft to %s" % destination)
+
+
+func test_the_lake_is_drawn_as_a_curve_that_still_meets_the_waterfall() -> void:
+	var shape: PackedVector2Array = BoundaryKit.lake_shape()
+	assert_gt(shape.size(), TownBounds.LAKE.size() * 4, "many more points than the outline")
+	for index: int in BoundaryKit.LAKE_SHARP:
+		assert_true(shape.has(TownBounds.LAKE[index]), "the gorge-lip corner %d is kept" % index)
+	var sharpest: float = 0.0
+	for index: int in range(shape.size()):
+		var a: Vector2 = shape[(index - 1 + shape.size()) % shape.size()]
+		var b: Vector2 = shape[index]
+		var c: Vector2 = shape[(index + 1) % shape.size()]
+		if BoundaryKit.LAKE_SHARP.any(func(i: int) -> bool: return TownBounds.LAKE[i] == b):
+			continue
+		sharpest = maxf(sharpest, absf((b - a).angle_to(c - b)))
+	assert_lt(rad_to_deg(sharpest), 25.0, "no corner sharper than 25 degrees anywhere else")
+	assert_true(TownBounds.shore_grass(Vector3(56.2, 0, 47.0)), "the town's grass runs to the west shore")
+	assert_false(TownBounds.shore_grass(Vector3(63.0, 0, 55.0)), "not out over the open lake")
+	assert_false(TownBounds.shore_grass(Vector3(80.0, 0, 40.0)), "nor on the far shore")
+
+
+func _heap_flood(mounted: bool) -> Dictionary:
+	var builder: HeapBuilder = HeapBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	builder.mounted = mounted
+	var start: Vector3 = builder.anchor("spawn")
+	var first: Vector2i = Vector2i(roundi(start.x * 2.0), roundi(start.z * 2.0))
+	var seen: Dictionary = {first: true}
+	var queue: Array[Vector2i] = [first]
+	while not queue.is_empty():
+		var cell: Vector2i = queue.pop_back()
+		for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var next: Vector2i = cell + step
+			if not seen.has(next) and builder.is_walkable_through_barricades(Vector3(float(next.x) * 0.5, 0.0, float(next.y) * 0.5)):
+				seen[next] = true
+				queue.append(next)
+	return {"seen": seen, "chests": builder.layout.chests, "props": builder.layout.props}
+
+
+func _near(seen: Dictionary, at: Vector3) -> bool:
+	for dz: int in range(-4, 5):
+		for dx: int in range(-4, 5):
+			if seen.has(Vector2i(roundi(at.x * 2.0) + dx, roundi(at.z * 2.0) + dz)):
+				return true
+	return false
+
+
+func test_the_dumps_top_right_is_a_treasure_field_reached_on_the_mount_only() -> void:
+	var foot: Dictionary = _heap_flood(false)
+	var ride: Dictionary = _heap_flood(true)
+	var field: Array[String] = ["chest_scree_ne", "chest_barn"]
+	field.append_array(HeapLayout.TREASURE_CHESTS)
+	assert_eq(HeapLayout.TREASURE_CHESTS.size(), 4, "four more chests")
+	for id: String in field:
+		var at: Vector3 = (foot["chests"] as Dictionary)[id] as Vector3
+		assert_false(_near(foot["seen"] as Dictionary, at), "%s cannot be reached on foot, even with the barricade smashed" % id)
+		assert_true(_near(ride["seen"] as Dictionary, at), "%s is reached on the mount" % id)
+	# nobody walks into the pocket at all: no cell north of the scree and east of the tree wall
+	for cell: Variant in (foot["seen"] as Dictionary).keys():
+		var p: Vector2 = Vector2(cell as Vector2i) * 0.5
+		assert_false(p.x > 70.0 and p.y < 11.0, "a walker stands at (%.1f, %.1f) in the treasure field" % [p.x, p.y])
+		if p.x > 70.0 and p.y < 11.0:
+			break
+	for id: String in HeapLayout.TREASURE_CHESTS:
+		var reward: Dictionary = HeapZone.CHEST_REWARDS[id] as Dictionary
+		assert_gte(Economy.chest_gold(int(reward["gold"])), 120, "%s pays well" % id)
+		assert_eq(str(reward["title"]), "Treasure chest")
+		assert_true(reward.has("item") or reward.has("pack") or reward.has("equipment"), "%s holds more than gold" % id)
+		if reward.has("item"):
+			assert_not_null(Session.content.item(str(reward["item"])), id)
+		if reward.has("or_item"):
+			assert_not_null(Session.content.item(str(reward["or_item"])), id)
+		if reward.has("equipment"):
+			assert_not_null(Session.content.equipment_piece(str(reward["equipment"])), id)
+		if reward.has("pack"):
+			assert_not_null(PackCatalog.find(str(reward["pack"])), id)
+
+
+func test_the_dumps_walk_through_block_and_floating_bale_are_gone() -> void:
+	var layout: HeapLayout = HeapLayout.new()
+	layout.build()
+	for prop: HeapLayout.Prop in layout.props:
+		assert_ne(prop.kind, "hollow_log", "the walk-through log block")
+		assert_false(prop.kind == "haybale" and prop.pos.x > 70.0 and prop.pos.z < 20.0, "the hay bale that read as a floating door beside the barn")
+
+
+func test_a_treasure_chest_never_comes_up_empty() -> void:
+	var piece: EquipmentData = Session.content.equipment_piece("sucker_punch_mitts")
+	Session.grant_equipment(piece)
+	var summary: RewardSummary = Session.grant_chest_reward(HeapZone.CHEST_REWARDS["chest_field_c"] as Dictionary, "Treasure chest")
+	assert_eq(summary.equipment.size(), 0, "the piece is already owned")
+	assert_eq(summary.items.size(), 1, "so the chest holds its stand-in item")
+	assert_gt(summary.gold, 0)
+
+
+func test_the_buffets_entrance_has_a_bank_and_a_forest_nobody_walks_through() -> void:
+	var builder: BuffetBuilder = BuffetBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	var forest: Rect2 = BuffetLayout.ENTRANCE_FOREST
+	var trees: int = 0
+	for prop: BuffetLayout.Prop in builder.layout.props:
+		if prop.kind in ["broccoli", "cauliflower"] and forest.has_point(Vector2(prop.pos.x, prop.pos.z)):
+			trees += 1
+	assert_gte(trees, 18, "a dense stand of broccoli and cauliflower")
+	# nobody crosses it: no walkable cell on its middle line, and none behind it
+	var x: float = forest.position.x + 1.6
+	while x < forest.end.x - 1.0:
+		assert_false(builder.is_walkable(Vector3(x, 0.0, 73.9)), "the forest is solid at x %.1f" % x)
+		x += 0.5
+	assert_true(builder.is_walkable(Vector3(BuffetLayout.BRIDGE_X, 0.0, 73.0)), "the way in stays open")
+	assert_true(builder.is_walkable(builder.anchor("plaza")), "and so does the plaza")
+	assert_true(BuffetBuilder.BANK_RINGS[BuffetBuilder.BANK_RINGS.size() - 1].y > 1.0, "the bank ends under the gravy")
+	assert_true(FileAccess.get_file_as_string("res://world/buffet/buffet_builder.gd").contains("_build_south_bank()"))
+
+
+func test_the_dna_apron_is_an_organised_wasteland_off_the_map() -> void:
+	var kinds: Dictionary = {}
+	for row: Array in DnaDressing.WASTELAND_ROWS:
+		kinds[str(row[0])] = true
+		assert_gt(float(row[3]), float(row[2]), "a row runs west to east")
+	for kind: String in ["cabinets", "queue", "crates", "towers", "trees", "rubble"]:
+		assert_true(kinds.has(kind), "a row of %s" % kind)
+	for kind: Variant in DnaDressing.WASTELAND_PIECES.keys():
+		assert_true(EnvKit.has_art(str((DnaDressing.WASTELAND_PIECES[kind] as Array)[0])), "%s has its art" % kind)
+	var builder: DnaBuilder = DnaBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	var holder: Node3D = Node3D.new()
+	add_child_autofree(holder)
+	var dressing: DnaDressing = DnaDressing.build(holder, builder, 1)
+	var total: int = 0
+	for kind: Variant in dressing.wasteland_placed.keys():
+		total += int(dressing.wasteland_placed[kind])
+	assert_gt(total, 120, "the apron is dressed (%d pieces)" % total)
+	for piece: Node in holder.find_child("Wasteland", true, false).get_children():
+		if piece is Node3D and not piece is MultiMeshInstance3D:
+			assert_false(builder.is_floor_at((piece as Node3D).position), "%s stands off the walkable map" % piece.name)
+	assert_true(FileAccess.get_file_as_string("res://world/dna/dna_scene.gd").contains("DnaPaperDrift.build"), "the floating paper stays")

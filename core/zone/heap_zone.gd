@@ -72,6 +72,12 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_corner_nw": {"gold": 90, "item": "hearty_pie"},
 	"chest_back_edge": {"gold": 0, "pack": "path_refusemancer"},
 	"chest_thicket_s": {"gold": 40, "item": "healing_salve"},
+	# Fable Nov 14 (Part 3.4): the treasure field across the scree (mount only). Worth the trip: about four ordinary chests' gold each, plus
+	# a high-shelf item, a Gilded Pack or a piece of gear ("or_item": what the chest holds instead when the hero already owns the piece).
+	"chest_field_a": {"gold": 250, "item": "summoning_charm", "title": "Treasure chest"},
+	"chest_field_b": {"gold": 200, "pack": "gilded_refusemancer", "title": "Treasure chest"},
+	"chest_field_c": {"gold": 300, "equipment": "sucker_punch_mitts", "or_item": "binding_chains", "title": "Treasure chest"},
+	"chest_field_d": {"gold": 350, "item": "ward_sigil", "title": "Treasure chest"},
 }
 
 

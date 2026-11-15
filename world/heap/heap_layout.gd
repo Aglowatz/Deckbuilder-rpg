@@ -208,6 +208,13 @@ var signs: Array[Sign] = []
 var areas: Array[Area] = []
 ## Compost pits: [Vector3(x, z, radius)].
 var pits: Array[Vector3] = []
+## Fable Nov 14 (Part 3.4): the tree wall that closes the plateau's north rim strip (kind, x, z, yaw, scale, solid radius), west of the treasure field.
+const TREASURE_WALL: Array = [
+	["mushroom_tree", 67.5, 4.9, 20.0, 1.15, 0.85], ["tree", 68.7, 5.8, 140.0, 1.2, 0.85], ["mushroom_tree", 67.6, 6.7, 250.0, 1.05, 0.85],
+	["tree", 68.8, 7.5, 60.0, 1.1, 0.85], ["bush", 66.9, 5.8, 0.0, 1.1, 0.6], ["bush", 69.2, 4.9, 0.0, 1.0, 0.6], ["rock", 66.4, 10.5, 30.0, 1.4, 0.8],
+]
+## The treasure field's chests (the four of Fable Nov 14): drawn larger, on a mossy plinth, with a warm glow (`HeapBuilder._build_chests`).
+const TREASURE_CHESTS: Array[String] = ["chest_field_a", "chest_field_b", "chest_field_c", "chest_field_d"]
 ## Scree fields (rough terrain only a mount can cross): [Vector3(x, z, radius)].
 var scree: Array[Vector3] = []
 var anchors: Dictionary = {}
@@ -864,6 +871,11 @@ func _chests() -> void:
 		"chest_corner_nw": Vector3(21.0, 0.0, 7.0),
 		"chest_back_edge": Vector3(40.0, 0.0, 6.0),
 		"chest_thicket_s": Vector3(36.0, 0.0, 43.0),
+		# Fable Nov 14 (Part 3.4): the treasure field in the top-right pocket (across the scree: mount only), beside chest_scree_ne and the barn
+		"chest_field_a": Vector3(71.3, 0.0, 6.2),
+		"chest_field_b": Vector3(74.2, 0.0, 5.6),
+		"chest_field_c": Vector3(75.4, 0.0, 8.5),
+		"chest_field_d": Vector3(80.9, 0.0, 9.2),
 	}
 
 
@@ -1023,7 +1035,12 @@ func _features() -> void:
 	_prop("compost_heap", 37.0, 42.0, 0.0, 1.0, 0.0)
 	_prop("compost_heap", 42.0, 58.5, 0.0, 1.0, 0.0)
 	_prop("appliance_pile", 28.0, 58.0, 120.0, 1.0, 1.6)
-	_prop("hollow_log", 73.0, 59.5, 10.0, 1.0, 0.0)
+	# Fable Nov 14 (Part 3.4): the hollow log that stood here (a 6 m block of flat bark with no collision: the hero walked through it) is gone.
+	# The chest it hid sits in a nook of rocks, a bush and mushrooms now.
+	_prop("rock", 71.9, 59.2, 40.0, 1.3, 0.7)
+	_prop("rock", 72.4, 62.3, 200.0, 1.0, 0.55)
+	_prop("bush", 76.2, 59.3, 0.0, 1.1, 0.6)
+	_prop("mushrooms", 71.8, 61.0, 0.0, 1.0)
 	_prop("beanstalk_mound", 61.0, 53.0, 0.0, 1.0, 0.0, 2)
 	# T3, the plateau: the car husk that hides a chest, junk clusters, the tyre stacks either side of the throne's steps, Rust Peak's mound, the scrap
 	# barn with its chest behind on the scree, a wreck and hay by it.
@@ -1034,7 +1051,15 @@ func _features() -> void:
 	_prop("barn", 74.0, 13.0, 0.0, 0.9, 3.8)
 	_prop("car_husk", 68.0, 9.0, 200.0, 1.0, 1.7, 3)
 	_prop("junk_pile", 64.0, 24.0, 0.0, 1.0, 2.2, 1)
-	_prop("haybale", 80.0, 12.0, 0.0, 1.0, 1.0, 2)
+	# Fable Nov 14 (Part 3.4): the hay bale that stood here hovered above the grass and read as a floating plank door from the barn's side; in
+	# its place a bush and mushrooms against the rim.
+	_prop("bush", 80.2, 12.2, 0.0, 1.0, 0.6)
+	_prop("mushrooms", 79.2, 11.4, 0.0, 1.0)
+	# Fable Nov 14 (Part 3.4): the top-right (the barn's pocket north of the scree) is reached across the scree only. A strip along the north rim
+	# let the hero walk in from the middle of the plateau; a stand of trees closes it, from the rim down to the car wreck, and a rock closes the
+	# crack between the wreck and the scree. `tests/core/zone/test_heap.gd` floods the walk grid on foot and on the mount.
+	for tree: Array in TREASURE_WALL:
+		_prop(str(tree[0]), float(tree[1]), float(tree[2]), float(tree[3]), float(tree[4]), float(tree[5]))
 
 
 func _wall() -> void:
