@@ -84,3 +84,48 @@ func test_the_dna_wasteland_stands_off_the_map_and_under_the_camera() -> void:
 	# the same every visit
 	var again: DnaWasteland = (_dna_wasteland()[1]) as DnaWasteland
 	assert_eq(again.all_spots(), wasteland.all_spots(), "placement is fixed")
+
+
+# ---- Part 2: Mortimer Grimsby in the freed lobby ---------------------------------------------------------------------------------------
+
+
+func test_mortimer_stands_on_the_lobbys_west_side_clear_of_everything() -> void:
+	var def: ZoneDef = DnaZone.build_def()
+	var builder: DnaBuilder = DnaBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	var holder: Node3D = Node3D.new()
+	add_child_autofree(holder)
+	var dressing: DnaDressing = DnaDressing.build(holder, builder, 1)
+	var hub: Vector3 = builder.anchor(def.hub_anchor)
+	var mortimer: Vector3 = Vector3.INF
+	var others: Dictionary = {}
+	for entry: Dictionary in def.freed_npcs:
+		var pos: Vector3 = hub + (entry["offset"] as Vector3)
+		if str(entry["id"]) == "mortimer":
+			mortimer = pos
+		else:
+			others["freed %s" % str(entry["id"])] = pos
+	assert_ne(mortimer, Vector3.INF, "Mortimer is one of the freed lobby's people")
+	var station: Vector3 = builder.anchor(FastTravel.ANCHOR)
+	assert_lt(mortimer.x, hub.x - 3.0, "he stands on the left (west) side of the entrance room")
+	assert_gt(Vector2(mortimer.x - station.x, mortimer.z - station.z).length(), 5.0, "well clear of the Rift Station (was 0.6 m)")
+	var room: DnaLayout.Room = builder.layout.room_at(mortimer)
+	assert_not_null(room, "inside a room")
+	assert_eq(builder.layout.room_at(hub).id, room.id, "the entrance room itself")
+	assert_false(DnaLayout.LOBBY_WEST_PASSAGE.grow(0.8).has_point(Vector2(mortimer.x, mortimer.z)), "not in the west passage")
+	# open floor all round him (the dressing's blockers are in the builder by now)
+	for step: int in range(16):
+		var angle: float = TAU * float(step) / 16.0
+		assert_true(builder.is_walkable(mortimer + Vector3(cos(angle), 0.0, sin(angle)) * 1.1, 0.25), "open floor %d degrees round him" % int(rad_to_deg(angle)))
+	# nobody and nothing with a prompt or a label within 2.5 m
+	others["the Rift Express operator"] = station + Vector3(-2.4, 0.0, 0.8)
+	for entry: Dictionary in def.npcs:
+		others["npc %s" % str(entry["id"])] = builder.anchor(str(entry["anchor"])) + (entry.get("offset", Vector3.ZERO) as Vector3)
+	for entry: Dictionary in def.spots:
+		others["spot %s" % str(entry["id"])] = builder.anchor(str(entry["anchor"])) + (entry["offset"] as Vector3)
+	for id: Variant in dressing.lobby_placed.keys():
+		others["prop %s" % str(id)] = dressing.lobby_placed[id] as Vector3
+	for key: Variant in others.keys():
+		var at: Vector3 = others[key] as Vector3
+		assert_gt(Vector2(mortimer.x - at.x, mortimer.z - at.z).length(), 2.5, "%s is more than 2.5 m away" % str(key))

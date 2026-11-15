@@ -6,7 +6,7 @@ extends Node
 ## chest, head and name-plate point are tested against every mesh of the scene, triangle by triangle (a painted card counts only where its
 ## picture is opaque). Meshes that stand between the lens and the HERO are left out: the occlusion fader dissolves those. An NPC whose body
 ## (two or more of the three body points) or talk point is hidden is a FAIL, with a screenshot. Windowed:
-##   bash tools/run_npc_visibility_probe.sh      (NPC_AREAS=gourmand,town to limit it)     Report: _screenshots/npc_visibility/report.md
+##   bash tools/run_npc_visibility_probe.sh      (NPC_AREAS=gourmand,town to limit it; NPC_FREED=necrocrat to free zones first)     Report: _screenshots/npc_visibility/report.md
 
 const OUT_DIR: String = "res://_screenshots/npc_visibility/"
 const TAG: String = "npc_visibility_probe"
@@ -45,6 +45,9 @@ func run() -> void:
 	driver = UiDriver.new(get_tree())
 	await driver.frames(5)
 	DirAccess.make_dir_recursive_absolute(OUT_DIR)
+	# Fable Nov 15 (Part 2): NPC_FREED=necrocrat,gourmand frees those zones first, so the freed lobby's people (the old ruler among them) are checked
+	for freed_zone: String in OS.get_environment("NPC_FREED").split(",", false):
+		Session.complete_zone(freed_zone)
 	var wanted: String = OS.get_environment("NPC_AREAS")
 	for area: String in AREAS:
 		if wanted != "" and not wanted.split(",").has(area):
