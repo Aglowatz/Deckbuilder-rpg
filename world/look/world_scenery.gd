@@ -503,8 +503,25 @@ func set_mood(spec: Dictionary) -> void:
 
 
 ## Overnight Oct 18, Phase 2 cycle 15: with a `tiles` size (metres) the apron is big dim tiles with faint grout (assets/shaders/apron_tiles.gdshader) instead of one flat colour.
+## With a `wasteland` block ({ash, paving, tile, paving_tile, paving_amount, brightness}) it is the Capital's cracked ash ground (apron_wasteland.gdshader).
 static func _apron_material(spec: Dictionary) -> Material:
 	var color: Color = Color.html(str(spec.get("color", "2a3440")))
+	if spec.get("wasteland") is Dictionary:
+		# Fable Nov 15 (Part 1): the Capital's wasteland ground - cracked ash with patches of broken paving, tinted by `color`
+		var ground: Dictionary = spec["wasteland"] as Dictionary
+		var ash: Texture2D = EnvKit.texture(str(ground.get("ash", "TEX-CAP-ASH")))
+		var paving: Texture2D = EnvKit.texture(str(ground.get("paving", "TEX-CAP-CRACKEDROAD")))
+		if ash != null and paving != null:
+			var wasteland: ShaderMaterial = ShaderMaterial.new()
+			wasteland.shader = load("res://assets/shaders/apron_wasteland.gdshader") as Shader
+			wasteland.set_shader_parameter("ash_tex", ash)
+			wasteland.set_shader_parameter("paving_tex", paving)
+			wasteland.set_shader_parameter("tint", color)
+			wasteland.set_shader_parameter("tile_size", float(ground.get("tile", 7.0)))
+			wasteland.set_shader_parameter("paving_tile", float(ground.get("paving_tile", 4.2)))
+			wasteland.set_shader_parameter("paving_amount", float(ground.get("paving_amount", 0.34)))
+			wasteland.set_shader_parameter("brightness", float(ground.get("brightness", 1.0)))
+			return wasteland
 	if spec.has("tiles"):
 		var tiled: ShaderMaterial = ShaderMaterial.new()
 		tiled.shader = load("res://assets/shaders/apron_tiles.gdshader") as Shader

@@ -277,29 +277,7 @@ func test_the_buffets_entrance_has_a_bank_and_a_forest_nobody_walks_through() ->
 	assert_true(FileAccess.get_file_as_string("res://world/buffet/buffet_builder.gd").contains("_build_south_bank()"))
 
 
-func test_the_dna_apron_is_an_organised_wasteland_off_the_map() -> void:
-	var kinds: Dictionary = {}
-	for row: Array in DnaDressing.WASTELAND_ROWS:
-		kinds[str(row[0])] = true
-		assert_gt(float(row[3]), float(row[2]), "a row runs west to east")
-	for kind: String in ["cabinets", "queue", "crates", "towers", "trees", "rubble"]:
-		assert_true(kinds.has(kind), "a row of %s" % kind)
-	for kind: Variant in DnaDressing.WASTELAND_PIECES.keys():
-		assert_true(EnvKit.has_art(str((DnaDressing.WASTELAND_PIECES[kind] as Array)[0])), "%s has its art" % kind)
-	var builder: DnaBuilder = DnaBuilder.new()
-	builder.layout.build()
-	builder._index_obstacles()
-	var holder: Node3D = Node3D.new()
-	add_child_autofree(holder)
-	var dressing: DnaDressing = DnaDressing.build(holder, builder, 1)
-	var total: int = 0
-	for kind: Variant in dressing.wasteland_placed.keys():
-		total += int(dressing.wasteland_placed[kind])
-	assert_gt(total, 120, "the apron is dressed (%d pieces)" % total)
-	for piece: Node in holder.find_child("Wasteland", true, false).get_children():
-		if piece is Node3D and not piece is MultiMeshInstance3D:
-			assert_false(builder.is_floor_at((piece as Node3D).position), "%s stands off the walkable map" % piece.name)
-	assert_true(FileAccess.get_file_as_string("res://world/dna/dna_scene.gd").contains("DnaPaperDrift.build"), "the floating paper stays")
+# (Fable Nov 15, Part 1: the organised rows became a wasteland like the Capital's - tests/test_fable_nov15.gd)
 
 
 # ---- Part 4: the Path icons ---------------------------------------------------------------------------------------------------------

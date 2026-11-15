@@ -86,8 +86,7 @@ static func build(parent: Node3D, builder: DnaBuilder, quality: int) -> DnaDress
 	dressing._kit_clusters()
 	dressing._kit_pieces()
 	dressing._lobby_props()
-	dressing._apron(quality)
-	dressing._wasteland(quality)
+	dressing.wasteland = DnaWasteland.build(dressing.root, builder.layout, quality)
 	if quality > 0:
 		dressing._decals()
 	return dressing
@@ -173,148 +172,9 @@ func _ghost_queue() -> void:
 		return
 
 
-## Batch 15 pass (Part 3.8): the apron outside the offices was flat grey to the horizon (the paper drift its only dressing). A light
-## scatter of the kit's own pieces on it, either side of the approach causeway: filing towers and cabinets left out in the weather, a
-## roped queue line that leads nowhere with a now-serving orb at its head, a ghost lamp or two, and forms and stamps on the ground.
-## [id, x, z, height]: all off the walkable map (a spot that turns out to be floor is skipped), nothing solid, nothing on the causeway.
-const APRON_PIECES: Array = [
-	["DNA-SHEET-FILING-TOWERS-01", 38.6, 63.4, 2.3], ["DNA-SHEET-CABINETS-02", 36.4, 64.6, 1.5], ["DNA-PROP-PAPER", 40.4, 65.2, 0.7],
-	["DNA-SHEET-FILING-TOWERS-03", 31.0, 62.6, 2.1], ["DNA-SHEET-CABINETS-05", 28.4, 64.0, 1.4], ["DNA-PROP-GHOSTLAMP", 33.6, 66.4, 2.4],
-	["DNA-PROP-SERVING-ORB", 54.0, 63.2, 2.1], ["DNA-SHEET-FILING-TOWERS-04", 55.6, 63.6, 1.3], ["DNA-SHEET-FILING-TOWERS-04", 57.8, 64.0, 1.3],
-	["DNA-SHEET-FILING-TOWERS-04", 60.0, 64.4, 1.3], ["DNA-SHEET-FILING-TOWERS-04", 62.2, 64.8, 1.3], ["DNA-SHEET-FILING-TOWERS-02", 52.4, 66.0, 2.2],
-	["DNA-SHEET-CABINETS-03", 65.4, 62.8, 1.5], ["DNA-PROP-GHOSTLAMP", 59.0, 67.0, 2.4], ["DNA-PROP-PAPER", 51.2, 63.0, 0.7],
-	["DNA-SHEET-FILING-TOWERS-05", 22.6, 60.6, 2.2], ["DNA-SHEET-CABINETS-01", 70.6, 61.4, 1.5],
-]
-## Ground decals: [id, x, z, width m, yaw].
-const APRON_DECALS: Array = [
-	["DNA-DEC-FORMS-01", 39.6, 66.8, 1.5, 20.0], ["DNA-DEC-FORMS-03", 35.0, 62.8, 1.3, -35.0], ["DEC-PAPERS", 30.2, 65.6, 1.8, 60.0],
-	["DNA-DEC-FORMS-02", 53.4, 64.8, 1.4, -15.0], ["DNA-DEC-FORMS-05", 57.0, 66.0, 1.3, 40.0], ["DEC-PAPERS", 61.6, 62.6, 1.8, 110.0],
-	["DNA-DEC-FORMS-04", 64.0, 66.6, 1.4, 5.0], ["DNA-DEC-FORMS-06", 26.0, 62.2, 1.3, 75.0], ["DNA-DEC-COFFEE", 37.8, 65.6, 0.9, 0.0],
-	["DEC-PAPERS", 68.2, 64.6, 1.6, -50.0],
-]
-var apron_placed: int = 0
-
-
-func _apron(quality: int) -> void:
-	for entry: Array in APRON_PIECES:
-		var spot: Vector3 = Vector3(float(entry[1]), 0.0, float(entry[2]))
-		if _builder.is_floor_at(spot) or not EnvKit.has_art(str(entry[0])):
-			continue
-		if KitPieces.stand(root, str(entry[0]), spot, float(entry[3]), false) != null:
-			apron_placed += 1
-	if quality <= 0:
-		return
-	for entry: Array in APRON_DECALS:
-		var center: Vector3 = Vector3(float(entry[1]), 0.0, float(entry[2]))
-		if _builder.is_floor_at(center) or not EnvKit.has_art(str(entry[0])):
-			continue
-		KitPieces.ground(root, str(entry[0]), center, float(entry[4]), float(entry[3]))
-
-
-## Fable Nov 14 (Part 3.6): the apron outside the offices is an organised wasteland, like the land outside the Capital but filed: straight
-## rows running east-west either side of the approach causeway and beside the lobby, each row one kind of thing at an even spacing -
-## filing cabinets (every third tipped over), a queue of rope posts that leads nowhere, stacks of crates, filing towers, dead trees
-## (the Capital's and the D.N.A.'s own), rubble. Everything stands off the walkable map, nothing is solid, and the floating paper
-## (DnaPaperDrift) is untouched. [kind, z, x from, x to, spacing]; a row is cut where the causeway and the lobby stand.
-const WASTELAND_ROWS: Array = [
-	# south of the lobby, both sides of the causeway
-	["cabinets", 60.8, 6.0, 88.0, 2.9], ["queue", 63.3, 5.0, 89.0, 2.2], ["crates", 65.9, 7.0, 87.0, 3.6], ["trees", 68.6, 6.0, 88.0, 5.2],
-	["towers", 71.2, 5.0, 89.0, 3.1], ["rubble", 73.9, 8.0, 86.0, 6.4], ["cabinets", 76.5, 6.0, 88.0, 2.9], ["trees", 79.4, 4.0, 90.0, 5.2],
-	# beside the lobby, west and east (under the offices' south face)
-	["towers", 46.2, -2.0, 15.0, 3.1], ["queue", 49.4, -3.0, 15.5, 2.2], ["crates", 52.6, -2.0, 15.0, 3.6], ["cabinets", 55.8, -3.0, 15.5, 2.9],
-	["towers", 46.2, 57.0, 94.0, 3.1], ["queue", 49.4, 56.5, 95.0, 2.2], ["crates", 52.6, 57.0, 94.0, 3.6], ["cabinets", 55.8, 56.5, 95.0, 2.9],
-]
-## The causeway and the steps down from it stay clear (x range), and so does a metre round every older apron piece.
-const WASTELAND_CAUSEWAY: Vector2 = Vector2(42.4, 50.6)
-const WASTELAND_PIECES: Dictionary = {
-	"cabinets": ["DNA-SHEET-CABINETS-01", "DNA-SHEET-CABINETS-02", "DNA-SHEET-CABINETS-04", "DNA-SHEET-CABINETS-03", "DNA-SHEET-CABINETS-06", "DNA-SHEET-CABINETS-05"],
-	"towers": ["DNA-SHEET-FILING-TOWERS-01", "DNA-SHEET-FILING-TOWERS-03", "DNA-SHEET-FILING-TOWERS-02", "DNA-SHEET-FILING-TOWERS-05"],
-	"queue": ["DNA-PROP-ROPE"],
-	"trees": ["CAP-TREE-DEAD", "DNA-TREE-DEAD", "CAP-TREE-DEAD", "DNA-SHEET-PROPS-05"],
-	"rubble": ["CAP-SHEET-RUBBLE-01", "CAP-PROP-RUBBLE-ROW", "CAP-SHEET-RUBBLE-02"],
-}
-const WASTELAND_HEIGHTS: Dictionary = {"cabinets": 1.5, "towers": 2.2, "queue": 1.05, "trees": 3.0, "rubble": 1.1}
-const WASTELAND_CRATE: Vector3 = Vector3(0.8, 0.8, 0.8)
-## Low-end keeps every other piece of each row.
-var wasteland_placed: Dictionary = {}
-
-
-func _wasteland(quality: int) -> void:
-	var holder: Node3D = Node3D.new()
-	holder.name = "Wasteland"
-	root.add_child(holder)
-	var crates: Array[Transform3D] = []
-	var taken: Array[Vector2] = []
-	for entry: Array in APRON_PIECES:
-		taken.append(Vector2(float(entry[1]), float(entry[2])))
-	for row_index: int in range(WASTELAND_ROWS.size()):
-		var row: Array = WASTELAND_ROWS[row_index] as Array
-		var kind: String = str(row[0])
-		var z: float = float(row[1])
-		var step: float = float(row[4])
-		var x: float = float(row[2]) + (step * 0.5 if row_index % 2 == 1 else 0.0)
-		var index: int = 0
-		while x <= float(row[3]):
-			var spot: Vector3 = Vector3(x, 0.0, z)
-			var here: Vector2 = Vector2(x, z)
-			x += step
-			index += 1
-			if quality <= 0 and index % 2 == 0:
-				continue
-			if here.x > WASTELAND_CAUSEWAY.x and here.x < WASTELAND_CAUSEWAY.y and here.y > 58.0:
-				continue
-			if _near_floor(spot, 1.2) or taken.any(func(other: Vector2) -> bool: return other.distance_to(here) < 0.9):
-				continue
-			if kind == "crates":
-				# a neat stack: two crates side by side and one on top, turned a little
-				var turn: Basis = Basis(Vector3.UP, 0.12 * float(index % 3 - 1))
-				crates.append(Transform3D(turn, spot + Vector3(-0.43, 0.4, 0.0)))
-				crates.append(Transform3D(turn, spot + Vector3(0.43, 0.4, 0.0)))
-				if index % 4 != 3:
-					crates.append(Transform3D(turn * Basis(Vector3.UP, 0.3), spot + Vector3(0.0, 1.2, 0.0)))
-				wasteland_placed[kind] = int(wasteland_placed.get(kind, 0)) + 1
-				continue
-			var ids: Array = WASTELAND_PIECES[kind] as Array
-			var id: String = str(ids[index % ids.size()])
-			if not EnvKit.has_art(id):
-				id = str(ids[0])
-			var height: float = float(WASTELAND_HEIGHTS[kind])
-			if id == "DNA-TREE-DEAD" or id == "DNA-SHEET-PROPS-05":
-				height = 2.0
-			elif id == "CAP-PROP-RUBBLE-ROW":
-				height = 0.7
-			var piece: Node3D = KitPieces.stand(holder, id, spot, height, false)
-			if piece == null:
-				continue
-			if kind == "cabinets" and index % 3 == 2:
-				# tipped over: the card lies on its side, a little sunk
-				piece.rotation.z = (PI * 0.5 - 0.08) * (1.0 if index % 2 == 0 else -1.0)
-				piece.position.y = 0.42
-			wasteland_placed[kind] = int(wasteland_placed.get(kind, 0)) + 1
-	if not crates.is_empty():
-		var mesh: BoxMesh = BoxMesh.new()
-		mesh.size = WASTELAND_CRATE
-		var field: MultiMesh = MultiMesh.new()
-		field.transform_format = MultiMesh.TRANSFORM_3D
-		field.mesh = mesh
-		field.instance_count = crates.size()
-		for i: int in range(crates.size()):
-			field.set_instance_transform(i, crates[i])
-		var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
-		instance.name = "WastelandCrates"
-		instance.multimesh = field
-		instance.material_override = EnvKit.material("ENV-PROP-CRATE", false, Color(0.62, 0.72, 0.68))
-		instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		instance.set_meta(&"no_range_cull", true)
-		holder.add_child(instance)
-
-
-## True when any walkable floor lies within `margin` of `spot` (the wasteland keeps off the map and its walls).
-func _near_floor(spot: Vector3, margin: float) -> bool:
-	for offset: Vector3 in [Vector3.ZERO, Vector3(margin, 0, 0), Vector3(-margin, 0, 0), Vector3(0, 0, margin), Vector3(0, 0, -margin)]:
-		if _builder.is_floor_at(spot + offset):
-			return true
-	return false
+## Fable Nov 15 (Part 1): everything outside the buildings is the wasteland (`DnaWasteland`): the Capital's cracked ash ground and its
+## wasteland kit, tinted grey-green. It replaced the Batch 15 apron scatter and the Nov 14 rows of cabinets and crates.
+var wasteland: DnaWasteland
 
 
 ## Batch 11: the lobby's cut-outs (LOBBY_PROPS); each one that finds no free spot near its wish is left out. The ids placed are kept in

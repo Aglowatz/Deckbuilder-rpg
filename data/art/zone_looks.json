@@ -156,7 +156,7 @@
 			"green_calm": 0,
 			"red_calm": 0,
 			"fog_color": "5e6b66",
-			"fog_density": 0.005,
+			"fog_density": 0.0065,
 			"warmth": -0.1,
 			"saturation": 0.86,
 			"vignette": 0.4,
@@ -182,7 +182,7 @@
 			"enabled": true,
 			"water": false,
 			"shore": false,
-			"rings": false,
+			"rings": true,
 			"landmarks": false,
 			"tint": "9aa6a0",
 			"cool": "66776f",
@@ -190,9 +190,16 @@
 			"cool_scale": 1,
 			"brightness": 0.9,
 			"apron": {
-				"color": "4f5c58",
+				"color": "bcd6c6",
 				"y": -0.03,
-				"tiles": 4
+				"wasteland": {
+					"ash": "TEX-CAP-ASH",
+					"paving": "TEX-CAP-CRACKEDROAD",
+					"tile": 7,
+					"paving_tile": 4.2,
+					"paving_amount": 0.34,
+					"brightness": 1.32
+				}
 			},
 			"kit_cards": [
 				{
