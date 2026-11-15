@@ -55,7 +55,7 @@ func test_the_buffet_gate_guardians_are_painted() -> void:
 		assert_true(SpriteLibrary.has_character(str(sets.get(gate.id, ""))), "gate %s's set is imported" % gate.id)
 
 
-func test_crosspath_has_no_3d_npc_but_the_mannequin() -> void:
+func test_crosspath_has_no_3d_npc() -> void:
 	var town: GDScript = load("res://world/town_scene.gd") as GDScript
 	var sprites: Dictionary = town.get("NPC_SPRITES") as Dictionary
 	var ids: Dictionary = town.get("NPC_IDS") as Dictionary
@@ -65,6 +65,7 @@ func test_crosspath_has_no_3d_npc_but_the_mannequin() -> void:
 			character = NpcSprites.character_for(str(ids.get(id, "")))
 		assert_true(character != "" and SpriteLibrary.has_character(character), "Crosspath %s is a painted set" % id)
 	assert_eq(sprites.get("hidden_vendor", ""), "DEALER", "the Secret Dealer wears his own set")
+	assert_false(FileAccess.get_file_as_string("res://world/town_scene.gd").contains('_add_npc("mannequin"'), "the 3D window mannequin is gone (Fable Nov 15)")
 
 
 func test_new_speakers_show_their_portraits() -> void:

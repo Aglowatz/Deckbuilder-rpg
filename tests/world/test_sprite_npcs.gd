@@ -25,8 +25,7 @@ func test_the_town_npcs_are_sprites_and_only_the_unnamed_ones_are_models() -> vo
 		assert_true(npc is SpriteActor, "%s is a painted sprite" % id)
 		assert_eq((npc as SpriteActor).character, SPRITE_NPCS[id])
 		assert_true(SpriteLibrary.info(str(SPRITE_NPCS[id])).get("has_talk", false), "%s has a TALK pose" % id)
-	for id: String in ["mannequin"]:
-		assert_false((town._npcs[id] as Node3D) is SpriteActor, "%s is still a 3D model (a shop-window dummy, no list NPC)" % id)
+	assert_false(town._npcs.has("mannequin"), "the 3D shop-window mannequin is gone (Fable Nov 15)")
 	assert_not_null(town._baker, "the badger baker walks the plaza")
 	assert_eq(town._baker.character, "VILLAGER")
 

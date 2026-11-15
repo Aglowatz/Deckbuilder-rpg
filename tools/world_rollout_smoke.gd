@@ -122,7 +122,7 @@ func _flow_town(town: TownScene) -> void:
 		await driver.seconds(0.5)
 	await _walk_to(town, Vector3(26.0, 0.0, 14.0), 1.5)
 	# The baker walks his round.
-	_check(town._npcs["mannequin"] is Node3D and not (town._npcs["mannequin"] is SpriteActor), "the shop-window mannequin (no list NPC) is the only 3D figure left in the town")
+	_check(not town._npcs.has("mannequin"), "the 3D shop-window mannequin is gone (Fable Nov 15): no 3D figure is left in the town")
 	_check(town._baker != null, "the badger baker wanders the plaza")
 	await _shot("b5_baker_and_plaza")
 

@@ -129,3 +129,52 @@ func test_mortimer_stands_on_the_lobbys_west_side_clear_of_everything() -> void:
 	for key: Variant in others.keys():
 		var at: Vector3 = others[key] as Vector3
 		assert_gt(Vector2(mortimer.x - at.x, mortimer.z - at.z).length(), 2.5, "%s is more than 2.5 m away" % str(key))
+
+
+# ---- Part 3: no 3D or placeholder people -----------------------------------------------------------------------------------------------
+# (the scene-level check is the driver tools/run_npc_3d_scan.sh: every area, oppressed and freed, has no rigged model and no capsule)
+
+
+func test_every_placed_npc_is_a_painted_sprite() -> void:
+	# the zones: the standing people and the freed lobby's people
+	for zone_id: String in ZoneDefs.ids():
+		var def: ZoneDef = ZoneDefs.get_def(zone_id)
+		var entries: Array = []
+		entries.append_array(def.npcs)
+		entries.append_array(def.freed_npcs)
+		for entry: Variant in entries:
+			var character: String = NpcSprites.character_for_entry(entry as Dictionary)
+			assert_true(character != "" and SpriteLibrary.has_character(character), "%s: %s is a painted sprite (a 3D %s otherwise)" % [zone_id, str((entry as Dictionary)["id"]), str((entry as Dictionary).get("model", "?"))])
+	# Crosspath: every id the town places
+	var town: GDScript = load("res://world/town_scene.gd") as GDScript
+	var source: String = FileAccess.get_file_as_string("res://world/town_scene.gd")
+	var sprites: Dictionary = town.get("NPC_SPRITES") as Dictionary
+	var ids: Dictionary = town.get("NPC_IDS") as Dictionary
+	var regex: RegEx = RegEx.new()
+	regex.compile("_add_npc\\(\"([a-z_]+)\"")
+	var placed: Array[String] = []
+	for found: RegExMatch in regex.search_all(source):
+		placed.append(found.get_string(1))
+	assert_gt(placed.size(), 8, "the town's NPC list was read (%d)" % placed.size())
+	assert_false(placed.has("mannequin"), "the 3D window mannequin beside Pip Threadwell is gone")
+	for id: String in placed:
+		var character: String = str(sprites.get(id, ""))
+		if character == "":
+			character = NpcSprites.character_for(str(ids.get(id, "")))
+		assert_true(character != "" and SpriteLibrary.has_character(character), "Crosspath %s is a painted sprite" % id)
+
+
+func test_the_ruler_statue_is_the_painted_ruler_in_stone() -> void:
+	for zone_id: String in ZoneDefs.ids():
+		var def: ZoneDef = ZoneDefs.get_def(zone_id)
+		for toppled: bool in [false, true]:
+			var statue: Node3D = RulerPresence._statue(def.ruler_tint, toppled, zone_id)
+			add_child_autofree(statue)
+			for node: Node in statue.find_children("*", "MeshInstance3D", true, false):
+				assert_false((node as MeshInstance3D).mesh is CapsuleMesh, "%s: no capsule figure" % zone_id)
+				assert_false((node as MeshInstance3D).mesh is SphereMesh, "%s: no ball for a head" % zone_id)
+			var figure: MeshInstance3D = statue.get_node_or_null(RulerPresence.FIGURE_NAME) as MeshInstance3D
+			assert_not_null(figure, "%s: the ruler's painted figure stands for the statue" % zone_id)
+			if figure != null:
+				assert_true(figure.material_override is ShaderMaterial, "carved in stone (the statue shader)")
+				assert_eq(figure.position.y < 0.5, toppled, "standing on the plinth while oppressed, lying beside it once freed")

@@ -616,9 +616,9 @@ func _build_actors() -> void:
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
 	# Brief 11: Foil Fenwick, the Pack Vendor.
 	_add_npc("pack_vendor", "Rogue", town.anchors["npc_pack_vendor"] as Vector3, 25.0, Color(1.0, 0.9, 0.6))
-	# Brief 12, Part F: Pip Threadwell, the tailor (hero-shaped, in her own top hat and scarf-cape), and a window mannequin.
+	# Brief 12, Part F: Pip Threadwell, the tailor. Fable Nov 15 (Part 3): her window mannequin is gone - it was the last 3D figure in
+	# Crosspath (a blocky hero model in a party hat that could not be talked to); nobody stands 3D in any area now (tools/npc_3d_scan.gd).
 	_add_npc("tailor", "hero:tailor", town.anchors["npc_tailor"] as Vector3, -20.0)
-	_add_npc("mannequin", "hero:mannequin", town.anchors["tailor_mannequin"] as Vector3, 40.0)
 	if Session.alchemist_unlocked():
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	if Session.arena_unlocked() and not town.hub_land:  # Oct 16: Grand Bellows runs the ring underground now (The Undercroft)

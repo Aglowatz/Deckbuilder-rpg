@@ -14,7 +14,7 @@ const BANNERS_NAME: String = "RulerBanners"
 
 ## Builds the statue and banners (oppressed) or the toppled statue and bunting (freed) around `hub`.
 static func build(parent: Node3D, builder: ZoneMap, zone_def: ZoneDef, story: ZoneStoryText, hub: Vector3, freed: bool) -> void:
-	var statue: Node3D = _statue(zone_def.ruler_tint, freed)
+	var statue: Node3D = _statue(zone_def.ruler_tint, freed, zone_def.id)
 	statue.name = STATUE_NAME
 	var statue_pos: Vector3 = hub + zone_def.statue_offset
 	statue_pos.y = builder.height_at(statue_pos)
@@ -49,38 +49,70 @@ static func has_ruler_props(parent: Node) -> bool:
 	return statue != null and not bool(statue.get_meta("toppled", false))
 
 
-static func _statue(tint: Color, toppled: bool) -> Node3D:
+## Fable Nov 15 (Part 3): the statue's figure was a capsule with a ball for a head (a placeholder person). It is the ruler's own painted
+## figure now, carved in stone: the boss's entrance cut-out (CUT-*, `Portraits`) through the stone-statue shader, standing on the plinth
+## while the zone is oppressed and lying beside it once the zone is freed. Zone id -> cut-out id.
+const RULER_CUTOUTS: Dictionary = {"beefcake": "CUT-CLENCH", "gourmand": "CUT-DOPPEL", "necrocrat": "CUT-MORTIMER", "refusemancer": "CUT-ROTHEART", "final": "CUT-PRIMM"}
+const STATUE_SHADER: String = "res://assets/shaders/stone_statue.gdshader"
+const FIGURE_NAME: String = "RulerFigure"
+## The carved figure's height on its plinth (metres) and the plinth's top.
+const FIGURE_HEIGHT: float = 3.1
+const PLINTH_TOP: float = 0.7
+
+
+## The ruler's painted figure as a stone carving `height` metres tall, its feet at the node's origin, facing +z (the camera); null when
+## the zone has no cut-out imported.
+static func ruler_figure(zone_id: String, tint: Color, height: float = FIGURE_HEIGHT) -> MeshInstance3D:
+	var cutout_id: String = str(RULER_CUTOUTS.get(zone_id, ""))
+	if cutout_id.is_empty() or not Portraits.has_portrait(cutout_id):
+		return null
+	var picture: Texture2D = Portraits.texture_for(cutout_id)
+	if picture == null:
+		return null
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(height * float(picture.get_width()) / maxf(1.0, float(picture.get_height())), height)
+	quad.center_offset = Vector3(0.0, height * 0.5, 0.0)
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = load(STATUE_SHADER) as Shader
+	material.set_shader_parameter("picture", picture)
+	material.set_shader_parameter("accent", tint)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	var figure: MeshInstance3D = MeshInstance3D.new()
+	figure.name = FIGURE_NAME
+	figure.mesh = quad
+	figure.material_override = material
+	figure.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	figure.set_meta(StyleToon.META_NO_TOON, true)
+	figure.set_meta(PaintedClasses.META_NO_PAINT, true)
+	figure.set_meta(&"no_wind", true)
+	return figure
+
+
+static func _statue(tint: Color, toppled: bool, zone_id: String = "") -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.set_meta("toppled", toppled)
 	var stone: StandardMaterial3D = _material(Color(0.42, 0.42, 0.45), 0.9)
-	var cloth: StandardMaterial3D = _material(tint, 0.8)
-	var pedestal: MeshInstance3D = _box(Vector3(1.8, 0.7, 1.8), stone)
-	pedestal.position.y = 0.35
+	var pedestal: MeshInstance3D = _box(Vector3(1.8, PLINTH_TOP, 1.8), stone)
+	pedestal.position.y = PLINTH_TOP * 0.5
 	root.add_child(pedestal)
-	var figure: Node3D = Node3D.new()
-	figure.position.y = 0.7
-	root.add_child(figure)
-	var body: MeshInstance3D = _mesh(CapsuleMesh.new(), cloth)
-	(body.mesh as CapsuleMesh).radius = 0.5
-	(body.mesh as CapsuleMesh).height = 2.2
-	body.position.y = 1.2
-	figure.add_child(body)
-	var head: MeshInstance3D = _mesh(SphereMesh.new(), stone)
-	(head.mesh as SphereMesh).radius = 0.38
-	(head.mesh as SphereMesh).height = 0.76
-	head.position.y = 2.55
-	figure.add_child(head)
-	var cape: MeshInstance3D = _box(Vector3(1.4, 1.8, 0.12), cloth)
-	cape.position = Vector3(0, 1.4, -0.52)
-	figure.add_child(cape)
-	var fist: MeshInstance3D = _mesh(SphereMesh.new(), stone)
-	(fist.mesh as SphereMesh).radius = 0.22
-	(fist.mesh as SphereMesh).height = 0.44
-	fist.position = Vector3(0.75, 2.2, 0.25)
-	figure.add_child(fist)
-	if toppled:
-		figure.rotation_degrees = Vector3(0, 20, 84)
-		figure.position = Vector3(1.2, 0.35, 1.0)
+	var figure: MeshInstance3D = ruler_figure(zone_id, tint)
+	if figure != null:
+		root.add_child(figure)
+		if toppled:
+			# pulled down: the carving lies on its back beside the plinth, a little askew, its broken base toward the plinth
+			figure.rotation_degrees = Vector3(-88.0, 24.0, 0.0)
+			figure.position = Vector3(1.5, 0.09, 0.6)
+			var stump: MeshInstance3D = _box(Vector3(0.9, 0.22, 0.5), stone)
+			stump.position = Vector3(0.0, PLINTH_TOP + 0.11, 0.0)
+			stump.rotation_degrees.y = 12.0
+			root.add_child(stump)
+		else:
+			figure.position = Vector3(0.0, PLINTH_TOP - 0.04, 0.0)
+	else:
+		# no painted figure for this zone: a plain stone marker (never a stand-in person)
+		var marker: MeshInstance3D = _box(Vector3(0.9, 0.6 if toppled else 2.4, 0.9), stone)
+		marker.position.y = PLINTH_TOP + (0.3 if toppled else 1.2)
+		root.add_child(marker)
 	root.add_child(_emblem(Vector2(0.5, 0.5), Vector3(0, 0.38, 0.91)))
 	return root
 
