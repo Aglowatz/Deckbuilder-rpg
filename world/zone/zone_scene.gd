@@ -349,6 +349,12 @@ func _ready() -> void:
 				(child as CanvasLayer).visible = false
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
+	if _screenshot_args.has("roamer_brief"):
+		# Fable Nov 15 (Part 4, screenshots): `--roamer_brief=officer[:rift]` shows that roamer's "Before the fight" card
+		var brief: PackedStringArray = str(_screenshot_args["roamer_brief"]).split(":")
+		Session.zone_empower_next = brief.size() > 1 and brief[1] == "rift"
+		var shown: BattleContext = Session.make_zone_battle(brief[0], "shot")
+		RulesBrief.open.call_deferred(self, shown.rule_badges, "Before the fight: %s" % shown.enemy_name, Callable())
 	if _screenshot_args.has("lineup"):
 		var only: Array = []
 		for type: String in str(_screenshot_args.get("lineup_kinds", "")).split(",", false):
@@ -1898,6 +1904,10 @@ func _on_enemy_touched(enemy: ZoneEnemy) -> void:
 	_start_enemy_battle(enemy)
 
 
+## Fable Nov 15 (Part 4): false makes roamer fights start without the "Before the fight" card (drivers that cannot press Continue).
+static var roamer_briefs: bool = true
+
+
 func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	_locked = true
 	var run: ZoneRun = Session.zone_run
@@ -1917,7 +1927,13 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 		create_tween().tween_property(self, "_battle_push", 0.55, 0.7).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	await get_tree().create_timer(0.7).timeout
 	_battle_push = 1.0
-	Session.start_zone_battle(enemy.info.id, enemy.instance_id)
+	# Fable Nov 15 (Part 4): a roamer's fight that carries rules of its own (an encounter rule, a rift's empowering) shows the same
+	# "Before the fight" card as a dungeon room, with every rule in effect; a fight with only the zone's standing rules starts at once.
+	var context: BattleContext = Session.make_zone_battle(enemy.info.id, enemy.instance_id)
+	if roamer_briefs and _screenshot_args.is_empty() and not RuleBadges.fight_specific(context.rule_badges).is_empty():
+		RulesBrief.open(self, context.rule_badges, "Before the fight: %s" % enemy.info.display_name, func() -> void: Session.start_battle(context))
+	else:
+		Session.start_battle(context)
 
 
 ## Damage to the persistent zone HP: flash, shake, HUD update, knockback and a short

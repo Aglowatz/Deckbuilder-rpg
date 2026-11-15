@@ -296,6 +296,13 @@ func _ready() -> void:
 			context = Session.make_ninja_battle()
 		elif str(_screenshot_args.get("vault", "false")) == "true":
 			context = Session.make_vault_battle()
+		elif _screenshot_args.has("zone_fight"):
+			# Fable Nov 15 (Part 4, screenshots): `--zone_fight=final:officer[:rift]` is that zone roamer's real fight (beside an open rift)
+			var fight: PackedStringArray = str(_screenshot_args["zone_fight"]).split(":")
+			Session.ensure_game()
+			Session.begin_zone_visit(fight[0])
+			Session.zone_empower_next = fight.size() > 2 and fight[2] == "rift"
+			context = Session.make_zone_battle(fight[1], "shot")
 		else:
 			context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
 			context.zone_id = str(_screenshot_args.get("zone", ""))

@@ -6,6 +6,10 @@ var modifiers: Array[Modifier] = []
 ## Oct 21: modifiers switched off for a while (Elowen jamming one of Siphon's Protocols): out of `modifiers`, so no query sees them, until
 ## `unpark_all` puts them back.
 var parked: Array[Modifier] = []
+## Fable Nov 15 (Part 4): where the modifiers came from, one entry per `add_source` ({"name", "kind": ModifierSource.SourceKind,
+## "modifiers": Array[Modifier]}). Nothing in the rules reads it: `RuleAudit` compares it with the rules a fight shows the player.
+## Fixed once a duel starts, so copies of the set share the list.
+var origins: Array[Dictionary] = []
 
 
 ## Takes every modifier labelled `label` out of play; returns how many.
@@ -34,6 +38,7 @@ func add(modifier: Modifier) -> void:
 func add_source(source: ModifierSource) -> void:
 	for modifier: Modifier in source.modifiers:
 		modifiers.append(modifier)
+	origins.append({"name": source.source_name, "kind": int(source.source_kind), "modifiers": source.modifiers.duplicate()})
 
 
 func add_sources(sources: Array[ModifierSource]) -> void:
@@ -148,4 +153,5 @@ func clone() -> ModifierSet:
 	var copy: ModifierSet = ModifierSet.new()
 	copy.modifiers = modifiers.duplicate()
 	copy.parked = parked.duplicate()
+	copy.origins = origins
 	return copy

@@ -50,6 +50,8 @@ var encounter_rules: Array[EncounterModifiers.Rule] = []
 ## Playtest v0.4.0 Part F: every rule of this fight as badges (zone effects, dungeon rules, boons, the Capital's services, the
 ## one-sided encounter rules) - the battle HUD's icon row. `start_battle` fills it from `encounter_rules` when a maker left it empty.
 var rule_badges: Array[RuleBadges.Badge] = []
+## Fable Nov 15 (Part 4): this zone roamer stood beside an open rift (the Capital): its units get +1/+1 and it has more HP.
+var rift_empowered: bool = false
 var music: StringName = &"battle"
 ## Which battleboard backdrop the duel is fought on: a key of `data/battleboards.json` ("zone:beefcake", "capital:in", "arena"...). "" = the neutral board.
 var board_key: String = ""

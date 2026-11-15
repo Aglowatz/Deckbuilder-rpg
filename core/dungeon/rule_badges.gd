@@ -41,12 +41,15 @@ class Badge:
 	## Overnight Nov 3-4, Part B7: the scripted triggers this badge stands for ("key|id"); a "Hidden trait ?" chip can stand for several.
 	var refs: Array[String] = []
 	var hidden: bool = false
+	## Fable Nov 15 (Part 4): the modifiers this badge stands for, as `RuleAudit.signature` strings. `RuleAudit` checks that every
+	## modifier a fight puts on a seat (beyond the player's own gear) is covered by a shown badge.
+	var covers: Array[String] = []
 
 	func is_good() -> bool:
 		return good
 
 	func color() -> Color:
-		if kind == "zone_buff" or kind == "boon" or (kind == "encounter" and side == SIDE_PLAYER):
+		if kind == "zone_buff" or kind == "boon" or (kind == "encounter" and (side == SIDE_PLAYER or good)):
 			return Color("6fbf73")
 		if kind == "zone_debuff" or kind == "capital" or kind == "curse" or (kind == "encounter" and side == SIDE_ENEMY):
 			return Color("e8625a")
@@ -84,6 +87,21 @@ static func _badge(kind: String, name: String, text: String, icon: String, side:
 	return badge
 
 
+## Fable Nov 15 (Part 4): notes the modifiers a badge stands for (null and empty lists are fine).
+static func _cover(badge: Badge, modifiers: Variant) -> Badge:
+	if modifiers is Array:
+		for modifier: Variant in modifiers as Array:
+			if modifier is Modifier:
+				badge.covers.append(RuleAudit.signature(modifier as Modifier))
+	return badge
+
+
+## Fable Nov 15 (Part 4): a rule a fight applies in code rather than from the rule tables (a rift's empowering, the early-zone ease):
+## an enemy-side badge, red when it hurts the player and green when it helps (`helps_player`).
+static func special(name: String, text: String, icon: String, modifiers: Array[Modifier], helps_player: bool = false) -> Badge:
+	return _cover(_badge("encounter", name, text, icon, SIDE_ENEMY, helps_player), modifiers)
+
+
 ## The zone's buff and debuff (both sides).
 static func for_zone(zone_id: String) -> Array[Badge]:
 	var result: Array[Badge] = []
@@ -92,7 +110,8 @@ static func for_zone(zone_id: String) -> Array[Badge]:
 	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id)
 	if effect == null:
 		return result
-	result.append(_badge("zone_buff", effect.buff_name(), "%s\n%s" % [effect.buff_mechanic(), effect.buff_flavor()], ZONE_BUFF_ICON, SIDE_BOTH, true))
+	var source: ModifierSource = effect.source()
+	result.append(_cover(_badge("zone_buff", effect.buff_name(), "%s\n%s" % [effect.buff_mechanic(), effect.buff_flavor()], ZONE_BUFF_ICON, SIDE_BOTH, true), source.modifiers if source != null else null))
 	result.append(_badge("zone_debuff", effect.debuff_name(), "%s\n%s" % [effect.debuff_mechanic(), effect.debuff_flavor()], ZONE_DEBUFF_ICON, SIDE_BOTH, false))
 	return result
 
@@ -110,7 +129,12 @@ static func for_dungeon(key: String, node_number: int = 0) -> Array[Badge]:
 		var scope: String = str(rule["scope"])
 		var side: String = SIDE_PLAYER if scope == "player" else (SIDE_ENEMY if scope == "enemy" else SIDE_BOTH)
 		var good: bool = side == SIDE_PLAYER and not bool(rule.get("harmful", false))
-		result.append(_badge("dungeon", name, str(rule["text"]), str(DUNGEON_ICONS.get(name, DEFAULT_ICON)), side, good))
+		var badge: Badge = _badge("dungeon", name, str(rule["text"]), str(DUNGEON_ICONS.get(name, DEFAULT_ICON)), side, good)
+		if rule.get("modifiers") is Array:
+			for modifier: Variant in rule["modifiers"] as Array:
+				if modifier is Modifier:
+					badge.covers.append(RuleAudit.signature(DungeonRules._delay_growth(modifier as Modifier, node_number)))
+		result.append(badge)
 	return result
 
 
@@ -122,7 +146,7 @@ static func for_boons(sources: Array[ModifierSource]) -> Array[Badge]:
 			continue
 		# Fixes Oct 27, Part 4: the real effect from the boon's numbers (BoonText); a curse is a red badge
 		var curse: bool = BoonText.is_curse(source)
-		result.append(_badge("curse" if curse else "boon", source.source_name, BoonText.describe(source), CURSE_ICON if curse else BOON_ICON, SIDE_PLAYER, not curse))
+		result.append(_cover(_badge("curse" if curse else "boon", source.source_name, BoonText.describe(source), CURSE_ICON if curse else BOON_ICON, SIDE_PLAYER, not curse), source.modifiers))
 	return result
 
 
@@ -130,7 +154,8 @@ static func for_boons(sources: Array[ModifierSource]) -> Array[Badge]:
 static func for_capital(flags: Dictionary) -> Array[Badge]:
 	var result: Array[Badge] = []
 	for debuff: CapitalDebuffs.Debuff in CapitalDebuffs.active(flags):
-		result.append(_badge("capital", debuff.name_text(), debuff.mechanic_text(), CAPITAL_ICON, SIDE_PLAYER, false))
+		var badge: Badge = _cover(_badge("capital", debuff.name_text(), debuff.mechanic_text(), CAPITAL_ICON, SIDE_PLAYER, false), debuff.player_modifiers)
+		result.append(_cover(badge, debuff.enemy_modifiers))
 	return result
 
 
@@ -145,17 +170,22 @@ static func for_encounter(rules: Array[EncounterModifiers.Rule]) -> Array[Badge]
 				for badge: Badge in result:
 					if badge.hidden and not rule.trigger_ref.is_empty():
 						badge.refs.append(rule.trigger_ref)
+			else:
+				for badge: Badge in result:
+					if badge.name == rule.name and not badge.hidden:
+						_cover(badge, rule.modifiers)
 			continue
 		seen[rule.name] = true
 		var side: String = SIDE_ENEMY if rule.is_enemy_side() else SIDE_PLAYER
 		if rule.scripted:
 			var badge: Badge = _badge("scripted", rule.name, rule.text, rule.icon, SIDE_ENEMY, false)
 			badge.hidden = rule.hidden
+			badge.covers.append(RuleAudit.SCRIPT_CARRIER)
 			if not rule.trigger_ref.is_empty():
 				badge.refs.append(rule.trigger_ref)
 			result.append(badge)
 			continue
-		result.append(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER and not rule.harmful))
+		result.append(_cover(_badge("encounter", rule.name, rule.text, rule.icon, side, side == SIDE_PLAYER and not rule.harmful), rule.modifiers))
 	return result
 
 
@@ -177,6 +207,16 @@ static func reveal(badges: Array[Badge], ref: String, trigger: EncounterScripts.
 		result.append(badge)
 	if not placed:
 		return badges
+	return result
+
+
+## Fable Nov 15 (Part 4): the badges that belong to this one fight (its encounter rules, scripted events, a rift's empowering), as
+## opposed to the standing rules of the zone, the run and the Capital, and the early-zone ease (true of every fight of the visit).
+static func fight_specific(badges: Array[Badge]) -> Array[Badge]:
+	var result: Array[Badge] = []
+	for badge: Badge in badges:
+		if (badge.kind == "encounter" or badge.kind == "scripted") and badge.name != ZoneOrderEase.BADGE_NAME:
+			result.append(badge)
 	return result
 
 

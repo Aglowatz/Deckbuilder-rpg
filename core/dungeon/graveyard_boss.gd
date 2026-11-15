@@ -75,3 +75,12 @@ static func enemy_setup(content: ContentSet) -> PlayerSetup:
 
 static func reward_equipment(content: ContentSet) -> EquipmentData:
 	return content.equipment_piece(REWARD_EQUIPMENT_ID)
+
+
+## Fable Nov 15 (Part 4): the fight's own rule, shown (it was applied with no entry): a body rises at the start of each of its turns.
+static func rule_badge() -> RuleBadges.Badge:
+	var modifier: Modifier = _escalation_modifier()
+	var first: CardData = modifier.tokens[0]
+	var last: CardData = modifier.tokens[modifier.tokens.size() - 1]
+	var text: String = "At the start of each of its turns the Cairn raises another of the dead, each stronger than the last: from a %d/%d %s up to a %d/%d %s." % [first.attack, first.defense, first.display_name, last.attack, last.defense, last.display_name]
+	return RuleBadges.special("The Graveyard Will Not Stay Quiet", text, "lorc/tombstone", [modifier] as Array[Modifier])

@@ -182,3 +182,20 @@ static func leader_lines(flags: Dictionary) -> Array[String]:
 	if count == 0:
 		result.append_array(story.get_lines("boon.none.line"))
 	return result
+
+
+## Fable Nov 15 (Part 4): the phase's own rules as a badge (the fight itself is unchanged). The phase's rule line was only the gold panel
+## under the HUD; the "Before the fight" card and the rule icons did not list it. Named after the phase, its text the phase's rule line.
+const PHASE_ICON: String = "delapouite/checklist"
+
+
+static func phase_badge(index: int) -> RuleBadges.Badge:
+	var stage: Phase = phase(index)
+	var covered: Array[Modifier] = []
+	covered.append_array(stage.enemy_modifiers)
+	covered.append_array(stage.player_modifiers)
+	if covered.is_empty():
+		return null
+	var badge: RuleBadges.Badge = RuleBadges.special(stage.title(), stage.rule_text(), PHASE_ICON, covered)
+	badge.side = RuleBadges.SIDE_BOTH if not stage.player_modifiers.is_empty() else RuleBadges.SIDE_ENEMY
+	return badge

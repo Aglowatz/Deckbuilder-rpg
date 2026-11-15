@@ -1885,11 +1885,16 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		player_rules = EncounterModifiers.merge_player_rules(player_rules, node.enemy_name)
 	var game: GameState = run.start_encounter(enemy, zone_source, options, player_rules)
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
+	var allies: Array[RuleBadges.Badge] = []
 	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
 		HouseOfGainsDungeon.place_ally(game)
+		allies.append(_helper_badge("An Old Champion", "Grandmaster Flex, whom you freed in this run, starts the fight on your side of the field.", "lorc/muscle-up"))
 	# Oct 21: Elowen Vey, Defector (T-24) fights beside you against Siphon if you freed her from Cell 4 in this run.
 	if mini_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == PathologyLab.DUNGEON_ID and PathologyLab.rescued(run):
 		PathologyLab.place_ally(game)
+		allies.append(_helper_badge("A Defector", "Elowen Vey, whom you freed from Cell 4 in this run, starts the fight on your side of the field.", "lorc/bubbling-flask"))
+	if (main_dungeon_active or mini_active) and node.kind == DungeonMap.Kind.BOSS and dungeon_key == RotheartDungeon.ZONE_ID and RotheartDungeon.severed(run):
+		allies.append(_helper_badge("Severed Roots", "You cut the Heart Roots in this run: the Rotheart starts with %d less HP." % RotheartDungeon.SEVERED_HP_LOSS, "lorc/sprout"))
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone
@@ -1915,6 +1920,12 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	if capital:
 		context.rule_badges.append_array(RuleBadges.for_capital(flags))
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
+	context.rule_badges.append_array(allies)  # Fable Nov 15 (Part 4): what the run earned for this fight (an ally, the severed roots)
+	# Fable Nov 15 (Part 4): the rules applied in code are shown too - Primm's phase rules and the early-zone ease
+	if phase != null and PrimmBoss.phase_badge(phase.index) != null:
+		context.rule_badges.append(PrimmBoss.phase_badge(phase.index))
+	if not effect_zone.is_empty():
+		_append_badge(context, ZoneOrderEase.badge(effect_zone, completed_zone_count(), is_zone_completed(effect_zone)))
 	context.ai = AIPlayer.for_foe(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name), _skill_for_node(node), node.enemy_name)
 	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
 	context.enemy_icon = MainDungeons.enemy_icon(dungeon_key, node.enemy_name) if (main_dungeon_active or mini_active) else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
@@ -1944,6 +1955,20 @@ var has_start_return_position: bool = false
 ## depends on their outcome; their results show through the resume hook).
 static func parks_town_scene(context: BattleContext) -> bool:
 	return not context.arena_id.is_empty() or context.is_graveyard_boss
+
+
+## Fable Nov 15 (Part 4): a badge for something that helps the player in this fight and is not a modifier (an ally on the field, a foe's
+## lost HP): green, on the player's side.
+static func _helper_badge(name: String, text: String, icon: String) -> RuleBadges.Badge:
+	var badge: RuleBadges.Badge = RuleBadges.special(name, text, icon, [] as Array[Modifier], true)
+	badge.side = RuleBadges.SIDE_PLAYER
+	return badge
+
+
+## Fable Nov 15 (Part 4): adds a badge when there is one (the makers' code-applied rules return null when they are not in effect).
+static func _append_badge(context: BattleContext, badge: RuleBadges.Badge) -> void:
+	if context != null and badge != null:
+		context.rule_badges.append(badge)
 
 
 func start_battle(context: BattleContext) -> void:
@@ -2001,6 +2026,7 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	context.board_key = Gatekeepers.board_key(id)
 	context.encounter_rules = EncounterModifiers.rules(npc_key)
 	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	_append_badge(context, ZoneOrderEase.badge(id, completed_zone_count()))  # Fable Nov 15 (Part 4): the ease is shown
 	return context
 
 
@@ -2058,6 +2084,7 @@ func make_graveyard_battle() -> BattleContext:
 	context.board_key = "graveyard"
 	context.encounter_rules = EncounterModifiers.rules(GraveyardBoss.RULES_KEY)
 	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	context.rule_badges.push_front(GraveyardBoss.rule_badge())  # Fable Nov 15 (Part 4): the rising dead are a shown rule
 	return context
 
 
@@ -2240,6 +2267,7 @@ func make_vault_battle() -> BattleContext:
 	context.board_key = "town"
 	context.encounter_rules = EncounterModifiers.rules(VaultGuardian.RULES_KEY)
 	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	context.rule_badges.push_front(VaultGuardian.rule_badge())  # Fable Nov 15 (Part 4): the seals' guardians are a shown rule
 	return context
 
 
@@ -2997,6 +3025,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	ZoneOrderEase.ease_seat(zone_enemy, zone_id, completed_zone_count(), is_zone_completed(zone_id))  # Overnight Nov 4-5, Part 3
 	if zone_source != null:
 		zone_enemy.modifiers.add_source(zone_source)
+	var empowered: bool = zone_id == CapitalZone.ID and zone_empower_next
 	if zone_id == CapitalZone.ID:
 		_add_capital_enemy_rules(zone_enemy, zone_empower_next)
 	zone_empower_next = false
@@ -3018,6 +3047,15 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	if zone_id == CapitalZone.ID:
 		context.rule_badges.append_array(RuleBadges.for_capital(flags))
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
+	if is_zone_completed(zone_id) and not ZoneEnemies.freed_recipe(zone_id, enemy_type).is_empty():
+		# a freed zone's friendly rematch: a two-Path deck and more HP (it had only the zone's toast)
+		var rematch: RuleBadges.Badge = RuleBadges.special("Friendly Rematch", "The zone is free and this is sparring: your opponent plays a two-Path deck and has %d more HP." % ZoneEnemies.FREED_HP_BONUS, "lorc/crossed-swords", [] as Array[Modifier])
+		context.rule_badges.append(rematch)
+	# Fable Nov 15 (Part 4): the rules applied in code are shown too - a rift's empowering and the early-zone ease
+	if empowered:
+		context.rule_badges.append(CapitalRifts.empower_badge())
+		context.rift_empowered = true
+	_append_badge(context, ZoneOrderEase.badge(zone_id, completed_zone_count(), is_zone_completed(zone_id)))
 	context.gold_reward = data.gold_reward
 	context.xp_reward = data.xp_reward
 	return context
@@ -3060,6 +3098,8 @@ func make_quota_yards_battle() -> BattleContext:
 	context.zone_enemy_type = Lieutenants.YARDS_SPOT
 	context.encounter_rules = EncounterModifiers.rules(Lieutenants.YARDS_RULES_KEY)
 	context.rule_badges = RuleBadges.for_capital(flags)
+	if zone_run != null:
+		context.rule_badges.append_array(RuleBadges.for_boons(zone_run.run.dungeon_sources))  # Fable Nov 15 (Part 4)
 	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	context.gold_reward = Lieutenants.YARDS_GOLD
 	context.xp_reward = Lieutenants.YARDS_XP
@@ -3090,8 +3130,7 @@ func _add_capital_enemy_rules(enemy: PlayerSetup, empowered: bool) -> void:
 	if rules != null:
 		enemy.modifiers.add_source(rules)
 	if empowered:
-		var boost: Modifier = CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, CapitalRifts.EMPOWER_STAT, Modifier.ANY_COLOR, CapitalRifts.EMPOWER_STAT)
-		enemy.modifiers.add_source(CardBuilder.modifier_source("Rift-empowered", ModifierSource.SourceKind.ZONE, [boost] as Array[Modifier]))
+		enemy.modifiers.add_source(CardBuilder.modifier_source(CapitalRifts.EMPOWER_NAME, ModifierSource.SourceKind.ZONE, [CapitalRifts.empower_modifier()] as Array[Modifier]))
 		enemy.starting_hp += CapitalRifts.EMPOWER_HP
 
 
@@ -3854,7 +3893,8 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	context.arena_id = encounter_id
 	context.board_key = "arena"
 	context.encounter_rules = EncounterModifiers.rules(ArenaScenario.rules_key(encounter))
-	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	context.rule_badges = ArenaScenario.player_rule_badges(encounter)  # Fable Nov 15 (Part 4): the bout's own rules first
+	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	return context
 
 

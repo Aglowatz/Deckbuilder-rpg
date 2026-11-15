@@ -34,7 +34,7 @@ func test_primm_phase_rules_have_their_own_keys() -> void:
 	assert_eq(PrimmBoss.rules_key(0), "Primm (standardization)")
 	assert_gt(EncounterModifiers.rules(PrimmBoss.rules_key(0)).size(), 0, "phase 1 has a boss rule (Royal Guard)")
 	for rule: EncounterModifiers.Rule in EncounterModifiers.rules(PrimmBoss.rules_key(1)):
-		assert_true(rule.scripted, "phase 2 has no one-sided rule, only (Oct 23) its scripted event")
+		assert_true(rule.scripted or rule.name == BossTempo.RULE_NAME, "phase 2 has no one-sided rule in the table, only (Oct 23) its scripted event and the bosses' setup window")
 
 
 func test_every_rule_key_parses() -> void:

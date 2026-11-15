@@ -67,3 +67,26 @@ static func apply(setup: PlayerSetup, factor: float) -> void:
 	setup.starting_hp = maxi(4, roundi(float(setup.starting_hp) * factor))
 	if setup.profile != null:
 		setup.profile.max_hp = maxi(setup.starting_hp, roundi(float(setup.profile.max_hp) * factor))
+
+
+## Fable Nov 15 (Part 4): the ease is a rule of the fight like any other, so it is shown (it was applied silently: foes with red attack
+## numbers and nothing to say why). Null when the zone is not eased right now. A rule on the enemy's side that helps the player (green).
+const BADGE_NAME: String = "Caught Unprepared"
+const BADGE_ICON: String = "delapouite/temporary-shield"
+
+
+static func badge(zone_id: String, zones_freed: int, zone_freed: bool = false) -> RuleBadges.Badge:
+	var factor: float = hp_factor(zone_id, zones_freed, zone_freed)
+	var attack: int = attack_ease(zone_id, zones_freed, zone_freed)
+	if is_equal_approx(factor, 1.0) and attack == 0:
+		return null
+	var parts: PackedStringArray = []
+	if attack != 0:
+		parts.append("their units get %d attack" % attack)
+	if factor < 1.0:
+		parts.append("they have about %d%% less HP" % roundi((1.0 - factor) * 100.0))
+	var text: String = "You reached this zone earlier than its foes expected: %s. This fades as you free other zones." % " and ".join(parts)
+	var covered: Array[Modifier] = []
+	if attack != 0:
+		covered.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, attack, Modifier.ANY_COLOR, 0))
+	return RuleBadges.special(BADGE_NAME, text, BADGE_ICON, covered, true)

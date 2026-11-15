@@ -79,3 +79,21 @@ static func empowers(flags: Dictionary, home_xz: Vector2) -> bool:
 		if home_xz.distance_to(Vector2(float(entry["x"]), float(entry["z"]))) <= EMPOWER_RANGE:
 			return true
 	return false
+
+
+## Fable Nov 15 (Part 4): a foe that stood beside an open rift fights empowered - +1/+1 on its units and more HP. It was applied with no
+## word anywhere ("the Correction Officer's troops get +1/+1 and the fight doesn't say so"). The rule's badge, and its modifier.
+const EMPOWER_NAME: String = "Rift-Empowered"
+const EMPOWER_ICON: String = "lorc/magic-portal"
+
+
+static func empower_modifier() -> Modifier:
+	return CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, EMPOWER_STAT, Modifier.ANY_COLOR, EMPOWER_STAT)
+
+
+static func empower_text() -> String:
+	return "This foe stood beside an open rift: its units get +%d/+%d and it has %d more HP. Seal the rift (or fight its guards away from it) and the next ones fight as normal." % [EMPOWER_STAT, EMPOWER_STAT, EMPOWER_HP]
+
+
+static func empower_badge() -> RuleBadges.Badge:
+	return RuleBadges.special(EMPOWER_NAME, empower_text(), EMPOWER_ICON, [empower_modifier()] as Array[Modifier])

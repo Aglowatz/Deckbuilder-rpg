@@ -1,0 +1,1361 @@
+[
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath"
+		],
+		"foe": "Quota Spotter",
+		"missing": [],
+		"where": "zone beefcake roamer brute"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath"
+		],
+		"foe": "Protein Shake Golem",
+		"missing": [],
+		"where": "zone beefcake roamer golem"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym"
+		],
+		"foe": "Treadmill Sprinter",
+		"missing": [],
+		"where": "beefcake main dungeon node 2"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym"
+		],
+		"foe": "Courtyard Lifter",
+		"missing": [],
+		"where": "beefcake main dungeon node 3"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym",
+			"Stopwatch",
+			"Hidden trait ?"
+		],
+		"foe": "Vivienne Quota, Minister of Efficiency",
+		"missing": [],
+		"where": "beefcake main dungeon node 6"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym",
+			"Iron-less Prison",
+			"Smuggled Weights"
+		],
+		"foe": "Cell Block Brawler",
+		"missing": [],
+		"where": "beefcake main dungeon node 8"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym",
+			"Hidden trait ?"
+		],
+		"foe": "Trophy Hall Honor Guard",
+		"missing": [],
+		"where": "beefcake main dungeon node 11"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Home Gym",
+			"Iron Regent",
+			"Reinforcements",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Chancellor Clench, Iron Regent",
+		"missing": [],
+		"where": "beefcake main dungeon node 13"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Thin Air"
+		],
+		"foe": "Rival Lifter at Base Camp",
+		"missing": [],
+		"where": "S-BEEF (beefcake) node 1"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Thin Air"
+		],
+		"foe": "Squat Rack Sentinel",
+		"missing": [],
+		"where": "S-BEEF (beefcake) node 2"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Thin Air",
+			"Spotted",
+			"Ancient Form",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Ancient Spotter",
+		"missing": [],
+		"where": "S-BEEF (beefcake) node 3"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Never Skip Leg Day"
+		],
+		"foe": "Calf Raise Crusher",
+		"missing": [],
+		"where": "S-IRON (beefcake) node 1"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Never Skip Leg Day"
+		],
+		"foe": "Squat Rack Squatter",
+		"missing": [],
+		"where": "S-IRON (beefcake) node 2"
+	},
+	{
+		"badges": [
+			"Pump It Up",
+			"Out of Breath",
+			"Never Skip Leg Day",
+			"Leg Day",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Baron Quadzilla",
+		"missing": [],
+		"where": "S-IRON (beefcake) node 3"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity"
+		],
+		"foe": "Shambling Middle Manager",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "zone necrocrat roamer manager"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity"
+		],
+		"foe": "Unpaid Intern",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "zone necrocrat roamer intern"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere"
+		],
+		"foe": "Intake Clerk",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 3"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere"
+		],
+		"foe": "Returns Clerk",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 4"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere",
+			"Notarized",
+			"Hidden trait ?"
+		],
+		"foe": "Notary Wraith",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 7"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere"
+		],
+		"foe": "Resurrection Permits Zombie",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 9"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere",
+			"Pre-Signed Contracts",
+			"Hidden trait ?"
+		],
+		"foe": "Undersecretary Vellum",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 11"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere"
+		],
+		"foe": "Executive Elevator Operator",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 13"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Processing Time",
+			"Red Tape Everywhere",
+			"Paper Mountain",
+			"Temp Agency",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Mortimer Grimsby, CE-No",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "necrocrat main dungeon node 14"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Please Wait"
+		],
+		"foe": "Receptionist of Number One",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-NECRO (necrocrat) node 1"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Please Wait"
+		],
+		"foe": "The Eternal Queue",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-NECRO (necrocrat) node 2"
+	},
+	{
+		"badges": [
+			"Approved Procedure",
+			"Unauthorized Activity",
+			"Please Wait",
+			"Take a Number",
+			"Surly",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Betty Bones, Surly Secretary",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-NECRO (necrocrat) node 3"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation"
+		],
+		"foe": "Meatloaf Golem",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "zone gourmand roamer loaf"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation"
+		],
+		"foe": "Gelatin Sentinel",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "zone gourmand roamer jelly"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food"
+		],
+		"foe": "Prep Station Sous-Chef",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 2"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food"
+		],
+		"foe": "Frozen Line Cook",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 3"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food",
+			"Conveyor",
+			"Hidden trait ?"
+		],
+		"foe": "Unfinished War Machine",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 6"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food"
+		],
+		"foe": "Assembly Line Golem",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 8"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food",
+			"Shrapnel",
+			"Hidden trait ?"
+		],
+		"foe": "Cannon-Blender Gunner",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 11"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food"
+		],
+		"foe": "Expediter of the Pass",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 12"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Experimental",
+			"Corrupted Food",
+			"Mise en Place",
+			"Plated Just So",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Doppelganger",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gourmand main dungeon node 13"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Fresh Fish"
+		],
+		"foe": "Apprentice Itamae",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-GOUR (gourmand) node 1"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Fresh Fish"
+		],
+		"foe": "Conveyor Belt Sushi Chef",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-GOUR (gourmand) node 2"
+	},
+	{
+		"badges": [
+			"Well Fed",
+			"Dress Code Violation",
+			"Fresh Fish",
+			"Omakase",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Itamae Supreme",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "S-GOUR (gourmand) node 3"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage"
+		],
+		"foe": "Mossy Trash Golem",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "zone refusemancer roamer golem"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage"
+		],
+		"foe": "Hungry Scarecrow",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "zone refusemancer roamer scarecrow"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot"
+		],
+		"foe": "Overgrown Scarecrow",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 2"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot"
+		],
+		"foe": "Mutant Mushroom Troop",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 3"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot",
+			"Prize Topiary",
+			"Royal Groundskeeper",
+			"Hidden trait ?"
+		],
+		"foe": "Hortensia Clipwell, Royal Groundskeeper",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 6"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot"
+		],
+		"foe": "Thorn Maze Stalker",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 8"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot",
+			"Swarm",
+			"Hidden trait ?"
+		],
+		"foe": "Hive of Mutant Bees",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 10"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot"
+		],
+		"foe": "Rot Tunnel Horror",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 11"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Wild Growth",
+			"Rot",
+			"Rot Takes Root",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Compostella, the Rotheart",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "refusemancer main dungeon node 13"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Midnight Snack"
+		],
+		"foe": "Alley Gate Raccoon",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "S-REF (refusemancer) node 1"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Midnight Snack"
+		],
+		"foe": "Pizza Crust Courtier",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "S-REF (refusemancer) node 2"
+	},
+	{
+		"badges": [
+			"Overgrowth",
+			"Spoilage",
+			"Midnight Snack",
+			"Royal Larder",
+			"Royal Guard of Bins",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "His Majesty the Raccoon",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "S-REF (refusemancer) node 3"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Correction Officer",
+		"missing": [],
+		"where": "zone final roamer officer"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Correction Officer",
+		"missing": [
+			"enemy: \"Rift-empowered\" applies STAT_CHANGE 1/1"
+		],
+		"where": "zone final roamer officer beside an open rift"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Perfection Inspector",
+		"missing": [],
+		"where": "zone final roamer inspector"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Perfection Inspector",
+		"missing": [
+			"enemy: \"Rift-empowered\" applies STAT_CHANGE 1/1"
+		],
+		"where": "zone final roamer inspector beside an open rift"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Rift Wretch",
+		"missing": [],
+		"where": "zone final roamer wretch"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Rift Wretch",
+		"missing": [
+			"enemy: \"Rift-empowered\" applies STAT_CHANGE 1/1"
+		],
+		"where": "zone final roamer wretch beside an open rift"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Spotless Drill",
+			"Hidden trait ?"
+		],
+		"foe": "Captain Spotless",
+		"missing": [],
+		"where": "zone final: Captain Spotless at the gate"
+	},
+	{
+		"badges": [
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Stopwatch",
+			"Time and Motion",
+			"Hidden trait ?"
+		],
+		"foe": "Vivienne Quota, Minister of Efficiency",
+		"missing": [],
+		"where": "zone final: Quota's rematch"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Hedge Trimmer Guard",
+		"missing": [],
+		"where": "final main dungeon node 2"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Gallery Curator",
+		"missing": [],
+		"where": "final main dungeon node 4"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Polished",
+			"Hidden trait ?"
+		],
+		"foe": "Mirror Knight",
+		"missing": [],
+		"where": "final main dungeon node 5"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Ministry Clerk",
+		"missing": [],
+		"where": "final main dungeon node 6"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Royal Guard",
+			"Hidden trait ?"
+		],
+		"foe": "Royal Staircase Guard",
+		"missing": [],
+		"where": "final main dungeon node 9"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Standing Army",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Primm - Phase 1: Standardization",
+		"missing": [
+			"you: \"Primm: standardization\" applies MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN 2 'Two Is the Perfect Number'",
+			"enemy: \"Primm: standardization\" applies STANDARDIZE_UNITS 3/3 'Standardization'"
+		],
+		"where": "final main dungeon node 10 phase 1"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Primm - Phase 2: Reflection",
+		"missing": [
+			"enemy: \"Primm: reflection\" applies EXTRA_DRAWS 2 'He Already Knows'"
+		],
+		"where": "final main dungeon node 10 phase 2"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Primm - Phase 3: Unraveling",
+		"missing": [
+			"enemy: \"Primm: unraveling\" applies STAT_CHANGE 3/3 'Everything He Cannot Control'",
+			"enemy: \"Primm: unraveling\" applies EXTRA_DRAWS 1 'Panic'",
+			"enemy: \"Primm: unraveling\" applies START_OF_TURN_EFFECT 0 'The Rules Break Down'"
+		],
+		"where": "final main dungeon node 10 phase 3"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Coup Barracks Sergeant",
+		"missing": [],
+		"where": "final main dungeon node 13"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Great News!",
+			"Positive Spin",
+			"Hidden trait ?"
+		],
+		"foe": "Percival Plume, Deputy Minister of Good News",
+		"missing": [],
+		"where": "final main dungeon node 14"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter"
+		],
+		"foe": "Seed Vault Gardener",
+		"missing": [],
+		"where": "final main dungeon node 15"
+	},
+	{
+		"badges": [
+			"Perfect Order",
+			"Mirrors",
+			"Blackout",
+			"Famine",
+			"Restless Dead",
+			"Clutter",
+			"Clockwork Precision",
+			"Hidden trait ?"
+		],
+		"foe": "Clocktower Sentinel",
+		"missing": [],
+		"where": "final main dungeon node 20"
+	},
+	{
+		"badges": [
+			"Forgotten Harmony"
+		],
+		"foe": "Sewer Checkpoint Enforcer",
+		"missing": [],
+		"where": "S-CAP (final) node 1"
+	},
+	{
+		"badges": [
+			"Forgotten Harmony"
+		],
+		"foe": "Junction Patrol",
+		"missing": [],
+		"where": "S-CAP (final) node 2"
+	},
+	{
+		"badges": [
+			"Forgotten Harmony",
+			"Spotless Drill",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Enforcer Sergeant Scuff",
+		"missing": [],
+		"where": "S-CAP (final) node 3"
+	},
+	{
+		"badges": [
+			"Bland Diet",
+			"Real Food"
+		],
+		"foe": "Ration Line Supervisor",
+		"missing": [],
+		"where": "S-PASTE (final) node 1"
+	},
+	{
+		"badges": [
+			"Bland Diet",
+			"Real Food"
+		],
+		"foe": "Vat Floor Golem",
+		"missing": [],
+		"where": "S-PASTE (final) node 2"
+	},
+	{
+		"badges": [
+			"Bland Diet",
+			"Real Food",
+			"Whisk Formation",
+			"Fortified Rations",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Colonel Cornelius Crumb, Director of Culinary Defense",
+		"missing": [],
+		"where": "S-PASTE (final) node 3"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Silver Reserve",
+			"Ahead of Schedule"
+		],
+		"foe": "Echo of Vivienne Quota",
+		"missing": [],
+		"where": "S-GALLERY (final) node 2"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Silver Reserve",
+			"Iron in the Glass"
+		],
+		"foe": "Echo of Chancellor Clench",
+		"missing": [],
+		"where": "S-GALLERY (final) node 4"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Silver Reserve",
+			"Even Better News"
+		],
+		"foe": "Echo of Percival Plume",
+		"missing": [],
+		"where": "S-GALLERY (final) node 5"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Silver Reserve",
+			"The Reflection Is Valid"
+		],
+		"foe": "Echo of Mortimer Grimsby",
+		"missing": [],
+		"where": "S-GALLERY (final) node 7"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Silver Reserve",
+			"Plated Twice"
+		],
+		"foe": "Echo of the Doppelganger",
+		"missing": [],
+		"where": "S-GALLERY (final) node 9"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Silver Reserve",
+			"Mirror Topiary"
+		],
+		"foe": "Echo of Hortensia Clipwell",
+		"missing": [],
+		"where": "S-GALLERY (final) node 10"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Perfect Form",
+			"Silver Reserve",
+			"Evergreen Glass"
+		],
+		"foe": "Echo of the Rotheart",
+		"missing": [],
+		"where": "S-GALLERY (final) node 11"
+	},
+	{
+		"badges": [
+			"Silvered",
+			"Reflected Order",
+			"Silver Reserve",
+			"Everything You Have",
+			"Setting Up"
+		],
+		"foe": "The Perfect Copy",
+		"missing": [],
+		"where": "S-GALLERY (final) node 13"
+	},
+	{
+		"badges": [
+			"Old Kingdom"
+		],
+		"foe": "Rusty Gate Clockwork",
+		"missing": [],
+		"where": "S-TOWN (town) node 1"
+	},
+	{
+		"badges": [
+			"Old Kingdom"
+		],
+		"foe": "Banner Hall Guardian",
+		"missing": [],
+		"where": "S-TOWN (town) node 2"
+	},
+	{
+		"badges": [
+			"Old Kingdom",
+			"Old Kingdom Engine",
+			"Old Kingdom Steel",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Old Kingdom Automaton",
+		"missing": [],
+		"where": "S-TOWN (town) node 3"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens"
+		],
+		"foe": "Intake Orderly",
+		"missing": [],
+		"where": "D-LAB (start) node 2"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens"
+		],
+		"foe": "Escaped Specimen",
+		"missing": [],
+		"where": "D-LAB (start) node 3"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens",
+			"Unstable",
+			"Hidden trait ?"
+		],
+		"foe": "The Failed Experiment",
+		"missing": [],
+		"where": "D-LAB (start) node 5"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens"
+		],
+		"foe": "Hybrid Specimen",
+		"missing": [],
+		"where": "D-LAB (start) node 8"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens"
+		],
+		"foe": "Siphon's Research Assistant",
+		"missing": [],
+		"where": "D-LAB (start) node 10"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens",
+			"Drained",
+			"Borrowed Strength",
+			"Hidden trait ?"
+		],
+		"foe": "The Drain Warden",
+		"missing": [],
+		"where": "D-LAB (start) node 13"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens"
+		],
+		"foe": "Antechamber Sentry",
+		"missing": [],
+		"where": "D-LAB (start) node 15"
+	},
+	{
+		"badges": [
+			"Specimen Conditions",
+			"Enhanced Specimens",
+			"Augmentation",
+			"Replication",
+			"Extraction",
+			"Containment",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "Dr. Ambrose Siphon, Chief Path-ologist",
+		"missing": [],
+		"where": "D-LAB (start) node 16"
+	},
+	{
+		"badges": [],
+		"foe": "Cave Scavenger",
+		"missing": [],
+		"where": "the Forgotten Cave node 2"
+	},
+	{
+		"badges": [],
+		"foe": "Hollow Stalker",
+		"missing": [],
+		"where": "the Forgotten Cave node 4"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Hollow Warden",
+		"missing": [],
+		"where": "the Forgotten Cave node 6"
+	},
+	{
+		"badges": [],
+		"foe": "Pantry Hound",
+		"missing": [],
+		"where": "town roamer hound"
+	},
+	{
+		"badges": [],
+		"foe": "Lost Junior Clerk",
+		"missing": [],
+		"where": "town roamer clerk"
+	},
+	{
+		"badges": [],
+		"foe": "Bin Raccoon",
+		"missing": [],
+		"where": "town roamer raccoon"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Brick Bronson",
+		"missing": [],
+		"where": "gatekeeper beefcake"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Prudence Pallor",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gatekeeper necrocrat"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Chef Fennel Gravois",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -1 'Zone order ease'"
+		],
+		"where": "gatekeeper gourmand"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Moss Mulligan",
+		"missing": [
+			"enemy: \"Zone order ease\" applies STAT_CHANGE -2 'Zone order ease'"
+		],
+		"where": "gatekeeper refusemancer"
+	},
+	{
+		"badges": [
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Restless Dead",
+		"missing": [
+			"enemy: \"The Restless Cairn\" applies SCRIPTED_ESCALATING_SUMMON 0 [T-10, T-10, T-11, T-10, T-21, T-19, T-17] 'The graveyard will not stay quiet'"
+		],
+		"where": "town: the Graveyard"
+	},
+	{
+		"badges": [
+			"The Oldest Trick",
+			"Smoke and Mirrors",
+			"Hidden trait ?"
+		],
+		"foe": "Shiro Swindle",
+		"missing": [],
+		"where": "town: Shiro"
+	},
+	{
+		"badges": [
+			"Four Seals",
+			"Setting Up",
+			"Hidden trait ?"
+		],
+		"foe": "The Warden of the Four Seals",
+		"missing": [
+			"enemy: \"The Four-Seal Vault\" applies SCRIPTED_ESCALATING_SUMMON 0 [T-11, T-11, T-11, T-01, T-01, T-06, T-06, T-18, T-20, T-07] 'The seals send guardians'"
+		],
+		"where": "town: the vault"
+	},
+	{
+		"badges": [
+			"The Spring Remembers",
+			"First, Water",
+			"Hidden trait ?"
+		],
+		"foe": "The Wellspring's Echo",
+		"missing": [],
+		"where": "town: the Old Well"
+	},
+	{
+		"badges": [
+			"Haunted Inventory"
+		],
+		"foe": "Store Room Ghosts",
+		"missing": [],
+		"where": "town: the store room"
+	},
+	{
+		"badges": [],
+		"foe": "Gladiator Rookie",
+		"missing": [],
+		"where": "arena arena_warmup"
+	},
+	{
+		"badges": [],
+		"foe": "Lunch Rush",
+		"missing": [],
+		"where": "arena arena_lethal_lunch"
+	},
+	{
+		"badges": [],
+		"foe": "Sandbag Sentinel",
+		"missing": [],
+		"where": "arena arena_neutral_mile"
+	},
+	{
+		"badges": [],
+		"foe": "Stampeding Squad",
+		"missing": [],
+		"where": "arena arena_hold_the_line"
+	},
+	{
+		"badges": [
+			"Hidden trait ?"
+		],
+		"foe": "Cardboard Colossus",
+		"missing": [
+			"you: \"Arena rules\" applies NO_UNIT_PLAYS 0 'No unit plays'"
+		],
+		"where": "arena arena_spells_only"
+	},
+	{
+		"badges": [
+			"Four Fists",
+			"Hidden trait ?"
+		],
+		"foe": "Champion of the Four Fists",
+		"missing": [],
+		"where": "arena arena_four_fists"
+	},
+	{
+		"badges": [],
+		"foe": "The Wall of Fame",
+		"missing": [],
+		"where": "arena arena_zero_to_hero"
+	},
+	{
+		"badges": [
+			"Crowd Favourite",
+			"Heckling Crowd",
+			"Hidden trait ?"
+		],
+		"foe": "Announcer Grand Bellows",
+		"missing": [],
+		"where": "arena arena_marshal"
+	}
+]

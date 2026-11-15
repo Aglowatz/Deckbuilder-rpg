@@ -250,6 +250,7 @@ func _battle_in(scene: ZoneScene, zone_id: String) -> void:
 	_area = "%s battle" % zone_id
 	_action = "%s: battle" % zone_id
 	_measuring = false
+	ZoneScene.roamer_briefs = false  # Fable Nov 15: no "Before the fight" card in the bot's way
 	scene.call(&"_start_enemy_battle", enemy)
 	var battle: BattleScreen = await _wait_for(BattleScreen, 20.0) as BattleScreen
 	if battle == null:

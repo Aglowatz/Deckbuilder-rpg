@@ -124,3 +124,21 @@ static func resolve_reward(encounter: ArenaEncounter, primary: Affinity.Type, le
 	if not essence.is_empty():
 		result["essence"] = essence
 	return result
+
+
+## Fable Nov 15 (Part 4): an arena fight's own rules for the player (the spells-only bout) as badges; they were applied with no entry.
+const PLAYER_RULE_TEXTS: Dictionary = {
+	Modifier.Kind.NO_UNIT_PLAYS: ["Spells Only", "You cannot play units in this bout: spells, traps and tools only.", "delapouite/book-cover"],
+}
+
+
+static func player_rule_badges(encounter: ArenaEncounter) -> Array[RuleBadges.Badge]:
+	var result: Array[RuleBadges.Badge] = []
+	if encounter == null:
+		return result
+	for modifier: Modifier in encounter.player_rules:
+		var words: Array = PLAYER_RULE_TEXTS.get(modifier.kind, [modifier.label if not modifier.label.is_empty() else "Arena rule", "A rule of this bout: %s." % modifier.label, RuleBadges.DEFAULT_ICON]) as Array
+		var badge: RuleBadges.Badge = RuleBadges.special(str(words[0]), str(words[1]), str(words[2]), [modifier] as Array[Modifier])
+		badge.side = RuleBadges.SIDE_PLAYER
+		result.append(badge)
+	return result
