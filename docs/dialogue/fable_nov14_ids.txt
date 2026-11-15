@@ -31,6 +31,7 @@ data/story/intro_story.tres::memory.4.after::4
 data/story/intro_story.tres::memory.4.reply::1
 data/story/intro_story.tres::memory.4.after_known::1
 data/story/intro_story.tres::memory.4.after_known::2
+data/story/intro_story.tres::memory.4.fragment::1
 data/story/story_scenes.json::scenes/maren_after_capture/steps/1::2
 data/story/story_scenes.json::scenes/maren_after_capture/steps/4::1
 data/story/capital_story.tres::dungeon.pc_ward.before::3

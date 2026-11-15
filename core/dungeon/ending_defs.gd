@@ -25,10 +25,12 @@ const POSTGAME_LINES: int = 3
 const CREDITS_LINES: int = 12
 ## The Path icons shown in the reunion: [icon, tint] for Beefcake, Gourmand, Refusemancer, Necrocrat.
 const PATH_ICONS: Array[Dictionary] = [
-	{"icon": "delapouite/viking-head", "color": "e2553f"},
-	{"icon": "delapouite/chef-toque", "color": "f2c14e"},
-	{"icon": "cathelineau/tree-face", "color": "7bc86c"},
-	{"icon": "delapouite/stamper", "color": "a870d8"},
+	# Fable Nov 14 (Part 4): "art" is the canonical Path icon (PathIcons), drawn in its own colours wherever it exists; "icon" (the old
+	# silhouettes: a viking head, a tree face, a stamp) is only the fallback when the icon art is missing. "color" tints glows and gems.
+	{"icon": "delapouite/biceps", "art": "ICON-ENERGY-B", "color": "e2553f"},
+	{"icon": "delapouite/chef-toque", "art": "ICON-ENERGY-G", "color": "f2c14e"},
+	{"icon": "lorc/recycle", "art": "ICON-ENERGY-R", "color": "7bc86c"},
+	{"icon": "lorc/skull-crack", "art": "ICON-ENERGY-N", "color": "a870d8"},
 ]
 
 

@@ -1,0 +1,89 @@
+# Fable Nov 14 (Part 4): writes docs/art/path_icon_inventory.csv - every place a Path icon or symbol appears, what it shows, what it should
+# show and whether the fix is code or art. Edit the rows here and run: python tools/art/path_icon_inventory.py
+import csv
+from collections import Counter
+
+R = []
+C = "canonical (ICON-ENERGY-B/G/R/N)"
+
+
+def r(place, where, current, correct, fix, status):
+    R.append([place, where, current, correct, fix, status])
+
+
+# cards
+r("Cards: cost pips on the frame", "ui/card/card_view.gd (_framed_pip_dot, _pip)", "ICON-ENERGY-* by Path", C, "none", "OK")
+r("Cards: Path symbol in the frame corner", "ui/card/card_view.gd:737", "ICON-ENERGY-* by Path", C, "none", "OK")
+r("Cards: energy symbols in rules text and tooltips", "ui/card/keyword_info.gd", "ICON-ENERGY-* inline", C, "none", "OK")
+r("Cards: basic Infrastructure placeholder art (BAS-B/G/R/N)", "ui/card/card_icons.gd BY_ID", "flame / drop / leaf swirl / skull and crossbones silhouettes", "painted card art (shown instead whenever it exists)", "none", "OK (fallback only; never the Path icon)")
+r("Card frames (UI-FRAME-B/G/R/N/MULTI)", "assets/art/ui/UI-FRAME-*.webp", "coloured frames, no symbol painted in", "no symbol (the code draws the icon)", "none", "OK")
+r("Card back: Beefcake", "assets/art/ui/UI-CARDBACK-B.webp", "a dumbbell in the centre medallion", "the flexed arm", "art", "Batch 16")
+r("Card back: Gourmand", "assets/art/ui/UI-CARDBACK-G.webp", "a chef's hat", "the chef's hat", "none", "OK")
+r("Card back: Refusemancer", "assets/art/ui/UI-CARDBACK-R.webp", "a leaf in arrows", "the leaf in three arrows", "none", "OK")
+r("Card back: Necrocrat", "assets/art/ui/UI-CARDBACK-N.webp", "a skull with a quill", "the skull in green flame", "art", "Batch 16 (low: the skull reads; the quill and the missing flame differ)")
+# filters, Deck Station, collection
+r("Card filter bar (shops, Deck Station, Collection Book)", "ui/town/card_filter_bar.gd", "ICON-ENERGY-* by Path", C, "none", "OK")
+r("Deck Station: deck Path symbols", "ui/town/deckbuilder_screen.gd:980", "ICON-ENERGY-*", C, "none", "OK")
+r("Deck racks (saved decks)", "ui/widgets/deck_rack.gd:190", "ICON-ENERGY-*", C, "none", "OK")
+r("Path choice at the start", "ui/dungeon/element_choice_screen.gd:112", "ICON-ENERGY-*", C, "none", "OK")
+r("Settings: Path preview", "ui/screens/settings_panel.gd:231", "ICON-ENERGY-*", C, "none", "OK")
+# packs
+r("Pack wrapper: Beefcake", "assets/art/ui/UI-PACK-B.webp", "a flexed arm", "the flexed arm", "none", "OK")
+r("Pack wrapper: Gourmand", "assets/art/ui/UI-PACK-G.webp", "a chef's hat", "the chef's hat", "none", "OK")
+r("Pack wrapper: Refusemancer", "assets/art/ui/UI-PACK-R.webp", "recycling arrows with a leaf", "the leaf in three arrows", "none", "OK")
+r("Pack wrapper: Necrocrat", "assets/art/ui/UI-PACK-N.webp", "a skull in a laurel", "the skull in green flame", "none", "OK (the skull reads; no flame)")
+r("Locked Path packs (UI-PACK-LOCKED-*)", "assets/art/ui/UI-PACK-LOCKED-*.webp", "a wax seal, no Path symbol", "no symbol needed", "none", "OK")
+r("Pack fallback when a wrapper has no art (Card Packs page, pack shops)", "core/data/pack_definitions.gd PATH_ICONS; ui/packs/pack_art.gd", "biceps / fork-knife-spoon / recycle / tombstone silhouettes", C, "code", "FIXED Nov 14")
+# energy, HUD
+r("Battle: energy orbs on the player plate", "ui/battle/battle_hud.gd:1182", "ICON-ENERGY-* (GENERIC for any-Path)", C, "none", "OK")
+r("Battle: Path line in the enemy panel", "ui/battle/battle_screen.gd:1828", "ICON-ENERGY-*", C, "none", "OK")
+r("Zone title card (arrival)", "ui/screens/zone_title_card.gd:268", "ICON-ENERGY-* drawn by code", C, "none", "OK")
+r("Zone title ribbons", "assets/art/keyart/ZONE-TITLE-*.webp", "themed ornaments (wheels, food, flowers, wax seals); no Path medallion", "ornament only", "none", "OK")
+r("Zone effects badges on the HUD", "core/dungeon/rule_badges.gd", "one silhouette per rule (not a Path sign)", "rule pictograms", "none", "OK (rules, not Paths)")
+# map, quests, feats, glossary
+r("Map icons (minimap, full map)", "ui/screens/full_map_screen.gd; MapPoi", "ICON-MAP-* kinds; no Path symbol", "none", "none", "OK")
+r("Quest tracker and Quest Log", "ui/hud; core/quests", "text only; no Path symbol", "none", "none", "OK")
+r("Feats: the four one-Path groups", "core/feats/feat_defs.gd GROUP_ICONS", "ICON-FEAT-PATHS (a dumbbell, a leaf, a ladle, a stamp) for all four", "each group its own canonical icon", "code", "FIXED Nov 14")
+r("Feats: the ICON-FEAT-PATHS picture", "assets/art/icons/ICON-FEAT-PATHS.webp", "a shield with a dumbbell, a leaf, a ladle and a stamp", "a shield with the four medallions", "art", "Batch 16 (unused until redone)")
+r("Feats: Dual Path group", "assets/art/icons/ICON-FEAT-MIXED.webp", "two linked rings (red, green)", "no Path symbol needed", "none", "OK")
+r("Glossary: energy and Path entries", "ui/screens/glossary_panel.gd; ui/card/keyword_info.gd", "ICON-ENERGY-* inline", C, "none", "OK")
+# signs, banners, the Rift Station
+r("The Crease: service-shaft signs", "world/capital/capital_props.gd shaft_hatch", "ICON-MAP-TRAVEL (the purple swirl) on all six", "the district's Path icon on four; the swirl on the Gate Plaza and the palace approach", "code", "FIXED Nov 14 (Part 3)")
+r("Hub signs of the four zones (sign.hub_main, sign.lobby_main)", "world/*/..._builder.gd SIGN_ICONS", "ICON-ENERGY-* of the zone", C, "none", "OK")
+r("Hub motto signs", "world/*/..._builder.gd SIGN_ICONS (sign.hub_motto, sign.motto)", "ICON-ESSENCE-* (the flask)", "the flask is the essence, kept on the motto boards", "none", "OK (currency, not the Path sign)")
+r("The Capital: Transit Yards cardio sign", "world/capital/capital_builder.gd SIGN_ICONS", "ICON-ENERGY-B", C, "none", "OK")
+r("The Capital: the Wrinkles' tents and the Path board in the Outskirts camp", "world/capital/capital_landmarks.gd PATH_ICONS", "ICON-ESSENCE-* (flasks)", C, "code", "FIXED Nov 14")
+r("Props with a resource on them (compost bins, permit desks, the pantry gate, the D.N.A. barrier)", "world/*/..._props.gd, world/hub/*.gd", "ICON-RES-* / ICON-ESSENCE-N", "the resource, as set dressing", "none", "OK (resources on props, by the guide)")
+r("Rift Station and travel screen", "ui/town/fast_travel_screen.gd; world/travel/fast_travel_station.gd", "ICON-MAP-TRAVEL, a portal silhouette; no Path symbol", "none", "none", "OK")
+r("Regime banners (Primm's emblem)", "world/zone/ruler_presence.gd; CAP-SHEET-BANNERS-*", "the ruler's emblem", "the regime emblem (not a Path sign)", "none", "OK")
+r("Crosspath: the fountain's pillars", "world/town_streets.gd (EndingDefs.PATH_ICONS)", "viking head / chef toque / tree face / stamp silhouettes, tinted", C, "code", "FIXED Nov 14")
+r("Crosspath: the four crest plinths (before a zone is freed)", "world/town_streets.gd (CrestIcon_*)", "the same four silhouettes", C, "code", "FIXED Nov 14")
+r("Crosspath: the freed-zone statues on the plinths", "assets/art/zone_kits/town/DEC-PLINTH-BEEF/GOUR/REF/NECRO.webp", "a hand holding a dumbbell; a cloche; a sprout in a tin; a book and quill", "a statue carrying each Path icon (arm; chef's hat; leaf in arrows; skull in flame)", "art", "Batch 16")
+r("Crosspath: freed banners, one per Path", "assets/art/zone_kits/town/TOWN-SHEET-FREED-BANNERS-01..04.webp", "a dumbbell (red); a ladle (blue); a stamp (purple); a maple leaf (green)", "the four Path icons on their own colours", "art", "Batch 16")
+r("Crosspath: freed banners, four-Path", "assets/art/zone_kits/town/TOWN-SHEET-FREED-BANNERS-05/06.webp", "a ring of a sun, a leaf, a moon and a drop", "the ring of four Path icons", "art", "Batch 16")
+r("Crosspath: the painted fountain", "assets/art/zone_kits/town/TOWN-HERO-FOUNTAIN.webp", "four coloured streams; the pillar symbols are too small to read", "colours only", "none", "OK (reference image; the 3D fountain draws the icons)")
+r("The Capital: freed banners", "assets/art/zone_kits/final/CAP-BANNER-FREED-01..04.webp", "an arm (ok); a chef's hat (ok); a leaf swirl; a stamp in a laurel", "the leaf in three arrows; the skull in green flame", "art", "Batch 16 (-03 and -04 only)")
+# story stills and text
+r("Fragment 3 (the coup): banners behind the King", "assets/art/keyart/STORY-MEMORY-3.webp", "a star, a moon, a leaf and a flame on the banners and on the King's robe", "the four Path icons", "art", "Batch 16")
+r("Fragment 4 (the picture after the fourth Path is freed): the crest on the arch above the King", "assets/art/keyart/STORY-MEMORY-4.webp", "a ring of a star, a flame, a leaf and a moon", "the ring of four Path icons", "art", "Batch 16 (seed row 2)")
+r("Fragment 4: the crest in words", "data/story/intro_story.tres memory.4.fragment", "\"four signs in a ring\"", "\"an arm, a chef's hat, a leaf and a skull, four signs in a ring\"", "code (text)", "FIXED Nov 14 (importer)")
+r("Fragment 1 (warmth): the four-colour lamp", "assets/art/keyart/STORY-MEMORY-1.webp", "four colours, no symbols", "colours only", "none", "OK")
+r("The Pathwork Throne", "assets/art/keyart/STORY-THRONE.webp", "four colours woven, no symbols", "colours only", "none", "OK")
+r("The reunion in the plaza: banners in the crowd", "assets/art/keyart/STORY-REUNION.webp", "a sun, a crescent, a leaf and other devices on banners", "the four Path icons", "art", "Batch 16")
+r("HEIR: ALIVE (file complete): banners in the crowd", "assets/art/keyart/STORY-EPI-FILE-COMPLETE.webp", "a hammer, a book and a laurel on banners", "the four Path icons", "art", "Batch 16 (low: small in frame)")
+r("The funeral: the headstones", "assets/art/keyart/STORY-FUNERAL.webp", "plain carved leaves; no ring", "the text's \"four colours in a ring\" is not shown", "none", "OK (the text names no signs)")
+r("The Wayweaver crest in text (Maren's stick, the key's bow, the vault's core)", "data/story/intro_story.tres memory.4.after; data/dungeons/dungeon_content.json", "\"four signs / carvings / marks in a ring\"", "consistent with the ring of four", "none", "OK")
+r("The town vault's map (the four-coloured core, four banners)", "assets/art/maps/MAP-S-TOWN.webp", "four coloured banners with unreadable devices", "colours only at this size", "none", "OK")
+# ending, loading, credits, logo, itch
+r("Ending: the four Paths gather (icon stage)", "ui/screens/ending_screen.gd (EndingDefs.PATH_ICONS)", "viking head / chef toque / tree face / stamp silhouettes", C, "code", "FIXED Nov 14")
+r("Loading screens", "assets/art/keyart/LOAD-*.webp", "zone paintings, no Path symbol", "none", "none", "OK")
+r("Credits panorama", "assets/art/keyart/STORY-CREDITS-PANORAMA.webp", "a landscape, no Path symbol", "none", "none", "OK")
+r("Logo emblem and app icon", "assets/art/keyart/LOGO-EMBLEM.webp, APP-ICON.webp (and the exe icon)", "a dumbbell; a chef's hat; a sprout in a tin; a skull with a quill", "the four Path icons in the ring order", "art", "Batch 16")
+r("Logo wordmark", "assets/art/keyart/LOGO-WORDMARK.webp", "a dumbbell, a skull with a quill, a chef's hat, a sprout in a tin under the words", "the four Path icons", "art", "Batch 16")
+r("itch page art (cover, banner)", "docs/release/itch_page/", "built from the logo emblem and the title key art", "follows the logo redo", "art", "after Batch 16 (rebuild from the new logo)")
+
+with open("docs/art/path_icon_inventory.csv", "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(["Place", "File or scene", "Current icon", "Correct icon", "Fix type", "Status"])
+    w.writerows(R)
+print(len(R), dict(Counter(x[4] for x in R)))

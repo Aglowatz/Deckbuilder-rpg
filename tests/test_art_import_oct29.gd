@@ -33,7 +33,7 @@ func test_hidden_feats_show_the_secret_icon_until_earned() -> void:
 	assert_eq(FeatDefs.icon_for(def, false), FeatDefs.SECRET_ICON)
 	assert_eq(FeatDefs.icon_for(def, true), "ICON-FEAT-STORY")
 	def.group = "Necrocrat"
-	assert_eq(FeatDefs.icon_for(def, true), "ICON-FEAT-PATHS")
+	assert_eq(FeatDefs.icon_for(def, true), "ICON-ENERGY-N", "Fable Nov 14: a one-Path group shows its Path icon")
 
 
 func test_farmhands_and_postgame_primm_have_painted_sets() -> void:

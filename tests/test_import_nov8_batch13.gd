@@ -72,7 +72,7 @@ func test_plinth_statues_cover_the_four_zones() -> void:
 		assert_true(EnvKit.has_art(str(spec["id"])), str(spec["id"]))
 	zones.sort()
 	assert_eq(zones, ["beefcake", "gourmand", "necrocrat", "refusemancer"] as Array[String])
-	# the plinth order matches the crest's icons (EndingDefs.PATH_ICONS: viking head, chef's toque, tree face, stamp)
+	# the plinth order matches the crest's icons (EndingDefs.PATH_ICONS: Beefcake, Gourmand, Refusemancer, Necrocrat)
 	assert_eq(EndingDefs.PATH_ICONS.size(), TownScene.PLINTH_STATUES.size())
 
 

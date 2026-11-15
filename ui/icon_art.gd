@@ -107,6 +107,7 @@ static func bbcode(id: String, px: int) -> String:
 # ---- Which icon where --------------------------------------------------------------------------
 
 
+## The energy orb of a Path IS its canonical Path icon (`PathIcons.ICONS`, docs/art/path_icon_style_guide.md; a test keeps the two equal).
 const ENERGY_IDS: Dictionary = {
 	Affinity.Type.BEEFCAKE: "ICON-ENERGY-B",
 	Affinity.Type.NECROCRAT: "ICON-ENERGY-N",
@@ -486,6 +487,7 @@ static func game_ids() -> Dictionary:
 	for group: Variant in FeatDefs.GROUP_ICONS:
 		ids[str(FeatDefs.GROUP_ICONS[group])] = "Feat group: %s" % str(group)
 	ids[FeatDefs.SECRET_ICON] = "Feat: hidden"
+	ids["ICON-FEAT-PATHS"] = "Feat group: the four Paths (unused until its Batch 16 redo)"
 	return ids
 
 

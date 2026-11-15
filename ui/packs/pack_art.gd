@@ -192,6 +192,13 @@ class PackFace:
 			return
 		if pack != null and not pack.art_icon.is_empty():
 			_icon = CardIcons.named(pack.art_icon)
+			# Fable Nov 14 (Part 4): a Path pack with no painted wrapper shows its canonical Path icon, not the old silhouette
+			if pack.kind == PackData.Kind.PATH and IconArt.has(PathIcons.icon(pack.path)):
+				var path_icon: TextureRect = IconArt.rect(PathIcons.icon(pack.path), 104.0)
+				path_icon.position = Vector2(PackArt.SIZE.x * 0.5 - 52.0, PackArt.SIZE.y * 0.47 - 52.0)
+				path_icon.size = Vector2(104, 104)
+				add_child(path_icon)
+				return
 			var glyph: TextureRect = CardIcons.glyph(_icon, Color(1.0, 0.96, 0.85, 0.95), Vector2(104, 104))
 			glyph.position = Vector2(PackArt.SIZE.x * 0.5 - 52.0, PackArt.SIZE.y * 0.47 - 52.0)
 			glyph.size = Vector2(104, 104)

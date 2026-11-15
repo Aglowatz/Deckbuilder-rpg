@@ -59,6 +59,8 @@ const ROWS = {
 	[I + 'memory.4.reply::1']: "You ran, Maren. You also gave me a bed and a pie when you still thought I might be a spy. I know which of those I'm keeping.",
 	[I + 'memory.4.after_known::1']: "I should have known you myself. I taught you your letters. But my eyes have been going for years, and I had been told that boy was dead, and I was too frightened to hope I'd been told wrong.",
 	[I + 'memory.4.after_known::2']: "So hear it from somebody who held your hand at court: you are {prince_full}, and I am so very sorry for what was done to you with the things I wrote.",
+	// Part 4.3: the crest's four signs are the four real Path icons
+	[I + 'memory.4.fragment::1']: "I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: an arm, a chef's hat, a leaf and a skull, four signs in a ring.",
 	// others who mention her past
 	[S + 'scenes/maren_after_capture/steps/1::2']: "I knew whose daughter she was the day she sent you through my cave. Her father was the best student I ever had, and I held what he became against her for far too long. I was wrong to do it.",
 	[S + 'scenes/maren_after_capture/steps/4::1']: "Back where she came from, I expect: somewhere with bars on the doors and no windows. That's one door I can't open for you, dearie. Not yet.",

@@ -73,7 +73,7 @@ func _ready() -> void:
 	for index: int in range(EndingDefs.PATH_ICONS.size()):
 		var spec: Dictionary = EndingDefs.PATH_ICONS[index]
 		var corner: Vector2 = [Vector2(260, 200), Vector2(1660, 200), Vector2(260, 560), Vector2(1660, 560)][index]
-		var path_icon: TextureRect = _icon(str(spec["icon"]), Color(str(spec["color"])), 210.0, corner)
+		var path_icon: TextureRect = _path_icon(spec, 210.0, corner)
 		path_icon.modulate.a = 0.0
 		_stage.add_child(path_icon)
 		_paths.append(path_icon)
@@ -108,6 +108,19 @@ func _ready() -> void:
 		_show_thanks.call_deferred()  # Fable Nov 12: the thanks card for a shot
 	if _screenshot_args.has("postgame"):
 		_show_postgame.call_deferred()
+
+
+## A Path's canonical icon in its own colours (Fable Nov 14, Part 4); the tinted silhouette only when the art is missing.
+func _path_icon(spec: Dictionary, side: float, center: Vector2) -> TextureRect:
+	var art: TextureRect = IconArt.rect(str(spec.get("art", "")), side) if IconArt.has(str(spec.get("art", ""))) else null
+	if art == null:
+		return _icon(str(spec["icon"]), Color(str(spec["color"])), side, center)
+	art.custom_minimum_size = Vector2(side, side)
+	art.size = Vector2(side, side)
+	art.pivot_offset = art.size * 0.5
+	art.position = center - art.size * 0.5
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return art
 
 
 func _icon(key: String, color: Color, side: float, center: Vector2) -> TextureRect:

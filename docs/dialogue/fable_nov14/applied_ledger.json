@@ -250,5 +250,12 @@
 		"speaker": "(narration)",
 		"before": "The oldest notes, at the far end, are in a different hand: careful, rounded, familiar. 'Observation, Year 1. The child is not a specimen. He asks for his mother. I am leaving the lab. M.'",
 		"after": "The oldest note, at the far end, is in a different hand: careful, rounded, familiar. 'Year 1. I am told the subject is a child, and that he asks for his mother. A child is not a specimen. I will not stay to see it. M.'"
+	},
+	{
+		"id": "data/story/intro_story.tres::memory.4.fragment::1",
+		"file": "data/story/intro_story.tres",
+		"speaker": "(narration/UI)",
+		"before": "I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: four signs in a ring.",
+		"after": "I turn toward a woman's voice, and then a man's, and on every door around me is the {royal_house} crest: an arm, a chef's hat, a leaf and a skull, four signs in a ring."
 	}
 ]

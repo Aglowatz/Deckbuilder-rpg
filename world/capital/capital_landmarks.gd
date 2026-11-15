@@ -16,7 +16,8 @@ const IDS: Array[String] = [
 ]
 ## The essence icon of each Path (`IconArt`): the camp's scraps and the watchtower's old banner carry all four (Beefcake, Gourmand, Necrocrat,
 ## Refusemancer).
-const PATH_ICONS: Array[String] = ["ICON-ESSENCE-B", "ICON-ESSENCE-G", "ICON-ESSENCE-N", "ICON-ESSENCE-R"]
+## Fable Nov 14 (Part 4): the canonical Path icons (PathIcons), not the essence flasks (a flask is the crafting currency, never "the Path").
+const PATH_ICONS: Array[String] = ["ICON-ENERGY-B", "ICON-ENERGY-G", "ICON-ENERGY-N", "ICON-ENERGY-R"]
 
 
 static func has_model(id: String) -> bool:

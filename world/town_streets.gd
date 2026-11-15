@@ -200,10 +200,7 @@ func _fountain() -> void:
 		var quad: QuadMesh = QuadMesh.new()
 		quad.size = Vector2(0.58, 0.58)
 		icon.mesh = quad
-		var icon_material: ShaderMaterial = ShaderMaterial.new()
-		icon_material.shader = load("res://assets/shaders/icon_mask_3d.gdshader") as Shader
-		icon_material.set_shader_parameter("icon_texture", CardIcons.named(str(spec["icon"])))
-		icon_material.set_shader_parameter("tint", tint)
+		var icon_material: Material = path_icon_material(spec, tint)
 		icon.material_override = icon_material
 		icon.set_meta(StyleToon.META_NO_TOON, true)
 		icon.set_meta("no_occlusion_fade", true)
@@ -346,10 +343,7 @@ func _crest() -> void:
 		var quad: QuadMesh = QuadMesh.new()
 		quad.size = Vector2(0.9, 0.9)
 		icon.mesh = quad
-		var icon_material: ShaderMaterial = ShaderMaterial.new()
-		icon_material.shader = load("res://assets/shaders/icon_mask_3d.gdshader") as Shader
-		icon_material.set_shader_parameter("icon_texture", CardIcons.named(str(spec["icon"])))
-		icon_material.set_shader_parameter("tint", tint)
+		var icon_material: Material = path_icon_material(spec, tint)
 		icon.material_override = icon_material
 		icon.position = pos + Vector3(0, 1.35, 0)
 		root.add_child(icon)
@@ -357,6 +351,24 @@ func _crest() -> void:
 	var plinths: MeshInstance3D = plinth.instance("CrestPlinths")
 	plinths.position = center
 	root.add_child(plinths)
+
+
+## Fable Nov 14 (Part 4): the material of a Path symbol in the square (the fountain's pillars, the crest plinths): the canonical Path icon in
+## its own colours, unshaded; the old tinted silhouette only when the icon art is missing.
+static func path_icon_material(spec: Dictionary, tint: Color) -> Material:
+	var art: String = str(spec.get("art", ""))
+	if IconArt.has(art):
+		var painted: StandardMaterial3D = StandardMaterial3D.new()
+		painted.albedo_texture = IconArt.texture(art, 128.0)
+		painted.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+		painted.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		painted.set_meta(StyleToon.META_NO_TOON, true)
+		return painted
+	var masked: ShaderMaterial = ShaderMaterial.new()
+	masked.shader = load("res://assets/shaders/icon_mask_3d.gdshader") as Shader
+	masked.set_shader_parameter("icon_texture", CardIcons.named(str(spec["icon"])))
+	masked.set_shader_parameter("tint", tint)
+	return masked
 
 
 # ---- notice board, signposts, lamps --------------------------------------------------------------------------------------------------

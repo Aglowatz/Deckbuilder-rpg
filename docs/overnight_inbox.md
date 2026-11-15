@@ -70,6 +70,19 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
     rope posts, crate stacks, filing towers, dead trees, rubble. The crates are the town kit's crate tinted grey-green and the rubble
     and one dead tree are the Capital's. Medium at the arrival point: 79 fps (81 before). Low-end keeps every other piece.
 
+14. **The Path icons.** The guide is `docs/art/path_icon_style_guide.md`, the sheet `docs/art/path_icon_sheet.png`, the inventory
+    `docs/art/path_icon_inventory.csv` (62 places: 40 already right, 8 fixed in code or text now, 14 painted ones for Batch 16). The
+    canonical four are the energy icons: a flexed arm, a chef's hat, a leaf in three arrows, a skull in green flame. Fixed in code:
+    the ending's four icons, Crosspath's fountain pillars and crest plinths, the feats' one-Path groups, the Capital camp's tents,
+    the pack fallback, the Crease's shaft signs, and Fragment 4's line ("an arm, a chef's hat, a leaf and a skull, four signs in a
+    ring"). **The picture after the fourth Path is STORY-MEMORY-4** (the arch above the King shows a star, a flame, a leaf and a
+    moon); STORY-MEMORY-3's banners show the same four wrong signs.
+15. **Two UI tints do not match their icons** and I did not change them: Gourmand's accent is blue (`#4A8FE0`) while its icon is cream
+    and copper, and Necrocrat's is violet (`#9A5FC7`) while its icon is ghost green on slate. They colour text, borders and glows
+    across the whole UI (and the Gourmand card frame is painted to match), so it is your call.
+16. **The logo** (emblem, app icon, wordmark) shows a dumbbell, a sprout in a tin and a skull with a quill. It is a Batch 16 row; the
+    itch page art follows it.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.

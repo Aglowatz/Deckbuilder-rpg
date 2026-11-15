@@ -300,3 +300,34 @@ func test_the_dna_apron_is_an_organised_wasteland_off_the_map() -> void:
 		if piece is Node3D and not piece is MultiMeshInstance3D:
 			assert_false(builder.is_floor_at((piece as Node3D).position), "%s stands off the walkable map" % piece.name)
 	assert_true(FileAccess.get_file_as_string("res://world/dna/dna_scene.gd").contains("DnaPaperDrift.build"), "the floating paper stays")
+
+
+# ---- Part 4: the Path icons ---------------------------------------------------------------------------------------------------------
+
+
+func test_one_canonical_icon_per_path_everywhere_in_code() -> void:
+	for path: Affinity.Type in PathIcons.ORDER:
+		assert_eq(IconArt.energy_id(path), PathIcons.icon(path), "the energy orb is the Path icon")
+		assert_true(IconArt.has(PathIcons.icon(path)), "%s exists" % PathIcons.icon(path))
+		assert_false(PathIcons.shape(path).is_empty())
+	assert_eq(PathIcons.icon(Affinity.Type.NEUTRAL), "ICON-ENERGY-GENERIC")
+	assert_eq(PathIcons.four(), ["ICON-ENERGY-B", "ICON-ENERGY-G", "ICON-ENERGY-R", "ICON-ENERGY-N"] as Array[String])
+	# the ending, the fountain and the crest plinths
+	for index: int in range(EndingDefs.PATH_ICONS.size()):
+		assert_eq(str(EndingDefs.PATH_ICONS[index]["art"]), PathIcons.four()[index], "the ending's Path %d" % index)
+		assert_true(TownStreets.path_icon_material(EndingDefs.PATH_ICONS[index], Color.WHITE) is StandardMaterial3D, "drawn as the painted icon")
+	# the feats' one-Path groups, the Capital's camp
+	for group: String in ["Beefcake", "Gourmand", "Necrocrat", "Refusemancer"]:
+		var def: FeatDefs.Def = FeatDefs.Def.new()
+		def.group = group
+		assert_true(FeatDefs.icon_for(def, true).begins_with("ICON-ENERGY-"), "%s feats" % group)
+	for id: String in CapitalLandmarks.PATH_ICONS:
+		assert_true(id.begins_with("ICON-ENERGY-"), "the camp shows Path icons, not flasks")
+
+
+func test_the_guide_the_sheet_and_the_inventory_exist() -> void:
+	assert_true(FileAccess.file_exists("res://docs/art/path_icon_style_guide.md"))
+	assert_true(FileAccess.file_exists("res://docs/art/path_icon_sheet.png"))
+	var rows: PackedStringArray = FileAccess.get_file_as_string("res://docs/art/path_icon_inventory.csv").split("\n", false)
+	assert_gt(rows.size(), 50, "every place is listed")
+	assert_string_contains(_all_text(StoryText.shared().get_lines("memory.4.fragment")), "an arm, a chef's hat, a leaf and a skull, four signs in a ring")

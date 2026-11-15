@@ -22,14 +22,22 @@ const SHAPES: Dictionary = {
 	Affinity.Type.NEUTRAL: "a plain stone disc",
 }
 
-## The Path's colour (the disc of its icon) and its darker rim, as hex. The game's UI tints (`Affinity` colours) may be lighter or darker
-## for legibility; these are what a painter matches.
+## The Path's colours as painted on its icon (hex): "main" is the disc or flame a painter matches first, "accent" the second colour
+## (the gold arm and rim, the copper rim, the rust arrows, the slate stone). The UI's own accent tints (`UIStyle.AFFINITY_COLORS`) are
+## lighter for legibility on dark panels and are not the icon's colours.
 const COLORS: Dictionary = {
-	Affinity.Type.BEEFCAKE: "C8321E",
-	Affinity.Type.GOURMAND: "D9824A",
-	Affinity.Type.REFUSEMANCER: "5C7A2E",
-	Affinity.Type.NECROCRAT: "5E6B60",
-	Affinity.Type.NEUTRAL: "9A9A9A",
+	Affinity.Type.BEEFCAKE: "B4281C",
+	Affinity.Type.GOURMAND: "EBD2AE",
+	Affinity.Type.REFUSEMANCER: "5E7A2E",
+	Affinity.Type.NECROCRAT: "58B02E",
+	Affinity.Type.NEUTRAL: "9A9590",
+}
+const ACCENTS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "E0A030",
+	Affinity.Type.GOURMAND: "C06A3A",
+	Affinity.Type.REFUSEMANCER: "B5552D",
+	Affinity.Type.NECROCRAT: "3A3F3C",
+	Affinity.Type.NEUTRAL: "4C4441",
 }
 
 ## The order the four are always listed and drawn in (a ring reads clockwise from the top).
