@@ -88,6 +88,14 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
     `CardMatchCircuit` (the screen, the rules line, the quest steps); no feat counts moves. Kyle's Rec Room matching game (14 moves)
     is a different game and is unchanged.
 
+18. **Batch 16** is `docs/art/batch16_nov14.csv` (20 rows, about 45 images) with the ChatGPT prompt `docs/prompts/chatgpt_batch16.md`
+    and 94 numbered references in `G:/My Drive/Card Game Art/Batch 16 References/`. Rows 1 to 4 are your seeds (V-FIGSLY, the
+    Fragment 4 still, Fragment 3, Sergeant Scuff); 5 to 15 are the painted Path-icon fixes from the inventory. **Seed 5: nothing in
+    docs/art is still marked REDO** (all twelve of the Nov 9 audit's REDO rows went in with Batch 14), so rows 16 to 20 are the five
+    most visible things still drawn as stand-ins: shore stones for Crosspath, the Crease's stalls and crates, the masked Rescuer's
+    walk set, portraits for Baron Quadzilla and the Restless Cairn, and the D.N.A. wasteland's crates and tipped cabinet. Rebuild
+    the list with `python tools/art/batch16_build.py` after editing its rows.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.
