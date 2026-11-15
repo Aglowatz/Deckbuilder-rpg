@@ -178,3 +178,105 @@ func test_the_ruler_statue_is_the_painted_ruler_in_stone() -> void:
 			if figure != null:
 				assert_true(figure.material_override is ShaderMaterial, "carved in stone (the statue shader)")
 				assert_eq(figure.position.y < 0.5, toppled, "standing on the plinth while oppressed, lying beside it once freed")
+
+
+# ---- Part 4b: shops that scroll show it; the packs' medallions ---------------------------------------------------------------------------
+
+
+func test_every_scrollbar_of_the_theme_can_be_seen() -> void:
+	var theme: Theme = UIStyle.theme()
+	for bar: String in ["VScrollBar", "HScrollBar"]:
+		var track: StyleBoxFlat = theme.get_stylebox("scroll", bar) as StyleBoxFlat
+		assert_not_null(track, "%s has a track" % bar)
+		assert_gte(track.content_margin_left + track.content_margin_right, 12.0, "%s is thick enough to see and grab" % bar)
+		assert_gt(track.border_width_left, 0, "the track has an edge (it was a 35 %% black smudge on dark wood)")
+		assert_gt(track.border_color.a, 0.5)
+		var grabber: StyleBoxFlat = theme.get_stylebox("grabber", bar) as StyleBoxFlat
+		assert_gt(grabber.bg_color.r, 0.5, "a gold grabber")
+
+
+func test_a_shop_row_scrolls_with_the_wheel_and_follows_the_focus() -> void:
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.size = Vector2(600, 200)
+	add_child_autofree(scroll)
+	ScrollKit.row(scroll)
+	var row: HBoxContainer = HBoxContainer.new()
+	scroll.add_child(row)
+	for index: int in range(6):
+		var tile: Button = Button.new()
+		tile.custom_minimum_size = Vector2(200, 120)
+		row.add_child(tile)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert_eq(scroll.horizontal_scroll_mode, ScrollContainer.SCROLL_MODE_AUTO, "the bar shows whenever the row overflows")
+	assert_ne(scroll.vertical_scroll_mode, ScrollContainer.SCROLL_MODE_DISABLED, "never DISABLED: that grows the scroll and hides its bar")
+	assert_true(scroll.follow_focus, "a controller's left / right brings the focused tile into view")
+	assert_gte(scroll.get_h_scroll_bar().custom_minimum_size.y, 16.0, "a bar thick enough to see")
+	assert_true(ScrollKit.overflows(scroll), "six tiles do not fit")
+	assert_true(scroll.get_h_scroll_bar().visible, "so the bar is drawn")
+	assert_eq(scroll.size.y, 200.0, "the scroll keeps its height (the bar stays inside its panel)")
+	var wheel: InputEventMouseButton = InputEventMouseButton.new()
+	wheel.button_index = MOUSE_BUTTON_WHEEL_DOWN
+	wheel.pressed = true
+	ScrollKit._on_row_input(wheel, scroll)
+	assert_gt(scroll.scroll_horizontal, 0, "wheel down moves the row to the right")
+	var moved: int = scroll.scroll_horizontal
+	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
+	ScrollKit._on_row_input(wheel, scroll)
+	assert_lt(scroll.scroll_horizontal, moved, "wheel up moves it back")
+	# the last tile takes the focus: the row follows
+	(row.get_child(5) as Button).grab_focus()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert_gt(scroll.scroll_horizontal, 300, "the focused tile is scrolled into view")
+	for path: String in ["res://ui/town/pack_shop_screen.gd", "res://ui/town/packs_screen.gd", "res://ui/town/wardrobe_screen.gd", "res://ui/town/deckbuilder_screen.gd"]:
+		assert_true(FileAccess.get_file_as_string(path).contains("ScrollKit.row("), "%s uses the shop row" % path.get_file())
+	assert_false(FileAccess.get_file_as_string("res://ui/town/pack_shop_screen.gd").contains("Vector2(1780.0"), "the pack shop's row no longer asks for a fixed 1780 px")
+
+
+func _pack_face(pack: PackData) -> Control:
+	var art: PackArt = PackArt.create(pack)
+	add_child_autofree(art)
+	return art._faces[0] if not art._faces.is_empty() else null
+
+
+func test_pack_medallions_carry_the_canonical_path_icon_inside_the_ring() -> void:
+	for path: Affinity.Type in PathIcons.ORDER:
+		for pack: PackData in [PackCatalog.gilded_pack(path), PackCatalog.find(PackRules.path_pack_id(path))]:
+			assert_not_null(pack, "the %s packs exist" % Affinity.display_name(path))
+			if pack == null:
+				continue
+			assert_false(PackArt.art_id_for(pack).is_empty(), "%s has its painted wrapper" % pack.display_name)
+			var face: Control = _pack_face(pack)
+			var medallion: TextureRect = face.get_node_or_null("PathMedallion") as TextureRect
+			assert_not_null(medallion, "%s shows its Path's icon" % pack.display_name)
+			if medallion == null:
+				continue
+			assert_eq(medallion.texture, IconArt.texture(PathIcons.icon(path), PackArt.SIZE.x * PackArt.MEDALLION_ICON_SPAN), "%s: the canonical icon (%s)" % [pack.display_name, PathIcons.icon(path)])
+			var centre: Vector2 = medallion.position + medallion.size * 0.5
+			var wanted: Vector2 = Vector2(PackArt.SIZE.x * PackArt.MEDALLION_CENTER.x, PackArt.SIZE.y * PackArt.MEDALLION_CENTER.y)
+			assert_almost_eq(centre.x, wanted.x, 0.6, "centred on the medallion")
+			assert_almost_eq(centre.y, wanted.y, 0.6)
+			assert_almost_eq(medallion.size.x, medallion.size.y, 0.01, "a whole round icon, not a cut-out stretched")
+			assert_lte(medallion.size.x * 0.5, PackArt.SIZE.x * 0.25, "inside the gold ring (its inner edge is a quarter of the width out)")
+			assert_null(medallion.material, "no circular crop over it (the old cut-out lost its bottom)")
+			assert_eq(medallion.stretch_mode, TextureRect.STRETCH_KEEP_ASPECT_CENTERED)
+	# the Necrocrat's is the skull in ghost-flame (ICON-ENERGY-N), on both of its packs
+	assert_eq(PathIcons.icon(Affinity.Type.NECROCRAT), "ICON-ENERGY-N")
+	# packs of no Path keep their own painted centre
+	for id: String in ["general_1", "general_2", "prismatic"]:
+		var pack: PackData = PackCatalog.find(id)
+		if pack == null or PackArt.art_id_for(pack).is_empty():
+			continue
+		assert_null(_pack_face(pack).get_node_or_null("PathMedallion"), "%s has no Path icon" % id)
+
+
+func test_the_gilded_wrapper_per_path_is_asked_for_and_wired() -> void:
+	var gilded: PackData = PackCatalog.gilded_pack(Affinity.Type.NECROCRAT)
+	assert_not_null(gilded)
+	var id: String = PackArt.art_id_for(gilded)
+	assert_true(id == "UI-PACK-GILDED" or id == "UI-PACK-GILDED-N", "the shared wrapper until the Necrocrat's own is painted, then its own (%s)" % id)
+	assert_eq(str(PackArt.GILDED_PACK_IDS[Affinity.Type.NECROCRAT]), "UI-PACK-GILDED-N")
+	var sheet: String = FileAccess.get_file_as_string("res://docs/art/batch16_nov14.csv")
+	for wanted: String in ["UI-PACK-GILDED-N", "UI-PACK-N (redo)", "UI-PACK-R (redo)"]:
+		assert_true(sheet.contains(wanted), "Batch 16 lists %s" % wanted)

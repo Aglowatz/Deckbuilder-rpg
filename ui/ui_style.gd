@@ -292,9 +292,15 @@ static func theme() -> Theme:
 	t.set_color("font_color", "ProgressBar", PARCHMENT)
 
 	# Scrollbars
-	var scroll_bg: StyleBoxFlat = box(Color(0, 0, 0, 0.35), Color(0, 0, 0, 0), 0, 6)
-	var scroll_grab: StyleBoxFlat = box(GOLD_DIM, Color(0, 0, 0, 0), 0, 6)
-	var scroll_grab_hi: StyleBoxFlat = box(GOLD, Color(0, 0, 0, 0), 0, 6)
+	# Fable Nov 15 (Part 4b): the track was 35 % black with no edge - invisible on the dark wood and velvet of the shops, so a list that
+	# went on looked cut off. A framed track 14 px thick with the gold grabber, in every list and row of the game.
+	var scroll_bg: StyleBoxFlat = box(Color(0, 0, 0, 0.5), GOLD_DIM.darkened(0.25), 1, 7)
+	scroll_bg.content_margin_left = 7.0
+	scroll_bg.content_margin_right = 7.0
+	scroll_bg.content_margin_top = 7.0
+	scroll_bg.content_margin_bottom = 7.0
+	var scroll_grab: StyleBoxFlat = box(GOLD_DIM.lightened(0.1), Color(0, 0, 0, 0), 0, 7)
+	var scroll_grab_hi: StyleBoxFlat = box(GOLD, Color(0, 0, 0, 0), 0, 7)
 	for bar: String in ["VScrollBar", "HScrollBar"]:
 		t.set_stylebox("scroll", bar, scroll_bg)
 		t.set_stylebox("grabber", bar, scroll_grab)

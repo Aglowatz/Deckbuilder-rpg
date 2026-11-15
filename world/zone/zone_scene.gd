@@ -2334,6 +2334,10 @@ func _screenshot_open(what: String) -> void:
 			_open_vendor()
 			for screen: Node in find_children("*", "VendorScreen", true, false):
 				(screen as VendorScreen).open_category(VendorCategories.Kind.ITEMS)
+		"vendor_packs":  # Fable Nov 15 (Part 4b): the vendor's Card Packs page (Fig Sly's Gilded Goods in the Capital)
+			_open_vendor()
+			for screen: Node in find_children("*", "VendorScreen", true, false):
+				(screen as VendorScreen).open_category(VendorCategories.Kind.PACKS)
 		"quests":
 			_open_quest_log()
 		"puzzle":

@@ -69,3 +69,9 @@ House style for everything: painted cozy-fantasy game art, soft visible brushwor
 21. **UI-PACK-GILDED-N** (512x768, transparent). A Necrocrat version of the gilded foil pack in ref 21 UI-PACK-GILDED: the same shape, crimped ends, gold foil and cream centre stripe.
    - The round medallion in the middle shows the Necrocrat Path icon (ref 21 ICON-ENERGY-N): a pale skull facing front, wrapped in green ghost-flame, on a dark slate disc, **fully inside the circle**. No quill. Ref 21 "current" shows the pack as it is now, with the wrong skull-and-quill icon.
    - The small repeating pattern on the gold foil uses tiny skulls in ghost-flame instead of dumbbells.
+22. **UI-PACK-GILDED-G** and **UI-PACK-GILDED-R** (512x768 each, transparent). The same gilded foil pack as item 21, for the Gourmand and the Refusemancer (added by Fable Nov 15: the one gilded wrapper carries dumbbells on every Path's pack).
+   - G: the small repeating pattern on the gold foil is tiny chef's hats; R: tiny leaves inside recycling arrows. No dumbbells.
+   - The round medallion can stay a plain dark disc inside its gold ring: the game draws the Path icon on it.
+23. **UI-PACK-N** and **UI-PACK-R** (512x768 each, transparent), repainted exactly as they are (refs: the current files), with one change each:
+   - UI-PACK-N: the medallion shows the Necrocrat icon (ICON-ENERGY-N: a pale skull facing front, wrapped in green ghost-flame, on a dark slate disc), fully inside the gold ring. No quill, no scroll.
+   - UI-PACK-R: the medallion shows the Refusemancer icon (ICON-ENERGY-R: one green leaf inside three rust-orange recycling arrows, on a mossy green disc), fully inside the gold ring.

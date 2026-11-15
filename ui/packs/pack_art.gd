@@ -19,6 +19,15 @@ const PATH_PACK_IDS: Dictionary = {
 }
 const MEDALLION_CENTER: Vector2 = Vector2(0.5, 0.427)
 const MEDALLION_RADIUS: float = 0.28
+## Fable Nov 15 (Part 4b): the canonical Path icon laid over the painted medallion, as a share of the pack's width: it covers the painted
+## disc and sits inside the gold ring (the ring's inner edge is at about 0.25 of the width from the centre).
+const MEDALLION_ICON_SPAN: float = 0.47
+## A Gilded pack's own painted wrapper per Path, when imported (Batch 16: the foil pattern in that Path's symbol, never dumbbells).
+const GILDED_PACK_IDS: Dictionary = {
+	Affinity.Type.NECROCRAT: "UI-PACK-GILDED-N",
+	Affinity.Type.GOURMAND: "UI-PACK-GILDED-G",
+	Affinity.Type.REFUSEMANCER: "UI-PACK-GILDED-R",
+}
 
 var pack: PackData
 var _top_clip: Control
@@ -103,6 +112,9 @@ static func art_id_for(pack_data: PackData) -> String:
 			id = str(PATH_PACK_IDS.get(pack_data.path, ""))
 		PackData.Kind.GILDED:
 			id = "UI-PACK-GILDED"
+			var own: String = str(GILDED_PACK_IDS.get(pack_data.path, ""))
+			if not own.is_empty() and UiArt.has(own):
+				id = own
 		PackData.Kind.PRISMATIC:
 			id = "UI-PACK-PRISMATIC"
 		PackData.Kind.GENERAL:
@@ -220,26 +232,31 @@ class PackFace:
 		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(picture)
 		if pack.kind == PackData.Kind.GILDED:
-			picture.modulate = Color.WHITE.lerp(pack.art_color.lightened(0.15), 0.4)
-			var emblem_id: String = str(PackArt.PATH_PACK_IDS.get(pack.path, ""))
-			var source: Texture2D = UiArt.texture(emblem_id) if not emblem_id.is_empty() else null
-			if source != null:
-				var atlas: AtlasTexture = AtlasTexture.new()
-				atlas.atlas = source
-				var half: float = float(source.get_width()) * PackArt.MEDALLION_RADIUS
-				atlas.region = Rect2(float(source.get_width()) * PackArt.MEDALLION_CENTER.x - half, float(source.get_height()) * PackArt.MEDALLION_CENTER.y - half, half * 2.0, half * 2.0)
-				var medallion: TextureRect = TextureRect.new()
-				medallion.texture = atlas
-				medallion.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-				medallion.stretch_mode = TextureRect.STRETCH_SCALE
-				var span: float = PackArt.SIZE.x * PackArt.MEDALLION_RADIUS * 2.0
-				medallion.size = Vector2(span, span)
-				medallion.position = Vector2(PackArt.SIZE.x * PackArt.MEDALLION_CENTER.x, PackArt.SIZE.y * PackArt.MEDALLION_CENTER.y) - medallion.size * 0.5
-				var crop: ShaderMaterial = ShaderMaterial.new()
-				crop.shader = load("res://ui/shaders/circle_crop.gdshader") as Shader
-				medallion.material = crop
-				medallion.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				add_child(medallion)
+			# (a Path's own gilded wrapper, UI-PACK-GILDED-N / -G / -R, is painted in its colours: no tint over it)
+			if not art_id.begins_with("UI-PACK-GILDED-"):
+				picture.modulate = Color.WHITE.lerp(pack.art_color.lightened(0.15), 0.4)
+		if pack.kind == PackData.Kind.GILDED or pack.kind == PackData.Kind.PATH:
+			_build_medallion()
+
+	## Fable Nov 15 (Part 4b): the round medallion in the middle of a Path Pack and of a Gilded pack carries the Path's canonical icon
+	## (`PathIcons`: the arm, the chef's hat, the leaf in arrows, the skull in flame), whole and centred inside the gold ring. The
+	## Gilded pack used a square cut out of the Path Pack's painting, scaled up: its bottom was cut by the circle, and the paintings
+	## themselves were off the style guide (the Necrocrat's a skull with a quill, the Refusemancer's a swirl of leaves on rust red).
+	func _build_medallion() -> void:
+		var icon_id: String = PathIcons.icon(pack.path)
+		if not IconArt.has(icon_id):
+			return
+		var span: float = PackArt.SIZE.x * PackArt.MEDALLION_ICON_SPAN
+		var centre: Vector2 = Vector2(PackArt.SIZE.x * PackArt.MEDALLION_CENTER.x, PackArt.SIZE.y * PackArt.MEDALLION_CENTER.y)
+		var medallion: TextureRect = IconArt.rect(icon_id, span)
+		medallion.name = "PathMedallion"
+		medallion.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		medallion.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		medallion.custom_minimum_size = Vector2.ZERO
+		medallion.size = Vector2(span, span)
+		medallion.position = centre - medallion.size * 0.5
+		medallion.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(medallion)
 
 	func _base_color() -> Color:
 		if pack == null:

@@ -3319,6 +3319,19 @@ func _screenshot_open(what: String) -> void:
 		if found != null:
 			get_tree().create_timer(0.6).timeout.connect(book.show_beast.bind(found))
 		return
+	if what.begins_with("pack_open:"):
+		# Fable Nov 15 (Part 4b shots): `--open=pack_open:<pack id>` - the pack-opening screen with that pack waiting to be torn
+		var pack_id: String = what.trim_prefix("pack_open:")
+		Session.profile.add_pack(pack_id, 1)
+		PackOpeningScreen.open_from_inventory(_overlay_layer, pack_id)
+		return
+	if what == "packs_all":
+		# Fable Nov 15 (Part 4b shots): the Card Packs page with one of every pack on the shelf (every medallion and wrapper)
+		for pack: PackData in PackCatalog.all():
+			if Session.profile.pack_count(pack.id) <= 0:
+				Session.profile.add_pack(pack.id, 1)
+		_open_packs()
+		return
 	match what:
 		"reward_pack":  # Nov 2 pass, Part 7: a STEP REWARD box with a pack, a card and an item (the pack's centring in its tile)
 			var summary: RewardSummary = RewardSummary.new()

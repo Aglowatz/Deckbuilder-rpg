@@ -129,8 +129,8 @@ func _build_shelf() -> void:
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.name = "ShelfScroll"
 	scroll.position = Vector2(30, 80)
-	scroll.size = Vector2(SHELF_RECT.size.x - 60, SHELF_RECT.size.y - 92)
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size = Vector2(SHELF_RECT.size.x - 60, SHELF_RECT.size.y - 84)
+	ScrollKit.row(scroll)  # Fable Nov 15 (Part 4b): a visible gold bar, the wheel and the focus
 	panel.add_child(scroll)
 	_shelf_row = UIKit.hbox(18)
 	scroll.add_child(_shelf_row)
@@ -190,7 +190,7 @@ func _build_results() -> void:
 	scroll.name = "ResultsScroll"
 	scroll.position = Vector2(24, 64)
 	scroll.size = Vector2(RESULTS_RECT.size.x - 48, RESULTS_RECT.size.y - 70)
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	ScrollKit.row(scroll)  # Fable Nov 15 (Part 4b)
 	panel.add_child(scroll)
 	_results_row = UIKit.hbox(10)
 	scroll.add_child(_results_row)
@@ -265,7 +265,8 @@ func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
 	badge.size = Vector2(54, 34)
 	art_holder.add_child(badge)
 	slot.add_child(art_holder)
-	var name_label: Label = UIKit.label(pack.display_name, &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	# Fable Nov 15 (Part 4b): a long name (a Gilded pack's) a size smaller, so it takes two lines and the Open button stays on the shelf
+	var name_label: Label = UIKit.label(pack.display_name, &"", 24 if pack.display_name.length() <= 16 else 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	name_label.add_theme_font_override("font", UIStyle.font_title())
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	name_label.custom_minimum_size = Vector2(SLOT_WIDTH, 0)
@@ -274,7 +275,7 @@ func _shelf_slot(pack: PackData, count: int) -> VBoxContainer:
 	what.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	what.custom_minimum_size = Vector2(SLOT_WIDTH, 44)
 	slot.add_child(what)
-	var open: FancyButton = FancyButton.make("Open", &"PrimaryButton", Vector2(170, 50))
+	var open: FancyButton = FancyButton.make("Open", &"PrimaryButton", Vector2(170, 46))
 	open.name = "Open_%s" % pack.id
 	open.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	open.pressed.connect(func() -> void:

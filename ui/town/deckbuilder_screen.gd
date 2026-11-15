@@ -550,8 +550,8 @@ func _box_cover() -> void:
 	layer.z_index = 210
 	var column: VBoxContainer = parts[1] as VBoxContainer
 	var scroll: ScrollContainer = ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(1180, 230)
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(1180, 230 + ScrollKit.BAR_THICKNESS)
+	ScrollKit.row(scroll)  # Fable Nov 15 (Part 4b)
 	column.add_child(scroll)
 	var row: HBoxContainer = UIKit.hbox(10)
 	scroll.add_child(row)

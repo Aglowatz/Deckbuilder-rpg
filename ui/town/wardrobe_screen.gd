@@ -148,8 +148,8 @@ func _build_grid(slot: CosmeticData.Slot, rect: Rect2, title: String, icon_id: S
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.name = "Grid"
 	scroll.position = Vector2(20, 76)
-	scroll.size = Vector2(rect.size.x - 40, TILE_SIZE.y + 12)
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.size = Vector2(rect.size.x - 40, TILE_SIZE.y + 12 + ScrollKit.BAR_THICKNESS)
+	ScrollKit.row(scroll)  # Fable Nov 15 (Part 4b): a visible gold bar under the row, the wheel and the focus
 	panel.add_child(scroll)
 	var row: HBoxContainer = UIKit.hbox(12)
 	scroll.add_child(row)

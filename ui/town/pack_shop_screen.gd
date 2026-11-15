@@ -7,7 +7,9 @@ extends OverlayScreen
 const ART_SCALE: float = 0.62
 ## With a vendor stage the row sits on the right: smaller tiles.
 const STAGED_ART_SCALE: float = 0.56
-const STAGED_TILE: Vector2 = Vector2(236, 500)
+## Fable Nov 15 (Part 4b): 236 wide for real (the name wraps and the two buttons stack), so four packs fit beside the vendor at the
+## default text size; taller for the second button.
+const STAGED_TILE: Vector2 = Vector2(236, 560)
 ## Vendor Screen ID per pack vendor.
 const VENDOR_SCREENS: Dictionary = {PackData.VENDOR_PACK: "VS-FENWICK", PackData.VENDOR_CARD: "VS-SABLE", PackData.VENDOR_BLACK_MARKET: "VS-FIGSLY"}
 
@@ -17,6 +19,8 @@ var vendor_id: String = PackData.VENDOR_PACK
 var story_prefix: String = "town.pack_vendor"
 
 var _row: HBoxContainer
+var _scroll: ScrollContainer
+var _holder: Control
 var _gold_label: Label
 var _quip: Label
 var _count_labels: Dictionary = {}
@@ -58,14 +62,23 @@ func _build() -> void:
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		line.custom_minimum_size = Vector2(1500.0 - (vendor_inset if stage != null else 0.0), 0)
 		body.add_child(line)
-	var center: CenterContainer = CenterContainer.new()
-	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_child(center)
+	# Fable Nov 15 (Part 4b): the row takes the width the screen really has and scrolls sideways when the packs do not fit (Fig's fourth
+	# pack was cut off at Large text: the row asked for a fixed 1780 px, wider than its panel, so it was clipped with no scrollbar). A
+	# gold bar under the row, the wheel, dragging and a controller's left/right all move it (ScrollKit).
+	var holder: VBoxContainer = UIKit.vbox(0)
+	holder.alignment = BoxContainer.ALIGNMENT_CENTER
+	holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	body.add_child(holder)
 	var scroll: ScrollContainer = ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.custom_minimum_size = Vector2(1780.0 - (vendor_inset if stage != null else 0.0), 640)
-	center.add_child(scroll)
+	scroll.name = "PackRowScroll"
+	scroll.custom_minimum_size = Vector2(0, _tile_size.y + ScrollKit.BAR_THICKNESS + 22.0)
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ScrollKit.row(scroll)
+	holder.add_child(scroll)
+	_scroll = scroll
+	_holder = holder
+	holder.resized.connect(_fit_scroll)
 	_row = UIKit.hbox(26)
 	_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -79,6 +92,22 @@ func _build() -> void:
 	_quip.custom_minimum_size = Vector2(0, 40)
 	body.add_child(_quip)
 	_refresh()
+	_fit_scroll.call_deferred()
+
+
+## Fable Nov 15 (Part 4b): the row is as tall as its tallest tile really is (Large text makes the tiles taller than their nominal size,
+## and the second button was cut off). When even that does not fit the screen (a big UI scale) the row scrolls up and down as well, with
+## its own bar, so the buttons can always be reached.
+func _fit_scroll() -> void:
+	if _scroll == null or _row == null or _holder == null or not is_inside_tree():
+		return
+	var wanted: float = _row.get_combined_minimum_size().y + ScrollKit.BAR_THICKNESS + 6.0
+	var room: float = _holder.size.y
+	var fits: bool = room <= 0.0 or wanted <= room + 0.5
+	_scroll.custom_minimum_size.y = wanted if fits else maxf(room, 200.0)
+	_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER if fits else ScrollContainer.SCROLL_MODE_AUTO
+	if not fits:
+		ScrollKit.list(_scroll)
 
 
 func _make_tile(pack: PackData, stocked: bool) -> Control:
@@ -120,7 +149,9 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	var art_center: CenterContainer = CenterContainer.new()
 	art_center.add_child(art_holder)
 	column.add_child(art_center)
-	var name_label: Label = UIKit.label(pack.display_name if stocked else "???", &"HeadingLabel", 26, UIStyle.GOLD if stocked else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	var name_label: Label = UIKit.label(pack.display_name if stocked else "???", &"HeadingLabel", 26 if stage == null else 21, UIStyle.GOLD if stocked else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.custom_minimum_size = Vector2(_tile_size.x - 40.0, 0)
 	column.add_child(name_label)
 	var description: Label = UIKit.label(PackShop.describe(pack) if stocked else story.text("pack.hint.%s" % pack.id), &"", 19, UIStyle.PARCHMENT if stocked else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -141,17 +172,19 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	var own: Label = UIKit.label("", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(own)
 	_count_labels[pack.id] = own
-	var buttons: HBoxContainer = UIKit.hbox(8)
+	var buttons: BoxContainer = UIKit.hbox(8) if stage == null else UIKit.vbox(6)
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(buttons)
-	var buy: FancyButton = FancyButton.make("Buy", &"PrimaryButton", Vector2(120, 48))
+	var buy: FancyButton = FancyButton.make("Buy", &"PrimaryButton", Vector2(120, 48) if stage == null else Vector2(170, 44))
 	buy.name = "Buy_%s" % pack.id
 	buy.pressed.connect(func() -> void: _buy(pack, false))
+	buy.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	buttons.add_child(buy)
 	_buy_buttons[pack.id] = buy
-	var open: FancyButton = FancyButton.make("Buy & open", &"", Vector2(150, 48))
+	var open: FancyButton = FancyButton.make("Buy & open", &"", Vector2(150, 48) if stage == null else Vector2(170, 44))
 	open.name = "BuyOpen_%s" % pack.id
 	open.pressed.connect(func() -> void: _buy(pack, true))
+	open.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	buttons.add_child(open)
 	_open_buttons[pack.id] = open
 	return tile
