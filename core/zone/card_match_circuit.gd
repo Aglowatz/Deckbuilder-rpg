@@ -31,9 +31,11 @@ const PRIZE_ID: String = "dex_matching_pair"
 ## Beat Dex's score: find all eight pairs in at most this many moves. Overnight Nov 9, Part 3: was 12 / 11 out of 14, which even a PERFECT memory
 ## beat only 55 % / 9 % of the time (8 pairs need 12.4 moves on average with perfect recall). Now 15 / 14 out of TABLE_MAX_MOVES: a player who
 ## forgets 5-10 % of what they saw each move beats a zone table 82-97 % and the final 61-87 % of the time (docs/minigames/dex_odds_nov9.md).
-const TARGET_MOVES: int = 15
-const FINAL_TARGET_MOVES: int = 14
-const TABLE_MAX_MOVES: int = 20
+## Fable Nov 14 (Part 5, the owner): "Beat Dex: 20 moves or fewer" (was 15), the final table 19 (was 14: still one harder), and the table's
+## hard limit 26 (was 20), so there is a margin of six moves between beating Dex and running out.
+const TARGET_MOVES: int = 20
+const FINAL_TARGET_MOVES: int = 19
+const TABLE_MAX_MOVES: int = 26
 ## Where Dex stands in each zone: beside the zone's trivia-giver.
 const ANCHOR: String = "quiz"
 const OFFSET: Vector3 = Vector3(-1.8, 0.0, 1.8)

@@ -83,6 +83,11 @@ Brief: `docs/prompts/fable_nov14_owner_list.md`. Report: top of `docs/overnight_
 16. **The logo** (emblem, app icon, wordmark) shows a dumbbell, a sprout in a tin and a skull with a quill. It is a Batch 16 row; the
     itch page art follows it.
 
+17. **Dex.** "Beat Dex: 20 moves or fewer" (was 15) and the table allows 26 (was 20). **His final table is 19 (was 14)**: it was one
+    harder than the zone tables and I kept that. Say if the final should be 20 too. Every text reads the numbers from
+    `CardMatchCircuit` (the screen, the rules line, the quest steps); no feat counts moves. Kyle's Rec Room matching game (14 moves)
+    is a different game and is unchanged.
+
 ## Batch 15 + 1.0 - yours to decide (the safest choice was taken)
 
 Brief: `docs/prompts/batch15_import_and_fixes.md`. Report: top of `docs/overnight_report.md`. Tag `pre-batch15-import`.

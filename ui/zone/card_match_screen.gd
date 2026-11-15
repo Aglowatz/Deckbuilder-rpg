@@ -1,7 +1,7 @@
 class_name CardMatchScreen
 extends OverlayScreen
 ## Overnight Nov 7-8, Part 6.3: Dex Shufflewick's card-matching table (CardMatchCircuit). The MatchGame rules (16 cards, 8 pairs) dealt
-## from a Path's real card art: face down they show the Path's card back, face up the card itself (art and name). Beat Dex's score (15 moves, 14 at
+## from a Path's real card art: face down they show the Path's card back, face up the card itself (art and name). Beat Dex's score (20 moves, 19 at
 ## the final table, out of 20; Overnight Nov 9) to earn the table's flag. Overnight Nov 9, Part 3: a felt table, Dex beside it with his quips. Flourishes are code-only: a gold pulse and sparkles on a pair, a shake on a miss, a moves meter that
 ## turns red near the end, the result's stars popping in.
 

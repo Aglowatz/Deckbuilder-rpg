@@ -331,3 +331,20 @@ func test_the_guide_the_sheet_and_the_inventory_exist() -> void:
 	var rows: PackedStringArray = FileAccess.get_file_as_string("res://docs/art/path_icon_inventory.csv").split("\n", false)
 	assert_gt(rows.size(), 50, "every place is listed")
 	assert_string_contains(_all_text(StoryText.shared().get_lines("memory.4.fragment")), "an arm, a chef's hat, a leaf and a skull, four signs in a ring")
+
+
+# ---- Part 5: Dex's matching game ----------------------------------------------------------------------------------------------------
+
+
+func test_dex_is_beaten_in_twenty_moves_and_the_table_allows_twenty_six() -> void:
+	assert_eq(CardMatchCircuit.TARGET_MOVES, 20)
+	assert_eq(CardMatchCircuit.FINAL_TARGET_MOVES, 19, "the final table stays one harder")
+	assert_eq(CardMatchCircuit.TABLE_MAX_MOVES, 26)
+	var flags: Dictionary = {}
+	assert_false(CardMatchCircuit.record(flags, "beefcake", true, 21), "21 moves does not beat Dex")
+	assert_true(CardMatchCircuit.record(flags, "beefcake", true, 20), "20 does")
+	var steps: String = ""
+	for objective: QuestObjective in CardMatchCircuit.quest().objectives:
+		steps += objective.text + "\n"
+	assert_string_contains(steps, "(20 moves or fewer)")
+	assert_false(steps.contains("15 moves"), "no old number in the quest")
