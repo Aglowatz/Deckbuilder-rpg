@@ -54,6 +54,8 @@ static func pick_up(run: ZoneRun, pickup_id: String) -> bool:
 
 
 static func picked_this_visit(run: ZoneRun, pickup_id: String) -> bool:
+	if run == null:
+		return false
 	return run.visit_count(PICKUP_PREFIX + pickup_id) > 0
 
 
@@ -195,6 +197,8 @@ static func herd(run: ZoneRun, animal: int) -> bool:
 
 
 static func herded_this_visit(run: ZoneRun, animal: int) -> bool:
+	if run == null:
+		return false  # Fable Nov 14: the quest markers ask during a slot load, when no visit is running (a script error every frame)
 	return run.visit_count(VISIT_HERDED_PREFIX + str(animal)) > 0
 
 

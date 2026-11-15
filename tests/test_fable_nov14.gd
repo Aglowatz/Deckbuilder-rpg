@@ -348,3 +348,29 @@ func test_dex_is_beaten_in_twenty_moves_and_the_table_allows_twenty_six() -> voi
 		steps += objective.text + "\n"
 	assert_string_contains(steps, "(20 moves or fewer)")
 	assert_false(steps.contains("15 moves"), "no old number in the quest")
+
+
+func test_the_exit_roamer_stays_out_of_every_hubs_talk_spots() -> void:
+	var builders: Dictionary = {"beefcake": GainlandsBuilder.new(), "necrocrat": DnaBuilder.new(), "gourmand": BuffetBuilder.new(), "refusemancer": HeapBuilder.new()}
+	for zone_id: String in builders.keys():
+		var builder: ZoneMap = builders[zone_id] as ZoneMap
+		builder.get("layout").call("build")
+		builder.call("_index_obstacles")
+		var def: ZoneDef = ZoneDefs.get_def(zone_id)
+		var exit_pos: Vector3 = builder.anchor("exit")
+		var spawn: Vector3 = builder.anchor("spawn")
+		var people: Array[Vector3] = []
+		for entry: Dictionary in def.spots:
+			if builder.has_anchor(str(entry["anchor"])) and str(entry["kind"]) in ZoneScene.EXIT_ROAMER_KEEPS_OFF:
+				people.append(builder.anchor(str(entry["anchor"])) + (entry["offset"] as Vector3))
+		assert_gt(people.size(), 3, "%s has people to keep clear of" % zone_id)
+		var home: Vector3 = ZoneScene.exit_roamer_home(exit_pos, spawn, func(at: Vector3) -> bool: return builder.is_walkable(at, 0.5) and ZoneScene.exit_roamer_clear_of(at, people))
+		if home == Vector3.INF:
+			gut.p("%s: no exit roamer fits (none is added)" % zone_id)
+			continue
+		var best: float = 1e9
+		for person: Vector3 in people:
+			best = minf(best, Vector2(person.x - home.x, person.z - home.z).length())
+		gut.p("%s: exit roamer at (%.1f, %.1f), %.1f m from the exit, %.1f m from the arrival point, nearest person %.1f m" % [zone_id, home.x, home.z, Vector2(home.x - exit_pos.x, home.z - exit_pos.z).length(), Vector2(home.x - spawn.x, home.z - spawn.z).length(), best])
+		assert_gte(best, ZoneScene.EXIT_ROAMER_PEOPLE_CLEARANCE, "%s: the exit roamer does not wander among the hub's people" % zone_id)
+		assert_gte(Vector2(home.x - spawn.x, home.z - spawn.z).length() - ZoneScene.EXIT_ROAMER_PATROL, ZoneScene.ROAMER_ENTRANCE_CLEARANCE - 0.5, "%s: and keeps 20 m from the arrival point" % zone_id)

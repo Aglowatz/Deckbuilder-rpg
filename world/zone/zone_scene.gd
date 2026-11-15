@@ -781,7 +781,13 @@ func _ensure_exit_roamer(run: ZoneRun) -> void:
 	for enemy: ZoneEnemy in enemies:
 		if Vector2(enemy.global_position.x - exit_pos.x, enemy.global_position.z - exit_pos.z).length() <= EXIT_ROAMER_SIGHT:
 			return
-	var home: Vector3 = exit_roamer_home(exit_pos, player.position if player != null else exit_pos, func(at: Vector3) -> bool: return builder.is_walkable(at, 0.5))
+	# Fable Nov 14 (Part 3.3): 20 m in from the exit is the hub itself in three zones, so the roamer must also stand clear of every person
+	# and service there; where nowhere fits, the zone gets no exit roamer (its own roamers are further in).
+	var people: Array[Vector3] = []
+	for spot: ZoneSpot in spots:
+		if spot.kind in EXIT_ROAMER_KEEPS_OFF:
+			people.append(spot.position)
+	var home: Vector3 = exit_roamer_home(exit_pos, player.position if player != null else exit_pos, func(at: Vector3) -> bool: return builder.is_walkable(at, 0.5) and exit_roamer_clear_of(at, people))
 	if home == Vector3.INF:
 		return
 	var enemy: ZoneEnemy = ZoneEnemy.new()
@@ -811,6 +817,16 @@ const ROAMER_DOOR_CLEARANCE: float = 10.0
 ## this of the arrival point or of a zone entrance or exit, in any zone. The same test checks it.
 const ROAMER_ENTRANCE_CLEARANCE: float = 20.0
 const EXIT_ROAMER_PATROL: float = 3.0
+## The exit roamer's home keeps this far from every person and service of the hub (its 3 m patrol plus a touch radius and room to talk).
+const EXIT_ROAMER_PEOPLE_CLEARANCE: float = 9.0
+const EXIT_ROAMER_KEEPS_OFF: Array[String] = ["quest_npc", "vendor_npc", "heal", "rift_station", "quiz", "freed_npc", "shrine", "puzzle", "main_dungeon", "mini_dungeon", "giant_chest", "vault_lever", "hob"]
+
+
+static func exit_roamer_clear_of(at: Vector3, people: Array[Vector3]) -> bool:
+	for person: Vector3 in people:
+		if Vector2(at.x - person.x, at.z - person.z).length() < EXIT_ROAMER_PEOPLE_CLEARANCE:
+			return false
+	return true
 
 
 ## Where the exit roamer lives: 23.5-29 m from the exit toward the arrival point (the hub side), then round it, on walkable ground and as
@@ -821,8 +837,8 @@ static func exit_roamer_home(exit_pos: Vector3, toward: Vector3, walkable: Calla
 	# Overnight Nov 10-11 (Part 1.2): 14-17 m out, so with its 3 m patrol it never comes within ROAMER_DOOR_CLEARANCE of the exit spot (which
 	# sits up to 0.8 m off the anchor; it was 9-15 m).
 	var keep: float = ROAMER_ENTRANCE_CLEARANCE + EXIT_ROAMER_PATROL + 0.5
-	for distance: float in [keep, keep + 1.5, keep + 3.5, keep + 5.5]:
-		for degrees: float in [0.0, 25.0, -25.0, 50.0, -50.0, 80.0, -80.0]:
+	for distance: float in [keep, keep + 1.5, keep + 3.5, keep + 5.5, keep + 7.5]:
+		for degrees: float in [0.0, 25.0, -25.0, 50.0, -50.0, 80.0, -80.0, 100.0, -100.0]:
 			var at: Vector3 = exit_pos + inward.rotated(Vector3.UP, deg_to_rad(degrees)) * distance
 			if Vector2(at.x - toward.x, at.z - toward.z).length() < keep - 0.5:
 				continue
